@@ -12,6 +12,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--directories', type=int, default=1000)
     parser.add_argument('--gui', action='store_true')
+    parser.add_argument('--cross-session', action='store_true')
     parser.add_argument('--output', type=Path, default=Path('build/recovery-work-benchmark.json'))
     args = parser.parse_args()
     if not 1 <= args.directories <= 10000:
@@ -27,27 +28,57 @@ def main():
     project.save(str(primary))
     before = primary.read_bytes()
     doc.rename_annotation(1, 'Captured')
-    work_paths = []
+    work_paths, lock_paths = [], []
+    if args.cross_session:
+        seed = q.ProjectAutosave()
+        assert seed.request(project, str(target)) and seed.wait().state == 'ready'
+        scope = q.Project.inspect_recovery(str(target))
+        del seed
+
+    def sweep():
+        if not args.cross_session:
+            return q.Project.cleanup_recovery_work(str(target))
+        total = 0
+        while True:
+            removed = q.Project.cleanup_abandoned_recovery_work(str(target), 1024)
+            total += removed
+            if removed < 1024:
+                return total
 
     def populate():
         work_paths.clear()
         for i in range(args.directories):
             token = f'{i:032x}'
-            work = Path(str(target)+'.work-'+token)
+            old_target = root/f'old-session-{i}.qpxrecover' if args.cross_session else target
+            work = Path(str(old_target)+'.work-'+token)
             work.mkdir()
             work_paths.append(work)
-            (work/'owner').write_bytes(b'qupathxx recovery work v1\n'+token.encode()+b'\n')
-            for suffix in ['', '-journal', '-wal', '-shm']:
-                (work/('snapshot.qpxproj'+suffix)).write_bytes(b'interrupted write')
+            if args.cross_session:
+                import sqlite3
+                (work/'owner').write_bytes(('qupathxx recovery work v2\n'+token+'\n'+scope.identity+'\n'+scope.session+'\n'+scope.base_path).encode())
+                lock_path = Path(str(old_target)+'.lock')
+                lock_path.touch()
+                lock_paths.append(lock_path)
+                with sqlite3.connect(work/'snapshot.qpxproj') as db:
+                    db.execute('BEGIN IMMEDIATE')
+                    db.execute('CREATE TABLE interrupted(value)')
+                    db.rollback()
+                db.close()
+            else:
+                (work/'owner').write_bytes(b'qupathxx recovery work v1\n'+token.encode()+b'\n')
+                for suffix in ['', '-journal', '-wal', '-shm']:
+                    (work/('snapshot.qpxproj'+suffix)).write_bytes(b'interrupted write')
 
     result = dict(platform=platform.platform(), objects=100000, work_directories=args.directories,
-                  known_files_per_directory=5)
+                  known_files_per_directory=2 if args.cross_session else 5, cross_session=args.cross_session)
     try:
         populate()
         start = time.perf_counter()
-        assert q.Project.cleanup_recovery_work(str(target)) == args.directories
+        assert sweep() == args.directories
         result['standalone_cleanup_ms'] = (time.perf_counter()-start)*1000
         populate()
+        if args.cross_session:
+            target.unlink()  # Time publication visibility of the new checkpoint.
         if args.gui:
             options = q.GuiOptions()
             options.autosave_path, options.autosave_interval_seconds = str(target), 0
@@ -88,7 +119,7 @@ def main():
         remaining = sum(work.exists() for work in work_paths)
         assert remaining == max(0, args.directories-32)
         result['automatic_directories_cleaned'] = args.directories-remaining
-        result['explicit_remainder_cleaned'] = q.Project.cleanup_recovery_work(str(target))
+        result['explicit_remainder_cleaned'] = sweep()
         assert result['explicit_remainder_cleaned'] == remaining
         assert all(not work.exists() for work in work_paths)
         assert primary.read_bytes() == before and project.dirty
@@ -100,6 +131,12 @@ def main():
                            'publication are separate workloads. Explicit remainder cleanup is outside GUI timing. '
                            'GPU payload excludes CPU models; GUI frame work excludes swap wait. '
                            'Cold/network/vendor, unmarked legacy debris and cross-session discovery excluded.')
+        if args.cross_session:
+            result['scope'] = ('Warm local 100000-object snapshot; distinct abandoned session destinations with v2 ownership, '
+                               'existing writer locks and real SQLite databases rolled back before canonical commit. '
+                               'Directory creation excluded. Publication and a 32-directory batch run on the native worker. '
+                               'Full standalone and remainder sweeps measured separately. Completed-snapshot rescue is '
+                               'covered by correctness tests, not this timing; cold/network/vendor storage excluded.')
         args.output.parent.mkdir(parents=True, exist_ok=True)
         args.output.write_text(json.dumps(result, indent=2)+'\n', encoding='utf-8')
         print(json.dumps(result, indent=2))
@@ -113,6 +150,9 @@ def main():
                 work.rmdir()
         for path in [primary, target, Path(str(target)+'.lock'), Path(str(target)+'.session')]:
             path.unlink(missing_ok=True)
+        for lock_path in set(lock_paths):
+            assert lock_path.parent == root
+            lock_path.unlink(missing_ok=True)
         root.rmdir()
 
 

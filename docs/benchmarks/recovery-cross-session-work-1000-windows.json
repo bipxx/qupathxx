@@ -1,0 +1,15 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "objects": 100000,
+  "work_directories": 1000,
+  "known_files_per_directory": 2,
+  "cross_session": true,
+  "standalone_cleanup_ms": 12237.307200091891,
+  "capture_ms": 40.2898,
+  "worker_write_cleanup_release_ms": 832.9097,
+  "max_poll_ms": 1.3505000388249755,
+  "checkpoint_visible_ms": 520.8823999855667,
+  "automatic_directories_cleaned": 32,
+  "explicit_remainder_cleaned": 968,
+  "scope": "Warm local 100000-object snapshot; distinct abandoned session destinations with v2 ownership, existing writer locks and real SQLite databases rolled back before canonical commit. Directory creation excluded. Publication and a 32-directory batch run on the native worker. Full standalone and remainder sweeps measured separately. Completed-snapshot rescue is covered by correctness tests, not this timing; cold/network/vendor storage excluded."
+}

@@ -1,0 +1,18 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "objects": 100000,
+  "work_directories": 1000,
+  "known_files_per_directory": 2,
+  "cross_session": true,
+  "standalone_cleanup_ms": 14655.518699903041,
+  "capture_ms": 36.4468,
+  "cpu_frame_p95_ms": 16.8272,
+  "max_cpu_frame_ms": 38.8961,
+  "selected_objects": 100000,
+  "visible_objects": 792,
+  "peak_gpu_payload_bytes": 3145728,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+  "automatic_directories_cleaned": 32,
+  "explicit_remainder_cleaned": 968,
+  "scope": "Warm local 100000-object snapshot; distinct abandoned session destinations with v2 ownership, existing writer locks and real SQLite databases rolled back before canonical commit. Directory creation excluded. Publication and a 32-directory batch run on the native worker. Full standalone and remainder sweeps measured separately. Completed-snapshot rescue is covered by correctness tests, not this timing; cold/network/vendor storage excluded."
+}

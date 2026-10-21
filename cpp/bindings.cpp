@@ -194,6 +194,7 @@ NB_MODULE(_native, m) {
         .def_static("review_recovery",&Project::review_recovery,"path"_a)
         .def_static("discard_recovery_checked",&Project::discard_recovery_checked,"reviewed"_a)
         .def_static("cleanup_recovery_work",&Project::cleanup_recovery_work,"path"_a)
+        .def_static("cleanup_abandoned_recovery_work",&Project::cleanup_abandoned_recovery_work,"current_path"_a,"limit"_a=32)
         .def_static("prune_recoveries",&Project::prune_recoveries,"current_path"_a,"policy"_a)
         .def("restore_recovery",&Project::restore_recovery,"path"_a,"base_path"_a="")
         .def("save",&Project::save,"path"_a)

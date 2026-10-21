@@ -13,6 +13,8 @@ int main() {
             check(rejected && !std::filesystem::exists("disabled.qpxrecover"));
             rejected=false; try {Project::cleanup_recovery_work("disabled.qpxrecover");} catch(const std::runtime_error&) {rejected=true;}
             check(rejected && !std::filesystem::exists("disabled.qpxrecover.lock"));
+            rejected=false; try {Project::cleanup_abandoned_recovery_work("disabled.qpxrecover");} catch(const std::runtime_error&) {rejected=true;}
+            check(rejected && !std::filesystem::exists("disabled.qpxrecover.lock"));
             RecoveryRetention policy; policy.enabled=true;
             rejected=false; try {Project::prune_recoveries("disabled.qpxrecover",policy);} catch(const std::runtime_error&) {rejected=true;}
             check(rejected && !std::filesystem::exists("disabled.qpxrecover.session")); return 0;

@@ -598,3 +598,25 @@ latency is not declared optimized. A lease-failure overwrite now invalidates an
 old matching ownership tag before publication or preserves the previous file on
 failure. All 341 installed-wheel tests pass with two unavailable file-symlink
 cases skipped; all fourteen native suites pass across three configurations.
+
+
+The twenty-fifth packet extends marked work collection across old destination
+names for the same project/base scope. New v2 provenance and each destination's
+existing publication lock prove ownership/inactivity; automatic cleanup shares
+the existing 32-directory budget after publication. Recovery headers and canonical
+rows now commit together. Completed private snapshots are rescued to distinct
+non-overwriting checkpoint names before directory removal; rolled-back empty
+SQLite work is reclaimed. Legacy cross-session work, ordinary/corrupt/unknown
+snapshots, busy writers and distinct bases remain protected. See
+[work cleanup](recovery-work-cleanup.md) for the API, compatibility and crash
+boundaries. Obsolete lock sidecars, broader storage performance and all unfinished
+M0-M7 requirements remain active.
+
+
+Verification: 357 installed-wheel Python tests pass, with two unavailable file-
+symlink cases skipped; all fourteen native suites pass in full/core/minimal
+builds. The 1000-destination/100000-object workload records 521 ms checkpoint
+visibility and 833 ms worker completion including a 32-directory batch. The
+explicit full sweep takes 12.24 s. Selected desktop frame p95 is 16.83 ms,
+maximum is 38.90 ms and capture is 36.45 ms. Full-sweep/capture latency and
+unmeasured POSIX behavior remain explicit limitations.

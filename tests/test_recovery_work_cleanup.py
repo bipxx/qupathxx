@@ -203,11 +203,13 @@ assert job.wait().state=='ready'
         if automatic:
             doc.rename_annotation(obj, 'Next session')
             writer = q.ProjectAutosave()
-            assert writer.request(project, str(target))
+            next_target = tmp_path/'new-session.qpxrecover'
+            assert writer.request(project, str(next_target))
             stats = writer.wait()
             assert stats.state == 'ready' and not stats.work_cleanup_error
             assert stats.work_directories_cleaned == 1
-            assert q.Project.recover(str(target)).document(image).annotation(obj).name == 'Next session'
+            assert not target.exists()
+            assert q.Project.recover(str(next_target)).document(image).annotation(obj).name == 'Next session'
         else:
             assert q.Project.cleanup_recovery_work(str(target)) == 1
             assert not target.exists()
@@ -216,3 +218,184 @@ assert job.wait().state=='ready'
         if child.poll() is None:
             child.kill()
             child.wait(timeout=5)
+
+
+def marked_work(target, info, token='c'*32):
+    work = work_directory(target, token)
+    (work/'owner').write_bytes(('qupathxx recovery work v2\n'+token+'\n'+info.identity+'\n'+
+                               info.session+'\n'+info.base_path).encode('utf-8'))
+    Path(str(target)+'.lock').touch()
+    return work
+
+
+def checkpoint(project, target):
+    if not project.dirty:
+        if not project.images:
+            project.add_document(q.Document(q.Image.demo()))
+        else:
+            project.rename_image(project.active_image, project.images[0].name+' checkpoint')
+    writer = q.ProjectAutosave()
+    assert writer.request(project, str(target))
+    assert writer.wait().state == 'ready'
+    return q.Project.inspect_recovery(str(target))
+
+
+def test_cross_session_rescues_committed_snapshot_without_replacing_checkpoint(tmp_path):
+    import shutil
+    project = q.Project()
+    image = project.add_document(q.Document(q.Image.demo()))
+    doc = project.document(image)
+    obj = doc.add_rectangle(q.Rect(0, 0, 1, 1), 'Earlier')
+    primary = tmp_path/'primary.qpxproj'
+    project.save(str(primary))
+    earlier = tmp_path/'earlier.qpxrecover'
+    old = checkpoint(project, earlier)
+    work = marked_work(earlier, old)
+    shutil.copyfile(earlier, work/'snapshot.qpxproj')
+    previous = earlier.read_bytes()
+    doc.rename_annotation(obj, 'Current')
+    anchor = tmp_path/'current.qpxrecover'
+    writer = q.ProjectAutosave()
+    assert writer.request(project, str(anchor))
+    stats = writer.wait()
+    assert stats.state == 'ready' and stats.work_directories_cleaned == 1 and not stats.work_cleanup_error
+    rescue = tmp_path/(earlier.name+'.rescued-'+'c'*32+'.qpxrecover')
+    assert not work.exists() and earlier.read_bytes() == previous
+    assert q.Project.recover(str(rescue)).document(image).annotation(obj).name == 'Earlier'
+    assert q.Project.recover(str(anchor)).document(image).annotation(obj).name == 'Current'
+    assert str(rescue) in [i.path for i in q.Project.find_recoveries(str(primary))]
+    assert project.dirty
+
+
+@pytest.mark.parametrize('kind', ['legacy', 'foreign', 'branch', 'session-mismatch', 'unknown', 'extra', 'busy', 'collision', 'ordinary', 'wal', 'missing-lock', 'oversized'])
+def test_cross_session_preserves_unproven_busy_and_collision_data(tmp_path, kind):
+    import shutil
+    project = q.Project()
+    project.add_document(q.Document(q.Image.demo()))
+    primary = tmp_path/'primary.qpxproj'
+    project.save(str(primary))
+    anchor = tmp_path/'current.qpxrecover'
+    info = checkpoint(project, anchor)
+    target = tmp_path/'previous.qpxrecover'
+    work = marked_work(target, info)
+    snapshot = work/'snapshot.qpxproj'
+    shutil.copyfile(anchor, snapshot)
+    marker = work/'owner'
+    if kind == 'legacy':
+        marker.write_bytes(b'qupathxx recovery work v1\n'+b'c'*32+b'\n')
+    elif kind == 'foreign':
+        marker.write_bytes(marker.read_bytes().replace(info.identity.encode(), b'f'*32))
+    elif kind == 'branch':
+        marker.write_bytes(marker.read_bytes().replace(info.base_path.encode(), str(tmp_path/'other.qpxproj').encode()))
+    elif kind == 'session-mismatch':
+        marker.write_bytes(marker.read_bytes().replace(info.session.encode(), b'f'*32))
+    elif kind == 'unknown':
+        snapshot.write_bytes(b'unrecognized data')
+    elif kind == 'extra':
+        (work/'notes.txt').write_text('keep')
+    elif kind == 'ordinary':
+        shutil.copyfile(primary, snapshot)
+    elif kind == 'wal':
+        import sqlite3
+        with sqlite3.connect(snapshot) as db:
+            db.execute('PRAGMA journal_mode=WAL')
+        db.close()
+    elif kind == 'missing-lock':
+        Path(str(target)+'.lock').unlink()
+    elif kind == 'oversized':
+        marker.write_bytes(marker.read_bytes()+b'x'*33000)
+    rescue = tmp_path/(target.name+'.rescued-'+'c'*32+'.qpxrecover')
+    if kind == 'collision':
+        rescue.write_bytes(b'keep existing')
+    before = snapshot.read_bytes(), marker.read_bytes()
+    with open(str(target)+('.unrelated' if kind == 'missing-lock' else '.lock'), 'a+b') as held:
+        if kind == 'busy' and os.name != 'nt':
+            import fcntl
+            fcntl.flock(held.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        if kind == 'busy' or os.name != 'nt':
+            if kind == 'collision':
+                with pytest.raises(RuntimeError, match='rescued'):
+                    q.Project.cleanup_abandoned_recovery_work(str(anchor))
+            else:
+                assert q.Project.cleanup_abandoned_recovery_work(str(anchor)) == 0
+    if kind != 'busy' and os.name == 'nt':
+        if kind == 'collision':
+            with pytest.raises(RuntimeError, match='rescued'):
+                q.Project.cleanup_abandoned_recovery_work(str(anchor))
+        else:
+            assert q.Project.cleanup_abandoned_recovery_work(str(anchor)) == 0
+    assert (snapshot.read_bytes(), marker.read_bytes()) == before
+    if kind == 'collision':
+        assert rescue.read_bytes() == b'keep existing'
+    if kind == 'busy':
+        assert q.Project.cleanup_abandoned_recovery_work(str(anchor)) == 1
+        assert rescue.exists() and not work.exists()
+
+
+def test_cross_session_bounded_cleanup_of_rolled_back_empty_snapshots(tmp_path):
+    import sqlite3
+    project = q.Project()
+    anchor = tmp_path/'anchor.qpxrecover'
+    info = checkpoint(project, anchor)
+    works = []
+    for i in range(5):
+        work = marked_work(tmp_path/f'old-{i}.qpxrecover', info, f'{i:032x}')
+        with sqlite3.connect(work/'snapshot.qpxproj') as db:
+            db.execute('BEGIN IMMEDIATE')
+            db.execute('CREATE TABLE interrupted(value)')
+            db.rollback()
+        db.close()
+        works.append(work)
+    assert q.Project.cleanup_abandoned_recovery_work(str(anchor), 2) == 2
+    assert sum(work.exists() for work in works) == 3
+    assert q.Project.cleanup_abandoned_recovery_work(str(anchor)) == 3
+    for limit in [0, 1025]:
+        with pytest.raises(ValueError):
+            q.Project.cleanup_abandoned_recovery_work(str(anchor), limit)
+
+
+def test_cross_session_rejects_linked_work(tmp_path):
+    project = q.Project()
+    anchor = tmp_path/'anchor.qpxrecover'
+    info = checkpoint(project, anchor)
+    outside = tmp_path/'outside'
+    outside.mkdir()
+    (outside/'snapshot.qpxproj').write_bytes(b'keep')
+    target = tmp_path/'old.qpxrecover'
+    work = marked_work(target, info)
+    marker = (work/'owner').read_bytes()
+    (work/'owner').unlink()
+    work.rmdir()
+    (outside/'owner').write_bytes(marker)
+    if os.name == 'nt':
+        subprocess.run(['cmd', '/c', 'mklink', '/J', str(work), str(outside)], check=True, capture_output=True)
+    else:
+        work.symlink_to(outside, target_is_directory=True)
+    try:
+        assert q.Project.cleanup_abandoned_recovery_work(str(anchor)) == 0
+        assert (outside/'snapshot.qpxproj').read_bytes() == b'keep'
+    finally:
+        if os.name == 'nt':
+            work.rmdir()
+        else:
+            work.unlink()
+
+
+def test_rescue_keeps_relative_image_links(tmp_path):
+    import shutil
+    pixels = tmp_path/'pixels.ppm'
+    pixels.write_bytes(b'P6\n1 1\n255\n'+bytes([20, 30, 40]))
+    project = q.Project()
+    image = project.add_image(str(pixels))
+    target = tmp_path/'old.qpxrecover'
+    info = checkpoint(project, target)
+    work = marked_work(target, info)
+    shutil.copyfile(target, work/'snapshot.qpxproj')
+    target.unlink()
+    anchor = tmp_path/'anchor.qpxrecover'
+    checkpoint(project, anchor)  # Automatically rescues another session path.
+    rescue = tmp_path/(target.name+'.rescued-'+'c'*32+'.qpxrecover')
+    assert not work.exists() and rescue.exists()
+    restored = q.Project.recover(str(rescue))
+    assert restored.images[0].available
+    assert restored.document(image).metadata.width == 1

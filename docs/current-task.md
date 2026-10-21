@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 341 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
+Evidence: 357 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
 (two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
 fourteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
@@ -87,7 +87,7 @@ implemented; see recovery-retention.md. Metadata-only bounded candidate selectio
 preserves active owners, legacy/unknown files, recent copies and distinct base
 branches. User-state lease handles keep scientific project folders movable on
 Windows; closed markers travel with checkpoints. Collection follows publication
-on the existing worker. Cross-session orphan work and obsolete lock-sidecar
+on the existing worker. Legacy cross-session orphan work and obsolete lock-sidecar
 discovery/cleanup remain open. The distinct-session 1000-file headless benchmark
 publishes after 255 ms but records 8.48 s of metadata/lease scanning and collection;
 that recording motivated maintenance progress/cancellation and scan profiling.
@@ -112,7 +112,19 @@ the final run records 7.67 s retention dominated by metadata, 13.5 ms frame p95,
 55.8 ms maximum frame work and 51.1 ms snapshot capture. Those remain optimization
 targets; no uniform viewer speedup is claimed. Unleased overwrites now invalidate
 stale matching ownership tags, or preserve the previous checkpoint on failure.
-Next improve viewer metadata/capture latency and implement cross-session work discovery and initial loading progress;
+Cross-session version-2 work cleanup now follows publication under each old
+writer's exact lock, sharing the 32-directory budget. Canonical rows and recovery
+metadata commit atomically; complete private snapshots are rescued without
+replacement, while rolled-back empty databases are reclaimed. Legacy cross-
+session data, unknown/corrupt files and different base branches remain protected.
+See recovery-work-cleanup.md for the explicit API and compatibility boundaries.
+The 1000-destination/100000-object run publishes after 521 ms and completes its
+32-directory worker batch after 833 ms; the full standalone sweep takes 12.24 s.
+The selected desktop records 16.83 ms frame p95, 38.90 ms maximum and 36.45 ms
+capture. Incremental collection is verified; full-sweep and capture latency
+remain targets. The installed wheel passes 357 tests with two skipped file-
+symlink cases; all fourteen native suites pass across three configurations.
+Next improve viewer metadata/capture latency and implement initial loading progress;
 retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,

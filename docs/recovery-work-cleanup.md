@@ -2,7 +2,8 @@
 
 Autosave creates a private `<destination>.work-<32 hex digits>` directory under
 the destination's publication lock. The new `owner` file contains a versioned
-signature and that directory's random token. It is closed before SQLite starts
+signature and that directory's random token. New version-2 markers also record
+the project identity, session identity and recorded base path (bounded UTF-8). It is closed before SQLite starts
 writing `snapshot.qpxproj`. Successful publication still atomically moves only
 the completed snapshot into place. Normal teardown removes known files; if a
 sharing violation prevents teardown, it retains the marker for a later retry.
@@ -57,9 +58,11 @@ A cancelled or failed publication does not start automatic cleanup. A checkpoint
 whose unchanged state already satisfies the request does not start
 a new worker or cleanup pass. Explicit cleanup remains available in that case.
 
-Memory use is independent of checkpoint size and directory count. Cleanup streams
+Cleanup does not construct an image/object model. It streams
 the immediate parent directory and at most five children per candidate, and reads
-only a fixed-size marker. Runtime scales with parent entries and removed files;
+a bounded marker. Version-2 work also uses SQLite's page cache for classification
+and integrity checks, without decoding a historical object graph. Runtime scales
+with parent entries, removed files and committed snapshot bytes;
 cold/network directories can still be slow. Automatic cleanup checks cancellation
 between parent entries; it cannot interrupt an in-flight filesystem operation or
 the preflight/deletion of one directory. The existing worker is joined at shutdown.
@@ -105,9 +108,80 @@ standalone sweep took 8.38 s. These are separate single-host local runs with
 variable filesystem caching, not an algorithmic speedup of full deletion or a
 general latency bound. Cold/network storage and sustained pressure remain unverified.
 
-This packet implements cleanup for an exact recovery destination. Automatic
-discovery/cleanup across earlier sessions' different destination names, unmarked
+The original packet implemented exact-destination cleanup; the version-2
+extension below adds automatic discovery across old destination names. Unmarked
 legacy debris and initial CLI loading progress remain open. Opt-in
 [checkpoint retention](recovery-retention.md) now protects live sessions while
 collecting old managed files; reviewed deletion remains available independently.
 The full M0-M7 implementation goal remains active.
+
+
+Version-2 cross-session collection
+---------------------------------
+
+After publishing, autosave now uses the unused portion of its 32-directory
+budget to scan sibling work directories belonging to the same project identity
+and recorded base path. Unsaved projects match only the same unsaved identity.
+Each candidate needs its existing regular destination `.lock` file; the worker
+acquires that exact lock without creating one and repeats inventory/marker
+validation under it. Busy writers, unknown markers, foreign projects, different
+base branches, reparse points and extra entries are preserved. No PID/age guess
+or recursive traversal is used. Legacy version-1 work remains eligible only for
+its existing exact-destination cleanup API.
+
+Recovery rows and canonical project rows now commit in one SQLite transaction.
+Opening interrupted work lets SQLite roll back a hot journal before classification.
+A proven empty SQLite database can be reclaimed. A committed recovery snapshot
+must pass header identity/session/base/count validation and SQLite `quick_check`;
+it is rescued beside the published checkpoints as
+`<old destination>.rescued-<work token>.qpxrecover` before the work directory is
+removed. Keeping the same parent preserves relative image links. Windows uses
+MoveFileEx without replacement; POSIX uses an exclusive hard link followed by a
+directory flush and source unlink. Existing rescue names cause an error and leave
+the private snapshot in place. Rescued files carry no inactive-session retention
+marker, so automatic checkpoint retention preserves them for review. Use normal
+recovery discovery (F5 in the viewer) to review them.
+
+Unrecognized/corrupt/nonempty ordinary project databases, unexpected journal
+modes and mismatched snapshots stay private. This includes complete ordinary
+snapshots left by older writers before recovery metadata was attached. Existing
+exact-destination version-1 deletion behavior is retained for compatibility;
+version-2 work receives classification/rescue even through that API.
+
+Python/C++ callers can explicitly collect sibling work using
+`Project.cleanup_abandoned_recovery_work(current_path, limit=32)`. The anchor must
+be a valid published checkpoint; the limit is 1..1024 directories. The return
+value counts removed work directories, including ones whose committed data was
+rescued. Automatic collection runs after publication on the existing native
+worker, checks cancellation between entries and before removal, and shares the
+existing cleanup error/counter reporting. Cancellation may leave a rescued file
+and an empty marked work directory; a later sweep can finish that directory.
+Published checkpoints and primary files are never replaced by collection.
+
+Tests cover an actual killed native writer collected by a different destination,
+committed snapshot rescue/discovery, source-link preservation, active locks,
+legacy/foreign/branch/session protection, collisions, unknown/ordinary databases,
+junctions and bounded batches. The benchmark tool's `--cross-session` mode uses
+distinct old destination names, existing locks and real rolled-back empty SQLite
+databases; fixture creation is excluded from timing.
+
+
+The [cross-session headless run](benchmarks/recovery-cross-session-work-1000-windows.json)
+uses 1000 distinct old destination names and a 100000-object current snapshot.
+It records 12.24 s for an explicit complete sweep. In a separately populated
+workload, checkpoint visibility is 520.9 ms, capture is 40.3 ms, and worker
+write/32-directory cleanup/release is 832.9 ms; maximum poll is 1.35 ms. The
+remaining 968 directories are reclaimed explicitly outside that measurement.
+The [desktop run](benchmarks/recovery-cross-session-work-view-1000-windows.json)
+records 16.83 ms frame p95, 38.90 ms maximum CPU frame work and 36.45 ms capture,
+with all 100000 objects selected, 792 visible and 3 MiB GPU tile payload. Its
+standalone sweep takes 14.66 s before opening the viewer. These timings support
+incremental post-publication collection; neither full-sweep latency nor capture
+pauses are declared optimized. Windows is measured; POSIX rescue uses the
+non-overwriting link/flush/unlink path but has not been exercised on this host.
+
+The final installed wheel passes 357 Python tests (two unavailable Windows file-
+symlink cases skipped). All fourteen native suites pass with full, core and
+minimal feature configurations. Completed-snapshot rescue is correctness-tested;
+the timing fixture measures empty rolled-back work rather than large historical
+committed snapshot integrity checks.

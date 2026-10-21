@@ -233,12 +233,13 @@ std::string sqlite_version() {
 }
 #ifndef QUPATHXX_HAS_PROJECT
 void Project::save(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
-void Project::save_impl(const std::string&,const std::string&,const std::atomic<bool>*) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
+void Project::save_impl(const std::string&,const std::string&,const std::atomic<bool>*,const RecoveryInfo*) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
 void Project::save_recovery(const std::string&,const std::string&,const RecoveryInfo&,const std::atomic<bool>*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::shared_ptr<Project> Project::open(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::shared_ptr<Project> Project::open_impl(const std::string&,bool,const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::shared_ptr<Project> Project::recover(const std::string&,const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::pair<std::string,std::uint64_t> Project::read_save_identity(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
+std::optional<RecoveryInfo> Project::inspect_recovery_work(const std::string&,const std::atomic<bool>*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 RecoveryInfo Project::inspect_recovery_header(const std::string&,const std::atomic<bool>*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 RecoveryInfo Project::inspect_recovery(const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 #else
@@ -387,7 +388,7 @@ Roi decode(Statement& s,int column) {
 void Project::save(const std::string& path) {
     save_impl(path,"");
 }
-void Project::save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled) {
+void Project::save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled,const RecoveryInfo* recovery) {
     auto destination=absolute(path);
     std::map<std::uint64_t,std::uint64_t> revisions;
     for(const auto& [id,e]:entries_) revisions.emplace(id,e.document->revision());
@@ -458,6 +459,13 @@ void Project::save_impl(const std::string& path,const std::string& link_director
             auto nucleus=a.nucleus?encode(*a.nucleus):std::vector<std::uint8_t>{}; if(a.nucleus) object.blob(9,nucleus);
             object.done();
         }
+    }
+    // Canonical rows and recovery provenance must commit together.
+    if(recovery) {
+        db.exec("PRAGMA application_id=1364218456; CREATE TABLE recovery(identity TEXT NOT NULL,session TEXT NOT NULL,base_path TEXT NOT NULL,base_generation TEXT NOT NULL,created_ms INTEGER NOT NULL,image_count INTEGER NOT NULL,object_count INTEGER NOT NULL) STRICT;");
+        Statement row(db,"INSERT INTO recovery VALUES(?,?,?,?,?,?,?)");
+        row.string(1,recovery->identity); row.string(2,recovery->session); row.string(3,recovery->base_path); row.string(4,std::to_string(recovery->base_generation));
+        row.integer(5,recovery->created_unix_ms); row.integer(6,static_cast<std::int64_t>(recovery->images)); row.integer(7,static_cast<std::int64_t>(recovery->objects)); row.done();
     }
     if(cancelled && cancelled->load()) throw std::runtime_error("project save cancelled");
     transaction.commit();
@@ -561,16 +569,26 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
     return project;
 }
 void Project::save_recovery(const std::string& path,const std::string& link_directory,const RecoveryInfo& info,const std::atomic<bool>* cancelled) {
-    save_impl(path,link_directory,cancelled);
-    Database db(path,true); db.exec("PRAGMA synchronous=FULL;"); Transaction transaction(db,true);
-    db.cancellation(cancelled);
-    db.exec("PRAGMA application_id=1364218456; CREATE TABLE recovery(identity TEXT NOT NULL,session TEXT NOT NULL,base_path TEXT NOT NULL,base_generation TEXT NOT NULL,created_ms INTEGER NOT NULL,image_count INTEGER NOT NULL,object_count INTEGER NOT NULL) STRICT;");
-    Statement row(db,"INSERT INTO recovery VALUES(?,?,?,?,?,?,?)");
-    row.string(1,info.identity); row.string(2,info.session); row.string(3,info.base_path); row.string(4,std::to_string(info.base_generation));
-    row.integer(5,info.created_unix_ms); row.integer(6,static_cast<std::int64_t>(info.images)); row.integer(7,static_cast<std::int64_t>(info.objects)); row.done();
-    transaction.commit();
+    save_impl(path,link_directory,cancelled,&info);
+    Database db(path,false); db.cancellation(cancelled);
     Statement check(db,"PRAGMA quick_check"); if(!check.row() || check.string(0)!="ok") throw std::runtime_error("recovery snapshot integrity check failed");
     recovery_header(db,path);
+}
+std::optional<RecoveryInfo> Project::inspect_recovery_work(const std::string& path,const std::atomic<bool>* cancelled) {
+    // Opening may recover a hot journal before classifying the committed state.
+    Database db(path,false); db.cancellation(cancelled); Transaction transaction(db,false);
+    {
+        Statement mode(db,"PRAGMA journal_mode");
+        if(!mode.row() || mode.string(0)!="delete") throw std::invalid_argument("unexpected recovery work journal mode");
+    }
+    if(scalar(db,"PRAGMA application_id")==0 && scalar(db,"PRAGMA user_version")==0 &&
+       scalar(db,"SELECT count(*) FROM sqlite_schema WHERE name NOT LIKE 'sqlite_%'")==0) {
+        transaction.commit(); return std::nullopt;
+    }
+    auto info=recovery_header(db,path);
+    Statement check(db,"PRAGMA quick_check");
+    if(!check.row() || check.string(0)!="ok") throw std::runtime_error("abandoned recovery integrity check failed");
+    transaction.commit(); return info;
 }
 RecoveryInfo Project::inspect_recovery_header(const std::string& path,const std::atomic<bool>* cancelled) {
     auto source=absolute(path); Database db(source,false); db.cancellation(cancelled); Transaction transaction(db,false);

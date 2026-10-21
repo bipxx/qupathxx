@@ -49,6 +49,7 @@ public:
     static RecoveryInfo review_recovery(const std::string& path);
     static void discard_recovery_checked(const RecoveryInfo& reviewed);
     static std::size_t cleanup_recovery_work(const std::string& path);
+    static std::size_t cleanup_abandoned_recovery_work(const std::string& current_path,std::size_t limit=32);
     static RecoveryRetentionStats prune_recoveries(const std::string& current_path,const RecoveryRetention& policy);
     static std::shared_ptr<Project> recover(const std::string& path,const std::string& base_path="");
     static void discard_recovery(const std::string& path,const std::string& expected_identity);
@@ -82,6 +83,9 @@ private:
     static std::shared_ptr<Project> open_impl(const std::string& path,bool recovery,const std::string& base_path="");
     static std::pair<std::string,std::uint64_t> read_save_identity(const std::string& path);
     static RecoveryInfo inspect_recovery_header(const std::string& path,const std::atomic<bool>* cancelled=nullptr);
+    static std::optional<RecoveryInfo> inspect_recovery_work(const std::string& path,const std::atomic<bool>* cancelled);
+    static std::size_t cleanup_recovery_work_impl(const std::string& path,std::size_t limit,
+        const std::atomic<bool>* cancelled,const RecoveryInfo* scope=nullptr);
     struct RetentionProgress {
         std::atomic<int> phase{0};
         std::atomic<bool> published{false};
@@ -90,7 +94,7 @@ private:
     static RecoveryRetentionStats prune_recoveries_impl(const std::string& path,const RecoveryRetention&,
         const std::atomic<bool>* cancelled,RetentionProgress* progress);
     std::unique_ptr<Project> snapshot_for_save(std::size_t budget,std::size_t& bytes) const;
-    void save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled=nullptr);
+    void save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled=nullptr,const RecoveryInfo* recovery=nullptr);
     void save_recovery(const std::string& path,const std::string& link_directory,const RecoveryInfo& info,const std::atomic<bool>* cancelled=nullptr);
     // Only native factories can assert that the shared_ptr control block and
     // its deleter contain no Python references. External documents default off.
