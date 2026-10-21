@@ -62,7 +62,7 @@ Validation covers automatic registration, failure rollback, no-op/redo behavior,
 rename collisions, assignment counts, duplicate batch IDs, repeated replacement
 descriptors, cell/nucleus retention, history budgets and subtree restoration.
 Framebuffer tests verify two colors and undo through actual draw output.
-The current installed GUI wheel passes 91 Python tests; eight native suites run
+The current installed GUI wheel passes 104 Python tests; nine native suites run
 with and without the optional GEOS/OpenSlide dependencies.
 
 The [100,000-object class benchmark](benchmarks/classes-100000-windows.json)
@@ -73,6 +73,7 @@ rendering and analysis. Color edits have no dependence on the number of assigned
 objects; renames deliberately update each affected object. They are separate
 workloads and do not establish an interactive-frame guarantee for large renames.
 
-Multi-selection, vertex editing and Boolean clipping remain M3 work. Classifier
+Multi-selection and group actions are implemented; see [selection.md](selection.md).
+Vertex editing and Boolean clipping remain M3 work. Classifier
 models, hierarchical/derived class semantics, persistence and the remaining
 M0-M7 gates remain open.

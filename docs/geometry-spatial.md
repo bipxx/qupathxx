@@ -72,12 +72,12 @@ Select the tool in the toolbar or press R/E/P/L/T for rectangle, ellipse,
 polygon, polyline or points. Drag rectangles/ellipses; click vertices for the
 other tools, then Enter or double-click to finish. Escape cancels. Inspector
 translation preserves topology; holes/multipart shapes can be supplied through
-the API. Vertex handles, hole drawing, Boolean clipping,
-and multi-selection remain M3 work. Shared classes/colors are documented in classes.md.
+the API. Vertex handles, hole drawing and Boolean clipping remain M3 work.
+Shared classes/colors are documented in classes.md; multi-selection is in selection.md.
 
 ## Validation and performance scope
 
-The current suite includes 91 Python tests and eight native suites, exercising
+The current suite includes 104 Python tests and nine native suites, exercising
 validity, hole masks, multipart topology, analytic ellipse metrics, immutable
 snapshots, concurrent predicates, spatial deltas, failed edits and GUI drawing
 with undo/redo. Native tests also run with optional readers and GEOS disabled.

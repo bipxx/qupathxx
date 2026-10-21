@@ -1,0 +1,27 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "geos_version": "3.15.0-CAPI-1.21.0",
+  "objects": 100000,
+  "first_build_and_full_query_ms": 49.012199975550175,
+  "query_median_ms": 0.0073999399319291115,
+  "query_p95_ms": 0.011699972674250603,
+  "queries": 1000,
+  "hits_per_query": 144,
+  "builds_after_edit_and_undo": 1,
+  "scope": "Rectangular grid, bounds-only queries including nanobind return conversion. First query includes lazy BVH construction and full-result conversion. Single edit uses a delta overlay.",
+  "viewer": {
+    "framebuffer": [
+      2560,
+      1440
+    ],
+    "cpu_frame_p95_ms": 16.8824,
+    "visible_objects": 828,
+    "peak_gpu_payload_bytes": 3145728,
+    "pending_tiles": 0,
+    "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+    "gl_version": "3.2.0 NVIDIA 610.88",
+    "selected_objects": 100000,
+    "scope": "Cached narrow viewport of 100000 stored rectangles; no claim for fitting all overlays simultaneously."
+  }
+}

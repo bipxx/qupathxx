@@ -12,8 +12,11 @@ import qupathxx as q
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--gui", action="store_true")
+    parser.add_argument("--select-all", action="store_true")
     parser.add_argument("--output", type=Path, default=Path("build/spatial-benchmark.json"))
     args = parser.parse_args()
+    if args.select_all and not args.gui:
+        parser.error("--select-all requires --gui")
     doc = q.Document(q.Image.demo())
     doc.set_history_limits(128, 256 * 1024 * 1024)
     ids = doc.execute([q.ObjectEdit.create(q.Rect(i % 1000, i // 1000, 1, 1), f"Object {i}") for i in range(100000)])
@@ -46,6 +49,10 @@ def main():
         view = q.Viewport()
         view.zoom, view.origin = 64, q.Point(-32000, -3000)
         options.start_view = view
+        if args.select_all:
+            event = q.GuiInput()
+            event.frame, event.kind = 4, q.GuiInputKind.SELECT_ALL_KEY
+            options.inputs = [event]
         report = q.show(doc, frame_limit=180, options=options)
         result["viewer"] = {
             "framebuffer": [report.framebuffer_width, report.framebuffer_height],
@@ -53,9 +60,11 @@ def main():
             "peak_gpu_payload_bytes": report.peak_gpu_bytes, "pending_tiles": report.pending_tiles,
             "gl_renderer": report.gl_renderer,
             "gl_version": report.gl_version,
+            "selected_objects": len(report.selected_ids),
             "scope": "Cached narrow viewport of 100000 stored rectangles; no claim for fitting all overlays simultaneously.",
         }
         assert 0 < report.visible_objects < 2000 and report.pending_tiles == 0
+        assert len(report.selected_ids) == (100000 if args.select_all else 0)
     args.output.parent.mkdir(parents=True, exist_ok=True)
     args.output.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result, indent=2))

@@ -65,6 +65,7 @@ public:
     Annotation annotation(std::uint64_t id) const { return find(id); }
     std::size_t object_count() const { return objects_.size(); }
     std::uint64_t revision() const { return revision_; }
+    std::uint64_t structure_revision() const { return structure_revision_; }
     const std::map<std::string,ObjectClass>& classes() const { return classes_; }
     ObjectClass object_class(const std::string& name) const;
     std::size_t class_count(const std::string& name) const;
@@ -78,6 +79,7 @@ public:
     std::uint64_t add_cell(Roi roi, std::optional<Roi> nucleus=std::nullopt, std::string name="Cell", std::uint64_t parent_id=0, std::string class_name="");
     void update_nucleus(std::uint64_t id, std::optional<Roi> nucleus);
     bool remove_annotation(std::uint64_t id);
+    void remove_objects(const std::vector<std::uint64_t>& ids);
     void update_rectangle(std::uint64_t id, Rect roi);
     void update_roi(std::uint64_t id, Roi roi);
     void rename_annotation(std::uint64_t id, std::string name);
@@ -131,12 +133,36 @@ private:
     std::vector<EditRecord> undo_,redo_;
     std::uint64_t next_id_ = 1;
     std::uint64_t revision_ = 0;
+    std::uint64_t structure_revision_ = 0;
     std::size_t history_steps_ = 128, history_budget_ = 64*1024*1024, history_bytes_ = 0;
     std::optional<double> pixel_width_um_, pixel_height_um_;
     mutable std::shared_ptr<const SpatialIndex> spatial_;
     mutable std::map<std::uint64_t,std::optional<Rect>> spatial_dirty_;
     mutable bool spatial_rebuild_=true;
     mutable std::uint64_t spatial_builds_=0;
+};
+// Presentation state, bound to a document that must outlive it. Selection is
+// not journaled; deletion/undo pruning never silently selects restored objects.
+class ObjectSelection {
+public:
+    explicit ObjectSelection(const Document& document) : document_(document) {}
+    std::vector<std::uint64_t> ids() const;
+    std::uint64_t primary() const;
+    std::size_t size() const;
+    bool contains(std::uint64_t id) const;
+    void replace(const std::vector<std::uint64_t>& ids,std::uint64_t primary=0);
+    void toggle(std::uint64_t id);
+    void clear();
+    void select_all();
+    void select_range(std::uint64_t anchor,std::uint64_t target,bool additive=false);
+    void select_region(Rect bounds,bool additive=false);
+private:
+    void sync() const;
+    void publish(std::set<std::uint64_t> ids,std::uint64_t primary);
+    const Document& document_;
+    mutable std::set<std::uint64_t> ids_;
+    mutable std::uint64_t primary_=0;
+    mutable std::uint64_t structure_revision_=0;
 };
 struct Viewport {
     Point origin;
@@ -161,14 +187,17 @@ struct GuiReport {
     int framebuffer_width = 0, framebuffer_height = 0;
     std::string gl_renderer, gl_version;
     std::size_t visible_objects = 0;
+    std::vector<std::uint64_t> selected_ids;
+    std::uint64_t primary_selection = 0;
 };
-enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey };
-enum class GuiInputTarget { Canvas, Overview };
+enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey };
+enum class GuiInputTarget { Canvas, Overview, ObjectList };
 struct GuiInput {
     int frame = 0;
     GuiInputKind kind = GuiInputKind::Move;
     GuiInputTarget target = GuiInputTarget::Canvas;
     double x = .5, y = .5, wheel = 0;
+    bool ctrl = false, shift = false;
 };
 struct GuiOptions {
     int width = 1440, height = 900;

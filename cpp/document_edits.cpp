@@ -218,6 +218,9 @@ void Document::commit(Staging& staged,Calibration calibration) {
     if (revision_==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("document revision exhausted");
     std::optional<std::map<std::uint64_t,std::optional<Rect>>> spatial_delta;
     bool spatial_reset=false;
+    bool membership_changed=false;
+    for(const auto& [id,value]:staged.after)
+        membership_changed |= staged.before.at(id).has_value()!=value.has_value();
     if(spatial_ && !spatial_rebuild_) for(const auto& [id,value]:staged.after) {
         auto old=objects_.find(id);
         const auto previous=old==objects_.end()?std::optional<Rect>{}:std::optional<Rect>{old->second.bounds()};
@@ -252,6 +255,7 @@ void Document::commit(Staging& staged,Calibration calibration) {
     if(spatial_reset) { spatial_.reset(); spatial_dirty_.clear(); spatial_rebuild_=true; }
     else if(spatial_delta) spatial_dirty_.swap(*spatial_delta);
     pixel_width_um_=calibration.x; pixel_height_um_=calibration.y; ++revision_;
+    if(membership_changed) structure_revision_=revision_;
 }
 void Document::trim_history() {
     while (undo_.size()+redo_.size()>history_steps_ || history_bytes_>history_budget_) {
@@ -322,6 +326,15 @@ void Document::update_nucleus(std::uint64_t id,std::optional<Roi> nucleus) {
 bool Document::remove_annotation(std::uint64_t id) {
     if (!objects_.count(id)) return false;
     execute({ObjectEdit::remove(id)},"Delete subtree"); return true;
+}
+void Document::remove_objects(const std::vector<std::uint64_t>& ids) {
+    // Validate all requested IDs first, then skip descendants removed by an
+    // earlier selected ancestor. Duplicate and nested selections are safe.
+    std::set<std::uint64_t> unique;
+    for(auto id:ids) { find(id); unique.insert(id); }
+    Staging staged(*this);
+    for(auto id:unique) if(staged.get(id)) staged.remove_subtree(id);
+    save_edit(staged,{pixel_width_um_,pixel_height_um_},"Delete objects");
 }
 void Document::update_rectangle(std::uint64_t id,Rect roi) {
     auto a=find(id); execute({ObjectEdit::replace_geometry(id,Roi::rectangle(roi),a.name,a.parent_id,a.class_name,a.kind,a.nucleus)},"Edit rectangle");

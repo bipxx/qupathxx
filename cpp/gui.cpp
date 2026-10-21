@@ -122,7 +122,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     int tool=0,previous_tool=0;
     Ring draft_points;
     Point anchor;
-    std::uint64_t selected = 0;
+    ObjectSelection selection(document);
+    std::uint64_t selected = 0,list_anchor=0;
+    bool marquee=false,marquee_additive=false;
+    Point marquee_anchor;
+    std::string batch_class;
     std::string error;
     std::uint64_t editor_id=0,editor_revision=0;
     char draft_name[4097]={},draft_class[4097]={};
@@ -143,7 +147,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     TilePlan overview_plan;
     Viewport overview_view;
     DisplaySettings display=options.display;
-    ImVec2 previous_canvas{}, previous_canvas_size{}, overview_offset{}, overview_size{250,150};
+    ImVec2 previous_canvas{}, previous_canvas_size{}, overview_offset{}, overview_size{250,150},list_offset{},list_size{};
     std::optional<Point> overview_center;
     int last_width=0,last_height=0;
     std::optional<std::tuple<double,double,double,float,float,float>> plan_inputs;
@@ -154,13 +158,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         auto& input=ImGui::GetIO();
         if (!options.inputs.empty()) {
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
-            input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiKey_Delete,false);
-            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter}) input.AddKeyEvent(key,false);
+            input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
+            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape}) input.AddKeyEvent(key,false);
         }
         for (const auto& event:options.inputs) if (event.frame==frames) {
-            auto origin=event.target==GuiInputTarget::Canvas?previous_canvas:overview_offset;
-            auto extent=event.target==GuiInputTarget::Canvas?previous_canvas_size:overview_size;
+            auto origin=event.target==GuiInputTarget::Canvas?previous_canvas:(event.target==GuiInputTarget::Overview?overview_offset:list_offset);
+            auto extent=event.target==GuiInputTarget::Canvas?previous_canvas_size:(event.target==GuiInputTarget::Overview?overview_size:list_size);
             input.AddMousePosEvent(origin.x+static_cast<float>(event.x)*extent.x,origin.y+static_cast<float>(event.y)*extent.y);
+            if(event.ctrl) input.AddKeyEvent(ImGuiMod_Ctrl,true);
+            if(event.shift) input.AddKeyEvent(ImGuiMod_Shift,true);
             switch(event.kind) {
                 case GuiInputKind::LeftDown: input.AddMouseButtonEvent(0,true); break;
                 case GuiInputKind::LeftUp: input.AddMouseButtonEvent(0,false); break;
@@ -176,6 +182,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::PolylineKey: input.AddKeyEvent(ImGuiKey_L,true); break;
                 case GuiInputKind::PointsKey: input.AddKeyEvent(ImGuiKey_T,true); break;
                 case GuiInputKind::FinishKey: input.AddKeyEvent(ImGuiKey_Enter,true); break;
+                case GuiInputKind::SelectAllKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_A,true); break;
+                case GuiInputKind::EscapeKey: input.AddKeyEvent(ImGuiKey_Escape,true); break;
                 default: break;
             }
         }
@@ -194,18 +202,24 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         ImGui::SetNextItemWidth(125);
         ImGui::Combo("Tool",&tool,"Select\0Rectangle\0Ellipse\0Polygon\0Polyline\0Points\0"); ImGui::SameLine();
-        if(tool!=previous_tool) { drawing=false; draft_points.clear(); previous_tool=tool; }
+        if(tool!=previous_tool) { marquee=false; drawing=false; draft_points.clear(); previous_tool=tool; }
         if (ImGui::Button("Fit image")) fit = true;
         auto history_action=[&](bool redo) { try { if(redo) document.redo(); else document.undo(); error.clear(); } catch(const std::exception& e) { error=e.what(); } };
         if (!io.WantTextInput && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Z)) history_action(false);
         if (!io.WantTextInput && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Y)) history_action(true);
         ImGui::SameLine(); ImGui::BeginDisabled(!document.can_undo()); if (ImGui::Button("Undo")) history_action(false); ImGui::EndDisabled();
         ImGui::SameLine(); ImGui::BeginDisabled(!document.can_redo()); if (ImGui::Button("Redo")) history_action(true); ImGui::EndDisabled();
-        if (selected && !document.objects().count(selected)) selected=0;
-        if (selected && !io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_Delete)) {
-            try { document.remove_annotation(selected); selected=0; error.clear(); } catch(const std::exception& e) { error=e.what(); }
-        }
-        ImGui::SameLine(); ImGui::TextDisabled("Wheel: zoom | Right drag: pan | R/E: drag | P/L/T: click, Enter: finish");
+        selected=selection.primary();
+        if(!io.WantTextInput && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_A)) { selection.select_all(); selected=selection.primary(); }
+        auto delete_selection=[&]() {
+            try {
+                auto ids=selection.ids();
+                if(ids.size()==1) document.remove_annotation(ids.front()); else document.remove_objects(ids);
+                selection.clear(); selected=0; error.clear();
+            } catch(const std::exception& e) { error=e.what(); }
+        };
+        if (selected && !io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_Delete)) delete_selection();
+        ImGui::SameLine(); ImGui::TextDisabled("Ctrl+click: toggle | Shift+drag: select box | Ctrl+A: all | Right drag: pan");
         ImGui::BeginChild("Inspector", {285,0}, ImGuiChildFlags_Borders);
         ImGui::Text("IMAGE"); ImGui::Text("%lld x %lld pixels",static_cast<long long>(image.width),static_cast<long long>(image.height));
         ImGui::Text("%zu pyramid levels",image.levels.size());
@@ -255,11 +269,19 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             list_revision=document.revision();
         }
         ImGui::BeginChild("Object list",{0,90},ImGuiChildFlags_Borders);
+        list_offset=ImGui::GetCursorScreenPos(); list_size=ImGui::GetContentRegionAvail();
         ImGuiListClipper clipper; clipper.Begin(static_cast<int>(list_ids.size()));
         while(clipper.Step()) for (int row=clipper.DisplayStart;row<clipper.DisplayEnd;++row) {
             const auto& a=document.objects().at(list_ids[row]);
             auto label = a.name + "##" + std::to_string(a.id);
-            if (ImGui::Selectable(label.c_str(), selected == a.id)) selected = a.id;
+            if (ImGui::Selectable(label.c_str(), selection.contains(a.id))) {
+                if(io.KeyShift && list_anchor && document.objects().count(list_anchor)) selection.select_range(list_anchor,a.id,io.KeyCtrl);
+                else {
+                    if(io.KeyCtrl) selection.toggle(a.id); else selection.replace({a.id});
+                    list_anchor=a.id;
+                }
+                selected=selection.primary();
+            }
         }
         ImGui::EndChild();
         if(ImGui::CollapsingHeader("Classes")) {
@@ -297,9 +319,20 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 }
             }
         }
-        if (selected && ImGui::Button("Delete selected")) {
-            try { document.remove_annotation(selected); selected=0; error.clear(); }
-            catch(const std::exception& e) { error=e.what(); }
+        ImGui::Text("Selected: %zu",selection.size());
+        if(selected && ImGui::Button("Delete selected")) delete_selection();
+        if(selected) { ImGui::SameLine(); if(ImGui::Button("Clear selection")) { selection.clear(); selected=0; } }
+        if(selection.size()>1) {
+            if(ImGui::BeginCombo("Batch class",batch_class.empty()?"Unclassified":batch_class.c_str())) {
+                if(ImGui::Selectable("Unclassified",batch_class.empty())) batch_class.clear();
+                for(const auto& [name,c]:document.classes()) if(ImGui::Selectable(name.c_str(),name==batch_class)) batch_class=name;
+                ImGui::EndCombo();
+            }
+            if(ImGui::Button("Classify selected")) {
+                try { document.classify_objects(selection.ids(),batch_class); error.clear(); }
+                catch(const std::exception& e) { error=e.what(); }
+            }
+            ImGui::TextDisabled("Inspector edits the primary object");
         }
         if (selected) {
             if (editor_id!=selected || editor_revision!=document.revision()) {
@@ -369,26 +402,47 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(draft_points.empty() || draft_points.back().x!=p.x || draft_points.back().y!=p.y) draft_points.push_back(p);
             }
             else if (!tool) {
-                auto hits=document.pick(p,4/viewport.zoom); selected=hits.empty()?0:hits.back();
+                if(io.KeyShift) { marquee=true; marquee_anchor=p; marquee_additive=io.KeyCtrl; }
+                else {
+                    auto hits=document.pick(p,4/viewport.zoom);
+                    if(hits.empty()) { if(!io.KeyCtrl) selection.clear(); }
+                    else if(io.KeyCtrl) selection.toggle(hits.back()); else selection.replace({hits.back()});
+                    selected=selection.primary();
+                }
             }
         }
         auto end = clamp_image(viewport.screen_to_image(mouse));
+        if(marquee && ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+            try {
+                auto p=viewport.screen_to_image(mouse);
+                if(std::abs(p.x-marquee_anchor.x)*viewport.zoom<3 && std::abs(p.y-marquee_anchor.y)*viewport.zoom<3) {
+                    auto hits=document.pick(p,4/viewport.zoom);
+                    if(!hits.empty()) selection.toggle(hits.back());
+                } else selection.select_region({std::min(p.x,marquee_anchor.x),std::min(p.y,marquee_anchor.y),
+                    std::abs(p.x-marquee_anchor.x),std::abs(p.y-marquee_anchor.y)},marquee_additive);
+                selected=selection.primary(); error.clear();
+            } catch(const std::exception& e) { error=e.what(); }
+            marquee=false;
+        }
         if (drawing && ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
             Rect r{std::min(anchor.x,end.x), std::min(anchor.y,end.y), std::abs(anchor.x-end.x), std::abs(anchor.y-end.y)};
             if (r.width * viewport.zoom >= 2 && r.height * viewport.zoom >= 2) {
                 try {
                     auto name="Region "+std::to_string(document.object_count()+1);
-                    selected=tool==2?document.add_roi(Roi::ellipse(r),name):document.add_rectangle(r,name); error.clear();
+                    selected=tool==2?document.add_roi(Roi::ellipse(r),name):document.add_rectangle(r,name); selection.replace({selected}); error.clear();
                 }
                 catch (const std::exception& e) { error = e.what(); }
             }
             drawing = false;
         }
-        if(!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_Escape)) { drawing=false; draft_points.clear(); }
+        if(!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_Escape)) {
+            if(!drawing && draft_points.empty() && !marquee) { selection.clear(); selected=0; }
+            drawing=false; marquee=false; draft_points.clear();
+        }
         if(tool>=3 && !draft_points.empty() && !io.WantTextInput && (ImGui::IsKeyPressed(ImGuiKey_Enter) || (hovered && ImGui::IsMouseDoubleClicked(0)))) {
             try {
                 auto geometry=tool==3?Roi::polygon(draft_points):(tool==4?Roi::polyline(draft_points):Roi::points(draft_points));
-                selected=document.add_roi(geometry,"Region "+std::to_string(document.object_count()+1)); draft_points.clear(); error.clear();
+                selected=document.add_roi(geometry,"Region "+std::to_string(document.object_count()+1)); selection.replace({selected}); draft_points.clear(); error.clear();
             } catch(const std::exception& e) { error=e.what(); }
         }
         auto* draw = ImGui::GetWindowDrawList();
@@ -411,8 +465,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         for (auto id:visible_ids) {
             const auto& a=document.objects().at(id); const auto r=a.geometry.bounds();
             auto p0 = screen(viewport,{r.x,r.y},offset);
-            auto color = a.id == selected ? IM_COL32(255,205,85,255) : IM_COL32(65,225,190,255);
-            if(a.id!=selected && !a.class_name.empty()) {
+            auto color = selection.contains(a.id) ? IM_COL32(255,205,85,255) : IM_COL32(65,225,190,255);
+            if(!selection.contains(a.id) && !a.class_name.empty()) {
                 auto found=document.classes().find(a.class_name);
                 if(found!=document.classes().end()) {
                     auto rgb=found->second.color; color=IM_COL32((rgb>>16)&255,(rgb>>8)&255,rgb&255,255);
@@ -423,6 +477,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             // Detection labels at low zoom overwhelm the canvas and scale with
             // every visible detection. Keep annotation names and selected labels.
             if(!a.is_detection() || a.id==selected) draw->AddText(p0,color,a.name.c_str());
+        }
+        if(marquee) {
+            auto p=viewport.screen_to_image(mouse);
+            auto a=screen(viewport,marquee_anchor,offset),b=screen(viewport,p,offset);
+            ImVec2 lo{std::min(a.x,b.x),std::min(a.y,b.y)},hi{std::max(a.x,b.x),std::max(a.y,b.y)};
+            draw->AddRectFilled(lo,hi,IM_COL32(255,205,85,30)); draw->AddRect(lo,hi,IM_COL32(255,205,85,255));
         }
         if (drawing) {
             Rect draft{std::min(anchor.x,end.x),std::min(anchor.y,end.y),std::abs(anchor.x-end.x),std::abs(anchor.y-end.y)};
@@ -476,6 +536,6 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     auto p95=frame_times.empty()?0:frame_times[static_cast<std::size_t>((frame_times.size()-1)*.95)];
     return {frames,tiles.uploads(),tiles.peak_bytes(),tiles.generations(),p95,tiles.pending(),viewport.zoom,viewport.origin,
         viewport.screen_to_image({previous_canvas_size.x/2,previous_canvas_size.y/2}),last_width,last_height,
-        reinterpret_cast<const char*>(glGetString(GL_RENDERER)),reinterpret_cast<const char*>(glGetString(GL_VERSION)),visible_count};
+        reinterpret_cast<const char*>(glGetString(GL_RENDERER)),reinterpret_cast<const char*>(glGetString(GL_VERSION)),visible_count,selection.ids(),selection.primary()};
 }
 }

@@ -43,9 +43,10 @@ def test_real_aperio_view(tmp_path):
     doc.server.close()
 
 
-def replay(frame, kind, x=.5, y=.5, wheel=0, target=q.GuiInputTarget.CANVAS):
+def replay(frame, kind, x=.5, y=.5, wheel=0, target=q.GuiInputTarget.CANVAS, ctrl=False, shift=False):
     event = q.GuiInput()
     event.frame, event.kind, event.x, event.y, event.wheel, event.target = frame, kind, x, y, wheel, target
+    event.ctrl, event.shift = ctrl, shift
     return event
 
 
@@ -243,3 +244,81 @@ def test_registry_color_changes_and_undo_reach_framebuffer(tmp_path):
         with Image.open(capture) as frame:
             pixels = np.asarray(frame)[:, 310:, :]
             assert np.count_nonzero(np.all(pixels == rgb, axis=2)) > 200
+
+
+@pytest.mark.parametrize("shift,expected", [(False, [1, 3]), (True, [1, 2, 3])])
+def test_list_ctrl_toggle_and_shift_range_select(shift, expected, tmp_path):
+    from PIL import Image
+    import numpy as np
+
+    doc = q.Document(q.Image.demo())
+    doc.execute([q.ObjectEdit.create(q.Rect(100+i*100, 100, 30, 30)) for i in range(3)])
+    options = q.GuiOptions()
+    view = q.Viewport()
+    view.zoom = 1
+    options.start_view = view
+    target = q.GuiInputTarget.OBJECT_LIST
+    options.inputs = [
+        replay(4, q.GuiInputKind.LEFT_DOWN, .3, .05, target=target),
+        replay(5, q.GuiInputKind.LEFT_UP, .3, .05, target=target),
+        replay(9, q.GuiInputKind.LEFT_DOWN, .3, .52, target=target, ctrl=not shift, shift=shift),
+        replay(10, q.GuiInputKind.LEFT_UP, .3, .52, target=target, ctrl=not shift, shift=shift),
+    ]
+    capture = tmp_path / "selection.ppm"
+    report = q.show(doc, frame_limit=30, options=options, capture_path=str(capture))
+    assert report.selected_ids == expected and report.primary_selection == 3
+    with Image.open(capture) as frame:
+        pixels = np.asarray(frame)[:, 310:, :]
+        assert np.count_nonzero(np.all(pixels == (255, 205, 85), axis=2)) > 200
+
+
+@pytest.mark.parametrize("delete_undo", [False, True])
+def test_canvas_window_selection_and_atomic_delete_undo(delete_undo):
+    doc = q.Document(q.Image.demo())
+    ids = doc.execute([q.ObjectEdit.create(q.Rect(x, y, 20, 20)) for x, y in [(100, 100), (200, 100), (700, 600)]])
+    options = q.GuiOptions()
+    view = q.Viewport()
+    options.start_view = view
+    options.inputs = [replay(4, q.GuiInputKind.LEFT_DOWN, .05, .05, shift=True),
+                      replay(5, q.GuiInputKind.MOVE, .3, .3),
+                      replay(6, q.GuiInputKind.LEFT_UP, .3, .3)]
+    if delete_undo:
+        options.inputs = list(options.inputs) + [replay(12, q.GuiInputKind.DELETE_KEY), replay(16, q.GuiInputKind.UNDO_KEY)]
+    report = q.show(doc, frame_limit=30, options=options)
+    assert doc.object_count == 3
+    assert report.selected_ids == ([] if delete_undo else ids[:2])
+    assert report.primary_selection == (0 if delete_undo else ids[1])
+    if delete_undo:
+        assert doc.redo_label == "Delete objects"
+        assert doc.redo() and [a.id for a in doc.annotations] == ids[2:]
+
+
+@pytest.mark.parametrize("clear", [False, True])
+def test_select_all_then_escape_clears_presentation_only(clear):
+    doc = q.Document(q.Image.demo())
+    doc.execute([q.ObjectEdit.create(q.Rect(i, 0, 1, 1)) for i in range(10)])
+    revision, history = doc.revision, doc.history_bytes
+    options = q.GuiOptions()
+    options.inputs = [replay(4, q.GuiInputKind.SELECT_ALL_KEY)]
+    if clear:
+        options.inputs = list(options.inputs) + [replay(8, q.GuiInputKind.ESCAPE_KEY)]
+    report = q.show(doc, frame_limit=20, options=options)
+    assert report.selected_ids == ([] if clear else list(range(1, 11)))
+    assert report.primary_selection == (0 if clear else 10)
+    assert (doc.revision, doc.history_bytes) == (revision, history)
+
+
+def test_canvas_ctrl_click_toggles_membership():
+    doc = q.Document(q.Image.demo())
+    first, second = doc.execute([q.ObjectEdit.create(q.Rect(100, 100, 400, 300)),
+                                q.ObjectEdit.create(q.Rect(600, 100, 300, 300))])
+    options = q.GuiOptions()
+    options.start_view = q.Viewport()
+    options.inputs = [
+        replay(4, q.GuiInputKind.LEFT_DOWN, .15, .2), replay(5, q.GuiInputKind.LEFT_UP, .15, .2),
+        replay(9, q.GuiInputKind.LEFT_DOWN, .6, .2, ctrl=True), replay(10, q.GuiInputKind.LEFT_UP, .6, .2, ctrl=True),
+        replay(14, q.GuiInputKind.LEFT_DOWN, .15, .2, ctrl=True), replay(15, q.GuiInputKind.LEFT_UP, .15, .2, ctrl=True),
+    ]
+    report = q.show(doc, frame_limit=25, options=options)
+    assert report.selected_ids == [second] and report.primary_selection == second
+    assert doc.object_count == 2

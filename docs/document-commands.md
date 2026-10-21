@@ -98,6 +98,6 @@ General ROI geometry and spatial indexing are implemented; see
 [geometry-spatial.md](geometry-spatial.md) for semantics and validation.
 Detection/cell object kinds and optional nucleus geometry are implemented; see
 [object-kinds.md](object-kinds.md). Undoable class definitions, colors and renames
-are recorded in [classes.md](classes.md). Multi-selection, Boolean
-clipping and vertex editing remain. QuPath reference comparisons and complex
+are recorded in [classes.md](classes.md). Multi-selection and atomic group actions are
+recorded in [selection.md](selection.md). Boolean clipping and vertex editing remain. QuPath reference comparisons and complex
 geometry stress remain open. Project persistence and interchange remain M4 work.

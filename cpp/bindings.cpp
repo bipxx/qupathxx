@@ -89,7 +89,7 @@ NB_MODULE(_native, m) {
         .def("add_cell",&Document::add_cell,"roi"_a,"nucleus"_a=nb::none(),"name"_a="Cell","parent_id"_a=0,"class_name"_a="")
         .def("update_nucleus",&Document::update_nucleus,"id"_a,"nucleus"_a)
         .def("nucleus_area_um2",&Document::nucleus_area_um2).def("nucleus_mean_intensity",&Document::nucleus_mean_intensity)
-        .def("remove_annotation", &Document::remove_annotation)
+        .def("remove_annotation", &Document::remove_annotation).def("remove_objects",&Document::remove_objects)
         .def("annotation",&Document::annotation)
         .def_prop_ro("object_count",&Document::object_count).def_prop_ro("revision",&Document::revision)
         .def("update_rectangle",&Document::update_rectangle).def("rename_annotation",&Document::rename_annotation)
@@ -117,6 +117,15 @@ NB_MODULE(_native, m) {
         .def("clear_calibration", &Document::clear_calibration)
         .def_prop_ro("pixel_width_um", &Document::pixel_width_um).def_prop_ro("pixel_height_um", &Document::pixel_height_um)
         .def("area_um2", &Document::area_um2).def("mean_intensity", &Document::mean_intensity);
+    nb::class_<ObjectSelection>(m,"ObjectSelection")
+        .def(nb::init<const Document&>(),nb::keep_alive<1,2>())
+        .def_prop_ro("ids",&ObjectSelection::ids).def_prop_ro("primary",&ObjectSelection::primary)
+        .def_prop_ro("size",&ObjectSelection::size).def("contains",&ObjectSelection::contains)
+        .def("replace",&ObjectSelection::replace,"ids"_a,"primary"_a=0)
+        .def("toggle",&ObjectSelection::toggle).def("clear",&ObjectSelection::clear)
+        .def("select_all",&ObjectSelection::select_all)
+        .def("select_range",&ObjectSelection::select_range,"anchor"_a,"target"_a,"additive"_a=false)
+        .def("select_region",&ObjectSelection::select_region,"bounds"_a,"additive"_a=false);
     nb::class_<Viewport>(m, "Viewport").def(nb::init<>()).def_rw("origin", &Viewport::origin).def_rw("zoom", &Viewport::zoom)
         .def("image_to_screen", &Viewport::image_to_screen).def("screen_to_image", &Viewport::screen_to_image)
         .def("zoom_at", &Viewport::zoom_at).def("fit", &Viewport::fit).def("center_on",&Viewport::center_on);
@@ -134,10 +143,11 @@ NB_MODULE(_native, m) {
         .value("WHEEL",GuiInputKind::Wheel).value("RECTANGLE_KEY",GuiInputKind::RectangleKey)
         .value("UNDO_KEY",GuiInputKind::UndoKey).value("REDO_KEY",GuiInputKind::RedoKey).value("DELETE_KEY",GuiInputKind::DeleteKey)
         .value("ELLIPSE_KEY",GuiInputKind::EllipseKey).value("POLYGON_KEY",GuiInputKind::PolygonKey)
-        .value("POLYLINE_KEY",GuiInputKind::PolylineKey).value("POINTS_KEY",GuiInputKind::PointsKey).value("FINISH_KEY",GuiInputKind::FinishKey);
-    nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview);
+        .value("POLYLINE_KEY",GuiInputKind::PolylineKey).value("POINTS_KEY",GuiInputKind::PointsKey).value("FINISH_KEY",GuiInputKind::FinishKey)
+        .value("SELECT_ALL_KEY",GuiInputKind::SelectAllKey).value("ESCAPE_KEY",GuiInputKind::EscapeKey);
+    nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
-        .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel);
+        .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
         .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view);
     nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
@@ -146,7 +156,8 @@ NB_MODULE(_native, m) {
         .def_ro("pending_tiles",&GuiReport::pending_tiles).def_ro("final_zoom",&GuiReport::final_zoom)
         .def_ro("final_origin",&GuiReport::final_origin).def_ro("framebuffer_width",&GuiReport::framebuffer_width)
         .def_ro("framebuffer_height",&GuiReport::framebuffer_height).def_ro("final_center",&GuiReport::final_center)
-        .def_ro("gl_renderer",&GuiReport::gl_renderer).def_ro("gl_version",&GuiReport::gl_version).def_ro("visible_objects",&GuiReport::visible_objects);
+        .def_ro("gl_renderer",&GuiReport::gl_renderer).def_ro("gl_version",&GuiReport::gl_version).def_ro("visible_objects",&GuiReport::visible_objects)
+        .def_ro("selected_ids",&GuiReport::selected_ids).def_ro("primary_selection",&GuiReport::primary_selection);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.

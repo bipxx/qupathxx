@@ -394,3 +394,11 @@ journal; color edits preserve object revisions and spatial indexes. See
 [classes.md](classes.md) for contracts, framebuffer evidence and the 100000-object
 benchmark. Multi-selection, vertex editing and Boolean clipping remain M3 work;
 the full M0-M7 plan remains active.
+
+The ninth packet adds native multi-selection with primary/range/window semantics,
+canvas/list gestures and group deletion through atomic commands. Classification
+uses the existing batch command. Membership revisions avoid scanning selected
+IDs after metadata/color changes. See [selection.md](selection.md) for input
+replay evidence, packaging checks and the 100000-object selection workload.
+Vertex/hole editing, Boolean clipping, QuPath comparisons and unfinished
+M0-M7 gates remain active.
