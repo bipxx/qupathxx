@@ -9,8 +9,11 @@ can be verified without guessing when a modal or loaded workspace will appear.
 
 `GuiInput.wait_for` accepts `GuiInputWait.IMMEDIATE` (default), `TARGET_READY`,
 `STARTUP_FINISHED`, `TISSUE_READY`, `TISSUE_CONTOURS_READY`, or
-`TISSUE_CONTOURS_PUBLISHED`. The tissue conditions require an idle job and the
-corresponding current result or publication flag. See [tissue contours](tissue-contours.md).
+`TISSUE_CONTOURS_PUBLISHED`, `TISSUE_ARCHIVED`, or `TISSUE_VERIFIED`.
+Result/publication conditions require an idle job and the corresponding current
+result or publication flag. Archive readiness requires a latest record for the
+selected source; verified readiness also requires completed rechecking and a
+current session proof. See [tissue contours](tissue-contours.md).
 Events are ordered by their scheduled frame, preserving
 input order for ties. Each accepted event is emitted once. If a due event's
 condition is false, that event and all later events wait while physical UI

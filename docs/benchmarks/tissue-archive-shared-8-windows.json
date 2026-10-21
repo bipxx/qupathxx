@@ -1,0 +1,29 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pattern": "rectangles",
+  "pixels": 4194304,
+  "objects": 1,
+  "records": 8,
+  "input_sha256": "2c3075b8d4828091a8f8ae4c445c2653e5ffb6668e23c6026a31c5293f59a0d3",
+  "mask_worker_ms": 65.5466,
+  "keep_total_ms": 0.040199956856667995,
+  "mask_retained_bytes": 23177776,
+  "record_payload_bytes": 23178301,
+  "capture_ms": 0.0194,
+  "write_ms": 97.8233,
+  "snapshot_bytes": 198014935,
+  "file_bytes": 13529088,
+  "encoded_mask_bytes": [
+    107548,
+    107548,
+    107548,
+    107548,
+    107548,
+    107548,
+    107548,
+    107548
+  ],
+  "load_ms": 84.12649994716048,
+  "verify_ms": 2.662200015038252,
+  "decoded_retained_bytes": 16796016
+}

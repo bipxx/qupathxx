@@ -184,6 +184,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     AnalysisJob analysis;
     TissueJob tissue;
     std::size_t tissue_annotations_added=0;
+    std::uint64_t kept_tissue_generation=0,verifying_tissue=0;
     TissuePreview tissue_preview;
     bool show_tissue=true;
     int tissue_feature=options.tissue_feature,tissue_connectivity=options.tissue_connectivity==8?1:0;
@@ -554,6 +555,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         auto& document=*active_document;
         analysis.poll(document,selected);
         tissue.poll(document,selected);
+        if(verifying_tissue && !tissue.busy()) {
+            try {if(tissue.poll(document,selected).state=="ready") tissue.verify_result(document,verifying_tissue);} catch(const std::exception& e) {error=e.what();}
+            verifying_tissue=0;
+        }
         if(!tissue.result()) tissue_preview.clear();
         const bool has_image=!options.project || active_image!=0;
         const auto& image=document.metadata();
@@ -573,12 +578,16 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         auto& input=ImGui::GetIO();
         if (!options.inputs.empty()) {
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
-            input.AddKeyEvent(ImGuiKey_J,false);
+            input.AddKeyEvent(ImGuiKey_J,false);input.AddKeyEvent(ImGuiKey_U,false);
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
             for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12,ImGuiKey_M,ImGuiKey_K,ImGuiKey_D}) input.AddKeyEvent(key,false);
         }
         replay.dispatch([&](const GuiInput& event) {
             if(event.wait_for==GuiInputWait::StartupFinished) return !startup_active;
+            if(event.wait_for==GuiInputWait::TissueArchived || event.wait_for==GuiInputWait::TissueVerified) {
+                const auto record=document.latest_tissue(selected);
+                return record && (event.wait_for==GuiInputWait::TissueArchived || (!tissue.busy() && !verifying_tissue && document.tissue_status(record->id)=="current"));
+            }
             if(event.wait_for==GuiInputWait::TissueReady) return !tissue.busy() && bool(tissue.result());
             if(event.wait_for==GuiInputWait::TissueContoursReady) return !tissue.busy() && bool(tissue.contours());
             if(event.wait_for==GuiInputWait::TissueContoursPublished) return !tissue.busy() && tissue.contours_published();
@@ -667,6 +676,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::RecheckAnalysisKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiMod_Shift,true); input.AddKeyEvent(ImGuiKey_K,true); break;
                 case GuiInputKind::DetectTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_D,true); break;
                 case GuiInputKind::CancelTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiMod_Shift,true); input.AddKeyEvent(ImGuiKey_D,true); break;
+                case GuiInputKind::KeepTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiKey_U,true);break;
+                case GuiInputKind::RecheckTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_U,true);break;
                 case GuiInputKind::TraceTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_J,true); break;
                 case GuiInputKind::KeepTissueContoursKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiMod_Shift,true); input.AddKeyEvent(ImGuiKey_J,true); break;
                 default: break;
@@ -1290,6 +1301,32 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(contours) ImGui::Text("Contours: %zu / %zu vertices",contours->components().size(),contours->vertex_count());
             if(tissue.contours_published()) ImGui::Text("Added %zu annotations (Undo available)",tissue_annotations_added);
             if(!has_geos()) ImGui::TextDisabled("Contour creation requires GEOS");
+            const bool tissue_archive_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_U,false);
+            const bool can_archive=tissue_status.state=="ready" && !tissue.busy() && bool(tissue.result()) && kept_tissue_generation!=tissue_status.generation;
+            ImGui::BeginDisabled(!can_archive);
+            const bool archive_clicked=ImGui::Button("Keep tissue mask (Ctrl+U)") || (tissue_archive_key && !io.KeyShift);
+            ImGui::EndDisabled();
+            if(can_archive && archive_clicked) {try {tissue.keep_result(document,selected);kept_tissue_generation=tissue_status.generation;error.clear();} catch(const std::exception& e) {error=e.what();}}
+            if(const auto saved=document.latest_tissue(selected)) {
+                const auto state=document.tissue_status(saved->id);
+                const char* saved_label=state=="current"?"Verified for this session":state=="unverified"?"Needs recheck":state=="object_changed"?"Object changed":state=="source_closed"?"Image closed":state=="source_changed"?"Source changed":"Recheck failed";
+                ImGui::Text("Saved mask: %s",saved_label);
+                ImGui::Text("Saved components: %zu",saved->result->components().size());
+                const bool can_recheck_tissue=!tissue.busy() && state!="object_changed" && state!="source_closed";
+                ImGui::BeginDisabled(!can_recheck_tissue);
+                const bool recheck=ImGui::Button("Recheck saved mask (Ctrl+Shift+U)") || (tissue_archive_key && io.KeyShift);
+                ImGui::EndDisabled();
+                if(recheck && can_recheck_tissue) {try {
+                    tissue.request(TissueRequest::replay(document,saved->id));verifying_tissue=saved->id;
+                    tissue_parameters=saved->result->parameters();tissue_feature=static_cast<int>(tissue_parameters.feature);tissue_connectivity=tissue_parameters.connectivity==8?1:0;
+                    analysis_nucleus=saved->result->nucleus();analysis_white.assign(saved->result->white().begin(),saved->result->white().end());
+                    for(std::size_t i=0;i<2;++i) for(std::size_t c=0;c<3;++c) analysis_vectors[i*3+c]=saved->result->stains()[i][c];
+                    error.clear();
+                } catch(const std::exception& e) {error=e.what();}}
+                ImGui::BeginDisabled(tissue.busy());
+                if(ImGui::Button("Remove saved mask")) {try {document.remove_tissue(saved->id);error.clear();} catch(const std::exception& e) {error=e.what();}}
+                ImGui::EndDisabled();
+            }
             if(!tissue_status.error.empty()) ImGui::TextWrapped("Tissue: %s",tissue_status.error.c_str());
             if(!tissue_preview.error().empty()) ImGui::TextWrapped("Mask: %s",tissue_preview.error().c_str());
         } else ImGui::TextDisabled("Select an annotation");
@@ -1731,6 +1768,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     const auto tissue_status=tissue.poll(*active_document,selection->primary());
     const auto tissue_result=tissue.result();
     const auto tissue_contours=tissue.contours();
+    const auto saved_tissue=active_document->latest_tissue(selection->primary());
     if(!tissue_result) tissue_preview.clear();
     return {frames,previous_uploads+tiles->uploads(),std::max(previous_peak_bytes,tiles->peak_bytes()),previous_generations+tiles->generations(),p95,tiles->pending(),empty?0:viewport.zoom,empty?Point{}:viewport.origin,
         empty?Point{}:viewport.screen_to_image({previous_canvas_size.x/2,previous_canvas_size.y/2}),last_width,last_height,
@@ -1750,7 +1788,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         tissue_result?tissue_result->filled_pixels():0,tissue_result?tissue_result->cleanup_ms():0,
         replay.frame(),replay.waits(),settle_frames,replay.complete(),!startup_active && !project_load.valid() && !restore_pending && !tiles->pending() && tiles->error().empty(),
         tissue_contours?tissue_contours->components().size():0,tissue_contours?tissue_contours->edge_count():0,tissue_contours?tissue_contours->vertex_count():0,
-        tissue.contours_published()?tissue_annotations_added:0,tissue_contours?tissue_contours->elapsed_ms():0,tissue.contours_published()};
+        tissue.contours_published()?tissue_annotations_added:0,tissue_contours?tissue_contours->elapsed_ms():0,tissue.contours_published(),
+        saved_tissue?saved_tissue->id:0,saved_tissue?active_document->tissue_status(saved_tissue->id):std::string{}};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

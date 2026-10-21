@@ -58,7 +58,8 @@ and timing describe the current contour bundle; job elapsed time describes the
 latest operation, while the mask retains its own detection timing.
 
 Created annotations roundtrip through existing native projects and GeoJSON.
-Persisted masks and complete analysis provenance remain unfinished, as do
+[Persisted masks](tissue-archive.md) now retain label rasters and captured inputs.
+Complete source/environment provenance remains unfinished, as do
 watershed/cell detection and comparisons against pinned QuPath workflows.
 
 Validation includes all 512 three-by-three masks under both connectivity

@@ -29,7 +29,7 @@ public:
     GuiReplay(std::vector<GuiInput> events,double timeout):events_(std::move(events)),deadline_(timeout) {
         for(const auto& event:events_) {
             if(event.frame<0) throw std::invalid_argument("negative replay frame");
-            if(event.wait_for!=GuiInputWait::Immediate && event.wait_for!=GuiInputWait::TargetReady && event.wait_for!=GuiInputWait::StartupFinished && event.wait_for!=GuiInputWait::TissueReady && event.wait_for!=GuiInputWait::TissueContoursReady && event.wait_for!=GuiInputWait::TissueContoursPublished)
+            if(event.wait_for!=GuiInputWait::Immediate && event.wait_for!=GuiInputWait::TargetReady && event.wait_for!=GuiInputWait::StartupFinished && event.wait_for!=GuiInputWait::TissueReady && event.wait_for!=GuiInputWait::TissueContoursReady && event.wait_for!=GuiInputWait::TissueContoursPublished && event.wait_for!=GuiInputWait::TissueArchived && event.wait_for!=GuiInputWait::TissueVerified)
                 throw std::invalid_argument("invalid GUI replay readiness condition");
             if(event.wait_for==GuiInputWait::TargetReady && (event.kind!=GuiInputKind::LeftDown || event.target<GuiInputTarget::DisplayReset || event.target>GuiInputTarget::CancelDiscardCheckpoint))
                 throw std::invalid_argument("target readiness requires LeftDown on a named button target");

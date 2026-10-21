@@ -8,11 +8,11 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: all 665 installed-wheel Python cases pass with two file-symlink cases
+Evidence: all 727 installed-wheel Python cases pass with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
-and recovery; twenty native suites pass with optional geometry/readers/
+and recovery; twenty-one native suites pass with optional geometry/readers/
 interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
@@ -287,7 +287,19 @@ clip nominal sample footprints, and publish one atomic annotation batch through
 Python and ImGui. See tissue-contours.md. Worker failure permits retry; cancellation
 and stale authority/selection prevent publication. Logical resource caps precede
 backend allocation, and straight-run compression avoids per-pixel edge storage.
-Next add persisted mask provenance; optimize remaining object snapshot capture and
+Tissue masks now persist losslessly with captured parameters and tile digests in
+native projects and recovery snapshots. New native shared ownership prevents
+Python-wrapper cleanup on save workers; sealed record blocks preserve snapshot
+isolation during live removal/reuse. Reopened records require an explicit pixel
+recheck. See tissue-archive.md. Sixty-two new Python/desktop checks include
+checksum-preserving corruption, source changes, fractional/native-pyramid geometry,
+archive migration rollback and Python-wrapper-free worker cleanup. All twenty-one
+native suites pass in three builds. The 4194304-label rectangle mask encodes to
+107548 bytes; the checkerboard uses raw labels. Eight shared records capture in
+0.019 ms while charging 198014935 logical snapshot bytes. The 100001-object
+recording keeps a mask in 0.043 ms, captures a save in 18.10 ms, and records
+17.17 ms viewer frame p95 with 20.28 ms maximum. These are synthetic observations.
+Next optimize remaining object snapshot capture and
 complete source/environment provenance. Continue
 numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished

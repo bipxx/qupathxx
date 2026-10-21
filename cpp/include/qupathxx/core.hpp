@@ -14,6 +14,9 @@
 
 namespace qpx {
 class Project;
+struct TissueRecord;
+class TissueRequest;
+class TissueResult;
 enum class ObjectKind { Annotation=0, Detection=1, Cell=2 };
 struct RoiMeasurements {
     double area_px2=0,length_px=0;
@@ -144,6 +147,14 @@ public:
     std::uint64_t keep_analysis(const class AnalysisRequest&,const AnalysisResult&);
     bool verify_analysis(std::uint64_t id,const class AnalysisRequest&,const AnalysisResult&);
     bool remove_analysis(std::uint64_t id);
+    std::vector<std::shared_ptr<const TissueRecord>> tissue_records() const;
+    std::size_t tissue_record_count() const {return tissue_.size()+tissue_snapshot_count_;}
+    std::shared_ptr<const TissueRecord> tissue_record(std::uint64_t id) const;
+    std::shared_ptr<const TissueRecord> latest_tissue(std::uint64_t object_id) const;
+    std::string tissue_status(std::uint64_t id) const;
+    std::uint64_t keep_tissue(const TissueRequest&,std::shared_ptr<const TissueResult>);
+    bool verify_tissue(std::uint64_t id,const TissueRequest&,const TissueResult&);
+    bool remove_tissue(std::uint64_t id);
 private:
     friend class Project;
     friend class AnalysisRequest;
@@ -188,6 +199,31 @@ private:
     std::map<std::pair<std::uint64_t,std::uint64_t>,bool> analysis_by_object_;
     std::size_t analysis_bytes_=0;
     void restore_analysis(AnalysisRecord);
+    struct StoredTissue {
+        std::shared_ptr<const TissueRecord> value;
+        std::shared_ptr<const char> identity;
+        std::weak_ptr<ImageServer> source;
+        bool verified=false;
+        std::size_t slot=0;
+    };
+    struct TissueBlock {
+        std::array<std::shared_ptr<const TissueRecord>,256> records;
+        bool sealed=false;
+    };
+    struct TissueBlocks {
+        std::vector<std::shared_ptr<TissueBlock>> values;
+        TissueBlocks()=default;
+        TissueBlocks(const TissueBlocks& other):values(other.values) {for(const auto& block:values) block->sealed=true;}
+        TissueBlocks& operator=(const TissueBlocks& other) {if(this!=&other) {TissueBlocks copy(other);values.swap(copy.values);}return *this;}
+        TissueBlocks(TissueBlocks&&)=default;
+        TissueBlocks& operator=(TissueBlocks&&)=default;
+    } tissue_blocks_;
+    std::map<std::uint64_t,StoredTissue> tissue_;
+    std::map<std::pair<std::uint64_t,std::uint64_t>,bool> tissue_by_object_;
+    std::vector<std::shared_ptr<const TissueBlock>> tissue_snapshot_;
+    std::vector<std::size_t> tissue_free_slots_;
+    std::size_t tissue_next_slot_=0,tissue_snapshot_count_=0,tissue_bytes_=0;
+    void restore_tissue(std::shared_ptr<const TissueRecord>);
     Document() = default; // Project's private save snapshots populate canonical fields only.
     static std::shared_ptr<Document> restore(std::shared_ptr<ImageServer> server,
         const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
@@ -345,10 +381,12 @@ struct GuiReport {
     std::size_t tissue_contour_components=0,tissue_contour_edges=0,tissue_contour_vertices=0,tissue_annotations_added=0;
     double tissue_contour_ms=0;
     bool tissue_contours_published=false;
+    std::uint64_t saved_tissue_id=0;
+    std::string saved_tissue_status;
 };
-enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey, TraceTissueKey, KeepTissueContoursKey };
+enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey, TraceTissueKey, KeepTissueContoursKey, KeepTissueKey, RecheckTissueKey };
 enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint };
-enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished };
+enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified };
 struct GuiInput {
     int frame = 0;
     GuiInputKind kind = GuiInputKind::Move;

@@ -276,12 +276,14 @@ NB_MODULE(_native, m) {
         .value("ANALYZE_KEY",GuiInputKind::AnalyzeKey).value("CANCEL_ANALYSIS_KEY",GuiInputKind::CancelAnalysisKey)
         .value("KEEP_ANALYSIS_KEY",GuiInputKind::KeepAnalysisKey).value("RECHECK_ANALYSIS_KEY",GuiInputKind::RecheckAnalysisKey)
         .value("DETECT_TISSUE_KEY",GuiInputKind::DetectTissueKey).value("CANCEL_TISSUE_KEY",GuiInputKind::CancelTissueKey)
-        .value("TRACE_TISSUE_KEY",GuiInputKind::TraceTissueKey).value("KEEP_TISSUE_CONTOURS_KEY",GuiInputKind::KeepTissueContoursKey);
+        .value("TRACE_TISSUE_KEY",GuiInputKind::TraceTissueKey).value("KEEP_TISSUE_CONTOURS_KEY",GuiInputKind::KeepTissueContoursKey)
+        .value("KEEP_TISSUE_KEY",GuiInputKind::KeepTissueKey).value("RECHECK_TISSUE_KEY",GuiInputKind::RecheckTissueKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image).value("PROJECT_LIST",GuiInputTarget::ProjectList).value("DISPLAY_RESET",GuiInputTarget::DisplayReset)
         .value("DISCARD_RECOVERY_REPLACEMENT",GuiInputTarget::DiscardRecoveryReplacement).value("KEEP_RECOVERY_CLOSE",GuiInputTarget::KeepRecoveryClose).value("CANCEL_CLOSE",GuiInputTarget::CancelClose).value("DISCARD_CLOSE",GuiInputTarget::DiscardClose)
         .value("SAVE_CLOSE",GuiInputTarget::SaveClose).value("SAVE_RECOVERY_REPLACEMENT",GuiInputTarget::SaveRecoveryReplacement).value("CANCEL_RECOVERY_REPLACEMENT",GuiInputTarget::CancelRecoveryReplacement).value("CANCEL_PROJECT_LOAD",GuiInputTarget::CancelProjectLoad).value("CONFIRM_REMOVE_IMAGE",GuiInputTarget::ConfirmRemoveImage).value("CANCEL_REMOVE_IMAGE",GuiInputTarget::CancelRemoveImage).value("CONFIRM_DISCARD_CHECKPOINT",GuiInputTarget::ConfirmDiscardCheckpoint).value("CANCEL_DISCARD_CHECKPOINT",GuiInputTarget::CancelDiscardCheckpoint);
     nb::enum_<GuiInputWait>(m,"GuiInputWait").value("IMMEDIATE",GuiInputWait::Immediate).value("TARGET_READY",GuiInputWait::TargetReady).value("STARTUP_FINISHED",GuiInputWait::StartupFinished)
-        .value("TISSUE_READY",GuiInputWait::TissueReady).value("TISSUE_CONTOURS_READY",GuiInputWait::TissueContoursReady).value("TISSUE_CONTOURS_PUBLISHED",GuiInputWait::TissueContoursPublished);
+        .value("TISSUE_READY",GuiInputWait::TissueReady).value("TISSUE_CONTOURS_READY",GuiInputWait::TissueContoursReady).value("TISSUE_CONTOURS_PUBLISHED",GuiInputWait::TissueContoursPublished)
+        .value("TISSUE_ARCHIVED",GuiInputWait::TissueArchived).value("TISSUE_VERIFIED",GuiInputWait::TissueVerified);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift).def_rw("wait_for",&GuiInput::wait_for);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
@@ -329,7 +331,8 @@ NB_MODULE(_native, m) {
         .def_ro("tissue_cleanup_ms",&GuiReport::tissue_cleanup_ms)
         .def_ro("tissue_contour_components",&GuiReport::tissue_contour_components).def_ro("tissue_contour_edges",&GuiReport::tissue_contour_edges)
         .def_ro("tissue_contour_vertices",&GuiReport::tissue_contour_vertices).def_ro("tissue_contour_ms",&GuiReport::tissue_contour_ms)
-        .def_ro("tissue_annotations_added",&GuiReport::tissue_annotations_added).def_ro("tissue_contours_published",&GuiReport::tissue_contours_published);
+        .def_ro("tissue_annotations_added",&GuiReport::tissue_annotations_added).def_ro("tissue_contours_published",&GuiReport::tissue_contours_published)
+        .def_ro("saved_tissue_id",&GuiReport::saved_tissue_id).def_ro("saved_tissue_status",&GuiReport::saved_tissue_status);
     bind_analysis(m);
     bind_tissue(m);
 #ifdef QUPATHXX_HAS_GUI

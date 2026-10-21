@@ -77,6 +77,7 @@ struct TissueKernel {
         const auto started=std::chrono::steady_clock::now();check_cancelled(cancelled);
         const auto& source=request.source_;const auto& p=request.parameters_;
         auto output=std::shared_ptr<TissueResult>(new TissueResult());
+        output->ticket_=request.ticket_;
         const auto width=request.x1_-request.x0_,height=request.y1_-request.y0_;const auto scale=request.downsample_;
         const auto count=static_cast<std::size_t>(width*height);
         output->bounds_=request.bounds();output->level_bounds_=request.level_bounds();output->level_=request.level_;output->downsample_=scale;
@@ -239,5 +240,13 @@ std::vector<std::uint64_t> TissueJob::keep_contours(Document& document,std::uint
     const auto parent=impl_->contours->options().clip_to_roi?id:0;
     for(const auto& component:impl_->contours->components()) edits.push_back(ObjectEdit::create_geometry(component.geometry,prefix+" "+std::to_string(component.label),parent,classification));
     auto ids=document.execute(edits,"Add tissue annotations");impl_->published=true;return ids;
+}
+std::uint64_t TissueJob::keep_result(Document& document,std::uint64_t id) {
+    if(poll(document,id).state!="ready" || !impl_->request || !impl_->result) throw std::logic_error("no current tissue mask to keep");
+    return document.keep_tissue(*impl_->request,impl_->result);
+}
+bool TissueJob::verify_result(Document& document,std::uint64_t record_id) {
+    if(!impl_->request || poll(document,impl_->request->object_id()).state!="ready" || !impl_->result) throw std::logic_error("no current tissue mask to verify");
+    return document.verify_tissue(record_id,*impl_->request,*impl_->result);
 }
 }

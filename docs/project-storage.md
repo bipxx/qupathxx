@@ -1,11 +1,11 @@
 # Native multi-image project storage
 
 The native `Project` owns shared documents, stable image IDs, image names and
-source descriptors. SQLite schema version 3 stores canonical object state,
+source descriptors. SQLite schema version 4 stores canonical object state,
 class definitions, per-axis calibration, source metadata, the active image and
-per-image camera/display views and retained analysis records. Schemas 1 and 2
+per-image camera/display views, retained analysis records and tissue masks. Schemas 1, 2 and 3
 remain readable; see [workspace migration](project-workspace.md) and
-[analysis provenance](analysis-provenance.md).
+[analysis provenance](analysis-provenance.md) and [tissue archives](tissue-archive.md).
 The public Python API uses the same native container; it does not serialize a
 separate Python model. All project/document mutation is single-threaded and
 retains the Python GIL. Shared documents remain alive after removal from a project.

@@ -19,6 +19,7 @@ void bind_tissue(nb::module_& m) {
         .def_rw("tile_size",&TissueParameters::tile_size).def_rw("max_components",&TissueParameters::max_components).def_rw("work_bytes",&TissueParameters::work_bytes)
         .def("validate",&TissueParameters::validate);
     nb::class_<TissueRequest>(m,"TissueRequest")
+        .def_static("replay",&TissueRequest::replay,"document"_a,"record_id"_a)
         .def(nb::init<const Document&,std::uint64_t,const StainTransform&,TissueParameters,bool>(),"document"_a,"object_id"_a,"transform"_a,"parameters"_a=TissueParameters{},"nucleus"_a=false)
         .def("matches",&TissueRequest::matches).def_prop_ro("object_id",&TissueRequest::object_id)
         .def_prop_ro("parameters",[](const TissueRequest& r){return r.parameters();})
@@ -56,10 +57,22 @@ void bind_tissue(nb::module_& m) {
         .def_prop_ro("component_count",[](const TissueContours& c){return c.components().size();}).def_prop_ro("edge_count",&TissueContours::edge_count).def_prop_ro("vertex_count",&TissueContours::vertex_count)
         .def_prop_ro("elapsed_ms",&TissueContours::elapsed_ms).def_prop_ro("estimated_work_bytes",&TissueContours::estimated_work_bytes).def_prop_ro("retained_bytes",&TissueContours::retained_bytes);
     m.def("trace_tissue",[](const TissueResult& mask,TissueContourOptions options){return trace_tissue(mask,options);},"result"_a,"options"_a=TissueContourOptions{},nb::call_guard<nb::gil_scoped_release>());
+    nb::class_<TissueRecord>(m,"TissueRecord")
+        .def_ro("id",&TissueRecord::id).def_ro("result",&TissueRecord::result).def_ro("producer",&TissueRecord::producer)
+        .def_prop_ro("payload_bytes",&TissueRecord::payload_bytes);
+    auto document=nb::borrow<nb::class_<Document>>(m.attr("Document"));
+    document.def("keep_tissue",&Document::keep_tissue,"request"_a,"result"_a)
+        .def("verify_tissue",&Document::verify_tissue,"record_id"_a,"request"_a,"result"_a)
+        .def("remove_tissue",&Document::remove_tissue,"record_id"_a)
+        .def("tissue_record",&Document::tissue_record,"record_id"_a).def("latest_tissue",&Document::latest_tissue,"object_id"_a)
+        .def("tissue_status",&Document::tissue_status,"record_id"_a)
+        .def_prop_ro("tissue_records",&Document::tissue_records).def_prop_ro("tissue_record_count",&Document::tissue_record_count);
     nb::class_<TissueStats,AnalysisStats>(m,"TissueStats").def_ro("phase",&TissueStats::phase);
     nb::class_<TissueJob>(m,"TissueJob").def(nb::init<>()).def("request",&TissueJob::request)
         .def("poll",&TissueJob::poll,"document"_a,"selected_id"_a).def("wait",&TissueJob::wait,"document"_a,"selected_id"_a,nb::call_guard<nb::gil_scoped_release>())
         .def("cancel",&TissueJob::cancel).def_prop_ro("busy",&TissueJob::busy).def_prop_ro("result",&TissueJob::result)
         .def("request_contours",&TissueJob::request_contours,"options"_a=TissueContourOptions{}).def_prop_ro("contours",&TissueJob::contours).def_prop_ro("contours_published",&TissueJob::contours_published)
         .def("keep_contours",&TissueJob::keep_contours,"document"_a,"selected_id"_a,"name_prefix"_a="Tissue","class_name"_a="");
+    auto job=nb::borrow<nb::class_<TissueJob>>(m.attr("TissueJob"));
+    job.def("keep_result",&TissueJob::keep_result,"document"_a,"selected_id"_a).def("verify_result",&TissueJob::verify_result,"document"_a,"record_id"_a);
 }

@@ -935,3 +935,31 @@ with p95 frame times of 29.20/17.30 ms and maxima of 42.83/45.32 ms. The mask-on
 comparison records 17.30 ms p95 and 18.19 ms maximum. These synthetic recordings
 retain the variability and frame spikes; they do not establish general latency
 or QuPath parity. See tissue-contours.md for recordings and reproduction.
+
+
+The thirty-eighth packet adds immutable tissue-mask archives to native documents,
+Python and ImGui. Keeping a result shares its native raster and advances one
+canonical revision. Schema 4 stores captured sampling, parameters, source ROI,
+stains, algorithm/timings and input SHA-256 beside raw or run-length labels.
+Load checks checksum and bounded metadata/label invariants, then reconstructs
+component statistics with the original nominal level-zero formulas. Schemas
+1-3 remain readable; migrations roll back with the save transaction. Saves and
+recovery workers share sealed record blocks and clone a block for later live
+slot changes. Session verification requires a fresh matching request/result,
+compares exact labels and sampled input digest, and leaves canonical revisions
+unchanged. Native mask ownership survives Python wrapper teardown without GIL
+dependencies. See [tissue archives](tissue-archive.md). Complete source/environment
+provenance, cell detection and all other unfinished M0-M7 work remain active.
+
+
+Sixty-two new Python/desktop cases pass, including a subprocess ownership
+regression that repeatedly drops Python references while a save worker retains
+masks. The final installed wheel passes 727 cases with two file-symlink cases
+skipped; all twenty-one native suites pass in full/core/minimal builds. A
+4194304-label analytic mask encodes to 107548 bytes; the checkerboard selects
+raw storage (16777724 bytes with metadata/checksum). Write/load recordings are
+75.28/23.40 ms and 155.27/75.47 ms respectively. Eight shared masks capture in
+0.019 ms while conservatively charging 198014935 snapshot bytes. The selected
+100001-object viewer records 17.17 ms frame p95 and 20.28 ms maximum; keeping
+records 0.043 ms and save capture 18.10 ms. General object capture remains linear.
+See tissue-archive.md for the recordings, limitations and reproduction commands.

@@ -246,3 +246,7 @@ set `QUPATHXX_BUILD_PROJECT=OFF` to omit storage and its source download.
 [Tissue contours](docs/tissue-contours.md) convert bounded native masks into polygons
 with holes and multipart components, then publish one undoable annotation batch
 through Python or the ImGui inspector.
+
+[Tissue archives](docs/tissue-archive.md) preserve lossless masks, parameters and
+input digests in native projects and recovery snapshots, with explicit session
+rechecking in Python and ImGui.

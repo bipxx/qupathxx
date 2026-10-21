@@ -27,8 +27,11 @@ public:
     Rect level_bounds() const {return {double(x0_),double(y0_),double(x1_-x0_),double(y1_-y0_)};}
     Rect bounds() const {const auto b=level_bounds();return {b.x*downsample_,b.y*downsample_,b.width*downsample_,b.height*downsample_};}
     std::size_t estimated_work_bytes() const {return estimated_work_bytes_;}
+    static TissueRequest replay(const Document&,std::uint64_t record_id);
 private:
     friend struct TissueKernel;
+    friend class Document;
+    std::shared_ptr<const char> ticket_=std::make_shared<const char>();
     AnalysisRequest source_;
     TissueParameters parameters_;
     std::size_t estimated_work_bytes_=0,component_capacity_=0;
@@ -43,7 +46,9 @@ struct TissueComponent {
     Rect bounds;
     Point centroid;
 };
-class TissueResult {
+// Native factories always establish shared ownership before exposing a result.
+// Python-to-C++ shared_ptr conversion must reuse it, never own a Python wrapper.
+class TissueResult : public std::enable_shared_from_this<TissueResult> {
 public:
     TissueResult(const TissueResult&)=delete;
     const std::string& algorithm() const {return algorithm_;}
@@ -78,6 +83,9 @@ public:
     std::size_t retained_bytes() const {return sizeof(TissueResult)+labels_.capacity()*sizeof(std::uint32_t)+components_.capacity()*sizeof(TissueComponent);}
 private:
     friend struct TissueKernel;
+    friend class Document;
+    friend struct TissueArchiveCodec;
+    std::shared_ptr<const char> ticket_;
     TissueResult()=default;
     std::string algorithm_="qpx.threshold-components/1",input_sha256_;
     Rect bounds_,level_bounds_;
@@ -98,6 +106,12 @@ private:
     std::size_t estimated_work_bytes_=0;
 };
 std::shared_ptr<const TissueResult> detect_tissue(const TissueRequest&,const std::atomic<bool>* cancelled=nullptr);
+struct TissueRecord {
+    std::uint64_t id=0;
+    std::shared_ptr<const TissueResult> result;
+    std::string producer="qupathxx/0.1.0";
+    std::size_t payload_bytes() const;
+};
 struct TissueContourOptions {
     bool clip_to_roi=true;
     std::size_t max_components=10000,max_edges=250000,max_vertices=250000,work_bytes=64*1024*1024;
@@ -150,6 +164,8 @@ public:
     std::shared_ptr<const TissueContours> contours() const;
     bool contours_published() const;
     std::vector<std::uint64_t> keep_contours(Document&,std::uint64_t selected_id,std::string name_prefix="Tissue",std::string class_name="");
+    std::uint64_t keep_result(Document&,std::uint64_t selected_id);
+    bool verify_result(Document&,std::uint64_t record_id);
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;

@@ -1,4 +1,5 @@
 #include "qupathxx/project.hpp"
+#include "tissue_archive.hpp"
 #include <algorithm>
 #include <array>
 #include <charconv>
@@ -92,6 +93,8 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         for(const auto& [key,a]:e.document->objects_) add(sizeof(Annotation)+64+a.name.size()+a.class_name.size()+a.geometry.payload_bytes()+(a.nucleus?a.nucleus->payload_bytes():0));
         for(const auto& [name,c]:e.document->classes_) add(sizeof(ObjectClass)+96+name.size()+c.name.size());
         add(e.document->analysis_bytes_);
+        add(e.document->tissue_bytes_);
+        add(e.document->tissue_blocks_.values.size()*(sizeof(Document::TissueBlock)+sizeof(std::shared_ptr<const Document::TissueBlock>)));
         add(e.document->analysis_blocks_.values.size()*(sizeof(Document::AnalysisBlock)+sizeof(std::shared_ptr<const Document::AnalysisBlock>)));
     }
     for(const auto& [id,v]:views_) add(sizeof(ProjectView)+64);
@@ -111,6 +114,11 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         for(const auto& block:blocks) if(!block->sealed) block->sealed=true;
         doc->analysis_snapshot_count_=e.document->analysis_.size();
         doc->analysis_bytes_=e.document->analysis_bytes_;
+        const auto& masks=e.document->tissue_blocks_.values;
+        doc->tissue_snapshot_.assign(masks.begin(),masks.end());
+        for(const auto& block:masks) block->sealed=true;
+        doc->tissue_snapshot_count_=e.document->tissue_.size();
+        doc->tissue_bytes_=e.document->tissue_bytes_;
         snapshot->entries_.emplace(id,Entry{e.info,std::move(doc)});
     }
     return snapshot;
@@ -338,8 +346,8 @@ std::uint64_t number(const std::string& text) {
 int schema(Database& db,bool allow_recovery=false) {
     auto version=scalar(db,"PRAGMA user_version");
     auto app=scalar(db,"PRAGMA application_id");
-    if((app!=application_id && !(allow_recovery && app==recovery_application_id)) || (version!=1 && version!=2 && version!=3))
-        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1, 2 or 3)");
+    if((app!=application_id && !(allow_recovery && app==recovery_application_id)) || (version!=1 && version!=2 && version!=3 && version!=4))
+        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1, 2, 3 or 4)");
     return static_cast<int>(version);
 }
 void create_views(Database& db) {
@@ -347,6 +355,9 @@ void create_views(Database& db) {
 }
 void create_analysis(Database& db) {
     db.exec("CREATE TABLE analysis_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,object_id TEXT NOT NULL,object_revision TEXT NOT NULL,document_revision TEXT NOT NULL,algorithm TEXT NOT NULL,input_sha256 TEXT NOT NULL,kind INTEGER NOT NULL,nucleus INTEGER NOT NULL,tile_size INTEGER NOT NULL,samples TEXT NOT NULL,tiles TEXT NOT NULL,elapsed_ms REAL NOT NULL,mean_r REAL NOT NULL,mean_g REAL NOT NULL,mean_b REAL NOT NULL,white_r REAL NOT NULL,white_g REAL NOT NULL,white_b REAL NOT NULL,s00 REAL NOT NULL,s01 REAL NOT NULL,s02 REAL NOT NULL,s10 REAL NOT NULL,s11 REAL NOT NULL,s12 REAL NOT NULL,s20 REAL NOT NULL,s21 REAL NOT NULL,s22 REAL NOT NULL,geometry BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=3;");
+}
+void create_tissue(Database& db) {
+    db.exec("CREATE TABLE tissue_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,producer TEXT NOT NULL,geometry BLOB NOT NULL,mask BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=4;");
 }
 bool recovery_table(Database& db) { return scalar(db,"SELECT count(*) FROM sqlite_schema WHERE type='table' AND name='recovery'")!=0; }
 RecoveryInfo recovery_header(Database& db,const std::string& path) {
@@ -443,9 +454,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         // save rolls back both the migration and data, retaining the v1 project.
         if(version==1) create_views(db);
         if(version<3) create_analysis(db);
+        if(version<4) create_tissue(db);
     }
-    if(fresh) create_analysis(db);
-    db.exec("DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);}
+    db.exec("DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -453,6 +465,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement classification(db,"INSERT INTO classes VALUES(?,?,?)");
     Statement object(db,"INSERT INTO objects VALUES(?,?,?,?,?,?,?,?,?)");
     Statement view(db,"INSERT INTO views VALUES(?,?,?,?,?,?,?,?)");
+    Statement tissue(db,"INSERT INTO tissue_records VALUES(?,?,?,?,?)");
     Statement analysis(db,"INSERT INTO analysis_records VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     auto directory=link_directory.empty()?fs::u8path(destination).parent_path():fs::u8path(link_directory);
     for(const auto& [id,e]:entries_) {
@@ -498,6 +511,14 @@ void Project::save_impl(const std::string& path,const std::string& link_director
       };
       for(const auto& [record_id,stored]:e.document->analysis_) write_analysis(*stored.value);
       for(const auto& block:e.document->analysis_snapshot_) for(const auto& record:block->records) if(record) write_analysis(*record);
+      auto write_tissue=[&](const TissueRecord& record) {
+        if(cancelled && cancelled->load()) throw std::runtime_error("project save cancelled");
+        tissue.string(1,std::to_string(image_id));tissue.string(2,std::to_string(record.id));tissue.string(3,record.producer);
+        const auto geometry=encode(record.result->roi());const auto mask=TissueArchiveCodec::encode(*record.result,cancelled);
+        tissue.blob(4,geometry);tissue.blob(5,mask);tissue.done();
+      };
+      for(const auto& [record_id,stored]:e.document->tissue_) write_tissue(*stored.value);
+      for(const auto& block:e.document->tissue_snapshot_) for(const auto& record:block->records) if(record) write_tissue(*record);
     }
     // Canonical rows and recovery provenance must commit together.
     if(recovery) {
@@ -626,6 +647,18 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             for(int c=0;c<3;++c) {r.means[c]=rows.real(13+c);r.white[c]=rows.real(16+c);}
             for(int i=0;i<3;++i) for(int c=0;c<3;++c) r.stains[i][c]=rows.real(19+i*3+c);
             record.roi=decode(rows,28);image->second.document->restore_analysis(std::move(record));
+        }
+    }
+    if(version>=4) {
+        Statement rows(db,"SELECT image_id,id,producer,geometry,mask FROM tissue_records ORDER BY image_id,id");
+        while(rows.row()) {
+            stopped();const auto image=project->entries_.find(number(rows.string(0)));
+            if(image==project->entries_.end()) throw std::invalid_argument("orphaned tissue record");
+            auto record=std::make_shared<TissueRecord>();record->id=number(rows.string(1));record->producer=rows.string(2);
+            auto roi=decode(rows,3);const auto size=sqlite3_column_bytes(rows.stmt,4);
+            if(rows.type(4)!=SQLITE_BLOB || size<0) throw std::invalid_argument("invalid tissue mask blob");
+            record->result=TissueArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,4)),static_cast<std::size_t>(size),std::move(roi),image->second.document->metadata(),progress?&progress->cancelled:nullptr);
+            image->second.document->restore_tissue(std::move(record));
         }
     }
     if(scalar(db,"SELECT count(*) FROM objects WHERE image_id NOT IN (SELECT id FROM images)") ||
