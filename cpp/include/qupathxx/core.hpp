@@ -5,6 +5,7 @@
 #include <atomic>
 #include <map>
 #include <set>
+#include <list>
 #include "qupathxx/image_server.hpp"
 #include "qupathxx/display.hpp"
 #include "qupathxx/geometry.hpp"
@@ -13,6 +14,18 @@
 namespace qpx {
 class Project;
 enum class ObjectKind { Annotation=0, Detection=1, Cell=2 };
+struct RoiMeasurements {
+    double area_px2=0,length_px=0;
+    std::optional<double> area_um2,length_um;
+};
+struct ShapeMeasurements {
+    RoiMeasurements roi;
+    std::optional<RoiMeasurements> nucleus;
+};
+struct FeatureCacheStats {
+    std::size_t entries=0,capacity=0;
+    std::uint64_t hits=0,misses=0;
+};
 struct ObjectClass {
     std::string name;
     std::uint32_t color = 0x41e1be; // RGB, no alpha.
@@ -112,6 +125,12 @@ public:
     std::optional<double> pixel_width_um() const { return pixel_width_um_; }
     std::optional<double> pixel_height_um() const { return pixel_height_um_; }
     void clear_calibration();
+    std::uint64_t calibration_revision() const { return calibration_revision_; }
+    // Owner-thread APIs, like spatial queries. Workers use immutable ROI values.
+    ShapeMeasurements shape_measurements(std::uint64_t id) const;
+    FeatureCacheStats feature_cache_stats() const;
+    void set_feature_cache_limit(std::size_t entries);
+    void clear_feature_cache();
     double area_um2(std::uint64_t id) const;
     double mean_intensity(std::uint64_t id) const;
     double nucleus_area_um2(std::uint64_t id) const;
@@ -152,6 +171,28 @@ private:
     std::uint64_t structure_revision_ = 0;
     std::size_t history_steps_ = 128, history_budget_ = 64*1024*1024, history_bytes_ = 0;
     std::optional<double> pixel_width_um_, pixel_height_um_;
+    std::uint64_t calibration_revision_=0;
+    struct FeatureCache {
+        struct Entry {
+            std::uint64_t object_revision,calibration_revision;
+            ShapeMeasurements value;
+            std::list<std::uint64_t>::iterator position;
+        };
+        std::size_t capacity=4096;
+        std::uint64_t hits=0,misses=0;
+        std::list<std::uint64_t> lru;
+        std::map<std::uint64_t,Entry> entries;
+        FeatureCache()=default;
+        // Derived entries contain list iterators; copies start with a cold cache.
+        FeatureCache(const FeatureCache& other):capacity(other.capacity) {}
+        FeatureCache& operator=(const FeatureCache& other) {
+            if(this!=&other) {entries.clear(); lru.clear(); capacity=other.capacity; hits=misses=0;}
+            return *this;
+        }
+        FeatureCache(FeatureCache&&)=default;
+        FeatureCache& operator=(FeatureCache&&)=default;
+    };
+    mutable FeatureCache feature_cache_;
     mutable std::shared_ptr<const SpatialIndex> spatial_;
     mutable std::map<std::uint64_t,std::optional<Rect>> spatial_dirty_;
     mutable bool spatial_rebuild_=true;

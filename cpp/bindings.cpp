@@ -89,6 +89,14 @@ NB_MODULE(_native, m) {
     m.def("open_slide", &open_slide, "path"_a, nb::call_guard<nb::gil_scoped_release>());
     m.attr("has_openslide") = has_openslide();
     bind_scheduler(m);
+    nb::class_<RoiMeasurements>(m,"RoiMeasurements")
+        .def_ro("area_px2",&RoiMeasurements::area_px2).def_ro("length_px",&RoiMeasurements::length_px)
+        .def_ro("area_um2",&RoiMeasurements::area_um2).def_ro("length_um",&RoiMeasurements::length_um);
+    nb::class_<ShapeMeasurements>(m,"ShapeMeasurements")
+        .def_ro("roi",&ShapeMeasurements::roi).def_ro("nucleus",&ShapeMeasurements::nucleus);
+    nb::class_<FeatureCacheStats>(m,"FeatureCacheStats")
+        .def_ro("entries",&FeatureCacheStats::entries).def_ro("capacity",&FeatureCacheStats::capacity)
+        .def_ro("hits",&FeatureCacheStats::hits).def_ro("misses",&FeatureCacheStats::misses);
     nb::class_<Document>(m, "Document").def(nb::init<Image>())
         .def(nb::init<std::shared_ptr<ImageServer>>())
         .def_prop_ro("image", &Document::image, nb::rv_policy::reference_internal)
@@ -134,6 +142,9 @@ NB_MODULE(_native, m) {
         .def("set_calibration", &Document::set_calibration)
         .def("clear_calibration", &Document::clear_calibration)
         .def_prop_ro("pixel_width_um", &Document::pixel_width_um).def_prop_ro("pixel_height_um", &Document::pixel_height_um)
+        .def("shape_measurements",&Document::shape_measurements).def("feature_cache_stats",&Document::feature_cache_stats)
+        .def("set_feature_cache_limit",&Document::set_feature_cache_limit).def("clear_feature_cache",&Document::clear_feature_cache)
+        .def_prop_ro("calibration_revision",&Document::calibration_revision)
         .def("area_um2", &Document::area_um2).def("mean_intensity", &Document::mean_intensity);
     nb::class_<InterchangeIssue>(m,"InterchangeIssue").def_ro("code",&InterchangeIssue::code)
         .def_ro("message",&InterchangeIssue::message).def_ro("count",&InterchangeIssue::count);

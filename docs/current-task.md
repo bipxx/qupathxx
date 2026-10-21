@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 394 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
+Evidence: 411 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
 (two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
 fourteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
@@ -150,9 +150,27 @@ See project-storage.md and startup-render-diagnostics-windows.json.
 The corrected benchmark fixture also verifies its full 1000..1000000-object
 range endpoints: one million objects load in 891 ms, all remain selected with
 792 visible, 16.94 ms frame p95 and about 3.9 MiB GPU payload. Its 295 ms maximum
-still exposes initial rendering/selection work. Next improve initial rendering
-and viewer metadata/capture latency;
-retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
+still exposes initial rendering/selection work.
+Revision-keyed shape bundles and a bounded per-document LRU are now implemented
+for C++/Python/ImGui, with body/nucleus pixel and calibrated area/length. Object
+and calibration stamps govern reuse; snapshots/results have independent numeric
+lifetimes. Physical length handles anisotropic axes, equal-axis length reuses
+pixel length, and range handling avoids intermediate ellipse/area failures.
+The inspector shows primary-object results, refreshes calibration drafts on the
+calibration stamp and caches object IDs by membership revision. See
+geometry-spatial.md for capacity, invalidation, lifetime and numeric contracts.
+Seventeen Python measurement tests cover independent quadrature, unknown
+calibration, Undo, eviction, source closure and storage; native checks cover
+copy/move/assignment. All 411 installed-wheel
+tests pass (two unavailable file-symlink cases skipped), and all fourteen native
+suites pass in full/core/minimal builds. The anisotropic hot-set benchmark records
+1240.7 ms disabled versus 21.25 ms warm for 65536 matching queries, retaining
+4096 bundles after 100000-object pressure. The selected viewer records 16.79 ms
+sampled frame p95, 17.12 ms maximum, 789 visible ellipses and 3 MiB GPU payload,
+with 176 hits and no recomputations. Early rendering stalls remain unresolved.
+Next complete the remaining numerical comparison audit and image/analysis
+feature-version contracts while improving initial rendering and metadata/capture
+latency. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,
 classifiers, scripting and packaging work under M4-M7 remains active.

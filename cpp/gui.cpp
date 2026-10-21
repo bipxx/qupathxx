@@ -909,10 +909,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         auto display_reset_max=ImGui::GetItemRectMax(); display_reset_size={display_reset_max.x-display_reset_offset.x,display_reset_max.y-display_reset_offset.y};
         tiles->set_display(display);
         if (!document.pixel_width_um() || !document.pixel_height_um()) ImGui::TextDisabled("Physical calibration unknown");
-        if (calibration_revision!=document.revision()) {
+        if (calibration_revision!=document.calibration_revision()) {
             draft_calibration[0]=document.pixel_width_um().value_or(0);
             draft_calibration[1]=document.pixel_height_um().value_or(0);
-            calibration_revision=document.revision();
+            calibration_revision=document.calibration_revision();
         }
         ImGui::SetNextItemWidth(120);
         ImGui::InputDouble("Pixel width (um)",&draft_calibration[0],0,0,"%.6g");
@@ -927,10 +927,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             try { document.clear_calibration(); error.clear(); } catch(const std::exception& e) { error=e.what(); }
         }
         ImGui::Spacing(); ImGui::SeparatorText("Objects");
-        if (list_revision!=document.revision()) {
+        if (list_revision!=document.structure_revision()) {
             list_ids.clear(); list_ids.reserve(document.object_count());
             for (const auto& [id,a]:document.objects()) list_ids.push_back(id);
-            list_revision=document.revision();
+            list_revision=document.structure_revision();
         }
         ImGui::BeginChild("Object list",{0,90},ImGuiChildFlags_Borders);
         list_offset=ImGui::GetCursorScreenPos(); list_size=ImGui::GetContentRegionAvail();
@@ -1051,13 +1051,26 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 catch(const std::exception& e) { error=e.what(); }
             }
         }
-        ImGui::SeparatorText("Measurements");
+        ImGui::SeparatorText(selection->size()>1?"Measurements (primary object)":"Measurements");
         mean.poll(selected,document.revision());
         if (selected) {
-            if (document.pixel_width_um() && document.pixel_height_um()) ImGui::Text("Area: %.3f um^2", document.area_um2(selected));
-            else ImGui::TextDisabled("Area: set calibration first");
-            if(document.annotation(selected).nucleus && document.pixel_width_um() && document.pixel_height_um())
-                ImGui::Text("Nucleus: %.3f um^2",document.nucleus_area_um2(selected));
+            try {
+                const auto features=document.shape_measurements(selected);
+                ImGui::Text("Area: %.6g px^2",features.roi.area_px2);
+                ImGui::Text("Length: %.6g px",features.roi.length_px);
+                if(features.roi.area_um2) {
+                    ImGui::Text("Area: %.6g um^2",*features.roi.area_um2);
+                    ImGui::Text("Length: %.6g um",*features.roi.length_um);
+                } else ImGui::TextDisabled("Physical measurements: set calibration first");
+                if(features.nucleus) {
+                    ImGui::Text("Nucleus area: %.6g px^2",features.nucleus->area_px2);
+                    ImGui::Text("Nucleus length: %.6g px",features.nucleus->length_px);
+                    if(features.nucleus->area_um2) {
+                        ImGui::Text("Nucleus area: %.6g um^2",*features.nucleus->area_um2);
+                        ImGui::Text("Nucleus length: %.6g um",*features.nucleus->length_um);
+                    }
+                }
+            } catch(const std::exception& e) {ImGui::TextWrapped("Measurements: %s",e.what());}
             if (mean.measured==selected && mean.value) ImGui::Text("Mean RGB: %.3f",*mean.value);
             ImGui::BeginDisabled(mean.active());
             if (ImGui::Button("Measure mean RGB")) mean.start(document.server(),document.annotation(selected),document.revision());

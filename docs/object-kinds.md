@@ -74,3 +74,11 @@ shape storage is shared across snapshots and metadata edits.
 Class registries/colors are implemented; see [classes.md](classes.md).
 Multi-selection is implemented; see [selection.md](selection.md).
 Vertex editing and Boolean clipping are implemented; see geometry-editing.md. Persistence, analysis and the remaining M0-M7 gates remain open.
+
+
+Cell/nucleus pixel and calibrated area/length bundles are now available through
+`Document.shape_measurements`, shared with ImGui and backed by a bounded
+object/calibration-revision cache. See
+[shape measurements](geometry-spatial.md#revision-keyed-shape-measurements) for
+units, invalidation, lifetime and numerical evidence. Pixel-intensity features
+continue to use their existing explicit native measurement path.

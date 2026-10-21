@@ -11,6 +11,19 @@ namespace {
 void positive(double v) {
     if (!std::isfinite(v) || v <= 0) throw std::invalid_argument("value must be finite and positive");
 }
+double physical_area(double area,double sx,double sy) {
+    positive(sx); positive(sy);
+    auto result=area*sx*sy;
+    if(!std::isfinite(result) || (result==0 && area!=0)) {
+        // Preserve normal-range rounding, but avoid intermediate overflow or
+        // underflow when reciprocal calibration axes yield a finite product.
+        int a=0,x=0,y=0;
+        const auto mantissa=std::frexp(area,&a)*std::frexp(sx,&x)*std::frexp(sy,&y);
+        result=std::scalbn(mantissa,a+x+y);
+    }
+    if(!std::isfinite(result)) throw std::overflow_error("physical area exceeds numeric range");
+    return result;
+}
 std::size_t pixel_count(int w, int h) {
     if (w <= 0 || h <= 0 || static_cast<std::size_t>(w) > std::numeric_limits<std::size_t>::max() / 3 / static_cast<std::size_t>(h))
         throw std::invalid_argument("invalid image dimensions");
@@ -88,16 +101,68 @@ Rect Annotation::bounds() const {
 double Document::area_um2(std::uint64_t id) const {
     const auto area = find(id).geometry.area();
     if (!pixel_width_um_ || !pixel_height_um_) throw std::runtime_error("physical calibration is unknown");
-    return area * *pixel_width_um_ * *pixel_height_um_;
+    return physical_area(area,*pixel_width_um_,*pixel_height_um_);
 }
 double Document::mean_intensity(std::uint64_t id) const {
     return mean_rgb(*server_,find(id).geometry);
+}
+ShapeMeasurements Document::shape_measurements(std::uint64_t id) const {
+    const auto& a=find(id); // A resident stale entry must never resurrect a deleted object.
+    auto& cache=feature_cache_;
+    auto found=cache.entries.find(id);
+    if(found!=cache.entries.end() && found->second.object_revision==a.revision &&
+       found->second.calibration_revision==calibration_revision_) {
+        if(cache.hits!=std::numeric_limits<std::uint64_t>::max()) ++cache.hits;
+        cache.lru.splice(cache.lru.begin(),cache.lru,found->second.position);
+        return found->second.value;
+    }
+    if(cache.misses!=std::numeric_limits<std::uint64_t>::max()) ++cache.misses;
+    auto measure=[&](const Roi& roi) {
+        RoiMeasurements value{roi.area(),roi.perimeter(),{}, {}};
+        if(pixel_width_um_ && pixel_height_um_) {
+            value.area_um2=physical_area(value.area_px2,*pixel_width_um_,*pixel_height_um_);
+            // Reuse the already measured pixel length for isotropic calibration.
+            const auto length=*pixel_width_um_==*pixel_height_um_?
+                value.length_px * *pixel_width_um_:roi.scaled_length(*pixel_width_um_,*pixel_height_um_);
+            if(!std::isfinite(length)) throw std::overflow_error("scaled geometry length exceeds numeric range");
+            value.length_um=length;
+        }
+        return value;
+    };
+    ShapeMeasurements result{measure(a.geometry),{}};
+    if(a.nucleus) result.nucleus=measure(*a.nucleus);
+    if(!cache.capacity) return result;
+    if(found!=cache.entries.end()) {
+        found->second.value=result;
+        found->second.object_revision=a.revision;
+        found->second.calibration_revision=calibration_revision_;
+        cache.lru.splice(cache.lru.begin(),cache.lru,found->second.position);
+    } else {
+        cache.lru.push_front(id);
+        try {cache.entries.emplace(id,FeatureCache::Entry{a.revision,calibration_revision_,result,cache.lru.begin()});}
+        catch(...) {cache.lru.pop_front(); throw;}
+        while(cache.entries.size()>cache.capacity) {
+            cache.entries.erase(cache.lru.back()); cache.lru.pop_back();
+        }
+    }
+    return result;
+}
+FeatureCacheStats Document::feature_cache_stats() const {
+    return {feature_cache_.entries.size(),feature_cache_.capacity,feature_cache_.hits,feature_cache_.misses};
+}
+void Document::set_feature_cache_limit(std::size_t entries) {
+    if(entries>65536) throw std::invalid_argument("feature cache limit must be at most 65536 entries");
+    auto& cache=feature_cache_; cache.capacity=entries;
+    while(cache.entries.size()>entries) {cache.entries.erase(cache.lru.back()); cache.lru.pop_back();}
+}
+void Document::clear_feature_cache() {
+    auto& cache=feature_cache_; cache.entries.clear(); cache.lru.clear(); cache.hits=cache.misses=0;
 }
 double Document::nucleus_area_um2(std::uint64_t id) const {
     const auto& a=find(id);
     if(!a.nucleus) throw std::invalid_argument("object has no nucleus ROI");
     if(!pixel_width_um_ || !pixel_height_um_) throw std::runtime_error("physical calibration is unknown");
-    return a.nucleus->area() * *pixel_width_um_ * *pixel_height_um_;
+    return physical_area(a.nucleus->area(),*pixel_width_um_,*pixel_height_um_);
 }
 double Document::nucleus_mean_intensity(std::uint64_t id) const {
     const auto& a=find(id);

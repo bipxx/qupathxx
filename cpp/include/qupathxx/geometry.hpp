@@ -43,6 +43,7 @@ public:
     Rect bounds() const;
     double area() const;
     double perimeter() const;
+    double scaled_length(double x_scale,double y_scale) const;
     bool is_area() const;
     bool contains(Point) const;
     bool covers(const Roi&) const;

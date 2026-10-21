@@ -52,6 +52,11 @@ Ring ellipse_ring(Rect r) {
     return result;
 }
 double ellipse_length(double a,double b) {
+    // Integrate unit-scale axes so finite calibrated lengths do not overflow
+    // intermediate Simpson sums or lose their error tolerance to underflow.
+    const auto scale=std::max(a,b);
+    if(scale==0) return 0;
+    a/=scale; b/=scale;
     auto f=[&](double t){return std::hypot(a*std::sin(t),b*std::cos(t));};
     auto integrate=[&](auto&& self,double l,double r,double fl,double fm,double fr,double whole,double tolerance,int depth)->double {
         auto m=(l+r)/2,lm=(l+m)/2,rm=(m+r)/2;
@@ -62,7 +67,7 @@ double ellipse_length(double a,double b) {
         return self(self,l,m,fl,f1,fm,left,tolerance/2,depth-1)+self(self,m,r,fm,f2,fr,right,tolerance/2,depth-1);
     };
     auto fl=f(0),fm=f(pi/4),fr=f(pi/2),whole=pi/2*(fl+4*fm+fr)/6;
-    return 4*integrate(integrate,0,pi/2,fl,fm,fr,whole,std::max(a,b)*1e-12,24);
+    return scale*(4*integrate(integrate,0,pi/2,fl,fm,fr,whole,1e-12,24));
 }
 bool ellipse_covers_ellipse(Rect parent,Rect child) {
     auto a=child.width/parent.width,b=child.height/parent.height;
@@ -145,6 +150,35 @@ RoiKind Roi::kind() const { return data().kind; }
 Rect Roi::bounds() const { return data().bounds; }
 double Roi::area() const { return data().area; }
 double Roi::perimeter() const { const auto& d=data(); return d.kind==RoiKind::Ellipse?ellipse_length(d.bounds.width/2,d.bounds.height/2):d.length; }
+double Roi::scaled_length(double sx,double sy) const {
+    if(!std::isfinite(sx) || !std::isfinite(sy) || sx<=0 || sy<=0) throw std::invalid_argument("geometry scales must be finite and positive");
+    if(sx==sy) {
+        const auto raw=perimeter();
+        if(std::isfinite(raw)) {
+            const auto scaled=raw*sx;
+            if(!std::isfinite(scaled)) throw std::overflow_error("scaled geometry length exceeds numeric range");
+            return scaled;
+        }
+    }
+    const auto& d=data();
+    double result=0;
+    if(d.kind==RoiKind::Rectangle) result=2*(d.bounds.width*sx+d.bounds.height*sy);
+    else if(d.kind==RoiKind::Ellipse) {
+        const auto a=d.bounds.width*sx/2,b=d.bounds.height*sy/2;
+        if(!std::isfinite(a) || !std::isfinite(b)) throw std::overflow_error("scaled geometry length exceeds numeric range");
+        result=ellipse_length(a,b);
+    } else if(d.kind!=RoiKind::Points) {
+        for(const auto& path:d.paths) {
+            const auto edges=is_area()?path.size():path.size()-1;
+            for(std::size_t i=0;i<edges;++i) {
+                const auto& a=path[i]; const auto& b=path[(i+1)%path.size()];
+                result+=std::hypot((b.x-a.x)*sx,(b.y-a.y)*sy);
+            }
+        }
+    }
+    if(!std::isfinite(result)) throw std::overflow_error("scaled geometry length exceeds numeric range");
+    return result;
+}
 bool Roi::is_area() const { return kind()!=RoiKind::Points && kind()!=RoiKind::Polyline; }
 Roi Roi::rectangle(Rect r) {
     r.validate(); auto d=std::make_shared<Data>(); d->kind=RoiKind::Rectangle; d->bounds=r; d->area=r.area(); d->length=2*(r.width+r.height);

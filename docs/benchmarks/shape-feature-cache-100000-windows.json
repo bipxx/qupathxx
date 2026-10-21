@@ -1,0 +1,13 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "objects": 100000,
+  "capacity": 4096,
+  "isotropic": false,
+  "calls_per_timed_pass": 65536,
+  "uncached_ms": 1240.6698999693617,
+  "cached_ms": 21.245799958705902,
+  "pressure_ms": 1884.3567000003532,
+  "checksum": 61795.25951775323,
+  "resident_after_pressure": 4096,
+  "scope": "Native/Python calls over anisotropically calibrated unit ellipses. Fixture construction and warm-fill excluded. Cached and disabled-cache passes use identical objects/order and compare checksums. Pressure traverses every object once with a bounded resident cache. Intensity reads and persisted feature tables excluded."
+}

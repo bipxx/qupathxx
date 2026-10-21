@@ -88,3 +88,107 @@ rectangles and measures 1,000 region queries plus edit/undo reuse. Its GUI case
 shows a narrow cached viewport with 828 visible objects on a 2560 x 1440
 framebuffer. It does not establish performance for displaying all 100,000
 overlays simultaneously or for complex polygon workloads. Those gates remain.
+
+
+## Revision-keyed shape measurements
+
+`Document.shape_measurements(id)` returns a native `ShapeMeasurements` value.
+Its `roi` and optional `nucleus` each contain `area_px2`, `length_px` and optional
+`area_um2`/`length_um`. Length means boundary length for area ROIs, open path
+length for polylines, and zero for point sets; hole and multipart boundaries are
+included. Cell and nucleus geometry are measured separately. Physical fields
+are `None`/`std::nullopt` until both document calibration axes are known. These
+are numeric snapshots; they survive later edits, eviction and document release.
+
+```python
+features = document.shape_measurements(object_id)
+print(features.roi.area_px2, features.roi.length_px)
+if features.roi.area_um2 is not None:
+    print(features.roi.area_um2, features.roi.length_um)
+if features.nucleus is not None:
+    print(features.nucleus.area_px2)
+```
+
+Anisotropic length applies the document's X/Y scales to each boundary/path
+segment before Euclidean length. Ellipse lengths use numerical integration of
+the scaled semiaxes. Equal calibration axes reuse pixel length times the scale;
+the cache avoids a second ellipse integration or polygon traversal in this case.
+Ellipse integration normalizes the axes before adaptive Simpson evaluation to
+avoid overflow/underflow in intermediate sums. Physical area preserves ordinary
+rounding and uses exponent decomposition if a reciprocal-axis product would
+otherwise overflow or underflow partway through evaluation. Scalar
+`area_um2`/`nucleus_area_um2` share that arithmetic. Unrepresentable physical
+results raise an overflow error; failed bundles are not published into the cache.
+Binary64 underflow can still round a quantity to zero. These are floating-point
+measurements, not arbitrary-precision geometry.
+
+Each document owns an LRU cache keyed by object ID, the object's revision and
+`Document.calibration_revision`. The calibration stamp starts at zero for a
+freshly loaded document and changes on successful calibration changes, including
+Undo/Redo. It is a runtime stamp, not a persisted identity. Object edits invalidate
+that object's bundle; unrelated objects and class-color changes do not invalidate
+geometry results. A deleted ID is rejected before consulting resident entries.
+Calibration changes invalidate lazily through the key, without traversing all
+objects. Repeating the same calibration is a no-op.
+
+The default capacity is 4096 resident object bundles per document.
+`set_feature_cache_limit(entries)` accepts 0..65536; zero disables retention.
+`feature_cache_stats()` returns resident entries, capacity, hits and misses.
+Resident entries can include stale revisions or deleted objects until reuse or
+eviction. Misses count attempted computations, including ones that fail.
+`clear_feature_cache()` removes entries and resets counters while preserving the
+configured capacity. Cache operations are derived state: they do not create edits,
+consume object IDs, dirty projects or enter undo history. No pixel, geometry or
+Python-owner references are retained by entries. Native copies start cold and
+preserve the configured capacity; moves retain valid LRU links. Save snapshots
+and restored projects have cold caches, and cache contents/configuration are not
+part of the SQLite schema.
+
+Document/cache access follows the model's owner-thread contract, like spatial
+queries. Workers capture immutable ROI values and calibration inputs rather than
+sharing this mutable cache. The feature bundles described here contain geometry
+measurements; pixel intensity caching still needs an image-source/version contract
+and is not implemented by this cache. Raw RGB measurement/display behavior is
+unchanged, and CSV columns retain their existing format.
+
+ImGui reads the same native bundles for pixel/physical area and length, including
+nucleus fields. Multiple selection explicitly labels these as primary-object
+measurements. Calibration drafts refresh on the calibration stamp; the object-ID
+list refreshes on membership revision, so unrelated metadata edits no longer
+rebuild that list. A captured cell/nucleus inspector was checked after scrolling
+its measurement fields into view.
+
+`tests/test_shape_measurements.py` covers invalidation, calibration/no-op/Undo,
+LRU pressure/disable, independent result lifetimes, closed pixels, persistence,
+holes, multipart boundaries, open paths and numerical range. Ellipse fixtures use
+an independent composite 64-node Gauss-Legendre reference over 32 subintervals,
+with a relative length tolerance of 2e-11; areas use analytic fixtures. The
+reference uses [NumPy's documented quadrature API](https://numpy.org/doc/2.3/reference/generated/numpy.polynomial.legendre.leggauss.html),
+not the native adaptive Simpson implementation. NumPy is a test extra rather
+than a runtime engine dependency. Native tests also exercise copy/move/assignment
+and isotropic/anisotropic lengths without Python. These are independent fixture
+checks; upstream QuPath numerical parity and wider geometry workloads remain open.
+
+The [anisotropic benchmark](benchmarks/shape-feature-cache-100000-windows.json)
+measures 65536 repeated native/Python queries over a 4096-object hot set in a
+100000-ellipse document. It records 1240.7 ms with cache retention disabled versus
+21.25 ms warm, with matching calibrated-area/length checksums. A traversal of all
+100000 objects takes 1884.4 ms and retains 4096 entries. The
+[isotropic case](benchmarks/shape-feature-cache-isotropic-100000-windows.json)
+records 491.8 ms disabled versus 21.15 ms warm; its calibration and checksum differ
+from the anisotropic case, so these are separate workloads.
+The [selected viewer run](benchmarks/shape-feature-cache-view-100000-windows.json)
+records 16.79 ms frame p95 and 17.12 ms maximum sampled frame work, 100000 selected
+objects, 789 visible overlays and 3 MiB GPU payload. Its primary measurements use
+176 hits and zero recomputations. Normal viewer sampling excludes the first ten
+frames and swap wait; these results do not resolve the recorded initial rendering
+stalls. Fixture creation/warm fill, intensity reads, persisted analysis tables,
+cold storage and broader hardware/complex shapes are outside this timing scope.
+
+
+Final verification records 411 passing installed-wheel Python tests with two
+unavailable Windows file-symlink cases skipped. Seventeen new measurement/cache
+checks and the extended native geometry/core tests cover this packet; all
+fourteen native suites pass in full, core and minimal configurations. The
+geometry cache contract is implemented; M3 acceptance still needs its remaining
+comparison audit, and image/analysis feature versioning remains future work.

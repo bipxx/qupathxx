@@ -1,0 +1,21 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "objects": 100000,
+  "capacity": 4096,
+  "isotropic": false,
+  "calls_per_timed_pass": 65536,
+  "uncached_ms": 1221.5976000297815,
+  "cached_ms": 20.907199941575527,
+  "pressure_ms": 1875.30610000249,
+  "checksum": 61795.25951775323,
+  "resident_after_pressure": 4096,
+  "scope": "Native/Python calls over anisotropically calibrated unit ellipses. Fixture construction and warm-fill excluded. Cached and disabled-cache passes use identical objects/order and compare checksums. Pressure traverses every object once with a bounded resident cache. Intensity reads and persisted feature tables excluded. GUI selects all objects and shows the primary object measurements each frame in a narrow view; normal frame samples exclude first ten frames and swap wait.",
+  "cpu_frame_p95_ms": 16.7865,
+  "max_cpu_frame_ms": 17.1241,
+  "selected_objects": 100000,
+  "visible_objects": 789,
+  "peak_gpu_payload_bytes": 3145728,
+  "gui_cache_hits": 176,
+  "gui_cache_misses": 0,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2"
+}

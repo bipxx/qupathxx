@@ -304,6 +304,7 @@ void Document::commit(Staging& staged,Calibration calibration) {
     class_counts_.merge(count_nodes);
     if(spatial_reset) { spatial_.reset(); spatial_dirty_.clear(); spatial_rebuild_=true; }
     else if(spatial_delta) spatial_dirty_.swap(*spatial_delta);
+    if(pixel_width_um_!=calibration.x || pixel_height_um_!=calibration.y) calibration_revision_=revision_+1;
     pixel_width_um_=calibration.x; pixel_height_um_=calibration.y; ++revision_;
     if(membership_changed) structure_revision_=revision_;
 }

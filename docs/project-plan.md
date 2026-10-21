@@ -673,3 +673,34 @@ for its advertised upper limit. The one-million-object endpoint is verified:
 objects selected, 792 visible and 4096000 GPU payload bytes. This is additional
 flat-rectangle evidence; complex shapes, cache pressure, cold/network storage and
 wider numerical/hardware comparisons remain open.
+
+
+The twenty-eighth packet adds native shape-measurement bundles and a bounded
+per-document LRU shared by C++, Python and ImGui. Object/calibration revision
+keys cover body and optional nucleus pixel/physical area and length. Unknown
+calibration is explicit; isotropic lengths reuse pixel length and anisotropic
+lengths transform each boundary/path edge or ellipse axis. Calibration history,
+copy/move lifetime, source-independent values, capacity/disable and cold storage
+restoration are defined in
+[shape measurements](geometry-spatial.md#revision-keyed-shape-measurements).
+Ellipse integration and area multiplication now avoid unnecessary intermediate
+range failures. The inspector labels primary-object results for multi-selection
+and uses calibration/membership stamps for its drafts and ID-list cache.
+
+Independent geometry/quadrature and cache tests cover the new contract; this is
+not upstream QuPath numerical acceptance. The 100000-object anisotropic hot-set
+workload records 1240.7 ms disabled versus 21.25 ms warm for 65536 calls with
+matching checksums; pressure retains 4096 entries. The selected viewer records
+16.79 ms sampled frame p95, 17.12 ms maximum, 789 visible overlays, 3 MiB GPU tile
+payload and 176 measurement hits without recomputation. Initial rendering stalls,
+upstream comparisons, image/analysis feature versioning, and every remaining
+M0-M7 requirement remain active.
+
+
+Final validation records 411 passing Python tests (two unavailable file-symlink
+cases skipped), seventeen measurement/cache regressions and all fourteen native
+suites passing in full/core/minimal builds. The isotropic workload records
+491.8 ms disabled versus 21.15 ms warm for the same call count within that case.
+The shape cache is a geometry contract; upstream acceptance, image-source keys
+for intensity features, reproducible analysis jobs and all other unverified
+M0-M7 requirements remain open.
