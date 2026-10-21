@@ -839,3 +839,41 @@ not establish cold-storage, vendor-reader or hardware-wide performance.
 All 558 installed-wheel Python tests pass with two unavailable Windows
 file-symlink cases skipped; all eighteen native suites pass in full/core/minimal
 builds. The full project goal remains active.
+
+The thirty-fifth packet adds native tissue cleanup before foreground component
+filtering: square opening and closing, then domain-aware hole filling with an
+inclusive sampled-area ceiling. A fixed ROI/opacity domain stays excluded from
+every primitive. Background filling uses complementary 4/8 connectivity and
+leaves crop-edge or excluded-domain-connected background untouched. Algorithm
+`qpx.threshold-components/3` records the configured cleanup pipeline; raw input
+digests remain compatible. C++, Python and ImGui share captured parameters,
+cleanup progress, cancellation and threshold/cleaned/filled/final statistics.
+
+Separable sliding counts and blocked column traversal make square-filter work
+linear in crop pixels. Morphology, background filling and foreground labeling
+reuse the same bounded queue allocation. Cleanup adds one domain byte per pixel
+to capture-time budgets and automatic level selection. Independent NumPy window
+and flood-fill references cover tile boundaries, kernel radii, topology, area
+ceilings, ROI/nucleus exclusion, pyramid coordinates and the rendered filled-hole
+preview. Native tests additionally exercise transparent/partial-alpha domains
+and cancellation inside both cleanup kernels. Arbitrary kernels, physical radii,
+Gaussian/median filtering, contour/annotation conversion, mask persistence, cell
+detection, upstream comparisons and all unfinished M0-M7 requirements remain.
+
+The 4194304-pixel analytic workload checks every cleaned mask pixel and preserves
+the raw input digest. Three-run median cleanup times are 108.31/118.43/173.50 ms
+at radii 1/8/64, using 45262848 estimated work bytes; total worker medians are
+257.56/257.24/351.43 ms. The radius-8 selected viewer records 408.11 ms total
+worker time, 17.33 ms sampled frame p95 and 20.05 ms maximum, with 100001 selected
+objects and 16 MiB mask GPU payload. Timing variability is retained in the
+recordings rather than treated as a latency guarantee. See the benchmark links
+and reproduction commands in tissue-detection.md.
+All 112 tissue cases pass in the final installed wheel, and eighteen native
+suites pass in full/core/minimal builds. An initial full run failed the Aperio
+readiness assertion with three tiles pending; its unchanged isolated check and
+full rerun passed (606 passed, two unavailable file-symlink cases skipped).
+After narrowing inspector fields to show full labels, the final wheel's full
+run records 604 passed, two failed fixed-frame GUI replays and two skipped.
+Both save-and-close and failed-startup replacement cases pass unchanged together
+in isolation. Stabilizing asynchronous replay/readiness remains an open M2
+validation task; the full M0-M7 goal remains active.

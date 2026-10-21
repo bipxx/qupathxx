@@ -1,0 +1,109 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "pixels": 4194304,
+  "input_sha256": "b88bb05e386b4a0ea6d6fe2f76ca89a114209e1e2ce0d6fc26a111d803e664fd",
+  "threshold_pixels": 3444483,
+  "recordings": [
+    {
+      "radius": 0,
+      "worker_ms": [
+        139.3288,
+        138.8947,
+        149.3815
+      ],
+      "cleanup_ms": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "worker_median_ms": 139.3288,
+      "cleanup_median_ms": 0.0,
+      "submit_ms": [
+        0.09700004011392593,
+        0.02659996971487999,
+        0.019299914129078388
+      ],
+      "max_poll_ms": 0.03060000017285347,
+      "estimated_work_bytes": 41068544,
+      "retained_bytes": 23177696,
+      "cleaned_pixels": 3444483,
+      "filled_pixels": 0
+    },
+    {
+      "radius": 1,
+      "worker_ms": [
+        250.2077,
+        268.5518,
+        257.5633
+      ],
+      "cleanup_ms": [
+        108.3123,
+        108.1765,
+        113.3447
+      ],
+      "worker_median_ms": 257.5633,
+      "cleanup_median_ms": 108.3123,
+      "submit_ms": [
+        0.018300022929906845,
+        0.02059992402791977,
+        0.026999972760677338
+      ],
+      "max_poll_ms": 0.24199998006224632,
+      "estimated_work_bytes": 45262848,
+      "retained_bytes": 23177696,
+      "cleaned_pixels": 3444736,
+      "filled_pixels": 256
+    },
+    {
+      "radius": 8,
+      "worker_ms": [
+        257.2413,
+        253.9805,
+        271.8966
+      ],
+      "cleanup_ms": [
+        112.2127,
+        118.4331,
+        129.0245
+      ],
+      "worker_median_ms": 257.2413,
+      "cleanup_median_ms": 118.4331,
+      "submit_ms": [
+        0.019400031305849552,
+        0.02489995677024126,
+        0.028499984182417393
+      ],
+      "max_poll_ms": 0.050200033001601696,
+      "estimated_work_bytes": 45262848,
+      "retained_bytes": 23177696,
+      "cleaned_pixels": 3444736,
+      "filled_pixels": 0
+    },
+    {
+      "radius": 64,
+      "worker_ms": [
+        251.6157,
+        351.4345,
+        411.8551
+      ],
+      "cleanup_ms": [
+        106.8696,
+        173.4963,
+        207.4964
+      ],
+      "worker_median_ms": 351.4345,
+      "cleanup_median_ms": 173.4963,
+      "submit_ms": [
+        0.016700010746717453,
+        0.01780001912266016,
+        0.025699962861835957
+      ],
+      "max_poll_ms": 0.03160000778734684,
+      "estimated_work_bytes": 45262848,
+      "retained_bytes": 23177696,
+      "cleaned_pixels": 3444736,
+      "filled_pixels": 0
+    }
+  ]
+}

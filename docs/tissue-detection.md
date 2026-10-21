@@ -3,7 +3,8 @@
 The first tissue workflow shares one native C++ implementation between Python
 and ImGui. It thresholds an area ROI at a native pyramid level, then labels connected
 components across every decoded tile boundary. Algorithm identity is
-`qpx.threshold-components/1` at level zero and `/2` at nonzero levels.
+`qpx.threshold-components/1` at level zero and `/2` at nonzero levels when
+cleanup is disabled. Enabling cleanup uses `qpx.threshold-components/3`.
 Native pyramid sampling supports large image regions within a bounded raster;
 arbitrary resampling, contour creation and saved masks remain open.
 
@@ -26,6 +27,45 @@ does not divide the component graph. Minimum and optional maximum component
 sizes count pixels, independently of calibration. The raw component limit
 applies before size filtering; exceeding it fails the entire operation. Retained
 components receive compact labels in first-seed row-major order.
+
+## Morphology and hole filling
+
+Optional cleanup runs after thresholding and before labeling/size filtering, in
+this fixed order: opening, closing, then hole filling. Both radius parameters
+default to zero (disabled) and accept 0 through 256 sampled pixels. Each enabled
+operation uses a centered, full square of side `2*radius+1`, with constant-zero
+padding outside the cropped grid. Opening is erosion followed by dilation;
+closing reverses those primitives. This follows the conventional
+[opening definition](https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.binary_opening.html),
+with an explicit square rather than the default cross-shaped neighborhood.
+
+The eligible domain is fixed by nominal ROI centers and fully opaque source
+pixels. Every square primitive clips its final output to that domain. It treats
+excluded pixels as background and never paints them. A rectangular crop touching
+tissue can lose edge pixels during closing because the padding is zero; this
+border rule is intentional and tested. Radii count sampled pixels and therefore
+cover larger level-zero distances at coarser levels. Arbitrary kernels,
+physical radii, Gaussian smoothing and median filtering remain open.
+
+`fill_holes=True` fills eligible background components that touch neither the
+crop boundary nor an excluded-domain pixel. Background connectivity is the
+complement of foreground connectivity: four neighbors when foreground uses
+eight, and eight when foreground uses four. Thus diagonal escape paths have an
+explicit topology. `max_hole_pixels=0` fills every enclosed component; a positive
+value fills only components at or below that inclusive sampled-pixel count.
+This parameter is inactive when filling is disabled. ROI holes and transparent
+or partially transparent pixels stay excluded, even if surrounded by tissue.
+The boundary-reachability principle agrees with the conventional
+[hole-filling definition](https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.binary_fill_holes.html);
+the eligibility domain and size ceiling are additional workflow policies.
+
+`threshold_pixels` counts the original threshold mask, `filled_pixels` counts
+pixels added by the hole-filling step, and `cleaned_pixels` counts the mask after
+all cleanup but before foreground component filtering. `foreground_pixels`
+counts the final retained mask. `raw_components` and the component cap apply
+after cleanup, before size filtering. `cleanup_ms` measures the cleanup stage;
+`elapsed_ms` measures total worker execution. Jobs expose a `cleanup` phase.
+Disabled cleanup retains previous labels, algorithm IDs and input digests.
 
 Result labels are row-major native-endian uint32 values, with zero as background.
 Python `labels` and the binary `mask` (0/255) return independent byte copies.
@@ -82,6 +122,10 @@ parameters.threshold = 0.3
 parameters.connectivity = 8
 parameters.min_pixels = 20
 parameters.level = -1  # Or an explicit native pyramid level.
+parameters.open_radius = 1
+parameters.close_radius = 2
+parameters.fill_holes = True
+parameters.max_hole_pixels = 100  # 0 removes the hole-size ceiling.
 transform = q.StainTransform([[1, 0, 0], [0, 1, 0]])
 request = q.TissueRequest(doc, object_id, transform, parameters)
 job = q.TissueJob()
@@ -115,14 +159,25 @@ Defaults are 256-pixel decode tiles, 100000 raw components and a 64 MiB work
 budget. Tile size accepts 16 through 1024; work budgets accept 1 byte through 512 MiB.
 Before decoding, capture rejects a crop whose estimated work exceeds the budget:
 
-`8 * crop_pixels + min(crop_pixels, max_components) * sizeof(TissueComponent)
+`(9 if cleanup_enabled else 8) * crop_pixels
++ min(crop_pixels, max_components) * sizeof(TissueComponent)
 + 16 * tile_size**2 + 65536`
 
-This covers label/queue capacity, component capacity and tile scratch with fixed
+This covers label/queue capacity, the optional one-byte eligibility domain,
+component capacity and tile scratch with fixed
 headroom. It is a logical allocation bound, not an RSS guarantee. Source images,
 captured ROI geometry, reader caches, Python result copies and GPU payload are
 outside it. `retained_bytes` reports actual label/component capacities after
 the worker's queue and scratch have been released.
+
+Square primitives use separable sliding counts, with blocked column traversal;
+work scales linearly with crop pixels rather than square kernel area. The same
+reserved uint32 buffer serves as morphology scratch, hole-filling queue and
+foreground-labeling queue. Hole filling visits each eligible background pixel
+once and uses the domain byte for visitation. No additional full-raster queue or
+visited array is allocated. Automatic level selection includes the extra domain
+byte before choosing its resolution; it can choose a coarser level when cleanup
+is enabled. The domain and scratch are released before result publication.
 
 The inspector exposes feature, threshold, native level and size/connectivity filters.
 White/stain vectors and the nucleus toggle are shared with region analysis.
@@ -151,8 +206,12 @@ fractional crops, nucleus masks, budgets, stale results and source teardown.
 Three GUI cases check native result agreement, actual framebuffer mask pixels
 and deletion invalidation. Native tests add a controlled blocked reader,
 cancellation/reuse, transparent input and resource failures.
-The installed GUI wheel passes all 558 Python tests (two unavailable Windows
-file-symlink cases skipped); eighteen native suites pass in three configurations.
+All 112 tissue cases pass in the final installed GUI wheel; eighteen native
+suites pass in three configurations. A full run passed 606 Python cases before
+the final inspector-width adjustment. The latest full run records 604 passed,
+two failed fixed-frame GUI replays and two unavailable Windows file-symlink
+cases skipped. Both failed replays pass unchanged in isolation; this remains a
+GUI validation issue rather than a clean full-suite acceptance claim.
 
 The Windows [headless recording](benchmarks/tissue-4194304-windows.json) labels
 4194304 pixels and 285 components in 58.66 ms, with 0.105 ms submission and
@@ -189,10 +248,37 @@ retains every analytic label and the original input digest, recording 69.50 ms
 worker time for 4194304 pixels. Single recordings do not establish a performance
 trend against the initial packet's 58.66 ms run.
 
+Forty-eight cleanup cases add independent full-window NumPy primitives and
+background-component references. They cover both connectivity choices, three
+decode tile sizes, stage ordering, hole-size endpoints, maximum radii, slender
+grids, ROI holes, coarse nucleus masks, budget-driven coarsening, cancellation,
+stale publication and rendered pixels inside a filled white hole. Native checks
+add transparent and partial-alpha domains and cancellation in both kernels.
+
+The [4194304-pixel cleanup recording](benchmarks/tissue-cleanup-4194304-windows.json)
+verifies an analytic rectangular ring plus isolated noise at radii 1, 8 and 64.
+Every output pixel matches the expected cleaned rectangle. Three-run median
+cleanup times are 108.31, 118.43 and 173.50 ms respectively; total worker medians
+are 257.56, 257.24 and 351.43 ms. Disabled cleanup records a 139.33 ms worker
+median on the same input. Estimated work is 45262848 bytes with cleanup versus
+41068544 bytes without it; retained result capacity is 23177696 bytes in both.
+The [100001-selected-object viewer](benchmarks/tissue-cleanup-view-100001-windows.json)
+records 408.11 ms total GUI worker time (179.79 ms cleanup), 17.33 ms sampled
+frame p95 and 20.05 ms maximum, with 16 MiB mask GPU payload and 876 visible
+objects. Run `tools/benchmark_tissue_cleanup.py`, optionally adding `--gui`.
+These recordings show substantial timing variability and do not establish a
+fixed latency, hardware-wide scaling or a QuPath performance comparison.
+The first full regression run left three Aperio viewer tiles pending after its
+fixed 120 frames. Its unchanged isolated check and full rerun passed. The final
+run's save-and-close and failed-startup replacement replays then failed their
+fixed-frame assertions, and both passed unchanged together in isolation.
+Asynchronous replay/readiness variability remains outside any accepted latency
+claim; assertions and event schedules were not weakened to obtain a pass.
+
 [QuPath v0.7.0 SimpleTissueDetection2](https://github.com/qupath/qupath/blob/v0.7.0/qupath-core-processing/src/main/java/qupath/imagej/detect/tissue/SimpleTissueDetection2.java)
 uses a different workflow, including grayscale thresholding, downsampling,
 smoothing, cleanup and annotation conversion. This implementation has no claim
-of numerical QuPath parity. Arbitrary resampling, physical-size filtering,
-morphology, hole filling, contours and annotation conversion, persistent mask
+of numerical QuPath parity. Arbitrary resampling/kernels, physical-size filtering,
+Gaussian/median smoothing, contours and annotation conversion, persistent mask
 provenance, large-mask streaming, cell detection and runtime comparisons remain
 required under M5.

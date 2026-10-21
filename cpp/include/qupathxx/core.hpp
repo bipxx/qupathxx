@@ -338,6 +338,8 @@ struct GuiReport {
     std::int32_t tissue_level=-1;
     double tissue_downsample=0;
     std::int64_t tissue_width=0,tissue_height=0;
+    std::uint64_t tissue_cleaned_pixels=0,tissue_filled_pixels=0;
+    double tissue_cleanup_ms=0;
 };
 enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey };
 enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint };
@@ -375,6 +377,9 @@ struct GuiOptions {
     int tissue_feature=0,tissue_connectivity=8;
     double tissue_threshold=.3;
     std::uint64_t tissue_min_pixels=1,tissue_max_pixels=0;
+    int tissue_open_radius=0,tissue_close_radius=0;
+    bool tissue_fill_holes=false;
+    std::uint64_t tissue_max_hole_pixels=0;
     std::int32_t tissue_level=-1;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});

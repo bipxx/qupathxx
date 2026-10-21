@@ -1,4 +1,5 @@
 #include "qupathxx/tissue.hpp"
+#include "../tissue_cleanup.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -35,6 +36,25 @@ public:
             const bool dark=(gx+col)%19<6 || (gy+row)%17<5;
             for(int c=0;c<3;++c) output.writable_bytes()[i+c]=dark?0:255;
             output.writable_bytes()[i+3]=255;
+        }
+        return output;
+    }
+    void close() override {}
+    bool closed() const override {return false;}
+};
+class AlphaMask final:public qpx::ImageServer {
+public:
+    qpx::ImageMetadata info;
+    std::uint8_t alpha=0;
+    AlphaMask() {info.width=9;info.height=9;info.levels={{9,9,1}};}
+    const qpx::ImageMetadata& metadata() const override {return info;}
+    qpx::PixelBuffer read_region(const qpx::RegionRequest& r) const override {
+        qpx::PixelBuffer output(r.width,r.height);
+        for(std::int64_t y=0;y<r.height;++y) for(std::int64_t x=0;x<r.width;++x) {
+            const auto xx=r.x+x,yy=r.y+y,i=(y*r.width+x)*4;
+            const bool white=xx>=3 && xx<=5 && yy>=3 && yy<=5;
+            for(int c=0;c<3;++c) output.writable_bytes()[i+c]=white?255:0;
+            output.writable_bytes()[i+3]=(xx==4 && yy==4)?alpha:255;
         }
         return output;
     }
@@ -94,6 +114,25 @@ int main() {
         qpx::TissueRequest automatic(whole,all,transform,p);check(automatic.level()==3 && automatic.estimated_work_bytes()<=p.work_bytes && large->reads==0);
         p.level=0;try {qpx::TissueRequest invalid(whole,all,transform,p);throw std::runtime_error("accepted large level");} catch(const std::length_error&) {}
         check(large->reads==0);
+        std::vector<std::uint8_t> ring(9*9*3,0);
+        for(int y=3;y<=5;++y) for(int x=3;x<=5;++x) for(int c=0;c<3;++c) ring[(y*9+x)*3+c]=255;
+        qpx::Document holes(qpx::Image(9,9,ring));const auto hole=holes.add_rectangle({0,0,9,9});
+        p=qpx::TissueParameters{};p.fill_holes=true;p.max_hole_pixels=8;
+        const auto limited=qpx::detect_tissue(qpx::TissueRequest(holes,hole,transform,p));
+        check(limited->threshold_pixels()==72 && limited->cleaned_pixels()==72 && limited->filled_pixels()==0);
+        p.max_hole_pixels=9;const auto filled=qpx::detect_tissue(qpx::TissueRequest(holes,hole,transform,p));
+        check(filled->filled_pixels()==9 && filled->cleaned_pixels()==81 && filled->foreground_pixels()==81 && filled->algorithm()=="qpx.threshold-components/3");
+        p.open_radius=1;p.close_radius=1;
+        const auto cleaned=qpx::detect_tissue(qpx::TissueRequest(holes,hole,transform,p));check(cleaned->retained_bytes()<=cleaned->estimated_work_bytes());
+        for(auto alpha:{0,128}) {
+            auto masked=std::make_shared<AlphaMask>();masked->alpha=static_cast<std::uint8_t>(alpha);qpx::Document a(masked);const auto object=a.add_rectangle({0,0,9,9});
+            p=qpx::TissueParameters{};p.fill_holes=true;const auto result=qpx::detect_tissue(qpx::TissueRequest(a,object,transform,p));
+            check(result->samples()==80 && result->threshold_pixels()==72 && result->cleaned_pixels()==72 && result->filled_pixels()==0 && result->labels()[40]==0);
+            p.close_radius=2;check(qpx::detect_tissue(qpx::TissueRequest(a,object,transform,p))->labels()[40]==0);
+        }
+        std::vector<std::uint32_t> raster(81,1),scratch;std::vector<std::uint8_t> domain(81,1);std::atomic<bool> stop{true};
+        try {qpx::tissue_detail::square(raster,scratch,domain,9,9,2,true,&stop);throw std::logic_error("missed morphology cancellation");} catch(const std::runtime_error&) {}
+        try {qpx::tissue_detail::fill(raster,scratch,domain,9,9,8,0,&stop);throw std::logic_error("missed fill cancellation");} catch(const std::runtime_error&) {}
         std::cout<<"tissue passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

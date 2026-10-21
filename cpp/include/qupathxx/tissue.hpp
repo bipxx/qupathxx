@@ -7,6 +7,9 @@ struct TissueParameters {
     double threshold=.3;
     int connectivity=8;
     std::int32_t level=-1; // -1 selects the finest available level fitting work_bytes.
+    int open_radius=0,close_radius=0; // Square radii in sampled pixels, 0 disables.
+    bool fill_holes=false;
+    std::uint64_t max_hole_pixels=0; // 0 fills every enclosed eligible background component.
     std::uint64_t min_pixels=1,max_pixels=0;
     std::size_t tile_size=256,max_components=100000,work_bytes=64*1024*1024;
     void validate() const;
@@ -63,6 +66,9 @@ public:
     bool nucleus() const {return nucleus_;}
     std::uint64_t samples() const {return samples_;}
     std::uint64_t threshold_pixels() const {return threshold_pixels_;}
+    std::uint64_t cleaned_pixels() const {return cleaned_pixels_;}
+    std::uint64_t filled_pixels() const {return filled_pixels_;}
+    double cleanup_ms() const {return cleanup_ms_;}
     std::uint64_t foreground_pixels() const {return foreground_pixels_;}
     std::uint64_t raw_components() const {return raw_components_;}
     double elapsed_ms() const {return elapsed_ms_;}
@@ -82,6 +88,8 @@ private:
     std::array<ColorVector,3> stains_{};
     std::uint64_t object_id_=0,object_revision_=0,document_revision_=0,samples_=0,threshold_pixels_=0,foreground_pixels_=0,raw_components_=0;
     bool nucleus_=false;
+    std::uint64_t cleaned_pixels_=0,filled_pixels_=0;
+    double cleanup_ms_=0;
     double elapsed_ms_=0;
     std::size_t estimated_work_bytes_=0;
 };

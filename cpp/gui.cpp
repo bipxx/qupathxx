@@ -125,7 +125,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     TissueParameters tissue_parameters;
     tissue_parameters.feature=static_cast<TissueFeature>(options.tissue_feature);tissue_parameters.threshold=options.tissue_threshold;
     tissue_parameters.connectivity=options.tissue_connectivity;tissue_parameters.min_pixels=options.tissue_min_pixels;tissue_parameters.max_pixels=options.tissue_max_pixels;
-    tissue_parameters.level=options.tissue_level;tissue_parameters.validate();
+    tissue_parameters.level=options.tissue_level;tissue_parameters.open_radius=options.tissue_open_radius;tissue_parameters.close_radius=options.tissue_close_radius;
+    tissue_parameters.fill_holes=options.tissue_fill_holes;tissue_parameters.max_hole_pixels=options.tissue_max_hole_pixels;tissue_parameters.validate();
     if(!std::isfinite(options.autosave_interval_seconds) || options.autosave_interval_seconds<0 || options.autosave_interval_seconds>86400)
         throw std::invalid_argument("autosave interval must be between 0 and 86400 seconds");
     if(options.project && options.project->active_image() && options.project->document(options.project->active_image()).get()!=&document)
@@ -1185,8 +1186,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
             ImGui::SeparatorText("Threshold tissue mask");
             const auto tissue_status=tissue.poll(document,selected);
+            ImGui::PushItemWidth(132.f);
             bool tissue_changed=ImGui::Combo("Tissue feature",&tissue_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0");
-            const auto level_label=tissue_parameters.level<0?std::string("Auto (work budget)"):"Level "+std::to_string(tissue_parameters.level);
+            const auto level_label=tissue_parameters.level<0?std::string("Auto (budget)"):"Level "+std::to_string(tissue_parameters.level);
             if(ImGui::BeginCombo("Tissue level",level_label.c_str())) {
                 if(ImGui::Selectable("Auto (work budget)",tissue_parameters.level<0)) {tissue_parameters.level=-1;tissue_changed=true;}
                 for(std::size_t i=0;i<image.levels.size();++i) {
@@ -1199,6 +1201,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             tissue_changed=ImGui::Combo("Connectivity",&tissue_connectivity,"4 neighbors\0 8 neighbors\0") || tissue_changed;
             tissue_changed=ImGui::InputScalar("Min pixels",ImGuiDataType_U64,&tissue_parameters.min_pixels) || tissue_changed;
             tissue_changed=ImGui::InputScalar("Max (0=off)",ImGuiDataType_U64,&tissue_parameters.max_pixels) || tissue_changed;
+            tissue_changed=ImGui::InputInt("Opening radius",&tissue_parameters.open_radius) || tissue_changed;
+            tissue_changed=ImGui::InputInt("Closing radius",&tissue_parameters.close_radius) || tissue_changed;
+            tissue_changed=ImGui::Checkbox("Fill enclosed holes",&tissue_parameters.fill_holes) || tissue_changed;
+            if(tissue_parameters.fill_holes) tissue_changed=ImGui::InputScalar("Hole max (0=all)",ImGuiDataType_U64,&tissue_parameters.max_hole_pixels) || tissue_changed;
+            ImGui::PopItemWidth();
+            ImGui::TextDisabled("Radii and sizes use sampled pixels");
             if(tissue_changed) tissue.cancel();
             const bool tissue_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_D,false);
             ImGui::BeginDisabled(tissue.busy());
@@ -1211,7 +1219,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 } catch(const std::exception& e) {error=e.what();}
             }
             if(tissue.busy()) {
-                ImGui::TextDisabled("%s",tissue_status.phase=="components"?"Finding components...":"Reading and thresholding...");
+                ImGui::TextDisabled("%s",tissue_status.phase=="cleanup"?"Cleaning tissue mask...":tissue_status.phase=="components"?"Finding components...":"Reading and thresholding...");
                 if(ImGui::Button("Cancel tissue") || (tissue_key && io.KeyShift)) tissue.cancel();
             }
             ImGui::Checkbox("Show tissue mask",&show_tissue);
@@ -1220,6 +1228,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ImGui::TextDisabled("Size filters count sampled pixels");
                 ImGui::Text("Components: %zu",result->components().size());
                 ImGui::Text("Kept pixels: %llu",static_cast<unsigned long long>(result->foreground_pixels()));
+                ImGui::Text("Cleaned: %llu / filled: %llu",static_cast<unsigned long long>(result->cleaned_pixels()),static_cast<unsigned long long>(result->filled_pixels()));
                 ImGui::Text("Samples: %llu / %.3f ms",static_cast<unsigned long long>(result->samples()),result->elapsed_ms());
                 if(show_tissue && !tissue_preview.ready()) ImGui::TextDisabled("Preparing mask preview...");
             }
@@ -1672,7 +1681,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         tissue_status.state,tissue_status.error.empty()?tissue_preview.error():tissue_status.error,tissue_result?tissue_result->input_sha256():std::string{},
         tissue_result?tissue_result->components().size():0,tissue_preview.peak_bytes(),tissue_result?tissue_result->samples():0,tissue_result?tissue_result->foreground_pixels():0,
         tissue_status.elapsed_ms,tissue_preview.ready(),tissue_result?tissue_result->level():-1,tissue_result?tissue_result->downsample():0,
-        tissue_result?tissue_result->width():0,tissue_result?tissue_result->height():0};
+        tissue_result?tissue_result->width():0,tissue_result?tissue_result->height():0,tissue_result?tissue_result->cleaned_pixels():0,
+        tissue_result?tissue_result->filled_pixels():0,tissue_result?tissue_result->cleanup_ms():0};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

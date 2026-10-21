@@ -8,8 +8,12 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 558 passing Python tests including native pyramid tissue masks/components, immutable archive snapshots, retained analysis/provenance, analysis jobs, stains, shapes, interchange, browsing, workspace migration, recovery and GUI replay
-(two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
+Evidence: all 112 tissue cases pass in the final installed wheel. A full run
+passed 606 tests before the inspector-width adjustment. The latest full run
+records 604 passed, two failed fixed-frame GUI replays and two skipped
+file-symlink cases (this Windows account cannot create them; the junction passes).
+Both failed replays pass unchanged in isolation. Broader tests cover immutable
+archives, analysis/provenance, stains, shapes, interchange, projects and recovery;
 eighteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
@@ -249,7 +253,24 @@ with 33204224 estimated work bytes. Its 100001-selected-object viewer records
 17.22 ms sampled frame p95 and 19.00 ms maximum with 12845056 mask GPU bytes.
 Native levels do not provide arbitrary resampling or phase independence at
 fractional read origins. Broader vendor/hardware behavior remains unproven.
-Next add morphology, contour/annotation conversion
+Square opening/closing and bounded enclosed-hole filling now precede component
+filtering, preserving ROI/opacity exclusions. Captured radii and hole limits use
+sampled pixels; result statistics distinguish threshold, cleaned, filled and
+retained pixels. The native cleanup phase reuses the existing queue and adds
+one domain byte per sample to pre-decode budgets. Forty-eight Python cases
+compare independent windows/flood filling, coarse coordinates, memory endpoints,
+topology, cancellation and rendered filled-hole pixels. Native checks cover
+transparent/partial-alpha domains and kernel cancellation. The 4194304-pixel
+analytic-mask benchmark records 108.31/118.43/173.50 ms median cleanup at square
+radii 1/8/64, with 45262848 estimated work bytes. The selected 100001-object
+viewer records 17.33 ms sampled frame p95 and 20.05 ms maximum with 16 MiB mask
+GPU payload. Timing variability and broader vendor/hardware behavior remain open.
+One full run left three Aperio viewer tiles pending after 120 frames; the
+unchanged isolated check and full rerun passed. The final wheel's save-and-close
+and failed-startup replacement replays failed at fixed-frame assertions, then
+passed unchanged together in isolation. GUI replay/readiness variability remains
+an open M2 validation issue, not an accepted latency guarantee.
+Next stabilize asynchronous GUI replay readiness, then add contour/annotation conversion
 and persisted mask provenance; optimize remaining object snapshot capture and
 complete source/environment provenance. Continue
 numerical comparisons and improve initial

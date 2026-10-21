@@ -1,0 +1,119 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "pixels": 4194304,
+  "input_sha256": "b88bb05e386b4a0ea6d6fe2f76ca89a114209e1e2ce0d6fc26a111d803e664fd",
+  "threshold_pixels": 3444483,
+  "recordings": [
+    {
+      "radius": 0,
+      "worker_ms": [
+        144.849,
+        138.1821,
+        168.7959
+      ],
+      "cleanup_ms": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "worker_median_ms": 144.849,
+      "cleanup_median_ms": 0.0,
+      "submit_ms": [
+        0.10019994806498289,
+        0.0315000070258975,
+        0.038400059565901756
+      ],
+      "max_poll_ms": 0.05259993486106396,
+      "estimated_work_bytes": 41068544,
+      "retained_bytes": 23177696,
+      "cleaned_pixels": 3444483,
+      "filled_pixels": 0
+    },
+    {
+      "radius": 1,
+      "worker_ms": [
+        245.7793,
+        227.1591,
+        273.6056
+      ],
+      "cleanup_ms": [
+        125.7025,
+        110.146,
+        120.254
+      ],
+      "worker_median_ms": 245.7793,
+      "cleanup_median_ms": 120.254,
+      "submit_ms": [
+        0.03729993477463722,
+        0.020399922505021095,
+        0.0241999514400959
+      ],
+      "max_poll_ms": 0.062400009483098984,
+      "estimated_work_bytes": 45262848,
+      "retained_bytes": 23177696,
+      "cleaned_pixels": 3444736,
+      "filled_pixels": 256
+    },
+    {
+      "radius": 8,
+      "worker_ms": [
+        263.0507,
+        224.9758,
+        258.1302
+      ],
+      "cleanup_ms": [
+        127.0851,
+        109.0648,
+        103.9995
+      ],
+      "worker_median_ms": 258.1302,
+      "cleanup_median_ms": 109.0648,
+      "submit_ms": [
+        0.029099988751113415,
+        0.024099950678646564,
+        0.026899971999228
+      ],
+      "max_poll_ms": 0.06610003765672445,
+      "estimated_work_bytes": 45262848,
+      "retained_bytes": 23177696,
+      "cleaned_pixels": 3444736,
+      "filled_pixels": 0
+    },
+    {
+      "radius": 64,
+      "worker_ms": [
+        354.3406,
+        273.1767,
+        326.5809
+      ],
+      "cleanup_ms": [
+        195.912,
+        137.6122,
+        160.8665
+      ],
+      "worker_median_ms": 326.5809,
+      "cleanup_median_ms": 160.8665,
+      "submit_ms": [
+        0.018000020645558834,
+        0.021700048819184303,
+        0.020000035874545574
+      ],
+      "max_poll_ms": 0.116499955765903,
+      "estimated_work_bytes": 45262848,
+      "retained_bytes": 23177696,
+      "cleaned_pixels": 3444736,
+      "filled_pixels": 0
+    }
+  ],
+  "objects": 100001,
+  "selected": 100001,
+  "visible": 876,
+  "gui_worker_ms": 408.1135,
+  "gui_cleanup_ms": 179.7905,
+  "cpu_frame_p95_ms": 17.3281,
+  "max_cpu_frame_ms": 20.0484,
+  "tissue_gpu_bytes": 16777216,
+  "image_gpu_bytes": 16777216,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2"
+}

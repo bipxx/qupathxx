@@ -13,6 +13,8 @@ void bind_tissue(nb::module_& m) {
     nb::class_<TissueParameters>(m,"TissueParameters").def(nb::init<>()).def_rw("feature",&TissueParameters::feature)
         .def_rw("threshold",&TissueParameters::threshold).def_rw("connectivity",&TissueParameters::connectivity)
         .def_rw("level",&TissueParameters::level)
+        .def_rw("open_radius",&TissueParameters::open_radius).def_rw("close_radius",&TissueParameters::close_radius)
+        .def_rw("fill_holes",&TissueParameters::fill_holes).def_rw("max_hole_pixels",&TissueParameters::max_hole_pixels)
         .def_rw("min_pixels",&TissueParameters::min_pixels).def_rw("max_pixels",&TissueParameters::max_pixels)
         .def_rw("tile_size",&TissueParameters::tile_size).def_rw("max_components",&TissueParameters::max_components).def_rw("work_bytes",&TissueParameters::work_bytes)
         .def("validate",&TissueParameters::validate);
@@ -39,6 +41,7 @@ void bind_tissue(nb::module_& m) {
         .def_prop_ro("object_id",&TissueResult::object_id).def_prop_ro("object_revision",&TissueResult::object_revision).def_prop_ro("document_revision",&TissueResult::document_revision)
         .def_prop_ro("nucleus",&TissueResult::nucleus).def_prop_ro("samples",&TissueResult::samples)
         .def_prop_ro("threshold_pixels",&TissueResult::threshold_pixels).def_prop_ro("foreground_pixels",&TissueResult::foreground_pixels)
+        .def_prop_ro("cleaned_pixels",&TissueResult::cleaned_pixels).def_prop_ro("filled_pixels",&TissueResult::filled_pixels).def_prop_ro("cleanup_ms",&TissueResult::cleanup_ms)
         .def_prop_ro("raw_components",&TissueResult::raw_components).def_prop_ro("elapsed_ms",&TissueResult::elapsed_ms)
         .def_prop_ro("estimated_work_bytes",&TissueResult::estimated_work_bytes).def_prop_ro("retained_bytes",&TissueResult::retained_bytes);
     m.def("detect_tissue",[](const TissueRequest& r){return detect_tissue(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());

@@ -60,6 +60,8 @@ QuPath port or a compatible replacement for Java QuPath.
   access and an incremental ImGui mask preview; see [tissue masks](docs/tissue-detection.md).
 - Automatic budget-based or explicit native pyramid resolution for tissue masks,
   with level-zero component geometry and level-aware input digests.
+- Native square opening/closing and bounded hole filling before tissue component
+  filtering, with ROI/opacity exclusion and cleanup statistics.
 - Native background autosave, session-specific recovery files and dirty-close
   decisions; see [recovery](docs/project-recovery.md).
 
