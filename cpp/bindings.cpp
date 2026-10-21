@@ -1,4 +1,5 @@
 #include "qupathxx/core.hpp"
+#include "qupathxx/project.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
@@ -131,6 +132,21 @@ NB_MODULE(_native, m) {
         .def("clear_calibration", &Document::clear_calibration)
         .def_prop_ro("pixel_width_um", &Document::pixel_width_um).def_prop_ro("pixel_height_um", &Document::pixel_height_um)
         .def("area_um2", &Document::area_um2).def("mean_intensity", &Document::mean_intensity);
+    nb::class_<ProjectImage>(m,"ProjectImage")
+        .def_ro("id",&ProjectImage::id).def_ro("name",&ProjectImage::name)
+        .def_ro("source_path",&ProjectImage::source_path).def_ro("reader",&ProjectImage::reader)
+        .def_ro("width",&ProjectImage::width).def_ro("height",&ProjectImage::height)
+        .def_ro("embedded",&ProjectImage::embedded).def_ro("available",&ProjectImage::available);
+    nb::class_<Project>(m,"Project").def(nb::init<>()).def_static("open",&Project::open,"path"_a)
+        .def("save",&Project::save,"path"_a)
+        .def("add_image",&Project::add_image,"path"_a,"reader"_a="auto","name"_a="")
+        .def("add_document",&Project::add_document,"document"_a,"name"_a="","source_path"_a="","reader"_a="auto")
+        .def("document",&Project::document).def_prop_ro("images",&Project::images)
+        .def("remove_image",&Project::remove_image).def("relink",&Project::relink)
+        .def_prop_rw("active_image",&Project::active_image,&Project::set_active_image)
+        .def_prop_ro("dirty",&Project::dirty).def_prop_ro("path",&Project::path)
+        .def_prop_ro("identity",&Project::identity).def_prop_ro("generation",&Project::generation);
+    m.attr("has_project")=has_project(); m.attr("sqlite_version")=sqlite_version();
     nb::class_<ObjectSelection>(m,"ObjectSelection")
         .def(nb::init<const Document&>(),nb::keep_alive<1,2>())
         .def_prop_ro("ids",&ObjectSelection::ids).def_prop_ro("primary",&ObjectSelection::primary)
@@ -160,12 +176,12 @@ NB_MODULE(_native, m) {
         .value("POLYLINE_KEY",GuiInputKind::PolylineKey).value("POINTS_KEY",GuiInputKind::PointsKey).value("FINISH_KEY",GuiInputKind::FinishKey)
         .value("SELECT_ALL_KEY",GuiInputKind::SelectAllKey).value("ESCAPE_KEY",GuiInputKind::EscapeKey)
         .value("VERTEX_KEY",GuiInputKind::VertexKey).value("HOLE_KEY",GuiInputKind::HoleKey)
-        .value("INSERT_KEY",GuiInputKind::InsertKey).value("BOOLEAN_KEY",GuiInputKind::BooleanKey);
+        .value("INSERT_KEY",GuiInputKind::InsertKey).value("BOOLEAN_KEY",GuiInputKind::BooleanKey).value("SAVE_KEY",GuiInputKind::SaveKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
-        .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view);
+        .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view).def_rw("project",&GuiOptions::project);
     nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
         .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)
         .def_ro("generations",&GuiReport::generations).def_ro("cpu_frame_p95_ms",&GuiReport::cpu_frame_p95_ms)

@@ -75,11 +75,11 @@ monitor DPI transitions remain separate validation gates.
 
 ## Evidence and remaining scope
 
-The installed GUI wheel passes 119 Python tests, including native selection
+The installed GUI wheel passes 129 Python tests, including native selection
 lifetimes, primary/range/toggle rules, invalid requests, cell envelope windows,
 membership pruning and batch delete restoration. GUI replay verifies list ranges,
 canvas toggles/windows, selection outlines, Ctrl+A/Escape and group delete/undo.
-Ten native suites pass with optional GEOS/OpenSlide enabled and disabled.
+Eleven native suites pass with optional GEOS/OpenSlide enabled and disabled.
 
 [Selection timings](benchmarks/selection-100000-windows.json) cover 100000 stored
 objects, cached membership reads after a color edit, a window selecting 100 roots,

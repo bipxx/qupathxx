@@ -77,7 +77,7 @@ Shared classes/colors are documented in classes.md; multi-selection is in select
 
 ## Validation and performance scope
 
-The current suite includes 119 Python tests and ten native suites, exercising
+The current suite includes 129 Python tests and eleven native suites, exercising
 validity, hole masks, multipart topology, analytic ellipse metrics, immutable
 snapshots, concurrent predicates, spatial deltas, failed edits and GUI drawing
 with undo/redo. Native tests also run with optional readers and GEOS disabled.

@@ -62,7 +62,7 @@ Validation covers automatic registration, failure rollback, no-op/redo behavior,
 rename collisions, assignment counts, duplicate batch IDs, repeated replacement
 descriptors, cell/nucleus retention, history budgets and subtree restoration.
 Framebuffer tests verify two colors and undo through actual draw output.
-The current installed GUI wheel passes 119 Python tests; ten native suites run
+The current installed GUI wheel passes 129 Python tests; eleven native suites run
 with and without the optional GEOS/OpenSlide dependencies.
 
 The [100,000-object class benchmark](benchmarks/classes-100000-windows.json)

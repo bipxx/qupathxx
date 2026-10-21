@@ -1,0 +1,13 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "sqlite_version": "3.54.1",
+  "objects": 100000,
+  "embedded_rgb_bytes": 2359296,
+  "initial_save_ms": 225.38690001238137,
+  "full_resave_ms": 380.1242000190541,
+  "validated_load_ms": 200.80549991689622,
+  "file_bytes": 13082624,
+  "generation": 2,
+  "scope": "One embedded dense image and 100000 classified unit rectangles. Saves use a full SQLite transaction with synchronous=FULL; resave rewrites canonical rows. Load decodes and validates all objects/hierarchy. Input construction excluded. Local filesystem only; no cold-storage, autosave or vendor-workflow claim."
+}

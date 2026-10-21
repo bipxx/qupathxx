@@ -17,7 +17,7 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 | Polygon and ellipse tools | qupath-core, qupath-gui-fx | geometry/gui | Partial | Holes, multipart validity, analytic ellipses and drawing/history pass; vertex/hole editing and Boolean overlay pass; QuPath comparisons remain |
 | Object hierarchy and classes | qupath-core | core | Partial | General ROI parent containment, classes, cycles and depth pass; cell/nucleus snapshots, conversion and history pass; class definitions/colors/counts, rename and batch classification pass; multi-selection gestures and group delete pass; vertex editing passes; upstream workflow comparisons remain |
 | Undo and redo | qupath-gui-fx | core/gui | Partial | Compound ROI/class/hierarchy/calibration restore and drawing/history replay pass; multi-selection gestures and group delete pass; vertex editing passes; upstream workflow comparisons remain |
-| Projects and relinking | qupath-core, qupath-gui-fx | project | Missing | Transactional round trip and moved/missing images |
+| Projects and relinking | qupath-core, qupath-gui-fx | project | Partial | Multi-image SQLite round trip, failed-save rollback, stale writers, relative moves, missing images and relink pass; workspace/autosave/recovery/migrations remain |
 | Annotation interchange | qupath-core, qupath-gui-fx | project | Missing | GeoJSON/CSV fixtures and loss reporting |
 | Region measurements | qupath-core, qupath-core-processing | analysis | Partial | ROI-masked RGB mean and area pass; upstream and stain features remain |
 | Stain separation | qupath-core, qupath-core-processing | analysis | Missing | Optical-density and stain-vector fixtures |
@@ -37,7 +37,7 @@ The image-server contract is recorded in [image-server-contract.md](image-server
 Reader fixture identities and retrieval are committed; large binary fixtures
 and SDK downloads stay under the ignored build directory.
 
-M0 remains open: probe the SQLite schema (GEOS geometry integration is recorded in geometry-spatial.md),
+M0 remains open: geometry and SQLite probes are recorded in geometry-spatial.md and project-storage.md;
 choose the project license, obtain broader slide/damage fixtures, and freeze
 benchmark hardware plus workflow tolerances. A bounded native read scheduler,
 cancellation and decoded caching are implemented; see the

@@ -101,4 +101,5 @@ Detection/cell object kinds and optional nucleus geometry are implemented; see
 are recorded in [classes.md](classes.md). Multi-selection and atomic group actions are
 recorded in [selection.md](selection.md). Vertex/hole editing and Boolean operations are
 recorded in [geometry-editing.md](geometry-editing.md). QuPath reference comparisons,
-feature-cache contracts and broader geometry stress remain open. Project persistence and interchange remain M4 work.
+feature-cache contracts and broader geometry stress remain open. Native transactional persistence is recorded in [project-storage.md](project-storage.md);
+workspace/autosave/recovery/migrations and interchange remain M4 work.

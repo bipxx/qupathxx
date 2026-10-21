@@ -2,6 +2,7 @@
 #include <algorithm>
 #include <cmath>
 #include <fstream>
+#include <filesystem>
 #include <limits>
 #include <stdexcept>
 
@@ -50,7 +51,7 @@ Image Image::demo() {
     return Image(w, h, std::move(data));
 }
 Image Image::read_ppm(const std::string& path) {
-    std::ifstream in(path, std::ios::binary);
+    std::ifstream in(std::filesystem::u8path(path), std::ios::binary);
     if (!in) throw std::runtime_error("cannot open image: " + path);
     if (token(in) != "P6") throw std::invalid_argument("only binary P6 PPM is supported");
     int w = integer_token(in), h = integer_token(in), max = integer_token(in);

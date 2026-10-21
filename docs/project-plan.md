@@ -410,3 +410,12 @@ for empty-result policy, ellipse approximation, hierarchy safeguards and
 4096-vertex performance scope. M3 numerical comparisons and feature-cache
 contracts remain open. Begin the M4 schema/persistence probe while retaining
 all unfinished M0-M7 gates.
+
+The eleventh packet implements native multi-image SQLite projects, an exact
+versioned ROI encoding, canonical document restoration, relative file links,
+lazy pixel readers and verified metadata relinking. Generation checks reject
+stale writers; injected mid-save SQL failure verifies rollback. CLI project
+opening and GUI Ctrl+S use the same container. See [project-storage.md](project-storage.md).
+M4 remains open for in-window browsing, autosave/recovery UX, migrations and
+GeoJSON/CSV plus QuPath-assisted interchange. M3 numerical/cache contracts and
+all unfinished M0-M7 gates persist.

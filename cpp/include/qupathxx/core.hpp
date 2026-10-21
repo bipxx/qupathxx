@@ -11,7 +11,8 @@
 #include "qupathxx/spatial_index.hpp"
 
 namespace qpx {
-enum class ObjectKind { Annotation, Detection, Cell };
+class Project;
+enum class ObjectKind { Annotation=0, Detection=1, Cell=2 };
 struct ObjectClass {
     std::string name;
     std::uint32_t color = 0x41e1be; // RGB, no alpha.
@@ -114,6 +115,11 @@ public:
     double nucleus_area_um2(std::uint64_t id) const;
     double nucleus_mean_intensity(std::uint64_t id) const;
 private:
+    friend class Project;
+    static std::shared_ptr<Document> restore(std::shared_ptr<ImageServer> server,
+        const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
+        std::optional<double> pixel_width,std::optional<double> pixel_height,
+        std::uint64_t next_id,std::uint64_t revision);
     const Annotation& find(std::uint64_t id) const;
     void publish_roi(std::uint64_t id,Roi geometry,std::string label);
     using ObjectPatch = std::map<std::uint64_t,std::optional<Annotation>>;
@@ -197,7 +203,7 @@ struct GuiReport {
     std::vector<std::uint64_t> selected_ids;
     std::uint64_t primary_selection = 0;
 };
-enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey };
+enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey };
 enum class GuiInputTarget { Canvas, Overview, ObjectList, Image };
 struct GuiInput {
     int frame = 0;
@@ -211,6 +217,7 @@ struct GuiOptions {
     DisplaySettings display;
     std::vector<GuiInput> inputs;
     std::optional<Viewport> start_view;
+    std::shared_ptr<Project> project;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 }

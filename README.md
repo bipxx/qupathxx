@@ -76,8 +76,8 @@ build/desktop/Release/qupathxx_app.exe
 Python checks: `.venv/Scripts/python -m pytest`.
 The native executable accepts `--smoke` to render three frames and exit.
 
-Validated on Windows with MSVC 19.44 and Python 3.12: 119 Python tests including
-transaction, hierarchy, pyramid, Aperio and opt-in framebuffer checks, ten native suites with
+Validated on Windows with MSVC 19.44 and Python 3.12: 129 Python tests including
+transaction, hierarchy, pyramid, Aperio and opt-in framebuffer checks, eleven native suites with
 and without OpenSlide/GEOS, and GUI startup/render/shutdown with known and unknown
 calibration. ImGui input replay verifies zoom, pan, shape drawing/history and overview
 navigation; actual OS pointer delivery and monitor DPI transitions remain open.
@@ -190,3 +190,9 @@ inspector object, batch classification and atomic subtree deletion.
 
 [Polygon editing](docs/geometry-editing.md) provides vertex handles, hole drawing
 and undoable Boolean area operations through the native model and Python.
+
+[Native project storage](docs/project-storage.md) saves multi-image SQLite
+projects with exact ROI/object state, relative links, relinking, stale-writer
+checks and transactional rollback. Open with `--project study.qpxproj`; the
+viewer includes a project path and Ctrl+S. SQLite is statically built by default;
+set `QUPATHXX_BUILD_PROJECT=OFF` to omit storage and its source download.

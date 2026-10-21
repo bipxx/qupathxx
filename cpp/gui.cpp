@@ -1,4 +1,5 @@
 #include "qupathxx/core.hpp"
+#include "qupathxx/project.hpp"
 #include "gui_tiles.hpp"
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
@@ -83,6 +84,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if (frame_limit < 0) throw std::invalid_argument("frame_limit must be nonnegative");
     if (!capture_path.empty() && !frame_limit) throw std::invalid_argument("capture_path requires a positive frame_limit");
     options.display.validate();
+    if(options.project && options.project->document(options.project->active_image()).get()!=&document)
+        throw std::invalid_argument("GUI document must be the project's active image");
     if(options.start_view && (!std::isfinite(options.start_view->zoom) || options.start_view->zoom<=0 ||
         !std::isfinite(options.start_view->origin.x) || !std::isfinite(options.start_view->origin.y))) throw std::invalid_argument("invalid initial viewport");
     if (options.width<640 || options.width>8192 || options.height<480 || options.height>8192) throw std::invalid_argument("invalid window dimensions");
@@ -135,6 +138,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     Point marquee_anchor;
     std::string batch_class;
     std::string error;
+    char project_path[32769]={};
+    std::string project_error;
+    if(options.project) {
+        const auto& path=options.project->path();
+        if(path.size()>32768) throw std::invalid_argument("project path too long");
+        std::memcpy(project_path,path.c_str(),path.size()+1);
+    }
     std::uint64_t editor_id=0,editor_revision=0;
     char draft_name[4097]={},draft_class[4097]={};
     char class_name[4097]={};
@@ -166,7 +176,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (!options.inputs.empty()) {
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
-            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B}) input.AddKeyEvent(key,false);
+            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S}) input.AddKeyEvent(key,false);
         }
         for (const auto& event:options.inputs) if (event.frame==frames) {
             auto origin=event.target==GuiInputTarget::Canvas?previous_canvas:(event.target==GuiInputTarget::Overview?overview_offset:list_offset);
@@ -201,6 +211,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::HoleKey: input.AddKeyEvent(ImGuiKey_H,true); break;
                 case GuiInputKind::InsertKey: input.AddKeyEvent(ImGuiKey_I,true); break;
                 case GuiInputKind::BooleanKey: input.AddKeyEvent(ImGuiKey_B,true); break;
+                case GuiInputKind::SaveKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_S,true); break;
                 default: break;
             }
         }
@@ -240,6 +251,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (selected && tool!=6 && !io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_Delete)) delete_selection();
         ImGui::SameLine(); ImGui::TextDisabled("Ctrl+click: toggle | Shift+drag: select box | Ctrl+A: all | Right drag: pan");
         ImGui::BeginChild("Inspector", {285,0}, ImGuiChildFlags_Borders);
+        if(options.project) {
+            ImGui::SeparatorText(options.project->dirty()?"Project - unsaved":"Project");
+            ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Project path","Destination .qpxproj file",project_path,sizeof(project_path));
+            if(ImGui::Button("Save project (Ctrl+S)") || (io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_S))) {
+                try { options.project->save(project_path); project_error.clear(); }
+                catch(const std::exception& e) { project_error=e.what(); }
+            }
+            if(!project_error.empty()) ImGui::TextWrapped("%s",project_error.c_str());
+        }
         ImGui::Text("IMAGE"); ImGui::Text("%lld x %lld pixels",static_cast<long long>(image.width),static_cast<long long>(image.height));
         ImGui::Text("%zu pyramid levels",image.levels.size());
         ImGui::SeparatorText("Overview");

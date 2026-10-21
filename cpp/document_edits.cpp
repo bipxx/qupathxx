@@ -174,6 +174,27 @@ std::vector<Annotation> Document::annotations() const {
     for (const auto& [id,a]:objects_) result.push_back(a);
     return result;
 }
+std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
+    const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
+    std::optional<double> x,std::optional<double> y,std::uint64_t next_id,std::uint64_t revision) {
+    if(!next_id || (x && (!std::isfinite(*x) || *x<=0)) || (y && (!std::isfinite(*y) || *y<=0)))
+        throw std::invalid_argument("invalid persisted calibration or next object ID");
+    auto result=std::make_shared<Document>(std::move(server)); Staging staged(*result);
+    for(const auto& c:classes) {
+        if(staged.get_class(c.name)) throw std::invalid_argument("duplicate persisted class");
+        staged.write_class(c.name,c);
+    }
+    for(const auto& a:objects) {
+        if(!a.id || a.id>=next_id || !a.revision || a.revision>revision || staged.get(a.id))
+            throw std::invalid_argument("invalid persisted object identity or revision");
+        staged.write(a.id,a);
+    }
+    result->commit(staged,{x,y});
+    for(const auto& a:objects) result->objects_.at(a.id).revision=a.revision;
+    result->next_id_=next_id; result->revision_=revision;
+    result->structure_revision_=objects.empty()?0:revision;
+    return result;
+}
 ObjectClass Document::object_class(const std::string& name) const {
     auto found=classes_.find(name); if(found==classes_.end()) throw std::out_of_range("class does not exist");
     return found->second;

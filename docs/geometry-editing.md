@@ -103,12 +103,12 @@ canvas/list/overview targets, enabling checks against exact editable vertices.
 
 ## Evidence and remaining work
 
-The installed GUI wheel passes 119 Python tests. New checks compare Boolean areas
+The installed GUI wheel passes 129 Python tests. New checks compare Boolean areas
 and pixel-center masks with independently computed rectangles, verify holes and
 multipart splits, reject invalid topology and parent containment, preserve cell
 state, test empty XOR folds and enforce journal budgets. GUI replay exercises
 drag/cancel, insertion/deletion, hole creation, Boolean application and history.
-Ten native suites pass with GEOS/OpenSlide enabled and disabled.
+Eleven native suites pass with GEOS/OpenSlide enabled and disabled.
 
 The [geometry benchmark](benchmarks/geometry-4096-windows.json) measures Boolean
 union and validated vertex edits on overlapping 4096-vertex radial polygons,

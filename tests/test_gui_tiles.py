@@ -425,3 +425,20 @@ def test_hole_draft_rejects_changed_primary_selection():
     q.show(doc, frame_limit=35, options=options)
     assert doc.revision == revision
     assert [a.geometry.kind for a in doc.annotations] == [q.RoiKind.RECTANGLE]*2
+
+
+@pytest.mark.skipif(not q.has_project, reason="requires project storage")
+def test_gui_project_save_shortcut_publishes_current_document(tmp_path):
+    project = q.Project()
+    image = project.add_document(q.Document(q.Image.demo()))
+    doc = project.document(image)
+    obj = doc.add_rectangle(q.Rect(10, 10, 20, 20), "Saved")
+    path = tmp_path / "viewer.qpxproj"
+    project.save(str(path))
+    doc.rename_annotation(obj, "From GUI")
+    options = q.GuiOptions()
+    options.project = project
+    options.inputs = [replay(4, q.GuiInputKind.SAVE_KEY)]
+    report = q.show(doc, frame_limit=20, options=options)
+    assert report.uploaded_tiles > 0 and not project.dirty and project.generation == 2
+    assert q.Project.open(str(path)).document(image).annotation(obj).name == "From GUI"

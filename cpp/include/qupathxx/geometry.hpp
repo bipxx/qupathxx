@@ -26,7 +26,7 @@ struct PolygonPart {
     std::vector<Ring> holes;
     PolygonPart(Ring shell_,std::vector<Ring> holes_={}) : shell(std::move(shell_)),holes(std::move(holes_)) {}
 };
-enum class RoiKind { Rectangle, Ellipse, Polygon, MultiPolygon, Polyline, Points };
+enum class RoiKind { Rectangle=0, Ellipse=1, Polygon=2, MultiPolygon=3, Polyline=4, Points=5 };
 enum class BooleanOp { Union, Intersection, Difference, SymmetricDifference };
 // Immutable shared geometry. Rectangle bounds remain available through the
 // legacy Annotation.roi Python property, but this is the authoritative shape.
