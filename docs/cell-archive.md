@@ -112,8 +112,11 @@ can be normalized by union. The replacement must cover both original geometries,
 remain in the source ROI and fit contour budgets. Area-bearing protrusions still
 fail. Generic ROI containment predicates are unchanged.
 
+[Native cell tables](cell-tables.md) export archived compartment features through
+Python and ImGui with immutable capture and background atomic publication.
 Full source/environment manifests, physical filters, marker/split/merge editing,
-feature-table export and pinned QuPath comparisons remain unfinished. The complete
+published object-feature identity, project-wide tables and pinned QuPath comparisons
+remain unfinished. The complete
 M0–M7 project scope stays active.
 
 ## Reproduction

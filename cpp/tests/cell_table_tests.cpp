@@ -1,0 +1,41 @@
+#include "qupathxx/cell_tables.hpp"
+#include <filesystem>
+#include <fstream>
+#include <iostream>
+#include <locale>
+#include <random>
+#include <stdexcept>
+using namespace qpx;
+void check(bool v) {if(!v) throw std::runtime_error("cell table check failed");}
+template<class E,class F> void rejects(F f) {try {f();} catch(const E&) {return;}throw std::logic_error("missing cell table rejection");}
+std::string read(const std::filesystem::path& path) {std::ifstream file(path,std::ios::binary);return {std::istreambuf_iterator<char>(file),{}};}
+struct Comma:std::numpunct<char> {char do_decimal_point() const override {return ',';}};
+int main() {
+ try {
+    std::vector<std::uint8_t> rgb(64*64*3,255);
+    for(int y=0;y<64;++y) for(int x=0;x<64;++x) if((x-25)*(x-25)+(y-32)*(y-32)<=100 || (x-39)*(x-39)+(y-32)*(y-32)<=100) for(int c=0;c<3;++c) rgb[(y*64+x)*3+c]=0;
+    Document doc(Image(64,64,rgb));const auto obj=doc.add_rectangle({0,0,64,64});CellParameters p;p.sigma=0;
+    CellRequest request(doc,obj,StainTransform({{1,0,0},{0,1,0}}),p);const auto result=detect_cells(request);check(result->features().size()==2);
+    const auto first=doc.keep_cells(request,result);CellTableRequest captured(doc);check(captured.row_count()==2 && captured.record_count()==1 && captured.document_revision()==doc.revision());
+    const auto csv=cell_measurements_csv(captured);check(csv.find("qpx.cell-table/1")!=std::string::npos && csv.find("optical_density_rgb")!=std::string::npos && csv.find("\r\n")!=std::string::npos);
+    const auto previous=std::locale::global(std::locale(std::locale::classic(),new Comma));check(cell_measurements_csv(captured)==csv);std::locale::global(previous);
+    CellTableOptions options;options.byte_limit=csv.size();check(cell_measurements_csv(CellTableRequest(doc,{},options))==csv);
+    options.byte_limit=csv.size()-1;rejects<std::length_error>([&]{cell_measurements_csv(CellTableRequest(doc,{},options));});
+    options={};options.snapshot_budget=captured.snapshot_bytes();check(CellTableRequest(doc,{},options).snapshot_bytes()==captured.snapshot_bytes());
+    --options.snapshot_budget;rejects<std::length_error>([&]{CellTableRequest invalid(doc,{},options);});
+    auto copy=doc;options={};options.require_current=true;rejects<std::invalid_argument>([&]{CellTableRequest invalid(copy,{},options);});
+    rejects<std::out_of_range>([&]{CellTableRequest invalid(doc,{999});});
+    auto second=doc.keep_cells(request,result);check(cell_measurements_csv(CellTableRequest(doc,{second,first,second}))==cell_measurements_csv(CellTableRequest(doc,{first,second})));
+    check(doc.remove_cells(first) && doc.remove_cells(second));check(cell_measurements_csv(captured)==csv);
+    check(CellTableRequest(doc).row_count()==0 && cell_measurements_csv(CellTableRequest(doc)).find("qpx.cell-table/1")==std::string::npos);
+    const auto path=std::filesystem::current_path()/("cell-table-"+std::to_string(std::random_device{}())+".csv");
+    {std::ofstream file(path,std::ios::binary);file<<"sentinel";}
+    std::atomic<bool> cancelled{true};rejects<std::runtime_error>([&]{save_cell_measurements_csv(captured,path.u8string(),&cancelled);});check(read(path)=="sentinel");
+    CellTableExportJob job;check(job.request(captured,path.u8string()));auto status=job.wait();check(status.state=="succeeded" && status.rows==2 && status.completed==1 && status.bytes==csv.size() && read(path)==csv);
+    const auto third=doc.keep_cells(request,result);options={};options.byte_limit=1;CellTableRequest short_table(doc,{third},options);
+    check(job.request(short_table,path.u8string()));status=job.wait();check(status.state=="failed" && status.completed==1 && read(path)==csv);
+    check(job.request(captured,path.u8string()) && job.wait().completed==2);job.cancel();
+    std::filesystem::remove(path);
+    std::cout<<"Cell table numeric snapshots, locale, budgets, cancellation and atomic files passed\n";
+ } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
+}

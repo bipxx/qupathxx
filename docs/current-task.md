@@ -8,16 +8,15 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the final installed-wheel regression passes 837 Python cases with two file-symlink cases
+Evidence: the final installed-wheel regression passes 876 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
-and recovery; twenty-five native suites pass in the full GUI build and
-twenty-four pass in core/minimal builds with optional geometry/readers/
+and recovery; twenty-six native suites pass in the full GUI build and
+twenty-five pass in core/minimal builds with optional geometry/readers/
 interchange enabled and disabled. The installed GUI wheel includes its
 packaged runtime libraries and licenses.
-All 46 focused cell-archive/desktop cases pass, including eleven added after
-the full run for shared IDs, malformed runs, source changes and save budgets.
+All cell-archive and cell-table cases are included in that full run.
 The 100000-object document benchmark records approximately 230 ms batch creation,
 116 ms undo, 126 ms redo and 815 bytes of history payload for a rename. The spatial
 benchmark covers 1000 region queries and a cached narrow GUI view of 828 visible
@@ -346,7 +345,16 @@ runs capture in 0.016 ms while charging 78227751 snapshot bytes. The all-visible
 a run takes 0.0332 ms and save capture 0.0258 ms. Invalidated dense canvases still
 require full rendering; these are warm synthetic observations on one PC.
 
-Next complete source/environment provenance and cell feature-table export. Continue
+The forty-third packet adds native cell measurement CSV from immutable archived
+run snapshots, with Python and ImGui export, a bounded background writer, quotas
+and atomic replacement. CSV preserves exact unsigned IDs, capture-time status,
+parameters and compartment features; missing cytoplasm remains blank. Run
+metadata is formatted once per run. The 32768-row export improves from 78.32 to
+38.17 ms with identical bytes; the all-visible 100001-object viewer records
+16.93 ms p95 frame work during export. See cell-tables.md for validation and timings.
+
+Next complete source/environment provenance, published object-feature identity
+and project-wide tables. Continue
 numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged

@@ -7,6 +7,7 @@
 #include "gui_tiles.hpp"
 #include "gui_tissue.hpp"
 #include "qupathxx/cells.hpp"
+#include "qupathxx/cell_tables.hpp"
 #include "gui_replay.hpp"
 #include "gui_overlay.hpp"
 #include <imgui.h>
@@ -154,6 +155,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(options.startup_kind=="image" && options.startup_image_id) throw std::invalid_argument("startup image ID requires a stored project");
     } else if(!options.startup_path.empty() || options.startup_image_id) throw std::invalid_argument("startup path/image ID requires a startup kind");
     if(options.overlay_cache_budget>256u*1024u*1024u) throw std::invalid_argument("overlay cache budget exceeds 256 MiB");
+    if(options.cell_table_path.size()>32768 || options.cell_table_path.find('\0')!=std::string::npos) throw std::invalid_argument("invalid cell table path");
+    CellTableOptions cell_table_options;cell_table_options.require_current=options.cell_table_require_current;
+    cell_table_options.byte_limit=options.cell_table_byte_limit;cell_table_options.snapshot_budget=options.cell_table_snapshot_budget;cell_table_options.validate();
     if (!glfwInit()) throw std::runtime_error("GLFW initialization failed");
     Session session;
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -187,6 +191,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     AnalysisJob analysis;
     TissueJob tissue;
     CellJob cell_job;TissuePreview cell_preview;
+    CellTableExportJob cell_table_job;std::string cell_table_error;
+    char cell_table_path[32769]={};std::copy(options.cell_table_path.begin(),options.cell_table_path.end(),cell_table_path);
     OverlayCache overlay_cache;std::optional<DisplaySettings> overlay_display;
     CellParameters cell_parameters=options.cell_parameters?*options.cell_parameters:CellParameters{};cell_parameters.validate();
     int cell_feature=static_cast<int>(cell_parameters.feature),cell_connectivity=cell_parameters.connectivity==8?1:0,cell_preview_body=0;
@@ -565,6 +571,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         auto& document=*active_document;
         analysis.poll(document,selected);
+        cell_table_job.poll();
         cell_job.poll(document,selected);if(!cell_job.result()) cell_preview.clear();
         if(verifying_cells && !cell_job.busy()) {
             try {if(cell_job.poll(document,selected).state=="ready") cell_job.verify_record(document,verifying_cells);} catch(const std::exception& e) {error=e.what();}
@@ -594,12 +601,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         auto& input=ImGui::GetIO();
         if (!options.inputs.empty()) {
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
-            input.AddKeyEvent(ImGuiKey_J,false);input.AddKeyEvent(ImGuiKey_U,false);input.AddKeyEvent(ImGuiKey_G,false);input.AddKeyEvent(ImGuiKey_C,false);input.AddKeyEvent(ImGuiMod_Alt,false);
+            input.AddKeyEvent(ImGuiKey_J,false);input.AddKeyEvent(ImGuiKey_U,false);input.AddKeyEvent(ImGuiKey_G,false);input.AddKeyEvent(ImGuiKey_C,false);input.AddKeyEvent(ImGuiKey_X,false);input.AddKeyEvent(ImGuiMod_Alt,false);
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
             for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12,ImGuiKey_M,ImGuiKey_K,ImGuiKey_D}) input.AddKeyEvent(key,false);
         }
         replay.dispatch([&](const GuiInput& event) {
             if(event.wait_for==GuiInputWait::CellsReady) return !cell_job.busy() && bool(cell_job.result());
+            if(event.wait_for==GuiInputWait::CellTableSaved) return !cell_table_job.busy() && cell_table_job.poll().state=="succeeded";
             if(event.wait_for==GuiInputWait::CellsPublished) return !cell_job.busy() && cell_job.published();
             if(event.wait_for==GuiInputWait::CellsArchived || event.wait_for==GuiInputWait::CellsVerified) {
                 const auto record=document.latest_cells(selected);
@@ -703,6 +711,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::CancelCellsKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_G,true);break;
                 case GuiInputKind::KeepCellRunKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_C,true);break;
                 case GuiInputKind::RecheckCellRunKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_C,true);break;
+                case GuiInputKind::ExportCellTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_X,true);break;
+                case GuiInputKind::CancelCellTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_X,true);break;
                 case GuiInputKind::KeepTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiKey_U,true);break;
                 case GuiInputKind::RecheckTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_U,true);break;
                 case GuiInputKind::TraceTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_J,true); break;
@@ -739,6 +749,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         ImGui::BeginDisabled(editing_blocked);
         ImGui::TextColored({.3f,.8f,.75f,1}, "qupathxx"); ImGui::SameLine(); ImGui::TextDisabled("/  Research workspace");
+        if(!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyAlt && io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_X,false)) cell_table_job.cancel();
         ImGui::Separator();
         ImGui::BeginDisabled(!has_image);
         if (ImGui::IsKeyPressed(ImGuiKey_R) && !io.WantTextInput && !editing_blocked && has_image) tool=tool==1?0:1;
@@ -1411,12 +1422,27 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(recheck && !cell_job.busy() && state!="object_changed" && state!="source_closed") {try {
                     cell_job.request(CellRequest::replay(document,saved->id));verifying_cells=saved->id;error.clear();
                 } catch(const std::exception& e) {error=e.what();}}
+                ImGui::SetNextItemWidth(240);ImGui::InputTextWithHint("##Cell table path","Cell table .csv destination",cell_table_path,sizeof(cell_table_path));
+                ImGui::Checkbox("Require current cell run",&cell_table_options.require_current);
+                const bool can_export=!cell_table_job.busy() && (!cell_table_options.require_current || state=="current");
+                ImGui::BeginDisabled(!can_export);
+                const bool export_table=ImGui::Button("Export cell table (Ctrl+Alt+X)") || (!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyAlt && !io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_X,false));
+                ImGui::EndDisabled();
+                if(can_export && export_table) {try {CellTableRequest request(document,{saved->id},cell_table_options);cell_table_job.request(request,cell_table_path);cell_table_error.clear();} catch(const std::exception& e) {cell_table_error=e.what();}}
             }
             if(!has_geos()) ImGui::TextDisabled("Cell objects require GEOS");
             if(!cell_status.error.empty()) ImGui::TextWrapped("Cells: %s",cell_status.error.c_str());
             if(!cell_preview.error().empty()) ImGui::TextWrapped("Cell preview: %s",cell_preview.error().c_str());
 
         } else ImGui::TextDisabled("Select an annotation");
+        const auto table_status=cell_table_job.poll();
+        if(table_status.state!="idle") {
+            ImGui::Text("Cell table: %s",table_status.state.c_str());
+            ImGui::Text("Cell rows: %llu / %llu",static_cast<unsigned long long>(table_status.rows),static_cast<unsigned long long>(table_status.total_rows));
+            if(cell_table_job.busy() && ImGui::Button("Cancel table (Ctrl+Alt+Shift+X)")) cell_table_job.cancel();
+            if(!table_status.error.empty()) ImGui::TextWrapped("%s",table_status.error.c_str());
+        }
+        if(!cell_table_error.empty()) ImGui::TextWrapped("%s",cell_table_error.c_str());
         if (!error.empty()) ImGui::TextWrapped("%s", error.c_str());
         } else ImGui::TextDisabled("Select or add an image to use image tools.");
         ImGui::EndChild(); ImGui::SameLine();
@@ -1857,6 +1883,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     // Finite embedded runs also return a durable save result and reconcile the
     // caller's project. No live authority or Python-owned objects enter workers.
     if(save_job.busy()) save_job.wait();
+    if(cell_table_job.busy()) cell_table_job.wait();
     reconcile_save();
     if(autosave.busy()) autosave.wait();
     if(maintenance_job.valid()) {maintenance_job.wait(); poll_maintenance(true);}
@@ -1873,6 +1900,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     const auto saved_tissue=active_document->latest_tissue(selection->primary());
     const auto final_cells=cell_job.poll(*active_document,selection->primary());
     const auto saved_cells=active_document->latest_cells(selection->primary());
+    const auto final_table=cell_table_job.poll();
     if(!cell_job.result()) cell_preview.clear();
     if(!tissue_result) tissue_preview.clear();
     return {frames,previous_uploads+tiles->uploads(),std::max(previous_peak_bytes,tiles->peak_bytes()),previous_generations+tiles->generations(),p95,tiles->pending(),empty?0:viewport.zoom,empty?Point{}:viewport.origin,
@@ -1897,7 +1925,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         saved_tissue?saved_tissue->id:0,saved_tissue?active_document->tissue_status(saved_tissue->id):std::string{},
         final_cells.state,final_cells.error.empty()?cell_preview.error():final_cells.error,cell_job.result(),cell_job.published()?cell_annotations_added:0,cell_preview.peak_bytes(),cell_preview.ready(),cell_job.published(),
         overlay_cache.bytes(),overlay_cache.peak_bytes,overlay_cache.builds,overlay_cache.hits,overlay_cache.fallbacks,
-        saved_cells?saved_cells->id:0,saved_cells?active_document->cell_status(saved_cells->id):std::string{}};
+        saved_cells?saved_cells->id:0,saved_cells?active_document->cell_status(saved_cells->id):std::string{},
+        final_table.state,cell_table_error.empty()?final_table.error:cell_table_error,final_table.path,final_table.rows,final_table.bytes,final_table.capture_ms,final_table.write_ms};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

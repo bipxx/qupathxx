@@ -1,4 +1,5 @@
 #include "qupathxx/interchange.hpp"
+#include "atomic_export.hpp"
 #include <algorithm>
 #include <atomic>
 #include <cmath>
@@ -10,18 +11,6 @@
 #include <random>
 #include <sstream>
 #include <stdexcept>
-#ifdef _WIN32
-#define NOMINMAX
-#define WIN32_LEAN_AND_MEAN
-#include <windows.h>
-#include <io.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <share.h>
-#else
-#include <fcntl.h>
-#include <unistd.h>
-#endif
 #ifdef QUPATHXX_HAS_INTERCHANGE
 #include <nlohmann/json.hpp>
 #endif
@@ -49,53 +38,9 @@ void bounded(std::ostringstream& out) { if(out.tellp()>static_cast<std::streamof
 void atomic_write(const std::string& path,const std::string& bytes) {
     valid_text(path,32768); if(path.empty()) throw std::invalid_argument("export path must not be empty");
     if(bytes.size()>byte_limit) throw std::length_error("export exceeds 256 MiB limit");
-    auto destination=fs::absolute(fs::u8path(path)).lexically_normal();
-    std::random_device random; auto temporary=destination;
-    std::string suffix=".qpx-tmp-"; constexpr char hex[]="0123456789abcdef";
-    for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]); temporary+=fs::u8path(suffix);
-#ifdef _WIN32
-    int fd=-1;
-    if(_wsopen_s(&fd,temporary.c_str(),_O_WRONLY|_O_CREAT|_O_EXCL|_O_BINARY,_SH_DENYRW,_S_IREAD|_S_IWRITE)!=0) fd=-1;
-#else
-    int fd=::open(temporary.c_str(),O_WRONLY|O_CREAT|O_EXCL,0600);
-#endif
-    if(fd<0) throw std::runtime_error("cannot create export temporary file");
-    auto close_file=[&]() {
-        bool success=true;
-        if(fd>=0) {
-#ifdef _WIN32
-            success=_close(fd)==0;
-#else
-            success=::close(fd)==0;
-#endif
-            fd=-1;
-        }
-        return success;
-    };
-    try {
-        std::size_t offset=0;
-        while(offset<bytes.size()) {
-            auto count=std::min<std::size_t>(bytes.size()-offset,1024*1024);
-#ifdef _WIN32
-            auto written=_write(fd,bytes.data()+offset,static_cast<unsigned>(count));
-#else
-            auto written=::write(fd,bytes.data()+offset,count);
-#endif
-            if(written<=0) throw std::runtime_error("export write failed"); offset+=static_cast<std::size_t>(written);
-        }
-#ifdef _WIN32
-        if(_commit(fd)!=0) throw std::runtime_error("export flush failed");
-#else
-        if(::fsync(fd)!=0) throw std::runtime_error("export flush failed");
-#endif
-        if(!close_file()) throw std::runtime_error("export close failed");
-#ifdef _WIN32
-        if(!MoveFileExW(temporary.c_str(),destination.c_str(),MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)) throw std::runtime_error("export replacement failed");
-#else
-        if(::rename(temporary.c_str(),destination.c_str())!=0) throw std::runtime_error("export replacement failed");
-#endif
-    } catch(...) { close_file(); std::error_code error; fs::remove(temporary,error); throw; }
+    detail::AtomicExportFile file(path,byte_limit);file.write(bytes.data(),bytes.size());file.commit();
 }
+
 std::string read_file(const std::string& path) {
     valid_text(path,32768); auto file=fs::u8path(path); auto count=fs::file_size(file);
     if(count>byte_limit) throw std::length_error("GeoJSON exceeds 256 MiB limit");

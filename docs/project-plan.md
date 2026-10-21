@@ -1071,3 +1071,27 @@ runs capture in 0.016 ms, charging 78227751 logical snapshot bytes; write/load a
 frame p95 and 114.68 ms maximum, with 0.0332 ms retention and 0.0258 ms save capture.
 Invalidated views and other hardware remain limits; these synthetic observations
 do not establish general storage/frame-latency guarantees.
+
+
+The forty-third packet adds native archived-cell measurement CSV, shared by
+Python and ImGui. Immutable captures retain native run handles, capture-time
+status/revision and parameters without retaining documents or readers. A bounded
+worker formats and atomically replaces the file, with cancellation, byte/snapshot
+quotas, locale-independent round-trip values and exact unsigned identifiers.
+The 71-column schema preserves missing cytoplasm and distinguishes OD channels
+from signed stain coefficients. Existing GeoJSON/object-CSV publication shares
+the atomic streaming helper. See [cell tables](cell-tables.md).
+
+Independent CSV comparisons cover every compartment/channel, features and coarse
+grids, full-width IDs, quoted text, capture survival, quotas, cancellation and
+worker lifetime. The installed wheel passes 876 Python cases with two Windows
+symlink cases skipped; native full/core/minimal suites pass (26/25/25).
+The 32768-row, 15469017-byte recording improves from 78.32 to 38.17 ms by
+formatting invariant metadata once per run, retaining identical output hashes.
+Capture takes 0.0104 ms with 49722624 charged logical snapshot bytes. These warm
+synthetic timings are scoped to this machine. During latest-run export, the
+100001-object selected/all-visible viewer records 16.93 ms p95 and 17.25 ms
+maximum CPU frame work, with 0.0024 ms GUI capture and 11.21 ms worker export.
+Published object-feature identity,
+project-wide tables, source/environment manifests and all unfinished M0-M7 work
+remain active.

@@ -105,12 +105,15 @@ is bounded separately at 32 MiB, uploading at most four 256-pixel tiles per fram
 
 Published body/nucleus objects persist through project/recovery and GeoJSON
 storage. [Cell run archives](cell-archive.md) retain masks, parameter bundles,
-markers and feature tables with input digests and rechecking. Complete source and
+markers and feature tables with input digests and rechecking.
+[Native cell CSV export](cell-tables.md) exposes archived run labels and
+compartment features through Python and ImGui. Complete source and
 environment manifests remain unfinished. The raster layers reuse the `TissueResult` read interface
 with distinct algorithm IDs; they cannot be retained as threshold tissue records.
 
 Background subtraction, physical-unit filters, marker editing, split/merge,
-stain estimation, classifiers, feature-table export and pinned QuPath comparisons
+stain estimation, classifiers, published object-feature identity, project-wide
+tables and pinned QuPath comparisons
 remain unfinished. Broader slides, hardware and prolonged memory pressure need
 validation. The overall M0–M7 plan remains active.
 
