@@ -77,11 +77,12 @@ and `recovery_maintenance_error` reports failures.
 ## Remaining maintenance scope
 
 This implements explicit deletion of valid selected checkpoints. Corrupt files
-are rejected and remain for manual filesystem management. Automatic retention,
-abandoned work-directory cleanup, moved-primary recovery association and initial
-CLI loading progress remain unfinished. Discovery still uses the recorded base
-path and configured directory rules. No recursive directory deletion or broad
-file matching was introduced.
+are rejected and remain for manual filesystem management. [Moved-primary
+recovery association](recovery-association.md) is now implemented. Automatic retention,
+abandoned work-directory cleanup and initial CLI loading progress remain unfinished.
+Discovery matches validated project identity and recorded paths within the immediate
+configured directory. No recursive directory deletion or broad deletion matching
+was introduced.
 
 ## Evidence
 
@@ -111,7 +112,9 @@ The [recorded loading run](benchmarks/recovery-open-100000-windows.json) measure
 178.6 ms worker validation/load, 16.9 ms p95 and 38.4 ms maximum CPU frame work.
 It retains no external old-document owner, so replacement includes owner-thread
 retirement of the old 100000-object graph. That transition remains a measurable
-pause rather than a guarantee of uniformly short frames. The
+pause rather than a guarantee of uniformly short frames. This recorded live graph
+was supplied through `add_document` and retains owner-thread release; native-factory
+graphs now use the [retirement worker](project-retirement.md). The
 [maintenance run](benchmarks/recovery-maintenance-100000-windows.json) records
 19.6 ms standalone review of the 12.5 MB checkpoint, 16.8 ms p95 and 19.2 ms
 maximum CPU frame work during reviewed deletion. Both retain 100000 selected

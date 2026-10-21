@@ -47,7 +47,14 @@ background analysis job. Large regions should not be measured on the UI thread.
 
 ## Ownership and concurrency
 
-Servers use shared native ownership; a document retains its server. Reads return
+Servers use shared native ownership; a document retains its server. The native
+base uses `enable_shared_from_this` so nanobind reuses a factory server's existing
+C++ control block when it passes through Python and back into a document or
+scheduler. It must not create a Python-owned proxy deleter that a native worker
+would need the GIL to release. C++ consumers must rebuild against this base-class
+change. Timeout-guarded save/autosave subprocess tests drop the last live Python
+server/document references while their native snapshot is being written, then
+wait for completion and validate the saved pixels. Reads return
 owning buffers independent of both document and server lifetime. Metadata and
 annotation values exported to Python are snapshots. `PixelBuffer.data` currently
 copies into Python `bytes`; there is no writable alias or zero-copy array API.

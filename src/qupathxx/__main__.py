@@ -12,9 +12,12 @@ def main():
     opening.add_argument("--project", help="Open a native SQLite project")
     opening.add_argument("--recover", help="Restore unsaved work from a recovery snapshot")
     opening.add_argument("--empty", action="store_true", help="Start an empty project workspace")
+    parser.add_argument("--recovery-base", help="Associate --recover with a moved primary of the same identity")
     parser.add_argument("--image-id", type=int, help="Select a stored project image ID")
     parser.add_argument("--smoke", action="store_true", help="Render 90 frames and verify image upload")
     args = parser.parse_args()
+    if args.recovery_base and not args.recover:
+        parser.error("--recovery-base requires --recover")
     def launch(document, options):
         report = show(document, frame_limit=90 if args.smoke else 0, options=options)
         if args.smoke and (not options.project or options.project.active_image) and not report.uploaded_tiles:
@@ -24,11 +27,12 @@ def main():
             parser.error("choose an image, --project, --recover or --empty")
         if args.empty and args.image_id is not None:
             parser.error("--empty does not accept --image-id")
-        project = Project() if args.empty else (Project.recover(args.recover) if args.recover else Project.open(args.project))
+        project = Project() if args.empty else (Project.recover(args.recover, base_path=args.recovery_base or "") if args.recover else Project.open(args.project))
         if args.image_id is not None:
             project.active_image = args.image_id
         options = GuiOptions()
         options.project = project
+        options.recovery_path, options.recovery_base_path = args.recover or "", args.recovery_base or ""
         launch(project, options)
         return
     if args.image_id is not None:

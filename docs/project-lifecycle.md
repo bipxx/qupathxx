@@ -54,9 +54,10 @@ dirty-close decision.
 External document references remain valid and preserve their own annotations
 and history. The project-only viewer does not retain an invisible first-image
 owner for the whole session. Its active binding owns the document until the
-switch, and releases it on the owner thread: Python-origin shared-pointer
-deleters can require the GIL. Native model and selected-ID destruction can still
-cost time proportional to the removed graph. Vendor reader shutdown and long
+switch. Removal still releases it on the owner thread: Python-origin shared-pointer
+deleters can require the GIL. Whole-workspace replacements can now retire an
+entirely native graph on a bounded [worker](project-retirement.md); removal and
+external-control-block destruction remain proportional to the affected graph. Vendor reader shutdown and long
 memory-pressure campaigns remain unverified.
 
 ## Evidence

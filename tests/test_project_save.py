@@ -309,3 +309,35 @@ while job.busy:
             child.kill()
             child.wait(timeout=5)
         path.chmod(stat.S_IREAD | stat.S_IWRITE)
+
+
+@pytest.mark.parametrize('kind', ['save', 'autosave'])
+def test_factory_server_roundtrip_does_not_require_gil_during_snapshot_release(tmp_path, kind):
+    import subprocess
+    import sys
+    script = r'''
+import gc,sys
+from pathlib import Path
+import qupathxx as q
+project=q.Project()
+server=q.dense_image_server(q.Image.demo())
+doc=q.Document(server)
+image=project.add_document(doc)
+del server
+path=Path(sys.argv[1])
+if sys.argv[2]=='save':
+    job=q.ProjectSaveJob()
+else:
+    job=q.ProjectAutosave()
+assert job.request(project,str(path))
+project.remove_image(image)
+del doc; gc.collect()
+status=job.wait()
+assert status.state==('saved' if sys.argv[2]=='save' else 'ready')
+loaded=q.Project.open(str(path)) if sys.argv[2]=='save' else q.Project.recover(str(path))
+assert len(loaded.images)==1
+assert loaded.document(loaded.active_image).server.read_region(q.RegionRequest(0,0,0,1,1)).data
+assert project.images==[] and project.dirty
+'''
+    extension = '.qpxproj' if kind == 'save' else '.qpxrecover'
+    subprocess.run([sys.executable, '-I', '-c', script, str(tmp_path/('server-roundtrip'+extension)), kind], check=True, timeout=15)

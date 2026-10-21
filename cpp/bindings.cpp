@@ -157,7 +157,7 @@ NB_MODULE(_native, m) {
     nb::class_<RecoveryInfo>(m,"RecoveryInfo").def_ro("path",&RecoveryInfo::path).def_ro("identity",&RecoveryInfo::identity)
         .def_ro("session",&RecoveryInfo::session).def_ro("base_path",&RecoveryInfo::base_path).def_ro("base_status",&RecoveryInfo::base_status)
         .def_ro("error",&RecoveryInfo::error).def_ro("base_generation",&RecoveryInfo::base_generation)
-        .def_ro("created_unix_ms",&RecoveryInfo::created_unix_ms).def_ro("images",&RecoveryInfo::images).def_ro("objects",&RecoveryInfo::objects).def_ro("fingerprint",&RecoveryInfo::fingerprint);
+        .def_ro("created_unix_ms",&RecoveryInfo::created_unix_ms).def_ro("images",&RecoveryInfo::images).def_ro("objects",&RecoveryInfo::objects).def_ro("fingerprint",&RecoveryInfo::fingerprint).def_ro("associated_base_path",&RecoveryInfo::associated_base_path);
     nb::class_<AutosaveStats>(m,"AutosaveStats").def_ro("state",&AutosaveStats::state).def_ro("path",&AutosaveStats::path)
         .def_ro("error",&AutosaveStats::error).def_ro("completed",&AutosaveStats::completed).def_ro("snapshot_bytes",&AutosaveStats::snapshot_bytes)
         .def_ro("capture_ms",&AutosaveStats::capture_ms).def_ro("write_ms",&AutosaveStats::write_ms);
@@ -173,12 +173,12 @@ NB_MODULE(_native, m) {
         .def("request",&ProjectSaveJob::request,"project"_a,"path"_a).def("poll",&ProjectSaveJob::poll).def("wait",&ProjectSaveJob::wait)
         .def("cancel",&ProjectSaveJob::cancel).def_prop_ro("busy",&ProjectSaveJob::busy).def_prop_ro("stats",&ProjectSaveJob::stats);
     nb::class_<Project>(m,"Project").def(nb::init<>()).def_static("open",&Project::open,"path"_a)
-        .def_static("recover",&Project::recover,"path"_a).def_static("inspect_recovery",&Project::inspect_recovery,"path"_a)
+        .def_static("recover",&Project::recover,"path"_a,"base_path"_a="").def_static("inspect_recovery",&Project::inspect_recovery,"path"_a)
         .def_static("find_recoveries",&Project::find_recoveries,"base_path"_a="","limit"_a=64)
         .def_static("discard_recovery",&Project::discard_recovery,"path"_a,"expected_identity"_a)
         .def_static("review_recovery",&Project::review_recovery,"path"_a)
         .def_static("discard_recovery_checked",&Project::discard_recovery_checked,"reviewed"_a)
-        .def("restore_recovery",&Project::restore_recovery,"path"_a)
+        .def("restore_recovery",&Project::restore_recovery,"path"_a,"base_path"_a="")
         .def("save",&Project::save,"path"_a)
         .def("add_image",&Project::add_image,"path"_a,"reader"_a="auto","name"_a="")
         .def("add_document",&Project::add_document,"document"_a,"name"_a="","source_path"_a="","reader"_a="auto")
@@ -220,7 +220,7 @@ NB_MODULE(_native, m) {
         .value("VERTEX_KEY",GuiInputKind::VertexKey).value("HOLE_KEY",GuiInputKind::HoleKey)
         .value("INSERT_KEY",GuiInputKind::InsertKey).value("BOOLEAN_KEY",GuiInputKind::BooleanKey).value("SAVE_KEY",GuiInputKind::SaveKey).value("EXPORT_KEY",GuiInputKind::ExportKey).value("IMPORT_KEY",GuiInputKind::ImportKey)
         .value("NEXT_IMAGE_KEY",GuiInputKind::NextImageKey).value("PREVIOUS_IMAGE_KEY",GuiInputKind::PreviousImageKey).value("ADD_IMAGE_KEY",GuiInputKind::AddImageKey).value("RELINK_IMAGE_KEY",GuiInputKind::RelinkImageKey)
-        .value("AUTOSAVE_KEY",GuiInputKind::AutosaveKey).value("RECOVER_KEY",GuiInputKind::RecoverKey).value("CLOSE_WINDOW",GuiInputKind::CloseWindow).value("OPEN_PROJECT_KEY",GuiInputKind::OpenProjectKey).value("NEW_PROJECT_KEY",GuiInputKind::NewProjectKey).value("REMOVE_IMAGE_KEY",GuiInputKind::RemoveImageKey).value("REVIEW_RECOVERY_KEY",GuiInputKind::ReviewRecoveryKey);
+        .value("AUTOSAVE_KEY",GuiInputKind::AutosaveKey).value("RECOVER_KEY",GuiInputKind::RecoverKey).value("CLOSE_WINDOW",GuiInputKind::CloseWindow).value("OPEN_PROJECT_KEY",GuiInputKind::OpenProjectKey).value("NEW_PROJECT_KEY",GuiInputKind::NewProjectKey).value("REMOVE_IMAGE_KEY",GuiInputKind::RemoveImageKey).value("REVIEW_RECOVERY_KEY",GuiInputKind::ReviewRecoveryKey).value("FIND_RECOVERIES_KEY",GuiInputKind::FindRecoveriesKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image).value("PROJECT_LIST",GuiInputTarget::ProjectList).value("DISPLAY_RESET",GuiInputTarget::DisplayReset)
         .value("DISCARD_RECOVERY_REPLACEMENT",GuiInputTarget::DiscardRecoveryReplacement).value("KEEP_RECOVERY_CLOSE",GuiInputTarget::KeepRecoveryClose).value("CANCEL_CLOSE",GuiInputTarget::CancelClose).value("DISCARD_CLOSE",GuiInputTarget::DiscardClose)
         .value("SAVE_CLOSE",GuiInputTarget::SaveClose).value("SAVE_RECOVERY_REPLACEMENT",GuiInputTarget::SaveRecoveryReplacement).value("CANCEL_RECOVERY_REPLACEMENT",GuiInputTarget::CancelRecoveryReplacement).value("CANCEL_PROJECT_LOAD",GuiInputTarget::CancelProjectLoad).value("CONFIRM_REMOVE_IMAGE",GuiInputTarget::ConfirmRemoveImage).value("CANCEL_REMOVE_IMAGE",GuiInputTarget::CancelRemoveImage).value("CONFIRM_DISCARD_CHECKPOINT",GuiInputTarget::ConfirmDiscardCheckpoint).value("CANCEL_DISCARD_CHECKPOINT",GuiInputTarget::CancelDiscardCheckpoint);
@@ -228,7 +228,7 @@ NB_MODULE(_native, m) {
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
         .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view).def_rw("project",&GuiOptions::project).def_rw("interchange_path",&GuiOptions::interchange_path).def_rw("project_image_path",&GuiOptions::project_image_path)
-        .def_rw("autosave_path",&GuiOptions::autosave_path).def_rw("recovery_path",&GuiOptions::recovery_path).def_rw("project_open_path",&GuiOptions::project_open_path).def_rw("autosave_interval_seconds",&GuiOptions::autosave_interval_seconds).def_rw("autosave_snapshot_budget",&GuiOptions::autosave_snapshot_budget).def_rw("save_snapshot_budget",&GuiOptions::save_snapshot_budget);
+        .def_rw("autosave_path",&GuiOptions::autosave_path).def_rw("recovery_path",&GuiOptions::recovery_path).def_rw("recovery_base_path",&GuiOptions::recovery_base_path).def_rw("project_open_path",&GuiOptions::project_open_path).def_rw("autosave_interval_seconds",&GuiOptions::autosave_interval_seconds).def_rw("autosave_snapshot_budget",&GuiOptions::autosave_snapshot_budget).def_rw("save_snapshot_budget",&GuiOptions::save_snapshot_budget);
     nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
         .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)
         .def_ro("generations",&GuiReport::generations).def_ro("cpu_frame_p95_ms",&GuiReport::cpu_frame_p95_ms)
@@ -239,7 +239,7 @@ NB_MODULE(_native, m) {
         .def_ro("selected_ids",&GuiReport::selected_ids).def_ro("primary_selection",&GuiReport::primary_selection)
         .def_ro("active_image",&GuiReport::active_image).def_ro("image_switches",&GuiReport::image_switches).def_ro("max_image_switch_ms",&GuiReport::max_image_switch_ms).def_ro("project_error",&GuiReport::project_error)
         .def_ro("autosaves_completed",&GuiReport::autosaves_completed).def_ro("recovery_path",&GuiReport::recovery_path).def_ro("autosave_error",&GuiReport::autosave_error).def_ro("autosave_capture_ms",&GuiReport::autosave_capture_ms).def_ro("max_cpu_frame_ms",&GuiReport::max_cpu_frame_ms).def_ro("project_replacements",&GuiReport::project_replacements).def_ro("project_load_ms",&GuiReport::project_load_ms).def_ro("images_removed",&GuiReport::images_removed)
-        .def_ro("saves_completed",&GuiReport::saves_completed).def_ro("save_capture_ms",&GuiReport::save_capture_ms).def_ro("save_write_ms",&GuiReport::save_write_ms).def_ro("recovery_load_ms",&GuiReport::recovery_load_ms).def_ro("checkpoints_deleted",&GuiReport::checkpoints_deleted).def_ro("recovery_maintenance_error",&GuiReport::recovery_maintenance_error);
+        .def_ro("saves_completed",&GuiReport::saves_completed).def_ro("save_capture_ms",&GuiReport::save_capture_ms).def_ro("save_write_ms",&GuiReport::save_write_ms).def_ro("recovery_load_ms",&GuiReport::recovery_load_ms).def_ro("checkpoints_deleted",&GuiReport::checkpoints_deleted).def_ro("recovery_maintenance_error",&GuiReport::recovery_maintenance_error).def_ro("retired_workspaces",&GuiReport::retired_workspaces).def_ro("max_retirement_ms",&GuiReport::max_retirement_ms);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.

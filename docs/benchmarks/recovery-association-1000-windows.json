@@ -1,0 +1,12 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "objects": 100000,
+  "directory_checkpoints": 1001,
+  "unrelated_checkpoints": 1000,
+  "discovery_ms": 686.8862999835983,
+  "matching_checkpoints": 1,
+  "result_limit": 64,
+  "associated_load_ms": 166.78349999710917,
+  "scope": "Warm local SQLite: 100000-object moved/renamed project and checkpoint, 1000 unrelated empty checkpoints. Metadata-only identity discovery caches primary identity/generation, bounded result heap; graph/file construction excluded. Desktop includes background scan/load, native background graph retirement and explicit save; buffer-swap wait excluded. Cold/network/vendor and prolonged pressure unverified."
+}

@@ -1,11 +1,13 @@
 #pragma once
 #include "qupathxx/core.hpp"
+#include <utility>
 
 namespace qpx {
 class ProjectAutosave;
 class ProjectSaveJob;
 struct RecoveryInfo {
     std::string path,identity,session,base_path,base_status,error,fingerprint;
+    std::string associated_base_path;
     std::uint64_t base_generation=0;
     std::int64_t created_unix_ms=0;
     std::size_t images=0,objects=0;
@@ -32,10 +34,10 @@ public:
     static RecoveryInfo inspect_recovery(const std::string& path);
     static RecoveryInfo review_recovery(const std::string& path);
     static void discard_recovery_checked(const RecoveryInfo& reviewed);
-    static std::shared_ptr<Project> recover(const std::string& path);
+    static std::shared_ptr<Project> recover(const std::string& path,const std::string& base_path="");
     static void discard_recovery(const std::string& path,const std::string& expected_identity);
     static std::vector<RecoveryInfo> find_recoveries(const std::string& base_path="",std::size_t limit=64);
-    void restore_recovery(const std::string& path);
+    void restore_recovery(const std::string& path,const std::string& base_path="");
     void save(const std::string& path);
     std::uint64_t add_image(const std::string& path,std::string reader="auto",std::string name="");
     std::uint64_t add_document(std::shared_ptr<Document> document,std::string name="",
@@ -60,11 +62,16 @@ private:
     friend class ProjectSaveJob;
     friend GuiReport run_gui(Document&,int,const std::string&,const GuiOptions&);
     void adopt_workspace(Project& candidate) noexcept;
-    static std::shared_ptr<Project> open_impl(const std::string& path,bool recovery);
+    bool can_retire_on_worker() const;
+    static std::shared_ptr<Project> open_impl(const std::string& path,bool recovery,const std::string& base_path="");
+    static std::pair<std::string,std::uint64_t> read_save_identity(const std::string& path);
+    static RecoveryInfo inspect_recovery_header(const std::string& path);
     std::unique_ptr<Project> snapshot_for_save(std::size_t budget,std::size_t& bytes) const;
     void save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled=nullptr);
     void save_recovery(const std::string& path,const std::string& link_directory,const RecoveryInfo& info,const std::atomic<bool>* cancelled=nullptr);
-    struct Entry { ProjectImage info; std::shared_ptr<Document> document; };
+    // Only native factories can assert that the shared_ptr control block and
+    // its deleter contain no Python references. External documents default off.
+    struct Entry { ProjectImage info; std::shared_ptr<Document> document; bool native_lifetime=false; };
     const Entry& entry(std::uint64_t id) const;
     std::map<std::uint64_t,Entry> entries_;
     std::map<std::uint64_t,ProjectView> views_;

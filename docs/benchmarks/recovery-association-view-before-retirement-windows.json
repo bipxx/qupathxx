@@ -1,0 +1,19 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "objects": 100000,
+  "directory_checkpoints": 1001,
+  "unrelated_checkpoints": 1000,
+  "discovery_ms": 732.3001000331715,
+  "matching_checkpoints": 1,
+  "result_limit": 64,
+  "worker_recovery_load_ms": 168.5516,
+  "cpu_frame_p95_ms": 16.9309,
+  "max_cpu_frame_ms": 38.896,
+  "peak_gpu_payload_bytes": 3145728,
+  "selected_objects": 100000,
+  "visible_objects": 792,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+  "variant": "Observed implementation baseline before native lifetime tracking/background retirement; owner-thread graph release, no external document owner.",
+  "scope": "Warm local SQLite: 100000-object moved/renamed project and checkpoint, 1000 unrelated empty checkpoints. Metadata-only identity discovery caches primary identity/generation, bounded result heap; graph/file construction excluded. Desktop includes background scan/load, owner-thread graph retirement and explicit save; buffer-swap wait excluded. Cold/network/vendor and prolonged pressure unverified."
+}

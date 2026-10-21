@@ -120,8 +120,9 @@ qupathxx_app --recover study.qpxproj.recovery-SESSION.qpxrecover
 checkpoint; mismatched/invalid files and active writer locks reject.
 [Reviewed checkpoint deletion and background recovery loading](recovery-maintenance.md)
 are now available in the desktop. The checked native API compares the reviewed
-file content before removal. Abandoned-work-directory cleanup, automatic retention
-and recovery association after moving the primary remain delivery work.
+file content before removal. Abandoned-work-directory cleanup and automatic retention
+remain delivery work. [Moved-primary association](recovery-association.md) now
+validates project identity while preserving the captured generation.
 [Explicit primary saves](project-save.md) run on a worker with owner-thread baseline
 acknowledgment; initial CLI project/recovery loading remains synchronous. Interrupted work directories are ignored during discovery; incomplete
 databases are never promoted. Retention across many sessions and power-loss/

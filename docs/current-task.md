@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 270 Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay;
+Evidence: 290 Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay;
 fourteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
@@ -62,8 +62,16 @@ implemented; see recovery-maintenance.md. The 100000-object recovery run records
 179 ms worker loading, 16.9 ms p95 and 38.4 ms maximum CPU frame work, including
 old-graph retirement without an external owner. The separate checkpoint deletion
 run records 19.6 ms standalone content review and 16.8 ms viewer frame p95.
-Next implement automatic retention/abandoned-work cleanup and moved-recovery
-association; preserve the measurable owner-thread replacement retirement pause;
+Moved recovery association now discovers identities across primary/sidecar renames,
+accepts a verified primary location and retains stale-writer protection; see
+recovery-association.md. Native-factory graphs now retire on one worker while
+external `add_document` graphs retain owner-thread/GIL release; see project-retirement.md.
+Factory servers now preserve native shared ownership through Python round trips;
+subprocess tests verify snapshot release without a GIL deadlock after live removal.
+The 1001-checkpoint/100000-object run records 642 ms metadata discovery, 169 ms
+worker loading, 14.6 ms worker retirement, 17.0 ms frame p95 and 26.7 ms maximum
+frame work. The external-graph retirement pause remains an optimization target.
+Next implement automatic retention/abandoned-work cleanup and initial loading progress;
 retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,

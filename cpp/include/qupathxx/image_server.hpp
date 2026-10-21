@@ -43,7 +43,9 @@ private:
 };
 // All reads are synchronous in this packet. Buffers own their memory. OOB pixels
 // are transparent black; RGBA bytes are straight alpha in device color space.
-class ImageServer {
+// Preserve factory-created native ownership when a server round-trips through
+// nanobind. A Python-owned proxy deleter must not enter native reader/save jobs.
+class ImageServer : public std::enable_shared_from_this<ImageServer> {
 public:
     virtual ~ImageServer() = default;
     virtual const ImageMetadata& metadata() const = 0;

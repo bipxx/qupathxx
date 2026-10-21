@@ -45,8 +45,8 @@ schema. [Autosave/recovery](project-recovery.md) stores this canonical state and
 the native GUI supports dirty-close decisions. [In-window project opening](project-opening.md)
 loads ordinary projects on a worker. [Empty desktop workspaces and image removal](project-lifecycle.md)
 are implemented. [Reviewed checkpoint deletion and background recovery loading](recovery-maintenance.md)
-are implemented; automatic retention, abandoned work cleanup and moved-primary
-recovery association remain M4 work.
+are implemented, as is [moved-primary association](recovery-association.md).
+Automatic retention and abandoned work cleanup remain M4 work.
 
 ## Schema 1 to 2
 

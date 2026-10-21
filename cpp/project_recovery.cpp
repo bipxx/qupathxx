@@ -297,16 +297,42 @@ std::vector<RecoveryInfo> Project::find_recoveries(const std::string& base,std::
     if(!limit || limit>1024) throw std::invalid_argument("recovery discovery limit must be between 1 and 1024");
     auto directory=base.empty()?cache_directory():location(base).parent_path();
     std::string prefix=base.empty()?"":location(base).filename().u8string()+".recovery-";
+    std::optional<std::pair<std::string,std::uint64_t>> primary;
+    std::string unavailable_status;
+    if(!base.empty()) {
+        try {primary=read_save_identity(base);}
+        catch(const std::exception&) {
+            std::error_code error; const auto exists=fs::exists(location(base),error);
+            unavailable_status=error || exists?"unreadable":"missing";
+        }
+    }
     std::vector<RecoveryInfo> result;
     auto better=[](const auto& a,const auto& b){return a.created_unix_ms!=b.created_unix_ms?a.created_unix_ms>b.created_unix_ms:a.path<b.path;};
     if(!fs::exists(directory)) return result;
     for(const auto& item:fs::directory_iterator(directory)) {
-        if(!recovery_extension(item.path()) || !name_prefix(item.path(),prefix) || !item.is_regular_file()) continue;
+        if(!recovery_extension(item.path()) || !item.is_regular_file()) continue;
         RecoveryInfo info;
         try {
-            info=inspect_recovery(item.path().u8string());
-            if(info.base_path.empty()!=base.empty() || (!base.empty() && !same_path(location(info.base_path),location(base)))) continue;
-        } catch(const std::exception& e) { info.path=item.path().u8string(); info.error=e.what(); }
+            info=inspect_recovery_header(item.path().u8string());
+            if(base.empty()) {
+                if(!info.base_path.empty()) continue;
+                info.base_status="unsaved";
+            } else {
+                if(info.base_path.empty()) continue;
+                const bool recorded_here=same_path(location(info.base_path),location(base));
+                const bool matching_identity=primary && primary->first==info.identity;
+                if(!recorded_here && !matching_identity) continue;
+                if(matching_identity) {
+                    info.associated_base_path=location(base).u8string();
+                    info.base_status=primary->second!=info.base_generation?"changed":(recorded_here?"matching":"relocated");
+                } else info.base_status=primary?"changed":unavailable_status;
+            }
+        } catch(const std::exception& e) {
+            // An invalid file has no trustworthy identity. Retain the existing
+            // filename-prefix error visibility, without claiming association.
+            if(!name_prefix(item.path(),prefix)) continue;
+            info.path=item.path().u8string(); info.error=e.what();
+        }
         result.push_back(std::move(info)); std::push_heap(result.begin(),result.end(),better);
         if(result.size()>limit) { std::pop_heap(result.begin(),result.end(),better); result.pop_back(); }
     }

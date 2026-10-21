@@ -503,3 +503,23 @@ a 38.4 ms maximum replacement frame when the old graph has no external owner;
 retirement remains an optimization target. Automatic retention, abandoned-work
 cleanup, moved recovery association and initial CLI loading progress remain M4
 work. QuPath runtime comparisons and all unfinished M0-M7 gates remain active.
+
+
+The twentieth packet adds explicit moved-primary recovery association through
+native/Python APIs, the desktop optional-primary field and both launchers.
+Identity-based bounded discovery finds renamed/custom sidecars, while captured
+generations continue to reject stale writes. Metadata-only inspection caches the
+primary identity instead of decoding unrelated graphs. It also moves eligible
+native-factory graphs/selections to one retirement worker, while external/mixed
+control blocks retain owner-thread/GIL safety. See
+[recovery association](recovery-association.md) and [retirement](project-retirement.md).
+The 1001-checkpoint/100000-object run records 17.0 ms frame p95 and 26.7 ms maximum
+frame work; external graph release and broader pressure remain unoptimized.
+Automatic retention, abandoned work cleanup, initial CLI loading progress, QuPath
+runtime comparisons and all unfinished M0-M7 requirements remain active.
+
+The same packet fixes image-server round-trip ownership: `enable_shared_from_this`
+lets nanobind retain the native factory control block when a server is passed back
+through Python. Save/autosave subprocess regressions verify worker snapshot release
+after live server/document owners are dropped, without a GIL deadlock. Native
+control-block identity is checked independently in the reader suite.

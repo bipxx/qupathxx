@@ -41,10 +41,12 @@ allows an already running SQLite/validation operation to finish; it does not
 interrupt operating-system I/O. Closing the viewer cancels adoption as well,
 and shutdown joins its outstanding load. The loader retains a second canonical
 graph until the replacement decision. No new memory limit or streaming project
-loader is claimed. Old graph references are released on the owner thread:
-Python-origin shared-pointer deleters can require the GIL, so moving their last
-release to a worker would deadlock an embedded viewer. Large inactive graphs
-can therefore still cause a replacement-frame pause. [Explicit primary saves](project-save.md)
+loader is claimed. Old graphs whose document control blocks come entirely from
+native factories
+now use one [retirement worker](project-retirement.md). Externally supplied
+`add_document` graphs remain on the owner thread because their deleters may require
+the GIL. Those graphs, GPU cleanup and vendor shutdown can still delay replacement.
+[Explicit primary saves](project-save.md)
 now run on a worker. [In-window recovery loading](recovery-maintenance.md) also
 uses this loader slot; initial CLI opening remains synchronous.
 

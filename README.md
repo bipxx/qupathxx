@@ -32,6 +32,8 @@ QuPath port or a compatible replacement for Java QuPath.
   see [opening projects](docs/project-opening.md).
 - Background explicit saves preserve newer live edits as unsaved and recover interrupted
   SQLite transactions; see [project saving](docs/project-save.md).
+- Recovery association after moves/copies/renames and bounded native workspace retirement;
+  see [association](docs/recovery-association.md) and [retirement](docs/project-retirement.md).
 - Background recovery loading and reviewed checkpoint deletion; see
   [recovery maintenance](docs/recovery-maintenance.md).
 - Native background autosave, session-specific recovery files and dirty-close

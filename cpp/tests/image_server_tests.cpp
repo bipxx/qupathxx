@@ -11,6 +11,9 @@ template<class Exception, class Action> void rejects(Action action) {
 int main() {
     try {
         auto s = qpx::dense_image_server(qpx::Image(2,1,{10,20,30,100,110,120}));
+        auto held=s->shared_from_this();
+        check(held.get()==s.get() && !held.owner_before(s) && !s.owner_before(held));
+        held.reset();
         check(s->metadata().width == 2 && !s->metadata().pixel_width_um);
         auto padded = s->read_region({-1,0,0,4,1});
         check(padded.bytes() == std::vector<std::uint8_t>({0,0,0,0,10,20,30,255,100,110,120,255,0,0,0,0}));

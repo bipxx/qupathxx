@@ -28,6 +28,14 @@ int main() {
         check(autosave.request(p,path) && autosave.wait().state=="ready");
         bool changed=false; try {Project::discard_recovery_checked(reviewed);} catch(const std::runtime_error&) {changed=true;}
         check(changed && std::filesystem::exists(std::filesystem::u8path(path)));
+        auto moved=base+".moved.qpxproj";
+        std::filesystem::copy_file(std::filesystem::u8path(base),std::filesystem::u8path(moved));
+        auto candidates=Project::find_recoveries(moved);
+        check(candidates.size()==1 && candidates.front().base_status=="relocated" && candidates.front().associated_base_path==moved);
+        auto associated=Project::recover(path,moved);
+        check(associated->path()==moved && associated->generation()==1 && associated->dirty());
+        associated->save(moved); check(Project::open(moved)->generation()==2 && Project::open(base)->generation()==1);
+        std::filesystem::remove(std::filesystem::u8path(moved));
         Project::discard_recovery_checked(Project::review_recovery(path));
         autosave.clear(); check(autosave.wait().state=="idle" && !std::filesystem::exists(std::filesystem::u8path(path)));
         std::filesystem::remove(std::filesystem::u8path(base)); std::filesystem::remove(std::filesystem::u8path(path+".lock"));

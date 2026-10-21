@@ -108,8 +108,8 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
     }
     return snapshot;
 }
-void Project::restore_recovery(const std::string& path) {
-    auto restored=recover(path);
+void Project::restore_recovery(const std::string& path,const std::string& base) {
+    auto restored=recover(path,base);
     adopt_workspace(*restored);
 }
 void Project::adopt_workspace(Project& candidate) noexcept {
@@ -117,6 +117,9 @@ void Project::adopt_workspace(Project& candidate) noexcept {
     path_.swap(candidate.path_); identity_.swap(candidate.identity_); instance_identity_.swap(candidate.instance_identity_); recovery_source_.swap(candidate.recovery_source_);
     std::swap(next_id_,candidate.next_id_); std::swap(active_image_,candidate.active_image_); std::swap(generation_,candidate.generation_);
     std::swap(revision_,candidate.revision_); std::swap(saved_revision_,candidate.saved_revision_);
+}
+bool Project::can_retire_on_worker() const {
+    return std::all_of(entries_.begin(),entries_.end(),[](const auto& value){return value.second.native_lifetime;});
 }
 const Project::Entry& Project::entry(std::uint64_t id) const {
     auto it=entries_.find(id); if(it==entries_.end()) throw std::out_of_range("project image does not exist"); return it->second;
@@ -132,7 +135,9 @@ std::vector<ProjectImage> Project::images() const {
 }
 std::uint64_t Project::add_image(const std::string& path,std::string reader,std::string name) {
     auto source=absolute(path); reader=reader_name(source,std::move(reader));
-    return add_document(std::make_shared<Document>(read_image(source,reader)),std::move(name),source,reader);
+    auto id=add_document(std::make_shared<Document>(read_image(source,reader)),std::move(name),source,reader);
+    entries_.at(id).native_lifetime=true;
+    return id;
 }
 std::uint64_t Project::add_document(std::shared_ptr<Document> doc,std::string name,std::string source,std::string reader) {
     if(!doc) throw std::invalid_argument("project requires a document");
@@ -231,8 +236,10 @@ void Project::save(const std::string&) { throw std::runtime_error("project stora
 void Project::save_impl(const std::string&,const std::string&,const std::atomic<bool>*) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
 void Project::save_recovery(const std::string&,const std::string&,const RecoveryInfo&,const std::atomic<bool>*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::shared_ptr<Project> Project::open(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
-std::shared_ptr<Project> Project::open_impl(const std::string&,bool) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
-std::shared_ptr<Project> Project::recover(const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
+std::shared_ptr<Project> Project::open_impl(const std::string&,bool,const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
+std::shared_ptr<Project> Project::recover(const std::string&,const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
+std::pair<std::string,std::uint64_t> Project::read_save_identity(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
+RecoveryInfo Project::inspect_recovery_header(const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 RecoveryInfo Project::inspect_recovery(const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 #else
 namespace {
@@ -459,13 +466,23 @@ void Project::save_impl(const std::string& path,const std::string& link_director
 std::shared_ptr<Project> Project::open(const std::string& path) {
     return open_impl(path,false);
 }
-std::shared_ptr<Project> Project::recover(const std::string& path) { return open_impl(path,true); }
-std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recovery) {
+std::shared_ptr<Project> Project::recover(const std::string& path,const std::string& base) { return open_impl(path,true,base); }
+std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recovery,const std::string& base_path) {
     auto source=absolute(path); Database db(source,false); Transaction transaction(db,false);
     if(recovery_table(db)!=recovery) throw std::invalid_argument(recovery?"not a recovery snapshot":"use Project.recover for recovery snapshots");
     auto version=schema(db,recovery);
     std::optional<RecoveryInfo> recovery_info;
     if(recovery) recovery_info=recovery_header(db,source);
+    std::string associated_base;
+    if(!base_path.empty()) {
+        if(!recovery_info || recovery_info->base_path.empty() || !recovery_info->base_generation)
+            throw std::invalid_argument("only a saved-project recovery can be associated with a primary location");
+        associated_base=absolute(base_path);
+        const auto base=read_save_identity(associated_base);
+        if(base.first!=recovery_info->identity) throw std::invalid_argument("recovery association requires the same primary project identity");
+        // Keep the captured generation even if the relocated primary advanced.
+        // A later save must still reject that stale baseline, rather than rebase.
+    }
     auto project=std::make_shared<Project>();
     Statement meta(db,"SELECT identity,next_image,active,generation FROM project");
     if(!meta.row()) throw std::invalid_argument("project metadata is missing");
@@ -518,7 +535,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         objects.check(sqlite3_reset(objects.stmt)); objects.check(sqlite3_clear_bindings(objects.stmt));
         auto document=Document::restore(std::move(server),annotations,definitions,images.optional(10),images.optional(11),number(images.string(12)),number(images.string(13)));
         project->saved_revisions_.emplace(info.id,document->revision());
-        if(!project->entries_.emplace(info.id,Entry{std::move(info),std::move(document)}).second) throw std::invalid_argument("duplicate project image ID");
+        if(!project->entries_.emplace(info.id,Entry{std::move(info),std::move(document),true}).second) throw std::invalid_argument("duplicate project image ID");
     }
     if(project->active_image_ && !project->entries_.count(project->active_image_)) throw std::invalid_argument("project active image does not exist");
     if(version==2) {
@@ -537,7 +554,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
        scalar(db,"SELECT count(*) FROM levels WHERE image_id NOT IN (SELECT id FROM images)")) throw std::invalid_argument("orphaned project data");
     transaction.commit();
     if(recovery_info) {
-        project->path_=recovery_info->base_path; project->generation_=recovery_info->base_generation;
+        project->path_=associated_base.empty()?recovery_info->base_path:associated_base; project->generation_=recovery_info->base_generation;
         project->recovery_source_=source;
         project->revision_=1; project->saved_revision_=0;
     } else project->path_.swap(source);
@@ -555,18 +572,30 @@ void Project::save_recovery(const std::string& path,const std::string& link_dire
     Statement check(db,"PRAGMA quick_check"); if(!check.row() || check.string(0)!="ok") throw std::runtime_error("recovery snapshot integrity check failed");
     recovery_header(db,path);
 }
-RecoveryInfo Project::inspect_recovery(const std::string& path) {
+RecoveryInfo Project::inspect_recovery_header(const std::string& path) {
     auto source=absolute(path); Database db(source,false); Transaction transaction(db,false);
     auto info=recovery_header(db,source); transaction.commit();
+    return info;
+}
+std::pair<std::string,std::uint64_t> Project::read_save_identity(const std::string& path) {
+    Database base(absolute(path),false); Transaction transaction(base,false); schema(base);
+    if(recovery_table(base)) throw std::invalid_argument("recovery cannot be a primary project");
+    Statement meta(base,"SELECT identity,generation FROM project");
+    if(!meta.row()) throw std::invalid_argument("primary project metadata is missing");
+    auto identity=meta.string(0); const auto generation=meta.integer(1);
+    if(identity.size()!=32 || identity.find_first_not_of("0123456789abcdef")!=std::string::npos || generation<1 || meta.row())
+        throw std::invalid_argument("invalid primary project identity or generation");
+    transaction.commit(); return {std::move(identity),static_cast<std::uint64_t>(generation)};
+}
+RecoveryInfo Project::inspect_recovery(const std::string& path) {
+    auto info=inspect_recovery_header(path);
     if(info.base_path.empty()) info.base_status="unsaved";
     else {
         try {
             if(!fs::exists(fs::u8path(info.base_path))) info.base_status="missing";
             else {
-                Database base(info.base_path,false); schema(base);
-                if(recovery_table(base)) throw std::invalid_argument("recovery cannot be a primary project");
-                Statement meta(base,"SELECT identity,generation FROM project");
-                info.base_status=meta.row() && meta.string(0)==info.identity && meta.integer(1)>=1 && static_cast<std::uint64_t>(meta.integer(1))==info.base_generation && !meta.row()?"matching":"changed";
+                const auto base=read_save_identity(info.base_path);
+                info.base_status=base.first==info.identity && base.second==info.base_generation?"matching":"changed";
             }
         } catch(const std::exception&) { info.base_status="unreadable"; }
     }
