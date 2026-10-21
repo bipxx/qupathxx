@@ -1,0 +1,43 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "pixels": 1048576,
+  "passes": 12,
+  "seed": 298,
+  "stains": [
+    [
+      0.6511078257574493,
+      0.7011930431234068,
+      0.29049426072255424
+    ],
+    [
+      0.07010172129736672,
+      0.9914386297770434,
+      0.11015984775300483
+    ],
+    [
+      -0.33211686413769764,
+      -0.08093471415445086,
+      0.9397595227504106
+    ]
+  ],
+  "white": [
+    250.0,
+    245.0,
+    230.0
+  ],
+  "construction_ms": 0.027999980375170708,
+  "output_bytes": 12582912,
+  "od_byte_copy_ms": 2.4249000707641244,
+  "od_max_abs_error": 1.1693956025737862e-07,
+  "od_median_ms": 4.393599985633045,
+  "od_max_ms": 4.8871999606490135,
+  "od_mpixels_per_second": 238.6598696806299,
+  "od_checksum": 1299929.6443824468,
+  "deconvolve_byte_copy_ms": 3.897799993865192,
+  "deconvolve_max_abs_error": 2.3790446590510328e-07,
+  "deconvolve_median_ms": 5.486800044309348,
+  "deconvolve_max_ms": 6.500300019979477,
+  "deconvolve_mpixels_per_second": 191.10884149815774,
+  "deconvolve_checksum": 897222.0469332867
+}

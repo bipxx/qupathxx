@@ -704,3 +704,19 @@ suites passing in full/core/minimal builds. The isotropic workload records
 The shape cache is a geometry contract; upstream acceptance, image-source keys
 for intensity features, reproducible analysis jobs and all other unverified
 M0-M7 requirements remain open.
+
+The twenty-ninth packet starts M5 with native optical density and fixed supplied
+two/three-vector stain separation. Immutable transforms normalize a validated
+basis, precompute per-channel OD/concentration tables and produce owned float32
+results through C++ and GIL-releasing Python calls. Cancellation, 256 MiB result
+limits, invalid/padded pixels and signed concentrations have explicit contracts;
+see [stain transforms](stain-transforms.md). Twenty-four Python tests compare
+independent scalar formulas and matrix solves, partitioned execution, lifetimes
+and concurrent reuse. Native checks add malformed RGBA, partial alpha, memory
+limits and cancellation. All 435 installed-wheel Python tests pass with two
+unavailable file-symlink cases skipped; all fifteen native suites pass in three configurations.
+The synthetic 1048576-pixel workload records 4.39 ms median OD and 5.49 ms
+separation, with 2.42/3.90 ms Python byte copies measured separately. This does
+not complete M5: shared versioned analysis jobs, GUI result publication,
+provenance, stain estimation, tissue/cell algorithms and upstream runtime
+acceptance remain required. All unfinished M0-M7 requirements stay active.

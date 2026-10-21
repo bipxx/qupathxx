@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    optical_density, FloatRgbImage, StainTransform,
     RoiMeasurements, ShapeMeasurements, FeatureCacheStats,
     Annotation, ObjectEdit, ObjectKind, ObjectClass, ObjectSelection, Document, Image, ImageLevel, ImageMetadata, ImageServer,
     InterchangeReport, InterchangeIssue, has_interchange, export_geojson, import_geojson, save_geojson, load_geojson, measurements_csv, save_measurements_csv,
@@ -14,6 +15,7 @@ from ._native import (
 )
 
 __all__ = [
+    "optical_density", "FloatRgbImage", "StainTransform",
     "RoiMeasurements", "ShapeMeasurements", "FeatureCacheStats",
     "Annotation", "ObjectEdit", "ObjectKind", "ObjectClass", "ObjectSelection", "Document", "Image", "ImageLevel", "ImageMetadata", "ImageServer",
     "InterchangeReport", "InterchangeIssue", "has_interchange", "export_geojson", "import_geojson", "save_geojson", "load_geojson", "measurements_csv", "save_measurements_csv",

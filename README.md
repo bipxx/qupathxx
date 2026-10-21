@@ -48,6 +48,8 @@ QuPath port or a compatible replacement for Java QuPath.
   [project opening](docs/project-opening.md).
 - Bounded revision-keyed shape measurements with anisotropic calibration; see
   [shape measurements](docs/geometry-spatial.md#revision-keyed-shape-measurements).
+- Native optical density and fixed-vector stain separation with Python access;
+  see [stain transforms](docs/stain-transforms.md).
 - Native background autosave, session-specific recovery files and dirty-close
   decisions; see [recovery](docs/project-recovery.md).
 

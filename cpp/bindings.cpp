@@ -3,9 +3,11 @@
 #include "qupathxx/project_recovery.hpp"
 #include "qupathxx/project_save.hpp"
 #include "qupathxx/interchange.hpp"
+#include "qupathxx/stains.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
+#include <nanobind/stl/array.h>
 #include <nanobind/stl/optional.h>
 #include <nanobind/stl/shared_ptr.h>
 #include <stdexcept>
@@ -14,6 +16,20 @@ using namespace nb::literals;
 void bind_scheduler(nb::module_&);
 NB_MODULE(_native, m) {
     using namespace qpx;
+    m.def("optical_density",&optical_density,"intensity"_a,"white"_a=255.);
+    nb::class_<FloatRgbImage>(m,"FloatRgbImage")
+        .def_prop_ro("width",&FloatRgbImage::width).def_prop_ro("height",&FloatRgbImage::height)
+        .def_prop_ro("row_stride",&FloatRgbImage::row_stride)
+        .def_prop_ro("data",[](const FloatRgbImage& p) {
+            return nb::bytes(reinterpret_cast<const char*>(p.values().data()),p.values().size()*sizeof(float));
+        });
+    nb::class_<StainTransform>(m,"StainTransform")
+        .def(nb::init<const std::vector<ColorVector>&,ColorVector>(),"stains"_a,"white"_a=ColorVector{255,255,255})
+        .def_prop_ro("stains",&StainTransform::stains).def_prop_ro("white",&StainTransform::white)
+        .def("optical_densities",[](const StainTransform& t,const PixelBuffer& p){return t.optical_densities(p);},
+            "pixels"_a,nb::call_guard<nb::gil_scoped_release>())
+        .def("deconvolve",[](const StainTransform& t,const PixelBuffer& p){return t.deconvolve(p);},
+            "pixels"_a,nb::call_guard<nb::gil_scoped_release>());
     nb::class_<Point>(m, "Point").def(nb::init<>()).def(nb::init<double, double>()).def_rw("x", &Point::x).def_rw("y", &Point::y);
     nb::class_<Rect>(m, "Rect").def(nb::init<>()).def(nb::init<double,double,double,double>())
         .def_rw("x", &Rect::x).def_rw("y", &Rect::y).def_rw("width", &Rect::width).def_rw("height", &Rect::height)

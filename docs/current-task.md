@@ -8,9 +8,9 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 411 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
+Evidence: 435 passing Python tests including stains, shapes, interchange, browsing, workspace migration, recovery and GUI replay
 (two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
-fourteen native suites with optional geometry/readers/interchange enabled and disabled;
+fifteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
 116 ms undo, 126 ms redo and 815 bytes of history payload for a rename. The spatial
@@ -168,9 +168,22 @@ suites pass in full/core/minimal builds. The anisotropic hot-set benchmark recor
 4096 bundles after 100000-object pressure. The selected viewer records 16.79 ms
 sampled frame p95, 17.12 ms maximum, 789 visible ellipses and 3 MiB GPU payload,
 with 176 hits and no recomputations. Early rendering stalls remain unresolved.
-Next complete the remaining numerical comparison audit and image/analysis
-feature-version contracts while improving initial rendering and metadata/capture
-latency. Preserve all unfinished
+Native optical density and fixed two/three-vector stain separation now start
+M5; see stain-transforms.md. Immutable transforms precompute OD and concentration
+contribution tables, release the GIL and return independent float32 values.
+Transparent/partial-alpha pixels are NaN; negative concentrations remain intact.
+Twenty-four Python tests compare the kernel with independent formulas/matrix
+solves, exact tiled partitioning, lifetimes and concurrent reuse. Native checks
+also cover cancellation, partial alpha, malformed buffers and the result memory
+ceiling. All 435 installed-wheel tests pass (two unavailable file-symlink cases
+skipped), and all fifteen native suites pass in full/core/minimal builds. The
+1048576-pixel benchmark records 4.39 ms median OD and 5.49 ms separation,
+including a 12 MiB allocation; Python byte copies cost 2.42/3.90 ms separately.
+These primitives do not yet provide analysis jobs, GUI publication, saved
+provenance, stain estimation, tissue/cell detection or upstream runtime parity.
+Next implement image/analysis source-version contracts and the shared analysis
+request/result job path, continue numerical comparisons, and improve initial
+rendering and metadata/capture latency. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,
 classifiers, scripting and packaging work under M4-M7 remains active.
