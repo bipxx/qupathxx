@@ -8,6 +8,7 @@
 #include "gui_tissue.hpp"
 #include "qupathxx/cells.hpp"
 #include "gui_replay.hpp"
+#include "gui_overlay.hpp"
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <imgui_impl_glfw.h>
@@ -152,6 +153,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             throw std::invalid_argument("startup requires an empty project, a valid path and image/project/recovery kind");
         if(options.startup_kind=="image" && options.startup_image_id) throw std::invalid_argument("startup image ID requires a stored project");
     } else if(!options.startup_path.empty() || options.startup_image_id) throw std::invalid_argument("startup path/image ID requires a startup kind");
+    if(options.overlay_cache_budget>256u*1024u*1024u) throw std::invalid_argument("overlay cache budget exceeds 256 MiB");
     if (!glfwInit()) throw std::runtime_error("GLFW initialization failed");
     Session session;
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -185,6 +187,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     AnalysisJob analysis;
     TissueJob tissue;
     CellJob cell_job;TissuePreview cell_preview;
+    OverlayCache overlay_cache;std::optional<DisplaySettings> overlay_display;
     CellParameters cell_parameters=options.cell_parameters?*options.cell_parameters:CellParameters{};cell_parameters.validate();
     int cell_feature=static_cast<int>(cell_parameters.feature),cell_connectivity=cell_parameters.connectivity==8?1:0,cell_preview_body=0;
     bool show_cells=true;std::size_t cell_annotations_added=0;
@@ -462,6 +465,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ++workspace_epoch; reviewed_checkpoint.reset(); maintenance_error.clear();
                 previous_uploads+=tiles->uploads(); previous_generations+=tiles->generations(); previous_peak_bytes=std::max(previous_peak_bytes,tiles->peak_bytes());
                 tiles=std::move(next_tiles); selection=std::move(next_selection); active_owner=std::move(owner); active_document=active_owner.get();
+                overlay_cache.clear();overlay_display.reset();
                 active_image=options.project->active_image(); pending_image=pending_remove=0; refresh_active_image=false;
                 restore_view=active_image?options.project->view(active_image):std::nullopt; viewport={}; display=restore_view?restore_view->display:options.display; fit=!restore_view;
                 drawing=marquee=vertex_dragging=false; active_vertex.reset(); draft_points.clear(); vertex_paths.clear(); vertex_id=hole_id=editor_id=selected=list_anchor=0;
@@ -532,6 +536,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     previous_peak_bytes=std::max(previous_peak_bytes,tiles->peak_bytes());
                     tiles=std::move(next_tiles);
                     active_owner=std::move(owner); active_document=active_owner.get();
+                    overlay_cache.clear();overlay_display.reset();
                     if(next!=active_image) {
                         if(current) { current->viewport=viewport; current->display=display; current->list_anchor=list_anchor; current->selection=std::move(selection); }
                         ++image_switches;
@@ -1543,14 +1548,24 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         auto combined=plan; combined.tiles.insert(combined.tiles.end(),overview_plan.tiles.begin(),overview_plan.tiles.end());
         tiles->update(combined);
         tissue_preview.update(tissue.result(),show_tissue);
+        const auto detected=cell_job.result();cell_preview.update(detected?(cell_preview_body?detected->cells():detected->nuclei()):nullptr,show_cells);
+        for(const auto& tile:plan.tiles) tiles->texture(tile); // Preserve tile LRU use even on a canvas-cache hit.
+        if(!overlay_display || !(*overlay_display==display)) {overlay_cache.clear();overlay_display=display;}
+        const auto visible_min=viewport.screen_to_image({0,0}),visible_max=viewport.screen_to_image({size.x,size.y});
+        const auto clip=draw->_CmdHeader.ClipRect;const auto* shared=ImGui::GetDrawListSharedData();
+        const OverlayKey next_overlay_key{&document,selection.get(),document.revision(),selection->revision(),selected,viewport.zoom,viewport.origin.x,viewport.origin.y,
+            offset.x,offset.y,size.x,size.y,clip.x,clip.y,clip.z,clip.w,ImGui::GetFont(),ImGui::GetFontSize(),ImGui::GetIO().Fonts->TexID,
+            draw->Flags,shared->TexUvWhitePixel.x,shared->TexUvWhitePixel.y,shared->CurveTessellationTol,shared->CircleSegmentMaxError,
+            tiles->uploads(),tiles->generations(),tissue.poll(document,selected).generation,cell_job.poll(document,selected).generation,tiles->bytes(),tissue.result().get(),detected.get(),
+            show_tissue,show_cells,tissue_preview.ready(),cell_preview.ready(),cell_preview_body};
+        if(overlay_cache.prepare(next_overlay_key,clip,max_texture,options.overlay_cache_budget)) overlay_cache.draw(draw);
+        else {
         for (const auto& tile : plan.tiles) if (auto texture=tiles->texture(tile)) {
             draw->AddImage(static_cast<ImTextureID>(texture),screen(viewport,{tile.bounds.x,tile.bounds.y},offset),
                 screen(viewport,{tile.bounds.x+tile.bounds.width,tile.bounds.y+tile.bounds.height},offset));
         }
         if(show_tissue) tissue_preview.draw(draw,viewport,offset,size);
-        const auto detected=cell_job.result();cell_preview.update(detected?(cell_preview_body?detected->cells():detected->nuclei()):nullptr,show_cells);
         if(show_cells) cell_preview.draw(draw,viewport,offset,size);
-        const auto visible_min=viewport.screen_to_image({0,0}),visible_max=viewport.screen_to_image({size.x,size.y});
         auto visible_ids=document.query_region({visible_min.x,visible_min.y,visible_max.x-visible_min.x,visible_max.y-visible_min.y});
         visible_count=visible_ids.size();
         for (auto id:visible_ids) {
@@ -1568,6 +1583,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             // Detection labels at low zoom overwhelm the canvas and scale with
             // every visible detection. Keep annotation names and selected labels.
             if(!a.is_detection() || a.id==selected) draw->AddText(p0,color,a.name.c_str());
+        }
+        overlay_cache.capture(draw);
         }
         if(tool==6 && vertex_id) {
             for(std::size_t path=0;path<vertex_paths.size();++path) {
@@ -1626,6 +1643,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
         }
         } else {
+            overlay_cache.clear();overlay_display.reset();
             visible_count=0;
             ImGui::GetWindowDrawList()->AddText({offset.x+32,offset.y+32},IM_COL32(190,205,220,255),project_images.empty()?"No images in this project.\nAdd an image in Project images, or open another project.":"No image selected.\nSelect an image in Project images.");
         }
@@ -1849,7 +1867,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         tissue_contours?tissue_contours->components().size():0,tissue_contours?tissue_contours->edge_count():0,tissue_contours?tissue_contours->vertex_count():0,
         tissue.contours_published()?tissue_annotations_added:0,tissue_contours?tissue_contours->elapsed_ms():0,tissue.contours_published(),
         saved_tissue?saved_tissue->id:0,saved_tissue?active_document->tissue_status(saved_tissue->id):std::string{},
-        final_cells.state,final_cells.error.empty()?cell_preview.error():final_cells.error,cell_job.result(),cell_job.published()?cell_annotations_added:0,cell_preview.peak_bytes(),cell_preview.ready(),cell_job.published()};
+        final_cells.state,final_cells.error.empty()?cell_preview.error():final_cells.error,cell_job.result(),cell_job.published()?cell_annotations_added:0,cell_preview.peak_bytes(),cell_preview.ready(),cell_job.published(),
+        overlay_cache.bytes(),overlay_cache.peak_bytes,overlay_cache.builds,overlay_cache.hits,overlay_cache.fallbacks};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

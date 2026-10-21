@@ -302,6 +302,7 @@ public:
     std::vector<std::uint64_t> ids() const;
     std::uint64_t primary() const;
     std::size_t size() const;
+    std::uint64_t revision() const {sync();return revision_;}
     bool contains(std::uint64_t id) const;
     void replace(const std::vector<std::uint64_t>& ids,std::uint64_t primary=0);
     void toggle(std::uint64_t id);
@@ -316,6 +317,7 @@ private:
     mutable std::set<std::uint64_t> ids_;
     mutable std::uint64_t primary_=0;
     mutable std::uint64_t structure_revision_=0;
+    mutable std::uint64_t revision_=0;
 };
 struct Viewport {
     Point origin;
@@ -396,6 +398,8 @@ struct GuiReport {
     std::shared_ptr<const CellResult> cell_result;
     std::size_t cell_annotations_added=0,cell_gpu_bytes=0;
     bool cell_preview_ready=false,cells_published=false;
+    std::size_t overlay_cache_bytes=0,overlay_cache_peak_bytes=0;
+    std::uint64_t overlay_cache_builds=0,overlay_cache_hits=0,overlay_cache_fallbacks=0;
 };
 enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey, TraceTissueKey, KeepTissueContoursKey, KeepTissueKey, RecheckTissueKey, DetectCellsKey, KeepCellsKey, CancelCellsKey };
 enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint };
@@ -442,6 +446,7 @@ struct GuiOptions {
     double replay_timeout_seconds=5;
     bool settle_tiles=false;
     std::shared_ptr<const CellParameters> cell_parameters;
+    std::size_t overlay_cache_budget=64*1024*1024;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 GuiReport run_project_gui(std::shared_ptr<Project> project, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});

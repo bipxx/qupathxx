@@ -8,15 +8,14 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the cell regression run passes 786 Python cases with two file-symlink cases
+Evidence: the final installed-wheel regression passes 802 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
-and recovery; twenty-three native suites pass with optional geometry/readers/
-interchange enabled and disabled;
-installed GUI wheel checks with packaged runtime libraries and licenses.
-After the final Gaussian underflow guard and cell-control width adjustment,
-all 51 focused cell/desktop cases pass against the rebuilt installed wheel.
+and recovery; twenty-four native suites pass in the full GUI build and
+twenty-three pass in core/minimal builds with optional geometry/readers/
+interchange enabled and disabled. The installed GUI wheel includes its
+packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
 116 ms undo, 126 ms redo and 815 bytes of history payload for a rename. The spatial
 benchmark covers 1000 region queries and a cached narrow GUI view of 828 visible
@@ -320,6 +319,16 @@ reserving 162390016 logical work bytes. With 100001 selected objects and 911
 visible, the viewer records 17.05 ms frame p95; the all-visible overview records
 109.39 ms p95. This exposes the existing dense-overlay rendering limit and is
 not a general throughput guarantee.
+
+The forty-first packet adds an exact-pixel GPU canvas cache. A renderer callback
+copies the opaque base canvas before transient tools; unchanged views use one
+quad while native geometry still handles picking/editing. Revision and display,
+tile/mask readiness, camera, clip, font and framebuffer keys prevent stale pixels.
+Payload is capped before allocation, with immediate rendering on budget failure.
+The paired 100000-visible-object, 2560-by-1440 recording reduces frame p95 from
+99.72 to 16.91 ms using 12194160 GPU payload bytes and identical framebuffer
+hashes. The view records four captures and 176 hits in 180 frames. Dense dynamic
+views still render normally. See overlay-cache.md for scope and reproduction.
 
 Next complete source/environment provenance and cell result archives. Continue
 numerical comparisons and improve initial

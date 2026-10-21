@@ -245,7 +245,7 @@ NB_MODULE(_native, m) {
     nb::class_<ObjectSelection>(m,"ObjectSelection")
         .def(nb::init<const Document&>(),nb::keep_alive<1,2>())
         .def_prop_ro("ids",&ObjectSelection::ids).def_prop_ro("primary",&ObjectSelection::primary)
-        .def_prop_ro("size",&ObjectSelection::size).def("contains",&ObjectSelection::contains)
+        .def_prop_ro("size",&ObjectSelection::size).def_prop_ro("revision",&ObjectSelection::revision).def("contains",&ObjectSelection::contains)
         .def("replace",&ObjectSelection::replace,"ids"_a,"primary"_a=0)
         .def("toggle",&ObjectSelection::toggle).def("clear",&ObjectSelection::clear)
         .def("select_all",&ObjectSelection::select_all)
@@ -291,6 +291,7 @@ NB_MODULE(_native, m) {
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift).def_rw("wait_for",&GuiInput::wait_for);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
         .def_rw("replay_timeout_seconds",&GuiOptions::replay_timeout_seconds).def_rw("settle_tiles",&GuiOptions::settle_tiles)
+        .def_rw("overlay_cache_budget",&GuiOptions::overlay_cache_budget)
         .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view).def_rw("project",&GuiOptions::project).def_rw("interchange_path",&GuiOptions::interchange_path).def_rw("project_image_path",&GuiOptions::project_image_path)
         .def_rw("autosave_path",&GuiOptions::autosave_path).def_rw("recovery_path",&GuiOptions::recovery_path).def_rw("recovery_base_path",&GuiOptions::recovery_base_path).def_rw("project_open_path",&GuiOptions::project_open_path).def_rw("autosave_interval_seconds",&GuiOptions::autosave_interval_seconds).def_rw("autosave_snapshot_budget",&GuiOptions::autosave_snapshot_budget).def_rw("save_snapshot_budget",&GuiOptions::save_snapshot_budget)
         .def_rw("startup_path",&GuiOptions::startup_path).def_rw("startup_kind",&GuiOptions::startup_kind).def_rw("startup_image_id",&GuiOptions::startup_image_id)
@@ -303,6 +304,8 @@ NB_MODULE(_native, m) {
         .def_rw("tissue_open_radius",&GuiOptions::tissue_open_radius).def_rw("tissue_close_radius",&GuiOptions::tissue_close_radius)
         .def_rw("tissue_fill_holes",&GuiOptions::tissue_fill_holes).def_rw("tissue_max_hole_pixels",&GuiOptions::tissue_max_hole_pixels);
     nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
+        .def_ro("overlay_cache_bytes",&GuiReport::overlay_cache_bytes).def_ro("overlay_cache_peak_bytes",&GuiReport::overlay_cache_peak_bytes)
+        .def_ro("overlay_cache_builds",&GuiReport::overlay_cache_builds).def_ro("overlay_cache_hits",&GuiReport::overlay_cache_hits).def_ro("overlay_cache_fallbacks",&GuiReport::overlay_cache_fallbacks)
         .def_ro("replay_frame",&GuiReport::replay_frame).def_ro("replay_wait_frames",&GuiReport::replay_wait_frames).def_ro("settle_frames",&GuiReport::settle_frames)
         .def_ro("replay_complete",&GuiReport::replay_complete).def_ro("tiles_settled",&GuiReport::tiles_settled)
         .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)

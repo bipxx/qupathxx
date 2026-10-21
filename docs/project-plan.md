@@ -1021,3 +1021,26 @@ all 51 cell/desktop cases pass against the rebuilt installed wheel. All 23 nativ
 suites pass in full/core/minimal builds. Fifty-one added Python cases include
 independent references, source-domain/level/budget boundaries, stale jobs,
 atomic publication, geometry persistence, rendered previews and the sigma limit.
+
+The forty-first packet addresses unchanged dense-scene rendering with a bounded
+GPU canvas cache. A draw callback copies already blended opaque canvas pixels
+before vertex handles, drafts, marquee, status and scale bars. Matching later
+frames submit one quad, preserving the complete base image and annotation pixels.
+Source/selection revisions, viewport/clip, display, tile/mask readiness, font and
+physical framebuffer bounds invalidate it; image/workspace replacement clears it.
+Picking and edits continue against native geometry. Over-budget or failed GPU
+resources fall back to the immediate renderer. See [canvas caching](overlay-cache.md).
+
+The paired 100000-visible-object recording at 2560 by 1440 reduces sampled frame
+p95 from 99.72 to 16.91 ms with equal framebuffer hashes, 12194160 retained GPU
+payload bytes, four captures and 176 hits. Dense navigation/edits still require
+normal rendering; this warm synthetic result is not a general hardware or GPU
+completion guarantee. The remaining M0–M7 work stays open.
+
+Fifteen new Python cases cover effective selection revisions and cached/immediate
+framebuffer equality through selection, geometry creation, Undo/Redo, camera,
+image switches, completed native previews and strict-budget fallback. The final
+installed-wheel regression passes 802 cases with two Windows symlink cases
+skipped; all 24 native suites pass in the full GUI build, and 23 pass in each
+core/minimal build. Native checks cover fractional DPI/physical bounds, empty
+or invalid surfaces, backend dimension rounding and exact budget endpoints.

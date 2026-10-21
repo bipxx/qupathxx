@@ -1,0 +1,46 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "objects": 100000,
+  "native_sha256": "3b3725302e061136e11a800c0e93f77a150988fe099dd0130e6355cd6c89ac2c",
+  "zoomed": false,
+  "window_logical_size": [
+    2560,
+    1440
+  ],
+  "runs": [
+    {
+      "name": "immediate",
+      "budget": 0,
+      "elapsed_seconds": 14.83248049998656,
+      "frames": 180,
+      "visible": 100000,
+      "cpu_frame_p95_ms": 99.718,
+      "max_cpu_frame_ms": 160.7304,
+      "cache_bytes": 0,
+      "cache_peak_bytes": 0,
+      "builds": 0,
+      "hits": 0,
+      "fallbacks": 0,
+      "framebuffer_sha256": "c6a53992ee688d2a73afbdb5099d05d7e2a7a4595eb393d9a27b2d4960d6981c",
+      "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2"
+    },
+    {
+      "name": "cached",
+      "budget": 67108864,
+      "elapsed_seconds": 3.55943829996977,
+      "frames": 180,
+      "visible": 100000,
+      "cpu_frame_p95_ms": 16.9117,
+      "max_cpu_frame_ms": 17.5806,
+      "cache_bytes": 12194160,
+      "cache_peak_bytes": 12194160,
+      "builds": 4,
+      "hits": 176,
+      "fallbacks": 0,
+      "framebuffer_sha256": "c6a53992ee688d2a73afbdb5099d05d7e2a7a4595eb393d9a27b2d4960d6981c",
+      "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2"
+    }
+  ],
+  "scope": "Warm synthetic static viewer; CPU frame work includes driver submission, excludes explicit swap/vsync and capture. No GPU-completion or general hardware guarantee."
+}

@@ -7,6 +7,8 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Bounded GPU canvas caching reuses unchanged image/annotation pixels while
+  keeping picking and edit tools live; see [canvas cache](docs/overlay-cache.md).
 - Native marker watershed cell detection, nucleus/body/cytoplasm features,
   nanobind jobs and ImGui previews with atomic cell publication and Undo/Redo;
   see [cell detection](docs/cell-detection.md).

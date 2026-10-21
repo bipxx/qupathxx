@@ -35,6 +35,36 @@ def test_selection_primary_toggle_range_and_snapshot():
     assert (doc.revision, doc.history_bytes) == (revision, history)
 
 
+def test_selection_revision_tracks_effective_membership_primary_and_pruning():
+    doc, ids, selection = setup()
+    assert selection.revision == 0
+    selection.clear()
+    assert selection.revision == 0
+    selection.replace(ids[:2])
+    first = selection.revision
+    selection.replace(ids[:2])
+    assert selection.revision == first
+    selection.replace(ids[:2], primary=ids[0])
+    assert selection.revision == first+1
+    before = selection.revision
+    doc.rename_annotation(ids[0], "Name")
+    doc.add_rectangle(q.Rect(80, 0, 2, 2))
+    assert selection.revision == before
+    doc.remove_annotation(ids[0])
+    assert selection.revision == before+1 and selection.primary == ids[1]
+    assert doc.undo() and selection.revision == before+1
+    selection.toggle(ids[1])
+    assert selection.revision == before+2 and not selection.ids
+    selection.select_all()
+    assert selection.revision == before+3
+    selection.select_all()
+    assert selection.revision == before+3
+    before = selection.revision
+    with pytest.raises(IndexError):
+        selection.replace([999])
+    assert selection.revision == before
+
+
 def test_invalid_selection_preserves_live_state():
     doc, ids, selection = setup()
     selection.replace(ids[:2])
