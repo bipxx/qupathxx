@@ -2,7 +2,8 @@
 
 Marked abandoned private work can now be reclaimed under the publication lock;
 see [recovery work cleanup](recovery-work-cleanup.md) for exact-destination scope,
-failure reporting and the remaining cross-session discovery/retention work.
+failure reporting and the remaining cross-session discovery work. Opt-in
+[checkpoint retention](recovery-retention.md) now protects idle session owners.
 
 The native `ProjectAutosave` controller captures an immutable save snapshot on
 the owner thread, then writes it on one background worker. The controller has

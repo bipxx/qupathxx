@@ -123,8 +123,9 @@ worker with owner-thread baseline acknowledgment. [In-window recovery loading](r
 also uses a worker; initial CLI loading remains synchronous. [Ordinary project-file opening](project-opening.md) uses a worker
 and staged replacement. [Empty workspaces and confirmed image removal](project-lifecycle.md)
 are implemented, as is reviewed checkpoint deletion. [Exact-destination abandoned
-work cleanup](recovery-work-cleanup.md) is implemented; automatic retention and
-cross-session work discovery remain M4 work. [Moved-primary recovery association](recovery-association.md)
+work cleanup](recovery-work-cleanup.md) and opt-in [retention](recovery-retention.md)
+are implemented; cross-session work discovery remains M4 work.
+[Moved-primary recovery association](recovery-association.md)
 validates identity without advancing the checkpoint's baseline generation.
 A hot rollback journal from a killed writer is recovered by a temporary read/write
 connection only after SQLite reports `SQLITE_READONLY_ROLLBACK`; normal loads stay

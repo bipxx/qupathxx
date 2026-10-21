@@ -543,3 +543,20 @@ directories present, the new checkpoint became visible after 256 ms; worker
 completion including 32 removals took 330 ms. A later explicit sweep removed the
 remaining 968. The desktop run records 16.9 ms p95 and 37.0 ms maximum frame work,
 including a 34.5 ms capture pause, which remains unfinished performance work.
+
+The twenty-second packet adds opt-in checkpoint retention through native/Python
+policy APIs and desktop settings. Publication precedes metadata-only age/count
+selection, with bounded newest/candidate heaps and removals. User-state native
+leases protect idle sessions across project-folder moves/copies; closed markers
+identify managed files. Unknown/legacy/foreign-state checkpoints and recent edits
+are preserved. See [retention](recovery-retention.md). Cross-session orphan-work
+discovery, obsolete lock-sidecar collection, maintenance progress/cancellation,
+initial CLI loading progress and all remaining M0-M7 requirements remain open.
+
+The distinct-session 1000-file benchmark publishes its new 100000-object snapshot
+after 255 ms, then spends 8.48 s in headless retention. The 900-frame desktop run
+records an 8.67 s background scan/collection, 16.9 ms frame p95 and 17.3 ms maximum
+frame work. Native private snapshot release precedes the scan. Bounded memory and
+publication priority are verified; scan duration/progress/cancellation remain
+performance work. All 330 installed-wheel tests pass with two unavailable file-
+symlink cases skipped, and all fourteen native suites pass in three configurations.

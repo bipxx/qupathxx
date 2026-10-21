@@ -9,6 +9,9 @@ struct AutosaveStats {
     double capture_ms=0,write_ms=0;
     std::size_t work_directories_cleaned=0;
     std::string work_cleanup_error;
+    std::size_t checkpoints_pruned=0;
+    double retention_ms=0;
+    std::string retention_error;
 };
 // Owner-thread controller. Only an immutable private snapshot enters its worker.
 // One job, no backlog. Destruction cancels publication and joins its worker.
@@ -26,6 +29,8 @@ public:
     const AutosaveStats& stats() const;
     const std::string& session() const;
     std::string default_path(const Project&) const;
+    RecoveryRetention retention() const;
+    void set_retention(RecoveryRetention policy);
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;

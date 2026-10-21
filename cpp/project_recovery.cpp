@@ -13,6 +13,8 @@
 #include <iomanip>
 #include <sstream>
 #include <locale>
+#include <cmath>
+#include <set>
 #ifdef _WIN32
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
@@ -76,12 +78,12 @@ fs::path cache_directory() {
 class FileLock {
     int fd_=-1;
 public:
-    explicit FileLock(const fs::path& path) {
+    explicit FileLock(const fs::path& path,bool create=true) {
         auto lock=path; lock+=fs::u8path(".lock");
 #ifdef _WIN32
-        if(_wsopen_s(&fd_,lock.c_str(),_O_CREAT|_O_RDWR|_O_BINARY|_O_NOINHERIT,_SH_DENYRW,_S_IREAD|_S_IWRITE)!=0) fd_=-1;
+        if(_wsopen_s(&fd_,lock.c_str(),(create?_O_CREAT:0)|_O_RDWR|_O_BINARY|_O_NOINHERIT,_SH_DENYRW,_S_IREAD|_S_IWRITE)!=0) fd_=-1;
 #else
-        fd_=::open(lock.c_str(),O_CREAT|O_RDWR|O_CLOEXEC,0600);
+        fd_=::open(lock.c_str(),(create?O_CREAT:0)|O_RDWR|O_CLOEXEC,0600);
         if(fd_>=0 && ::flock(fd_,LOCK_EX|LOCK_NB)!=0) { ::close(fd_); fd_=-1; }
 #endif
         if(fd_<0) throw std::runtime_error("recovery file is locked or its directory is unavailable");
@@ -94,6 +96,9 @@ public:
 #endif
     }
 };
+fs::path session_path(const fs::path& destination) { auto result=destination; result+=fs::u8path(".session"); return result; }
+std::string lease_marker(const RecoveryInfo& info) {return "qupathxx recovery lease v1\n"+info.identity+'\n'+info.session+'\n';}
+fs::path lease_key(const RecoveryInfo& info) {return cache_directory()/"sessions"/(info.identity+"-"+info.session);}
 bool publish(const fs::path& source,const fs::path& destination,const std::atomic<bool>& cancelled) {
 #ifdef _WIN32
     auto deadline=std::chrono::steady_clock::now()+std::chrono::milliseconds(250);
@@ -151,6 +156,31 @@ bool plain_entry(const fs::path& path,bool directory) {
 #endif
     const auto status=fs::symlink_status(path);
     return directory?fs::is_directory(status):fs::is_regular_file(status);
+}
+std::string read_session_marker(const fs::path& path) {
+    std::ifstream input(path,std::ios::binary); std::array<char,256> data{};
+    input.read(data.data(),data.size());
+    if(!input.eof()) throw std::runtime_error("invalid recovery session marker");
+    return std::string(data.data(),static_cast<std::size_t>(input.gcount()));
+}
+void write_session_marker(const fs::path& destination,const RecoveryInfo& info) {
+    const auto marker=session_path(destination);
+    std::error_code error; const auto status=fs::symlink_status(marker,error);
+    if(error && error!=std::errc::no_such_file_or_directory) throw fs::filesystem_error("cannot inspect recovery session marker",marker,error);
+    if(fs::exists(status)) {
+        if(!plain_entry(marker,false)) throw std::runtime_error("recovery session marker must be a regular file");
+        const auto content=read_session_marker(marker);
+        if(content==lease_marker(info)) return;
+        const std::string prefix="qupathxx recovery lease v1\n";
+        const auto hex=[](char c){return (c>='0' && c<='9') || (c>='a' && c<='f');};
+        if(content.size()!=prefix.size()+66 || content.compare(0,prefix.size(),prefix)!=0 ||
+           content[prefix.size()+32]!='\n' || content.back()!='\n' ||
+           !std::all_of(content.begin()+prefix.size(),content.begin()+prefix.size()+32,hex) ||
+           !std::all_of(content.begin()+prefix.size()+33,content.end()-1,hex))
+            throw std::runtime_error("unrecognized recovery session marker is preserved");
+    }
+    std::ofstream output(marker,std::ios::binary); output<<lease_marker(info); output.close();
+    if(!output) throw std::runtime_error("cannot write recovery session marker");
 }
 std::size_t cleanup_work(const fs::path& destination,std::size_t limit=0,const std::atomic<bool>* cancelled=nullptr) {
     // The caller holds the destination lock for this entire scan. A cooperating
@@ -222,9 +252,12 @@ struct ProjectAutosave::Impl {
         std::map<std::uint64_t,std::uint64_t> documents;
         bool operator==(const Stamp& b) const { return instance==b.instance && identity==b.identity && base==b.base && revision==b.revision && generation==b.generation && documents==b.documents; }
     };
-    struct Result { bool published=false,cancelled=false,cleared=false; double write_ms=0; std::string error,work_cleanup_error; std::size_t work_directories_cleaned=0; std::uintmax_t file_bytes=0; fs::file_time_type modified{}; };
+    struct Result { bool published=false,cancelled=false,cleared=false; double write_ms=0; std::string error,work_cleanup_error; std::size_t work_directories_cleaned=0; std::uintmax_t file_bytes=0; fs::file_time_type modified{}; std::shared_ptr<FileLock> lease; RecoveryRetentionStats retention; };
     std::size_t budget;
     std::string session=token(),identity,base;
+    std::string lease_identity;
+    std::shared_ptr<FileLock> lease;
+    RecoveryRetention retention;
     AutosaveStats stats;
     std::future<Result> future;
     std::shared_ptr<std::atomic<bool>> cancelled;
@@ -241,6 +274,13 @@ ProjectAutosave::~ProjectAutosave() { cancel(); try { wait(); } catch(...) {} }
 bool ProjectAutosave::busy() const { return impl_->future.valid(); }
 const AutosaveStats& ProjectAutosave::stats() const { return impl_->stats; }
 const std::string& ProjectAutosave::session() const { return impl_->session; }
+RecoveryRetention ProjectAutosave::retention() const { return impl_->retention; }
+void ProjectAutosave::set_retention(RecoveryRetention policy) {policy.validate(); impl_->retention=policy;}
+void RecoveryRetention::validate() const {
+    if(!keep_latest || keep_latest>1024 || !max_deletions || max_deletions>128 ||
+       !std::isfinite(max_age_days) || max_age_days<1 || max_age_days>36500)
+        throw std::invalid_argument("recovery retention requires 1..1024 newest checkpoints, 1..128 deletions and 1..36500 age days");
+}
 std::string ProjectAutosave::default_path(const Project& project) const {
     auto name=".recovery-"+impl_->session+".qpxrecover";
     return project.path().empty()?(cache_directory()/(project.identity()+name)).u8string():project.path()+name;
@@ -266,27 +306,52 @@ bool ProjectAutosave::request(const Project& project,const std::string& requeste
     auto cancelled=std::make_shared<std::atomic<bool>>(false);
     auto capture_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
     const bool create_cache=requested.empty() && project.path_.empty();
-    auto future=std::async(std::launch::async,[snapshot=std::move(snapshot),info,destination,cancelled,create_cache]() mutable {
+    auto lease=impl_->lease_identity==info.identity?impl_->lease:nullptr;
+    const auto retention=impl_->retention;
+    auto future=std::async(std::launch::async,[snapshot=std::move(snapshot),info,destination,cancelled,create_cache,lease=std::move(lease),retention]() mutable {
         Impl::Result result; auto start=std::chrono::steady_clock::now();
         try {
             if(create_cache) fs::create_directories(destination.parent_path());
-            FileLock lock(destination);
-            if(fs::exists(destination)) check_owner(info.path,info.identity,info.session,info.base_path);
+            if(!lease) {
+                try {
+                    const auto key=lease_key(info); fs::create_directories(key.parent_path());
+                    auto lock_path=key; lock_path+=fs::u8path(".lock");
+                    if(fs::exists(lock_path) && !plain_entry(lock_path,false)) throw std::runtime_error("invalid recovery session lease");
+                    lease=std::make_shared<FileLock>(key);
+                } catch(const std::exception& e) {result.retention.error=e.what();}
+            }
             {
-                WorkDirectory work(destination);
-                if(!cancelled->load()) snapshot->save_recovery(work.file.u8string(),destination.parent_path().u8string(),info,cancelled.get());
-                if(cancelled->load()) result.cancelled=true;
-                else {
-                    result.published=publish(work.file,destination,*cancelled);
-                    result.cancelled=!result.published;
-                    if(result.published) { result.file_bytes=fs::file_size(destination); result.modified=fs::last_write_time(destination); }
+                FileLock lock(destination);
+                if(fs::exists(destination)) check_owner(info.path,info.identity,info.session,info.base_path);
+                {
+                    WorkDirectory work(destination);
+                    if(!cancelled->load()) snapshot->save_recovery(work.file.u8string(),destination.parent_path().u8string(),info,cancelled.get());
+                    if(cancelled->load()) result.cancelled=true;
+                    else {
+                        result.published=publish(work.file,destination,*cancelled);
+                        result.cancelled=!result.published;
+                        if(result.published) {
+                            result.lease=lease;
+                            result.file_bytes=fs::file_size(destination); result.modified=fs::last_write_time(destination);
+                            if(lease) {
+                                try {write_session_marker(destination,info);} catch(const std::exception& e) {result.retention.error=e.what();}
+                            }
+                        }
+                    }
+                }
+                // Publication has priority over debris collection. Bound deletion
+                // per autosave; explicit maintenance can sweep the full destination.
+                if(result.published && !cancelled->load()) {
+                    try { result.work_directories_cleaned=cleanup_work(destination,32,cancelled.get()); }
+                    catch(const std::exception& e) {result.work_cleanup_error=e.what();}
                 }
             }
-            // Publication has priority over debris collection. Bound deletion
-            // per autosave; explicit maintenance can sweep the full destination.
-            if(result.published && !cancelled->load()) {
-                try { result.work_directories_cleaned=cleanup_work(destination,32,cancelled.get()); }
-                catch(const std::exception& e) {result.work_cleanup_error=e.what();}
+            // Retention needs only the published header and native lease. Drop
+            // the potentially large private canonical snapshot before scanning.
+            snapshot.reset();
+            if(result.published && retention.enabled && result.retention.error.empty() && !cancelled->load()) {
+                try {result.retention=Project::prune_recoveries(info.path,retention);}
+                catch(const std::exception& e) {result.retention.error=e.what();}
             }
         } catch(const std::exception& e) { if(cancelled->load()) result.cancelled=true; else result.error=e.what(); }
         snapshot.reset(); // Large canonical maps are released on the worker, not by GUI future.get().
@@ -308,6 +373,10 @@ AutosaveStats ProjectAutosave::poll() {
             auto result=impl_->future.get(); impl_->stats.write_ms=result.write_ms;
             impl_->stats.work_directories_cleaned+=result.work_directories_cleaned;
             impl_->stats.work_cleanup_error=std::move(result.work_cleanup_error);
+            if(result.lease) {impl_->lease=std::move(result.lease); impl_->lease_identity=impl_->identity;}
+            impl_->stats.checkpoints_pruned+=result.retention.removed;
+            impl_->stats.retention_ms=result.retention.elapsed_ms;
+            impl_->stats.retention_error=std::move(result.retention.error);
             if(!result.error.empty()) { impl_->stats.state="error"; impl_->stats.error=std::move(result.error); }
             else if(result.published) {
                 ++impl_->stats.completed; impl_->last=std::move(impl_->inflight); impl_->stats.state="ready";
@@ -350,6 +419,71 @@ std::size_t Project::cleanup_recovery_work(const std::string& path) {
     if(!recovery_extension(target)) throw std::invalid_argument("recovery destination must use .qpxrecover");
     FileLock lock(target);
     return cleanup_work(target);
+}
+RecoveryRetentionStats Project::prune_recoveries(const std::string& current_path,const RecoveryRetention& policy) {
+    if(!has_project()) throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON");
+    policy.validate(); RecoveryRetentionStats stats;
+    if(!policy.enabled) return stats;
+    const auto start=std::chrono::steady_clock::now();
+    const auto target=location(current_path);
+    if(!recovery_extension(target) || !plain_entry(target,false)) throw std::invalid_argument("retention requires a regular recovery checkpoint");
+    RecoveryInfo current;
+    {FileLock lock(target); current=inspect_recovery_header(target.u8string());}
+    const auto same_scope=[&](const RecoveryInfo& info) {
+        return info.identity==current.identity && (info.base_path.empty()==current.base_path.empty()) &&
+            (info.base_path.empty() || same_path(location(info.base_path),location(current.base_path)));
+    };
+    const auto newer=[](const RecoveryInfo& a,const RecoveryInfo& b) {
+        return a.created_unix_ms!=b.created_unix_ms?a.created_unix_ms>b.created_unix_ms:a.path<b.path;
+    };
+    const auto age_ms=static_cast<std::int64_t>(policy.max_age_days*86400000.);
+    const auto now_ms=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
+    const auto file_cutoff=fs::file_time_type::clock::now()-std::chrono::duration_cast<fs::file_time_type::duration>(std::chrono::duration<double>(policy.max_age_days*86400.));
+    struct Candidate {RecoveryInfo info; fs::file_time_type modified; std::shared_ptr<FileLock> lease;};
+    std::vector<RecoveryInfo> newest;
+    std::vector<Candidate> candidates;
+    const auto older=[&](const Candidate& a,const Candidate& b){return newer(b.info,a.info);};
+    for(const auto& item:fs::directory_iterator(target.parent_path())) {
+        if(!recovery_extension(item.path()) || !plain_entry(item.path(),false)) continue;
+        ++stats.inspected;
+        try {
+            auto info=inspect_recovery_header(item.path().u8string());
+            if(!same_scope(info)) continue;
+            newest.push_back(info); std::push_heap(newest.begin(),newest.end(),newer);
+            if(newest.size()>policy.keep_latest) {std::pop_heap(newest.begin(),newest.end(),newer); newest.pop_back();}
+            if(same_path(item.path(),target) || info.created_unix_ms>now_ms-age_ms) continue;
+            const auto modified=fs::last_write_time(item.path()); if(modified>file_cutoff) continue;
+            const auto sidecar=session_path(item.path());
+            if(!plain_entry(sidecar,false) || read_session_marker(sidecar)!=lease_marker(info)) continue;
+            auto global=lease_key(info); auto lock_path=global; lock_path+=fs::u8path(".lock");
+            if(!plain_entry(lock_path,false)) continue;
+            // Never create a marker for legacy/unmanaged checkpoints. An idle
+            // managed session holds this lease even between publication jobs.
+            const auto held=std::find_if(candidates.begin(),candidates.end(),[&](const Candidate& c){return c.info.session==info.session;});
+            auto lease=held!=candidates.end()?held->lease:std::make_shared<FileLock>(global,false);
+            candidates.push_back({std::move(info),modified,std::move(lease)});
+            std::push_heap(candidates.begin(),candidates.end(),older);
+            if(candidates.size()>policy.max_deletions) {std::pop_heap(candidates.begin(),candidates.end(),older); candidates.pop_back();}
+        } catch(const std::exception&) { /* Unknown, active or unreadable files are preserved. */ }
+    }
+    std::set<std::string> retained;
+    for(const auto& info:newest) retained.insert(info.path);
+    std::sort(candidates.begin(),candidates.end(),older);
+    for(const auto& candidate:candidates) {
+        if(retained.count(candidate.info.path)) continue;
+        try {
+            const auto path=location(candidate.info.path); FileLock lock(path);
+            if(!plain_entry(path,false)) continue;
+            const auto info=inspect_recovery_header(candidate.info.path);
+            if(!same_scope(info) || info.session!=candidate.info.session || info.created_unix_ms!=candidate.info.created_unix_ms ||
+               info.base_generation!=candidate.info.base_generation || fs::last_write_time(path)!=candidate.modified) continue;
+            if(!plain_entry(session_path(path),false) || read_session_marker(session_path(path))!=lease_marker(info)) continue;
+            if(!fs::remove(path)) throw std::runtime_error("recovery retention removal failed");
+            ++stats.removed;
+        } catch(const std::exception& e) {++stats.failed; if(stats.error.empty()) stats.error=e.what();}
+    }
+    stats.elapsed_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
+    return stats;
 }
 RecoveryInfo Project::review_recovery(const std::string& path) {
     if(!has_project()) throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON");

@@ -5,6 +5,17 @@
 namespace qpx {
 class ProjectAutosave;
 class ProjectSaveJob;
+struct RecoveryRetention {
+    bool enabled=false;
+    std::size_t keep_latest=10,max_deletions=32;
+    double max_age_days=30;
+    void validate() const;
+};
+struct RecoveryRetentionStats {
+    std::size_t inspected=0,removed=0,failed=0;
+    double elapsed_ms=0;
+    std::string error;
+};
 struct RecoveryInfo {
     std::string path,identity,session,base_path,base_status,error,fingerprint;
     std::string associated_base_path;
@@ -35,6 +46,7 @@ public:
     static RecoveryInfo review_recovery(const std::string& path);
     static void discard_recovery_checked(const RecoveryInfo& reviewed);
     static std::size_t cleanup_recovery_work(const std::string& path);
+    static RecoveryRetentionStats prune_recoveries(const std::string& current_path,const RecoveryRetention& policy);
     static std::shared_ptr<Project> recover(const std::string& path,const std::string& base_path="");
     static void discard_recovery(const std::string& path,const std::string& expected_identity);
     static std::vector<RecoveryInfo> find_recoveries(const std::string& base_path="",std::size_t limit=64);

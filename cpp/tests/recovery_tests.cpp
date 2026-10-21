@@ -12,7 +12,10 @@ int main() {
             bool rejected=false; try { autosave.request(p,"disabled.qpxrecover"); } catch(const std::runtime_error&) { rejected=true; }
             check(rejected && !std::filesystem::exists("disabled.qpxrecover"));
             rejected=false; try {Project::cleanup_recovery_work("disabled.qpxrecover");} catch(const std::runtime_error&) {rejected=true;}
-            check(rejected && !std::filesystem::exists("disabled.qpxrecover.lock")); return 0;
+            check(rejected && !std::filesystem::exists("disabled.qpxrecover.lock"));
+            RecoveryRetention policy; policy.enabled=true;
+            rejected=false; try {Project::prune_recoveries("disabled.qpxrecover",policy);} catch(const std::runtime_error&) {rejected=true;}
+            check(rejected && !std::filesystem::exists("disabled.qpxrecover.session")); return 0;
         }
         auto doc=std::make_shared<Document>(Image::demo()); auto image=p.add_document(doc);
         auto object=doc->add_rectangle({0,0,10,10},"Original");
@@ -26,6 +29,8 @@ int main() {
         {std::ofstream snapshot(work/"snapshot.qpxproj"); snapshot<<"partial";}
         check(autosave.request(p,path)); doc->rename_annotation(object,"Later");
         auto stats=autosave.wait(); check(stats.state=="ready" && stats.completed==1);
+        RecoveryRetention policy; policy.enabled=true; policy.keep_latest=1;
+        check(Project::prune_recoveries(path,policy).removed==0 && !autosave.retention().enabled);
         check(stats.work_directories_cleaned==1 && stats.work_cleanup_error.empty() && !std::filesystem::exists(work));
         check(Project::cleanup_recovery_work(path)==0);
         check(p.dirty() && p.generation()==1 && Project::open(base)->document(image)->annotation(object).name=="Original");
@@ -49,6 +54,7 @@ int main() {
         Project::discard_recovery_checked(Project::review_recovery(path));
         autosave.clear(); check(autosave.wait().state=="idle" && !std::filesystem::exists(std::filesystem::u8path(path)));
         std::filesystem::remove(std::filesystem::u8path(base)); std::filesystem::remove(std::filesystem::u8path(path+".lock"));
+        std::filesystem::remove(std::filesystem::u8path(path+".session"));
         std::cout<<"Native async snapshot isolation, primary preservation and restoration passed\n";
     } catch(const std::exception& e) { std::cerr<<e.what()<<'\n'; return 1; }
 }

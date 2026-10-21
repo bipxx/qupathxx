@@ -41,7 +41,8 @@ Periodic autosave pauses during review/confirmation/deletion. After deletion its
 next deadline starts a fresh configured interval; an unsaved live workspace can
 therefore create a new checkpoint later. Own-session cleanup on explicit save
 continues to use its existing ownership rules. Other sessions' checkpoints are
-removed only through this explicit selected-file action. Live owners can publish
+preserved by default. Opt-in [retention](recovery-retention.md) can collect old
+managed checkpoints after their session owners exit. Live owners can publish
 again after a reviewed deletion.
 
 ```python
@@ -80,8 +81,8 @@ This implements explicit deletion of valid selected checkpoints. Corrupt files
 are rejected and remain for manual filesystem management. [Moved-primary
 recovery association](recovery-association.md) and
 [exact-destination abandoned work cleanup](recovery-work-cleanup.md) are implemented.
-Automatic retention, cross-session work discovery/cleanup and initial CLI loading
-progress remain unfinished.
+Opt-in automatic [retention](recovery-retention.md) is implemented. Cross-session
+work discovery/cleanup and initial CLI loading progress remain unfinished.
 Discovery matches validated project identity and recorded paths within the immediate
 configured directory. No recursive directory deletion or broad deletion matching
 was introduced.

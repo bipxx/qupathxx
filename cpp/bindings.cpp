@@ -158,13 +158,21 @@ NB_MODULE(_native, m) {
         .def_ro("session",&RecoveryInfo::session).def_ro("base_path",&RecoveryInfo::base_path).def_ro("base_status",&RecoveryInfo::base_status)
         .def_ro("error",&RecoveryInfo::error).def_ro("base_generation",&RecoveryInfo::base_generation)
         .def_ro("created_unix_ms",&RecoveryInfo::created_unix_ms).def_ro("images",&RecoveryInfo::images).def_ro("objects",&RecoveryInfo::objects).def_ro("fingerprint",&RecoveryInfo::fingerprint).def_ro("associated_base_path",&RecoveryInfo::associated_base_path);
+    nb::class_<RecoveryRetention>(m,"RecoveryRetention").def(nb::init<>()).def_rw("enabled",&RecoveryRetention::enabled)
+        .def_rw("keep_latest",&RecoveryRetention::keep_latest).def_rw("max_age_days",&RecoveryRetention::max_age_days)
+        .def_rw("max_deletions",&RecoveryRetention::max_deletions).def("validate",&RecoveryRetention::validate);
+    nb::class_<RecoveryRetentionStats>(m,"RecoveryRetentionStats").def_ro("inspected",&RecoveryRetentionStats::inspected)
+        .def_ro("removed",&RecoveryRetentionStats::removed).def_ro("failed",&RecoveryRetentionStats::failed)
+        .def_ro("elapsed_ms",&RecoveryRetentionStats::elapsed_ms).def_ro("error",&RecoveryRetentionStats::error);
     nb::class_<AutosaveStats>(m,"AutosaveStats").def_ro("state",&AutosaveStats::state).def_ro("path",&AutosaveStats::path)
         .def_ro("error",&AutosaveStats::error).def_ro("completed",&AutosaveStats::completed).def_ro("snapshot_bytes",&AutosaveStats::snapshot_bytes)
         .def_ro("capture_ms",&AutosaveStats::capture_ms).def_ro("write_ms",&AutosaveStats::write_ms)
-        .def_ro("work_directories_cleaned",&AutosaveStats::work_directories_cleaned).def_ro("work_cleanup_error",&AutosaveStats::work_cleanup_error);
+        .def_ro("work_directories_cleaned",&AutosaveStats::work_directories_cleaned).def_ro("work_cleanup_error",&AutosaveStats::work_cleanup_error)
+        .def_ro("checkpoints_pruned",&AutosaveStats::checkpoints_pruned).def_ro("retention_ms",&AutosaveStats::retention_ms).def_ro("retention_error",&AutosaveStats::retention_error);
     nb::class_<ProjectAutosave>(m,"ProjectAutosave").def(nb::init<std::size_t>(),"snapshot_budget"_a=256*1024*1024)
         .def("request",&ProjectAutosave::request,"project"_a,"path"_a="").def("poll",&ProjectAutosave::poll).def("wait",&ProjectAutosave::wait)
         .def("cancel",&ProjectAutosave::cancel).def("clear",&ProjectAutosave::clear).def("default_path",&ProjectAutosave::default_path)
+        .def_prop_rw("retention",&ProjectAutosave::retention,&ProjectAutosave::set_retention)
         .def_prop_ro("busy",&ProjectAutosave::busy).def_prop_ro("stats",&ProjectAutosave::stats).def_prop_ro("session",&ProjectAutosave::session);
     nb::class_<ProjectSaveStats>(m,"ProjectSaveStats").def_ro("state",&ProjectSaveStats::state).def_ro("path",&ProjectSaveStats::path)
         .def_ro("error",&ProjectSaveStats::error).def_ro("completed",&ProjectSaveStats::completed).def_ro("generation",&ProjectSaveStats::generation)
@@ -180,6 +188,7 @@ NB_MODULE(_native, m) {
         .def_static("review_recovery",&Project::review_recovery,"path"_a)
         .def_static("discard_recovery_checked",&Project::discard_recovery_checked,"reviewed"_a)
         .def_static("cleanup_recovery_work",&Project::cleanup_recovery_work,"path"_a)
+        .def_static("prune_recoveries",&Project::prune_recoveries,"current_path"_a,"policy"_a)
         .def("restore_recovery",&Project::restore_recovery,"path"_a,"base_path"_a="")
         .def("save",&Project::save,"path"_a)
         .def("add_image",&Project::add_image,"path"_a,"reader"_a="auto","name"_a="")
@@ -230,7 +239,8 @@ NB_MODULE(_native, m) {
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
         .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view).def_rw("project",&GuiOptions::project).def_rw("interchange_path",&GuiOptions::interchange_path).def_rw("project_image_path",&GuiOptions::project_image_path)
-        .def_rw("autosave_path",&GuiOptions::autosave_path).def_rw("recovery_path",&GuiOptions::recovery_path).def_rw("recovery_base_path",&GuiOptions::recovery_base_path).def_rw("project_open_path",&GuiOptions::project_open_path).def_rw("autosave_interval_seconds",&GuiOptions::autosave_interval_seconds).def_rw("autosave_snapshot_budget",&GuiOptions::autosave_snapshot_budget).def_rw("save_snapshot_budget",&GuiOptions::save_snapshot_budget);
+        .def_rw("autosave_path",&GuiOptions::autosave_path).def_rw("recovery_path",&GuiOptions::recovery_path).def_rw("recovery_base_path",&GuiOptions::recovery_base_path).def_rw("project_open_path",&GuiOptions::project_open_path).def_rw("autosave_interval_seconds",&GuiOptions::autosave_interval_seconds).def_rw("autosave_snapshot_budget",&GuiOptions::autosave_snapshot_budget).def_rw("save_snapshot_budget",&GuiOptions::save_snapshot_budget)
+        .def_rw("recovery_retention_enabled",&GuiOptions::recovery_retention_enabled).def_rw("recovery_keep_latest",&GuiOptions::recovery_keep_latest).def_rw("recovery_max_age_days",&GuiOptions::recovery_max_age_days);
     nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
         .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)
         .def_ro("generations",&GuiReport::generations).def_ro("cpu_frame_p95_ms",&GuiReport::cpu_frame_p95_ms)
@@ -241,7 +251,8 @@ NB_MODULE(_native, m) {
         .def_ro("selected_ids",&GuiReport::selected_ids).def_ro("primary_selection",&GuiReport::primary_selection)
         .def_ro("active_image",&GuiReport::active_image).def_ro("image_switches",&GuiReport::image_switches).def_ro("max_image_switch_ms",&GuiReport::max_image_switch_ms).def_ro("project_error",&GuiReport::project_error)
         .def_ro("autosaves_completed",&GuiReport::autosaves_completed).def_ro("recovery_path",&GuiReport::recovery_path).def_ro("autosave_error",&GuiReport::autosave_error).def_ro("autosave_capture_ms",&GuiReport::autosave_capture_ms).def_ro("max_cpu_frame_ms",&GuiReport::max_cpu_frame_ms).def_ro("project_replacements",&GuiReport::project_replacements).def_ro("project_load_ms",&GuiReport::project_load_ms).def_ro("images_removed",&GuiReport::images_removed)
-        .def_ro("saves_completed",&GuiReport::saves_completed).def_ro("save_capture_ms",&GuiReport::save_capture_ms).def_ro("save_write_ms",&GuiReport::save_write_ms).def_ro("recovery_load_ms",&GuiReport::recovery_load_ms).def_ro("checkpoints_deleted",&GuiReport::checkpoints_deleted).def_ro("recovery_maintenance_error",&GuiReport::recovery_maintenance_error).def_ro("retired_workspaces",&GuiReport::retired_workspaces).def_ro("max_retirement_ms",&GuiReport::max_retirement_ms);
+        .def_ro("saves_completed",&GuiReport::saves_completed).def_ro("save_capture_ms",&GuiReport::save_capture_ms).def_ro("save_write_ms",&GuiReport::save_write_ms).def_ro("recovery_load_ms",&GuiReport::recovery_load_ms).def_ro("checkpoints_deleted",&GuiReport::checkpoints_deleted).def_ro("recovery_maintenance_error",&GuiReport::recovery_maintenance_error).def_ro("retired_workspaces",&GuiReport::retired_workspaces).def_ro("max_retirement_ms",&GuiReport::max_retirement_ms)
+        .def_ro("checkpoints_pruned",&GuiReport::checkpoints_pruned).def_ro("retention_ms",&GuiReport::retention_ms).def_ro("retention_error",&GuiReport::retention_error);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.

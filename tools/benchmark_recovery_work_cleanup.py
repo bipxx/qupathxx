@@ -111,7 +111,7 @@ def main():
                 (work/name).unlink(missing_ok=True)
             if work.exists():
                 work.rmdir()
-        for path in [primary, target, Path(str(target)+'.lock')]:
+        for path in [primary, target, Path(str(target)+'.lock'), Path(str(target)+'.session')]:
             path.unlink(missing_ok=True)
         root.rmdir()
 

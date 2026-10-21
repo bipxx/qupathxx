@@ -177,6 +177,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     char project_path[32769]={};
     std::string project_error;
     ProjectAutosave autosave(options.autosave_snapshot_budget);
+    RecoveryRetention retention;
+    retention.enabled=options.recovery_retention_enabled; retention.keep_latest=options.recovery_keep_latest;
+    retention.max_age_days=options.recovery_max_age_days; autosave.set_retention(retention);
     ProjectSaveJob save_job(options.save_snapshot_budget);
     bool save_result_pending=false,close_wait_only=false;
     AutosaveStats autosave_stats;
@@ -726,6 +729,18 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 else if(autosave_stats.state=="ready") ImGui::TextDisabled("Recovery saved; project still unsaved.");
                 if(!autosave_stats.error.empty()) ImGui::TextWrapped("%s",autosave_stats.error.c_str());
                 if(!autosave_stats.work_cleanup_error.empty()) ImGui::TextWrapped("Recovery work cleanup: %s",autosave_stats.work_cleanup_error.c_str());
+                bool retention_changed=ImGui::Checkbox("Remove old inactive checkpoints",&retention.enabled);
+                if(retention.enabled) {
+                    int keep=static_cast<int>(retention.keep_latest);
+                    if(ImGui::InputInt("Keep newest",&keep)) {retention.keep_latest=static_cast<std::size_t>(std::clamp(keep,1,1024)); retention_changed=true;}
+                    if(ImGui::InputDouble("Minimum age (days)",&retention.max_age_days,1,7,"%.1f")) {
+                        if(!std::isfinite(retention.max_age_days)) retention.max_age_days=30;
+                        retention.max_age_days=std::clamp(retention.max_age_days,1.,36500.); retention_changed=true;
+                    }
+                    ImGui::TextWrapped("After recovery saves, keep recent checkpoints and active sessions; collect at most 32 old inactive files.");
+                }
+                if(retention_changed) autosave.set_retention(retention);
+                if(!autosave_stats.retention_error.empty()) ImGui::TextWrapped("Recovery retention: %s",autosave_stats.retention_error.c_str());
                 if(!autosave_ui_error.empty()) ImGui::TextWrapped("%s",autosave_ui_error.c_str());
                 if(ImGui::Button("Find recovery files (F5)")) find_recoveries=true;
                 for(const auto& item:recovery_candidates) {
@@ -1390,7 +1405,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         empty?Point{}:viewport.screen_to_image({previous_canvas_size.x/2,previous_canvas_size.y/2}),last_width,last_height,
         reinterpret_cast<const char*>(glGetString(GL_RENDERER)),reinterpret_cast<const char*>(glGetString(GL_VERSION)),visible_count,selection->ids(),selection->primary(),active_image,image_switches,max_image_switch_ms,project_error,
         autosave.stats().completed,autosave.stats().path,autosave.stats().error.empty()?autosave_ui_error:autosave.stats().error,autosave.stats().capture_ms,frame_times.empty()?0:frame_times.back(),project_replacements,project_load_ms,images_removed,
-        save_job.stats().completed,save_job.stats().capture_ms,save_job.stats().write_ms,recovery_load_ms,checkpoints_deleted,maintenance_error,retired_workspaces,max_retirement_ms};
+        save_job.stats().completed,save_job.stats().capture_ms,save_job.stats().write_ms,recovery_load_ms,checkpoints_deleted,maintenance_error,retired_workspaces,max_retirement_ms,
+        autosave.stats().checkpoints_pruned,autosave.stats().retention_ms,autosave.stats().retention_error};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

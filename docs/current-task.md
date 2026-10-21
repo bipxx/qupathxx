@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 303 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
+Evidence: 330 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
 (two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
 fourteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
@@ -82,7 +82,18 @@ The 1000-directory cleanup benchmark records checkpoint visibility after 256 ms,
 330 ms worker completion including a 32-directory batch and 0.012 ms maximum poll.
 The selected 100000-object desktop run records 16.9 ms p95, 37.0 ms maximum frame
 work and a 34.5 ms capture pause; the latter remains an optimization target.
-Next implement automatic retention/cross-session work discovery and initial loading progress;
+Opt-in age/count checkpoint retention and project/session ownership leases are
+implemented; see recovery-retention.md. Metadata-only bounded candidate selection
+preserves active owners, legacy/unknown files, recent copies and distinct base
+branches. User-state lease handles keep scientific project folders movable on
+Windows; closed markers travel with checkpoints. Collection follows publication
+on the existing worker. Cross-session orphan work and obsolete lock-sidecar
+discovery/cleanup remain open. The distinct-session 1000-file headless benchmark
+publishes after 255 ms but records 8.48 s of metadata/lease scanning and collection;
+maintenance progress/cancellation and scan cost remain performance targets.
+The distinct-session desktop run records an 8.67 s background pass with 16.9 ms
+frame p95, 17.3 ms maximum frame work, 100000 selected objects and 3 MiB GPU payload.
+Next implement maintenance progress/cancellation, cross-session work discovery and initial loading progress;
 retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,

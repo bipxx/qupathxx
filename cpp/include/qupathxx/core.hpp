@@ -222,6 +222,9 @@ struct GuiReport {
     std::string recovery_maintenance_error;
     std::uint64_t retired_workspaces=0;
     double max_retirement_ms=0;
+    std::size_t checkpoints_pruned=0;
+    double retention_ms=0;
+    std::string retention_error;
 };
 enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey };
 enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint };
@@ -246,6 +249,9 @@ struct GuiOptions {
     double autosave_interval_seconds=60;
     std::size_t autosave_snapshot_budget=256*1024*1024;
     std::size_t save_snapshot_budget=256*1024*1024;
+    bool recovery_retention_enabled=false;
+    std::size_t recovery_keep_latest=10;
+    double recovery_max_age_days=30;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 GuiReport run_project_gui(std::shared_ptr<Project> project, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});

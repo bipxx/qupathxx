@@ -95,7 +95,7 @@ def main():
         print(json.dumps(result, indent=2))
     finally:
         # Known files only, followed by empty-directory removal; no recursion.
-        for path in copies+[primary, checkpoint, Path(str(checkpoint)+'.lock'), foreign_primary, template, Path(str(template)+'.lock')]:
+        for path in copies+[primary, checkpoint, Path(str(checkpoint)+'.lock'), Path(str(checkpoint)+'.session'), foreign_primary, template, Path(str(template)+'.lock'), Path(str(template)+'.session')]:
             path.unlink(missing_ok=True)
         new.rmdir()
         root.rmdir()

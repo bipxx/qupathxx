@@ -107,6 +107,7 @@ general latency bound. Cold/network storage and sustained pressure remain unveri
 
 This packet implements cleanup for an exact recovery destination. Automatic
 discovery/cleanup across earlier sessions' different destination names, unmarked
-legacy debris, checkpoint retention policy and initial CLI loading progress remain
-open. Valid published checkpoints retain their existing reviewed-deletion rules.
+legacy debris and initial CLI loading progress remain open. Opt-in
+[checkpoint retention](recovery-retention.md) now protects live sessions while
+collecting old managed files; reviewed deletion remains available independently.
 The full M0-M7 implementation goal remains active.

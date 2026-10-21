@@ -1,0 +1,305 @@
+"""Retention preserves live owners and untrusted files while bounding collection."""
+import gc
+import os
+from pathlib import Path
+import sqlite3
+import subprocess
+import sys
+import time
+
+import pytest
+import qupathxx as q
+
+pytestmark = pytest.mark.skipif(not q.has_project, reason='project storage disabled')
+
+
+def workspace(tmp_path):
+    project = q.Project()
+    doc = q.Document(q.Image.demo())
+    obj = doc.add_rectangle(q.Rect(0, 0, 1, 1), 'Original')
+    image = project.add_document(doc)
+    primary = tmp_path/'primary.qpxproj'
+    project.save(str(primary))
+    return project, doc, obj, image, primary
+
+
+def age(path, days):
+    timestamp = time.time()-days*86400
+    with sqlite3.connect(path) as db:
+        db.execute('UPDATE recovery SET created_ms=?', (int(timestamp*1000),))
+    db.close()
+    os.utime(path, (timestamp, timestamp))
+
+
+def checkpoint(project, doc, obj, path, days=0, active=False):
+    doc.rename_annotation(obj, path.stem)
+    writer = q.ProjectAutosave()
+    assert writer.request(project, str(path)) and writer.wait().state == 'ready'
+    if days:
+        age(path, days)
+    return writer if active else None
+
+
+def policy(keep=2, limit=32):
+    result = q.RecoveryRetention()
+    result.enabled, result.keep_latest, result.max_age_days, result.max_deletions = True, keep, 7, limit
+    return result
+
+
+def test_default_disabled_and_newest_retention_preserve_primary(tmp_path):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    before = primary.read_bytes()
+    paths = [tmp_path/f'old-{i}.qpxrecover' for i in range(4)]
+    for path, days in zip(paths, [100, 90, 80, 70]):
+        checkpoint(project, doc, obj, path, days)
+    current = tmp_path/'current.qpxrecover'
+    active = checkpoint(project, doc, obj, current, active=True)
+    assert not active.retention.enabled
+    assert q.Project.prune_recoveries(str(current), q.RecoveryRetention()).removed == 0
+    assert all(path.exists() for path in paths)
+    result = q.Project.prune_recoveries(str(current), policy())
+    assert result.removed == 3 and result.failed == 0 and not result.error
+    assert result.inspected == 5 and result.elapsed_ms > 0
+    assert [path.exists() for path in paths] == [False, False, False, True]
+    assert current.exists() and primary.read_bytes() == before
+    assert q.Project.recover(str(current)).document(image).annotation(obj).name == 'current'
+    assert doc.annotation(obj).name == 'current' and project.dirty
+    assert q.Project.prune_recoveries(str(current), policy()).removed == 0
+
+
+def test_idle_session_is_protected_until_its_controller_dies(tmp_path):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    old, current = tmp_path/'active.qpxrecover', tmp_path/'current.qpxrecover'
+    owner = checkpoint(project, doc, obj, old, 100, active=True)
+    checkpoint(project, doc, obj, current)
+    assert not owner.busy
+    assert q.Project.prune_recoveries(str(current), policy(1)).removed == 0 and old.exists()
+    del owner
+    gc.collect()
+    assert q.Project.prune_recoveries(str(current), policy(1)).removed == 1 and not old.exists()
+
+
+def test_one_session_can_own_multiple_destinations_and_closed_copies_are_collected(tmp_path):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    writer = q.ProjectAutosave()
+    paths = [tmp_path/f'session-{i}.qpxrecover' for i in range(3)]
+    for path in paths:
+        doc.rename_annotation(obj, path.stem)
+        assert writer.request(project, str(path)) and writer.wait().state == 'ready'
+        age(path, 100)
+    current = tmp_path/'current.qpxrecover'
+    checkpoint(project, doc, obj, current)
+    assert q.Project.prune_recoveries(str(current), policy(1)).removed == 0
+    del writer
+    gc.collect()
+    assert q.Project.prune_recoveries(str(current), policy(1)).removed == 3
+
+
+def test_missing_local_lease_state_preserves_foreign_checkpoints(tmp_path, monkeypatch):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    old, current = tmp_path/'old.qpxrecover', tmp_path/'current.qpxrecover'
+    checkpoint(project, doc, obj, old, 100)
+    checkpoint(project, doc, obj, current)
+    state = tmp_path/'other-user-state'
+    monkeypatch.setenv('LOCALAPPDATA' if os.name == 'nt' else 'XDG_STATE_HOME', str(state))
+    assert q.Project.prune_recoveries(str(current), policy(1)).removed == 0 and old.exists()
+    assert not state.exists()
+
+
+def test_unavailable_lease_storage_preserves_publication_as_unmanaged(tmp_path, monkeypatch):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    blocked = tmp_path/'blocked-state'
+    blocked.write_bytes(b'not a directory')
+    monkeypatch.setenv('LOCALAPPDATA' if os.name == 'nt' else 'XDG_STATE_HOME', str(blocked))
+    doc.rename_annotation(obj, 'Capture without lease storage')
+    path = tmp_path/'unmanaged.qpxrecover'
+    writer = q.ProjectAutosave()
+    writer.retention = policy(1)
+    assert writer.request(project, str(path))
+    stats = writer.wait()
+    assert stats.state == 'ready' and stats.retention_error and not stats.error
+    assert not Path(str(path)+'.session').exists()
+    assert q.Project.recover(str(path)).document(image).annotation(obj).name == 'Capture without lease storage'
+
+
+@pytest.mark.parametrize('kind', ['file', 'directory'])
+def test_unrecognized_marker_path_is_preserved_without_losing_publication(tmp_path, kind):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    path = tmp_path/'new.qpxrecover'
+    marker = Path(str(path)+'.session')
+    if kind == 'file':
+        marker.write_bytes(b'keep this data')
+    else:
+        marker.mkdir()
+    doc.rename_annotation(obj, 'Still publish')
+    writer = q.ProjectAutosave()
+    writer.retention = policy(1)
+    assert writer.request(project, str(path))
+    stats = writer.wait()
+    assert stats.state == 'ready' and stats.retention_error and not stats.error
+    assert marker.read_bytes() == b'keep this data' if kind == 'file' else marker.is_dir()
+    assert q.Project.recover(str(path)).document(image).annotation(obj).name == 'Still publish'
+
+
+@pytest.mark.skipif(os.name != 'nt', reason='Windows file delete sharing')
+def test_automatic_removal_error_preserves_publication_and_retries(tmp_path):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    old, current = tmp_path/'old.qpxrecover', tmp_path/'current.qpxrecover'
+    checkpoint(project, doc, obj, old, 100)
+    writer = q.ProjectAutosave()
+    writer.retention = policy(1)
+    doc.rename_annotation(obj, 'New publication')
+    with old.open('rb'):
+        assert writer.request(project, str(current))
+        stats = writer.wait()
+        assert stats.state == 'ready' and stats.retention_error and not stats.error
+        assert stats.checkpoints_pruned == 0 and old.exists()
+        assert q.Project.recover(str(current)).document(image).annotation(obj).name == 'New publication'
+    doc.rename_annotation(obj, 'Retry collection')
+    assert writer.request(project, str(current))
+    stats = writer.wait()
+    assert stats.state == 'ready' and not stats.retention_error and stats.checkpoints_pruned == 1
+    assert not old.exists()
+
+
+@pytest.mark.parametrize('gate', ['fresh-mtime', 'fresh-header', 'future-header', 'unmanaged', 'wrong-lease', 'corrupt'])
+def test_age_and_managed_ownership_gates_preserve_files(tmp_path, gate):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    old, current = tmp_path/'candidate.qpxrecover', tmp_path/'current.qpxrecover'
+    checkpoint(project, doc, obj, old, 100)
+    checkpoint(project, doc, obj, current)
+    if gate == 'fresh-mtime':
+        os.utime(old, None)
+    elif gate in ['fresh-header', 'future-header']:
+        stamp = old.stat()
+        with sqlite3.connect(old) as db:
+            db.execute('UPDATE recovery SET created_ms=?', (int((time.time()+(86400 if gate == 'future-header' else 0))*1000),))
+        db.close()
+        os.utime(old, ns=(stamp.st_atime_ns, stamp.st_mtime_ns))
+    elif gate == 'unmanaged':
+        Path(str(old)+'.session').unlink()
+    elif gate == 'wrong-lease':
+        Path(str(old)+'.session').write_bytes(b'not a managed session')
+    else:
+        old.write_bytes(b'not a checkpoint')
+    before = old.read_bytes()
+    assert q.Project.prune_recoveries(str(current), policy(1)).removed == 0
+    assert old.read_bytes() == before
+
+
+def test_unrelated_project_and_different_base_branch_are_preserved(tmp_path):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    branch = tmp_path/'old-base.qpxrecover'
+    checkpoint(project, doc, obj, branch, 100)
+    project.save(str(tmp_path/'branch.qpxproj'))
+    current = tmp_path/'current.qpxrecover'
+    checkpoint(project, doc, obj, current)
+    other = q.Project()
+    other_doc = q.Document(q.Image.demo())
+    other_obj = other_doc.add_rectangle(q.Rect(0, 0, 1, 1))
+    other.add_document(other_doc)
+    unrelated = tmp_path/'unrelated.qpxrecover'
+    checkpoint(other, other_doc, other_obj, unrelated, 100)
+    assert q.Project.prune_recoveries(str(current), policy(1)).removed == 0
+    assert branch.exists() and unrelated.exists()
+
+
+def test_bounded_oldest_first_batches_and_automatic_worker(tmp_path):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    paths = [tmp_path/f'old-{i}.qpxrecover' for i in range(5)]
+    for path, days in zip(paths, [100, 90, 80, 70, 60]):
+        checkpoint(project, doc, obj, path, days)
+    writer = q.ProjectAutosave()
+    writer.retention = policy(1, 2)
+    current = tmp_path/'current.qpxrecover'
+    doc.rename_annotation(obj, 'New checkpoint')
+    assert writer.request(project, str(current))
+    stats = writer.wait()
+    assert stats.state == 'ready' and stats.checkpoints_pruned == 2 and stats.retention_ms > 0
+    assert not stats.retention_error and [path.exists() for path in paths] == [False, False, True, True, True]
+    assert q.Project.prune_recoveries(str(current), policy(1, 2)).removed == 2
+    assert q.Project.prune_recoveries(str(current), policy(1, 2)).removed == 1
+    assert current.exists()
+
+
+@pytest.mark.parametrize('field,value', [('keep_latest', 0), ('keep_latest', 1025), ('max_deletions', 0),
+                                        ('max_deletions', 129), ('max_age_days', 0), ('max_age_days', float('nan')),
+                                        ('max_age_days', float('inf')), ('max_age_days', 36501)])
+def test_policy_validation(field, value):
+    config = policy()
+    setattr(config, field, value)
+    with pytest.raises(ValueError, match='retention'):
+        config.validate()
+    with pytest.raises(ValueError, match='retention'):
+        q.ProjectAutosave().retention = config
+
+
+def test_publication_lock_failure_is_reported_and_retryable(tmp_path):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    old, current = tmp_path/'old.qpxrecover', tmp_path/'current.qpxrecover'
+    checkpoint(project, doc, obj, old, 100)
+    checkpoint(project, doc, obj, current)
+    with open(str(old)+'.lock', 'a+b') as held:
+        if os.name != 'nt':
+            import fcntl
+            fcntl.flock(held.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        result = q.Project.prune_recoveries(str(current), policy(1))
+        assert result.removed == 0 and result.failed == 1 and result.error
+    assert old.exists()
+    assert q.Project.prune_recoveries(str(current), policy(1)).removed == 1
+
+
+def test_process_lease_survives_directory_move_and_releases_after_kill(tmp_path):
+    root = tmp_path/'original'
+    root.mkdir()
+    project, doc, obj, image, primary = workspace(root)
+    current, old = root/'current.qpxrecover', root/'old.qpxrecover'
+    checkpoint(project, doc, obj, current)
+    script = r'''
+import sys,os,time
+sys.path.insert(0,sys.argv[3])
+import qupathxx as q
+project=q.Project.open(sys.argv[1]); doc=project.document(project.active_image)
+doc.rename_annotation(1,'Owned by live process')
+writer=q.ProjectAutosave(); assert writer.request(project,sys.argv[2]) and writer.wait().state=='ready'
+print(os.getpid(),flush=True)
+sys.stdin.readline()
+'''
+    child = subprocess.Popen([sys._base_executable, '-I', '-c', script, str(primary), str(old),
+                              str(Path(q.__file__).parent.parent)], stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+    try:
+        assert int(child.stdout.readline()) == child.pid
+        age(old, 100)
+        moved = tmp_path/'moved'
+        root.rename(moved)
+        old, current = moved/old.name, moved/current.name
+        assert q.Project.prune_recoveries(str(current), policy(1)).removed == 0 and old.exists()
+        child.kill()
+        child.wait(timeout=5)
+        assert q.Project.prune_recoveries(str(current), policy(1)).removed == 1
+        assert not old.exists() and current.exists()
+    finally:
+        if child.poll() is None:
+            child.kill()
+            child.wait(timeout=5)
+
+
+@pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI') != '1', reason='requires desktop GUI')
+def test_gui_retention_options_run_after_recovery_publication(tmp_path):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    before = primary.read_bytes()
+    old = tmp_path/'expired.qpxrecover'
+    checkpoint(project, doc, obj, old, 100)
+    doc.rename_annotation(obj, 'Live captured work')
+    current = tmp_path/'viewer.qpxrecover'
+    options = q.GuiOptions()
+    options.autosave_interval_seconds, options.autosave_path = 0, str(current)
+    options.recovery_retention_enabled, options.recovery_keep_latest, options.recovery_max_age_days = True, 1, 7
+    event = q.GuiInput()
+    event.frame, event.kind = 5, q.GuiInputKind.AUTOSAVE_KEY
+    options.inputs = [event]
+    report = q.show(project, frame_limit=70, options=options)
+    assert report.autosaves_completed == 1 and not report.autosave_error
+    assert report.checkpoints_pruned == 1 and report.retention_ms > 0 and not report.retention_error
+    assert not old.exists() and current.exists() and primary.read_bytes() == before
+    assert doc.annotation(obj).name == 'Live captured work' and project.dirty

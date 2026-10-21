@@ -77,6 +77,7 @@ def main():
     assert path.parent == primary.parent == root
     primary.unlink()
     Path(str(path)+".lock").unlink()
+    Path(str(path)+".session").unlink()
 
 
 if __name__ == "__main__":

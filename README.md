@@ -38,6 +38,8 @@ QuPath port or a compatible replacement for Java QuPath.
   [recovery maintenance](docs/recovery-maintenance.md).
 - Marked abandoned autosave work cleanup under the publication lock; see
   [recovery work cleanup](docs/recovery-work-cleanup.md).
+- Opt-in age/count checkpoint retention with idle-session protection; see
+  [retention](docs/recovery-retention.md).
 - Native background autosave, session-specific recovery files and dirty-close
   decisions; see [recovery](docs/project-recovery.md).
 

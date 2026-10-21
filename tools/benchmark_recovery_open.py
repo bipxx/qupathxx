@@ -85,7 +85,7 @@ def main():
         args.output.write_text(json.dumps(result, indent=2)+'\n')
         print(json.dumps(result, indent=2))
     finally:
-        for path in paths+[recovery, Path(str(recovery)+'.lock')]:
+        for path in paths+[recovery, Path(str(recovery)+'.lock'), Path(str(recovery)+'.session')]:
             path.unlink(missing_ok=True)
 
 
