@@ -6,6 +6,7 @@ struct TissueParameters {
     TissueFeature feature=TissueFeature::OpticalDensitySum;
     double threshold=.3;
     int connectivity=8;
+    std::int32_t level=-1; // -1 selects the finest available level fitting work_bytes.
     std::uint64_t min_pixels=1,max_pixels=0;
     std::size_t tile_size=256,max_components=100000,work_bytes=64*1024*1024;
     void validate() const;
@@ -17,13 +18,21 @@ public:
     std::uint64_t object_id() const {return source_.object_id();}
     const TissueParameters& parameters() const {return parameters_;}
     const Roi& roi() const {return source_.roi();}
-    std::uint64_t total_tiles() const {return source_.total_tiles();}
+    std::uint64_t total_tiles() const {return total_tiles_;}
+    std::int32_t level() const {return level_;}
+    double downsample() const {return downsample_;}
+    Rect level_bounds() const {return {double(x0_),double(y0_),double(x1_-x0_),double(y1_-y0_)};}
+    Rect bounds() const {const auto b=level_bounds();return {b.x*downsample_,b.y*downsample_,b.width*downsample_,b.height*downsample_};}
     std::size_t estimated_work_bytes() const {return estimated_work_bytes_;}
 private:
     friend struct TissueKernel;
     AnalysisRequest source_;
     TissueParameters parameters_;
     std::size_t estimated_work_bytes_=0,component_capacity_=0;
+    std::int32_t level_=0;
+    double downsample_=1;
+    std::int64_t x0_=0,y0_=0,x1_=0,y1_=0;
+    std::uint64_t total_tiles_=0;
 };
 struct TissueComponent {
     std::uint32_t label=0;
@@ -37,8 +46,12 @@ public:
     const std::string& algorithm() const {return algorithm_;}
     const std::string& input_sha256() const {return input_sha256_;}
     Rect bounds() const {return bounds_;}
-    std::int64_t width() const {return static_cast<std::int64_t>(bounds_.width);}
-    std::int64_t height() const {return static_cast<std::int64_t>(bounds_.height);}
+    Rect level_bounds() const {return level_bounds_;}
+    std::int64_t width() const {return static_cast<std::int64_t>(level_bounds_.width);}
+    std::int64_t height() const {return static_cast<std::int64_t>(level_bounds_.height);}
+    std::int32_t level() const {return level_;}
+    double downsample() const {return downsample_;}
+    const char* input_format() const {return level_==0?"qpx.rgba-tiles/1":"qpx.rgba-level-tiles/1";}
     const std::vector<std::uint32_t>& labels() const {return labels_;}
     const std::vector<TissueComponent>& components() const {return components_;}
     const TissueParameters& parameters() const {return parameters_;}
@@ -59,7 +72,9 @@ private:
     friend struct TissueKernel;
     TissueResult()=default;
     std::string algorithm_="qpx.threshold-components/1",input_sha256_;
-    Rect bounds_;
+    Rect bounds_,level_bounds_;
+    std::int32_t level_=0;
+    double downsample_=1;
     std::vector<std::uint32_t> labels_;
     std::vector<TissueComponent> components_;
     TissueParameters parameters_;

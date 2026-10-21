@@ -289,7 +289,8 @@ NB_MODULE(_native, m) {
         .def_rw("analysis_kind",&GuiOptions::analysis_kind).def_rw("analysis_nucleus",&GuiOptions::analysis_nucleus)
         .def_rw("analysis_vectors",&GuiOptions::analysis_vectors).def_rw("analysis_white",&GuiOptions::analysis_white)
         .def_rw("tissue_feature",&GuiOptions::tissue_feature).def_rw("tissue_threshold",&GuiOptions::tissue_threshold)
-        .def_rw("tissue_connectivity",&GuiOptions::tissue_connectivity).def_rw("tissue_min_pixels",&GuiOptions::tissue_min_pixels).def_rw("tissue_max_pixels",&GuiOptions::tissue_max_pixels);
+        .def_rw("tissue_connectivity",&GuiOptions::tissue_connectivity).def_rw("tissue_min_pixels",&GuiOptions::tissue_min_pixels).def_rw("tissue_max_pixels",&GuiOptions::tissue_max_pixels)
+        .def_rw("tissue_level",&GuiOptions::tissue_level);
     nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
         .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)
         .def_ro("generations",&GuiReport::generations).def_ro("cpu_frame_p95_ms",&GuiReport::cpu_frame_p95_ms)
@@ -313,7 +314,9 @@ NB_MODULE(_native, m) {
         .def_ro("tissue_state",&GuiReport::tissue_state).def_ro("tissue_error",&GuiReport::tissue_error).def_ro("tissue_input_sha256",&GuiReport::tissue_input_sha256)
         .def_ro("tissue_components",&GuiReport::tissue_components).def_ro("tissue_gpu_bytes",&GuiReport::tissue_gpu_bytes)
         .def_ro("tissue_samples",&GuiReport::tissue_samples).def_ro("tissue_foreground_pixels",&GuiReport::tissue_foreground_pixels)
-        .def_ro("tissue_ms",&GuiReport::tissue_ms).def_ro("tissue_preview_ready",&GuiReport::tissue_preview_ready);
+        .def_ro("tissue_ms",&GuiReport::tissue_ms).def_ro("tissue_preview_ready",&GuiReport::tissue_preview_ready)
+        .def_ro("tissue_level",&GuiReport::tissue_level).def_ro("tissue_downsample",&GuiReport::tissue_downsample)
+        .def_ro("tissue_width",&GuiReport::tissue_width).def_ro("tissue_height",&GuiReport::tissue_height);
     bind_analysis(m);
     bind_tissue(m);
 #ifdef QUPATHXX_HAS_GUI

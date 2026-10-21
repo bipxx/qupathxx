@@ -14,7 +14,9 @@ void check_cancelled(const std::atomic<bool>* c) {
 }
 }
 AnalysisRequest::AnalysisRequest(const Document& document,std::uint64_t id,const StainTransform& transform,
-    AnalysisKind kind,bool nucleus,std::size_t tile_size):identity_(document.analysis_identity_.token),source_(document.server()),
+    AnalysisKind kind,bool nucleus,std::size_t tile_size):AnalysisRequest(document,id,transform,kind,nucleus,tile_size,false) {}
+AnalysisRequest::AnalysisRequest(const Document& document,std::uint64_t id,const StainTransform& transform,
+    AnalysisKind kind,bool nucleus,std::size_t tile_size,bool allow_empty_grid):identity_(document.analysis_identity_.token),source_(document.server()),
     object_id_(id),object_revision_(0),document_revision_(document.revision()),total_tiles_(0),kind_(kind),nucleus_(nucleus),
     tile_size_(tile_size),transform_(transform) {
     if(kind!=AnalysisKind::OpticalDensityMeans && kind!=AnalysisKind::StainMeans) throw std::invalid_argument("invalid analysis kind");
@@ -31,7 +33,10 @@ AnalysisRequest::AnalysisRequest(const Document& document,std::uint64_t id,const
         throw std::invalid_argument("analysis ROI must lie inside the image");
     x0_=static_cast<std::int64_t>(std::ceil(b.x-.5)); y0_=static_cast<std::int64_t>(std::ceil(b.y-.5));
     x1_=static_cast<std::int64_t>(std::ceil(b.x+b.width-.5)); y1_=static_cast<std::int64_t>(std::ceil(b.y+b.height-.5));
-    if(x0_>=x1_ || y0_>=y1_) throw std::invalid_argument("ROI contains no pixel centers");
+    if(x0_>=x1_ || y0_>=y1_) {
+        if(allow_empty_grid) return;
+        throw std::invalid_argument("ROI contains no pixel centers");
+    }
     const auto w=static_cast<std::uint64_t>(x1_-x0_),h=static_cast<std::uint64_t>(y1_-y0_);
     if(w>std::numeric_limits<std::uint64_t>::max()/h) throw std::invalid_argument("analysis sample count overflow");
     total_tiles_=((w+tile_size-1)/tile_size)*((h+tile_size-1)/tile_size);

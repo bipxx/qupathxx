@@ -26,6 +26,7 @@ private:
     friend class Document;
     friend class TissueRequest;
     friend struct TissueKernel;
+    AnalysisRequest(const Document&,std::uint64_t,const StainTransform&,AnalysisKind,bool,std::size_t,bool allow_empty_grid);
     std::shared_ptr<const char> identity_;
     std::shared_ptr<ImageServer> source_;
     std::uint64_t object_id_,object_revision_,document_revision_,total_tiles_;

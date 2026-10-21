@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <chrono>
 #include <cmath>
+#include <cstring>
 #include <future>
 #include <limits>
 #include <stdexcept>
@@ -10,54 +11,98 @@ namespace qpx {
 namespace {
 void check_cancelled(const std::atomic<bool>* flag) {if(flag && flag->load(std::memory_order_relaxed)) throw std::runtime_error("tissue detection cancelled");}
 bool stain_feature(TissueFeature feature) {return feature!=TissueFeature::OpticalDensitySum;}
+std::int64_t grid_edge(double edge,double scale,std::int64_t limit) {
+    const auto value=std::ceil(static_cast<long double>(edge)/scale-.5L);
+    if(value<=0) return 0;
+    if(value>=static_cast<long double>(limit)) return limit;
+    return static_cast<std::int64_t>(value);
+}
+std::int64_t read_origin(std::int64_t index,double scale) {
+    const auto value=std::round(static_cast<long double>(index)*scale);
+    if(!std::isfinite(value) || value<0 || value>=static_cast<long double>(std::numeric_limits<std::int64_t>::max()))
+        throw std::invalid_argument("tissue read origin overflow");
+    return static_cast<std::int64_t>(value);
+}
 }
 void TissueParameters::validate() const {
     if(feature!=TissueFeature::OpticalDensitySum && feature!=TissueFeature::Stain1 && feature!=TissueFeature::Stain2 && feature!=TissueFeature::Stain3)
         throw std::invalid_argument("invalid tissue feature");
     if(!std::isfinite(threshold)) throw std::invalid_argument("tissue threshold must be finite");
     if(connectivity!=4 && connectivity!=8) throw std::invalid_argument("tissue connectivity must be 4 or 8");
+    if(level< -1) throw std::invalid_argument("tissue level must be -1 (auto) or nonnegative");
     if(!min_pixels || (max_pixels && max_pixels<min_pixels)) throw std::invalid_argument("invalid tissue component size range");
     if(tile_size<16 || tile_size>1024) throw std::invalid_argument("tissue tile size must be 16..1024");
     if(!max_components || max_components>1000000) throw std::invalid_argument("tissue component limit must be 1..1000000");
     if(!work_bytes || work_bytes>512u*1024u*1024u) throw std::invalid_argument("tissue work budget must be 1 byte..512 MiB");
 }
 TissueRequest::TissueRequest(const Document& document,std::uint64_t id,const StainTransform& transform,TissueParameters parameters,bool nucleus):
-    source_(document,id,transform,stain_feature(parameters.feature)?AnalysisKind::StainMeans:AnalysisKind::OpticalDensityMeans,nucleus,parameters.tile_size),parameters_(parameters) {
+    source_(document,id,transform,stain_feature(parameters.feature)?AnalysisKind::StainMeans:AnalysisKind::OpticalDensityMeans,nucleus,parameters.tile_size,true),parameters_(parameters) {
     parameters_.validate();
-    const auto w=static_cast<std::uint64_t>(source_.x1_-source_.x0_),h=static_cast<std::uint64_t>(source_.y1_-source_.y0_);
-    const auto count=w*h;
-    if(count>std::numeric_limits<std::uint32_t>::max()) throw std::length_error("tissue raster exceeds uint32 indexing range");
-    component_capacity_=static_cast<std::size_t>(std::min<std::uint64_t>(count,parameters_.max_components));
-    const auto estimate=count*8+component_capacity_*sizeof(TissueComponent)+16ull*parameters_.tile_size*parameters_.tile_size+65536;
-    if(estimate>parameters_.work_bytes) throw std::length_error("tissue raster exceeds work budget; select a smaller ROI");
-    estimated_work_bytes_=static_cast<std::size_t>(estimate);
+    const auto& metadata=source_.source_->metadata();const auto& levels=metadata.levels;const auto b=source_.roi_.bounds();
+    if(levels.empty() || levels.size()>static_cast<std::size_t>(std::numeric_limits<std::int32_t>::max())) throw std::invalid_argument("invalid tissue pyramid metadata");
+    if(parameters.level>=0 && static_cast<std::size_t>(parameters.level)>=levels.size()) throw std::out_of_range("invalid tissue pyramid level");
+    bool found=false,has_centers=false;
+    for(std::size_t i=0;i<levels.size();++i) {
+        const auto& l=levels[i];
+        if(l.width<=0 || l.height<=0 || !std::isfinite(l.downsample) || l.downsample<1 || (i==0 && l.downsample!=1))
+            throw std::invalid_argument("invalid tissue pyramid metadata");
+        if(parameters.level>=0 && i!=static_cast<std::size_t>(parameters.level)) continue;
+        const auto x0=grid_edge(b.x,l.downsample,l.width),y0=grid_edge(b.y,l.downsample,l.height);
+        const auto x1=grid_edge(b.x+b.width,l.downsample,l.width),y1=grid_edge(b.y+b.height,l.downsample,l.height);
+        if(x0>=x1 || y0>=y1) continue;
+        has_centers=true;
+        const auto w=static_cast<std::uint64_t>(x1-x0),h=static_cast<std::uint64_t>(y1-y0);
+        if(w>std::numeric_limits<std::uint32_t>::max()/h) continue;
+        const auto count=w*h,capacity=std::min<std::uint64_t>(count,parameters.max_components);
+        const auto estimate=count*8+capacity*sizeof(TissueComponent)+16ull*parameters.tile_size*parameters.tile_size+65536;
+        if(estimate>parameters.work_bytes || (found && l.downsample>=downsample_)) continue;
+        // Validate the furthest nominal tile before the worker allocates/decodes.
+        const auto step=static_cast<std::int64_t>(parameters.tile_size);
+        const auto last_x=x0+((x1-x0-1)/step)*step;
+        const auto last_y=y0+((y1-y0-1)/step)*step;
+        validate_region(metadata,{read_origin(last_x,l.downsample),read_origin(last_y,l.downsample),static_cast<std::int32_t>(i),x1-last_x,y1-last_y});
+        const auto bounds=Rect{double(x0)*l.downsample,double(y0)*l.downsample,double(w)*l.downsample,double(h)*l.downsample};
+        if(!std::isfinite(bounds.x+bounds.width) || !std::isfinite(bounds.y+bounds.height)) throw std::invalid_argument("tissue grid extent overflow");
+        found=true;level_=static_cast<std::int32_t>(i);downsample_=l.downsample;x0_=x0;y0_=y0;x1_=x1;y1_=y1;
+        component_capacity_=static_cast<std::size_t>(capacity);estimated_work_bytes_=static_cast<std::size_t>(estimate);
+        total_tiles_=((w+parameters.tile_size-1)/parameters.tile_size)*((h+parameters.tile_size-1)/parameters.tile_size);
+    }
+    if(!has_centers) throw std::invalid_argument("ROI contains no pixel centers at the requested pyramid level");
+    if(!found) throw std::length_error("tissue raster exceeds work budget or uint32 indexing; select a coarser level or smaller ROI");
 }
 struct TissueKernel {
     static std::shared_ptr<const TissueResult> run(const TissueRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr,std::atomic<int>* phase=nullptr) {
         const auto started=std::chrono::steady_clock::now();check_cancelled(cancelled);
         const auto& source=request.source_;const auto& p=request.parameters_;
         auto output=std::shared_ptr<TissueResult>(new TissueResult());
-        const auto width=source.x1_-source.x0_,height=source.y1_-source.y0_;
+        const auto width=request.x1_-request.x0_,height=request.y1_-request.y0_;const auto scale=request.downsample_;
         const auto count=static_cast<std::size_t>(width*height);
-        output->bounds_={static_cast<double>(source.x0_),static_cast<double>(source.y0_),static_cast<double>(width),static_cast<double>(height)};
+        output->bounds_=request.bounds();output->level_bounds_=request.level_bounds();output->level_=request.level_;output->downsample_=scale;
+        if(request.level_!=0) output->algorithm_="qpx.threshold-components/2";
         output->parameters_=p;output->estimated_work_bytes_=request.estimated_work_bytes_;
         output->object_id_=source.object_id_;output->object_revision_=source.object_revision_;output->document_revision_=source.document_revision_;
         output->nucleus_=source.nucleus_;output->white_=source.transform_.white();output->stains_=source.transform_.stains();
         output->labels_.resize(count);output->components_.reserve(request.component_capacity_);
         std::vector<std::uint32_t> queue;queue.reserve(count);
         auto& labels=output->labels_;constexpr auto foreground=std::numeric_limits<std::uint32_t>::max();
-        Sha256 digest;constexpr char format[]="qpx.rgba-tiles/1";digest.update(format,sizeof(format)-1);
+        Sha256 digest;const std::string format=output->input_format();digest.update(format.data(),format.size());
         digest.integer(static_cast<std::uint64_t>(source.source_->metadata().width));digest.integer(static_cast<std::uint64_t>(source.source_->metadata().height));
-        for(auto value:{source.x0_,source.y0_,source.x1_,source.y1_}) digest.integer(static_cast<std::uint64_t>(value));digest.integer(p.tile_size);
+        if(request.level_!=0) {
+            const auto& l=source.source_->metadata().levels[request.level_];std::uint64_t bits=0;static_assert(sizeof(bits)==sizeof(scale));std::memcpy(&bits,&scale,sizeof(bits));
+            digest.integer(request.level_);digest.integer(l.width);digest.integer(l.height);digest.integer(bits);
+        }
+        for(auto value:{request.x0_,request.y0_,request.x1_,request.y1_}) digest.integer(static_cast<std::uint64_t>(value));digest.integer(p.tile_size);
         if(phase) phase->store(1);
         std::uint64_t tiles=0;
-        for(auto y=source.y0_;y<source.y1_;) {
-            const auto h=std::min<std::int64_t>(p.tile_size,source.y1_-y);
-            for(auto x=source.x0_;x<source.x1_;) {
-                check_cancelled(cancelled);const auto w=std::min<std::int64_t>(p.tile_size,source.x1_-x);
-                const auto pixels=source.source_->read_region({x,y,0,w,h});
+        for(auto y=request.y0_;y<request.y1_;) {
+            const auto h=std::min<std::int64_t>(p.tile_size,request.y1_-y);
+            for(auto x=request.x0_;x<request.x1_;) {
+                check_cancelled(cancelled);const auto w=std::min<std::int64_t>(p.tile_size,request.x1_-x);
+                const auto rx=read_origin(x,scale),ry=read_origin(y,scale);
+                const auto pixels=source.source_->read_region({rx,ry,request.level_,w,h});
                 if(pixels.width()!=w || pixels.height()!=h) throw std::runtime_error("reader returned incorrect tissue tile dimensions");
-                for(auto value:{x,y,w,h}) digest.integer(static_cast<std::uint64_t>(value));digest.update(pixels.bytes().data(),pixels.bytes().size());
+                if(request.level_!=0) {digest.integer(x);digest.integer(y);}
+                for(auto value:{rx,ry,w,h}) digest.integer(static_cast<std::uint64_t>(value));digest.update(pixels.bytes().data(),pixels.bytes().size());
                 const auto values=stain_feature(p.feature)?source.transform_.deconvolve(pixels,cancelled):source.transform_.optical_densities(pixels,cancelled);
                 const auto& data=values.values();
                 for(std::int64_t row=0;row<h;++row) {
@@ -65,10 +110,10 @@ struct TissueKernel {
                     for(std::int64_t col=0;col<w;++col) {
                         const auto i=static_cast<std::size_t>((row*w+col)*3);
                         if(!std::isfinite(data[i])) continue;
-                        if(source.roi_.kind()!=RoiKind::Rectangle && !source.roi_.contains({static_cast<double>(x+col)+.5,static_cast<double>(y+row)+.5})) continue;
+                        if(source.roi_.kind()!=RoiKind::Rectangle && !source.roi_.contains({(static_cast<double>(x+col)+.5)*scale,(static_cast<double>(y+row)+.5)*scale})) continue;
                         ++output->samples_;
                         const double score=stain_feature(p.feature)?data[i+static_cast<int>(p.feature)-1]:double(data[i])+double(data[i+1])+double(data[i+2]);
-                        if(score>=p.threshold) {labels[static_cast<std::size_t>((y-source.y0_+row)*width+x-source.x0_+col)]=foreground;++output->threshold_pixels_;}
+                        if(score>=p.threshold) {labels[static_cast<std::size_t>((y-request.y0_+row)*width+x-request.x0_+col)]=foreground;++output->threshold_pixels_;}
                     }
                 }
                 ++tiles;if(completed) completed->store(tiles,std::memory_order_relaxed);x+=w;
@@ -99,8 +144,8 @@ struct TissueKernel {
             const auto label=static_cast<std::uint32_t>(output->components_.size()+1);
             for(std::size_t i=0;i<queue.size();++i) {if((i&4095)==0) check_cancelled(cancelled);labels[queue[i]]=label;}
             const auto n=static_cast<std::uint64_t>(queue.size());output->foreground_pixels_+=n;
-            output->components_.push_back({label,n,{double(source.x0_+min_x),double(source.y0_+min_y),double(max_x-min_x+1),double(max_y-min_y+1)},
-                {double(source.x0_)+double(sum_x)/double(n)+.5,double(source.y0_)+double(sum_y)/double(n)+.5}});
+            output->components_.push_back({label,n,{double(request.x0_+min_x)*scale,double(request.y0_+min_y)*scale,double(max_x-min_x+1)*scale,double(max_y-min_y+1)*scale},
+                {(double(request.x0_)+double(sum_x)/double(n)+.5)*scale,(double(request.y0_)+double(sum_y)/double(n)+.5)*scale}});
         }
         check_cancelled(cancelled);output->input_sha256_=digest.finish();
         output->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-started).count();if(phase) phase->store(3);

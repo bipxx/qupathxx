@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 542 passing Python tests including tissue masks/components, immutable archive snapshots, retained analysis/provenance, analysis jobs, stains, shapes, interchange, browsing, workspace migration, recovery and GUI replay
+Evidence: 558 passing Python tests including native pyramid tissue masks/components, immutable archive snapshots, retained analysis/provenance, analysis jobs, stains, shapes, interchange, browsing, workspace migration, recovery and GUI replay
 (two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
 eighteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
@@ -238,7 +238,18 @@ including diagonal and cross-tile cases. The 4194304-pixel recording takes
 58.66 ms worker time with 0.105 ms submission and 0.0224 ms maximum sampled poll.
 The 100001-selected-object viewer records 17.34 ms sampled frame p95 and
 18.88 ms maximum, with 16 MiB mask GPU payload. These are synthetic recordings.
-Next add pyramid-level tissue sampling, morphology, contour/annotation conversion
+Native pyramid sampling now selects the finest level fitting the work budget or
+uses a strict explicit level. Sample-grid dimensions and nominal level-zero
+component/preview geometry are separate; level-aware SHA-256 records exact native
+reads and fractional-scale tile origins. Sixteen new Python cases cover real
+1.5x/4x pyramids, budget boundaries, coarse body/nucleus geometry, input digests
+and a framebuffer-scaled mask. The 205520896-pixel synthetic slide selects 8x
+sampling and processes 3211264 samples in 153.79/134.65 ms measured worker runs,
+with 33204224 estimated work bytes. Its 100001-selected-object viewer records
+17.22 ms sampled frame p95 and 19.00 ms maximum with 12845056 mask GPU bytes.
+Native levels do not provide arbitrary resampling or phase independence at
+fractional read origins. Broader vendor/hardware behavior remains unproven.
+Next add morphology, contour/annotation conversion
 and persisted mask provenance; optimize remaining object snapshot capture and
 complete source/environment provenance. Continue
 numerical comparisons and improve initial

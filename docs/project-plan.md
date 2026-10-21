@@ -809,3 +809,33 @@ These synthetic measurements do not establish broader reader/hardware behavior.
 Downsampling, physical filters, morphology, hole filling, contours and annotation
 conversion, mask persistence, cell detection and QuPath runtime comparisons
 remain open. All unfinished M0-M7 requirements stay active.
+
+The thirty-fourth packet extends tissue masks to native pyramid levels. The
+default selects the finest available level fitting the work budget; explicit
+level selection fails rather than silently changing resolution. Request/result
+metadata separates sampled dimensions from level-zero bounds and component
+geometry. ImGui scales mask textures into the same image coordinates and exposes
+the level choice. Level-aware SHA-256 streams record native grid, scale, rounded
+read origins and decoded bytes; level-zero digests stay compatible. See
+[tissue masks](tissue-detection.md) for fractional-scale reader phase semantics.
+
+Native fixtures cover non-integer scales, tile-crossing connectivity, tiny coarse
+ROIs and pre-decode selection on a 205520896-pixel source. Python comparisons
+reconstruct real native pyramid reads, independent OD/stain values, component
+geometry and SHA-256 streams. Native-level sampling does not provide arbitrary
+resampling or physical-area filters. Morphology, hole filling, contour/annotation conversion, mask
+persistence, cell detection and upstream runtime comparisons remain open, along
+with all unfinished M0-M7 requirements.
+
+The native-level recording covers a 205520896-pixel synthetic TIFF source with
+3211264 samples at 8x downsample. The two measured worker runs take
+153.79/134.65 ms; capture takes 0.0052 ms with 33204224 estimated work bytes.
+The 100001-selected-object viewer records 17.22 ms sampled frame p95 and
+19.00 ms maximum, retaining 12845056 mask GPU bytes. Exact fixture pixels,
+labels, centroid, bounds and SHA-256 match independent expectations. The sixteen
+new Python cases include non-integer native reads, SHA-256 reconstruction,
+budget endpoints and the scaled framebuffer overlay. These synthetic runs do
+not establish cold-storage, vendor-reader or hardware-wide performance.
+All 558 installed-wheel Python tests pass with two unavailable Windows
+file-symlink cases skipped; all eighteen native suites pass in full/core/minimal
+builds. The full project goal remains active.

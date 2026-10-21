@@ -1,6 +1,7 @@
 #include "qupathxx/tissue.hpp"
 #include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <iostream>
 #include <stdexcept>
 #include <thread>
@@ -18,6 +19,27 @@ public:
     }
     void close() override {shut.store(true);}
     bool closed() const override {return shut.load();}
+};
+class Pyramid final:public qpx::ImageServer {
+public:
+    qpx::ImageMetadata info;
+    mutable unsigned reads=0;
+    Pyramid() {info.width=300;info.height=240;info.levels={{300,240,1},{200,160,1.5},{75,60,4}};}
+    const qpx::ImageMetadata& metadata() const override {return info;}
+    qpx::PixelBuffer read_region(const qpx::RegionRequest& r) const override {
+        qpx::validate_region(info,r);++reads;qpx::PixelBuffer output(r.width,r.height);
+        const auto scale=info.levels[r.level].downsample;
+        const auto gx=static_cast<std::int64_t>(std::llround(r.x/scale)),gy=static_cast<std::int64_t>(std::llround(r.y/scale));
+        for(std::int64_t row=0;row<r.height;++row) for(std::int64_t col=0;col<r.width;++col) {
+            const auto i=static_cast<std::size_t>((row*r.width+col)*4);
+            const bool dark=(gx+col)%19<6 || (gy+row)%17<5;
+            for(int c=0;c<3;++c) output.writable_bytes()[i+c]=dark?0:255;
+            output.writable_bytes()[i+3]=255;
+        }
+        return output;
+    }
+    void close() override {}
+    bool closed() const override {return false;}
 };
 int main() {
     try {
@@ -49,6 +71,29 @@ int main() {
         auto empty=std::make_shared<Gate>();empty->release.store(true);empty->transparent=true;qpx::Document no_pixels(empty);
         const auto no_id=no_pixels.add_rectangle({0,0,40,30});check(job.request(qpx::TissueRequest(no_pixels,no_id,transform)));
         check(job.wait(no_pixels,no_id).state=="failed" && !job.result());
+        auto pyramid=std::make_shared<Pyramid>();qpx::Document multi(pyramid);
+        const auto region=multi.add_rectangle({2.2,3.1,190,150});p=qpx::TissueParameters{};p.level=1;
+        std::vector<std::uint32_t> baseline;
+        for(auto tile:{16u,31u,256u}) {
+            p.tile_size=tile;qpx::TissueRequest request(multi,region,transform,p);const auto result=qpx::detect_tissue(request);
+            check(request.level()==1 && result->level()==1 && result->downsample()==1.5);
+            check(result->width()==127 && result->height()==100 && result->bounds().x==1.5 && result->bounds().y==3);
+            for(std::int64_t y=0;y<100;++y) for(std::int64_t x=0;x<127;++x)
+                check((result->labels()[static_cast<std::size_t>(y*127+x)]!=0)==((x+1)%19<6 || (y+2)%17<5));
+            if(baseline.empty()) baseline=result->labels();else check(baseline==result->labels());
+            check(result->components().size()==1 && result->components()[0].bounds.width==190.5);
+            check(result->algorithm()=="qpx.threshold-components/2");
+        }
+        const auto tiny=multi.add_rectangle({.7,.7,.1,.1});
+        check(qpx::detect_tissue(qpx::TissueRequest(multi,tiny,transform,p))->samples()==1);
+        p.level=0;try {qpx::TissueRequest invalid(multi,tiny,transform,p);throw std::runtime_error("accepted empty grid");} catch(const std::invalid_argument&) {}
+        p.level=9;try {qpx::TissueRequest invalid(multi,region,transform,p);throw std::runtime_error("accepted missing level");} catch(const std::out_of_range&) {}
+        auto large=std::make_shared<Pyramid>();large->info.width=100352;large->info.height=2048;
+        large->info.levels={{100352,2048,1},{50176,1024,2},{25088,512,4},{12544,256,8}};
+        qpx::Document whole(large);const auto all=whole.add_rectangle({0,0,100352,2048});p=qpx::TissueParameters{};
+        qpx::TissueRequest automatic(whole,all,transform,p);check(automatic.level()==3 && automatic.estimated_work_bytes()<=p.work_bytes && large->reads==0);
+        p.level=0;try {qpx::TissueRequest invalid(whole,all,transform,p);throw std::runtime_error("accepted large level");} catch(const std::length_error&) {}
+        check(large->reads==0);
         std::cout<<"tissue passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

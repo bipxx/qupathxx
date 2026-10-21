@@ -125,7 +125,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     TissueParameters tissue_parameters;
     tissue_parameters.feature=static_cast<TissueFeature>(options.tissue_feature);tissue_parameters.threshold=options.tissue_threshold;
     tissue_parameters.connectivity=options.tissue_connectivity;tissue_parameters.min_pixels=options.tissue_min_pixels;tissue_parameters.max_pixels=options.tissue_max_pixels;
-    tissue_parameters.validate();
+    tissue_parameters.level=options.tissue_level;tissue_parameters.validate();
     if(!std::isfinite(options.autosave_interval_seconds) || options.autosave_interval_seconds<0 || options.autosave_interval_seconds>86400)
         throw std::invalid_argument("autosave interval must be between 0 and 86400 seconds");
     if(options.project && options.project->active_image() && options.project->document(options.project->active_image()).get()!=&document)
@@ -1186,6 +1186,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::SeparatorText("Threshold tissue mask");
             const auto tissue_status=tissue.poll(document,selected);
             bool tissue_changed=ImGui::Combo("Tissue feature",&tissue_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0");
+            const auto level_label=tissue_parameters.level<0?std::string("Auto (work budget)"):"Level "+std::to_string(tissue_parameters.level);
+            if(ImGui::BeginCombo("Tissue level",level_label.c_str())) {
+                if(ImGui::Selectable("Auto (work budget)",tissue_parameters.level<0)) {tissue_parameters.level=-1;tissue_changed=true;}
+                for(std::size_t i=0;i<image.levels.size();++i) {
+                    const auto label="Level "+std::to_string(i)+" / "+std::to_string(image.levels[i].downsample)+"x";
+                    if(ImGui::Selectable(label.c_str(),tissue_parameters.level==static_cast<std::int32_t>(i))) {tissue_parameters.level=static_cast<std::int32_t>(i);tissue_changed=true;}
+                }
+                ImGui::EndCombo();
+            }
             tissue_changed=ImGui::InputDouble("Threshold >=",&tissue_parameters.threshold,0,0,"%.5g") || tissue_changed;
             tissue_changed=ImGui::Combo("Connectivity",&tissue_connectivity,"4 neighbors\0 8 neighbors\0") || tissue_changed;
             tissue_changed=ImGui::InputScalar("Min pixels",ImGuiDataType_U64,&tissue_parameters.min_pixels) || tissue_changed;
@@ -1207,6 +1216,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
             ImGui::Checkbox("Show tissue mask",&show_tissue);
             if(const auto result=tissue.result()) {
+                ImGui::Text("Level %d / %.5gx / %lld x %lld",result->level(),result->downsample(),static_cast<long long>(result->width()),static_cast<long long>(result->height()));
+                ImGui::TextDisabled("Size filters count sampled pixels");
                 ImGui::Text("Components: %zu",result->components().size());
                 ImGui::Text("Kept pixels: %llu",static_cast<unsigned long long>(result->foreground_pixels()));
                 ImGui::Text("Samples: %llu / %.3f ms",static_cast<unsigned long long>(result->samples()),result->elapsed_ms());
@@ -1660,7 +1671,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         active_document->analysis_record_count(),saved_analysis?active_document->analysis_status(saved_analysis->id):std::string{},
         tissue_status.state,tissue_status.error.empty()?tissue_preview.error():tissue_status.error,tissue_result?tissue_result->input_sha256():std::string{},
         tissue_result?tissue_result->components().size():0,tissue_preview.peak_bytes(),tissue_result?tissue_result->samples():0,tissue_result?tissue_result->foreground_pixels():0,
-        tissue_status.elapsed_ms,tissue_preview.ready()};
+        tissue_status.elapsed_ms,tissue_preview.ready(),tissue_result?tissue_result->level():-1,tissue_result?tissue_result->downsample():0,
+        tissue_result?tissue_result->width():0,tissue_result?tissue_result->height():0};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");
