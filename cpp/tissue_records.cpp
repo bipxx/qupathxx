@@ -24,7 +24,7 @@ void Document::restore_tissue(std::shared_ptr<const TissueRecord> record) {
     const auto bytes=record->payload_bytes();
     if(tissue_.size()>=10000 || bytes>256u*1024u*1024u-tissue_bytes_) throw std::length_error("tissue archive exceeds its 10000-record/256 MiB limit");
     const auto id=record->id;const auto key=std::make_pair(record->result->object_id(),id);
-    if(tissue_.count(id) || analysis_.count(id)) throw std::invalid_argument("duplicate tissue record ID");
+    if(tissue_.count(id) || analysis_.count(id) || cells_.count(id)) throw std::invalid_argument("duplicate tissue record ID");
     const bool reuse=!tissue_free_slots_.empty();const auto slot=reuse?tissue_free_slots_.back():tissue_next_slot_;
     const auto index=slot/256;auto& blocks=tissue_blocks_.values;const bool fresh=index==blocks.size();
     std::shared_ptr<TissueBlock> block;

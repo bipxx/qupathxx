@@ -81,7 +81,7 @@ def test_multi_image_roundtrip_preserves_state_pixels_and_identity(tmp_path):
     assert loaded.dirty
     assert loaded.document(second).server.read_region(q.RegionRequest(0, 0, 0, 1, 1)).data == bytes([30, 60, 90, 255])
     with sqlite3.connect(path) as database:
-        assert database.execute("PRAGMA user_version").fetchone()[0] == 4
+        assert database.execute("PRAGMA user_version").fetchone()[0] == 5
         assert database.execute("SELECT source FROM images WHERE id=?", (str(second),)).fetchone()[0] == "images/source.ppm"
         assert database.execute("PRAGMA quick_check").fetchone()[0] == "ok"
 

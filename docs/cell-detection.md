@@ -104,12 +104,13 @@ source ROI payload, allocator overhead and string capacity. Preview GPU payload
 is bounded separately at 32 MiB, uploading at most four 256-pixel tiles per frame.
 
 Published body/nucleus objects persist through project/recovery and GeoJSON
-storage. Cell rasters, parameter bundles, feature tables and complete provenance
-are **not yet archived**. The raster layers reuse the `TissueResult` read interface
+storage. [Cell run archives](cell-archive.md) retain masks, parameter bundles,
+markers and feature tables with input digests and rechecking. Complete source and
+environment manifests remain unfinished. The raster layers reuse the `TissueResult` read interface
 with distinct algorithm IDs; they cannot be retained as threshold tissue records.
 
 Background subtraction, physical-unit filters, marker editing, split/merge,
-stain estimation, classifiers, full cell archives and pinned QuPath comparisons
+stain estimation, classifiers, feature-table export and pinned QuPath comparisons
 remain unfinished. Broader slides, hardware and prolonged memory pressure need
 validation. The overall M0–M7 plan remains active.
 

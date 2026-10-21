@@ -86,6 +86,7 @@ private:
     friend class Document;
     friend struct TissueArchiveCodec;
     friend struct CellKernel;
+    friend struct CellArchiveCodec;
     std::shared_ptr<const char> ticket_;
     TissueResult()=default;
     std::string algorithm_="qpx.threshold-components/1",input_sha256_;
@@ -138,6 +139,7 @@ public:
     std::uint64_t object_id() const {return object_id_;}
 private:
     friend struct TissueContourKernel;
+    friend struct CellKernel;
     TissueContours()=default;
     std::string input_sha256_;
     TissueContourOptions options_;

@@ -1044,3 +1044,30 @@ installed-wheel regression passes 802 cases with two Windows symlink cases
 skipped; all 24 native suites pass in the full GUI build, and 23 pass in each
 core/minimal build. Native checks cover fractional DPI/physical bounds, empty
 or invalid surfaces, backend dimension rounding and exact budget endpoints.
+
+The forty-second packet adds immutable cell-run archives to C++, Python and
+ImGui. Schema 5 stores both lossless label planes, captured parameters/transform,
+markers/remapping, compartment features and input digests. Native transport
+validation rebuilds statistics and checks nearest-nucleus assignments. Reopened
+runs start unverified; rechecks compare complete numeric output without changing
+canonical revisions. Shared snapshots retain removed runs on save/recovery workers
+without Python ownership. Schemas 1–4 remain readable and migrate transactionally.
+See [cell archives](cell-archive.md). Complete source/environment manifests,
+feature-table export, numerical QuPath comparisons and the remaining M0–M7 work
+stay open.
+
+Coarse ellipse tests expose zero-area GEOS boundary remnants between independently
+clipped bodies/nuclei. Worker normalization is restricted to empty area differences
+and must preserve coverage, source containment and contour budgets; generic ROI
+predicates are unchanged. Numeric archive round trips and publication pass at
+fractional native levels. The full wheel regression passes 837 cases with two
+Windows symlink cases skipped; all 46 focused archive/desktop cases pass after
+eleven more corruption/identity/budget checks were added. Native suites pass in
+full/core/minimal builds (25/24/24).
+
+The 1024², 256-cell fixture encodes each complete run to 259620 bytes. Eight shared
+runs capture in 0.016 ms, charging 78227751 logical snapshot bytes; write/load are
+53.21/245.06 ms. The all-visible selected 100001-object viewer records 16.90 ms
+frame p95 and 114.68 ms maximum, with 0.0332 ms retention and 0.0258 ms save capture.
+Invalidated views and other hardware remain limits; these synthetic observations
+do not establish general storage/frame-latency guarantees.

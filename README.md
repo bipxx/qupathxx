@@ -7,6 +7,8 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Lossless cell-run archives with parameters, markers, compartment features,
+  project/recovery storage and pixel rechecking; see [cell archives](docs/cell-archive.md).
 - Bounded GPU canvas caching reuses unchanged image/annotation pixels while
   keeping picking and edit tools live; see [canvas cache](docs/overlay-cache.md).
 - Native marker watershed cell detection, nucleus/body/cytoplasm features,

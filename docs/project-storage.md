@@ -1,11 +1,12 @@
 # Native multi-image project storage
 
 The native `Project` owns shared documents, stable image IDs, image names and
-source descriptors. SQLite schema version 4 stores canonical object state,
+source descriptors. SQLite schema version 5 stores canonical object state,
 class definitions, per-axis calibration, source metadata, the active image and
-per-image camera/display views, retained analysis records and tissue masks. Schemas 1, 2 and 3
+per-image camera/display views, retained analysis records, tissue masks and cell runs. Schemas 1–4
 remain readable; see [workspace migration](project-workspace.md) and
-[analysis provenance](analysis-provenance.md) and [tissue archives](tissue-archive.md).
+[analysis provenance](analysis-provenance.md), [tissue archives](tissue-archive.md)
+and [cell archives](cell-archive.md).
 The public Python API uses the same native container; it does not serialize a
 separate Python model. All project/document mutation is single-threaded and
 retains the Python GIL. Shared documents remain alive after removal from a project.
@@ -70,7 +71,7 @@ are removed. Commit updates the in-memory saved path, generation and saved
 document revisions only after SQLite reports success. A failure rolls back the
 transaction and leaves unsaved in-memory edits available.
 
-The application ID is `0x51505858` and new `user_version` is 3. Schemas 1/2 migrate
+The application ID is `0x51505858` and new `user_version` is 5. Schemas 1–4 migrate
 transactionally on save. Unknown schemas and
 unrelated databases are rejected. A different project identity at the destination
 is rejected rather than overwritten. Save to a new filename for a separate copy.

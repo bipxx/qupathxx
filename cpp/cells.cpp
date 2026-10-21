@@ -120,7 +120,7 @@ struct CellKernel {
     static std::shared_ptr<const CellResult> run(const CellRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr,std::atomic<int>* phase=nullptr) {
         checkpoint(cancelled);const auto began=std::chrono::steady_clock::now();const auto& p=request.parameters_;const auto grid=request.level_bounds();
         const auto width=static_cast<std::size_t>(grid.width),height=static_cast<std::size_t>(grid.height),n=width*height;const auto scale=request.downsample();
-        auto result=std::shared_ptr<CellResult>(new CellResult());result->parameters_=p;
+        auto result=std::shared_ptr<CellResult>(new CellResult());result->parameters_=p;result->ticket_=request.ticket_;
         std::vector<float> channels(n*3);std::vector<std::uint8_t> rgb(n*3),domain(n),mask(n);std::vector<double> smooth(n);
         Sha256 digest;const std::string format=request.level()==0?"qpx.rgba-tiles/1":"qpx.rgba-level-tiles/1";digest.update(format.data(),format.size());const auto& metadata=request.reader_->metadata();
         digest.integer(metadata.width);digest.integer(metadata.height);
@@ -179,7 +179,23 @@ struct CellKernel {
             if(phase) phase->store(6);result->nucleus_contours_=trace_tissue(*result->nuclei_,p.contours,cancelled);result->cell_contours_=trace_tissue(*result->cells_,p.contours,cancelled);
             if(result->nucleus_contours_->components().size()!=count || result->cell_contours_->components().size()!=count) throw std::runtime_error("cell contours did not preserve every label");
             for(std::size_t i=0;i<count;++i) {checkpoint(cancelled);const auto& body=result->cell_contours_->components()[i];const auto& nucleus=result->nucleus_contours_->components()[i];
-                if(body.label!=i+1 || nucleus.label!=i+1 || !body.geometry.covers(nucleus.geometry)) throw std::runtime_error("cell contour containment/label validation failed");}
+                if(body.label!=i+1 || nucleus.label!=i+1) throw std::runtime_error("cell contour label validation failed");
+                if(!body.geometry.covers(nucleus.geometry)) {
+                    // Independent ROI intersections can leave zero-area boundary
+                    // remnants that fail GEOS Covers. Normalize this fresh body
+                    // before publication, without relaxing containment predicates.
+                    if(nucleus.geometry.boolean_operation(body.geometry,BooleanOp::Difference)) throw std::runtime_error("cell nucleus extends outside its body contour");
+                    auto united=body.geometry.boolean_operation(nucleus.geometry,BooleanOp::Union);checkpoint(cancelled);
+                    if(!united || !united->covers(body.geometry) || !united->covers(nucleus.geometry) || !request.roi().covers(*united)) throw std::runtime_error("cell contour boundary normalization failed");
+                    std::size_t before=0,after=0;for(const auto& path:body.geometry.paths()) before+=path.size();for(const auto& path:united->paths()) after+=path.size();
+                    // trace_tissue allocated mutable native storage; this result
+                    // has not escaped the worker or acquired any external owner.
+                    auto repaired=std::const_pointer_cast<TissueContours>(result->cell_contours_);
+                    const auto vertices=repaired->vertices_-before+after,retained=repaired->retained_-body.geometry.payload_bytes()+united->payload_bytes();
+                    if(vertices>p.contours.max_vertices || retained>p.contours.work_bytes) throw std::length_error("cell contour normalization exceeds geometry budget");
+                    repaired->components_[i].geometry=std::move(*united);repaired->vertices_=vertices;repaired->retained_=retained;
+                }
+            }
         }
         checkpoint(cancelled);result->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();if(phase) phase->store(7);return result;
     }
@@ -218,5 +234,14 @@ std::vector<std::uint64_t> CellJob::keep_result(Document& doc,std::uint64_t id,s
         edits.push_back(ObjectEdit::create_geometry(body.geometry,prefix+" "+std::to_string(i+1),id,classification,ObjectKind::Cell,nucleus.geometry));
     }
     auto ids=doc.execute(edits,"Add detected cells");impl_->published=true;return ids;
+}
+std::uint64_t CellJob::keep_record(Document& doc,std::uint64_t id) {
+    if(poll(doc,id).state!="ready" || !impl_->result || !impl_->request) throw std::logic_error("no current cell run to retain");
+    return doc.keep_cells(*impl_->request,impl_->result);
+}
+bool CellJob::verify_record(Document& doc,std::uint64_t id) {
+    const auto record=doc.cell_record(id);
+    if(poll(doc,record->result->nuclei()->object_id()).state!="ready" || !impl_->result || !impl_->request) throw std::logic_error("no current cell run to verify");
+    return doc.verify_cells(id,*impl_->request,*impl_->result);
 }
 }

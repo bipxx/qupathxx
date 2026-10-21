@@ -8,14 +8,16 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the final installed-wheel regression passes 802 Python cases with two file-symlink cases
+Evidence: the final installed-wheel regression passes 837 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
-and recovery; twenty-four native suites pass in the full GUI build and
-twenty-three pass in core/minimal builds with optional geometry/readers/
+and recovery; twenty-five native suites pass in the full GUI build and
+twenty-four pass in core/minimal builds with optional geometry/readers/
 interchange enabled and disabled. The installed GUI wheel includes its
 packaged runtime libraries and licenses.
+All 46 focused cell-archive/desktop cases pass, including eleven added after
+the full run for shared IDs, malformed runs, source changes and save budgets.
 The 100000-object document benchmark records approximately 230 ms batch creation,
 116 ms undo, 126 ms redo and 815 bytes of history payload for a rename. The spatial
 benchmark covers 1000 region queries and a cached narrow GUI view of 828 visible
@@ -330,7 +332,21 @@ The paired 100000-visible-object, 2560-by-1440 recording reduces frame p95 from
 hashes. The view records four captures and 176 hits in 180 frames. Dense dynamic
 views still render normally. See overlay-cache.md for scope and reproduction.
 
-Next complete source/environment provenance and cell result archives. Continue
+The forty-second packet retains lossless cell runs through schema-5 project and
+recovery storage, including both masks, captured transforms/parameters, markers,
+compartment features and input digests. Reopened values require an explicit
+worker recheck; shared native snapshots preserve removed runs without Python
+wrapper cleanup on workers. Strict transport/count/geometry validation, quotas,
+transactional migration and ImGui retain/recheck/publication pass. Coarse curved
+ROI tests also fix zero-area boundary remnants before cell publication, preserving
+strict generic containment. See cell-archive.md.
+The 1024², 256-cell run encodes both planes/features to 259620 bytes. Eight shared
+runs capture in 0.016 ms while charging 78227751 snapshot bytes. The all-visible
+100001-selected-object viewer records 16.90 ms p95 and 114.68 ms maximum; retaining
+a run takes 0.0332 ms and save capture 0.0258 ms. Invalidated dense canvases still
+require full rendering; these are warm synthetic observations on one PC.
+
+Next complete source/environment provenance and cell feature-table export. Continue
 numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged

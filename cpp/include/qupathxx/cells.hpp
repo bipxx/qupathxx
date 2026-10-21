@@ -25,8 +25,11 @@ public:
     const Roi& roi() const {return source_.roi();}
     std::uint64_t total_tiles() const {return source_.total_tiles();}
     std::size_t estimated_work_bytes() const {return work_;}
+    static CellRequest replay(const Document&,std::uint64_t record_id);
 private:
     friend struct CellKernel;
+    friend class Document;
+    std::shared_ptr<const char> ticket_=std::make_shared<const char>();
     TissueRequest source_;
     CellParameters parameters_;
     std::shared_ptr<ImageServer> reader_;
@@ -48,7 +51,7 @@ struct CellFeature {
 class CellResult : public std::enable_shared_from_this<CellResult> {
 public:
     CellResult(const CellResult&)=delete;
-    const char* algorithm() const {return "qpx.distance-watershed/1";}
+    const char* algorithm() const {return algorithm_.c_str();}
     const CellParameters& parameters() const {return parameters_;}
     const std::shared_ptr<const TissueResult>& nuclei() const {return nuclei_;}
     const std::shared_ptr<const TissueResult>& cells() const {return cells_;}
@@ -61,6 +64,10 @@ public:
     std::size_t retained_bytes() const;
 private:
     friend struct CellKernel;
+    friend struct CellArchiveCodec;
+    friend class Document;
+    std::shared_ptr<const char> ticket_;
+    std::string algorithm_="qpx.distance-watershed/1";
     CellResult()=default;
     CellParameters parameters_;
     std::shared_ptr<const TissueResult> nuclei_,cells_;
@@ -71,6 +78,12 @@ private:
     double elapsed_ms_=0;
 };
 std::shared_ptr<const CellResult> detect_cells(const CellRequest&,const std::atomic<bool>* cancelled=nullptr);
+struct CellRecord {
+    std::uint64_t id=0;
+    std::string producer="qupathxx/0.1.0";
+    std::shared_ptr<const CellResult> result;
+    std::size_t payload_bytes() const;
+};
 struct CellStats : AnalysisStats {std::string phase="idle";};
 class CellJob {
 public:
@@ -82,6 +95,8 @@ public:
     std::shared_ptr<const CellResult> result() const;
     bool published() const;
     std::vector<std::uint64_t> keep_result(Document&,std::uint64_t selected_id,std::string name_prefix="Cell",std::string class_name="");
+    std::uint64_t keep_record(Document&,std::uint64_t selected_id);
+    bool verify_record(Document&,std::uint64_t record_id);
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
 };

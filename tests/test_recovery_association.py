@@ -190,6 +190,6 @@ def test_legacy_primary_association_is_readonly_until_explicit_migrating_save(tm
     restored.save(str(target))
     assert restored.generation == 2 and not restored.dirty
     db = sqlite3.connect(target)
-    assert db.execute('PRAGMA user_version').fetchone()[0] == 4
+    assert db.execute('PRAGMA user_version').fetchone()[0] == 5
     db.close()
     assert q.Project.open(str(target)).document(image).annotation(obj).name == 'Captured on schema 1'
