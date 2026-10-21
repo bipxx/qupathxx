@@ -74,8 +74,9 @@ if newer edits remain, it then offers the usual dirty-close choices instead of
 silently saving or discarding those edits. Save errors leave the dialog and
 workspace available. Saving over a selected open target reloads the successful
 new generation on the loader worker. Finite embedded `show` runs join and reconcile
-an outstanding save before returning. Initial CLI loads and recovery loading
-remain synchronous; the ordinary in-window project loader is asynchronous.
+an outstanding save before returning. Initial CLI loads remain synchronous;
+ordinary project and [in-window recovery loading](recovery-maintenance.md) share
+one asynchronous loader slot.
 
 Default capture budget is 256 MiB, configurable up to 4 GiB through
 `ProjectSaveJob(snapshot_budget=...)` or `GuiOptions.save_snapshot_budget`.

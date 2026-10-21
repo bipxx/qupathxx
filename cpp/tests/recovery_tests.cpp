@@ -22,7 +22,13 @@ int main() {
         auto restored=Project::recover(path);
         check(restored->dirty() && restored->generation()==1 && restored->document(image)->annotation(object).name=="Captured");
         check(Project::inspect_recovery(path).base_status=="matching");
+        auto reviewed=Project::review_recovery(path); check(!reviewed.fingerprint.empty());
         p.restore_recovery(path); check(p.document(image)->annotation(object).name=="Captured" && doc->annotation(object).name=="Later");
+        p.document(image)->rename_annotation(object,"New checkpoint");
+        check(autosave.request(p,path) && autosave.wait().state=="ready");
+        bool changed=false; try {Project::discard_recovery_checked(reviewed);} catch(const std::runtime_error&) {changed=true;}
+        check(changed && std::filesystem::exists(std::filesystem::u8path(path)));
+        Project::discard_recovery_checked(Project::review_recovery(path));
         autosave.clear(); check(autosave.wait().state=="idle" && !std::filesystem::exists(std::filesystem::u8path(path)));
         std::filesystem::remove(std::filesystem::u8path(base)); std::filesystem::remove(std::filesystem::u8path(path+".lock"));
         std::cout<<"Native async snapshot isolation, primary preservation and restoration passed\n";

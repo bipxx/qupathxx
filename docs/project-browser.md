@@ -54,7 +54,9 @@ now provides [autosave/recovery and dirty-close choices](project-recovery.md).
 [Ordinary project-file opening/replacement](project-opening.md) now loads on a
 worker and shares the dirty-workspace decisions. [Empty desktop workspaces and
 confirmed image removal](project-lifecycle.md) and [background explicit saves](project-save.md)
-are implemented. Recovery maintenance and background recovery loading remain M4 work. Missing-source
+are implemented. [Background recovery loading and reviewed checkpoint deletion](recovery-maintenance.md)
+are implemented; automatic retention, abandoned-work cleanup and moved-primary
+association remain M4 work. Missing-source
 documents retain annotations and metadata while tile errors are shown. Source
 availability is a file-existence check, not proof of reader or byte identity.
 

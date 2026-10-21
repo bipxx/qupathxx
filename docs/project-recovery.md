@@ -117,11 +117,13 @@ qupathxx_app --recover study.qpxproj.recovery-SESSION.qpxrecover
 ```
 
 `Project.discard_recovery(path, expected_identity)` explicitly removes a validated
-checkpoint; mismatched/invalid files and active writer locks reject. Maintenance
-UI for deleting old checkpoints, abandoned-work-directory cleanup, recovery
-association after moving the primary and background recovery loading remain
-delivery work. [Explicit primary saves](project-save.md) now run on a worker with
-owner-thread baseline acknowledgment; recovery loading still runs on the GUI thread. Interrupted work directories are ignored during discovery; incomplete
+checkpoint; mismatched/invalid files and active writer locks reject.
+[Reviewed checkpoint deletion and background recovery loading](recovery-maintenance.md)
+are now available in the desktop. The checked native API compares the reviewed
+file content before removal. Abandoned-work-directory cleanup, automatic retention
+and recovery association after moving the primary remain delivery work.
+[Explicit primary saves](project-save.md) run on a worker with owner-thread baseline
+acknowledgment; initial CLI project/recovery loading remains synchronous. Interrupted work directories are ignored during discovery; incomplete
 databases are never promoted. Retention across many sessions and power-loss/
 network-filesystem guarantees remain unverified.
 

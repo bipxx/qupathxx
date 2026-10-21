@@ -5,7 +5,7 @@ namespace qpx {
 class ProjectAutosave;
 class ProjectSaveJob;
 struct RecoveryInfo {
-    std::string path,identity,session,base_path,base_status,error;
+    std::string path,identity,session,base_path,base_status,error,fingerprint;
     std::uint64_t base_generation=0;
     std::int64_t created_unix_ms=0;
     std::size_t images=0,objects=0;
@@ -30,6 +30,8 @@ public:
     Project();
     static std::shared_ptr<Project> open(const std::string& path);
     static RecoveryInfo inspect_recovery(const std::string& path);
+    static RecoveryInfo review_recovery(const std::string& path);
+    static void discard_recovery_checked(const RecoveryInfo& reviewed);
     static std::shared_ptr<Project> recover(const std::string& path);
     static void discard_recovery(const std::string& path,const std::string& expected_identity);
     static std::vector<RecoveryInfo> find_recoveries(const std::string& base_path="",std::size_t limit=64);

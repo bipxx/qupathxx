@@ -8,6 +8,11 @@
 #include <random>
 #include <stdexcept>
 #include <thread>
+#include <array>
+#include <fstream>
+#include <iomanip>
+#include <sstream>
+#include <locale>
 #ifdef _WIN32
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
@@ -136,6 +141,22 @@ void erase_owned(const std::string& path,const std::string& identity,const std::
     FileLock lock(location(path)); check_owner(path,identity,session,base);
     if(!fs::remove(location(path))) throw std::runtime_error("recovery removal failed");
 }
+std::string fingerprint(const fs::path& path) {
+    // Streaming FNV-1a plus byte count is a consistency stamp for cooperating
+    // writers, not a cryptographic/tamper-detection or authorization boundary.
+    std::ifstream input(path,std::ios::binary);
+    if(!input) throw std::runtime_error("cannot read recovery checkpoint for review");
+    std::array<char,65536> buffer{};
+    std::uint64_t hash=14695981039346656037ull,bytes=0;
+    while(input.read(buffer.data(),buffer.size()) || input.gcount()) {
+        const auto count=input.gcount(); bytes+=static_cast<std::uint64_t>(count);
+        for(std::streamsize i=0;i<count;++i) {hash^=static_cast<unsigned char>(buffer[static_cast<std::size_t>(i)]); hash*=1099511628211ull;}
+    }
+    if(!input.eof()) throw std::runtime_error("recovery checkpoint review read failed");
+    std::ostringstream result; result.imbue(std::locale::classic());
+    result<<std::hex<<std::setfill('0')<<std::setw(16)<<hash<<':'<<std::dec<<bytes;
+    return result.str();
+}
 }
 struct ProjectAutosave::Impl {
     struct Stamp {
@@ -254,6 +275,21 @@ void Project::discard_recovery(const std::string& path,const std::string& identi
     if(!has_project()) throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON");
     auto target=location(path); FileLock lock(target); auto info=inspect_recovery(target.u8string());
     if(info.identity!=identity) throw std::invalid_argument("recovery project identity does not match");
+    if(!fs::remove(target)) throw std::runtime_error("recovery removal failed");
+}
+RecoveryInfo Project::review_recovery(const std::string& path) {
+    if(!has_project()) throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON");
+    const auto target=location(path); FileLock lock(target);
+    auto info=inspect_recovery(target.u8string()); info.fingerprint=fingerprint(target);
+    return info;
+}
+void Project::discard_recovery_checked(const RecoveryInfo& reviewed) {
+    if(!has_project()) throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON");
+    if(reviewed.fingerprint.empty()) throw std::invalid_argument("review the recovery checkpoint before deleting it");
+    const auto target=location(reviewed.path); FileLock lock(target);
+    const auto current=inspect_recovery(target.u8string());
+    if(current.identity!=reviewed.identity || current.session!=reviewed.session || fingerprint(target)!=reviewed.fingerprint)
+        throw std::runtime_error("recovery checkpoint changed since review; review it again before deleting");
     if(!fs::remove(target)) throw std::runtime_error("recovery removal failed");
 }
 std::vector<RecoveryInfo> Project::find_recoveries(const std::string& base,std::size_t limit) {

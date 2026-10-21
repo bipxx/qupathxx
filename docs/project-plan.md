@@ -490,3 +490,16 @@ rollback-required condition with temporary write access, then returns read-only.
 See [project-save.md](project-save.md) for the 100000-object timing and limits.
 Checkpoint maintenance, abandoned-work cleanup, moved-recovery association and
 background recovery loads remain M4 work. All unfinished M0-M7 gates remain active.
+
+
+The nineteenth packet shares the existing worker loader between ordinary projects
+and recovery files, with cancellation of adoption, live editing until staging and
+separate recovery timing. Native reviewed deletion fingerprints a validated
+checkpoint under its publication lock and rejects changed files at confirmation;
+ImGui review/confirmation/removal also run off the render thread. Stale discovery
+results are invalidated by workspace/catalog revisions. See
+[recovery-maintenance.md](recovery-maintenance.md). The 100000-object run exposes
+a 38.4 ms maximum replacement frame when the old graph has no external owner;
+retirement remains an optimization target. Automatic retention, abandoned-work
+cleanup, moved recovery association and initial CLI loading progress remain M4
+work. QuPath runtime comparisons and all unfinished M0-M7 gates remain active.

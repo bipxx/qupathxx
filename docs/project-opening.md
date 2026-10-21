@@ -45,7 +45,8 @@ loader is claimed. Old graph references are released on the owner thread:
 Python-origin shared-pointer deleters can require the GIL, so moving their last
 release to a worker would deadlock an embedded viewer. Large inactive graphs
 can therefore still cause a replacement-frame pause. [Explicit primary saves](project-save.md)
-now run on a worker. Recovery-file loading and initial CLI opening remain synchronous.
+now run on a worker. [In-window recovery loading](recovery-maintenance.md) also
+uses this loader slot; initial CLI opening remains synchronous.
 
 The viewer now accepts empty projects and projects without an active image.
 See [project lifecycle](project-lifecycle.md) for `show(project)`, `--empty`, New

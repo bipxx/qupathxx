@@ -1,0 +1,16 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "live_objects": 100000,
+  "checkpoint_objects": 100000,
+  "checkpoint_file_bytes": 12541952,
+  "headless_review_ms": 19.582300097681582,
+  "checkpoints_deleted": 1,
+  "cpu_frame_p95_ms": 16.8391,
+  "max_cpu_frame_ms": 19.1921,
+  "peak_gpu_payload_bytes": 3145728,
+  "selected_objects": 100000,
+  "visible_objects": 792,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+  "scope": "Warm local SQLite, dense RGB, live 100000-object selection and separate 100000-object checkpoint. Source construction/publication excluded. No external document owner. Includes concurrent recovery loading/staged replacement and old-graph retirement or reviewed file deletion; frame work excludes buffer-swap wait. Cold/network/vendor and prolonged memory pressure excluded."
+}

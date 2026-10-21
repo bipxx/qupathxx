@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 256 Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay;
+Evidence: 270 Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay;
 fourteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
@@ -57,8 +57,13 @@ recovery after a killed native writer is verified, including Windows read-only
 permission restoration. The 100000-object run records 16.1 ms capture, 338 ms
 worker write/release, 0.020 ms maximum poll and 16.9 ms p95 CPU frame work in the
 selected viewer.
-Next implement checkpoint maintenance/orphan cleanup, moved-recovery association
-and background recovery loads;
+In-window background recovery loading and reviewed checkpoint deletion are
+implemented; see recovery-maintenance.md. The 100000-object recovery run records
+179 ms worker loading, 16.9 ms p95 and 38.4 ms maximum CPU frame work, including
+old-graph retirement without an external owner. The separate checkpoint deletion
+run records 19.6 ms standalone content review and 16.8 ms viewer frame p95.
+Next implement automatic retention/abandoned-work cleanup and moved-recovery
+association; preserve the measurable owner-thread replacement retirement pause;
 retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,
