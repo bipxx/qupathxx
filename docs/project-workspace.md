@@ -41,7 +41,9 @@ the latest navigation and all inactive images' recorded views as well as the
 canonical document state. Views remain available in memory when `show` returns;
 they reach disk only through a successful project save. Selection, editing
 history, unfinished tools and docking/layout state are not persisted by this
-schema. Autosave/recovery and dirty-close decisions remain M4 work.
+schema. [Autosave/recovery](project-recovery.md) stores this canonical state and
+the native GUI supports dirty-close decisions. Complete workspace lifecycle and
+recovery maintenance remain M4 work.
 
 ## Schema 1 to 2
 

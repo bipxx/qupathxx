@@ -118,6 +118,7 @@ public:
     double nucleus_mean_intensity(std::uint64_t id) const;
 private:
     friend class Project;
+    Document() = default; // Project's private save snapshots populate canonical fields only.
     static std::shared_ptr<Document> restore(std::shared_ptr<ImageServer> server,
         const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
         std::optional<double> pixel_width,std::optional<double> pixel_height,
@@ -207,9 +208,13 @@ struct GuiReport {
     std::uint64_t active_image = 0,image_switches = 0;
     double max_image_switch_ms = 0;
     std::string project_error;
+    std::uint64_t autosaves_completed=0;
+    std::string recovery_path,autosave_error;
+    double autosave_capture_ms=0;
+    double max_cpu_frame_ms=0;
 };
-enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey };
-enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset };
+enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow };
+enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement };
 struct GuiInput {
     int frame = 0;
     GuiInputKind kind = GuiInputKind::Move;
@@ -225,6 +230,9 @@ struct GuiOptions {
     std::shared_ptr<Project> project;
     std::string interchange_path;
     std::string project_image_path;
+    std::string autosave_path,recovery_path;
+    double autosave_interval_seconds=60;
+    std::size_t autosave_snapshot_budget=256*1024*1024;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 }

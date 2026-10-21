@@ -443,3 +443,14 @@ save-as preservation and transactional schema/data rollback during migration.
 See [project-workspace.md](project-workspace.md). Autosave/recovery, project-file
 open/replacement and removal/dirty-close workflows remain M4 work; all unfinished
 M0-M7 gates stay active.
+
+The fifteenth packet adds native immutable recovery snapshots, one background
+writer, payload budgeting, session ownership, protected destinations and atomic
+publication. Dedicated recovery application IDs keep them distinct from primary
+projects. ImGui periodic/manual autosave, staged recovery replacement and dirty-
+close choices share the native backend; both launchers accept `--recover`.
+Tests include live mutation isolation, replacement failure, lock contention and
+abnormal process exit. See [project-recovery.md](project-recovery.md). Checkpoint
+maintenance, abandoned work cleanup, moved-recovery association, ordinary project
+open/removal and background explicit IO remain M4 work. QuPath runtime comparisons
+and all unfinished M0-M7 requirements remain active.

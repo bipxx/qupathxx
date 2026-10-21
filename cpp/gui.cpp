@@ -1,5 +1,6 @@
 #include "qupathxx/core.hpp"
 #include "qupathxx/project.hpp"
+#include "qupathxx/project_recovery.hpp"
 #include "qupathxx/interchange.hpp"
 #include "gui_tiles.hpp"
 #include <imgui.h>
@@ -16,9 +17,29 @@
 #include <tuple>
 #include <cstring>
 #include <limits>
+#include <ctime>
+#include <iomanip>
+#include <sstream>
 
 namespace qpx {
 namespace {
+std::string recovery_label(const RecoveryInfo& info) {
+    if(!info.error.empty()) return "Unreadable recovery";
+    auto seconds=static_cast<std::time_t>(info.created_unix_ms/1000); std::tm utc{};
+#ifdef _WIN32
+    if(gmtime_s(&utc,&seconds)!=0) return "Recovery (unknown date)";
+#else
+    if(!gmtime_r(&seconds,&utc)) return "Recovery (unknown date)";
+#endif
+    std::ostringstream text; text.imbue(std::locale::classic());
+    text<<std::put_time(&utc,"%Y-%m-%d %H:%M UTC")<<" / "<<info.objects<<" objects"; return text.str();
+}
+bool same_recovery_file(const std::string& a,const std::string& b) {
+    if(a.empty() || b.empty()) return false;
+    std::error_code error;
+    if(std::filesystem::equivalent(std::filesystem::u8path(a),std::filesystem::u8path(b),error) && !error) return true;
+    return std::filesystem::u8path(a).lexically_normal()==std::filesystem::u8path(b).lexically_normal();
+}
 ImVec2 screen(const Viewport& v, Point p, ImVec2 offset) {
     auto s = v.image_to_screen(p); return {offset.x + static_cast<float>(s.x), offset.y + static_cast<float>(s.y)};
 }
@@ -91,6 +112,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if (frame_limit < 0) throw std::invalid_argument("frame_limit must be nonnegative");
     if (!capture_path.empty() && !frame_limit) throw std::invalid_argument("capture_path requires a positive frame_limit");
     options.display.validate();
+    if(!std::isfinite(options.autosave_interval_seconds) || options.autosave_interval_seconds<0 || options.autosave_interval_seconds>86400)
+        throw std::invalid_argument("autosave interval must be between 0 and 86400 seconds");
     if(options.project && options.project->document(options.project->active_image()).get()!=&document)
         throw std::invalid_argument("GUI document must be the project's active image");
     if(options.start_view && (!std::isfinite(options.start_view->zoom) || options.start_view->zoom<=0 ||
@@ -149,6 +172,31 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::string error;
     char project_path[32769]={};
     std::string project_error;
+    ProjectAutosave autosave(options.autosave_snapshot_budget);
+    AutosaveStats autosave_stats;
+    double autosave_interval=options.autosave_interval_seconds;
+    auto next_autosave=std::chrono::steady_clock::now()+std::chrono::duration<double>(autosave_interval);
+    char autosave_path[32769]={},recovery_path[32769]={};
+    auto copy_recovery_path=[](char* buffer,const std::string& path) {
+        if(path.size()>32768 || path.find('\0')!=std::string::npos) throw std::invalid_argument("invalid recovery path");
+        std::memcpy(buffer,path.c_str(),path.size()+1);
+    };
+    copy_recovery_path(autosave_path,options.autosave_path); copy_recovery_path(recovery_path,options.recovery_path);
+    std::string autosave_ui_error;
+    std::future<std::vector<RecoveryInfo>> recovery_scan;
+    std::string recovery_scan_base;
+    std::uint64_t recovery_scan_generation=0;
+    std::vector<RecoveryInfo> recovery_candidates;
+    if(options.project && !frame_limit) {
+        auto base=options.project->path(); recovery_scan_base=base; recovery_scan_generation=options.project->generation();
+        recovery_scan=std::async(std::launch::async,[base]{return Project::find_recoveries(base);});
+    }
+    std::shared_ptr<Project> staged_recovery;
+    bool recovery_popup_requested=false,recovery_dialog_active=false,restore_pending=false,restore_after_save=false,close_recovery_popup=false;
+    bool close_popup_requested=false,close_dialog_active=false,exit_requested=false,close_keep_started=false;
+    int close_action=0; // 1 saved, 2 keep recovery, 3 discard.
+    ImVec2 discard_recovery_offset{},discard_recovery_size{},keep_close_offset{},keep_close_size{},cancel_close_offset{},cancel_close_size{},discard_close_offset{},discard_close_size{};
+    ImVec2 save_close_offset{},save_close_size{},save_recovery_offset{},save_recovery_size{},cancel_recovery_offset{},cancel_recovery_size{};
     char project_image_path[32769]={},project_image_name[4097]={},project_filter[257]={};
     if(options.project_image_path.size()>32768 || options.project_image_path.find('\0')!=std::string::npos)
         throw std::invalid_argument("invalid project image path");
@@ -209,8 +257,52 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     double max_image_switch_ms=0;
     ImVec2 project_list_offset{},project_list_size{};
     ImVec2 display_reset_offset{},display_reset_size{};
-    while (!glfwWindowShouldClose(session.window) && (!frame_limit || frames < frame_limit)) {
+    while (!exit_requested && (!frame_limit || frames < frame_limit)) {
         auto frame_start=std::chrono::steady_clock::now();
+        auto previous_autosave_state=autosave_stats.state;
+        autosave_stats=autosave.poll();
+        if(autosave_stats.state=="error" && previous_autosave_state!="error")
+            next_autosave=std::chrono::steady_clock::now()+std::chrono::duration<double>(std::max(5.,autosave_interval));
+        if(recovery_scan.valid() && recovery_scan.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
+            const bool current=options.project && recovery_scan_base==options.project->path() && recovery_scan_generation==options.project->generation();
+            try {
+                auto candidates=recovery_scan.get();
+                if(current) {
+                    recovery_candidates=std::move(candidates);
+                    if(!recovery_candidates.empty() && !*recovery_path) copy_recovery_path(recovery_path,recovery_candidates.front().path);
+                }
+            } catch(const std::exception& e) { if(current) autosave_ui_error=e.what(); }
+        }
+        if(glfwWindowShouldClose(session.window) && !restore_pending) {
+            glfwSetWindowShouldClose(session.window,false);
+            if(options.project && options.project->dirty()) { close_popup_requested=close_dialog_active=true; }
+            else { autosave.clear(); if(!autosave.busy()) break; close_action=1; close_popup_requested=close_dialog_active=true; }
+            drawing=marquee=vertex_dragging=false; active_vertex.reset(); draft_points.clear(); tool=previous_tool=0;
+        }
+        if(restore_pending && !autosave.busy()) {
+            try {
+                auto owner=staged_recovery->document(staged_recovery->active_image());
+                auto next_selection=std::make_unique<ObjectSelection>(*owner);
+                auto next_tiles=std::make_unique<GuiTiles>(owner->server());
+                mean.invalidate(); image_views.clear();
+                options.project->adopt_recovery(*staged_recovery);
+                previous_uploads+=tiles->uploads(); previous_generations+=tiles->generations(); previous_peak_bytes=std::max(previous_peak_bytes,tiles->peak_bytes());
+                tiles=std::move(next_tiles); selection=std::move(next_selection); active_owner=std::move(owner); active_document=active_owner.get();
+                active_image=options.project->active_image(); pending_image=0; refresh_active_image=false;
+                restore_view=options.project->view(active_image); viewport={}; display=restore_view?restore_view->display:options.display; fit=!restore_view;
+                drawing=marquee=vertex_dragging=false; active_vertex.reset(); draft_points.clear(); vertex_paths.clear(); vertex_id=hole_id=editor_id=selected=list_anchor=0;
+                tool=previous_tool=0; class_key.clear(); batch_class.clear(); error.clear(); interchange_status.clear();
+                list_ids.clear(); list_revision=calibration_revision=std::numeric_limits<std::uint64_t>::max();
+                plan={}; overview_plan={}; plan_inputs.reset(); published_view_inputs.reset(); overview_center.reset();
+                project_catalog_dirty=true; copy_recovery_path(project_path,options.project->path()); project_error.clear();
+                recovery_candidates.clear();
+                if(!same_recovery_file(autosave.stats().path,options.project->recovery_source())) autosave.clear();
+                staged_recovery.reset(); close_recovery_popup=recovery_dialog_active;
+                project_filter[0]=project_image_path[0]=interchange_path[0]=0;
+                next_autosave=std::chrono::steady_clock::now()+std::chrono::duration<double>(autosave_interval);
+            } catch(const std::exception& e) { project_error=e.what(); }
+            restore_pending=false;
+        }
         // Switch only at frame boundaries: no draw commands can retain old GPU
         // texture IDs, document references or partially edited shape state.
         if(options.project && pending_image) {
@@ -273,13 +365,20 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (!options.inputs.empty()) {
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
-            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9}) input.AddKeyEvent(key,false);
+            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11}) input.AddKeyEvent(key,false);
         }
         for (const auto& event:options.inputs) if (event.frame==frames) {
             auto origin=event.target==GuiInputTarget::Canvas?previous_canvas:(event.target==GuiInputTarget::Overview?overview_offset:list_offset);
             auto extent=event.target==GuiInputTarget::Canvas?previous_canvas_size:(event.target==GuiInputTarget::Overview?overview_size:list_size);
             if(event.target==GuiInputTarget::ProjectList) { origin=project_list_offset; extent=project_list_size; }
             if(event.target==GuiInputTarget::DisplayReset) { origin=display_reset_offset; extent=display_reset_size; }
+            if(event.target==GuiInputTarget::DiscardRecoveryReplacement) { origin=discard_recovery_offset; extent=discard_recovery_size; }
+            if(event.target==GuiInputTarget::KeepRecoveryClose) { origin=keep_close_offset; extent=keep_close_size; }
+            if(event.target==GuiInputTarget::CancelClose) { origin=cancel_close_offset; extent=cancel_close_size; }
+            if(event.target==GuiInputTarget::DiscardClose) { origin=discard_close_offset; extent=discard_close_size; }
+            if(event.target==GuiInputTarget::SaveClose) { origin=save_close_offset; extent=save_close_size; }
+            if(event.target==GuiInputTarget::SaveRecoveryReplacement) { origin=save_recovery_offset; extent=save_recovery_size; }
+            if(event.target==GuiInputTarget::CancelRecoveryReplacement) { origin=cancel_recovery_offset; extent=cancel_recovery_size; }
             if(event.target==GuiInputTarget::Image) {
                 auto p=viewport.image_to_screen({event.x,event.y});
                 const auto limit=static_cast<double>(std::numeric_limits<float>::max())/4;
@@ -317,18 +416,24 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::PreviousImageKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_PageUp,true); break;
                 case GuiInputKind::AddImageKey: input.AddKeyEvent(ImGuiKey_F8,true); break;
                 case GuiInputKind::RelinkImageKey: input.AddKeyEvent(ImGuiKey_F9,true); break;
+                case GuiInputKind::AutosaveKey: input.AddKeyEvent(ImGuiKey_F10,true); break;
+                case GuiInputKind::RecoverKey: input.AddKeyEvent(ImGuiKey_F11,true); break;
+                case GuiInputKind::CloseWindow: glfwSetWindowShouldClose(session.window,true); break;
                 default: break;
             }
         }
         ImGui::NewFrame();
         bool save_project_requested=false;
+        bool autosave_requested=false;
+        const bool editing_blocked=close_dialog_active || recovery_dialog_active || restore_pending;
         const auto& io = ImGui::GetIO();
         ImGui::SetNextWindowPos({0,0}); ImGui::SetNextWindowSize(io.DisplaySize);
         ImGui::Begin("Workspace", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
+        ImGui::BeginDisabled(editing_blocked);
         ImGui::TextColored({.3f,.8f,.75f,1}, "qupathxx"); ImGui::SameLine(); ImGui::TextDisabled("/  Research workspace");
         ImGui::Separator();
-        if (ImGui::IsKeyPressed(ImGuiKey_R) && !io.WantTextInput) tool=tool==1?0:1;
-        if(!io.WantTextInput) {
+        if (ImGui::IsKeyPressed(ImGuiKey_R) && !io.WantTextInput && !editing_blocked) tool=tool==1?0:1;
+        if(!io.WantTextInput && !editing_blocked) {
             if(ImGui::IsKeyPressed(ImGuiKey_E)) tool=2;
             if(ImGui::IsKeyPressed(ImGuiKey_P)) tool=3;
             if(ImGui::IsKeyPressed(ImGuiKey_L)) tool=4;
@@ -341,12 +446,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(tool!=previous_tool) { vertex_dragging=false; active_vertex.reset(); marquee=false; drawing=false; draft_points.clear(); previous_tool=tool; }
         if (ImGui::Button("Fit image")) fit = true;
         auto history_action=[&](bool redo) { try { if(redo) document.redo(); else document.undo(); error.clear(); } catch(const std::exception& e) { error=e.what(); } };
-        if (!io.WantTextInput && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Z)) history_action(false);
-        if (!io.WantTextInput && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Y)) history_action(true);
+        if (!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Z)) history_action(false);
+        if (!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Y)) history_action(true);
         ImGui::SameLine(); ImGui::BeginDisabled(!document.can_undo()); if (ImGui::Button("Undo")) history_action(false); ImGui::EndDisabled();
         ImGui::SameLine(); ImGui::BeginDisabled(!document.can_redo()); if (ImGui::Button("Redo")) history_action(true); ImGui::EndDisabled();
         selected=selection->primary();
-        if(!io.WantTextInput && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_A)) { selection->select_all(); selected=selection->primary(); }
+        if(!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_A)) { selection->select_all(); selected=selection->primary(); }
         auto delete_selection=[&]() {
             try {
                 auto ids=selection->ids();
@@ -354,7 +459,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 selection->clear(); selected=0; error.clear();
             } catch(const std::exception& e) { error=e.what(); }
         };
-        if (selected && tool!=6 && !io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_Delete)) delete_selection();
+        if (selected && tool!=6 && !io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_Delete)) delete_selection();
         ImGui::SameLine(); ImGui::TextDisabled("Ctrl+click: toggle | Shift+drag: select box | Ctrl+A: all | Right drag: pan");
         ImGui::BeginChild("Inspector", {285,0}, ImGuiChildFlags_Borders);
         if(options.project) {
@@ -364,12 +469,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             const bool previous_image=ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_PageUp,ImGuiInputFlags_RouteGlobal);
             ImGui::SeparatorText(options.project->dirty()?"Project - unsaved":"Project");
             ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Project path","Destination .qpxproj file",project_path,sizeof(project_path));
-            if(ImGui::Button("Save project (Ctrl+S)") || (io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_S))) {
+            if(ImGui::Button("Save project (Ctrl+S)") || (!editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_S))) {
                 save_project_requested=true;
             }
-            bool add_image=!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_F8);
-            bool relink_image=!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_F9);
-            if(!io.WantTextInput && (next_image || previous_image) && project_images.size()>1) {
+            bool add_image=!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F8);
+            bool relink_image=!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F9);
+            if(!io.WantTextInput && !editing_blocked && (next_image || previous_image) && project_images.size()>1) {
                 // Keep ownership through key-up even if Ctrl is released first;
                 // otherwise the still-held Page key resumes ImGui navigation.
                 ImGui::SetKeyOwner(next_image?ImGuiKey_PageDown:ImGuiKey_PageUp,ImGui::GetID("Project image switch"),ImGuiInputFlags_LockUntilRelease);
@@ -417,6 +522,54 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 try { options.project->relink(active_image,project_image_path); mean.invalidate(); pending_image=active_image; refresh_active_image=true; project_catalog_dirty=true; project_error.clear(); }
                 catch(const std::exception& e) { project_error=e.what(); }
             }
+            bool recover_requested=!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F11);
+            autosave_requested=!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F10);
+            if(ImGui::CollapsingHeader("Recovery",(!options.recovery_path.empty() || !recovery_candidates.empty() || !options.project->recovery_source().empty())?ImGuiTreeNodeFlags_DefaultOpen:0)) {
+                if(!options.project->recovery_source().empty() && options.project->dirty()) ImGui::TextWrapped("Recovered workspace. Save this project to retain its changes.");
+                ImGui::TextWrapped("Recovery preserves unsaved work separately from Save project.");
+                ImGui::SetNextItemWidth(110);
+                if(ImGui::InputDouble("Interval (seconds)",&autosave_interval,10,60,"%.1f")) {
+                    if(!std::isfinite(autosave_interval) || autosave_interval<0 || autosave_interval>86400) autosave_interval=60;
+                    next_autosave=std::chrono::steady_clock::now()+std::chrono::duration<double>(autosave_interval);
+                }
+                ImGui::TextDisabled("0 disables periodic recovery.");
+                ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Autosave path","Automatic destination",autosave_path,sizeof(autosave_path));
+                ImGui::BeginDisabled(autosave.busy());
+                if(ImGui::Button("Save recovery now (F10)")) autosave_requested=true;
+                ImGui::EndDisabled();
+                if(autosave.busy()) ImGui::TextDisabled("Writing recovery...");
+                else if(autosave_stats.state=="ready") ImGui::TextDisabled("Recovery saved; project still unsaved.");
+                if(!autosave_stats.error.empty()) ImGui::TextWrapped("%s",autosave_stats.error.c_str());
+                if(!autosave_ui_error.empty()) ImGui::TextWrapped("%s",autosave_ui_error.c_str());
+                if(ImGui::Button("Find recovery files") && !recovery_scan.valid()) {
+                    auto base=options.project->path(); recovery_scan_base=base; recovery_scan_generation=options.project->generation();
+                    recovery_scan=std::async(std::launch::async,[base]{return Project::find_recoveries(base);});
+                }
+                for(const auto& item:recovery_candidates) {
+                    ImGui::PushID(item.path.c_str());
+                    auto label=recovery_label(item);
+                    if(ImGui::Selectable(label.c_str(),item.path==recovery_path)) copy_recovery_path(recovery_path,item.path);
+                    if(ImGui::IsItemHovered()) ImGui::SetTooltip("%s",item.path.c_str());
+                    if(item.base_status=="changed") ImGui::TextWrapped("Saved project changed; recovered work needs a new destination.");
+                    if(!item.error.empty()) ImGui::TextWrapped("%s",item.error.c_str());
+                    ImGui::PopID();
+                }
+                ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Restore recovery","Recovery file to open",recovery_path,sizeof(recovery_path));
+                ImGui::BeginDisabled(autosave.busy());
+                if(ImGui::Button("Open recovery (F11)")) recover_requested=true;
+                ImGui::EndDisabled();
+            }
+            if(recover_requested && !autosave.busy()) {
+                try {
+                    auto candidate=Project::recover(recovery_path);
+                    if(!candidate->active_image()) throw std::invalid_argument("recovery contains no active image");
+                    staged_recovery=std::move(candidate);
+                    drawing=marquee=vertex_dragging=false; active_vertex.reset(); draft_points.clear(); tool=previous_tool=0;
+                    if(options.project->dirty()) recovery_popup_requested=recovery_dialog_active=true;
+                    else { autosave.cancel(); restore_pending=true; }
+                    project_error.clear();
+                } catch(const std::exception& e) { project_error=e.what(); }
+            }
             if(!project_error.empty()) ImGui::TextWrapped("%s",project_error.c_str());
         }
         if(has_interchange() && ImGui::CollapsingHeader("Import / export",options.interchange_path.empty()?0:ImGuiTreeNodeFlags_DefaultOpen)) {
@@ -434,11 +587,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 interchange_status=std::string(action)+" "+std::to_string(report.features)+" objects";
                 for(const auto& issue:report.issues) interchange_status+="\n"+issue.message+" ("+std::to_string(issue.count)+")";
             };
-            if(ImGui::Button("Export GeoJSON (F6)") || (!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_F6))) {
+            if(ImGui::Button("Export GeoJSON (F6)") || (!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F6))) {
                 try { status(save_geojson(document,interchange_path,export_ids(),interchange_losses),"Exported"); }
                 catch(const std::exception& e) { interchange_status=e.what(); }
             }
-            if(ImGui::Button("Import GeoJSON (F7)") || (!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_F7))) {
+            if(ImGui::Button("Import GeoJSON (F7)") || (!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F7))) {
                 try { auto report=load_geojson(document,interchange_path,interchange_pixels,interchange_losses); selection->replace(report.imported_ids); selected=selection->primary(); status(report,"Imported"); }
                 catch(const std::exception& e) { interchange_status=e.what(); }
             }
@@ -567,7 +720,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ImGui::Combo("Boolean",&boolean_operation,"Union\0Intersection\0Difference\0XOR\0");
                 ImGui::TextDisabled("Target: primary; operands retained");
                 ImGui::TextWrapped("Ellipses use 512-edge approximations.");
-                if(ImGui::Button("Apply Boolean (B)") || (!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_B))) {
+                if(ImGui::Button("Apply Boolean (B)") || (!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_B))) {
                     try {
                         auto ids=selection->ids(); ids.erase(std::remove(ids.begin(),ids.end(),selected),ids.end());
                         document.apply_boolean(selected,ids,static_cast<BooleanOp>(boolean_operation)); error.clear();
@@ -703,7 +856,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 vertex_dragging=false;
             }
         }
-        if(tool==6 && !io.WantTextInput && !vertex_dragging) {
+        if(tool==6 && !io.WantTextInput && !editing_blocked && !vertex_dragging) {
             if(active_vertex && ImGui::IsKeyPressed(ImGuiKey_Delete)) {
                 try { document.remove_vertex(vertex_id,active_vertex->first,active_vertex->second); active_vertex.reset(); error.clear(); }
                 catch(const std::exception& e) { error=e.what(); }
@@ -754,11 +907,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
             drawing = false;
         }
-        if(!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_Escape)) {
+        if(!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_Escape)) {
             if(!drawing && draft_points.empty() && !marquee && tool!=6) { selection->clear(); selected=0; }
             drawing=false; marquee=false; draft_points.clear();
         }
-        if(((tool>=3 && tool<=5) || tool==7) && !draft_points.empty() && !io.WantTextInput && (ImGui::IsKeyPressed(ImGuiKey_Enter) || (hovered && ImGui::IsMouseDoubleClicked(0)))) {
+        if(((tool>=3 && tool<=5) || tool==7) && !draft_points.empty() && !io.WantTextInput && !editing_blocked && (ImGui::IsKeyPressed(ImGuiKey_Enter) || (hovered && ImGui::IsMouseDoubleClicked(0)))) {
             try {
                 if(tool==7) {
                     if(selected!=hole_id || !document.objects().count(hole_id) || document.annotation(hole_id).revision!=hole_revision)
@@ -865,16 +1018,92 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             label+=" um"; draw->AddText({p.x,p.y-20},IM_COL32_WHITE,label.c_str());
             }
         }
-        ImGui::EndChild(); ImGui::End();
+        ImGui::EndChild(); ImGui::EndDisabled();
+        if(recovery_popup_requested) { ImGui::OpenPopup("Open recovery?"); recovery_popup_requested=false; }
+        if(ImGui::BeginPopupModal("Open recovery?",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
+            if(close_recovery_popup) { ImGui::CloseCurrentPopup(); close_recovery_popup=false; recovery_dialog_active=false; }
+            else {
+                ImGui::TextWrapped("Replace this workspace with the selected recovery? Save or discard its current unsaved changes first.");
+                ImGui::SetNextItemWidth(400); ImGui::InputTextWithHint("##Save before recovery","Current project destination",project_path,sizeof(project_path));
+                ImGui::BeginDisabled(restore_pending || restore_after_save);
+                if(ImGui::Button("Save current and recover")) { save_project_requested=true; restore_after_save=true; }
+                save_recovery_offset=ImGui::GetItemRectMin(); auto sr=ImGui::GetItemRectMax(); save_recovery_size={sr.x-save_recovery_offset.x,sr.y-save_recovery_offset.y};
+                if(ImGui::Button("Discard current and recover")) { autosave.cancel(); restore_pending=true; }
+                discard_recovery_offset=ImGui::GetItemRectMin(); auto dr=ImGui::GetItemRectMax(); discard_recovery_size={dr.x-discard_recovery_offset.x,dr.y-discard_recovery_offset.y};
+                if(ImGui::Button("Cancel")) { staged_recovery.reset(); recovery_dialog_active=false; ImGui::CloseCurrentPopup(); }
+                cancel_recovery_offset=ImGui::GetItemRectMin(); auto cr=ImGui::GetItemRectMax(); cancel_recovery_size={cr.x-cancel_recovery_offset.x,cr.y-cancel_recovery_offset.y};
+                ImGui::EndDisabled();
+                if(restore_pending) ImGui::TextDisabled("Finishing current recovery write...");
+                if(!project_error.empty()) ImGui::TextWrapped("%s",project_error.c_str());
+            }
+            ImGui::EndPopup();
+        }
+        if(close_popup_requested) { ImGui::OpenPopup("Unsaved project"); close_popup_requested=false; }
+        if(ImGui::BeginPopupModal("Unsaved project",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
+            ImGui::TextWrapped("Save this project, keep a recovery copy, or discard its unsaved changes before closing.");
+            ImGui::SetNextItemWidth(400); ImGui::InputTextWithHint("##Close save path","Project destination",project_path,sizeof(project_path));
+            ImGui::SetNextItemWidth(400); ImGui::InputTextWithHint("##Close recovery path","Automatic recovery destination",autosave_path,sizeof(autosave_path));
+            ImGui::BeginDisabled(close_action!=0);
+            if(ImGui::Button("Save and close")) { save_project_requested=true; close_action=1; }
+            save_close_offset=ImGui::GetItemRectMin(); auto sc=ImGui::GetItemRectMax(); save_close_size={sc.x-save_close_offset.x,sc.y-save_close_offset.y};
+            if(ImGui::Button("Keep recovery and close")) { close_action=2; close_keep_started=false; }
+            keep_close_offset=ImGui::GetItemRectMin(); auto kc=ImGui::GetItemRectMax(); keep_close_size={kc.x-keep_close_offset.x,kc.y-keep_close_offset.y};
+            if(ImGui::Button("Discard and close")) { autosave.clear(); close_action=3; }
+            discard_close_offset=ImGui::GetItemRectMin(); auto dc=ImGui::GetItemRectMax(); discard_close_size={dc.x-discard_close_offset.x,dc.y-discard_close_offset.y};
+            if(ImGui::Button("Cancel")) { close_dialog_active=false; ImGui::CloseCurrentPopup(); }
+            cancel_close_offset=ImGui::GetItemRectMin(); auto cc=ImGui::GetItemRectMax(); cancel_close_size={cc.x-cancel_close_offset.x,cc.y-cancel_close_offset.y};
+            ImGui::EndDisabled();
+            if(close_action) ImGui::TextDisabled("Finishing save...");
+            if(!project_error.empty()) ImGui::TextWrapped("%s",project_error.c_str());
+            if(!autosave_ui_error.empty()) ImGui::TextWrapped("%s",autosave_ui_error.c_str());
+            ImGui::EndPopup();
+        }
+        ImGui::End();
         if(options.project) {
+            bool recovery_operation=false;
             try {
                 auto inputs=view_inputs(size.x,size.y);
                 if(!published_view_inputs || *published_view_inputs!=inputs) {
                     options.project->set_view(active_image,{viewport.screen_to_image({size.x/2,size.y/2}),viewport.zoom,display});
                     published_view_inputs=inputs;
                 }
-                if(save_project_requested) { options.project->save(project_path); project_error.clear(); }
-            } catch(const std::exception& e) { project_error=e.what(); }
+                if(save_project_requested) {
+                    options.project->save(project_path);
+                    if(restore_after_save && staged_recovery && same_recovery_file(autosave.stats().path,staged_recovery->recovery_source())) autosave.cancel();
+                    else autosave.clear();
+                    project_error.clear();
+                    // A restored checkpoint can belong to another still-live
+                    // session. Clear only this controller's own recovery file.
+                    if(restore_after_save) { restore_pending=true; restore_after_save=false; }
+                }
+                if(close_action==1 || close_action==3) {
+                    recovery_operation=true;
+                    autosave_stats=autosave.poll();
+                    if(!autosave.busy()) {
+                        if(close_action==3 && !autosave_stats.error.empty()) { autosave_ui_error=autosave_stats.error; close_action=0; }
+                        else {
+                            exit_requested=true;
+                        }
+                    }
+                } else if(close_action==2 && !autosave.busy()) {
+                    recovery_operation=true;
+                    if(close_keep_started && autosave_stats.state=="error") { autosave_ui_error=autosave_stats.error; close_action=0; }
+                    else {
+                        const bool started=autosave.request(*options.project,autosave_path); close_keep_started=true;
+                        if(started || !options.project->dirty() || autosave.stats().state=="ready") autosave_ui_error.clear();
+                        if(!started && (!options.project->dirty() || autosave.stats().state=="ready")) exit_requested=true;
+                    }
+                } else if(!editing_blocked && (autosave_requested || (autosave_interval>0 && std::chrono::steady_clock::now()>=next_autosave))) {
+                    recovery_operation=true;
+                    autosave.request(*options.project,autosave_path); autosave_ui_error.clear();
+                    next_autosave=std::chrono::steady_clock::now()+std::chrono::duration<double>(autosave_interval);
+                }
+            } catch(const std::exception& e) {
+                if(recovery_operation) autosave_ui_error=e.what(); else project_error=e.what();
+                if(save_project_requested) { restore_after_save=false; close_action=0; }
+                if(close_action==2 || close_action==3) close_action=0;
+                next_autosave=std::chrono::steady_clock::now()+std::chrono::duration<double>(std::max(1.,autosave_interval));
+            }
         }
         ImGui::Render(); int w,h; glfwGetFramebufferSize(session.window,&w,&h); last_width=w; last_height=h; glViewport(0,0,w,h);
         glClearColor(.07f,.08f,.1f,1); glClear(GL_COLOR_BUFFER_BIT);
@@ -891,6 +1120,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     auto p95=frame_times.empty()?0:frame_times[static_cast<std::size_t>((frame_times.size()-1)*.95)];
     return {frames,previous_uploads+tiles->uploads(),std::max(previous_peak_bytes,tiles->peak_bytes()),previous_generations+tiles->generations(),p95,tiles->pending(),viewport.zoom,viewport.origin,
         viewport.screen_to_image({previous_canvas_size.x/2,previous_canvas_size.y/2}),last_width,last_height,
-        reinterpret_cast<const char*>(glGetString(GL_RENDERER)),reinterpret_cast<const char*>(glGetString(GL_VERSION)),visible_count,selection->ids(),selection->primary(),active_image,image_switches,max_image_switch_ms,project_error};
+        reinterpret_cast<const char*>(glGetString(GL_RENDERER)),reinterpret_cast<const char*>(glGetString(GL_VERSION)),visible_count,selection->ids(),selection->primary(),active_image,image_switches,max_image_switch_ms,project_error,
+        autosave.stats().completed,autosave.stats().path,autosave.stats().error.empty()?autosave_ui_error:autosave.stats().error,autosave.stats().capture_ms,frame_times.empty()?0:frame_times.back()};
 }
 }

@@ -79,6 +79,44 @@ void advance(std::uint64_t value) { if(value==std::numeric_limits<std::uint64_t>
 Project::Project() {
     std::random_device random; constexpr char hex[]="0123456789abcdef";
     for(int i=0;i<32;++i) identity_.push_back(hex[random()&15]);
+    instance_identity_=identity_;
+}
+std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size_t& bytes) const {
+    bytes=0;
+    auto add=[&](std::size_t count) { if(count>budget-bytes) throw std::length_error("autosave snapshot exceeds memory budget"); bytes+=count; };
+    add(sizeof(Project)+path_.size()+identity_.size());
+    for(const auto& [id,e]:entries_) {
+        add(sizeof(Entry)+sizeof(Document)+128+e.info.name.size()+e.info.source_path.size()+e.info.reader.size());
+        if(e.info.embedded) add(e.document->image().pixels().size());
+        else add(sizeof(LinkedServer)+e.document->metadata().levels.size()*sizeof(ImageLevel)+e.document->metadata().vendor.size()+e.info.source_path.size()+e.info.reader.size());
+        for(const auto& [key,a]:e.document->objects_) add(sizeof(Annotation)+64+a.name.size()+a.class_name.size()+a.geometry.payload_bytes()+(a.nucleus?a.nucleus->payload_bytes():0));
+        for(const auto& [name,c]:e.document->classes_) add(sizeof(ObjectClass)+96+name.size()+c.name.size());
+    }
+    for(const auto& [id,v]:views_) add(sizeof(ProjectView)+64);
+    auto snapshot=std::make_unique<Project>();
+    snapshot->identity_=identity_; snapshot->path_=path_; snapshot->generation_=generation_;
+    snapshot->next_id_=next_id_; snapshot->active_image_=active_image_; snapshot->revision_=revision_; snapshot->views_=views_;
+    for(const auto& [id,e]:entries_) {
+        auto doc=std::shared_ptr<Document>(new Document());
+        // Save-only authority: no mutable indexes, selection or edit history enter
+        // the worker. Immutable ROI storage and dense source pixels are shared.
+        doc->server_=e.info.embedded?e.document->server_:std::make_shared<LinkedServer>(e.document->metadata(),e.info.source_path,e.info.reader);
+        doc->objects_=e.document->objects_; doc->classes_=e.document->classes_;
+        doc->next_id_=e.document->next_id_; doc->revision_=e.document->revision_;
+        doc->pixel_width_um_=e.document->pixel_width_um_; doc->pixel_height_um_=e.document->pixel_height_um_;
+        snapshot->entries_.emplace(id,Entry{e.info,std::move(doc)});
+    }
+    return snapshot;
+}
+void Project::restore_recovery(const std::string& path) {
+    auto restored=recover(path);
+    adopt_recovery(*restored);
+}
+void Project::adopt_recovery(Project& candidate) noexcept {
+    entries_.swap(candidate.entries_); views_.swap(candidate.views_); saved_revisions_.swap(candidate.saved_revisions_);
+    path_.swap(candidate.path_); identity_.swap(candidate.identity_); instance_identity_.swap(candidate.instance_identity_); recovery_source_.swap(candidate.recovery_source_);
+    std::swap(next_id_,candidate.next_id_); std::swap(active_image_,candidate.active_image_); std::swap(generation_,candidate.generation_);
+    std::swap(revision_,candidate.revision_); std::swap(saved_revision_,candidate.saved_revision_);
 }
 const Project::Entry& Project::entry(std::uint64_t id) const {
     auto it=entries_.find(id); if(it==entries_.end()) throw std::out_of_range("project image does not exist"); return it->second;
@@ -190,10 +228,16 @@ std::string sqlite_version() {
 }
 #ifndef QUPATHXX_HAS_PROJECT
 void Project::save(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
+void Project::save_impl(const std::string&,const std::string&,const std::atomic<bool>*) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
+void Project::save_recovery(const std::string&,const std::string&,const RecoveryInfo&,const std::atomic<bool>*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::shared_ptr<Project> Project::open(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
+std::shared_ptr<Project> Project::open_impl(const std::string&,bool) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
+std::shared_ptr<Project> Project::recover(const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
+RecoveryInfo Project::inspect_recovery(const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 #else
 namespace {
 constexpr int application_id=1364219992;
+constexpr int recovery_application_id=1364218456; // QPRX, distinct from ordinary QPXX projects.
 struct Database {
     sqlite3* db=nullptr;
     Database(const std::string& path,bool write) {
@@ -204,6 +248,9 @@ struct Database {
     }
     ~Database() { if(db) sqlite3_close(db); }
     Database(const Database&)=delete;
+    void cancellation(const std::atomic<bool>* flag) {
+        if(flag) sqlite3_progress_handler(db,1000,[](void* value){return static_cast<const std::atomic<bool>*>(value)->load()?1:0;},const_cast<std::atomic<bool>*>(flag));
+    }
     void exec(const char* sql) {
         char* error=nullptr; auto code=sqlite3_exec(db,sql,nullptr,nullptr,&error);
         if(code!=SQLITE_OK) { std::string message=error?error:sqlite3_errmsg(db); sqlite3_free(error); throw std::runtime_error("SQLite: "+message); }
@@ -243,14 +290,34 @@ std::uint64_t number(const std::string& text) {
     if(parsed.ec!=std::errc{} || parsed.ptr!=text.data()+text.size() || std::to_string(value)!=text) throw std::invalid_argument("invalid project unsigned identity");
     return value;
 }
-int schema(Database& db) {
+int schema(Database& db,bool allow_recovery=false) {
     auto version=scalar(db,"PRAGMA user_version");
-    if(scalar(db,"PRAGMA application_id")!=application_id || (version!=1 && version!=2))
+    auto app=scalar(db,"PRAGMA application_id");
+    if((app!=application_id && !(allow_recovery && app==recovery_application_id)) || (version!=1 && version!=2))
         throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 or 2)");
     return static_cast<int>(version);
 }
 void create_views(Database& db) {
     db.exec("CREATE TABLE views(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),center_x REAL NOT NULL,center_y REAL NOT NULL,zoom REAL NOT NULL,mode INTEGER NOT NULL,black REAL NOT NULL,white REAL NOT NULL,gamma REAL NOT NULL) STRICT; PRAGMA user_version=2;");
+}
+bool recovery_table(Database& db) { return scalar(db,"SELECT count(*) FROM sqlite_schema WHERE type='table' AND name='recovery'")!=0; }
+RecoveryInfo recovery_header(Database& db,const std::string& path) {
+    if(scalar(db,"PRAGMA application_id")!=recovery_application_id || schema(db,true)!=2 || !recovery_table(db)) throw std::invalid_argument("not a supported recovery snapshot");
+    Statement row(db,"SELECT identity,session,base_path,base_generation,created_ms,image_count,object_count FROM recovery");
+    if(!row.row()) throw std::invalid_argument("missing recovery metadata");
+    RecoveryInfo info; info.path=path; info.identity=row.string(0); info.session=row.string(1); info.base_path=row.string(2);
+    info.base_generation=number(row.string(3)); info.created_unix_ms=row.integer(4);
+    auto images=row.integer(5),objects=row.integer(6);
+    auto valid_id=[](const std::string& id){return id.size()==32 && id.find_first_not_of("0123456789abcdef")==std::string::npos;};
+    text(info.base_path,32768);
+    if(!valid_id(info.identity) || !valid_id(info.session) || info.created_unix_ms<=0 || images<0 || objects<0 || row.row() ||
+       (info.base_path.empty()?info.base_generation!=0:(!fs::u8path(info.base_path).is_absolute() || !info.base_generation || info.base_generation>static_cast<std::uint64_t>(std::numeric_limits<std::int64_t>::max()))))
+        throw std::invalid_argument("invalid recovery metadata");
+    info.images=static_cast<std::size_t>(images); info.objects=static_cast<std::size_t>(objects);
+    Statement meta(db,"SELECT identity FROM project");
+    if(!meta.row() || meta.string(0)!=info.identity || meta.row() || scalar(db,"SELECT count(*) FROM images")!=images || scalar(db,"SELECT count(*) FROM objects")!=objects)
+        throw std::invalid_argument("recovery metadata does not match snapshot");
+    return info;
 }
 struct Encoder {
     std::vector<std::uint8_t> bytes={'Q','R','O',1};
@@ -292,10 +359,14 @@ Roi decode(Statement& s,int column) {
 }
 }
 void Project::save(const std::string& path) {
+    save_impl(path,"");
+}
+void Project::save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled) {
     auto destination=absolute(path);
     std::map<std::uint64_t,std::uint64_t> revisions;
     for(const auto& [id,e]:entries_) revisions.emplace(id,e.document->revision());
     Database db(destination,true);
+    db.cancellation(cancelled);
     db.exec("PRAGMA foreign_keys=ON; PRAGMA synchronous=FULL;");
     Transaction transaction(db,true);
     const bool fresh=scalar(db,"PRAGMA application_id")==0 && scalar(db,"PRAGMA user_version")==0 &&
@@ -311,11 +382,12 @@ void Project::save(const std::string& path) {
             "CREATE INDEX objects_image ON objects(image_id);");
         create_views(db);
     } else {
+        if(recovery_table(db)) throw std::invalid_argument("destination is a recovery snapshot; choose a project path");
         auto version=schema(db); Statement existing(db,"SELECT identity,generation FROM project");
         if(!existing.row()) throw std::invalid_argument("project metadata is missing");
         auto identity=existing.string(0); auto generation=existing.integer(1);
         if(identity!=identity_) throw std::invalid_argument("destination contains a different project; choose a new path");
-        if(generation<1 || static_cast<std::uint64_t>(generation)!=generation_) throw std::runtime_error("project changed on disk; reopen before saving");
+        if(generation<1 || static_cast<std::uint64_t>(generation)!=generation_) throw std::runtime_error("project changed on disk; save to a new path or reopen before saving");
         if(generation==std::numeric_limits<std::int64_t>::max()) throw std::overflow_error("project save generation exhausted");
         next_generation=static_cast<std::uint64_t>(generation)+1;
         if(existing.row()) throw std::invalid_argument("duplicate project metadata");
@@ -331,8 +403,9 @@ void Project::save(const std::string& path) {
     Statement classification(db,"INSERT INTO classes VALUES(?,?,?)");
     Statement object(db,"INSERT INTO objects VALUES(?,?,?,?,?,?,?,?,?)");
     Statement view(db,"INSERT INTO views VALUES(?,?,?,?,?,?,?,?)");
-    auto directory=fs::u8path(destination).parent_path();
+    auto directory=link_directory.empty()?fs::u8path(destination).parent_path():fs::u8path(link_directory);
     for(const auto& [id,e]:entries_) {
+        if(cancelled && cancelled->load()) throw std::runtime_error("recovery cancelled");
         const auto& doc=*e.document; const auto& m=doc.metadata(); validate_metadata(m);
         auto key=std::to_string(id),source=e.info.source_path;
         if(!e.info.embedded) { auto relative=fs::u8path(source).lexically_relative(directory); if(!relative.empty()) source=relative.generic_u8string(); }
@@ -352,6 +425,7 @@ void Project::save(const std::string& path) {
         }
         for(const auto& [name,c]:doc.classes_) { classification.string(1,key); classification.string(2,name); classification.integer(3,c.color); classification.done(); }
         for(const auto& [object_id,a]:doc.objects_) {
+            if(cancelled && cancelled->load()) throw std::runtime_error("recovery cancelled");
             object.string(1,key); object.string(2,std::to_string(object_id)); object.string(3,a.name); object.string(4,std::to_string(a.parent_id));
             object.string(5,a.class_name); object.string(6,std::to_string(a.revision)); object.integer(7,static_cast<int>(a.kind));
             auto geometry=encode(a.geometry); object.blob(8,geometry);
@@ -363,7 +437,15 @@ void Project::save(const std::string& path) {
     path_.swap(destination); generation_=next_generation; saved_revision_=revision_; saved_revisions_.swap(revisions);
 }
 std::shared_ptr<Project> Project::open(const std::string& path) {
-    auto source=absolute(path); Database db(source,false); Transaction transaction(db,false); auto version=schema(db);
+    return open_impl(path,false);
+}
+std::shared_ptr<Project> Project::recover(const std::string& path) { return open_impl(path,true); }
+std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recovery) {
+    auto source=absolute(path); Database db(source,false); Transaction transaction(db,false);
+    if(recovery_table(db)!=recovery) throw std::invalid_argument(recovery?"not a recovery snapshot":"use Project.recover for recovery snapshots");
+    auto version=schema(db,recovery);
+    std::optional<RecoveryInfo> recovery_info;
+    if(recovery) recovery_info=recovery_header(db,source);
     auto project=std::make_shared<Project>();
     Statement meta(db,"SELECT identity,next_image,active,generation FROM project");
     if(!meta.row()) throw std::invalid_argument("project metadata is missing");
@@ -433,7 +515,42 @@ std::shared_ptr<Project> Project::open(const std::string& path) {
     if(scalar(db,"SELECT count(*) FROM objects WHERE image_id NOT IN (SELECT id FROM images)") ||
        scalar(db,"SELECT count(*) FROM classes WHERE image_id NOT IN (SELECT id FROM images)") ||
        scalar(db,"SELECT count(*) FROM levels WHERE image_id NOT IN (SELECT id FROM images)")) throw std::invalid_argument("orphaned project data");
-    transaction.commit(); project->path_.swap(source); return project;
+    transaction.commit();
+    if(recovery_info) {
+        project->path_=recovery_info->base_path; project->generation_=recovery_info->base_generation;
+        project->recovery_source_=source;
+        project->revision_=1; project->saved_revision_=0;
+    } else project->path_.swap(source);
+    return project;
+}
+void Project::save_recovery(const std::string& path,const std::string& link_directory,const RecoveryInfo& info,const std::atomic<bool>* cancelled) {
+    save_impl(path,link_directory,cancelled);
+    Database db(path,true); db.exec("PRAGMA synchronous=FULL;"); Transaction transaction(db,true);
+    db.cancellation(cancelled);
+    db.exec("PRAGMA application_id=1364218456; CREATE TABLE recovery(identity TEXT NOT NULL,session TEXT NOT NULL,base_path TEXT NOT NULL,base_generation TEXT NOT NULL,created_ms INTEGER NOT NULL,image_count INTEGER NOT NULL,object_count INTEGER NOT NULL) STRICT;");
+    Statement row(db,"INSERT INTO recovery VALUES(?,?,?,?,?,?,?)");
+    row.string(1,info.identity); row.string(2,info.session); row.string(3,info.base_path); row.string(4,std::to_string(info.base_generation));
+    row.integer(5,info.created_unix_ms); row.integer(6,static_cast<std::int64_t>(info.images)); row.integer(7,static_cast<std::int64_t>(info.objects)); row.done();
+    transaction.commit();
+    Statement check(db,"PRAGMA quick_check"); if(!check.row() || check.string(0)!="ok") throw std::runtime_error("recovery snapshot integrity check failed");
+    recovery_header(db,path);
+}
+RecoveryInfo Project::inspect_recovery(const std::string& path) {
+    auto source=absolute(path); Database db(source,false); Transaction transaction(db,false);
+    auto info=recovery_header(db,source); transaction.commit();
+    if(info.base_path.empty()) info.base_status="unsaved";
+    else {
+        try {
+            if(!fs::exists(fs::u8path(info.base_path))) info.base_status="missing";
+            else {
+                Database base(info.base_path,false); schema(base);
+                if(recovery_table(base)) throw std::invalid_argument("recovery cannot be a primary project");
+                Statement meta(base,"SELECT identity,generation FROM project");
+                info.base_status=meta.row() && meta.string(0)==info.identity && meta.integer(1)>=1 && static_cast<std::uint64_t>(meta.integer(1))==info.base_generation && !meta.row()?"matching":"changed";
+            }
+        } catch(const std::exception&) { info.base_status="unreadable"; }
+    }
+    return info;
 }
 #endif
 }

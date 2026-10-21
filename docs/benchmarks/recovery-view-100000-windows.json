@@ -1,0 +1,16 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "objects": 100000,
+  "embedded_rgb_bytes": 2359296,
+  "snapshot_budget_bytes": 268435456,
+  "capture_ms": 15.5617,
+  "cpu_frame_p95_ms": 16.8847,
+  "max_cpu_frame_ms": 17.2809,
+  "peak_gpu_payload_bytes": 3145728,
+  "selected_objects": 100000,
+  "visible_objects": 828,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+  "recovery_file_bytes": 13094912,
+  "scope": "100000 classified unit rectangles, one immutable dense source and local SQLite recovery file. Owner capture copies canonical maps/text and shares immutable geometry/pixels; budget estimates retained payload and no history/index is cloned. One background job includes durable SQLite commits, integrity check, atomic publication and snapshot release. Primary remains unchanged/dirty state retained. Cold/network storage, vendor readers, power-loss and long-running pressure are excluded. GUI: 100000 selected, narrow view; frame metrics include capture and concurrent IO after ten warm-up frames, excluding swap wait."
+}

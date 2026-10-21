@@ -1,5 +1,6 @@
 #include "qupathxx/core.hpp"
 #include "qupathxx/project.hpp"
+#include "qupathxx/project_recovery.hpp"
 #include "qupathxx/interchange.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
@@ -152,7 +153,22 @@ NB_MODULE(_native, m) {
         .def_ro("embedded",&ProjectImage::embedded).def_ro("available",&ProjectImage::available);
     nb::class_<ProjectView>(m,"ProjectView").def(nb::init<>()).def_rw("center",&ProjectView::center)
         .def_rw("zoom",&ProjectView::zoom).def_rw("display",&ProjectView::display).def("validate",&ProjectView::validate);
+    nb::class_<RecoveryInfo>(m,"RecoveryInfo").def_ro("path",&RecoveryInfo::path).def_ro("identity",&RecoveryInfo::identity)
+        .def_ro("session",&RecoveryInfo::session).def_ro("base_path",&RecoveryInfo::base_path).def_ro("base_status",&RecoveryInfo::base_status)
+        .def_ro("error",&RecoveryInfo::error).def_ro("base_generation",&RecoveryInfo::base_generation)
+        .def_ro("created_unix_ms",&RecoveryInfo::created_unix_ms).def_ro("images",&RecoveryInfo::images).def_ro("objects",&RecoveryInfo::objects);
+    nb::class_<AutosaveStats>(m,"AutosaveStats").def_ro("state",&AutosaveStats::state).def_ro("path",&AutosaveStats::path)
+        .def_ro("error",&AutosaveStats::error).def_ro("completed",&AutosaveStats::completed).def_ro("snapshot_bytes",&AutosaveStats::snapshot_bytes)
+        .def_ro("capture_ms",&AutosaveStats::capture_ms).def_ro("write_ms",&AutosaveStats::write_ms);
+    nb::class_<ProjectAutosave>(m,"ProjectAutosave").def(nb::init<std::size_t>(),"snapshot_budget"_a=256*1024*1024)
+        .def("request",&ProjectAutosave::request,"project"_a,"path"_a="").def("poll",&ProjectAutosave::poll).def("wait",&ProjectAutosave::wait)
+        .def("cancel",&ProjectAutosave::cancel).def("clear",&ProjectAutosave::clear).def("default_path",&ProjectAutosave::default_path)
+        .def_prop_ro("busy",&ProjectAutosave::busy).def_prop_ro("stats",&ProjectAutosave::stats).def_prop_ro("session",&ProjectAutosave::session);
     nb::class_<Project>(m,"Project").def(nb::init<>()).def_static("open",&Project::open,"path"_a)
+        .def_static("recover",&Project::recover,"path"_a).def_static("inspect_recovery",&Project::inspect_recovery,"path"_a)
+        .def_static("find_recoveries",&Project::find_recoveries,"base_path"_a="","limit"_a=64)
+        .def_static("discard_recovery",&Project::discard_recovery,"path"_a,"expected_identity"_a)
+        .def("restore_recovery",&Project::restore_recovery,"path"_a)
         .def("save",&Project::save,"path"_a)
         .def("add_image",&Project::add_image,"path"_a,"reader"_a="auto","name"_a="")
         .def("add_document",&Project::add_document,"document"_a,"name"_a="","source_path"_a="","reader"_a="auto")
@@ -161,7 +177,7 @@ NB_MODULE(_native, m) {
         .def("view",&Project::view).def("set_view",&Project::set_view).def("clear_view",&Project::clear_view)
         .def_prop_rw("active_image",&Project::active_image,&Project::set_active_image)
         .def_prop_ro("dirty",&Project::dirty).def_prop_ro("path",&Project::path)
-        .def_prop_ro("identity",&Project::identity).def_prop_ro("generation",&Project::generation);
+        .def_prop_ro("identity",&Project::identity).def_prop_ro("generation",&Project::generation).def_prop_ro("recovery_source",&Project::recovery_source);
     m.attr("has_project")=has_project(); m.attr("sqlite_version")=sqlite_version();
     nb::class_<ObjectSelection>(m,"ObjectSelection")
         .def(nb::init<const Document&>(),nb::keep_alive<1,2>())
@@ -193,12 +209,16 @@ NB_MODULE(_native, m) {
         .value("SELECT_ALL_KEY",GuiInputKind::SelectAllKey).value("ESCAPE_KEY",GuiInputKind::EscapeKey)
         .value("VERTEX_KEY",GuiInputKind::VertexKey).value("HOLE_KEY",GuiInputKind::HoleKey)
         .value("INSERT_KEY",GuiInputKind::InsertKey).value("BOOLEAN_KEY",GuiInputKind::BooleanKey).value("SAVE_KEY",GuiInputKind::SaveKey).value("EXPORT_KEY",GuiInputKind::ExportKey).value("IMPORT_KEY",GuiInputKind::ImportKey)
-        .value("NEXT_IMAGE_KEY",GuiInputKind::NextImageKey).value("PREVIOUS_IMAGE_KEY",GuiInputKind::PreviousImageKey).value("ADD_IMAGE_KEY",GuiInputKind::AddImageKey).value("RELINK_IMAGE_KEY",GuiInputKind::RelinkImageKey);
-    nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image).value("PROJECT_LIST",GuiInputTarget::ProjectList).value("DISPLAY_RESET",GuiInputTarget::DisplayReset);
+        .value("NEXT_IMAGE_KEY",GuiInputKind::NextImageKey).value("PREVIOUS_IMAGE_KEY",GuiInputKind::PreviousImageKey).value("ADD_IMAGE_KEY",GuiInputKind::AddImageKey).value("RELINK_IMAGE_KEY",GuiInputKind::RelinkImageKey)
+        .value("AUTOSAVE_KEY",GuiInputKind::AutosaveKey).value("RECOVER_KEY",GuiInputKind::RecoverKey).value("CLOSE_WINDOW",GuiInputKind::CloseWindow);
+    nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image).value("PROJECT_LIST",GuiInputTarget::ProjectList).value("DISPLAY_RESET",GuiInputTarget::DisplayReset)
+        .value("DISCARD_RECOVERY_REPLACEMENT",GuiInputTarget::DiscardRecoveryReplacement).value("KEEP_RECOVERY_CLOSE",GuiInputTarget::KeepRecoveryClose).value("CANCEL_CLOSE",GuiInputTarget::CancelClose).value("DISCARD_CLOSE",GuiInputTarget::DiscardClose)
+        .value("SAVE_CLOSE",GuiInputTarget::SaveClose).value("SAVE_RECOVERY_REPLACEMENT",GuiInputTarget::SaveRecoveryReplacement).value("CANCEL_RECOVERY_REPLACEMENT",GuiInputTarget::CancelRecoveryReplacement);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
-        .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view).def_rw("project",&GuiOptions::project).def_rw("interchange_path",&GuiOptions::interchange_path).def_rw("project_image_path",&GuiOptions::project_image_path);
+        .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view).def_rw("project",&GuiOptions::project).def_rw("interchange_path",&GuiOptions::interchange_path).def_rw("project_image_path",&GuiOptions::project_image_path)
+        .def_rw("autosave_path",&GuiOptions::autosave_path).def_rw("recovery_path",&GuiOptions::recovery_path).def_rw("autosave_interval_seconds",&GuiOptions::autosave_interval_seconds).def_rw("autosave_snapshot_budget",&GuiOptions::autosave_snapshot_budget);
     nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
         .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)
         .def_ro("generations",&GuiReport::generations).def_ro("cpu_frame_p95_ms",&GuiReport::cpu_frame_p95_ms)
@@ -207,7 +227,8 @@ NB_MODULE(_native, m) {
         .def_ro("framebuffer_height",&GuiReport::framebuffer_height).def_ro("final_center",&GuiReport::final_center)
         .def_ro("gl_renderer",&GuiReport::gl_renderer).def_ro("gl_version",&GuiReport::gl_version).def_ro("visible_objects",&GuiReport::visible_objects)
         .def_ro("selected_ids",&GuiReport::selected_ids).def_ro("primary_selection",&GuiReport::primary_selection)
-        .def_ro("active_image",&GuiReport::active_image).def_ro("image_switches",&GuiReport::image_switches).def_ro("max_image_switch_ms",&GuiReport::max_image_switch_ms).def_ro("project_error",&GuiReport::project_error);
+        .def_ro("active_image",&GuiReport::active_image).def_ro("image_switches",&GuiReport::image_switches).def_ro("max_image_switch_ms",&GuiReport::max_image_switch_ms).def_ro("project_error",&GuiReport::project_error)
+        .def_ro("autosaves_completed",&GuiReport::autosaves_completed).def_ro("recovery_path",&GuiReport::recovery_path).def_ro("autosave_error",&GuiReport::autosave_error).def_ro("autosave_capture_ms",&GuiReport::autosave_capture_ms).def_ro("max_cpu_frame_ms",&GuiReport::max_cpu_frame_ms);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.

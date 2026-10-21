@@ -117,7 +117,9 @@ active document is passed to `show`. The GUI checks this association before
 opening. Both launchers pass project-opening smoke checks with `--smoke`.
 Image selection at launch uses `--image-id`; the in-window
 [project browser](project-browser.md) also switches images and adds, renames or
-relinks entries. Autosave, close/recovery UX and background saves remain M4 work.
+relinks entries. [Background autosave/recovery](project-recovery.md) and dirty-close
+decisions are implemented. Explicit primary saves and recovery loading remain
+synchronous; ordinary project-file replacement/removal UX remains M4 work.
 
 ## Build and evidence
 
@@ -132,12 +134,12 @@ Projects containing polygons require a GEOS-enabled build. Linked slides need
 OpenSlide when their pixels are requested; missing/unavailable readers do not
 prevent restoring their stored dimensions and annotation state.
 
-The installed GUI wheel passes 180 Python tests. Storage tests include a 100352-pixel-wide linked pyramid without embedded pixels and
+The installed GUI wheel passes 208 Python tests. Storage tests include a 100352-pixel-wide linked pyramid without embedded pixels and
 exercise multi-image
 restart, every ROI kind, cell/nucleus/class state, exact IDs/revisions, relative
 moves, missing sources, relinking, Unicode paths, unknown schemas, malformed
 geometry, stale writers and actual transaction rollback. GUI replay verifies
-Ctrl+S, in-window switching, state isolation, addition and relinking. Twelve native
+Ctrl+S, in-window switching, state isolation, addition, relinking and recovery. Thirteen native
 suites pass with optional readers/geometry enabled, with storage/interchange
 enabled and readers/geometry disabled, and with all optional dependencies disabled.
 
