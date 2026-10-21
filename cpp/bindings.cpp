@@ -165,7 +165,7 @@ NB_MODULE(_native, m) {
         .def_ro("removed",&RecoveryRetentionStats::removed).def_ro("failed",&RecoveryRetentionStats::failed)
         .def_ro("elapsed_ms",&RecoveryRetentionStats::elapsed_ms).def_ro("error",&RecoveryRetentionStats::error)
         .def_ro("cancelled",&RecoveryRetentionStats::cancelled).def_ro("metadata_ms",&RecoveryRetentionStats::metadata_ms)
-        .def_ro("ownership_ms",&RecoveryRetentionStats::ownership_ms).def_ro("removal_ms",&RecoveryRetentionStats::removal_ms);
+        .def_ro("ownership_ms",&RecoveryRetentionStats::ownership_ms).def_ro("removal_ms",&RecoveryRetentionStats::removal_ms).def_ro("marker_prefetch_peak",&RecoveryRetentionStats::marker_prefetch_peak);
     nb::class_<AutosaveStats>(m,"AutosaveStats").def_ro("state",&AutosaveStats::state).def_ro("path",&AutosaveStats::path)
         .def_ro("error",&AutosaveStats::error).def_ro("completed",&AutosaveStats::completed).def_ro("snapshot_bytes",&AutosaveStats::snapshot_bytes)
         .def_ro("capture_ms",&AutosaveStats::capture_ms).def_ro("write_ms",&AutosaveStats::write_ms)
@@ -174,7 +174,7 @@ NB_MODULE(_native, m) {
         .def_ro("checkpoint_published",&AutosaveStats::checkpoint_published).def_ro("cancel_requested",&AutosaveStats::cancel_requested)
         .def_ro("retention_cancelled",&AutosaveStats::retention_cancelled).def_ro("maintenance_phase",&AutosaveStats::maintenance_phase)
         .def_ro("retention_inspected",&AutosaveStats::retention_inspected).def_ro("retention_removed",&AutosaveStats::retention_removed)
-        .def_ro("retention_metadata_ms",&AutosaveStats::retention_metadata_ms).def_ro("retention_ownership_ms",&AutosaveStats::retention_ownership_ms).def_ro("retention_removal_ms",&AutosaveStats::retention_removal_ms);
+        .def_ro("retention_metadata_ms",&AutosaveStats::retention_metadata_ms).def_ro("retention_ownership_ms",&AutosaveStats::retention_ownership_ms).def_ro("retention_removal_ms",&AutosaveStats::retention_removal_ms).def_ro("retention_prefetch_peak",&AutosaveStats::retention_prefetch_peak);
     nb::class_<ProjectAutosave>(m,"ProjectAutosave").def(nb::init<std::size_t>(),"snapshot_budget"_a=256*1024*1024)
         .def("request",&ProjectAutosave::request,"project"_a,"path"_a="").def("poll",&ProjectAutosave::poll).def("wait",&ProjectAutosave::wait)
         .def("cancel",&ProjectAutosave::cancel).def("clear",&ProjectAutosave::clear).def("default_path",&ProjectAutosave::default_path)
@@ -260,7 +260,7 @@ NB_MODULE(_native, m) {
         .def_ro("saves_completed",&GuiReport::saves_completed).def_ro("save_capture_ms",&GuiReport::save_capture_ms).def_ro("save_write_ms",&GuiReport::save_write_ms).def_ro("recovery_load_ms",&GuiReport::recovery_load_ms).def_ro("checkpoints_deleted",&GuiReport::checkpoints_deleted).def_ro("recovery_maintenance_error",&GuiReport::recovery_maintenance_error).def_ro("retired_workspaces",&GuiReport::retired_workspaces).def_ro("max_retirement_ms",&GuiReport::max_retirement_ms)
         .def_ro("checkpoints_pruned",&GuiReport::checkpoints_pruned).def_ro("retention_ms",&GuiReport::retention_ms).def_ro("retention_error",&GuiReport::retention_error)
         .def_ro("retention_cancelled",&GuiReport::retention_cancelled).def_ro("retention_inspected",&GuiReport::retention_inspected)
-        .def_ro("retention_metadata_ms",&GuiReport::retention_metadata_ms).def_ro("retention_ownership_ms",&GuiReport::retention_ownership_ms).def_ro("retention_removal_ms",&GuiReport::retention_removal_ms);
+        .def_ro("retention_metadata_ms",&GuiReport::retention_metadata_ms).def_ro("retention_ownership_ms",&GuiReport::retention_ownership_ms).def_ro("retention_removal_ms",&GuiReport::retention_removal_ms).def_ro("retention_prefetch_peak",&GuiReport::retention_prefetch_peak);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.

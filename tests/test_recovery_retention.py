@@ -163,7 +163,7 @@ def test_automatic_removal_error_preserves_publication_and_retries(tmp_path):
     assert not old.exists()
 
 
-@pytest.mark.parametrize('gate', ['fresh-mtime', 'fresh-header', 'future-header', 'unmanaged', 'wrong-lease', 'corrupt'])
+@pytest.mark.parametrize('gate', ['fresh-mtime', 'fresh-header', 'future-header', 'unmanaged', 'wrong-lease', 'oversized-marker', 'corrupt'])
 def test_age_and_managed_ownership_gates_preserve_files(tmp_path, gate):
     project, doc, obj, image, primary = workspace(tmp_path)
     old, current = tmp_path/'candidate.qpxrecover', tmp_path/'current.qpxrecover'
@@ -179,6 +179,8 @@ def test_age_and_managed_ownership_gates_preserve_files(tmp_path, gate):
         os.utime(old, ns=(stamp.st_atime_ns, stamp.st_mtime_ns))
     elif gate == 'unmanaged':
         Path(str(old)+'.session').unlink()
+    elif gate == 'oversized-marker':
+        Path(str(old)+'.session').write_bytes(b'x'*1024)
     elif gate == 'wrong-lease':
         Path(str(old)+'.session').write_bytes(b'not a managed session')
     else:
@@ -366,6 +368,7 @@ def test_scan_progress_cancel_preserves_publication_and_all_candidates_then_retr
     assert stats.maintenance_phase == 'complete' and stats.retention_inspected == 6
     assert stats.checkpoints_pruned == stats.retention_removed == 5
     assert stats.retention_metadata_ms > 0 and stats.retention_ownership_ms > 0 and stats.retention_removal_ms > 0
+    assert 0 < stats.retention_prefetch_peak <= 4
     assert stats.retention_metadata_ms+stats.retention_ownership_ms+stats.retention_removal_ms <= stats.retention_ms+1
 
 
@@ -483,3 +486,110 @@ def test_collection_cancellation_keeps_completed_removals_and_stops_later_candid
     assert sum(not path.exists() for path in paths) == stats.retention_removed
     assert primary.read_bytes() == before
     assert q.Project.recover(str(current)).document(image).annotation(obj).name == 'Published before collection'
+
+
+
+def test_cancelled_prefetch_releases_markers_before_directory_move_and_retry(tmp_path):
+    root = tmp_path/'original'
+    root.mkdir()
+    project = q.Project()
+    doc = q.Document(q.Image(4, 4, [20, 40, 80]*16))
+    obj = doc.add_rectangle(q.Rect(0, 0, 1, 1))
+    image = project.add_document(doc)
+    primary = root/'primary.qpxproj'
+    project.save(str(primary))
+    paths = [root/f'old-{i:03d}.qpxrecover' for i in range(64)]
+    for path in paths:
+        checkpoint(project, doc, obj, path, 100)
+    writer = q.ProjectAutosave()
+    writer.retention = policy(1)
+    current = root/'current.qpxrecover'
+    doc.rename_annotation(obj, 'Published with bounded prefetch')
+    assert writer.request(project, str(current))
+    deadline = time.monotonic()+10
+    while writer.busy:
+        stats = writer.poll()
+        if stats.maintenance_phase == 'scanning' and stats.retention_inspected >= 8:
+            break
+        assert time.monotonic() < deadline
+        time.sleep(.001)
+    assert writer.busy and stats.checkpoint_published
+    writer.cancel()
+    stats = writer.wait()
+    assert stats.retention_cancelled and stats.state == 'ready' and stats.retention_removed == 0
+    assert 0 < stats.retention_prefetch_peak <= 4
+    moved = tmp_path/'moved'
+    root.rename(moved)  # No reader handle can outlive worker acknowledgement.
+    current = moved/current.name
+    result = q.Project.prune_recoveries(str(current), policy(1, 128))
+    assert result.removed == 64 and not result.error and not result.cancelled
+    assert 0 < result.marker_prefetch_peak <= 4
+    assert q.Project.recover(str(current)).document(image).annotation(obj).name == 'Published with bounded prefetch'
+
+
+
+def test_unleased_overwrite_invalidates_old_matching_marker_and_can_regain_management(tmp_path, monkeypatch):
+    left, right = tmp_path/'left', tmp_path/'right'
+    left.mkdir(); right.mkdir()
+    project, doc, obj, image, primary = workspace(left)
+    other, other_doc, other_obj, other_image, other_primary = workspace(right)
+    path, other_path = left/'owned.qpxrecover', right/'owned.qpxrecover'
+    writer = q.ProjectAutosave()
+    doc.rename_annotation(obj, 'First leased publication')
+    assert writer.request(project, str(path)) and writer.wait().state == 'ready'
+    other_doc.rename_annotation(other_obj, 'Switch authority')
+    assert writer.request(other, str(other_path)) and writer.wait().state == 'ready'
+    blocked = tmp_path/'blocked-state'
+    blocked.write_bytes(b'not a directory')
+    with monkeypatch.context() as env:
+        env.setenv('LOCALAPPDATA' if os.name == 'nt' else 'XDG_STATE_HOME', str(blocked))
+        doc.rename_annotation(obj, 'Published without a lease')
+        assert writer.request(project, str(path))
+        stats = writer.wait()
+        assert stats.state == 'ready' and stats.retention_error and not stats.error
+    marker = Path(str(path)+'.session')
+    assert marker.read_bytes().startswith(b'qupathxx recovery unmanaged v1\n')
+    age(path, 100)
+    anchor = left/'anchor.qpxrecover'
+    checkpoint(project, doc, obj, anchor)
+    assert q.Project.prune_recoveries(str(anchor), policy(1)).removed == 0 and path.exists()
+    doc.rename_annotation(obj, 'Managed again')
+    assert writer.request(project, str(path))
+    stats = writer.wait()
+    assert stats.state == 'ready' and not stats.retention_error
+    assert marker.read_bytes().startswith(b'qupathxx recovery lease v1\n')
+    age(path, 100)
+    assert q.Project.prune_recoveries(str(anchor), policy(1)).removed == 0
+    del writer
+    gc.collect()
+    assert q.Project.prune_recoveries(str(anchor), policy(1)).removed == 1 and not path.exists()
+
+
+
+@pytest.mark.skipif(os.name != 'nt', reason='Windows read-only marker write protection')
+def test_unleased_overwrite_does_not_publish_if_matching_tag_cannot_be_invalidated(tmp_path, monkeypatch):
+    import stat
+    left, right = tmp_path/'left', tmp_path/'right'
+    left.mkdir(); right.mkdir()
+    project, doc, obj, image, primary = workspace(left)
+    other, other_doc, other_obj, other_image, other_primary = workspace(right)
+    path, other_path = left/'owned.qpxrecover', right/'owned.qpxrecover'
+    writer = q.ProjectAutosave()
+    doc.rename_annotation(obj, 'Previous valid recovery')
+    assert writer.request(project, str(path)) and writer.wait().state == 'ready'
+    before = path.read_bytes()
+    other_doc.rename_annotation(other_obj, 'Switch authority')
+    assert writer.request(other, str(other_path)) and writer.wait().state == 'ready'
+    blocked = tmp_path/'blocked-state'
+    blocked.write_bytes(b'not a directory')
+    marker = Path(str(path)+'.session')
+    marker.chmod(stat.S_IREAD)
+    try:
+        monkeypatch.setenv('LOCALAPPDATA', str(blocked))
+        doc.rename_annotation(obj, 'Unprotected new work')
+        assert writer.request(project, str(path))
+        stats = writer.wait()
+        assert stats.state == 'error' and not stats.checkpoint_published
+        assert path.read_bytes() == before and project.dirty
+    finally:
+        marker.chmod(stat.S_IREAD | stat.S_IWRITE)

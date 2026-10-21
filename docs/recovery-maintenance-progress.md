@@ -92,7 +92,12 @@ open.
 
 ## Recorded Windows runs
 
-The [full headless pass](benchmarks/recovery-retention-1000-windows.json) inspects
+These single-reader measurements are the baseline for the subsequent
+[bounded marker prefetch](recovery-marker-prefetch.md) implementation. The
+coordinator stage meanings remain valid with overlapped reads; current records
+include the bounded pending-record high-water mark.
+
+The [full headless baseline](benchmarks/recovery-retention-before-prefetch-windows.json) inspects
 1001 headers and removes 32 historical checkpoints. Publication becomes visible
 after 250 ms; retention takes 8.90 s, including 1.07 s metadata/ranking, 7.78 s
 ownership work and 16 ms collection. Maximum owner poll time is 0.16 ms. This
@@ -101,7 +106,7 @@ does not establish a full-scan speedup over the preserved
 Stage profiling isolated marker access as the dominant remaining ownership cost;
 an experimental native read path did not improve it and was discarded.
 
-The [viewer pass](benchmarks/recovery-retention-view-1000-windows.json) records
+The [viewer baseline](benchmarks/recovery-retention-view-before-prefetch-windows.json) records
 8.38 s retention during 900 frames, with 16.9 ms frame p95 and 17.7 ms maximum
 frame work. All 100000 objects stay selected, with 792 visible overlays and 3 MiB
 GPU tile payload. Historical graphs/pixels are not decoded. These are separate

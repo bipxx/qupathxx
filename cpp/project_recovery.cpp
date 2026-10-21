@@ -15,6 +15,9 @@
 #include <locale>
 #include <cmath>
 #include <set>
+#include <condition_variable>
+#include <deque>
+#include <mutex>
 #ifdef _WIN32
 #define NOMINMAX
 #define WIN32_LEAN_AND_MEAN
@@ -99,6 +102,7 @@ public:
 };
 fs::path session_path(const fs::path& destination) { auto result=destination; result+=fs::u8path(".session"); return result; }
 std::string lease_marker(const RecoveryInfo& info) {return "qupathxx recovery lease v1\n"+info.identity+'\n'+info.session+'\n';}
+std::string unmanaged_marker(const RecoveryInfo& info) {return "qupathxx recovery unmanaged v1\n"+info.identity+'\n'+info.session+'\n';}
 fs::path lease_key(const RecoveryInfo& info) {return cache_directory()/"sessions"/(info.identity+"-"+info.session);}
 bool publish(const fs::path& source,const fs::path& destination,const std::atomic<bool>& cancelled) {
 #ifdef _WIN32
@@ -174,6 +178,50 @@ struct TimedSection {
     void stop() {if(total) {*total+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count(); total=nullptr;}}
     ~TimedSection() {stop();}
 };
+// Filesystem-only prefetch. The coordinator bounds pending records separately;
+// the queue also has a hard cap for exception paths. No model/Python callbacks.
+class MarkerReaders {
+    std::mutex mutex_;
+    std::condition_variable ready_;
+    std::deque<std::packaged_task<bool()>> queue_;
+    std::vector<std::thread> workers_;
+    bool stopping_=false;
+    void stop() {
+        {std::lock_guard<std::mutex> lock(mutex_); stopping_=true;}
+        ready_.notify_all();
+        for(auto& worker:workers_) if(worker.joinable()) worker.join();
+    }
+public:
+    static constexpr std::size_t capacity=4;
+    MarkerReaders() {
+        try {
+            workers_.reserve(capacity);
+            for(std::size_t i=0;i<capacity;++i) workers_.emplace_back([this] {
+                for(;;) {
+                    std::packaged_task<bool()> task;
+                    {
+                        std::unique_lock<std::mutex> lock(mutex_);
+                        ready_.wait(lock,[this]{return stopping_ || !queue_.empty();});
+                        if(queue_.empty()) return;
+                        task=std::move(queue_.front()); queue_.pop_front();
+                    }
+                    task();
+                }
+            });
+        } catch(...) {stop(); throw;}
+    }
+    ~MarkerReaders() {stop();}
+    template<class Work> std::future<bool> submit(Work&& work) {
+        std::packaged_task<bool()> task(std::forward<Work>(work));
+        auto future=task.get_future();
+        {
+            std::lock_guard<std::mutex> lock(mutex_);
+            if(stopping_ || queue_.size()>=capacity) throw std::runtime_error("recovery marker prefetch queue is full");
+            queue_.push_back(std::move(task));
+        }
+        ready_.notify_one(); return future;
+    }
+};
 std::string read_session_marker(const fs::path& path) {
     std::ifstream input(path,std::ios::binary); std::array<char,256> data{};
     input.read(data.data(),data.size());
@@ -188,16 +236,27 @@ void write_session_marker(const fs::path& destination,const RecoveryInfo& info) 
         if(!plain_entry(marker,false)) throw std::runtime_error("recovery session marker must be a regular file");
         const auto content=read_session_marker(marker);
         if(content==lease_marker(info)) return;
-        const std::string prefix="qupathxx recovery lease v1\n";
         const auto hex=[](char c){return (c>='0' && c<='9') || (c>='a' && c<='f');};
-        if(content.size()!=prefix.size()+66 || content.compare(0,prefix.size(),prefix)!=0 ||
-           content[prefix.size()+32]!='\n' || content.back()!='\n' ||
-           !std::all_of(content.begin()+prefix.size(),content.begin()+prefix.size()+32,hex) ||
-           !std::all_of(content.begin()+prefix.size()+33,content.end()-1,hex))
+        const auto known=[&](const std::string& prefix) {
+            return content.size()==prefix.size()+66 && content.compare(0,prefix.size(),prefix)==0 &&
+                content[prefix.size()+32]=='\n' && content.back()=='\n' &&
+                std::all_of(content.begin()+prefix.size(),content.begin()+prefix.size()+32,hex) &&
+                std::all_of(content.begin()+prefix.size()+33,content.end()-1,hex);
+        };
+        if(!known("qupathxx recovery lease v1\n") && !known("qupathxx recovery unmanaged v1\n"))
             throw std::runtime_error("unrecognized recovery session marker is preserved");
     }
     std::ofstream output(marker,std::ios::binary); output<<lease_marker(info); output.close();
     if(!output) throw std::runtime_error("cannot write recovery session marker");
+}
+void unmanage_session_marker(const fs::path& destination,const RecoveryInfo& info) {
+    const auto marker=session_path(destination);
+    const auto expected=lease_marker(info);
+    if(!fs::exists(marker) || !plain_entry(marker,false) || fs::file_size(marker)!=expected.size() || read_session_marker(marker)!=expected) return;
+    // A controller can return to a previous project after losing its lease.
+    // Its old matching tag must not make the new unleased publication eligible.
+    std::ofstream output(marker,std::ios::binary); output<<unmanaged_marker(info); output.close();
+    if(!output) throw std::runtime_error("cannot mark recovery publication as unmanaged");
 }
 std::size_t cleanup_work(const fs::path& destination,std::size_t limit=0,const std::atomic<bool>* cancelled=nullptr) {
     // The caller holds the destination lock for this entire scan. A cooperating
@@ -342,6 +401,7 @@ bool ProjectAutosave::request(const Project& project,const std::string& requeste
             {
                 FileLock lock(destination);
                 if(fs::exists(destination)) check_owner(info.path,info.identity,info.session,info.base_path);
+                if(!lease) unmanage_session_marker(destination,info);
                 {
                     WorkDirectory work(destination);
                     if(!cancelled->load()) snapshot->save_recovery(work.file.u8string(),destination.parent_path().u8string(),info,cancelled.get());
@@ -417,6 +477,7 @@ AutosaveStats ProjectAutosave::poll() {
             impl_->stats.retention_metadata_ms=result.retention.metadata_ms;
             impl_->stats.retention_ownership_ms=result.retention.ownership_ms;
             impl_->stats.retention_removal_ms=result.retention.removal_ms;
+            impl_->stats.retention_prefetch_peak=result.retention.marker_prefetch_peak;
             if(impl_->progress) {
                 impl_->stats.checkpoint_published=impl_->progress->published.load();
                 impl_->stats.retention_inspected=impl_->progress->inspected.load();
@@ -505,6 +566,24 @@ RecoveryRetentionStats Project::prune_recoveries_impl(const std::string& current
     std::vector<RecoveryInfo> newest;
     std::vector<Candidate> candidates;
     const auto older=[&](const Candidate& a,const Candidate& b){return newer(b.info,a.info);};
+    struct Pending {RecoveryInfo info; fs::file_time_type modified; std::future<bool> marker;};
+    // Declared before pending: joining workers remains safe on exceptional unwind.
+    std::unique_ptr<MarkerReaders> readers;
+    std::deque<Pending> pending;
+    const auto consume=[&] {
+        auto item=std::move(pending.front()); pending.pop_front();
+        try {
+            if(!item.marker.get() || stopped()) return;
+            auto& info=item.info;
+            auto global=lease_key(info); auto lock_path=global; lock_path+=fs::u8path(".lock");
+            if(!plain_entry(lock_path,false)) return;
+            const auto held=std::find_if(candidates.begin(),candidates.end(),[&](const Candidate& c){return c.info.session==info.session;});
+            auto lease=held!=candidates.end()?held->lease:std::make_shared<FileLock>(global,false);
+            candidates.push_back({std::move(info),item.modified,std::move(lease)});
+            std::push_heap(candidates.begin(),candidates.end(),older);
+            if(candidates.size()>policy.max_deletions) {std::pop_heap(candidates.begin(),candidates.end(),older); candidates.pop_back();}
+        } catch(const std::exception&) { /* Unknown, active or unreadable files stay protected. */ }
+    };
     for(const auto& item:fs::directory_iterator(target.parent_path())) {
         if(stopped()) break;
         if(!recovery_extension(item.path()) || !plain_entry(item.path(),false)) continue;
@@ -518,19 +597,20 @@ RecoveryRetentionStats Project::prune_recoveries_impl(const std::string& current
             if(same_name(item.path(),target) || (anchor_has_aliases && same_path(item.path(),target)) || info.created_unix_ms>now_ms-age_ms) continue;
             const auto modified=fs::last_write_time(item.path()); if(modified>file_cutoff) continue;
             metadata.stop(); TimedSection ownership(stats.ownership_ms);
+            if(pending.size()>=MarkerReaders::capacity) consume();
+            if(stopped()) break;
+            if(!readers) readers=std::make_unique<MarkerReaders>();
             const auto sidecar=session_path(item.path());
-            if(!plain_entry(sidecar,false) || read_session_marker(sidecar)!=lease_marker(info)) continue;
-            auto global=lease_key(info); auto lock_path=global; lock_path+=fs::u8path(".lock");
-            if(!plain_entry(lock_path,false)) continue;
-            // Never create a marker for legacy/unmanaged checkpoints. An idle
-            // managed session holds this lease even between publication jobs.
-            const auto held=std::find_if(candidates.begin(),candidates.end(),[&](const Candidate& c){return c.info.session==info.session;});
-            auto lease=held!=candidates.end()?held->lease:std::make_shared<FileLock>(global,false);
-            candidates.push_back({std::move(info),modified,std::move(lease)});
-            std::push_heap(candidates.begin(),candidates.end(),older);
-            if(candidates.size()>policy.max_deletions) {std::pop_heap(candidates.begin(),candidates.end(),older); candidates.pop_back();}
+            auto marker=readers->submit([sidecar,expected=lease_marker(info),cancelled] {
+                if(cancelled && cancelled->load()) return false;
+                try {return plain_entry(sidecar,false) && read_session_marker(sidecar)==expected;}
+                catch(const std::exception&) {return false;}
+            });
+            pending.push_back({std::move(info),modified,std::move(marker)});
+            stats.marker_prefetch_peak=std::max(stats.marker_prefetch_peak,pending.size());
         } catch(const std::exception&) { /* Unknown, active or unreadable files are preserved. */ }
     }
+    {TimedSection ownership(stats.ownership_ms); while(!pending.empty()) consume();}
     // A partial scan has no trustworthy newest set: cancellation must not
     // turn a partially ranked catalog into permission to remove checkpoints.
     if(stopped()) return finish();

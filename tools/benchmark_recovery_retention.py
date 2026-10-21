@@ -73,6 +73,7 @@ def main():
             assert report.checkpoints_pruned == expected_removals and not report.retention_error
             assert len(report.selected_ids) == 100000 and 0 < report.visible_objects < 2000
             result.update(retention_ms=report.retention_ms, capture_ms=report.autosave_capture_ms,
+                          marker_prefetch_peak=report.retention_prefetch_peak,
                           metadata_ms=report.retention_metadata_ms, ownership_ms=report.retention_ownership_ms,
                           removal_ms=report.retention_removal_ms, inspected=report.retention_inspected,
                           cpu_frame_p95_ms=report.cpu_frame_p95_ms, max_cpu_frame_ms=report.max_cpu_frame_ms,
@@ -106,12 +107,14 @@ def main():
                 assert cancelled_at is not None
                 result['cancel_to_completion_ms'] = (time.perf_counter()-cancelled_at)*1000
             result.update(retention_ms=stats.retention_ms, capture_ms=stats.capture_ms, worker_ms=stats.write_ms,
+                          marker_prefetch_peak=stats.retention_prefetch_peak,
                           checkpoint_visible_ms=published, max_poll_ms=max(polls), cancelled=stats.retention_cancelled,
                           metadata_ms=stats.retention_metadata_ms, ownership_ms=stats.retention_ownership_ms,
                           removal_ms=stats.retention_removal_ms, inspected=stats.retention_inspected,
                           observed_phases=sorted(phases), max_live_inspected=max_live_inspected)
             del writer
         assert sum(not path.exists() for path in paths) == expected_removals and current.exists()
+        assert 0 < result['marker_prefetch_peak'] <= 4
         assert primary.read_bytes() == before and project.dirty
         assert q.Project.recover(str(current)).document(image).object_count == 100000
         result['scope'] = ('Warm local Windows SQLite/dense RGB. Historical fixtures are separately published '

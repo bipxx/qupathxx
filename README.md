@@ -42,6 +42,8 @@ QuPath port or a compatible replacement for Java QuPath.
   [retention](docs/recovery-retention.md).
 - Recovery publication/progress reporting and safe maintenance cancellation;
   see [maintenance progress](docs/recovery-maintenance-progress.md).
+- Bounded native ownership-marker prefetch for large recovery catalogs;
+  see [marker prefetch](docs/recovery-marker-prefetch.md).
 - Native background autosave, session-specific recovery files and dirty-close
   decisions; see [recovery](docs/project-recovery.md).
 

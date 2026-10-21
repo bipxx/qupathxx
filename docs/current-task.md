@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 337 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
+Evidence: 341 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
 (two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
 fourteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
@@ -101,7 +101,18 @@ regression coverage for the new native scan path. The recorded stop-after-100
 header pass completes about 9.4 ms after the request with no removals; the full
 1000-session scan still takes 8.90 s, dominated by ownership-marker access.
 The viewer records 16.9 ms p95 and 17.7 ms maximum frame work during that scan.
-Next optimize ownership-marker I/O and implement cross-session work discovery and initial loading progress;
+Bounded ownership-marker prefetch is implemented; see recovery-marker-prefetch.md.
+Four native readers overlap I/O with metadata inspection, while session leases,
+ranking and final deletion stay serialized. Pending records are capped at four;
+cancellation/exception teardown joins every reader before acknowledgement.
+The 1000-session headless pass falls from 8.90 s to 1.92 s with the same 32
+removals, complete header inspection and a four-record peak. Cancellation after
+100 headers completes in 9.2 ms without removals. Viewer timing remains variable:
+the final run records 7.67 s retention dominated by metadata, 13.5 ms frame p95,
+55.8 ms maximum frame work and 51.1 ms snapshot capture. Those remain optimization
+targets; no uniform viewer speedup is claimed. Unleased overwrites now invalidate
+stale matching ownership tags, or preserve the previous checkpoint on failure.
+Next improve viewer metadata/capture latency and implement cross-session work discovery and initial loading progress;
 retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,

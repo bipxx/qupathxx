@@ -1422,7 +1422,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         autosave.stats().completed,autosave.stats().path,autosave.stats().error.empty()?autosave_ui_error:autosave.stats().error,autosave.stats().capture_ms,frame_times.empty()?0:frame_times.back(),project_replacements,project_load_ms,images_removed,
         save_job.stats().completed,save_job.stats().capture_ms,save_job.stats().write_ms,recovery_load_ms,checkpoints_deleted,maintenance_error,retired_workspaces,max_retirement_ms,
         autosave.stats().checkpoints_pruned,autosave.stats().retention_ms,autosave.stats().retention_error,
-        autosave.stats().retention_cancelled,autosave.stats().retention_inspected,autosave.stats().retention_metadata_ms,autosave.stats().retention_ownership_ms,autosave.stats().retention_removal_ms};
+        autosave.stats().retention_cancelled,autosave.stats().retention_inspected,autosave.stats().retention_metadata_ms,autosave.stats().retention_ownership_ms,autosave.stats().retention_removal_ms,autosave.stats().retention_prefetch_peak};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

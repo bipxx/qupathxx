@@ -578,3 +578,23 @@ and an intact new recovery. The concurrent viewer records 16.9 ms frame p95 and
 17.7 ms maximum frame work. Marker I/O remains the next scan optimization target.
 Verification records 337 passing installed-wheel tests, two unavailable file-
 symlink cases skipped and all fourteen native suites passing in three configurations.
+
+The twenty-fourth packet adds four native marker readers with a four-record
+pending window inside each retention pass. The coordinator still ranks all
+headers, acquires inactive-session leases and validates/deletes serially. Marker
+data is not cached or bypassed. Cancellation drains/discards prefetched results;
+all readers join before acknowledgement. Oversized markers and immediate
+directory move/retry after cancellation extend the existing liveness, alias,
+same-session and partial-collection regressions. See
+[marker prefetch](recovery-marker-prefetch.md). Cross-session orphan work,
+initial CLI progress and all unfinished M0-M7 requirements remain active.
+
+The final headless comparison records 1.92 s retention versus the preserved 8.90 s
+single-reader baseline, with all 1001 headers inspected, 32 old files removed and
+at most four pending records. Cancellation after 100 headers completes in 9.2 ms
+with no removals. Viewer metadata/capture timing remains variable (7.67 s pass,
+13.5 ms frame p95 and a 51.1 ms capture pause in the final run), so broader viewer
+latency is not declared optimized. A lease-failure overwrite now invalidates an
+old matching ownership tag before publication or preserves the previous file on
+failure. All 341 installed-wheel tests pass with two unavailable file-symlink
+cases skipped; all fourteen native suites pass across three configurations.

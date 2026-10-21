@@ -17,6 +17,7 @@ struct RecoveryRetentionStats {
     std::string error;
     bool cancelled=false;
     double metadata_ms=0,ownership_ms=0,removal_ms=0;
+    std::size_t marker_prefetch_peak=0;
 };
 struct RecoveryInfo {
     std::string path,identity,session,base_path,base_status,error,fingerprint;

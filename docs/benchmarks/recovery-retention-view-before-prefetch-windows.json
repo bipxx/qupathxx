@@ -1,0 +1,23 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "historical_checkpoints": 1000,
+  "objects": 100000,
+  "keep_latest": 10,
+  "max_age_days": 30,
+  "max_deletions": 32,
+  "retention_ms": 8375.0469,
+  "capture_ms": 15.3411,
+  "metadata_ms": 1063.963300000002,
+  "ownership_ms": 7265.093600000006,
+  "removal_ms": 15.1934,
+  "inspected": 1001,
+  "cpu_frame_p95_ms": 16.8799,
+  "max_cpu_frame_ms": 17.652,
+  "peak_gpu_payload_bytes": 3145728,
+  "selected_objects": 100000,
+  "visible_objects": 792,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+  "scope": "Warm local Windows SQLite/dense RGB. Historical fixtures are separately published small native checkpoints from distinct closed sessions; only creation timestamps and mtimes are aged. Fixture creation excluded. One native 100000-object checkpoint publishes before bounded metadata-only retention. No historical graphs/pixels are decoded. GUI excludes swap wait. Cold/network/vendor and prolonged pressure excluded; no general latency bound.",
+  "source_commit": "164ebb5f3733c5b8fc03f0a0963fe75e0f4a4978",
+  "variant": "Single-reader stage-instrumented baseline before bounded marker prefetch; same distinct native session workload and retention rules."
+}

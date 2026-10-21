@@ -70,8 +70,11 @@ one held handle across candidates from the same session. Missing, invalid, busy
 or unreadable markers/leases protect the checkpoint. Older app versions' files,
 other users/machines' session state and files whose local state cache was cleared
 remain protected because no known existing local lease can prove inactivity.
-If user-state lease setup is unavailable, autosave still publishes successfully
-as unmanaged, reports a separate retention error and does not collect checkpoints.
+If user-state lease setup is unavailable, autosave can publish as unmanaged,
+reports a separate retention error and does not collect checkpoints. An old
+matching managed marker is invalidated before such an overwrite; if that cannot
+be done, publication rejects and the previous checkpoint is preserved. A later
+successful lease can replace the known unmanaged marker with a managed one.
 Unknown files occupying a marker path are preserved and reported, not overwritten.
 
 Explicit reviewed deletion remains available for a live or unmanaged checkpoint;
@@ -81,6 +84,8 @@ retention does not change that deliberate selected-file workflow.
 
 One metadata-only scan keeps a heap of the newest configured count and another
 heap of the oldest eligible inactive candidates, capped by the deletion limit.
+Native [marker prefetch](recovery-marker-prefetch.md) overlaps at most four small
+ownership-marker reads; header ranking and session-lease acquisition stay serialized.
 Only those candidates' native leases stay open. Memory and held leases are bounded
 by the policy, independently of directory/file size; historical documents, pixels
 and geometry are not constructed. Metadata checks do not establish full ROI/source
