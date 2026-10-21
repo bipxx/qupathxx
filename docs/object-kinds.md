@@ -71,5 +71,6 @@ descriptor construction, rendering and allocator/cache overhead; it does not
 establish complex polygon, million-cell or full analysis performance. Immutable
 shape storage is shared across snapshots and metadata edits.
 
-Class registries/colors, multi-selection, vertex editing and Boolean clipping
+Class registries/colors are implemented; see [classes.md](classes.md).
+Multi-selection, vertex editing and Boolean clipping
 remain M3 work. Persistence, analysis and the remaining M0-M7 gates remain open.

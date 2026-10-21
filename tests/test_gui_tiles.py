@@ -219,3 +219,27 @@ def test_cell_nucleus_renders_when_primary_boundary_is_offscreen(tmp_path):
         # with the cell body beyond the viewport's right and bottom edges.
         assert np.count_nonzero(np.all(pixels == (195, 145, 255), axis=2)) > 200
     assert doc.annotation(cell).nucleus.area == 2500
+
+
+def test_registry_color_changes_and_undo_reach_framebuffer(tmp_path):
+    from PIL import Image
+    import numpy as np
+
+    doc = q.Document(q.Image.demo())
+    doc.add_detection(q.Roi.rectangle(q.Rect(100, 100, 50, 50)), class_name="Tumor")
+    doc.set_class("Tumor", 0xe02030)
+    view = q.Viewport()
+    view.zoom = 2
+    options = q.GuiOptions()
+    options.start_view = view
+    for step, rgb in enumerate(((224, 32, 48), (32, 64, 224), (224, 32, 48))):
+        if step == 1:
+            doc.set_class("Tumor", 0x2040e0)
+        elif step == 2:
+            assert doc.undo()
+        capture = tmp_path / f"class-{step}.ppm"
+        report = q.show(doc, frame_limit=20, capture_path=str(capture), options=options)
+        assert report.visible_objects == 1
+        with Image.open(capture) as frame:
+            pixels = np.asarray(frame)[:, 310:, :]
+            assert np.count_nonzero(np.all(pixels == rgb, axis=2)) > 200

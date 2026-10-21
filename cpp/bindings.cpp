@@ -33,6 +33,7 @@ NB_MODULE(_native, m) {
         .def_ro("base_entries",&SpatialStats::base_entries).def_ro("dirty_entries",&SpatialStats::dirty_entries);
     nb::enum_<ObjectKind>(m,"ObjectKind").value("ANNOTATION",ObjectKind::Annotation)
         .value("DETECTION",ObjectKind::Detection).value("CELL",ObjectKind::Cell);
+    nb::class_<ObjectClass>(m,"ObjectClass").def_ro("name",&ObjectClass::name).def_ro("color",&ObjectClass::color);
     nb::class_<Annotation>(m, "Annotation").def_ro("id", &Annotation::id).def_ro("name", &Annotation::name)
         .def_prop_ro("roi", [](const Annotation& a) { return a.geometry.bounds(); })
         .def_prop_ro("geometry",[](const Annotation& a){return a.geometry;})
@@ -94,6 +95,15 @@ NB_MODULE(_native, m) {
         .def("update_rectangle",&Document::update_rectangle).def("rename_annotation",&Document::rename_annotation)
         .def("classify_annotation",&Document::classify_annotation).def("reparent_annotation",&Document::reparent_annotation)
         .def("execute",&Document::execute,"edits"_a,"label"_a="Edit objects")
+        .def_prop_ro("classes",[](const Document& d) {
+            std::vector<ObjectClass> result; result.reserve(d.classes().size());
+            for(const auto& item:d.classes()) result.push_back(item.second);
+            return result;
+        })
+        .def("object_class",&Document::object_class).def("class_count",&Document::class_count)
+        .def("set_class",&Document::set_class,"name"_a,"color"_a)
+        .def("remove_class",&Document::remove_class).def("rename_class",&Document::rename_class)
+        .def("classify_objects",&Document::classify_objects,"ids"_a,"class_name"_a)
         .def("children",&Document::children)
         .def("query_region",&Document::query_region)
         .def("pick",&Document::pick,"point"_a,"tolerance"_a=0)

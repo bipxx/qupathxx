@@ -9,7 +9,7 @@ borrowed object-map references must not be retained across mutation.
 
 Add, replace, rename, classify, reparent and subtree deletion use one transaction
 path. An annotation has an ID, name, geometry, optional parent ID (0 means root),
-free-text class name and revision. Parent geometry must contain child geometry.
+registry-backed class name and revision. Parent geometry must contain child geometry.
 Cycles, missing parents, depth over 256, nonfinite/out-of-image geometry and
 embedded NUL or text longer than 4096 bytes are rejected.
 
@@ -86,8 +86,8 @@ calibration history, payload rejection/eviction, disabled recording and ImGui
 keyboard delete/undo/redo. Native and Python suites exercise the same API.
 
 The [100,000-object benchmark](benchmarks/document-100000-windows.json) reports
-approximately 249 ms batch creation, 121 ms undo and 117 ms redo on the development
-host. A rename adds 783 bytes of recorded payload and measured 0.0019 ms at p95.
+approximately 230 ms batch creation, 116 ms undo and 126 ms redo on the development
+host. A rename adds 815 bytes of recorded payload and measured 0.0030 ms at p95.
 The timed API includes nanobind call/return overhead and excludes descriptor
 construction, GUI rendering and allocator overhead accounting. These are host
 observations, not cross-machine guarantees or full M3 acceptance.
@@ -97,6 +97,7 @@ observations, not cross-machine guarantees or full M3 acceptance.
 General ROI geometry and spatial indexing are implemented; see
 [geometry-spatial.md](geometry-spatial.md) for semantics and validation.
 Detection/cell object kinds and optional nucleus geometry are implemented; see
-[object-kinds.md](object-kinds.md). Class registries/colors, multi-selection, Boolean
+[object-kinds.md](object-kinds.md). Undoable class definitions, colors and renames
+are recorded in [classes.md](classes.md). Multi-selection, Boolean
 clipping and vertex editing remain. QuPath reference comparisons and complex
 geometry stress remain open. Project persistence and interchange remain M4 work.

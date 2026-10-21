@@ -12,6 +12,10 @@
 
 namespace qpx {
 enum class ObjectKind { Annotation, Detection, Cell };
+struct ObjectClass {
+    std::string name;
+    std::uint32_t color = 0x41e1be; // RGB, no alpha.
+};
 struct Annotation {
     std::uint64_t id;
     std::string name;
@@ -61,6 +65,13 @@ public:
     Annotation annotation(std::uint64_t id) const { return find(id); }
     std::size_t object_count() const { return objects_.size(); }
     std::uint64_t revision() const { return revision_; }
+    const std::map<std::string,ObjectClass>& classes() const { return classes_; }
+    ObjectClass object_class(const std::string& name) const;
+    std::size_t class_count(const std::string& name) const;
+    void set_class(std::string name, std::uint32_t color);
+    void remove_class(const std::string& name);
+    void rename_class(const std::string& old_name, std::string new_name);
+    void classify_objects(const std::vector<std::uint64_t>& ids, std::string class_name);
     std::uint64_t add_rectangle(Rect roi, std::string name = "Annotation");
     std::uint64_t add_roi(Roi roi, std::string name="Annotation");
     std::uint64_t add_detection(Roi roi, std::string name="Detection", std::uint64_t parent_id=0, std::string class_name="");
@@ -97,10 +108,12 @@ public:
 private:
     const Annotation& find(std::uint64_t id) const;
     using ObjectPatch = std::map<std::uint64_t,std::optional<Annotation>>;
+    using ClassPatch = std::map<std::string,std::optional<ObjectClass>>;
     struct Calibration { std::optional<double> x,y; };
     struct EditRecord {
         ObjectPatch before,after;
         Calibration before_calibration,after_calibration;
+        ClassPatch before_classes,after_classes;
         std::string label;
         std::size_t bytes = 0;
     };
@@ -113,6 +126,8 @@ private:
     std::shared_ptr<ImageServer> server_;
     std::map<std::uint64_t,Annotation> objects_;
     std::map<std::uint64_t,std::set<std::uint64_t>> children_;
+    std::map<std::string,ObjectClass> classes_;
+    std::map<std::string,std::size_t> class_counts_;
     std::vector<EditRecord> undo_,redo_;
     std::uint64_t next_id_ = 1;
     std::uint64_t revision_ = 0;

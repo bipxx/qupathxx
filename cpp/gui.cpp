@@ -126,6 +126,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::string error;
     std::uint64_t editor_id=0,editor_revision=0;
     char draft_name[4097]={},draft_class[4097]={};
+    char class_name[4097]={};
+    std::string class_key;
+    float class_color[3]={65/255.f,225/255.f,190/255.f};
     Rect draft_roi;
     Roi draft_geometry;
     std::uint64_t draft_parent=0;
@@ -259,6 +262,41 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if (ImGui::Selectable(label.c_str(), selected == a.id)) selected = a.id;
         }
         ImGui::EndChild();
+        if(ImGui::CollapsingHeader("Classes")) {
+            ImGui::SetNextItemWidth(180);
+            if(ImGui::BeginCombo("Registry",class_key.empty()?"New class":class_key.c_str())) {
+                if(ImGui::Selectable("New class",class_key.empty())) { class_key.clear(); class_name[0]=0; }
+                for(const auto& [name,c]:document.classes()) if(ImGui::Selectable(name.c_str(),name==class_key)) {
+                    class_key=name; std::memcpy(class_name,name.c_str(),name.size()+1);
+                    class_color[0]=((c.color>>16)&255)/255.f; class_color[1]=((c.color>>8)&255)/255.f; class_color[2]=(c.color&255)/255.f;
+                }
+                ImGui::EndCombo();
+            }
+            ImGui::SetNextItemWidth(180); ImGui::InputText("Class name",class_name,sizeof(class_name));
+            ImGui::SetNextItemWidth(180); ImGui::ColorEdit3("RGB",class_color);
+            if(ImGui::Button("Save color")) {
+                try {
+                    // Rename is a separate explicit command so one button is
+                    // always one journal step and cannot partially rename.
+                    std::string name=class_key.empty()?class_name:class_key;
+                    auto byte=[](float v){ return static_cast<unsigned>(std::lround(std::clamp(v,0.f,1.f)*255)); };
+                    document.set_class(name,(byte(class_color[0])<<16)|(byte(class_color[1])<<8)|byte(class_color[2]));
+                    class_key=name; error.clear();
+                } catch(const std::exception& e) { error=e.what(); }
+            }
+            if(!class_key.empty()) {
+                ImGui::SameLine();
+                if(ImGui::Button("Rename")) {
+                    try { document.rename_class(class_key,class_name); class_key=class_name; error.clear(); }
+                    catch(const std::exception& e) { error=e.what(); }
+                }
+                ImGui::Text("Assigned: %zu",document.class_count(class_key));
+                if(ImGui::Button("Remove unused class")) {
+                    try { document.remove_class(class_key); class_key.clear(); class_name[0]=0; error.clear(); }
+                    catch(const std::exception& e) { error=e.what(); }
+                }
+            }
+        }
         if (selected && ImGui::Button("Delete selected")) {
             try { document.remove_annotation(selected); selected=0; error.clear(); }
             catch(const std::exception& e) { error=e.what(); }
@@ -272,7 +310,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             const auto object=document.annotation(selected);
             ImGui::Text("Kind: %s",object.kind==ObjectKind::Cell?"Cell":(object.kind==ObjectKind::Detection?"Detection":"Annotation"));
             if(object.kind==ObjectKind::Cell) ImGui::TextDisabled(object.nucleus?"Nucleus ROI present":"No nucleus ROI");
-            ImGui::InputText("Name",draft_name,sizeof(draft_name)); ImGui::InputText("Class",draft_class,sizeof(draft_class));
+            ImGui::InputText("Name",draft_name,sizeof(draft_name));
+            if(ImGui::BeginCombo("Class",draft_class[0]?draft_class:"Unclassified")) {
+                if(ImGui::Selectable("Unclassified",!draft_class[0])) draft_class[0]=0;
+                for(const auto& [name,c]:document.classes()) if(ImGui::Selectable(name.c_str(),name==draft_class))
+                    std::memcpy(draft_class,name.c_str(),name.size()+1);
+                ImGui::EndCombo();
+            }
             ImGui::BeginDisabled(object.is_detection());
             ImGui::InputDouble("X",&draft_roi.x); ImGui::InputDouble("Y",&draft_roi.y);
             ImGui::BeginDisabled(draft_geometry.kind()!=RoiKind::Rectangle && draft_geometry.kind()!=RoiKind::Ellipse);
@@ -368,6 +412,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             const auto& a=document.objects().at(id); const auto r=a.geometry.bounds();
             auto p0 = screen(viewport,{r.x,r.y},offset);
             auto color = a.id == selected ? IM_COL32(255,205,85,255) : IM_COL32(65,225,190,255);
+            if(a.id!=selected && !a.class_name.empty()) {
+                auto found=document.classes().find(a.class_name);
+                if(found!=document.classes().end()) {
+                    auto rgb=found->second.color; color=IM_COL32((rgb>>16)&255,(rgb>>8)&255,rgb&255,255);
+                }
+            }
             draw_shape(draw,a.geometry,viewport,offset,color);
             if(a.nucleus) draw_shape(draw,*a.nucleus,viewport,offset,IM_COL32(195,145,255,255));
             // Detection labels at low zoom overwhelm the canvas and scale with

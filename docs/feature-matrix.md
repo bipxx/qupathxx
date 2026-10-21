@@ -15,7 +15,7 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 | Image display and channels | qupath-gui-fx | render/gui | Partial | RGB/gray/channel LUT, window and gamma framebuffer checks pass; fluorescence/ICC remain |
 | Rectangle annotation | qupath-core, qupath-gui-fx | geometry/gui | Partial | Atomic inspector edits, sampling and drawing/history replay pass; upstream fixtures missing |
 | Polygon and ellipse tools | qupath-core, qupath-gui-fx | geometry/gui | Partial | Holes, multipart validity, analytic ellipses and drawing/history pass; vertex/clipping and QuPath comparisons remain |
-| Object hierarchy and classes | qupath-core | core | Partial | General ROI parent containment, classes, cycles and depth pass; cell/nucleus snapshots, conversion and history pass; class registry and multi-selection remain |
+| Object hierarchy and classes | qupath-core | core | Partial | General ROI parent containment, classes, cycles and depth pass; cell/nucleus snapshots, conversion and history pass; class definitions/colors/counts, rename and batch classification pass; multi-selection remains |
 | Undo and redo | qupath-gui-fx | core/gui | Partial | Compound ROI/class/hierarchy/calibration restore and drawing/history replay pass; multi-selection remains |
 | Projects and relinking | qupath-core, qupath-gui-fx | project | Missing | Transactional round trip and moved/missing images |
 | Annotation interchange | qupath-core, qupath-gui-fx | project | Missing | GeoJSON/CSV fixtures and loss reporting |

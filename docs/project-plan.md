@@ -387,3 +387,10 @@ The seventh packet adds detection/cell object kinds, optional independent nucleu
 geometry, compartment area/RGB means and nucleus overlays. Atomic history and
 spatial deltas retain both shapes. See [object-kinds.md](object-kinds.md) for
 validation, import/history timings and remaining M3/M5 scope.
+
+The eighth packet adds native class definitions/colors, indexed assignment counts,
+atomic rename and batch classification. Class patches share the bounded document
+journal; color edits preserve object revisions and spatial indexes. See
+[classes.md](classes.md) for contracts, framebuffer evidence and the 100000-object
+benchmark. Multi-selection, vertex editing and Boolean clipping remain M3 work;
+the full M0-M7 plan remains active.

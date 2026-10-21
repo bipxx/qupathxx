@@ -1,0 +1,14 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "object_count": 100000,
+  "color_median_ms": 0.01414999132975936,
+  "color_p95_ms": 0.02589996438473463,
+  "color_history_payload_bytes": 357,
+  "rename_ms": 290.1663000229746,
+  "rename_undo_ms": 187.78549996204674,
+  "rename_redo_ms": 183.349100057967,
+  "rename_history_payload_bytes": 64478319,
+  "spatial_builds": 1,
+  "scope": "Native API including nanobind. Shared color edits touch no objects. Rename scans all objects and journals assignments. Bounds index reused. No rendering, complex topology or analysis claim."
+}

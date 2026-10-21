@@ -34,8 +34,27 @@ ObjectEdit ObjectEdit::replace_geometry(std::uint64_t id,Roi geometry,std::strin
 struct Document::Staging {
     Document& document;
     ObjectPatch before,after;
+    ClassPatch before_classes,after_classes;
+    std::map<std::string,std::size_t> counts;
     std::map<std::uint64_t,std::set<std::uint64_t>> child_sets;
     explicit Staging(Document& d) : document(d) {}
+    std::optional<ObjectClass> get_class(const std::string& name) const {
+        auto changed=after_classes.find(name); if(changed!=after_classes.end()) return changed->second;
+        auto existing=document.classes_.find(name);
+        return existing==document.classes_.end()?std::nullopt:std::optional<ObjectClass>(existing->second);
+    }
+    bool has_class(const std::string& name) const {
+        auto changed=after_classes.find(name);
+        return changed==after_classes.end()?document.classes_.count(name)!=0:changed->second.has_value();
+    }
+    void write_class(const std::string& name,std::optional<ObjectClass> value) {
+        if(!before_classes.count(name)) before_classes.emplace(name,get_class(name));
+        after_classes.insert_or_assign(name,std::move(value));
+    }
+    std::size_t count(const std::string& name) const {
+        auto current=counts.find(name);
+        return current==counts.end()?document.class_count(name):current->second;
+    }
     std::optional<Annotation> get(std::uint64_t id) const {
         auto changed=after.find(id); if (changed!=after.end()) return changed->second;
         auto existing=document.objects_.find(id);
@@ -55,6 +74,11 @@ struct Document::Staging {
         auto previous=get(id);
         if (!before.count(id)) before.emplace(id,previous);
         const auto old_parent=previous?previous->parent_id:0, new_parent=value?value->parent_id:0;
+        const auto old_class=previous?previous->class_name:"",new_class=value?value->class_name:"";
+        if(old_class!=new_class) {
+            if(!old_class.empty()) counts.insert_or_assign(old_class,count(old_class)-1);
+            if(!new_class.empty()) counts.insert_or_assign(new_class,count(new_class)+1);
+        }
         if (old_parent!=new_parent) {
             if (old_parent) edit_children(old_parent).erase(id);
             if (new_parent) edit_children(new_parent).insert(id);
@@ -75,9 +99,21 @@ struct Document::Staging {
             if (same_object(before.at(it->first),it->second)) { before.erase(it->first); it=after.erase(it); }
             else ++it;
         }
+        // Existing string classifications remain valid: first use creates a
+        // registry entry in the same transaction. Explicit removals are never
+        // silently recreated and fail validation if still referenced.
+        for(const auto& [id,a]:after) if(a && !a->class_name.empty() && !has_class(a->class_name) && !after_classes.count(a->class_name))
+            write_class(a->class_name,ObjectClass{a->class_name});
+        for(auto it=after_classes.begin();it!=after_classes.end();) {
+            const auto& old=before_classes.at(it->first); const auto& current=it->second;
+            if(old.has_value()==current.has_value() && (!old || (old->name==current->name && old->color==current->color))) {
+                before_classes.erase(it->first); it=after_classes.erase(it);
+            } else ++it;
+        }
     }
     void validate_object(const Annotation& a) const {
         text(a.name); text(a.class_name);
+        if(!a.class_name.empty() && !has_class(a.class_name)) throw std::invalid_argument("object class is not registered");
         if(a.kind!=ObjectKind::Annotation && a.kind!=ObjectKind::Detection && a.kind!=ObjectKind::Cell)
             throw std::invalid_argument("invalid object kind");
         if(a.nucleus && a.kind!=ObjectKind::Cell) throw std::invalid_argument("only cells may have a nucleus ROI");
@@ -96,6 +132,12 @@ struct Document::Staging {
         }
     }
     void validate() const {
+        for(const auto& [name,value]:after_classes) {
+            text(name);
+            if(name.empty()) throw std::invalid_argument("class name must not be empty");
+            if(value && (value->name!=name || value->color>0xffffff)) throw std::invalid_argument("class color must be a 24-bit RGB value");
+            if(!value && count(name)) throw std::invalid_argument("cannot remove a class still assigned to objects");
+        }
         for (const auto& [id,value]:after) {
             if (!value) continue;
             validate_object(*value);
@@ -132,6 +174,36 @@ std::vector<Annotation> Document::annotations() const {
     for (const auto& [id,a]:objects_) result.push_back(a);
     return result;
 }
+ObjectClass Document::object_class(const std::string& name) const {
+    auto found=classes_.find(name); if(found==classes_.end()) throw std::out_of_range("class does not exist");
+    return found->second;
+}
+std::size_t Document::class_count(const std::string& name) const {
+    auto found=class_counts_.find(name); return found==class_counts_.end()?0:found->second;
+}
+void Document::set_class(std::string name,std::uint32_t color) {
+    Staging staged(*this); staged.write_class(name,ObjectClass{name,color});
+    save_edit(staged,{pixel_width_um_,pixel_height_um_},"Set class");
+}
+void Document::remove_class(const std::string& name) {
+    object_class(name); Staging staged(*this); staged.write_class(name,std::nullopt);
+    save_edit(staged,{pixel_width_um_,pixel_height_um_},"Remove class");
+}
+void Document::rename_class(const std::string& old_name,std::string new_name) {
+    auto current=object_class(old_name); if(old_name==new_name) return;
+    if(classes_.count(new_name)) throw std::invalid_argument("class name already exists");
+    Staging staged(*this); current.name=new_name;
+    staged.write_class(new_name,current); staged.write_class(old_name,std::nullopt);
+    for(const auto& [id,a]:objects_) if(a.class_name==old_name) {
+        auto value=a; value.class_name=new_name; staged.write(id,std::move(value));
+    }
+    save_edit(staged,{pixel_width_um_,pixel_height_um_},"Rename class");
+}
+void Document::classify_objects(const std::vector<std::uint64_t>& ids,std::string classification) {
+    text(classification); Staging staged(*this);
+    for(auto id:ids) { auto value=find(id); value.class_name=classification; staged.write(id,std::move(value)); }
+    save_edit(staged,{pixel_width_um_,pixel_height_um_},"Classify objects");
+}
 std::vector<std::uint64_t> Document::children(std::uint64_t parent) const {
     if (!parent) {
         std::vector<std::uint64_t> roots;
@@ -164,11 +236,19 @@ void Document::commit(Staging& staged,Calibration calibration) {
     }
     std::map<std::uint64_t,std::set<std::uint64_t>> child_nodes;
     for (auto& [parent,ids]:staged.child_sets) if (!ids.empty()) child_nodes.emplace(parent,std::move(ids));
+    std::map<std::string,ObjectClass> class_nodes;
+    for(const auto& [name,value]:staged.after_classes) if(value) class_nodes.emplace(name,*value);
+    std::map<std::string,std::size_t> count_nodes;
+    for(const auto& [name,count]:staged.counts) if(count) count_nodes.emplace(name,count);
     // std::map node transfer with integral comparison does not allocate.
     for (const auto& [id,value]:staged.after) objects_.erase(id);
     objects_.merge(nodes);
     for (const auto& [parent,ids]:staged.child_sets) children_.erase(parent);
     children_.merge(child_nodes);
+    for(const auto& [name,value]:staged.after_classes) classes_.erase(name);
+    classes_.merge(class_nodes);
+    for(const auto& [name,count]:staged.counts) class_counts_.erase(name);
+    class_counts_.merge(count_nodes);
     if(spatial_reset) { spatial_.reset(); spatial_dirty_.clear(); spatial_rebuild_=true; }
     else if(spatial_delta) spatial_dirty_.swap(*spatial_delta);
     pixel_width_um_=calibration.x; pixel_height_um_=calibration.y; ++revision_;
@@ -187,15 +267,18 @@ void Document::set_history_limits(std::size_t steps,std::size_t bytes) {
 }
 void Document::save_edit(Staging& staged,Calibration calibration,std::string label) {
     text(label); staged.normalize();
-    if (staged.after.empty() && calibration.x==pixel_width_um_ && calibration.y==pixel_height_um_) return;
+    if (staged.after.empty() && staged.after_classes.empty() && calibration.x==pixel_width_um_ && calibration.y==pixel_height_um_) return;
     std::size_t bytes=sizeof(EditRecord)+label.size();
     for (auto* patch:{&staged.before,&staged.after}) for (const auto& [id,a]:*patch)
         bytes+=sizeof(std::uint64_t)+sizeof(std::optional<Annotation>)+(a?a->name.size()+a->class_name.size()+a->geometry.payload_bytes()+(a->nucleus?a->nucleus->payload_bytes():0):0);
+    for(auto* patch:{&staged.before_classes,&staged.after_classes}) for(const auto& [name,value]:*patch)
+        bytes+=sizeof(std::string)+name.size()+sizeof(std::optional<ObjectClass>)+(value?value->name.size():0);
     const bool recording=history_steps_ && history_budget_;
     if (recording && bytes>history_budget_) throw std::length_error("edit exceeds history payload budget; raise limits or explicitly disable recording");
     EditRecord record;
     if (recording) {
-        record={staged.before,staged.after,{pixel_width_um_,pixel_height_um_},calibration,std::move(label),bytes};
+        record={staged.before,staged.after,{pixel_width_um_,pixel_height_um_},calibration,
+            staged.before_classes,staged.after_classes,std::move(label),bytes};
         undo_.reserve(undo_.size()+1);
     }
     commit(staged,calibration);
@@ -263,6 +346,7 @@ void Document::clear_calibration() { Staging staged(*this); save_edit(staged,{},
 void Document::apply_record(const EditRecord& record,bool forward) {
     Staging staged(*this); const auto& patch=forward?record.after:record.before;
     for (const auto& [id,value]:patch) staged.write(id,value);
+    for(const auto& [name,value]:(forward?record.after_classes:record.before_classes)) staged.write_class(name,value);
     commit(staged,forward?record.after_calibration:record.before_calibration);
 }
 bool Document::undo() {
