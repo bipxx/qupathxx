@@ -21,8 +21,11 @@ def event(frame, kind, target=q.GuiInputTarget.CANVAS):
     return result
 
 
-def click(frame, target):
-    return [event(frame, q.GuiInputKind.LEFT_DOWN, target), event(frame+1, q.GuiInputKind.LEFT_UP, target)]
+def click(frame, target, wait=False):
+    down = event(frame, q.GuiInputKind.LEFT_DOWN, target)
+    if wait:
+        down.wait_for = q.GuiInputWait.TARGET_READY
+    return [down, event(frame+1, q.GuiInputKind.LEFT_UP, target)]
 
 
 def workspace(tmp_path):
@@ -76,10 +79,12 @@ def test_live_undo_during_locked_save_remains_dirty_and_keeps_recovery(tmp_path)
 def test_close_waits_for_inflight_save_then_prompts_for_newer_edits(tmp_path):
     project, doc, image, obj, path, config = workspace(tmp_path)
     config.inputs = [event(3, q.GuiInputKind.SAVE_KEY), event(7, q.GuiInputKind.UNDO_KEY),
-                     event(10, q.GuiInputKind.CLOSE_WINDOW), *click(65, q.GuiInputTarget.DISCARD_CLOSE)]
+                     event(10, q.GuiInputKind.CLOSE_WINDOW), *click(11, q.GuiInputTarget.DISCARD_CLOSE, wait=True)]
     with locked(path, tmp_path):
         report = q.show(project, frame_limit=100, options=config)
-    assert not report.project_error and report.saves_completed == 1 and report.frames < 100
+    assert not report.project_error and report.saves_completed == 1 and report.replay_frame < 100
+    assert report.replay_complete and report.replay_wait_frames > 0
+    assert report.frames == report.replay_frame+report.replay_wait_frames
     assert project.dirty and doc.annotation(obj).name == 'Original'
     assert q.Project.open(str(path)).document(image).annotation(obj).name == 'Captured'
 

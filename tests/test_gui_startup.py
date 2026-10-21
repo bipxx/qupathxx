@@ -187,12 +187,15 @@ def test_failed_startup_can_open_another_project_in_same_window(tmp_path):
     options.project_open_path = str(path)
     inputs = []
     for frame, kind, action in [(12, q.GuiInputKind.OPEN_PROJECT_KEY, q.GuiInputTarget.CANVAS),
-                                (25, q.GuiInputKind.LEFT_DOWN, q.GuiInputTarget.DISCARD_RECOVERY_REPLACEMENT),
-                                (26, q.GuiInputKind.LEFT_UP, q.GuiInputTarget.DISCARD_RECOVERY_REPLACEMENT)]:
+                                (13, q.GuiInputKind.LEFT_DOWN, q.GuiInputTarget.DISCARD_RECOVERY_REPLACEMENT),
+                                (14, q.GuiInputKind.LEFT_UP, q.GuiInputTarget.DISCARD_RECOVERY_REPLACEMENT)]:
         event = q.GuiInput()
         event.frame, event.kind, event.target = frame, kind, action
+        event.wait_for = (q.GuiInputWait.STARTUP_FINISHED if kind == q.GuiInputKind.OPEN_PROJECT_KEY else
+                          q.GuiInputWait.TARGET_READY if kind == q.GuiInputKind.LEFT_DOWN else q.GuiInputWait.IMMEDIATE)
         inputs.append(event)
     options.inputs = inputs
     report = q.show(target, frame_limit=45, options=options)
     assert not report.startup_succeeded and not report.project_error
     assert report.project_replacements == 1 and target.identity == source_project.identity and report.uploaded_tiles > 0
+    assert report.replay_complete and report.replay_wait_frames > 0

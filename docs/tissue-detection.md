@@ -206,12 +206,11 @@ fractional crops, nucleus masks, budgets, stale results and source teardown.
 Three GUI cases check native result agreement, actual framebuffer mask pixels
 and deletion invalidation. Native tests add a controlled blocked reader,
 cancellation/reuse, transparent input and resource failures.
-All 112 tissue cases pass in the final installed GUI wheel; eighteen native
-suites pass in three configurations. A full run passed 606 Python cases before
-the final inspector-width adjustment. The latest full run records 604 passed,
-two failed fixed-frame GUI replays and two unavailable Windows file-symlink
-cases skipped. Both failed replays pass unchanged in isolation; this remains a
-GUI validation issue rather than a clean full-suite acceptance claim.
+All 112 tissue cases pass in the installed GUI wheel. The current full suite
+passes 620 Python cases with two unavailable Windows file-symlink cases skipped;
+nineteen native suites pass in three configurations. The subsequent
+[GUI replay readiness](gui-replay.md) packet replaces the cleanup packet's
+timing-sensitive workflow checks with explicit readiness/completion conditions.
 
 The Windows [headless recording](benchmarks/tissue-4194304-windows.json) labels
 4194304 pixels and 285 components in 58.66 ms, with 0.105 ms submission and
@@ -268,12 +267,12 @@ frame p95 and 20.05 ms maximum, with 16 MiB mask GPU payload and 876 visible
 objects. Run `tools/benchmark_tissue_cleanup.py`, optionally adding `--gui`.
 These recordings show substantial timing variability and do not establish a
 fixed latency, hardware-wide scaling or a QuPath performance comparison.
-The first full regression run left three Aperio viewer tiles pending after its
-fixed 120 frames. Its unchanged isolated check and full rerun passed. The final
-run's save-and-close and failed-startup replacement replays then failed their
-fixed-frame assertions, and both passed unchanged together in isolation.
-Asynchronous replay/readiness variability remains outside any accepted latency
-claim; assertions and event schedules were not weakened to obtain a pass.
+The cleanup packet's full regressions exposed fixed-frame Aperio readiness,
+save-and-close and failed-startup replacement failures that passed in isolation.
+The subsequent replay packet explicitly waits for enabled controls/startup and
+completed tile uploads, preserving data and framebuffer assertions. Those checks
+now pass in the full 620-case suite. General reader latency and OS/DPI behavior
+remain outside this fixture scope.
 
 [QuPath v0.7.0 SimpleTissueDetection2](https://github.com/qupath/qupath/blob/v0.7.0/qupath-core-processing/src/main/java/qupath/imagej/detect/tissue/SimpleTissueDetection2.java)
 uses a different workflow, including grayscale thresholding, downsampling,

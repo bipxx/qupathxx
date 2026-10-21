@@ -8,13 +8,12 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: all 112 tissue cases pass in the final installed wheel. A full run
-passed 606 tests before the inspector-width adjustment. The latest full run
-records 604 passed, two failed fixed-frame GUI replays and two skipped
-file-symlink cases (this Windows account cannot create them; the junction passes).
-Both failed replays pass unchanged in isolation. Broader tests cover immutable
-archives, analysis/provenance, stains, shapes, interchange, projects and recovery;
-eighteen native suites with optional geometry/readers/interchange enabled and disabled;
+Evidence: all 620 installed-wheel Python cases pass with two file-symlink cases
+skipped (this Windows account cannot create them; the junction passes).
+Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
+immutable archives, analysis/provenance, stains, shapes, interchange, projects
+and recovery; nineteen native suites pass with optional geometry/readers/
+interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
 116 ms undo, 126 ms redo and 815 bytes of history payload for a rename. The spatial
@@ -265,12 +264,25 @@ analytic-mask benchmark records 108.31/118.43/173.50 ms median cleanup at square
 radii 1/8/64, with 45262848 estimated work bytes. The selected 100001-object
 viewer records 17.33 ms sampled frame p95 and 20.05 ms maximum with 16 MiB mask
 GPU payload. Timing variability and broader vendor/hardware behavior remain open.
-One full run left three Aperio viewer tiles pending after 120 frames; the
-unchanged isolated check and full rerun passed. The final wheel's save-and-close
-and failed-startup replacement replays failed at fixed-frame assertions, then
-passed unchanged together in isolation. GUI replay/readiness variability remains
-an open M2 validation issue, not an accepted latency guarantee.
-Next stabilize asynchronous GUI replay readiness, then add contour/annotation conversion
+The cleanup packet exposed fixed-frame Aperio, save-and-close and replacement
+checks that failed intermittently, then passed in isolation. Native opt-in
+readiness waits now pause the logical script clock until startup finishes or a
+fresh visible/enabled named button is available. Physical rendering and worker
+polling continue. Ordered cursor dispatch preserves exactly-once input and the
+following release; steady-clock deadlines reject unavailable actions. Finite
+tile settlement captures the completed current frame within existing budgets.
+See gui-replay.md for semantics and limits. Fourteen new desktop cases and a
+pure native clock suite cover missing/stale targets, timeout cleanup, exact
+framebuffer bytes, startup adoption and legacy behavior. The full final wheel
+passes 620 cases with two skipped; all nineteen native suites pass in three builds.
+Three actual save-under-lock rounds complete at logical frame 13 while rendering
+24/51/52 physical frames, including 11/38/39 wait frames, preserving both saved
+and newer live states. Four-tile captures finish in 2/2/6 physical frames for a
+one-frame logical budget. The 100001-selected-object viewer records 17.25 ms
+sampled frame p95 and 19.51 ms maximum with 16 MiB each of image/mask GPU payload.
+These fixtures establish readiness-aware workflow evidence, not broad latency
+guarantees or complete OS/DPI acceptance.
+Next add contour/annotation conversion
 and persisted mask provenance; optimize remaining object snapshot capture and
 complete source/environment provenance. Continue
 numerical comparisons and improve initial

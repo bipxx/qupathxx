@@ -62,6 +62,8 @@ QuPath port or a compatible replacement for Java QuPath.
   with level-zero component geometry and level-aware input digests.
 - Native square opening/closing and bounded hole filling before tissue component
   filtering, with ROI/opacity exclusion and cleanup statistics.
+- Optional readiness waits for native GUI replay and bounded completion of tile
+  uploads before captures; see [GUI replay](docs/gui-replay.md).
 - Native background autosave, session-specific recovery files and dirty-close
   decisions; see [recovery](docs/project-recovery.md).
 

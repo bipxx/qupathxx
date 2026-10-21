@@ -877,3 +877,34 @@ run records 604 passed, two failed fixed-frame GUI replays and two skipped.
 Both save-and-close and failed-startup replacement cases pass unchanged together
 in isolation. Stabilizing asynchronous replay/readiness remains an open M2
 validation task; the full M0-M7 goal remains active.
+
+The thirty-sixth packet adds opt-in readiness conditions to native ImGui replay.
+Targeted button presses wait for a fresh visible/enabled control and current
+modal state; keyboard events can wait for initial startup to finish. A native
+logical clock preserves ordered, exactly-once events and relative mouse release
+while physical frames continue rendering and polling workers. Steady-clock
+deadlines fail unavailable actions explicitly. Named button readiness excludes
+underlying windows blocked by a modal. Existing C++ aggregate option prefixes
+remain valid; default replays retain their original frame schedule.
+
+Opt-in finite tile settlement continues bounded uploads beyond the logical
+budget and captures the final completed frame, including post-startup captures.
+Physical/logical/wait/settlement counters expose the actual work. The cache and
+upload budgets are unchanged. Save-baseline/dirty-state, project identity and
+GPU/framebuffer assertions remain in the repaired workflows. Pure C++ clock
+tests use injected readiness/time to verify ordering and timeout endpoints;
+desktop tests cover missing/stale targets and timeout cleanup. See
+[GUI replay readiness](gui-replay.md). This improves workflow validation without
+accepting reader latency, OS/DPI delivery or the remaining M0-M7 requirements.
+
+Fourteen new desktop cases cover missing/stale controls, deadlines, legacy
+frame limits and post-startup/settled framebuffer pixels. The final installed
+wheel passes 620 Python cases with two unavailable file-symlink cases skipped;
+all nineteen native suites pass in three builds. Three real save-under-lock
+rounds finish at logical frame 13 after 24/51/52 physical frames, with
+11/38/39 readiness waits. Exact saved/live states are preserved. Four-tile
+captures finish in 2/2/6 physical frames for a one-frame logical budget. The
+100001-selected-object viewer records 17.25 ms sampled frame p95 and 19.51 ms
+maximum with 16 MiB each of image/mask GPU payload. Synthetic timings do not
+establish general latency guarantees. Contour conversion, persisted masks and
+all unfinished M0-M7 work remain active.

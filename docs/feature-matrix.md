@@ -10,7 +10,7 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 | Dense image regions | qupath-core | io | Partial | Exact pixels, padding and lifetime pass; reader variety missing |
 | OpenSlide regions | qupath-extension-openslide | io | Partial | Synthetic pyramid and small Aperio comparisons; vendor multilevel/errors remain |
 | Metadata and calibration | qupath-core, qupath-extension-openslide | core/io | Partial | Unknown and anisotropic calibration; broader axes/ICC missing |
-| Whole-slide navigation | qupath-gui-fx | render/gui | Partial | Real slide rendering, overview, ImGui pointer replay and large synthetic navigation pass; OS/DPI and vendor stress remain |
+| Whole-slide navigation | qupath-gui-fx | render/gui | Partial | Real slide rendering, overview, readiness-gated ImGui replay, completed-frame captures and large synthetic navigation pass; OS/DPI and vendor stress remain |
 | Background tile reads and cache | qupath-core, qupath-gui-fx | jobs/io | Partial | Native scheduling, generation rejection, cache budgets and viewer integration pass; broader workloads remain |
 | Image display and channels | qupath-gui-fx | render/gui | Partial | RGB/gray/channel LUT, window and gamma framebuffer checks pass; fluorescence/ICC remain |
 | Rectangle annotation | qupath-core, qupath-gui-fx | geometry/gui | Partial | Atomic inspector edits, sampling and drawing/history replay pass; upstream fixtures missing |

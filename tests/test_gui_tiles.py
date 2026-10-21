@@ -35,9 +35,12 @@ def test_real_aperio_view(tmp_path):
     if not path or not q.has_openslide:
         pytest.skip("requires identified Aperio fixture and OpenSlide")
     doc = q.Document(q.open_slide(path))
-    report = q.show(doc, frame_limit=120, capture_path=str(tmp_path / "aperio.ppm"))
+    options = q.GuiOptions()
+    options.settle_tiles = True
+    report = q.show(doc, frame_limit=120, capture_path=str(tmp_path / "aperio.ppm"), options=options)
     assert report.uploaded_tiles > 0
     assert report.pending_tiles == 0
+    assert report.tiles_settled
     assert report.peak_gpu_bytes <= 64 * 1024 * 1024
     assert report.cpu_frame_p95_ms > 0
     doc.server.close()

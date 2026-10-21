@@ -1,0 +1,103 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+  "cpu_frame_sampling": "Non-startup physical frames >=10; zero means no samples",
+  "lock_seconds": 0.75,
+  "timeout_seconds": 5.0,
+  "recordings": [
+    {
+      "save": {
+        "frames": 24,
+        "logical_frames": 13,
+        "wait_frames": 11,
+        "settle_frames": 0,
+        "cpu_frame_p95_ms": 16.8037,
+        "max_cpu_frame_ms": 16.9167,
+        "wall_ms": 887.2775000054389,
+        "write_ms": 262.9072
+      },
+      "fallback": {
+        "frames": 24,
+        "logical_frames": 22,
+        "wait_frames": 2,
+        "settle_frames": 0,
+        "cpu_frame_p95_ms": 16.9019,
+        "max_cpu_frame_ms": 17.9261,
+        "wall_ms": 430.2003999473527
+      },
+      "settlement": {
+        "frames": 2,
+        "logical_frames": 1,
+        "wait_frames": 0,
+        "settle_frames": 1,
+        "cpu_frame_p95_ms": 0.0,
+        "max_cpu_frame_ms": 0.0,
+        "wall_ms": 66.94759998936206,
+        "gpu_bytes": 1048576
+      }
+    },
+    {
+      "save": {
+        "frames": 51,
+        "logical_frames": 13,
+        "wait_frames": 38,
+        "settle_frames": 0,
+        "cpu_frame_p95_ms": 16.9037,
+        "max_cpu_frame_ms": 17.2758,
+        "wall_ms": 879.8522000433877,
+        "write_ms": 710.4625
+      },
+      "fallback": {
+        "frames": 24,
+        "logical_frames": 22,
+        "wait_frames": 2,
+        "settle_frames": 0,
+        "cpu_frame_p95_ms": 17.3009,
+        "max_cpu_frame_ms": 20.8836,
+        "wall_ms": 443.29930003732443
+      },
+      "settlement": {
+        "frames": 2,
+        "logical_frames": 1,
+        "wait_frames": 0,
+        "settle_frames": 1,
+        "cpu_frame_p95_ms": 0.0,
+        "max_cpu_frame_ms": 0.0,
+        "wall_ms": 111.25689989421517,
+        "gpu_bytes": 1048576
+      }
+    },
+    {
+      "save": {
+        "frames": 52,
+        "logical_frames": 13,
+        "wait_frames": 39,
+        "settle_frames": 0,
+        "cpu_frame_p95_ms": 16.8623,
+        "max_cpu_frame_ms": 17.1836,
+        "wall_ms": 892.5365000031888,
+        "write_ms": 729.6369
+      },
+      "fallback": {
+        "frames": 24,
+        "logical_frames": 22,
+        "wait_frames": 2,
+        "settle_frames": 0,
+        "cpu_frame_p95_ms": 16.8642,
+        "max_cpu_frame_ms": 17.3413,
+        "wall_ms": 453.0246000504121
+      },
+      "settlement": {
+        "frames": 6,
+        "logical_frames": 1,
+        "wait_frames": 0,
+        "settle_frames": 5,
+        "cpu_frame_p95_ms": 0.0,
+        "max_cpu_frame_ms": 0.0,
+        "wall_ms": 173.53810009080917,
+        "gpu_bytes": 1048576
+      }
+    }
+  ]
+}

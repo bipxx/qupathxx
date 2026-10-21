@@ -340,15 +340,19 @@ struct GuiReport {
     std::int64_t tissue_width=0,tissue_height=0;
     std::uint64_t tissue_cleaned_pixels=0,tissue_filled_pixels=0;
     double tissue_cleanup_ms=0;
+    std::uint64_t replay_frame=0,replay_wait_frames=0,settle_frames=0;
+    bool replay_complete=true,tiles_settled=false;
 };
 enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey };
 enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint };
+enum class GuiInputWait { Immediate, TargetReady, StartupFinished };
 struct GuiInput {
     int frame = 0;
     GuiInputKind kind = GuiInputKind::Move;
     GuiInputTarget target = GuiInputTarget::Canvas;
     double x = .5, y = .5, wheel = 0;
     bool ctrl = false, shift = false;
+    GuiInputWait wait_for=GuiInputWait::Immediate;
 };
 struct GuiOptions {
     int width = 1440, height = 900;
@@ -381,6 +385,8 @@ struct GuiOptions {
     bool tissue_fill_holes=false;
     std::uint64_t tissue_max_hole_pixels=0;
     std::int32_t tissue_level=-1;
+    double replay_timeout_seconds=5;
+    bool settle_tiles=false;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 GuiReport run_project_gui(std::shared_ptr<Project> project, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
