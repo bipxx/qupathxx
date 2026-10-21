@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    TissueFeature, TissueParameters, TissueRequest, TissueComponent, TissueResult, TissueStats, TissueJob, detect_tissue,
     AnalysisKind, AnalysisRequest, AnalysisResult, AnalysisRecord, AnalysisStats, AnalysisJob, analyze,
     optical_density, FloatRgbImage, StainTransform,
     RoiMeasurements, ShapeMeasurements, FeatureCacheStats,
@@ -16,6 +17,7 @@ from ._native import (
 )
 
 __all__ = [
+    "TissueFeature", "TissueParameters", "TissueRequest", "TissueComponent", "TissueResult", "TissueStats", "TissueJob", "detect_tissue",
     "AnalysisKind", "AnalysisRequest", "AnalysisResult", "AnalysisRecord", "AnalysisStats", "AnalysisJob", "analyze",
     "optical_density", "FloatRgbImage", "StainTransform",
     "RoiMeasurements", "ShapeMeasurements", "FeatureCacheStats",

@@ -56,6 +56,8 @@ QuPath port or a compatible replacement for Java QuPath.
   storage and background rechecks; see [analysis provenance](docs/analysis-provenance.md).
 - Shared immutable archive snapshots preserve save baselines with bounded copying
   during live edits; see [snapshot sharing](docs/analysis-snapshot-sharing.md).
+- Bounded native ROI tissue thresholding and connected components, with Python
+  access and an incremental ImGui mask preview; see [tissue masks](docs/tissue-detection.md).
 - Native background autosave, session-specific recovery files and dirty-close
   decisions; see [recovery](docs/project-recovery.md).
 

@@ -787,3 +787,25 @@ keeps the saved old record and excludes its post-capture replacement, measuring
 0.0217 ms removal and 0.0167 ms append. Remaining object-map capture/budget work,
 broader archive/source workloads, initial rendering, tissue/cell algorithms and
 all unfinished M0-M7 requirements remain active.
+
+The thirty-third packet adds bounded native level-zero ROI tissue masks and
+global connected components. OD-sum or supplied-stain thresholding, 4/8-neighbor
+labeling, pixel-size filters and component statistics share C++/Python/ImGui
+APIs. Shared request identities reject stale results, jobs support cancellation
+and the viewer prepares its bounded GPU overlay incrementally. Component bounds
+remain statistics; detection does not create annotation shapes. See
+[tissue masks](tissue-detection.md) for the numerical and ownership contracts.
+
+Forty-five Python cases compare independent numerical formulas and flood filling,
+with tile-boundary reconciliation, holes, nucleus masks, filtering, resource
+limits and lifetime checks. Three GUI cases verify result agreement, framebuffer
+pixels and stale-preview removal. Native tests add a controlled blocked reader.
+All 542 installed-wheel Python tests pass with two unavailable file-symlink
+cases skipped; all eighteen native suites pass in full/core/minimal builds.
+The 4194304-pixel recording labels 285 components in 58.66 ms with 0.105 ms
+submission and 0.0224 ms maximum sampled poll. The 100001-selected-object viewer
+records 17.34 ms sampled frame p95, 18.88 ms maximum and 16 MiB mask GPU payload.
+These synthetic measurements do not establish broader reader/hardware behavior.
+Downsampling, physical filters, morphology, hole filling, contours and annotation
+conversion, mask persistence, cell detection and QuPath runtime comparisons
+remain open. All unfinished M0-M7 requirements stay active.

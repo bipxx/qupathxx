@@ -24,6 +24,8 @@ public:
 private:
     friend struct AnalysisKernel;
     friend class Document;
+    friend class TissueRequest;
+    friend struct TissueKernel;
     std::shared_ptr<const char> identity_;
     std::shared_ptr<ImageServer> source_;
     std::uint64_t object_id_,object_revision_,document_revision_,total_tiles_;

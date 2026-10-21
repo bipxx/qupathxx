@@ -8,9 +8,9 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 494 passing Python tests including immutable archive snapshots, retained analysis/provenance, analysis jobs, stains, shapes, interchange, browsing, workspace migration, recovery and GUI replay
+Evidence: 542 passing Python tests including tissue masks/components, immutable archive snapshots, retained analysis/provenance, analysis jobs, stains, shapes, interchange, browsing, workspace migration, recovery and GUI replay
 (two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
-seventeen native suites with optional geometry/readers/interchange enabled and disabled;
+eighteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
 116 ms undo, 126 ms redo and 815 bytes of history payload for a rename. The spatial
@@ -228,8 +228,19 @@ baseline isolation while measuring 0.0217 ms removal and 0.0167 ms replacement
 append after capture. Object/class copying and budget traversal remain linear;
 capture is still near one display frame. These dense repeated-ROI recordings do
 not establish broader geometry, hardware or vendor-reader latency guarantees.
-Next optimize remaining object snapshot capture, implement the tissue-detection/
-connected-component path and complete source/environment provenance. Continue
+Native bounded level-zero tissue threshold masks and connected components now
+start the detection workflow; see tissue-detection.md. OD-sum or supplied-stain
+thresholding shares C++/Python/ImGui jobs, cancellation and stale-result checks.
+Global 4/8-connected labeling reconciles decode tile boundaries, filters pixel
+sizes and reports counts, bounds and centroids. The viewer incrementally uploads
+a separately bounded mask preview. Independent references verify every label,
+including diagonal and cross-tile cases. The 4194304-pixel recording takes
+58.66 ms worker time with 0.105 ms submission and 0.0224 ms maximum sampled poll.
+The 100001-selected-object viewer records 17.34 ms sampled frame p95 and
+18.88 ms maximum, with 16 MiB mask GPU payload. These are synthetic recordings.
+Next add pyramid-level tissue sampling, morphology, contour/annotation conversion
+and persisted mask provenance; optimize remaining object snapshot capture and
+complete source/environment provenance. Continue
 numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged

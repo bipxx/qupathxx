@@ -16,6 +16,7 @@ namespace nb = nanobind;
 using namespace nb::literals;
 void bind_scheduler(nb::module_&);
 void bind_analysis(nb::module_&);
+void bind_tissue(nb::module_&);
 NB_MODULE(_native, m) {
     using namespace qpx;
     m.def("optical_density",&optical_density,"intensity"_a,"white"_a=255.);
@@ -273,7 +274,8 @@ NB_MODULE(_native, m) {
         .value("NEXT_IMAGE_KEY",GuiInputKind::NextImageKey).value("PREVIOUS_IMAGE_KEY",GuiInputKind::PreviousImageKey).value("ADD_IMAGE_KEY",GuiInputKind::AddImageKey).value("RELINK_IMAGE_KEY",GuiInputKind::RelinkImageKey)
         .value("AUTOSAVE_KEY",GuiInputKind::AutosaveKey).value("RECOVER_KEY",GuiInputKind::RecoverKey).value("CLOSE_WINDOW",GuiInputKind::CloseWindow).value("OPEN_PROJECT_KEY",GuiInputKind::OpenProjectKey).value("NEW_PROJECT_KEY",GuiInputKind::NewProjectKey).value("REMOVE_IMAGE_KEY",GuiInputKind::RemoveImageKey).value("REVIEW_RECOVERY_KEY",GuiInputKind::ReviewRecoveryKey).value("FIND_RECOVERIES_KEY",GuiInputKind::FindRecoveriesKey).value("STOP_RECOVERY_MAINTENANCE_KEY",GuiInputKind::StopRecoveryMaintenanceKey)
         .value("ANALYZE_KEY",GuiInputKind::AnalyzeKey).value("CANCEL_ANALYSIS_KEY",GuiInputKind::CancelAnalysisKey)
-        .value("KEEP_ANALYSIS_KEY",GuiInputKind::KeepAnalysisKey).value("RECHECK_ANALYSIS_KEY",GuiInputKind::RecheckAnalysisKey);
+        .value("KEEP_ANALYSIS_KEY",GuiInputKind::KeepAnalysisKey).value("RECHECK_ANALYSIS_KEY",GuiInputKind::RecheckAnalysisKey)
+        .value("DETECT_TISSUE_KEY",GuiInputKind::DetectTissueKey).value("CANCEL_TISSUE_KEY",GuiInputKind::CancelTissueKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image).value("PROJECT_LIST",GuiInputTarget::ProjectList).value("DISPLAY_RESET",GuiInputTarget::DisplayReset)
         .value("DISCARD_RECOVERY_REPLACEMENT",GuiInputTarget::DiscardRecoveryReplacement).value("KEEP_RECOVERY_CLOSE",GuiInputTarget::KeepRecoveryClose).value("CANCEL_CLOSE",GuiInputTarget::CancelClose).value("DISCARD_CLOSE",GuiInputTarget::DiscardClose)
         .value("SAVE_CLOSE",GuiInputTarget::SaveClose).value("SAVE_RECOVERY_REPLACEMENT",GuiInputTarget::SaveRecoveryReplacement).value("CANCEL_RECOVERY_REPLACEMENT",GuiInputTarget::CancelRecoveryReplacement).value("CANCEL_PROJECT_LOAD",GuiInputTarget::CancelProjectLoad).value("CONFIRM_REMOVE_IMAGE",GuiInputTarget::ConfirmRemoveImage).value("CANCEL_REMOVE_IMAGE",GuiInputTarget::CancelRemoveImage).value("CONFIRM_DISCARD_CHECKPOINT",GuiInputTarget::ConfirmDiscardCheckpoint).value("CANCEL_DISCARD_CHECKPOINT",GuiInputTarget::CancelDiscardCheckpoint);
@@ -285,7 +287,9 @@ NB_MODULE(_native, m) {
         .def_rw("startup_path",&GuiOptions::startup_path).def_rw("startup_kind",&GuiOptions::startup_kind).def_rw("startup_image_id",&GuiOptions::startup_image_id)
         .def_rw("recovery_retention_enabled",&GuiOptions::recovery_retention_enabled).def_rw("recovery_keep_latest",&GuiOptions::recovery_keep_latest).def_rw("recovery_max_age_days",&GuiOptions::recovery_max_age_days)
         .def_rw("analysis_kind",&GuiOptions::analysis_kind).def_rw("analysis_nucleus",&GuiOptions::analysis_nucleus)
-        .def_rw("analysis_vectors",&GuiOptions::analysis_vectors).def_rw("analysis_white",&GuiOptions::analysis_white);
+        .def_rw("analysis_vectors",&GuiOptions::analysis_vectors).def_rw("analysis_white",&GuiOptions::analysis_white)
+        .def_rw("tissue_feature",&GuiOptions::tissue_feature).def_rw("tissue_threshold",&GuiOptions::tissue_threshold)
+        .def_rw("tissue_connectivity",&GuiOptions::tissue_connectivity).def_rw("tissue_min_pixels",&GuiOptions::tissue_min_pixels).def_rw("tissue_max_pixels",&GuiOptions::tissue_max_pixels);
     nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
         .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)
         .def_ro("generations",&GuiReport::generations).def_ro("cpu_frame_p95_ms",&GuiReport::cpu_frame_p95_ms)
@@ -305,8 +309,13 @@ NB_MODULE(_native, m) {
         .def_ro("analysis_state",&GuiReport::analysis_state).def_ro("analysis_error",&GuiReport::analysis_error)
         .def_ro("analysis_means",&GuiReport::analysis_means).def_ro("analysis_samples",&GuiReport::analysis_samples)
         .def_ro("analysis_object",&GuiReport::analysis_object).def_ro("analysis_tiles",&GuiReport::analysis_tiles).def_ro("analysis_ms",&GuiReport::analysis_ms)
-        .def_ro("analysis_records",&GuiReport::analysis_records).def_ro("saved_analysis_status",&GuiReport::saved_analysis_status);
+        .def_ro("analysis_records",&GuiReport::analysis_records).def_ro("saved_analysis_status",&GuiReport::saved_analysis_status)
+        .def_ro("tissue_state",&GuiReport::tissue_state).def_ro("tissue_error",&GuiReport::tissue_error).def_ro("tissue_input_sha256",&GuiReport::tissue_input_sha256)
+        .def_ro("tissue_components",&GuiReport::tissue_components).def_ro("tissue_gpu_bytes",&GuiReport::tissue_gpu_bytes)
+        .def_ro("tissue_samples",&GuiReport::tissue_samples).def_ro("tissue_foreground_pixels",&GuiReport::tissue_foreground_pixels)
+        .def_ro("tissue_ms",&GuiReport::tissue_ms).def_ro("tissue_preview_ready",&GuiReport::tissue_preview_ready);
     bind_analysis(m);
+    bind_tissue(m);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.
