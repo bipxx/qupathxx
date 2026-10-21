@@ -1,0 +1,25 @@
+[build-system]
+requires = ["scikit-build-core>=0.10", "nanobind>=2.4"]
+build-backend = "scikit_build_core.build"
+
+[project]
+name = "qupathxx"
+version = "0.1.0"
+description = "C++ bioimage analysis foundation with nanobind and Dear ImGui"
+readme = "README.md"
+requires-python = ">=3.11"
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+test-readers = ["pytest>=8", "numpy>=1.25", "tifffile>=2024.1", "openslide-python>=1.4"]
+
+[project.scripts]
+qupathxx = "qupathxx.__main__:main"
+
+[tool.scikit-build]
+cmake.build-type = "Release"
+build-dir = "build/{wheel_tag}"
+wheel.packages = ["src/qupathxx"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

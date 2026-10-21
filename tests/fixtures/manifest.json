@@ -1,0 +1,32 @@
+{
+  "upstream": {
+    "project": "QuPath",
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44"
+  },
+  "downloads": [
+    {
+      "filename": "CMU-1-Small-Region.svs",
+      "url": "https://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/CMU-1-Small-Region.svs",
+      "sha256": "ed92d5a9f2e86df67640d6f92ce3e231419ce127131697fbbce42ad5e002c8a7",
+      "license": "CC0-1.0",
+      "license_source": "https://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/",
+      "purpose": "Aperio vendor region reads and metadata; single pyramid level"
+    }
+  ],
+  "generated": [
+    {
+      "name": "synthetic-rgb-pyramid",
+      "recipe": "tests/test_openslide.py::pyramid",
+      "dimensions": [[512, 384], [256, 192]],
+      "pixels": "uint8 RGB (x mod 256, y mod 256, (x+y) mod 256); level 1 is level 0 sampled every second pixel",
+      "purpose": "Exact independently specified multilevel pixels, transparent padding and unknown calibration"
+    }
+  ],
+  "validation_runtime": {
+    "sdk": "openslide-bin-4.0.1.2-windows-x64",
+    "openslide": "4.0.1",
+    "url": "https://github.com/openslide/openslide-bin/releases/download/v4.0.1.2/openslide-bin-4.0.1.2-windows-x64.zip",
+    "sha256": "841bef094e1504a831caaaf767a969be436e30d84bc16a33f4d941953409c150"
+  }
+}
