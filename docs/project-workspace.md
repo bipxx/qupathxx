@@ -55,6 +55,9 @@ generation, then creates the `views` table and advances `user_version` in the
 same SQLite transaction as the canonical rows. Failure rolls back both schema
 and data. Save-as writes schema 2 to the new destination and leaves the source
 file unchanged. Older schema-1-only applications reject schema 2.
+An interrupted writer's hot journal is an exception to read-only opening: SQLite
+requires write access to roll back its transaction before the read-only loader
+continues. This recovery performs no schema migration; see [project saving](project-save.md).
 
 The native loader validates every view, checks its image reference, rejects
 duplicate/orphan records and invalid display modes, and rejects nonfinite or

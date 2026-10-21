@@ -477,3 +477,16 @@ records 14.1 ms removal/binding and 17.0 ms p95 CPU frame work. See
 [project-lifecycle.md](project-lifecycle.md). Checkpoint maintenance, abandoned-work
 cleanup, moved-recovery association and background explicit saves/recovery loads
 remain M4 work. QuPath runtime comparisons and all unfinished M0-M7 gates persist.
+
+
+The eighteenth packet adds native `ProjectSaveJob`, immutable bounded snapshots
+for explicit saves, worker SQLite transactions and owner-thread baseline-only
+acknowledgment. Newer live edits remain dirty; stale/detached results cannot
+rewrite another workspace's baseline. ImGui ordinary save remains editable,
+while close/replacement choices wait for durable completion. Tests include
+competing writers, cancellation, rollback, legacy migration, live undo and
+process kill with a verified hot journal. The loader retries SQLite's precise
+rollback-required condition with temporary write access, then returns read-only.
+See [project-save.md](project-save.md) for the 100000-object timing and limits.
+Checkpoint maintenance, abandoned-work cleanup, moved-recovery association and
+background recovery loads remain M4 work. All unfinished M0-M7 gates remain active.

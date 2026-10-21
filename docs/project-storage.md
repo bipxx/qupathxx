@@ -118,10 +118,13 @@ opening. Both launchers pass project-opening smoke checks with `--smoke`.
 Image selection at launch uses `--image-id`; the in-window
 [project browser](project-browser.md) also switches images and adds, renames or
 relinks entries. [Background autosave/recovery](project-recovery.md) and dirty-close
-decisions are implemented. Explicit primary saves and recovery loading remain
-synchronous. [Ordinary project-file opening](project-opening.md) uses a worker
+decisions are implemented. [Explicit primary saves](project-save.md) now use a
+worker with owner-thread baseline acknowledgment. Recovery loading remains synchronous. [Ordinary project-file opening](project-opening.md) uses a worker
 and staged replacement. [Empty workspaces and confirmed image removal](project-lifecycle.md)
-are implemented; recovery maintenance and background primary saves remain M4 work.
+are implemented; recovery maintenance and background recovery loading remain M4 work.
+A hot rollback journal from a killed writer is recovered by a temporary read/write
+connection only after SQLite reports `SQLITE_READONLY_ROLLBACK`; normal loads stay
+read-only. See the explicit-save contract for permissions and process-death evidence.
 
 ## Build and evidence
 

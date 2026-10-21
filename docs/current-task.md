@@ -8,8 +8,8 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 238 Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay;
-thirteen native suites with optional geometry/readers/interchange enabled and disabled;
+Evidence: 256 Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay;
+fourteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
 116 ms undo, 126 ms redo and 815 bytes of history payload for a rename. The spatial
@@ -51,8 +51,14 @@ Empty desktop workspaces, New project, `show(project)` and confirmed image
 removal are implemented; see project-lifecycle.md. The 100000-object removal
 from a 1000-image catalog records 14.1 ms binding/removal, 17.0 ms p95 and
 17.5 ms maximum CPU frame work, including unreferenced model retirement.
+Native background explicit saves, captured-baseline acknowledgment and GUI save/
+close/replacement integration are implemented; see project-save.md. Hot-journal
+recovery after a killed native writer is verified, including Windows read-only
+permission restoration. The 100000-object run records 16.1 ms capture, 338 ms
+worker write/release, 0.020 ms maximum poll and 16.9 ms p95 CPU frame work in the
+selected viewer.
 Next implement checkpoint maintenance/orphan cleanup, moved-recovery association
-and background explicit saves/recovery loads;
+and background recovery loads;
 retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,

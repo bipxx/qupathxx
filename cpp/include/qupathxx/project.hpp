@@ -3,6 +3,7 @@
 
 namespace qpx {
 class ProjectAutosave;
+class ProjectSaveJob;
 struct RecoveryInfo {
     std::string path,identity,session,base_path,base_status,error;
     std::uint64_t base_generation=0;
@@ -54,6 +55,7 @@ public:
     std::uint64_t generation() const { return generation_; }
 private:
     friend class ProjectAutosave;
+    friend class ProjectSaveJob;
     friend GuiReport run_gui(Document&,int,const std::string&,const GuiOptions&);
     void adopt_workspace(Project& candidate) noexcept;
     static std::shared_ptr<Project> open_impl(const std::string& path,bool recovery);

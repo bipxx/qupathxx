@@ -83,7 +83,7 @@ Project::Project() {
 }
 std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size_t& bytes) const {
     bytes=0;
-    auto add=[&](std::size_t count) { if(count>budget-bytes) throw std::length_error("autosave snapshot exceeds memory budget"); bytes+=count; };
+    auto add=[&](std::size_t count) { if(count>budget-bytes) throw std::length_error("project snapshot exceeds memory budget"); bytes+=count; };
     add(sizeof(Project)+path_.size()+identity_.size());
     for(const auto& [id,e]:entries_) {
         add(sizeof(Entry)+sizeof(Document)+128+e.info.name.size()+e.info.source_path.size()+e.info.reader.size());
@@ -241,10 +241,29 @@ constexpr int recovery_application_id=1364218456; // QPRX, distinct from ordinar
 struct Database {
     sqlite3* db=nullptr;
     Database(const std::string& path,bool write) {
-        auto code=sqlite3_open_v2(path.c_str(),&db,(write?SQLITE_OPEN_READWRITE|SQLITE_OPEN_CREATE:SQLITE_OPEN_READONLY)|SQLITE_OPEN_NOMUTEX,nullptr);
-        if(code!=SQLITE_OK) { std::string error=db?sqlite3_errmsg(db):"out of memory"; if(db) sqlite3_close(db); db=nullptr; throw std::runtime_error("SQLite open: "+error); }
-        sqlite3_extended_result_codes(db,1); sqlite3_busy_timeout(db,1000);
-        sqlite3_limit(db,SQLITE_LIMIT_LENGTH,272*1024*1024);
+        auto connect=[&](int flags) {
+            auto code=sqlite3_open_v2(path.c_str(),&db,flags|SQLITE_OPEN_NOMUTEX,nullptr);
+            if(code!=SQLITE_OK) throw std::runtime_error(std::string("SQLite open: ")+(db?sqlite3_errmsg(db):"out of memory"));
+            sqlite3_extended_result_codes(db,1); sqlite3_busy_timeout(db,1000);
+            sqlite3_limit(db,SQLITE_LIMIT_LENGTH,272*1024*1024);
+        };
+        try {
+            connect(write?SQLITE_OPEN_READWRITE|SQLITE_OPEN_CREATE:SQLITE_OPEN_READONLY);
+            if(!write) {
+                // A killed writer can leave a hot rollback journal. A read-only
+                // connection cannot repair it. Retry only SQLite's precise
+                // recovery-required condition, without creating a new file.
+                auto code=sqlite3_exec(db,"PRAGMA user_version",nullptr,nullptr,nullptr);
+                if(code!=SQLITE_OK && sqlite3_extended_errcode(db)==SQLITE_READONLY_ROLLBACK) {
+                    sqlite3_close(db); db=nullptr;
+                    connect(SQLITE_OPEN_READWRITE);
+                    if(sqlite3_exec(db,"PRAGMA user_version",nullptr,nullptr,nullptr)!=SQLITE_OK)
+                        throw std::runtime_error(std::string("SQLite rollback recovery: ")+sqlite3_errmsg(db));
+                    sqlite3_close(db); db=nullptr;
+                    connect(SQLITE_OPEN_READONLY);
+                } else if(code!=SQLITE_OK) throw std::runtime_error(sqlite3_errmsg(db));
+            }
+        } catch(...) {if(db) sqlite3_close(db); db=nullptr; throw;}
     }
     ~Database() { if(db) sqlite3_close(db); }
     Database(const Database&)=delete;
@@ -433,6 +452,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
             object.done();
         }
     }
+    if(cancelled && cancelled->load()) throw std::runtime_error("project save cancelled");
     transaction.commit();
     path_.swap(destination); generation_=next_generation; saved_revision_=revision_; saved_revisions_.swap(revisions);
 }

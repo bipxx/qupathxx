@@ -30,6 +30,8 @@ QuPath port or a compatible replacement for Java QuPath.
   see [project lifecycle](docs/project-lifecycle.md).
 - Background project-file opening with Save/Discard/Cancel workspace replacement;
   see [opening projects](docs/project-opening.md).
+- Background explicit saves preserve newer live edits as unsaved and recover interrupted
+  SQLite transactions; see [project saving](docs/project-save.md).
 - Native background autosave, session-specific recovery files and dirty-close
   decisions; see [recovery](docs/project-recovery.md).
 
