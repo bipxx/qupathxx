@@ -137,6 +137,15 @@ public:
     double nucleus_mean_intensity(std::uint64_t id) const;
 private:
     friend class Project;
+    friend class AnalysisRequest;
+    // Copies/assignments are independent live authorities, including when a
+    // copied document happens to share its immutable image source and IDs.
+    struct AnalysisIdentity {
+        std::shared_ptr<const char> token=std::make_shared<const char>();
+        AnalysisIdentity()=default;
+        AnalysisIdentity(const AnalysisIdentity&) {}
+        AnalysisIdentity& operator=(const AnalysisIdentity&) {token=std::make_shared<const char>();return *this;}
+    } analysis_identity_;
     Document() = default; // Project's private save snapshots populate canonical fields only.
     static std::shared_ptr<Document> restore(std::shared_ptr<ImageServer> server,
         const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
@@ -273,8 +282,12 @@ struct GuiReport {
     bool startup_succeeded=false,startup_cancelled=false;
     std::size_t startup_frames=0,startup_images=0,startup_objects=0;
     double startup_ms=0;
+    std::string analysis_state,analysis_error;
+    std::vector<double> analysis_means;
+    std::uint64_t analysis_samples=0,analysis_object=0,analysis_tiles=0;
+    double analysis_ms=0;
 };
-enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey };
+enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey };
 enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint };
 struct GuiInput {
     int frame = 0;
@@ -303,6 +316,10 @@ struct GuiOptions {
     bool recovery_retention_enabled=false;
     std::size_t recovery_keep_latest=10;
     double recovery_max_age_days=30;
+    int analysis_kind=0; // 0: RGB optical-density means; 1: supplied-stain means.
+    bool analysis_nucleus=false;
+    std::vector<double> analysis_vectors={.65,.70,.29,.07,.99,.11};
+    std::vector<double> analysis_white={255,255,255};
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 GuiReport run_project_gui(std::shared_ptr<Project> project, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});

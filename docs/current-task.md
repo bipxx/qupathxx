@@ -8,9 +8,9 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 435 passing Python tests including stains, shapes, interchange, browsing, workspace migration, recovery and GUI replay
+Evidence: 460 passing Python tests including analysis jobs, stains, shapes, interchange, browsing, workspace migration, recovery and GUI replay
 (two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
-fifteen native suites with optional geometry/readers/interchange enabled and disabled;
+sixteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
 116 ms undo, 126 ms redo and 815 bytes of history payload for a rename. The spatial
@@ -179,10 +179,25 @@ ceiling. All 435 installed-wheel tests pass (two unavailable file-symlink cases
 skipped), and all fifteen native suites pass in full/core/minimal builds. The
 1048576-pixel benchmark records 4.39 ms median OD and 5.49 ms separation,
 including a 12 MiB allocation; Python byte copies cost 2.42/3.90 ms separately.
-These primitives do not yet provide analysis jobs, GUI publication, saved
-provenance, stain estimation, tissue/cell detection or upstream runtime parity.
-Next implement image/analysis source-version contracts and the shared analysis
-request/result job path, continue numerical comparisons, and improve initial
+The initial kernel packet left analysis jobs, GUI publication, saved provenance,
+stain estimation, tissue/cell detection and upstream runtime parity open.
+The shared native request/job path now provides body/nucleus ROI OD/stain means,
+bounded tile reads, progress, cancellation and owner-thread publication in
+C++/Python/ImGui; see analysis-jobs.md. Runtime document/source/object keys reject
+stale work, including relinks, restored/copied/moved graphs and selection edits.
+Unitless results survive unrelated edits/calibration changes. Worker ownership
+never releases a Python-owned source; built-in closed-state queries no longer
+wait behind reads. Twenty-one headless and four GUI regressions cover independent
+formulas, masks, partitioning, cancellation/reuse, relink/reopen, teardown and
+GUI/native parity; native tests add a controlled blocked reader, graph identity
+and transparent-source failure. All sixteen native suites pass in three builds.
+The headless 4194304-pixel run records 0.0076 ms capture, 0.085 ms submission,
+43.7 ms worker time and 0.012 ms maximum poll, with 1 MiB tile payload. The
+100001-selected-object viewer records 25.4 ms analysis, 876 visible objects,
+16 MiB GPU payload, 16.88 ms sampled frame p95 and 17.17 ms maximum. Runtime
+source keys do not detect externally changed files or provide saved provenance.
+Next implement durable source/analysis provenance and the tissue-detection/
+connected-component path, continue numerical comparisons, and improve initial
 rendering and metadata/capture latency. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,

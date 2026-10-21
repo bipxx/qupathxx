@@ -54,10 +54,12 @@ public:
     void close() override {
         std::lock_guard<std::mutex> lock(mutex_);
         if (handle_) { openslide_close(handle_); handle_ = nullptr; }
+        closed_.store(true);
     }
-    bool closed() const override { std::lock_guard<std::mutex> lock(mutex_); return !handle_; }
+    bool closed() const override { return closed_.load(); }
 private:
     openslide_t* handle_ = nullptr;
+    std::atomic<bool> closed_{false};
     ImageMetadata metadata_;
     mutable std::mutex mutex_;
 };

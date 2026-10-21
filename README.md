@@ -50,6 +50,8 @@ QuPath port or a compatible replacement for Java QuPath.
   [shape measurements](docs/geometry-spatial.md#revision-keyed-shape-measurements).
 - Native optical density and fixed-vector stain separation with Python access;
   see [stain transforms](docs/stain-transforms.md).
+- Background ROI optical-density/stain means with cancellation and stale-result
+  checks in C++, Python and ImGui; see [analysis jobs](docs/analysis-jobs.md).
 - Native background autosave, session-specific recovery files and dirty-close
   decisions; see [recovery](docs/project-recovery.md).
 

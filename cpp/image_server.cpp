@@ -64,12 +64,12 @@ public:
         return result;
     }
     void close() override { std::lock_guard<std::mutex> lock(mutex_); closed_ = true; }
-    bool closed() const override { std::lock_guard<std::mutex> lock(mutex_); return closed_; }
+    bool closed() const override { return closed_.load(); }
 private:
     Image image_;
     ImageMetadata metadata_;
     mutable std::mutex mutex_;
-    bool closed_ = false;
+    std::atomic<bool> closed_{false};
 };
 }
 std::shared_ptr<ImageServer> dense_image_server(Image image) { return std::make_shared<DenseImageServer>(std::move(image)); }

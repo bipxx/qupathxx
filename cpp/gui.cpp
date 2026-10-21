@@ -3,6 +3,7 @@
 #include "qupathxx/project_recovery.hpp"
 #include "qupathxx/project_save.hpp"
 #include "qupathxx/interchange.hpp"
+#include "qupathxx/analysis.hpp"
 #include "gui_tiles.hpp"
 #include <imgui.h>
 #include <imgui_internal.h>
@@ -113,6 +114,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if (frame_limit < 0) throw std::invalid_argument("frame_limit must be nonnegative");
     if (!capture_path.empty() && !frame_limit) throw std::invalid_argument("capture_path requires a positive frame_limit");
     options.display.validate();
+    if(options.analysis_vectors.size()!=6 || options.analysis_white.size()!=3 || options.analysis_kind<0 || options.analysis_kind>1)
+        throw std::invalid_argument("invalid initial analysis parameters");
+    auto analysis_vectors=options.analysis_vectors,analysis_white=options.analysis_white;
+    auto make_transform=[&](bool separate) {return StainTransform(separate?std::vector<ColorVector>{{analysis_vectors[0],analysis_vectors[1],analysis_vectors[2]},
+        {analysis_vectors[3],analysis_vectors[4],analysis_vectors[5]}}:std::vector<ColorVector>{{1,0,0},{0,1,0}},
+        {analysis_white[0],analysis_white[1],analysis_white[2]});};
+    make_transform(options.analysis_kind==1);
     if(!std::isfinite(options.autosave_interval_seconds) || options.autosave_interval_seconds<0 || options.autosave_interval_seconds>86400)
         throw std::invalid_argument("autosave interval must be between 0 and 86400 seconds");
     if(options.project && options.project->active_image() && options.project->document(options.project->active_image()).get()!=&document)
@@ -163,6 +171,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::shared_ptr<Document> active_owner=options.project && options.project->active_image()?options.project->document(options.project->active_image()):nullptr;
     auto active_image=options.project?options.project->active_image():0;
     MeanJob mean;
+    AnalysisJob analysis;
+    int analysis_kind=options.analysis_kind;
+    bool analysis_nucleus=options.analysis_nucleus;
     Viewport viewport;
     if(options.start_view) viewport=*options.start_view;
     bool fit = true, drawing = false;
@@ -511,6 +522,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             } catch(const std::exception& e) { project_error=e.what(); refresh_active_image=false; }
         }
         auto& document=*active_document;
+        analysis.poll(document,selected);
         const bool has_image=!options.project || active_image!=0;
         const auto& image=document.metadata();
         if(options.project && project_catalog_dirty) {
@@ -530,7 +542,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (!options.inputs.empty()) {
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
-            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12}) input.AddKeyEvent(key,false);
+            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12,ImGuiKey_M}) input.AddKeyEvent(key,false);
         }
         for (const auto& event:options.inputs) if (event.frame==frames) {
             auto origin=event.target==GuiInputTarget::Canvas?previous_canvas:(event.target==GuiInputTarget::Overview?overview_offset:list_offset);
@@ -595,6 +607,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::ReviewRecoveryKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiMod_Shift,true); input.AddKeyEvent(ImGuiKey_Backspace,true); break;
                 case GuiInputKind::FindRecoveriesKey: input.AddKeyEvent(ImGuiKey_F5,true); break;
                 case GuiInputKind::StopRecoveryMaintenanceKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_F10,true); break;
+                case GuiInputKind::AnalyzeKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_M,true); break;
+                case GuiInputKind::CancelAnalysisKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiMod_Shift,true); input.AddKeyEvent(ImGuiKey_M,true); break;
                 default: break;
             }
         }
@@ -1053,6 +1067,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         ImGui::SeparatorText(selection->size()>1?"Measurements (primary object)":"Measurements");
         mean.poll(selected,document.revision());
+        auto analysis_status=analysis.poll(document,selected);
         if (selected) {
             try {
                 const auto features=document.shape_measurements(selected);
@@ -1077,6 +1092,37 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::EndDisabled();
             if (mean.active()) ImGui::TextDisabled("Measuring...");
             if (!mean.error.empty()) ImGui::TextWrapped("%s",mean.error.c_str());
+            ImGui::SeparatorText("Region analysis");
+            bool analysis_changed=ImGui::Combo("Features",&analysis_kind,"RGB optical density\0Supplied stains\0");
+            analysis_changed=ImGui::Checkbox("Use nucleus",&analysis_nucleus) || analysis_changed;
+            analysis_changed=ImGui::InputScalarN("White RGB",ImGuiDataType_Double,analysis_white.data(),3,nullptr,nullptr,"%.5g") || analysis_changed;
+            if(analysis_kind==1) {
+                analysis_changed=ImGui::InputScalarN("Stain 1",ImGuiDataType_Double,analysis_vectors.data(),3,nullptr,nullptr,"%.5g") || analysis_changed;
+                analysis_changed=ImGui::InputScalarN("Stain 2",ImGuiDataType_Double,analysis_vectors.data()+3,3,nullptr,nullptr,"%.5g") || analysis_changed;
+                ImGui::TextWrapped("Supply validated OD directions. Channel 3 is a signed residual.");
+            }
+            if(analysis_changed) analysis.cancel();
+            const bool analysis_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_M);
+            ImGui::BeginDisabled(analysis.busy());
+            const bool start_analysis=ImGui::Button("Analyze region (Ctrl+M)") || (analysis_key && !io.KeyShift);
+            ImGui::EndDisabled();
+            if(start_analysis && !analysis.busy()) {
+                try {analysis.request(AnalysisRequest(document,selected,make_transform(analysis_kind==1),analysis_kind==0?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans,analysis_nucleus));error.clear();}
+                catch(const std::exception& e) {error=e.what();}
+            }
+            if(analysis.busy()) {
+                ImGui::Text("Tiles: %llu / %llu",static_cast<unsigned long long>(analysis_status.completed_tiles),static_cast<unsigned long long>(analysis_status.total_tiles));
+                if(ImGui::Button("Cancel analysis") || (analysis_key && io.KeyShift)) analysis.cancel();
+            }
+            if(const auto result=analysis.result()) {
+                const char* od_labels[]={"Mean OD R","Mean OD G","Mean OD B"};
+                const char* stain_labels[]={"Mean stain 1","Mean stain 2","Mean residual"};
+                for(std::size_t c=0;c<3;++c) ImGui::Text("%s: %.6g",analysis_kind==0?od_labels[c]:stain_labels[c],result->means[c]);
+                ImGui::Text("%llu samples / %.3f ms",static_cast<unsigned long long>(result->samples),result->elapsed_ms);
+            }
+            if(!analysis_status.error.empty()) ImGui::TextWrapped("Analysis: %s",analysis_status.error.c_str());
+            if(analysis_status.state=="stale") ImGui::TextDisabled("Inputs changed; run analysis again.");
+            if(analysis_status.state=="cancelled") ImGui::TextDisabled("Analysis cancelled.");
         } else ImGui::TextDisabled("Select an annotation");
         if (!error.empty()) ImGui::TextWrapped("%s", error.c_str());
         } else ImGui::TextDisabled("Select or add an image to use image tools.");
@@ -1502,6 +1548,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::sort(frame_times.begin(),frame_times.end());
     auto p95=frame_times.empty()?0:frame_times[static_cast<std::size_t>((frame_times.size()-1)*.95)];
     const bool empty=options.project && !active_image;
+    const auto analysis_status=analysis.poll(*active_document,selection->primary());
+    const auto analysis_result=analysis.result();
     return {frames,previous_uploads+tiles->uploads(),std::max(previous_peak_bytes,tiles->peak_bytes()),previous_generations+tiles->generations(),p95,tiles->pending(),empty?0:viewport.zoom,empty?Point{}:viewport.origin,
         empty?Point{}:viewport.screen_to_image({previous_canvas_size.x/2,previous_canvas_size.y/2}),last_width,last_height,
         reinterpret_cast<const char*>(glGetString(GL_RENDERER)),reinterpret_cast<const char*>(glGetString(GL_VERSION)),visible_count,selection->ids(),selection->primary(),active_image,image_switches,max_image_switch_ms,project_error,
@@ -1509,7 +1557,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         save_job.stats().completed,save_job.stats().capture_ms,save_job.stats().write_ms,recovery_load_ms,checkpoints_deleted,maintenance_error,retired_workspaces,max_retirement_ms,
         autosave.stats().checkpoints_pruned,autosave.stats().retention_ms,autosave.stats().retention_error,
         autosave.stats().retention_cancelled,autosave.stats().retention_inspected,autosave.stats().retention_metadata_ms,autosave.stats().retention_ownership_ms,autosave.stats().retention_removal_ms,autosave.stats().retention_prefetch_peak,
-        startup_succeeded,startup_cancelled,startup_frames,startup_progress->images.load(),startup_progress->objects.load(),startup_ms};
+        startup_succeeded,startup_cancelled,startup_frames,startup_progress->images.load(),startup_progress->objects.load(),startup_ms,
+        analysis_status.state,analysis_status.error,analysis_result?std::vector<double>(analysis_result->means.begin(),analysis_result->means.end()):std::vector<double>{},
+        analysis_result?analysis_result->samples:0,analysis_result?analysis_result->object_id:0,analysis_status.completed_tiles,analysis_status.elapsed_ms};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

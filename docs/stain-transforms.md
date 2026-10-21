@@ -76,9 +76,10 @@ C++ calls accept an optional `const std::atomic<bool>*` cancellation flag,
 checked before allocation, every 4096 pixels and before return. Cancellation
 throws without publishing a partial result. Allocation itself is not
 interruptible. Python calls currently run synchronously with the GIL released;
-the future analysis request/job API must provide cancellation, source-version
-provenance, stale-result rejection and GUI publication. These transforms do not
-change any document or persist analysis results.
+the shared [ROI summary job API](analysis-jobs.md) provides cancellation,
+runtime source keys, stale-result rejection and GUI publication. Full pixel-
+output jobs and durable source-version provenance remain open. These transforms
+do not change any document or persist analysis results.
 
 ## Verification and scope
 
@@ -98,7 +99,8 @@ outside the timed kernels. Every benchmark output is compared with the
 independent formula/linear solve. Results do not establish detection throughput,
 slide I/O performance, job scheduling, GUI responsiveness or whole-application
 speedup. M5 also still requires tissue/cell algorithms, tiled reconciliation,
-measurement publication, provenance, and the same jobs through C++/Python/GUI.
+measurement publication and durable provenance. The first ROI summary jobs now
+share a native C++/Python/GUI execution path; see [analysis jobs](analysis-jobs.md).
 
 The recorded [Windows 1048576-pixel run](benchmarks/stain-transforms-1048576-windows.json)
 uses twelve warmed calls for each transform. Median OD is 4.39 ms (239 Mpixel/s),

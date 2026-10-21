@@ -720,3 +720,27 @@ separation, with 2.42/3.90 ms Python byte copies measured separately. This does
 not complete M5: shared versioned analysis jobs, GUI result publication,
 provenance, stain estimation, tissue/cell algorithms and upstream runtime
 acceptance remain required. All unfinished M0-M7 requirements stay active.
+
+The thirtieth packet adds immutable native analysis requests and a one-worker,
+no-backlog job controller for ROI body/nucleus OD/stain means. Capture fixes ROI,
+normalized parameters and object provenance; runtime document/source/object keys
+govern owner-thread publication. Relink, close, graph replacement, selected-object
+edits and selection changes invalidate results; unrelated edits and calibration
+do not invalidate dimensionless features. Bounded tiles, cooperative cancellation,
+numeric-only results and owner-thread source release are shared by C++, Python
+and ImGui. Built-in closed-state queries now avoid waiting behind a tile read.
+See [analysis jobs](analysis-jobs.md) for sampling, lifecycle and limitations.
+
+Twenty-one headless and four GUI tests compare independent numerical references,
+native/GUI results, masks, partitions, revisions, relink/reopen and external-source
+teardown. Native checks add graph copy/move/assignment, a controlled blocked
+reader, cancelled/stale publication and all-transparent failure. All sixteen
+native suites pass in full/core/minimal builds, and the final installed wheel
+passes 460 Python tests with two unavailable file-symlink cases skipped.
+The 4194304-pixel headless job
+records 0.0076 ms capture, 0.085 ms submission, 43.7 ms worker work and 0.012 ms
+maximum poll with 1 MiB tile payload. The 100001-object selected viewer records
+25.4 ms analysis, 876 visible objects, 16 MiB GPU payload, 16.88 ms sampled frame
+p95 and 17.17 ms maximum. Runtime identity does not replace durable source
+fingerprints or saved analysis provenance. Those, tissue/cell algorithms, batch
+execution, upstream runtime comparisons and all remaining M0-M7 gates stay open.

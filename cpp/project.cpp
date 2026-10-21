@@ -61,7 +61,7 @@ class LinkedServer final : public ImageServer {
     std::string path_,reader_;
     mutable std::shared_ptr<ImageServer> server_;
     mutable std::mutex mutex_;
-    bool closed_=false;
+    std::atomic<bool> closed_{false};
 public:
     LinkedServer(ImageMetadata m,std::string path,std::string reader) : metadata_(std::move(m)),path_(std::move(path)),reader_(std::move(reader)) { validate_metadata(metadata_); }
     const ImageMetadata& metadata() const override { return metadata_; }
@@ -71,7 +71,7 @@ public:
         if(!server_) { auto candidate=read_image(path_,reader_); compatible(metadata_,candidate->metadata()); server_=std::move(candidate); }
         return server_->read_region(request);
     }
-    bool closed() const override { std::lock_guard<std::mutex> lock(mutex_); return closed_; }
+    bool closed() const override { return closed_.load(); }
     void close() override { std::lock_guard<std::mutex> lock(mutex_); if(server_) server_->close(); closed_=true; }
 };
 void advance(std::uint64_t value) { if(value==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("project identity/revision exhausted"); }
