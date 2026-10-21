@@ -210,10 +210,10 @@ NB_MODULE(_native, m) {
         .value("VERTEX_KEY",GuiInputKind::VertexKey).value("HOLE_KEY",GuiInputKind::HoleKey)
         .value("INSERT_KEY",GuiInputKind::InsertKey).value("BOOLEAN_KEY",GuiInputKind::BooleanKey).value("SAVE_KEY",GuiInputKind::SaveKey).value("EXPORT_KEY",GuiInputKind::ExportKey).value("IMPORT_KEY",GuiInputKind::ImportKey)
         .value("NEXT_IMAGE_KEY",GuiInputKind::NextImageKey).value("PREVIOUS_IMAGE_KEY",GuiInputKind::PreviousImageKey).value("ADD_IMAGE_KEY",GuiInputKind::AddImageKey).value("RELINK_IMAGE_KEY",GuiInputKind::RelinkImageKey)
-        .value("AUTOSAVE_KEY",GuiInputKind::AutosaveKey).value("RECOVER_KEY",GuiInputKind::RecoverKey).value("CLOSE_WINDOW",GuiInputKind::CloseWindow).value("OPEN_PROJECT_KEY",GuiInputKind::OpenProjectKey);
+        .value("AUTOSAVE_KEY",GuiInputKind::AutosaveKey).value("RECOVER_KEY",GuiInputKind::RecoverKey).value("CLOSE_WINDOW",GuiInputKind::CloseWindow).value("OPEN_PROJECT_KEY",GuiInputKind::OpenProjectKey).value("NEW_PROJECT_KEY",GuiInputKind::NewProjectKey).value("REMOVE_IMAGE_KEY",GuiInputKind::RemoveImageKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image).value("PROJECT_LIST",GuiInputTarget::ProjectList).value("DISPLAY_RESET",GuiInputTarget::DisplayReset)
         .value("DISCARD_RECOVERY_REPLACEMENT",GuiInputTarget::DiscardRecoveryReplacement).value("KEEP_RECOVERY_CLOSE",GuiInputTarget::KeepRecoveryClose).value("CANCEL_CLOSE",GuiInputTarget::CancelClose).value("DISCARD_CLOSE",GuiInputTarget::DiscardClose)
-        .value("SAVE_CLOSE",GuiInputTarget::SaveClose).value("SAVE_RECOVERY_REPLACEMENT",GuiInputTarget::SaveRecoveryReplacement).value("CANCEL_RECOVERY_REPLACEMENT",GuiInputTarget::CancelRecoveryReplacement).value("CANCEL_PROJECT_LOAD",GuiInputTarget::CancelProjectLoad);
+        .value("SAVE_CLOSE",GuiInputTarget::SaveClose).value("SAVE_RECOVERY_REPLACEMENT",GuiInputTarget::SaveRecoveryReplacement).value("CANCEL_RECOVERY_REPLACEMENT",GuiInputTarget::CancelRecoveryReplacement).value("CANCEL_PROJECT_LOAD",GuiInputTarget::CancelProjectLoad).value("CONFIRM_REMOVE_IMAGE",GuiInputTarget::ConfirmRemoveImage).value("CANCEL_REMOVE_IMAGE",GuiInputTarget::CancelRemoveImage);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
@@ -228,13 +228,15 @@ NB_MODULE(_native, m) {
         .def_ro("gl_renderer",&GuiReport::gl_renderer).def_ro("gl_version",&GuiReport::gl_version).def_ro("visible_objects",&GuiReport::visible_objects)
         .def_ro("selected_ids",&GuiReport::selected_ids).def_ro("primary_selection",&GuiReport::primary_selection)
         .def_ro("active_image",&GuiReport::active_image).def_ro("image_switches",&GuiReport::image_switches).def_ro("max_image_switch_ms",&GuiReport::max_image_switch_ms).def_ro("project_error",&GuiReport::project_error)
-        .def_ro("autosaves_completed",&GuiReport::autosaves_completed).def_ro("recovery_path",&GuiReport::recovery_path).def_ro("autosave_error",&GuiReport::autosave_error).def_ro("autosave_capture_ms",&GuiReport::autosave_capture_ms).def_ro("max_cpu_frame_ms",&GuiReport::max_cpu_frame_ms).def_ro("project_replacements",&GuiReport::project_replacements).def_ro("project_load_ms",&GuiReport::project_load_ms);
+        .def_ro("autosaves_completed",&GuiReport::autosaves_completed).def_ro("recovery_path",&GuiReport::recovery_path).def_ro("autosave_error",&GuiReport::autosave_error).def_ro("autosave_capture_ms",&GuiReport::autosave_capture_ms).def_ro("max_cpu_frame_ms",&GuiReport::max_cpu_frame_ms).def_ro("project_replacements",&GuiReport::project_replacements).def_ro("project_load_ms",&GuiReport::project_load_ms).def_ro("images_removed",&GuiReport::images_removed);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.
     m.def("show", &run_gui, "document"_a, "frame_limit"_a = 0, "capture_path"_a = "", "options"_a=GuiOptions{});
+    m.def("show", &run_project_gui, "project"_a, "frame_limit"_a = 0, "capture_path"_a = "", "options"_a=GuiOptions{});
 #else
     m.attr("has_gui") = false;
     m.def("show", [](Document&, int, const std::string&, const GuiOptions&) { throw std::runtime_error("rebuild with -Ccmake.define.QUPATHXX_BUILD_GUI=ON"); }, "document"_a, "frame_limit"_a = 0, "capture_path"_a = "", "options"_a=GuiOptions{});
+    m.def("show", [](std::shared_ptr<Project>, int, const std::string&, const GuiOptions&) { throw std::runtime_error("rebuild with -Ccmake.define.QUPATHXX_BUILD_GUI=ON"); }, "project"_a, "frame_limit"_a = 0, "capture_path"_a = "", "options"_a=GuiOptions{});
 #endif
 }

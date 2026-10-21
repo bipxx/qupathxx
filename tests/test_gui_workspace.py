@@ -128,14 +128,12 @@ def test_failed_save_before_open_keeps_current_workspace_and_dialog(tmp_path):
     assert current.identity == identity and doc.annotation(obj).name == 'Keep me' and current.dirty
 
 
-@pytest.mark.parametrize('invalid', ['missing', 'corrupt', 'empty', 'recovery'])
+@pytest.mark.parametrize('invalid', ['missing', 'corrupt', 'recovery'])
 def test_invalid_project_open_keeps_live_document_and_history(tmp_path, invalid):
     current, doc, image, obj, primary = workspace(tmp_path, 'current', (210, 60, 30))
     target = tmp_path/'invalid.qpxproj'
     if invalid == 'corrupt':
         target.write_bytes(b'not a database')
-    elif invalid == 'empty':
-        q.Project().save(str(target))
     elif invalid == 'recovery':
         doc.rename_annotation(obj, 'Recovered')
         writer = q.ProjectAutosave()

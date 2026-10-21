@@ -120,7 +120,8 @@ Image selection at launch uses `--image-id`; the in-window
 relinks entries. [Background autosave/recovery](project-recovery.md) and dirty-close
 decisions are implemented. Explicit primary saves and recovery loading remain
 synchronous. [Ordinary project-file opening](project-opening.md) uses a worker
-and staged replacement. Empty desktop workspaces and image removal remain M4 work.
+and staged replacement. [Empty workspaces and confirmed image removal](project-lifecycle.md)
+are implemented; recovery maintenance and background primary saves remain M4 work.
 
 ## Build and evidence
 

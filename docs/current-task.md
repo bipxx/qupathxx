@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 222 Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay;
+Evidence: 238 Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay;
 thirteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
@@ -47,8 +47,12 @@ Ordinary project-file opening now loads/validates on a worker with staged
 Save/Discard/Cancel replacement; see project-opening.md. The 100000-object
 load alongside a separate live 100000-object scene records 172 ms worker load,
 17.0 ms p95 and 27.0 ms maximum CPU frame work in a narrow view.
-Next implement empty desktop workspaces, image removal, checkpoint
-maintenance/orphan cleanup, moved-recovery association and background explicit saves/recovery loads;
+Empty desktop workspaces, New project, `show(project)` and confirmed image
+removal are implemented; see project-lifecycle.md. The 100000-object removal
+from a 1000-image catalog records 14.1 ms binding/removal, 17.0 ms p95 and
+17.5 ms maximum CPU frame work, including unreferenced model retirement.
+Next implement checkpoint maintenance/orphan cleanup, moved-recovery association
+and background explicit saves/recovery loads;
 retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,

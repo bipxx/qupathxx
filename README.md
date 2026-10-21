@@ -26,6 +26,8 @@ QuPath port or a compatible replacement for Java QuPath.
   views/selections/history; see [project browser](docs/project-browser.md).
 - Persistent per-image camera/display views with transactional schema-1 migration;
   see [workspace storage](docs/project-workspace.md).
+- Empty project workspaces, New project, confirmed image removal and `show(project)`;
+  see [project lifecycle](docs/project-lifecycle.md).
 - Background project-file opening with Save/Discard/Cancel workspace replacement;
   see [opening projects](docs/project-opening.md).
 - Native background autosave, session-specific recovery files and dirty-close

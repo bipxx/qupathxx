@@ -47,16 +47,15 @@ release to a worker would deadlock an embedded viewer. Large inactive graphs
 can therefore still cause a replacement-frame pause. Explicit primary saves,
 recovery-file loading and initial CLI opening remain synchronous.
 
-The current viewer requires an active image. A valid empty project is rejected
-without changing the live workspace; the native `Project` API continues to
-support empty projects. Creating/opening an empty desktop workspace and removing
-the last image remain unfinished lifecycle work.
+The viewer now accepts empty projects and projects without an active image.
+See [project lifecycle](project-lifecycle.md) for `show(project)`, `--empty`, New
+project, adding the first image and confirmed removal of the last image.
 
 ## Evidence
 
 `tests/test_gui_workspace.py` exercises real ImGui event replay and captures the
 OpenGL framebuffer to verify new pixels. It covers Save/Discard/Cancel, failed
-pre-replacement save, missing/corrupt/empty/recovery input rejection, same-file
+pre-replacement save, missing/corrupt/recovery-as-primary input rejection and accepted empty projects, same-file
 save/reload generations, changed active image/catalog/views, autosave cleanup,
 and a locked source loaded while the old document remains undoable. A separate
 process with a timeout verifies retirement of Python-owned inactive documents

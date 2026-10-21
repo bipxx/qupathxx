@@ -465,3 +465,15 @@ avoid shared-pointer GIL deadlocks. See [project-opening.md](project-opening.md)
 Empty desktop workspaces, image removal, checkpoint maintenance, abandoned work
 cleanup, moved-recovery association and background explicit saves/recovery loads
 remain M4 work. All unfinished M0-M7 requirements remain active.
+
+
+The seventeenth packet adds empty desktop workspaces, `show(project)` and native
+`run_project_gui`, `--empty` in both launchers, New project dirty-work decisions,
+and confirmed active-image removal through the empty-last-image transition.
+Frame-boundary rebinding restores surviving state, removes old views/caches and
+releases unreferenced Python-owned documents on the owner thread. Source files
+and external document references are preserved. A 100000-object/1000-image run
+records 14.1 ms removal/binding and 17.0 ms p95 CPU frame work. See
+[project-lifecycle.md](project-lifecycle.md). Checkpoint maintenance, abandoned-work
+cleanup, moved-recovery association and background explicit saves/recovery loads
+remain M4 work. QuPath runtime comparisons and all unfinished M0-M7 gates persist.

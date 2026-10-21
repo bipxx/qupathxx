@@ -1,0 +1,14 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "catalog_images_before": 1000,
+  "catalog_images_after": 999,
+  "removed_objects": 100000,
+  "removal_and_binding_ms": 14.1019,
+  "cpu_frame_p95_ms": 16.9605,
+  "max_cpu_frame_ms": 17.5122,
+  "peak_gpu_payload_bytes": 3145728,
+  "python_document_released": true,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+  "scope": "Local dense RGB, 100000 selected rectangles in removed image, 1000-entry catalog; no external document owner. Includes owner-thread model/selection/tile retirement and survivor binding; input construction and file creation excluded. No cold/network/vendor or prolonged-pressure claim."
+}

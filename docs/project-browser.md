@@ -52,8 +52,9 @@ Camera/display views are now [persisted in schema 2](project-workspace.md).
 Selection, editing history and unfinished tools remain session-local. The browser
 now provides [autosave/recovery and dirty-close choices](project-recovery.md).
 [Ordinary project-file opening/replacement](project-opening.md) now loads on a
-worker and shares the dirty-workspace decisions. Empty desktop workspaces, image
-removal and background explicit saves remain M4 work. Missing-source
+worker and shares the dirty-workspace decisions. [Empty desktop workspaces and
+confirmed image removal](project-lifecycle.md) are implemented. Recovery maintenance
+and background explicit saves remain M4 work. Missing-source
 documents retain annotations and metadata while tile errors are shown. Source
 availability is a file-existence check, not proof of reader or byte identity.
 
