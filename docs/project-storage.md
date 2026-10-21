@@ -161,3 +161,52 @@ descriptor construction are excluded. It does not establish autosave latency,
 cold/network storage performance or broader vendor behavior. Schema migration,
 GeoJSON/CSV interchange, QuPath-assisted migration, source fingerprinting and the
 remaining M0-M7 gates remain open; M4 is not yet accepted.
+
+
+## Validated bulk restoration
+
+Native project/recovery loading now builds a private document's canonical object
+and class maps directly. It no longer allocates before/after edit patches, applies
+a synthetic edit and walks the map again to reset persisted object revisions.
+Publication still follows complete validation; failed candidates are destroyed
+without changing the caller's project or source file. Object identity/revision
+and class definitions are checked before validation. The same object/ROI/class/
+parent containment validator used by live edits checks every reconstructed object.
+
+The loader builds child and class-count indexes and memoizes hierarchy depths.
+A bounded 256-ID path detects cycles and enforces the existing 256-level limit;
+validated ancestor depths are reused. Flat documents allocate no ancestor-depth
+nodes. Stored per-object revisions, document revision, next-ID gaps, calibration,
+class colors and empty undo/redo history are preserved. This path changes neither
+the file schema nor live edit transaction behavior.
+
+Nineteen additional storage tests cover both parent row orders, accepted depth
+256 and rejected depth 257, disconnected cycles, missing parents, registry/text/
+revision constraints, containment, non-area cells and nuclei on non-cell objects.
+They also verify class counts, spatial queries, subtree deletion/undo, next-ID
+continuation, resaving and unchanged invalid source bytes.
+
+The [project startup run](benchmarks/project-startup-bulk-restore-100000-windows.json)
+records 105.9 ms native loading versus the preserved 237.7 ms startup baseline.
+The [recovery run](benchmarks/recovery-startup-bulk-restore-100000-windows.json)
+records 113.6 ms versus 240.7 ms. Both verify all 100000 objects, preserved primary
+bytes, 792 visible overlays and 3 MiB GPU payload. These separate warm local
+single-host runs show roughly halved worker loading; they do not establish a
+universal speedup or a memory-byte reduction. Temporary profiling measured
+142.6 ms in the former document reconstruction stage of a 228.3 ms load.
+
+The rendering limit remains separate: project/recovery runs still show 238.2/
+207.1 ms maximum early frame work, despite about 16.8 ms p95. A
+[1000-object run](benchmarks/project-startup-bulk-restore-1000-windows.json) loads
+in 3.3 ms but still has a 276.3 ms early rendering maximum. The benchmark now
+centers shorter object rows in view, so its supported 1000-object minimum can
+exercise visible overlays as well as model loading. Initial rendering, other
+hardware, cold/network storage and larger complex geometries remain open.
+
+
+The fixture generator also now grows its embedded image for the advertised
+one-million-object upper range. The [one-million-object run](benchmarks/project-startup-bulk-restore-1000000-windows.json)
+records 891.3 ms native loading, 16.94 ms CPU frame p95 and 295.17 ms maximum
+frame work, with all one million objects selected, 792 visible and 4096000 bytes
+of GPU tile payload. This extends the measured flat-rectangle loading workload;
+it does not establish complex-shape, memory-pressure or cold/vendor performance.

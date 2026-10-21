@@ -1,5 +1,6 @@
 #include "qupathxx/core.hpp"
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <limits>
 #include <stdexcept>
@@ -179,18 +180,46 @@ std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
     std::optional<double> x,std::optional<double> y,std::uint64_t next_id,std::uint64_t revision) {
     if(!next_id || (x && (!std::isfinite(*x) || *x<=0)) || (y && (!std::isfinite(*y) || *y<=0)))
         throw std::invalid_argument("invalid persisted calibration or next object ID");
-    auto result=std::make_shared<Document>(std::move(server)); Staging staged(*result);
+    // The candidate is private until all validation succeeds. Build canonical
+    // nodes once instead of allocating before/after edit patches and committing
+    // a synthetic edit just to reconstruct an unpublished document.
+    auto result=std::make_shared<Document>(std::move(server));
     for(const auto& c:classes) {
-        if(staged.get_class(c.name)) throw std::invalid_argument("duplicate persisted class");
-        staged.write_class(c.name,c);
+        text(c.name);
+        if(c.name.empty()) throw std::invalid_argument("class name must not be empty");
+        if(c.color>0xffffff) throw std::invalid_argument("class color must be a 24-bit RGB value");
+        if(!result->classes_.emplace(c.name,c).second) throw std::invalid_argument("duplicate persisted class");
     }
     for(const auto& a:objects) {
-        if(!a.id || a.id>=next_id || !a.revision || a.revision>revision || staged.get(a.id))
+        if(!a.id || a.id>=next_id || !a.revision || a.revision>revision || !result->objects_.emplace(a.id,a).second)
             throw std::invalid_argument("invalid persisted object identity or revision");
-        staged.write(a.id,a);
     }
-    result->commit(staged,{x,y});
-    for(const auto& a:objects) result->objects_.at(a.id).revision=a.revision;
+    Staging validator(*result);
+    std::map<std::uint64_t,std::size_t> depths;
+    for(const auto& [id,a]:result->objects_) {
+        // Share object/class/ROI/parent containment rules with live edits.
+        validator.validate_object(a);
+        if(!a.class_name.empty()) ++result->class_counts_[a.class_name];
+        if(!a.parent_id) continue;
+        result->children_[a.parent_id].insert(id);
+        std::array<std::uint64_t,256> chain;
+        std::size_t length=0,depth=0;
+        auto current=id;
+        while(current) {
+            auto known=depths.find(current);
+            if(known!=depths.end()) {depth=known->second; break;}
+            if(std::find(chain.begin(),chain.begin()+length,current)!=chain.begin()+length)
+                throw std::invalid_argument("object hierarchy contains a cycle");
+            if(length==chain.size()) throw std::invalid_argument("object hierarchy exceeds 256 levels");
+            chain[length++]=current;
+            auto node=result->objects_.find(current);
+            if(node==result->objects_.end()) throw std::invalid_argument("parent annotation does not exist");
+            current=node->second.parent_id;
+        }
+        if(depth+length>chain.size()) throw std::invalid_argument("object hierarchy exceeds 256 levels");
+        while(length) depths.emplace(chain[--length],++depth);
+    }
+    result->pixel_width_um_=x; result->pixel_height_um_=y;
     result->next_id_=next_id; result->revision_=revision;
     result->structure_revision_=objects.empty()?0:revision;
     return result;

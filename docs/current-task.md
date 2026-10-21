@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 375 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
+Evidence: 394 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
 (two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
 fourteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
@@ -136,7 +136,22 @@ work; a temporary trace locates the largest stall in rendering before adoption.
 The final installed wheel passes 375 Python tests (two file-symlink cases
 skipped), including eighteen initial startup/retry checks. All fourteen native
 suites pass across full/core/minimal configurations. This initial rendering/
-adoption latency remains open alongside metadata/capture latency. Next improve those pauses and the numerical/feature contracts;
+adoption latency remains open alongside metadata/capture latency. Validated document restoration now builds canonical maps directly and
+memoizes hierarchy depths instead of creating edit patches. Nineteen added
+storage tests retain both row orders, depth/cycle/containment/class/kind rules,
+revisions, derived indexes, undo after loading and next-ID gaps. Worker startup
+loading falls from about 238/241 ms to 106/114 ms for project/recovery workloads.
+All 394 installed-wheel tests pass (two skipped file-symlink cases), and all
+fourteen native suites pass across three configurations. Early frame maxima
+remain 238/207 ms; even 1000 objects load in 3.3 ms with a 276 ms early spike.
+State-query probes, startup-vsync changes and prestarted-worker experiments
+isolated the limit but did not remove it; rejected code/probes are reverted.
+See project-storage.md and startup-render-diagnostics-windows.json.
+The corrected benchmark fixture also verifies its full 1000..1000000-object
+range endpoints: one million objects load in 891 ms, all remain selected with
+792 visible, 16.94 ms frame p95 and about 3.9 MiB GPU payload. Its 295 ms maximum
+still exposes initial rendering/selection work. Next improve initial rendering
+and viewer metadata/capture latency;
 retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,

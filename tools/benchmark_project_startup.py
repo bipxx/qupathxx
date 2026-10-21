@@ -17,12 +17,14 @@ def main():
     if not 1000 <= args.objects <= 1000000:
         parser.error('objects must be between 1000 and 1000000')
     seed = q.Project()
-    doc = q.Document(q.Image.demo())
+    height = max(768, (args.objects+999)//1000)
+    pixels = q.Image.demo() if height == 768 else q.Image(1024, height, [40, 80, 160]*1024*height)
+    doc = q.Document(pixels)
     doc.set_history_limits(0, 0)
     doc.execute([q.ObjectEdit.create(q.Rect(i % 1000, i // 1000, 1, 1), str(i)) for i in range(args.objects)])
     image = seed.add_document(doc)
     view = q.ProjectView()
-    view.center, view.zoom = q.Point(512, 64), 64
+    view.center, view.zoom = q.Point(512, 64 if args.objects >= 64000 else max(.5, args.objects/2000)), 64
     seed.set_view(image, view)
     root = Path('build').resolve()/('startup-'+seed.identity)
     root.mkdir()
@@ -35,7 +37,7 @@ def main():
             writer = q.ProjectAutosave()
             assert writer.request(seed, str(recovery)) and writer.wait().state == 'ready'
             del writer
-        del doc, seed
+        del doc, seed, pixels
         target = q.Project()
         options = q.GuiOptions()
         options.width, options.height = 2560, 1440
@@ -62,7 +64,7 @@ def main():
                       cpu_frame_p95_ms=report.cpu_frame_p95_ms, max_cpu_frame_ms=report.max_cpu_frame_ms,
                       selected_objects=len(report.selected_ids), visible_objects=report.visible_objects,
                       peak_gpu_payload_bytes=report.peak_gpu_bytes, gl_renderer=report.gl_renderer,
-                      scope='Warm local schema-2 project with embedded demo pixels and unit rectangles. '
+                      scope='Warm local schema-2 project with embedded dense RGB pixels and unit rectangles. '
                             'Native file loading starts after the first window swap; preparation excluded. '
                             'All objects selected after adoption in a narrow view. Frame work excludes swap wait; '
                             'GPU payload excludes CPU graphs. Frame samples include initial startup/adoption frames. Cold/network and slow vendor metadata excluded.')

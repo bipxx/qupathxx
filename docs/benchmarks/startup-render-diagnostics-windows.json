@@ -1,0 +1,46 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+  "baseline_source": "61f564011cca37af60274b7c0d9bfacb2f45f783 with temporary steady-clock instrumentation; probes and rejected experiments removed",
+  "state_query_trace": {
+    "objects": 100000,
+    "worker_load_ms": 225.6003,
+    "max_cpu_frame_ms": 203.0046,
+    "active_texture_query_elapsed_ms": [
+      0.225,
+      198.521,
+      0.035
+    ]
+  },
+  "worker_stage_trace": {
+    "objects": 100000,
+    "worker_load_ms": 228.2897,
+    "database_schema_counts_ms": 1.611,
+    "project_allocation_ms": 0.066,
+    "decode_rows_ms": 75.838,
+    "document_restore_ms": 142.628,
+    "finish_ms": 7.972,
+    "max_cpu_frame_ms": 206.2715
+  },
+  "discarded_experiments": [
+    {
+      "change": "Disable swap interval during loading and pace the loading UI at 60 Hz; restore swap interval after completion",
+      "worker_load_ms": 301.3089,
+      "max_cpu_frame_ms": 217.3951,
+      "second_active_texture_query_ms": 216.712,
+      "retained": false
+    },
+    {
+      "change": "Create native startup worker before GLFW initialization, gate input access on first painted frame",
+      "worker_load_ms": 301.9137,
+      "max_cpu_frame_ms": 280.275,
+      "retained": false
+    }
+  ],
+  "small_input_baseline": {
+    "objects": 1000,
+    "worker_load_ms": 5.3825,
+    "max_cpu_frame_ms": 280.0383
+  },
+  "limits": "Elapsed times around native API calls, not GPU profiling or sampled CPU utilization. State query waiting is localized, but its driver/OS cause is not established. Single Windows/RTX 4090 host with warm local files. Temporary backend probes restored byte for byte to the pinned upstream source."
+}

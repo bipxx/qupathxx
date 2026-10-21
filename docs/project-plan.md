@@ -646,3 +646,30 @@ native suites passing in full/core/minimal builds. The loading screen was
 visually inspected with an exclusively locked SQLite source. Initial project,
 recovery and image loading progress is implemented; the wider M2-M7 completion
 claims still require their remaining measurements and feature work.
+
+
+The twenty-seventh packet optimizes validated bulk reconstruction of private
+native documents. Canonical object/class maps and derived indexes are built once;
+shared live-edit validation still checks geometry, classes and containment.
+Memoized ancestor depths and a bounded path retain cycle/depth rules without
+per-object visited-set allocation for flat documents. Stored IDs/revisions,
+calibration, history reset and persistence contracts remain intact. See
+[validated bulk restoration](project-storage.md#validated-bulk-restoration).
+
+The 100000-object worker loads measure 105.9 ms for projects and 113.6 ms for
+recovery, versus preserved startup baselines of 237.7/240.7 ms. Nineteen added
+storage regressions bring the installed-wheel suite to 394 passing tests with
+two file-symlink cases skipped; all fourteen native suites pass in three builds.
+Early rendering spikes remain (238/207 ms in the final project/recovery runs and
+276 ms with only 1000 objects). State-query traces narrow the rendering wait;
+vSync and worker-prestart experiments did not fix it and are reverted. All
+unfinished M0-M7 work, including this rendering issue, numerical/feature
+contracts and broader storage/hardware performance, stays active.
+
+
+The startup benchmark now supports its short-row minimum and grows image height
+for its advertised upper limit. The one-million-object endpoint is verified:
+891.3 ms native loading, 16.94 ms CPU frame p95, 295.17 ms maximum, all one million
+objects selected, 792 visible and 4096000 GPU payload bytes. This is additional
+flat-rectangle evidence; complex shapes, cache pressure, cold/network storage and
+wider numerical/hardware comparisons remain open.

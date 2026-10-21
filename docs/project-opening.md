@@ -178,3 +178,15 @@ Final verification: 375 installed-wheel Python tests pass, with two unavailable
 Windows file-symlink tests skipped. Eighteen startup tests include reopening a
 valid project after initial failure in the same window. All fourteen native
 suites pass in full, core and minimal feature configurations.
+
+
+Bulk document reconstruction now avoids edit patch allocation while preserving
+validation and persisted state; see [project storage](project-storage.md#validated-bulk-restoration).
+The new 100000-object startup records measure 105.9 ms project and 113.6 ms
+recovery worker loads. Early rendering maxima remain 238.2/207.1 ms. A
+[diagnostic record](benchmarks/startup-render-diagnostics-windows.json) localizes
+a baseline second-frame wait to the first `GL_ACTIVE_TEXTURE` state query.
+Disabling startup vsync or prestarting the worker did not remove it; both were
+reverted. The pinned backend was restored after probing. No GL state capture,
+render synchronization or validation is bypassed, and no specific driver/OS
+cause is claimed from these elapsed measurements.

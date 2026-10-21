@@ -1,0 +1,16 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "objects": 100000,
+  "kind": "recovery",
+  "loading_frames": 2,
+  "total_frames": 182,
+  "worker_load_ms": 113.5932,
+  "gui_session_ms": 3409.4748999923468,
+  "cpu_frame_p95_ms": 16.8277,
+  "max_cpu_frame_ms": 207.1323,
+  "selected_objects": 100000,
+  "visible_objects": 792,
+  "peak_gpu_payload_bytes": 3145728,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+  "scope": "Warm local schema-2 project with embedded demo pixels and unit rectangles. Native file loading starts after the first window swap; preparation excluded. All objects selected after adoption in a narrow view. Frame work excludes swap wait; GPU payload excludes CPU graphs. Frame samples include initial startup/adoption frames. Cold/network and slow vendor metadata excluded."
+}
