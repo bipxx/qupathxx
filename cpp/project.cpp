@@ -1,3 +1,4 @@
+#include "object_snapshot.hpp"
 #include "qupathxx/project.hpp"
 #include "tissue_archive.hpp"
 #include <algorithm>
@@ -90,7 +91,8 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         add(sizeof(Entry)+sizeof(Document)+128+e.info.name.size()+e.info.source_path.size()+e.info.reader.size());
         if(e.info.embedded) add(e.document->image().pixels().size());
         else add(sizeof(LinkedServer)+e.document->metadata().levels.size()*sizeof(ImageLevel)+e.document->metadata().vendor.size()+e.info.source_path.size()+e.info.reader.size());
-        for(const auto& [key,a]:e.document->objects_) add(sizeof(Annotation)+64+a.name.size()+a.class_name.size()+a.geometry.payload_bytes()+(a.nucleus?a.nucleus->payload_bytes():0));
+        add(e.document->object_bytes_);
+        add(e.document->object_blocks_.size()*sizeof(std::shared_ptr<const Document::ObjectBlock>));
         for(const auto& [name,c]:e.document->classes_) add(sizeof(ObjectClass)+96+name.size()+c.name.size());
         add(e.document->analysis_bytes_);
         add(e.document->tissue_bytes_);
@@ -106,7 +108,10 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         // Save-only authority: no mutable indexes, selection or edit history enter
         // the worker. Immutable ROI storage and dense source pixels are shared.
         doc->server_=e.info.embedded?e.document->server_:std::make_shared<LinkedServer>(e.document->metadata(),e.info.source_path,e.info.reader);
-        doc->objects_=e.document->objects_; doc->classes_=e.document->classes_;
+        doc->object_snapshot_.reserve(e.document->object_blocks_.size());
+        for(const auto& [key,block]:e.document->object_blocks_) doc->object_snapshot_.push_back(block);
+        doc->object_snapshot_count_=e.document->objects_.size();doc->object_bytes_=e.document->object_bytes_;
+        doc->classes_=e.document->classes_;
         doc->next_id_=e.document->next_id_; doc->revision_=e.document->revision_;
         doc->pixel_width_um_=e.document->pixel_width_um_; doc->pixel_height_um_=e.document->pixel_height_um_;
         const auto& blocks=e.document->analysis_blocks_.values;
@@ -488,14 +493,16 @@ void Project::save_impl(const std::string& path,const std::string& link_director
             level.string(1,key); level.integer(2,static_cast<std::int64_t>(i)); level.integer(3,m.levels[i].width); level.integer(4,m.levels[i].height); level.real(5,m.levels[i].downsample); level.done();
         }
         for(const auto& [name,c]:doc.classes_) { classification.string(1,key); classification.string(2,name); classification.integer(3,c.color); classification.done(); }
-        for(const auto& [object_id,a]:doc.objects_) {
+        auto write_object=[&](const Annotation& a) {
             if(cancelled && cancelled->load()) throw std::runtime_error("recovery cancelled");
-            object.string(1,key); object.string(2,std::to_string(object_id)); object.string(3,a.name); object.string(4,std::to_string(a.parent_id));
+            object.string(1,key); object.string(2,std::to_string(a.id)); object.string(3,a.name); object.string(4,std::to_string(a.parent_id));
             object.string(5,a.class_name); object.string(6,std::to_string(a.revision)); object.integer(7,static_cast<int>(a.kind));
             auto geometry=encode(a.geometry); object.blob(8,geometry);
             auto nucleus=a.nucleus?encode(*a.nucleus):std::vector<std::uint8_t>{}; if(a.nucleus) object.blob(9,nucleus);
             object.done();
-        }
+        };
+        for(const auto& [object_id,a]:doc.objects_) write_object(a);
+        for(const auto& block:doc.object_snapshot_) for(const auto& a:block->values) write_object(a);
     }
     for(const auto& [image_id,e]:entries_) {
       auto write_analysis=[&](const AnalysisRecord& record) {

@@ -81,7 +81,7 @@ public:
     std::vector<Annotation> annotations() const;
     const std::map<std::uint64_t,Annotation>& objects() const { return objects_; }
     Annotation annotation(std::uint64_t id) const { return find(id); }
-    std::size_t object_count() const { return objects_.size(); }
+    std::size_t object_count() const { return objects_.size()+object_snapshot_count_; }
     std::uint64_t revision() const { return revision_; }
     std::uint64_t structure_revision() const { return structure_revision_; }
     const std::map<std::string,ObjectClass>& classes() const { return classes_; }
@@ -249,6 +249,13 @@ private:
     void refresh_spatial() const;
     std::shared_ptr<ImageServer> server_;
     std::map<std::uint64_t,Annotation> objects_;
+    struct ObjectBlock;
+    // Published blocks are immutable. Captures copy block handles, never live
+    // map nodes; edits prepare replacements before committing canonical state.
+    std::map<std::uint64_t,std::shared_ptr<const ObjectBlock>> object_blocks_;
+    std::vector<std::shared_ptr<const ObjectBlock>> object_snapshot_;
+    std::size_t object_snapshot_count_=0,object_bytes_=0;
+    static std::size_t object_payload(const Annotation&);
     std::map<std::uint64_t,std::set<std::uint64_t>> children_;
     std::map<std::string,ObjectClass> classes_;
     std::map<std::string,std::size_t> class_counts_;

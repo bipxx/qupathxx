@@ -1,3 +1,4 @@
+#include "object_snapshot.hpp"
 #include "qupathxx/core.hpp"
 #include <algorithm>
 #include <array>
@@ -175,6 +176,9 @@ std::vector<Annotation> Document::annotations() const {
     for (const auto& [id,a]:objects_) result.push_back(a);
     return result;
 }
+std::size_t Document::object_payload(const Annotation& a) {
+    return sizeof(Annotation)+64+a.name.size()+a.class_name.size()+a.geometry.payload_bytes()+(a.nucleus?a.nucleus->payload_bytes():0);
+}
 std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
     const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
     std::optional<double> x,std::optional<double> y,std::uint64_t next_id,std::uint64_t revision) {
@@ -194,6 +198,17 @@ std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
         if(!a.id || a.id>=next_id || !a.revision || a.revision>revision || !result->objects_.emplace(a.id,a).second)
             throw std::invalid_argument("invalid persisted object identity or revision");
     }
+#ifdef QUPATHXX_HAS_PROJECT
+    // The candidate is private; build immutable save blocks once on the loader
+    // worker rather than deferring a full traversal to the first UI capture.
+    for(auto first=result->objects_.begin();first!=result->objects_.end();) {
+        const auto key=(first->first-1)/256;auto last=first;std::size_t count=0;
+        while(last!=result->objects_.end() && (last->first-1)/256==key) {++last;++count;}
+        auto block=std::make_shared<ObjectBlock>();block->values.reserve(count);block->bytes=sizeof(ObjectBlock)+64;
+        for(auto it=first;it!=last;++it) {block->values.push_back(it->second);block->bytes+=object_payload(it->second);}
+        result->object_bytes_+=block->bytes;result->object_blocks_.emplace(key,std::move(block));first=last;
+    }
+#endif
     Staging validator(*result);
     std::map<std::uint64_t,std::size_t> depths;
     for(const auto& [id,a]:result->objects_) {
@@ -293,9 +308,45 @@ void Document::commit(Staging& staged,Calibration calibration) {
     for(const auto& [name,value]:staged.after_classes) if(value) class_nodes.emplace(name,*value);
     std::map<std::string,std::size_t> count_nodes;
     for(const auto& [name,count]:staged.counts) if(count) count_nodes.emplace(name,count);
+#ifdef QUPATHXX_HAS_PROJECT
+    std::map<std::uint64_t,std::shared_ptr<const ObjectBlock>> block_nodes;
+    std::vector<std::uint64_t> changed_blocks;
+    auto object_bytes=object_bytes_;
+    for(auto first=staged.after.begin();first!=staged.after.end();) {
+        const auto key=(first->first-1)/256;auto last=first;
+        while(last!=staged.after.end() && (last->first-1)/256==key) ++last;
+        changed_blocks.push_back(key);auto block=std::make_shared<ObjectBlock>();
+        const auto old=object_blocks_.find(key);
+        const std::vector<Annotation> empty;const auto& previous=old==object_blocks_.end()?empty:old->second->values;
+        block->bytes=old==object_blocks_.end()?sizeof(ObjectBlock)+64:old->second->bytes;
+        if(old!=object_blocks_.end()) object_bytes-=old->second->bytes;
+        auto count=previous.size();
+        for(auto it=first;it!=last;++it) {if(staged.before.at(it->first)) --count;if(it->second) ++count;}
+        if(count>256) throw std::logic_error("object snapshot block count is inconsistent");
+        block->values.reserve(count);auto prior=previous.begin();
+        for(auto it=first;it!=last;++it) {
+            const auto id=it->first;
+            while(prior!=previous.end() && prior->id<id) block->values.push_back(*prior++);
+            if(prior!=previous.end() && prior->id==id) {block->bytes-=object_payload(*prior);++prior;}
+            const auto next=nodes.find(id);
+            if(next!=nodes.end()) {block->values.push_back(next->second);block->bytes+=object_payload(next->second);}
+        }
+        while(prior!=previous.end()) block->values.push_back(*prior++);
+        if(block->values.size()!=count) throw std::logic_error("object snapshot block membership is inconsistent");
+        block_nodes.emplace(key,std::move(block));first=last;
+    }
+    for(auto it=block_nodes.begin();it!=block_nodes.end();) {
+        if(it->second->values.empty()) it=block_nodes.erase(it);
+        else {if(it->second->bytes>std::numeric_limits<std::size_t>::max()-object_bytes) throw std::overflow_error("object snapshot payload exhausted");object_bytes+=it->second->bytes;++it;}
+    }
+#endif
     // std::map node transfer with integral comparison does not allocate.
     for (const auto& [id,value]:staged.after) objects_.erase(id);
     objects_.merge(nodes);
+#ifdef QUPATHXX_HAS_PROJECT
+    for(auto key:changed_blocks) object_blocks_.erase(key);
+    object_blocks_.merge(block_nodes);object_bytes_=object_bytes;
+#endif
     for (const auto& [parent,ids]:staged.child_sets) children_.erase(parent);
     children_.merge(child_nodes);
     for(const auto& [name,value]:staged.after_classes) classes_.erase(name);

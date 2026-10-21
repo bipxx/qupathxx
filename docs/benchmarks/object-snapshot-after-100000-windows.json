@@ -1,0 +1,16 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "objects": 100000,
+  "snapshot_budget_bytes": 268435456,
+  "embedded_rgb_bytes": 2359296,
+  "native_binary_sha256": "3c53d7255cded8740ff59babe47c9d287343301e276db62b31c8701fe108e5c8",
+  "request_ms": 0.056999968364834785,
+  "capture_ms": 0.0246,
+  "worker_write_and_release_ms": 356.3623,
+  "estimated_snapshot_bytes": 38793256,
+  "max_poll_ms": 0.022400054149329662,
+  "concurrent_region_queries": 218,
+  "primary_file_bytes": 12554240,
+  "scope": "Warm local SQLite explicit save of 100000 dense-image rectangles; immutable native snapshot, no history or spatial-index clone. Live post-capture changes remain dirty. Worker timing includes native snapshot release; desktop CPU includes capture and concurrent write, excludes swap wait. Cold/network/vendor, power loss and prolonged memory pressure excluded."
+}

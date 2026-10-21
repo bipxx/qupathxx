@@ -1,0 +1,18 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "objects": 100000,
+  "snapshot_budget_bytes": 268435456,
+  "embedded_rgb_bytes": 2359296,
+  "native_binary_sha256": "3c53d7255cded8740ff59babe47c9d287343301e276db62b31c8701fe108e5c8",
+  "capture_ms": 0.0686,
+  "worker_write_and_release_ms": 379.6066,
+  "cpu_frame_p95_ms": 17.2586,
+  "max_cpu_frame_ms": 18.3773,
+  "selected_objects": 100000,
+  "visible_objects": 805,
+  "peak_gpu_payload_bytes": 3145728,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+  "primary_file_bytes": 12554240,
+  "scope": "Warm local SQLite explicit save of 100000 dense-image rectangles; immutable native snapshot, no history or spatial-index clone. Live post-capture changes remain dirty. Worker timing includes native snapshot release; desktop CPU includes capture and concurrent write, excludes swap wait. Cold/network/vendor, power loss and prolonged memory pressure excluded."
+}

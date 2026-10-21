@@ -1,5 +1,6 @@
 """Measure batch import/history and local edits against a large native document."""
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import platform
@@ -7,6 +8,7 @@ import statistics
 import time
 
 import qupathxx as q
+import qupathxx._native as native
 
 
 def timed(action):
@@ -49,6 +51,7 @@ def main():
         assert doc.annotation(ids[-1]).name == f"Object {args.objects - 1}"
     result = {
         "platform": platform.platform(), "processor": platform.processor(),
+        "native_binary_sha256": hashlib.sha256(Path(native.__file__).read_bytes()).hexdigest(),
         "object_count": args.objects, "object_kind": args.kind, "create_batch_ms": create_ms,
         "undo_batch_ms": undo_ms, "redo_batch_ms": redo_ms,
         "single_rename_median_ms": statistics.median(samples),

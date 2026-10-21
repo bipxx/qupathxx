@@ -18,7 +18,12 @@ def event(frame, kind, target=q.GuiInputTarget.CANVAS):
 
 
 def click(frame, target):
-    return [event(frame, q.GuiInputKind.LEFT_DOWN, target), event(frame+1, q.GuiInputKind.LEFT_UP, target)]
+    down = event(frame, q.GuiInputKind.LEFT_DOWN, target)
+    if target in (q.GuiInputTarget.DISCARD_RECOVERY_REPLACEMENT,
+                  q.GuiInputTarget.SAVE_RECOVERY_REPLACEMENT,
+                  q.GuiInputTarget.CANCEL_RECOVERY_REPLACEMENT):
+        down.wait_for = q.GuiInputWait.TARGET_READY
+    return [down, event(frame+1, q.GuiInputKind.LEFT_UP, target)]
 
 
 def workspace(tmp_path, name="primary", color=(30, 60, 90)):

@@ -1,11 +1,13 @@
 """Measure explicit native saves alongside live model queries or desktop edits."""
 import argparse
+import hashlib
 import json
 from pathlib import Path
 import platform
 import time
 
 import qupathxx as q
+import qupathxx._native as native
 
 
 def main():
@@ -22,7 +24,8 @@ def main():
     project.save(str(path))
     doc.rename_annotation(ids[-1], 'Captured')
     result = dict(platform=platform.platform(), processor=platform.processor(), objects=100000,
-                  snapshot_budget_bytes=256*1024*1024, embedded_rgb_bytes=1024*768*3)
+                  snapshot_budget_bytes=256*1024*1024, embedded_rgb_bytes=1024*768*3,
+                  native_binary_sha256=hashlib.sha256(Path(native.__file__).read_bytes()).hexdigest())
     try:
         if args.gui:
             options = q.GuiOptions()

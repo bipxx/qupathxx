@@ -1,0 +1,15 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "native_binary_sha256": "11f12981dc93688a787845fd69f15a72007650ecab492ddf784574933ec785c2",
+  "object_count": 100000,
+  "object_kind": "annotation",
+  "create_batch_ms": 286.1346999416128,
+  "undo_batch_ms": 273.95639999303967,
+  "redo_batch_ms": 130.75970008503646,
+  "single_rename_median_ms": 0.001700012944638729,
+  "single_rename_p95_ms": 0.002100015990436077,
+  "single_rename_history_payload_bytes": 815,
+  "batch_history_payload_bytes": 46789072,
+  "scope": "Native document API including nanobind call/return overhead. Descriptor construction excluded. History payload excludes tree/allocator overhead. No GUI or spatial-index performance claim."
+}

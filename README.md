@@ -250,3 +250,6 @@ through Python or the ImGui inspector.
 [Tissue archives](docs/tissue-archive.md) preserve lossless masks, parameters and
 input digests in native projects and recovery snapshots, with explicit session
 rechecking in Python and ImGui.
+
+[Immutable object snapshots](docs/object-snapshots.md) share captured object
+blocks with save/recovery workers and preserve isolation during live edits.

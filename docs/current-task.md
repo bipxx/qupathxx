@@ -8,11 +8,11 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: all 727 installed-wheel Python cases pass with two file-symlink cases
+Evidence: all 736 installed-wheel Python cases pass with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
-and recovery; twenty-one native suites pass with optional geometry/readers/
+and recovery; twenty-two native suites pass with optional geometry/readers/
 interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
@@ -299,8 +299,14 @@ native suites pass in three builds. The 4194304-label rectangle mask encodes to
 0.019 ms while charging 198014935 logical snapshot bytes. The 100001-object
 recording keeps a mask in 0.043 ms, captures a save in 18.10 ms, and records
 17.17 ms viewer frame p95 with 20.28 ms maximum. These are synthetic observations.
-Next optimize remaining object snapshot capture and
-complete source/environment provenance. Continue
+Object save/recovery capture now shares compact immutable blocks with cached
+payload totals. Nine new Python checks and a native boundary/isolation suite
+cover mixed edits, load-before-first-save, payload reclamation, copied authorities,
+recovery counts and sparse unsigned IDs. The paired 100000-object capture records
+16.50 ms before and 0.0246 ms after, with 0.0686 ms desktop capture and 17.26 ms
+frame p95. Rename p95 changes from 0.0021 to 0.0052 ms; class/image/view traversal
+and extra native object/string storage remain limits. See object-snapshots.md.
+Next complete source/environment provenance and implement native cell detection. Continue
 numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged

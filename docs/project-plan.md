@@ -963,3 +963,35 @@ raw storage (16777724 bytes with metadata/checksum). Write/load recordings are
 100001-object viewer records 17.17 ms frame p95 and 20.28 ms maximum; keeping
 records 0.043 ms and save capture 18.10 ms. General object capture remains linear.
 See tissue-archive.md for the recordings, limitations and reproduction commands.
+
+
+The thirty-ninth packet removes per-object copying and ROI budget traversal
+from save/recovery capture. Project-enabled document transactions prepare
+compact sorted immutable blocks covering at most 256 object IDs, publish replacement blocks
+atomically with canonical edits, and maintain aggregate payload accounting.
+Worker snapshots copy occupied block handles and retain captured object counts;
+SQLite streams the immutable values in ID order. Empty blocks are reclaimed,
+sparse unsigned IDs allocate no intervening ranges, and loading initializes
+blocks before publishing a document. Project-disabled builds omit maintenance.
+See [object snapshots](object-snapshots.md) for the native-value/string memory
+tradeoff and remaining class/image/view traversal costs. Full M0-M7 remains active.
+
+
+Paired recordings preserve the previously verified wheel and record binary hashes.
+The 100000-object headless capture falls from 16.50 to 0.0246 ms; request time is
+0.0570 ms and worker write/release remains about 356 ms. Snapshot payload estimates
+are 38749408/38793256 bytes. The selected 2560-by-1440 viewer records 0.0686 ms
+capture, 17.26 ms sampled CPU frame p95 and 18.38 ms maximum, with 805 visible
+objects and 3 MiB GPU tile payload. Rename p95 changes from 0.0021 to 0.0052 ms.
+Batch creation/Undo/Redo timings are retained without asserting a batch-speed
+improvement; the live cache adds object/string storage while sharing ROI data.
+See object-snapshots.md for the paired records and reproduction commands.
+
+
+Nine new Python cases and the native block-boundary suite cover payload
+reclamation, sparse IDs, copied authorities, failed edits and recovery snapshots.
+The final installed wheel passes 736 tests with two file-symlink cases skipped;
+all twenty-two native suites pass in full/core/minimal builds. Two recovery-dialog
+replays now wait for visible/enabled buttons using the existing readiness clock,
+retaining identity, saved data, injected-failure and pixel assertions. Native
+snapshot isolation and complete regression coverage pass after that repair.

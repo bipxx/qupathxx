@@ -159,3 +159,6 @@ document completed 144 region queries. Estimated retained payload was 39.2 MB.
 The viewer run records 15.6 ms capture, 16.9 ms p95 and 17.3 ms maximum measured
 CPU frame work after warm-up, with 3 MiB GPU tile payload. These numbers describe
 that workload, not a bound for every document or storage device.
+
+[Immutable object blocks](object-snapshots.md) now provide the shared object
+portion of save and recovery captures, with incremental payload accounting.

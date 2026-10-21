@@ -20,8 +20,8 @@ status = job.wait()  # Join and reconcile when a blocking result is appropriate.
 assert status.state == 'saved' and status.applied
 ```
 
-The worker owns a private canonical clone. Immutable geometry and embedded pixel
-storage are shared; linked readers use metadata-only descriptors. Undo journals,
+The worker owns a private snapshot. [Immutable object blocks](object-snapshots.md),
+geometry, analysis/mask records and embedded pixel storage are shared; linked readers use metadata-only descriptors. Undo journals,
 selection, spatial indexes and OpenSlide caches are excluded. All source authority
 is accessed on the owner thread. No Python-owned project/document references
 are transferred to or released by the worker. The existing synchronous
@@ -139,3 +139,10 @@ capture, 350 ms worker write/release, 16.9 ms p95 and 18.4 ms maximum CPU frame 
 All 100000 objects remained selected, 805 overlays were visible and peak GPU tile
 payload was 3 MiB. The recorded post-capture camera change remained unsaved.
 These single-run values describe the measured workload, not general latency bounds.
+
+
+[Immutable object-block captures](object-snapshots.md) supersede per-object map
+copying in the recordings above. The paired 100000-object run records 0.0246 ms
+headless capture and 0.0686 ms in the viewer, with the same saved-data and
+post-capture-dirty checks. Class/image/view traversal and the documented native
+cache/edit-cost tradeoff remain part of the capture contract.
