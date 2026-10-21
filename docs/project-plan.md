@@ -369,3 +369,9 @@ controls, ImGui pointer replay, and a generated large-image pyramid. Its 2560 x
 GPU tile payload and approximately 17 ms p95 CPU frame work on the recorded
 development host. This is a synthetic workload result, not full performance
 acceptance. Continue with M3 while retaining all unfinished M0/M2 and M4–M7 gates.
+
+The fifth packet adds indexed rectangular objects, atomic command batches,
+parent/class edits, subtree deletion, revisions and bounded undo/redo to the GUI
+and Python. The [command contract](document-commands.md) records validation and
+large-document timing. M3 remains open for general geometry, object kinds, class
+registries, multi-selection and spatial indexing.

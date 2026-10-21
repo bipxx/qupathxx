@@ -11,6 +11,8 @@
 #include <fstream>
 #include <filesystem>
 #include <tuple>
+#include <cstring>
+#include <limits>
 
 namespace qpx {
 namespace {
@@ -32,21 +34,22 @@ class MeanJob {
     std::future<double> future_;
     std::shared_ptr<std::atomic<bool>> cancelled_;
     std::uint64_t ticket_=0;
+    std::uint64_t revision_=0;
 public:
     std::uint64_t measured=0;
     std::optional<double> value;
     std::string error;
     ~MeanJob() { if (cancelled_) cancelled_->store(true); }
     bool active() const { return future_.valid(); }
-    void poll(std::uint64_t selection) {
-        if (ticket_!=selection && cancelled_) cancelled_->store(true);
+    void poll(std::uint64_t selection,std::uint64_t revision) {
+        if ((ticket_!=selection || revision_!=revision) && cancelled_) { cancelled_->store(true); value.reset(); error.clear(); }
         if (active() && future_.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
-            try { auto result=future_.get(); if (ticket_==selection) { measured=ticket_; value=result; error.clear(); } }
-            catch(const std::exception& e) { if (ticket_==selection) error=e.what(); }
+            try { auto result=future_.get(); if (ticket_==selection && revision_==revision) { measured=ticket_; value=result; error.clear(); } }
+            catch(const std::exception& e) { if (ticket_==selection && revision_==revision) error=e.what(); }
         }
     }
-    void start(std::shared_ptr<ImageServer> server, const Annotation& a) {
-        ticket_=a.id; value.reset(); error.clear(); cancelled_=std::make_shared<std::atomic<bool>>(false);
+    void start(std::shared_ptr<ImageServer> server, const Annotation& a,std::uint64_t revision) {
+        ticket_=a.id; revision_=revision; value.reset(); error.clear(); cancelled_=std::make_shared<std::atomic<bool>>(false);
         future_=std::async(std::launch::async,[server=std::move(server),roi=a.roi,cancelled=cancelled_] { return mean_rgb(*server,roi,cancelled.get()); });
     }
 };
@@ -101,6 +104,14 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     Point anchor;
     std::uint64_t selected = 0;
     std::string error;
+    std::uint64_t editor_id=0,editor_revision=0;
+    char draft_name[4097]={},draft_class[4097]={};
+    Rect draft_roi;
+    std::uint64_t draft_parent=0;
+    std::uint64_t calibration_revision=std::numeric_limits<std::uint64_t>::max();
+    double draft_calibration[2]={0,0};
+    std::vector<std::uint64_t> list_ids;
+    std::uint64_t list_revision=std::numeric_limits<std::uint64_t>::max();
     int frames = 0;
     std::vector<double> frame_times;
     TilePlan plan;
@@ -116,7 +127,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         glfwPollEvents(); ImGui_ImplOpenGL3_NewFrame(); ImGui_ImplGlfw_NewFrame();
         // Test/benchmark replay enters the same ImGui event queue as GLFW input.
         auto& input=ImGui::GetIO();
-        if (!options.inputs.empty()) input.AddKeyEvent(ImGuiKey_R,false);
+        if (!options.inputs.empty()) {
+            input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
+            input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiKey_Delete,false);
+        }
         for (const auto& event:options.inputs) if (event.frame==frames) {
             auto origin=event.target==GuiInputTarget::Canvas?previous_canvas:overview_offset;
             auto extent=event.target==GuiInputTarget::Canvas?previous_canvas_size:overview_size;
@@ -128,6 +142,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::RightUp: input.AddMouseButtonEvent(1,false); break;
                 case GuiInputKind::Wheel: input.AddMouseWheelEvent(0,static_cast<float>(event.wheel)); break;
                 case GuiInputKind::RectangleKey: input.AddKeyEvent(ImGuiKey_R,true); break;
+                case GuiInputKind::UndoKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_Z,true); break;
+                case GuiInputKind::RedoKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_Y,true); break;
+                case GuiInputKind::DeleteKey: input.AddKeyEvent(ImGuiKey_Delete,true); break;
                 default: break;
             }
         }
@@ -140,6 +157,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (ImGui::IsKeyPressed(ImGuiKey_R) && !io.WantTextInput) rectangle_tool=!rectangle_tool;
         ImGui::Checkbox("Rectangle tool", &rectangle_tool); ImGui::SameLine();
         if (ImGui::Button("Fit image")) fit = true;
+        auto history_action=[&](bool redo) { try { if(redo) document.redo(); else document.undo(); error.clear(); } catch(const std::exception& e) { error=e.what(); } };
+        if (!io.WantTextInput && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Z)) history_action(false);
+        if (!io.WantTextInput && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Y)) history_action(true);
+        ImGui::SameLine(); ImGui::BeginDisabled(!document.can_undo()); if (ImGui::Button("Undo")) history_action(false); ImGui::EndDisabled();
+        ImGui::SameLine(); ImGui::BeginDisabled(!document.can_redo()); if (ImGui::Button("Redo")) history_action(true); ImGui::EndDisabled();
+        if (selected && !document.objects().count(selected)) selected=0;
+        if (selected && !io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_Delete)) {
+            try { document.remove_annotation(selected); selected=0; error.clear(); } catch(const std::exception& e) { error=e.what(); }
+        }
         ImGui::SameLine(); ImGui::TextDisabled("Wheel: zoom  |  Right drag: pan  |  Left drag: annotate");
         ImGui::BeginChild("Inspector", {285,0}, ImGuiChildFlags_Borders);
         ImGui::Text("IMAGE"); ImGui::Text("%lld x %lld pixels",static_cast<long long>(image.width),static_cast<long long>(image.height));
@@ -166,25 +192,62 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (ImGui::Button("Reset display")) display=DisplaySettings{};
         tiles.set_display(display);
         if (!document.pixel_width_um() || !document.pixel_height_um()) ImGui::TextDisabled("Physical calibration unknown");
-        float calibration[2] = {static_cast<float>(document.pixel_width_um().value_or(0)), static_cast<float>(document.pixel_height_um().value_or(0))};
-        if (ImGui::InputFloat2("um / pixel", calibration)) {
-            try { document.set_calibration(calibration[0], calibration[1]); error.clear(); }
+        if (calibration_revision!=document.revision()) {
+            draft_calibration[0]=document.pixel_width_um().value_or(0);
+            draft_calibration[1]=document.pixel_height_um().value_or(0);
+            calibration_revision=document.revision();
+        }
+        ImGui::InputDouble("Pixel width (um)",&draft_calibration[0],0,0,"%.6g");
+        ImGui::InputDouble("Pixel height (um)",&draft_calibration[1],0,0,"%.6g");
+        if (ImGui::Button("Apply calibration")) {
+            try { document.set_calibration(draft_calibration[0], draft_calibration[1]); error.clear(); }
             catch (const std::exception& e) { error = e.what(); }
         }
+        ImGui::SameLine();
+        if (ImGui::Button("Clear")) {
+            try { document.clear_calibration(); error.clear(); } catch(const std::exception& e) { error=e.what(); }
+        }
         ImGui::Spacing(); ImGui::SeparatorText("Annotations");
-        for (const auto& a : document.annotations()) {
+        if (list_revision!=document.revision()) {
+            list_ids.clear(); list_ids.reserve(document.object_count());
+            for (const auto& [id,a]:document.objects()) list_ids.push_back(id);
+            list_revision=document.revision();
+        }
+        ImGui::BeginChild("Object list",{0,90},ImGuiChildFlags_Borders);
+        ImGuiListClipper clipper; clipper.Begin(static_cast<int>(list_ids.size()));
+        while(clipper.Step()) for (int row=clipper.DisplayStart;row<clipper.DisplayEnd;++row) {
+            const auto& a=document.objects().at(list_ids[row]);
             auto label = a.name + "##" + std::to_string(a.id);
             if (ImGui::Selectable(label.c_str(), selected == a.id)) selected = a.id;
         }
-        if (selected && ImGui::Button("Delete selected")) { document.remove_annotation(selected); selected = 0; }
+        ImGui::EndChild();
+        if (selected && ImGui::Button("Delete selected")) {
+            try { document.remove_annotation(selected); selected=0; error.clear(); }
+            catch(const std::exception& e) { error=e.what(); }
+        }
+        if (selected) {
+            if (editor_id!=selected || editor_revision!=document.revision()) {
+                auto a=document.annotation(selected); draft_roi=a.roi; draft_parent=a.parent_id;
+                std::memcpy(draft_name,a.name.c_str(),a.name.size()+1); std::memcpy(draft_class,a.class_name.c_str(),a.class_name.size()+1);
+                editor_id=selected; editor_revision=document.revision();
+            }
+            ImGui::InputText("Name",draft_name,sizeof(draft_name)); ImGui::InputText("Class",draft_class,sizeof(draft_class));
+            ImGui::InputDouble("X",&draft_roi.x); ImGui::InputDouble("Y",&draft_roi.y);
+            ImGui::InputDouble("Width",&draft_roi.width); ImGui::InputDouble("Height",&draft_roi.height);
+            ImGui::InputScalar("Parent ID",ImGuiDataType_U64,&draft_parent);
+            if (ImGui::Button("Apply object edit")) {
+                try { document.execute({ObjectEdit::replace(selected,draft_roi,draft_name,draft_parent,draft_class)},"Edit annotation"); error.clear(); }
+                catch(const std::exception& e) { error=e.what(); }
+            }
+        }
         ImGui::SeparatorText("Measurements");
-        mean.poll(selected);
+        mean.poll(selected,document.revision());
         if (selected) {
             if (document.pixel_width_um() && document.pixel_height_um()) ImGui::Text("Area: %.3f um^2", document.area_um2(selected));
             else ImGui::TextDisabled("Area: set calibration first");
             if (mean.measured==selected && mean.value) ImGui::Text("Mean RGB: %.3f",*mean.value);
             ImGui::BeginDisabled(mean.active());
-            if (ImGui::Button("Measure mean RGB")) for (const auto& a : document.annotations()) if (a.id==selected) mean.start(document.server(),a);
+            if (ImGui::Button("Measure mean RGB")) mean.start(document.server(),document.annotation(selected),document.revision());
             ImGui::EndDisabled();
             if (mean.active()) ImGui::TextDisabled("Measuring...");
             if (!mean.error.empty()) ImGui::TextWrapped("%s",mean.error.c_str());
@@ -210,14 +273,14 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if (rectangle_tool && p.x >= 0 && p.y >= 0 && p.x < image.width && p.y < image.height) { anchor = p; drawing = true; }
             else if (!rectangle_tool) {
                 selected = 0;
-                for (const auto& a : document.annotations()) if (a.roi.contains(p)) selected = a.id;
+                for (const auto& [id,a] : document.objects()) if (a.roi.contains(p)) selected = a.id;
             }
         }
         auto end = clamp_image(viewport.screen_to_image(mouse));
         if (drawing && ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
             Rect r{std::min(anchor.x,end.x), std::min(anchor.y,end.y), std::abs(anchor.x-end.x), std::abs(anchor.y-end.y)};
             if (r.width * viewport.zoom >= 2 && r.height * viewport.zoom >= 2) {
-                try { selected = document.add_rectangle(r, "Region " + std::to_string(document.annotations().size()+1)); error.clear(); }
+                try { selected = document.add_rectangle(r, "Region " + std::to_string(document.object_count()+1)); error.clear(); }
                 catch (const std::exception& e) { error = e.what(); }
             }
             drawing = false;
@@ -236,7 +299,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             draw->AddImage(static_cast<ImTextureID>(texture),screen(viewport,{tile.bounds.x,tile.bounds.y},offset),
                 screen(viewport,{tile.bounds.x+tile.bounds.width,tile.bounds.y+tile.bounds.height},offset));
         }
-        for (const auto& a : document.annotations()) {
+        const auto visible_min=viewport.screen_to_image({0,0}),visible_max=viewport.screen_to_image({size.x,size.y});
+        for (const auto& [id,a] : document.objects()) {
+            if (a.roi.x+a.roi.width<visible_min.x || a.roi.y+a.roi.height<visible_min.y || a.roi.x>visible_max.x || a.roi.y>visible_max.y) continue;
             auto p0 = screen(viewport,{a.roi.x,a.roi.y},offset), p1 = screen(viewport,{a.roi.x+a.roi.width,a.roi.y+a.roi.height},offset);
             auto color = a.id == selected ? IM_COL32(255,205,85,255) : IM_COL32(65,225,190,255);
             draw->AddRect(p0,p1,color,0,0,2); draw->AddText(p0,color,a.name.c_str());

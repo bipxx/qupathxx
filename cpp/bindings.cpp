@@ -15,7 +15,12 @@ NB_MODULE(_native, m) {
         .def_rw("x", &Rect::x).def_rw("y", &Rect::y).def_rw("width", &Rect::width).def_rw("height", &Rect::height)
         .def_prop_ro("area", &Rect::area).def("contains", &Rect::contains);
     nb::class_<Annotation>(m, "Annotation").def_ro("id", &Annotation::id).def_ro("name", &Annotation::name)
-        .def_prop_ro("roi", [](const Annotation& a) { return a.roi; });
+        .def_prop_ro("roi", [](const Annotation& a) { return a.roi; })
+        .def_ro("parent_id",&Annotation::parent_id).def_ro("class_name",&Annotation::class_name).def_ro("revision",&Annotation::revision);
+    nb::class_<ObjectEdit>(m,"ObjectEdit")
+        .def_static("create",&ObjectEdit::create,"roi"_a,"name"_a="Annotation","parent_id"_a=0,"class_name"_a="")
+        .def_static("replace",&ObjectEdit::replace,"id"_a,"roi"_a,"name"_a,"parent_id"_a=0,"class_name"_a="")
+        .def_static("remove",&ObjectEdit::remove);
     nb::class_<Image>(m, "Image").def(nb::init<int,int,std::vector<std::uint8_t>>(), "width"_a, "height"_a, "rgb"_a)
         .def_static("demo", &Image::demo).def_static("read_ppm", &Image::read_ppm)
         .def_prop_ro("width", &Image::width).def_prop_ro("height", &Image::height);
@@ -55,6 +60,17 @@ NB_MODULE(_native, m) {
         .def_prop_ro("annotations", [](const Document& d) { return d.annotations(); })
         .def("add_rectangle", &Document::add_rectangle, "roi"_a, "name"_a = "Annotation")
         .def("remove_annotation", &Document::remove_annotation)
+        .def("annotation",&Document::annotation)
+        .def_prop_ro("object_count",&Document::object_count).def_prop_ro("revision",&Document::revision)
+        .def("update_rectangle",&Document::update_rectangle).def("rename_annotation",&Document::rename_annotation)
+        .def("classify_annotation",&Document::classify_annotation).def("reparent_annotation",&Document::reparent_annotation)
+        .def("execute",&Document::execute,"edits"_a,"label"_a="Edit objects")
+        .def("children",&Document::children)
+        .def("undo",&Document::undo).def("redo",&Document::redo)
+        .def_prop_ro("can_undo",&Document::can_undo).def_prop_ro("can_redo",&Document::can_redo)
+        .def_prop_ro("undo_label",&Document::undo_label).def_prop_ro("redo_label",&Document::redo_label)
+        .def("clear_history",&Document::clear_history).def("set_history_limits",&Document::set_history_limits)
+        .def_prop_ro("history_bytes",&Document::history_bytes)
         .def("set_calibration", &Document::set_calibration)
         .def("clear_calibration", &Document::clear_calibration)
         .def_prop_ro("pixel_width_um", &Document::pixel_width_um).def_prop_ro("pixel_height_um", &Document::pixel_height_um)
@@ -73,7 +89,8 @@ NB_MODULE(_native, m) {
     nb::enum_<GuiInputKind>(m,"GuiInputKind").value("MOVE",GuiInputKind::Move)
         .value("LEFT_DOWN",GuiInputKind::LeftDown).value("LEFT_UP",GuiInputKind::LeftUp)
         .value("RIGHT_DOWN",GuiInputKind::RightDown).value("RIGHT_UP",GuiInputKind::RightUp)
-        .value("WHEEL",GuiInputKind::Wheel).value("RECTANGLE_KEY",GuiInputKind::RectangleKey);
+        .value("WHEEL",GuiInputKind::Wheel).value("RECTANGLE_KEY",GuiInputKind::RectangleKey)
+        .value("UNDO_KEY",GuiInputKind::UndoKey).value("REDO_KEY",GuiInputKind::RedoKey).value("DELETE_KEY",GuiInputKind::DeleteKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel);

@@ -139,3 +139,31 @@ def test_large_pyramid_navigation_and_payload():
     assert report.pending_tiles == 0
     assert report.framebuffer_width == 2560 and report.framebuffer_height == 1440
     server.close()
+
+
+def test_keyboard_delete_undo_redo_restores_same_object():
+    doc = q.Document(q.Image.demo())
+    options = q.GuiOptions()
+    options.inputs = [
+        replay(4, q.GuiInputKind.RECTANGLE_KEY),
+        replay(6, q.GuiInputKind.LEFT_DOWN, .4, .4),
+        replay(7, q.GuiInputKind.MOVE, .6, .6),
+        replay(8, q.GuiInputKind.LEFT_UP, .6, .6),
+        replay(12, q.GuiInputKind.UNDO_KEY),
+        replay(15, q.GuiInputKind.REDO_KEY),
+        replay(18, q.GuiInputKind.LEFT_DOWN, .5, .5),
+        replay(19, q.GuiInputKind.LEFT_UP, .5, .5),
+    ]
+    # Rectangle tool remains active, so select with R switched off first.
+    events = list(options.inputs)
+    events.insert(6, replay(16, q.GuiInputKind.RECTANGLE_KEY))
+    events += [replay(22, q.GuiInputKind.DELETE_KEY), replay(25, q.GuiInputKind.UNDO_KEY)]
+    options.inputs = events
+    report = q.show(doc, frame_limit=60, options=options)
+    assert doc.object_count == 1
+    assert doc.annotation(1).name == "Region 1"
+    assert doc.annotation(1).roi.width > 0
+    assert doc.redo_label == "Delete subtree"
+    assert doc.redo() and doc.object_count == 0
+    assert doc.undo() and doc.annotation(1).id == 1
+    assert report.pending_tiles == 0

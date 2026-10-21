@@ -10,6 +10,8 @@ QuPath port or a compatible replacement for Java QuPath.
 - Standalone C++ document owns an image-server reference, rectangle annotations and calibration.
 - Dense RGB and optional OpenSlide servers with 64-bit metadata and bounded RGBA region reads.
 - Stable annotation IDs, deletion, calibrated area and mean RGB intensity.
+- Atomic rectangular object edits, parent/class assignments, subtree deletion,
+  bounded undo/redo and document/object revisions shared by Python and the GUI.
 - Image viewport with cursor-anchored zoom, pan, fit and rectangle drawing.
 - ImGui image canvas, annotation inspector and selected-object measurements.
 - Click/drag overview navigation, RGB/grayscale/channel display, contrast window and gamma.
@@ -74,8 +76,8 @@ build/desktop/Release/qupathxx_app.exe
 Python checks: `.venv/Scripts/python -m pytest`.
 The native executable accepts `--smoke` to render three frames and exit.
 
-Validated on Windows with MSVC 19.44 and Python 3.12: 39 Python tests including
-synthetic pyramid, Aperio and opt-in framebuffer checks, four native tests with
+Validated on Windows with MSVC 19.44 and Python 3.12: 49 Python tests including
+transaction, hierarchy, pyramid, Aperio and opt-in framebuffer checks, five native suites with
 and without OpenSlide, and GUI startup/render/shutdown with known and unknown
 calibration. ImGui input replay verifies zoom, pan, rectangle drawing and overview
 navigation; actual OS pointer delivery and monitor DPI transitions remain open.
@@ -133,6 +135,10 @@ background-read API, budget accounting and a Python example. The
 Open a slide with `.venv/Scripts/python -m qupathxx sample.svs`.
 Mean intensity is calculated in a cancellable background task when requested
 with the measurement button, rather than on each frame.
+The [document command contract](docs/document-commands.md) describes atomic
+edits, hierarchy, undo/redo, retention limits and the large-object benchmark.
+The inspector applies rectangle/name/class/parent changes as one operation.
+Use toolbar Undo/Redo or Ctrl+Z/Ctrl+Y; Delete removes the selected subtree.
 
 ## Architecture and next milestones
 
@@ -150,8 +156,8 @@ No naparixx or QuPath source has been copied into this project.
 
 1. Extend the RGB tiled viewer with docking, fluorescence/ICC display, real
    vendor navigation benchmarks, resize/minimize and per-monitor DPI validation.
-2. Polygon/ellipse ROIs, object hierarchy, classes, selection and undo/redo;
-   spatial indexing and GeoJSON annotation exchange.
+2. Extend rectangular hierarchy/classes and undo/redo with robust polygon/ellipse
+   ROIs, detection/cell objects, multi-selection, spatial indexing and interchange.
 3. Project persistence with versioned native schema and explicit QuPath import
    compatibility checks. `.qpproj` and `.qpdata` are not supported yet.
 4. Color deconvolution, tissue detection and watershed cell detection with

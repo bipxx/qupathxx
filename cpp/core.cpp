@@ -73,24 +73,8 @@ Document::Document(std::shared_ptr<ImageServer> server) : server_(std::move(serv
     if (!server_ || server_->closed()) throw std::invalid_argument("document requires an open image server");
     pixel_width_um_ = metadata().pixel_width_um; pixel_height_um_ = metadata().pixel_height_um;
 }
-std::uint64_t Document::add_rectangle(Rect roi, std::string name) {
-    roi.validate();
-    const auto integer_limit = static_cast<double>(std::numeric_limits<std::int64_t>::max());
-    if (roi.x < 0 || roi.y < 0 || roi.x + roi.width >= integer_limit || roi.y + roi.height >= integer_limit ||
-        static_cast<long double>(roi.x + roi.width) > metadata().width || static_cast<long double>(roi.y + roi.height) > metadata().height)
-        throw std::invalid_argument("ROI must lie inside the image");
-    auto id = next_id_;
-    annotations_.push_back({id, std::move(name), roi}); ++next_id_;
-    return id;
-}
-bool Document::remove_annotation(std::uint64_t id) {
-    auto it = std::find_if(annotations_.begin(), annotations_.end(), [id](const auto& a) { return a.id == id; });
-    if (it == annotations_.end()) return false;
-    annotations_.erase(it); return true;
-}
-void Document::set_calibration(double w, double h) { positive(w); positive(h); pixel_width_um_ = w; pixel_height_um_ = h; }
 const Annotation& Document::find(std::uint64_t id) const {
-    for (const auto& a : annotations_) if (a.id == id) return a;
+    auto it=objects_.find(id); if (it!=objects_.end()) return it->second;
     throw std::out_of_range("annotation does not exist");
 }
 double Document::area_um2(std::uint64_t id) const {
