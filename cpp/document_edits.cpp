@@ -1,5 +1,6 @@
 #include "object_snapshot.hpp"
 #include "qupathxx/core.hpp"
+#include "qupathxx/cells.hpp"
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -13,7 +14,7 @@ bool same_object(const std::optional<Annotation>& a,const std::optional<Annotati
     if (!a) return true;
     return a->id==b->id && a->name==b->name && a->class_name==b->class_name && a->parent_id==b->parent_id &&
         a->geometry.equals(b->geometry) && a->kind==b->kind &&
-        a->nucleus.has_value()==b->nucleus.has_value() && (!a->nucleus || a->nucleus->equals(*b->nucleus));
+        a->nucleus.has_value()==b->nucleus.has_value() && (!a->nucleus || a->nucleus->equals(*b->nucleus)) && a->cell_feature_link==b->cell_feature_link;
 }
 void text(const std::string& value) {
     if (value.size()>4096 || value.find('\0')!=std::string::npos) throw std::invalid_argument("object text must be at most 4096 bytes and contain no NUL");
@@ -121,6 +122,12 @@ struct Document::Staging {
         if(a.nucleus && a.kind!=ObjectKind::Cell) throw std::invalid_argument("only cells may have a nucleus ROI");
         if(a.kind==ObjectKind::Cell && (!a.geometry.is_area() || (a.nucleus && !a.nucleus->is_area())))
             throw std::invalid_argument("cell and nucleus ROIs must have area");
+        if(a.cell_feature_link && (a.kind!=ObjectKind::Cell || !a.cell_feature_link->record_id || a.cell_feature_link->record_id>document.revision_ || !a.cell_feature_link->label || a.cell_feature_link->label>1000000))
+            throw std::invalid_argument("invalid cell feature link");
+        if(a.cell_feature_link) {
+            const auto run=document.cells_.find(a.cell_feature_link->record_id);
+            if(run!=document.cells_.end() && a.cell_feature_link->label>run->second.value->result->features().size()) throw std::invalid_argument("invalid cell feature label");
+        }
         const auto roi=a.bounds();
         const auto limit=static_cast<double>(std::numeric_limits<std::int64_t>::max());
         if (!a.id || roi.x<0 || roi.y<0 || roi.x+roi.width>=limit || roi.y+roi.height>=limit ||
@@ -187,7 +194,7 @@ std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
     // The candidate is private until all validation succeeds. Build canonical
     // nodes once instead of allocating before/after edit patches and committing
     // a synthetic edit just to reconstruct an unpublished document.
-    auto result=std::make_shared<Document>(std::move(server));
+    auto result=std::make_shared<Document>(std::move(server));result->revision_=revision;
     for(const auto& c:classes) {
         text(c.name);
         if(c.name.empty()) throw std::invalid_argument("class name must not be empty");
@@ -195,7 +202,7 @@ std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
         if(!result->classes_.emplace(c.name,c).second) throw std::invalid_argument("duplicate persisted class");
     }
     for(const auto& a:objects) {
-        if(!a.id || a.id>=next_id || !a.revision || a.revision>revision || !result->objects_.emplace(a.id,a).second)
+        if(!a.id || a.id>=next_id || !a.revision || a.revision>revision || (a.cell_feature_link && a.cell_feature_link->record_id>revision) || !result->objects_.emplace(a.id,a).second)
             throw std::invalid_argument("invalid persisted object identity or revision");
     }
 #ifdef QUPATHXX_HAS_PROJECT
@@ -400,8 +407,10 @@ std::vector<std::uint64_t> Document::execute(const std::vector<ObjectEdit>& edit
             if (next==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("object identity exhausted");
             auto value=edit.value; value.id=next++; value.revision=0; staged.write(value.id,value); created.push_back(value.id);
         } else if (edit.kind==ObjectEditKind::Replace) {
-            if (!staged.get(edit.value.id)) throw std::out_of_range("annotation does not exist");
-            staged.write(edit.value.id,edit.value);
+            const auto previous=staged.get(edit.value.id);if (!previous) throw std::out_of_range("annotation does not exist");
+            auto value=edit.value;
+            if(value.kind==ObjectKind::Cell && !value.cell_feature_link) value.cell_feature_link=previous->cell_feature_link;
+            staged.write(value.id,std::move(value));
         } else if (edit.kind==ObjectEditKind::Remove) staged.remove_subtree(edit.value.id);
         else throw std::invalid_argument("invalid object edit kind");
     }
@@ -424,7 +433,7 @@ std::vector<std::uint64_t> Document::append_objects(const std::vector<Annotation
         if(!existing) staged.write_class(c.name,c);
     }
     for(const auto& a:objects) {
-        auto value=a; value.id=mapping.at(a.id); value.revision=0;
+        auto value=a; value.id=mapping.at(a.id); value.revision=0;value.cell_feature_link.reset();
         if(value.parent_id) {
             auto parent=mapping.find(value.parent_id);
             if(parent==mapping.end()) throw std::invalid_argument("import parent is not in the imported batch");

@@ -82,7 +82,7 @@ def test_roundtrip_retains_every_numeric_field_and_rechecks(tmp_path, feature, e
     restored = q.Project.open(str(path)).document(image)
     old = restored.cell_record(record).result
     assert snapshot(old) == snapshot(result)
-    assert old.cell_contours is None and old.nucleus_contours is None  # Derived on a new worker run.
+    assert bool(old.cell_contours) == q.has_geos and bool(old.nucleus_contours) == q.has_geos
     assert restored.cell_status(record) == "unverified"
     revision = restored.revision
     replay = q.CellRequest.replay(restored, record)
@@ -91,7 +91,7 @@ def test_roundtrip_retains_every_numeric_field_and_rechecks(tmp_path, feature, e
     with pytest.raises(ValueError, match="current request"):
         restored.keep_cells(replay, old)
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 5
+        assert db.execute("PRAGMA user_version").fetchone()[0] == 6
 
 
 @project_only
@@ -161,6 +161,7 @@ def test_save_and_recovery_capture_keep_removed_runs_isolated(tmp_path):
 def test_schema4_migration_rolls_back_with_failed_save(tmp_path):
     project, doc, image, obj, _, _, _, path = saved(tmp_path)
     with sqlite3.connect(path) as db:
+        db.execute("DROP TABLE cell_feature_links")
         db.execute("DROP TABLE cell_records")
         db.execute("PRAGMA user_version=4")
         db.execute("CREATE TRIGGER fail_cells BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'injected cell migration failure'); END")
@@ -175,7 +176,7 @@ def test_schema4_migration_rolls_back_with_failed_save(tmp_path):
         db.execute("DROP TRIGGER fail_cells")
     loaded.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 5
+        assert db.execute("PRAGMA user_version").fetchone()[0] == 6
 
 
 def rewrite_checksum(data, roi):

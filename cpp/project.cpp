@@ -357,8 +357,8 @@ std::uint64_t number(const std::string& text) {
 int schema(Database& db,bool allow_recovery=false) {
     auto version=scalar(db,"PRAGMA user_version");
     auto app=scalar(db,"PRAGMA application_id");
-    if((app!=application_id && !(allow_recovery && app==recovery_application_id)) || (version!=1 && version!=2 && version!=3 && version!=4 && version!=5))
-        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 through 5)");
+    if((app!=application_id && !(allow_recovery && app==recovery_application_id)) || (version!=1 && version!=2 && version!=3 && version!=4 && version!=5 && version!=6))
+        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 through 6)");
     return static_cast<int>(version);
 }
 void create_views(Database& db) {
@@ -372,6 +372,9 @@ void create_tissue(Database& db) {
 }
 void create_cells(Database& db) {
     db.exec("CREATE TABLE cell_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,producer TEXT NOT NULL,geometry BLOB NOT NULL,run BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=5;");
+}
+void create_cell_links(Database& db) {
+    db.exec("CREATE TABLE cell_feature_links(image_id TEXT NOT NULL,object_id TEXT NOT NULL,record_id TEXT NOT NULL,label INTEGER NOT NULL,PRIMARY KEY(image_id,object_id),FOREIGN KEY(image_id,object_id) REFERENCES objects(image_id,id)) STRICT; PRAGMA user_version=6;");
 }
 bool recovery_table(Database& db) { return scalar(db,"SELECT count(*) FROM sqlite_schema WHERE type='table' AND name='recovery'")!=0; }
 RecoveryInfo recovery_header(Database& db,const std::string& path) {
@@ -470,15 +473,17 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<3) create_analysis(db);
         if(version<4) create_tissue(db);
         if(version<5) create_cells(db);
+        if(version<6) create_cell_links(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);}
-    db.exec("DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);}
+    db.exec("DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     Statement level(db,"INSERT INTO levels VALUES(?,?,?,?,?)");
     Statement classification(db,"INSERT INTO classes VALUES(?,?,?)");
     Statement object(db,"INSERT INTO objects VALUES(?,?,?,?,?,?,?,?,?)");
+    Statement cell_link(db,"INSERT INTO cell_feature_links VALUES(?,?,?,?)");
     Statement view(db,"INSERT INTO views VALUES(?,?,?,?,?,?,?,?)");
     Statement tissue(db,"INSERT INTO tissue_records VALUES(?,?,?,?,?)");
     Statement cells(db,"INSERT INTO cell_records VALUES(?,?,?,?,?)");
@@ -511,6 +516,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
             auto geometry=encode(a.geometry); object.blob(8,geometry);
             auto nucleus=a.nucleus?encode(*a.nucleus):std::vector<std::uint8_t>{}; if(a.nucleus) object.blob(9,nucleus);
             object.done();
+            if(a.cell_feature_link) {cell_link.string(1,key);cell_link.string(2,std::to_string(a.id));cell_link.string(3,std::to_string(a.cell_feature_link->record_id));cell_link.integer(4,a.cell_feature_link->label);cell_link.done();}
         };
         for(const auto& [object_id,a]:doc.objects_) write_object(a);
         for(const auto& block:doc.object_snapshot_) for(const auto& a:block->values) write_object(a);
@@ -597,7 +603,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
     Statement images(db,"SELECT id,name,reader,source,embedded,width,height,vendor,server_x,server_y,cal_x,cal_y,next_object,revision,rgb FROM images");
     Statement levels(db,"SELECT ordinal,width,height,downsample FROM levels WHERE image_id=? ORDER BY ordinal");
     Statement classes(db,"SELECT name,color FROM classes WHERE image_id=? ORDER BY name");
-    Statement objects(db,"SELECT id,name,parent,class_name,revision,kind,geometry,nucleus FROM objects WHERE image_id=?");
+    Statement objects(db,version>=6?"SELECT o.id,o.name,o.parent,o.class_name,o.revision,o.kind,o.geometry,o.nucleus,l.record_id,l.label FROM objects o LEFT JOIN cell_feature_links l ON l.image_id=o.image_id AND l.object_id=o.id WHERE o.image_id=?":"SELECT id,name,parent,class_name,revision,kind,geometry,nucleus FROM objects WHERE image_id=?");
     while(images.row()) {
         stopped(); if(progress) progress->phase.store(2);
         auto key=images.string(0); ProjectImage info;
@@ -636,6 +642,10 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             auto kind=objects.integer(5); if(kind<0 || kind>2) throw std::invalid_argument("unknown persisted object kind");
             auto geometry=decode(objects,6); std::optional<Roi> nucleus; if(objects.type(7)!=SQLITE_NULL) nucleus=decode(objects,7);
             annotations.push_back({number(objects.string(0)),objects.string(1),std::move(geometry),number(objects.string(2)),objects.string(3),number(objects.string(4)),static_cast<ObjectKind>(kind),std::move(nucleus)});
+            if(version>=6 && (objects.type(8)!=SQLITE_NULL || objects.type(9)!=SQLITE_NULL)) {
+                const auto label=objects.integer(9);if(label<1 || label>1000000) throw std::invalid_argument("invalid cell feature label");
+                annotations.back().cell_feature_link=CellFeatureLink{number(objects.string(8)),static_cast<std::uint32_t>(label)};
+            }
             if(progress) progress->objects.fetch_add(1,std::memory_order_relaxed);
         }
         objects.check(sqlite3_reset(objects.stmt)); objects.check(sqlite3_clear_bindings(objects.stmt));
@@ -697,6 +707,15 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             if(rows.type(4)!=SQLITE_BLOB || size<0) throw std::invalid_argument("invalid cell archive blob");
             record->result=CellArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,4)),static_cast<std::size_t>(size),std::move(roi),image->second.document->metadata(),progress?&progress->cancelled:nullptr);
             image->second.document->restore_cells(std::move(record));
+        }
+    }
+    if(version>=6) {
+        if(scalar(db,"SELECT count(*) FROM cell_feature_links l WHERE NOT EXISTS (SELECT 1 FROM objects o WHERE o.image_id=l.image_id AND o.id=l.object_id)")) throw std::invalid_argument("orphaned cell feature link");
+        for(const auto& [image_id,e]:project->entries_) for(const auto& [id,a]:e.document->objects_) if(a.cell_feature_link) {
+            stopped();const auto& link=*a.cell_feature_link;const auto run=e.document->cells_.find(link.record_id);
+            // Removed archives remain explicit historical links; present archives
+            // must resolve to a real feature label in this same document.
+            if(run!=e.document->cells_.end() && link.label>run->second.value->result->features().size()) throw std::invalid_argument("invalid cell feature label");
         }
     }
     if(scalar(db,"SELECT count(*) FROM objects WHERE image_id NOT IN (SELECT id FROM images)") ||

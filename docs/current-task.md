@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the final installed-wheel regression passes 876 Python cases with two file-symlink cases
+Evidence: the final installed-wheel regression passes 902 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
@@ -353,8 +353,17 @@ metadata is formatted once per run. The 32768-row export improves from 78.32 to
 38.17 ms with identical bytes; the all-visible 100001-object viewer records
 16.93 ms p95 frame work during export. See cell-tables.md for validation and timings.
 
-Next complete source/environment provenance, published object-feature identity
-and project-wide tables. Continue
+The forty-fourth packet preserves published cell feature identity through native
+run/label references, object edits, history and schema-6 project/recovery storage.
+Live publication retains/reuses an archive; verified saved runs publish directly.
+The inspector shows captured measurements and explicit geometry/source/missing-run
+status. The loader reconstructs bounded contours from validated historical labels;
+numeric-only runs remain readable when geometry cannot fit saved limits.
+GeoJSON reports dropped run links. Publishing 4096 cells takes 5.15 ms; the
+104097-object selected/all-visible viewer records 16.93 ms p95 CPU frame work.
+See cell-feature-links.md.
+
+Next complete source/environment provenance and project-wide tables. Continue
 numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged

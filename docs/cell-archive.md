@@ -61,10 +61,11 @@ verify a partial result. Saved geometry/measurements remain inspectable as histo
 Neither a checksum nor a stored input digest alone proves that current pixels
 still match a run.
 
-Contours are derived geometry and are **not duplicated in the run blob**. Loaded
-results expose numeric masks/features with `nucleus_contours` and `cell_contours`
-unset. A replay generates contours again on the worker, subject to current GEOS
-availability and saved limits. Published body/nucleus objects already use normal
+Contours are derived geometry and are **not duplicated in the run blob**. The
+native loader rebuilds them from validated historical labels, subject to current
+GEOS availability and saved limits, sharing detector normalization. If those
+limits prevent reconstruction, masks/features remain readable with contours unset.
+A pixel replay still requires the original parameters and computes a fresh result. Published body/nucleus objects already use normal
 project geometry storage. Numeric archives work without GEOS; polygon ROIs still
 require the existing optional geometry backend. Automatic-level replays reject a
 changed level choice rather than silently comparing a different grid.
@@ -112,10 +113,12 @@ can be normalized by union. The replacement must cover both original geometries,
 remain in the source ROI and fit contour budgets. Area-bearing protrusions still
 fail. Generic ROI containment predicates are unchanged.
 
+[Published cell feature links](cell-feature-links.md) preserve run/label identity
+through object edits, history and schema-6 storage.
 [Native cell tables](cell-tables.md) export archived compartment features through
 Python and ImGui with immutable capture and background atomic publication.
 Full source/environment manifests, physical filters, marker/split/merge editing,
-published object-feature identity, project-wide tables and pinned QuPath comparisons
+project-wide tables and pinned QuPath comparisons
 remain unfinished. The complete
 M0–M7 project scope stays active.
 
@@ -143,7 +146,8 @@ objects and report canvas/image/mask GPU payloads separately.
 
 The [eight-run recording](benchmarks/cell-archive-8-windows.json) encodes each
 1024², 256-cell run to 259620 bytes. Native containers retain 9384134 bytes per
-original result; decoded results omit derived contours and retain 8480168 bytes.
+original result; that recording predates loader contour reconstruction, so its
+decoded results omit derived contours and retain 8480168 bytes.
 Eight shared runs capture in 0.016 ms while conservatively charging 78227751
 snapshot bytes; write/load record 53.21/245.06 ms and result verification 0.91 ms.
 

@@ -7,6 +7,9 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Published cell objects retain saved feature identity through edits, Undo/Redo,
+  project/recovery storage and the measurement inspector; see [cell feature links](docs/cell-feature-links.md).
+
 - Native cell measurement CSV with immutable capture, background atomic export,
   Python and ImGui controls; see [cell tables](docs/cell-tables.md).
 - Lossless cell-run archives with parameters, markers, compartment features,

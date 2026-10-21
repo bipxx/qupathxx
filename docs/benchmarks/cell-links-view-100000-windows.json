@@ -1,0 +1,22 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "native_sha256": "3ce6cfd7cdd6c1a67e362fefd1deee9167c01aff5a95435826213a10dcf97ac9",
+  "objects": 104097,
+  "linked_cells": 4096,
+  "records": 1,
+  "publish_ms": 6.642499938607216,
+  "status_lookup_total_ms": 0.7064000237733126,
+  "feature_lookup_total_ms": 0.892199925146997,
+  "input_sha256": "a5320e94af70dcc2eb8c37fafebc6cadab2e3548e341ee4da567ef5570cdcc88",
+  "save_capture_ms": 0.0225,
+  "save_write_ms": 265.3012,
+  "snapshot_bytes": 49928265,
+  "file_bytes": 13602816,
+  "load_ms": 814.14659996517,
+  "selected": 104097,
+  "visible": 104097,
+  "cpu_frame_p95_ms": 16.9347,
+  "max_cpu_frame_ms": 17.4845,
+  "canvas_gpu_bytes": 3675040,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2"
+}

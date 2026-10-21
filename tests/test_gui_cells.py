@@ -43,6 +43,8 @@ def test_gui_cells_match_native_masks_and_one_step_history(tmp_path, undo):
     for i, feature in zip(doc.children(obj), expected.features):
         cell = doc.annotation(i)
         assert cell.kind == q.ObjectKind.CELL and cell.nucleus
+        assert cell.cell_feature_link.label == feature.label and doc.cell_object_status(i) == "current"
+        assert doc.cell_object_feature(i).nucleus_rgb == feature.nucleus_rgb
         assert cell.geometry.area == feature.cell_pixels and cell.nucleus.area == feature.nucleus_pixels
     header, dimensions, maximum, data = capture.read_bytes().split(b"\n", 3)
     assert header == b"P6" and maximum == b"255"
@@ -61,3 +63,18 @@ def test_gui_cell_result_is_discarded_after_source_deletion():
     report = q.show(doc, frame_limit=35, options=options)
     assert report.cell_state == "stale" and report.cell_result is None
     assert not report.cell_preview_ready and not report.cells_published and doc.object_count == 0
+
+
+@pytest.mark.parametrize("state",["current","geometry_changed","archive_missing"])
+def test_gui_inspector_shows_historical_cell_without_mutating_features(tmp_path,state):
+    from test_cell_feature_links import setup,signature
+    doc,_,_,result,record=setup()
+    ids=doc.publish_cell_record(record)
+    cell=ids[-1]
+    if state=="geometry_changed":doc.update_nucleus(cell,None)
+    if state=="archive_missing":doc.remove_cells(record)
+    before=doc.revision
+    options=q.GuiOptions();options.inputs=[event(4,q.GuiInputKind.SELECT_ALL_KEY)]
+    report=q.show(doc,frame_limit=20,capture_path=str(tmp_path/"inspector.ppm"),options=options)
+    assert report.primary_selection==cell and doc.revision==before and doc.cell_object_status(cell)==state
+    if state!="archive_missing":assert signature(doc.cell_object_feature(cell))==signature(result.features[-1])

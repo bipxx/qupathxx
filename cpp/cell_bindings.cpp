@@ -34,9 +34,15 @@ void bind_cells(nb::module_& m) {
     m.def("detect_cells",[](const CellRequest& r){return detect_cells(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
     nb::class_<CellRecord>(m,"CellRecord").def_ro("id",&CellRecord::id).def_ro("producer",&CellRecord::producer)
         .def_ro("result",&CellRecord::result).def_prop_ro("payload_bytes",&CellRecord::payload_bytes);
+    nb::class_<CellFeatureLink>(m,"CellFeatureLink").def_ro("record_id",&CellFeatureLink::record_id).def_ro("label",&CellFeatureLink::label);
+    auto annotation=nb::borrow<nb::class_<Annotation>>(m.attr("Annotation"));
+    annotation.def_ro("cell_feature_link",&Annotation::cell_feature_link);
     auto document=nb::borrow<nb::class_<Document>>(m.attr("Document"));
     document.def_prop_ro("cell_records",&Document::cell_records).def_prop_ro("cell_record_count",&Document::cell_record_count)
         .def("cell_record",&Document::cell_record).def("latest_cells",&Document::latest_cells).def("cell_status",&Document::cell_status)
+        .def("publish_cells",&Document::publish_cells,"request"_a,"result"_a,"name_prefix"_a="Cell","class_name"_a="")
+        .def("publish_cell_record",&Document::publish_cell_record,"record_id"_a,"name_prefix"_a="Cell","class_name"_a="")
+        .def("cell_object_feature",&Document::cell_object_feature).def("cell_object_status",&Document::cell_object_status)
         .def("keep_cells",&Document::keep_cells).def("verify_cells",&Document::verify_cells).def("remove_cells",&Document::remove_cells);
     nb::class_<CellStats,AnalysisStats>(m,"CellStats").def_ro("phase",&CellStats::phase);
     nb::class_<CellJob>(m,"CellJob").def(nb::init<>()).def("request",&CellJob::request)

@@ -1,7 +1,7 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
     CellTableOptions, CellTableRequest, CellTableExportStats, CellTableExportJob, cell_measurements_csv, save_cell_measurements_csv,
-    CellRecord, CellParameters, CellRequest, CellMarker, CellFeature, CellResult, CellStats, CellJob, detect_cells,
+    CellFeatureLink, CellRecord, CellParameters, CellRequest, CellMarker, CellFeature, CellResult, CellStats, CellJob, detect_cells,
     TissueRecord, TissueContourOptions, TissueContour, TissueContours, trace_tissue,
     TissueFeature, TissueParameters, TissueRequest, TissueComponent, TissueResult, TissueStats, TissueJob, detect_tissue,
     AnalysisKind, AnalysisRequest, AnalysisResult, AnalysisRecord, AnalysisStats, AnalysisJob, analyze,
@@ -21,7 +21,7 @@ from ._native import (
 
 __all__ = [
     "CellTableOptions", "CellTableRequest", "CellTableExportStats", "CellTableExportJob", "cell_measurements_csv", "save_cell_measurements_csv",
-    "CellRecord", "CellParameters", "CellRequest", "CellMarker", "CellFeature", "CellResult", "CellStats", "CellJob", "detect_cells",
+    "CellFeatureLink", "CellRecord", "CellParameters", "CellRequest", "CellMarker", "CellFeature", "CellResult", "CellStats", "CellJob", "detect_cells",
     "TissueRecord", "TissueContourOptions", "TissueContour", "TissueContours", "trace_tissue",
     "TissueFeature", "TissueParameters", "TissueRequest", "TissueComponent", "TissueResult", "TissueStats", "TissueJob", "detect_tissue",
     "AnalysisKind", "AnalysisRequest", "AnalysisResult", "AnalysisRecord", "AnalysisStats", "AnalysisJob", "analyze",

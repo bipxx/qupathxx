@@ -1095,3 +1095,29 @@ maximum CPU frame work, with 0.0024 ms GUI capture and 11.21 ms worker export.
 Published object-feature identity,
 project-wide tables, source/environment manifests and all unfinished M0-M7 work
 remain active.
+
+
+The forty-fourth packet adds persistent feature identity to published cells.
+Native objects carry a typed run/label reference to immutable archived compartment
+measurements. Live publication retains or reuses a run; a successfully rechecked
+saved run publishes against its verified archive without duplication. Object
+edits, classification, Undo/Redo, shared save snapshots and schema-6 project/
+recovery storage preserve that reference. The inspector shows historical values
+and explicit source/geometry/missing-archive status. Native loaders reconstruct
+bounded derived contours from validated labels without reading current pixels;
+numeric-only runs remain readable when contour limits cannot be met. GeoJSON
+reports loss of links explicitly. Schemas 1-5 still read and upgrade transactionally.
+See [published cell features](cell-feature-links.md).
+
+The final installed wheel passes 902 Python cases with two Windows symlink cases
+skipped, including 26 new cases for feature identity, historical status, storage,
+malformed links, revision exhaustion, history rollback, migration, interchange and
+desktop inspection. Native full/core/minimal suites pass (26/25/25). Publishing
+4096 five-sample cells and retaining their run takes 5.15 ms; looking up all
+statuses/features through Python takes 0.488/0.576 ms. With 100000 additional
+objects, publication is 6.64 ms and the all-visible selected 104097-object viewer
+records 16.93 ms p95 CPU frame work, with the final cell's feature inspector active.
+Save capture is 0.0225 ms and validated load, including contour reconstruction,
+is 814.15 ms. These synthetic warm observations are scoped to one PC, with
+history disabled for throughput. Source/environment manifests, project-wide
+tables, numerical QuPath comparisons and all unfinished M0-M7 work remain active.

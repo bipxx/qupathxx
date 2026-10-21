@@ -18,6 +18,7 @@ struct CellParameters;
 class CellResult;
 class CellRequest;
 struct CellRecord;
+struct CellFeature;
 struct TissueRecord;
 class TissueRequest;
 class TissueResult;
@@ -38,6 +39,11 @@ struct ObjectClass {
     std::string name;
     std::uint32_t color = 0x41e1be; // RGB, no alpha.
 };
+struct CellFeatureLink {
+    std::uint64_t record_id=0;
+    std::uint32_t label=0;
+    bool operator==(const CellFeatureLink& other) const {return record_id==other.record_id && label==other.label;}
+};
 struct Annotation {
     std::uint64_t id;
     std::string name;
@@ -47,6 +53,7 @@ struct Annotation {
     std::uint64_t revision = 0;
     ObjectKind kind = ObjectKind::Annotation;
     std::optional<Roi> nucleus;
+    std::optional<CellFeatureLink> cell_feature_link;
     Rect bounds() const;
     bool is_detection() const { return kind!=ObjectKind::Annotation; }
 };
@@ -165,6 +172,10 @@ public:
     std::shared_ptr<const CellRecord> latest_cells(std::uint64_t object_id) const;
     std::string cell_status(std::uint64_t id) const;
     std::uint64_t keep_cells(const CellRequest&,std::shared_ptr<const CellResult>);
+    std::vector<std::uint64_t> publish_cells(const CellRequest&,std::shared_ptr<const CellResult>,std::string name_prefix="Cell",std::string class_name="");
+    std::vector<std::uint64_t> publish_cell_record(std::uint64_t record_id,std::string name_prefix="Cell",std::string class_name="");
+    CellFeature cell_object_feature(std::uint64_t object_id) const;
+    std::string cell_object_status(std::uint64_t object_id) const;
     bool verify_cells(std::uint64_t id,const CellRequest&,const CellResult&);
     bool remove_cells(std::uint64_t id);
 private:

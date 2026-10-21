@@ -2,6 +2,7 @@
 #include "qupathxx/project_save.hpp"
 #include <filesystem>
 #include <iostream>
+#include <limits>
 #include <stdexcept>
 using namespace qpx;
 void check(bool v) {if(!v) throw std::runtime_error("cell archive check failed");}
@@ -38,6 +39,22 @@ int main() {
         const auto restored=Project::open(path)->document(image);check(restored->cell_record_count()==1 && restored->cell_record(saved)->result->nuclei()->labels()==detected->nuclei()->labels() && restored->cell_status(saved)=="unverified");
         check(job.request(project,path) && job.wait().state=="saved" && Project::open(path)->document(image)->cell_record(newer)->result->cells()->labels()==detected->cells()->labels());
         std::filesystem::remove(std::filesystem::u8path(path));
+    }
+    {
+        Document linked(Image(16,16,std::vector<std::uint8_t>(16*16*3,0)));const auto source=linked.add_rectangle({0,0,16,16});
+        CellRequest input(linked,source,transform,p);const auto detected=detect_cells(input);check(!detected->features().empty());
+        if(has_geos()) {
+            linked.clear_history();const auto ids=linked.publish_cells(input,detected);check(ids.size()==detected->features().size() && linked.cell_record_count()==1);
+            const auto cell=ids.at(0);const auto run=linked.annotation(cell).cell_feature_link->record_id;
+            check(linked.cell_object_status(cell)=="current" && linked.cell_object_feature(cell).cell_pixels==detected->features().at(0).cell_pixels);
+            check(linked.undo() && linked.object_count()==1 && linked.cell_record_count()==1 && linked.redo());
+            linked.rename_annotation(cell,"Renamed");check(linked.cell_object_status(cell)=="current");
+            linked.update_nucleus(cell,std::nullopt);check(linked.cell_object_status(cell)=="geometry_changed" && linked.undo() && linked.cell_object_status(cell)=="current");
+            auto forged=ObjectEdit::replace_geometry(cell,linked.annotation(cell).geometry,"forged",source,"",ObjectKind::Cell,linked.annotation(cell).nucleus);
+            forged.value.cell_feature_link=CellFeatureLink{std::numeric_limits<std::uint64_t>::max(),1};
+            const auto before=linked.revision();rejects<std::invalid_argument>([&]{linked.execute({forged});});check(linked.revision()==before);
+            check(linked.remove_cells(run) && linked.cell_object_status(cell)=="archive_missing");rejects<std::out_of_range>([&]{linked.cell_object_feature(cell);});
+        } else rejects<std::runtime_error>([&]{linked.publish_cells(input,detected);});
     }
     Document tiny(Image(1,1,{0,0,0}));const auto source=tiny.add_rectangle({0,0,1,1});CellRequest captured(tiny,source,transform,p);const auto small=detect_cells(captured);
     for(int i=0;i<10000;++i) tiny.keep_cells(captured,small);

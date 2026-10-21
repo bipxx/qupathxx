@@ -1202,6 +1202,21 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     }
                 }
             } catch(const std::exception& e) {ImGui::TextWrapped("Measurements: %s",e.what());}
+            const auto measured_cell=document.annotation(selected);
+            if(measured_cell.cell_feature_link) {
+                const auto link=*measured_cell.cell_feature_link;
+                ImGui::SeparatorText("Captured cell features");
+                ImGui::Text("Run: %llu / label: %u",static_cast<unsigned long long>(link.record_id),link.label);
+                const auto status=document.cell_object_status(selected);ImGui::Text("Feature status: %s",status.c_str());
+                if(status!="archive_missing" && status!="invalid_label") {
+                    const auto f=document.cell_object_feature(selected);
+                    ImGui::Text("Nucleus samples: %llu",static_cast<unsigned long long>(f.nucleus_pixels));
+                    ImGui::Text("Cell samples: %llu",static_cast<unsigned long long>(f.cell_pixels));
+                    ImGui::Text("Nucleus RGB: %.5g / %.5g / %.5g",f.nucleus_rgb[0],f.nucleus_rgb[1],f.nucleus_rgb[2]);
+                    ImGui::Text("Cell RGB: %.5g / %.5g / %.5g",f.cell_rgb[0],f.cell_rgb[1],f.cell_rgb[2]);
+                    ImGui::TextWrapped("Historical samples from the saved run. Geometry edits do not recompute these values.");
+                }
+            }
             if (mean.measured==selected && mean.value) ImGui::Text("Mean RGB: %.3f",*mean.value);
             ImGui::BeginDisabled(mean.active());
             if (ImGui::Button("Measure mean RGB")) mean.start(document.server(),document.annotation(selected),document.revision());
@@ -1422,6 +1437,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(recheck && !cell_job.busy() && state!="object_changed" && state!="source_closed") {try {
                     cell_job.request(CellRequest::replay(document,saved->id));verifying_cells=saved->id;error.clear();
                 } catch(const std::exception& e) {error=e.what();}}
+                ImGui::BeginDisabled(state!="current" || !has_geos());
+                if(ImGui::Button("Add saved cells")) {try {document.publish_cell_record(saved->id);error.clear();} catch(const std::exception& e) {error=e.what();}}
+                ImGui::EndDisabled();
                 ImGui::SetNextItemWidth(240);ImGui::InputTextWithHint("##Cell table path","Cell table .csv destination",cell_table_path,sizeof(cell_table_path));
                 ImGui::Checkbox("Require current cell run",&cell_table_options.require_current);
                 const bool can_export=!cell_table_job.busy() && (!cell_table_options.require_current || state=="current");

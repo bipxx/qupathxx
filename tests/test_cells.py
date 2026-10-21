@@ -241,7 +241,7 @@ def test_published_cell_geometry_survives_project_and_geojson_roundtrip(tmp_path
     restored = q.Project.open(str(path)).document(image)
     assert state(restored) == before and restored.children(obj) == ids
     target = document(phantom())
-    imported = q.import_geojson(target, q.export_geojson(doc).text)
+    imported = q.import_geojson(target, q.export_geojson(doc,allow_losses=True).text)
     assert imported.imported_ids == [obj, *ids]
     for a, b in zip(doc.annotations, target.annotations):
         assert a.geometry.covers(b.geometry) and b.geometry.covers(a.geometry) and a.kind == b.kind

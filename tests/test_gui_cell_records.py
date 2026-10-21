@@ -38,6 +38,7 @@ def test_gui_archive_reopen_recheck_and_publish_cells(tmp_path):
         published = q.show(restored,frame_limit=40,options=options)
         assert published.cells_published and len(restored.children(obj)) == record.result.cell_count
         assert restored.cell_record_count == 1 and restored.cell_status(record.id) == "current"
+        assert all(restored.annotation(i).cell_feature_link.record_id == record.id for i in restored.children(obj))
 
 
 def test_archive_wait_gates_keep_before_recheck_and_does_not_duplicate():

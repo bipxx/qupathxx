@@ -46,6 +46,52 @@ std::uint64_t Document::keep_cells(const CellRequest& request,std::shared_ptr<co
     ++revision_;try {restore_cells(record);} catch(...) {--revision_;throw;}
     auto& stored=cells_.at(record->id);stored.identity=analysis_identity_.token;stored.source=server_;stored.verified=true;return record->id;
 }
+std::vector<std::uint64_t> Document::publish_cell_record(std::uint64_t id,std::string prefix,std::string classification) {
+    const auto record=cell_record(id);const auto& r=*record->result;
+    if(cell_status(id)!="current") throw std::invalid_argument("cell publication requires a current verified run");
+    if(!r.cell_contours() || !r.nucleus_contours()) throw std::runtime_error("cell publication requires available validated contours (GEOS)");
+    std::vector<ObjectEdit> edits;edits.reserve(r.features().size());
+    for(std::size_t i=0;i<r.features().size();++i) {
+        const auto& body=r.cell_contours()->components().at(i);const auto& nucleus=r.nucleus_contours()->components().at(i);
+        if(body.label!=i+1 || nucleus.label!=i+1 || r.features()[i].label!=i+1) throw std::runtime_error("cell contour label validation failed");
+        auto edit=ObjectEdit::create_geometry(body.geometry,prefix+" "+std::to_string(i+1),r.nuclei()->object_id(),classification,ObjectKind::Cell,nucleus.geometry);
+        edit.value.cell_feature_link=CellFeatureLink{id,static_cast<std::uint32_t>(i+1)};edits.push_back(std::move(edit));
+    }
+    return execute(edits,"Add detected cells");
+}
+std::vector<std::uint64_t> Document::publish_cells(const CellRequest& request,std::shared_ptr<const CellResult> result,std::string prefix,std::string classification) {
+    if(!result || !request.matches(*this,request.object_id()) || request.ticket_!=result->ticket_) throw std::invalid_argument("cell result does not match its current request");
+    if(!result->cell_contours() || !result->nucleus_contours()) throw std::runtime_error("cell publication requires available validated contours (GEOS)");
+    if(result->features().empty()) return {};
+    // Reuse a retained copy of this exact run, rather than duplicating its rasters.
+    auto it=cells_by_object_.lower_bound({request.object_id(),0});
+    for(;it!=cells_by_object_.end() && it->first.first==request.object_id();++it) {
+        const auto id=it->first.second;if(cell_record(id)->result==result && cell_status(id)=="current") return publish_cell_record(id,std::move(prefix),std::move(classification));
+    }
+    const auto before=revision_;const auto id=keep_cells(request,std::move(result));
+    try {return publish_cell_record(id,std::move(prefix),std::move(classification));}
+    catch(...) {
+        // execute has a strong exception guarantee; roll back the private archive
+        // insertion as well, preserving IDs, history and the document revision.
+        const auto record=cell_record(id);cells_bytes_-=record->payload_bytes();cells_by_object_.erase({request.object_id(),id});cells_.erase(id);revision_=before;throw;
+    }
+}
+CellFeature Document::cell_object_feature(std::uint64_t id) const {
+    const auto& a=find(id);if(!a.cell_feature_link) throw std::invalid_argument("object has no cell feature link");
+    const auto& link=*a.cell_feature_link;const auto record=cell_record(link.record_id);
+    if(!link.label || link.label>record->result->features().size()) throw std::invalid_argument("invalid cell feature label");
+    return record->result->features().at(link.label-1);
+}
+std::string Document::cell_object_status(std::uint64_t id) const {
+    const auto& a=find(id);if(!a.cell_feature_link) return "no_features";
+    const auto& link=*a.cell_feature_link;const auto it=cells_.find(link.record_id);if(it==cells_.end()) return "archive_missing";
+    const auto& r=*it->second.value->result;
+    if(!link.label || link.label>r.features().size()) return "invalid_label";
+    if(!r.cell_contours() || !r.nucleus_contours()) return "geometry_unavailable";
+    if(a.kind!=ObjectKind::Cell || !a.nucleus || !a.geometry.equals(r.cell_contours()->components().at(link.label-1).geometry) ||
+       !a.nucleus->equals(r.nucleus_contours()->components().at(link.label-1).geometry)) return "geometry_changed";
+    return cell_status(link.record_id);
+}
 bool Document::verify_cells(std::uint64_t id,const CellRequest& request,const CellResult& result) {
     if(!request.matches(*this,request.object_id()) || request.ticket_!=result.ticket_) throw std::invalid_argument("cell verification result does not match its current request");
     auto it=cells_.find(id);if(it==cells_.end()) throw std::out_of_range("cell record does not exist");

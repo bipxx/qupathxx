@@ -1,4 +1,5 @@
 #include "cell_archive.hpp"
+#include "cell_contours.hpp"
 #include "cell_numeric.hpp"
 #include "sha256.hpp"
 #include <cstring>
@@ -167,6 +168,12 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* d
         if(p.cell_expansion==0 && nuclei[i]!=bodies[i]) throw std::invalid_argument("cell expansion violates zero radius");
         if(bodies[i] && p.cell_expansion>0 && (distance[i]>p.cell_expansion*p.cell_expansion || nearest[i]==std::numeric_limits<std::uint32_t>::max() || bodies[i]!=nuclei[nearest[i]])) throw std::invalid_argument("cell body violates nearest nucleus assignment");
     }
+    // Geometry is derived from the validated historical labels, never from
+    // today's pixels. Preserve readable numeric-only runs if their original
+    // contour limits cannot support geometry in this build.
+    try {restore_cell_contours(*result,cancelled);}
+    catch(const std::length_error&) {result->nucleus_contours_.reset();result->cell_contours_.reset();}
+    catch(const std::runtime_error&) {result->nucleus_contours_.reset();result->cell_contours_.reset();}
     checkpoint(cancelled);return result;
 }
 }

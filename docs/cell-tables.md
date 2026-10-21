@@ -71,9 +71,10 @@ range. Finite doubles use locale-independent round-trip precision. Text fields
 are quoted, embedded quotes doubled, and records end with CRLF. Importers should
 preserve ID columns as integer/text values rather than floating point.
 
-Rows refer to archived labels, **not published object IDs**. Editing/classifying
-published cells does not rewrite historical features. Persistent mapping of
-published object features, project-wide multi-image tables and complete source/
+Rows refer to archived labels. [Published cell feature links](cell-feature-links.md)
+join object IDs to these `(record_id, cell_label)` keys; several publication sets
+can refer to one run. Editing/classifying published cells does not rewrite
+historical features. Project-wide multi-image tables and complete source/
 environment manifests remain open work. No physical-area column is synthesized
 from current calibration, which may differ from capture time.
 
