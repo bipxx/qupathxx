@@ -113,5 +113,13 @@
       "https://github.com/qupath/qupath/blob/v0.7.0/qupath-core/src/main/java/qupath/lib/io/ROITypeAdapters.java"
     ],
     "purpose": "Polygon hole, nested cell/nucleus, flat RGB and opaque packed colors, ellipse hint; runtime interoperability acceptance remains open"
+  },
+  "project_schema_v1_fixture": {
+    "filename": "project-v1.qpxproj",
+    "sha256": "bb79fc7a8e47896bc8793e10ed99efed9e9ffb7887a1b8a110cbdd003547a82b",
+    "bytes": 45056,
+    "producer_commit": "39711ba27c82eb2940b0e7c05a592ab23adb6b3a",
+    "provenance": "Produced by the native schema-1 writer before schema-2 implementation; two embedded RGB images, rectangle parent, ellipse cell, rectangular nucleus, Tumor RGB color 0x123456 and anisotropic calibration 0.5/0.25. No Java serialization involved.",
+    "purpose": "Read-only legacy loading, in-place migration, transactional DDL/data rollback, save-as preservation and stable IDs/analytic geometry"
   }
 }

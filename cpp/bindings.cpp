@@ -150,12 +150,15 @@ NB_MODULE(_native, m) {
         .def_ro("source_path",&ProjectImage::source_path).def_ro("reader",&ProjectImage::reader)
         .def_ro("width",&ProjectImage::width).def_ro("height",&ProjectImage::height)
         .def_ro("embedded",&ProjectImage::embedded).def_ro("available",&ProjectImage::available);
+    nb::class_<ProjectView>(m,"ProjectView").def(nb::init<>()).def_rw("center",&ProjectView::center)
+        .def_rw("zoom",&ProjectView::zoom).def_rw("display",&ProjectView::display).def("validate",&ProjectView::validate);
     nb::class_<Project>(m,"Project").def(nb::init<>()).def_static("open",&Project::open,"path"_a)
         .def("save",&Project::save,"path"_a)
         .def("add_image",&Project::add_image,"path"_a,"reader"_a="auto","name"_a="")
         .def("add_document",&Project::add_document,"document"_a,"name"_a="","source_path"_a="","reader"_a="auto")
         .def("document",&Project::document).def_prop_ro("images",&Project::images)
         .def("remove_image",&Project::remove_image).def("relink",&Project::relink).def("rename_image",&Project::rename_image)
+        .def("view",&Project::view).def("set_view",&Project::set_view).def("clear_view",&Project::clear_view)
         .def_prop_rw("active_image",&Project::active_image,&Project::set_active_image)
         .def_prop_ro("dirty",&Project::dirty).def_prop_ro("path",&Project::path)
         .def_prop_ro("identity",&Project::identity).def_prop_ro("generation",&Project::generation);

@@ -158,3 +158,90 @@ def test_failed_relink_keeps_source_and_view(tmp_path):
     assert report.project_error and report.active_image == image and report.image_switches == 0
     assert project.images[0].source_path == str(original)
     assert report.final_zoom == 4 and (report.final_origin.x, report.final_origin.y) == (10, 20)
+
+
+def test_saved_view_restores_center_zoom_and_display_at_other_window_size(tmp_path):
+    from PIL import Image
+    project, first, second, a, b, options = workspace()
+    path = tmp_path / "views.qpxproj"
+    project.save(str(path))
+    initial = q.Viewport()
+    initial.zoom, initial.origin = 2, q.Point(10, 20)
+    options.start_view = initial
+    display = q.DisplaySettings()
+    display.mode = q.DisplayMode.RED
+    options.display = display
+    options.inputs = [event(8, q.GuiInputKind.SAVE_KEY)]
+    report = q.show(first, frame_limit=25, options=options)
+    saved = q.Project.open(str(path))
+    expected = saved.view(a)
+    assert expected.zoom == report.final_zoom == 2
+    assert (expected.center.x, expected.center.y) == (report.final_center.x, report.final_center.y)
+    assert expected.display.mode == q.DisplayMode.RED
+    restored_options = q.GuiOptions()
+    restored_options.project = saved
+    restored_options.width, restored_options.height = 1000, 600
+    capture = tmp_path / "restored-size.ppm"
+    restored = q.show(saved.document(a), frame_limit=25, capture_path=str(capture), options=restored_options)
+    assert restored.final_zoom == expected.zoom
+    assert restored.final_center.x == pytest.approx(expected.center.x)
+    assert restored.final_center.y == pytest.approx(expected.center.y)
+    assert not saved.dirty and not restored.project_error
+    with Image.open(capture) as frame:
+        assert frame.getpixel((int(frame.width*.65), frame.height//2)) == (30, 30, 30)
+
+
+def test_explicit_start_view_overrides_stored_camera_and_display():
+    project, first, second, a, b, options = workspace()
+    stored = q.ProjectView()
+    stored.center, stored.zoom = q.Point(50, 60), 3
+    project.set_view(a, stored)
+    initial = q.Viewport()
+    initial.zoom, initial.origin = 1, q.Point(0, 0)
+    options.start_view = initial
+    display = q.DisplaySettings()
+    display.mode = q.DisplayMode.GREEN
+    options.display = display
+    report = q.show(first, frame_limit=20, options=options)
+    assert report.final_zoom == 1 and project.view(a).zoom == 1
+    assert project.view(a).display.mode == q.DisplayMode.GREEN
+    assert project.view(a).center.x == report.final_center.x
+
+
+def test_save_captures_navigation_from_same_frame(tmp_path):
+    project, first, second, a, b, options = workspace()
+    path = tmp_path / "same-frame.qpxproj"
+    project.save(str(path))
+    initial = q.Viewport()
+    initial.zoom = 2
+    options.start_view = initial
+    wheel = event(8, q.GuiInputKind.WHEEL)
+    wheel.wheel = 1
+    options.inputs = [wheel, event(8, q.GuiInputKind.SAVE_KEY)]
+    report = q.show(first, frame_limit=25, options=options)
+    assert report.final_zoom == pytest.approx(2.4)
+    saved = q.Project.open(str(path))
+    assert saved.view(a).zoom == report.final_zoom and not project.dirty
+    assert saved.view(a).center.x == report.final_center.x
+
+
+def test_save_includes_inactive_image_views(tmp_path):
+    project, first, second, a, b, options = workspace()
+    second_view = q.ProjectView()
+    second_view.center, second_view.zoom = q.Point(128, 64), 1.5
+    project.set_view(b, second_view)
+    path = tmp_path / "both.qpxproj"
+    project.save(str(path))
+    initial = q.Viewport()
+    initial.zoom = 3
+    options.start_view = initial
+    display = q.DisplaySettings()
+    display.mode = q.DisplayMode.RED
+    options.display = display
+    options.inputs = [event(5, q.GuiInputKind.NEXT_IMAGE_KEY), event(12, q.GuiInputKind.SAVE_KEY)]
+    report = q.show(first, frame_limit=25, options=options)
+    loaded = q.Project.open(str(path))
+    assert loaded.active_image == report.active_image == b
+    assert loaded.view(a).zoom == 3 and loaded.view(a).display.mode == q.DisplayMode.RED
+    assert loaded.view(b).zoom == 1.5 and loaded.view(b).display.mode == q.DisplayMode.RGB
+    assert loaded.view(b).center.x == 128 and not project.dirty

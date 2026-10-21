@@ -1,0 +1,15 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "sqlite_version": "3.54.1",
+  "objects": 100000,
+  "embedded_rgb_bytes": 2359296,
+  "initial_save_ms": 217.210799921304,
+  "full_resave_ms": 358.2124999957159,
+  "validated_load_ms": 188.0953999934718,
+  "file_bytes": 13090816,
+  "generation": 2,
+  "schema_version": 2,
+  "persisted_views": 1,
+  "scope": "Schema 2: one embedded dense image, one stored camera/display view and 100000 classified unit rectangles. Saves use a full SQLite transaction with synchronous=FULL; resave rewrites canonical rows. Load decodes and validates all objects/hierarchy/views. Input construction excluded. Local filesystem only; no cold-storage, autosave or vendor-workflow claim."
+}

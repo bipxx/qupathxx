@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 158 Python tests including shape tools, interchange, multi-image browsing and GUI history replay;
+Evidence: 180 Python tests including shapes, interchange, multi-image browsing, workspace migration and GUI replay;
 twelve native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
@@ -35,8 +35,11 @@ round trips remain unverified. In-window image browsing/add/rename/relink,
 session views/display/selection retention and document isolation are implemented;
 see project-browser.md. A 1000-image catalog benchmark with 100000 selected objects
 records 20 switches, 0.63 ms maximum synchronous switch time, 17.0 ms p95 CPU frame
-work and 3 MiB GPU tile payload on dense images. Next implement persistent views,
-project-file open/replacement, removal/dirty-close decisions, autosave/recovery and migrations;
+work and 3 MiB GPU tile payload on dense images. Persistent camera/display views
+and transactional schema-1-to-2 migration are implemented; see project-workspace.md.
+The schema-2 run records 217 ms save and 188 ms validated load for 100000 objects;
+live view publication records 17.3 ms p95 CPU frame work on the browser workload.
+Next implement project-file open/replacement, removal/dirty-close decisions and autosave/recovery;
 retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,

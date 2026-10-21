@@ -187,10 +187,17 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     TilePlan overview_plan;
     Viewport overview_view;
     DisplaySettings display=options.display;
+    std::optional<ProjectView> restore_view;
+    if(options.project && !options.start_view) {
+        restore_view=options.project->view(active_image);
+        if(restore_view) { display=restore_view->display; fit=false; }
+    }
     ImVec2 previous_canvas{}, previous_canvas_size{}, overview_offset{}, overview_size{250,150},list_offset{},list_size{};
     std::optional<Point> overview_center;
     int last_width=0,last_height=0;
     std::optional<std::tuple<double,double,double,float,float,float>> plan_inputs;
+    std::optional<std::tuple<double,double,double,float,float,int,double,double,double>> published_view_inputs;
+    auto view_inputs=[&](float width,float height) { return std::make_tuple(viewport.origin.x,viewport.origin.y,viewport.zoom,width,height,static_cast<int>(display.mode),display.black,display.white,display.gamma); };
     struct ImageView {
         Viewport viewport; DisplaySettings display;
         std::unique_ptr<ObjectSelection> selection;
@@ -233,6 +240,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                         } else { viewport={}; display=options.display; list_anchor=0; selection=std::move(next_selection); fit=true; }
                     }
                     active_image=next; selected=selection->primary();
+                    restore_view=options.project->view(next);
+                    if(restore_view) { display=restore_view->display; fit=false; }
+                    published_view_inputs.reset();
                     auto info=std::find_if(project_images.begin(),project_images.end(),[&](const auto& item){return item.id==active_image;});
                     if(info!=project_images.end()) std::memcpy(project_image_name,info->name.c_str(),info->name.size()+1);
                     drawing=false; marquee=false; vertex_dragging=false; active_vertex.reset();
@@ -311,6 +321,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
         }
         ImGui::NewFrame();
+        bool save_project_requested=false;
         const auto& io = ImGui::GetIO();
         ImGui::SetNextWindowPos({0,0}); ImGui::SetNextWindowSize(io.DisplaySize);
         ImGui::Begin("Workspace", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
@@ -354,8 +365,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::SeparatorText(options.project->dirty()?"Project - unsaved":"Project");
             ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Project path","Destination .qpxproj file",project_path,sizeof(project_path));
             if(ImGui::Button("Save project (Ctrl+S)") || (io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_S))) {
-                try { options.project->save(project_path); project_error.clear(); }
-                catch(const std::exception& e) { project_error=e.what(); }
+                save_project_requested=true;
             }
             bool add_image=!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_F8);
             bool relink_image=!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_F9);
@@ -629,6 +639,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::InvisibleButton("image canvas", size, ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight);
         previous_canvas=offset; previous_canvas_size=size;
         if (fit) { viewport.fit(image.width, image.height, size.x, size.y); fit = false; }
+        if(restore_view) {
+            viewport.zoom=restore_view->zoom; viewport.center_on(restore_view->center,size.x,size.y);
+            restore_view.reset(); published_view_inputs=view_inputs(size.x,size.y);
+        }
         if (overview_center) { viewport.center_on(*overview_center,size.x,size.y); overview_center.reset(); }
         Point mouse{io.MousePos.x - offset.x, io.MousePos.y - offset.y};
         bool hovered = ImGui::IsItemHovered();
@@ -852,6 +866,16 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
         }
         ImGui::EndChild(); ImGui::End();
+        if(options.project) {
+            try {
+                auto inputs=view_inputs(size.x,size.y);
+                if(!published_view_inputs || *published_view_inputs!=inputs) {
+                    options.project->set_view(active_image,{viewport.screen_to_image({size.x/2,size.y/2}),viewport.zoom,display});
+                    published_view_inputs=inputs;
+                }
+                if(save_project_requested) { options.project->save(project_path); project_error.clear(); }
+            } catch(const std::exception& e) { project_error=e.what(); }
+        }
         ImGui::Render(); int w,h; glfwGetFramebufferSize(session.window,&w,&h); last_width=w; last_height=h; glViewport(0,0,w,h);
         glClearColor(.07f,.08f,.1f,1); glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

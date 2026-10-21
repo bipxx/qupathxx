@@ -1,8 +1,9 @@
 # Native multi-image project storage
 
 The native `Project` owns shared documents, stable image IDs, image names and
-source descriptors. SQLite schema version 1 stores canonical object state,
-class definitions, per-axis calibration, source metadata and the active image.
+source descriptors. SQLite schema version 2 stores canonical object state,
+class definitions, per-axis calibration, source metadata, the active image and
+per-image camera/display views. Schema 1 remains readable; see [workspace migration](project-workspace.md).
 The public Python API uses the same native container; it does not serialize a
 separate Python model. All project/document mutation is single-threaded and
 retains the Python GIL. Shared documents remain alive after removal from a project.
@@ -50,8 +51,8 @@ spatial caches are not serialized. Source calibration and manual document
 calibration are separate, so explicitly clearing calibration remains unknown
 after restart even if reader metadata contains a known scale.
 
-Canonical state survives restart; editing history, history-retention settings,
-selection, display LUTs and viewport state remain session state. Area and RGB
+Canonical state and stored camera/display views survive restart; editing history,
+history-retention settings and selection remain session state. Area and RGB
 measurements are recomputed from the restored shape/calibration/source. Stored
 analysis measurements and provenance will be added with their M5 contracts.
 
@@ -64,7 +65,8 @@ are removed. Commit updates the in-memory saved path, generation and saved
 document revisions only after SQLite reports success. A failure rolls back the
 transaction and leaves unsaved in-memory edits available.
 
-The application ID is `0x51505858` and `user_version` is 1. Unknown schemas and
+The application ID is `0x51505858` and new `user_version` is 2. Schema 1 migrates
+transactionally on save. Unknown schemas and
 unrelated databases are rejected. A different project identity at the destination
 is rejected rather than overwritten. Save to a new filename for a separate copy.
 Each successful save increments a generation. A writer loaded from an older
@@ -130,7 +132,7 @@ Projects containing polygons require a GEOS-enabled build. Linked slides need
 OpenSlide when their pixels are requested; missing/unavailable readers do not
 prevent restoring their stored dimensions and annotation state.
 
-The installed GUI wheel passes 158 Python tests. Storage tests include a 100352-pixel-wide linked pyramid without embedded pixels and
+The installed GUI wheel passes 180 Python tests. Storage tests include a 100352-pixel-wide linked pyramid without embedded pixels and
 exercise multi-image
 restart, every ROI kind, cell/nucleus/class state, exact IDs/revisions, relative
 moves, missing sources, relinking, Unicode paths, unknown schemas, malformed

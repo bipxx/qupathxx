@@ -434,3 +434,12 @@ textures and measurement publication state are invalidated. See
 [project-browser.md](project-browser.md). Persistent views, project-file open/
 replacement UX, removal/dirty-close decisions, autosave/recovery and migrations
 remain M4 work. Retain all unfinished M0-M7 gates and QuPath runtime comparisons.
+
+The fourteenth packet persists native image centers, zoom and display settings
+in schema 2, including inactive image views. GUI saves include the current frame's
+navigation, and restore preserves the center at a different window size without
+dirtying an unchanged project. A real schema-1 fixture verifies read-only loading,
+save-as preservation and transactional schema/data rollback during migration.
+See [project-workspace.md](project-workspace.md). Autosave/recovery, project-file
+open/replacement and removal/dirty-close workflows remain M4 work; all unfinished
+M0-M7 gates stay active.

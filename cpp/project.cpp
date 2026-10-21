@@ -115,8 +115,40 @@ std::uint64_t Project::add_document(std::shared_ptr<Document> doc,std::string na
     ++next_id_; ++revision_; if(!active_image_) active_image_=id; return id;
 }
 void Project::remove_image(std::uint64_t id) {
-    entry(id); advance(revision_); entries_.erase(id); ++revision_;
+    entry(id); advance(revision_); entries_.erase(id); views_.erase(id); ++revision_;
     if(active_image_==id) active_image_=entries_.empty()?0:entries_.begin()->first;
+}
+void ProjectView::validate() const {
+    static_assert(static_cast<int>(DisplayMode::RGB)==0 && static_cast<int>(DisplayMode::Gray)==1 &&
+        static_cast<int>(DisplayMode::Red)==2 && static_cast<int>(DisplayMode::Green)==3 && static_cast<int>(DisplayMode::Blue)==4,
+        "Persisted schema-2 display codes require an explicit migration before changing");
+    display.validate();
+    const double limit=std::numeric_limits<float>::max()/4;
+    if(!std::isfinite(center.x) || !std::isfinite(center.y) || !std::isfinite(zoom) || zoom<=0 ||
+       !std::isfinite(8192./zoom) || zoom>limit || std::abs(center.x*zoom)>limit || std::abs(center.y*zoom)>limit)
+        throw std::invalid_argument("project view exceeds finite screen coordinate range");
+}
+bool ProjectView::operator==(const ProjectView& b) const {
+    return center.x==b.center.x && center.y==b.center.y && zoom==b.zoom && display==b.display;
+}
+namespace {
+void validate_view(const ProjectView& view,const ImageMetadata& image) {
+    view.validate();
+    if(static_cast<double>(std::max(image.width,image.height))*view.zoom>std::numeric_limits<float>::max()/4)
+        throw std::invalid_argument("project view exceeds image screen coordinate range");
+}
+}
+std::optional<ProjectView> Project::view(std::uint64_t id) const {
+    entry(id); auto it=views_.find(id); return it==views_.end()?std::nullopt:std::optional<ProjectView>(it->second);
+}
+void Project::set_view(std::uint64_t id,ProjectView view) {
+    validate_view(view,entry(id).document->metadata());
+    auto existing=views_.find(id); if(existing!=views_.end() && existing->second==view) return;
+    advance(revision_); views_.insert_or_assign(id,std::move(view)); ++revision_;
+}
+void Project::clear_view(std::uint64_t id) {
+    entry(id); if(!views_.count(id)) return;
+    advance(revision_); views_.erase(id); ++revision_;
 }
 void Project::set_active_image(std::uint64_t id) {
     if(id) entry(id); if(active_image_==id) return;
@@ -211,9 +243,14 @@ std::uint64_t number(const std::string& text) {
     if(parsed.ec!=std::errc{} || parsed.ptr!=text.data()+text.size() || std::to_string(value)!=text) throw std::invalid_argument("invalid project unsigned identity");
     return value;
 }
-void schema(Database& db) {
-    if(scalar(db,"PRAGMA application_id")!=application_id || scalar(db,"PRAGMA user_version")!=1)
-        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1)");
+int schema(Database& db) {
+    auto version=scalar(db,"PRAGMA user_version");
+    if(scalar(db,"PRAGMA application_id")!=application_id || (version!=1 && version!=2))
+        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 or 2)");
+    return static_cast<int>(version);
+}
+void create_views(Database& db) {
+    db.exec("CREATE TABLE views(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),center_x REAL NOT NULL,center_y REAL NOT NULL,zoom REAL NOT NULL,mode INTEGER NOT NULL,black REAL NOT NULL,white REAL NOT NULL,gamma REAL NOT NULL) STRICT; PRAGMA user_version=2;");
 }
 struct Encoder {
     std::vector<std::uint8_t> bytes={'Q','R','O',1};
@@ -272,8 +309,9 @@ void Project::save(const std::string& path) {
             "CREATE TABLE classes(image_id TEXT NOT NULL REFERENCES images(id),name TEXT NOT NULL,color INTEGER NOT NULL,PRIMARY KEY(image_id,name)) STRICT;"
             "CREATE TABLE objects(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,name TEXT NOT NULL,parent TEXT NOT NULL,class_name TEXT NOT NULL,revision TEXT NOT NULL,kind INTEGER NOT NULL,geometry BLOB NOT NULL,nucleus BLOB,PRIMARY KEY(image_id,id)) STRICT;"
             "CREATE INDEX objects_image ON objects(image_id);");
+        create_views(db);
     } else {
-        schema(db); Statement existing(db,"SELECT identity,generation FROM project");
+        auto version=schema(db); Statement existing(db,"SELECT identity,generation FROM project");
         if(!existing.row()) throw std::invalid_argument("project metadata is missing");
         auto identity=existing.string(0); auto generation=existing.integer(1);
         if(identity!=identity_) throw std::invalid_argument("destination contains a different project; choose a new path");
@@ -281,14 +319,18 @@ void Project::save(const std::string& path) {
         if(generation==std::numeric_limits<std::int64_t>::max()) throw std::overflow_error("project save generation exhausted");
         next_generation=static_cast<std::uint64_t>(generation)+1;
         if(existing.row()) throw std::invalid_argument("duplicate project metadata");
+        // Schema changes share the same transaction as canonical rows. A failed
+        // save rolls back both the migration and data, retaining the v1 project.
+        if(version==1) create_views(db);
     }
-    db.exec("DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    db.exec("DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     Statement level(db,"INSERT INTO levels VALUES(?,?,?,?,?)");
     Statement classification(db,"INSERT INTO classes VALUES(?,?,?)");
     Statement object(db,"INSERT INTO objects VALUES(?,?,?,?,?,?,?,?,?)");
+    Statement view(db,"INSERT INTO views VALUES(?,?,?,?,?,?,?,?)");
     auto directory=fs::u8path(destination).parent_path();
     for(const auto& [id,e]:entries_) {
         const auto& doc=*e.document; const auto& m=doc.metadata(); validate_metadata(m);
@@ -299,6 +341,12 @@ void Project::save(const std::string& path) {
         image.optional(11,doc.pixel_width_um_); image.optional(12,doc.pixel_height_um_); image.string(13,std::to_string(doc.next_id_)); image.string(14,std::to_string(doc.revision_));
         if(e.info.embedded) image.blob(15,doc.image().pixels());
         image.done();
+        auto saved_view=views_.find(id);
+        if(saved_view!=views_.end()) {
+            const auto& v=saved_view->second; validate_view(v,m);
+            view.string(1,key); view.real(2,v.center.x); view.real(3,v.center.y); view.real(4,v.zoom);
+            view.integer(5,static_cast<int>(v.display.mode)); view.real(6,v.display.black); view.real(7,v.display.white); view.real(8,v.display.gamma); view.done();
+        }
         for(std::size_t i=0;i<m.levels.size();++i) {
             level.string(1,key); level.integer(2,static_cast<std::int64_t>(i)); level.integer(3,m.levels[i].width); level.integer(4,m.levels[i].height); level.real(5,m.levels[i].downsample); level.done();
         }
@@ -315,7 +363,7 @@ void Project::save(const std::string& path) {
     path_.swap(destination); generation_=next_generation; saved_revision_=revision_; saved_revisions_.swap(revisions);
 }
 std::shared_ptr<Project> Project::open(const std::string& path) {
-    auto source=absolute(path); Database db(source,false); Transaction transaction(db,false); schema(db);
+    auto source=absolute(path); Database db(source,false); Transaction transaction(db,false); auto version=schema(db);
     auto project=std::make_shared<Project>();
     Statement meta(db,"SELECT identity,next_image,active,generation FROM project");
     if(!meta.row()) throw std::invalid_argument("project metadata is missing");
@@ -371,6 +419,17 @@ std::shared_ptr<Project> Project::open(const std::string& path) {
         if(!project->entries_.emplace(info.id,Entry{std::move(info),std::move(document)}).second) throw std::invalid_argument("duplicate project image ID");
     }
     if(project->active_image_ && !project->entries_.count(project->active_image_)) throw std::invalid_argument("project active image does not exist");
+    if(version==2) {
+        Statement views(db,"SELECT image_id,center_x,center_y,zoom,mode,black,white,gamma FROM views");
+        while(views.row()) {
+            auto id=number(views.string(0)); auto mode=views.integer(4);
+            if(!project->entries_.count(id)) throw std::invalid_argument("orphaned project view");
+            if(mode<0 || mode>4) throw std::invalid_argument("invalid persisted display mode");
+            ProjectView v{{views.real(1),views.real(2)},views.real(3),{static_cast<DisplayMode>(mode),views.real(5),views.real(6),views.real(7)}};
+            validate_view(v,project->entry(id).document->metadata());
+            if(!project->views_.emplace(id,v).second) throw std::invalid_argument("duplicate persisted view");
+        }
+    }
     if(scalar(db,"SELECT count(*) FROM objects WHERE image_id NOT IN (SELECT id FROM images)") ||
        scalar(db,"SELECT count(*) FROM classes WHERE image_id NOT IN (SELECT id FROM images)") ||
        scalar(db,"SELECT count(*) FROM levels WHERE image_id NOT IN (SELECT id FROM images)")) throw std::invalid_argument("orphaned project data");

@@ -24,6 +24,8 @@ QuPath port or a compatible replacement for Java QuPath.
   ImGui, with explicit conversion-loss reports; see [interchange](docs/interchange.md).
 - In-window project image browsing, add/rename/relink controls and independent
   views/selections/history; see [project browser](docs/project-browser.md).
+- Persistent per-image camera/display views with transactional schema-1 migration;
+  see [workspace storage](docs/project-workspace.md).
 
 The GUI displays dense and OpenSlide images through asynchronous 256-pixel tiles,
 coarse pyramid fallback and a 64 MiB GPU payload cache. OpenSlide regions can also
