@@ -3,6 +3,7 @@
 #include "qupathxx/interchange.hpp"
 #include "gui_tiles.hpp"
 #include <imgui.h>
+#include <imgui_internal.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 #include <GLFW/glfw3.h>
@@ -57,6 +58,11 @@ public:
     std::string error;
     ~MeanJob() { if (cancelled_) cancelled_->store(true); }
     bool active() const { return future_.valid(); }
+    void invalidate() {
+        if(cancelled_) cancelled_->store(true);
+        ticket_=0; revision_=std::numeric_limits<std::uint64_t>::max();
+        measured=0; value.reset(); error.clear();
+    }
     void poll(std::uint64_t selection,std::uint64_t revision) {
         if ((ticket_!=selection || revision_!=revision) && cancelled_) { cancelled_->store(true); value.reset(); error.clear(); }
         if (active() && future_.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
@@ -115,10 +121,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if (!session.platform) throw std::runtime_error("ImGui GLFW initialization failed");
     session.renderer = ImGui_ImplOpenGL3_Init("#version 150");
     if (!session.renderer) throw std::runtime_error("ImGui OpenGL initialization failed");
-    const auto& image = document.metadata();
     GLint max_texture = 0; glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture);
     if (max_texture<256) throw std::runtime_error("GPU does not support 256-pixel tile textures");
-    GuiTiles tiles(document.server());
+    auto tiles=std::make_unique<GuiTiles>(document.server());
+    Document* active_document=&document;
+    std::shared_ptr<Document> active_owner;
+    auto active_image=options.project?options.project->active_image():0;
     MeanJob mean;
     Viewport viewport;
     if(options.start_view) viewport=*options.start_view;
@@ -133,7 +141,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     Point vertex_cursor;
     int boolean_operation=0;
     Point anchor;
-    ObjectSelection selection(document);
+    auto selection=std::make_unique<ObjectSelection>(document);
     std::uint64_t selected = 0,list_anchor=0;
     bool marquee=false,marquee_additive=false;
     Point marquee_anchor;
@@ -141,6 +149,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::string error;
     char project_path[32769]={};
     std::string project_error;
+    char project_image_path[32769]={},project_image_name[4097]={},project_filter[257]={};
+    if(options.project_image_path.size()>32768 || options.project_image_path.find('\0')!=std::string::npos)
+        throw std::invalid_argument("invalid project image path");
+    std::memcpy(project_image_path,options.project_image_path.c_str(),options.project_image_path.size()+1);
+    std::vector<ProjectImage> project_images;
+    std::vector<std::size_t> project_rows;
+    bool project_catalog_dirty=true,project_filter_dirty=true;
+    std::uint64_t pending_image=0;
+    bool refresh_active_image=false;
     if(options.project) {
         const auto& path=options.project->path();
         if(path.size()>32768) throw std::invalid_argument("project path too long");
@@ -174,19 +191,85 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::optional<Point> overview_center;
     int last_width=0,last_height=0;
     std::optional<std::tuple<double,double,double,float,float,float>> plan_inputs;
+    struct ImageView {
+        Viewport viewport; DisplaySettings display;
+        std::unique_ptr<ObjectSelection> selection;
+        std::uint64_t list_anchor=0;
+    };
+    std::map<std::uint64_t,ImageView> image_views;
+    std::uint64_t image_switches=0,previous_uploads=0,previous_generations=0;
+    std::size_t previous_peak_bytes=0;
+    double max_image_switch_ms=0;
+    ImVec2 project_list_offset{},project_list_size{};
+    ImVec2 display_reset_offset{},display_reset_size{};
     while (!glfwWindowShouldClose(session.window) && (!frame_limit || frames < frame_limit)) {
         auto frame_start=std::chrono::steady_clock::now();
+        // Switch only at frame boundaries: no draw commands can retain old GPU
+        // texture IDs, document references or partially edited shape state.
+        if(options.project && pending_image) {
+            auto next=pending_image; pending_image=0;
+            try {
+                if(next!=active_image || refresh_active_image) {
+                    auto owner=options.project->document(next);
+                    auto saved=image_views.find(next);
+                    std::unique_ptr<ObjectSelection> next_selection;
+                    if(next!=active_image && (saved==image_views.end() || !saved->second.selection)) next_selection=std::make_unique<ObjectSelection>(*owner);
+                    auto next_tiles=std::make_unique<GuiTiles>(owner->server());
+                    auto& current=image_views.try_emplace(active_image).first->second;
+                    options.project->set_active_image(next);
+                    mean.invalidate();
+                    previous_uploads+=tiles->uploads(); previous_generations+=tiles->generations();
+                    previous_peak_bytes=std::max(previous_peak_bytes,tiles->peak_bytes());
+                    tiles=std::move(next_tiles);
+                    active_owner=std::move(owner); active_document=active_owner.get();
+                    if(next!=active_image) {
+                        current.viewport=viewport; current.display=display; current.list_anchor=list_anchor;
+                        current.selection=std::move(selection);
+                        ++image_switches;
+                        saved=image_views.find(next);
+                        if(saved!=image_views.end() && saved->second.selection) {
+                            viewport=saved->second.viewport; display=saved->second.display; list_anchor=saved->second.list_anchor;
+                            selection=std::move(saved->second.selection); fit=false;
+                        } else { viewport={}; display=options.display; list_anchor=0; selection=std::move(next_selection); fit=true; }
+                    }
+                    active_image=next; selected=selection->primary();
+                    auto info=std::find_if(project_images.begin(),project_images.end(),[&](const auto& item){return item.id==active_image;});
+                    if(info!=project_images.end()) std::memcpy(project_image_name,info->name.c_str(),info->name.size()+1);
+                    drawing=false; marquee=false; vertex_dragging=false; active_vertex.reset();
+                    draft_points.clear(); vertex_paths.clear(); vertex_id=hole_id=editor_id=0;
+                    tool=previous_tool=0; class_key.clear(); batch_class.clear(); error.clear(); interchange_status.clear();
+                    list_ids.clear(); list_revision=calibration_revision=std::numeric_limits<std::uint64_t>::max();
+                    plan={}; overview_plan={}; plan_inputs.reset(); overview_center.reset();
+                    max_image_switch_ms=std::max(max_image_switch_ms,std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-frame_start).count());
+                }
+                refresh_active_image=false; project_error.clear();
+            } catch(const std::exception& e) { project_error=e.what(); refresh_active_image=false; }
+        }
+        auto& document=*active_document;
+        const auto& image=document.metadata();
+        if(options.project && project_catalog_dirty) {
+            project_images=options.project->images(); project_catalog_dirty=false; project_filter_dirty=true;
+            auto current=std::find_if(project_images.begin(),project_images.end(),[&](const auto& item){return item.id==active_image;});
+            if(current!=project_images.end()) std::memcpy(project_image_name,current->name.c_str(),current->name.size()+1);
+        }
+        if(project_filter_dirty) {
+            project_rows.clear();
+            for(std::size_t i=0;i<project_images.size();++i) if(project_images[i].name.find(project_filter)!=std::string::npos) project_rows.push_back(i);
+            project_filter_dirty=false;
+        }
         glfwPollEvents(); ImGui_ImplOpenGL3_NewFrame(); ImGui_ImplGlfw_NewFrame();
         // Test/benchmark replay enters the same ImGui event queue as GLFW input.
         auto& input=ImGui::GetIO();
         if (!options.inputs.empty()) {
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
-            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_F6,ImGuiKey_F7}) input.AddKeyEvent(key,false);
+            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9}) input.AddKeyEvent(key,false);
         }
         for (const auto& event:options.inputs) if (event.frame==frames) {
             auto origin=event.target==GuiInputTarget::Canvas?previous_canvas:(event.target==GuiInputTarget::Overview?overview_offset:list_offset);
             auto extent=event.target==GuiInputTarget::Canvas?previous_canvas_size:(event.target==GuiInputTarget::Overview?overview_size:list_size);
+            if(event.target==GuiInputTarget::ProjectList) { origin=project_list_offset; extent=project_list_size; }
+            if(event.target==GuiInputTarget::DisplayReset) { origin=display_reset_offset; extent=display_reset_size; }
             if(event.target==GuiInputTarget::Image) {
                 auto p=viewport.image_to_screen({event.x,event.y});
                 const auto limit=static_cast<double>(std::numeric_limits<float>::max())/4;
@@ -220,6 +303,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::SaveKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_S,true); break;
                 case GuiInputKind::ExportKey: input.AddKeyEvent(ImGuiKey_F6,true); break;
                 case GuiInputKind::ImportKey: input.AddKeyEvent(ImGuiKey_F7,true); break;
+                case GuiInputKind::NextImageKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_PageDown,true); break;
+                case GuiInputKind::PreviousImageKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_PageUp,true); break;
+                case GuiInputKind::AddImageKey: input.AddKeyEvent(ImGuiKey_F8,true); break;
+                case GuiInputKind::RelinkImageKey: input.AddKeyEvent(ImGuiKey_F9,true); break;
                 default: break;
             }
         }
@@ -247,23 +334,77 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (!io.WantTextInput && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Y)) history_action(true);
         ImGui::SameLine(); ImGui::BeginDisabled(!document.can_undo()); if (ImGui::Button("Undo")) history_action(false); ImGui::EndDisabled();
         ImGui::SameLine(); ImGui::BeginDisabled(!document.can_redo()); if (ImGui::Button("Redo")) history_action(true); ImGui::EndDisabled();
-        selected=selection.primary();
-        if(!io.WantTextInput && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_A)) { selection.select_all(); selected=selection.primary(); }
+        selected=selection->primary();
+        if(!io.WantTextInput && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_A)) { selection->select_all(); selected=selection->primary(); }
         auto delete_selection=[&]() {
             try {
-                auto ids=selection.ids();
+                auto ids=selection->ids();
                 if(ids.size()==1) document.remove_annotation(ids.front()); else document.remove_objects(ids);
-                selection.clear(); selected=0; error.clear();
+                selection->clear(); selected=0; error.clear();
             } catch(const std::exception& e) { error=e.what(); }
         };
         if (selected && tool!=6 && !io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_Delete)) delete_selection();
         ImGui::SameLine(); ImGui::TextDisabled("Ctrl+click: toggle | Shift+drag: select box | Ctrl+A: all | Right drag: pan");
         ImGui::BeginChild("Inspector", {285,0}, ImGuiChildFlags_Borders);
         if(options.project) {
+            // Route these chords so ImGui's own PageUp/PageDown navigation
+            // cannot also focus/activate an inspector text field.
+            const bool next_image=ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_PageDown,ImGuiInputFlags_RouteGlobal);
+            const bool previous_image=ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_PageUp,ImGuiInputFlags_RouteGlobal);
             ImGui::SeparatorText(options.project->dirty()?"Project - unsaved":"Project");
             ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Project path","Destination .qpxproj file",project_path,sizeof(project_path));
             if(ImGui::Button("Save project (Ctrl+S)") || (io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_S))) {
                 try { options.project->save(project_path); project_error.clear(); }
+                catch(const std::exception& e) { project_error=e.what(); }
+            }
+            bool add_image=!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_F8);
+            bool relink_image=!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_F9);
+            if(!io.WantTextInput && (next_image || previous_image) && project_images.size()>1) {
+                // Keep ownership through key-up even if Ctrl is released first;
+                // otherwise the still-held Page key resumes ImGui navigation.
+                ImGui::SetKeyOwner(next_image?ImGuiKey_PageDown:ImGuiKey_PageUp,ImGui::GetID("Project image switch"),ImGuiInputFlags_LockUntilRelease);
+                auto it=std::find_if(project_images.begin(),project_images.end(),[&](const auto& item){return item.id==active_image;});
+                auto index=static_cast<std::size_t>(it-project_images.begin());
+                pending_image=project_images[(index+project_images.size()+(next_image?1:-1))%project_images.size()].id;
+            }
+            if(ImGui::CollapsingHeader("Project images",ImGuiTreeNodeFlags_DefaultOpen)) {
+                ImGui::SetNextItemWidth(170);
+                if(ImGui::InputTextWithHint("##Image filter","Filter image names",project_filter,sizeof(project_filter))) project_filter_dirty=true;
+                ImGui::SameLine(); if(ImGui::SmallButton("Refresh")) project_catalog_dirty=true;
+                ImGui::BeginChild("Project image list",{0,100},ImGuiChildFlags_Borders);
+                project_list_offset=ImGui::GetCursorScreenPos(); project_list_size=ImGui::GetContentRegionAvail();
+                ImGuiListClipper image_clipper; image_clipper.Begin(static_cast<int>(project_rows.size()));
+                while(image_clipper.Step()) for(int row=image_clipper.DisplayStart;row<image_clipper.DisplayEnd;++row) {
+                    const auto& item=project_images[project_rows[row]];
+                    ImGui::PushID(static_cast<int>(item.id>>32)); ImGui::PushID(static_cast<int>(item.id));
+                    auto label=item.name+(item.available?"":" [missing]");
+                    if(ImGui::Selectable(label.c_str(),item.id==active_image)) pending_image=item.id;
+                    if(ImGui::IsItemHovered()) ImGui::SetTooltip("%lld x %lld\n%s\nCtrl+PageUp / PageDown: switch images",static_cast<long long>(item.width),static_cast<long long>(item.height),item.embedded?"Embedded RGB":item.source_path.c_str());
+                    ImGui::PopID(); ImGui::PopID();
+                }
+                ImGui::EndChild();
+                ImGui::TextDisabled("%zu of %zu images",project_rows.size(),project_images.size());
+                if(ImGui::TreeNodeEx("Image source / name",options.project_image_path.empty()?0:ImGuiTreeNodeFlags_DefaultOpen)) {
+                    ImGui::SetNextItemWidth(240); ImGui::InputText("Image name",project_image_name,sizeof(project_image_name));
+                    if(ImGui::Button("Rename image")) {
+                        try { options.project->rename_image(active_image,project_image_name); project_catalog_dirty=true; project_error.clear(); }
+                        catch(const std::exception& e) { project_error=e.what(); }
+                    }
+                    ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Image source","Image file to add or relink",project_image_path,sizeof(project_image_path));
+                    if(ImGui::Button("Add image (F8)")) add_image=true;
+                    auto current=std::find_if(project_images.begin(),project_images.end(),[&](const auto& item){return item.id==active_image;});
+                    ImGui::BeginDisabled(current==project_images.end() || current->embedded);
+                    if(ImGui::Button("Relink image (F9)")) relink_image=true;
+                    ImGui::EndDisabled();
+                    ImGui::TreePop();
+                }
+            }
+            if(add_image) {
+                try { pending_image=options.project->add_image(project_image_path); project_catalog_dirty=true; project_error.clear(); }
+                catch(const std::exception& e) { project_error=e.what(); }
+            }
+            if(relink_image) {
+                try { options.project->relink(active_image,project_image_path); mean.invalidate(); pending_image=active_image; refresh_active_image=true; project_catalog_dirty=true; project_error.clear(); }
                 catch(const std::exception& e) { project_error=e.what(); }
             }
             if(!project_error.empty()) ImGui::TextWrapped("%s",project_error.c_str());
@@ -275,7 +416,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::Checkbox("Allow lossy conversion",&interchange_losses);
             ImGui::Checkbox("Selected objects only",&interchange_selected);
             auto export_ids=[&]() {
-                auto ids=interchange_selected?selection.ids():std::vector<std::uint64_t>{};
+                auto ids=interchange_selected?selection->ids():std::vector<std::uint64_t>{};
                 if(interchange_selected && ids.empty()) throw std::invalid_argument("Select objects before exporting a subset");
                 return ids;
             };
@@ -288,7 +429,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 catch(const std::exception& e) { interchange_status=e.what(); }
             }
             if(ImGui::Button("Import GeoJSON (F7)") || (!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_F7))) {
-                try { auto report=load_geojson(document,interchange_path,interchange_pixels,interchange_losses); selection.replace(report.imported_ids); selected=selection.primary(); status(report,"Imported"); }
+                try { auto report=load_geojson(document,interchange_path,interchange_pixels,interchange_losses); selection->replace(report.imported_ids); selected=selection->primary(); status(report,"Imported"); }
                 catch(const std::exception& e) { interchange_status=e.what(); }
             }
             ImGui::Checkbox("Include mean RGB",&csv_intensity);
@@ -320,7 +461,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (ImGui::SliderFloat("White",&white,1,255,"%.0f")) display.white=std::max<double>(white,std::min(255.,display.black+.001));
         if (ImGui::SliderFloat("Gamma",&gamma,.1f,5,"%.2f")) display.gamma=gamma;
         if (ImGui::Button("Reset display")) display=DisplaySettings{};
-        tiles.set_display(display);
+        display_reset_offset=ImGui::GetItemRectMin();
+        auto display_reset_max=ImGui::GetItemRectMax(); display_reset_size={display_reset_max.x-display_reset_offset.x,display_reset_max.y-display_reset_offset.y};
+        tiles->set_display(display);
         if (!document.pixel_width_um() || !document.pixel_height_um()) ImGui::TextDisabled("Physical calibration unknown");
         if (calibration_revision!=document.revision()) {
             draft_calibration[0]=document.pixel_width_um().value_or(0);
@@ -351,13 +494,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         while(clipper.Step()) for (int row=clipper.DisplayStart;row<clipper.DisplayEnd;++row) {
             const auto& a=document.objects().at(list_ids[row]);
             auto label = a.name + "##" + std::to_string(a.id);
-            if (ImGui::Selectable(label.c_str(), selection.contains(a.id))) {
-                if(io.KeyShift && list_anchor && document.objects().count(list_anchor)) selection.select_range(list_anchor,a.id,io.KeyCtrl);
+            if (ImGui::Selectable(label.c_str(), selection->contains(a.id))) {
+                if(io.KeyShift && list_anchor && document.objects().count(list_anchor)) selection->select_range(list_anchor,a.id,io.KeyCtrl);
                 else {
-                    if(io.KeyCtrl) selection.toggle(a.id); else selection.replace({a.id});
+                    if(io.KeyCtrl) selection->toggle(a.id); else selection->replace({a.id});
                     list_anchor=a.id;
                 }
-                selected=selection.primary();
+                selected=selection->primary();
             }
         }
         ImGui::EndChild();
@@ -396,17 +539,17 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 }
             }
         }
-        ImGui::Text("Selected: %zu",selection.size());
+        ImGui::Text("Selected: %zu",selection->size());
         if(selected && ImGui::Button("Delete selected")) delete_selection();
-        if(selected) { ImGui::SameLine(); if(ImGui::Button("Clear selection")) { selection.clear(); selected=0; } }
-        if(selection.size()>1) {
+        if(selected) { ImGui::SameLine(); if(ImGui::Button("Clear selection")) { selection->clear(); selected=0; } }
+        if(selection->size()>1) {
             if(ImGui::BeginCombo("Batch class",batch_class.empty()?"Unclassified":batch_class.c_str())) {
                 if(ImGui::Selectable("Unclassified",batch_class.empty())) batch_class.clear();
                 for(const auto& [name,c]:document.classes()) if(ImGui::Selectable(name.c_str(),name==batch_class)) batch_class=name;
                 ImGui::EndCombo();
             }
             if(ImGui::Button("Classify selected")) {
-                try { document.classify_objects(selection.ids(),batch_class); error.clear(); }
+                try { document.classify_objects(selection->ids(),batch_class); error.clear(); }
                 catch(const std::exception& e) { error=e.what(); }
             }
             if(has_geos()) {
@@ -416,7 +559,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ImGui::TextWrapped("Ellipses use 512-edge approximations.");
                 if(ImGui::Button("Apply Boolean (B)") || (!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_B))) {
                     try {
-                        auto ids=selection.ids(); ids.erase(std::remove(ids.begin(),ids.end(),selected),ids.end());
+                        auto ids=selection->ids(); ids.erase(std::remove(ids.begin(),ids.end(),selected),ids.end());
                         document.apply_boolean(selected,ids,static_cast<BooleanOp>(boolean_operation)); error.clear();
                     } catch(const std::exception& e) { error=e.what(); }
                 }
@@ -523,16 +666,16 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 vertex_dragging=active_vertex.has_value(); vertex_cursor=p;
                 if(!active_vertex) {
                     auto hits=document.pick(p,4/viewport.zoom);
-                    if(!hits.empty()) { selection.replace({hits.back()}); selected=selection.primary(); }
+                    if(!hits.empty()) { selection->replace({hits.back()}); selected=selection->primary(); }
                 }
             }
             else if (!tool) {
                 if(io.KeyShift) { marquee=true; marquee_anchor=p; marquee_additive=io.KeyCtrl; }
                 else {
                     auto hits=document.pick(p,4/viewport.zoom);
-                    if(hits.empty()) { if(!io.KeyCtrl) selection.clear(); }
-                    else if(io.KeyCtrl) selection.toggle(hits.back()); else selection.replace({hits.back()});
-                    selected=selection.primary();
+                    if(hits.empty()) { if(!io.KeyCtrl) selection->clear(); }
+                    else if(io.KeyCtrl) selection->toggle(hits.back()); else selection->replace({hits.back()});
+                    selected=selection->primary();
                 }
             }
         }
@@ -579,10 +722,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 auto p=viewport.screen_to_image(mouse);
                 if(std::abs(p.x-marquee_anchor.x)*viewport.zoom<3 && std::abs(p.y-marquee_anchor.y)*viewport.zoom<3) {
                     auto hits=document.pick(p,4/viewport.zoom);
-                    if(!hits.empty()) selection.toggle(hits.back());
-                } else selection.select_region({std::min(p.x,marquee_anchor.x),std::min(p.y,marquee_anchor.y),
+                    if(!hits.empty()) selection->toggle(hits.back());
+                } else selection->select_region({std::min(p.x,marquee_anchor.x),std::min(p.y,marquee_anchor.y),
                     std::abs(p.x-marquee_anchor.x),std::abs(p.y-marquee_anchor.y)},marquee_additive);
-                selected=selection.primary(); error.clear();
+                selected=selection->primary(); error.clear();
             } catch(const std::exception& e) { error=e.what(); }
             marquee=false;
         }
@@ -591,14 +734,14 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if (r.width * viewport.zoom >= 2 && r.height * viewport.zoom >= 2) {
                 try {
                     auto name="Region "+std::to_string(document.object_count()+1);
-                    selected=tool==2?document.add_roi(Roi::ellipse(r),name):document.add_rectangle(r,name); selection.replace({selected}); error.clear();
+                    selected=tool==2?document.add_roi(Roi::ellipse(r),name):document.add_rectangle(r,name); selection->replace({selected}); error.clear();
                 }
                 catch (const std::exception& e) { error = e.what(); }
             }
             drawing = false;
         }
         if(!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_Escape)) {
-            if(!drawing && draft_points.empty() && !marquee && tool!=6) { selection.clear(); selected=0; }
+            if(!drawing && draft_points.empty() && !marquee && tool!=6) { selection->clear(); selected=0; }
             drawing=false; marquee=false; draft_points.clear();
         }
         if(((tool>=3 && tool<=5) || tool==7) && !draft_points.empty() && !io.WantTextInput && (ImGui::IsKeyPressed(ImGuiKey_Enter) || (hovered && ImGui::IsMouseDoubleClicked(0)))) {
@@ -614,7 +757,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     if(!added) throw std::invalid_argument("Hole must lie inside one polygon part without overlapping existing holes");
                 } else {
                     auto geometry=tool==3?Roi::polygon(draft_points):(tool==4?Roi::polyline(draft_points):Roi::points(draft_points));
-                    selected=document.add_roi(geometry,"Region "+std::to_string(document.object_count()+1)); selection.replace({selected});
+                    selected=document.add_roi(geometry,"Region "+std::to_string(document.object_count()+1)); selection->replace({selected});
                 }
                 draft_points.clear(); error.clear();
             } catch(const std::exception& e) { error=e.what(); }
@@ -628,8 +771,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             plan=plan_view_tiles(image,viewport,size.x,size.y,dpi,256,128); plan_inputs=inputs;
         }
         auto combined=plan; combined.tiles.insert(combined.tiles.end(),overview_plan.tiles.begin(),overview_plan.tiles.end());
-        tiles.update(combined);
-        for (const auto& tile : plan.tiles) if (auto texture=tiles.texture(tile)) {
+        tiles->update(combined);
+        for (const auto& tile : plan.tiles) if (auto texture=tiles->texture(tile)) {
             draw->AddImage(static_cast<ImTextureID>(texture),screen(viewport,{tile.bounds.x,tile.bounds.y},offset),
                 screen(viewport,{tile.bounds.x+tile.bounds.width,tile.bounds.y+tile.bounds.height},offset));
         }
@@ -639,8 +782,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         for (auto id:visible_ids) {
             const auto& a=document.objects().at(id); const auto r=a.geometry.bounds();
             auto p0 = screen(viewport,{r.x,r.y},offset);
-            auto color = selection.contains(a.id) ? IM_COL32(255,205,85,255) : IM_COL32(65,225,190,255);
-            if(!selection.contains(a.id) && !a.class_name.empty()) {
+            auto color = selection->contains(a.id) ? IM_COL32(255,205,85,255) : IM_COL32(65,225,190,255);
+            if(!selection->contains(a.id) && !a.class_name.empty()) {
                 auto found=document.classes().find(a.class_name);
                 if(found!=document.classes().end()) {
                     auto rgb=found->second.color; color=IM_COL32((rgb>>16)&255,(rgb>>8)&255,rgb&255,255);
@@ -687,12 +830,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         overview_draw->PushClipRect({std::max(overview_offset.x,overview_clip_min.x),std::max(overview_offset.y,overview_clip_min.y)},
             {std::min(overview_offset.x+overview_size.x,overview_clip_max.x),std::min(overview_offset.y+overview_size.y,overview_clip_max.y)},false);
         overview_draw->AddRectFilled(overview_offset,{overview_offset.x+overview_size.x,overview_offset.y+overview_size.y},IM_COL32(18,21,27,255));
-        for (const auto& tile:overview_plan.tiles) if (auto texture=tiles.texture(tile)) overview_draw->AddImage(static_cast<ImTextureID>(texture),
+        for (const auto& tile:overview_plan.tiles) if (auto texture=tiles->texture(tile)) overview_draw->AddImage(static_cast<ImTextureID>(texture),
             screen(overview_view,{tile.bounds.x,tile.bounds.y},overview_offset),screen(overview_view,{tile.bounds.x+tile.bounds.width,tile.bounds.y+tile.bounds.height},overview_offset));
         auto top_left=viewport.screen_to_image({0,0}),bottom_right=viewport.screen_to_image({size.x,size.y});
         overview_draw->AddRect(screen(overview_view,top_left,overview_offset),screen(overview_view,bottom_right,overview_offset),IM_COL32(255,205,85,255),0,0,2);
         overview_draw->PopClipRect();
-        std::string status=tiles.error().empty() ? (tiles.pending() ? "Loading image..." : "") : tiles.error();
+        std::string status=tiles->error().empty() ? (tiles->pending() ? "Loading image..." : "") : tiles->error();
         if (plan.truncated) status="View exceeds tile limit; zoom in for complete coverage";
         if(!draft_points.empty()) status="Enter or double-click: finish shape | Escape: cancel";
         if (!status.empty()) draw->AddText({offset.x+12,offset.y+12},IM_COL32(255,220,130,255),status.c_str());
@@ -722,8 +865,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     }
     std::sort(frame_times.begin(),frame_times.end());
     auto p95=frame_times.empty()?0:frame_times[static_cast<std::size_t>((frame_times.size()-1)*.95)];
-    return {frames,tiles.uploads(),tiles.peak_bytes(),tiles.generations(),p95,tiles.pending(),viewport.zoom,viewport.origin,
+    return {frames,previous_uploads+tiles->uploads(),std::max(previous_peak_bytes,tiles->peak_bytes()),previous_generations+tiles->generations(),p95,tiles->pending(),viewport.zoom,viewport.origin,
         viewport.screen_to_image({previous_canvas_size.x/2,previous_canvas_size.y/2}),last_width,last_height,
-        reinterpret_cast<const char*>(glGetString(GL_RENDERER)),reinterpret_cast<const char*>(glGetString(GL_VERSION)),visible_count,selection.ids(),selection.primary()};
+        reinterpret_cast<const char*>(glGetString(GL_RENDERER)),reinterpret_cast<const char*>(glGetString(GL_VERSION)),visible_count,selection->ids(),selection->primary(),active_image,image_switches,max_image_switch_ms,project_error};
 }
 }

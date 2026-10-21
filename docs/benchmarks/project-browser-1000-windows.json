@@ -1,0 +1,15 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "catalog_images": 1000,
+  "objects": 100000,
+  "selected_objects": 100000,
+  "visible_objects": 828,
+  "switches": 20,
+  "max_switch_ms": 0.6269,
+  "cpu_frame_p95_ms": 16.9693,
+  "peak_gpu_payload_bytes": 3145728,
+  "pending_tiles": 0,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+  "scope": "1000-image catalog (998 small documents sharing one dense server), 20 switches between two dense images. First image retains 100000 selected rectangles in a narrow view. One GPU cache, reloaded on switch. Synchronous switch timing includes scheduler shutdown; excludes disk/vendor slow-reader and autosave workloads. CPU frame timing includes switch frames but excludes presentation wait."
+}

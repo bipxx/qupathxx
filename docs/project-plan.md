@@ -426,3 +426,11 @@ losses and ImGui import/export controls. See [interchange.md](interchange.md).
 Protocol-shaped fixtures do not establish a QuPath runtime round trip. M4 still
 requires that comparison, in-window browsing, autosave/recovery and migrations;
 all unfinished M0-M7 gates remain active.
+
+The thirteenth packet adds in-window project image browsing, file addition,
+renaming and relinking. Frame-boundary switching retains independent session
+views, display settings, selections and native document histories; old GPU
+textures and measurement publication state are invalidated. See
+[project-browser.md](project-browser.md). Persistent views, project-file open/
+replacement UX, removal/dirty-close decisions, autosave/recovery and migrations
+remain M4 work. Retain all unfinished M0-M7 gates and QuPath runtime comparisons.

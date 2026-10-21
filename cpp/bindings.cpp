@@ -155,7 +155,7 @@ NB_MODULE(_native, m) {
         .def("add_image",&Project::add_image,"path"_a,"reader"_a="auto","name"_a="")
         .def("add_document",&Project::add_document,"document"_a,"name"_a="","source_path"_a="","reader"_a="auto")
         .def("document",&Project::document).def_prop_ro("images",&Project::images)
-        .def("remove_image",&Project::remove_image).def("relink",&Project::relink)
+        .def("remove_image",&Project::remove_image).def("relink",&Project::relink).def("rename_image",&Project::rename_image)
         .def_prop_rw("active_image",&Project::active_image,&Project::set_active_image)
         .def_prop_ro("dirty",&Project::dirty).def_prop_ro("path",&Project::path)
         .def_prop_ro("identity",&Project::identity).def_prop_ro("generation",&Project::generation);
@@ -189,12 +189,13 @@ NB_MODULE(_native, m) {
         .value("POLYLINE_KEY",GuiInputKind::PolylineKey).value("POINTS_KEY",GuiInputKind::PointsKey).value("FINISH_KEY",GuiInputKind::FinishKey)
         .value("SELECT_ALL_KEY",GuiInputKind::SelectAllKey).value("ESCAPE_KEY",GuiInputKind::EscapeKey)
         .value("VERTEX_KEY",GuiInputKind::VertexKey).value("HOLE_KEY",GuiInputKind::HoleKey)
-        .value("INSERT_KEY",GuiInputKind::InsertKey).value("BOOLEAN_KEY",GuiInputKind::BooleanKey).value("SAVE_KEY",GuiInputKind::SaveKey).value("EXPORT_KEY",GuiInputKind::ExportKey).value("IMPORT_KEY",GuiInputKind::ImportKey);
-    nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image);
+        .value("INSERT_KEY",GuiInputKind::InsertKey).value("BOOLEAN_KEY",GuiInputKind::BooleanKey).value("SAVE_KEY",GuiInputKind::SaveKey).value("EXPORT_KEY",GuiInputKind::ExportKey).value("IMPORT_KEY",GuiInputKind::ImportKey)
+        .value("NEXT_IMAGE_KEY",GuiInputKind::NextImageKey).value("PREVIOUS_IMAGE_KEY",GuiInputKind::PreviousImageKey).value("ADD_IMAGE_KEY",GuiInputKind::AddImageKey).value("RELINK_IMAGE_KEY",GuiInputKind::RelinkImageKey);
+    nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image).value("PROJECT_LIST",GuiInputTarget::ProjectList).value("DISPLAY_RESET",GuiInputTarget::DisplayReset);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
-        .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view).def_rw("project",&GuiOptions::project).def_rw("interchange_path",&GuiOptions::interchange_path);
+        .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view).def_rw("project",&GuiOptions::project).def_rw("interchange_path",&GuiOptions::interchange_path).def_rw("project_image_path",&GuiOptions::project_image_path);
     nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
         .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)
         .def_ro("generations",&GuiReport::generations).def_ro("cpu_frame_p95_ms",&GuiReport::cpu_frame_p95_ms)
@@ -202,7 +203,8 @@ NB_MODULE(_native, m) {
         .def_ro("final_origin",&GuiReport::final_origin).def_ro("framebuffer_width",&GuiReport::framebuffer_width)
         .def_ro("framebuffer_height",&GuiReport::framebuffer_height).def_ro("final_center",&GuiReport::final_center)
         .def_ro("gl_renderer",&GuiReport::gl_renderer).def_ro("gl_version",&GuiReport::gl_version).def_ro("visible_objects",&GuiReport::visible_objects)
-        .def_ro("selected_ids",&GuiReport::selected_ids).def_ro("primary_selection",&GuiReport::primary_selection);
+        .def_ro("selected_ids",&GuiReport::selected_ids).def_ro("primary_selection",&GuiReport::primary_selection)
+        .def_ro("active_image",&GuiReport::active_image).def_ro("image_switches",&GuiReport::image_switches).def_ro("max_image_switch_ms",&GuiReport::max_image_switch_ms).def_ro("project_error",&GuiReport::project_error);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.

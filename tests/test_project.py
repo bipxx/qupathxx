@@ -21,6 +21,25 @@ def rect(x, y, w, h):
     return q.Roi.rectangle(q.Rect(x, y, w, h))
 
 
+def test_rename_image_preserves_document_and_survives_restart(tmp_path):
+    project = q.Project()
+    doc = q.Document(q.Image.demo())
+    image = project.add_document(doc, "Original")
+    path = tmp_path / "renamed.qpxproj"
+    project.save(str(path))
+    revision = doc.revision
+    project.rename_image(image, "Renamed \u6807\u6ce8")
+    assert project.dirty and project.document(image) is doc and doc.revision == revision
+    for name in ["", "\0bad", "x"*4097]:
+        with pytest.raises(ValueError):
+            project.rename_image(image, name)
+    assert project.images[0].name == "Renamed \u6807\u6ce8"
+    project.save(str(path))
+    project.rename_image(image, "Renamed \u6807\u6ce8")
+    assert not project.dirty
+    assert q.Project.open(str(path)).images[0].name == "Renamed \u6807\u6ce8"
+
+
 def state(doc):
     return [(a.id, a.name, a.parent_id, a.class_name, a.revision, a.kind, a.geometry.kind,
              a.geometry.wkt, a.nucleus.wkt if a.nucleus else None) for a in doc.annotations]

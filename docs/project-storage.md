@@ -113,28 +113,31 @@ the destination path, dirty state and Save project action; Ctrl+S saves canonica
 state. For programmatic viewing, set `GuiOptions.project` to a project whose
 active document is passed to `show`. The GUI checks this association before
 opening. Both launchers pass project-opening smoke checks with `--smoke`.
-Current image selection at launch uses `--image-id`; in-window project
-browsing, autosave, close/recovery UX and background saves remain M4 work.
+Image selection at launch uses `--image-id`; the in-window
+[project browser](project-browser.md) also switches images and adds, renames or
+relinks entries. Autosave, close/recovery UX and background saves remain M4 work.
 
 ## Build and evidence
 
 `QUPATHXX_BUILD_PROJECT` defaults ON. CMake fetches and statically compiles pinned
 SQLite 3.54.1, with SHA256 and upstream SHA3 identity recorded in the
 [fixture manifest](../tests/fixtures/manifest.json). No SQLite DLL is needed.
-The public-domain notice is packaged with the wheel. Disable the option for a
-dependency-free native core; storage methods then report unavailable capability.
+The public-domain notice is packaged with the wheel. Disable the option to omit
+storage; storage methods then report unavailable capability. A dependency-free
+native build also disables `QUPATHXX_BUILD_INTERCHANGE`, GUI, OpenSlide and GEOS.
 `has_project` and `sqlite_version` expose the build capability.
 Projects containing polygons require a GEOS-enabled build. Linked slides need
 OpenSlide when their pixels are requested; missing/unavailable readers do not
 prevent restoring their stored dimensions and annotation state.
 
-The installed GUI wheel passes 129 Python tests. New tests include a 100352-pixel-wide linked pyramid without embedded pixels and
+The installed GUI wheel passes 158 Python tests. Storage tests include a 100352-pixel-wide linked pyramid without embedded pixels and
 exercise multi-image
 restart, every ROI kind, cell/nucleus/class state, exact IDs/revisions, relative
 moves, missing sources, relinking, Unicode paths, unknown schemas, malformed
 geometry, stale writers and actual transaction rollback. GUI replay verifies
-Ctrl+S. Eleven native suites pass with optional readers/geometry enabled, with
-only SQLite enabled, and with all optional dependencies disabled.
+Ctrl+S, in-window switching, state isolation, addition and relinking. Twelve native
+suites pass with optional readers/geometry enabled, with storage/interchange
+enabled and readers/geometry disabled, and with all optional dependencies disabled.
 
 The [100000-object benchmark](benchmarks/project-100000-windows.json) records
 initial save, full resave and validated load on local storage. The recorded run

@@ -204,9 +204,12 @@ struct GuiReport {
     std::size_t visible_objects = 0;
     std::vector<std::uint64_t> selected_ids;
     std::uint64_t primary_selection = 0;
+    std::uint64_t active_image = 0,image_switches = 0;
+    double max_image_switch_ms = 0;
+    std::string project_error;
 };
-enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey };
-enum class GuiInputTarget { Canvas, Overview, ObjectList, Image };
+enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey };
+enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset };
 struct GuiInput {
     int frame = 0;
     GuiInputKind kind = GuiInputKind::Move;
@@ -221,6 +224,7 @@ struct GuiOptions {
     std::optional<Viewport> start_view;
     std::shared_ptr<Project> project;
     std::string interchange_path;
+    std::string project_image_path;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 }

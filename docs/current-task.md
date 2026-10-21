@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 148 Python tests including shape tools, interchange and GUI history replay;
+Evidence: 158 Python tests including shape tools, interchange, multi-image browsing and GUI history replay;
 twelve native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
@@ -31,8 +31,12 @@ see project-storage.md. The 100000-object persistence benchmark measures about
 225 ms save, 380 ms full resave and 201 ms validated load on local storage.
 Deterministic native GeoJSON/CSV interchange, atomic imports, loss reports and
 GUI controls are implemented; see interchange.md. QuPath runtime-assisted
-round trips remain unverified. Next implement in-window project browsing, autosave,
-recovery/close UX and migrations;
+round trips remain unverified. In-window image browsing/add/rename/relink,
+session views/display/selection retention and document isolation are implemented;
+see project-browser.md. A 1000-image catalog benchmark with 100000 selected objects
+records 20 switches, 0.63 ms maximum synchronous switch time, 17.0 ms p95 CPU frame
+work and 3 MiB GPU tile payload on dense images. Next implement persistent views,
+project-file open/replacement, removal/dirty-close decisions, autosave/recovery and migrations;
 retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,

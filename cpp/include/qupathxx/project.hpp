@@ -21,6 +21,7 @@ public:
     std::shared_ptr<Document> document(std::uint64_t id) const;
     std::vector<ProjectImage> images() const;
     void remove_image(std::uint64_t id);
+    void rename_image(std::uint64_t id,std::string name);
     void relink(std::uint64_t id,const std::string& path);
     std::uint64_t active_image() const { return active_image_; }
     void set_active_image(std::uint64_t id);

@@ -22,6 +22,8 @@ QuPath port or a compatible replacement for Java QuPath.
   generation checks, bounded work reservations and a decoded LRU cache.
 - Atomic native GeoJSON import/export and measurement CSV, shared by Python and
   ImGui, with explicit conversion-loss reports; see [interchange](docs/interchange.md).
+- In-window project image browsing, add/rename/relink controls and independent
+  views/selections/history; see [project browser](docs/project-browser.md).
 
 The GUI displays dense and OpenSlide images through asynchronous 256-pixel tiles,
 coarse pyramid fallback and a 64 MiB GPU payload cache. OpenSlide regions can also

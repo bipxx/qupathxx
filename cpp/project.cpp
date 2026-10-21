@@ -122,6 +122,12 @@ void Project::set_active_image(std::uint64_t id) {
     if(id) entry(id); if(active_image_==id) return;
     advance(revision_); active_image_=id; ++revision_;
 }
+void Project::rename_image(std::uint64_t id,std::string name) {
+    const auto& old=entry(id); text(name);
+    if(name.empty()) throw std::invalid_argument("image name must not be empty");
+    if(old.info.name==name) return;
+    advance(revision_); entries_.at(id).info.name.swap(name); ++revision_;
+}
 void Project::relink(std::uint64_t id,const std::string& path) {
     const auto& old=entry(id); if(old.info.embedded) throw std::invalid_argument("embedded images do not require relinking");
     auto source=absolute(path); auto server=read_image(source,old.info.reader); compatible(old.document->metadata(),server->metadata());
