@@ -1,0 +1,46 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "python": "3.12.8",
+  "fixture": "large-pyramid.tif",
+  "sha256": "09301eba1210f7c7335e33993f0fe73cc74f7fc34ac85b1da5a9bb5043776845",
+  "window_logical_size": [
+    2560,
+    1440
+  ],
+  "runs": [
+    {
+      "name": "first-view",
+      "elapsed_seconds": 3.5007140999659896,
+      "frames": 180,
+      "cpu_frame_p95_ms": 16.9705,
+      "uploaded_tiles": 51,
+      "peak_gpu_payload_bytes": 9728256,
+      "pending_tiles_at_exit": 0,
+      "framebuffer_size": [
+        2560,
+        1440
+      ],
+      "generations": 31,
+      "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+      "gl_version": "3.2.0 NVIDIA 610.88"
+    },
+    {
+      "name": "repeat-view",
+      "elapsed_seconds": 3.2552045000484213,
+      "frames": 180,
+      "cpu_frame_p95_ms": 16.9303,
+      "uploaded_tiles": 44,
+      "peak_gpu_payload_bytes": 9318656,
+      "pending_tiles_at_exit": 0,
+      "framebuffer_size": [
+        2560,
+        1440
+      ],
+      "generations": 31,
+      "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+      "gl_version": "3.2.0 NVIDIA 610.88"
+    }
+  ],
+  "scope": "ImGui zoom/overview replay. CPU timing excludes explicit swap/vsync and capture; includes planning/upload/draw submission. Driver calls may block. No GPU completion latency claim."
+}

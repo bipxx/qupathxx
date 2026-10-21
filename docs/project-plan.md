@@ -362,3 +362,10 @@ background mean measurement and CLI slide opening. Its framebuffer tests verify
 exact RGB output and real Aperio rendering. See [tiled-viewer.md](tiled-viewer.md)
 for measured scope and remaining M2 gates. The project remains incomplete across
 M0 through M7; no milestone is accepted from a screenshot or test count alone.
+
+The fourth packet adds click/drag overview navigation, RGB channel/window/gamma
+controls, ImGui pointer replay, and a generated large-image pyramid. Its 2560 x
+1440 navigation benchmark performs 31 request generations with under 10 MiB of
+GPU tile payload and approximately 17 ms p95 CPU frame work on the recorded
+development host. This is a synthetic workload result, not full performance
+acceptance. Continue with M3 while retaining all unfinished M0/M2 and M4–M7 gates.

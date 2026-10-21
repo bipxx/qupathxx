@@ -6,7 +6,8 @@ is required to fit or navigate a slide.
 
 The planner selects a level using zoom and framebuffer scale. Coarse fallback
 tiles load first when affordable, with central detail tiles prioritized next.
-Requests are capped at 192 tiles. When the available pyramid cannot cover the
+The main view and overview each request at most 128 tiles, sharing decoded/GPU
+entries for identical regions. When the available pyramid cannot cover the
 view within that limit, the canvas explicitly asks the user to zoom in. Native
 tests exercise trillion-pixel metadata without allocating large images.
 
@@ -54,9 +55,54 @@ completion or interactive motion latency.
 
 ## Remaining acceptance work
 
-M2 remains open for overview navigation, channel/display controls and layout
-polish. Exercise actual pointer pan/zoom/drawing, resize, minimize and per-monitor
-DPI changes. Benchmark a large multilevel vendor slide, cold reads, rapid
-generation changes and sustained cache pressure. Establish the plan's
-2560 x 1440 workload and 100,000-object culling benchmark. ICC transforms and
-fluorescence controls need separate implementation.
+Overview navigation and RGB display controls are implemented. Tests replay
+pointer pan, wheel zoom, rectangle drawing and overview clicks through ImGui's
+input queue. The initial 2560 x 1440 synthetic pyramid workload is implemented;
+vendor cold reads, resize, minimize, per-monitor DPI changes, prolonged cache
+pressure and the 100,000-object culling benchmark remain open. ICC transforms,
+fluorescence controls and docking/layout work need separate implementation.
+
+## Overview and display controls
+
+The overview shares tiles with the main view and outlines its visible region.
+Click or drag to center the main view at an image point without changing zoom.
+Its full-image tile plan is stable across navigation. If the source lacks enough
+pyramid levels for bounded coverage, it explicitly reports a limited overview.
+This is tiled sampling rather than a separate whole-image thumbnail allocation.
+
+Display settings select RGB, grayscale or a single RGB channel, with black/white
+window and gamma controls. These settings transform raw bytes with a 256-entry
+lookup table only during GPU upload. The identity path uploads raw bytes directly.
+Changing settings discards display textures but preserves raw decoded cache
+entries. Measurements and source metadata do not change. This remains RGB8
+display, not a fluorescence channel model or quantitative stain transformation.
+
+The Python API exposes DisplaySettings, GuiOptions and deterministic GuiInput
+records. Replay uses the same ImGui events as GLFW input. Coordinates are
+normalized within the canvas or overview; events start at frame 2, after layout.
+Reports include final viewport state, actual framebuffer dimensions and OpenGL
+renderer/version. Replay validates the interaction handler; it does not test
+operating-system mouse delivery or DPI transition behavior.
+
+Generate the larger fixture and exercise navigation:
+
+```powershell
+.venv/Scripts/python tools/generate_large_fixture.py
+.venv/Scripts/python tools/benchmark_viewer.py build/fixtures/large-pyramid.tif --navigate --frames 180
+```
+
+The generator writes a 100352 x 2048, nine-level RGB TIFF using one reusable
+256 x 256 tile. It never allocates the full image. Constant RGB (40,80,160) gives
+an independent pixel expectation at every level; the recipe is in the fixture
+manifest. Its highly compressible pixels test large coordinates and navigation,
+not representative tissue decoding throughput. Keep real vendor benchmarks as
+a separate requirement.
+
+The committed [Windows navigation record](benchmarks/large-navigation-windows.json)
+uses an actual 2560 x 1440 framebuffer on NVIDIA GeForce RTX 4090, OpenGL 3.2,
+driver 610.88. Two runs each performed 31 generations with p95 CPU frame work of
+16.97 and 16.93 ms. GPU payload peaked at 9,728,256 and 9,318,656 bytes. Both ended
+with zero pending tiles. Asynchronous timing changes how many intermediate tiles
+finish before they become obsolete, so upload counts need not match between runs.
+This meets the proposed 33 ms CPU frame target on this synthetic workload only;
+it does not establish the vendor-slide or 100,000-object performance gates.

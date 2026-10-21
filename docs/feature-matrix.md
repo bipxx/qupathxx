@@ -10,9 +10,9 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 | Dense image regions | qupath-core | io | Partial | Exact pixels, padding and lifetime pass; reader variety missing |
 | OpenSlide regions | qupath-extension-openslide | io | Partial | Synthetic pyramid and small Aperio comparisons; vendor multilevel/errors remain |
 | Metadata and calibration | qupath-core, qupath-extension-openslide | core/io | Partial | Unknown and anisotropic calibration; broader axes/ICC missing |
-| Whole-slide navigation | qupath-gui-fx | render/gui | Partial | Real slide rendering and bounded GPU payload pass; pointer/DPI interaction and large benchmarks remain |
+| Whole-slide navigation | qupath-gui-fx | render/gui | Partial | Real slide rendering, overview, ImGui pointer replay and large synthetic navigation pass; OS/DPI and vendor stress remain |
 | Background tile reads and cache | qupath-core, qupath-gui-fx | jobs/io | Partial | Native scheduling, generation rejection, cache budgets and viewer integration pass; broader workloads remain |
-| Image display and channels | qupath-gui-fx | render/gui | Partial | Dense RGB only; fluorescence, LUTs and composites missing |
+| Image display and channels | qupath-gui-fx | render/gui | Partial | RGB/gray/channel LUT, window and gamma framebuffer checks pass; fluorescence/ICC remain |
 | Rectangle annotation | qupath-core, qupath-gui-fx | geometry/gui | Partial | Bounds and sampling pass; interactive editing and upstream fixtures missing |
 | Polygon and ellipse tools | qupath-core, qupath-gui-fx | geometry/gui | Missing | Holes, overlaps, validity, edits and reference area/perimeter |
 | Object hierarchy and classes | qupath-core | core | Missing | Stable identities, containment, reparenting and selection |
@@ -43,5 +43,6 @@ benchmark hardware plus workflow tolerances. A bounded native read scheduler,
 cancellation and decoded caching are implemented; see the
 [scheduler contract](tile-scheduler-contract.md). M1 remains open for thumbnail
 policy and broader reader validation. Tiled rendering and viewport integration
-are implemented. M2 remains open for overview, channels, pointer/DPI interaction
-and large-slide benchmarks. Keep reader, scheduler, planner and OpenGL checks passing.
+are implemented, including overview navigation and RGB display controls.
+M2 remains open for docking/layout, fluorescence/ICC, OS/DPI interactions and
+vendor stress benchmarks. Keep reader, scheduler, planner and OpenGL checks passing.

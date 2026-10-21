@@ -16,6 +16,13 @@
   ],
   "generated": [
     {
+      "name": "large-rgb-pyramid",
+      "recipe": "tools/generate_large_fixture.py",
+      "dimensions": [[100352, 2048], [50176, 1024], [25088, 512], [12544, 256], [6272, 128], [3136, 64], [1568, 32], [784, 16], [392, 8]],
+      "pixels": "Constant uint8 RGB (40,80,160) at all levels, 256-pixel tiles, deflate compression",
+      "purpose": "Large-image navigation, generation churn and 2560x1440 rendering without a full-image allocation"
+    },
+    {
       "name": "synthetic-rgb-pyramid",
       "recipe": "tests/test_openslide.py::pyramid",
       "dimensions": [[512, 384], [256, 192]],

@@ -12,6 +12,7 @@ QuPath port or a compatible replacement for Java QuPath.
 - Stable annotation IDs, deletion, calibrated area and mean RGB intensity.
 - Image viewport with cursor-anchored zoom, pan, fit and rectangle drawing.
 - ImGui image canvas, annotation inspector and selected-object measurements.
+- Click/drag overview navigation, RGB/grayscale/channel display, contrast window and gamma.
 - Python bindings use the same document as the GUI; annotation lists are snapshots.
 - Synthetic demonstration image and binary P6 PPM reader (8-bit RGB, maxval 255).
 - Native `qupathxx_region` CLI writes extracted regions as RGBA PAM files.
@@ -73,11 +74,11 @@ build/desktop/Release/qupathxx_app.exe
 Python checks: `.venv/Scripts/python -m pytest`.
 The native executable accepts `--smoke` to render three frames and exit.
 
-Validated on Windows with MSVC 19.44 and Python 3.12: 32 Python tests including
+Validated on Windows with MSVC 19.44 and Python 3.12: 39 Python tests including
 synthetic pyramid, Aperio and opt-in framebuffer checks, four native tests with
 and without OpenSlide, and GUI startup/render/shutdown with known and unknown
-calibration. Interactive mouse behavior has not yet been exercised by an
-automated GUI test.
+calibration. ImGui input replay verifies zoom, pan, rectangle drawing and overview
+navigation; actual OS pointer delivery and monitor DPI transitions remain open.
 The Python tests also pass from a wheel installed into a fresh virtual
 environment, using its packaged OpenSlide DLL and native CLI.
 
@@ -147,8 +148,8 @@ dependencies. `cpp/image_server.cpp` adapts dense images and
 of native state, bindings and frontend while implementing a new ImGui frontend.
 No naparixx or QuPath source has been copied into this project.
 
-1. Extend the tiled viewer with overview navigation, channel controls, pointer/DPI
-   interaction automation and larger-slide performance validation.
+1. Extend the RGB tiled viewer with docking, fluorescence/ICC display, real
+   vendor navigation benchmarks, resize/minimize and per-monitor DPI validation.
 2. Polygon/ellipse ROIs, object hierarchy, classes, selection and undo/redo;
    spatial indexing and GeoJSON annotation exchange.
 3. Project persistence with versioned native schema and explicit QuPath import

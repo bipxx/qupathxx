@@ -23,6 +23,7 @@ class GuiTiles {
     std::uint64_t uploaded_=0;
     std::size_t peak_=0;
     std::string error_;
+    DisplaySettings display_;
 
     void erase(std::map<TileKey,Texture>::iterator it) {
         glDeleteTextures(1,&it->second.id); bytes_-=it->second.bytes;
@@ -37,13 +38,19 @@ class GuiTiles {
             if (victim==textures_.end()) victim=textures_.find(lru_.back());
             erase(victim);
         }
+        // Allocate transformation storage before creating a GPU resource so an
+        // allocation failure cannot leak a texture name.
+        auto transformed=display_==DisplaySettings{} ? std::vector<std::uint8_t>{} : display_pixels(pixels,display_);
+        const auto* data=transformed.empty()?pixels.bytes().data():transformed.data();
         GLuint texture=0; glGenTextures(1,&texture); glBindTexture(GL_TEXTURE_2D,texture);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,0x812F); // GL_CLAMP_TO_EDGE
         glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,0x812F);
         glPixelStorei(GL_UNPACK_ALIGNMENT,1);
-        glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,static_cast<GLsizei>(pixels.width()),static_cast<GLsizei>(pixels.height()),0,GL_RGBA,GL_UNSIGNED_BYTE,pixels.bytes().data());
+        // Reuse raw bytes for the identity path; nonidentity settings transform
+        // only on upload, never per frame or inside the quantitative reader.
+        glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,static_cast<GLsizei>(pixels.width()),static_cast<GLsizei>(pixels.height()),0,GL_RGBA,GL_UNSIGNED_BYTE,data);
         if (!texture || glGetError()!=GL_NO_ERROR) { if (texture) glDeleteTextures(1,&texture); throw std::runtime_error("tile texture upload failed"); }
         try {
             lru_.push_front(key);
@@ -57,6 +64,11 @@ public:
     ~GuiTiles() {
         scheduler_.shutdown();
         for (auto& [key,texture] : textures_) glDeleteTextures(1,&texture.id);
+    }
+    void set_display(const DisplaySettings& display) {
+        display.validate(); if (display==display_) return;
+        for (auto& [key,texture] : textures_) glDeleteTextures(1,&texture.id);
+        textures_.clear(); lru_.clear(); bytes_=0; failed_.clear(); error_.clear(); display_=display;
     }
     void update(const TilePlan& plan) {
         std::set<TileKey> wanted;

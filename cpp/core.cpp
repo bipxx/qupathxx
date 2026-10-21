@@ -139,7 +139,13 @@ void Viewport::zoom_at(Point screen, double factor) {
     origin = {screen.x - image.x * zoom, screen.y - image.y * zoom};
 }
 void Viewport::fit(std::int64_t w, std::int64_t h, double cw, double ch) {
-    positive(w); positive(h); positive(cw); positive(ch);
+    if (w<=0 || h<=0) throw std::invalid_argument("image dimensions must be positive");
+    positive(cw); positive(ch);
     zoom = std::min(cw / w, ch / h); origin = {(cw - w * zoom) / 2, (ch - h * zoom) / 2};
+}
+void Viewport::center_on(Point p, double cw, double ch) {
+    positive(zoom); positive(cw); positive(ch);
+    if (!std::isfinite(p.x) || !std::isfinite(p.y)) throw std::invalid_argument("center must be finite");
+    origin={cw/2-p.x*zoom,ch/2-p.y*zoom};
 }
 }

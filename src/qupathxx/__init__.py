@@ -4,6 +4,7 @@ from ._native import (
     PixelBuffer, PixelLayout, PixelType, Point, Rect, RegionRequest, Viewport,
     dense_image_server, has_gui, has_openslide, open_slide, show,
     SchedulerOptions, SchedulerStats, TileResult, TileScheduler, TileStatus,
+    DisplaySettings, DisplayMode, display_pixels, GuiOptions, GuiInput, GuiInputKind, GuiInputTarget,
 )
 
 __all__ = [
@@ -11,4 +12,5 @@ __all__ = [
     "PixelBuffer", "PixelLayout", "PixelType", "Point", "Rect", "RegionRequest", "Viewport",
     "dense_image_server", "has_gui", "has_openslide", "open_slide", "show",
     "SchedulerOptions", "SchedulerStats", "TileResult", "TileScheduler", "TileStatus",
+    "DisplaySettings", "DisplayMode", "display_pixels", "GuiOptions", "GuiInput", "GuiInputKind", "GuiInputTarget",
 ]

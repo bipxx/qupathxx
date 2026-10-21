@@ -15,5 +15,13 @@ int main() {
         auto p = v.screen_to_image({300,200}); v.zoom_at({300,200},2);
         auto q = v.screen_to_image({300,200}); check(std::abs(p.x-q.x)<1e-10 && std::abs(p.y-q.y)<1e-10);
         check(d.remove_annotation(id)); check(!d.remove_annotation(id));
+        qpx::PixelBuffer pixels(1,1); pixels.writable_bytes()={10,110,210,255};
+        qpx::DisplaySettings display; display.black=10; display.white=210; display.gamma=2;
+        check(qpx::display_pixels(pixels,display)==std::vector<std::uint8_t>({0,180,255,255}));
+        check(pixels.bytes()==std::vector<std::uint8_t>({10,110,210,255}));
+        display.mode=qpx::DisplayMode::Red;
+        check(qpx::display_pixels(pixels,display)==std::vector<std::uint8_t>({0,0,0,255}));
+        v.center_on({750,250},800,600); auto center=v.screen_to_image({400,300});
+        check(center.x==750 && center.y==250);
     } catch (const std::exception& e) { std::cerr << e.what() << '\n'; return 1; }
 }

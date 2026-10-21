@@ -4,6 +4,7 @@
 #include <vector>
 #include <atomic>
 #include "qupathxx/image_server.hpp"
+#include "qupathxx/display.hpp"
 
 namespace qpx {
 struct Point {
@@ -68,6 +69,7 @@ struct Viewport {
     Point screen_to_image(Point p) const;
     void zoom_at(Point screen, double factor);
     void fit(std::int64_t image_width, std::int64_t image_height, double canvas_width, double canvas_height);
+    void center_on(Point image_point, double canvas_width, double canvas_height);
 };
 // Runs on the calling/main thread. frame_limit=0 is interactive.
 struct GuiReport {
@@ -77,6 +79,24 @@ struct GuiReport {
     std::uint64_t generations = 0;
     double cpu_frame_p95_ms = 0;
     std::size_t pending_tiles = 0;
+    double final_zoom = 0;
+    Point final_origin;
+    Point final_center;
+    int framebuffer_width = 0, framebuffer_height = 0;
+    std::string gl_renderer, gl_version;
 };
-GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "");
+enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey };
+enum class GuiInputTarget { Canvas, Overview };
+struct GuiInput {
+    int frame = 0;
+    GuiInputKind kind = GuiInputKind::Move;
+    GuiInputTarget target = GuiInputTarget::Canvas;
+    double x = .5, y = .5, wheel = 0;
+};
+struct GuiOptions {
+    int width = 1440, height = 900;
+    DisplaySettings display;
+    std::vector<GuiInput> inputs;
+};
+GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 }

@@ -61,17 +61,37 @@ NB_MODULE(_native, m) {
         .def("area_um2", &Document::area_um2).def("mean_intensity", &Document::mean_intensity);
     nb::class_<Viewport>(m, "Viewport").def(nb::init<>()).def_rw("origin", &Viewport::origin).def_rw("zoom", &Viewport::zoom)
         .def("image_to_screen", &Viewport::image_to_screen).def("screen_to_image", &Viewport::screen_to_image)
-        .def("zoom_at", &Viewport::zoom_at).def("fit", &Viewport::fit);
-#ifdef QUPATHXX_HAS_GUI
+        .def("zoom_at", &Viewport::zoom_at).def("fit", &Viewport::fit).def("center_on",&Viewport::center_on);
+    nb::enum_<DisplayMode>(m,"DisplayMode").value("RGB",DisplayMode::RGB).value("GRAY",DisplayMode::Gray)
+        .value("RED",DisplayMode::Red).value("GREEN",DisplayMode::Green).value("BLUE",DisplayMode::Blue);
+    nb::class_<DisplaySettings>(m,"DisplaySettings").def(nb::init<>()).def_rw("mode",&DisplaySettings::mode)
+        .def_rw("black",&DisplaySettings::black).def_rw("white",&DisplaySettings::white).def_rw("gamma",&DisplaySettings::gamma)
+        .def("validate",&DisplaySettings::validate);
+    m.def("display_pixels",[](const PixelBuffer& p,const DisplaySettings& s) {
+        auto data=display_pixels(p,s); return nb::bytes(reinterpret_cast<const char*>(data.data()),data.size());
+    });
+    nb::enum_<GuiInputKind>(m,"GuiInputKind").value("MOVE",GuiInputKind::Move)
+        .value("LEFT_DOWN",GuiInputKind::LeftDown).value("LEFT_UP",GuiInputKind::LeftUp)
+        .value("RIGHT_DOWN",GuiInputKind::RightDown).value("RIGHT_UP",GuiInputKind::RightUp)
+        .value("WHEEL",GuiInputKind::Wheel).value("RECTANGLE_KEY",GuiInputKind::RectangleKey);
+    nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview);
+    nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
+        .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel);
+    nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
+        .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs);
     nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
         .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)
         .def_ro("generations",&GuiReport::generations).def_ro("cpu_frame_p95_ms",&GuiReport::cpu_frame_p95_ms)
-        .def_ro("pending_tiles",&GuiReport::pending_tiles);
+        .def_ro("pending_tiles",&GuiReport::pending_tiles).def_ro("final_zoom",&GuiReport::final_zoom)
+        .def_ro("final_origin",&GuiReport::final_origin).def_ro("framebuffer_width",&GuiReport::framebuffer_width)
+        .def_ro("framebuffer_height",&GuiReport::framebuffer_height).def_ro("final_center",&GuiReport::final_center)
+        .def_ro("gl_renderer",&GuiReport::gl_renderer).def_ro("gl_version",&GuiReport::gl_version);
+#ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.
-    m.def("show", &run_gui, "document"_a, "frame_limit"_a = 0, "capture_path"_a = "");
+    m.def("show", &run_gui, "document"_a, "frame_limit"_a = 0, "capture_path"_a = "", "options"_a=GuiOptions{});
 #else
     m.attr("has_gui") = false;
-    m.def("show", [](Document&, int, const std::string&) { throw std::runtime_error("rebuild with -Ccmake.define.QUPATHXX_BUILD_GUI=ON"); }, "document"_a, "frame_limit"_a = 0, "capture_path"_a = "");
+    m.def("show", [](Document&, int, const std::string&, const GuiOptions&) { throw std::runtime_error("rebuild with -Ccmake.define.QUPATHXX_BUILD_GUI=ON"); }, "document"_a, "frame_limit"_a = 0, "capture_path"_a = "", "options"_a=GuiOptions{});
 #endif
 }
