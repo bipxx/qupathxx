@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    BuildEnvironment, AnalysisProvenance, build_environment, provenance_json, save_provenance,
     CellTableOptions, CellTableRequest, CellTableExportStats, CellTableExportJob, cell_measurements_csv, save_cell_measurements_csv,
     CellFeatureLink, CellRecord, CellParameters, CellRequest, CellMarker, CellFeature, CellResult, CellStats, CellJob, detect_cells,
     TissueRecord, TissueContourOptions, TissueContour, TissueContours, trace_tissue,
@@ -20,6 +21,7 @@ from ._native import (
 )
 
 __all__ = [
+    "BuildEnvironment", "AnalysisProvenance", "build_environment", "provenance_json", "save_provenance",
     "CellTableOptions", "CellTableRequest", "CellTableExportStats", "CellTableExportJob", "cell_measurements_csv", "save_cell_measurements_csv",
     "CellFeatureLink", "CellRecord", "CellParameters", "CellRequest", "CellMarker", "CellFeature", "CellResult", "CellStats", "CellJob", "detect_cells",
     "TissueRecord", "TissueContourOptions", "TissueContour", "TissueContours", "trace_tissue",

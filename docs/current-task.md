@@ -8,12 +8,12 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the final installed-wheel regression passes 918 Python cases with two file-symlink cases
+Evidence: the final installed-wheel regression passes 939 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
-and recovery; twenty-six native suites pass in the full GUI build and
-twenty-five pass in core/minimal builds with optional geometry/readers/
+and recovery; twenty-seven native suites pass in the full GUI build and
+twenty-six pass in core/minimal builds with optional geometry/readers/
 interchange enabled and disabled. The installed GUI wheel includes its
 packaged runtime libraries and licenses.
 All cell-archive and cell-table cases are included in that full run.
@@ -327,7 +327,7 @@ quad while native geometry still handles picking/editing. Revision and display,
 tile/mask readiness, camera, clip, font and framebuffer keys prevent stale pixels.
 Payload is capped before allocation, with immediate rendering on budget failure.
 The paired 100000-visible-object, 2560-by-1440 recording reduces frame p95 from
-99.72 to 16.91 ms using 12194160 GPU payload bytes and identical framebuffer
+99.72 to 16.89 ms using 12194160 GPU payload bytes and identical framebuffer
 hashes. The view records four captures and 176 hits in 180 frames. Dense dynamic
 views still render normally. See overlay-cache.md for scope and reproduction.
 
@@ -372,7 +372,18 @@ catalog captures in 0.1417 ms p95 and its active 100001-object viewer records
 17.18 ms p95 CPU frame work while exporting. Legacy document CSV retains its
 original output hash. See project-cell-tables.md.
 
-Next complete source/environment provenance, joined published-object tables and
+The forty-sixth packet captures immutable source metadata, reader/locator,
+original/effective calibration, wall-clock time and native build/dependency facts
+when ROI/tissue/cell requests are created. Schema 7 preserves these through
+project/recovery and rechecks, with explicit legacy unknowns, bounded checksummed
+transport and UTF-8 JSON export. The source fingerprint records actual C++/CMake/
+Python wrapper bytes, including uncommitted changes. See analysis-capture-provenance.md.
+The 100000-record synthetic shared-result archive saves in 878 ms and reopens in
+632 ms; warm request capture is 0.0012 ms p95. The selected/all-visible 100001-object
+viewer with 1000 saved records measures 16.89 ms p95 CPU frame work. These are
+scoped measurements on one Windows PC, not independent whole-slide analyses.
+
+Next complete full-file/binary/runtime manifests, joined published-object tables and
 project-wide ROI/tissue feature tables. Continue
 numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished

@@ -27,6 +27,7 @@ public:
     Rect level_bounds() const {return {double(x0_),double(y0_),double(x1_-x0_),double(y1_-y0_)};}
     Rect bounds() const {const auto b=level_bounds();return {b.x*downsample_,b.y*downsample_,b.width*downsample_,b.height*downsample_};}
     std::size_t estimated_work_bytes() const {return estimated_work_bytes_;}
+    const std::shared_ptr<const AnalysisProvenance>& provenance() const {return source_.provenance();}
     static TissueRequest replay(const Document&,std::uint64_t record_id);
 private:
     friend struct TissueKernel;
@@ -52,6 +53,7 @@ class TissueResult : public std::enable_shared_from_this<TissueResult> {
 public:
     TissueResult(const TissueResult&)=delete;
     const std::string& algorithm() const {return algorithm_;}
+    const std::shared_ptr<const AnalysisProvenance>& provenance() const {return provenance_;}
     const std::string& input_sha256() const {return input_sha256_;}
     Rect bounds() const {return bounds_;}
     Rect level_bounds() const {return level_bounds_;}
@@ -80,16 +82,18 @@ public:
     std::uint64_t raw_components() const {return raw_components_;}
     double elapsed_ms() const {return elapsed_ms_;}
     std::size_t estimated_work_bytes() const {return estimated_work_bytes_;}
-    std::size_t retained_bytes() const {return sizeof(TissueResult)+labels_.capacity()*sizeof(std::uint32_t)+components_.capacity()*sizeof(TissueComponent);}
+    std::size_t retained_bytes() const {return sizeof(TissueResult)+(provenance_?provenance_->payload_bytes():0)+labels_.capacity()*sizeof(std::uint32_t)+components_.capacity()*sizeof(TissueComponent);}
 private:
     friend struct TissueKernel;
     friend class Document;
+    friend struct ProvenanceCodec;
     friend struct TissueArchiveCodec;
     friend struct CellKernel;
     friend struct CellArchiveCodec;
     std::shared_ptr<const char> ticket_;
     TissueResult()=default;
     std::string algorithm_="qpx.threshold-components/1",input_sha256_;
+    std::shared_ptr<const AnalysisProvenance> provenance_;
     Rect bounds_,level_bounds_;
     Roi roi_;
     Rect image_bounds_;

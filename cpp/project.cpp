@@ -1,3 +1,5 @@
+#include "provenance_codec.hpp"
+#include "reader_provenance.hpp"
 #include "object_snapshot.hpp"
 #include "qupathxx/project.hpp"
 #include "tissue_archive.hpp"
@@ -37,7 +39,7 @@ std::string reader_name(const std::string& path,std::string reader) {
     return reader;
 }
 std::shared_ptr<ImageServer> read_image(const std::string& path,const std::string& reader) {
-    return reader=="ppm"?dense_image_server(Image::read_ppm(path)):open_slide(path);
+    return reader=="ppm"?ppm_image_server(path):open_slide(path);
 }
 void validate_metadata(const ImageMetadata& m) {
     if(m.pixel_type!=PixelType::UInt8 || m.layout!=PixelLayout::RGBA || m.width<=0 || m.height<=0 || m.levels.empty() || m.levels.size()>65536 ||
@@ -66,6 +68,8 @@ class LinkedServer final : public ImageServer {
     mutable std::mutex mutex_;
     std::atomic<bool> closed_{false};
 public:
+    std::string reader_id() const override {return reader_;}
+    std::string source_locator() const override {return path_;}
     LinkedServer(ImageMetadata m,std::string path,std::string reader) : metadata_(std::move(m)),path_(std::move(path)),reader_(std::move(reader)) { validate_metadata(metadata_); }
     const ImageMetadata& metadata() const override { return metadata_; }
     PixelBuffer read_region(const RegionRequest& request) const override {
@@ -357,8 +361,8 @@ std::uint64_t number(const std::string& text) {
 int schema(Database& db,bool allow_recovery=false) {
     auto version=scalar(db,"PRAGMA user_version");
     auto app=scalar(db,"PRAGMA application_id");
-    if((app!=application_id && !(allow_recovery && app==recovery_application_id)) || (version!=1 && version!=2 && version!=3 && version!=4 && version!=5 && version!=6))
-        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 through 6)");
+    if((app!=application_id && !(allow_recovery && app==recovery_application_id)) || (version!=1 && version!=2 && version!=3 && version!=4 && version!=5 && version!=6 && version!=7))
+        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 through 7)");
     return static_cast<int>(version);
 }
 void create_views(Database& db) {
@@ -375,6 +379,9 @@ void create_cells(Database& db) {
 }
 void create_cell_links(Database& db) {
     db.exec("CREATE TABLE cell_feature_links(image_id TEXT NOT NULL,object_id TEXT NOT NULL,record_id TEXT NOT NULL,label INTEGER NOT NULL,PRIMARY KEY(image_id,object_id),FOREIGN KEY(image_id,object_id) REFERENCES objects(image_id,id)) STRICT; PRAGMA user_version=6;");
+}
+void create_provenance(Database& db) {
+    db.exec("CREATE TABLE analysis_provenance(image_id TEXT NOT NULL REFERENCES images(id),record_id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,record_id)) STRICT; PRAGMA user_version=7;");
 }
 bool recovery_table(Database& db) { return scalar(db,"SELECT count(*) FROM sqlite_schema WHERE type='table' AND name='recovery'")!=0; }
 RecoveryInfo recovery_header(Database& db,const std::string& path) {
@@ -474,15 +481,18 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<4) create_tissue(db);
         if(version<5) create_cells(db);
         if(version<6) create_cell_links(db);
+        if(version<7) create_provenance(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);}
-    db.exec("DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);}
+    db.exec("DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     Statement level(db,"INSERT INTO levels VALUES(?,?,?,?,?)");
     Statement classification(db,"INSERT INTO classes VALUES(?,?,?)");
     Statement object(db,"INSERT INTO objects VALUES(?,?,?,?,?,?,?,?,?)");
+    Statement provenance(db,"INSERT INTO analysis_provenance VALUES(?,?,?)");
+    auto write_provenance=[&](std::uint64_t image,std::uint64_t record,const std::shared_ptr<const AnalysisProvenance>& p) {if(p) {provenance.string(1,std::to_string(image));provenance.string(2,std::to_string(record));const auto bytes=ProvenanceCodec::encode(*p);provenance.blob(3,bytes);provenance.done();}};
     Statement cell_link(db,"INSERT INTO cell_feature_links VALUES(?,?,?,?)");
     Statement view(db,"INSERT INTO views VALUES(?,?,?,?,?,?,?,?)");
     Statement tissue(db,"INSERT INTO tissue_records VALUES(?,?,?,?,?)");
@@ -523,6 +533,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     }
     for(const auto& [image_id,e]:entries_) {
       auto write_analysis=[&](const AnalysisRecord& record) {
+        write_provenance(image_id,record.id,record.result.provenance);
         if(cancelled && cancelled->load()) throw std::runtime_error("project save cancelled");
         const auto& r=record.result;
         analysis.string(1,std::to_string(image_id));analysis.string(2,std::to_string(record.id));analysis.string(3,std::to_string(r.object_id));
@@ -536,6 +547,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
       for(const auto& [record_id,stored]:e.document->analysis_) write_analysis(*stored.value);
       for(const auto& block:e.document->analysis_snapshot_) for(const auto& record:block->records) if(record) write_analysis(*record);
       auto write_tissue=[&](const TissueRecord& record) {
+        write_provenance(image_id,record.id,record.result->provenance());
         if(cancelled && cancelled->load()) throw std::runtime_error("project save cancelled");
         tissue.string(1,std::to_string(image_id));tissue.string(2,std::to_string(record.id));tissue.string(3,record.producer);
         const auto geometry=encode(record.result->roi());const auto mask=TissueArchiveCodec::encode(*record.result,cancelled);
@@ -544,6 +556,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
       for(const auto& [record_id,stored]:e.document->tissue_) write_tissue(*stored.value);
       for(const auto& block:e.document->tissue_snapshot_) for(const auto& record:block->records) if(record) write_tissue(*record);
       auto write_cells=[&](const CellRecord& record) {
+        write_provenance(image_id,record.id,record.result->nuclei()->provenance());
         if(cancelled && cancelled->load()) throw std::runtime_error("cell archive save cancelled");
         cells.string(1,std::to_string(image_id));cells.string(2,std::to_string(record.id));cells.string(3,record.producer);
         auto geometry=encode(record.result->nuclei()->roi());auto run=CellArchiveCodec::encode(*record.result,cancelled);
@@ -668,6 +681,14 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             if(!project->views_.emplace(id,v).second) throw std::invalid_argument("duplicate persisted view");
         }
     }
+    std::unique_ptr<Statement> provenance;
+    if(version>=7) provenance=std::make_unique<Statement>(db,"SELECT payload FROM analysis_provenance WHERE image_id=? AND record_id=?");
+    auto read_provenance=[&](std::uint64_t image,std::uint64_t record)->std::shared_ptr<const AnalysisProvenance> {
+        if(!provenance) return {};auto& row=*provenance;row.string(1,std::to_string(image));row.string(2,std::to_string(record));std::shared_ptr<const AnalysisProvenance> result;
+        if(row.row()) {const auto n=sqlite3_column_bytes(row.stmt,0);if(row.type(0)!=SQLITE_BLOB || n<0) throw std::invalid_argument("invalid provenance blob");result=ProvenanceCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(row.stmt,0)),static_cast<std::size_t>(n));if(row.row()) throw std::invalid_argument("duplicate provenance");}
+        if(result) {const auto& metadata=project->entry(image).document->metadata();if(result->source.width!=metadata.width || result->source.height!=metadata.height) throw std::invalid_argument("provenance source extent mismatch");}
+        row.check(sqlite3_reset(row.stmt));row.check(sqlite3_clear_bindings(row.stmt));return result;
+    };
     if(version>=3) {
         Statement rows(db,"SELECT image_id,id,object_id,object_revision,document_revision,algorithm,input_sha256,kind,nucleus,tile_size,samples,tiles,elapsed_ms,mean_r,mean_g,mean_b,white_r,white_g,white_b,s00,s01,s02,s10,s11,s12,s20,s21,s22,geometry FROM analysis_records ORDER BY image_id,id");
         while(rows.row()) {
@@ -682,7 +703,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             r.samples=number(rows.string(10));r.tiles=number(rows.string(11));r.elapsed_ms=rows.real(12);
             for(int c=0;c<3;++c) {r.means[c]=rows.real(13+c);r.white[c]=rows.real(16+c);}
             for(int i=0;i<3;++i) for(int c=0;c<3;++c) r.stains[i][c]=rows.real(19+i*3+c);
-            record.roi=decode(rows,28);image->second.document->restore_analysis(std::move(record));
+            record.roi=decode(rows,28);r.provenance=read_provenance(image_id,record.id);image->second.document->restore_analysis(std::move(record));
         }
     }
     if(version>=4) {
@@ -691,9 +712,11 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             stopped();const auto image=project->entries_.find(number(rows.string(0)));
             if(image==project->entries_.end()) throw std::invalid_argument("orphaned tissue record");
             auto record=std::make_shared<TissueRecord>();record->id=number(rows.string(1));record->producer=rows.string(2);
+            if(image->second.document->analysis_.count(record->id) || image->second.document->tissue_.count(record->id)) throw std::invalid_argument("duplicate tissue record ID");
             auto roi=decode(rows,3);const auto size=sqlite3_column_bytes(rows.stmt,4);
             if(rows.type(4)!=SQLITE_BLOB || size<0) throw std::invalid_argument("invalid tissue mask blob");
             record->result=TissueArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,4)),static_cast<std::size_t>(size),std::move(roi),image->second.document->metadata(),progress?&progress->cancelled:nullptr);
+            ProvenanceCodec::attach(record->result,read_provenance(number(rows.string(0)),record->id));
             image->second.document->restore_tissue(std::move(record));
         }
     }
@@ -703,12 +726,15 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             stopped();const auto image=project->entries_.find(number(rows.string(0)));
             if(image==project->entries_.end()) throw std::invalid_argument("orphaned cell record");
             auto record=std::make_shared<CellRecord>();record->id=number(rows.string(1));record->producer=rows.string(2);
+            if(image->second.document->analysis_.count(record->id) || image->second.document->tissue_.count(record->id) || image->second.document->cells_.count(record->id)) throw std::invalid_argument("duplicate cell record ID");
             auto roi=decode(rows,3);const auto size=sqlite3_column_bytes(rows.stmt,4);
             if(rows.type(4)!=SQLITE_BLOB || size<0) throw std::invalid_argument("invalid cell archive blob");
             record->result=CellArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,4)),static_cast<std::size_t>(size),std::move(roi),image->second.document->metadata(),progress?&progress->cancelled:nullptr);
+            const auto p=read_provenance(number(rows.string(0)),record->id);ProvenanceCodec::attach(record->result->nuclei(),p);ProvenanceCodec::attach(record->result->cells(),p);
             image->second.document->restore_cells(std::move(record));
         }
     }
+    if(version>=7 && scalar(db,"SELECT count(*) FROM analysis_provenance p WHERE NOT EXISTS (SELECT 1 FROM analysis_records a WHERE a.image_id=p.image_id AND a.id=p.record_id) AND NOT EXISTS (SELECT 1 FROM tissue_records t WHERE t.image_id=p.image_id AND t.id=p.record_id) AND NOT EXISTS (SELECT 1 FROM cell_records c WHERE c.image_id=p.image_id AND c.id=p.record_id)")) throw std::invalid_argument("orphaned analysis provenance");
     if(version>=6) {
         if(scalar(db,"SELECT count(*) FROM cell_feature_links l WHERE NOT EXISTS (SELECT 1 FROM objects o WHERE o.image_id=l.image_id AND o.id=l.object_id)")) throw std::invalid_argument("orphaned cell feature link");
         for(const auto& [image_id,e]:project->entries_) for(const auto& [id,a]:e.document->objects_) if(a.cell_feature_link) {

@@ -191,6 +191,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     AnalysisJob analysis;
     TissueJob tissue;
     CellJob cell_job;TissuePreview cell_preview;
+    auto provenance_info=[](const std::shared_ptr<const AnalysisProvenance>& p) {
+        if(!p) {ImGui::TextWrapped("Source/calibration history unavailable");return;}
+        ImGui::TextWrapped("Recorded with qupathxx %s",p->environment->app_version.c_str());
+        if(p->effective_pixel_width_um && p->effective_pixel_height_um) ImGui::TextWrapped("Captured calibration: %.5g / %.5g um/px",*p->effective_pixel_width_um,*p->effective_pixel_height_um);
+        else ImGui::TextWrapped("Captured calibration: unknown");
+    };
     CellTableExportJob cell_table_job;std::string cell_table_error;
     char cell_table_path[32769]={};std::copy(options.cell_table_path.begin(),options.cell_table_path.end(),cell_table_path);
     OverlayCache overlay_cache;std::optional<DisplaySettings> overlay_display;
@@ -1264,6 +1270,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 catch(const std::exception& e) {error=e.what();}
             }
             if(const auto saved=document.latest_analysis(selected)) {
+                provenance_info(saved->result.provenance);
                 const auto state=document.analysis_status(saved->id);
                 ImGui::SeparatorText("Saved analysis");
                 const char* label=state=="current"?"Verified for this session":state=="unverified"?"Needs recheck":
@@ -1361,6 +1368,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::EndDisabled();
             if(can_archive && archive_clicked) {try {tissue.keep_result(document,selected);kept_tissue_generation=tissue_status.generation;error.clear();} catch(const std::exception& e) {error=e.what();}}
             if(const auto saved=document.latest_tissue(selected)) {
+                provenance_info(saved->result->provenance());
                 const auto state=document.tissue_status(saved->id);
                 const char* saved_label=state=="current"?"Verified for this session":state=="unverified"?"Needs recheck":state=="object_changed"?"Object changed":state=="source_closed"?"Image closed":state=="source_changed"?"Source changed":"Recheck failed";
                 ImGui::Text("Saved mask: %s",saved_label);
@@ -1429,6 +1437,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::EndDisabled();
             if(can_keep_cells && keep_cells) {try {cell_job.keep_record(document,selected);kept_cell_generation=cell_status.generation;error.clear();} catch(const std::exception& e) {error=e.what();}}
             if(const auto saved=document.latest_cells(selected)) {
+                provenance_info(saved->result->nuclei()->provenance());
                 const auto state=document.cell_status(saved->id);ImGui::Text("Saved cell run: %llu",static_cast<unsigned long long>(saved->id));
                 ImGui::Text("Saved cells: %zu",saved->result->features().size());ImGui::Text("Cell record: %s",state.c_str());
                 ImGui::BeginDisabled(cell_job.busy() || state=="object_changed" || state=="source_closed");

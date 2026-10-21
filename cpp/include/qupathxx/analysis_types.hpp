@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/geometry.hpp"
+#include "qupathxx/provenance.hpp"
 #include "qupathxx/stains.hpp"
 namespace qpx {
 enum class AnalysisKind { OpticalDensityMeans, StainMeans };
@@ -11,6 +12,7 @@ struct AnalysisResult {
     ColorVector means{},white{};
     std::array<ColorVector,3> stains{};
     double elapsed_ms=0;
+    std::shared_ptr<const AnalysisProvenance> provenance;
 };
 struct AnalysisRecord {
     std::uint64_t id=0;

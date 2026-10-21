@@ -7,6 +7,10 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Capture-time source, calibration and native build provenance survives ROI,
+  tissue and cell archives, project/recovery storage and rechecks; see
+  [capture provenance](docs/analysis-capture-provenance.md).
+
 - Published cell objects retain saved feature identity through edits, Undo/Redo,
   project/recovery storage and the measurement inspector; see [cell feature links](docs/cell-feature-links.md).
 

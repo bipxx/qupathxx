@@ -1,3 +1,5 @@
+#include "reader_provenance.hpp"
+#include <filesystem>
 #include "qupathxx/image_server.hpp"
 #include "qupathxx/core.hpp"
 #include <algorithm>
@@ -43,11 +45,13 @@ void unpack_argb(const std::vector<std::uint32_t>& input, PixelBuffer& output) {
 namespace {
 class DenseImageServer final : public ImageServer {
 public:
-    explicit DenseImageServer(Image image) : image_(std::move(image)) {
+    explicit DenseImageServer(Image image,std::string locator={}) : image_(std::move(image)),locator_(std::move(locator)) {
         metadata_.width = image_.width(); metadata_.height = image_.height();
         metadata_.levels.push_back({image_.width(), image_.height(), 1}); metadata_.vendor = "dense-rgb";
     }
     const ImageMetadata& metadata() const override { return metadata_; }
+    std::string reader_id() const override {return locator_.empty()?"qpx.dense-rgb/1":"ppm";}
+    std::string source_locator() const override {return locator_;}
     const Image& image() const { return image_; }
     PixelBuffer read_region(const RegionRequest& r) const override {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -67,12 +71,17 @@ public:
     bool closed() const override { return closed_.load(); }
 private:
     Image image_;
+    std::string locator_;
     ImageMetadata metadata_;
     mutable std::mutex mutex_;
     std::atomic<bool> closed_{false};
 };
 }
 std::shared_ptr<ImageServer> dense_image_server(Image image) { return std::make_shared<DenseImageServer>(std::move(image)); }
+std::shared_ptr<ImageServer> ppm_image_server(const std::string& path) {
+    const auto locator=std::filesystem::absolute(std::filesystem::u8path(path)).lexically_normal().u8string();
+    return std::make_shared<DenseImageServer>(Image::read_ppm(locator),locator);
+}
 const Image& dense_image(const ImageServer& server) {
     auto* dense = dynamic_cast<const DenseImageServer*>(&server);
     if (!dense) throw std::runtime_error("desktop slide rendering requires the upcoming tiled viewer; use read_region for now");

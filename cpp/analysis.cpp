@@ -31,6 +31,7 @@ AnalysisRequest::AnalysisRequest(const Document& document,std::uint64_t id,const
        b.y+b.height>=static_cast<double>(std::numeric_limits<std::int64_t>::max()) ||
        static_cast<long double>(b.x+b.width)>metadata.width || static_cast<long double>(b.y+b.height)>metadata.height)
         throw std::invalid_argument("analysis ROI must lie inside the image");
+    provenance_=capture_provenance(*source_,id,object_revision_,document_revision_,nucleus_,document.pixel_width_um(),document.pixel_height_um());
     x0_=static_cast<std::int64_t>(std::ceil(b.x-.5)); y0_=static_cast<std::int64_t>(std::ceil(b.y-.5));
     x1_=static_cast<std::int64_t>(std::ceil(b.x+b.width-.5)); y1_=static_cast<std::int64_t>(std::ceil(b.y+b.height-.5));
     if(x0_>=x1_ || y0_>=y1_) {
@@ -49,7 +50,7 @@ bool AnalysisRequest::matches(const Document& document,std::uint64_t selected_id
 struct AnalysisKernel {
     static AnalysisResult run(const AnalysisRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr) {
         const auto started=std::chrono::steady_clock::now(); check_cancelled(cancelled);
-        AnalysisResult result;
+        AnalysisResult result;result.provenance=request.provenance_;
         result.object_id=request.object_id_; result.object_revision=request.object_revision_; result.document_revision=request.document_revision_;
         result.kind=request.kind_; result.nucleus=request.nucleus_; result.white=request.transform_.white(); result.stains=request.transform_.stains();
         ColorVector sum{},correction{};

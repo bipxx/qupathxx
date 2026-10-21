@@ -1,3 +1,4 @@
+#include "reader_provenance.hpp"
 #include "qupathxx/core.hpp"
 #include <fstream>
 #include <filesystem>
@@ -22,7 +23,7 @@ int main(int argc, char** argv) {
             std::filesystem::weakly_canonical(std::filesystem::u8path(argv[7])))
             throw std::invalid_argument("output must not overwrite the source image");
         auto server = path.size() >= 4 && path.substr(path.size()-4) == ".ppm"
-            ? qpx::dense_image_server(qpx::Image::read_ppm(path)) : qpx::open_slide(path);
+            ? qpx::ppm_image_server(path) : qpx::open_slide(path);
         auto level = number(argv[4]);
         if (level < 0 || level > std::numeric_limits<std::int32_t>::max()) throw std::out_of_range("invalid level");
         auto region = server->read_region({number(argv[2]), number(argv[3]), static_cast<std::int32_t>(level), number(argv[5]), number(argv[6])});

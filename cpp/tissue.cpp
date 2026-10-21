@@ -76,7 +76,7 @@ struct TissueKernel {
     static std::shared_ptr<const TissueResult> run(const TissueRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr,std::atomic<int>* phase=nullptr) {
         const auto started=std::chrono::steady_clock::now();check_cancelled(cancelled);
         const auto& source=request.source_;const auto& p=request.parameters_;
-        auto output=std::shared_ptr<TissueResult>(new TissueResult());
+        auto output=std::shared_ptr<TissueResult>(new TissueResult());output->provenance_=request.provenance();
         output->ticket_=request.ticket_;
         const auto width=request.x1_-request.x0_,height=request.y1_-request.y0_;const auto scale=request.downsample_;
         const auto count=static_cast<std::size_t>(width*height);

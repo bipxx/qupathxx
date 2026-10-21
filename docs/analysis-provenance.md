@@ -5,6 +5,10 @@ in the native Document and saved with a multi-image project. C++, Python and
 ImGui use the same records. This extends [analysis jobs](analysis-jobs.md);
 completion of a calculation alone still does not mutate a document.
 
+[Capture-time source/build provenance](analysis-capture-provenance.md) now records
+reader descriptors, pyramid metadata, original/effective calibration and native
+compiler/dependency facts. Legacy records retain explicit unknown history.
+
 ## Keep, save and recheck
 
 ```python

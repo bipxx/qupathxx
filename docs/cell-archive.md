@@ -118,7 +118,9 @@ through object edits, history and schema-6 storage.
 [Project-wide CSV](project-cell-tables.md) combines archived rows with image
 identity. [Native cell tables](cell-tables.md) export archived compartment features through
 Python and ImGui with immutable capture and background atomic publication.
-Full source/environment manifests, physical filters, marker/split/merge editing,
+[Capture-time provenance](analysis-capture-provenance.md) now preserves source
+metadata/calibration and native build facts without rewriting old history.
+Full-file/binary/runtime manifests, physical filters, marker/split/merge editing,
 joined current-object/ROI/tissue tables and pinned QuPath comparisons
 remain unfinished. The complete
 M0–M7 project scope stays active.

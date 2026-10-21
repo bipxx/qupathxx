@@ -91,7 +91,7 @@ def test_actual_v1_fixture_read_only_open_then_in_place_migration(tmp_path):
     project.set_view(1, view())
     project.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 6
+        assert db.execute("PRAGMA user_version").fetchone()[0] == 7
         assert db.execute("SELECT count(*) FROM views").fetchone()[0] == 1
         assert db.execute("PRAGMA quick_check").fetchone()[0] == "ok"
     restored = q.Project.open(str(path))
@@ -131,7 +131,7 @@ def test_save_as_migrates_new_destination_without_rewriting_v1_source(tmp_path):
     project.save(str(destination))
     assert hashlib.sha256(source.read_bytes()).hexdigest() == V1_SHA
     with sqlite3.connect(destination) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 6
+        assert db.execute("PRAGMA user_version").fetchone()[0] == 7
 
 
 @pytest.mark.parametrize("assignment,parameters", [("zoom=0", ()), ("zoom=?", (float("inf"),)),

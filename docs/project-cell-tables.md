@@ -58,8 +58,10 @@ their image document. Several publication sets may refer to the same archived
 row. Project CSV does not duplicate a historical row for every published object,
 nor replace captured values with current names, classes or edited geometry.
 Tables that join current published-object metadata, project-wide ROI/tissue
-measurement tables, source/environment manifests and QuPath numerical comparisons
-remain open work. This CSV is a measurement view, not a complete project manifest.
+measurement tables, complete file/binary/runtime manifests and QuPath numerical comparisons
+remain open work. [Capture-time source/build facts](analysis-capture-provenance.md) are available
+through the associated archived results. This CSV is a measurement view, not a
+complete project manifest.
 
 `CellTableRequest.project_scope`, `image_count`, `project_identity`,
 `project_generation` and `project_revision` expose captured scope. For a document

@@ -153,6 +153,7 @@ def test_unsigned_record_and_revision_ids_keep_all_decimal_digits(tmp_path):
     with sqlite3.connect(path) as db:
         db.execute("UPDATE images SET revision=?",(maximum,))
         db.execute("UPDATE cell_records SET id=?",(maximum,))
+        db.execute("UPDATE analysis_provenance SET record_id=?",(maximum,))
     restored=q.Project.open(str(path)).document(image)
     parsed=rows(q.cell_measurements_csv(restored))
     assert parsed and all(r["record_id"]==r["export_document_revision"]==maximum for r in parsed)

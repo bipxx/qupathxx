@@ -145,7 +145,7 @@ def test_unsigned_project_and_image_ids_are_exact(tmp_path):
     project,_,_,_=workspace();path=tmp_path/"wide.qpxproj";project.save(str(path))
     maximum=str(2**64-1);image=str(2**64-2)
     with sqlite3.connect(path) as db:
-        for table,column in [("cell_records","image_id"),("objects","image_id"),("classes","image_id"),("levels","image_id")]:
+        for table,column in [("analysis_provenance","image_id"),("cell_records","image_id"),("objects","image_id"),("classes","image_id"),("levels","image_id")]:
             db.execute(f"UPDATE {table} SET {column}=? WHERE {column}='1'",(image,))
         db.execute("UPDATE images SET id=? WHERE id='1'",(image,));db.execute("UPDATE project SET next_image=?,active=?",(maximum,image))
     loaded=q.Project.open(str(path));rows=parsed(q.cell_measurements_csv(loaded,[int(image)]))

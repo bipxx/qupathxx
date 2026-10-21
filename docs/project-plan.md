@@ -1032,7 +1032,7 @@ Picking and edits continue against native geometry. Over-budget or failed GPU
 resources fall back to the immediate renderer. See [canvas caching](overlay-cache.md).
 
 The paired 100000-visible-object recording at 2560 by 1440 reduces sampled frame
-p95 from 99.72 to 16.91 ms with equal framebuffer hashes, 12194160 retained GPU
+p95 from 99.72 to 16.89 ms with equal framebuffer hashes, 12194160 retained GPU
 payload bytes, four captures and 176 hits. Dense navigation/edits still require
 normal rendering; this warm synthetic result is not a general hardware or GPU
 completion guarantee. The remaining M0–M7 work stays open.
@@ -1146,3 +1146,26 @@ hash remains identical. These observations are scoped to synthetic data on one
 Windows PC. Source/environment manifests, joined published-object metadata,
 project-wide ROI/tissue feature tables, numerical comparisons and all unfinished
 M0-M7 work remain active.
+
+The forty-sixth packet adds capture-time source and build provenance to native
+ROI, tissue and cell analysis. Requests copy pyramid metadata, reader/locator,
+original and effective calibration, object revisions and wall-clock capture time.
+Results retain that immutable value; later calibration, relinking and successful
+numerical rechecks preserve historical facts. CMake fingerprints actual selected
+source bytes and records compiler/configuration, enabled features and linked
+GEOS/OpenSlide/SQLite versions. Schema 7 stores bounded checksummed metadata,
+rejects malformed/orphaned captures and upgrades schemas 1-6 transactionally
+without inventing history. Python exposes read-only values and atomic UTF-8 JSON
+export; the desktop inspector displays captured calibration and legacy unknowns.
+See [capture-time provenance](analysis-capture-provenance.md).
+
+The installed GUI wheel passes 939 Python cases with two Windows file-symlink
+cases skipped; native full/core/minimal suites pass (27/26/26). Twenty-one new
+Python cases cover immutable capture, exact source fingerprints, all archive
+kinds, legacy migration, rollback, malformed metadata, Unicode and native readers.
+The 100000-record shared-result archive writes in 878 ms and reopens in 632 ms;
+warm request capture is 0.0012 ms p95. With 1000 records in a selected/all-visible
+100001-object scene, CPU frame work is 16.89 ms p95. These observations are scoped
+to synthetic data on one Windows PC. Complete file/binary/runtime manifests,
+joined published-object metadata, project-wide ROI/tissue tables, numerical
+comparisons and all unfinished M0-M7 work remain active.

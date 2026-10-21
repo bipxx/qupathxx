@@ -20,6 +20,7 @@ public:
     std::uint64_t total_tiles() const {return total_tiles_;}
     const Roi& roi() const {return roi_;}
     const StainTransform& transform() const {return transform_;}
+    const std::shared_ptr<const AnalysisProvenance>& provenance() const {return provenance_;}
     static AnalysisRequest replay(const Document&,std::uint64_t record_id);
 private:
     friend struct AnalysisKernel;
@@ -34,6 +35,7 @@ private:
     bool nucleus_;
     std::size_t tile_size_;
     Roi roi_;
+    std::shared_ptr<const AnalysisProvenance> provenance_;
     StainTransform transform_;
     std::int64_t x0_,y0_,x1_,y1_;
 };

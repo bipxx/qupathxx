@@ -4,10 +4,11 @@ Native tissue archives retain the complete label raster, component statistics,
 source ROI/body-or-nucleus choice, normalized stain basis and white reference,
 threshold/cleanup/filter parameters, sampling level and scale, captured object
 and document revisions, algorithm identity, timings and exact tile input digest.
-Each record also names its producing engine (`qupathxx/0.1.0`). Source paths,
-reader selection and pyramid metadata remain in the parent project image entry.
-Full-file hashes and a complete compiler/dependency/environment manifest remain
-unfinished M5 provenance work.
+Each record also names its producing engine (`qupathxx/0.1.0`).
+[Capture-time source/build provenance](analysis-capture-provenance.md) preserves
+reader/locator, pyramid metadata, original/effective calibration and native build
+facts in schema-7 project/recovery storage. Full-file image hashes, binary/runtime
+fingerprints and complete portable manifests remain unfinished M5 work.
 
 ```python
 request = q.TissueRequest(document, source_id, transform, parameters)

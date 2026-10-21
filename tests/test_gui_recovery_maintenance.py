@@ -22,7 +22,9 @@ def event(frame, kind, target=q.GuiInputTarget.CANVAS):
 
 
 def click(frame, target):
-    return [event(frame, q.GuiInputKind.LEFT_DOWN, target), event(frame+1, q.GuiInputKind.LEFT_UP, target)]
+    down = event(frame, q.GuiInputKind.LEFT_DOWN, target)
+    down.wait_for = q.GuiInputWait.TARGET_READY
+    return [down, event(frame+1, q.GuiInputKind.LEFT_UP, target)]
 
 
 def workspace(tmp_path, name):
@@ -76,8 +78,11 @@ def test_delete_review_confirmation_removes_selected_file_without_changing_works
 def test_cancel_review_preserves_file_and_blocks_underlying_undo(tmp_path):
     project, doc, obj, primary, config, source, writer, path = setup(tmp_path)
     before = path.read_bytes()
-    config.inputs = [event(4, q.GuiInputKind.REVIEW_RECOVERY_KEY), event(12, q.GuiInputKind.UNDO_KEY),
-                     *click(18, q.GuiInputTarget.CANCEL_DISCARD_CHECKPOINT)]
+    # Hold Cancel after its dialog is ready; exercise Undo before releasing it.
+    down, up = click(12, q.GuiInputTarget.CANCEL_DISCARD_CHECKPOINT)
+    up.frame = 18
+    config.inputs = [event(4, q.GuiInputKind.REVIEW_RECOVERY_KEY), down,
+                     event(13, q.GuiInputKind.UNDO_KEY), up]
     report = q.show(project, frame_limit=32, options=config)
     assert not report.recovery_maintenance_error and report.checkpoints_deleted == 0 and path.read_bytes() == before
     assert doc.annotation(obj).name == 'Captured'

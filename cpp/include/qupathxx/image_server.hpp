@@ -50,6 +50,8 @@ class ImageServer : public std::enable_shared_from_this<ImageServer> {
 public:
     virtual ~ImageServer() = default;
     virtual const ImageMetadata& metadata() const = 0;
+    virtual std::string reader_id() const {return "external";}
+    virtual std::string source_locator() const {return {};}
     virtual PixelBuffer read_region(const RegionRequest& request) const = 0;
     virtual void close() = 0;
     virtual bool closed() const = 0;

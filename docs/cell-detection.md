@@ -110,8 +110,8 @@ markers and feature tables with input digests and rechecking.
 identity in objects and schema-6 project/recovery storage.
 [Project-wide cell tables](project-cell-tables.md) add image context to batch
 exports. [Native cell CSV export](cell-tables.md) exposes archived run labels and
-compartment features through Python and ImGui. Complete source and
-environment manifests remain unfinished. The raster layers reuse the `TissueResult` read interface
+compartment features through Python and ImGui. [Capture-time source/build provenance](analysis-capture-provenance.md) is retained
+with each new run. Full-file/binary/runtime manifests remain unfinished. The raster layers reuse the `TissueResult` read interface
 with distinct algorithm IDs; they cannot be retained as threshold tissue records.
 
 Background subtraction, physical-unit filters, marker editing, split/merge,

@@ -19,6 +19,7 @@ void bind_analysis(nb::module_&);
 void bind_tissue(nb::module_&);
 void bind_cells(nb::module_&);
 void bind_cell_tables(nb::module_&);
+void bind_provenance(nb::module_&);
 NB_MODULE(_native, m) {
     using namespace qpx;
     m.def("optical_density",&optical_density,"intensity"_a,"white"_a=255.);
@@ -347,6 +348,7 @@ NB_MODULE(_native, m) {
     bind_tissue(m);
     bind_cells(m);
     bind_cell_tables(m);
+    bind_provenance(m);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.
