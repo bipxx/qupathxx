@@ -76,7 +76,7 @@ build/desktop/Release/qupathxx_app.exe
 Python checks: `.venv/Scripts/python -m pytest`.
 The native executable accepts `--smoke` to render three frames and exit.
 
-Validated on Windows with MSVC 19.44 and Python 3.12: 72 Python tests including
+Validated on Windows with MSVC 19.44 and Python 3.12: 80 Python tests including
 transaction, hierarchy, pyramid, Aperio and opt-in framebuffer checks, seven native suites with
 and without OpenSlide/GEOS, and GUI startup/render/shutdown with known and unknown
 calibration. ImGui input replay verifies zoom, pan, shape drawing/history and overview
@@ -178,3 +178,6 @@ not yet been selected.
 
 The [geometry and spatial-query contract](docs/geometry-spatial.md) covers optional
 GEOS setup, immutable shapes, hole masks, index behavior and benchmark scope.
+
+[Detection and cell objects](docs/object-kinds.md) support independent nucleus
+geometry, undoable edits, compartment measurements and nucleus overlays.

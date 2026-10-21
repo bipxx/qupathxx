@@ -381,4 +381,9 @@ regions, analytic ellipse metrics and a native spatial index shared by picking
 and overlay culling. Shape tools and undo/redo replay pass. See
 [geometry-spatial.md](geometry-spatial.md) for dependency, numerical and benchmark
 boundaries. Detection/cell kinds, class registries, multi-selection, vertex
-editing and Boolean clipping remain M3 work; all unfinished M0¨CM7 gates persist.
+editing and Boolean clipping remain M3 work; all unfinished M0-M7 gates persist.
+
+The seventh packet adds detection/cell object kinds, optional independent nucleus
+geometry, compartment area/RGB means and nucleus overlays. Atomic history and
+spatial deltas retain both shapes. See [object-kinds.md](object-kinds.md) for
+validation, import/history timings and remaining M3/M5 scope.

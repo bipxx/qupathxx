@@ -245,7 +245,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (ImGui::Button("Clear")) {
             try { document.clear_calibration(); error.clear(); } catch(const std::exception& e) { error=e.what(); }
         }
-        ImGui::Spacing(); ImGui::SeparatorText("Annotations");
+        ImGui::Spacing(); ImGui::SeparatorText("Objects");
         if (list_revision!=document.revision()) {
             list_ids.clear(); list_ids.reserve(document.object_count());
             for (const auto& [id,a]:document.objects()) list_ids.push_back(id);
@@ -269,17 +269,21 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 std::memcpy(draft_name,a.name.c_str(),a.name.size()+1); std::memcpy(draft_class,a.class_name.c_str(),a.class_name.size()+1);
                 editor_id=selected; editor_revision=document.revision();
             }
+            const auto object=document.annotation(selected);
+            ImGui::Text("Kind: %s",object.kind==ObjectKind::Cell?"Cell":(object.kind==ObjectKind::Detection?"Detection":"Annotation"));
+            if(object.kind==ObjectKind::Cell) ImGui::TextDisabled(object.nucleus?"Nucleus ROI present":"No nucleus ROI");
             ImGui::InputText("Name",draft_name,sizeof(draft_name)); ImGui::InputText("Class",draft_class,sizeof(draft_class));
+            ImGui::BeginDisabled(object.is_detection());
             ImGui::InputDouble("X",&draft_roi.x); ImGui::InputDouble("Y",&draft_roi.y);
             ImGui::BeginDisabled(draft_geometry.kind()!=RoiKind::Rectangle && draft_geometry.kind()!=RoiKind::Ellipse);
-            ImGui::InputDouble("Width",&draft_roi.width); ImGui::InputDouble("Height",&draft_roi.height); ImGui::EndDisabled();
+            ImGui::InputDouble("Width",&draft_roi.width); ImGui::InputDouble("Height",&draft_roi.height); ImGui::EndDisabled(); ImGui::EndDisabled();
             ImGui::InputScalar("Parent ID",ImGuiDataType_U64,&draft_parent);
             if (ImGui::Button("Apply object edit")) {
                 try {
                     auto bounds=draft_geometry.bounds();
                     auto geometry=draft_geometry.kind()==RoiKind::Rectangle?Roi::rectangle(draft_roi):
                         (draft_geometry.kind()==RoiKind::Ellipse?Roi::ellipse(draft_roi):draft_geometry.translated(draft_roi.x-bounds.x,draft_roi.y-bounds.y));
-                    document.execute({ObjectEdit::replace_geometry(selected,geometry,draft_name,draft_parent,draft_class)},"Edit annotation"); error.clear();
+                    document.execute({ObjectEdit::replace_geometry(selected,geometry,draft_name,draft_parent,draft_class,object.kind,object.nucleus)},"Edit annotation"); error.clear();
                 }
                 catch(const std::exception& e) { error=e.what(); }
             }
@@ -289,6 +293,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (selected) {
             if (document.pixel_width_um() && document.pixel_height_um()) ImGui::Text("Area: %.3f um^2", document.area_um2(selected));
             else ImGui::TextDisabled("Area: set calibration first");
+            if(document.annotation(selected).nucleus && document.pixel_width_um() && document.pixel_height_um())
+                ImGui::Text("Nucleus: %.3f um^2",document.nucleus_area_um2(selected));
             if (mean.measured==selected && mean.value) ImGui::Text("Mean RGB: %.3f",*mean.value);
             ImGui::BeginDisabled(mean.active());
             if (ImGui::Button("Measure mean RGB")) mean.start(document.server(),document.annotation(selected),document.revision());
@@ -362,7 +368,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             const auto& a=document.objects().at(id); const auto r=a.geometry.bounds();
             auto p0 = screen(viewport,{r.x,r.y},offset);
             auto color = a.id == selected ? IM_COL32(255,205,85,255) : IM_COL32(65,225,190,255);
-            draw_shape(draw,a.geometry,viewport,offset,color); draw->AddText(p0,color,a.name.c_str());
+            draw_shape(draw,a.geometry,viewport,offset,color);
+            if(a.nucleus) draw_shape(draw,*a.nucleus,viewport,offset,IM_COL32(195,145,255,255));
+            // Detection labels at low zoom overwhelm the canvas and scale with
+            // every visible detection. Keep annotation names and selected labels.
+            if(!a.is_detection() || a.id==selected) draw->AddText(p0,color,a.name.c_str());
         }
         if (drawing) {
             Rect draft{std::min(anchor.x,end.x),std::min(anchor.y,end.y),std::abs(anchor.x-end.x),std::abs(anchor.y-end.y)};

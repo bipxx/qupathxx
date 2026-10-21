@@ -31,15 +31,19 @@ NB_MODULE(_native, m) {
     m.attr("has_geos")=has_geos(); m.attr("geos_version")=geos_version();
     nb::class_<SpatialStats>(m,"SpatialStats").def_ro("builds",&SpatialStats::builds)
         .def_ro("base_entries",&SpatialStats::base_entries).def_ro("dirty_entries",&SpatialStats::dirty_entries);
+    nb::enum_<ObjectKind>(m,"ObjectKind").value("ANNOTATION",ObjectKind::Annotation)
+        .value("DETECTION",ObjectKind::Detection).value("CELL",ObjectKind::Cell);
     nb::class_<Annotation>(m, "Annotation").def_ro("id", &Annotation::id).def_ro("name", &Annotation::name)
         .def_prop_ro("roi", [](const Annotation& a) { return a.geometry.bounds(); })
         .def_prop_ro("geometry",[](const Annotation& a){return a.geometry;})
+        .def_ro("kind",&Annotation::kind).def_prop_ro("is_detection",&Annotation::is_detection)
+        .def_prop_ro("nucleus",[](const Annotation& a){return a.nucleus;}).def_prop_ro("bounds",&Annotation::bounds)
         .def_ro("parent_id",&Annotation::parent_id).def_ro("class_name",&Annotation::class_name).def_ro("revision",&Annotation::revision);
     nb::class_<ObjectEdit>(m,"ObjectEdit")
         .def_static("create",&ObjectEdit::create,"roi"_a,"name"_a="Annotation","parent_id"_a=0,"class_name"_a="")
         .def_static("replace",&ObjectEdit::replace,"id"_a,"roi"_a,"name"_a,"parent_id"_a=0,"class_name"_a="")
-        .def_static("create_geometry",&ObjectEdit::create_geometry,"geometry"_a,"name"_a="Annotation","parent_id"_a=0,"class_name"_a="")
-        .def_static("replace_geometry",&ObjectEdit::replace_geometry,"id"_a,"geometry"_a,"name"_a,"parent_id"_a=0,"class_name"_a="")
+        .def_static("create_geometry",&ObjectEdit::create_geometry,"geometry"_a,"name"_a="Annotation","parent_id"_a=0,"class_name"_a="","kind"_a=ObjectKind::Annotation,"nucleus"_a=nb::none())
+        .def_static("replace_geometry",&ObjectEdit::replace_geometry,"id"_a,"geometry"_a,"name"_a,"parent_id"_a=0,"class_name"_a="","kind"_a=ObjectKind::Annotation,"nucleus"_a=nb::none())
         .def_static("remove",&ObjectEdit::remove);
     nb::class_<Image>(m, "Image").def(nb::init<int,int,std::vector<std::uint8_t>>(), "width"_a, "height"_a, "rgb"_a)
         .def_static("demo", &Image::demo).def_static("read_ppm", &Image::read_ppm)
@@ -80,6 +84,10 @@ NB_MODULE(_native, m) {
         .def_prop_ro("annotations", [](const Document& d) { return d.annotations(); })
         .def("add_rectangle", &Document::add_rectangle, "roi"_a, "name"_a = "Annotation")
         .def("add_roi",&Document::add_roi,"roi"_a,"name"_a="Annotation").def("update_roi",&Document::update_roi)
+        .def("add_detection",&Document::add_detection,"roi"_a,"name"_a="Detection","parent_id"_a=0,"class_name"_a="")
+        .def("add_cell",&Document::add_cell,"roi"_a,"nucleus"_a=nb::none(),"name"_a="Cell","parent_id"_a=0,"class_name"_a="")
+        .def("update_nucleus",&Document::update_nucleus,"id"_a,"nucleus"_a)
+        .def("nucleus_area_um2",&Document::nucleus_area_um2).def("nucleus_mean_intensity",&Document::nucleus_mean_intensity)
         .def("remove_annotation", &Document::remove_annotation)
         .def("annotation",&Document::annotation)
         .def_prop_ro("object_count",&Document::object_count).def_prop_ro("revision",&Document::revision)

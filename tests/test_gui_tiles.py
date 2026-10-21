@@ -197,3 +197,25 @@ def test_general_shape_drawing_and_history(key, kind):
     assert doc.undo() and not doc.object_count
     assert doc.redo() and doc.annotation(1).geometry.kind == kind
     assert report.visible_objects == 1
+
+
+def test_cell_nucleus_renders_when_primary_boundary_is_offscreen(tmp_path):
+    from PIL import Image
+    import numpy as np
+
+    doc = q.Document(q.Image.demo())
+    cell = doc.add_cell(q.Roi.rectangle(q.Rect(900, 700, 10, 10)),
+                        q.Roi.rectangle(q.Rect(100, 100, 50, 50)))
+    view = q.Viewport()
+    view.zoom = 2
+    options = q.GuiOptions()
+    options.start_view = view
+    capture = tmp_path / "nucleus.ppm"
+    report = q.show(doc, frame_limit=30, capture_path=str(capture), options=options)
+    assert report.visible_objects == 1
+    with Image.open(capture) as frame:
+        pixels = np.asarray(frame)[:, 310:, :]
+        # This color is reserved for nucleus outlines. Verify actual draw output,
+        # with the cell body beyond the viewport's right and bottom edges.
+        assert np.count_nonzero(np.all(pixels == (195, 145, 255), axis=2)) > 200
+    assert doc.annotation(cell).nucleus.area == 2500

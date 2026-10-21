@@ -18,13 +18,20 @@ def timed(action):
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--objects", type=int, default=100000)
+    parser.add_argument("--kind", choices=("annotation", "detection", "cell"), default="annotation")
     parser.add_argument("--output", type=Path, default=Path("build/document-benchmark.json"))
     args = parser.parse_args()
     if not 1 <= args.objects <= 200000:
         parser.error("object count must be between 1 and 200000 for this benchmark")
     doc = q.Document(q.Image.demo())
     doc.set_history_limits(128, 256 * 1024 * 1024)
-    edits = [q.ObjectEdit.create(q.Rect(i % 1024, (i // 1024) % 768, 1, 1), f"Object {i}") for i in range(args.objects)]
+    kind = {"annotation": q.ObjectKind.ANNOTATION, "detection": q.ObjectKind.DETECTION, "cell": q.ObjectKind.CELL}[args.kind]
+    edits = []
+    for i in range(args.objects):
+        x, y = i % 1024, (i // 1024) % 768
+        geometry = q.Roi.rectangle(q.Rect(x, y, 1, 1))
+        nucleus = q.Roi.rectangle(q.Rect(x + .25, y + .25, .5, .5)) if args.kind == "cell" else None
+        edits.append(q.ObjectEdit.create_geometry(geometry, f"Object {i}", kind=kind, nucleus=nucleus))
     ids, create_ms = timed(lambda: doc.execute(edits, "Import objects"))
     del edits
     baseline_bytes = doc.history_bytes
@@ -42,7 +49,7 @@ def main():
         assert doc.annotation(ids[-1]).name == f"Object {args.objects - 1}"
     result = {
         "platform": platform.platform(), "processor": platform.processor(),
-        "object_count": args.objects, "create_batch_ms": create_ms,
+        "object_count": args.objects, "object_kind": args.kind, "create_batch_ms": create_ms,
         "undo_batch_ms": undo_ms, "redo_batch_ms": redo_ms,
         "single_rename_median_ms": statistics.median(samples),
         "single_rename_p95_ms": sorted(samples)[94],

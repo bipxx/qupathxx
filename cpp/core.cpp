@@ -77,6 +77,13 @@ const Annotation& Document::find(std::uint64_t id) const {
     auto it=objects_.find(id); if (it!=objects_.end()) return it->second;
     throw std::out_of_range("annotation does not exist");
 }
+Rect Annotation::bounds() const {
+    auto b=geometry.bounds(); if(!nucleus) return b;
+    auto n=nucleus->bounds();
+    auto right=std::max(b.x+b.width,n.x+n.width),bottom=std::max(b.y+b.height,n.y+n.height);
+    auto left=std::min(b.x,n.x),top=std::min(b.y,n.y);
+    return {left,top,right-left,bottom-top};
+}
 double Document::area_um2(std::uint64_t id) const {
     const auto area = find(id).geometry.area();
     if (!pixel_width_um_ || !pixel_height_um_) throw std::runtime_error("physical calibration is unknown");
@@ -84,6 +91,17 @@ double Document::area_um2(std::uint64_t id) const {
 }
 double Document::mean_intensity(std::uint64_t id) const {
     return mean_rgb(*server_,find(id).geometry);
+}
+double Document::nucleus_area_um2(std::uint64_t id) const {
+    const auto& a=find(id);
+    if(!a.nucleus) throw std::invalid_argument("object has no nucleus ROI");
+    if(!pixel_width_um_ || !pixel_height_um_) throw std::runtime_error("physical calibration is unknown");
+    return a.nucleus->area() * *pixel_width_um_ * *pixel_height_um_;
+}
+double Document::nucleus_mean_intensity(std::uint64_t id) const {
+    const auto& a=find(id);
+    if(!a.nucleus) throw std::invalid_argument("object has no nucleus ROI");
+    return mean_rgb(*server_,*a.nucleus);
 }
 double mean_rgb(const ImageServer& server, const Rect& r, const std::atomic<bool>* cancelled) {
     return mean_rgb(server,Roi::rectangle(r),cancelled);

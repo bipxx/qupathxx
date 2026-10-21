@@ -55,7 +55,7 @@ std::vector<std::uint64_t> SpatialIndex::query(Rect bounds) const {
 void Document::refresh_spatial() const {
     if(!spatial_rebuild_ && spatial_) return;
     std::vector<SpatialEntry> entries; entries.reserve(objects_.size());
-    for(const auto& [id,a]:objects_) entries.push_back({id,a.geometry.bounds()});
+    for(const auto& [id,a]:objects_) entries.push_back({id,a.bounds()});
     auto next=std::make_shared<SpatialIndex>(std::move(entries));
     spatial_=std::move(next); spatial_dirty_.clear(); spatial_rebuild_=false; ++spatial_builds_;
 }
@@ -70,7 +70,7 @@ std::vector<std::uint64_t> Document::pick(Point point,double tolerance) const {
     if(!std::isfinite(point.x) || !std::isfinite(point.y) || !std::isfinite(tolerance) || tolerance<0)
         throw std::invalid_argument("picking requires finite coordinates and nonnegative tolerance");
     auto result=query_region({point.x-tolerance,point.y-tolerance,2*tolerance,2*tolerance});
-    result.erase(std::remove_if(result.begin(),result.end(),[&](auto id){return find(id).geometry.distance(point)>tolerance;}),result.end());
+    result.erase(std::remove_if(result.begin(),result.end(),[&](auto id){const auto& a=find(id); return a.geometry.distance(point)>tolerance && (!a.nucleus || a.nucleus->distance(point)>tolerance);}),result.end());
     return result;
 }
 SpatialStats Document::spatial_stats() const { return {spatial_builds_,spatial_?spatial_->size():0,spatial_dirty_.size()}; }

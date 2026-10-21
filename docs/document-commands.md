@@ -86,8 +86,8 @@ calibration history, payload rejection/eviction, disabled recording and ImGui
 keyboard delete/undo/redo. Native and Python suites exercise the same API.
 
 The [100,000-object benchmark](benchmarks/document-100000-windows.json) reports
-approximately 160 ms batch creation, 94 ms undo and 112 ms redo on the development
-host. A rename adds 719 bytes of recorded payload and measured 0.0015 ms at p95.
+approximately 249 ms batch creation, 121 ms undo and 117 ms redo on the development
+host. A rename adds 783 bytes of recorded payload and measured 0.0019 ms at p95.
 The timed API includes nanobind call/return overhead and excludes descriptor
 construction, GUI rendering and allocator overhead accounting. These are host
 observations, not cross-machine guarantees or full M3 acceptance.
@@ -96,6 +96,7 @@ observations, not cross-machine guarantees or full M3 acceptance.
 
 General ROI geometry and spatial indexing are implemented; see
 [geometry-spatial.md](geometry-spatial.md) for semantics and validation.
-Detection/cell object kinds, class registries/colors, multi-selection, Boolean
+Detection/cell object kinds and optional nucleus geometry are implemented; see
+[object-kinds.md](object-kinds.md). Class registries/colors, multi-selection, Boolean
 clipping and vertex editing remain. QuPath reference comparisons and complex
 geometry stress remain open. Project persistence and interchange remain M4 work.

@@ -11,6 +11,7 @@
 #include "qupathxx/spatial_index.hpp"
 
 namespace qpx {
+enum class ObjectKind { Annotation, Detection, Cell };
 struct Annotation {
     std::uint64_t id;
     std::string name;
@@ -18,6 +19,10 @@ struct Annotation {
     std::uint64_t parent_id = 0;
     std::string class_name;
     std::uint64_t revision = 0;
+    ObjectKind kind = ObjectKind::Annotation;
+    std::optional<Roi> nucleus;
+    Rect bounds() const;
+    bool is_detection() const { return kind!=ObjectKind::Annotation; }
 };
 enum class ObjectEditKind { Create, Replace, Remove };
 struct ObjectEdit {
@@ -26,8 +31,8 @@ struct ObjectEdit {
     static ObjectEdit create(Rect roi, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="");
     static ObjectEdit replace(std::uint64_t id, Rect roi, std::string name, std::uint64_t parent_id=0, std::string class_name="");
     static ObjectEdit remove(std::uint64_t id);
-    static ObjectEdit create_geometry(Roi geometry, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="");
-    static ObjectEdit replace_geometry(std::uint64_t id, Roi geometry, std::string name, std::uint64_t parent_id=0, std::string class_name="");
+    static ObjectEdit create_geometry(Roi geometry, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="", ObjectKind kind=ObjectKind::Annotation, std::optional<Roi> nucleus=std::nullopt);
+    static ObjectEdit replace_geometry(std::uint64_t id, Roi geometry, std::string name, std::uint64_t parent_id=0, std::string class_name="", ObjectKind kind=ObjectKind::Annotation, std::optional<Roi> nucleus=std::nullopt);
 };
 double mean_rgb(const ImageServer&, const Rect&, const std::atomic<bool>* cancelled = nullptr);
 double mean_rgb(const ImageServer&, const Roi&, const std::atomic<bool>* cancelled = nullptr);
@@ -58,6 +63,9 @@ public:
     std::uint64_t revision() const { return revision_; }
     std::uint64_t add_rectangle(Rect roi, std::string name = "Annotation");
     std::uint64_t add_roi(Roi roi, std::string name="Annotation");
+    std::uint64_t add_detection(Roi roi, std::string name="Detection", std::uint64_t parent_id=0, std::string class_name="");
+    std::uint64_t add_cell(Roi roi, std::optional<Roi> nucleus=std::nullopt, std::string name="Cell", std::uint64_t parent_id=0, std::string class_name="");
+    void update_nucleus(std::uint64_t id, std::optional<Roi> nucleus);
     bool remove_annotation(std::uint64_t id);
     void update_rectangle(std::uint64_t id, Rect roi);
     void update_roi(std::uint64_t id, Roi roi);
@@ -84,6 +92,8 @@ public:
     void clear_calibration();
     double area_um2(std::uint64_t id) const;
     double mean_intensity(std::uint64_t id) const;
+    double nucleus_area_um2(std::uint64_t id) const;
+    double nucleus_mean_intensity(std::uint64_t id) const;
 private:
     const Annotation& find(std::uint64_t id) const;
     using ObjectPatch = std::map<std::uint64_t,std::optional<Annotation>>;
