@@ -115,10 +115,11 @@ fail. Generic ROI containment predicates are unchanged.
 
 [Published cell feature links](cell-feature-links.md) preserve run/label identity
 through object edits, history and schema-6 storage.
-[Native cell tables](cell-tables.md) export archived compartment features through
+[Project-wide CSV](project-cell-tables.md) combines archived rows with image
+identity. [Native cell tables](cell-tables.md) export archived compartment features through
 Python and ImGui with immutable capture and background atomic publication.
 Full source/environment manifests, physical filters, marker/split/merge editing,
-project-wide tables and pinned QuPath comparisons
+joined current-object/ROI/tissue tables and pinned QuPath comparisons
 remain unfinished. The complete
 M0–M7 project scope stays active.
 

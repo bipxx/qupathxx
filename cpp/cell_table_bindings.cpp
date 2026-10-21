@@ -1,4 +1,5 @@
 #include "qupathxx/cell_tables.hpp"
+#include "qupathxx/project.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
@@ -8,6 +9,9 @@ void bind_cell_tables(nb::module_& m) {
     nb::class_<CellTableOptions>(m,"CellTableOptions").def(nb::init<>()).def_rw("require_current",&CellTableOptions::require_current)
         .def_rw("byte_limit",&CellTableOptions::byte_limit).def_rw("snapshot_budget",&CellTableOptions::snapshot_budget).def("validate",&CellTableOptions::validate);
     nb::class_<CellTableRequest>(m,"CellTableRequest").def(nb::init<const Document&,const std::vector<std::uint64_t>&,CellTableOptions>(),"document"_a,"record_ids"_a=std::vector<std::uint64_t>{},"options"_a=CellTableOptions{})
+        .def(nb::init<const Project&,const std::vector<std::uint64_t>&,CellTableOptions>(),"project"_a,"image_ids"_a=std::vector<std::uint64_t>{},"options"_a=CellTableOptions{})
+        .def_prop_ro("project_scope",&CellTableRequest::project_scope).def_prop_ro("image_count",&CellTableRequest::image_count)
+        .def_prop_ro("project_identity",&CellTableRequest::project_identity).def_prop_ro("project_generation",&CellTableRequest::project_generation).def_prop_ro("project_revision",&CellTableRequest::project_revision)
         .def_prop_ro("record_count",&CellTableRequest::record_count).def_prop_ro("row_count",&CellTableRequest::row_count)
         .def_prop_ro("snapshot_bytes",&CellTableRequest::snapshot_bytes).def_prop_ro("capture_ms",&CellTableRequest::capture_ms)
         .def_prop_ro("document_revision",&CellTableRequest::document_revision).def_prop_ro("options",&CellTableRequest::options);
@@ -19,6 +23,12 @@ void bind_cell_tables(nb::module_& m) {
     m.def("save_cell_measurements_csv",[](const Document& doc,const std::string& path,const std::vector<std::uint64_t>& ids,CellTableOptions options) {
         CellTableRequest request(doc,ids,options);nb::gil_scoped_release release;save_cell_measurements_csv(request,path);
     },"document"_a,"path"_a,"record_ids"_a=std::vector<std::uint64_t>{},"options"_a=CellTableOptions{});
+    m.def("cell_measurements_csv",[](const Project& project,const std::vector<std::uint64_t>& images,CellTableOptions options) {
+        CellTableRequest request(project,images,options);nb::gil_scoped_release release;return cell_measurements_csv(request);
+    },"project"_a,"image_ids"_a=std::vector<std::uint64_t>{},"options"_a=CellTableOptions{});
+    m.def("save_cell_measurements_csv",[](const Project& project,const std::string& path,const std::vector<std::uint64_t>& images,CellTableOptions options) {
+        CellTableRequest request(project,images,options);nb::gil_scoped_release release;save_cell_measurements_csv(request,path);
+    },"project"_a,"path"_a,"image_ids"_a=std::vector<std::uint64_t>{},"options"_a=CellTableOptions{});
     nb::class_<CellTableExportStats>(m,"CellTableExportStats").def_ro("state",&CellTableExportStats::state).def_ro("path",&CellTableExportStats::path).def_ro("error",&CellTableExportStats::error)
         .def_ro("rows",&CellTableExportStats::rows).def_ro("total_rows",&CellTableExportStats::total_rows).def_ro("bytes",&CellTableExportStats::bytes)
         .def_ro("completed",&CellTableExportStats::completed).def_ro("document_revision",&CellTableExportStats::document_revision).def_ro("snapshot_bytes",&CellTableExportStats::snapshot_bytes)

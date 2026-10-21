@@ -1,4 +1,5 @@
 #include "qupathxx/cell_tables.hpp"
+#include "qupathxx/project.hpp"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -36,6 +37,17 @@ int main() {
     check(job.request(short_table,path.u8string()));status=job.wait();check(status.state=="failed" && status.completed==1 && read(path)==csv);
     check(job.request(captured,path.u8string()) && job.wait().completed==2);job.cancel();
     std::filesystem::remove(path);
+    if(has_project()) {
+        Project project;const auto image=project.add_document(std::make_shared<Document>(doc),"quoted, image");
+        const auto empty=project.add_document(std::make_shared<Document>(Image(2,2,std::vector<std::uint8_t>(12,255))));
+        CellTableRequest all(project);check(all.project_scope() && all.image_count()==2 && all.record_count()==1 && all.row_count()==2 && all.document_revision()==0);
+        const auto table=cell_measurements_csv(all);check(table.find("project_identity,project_generation,project_revision,image_id,image_name,")==0 && table.find("qpx.project-cell-table/1")!=std::string::npos);
+        check(cell_measurements_csv(CellTableRequest(project,{empty,image,image}))==table);
+        rejects<std::out_of_range>([&]{CellTableRequest missing(project,{999999});});
+        options={};options.snapshot_budget=all.snapshot_bytes();check(CellTableRequest(project,{},options).snapshot_bytes()==all.snapshot_bytes());
+        --options.snapshot_budget;rejects<std::length_error>([&]{CellTableRequest short_snapshot(project,{},options);});
+        project.remove_image(image);project.remove_image(empty);check(cell_measurements_csv(all)==table && CellTableRequest(project).row_count()==0);
+    }
     std::cout<<"Cell table numeric snapshots, locale, budgets, cancellation and atomic files passed\n";
  } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

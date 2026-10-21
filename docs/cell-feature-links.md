@@ -88,7 +88,8 @@ linked cells reports `cell_features_dropped` and requires `allow_losses=True`;
 imported objects have no run links. Generic object CSV retains its existing
 geometry-oriented schema. [Cell CSV](cell-tables.md) remains keyed by archived
 run labels; use the typed object reference to join it to published cell IDs.
-Project-wide joined tables, full source/environment manifests and numerical
+[Project-wide archived cell CSV](project-cell-tables.md) adds image context to
+the historical rows. Joined current-object tables, full source/environment manifests and numerical
 QuPath feature comparisons remain open work.
 
 ## Validation

@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the final installed-wheel regression passes 902 Python cases with two file-symlink cases
+Evidence: the final installed-wheel regression passes 918 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
@@ -363,7 +363,17 @@ GeoJSON reports dropped run links. Publishing 4096 cells takes 5.15 ms; the
 104097-object selected/all-visible viewer records 16.93 ms p95 CPU frame work.
 See cell-feature-links.md.
 
-Next complete source/environment provenance and project-wide tables. Continue
+The forty-fifth packet adds immutable project-wide archived cell CSV with
+project/image context, bounded aggregate capture and one native atomic worker.
+Python accepts projects or selected image IDs; ImGui exports all images without
+requiring an annotation or active image. The catalog capture performs no linked
+source availability checks. The 32768-row export takes 45.63 ms; a 1000-image
+catalog captures in 0.1417 ms p95 and its active 100001-object viewer records
+17.18 ms p95 CPU frame work while exporting. Legacy document CSV retains its
+original output hash. See project-cell-tables.md.
+
+Next complete source/environment provenance, joined published-object tables and
+project-wide ROI/tissue feature tables. Continue
 numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged

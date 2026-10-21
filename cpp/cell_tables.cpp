@@ -1,4 +1,5 @@
 #include "qupathxx/cell_tables.hpp"
+#include "qupathxx/project.hpp"
 #include "atomic_export.hpp"
 #include <charconv>
 #include <chrono>
@@ -29,8 +30,25 @@ const std::string& header() {
 }
 }
 struct CellTableRequest::Data {
-    struct Entry {std::shared_ptr<const CellRecord> record;std::string status;};
-    std::vector<Entry> entries;CellTableOptions options;std::uint64_t revision=0,rows=0,width=0,height=0;std::size_t bytes=0;double capture_ms=0;
+    struct Image {std::uint64_t id=0,revision=0,width=0,height=0;std::string name;};
+    struct Entry {std::shared_ptr<const CellRecord> record;std::string status;std::size_t image=0;};
+    std::vector<Entry> entries;std::vector<Image> images;CellTableOptions options;
+    std::string identity;bool project=false;std::uint64_t revision=0,generation=0,rows=0;std::size_t bytes=0;double capture_ms=0;
+    void charge(std::size_t value) {if(value>options.snapshot_budget-bytes) throw std::length_error("cell table snapshot exceeds memory budget");bytes+=value;}
+    void append(const Document& doc,std::uint64_t id,std::string name,const std::vector<std::uint64_t>& record_ids={}) {
+        std::vector<std::shared_ptr<const CellRecord>> records;
+        if(record_ids.empty()) records=doc.cell_records();else for(auto record:record_ids) records.push_back(doc.cell_record(record));
+        charge(sizeof(Image)+name.capacity());const auto image=images.size();
+        images.push_back({id,doc.revision(),std::uint64_t(doc.metadata().width),std::uint64_t(doc.metadata().height),std::move(name)});
+        for(const auto& record:records) {
+            auto status=doc.cell_status(record->id);if(options.require_current && status!="current") throw std::invalid_argument("cell table requires current verified records");
+            charge(sizeof(Entry)+record->payload_bytes()+status.capacity());rows+=record->result->features().size();entries.push_back({record,std::move(status),image});
+        }
+    }
+    void finish(std::chrono::steady_clock::time_point start) {
+        charge((entries.capacity()-entries.size())*sizeof(Entry)+(images.capacity()-images.size())*sizeof(Image));
+        capture_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
+    }
 };
 void CellTableOptions::validate() const {
     if(!byte_limit || byte_limit>256*megabyte) throw std::invalid_argument("cell table byte limit must be 1 byte..256 MiB");
@@ -38,35 +56,45 @@ void CellTableOptions::validate() const {
 }
 CellTableRequest::CellTableRequest(const Document& doc,const std::vector<std::uint64_t>& ids,CellTableOptions options) {
     const auto start=std::chrono::steady_clock::now();options.validate();if(ids.size()>10000) throw std::length_error("cell table selection exceeds 10000 record IDs");
-    auto data=std::make_shared<Data>();data->options=options;data->revision=doc.revision();data->width=doc.metadata().width;data->height=doc.metadata().height;
-    std::vector<std::shared_ptr<const CellRecord>> records;
-    if(ids.empty()) records=doc.cell_records();
-    else {auto chosen=ids;std::sort(chosen.begin(),chosen.end());chosen.erase(std::unique(chosen.begin(),chosen.end()),chosen.end());for(auto id:chosen) records.push_back(doc.cell_record(id));}
-    data->entries.reserve(records.size());data->bytes=sizeof(Data)+65536+data->entries.capacity()*sizeof(Data::Entry);
-    if(data->bytes>options.snapshot_budget) throw std::length_error("cell table snapshot exceeds memory budget");
-    for(const auto& record:records) {
-        auto status=doc.cell_status(record->id);if(options.require_current && status!="current") throw std::invalid_argument("cell table requires current verified records");
-        const auto bytes=record->payload_bytes()+status.capacity();if(bytes>options.snapshot_budget-data->bytes) throw std::length_error("cell table snapshot exceeds memory budget");
-        data->bytes+=bytes;data->rows+=record->result->features().size();data->entries.push_back({record,std::move(status)});
-    }
-    data->capture_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();data_=std::move(data);
+    auto data=std::make_shared<Data>();data->options=options;data->revision=doc.revision();data->charge(sizeof(Data)+65536);
+    auto chosen=ids;std::sort(chosen.begin(),chosen.end());chosen.erase(std::unique(chosen.begin(),chosen.end()),chosen.end());
+    data->append(doc,0,{},chosen);data->finish(start);data_=std::move(data);
+}
+CellTableRequest::CellTableRequest(const Project& project,const std::vector<std::uint64_t>& ids,CellTableOptions options) {
+    const auto start=std::chrono::steady_clock::now();options.validate();if(ids.size()>10000) throw std::length_error("cell table selection exceeds 10000 image IDs");
+    if(ids.empty() && project.entries_.size()>10000) throw std::length_error("cell table selection exceeds 10000 images");
+    auto chosen=ids;if(chosen.empty()) for(const auto& entry:project.entries_) chosen.push_back(entry.first);
+    std::sort(chosen.begin(),chosen.end());chosen.erase(std::unique(chosen.begin(),chosen.end()),chosen.end());
+    for(auto id:chosen) project.entry(id); // Validate the complete selection first.
+    auto data=std::make_shared<Data>();data->options=options;data->project=true;data->identity=project.identity_;data->generation=project.generation_;data->revision=project.revision_;
+    data->charge(sizeof(Data)+65536+data->identity.capacity());
+    for(auto id:chosen) {const auto& entry=project.entry(id);data->append(*entry.document,id,entry.info.name);}
+    data->finish(start);data_=std::move(data);
 }
 std::size_t CellTableRequest::record_count() const {return data_->entries.size();}
 std::uint64_t CellTableRequest::row_count() const {return data_->rows;}
 std::size_t CellTableRequest::snapshot_bytes() const {return data_->bytes;}
 double CellTableRequest::capture_ms() const {return data_->capture_ms;}
-std::uint64_t CellTableRequest::document_revision() const {return data_->revision;}
+std::uint64_t CellTableRequest::document_revision() const {return data_->project?0:data_->revision;}
+bool CellTableRequest::project_scope() const {return data_->project;}
+std::size_t CellTableRequest::image_count() const {return data_->images.size();}
+std::string CellTableRequest::project_identity() const {return data_->identity;}
+std::uint64_t CellTableRequest::project_generation() const {return data_->generation;}
+std::uint64_t CellTableRequest::project_revision() const {return data_->project?data_->revision:0;}
 CellTableOptions CellTableRequest::options() const {return data_->options;}
 struct CellTableWriter {
     template<class Sink> static void run(const CellTableRequest& request,Sink&& sink,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* rows=nullptr) {
-        export_checkpoint(cancelled);sink(header());std::uint64_t done=0;
+        export_checkpoint(cancelled);sink(request.data_->project?std::string("project_identity,project_generation,project_revision,image_id,image_name,")+header():header());std::uint64_t done=0;
         for(const auto& entry:request.data_->entries) {
+            const auto& image=request.data_->images.at(entry.image);
             const auto& record=*entry.record;const auto& result=*record.result;const auto& n=*result.nuclei();const auto& p=result.parameters();
             const auto& nuclei=n.components();const auto& bodies=result.cells()->components();
             export_checkpoint(cancelled);if(result.features().empty()) continue;
             // Run metadata is identical for every cell; format it once.
-            Row prefix;prefix.string("qpx.cell-table/1");prefix.integer(record.id);prefix.integer(n.object_id());prefix.integer(n.object_revision());prefix.integer(n.document_revision());prefix.integer(request.data_->revision);
-            prefix.string(entry.status);prefix.string(record.producer);prefix.string(result.algorithm());prefix.string(n.input_sha256());prefix.integer(request.data_->width);prefix.integer(request.data_->height);prefix.integer(n.level());prefix.real(n.downsample());
+            Row prefix;
+            if(request.data_->project) {prefix.string(request.data_->identity);prefix.integer(request.data_->generation);prefix.integer(request.data_->revision);prefix.integer(image.id);prefix.string(image.name);}
+            prefix.string(request.data_->project?"qpx.project-cell-table/1":"qpx.cell-table/1");prefix.integer(record.id);prefix.integer(n.object_id());prefix.integer(n.object_revision());prefix.integer(n.document_revision());prefix.integer(image.revision);
+            prefix.string(entry.status);prefix.string(record.producer);prefix.string(result.algorithm());prefix.string(n.input_sha256());prefix.integer(image.width);prefix.integer(image.height);prefix.integer(n.level());prefix.real(n.downsample());
             prefix.string(feature_name(p.feature));prefix.string(p.feature==TissueFeature::OpticalDensitySum?"optical_density_rgb":"stain_concentrations");
             for(auto v:{p.threshold,p.sigma,p.min_peak_radius,p.min_seed_distance,p.cell_expansion}) prefix.real(v);
             prefix.integer(p.min_nucleus_pixels);prefix.integer(p.max_nucleus_pixels);prefix.integer(p.connectivity);

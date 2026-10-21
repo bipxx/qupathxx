@@ -711,7 +711,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::CancelCellsKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_G,true);break;
                 case GuiInputKind::KeepCellRunKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_C,true);break;
                 case GuiInputKind::RecheckCellRunKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_C,true);break;
-                case GuiInputKind::ExportCellTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_X,true);break;
+                case GuiInputKind::ExportCellTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,!event.shift);input.AddKeyEvent(ImGuiKey_X,true);break;
                 case GuiInputKind::CancelCellTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_X,true);break;
                 case GuiInputKind::KeepTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiKey_U,true);break;
                 case GuiInputKind::RecheckTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_U,true);break;
@@ -1440,8 +1440,6 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ImGui::BeginDisabled(state!="current" || !has_geos());
                 if(ImGui::Button("Add saved cells")) {try {document.publish_cell_record(saved->id);error.clear();} catch(const std::exception& e) {error=e.what();}}
                 ImGui::EndDisabled();
-                ImGui::SetNextItemWidth(240);ImGui::InputTextWithHint("##Cell table path","Cell table .csv destination",cell_table_path,sizeof(cell_table_path));
-                ImGui::Checkbox("Require current cell run",&cell_table_options.require_current);
                 const bool can_export=!cell_table_job.busy() && (!cell_table_options.require_current || state=="current");
                 ImGui::BeginDisabled(!can_export);
                 const bool export_table=ImGui::Button("Export cell table (Ctrl+Alt+X)") || (!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyAlt && !io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_X,false));
@@ -1453,6 +1451,18 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(!cell_preview.error().empty()) ImGui::TextWrapped("Cell preview: %s",cell_preview.error().c_str());
 
         } else ImGui::TextDisabled("Select an annotation");
+        } else ImGui::TextDisabled("Select or add an image to use image tools.");
+        if(has_image || options.project) {
+            ImGui::SeparatorText("Cell table export");
+            ImGui::SetNextItemWidth(240);ImGui::InputTextWithHint("##Cell table path","Cell table .csv destination",cell_table_path,sizeof(cell_table_path));
+            ImGui::Checkbox("Require current cell runs",&cell_table_options.require_current);
+        }
+        if(options.project) {
+            ImGui::BeginDisabled(cell_table_job.busy());
+            const bool export_project=ImGui::Button("Export project cells (Ctrl+Shift+X)") || (!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyShift && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_X,false));
+            ImGui::EndDisabled();
+            if(export_project && !cell_table_job.busy()) {try {CellTableRequest request(*options.project,{},cell_table_options);cell_table_job.request(request,cell_table_path);cell_table_error.clear();} catch(const std::exception& e) {cell_table_error=e.what();}}
+        }
         const auto table_status=cell_table_job.poll();
         if(table_status.state!="idle") {
             ImGui::Text("Cell table: %s",table_status.state.c_str());
@@ -1462,7 +1472,6 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         if(!cell_table_error.empty()) ImGui::TextWrapped("%s",cell_table_error.c_str());
         if (!error.empty()) ImGui::TextWrapped("%s", error.c_str());
-        } else ImGui::TextDisabled("Select or add an image to use image tools.");
         ImGui::EndChild(); ImGui::SameLine();
         ImGui::BeginChild("Canvas", {0,0}, ImGuiChildFlags_Borders, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
         auto offset = ImGui::GetCursorScreenPos(); auto size = ImGui::GetContentRegionAvail();

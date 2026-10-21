@@ -1121,3 +1121,28 @@ Save capture is 0.0225 ms and validated load, including contour reconstruction,
 is 814.15 ms. These synthetic warm observations are scoped to one PC, with
 history disabled for throughput. Source/environment manifests, project-wide
 tables, numerical QuPath comparisons and all unfinished M0-M7 work remain active.
+
+
+The forty-fifth packet adds native project-wide archived cell CSV through Python
+and ImGui. One immutable request captures selected image IDs, project identity/
+generation/catalog revision, image names and per-document revisions/statuses.
+The 76-column schema preserves document-local run/label identity with image
+context, while document exports retain their original 71-column bytes. Aggregate
+quotas bound snapshot and output payloads; the existing single worker streams
+and atomically replaces the file. Catalog capture bypasses linked-file
+availability checks and retains no project/document/reader/Python ownership.
+Image/run deletion or workspace replacement cannot change captured output.
+See [project cell tables](project-cell-tables.md).
+
+Sixteen new Python/desktop cases cover ID collisions, all-field comparisons,
+ordering/deduplication, quoted names, missing linked sources, empty runs/projects,
+exact global quotas, currentness, full-width IDs, native worker lifetime and
+atomic replacement. The final installed wheel passes 918 Python cases with two
+Windows symlink cases skipped; native full/core/minimal suites pass (26/25/25).
+The 32768-row export is 45.63 ms. A 1000-image catalog captures at 0.1417 ms p95;
+the active 100001-object selected/all-visible viewer records 17.18 ms p95 CPU
+frame work and 0.7876 ms GUI capture during export. The legacy document output
+hash remains identical. These observations are scoped to synthetic data on one
+Windows PC. Source/environment manifests, joined published-object metadata,
+project-wide ROI/tissue feature tables, numerical comparisons and all unfinished
+M0-M7 work remain active.

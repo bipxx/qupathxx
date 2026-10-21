@@ -9,11 +9,17 @@ struct CellTableOptions {
 class CellTableRequest {
 public:
     CellTableRequest(const Document&,const std::vector<std::uint64_t>& record_ids={},CellTableOptions={});
+    CellTableRequest(const Project&,const std::vector<std::uint64_t>& image_ids={},CellTableOptions={});
     std::size_t record_count() const;
     std::uint64_t row_count() const;
     std::size_t snapshot_bytes() const;
     double capture_ms() const;
     std::uint64_t document_revision() const;
+    bool project_scope() const;
+    std::size_t image_count() const;
+    std::string project_identity() const;
+    std::uint64_t project_generation() const;
+    std::uint64_t project_revision() const;
     CellTableOptions options() const;
 private:
     struct Data;std::shared_ptr<const Data> data_;

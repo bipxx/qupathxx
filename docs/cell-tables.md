@@ -32,7 +32,8 @@ latest saved cell run. It exports that run, shows rows processed and terminal
 status, and can require current verified data. **Cancel table** or
 **Ctrl+Alt+Shift+X** cancels a pending export. `GuiOptions` supplies
 `cell_table_path`, `cell_table_require_current`, `cell_table_byte_limit` and
-`cell_table_snapshot_budget`. Replay can wait for `CELL_TABLE_SAVED`; finite runs
+`cell_table_snapshot_budget`. [Project cell tables](project-cell-tables.md) add
+all-image export and the Ctrl+Shift+X shortcut through the same writer. Replay can wait for `CELL_TABLE_SAVED`; finite runs
 finish an active export before returning its durable result in `GuiReport`.
 
 ## Schema and units
@@ -74,8 +75,9 @@ preserve ID columns as integer/text values rather than floating point.
 Rows refer to archived labels. [Published cell feature links](cell-feature-links.md)
 join object IDs to these `(record_id, cell_label)` keys; several publication sets
 can refer to one run. Editing/classifying published cells does not rewrite
-historical features. Project-wide multi-image tables and complete source/
-environment manifests remain open work. No physical-area column is synthesized
+historical features. [Project-wide archived cell tables](project-cell-tables.md)
+add image context. Joined current-object metadata, project-wide ROI/tissue tables
+and complete source/environment manifests remain open work. No physical-area column is synthesized
 from current calibration, which may differ from capture time.
 
 ## Capture, file publication and limits

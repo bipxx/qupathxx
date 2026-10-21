@@ -108,14 +108,14 @@ storage. [Cell run archives](cell-archive.md) retain masks, parameter bundles,
 markers and feature tables with input digests and rechecking.
 [Published cell feature links](cell-feature-links.md) retain measured run/label
 identity in objects and schema-6 project/recovery storage.
-[Native cell CSV export](cell-tables.md) exposes archived run labels and
+[Project-wide cell tables](project-cell-tables.md) add image context to batch
+exports. [Native cell CSV export](cell-tables.md) exposes archived run labels and
 compartment features through Python and ImGui. Complete source and
 environment manifests remain unfinished. The raster layers reuse the `TissueResult` read interface
 with distinct algorithm IDs; they cannot be retained as threshold tissue records.
 
 Background subtraction, physical-unit filters, marker editing, split/merge,
-stain estimation, classifiers, project-wide
-tables and pinned QuPath comparisons
+stain estimation, classifiers, joined published-object tables and pinned QuPath comparisons
 remain unfinished. Broader slides, hardware and prolonged memory pressure need
 validation. The overall M0–M7 plan remains active.
 

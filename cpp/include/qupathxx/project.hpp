@@ -75,6 +75,7 @@ public:
     const std::string& recovery_source() const { return recovery_source_; }
     std::uint64_t generation() const { return generation_; }
 private:
+    friend class CellTableRequest;
     friend class ProjectAutosave;
     friend class ProjectSaveJob;
     friend GuiReport run_gui(Document&,int,const std::string&,const GuiOptions&);
