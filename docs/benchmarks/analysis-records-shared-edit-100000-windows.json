@@ -1,0 +1,22 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "objects": 100001,
+  "records": 100000,
+  "samples": 16384,
+  "input_sha256": "d4152cbd14764a6efb5f09bcd333e0abfeac6e734887176790296a5209e2ec60",
+  "append_ms": 89.15160002652556,
+  "latest_10000_ms": 3.6856000078842044,
+  "capture_ms": 16.4103,
+  "worker_write_ms": 472.7239,
+  "max_save_poll_ms": 0.016700010746717453,
+  "load_ms": 263.2242999970913,
+  "recheck_worker_ms": 0.2273,
+  "verify_ms": 0.007999944500625134,
+  "file_bytes": 45494272,
+  "cap_rejected": true,
+  "post_capture_remove_ms": 0.021699932403862476,
+  "post_capture_keep_ms": 0.016700010746717453,
+  "snapshot_isolation_verified": true,
+  "live_dirty_after_edit": true
+}

@@ -3,6 +3,7 @@ import argparse
 import json
 from pathlib import Path
 import platform
+import sqlite3
 import time
 
 import qupathxx as q
@@ -19,6 +20,7 @@ def main():
     parser.add_argument("--records", type=int, default=1000)
     parser.add_argument("--objects", type=int, default=100000)
     parser.add_argument("--gui", action="store_true")
+    parser.add_argument("--edit-during-save", action="store_true")
     parser.add_argument("--output", type=Path, default=Path("build/analysis-records.json"))
     args = parser.parse_args()
     if not 1 <= args.records <= 100000 or not 0 <= args.objects <= 100000:
@@ -33,7 +35,8 @@ def main():
     request = q.AnalysisRequest(doc, obj, q.StainTransform([[.65, .70, .29], [.07, .99, .11]]))
     value = q.analyze(request)
     start = time.perf_counter()
-    for _ in range(args.records):
+    record_id = first_record_id = doc.keep_analysis(request, value)
+    for _ in range(args.records-1):
         record_id = doc.keep_analysis(request, value)
     keep_ms = (time.perf_counter()-start)*1000
     assert doc.analysis_record_count == args.records and doc.analysis_status(record_id) == "current"
@@ -54,7 +57,24 @@ def main():
     work.mkdir(parents=True)
     path = work/"project.qpxproj"
     save = q.ProjectSaveJob()
-    assert save.request(project, str(path))
+    remove_ms = keep_after_capture_ms = None
+    replacement_id = None
+    lock = sqlite3.connect(path) if args.edit_during_save else None
+    if lock:
+        lock.execute("BEGIN IMMEDIATE")
+    try:
+        assert save.request(project, str(path))
+        if args.edit_during_save:
+            start = time.perf_counter()
+            assert doc.remove_analysis(first_record_id)
+            remove_ms = (time.perf_counter()-start)*1000
+            start = time.perf_counter()
+            replacement_id = doc.keep_analysis(request, value)
+            keep_after_capture_ms = (time.perf_counter()-start)*1000
+    finally:
+        if lock:
+            lock.rollback()
+            lock.close()
     max_poll = 0
     while True:
         start = time.perf_counter()
@@ -63,13 +83,21 @@ def main():
         if not save.busy:
             break
         time.sleep(.001)
-    assert status.applied and not project.dirty, status.error
+    assert status.applied and project.dirty == args.edit_during_save, status.error
     start = time.perf_counter()
     loaded = q.Project.open(str(path))
     load_ms = (time.perf_counter()-start)*1000
     restored = loaded.document(image)
     assert restored.analysis_record_count == args.records
     assert restored.analysis_status(record_id) == "unverified" and not loaded.dirty
+    if replacement_id:
+        assert restored.analysis_record(first_record_id).result.input_sha256 == value.input_sha256
+        try:
+            restored.analysis_record(replacement_id)
+        except IndexError:
+            pass
+        else:
+            raise AssertionError("post-capture replacement entered the saved baseline")
     replay = q.AnalysisRequest.replay(restored, record_id)
     recheck = q.analyze(replay)
     start = time.perf_counter()
@@ -82,6 +110,9 @@ def main():
                   worker_write_ms=status.write_ms, max_save_poll_ms=max_poll, load_ms=load_ms,
                   recheck_worker_ms=recheck.elapsed_ms, verify_ms=verify_ms, file_bytes=path.stat().st_size,
                   cap_rejected=cap_rejected)
+    if args.edit_during_save:
+        result.update(post_capture_remove_ms=remove_ms, post_capture_keep_ms=keep_after_capture_ms,
+                      snapshot_isolation_verified=True, live_dirty_after_edit=project.dirty)
     if args.gui:
         options = q.GuiOptions()
         options.inputs = [event(4, q.GuiInputKind.SELECT_ALL_KEY), event(8, q.GuiInputKind.RECHECK_ANALYSIS_KEY)]

@@ -54,6 +54,8 @@ QuPath port or a compatible replacement for Java QuPath.
   checks in C++, Python and ImGui; see [analysis jobs](docs/analysis-jobs.md).
 - Retained analysis records with ROI input digests, schema-3 project/recovery
   storage and background rechecks; see [analysis provenance](docs/analysis-provenance.md).
+- Shared immutable archive snapshots preserve save baselines with bounded copying
+  during live edits; see [snapshot sharing](docs/analysis-snapshot-sharing.md).
 - Native background autosave, session-specific recovery files and dirty-close
   decisions; see [recovery](docs/project-recovery.md).
 

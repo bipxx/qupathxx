@@ -182,5 +182,8 @@ This stresses many records sharing one captured ROI/result; it is not a benchmar
 of 100000 independent analysis computations or varied large geometry archives.
 Viewer timings exclude its first ten frames and swap wait. The 50 ms archive/
 object snapshot capture remains a responsiveness target; no frame-budget claim
-is made for that capture or large archive deletion/retirement. Immutable snapshot
-sharing and broader source/hardware workloads remain optimization work.
+is made for that capture or large archive deletion/retirement. That recording
+motivated [shared archive snapshots](analysis-snapshot-sharing.md), which now
+reduce fresh capture from 52.56 ms to 17.17 ms on the same workload. Remaining
+object-map capture, broader source/hardware and large retirement workloads stay
+open; the original benchmark is retained as historical evidence.

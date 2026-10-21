@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 489 passing Python tests including retained analysis/provenance, analysis jobs, stains, shapes, interchange, browsing, workspace migration, recovery and GUI replay
+Evidence: 494 passing Python tests including immutable archive snapshots, retained analysis/provenance, analysis jobs, stains, shapes, interchange, browsing, workspace migration, recovery and GUI replay
 (two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
 seventeen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
@@ -211,7 +211,24 @@ the record cap and exact recheck. The selected viewer records 16.84 ms sampled
 frame p95, 17.27 ms maximum, 910 visible objects and 3 MiB GPU payload. Snapshot
 capture takes 50.1 ms and remains an optimization target. The archive benchmark
 shares one captured ROI/result across records; varied large archives are unproven.
-Next optimize archive/object snapshot sharing, implement the tissue-detection/
+Archive snapshots now share immutable native record payloads in 256-slot blocks,
+with permanent sealing and bounded copying before live slot edits. Owner-only
+proof/index maps stay out of the worker. Free slots are reused and clearing the
+last record releases live blocks independently of captured saves. Snapshot budgets
+charge retained block storage, including sparse blocks. See
+analysis-snapshot-sharing.md. Five Python regressions cover locked-writer slot
+reuse, full clear/reuse, recovery capture, sparse-block budgets and subprocess
+teardown; native checks mutate copied/assigned archives across block boundaries.
+All 494 installed-wheel tests pass (two unavailable file-symlink cases skipped),
+and all seventeen native suites pass in full/core/minimal builds. A fresh
+100000-record/100001-object comparison drops capture from 52.56 ms to 17.17 ms.
+The shared viewer records 16.86 ms sampled frame p95 and 18.93 ms maximum with
+910 visible objects and 3 MiB GPU payload. A separate blocked-writer run verifies
+baseline isolation while measuring 0.0217 ms removal and 0.0167 ms replacement
+append after capture. Object/class copying and budget traversal remain linear;
+capture is still near one display frame. These dense repeated-ROI recordings do
+not establish broader geometry, hardware or vendor-reader latency guarantees.
+Next optimize remaining object snapshot capture, implement the tissue-detection/
 connected-component path and complete source/environment provenance. Continue
 numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished

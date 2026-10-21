@@ -137,7 +137,7 @@ public:
     double nucleus_area_um2(std::uint64_t id) const;
     double nucleus_mean_intensity(std::uint64_t id) const;
     std::vector<AnalysisRecord> analysis_records() const;
-    std::size_t analysis_record_count() const {return analysis_.size();}
+    std::size_t analysis_record_count() const {return analysis_.size()+analysis_snapshot_count_;}
     AnalysisRecord analysis_record(std::uint64_t id) const;
     std::optional<AnalysisRecord> latest_analysis(std::uint64_t object_id) const;
     std::string analysis_status(std::uint64_t id) const;
@@ -156,12 +156,35 @@ private:
         AnalysisIdentity& operator=(const AnalysisIdentity&) {token=std::make_shared<const char>();return *this;}
     } analysis_identity_;
     struct StoredAnalysis {
-        AnalysisRecord value;
+        std::shared_ptr<const AnalysisRecord> value;
         std::shared_ptr<const char> identity;
         std::weak_ptr<ImageServer> source;
         bool verified=false;
+        std::size_t slot=0;
     };
     std::map<std::uint64_t,StoredAnalysis> analysis_;
+    struct AnalysisBlock {
+        std::array<std::shared_ptr<const AnalysisRecord>,256> records;
+        bool sealed=false; // Once shared with another authority/worker, never unseal.
+    };
+    struct AnalysisBlocks {
+        std::vector<std::shared_ptr<AnalysisBlock>> values;
+        AnalysisBlocks()=default;
+        AnalysisBlocks(const AnalysisBlocks& other):values(other.values) {
+            for(const auto& block:values) if(!block->sealed) block->sealed=true;
+        }
+        AnalysisBlocks& operator=(const AnalysisBlocks& other) {
+            if(this!=&other) {AnalysisBlocks copy(other);values.swap(copy.values);}return *this;
+        }
+        AnalysisBlocks(AnalysisBlocks&&)=default;
+        AnalysisBlocks& operator=(AnalysisBlocks&&)=default;
+    };
+    // Snapshots share const views of these blocks. Live edits clone a shared
+    // block before modifying its slots; proofs and lookup maps stay owner-only.
+    AnalysisBlocks analysis_blocks_;
+    std::vector<std::shared_ptr<const AnalysisBlock>> analysis_snapshot_;
+    std::vector<std::size_t> analysis_free_slots_;
+    std::size_t analysis_next_slot_=0,analysis_snapshot_count_=0;
     std::map<std::pair<std::uint64_t,std::uint64_t>,bool> analysis_by_object_;
     std::size_t analysis_bytes_=0;
     void restore_analysis(AnalysisRecord);

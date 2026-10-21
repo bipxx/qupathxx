@@ -92,6 +92,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         for(const auto& [key,a]:e.document->objects_) add(sizeof(Annotation)+64+a.name.size()+a.class_name.size()+a.geometry.payload_bytes()+(a.nucleus?a.nucleus->payload_bytes():0));
         for(const auto& [name,c]:e.document->classes_) add(sizeof(ObjectClass)+96+name.size()+c.name.size());
         add(e.document->analysis_bytes_);
+        add(e.document->analysis_blocks_.values.size()*(sizeof(Document::AnalysisBlock)+sizeof(std::shared_ptr<const Document::AnalysisBlock>)));
     }
     for(const auto& [id,v]:views_) add(sizeof(ProjectView)+64);
     auto snapshot=std::make_unique<Project>();
@@ -105,8 +106,11 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         doc->objects_=e.document->objects_; doc->classes_=e.document->classes_;
         doc->next_id_=e.document->next_id_; doc->revision_=e.document->revision_;
         doc->pixel_width_um_=e.document->pixel_width_um_; doc->pixel_height_um_=e.document->pixel_height_um_;
-        for(const auto& [key,record]:e.document->analysis_) doc->analysis_.emplace(key,Document::StoredAnalysis{record.value,{},{},false});
-        doc->analysis_by_object_=e.document->analysis_by_object_;doc->analysis_bytes_=e.document->analysis_bytes_;
+        const auto& blocks=e.document->analysis_blocks_.values;
+        doc->analysis_snapshot_.assign(blocks.begin(),blocks.end());
+        for(const auto& block:blocks) if(!block->sealed) block->sealed=true;
+        doc->analysis_snapshot_count_=e.document->analysis_.size();
+        doc->analysis_bytes_=e.document->analysis_bytes_;
         snapshot->entries_.emplace(id,Entry{e.info,std::move(doc)});
     }
     return snapshot;
@@ -480,9 +484,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
             object.done();
         }
     }
-    for(const auto& [image_id,e]:entries_) for(const auto& [record_id,stored]:e.document->analysis_) {
+    for(const auto& [image_id,e]:entries_) {
+      auto write_analysis=[&](const AnalysisRecord& record) {
         if(cancelled && cancelled->load()) throw std::runtime_error("project save cancelled");
-        const auto& record=stored.value;const auto& r=record.result;
+        const auto& r=record.result;
         analysis.string(1,std::to_string(image_id));analysis.string(2,std::to_string(record.id));analysis.string(3,std::to_string(r.object_id));
         analysis.string(4,std::to_string(r.object_revision));analysis.string(5,std::to_string(r.document_revision));analysis.string(6,r.algorithm);analysis.string(7,r.input_sha256);
         analysis.integer(8,static_cast<int>(r.kind));analysis.integer(9,r.nucleus?1:0);analysis.integer(10,static_cast<std::int64_t>(record.tile_size));
@@ -490,6 +495,9 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         for(int c=0;c<3;++c) {analysis.real(14+c,r.means[c]);analysis.real(17+c,r.white[c]);}
         for(int i=0;i<3;++i) for(int c=0;c<3;++c) analysis.real(20+i*3+c,r.stains[i][c]);
         const auto geometry=encode(record.roi);analysis.blob(29,geometry);analysis.done();
+      };
+      for(const auto& [record_id,stored]:e.document->analysis_) write_analysis(*stored.value);
+      for(const auto& block:e.document->analysis_snapshot_) for(const auto& record:block->records) if(record) write_analysis(*record);
     }
     // Canonical rows and recovery provenance must commit together.
     if(recovery) {

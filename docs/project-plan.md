@@ -767,3 +767,23 @@ rejects record 100001 without a revision change. This is a repeated-ROI archive
 stress case, not 100000 independent analyses. Full-source/environment provenance,
 archive snapshot optimization, tissue/cell algorithms, upstream comparisons and
 all remaining M0-M7 requirements stay active.
+
+The thirty-second packet replaces per-record archive capture copies with native
+immutable payloads and sealed 256-slot blocks. Worker snapshots copy block
+references, while live changes clone only their affected block. Native document
+copy/assignment also seals shared blocks; source proofs and lookup maps remain
+owner-only. Freed slots are reused, full clear starts a new live block set and
+snapshot budgets charge retained sparse blocks. Schema 3 and scientific values
+are unchanged. See [snapshot sharing](analysis-snapshot-sharing.md).
+
+Five Python regressions preserve the captured baseline during locked-writer
+removal/reuse, full clear/reuse, recovery and last-owner teardown, and verify
+sparse-block budgets. Native tests independently mutate 520-record copies and
+assignments. All 494 installed-wheel Python tests pass with two unavailable
+file-symlink cases skipped; all seventeen native suites pass in three builds.
+The fresh 100000-record/100001-object comparison reduces capture from 52.56 ms
+to 17.17 ms, with a 16.86 ms sampled viewer frame p95. A blocked-writer recording
+keeps the saved old record and excludes its post-capture replacement, measuring
+0.0217 ms removal and 0.0167 ms append. Remaining object-map capture/budget work,
+broader archive/source workloads, initial rendering, tissue/cell algorithms and
+all unfinished M0-M7 requirements remain active.

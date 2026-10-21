@@ -45,6 +45,26 @@ int main() {
         auto fresh=qpx::AnalysisRequest(copy,id,transform); copy=document;
         check(!fresh.matches(copy,id));
         qpx::Document moved=std::move(document); check(!request.matches(moved,id));
+        {
+            qpx::Document original(qpx::Image(2,1,{10,20,30,40,50,60}));
+            const auto object=original.add_rectangle({0,0,2,1});
+            const qpx::AnalysisRequest captured(original,object,transform);
+            const auto result=qpx::analyze(captured);
+            std::vector<std::uint64_t> records;
+            for(int i=0;i<520;++i) records.push_back(original.keep_analysis(captured,result));
+            qpx::Document copied=original;
+            for(std::size_t i=0;i<260;++i) check(original.remove_analysis(records[i]));
+            for(int i=0;i<260;++i) original.keep_analysis(captured,result);
+            check(copied.analysis_record_count()==520 && copied.analysis_record(records.front()).result.means==result.means);
+            check(copied.analysis_status(records.front())=="unverified");
+            check(original.analysis_record_count()==520 && original.latest_analysis(object)->id>records.back());
+            qpx::Document assigned(qpx::Image(2,1,{0,0,0,0,0,0}));assigned=copied;
+            for(auto record:records) check(copied.remove_analysis(record));
+            check(copied.analysis_record_count()==0 && assigned.analysis_record_count()==520);
+            const qpx::AnalysisRequest copy_request(copied,object,transform);
+            copied.keep_analysis(copy_request,qpx::analyze(copy_request));
+            check(copied.analysis_record_count()==1 && assigned.analysis_record(records.back()).id==records.back());
+        }
         auto source=std::make_shared<GateServer>(); qpx::Document blocked(source);
         const auto blocked_id=blocked.add_rectangle({0,0,64,64});
         auto snapshot=qpx::AnalysisRequest(blocked,blocked_id,transform,qpx::AnalysisKind::OpticalDensityMeans,false,16);
