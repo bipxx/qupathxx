@@ -85,6 +85,7 @@ private:
     friend struct TissueKernel;
     friend class Document;
     friend struct TissueArchiveCodec;
+    friend struct CellKernel;
     std::shared_ptr<const char> ticket_;
     TissueResult()=default;
     std::string algorithm_="qpx.threshold-components/1",input_sha256_;

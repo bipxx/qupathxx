@@ -11,6 +11,8 @@ requires-python = ">=3.11"
 
 [project.optional-dependencies]
 test = ["pytest>=8", "numpy>=1.25"]
+test-cells = ["pytest>=8", "numpy>=1.25", "scipy==1.16.3", "scikit-image==0.26.0"]
+
 test-readers = ["pytest>=8", "numpy>=1.25", "tifffile>=2024.1", "openslide-python>=1.4"]
 
 [project.scripts]

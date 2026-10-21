@@ -8,13 +8,15 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: all 736 installed-wheel Python cases pass with two file-symlink cases
+Evidence: the cell regression run passes 786 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
-and recovery; twenty-two native suites pass with optional geometry/readers/
+and recovery; twenty-three native suites pass with optional geometry/readers/
 interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
+After the final Gaussian underflow guard and cell-control width adjustment,
+all 51 focused cell/desktop cases pass against the rebuilt installed wheel.
 The 100000-object document benchmark records approximately 230 ms batch creation,
 116 ms undo, 126 ms redo and 815 bytes of history payload for a rename. The spatial
 benchmark covers 1000 region queries and a cached narrow GUI view of 828 visible
@@ -306,7 +308,20 @@ recovery counts and sparse unsigned IDs. The paired 100000-object capture record
 16.50 ms before and 0.0246 ms after, with 0.0686 ms desktop capture and 17.26 ms
 frame p95. Rename p95 changes from 0.0021 to 0.0052 ms; class/image/view traversal
 and extra native object/string storage remain limits. See object-snapshots.md.
-Next complete source/environment provenance and implement native cell detection. Continue
+The fortieth packet adds native cell detection with nanobind and ImGui, bounded
+distance-marker watershed, native pyramid sampling, nonoverlapping body expansion,
+compartment features and atomic cell/nucleus publication. See cell-detection.md.
+Independent SciPy/scikit-image comparisons cover complete labels and means;
+native exhaustive distance/nearest-site checks include tie rules and opacity.
+Source changes, cancellation, contour failures, Undo/Redo and published geometry
+persistence pass. Cell masks, features and provenance archives remain unfinished.
+The 1024² synthetic disk fixture detects 256 cells in 235–262 ms worker time,
+reserving 162390016 logical work bytes. With 100001 selected objects and 911
+visible, the viewer records 17.05 ms frame p95; the all-visible overview records
+109.39 ms p95. This exposes the existing dense-overlay rendering limit and is
+not a general throughput guarantee.
+
+Next complete source/environment provenance and cell result archives. Continue
 numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged

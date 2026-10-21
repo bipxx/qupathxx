@@ -7,6 +7,9 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Native marker watershed cell detection, nucleus/body/cytoplasm features,
+  nanobind jobs and ImGui previews with atomic cell publication and Undo/Redo;
+  see [cell detection](docs/cell-detection.md).
 - Standalone C++ document owns an image-server reference, immutable ROI annotations and calibration.
 - Dense RGB and optional OpenSlide servers with 64-bit metadata and bounded RGBA region reads.
 - Stable annotation IDs, deletion, calibrated area and mean RGB intensity.

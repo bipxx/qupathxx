@@ -6,6 +6,7 @@
 #include "qupathxx/analysis.hpp"
 #include "gui_tiles.hpp"
 #include "gui_tissue.hpp"
+#include "qupathxx/cells.hpp"
 #include "gui_replay.hpp"
 #include <imgui.h>
 #include <imgui_internal.h>
@@ -183,6 +184,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     MeanJob mean;
     AnalysisJob analysis;
     TissueJob tissue;
+    CellJob cell_job;TissuePreview cell_preview;
+    CellParameters cell_parameters=options.cell_parameters?*options.cell_parameters:CellParameters{};cell_parameters.validate();
+    int cell_feature=static_cast<int>(cell_parameters.feature),cell_connectivity=cell_parameters.connectivity==8?1:0,cell_preview_body=0;
+    bool show_cells=true;std::size_t cell_annotations_added=0;
     std::size_t tissue_annotations_added=0;
     std::uint64_t kept_tissue_generation=0,verifying_tissue=0;
     TissuePreview tissue_preview;
@@ -554,6 +559,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         auto& document=*active_document;
         analysis.poll(document,selected);
+        cell_job.poll(document,selected);if(!cell_job.result()) cell_preview.clear();
         tissue.poll(document,selected);
         if(verifying_tissue && !tissue.busy()) {
             try {if(tissue.poll(document,selected).state=="ready") tissue.verify_result(document,verifying_tissue);} catch(const std::exception& e) {error=e.what();}
@@ -578,11 +584,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         auto& input=ImGui::GetIO();
         if (!options.inputs.empty()) {
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
-            input.AddKeyEvent(ImGuiKey_J,false);input.AddKeyEvent(ImGuiKey_U,false);
+            input.AddKeyEvent(ImGuiKey_J,false);input.AddKeyEvent(ImGuiKey_U,false);input.AddKeyEvent(ImGuiKey_G,false);input.AddKeyEvent(ImGuiMod_Alt,false);
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
             for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12,ImGuiKey_M,ImGuiKey_K,ImGuiKey_D}) input.AddKeyEvent(key,false);
         }
         replay.dispatch([&](const GuiInput& event) {
+            if(event.wait_for==GuiInputWait::CellsReady) return !cell_job.busy() && bool(cell_job.result());
+            if(event.wait_for==GuiInputWait::CellsPublished) return !cell_job.busy() && cell_job.published();
             if(event.wait_for==GuiInputWait::StartupFinished) return !startup_active;
             if(event.wait_for==GuiInputWait::TissueArchived || event.wait_for==GuiInputWait::TissueVerified) {
                 const auto record=document.latest_tissue(selected);
@@ -676,6 +684,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::RecheckAnalysisKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiMod_Shift,true); input.AddKeyEvent(ImGuiKey_K,true); break;
                 case GuiInputKind::DetectTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_D,true); break;
                 case GuiInputKind::CancelTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiMod_Shift,true); input.AddKeyEvent(ImGuiKey_D,true); break;
+                case GuiInputKind::DetectCellsKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiKey_G,true);break;
+                case GuiInputKind::KeepCellsKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_G,true);break;
+                case GuiInputKind::CancelCellsKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_G,true);break;
                 case GuiInputKind::KeepTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiKey_U,true);break;
                 case GuiInputKind::RecheckTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_U,true);break;
                 case GuiInputKind::TraceTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_J,true); break;
@@ -1179,7 +1190,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 analysis_changed=ImGui::InputScalarN("Stain 2",ImGuiDataType_Double,analysis_vectors.data()+3,3,nullptr,nullptr,"%.5g") || analysis_changed;
                 ImGui::TextWrapped("Supply validated OD directions. Channel 3 is a signed residual.");
             }
-            if(analysis_changed) {analysis.cancel();tissue.cancel();}
+            if(analysis_changed) {analysis.cancel();tissue.cancel();cell_job.cancel();}
             const bool analysis_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_M);
             ImGui::BeginDisabled(analysis.busy());
             const bool start_analysis=ImGui::Button("Analyze region (Ctrl+M)") || (analysis_key && !io.KeyShift);
@@ -1329,6 +1340,50 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
             if(!tissue_status.error.empty()) ImGui::TextWrapped("Tissue: %s",tissue_status.error.c_str());
             if(!tissue_preview.error().empty()) ImGui::TextWrapped("Mask: %s",tissue_preview.error().c_str());
+            ImGui::SeparatorText("Watershed cells");
+            ImGui::PushItemWidth(118);
+            ImGui::SetNextItemWidth(132);bool cell_changed=ImGui::Combo("Cell feature",&cell_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0");
+            cell_changed=ImGui::InputDouble("Cell threshold",&cell_parameters.threshold,0,0,"%.5g") || cell_changed;
+            cell_changed=ImGui::InputDouble("Blur sigma",&cell_parameters.sigma,0,0,"%.3g") || cell_changed;
+            cell_changed=ImGui::InputDouble("Peak radius >=",&cell_parameters.min_peak_radius,0,0,"%.3g") || cell_changed;
+            cell_changed=ImGui::InputDouble("Seed spacing",&cell_parameters.min_seed_distance,0,0,"%.3g") || cell_changed;
+            cell_changed=ImGui::InputDouble("Cell expansion",&cell_parameters.cell_expansion,0,0,"%.3g") || cell_changed;
+            cell_changed=ImGui::InputScalar("Nucleus min px",ImGuiDataType_U64,&cell_parameters.min_nucleus_pixels) || cell_changed;
+            cell_changed=ImGui::InputScalar("Nucleus max (0=all)",ImGuiDataType_U64,&cell_parameters.max_nucleus_pixels) || cell_changed;
+            cell_changed=ImGui::Combo("Cell neighbors",&cell_connectivity,"4 neighbors\0 8 neighbors\0") || cell_changed;
+            const auto cell_level_label=cell_parameters.level<0?std::string("Auto (budget)"):"Level "+std::to_string(cell_parameters.level);
+            if(ImGui::BeginCombo("Cell level",cell_level_label.c_str())) {
+                if(ImGui::Selectable("Auto (budget)",cell_parameters.level<0)) {cell_parameters.level=-1;cell_changed=true;}
+                for(std::size_t i=0;i<image.levels.size();++i) {const auto label="Level "+std::to_string(i);if(ImGui::Selectable(label.c_str(),cell_parameters.level==static_cast<std::int32_t>(i))) {cell_parameters.level=static_cast<std::int32_t>(i);cell_changed=true;}}
+                ImGui::EndCombo();
+            }
+            ImGui::TextDisabled("Radii/sizes use sampled pixels");
+            if(cell_changed) cell_job.cancel();
+            const auto cell_status=cell_job.poll(document,selected);
+            const bool cell_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_G,false);
+            ImGui::BeginDisabled(cell_job.busy());
+            const bool detect_cells_clicked=ImGui::Button("Detect cells (Ctrl+G)") || (cell_key && !io.KeyShift && !io.KeyAlt);
+            ImGui::EndDisabled();
+            if(detect_cells_clicked && !cell_job.busy()) {try {
+                cell_parameters.feature=static_cast<TissueFeature>(cell_feature);cell_parameters.connectivity=cell_connectivity?8:4;
+                cell_job.request(CellRequest(document,selected,make_transform(cell_feature!=0),cell_parameters));cell_annotations_added=0;error.clear();
+            } catch(const std::exception& e) {error=e.what();}}
+            if(cell_job.busy()) {ImGui::TextDisabled("Cells: %s",cell_status.phase.c_str());if(ImGui::Button("Cancel cells (Ctrl+Alt+G)")) cell_job.cancel();}
+            if(cell_key && io.KeyAlt) cell_job.cancel();
+            ImGui::Checkbox("Show cell preview",&show_cells);ImGui::Combo("Cell preview",&cell_preview_body,"Nuclei\0Cell bodies\0");
+            ImGui::PopItemWidth();
+            if(const auto result=cell_job.result()) {
+                ImGui::Text("Detected cells: %zu",result->features().size());ImGui::Text("Markers: %zu / %.3f ms",result->markers().size(),result->elapsed_ms());
+                ImGui::Text("Cell level: %d / %.5gx",result->nuclei()->level(),result->nuclei()->downsample());
+            }
+            const bool can_add_cells=has_geos() && !cell_job.busy() && bool(cell_job.result()) && !cell_job.result()->features().empty() && !cell_job.published();
+            ImGui::BeginDisabled(!can_add_cells);const bool add_cells=ImGui::Button("Add cells (Ctrl+Shift+G)") || (cell_key && io.KeyShift && !io.KeyAlt);ImGui::EndDisabled();
+            if(add_cells && can_add_cells) {try {cell_annotations_added=cell_job.keep_result(document,selected).size();error.clear();} catch(const std::exception& e) {error=e.what();}}
+            if(cell_job.published()) ImGui::Text("Added %zu cells (Undo available)",cell_annotations_added);
+            if(!has_geos()) ImGui::TextDisabled("Cell objects require GEOS");
+            if(!cell_status.error.empty()) ImGui::TextWrapped("Cells: %s",cell_status.error.c_str());
+            if(!cell_preview.error().empty()) ImGui::TextWrapped("Cell preview: %s",cell_preview.error().c_str());
+
         } else ImGui::TextDisabled("Select an annotation");
         if (!error.empty()) ImGui::TextWrapped("%s", error.c_str());
         } else ImGui::TextDisabled("Select or add an image to use image tools.");
@@ -1493,6 +1548,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 screen(viewport,{tile.bounds.x+tile.bounds.width,tile.bounds.y+tile.bounds.height},offset));
         }
         if(show_tissue) tissue_preview.draw(draw,viewport,offset,size);
+        const auto detected=cell_job.result();cell_preview.update(detected?(cell_preview_body?detected->cells():detected->nuclei()):nullptr,show_cells);
+        if(show_cells) cell_preview.draw(draw,viewport,offset,size);
         const auto visible_min=viewport.screen_to_image({0,0}),visible_max=viewport.screen_to_image({size.x,size.y});
         auto visible_ids=document.query_region({visible_min.x,visible_min.y,visible_max.x-visible_min.x,visible_max.y-visible_min.y});
         visible_count=visible_ids.size();
@@ -1769,6 +1826,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     const auto tissue_result=tissue.result();
     const auto tissue_contours=tissue.contours();
     const auto saved_tissue=active_document->latest_tissue(selection->primary());
+    const auto final_cells=cell_job.poll(*active_document,selection->primary());
+    if(!cell_job.result()) cell_preview.clear();
     if(!tissue_result) tissue_preview.clear();
     return {frames,previous_uploads+tiles->uploads(),std::max(previous_peak_bytes,tiles->peak_bytes()),previous_generations+tiles->generations(),p95,tiles->pending(),empty?0:viewport.zoom,empty?Point{}:viewport.origin,
         empty?Point{}:viewport.screen_to_image({previous_canvas_size.x/2,previous_canvas_size.y/2}),last_width,last_height,
@@ -1789,7 +1848,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         replay.frame(),replay.waits(),settle_frames,replay.complete(),!startup_active && !project_load.valid() && !restore_pending && !tiles->pending() && tiles->error().empty(),
         tissue_contours?tissue_contours->components().size():0,tissue_contours?tissue_contours->edge_count():0,tissue_contours?tissue_contours->vertex_count():0,
         tissue.contours_published()?tissue_annotations_added:0,tissue_contours?tissue_contours->elapsed_ms():0,tissue.contours_published(),
-        saved_tissue?saved_tissue->id:0,saved_tissue?active_document->tissue_status(saved_tissue->id):std::string{}};
+        saved_tissue?saved_tissue->id:0,saved_tissue?active_document->tissue_status(saved_tissue->id):std::string{},
+        final_cells.state,final_cells.error.empty()?cell_preview.error():final_cells.error,cell_job.result(),cell_job.published()?cell_annotations_added:0,cell_preview.peak_bytes(),cell_preview.ready(),cell_job.published()};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

@@ -995,3 +995,29 @@ all twenty-two native suites pass in full/core/minimal builds. Two recovery-dial
 replays now wait for visible/enabled buttons using the existing readiness clock,
 retaining identity, saved data, injected-failure and pixel assertions. Native
 snapshot isolation and complete regression coverage pass after that repair.
+
+The fortieth packet implements the first native cell detector across C++,
+nanobind and ImGui. Domain-normalized Gaussian smoothing, exact squared distance,
+regional-maximum markers and a deterministic watershed separate touching nuclei.
+Post-filtered basins expand by exact Euclidean nearest-nucleus assignment;
+nucleus/body/cytoplasm features use original samples. Native pyramid selection,
+bounded worker reservations, input digests and incremental previews reuse the
+existing reader and tissue infrastructure. GEOS traces clipped body/nucleus
+geometry on the worker, then one owner transaction publishes the Cell batch
+with Undo/Redo. Numerical detection also works without GEOS.
+
+See [cell detection](cell-detection.md) for units, tie policy, memory accounting,
+independent references and limitations. Published objects survive project and
+GeoJSON round trips. Cell raster/feature/provenance archives, physical filters,
+split/merge, full QuPath numerical comparisons and the remaining M0–M7 work are
+still open. The 1024², 256-cell synthetic fixture records 235–262 ms worker time.
+The 100001-selected-object viewer records 17.05 ms p95 with 911 visible objects;
+showing the entire dense object set costs 109.39 ms p95. That existing overlay
+limit remains a performance task. Timings are synthetic observations on one PC.
+
+The full regression run passes 786 Python cases with two Windows symlink cases
+skipped. After the final tiny-sigma numerical guard and control-width adjustment,
+all 51 cell/desktop cases pass against the rebuilt installed wheel. All 23 native
+suites pass in full/core/minimal builds. Fifty-one added Python cases include
+independent references, source-domain/level/budget boundaries, stale jobs,
+atomic publication, geometry persistence, rendered previews and the sigma limit.

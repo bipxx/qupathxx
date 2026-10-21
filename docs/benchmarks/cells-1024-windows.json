@@ -1,0 +1,18 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "pixels": 1048576,
+  "algorithm": "qpx.distance-watershed/1",
+  "sigma": 0.0,
+  "expansion": 5.0,
+  "cells": 256,
+  "nucleus_pixels": 81152,
+  "cell_pixels": 179456,
+  "capture_ms": 0.03670004662126303,
+  "submit_ms": 0.07749989163130522,
+  "worker_ms": 261.5175,
+  "max_poll_ms": 0.020999927073717117,
+  "estimated_work_bytes": 162390016,
+  "retained_bytes": 9384086,
+  "input_sha256": "29f79ea8f672d5d4570257cddccdec2653e763966f0f7ee1c3c3437952f00c86"
+}
