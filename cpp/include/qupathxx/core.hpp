@@ -7,25 +7,14 @@
 #include <set>
 #include "qupathxx/image_server.hpp"
 #include "qupathxx/display.hpp"
+#include "qupathxx/geometry.hpp"
+#include "qupathxx/spatial_index.hpp"
 
 namespace qpx {
-struct Point {
-    double x = 0, y = 0;
-    Point() = default;
-    Point(double x_, double y_) : x(x_), y(y_) {}
-};
-struct Rect {
-    double x = 0, y = 0, width = 0, height = 0;
-    Rect() = default;
-    Rect(double x_, double y_, double w, double h) : x(x_), y(y_), width(w), height(h) {}
-    void validate() const;
-    double area() const;
-    bool contains(Point p) const;
-};
 struct Annotation {
     std::uint64_t id;
     std::string name;
-    Rect roi;
+    Roi geometry;
     std::uint64_t parent_id = 0;
     std::string class_name;
     std::uint64_t revision = 0;
@@ -37,8 +26,11 @@ struct ObjectEdit {
     static ObjectEdit create(Rect roi, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="");
     static ObjectEdit replace(std::uint64_t id, Rect roi, std::string name, std::uint64_t parent_id=0, std::string class_name="");
     static ObjectEdit remove(std::uint64_t id);
+    static ObjectEdit create_geometry(Roi geometry, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="");
+    static ObjectEdit replace_geometry(std::uint64_t id, Roi geometry, std::string name, std::uint64_t parent_id=0, std::string class_name="");
 };
 double mean_rgb(const ImageServer&, const Rect&, const std::atomic<bool>* cancelled = nullptr);
+double mean_rgb(const ImageServer&, const Roi&, const std::atomic<bool>* cancelled = nullptr);
 class Image {
 public:
     Image(int width, int height, std::vector<std::uint8_t> rgb);
@@ -65,13 +57,18 @@ public:
     std::size_t object_count() const { return objects_.size(); }
     std::uint64_t revision() const { return revision_; }
     std::uint64_t add_rectangle(Rect roi, std::string name = "Annotation");
+    std::uint64_t add_roi(Roi roi, std::string name="Annotation");
     bool remove_annotation(std::uint64_t id);
     void update_rectangle(std::uint64_t id, Rect roi);
+    void update_roi(std::uint64_t id, Roi roi);
     void rename_annotation(std::uint64_t id, std::string name);
     void classify_annotation(std::uint64_t id, std::string class_name);
     void reparent_annotation(std::uint64_t id, std::uint64_t parent_id);
     std::vector<std::uint64_t> execute(const std::vector<ObjectEdit>& edits, std::string label="Edit objects");
     std::vector<std::uint64_t> children(std::uint64_t parent_id) const;
+    std::vector<std::uint64_t> query_region(Rect bounds) const;
+    std::vector<std::uint64_t> pick(Point point,double tolerance=0) const;
+    SpatialStats spatial_stats() const;
     bool undo();
     bool redo();
     bool can_undo() const { return !undo_.empty(); }
@@ -102,6 +99,7 @@ private:
     void commit(Staging&, Calibration);
     void save_edit(Staging&, Calibration, std::string label);
     void trim_history();
+    void refresh_spatial() const;
     std::shared_ptr<ImageServer> server_;
     std::map<std::uint64_t,Annotation> objects_;
     std::map<std::uint64_t,std::set<std::uint64_t>> children_;
@@ -110,6 +108,10 @@ private:
     std::uint64_t revision_ = 0;
     std::size_t history_steps_ = 128, history_budget_ = 64*1024*1024, history_bytes_ = 0;
     std::optional<double> pixel_width_um_, pixel_height_um_;
+    mutable std::shared_ptr<const SpatialIndex> spatial_;
+    mutable std::map<std::uint64_t,std::optional<Rect>> spatial_dirty_;
+    mutable bool spatial_rebuild_=true;
+    mutable std::uint64_t spatial_builds_=0;
 };
 struct Viewport {
     Point origin;
@@ -133,8 +135,9 @@ struct GuiReport {
     Point final_center;
     int framebuffer_width = 0, framebuffer_height = 0;
     std::string gl_renderer, gl_version;
+    std::size_t visible_objects = 0;
 };
-enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey };
+enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey };
 enum class GuiInputTarget { Canvas, Overview };
 struct GuiInput {
     int frame = 0;
@@ -146,6 +149,7 @@ struct GuiOptions {
     int width = 1440, height = 900;
     DisplaySettings display;
     std::vector<GuiInput> inputs;
+    std::optional<Viewport> start_view;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 }

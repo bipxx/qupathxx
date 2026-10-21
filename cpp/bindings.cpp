@@ -14,12 +14,32 @@ NB_MODULE(_native, m) {
     nb::class_<Rect>(m, "Rect").def(nb::init<>()).def(nb::init<double,double,double,double>())
         .def_rw("x", &Rect::x).def_rw("y", &Rect::y).def_rw("width", &Rect::width).def_rw("height", &Rect::height)
         .def_prop_ro("area", &Rect::area).def("contains", &Rect::contains);
+    nb::enum_<RoiKind>(m,"RoiKind").value("RECTANGLE",RoiKind::Rectangle).value("ELLIPSE",RoiKind::Ellipse)
+        .value("POLYGON",RoiKind::Polygon).value("MULTIPOLYGON",RoiKind::MultiPolygon).value("POLYLINE",RoiKind::Polyline).value("POINTS",RoiKind::Points);
+    nb::class_<PolygonPart>(m,"PolygonPart").def(nb::init<Ring,std::vector<Ring>>(),"shell"_a,"holes"_a=std::vector<Ring>{})
+        .def_ro("shell",&PolygonPart::shell).def_ro("holes",&PolygonPart::holes);
+    nb::class_<Roi>(m,"Roi").def_static("rectangle",&Roi::rectangle).def_static("ellipse",&Roi::ellipse)
+        .def_static("polygon",&Roi::polygon,"shell"_a,"holes"_a=std::vector<Ring>{})
+        .def_static("multipolygon",&Roi::multipolygon).def_static("polyline",&Roi::polyline).def_static("points",&Roi::points)
+        .def_prop_ro("kind",&Roi::kind).def_prop_ro("bounds",&Roi::bounds)
+        .def_prop_ro("area",&Roi::area).def_prop_ro("perimeter",&Roi::perimeter).def_prop_ro("is_area",&Roi::is_area)
+        .def_prop_ro("wkt",&Roi::wkt).def_prop_ro("paths",&Roi::paths).def_prop_ro("polygon_parts",&Roi::polygon_parts)
+        .def("contains",&Roi::contains,nb::call_guard<nb::gil_scoped_release>())
+        .def("covers",&Roi::covers,nb::call_guard<nb::gil_scoped_release>())
+        .def("distance",&Roi::distance,nb::call_guard<nb::gil_scoped_release>())
+        .def("translated",&Roi::translated).def("equals",&Roi::equals);
+    m.attr("has_geos")=has_geos(); m.attr("geos_version")=geos_version();
+    nb::class_<SpatialStats>(m,"SpatialStats").def_ro("builds",&SpatialStats::builds)
+        .def_ro("base_entries",&SpatialStats::base_entries).def_ro("dirty_entries",&SpatialStats::dirty_entries);
     nb::class_<Annotation>(m, "Annotation").def_ro("id", &Annotation::id).def_ro("name", &Annotation::name)
-        .def_prop_ro("roi", [](const Annotation& a) { return a.roi; })
+        .def_prop_ro("roi", [](const Annotation& a) { return a.geometry.bounds(); })
+        .def_prop_ro("geometry",[](const Annotation& a){return a.geometry;})
         .def_ro("parent_id",&Annotation::parent_id).def_ro("class_name",&Annotation::class_name).def_ro("revision",&Annotation::revision);
     nb::class_<ObjectEdit>(m,"ObjectEdit")
         .def_static("create",&ObjectEdit::create,"roi"_a,"name"_a="Annotation","parent_id"_a=0,"class_name"_a="")
         .def_static("replace",&ObjectEdit::replace,"id"_a,"roi"_a,"name"_a,"parent_id"_a=0,"class_name"_a="")
+        .def_static("create_geometry",&ObjectEdit::create_geometry,"geometry"_a,"name"_a="Annotation","parent_id"_a=0,"class_name"_a="")
+        .def_static("replace_geometry",&ObjectEdit::replace_geometry,"id"_a,"geometry"_a,"name"_a,"parent_id"_a=0,"class_name"_a="")
         .def_static("remove",&ObjectEdit::remove);
     nb::class_<Image>(m, "Image").def(nb::init<int,int,std::vector<std::uint8_t>>(), "width"_a, "height"_a, "rgb"_a)
         .def_static("demo", &Image::demo).def_static("read_ppm", &Image::read_ppm)
@@ -59,6 +79,7 @@ NB_MODULE(_native, m) {
         .def_prop_ro("metadata", [](const Document& d) { return d.metadata(); })
         .def_prop_ro("annotations", [](const Document& d) { return d.annotations(); })
         .def("add_rectangle", &Document::add_rectangle, "roi"_a, "name"_a = "Annotation")
+        .def("add_roi",&Document::add_roi,"roi"_a,"name"_a="Annotation").def("update_roi",&Document::update_roi)
         .def("remove_annotation", &Document::remove_annotation)
         .def("annotation",&Document::annotation)
         .def_prop_ro("object_count",&Document::object_count).def_prop_ro("revision",&Document::revision)
@@ -66,6 +87,9 @@ NB_MODULE(_native, m) {
         .def("classify_annotation",&Document::classify_annotation).def("reparent_annotation",&Document::reparent_annotation)
         .def("execute",&Document::execute,"edits"_a,"label"_a="Edit objects")
         .def("children",&Document::children)
+        .def("query_region",&Document::query_region)
+        .def("pick",&Document::pick,"point"_a,"tolerance"_a=0)
+        .def_prop_ro("spatial_stats",&Document::spatial_stats)
         .def("undo",&Document::undo).def("redo",&Document::redo)
         .def_prop_ro("can_undo",&Document::can_undo).def_prop_ro("can_redo",&Document::can_redo)
         .def_prop_ro("undo_label",&Document::undo_label).def_prop_ro("redo_label",&Document::redo_label)
@@ -90,19 +114,21 @@ NB_MODULE(_native, m) {
         .value("LEFT_DOWN",GuiInputKind::LeftDown).value("LEFT_UP",GuiInputKind::LeftUp)
         .value("RIGHT_DOWN",GuiInputKind::RightDown).value("RIGHT_UP",GuiInputKind::RightUp)
         .value("WHEEL",GuiInputKind::Wheel).value("RECTANGLE_KEY",GuiInputKind::RectangleKey)
-        .value("UNDO_KEY",GuiInputKind::UndoKey).value("REDO_KEY",GuiInputKind::RedoKey).value("DELETE_KEY",GuiInputKind::DeleteKey);
+        .value("UNDO_KEY",GuiInputKind::UndoKey).value("REDO_KEY",GuiInputKind::RedoKey).value("DELETE_KEY",GuiInputKind::DeleteKey)
+        .value("ELLIPSE_KEY",GuiInputKind::EllipseKey).value("POLYGON_KEY",GuiInputKind::PolygonKey)
+        .value("POLYLINE_KEY",GuiInputKind::PolylineKey).value("POINTS_KEY",GuiInputKind::PointsKey).value("FINISH_KEY",GuiInputKind::FinishKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
-        .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs);
+        .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view);
     nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
         .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)
         .def_ro("generations",&GuiReport::generations).def_ro("cpu_frame_p95_ms",&GuiReport::cpu_frame_p95_ms)
         .def_ro("pending_tiles",&GuiReport::pending_tiles).def_ro("final_zoom",&GuiReport::final_zoom)
         .def_ro("final_origin",&GuiReport::final_origin).def_ro("framebuffer_width",&GuiReport::framebuffer_width)
         .def_ro("framebuffer_height",&GuiReport::framebuffer_height).def_ro("final_center",&GuiReport::final_center)
-        .def_ro("gl_renderer",&GuiReport::gl_renderer).def_ro("gl_version",&GuiReport::gl_version);
+        .def_ro("gl_renderer",&GuiReport::gl_renderer).def_ro("gl_version",&GuiReport::gl_version).def_ro("visible_objects",&GuiReport::visible_objects);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.

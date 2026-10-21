@@ -1,33 +1,29 @@
 # Current implementation task
 
 Goal: implement the project plan end to end and verify optimized performance.
-The full M0 through M7 scope remains active. The current packet implements the
-rectangular command model and bounded undo/redo. M2 and M3 remain open.
+The full M0 through M7 scope remains active. M2 and M3 remain open.
 
-Current sources include tiled rendering, overview, RGB display controls, indexed
-rectangular objects, atomic command batches, parent/classes, subtree deletion,
-monotonic revisions and bounded undo/redo shared by Python/ImGui. Evidence:
-49 Python tests including command/hierarchy and GUI keyboard history replay;
-five native suites with and without OpenSlide; installed GUI wheel checks.
-Performance scope is recorded in [tiled-viewer.md](tiled-viewer.md).
+Current sources include tiled rendering, overview, RGB display controls, atomic
+commands, bounded undo/redo, general immutable ROIs and spatial queries. GEOS
+provides polygon topology; ellipse metrics/masks use analytic geometry. Python
+and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-The generated 100352 x 2048 nine-level fixture passes navigation checks on an
-actual 2560 x 1440 framebuffer. Committed navigation benchmarks show 31
-generations, roughly 17 ms p95 CPU frame work and under 10 MiB GPU tile payload.
-These highly compressible synthetic pixels do not substitute for vendor stress.
+Evidence: 72 Python tests including all shape tools and GUI history replay;
+seven native suites with optional geometry/readers enabled and disabled;
+installed GUI wheel checks with packaged runtime libraries and licenses.
+The 100000-object document benchmark records approximately 160 ms batch creation,
+94 ms undo, 112 ms redo and 719 bytes of history payload for a rename. The spatial
+benchmark covers 1000 region queries and a cached narrow GUI view of 828 visible
+objects. This does not satisfy the all-100000-overlays or complex-shape gate.
+The existing large-pyramid navigation evidence remains scoped to synthetic pixels.
 
-The 100000-object document benchmark records approximately 203 ms batch creation,
-117–120 ms undo/redo, and 447 bytes of journal payload for a rename. This does
-not satisfy the 100000-overlay rendering gate. See document-commands.md.
+Next implement detection/cell object kinds, class registries/colors and
+multi-selection, then vertex editing and Boolean clipping. Preserve all unfinished
+M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
+cache pressure and vendor benchmarks. Persistence, interchange, analysis,
+classifiers, scripting and packaging work under M4�CM7 remains active.
 
-Next probe and integrate robust geometry for polygon holes, multipart regions,
-ellipses, lines and points. Extend the command model to detection/cell objects,
-class registries, multi-selection and spatial queries, retaining atomic undo.
-Preserve remaining M2 work: OS/DPI delivery, resize/minimize, docking,
-fluorescence/ICC, prolonged cache pressure and vendor benchmarks. M4–M7 remain.
-Keep reader, scheduler, planner, GUI and installed package checks passing.
-
-Outstanding M0 decisions: geometry dependency probe, persistence schema probe,
-project license choice (asked asynchronously; no license selected yet), broader
-malformed-image fixtures and numerical comparison tolerances. Benchmark host and
-renderer are recorded for the current workload. Record decisions with evidence.
+Outstanding M0 decisions: persistence schema probe, project license choice
+(asked asynchronously; no license selected yet), broader malformed-image
+fixtures and numerical QuPath comparison tolerances. GEOS dependency selection
+and packaging are now recorded with source identity and independent tests.

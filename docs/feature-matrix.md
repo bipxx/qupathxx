@@ -14,12 +14,12 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 | Background tile reads and cache | qupath-core, qupath-gui-fx | jobs/io | Partial | Native scheduling, generation rejection, cache budgets and viewer integration pass; broader workloads remain |
 | Image display and channels | qupath-gui-fx | render/gui | Partial | RGB/gray/channel LUT, window and gamma framebuffer checks pass; fluorescence/ICC remain |
 | Rectangle annotation | qupath-core, qupath-gui-fx | geometry/gui | Partial | Atomic inspector edits, sampling and drawing/history replay pass; upstream fixtures missing |
-| Polygon and ellipse tools | qupath-core, qupath-gui-fx | geometry/gui | Missing | Holes, overlaps, validity, edits and reference area/perimeter |
-| Object hierarchy and classes | qupath-core | core | Partial | Rectangular parent containment, classes, cycles and depth pass; detection/cell kinds, class registry and multi-selection remain |
-| Undo and redo | qupath-gui-fx | core/gui | Partial | Compound rectangle/class/hierarchy/calibration restore and GUI keyboard replay pass; general ROI workflows remain |
+| Polygon and ellipse tools | qupath-core, qupath-gui-fx | geometry/gui | Partial | Holes, multipart validity, analytic ellipses and drawing/history pass; vertex/clipping and QuPath comparisons remain |
+| Object hierarchy and classes | qupath-core | core | Partial | General ROI parent containment, classes, cycles and depth pass; detection/cell kinds, class registry and multi-selection remain |
+| Undo and redo | qupath-gui-fx | core/gui | Partial | Compound ROI/class/hierarchy/calibration restore and drawing/history replay pass; multi-selection remains |
 | Projects and relinking | qupath-core, qupath-gui-fx | project | Missing | Transactional round trip and moved/missing images |
 | Annotation interchange | qupath-core, qupath-gui-fx | project | Missing | GeoJSON/CSV fixtures and loss reporting |
-| Region measurements | qupath-core, qupath-core-processing | analysis | Partial | Rectangle RGB mean and area; upstream and general shapes missing |
+| Region measurements | qupath-core, qupath-core-processing | analysis | Partial | ROI-masked RGB mean and area pass; upstream and stain features remain |
 | Stain separation | qupath-core, qupath-core-processing | analysis | Missing | Optical-density and stain-vector fixtures |
 | Tissue detection | qupath-core-processing, qupath-extension-processing | analysis | Missing | Masks and tiled-boundary comparisons |
 | Cell detection and features | qupath-core-processing, qupath-extension-processing | analysis | Missing | Nucleus/cell split/merge and feature tolerances |
@@ -37,7 +37,7 @@ The image-server contract is recorded in [image-server-contract.md](image-server
 Reader fixture identities and retrieval are committed; large binary fixtures
 and SDK downloads stay under the ignored build directory.
 
-M0 remains open: select and probe the geometry dependency and SQLite schema,
+M0 remains open: probe the SQLite schema (GEOS geometry integration is recorded in geometry-spatial.md),
 choose the project license, obtain broader slide/damage fixtures, and freeze
 benchmark hardware plus workflow tolerances. A bounded native read scheduler,
 cancellation and decoded caching are implemented; see the

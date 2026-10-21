@@ -7,12 +7,12 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
-- Standalone C++ document owns an image-server reference, rectangle annotations and calibration.
+- Standalone C++ document owns an image-server reference, immutable ROI annotations and calibration.
 - Dense RGB and optional OpenSlide servers with 64-bit metadata and bounded RGBA region reads.
 - Stable annotation IDs, deletion, calibrated area and mean RGB intensity.
-- Atomic rectangular object edits, parent/class assignments, subtree deletion,
+- Atomic general-ROI object edits, parent/class assignments, subtree deletion,
   bounded undo/redo and document/object revisions shared by Python and the GUI.
-- Image viewport with cursor-anchored zoom, pan, fit and rectangle drawing.
+- Image viewport with cursor-anchored zoom, pan, fit, rectangle/ellipse/polygon/line/point drawing.
 - ImGui image canvas, annotation inspector and selected-object measurements.
 - Click/drag overview navigation, RGB/grayscale/channel display, contrast window and gamma.
 - Python bindings use the same document as the GUI; annotation lists are snapshots.
@@ -76,13 +76,13 @@ build/desktop/Release/qupathxx_app.exe
 Python checks: `.venv/Scripts/python -m pytest`.
 The native executable accepts `--smoke` to render three frames and exit.
 
-Validated on Windows with MSVC 19.44 and Python 3.12: 49 Python tests including
-transaction, hierarchy, pyramid, Aperio and opt-in framebuffer checks, five native suites with
-and without OpenSlide, and GUI startup/render/shutdown with known and unknown
-calibration. ImGui input replay verifies zoom, pan, rectangle drawing and overview
+Validated on Windows with MSVC 19.44 and Python 3.12: 72 Python tests including
+transaction, hierarchy, pyramid, Aperio and opt-in framebuffer checks, seven native suites with
+and without OpenSlide/GEOS, and GUI startup/render/shutdown with known and unknown
+calibration. ImGui input replay verifies zoom, pan, shape drawing/history and overview
 navigation; actual OS pointer delivery and monitor DPI transitions remain open.
 The Python tests also pass from a wheel installed into a fresh virtual
-environment, using its packaged OpenSlide DLL and native CLI.
+environment, using its packaged OpenSlide/GEOS DLLs and native CLI.
 
 ## OpenSlide region reading
 
@@ -175,3 +175,6 @@ References: [QuPath features](https://qupath.readthedocs.io/en/stable/docs/intro
 [Dear ImGui](https://github.com/ocornut/imgui), [GLFW](https://www.glfw.org/).
 Downloaded dependencies retain their upstream licenses. A project license has
 not yet been selected.
+
+The [geometry and spatial-query contract](docs/geometry-spatial.md) covers optional
+GEOS setup, immutable shapes, hole masks, index behavior and benchmark scope.

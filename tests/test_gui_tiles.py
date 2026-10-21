@@ -167,3 +167,33 @@ def test_keyboard_delete_undo_redo_restores_same_object():
     assert doc.redo() and doc.object_count == 0
     assert doc.undo() and doc.annotation(1).id == 1
     assert report.pending_tiles == 0
+
+
+@pytest.mark.parametrize("key,kind", [
+    (q.GuiInputKind.ELLIPSE_KEY, q.RoiKind.ELLIPSE),
+    (q.GuiInputKind.POLYGON_KEY, q.RoiKind.POLYGON),
+    (q.GuiInputKind.POLYLINE_KEY, q.RoiKind.POLYLINE),
+    (q.GuiInputKind.POINTS_KEY, q.RoiKind.POINTS),
+])
+def test_general_shape_drawing_and_history(key, kind):
+    if kind == q.RoiKind.POLYGON and not q.has_geos:
+        pytest.skip("requires GEOS")
+    doc = q.Document(q.Image.demo())
+    options = q.GuiOptions()
+    if kind == q.RoiKind.ELLIPSE:
+        inputs = [replay(4, key), replay(6, q.GuiInputKind.LEFT_DOWN, .4, .4),
+                  replay(7, q.GuiInputKind.MOVE, .6, .6), replay(8, q.GuiInputKind.LEFT_UP, .6, .6)]
+    else:
+        inputs = [
+            replay(4, key), replay(6, q.GuiInputKind.LEFT_DOWN, .4, .4), replay(7, q.GuiInputKind.LEFT_UP, .4, .4),
+            replay(10, q.GuiInputKind.LEFT_DOWN, .6, .4), replay(11, q.GuiInputKind.LEFT_UP, .6, .4),
+            replay(14, q.GuiInputKind.LEFT_DOWN, .5, .6), replay(15, q.GuiInputKind.LEFT_UP, .5, .6),
+            replay(19, q.GuiInputKind.FINISH_KEY),
+        ]
+    options.inputs = inputs + [replay(25, q.GuiInputKind.UNDO_KEY), replay(28, q.GuiInputKind.REDO_KEY)]
+    report = q.show(doc, frame_limit=60, options=options)
+    assert doc.object_count == 1
+    assert doc.annotation(1).geometry.kind == kind
+    assert doc.undo() and not doc.object_count
+    assert doc.redo() and doc.annotation(1).geometry.kind == kind
+    assert report.visible_objects == 1

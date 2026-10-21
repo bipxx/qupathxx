@@ -78,15 +78,19 @@ const Annotation& Document::find(std::uint64_t id) const {
     throw std::out_of_range("annotation does not exist");
 }
 double Document::area_um2(std::uint64_t id) const {
-    const auto area = find(id).roi.area();
+    const auto area = find(id).geometry.area();
     if (!pixel_width_um_ || !pixel_height_um_) throw std::runtime_error("physical calibration is unknown");
     return area * *pixel_width_um_ * *pixel_height_um_;
 }
 double Document::mean_intensity(std::uint64_t id) const {
-    return mean_rgb(*server_,find(id).roi);
+    return mean_rgb(*server_,find(id).geometry);
 }
 double mean_rgb(const ImageServer& server, const Rect& r, const std::atomic<bool>* cancelled) {
-    r.validate();
+    return mean_rgb(server,Roi::rectangle(r),cancelled);
+}
+double mean_rgb(const ImageServer& server, const Roi& geometry, const std::atomic<bool>* cancelled) {
+    if(!geometry.is_area()) throw std::invalid_argument("mean intensity requires an area ROI");
+    const auto r=geometry.bounds();
     if (r.x<0 || r.y<0 || r.x+r.width>=static_cast<double>(std::numeric_limits<std::int64_t>::max()) ||
         r.y+r.height>=static_cast<double>(std::numeric_limits<std::int64_t>::max()) ||
         static_cast<long double>(r.x+r.width)>server.metadata().width || static_cast<long double>(r.y+r.height)>server.metadata().height)
@@ -106,6 +110,10 @@ double mean_rgb(const ImageServer& server, const Rect& r, const std::atomic<bool
             if (cancelled && cancelled->load()) throw std::runtime_error("measurement cancelled");
             auto region = server.read_region({x,y,0,w,h}); const auto& data = region.bytes();
             for (std::size_t i = 0; i < data.size(); i += 4) if (data[i+3]) {
+                if(geometry.kind()!=RoiKind::Rectangle) {
+                    const auto pixel=i/4;
+                    if(!geometry.contains({static_cast<double>(x+pixel%w)+.5,static_cast<double>(y+pixel/w)+.5})) continue;
+                }
                 sum += data[i]; sum += data[i+1]; sum += data[i+2]; samples += 3;
             }
             x += w;

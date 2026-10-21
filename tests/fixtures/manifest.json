@@ -30,6 +30,15 @@
       "purpose": "Exact independently specified multilevel pixels, transparent padding and unknown calibration"
     }
   ],
+  "geometry_runtime": {
+    "version": "GEOS 3.15.0",
+    "minimum_api": "3.12",
+    "url": "https://download.osgeo.org/geos/geos-3.15.0.tar.bz2",
+    "sha256": "d5e5192a686d065eaed082de14dd26244c5c8e02bff16b2c6cce3265f648e00e",
+    "build_recipe": "tools/build_geos_sdk.py",
+    "license": "GEOS source COPYING, installed with the Windows runtime",
+    "linkage": "shared C API, per-geometry reentrant context with serialized prepared queries"
+  },
   "validation_runtime": {
     "sdk": "openslide-bin-4.0.1.2-windows-x64",
     "openslide": "4.0.1",

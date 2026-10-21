@@ -375,3 +375,10 @@ parent/class edits, subtree deletion, revisions and bounded undo/redo to the GUI
 and Python. The [command contract](document-commands.md) records validation and
 large-document timing. M3 remains open for general geometry, object kinds, class
 registries, multi-selection and spatial indexing.
+
+The sixth packet adds immutable general ROIs, GEOS-validated holes and multipart
+regions, analytic ellipse metrics and a native spatial index shared by picking
+and overlay culling. Shape tools and undo/redo replay pass. See
+[geometry-spatial.md](geometry-spatial.md) for dependency, numerical and benchmark
+boundaries. Detection/cell kinds, class registries, multi-selection, vertex
+editing and Boolean clipping remain M3 work; all unfinished M0¨CM7 gates persist.

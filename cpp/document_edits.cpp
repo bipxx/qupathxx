@@ -6,29 +6,29 @@
 
 namespace qpx {
 namespace {
-bool same_rect(const Rect& a,const Rect& b) {
-    return a.x==b.x && a.y==b.y && a.width==b.width && a.height==b.height;
-}
 bool same_object(const std::optional<Annotation>& a,const std::optional<Annotation>& b) {
     if (a.has_value()!=b.has_value()) return false;
     if (!a) return true;
     return a->id==b->id && a->name==b->name && a->class_name==b->class_name && a->parent_id==b->parent_id &&
-        a->roi.x==b->roi.x && a->roi.y==b->roi.y && a->roi.width==b->roi.width && a->roi.height==b->roi.height;
-}
-bool encloses(const Rect& a,const Rect& b) {
-    return b.x>=a.x && b.y>=a.y && b.x+b.width<=a.x+a.width && b.y+b.height<=a.y+a.height;
+        a->geometry.equals(b->geometry);
 }
 void text(const std::string& value) {
     if (value.size()>4096 || value.find('\0')!=std::string::npos) throw std::invalid_argument("object text must be at most 4096 bytes and contain no NUL");
 }
 }
 ObjectEdit ObjectEdit::create(Rect roi,std::string name,std::uint64_t parent,std::string classification) {
-    return {ObjectEditKind::Create,{0,std::move(name),roi,parent,std::move(classification),0}};
+    return create_geometry(Roi::rectangle(roi),std::move(name),parent,std::move(classification));
 }
 ObjectEdit ObjectEdit::replace(std::uint64_t id,Rect roi,std::string name,std::uint64_t parent,std::string classification) {
-    return {ObjectEditKind::Replace,{id,std::move(name),roi,parent,std::move(classification),0}};
+    return replace_geometry(id,Roi::rectangle(roi),std::move(name),parent,std::move(classification));
 }
 ObjectEdit ObjectEdit::remove(std::uint64_t id) { return {ObjectEditKind::Remove,{id,"",{},0,"",0}}; }
+ObjectEdit ObjectEdit::create_geometry(Roi geometry,std::string name,std::uint64_t parent,std::string classification) {
+    return {ObjectEditKind::Create,{0,std::move(name),std::move(geometry),parent,std::move(classification),0}};
+}
+ObjectEdit ObjectEdit::replace_geometry(std::uint64_t id,Roi geometry,std::string name,std::uint64_t parent,std::string classification) {
+    return {ObjectEditKind::Replace,{id,std::move(name),std::move(geometry),parent,std::move(classification),0}};
+}
 
 struct Document::Staging {
     Document& document;
@@ -76,16 +76,16 @@ struct Document::Staging {
         }
     }
     void validate_object(const Annotation& a) const {
-        a.roi.validate(); text(a.name); text(a.class_name);
+        const auto roi=a.geometry.bounds(); text(a.name); text(a.class_name);
         const auto limit=static_cast<double>(std::numeric_limits<std::int64_t>::max());
-        if (!a.id || a.roi.x<0 || a.roi.y<0 || a.roi.x+a.roi.width>=limit || a.roi.y+a.roi.height>=limit ||
-            static_cast<long double>(a.roi.x+a.roi.width)>document.metadata().width ||
-            static_cast<long double>(a.roi.y+a.roi.height)>document.metadata().height)
+        if (!a.id || roi.x<0 || roi.y<0 || roi.x+roi.width>=limit || roi.y+roi.height>=limit ||
+            static_cast<long double>(roi.x+roi.width)>document.metadata().width ||
+            static_cast<long double>(roi.y+roi.height)>document.metadata().height)
             throw std::invalid_argument("ROI must lie inside the image");
         if (a.parent_id) {
             auto parent=get(a.parent_id);
             if (!parent) throw std::invalid_argument("parent annotation does not exist");
-            if (!encloses(parent->roi,a.roi)) throw std::invalid_argument("parent ROI must contain its child");
+            if (!parent->geometry.covers(a.geometry)) throw std::invalid_argument("parent ROI must contain its child");
         }
     }
     void validate() const {
@@ -104,7 +104,7 @@ struct Document::Staging {
             const auto& previous=before.at(id);
             // Geometry edits validate unchanged immediate children; names/classes
             // do not require an O(number of children) containment traversal.
-            if (!previous || !same_rect(previous->roi,value->roi)) for (auto child:children(id)) {
+            if (!previous || !previous->geometry.equals(value->geometry)) for (auto child:children(id)) {
                 auto child_value=get(child);
                 if (child_value) validate_object(*child_value);
             }
@@ -137,6 +137,19 @@ std::vector<std::uint64_t> Document::children(std::uint64_t parent) const {
 void Document::commit(Staging& staged,Calibration calibration) {
     staged.validate();
     if (revision_==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("document revision exhausted");
+    std::optional<std::map<std::uint64_t,std::optional<Rect>>> spatial_delta;
+    bool spatial_reset=false;
+    if(spatial_ && !spatial_rebuild_) for(const auto& [id,value]:staged.after) {
+        auto old=objects_.find(id);
+        const auto previous=old==objects_.end()?std::optional<Rect>{}:std::optional<Rect>{old->second.geometry.bounds()};
+        const auto current=value?std::optional<Rect>{value->geometry.bounds()}:std::optional<Rect>{};
+        bool unchanged=previous.has_value()==current.has_value();
+        if(previous && current) unchanged=previous->x==current->x && previous->y==current->y && previous->width==current->width && previous->height==current->height;
+        if(unchanged) continue;
+        if(!spatial_delta) spatial_delta=spatial_dirty_;
+        spatial_delta->insert_or_assign(id,current);
+        if(spatial_delta->size()>256) { spatial_delta.reset(); spatial_reset=true; break; }
+    }
     // Prepare every allocating node before touching canonical state.
     std::map<std::uint64_t,Annotation> nodes;
     for (auto& [id,value]:staged.after) if (value) {
@@ -149,6 +162,8 @@ void Document::commit(Staging& staged,Calibration calibration) {
     objects_.merge(nodes);
     for (const auto& [parent,ids]:staged.child_sets) children_.erase(parent);
     children_.merge(child_nodes);
+    if(spatial_reset) { spatial_.reset(); spatial_dirty_.clear(); spatial_rebuild_=true; }
+    else if(spatial_delta) spatial_dirty_.swap(*spatial_delta);
     pixel_width_um_=calibration.x; pixel_height_um_=calibration.y; ++revision_;
 }
 void Document::trim_history() {
@@ -168,7 +183,7 @@ void Document::save_edit(Staging& staged,Calibration calibration,std::string lab
     if (staged.after.empty() && calibration.x==pixel_width_um_ && calibration.y==pixel_height_um_) return;
     std::size_t bytes=sizeof(EditRecord)+label.size();
     for (auto* patch:{&staged.before,&staged.after}) for (const auto& [id,a]:*patch)
-        bytes+=sizeof(std::uint64_t)+sizeof(std::optional<Annotation>)+(a?a->name.size()+a->class_name.size():0);
+        bytes+=sizeof(std::uint64_t)+sizeof(std::optional<Annotation>)+(a?a->name.size()+a->class_name.size()+a->geometry.payload_bytes():0);
     const bool recording=history_steps_ && history_budget_;
     if (recording && bytes>history_budget_) throw std::length_error("edit exceeds history payload budget; raise limits or explicitly disable recording");
     EditRecord record;
@@ -202,6 +217,7 @@ std::vector<std::uint64_t> Document::execute(const std::vector<ObjectEdit>& edit
 std::uint64_t Document::add_rectangle(Rect roi,std::string name) {
     return execute({ObjectEdit::create(roi,std::move(name))},"Add rectangle").at(0);
 }
+std::uint64_t Document::add_roi(Roi roi,std::string name) { return execute({ObjectEdit::create_geometry(std::move(roi),std::move(name))},"Add ROI").at(0); }
 bool Document::remove_annotation(std::uint64_t id) {
     if (!objects_.count(id)) return false;
     execute({ObjectEdit::remove(id)},"Delete subtree"); return true;
@@ -209,14 +225,17 @@ bool Document::remove_annotation(std::uint64_t id) {
 void Document::update_rectangle(std::uint64_t id,Rect roi) {
     auto a=find(id); execute({ObjectEdit::replace(id,roi,a.name,a.parent_id,a.class_name)},"Edit rectangle");
 }
+void Document::update_roi(std::uint64_t id,Roi roi) {
+    auto a=find(id); execute({ObjectEdit::replace_geometry(id,std::move(roi),a.name,a.parent_id,a.class_name)},"Edit ROI");
+}
 void Document::rename_annotation(std::uint64_t id,std::string name) {
-    auto a=find(id); execute({ObjectEdit::replace(id,a.roi,std::move(name),a.parent_id,a.class_name)},"Rename annotation");
+    auto a=find(id); execute({ObjectEdit::replace_geometry(id,a.geometry,std::move(name),a.parent_id,a.class_name)},"Rename annotation");
 }
 void Document::classify_annotation(std::uint64_t id,std::string classification) {
-    auto a=find(id); execute({ObjectEdit::replace(id,a.roi,a.name,a.parent_id,std::move(classification))},"Classify annotation");
+    auto a=find(id); execute({ObjectEdit::replace_geometry(id,a.geometry,a.name,a.parent_id,std::move(classification))},"Classify annotation");
 }
 void Document::reparent_annotation(std::uint64_t id,std::uint64_t parent) {
-    auto a=find(id); execute({ObjectEdit::replace(id,a.roi,a.name,parent,a.class_name)},"Reparent annotation");
+    auto a=find(id); execute({ObjectEdit::replace_geometry(id,a.geometry,a.name,parent,a.class_name)},"Reparent annotation");
 }
 void Document::set_calibration(double x,double y) {
     if (!std::isfinite(x) || !std::isfinite(y) || x<=0 || y<=0) throw std::invalid_argument("calibration must be finite and positive");
