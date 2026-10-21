@@ -1,0 +1,24 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "geos_version": "3.15.0-CAPI-1.21.0",
+  "input_vertices_each": 4096,
+  "union_result_vertices": 4796,
+  "union_median_ms": 10.973250027745962,
+  "union_p95_ms": 11.859800084494054,
+  "edit_median_ms": 5.836199969053268,
+  "edit_p95_ms": 8.17539996933192,
+  "edit_history_payload_bytes": 441315,
+  "scope": "Two overlapping 4096-vertex eight-lobed radial polygons. Boolean union includes input parsing and validated output construction; vertex edits include native validation/journaling and nanobind. No vendor or QuPath parity claim.",
+  "viewer": {
+    "framebuffer": [
+      2560,
+      1440
+    ],
+    "cpu_frame_p95_ms": 17.1523,
+    "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+    "gl_version": "3.2.0 NVIDIA 610.88",
+    "vertices_with_handles": 4096,
+    "peak_gpu_payload_bytes": 3145728
+  }
+}

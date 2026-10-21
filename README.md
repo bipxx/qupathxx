@@ -76,8 +76,8 @@ build/desktop/Release/qupathxx_app.exe
 Python checks: `.venv/Scripts/python -m pytest`.
 The native executable accepts `--smoke` to render three frames and exit.
 
-Validated on Windows with MSVC 19.44 and Python 3.12: 104 Python tests including
-transaction, hierarchy, pyramid, Aperio and opt-in framebuffer checks, nine native suites with
+Validated on Windows with MSVC 19.44 and Python 3.12: 119 Python tests including
+transaction, hierarchy, pyramid, Aperio and opt-in framebuffer checks, ten native suites with
 and without OpenSlide/GEOS, and GUI startup/render/shutdown with known and unknown
 calibration. ImGui input replay verifies zoom, pan, shape drawing/history and overview
 navigation; actual OS pointer delivery and monitor DPI transitions remain open.
@@ -187,3 +187,6 @@ assignment counts and batch classification through Python and the inspector.
 
 [Multi-selection](docs/selection.md) supports canvas/list gestures, a primary
 inspector object, batch classification and atomic subtree deletion.
+
+[Polygon editing](docs/geometry-editing.md) provides vertex handles, hole drawing
+and undoable Boolean area operations through the native model and Python.

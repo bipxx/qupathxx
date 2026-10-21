@@ -344,6 +344,106 @@ Roi Roi::translated(double dx,double dy) const {
     }
     return multipolygon(std::move(parts));
 }
+Roi Roi::as_polygon() const {
+    if(!is_area()) throw std::invalid_argument("polygon conversion requires an area ROI");
+    if(kind()==RoiKind::Polygon || kind()==RoiKind::MultiPolygon) return *this;
+    return polygon(paths().front());
+}
+Roi Roi::rebuild_paths(std::vector<Ring> rings) const {
+    if(kind()==RoiKind::Points) return points(std::move(rings.at(0)));
+    if(kind()==RoiKind::Polyline) return polyline(std::move(rings.at(0)));
+    if(kind()!=RoiKind::Polygon && kind()!=RoiKind::MultiPolygon)
+        throw std::invalid_argument("convert area to polygon before vertex editing");
+    std::vector<PolygonPart> parts; std::size_t offset=0;
+    for(auto count:data().polygon_sizes) {
+        auto shell=std::move(rings.at(offset++)); std::vector<Ring> holes;
+        for(std::size_t i=1;i<count;++i) holes.push_back(std::move(rings.at(offset++)));
+        parts.emplace_back(std::move(shell),std::move(holes));
+    }
+    return multipolygon(std::move(parts));
+}
+Roi Roi::with_vertex(std::size_t path,std::size_t vertex,Point point) const {
+    finite(point); auto rings=paths(); auto& ring=rings.at(path);
+    ring.at(vertex)=point; return rebuild_paths(std::move(rings));
+}
+Roi Roi::inserted_vertex(std::size_t path,std::size_t vertex,Point point) const {
+    finite(point); auto rings=paths(); auto& ring=rings.at(path);
+    if(vertex>ring.size()) throw std::out_of_range("vertex index out of range");
+    ring.insert(ring.begin()+vertex,point); return rebuild_paths(std::move(rings));
+}
+Roi Roi::without_vertex(std::size_t path,std::size_t vertex) const {
+    auto rings=paths(); auto& ring=rings.at(path); (void)ring.at(vertex);
+    ring.erase(ring.begin()+vertex); return rebuild_paths(std::move(rings));
+}
+Roi Roi::with_hole(std::size_t part,Ring hole) const {
+    auto parts=as_polygon().polygon_parts(); parts.at(part).holes.push_back(std::move(hole));
+    return multipolygon(std::move(parts));
+}
+Roi Roi::without_hole(std::size_t part,std::size_t hole) const {
+    auto parts=as_polygon().polygon_parts(); auto& holes=parts.at(part).holes; (void)holes.at(hole);
+    holes.erase(holes.begin()+hole); return multipolygon(std::move(parts));
+}
+std::optional<Roi> Roi::boolean_operation(const Roi& other,BooleanOp operation) const {
+    if(!is_area() || !other.is_area()) throw std::invalid_argument("Boolean operations require area ROIs");
+    if(operation!=BooleanOp::Union && operation!=BooleanOp::Intersection && operation!=BooleanOp::Difference && operation!=BooleanOp::SymmetricDifference)
+        throw std::invalid_argument("invalid Boolean operation");
+#ifndef QUPATHXX_HAS_GEOS
+    throw std::runtime_error("Boolean topology requires QUPATHXX_BUILD_GEOS=ON");
+#else
+    // An operation-local reentrant context avoids cross-context geometry access
+    // and contention on the inputs' immutable prepared-query backends.
+    Backend backend;
+    auto destroy=[&](GEOSGeometry* p) { if(p) GEOSGeom_destroy_r(backend.ctx,p); };
+    using Geometry=std::unique_ptr<GEOSGeometry,decltype(destroy)>;
+    Geometry left(backend.read(wkt()),destroy),right(backend.read(other.wkt()),destroy);
+    GEOSGeometry* raw=nullptr;
+    switch(operation) {
+        case BooleanOp::Union: raw=GEOSUnion_r(backend.ctx,left.get(),right.get()); break;
+        case BooleanOp::Intersection: raw=GEOSIntersection_r(backend.ctx,left.get(),right.get()); break;
+        case BooleanOp::Difference: raw=GEOSDifference_r(backend.ctx,left.get(),right.get()); break;
+        case BooleanOp::SymmetricDifference: raw=GEOSSymDifference_r(backend.ctx,left.get(),right.get()); break;
+    }
+    Geometry result(raw,destroy);
+    if(!result) throw std::runtime_error(backend.error.data());
+    std::vector<PolygonPart> parts; std::size_t coordinates=0;
+    auto read_ring=[&](const GEOSGeometry* ring) {
+        if(!ring) throw std::runtime_error("GEOS ring extraction failed");
+        auto seq=GEOSGeom_getCoordSeq_r(backend.ctx,ring); unsigned count=0;
+        if(!seq || !GEOSCoordSeq_getSize_r(backend.ctx,seq,&count) || count<4)
+            throw std::runtime_error("GEOS coordinate extraction failed");
+        if(count>1000001 || coordinates>1000000-(count-1)) throw std::length_error("Boolean ROI exceeds vertex limit");
+        coordinates+=count-1; Ring points; points.reserve(count-1);
+        for(unsigned i=0;i+1<count;++i) {
+            double x,y;
+            if(!GEOSCoordSeq_getXY_r(backend.ctx,seq,i,&x,&y)) throw std::runtime_error("GEOS coordinate extraction failed");
+            points.emplace_back(x,y);
+        }
+        return points;
+    };
+    auto extract=[&](auto&& self,const GEOSGeometry* geometry,int depth)->void {
+        if(!geometry || depth>256) throw std::runtime_error("invalid Boolean geometry collection");
+        auto empty=GEOSisEmpty_r(backend.ctx,geometry); if(empty==1) return;
+        if(empty==2) throw std::runtime_error(backend.error.data());
+        auto type=GEOSGeomTypeId_r(backend.ctx,geometry);
+        if(type==GEOS_POLYGON) {
+            auto shell=read_ring(GEOSGetExteriorRing_r(backend.ctx,geometry));
+            auto count=GEOSGetNumInteriorRings_r(backend.ctx,geometry);
+            if(count<0) throw std::runtime_error("GEOS hole extraction failed");
+            std::vector<Ring> holes;
+            for(int i=0;i<count;++i) holes.push_back(read_ring(GEOSGetInteriorRingN_r(backend.ctx,geometry,i)));
+            parts.emplace_back(std::move(shell),std::move(holes));
+        } else if(type==GEOS_MULTIPOLYGON || type==GEOS_GEOMETRYCOLLECTION) {
+            auto count=GEOSGetNumGeometries_r(backend.ctx,geometry);
+            if(count<0) throw std::runtime_error("GEOS part extraction failed");
+            for(int i=0;i<count;++i) self(self,GEOSGetGeometryN_r(backend.ctx,geometry,i),depth+1);
+        } else if(type<0) throw std::runtime_error(backend.error.data());
+        // The contract is area-only: touching edges/points are not area ROIs.
+    };
+    extract(extract,result.get(),0);
+    if(parts.empty()) return std::nullopt;
+    return multipolygon(std::move(parts));
+#endif
+}
 std::size_t Roi::payload_bytes() const {
     const auto& d=data(); std::size_t size=sizeof(Data)+d.wkt.size()+d.polygon_sizes.size()*sizeof(std::size_t);
     for(const auto& ring:d.paths) size+=sizeof(Ring)+ring.size()*sizeof(Point);

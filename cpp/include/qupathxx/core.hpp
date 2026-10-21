@@ -82,6 +82,12 @@ public:
     void remove_objects(const std::vector<std::uint64_t>& ids);
     void update_rectangle(std::uint64_t id, Rect roi);
     void update_roi(std::uint64_t id, Roi roi);
+    void edit_vertex(std::uint64_t id,std::size_t path,std::size_t vertex,Point point);
+    void insert_vertex(std::uint64_t id,std::size_t path,std::size_t vertex,Point point);
+    void remove_vertex(std::uint64_t id,std::size_t path,std::size_t vertex);
+    void add_hole(std::uint64_t id,std::size_t part,Ring hole);
+    void remove_hole(std::uint64_t id,std::size_t part,std::size_t hole);
+    void apply_boolean(std::uint64_t target,const std::vector<std::uint64_t>& operands,BooleanOp operation);
     void rename_annotation(std::uint64_t id, std::string name);
     void classify_annotation(std::uint64_t id, std::string class_name);
     void reparent_annotation(std::uint64_t id, std::uint64_t parent_id);
@@ -109,6 +115,7 @@ public:
     double nucleus_mean_intensity(std::uint64_t id) const;
 private:
     const Annotation& find(std::uint64_t id) const;
+    void publish_roi(std::uint64_t id,Roi geometry,std::string label);
     using ObjectPatch = std::map<std::uint64_t,std::optional<Annotation>>;
     using ClassPatch = std::map<std::string,std::optional<ObjectClass>>;
     struct Calibration { std::optional<double> x,y; };
@@ -190,8 +197,8 @@ struct GuiReport {
     std::vector<std::uint64_t> selected_ids;
     std::uint64_t primary_selection = 0;
 };
-enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey };
-enum class GuiInputTarget { Canvas, Overview, ObjectList };
+enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey };
+enum class GuiInputTarget { Canvas, Overview, ObjectList, Image };
 struct GuiInput {
     int frame = 0;
     GuiInputKind kind = GuiInputKind::Move;

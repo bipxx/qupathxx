@@ -322,3 +322,106 @@ def test_canvas_ctrl_click_toggles_membership():
     report = q.show(doc, frame_limit=25, options=options)
     assert report.selected_ids == [second] and report.primary_selection == second
     assert doc.object_count == 2
+
+
+@pytest.mark.skipif(not q.has_geos, reason="requires GEOS")
+@pytest.mark.parametrize("cancel", [False, True])
+def test_vertex_drag_commits_once_or_cancels(cancel):
+    doc = q.Document(q.Image.demo())
+    obj = doc.add_roi(q.Roi.polygon([q.Point(100, 100), q.Point(300, 100), q.Point(300, 300), q.Point(100, 300)]))
+    options = q.GuiOptions()
+    options.start_view = q.Viewport()
+    image = q.GuiInputTarget.IMAGE
+    options.inputs = [
+        replay(4, q.GuiInputKind.LEFT_DOWN, 200, 200, target=image),
+        replay(5, q.GuiInputKind.LEFT_UP, 200, 200, target=image),
+        replay(8, q.GuiInputKind.VERTEX_KEY),
+        replay(10, q.GuiInputKind.LEFT_DOWN, 100, 100, target=image),
+        replay(11, q.GuiInputKind.MOVE, 80, 80, target=image),
+    ]
+    if cancel:
+        options.inputs = list(options.inputs) + [replay(12, q.GuiInputKind.ESCAPE_KEY),
+                        replay(14, q.GuiInputKind.LEFT_UP, 80, 80, target=image)]
+    else:
+        options.inputs = list(options.inputs) + [replay(12, q.GuiInputKind.LEFT_UP, 80, 80, target=image),
+                        replay(16, q.GuiInputKind.UNDO_KEY), replay(20, q.GuiInputKind.REDO_KEY)]
+    report = q.show(doc, frame_limit=30, options=options)
+    assert report.selected_ids == [obj]
+    assert doc.annotation(obj).geometry.area == (40000 if cancel else 44000)
+    if cancel:
+        assert doc.revision == 1
+    else:
+        assert doc.undo_label == "Move vertex"
+        assert doc.undo() and doc.annotation(obj).geometry.area == 40000
+
+
+@pytest.mark.skipif(not q.has_geos, reason="requires GEOS")
+def test_hole_drawing_and_boolean_gui_commands():
+    doc = q.Document(q.Image.demo())
+    obj = doc.add_rectangle(q.Rect(100, 100, 300, 300))
+    options = q.GuiOptions()
+    options.start_view = q.Viewport()
+    image = q.GuiInputTarget.IMAGE
+    options.inputs = [replay(4, q.GuiInputKind.LEFT_DOWN, 150, 150, target=image),
+                      replay(5, q.GuiInputKind.LEFT_UP, 150, 150, target=image), replay(8, q.GuiInputKind.HOLE_KEY)]
+    events = list(options.inputs)
+    for frame, x, y in [(10, 200, 200), (14, 300, 200), (18, 250, 300)]:
+        events += [replay(frame, q.GuiInputKind.LEFT_DOWN, x, y, target=image),
+                   replay(frame+1, q.GuiInputKind.LEFT_UP, x, y, target=image)]
+    options.inputs = events + [replay(22, q.GuiInputKind.FINISH_KEY), replay(26, q.GuiInputKind.UNDO_KEY), replay(30, q.GuiInputKind.REDO_KEY)]
+    q.show(doc, frame_limit=40, options=options)
+    assert doc.object_count == 1 and doc.annotation(obj).geometry.area == 85000
+    assert len(doc.annotation(obj).geometry.polygon_parts[0].holes) == 1
+    assert doc.undo() and doc.annotation(obj).geometry.kind == q.RoiKind.RECTANGLE
+
+    other = doc.add_rectangle(q.Rect(300, 100, 300, 300))
+    options.inputs = [replay(4, q.GuiInputKind.SELECT_ALL_KEY), replay(8, q.GuiInputKind.BOOLEAN_KEY)]
+    report = q.show(doc, frame_limit=20, options=options)
+    assert report.primary_selection == other and doc.object_count == 2
+    assert doc.annotation(other).geometry.area == 150000
+    assert doc.annotation(obj).geometry.area == 90000
+    assert doc.undo_label == "Boolean ROI edit"
+    assert doc.undo() and doc.annotation(other).geometry.area == 90000
+
+
+@pytest.mark.skipif(not q.has_geos, reason="requires GEOS")
+def test_vertex_insert_and_delete_shortcuts_keep_object_identity():
+    doc = q.Document(q.Image.demo())
+    obj = doc.add_roi(q.Roi.polygon([q.Point(100, 100), q.Point(300, 100), q.Point(300, 300), q.Point(100, 300)]))
+    options = q.GuiOptions()
+    options.start_view = q.Viewport()
+    image = q.GuiInputTarget.IMAGE
+    select = [replay(4, q.GuiInputKind.LEFT_DOWN, 200, 200, target=image),
+              replay(5, q.GuiInputKind.LEFT_UP, 200, 200, target=image), replay(8, q.GuiInputKind.VERTEX_KEY)]
+    options.inputs = select + [replay(11, q.GuiInputKind.INSERT_KEY, 200, 100, target=image)]
+    q.show(doc, frame_limit=20, options=options)
+    assert len(doc.annotation(obj).geometry.paths[0]) == 5 and doc.undo_label == "Insert vertex"
+    options.inputs = select + [replay(11, q.GuiInputKind.LEFT_DOWN, 200, 100, target=image),
+                              replay(12, q.GuiInputKind.LEFT_UP, 200, 100, target=image),
+                              replay(16, q.GuiInputKind.DELETE_KEY)]
+    q.show(doc, frame_limit=25, options=options)
+    assert doc.object_count == 1 and len(doc.annotation(obj).geometry.paths[0]) == 4
+    assert doc.undo_label == "Remove vertex" and doc.undo()
+    assert len(doc.annotation(obj).geometry.paths[0]) == 5
+
+
+@pytest.mark.skipif(not q.has_geos, reason="requires GEOS")
+def test_hole_draft_rejects_changed_primary_selection():
+    doc = q.Document(q.Image.demo())
+    doc.add_rectangle(q.Rect(100, 100, 300, 300))
+    doc.add_rectangle(q.Rect(600, 100, 100, 100))
+    revision = doc.revision
+    options = q.GuiOptions()
+    options.start_view = q.Viewport()
+    image = q.GuiInputTarget.IMAGE
+    events = [replay(4, q.GuiInputKind.LEFT_DOWN, 150, 150, target=image),
+              replay(5, q.GuiInputKind.LEFT_UP, 150, 150, target=image), replay(8, q.GuiInputKind.HOLE_KEY)]
+    for frame, x, y in [(10, 200, 200), (14, 300, 200), (18, 250, 300)]:
+        events += [replay(frame, q.GuiInputKind.LEFT_DOWN, x, y, target=image),
+                   replay(frame+1, q.GuiInputKind.LEFT_UP, x, y, target=image)]
+    options.inputs = events + [replay(22, q.GuiInputKind.LEFT_DOWN, .3, .28, target=q.GuiInputTarget.OBJECT_LIST),
+                              replay(23, q.GuiInputKind.LEFT_UP, .3, .28, target=q.GuiInputTarget.OBJECT_LIST),
+                              replay(26, q.GuiInputKind.FINISH_KEY)]
+    q.show(doc, frame_limit=35, options=options)
+    assert doc.revision == revision
+    assert [a.geometry.kind for a in doc.annotations] == [q.RoiKind.RECTANGLE]*2

@@ -87,7 +87,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         !std::isfinite(options.start_view->origin.x) || !std::isfinite(options.start_view->origin.y))) throw std::invalid_argument("invalid initial viewport");
     if (options.width<640 || options.width>8192 || options.height<480 || options.height>8192) throw std::invalid_argument("invalid window dimensions");
     for (const auto& event:options.inputs) if (event.frame<2 || event.frame>=frame_limit ||
-        !std::isfinite(event.x) || !std::isfinite(event.y) || event.x<0 || event.x>1 || event.y<0 || event.y>1 ||
+        !std::isfinite(event.x) || !std::isfinite(event.y) ||
+        (event.target!=GuiInputTarget::Image && (event.x<0 || event.x>1 || event.y<0 || event.y>1)) ||
         !std::isfinite(event.wheel) || std::abs(event.wheel)>100)
         throw std::invalid_argument("invalid replay event; frame must be inside finite run, starting at 2");
     if (!glfwInit()) throw std::runtime_error("GLFW initialization failed");
@@ -121,6 +122,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if(options.start_view) fit=false;
     int tool=0,previous_tool=0;
     Ring draft_points;
+    std::vector<Ring> vertex_paths;
+    std::uint64_t vertex_id=0,vertex_revision=0,hole_id=0,hole_revision=0;
+    std::optional<std::pair<std::size_t,std::size_t>> active_vertex;
+    bool vertex_dragging=false;
+    Point vertex_cursor;
+    int boolean_operation=0;
     Point anchor;
     ObjectSelection selection(document);
     std::uint64_t selected = 0,list_anchor=0;
@@ -159,12 +166,18 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (!options.inputs.empty()) {
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
-            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape}) input.AddKeyEvent(key,false);
+            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B}) input.AddKeyEvent(key,false);
         }
         for (const auto& event:options.inputs) if (event.frame==frames) {
             auto origin=event.target==GuiInputTarget::Canvas?previous_canvas:(event.target==GuiInputTarget::Overview?overview_offset:list_offset);
             auto extent=event.target==GuiInputTarget::Canvas?previous_canvas_size:(event.target==GuiInputTarget::Overview?overview_size:list_size);
-            input.AddMousePosEvent(origin.x+static_cast<float>(event.x)*extent.x,origin.y+static_cast<float>(event.y)*extent.y);
+            if(event.target==GuiInputTarget::Image) {
+                auto p=viewport.image_to_screen({event.x,event.y});
+                const auto limit=static_cast<double>(std::numeric_limits<float>::max())/4;
+                if(!std::isfinite(p.x) || !std::isfinite(p.y) || std::abs(p.x)>limit || std::abs(p.y)>limit)
+                    throw std::invalid_argument("image replay position exceeds screen coordinate range");
+                input.AddMousePosEvent(previous_canvas.x+static_cast<float>(p.x),previous_canvas.y+static_cast<float>(p.y));
+            } else input.AddMousePosEvent(origin.x+static_cast<float>(event.x)*extent.x,origin.y+static_cast<float>(event.y)*extent.y);
             if(event.ctrl) input.AddKeyEvent(ImGuiMod_Ctrl,true);
             if(event.shift) input.AddKeyEvent(ImGuiMod_Shift,true);
             switch(event.kind) {
@@ -184,6 +197,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::FinishKey: input.AddKeyEvent(ImGuiKey_Enter,true); break;
                 case GuiInputKind::SelectAllKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_A,true); break;
                 case GuiInputKind::EscapeKey: input.AddKeyEvent(ImGuiKey_Escape,true); break;
+                case GuiInputKind::VertexKey: input.AddKeyEvent(ImGuiKey_V,true); break;
+                case GuiInputKind::HoleKey: input.AddKeyEvent(ImGuiKey_H,true); break;
+                case GuiInputKind::InsertKey: input.AddKeyEvent(ImGuiKey_I,true); break;
+                case GuiInputKind::BooleanKey: input.AddKeyEvent(ImGuiKey_B,true); break;
                 default: break;
             }
         }
@@ -199,10 +216,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(ImGui::IsKeyPressed(ImGuiKey_P)) tool=3;
             if(ImGui::IsKeyPressed(ImGuiKey_L)) tool=4;
             if(ImGui::IsKeyPressed(ImGuiKey_T)) tool=5;
+            if(ImGui::IsKeyPressed(ImGuiKey_V)) tool=6;
+            if(ImGui::IsKeyPressed(ImGuiKey_H)) tool=7;
         }
         ImGui::SetNextItemWidth(125);
-        ImGui::Combo("Tool",&tool,"Select\0Rectangle\0Ellipse\0Polygon\0Polyline\0Points\0"); ImGui::SameLine();
-        if(tool!=previous_tool) { marquee=false; drawing=false; draft_points.clear(); previous_tool=tool; }
+        ImGui::Combo("Tool",&tool,"Select\0Rectangle\0Ellipse\0Polygon\0Polyline\0Points\0Vertices\0Hole\0"); ImGui::SameLine();
+        if(tool!=previous_tool) { vertex_dragging=false; active_vertex.reset(); marquee=false; drawing=false; draft_points.clear(); previous_tool=tool; }
         if (ImGui::Button("Fit image")) fit = true;
         auto history_action=[&](bool redo) { try { if(redo) document.redo(); else document.undo(); error.clear(); } catch(const std::exception& e) { error=e.what(); } };
         if (!io.WantTextInput && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Z)) history_action(false);
@@ -218,7 +237,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 selection.clear(); selected=0; error.clear();
             } catch(const std::exception& e) { error=e.what(); }
         };
-        if (selected && !io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_Delete)) delete_selection();
+        if (selected && tool!=6 && !io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_Delete)) delete_selection();
         ImGui::SameLine(); ImGui::TextDisabled("Ctrl+click: toggle | Shift+drag: select box | Ctrl+A: all | Right drag: pan");
         ImGui::BeginChild("Inspector", {285,0}, ImGuiChildFlags_Borders);
         ImGui::Text("IMAGE"); ImGui::Text("%lld x %lld pixels",static_cast<long long>(image.width),static_cast<long long>(image.height));
@@ -332,6 +351,18 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 try { document.classify_objects(selection.ids(),batch_class); error.clear(); }
                 catch(const std::exception& e) { error=e.what(); }
             }
+            if(has_geos()) {
+                ImGui::SetNextItemWidth(140);
+                ImGui::Combo("Boolean",&boolean_operation,"Union\0Intersection\0Difference\0XOR\0");
+                ImGui::TextDisabled("Target: primary; operands retained");
+                ImGui::TextWrapped("Ellipses use 512-edge approximations.");
+                if(ImGui::Button("Apply Boolean (B)") || (!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_B))) {
+                    try {
+                        auto ids=selection.ids(); ids.erase(std::remove(ids.begin(),ids.end(),selected),ids.end());
+                        document.apply_boolean(selected,ids,static_cast<BooleanOp>(boolean_operation)); error.clear();
+                    } catch(const std::exception& e) { error=e.what(); }
+                }
+            }
             ImGui::TextDisabled("Inspector edits the primary object");
         }
         if (selected) {
@@ -341,7 +372,17 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 editor_id=selected; editor_revision=document.revision();
             }
             const auto object=document.annotation(selected);
+            if(tool==6) ImGui::TextWrapped("Drag a vertex; I near an edge inserts; Delete removes the active vertex. Escape cancels a drag.");
+            if(tool==7) ImGui::TextWrapped("Click an interior ring, then Enter to add a hole. Escape cancels.");
             ImGui::Text("Kind: %s",object.kind==ObjectKind::Cell?"Cell":(object.kind==ObjectKind::Detection?"Detection":"Annotation"));
+            if(object.kind==ObjectKind::Annotation && has_geos() &&
+                (object.geometry.kind()==RoiKind::Rectangle || object.geometry.kind()==RoiKind::Ellipse)) {
+                if(object.geometry.kind()==RoiKind::Ellipse) ImGui::TextWrapped("Polygon conversion uses 512 edges.");
+                if(ImGui::Button("Convert to polygon")) {
+                    try { document.update_roi(selected,object.geometry.as_polygon()); error.clear(); }
+                    catch(const std::exception& e) { error=e.what(); }
+                }
+            }
             if(object.kind==ObjectKind::Cell) ImGui::TextDisabled(object.nucleus?"Nucleus ROI present":"No nucleus ROI");
             ImGui::InputText("Name",draft_name,sizeof(draft_name));
             if(ImGui::BeginCombo("Class",draft_class[0]?draft_class:"Unclassified")) {
@@ -394,12 +435,38 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (ImGui::IsItemActive() && ImGui::IsMouseDragging(ImGuiMouseButton_Right)) {
             viewport.origin.x += io.MouseDelta.x; viewport.origin.y += io.MouseDelta.y;
         }
+        if(tool==6 && selected && document.annotation(selected).kind==ObjectKind::Annotation) {
+            const auto& object=document.objects().at(selected);
+            if(vertex_id!=selected || vertex_revision!=object.revision) {
+                if(vertex_dragging) { vertex_dragging=false; error="Vertex edit cancelled: object changed"; }
+                if(vertex_id!=selected) active_vertex.reset();
+                vertex_id=selected; vertex_revision=object.revision;
+                vertex_paths=(object.geometry.kind()==RoiKind::Rectangle || object.geometry.kind()==RoiKind::Ellipse)?std::vector<Ring>{}:object.geometry.paths();
+                if(active_vertex && (active_vertex->first>=vertex_paths.size() || active_vertex->second>=vertex_paths[active_vertex->first].size())) active_vertex.reset();
+            }
+        } else { vertex_paths.clear(); vertex_id=0; vertex_dragging=false; active_vertex.reset(); }
         auto clamp_image = [&](Point p) { return Point{std::clamp(p.x, 0., static_cast<double>(image.width)), std::clamp(p.y, 0., static_cast<double>(image.height))}; };
         if (hovered && ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
             auto p = viewport.screen_to_image(mouse);
             if ((tool==1 || tool==2) && p.x >= 0 && p.y >= 0 && p.x < image.width && p.y < image.height) { anchor = p; drawing = true; }
-            else if(tool>=3 && p.x>=0 && p.y>=0 && p.x<image.width && p.y<image.height) {
-                if(draft_points.empty() || draft_points.back().x!=p.x || draft_points.back().y!=p.y) draft_points.push_back(p);
+            else if(((tool>=3 && tool<=5) || tool==7) && p.x>=0 && p.y>=0 && p.x<image.width && p.y<image.height) {
+                if(tool==7 && draft_points.empty()) {
+                    if(!selected || document.annotation(selected).kind!=ObjectKind::Annotation || !document.annotation(selected).geometry.is_area())
+                        error="Select an area annotation before drawing a hole";
+                    else { hole_id=selected; hole_revision=document.annotation(selected).revision; draft_points.push_back(p); }
+                } else if(draft_points.empty() || draft_points.back().x!=p.x || draft_points.back().y!=p.y) draft_points.push_back(p);
+            }
+            else if(tool==6) {
+                double best=8/viewport.zoom; active_vertex.reset();
+                for(std::size_t path=0;path<vertex_paths.size();++path) for(std::size_t v=0;v<vertex_paths[path].size();++v) {
+                    auto point=vertex_paths[path][v]; auto distance=std::hypot(point.x-p.x,point.y-p.y);
+                    if(distance<=best) { best=distance; active_vertex={{path,v}}; }
+                }
+                vertex_dragging=active_vertex.has_value(); vertex_cursor=p;
+                if(!active_vertex) {
+                    auto hits=document.pick(p,4/viewport.zoom);
+                    if(!hits.empty()) { selection.replace({hits.back()}); selected=selection.primary(); }
+                }
             }
             else if (!tool) {
                 if(io.KeyShift) { marquee=true; marquee_anchor=p; marquee_additive=io.KeyCtrl; }
@@ -412,6 +479,43 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
         }
         auto end = clamp_image(viewport.screen_to_image(mouse));
+        if(vertex_dragging) {
+            vertex_cursor=end;
+            if(ImGui::IsKeyPressed(ImGuiKey_Escape)) vertex_dragging=false;
+            else if(ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+                try { document.edit_vertex(vertex_id,active_vertex->first,active_vertex->second,vertex_cursor); error.clear(); }
+                catch(const std::exception& e) { error=e.what(); }
+                vertex_dragging=false;
+            }
+        }
+        if(tool==6 && !io.WantTextInput && !vertex_dragging) {
+            if(active_vertex && ImGui::IsKeyPressed(ImGuiKey_Delete)) {
+                try { document.remove_vertex(vertex_id,active_vertex->first,active_vertex->second); active_vertex.reset(); error.clear(); }
+                catch(const std::exception& e) { error=e.what(); }
+            }
+            if(hovered && vertex_id && ImGui::IsKeyPressed(ImGuiKey_I)) {
+                try {
+                    const auto& geometry=document.objects().at(vertex_id).geometry;
+                    if(geometry.kind()==RoiKind::Points) document.insert_vertex(vertex_id,0,vertex_paths.at(0).size(),end);
+                    else {
+                        double best=8/viewport.zoom; std::optional<std::pair<std::size_t,std::size_t>> edge;
+                        for(std::size_t path=0;path<vertex_paths.size();++path) {
+                            const auto& ring=vertex_paths[path]; auto count=ring.size()-(geometry.is_area()?0:1);
+                            for(std::size_t v=0;v<count;++v) {
+                                auto a=ring[v],b=ring[(v+1)%ring.size()]; auto dx=b.x-a.x,dy=b.y-a.y;
+                                auto length=dx*dx+dy*dy;
+                                auto t=length?std::clamp(((end.x-a.x)*dx+(end.y-a.y)*dy)/length,0.,1.):0.;
+                                auto distance=std::hypot(end.x-a.x-t*dx,end.y-a.y-t*dy);
+                                if(distance<=best) { best=distance; edge={{path,v+1}}; }
+                            }
+                        }
+                        if(!edge) throw std::invalid_argument("Point near an edge to insert a vertex");
+                        document.insert_vertex(vertex_id,edge->first,edge->second,end);
+                    }
+                    active_vertex.reset(); error.clear();
+                } catch(const std::exception& e) { error=e.what(); }
+            }
+        }
         if(marquee && ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
             try {
                 auto p=viewport.screen_to_image(mouse);
@@ -436,13 +540,25 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             drawing = false;
         }
         if(!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_Escape)) {
-            if(!drawing && draft_points.empty() && !marquee) { selection.clear(); selected=0; }
+            if(!drawing && draft_points.empty() && !marquee && tool!=6) { selection.clear(); selected=0; }
             drawing=false; marquee=false; draft_points.clear();
         }
-        if(tool>=3 && !draft_points.empty() && !io.WantTextInput && (ImGui::IsKeyPressed(ImGuiKey_Enter) || (hovered && ImGui::IsMouseDoubleClicked(0)))) {
+        if(((tool>=3 && tool<=5) || tool==7) && !draft_points.empty() && !io.WantTextInput && (ImGui::IsKeyPressed(ImGuiKey_Enter) || (hovered && ImGui::IsMouseDoubleClicked(0)))) {
             try {
-                auto geometry=tool==3?Roi::polygon(draft_points):(tool==4?Roi::polyline(draft_points):Roi::points(draft_points));
-                selected=document.add_roi(geometry,"Region "+std::to_string(document.object_count()+1)); selection.replace({selected}); draft_points.clear(); error.clear();
+                if(tool==7) {
+                    if(selected!=hole_id || !document.objects().count(hole_id) || document.annotation(hole_id).revision!=hole_revision)
+                        throw std::invalid_argument("Hole edit cancelled: target changed");
+                    auto geometry=document.annotation(hole_id).geometry.as_polygon();
+                    auto hole=Roi::polygon(draft_points); auto parts=geometry.polygon_parts(); bool added=false;
+                    for(std::size_t i=0;i<parts.size();++i) if(Roi::polygon(parts[i].shell,parts[i].holes).covers(hole)) {
+                        document.add_hole(hole_id,i,draft_points); added=true; break;
+                    }
+                    if(!added) throw std::invalid_argument("Hole must lie inside one polygon part without overlapping existing holes");
+                } else {
+                    auto geometry=tool==3?Roi::polygon(draft_points):(tool==4?Roi::polyline(draft_points):Roi::points(draft_points));
+                    selected=document.add_roi(geometry,"Region "+std::to_string(document.object_count()+1)); selection.replace({selected});
+                }
+                draft_points.clear(); error.clear();
             } catch(const std::exception& e) { error=e.what(); }
         }
         auto* draw = ImGui::GetWindowDrawList();
@@ -477,6 +593,20 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             // Detection labels at low zoom overwhelm the canvas and scale with
             // every visible detection. Keep annotation names and selected labels.
             if(!a.is_detection() || a.id==selected) draw->AddText(p0,color,a.name.c_str());
+        }
+        if(tool==6 && vertex_id) {
+            for(std::size_t path=0;path<vertex_paths.size();++path) {
+                const auto& ring=vertex_paths[path];
+                std::vector<ImVec2> preview; if(vertex_dragging) preview.reserve(ring.size());
+                for(std::size_t v=0;v<ring.size();++v) {
+                    auto point=(vertex_dragging && active_vertex==std::make_pair(path,v))?vertex_cursor:ring[v];
+                    auto p=screen(viewport,point,offset);
+                    if(vertex_dragging) preview.push_back(p);
+                    if(p.x>=offset.x && p.y>=offset.y && p.x<=offset.x+size.x && p.y<=offset.y+size.y)
+                        draw->AddCircleFilled(p,4,active_vertex==std::make_pair(path,v)?IM_COL32(255,120,100,255):IM_COL32(255,205,85,255));
+                }
+                if(vertex_dragging) draw->AddPolyline(preview.data(),static_cast<int>(preview.size()),IM_COL32(255,120,100,255),document.annotation(vertex_id).geometry.is_area()?ImDrawFlags_Closed:0,2);
+            }
         }
         if(marquee) {
             auto p=viewport.screen_to_image(mouse);

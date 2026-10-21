@@ -16,6 +16,8 @@ NB_MODULE(_native, m) {
         .def_prop_ro("area", &Rect::area).def("contains", &Rect::contains);
     nb::enum_<RoiKind>(m,"RoiKind").value("RECTANGLE",RoiKind::Rectangle).value("ELLIPSE",RoiKind::Ellipse)
         .value("POLYGON",RoiKind::Polygon).value("MULTIPOLYGON",RoiKind::MultiPolygon).value("POLYLINE",RoiKind::Polyline).value("POINTS",RoiKind::Points);
+    nb::enum_<BooleanOp>(m,"BooleanOp").value("UNION",BooleanOp::Union).value("INTERSECTION",BooleanOp::Intersection)
+        .value("DIFFERENCE",BooleanOp::Difference).value("SYMMETRIC_DIFFERENCE",BooleanOp::SymmetricDifference);
     nb::class_<PolygonPart>(m,"PolygonPart").def(nb::init<Ring,std::vector<Ring>>(),"shell"_a,"holes"_a=std::vector<Ring>{})
         .def_ro("shell",&PolygonPart::shell).def_ro("holes",&PolygonPart::holes);
     nb::class_<Roi>(m,"Roi").def_static("rectangle",&Roi::rectangle).def_static("ellipse",&Roi::ellipse)
@@ -27,6 +29,12 @@ NB_MODULE(_native, m) {
         .def("contains",&Roi::contains,nb::call_guard<nb::gil_scoped_release>())
         .def("covers",&Roi::covers,nb::call_guard<nb::gil_scoped_release>())
         .def("distance",&Roi::distance,nb::call_guard<nb::gil_scoped_release>())
+        .def("as_polygon",&Roi::as_polygon)
+        .def("with_vertex",&Roi::with_vertex,"path"_a,"vertex"_a,"point"_a)
+        .def("inserted_vertex",&Roi::inserted_vertex,"path"_a,"vertex"_a,"point"_a)
+        .def("without_vertex",&Roi::without_vertex,"path"_a,"vertex"_a)
+        .def("with_hole",&Roi::with_hole,"part"_a,"hole"_a).def("without_hole",&Roi::without_hole,"part"_a,"hole"_a)
+        .def("boolean_operation",&Roi::boolean_operation,"other"_a,"operation"_a,nb::call_guard<nb::gil_scoped_release>())
         .def("translated",&Roi::translated).def("equals",&Roi::equals);
     m.attr("has_geos")=has_geos(); m.attr("geos_version")=geos_version();
     nb::class_<SpatialStats>(m,"SpatialStats").def_ro("builds",&SpatialStats::builds)
@@ -89,6 +97,12 @@ NB_MODULE(_native, m) {
         .def("add_cell",&Document::add_cell,"roi"_a,"nucleus"_a=nb::none(),"name"_a="Cell","parent_id"_a=0,"class_name"_a="")
         .def("update_nucleus",&Document::update_nucleus,"id"_a,"nucleus"_a)
         .def("nucleus_area_um2",&Document::nucleus_area_um2).def("nucleus_mean_intensity",&Document::nucleus_mean_intensity)
+        .def("edit_vertex",&Document::edit_vertex,"id"_a,"path"_a,"vertex"_a,"point"_a)
+        .def("insert_vertex",&Document::insert_vertex,"id"_a,"path"_a,"vertex"_a,"point"_a)
+        .def("remove_vertex",&Document::remove_vertex,"id"_a,"path"_a,"vertex"_a)
+        .def("add_hole",&Document::add_hole,"id"_a,"part"_a,"hole"_a)
+        .def("remove_hole",&Document::remove_hole,"id"_a,"part"_a,"hole"_a)
+        .def("apply_boolean",&Document::apply_boolean,"target"_a,"operands"_a,"operation"_a)
         .def("remove_annotation", &Document::remove_annotation).def("remove_objects",&Document::remove_objects)
         .def("annotation",&Document::annotation)
         .def_prop_ro("object_count",&Document::object_count).def_prop_ro("revision",&Document::revision)
@@ -144,8 +158,10 @@ NB_MODULE(_native, m) {
         .value("UNDO_KEY",GuiInputKind::UndoKey).value("REDO_KEY",GuiInputKind::RedoKey).value("DELETE_KEY",GuiInputKind::DeleteKey)
         .value("ELLIPSE_KEY",GuiInputKind::EllipseKey).value("POLYGON_KEY",GuiInputKind::PolygonKey)
         .value("POLYLINE_KEY",GuiInputKind::PolylineKey).value("POINTS_KEY",GuiInputKind::PointsKey).value("FINISH_KEY",GuiInputKind::FinishKey)
-        .value("SELECT_ALL_KEY",GuiInputKind::SelectAllKey).value("ESCAPE_KEY",GuiInputKind::EscapeKey);
-    nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList);
+        .value("SELECT_ALL_KEY",GuiInputKind::SelectAllKey).value("ESCAPE_KEY",GuiInputKind::EscapeKey)
+        .value("VERTEX_KEY",GuiInputKind::VertexKey).value("HOLE_KEY",GuiInputKind::HoleKey)
+        .value("INSERT_KEY",GuiInputKind::InsertKey).value("BOOLEAN_KEY",GuiInputKind::BooleanKey);
+    nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)

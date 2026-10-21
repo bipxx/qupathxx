@@ -402,3 +402,11 @@ IDs after metadata/color changes. See [selection.md](selection.md) for input
 replay evidence, packaging checks and the 100000-object selection workload.
 Vertex/hole editing, Boolean clipping, QuPath comparisons and unfinished
 M0-M7 gates remain active.
+
+The tenth packet adds immutable vertex/hole edits and GEOS area overlays, shared
+by Python commands and GUI vertex/hole/Boolean tools. Drag previews avoid
+per-frame validation; release commits once. See [geometry-editing.md](geometry-editing.md)
+for empty-result policy, ellipse approximation, hierarchy safeguards and
+4096-vertex performance scope. M3 numerical comparisons and feature-cache
+contracts remain open. Begin the M4 schema/persistence probe while retaining
+all unfinished M0-M7 gates.

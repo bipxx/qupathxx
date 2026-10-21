@@ -75,11 +75,11 @@ monitor DPI transitions remain separate validation gates.
 
 ## Evidence and remaining scope
 
-The installed GUI wheel passes 104 Python tests, including native selection
+The installed GUI wheel passes 119 Python tests, including native selection
 lifetimes, primary/range/toggle rules, invalid requests, cell envelope windows,
 membership pruning and batch delete restoration. GUI replay verifies list ranges,
 canvas toggles/windows, selection outlines, Ctrl+A/Escape and group delete/undo.
-Nine native suites pass with optional GEOS/OpenSlide enabled and disabled.
+Ten native suites pass with optional GEOS/OpenSlide enabled and disabled.
 
 [Selection timings](benchmarks/selection-100000-windows.json) cover 100000 stored
 objects, cached membership reads after a color edit, a window selecting 100 roots,
@@ -93,6 +93,7 @@ work and 3 MiB GPU tile payload. Only visible overlays are drawn; this does not
 establish performance when fitting
 all overlays, complex polygon stress, or large analysis jobs.
 
-Vertex editing, hole drawing, Boolean clipping and independent QuPath numerical
-comparisons remain M3 work. Group geometry transforms are not implemented. All
+Vertex editing, hole drawing and Boolean clipping are implemented; see
+[geometry-editing.md](geometry-editing.md). Independent QuPath numerical
+comparisons and feature-cache contracts remain M3 work. Group geometry transforms are not implemented. All
 unfinished M0-M7 persistence, analysis, scripting and delivery gates remain active.

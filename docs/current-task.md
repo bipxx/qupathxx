@@ -8,8 +8,8 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 104 Python tests including all shape tools and GUI history replay;
-nine native suites with optional geometry/readers enabled and disabled;
+Evidence: 119 Python tests including all shape tools and GUI history replay;
+ten native suites with optional geometry/readers enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
 116 ms undo, 126 ms redo and 815 bytes of history payload for a rename. The spatial
@@ -17,13 +17,17 @@ benchmark covers 1000 region queries and a cached narrow GUI view of 828 visible
 objects. The selected-view benchmark additionally verifies all 100000 selected
 with 828 visible overlays at about 16.9 ms p95 CPU frame work and 3 MiB GPU
 tile payload. The recorded narrow view is below the cached-frame target; broader views and
-complex-shape workloads remain unverified.
+broader complex-shape workloads remain unverified. The 4096-vertex editing
+benchmark records roughly 11.9 ms p95 Boolean union, 8.2 ms validated edits
+and 17.2 ms CPU frame work with vertex handles.
 The existing large-pyramid navigation evidence remains scoped to synthetic pixels.
 
 Detection/cell kinds, optional nuclei and undoable class definitions/colors are
 implemented; see object-kinds.md and classes.md. Multi-selection and atomic
-group delete/classification are recorded in selection.md. Next implement vertex
-editing, hole drawing and Boolean clipping. Preserve all unfinished
+group delete/classification are recorded in selection.md. Vertex/hole editing
+and Boolean area operations are recorded in geometry-editing.md. Next probe
+the SQLite persistence schema and implement transactional project save/load;
+retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,
 classifiers, scripting and packaging work under M4-M7 remains active.

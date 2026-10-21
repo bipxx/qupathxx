@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 #include <utility>
+#include <optional>
 
 namespace qpx {
 struct Point {
@@ -26,6 +27,7 @@ struct PolygonPart {
     PolygonPart(Ring shell_,std::vector<Ring> holes_={}) : shell(std::move(shell_)),holes(std::move(holes_)) {}
 };
 enum class RoiKind { Rectangle, Ellipse, Polygon, MultiPolygon, Polyline, Points };
+enum class BooleanOp { Union, Intersection, Difference, SymmetricDifference };
 // Immutable shared geometry. Rectangle bounds remain available through the
 // legacy Annotation.roi Python property, but this is the authoritative shape.
 class Roi {
@@ -46,6 +48,13 @@ public:
     bool covers(const Roi&) const;
     double distance(Point) const;
     Roi translated(double dx,double dy) const;
+    Roi as_polygon() const;
+    Roi with_vertex(std::size_t path,std::size_t vertex,Point point) const;
+    Roi inserted_vertex(std::size_t path,std::size_t vertex,Point point) const;
+    Roi without_vertex(std::size_t path,std::size_t vertex) const;
+    Roi with_hole(std::size_t part,Ring hole) const;
+    Roi without_hole(std::size_t part,std::size_t hole) const;
+    std::optional<Roi> boolean_operation(const Roi&,BooleanOp) const;
     bool equals(const Roi&) const;
     std::vector<Ring> paths() const;
     std::vector<PolygonPart> polygon_parts() const;
@@ -56,6 +65,7 @@ private:
     std::shared_ptr<Data> data_;
     explicit Roi(std::shared_ptr<Data> data) : data_(std::move(data)) {}
     const Data& data() const;
+    Roi rebuild_paths(std::vector<Ring>) const;
 };
 bool has_geos();
 std::string geos_version();

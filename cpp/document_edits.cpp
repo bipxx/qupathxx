@@ -340,7 +340,44 @@ void Document::update_rectangle(std::uint64_t id,Rect roi) {
     auto a=find(id); execute({ObjectEdit::replace_geometry(id,Roi::rectangle(roi),a.name,a.parent_id,a.class_name,a.kind,a.nucleus)},"Edit rectangle");
 }
 void Document::update_roi(std::uint64_t id,Roi roi) {
-    auto a=find(id); execute({ObjectEdit::replace_geometry(id,std::move(roi),a.name,a.parent_id,a.class_name,a.kind,a.nucleus)},"Edit ROI");
+    publish_roi(id,std::move(roi),"Edit ROI");
+}
+void Document::publish_roi(std::uint64_t id,Roi geometry,std::string label) {
+    const auto& a=find(id);
+    execute({ObjectEdit::replace_geometry(id,std::move(geometry),a.name,a.parent_id,a.class_name,a.kind,a.nucleus)},std::move(label));
+}
+void Document::edit_vertex(std::uint64_t id,std::size_t path,std::size_t vertex,Point point) {
+    publish_roi(id,find(id).geometry.with_vertex(path,vertex,point),"Move vertex");
+}
+void Document::insert_vertex(std::uint64_t id,std::size_t path,std::size_t vertex,Point point) {
+    publish_roi(id,find(id).geometry.inserted_vertex(path,vertex,point),"Insert vertex");
+}
+void Document::remove_vertex(std::uint64_t id,std::size_t path,std::size_t vertex) {
+    publish_roi(id,find(id).geometry.without_vertex(path,vertex),"Remove vertex");
+}
+void Document::add_hole(std::uint64_t id,std::size_t part,Ring hole) {
+    publish_roi(id,find(id).geometry.with_hole(part,std::move(hole)),"Add hole");
+}
+void Document::remove_hole(std::uint64_t id,std::size_t part,std::size_t hole) {
+    publish_roi(id,find(id).geometry.without_hole(part,hole),"Remove hole");
+}
+void Document::apply_boolean(std::uint64_t target,const std::vector<std::uint64_t>& operands,BooleanOp operation) {
+    std::optional<Roi> geometry=find(target).geometry;
+    if(!geometry->is_area()) throw std::invalid_argument("Boolean operations require area ROIs");
+    if(operands.empty()) throw std::invalid_argument("Boolean edit requires operands");
+    std::set<std::uint64_t> unique;
+    // Resolve every input before computation. Ordered operands define the fold;
+    // repeats and the target itself are rejected instead of silently subtracted.
+    for(auto id:operands) {
+        if(!find(id).geometry.is_area()) throw std::invalid_argument("Boolean operations require area ROIs");
+        if(id==target || !unique.insert(id).second) throw std::invalid_argument("Boolean operands must be distinct from each other and target");
+    }
+    for(auto id:operands) {
+        if(geometry) geometry=geometry->boolean_operation(find(id).geometry,operation);
+        else if(operation==BooleanOp::SymmetricDifference || operation==BooleanOp::Union) geometry=find(id).geometry.as_polygon();
+    }
+    if(!geometry) throw std::invalid_argument("Boolean result has no area; remove the object explicitly");
+    publish_roi(target,std::move(*geometry),"Boolean ROI edit");
 }
 void Document::rename_annotation(std::uint64_t id,std::string name) {
     auto a=find(id); execute({ObjectEdit::replace_geometry(id,a.geometry,std::move(name),a.parent_id,a.class_name,a.kind,a.nucleus)},"Rename annotation");

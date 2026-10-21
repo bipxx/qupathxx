@@ -61,7 +61,7 @@ Validation includes optional nuclei, independent boundary/nucleus masks, type
 conversion, snapshot lifetime, compound failure, redo preservation, geometry
 wrappers, subtree restoration and spatial delta/undo behavior. A framebuffer
 test verifies a nucleus remains visible when its body is offscreen. The full
-installed GUI wheel passes 104 Python tests; nine native suites pass both with
+installed GUI wheel passes 119 Python tests; ten native suites pass both with
 GEOS/OpenSlide enabled and with them disabled.
 
 The [100,000-cell benchmark](benchmarks/cells-100000-windows.json) imports small
@@ -73,4 +73,4 @@ shape storage is shared across snapshots and metadata edits.
 
 Class registries/colors are implemented; see [classes.md](classes.md).
 Multi-selection is implemented; see [selection.md](selection.md).
-Vertex editing and Boolean clipping remain M3 work. Persistence, analysis and the remaining M0-M7 gates remain open.
+Vertex editing and Boolean clipping are implemented; see geometry-editing.md. Persistence, analysis and the remaining M0-M7 gates remain open.
