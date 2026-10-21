@@ -110,9 +110,9 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
 }
 void Project::restore_recovery(const std::string& path) {
     auto restored=recover(path);
-    adopt_recovery(*restored);
+    adopt_workspace(*restored);
 }
-void Project::adopt_recovery(Project& candidate) noexcept {
+void Project::adopt_workspace(Project& candidate) noexcept {
     entries_.swap(candidate.entries_); views_.swap(candidate.views_); saved_revisions_.swap(candidate.saved_revisions_);
     path_.swap(candidate.path_); identity_.swap(candidate.identity_); instance_identity_.swap(candidate.instance_identity_); recovery_source_.swap(candidate.recovery_source_);
     std::swap(next_id_,candidate.next_id_); std::swap(active_image_,candidate.active_image_); std::swap(generation_,candidate.generation_);

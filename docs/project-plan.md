@@ -454,3 +454,14 @@ abnormal process exit. See [project-recovery.md](project-recovery.md). Checkpoin
 maintenance, abandoned work cleanup, moved-recovery association, ordinary project
 open/removal and background explicit IO remain M4 work. QuPath runtime comparisons
 and all unfinished M0-M7 requirements remain active.
+
+
+The sixteenth packet adds in-window ordinary project opening on a single worker,
+with ongoing live editing, cancellable adoption and staged Save/Discard/Cancel
+replacement. Failed loading/saving preserves authority; saving over the selected
+source reloads its new generation. Frame-boundary rebinding restores the opened
+active view and catalog. Python-origin documents retire on the owner thread to
+avoid shared-pointer GIL deadlocks. See [project-opening.md](project-opening.md).
+Empty desktop workspaces, image removal, checkpoint maintenance, abandoned work
+cleanup, moved-recovery association and background explicit saves/recovery loads
+remain M4 work. All unfinished M0-M7 requirements remain active.

@@ -119,7 +119,8 @@ Image selection at launch uses `--image-id`; the in-window
 [project browser](project-browser.md) also switches images and adds, renames or
 relinks entries. [Background autosave/recovery](project-recovery.md) and dirty-close
 decisions are implemented. Explicit primary saves and recovery loading remain
-synchronous; ordinary project-file replacement/removal UX remains M4 work.
+synchronous. [Ordinary project-file opening](project-opening.md) uses a worker
+and staged replacement. Empty desktop workspaces and image removal remain M4 work.
 
 ## Build and evidence
 

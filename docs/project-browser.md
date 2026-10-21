@@ -51,8 +51,9 @@ long-running vendor-pressure validation.
 Camera/display views are now [persisted in schema 2](project-workspace.md).
 Selection, editing history and unfinished tools remain session-local. The browser
 now provides [autosave/recovery and dirty-close choices](project-recovery.md).
-Ordinary project-file replacement, image removal and background explicit saves
-remain M4 work. Missing-source
+[Ordinary project-file opening/replacement](project-opening.md) now loads on a
+worker and shares the dirty-workspace decisions. Empty desktop workspaces, image
+removal and background explicit saves remain M4 work. Missing-source
 documents retain annotations and metadata while tile errors are shown. Source
 availability is a file-existence check, not proof of reader or byte identity.
 

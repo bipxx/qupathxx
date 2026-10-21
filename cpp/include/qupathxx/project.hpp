@@ -55,7 +55,7 @@ public:
 private:
     friend class ProjectAutosave;
     friend GuiReport run_gui(Document&,int,const std::string&,const GuiOptions&);
-    void adopt_recovery(Project& candidate) noexcept;
+    void adopt_workspace(Project& candidate) noexcept;
     static std::shared_ptr<Project> open_impl(const std::string& path,bool recovery);
     std::unique_ptr<Project> snapshot_for_save(std::size_t budget,std::size_t& bytes) const;
     void save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled=nullptr);
