@@ -52,6 +52,8 @@ QuPath port or a compatible replacement for Java QuPath.
   see [stain transforms](docs/stain-transforms.md).
 - Background ROI optical-density/stain means with cancellation and stale-result
   checks in C++, Python and ImGui; see [analysis jobs](docs/analysis-jobs.md).
+- Retained analysis records with ROI input digests, schema-3 project/recovery
+  storage and background rechecks; see [analysis provenance](docs/analysis-provenance.md).
 - Native background autosave, session-specific recovery files and dirty-close
   decisions; see [recovery](docs/project-recovery.md).
 

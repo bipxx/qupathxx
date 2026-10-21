@@ -46,7 +46,19 @@ FloatRgbImage::FloatRgbImage(std::int64_t width,std::int64_t height):width_(widt
         throw std::invalid_argument("float RGB result exceeds the 256 MiB output limit");
     values_.resize(pixels*3);
 }
-StainTransform::StainTransform(const std::vector<ColorVector>& stains,ColorVector white):white_(white) {
+StainTransform::StainTransform(const std::vector<ColorVector>& stains,ColorVector white):StainTransform(stains,white,false) {}
+StainTransform StainTransform::from_normalized(const std::array<ColorVector,3>& stains,ColorVector white) {
+    return StainTransform({stains[0],stains[1],stains[2]},white,true);
+}
+void StainTransform::validate_normalized(const std::array<ColorVector,3>& stains,ColorVector white) {
+    for(auto value:white) validate_white(value);
+    for(const auto& vector:stains) {
+        for(auto value:vector) if(!std::isfinite(value)) throw std::invalid_argument("nonfinite persisted stain vector");
+        if(std::abs(std::hypot(vector[0],vector[1],vector[2])-1)>1e-12) throw std::invalid_argument("persisted stain vectors must be normalized");
+    }
+    if(std::abs(dot(stains[0],cross(stains[1],stains[2])))<1e-8) throw std::invalid_argument("persisted stain basis is singular");
+}
+StainTransform::StainTransform(const std::vector<ColorVector>& stains,ColorVector white,bool normalized_input):white_(white) {
     if(stains.size()!=2 && stains.size()!=3) throw std::invalid_argument("provide two or three stain vectors");
     for(auto w:white_) validate_white(w);
     stains_[0]=normalized(stains[0]); stains_[1]=normalized(stains[1]);
@@ -54,6 +66,13 @@ StainTransform::StainTransform(const std::vector<ColorVector>& stains,ColorVecto
     if(stains.size()==2 && std::hypot(residual[0],residual[1],residual[2])<1e-8)
         throw std::invalid_argument("stain basis is singular or nearly singular");
     stains_[2]=normalized(stains.size()==3 ? stains[2] : residual);
+    if(normalized_input) {
+        for(std::size_t i=0;i<3;++i) {
+            if(std::abs(std::hypot(stains[i][0],stains[i][1],stains[i][2])-1)>1e-12)
+                throw std::invalid_argument("persisted stain vectors must be normalized");
+            stains_[i]=stains[i];
+        }
+    }
     const auto r0=cross(stains_[1],stains_[2]);
     const auto r1=cross(stains_[2],stains_[0]);
     const auto r2=cross(stains_[0],stains_[1]);

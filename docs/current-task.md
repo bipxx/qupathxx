@@ -8,9 +8,9 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 460 passing Python tests including analysis jobs, stains, shapes, interchange, browsing, workspace migration, recovery and GUI replay
+Evidence: 489 passing Python tests including retained analysis/provenance, analysis jobs, stains, shapes, interchange, browsing, workspace migration, recovery and GUI replay
 (two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
-sixteen native suites with optional geometry/readers/interchange enabled and disabled;
+seventeen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
 116 ms undo, 126 ms redo and 815 bytes of history payload for a rename. The spatial
@@ -196,8 +196,24 @@ The headless 4194304-pixel run records 0.0076 ms capture, 0.085 ms submission,
 100001-selected-object viewer records 25.4 ms analysis, 876 visible objects,
 16 MiB GPU payload, 16.88 ms sampled frame p95 and 17.17 ms maximum. Runtime
 source keys do not detect externally changed files or provide saved provenance.
-Next implement durable source/analysis provenance and the tissue-detection/
-connected-component path, continue numerical comparisons, and improve initial
+Retained native analysis records now add versioned ROI input SHA-256, original
+ROI/parameters/values, session-only verification and schema-3 project/recovery
+storage; see analysis-provenance.md. Schemas 1/2 open without rewriting and
+migrate transactionally on save. Copy/reopen trust stays cold. Native/Python/
+ImGui Keep/Recheck paths preserve history and detect input or summary mismatches;
+full-source/environment provenance remains open. Twenty-eight archive tests and a
+new GUI keep/save/reopen/recheck regression pass, alongside all 489 installed-
+wheel tests (two unavailable file-symlink cases skipped). All seventeen native
+suites pass in full/core/minimal builds, including both SHA-256 implementations.
+The 100000-record/100001-object workload appends in 76.3 ms, performs 10000 latest
+lookups in 3.24 ms, saves on a worker in 484 ms and reopens in 244 ms. It verifies
+the record cap and exact recheck. The selected viewer records 16.84 ms sampled
+frame p95, 17.27 ms maximum, 910 visible objects and 3 MiB GPU payload. Snapshot
+capture takes 50.1 ms and remains an optimization target. The archive benchmark
+shares one captured ROI/result across records; varied large archives are unproven.
+Next optimize archive/object snapshot sharing, implement the tissue-detection/
+connected-component path and complete source/environment provenance. Continue
+numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,

@@ -50,13 +50,15 @@ Automatic retention and abandoned work cleanup remain M4 work.
 
 ## Schema 1 to 2
 
-`Project.open` accepts schemas 1 and 2. Schema 1 opens read-only without creating
+`Project.open` accepts schemas 1, 2 and 3. Schema 1 opens read-only without creating
 views or changing its bytes. Missing view state means normal fit/default display.
-New saves use schema 2. Saving back to schema 1 checks project identity and save
-generation, then creates the `views` table and advances `user_version` in the
+New saves use schema 3, which also retains [analysis provenance](analysis-provenance.md).
+Saving back to schema 1 checks project identity and save generation, then creates
+the `views` and `analysis_records` tables and advances `user_version` in the
 same SQLite transaction as the canonical rows. Failure rolls back both schema
-and data. Save-as writes schema 2 to the new destination and leaves the source
-file unchanged. Older schema-1-only applications reject schema 2.
+and data. Schema 2 adds only the missing analysis table in that same transaction.
+Save-as writes schema 3 to the new destination and leaves the source file
+unchanged. Older schema-1/2-only applications reject schema 3.
 An interrupted writer's hot journal is an exception to read-only opening: SQLite
 requires write access to roll back its transaction before the read-only loader
 continues. This recovery performs no schema migration; see [project saving](project-save.md).

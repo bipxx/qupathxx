@@ -40,3 +40,27 @@ def test_gui_discards_results_after_selected_object_deletion():
     assert report.analysis_state == "stale"
     assert not report.analysis_means and report.analysis_samples == 0
     assert doc.object_count == 0
+
+
+def test_gui_keep_save_reopen_and_recheck(tmp_path):
+    if not q.has_project:
+        pytest.skip("project storage disabled")
+    project = q.Project()
+    doc = q.Document(q.Image.demo())
+    image = project.add_document(doc)
+    obj = doc.add_rectangle(q.Rect(100, 100, 120, 80))
+    options = q.GuiOptions()
+    options.inputs = [event(4, q.GuiInputKind.SELECT_ALL_KEY), event(8, q.GuiInputKind.ANALYZE_KEY), event(20, q.GuiInputKind.KEEP_ANALYSIS_KEY)]
+    report = q.show(doc, frame_limit=35, options=options)
+    assert report.analysis_records == 1 and report.saved_analysis_status == "current"
+    record = doc.latest_analysis(obj)
+    path = tmp_path/"analysis.qpxproj"
+    project.save(str(path))
+    restored = q.Project.open(str(path)).document(image)
+    assert restored.analysis_status(record.id) == "unverified"
+    revision = restored.revision
+    options.inputs = [event(4, q.GuiInputKind.SELECT_ALL_KEY), event(8, q.GuiInputKind.RECHECK_ANALYSIS_KEY)]
+    replayed = q.show(restored, frame_limit=35, options=options)
+    assert replayed.analysis_records == 1 and replayed.saved_analysis_status == "current"
+    assert restored.revision == revision
+    np.testing.assert_array_equal(replayed.analysis_means, record.result.means)

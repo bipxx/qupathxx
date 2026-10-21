@@ -29,11 +29,14 @@ private:
 class StainTransform {
 public:
     explicit StainTransform(const std::vector<ColorVector>& stains, ColorVector white={255,255,255});
+    static StainTransform from_normalized(const std::array<ColorVector,3>&,ColorVector white);
+    static void validate_normalized(const std::array<ColorVector,3>&,ColorVector white);
     const std::array<ColorVector,3>& stains() const { return stains_; }
     const ColorVector& white() const { return white_; }
     FloatRgbImage optical_densities(const PixelBuffer&,const std::atomic<bool>* cancelled=nullptr) const;
     FloatRgbImage deconvolve(const PixelBuffer&,const std::atomic<bool>* cancelled=nullptr) const;
 private:
+    StainTransform(const std::vector<ColorVector>&,ColorVector,bool normalized_input);
     FloatRgbImage transform(const PixelBuffer&,bool separate,const std::atomic<bool>*) const;
     std::array<ColorVector,3> stains_;
     ColorVector white_;

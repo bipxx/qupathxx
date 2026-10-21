@@ -1,4 +1,5 @@
 #include "qupathxx/core.hpp"
+#include "qupathxx/analysis.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/project_recovery.hpp"
 #include "qupathxx/project_save.hpp"
@@ -115,6 +116,10 @@ NB_MODULE(_native, m) {
         .def_ro("entries",&FeatureCacheStats::entries).def_ro("capacity",&FeatureCacheStats::capacity)
         .def_ro("hits",&FeatureCacheStats::hits).def_ro("misses",&FeatureCacheStats::misses);
     nb::class_<Document>(m, "Document").def(nb::init<Image>())
+        .def_prop_ro("analysis_records",&Document::analysis_records).def("analysis_record",&Document::analysis_record)
+        .def_prop_ro("analysis_record_count",&Document::analysis_record_count)
+        .def("latest_analysis",&Document::latest_analysis).def("analysis_status",&Document::analysis_status)
+        .def("keep_analysis",&Document::keep_analysis).def("verify_analysis",&Document::verify_analysis).def("remove_analysis",&Document::remove_analysis)
         .def(nb::init<std::shared_ptr<ImageServer>>())
         .def_prop_ro("image", &Document::image, nb::rv_policy::reference_internal)
         .def_prop_ro("server", &Document::server)
@@ -267,7 +272,8 @@ NB_MODULE(_native, m) {
         .value("INSERT_KEY",GuiInputKind::InsertKey).value("BOOLEAN_KEY",GuiInputKind::BooleanKey).value("SAVE_KEY",GuiInputKind::SaveKey).value("EXPORT_KEY",GuiInputKind::ExportKey).value("IMPORT_KEY",GuiInputKind::ImportKey)
         .value("NEXT_IMAGE_KEY",GuiInputKind::NextImageKey).value("PREVIOUS_IMAGE_KEY",GuiInputKind::PreviousImageKey).value("ADD_IMAGE_KEY",GuiInputKind::AddImageKey).value("RELINK_IMAGE_KEY",GuiInputKind::RelinkImageKey)
         .value("AUTOSAVE_KEY",GuiInputKind::AutosaveKey).value("RECOVER_KEY",GuiInputKind::RecoverKey).value("CLOSE_WINDOW",GuiInputKind::CloseWindow).value("OPEN_PROJECT_KEY",GuiInputKind::OpenProjectKey).value("NEW_PROJECT_KEY",GuiInputKind::NewProjectKey).value("REMOVE_IMAGE_KEY",GuiInputKind::RemoveImageKey).value("REVIEW_RECOVERY_KEY",GuiInputKind::ReviewRecoveryKey).value("FIND_RECOVERIES_KEY",GuiInputKind::FindRecoveriesKey).value("STOP_RECOVERY_MAINTENANCE_KEY",GuiInputKind::StopRecoveryMaintenanceKey)
-        .value("ANALYZE_KEY",GuiInputKind::AnalyzeKey).value("CANCEL_ANALYSIS_KEY",GuiInputKind::CancelAnalysisKey);
+        .value("ANALYZE_KEY",GuiInputKind::AnalyzeKey).value("CANCEL_ANALYSIS_KEY",GuiInputKind::CancelAnalysisKey)
+        .value("KEEP_ANALYSIS_KEY",GuiInputKind::KeepAnalysisKey).value("RECHECK_ANALYSIS_KEY",GuiInputKind::RecheckAnalysisKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image).value("PROJECT_LIST",GuiInputTarget::ProjectList).value("DISPLAY_RESET",GuiInputTarget::DisplayReset)
         .value("DISCARD_RECOVERY_REPLACEMENT",GuiInputTarget::DiscardRecoveryReplacement).value("KEEP_RECOVERY_CLOSE",GuiInputTarget::KeepRecoveryClose).value("CANCEL_CLOSE",GuiInputTarget::CancelClose).value("DISCARD_CLOSE",GuiInputTarget::DiscardClose)
         .value("SAVE_CLOSE",GuiInputTarget::SaveClose).value("SAVE_RECOVERY_REPLACEMENT",GuiInputTarget::SaveRecoveryReplacement).value("CANCEL_RECOVERY_REPLACEMENT",GuiInputTarget::CancelRecoveryReplacement).value("CANCEL_PROJECT_LOAD",GuiInputTarget::CancelProjectLoad).value("CONFIRM_REMOVE_IMAGE",GuiInputTarget::ConfirmRemoveImage).value("CANCEL_REMOVE_IMAGE",GuiInputTarget::CancelRemoveImage).value("CONFIRM_DISCARD_CHECKPOINT",GuiInputTarget::ConfirmDiscardCheckpoint).value("CANCEL_DISCARD_CHECKPOINT",GuiInputTarget::CancelDiscardCheckpoint);
@@ -298,7 +304,8 @@ NB_MODULE(_native, m) {
         .def_ro("retention_metadata_ms",&GuiReport::retention_metadata_ms).def_ro("retention_ownership_ms",&GuiReport::retention_ownership_ms).def_ro("retention_removal_ms",&GuiReport::retention_removal_ms).def_ro("retention_prefetch_peak",&GuiReport::retention_prefetch_peak)
         .def_ro("analysis_state",&GuiReport::analysis_state).def_ro("analysis_error",&GuiReport::analysis_error)
         .def_ro("analysis_means",&GuiReport::analysis_means).def_ro("analysis_samples",&GuiReport::analysis_samples)
-        .def_ro("analysis_object",&GuiReport::analysis_object).def_ro("analysis_tiles",&GuiReport::analysis_tiles).def_ro("analysis_ms",&GuiReport::analysis_ms);
+        .def_ro("analysis_object",&GuiReport::analysis_object).def_ro("analysis_tiles",&GuiReport::analysis_tiles).def_ro("analysis_ms",&GuiReport::analysis_ms)
+        .def_ro("analysis_records",&GuiReport::analysis_records).def_ro("saved_analysis_status",&GuiReport::saved_analysis_status);
     bind_analysis(m);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;

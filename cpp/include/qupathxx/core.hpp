@@ -10,6 +10,7 @@
 #include "qupathxx/display.hpp"
 #include "qupathxx/geometry.hpp"
 #include "qupathxx/spatial_index.hpp"
+#include "qupathxx/analysis_types.hpp"
 
 namespace qpx {
 class Project;
@@ -135,6 +136,14 @@ public:
     double mean_intensity(std::uint64_t id) const;
     double nucleus_area_um2(std::uint64_t id) const;
     double nucleus_mean_intensity(std::uint64_t id) const;
+    std::vector<AnalysisRecord> analysis_records() const;
+    std::size_t analysis_record_count() const {return analysis_.size();}
+    AnalysisRecord analysis_record(std::uint64_t id) const;
+    std::optional<AnalysisRecord> latest_analysis(std::uint64_t object_id) const;
+    std::string analysis_status(std::uint64_t id) const;
+    std::uint64_t keep_analysis(const class AnalysisRequest&,const AnalysisResult&);
+    bool verify_analysis(std::uint64_t id,const class AnalysisRequest&,const AnalysisResult&);
+    bool remove_analysis(std::uint64_t id);
 private:
     friend class Project;
     friend class AnalysisRequest;
@@ -146,6 +155,16 @@ private:
         AnalysisIdentity(const AnalysisIdentity&) {}
         AnalysisIdentity& operator=(const AnalysisIdentity&) {token=std::make_shared<const char>();return *this;}
     } analysis_identity_;
+    struct StoredAnalysis {
+        AnalysisRecord value;
+        std::shared_ptr<const char> identity;
+        std::weak_ptr<ImageServer> source;
+        bool verified=false;
+    };
+    std::map<std::uint64_t,StoredAnalysis> analysis_;
+    std::map<std::pair<std::uint64_t,std::uint64_t>,bool> analysis_by_object_;
+    std::size_t analysis_bytes_=0;
+    void restore_analysis(AnalysisRecord);
     Document() = default; // Project's private save snapshots populate canonical fields only.
     static std::shared_ptr<Document> restore(std::shared_ptr<ImageServer> server,
         const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
@@ -286,8 +305,10 @@ struct GuiReport {
     std::vector<double> analysis_means;
     std::uint64_t analysis_samples=0,analysis_object=0,analysis_tiles=0;
     double analysis_ms=0;
+    std::size_t analysis_records=0;
+    std::string saved_analysis_status;
 };
-enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey };
+enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey };
 enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint };
 struct GuiInput {
     int frame = 0;

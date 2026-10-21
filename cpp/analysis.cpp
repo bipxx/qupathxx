@@ -1,4 +1,5 @@
 #include "qupathxx/analysis.hpp"
+#include "sha256.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -47,12 +48,21 @@ struct AnalysisKernel {
         result.object_id=request.object_id_; result.object_revision=request.object_revision_; result.document_revision=request.document_revision_;
         result.kind=request.kind_; result.nucleus=request.nucleus_; result.white=request.transform_.white(); result.stains=request.transform_.stains();
         ColorVector sum{},correction{};
+        Sha256 digest;
+        constexpr char format[]="qpx.rgba-tiles/1";digest.update(format,sizeof(format)-1);
+        digest.integer(static_cast<std::uint64_t>(request.source_->metadata().width));
+        digest.integer(static_cast<std::uint64_t>(request.source_->metadata().height));
+        for(auto value:{request.x0_,request.y0_,request.x1_,request.y1_}) digest.integer(static_cast<std::uint64_t>(value));
+        digest.integer(request.tile_size_);
         const auto step=static_cast<std::int64_t>(request.tile_size_);
         for(auto y=request.y0_;y<request.y1_;) {
             const auto h=std::min(step,request.y1_-y);
             for(auto x=request.x0_;x<request.x1_;) {
                 const auto w=std::min(step,request.x1_-x); check_cancelled(cancelled);
                 const auto pixels=request.source_->read_region({x,y,0,w,h});
+                if(pixels.width()!=w || pixels.height()!=h) throw std::runtime_error("reader returned incorrect analysis tile dimensions");
+                for(auto value:{x,y,w,h}) digest.integer(static_cast<std::uint64_t>(value));
+                digest.update(pixels.bytes().data(),pixels.bytes().size());
                 const auto values=request.kind_==AnalysisKind::StainMeans?request.transform_.deconvolve(pixels,cancelled):request.transform_.optical_densities(pixels,cancelled);
                 const auto& data=values.values();
                 for(std::int64_t row=0;row<h;++row) {
@@ -76,6 +86,7 @@ struct AnalysisKernel {
         check_cancelled(cancelled);
         if(!result.samples) throw std::invalid_argument("ROI contains no opaque pixel centers");
         for(std::size_t c=0;c<3;++c) result.means[c]=sum[c]/static_cast<double>(result.samples);
+        result.input_sha256=digest.finish();
         result.elapsed_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-started).count();
         return result;
     }
@@ -141,5 +152,20 @@ AnalysisStats AnalysisJob::poll(const Document& document,std::uint64_t selected_
 }
 AnalysisStats AnalysisJob::wait(const Document& document,std::uint64_t selected_id) {
     poll(document,selected_id); if(busy()) impl_->future.wait(); return poll(document,selected_id);
+}
+std::uint64_t AnalysisJob::keep_result(Document& document,std::uint64_t selected_id) {
+    if(poll(document,selected_id).state!="ready" || !impl_->request || !impl_->result) throw std::logic_error("no current analysis result to keep");
+    return document.keep_analysis(*impl_->request,*impl_->result);
+}
+bool AnalysisJob::verify_result(Document& document,std::uint64_t id) {
+    const auto record=document.analysis_record(id);
+    if(poll(document,record.result.object_id).state!="ready" || !impl_->request || !impl_->result) throw std::logic_error("no current analysis result to verify");
+    return document.verify_analysis(id,*impl_->request,*impl_->result);
+}
+AnalysisRequest AnalysisRequest::replay(const Document& document,std::uint64_t id) {
+    const auto record=document.analysis_record(id);
+    AnalysisRequest request(document,record.result.object_id,StainTransform::from_normalized(record.result.stains,record.result.white),record.result.kind,record.result.nucleus,record.tile_size);
+    if(request.object_revision()!=record.result.object_revision || !request.roi().equals(record.roi)) throw std::invalid_argument("saved analysis object has changed");
+    return request;
 }
 }

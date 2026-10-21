@@ -3,7 +3,6 @@
 #include "qupathxx/stains.hpp"
 
 namespace qpx {
-enum class AnalysisKind { OpticalDensityMeans, StainMeans };
 
 // Capture and matches are owner-thread operations. Workers only read the
 // immutable snapshot. The source stays owned by the caller/controller thread.
@@ -21,8 +20,10 @@ public:
     std::uint64_t total_tiles() const {return total_tiles_;}
     const Roi& roi() const {return roi_;}
     const StainTransform& transform() const {return transform_;}
+    static AnalysisRequest replay(const Document&,std::uint64_t record_id);
 private:
     friend struct AnalysisKernel;
+    friend class Document;
     std::shared_ptr<const char> identity_;
     std::shared_ptr<ImageServer> source_;
     std::uint64_t object_id_,object_revision_,document_revision_,total_tiles_;
@@ -32,15 +33,6 @@ private:
     Roi roi_;
     StainTransform transform_;
     std::int64_t x0_,y0_,x1_,y1_;
-};
-struct AnalysisResult {
-    std::string algorithm="qpx.roi-channel-means/1";
-    std::uint64_t object_id=0,object_revision=0,document_revision=0,samples=0,tiles=0;
-    AnalysisKind kind=AnalysisKind::OpticalDensityMeans;
-    bool nucleus=false;
-    ColorVector means{},white{};
-    std::array<ColorVector,3> stains{};
-    double elapsed_ms=0;
 };
 AnalysisResult analyze(const AnalysisRequest&,const std::atomic<bool>* cancelled=nullptr);
 
@@ -62,6 +54,8 @@ public:
     void cancel();
     bool busy() const;
     std::optional<AnalysisResult> result() const;
+    std::uint64_t keep_result(Document&,std::uint64_t selected_id);
+    bool verify_result(Document&,std::uint64_t record_id);
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;

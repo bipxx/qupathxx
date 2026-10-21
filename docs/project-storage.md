@@ -1,9 +1,11 @@
 # Native multi-image project storage
 
 The native `Project` owns shared documents, stable image IDs, image names and
-source descriptors. SQLite schema version 2 stores canonical object state,
+source descriptors. SQLite schema version 3 stores canonical object state,
 class definitions, per-axis calibration, source metadata, the active image and
-per-image camera/display views. Schema 1 remains readable; see [workspace migration](project-workspace.md).
+per-image camera/display views and retained analysis records. Schemas 1 and 2
+remain readable; see [workspace migration](project-workspace.md) and
+[analysis provenance](analysis-provenance.md).
 The public Python API uses the same native container; it does not serialize a
 separate Python model. All project/document mutation is single-threaded and
 retains the Python GIL. Shared documents remain alive after removal from a project.
@@ -54,7 +56,10 @@ after restart even if reader metadata contains a known scale.
 Canonical state and stored camera/display views survive restart; editing history,
 history-retention settings and selection remain session state. Area and RGB
 measurements are recomputed from the restored shape/calibration/source. Stored
-analysis measurements and provenance will be added with their M5 contracts.
+OD/stain analysis records now persist original ROIs, parameters, summaries and
+input digests. They load as unverified historical values until a background
+recheck; see [analysis provenance](analysis-provenance.md). Full-source and
+environment provenance remain M5 work.
 
 ## Transactions and save conflicts
 
@@ -65,7 +70,7 @@ are removed. Commit updates the in-memory saved path, generation and saved
 document revisions only after SQLite reports success. A failure rolls back the
 transaction and leaves unsaved in-memory edits available.
 
-The application ID is `0x51505858` and new `user_version` is 2. Schema 1 migrates
+The application ID is `0x51505858` and new `user_version` is 3. Schemas 1/2 migrate
 transactionally on save. Unknown schemas and
 unrelated databases are rejected. A different project identity at the destination
 is rejected rather than overwritten. Save to a new filename for a separate copy.

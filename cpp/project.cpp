@@ -91,6 +91,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         else add(sizeof(LinkedServer)+e.document->metadata().levels.size()*sizeof(ImageLevel)+e.document->metadata().vendor.size()+e.info.source_path.size()+e.info.reader.size());
         for(const auto& [key,a]:e.document->objects_) add(sizeof(Annotation)+64+a.name.size()+a.class_name.size()+a.geometry.payload_bytes()+(a.nucleus?a.nucleus->payload_bytes():0));
         for(const auto& [name,c]:e.document->classes_) add(sizeof(ObjectClass)+96+name.size()+c.name.size());
+        add(e.document->analysis_bytes_);
     }
     for(const auto& [id,v]:views_) add(sizeof(ProjectView)+64);
     auto snapshot=std::make_unique<Project>();
@@ -104,6 +105,8 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         doc->objects_=e.document->objects_; doc->classes_=e.document->classes_;
         doc->next_id_=e.document->next_id_; doc->revision_=e.document->revision_;
         doc->pixel_width_um_=e.document->pixel_width_um_; doc->pixel_height_um_=e.document->pixel_height_um_;
+        for(const auto& [key,record]:e.document->analysis_) doc->analysis_.emplace(key,Document::StoredAnalysis{record.value,{},{},false});
+        doc->analysis_by_object_=e.document->analysis_by_object_;doc->analysis_bytes_=e.document->analysis_bytes_;
         snapshot->entries_.emplace(id,Entry{e.info,std::move(doc)});
     }
     return snapshot;
@@ -331,16 +334,19 @@ std::uint64_t number(const std::string& text) {
 int schema(Database& db,bool allow_recovery=false) {
     auto version=scalar(db,"PRAGMA user_version");
     auto app=scalar(db,"PRAGMA application_id");
-    if((app!=application_id && !(allow_recovery && app==recovery_application_id)) || (version!=1 && version!=2))
-        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 or 2)");
+    if((app!=application_id && !(allow_recovery && app==recovery_application_id)) || (version!=1 && version!=2 && version!=3))
+        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1, 2 or 3)");
     return static_cast<int>(version);
 }
 void create_views(Database& db) {
     db.exec("CREATE TABLE views(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),center_x REAL NOT NULL,center_y REAL NOT NULL,zoom REAL NOT NULL,mode INTEGER NOT NULL,black REAL NOT NULL,white REAL NOT NULL,gamma REAL NOT NULL) STRICT; PRAGMA user_version=2;");
 }
+void create_analysis(Database& db) {
+    db.exec("CREATE TABLE analysis_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,object_id TEXT NOT NULL,object_revision TEXT NOT NULL,document_revision TEXT NOT NULL,algorithm TEXT NOT NULL,input_sha256 TEXT NOT NULL,kind INTEGER NOT NULL,nucleus INTEGER NOT NULL,tile_size INTEGER NOT NULL,samples TEXT NOT NULL,tiles TEXT NOT NULL,elapsed_ms REAL NOT NULL,mean_r REAL NOT NULL,mean_g REAL NOT NULL,mean_b REAL NOT NULL,white_r REAL NOT NULL,white_g REAL NOT NULL,white_b REAL NOT NULL,s00 REAL NOT NULL,s01 REAL NOT NULL,s02 REAL NOT NULL,s10 REAL NOT NULL,s11 REAL NOT NULL,s12 REAL NOT NULL,s20 REAL NOT NULL,s21 REAL NOT NULL,s22 REAL NOT NULL,geometry BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=3;");
+}
 bool recovery_table(Database& db) { return scalar(db,"SELECT count(*) FROM sqlite_schema WHERE type='table' AND name='recovery'")!=0; }
 RecoveryInfo recovery_header(Database& db,const std::string& path) {
-    if(scalar(db,"PRAGMA application_id")!=recovery_application_id || schema(db,true)!=2 || !recovery_table(db)) throw std::invalid_argument("not a supported recovery snapshot");
+    if(scalar(db,"PRAGMA application_id")!=recovery_application_id || schema(db,true)<2 || !recovery_table(db)) throw std::invalid_argument("not a supported recovery snapshot");
     Statement row(db,"SELECT identity,session,base_path,base_generation,created_ms,image_count,object_count FROM recovery");
     if(!row.row()) throw std::invalid_argument("missing recovery metadata");
     RecoveryInfo info; info.path=path; info.identity=row.string(0); info.session=row.string(1); info.base_path=row.string(2);
@@ -432,8 +438,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         // Schema changes share the same transaction as canonical rows. A failed
         // save rolls back both the migration and data, retaining the v1 project.
         if(version==1) create_views(db);
+        if(version<3) create_analysis(db);
     }
-    db.exec("DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) create_analysis(db);
+    db.exec("DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -441,6 +449,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement classification(db,"INSERT INTO classes VALUES(?,?,?)");
     Statement object(db,"INSERT INTO objects VALUES(?,?,?,?,?,?,?,?,?)");
     Statement view(db,"INSERT INTO views VALUES(?,?,?,?,?,?,?,?)");
+    Statement analysis(db,"INSERT INTO analysis_records VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     auto directory=link_directory.empty()?fs::u8path(destination).parent_path():fs::u8path(link_directory);
     for(const auto& [id,e]:entries_) {
         if(cancelled && cancelled->load()) throw std::runtime_error("recovery cancelled");
@@ -470,6 +479,17 @@ void Project::save_impl(const std::string& path,const std::string& link_director
             auto nucleus=a.nucleus?encode(*a.nucleus):std::vector<std::uint8_t>{}; if(a.nucleus) object.blob(9,nucleus);
             object.done();
         }
+    }
+    for(const auto& [image_id,e]:entries_) for(const auto& [record_id,stored]:e.document->analysis_) {
+        if(cancelled && cancelled->load()) throw std::runtime_error("project save cancelled");
+        const auto& record=stored.value;const auto& r=record.result;
+        analysis.string(1,std::to_string(image_id));analysis.string(2,std::to_string(record.id));analysis.string(3,std::to_string(r.object_id));
+        analysis.string(4,std::to_string(r.object_revision));analysis.string(5,std::to_string(r.document_revision));analysis.string(6,r.algorithm);analysis.string(7,r.input_sha256);
+        analysis.integer(8,static_cast<int>(r.kind));analysis.integer(9,r.nucleus?1:0);analysis.integer(10,static_cast<std::int64_t>(record.tile_size));
+        analysis.string(11,std::to_string(r.samples));analysis.string(12,std::to_string(r.tiles));analysis.real(13,r.elapsed_ms);
+        for(int c=0;c<3;++c) {analysis.real(14+c,r.means[c]);analysis.real(17+c,r.white[c]);}
+        for(int i=0;i<3;++i) for(int c=0;c<3;++c) analysis.real(20+i*3+c,r.stains[i][c]);
+        const auto geometry=encode(record.roi);analysis.blob(29,geometry);analysis.done();
     }
     // Canonical rows and recovery provenance must commit together.
     if(recovery) {
@@ -572,7 +592,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
     }
     stopped(); if(progress) progress->phase.store(4);
     if(project->active_image_ && !project->entries_.count(project->active_image_)) throw std::invalid_argument("project active image does not exist");
-    if(version==2) {
+    if(version>=2) {
         Statement views(db,"SELECT image_id,center_x,center_y,zoom,mode,black,white,gamma FROM views");
         while(views.row()) {
             auto id=number(views.string(0)); auto mode=views.integer(4);
@@ -581,6 +601,23 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             ProjectView v{{views.real(1),views.real(2)},views.real(3),{static_cast<DisplayMode>(mode),views.real(5),views.real(6),views.real(7)}};
             validate_view(v,project->entry(id).document->metadata());
             if(!project->views_.emplace(id,v).second) throw std::invalid_argument("duplicate persisted view");
+        }
+    }
+    if(version>=3) {
+        Statement rows(db,"SELECT image_id,id,object_id,object_revision,document_revision,algorithm,input_sha256,kind,nucleus,tile_size,samples,tiles,elapsed_ms,mean_r,mean_g,mean_b,white_r,white_g,white_b,s00,s01,s02,s10,s11,s12,s20,s21,s22,geometry FROM analysis_records ORDER BY image_id,id");
+        while(rows.row()) {
+            stopped();auto image_id=number(rows.string(0));auto image=project->entries_.find(image_id);
+            if(image==project->entries_.end()) throw std::invalid_argument("orphaned analysis record");
+            AnalysisRecord record;auto& r=record.result;
+            record.id=number(rows.string(1));r.object_id=number(rows.string(2));r.object_revision=number(rows.string(3));r.document_revision=number(rows.string(4));
+            r.algorithm=rows.string(5);r.input_sha256=rows.string(6);
+            auto kind=rows.integer(7),nucleus=rows.integer(8),tile=rows.integer(9);
+            if(kind<0 || kind>1 || nucleus<0 || nucleus>1 || tile<16 || tile>1024) throw std::invalid_argument("invalid persisted analysis parameters");
+            r.kind=static_cast<AnalysisKind>(kind);r.nucleus=nucleus!=0;record.tile_size=static_cast<std::size_t>(tile);
+            r.samples=number(rows.string(10));r.tiles=number(rows.string(11));r.elapsed_ms=rows.real(12);
+            for(int c=0;c<3;++c) {r.means[c]=rows.real(13+c);r.white[c]=rows.real(16+c);}
+            for(int i=0;i<3;++i) for(int c=0;c<3;++c) r.stains[i][c]=rows.real(19+i*3+c);
+            record.roi=decode(rows,28);image->second.document->restore_analysis(std::move(record));
         }
     }
     if(scalar(db,"SELECT count(*) FROM objects WHERE image_id NOT IN (SELECT id FROM images)") ||

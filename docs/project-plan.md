@@ -744,3 +744,26 @@ maximum poll with 1 MiB tile payload. The 100001-object selected viewer records
 p95 and 17.17 ms maximum. Runtime identity does not replace durable source
 fingerprints or saved analysis provenance. Those, tissue/cell algorithms, batch
 execution, upstream runtime comparisons and all remaining M0-M7 gates stay open.
+
+The thirty-first packet retains native analysis records with original ROI,
+normalized coefficients, summaries and a versioned SHA-256 stream over actual
+decoded input tiles. Explicit Keep/Recheck paths share C++/Python/ImGui APIs;
+reopening starts with unverified history, and a native replay compares digests,
+parameters and exact summaries before session trust is granted. Schema 3 stores
+records in projects and recovery snapshots, with transactional schema-1/2
+migrations, bounded archives and validated restoration. See
+[analysis provenance](analysis-provenance.md) for scope and ownership contracts.
+
+Twenty-eight archive regressions cover independent hashlib reconstruction, changed
+same-size/timestamp pixels, finite-summary corruption, history, stale rollback,
+save/recovery baselines, malformed records and migration rollback. A GUI replay
+keeps, saves, reopens and rechecks a retained result. All 489 installed-wheel
+Python tests pass with two unavailable file-symlink cases skipped; all seventeen
+native suites pass in full/core/minimal builds. The 100000-record/100001-object
+benchmark records 76.3 ms append, 3.24 ms for 10000 latest lookups, 484 ms worker
+save, 244 ms reopening and 16.84 ms selected-view frame p95. Its 50.1 ms owner-
+thread snapshot capture remains a responsiveness target. The capacity endpoint
+rejects record 100001 without a revision change. This is a repeated-ROI archive
+stress case, not 100000 independent analyses. Full-source/environment provenance,
+archive snapshot optimization, tissue/cell algorithms, upstream comparisons and
+all remaining M0-M7 requirements stay active.

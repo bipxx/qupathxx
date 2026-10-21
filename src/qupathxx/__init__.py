@@ -1,6 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
-    AnalysisKind, AnalysisRequest, AnalysisResult, AnalysisStats, AnalysisJob, analyze,
+    AnalysisKind, AnalysisRequest, AnalysisResult, AnalysisRecord, AnalysisStats, AnalysisJob, analyze,
     optical_density, FloatRgbImage, StainTransform,
     RoiMeasurements, ShapeMeasurements, FeatureCacheStats,
     Annotation, ObjectEdit, ObjectKind, ObjectClass, ObjectSelection, Document, Image, ImageLevel, ImageMetadata, ImageServer,
@@ -16,7 +16,7 @@ from ._native import (
 )
 
 __all__ = [
-    "AnalysisKind", "AnalysisRequest", "AnalysisResult", "AnalysisStats", "AnalysisJob", "analyze",
+    "AnalysisKind", "AnalysisRequest", "AnalysisResult", "AnalysisRecord", "AnalysisStats", "AnalysisJob", "analyze",
     "optical_density", "FloatRgbImage", "StainTransform",
     "RoiMeasurements", "ShapeMeasurements", "FeatureCacheStats",
     "Annotation", "ObjectEdit", "ObjectKind", "ObjectClass", "ObjectSelection", "Document", "Image", "ImageLevel", "ImageMetadata", "ImageServer",

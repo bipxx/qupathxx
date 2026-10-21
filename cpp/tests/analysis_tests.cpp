@@ -34,8 +34,14 @@ int main() {
         const auto value=qpx::analyze(request);
         check(value.samples==2 && value.tiles==1);
         check(std::abs(value.means[0]-static_cast<float>(qpx::optical_density(10))/2)<1e-12);
+        const auto kept=document.keep_analysis(request,value);check(document.analysis_status(kept)=="current");
+        check(document.analysis_record_count()==1 && document.latest_analysis(id)->id==kept);
         qpx::Document copy=document;
         check(!request.matches(copy,id));
+        check(copy.analysis_status(kept)=="unverified");
+        const auto replay=qpx::AnalysisRequest::replay(copy,kept);
+        check(copy.verify_analysis(kept,replay,qpx::analyze(replay)) && copy.analysis_status(kept)=="current");
+        check(copy.remove_analysis(kept) && document.analysis_record_count()==1);
         auto fresh=qpx::AnalysisRequest(copy,id,transform); copy=document;
         check(!fresh.matches(copy,id));
         qpx::Document moved=std::move(document); check(!request.matches(moved,id));

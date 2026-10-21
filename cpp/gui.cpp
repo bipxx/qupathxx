@@ -174,6 +174,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     AnalysisJob analysis;
     int analysis_kind=options.analysis_kind;
     bool analysis_nucleus=options.analysis_nucleus;
+    std::uint64_t kept_analysis_generation=0,pending_analysis_recheck=0;
     Viewport viewport;
     if(options.start_view) viewport=*options.start_view;
     bool fit = true, drawing = false;
@@ -542,7 +543,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (!options.inputs.empty()) {
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
-            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12,ImGuiKey_M}) input.AddKeyEvent(key,false);
+            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12,ImGuiKey_M,ImGuiKey_K}) input.AddKeyEvent(key,false);
         }
         for (const auto& event:options.inputs) if (event.frame==frames) {
             auto origin=event.target==GuiInputTarget::Canvas?previous_canvas:(event.target==GuiInputTarget::Overview?overview_offset:list_offset);
@@ -609,6 +610,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::StopRecoveryMaintenanceKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_F10,true); break;
                 case GuiInputKind::AnalyzeKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_M,true); break;
                 case GuiInputKind::CancelAnalysisKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiMod_Shift,true); input.AddKeyEvent(ImGuiKey_M,true); break;
+                case GuiInputKind::KeepAnalysisKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_K,true); break;
+                case GuiInputKind::RecheckAnalysisKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiMod_Shift,true); input.AddKeyEvent(ImGuiKey_K,true); break;
                 default: break;
             }
         }
@@ -1068,6 +1071,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::SeparatorText(selection->size()>1?"Measurements (primary object)":"Measurements");
         mean.poll(selected,document.revision());
         auto analysis_status=analysis.poll(document,selected);
+        if(pending_analysis_recheck && !analysis.busy()) {
+            if(analysis_status.state=="ready") {
+                try {analysis.verify_result(document,pending_analysis_recheck);}
+                catch(const std::exception& e) {error=e.what();}
+            }
+            pending_analysis_recheck=0;
+        }
         if (selected) {
             try {
                 const auto features=document.shape_measurements(selected);
@@ -1123,6 +1133,43 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(!analysis_status.error.empty()) ImGui::TextWrapped("Analysis: %s",analysis_status.error.c_str());
             if(analysis_status.state=="stale") ImGui::TextDisabled("Inputs changed; run analysis again.");
             if(analysis_status.state=="cancelled") ImGui::TextDisabled("Analysis cancelled.");
+            const bool archive_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_K);
+            const bool can_keep=analysis_status.state=="ready" && !analysis.busy() && kept_analysis_generation!=analysis_status.generation;
+            ImGui::BeginDisabled(!can_keep);
+            const bool keep_clicked=ImGui::Button("Keep result (Ctrl+K)") || (archive_key && !io.KeyShift);
+            ImGui::EndDisabled();
+            if(can_keep && keep_clicked) {
+                try {analysis.keep_result(document,selected);kept_analysis_generation=analysis_status.generation;error.clear();}
+                catch(const std::exception& e) {error=e.what();}
+            }
+            if(const auto saved=document.latest_analysis(selected)) {
+                const auto state=document.analysis_status(saved->id);
+                ImGui::SeparatorText("Saved analysis");
+                const char* label=state=="current"?"Verified for this session":state=="unverified"?"Needs recheck":
+                    state=="object_changed"?"Object changed":state=="source_changed"?"Source changed":state=="source_closed"?"Image closed":"Recheck failed";
+                ImGui::TextUnformatted(label);
+                ImGui::Text("%s / %s",saved->result.kind==AnalysisKind::StainMeans?"Stains":"Optical density",saved->result.nucleus?"Nucleus":"Body");
+                for(std::size_t c=0;c<3;++c) ImGui::Text("Saved channel %d: %.6g",static_cast<int>(c+1),saved->result.means[c]);
+                const bool can_recheck=!analysis.busy() && state!="object_changed" && state!="source_closed";
+                ImGui::BeginDisabled(!can_recheck);
+                const bool recheck_clicked=ImGui::Button("Recheck saved (Ctrl+Shift+K)") || (archive_key && io.KeyShift);
+                ImGui::EndDisabled();
+                if(can_recheck && recheck_clicked) {
+                    try {
+                        auto replay=AnalysisRequest::replay(document,saved->id);
+                        analysis.request(replay);pending_analysis_recheck=saved->id;
+                        analysis_kind=saved->result.kind==AnalysisKind::StainMeans?1:0;analysis_nucleus=saved->result.nucleus;
+                        analysis_white.assign(saved->result.white.begin(),saved->result.white.end());
+                        for(std::size_t i=0;i<2;++i) for(std::size_t c=0;c<3;++c) analysis_vectors[i*3+c]=saved->result.stains[i][c];
+                        error.clear();
+                    } catch(const std::exception& e) {error=e.what();}
+                }
+                if(ImGui::TreeNode("Saved provenance")) {
+                    ImGui::Text("Record: %llu",static_cast<unsigned long long>(saved->id));
+                    ImGui::TextWrapped("Algorithm: %s",saved->result.algorithm.c_str());
+                    ImGui::TextWrapped("Input SHA-256: %s",saved->result.input_sha256.c_str());ImGui::TreePop();
+                }
+            }
         } else ImGui::TextDisabled("Select an annotation");
         if (!error.empty()) ImGui::TextWrapped("%s", error.c_str());
         } else ImGui::TextDisabled("Select or add an image to use image tools.");
@@ -1550,6 +1597,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     const bool empty=options.project && !active_image;
     const auto analysis_status=analysis.poll(*active_document,selection->primary());
     const auto analysis_result=analysis.result();
+    const auto saved_analysis=active_document->latest_analysis(selection->primary());
     return {frames,previous_uploads+tiles->uploads(),std::max(previous_peak_bytes,tiles->peak_bytes()),previous_generations+tiles->generations(),p95,tiles->pending(),empty?0:viewport.zoom,empty?Point{}:viewport.origin,
         empty?Point{}:viewport.screen_to_image({previous_canvas_size.x/2,previous_canvas_size.y/2}),last_width,last_height,
         reinterpret_cast<const char*>(glGetString(GL_RENDERER)),reinterpret_cast<const char*>(glGetString(GL_VERSION)),visible_count,selection->ids(),selection->primary(),active_image,image_switches,max_image_switch_ms,project_error,
@@ -1559,7 +1607,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         autosave.stats().retention_cancelled,autosave.stats().retention_inspected,autosave.stats().retention_metadata_ms,autosave.stats().retention_ownership_ms,autosave.stats().retention_removal_ms,autosave.stats().retention_prefetch_peak,
         startup_succeeded,startup_cancelled,startup_frames,startup_progress->images.load(),startup_progress->objects.load(),startup_ms,
         analysis_status.state,analysis_status.error,analysis_result?std::vector<double>(analysis_result->means.begin(),analysis_result->means.end()):std::vector<double>{},
-        analysis_result?analysis_result->samples:0,analysis_result?analysis_result->object_id:0,analysis_status.completed_tiles,analysis_status.elapsed_ms};
+        analysis_result?analysis_result->samples:0,analysis_result?analysis_result->object_id:0,analysis_status.completed_tiles,analysis_status.elapsed_ms,
+        active_document->analysis_record_count(),saved_analysis?active_document->analysis_status(saved_analysis->id):std::string{}};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

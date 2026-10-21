@@ -16,9 +16,10 @@ void bind_analysis(nb::module_& m) {
         .def_prop_ro("document_revision",&AnalysisRequest::document_revision).def_prop_ro("kind",&AnalysisRequest::kind)
         .def_prop_ro("nucleus",&AnalysisRequest::nucleus).def_prop_ro("tile_size",&AnalysisRequest::tile_size)
         .def_prop_ro("total_tiles",&AnalysisRequest::total_tiles).def_prop_ro("roi",&AnalysisRequest::roi)
-        .def_prop_ro("transform",&AnalysisRequest::transform,nb::rv_policy::copy);
+        .def_prop_ro("transform",&AnalysisRequest::transform,nb::rv_policy::copy)
+        .def_static("replay",&AnalysisRequest::replay,"document"_a,"record_id"_a);
     nb::class_<AnalysisResult>(m,"AnalysisResult")
-        .def_ro("algorithm",&AnalysisResult::algorithm).def_ro("object_id",&AnalysisResult::object_id)
+        .def_ro("algorithm",&AnalysisResult::algorithm).def_ro("input_sha256",&AnalysisResult::input_sha256).def_ro("object_id",&AnalysisResult::object_id)
         .def_ro("object_revision",&AnalysisResult::object_revision).def_ro("document_revision",&AnalysisResult::document_revision)
         .def_ro("kind",&AnalysisResult::kind).def_ro("nucleus",&AnalysisResult::nucleus)
         .def_ro("samples",&AnalysisResult::samples).def_ro("tiles",&AnalysisResult::tiles)
@@ -31,5 +32,8 @@ void bind_analysis(nb::module_& m) {
     nb::class_<AnalysisJob>(m,"AnalysisJob").def(nb::init<>()).def("request",&AnalysisJob::request)
         .def("poll",&AnalysisJob::poll,"document"_a,"selected_id"_a)
         .def("wait",&AnalysisJob::wait,"document"_a,"selected_id"_a,nb::call_guard<nb::gil_scoped_release>())
-        .def("cancel",&AnalysisJob::cancel).def_prop_ro("busy",&AnalysisJob::busy).def_prop_ro("result",&AnalysisJob::result);
+        .def("cancel",&AnalysisJob::cancel).def_prop_ro("busy",&AnalysisJob::busy).def_prop_ro("result",&AnalysisJob::result)
+        .def("keep_result",&AnalysisJob::keep_result,"document"_a,"selected_id"_a).def("verify_result",&AnalysisJob::verify_result,"document"_a,"record_id"_a);
+    nb::class_<AnalysisRecord>(m,"AnalysisRecord").def_ro("id",&AnalysisRecord::id).def_ro("result",&AnalysisRecord::result)
+        .def_ro("roi",&AnalysisRecord::roi).def_ro("tile_size",&AnalysisRecord::tile_size);
 }

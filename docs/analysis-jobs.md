@@ -31,8 +31,10 @@ include calibration in its own dependency contract.
 
 These are **runtime identity checks**, not an image-content fingerprint. A file
 modified externally while an existing reader is open is not detected here.
-Durable source fingerprints, saved analysis manifests and full reproducibility
-after reopening remain required work. The captured document revision is
+Retained records now add decoded ROI input digests and explicit rechecks after
+reopening; see [analysis provenance](analysis-provenance.md). Whole-source
+fingerprints, environment manifests and full reproducibility remain required work.
+The captured document revision is
 provenance, not a dependency that invalidates on every unrelated edit.
 
 `request.matches(document, selected_id)` tests applicability without computing.
@@ -64,7 +66,9 @@ body/nucleus flag, object ID/revision, captured document revision, normalized
 stains/whites, three means, valid sample count, tile count and elapsed milliseconds.
 It owns no image, ROI, document, request or Python references. The request exposes
 its captured ROI and transform for inspection. Results are not automatically
-written to objects, SQLite projects or CSV measurement tables yet.
+written to objects or CSV measurement tables. Explicit `keep_analysis` /
+`AnalysisJob.keep_result` now retain them in schema-3 project/recovery storage;
+see [analysis provenance](analysis-provenance.md).
 
 ## Background controller and ownership
 
@@ -163,7 +167,7 @@ Viewer timings exclude its first ten frames and swap wait; early rendering
 stalls, wider views, vendor readers and cross-platform performance remain open.
 
 This is the first shared analysis request/publication path. M5 still requires
-durable provenance and source fingerprints, tissue detection, connected
+complete source/environment provenance, tissue detection, connected
 components, stain estimation, watershed cell detection, feature publication and
 QuPath runtime workflow comparisons. M6 still requires batch restart/failure
 policies, a bounded shared executor, NumPy ownership exchange and stable stubs.
