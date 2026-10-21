@@ -523,3 +523,23 @@ lets nanobind retain the native factory control block when a server is passed ba
 through Python. Save/autosave subprocess regressions verify worker snapshot release
 after live server/document owners are dropped, without a GIL deadlock. Native
 control-block identity is checked independently in the reader suite.
+
+The twenty-first packet marks exclusively created autosave work directories and
+reclaims recognized interrupted files under the exact destination's publication
+lock. Publication precedes automatic cleanup, which deletes at most 32 directories
+per write on the single existing worker; failures are
+reported separately and allow publication/retry. The native/Python explicit API
+can reclaim a known earlier session's destination without a published checkpoint.
+Preflight preserves unexpected files, old unmarked debris and link/reparse entries;
+there is no recursive deletion. Real killed-writer tests verify the interpreter
+PID, including corrected Windows hot-journal fixtures. See
+[recovery work cleanup](recovery-work-cleanup.md). Automatic cross-session work
+discovery, checkpoint retention, initial CLI progress and all unfinished M0-M7
+requirements remain active.
+
+The cleanup benchmark exposed seconds of deletion before publication, so the
+final writer publishes first and collects a bounded batch. With 1000 marked
+directories present, the new checkpoint became visible after 256 ms; worker
+completion including 32 removals took 330 ms. A later explicit sweep removed the
+remaining 968. The desktop run records 16.9 ms p95 and 37.0 ms maximum frame work,
+including a 34.5 ms capture pause, which remains unfinished performance work.

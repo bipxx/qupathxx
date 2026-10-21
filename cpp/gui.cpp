@@ -725,6 +725,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(autosave.busy()) ImGui::TextDisabled("Writing recovery...");
                 else if(autosave_stats.state=="ready") ImGui::TextDisabled("Recovery saved; project still unsaved.");
                 if(!autosave_stats.error.empty()) ImGui::TextWrapped("%s",autosave_stats.error.c_str());
+                if(!autosave_stats.work_cleanup_error.empty()) ImGui::TextWrapped("Recovery work cleanup: %s",autosave_stats.work_cleanup_error.c_str());
                 if(!autosave_ui_error.empty()) ImGui::TextWrapped("%s",autosave_ui_error.c_str());
                 if(ImGui::Button("Find recovery files (F5)")) find_recoveries=true;
                 for(const auto& item:recovery_candidates) {

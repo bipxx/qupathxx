@@ -1,0 +1,14 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "objects": 100000,
+  "work_directories": 1000,
+  "known_files_per_directory": 5,
+  "standalone_cleanup_ms": 2866.3706000661477,
+  "capture_ms": 14.4802,
+  "worker_write_cleanup_release_ms": 329.6348,
+  "max_poll_ms": 0.011899974197149277,
+  "checkpoint_visible_ms": 256.3592999940738,
+  "automatic_directories_cleaned": 32,
+  "explicit_remainder_cleaned": 968,
+  "scope": "Warm local dense RGB and SQLite with 100000 unit rectangles; marked interrupted work directories each contain a marker and four known files. Creation excluded. Standalone full cleanup and a second pass with bounded automatic cleanup after durable publication are separate workloads. Explicit remainder cleanup is outside GUI timing. GPU payload excludes CPU models; GUI frame work excludes swap wait. Cold/network/vendor, unmarked legacy debris and cross-session discovery excluded."
+}

@@ -1,0 +1,17 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "objects": 100000,
+  "work_directories": 1000,
+  "known_files_per_directory": 5,
+  "standalone_cleanup_ms": 2676.5261000255123,
+  "capture_ms": 34.5368,
+  "cpu_frame_p95_ms": 16.9253,
+  "max_cpu_frame_ms": 37.015,
+  "selected_objects": 100000,
+  "visible_objects": 792,
+  "peak_gpu_payload_bytes": 3145728,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+  "automatic_directories_cleaned": 32,
+  "explicit_remainder_cleaned": 968,
+  "scope": "Warm local dense RGB and SQLite with 100000 unit rectangles; marked interrupted work directories each contain a marker and four known files. Creation excluded. Standalone full cleanup and a second pass with bounded automatic cleanup after durable publication are separate workloads. Explicit remainder cleanup is outside GUI timing. GPU payload excludes CPU models; GUI frame work excludes swap wait. Cold/network/vendor, unmarked legacy debris and cross-session discovery excluded."
+}

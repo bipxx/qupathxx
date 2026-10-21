@@ -263,8 +263,10 @@ def test_killed_writer_hot_journal_recovers_natively_when_writable(tmp_path, rea
     db.commit()
     db.close()
     script = r'''
-import sys,time
+import sys,time,os
+sys.path.insert(0,sys.argv[2])
 import qupathxx as q
+print(os.getpid(),flush=True)
 project=q.Project.open(sys.argv[1]); doc=project.document(project.active_image)
 doc.rename_annotation(1,'Interrupted snapshot')
 doc.execute([q.ObjectEdit.create(q.Rect(i%100,i//100,1,1),str(i)) for i in range(1000)])
@@ -272,11 +274,14 @@ job=q.ProjectSaveJob(); job.request(project,sys.argv[1])
 while job.busy:
     job.poll(); time.sleep(.001)
 '''
-    child = subprocess.Popen([sys.executable, '-I', '-c', script, str(path)])
+    # A Windows virtualenv launcher has a different PID from its interpreter.
+    child = subprocess.Popen([sys._base_executable, '-I', '-c', script, str(path),
+                              str(Path(q.__file__).parent.parent)], stdout=subprocess.PIPE, text=True)
     journal = Path(str(path)+'-journal')
     magic = b'\xd9\xd5\x05\xf9\x20\xa1\x63\xd7'
     hot = False
     try:
+        assert int(child.stdout.readline()) == child.pid
         deadline = time.monotonic()+10
         while child.poll() is None and time.monotonic() < deadline:
             try:

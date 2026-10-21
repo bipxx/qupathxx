@@ -78,8 +78,10 @@ and `recovery_maintenance_error` reports failures.
 
 This implements explicit deletion of valid selected checkpoints. Corrupt files
 are rejected and remain for manual filesystem management. [Moved-primary
-recovery association](recovery-association.md) is now implemented. Automatic retention,
-abandoned work-directory cleanup and initial CLI loading progress remain unfinished.
+recovery association](recovery-association.md) and
+[exact-destination abandoned work cleanup](recovery-work-cleanup.md) are implemented.
+Automatic retention, cross-session work discovery/cleanup and initial CLI loading
+progress remain unfinished.
 Discovery matches validated project identity and recorded paths within the immediate
 configured directory. No recursive directory deletion or broad deletion matching
 was introduced.

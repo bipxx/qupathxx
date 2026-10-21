@@ -117,6 +117,11 @@ workspace, recovery, migration, view and lifecycle replay verifies shared save
 choices. The fourteenth native CTest suite checks snapshot isolation, reconciliation,
 stale generations and disabled-storage behavior.
 
+The hot-journal crash tests launch the underlying interpreter and verify its PID
+matches the subprocess handle before killing it. On Windows the virtualenv
+launcher has a separate PID; terminating only that launcher would leave the
+native writer alive and would not prove killed-writer recovery.
+
 `tools/benchmark_project_save.py` measures a 100000-object explicit save while the
 live graph answers spatial queries or remains selected in the viewer. It verifies
 that the committed file contains captured values and that newer edits remain dirty.

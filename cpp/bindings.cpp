@@ -160,7 +160,8 @@ NB_MODULE(_native, m) {
         .def_ro("created_unix_ms",&RecoveryInfo::created_unix_ms).def_ro("images",&RecoveryInfo::images).def_ro("objects",&RecoveryInfo::objects).def_ro("fingerprint",&RecoveryInfo::fingerprint).def_ro("associated_base_path",&RecoveryInfo::associated_base_path);
     nb::class_<AutosaveStats>(m,"AutosaveStats").def_ro("state",&AutosaveStats::state).def_ro("path",&AutosaveStats::path)
         .def_ro("error",&AutosaveStats::error).def_ro("completed",&AutosaveStats::completed).def_ro("snapshot_bytes",&AutosaveStats::snapshot_bytes)
-        .def_ro("capture_ms",&AutosaveStats::capture_ms).def_ro("write_ms",&AutosaveStats::write_ms);
+        .def_ro("capture_ms",&AutosaveStats::capture_ms).def_ro("write_ms",&AutosaveStats::write_ms)
+        .def_ro("work_directories_cleaned",&AutosaveStats::work_directories_cleaned).def_ro("work_cleanup_error",&AutosaveStats::work_cleanup_error);
     nb::class_<ProjectAutosave>(m,"ProjectAutosave").def(nb::init<std::size_t>(),"snapshot_budget"_a=256*1024*1024)
         .def("request",&ProjectAutosave::request,"project"_a,"path"_a="").def("poll",&ProjectAutosave::poll).def("wait",&ProjectAutosave::wait)
         .def("cancel",&ProjectAutosave::cancel).def("clear",&ProjectAutosave::clear).def("default_path",&ProjectAutosave::default_path)
@@ -178,6 +179,7 @@ NB_MODULE(_native, m) {
         .def_static("discard_recovery",&Project::discard_recovery,"path"_a,"expected_identity"_a)
         .def_static("review_recovery",&Project::review_recovery,"path"_a)
         .def_static("discard_recovery_checked",&Project::discard_recovery_checked,"reviewed"_a)
+        .def_static("cleanup_recovery_work",&Project::cleanup_recovery_work,"path"_a)
         .def("restore_recovery",&Project::restore_recovery,"path"_a,"base_path"_a="")
         .def("save",&Project::save,"path"_a)
         .def("add_image",&Project::add_image,"path"_a,"reader"_a="auto","name"_a="")

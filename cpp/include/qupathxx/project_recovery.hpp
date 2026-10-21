@@ -7,6 +7,8 @@ struct AutosaveStats {
     std::uint64_t completed=0;
     std::size_t snapshot_bytes=0;
     double capture_ms=0,write_ms=0;
+    std::size_t work_directories_cleaned=0;
+    std::string work_cleanup_error;
 };
 // Owner-thread controller. Only an immutable private snapshot enters its worker.
 // One job, no backlog. Destruction cancels publication and joins its worker.

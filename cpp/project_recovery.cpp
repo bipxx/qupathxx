@@ -116,20 +116,77 @@ bool publish(const fs::path& source,const fs::path& destination,const std::atomi
     return true;
 }
 struct WorkDirectory {
-    fs::path path,file;
+    fs::path path,file,marker;
     explicit WorkDirectory(const fs::path& destination) {
-        path=destination; path+=fs::u8path(".work-"+token());
+        const auto id=token();
+        path=destination; path+=fs::u8path(".work-"+id);
         if(!fs::create_directory(path)) throw std::runtime_error("cannot create owned recovery work directory");
         file=path/"snapshot.qpxproj";
+        marker=path/"owner";
+        std::ofstream output(marker,std::ios::binary);
+        output<<"qupathxx recovery work v1\n"<<id<<'\n'; output.close();
+        if(!output) {
+            std::error_code error; fs::remove(marker,error); fs::remove(path,error);
+            throw std::runtime_error("cannot mark owned recovery work directory");
+        }
     }
     ~WorkDirectory() {
         // Remove only known files in our exclusively created directory. Never
         // recursively traverse a directory that could contain someone else's data.
         std::error_code error;
-        for(const auto& suffix:{"","-journal","-wal","-shm"}) { auto name=file; name+=fs::u8path(suffix); fs::remove(name,error); }
+        bool removed=true;
+        for(const auto& suffix:{"","-journal","-wal","-shm"}) {
+            auto name=file; name+=fs::u8path(suffix); fs::remove(name,error); if(error) removed=false;
+        }
+        // Keep provenance when a sharing violation prevents immediate teardown.
+        if(!removed) return;
+        fs::remove(marker,error);
         fs::remove(path,error);
     }
 };
+bool plain_entry(const fs::path& path,bool directory) {
+#ifdef _WIN32
+    const auto attributes=GetFileAttributesW(path.c_str());
+    if(attributes==INVALID_FILE_ATTRIBUTES || (attributes&FILE_ATTRIBUTE_REPARSE_POINT)) return false;
+#endif
+    const auto status=fs::symlink_status(path);
+    return directory?fs::is_directory(status):fs::is_regular_file(status);
+}
+std::size_t cleanup_work(const fs::path& destination,std::size_t limit=0,const std::atomic<bool>* cancelled=nullptr) {
+    // The caller holds the destination lock for this entire scan. A cooperating
+    // writer creates, uses and removes its work directory under the same lock.
+    const auto prefix=destination.filename().u8string()+".work-";
+    std::size_t cleaned=0;
+    for(const auto& item:fs::directory_iterator(destination.parent_path())) {
+        if((limit && cleaned>=limit) || (cancelled && cancelled->load())) break;
+        const auto name=item.path().filename().u8string();
+        if(name.size()!=prefix.size()+32 || !name_prefix(item.path(),prefix)) continue;
+        const auto id=name.substr(prefix.size());
+        if(!std::all_of(id.begin(),id.end(),[](char c){return (c>='0' && c<='9') || (c>='a' && c<='f');})) continue;
+        if(!plain_entry(item.path(),true)) continue;
+        bool owned=true; std::size_t entries=0;
+        for(const auto& child:fs::directory_iterator(item.path())) {
+            const auto leaf=child.path().filename().u8string();
+            if(++entries>5 || !plain_entry(child.path(),false) ||
+               (leaf!="owner" && leaf!="snapshot.qpxproj" && leaf!="snapshot.qpxproj-journal" &&
+                leaf!="snapshot.qpxproj-wal" && leaf!="snapshot.qpxproj-shm")) { owned=false; break; }
+        }
+        if(!owned) continue;
+        const auto marker=item.path()/"owner";
+        const auto expected="qupathxx recovery work v1\n"+id+"\n";
+        std::error_code error;
+        if(fs::file_size(marker,error)!=expected.size() || error) continue;
+        std::ifstream input(marker,std::ios::binary); std::string content(expected.size(),'\0');
+        if(!input.read(content.data(),content.size()) || content!=expected) continue;
+        input.close();
+        for(const auto& suffix:{"","-journal","-wal","-shm"}) {
+            auto file=item.path()/"snapshot.qpxproj"; file+=fs::u8path(suffix); fs::remove(file);
+        }
+        fs::remove(marker);
+        if(fs::remove(item.path())) ++cleaned;
+    }
+    return cleaned;
+}
 void check_owner(const std::string& path,const std::string& identity,const std::string& session,const std::string& base) {
     auto info=Project::inspect_recovery(path);
     if(info.identity!=identity || info.session!=session || (info.base_path.empty()!=base.empty()) ||
@@ -165,7 +222,7 @@ struct ProjectAutosave::Impl {
         std::map<std::uint64_t,std::uint64_t> documents;
         bool operator==(const Stamp& b) const { return instance==b.instance && identity==b.identity && base==b.base && revision==b.revision && generation==b.generation && documents==b.documents; }
     };
-    struct Result { bool published=false,cancelled=false,cleared=false; double write_ms=0; std::string error; std::uintmax_t file_bytes=0; fs::file_time_type modified{}; };
+    struct Result { bool published=false,cancelled=false,cleared=false; double write_ms=0; std::string error,work_cleanup_error; std::size_t work_directories_cleaned=0; std::uintmax_t file_bytes=0; fs::file_time_type modified{}; };
     std::size_t budget;
     std::string session=token(),identity,base;
     AutosaveStats stats;
@@ -215,13 +272,21 @@ bool ProjectAutosave::request(const Project& project,const std::string& requeste
             if(create_cache) fs::create_directories(destination.parent_path());
             FileLock lock(destination);
             if(fs::exists(destination)) check_owner(info.path,info.identity,info.session,info.base_path);
-            WorkDirectory work(destination);
-            if(!cancelled->load()) snapshot->save_recovery(work.file.u8string(),destination.parent_path().u8string(),info,cancelled.get());
-            if(cancelled->load()) result.cancelled=true;
-            else {
-                result.published=publish(work.file,destination,*cancelled);
-                result.cancelled=!result.published;
-                if(result.published) { result.file_bytes=fs::file_size(destination); result.modified=fs::last_write_time(destination); }
+            {
+                WorkDirectory work(destination);
+                if(!cancelled->load()) snapshot->save_recovery(work.file.u8string(),destination.parent_path().u8string(),info,cancelled.get());
+                if(cancelled->load()) result.cancelled=true;
+                else {
+                    result.published=publish(work.file,destination,*cancelled);
+                    result.cancelled=!result.published;
+                    if(result.published) { result.file_bytes=fs::file_size(destination); result.modified=fs::last_write_time(destination); }
+                }
+            }
+            // Publication has priority over debris collection. Bound deletion
+            // per autosave; explicit maintenance can sweep the full destination.
+            if(result.published && !cancelled->load()) {
+                try { result.work_directories_cleaned=cleanup_work(destination,32,cancelled.get()); }
+                catch(const std::exception& e) {result.work_cleanup_error=e.what();}
             }
         } catch(const std::exception& e) { if(cancelled->load()) result.cancelled=true; else result.error=e.what(); }
         snapshot.reset(); // Large canonical maps are released on the worker, not by GUI future.get().
@@ -241,6 +306,8 @@ AutosaveStats ProjectAutosave::poll() {
     if(busy() && impl_->future.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
         try {
             auto result=impl_->future.get(); impl_->stats.write_ms=result.write_ms;
+            impl_->stats.work_directories_cleaned+=result.work_directories_cleaned;
+            impl_->stats.work_cleanup_error=std::move(result.work_cleanup_error);
             if(!result.error.empty()) { impl_->stats.state="error"; impl_->stats.error=std::move(result.error); }
             else if(result.published) {
                 ++impl_->stats.completed; impl_->last=std::move(impl_->inflight); impl_->stats.state="ready";
@@ -276,6 +343,13 @@ void Project::discard_recovery(const std::string& path,const std::string& identi
     auto target=location(path); FileLock lock(target); auto info=inspect_recovery(target.u8string());
     if(info.identity!=identity) throw std::invalid_argument("recovery project identity does not match");
     if(!fs::remove(target)) throw std::runtime_error("recovery removal failed");
+}
+std::size_t Project::cleanup_recovery_work(const std::string& path) {
+    if(!has_project()) throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON");
+    const auto target=location(path);
+    if(!recovery_extension(target)) throw std::invalid_argument("recovery destination must use .qpxrecover");
+    FileLock lock(target);
+    return cleanup_work(target);
 }
 RecoveryInfo Project::review_recovery(const std::string& path) {
     if(!has_project()) throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON");

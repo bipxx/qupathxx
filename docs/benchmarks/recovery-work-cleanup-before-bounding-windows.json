@@ -1,0 +1,12 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "objects": 100000,
+  "work_directories": 1000,
+  "known_files_per_directory": 5,
+  "standalone_cleanup_ms": 8379.050999996252,
+  "capture_ms": 24.3888,
+  "worker_write_cleanup_release_ms": 3346.9266,
+  "max_poll_ms": 0.03400002606213093,
+  "scope": "Warm local dense RGB and SQLite with 100000 unit rectangles; marked interrupted work directories each contain a marker and four known files. Creation excluded. Standalone cleanup and worker cleanup plus durable publication are separate passes. GPU payload excludes CPU models; GUI frame work excludes swap wait. Cold/network/vendor, unmarked legacy debris and cross-session discovery excluded.",
+  "variant": "Observed intermediate implementation: all 1000 marked directories deleted before checkpoint publication, before the bounded post-publication change. Same host, separate local runs; deletion batch sizes differ."
+}

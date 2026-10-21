@@ -34,6 +34,7 @@ public:
     static RecoveryInfo inspect_recovery(const std::string& path);
     static RecoveryInfo review_recovery(const std::string& path);
     static void discard_recovery_checked(const RecoveryInfo& reviewed);
+    static std::size_t cleanup_recovery_work(const std::string& path);
     static std::shared_ptr<Project> recover(const std::string& path,const std::string& base_path="");
     static void discard_recovery(const std::string& path,const std::string& expected_identity);
     static std::vector<RecoveryInfo> find_recoveries(const std::string& base_path="",std::size_t limit=64);

@@ -36,6 +36,8 @@ QuPath port or a compatible replacement for Java QuPath.
   see [association](docs/recovery-association.md) and [retirement](docs/project-retirement.md).
 - Background recovery loading and reviewed checkpoint deletion; see
   [recovery maintenance](docs/recovery-maintenance.md).
+- Marked abandoned autosave work cleanup under the publication lock; see
+  [recovery work cleanup](docs/recovery-work-cleanup.md).
 - Native background autosave, session-specific recovery files and dirty-close
   decisions; see [recovery](docs/project-recovery.md).
 

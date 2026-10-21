@@ -8,7 +8,8 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 290 Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay;
+Evidence: 303 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
+(two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
 fourteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
@@ -71,7 +72,17 @@ subprocess tests verify snapshot release without a GIL deadlock after live remov
 The 1001-checkpoint/100000-object run records 642 ms metadata discovery, 169 ms
 worker loading, 14.6 ms worker retirement, 17.0 ms frame p95 and 26.7 ms maximum
 frame work. The external-graph retirement pause remains an optimization target.
-Next implement automatic retention/abandoned-work cleanup and initial loading progress;
+Marked abandoned autosave work is now reclaimed under the destination writer lock
+after publication in batches of at most 32, with an explicit native/Python full-sweep API, separate failure
+reporting and retry; see recovery-work-cleanup.md. Live writer locks, a killed
+native process, Windows junctions and publication after a deletion failure are
+covered. Crash tests verify the actual interpreter PID instead of killing only
+the Windows virtualenv launcher.
+The 1000-directory cleanup benchmark records checkpoint visibility after 256 ms,
+330 ms worker completion including a 32-directory batch and 0.012 ms maximum poll.
+The selected 100000-object desktop run records 16.9 ms p95, 37.0 ms maximum frame
+work and a 34.5 ms capture pause; the latter remains an optimization target.
+Next implement automatic retention/cross-session work discovery and initial loading progress;
 retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,
