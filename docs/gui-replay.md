@@ -8,7 +8,10 @@ can be verified without guessing when a modal or loaded workspace will appear.
 ## Event conditions and clocks
 
 `GuiInput.wait_for` accepts `GuiInputWait.IMMEDIATE` (default), `TARGET_READY`,
-or `STARTUP_FINISHED`. Events are ordered by their scheduled frame, preserving
+`STARTUP_FINISHED`, `TISSUE_READY`, `TISSUE_CONTOURS_READY`, or
+`TISSUE_CONTOURS_PUBLISHED`. The tissue conditions require an idle job and the
+corresponding current result or publication flag. See [tissue contours](tissue-contours.md).
+Events are ordered by their scheduled frame, preserving
 input order for ties. Each accepted event is emitted once. If a due event's
 condition is false, that event and all later events wait while physical UI
 frames continue rendering, polling jobs and handling real window input.

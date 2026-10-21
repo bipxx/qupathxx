@@ -55,6 +55,8 @@ public:
     std::int32_t level() const {return level_;}
     double downsample() const {return downsample_;}
     const char* input_format() const {return level_==0?"qpx.rgba-tiles/1":"qpx.rgba-level-tiles/1";}
+    const Roi& roi() const {return roi_;}
+    Rect image_bounds() const {return image_bounds_;}
     const std::vector<std::uint32_t>& labels() const {return labels_;}
     const std::vector<TissueComponent>& components() const {return components_;}
     const TissueParameters& parameters() const {return parameters_;}
@@ -79,6 +81,8 @@ private:
     TissueResult()=default;
     std::string algorithm_="qpx.threshold-components/1",input_sha256_;
     Rect bounds_,level_bounds_;
+    Roi roi_;
+    Rect image_bounds_;
     std::int32_t level_=0;
     double downsample_=1;
     std::vector<std::uint32_t> labels_;
@@ -94,6 +98,40 @@ private:
     std::size_t estimated_work_bytes_=0;
 };
 std::shared_ptr<const TissueResult> detect_tissue(const TissueRequest&,const std::atomic<bool>* cancelled=nullptr);
+struct TissueContourOptions {
+    bool clip_to_roi=true;
+    std::size_t max_components=10000,max_edges=250000,max_vertices=250000,work_bytes=64*1024*1024;
+    void validate() const;
+};
+struct TissueContour {
+    std::uint32_t label=0;
+    std::uint64_t pixels=0;
+    Roi geometry;
+};
+class TissueContours {
+public:
+    TissueContours(const TissueContours&)=delete;
+    const char* algorithm() const {return "qpx.pixel-contours/1";}
+    const std::string& input_sha256() const {return input_sha256_;}
+    const TissueContourOptions& options() const {return options_;}
+    const std::vector<TissueContour>& components() const {return components_;}
+    std::size_t edge_count() const {return edges_;}
+    std::size_t vertex_count() const {return vertices_;}
+    std::size_t estimated_work_bytes() const {return work_;}
+    std::size_t retained_bytes() const {return retained_;}
+    double elapsed_ms() const {return elapsed_ms_;}
+    std::uint64_t object_id() const {return object_id_;}
+private:
+    friend struct TissueContourKernel;
+    TissueContours()=default;
+    std::string input_sha256_;
+    TissueContourOptions options_;
+    std::vector<TissueContour> components_;
+    std::size_t edges_=0,vertices_=0,work_=0,retained_=0;
+    double elapsed_ms_=0;
+    std::uint64_t object_id_=0;
+};
+std::shared_ptr<const TissueContours> trace_tissue(const TissueResult&,TissueContourOptions={},const std::atomic<bool>* cancelled=nullptr);
 struct TissueStats:AnalysisStats {std::string phase="idle";};
 // Same owner-thread publication contract as AnalysisJob. Result buffers own only
 // native labels/statistics; captured source ownership stays on the owner thread.
@@ -108,6 +146,10 @@ public:
     void cancel();
     bool busy() const;
     std::shared_ptr<const TissueResult> result() const;
+    bool request_contours(TissueContourOptions={});
+    std::shared_ptr<const TissueContours> contours() const;
+    bool contours_published() const;
+    std::vector<std::uint64_t> keep_contours(Document&,std::uint64_t selected_id,std::string name_prefix="Tissue",std::string class_name="");
 private:
     struct Impl;
     std::unique_ptr<Impl> impl_;

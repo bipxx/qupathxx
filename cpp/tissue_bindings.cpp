@@ -32,6 +32,7 @@ void bind_tissue(nb::module_& m) {
         .def_prop_ro("bounds",&TissueResult::bounds).def_prop_ro("width",&TissueResult::width).def_prop_ro("height",&TissueResult::height)
         .def_prop_ro("level_bounds",&TissueResult::level_bounds).def_prop_ro("level",&TissueResult::level)
         .def_prop_ro("downsample",&TissueResult::downsample).def_prop_ro("input_format",&TissueResult::input_format)
+        .def_prop_ro("roi",&TissueResult::roi).def_prop_ro("image_bounds",&TissueResult::image_bounds)
         .def_prop_ro("labels",[](const TissueResult& r){return nb::bytes(reinterpret_cast<const char*>(r.labels().data()),r.labels().size()*sizeof(std::uint32_t));})
         .def_prop_ro("mask",[](const TissueResult& r){std::string bytes(r.labels().size(),'\0');for(std::size_t i=0;i<bytes.size();++i) bytes[i]=r.labels()[i]?static_cast<char>(255):0;return nb::bytes(bytes.data(),bytes.size());})
         .def_prop_ro("components",[](const TissueResult& r){return std::vector<TissueComponent>(r.components());})
@@ -45,8 +46,20 @@ void bind_tissue(nb::module_& m) {
         .def_prop_ro("raw_components",&TissueResult::raw_components).def_prop_ro("elapsed_ms",&TissueResult::elapsed_ms)
         .def_prop_ro("estimated_work_bytes",&TissueResult::estimated_work_bytes).def_prop_ro("retained_bytes",&TissueResult::retained_bytes);
     m.def("detect_tissue",[](const TissueRequest& r){return detect_tissue(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
+    nb::class_<TissueContourOptions>(m,"TissueContourOptions").def(nb::init<>())
+        .def_rw("clip_to_roi",&TissueContourOptions::clip_to_roi).def_rw("max_components",&TissueContourOptions::max_components)
+        .def_rw("max_edges",&TissueContourOptions::max_edges).def_rw("max_vertices",&TissueContourOptions::max_vertices).def_rw("work_bytes",&TissueContourOptions::work_bytes).def("validate",&TissueContourOptions::validate);
+    nb::class_<TissueContour>(m,"TissueContour").def_ro("label",&TissueContour::label).def_ro("pixels",&TissueContour::pixels).def_ro("geometry",&TissueContour::geometry);
+    nb::class_<TissueContours>(m,"TissueContours")
+        .def_prop_ro("algorithm",&TissueContours::algorithm).def_prop_ro("input_sha256",&TissueContours::input_sha256).def_prop_ro("object_id",&TissueContours::object_id)
+        .def_prop_ro("options",[](const TissueContours& c){return c.options();}).def_prop_ro("components",[](const TissueContours& c){return std::vector<TissueContour>(c.components());})
+        .def_prop_ro("component_count",[](const TissueContours& c){return c.components().size();}).def_prop_ro("edge_count",&TissueContours::edge_count).def_prop_ro("vertex_count",&TissueContours::vertex_count)
+        .def_prop_ro("elapsed_ms",&TissueContours::elapsed_ms).def_prop_ro("estimated_work_bytes",&TissueContours::estimated_work_bytes).def_prop_ro("retained_bytes",&TissueContours::retained_bytes);
+    m.def("trace_tissue",[](const TissueResult& mask,TissueContourOptions options){return trace_tissue(mask,options);},"result"_a,"options"_a=TissueContourOptions{},nb::call_guard<nb::gil_scoped_release>());
     nb::class_<TissueStats,AnalysisStats>(m,"TissueStats").def_ro("phase",&TissueStats::phase);
     nb::class_<TissueJob>(m,"TissueJob").def(nb::init<>()).def("request",&TissueJob::request)
         .def("poll",&TissueJob::poll,"document"_a,"selected_id"_a).def("wait",&TissueJob::wait,"document"_a,"selected_id"_a,nb::call_guard<nb::gil_scoped_release>())
-        .def("cancel",&TissueJob::cancel).def_prop_ro("busy",&TissueJob::busy).def_prop_ro("result",&TissueJob::result);
+        .def("cancel",&TissueJob::cancel).def_prop_ro("busy",&TissueJob::busy).def_prop_ro("result",&TissueJob::result)
+        .def("request_contours",&TissueJob::request_contours,"options"_a=TissueContourOptions{}).def_prop_ro("contours",&TissueJob::contours).def_prop_ro("contours_published",&TissueJob::contours_published)
+        .def("keep_contours",&TissueJob::keep_contours,"document"_a,"selected_id"_a,"name_prefix"_a="Tissue","class_name"_a="");
 }

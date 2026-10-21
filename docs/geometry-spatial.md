@@ -50,8 +50,10 @@ Ellipse area is analytic; perimeter uses adaptive quadrature at a radius-scaled
 1e-12 tolerance. Outside distance solves the closest-point equation. Containment
 between ellipses and polygon/ellipse boundaries uses analytic tests, with a
 64-machine-epsilon normalized allowance for ellipse tangency. Ellipse `paths`
-and WKT use 512 segments for drawing/export only; measurements and masks use
-the analytic shape. GEOS provides linear polygon area, length and predicates.
+and WKT use 512 segments for drawing, export and tissue-contour clipping;
+ellipse measurements and pixel-center masks use the analytic shape. Coverage
+of polygon vertices uses the same normalized allowance for arithmetic at the
+ellipse boundary. GEOS provides linear polygon area, length and predicates.
 
 Mean RGB samples pixel centers inside the ROI and excludes transparent pixels.
 Lines and points have zero area and reject mean-intensity requests. Physical

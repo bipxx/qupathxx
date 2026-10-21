@@ -8,11 +8,11 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: all 620 installed-wheel Python cases pass with two file-symlink cases
+Evidence: all 665 installed-wheel Python cases pass with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
-and recovery; nineteen native suites pass with optional geometry/readers/
+and recovery; twenty native suites pass with optional geometry/readers/
 interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
@@ -282,8 +282,12 @@ one-frame logical budget. The 100001-selected-object viewer records 17.25 ms
 sampled frame p95 and 19.51 ms maximum with 16 MiB each of image/mask GPU payload.
 These fixtures establish readiness-aware workflow evidence, not broad latency
 guarantees or complete OS/DPI acceptance.
-Next add contour/annotation conversion
-and persisted mask provenance; optimize remaining object snapshot capture and
+Native tissue contours now preserve holes and diagonal multipart components,
+clip nominal sample footprints, and publish one atomic annotation batch through
+Python and ImGui. See tissue-contours.md. Worker failure permits retry; cancellation
+and stale authority/selection prevent publication. Logical resource caps precede
+backend allocation, and straight-run compression avoids per-pixel edge storage.
+Next add persisted mask provenance; optimize remaining object snapshot capture and
 complete source/environment provenance. Continue
 numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished

@@ -183,6 +183,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     MeanJob mean;
     AnalysisJob analysis;
     TissueJob tissue;
+    std::size_t tissue_annotations_added=0;
     TissuePreview tissue_preview;
     bool show_tissue=true;
     int tissue_feature=options.tissue_feature,tissue_connectivity=options.tissue_connectivity==8?1:0;
@@ -572,11 +573,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         auto& input=ImGui::GetIO();
         if (!options.inputs.empty()) {
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
+            input.AddKeyEvent(ImGuiKey_J,false);
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
             for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12,ImGuiKey_M,ImGuiKey_K,ImGuiKey_D}) input.AddKeyEvent(key,false);
         }
         replay.dispatch([&](const GuiInput& event) {
             if(event.wait_for==GuiInputWait::StartupFinished) return !startup_active;
+            if(event.wait_for==GuiInputWait::TissueReady) return !tissue.busy() && bool(tissue.result());
+            if(event.wait_for==GuiInputWait::TissueContoursReady) return !tissue.busy() && bool(tissue.contours());
+            if(event.wait_for==GuiInputWait::TissueContoursPublished) return !tissue.busy() && tissue.contours_published();
             if(target_seen[static_cast<std::size_t>(event.target)]!=frames-1) return false;
             switch(event.target) {
                 case GuiInputTarget::DisplayReset:
@@ -662,6 +667,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::RecheckAnalysisKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiMod_Shift,true); input.AddKeyEvent(ImGuiKey_K,true); break;
                 case GuiInputKind::DetectTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_D,true); break;
                 case GuiInputKind::CancelTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiMod_Shift,true); input.AddKeyEvent(ImGuiKey_D,true); break;
+                case GuiInputKind::TraceTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_J,true); break;
+                case GuiInputKind::KeepTissueContoursKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiMod_Shift,true); input.AddKeyEvent(ImGuiKey_J,true); break;
                 default: break;
             }
         },std::chrono::steady_clock::now());
@@ -1251,11 +1258,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(detect_clicked && !tissue.busy()) {
                 try {
                     tissue_parameters.feature=static_cast<TissueFeature>(tissue_feature);tissue_parameters.connectivity=tissue_connectivity?8:4;
-                    tissue.request(TissueRequest(document,selected,make_transform(tissue_feature!=0),tissue_parameters,analysis_nucleus));error.clear();
+                    tissue.request(TissueRequest(document,selected,make_transform(tissue_feature!=0),tissue_parameters,analysis_nucleus));tissue_annotations_added=0;error.clear();
                 } catch(const std::exception& e) {error=e.what();}
             }
             if(tissue.busy()) {
-                ImGui::TextDisabled("%s",tissue_status.phase=="cleanup"?"Cleaning tissue mask...":tissue_status.phase=="components"?"Finding components...":"Reading and thresholding...");
+                ImGui::TextDisabled("%s",tissue_status.phase=="contours"?"Tracing tissue contours...":tissue_status.phase=="cleanup"?"Cleaning tissue mask...":tissue_status.phase=="components"?"Finding components...":"Reading and thresholding...");
                 if(ImGui::Button("Cancel tissue") || (tissue_key && io.KeyShift)) tissue.cancel();
             }
             ImGui::Checkbox("Show tissue mask",&show_tissue);
@@ -1268,6 +1275,21 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ImGui::Text("Samples: %llu / %.3f ms",static_cast<unsigned long long>(result->samples()),result->elapsed_ms());
                 if(show_tissue && !tissue_preview.ready()) ImGui::TextDisabled("Preparing mask preview...");
             }
+            const bool contour_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_J,false);
+            const bool can_trace=has_geos() && !tissue.busy() && bool(tissue.result());
+            ImGui::BeginDisabled(!can_trace);
+            const bool trace_clicked=ImGui::Button("Trace contours (Ctrl+J)") || (contour_key && !io.KeyShift);
+            ImGui::EndDisabled();
+            if(trace_clicked && can_trace) {try {tissue.request_contours();tissue_annotations_added=0;error.clear();} catch(const std::exception& e) {error=e.what();}}
+            const auto contours=tissue.contours();
+            const bool can_keep_contours=contours && !contours->components().empty() && !tissue.busy() && !tissue.contours_published();
+            ImGui::BeginDisabled(!can_keep_contours);
+            const bool keep_contours_clicked=ImGui::Button("Add annotations (Ctrl+Shift+J)") || (contour_key && io.KeyShift);
+            ImGui::EndDisabled();
+            if(keep_contours_clicked && can_keep_contours) {try {tissue_annotations_added=tissue.keep_contours(document,selected).size();error.clear();} catch(const std::exception& e) {error=e.what();}}
+            if(contours) ImGui::Text("Contours: %zu / %zu vertices",contours->components().size(),contours->vertex_count());
+            if(tissue.contours_published()) ImGui::Text("Added %zu annotations (Undo available)",tissue_annotations_added);
+            if(!has_geos()) ImGui::TextDisabled("Contour creation requires GEOS");
             if(!tissue_status.error.empty()) ImGui::TextWrapped("Tissue: %s",tissue_status.error.c_str());
             if(!tissue_preview.error().empty()) ImGui::TextWrapped("Mask: %s",tissue_preview.error().c_str());
         } else ImGui::TextDisabled("Select an annotation");
@@ -1708,6 +1730,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     const auto saved_analysis=active_document->latest_analysis(selection->primary());
     const auto tissue_status=tissue.poll(*active_document,selection->primary());
     const auto tissue_result=tissue.result();
+    const auto tissue_contours=tissue.contours();
     if(!tissue_result) tissue_preview.clear();
     return {frames,previous_uploads+tiles->uploads(),std::max(previous_peak_bytes,tiles->peak_bytes()),previous_generations+tiles->generations(),p95,tiles->pending(),empty?0:viewport.zoom,empty?Point{}:viewport.origin,
         empty?Point{}:viewport.screen_to_image({previous_canvas_size.x/2,previous_canvas_size.y/2}),last_width,last_height,
@@ -1725,7 +1748,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         tissue_status.elapsed_ms,tissue_preview.ready(),tissue_result?tissue_result->level():-1,tissue_result?tissue_result->downsample():0,
         tissue_result?tissue_result->width():0,tissue_result?tissue_result->height():0,tissue_result?tissue_result->cleaned_pixels():0,
         tissue_result?tissue_result->filled_pixels():0,tissue_result?tissue_result->cleanup_ms():0,
-        replay.frame(),replay.waits(),settle_frames,replay.complete(),!startup_active && !project_load.valid() && !restore_pending && !tiles->pending() && tiles->error().empty()};
+        replay.frame(),replay.waits(),settle_frames,replay.complete(),!startup_active && !project_load.valid() && !restore_pending && !tiles->pending() && tiles->error().empty(),
+        tissue_contours?tissue_contours->components().size():0,tissue_contours?tissue_contours->edge_count():0,tissue_contours?tissue_contours->vertex_count():0,
+        tissue.contours_published()?tissue_annotations_added:0,tissue_contours?tissue_contours->elapsed_ms():0,tissue.contours_published()};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

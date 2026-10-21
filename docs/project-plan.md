@@ -908,3 +908,30 @@ captures finish in 2/2/6 physical frames for a one-frame logical budget. The
 maximum with 16 MiB each of image/mask GPU payload. Synthetic timings do not
 establish general latency guarantees. Contour conversion, persisted masks and
 all unfinished M0-M7 work remain active.
+
+The thirty-seventh packet adds native tissue contour conversion and atomic
+annotation publication. Global raster linework is merged at straight runs,
+polygonized once and mapped to dense component labels; integral face areas
+must reproduce the original raster before clipping. Holes and diagonal
+multipart components remain explicit. Default ROI/image clipping creates
+children of the source; image-clipped raw footprints can be published at the
+root. C++ and nanobind share the immutable kernel; ImGui exposes tracing and
+publication with readiness-gated replay. One document command provides atomic
+validation, Undo and Redo. Failed conversion retains its mask for retry;
+cancellation or stale source/selection drops both results. See
+[tissue contours](tissue-contours.md) for resource and numerical limits.
+Persisted masks/provenance, cell detection and all other unfinished M0-M7
+requirements remain active.
+
+All 45 new Python/desktop cases pass. The final installed wheel passes 665
+cases with two unavailable file-symlink cases skipped; all twenty native suites
+pass in full/core/minimal builds. Exhaustive native topology checks cover all
+512 three-by-three masks with both connectivity choices. The 4194304-pixel
+analytic mask produces 285 contours with 1140 edges/vertices, 795440 estimated
+work bytes and 95435 retained bytes. Standalone conversion records 47.40 ms;
+publication records 0.35 ms, or 0.38 ms among 100001 existing objects. Two
+selected-view recordings retain 100001 selected objects and add 285 children,
+with p95 frame times of 29.20/17.30 ms and maxima of 42.83/45.32 ms. The mask-only
+comparison records 17.30 ms p95 and 18.19 ms maximum. These synthetic recordings
+retain the variability and frame spikes; they do not establish general latency
+or QuPath parity. See tissue-contours.md for recordings and reproduction.

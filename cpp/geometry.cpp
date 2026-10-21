@@ -310,6 +310,17 @@ double Roi::distance(Point p) const {
 }
 bool Roi::covers(const Roi& other) const {
     auto a=bounds(),b=other.bounds();
+    if(kind()==RoiKind::Ellipse && other.kind()!=RoiKind::Ellipse) {
+        // A polygon clipped to this ellipse's inscribed approximation may put
+        // boundary vertices a few ulps outside through coordinate arithmetic.
+        // Use the same normalized tolerance as ellipse/ellipse containment;
+        // the point-sampling contains() predicate stays unchanged.
+        for(const auto& ring:other.paths()) for(auto p:ring) {
+            const auto x=(p.x-a.x-a.width/2)/(a.width/2),y=(p.y-a.y-a.height/2)/(a.height/2);
+            if(x*x+y*y>1+64*std::numeric_limits<double>::epsilon()) return false;
+        }
+        return true;
+    }
     if(b.x<a.x || b.y<a.y || b.x+b.width>a.x+a.width || b.y+b.height>a.y+a.height) return false;
     if(kind()==RoiKind::Rectangle || equals(other)) return true;
     if(kind()==RoiKind::Ellipse && other.kind()==RoiKind::Ellipse) return ellipse_covers_ellipse(a,b);
@@ -339,10 +350,6 @@ bool Roi::covers(const Roi& other) const {
     if(kind()==RoiKind::Polyline && other.kind()==RoiKind::Points) {
         for(auto p:other.data().paths.front()) if(distance(p)!=0) return false;
         return true;
-    }
-    if(kind()==RoiKind::Ellipse && other.kind()!=RoiKind::Ellipse) {
-        for(const auto& ring:other.paths()) for(auto point:ring) if(!contains(point)) return false;
-        return true; // Ellipses are convex, so contained vertices imply contained segments.
     }
 #ifdef QUPATHXX_HAS_GEOS
     auto backend=data().backend;

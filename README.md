@@ -242,3 +242,7 @@ projects with exact ROI/object state, relative links, relinking, stale-writer
 checks and transactional rollback. Open with `--project study.qpxproj`; the
 viewer includes a project path and Ctrl+S. SQLite is statically built by default;
 set `QUPATHXX_BUILD_PROJECT=OFF` to omit storage and its source download.
+
+[Tissue contours](docs/tissue-contours.md) convert bounded native masks into polygons
+with holes and multipart components, then publish one undoable annotation batch
+through Python or the ImGui inspector.

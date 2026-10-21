@@ -80,6 +80,7 @@ struct TissueKernel {
         const auto width=request.x1_-request.x0_,height=request.y1_-request.y0_;const auto scale=request.downsample_;
         const auto count=static_cast<std::size_t>(width*height);
         output->bounds_=request.bounds();output->level_bounds_=request.level_bounds();output->level_=request.level_;output->downsample_=scale;
+        output->roi_=source.roi_;output->image_bounds_={0,0,double(source.source_->metadata().width),double(source.source_->metadata().height)};
         if(request.level_!=0) output->algorithm_="qpx.threshold-components/2";
         const bool cleanup=tissue_detail::enabled(p);if(cleanup) output->algorithm_="qpx.threshold-components/3";
         output->parameters_=p;output->estimated_work_bytes_=request.estimated_work_bytes_;
@@ -175,21 +176,25 @@ struct TissueKernel {
 };
 std::shared_ptr<const TissueResult> detect_tissue(const TissueRequest& request,const std::atomic<bool>* cancelled) {return TissueKernel::run(request,cancelled);}
 struct TissueJob::Impl {
-    struct Completion {std::shared_ptr<const TissueResult> result;std::string error;double elapsed_ms=0;};
+    struct Completion {std::shared_ptr<const TissueResult> result;std::shared_ptr<const TissueContours> contours;std::string error;double elapsed_ms=0;};
     std::optional<TissueRequest> request;
     std::future<Completion> future;
     std::atomic<bool> cancelled{false};std::atomic<std::uint64_t> completed{0};std::atomic<int> phase{0};
     bool stale=false;TissueStats stats;std::shared_ptr<const TissueResult> result;
+    bool contouring=false,published=false;std::shared_ptr<const TissueContours> contours;
 };
 TissueJob::TissueJob():impl_(std::make_unique<Impl>()) {}
 TissueJob::~TissueJob() {cancel();if(busy()) impl_->future.wait();}
 bool TissueJob::busy() const {return impl_->future.valid();}
 std::shared_ptr<const TissueResult> TissueJob::result() const {return impl_->result;}
-void TissueJob::cancel() {impl_->cancelled.store(true);impl_->result.reset();if(impl_->request) impl_->stats.state=busy()?"cancelling":"cancelled";if(!busy()) impl_->request.reset();}
+std::shared_ptr<const TissueContours> TissueJob::contours() const {return impl_->contours;}
+bool TissueJob::contours_published() const {return impl_->published;}
+void TissueJob::cancel() {impl_->cancelled.store(true);impl_->result.reset();impl_->contours.reset();impl_->published=false;if(impl_->request) impl_->stats.state=busy()?"cancelling":"cancelled";if(!busy()) impl_->request.reset();}
 bool TissueJob::request(const TissueRequest& request) {
     if(busy()) return false;
     if(impl_->stats.generation==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("tissue generation exhausted");
     impl_->request=request;impl_->result.reset();impl_->stale=false;impl_->cancelled.store(false);impl_->completed.store(0);impl_->phase.store(0);
+    impl_->contouring=false;impl_->published=false;impl_->contours.reset();
     ++impl_->stats.generation;impl_->stats.state="running";impl_->stats.phase="thresholding";impl_->stats.error.clear();impl_->stats.elapsed_ms=0;impl_->stats.completed_tiles=0;impl_->stats.total_tiles=request.total_tiles();
     try {impl_->future=std::async(std::launch::async,[state=impl_.get()] {
         Impl::Completion completion;const auto started=std::chrono::steady_clock::now();
@@ -199,18 +204,40 @@ bool TissueJob::request(const TissueRequest& request) {
     return true;
 }
 TissueStats TissueJob::poll(const Document& document,std::uint64_t id) {
-    if(impl_->request && !impl_->request->matches(document,id)) {impl_->stale=true;impl_->cancelled.store(true);impl_->result.reset();impl_->stats.state=busy()?"cancelling":"stale";}
+    if(impl_->request && !impl_->request->matches(document,id)) {impl_->stale=true;impl_->cancelled.store(true);impl_->result.reset();impl_->contours.reset();impl_->published=false;impl_->stats.state=busy()?"cancelling":"stale";}
     impl_->stats.completed_tiles=impl_->completed.load(std::memory_order_relaxed);
-    const auto phase=impl_->phase.load();impl_->stats.phase=phase==4?"cleanup":phase==2?"components":phase==3?"complete":phase==0 && !busy()?"idle":"thresholding";
+    const auto phase=impl_->phase.load();impl_->stats.phase=phase==5?"contours":phase==4?"cleanup":phase==2?"components":phase==3?"complete":phase==0 && !busy()?"idle":"thresholding";
     if(busy() && impl_->future.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
         try {auto completed=impl_->future.get();impl_->stats.elapsed_ms=completed.elapsed_ms;impl_->stats.completed_tiles=impl_->completed.load();
             if(impl_->stale) impl_->stats.state="stale";
             else if(impl_->cancelled.load()) impl_->stats.state="cancelled";
-            else if(!completed.result) {impl_->stats.state="failed";impl_->stats.error=std::move(completed.error);}
-            else {impl_->result=std::move(completed.result);impl_->stats.state="ready";impl_->stats.phase="complete";}
+            else if(!completed.result || (impl_->contouring && !completed.contours)) {impl_->stats.state="failed";impl_->stats.error=std::move(completed.error);}
+            else {impl_->result=std::move(completed.result);impl_->contours=std::move(completed.contours);impl_->stats.state="ready";impl_->stats.phase="complete";impl_->phase.store(3);}
         } catch(const std::exception& e) {impl_->stats.state="failed";impl_->stats.error=e.what();}
     }
     if(!busy() && !impl_->result) impl_->request.reset();return impl_->stats;
 }
 TissueStats TissueJob::wait(const Document& document,std::uint64_t id) {poll(document,id);if(busy()) impl_->future.wait();return poll(document,id);}
+bool TissueJob::request_contours(TissueContourOptions options) {
+    if(busy()) return false;
+    options.validate();if(!has_geos()) throw std::runtime_error("tissue contours require QUPATHXX_BUILD_GEOS=ON");
+    if(!impl_->request || !impl_->result || impl_->stale) throw std::logic_error("no current tissue mask to trace");
+    if(impl_->stats.generation==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("tissue generation exhausted");
+    impl_->contouring=true;impl_->contours.reset();impl_->published=false;impl_->cancelled.store(false);impl_->completed.store(0);impl_->phase.store(5);
+    ++impl_->stats.generation;impl_->stats.state="running";impl_->stats.phase="contours";impl_->stats.error.clear();impl_->stats.elapsed_ms=0;impl_->stats.completed_tiles=impl_->stats.total_tiles=0;
+    try {impl_->future=std::async(std::launch::async,[state=impl_.get(),mask=impl_->result,options] {
+        Impl::Completion completion;completion.result=mask;const auto began=std::chrono::steady_clock::now();
+        try {completion.contours=trace_tissue(*mask,options,&state->cancelled);} catch(const std::exception& e) {completion.error=e.what();}
+        completion.elapsed_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();return completion;
+    });} catch(...) {impl_->stats.state="failed";impl_->stats.error="could not start contour worker";throw;}
+    return true;
+}
+std::vector<std::uint64_t> TissueJob::keep_contours(Document& document,std::uint64_t id,std::string prefix,std::string classification) {
+    if(poll(document,id).state!="ready" || !impl_->request || !impl_->contours) throw std::logic_error("no current tissue contours to publish");
+    if(impl_->published) throw std::logic_error("tissue contours already published; use Undo/Redo for this batch");
+    std::vector<ObjectEdit> edits;edits.reserve(impl_->contours->components().size());
+    const auto parent=impl_->contours->options().clip_to_roi?id:0;
+    for(const auto& component:impl_->contours->components()) edits.push_back(ObjectEdit::create_geometry(component.geometry,prefix+" "+std::to_string(component.label),parent,classification));
+    auto ids=document.execute(edits,"Add tissue annotations");impl_->published=true;return ids;
+}
 }

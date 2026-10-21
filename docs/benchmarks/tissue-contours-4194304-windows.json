@@ -1,0 +1,20 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pixels": 4194304,
+  "foreground_pixels": 200700,
+  "input_sha256": "2c3075b8d4828091a8f8ae4c445c2653e5ffb6668e23c6026a31c5293f59a0d3",
+  "algorithm": "qpx.pixel-contours/1",
+  "components": 285,
+  "edges": 1140,
+  "vertices": 1140,
+  "mask_worker_ms": 64.5283,
+  "contour_submit_ms": 0.015400000847876072,
+  "contour_worker_ms": 47.3985,
+  "max_poll_ms": 0.020700041204690933,
+  "publish_ms": 0.3529000096023083,
+  "undo_ms": 0.1591000473126769,
+  "redo_ms": 0.18169998656958342,
+  "existing_objects": 1,
+  "estimated_work_bytes": 795440,
+  "retained_bytes": 95435
+}

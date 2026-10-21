@@ -278,6 +278,9 @@ remain outside this fixture scope.
 uses a different workflow, including grayscale thresholding, downsampling,
 smoothing, cleanup and annotation conversion. This implementation has no claim
 of numerical QuPath parity. Arbitrary resampling/kernels, physical-size filtering,
-Gaussian/median smoothing, contours and annotation conversion, persistent mask
+Gaussian/median smoothing, persistent mask
 provenance, large-mask streaming, cell detection and runtime comparisons remain
 required under M5.
+
+[Native contour conversion](tissue-contours.md) now preserves holes and multipart
+components and creates one undoable annotation batch in Python and ImGui.
