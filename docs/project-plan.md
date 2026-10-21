@@ -560,3 +560,21 @@ frame work. Native private snapshot release precedes the scan. Bounded memory an
 publication priority are verified; scan duration/progress/cancellation remain
 performance work. All 330 installed-wheel tests pass with two unavailable file-
 symlink cases skipped, and all fourteen native suites pass in three configurations.
+
+The twenty-third packet separates native checkpoint publication from maintenance
+completion, publishes atomic scan/collection counters and adds safe cancellation
+between entries/removals. Partial scans never authorize deletion. Ctrl+F10 stops
+post-publication maintenance while retaining the checkpoint; finite embedded
+viewer reports acknowledge the worker result. Native metadata/ownership/removal
+timings guide optimization while preserving alias, liveness and bounded-selection
+contracts. See [maintenance progress](recovery-maintenance-progress.md).
+Cross-session orphan work, initial CLI progress, broader performance campaigns
+and all unfinished M0-M7 requirements remain active.
+
+The final stage-instrumented 1000-session pass records 8.90 s retention, with
+ownership accounting for 7.78 s; no full-scan speedup is claimed. Cancelling after
+100 observed headers completes about 9.4 ms after the request with zero removals
+and an intact new recovery. The concurrent viewer records 16.9 ms frame p95 and
+17.7 ms maximum frame work. Marker I/O remains the next scan optimization target.
+Verification records 337 passing installed-wheel tests, two unavailable file-
+symlink cases skipped and all fourteen native suites passing in three configurations.

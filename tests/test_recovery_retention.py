@@ -1,4 +1,5 @@
 """Retention preserves live owners and untrusted files while bounding collection."""
+from contextlib import contextmanager
 import gc
 import os
 from pathlib import Path
@@ -303,3 +304,182 @@ def test_gui_retention_options_run_after_recovery_publication(tmp_path):
     assert report.checkpoints_pruned == 1 and report.retention_ms > 0 and not report.retention_error
     assert not old.exists() and current.exists() and primary.read_bytes() == before
     assert doc.annotation(obj).name == 'Live captured work' and project.dirty
+
+
+@contextmanager
+def locked_headers(paths):
+    script = r"""
+import sqlite3,sys,os
+connections=[]
+for path in sys.argv[1:]:
+    db=sqlite3.connect(path); db.execute('BEGIN EXCLUSIVE'); connections.append(db)
+print(os.getpid(),flush=True)
+sys.stdin.readline()
+for db in connections: db.rollback(); db.close()
+"""
+    child = subprocess.Popen([sys._base_executable, '-I', '-c', script, *map(str, paths)],
+                             stdin=subprocess.PIPE, stdout=subprocess.PIPE, text=True)
+    try:
+        assert int(child.stdout.readline()) == child.pid
+        yield
+    finally:
+        try:
+            child.communicate(input='\n', timeout=5)
+        except subprocess.TimeoutExpired:
+            child.kill(); child.wait(timeout=5)
+
+
+def test_scan_progress_cancel_preserves_publication_and_all_candidates_then_retries(tmp_path):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    before = primary.read_bytes()
+    paths = [tmp_path/f'old-{i}.qpxrecover' for i in range(5)]
+    for path in paths:
+        checkpoint(project, doc, obj, path, 100)
+    writer = q.ProjectAutosave()
+    writer.retention = policy(1)
+    current = tmp_path/'current.qpxrecover'
+    doc.rename_annotation(obj, 'Captured before cancellation')
+    with locked_headers(paths):
+        assert writer.request(project, str(current))
+        deadline = time.monotonic()+5
+        while writer.busy:
+            stats = writer.poll()
+            if stats.checkpoint_published and stats.maintenance_phase == 'scanning' and stats.retention_inspected:
+                break
+            assert time.monotonic() < deadline
+            time.sleep(.001)
+        assert writer.busy and stats.checkpoint_published and stats.retention_inspected > 0
+        assert stats.retention_removed == 0 and current.exists()
+        started = time.monotonic()
+        writer.cancel()
+        stats = writer.wait()
+        assert time.monotonic()-started < 2.5  # One existing SQLite busy wait can finish first.
+        assert stats.state == 'ready' and stats.completed == 1 and stats.retention_cancelled
+        assert stats.checkpoint_published and stats.cancel_requested and stats.maintenance_phase == 'cancelled'
+        assert stats.retention_removed == 0 and stats.checkpoints_pruned == 0 and not stats.retention_error
+        assert all(path.exists() for path in paths) and primary.read_bytes() == before
+        assert q.Project.recover(str(current)).document(image).annotation(obj).name == 'Captured before cancellation'
+    doc.rename_annotation(obj, 'Retry collection')
+    assert writer.request(project, str(current))
+    stats = writer.wait()
+    assert stats.state == 'ready' and stats.completed == 2 and not stats.retention_cancelled
+    assert stats.maintenance_phase == 'complete' and stats.retention_inspected == 6
+    assert stats.checkpoints_pruned == stats.retention_removed == 5
+    assert stats.retention_metadata_ms > 0 and stats.retention_ownership_ms > 0 and stats.retention_removal_ms > 0
+    assert stats.retention_metadata_ms+stats.retention_ownership_ms+stats.retention_removal_ms <= stats.retention_ms+1
+
+
+def test_hard_link_alias_of_anchor_is_preserved_by_fast_path(tmp_path):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    old, anchor = tmp_path/'old.qpxrecover', tmp_path/'anchor.qpxrecover'
+    checkpoint(project, doc, obj, old, 100)
+    checkpoint(project, doc, obj, anchor, 10)
+    alias = tmp_path/'zzz-alias.qpxrecover'
+    os.link(anchor, alias)
+    Path(str(alias)+'.session').write_bytes(Path(str(anchor)+'.session').read_bytes())
+    before = anchor.read_bytes()
+    result = q.Project.prune_recoveries(str(anchor), policy(1))
+    assert result.removed == 1 and not old.exists()
+    assert anchor.read_bytes() == alias.read_bytes() == before and not result.cancelled
+
+
+def test_primary_hard_link_alias_still_matches_scope(tmp_path):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    old, current = tmp_path/'old.qpxrecover', tmp_path/'current.qpxrecover'
+    checkpoint(project, doc, obj, old, 100)
+    alias = tmp_path/'alias.qpxproj'
+    os.link(primary, alias)
+    with sqlite3.connect(old) as db:
+        db.execute('UPDATE recovery SET base_path=?', (str(alias),))
+    db.close()
+    age(old, 100)
+    checkpoint(project, doc, obj, current)
+    assert q.Project.prune_recoveries(str(current), policy(1)).removed == 1 and not old.exists()
+
+
+@pytest.mark.skipif(os.name != 'nt', reason='Windows case insensitive anchor path')
+def test_anchor_name_case_does_not_make_it_eligible_for_collection(tmp_path):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    anchor, recent, old = [tmp_path/(name+'.qpxrecover') for name in ['anchor', 'recent', 'old']]
+    checkpoint(project, doc, obj, anchor, 10)
+    checkpoint(project, doc, obj, recent)
+    checkpoint(project, doc, obj, old, 100)
+    before = anchor.read_bytes()
+    result = q.Project.prune_recoveries(str(anchor.with_name(anchor.name.upper())), policy(1))
+    assert result.removed == 1 and not old.exists() and anchor.read_bytes() == before and recent.exists()
+
+
+def test_live_oldest_sessions_do_not_starve_inactive_candidates(tmp_path):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    live = [checkpoint(project, doc, obj, tmp_path/f'live-{i}.qpxrecover', 100+i, active=True) for i in range(4)]
+    inactive = [tmp_path/f'inactive-{i}.qpxrecover' for i in range(2)]
+    for path in inactive:
+        checkpoint(project, doc, obj, path, 50)
+    current = tmp_path/'current.qpxrecover'
+    checkpoint(project, doc, obj, current)
+    assert q.Project.prune_recoveries(str(current), policy(1, 2)).removed == 2
+    assert all(not path.exists() for path in inactive)
+    assert all((tmp_path/f'live-{i}.qpxrecover').exists() and not owner.busy for i, owner in enumerate(live))
+
+
+@pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI') != '1', reason='requires desktop GUI')
+def test_gui_stop_maintenance_keeps_published_work_and_underlying_undo(tmp_path):
+    project, doc, obj, image, primary = workspace(tmp_path)
+    before = primary.read_bytes()
+    paths = [tmp_path/f'old-{i}.qpxrecover' for i in range(5)]
+    for path in paths:
+        checkpoint(project, doc, obj, path, 100)
+    doc.rename_annotation(obj, 'Captured live work')
+    current = tmp_path/'viewer.qpxrecover'
+    options = q.GuiOptions()
+    options.autosave_interval_seconds, options.autosave_path, options.recovery_path = 0, str(current), str(current)
+    options.recovery_retention_enabled, options.recovery_keep_latest, options.recovery_max_age_days = True, 1, 7
+    events = []
+    for frame, kind in [(5, q.GuiInputKind.AUTOSAVE_KEY), (20, q.GuiInputKind.UNDO_KEY),
+                        (40, q.GuiInputKind.STOP_RECOVERY_MAINTENANCE_KEY),
+                        (55, q.GuiInputKind.STOP_RECOVERY_MAINTENANCE_KEY),
+                        (70, q.GuiInputKind.STOP_RECOVERY_MAINTENANCE_KEY)]:
+        event = q.GuiInput(); event.frame, event.kind = frame, kind; events.append(event)
+    options.inputs = events
+    with locked_headers(paths):
+        report = q.show(project, frame_limit=95, capture_path=str(tmp_path/'retention-stopped.ppm'), options=options)
+    assert report.autosaves_completed == 1 and not report.autosave_error
+    assert report.retention_cancelled and report.retention_inspected > 0 and not report.retention_error
+    assert report.checkpoints_pruned == 0 and all(path.exists() for path in paths)
+    assert q.Project.recover(str(current)).document(image).annotation(obj).name == 'Captured live work'
+    assert doc.annotation(obj).name == paths[-1].stem and project.dirty and primary.read_bytes() == before
+
+
+
+def test_collection_cancellation_keeps_completed_removals_and_stops_later_candidates(tmp_path):
+    project = q.Project()
+    doc = q.Document(q.Image(4, 4, [20, 40, 80]*16))
+    obj = doc.add_rectangle(q.Rect(0, 0, 1, 1))
+    image = project.add_document(doc)
+    primary = tmp_path/'primary.qpxproj'
+    project.save(str(primary))
+    before = primary.read_bytes()
+    paths = [tmp_path/f'old-{i:03d}.qpxrecover' for i in range(128)]
+    for i, path in enumerate(paths):
+        checkpoint(project, doc, obj, path, 100+i/1000)
+    writer = q.ProjectAutosave()
+    writer.retention = policy(1, 128)
+    current = tmp_path/'current.qpxrecover'
+    doc.rename_annotation(obj, 'Published before collection')
+    assert writer.request(project, str(current))
+    deadline = time.monotonic()+15
+    while writer.busy:
+        stats = writer.poll()
+        if stats.maintenance_phase == 'collecting' and stats.retention_removed > 0:
+            break
+        assert time.monotonic() < deadline
+        time.sleep(.001)
+    assert writer.busy and stats.maintenance_phase == 'collecting'
+    assert 0 < stats.retention_removed < 128
+    writer.cancel()
+    stats = writer.wait()
+    assert stats.state == 'ready' and stats.retention_cancelled and not stats.retention_error
+    assert 0 < stats.retention_removed == stats.checkpoints_pruned < 128
+    assert sum(not path.exists() for path in paths) == stats.retention_removed
+    assert primary.read_bytes() == before
+    assert q.Project.recover(str(current)).document(image).annotation(obj).name == 'Published before collection'

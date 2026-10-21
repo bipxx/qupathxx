@@ -15,6 +15,8 @@ struct RecoveryRetentionStats {
     std::size_t inspected=0,removed=0,failed=0;
     double elapsed_ms=0;
     std::string error;
+    bool cancelled=false;
+    double metadata_ms=0,ownership_ms=0,removal_ms=0;
 };
 struct RecoveryInfo {
     std::string path,identity,session,base_path,base_status,error,fingerprint;
@@ -78,7 +80,14 @@ private:
     bool can_retire_on_worker() const;
     static std::shared_ptr<Project> open_impl(const std::string& path,bool recovery,const std::string& base_path="");
     static std::pair<std::string,std::uint64_t> read_save_identity(const std::string& path);
-    static RecoveryInfo inspect_recovery_header(const std::string& path);
+    static RecoveryInfo inspect_recovery_header(const std::string& path,const std::atomic<bool>* cancelled=nullptr);
+    struct RetentionProgress {
+        std::atomic<int> phase{0};
+        std::atomic<bool> published{false};
+        std::atomic<std::size_t> inspected{0},removed{0};
+    };
+    static RecoveryRetentionStats prune_recoveries_impl(const std::string& path,const RecoveryRetention&,
+        const std::atomic<bool>* cancelled,RetentionProgress* progress);
     std::unique_ptr<Project> snapshot_for_save(std::size_t budget,std::size_t& bytes) const;
     void save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled=nullptr);
     void save_recovery(const std::string& path,const std::string& link_directory,const RecoveryInfo& info,const std::atomic<bool>* cancelled=nullptr);

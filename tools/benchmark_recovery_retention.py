@@ -14,10 +14,14 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--checkpoints', type=int, default=1000)
     parser.add_argument('--gui', action='store_true')
+    parser.add_argument('--cancel-after', type=int, default=0, help='Stop headless scanning after this many observed headers')
     parser.add_argument('--output', type=Path, default=Path('build/retention-benchmark.json'))
     args = parser.parse_args()
     if not 32 <= args.checkpoints <= 10000:
         parser.error('checkpoints must be between 32 and 10000')
+    if args.cancel_after < 0 or args.cancel_after >= args.checkpoints or (args.gui and args.cancel_after):
+        parser.error('cancel-after must be a smaller nonnegative header count and requires headless mode')
+    expected_removals = 0 if args.cancel_after else min(32, args.checkpoints+1-10)
     project = q.Project()
     source = q.Document(q.Image(4, 4, [20, 40, 80]*16))
     source.add_rectangle(q.Rect(0, 0, 1, 1), 'Original')
@@ -66,9 +70,11 @@ def main():
             options.inputs = events
             report = q.show(project, frame_limit=900, options=options)
             assert report.autosaves_completed == 1 and not report.autosave_error
-            assert report.checkpoints_pruned == 32 and not report.retention_error
+            assert report.checkpoints_pruned == expected_removals and not report.retention_error
             assert len(report.selected_ids) == 100000 and 0 < report.visible_objects < 2000
             result.update(retention_ms=report.retention_ms, capture_ms=report.autosave_capture_ms,
+                          metadata_ms=report.retention_metadata_ms, ownership_ms=report.retention_ownership_ms,
+                          removal_ms=report.retention_removal_ms, inspected=report.retention_inspected,
                           cpu_frame_p95_ms=report.cpu_frame_p95_ms, max_cpu_frame_ms=report.max_cpu_frame_ms,
                           peak_gpu_payload_bytes=report.peak_gpu_bytes, selected_objects=len(report.selected_ids),
                           visible_objects=report.visible_objects, gl_renderer=report.gl_renderer)
@@ -79,19 +85,33 @@ def main():
             writer.retention = config
             start = time.perf_counter()
             assert writer.request(project, str(current))
-            published, polls = None, []
+            published, polls, cancelled_at = None, [], None
+            phases, max_live_inspected = set(), 0
             while writer.busy:
                 if published is None and current.exists():
                     published = (time.perf_counter()-start)*1000
                 poll_start = time.perf_counter()
                 stats = writer.poll()
                 polls.append((time.perf_counter()-poll_start)*1000)
+                phases.add(stats.maintenance_phase)
+                max_live_inspected = max(max_live_inspected, stats.retention_inspected)
+                if args.cancel_after and cancelled_at is None and stats.maintenance_phase == 'scanning' and stats.retention_inspected >= args.cancel_after:
+                    writer.cancel()
+                    cancelled_at = time.perf_counter()
                 time.sleep(.001)
-            assert stats.state == 'ready' and stats.checkpoints_pruned == 32 and not stats.retention_error
+            assert stats.state == 'ready' and not stats.retention_error and stats.checkpoint_published
+            assert stats.checkpoints_pruned == expected_removals
+            assert stats.retention_cancelled == bool(args.cancel_after)
+            if args.cancel_after:
+                assert cancelled_at is not None
+                result['cancel_to_completion_ms'] = (time.perf_counter()-cancelled_at)*1000
             result.update(retention_ms=stats.retention_ms, capture_ms=stats.capture_ms, worker_ms=stats.write_ms,
-                          checkpoint_visible_ms=published, max_poll_ms=max(polls))
+                          checkpoint_visible_ms=published, max_poll_ms=max(polls), cancelled=stats.retention_cancelled,
+                          metadata_ms=stats.retention_metadata_ms, ownership_ms=stats.retention_ownership_ms,
+                          removal_ms=stats.retention_removal_ms, inspected=stats.retention_inspected,
+                          observed_phases=sorted(phases), max_live_inspected=max_live_inspected)
             del writer
-        assert sum(not path.exists() for path in paths) == 32 and current.exists()
+        assert sum(not path.exists() for path in paths) == expected_removals and current.exists()
         assert primary.read_bytes() == before and project.dirty
         assert q.Project.recover(str(current)).document(image).object_count == 100000
         result['scope'] = ('Warm local Windows SQLite/dense RGB. Historical fixtures are separately published '

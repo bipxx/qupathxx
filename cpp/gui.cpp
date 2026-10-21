@@ -565,6 +565,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::RemoveImageKey: input.AddKeyEvent(ImGuiKey_F12,true); break;
                 case GuiInputKind::ReviewRecoveryKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiMod_Shift,true); input.AddKeyEvent(ImGuiKey_Backspace,true); break;
                 case GuiInputKind::FindRecoveriesKey: input.AddKeyEvent(ImGuiKey_F5,true); break;
+                case GuiInputKind::StopRecoveryMaintenanceKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_F10,true); break;
                 default: break;
             }
         }
@@ -710,7 +711,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             bool recover_requested=!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F11);
             bool review_checkpoint=!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_Backspace);
             bool find_recoveries=!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F5);
-            autosave_requested=!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F10);
+            autosave_requested=!io.WantTextInput && !editing_blocked && !io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_F10);
+            if(!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_F10) && autosave.busy() && autosave_stats.checkpoint_published) autosave.cancel();
             if(reveal_recoveries) {ImGui::SetNextItemOpen(true); reveal_recoveries=false;}
             if(ImGui::CollapsingHeader("Recovery",(!options.recovery_path.empty() || !recovery_candidates.empty() || !options.project->recovery_source().empty())?ImGuiTreeNodeFlags_DefaultOpen:0)) {
                 if(!options.project->recovery_source().empty() && options.project->dirty()) ImGui::TextWrapped("Recovered workspace. Save this project to retain its changes.");
@@ -725,14 +727,26 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ImGui::BeginDisabled(autosave.busy());
                 if(ImGui::Button("Save recovery now (F10)")) autosave_requested=true;
                 ImGui::EndDisabled();
-                if(autosave.busy()) ImGui::TextDisabled("Writing recovery...");
+                if(autosave.busy() && autosave_stats.checkpoint_published) {
+                    if(autosave_stats.cancel_requested) ImGui::TextDisabled("Stopping recovery maintenance...");
+                    else if(autosave_stats.maintenance_phase=="scanning") {ImGui::TextDisabled("Recovery published."); ImGui::TextDisabled("Checked %zu checkpoint headers...",autosave_stats.retention_inspected);}
+                    else if(autosave_stats.maintenance_phase=="collecting") {ImGui::TextDisabled("Recovery published."); ImGui::TextDisabled("Removed %zu old checkpoints...",autosave_stats.retention_removed);}
+                    else ImGui::TextDisabled("Recovery published. Finishing maintenance...");
+                    ImGui::BeginDisabled(autosave_stats.cancel_requested);
+                    if(ImGui::Button("Stop maintenance (Ctrl+F10)")) autosave.cancel();
+                    ImGui::EndDisabled();
+                }
+                else if(autosave.busy()) ImGui::TextDisabled("Writing recovery...");
                 else if(autosave_stats.state=="ready") ImGui::TextDisabled("Recovery saved; project still unsaved.");
+                if(!autosave.busy() && autosave_stats.retention_cancelled) ImGui::TextWrapped("Maintenance stopped. Published recovery retained.");
                 if(!autosave_stats.error.empty()) ImGui::TextWrapped("%s",autosave_stats.error.c_str());
                 if(!autosave_stats.work_cleanup_error.empty()) ImGui::TextWrapped("Recovery work cleanup: %s",autosave_stats.work_cleanup_error.c_str());
                 bool retention_changed=ImGui::Checkbox("Remove old inactive checkpoints",&retention.enabled);
                 if(retention.enabled) {
                     int keep=static_cast<int>(retention.keep_latest);
+                    ImGui::SetNextItemWidth(110);
                     if(ImGui::InputInt("Keep newest",&keep)) {retention.keep_latest=static_cast<std::size_t>(std::clamp(keep,1,1024)); retention_changed=true;}
+                    ImGui::SetNextItemWidth(110);
                     if(ImGui::InputDouble("Minimum age (days)",&retention.max_age_days,1,7,"%.1f")) {
                         if(!std::isfinite(retention.max_age_days)) retention.max_age_days=30;
                         retention.max_age_days=std::clamp(retention.max_age_days,1.,36500.); retention_changed=true;
@@ -1396,6 +1410,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     // caller's project. No live authority or Python-owned objects enter workers.
     if(save_job.busy()) save_job.wait();
     reconcile_save();
+    if(autosave.busy()) autosave.wait();
     if(maintenance_job.valid()) {maintenance_job.wait(); poll_maintenance(true);}
     if(retired_workspace.valid()) max_retirement_ms=std::max(max_retirement_ms,retired_workspace.get());
     std::sort(frame_times.begin(),frame_times.end());
@@ -1406,7 +1421,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         reinterpret_cast<const char*>(glGetString(GL_RENDERER)),reinterpret_cast<const char*>(glGetString(GL_VERSION)),visible_count,selection->ids(),selection->primary(),active_image,image_switches,max_image_switch_ms,project_error,
         autosave.stats().completed,autosave.stats().path,autosave.stats().error.empty()?autosave_ui_error:autosave.stats().error,autosave.stats().capture_ms,frame_times.empty()?0:frame_times.back(),project_replacements,project_load_ms,images_removed,
         save_job.stats().completed,save_job.stats().capture_ms,save_job.stats().write_ms,recovery_load_ms,checkpoints_deleted,maintenance_error,retired_workspaces,max_retirement_ms,
-        autosave.stats().checkpoints_pruned,autosave.stats().retention_ms,autosave.stats().retention_error};
+        autosave.stats().checkpoints_pruned,autosave.stats().retention_ms,autosave.stats().retention_error,
+        autosave.stats().retention_cancelled,autosave.stats().retention_inspected,autosave.stats().retention_metadata_ms,autosave.stats().retention_ownership_ms,autosave.stats().retention_removal_ms};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

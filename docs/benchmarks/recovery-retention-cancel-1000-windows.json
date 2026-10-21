@@ -1,0 +1,26 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "historical_checkpoints": 1000,
+  "objects": 100000,
+  "keep_latest": 10,
+  "max_age_days": 30,
+  "max_deletions": 32,
+  "cancel_to_completion_ms": 9.363999939523637,
+  "retention_ms": 878.4904,
+  "capture_ms": 15.4483,
+  "worker_ms": 1126.4289,
+  "checkpoint_visible_ms": 254.0024999761954,
+  "max_poll_ms": 0.03800005652010441,
+  "cancelled": true,
+  "metadata_ms": 99.03909999999999,
+  "ownership_ms": 774.3306999999995,
+  "removal_ms": 0.0,
+  "inspected": 100,
+  "observed_phases": [
+    "cancelled",
+    "idle",
+    "scanning"
+  ],
+  "max_live_inspected": 100,
+  "scope": "Warm local Windows SQLite/dense RGB. Historical fixtures are separately published small native checkpoints from distinct closed sessions; only creation timestamps and mtimes are aged. Fixture creation excluded. One native 100000-object checkpoint publishes before bounded metadata-only retention. No historical graphs/pixels are decoded. GUI excludes swap wait. Cold/network/vendor and prolonged pressure excluded; no general latency bound."
+}

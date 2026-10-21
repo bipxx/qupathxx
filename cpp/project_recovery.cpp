@@ -41,6 +41,7 @@ fs::path location(const std::string& value) {
     return fs::absolute(fs::u8path(value)).lexically_normal();
 }
 bool same_path(const fs::path& a,const fs::path& b) {
+    if(a==b) return true;
     std::error_code error; auto equivalent=fs::equivalent(a,b,error); if(!error) return equivalent;
     auto left=fs::weakly_canonical(a,error); if(error) left=a.lexically_normal();
     error.clear(); auto right=fs::weakly_canonical(b,error); if(error) right=b.lexically_normal();
@@ -152,11 +153,27 @@ struct WorkDirectory {
 bool plain_entry(const fs::path& path,bool directory) {
 #ifdef _WIN32
     const auto attributes=GetFileAttributesW(path.c_str());
-    if(attributes==INVALID_FILE_ATTRIBUTES || (attributes&FILE_ATTRIBUTE_REPARSE_POINT)) return false;
-#endif
+    if(attributes==INVALID_FILE_ATTRIBUTES || (attributes&(FILE_ATTRIBUTE_REPARSE_POINT|FILE_ATTRIBUTE_DEVICE))) return false;
+    return static_cast<bool>(attributes&FILE_ATTRIBUTE_DIRECTORY)==directory;
+#else
     const auto status=fs::symlink_status(path);
     return directory?fs::is_directory(status):fs::is_regular_file(status);
+#endif
 }
+bool same_name(const fs::path& a,const fs::path& b) {
+#ifdef _WIN32
+    return CompareStringOrdinal(a.c_str(),-1,b.c_str(),-1,TRUE)==CSTR_EQUAL;
+#else
+    return a==b;
+#endif
+}
+struct TimedSection {
+    double* total;
+    std::chrono::steady_clock::time_point start=std::chrono::steady_clock::now();
+    explicit TimedSection(double& value):total(&value) {}
+    void stop() {if(total) {*total+=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count(); total=nullptr;}}
+    ~TimedSection() {stop();}
+};
 std::string read_session_marker(const fs::path& path) {
     std::ifstream input(path,std::ios::binary); std::array<char,256> data{};
     input.read(data.data(),data.size());
@@ -261,6 +278,7 @@ struct ProjectAutosave::Impl {
     AutosaveStats stats;
     std::future<Result> future;
     std::shared_ptr<std::atomic<bool>> cancelled;
+    std::shared_ptr<Project::RetentionProgress> progress;
     std::optional<Stamp> last,inflight;
     bool clear_pending=false;
     std::uintmax_t file_bytes=0;
@@ -304,11 +322,12 @@ bool ProjectAutosave::request(const Project& project,const std::string& requeste
     for(const auto& [id,e]:project.entries_) info.objects+=e.document->object_count();
     info.created_unix_ms=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     auto cancelled=std::make_shared<std::atomic<bool>>(false);
+    auto progress=std::make_shared<Project::RetentionProgress>();
     auto capture_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
     const bool create_cache=requested.empty() && project.path_.empty();
     auto lease=impl_->lease_identity==info.identity?impl_->lease:nullptr;
     const auto retention=impl_->retention;
-    auto future=std::async(std::launch::async,[snapshot=std::move(snapshot),info,destination,cancelled,create_cache,lease=std::move(lease),retention]() mutable {
+    auto future=std::async(std::launch::async,[snapshot=std::move(snapshot),info,destination,cancelled,progress,create_cache,lease=std::move(lease),retention]() mutable {
         Impl::Result result; auto start=std::chrono::steady_clock::now();
         try {
             if(create_cache) fs::create_directories(destination.parent_path());
@@ -331,6 +350,7 @@ bool ProjectAutosave::request(const Project& project,const std::string& requeste
                         result.published=publish(work.file,destination,*cancelled);
                         result.cancelled=!result.published;
                         if(result.published) {
+                            progress->published.store(true);
                             result.lease=lease;
                             result.file_bytes=fs::file_size(destination); result.modified=fs::last_write_time(destination);
                             if(lease) {
@@ -350,14 +370,22 @@ bool ProjectAutosave::request(const Project& project,const std::string& requeste
             // the potentially large private canonical snapshot before scanning.
             snapshot.reset();
             if(result.published && retention.enabled && result.retention.error.empty() && !cancelled->load()) {
-                try {result.retention=Project::prune_recoveries(info.path,retention);}
-                catch(const std::exception& e) {result.retention.error=e.what();}
+                try {result.retention=Project::prune_recoveries_impl(info.path,retention,cancelled.get(),progress.get());}
+                catch(const std::exception& e) {
+                    result.retention.cancelled=cancelled->load();
+                    if(!result.retention.cancelled) result.retention.error=e.what();
+                    progress->phase.store(result.retention.cancelled?4:0);
+                }
             }
+            else if(result.published && retention.enabled && cancelled->load()) {result.retention.cancelled=true; progress->phase.store(4);}
         } catch(const std::exception& e) { if(cancelled->load()) result.cancelled=true; else result.error=e.what(); }
         snapshot.reset(); // Large canonical maps are released on the worker, not by GUI future.get().
         result.write_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count(); return result;
     });
     impl_->future=std::move(future); impl_->cancelled=std::move(cancelled); impl_->inflight=std::move(stamp);
+    impl_->progress=std::move(progress);
+    impl_->stats.checkpoint_published=false; impl_->stats.cancel_requested=false; impl_->stats.retention_cancelled=false;
+    impl_->stats.maintenance_phase="idle"; impl_->stats.retention_inspected=impl_->stats.retention_removed=0;
     impl_->identity=project.identity_; impl_->base=project.path_;
     impl_->stats.state="writing"; impl_->stats.path=path; impl_->stats.error.clear(); impl_->stats.snapshot_bytes=bytes; impl_->stats.capture_ms=capture_ms;
     return true;
@@ -368,6 +396,14 @@ void ProjectAutosave::clear() {
     if(!busy()) poll();
 }
 AutosaveStats ProjectAutosave::poll() {
+    if(impl_->progress) {
+        impl_->stats.checkpoint_published=impl_->progress->published.load();
+        impl_->stats.cancel_requested=impl_->cancelled && impl_->cancelled->load();
+        impl_->stats.retention_inspected=impl_->progress->inspected.load();
+        impl_->stats.retention_removed=impl_->progress->removed.load();
+        const auto phase=impl_->progress->phase.load();
+        impl_->stats.maintenance_phase=phase==1?"scanning":phase==2?"collecting":phase==3?"complete":phase==4?"cancelled":"idle";
+    }
     if(busy() && impl_->future.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
         try {
             auto result=impl_->future.get(); impl_->stats.write_ms=result.write_ms;
@@ -377,6 +413,16 @@ AutosaveStats ProjectAutosave::poll() {
             impl_->stats.checkpoints_pruned+=result.retention.removed;
             impl_->stats.retention_ms=result.retention.elapsed_ms;
             impl_->stats.retention_error=std::move(result.retention.error);
+            impl_->stats.retention_cancelled=result.retention.cancelled;
+            impl_->stats.retention_metadata_ms=result.retention.metadata_ms;
+            impl_->stats.retention_ownership_ms=result.retention.ownership_ms;
+            impl_->stats.retention_removal_ms=result.retention.removal_ms;
+            if(impl_->progress) {
+                impl_->stats.checkpoint_published=impl_->progress->published.load();
+                impl_->stats.retention_inspected=impl_->progress->inspected.load();
+                impl_->stats.retention_removed=impl_->progress->removed.load();
+                impl_->stats.maintenance_phase=result.retention.cancelled?"cancelled":impl_->progress->phase.load()==3?"complete":"idle";
+            }
             if(!result.error.empty()) { impl_->stats.state="error"; impl_->stats.error=std::move(result.error); }
             else if(result.published) {
                 ++impl_->stats.completed; impl_->last=std::move(impl_->inflight); impl_->stats.state="ready";
@@ -391,6 +437,8 @@ AutosaveStats ProjectAutosave::poll() {
         impl_->clear_pending=false;
         if(impl_->stats.path.empty()) { impl_->stats.state="idle"; impl_->stats.error.clear(); }
         else {
+            impl_->progress.reset(); impl_->stats.checkpoint_published=false; impl_->stats.cancel_requested=false;
+            impl_->stats.maintenance_phase="idle";
             auto path=impl_->stats.path,identity=impl_->identity,session=impl_->session,base=impl_->base;
             impl_->future=std::async(std::launch::async,[path,identity,session,base] {
                 Impl::Result result;
@@ -421,17 +469,30 @@ std::size_t Project::cleanup_recovery_work(const std::string& path) {
     return cleanup_work(target);
 }
 RecoveryRetentionStats Project::prune_recoveries(const std::string& current_path,const RecoveryRetention& policy) {
+    return prune_recoveries_impl(current_path,policy,nullptr,nullptr);
+}
+RecoveryRetentionStats Project::prune_recoveries_impl(const std::string& current_path,const RecoveryRetention& policy,
+        const std::atomic<bool>* cancelled,RetentionProgress* progress) {
     if(!has_project()) throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON");
     policy.validate(); RecoveryRetentionStats stats;
     if(!policy.enabled) return stats;
     const auto start=std::chrono::steady_clock::now();
+    const auto stopped=[&]{return cancelled && cancelled->load();};
+    const auto finish=[&] {
+        stats.cancelled=stopped();
+        stats.elapsed_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
+        if(progress) progress->phase.store(stats.cancelled?4:3);
+        return stats;
+    };
+    if(stopped()) return finish();
+    if(progress) progress->phase.store(1);
     const auto target=location(current_path);
     if(!recovery_extension(target) || !plain_entry(target,false)) throw std::invalid_argument("retention requires a regular recovery checkpoint");
     RecoveryInfo current;
-    {FileLock lock(target); current=inspect_recovery_header(target.u8string());}
+    {FileLock lock(target); current=inspect_recovery_header(target.u8string(),cancelled);}
     const auto same_scope=[&](const RecoveryInfo& info) {
         return info.identity==current.identity && (info.base_path.empty()==current.base_path.empty()) &&
-            (info.base_path.empty() || same_path(location(info.base_path),location(current.base_path)));
+            (info.base_path.empty() || info.base_path==current.base_path || same_path(location(info.base_path),location(current.base_path)));
     };
     const auto newer=[](const RecoveryInfo& a,const RecoveryInfo& b) {
         return a.created_unix_ms!=b.created_unix_ms?a.created_unix_ms>b.created_unix_ms:a.path<b.path;
@@ -439,20 +500,24 @@ RecoveryRetentionStats Project::prune_recoveries(const std::string& current_path
     const auto age_ms=static_cast<std::int64_t>(policy.max_age_days*86400000.);
     const auto now_ms=std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
     const auto file_cutoff=fs::file_time_type::clock::now()-std::chrono::duration_cast<fs::file_time_type::duration>(std::chrono::duration<double>(policy.max_age_days*86400.));
+    const bool anchor_has_aliases=fs::hard_link_count(target)>1;
     struct Candidate {RecoveryInfo info; fs::file_time_type modified; std::shared_ptr<FileLock> lease;};
     std::vector<RecoveryInfo> newest;
     std::vector<Candidate> candidates;
     const auto older=[&](const Candidate& a,const Candidate& b){return newer(b.info,a.info);};
     for(const auto& item:fs::directory_iterator(target.parent_path())) {
+        if(stopped()) break;
         if(!recovery_extension(item.path()) || !plain_entry(item.path(),false)) continue;
-        ++stats.inspected;
+        ++stats.inspected; if(progress) progress->inspected.store(stats.inspected);
+        TimedSection metadata(stats.metadata_ms);
         try {
-            auto info=inspect_recovery_header(item.path().u8string());
+            auto info=inspect_recovery_header(item.path().u8string(),cancelled);
             if(!same_scope(info)) continue;
             newest.push_back(info); std::push_heap(newest.begin(),newest.end(),newer);
             if(newest.size()>policy.keep_latest) {std::pop_heap(newest.begin(),newest.end(),newer); newest.pop_back();}
-            if(same_path(item.path(),target) || info.created_unix_ms>now_ms-age_ms) continue;
+            if(same_name(item.path(),target) || (anchor_has_aliases && same_path(item.path(),target)) || info.created_unix_ms>now_ms-age_ms) continue;
             const auto modified=fs::last_write_time(item.path()); if(modified>file_cutoff) continue;
+            metadata.stop(); TimedSection ownership(stats.ownership_ms);
             const auto sidecar=session_path(item.path());
             if(!plain_entry(sidecar,false) || read_session_marker(sidecar)!=lease_marker(info)) continue;
             auto global=lease_key(info); auto lock_path=global; lock_path+=fs::u8path(".lock");
@@ -466,24 +531,32 @@ RecoveryRetentionStats Project::prune_recoveries(const std::string& current_path
             if(candidates.size()>policy.max_deletions) {std::pop_heap(candidates.begin(),candidates.end(),older); candidates.pop_back();}
         } catch(const std::exception&) { /* Unknown, active or unreadable files are preserved. */ }
     }
+    // A partial scan has no trustworthy newest set: cancellation must not
+    // turn a partially ranked catalog into permission to remove checkpoints.
+    if(stopped()) return finish();
+    if(progress) progress->phase.store(2);
     std::set<std::string> retained;
     for(const auto& info:newest) retained.insert(info.path);
     std::sort(candidates.begin(),candidates.end(),older);
-    for(const auto& candidate:candidates) {
-        if(retained.count(candidate.info.path)) continue;
-        try {
-            const auto path=location(candidate.info.path); FileLock lock(path);
-            if(!plain_entry(path,false)) continue;
-            const auto info=inspect_recovery_header(candidate.info.path);
-            if(!same_scope(info) || info.session!=candidate.info.session || info.created_unix_ms!=candidate.info.created_unix_ms ||
-               info.base_generation!=candidate.info.base_generation || fs::last_write_time(path)!=candidate.modified) continue;
-            if(!plain_entry(session_path(path),false) || read_session_marker(session_path(path))!=lease_marker(info)) continue;
-            if(!fs::remove(path)) throw std::runtime_error("recovery retention removal failed");
-            ++stats.removed;
-        } catch(const std::exception& e) {++stats.failed; if(stats.error.empty()) stats.error=e.what();}
+    {
+        TimedSection removal(stats.removal_ms);
+        for(const auto& candidate:candidates) {
+            if(stopped()) break;
+            if(retained.count(candidate.info.path)) continue;
+            try {
+                const auto path=location(candidate.info.path); FileLock lock(path);
+                if(!plain_entry(path,false)) continue;
+                const auto info=inspect_recovery_header(candidate.info.path,cancelled);
+                if(!same_scope(info) || info.session!=candidate.info.session || info.created_unix_ms!=candidate.info.created_unix_ms ||
+                   info.base_generation!=candidate.info.base_generation || fs::last_write_time(path)!=candidate.modified) continue;
+                if(!plain_entry(session_path(path),false) || read_session_marker(session_path(path))!=lease_marker(info)) continue;
+                if(stopped()) break;
+                if(!fs::remove(path)) throw std::runtime_error("recovery retention removal failed");
+                ++stats.removed; if(progress) progress->removed.store(stats.removed);
+            } catch(const std::exception& e) {if(!stopped()) {++stats.failed; if(stats.error.empty()) stats.error=e.what();}}
+        }
     }
-    stats.elapsed_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
-    return stats;
+    return finish();
 }
 RecoveryInfo Project::review_recovery(const std::string& path) {
     if(!has_project()) throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON");

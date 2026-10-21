@@ -107,9 +107,10 @@ retried; the pass reports the first error and failure count.
 
 The full directory scan, SQLite metadata reads, OS locks and deletion can take
 time on cold/network storage. The deletion cap does not bound scan time. Automatic
-cancellation is checked before starting retention; a started synchronous pass is
-joined at shutdown and is not interrupted mid-operation. Progress/cancellation
-within large maintenance scans remains open performance/UX work.
+cancellation now stops between scan entries/removals and skips deletion after a
+partial scan. [Progress and cancellation](recovery-maintenance-progress.md) distinguish
+publication from worker completion. One in-flight operation/busy wait can finish
+first, and shutdown joins the worker. The explicit API stays synchronous.
 
 ## Desktop and evidence
 
@@ -136,7 +137,7 @@ snapshot before collecting 32 old files. The optional viewer keeps all 100000
 objects selected. Fixture creation and final explicit file teardown are excluded
 from measurements. Real publication/liveness semantics are tested separately.
 
-The [distinct-session headless run](benchmarks/recovery-retention-1000-windows.json)
+The [distinct-session headless baseline](benchmarks/recovery-retention-before-progress-windows.json)
 records 16.2 ms capture and checkpoint visibility after 255 ms. The worker took
 8.73 s in total, including an 8.48 s retention pass; maximum poll time was 0.10 ms.
 That full metadata/lease scan remains a measurable maintenance cost even though
@@ -146,15 +147,16 @@ to exercise expiration without waiting sixty days. It removes 32 of the 1000
 historical files and preserves the current 100000-object checkpoint and primary.
 These single-host warm-local results do not establish general timing bounds.
 
-The [distinct-session desktop run](benchmarks/recovery-retention-view-1000-windows.json)
+The [distinct-session desktop baseline](benchmarks/recovery-retention-view-before-progress-windows.json)
 records an 8.67 s retention pass concurrent with a 900-frame viewer. Capture took
 14.7 ms; frame p95 was 16.9 ms and maximum frame work was 17.3 ms. All 100000
 objects remained selected, with 792 visible overlays and 3 MiB GPU tile payload.
 The scan stays off the render thread, but its duration still delays controller
-completion and can delay shutdown. Cancellation/progress and lease/metadata scan
-cost therefore remain explicit optimization targets.
+completion and can delay shutdown. This baseline motivated the subsequent
+[maintenance progress/cancellation and profiling](recovery-maintenance-progress.md)
+work. Broader cold/network/storage-pressure performance remains unverified.
 
 Automatic discovery/cleanup of abandoned work directories belonging to earlier
-session destinations, obsolete lock-sidecar collection, maintenance progress and
+session destinations, obsolete lock-sidecar collection and
 initial CLI loading progress remain unfinished. All other open M0-M7 requirements
 remain active.

@@ -239,7 +239,7 @@ std::shared_ptr<Project> Project::open(const std::string&) { throw std::runtime_
 std::shared_ptr<Project> Project::open_impl(const std::string&,bool,const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::shared_ptr<Project> Project::recover(const std::string&,const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::pair<std::string,std::uint64_t> Project::read_save_identity(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
-RecoveryInfo Project::inspect_recovery_header(const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
+RecoveryInfo Project::inspect_recovery_header(const std::string&,const std::atomic<bool>*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 RecoveryInfo Project::inspect_recovery(const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 #else
 namespace {
@@ -572,8 +572,8 @@ void Project::save_recovery(const std::string& path,const std::string& link_dire
     Statement check(db,"PRAGMA quick_check"); if(!check.row() || check.string(0)!="ok") throw std::runtime_error("recovery snapshot integrity check failed");
     recovery_header(db,path);
 }
-RecoveryInfo Project::inspect_recovery_header(const std::string& path) {
-    auto source=absolute(path); Database db(source,false); Transaction transaction(db,false);
+RecoveryInfo Project::inspect_recovery_header(const std::string& path,const std::atomic<bool>* cancelled) {
+    auto source=absolute(path); Database db(source,false); db.cancellation(cancelled); Transaction transaction(db,false);
     auto info=recovery_header(db,source); transaction.commit();
     return info;
 }

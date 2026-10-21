@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 330 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
+Evidence: 337 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
 (two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
 fourteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
@@ -90,10 +90,18 @@ Windows; closed markers travel with checkpoints. Collection follows publication
 on the existing worker. Cross-session orphan work and obsolete lock-sidecar
 discovery/cleanup remain open. The distinct-session 1000-file headless benchmark
 publishes after 255 ms but records 8.48 s of metadata/lease scanning and collection;
-maintenance progress/cancellation and scan cost remain performance targets.
+that recording motivated maintenance progress/cancellation and scan profiling.
 The distinct-session desktop run records an 8.67 s background pass with 16.9 ms
 frame p95, 17.3 ms maximum frame work, 100000 selected objects and 3 MiB GPU payload.
-Next implement maintenance progress/cancellation, cross-session work discovery and initial loading progress;
+Publication/progress polling, safe partial-scan cancellation, Ctrl+F10 and stage
+timings are now implemented; see recovery-maintenance-progress.md. Finite embedded
+GUI runs acknowledge autosave before returning. Hard-link/base aliases, active
+oldest sessions, blocked SQLite cancellation/retry and live desktop Undo are
+regression coverage for the new native scan path. The recorded stop-after-100
+header pass completes about 9.4 ms after the request with no removals; the full
+1000-session scan still takes 8.90 s, dominated by ownership-marker access.
+The viewer records 16.9 ms p95 and 17.7 ms maximum frame work during that scan.
+Next optimize ownership-marker I/O and implement cross-session work discovery and initial loading progress;
 retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,

@@ -5,10 +5,22 @@
   "keep_latest": 10,
   "max_age_days": 30,
   "max_deletions": 32,
-  "retention_ms": 8483.3061,
-  "capture_ms": 16.2244,
-  "worker_ms": 8732.5731,
-  "checkpoint_visible_ms": 255.2687000716105,
-  "max_poll_ms": 0.09749992750585079,
+  "retention_ms": 8895.5594,
+  "capture_ms": 13.803,
+  "worker_ms": 9142.5213,
+  "checkpoint_visible_ms": 249.8941000085324,
+  "max_poll_ms": 0.1569000305607915,
+  "cancelled": false,
+  "metadata_ms": 1069.3727000000001,
+  "ownership_ms": 7778.6787,
+  "removal_ms": 15.6368,
+  "inspected": 1001,
+  "observed_phases": [
+    "collecting",
+    "complete",
+    "idle",
+    "scanning"
+  ],
+  "max_live_inspected": 1001,
   "scope": "Warm local Windows SQLite/dense RGB. Historical fixtures are separately published small native checkpoints from distinct closed sessions; only creation timestamps and mtimes are aged. Fixture creation excluded. One native 100000-object checkpoint publishes before bounded metadata-only retention. No historical graphs/pixels are decoded. GUI excludes swap wait. Cold/network/vendor and prolonged pressure excluded; no general latency bound."
 }

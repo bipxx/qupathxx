@@ -12,6 +12,10 @@ struct AutosaveStats {
     std::size_t checkpoints_pruned=0;
     double retention_ms=0;
     std::string retention_error;
+    bool checkpoint_published=false,cancel_requested=false,retention_cancelled=false;
+    std::string maintenance_phase="idle";
+    std::size_t retention_inspected=0,retention_removed=0;
+    double retention_metadata_ms=0,retention_ownership_ms=0,retention_removal_ms=0;
 };
 // Owner-thread controller. Only an immutable private snapshot enters its worker.
 // One job, no backlog. Destruction cancels publication and joins its worker.
