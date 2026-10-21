@@ -229,6 +229,9 @@ struct GuiReport {
     std::size_t retention_inspected=0;
     double retention_metadata_ms=0,retention_ownership_ms=0,retention_removal_ms=0;
     std::size_t retention_prefetch_peak=0;
+    bool startup_succeeded=false,startup_cancelled=false;
+    std::size_t startup_frames=0,startup_images=0,startup_objects=0;
+    double startup_ms=0;
 };
 enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey };
 enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint };
@@ -250,6 +253,9 @@ struct GuiOptions {
     std::string autosave_path,recovery_path;
     std::string recovery_base_path;
     std::string project_open_path;
+    // Deferred initial input. Requires an empty project; kind is image/project/recovery.
+    std::string startup_path,startup_kind;
+    std::uint64_t startup_image_id=0;
     double autosave_interval_seconds=60;
     std::size_t autosave_snapshot_budget=256*1024*1024;
     std::size_t save_snapshot_budget=256*1024*1024;

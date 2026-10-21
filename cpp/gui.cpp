@@ -125,6 +125,14 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         (event.target!=GuiInputTarget::Image && (event.x<0 || event.x>1 || event.y<0 || event.y>1)) ||
         !std::isfinite(event.wheel) || std::abs(event.wheel)>100)
         throw std::invalid_argument("invalid replay event; frame must be inside finite run, starting at 2");
+    const bool startup_requested=!options.startup_kind.empty();
+    if(startup_requested) {
+        if((options.startup_kind!="image" && options.startup_kind!="project" && options.startup_kind!="recovery") ||
+           options.startup_path.empty() || options.startup_path.size()>32768 || options.startup_path.find('\0')!=std::string::npos ||
+           !options.project || options.project->revision_!=0 || !options.project->images().empty() || !options.project->path().empty())
+            throw std::invalid_argument("startup requires an empty project, a valid path and image/project/recovery kind");
+        if(options.startup_kind=="image" && options.startup_image_id) throw std::invalid_argument("startup image ID requires a stored project");
+    } else if(!options.startup_path.empty() || options.startup_image_id) throw std::invalid_argument("startup path/image ID requires a startup kind");
     if (!glfwInit()) throw std::runtime_error("GLFW initialization failed");
     Session session;
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -200,7 +208,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t recovery_catalog_revision=0,recovery_scan_revision=0;
     std::vector<RecoveryInfo> recovery_candidates;
     bool reveal_recoveries=false;
-    if(options.project && !frame_limit) {
+    if(options.project && !frame_limit && !startup_requested) {
         auto base=options.project->path(); recovery_scan_base=base; recovery_scan_generation=options.project->generation();
         recovery_scan=std::async(std::launch::async,[base]{return Project::find_recoveries(base);});
     }
@@ -213,6 +221,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         return LoadedProject{std::move(candidate),std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count(),recovery};
     };
     std::future<LoadedProject> project_load;
+    auto startup_progress=std::make_shared<Project::LoadProgress>();
+    bool startup_active=startup_requested,startup_pending=startup_requested,startup_succeeded=false,startup_cancelled=false;
+    std::size_t startup_frames=0,startup_finish_frame=0;
+    double startup_ms=0;
     bool project_load_cancelled=false;
     bool loading_recovery=false;
     std::uint64_t project_replacements=0;
@@ -340,7 +352,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
         }
     };
-    while (!exit_requested && (!frame_limit || frames < frame_limit)) {
+    while (!exit_requested && (!frame_limit || frames < frame_limit ||
+           (startup_requested && (startup_active || static_cast<std::size_t>(frames)<startup_finish_frame+frame_limit)))) {
         auto frame_start=std::chrono::steady_clock::now();
         if(retired_workspace.valid() && retired_workspace.wait_for(std::chrono::seconds(0))==std::future_status::ready)
             max_retirement_ms=std::max(max_retirement_ms,retired_workspace.get());
@@ -352,15 +365,19 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(project_load.valid() && !close_dialog_active && !remove_dialog_active && project_load.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
             try {
                 auto loaded=project_load.get();
+                if(startup_active) startup_ms=loaded.ms;
                 if(loaded.recovery) recovery_load_ms=loaded.ms; else project_load_ms=loaded.ms;
                 if(!project_load_cancelled) {
                     staged_project=std::move(loaded.project); staged_is_recovery=loaded.recovery;
                     drawing=marquee=vertex_dragging=false; active_vertex.reset(); draft_points.clear(); tool=previous_tool=0;
-                    if(options.project->dirty()) recovery_popup_requested=recovery_dialog_active=true;
+                    if(options.project->dirty() && !startup_active) recovery_popup_requested=recovery_dialog_active=true;
                     else { autosave.cancel(); restore_pending=true; }
                     project_error.clear();
                 }
             } catch(const std::exception& e) { if(!project_load_cancelled) project_error=e.what(); }
+            if(startup_active && !restore_pending && !staged_project) {
+                startup_active=false; startup_cancelled=project_load_cancelled; startup_finish_frame=frames;
+            }
         }
         if(recovery_scan.valid() && recovery_scan.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
             const bool current=options.project && recovery_scan_epoch==workspace_epoch && recovery_scan_revision==recovery_catalog_revision && recovery_scan_base==options.project->path() && recovery_scan_generation==options.project->generation();
@@ -377,10 +394,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             } catch(const std::exception& e) { if(current) autosave_ui_error=e.what(); }
         }
         if(glfwWindowShouldClose(session.window) && !restore_pending && !pending_remove) {
-            project_load_cancelled=true;
+            project_load_cancelled=true; startup_progress->cancelled.store(true);
+            if(startup_active) startup_cancelled=true;
             glfwSetWindowShouldClose(session.window,false);
             if(save_job.busy()) { close_popup_requested=close_dialog_active=true; close_action=1; close_wait_only=true; }
-            else if(options.project && options.project->dirty()) { close_popup_requested=close_dialog_active=true; }
+            else if(options.project && options.project->dirty() && !startup_active) { close_popup_requested=close_dialog_active=true; }
             else { autosave.clear(); if(!autosave.busy()) break; close_action=1; close_popup_requested=close_dialog_active=true; }
             drawing=marquee=vertex_dragging=false; active_vertex.reset(); draft_points.clear(); tool=previous_tool=0;
         }
@@ -425,10 +443,21 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     // Externally supplied documents may have Python/GIL deleters.
                     previous_views.clear(); previous_selection.reset(); staged_project.reset();
                 }
+                if(startup_active) {
+                    startup_active=false; startup_succeeded=true; startup_finish_frame=frames;
+                    if(!frame_limit && !recovery_scan.valid()) {
+                        auto base=options.project->path(); recovery_scan_base=base; recovery_scan_generation=options.project->generation();
+                        recovery_scan_epoch=workspace_epoch; recovery_scan_revision=recovery_catalog_revision;
+                        recovery_scan=std::async(std::launch::async,[base]{return Project::find_recoveries(base);});
+                    }
+                }
                 ++project_replacements; close_recovery_popup=recovery_dialog_active;
                 project_filter[0]=project_image_path[0]=interchange_path[0]=0;
                 next_autosave=std::chrono::steady_clock::now()+std::chrono::duration<double>(autosave_interval);
-            } catch(const std::exception& e) { project_error=e.what(); }
+            } catch(const std::exception& e) {
+                project_error=e.what();
+                if(startup_active) {startup_active=false; startup_finish_frame=frames;}
+            }
             restore_pending=false;
         }
         // Switch only at frame boundaries: no draw commands can retain old GPU
@@ -572,10 +601,30 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::NewFrame();
         bool save_project_requested=false;
         bool autosave_requested=false;
-        const bool editing_blocked=close_dialog_active || recovery_dialog_active || restore_pending || remove_dialog_active || maintenance_dialog_active;
+        const bool editing_blocked=startup_active || close_dialog_active || recovery_dialog_active || restore_pending || remove_dialog_active || maintenance_dialog_active;
         const auto& io = ImGui::GetIO();
         ImGui::SetNextWindowPos({0,0}); ImGui::SetNextWindowSize(io.DisplaySize);
         ImGui::Begin("Workspace", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
+        if(startup_active) {
+            ++startup_frames;
+            const auto phase=startup_progress->phase.load();
+            ImGui::TextUnformatted(project_load_cancelled?"Finishing cancelled opening...":
+                (options.startup_kind=="image"?"Opening image...":options.startup_kind=="recovery"?"Opening recovery...":"Opening project..."));
+            ImGui::TextWrapped("%s",options.startup_path.c_str());
+            const char* stage=phase==1?"Reading file metadata":phase==2?"Reading project data":phase==3?"Validating image objects":phase==4?"Checking project references":"Preparing workspace";
+            ImGui::TextDisabled("%s",stage);
+            if(options.startup_kind!="image" && phase>1) {
+                ImGui::Text("Images: %zu / %zu   Objects read: %zu / %zu",startup_progress->images.load(),startup_progress->total_images.load(),
+                    startup_progress->objects.load(),startup_progress->total_objects.load());
+            }
+            ImGui::BeginDisabled(project_load_cancelled);
+            if(ImGui::Button("Cancel opening")) {project_load_cancelled=true; startup_progress->cancelled.store(true);}
+            cancel_load_offset=ImGui::GetItemRectMin(); auto cl=ImGui::GetItemRectMax(); cancel_load_size={cl.x-cancel_load_offset.x,cl.y-cancel_load_offset.y};
+            ImGui::EndDisabled(); ImGui::Separator();
+        } else if(startup_requested && !startup_succeeded && project_replacements==0 &&
+                  options.project->revision_==0 && options.project->path().empty()) {
+            ImGui::TextWrapped("%s",startup_cancelled?"Opening cancelled. The workspace is empty.":project_error.c_str());
+        }
         ImGui::BeginDisabled(editing_blocked);
         ImGui::TextColored({.3f,.8f,.75f,1}, "qupathxx"); ImGui::SameLine(); ImGui::TextDisabled("/  Research workspace");
         ImGui::Separator();
@@ -641,7 +690,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 project_error.clear();
             }
             ImGui::EndDisabled();
-            if(project_load.valid()) {
+            if(project_load.valid() && !startup_active) {
                 ImGui::TextDisabled(project_load_cancelled?"Finishing cancelled load...":(loading_recovery?"Opening recovery...":"Opening project..."));
                 ImGui::BeginDisabled(project_load_cancelled);
                 if(ImGui::Button("Cancel opening")) project_load_cancelled=true;
@@ -1399,12 +1448,36 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         glClearColor(.07f,.08f,.1f,1); glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         auto cpu_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-frame_start).count();
-        if (frames>=10) {
+        if (frames>=10 || startup_requested) {
             if (frame_times.size()==4096) frame_times.erase(frame_times.begin(),frame_times.begin()+2048);
             frame_times.push_back(cpu_ms);
         }
         if (!capture_path.empty() && frames+1==frame_limit) capture(capture_path,w,h);
         glfwSwapBuffers(session.window); ++frames;
+        if(startup_pending) {
+            startup_pending=false;
+            if(project_load_cancelled) {
+                startup_active=false; startup_cancelled=true; startup_finish_frame=frames;
+            } else {
+                // Paint the initial workspace before any file I/O starts. The
+                // worker owns only native factories, metadata and atomics.
+                auto kind=options.startup_kind,path=options.startup_path,base=options.recovery_base_path;
+                const auto image_id=options.startup_image_id;
+                project_load=std::async(std::launch::async,[kind,path,base,image_id,progress=startup_progress] {
+                    const auto start=std::chrono::steady_clock::now();
+                    std::shared_ptr<Project> candidate;
+                    if(kind=="image") {
+                        if(progress->cancelled.load()) throw std::runtime_error("image opening cancelled");
+                        candidate=std::make_shared<Project>(); candidate->add_image(path);
+                        progress->total_images.store(1); progress->images.store(1);
+                    } else candidate=Project::open_impl(path,kind=="recovery",base,progress.get());
+                    if(progress->cancelled.load()) throw std::runtime_error("opening cancelled");
+                    if(image_id) candidate->set_active_image(image_id);
+                    progress->phase.store(5);
+                    return LoadedProject{std::move(candidate),std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count(),kind=="recovery"};
+                });
+            }
+        }
     }
     // Finite embedded runs also return a durable save result and reconcile the
     // caller's project. No live authority or Python-owned objects enter workers.
@@ -1422,7 +1495,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         autosave.stats().completed,autosave.stats().path,autosave.stats().error.empty()?autosave_ui_error:autosave.stats().error,autosave.stats().capture_ms,frame_times.empty()?0:frame_times.back(),project_replacements,project_load_ms,images_removed,
         save_job.stats().completed,save_job.stats().capture_ms,save_job.stats().write_ms,recovery_load_ms,checkpoints_deleted,maintenance_error,retired_workspaces,max_retirement_ms,
         autosave.stats().checkpoints_pruned,autosave.stats().retention_ms,autosave.stats().retention_error,
-        autosave.stats().retention_cancelled,autosave.stats().retention_inspected,autosave.stats().retention_metadata_ms,autosave.stats().retention_ownership_ms,autosave.stats().retention_removal_ms,autosave.stats().retention_prefetch_peak};
+        autosave.stats().retention_cancelled,autosave.stats().retention_inspected,autosave.stats().retention_metadata_ms,autosave.stats().retention_ownership_ms,autosave.stats().retention_removal_ms,autosave.stats().retention_prefetch_peak,
+        startup_succeeded,startup_cancelled,startup_frames,startup_progress->images.load(),startup_progress->objects.load(),startup_ms};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

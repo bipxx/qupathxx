@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 357 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
+Evidence: 375 passing Python tests including shapes, interchange, browsing, workspace migration, recovery and GUI replay
 (two file-symlink cases skipped because this Windows account cannot create them; the junction case passes);
 fourteen native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
@@ -124,7 +124,19 @@ The selected desktop records 16.83 ms frame p95, 38.90 ms maximum and 36.45 ms
 capture. Incremental collection is verified; full-sweep and capture latency
 remain targets. The installed wheel passes 357 tests with two skipped file-
 symlink cases; all fourteen native suites pass across three configurations.
-Next improve viewer metadata/capture latency and implement initial loading progress;
+Initial project/recovery/image files now load after the first painted workspace
+on a native worker, with staged counts, safe cancellation, image-ID validation
+and frame-boundary adoption; see project-opening.md. SQLite startup lock waits
+check cancellation between 5 ms retry sleeps. Missing/bad inputs preserve the
+empty authority and permit another in-window opening. Startup smoke runs verify
+settled rendering after the request completes. The 100000-object runs record
+238 ms project and 241 ms recovery worker load, about 16.9 ms frame p95 and
+3 MiB GPU payload. Including all startup frames exposes 203/275 ms maximum frame
+work; a temporary trace locates the largest stall in rendering before adoption.
+The final installed wheel passes 375 Python tests (two file-symlink cases
+skipped), including eighteen initial startup/retry checks. All fourteen native
+suites pass across full/core/minimal configurations. This initial rendering/
+adoption latency remains open alongside metadata/capture latency. Next improve those pauses and the numerical/feature contracts;
 retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,

@@ -236,7 +236,7 @@ void Project::save(const std::string&) { throw std::runtime_error("project stora
 void Project::save_impl(const std::string&,const std::string&,const std::atomic<bool>*,const RecoveryInfo*) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
 void Project::save_recovery(const std::string&,const std::string&,const RecoveryInfo&,const std::atomic<bool>*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::shared_ptr<Project> Project::open(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
-std::shared_ptr<Project> Project::open_impl(const std::string&,bool,const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
+std::shared_ptr<Project> Project::open_impl(const std::string&,bool,const std::string&,LoadProgress*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::shared_ptr<Project> Project::recover(const std::string&,const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::pair<std::string,std::uint64_t> Project::read_save_identity(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::optional<RecoveryInfo> Project::inspect_recovery_work(const std::string&,const std::atomic<bool>*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
@@ -248,11 +248,22 @@ constexpr int application_id=1364219992;
 constexpr int recovery_application_id=1364218456; // QPRX, distinct from ordinary QPXX projects.
 struct Database {
     sqlite3* db=nullptr;
-    Database(const std::string& path,bool write) {
+    Database(const std::string& path,bool write,const std::atomic<bool>* cancelled=nullptr) {
         auto connect=[&](int flags) {
             auto code=sqlite3_open_v2(path.c_str(),&db,flags|SQLITE_OPEN_NOMUTEX,nullptr);
             if(code!=SQLITE_OK) throw std::runtime_error(std::string("SQLite open: ")+(db?sqlite3_errmsg(db):"out of memory"));
             sqlite3_extended_result_codes(db,1); sqlite3_busy_timeout(db,1000);
+            if(cancelled) {
+                // Initial header reads can wait on another writer before the
+                // usual progress handler is installed. Keep that wait cancellable.
+                sqlite3_busy_handler(db,[](void* value,int retry) {
+                    auto* flag=static_cast<const std::atomic<bool>*>(value);
+                    if(retry>=200 || flag->load()) return 0;
+                    sqlite3_sleep(5);
+                    return flag->load()?0:1;
+                },const_cast<std::atomic<bool>*>(cancelled));
+                cancellation(cancelled);
+            }
             sqlite3_limit(db,SQLITE_LIMIT_LENGTH,272*1024*1024);
         };
         try {
@@ -475,8 +486,11 @@ std::shared_ptr<Project> Project::open(const std::string& path) {
     return open_impl(path,false);
 }
 std::shared_ptr<Project> Project::recover(const std::string& path,const std::string& base) { return open_impl(path,true,base); }
-std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recovery,const std::string& base_path) {
-    auto source=absolute(path); Database db(source,false); Transaction transaction(db,false);
+std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recovery,const std::string& base_path,LoadProgress* progress) {
+    auto stopped=[&] {if(progress && progress->cancelled.load()) throw std::runtime_error("project opening cancelled");};
+    stopped();
+    auto source=absolute(path); Database db(source,false,progress?&progress->cancelled:nullptr);
+    db.cancellation(progress?&progress->cancelled:nullptr); Transaction transaction(db,false);
     if(recovery_table(db)!=recovery) throw std::invalid_argument(recovery?"not a recovery snapshot":"use Project.recover for recovery snapshots");
     auto version=schema(db,recovery);
     std::optional<RecoveryInfo> recovery_info;
@@ -491,6 +505,12 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         // Keep the captured generation even if the relocated primary advanced.
         // A later save must still reject that stale baseline, rather than rebase.
     }
+    stopped();
+    if(progress) {
+        progress->total_images.store(static_cast<std::size_t>(scalar(db,"SELECT count(*) FROM images")));
+        progress->total_objects.store(static_cast<std::size_t>(scalar(db,"SELECT count(*) FROM objects")));
+        progress->phase.store(2);
+    }
     auto project=std::make_shared<Project>();
     Statement meta(db,"SELECT identity,next_image,active,generation FROM project");
     if(!meta.row()) throw std::invalid_argument("project metadata is missing");
@@ -504,6 +524,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
     Statement classes(db,"SELECT name,color FROM classes WHERE image_id=? ORDER BY name");
     Statement objects(db,"SELECT id,name,parent,class_name,revision,kind,geometry,nucleus FROM objects WHERE image_id=?");
     while(images.row()) {
+        stopped(); if(progress) progress->phase.store(2);
         auto key=images.string(0); ProjectImage info;
         info.id=number(key); info.name=images.string(1); info.reader=images.string(2); auto file=images.string(3);
         auto embedded=images.integer(4); if(embedded!=0 && embedded!=1) throw std::invalid_argument("invalid embedded-image flag");
@@ -536,15 +557,20 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         std::vector<Annotation> annotations;
         objects.string(1,key);
         while(objects.row()) {
+            stopped();
             auto kind=objects.integer(5); if(kind<0 || kind>2) throw std::invalid_argument("unknown persisted object kind");
             auto geometry=decode(objects,6); std::optional<Roi> nucleus; if(objects.type(7)!=SQLITE_NULL) nucleus=decode(objects,7);
             annotations.push_back({number(objects.string(0)),objects.string(1),std::move(geometry),number(objects.string(2)),objects.string(3),number(objects.string(4)),static_cast<ObjectKind>(kind),std::move(nucleus)});
+            if(progress) progress->objects.fetch_add(1,std::memory_order_relaxed);
         }
         objects.check(sqlite3_reset(objects.stmt)); objects.check(sqlite3_clear_bindings(objects.stmt));
+        stopped(); if(progress) progress->phase.store(3);
         auto document=Document::restore(std::move(server),annotations,definitions,images.optional(10),images.optional(11),number(images.string(12)),number(images.string(13)));
         project->saved_revisions_.emplace(info.id,document->revision());
         if(!project->entries_.emplace(info.id,Entry{std::move(info),std::move(document),true}).second) throw std::invalid_argument("duplicate project image ID");
+        stopped(); if(progress) progress->images.fetch_add(1,std::memory_order_relaxed);
     }
+    stopped(); if(progress) progress->phase.store(4);
     if(project->active_image_ && !project->entries_.count(project->active_image_)) throw std::invalid_argument("project active image does not exist");
     if(version==2) {
         Statement views(db,"SELECT image_id,center_x,center_y,zoom,mode,black,white,gamma FROM views");
@@ -560,12 +586,13 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
     if(scalar(db,"SELECT count(*) FROM objects WHERE image_id NOT IN (SELECT id FROM images)") ||
        scalar(db,"SELECT count(*) FROM classes WHERE image_id NOT IN (SELECT id FROM images)") ||
        scalar(db,"SELECT count(*) FROM levels WHERE image_id NOT IN (SELECT id FROM images)")) throw std::invalid_argument("orphaned project data");
-    transaction.commit();
+    stopped(); transaction.commit();
     if(recovery_info) {
         project->path_=associated_base.empty()?recovery_info->base_path:associated_base; project->generation_=recovery_info->base_generation;
         project->recovery_source_=source;
         project->revision_=1; project->saved_revision_=0;
     } else project->path_.swap(source);
+    stopped(); if(progress) progress->phase.store(5);
     return project;
 }
 void Project::save_recovery(const std::string& path,const std::string& link_directory,const RecoveryInfo& info,const std::atomic<bool>* cancelled) {

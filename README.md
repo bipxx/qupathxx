@@ -44,6 +44,8 @@ QuPath port or a compatible replacement for Java QuPath.
   see [maintenance progress](docs/recovery-maintenance-progress.md).
 - Bounded native ownership-marker prefetch for large recovery catalogs;
   see [marker prefetch](docs/recovery-marker-prefetch.md).
+- Deferred initial project/recovery/image opening with status, counts and cancellation; see
+  [project opening](docs/project-opening.md).
 - Native background autosave, session-specific recovery files and dirty-close
   decisions; see [recovery](docs/project-recovery.md).
 

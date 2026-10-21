@@ -1,0 +1,106 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "objects": 100000,
+  "worker_load_ms": 265.6173,
+  "loading_frames": 6,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+  "method": "Temporary steady-clock instrumentation around frame-boundary polling/adoption/catalog work; backend/input NewFrame; workspace UI construction; ImGui Render/OpenGL submission. Instrumentation removed after this trace. Stages exclude final swap; GL calls can wait inside the render stage. These are elapsed timings, not sampled CPU utilization or GPU profiler data.",
+  "frames": [
+    {
+      "frame": 0,
+      "boundary_ms": 0.014,
+      "new_frame_ms": 2.726,
+      "ui_ms": 0.148,
+      "render_ms": 0.286,
+      "total_ms": 3.173
+    },
+    {
+      "frame": 1,
+      "boundary_ms": 0.005,
+      "new_frame_ms": 0.462,
+      "ui_ms": 0.048,
+      "render_ms": 224.651,
+      "total_ms": 225.166
+    },
+    {
+      "frame": 2,
+      "boundary_ms": 0.008,
+      "new_frame_ms": 4.421,
+      "ui_ms": 0.046,
+      "render_ms": 0.291,
+      "total_ms": 4.766
+    },
+    {
+      "frame": 3,
+      "boundary_ms": 0.006,
+      "new_frame_ms": 0.06,
+      "ui_ms": 0.031,
+      "render_ms": 7.293,
+      "total_ms": 7.39
+    },
+    {
+      "frame": 4,
+      "boundary_ms": 0.008,
+      "new_frame_ms": 0.901,
+      "ui_ms": 0.048,
+      "render_ms": 15.288,
+      "total_ms": 16.244
+    },
+    {
+      "frame": 5,
+      "boundary_ms": 0.006,
+      "new_frame_ms": 0.271,
+      "ui_ms": 0.048,
+      "render_ms": 16.211,
+      "total_ms": 16.536
+    },
+    {
+      "frame": 6,
+      "boundary_ms": 0.559,
+      "new_frame_ms": 0.129,
+      "ui_ms": 28.985,
+      "render_ms": 0.336,
+      "total_ms": 30.009
+    },
+    {
+      "frame": 7,
+      "boundary_ms": 0.015,
+      "new_frame_ms": 0.337,
+      "ui_ms": 5.516,
+      "render_ms": 0.317,
+      "total_ms": 6.185
+    },
+    {
+      "frame": 8,
+      "boundary_ms": 0.006,
+      "new_frame_ms": 0.381,
+      "ui_ms": 13.695,
+      "render_ms": 0.311,
+      "total_ms": 14.393
+    },
+    {
+      "frame": 9,
+      "boundary_ms": 0.005,
+      "new_frame_ms": 1.974,
+      "ui_ms": 14.514,
+      "render_ms": 0.261,
+      "total_ms": 16.754
+    },
+    {
+      "frame": 10,
+      "boundary_ms": 0.004,
+      "new_frame_ms": 0.167,
+      "ui_ms": 16.324,
+      "render_ms": 0.31,
+      "total_ms": 16.804
+    },
+    {
+      "frame": 11,
+      "boundary_ms": 0.006,
+      "new_frame_ms": 0.154,
+      "ui_ms": 15.477,
+      "render_ms": 0.144,
+      "total_ms": 15.781
+    }
+  ]
+}

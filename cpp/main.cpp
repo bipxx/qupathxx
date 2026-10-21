@@ -19,16 +19,28 @@ int main(int argc, char** argv) {
         if(!recovery_base.empty() && recovery_path.empty()) throw std::invalid_argument("--recovery-base requires --recover");
         if(!project_path.empty() || !recovery_path.empty() || empty) {
             if(!path.empty() || (!project_path.empty() && !recovery_path.empty()) || (empty && (!project_path.empty() || !recovery_path.empty() || image_id))) throw std::invalid_argument("choose image, --project, --recover or --empty; --empty does not accept --image-id");
-            auto project=empty?std::make_shared<qpx::Project>():(recovery_path.empty()?qpx::Project::open(project_path):qpx::Project::recover(recovery_path,recovery_base));
-            if(image_id) project->set_active_image(image_id);
+            auto project=std::make_shared<qpx::Project>();
             qpx::GuiOptions options; options.project=project; options.recovery_path=recovery_path; options.recovery_base_path=recovery_base;
+            if(!empty) {
+                options.startup_kind=recovery_path.empty()?"project":"recovery";
+                options.startup_path=recovery_path.empty()?project_path:recovery_path;
+                options.startup_image_id=image_id;
+            }
             auto report=qpx::run_project_gui(project,smoke?90:0,"",options);
+            if(smoke && !empty && !report.startup_succeeded) throw std::runtime_error(report.project_error.empty()?"initial opening cancelled":report.project_error);
             if(smoke && project->active_image() && !report.uploaded_tiles) throw std::runtime_error("project smoke run uploaded no tiles");
             return 0;
         }
         if(image_id) throw std::invalid_argument("--image-id requires --project or --recover");
-        auto server=path.empty() ? qpx::dense_image_server(qpx::Image::demo()) :
-            (path.size()>=4 && path.substr(path.size()-4)==".ppm" ? qpx::dense_image_server(qpx::Image::read_ppm(path)) : qpx::open_slide(path));
+        if(!path.empty()) {
+            auto project=std::make_shared<qpx::Project>(); qpx::GuiOptions options;
+            options.startup_kind="image"; options.startup_path=path;
+            auto report=qpx::run_project_gui(project,smoke?90:0,"",options);
+            if(smoke && !report.startup_succeeded) throw std::runtime_error(report.project_error.empty()?"initial opening cancelled":report.project_error);
+            if(smoke && !report.uploaded_tiles) throw std::runtime_error("smoke run uploaded no image tiles");
+            return 0;
+        }
+        auto server=qpx::dense_image_server(qpx::Image::demo());
         auto document=std::make_shared<qpx::Document>(server); qpx::GuiOptions options;
         if(qpx::has_project()) { options.project=std::make_shared<qpx::Project>(); options.project->add_document(document,"",path); }
         auto report=qpx::run_gui(*document, smoke ? 90 : 0,"",options);

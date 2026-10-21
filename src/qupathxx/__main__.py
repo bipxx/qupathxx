@@ -1,8 +1,6 @@
 import argparse
 
-from pathlib import Path
-
-from . import Document, Image, Project, GuiOptions, has_project, open_slide, show
+from . import Document, Image, Project, GuiOptions, has_project, show
 
 
 def main():
@@ -14,12 +12,14 @@ def main():
     opening.add_argument("--empty", action="store_true", help="Start an empty project workspace")
     parser.add_argument("--recovery-base", help="Associate --recover with a moved primary of the same identity")
     parser.add_argument("--image-id", type=int, help="Select a stored project image ID")
-    parser.add_argument("--smoke", action="store_true", help="Render 90 frames and verify image upload")
+    parser.add_argument("--smoke", action="store_true", help="Render 90 frames after opening and verify image upload")
     args = parser.parse_args()
     if args.recovery_base and not args.recover:
         parser.error("--recovery-base requires --recover")
     def launch(document, options):
         report = show(document, frame_limit=90 if args.smoke else 0, options=options)
+        if args.smoke and options.startup_kind and not report.startup_succeeded:
+            raise RuntimeError(report.project_error or "initial opening cancelled")
         if args.smoke and (not options.project or options.project.active_image) and not report.uploaded_tiles:
             raise RuntimeError("smoke run uploaded no image tiles")
     if args.project or args.recover or args.empty:
@@ -27,19 +27,28 @@ def main():
             parser.error("choose an image, --project, --recover or --empty")
         if args.empty and args.image_id is not None:
             parser.error("--empty does not accept --image-id")
-        project = Project() if args.empty else (Project.recover(args.recover, base_path=args.recovery_base or "") if args.recover else Project.open(args.project))
-        if args.image_id is not None:
-            project.active_image = args.image_id
+        project = Project()
         options = GuiOptions()
         options.project = project
+        if not args.empty:
+            options.startup_kind = "recovery" if args.recover else "project"
+            options.startup_path = args.recover or args.project
+            if args.image_id is not None:
+                if args.image_id <= 0:
+                    parser.error("--image-id must be positive")
+                options.startup_image_id = args.image_id
         options.recovery_path, options.recovery_base_path = args.recover or "", args.recovery_base or ""
         launch(project, options)
         return
     if args.image_id is not None:
         parser.error("--image-id requires --project or --recover")
-    source = Image.demo() if not args.image else (
-        Image.read_ppm(args.image) if Path(args.image).suffix.lower() == ".ppm" else open_slide(args.image)
-    )
+    if args.image:
+        project, options = Project(), GuiOptions()
+        options.project = project
+        options.startup_kind, options.startup_path = "image", args.image
+        launch(project, options)
+        return
+    source = Image.demo()
     document = Document(source)
     options = GuiOptions()
     if has_project:

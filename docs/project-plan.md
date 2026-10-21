@@ -620,3 +620,29 @@ visibility and 833 ms worker completion including a 32-directory batch. The
 explicit full sweep takes 12.24 s. Selected desktop frame p95 is 16.83 ms,
 maximum is 38.90 ms and capture is 36.45 ms. Full-sweep/capture latency and
 unmeasured POSIX behavior remain explicit limitations.
+
+
+The twenty-sixth packet defers initial project, recovery and image input in both
+launchers until the empty workspace has painted a frame. One native worker
+reports read/validation stages and counts; it checks cancellation during SQL,
+row decoding and between document restores. Initial SQLite lock waits check a
+shared cancellation flag between 5 ms sleeps. Validated candidates (including
+requested stored image IDs) publish at a frame boundary; failure/cancel/close
+preserves the empty authority. Smoke mode reserves settled frames after loading.
+See [project opening](project-opening.md) for API, lifetime and I/O boundaries.
+
+The 100000-object project/recovery startup runs record 237.7/240.7 ms native
+loading and about 16.9 ms frame p95. Including early startup frames exposes
+202.69/274.77 ms maxima, so startup rendering is not declared optimized. A
+preserved temporary trace places the largest stall in second-frame rendering
+before model adoption; file loading remains on the native worker. First-scene
+UI work, initial GL rendering, capture/metadata latency, M3 numerical/feature
+contracts and all other unfinished M0-M7 requirements remain active.
+
+
+Verification records 375 passing installed-wheel Python tests, two unavailable
+file-symlink cases skipped, eighteen startup/retry checks, and all fourteen
+native suites passing in full/core/minimal builds. The loading screen was
+visually inspected with an exclusively locked SQLite source. Initial project,
+recovery and image loading progress is implemented; the wider M2-M7 completion
+claims still require their remaining measurements and feature work.
