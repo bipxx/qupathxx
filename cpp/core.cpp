@@ -99,7 +99,14 @@ double Document::area_um2(std::uint64_t id) const {
     return area * *pixel_width_um_ * *pixel_height_um_;
 }
 double Document::mean_intensity(std::uint64_t id) const {
-    const auto& r = find(id).roi;
+    return mean_rgb(*server_,find(id).roi);
+}
+double mean_rgb(const ImageServer& server, const Rect& r, const std::atomic<bool>* cancelled) {
+    r.validate();
+    if (r.x<0 || r.y<0 || r.x+r.width>=static_cast<double>(std::numeric_limits<std::int64_t>::max()) ||
+        r.y+r.height>=static_cast<double>(std::numeric_limits<std::int64_t>::max()) ||
+        static_cast<long double>(r.x+r.width)>server.metadata().width || static_cast<long double>(r.y+r.height)>server.metadata().height)
+        throw std::invalid_argument("ROI must lie inside the image");
     // Include pixels whose centers lie in the half-open ROI. Mean of RGB channels.
     auto x0 = static_cast<std::int64_t>(std::ceil(r.x - .5));
     auto y0 = static_cast<std::int64_t>(std::ceil(r.y - .5));
@@ -112,7 +119,8 @@ double Document::mean_intensity(std::uint64_t id) const {
         auto h = std::min<std::int64_t>(256, y1-y);
         for (auto x = x0; x < x1;) {
             auto w = std::min<std::int64_t>(256, x1-x);
-            auto region = server_->read_region({x,y,0,w,h}); const auto& data = region.bytes();
+            if (cancelled && cancelled->load()) throw std::runtime_error("measurement cancelled");
+            auto region = server.read_region({x,y,0,w,h}); const auto& data = region.bytes();
             for (std::size_t i = 0; i < data.size(); i += 4) if (data[i+3]) {
                 sum += data[i]; sum += data[i+1]; sum += data[i+2]; samples += 3;
             }
@@ -130,7 +138,7 @@ void Viewport::zoom_at(Point screen, double factor) {
     zoom = std::clamp(zoom * factor, 1e-6, 1e6);
     origin = {screen.x - image.x * zoom, screen.y - image.y * zoom};
 }
-void Viewport::fit(int w, int h, double cw, double ch) {
+void Viewport::fit(std::int64_t w, std::int64_t h, double cw, double ch) {
     positive(w); positive(h); positive(cw); positive(ch);
     zoom = std::min(cw / w, ch / h); origin = {(cw - w * zoom) / 2, (ch - h * zoom) / 2};
 }

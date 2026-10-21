@@ -2,6 +2,7 @@
 #include <cstdint>
 #include <string>
 #include <vector>
+#include <atomic>
 #include "qupathxx/image_server.hpp"
 
 namespace qpx {
@@ -23,6 +24,7 @@ struct Annotation {
     std::string name;
     Rect roi;
 };
+double mean_rgb(const ImageServer&, const Rect&, const std::atomic<bool>* cancelled = nullptr);
 class Image {
 public:
     Image(int width, int height, std::vector<std::uint8_t> rgb);
@@ -65,8 +67,16 @@ struct Viewport {
     Point image_to_screen(Point p) const;
     Point screen_to_image(Point p) const;
     void zoom_at(Point screen, double factor);
-    void fit(int image_width, int image_height, double canvas_width, double canvas_height);
+    void fit(std::int64_t image_width, std::int64_t image_height, double canvas_width, double canvas_height);
 };
 // Runs on the calling/main thread. frame_limit=0 is interactive.
-void run_gui(Document& document, int frame_limit = 0);
+struct GuiReport {
+    int frames = 0;
+    std::uint64_t uploaded_tiles = 0;
+    std::size_t peak_gpu_bytes = 0;
+    std::uint64_t generations = 0;
+    double cpu_frame_p95_ms = 0;
+    std::size_t pending_tiles = 0;
+};
+GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "");
 }

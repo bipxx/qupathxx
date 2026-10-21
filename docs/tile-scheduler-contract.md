@@ -3,7 +3,7 @@
 `TileScheduler` adds background region reads above the synchronous image-server
 API. C++ owns the queue, threads, generations, cache and publication decisions.
 Python exposes the same scheduler through nanobind. Workers never call Python.
-The current ImGui viewer has not yet been connected to this scheduler.
+The ImGui viewer consumes this scheduler through its tiled rendering controller.
 
 ## Identity and publication
 
@@ -101,7 +101,7 @@ shutdown during reads, decode failures and work-budget retention without sleeps.
 Python tests cover the installed API, shared buffer lifetimes, cache hits/LRU,
 generation changes, ticket consumption, backpressure and invalid configuration.
 
-Next, add viewport tile selection, generation-aware publication and a bounded
-GPU texture cache to the ImGui viewer. Preserve main-thread OpenGL ownership.
-Frame latency, DPI alignment and actual slide navigation remain unvalidated until
-that integration is implemented and exercised.
+Viewport tile selection, generation-aware publication and a bounded GPU texture
+cache now run in the viewer with main-thread OpenGL ownership. See the
+[tiled viewer evidence](tiled-viewer.md). Automated pointer navigation, per-monitor
+DPI behavior and larger slide benchmarks remain open.

@@ -18,9 +18,9 @@ QuPath port or a compatible replacement for Java QuPath.
 - Native background tile scheduler with priorities, shared tickets, cancellation,
   generation checks, bounded work reservations and a decoded LRU cache.
 
-The GUI still displays dense images as a single texture; tiled whole-slide
-rendering is pending. OpenSlide regions can already be read from Python and the
-native CLI. Calibration stays unknown until read from metadata or explicitly set;
+The GUI displays dense and OpenSlide images through asynchronous 256-pixel tiles,
+coarse pyramid fallback and a 64 MiB GPU payload cache. OpenSlide regions can also
+be read from Python and the native CLI. Calibration stays unknown until read from metadata or explicitly set;
 physical area raises an error when either axis is unknown. Mean intensity is the
 unweighted mean of straight RGB bytes over nontransparent pixels, not optical
 density or stain-specific quantification.
@@ -73,8 +73,8 @@ build/desktop/Release/qupathxx_app.exe
 Python checks: `.venv/Scripts/python -m pytest`.
 The native executable accepts `--smoke` to render three frames and exit.
 
-Validated on Windows with MSVC 19.44 and Python 3.12: 30 Python tests including
-synthetic pyramid and public Aperio region comparisons, three native tests with
+Validated on Windows with MSVC 19.44 and Python 3.12: 32 Python tests including
+synthetic pyramid, Aperio and opt-in framebuffer checks, four native tests with
 and without OpenSlide, and GUI startup/render/shutdown with known and unknown
 calibration. Interactive mouse behavior has not yet been exercised by an
 automated GUI test.
@@ -127,8 +127,11 @@ build/cp312-cp312-win_amd64/Release/qupathxx_region.exe sample.svs 1000 2000 0 2
 See the [image-server contract](docs/image-server-contract.md) for pixel,
 coordinate, ownership and current validation boundaries.
 The [tile-scheduler contract](docs/tile-scheduler-contract.md) describes the
-background-read API, budget accounting and a Python example. The GUI still uses
-the dense-image path; tiled rendering is the next integration.
+background-read API, budget accounting and a Python example. The
+[tiled viewer contract](docs/tiled-viewer.md) records rendering and measured scope.
+Open a slide with `.venv/Scripts/python -m qupathxx sample.svs`.
+Mean intensity is calculated in a cancellable background task when requested
+with the measurement button, rather than on each frame.
 
 ## Architecture and next milestones
 
@@ -144,8 +147,8 @@ dependencies. `cpp/image_server.cpp` adapts dense images and
 of native state, bindings and frontend while implementing a new ImGui frontend.
 No naparixx or QuPath source has been copied into this project.
 
-1. Connect the implemented image servers and asynchronous tile scheduler to a
-   tiled viewer with bounded GPU residency.
+1. Extend the tiled viewer with overview navigation, channel controls, pointer/DPI
+   interaction automation and larger-slide performance validation.
 2. Polygon/ellipse ROIs, object hierarchy, classes, selection and undo/redo;
    spatial indexing and GeoJSON annotation exchange.
 3. Project persistence with versioned native schema and explicit QuPath import

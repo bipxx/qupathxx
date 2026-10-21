@@ -1,13 +1,18 @@
 import argparse
 
-from . import Document, Image, show
+from pathlib import Path
+
+from . import Document, Image, open_slide, show
 
 
 def main():
     parser = argparse.ArgumentParser(description="qupathxx Dear ImGui viewer")
-    parser.add_argument("image", nargs="?", help="binary P6 PPM image; omit for synthetic demo")
+    parser.add_argument("image", nargs="?", help="OpenSlide-supported slide or binary P6 PPM; omit for demo")
     args = parser.parse_args()
-    document = Document(Image.read_ppm(args.image) if args.image else Image.demo())
+    source = Image.demo() if not args.image else (
+        Image.read_ppm(args.image) if Path(args.image).suffix.lower() == ".ppm" else open_slide(args.image)
+    )
+    document = Document(source)
     show(document)
 
 

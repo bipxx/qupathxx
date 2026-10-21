@@ -356,3 +356,9 @@ LRU cache. Its native and Python tests cover shutdown during reads, stale-result
 rejection, bounded work reservations and cache pressure. See the
 [scheduler contract](tile-scheduler-contract.md). The next packet connects it to
 viewport tile selection and a bounded GPU cache in the ImGui viewer.
+
+The third packet implements that tiled viewer, coarse-level fallback, scale bar,
+background mean measurement and CLI slide opening. Its framebuffer tests verify
+exact RGB output and real Aperio rendering. See [tiled-viewer.md](tiled-viewer.md)
+for measured scope and remaining M2 gates. The project remains incomplete across
+M0 through M7; no milestone is accepted from a screenshot or test count alone.

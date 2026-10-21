@@ -63,11 +63,15 @@ NB_MODULE(_native, m) {
         .def("image_to_screen", &Viewport::image_to_screen).def("screen_to_image", &Viewport::screen_to_image)
         .def("zoom_at", &Viewport::zoom_at).def("fit", &Viewport::fit);
 #ifdef QUPATHXX_HAS_GUI
+    nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
+        .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)
+        .def_ro("generations",&GuiReport::generations).def_ro("cpu_frame_p95_ms",&GuiReport::cpu_frame_p95_ms)
+        .def_ro("pending_tiles",&GuiReport::pending_tiles);
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.
-    m.def("show", &run_gui, "document"_a, "frame_limit"_a = 0);
+    m.def("show", &run_gui, "document"_a, "frame_limit"_a = 0, "capture_path"_a = "");
 #else
     m.attr("has_gui") = false;
-    m.def("show", [](Document&, int) { throw std::runtime_error("rebuild with -Ccmake.define.QUPATHXX_BUILD_GUI=ON"); }, "document"_a, "frame_limit"_a = 0);
+    m.def("show", [](Document&, int, const std::string&) { throw std::runtime_error("rebuild with -Ccmake.define.QUPATHXX_BUILD_GUI=ON"); }, "document"_a, "frame_limit"_a = 0, "capture_path"_a = "");
 #endif
 }

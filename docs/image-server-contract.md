@@ -74,9 +74,6 @@ decoder correctness: both use OpenSlide. The generated TIFF's expected pixels
 are specified independently of OpenSlide. The small Aperio fixture has one
 level; real vendor multilevel and damaged-tile coverage remain open.
 
-The current desktop GUI still supports dense images only. Attempting to show an
-OpenSlide document reports that tiled rendering is pending instead of allocating
-a full-slide texture. Async scheduling, cancellation, deduplication and a decoded
-cache are now available through the [native scheduler](tile-scheduler-contract.md).
-GUI integration, GPU caching, thumbnail policy and ICC display conversion remain
-M1/M2 work.
+The desktop GUI now displays dense and OpenSlide sources through the
+[tiled viewer](tiled-viewer.md), native scheduler and bounded GPU cache. Thumbnail
+policy, interaction automation and ICC display conversion remain M1/M2 work.
