@@ -1,5 +1,6 @@
 #include "qupathxx/core.hpp"
 #include "qupathxx/project.hpp"
+#include "qupathxx/interchange.hpp"
 #include "gui_tiles.hpp"
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
@@ -145,6 +146,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(path.size()>32768) throw std::invalid_argument("project path too long");
         std::memcpy(project_path,path.c_str(),path.size()+1);
     }
+    char interchange_path[32769]={};
+    if(options.interchange_path.size()>32768 || options.interchange_path.find('\0')!=std::string::npos) throw std::invalid_argument("invalid interchange path");
+    std::memcpy(interchange_path,options.interchange_path.c_str(),options.interchange_path.size()+1);
+    bool interchange_pixels=false,interchange_losses=false,interchange_selected=false,csv_intensity=false;
+    std::string interchange_status;
     std::uint64_t editor_id=0,editor_revision=0;
     char draft_name[4097]={},draft_class[4097]={};
     char class_name[4097]={};
@@ -176,7 +182,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (!options.inputs.empty()) {
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
-            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S}) input.AddKeyEvent(key,false);
+            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_F6,ImGuiKey_F7}) input.AddKeyEvent(key,false);
         }
         for (const auto& event:options.inputs) if (event.frame==frames) {
             auto origin=event.target==GuiInputTarget::Canvas?previous_canvas:(event.target==GuiInputTarget::Overview?overview_offset:list_offset);
@@ -212,6 +218,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::InsertKey: input.AddKeyEvent(ImGuiKey_I,true); break;
                 case GuiInputKind::BooleanKey: input.AddKeyEvent(ImGuiKey_B,true); break;
                 case GuiInputKind::SaveKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_S,true); break;
+                case GuiInputKind::ExportKey: input.AddKeyEvent(ImGuiKey_F6,true); break;
+                case GuiInputKind::ImportKey: input.AddKeyEvent(ImGuiKey_F7,true); break;
                 default: break;
             }
         }
@@ -259,6 +267,36 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 catch(const std::exception& e) { project_error=e.what(); }
             }
             if(!project_error.empty()) ImGui::TextWrapped("%s",project_error.c_str());
+        }
+        if(has_interchange() && ImGui::CollapsingHeader("Import / export",options.interchange_path.empty()?0:ImGuiTreeNodeFlags_DefaultOpen)) {
+            ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Interchange path",".geojson or .csv destination",interchange_path,sizeof(interchange_path));
+            ImGui::TextWrapped("Full-resolution image pixels, top-left origin.");
+            ImGui::Checkbox("Assume image pixels",&interchange_pixels);
+            ImGui::Checkbox("Allow lossy conversion",&interchange_losses);
+            ImGui::Checkbox("Selected objects only",&interchange_selected);
+            auto export_ids=[&]() {
+                auto ids=interchange_selected?selection.ids():std::vector<std::uint64_t>{};
+                if(interchange_selected && ids.empty()) throw std::invalid_argument("Select objects before exporting a subset");
+                return ids;
+            };
+            auto status=[&](const InterchangeReport& report,const char* action) {
+                interchange_status=std::string(action)+" "+std::to_string(report.features)+" objects";
+                for(const auto& issue:report.issues) interchange_status+="\n"+issue.message+" ("+std::to_string(issue.count)+")";
+            };
+            if(ImGui::Button("Export GeoJSON (F6)") || (!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_F6))) {
+                try { status(save_geojson(document,interchange_path,export_ids(),interchange_losses),"Exported"); }
+                catch(const std::exception& e) { interchange_status=e.what(); }
+            }
+            if(ImGui::Button("Import GeoJSON (F7)") || (!io.WantTextInput && ImGui::IsKeyPressed(ImGuiKey_F7))) {
+                try { auto report=load_geojson(document,interchange_path,interchange_pixels,interchange_losses); selection.replace(report.imported_ids); selected=selection.primary(); status(report,"Imported"); }
+                catch(const std::exception& e) { interchange_status=e.what(); }
+            }
+            ImGui::Checkbox("Include mean RGB",&csv_intensity);
+            if(ImGui::Button("Export measurements CSV")) {
+                try { save_measurements_csv(document,interchange_path,export_ids(),csv_intensity); interchange_status="Exported measurements"; }
+                catch(const std::exception& e) { interchange_status=e.what(); }
+            }
+            if(!interchange_status.empty()) ImGui::TextWrapped("%s",interchange_status.c_str());
         }
         ImGui::Text("IMAGE"); ImGui::Text("%lld x %lld pixels",static_cast<long long>(image.width),static_cast<long long>(image.height));
         ImGui::Text("%zu pyramid levels",image.levels.size());

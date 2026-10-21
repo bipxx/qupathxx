@@ -18,7 +18,7 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 | Object hierarchy and classes | qupath-core | core | Partial | General ROI parent containment, classes, cycles and depth pass; cell/nucleus snapshots, conversion and history pass; class definitions/colors/counts, rename and batch classification pass; multi-selection gestures and group delete pass; vertex editing passes; upstream workflow comparisons remain |
 | Undo and redo | qupath-gui-fx | core/gui | Partial | Compound ROI/class/hierarchy/calibration restore and drawing/history replay pass; multi-selection gestures and group delete pass; vertex editing passes; upstream workflow comparisons remain |
 | Projects and relinking | qupath-core, qupath-gui-fx | project | Partial | Multi-image SQLite round trip, failed-save rollback, stale writers, relative moves, missing images and relink pass; workspace/autosave/recovery/migrations remain |
-| Annotation interchange | qupath-core, qupath-gui-fx | project | Missing | GeoJSON/CSV fixtures and loss reporting |
+| Annotation interchange | qupath-core, qupath-gui-fx | project | Partial | Atomic GeoJSON, deterministic CSV, explicit losses, protocol fixtures and GUI replay; QuPath runtime round trip remains |
 | Region measurements | qupath-core, qupath-core-processing | analysis | Partial | ROI-masked RGB mean and area pass; upstream and stain features remain |
 | Stain separation | qupath-core, qupath-core-processing | analysis | Missing | Optical-density and stain-vector fixtures |
 | Tissue detection | qupath-core-processing, qupath-extension-processing | analysis | Missing | Masks and tiled-boundary comparisons |

@@ -20,6 +20,8 @@ QuPath port or a compatible replacement for Java QuPath.
 - Native `qupathxx_region` CLI writes extracted regions as RGBA PAM files.
 - Native background tile scheduler with priorities, shared tickets, cancellation,
   generation checks, bounded work reservations and a decoded LRU cache.
+- Atomic native GeoJSON import/export and measurement CSV, shared by Python and
+  ImGui, with explicit conversion-loss reports; see [interchange](docs/interchange.md).
 
 The GUI displays dense and OpenSlide images through asynchronous 256-pixel tiles,
 coarse pyramid fallback and a 64 MiB GPU payload cache. OpenSlide regions can also

@@ -329,6 +329,32 @@ std::vector<std::uint64_t> Document::execute(const std::vector<ObjectEdit>& edit
     if (!staged.after.empty()) next_id_=next;
     return created;
 }
+std::vector<std::uint64_t> Document::append_objects(const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes) {
+    Staging staged(*this); auto next=next_id_;
+    std::map<std::uint64_t,std::uint64_t> mapping; std::vector<std::uint64_t> created;
+    for(const auto& a:objects) {
+        if(!a.id || mapping.count(a.id)) throw std::invalid_argument("import object IDs must be unique and nonzero");
+        if(next==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("object identity exhausted");
+        mapping.emplace(a.id,next); created.push_back(next++);
+    }
+    for(const auto& c:classes) {
+        auto existing=staged.get_class(c.name);
+        if(existing && existing->color!=c.color) throw std::invalid_argument("import class color conflicts with existing definition");
+        if(!existing) staged.write_class(c.name,c);
+    }
+    for(const auto& a:objects) {
+        auto value=a; value.id=mapping.at(a.id); value.revision=0;
+        if(value.parent_id) {
+            auto parent=mapping.find(value.parent_id);
+            if(parent==mapping.end()) throw std::invalid_argument("import parent is not in the imported batch");
+            value.parent_id=parent->second;
+        }
+        staged.write(value.id,std::move(value));
+    }
+    save_edit(staged,{pixel_width_um_,pixel_height_um_},"Import annotations");
+    if(!objects.empty()) next_id_=next;
+    return created;
+}
 std::uint64_t Document::add_rectangle(Rect roi,std::string name) {
     return execute({ObjectEdit::create(roi,std::move(name))},"Add rectangle").at(0);
 }

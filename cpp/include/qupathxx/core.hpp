@@ -93,6 +93,8 @@ public:
     void classify_annotation(std::uint64_t id, std::string class_name);
     void reparent_annotation(std::uint64_t id, std::uint64_t parent_id);
     std::vector<std::uint64_t> execute(const std::vector<ObjectEdit>& edits, std::string label="Edit objects");
+    // Import-local IDs/parents are remapped; existing native IDs are untouched.
+    std::vector<std::uint64_t> append_objects(const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes);
     std::vector<std::uint64_t> children(std::uint64_t parent_id) const;
     std::vector<std::uint64_t> query_region(Rect bounds) const;
     std::vector<std::uint64_t> pick(Point point,double tolerance=0) const;
@@ -203,7 +205,7 @@ struct GuiReport {
     std::vector<std::uint64_t> selected_ids;
     std::uint64_t primary_selection = 0;
 };
-enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey };
+enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey };
 enum class GuiInputTarget { Canvas, Overview, ObjectList, Image };
 struct GuiInput {
     int frame = 0;
@@ -218,6 +220,7 @@ struct GuiOptions {
     std::vector<GuiInput> inputs;
     std::optional<Viewport> start_view;
     std::shared_ptr<Project> project;
+    std::string interchange_path;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 }

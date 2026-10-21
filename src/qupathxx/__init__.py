@@ -1,6 +1,7 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
     Annotation, ObjectEdit, ObjectKind, ObjectClass, ObjectSelection, Document, Image, ImageLevel, ImageMetadata, ImageServer,
+    InterchangeReport, InterchangeIssue, has_interchange, export_geojson, import_geojson, save_geojson, load_geojson, measurements_csv, save_measurements_csv,
     Project, ProjectImage, has_project, sqlite_version,
     Roi, RoiKind, BooleanOp, PolygonPart, has_geos, geos_version,
     PixelBuffer, PixelLayout, PixelType, Point, Rect, RegionRequest, Viewport,
@@ -11,6 +12,7 @@ from ._native import (
 
 __all__ = [
     "Annotation", "ObjectEdit", "ObjectKind", "ObjectClass", "ObjectSelection", "Document", "Image", "ImageLevel", "ImageMetadata", "ImageServer",
+    "InterchangeReport", "InterchangeIssue", "has_interchange", "export_geojson", "import_geojson", "save_geojson", "load_geojson", "measurements_csv", "save_measurements_csv",
     "Project", "ProjectImage", "has_project", "sqlite_version",
     "Roi", "RoiKind", "BooleanOp", "PolygonPart", "has_geos", "geos_version",
     "PixelBuffer", "PixelLayout", "PixelType", "Point", "Rect", "RegionRequest", "Viewport",

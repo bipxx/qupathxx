@@ -8,8 +8,8 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: 129 Python tests including all shape tools and GUI history replay;
-eleven native suites with optional geometry/readers enabled and disabled;
+Evidence: 148 Python tests including shape tools, interchange and GUI history replay;
+twelve native suites with optional geometry/readers/interchange enabled and disabled;
 installed GUI wheel checks with packaged runtime libraries and licenses.
 The 100000-object document benchmark records approximately 230 ms batch creation,
 116 ms undo, 126 ms redo and 815 bytes of history payload for a rename. The spatial
@@ -29,8 +29,10 @@ and Boolean area operations are recorded in geometry-editing.md. Native multi-
 image SQLite save/load, relative links, relinking and Ctrl+S are implemented;
 see project-storage.md. The 100000-object persistence benchmark measures about
 225 ms save, 380 ms full resave and 201 ms validated load on local storage.
-Next implement in-window project browsing, autosave,
-recovery/close UX, migrations and deterministic GeoJSON/CSV interchange;
+Deterministic native GeoJSON/CSV interchange, atomic imports, loss reports and
+GUI controls are implemented; see interchange.md. QuPath runtime-assisted
+round trips remain unverified. Next implement in-window project browsing, autosave,
+recovery/close UX and migrations;
 retain open M3 numerical comparisons and feature-cache contracts. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
 cache pressure and vendor benchmarks. Persistence, interchange, analysis,

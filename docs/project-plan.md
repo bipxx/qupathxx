@@ -419,3 +419,10 @@ opening and GUI Ctrl+S use the same container. See [project-storage.md](project-
 M4 remains open for in-window browsing, autosave/recovery UX, migrations and
 GeoJSON/CSV plus QuPath-assisted interchange. M3 numerical/cache contracts and
 all unfinished M0-M7 gates persist.
+
+The twelfth packet adds deterministic native GeoJSON and measurement CSV,
+staged atomic import, analytic ROI hints, parent remapping, explicit conversion
+losses and ImGui import/export controls. See [interchange.md](interchange.md).
+Protocol-shaped fixtures do not establish a QuPath runtime round trip. M4 still
+requires that comparison, in-window browsing, autosave/recovery and migrations;
+all unfinished M0-M7 gates remain active.

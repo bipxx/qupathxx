@@ -50,6 +50,23 @@ def replay(frame, kind, x=.5, y=.5, wheel=0, target=q.GuiInputTarget.CANVAS, ctr
     return event
 
 
+@pytest.mark.skipif(not q.has_interchange, reason="requires GeoJSON")
+def test_interchange_keyboard_export_import_and_undo(tmp_path):
+    source = q.Document(q.Image.demo())
+    source.add_rectangle(q.Rect(10, 10, 20, 20), "Exported")
+    options = q.GuiOptions()
+    options.interchange_path = str(tmp_path / "annotations.geojson")
+    options.inputs = [replay(4, q.GuiInputKind.EXPORT_KEY)]
+    q.show(source, frame_limit=20, options=options)
+    assert (tmp_path / "annotations.geojson").exists()
+    target = q.Document(q.Image.demo())
+    options.inputs = [replay(4, q.GuiInputKind.IMPORT_KEY)]
+    report = q.show(target, frame_limit=20, options=options)
+    assert target.object_count == 1 and len(report.selected_ids) == 1
+    assert target.undo_label == "Import annotations"
+    assert target.undo() and target.object_count == 0
+
+
 def test_imgui_input_zoom_draw_pan_and_overview():
     doc = q.Document(q.Image.demo())
     options = q.GuiOptions()

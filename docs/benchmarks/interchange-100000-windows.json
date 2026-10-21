@@ -1,0 +1,11 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "objects": 100000,
+  "geojson_export_ms": 803.9269000291824,
+  "geojson_import_ms": 1654.8394999699667,
+  "csv_export_ms": 329.3730999575928,
+  "geojson_bytes": 34956586,
+  "csv_bytes": 7256960,
+  "scope": "One dense image; classified unit rectangles, no hierarchy or intensity reads. Native serialization/parsing plus Python result conversion; construction and filesystem IO excluded. History disabled. No complex-shape or QuPath runtime parity claim."
+}

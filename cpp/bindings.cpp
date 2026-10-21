@@ -1,5 +1,6 @@
 #include "qupathxx/core.hpp"
 #include "qupathxx/project.hpp"
+#include "qupathxx/interchange.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
@@ -132,6 +133,18 @@ NB_MODULE(_native, m) {
         .def("clear_calibration", &Document::clear_calibration)
         .def_prop_ro("pixel_width_um", &Document::pixel_width_um).def_prop_ro("pixel_height_um", &Document::pixel_height_um)
         .def("area_um2", &Document::area_um2).def("mean_intensity", &Document::mean_intensity);
+    nb::class_<InterchangeIssue>(m,"InterchangeIssue").def_ro("code",&InterchangeIssue::code)
+        .def_ro("message",&InterchangeIssue::message).def_ro("count",&InterchangeIssue::count);
+    nb::class_<InterchangeReport>(m,"InterchangeReport").def_ro("text",&InterchangeReport::text)
+        .def_ro("issues",&InterchangeReport::issues).def_ro("imported_ids",&InterchangeReport::imported_ids)
+        .def_ro("source_ids",&InterchangeReport::source_ids).def_ro("features",&InterchangeReport::features);
+    m.attr("has_interchange")=has_interchange();
+    m.def("export_geojson",&export_geojson,"document"_a,"ids"_a=std::vector<std::uint64_t>{},"allow_losses"_a=false);
+    m.def("import_geojson",&import_geojson,"document"_a,"text"_a,"assume_pixels"_a=false,"allow_losses"_a=false);
+    m.def("save_geojson",&save_geojson,"document"_a,"path"_a,"ids"_a=std::vector<std::uint64_t>{},"allow_losses"_a=false);
+    m.def("load_geojson",&load_geojson,"document"_a,"path"_a,"assume_pixels"_a=false,"allow_losses"_a=false);
+    m.def("measurements_csv",&measurements_csv,"document"_a,"ids"_a=std::vector<std::uint64_t>{},"include_intensity"_a=false);
+    m.def("save_measurements_csv",&save_measurements_csv,"document"_a,"path"_a,"ids"_a=std::vector<std::uint64_t>{},"include_intensity"_a=false);
     nb::class_<ProjectImage>(m,"ProjectImage")
         .def_ro("id",&ProjectImage::id).def_ro("name",&ProjectImage::name)
         .def_ro("source_path",&ProjectImage::source_path).def_ro("reader",&ProjectImage::reader)
@@ -176,12 +189,12 @@ NB_MODULE(_native, m) {
         .value("POLYLINE_KEY",GuiInputKind::PolylineKey).value("POINTS_KEY",GuiInputKind::PointsKey).value("FINISH_KEY",GuiInputKind::FinishKey)
         .value("SELECT_ALL_KEY",GuiInputKind::SelectAllKey).value("ESCAPE_KEY",GuiInputKind::EscapeKey)
         .value("VERTEX_KEY",GuiInputKind::VertexKey).value("HOLE_KEY",GuiInputKind::HoleKey)
-        .value("INSERT_KEY",GuiInputKind::InsertKey).value("BOOLEAN_KEY",GuiInputKind::BooleanKey).value("SAVE_KEY",GuiInputKind::SaveKey);
+        .value("INSERT_KEY",GuiInputKind::InsertKey).value("BOOLEAN_KEY",GuiInputKind::BooleanKey).value("SAVE_KEY",GuiInputKind::SaveKey).value("EXPORT_KEY",GuiInputKind::ExportKey).value("IMPORT_KEY",GuiInputKind::ImportKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
-        .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view).def_rw("project",&GuiOptions::project);
+        .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view).def_rw("project",&GuiOptions::project).def_rw("interchange_path",&GuiOptions::interchange_path);
     nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
         .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)
         .def_ro("generations",&GuiReport::generations).def_ro("cpu_frame_p95_ms",&GuiReport::cpu_frame_p95_ms)

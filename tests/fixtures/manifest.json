@@ -18,14 +18,60 @@
     {
       "name": "large-rgb-pyramid",
       "recipe": "tools/generate_large_fixture.py",
-      "dimensions": [[100352, 2048], [50176, 1024], [25088, 512], [12544, 256], [6272, 128], [3136, 64], [1568, 32], [784, 16], [392, 8]],
+      "dimensions": [
+        [
+          100352,
+          2048
+        ],
+        [
+          50176,
+          1024
+        ],
+        [
+          25088,
+          512
+        ],
+        [
+          12544,
+          256
+        ],
+        [
+          6272,
+          128
+        ],
+        [
+          3136,
+          64
+        ],
+        [
+          1568,
+          32
+        ],
+        [
+          784,
+          16
+        ],
+        [
+          392,
+          8
+        ]
+      ],
       "pixels": "Constant uint8 RGB (40,80,160) at all levels, 256-pixel tiles, deflate compression",
       "purpose": "Large-image navigation, generation churn and 2560x1440 rendering without a full-image allocation"
     },
     {
       "name": "synthetic-rgb-pyramid",
       "recipe": "tests/test_openslide.py::pyramid",
-      "dimensions": [[512, 384], [256, 192]],
+      "dimensions": [
+        [
+          512,
+          384
+        ],
+        [
+          256,
+          192
+        ]
+      ],
       "pixels": "uint8 RGB (x mod 256, y mod 256, (x+y) mod 256); level 1 is level 0 sampled every second pixel",
       "purpose": "Exact independently specified multilevel pixels, transparent padding and unknown calibration"
     }
@@ -52,5 +98,20 @@
     "sha3_256": "92281c86e2957f9b9305890f9ac04204caa7b677cc868dc326d942689df28e30",
     "linkage": "static amalgamation, SQLITE_THREADSAFE=1, extension loading omitted",
     "license": "public domain; third_party/sqlite-LICENSE.txt"
+  },
+  "interchange_runtime": {
+    "version": "nlohmann/json 3.12.0",
+    "url": "https://github.com/nlohmann/json/releases/download/v3.12.0/json.tar.xz",
+    "sha256": "42f6e95cad6ec532fd372391373363b62a14af6d771056dbfc86160e6dfff7aa",
+    "license": "MIT; upstream LICENSE.MIT packaged with wheel"
+  },
+  "interchange_protocol_fixture": {
+    "filename": "qupath-geojson-protocol.json",
+    "provenance": "Hand authored from public QuPath v0.7.0 JSON schema; not exported by a QuPath runtime. No Java implementation copied.",
+    "source": [
+      "https://github.com/qupath/qupath/blob/v0.7.0/qupath-core/src/main/java/qupath/lib/io/QuPathTypeAdapters.java",
+      "https://github.com/qupath/qupath/blob/v0.7.0/qupath-core/src/main/java/qupath/lib/io/ROITypeAdapters.java"
+    ],
+    "purpose": "Polygon hole, nested cell/nucleus, flat RGB and opaque packed colors, ellipse hint; runtime interoperability acceptance remains open"
   }
 }
