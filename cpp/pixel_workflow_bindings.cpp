@@ -36,11 +36,12 @@ void bind_pixel_workflows(nb::module_& m) {
     nb::class_<PixelTrainingStats>(m,"PixelTrainingStats").def_prop_ro("state",[](const PixelTrainingStats& s){return s.state;}).def_prop_ro("phase",[](const PixelTrainingStats& s){return s.phase;})
         .def_prop_ro("error",[](const PixelTrainingStats& s){return s.error;}).def_prop_ro("generation",[](const PixelTrainingStats& s){return s.generation;})
         .def_prop_ro("completed_tiles",[](const PixelTrainingStats& s){return s.completed_tiles;}).def_prop_ro("total_tiles",[](const PixelTrainingStats& s){return s.total_tiles;}).def_prop_ro("elapsed_ms",[](const PixelTrainingStats& s){return s.elapsed_ms;});
-    nb::class_<PixelTrainingJob>(m,"PixelTrainingJob").def(nb::init<>()).def("train",&PixelTrainingJob::train,"request"_a,"parameters"_a=ForestParameters{})
+    nb::class_<PixelTrainingJob>(m,"PixelTrainingJob").def(nb::init<>()).def("train",&PixelTrainingJob::train,"request"_a,"parameters"_a=pixel_forest_parameters())
         .def_prop_ro("busy",&PixelTrainingJob::busy).def("cancel",&PixelTrainingJob::cancel).def("poll",&PixelTrainingJob::poll)
         .def("wait",&PixelTrainingJob::wait,nb::call_guard<nb::gil_scoped_release>()).def_prop_ro("table",&PixelTrainingJob::table).def_prop_ro("model",&PixelTrainingJob::model);
+    m.def("pixel_forest_parameters",&pixel_forest_parameters);
     m.def("sample_pixel_training",[](const PixelTrainingRequest& r){return sample_pixel_training(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
-    m.def("train_pixel_classifier",[](const PixelTrainingTable& t,ForestParameters p){return train_pixel_classifier(t,p);},"table"_a,"parameters"_a=ForestParameters{},nb::call_guard<nb::gil_scoped_release>());
+    m.def("train_pixel_classifier",[](const PixelTrainingTable& t,ForestParameters p){return train_pixel_classifier(t,p);},"table"_a,"parameters"_a=pixel_forest_parameters(),nb::call_guard<nb::gil_scoped_release>());
     m.def("pixel_classifier_level",&pixel_classifier_level,"document"_a,"classifier"_a);
     nb::class_<PixelPredictionOptions>(m,"PixelPredictionOptions").def(nb::init<>()).def_rw("tile_size",&PixelPredictionOptions::tile_size).def_rw("work_bytes",&PixelPredictionOptions::work_bytes)
         .def_rw("min_vote_fraction",&PixelPredictionOptions::min_vote_fraction).def("validate",&PixelPredictionOptions::validate);

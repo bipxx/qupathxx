@@ -5,6 +5,7 @@ from ._native import (
     ObjectClassifierArchive as ObjectClassifierArchive,
     ObjectClassifierRecord as ObjectClassifierRecord,
     archive_object_classifier as archive_object_classifier,
+    pixel_forest_parameters as pixel_forest_parameters,
     PixelResolution as PixelResolution,
     PixelTrainingOptions as PixelTrainingOptions,
     PixelTrainingRequest as PixelTrainingRequest,

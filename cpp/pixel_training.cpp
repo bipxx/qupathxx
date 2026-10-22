@@ -38,6 +38,7 @@ struct PixelTrainingRequest::Data {
     std::size_t bytes=0;std::uint64_t revision=0;double capture_ms=0;
     Data(PixelTrainingOptions o,const StainTransform& t):options(std::move(o)),transform(t) {}
 };
+ForestParameters pixel_forest_parameters() {ForestParameters p;p.trees=32;p.max_depth=8;return p;}
 void PixelTrainingOptions::validate() const {
     features.validate();
     if(level<0 || tile_size<16 || tile_size>512 || max_samples<4 || max_samples>100000 || max_samples_per_class<2 || max_samples_per_class>50000 || !seed || !max_scanned_pixels || max_scanned_pixels>100000000 || work_bytes<1024*1024 || work_bytes>1024ULL*1024*1024) throw std::invalid_argument("invalid annotation pixel training options");

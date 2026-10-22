@@ -2,6 +2,7 @@
 #include "qupathxx/pixel_classifier.hpp"
 #include "qupathxx/object_classifier.hpp"
 namespace qpx {
+ForestParameters pixel_forest_parameters(); // High-level pixel preset: 32 trees, depth 8.
 struct PixelTrainingOptions {
     PixelFeatureOptions features;
     std::int32_t level=0;
@@ -67,7 +68,7 @@ private:
     friend struct PixelTrainingKernel;
 };
 std::shared_ptr<const PixelTrainingTable> sample_pixel_training(const PixelTrainingRequest&,const std::atomic<bool>* cancelled=nullptr);
-PixelClassifier train_pixel_classifier(const PixelTrainingTable&,ForestParameters={},const std::atomic<bool>* cancelled=nullptr);
+PixelClassifier train_pixel_classifier(const PixelTrainingTable&,ForestParameters=pixel_forest_parameters(),const std::atomic<bool>* cancelled=nullptr);
 // Natural levels only; physical models match both calibrated axes, otherwise
 // downsample is matched. No silent resampling or automatic model reinterpretation.
 std::int32_t pixel_classifier_level(const Document&,const PixelClassifier&);
@@ -79,7 +80,7 @@ struct PixelTrainingStats {
 class PixelTrainingJob {
 public:
     PixelTrainingJob();~PixelTrainingJob();PixelTrainingJob(const PixelTrainingJob&)=delete;
-    bool train(const PixelTrainingRequest&,ForestParameters={});
+    bool train(const PixelTrainingRequest&,ForestParameters=pixel_forest_parameters());
     bool busy() const;void cancel();
     PixelTrainingStats poll(const Document&);PixelTrainingStats wait(const Document&);
     std::shared_ptr<const PixelTrainingTable> table() const;

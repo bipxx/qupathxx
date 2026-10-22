@@ -166,7 +166,8 @@ def pixel_recipe(pixels: q.PixelBuffer, forest: q.ForestModel, options: q.PixelF
 def annotated_pixel_training(doc: q.Document, ids: list[int]) -> q.PixelClassifier | None:
     job=q.PixelTrainingJob()
     request=q.PixelTrainingRequest(doc, ids)
-    job.train(request)
+    parameters: q.ForestParameters=q.pixel_forest_parameters()
+    job.train(request,parameters)
     job.wait(doc)
     table: q.PixelTrainingTable | None = job.table
     if table is not None:

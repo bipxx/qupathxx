@@ -167,3 +167,19 @@ def test_real_aperio_sampling_and_tiled_source_prediction_match_direct_context()
     np.testing.assert_array_equal(result.vote_fractions_numpy(),direct.vote_fractions_numpy())
     assert result.provenance.reader=='openslide' and result.options.tile_size==16
     server.close()
+
+
+@pytest.mark.skipif(not q.has_classifier_training,reason='optional classifier training backend')
+def test_default_three_class_pixel_training_fits_default_work_budget():
+    rgb=np.empty((96,192,3),dtype=np.uint8)
+    rgb[:,:64]=[220,20,10];rgb[:,64:128]=[10,220,20];rgb[:,128:]=[20,10,220]
+    doc=q.Document(q.Image.from_numpy(rgb));ids=[]
+    for index,name in enumerate(['A','B','C']):
+        object_id=doc.add_roi(q.Roi.rectangle(q.Rect(index*64,0,64,96)))
+        doc.classify_objects([object_id],name);ids.append(object_id)
+    preset=q.pixel_forest_parameters();assert preset.trees==32 and preset.max_depth==8
+    job=q.PixelTrainingJob();assert job.train(q.PixelTrainingRequest(doc,ids));status=job.wait(doc)
+    assert status.state=='ready',status.error
+    assert job.table.row_count==6000 and job.table.sampled_class_counts==[2000,2000,2000]
+    assert job.model.forest.parameters.trees==32 and job.model.forest.parameters.max_depth==8
+    assert q.train_pixel_classifier(job.table).forest.parameters.max_depth==8
