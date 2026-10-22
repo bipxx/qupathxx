@@ -246,3 +246,22 @@ def test_open_finishes_and_clears_only_old_session_autosave(tmp_path):
     assert report.project_replacements == 1 and report.autosaves_completed == 1
     assert current.identity == source.identity and not Path(config.autosave_path).exists()
     assert primary.read_bytes() == before and doc.annotation(obj).name == 'Captured old work'
+
+
+def test_finite_run_drains_authorized_replacement_after_delayed_save(tmp_path):
+    source,_,_,_,source_path=workspace(tmp_path,'delayed-source',(40,80,160))
+    current,doc,_,obj,primary=workspace(tmp_path,'delayed-current',(210,60,30));doc.rename_annotation(obj,'delayed edit')
+    ready=tmp_path/'writer-ready'
+    code="import sqlite3,time,pathlib,sys; c=sqlite3.connect(sys.argv[1]); c.execute('BEGIN EXCLUSIVE'); pathlib.Path(sys.argv[2]).touch(); time.sleep(.9); c.rollback(); c.close()"
+    lock=subprocess.Popen([sys.executable,'-I','-c',code,str(primary),str(ready)])
+    try:
+        deadline=time.monotonic()+5
+        while not ready.exists():
+            assert lock.poll() is None and time.monotonic()<deadline
+            time.sleep(.005)
+        config=options(current,source_path);config.inputs=[event(4,q.GuiInputKind.OPEN_PROJECT_KEY),*click(18,q.GuiInputTarget.SAVE_RECOVERY_REPLACEMENT)]
+        report=q.show(doc,frame_limit=24,options=config)
+        assert report.project_replacements==1 and current.identity==source.identity and not report.project_error
+        assert q.Project.open(str(primary)).document(1).annotation(obj).name=='delayed edit'
+    finally:
+        lock.wait(timeout=5)

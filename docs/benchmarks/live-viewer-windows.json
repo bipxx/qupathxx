@@ -1,0 +1,22 @@
+{
+  "analysis_event_ms": 6.8905,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "native_sha256": "68c8b3a99cad6ca7ddf56ccfe9bcdeb14501766586acda665a5782d75f1612a4",
+  "source_tree_sha256": "15ca7896f308cbb4998b25939c6f9ffb545a98ef3473bad0fd2267c18a065cd8",
+  "measurement_scope": "mixed_close_after_jobs",
+  "frames": 151,
+  "objects": 100002,
+  "selected": 100001,
+  "visible": 100002,
+  "queries": 100,
+  "submit_p95_ms": 0.006800051778554916,
+  "round_trip_p95_ms": 17.212499980814755,
+  "max_dispatch_ms": 0.1032,
+  "cpu_frame_p95_ms": 17.0061,
+  "max_cpu_frame_ms": 313.7264,
+  "overlay_cache_bytes": 3523400,
+  "tile_gpu_bytes": 1048576,
+  "startup_frames": 2,
+  "startup_ms": 189.9439,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2"
+}

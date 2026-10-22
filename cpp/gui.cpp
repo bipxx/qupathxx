@@ -13,6 +13,8 @@
 #include "qupathxx/source_identity.hpp"
 #include "qupathxx/stain_estimation.hpp"
 #include "gui_replay.hpp"
+#include "viewer_bridge.hpp"
+#include <mutex>
 #include "gui_overlay.hpp"
 #include <imgui.h>
 #include <imgui_internal.h>
@@ -34,6 +36,7 @@
 
 namespace qpx {
 namespace {
+std::mutex viewer_mutex;
 std::string recovery_label(const RecoveryInfo& info) {
     if(!info.error.empty()) return "Unreadable recovery";
     auto seconds=static_cast<std::time_t>(info.created_unix_ms/1000); std::tm utc{};
@@ -120,6 +123,8 @@ void capture(const std::string& path, int width, int height) {
 }
 }
 GuiReport run_gui(Document& document, int frame_limit, const std::string& capture_path, const GuiOptions& options) {
+    std::unique_lock<std::mutex> viewer_lock(viewer_mutex,std::try_to_lock);
+    if(!viewer_lock.owns_lock()) throw std::runtime_error("a viewer is already running");
     if (frame_limit < 0) throw std::invalid_argument("frame_limit must be nonnegative");
     if (!capture_path.empty() && !frame_limit) throw std::invalid_argument("capture_path requires a positive frame_limit");
     if(options.settle_tiles && !frame_limit) throw std::invalid_argument("tile settlement requires a positive frame_limit");
@@ -291,6 +296,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     auto load_project=[](const std::string& path,bool recovery,const std::string& base_path) {
         const auto start=std::chrono::steady_clock::now();
         auto candidate=recovery?Project::recover(path,base_path):Project::open(path);
+        if(candidate->active_image()) candidate->document(candidate->active_image())->query_region({0,0,0,0});
         return LoadedProject{std::move(candidate),std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count(),recovery};
     };
     std::future<LoadedProject> project_load;
@@ -433,13 +439,28 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
         }
     };
+    auto* live=options.viewer_owner;
+    auto live_context=[&] {
+        if(startup_requested && !startup_active && !startup_succeeded && !startup_cancelled && !restore_pending && !staged_project && !project_load.valid() && !project_error.empty()) throw std::runtime_error(project_error);
+        if(startup_requested && !startup_active && !startup_succeeded && startup_cancelled) exit_requested=true;
+        detail::ViewerContext c;c.opening=startup_requested && !startup_succeeded;c.project=options.project;c.catalog=&project_images;c.epoch=startup_requested && workspace_epoch?workspace_epoch-1:workspace_epoch;c.frame=frames;c.active_image=active_image;
+        c.blocked=c.opening || startup_active || close_dialog_active || recovery_dialog_active || restore_pending || remove_dialog_active || maintenance_dialog_active;
+        c.closing=exit_requested || glfwWindowShouldClose(session.window);
+        c.activate=[&](std::uint64_t id){pending_image=id;};
+        c.select=[&](const std::vector<std::uint64_t>& ids){selection->replace(ids);selected=selection->primary();};
+        c.save=[&](const std::string& path){if(save_job.busy()) return false;const auto started=save_job.request(options.project,path);if(started) {save_result_pending=true;std::memcpy(project_path,path.c_str(),path.size()+1);}return started;};
+        c.save_stats=[&]{reconcile_save();return save_job.stats();};c.cancel_save=[&]{save_job.cancel();};
+        c.close=[&](bool discard){if(discard) {if(startup_active) startup_cancelled=true;startup_progress->cancelled.store(true);project_load_cancelled=true;autosave.cancel();exit_requested=true;}else glfwSetWindowShouldClose(session.window,true);};return c;
+    };
     auto within_frames=[&] {return !frame_limit || replay.frame()<static_cast<std::uint64_t>(frame_limit) ||
         (startup_requested && (startup_active || replay.frame()<startup_finish_frame+frame_limit));};
     while (!exit_requested) {
         const bool settling=!within_frames();
         if(settling) {
-            if(!options.settle_tiles) break;
-            settlement.check(std::chrono::steady_clock::now(),"tile uploads");
+            // An accepted save-and-replace/discard transition must reconcile
+            // its new authority before a finite embedding returns.
+            if(restore_after_save || restore_pending) settlement.check(std::chrono::steady_clock::now(),"workspace transition");
+            else {if(!options.settle_tiles) break;settlement.check(std::chrono::steady_clock::now(),"tile uploads");}
         }
         auto frame_start=std::chrono::steady_clock::now();
         if(retired_workspace.valid() && retired_workspace.wait_for(std::chrono::seconds(0))==std::future_status::ready)
@@ -480,6 +501,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 }
             } catch(const std::exception& e) { if(current) autosave_ui_error=e.what(); }
         }
+        if(live) live->poll(live_context());
         if(glfwWindowShouldClose(session.window) && !restore_pending && !pending_remove) {
             project_load_cancelled=true; startup_progress->cancelled.store(true);
             if(startup_active) startup_cancelled=true;
@@ -626,6 +648,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             for(std::size_t i=0;i<project_images.size();++i) if(project_images[i].name.find(project_filter)!=std::string::npos) project_rows.push_back(i);
             project_filter_dirty=false;
         }
+        if(live) live->pump(live_context());
+        if(exit_requested) break;
         glfwPollEvents(); ImGui_ImplOpenGL3_NewFrame(); ImGui_ImplGlfw_NewFrame();
         // Test/benchmark replay enters the same ImGui event queue as GLFW input.
         auto& input=ImGui::GetIO();
@@ -790,6 +814,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::BeginDisabled(editing_blocked);
         ImGui::TextColored({.3f,.8f,.75f,1}, "qupathxx"); ImGui::SameLine(); ImGui::TextDisabled("/  Research workspace");
         if(!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyAlt && io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_X,false)) cell_table_job.cancel();
+        if(live) {
+            const auto scripting=live->stats();ImGui::TextDisabled("Python session connected / %zu pending",scripting.queued);
+            if(scripting.active_ticket) {ImGui::TextDisabled("Processing script job");ImGui::SameLine();if(ImGui::SmallButton("Cancel script job")) live->cancel_active();}
+            else ImGui::TextDisabled("Ready");
+        }
         ImGui::Separator();
         ImGui::BeginDisabled(!has_image);
         if (ImGui::IsKeyPressed(ImGuiKey_R) && !io.WantTextInput && !editing_blocked && has_image) tool=tool==1?0:1;
@@ -1775,7 +1804,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(!overlay_display || !(*overlay_display==display)) {overlay_cache.clear();overlay_display=display;}
         const auto visible_min=viewport.screen_to_image({0,0}),visible_max=viewport.screen_to_image({size.x,size.y});
         const auto clip=draw->_CmdHeader.ClipRect;const auto* shared=ImGui::GetDrawListSharedData();
-        const OverlayKey next_overlay_key{&document,selection.get(),document.revision(),selection->revision(),selected,viewport.zoom,viewport.origin.x,viewport.origin.y,
+        const OverlayKey next_overlay_key{&document,selection.get(),document.render_revision(),selection->revision(),selected,viewport.zoom,viewport.origin.x,viewport.origin.y,
             offset.x,offset.y,size.x,size.y,clip.x,clip.y,clip.z,clip.w,ImGui::GetFont(),ImGui::GetFontSize(),ImGui::GetIO().Fonts->TexID,
             draw->Flags,shared->TexUvWhitePixel.x,shared->TexUvWhitePixel.y,shared->CurveTessellationTol,shared->CircleSegmentMaxError,
             tiles->uploads(),tiles->generations(),tissue.poll(document,selected).generation,cell_job.poll(document,selected).generation,tiles->bytes(),tissue.result().get(),detected.get(),
@@ -2020,7 +2049,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(settling) ++settle_frames;
         const bool tiles_settled=!startup_active && !project_load.valid() && !restore_pending && !tiles->pending() && tiles->error().empty();
         if(options.settle_tiles && !within_frames() && !tiles->error().empty()) throw std::runtime_error("GUI tile settlement failed: "+tiles->error());
-        const bool final_frame=!within_frames() && (!options.settle_tiles || tiles_settled);
+        const bool final_frame=!within_frames() && !restore_after_save && !restore_pending && (!options.settle_tiles || tiles_settled);
         if (!capture_path.empty() && final_frame) capture(capture_path,w,h);
         glfwSwapBuffers(session.window); ++frames;
         if(startup_pending) {
@@ -2042,6 +2071,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     } else candidate=Project::open_impl(path,kind=="recovery",base,progress.get());
                     if(progress->cancelled.load()) throw std::runtime_error("opening cancelled");
                     if(image_id) candidate->set_active_image(image_id);
+                    if(candidate->active_image() && !progress->cancelled.load()) candidate->document(candidate->active_image())->query_region({0,0,0,0});
                     progress->phase.store(5);
                     return LoadedProject{std::move(candidate),std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count(),kind=="recovery"};
                 });
@@ -2058,6 +2088,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if(!frame_limit) fingerprint_job.cancel();
     const auto final_fingerprint=fingerprint_job.wait();
     reconcile_save();
+    if(live) live->finish(live_context());
     if(autosave.busy()) autosave.wait();
     if(maintenance_job.valid()) {maintenance_job.wait(); poll_maintenance(true);}
     if(retired_workspace.valid()) max_retirement_ms=std::max(max_retirement_ms,retired_workspace.get());
@@ -2120,4 +2151,12 @@ GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const
     Document empty(Image(1,1,std::vector<std::uint8_t>{0,0,0}));
     return run_gui(empty,frame_limit,capture_path,configured);
 }
+GuiReport run_viewer_session(std::shared_ptr<ViewerSession> session,int frames,const std::string& capture,const GuiOptions& options) {
+    if(!session) throw std::invalid_argument("viewer session is required");
+    if(options.project || options.viewer_owner || !options.startup_kind.empty() || !options.startup_path.empty() || options.startup_image_id) throw std::invalid_argument("managed viewer owns its project; project/startup overrides are not allowed");
+    detail::ViewerOwner owner(*session);
+    try {auto project=std::make_shared<Project>();auto configured=options;configured.viewer_owner=&owner;configured.startup_kind="project";configured.startup_path=session->project_path();configured.save_snapshot_budget=session->limits().snapshot_bytes;return run_project_gui(std::move(project),frames,capture,configured);}
+    catch(const std::exception& e) {owner.fail(e.what());throw;}
+}
+
 }

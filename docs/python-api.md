@@ -18,7 +18,8 @@ The complete [region workflow](../examples/region_workflow.py) and
 [negative fixture](../tests/typing/invalid_api.py) intentionally fails for a
 float32 array passed to a uint8 importer, a string image ID, assignment to a
 read-only property, the wrong request type submitted to a job and direct
-construction of a native result object.
+construction of a native result object. Live endpoint checks additionally reject
+a Project passed in place of a filename and an Image submitted as an edit.
 
 ## Regeneration
 
@@ -35,7 +36,7 @@ python -I -m mypy --strict --no-incremental examples/region_workflow.py tests/ty
 python -I -m mypy --strict --no-incremental tests/typing/invalid_api.py
 ```
 
-The last command must fail with the five intended type errors. Generation uses
+The last command must fail with the seven intended type errors. Generation uses
 the installed extension's signatures, excludes changing default values and
 applies deterministic annotations for array methods that return Python objects
 internally. Native-only result constructors receive a required private `Never`
@@ -63,5 +64,6 @@ Projects/documents and job capture/publication remain single-owner operations.
 Readers and immutable result buffers have the concurrency rules documented in
 [NumPy exchange](numpy-arrays.md), [batch processing](project-batch.md) and their
 individual analysis/job contracts. Static annotations do not grant permission
-to mutate a document from another thread or from a worker callback. Live viewer
-command queues/notifications and external model adapters remain unfinished.
+to mutate a document from another thread or from a worker callback. Managed [live viewer queues/notifications](live-viewer.md) are implemented.
+Broader command coverage, external model adapters and release compatibility
+gates remain unfinished.

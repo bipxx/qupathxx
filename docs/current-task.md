@@ -8,12 +8,12 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the final installed-native regression passes 1122 Python cases with two file-symlink cases
+Evidence: the final installed-native regression passes 1143 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
-and recovery; thirty-two native suites pass in the full GUI build and
-thirty-one pass in core/minimal builds with optional geometry/readers/
+and recovery; thirty-three native suites pass in the full GUI build and
+thirty-two pass in core/minimal builds with optional geometry/readers/
 interchange enabled and disabled. The installed GUI wheel includes its
 packaged runtime libraries and licenses.
 All cell archives and cell/ROI/tissue table cases are included in that full run.
@@ -573,3 +573,50 @@ Writable region copies take 1.905 ms p95 and the older Python-bytes copy route
 faster copies or a process memory cap. Raw data includes exact source/native
 hashes. Live viewer queues, model adapters, beta API compatibility, broader
 platform/long-running benchmarks and all unfinished M0-M7 work remain active.
+
+
+The fifty-fifth packet implements managed live viewer scripting. A native-owned
+workspace opens from a project filename through the background loader. Python
+producer threads submit bounded typed commands while show(session) releases the
+GIL on the main thread. Edits, selection, archival publication and save
+reconciliation remain on the GUI owner; no mutable live Document/Project or
+Python callback crosses into workers. Queries, region arrays, all three analysis
+jobs, record-filtered tables, saves and normal/explicit-discard close produce
+thread-safe ticket notifications. Workspace epochs, optional checked revisions
+(including zero), captured requests and source-reader identity reject stale work.
+See [live viewer sessions](live-viewer.md) and the complete live workflow example.
+
+Twenty focused installed-wheel cases pass. Native tests cover independent owner
+dispatch, simultaneous wait/take, cancellation/reclamation, source removal,
+workspace epochs, stale results, resource limits and renderer revision semantics.
+The full/core/minimal native suites pass 33/32/32; storage-disabled viewer and
+reader probes also pass. The endpoint imports and handles queue cancellation in
+a clean environment without NumPy. Public stubs regenerate exactly; strict mypy
+accepts both examples/positive fixtures and rejects seven intended mistakes.
+The script status/sidebar and scripted ROI are visually checked.
+
+Performance investigation found avoidable canvas changes from variable-height
+status and archival-only document revisions. The status row is now fixed-height,
+geometry/class/calibration commands advance a distinct render revision, and the
+loader prepares the active spatial index before native ownership handoff.
+The same mixed 100001-selected-object workflow records 17.0061 ms p95 GUI CPU
+work, 17.2125 ms p95 query round trips, 0.0068 ms p95 submission and 0.1032 ms maximum
+dispatch/capture. The earlier run measured 49.838 ms p95 GUI work. Both raw runs
+are retained with their exact binaries/sources and scope. No idle warm frames were
+added to the mixed run; finite visual-capture runs use a distinct scope tag.
+
+The maximum cold frame is still 313.73 ms and this mixed scene does not establish
+the 16.7 ms target. Broader M2 rendering/startup optimization, live command
+coverage, versioned external models, beta compatibility, real-slide/long-running
+memory campaigns and all unfinished M0-M7 requirements remain active.
+
+
+The final installed GUI wheel passes 1143 Python cases with two existing Windows
+file-symlink permission skips in 279.33 s. The combined live-session/workspace
+focused set passes 34 cases, including delayed save-and-replace at a finite frame
+boundary. Full/core/minimal native suites pass 33/32/32; storage-disabled probes
+pass. Stub regeneration matches the installed module, both examples and positive
+fixtures pass strict mypy, and seven intended negative cases reject. The standalone
+live CLI example saves/reopens its output, and visual inspection checks the fixed
+status row and scripted ROI. The raw final performance record uses this exact
+native artifact. The full project goal remains active.

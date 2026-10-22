@@ -102,6 +102,8 @@ public:
     std::size_t object_count() const { return objects_.size()+object_snapshot_count_; }
     std::uint64_t revision() const { return revision_; }
     std::uint64_t structure_revision() const { return structure_revision_; }
+    // Geometry/class/calibration commands change this; archival records do not.
+    std::uint64_t render_revision() const { return render_revision_; }
     const std::map<std::string,ObjectClass>& classes() const { return classes_; }
     ObjectClass object_class(const std::string& name) const;
     std::size_t class_count(const std::string& name) const;
@@ -305,6 +307,7 @@ private:
     std::uint64_t next_id_ = 1;
     std::uint64_t revision_ = 0;
     std::uint64_t structure_revision_ = 0;
+    std::uint64_t render_revision_ = 0;
     std::size_t history_steps_ = 128, history_budget_ = 64*1024*1024, history_bytes_ = 0;
     std::optional<double> pixel_width_um_, pixel_height_um_;
     std::uint64_t calibration_revision_=0;
@@ -469,6 +472,7 @@ struct GuiInput {
     bool ctrl = false, shift = false;
     GuiInputWait wait_for=GuiInputWait::Immediate;
 };
+namespace detail {class ViewerOwner;}
 struct GuiOptions {
     int width = 1440, height = 900;
     DisplaySettings display;
@@ -517,6 +521,7 @@ struct GuiOptions {
     std::size_t measurement_table_byte_limit=256*1024*1024,measurement_table_snapshot_budget=256*1024*1024;
     bool file_fingerprint_associate_source=false;
     std::shared_ptr<const StainEstimateParameters> stain_estimate_parameters;
+    detail::ViewerOwner* viewer_owner=nullptr;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 GuiReport run_project_gui(std::shared_ptr<Project> project, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});

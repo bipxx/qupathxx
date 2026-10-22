@@ -21,3 +21,12 @@ def workflow(source: NDArray[np.uint8], output: Path) -> tuple[NDArray[np.uint8]
     if report is not None:
         return rgb,floats,q.project_batch_report_json(report)
     return rgb,floats,status.error
+
+
+def managed(path: str) -> NDArray[np.uint8] | None:
+    session=q.ViewerSession(path)
+    session.execute(1,[q.ObjectEdit.create(q.Rect(0,0,4,4))],expected_revision=0)
+    event=session.wait(session.read_region(1,q.RegionRequest(0,0,0,4,4)),0)
+    if event.pixels is not None:
+        return event.pixels.numpy()
+    return None

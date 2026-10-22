@@ -9,3 +9,6 @@ q.Image.demo().width=4
 q.ProjectBatchJob().request(q.Image.demo(),'results')
 
 q.ProjectBatchReport()
+
+q.ViewerSession(q.Project())
+q.ViewerSession("file").execute(1,[q.Image.demo()])

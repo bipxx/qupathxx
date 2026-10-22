@@ -85,7 +85,7 @@ Python tests exercise the example and opt-in viewer reopening, array lifetime,
 strides, isolation, scheduled reads, archived jobs and interpreter shutdown.
 
 This implements the defined M6 CPU pixel/label exchange. Public stubs and a typed workflow are included; see
-[Python API declarations](python-api.md). Live-viewer command queues, external model adapters, raw higher-bit-depth or
+[Python API declarations](python-api.md). Managed live-viewer command queues are implemented; external model adapters, raw higher-bit-depth or
 multiaxis readers, GPU exchange and broader long-running memory validation
 remain separate unfinished work.
 
@@ -104,7 +104,7 @@ inputs, interpreter shutdown and the complete example with viewer reopening.
 A separate clean environment without NumPy imports the package and reads native
 regions successfully. Public stub regeneration matches the installed extension,
 strict mypy accepts the declarations/example/positive fixture and rejects the
-five intended negative cases.
+array/model and live-endpoint negative cases.
 
 The warm 1024x1024 benchmark exports a 4194304-byte region view in about 0.0004
 ms p95 and a float32 view in about 0.0004 ms p95 (1000 samples each, near this

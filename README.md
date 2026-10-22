@@ -7,6 +7,11 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Managed live viewers accept typed commands from Python producer threads, with
+  owner-side edits, background analysis, notifications, saves and bounded queues.
+  See [live viewer sessions](docs/live-viewer.md) and the
+  [live workflow example](examples/live_workflow.py).
+
 - NumPy region/float/label views retain native ownership; RGB/RGBA imports copy
   strided uint8 inputs into owned native buffers. See
   [NumPy exchange](docs/numpy-arrays.md) and the
@@ -256,8 +261,8 @@ No naparixx or QuPath source has been copied into this project.
    `.qpdata` remain unsupported; native SQLite projects are implemented.
 4. Validate stain/tissue/cell workflows against a pinned QuPath runtime and add
    the remaining physical filters and processing options.
-5. Add live-viewer Python command queues/notifications and model integrations;
-   NumPy exchange, native jobs, headless batches and public stubs are implemented.
+5. Broaden live-viewer command coverage and add versioned model integrations;
+   managed queues/notifications, NumPy exchange, jobs, batches and stubs are implemented.
 6. Add classifiers, tissue microarrays, broader plugin/distributed batch workflows
    and the clean-machine/platform distribution gates in the project plan.
 

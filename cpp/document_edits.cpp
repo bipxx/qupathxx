@@ -243,7 +243,7 @@ std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
     }
     result->pixel_width_um_=x; result->pixel_height_um_=y;
     result->next_id_=next_id; result->revision_=revision;
-    result->structure_revision_=objects.empty()?0:revision;
+    result->structure_revision_=objects.empty()?0:revision;result->render_revision_=revision;
     return result;
 }
 ObjectClass Document::object_class(const std::string& name) const {
@@ -363,7 +363,7 @@ void Document::commit(Staging& staged,Calibration calibration) {
     if(spatial_reset) { spatial_.reset(); spatial_dirty_.clear(); spatial_rebuild_=true; }
     else if(spatial_delta) spatial_dirty_.swap(*spatial_delta);
     if(pixel_width_um_!=calibration.x || pixel_height_um_!=calibration.y) calibration_revision_=revision_+1;
-    pixel_width_um_=calibration.x; pixel_height_um_=calibration.y; ++revision_;
+    pixel_width_um_=calibration.x; pixel_height_um_=calibration.y; ++revision_;render_revision_=revision_;
     if(membership_changed) structure_revision_=revision_;
 }
 void Document::trim_history() {
