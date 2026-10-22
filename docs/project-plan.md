@@ -1584,6 +1584,28 @@ actual sources and pinned upstream notice copies. Missing notice markers fail
 configuration; the installed-wheel probe requires the enabled dependencies'
 notices. Local configuration/install staging verifies these rules.
 
+Final packet 60 validation: all five hosted jobs pass in
+[run 39757130782](https://github.com/bipxx/qupathxx/actions/runs/39757130782).
+Windows GUI/headless and Linux headless pass 1242/1015/1008 Python cases with
+5/232/239 configuration/fixture skips. Native GUI passes 33, and all four other
+native configurations pass 32 each, including ASan/UBSan. Installed workflows,
+generated stubs and positive/negative strict typing pass for all three wheels.
+The GUI uses verified llvmpipe at 1440x900. Native-only project loading, batch
+checkpointing, exact dense pixels and Aperio opening/extraction pass with a
+system-only PATH. The candidate's 40 files contain 33 notices, three executables,
+three runtime DLLs and a README; payload hashes match the tested wheel and it
+contains neither Python nor Mesa. Earlier incomplete wheel artifacts were
+withdrawn. [Raw evidence](benchmarks/ci-windows-linux.json) retains exact
+source/native/wheel/ZIP identities, file hashes, job links and skip reasons.
+
+The fresh local software-rendered GUI wheel passes 1243 Python cases with four
+expected skips in 351.55 s, all 33 native tests, matching stubs and strict typing.
+It additionally executes the live pinned QuPath comparison and generated large
+pyramid fixtures. The local skips are two Windows symlink permissions and the
+GEOS-disabled/headless-only contracts. Hosted GUI skips its two ungenerated
+large-pyramid cases plus the backend/headless/live-reference configurations.
+No new hardware GPU or frame-time performance claim is made.
+
 These are development candidates. Linux wheels still require the explicit GEOS
 SDK/system OpenSlide runtime. Windows hardware/DPI campaigns, user-machine
 installer acceptance, macOS, project license and fixture decisions, the M2 cold

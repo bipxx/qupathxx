@@ -70,6 +70,33 @@ hardware/DPI campaigns, clean user-machine installers, project license selection
 and the remaining workflow/format acceptance work are still open. No package is
 automatically published to PyPI or a GitHub Release.
 
+## Recorded validation
+
+[Run 39757130782](https://github.com/bipxx/qupathxx/actions/runs/39757130782)
+passes all five jobs at source revision `f12a644246025820bf9846c9378d3edc83cff134`.
+Windows GUI passes 1242 Python cases with five skips; Windows headless passes
+1015 with 232 skips; Linux headless passes 1008 with 239 skips. GUI native tests
+pass 33; each other native configuration passes 32, including ASan/UBSan. All
+three wheels pass the installed workflow, stub regeneration and positive/negative
+typing checks. The GUI reports llvmpipe and a 1440x900 framebuffer. Standalone
+project, batch, dense-region and Aperio opening/extraction checks pass.
+
+The [raw validation record](benchmarks/ci-windows-linux.json) retains run/job
+links, source/native/wheel hashes, JUnit identities, skip reasons and the
+standalone ZIP's complete file-hash inventory. Its 40 files include three native
+executables, three runtime DLLs, 33 notices and a README; all payload files match
+the tested wheel. Python and Mesa are absent. Earlier incomplete wheel artifacts
+from the validation attempts were withdrawn.
+
+A separate fresh local GUI wheel passes 1243 Python cases with four skips in
+351.55 seconds, all 33 native tests, public stubs and strict typing. It uses
+llvmpipe and also executes the live pinned QuPath regeneration and existing
+generated large-pyramid cases. The four skips are two Windows symlink permission
+cases, the GEOS-disabled-only case and the headless-only GUI contract. Hosted
+GUI's five skips are two missing generated large-pyramid fixtures and the
+GEOS-disabled, headless-only and opt-in live QuPath cases. These results do not
+establish hardware GPU or frame-time performance budgets.
+
 To reproduce a job, install `tools/ci/requirements.txt`, provide the platform
 compiler/CMake, 7-Zip for Windows GUI mode and Linux OpenSlide development files
 where appropriate, then run:
