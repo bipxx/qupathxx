@@ -175,6 +175,16 @@ def main():
         run([native_test/'qupathxx_region.exe', '--thumbnail', ppm, '1', '1', thumb], work/'standalone-thumbnail.log', clean, 60)
         if thumb.read_bytes().split(b'ENDHDR\n', 1)[1] != bytes([16, 32, 64, 255]):
             raise RuntimeError('standalone thumbnail pixels differ')
+        tiff = work/'standalone-thumbnail.tif'
+        run([test_python, '-I', '-c',
+             "import sys,numpy as np,tifffile; tifffile.imwrite(sys.argv[1],np.full((32,48,3),[40,80,160],dtype=np.uint8),photometric='rgb',tile=(16,16),compression='deflate',metadata=None)",
+             tiff], work/'standalone-thumbnail-fixture.log', env, 60)
+        tiff_thumb = work/'standalone-tiff-thumbnail.pam'
+        run([native_test/'qupathxx_region.exe', '--thumbnail', tiff, '31', '23', tiff_thumb],
+            work/'standalone-tiff-thumbnail.log', clean, 60)
+        raw = tiff_thumb.read_bytes()
+        if b'WIDTH 31\nHEIGHT 20\n' not in raw or raw.split(b'ENDHDR\n', 1)[1] != bytes([40, 80, 160, 255])*620:
+            raise RuntimeError('standalone TIFF thumbnail pixels differ')
         slide = Path(env['QUPATHXX_APERIO_FIXTURE'])
         run([native_test/'qupathxx_app.exe', slide, '--smoke'], work/'standalone-slide-gui.log', clean, 120)
         slide_region = work/'standalone-slide.pam'
@@ -187,12 +197,9 @@ def main():
             raise RuntimeError('standalone slide pixels differ from installed reader')
         slide_thumb = work/'standalone-slide-thumbnail.pam'
         run([native_test/'qupathxx_region.exe', '--thumbnail', slide, '250', '150', slide_thumb],
-            work/'standalone-slide-thumbnail.log', clean, 60)
-        thumb_reference = work/'installed-slide-thumbnail.pam'
-        run([install/'Lib/site-packages/qupathxx/qupathxx_region.exe', '--thumbnail', slide, '250', '150', thumb_reference],
-            work/'installed-slide-thumbnail.log', env, 60)
-        if slide_thumb.read_bytes() != thumb_reference.read_bytes():
-            raise RuntimeError('standalone slide thumbnail differs from installed reader')
+            work/'standalone-slide-thumbnail.log', clean, 60, expected=1)
+        if slide_thumb.exists() or 'source pixel limit' not in (work/'standalone-slide-thumbnail.log').read_text(encoding='utf8'):
+            raise RuntimeError('standalone Aperio thumbnail must reject its inadequate default source budget before writing')
     (work/'result.json').write_text(json.dumps(dict(mode=args.mode, wheel=wheel.name, wheel_sha256=assets.sha(wheel),
                                                   python=sys.version, tested_utc=time.time()), indent=2)+'\n', encoding='utf8')
 
