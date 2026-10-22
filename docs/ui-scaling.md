@@ -83,3 +83,16 @@ These are active-development-host llvmpipe observations, not controlled cold
 runs, a demonstrated speedup, GPU completion latency or acceptance of the
 16.7 ms hardware frame budget. Hardware and broader M0/M2 performance gates
 remain open.
+
+
+The [corrected CI run](https://github.com/bipxx/qupathxx/actions/runs/39796416658)
+completed successfully across all five configurations. Windows software-GL
+Python passes 1,306 with seven skips and 34 native tests; Windows headless
+passes 1,033 with 280 skips and 33 native tests; Linux headless passes 1,027
+with 286 skips and 33 native tests. Minimal Linux and ASan/UBSan each pass 33.
+The [CI artifact record](benchmarks/ui-scaling-ci-windows-linux.json) verifies
+wheel/native/source identities, stubs and typing logs, standalone CLI checks,
+and the standalone ZIP against its wheel without Python or Mesa payloads.
+The aggregate run reports completed/success; two job summaries were still stale
+at capture, so their successful build, artifact and Complete job steps are
+retained explicitly rather than rewriting those reported statuses.

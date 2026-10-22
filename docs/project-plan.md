@@ -1809,3 +1809,13 @@ and untracked texture that an explicit earlier creation could leave behind.
 The full 1,307-test local suite, 47 focused checks, native checks and navigation
 samples were repeated on this corrected artifact; source/native identities
 are recorded in the local validation record.
+
+The corrected [five-configuration CI run](https://github.com/bipxx/qupathxx/actions/runs/39796416658)
+completed successfully. Windows GUI passes 1,306 Python tests/seven skips and
+34 native tests, Windows headless 1,033/280 and Linux headless 1,027/286 with
+33 native each; minimal and sanitizer configurations also pass 33. Packaged
+stubs, positive/negative typing, installed 125% workspace and standalone CLI
+checks pass. The [raw CI record](benchmarks/ui-scaling-ci-windows-linux.json)
+preserves actual job-summary lag alongside completed successful run/step
+proof and validates candidate archive identities. High-scale responsive layout,
+physical DPI/hardware performance and the remaining M0–M7 gates remain open.
