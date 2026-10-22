@@ -1,0 +1,85 @@
+{
+  "schema": "qpx.local-validation/1",
+  "commit": "23b78f0c09e44813ad0335762b29279aeee6c347",
+  "observed_utc": "2026-10-22T14:19:32.047293+00:00",
+  "scope": "Installed Windows llvmpipe development candidate. Full suite precedes adding the compact scaled-resize test; final focused checks cover it on the identical native artifact. Ubuntu minimal native checked separately. No physical monitor delivery, macOS, hardware frame-budget, installer or full parity acceptance.",
+  "python": {
+    "tests": 1312,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1306,
+    "seconds": 508.25,
+    "sha256": "d63890b915205f8ba1afbbea8c04a7b2b56229235351edcebc911170e5c53644"
+  },
+  "focused": {
+    "tests": 26,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 26,
+    "seconds": 31.743,
+    "sha256": "82d42adf849547a9539fd985805f10b8f2dde2714d77eafc837456007e143c1d"
+  },
+  "windows_native": {
+    "tests": 34,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 34,
+    "seconds": 8.0,
+    "sha256": "9016439466057eb8b41cb0aaa2b6dd2b395caec9481d3477bca705cdbad181be"
+  },
+  "linux_minimal": {
+    "tests": 33,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 33,
+    "seconds": 0.0,
+    "sha256": "41c8476f0018ddab86a9c4cb929fd0526a288ba0bec7c5def50963795d98408e"
+  },
+  "workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "a9490cdf2b7df755590f7b01275a9cfdf2af290488f5c23ae3bddafd964bdf2f",
+    "source_tree_sha256": "a113bce9023e9fa504a7fda091cd878c80e6edf63c29bd4c2549ccf4d372dff1",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "86d044f0916bdb7dfc74d2910c436c182fb0231e0489cb13b3e7a53637b77582",
+    "bytes": 10044512
+  },
+  "checks": {
+    "dpi65-stubs.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "dpi65-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "dpi65-typing-negative.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "benchmarks": {
+    "ui-scaling-aperio-navigation-windows.json": "cb054e4882c03553b6500ca87e98623774c5f63ec9e6e1a8b798116c1c9965a3",
+    "ui-scaling-large-navigation-windows.json": "95554788ec8fdaaeffac09011ea72387208e99ba66ce70b30ad0553907620d7f"
+  },
+  "ci": {
+    "run": "https://github.com/bipxx/qupathxx/actions/runs/39794190326",
+    "observed_status": "queued",
+    "completed_jobs": 0
+  }
+}

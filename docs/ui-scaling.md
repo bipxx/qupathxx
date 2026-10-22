@@ -59,6 +59,8 @@ launchers. Windows native tests pass 34, local Ubuntu minimal tests pass 33,
 and source-exact stubs plus strict positive/seven-error negative typing pass.
 The installed-workflow check opens a separate-layout docked workspace at 125%
 and verifies exactly one initial font build.
+The [local artifact record](benchmarks/ui-scaling-local-windows-linux.json)
+retains test/log hashes, wheel identity and the matching installed workflow.
 
 The [Aperio sample](benchmarks/ui-scaling-aperio-navigation-windows.json)
 records 5.37/20.52 ms p95 and 33.62/37.41 ms maximum CPU frame work for two
