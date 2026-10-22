@@ -3,6 +3,7 @@ import argparse
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -14,11 +15,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import assets
 
 
-def run(args, log, env=None, timeout=2400):
+def run(args, log, env=None, timeout=2400, expected=0):
     print('+ '+' '.join(map(str, args)), flush=True)
     with Path(log).open('w', encoding='utf8') as stream:
         result = subprocess.run(list(map(str, args)), cwd=ROOT, env=env, stdout=stream, stderr=subprocess.STDOUT, timeout=timeout)
-    if result.returncode:
+    if result.returncode != expected:
         print(Path(log).read_text(encoding='utf8', errors='replace')[-16000:], flush=True)
         raise RuntimeError(f'command failed ({result.returncode}); log: {log}')
 
@@ -135,7 +136,8 @@ def main():
         env['QUPATHXX_COMPARE_QUPATH'] = '1'
     run([test_python, '-I', ROOT/'tools/fetch_reader_fixtures.py'], work/'fixtures.log', env)
     env['QUPATHXX_APERIO_FIXTURE'] = str(ROOT/'build/fixtures/CMU-1-Small-Region.svs')
-    command = [test_python, '-I', ROOT/'tools/ci/check_install.py', '--wheel', wheel, '--output', work/'installed-workflow.json']
+    command = [test_python, '-I', ROOT/'tools/ci/check_install.py', '--wheel', wheel, '--output', work/'installed-workflow.json',
+               '--standalone-project', work/'standalone-input.qpxproj']
     if args.mode == 'gui':
         command += ['--gui', '--software-gl']
     run(command, work/'installed-workflow.log', env)
@@ -143,6 +145,11 @@ def main():
          f'--junitxml={work}/python-tests.xml'], work/'python-tests.log', env, 2400)
     run([test_python, '-I', ROOT/'tools/generate_stubs.py', '--check'], work/'stubs.log', env)
     run([test_python, '-I', '-m', 'mypy', '--strict', 'tests/typing/valid_api.py', 'examples/live_workflow.py', 'examples/region_workflow.py'], work/'typing.log', env)
+    negative_log = work/'typing-negative.log'
+    run([test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/invalid_api.py'], negative_log, env, expected=1)
+    lines = re.findall(r'invalid_api\.py:(\d+): error:', negative_log.read_text(encoding='utf8'))
+    if sorted(map(int, lines)) != [6, 7, 8, 9, 11, 13, 14]:
+        raise RuntimeError('negative typing fixture must reject all seven intended mistakes')
     if os.name == 'nt' and args.mode == 'gui':
         stage = archive_windows(wheel, work)
         native_test = work/'standalone-test'
@@ -151,13 +158,27 @@ def main():
             shutil.copy2(mesa/name, native_test/name)
         clean = env.copy()
         clean['PATH'] = os.pathsep.join([str(Path(os.environ['SystemRoot'])/'System32'), os.environ['SystemRoot']])
-        run([native_test/'qupathxx_app.exe', '--smoke'], work/'standalone-gui.log', clean, 120)
+        run([native_test/'qupathxx_app.exe', '--project', work/'standalone-input.qpxproj', '--smoke'], work/'standalone-gui.log', clean, 120)
+        run([native_test/'qupathxx_batch.exe', work/'standalone-input.qpxproj', work/'standalone-batch', '--kind', 'stains'],
+            work/'standalone-batch.log', clean, 120)
+        if len(list((work/'standalone-batch').rglob('*.qpxproj'))) != 1:
+            raise RuntimeError('standalone batch did not save its checkpoint')
         ppm = work/'standalone.ppm'
         ppm.write_bytes(b'P6\n2 2\n255\n'+bytes([16, 32, 64])*4)
         pam = work/'standalone.pam'
         run([native_test/'qupathxx_region.exe', ppm, '0', '0', '0', '2', '2', pam], work/'standalone-region.log', clean, 60)
         if pam.read_bytes().split(b'ENDHDR\n', 1)[1] != bytes([16, 32, 64, 255])*4:
             raise RuntimeError('standalone region pixels differ')
+        slide = Path(env['QUPATHXX_APERIO_FIXTURE'])
+        run([native_test/'qupathxx_app.exe', slide, '--smoke'], work/'standalone-slide-gui.log', clean, 120)
+        slide_region = work/'standalone-slide.pam'
+        run([native_test/'qupathxx_region.exe', slide, '0', '0', '0', '32', '24', slide_region],
+            work/'standalone-slide-region.log', clean, 60)
+        reference = work/'installed-slide.pam'
+        run([install/'Lib/site-packages/qupathxx/qupathxx_region.exe', slide, '0', '0', '0', '32', '24', reference],
+            work/'installed-slide-region.log', env, 60)
+        if slide_region.read_bytes() != reference.read_bytes():
+            raise RuntimeError('standalone slide pixels differ from installed reader')
     (work/'result.json').write_text(json.dumps(dict(mode=args.mode, wheel=wheel.name, wheel_sha256=assets.sha(wheel),
                                                   python=sys.version, tested_utc=time.time()), indent=2)+'\n', encoding='utf8')
 

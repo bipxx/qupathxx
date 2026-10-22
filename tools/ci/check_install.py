@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import shutil
 import sys
 import tempfile
 import zipfile
@@ -16,6 +17,7 @@ def main():
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--gui', action='store_true')
     parser.add_argument('--software-gl', action='store_true')
+    parser.add_argument('--standalone-project', type=Path)
     args = parser.parse_args()
     import qupathxx as q
     from qupathxx import _native
@@ -29,11 +31,7 @@ def main():
             raise RuntimeError('loaded native binary is not from the requested wheel')
         names = wheel.namelist()
         for suffix in ['licenses/geos/COPYING', 'licenses/sqlite/sqlite-LICENSE.txt', 'licenses/nlohmann-json/LICENSE.MIT']:
-            # SQLite's CMake destination keeps its original notice basename.
-            if 'sqlite' in suffix:
-                if not any('licenses/sqlite' in name for name in names):
-                    raise RuntimeError('missing SQLite notice')
-            elif not any(name.endswith(suffix) for name in names):
+            if not any(name.endswith(suffix) for name in names):
                 raise RuntimeError('missing runtime notice: '+suffix)
     assert q.has_gui == args.gui and q.has_geos and q.has_openslide and q.has_project and q.has_interchange
     with tempfile.TemporaryDirectory(prefix='qupathxx-install-') as directory:
@@ -53,6 +51,8 @@ def main():
         image = project.add_document(doc)
         source = root/'workflow.qpxproj'
         project.save(str(source))
+        if args.standalone_project:
+            shutil.copy2(source, args.standalone_project)
         restored = q.Project.open(str(source)).document(image)
         assert restored.annotation(obj).name == 'Installed workflow'
         assert len(restored.analysis_records) == len(restored.tissue_records) == len(restored.cell_records) == 1

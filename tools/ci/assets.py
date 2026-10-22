@@ -2,6 +2,7 @@
 import hashlib
 import json
 import ntpath
+import os
 from pathlib import Path, PurePosixPath
 import shutil
 import subprocess
@@ -83,8 +84,11 @@ def mesa(cache):
         with tempfile.TemporaryDirectory(dir=Path(cache).resolve()) as temporary:
             stage = Path(temporary)/'sdk'
             stage.mkdir()
-            # Windows runner tar is libarchive and supports this pinned 7z file.
-            subprocess.run(['tar', '-xf', str(archive), '-C', str(stage)], check=True)
+            # Windows Server 2022 tar lacks LZMA; use the runner's 7-Zip.
+            extractor = shutil.which('7z') or str(Path(os.environ.get('ProgramFiles', 'C:/Program Files'))/'7-Zip/7z.exe')
+            if not Path(extractor).is_file():
+                raise RuntimeError('Mesa extraction requires 7-Zip (7z.exe)')
+            subprocess.run([extractor, 'x', '-y', '-o'+str(stage), str(archive)], check=True, stdout=subprocess.DEVNULL)
             stage.rename(target)
     for name, expected in spec['files'].items():
         if sha(target/name) != expected:

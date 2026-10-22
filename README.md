@@ -7,6 +7,10 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Automated native and installed-wheel checks cover Windows headless/GUI and
+  Linux headless/minimal/sanitizer configurations. Development artifacts and
+  their limits are described in [CI and distribution](docs/ci-distribution.md).
+
 - Pinned QuPath runtime references check geometry, sampling, OD/stains and a real
   native/QuPath round trip. Quantization and the explicit loss-aware thin-ellipse matching
   policy are recorded; see [QuPath comparisons](docs/qupath-comparisons.md).
