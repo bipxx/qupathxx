@@ -38,7 +38,10 @@ project save/reopen, NumPy regions, CSV/GeoJSON export and native batch processi
 GUI builds also open the saved project. Full pytest and generated-stub/typing
 checks then use that installed package. Negative typing checks require all seven
 deliberately invalid calls to reject. The downloaded small Aperio fixture is
-checksum-verified. Captured QuPath numerical references run by default; manual
+size/checksum-verified on every run, including cache hits. Downloads retry transient
+transport failures at most three times; bad identity and permanent HTTP errors
+fail immediately. External SDK/fixture inputs are checked before compilation.
+Captured QuPath numerical references run by default; manual
 dispatch can additionally regenerate live references in the Windows GUI job.
 
 The Windows GUI artifact contains a wheel and a standalone candidate ZIP. The

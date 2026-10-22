@@ -1544,3 +1544,34 @@ notice are visually inspected. A 1000-ellipse one-time import benchmark records
 source/native identity and cost scope retained. This is import overhead, not a
 new frame-rate claim. Broader interoperability, M2 cold rendering and all
 unfinished M0-M7 requirements remain active.
+
+The sixtieth packet adds automated native and clean installed-wheel gates on
+GitHub Actions. Windows headless Python 3.11/NumPy 1, Linux headless Python
+3.12/NumPy 2, Windows GUI/software OpenGL, Linux minimal native and Linux native
+ASan/UBSan configurations share an explicit runner. SDK archives and extracted
+files are verified, wheels install into new environments, loaded native binaries
+are checked against the original wheel, and packaged workflow probes retain
+analysis/tissue/cell records through save/reopen and CSV/GeoJSON export. Native
+batch checkpoints, generated stubs and positive/negative strict typing are gated.
+Headless Document/Project GUI fallbacks now retain the GuiReport return contract;
+all three show overloads have an unavailable-GUI regression.
+
+The Windows GUI job uses an isolated, verified Mesa llvmpipe launcher without
+changing system OpenGL or the base interpreter. Its original wheel also supplies
+a standalone candidate archive containing executables, dependency DLLs and
+notices. A disposable copy checks project loading, native batch checkpoints,
+exact dense pixels and a real Aperio slide with a system-only PATH. Mesa and
+Python are excluded from the archive. An actual hosted-runner failure exposed
+Windows Server 2022 tar's missing LZMA codec; extraction now uses 7-Zip and its
+selected DLL hashes remain checked. A hosted fixture DNS failure also led to
+bounded transport retries, size/checksum verification on cache hits and a shared
+fixture cache. Integrity failures remain fatal; ten downloader regressions check
+partial-transfer restart, retry limits, permanent HTTP errors and corrupt data.
+External inputs are now checked before expensive compilation.
+See [CI and distribution](ci-distribution.md)
+for the matrix, reproduction steps, artifacts and scope.
+
+These are development candidates. Linux wheels still require the explicit GEOS
+SDK/system OpenSlide runtime. Windows hardware/DPI campaigns, user-machine
+installer acceptance, macOS, project license and fixture decisions, the M2 cold
+frame target and all other unfinished M0-M7 requirements remain active.

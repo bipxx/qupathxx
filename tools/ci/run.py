@@ -79,10 +79,15 @@ def main():
     env.pop('PYTHONPATH', None)
     env['CMAKE_BUILD_PARALLEL_LEVEL'] = '2'
     full = args.mode != 'minimal'
+    # Verify external inputs before spending time compiling the SDK and wheel.
+    mesa = assets.mesa(ROOT/'build/ci/deps') if args.mode == 'gui' and os.name == 'nt' else None
+    openslide = assets.openslide(ROOT/'build/ci/deps') if full and os.name == 'nt' else None
+    if args.mode in ['headless', 'gui']:
+        run([sys.executable, '-I', ROOT/'tools/fetch_reader_fixtures.py'], work/'fixtures.log', env)
+        env['QUPATHXX_APERIO_FIXTURE'] = str(ROOT/'build/fixtures/CMU-1-Small-Region.svs')
     geos = ensure_geos(work) if full else None
     if geos:
         env['LD_LIBRARY_PATH'] = os.pathsep.join([str(geos/'lib'), str(geos/'lib64'), env.get('LD_LIBRARY_PATH', '')])
-    openslide = assets.openslide(ROOT/'build/ci/deps') if full and os.name == 'nt' else None
     flags = dict(QUPATHXX_BUILD_TESTS='ON', QUPATHXX_BUILD_GUI='ON' if args.mode == 'gui' else 'OFF',
                  QUPATHXX_BUILD_PYTHON='ON' if args.mode in ['headless', 'gui'] else 'OFF',
                  QUPATHXX_BUILD_GEOS='ON' if full else 'OFF',
@@ -123,7 +128,6 @@ def main():
     run([python, '-m', 'pip', 'install', '-r', ROOT/'tools/ci/requirements.txt', wheel], work/'install.log', env)
     test_python = python
     if args.mode == 'gui' and os.name == 'nt':
-        mesa = assets.mesa(ROOT/'build/ci/deps')
         run([python, '-I', ROOT/'tools/ci/assets.py', '--software-python', work/'software-python', '--mesa-root', mesa], work/'software-python.log')
         test_python = work/'software-python/python.exe'
         package = install/'Lib/site-packages/qupathxx'
@@ -134,8 +138,6 @@ def main():
     env['QUPATHXX_TEST_GUI'] = '1' if args.mode == 'gui' else '0'
     if args.live_reference:
         env['QUPATHXX_COMPARE_QUPATH'] = '1'
-    run([test_python, '-I', ROOT/'tools/fetch_reader_fixtures.py'], work/'fixtures.log', env)
-    env['QUPATHXX_APERIO_FIXTURE'] = str(ROOT/'build/fixtures/CMU-1-Small-Region.svs')
     command = [test_python, '-I', ROOT/'tools/ci/check_install.py', '--wheel', wheel, '--output', work/'installed-workflow.json',
                '--standalone-project', work/'standalone-input.qpxproj']
     if args.mode == 'gui':
