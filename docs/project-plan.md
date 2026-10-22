@@ -1881,8 +1881,8 @@ Installed Python classifier tests pass 10/10, source-exact stubs and strict
 positive/seven-error negative typing pass, and the installed 125% GUI workflow
 passes. The [numeric Windows sample](benchmarks/classifier-engine-windows.json)
 records 906 ms training and median 199 ms for 80,000-row prediction including
-input copies and Python results. Full Python regression and hosted CI are
-pending. This packet establishes
+input copies and Python results. Full Python regression now passes 1,327 tests
+with six skips; hosted CI is still running. This packet establishes
 the shared engine; object/pixel snapshots, background jobs, atomic undoable
 publication, retained project provenance and ImGui training are still required.
 The overall plan remains active with all other M0–M7 gaps retained.
@@ -1894,3 +1894,11 @@ a GUI-triggered CSV publication after Undo, waits for the visible Cancel target,
 and checks the lock-holder's exit status. The 33-case workspace/recovery/
 classifier set passes with that synchronization. Full regression is repeated
 on the same native artifact; production GUI behavior is unchanged.
+
+The repeat passes 1,327 with six skips. The [local validation record](benchmarks/classifier-engine-local-windows-linux.json)
+retains the investigated failure, focused repeat, complete passing run, native
+test configurations, typing/stub checks, notices and wheel/native/source/
+benchmark identities. Hosted [run 39819434255](https://github.com/bipxx/qupathxx/actions/runs/39819434255)
+targets `4b13307`: Linux minimal, sanitizer and headless jobs have passed;
+Windows headless and GUI jobs are still running. The superseded engine-only
+run was cancelled by workflow concurrency. Hosted completion is not yet claimed.

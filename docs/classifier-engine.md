@@ -109,6 +109,13 @@ and GUI rendering. Synthetic label agreement is an engine sanity check; it
 does not establish research accuracy, QuPath parity or a hardware performance
 budget.
 
+The [local validation record](benchmarks/classifier-engine-local-windows-linux.json)
+checks the same wheel/native/source identities across the 1,327-test passing
+installed Windows suite, ten classifier cases, 33 focused workspace/recovery/
+classifier cases, native Windows/Linux configurations and strict typing. It
+also retains the investigated fixed-duration GUI lock fixture failure and its
+passing synchronized repeat. Hosted validation is tracked in the project plan.
+
 The [local Windows sample](benchmarks/classifier-engine-windows.json) records
 906 ms training and a 199 ms median for 80,000-row prediction, including Python
 results, with a 544,863-byte model. All five timings and source/native/model

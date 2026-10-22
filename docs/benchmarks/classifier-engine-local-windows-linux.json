@@ -1,0 +1,142 @@
+{
+  "schema": "qpx.local-validation/1",
+  "commit": "4b13307bfa48d85f7f3759fb9a8262e8faa63d7f",
+  "engine_commit": "d224594f4b4dc144f30a888bb58b457f92b4b69d",
+  "observed_utc": "2026-10-22T17:14:27.360247+00:00",
+  "scope": "Installed Windows numeric classifier engine, complete software-GL Python regression, native Windows/Linux backend and minimal builds, and classifier ASan/UBSan. Document/pixel classification, UI, biological validation, hardware performance and release acceptance remain open.",
+  "python": {
+    "tests": 1333,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1327,
+    "seconds": 606.073,
+    "sha256": "c8773bc27765a68171fb866cbc60a744bdb317d4e2bffdc3307f135b30fc9fcb"
+  },
+  "focused": {
+    "tests": 10,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 10,
+    "seconds": 0.42,
+    "sha256": "7c7dc1a56eb73e3aae413ff51312a036c86f97f8c4e68a6b350e849047d8bbd1"
+  },
+  "workspace_recovery_classifier": {
+    "tests": 33,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 33,
+    "seconds": 48.052,
+    "sha256": "f77d658f75c5a8ff5884a14bd2d93f97a953e15881d14b8fd0940312dcb5a9bc"
+  },
+  "investigated_attempt": {
+    "failures": 1,
+    "passed": 1326,
+    "skipped": 6,
+    "junit_sha256": "df8df59983be1c53a576308cec98faad3dc560b1ba08a985c3e577b78ad174e8",
+    "cause": "Existing workspace replay used a fixed 0.9-second SQLite lock; the release could race GUI startup and Cancel/Undo. Replaced with target readiness and actual post-Undo CSV publication, including lock-holder exit verification. Same production native binary used for the passing repeat."
+  },
+  "windows_gui_native": {
+    "tests": 35,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 35,
+    "seconds": 6.0,
+    "sha256": "158029341b98dc51309c738d01398907133361f54d1c30f8c2e32f08a67f4f7f"
+  },
+  "windows_native": {
+    "tests": 34,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 34,
+    "seconds": 4.0,
+    "sha256": "b134201a0a075e9e76c3a2f081a0c9c240758f8ef468038f35e40f712eacb919"
+  },
+  "linux_native": {
+    "tests": 34,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 34,
+    "seconds": 0.0,
+    "sha256": "54c4ae262273a43791cdc98d9061aba4cc620c4a1f09627537b896472931605f"
+  },
+  "linux_minimal": {
+    "tests": 34,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 34,
+    "seconds": 0.0,
+    "sha256": "6fbb7f98ba4ee2924d63242bf9c4ec38866d5c1abad99e7bfe91585beeb432e7"
+  },
+  "linux_sanitizer_classifier": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 1,
+    "seconds": 0.0,
+    "sha256": "b62b0d01371fc27b9c3bbcaa5cb38f7d2ebc5e8afa462382306a6a65854982ed"
+  },
+  "workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "885d296d2181bef515fc366abdfdea5b0e7f75dea8fba9219edacfd8483fab89",
+    "source_tree_sha256": "08784ea01deade38df35abf8100cadca7e4b9feb886a37ab56b6b6ee4d8fd282",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "67e45e9042ef639746e00a45f520230917873228e8d4fd3a9df6531d7b2ec6b8",
+    "bytes": 10621495,
+    "opencv_notices": [
+      "qupathxx/licenses/opencv/LICENSE",
+      "qupathxx/licenses/opencv/softfloat-notice.txt",
+      "qupathxx/licenses/opencv/SOURCE-NOTICES.txt",
+      "qupathxx/licenses/opencv/zlib-notice.txt"
+    ]
+  },
+  "sdk": {
+    "marker_sha256": "81963b86ef1233d5c71508d06f0a96a35c5ae8211838294f47b376f8c9800615",
+    "source_commit": "31b0eeea0b44b370fd0712312df4214d4ae1b158",
+    "source_sha256": "bb15d5c85bab38c1377c0c7dd7ff201b078bcdb41cc4ff9f85ac61aa56b5f631"
+  },
+  "benchmark": {
+    "file_sha256": "19c3a6dfc688108104be8bf1e555a3ea71188a42a7732bcaec284b96b54fe8e6",
+    "canonical_json_sha256": "7874dc9af179e6a6968e47fc78f27823ccde6e80dd4e275258ab1d7b5a2b377f"
+  },
+  "checks": {
+    "classifier67-stubs.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "classifier67-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "classifier67-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "ci": {
+    "run": "https://github.com/bipxx/qupathxx/actions/runs/39819434255"
+  }
+}
