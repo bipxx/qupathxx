@@ -151,12 +151,17 @@ def test_small_pyramid_selection_and_complete_pixels_against_fraction_oracle(tmp
     tifffile = pytest.importorskip('tifffile')
     path = tmp_path/'pyramid.tif'
     levels = [np.random.default_rng(i).integers(0, 256, (h, w, 3), dtype=np.uint8)
-              for i, (w, h) in enumerate([(128, 64), (32, 16), (8, 4)])]
+              for i, (w, h) in enumerate([(128, 64), (64, 32), (32, 16)])]
     with tifffile.TiffWriter(path) as writer:
         for i, rgb in enumerate(levels):
             writer.write(rgb, photometric='rgb', tile=(16, 16), compression='deflate', metadata=None, subfiletype=0 if i == 0 else 1)
     server = q.open_slide(str(path))
+    # Complete tiles also work with older system libtiff/OpenSlide stacks.
+    # Verify the decoder separately from reduction before checking the oracle.
+    decoded = server.read_region(q.RegionRequest(0, 0, 2, 32, 16)).numpy()
+    np.testing.assert_array_equal(decoded[:, :, :3], levels[2])
+    assert np.all(decoded[:, :, 3] == 255)
     result = q.read_thumbnail(server, options(6, 6))
-    assert result.plan.level == 2 and result.plan.source_pixels == 32
+    assert result.plan.level == 2 and result.plan.source_pixels == 512
     np.testing.assert_array_equal(result.pixels.numpy(), oracle(levels[2], 6, 3))
     server.close()
