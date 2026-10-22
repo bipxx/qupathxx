@@ -2169,3 +2169,7 @@ minimal/sanitizer. Exact stubs, strict typing and installed software-GL launch
 pass. Source/native/wheel, benchmark and actual framebuffer identities agree.
 The investigated coordinate/property fixtures and public GuiReport export gap
 are retained in the record; none are hidden behind a green final count.
+
+Hosted [run 39868162623](https://github.com/bipxx/qupathxx/actions/runs/39868162623)
+targets `5000c14` and is running. No hosted UI-increment pass is claimed until
+that run completes.

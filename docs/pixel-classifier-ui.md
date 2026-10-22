@@ -134,7 +134,8 @@ sanitizer. Exact stubs, strict positive/seven-error negative typing and installe
 software-GL launch pass. Working-source/native/wheel, benchmark and losslessly
 converted framebuffer-image identities agree. The record retains the corrected
 framebuffer-coordinate and project-property fixtures and the public report-type
-export fix. Hosted CI for this UI increment is pending.
+export fix. Hosted [run 39868162623](https://github.com/bipxx/qupathxx/actions/runs/39868162623)
+targets `5000c14` and is running.
 
 Project/recovery retention of pixel cohorts/results, contour publication,
 full-slide streaming masks, viewport-limited prediction, unmatched-resolution
