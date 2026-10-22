@@ -7,6 +7,7 @@
 #include "gui_profile.hpp"
 #include "gui_tiles.hpp"
 #include "gui_thumbnail.hpp"
+#include "gui_workspace.hpp"
 #include "gui_tissue.hpp"
 #include "qupathxx/cells.hpp"
 #include "qupathxx/cell_tables.hpp"
@@ -201,7 +202,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if (!session.window) throw std::runtime_error("OpenGL window creation failed");
     glfwMakeContextCurrent(session.window); glfwSwapInterval(1);
     IMGUI_CHECKVERSION(); ImGui::CreateContext(); session.context = true;
+    ImGui::GetIO().IniFilename=nullptr;
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    if(options.docked_workspace) ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    GuiWorkspace workspace(options);
     ImGui::StyleColorsDark();
     auto& style = ImGui::GetStyle(); style.FrameRounding = 4; style.WindowRounding = 0;
     style.Colors[ImGuiCol_WindowBg] = ImVec4(.075f, .085f, .105f, 1);
@@ -370,7 +374,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t list_revision=std::numeric_limits<std::uint64_t>::max();
     int frames = 0;
     std::uint64_t settle_frames=0;
-    std::array<int,static_cast<std::size_t>(GuiInputTarget::CancelDiscardCheckpoint)+1> target_seen;
+    std::array<int,static_cast<std::size_t>(GuiInputTarget::ResetLayout)+1> target_seen;
     target_seen.fill(-2);
     auto mark_target=[&](GuiInputTarget target) {
         const auto* modal=ImGui::GetTopMostPopupModal();
@@ -381,6 +385,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::vector<double> frame_times;
     TilePlan plan;
     GuiThumbnail overview;
+    bool canvas_visible=true;
+    ImVec2 layout_reset_offset{},layout_reset_size{};
     Viewport overview_view;
     DisplaySettings display=options.display;
     std::optional<ProjectView> restore_view;
@@ -474,7 +480,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             bool recovery_operation=false;
             try {
                 auto inputs=view_inputs(previous_canvas_size.x,previous_canvas_size.y);
-                if(publish_view && active_image && (!published_view_inputs || *published_view_inputs!=inputs)) {
+                if(publish_view && canvas_visible && !restore_view && active_image && (!published_view_inputs || *published_view_inputs!=inputs)) {
                     options.project->set_view(active_image,{viewport.screen_to_image({previous_canvas_size.x/2,previous_canvas_size.y/2}),viewport.zoom,display});
                     published_view_inputs=inputs;
                 }
@@ -785,6 +791,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(glfwGetWindowAttrib(session.window,GLFW_ICONIFIED)) throw std::runtime_error("restore the window before replaying UI input");
             auto origin=event.target==GuiInputTarget::Canvas?previous_canvas:(event.target==GuiInputTarget::Overview?overview_offset:list_offset);
             auto extent=event.target==GuiInputTarget::Canvas?previous_canvas_size:(event.target==GuiInputTarget::Overview?overview_size:list_size);
+            if(event.target==GuiInputTarget::Window) {origin={0,0};extent=input.DisplaySize;}
+            if(event.target==GuiInputTarget::ResetLayout) {origin=layout_reset_offset;extent=layout_reset_size;}
             if(event.target==GuiInputTarget::ProjectList) { origin=project_list_offset; extent=project_list_size; }
             if(event.target==GuiInputTarget::DisplayReset) { origin=display_reset_offset; extent=display_reset_size; }
             if(event.target==GuiInputTarget::DiscardRecoveryReplacement) { origin=discard_recovery_offset; extent=discard_recovery_size; }
@@ -919,7 +927,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         const bool editing_blocked=editing_is_blocked();
         const auto& io = ImGui::GetIO();
         ImGui::SetNextWindowPos({0,0}); ImGui::SetNextWindowSize(io.DisplaySize);
-        ImGui::Begin("Workspace", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus);
+        ImGui::Begin("Workspace", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoDocking);
         if(startup_active) {
             ++startup_frames;
             const auto phase=startup_progress->phase.load();
@@ -981,7 +989,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (selected && tool!=6 && !io.WantTextInput && !editing_blocked && has_image && ImGui::IsKeyPressed(ImGuiKey_Delete)) delete_selection();
         ImGui::SameLine(); ImGui::TextDisabled("Ctrl+click: toggle | Shift+drag: select box | Ctrl+A: all | Right drag: pan");
         ImGui::EndDisabled();
-        ImGui::BeginChild("Inspector", {285,0}, ImGuiChildFlags_Borders);
+        if(workspace.enabled()) {
+            if(ImGui::Button("Reset layout")) workspace.reset();
+            layout_reset_offset=ImGui::GetItemRectMin();auto lr=ImGui::GetItemRectMax();layout_reset_size={lr.x-layout_reset_offset.x,lr.y-layout_reset_offset.y};mark_target(GuiInputTarget::ResetLayout);
+            if(!workspace.error().empty()) ImGui::TextWrapped("Layout preferences: %s",workspace.error().c_str());
+            workspace.dockspace();
+            workspace.begin("Project and objects",workspace.browser);
+        } else ImGui::BeginChild("Inspector", {285,0}, ImGuiChildFlags_Borders);
         if(options.project) {
             // Route these chords so ImGui's own PageUp/PageDown navigation
             // cannot also focus/activate an inspector text field.
@@ -1172,6 +1186,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
             if(!project_error.empty()) ImGui::TextWrapped("%s",project_error.c_str());
         }
+        if(workspace.enabled()) {ImGui::End();workspace.begin("Image and display",workspace.display);}
         ImDrawList* overview_draw=nullptr;
         ImVec2 overview_clip_min{},overview_clip_max{};
         if(has_image) {
@@ -1232,6 +1247,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         display_reset_offset=ImGui::GetItemRectMin();
         auto display_reset_max=ImGui::GetItemRectMax(); display_reset_size={display_reset_max.x-display_reset_offset.x,display_reset_max.y-display_reset_offset.y}; mark_target(GuiInputTarget::DisplayReset);
         tiles->set_display(display);
+        overview.update(active_document->server(),display);
         if (!document.pixel_width_um() || !document.pixel_height_um()) ImGui::TextDisabled("Physical calibration unknown");
         if (calibration_revision!=document.calibration_revision()) {
             draft_calibration[0]=document.pixel_width_um().value_or(0);
@@ -1250,6 +1266,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (ImGui::Button("Clear")) {
             try { document.clear_calibration(); error.clear(); } catch(const std::exception& e) { error=e.what(); }
         }
+        if(workspace.enabled()) {ImGui::End();workspace.begin("Project and objects",workspace.browser);}
         ImGui::Spacing(); ImGui::SeparatorText("Objects");
         if (list_revision!=document.structure_revision()) {
             list_ids.clear(); list_ids.reserve(document.object_count());
@@ -1375,6 +1392,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 catch(const std::exception& e) { error=e.what(); }
             }
         }
+        if(workspace.enabled()) {ImGui::End();workspace.begin("Measurements and jobs",workspace.measurements);}
         ImGui::SeparatorText(selection->size()>1?"Measurements (primary object)":"Measurements");
         mean.poll(selected,document.revision());
         auto analysis_status=analysis.poll(document,selected);
@@ -1689,6 +1707,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
 
         } else ImGui::TextDisabled("Select an annotation");
         } else ImGui::TextDisabled("Select or add an image to use image tools.");
+        if(!has_image && workspace.enabled()) {
+            ImGui::End();workspace.begin("Project and objects",workspace.browser);ImGui::TextDisabled("No active image");
+            ImGui::End();workspace.begin("Measurements and jobs",workspace.measurements);
+        }
         if(has_image || options.project) {
             ImGui::SeparatorText("Cell table export");
             ImGui::SetNextItemWidth(240);ImGui::InputTextWithHint("##Cell table path","Cell table .csv destination",cell_table_path,sizeof(cell_table_path));
@@ -1775,22 +1797,25 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             fingerprint_job.request_source(*source,fingerprint_output,fingerprint_options);
         } else fingerprint_job.request(fingerprint_path,fingerprint_output,fingerprint_options);fingerprint_error.clear();} catch(const std::exception& e) {fingerprint_error=e.what();}}
         if (!error.empty()) ImGui::TextWrapped("%s", error.c_str());
-        ImGui::EndChild(); ImGui::SameLine();
-        ImGui::BeginChild("Canvas", {0,0}, ImGuiChildFlags_Borders, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+        if(workspace.enabled()) {
+            ImGui::End();canvas_visible=workspace.begin("Slide",workspace.canvas,ImGuiWindowFlags_NoScrollbar|ImGuiWindowFlags_NoScrollWithMouse);
+        } else {
+            ImGui::EndChild(); ImGui::SameLine();
+            ImGui::BeginChild("Canvas", {0,0}, ImGuiChildFlags_Borders, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
+        }
         auto offset = ImGui::GetCursorScreenPos(); auto size = ImGui::GetContentRegionAvail();
         size.x = std::max(size.x, 1.f); size.y = std::max(size.y, 1.f);
         ImGui::InvisibleButton("image canvas", size, ImGuiButtonFlags_MouseButtonLeft | ImGuiButtonFlags_MouseButtonRight);
-        if(has_image && !fit && !restore_view && previous_canvas_size.x>0 && previous_canvas_size.y>0 &&
-           (previous_canvas_size.x!=size.x || previous_canvas_size.y!=size.y) &&
-           (rendered_window_width!=static_cast<int>(io.DisplaySize.x) || rendered_window_height!=static_cast<int>(io.DisplaySize.y))) {
+        if(has_image && canvas_visible && !fit && !restore_view && previous_canvas_size.x>0 && previous_canvas_size.y>0 &&
+           (previous_canvas_size.x!=size.x || previous_canvas_size.y!=size.y)) {
             const auto center=viewport.screen_to_image({previous_canvas_size.x/2,previous_canvas_size.y/2});
             const bool synced=published_view_inputs && *published_view_inputs==view_inputs(previous_canvas_size.x,previous_canvas_size.y);
             viewport.center_on(center,size.x,size.y);
             if(synced) published_view_inputs=view_inputs(size.x,size.y);
             drawing=marquee=vertex_dragging=false;active_vertex.reset();draft_points.clear();
         }
-        previous_canvas=offset; previous_canvas_size=size;
-        if(has_image) {
+        if(canvas_visible) {previous_canvas=offset; previous_canvas_size=size;}
+        if(has_image && canvas_visible) {
         if (fit) { viewport.fit(image.width, image.height, size.x, size.y); fit = false; }
         if(restore_view) {
             viewport.zoom=restore_view->zoom; viewport.center_on(restore_view->center,size.x,size.y);
@@ -1938,7 +1963,6 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (!plan_inputs || *plan_inputs!=inputs) {
             plan=plan_view_tiles(image,viewport,size.x,size.y,dpi,256,128); plan_inputs=inputs;
         }
-        overview.update(active_document->server(),display);
         tiles->update(plan);
         tissue_preview.update(tissue.result(),show_tissue);
         const auto detected=cell_job.result();cell_preview.update(detected?(cell_preview_body?detected->cells():detected->nuclei()):nullptr,show_cells);
@@ -2024,18 +2048,6 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         if(!draft_points.empty()) draw->AddLine(screen(viewport,draft_points.back(),offset),screen(viewport,end,offset),IM_COL32(255,205,85,255),1);
         draw->PopClipRect();
-        // Draw into the inspector window's own draw list, keeping the image and
-        // viewport outline clipped to the overview, not the main canvas.
-        overview_draw->PushClipRect({std::max(overview_offset.x,overview_clip_min.x),std::max(overview_offset.y,overview_clip_min.y)},
-            {std::min(overview_offset.x+overview_size.x,overview_clip_max.x),std::min(overview_offset.y+overview_size.y,overview_clip_max.y)},false);
-        overview_draw->AddRectFilled(overview_offset,{overview_offset.x+overview_size.x,overview_offset.y+overview_size.y},IM_COL32(18,21,27,255));
-        if(overview.ready()) overview_draw->AddImage(static_cast<ImTextureID>(overview.texture()),
-            screen(overview_view,{0,0},overview_offset),screen(overview_view,{double(image.width),double(image.height)},overview_offset));
-        else overview_draw->AddText({overview_offset.x+4,overview_offset.y+4},IM_COL32(210,215,225,255),
-            overview.state()=="failed"?"Overview unavailable":"Loading overview...");
-        auto top_left=viewport.screen_to_image({0,0}),bottom_right=viewport.screen_to_image({size.x,size.y});
-        overview_draw->AddRect(screen(overview_view,top_left,overview_offset),screen(overview_view,bottom_right,overview_offset),IM_COL32(255,205,85,255),0,0,2);
-        overview_draw->PopClipRect();
         std::string status=tiles->error().empty() ? (tiles->pending() ? "Loading image..." : "") : tiles->error();
         if (plan.truncated) status="View exceeds tile limit; zoom in for complete coverage";
         if(!draft_points.empty()) status="Enter or double-click: finish shape | Escape: cancel";
@@ -2052,13 +2064,29 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             label+=" um"; draw->AddText({p.x,p.y-20},IM_COL32_WHITE,label.c_str());
             }
         }
-        } else {
+        } else if(!has_image) {
             overview.update(nullptr,display); // Reap a cancelled old-source job in an empty workspace.
             overlay_cache.clear();overlay_display.reset();
             visible_count=0;
             ImGui::GetWindowDrawList()->AddText({offset.x+32,offset.y+32},IM_COL32(190,205,220,255),project_images.empty()?"No images in this project.\nAdd an image in Project images, or open another project.":"No image selected.\nSelect an image in Project images.");
         }
-        ImGui::EndChild(); ImGui::EndDisabled();
+        if(!canvas_visible) visible_count=0;
+        if(has_image && overview_draw) {
+        // Draw into the inspector window's own draw list, keeping the image and
+        // viewport outline clipped to the overview, not the main canvas.
+        overview_draw->PushClipRect({std::max(overview_offset.x,overview_clip_min.x),std::max(overview_offset.y,overview_clip_min.y)},
+            {std::min(overview_offset.x+overview_size.x,overview_clip_max.x),std::min(overview_offset.y+overview_size.y,overview_clip_max.y)},false);
+        overview_draw->AddRectFilled(overview_offset,{overview_offset.x+overview_size.x,overview_offset.y+overview_size.y},IM_COL32(18,21,27,255));
+        if(overview.ready()) overview_draw->AddImage(static_cast<ImTextureID>(overview.texture()),
+            screen(overview_view,{0,0},overview_offset),screen(overview_view,{double(image.width),double(image.height)},overview_offset));
+        else overview_draw->AddText({overview_offset.x+4,overview_offset.y+4},IM_COL32(210,215,225,255),
+            overview.state()=="failed"?"Overview unavailable":"Loading overview...");
+        auto top_left=viewport.screen_to_image({0,0}),bottom_right=viewport.screen_to_image({previous_canvas_size.x,previous_canvas_size.y});
+        overview_draw->AddRect(screen(overview_view,top_left,overview_offset),screen(overview_view,bottom_right,overview_offset),IM_COL32(255,205,85,255),0,0,2);
+        overview_draw->PopClipRect();
+        }
+        if(workspace.enabled()) ImGui::End(); else ImGui::EndChild();
+        ImGui::EndDisabled();
         if(maintenance_popup_requested) {ImGui::OpenPopup("Delete recovery checkpoint?"); maintenance_popup_requested=false;}
         if(ImGui::BeginPopupModal("Delete recovery checkpoint?",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
             if(reviewed_checkpoint) {
@@ -2157,7 +2185,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         replay.finish_frame(!settling);
         if(settling) ++settle_frames;
-        const bool tiles_settled=!startup_active && !project_load.valid() && !restore_pending && !tiles->pending() && tiles->error().empty() && (!has_image || overview.settled());
+        const bool tiles_settled=!startup_active && !project_load.valid() && !restore_pending && (!canvas_visible || (!tiles->pending() && tiles->error().empty())) && (!has_image || overview.settled());
         if(options.settle_tiles && !within_frames() && !tiles->error().empty()) throw std::runtime_error("GUI tile settlement failed: "+tiles->error());
         const bool final_frame=!within_frames() && !restore_after_save && !restore_pending && (!options.settle_tiles || tiles_settled);
         if (!capture_path.empty() && final_frame) capture(capture_path,w,h);
@@ -2223,6 +2251,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if(!cell_job.result()) cell_preview.clear();
     if(!tissue_result) tissue_preview.clear();
     glfwGetFramebufferSize(session.window,&last_width,&last_height);
+    workspace.protect(active_document->server()->source_locator());
+    if(options.project && !options.layout_path.empty()) {
+        workspace.protect(options.project->path());workspace.protect(options.project->recovery_source());
+        for(const auto& image:options.project->images()) workspace.protect(options.project->document(image.id)->server()->source_locator());
+    }
+    const bool layout_saved=workspace.save();
     return {frames,previous_uploads+tiles->uploads(),std::max(previous_peak_bytes,tiles->peak_bytes()),previous_generations+tiles->generations(),p95,tiles->pending(),empty?0:viewport.zoom,empty?Point{}:viewport.origin,
         empty?Point{}:viewport.screen_to_image({previous_canvas_size.x/2,previous_canvas_size.y/2}),last_width,last_height,
         reinterpret_cast<const char*>(glGetString(GL_RENDERER)),reinterpret_cast<const char*>(glGetString(GL_VERSION)),visible_count,selection->ids(),selection->primary(),active_image,image_switches,max_image_switch_ms,project_error,
@@ -2239,7 +2273,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         tissue_status.elapsed_ms,tissue_preview.ready(),tissue_result?tissue_result->level():-1,tissue_result?tissue_result->downsample():0,
         tissue_result?tissue_result->width():0,tissue_result?tissue_result->height():0,tissue_result?tissue_result->cleaned_pixels():0,
         tissue_result?tissue_result->filled_pixels():0,tissue_result?tissue_result->cleanup_ms():0,
-        replay.frame(),replay.waits(),settle_frames,replay.complete(),!startup_active && !project_load.valid() && !restore_pending && !tiles->pending() && tiles->error().empty() && (empty || overview.settled()),
+        replay.frame(),replay.waits(),settle_frames,replay.complete(),!startup_active && !project_load.valid() && !restore_pending && (!canvas_visible || (!tiles->pending() && tiles->error().empty())) && (empty || overview.settled()),
         tissue_contours?tissue_contours->components().size():0,tissue_contours?tissue_contours->edge_count():0,tissue_contours?tissue_contours->vertex_count():0,
         tissue.contours_published()?tissue_annotations_added:0,tissue_contours?tissue_contours->elapsed_ms():0,tissue.contours_published(),
         saved_tissue?saved_tissue->id:0,saved_tissue?active_document->tissue_status(saved_tissue->id):std::string{},
@@ -2248,7 +2282,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         saved_cells?saved_cells->id:0,saved_cells?active_document->cell_status(saved_cells->id):std::string{},
         final_table.state,cell_table_error.empty()?final_table.error:cell_table_error,final_table.path,final_table.rows,final_table.bytes,final_table.capture_ms,final_table.write_ms,
         final_fingerprint.state,final_fingerprint.error.empty()?fingerprint_error:final_fingerprint.error,fingerprint_job.result(),final_fingerprint.bytes,final_fingerprint.elapsed_ms,
-        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied,batch.stats().state,batch.error(),batch.result(),suspended_iterations,suspended_work_ms,suspended_wait_ms,bool(glfwGetWindowAttrib(session.window,GLFW_ICONIFIED)),overview.state(),overview.error(),overview.result(),overview.bytes(),overview.peak_bytes()};
+        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied,batch.stats().state,batch.error(),batch.result(),suspended_iterations,suspended_work_ms,suspended_wait_ms,bool(glfwGetWindowAttrib(session.window,GLFW_ICONIFIED)),overview.state(),overview.error(),overview.result(),overview.bytes(),overview.peak_bytes(),workspace.enabled(),workspace.loaded(),layout_saved,workspace.error(),workspace.browser,workspace.display,workspace.measurements,workspace.canvas,canvas_visible};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

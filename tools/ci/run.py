@@ -164,7 +164,12 @@ def main():
             shutil.copy2(mesa/name, native_test/name)
         clean = env.copy()
         clean['PATH'] = os.pathsep.join([str(Path(os.environ['SystemRoot'])/'System32'), os.environ['SystemRoot']])
-        run([native_test/'qupathxx_app.exe', '--project', work/'standalone-input.qpxproj', '--smoke'], work/'standalone-gui.log', clean, 120)
+        layout = work/'standalone-workspace.ini'
+        run([native_test/'qupathxx_app.exe', '--project', work/'standalone-input.qpxproj', '--layout', layout, '--smoke'], work/'standalone-gui.log', clean, 120)
+        if not layout.read_bytes().startswith(b'; qupathxx workspace layout v1\n') or b'[Docking][Data]' not in layout.read_bytes():
+            raise RuntimeError('standalone docked workspace did not save its separate layout')
+        run([native_test/'qupathxx_app.exe', '--project', work/'standalone-input.qpxproj', '--layout', layout, '--smoke'],
+            work/'standalone-layout-reload.log', clean, 120)
         run([native_test/'qupathxx_batch.exe', work/'standalone-input.qpxproj', work/'standalone-batch', '--kind', 'stains'],
             work/'standalone-batch.log', clean, 120)
         if len(list((work/'standalone-batch').rglob('*.qpxproj'))) != 1:

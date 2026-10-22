@@ -77,3 +77,12 @@ def thumbnail_workflow(server: q.ImageServer) -> tuple[q.ThumbnailPlan, q.PixelB
     result=job.result()
     assert result is not None
     return plan,result.pixels,stats
+
+
+def docked_workspace(doc: q.Document) -> tuple[q.Rect, bool, str]:
+    options=q.GuiOptions()
+    options.docked_workspace=True
+    options.layout_path=q.default_workspace_layout_path()
+    options.reset_layout=False
+    report=q.show(doc,frame_limit=10,options=options)
+    return report.canvas_bounds,report.canvas_visible,report.layout_error

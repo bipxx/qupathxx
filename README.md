@@ -7,6 +7,10 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Docked desktop launchers place project/objects, image/display and measurements
+  around the slide canvas, with separate layout preferences. Embedded callers
+  can opt in; see the [docked workspace](docs/docked-workspace.md).
+
 - Complete bounded thumbnails are available in C++, Python and the native CLI.
   The asynchronous ImGui overview rejects stale image results; see the
   [thumbnail policy and measurements](docs/thumbnails.md).

@@ -1,6 +1,7 @@
 import argparse
+import sys
 
-from . import Document, Image, Project, GuiOptions, has_project, show
+from . import Document, Image, Project, GuiOptions, has_project, show, default_workspace_layout_path
 
 
 def main():
@@ -13,11 +14,21 @@ def main():
     parser.add_argument("--recovery-base", help="Associate --recover with a moved primary of the same identity")
     parser.add_argument("--image-id", type=int, help="Select a stored project image ID")
     parser.add_argument("--smoke", action="store_true", help="Render 90 frames after opening and verify image upload")
+    parser.add_argument("--compact", action="store_true", help="Use the compact single-inspector workspace")
+    parser.add_argument("--layout", help="Separate .ini file for workspace layout preferences")
+    parser.add_argument("--reset-layout", action="store_true", help="Restore the default dock layout")
     args = parser.parse_args()
+    if args.compact and (args.layout or args.reset_layout):
+        parser.error("--layout and --reset-layout require the docked workspace")
     if args.recovery_base and not args.recover:
         parser.error("--recovery-base requires --recover")
     def launch(document, options):
+        options.docked_workspace = not args.compact
+        options.reset_layout = args.reset_layout
+        options.layout_path = args.layout or (default_workspace_layout_path() if not args.smoke and not args.compact else "")
         report = show(document, frame_limit=90 if args.smoke else 0, options=options)
+        if report.layout_error:
+            print("Workspace layout: "+report.layout_error, file=sys.stderr)
         if args.smoke and options.startup_kind and not report.startup_succeeded:
             raise RuntimeError(report.project_error or "initial opening cancelled")
         if args.smoke and (not options.project or options.project.active_image) and not report.uploaded_tiles:

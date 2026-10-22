@@ -45,7 +45,8 @@ cancellation and decoded caching are implemented; see the
 policy](thumbnails.md) provides native/Python/CLI access and an asynchronous
 overview. M1 remains open for broader reader validation. Tiled rendering and viewport integration
 are implemented, including overview navigation and RGB display controls.
-M2 remains open for docking/layout, fluorescence/ICC, OS/DPI interactions and
+The [docked workspace](docked-workspace.md) adds separate layout preferences;
+M2 remains open for fluorescence/ICC, OS/DPI interactions and
 vendor stress benchmarks. Keep reader, scheduler, planner and OpenGL checks passing.
 
 The [pinned runtime comparison corpus](qupath-comparisons.md) includes independent

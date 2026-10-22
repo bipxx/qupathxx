@@ -1729,3 +1729,22 @@ remains open.
 M1's thumbnail policy is implemented for the current dense/OpenSlide readers.
 Broader vendor, damage, axes, metadata and ICC acceptance remains open, alongside
 all other unfinished milestone requirements.
+
+### Packet 64: docked workspace and separate layout preferences
+
+Desktop launchers now default to a split docked workspace around the slide
+canvas. Existing embedded APIs retain the compact layout unless explicitly
+enabled. Dear ImGui is pinned to the dereferenced v1.91.9b-docking commit;
+DockBuilder integration is isolated in one controller. Layout files are bounded,
+versioned and atomically saved separately from projects, with reset, error
+reporting and source-file protection. Splitter resize preserves the source
+center/zoom without changing a synchronized project view. Hidden canvas tabs
+skip rendering work and preserve pending stored views while owner work and the
+overview continue. See [docked workspace behavior and evidence](docked-workspace.md).
+
+The Linux CI tool step now uses the available Ninja executable, with a pinned
+binary-wheel fallback and a three-minute step bound. OpenSlide is already
+provided by the verified self-contained SDK; no system package-index update is
+needed for these jobs. This removes the prerequisite step that held the prior
+minimal job before compilation. M2's hardware/DPI, dynamic/cold-frame targets
+and remaining workflow/platform gates stay open.

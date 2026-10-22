@@ -97,9 +97,16 @@ def main():
         assert len(checkpoints) == 1 and len(q.Project.open(str(checkpoints[0])).document(image).analysis_records) == 2
         renderer = ''
         if args.gui:
-            report = q.show(q.Project.open(str(source)), frame_limit=20)
-            renderer = report.gl_renderer
             requested = q.GuiOptions()
+            requested.docked_workspace = True
+            requested.layout_path = str(root/'preferences'/'workspace.ini')
+            requested.settle_tiles = True
+            report = q.show(q.Project.open(str(source)), frame_limit=20, options=requested)
+            renderer = report.gl_renderer
+            if not report.docked_workspace or not report.layout_saved or report.layout_error:
+                raise RuntimeError('installed docked workspace did not save its separate layout preferences')
+            assert report.browser_bounds.x < report.canvas_bounds.x < report.display_bounds.x
+            assert report.canvas_bounds.y < report.measurement_bounds.y
             if (report.framebuffer_width, report.framebuffer_height) != (requested.width, requested.height):
                 raise RuntimeError('desktop must fit the requested 1440x900 replay window at 100% scale')
             if args.software_gl and 'llvmpipe' not in renderer.lower():
@@ -110,6 +117,8 @@ def main():
                       gui=q.has_gui, geos=q.has_geos, openslide=q.has_openslide, gl_renderer=renderer,
                       openslide_version=reader_version,
                       openslide_runtime_sha256=reader_runtime_sha256,
+                      docked_workspace=report.docked_workspace if args.gui else False,
+                      layout_saved=report.layout_saved if args.gui else False,
                       framebuffer=[report.framebuffer_width, report.framebuffer_height] if args.gui else None,
                       roi_samples=result.samples, native_batch_checkpoints=len(checkpoints))
     args.output.write_text(json.dumps(report, indent=2)+'\n', encoding='utf8')
