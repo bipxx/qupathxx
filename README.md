@@ -53,7 +53,10 @@ QuPath port or a compatible replacement for Java QuPath.
 
 - Native random forests train through an optional pinned OpenCV backend and
   expose portable model bytes, strict feature schemas and tree votes to Python.
-  Document classification and its UI are still in development; see the
+  The [object workflow](docs/object-classifiers.md) adds feature snapshots,
+  background jobs, undoable labels and ImGui train/preview/apply/model-file
+  controls. Project classifier records, pixel workflows and large-batch
+  publication performance remain unfinished; see also the
   [classifier engine contract](docs/classifier-engine.md).
 
 - Cached reader generations and open-time file observations persist in analysis

@@ -175,6 +175,8 @@ def main():
          f'--junitxml={work}/python-tests.xml'], work/'python-tests.log', env, 2400)
     run([test_python, '-I', ROOT/'tools/benchmark_classifier.py', '--output', work/'classifier-benchmark.json'],
         work/'classifier-benchmark.log', env, 120)
+    run([test_python, '-I', ROOT/'tools/benchmark_object_classifier.py', '--rows', '10000', '--output', work/'object-classifier-benchmark.json'],
+        work/'object-classifier-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/generate_stubs.py', '--check'], work/'stubs.log', env)
     run([test_python, '-I', '-m', 'mypy', '--strict', 'tests/typing/valid_api.py', 'examples/live_workflow.py', 'examples/region_workflow.py'], work/'typing.log', env)
     negative_log = work/'typing-negative.log'

@@ -144,8 +144,12 @@ ForestModel train_forest(const std::vector<float>& samples,const std::vector<std
     for(auto c:counts) if(c<2) throw std::invalid_argument("each classifier class requires two training rows");
     const auto nodes_per_tree=std::min<std::uint64_t>((1ULL<<(p.max_depth+1))-1,2*rows-1);
     const auto estimated_nodes=nodes_per_tree*p.trees;
-    const auto work=estimated_nodes*128+rows*schema.size()*32+rows*128+1024*1024;
-    if(estimated_nodes>max_nodes || work>p.work_bytes) throw std::length_error("classifier training exceeds work budget");
+    // Include OpenCV's per-tree working nodes/splits, packed forest, vector
+    // growth and the portable copy. In particular a single-tree training call
+    // holds both working and packed nodes; their public sizes alone undercount.
+    const auto work=estimated_nodes*512+rows*schema.size()*32+rows*128+1024*1024;
+    if(estimated_nodes>max_nodes) throw std::length_error("classifier training exceeds two-million-node budget");
+    if(work>p.work_bytes) throw std::length_error("classifier training work estimate "+std::to_string(work)+" exceeds budget "+std::to_string(p.work_bytes));
 #ifndef QUPATHXX_HAS_CLASSIFIER_TRAINING
     throw std::runtime_error("classifier training requires the optional OpenCV backend");
 #else

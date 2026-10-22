@@ -68,7 +68,7 @@ public:
             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
         }
     }
-    void commit() {
+    void commit(bool replace=true) {
         export_checkpoint(cancelled_);
 #ifdef _WIN32
         if(_commit(fd_)!=0) throw std::runtime_error("export flush failed");
@@ -77,9 +77,15 @@ public:
 #endif
         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
 #ifdef _WIN32
-        if(!MoveFileExW(temporary_.c_str(),destination_.c_str(),MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)) throw std::runtime_error("export replacement failed");
+        if(!MoveFileExW(temporary_.c_str(),destination_.c_str(),(replace?MOVEFILE_REPLACE_EXISTING:0)|MOVEFILE_WRITE_THROUGH)) throw std::runtime_error(replace?"export replacement failed":"export commit failed (destination may already exist)");
 #else
-        if(::rename(temporary_.c_str(),destination_.c_str())!=0) throw std::runtime_error("export replacement failed");
+        if(replace) {if(::rename(temporary_.c_str(),destination_.c_str())!=0) throw std::runtime_error("export replacement failed");}
+        else {
+            if(::link(temporary_.c_str(),destination_.c_str())!=0) throw std::runtime_error("export commit failed (destination may already exist)");
+            // Both names now reference the flushed inode. A failed temporary
+            // unlink does not invalidate the atomically published destination.
+            std::error_code error;std::filesystem::remove(temporary_,error);
+        }
 #endif
         committed_=true;
     }

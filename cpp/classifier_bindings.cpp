@@ -5,6 +5,7 @@
 #include <nanobind/stl/vector.h>
 #include <cstring>
 namespace nb=nanobind;using namespace nb::literals;
+void bind_object_classifiers(nb::module_&);
 namespace {
 using Samples=nb::ndarray<const float,nb::ndim<2>,nb::device::cpu>;
 using Labels=nb::ndarray<const std::uint32_t,nb::ndim<1>,nb::device::cpu>;
@@ -32,9 +33,12 @@ void bind_classifiers(nb::module_& m) {
         .def_static("from_bytes",[](nb::bytes b){if(b.size()>64*1024*1024) throw std::length_error("classifier model exceeds byte limit");std::vector<std::uint8_t> snapshot(b.size());std::memcpy(snapshot.data(),b.c_str(),b.size());nb::gil_scoped_release release;return ForestModel::from_bytes(snapshot);},"data"_a)
         .def("predict",[](const ForestModel& f,const Samples& x,std::vector<ClassifierFeature> schema){auto samples=snapshot(x,schema.size());nb::gil_scoped_release release;return f.predict(samples,schema);},"samples"_a.noconvert(),"schema"_a);
     m.attr("has_classifier_training")=has_classifier_training();
+    m.def("load_forest_model",[](const std::string& path){return load_forest_model(path);},"path"_a,nb::call_guard<nb::gil_scoped_release>());
+    m.def("save_forest_model",[](const ForestModel& model,const std::string& path,bool replace){save_forest_model(model,path,replace);},"model"_a,"path"_a,"replace_existing"_a=false,nb::call_guard<nb::gil_scoped_release>());
     m.def("train_forest",[](const Samples& x,const Labels& y,std::vector<ClassifierFeature> schema,std::vector<std::string> classes,ForestParameters p){
         auto samples=snapshot(x,schema.size());if(y.shape(0)!=x.shape(0)) throw std::invalid_argument("classifier label count differs from rows");
         std::vector<std::uint32_t> labels(y.shape(0));for(std::size_t i=0;i<labels.size();++i) labels[i]=y(i);
         nb::gil_scoped_release release;return train_forest(samples,labels,schema,classes,p);
     },"samples"_a.noconvert(),"labels"_a.noconvert(),"schema"_a,"classes"_a,"parameters"_a=ForestParameters{});
+    bind_object_classifiers(m);
 }

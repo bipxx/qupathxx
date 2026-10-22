@@ -1,10 +1,10 @@
 # Native random forest engine
 
 The C++ engine trains numeric classifiers, predicts tree votes, and round-trips
-an immutable portable model through C++ and nanobind. This is the foundation
-for object and pixel classification. Document feature snapshots, background
-jobs, undoable publication, retained project provenance, and the classifier UI
-are still required before either workflow is accepted.
+an immutable portable model through C++ and nanobind. The [object workflow](object-classifiers.md)
+adds document features, background jobs, undoable classes and an ImGui panel.
+Retained project provenance, pixel workflows, research comparisons and
+large-batch publication optimization remain open.
 
 ## Backend and ownership
 
@@ -69,9 +69,9 @@ checked before node allocation; text is bounded UTF-8. Validation rejects bad
 indices, cycles, shared nodes, unreachable nodes, excessive depth, invalid
 classes, nonfinite thresholds, noncanonical leaves, truncation and trailing
 bytes. Native inference and model loading work with OpenCV, Python, GUI,
-project storage and interchange all disabled. Models are byte values at this
-stage; atomic file saving and project associations belong to the upcoming
-document workflow.
+project storage and interchange all disabled. Models can be exchanged as byte
+values or saved/loaded through native atomic model-file operations. Retained
+classifier project associations remain open.
 
 ```python
 import numpy as np

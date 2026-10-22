@@ -1908,3 +1908,32 @@ wheel/native/source identities. All three hosted numeric samples reproduce
 the local fixture's exact input/training/model hashes; this fixture evidence
 does not promise general cross-platform retraining identity or biological
 accuracy. The superseded engine-only run was cancelled by workflow concurrency.
+
+### Packet 68: object classifier workflow and native ImGui controls
+
+Adds immutable document feature snapshots, body/nucleus geometry with explicit
+units, optional verified cell/cytoplasm RGB, owned float32 NumPy tables, labelled
+training, bounded prediction batches, single-flight cancellable jobs and
+authority/revision checks before one compound class edit. Names, hierarchy,
+geometry, nuclei and saved cell feature links survive publication and history.
+Native bounded model files use atomic new-file publication and explicitly
+validated replacement. The ImGui F4 panel trains, previews, applies/undoes and
+loads/saves models off-thread. Loading reconstructs the preset without resetting
+the user's snapshot budget. See [object classification](object-classifiers.md).
+
+Local focused tests pass 23 cases, including five real ImGui workflows and a
+125% smaller window. Windows GUI native passes 37; Windows headless, Linux
+training/minimal and ASan/UBSan pass 36 each. Installed workflow, exact stubs
+and strict positive/seven-error negative typing pass. A rendered preview was
+visually checked with no helper-layout overflow. The full installed regression
+suite is running; hosted CI will validate the pushed change.
+
+The [10,000](benchmarks/object-classifier-10000-windows.json) and
+[100,000-object](benchmarks/object-classifier-100000-windows.json) native samples
+separate owner capture, background feature/prediction work and publication.
+At 100,000 objects they measure 11.6 ms / 27.1 ms / 238 ms, with 24.7 MB charged
+snapshot payload and history explicitly disabled. Large owner-thread publication
+is the principal next optimization target, not an accepted frame-budget gate.
+Retained classifier project/recovery provenance, richer feature-source manifests,
+pixel classifiers, validation cohorts, QuPath comparisons, TMA and the remaining
+M0–M7 requirements stay open. No overall completion is claimed.

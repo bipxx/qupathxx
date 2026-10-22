@@ -1,4 +1,5 @@
 #pragma once
+#include <atomic>
 #include <cstdint>
 #include <memory>
 #include <string>
@@ -44,6 +45,10 @@ private:
     std::shared_ptr<const Data> data_;
 };
 bool has_classifier_training();
+ForestModel load_forest_model(const std::string& path,const std::atomic<bool>* cancelled=nullptr);
+// New-file publication never replaces an existing destination. Explicit
+// replacement first validates the existing file as a stable forest model.
+void save_forest_model(const ForestModel&,const std::string& path,bool replace_existing=false,const std::atomic<bool>* cancelled=nullptr);
 // Labels index the supplied class list. Every class must have >=2 rows.
 // Inputs: <=100000 rows, <=128 features, 2..256 classes, finite values with
 // magnitude <=FLT_MAX/4. Work budget is a conservative allocation estimate,

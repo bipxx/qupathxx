@@ -28,6 +28,13 @@ def main():
             if 'def numpy(' in line and current in ('Image','PixelBuffer','FloatRgbImage'):
                 dtype='float32' if current=='FloatRgbImage' else 'uint8';line=line.replace('-> object:','-> NDArray[numpy.'+dtype+']:')
             if 'def labels_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint32]:')
+            if current=='ObjectFeatureTable' and 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
+            if current=='ObjectClassifierJob':
+                for name in ['ForestModel','ObjectFeatureTable','ObjectClassificationResult']:
+                    line=line.replace('-> '+name+':','-> '+name+' | None:')
+            if current in ('GuiOptions','GuiReport') and 'def classifier_' in line:
+                for name in ['ForestModel','ObjectFeatureOptions','ForestParameters','ObjectClassificationResult']:
+                    line=line.replace('-> '+name+':','-> '+name+' | None:').replace('arg: '+name+',','arg: '+name+' | None,')
             # A shared_ptr return can be empty; stubgen otherwise loses that
             # distinction for the thumbnail publication/report accessors.
             if current in ('ThumbnailJob','GuiReport'):

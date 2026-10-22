@@ -117,3 +117,26 @@ def numeric_classifier(samples: NDArray[np.float32], labels: NDArray[np.uint32])
     model=q.train_forest(samples,labels,schema,['small','large'],q.ForestParameters())
     restored=q.ForestModel.from_bytes(model.to_bytes())
     return restored.predict(samples,schema),restored.sha256
+
+
+def object_classifier(doc: q.Document, ids: list[int], path: Path) -> tuple[list[int], NDArray[np.float32]]:
+    table=q.extract_object_features(q.ObjectFeatureRequest(doc,ids))
+    model=q.train_object_forest(table,q.ForestParameters())
+    q.save_forest_model(model,str(path))
+    loaded=q.load_forest_model(str(path))
+    request=q.ObjectFeatureRequest(doc,ids,q.ObjectFeatureOptions.from_model(loaded))
+    result=q.classify_objects(request,loaded)
+    return q.apply_object_classification(doc,request,result),table.numpy()
+
+
+def object_classifier_job(doc: q.Document, ids: list[int]) -> str:
+    job=q.ObjectClassifierJob()
+    job.train(q.ObjectFeatureRequest(doc,ids))
+    job.wait(doc)
+    model=job.model
+    if model is None:
+        raise RuntimeError('training did not publish a model')
+    options=q.GuiOptions()
+    options.classifier_model=model
+    options.classifier_features=q.ObjectFeatureOptions.from_model(model)
+    return model.sha256

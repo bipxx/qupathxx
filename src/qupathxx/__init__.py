@@ -1,6 +1,7 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
-    ClassifierFeature, ForestParameters, ClassifierPrediction, ForestModel, has_classifier_training, train_forest,
+    ObjectFeatureOptions, ObjectFeatureRequest, ObjectFeatureTable, ObjectClassificationResult, ObjectClassifierStats, ObjectClassifierJob, extract_object_features, train_object_forest, classify_objects, apply_object_classification,
+    ClassifierFeature, ForestParameters, ClassifierPrediction, ForestModel, has_classifier_training, train_forest, load_forest_model, save_forest_model,
     default_workspace_layout_path,
     ThumbnailOptions, ThumbnailPlan, ThumbnailResult, ThumbnailStats, ThumbnailJob, plan_thumbnail, read_thumbnail,
     ViewerLimits, ViewerEvent, ViewerStats, ViewerSession,
@@ -30,7 +31,8 @@ from ._native import (
 )
 
 __all__ = [
-    "ClassifierFeature", "ForestParameters", "ClassifierPrediction", "ForestModel", "has_classifier_training", "train_forest",
+    "ObjectFeatureOptions", "ObjectFeatureRequest", "ObjectFeatureTable", "ObjectClassificationResult", "ObjectClassifierStats", "ObjectClassifierJob", "extract_object_features", "train_object_forest", "classify_objects", "apply_object_classification",
+    "ClassifierFeature", "ForestParameters", "ClassifierPrediction", "ForestModel", "has_classifier_training", "train_forest", "load_forest_model", "save_forest_model",
     "default_workspace_layout_path",
     "ThumbnailOptions", "ThumbnailPlan", "ThumbnailResult", "ThumbnailStats", "ThumbnailJob", "plan_thumbnail", "read_thumbnail",
     "ViewerLimits", "ViewerEvent", "ViewerStats", "ViewerSession",
