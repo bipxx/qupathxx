@@ -7,6 +7,10 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Native ROI stain estimation uses bounded deterministic sampling, reusable model
+  identities, Python jobs and ImGui estimate/apply controls. See
+  [stain estimation](docs/stain-estimation.md).
+
 - Cached reader generations and open-time file observations persist in analysis
   provenance; Python and ImGui compare them with native file fingerprints through
   atomic association exports. See [reader source association](docs/reader-source-association.md).

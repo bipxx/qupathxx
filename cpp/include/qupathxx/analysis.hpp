@@ -24,6 +24,8 @@ public:
     static AnalysisRequest replay(const Document&,std::uint64_t record_id);
 private:
     friend struct AnalysisKernel;
+    friend struct StainEstimateKernel;
+    friend class StainEstimateRequest;
     friend class Document;
     friend class TissueRequest;
     friend struct TissueKernel;

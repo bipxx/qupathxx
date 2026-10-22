@@ -1,0 +1,30 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "native_sha256": "9e901bc510adb6824c97b9497906aed643724216602d9f9172c2ae133e6798b8",
+  "source_tree_sha256": "1b3652e6cdb626b7419ef768c2a076a4aae402fb10fd4a7b3153dcdcef60087e",
+  "size": 1024,
+  "samples": 1048576,
+  "eligible": 915836,
+  "sampled": 200000,
+  "tiles": 16,
+  "work_bytes": 6989824,
+  "capture_p95_ms": 0.007100054062902927,
+  "request_ms": 0.07800001185387373,
+  "max_poll_ms": 0.01279998105019331,
+  "worker_ms": 25.4809,
+  "input_sha256": "c42f1695aba6d773faee0eef3d6b4da55ad396639d6b4111b02af33c8fb2cc86",
+  "model_sha256": "3bdd75e6987b7ca41f309f63e4c2d6ccb6bd20641529327c4ba41c7b3f67adb7",
+  "angle_error_degrees": [
+    0.18381980733763031,
+    0.0037813565402462683
+  ],
+  "residual_fraction": 1.0618055985286012e-06,
+  "selected": 100001,
+  "visible": 100001,
+  "cpu_frame_p95_ms": 0.6204,
+  "max_cpu_frame_ms": 1.2002,
+  "gui_estimate_ms": 26.7859,
+  "overlay_cache_bytes": 3675040,
+  "tile_gpu_bytes": 4194304,
+  "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2"
+}

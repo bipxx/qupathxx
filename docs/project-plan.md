@@ -1305,3 +1305,28 @@ Cached descriptor and analysis capture p95 are 0.3 / 1.8 microseconds. With
 100001 selected/visible objects, viewer CPU frame p95 is 16.87 ms. The raw result
 and exact source/native fingerprints accompany the reader association docs;
 this evidence remains scoped to a padded synthetic PPM on one Windows PC.
+
+
+The fifty-second packet implements the previously missing M5 stain estimation
+step. A native OD-plane fit uses deterministic bounded sampling and robust
+angular quantiles, with automatic existing-pyramid selection, explicit read/work
+limits and rejection of degenerate or unsuitable ROIs. Model identities and
+atomic JSON preserve fitted vectors, original inputs, parameters and quality;
+exact normalized reload and existing analysis archives preserve the basis used.
+Python and ImGui estimate/apply/settings workflows use the same native controller.
+See [stain estimation](stain-estimation.md).
+
+Independent NumPy SVD, quantiles and integer sampling validate the native kernel.
+The focused estimator suite passes 31 cases; the final installed GUI wheel passes
+1059 with two existing Windows permission skips in 244.13 s. Native suites pass
+31/30/30 and the sidebar is visually reviewed. A warm 1048576-pixel synthetic
+mixture uses a 200000-tuple reservoir and about 6.99 MB logical work buffers,
+with 25.48 ms worker estimation, 0.0071 ms p95 capture and 0.0128 ms maximum poll.
+Directions recover within 0.184 / 0.0038 degrees of the known absorbers. A scene
+with 100001 selected/visible objects verifies identical applied-model analysis;
+its recorded CPU frame work is separate from presentation/refresh timing.
+
+This evidence establishes the defined OD-plane method, not upstream algorithm
+parity or broad stain variability. QuPath comparisons, project model registries,
+headless processing/live scripting, complete portable manifests, reader continuity
+and all remaining M0-M7 work stay active.

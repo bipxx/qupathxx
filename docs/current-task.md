@@ -8,12 +8,12 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the final installed-wheel regression passes 1028 Python cases with two file-symlink cases
+Evidence: the final installed-wheel regression passes 1059 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
-and recovery; thirty native suites pass in the full GUI build and
-twenty-nine pass in core/minimal builds with optional geometry/readers/
+and recovery; thirty-one native suites pass in the full GUI build and
+thirty pass in core/minimal builds with optional geometry/readers/
 interchange enabled and disabled. The installed GUI wheel includes its
 packaged runtime libraries and licenses.
 All cell archives and cell/ROI/tissue table cases are included in that full run.
@@ -473,3 +473,26 @@ analysis capture measure 0.3 / 1.8 microseconds p95. The 100001-selected-object
 viewer records 16.87 ms p95 CPU frame work during associated hashing. See the
 reader association documentation and raw benchmark for exact artifact hashes,
 workload limits and remaining scope.
+
+
+The fifty-second packet implements native OD-plane stain estimation, deterministic
+bounded reservoirs, automatic existing-level selection under read/work limits,
+quality rejection, model content identities, atomic JSON and exact normalized
+model reload. Python jobs and ImGui estimate/apply/settings controls use the same
+kernel and preserve exact fitted values in subsequent analyses. Independent
+NumPy SVD/quantiles and reservoir checks, known mixtures, coarse pixels, masks,
+GIL/lifetime/stale-result behavior and GUI analysis equivalence pass. See
+stain-estimation.md. This adds the explicit M5 estimation workflow; full QuPath
+numerical comparisons, model registries, batch/live scripting, portable manifests,
+source continuity and all other unfinished M0-M7 scope remain active.
+
+The final installed GUI wheel passes 1059 Python cases with two existing Windows
+file-symlink permission skips in 244.13 s; the focused estimator suite passes 31.
+All native full/core/minimal suites pass (31/30/30). The visually reviewed sidebar
+shows fitted vectors and estimate/apply status. The synthetic 1048576-pixel
+benchmark retains 200000 of 915836 eligible tuples in 6989824 logical work bytes;
+estimation takes 25.48 ms, capture p95 0.0071 ms and maximum sampled poll 0.0128 ms.
+Known-direction errors are 0.184 / 0.0038 degrees. The selected/all-visible
+100001-object viewer records 26.79 ms estimation and 0.62 ms p95 CPU frame work;
+that frame metric excludes presentation wait and does not assert a refresh rate.
+Raw data records exact source/native hashes and the one-PC synthetic scope.

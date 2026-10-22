@@ -11,6 +11,7 @@
 #include "qupathxx/measurement_tables.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include "qupathxx/source_identity.hpp"
+#include "qupathxx/stain_estimation.hpp"
 #include "gui_replay.hpp"
 #include "gui_overlay.hpp"
 #include <imgui.h>
@@ -128,7 +129,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if(options.analysis_vectors.size()!=6 || options.analysis_white.size()!=3 || options.analysis_kind<0 || options.analysis_kind>1)
         throw std::invalid_argument("invalid initial analysis parameters");
     auto analysis_vectors=options.analysis_vectors,analysis_white=options.analysis_white;
-    auto make_transform=[&](bool separate) {return StainTransform(separate?std::vector<ColorVector>{{analysis_vectors[0],analysis_vectors[1],analysis_vectors[2]},
+    std::optional<std::array<ColorVector,3>> estimated_basis;ColorVector estimated_white{};
+    auto make_transform=[&](bool separate) {
+        bool same=separate && bool(estimated_basis);
+        if(same) for(std::size_t c=0;c<3;++c) same=same && analysis_white[c]==estimated_white[c] && analysis_vectors[c]==(*estimated_basis)[0][c] && analysis_vectors[c+3]==(*estimated_basis)[1][c];
+        if(same) return StainTransform::from_normalized(*estimated_basis,estimated_white);
+        return StainTransform(separate?std::vector<ColorVector>{{analysis_vectors[0],analysis_vectors[1],analysis_vectors[2]},
         {analysis_vectors[3],analysis_vectors[4],analysis_vectors[5]}}:std::vector<ColorVector>{{1,0,0},{0,1,0}},
         {analysis_white[0],analysis_white[1],analysis_white[2]});};
     make_transform(options.analysis_kind==1);
@@ -199,7 +205,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::shared_ptr<Document> active_owner=options.project && options.project->active_image()?options.project->document(options.project->active_image()):nullptr;
     auto active_image=options.project?options.project->active_image():0;
     MeanJob mean;
-    AnalysisJob analysis;
+    AnalysisJob analysis;StainEstimateJob stain_estimate;bool stain_estimate_applied=false;std::string stain_estimate_error;
+    StainEstimateParameters stain_estimate_parameters=options.stain_estimate_parameters?*options.stain_estimate_parameters:StainEstimateParameters{};stain_estimate_parameters.validate();
     TissueJob tissue;
     CellJob cell_job;TissuePreview cell_preview;
     auto provenance_info=[](const std::shared_ptr<const AnalysisProvenance>& p) {
@@ -593,7 +600,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             } catch(const std::exception& e) { project_error=e.what(); refresh_active_image=false; }
         }
         auto& document=*active_document;
-        analysis.poll(document,selected);
+        analysis.poll(document,selected);stain_estimate.poll(document,selected);
         cell_table_job.poll();measurement_job.poll();
         cell_job.poll(document,selected);if(!cell_job.result()) cell_preview.clear();
         if(verifying_cells && !cell_job.busy()) {
@@ -626,9 +633,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
             input.AddKeyEvent(ImGuiKey_J,false);input.AddKeyEvent(ImGuiKey_U,false);input.AddKeyEvent(ImGuiKey_G,false);input.AddKeyEvent(ImGuiKey_C,false);input.AddKeyEvent(ImGuiKey_X,false);input.AddKeyEvent(ImGuiMod_Alt,false);
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
-            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12,ImGuiKey_M,ImGuiKey_K,ImGuiKey_D,ImGuiKey_F,ImGuiKey_Q}) input.AddKeyEvent(key,false);
+            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12,ImGuiKey_M,ImGuiKey_K,ImGuiKey_D,ImGuiKey_F,ImGuiKey_Q,ImGuiKey_F3}) input.AddKeyEvent(key,false);
         }
         replay.dispatch([&](const GuiInput& event) {
+            if(event.wait_for==GuiInputWait::StainsEstimated || event.wait_for==GuiInputWait::StainsApplied) return !stain_estimate.busy() && bool(stain_estimate.result()) && (event.wait_for==GuiInputWait::StainsEstimated || stain_estimate_applied);
             if(event.wait_for==GuiInputWait::FileFingerprintReady) return fingerprint_job.poll().state=="succeeded";
             if(event.wait_for==GuiInputWait::CellsReady) return !cell_job.busy() && bool(cell_job.result());
             if(event.wait_for==GuiInputWait::MeasurementTableSaved) return !measurement_job.busy() && measurement_job.poll().state=="succeeded";
@@ -738,6 +746,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::RecheckCellRunKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_C,true);break;
                 case GuiInputKind::FingerprintFileKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_F,true);break;
                 case GuiInputKind::CancelFingerprintFileKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_F,true);break;
+                case GuiInputKind::EstimateStainsKey: input.AddKeyEvent(ImGuiKey_F3,true);break;
+                case GuiInputKind::ApplyStainEstimateKey: input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_F3,true);break;
+                case GuiInputKind::CancelStainEstimateKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiKey_F3,true);break;
                 case GuiInputKind::ExportMeasurementTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,!event.shift);input.AddKeyEvent(ImGuiKey_Q,true);break;
                 case GuiInputKind::CancelMeasurementTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_Q,true);break;
                 case GuiInputKind::ExportCellTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,!event.shift);input.AddKeyEvent(ImGuiKey_X,true);break;
@@ -1261,7 +1272,40 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 analysis_changed=ImGui::InputScalarN("Stain 2",ImGuiDataType_Double,analysis_vectors.data()+3,3,nullptr,nullptr,"%.5g") || analysis_changed;
                 ImGui::TextWrapped("Supply validated OD directions. Channel 3 is a signed residual.");
             }
-            if(analysis_changed) {analysis.cancel();tissue.cancel();cell_job.cancel();}
+            if(analysis_changed) {analysis.cancel();tissue.cancel();cell_job.cancel();stain_estimate.cancel();stain_estimate_applied=false;}
+            if(ImGui::CollapsingHeader("Stain estimation settings")) {
+                bool changed=false;
+                ImGui::SetNextItemWidth(100);changed=ImGui::InputDouble("Minimum OD",&stain_estimate_parameters.min_od,0,0,"%.5g") || changed;
+                ImGui::SetNextItemWidth(100);changed=ImGui::InputDouble("Trim fraction",&stain_estimate_parameters.trim_quantile,0,0,"%.5g") || changed;
+                ImGui::SetNextItemWidth(100);changed=ImGui::InputDouble("Min angle (deg)",&stain_estimate_parameters.min_angle_degrees,0,0,"%.5g") || changed;
+                ImGui::SetNextItemWidth(100);changed=ImGui::InputDouble("Max residual",&stain_estimate_parameters.max_residual_fraction,0,0,"%.5g") || changed;
+                ImGui::SetNextItemWidth(100);changed=ImGui::InputScalar("Read pixels",ImGuiDataType_U64,&stain_estimate_parameters.max_read_pixels) || changed;
+                std::uint64_t limit=stain_estimate_parameters.sample_limit;
+                ImGui::SetNextItemWidth(100);if(ImGui::InputScalar("Kept samples",ImGuiDataType_U64,&limit)) {stain_estimate_parameters.sample_limit=static_cast<std::size_t>(limit);changed=true;}
+                ImGui::SetNextItemWidth(80);changed=ImGui::InputInt("Level (-1 auto)",&stain_estimate_parameters.level) || changed;
+                if(changed) {stain_estimate.cancel();stain_estimate_applied=false;stain_estimate_error.clear();}
+            }
+            const bool estimate_key=!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F3,false);
+            ImGui::BeginDisabled(stain_estimate.busy());
+            const bool estimate_clicked=ImGui::Button("Estimate stains (F3)") || (estimate_key && !io.KeyCtrl && !io.KeyShift);
+            ImGui::EndDisabled();
+            if(estimate_clicked && !stain_estimate.busy()) {try {stain_estimate.request(StainEstimateRequest(document,selected,stain_estimate_parameters,{analysis_white[0],analysis_white[1],analysis_white[2]},analysis_nucleus));stain_estimate_applied=false;stain_estimate_error.clear();error.clear();} catch(const std::exception& e) {stain_estimate_error=e.what();}}
+            if((estimate_key && io.KeyCtrl) || (stain_estimate.busy() && ImGui::Button("Cancel estimate (Ctrl+F3)"))) {stain_estimate.cancel();stain_estimate_applied=false;}
+            const auto estimate_status=stain_estimate.poll(document,selected);
+            if(stain_estimate.busy()) ImGui::Text("Stain tiles: %llu / %llu",static_cast<unsigned long long>(estimate_status.completed_tiles),static_cast<unsigned long long>(estimate_status.total_tiles));
+            if(const auto estimate=stain_estimate.result()) {
+                ImGui::Text("Stain separation: %.2f deg",estimate->angle_degrees);ImGui::Text("Plane residual: %.4g",estimate->residual_fraction);
+                const bool use=ImGui::Button("Use estimated stains (Shift+F3)") || (estimate_key && io.KeyShift && !io.KeyCtrl);
+                if(use) {
+                    estimated_basis=estimate->stains;estimated_white=estimate->white;analysis_kind=1;
+                    for(std::size_t c=0;c<3;++c) {analysis_vectors[c]=estimate->stains[0][c];analysis_vectors[c+3]=estimate->stains[1][c];analysis_white[c]=estimate->white[c];}
+                    analysis.cancel();tissue.cancel();cell_job.cancel();stain_estimate_applied=true;
+                }
+                if(stain_estimate_applied) ImGui::TextWrapped("Estimated vectors are active for subsequent analysis and detection.");
+            }
+            if(!stain_estimate_error.empty()) ImGui::TextWrapped("%s",stain_estimate_error.c_str());
+            if(!estimate_status.error.empty()) ImGui::TextWrapped("Stain estimate: %s",estimate_status.error.c_str());
+            if(estimate_status.state=="stale") ImGui::TextWrapped("Stain estimation inputs changed; estimate again.");
             const bool analysis_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_M);
             ImGui::BeginDisabled(analysis.busy());
             const bool start_analysis=ImGui::Button("Analyze region (Ctrl+M)") || (analysis_key && !io.KeyShift);
@@ -2007,6 +2051,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     }
     // Finite embedded runs also return a durable save result and reconcile the
     // caller's project. No live authority or Python-owned objects enter workers.
+    if(stain_estimate.busy()) {if(!frame_limit) stain_estimate.cancel();stain_estimate.wait(*active_document,selection->primary());}
     if(save_job.busy()) save_job.wait();
     if(cell_table_job.busy()) cell_table_job.wait();
     if(measurement_job.busy()) {if(frame_limit==0) measurement_job.cancel();measurement_job.wait();}
@@ -2020,6 +2065,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     auto p95=frame_times.empty()?0:frame_times[static_cast<std::size_t>((frame_times.size()-1)*.95)];
     const bool empty=options.project && !active_image;
     const auto analysis_status=analysis.poll(*active_document,selection->primary());
+    const auto final_estimate=stain_estimate.poll(*active_document,selection->primary());const auto estimate_value=stain_estimate.result();
+    const auto estimate_result=estimate_value?std::make_shared<const StainEstimateResult>(*estimate_value):std::shared_ptr<const StainEstimateResult>{};
     const auto analysis_result=analysis.result();
     const auto saved_analysis=active_document->latest_analysis(selection->primary());
     const auto tissue_status=tissue.poll(*active_document,selection->primary());
@@ -2057,7 +2104,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         saved_cells?saved_cells->id:0,saved_cells?active_document->cell_status(saved_cells->id):std::string{},
         final_table.state,cell_table_error.empty()?final_table.error:cell_table_error,final_table.path,final_table.rows,final_table.bytes,final_table.capture_ms,final_table.write_ms,
         final_fingerprint.state,final_fingerprint.error.empty()?fingerprint_error:final_fingerprint.error,fingerprint_job.result(),final_fingerprint.bytes,final_fingerprint.elapsed_ms,
-        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association()};
+        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");
