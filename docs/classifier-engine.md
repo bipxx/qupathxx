@@ -114,7 +114,11 @@ checks the same wheel/native/source identities across the 1,327-test passing
 installed Windows suite, ten classifier cases, 33 focused workspace/recovery/
 classifier cases, native Windows/Linux configurations and strict typing. It
 also retains the investigated fixed-duration GUI lock fixture failure and its
-passing synchronized repeat. Hosted validation is tracked in the project plan.
+passing synchronized repeat. The [hosted artifact record](benchmarks/classifier-engine-ci-windows-linux.json)
+verifies all five successful configurations and their package identities.
+The local sample and all three hosted samples produce identical model bytes
+for this seeded fixture, including Windows NumPy 1 and Linux/Windows NumPy 2.
+This is bounded fixture evidence, not a general retraining guarantee.
 
 The [local Windows sample](benchmarks/classifier-engine-windows.json) records
 906 ms training and a 199 ms median for 80,000-row prediction, including Python

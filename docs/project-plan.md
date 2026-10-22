@@ -1882,7 +1882,7 @@ positive/seven-error negative typing pass, and the installed 125% GUI workflow
 passes. The [numeric Windows sample](benchmarks/classifier-engine-windows.json)
 records 906 ms training and median 199 ms for 80,000-row prediction including
 input copies and Python results. Full Python regression now passes 1,327 tests
-with six skips; hosted CI is still running. This packet establishes
+with six skips; hosted CI has passed all five configurations. This packet establishes
 the shared engine; object/pixel snapshots, background jobs, atomic undoable
 publication, retained project provenance and ImGui training are still required.
 The overall plan remains active with all other M0–M7 gaps retained.
@@ -1899,6 +1899,12 @@ The repeat passes 1,327 with six skips. The [local validation record](benchmarks
 retains the investigated failure, focused repeat, complete passing run, native
 test configurations, typing/stub checks, notices and wheel/native/source/
 benchmark identities. Hosted [run 39819434255](https://github.com/bipxx/qupathxx/actions/runs/39819434255)
-targets `4b13307`: Linux minimal, sanitizer and headless jobs have passed;
-Windows headless and GUI jobs are still running. The superseded engine-only
-run was cancelled by workflow concurrency. Hosted completion is not yet claimed.
+targets `4b13307` and completed successfully with all five jobs successful.
+Windows GUI passes 1,326 Python/seven skips and 35 native; Windows headless
+1,043/290 and Linux headless 1,037/296 with 34 native each. Minimal and
+sanitizer also pass 34 native. The [CI artifact record](benchmarks/classifier-engine-ci-windows-linux.json)
+verifies installed workflows, stubs/typing, standalone archives, notices and
+wheel/native/source identities. All three hosted numeric samples reproduce
+the local fixture's exact input/training/model hashes; this fixture evidence
+does not promise general cross-platform retraining identity or biological
+accuracy. The superseded engine-only run was cancelled by workflow concurrency.
