@@ -8,6 +8,7 @@
 
 namespace qpx {
 class Image;
+struct ReaderSource;
 enum class PixelType { UInt8 };
 enum class PixelLayout { RGBA };
 struct ImageLevel {
@@ -52,6 +53,7 @@ public:
     virtual const ImageMetadata& metadata() const = 0;
     virtual std::string reader_id() const {return "external";}
     virtual std::string source_locator() const {return {};}
+    virtual std::shared_ptr<const ReaderSource> reader_source() const {return {};}
     virtual PixelBuffer read_region(const RegionRequest& request) const = 0;
     virtual void close() = 0;
     virtual bool closed() const = 0;

@@ -1,5 +1,6 @@
 #include "qupathxx/file_fingerprint.hpp"
 #include "qupathxx/core.hpp"
+#include "qupathxx/source_identity.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/shared_ptr.h>
@@ -18,11 +19,12 @@ void bind_file_fingerprint(nb::module_& m) {
     m.def("save_file_fingerprint",&save_file_fingerprint,"fingerprint"_a,"path"_a,nb::call_guard<nb::gil_scoped_release>());
     nb::class_<FileFingerprintJob>(m,"FileFingerprintJob").def(nb::init<>()).def("request",&FileFingerprintJob::request,"path"_a,"output_path"_a="","options"_a=FileFingerprintOptions{})
         .def("poll",&FileFingerprintJob::poll).def("wait",&FileFingerprintJob::wait,nb::call_guard<nb::gil_scoped_release>()).def("cancel",&FileFingerprintJob::cancel)
-        .def_prop_ro("busy",&FileFingerprintJob::busy).def_prop_ro("result",&FileFingerprintJob::result);
+        .def_prop_ro("busy",&FileFingerprintJob::busy).def_prop_ro("result",&FileFingerprintJob::result).def_prop_ro("association",&FileFingerprintJob::association)
+        .def("request_source",&FileFingerprintJob::request_source,"source"_a,"output_path"_a="","options"_a=FileFingerprintOptions{});
     auto options=nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"));
-    options.def_rw("file_fingerprint_path",&GuiOptions::file_fingerprint_path).def_rw("file_fingerprint_output",&GuiOptions::file_fingerprint_output)
+    options.def_rw("file_fingerprint_associate_source",&GuiOptions::file_fingerprint_associate_source).def_rw("file_fingerprint_path",&GuiOptions::file_fingerprint_path).def_rw("file_fingerprint_output",&GuiOptions::file_fingerprint_output)
         .def_rw("file_fingerprint_byte_limit",&GuiOptions::file_fingerprint_byte_limit).def_rw("file_fingerprint_buffer_bytes",&GuiOptions::file_fingerprint_buffer_bytes);
     auto report=nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport"));
-    report.def_ro("file_fingerprint_state",&GuiReport::file_fingerprint_state).def_ro("file_fingerprint_error",&GuiReport::file_fingerprint_error)
+    report.def_ro("file_fingerprint_association",&GuiReport::file_fingerprint_association).def_ro("file_fingerprint_state",&GuiReport::file_fingerprint_state).def_ro("file_fingerprint_error",&GuiReport::file_fingerprint_error)
         .def_ro("file_fingerprint_result",&GuiReport::file_fingerprint_result).def_ro("file_fingerprint_bytes",&GuiReport::file_fingerprint_bytes).def_ro("file_fingerprint_ms",&GuiReport::file_fingerprint_ms);
 }

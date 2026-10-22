@@ -1,4 +1,5 @@
 #include <filesystem>
+#include "reader_file_guard.hpp"
 #include "qupathxx/image_server.hpp"
 #include <cmath>
 #include <locale>
@@ -24,6 +25,7 @@ std::optional<double> calibration(openslide_t* handle, const char* key) {
 class OpenSlideServer final : public ImageServer {
 public:
     explicit OpenSlideServer(const std::string& path):locator_(std::filesystem::absolute(std::filesystem::u8path(path)).lexically_normal().u8string()) {
+        detail::ReaderFileGuard guard(locator_);
         std::unique_ptr<openslide_t, decltype(&openslide_close)> pending(openslide_open(locator_.c_str()), &openslide_close);
         if (!pending) throw std::runtime_error("OpenSlide cannot open or recognize: " + path);
         check(pending.get());
@@ -40,12 +42,14 @@ public:
         metadata_.pixel_height_um = calibration(pending.get(), OPENSLIDE_PROPERTY_NAME_MPP_Y);
         const char* vendor = openslide_get_property_value(pending.get(), OPENSLIDE_PROPERTY_NAME_VENDOR); check(pending.get());
         metadata_.vendor = vendor ? vendor : "unknown";
+        guard.verify();source_=make_reader_source("openslide",locator_,"primary_file",guard.version());
         handle_ = pending.release();
     }
     ~OpenSlideServer() override { if (handle_) openslide_close(handle_); }
     const ImageMetadata& metadata() const override { return metadata_; }
     std::string reader_id() const override {return "openslide";}
     std::string source_locator() const override {return locator_;}
+    std::shared_ptr<const ReaderSource> reader_source() const override {return source_;}
     PixelBuffer read_region(const RegionRequest& r) const override {
         std::lock_guard<std::mutex> lock(mutex_);
         if (!handle_) throw std::runtime_error("image server is closed");
@@ -62,6 +66,7 @@ public:
     bool closed() const override { return closed_.load(); }
 private:
     std::string locator_;
+    std::shared_ptr<const ReaderSource> source_;
     openslide_t* handle_ = nullptr;
     std::atomic<bool> closed_{false};
     ImageMetadata metadata_;

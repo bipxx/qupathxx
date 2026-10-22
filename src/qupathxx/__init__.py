@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    FileVersion, ReaderSource, SourceFileAssociation, associate_source_file, reader_source_json, source_file_association_json, save_source_file_association,
     FileFingerprintOptions, FileFingerprint, FileFingerprintStats, FileFingerprintJob, fingerprint_file, file_fingerprint_json, save_file_fingerprint,
     BuildEnvironment, AnalysisProvenance, build_environment, provenance_json, save_provenance,
     MeasurementTableKind, MeasurementTableOptions, MeasurementTableRequest, MeasurementTableExportStats, MeasurementTableExportJob, measurements_csv, save_measurements_csv,
@@ -23,6 +24,7 @@ from ._native import (
 )
 
 __all__ = [
+    "FileVersion", "ReaderSource", "SourceFileAssociation", "associate_source_file", "reader_source_json", "source_file_association_json", "save_source_file_association",
     "FileFingerprintOptions", "FileFingerprint", "FileFingerprintStats", "FileFingerprintJob", "fingerprint_file", "file_fingerprint_json", "save_file_fingerprint",
     "BuildEnvironment", "AnalysisProvenance", "build_environment", "provenance_json", "save_provenance",
     "MeasurementTableKind", "MeasurementTableOptions", "MeasurementTableRequest", "MeasurementTableExportStats", "MeasurementTableExportJob", "measurements_csv", "save_measurements_csv",

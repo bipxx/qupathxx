@@ -10,6 +10,7 @@
 #include "qupathxx/cell_tables.hpp"
 #include "qupathxx/measurement_tables.hpp"
 #include "qupathxx/file_fingerprint.hpp"
+#include "qupathxx/source_identity.hpp"
 #include "gui_replay.hpp"
 #include "gui_overlay.hpp"
 #include <imgui.h>
@@ -163,6 +164,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     cell_table_options.byte_limit=options.cell_table_byte_limit;cell_table_options.snapshot_budget=options.cell_table_snapshot_budget;cell_table_options.validate();
     for(const auto* path:{&options.file_fingerprint_path,&options.file_fingerprint_output}) if(path->size()>32768 || path->find('\0')!=std::string::npos) throw std::invalid_argument("invalid file fingerprint path");
     FileFingerprintOptions fingerprint_options;fingerprint_options.byte_limit=options.file_fingerprint_byte_limit;fingerprint_options.buffer_bytes=options.file_fingerprint_buffer_bytes;fingerprint_options.validate();
+    bool fingerprint_associate=options.file_fingerprint_associate_source;
     FileFingerprintJob fingerprint_job;std::string fingerprint_error;
     char fingerprint_path[32769]={},fingerprint_output[32769]={};
     std::copy(options.file_fingerprint_path.begin(),options.file_fingerprint_path.end(),fingerprint_path);
@@ -1542,10 +1544,14 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         bool fingerprint_start=fingerprint_key;
         if(fingerprint_key) ImGui::SetNextItemOpen(true);
         if(ImGui::CollapsingHeader("File checksum",options.file_fingerprint_path.empty()?0:ImGuiTreeNodeFlags_DefaultOpen)) {
+            ImGui::Checkbox("Associate active image",&fingerprint_associate);
+            ImGui::BeginDisabled(fingerprint_associate);
             ImGui::SetNextItemWidth(240);ImGui::InputTextWithHint("##Fingerprint input","File to hash",fingerprint_path,sizeof(fingerprint_path));
             if(has_image && ImGui::Button("Use image file")) {
                 try {const auto path=document.server()->source_locator();if(path.empty()) throw std::invalid_argument("This image has no file locator; enter a path.");if(path.size()>32768) throw std::length_error("image locator is too long");std::fill(std::begin(fingerprint_path),std::end(fingerprint_path),0);std::copy(path.begin(),path.end(),fingerprint_path);} catch(const std::exception& e) {fingerprint_error=e.what();}
             }
+            ImGui::EndDisabled();
+            if(fingerprint_associate) ImGui::TextWrapped("Hashes the active image path; JSON includes its reader generation.");
             ImGui::SetNextItemWidth(240);ImGui::InputTextWithHint("##Fingerprint output","Optional .json destination",fingerprint_output,sizeof(fingerprint_output));
             ImGui::TextWrapped("Hashes one file. Multi-file slides need separate entries.");
             ImGui::BeginDisabled(fingerprint_job.busy());if(ImGui::Button("Hash file (Ctrl+Shift+F)")) fingerprint_start=true;ImGui::EndDisabled();
@@ -1553,11 +1559,16 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             const auto status=fingerprint_job.poll();ImGui::Text("File checksum: %s",status.state.c_str());
             if(status.state!="idle") {ImGui::TextWrapped("Bytes: %llu / %llu",static_cast<unsigned long long>(status.bytes),static_cast<unsigned long long>(status.total_bytes));ImGui::TextWrapped("%s",status.path.c_str());}
             if(const auto value=fingerprint_job.result()) {ImGui::TextUnformatted("SHA-256:");ImGui::TextUnformatted(value->sha256.substr(0,32).c_str());ImGui::TextUnformatted(value->sha256.substr(32).c_str());ImGui::TextWrapped("Observed file metadata was stable while reading.");}
+            if(const auto association=fingerprint_job.association()) {ImGui::TextWrapped("Reader match: %s",association->status.c_str());ImGui::TextWrapped("Scope: %s",association->source.scope.c_str());ImGui::TextWrapped("Metadata comparison; not proof of historical decoder bytes.");}
             if(!status.error.empty()) ImGui::TextWrapped("%s",status.error.c_str());
             if(!fingerprint_error.empty()) ImGui::TextWrapped("%s",fingerprint_error.c_str());
         } else fingerprint_job.poll();
         if(fingerprint_cancel) fingerprint_job.cancel();
-        if(fingerprint_start && !fingerprint_job.busy()) {try {fingerprint_job.request(fingerprint_path,fingerprint_output,fingerprint_options);fingerprint_error.clear();} catch(const std::exception& e) {fingerprint_error=e.what();}}
+        if(fingerprint_start && !fingerprint_job.busy()) {try {if(fingerprint_associate) {
+            if(!has_image) throw std::invalid_argument("select an image to associate its source");
+            const auto source=document.server()->reader_source();if(!source) throw std::invalid_argument("reader source identity is unavailable");
+            fingerprint_job.request_source(*source,fingerprint_output,fingerprint_options);
+        } else fingerprint_job.request(fingerprint_path,fingerprint_output,fingerprint_options);fingerprint_error.clear();} catch(const std::exception& e) {fingerprint_error=e.what();}}
         if (!error.empty()) ImGui::TextWrapped("%s", error.c_str());
         ImGui::EndChild(); ImGui::SameLine();
         ImGui::BeginChild("Canvas", {0,0}, ImGuiChildFlags_Borders, ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse);
@@ -2046,7 +2057,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         saved_cells?saved_cells->id:0,saved_cells?active_document->cell_status(saved_cells->id):std::string{},
         final_table.state,cell_table_error.empty()?final_table.error:cell_table_error,final_table.path,final_table.rows,final_table.bytes,final_table.capture_ms,final_table.write_ms,
         final_fingerprint.state,final_fingerprint.error.empty()?fingerprint_error:final_fingerprint.error,fingerprint_job.result(),final_fingerprint.bytes,final_fingerprint.elapsed_ms,
-        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms};
+        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association()};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

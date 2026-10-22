@@ -4,6 +4,8 @@
 #include <memory>
 #include <string>
 namespace qpx {
+struct ReaderSource;
+struct SourceFileAssociation;
 struct FileFingerprintOptions {
     std::uint64_t byte_limit=std::uint64_t(1)<<40;
     std::size_t buffer_bytes=1024*1024;
@@ -29,7 +31,10 @@ public:
     bool request(const std::string& path,const std::string& output_path="",FileFingerprintOptions={});
     FileFingerprintStats poll();FileFingerprintStats wait();void cancel();bool busy() const;
     std::shared_ptr<const FileFingerprint> result() const;
+    bool request_source(const ReaderSource&,const std::string& output_path="",FileFingerprintOptions={});
+    std::shared_ptr<const SourceFileAssociation> association() const;
 private:
+    bool request_impl(const std::string&,const std::string&,FileFingerprintOptions,std::shared_ptr<const ReaderSource>);
     struct Impl;std::unique_ptr<Impl> impl_;
 };
 }

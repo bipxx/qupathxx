@@ -8,12 +8,12 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the final installed-wheel regression passes 1011 Python cases with two file-symlink cases
+Evidence: the final installed-wheel regression passes 1028 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
-and recovery; twenty-nine native suites pass in the full GUI build and
-twenty-eight pass in core/minimal builds with optional geometry/readers/
+and recovery; thirty native suites pass in the full GUI build and
+twenty-nine pass in core/minimal builds with optional geometry/readers/
 interchange enabled and disabled. The installed GUI wheel includes its
 packaged runtime libraries and licenses.
 All cell archives and cell/ROI/tissue table cases are included in that full run.
@@ -414,7 +414,7 @@ the 100000-object selected viewer records 16.88 ms p95 CPU frame work while hash
 See file-fingerprints.md. This observes a chosen file at hashing time; it does not
 retroactively bind archived reader bytes or enumerate a multi-file slide.
 
-Next associate file observations with reader/request generations, enumerate slide
+Next strengthen first-read source observations and decoder-read continuity, enumerate slide
 file dependencies, complete native binary/Python/runtime inventories and portable
 manifests, and extend measurement registries and annotation joins. Continue
 numerical comparisons and improve initial
@@ -449,3 +449,27 @@ Windows file-symlink permission skips in 238.56 s. All native suites pass in the
 full/core/minimal builds (29/28/28). Source and binary fingerprints in the raw
 benchmark identify this final dropdown-width build. The 40-case focused
 workspace/export run also verifies the readiness-based same-file replay.
+
+
+The fifty-first packet adds native reader generations and guarded opening
+observations for PPM/OpenSlide, immutable analysis capture, QPV2 persistence with
+QPV1 compatibility, native fingerprint associations and atomic JSON export in
+Python/ImGui. Lazy reader descriptors publish independently of the decoder lock;
+first-request unopened descriptors remain explicitly unknown. Comparisons report
+matching metadata, changed versions, different files, incompatible schemes or
+unobserved sources. They do not prove historical decoder bytes or enumerate
+multi-file dependencies. See reader-source-association.md. The full M0-M7 goal
+remains active, including complete manifests, reader continuity and all other
+unfinished plan work.
+
+The final installed GUI wheel passes 1028 Python cases with two existing Windows
+file-symlink permission skips in 240.06 s; the focused source/fingerprint/
+provenance set passes 62 cases. All native suites pass in full/core/minimal
+builds (30/29/29), including reader generation, opening guards, legacy codecs,
+foreign-host paths and native worker lifetimes. The sidebar is visually checked.
+A warm synthetic 128 MiB associated observation takes 84.58 ms on the worker,
+with 0.066 ms request and 0.048 ms maximum sampled poll. Cached descriptor and
+analysis capture measure 0.3 / 1.8 microseconds p95. The 100001-selected-object
+viewer records 16.87 ms p95 CPU frame work during associated hashing. See the
+reader association documentation and raw benchmark for exact artifact hashes,
+workload limits and remaining scope.

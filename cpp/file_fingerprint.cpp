@@ -2,6 +2,8 @@
 #include "sha256.hpp"
 #include "atomic_export.hpp"
 #include "utf8_text.hpp"
+#include "reader_file_guard.hpp"
+#include "file_identity_contract.hpp"
 #include <charconv>
 #include <chrono>
 #include <cmath>
@@ -90,17 +92,18 @@ public:
 #endif
     }
 };
-void output_guard(const FileFingerprint& value,const std::string& path) {
-    if(value.path==path) throw std::invalid_argument("fingerprint output must not replace its input");
+void output_guard(const std::string& observed_path,const std::string& observed_identity,const std::string& path) {
+    if(observed_path==path) throw std::invalid_argument("fingerprint output must not replace its input");
     std::error_code error;
-    if(std::filesystem::equivalent(std::filesystem::u8path(value.path),std::filesystem::u8path(path),error)) throw std::invalid_argument("fingerprint output aliases its input");
+    if(std::filesystem::equivalent(std::filesystem::u8path(observed_path),std::filesystem::u8path(path),error)) throw std::invalid_argument("fingerprint output aliases its input");
     error.clear();const auto exists=std::filesystem::exists(std::filesystem::u8path(path),error);
     if(error) throw std::runtime_error("cannot inspect fingerprint output");
     if(exists) {
         std::string identity;try {identity=Input(path,true).stamp().identity;} catch(const std::exception& e) {throw std::runtime_error(std::string("cannot inspect fingerprint output: ")+e.what());}
-        if(identity==value.identity) throw std::invalid_argument("fingerprint output aliases its observed input");
+        if(!observed_identity.empty() && identity==observed_identity) throw std::invalid_argument("fingerprint output aliases its observed input");
     }
 }
+void output_guard(const FileFingerprint& value,const std::string& path) {output_guard(value.path,value.identity,path);}
 std::shared_ptr<const FileFingerprint> run(const std::string& path,FileFingerprintOptions options,const std::atomic<bool>* cancelled,
                                          std::atomic<std::uint64_t>* progress=nullptr,std::atomic<std::uint64_t>* total=nullptr,const std::string& destination={}) {
     checkpoint(cancelled);const auto start=Clock::now();auto value=std::make_shared<FileFingerprint>();value->path=path;value->started_unix_ms=unix_ms();
@@ -132,14 +135,32 @@ void save(const FileFingerprint& value,const std::string& path,const std::atomic
     file.write(json.data(),json.size());checkpoint(cancelled);output_guard(value,path);file.commit();
 }
 }
+namespace detail {
+struct ReaderFileGuard::Impl {
+    std::string path;Input input;Stamp before;std::shared_ptr<const FileVersion> version;
+    explicit Impl(const std::string& value):path(normalized(value)),input(path),before(input.stamp()) {
+        auto v=std::make_shared<FileVersion>();v->path=path;v->bytes=before.bytes;v->identity=before.identity;v->modified_token=before.modified;v->change_token=before.changed;v->observed_unix_ms=unix_ms();
+#ifdef _WIN32
+        v->identity_scheme="windows.volume-file-id128/1";v->stamp_scheme="windows.filetime-100ns/1";
+#else
+        v->identity_scheme="posix.device-inode/1";v->stamp_scheme="posix.seconds-nanoseconds/1";
+#endif
+        v->validate();version=std::move(v);
+    }
+};
+ReaderFileGuard::ReaderFileGuard(const std::string& path):impl_(std::make_unique<Impl>(path)) {}
+ReaderFileGuard::~ReaderFileGuard()=default;
+std::shared_ptr<const FileVersion> ReaderFileGuard::version() const {return impl_->version;}
+void ReaderFileGuard::verify() const {if(!(impl_->before==impl_->input.stamp()) || !(impl_->before==Input(impl_->path,true).stamp())) throw std::runtime_error("reader primary file changed during opening");}
+void guard_file_output(const std::string& observed_path,const std::string& identity,const std::string& path) {output_guard(observed_path,identity,path);}
+}
 void FileFingerprintOptions::validate() const {
     if(byte_limit>std::uint64_t(std::numeric_limits<std::int64_t>::max())) throw std::invalid_argument("file fingerprint byte limit exceeds signed 64-bit size");
     if(buffer_bytes<65536 || buffer_bytes>16*1024*1024) throw std::invalid_argument("file fingerprint buffer must be 64 KiB..16 MiB");
 }
 void FileFingerprint::validate() const {
     detail::bounded_utf8(path,32768);if(path.empty() || !std::filesystem::u8path(path).is_absolute() || bytes>std::uint64_t(std::numeric_limits<std::int64_t>::max()) || sha256.size()!=64 || sha256.find_first_not_of("0123456789abcdef")!=std::string::npos || !std::isfinite(elapsed_ms) || elapsed_ms<0 || started_unix_ms>std::uint64_t(std::numeric_limits<std::int64_t>::max()) || finished_unix_ms>std::uint64_t(std::numeric_limits<std::int64_t>::max())) throw std::invalid_argument("invalid file fingerprint");
-    for(const auto* s:{&identity,&modified_token,&change_token}) {detail::bounded_utf8(*s,128);if(s->empty() || s->find_first_not_of("0123456789:-")!=std::string::npos) throw std::invalid_argument("invalid file fingerprint identity/stamp");}
-    if(!((identity_scheme=="windows.volume-file-id128/1" && stamp_scheme=="windows.filetime-100ns/1") || (identity_scheme=="posix.device-inode/1" && stamp_scheme=="posix.seconds-nanoseconds/1"))) throw std::invalid_argument("invalid file fingerprint scheme");
+    detail::validate_file_identity(identity_scheme,identity,stamp_scheme,modified_token,change_token);
 }
 std::shared_ptr<const FileFingerprint> fingerprint_file(const std::string& path,FileFingerprintOptions options,const std::atomic<bool>* cancelled) {options.validate();return run(normalized(path),options,cancelled);}
 std::string file_fingerprint_json(const FileFingerprint& value) {
@@ -148,35 +169,46 @@ std::string file_fingerprint_json(const FileFingerprint& value) {
 }
 void save_file_fingerprint(const FileFingerprint& value,const std::string& path) {save(value,normalized(path),nullptr);}
 struct FileFingerprintJob::Impl {
-    struct Completion {std::shared_ptr<const FileFingerprint> value;std::string error;bool cancelled=false;double ms=0;};
+    struct Completion {std::shared_ptr<const FileFingerprint> value;std::shared_ptr<const SourceFileAssociation> association;std::string error;bool cancelled=false;double ms=0;};
     std::future<Completion> future;std::shared_ptr<std::atomic<bool>> cancelled;std::atomic<std::uint64_t> bytes{0},total{0};
-    FileFingerprintStats stats;std::shared_ptr<const FileFingerprint> value;
+    FileFingerprintStats stats;std::shared_ptr<const FileFingerprint> value;std::shared_ptr<const SourceFileAssociation> association;
 };
 FileFingerprintJob::FileFingerprintJob():impl_(std::make_unique<Impl>()) {}
 FileFingerprintJob::~FileFingerprintJob() {cancel();try {wait();} catch(...) {}}
 bool FileFingerprintJob::busy() const {return impl_->future.valid();}
 void FileFingerprintJob::cancel() {if(impl_->cancelled) impl_->cancelled->store(true);}
 std::shared_ptr<const FileFingerprint> FileFingerprintJob::result() const {return impl_->value;}
-bool FileFingerprintJob::request(const std::string& path,const std::string& output_path,FileFingerprintOptions options) {
+std::shared_ptr<const SourceFileAssociation> FileFingerprintJob::association() const {return impl_->association;}
+bool FileFingerprintJob::request_source(const ReaderSource& source,const std::string& output_path,FileFingerprintOptions options) {
+    poll();if(busy()) return false;source.validate();if(source.locator.empty()) throw std::invalid_argument("reader has no file locator");
+    return request_impl(source.locator,output_path,options,std::make_shared<const ReaderSource>(source));
+}
+bool FileFingerprintJob::request(const std::string& path,const std::string& output_path,FileFingerprintOptions options) {return request_impl(path,output_path,options,{});}
+bool FileFingerprintJob::request_impl(const std::string& path,const std::string& output_path,FileFingerprintOptions options,std::shared_ptr<const ReaderSource> reader) {
     poll();if(busy()) return false;options.validate();const auto source=normalized(path),destination=output_path.empty()?std::string{}:normalized(output_path);
     if(source==destination) throw std::invalid_argument("fingerprint output must not replace its input");
     if(impl_->stats.completed==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("fingerprint completion counter exhausted");
     auto cancelled=std::make_shared<std::atomic<bool>>(false);impl_->bytes.store(0);impl_->total.store(0);
-    auto future=std::async(std::launch::async,[source,destination,options,cancelled,state=impl_.get()] {
+    auto future=std::async(std::launch::async,[source,destination,options,cancelled,reader=std::move(reader),state=impl_.get()] {
         Impl::Completion result;const auto start=Clock::now();
-        try {auto value=run(source,options,cancelled.get(),&state->bytes,&state->total,destination);if(destination.empty()) checkpoint(cancelled.get());else save(*value,destination,cancelled.get());result.value=std::move(value);}
+        try {
+            auto value=run(source,options,cancelled.get(),&state->bytes,&state->total,destination);
+            auto association=reader?std::make_shared<const SourceFileAssociation>(associate_source_file(*reader,*value)):std::shared_ptr<const SourceFileAssociation>{};
+            if(destination.empty()) checkpoint(cancelled.get());else if(association) detail::save_source_association(*association,destination,cancelled.get());else save(*value,destination,cancelled.get());
+            result.value=std::move(value);result.association=std::move(association);
+        }
         catch(const std::exception& e) {result.error=e.what();result.cancelled=cancelled->load();}
         result.ms=std::chrono::duration<double,std::milli>(Clock::now()-start).count();return result;
     });
     const auto completed=impl_->stats.completed;impl_->stats={};impl_->stats.completed=completed;impl_->stats.state="running";impl_->stats.path=source;impl_->stats.output_path=destination;
-    impl_->value.reset();impl_->cancelled=std::move(cancelled);impl_->future=std::move(future);return true;
+    impl_->value.reset();impl_->association.reset();impl_->cancelled=std::move(cancelled);impl_->future=std::move(future);return true;
 }
 FileFingerprintStats FileFingerprintJob::poll() {
     impl_->stats.bytes=impl_->bytes.load(std::memory_order_acquire);impl_->stats.total_bytes=impl_->total.load(std::memory_order_relaxed);
     if(busy() && impl_->cancelled->load()) impl_->stats.state="cancelling";
     if(busy() && impl_->future.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
         auto value=impl_->future.get();impl_->stats.elapsed_ms=value.ms;impl_->stats.error=std::move(value.error);
-        if(value.value) {impl_->value=std::move(value.value);impl_->stats.state="succeeded";++impl_->stats.completed;}
+        if(value.value) {impl_->value=std::move(value.value);impl_->association=std::move(value.association);impl_->stats.state="succeeded";++impl_->stats.completed;}
         else impl_->stats.state=value.cancelled?"cancelled":"failed";
         impl_->stats.bytes=impl_->bytes.load();impl_->stats.total_bytes=impl_->total.load();
     }

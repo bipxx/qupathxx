@@ -12,6 +12,20 @@ from test_tissue import document
 from test_tissue_levels import pyramid_levels
 
 
+def legacy_provenance_blob(blob):
+    """Retain the original QPV1 fields, without synthesizing reader identity."""
+    data=bytearray(blob)
+    if data[:4]==b"QPV\x01":return data
+    assert data[:4]==b"QPV\x02"
+    at=60
+    for _ in range(3):size=struct.unpack_from("<Q",data,at)[0];at+=8+size
+    for _ in range(4):present=struct.unpack_from("<Q",data,at)[0];at+=8+8*present
+    levels=struct.unpack_from("<Q",data,at)[0];at+=8+24*levels
+    for _ in range(11):size=struct.unpack_from("<Q",data,at)[0];at+=8+size
+    at+=24;legacy=data[:at];legacy[3]=1
+    return legacy+hashlib.sha256(legacy).hexdigest().encode()
+
+
 def results():
     doc=document(phantom(64));obj=doc.add_rectangle(q.Rect(0,0,64,64));doc.set_calibration(.5,.25)
     transform=q.StainTransform([[1,0,0],[0,1,0]])
@@ -184,7 +198,7 @@ def test_json_preserves_quoted_unicode_descriptor_text(tmp_path):
     doc,_,ids,_=results();project=q.Project();image=project.add_document(doc);path=tmp_path/"unicode.qpxproj";project.save(str(path))
     locator='quoted" slash\\ line\n\u96ea'
     with sqlite3.connect(path) as db:
-        record,data=db.execute("SELECT record_id,payload FROM analysis_provenance ORDER BY record_id LIMIT 1").fetchone();data=bytearray(data)
+        record,data=db.execute("SELECT record_id,payload FROM analysis_provenance ORDER BY record_id LIMIT 1").fetchone();data=legacy_provenance_blob(data)
         at=60;n=struct.unpack_from("<Q",data,at)[0];at+=8+n
         old=struct.unpack_from("<Q",data,at)[0];encoded=locator.encode();data[at:at+8+old]=struct.pack("<Q",len(encoded))+encoded
         data[-64:]=hashlib.sha256(data[:-64]).hexdigest().encode();db.execute("UPDATE analysis_provenance SET payload=? WHERE record_id=?",(data,record))

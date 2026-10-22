@@ -1278,3 +1278,30 @@ file-symlink permission skips in 238.56 s. Native suites remain 29/28/28. The fi
 sidebar is visually checked after correcting the measurement selector width;
 its exact native/source fingerprints and benchmark values are recorded in the
 measurement-table documentation and raw JSON.
+
+
+The fifty-first packet connects native file observations to immutable reader
+and analysis generations. PPM and OpenSlide opening guards compare regular-file
+identity, length and write/change stamps around decoder initialization. Cached
+snapshots require no source inspection during request capture; lazy project
+readers publish observed descriptors independently of the decoder mutex and
+retain explicit unopened snapshots for earlier requests. QPV2 persists these
+values while QPV1 remains readable without fabricated generation identity.
+
+A native source/fingerprint comparison and the existing cancellable hash worker
+export association JSON, preserving the reader generation and both observations.
+Python and ImGui expose comparison status and scope. Metadata matches are not
+causal proof of historical image bytes. OpenSlide observations cover the primary
+file only. Full dependency inventories, first-read continuity, binary/Python/
+runtime manifests, vendor/platform evidence and all unfinished M0-M7 work remain
+active. See [reader source association](reader-source-association.md).
+
+The installed GUI wheel passes 1028 Python cases with two existing Windows
+file-symlink permission skips in 240.06 s; 62 focused source/fingerprint/provenance
+cases and all native suites pass (30/29/29). Visual review verifies the complete
+association panel. A warm 128 MiB source observation plus association JSON takes
+84.58 ms on the worker, with 0.066 ms request and 0.048 ms maximum sampled poll.
+Cached descriptor and analysis capture p95 are 0.3 / 1.8 microseconds. With
+100001 selected/visible objects, viewer CPU frame p95 is 16.87 ms. The raw result
+and exact source/native fingerprints accompany the reader association docs;
+this evidence remains scoped to a padded synthetic PPM on one Windows PC.

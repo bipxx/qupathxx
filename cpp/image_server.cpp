@@ -1,4 +1,5 @@
 #include "reader_provenance.hpp"
+#include "reader_file_guard.hpp"
 #include <filesystem>
 #include "qupathxx/image_server.hpp"
 #include "qupathxx/core.hpp"
@@ -45,13 +46,15 @@ void unpack_argb(const std::vector<std::uint32_t>& input, PixelBuffer& output) {
 namespace {
 class DenseImageServer final : public ImageServer {
 public:
-    explicit DenseImageServer(Image image,std::string locator={}) : image_(std::move(image)),locator_(std::move(locator)) {
+    explicit DenseImageServer(Image image,std::string locator={},std::shared_ptr<const FileVersion> version={}) : image_(std::move(image)),locator_(std::move(locator)) {
+        source_=make_reader_source(locator_.empty()?"qpx.dense-rgb/1":"ppm",locator_,locator_.empty()?"memory":"single_file",std::move(version));
         metadata_.width = image_.width(); metadata_.height = image_.height();
         metadata_.levels.push_back({image_.width(), image_.height(), 1}); metadata_.vendor = "dense-rgb";
     }
     const ImageMetadata& metadata() const override { return metadata_; }
     std::string reader_id() const override {return locator_.empty()?"qpx.dense-rgb/1":"ppm";}
     std::string source_locator() const override {return locator_;}
+    std::shared_ptr<const ReaderSource> reader_source() const override {return source_;}
     const Image& image() const { return image_; }
     PixelBuffer read_region(const RegionRequest& r) const override {
         std::lock_guard<std::mutex> lock(mutex_);
@@ -72,6 +75,7 @@ public:
 private:
     Image image_;
     std::string locator_;
+    std::shared_ptr<const ReaderSource> source_;
     ImageMetadata metadata_;
     mutable std::mutex mutex_;
     std::atomic<bool> closed_{false};
@@ -80,7 +84,8 @@ private:
 std::shared_ptr<ImageServer> dense_image_server(Image image) { return std::make_shared<DenseImageServer>(std::move(image)); }
 std::shared_ptr<ImageServer> ppm_image_server(const std::string& path) {
     const auto locator=std::filesystem::absolute(std::filesystem::u8path(path)).lexically_normal().u8string();
-    return std::make_shared<DenseImageServer>(Image::read_ppm(locator),locator);
+    detail::ReaderFileGuard guard(locator);auto image=Image::read_ppm(locator);guard.verify();
+    return std::make_shared<DenseImageServer>(std::move(image),locator,guard.version());
 }
 const Image& dense_image(const ImageServer& server) {
     auto* dense = dynamic_cast<const DenseImageServer*>(&server);

@@ -2,6 +2,7 @@
 #include "reader_provenance.hpp"
 #include "object_snapshot.hpp"
 #include "qupathxx/project.hpp"
+#include "qupathxx/source_identity.hpp"
 #include "tissue_archive.hpp"
 #include "cell_archive.hpp"
 #include <algorithm>
@@ -65,17 +66,20 @@ class LinkedServer final : public ImageServer {
     ImageMetadata metadata_;
     std::string path_,reader_;
     mutable std::shared_ptr<ImageServer> server_;
+    mutable std::shared_ptr<const ReaderSource> source_;
     mutable std::mutex mutex_;
     std::atomic<bool> closed_{false};
 public:
     std::string reader_id() const override {return reader_;}
     std::string source_locator() const override {return path_;}
-    LinkedServer(ImageMetadata m,std::string path,std::string reader) : metadata_(std::move(m)),path_(std::move(path)),reader_(std::move(reader)) { validate_metadata(metadata_); }
+    std::shared_ptr<const ReaderSource> reader_source() const override {return std::atomic_load(&source_);}
+    LinkedServer(ImageMetadata m,std::string path,std::string reader) : metadata_(std::move(m)),path_(std::move(path)),reader_(std::move(reader)) { validate_metadata(metadata_);source_=make_reader_source(reader_,path_,"unopened"); }
     const ImageMetadata& metadata() const override { return metadata_; }
     PixelBuffer read_region(const RegionRequest& request) const override {
         std::lock_guard<std::mutex> lock(mutex_);
         if(closed_) throw std::runtime_error("image server is closed");
-        if(!server_) { auto candidate=read_image(path_,reader_); compatible(metadata_,candidate->metadata()); server_=std::move(candidate); }
+        if(!server_) { auto candidate=read_image(path_,reader_); compatible(metadata_,candidate->metadata());const auto actual=candidate->reader_source();
+            if(actual) {auto next=std::make_shared<ReaderSource>(*actual);next->generation=std::atomic_load(&source_)->generation;next->validate();std::shared_ptr<const ReaderSource> published=std::move(next);std::atomic_store(&source_,std::move(published));}server_=std::move(candidate); }
         return server_->read_region(request);
     }
     bool closed() const override { return closed_.load(); }
@@ -95,7 +99,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
     for(const auto& [id,e]:entries_) {
         add(sizeof(Entry)+sizeof(Document)+128+e.info.name.size()+e.info.source_path.size()+e.info.reader.size());
         if(e.info.embedded) add(e.document->image().pixels().size());
-        else add(sizeof(LinkedServer)+e.document->metadata().levels.size()*sizeof(ImageLevel)+e.document->metadata().vendor.size()+e.info.source_path.size()+e.info.reader.size());
+        else add(sizeof(LinkedServer)+e.document->metadata().levels.size()*sizeof(ImageLevel)+e.document->metadata().vendor.size()+e.info.source_path.size()+e.info.reader.size()+sizeof(ReaderSource)+256+e.info.source_path.size()+e.info.reader.size());
         add(e.document->object_bytes_);
         add(e.document->object_blocks_.size()*sizeof(std::shared_ptr<const Document::ObjectBlock>));
         for(const auto& [name,c]:e.document->classes_) add(sizeof(ObjectClass)+96+name.size()+c.name.size());

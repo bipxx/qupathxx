@@ -15,6 +15,7 @@ struct AnalysisProvenance {
     std::string reader,locator;
     std::optional<double> effective_pixel_width_um,effective_pixel_height_um;
     std::shared_ptr<const BuildEnvironment> environment;
+    std::shared_ptr<const ReaderSource> reader_source;
     void validate() const;
     std::size_t payload_bytes() const;
 };

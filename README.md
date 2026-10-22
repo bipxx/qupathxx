@@ -7,6 +7,10 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Cached reader generations and open-time file observations persist in analysis
+  provenance; Python and ImGui compare them with native file fingerprints through
+  atomic association exports. See [reader source association](docs/reader-source-association.md).
+
 - Project-wide ROI means and tissue component CSV use immutable native snapshots,
   historical calibration and background atomic export in Python and ImGui; see
   [measurement tables](docs/measurement-tables.md).
