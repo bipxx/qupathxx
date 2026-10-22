@@ -12,7 +12,7 @@ This captured synthetic RGB scene has two classes, 128 training rows, 16 trees,
 a 0.5×0.5 um grid and a completed ellipse preview. The image was captured from
 the installed application; the mask and model were computed through its buttons.
 
-## Train, predict and reuse
+## Train, predict, publish and reuse
 
 1. Draw area annotations and assign at least two class names with the existing
    object/class controls. **Train labelled areas** uses labelled annotations
@@ -23,11 +23,28 @@ the installed application; the mask and model were computed through its buttons.
    on the image. **Predict area** uses the model's saved feature/resolution recipe.
    Missing calibration or no matching natural level produces a clear error;
    the viewer does not silently resample or reinterpret feature scales.
-3. Save/load resolution-bound `.qpc` recipes with **Pixel model file**. Reads and
+3. After prediction, choose **Trace pixel contours**. Native background tracing
+   preserves holes and disconnected regions, using shared class boundaries.
+   Inspect class/edge/vertex counts, then **Publish class annotations**. Each
+   nonempty class becomes one multipolygon annotation, with its class name.
+   The default clipping makes the prediction area its parent; disable clipping
+   under **Contour settings** for root-level raster footprints. Unknown pixels
+   produce no geometry. Publication is one compound edit; use Undo/Redo for the
+   entire batch. Nonempty publication retires the old mask/GL preview because
+   the document revision changed. The panel keeps a receipt of the published
+   IDs and geometry; this receipt describes the action even after Undo.
+4. Save/load resolution-bound `.qpc` recipes with **Pixel model file**. Reads and
    atomic writes run on a native worker. Existing files require the explicit
    replacement checkbox and must validate as pixel recipes. An invalid file
    preserves the active model. Unbound buffer recipes remain supported by the
    Python buffer API, but the panel requires declared source resolution.
+
+![Actual F5 contour publication and class annotation receipt](images/pixel-classifier-publication.png)
+
+This installed-app capture shows two published class annotations. The old
+prediction is marked stale because publication changed the document revision;
+its GL preview has been retired. The publication receipt remains available for
+inspection and Undo/Redo. This is a synthetic two-color fixture.
 
 The controls distinguish training from prediction: feature channels, comma-
 separated scales, gradient/Laplacian, natural level, balancing, sample caps/seeds
@@ -50,6 +67,13 @@ Close the floating panel with F5 to inspect the canvas unobstructed.
 
 ![Actual computed pixel mask with the panel closed](images/pixel-classifier-mask.png)
 
+**Contour settings** bounds class slots, compressed edges, output vertices and
+native tracing work (default 64 MiB). Changing these settings retires the traced
+result without changing the numeric mask. A quota failure preserves the mask,
+model and document. GEOS is required for contour creation. A stale document,
+closed/replaced source, changed model or new prediction cannot publish an old
+result. New work and document replacement clear the publication receipt.
+
 ## Responsiveness and lifetime
 
 The annotation catalog advances by at most 1,024 map entries per frame while the
@@ -60,7 +84,7 @@ IDs so the 4,096-area limit can be reported without building an unbounded list.
 The prediction combo lists the first 10,000 area annotations; others remain
 available through **Current selection**.
 
-Training, prediction and model-file tasks have no backlog. **Cancel pixel work**
+Training, prediction, contour tracing and model-file tasks have no backlog. **Cancel pixel work**
 requests cancellation; an in-progress forest backend call is reconciled after
 it returns. Source/document changes retire current worker results and clear
 GPU previews. An adopted model remains a portable historical model that can be
@@ -149,3 +173,38 @@ checks installed wheel/native identities, public typing, native suites, standalo
 archives and the hosted 10,000-object GUI benchmark. Windows GUI passed 1,409
 Python cases with seven expected skips; the local record includes the optional
 fixture. This run precedes pixel contour publication.
+
+
+## Contour publication frame sample
+
+The real-window [10,000-cell](benchmarks/gui-pixel-contours-10000-windows.json)
+and [100,000-cell](benchmarks/gui-pixel-contours-100000-windows.json) samples use
+16-pixel alternating RGB squares in a 512-square area. Actual ImGui buttons
+predict, trace on a native worker and publish two class multipolygons containing
+1,024 disconnected parts. Every oracle label, the traced prediction SHA,
+class areas, publication hierarchy and undo/redo are verified. Catalog rebuilding
+after publication retains its 1,024-object-per-frame bound.
+
+| Off-screen cells | Frames | p95 CPU frame | Worst CPU frame | Native trace |
+| --- | ---: | ---: | ---: | ---: |
+| 10,000 | 241 | 3.10 ms | 10.13 ms | 28.73 ms |
+| 100,000 | 243 | 3.49 ms | 19.76 ms | 32.11 ms |
+
+Both retain 141,737 bytes of contour geometry and 142,396 bytes of undo history,
+with 1,148,208 estimated native tracing work bytes. The GL mask reaches 1 MiB
+before publication and returns to zero afterward. These are single shared-machine
+llvmpipe observations, with off-screen cells and a fixed camera; they do not
+establish process RSS, biological accuracy, dense visible-cell drawing or hardware
+acceptance. The worst 100,000-cell frame exceeds 16 ms.
+
+Reproduce with `python tools/benchmark_gui_pixel_contours.py --objects 100000 --output report.json`.
+The 10,000-cell case also runs in hosted GUI validation.
+
+
+The [local contour-UI validation record](benchmarks/gui-pixel-contours-local-windows-linux.json)
+checks 1,443 full-suite passes with six expected skips, 44 focused real-window/
+worker cases, 85 shared source/contour cases, all native configurations, exact
+public stubs, strict typing and installed software-GL launch. It verifies exact
+source/wheel/native identities and lossless screenshot pixels. Preliminary
+replay integration and copied-input-list fixture failures are retained in the
+record, alongside the final passing runs.

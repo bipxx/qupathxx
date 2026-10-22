@@ -60,7 +60,8 @@ QuPath port or a compatible replacement for Java QuPath.
   portable resolution-bound recipes, labelled-ROI worker training and bounded
   source-aware label/vote masks and exact, undoable class contour publication.
   The [F5 pixel panel](docs/pixel-classifier-ui.md)
-  adds worker training, model files and bounded class-colored overlays. Pixel
+  adds worker training, model files, bounded class-colored overlays and contour
+  publication. Pixel
   project records, research validation and large-batch frame budgets remain
   unfinished; see also the
   [classifier engine contract](docs/classifier-engine.md).

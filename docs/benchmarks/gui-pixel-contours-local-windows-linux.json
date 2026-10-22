@@ -1,0 +1,179 @@
+{
+  "schema": "qpx.local-validation/1",
+  "base_commit": "5e8a8619683e1733561eb72b6ebf6ec60ab7461b",
+  "observed_utc": "2026-10-22T23:45:44.171919+00:00",
+  "scope": "Native PixelContourJob controller plus actual F5 trace/publish, contour limits, cancellation, receipt, strict owner-side reconciliation, narrow/scaled panels, raw/clipped publication, empty no-ops and image-switch retirement. New native regressions cover portable natural-grid job tracing and replay target/wait coverage. Pixel archives, streaming, research/TMA and hardware/frame gates remain open.",
+  "python": {
+    "tests": 1449,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1443,
+    "seconds": 513.27,
+    "sha256": "88eefbca3112625f3ef537147486a00039b0ad69f711b1c6e1cc2e916060d9dd"
+  },
+  "focused": {
+    "tests": 44,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 44,
+    "seconds": 31.91,
+    "sha256": "5f1ee3c7a59357dddf9a7df63e7553811615c71b045ba5a31ea373c55fb2763e"
+  },
+  "source_focused": {
+    "tests": 85,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 85,
+    "seconds": 1.011,
+    "sha256": "0ff631a25f511fba7876e4f227b07537cf1c253293c6e5d1500fddf8d58ff0a4"
+  },
+  "windows_gui_native": {
+    "tests": 39,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 39,
+    "seconds": 7.0,
+    "sha256": "3cb8f4aee07e4eaf340f763d1383e4bf998bb3801f72c1f53804186c4eeb72a7"
+  },
+  "windows_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 6.0,
+    "sha256": "103729aabe87d9a12c45c0f1185f4bf1be8b637202c8ed5d493ddbc0bdbdc5ce"
+  },
+  "linux_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 0.0,
+    "sha256": "2d5036b9d9231aa5272e003000c6da27ef1ddd4b2b2f1b67d4e048d5a374899f"
+  },
+  "linux_minimal": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 0.0,
+    "sha256": "01a18414db6f5a862046fc145703fe24223c5cc8bbe06e4ad6c471dafe301ecf"
+  },
+  "linux_sanitizer": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 3.0,
+    "sha256": "c59a520a07a49f1e1de7150d6983af62df14a882646e05b97d6cbd0a450c9db5"
+  },
+  "workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "4b1ac86cb6eb9eafc9f6d33110238eae0f0dd8d45ac9c0d9e817387d6fc5ac57",
+    "source_tree_sha256": "b559fdb4bc3431394bd53c237abcf000b92fab82a88426cf99f9f18d2b06195f",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "e8c14339c90abe3c72e242d622442563f4d162ac8b46308c0fc6ae1d37af5d6e",
+    "bytes": 11914049
+  },
+  "opencv_notices": {
+    "qupathxx/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "qupathxx/licenses/opencv/softfloat-notice.txt": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3",
+    "qupathxx/licenses/opencv/SOURCE-NOTICES.txt": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba",
+    "qupathxx/licenses/opencv/zlib-notice.txt": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+  },
+  "benchmarks": [
+    {
+      "file": "gui-pixel-contours-10000-windows.json",
+      "sha256": "8439450ff834c7fa4d479279a3c6b09b61dfa4a6c5dfbfb3270dec1fee150ef1"
+    },
+    {
+      "file": "gui-pixel-contours-100000-windows.json",
+      "sha256": "6bb5004655b434fb5b52bfa1a76c92c562c1523a7393b9c975140571d9e53ea0"
+    }
+  ],
+  "preview": {
+    "source_tree_sha256": "b559fdb4bc3431394bd53c237abcf000b92fab82a88426cf99f9f18d2b06195f",
+    "native_sha256": "4b1ac86cb6eb9eafc9f6d33110238eae0f0dd8d45ac9c0d9e817387d6fc5ac57",
+    "image_sha256": "0f6d6087be2ace955e070e08a58d5daa3a31b1522b442ff6cf14ad727f8ecc7f",
+    "pixel_contour_state": "published",
+    "published_ids": [
+      4,
+      5
+    ],
+    "pixel_gpu_bytes": 0,
+    "prediction_sha256": "6c90f918f830c2ccf20f28d78b745e83a35131d32e1ca74007382f54e467e004",
+    "edge_count": 159,
+    "vertex_count": 523,
+    "ui_overflow": 0,
+    "cpu_frame_p95_ms": 2.9138,
+    "max_cpu_frame_ms": 4.5899
+  },
+  "image": {
+    "file": "pixel-classifier-publication.png",
+    "sha256": "0f6d6087be2ace955e070e08a58d5daa3a31b1522b442ff6cf14ad727f8ecc7f"
+  },
+  "checks": {
+    "pixel75-stub-check.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "pixel75-final-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "pixel75-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "performance_limit": "Single synthetic shared-workstation software-GL observation. Real ImGui buttons start source prediction, background contour tracing and owner-thread atomic class publication. Two multipolygon class annotations contain1024 square parts. Every prepublication mask label is checked and the traced output SHA must match; geometry areas and undo/redo are verified. Unlabelled cells are outside the fixed camera. Includes bounded catalog rebuild after publication. No dense visible-cell, biological, UI frame-budget, RSS or hardware acceptance claim.",
+  "verification_inputs": {
+    "tests/test_gui_pixel_classifier.py": "5580332d85d5c8bd50035d48233a017afac9145911cdf1cbbc480bae1ee9d530",
+    "tests/test_pixel_contours.py": "5ebaa2f5c033c3137ffdf192ae9f64ff9a6eaf5cb55514fdaac2fffa4fd9b137",
+    "tests/typing/valid_api.py": "7db046465edb535974de5eb7ab9aa2e104caa59e799adc71708ae2f900fd9d8f",
+    "tools/benchmark_gui_pixel_contours.py": "cc2d4f368e2beeac214d89438effd302a88e127da469020c19947d45340b91d9",
+    "tools/ci/run.py": "5c799684f136c95836cdccf20736eee1d51dcdebecf8a0f9bc7e28d4534c9120",
+    "tools/generate_stubs.py": "69e13d86fa343c6de5afea054839c4d82b61d94602a86b17e263237f54c6bae3"
+  },
+  "investigated_preliminary_failures": [
+    {
+      "kind": "replay integration",
+      "description": "The first run rejected appended button targets. The replay target/wait allowlists and target-seen array size were extended, with native regression coverage.",
+      "log_sha256": "70f686e128450bb3d674378862e205293249ed30dc454c3c23ae1ebb3f9669f3"
+    },
+    {
+      "kind": "test fixture vector getter",
+      "description": "Appending to GuiOptions.inputs mutated a copied Python list, omitting Undo/Redo and image-switch events. Reassigning the complete list exercises the real input queue; all cases then passed.",
+      "log_sha256": "1db0df9f3ba68f8fa23dcc57aa7c4fdd06ecb22af5b71a550cc63fd67193049b"
+    },
+    {
+      "kind": "packaging stage",
+      "description": "Initial strict typing used the first wheel's old stubs. The regenerated stubs were repackaged in the final wheel, then exact-stub and strict positive/seven-error negative checks passed.",
+      "log_sha256": "cd2858755b189469e2d4ad5e91c7c5bb201fa08c91c13492cd40632aab227d71"
+    }
+  ]
+}

@@ -300,7 +300,24 @@ absent classes; edges, vertices and work have separate limits. The work estimate
 covers tracing allocations, excluding the already-owned prediction/model and
 allocator overhead. C++ accepts a cancellation flag. Python releases the GIL
 while tracing, so a caller can run it in a worker; document publication belongs
-on the owner thread. The F5 panel does not yet expose tracing/publication controls.
+on the owner thread. The F5 panel exposes background tracing and explicit publication controls.
+
+`PixelContourJob` provides native background tracing with one active request:
+
+```python
+job = q.PixelContourJob()
+job.request(request, result, options)
+status = job.wait(document)  # Releases the GIL; GUI clients poll instead.
+traced = job.result
+if status.state == "ready" and traced is not None:
+    ids = q.publish_pixel_contours(document, request, traced)
+```
+
+The owner retains the source/request until the worker joins. Workers capture
+only immutable prediction data. `cancel()` immediately retires an adopted
+result; cancellation/staleness also prevents late adoption. A completed job
+remains subject to current document/source checks on every `poll`/`wait`.
+Quota failures are recoverable by submitting a new request with suitable limits.
 
 `result.matches(request)` checks exact captured-snapshot identity. Publication
 also requires `request.matches(document)`; an equivalent independently captured
@@ -323,7 +340,14 @@ public typing and the installed software-GL workflow.
 
 ## Remaining workflow
 
-Pixel contour UI controls, project/recovery pixel records, full-slide streaming outputs,
+Project/recovery pixel records, full-slide streaming outputs,
 expanded texture features and resampling between unmatched resolutions remain
 open. Research cohorts and direct QuPath comparisons also remain required.
 Object classifier records do not persist pixel recipes or these training tables.
+
+
+Hosted contour-API [run 39870820180](https://github.com/bipxx/qupathxx/actions/runs/39870820180)
+passed all five jobs for `87e01df`. Its [artifact record](benchmarks/pixel-contours-ci-windows-linux.json)
+checks installed wheel/native identities, all 16 contour cases per Python platform,
+public typing, native suites and existing F5 prediction compatibility. It
+precedes `PixelContourJob` and the F5 trace/publish controls.

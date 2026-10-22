@@ -2215,4 +2215,52 @@ F5-panel run is separate evidence and does not validate this contour increment.
 
 
 Hosted contour [run 39870820180](https://github.com/bipxx/qupathxx/actions/runs/39870820180)
-targets `87e01df` and is queued. No hosted contour pass is claimed yet.
+targets `87e01df` and passed all five jobs. The [hosted artifact record](benchmarks/pixel-contours-ci-windows-linux.json) verifies wheel/native identities, public typing, native suites and all 16 contour cases on each Python platform. Windows GUI passed 1,425 Python cases with seven expected skips; local validation supplies the additional optional fixture. This precedes the native contour job and F5 publication controls.
+
+
+### Packet 75 — F5 contour workflow and native contour controller
+
+Added `PixelContourJob`, a one-request owner/worker controller with strict live
+request/document/source reconciliation. Worker captures contain immutable native
+prediction values; request/source ownership stays with the controller until join.
+Cancellation immediately retires adopted geometry and prevents late adoption.
+Failures can be retried, and background tracing makes no additional reader calls.
+Native tests cover cancellation, backend/quota failure, reuse, exact request
+binding, stale edits and three natural pyramid grids; Python tests also cover
+source closure/replacement and active-worker destruction.
+
+The F5 panel now exposes trace and explicit publish buttons, clipping and class/
+edge/vertex/work limits, counts and a publication receipt. Publishing applies
+one classified annotation batch with Undo/Redo. Nonempty publication changes the
+document revision and clears the old GL mask on the next frame. Changing work,
+model or document retires live contour authority; switching images also clears
+the receipt. Empty publication is a reported no-op. Real-window tests cover
+narrow/scaled panels, raw/clipped hierarchy, budget failure preserving the mask,
+empty masks, Undo/Redo and image switches before/after publication. Replay target
+validation and its target-tracking array now include the appended controls, with
+native regression coverage. Published annotation classes/colors remain native
+project objects. The [actual installed capture](images/pixel-classifier-publication.png)
+shows the completed action.
+
+The [100,000-cell GUI sample](benchmarks/gui-pixel-contours-100000-windows.json)
+verifies 1,024 parts, exact oracle labels/areas, hierarchy and Undo/Redo. It records
+p95 CPU frame 3.49 ms, worst frame 19.76 ms, 32.11 ms native tracing, 1.15 MB
+estimated tracing work and 142 KB retained geometry/history each. Cells are
+off-screen, and these are single synthetic shared-workstation llvmpipe samples.
+The 16 ms worst-frame, dense visible drawing, RSS, hardware and biological gates
+remain unproven. The 10,000-cell case is added to hosted GUI validation.
+
+Immutable project/recovery pixel-training and prediction records, full-slide
+streaming, viewport-limited prediction, unmatched-grid resampling, expanded
+features, TMA and research/QuPath comparison gates remain open, together with all
+other outstanding M0–M7 requirements.
+
+
+The [local artifact record](benchmarks/gui-pixel-contours-local-windows-linux.json)
+verifies 1,443 installed Python passes with six expected skips, all 44 focused
+worker/real-window cases, all 85 shared contour/source cases including Aperio,
+39 Windows GUI native and 38 each Windows headless/Linux training/minimal/
+sanitizer. Exact stubs, strict positive/seven-error negative typing and installed
+software-GL launch pass. The source manifest, wheel/native, benchmark and actual
+framebuffer identities agree. The record preserves the preliminary replay
+allowlist/target-array omission and the test's copied-input-list correction.

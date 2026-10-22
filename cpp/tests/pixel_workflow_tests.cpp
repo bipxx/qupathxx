@@ -1,4 +1,4 @@
-#include "qupathxx/pixel_prediction.hpp"
+#include "qupathxx/pixel_contours.hpp"
 #include "object_forest_fixture.hpp"
 #include <algorithm>
 #include <chrono>
@@ -48,7 +48,21 @@ int main() {try {
         for(std::int64_t y=0;y<result->height();++y) for(std::int64_t x=0;x<result->width();++x) {const auto gx=static_cast<std::int64_t>(region.x)+x,gy=static_cast<std::int64_t>(region.y)+y;const auto i=static_cast<std::size_t>(y*result->width()+x),j=static_cast<std::size_t>(gy*level.width+gx);const bool valid=doc.annotation(roi).geometry.contains({(gx+.5)*level.downsample,(gy+.5)*level.downsample}) && full->valid()[j];check(result->valid()[i]==valid);if(valid) {check(result->labels()[i]==full->labels()[j] && result->vote_fractions()[i]==full->vote_fractions()[j]);++counts[result->labels()[i]-1];}else check(!result->labels()[i] && std::isnan(result->vote_fractions()[i]));}
         check(result->class_counts()==std::vector<std::uint64_t>({counts[0],counts[1]}));prediction.tile_size=32;const auto tiled=predict_pixel_region(PixelPredictionRequest(doc,roi,model,prediction));check(tiled->sha256()==result->sha256());
         rejects([&]{predict_pixel_region(predict,&cancelled);});prediction.work_bytes=1024*1024;rejects([&]{PixelPredictionRequest too_small(doc,roi,model,prediction);});
-        PixelPredictionJob job;check(job.request(predict));check(job.wait(doc).state=="ready" && job.result());doc.rename_annotation(roi,"Changed");check(job.poll(doc).state=="stale" && !job.result());
+        PixelContourJob contour_job;
+        const PixelPredictionRequest unrelated(doc,roi,model);
+        rejects([&]{contour_job.request(unrelated,result);});check(!contour_job.busy() && !contour_job.result());
+        const auto reads_before_trace=source->reads.load();
+        check(contour_job.request(predict,result) && !contour_job.request(predict,result));
+        contour_job.cancel();check(contour_job.wait(doc).state=="cancelled" && !contour_job.result());
+        TissueContourOptions limits;limits.work_bytes=1;check(contour_job.request(predict,result,limits));
+        const auto failure=contour_job.wait(doc);check(failure.state=="failed" && !failure.error.empty() && !contour_job.result());
+        check(contour_job.request(predict,result));const auto traced=contour_job.wait(doc);
+        check(traced.generation==3 && traced.phase=="finished" && !contour_job.busy() && source->reads==reads_before_trace);
+        if(has_geos()) {
+            check(traced.state=="ready" && contour_job.result()->prediction_sha256()==result->sha256());
+            for(const auto& c:contour_job.result()->contours()->components()) check(c.pixels==result->class_counts().at(c.label-1));
+        }else check(traced.state=="failed" && !contour_job.result());
+        PixelPredictionJob job;check(job.request(predict));check(job.wait(doc).state=="ready" && job.result());doc.rename_annotation(roi,"Changed");check(job.poll(doc).state=="stale" && !job.result());if(has_geos()) check(contour_job.poll(doc).state=="stale" && !contour_job.result());
         doc.remove_annotation(roi);
     }
     const auto bare=fixture(options.features,transform);check(bare.bytes()[3]==1);rejects([&]{pixel_classifier_level(doc,bare);});

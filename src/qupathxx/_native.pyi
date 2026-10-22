@@ -1527,6 +1527,10 @@ class GuiInputTarget(enum.Enum):
 
     PIXEL_TOGGLE_OVERLAY = 34
 
+    PIXEL_TRACE = 35
+
+    PIXEL_PUBLISH = 36
+
 class GuiInputWait(enum.Enum):
     IMMEDIATE = 0
 
@@ -1589,6 +1593,10 @@ class GuiInputWait(enum.Enum):
     PIXEL_MODEL_SAVED = 29
 
     PIXEL_MODEL_LOADED = 30
+
+    PIXEL_CONTOURS_READY = 31
+
+    PIXEL_CONTOURS_PUBLISHED = 32
 
 class GuiInput:
     def __init__(self) -> None: ...
@@ -2143,6 +2151,12 @@ class GuiOptions:
     def pixel_model_path(self, arg: str, /) -> None: ...
 
     @property
+    def pixel_contour_options(self) -> TissueContourOptions | None: ...
+
+    @pixel_contour_options.setter
+    def pixel_contour_options(self, arg: TissueContourOptions | None, /) -> None: ...
+
+    @property
     def pixel_training_options(self) -> PixelTrainingOptions | None: ...
 
     @pixel_training_options.setter
@@ -2659,6 +2673,18 @@ class GuiReport:
 
     @property
     def classifier_record_id(self) -> int: ...
+
+    @property
+    def pixel_contour_state(self) -> str: ...
+
+    @property
+    def pixel_contours(self) -> PixelContours | None: ...
+
+    @property
+    def pixel_published_ids(self) -> list[int]: ...
+
+    @property
+    def pixel_contours_published(self) -> bool: ...
 
     @property
     def pixel_training_state(self) -> str: ...
@@ -5608,6 +5634,23 @@ class PixelPredictionResult:
     def vote_fractions_numpy(self, copy: bool = ...) -> NDArray[numpy.float32]: ...
 
 def predict_pixel_region(request: PixelPredictionRequest) -> PixelPredictionResult: ...
+
+class PixelContourJob:
+    def __init__(self) -> None: ...
+
+    def request(self, request: PixelPredictionRequest, result: PixelPredictionResult, options: TissueContourOptions = ...) -> bool: ...
+
+    @property
+    def busy(self) -> bool: ...
+
+    def cancel(self) -> None: ...
+
+    def poll(self, arg: Document, /) -> PixelTrainingStats: ...
+
+    def wait(self, arg: Document, /) -> PixelTrainingStats: ...
+
+    @property
+    def result(self) -> PixelContours | None: ...
 
 class PixelContours:
     def __init__(self, _native_only: Never) -> None: ...

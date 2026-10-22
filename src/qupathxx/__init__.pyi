@@ -15,6 +15,7 @@ from ._native import (
     sample_pixel_training as sample_pixel_training,
     train_pixel_classifier as train_pixel_classifier,
     pixel_classifier_level as pixel_classifier_level,
+    PixelContourJob as PixelContourJob,
     PixelContours as PixelContours,
     trace_pixel_prediction as trace_pixel_prediction,
     publish_pixel_contours as publish_pixel_contours,

@@ -167,3 +167,83 @@ def test_closed_unused_panel_does_not_scan_object_catalog():
     report=q.show(doc,frame_limit=15,options=options)
     assert report.pixel_catalog_inspected==report.pixel_catalog_max_step==0 and not report.pixel_catalog_complete
     assert report.pixel_gpu_bytes==0 and report.pixel_model is None
+
+
+@pytest.mark.skipif(not q.has_geos,reason="optional GEOS contour backend")
+@pytest.mark.parametrize("undo,redo",[(False,False),(True,False),(True,True)])
+def test_panel_traces_and_publishes_one_class_annotation_batch(undo,redo):
+    doc,ids,root,options=workspace();options.pixel_model=model_for(doc,ids,options);doc.clear_history()
+    options.inputs=[*click(4,q.GuiInputTarget.PIXEL_PREDICT),ready(8,q.GuiInputWait.PIXEL_PREVIEW_READY),
+        *click(12,q.GuiInputTarget.PIXEL_TRACE),ready(16,q.GuiInputWait.PIXEL_CONTOURS_READY),
+        *click(20,q.GuiInputTarget.PIXEL_PUBLISH),ready(24,q.GuiInputWait.PIXEL_CONTOURS_PUBLISHED)]
+    if undo:options.inputs += [event(28,q.GuiInputKind.UNDO_KEY)]
+    if redo:options.inputs += [event(32,q.GuiInputKind.REDO_KEY)]
+    report=q.show(doc,frame_limit=55,options=options)
+    assert report.replay_complete and not report.pixel_error and report.pixel_contour_state=="published"
+    assert report.pixel_contours_published and len(report.pixel_published_ids)==2 and report.pixel_contours.contours.component_count==2
+    assert report.pixel_result is None and report.pixel_gpu_bytes==0 and not report.pixel_overlay_visible
+    assert doc.object_class("red").color==0xff0000 and doc.object_class("blue").color==0x0000ff
+    if undo and not redo:
+        assert doc.children(root)==[] and doc.object_count==3 and doc.can_redo,(doc.undo_label,doc.redo_label,doc.revision,report.replay_complete)
+    else:
+        assert doc.children(root)==report.pixel_published_ids and doc.object_count==5
+        for obj in report.pixel_published_ids:
+            a=doc.annotation(obj);assert a.class_name in ("red","blue") and a.parent_id==root
+    assert report.ui_overflow_items==0,report.ui_overflow_label
+
+
+@pytest.mark.skipif(not q.has_geos,reason="optional GEOS contour backend")
+def test_contour_work_budget_failure_preserves_prediction():
+    doc,ids,_,options=workspace();options.pixel_model=model_for(doc,ids,options);revision=doc.revision
+    limits=q.TissueContourOptions();limits.work_bytes=1;options.pixel_contour_options=limits
+    options.inputs=[*click(4,q.GuiInputTarget.PIXEL_PREDICT),ready(8,q.GuiInputWait.PIXEL_PREVIEW_READY),*click(12,q.GuiInputTarget.PIXEL_TRACE)]
+    report=q.show(doc,frame_limit=40,options=options)
+    assert report.replay_complete and report.pixel_contour_state=="failed" and "budget" in report.pixel_error
+    assert report.pixel_result is not None and report.pixel_preview_ready and report.pixel_contours is None
+    assert not report.pixel_contours_published and doc.revision==revision
+
+
+@pytest.mark.skipif(not q.has_geos,reason="optional GEOS contour backend")
+@pytest.mark.parametrize("raw",[False,True])
+def test_narrow_panel_exposes_trace_publish_and_clipping(raw):
+    doc,ids,root,options=workspace();options.pixel_model=model_for(doc,ids,options);options.width=960;options.height=720;options.ui_scale=1.25
+    limits=q.TissueContourOptions();limits.clip_to_roi=not raw;options.pixel_contour_options=limits
+    options.inputs=[*click(4,q.GuiInputTarget.PIXEL_PREDICT),ready(8,q.GuiInputWait.PIXEL_PREVIEW_READY),
+        *click(12,q.GuiInputTarget.PIXEL_TRACE),ready(16,q.GuiInputWait.PIXEL_CONTOURS_READY),
+        *click(20,q.GuiInputTarget.PIXEL_PUBLISH),ready(24,q.GuiInputWait.PIXEL_CONTOURS_PUBLISHED)]
+    report=q.show(doc,frame_limit=50,options=options)
+    assert report.replay_complete and report.pixel_contours_published and not report.pixel_error
+    assert all(doc.annotation(i).parent_id==(0 if raw else root) for i in report.pixel_published_ids)
+    assert report.pixel_contours.contours.options.clip_to_roi!=raw and report.ui_overflow_items==0,report.ui_overflow_label
+
+
+@pytest.mark.skipif(not (q.has_geos and q.has_project),reason="optional GEOS/project backends")
+@pytest.mark.parametrize("published",[False,True])
+def test_image_switch_retires_contours_and_publication_receipt(published):
+    doc,ids,_,options=workspace();options.pixel_model=model_for(doc,ids,options)
+    project=q.Project();first=project.add_document(doc);project.add_document(q.Document(q.Image.from_numpy(np.full((64,96,3),120,dtype=np.uint8))));project.active_image=first
+    options.inputs=[*click(4,q.GuiInputTarget.PIXEL_PREDICT),ready(8,q.GuiInputWait.PIXEL_PREVIEW_READY),
+        *click(12,q.GuiInputTarget.PIXEL_TRACE),ready(16,q.GuiInputWait.PIXEL_CONTOURS_READY)]
+    if published:options.inputs += [*click(20,q.GuiInputTarget.PIXEL_PUBLISH),ready(24,q.GuiInputWait.PIXEL_CONTOURS_PUBLISHED)]
+    options.inputs += [event(28,q.GuiInputKind.NEXT_IMAGE_KEY)]
+    report=q.show(project,frame_limit=55,options=options)
+    assert report.replay_complete and report.image_switches==1
+    assert report.pixel_contours is None and not report.pixel_contours_published and report.pixel_published_ids==[]
+    assert report.pixel_result is None and report.pixel_gpu_bytes==0
+    assert doc.object_count==(5 if published else 3)
+
+
+@pytest.mark.skipif(not q.has_geos,reason="optional GEOS contour backend")
+def test_empty_contour_publication_reports_noop_without_document_edit():
+    doc,ids,root,options=workspace();options.pixel_model=model_for(doc,ids,options)
+    shell=[q.Point(3,3),q.Point(6,3),q.Point(6,6),q.Point(3,6)]
+    hole=[q.Point(3.1,3.1),q.Point(3.1,5.9),q.Point(5.9,5.9),q.Point(5.9,3.1)]
+    doc.update_roi(root,q.Roi.multipolygon([q.PolygonPart(shell,[hole])]))
+    doc.clear_history();revision=doc.revision
+    options.inputs=[*click(4,q.GuiInputTarget.PIXEL_PREDICT),ready(8,q.GuiInputWait.PIXEL_PREVIEW_READY),
+        *click(12,q.GuiInputTarget.PIXEL_TRACE),ready(16,q.GuiInputWait.PIXEL_CONTOURS_READY),
+        *click(20,q.GuiInputTarget.PIXEL_PUBLISH),ready(24,q.GuiInputWait.PIXEL_CONTOURS_PUBLISHED)]
+    report=q.show(doc,frame_limit=50,options=options)
+    assert report.replay_complete and report.pixel_contours_published and report.pixel_published_ids==[]
+    assert report.pixel_contours.contours.component_count==0 and not report.pixel_error
+    assert doc.revision==revision and not doc.can_undo and report.pixel_result.classified_pixels==0

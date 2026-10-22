@@ -306,7 +306,7 @@ NB_MODULE(_native, m) {
         .value("CLASSIFIER_SAVE_MODEL",GuiInputTarget::SaveClassifierModel).value("CLASSIFIER_LOAD_MODEL",GuiInputTarget::LoadClassifierModel)
         .value("CLASSIFIER_KEEP_TRAINING",GuiInputTarget::KeepClassifierTraining).value("CLASSIFIER_USE_RECORD",GuiInputTarget::UseClassifierRecord)
         .value("PIXEL_TRAIN",GuiInputTarget::TrainPixelClassifier).value("PIXEL_PREDICT",GuiInputTarget::PredictPixelClasses).value("PIXEL_CANCEL",GuiInputTarget::CancelPixelClassifier)
-        .value("PIXEL_SAVE_MODEL",GuiInputTarget::SavePixelModel).value("PIXEL_LOAD_MODEL",GuiInputTarget::LoadPixelModel).value("PIXEL_TOGGLE_OVERLAY",GuiInputTarget::TogglePixelOverlay);
+        .value("PIXEL_SAVE_MODEL",GuiInputTarget::SavePixelModel).value("PIXEL_LOAD_MODEL",GuiInputTarget::LoadPixelModel).value("PIXEL_TOGGLE_OVERLAY",GuiInputTarget::TogglePixelOverlay).value("PIXEL_TRACE",GuiInputTarget::TracePixelContours).value("PIXEL_PUBLISH",GuiInputTarget::PublishPixelContours);
     nb::enum_<GuiInputWait>(m,"GuiInputWait").value("IMMEDIATE",GuiInputWait::Immediate).value("TARGET_READY",GuiInputWait::TargetReady).value("STARTUP_FINISHED",GuiInputWait::StartupFinished)
         .value("TISSUE_READY",GuiInputWait::TissueReady).value("TISSUE_CONTOURS_READY",GuiInputWait::TissueContoursReady).value("TISSUE_CONTOURS_PUBLISHED",GuiInputWait::TissueContoursPublished)
         .value("TISSUE_ARCHIVED",GuiInputWait::TissueArchived).value("TISSUE_VERIFIED",GuiInputWait::TissueVerified)
@@ -316,7 +316,7 @@ NB_MODULE(_native, m) {
         .value("CLASSIFIER_APPLIED",GuiInputWait::ObjectClassifierApplied).value("CLASSIFIER_MODEL_SAVED",GuiInputWait::ClassifierModelSaved).value("CLASSIFIER_MODEL_LOADED",GuiInputWait::ClassifierModelLoaded)
         .value("CLASSIFIER_TRAINING_RETAINED",GuiInputWait::ClassifierTrainingRetained).value("CLASSIFIER_RECORD_LOADED",GuiInputWait::ClassifierRecordLoaded)
         .value("PIXEL_TRAINED",GuiInputWait::PixelClassifierTrained).value("PIXEL_PREDICTED",GuiInputWait::PixelClassifierPredicted).value("PIXEL_PREVIEW_READY",GuiInputWait::PixelPreviewReady)
-        .value("PIXEL_MODEL_SAVED",GuiInputWait::PixelModelSaved).value("PIXEL_MODEL_LOADED",GuiInputWait::PixelModelLoaded);
+        .value("PIXEL_MODEL_SAVED",GuiInputWait::PixelModelSaved).value("PIXEL_MODEL_LOADED",GuiInputWait::PixelModelLoaded).value("PIXEL_CONTOURS_READY",GuiInputWait::PixelContoursReady).value("PIXEL_CONTOURS_PUBLISHED",GuiInputWait::PixelContoursPublished);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift).def_rw("wait_for",&GuiInput::wait_for);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>())

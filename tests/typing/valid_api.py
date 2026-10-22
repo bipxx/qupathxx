@@ -216,3 +216,20 @@ def publish_pixel_mask(document: q.Document, request: q.PixelPredictionRequest, 
     geometry: q.TissueContours=traced.contours
     assert geometry.input_sha256==traced.prediction_sha256
     return q.publish_pixel_contours(document,request,traced)
+
+
+def trace_pixel_mask_job(document: q.Document, request: q.PixelPredictionRequest, result: q.PixelPredictionResult) -> q.PixelContours | None:
+    job=q.PixelContourJob()
+    options=q.TissueContourOptions()
+    job.request(request,result,options)
+    status: q.PixelTrainingStats=job.wait(document)
+    assert status.phase=="finished"
+    return job.result
+
+
+def configure_pixel_contours(options: q.GuiOptions, report: q.GuiReport) -> list[int]:
+    options.pixel_contour_options=q.TissueContourOptions()
+    value: q.PixelContours | None=report.pixel_contours
+    if value is not None:
+        assert value.prediction_sha256
+    return report.pixel_published_ids

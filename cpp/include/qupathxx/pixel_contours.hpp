@@ -17,4 +17,16 @@ private:
 };
 std::shared_ptr<const PixelContours> trace_pixel_prediction(std::shared_ptr<const PixelPredictionResult>,TissueContourOptions={},const std::atomic<bool>* cancelled=nullptr);
 std::vector<std::uint64_t> publish_pixel_contours(Document&,const PixelPredictionRequest&,const PixelContours&,std::string name_prefix="Pixel");
+// Owner-thread controller. Workers hold only immutable native prediction values;
+// source/request ownership remains here until the worker is joined.
+class PixelContourJob {
+public:
+    PixelContourJob();~PixelContourJob();PixelContourJob(const PixelContourJob&)=delete;
+    bool request(const PixelPredictionRequest&,std::shared_ptr<const PixelPredictionResult>,TissueContourOptions={});
+    bool busy() const;void cancel();
+    PixelTrainingStats poll(const Document&);PixelTrainingStats wait(const Document&);
+    std::shared_ptr<const PixelContours> result() const;
+private:
+    struct Impl;std::unique_ptr<Impl> impl_;
+};
 }

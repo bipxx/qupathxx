@@ -124,3 +124,47 @@ def test_parallel_tracing_uses_independent_geometry_contexts(model):
         traces=list(pool.map(lambda _:q.trace_pixel_prediction(result),range(4)))
     assert all(t.prediction_sha256==result.sha256 for t in traces)
     assert all([c.pixels for c in t.contours.components]==result.class_counts for t in traces)
+
+
+@pytest.mark.parametrize("action",["ready","cancel","edit","undo","close","document"])
+def test_contour_controller_adopts_only_current_work_and_releases_on_cancel(model,action):
+    doc,root,request,result=prediction(model,"diagonal");job=q.PixelContourJob()
+    assert not job.busy and job.result is None
+    assert job.request(request,result) and not job.request(request,result) and job.busy
+    if action=="cancel":job.cancel()
+    elif action in ("edit","undo"):
+        doc.rename_annotation(root,"Edited")
+        if action=="undo":doc.undo()
+    elif action=="close":doc.server.close()
+    elif action=="document":
+        doc=q.Document(doc.server);doc.add_rectangle(q.Rect(0,0,29,23))
+    stats=job.wait(doc)
+    assert not job.busy and stats.phase=="finished" and stats.generation==1
+    expected="ready" if action=="ready" else "cancelled" if action=="cancel" else "stale"
+    assert stats.state==expected,stats.error
+    if action=="ready":
+        saved=job.result;assert saved.prediction_sha256==result.sha256
+        job.cancel();assert job.result is None and job.poll(doc).state=="cancelled"
+        del job,doc,result;gc.collect();assert saved.contours.component_count==2
+    else:assert job.result is None
+
+
+def test_contour_controller_failure_reuse_and_snapshot_validation(model):
+    doc,_,request,result=prediction(model);job=q.PixelContourJob()
+    unrelated=q.PixelPredictionRequest(doc,request.object_id,model)
+    with pytest.raises(ValueError,match="does not match"):job.request(unrelated,result)
+    assert not job.busy and job.result is None
+    limits=q.TissueContourOptions();limits.work_bytes=1
+    assert job.request(request,result,limits);status=job.wait(doc)
+    assert status.state=="failed" and "budget" in status.error and job.result is None
+    assert job.request(request,result);status=job.wait(doc)
+    assert status.state=="ready" and status.generation==2 and not status.error
+    ids=q.publish_pixel_contours(doc,request,job.result)
+    assert len(ids)==2 and job.poll(doc).state=="stale" and job.result is None
+
+
+def test_contour_controller_destructor_joins_active_work(model):
+    doc,_,request,result=prediction(model,"diagonal")
+    for _ in range(8):
+        job=q.PixelContourJob();assert job.request(request,result);del job
+    gc.collect();assert request.matches(doc) and result.matches(request)

@@ -37,6 +37,7 @@ def main():
                 if 'def annotation_ids_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint64]:')
             if current=='PixelTrainingJob':
                 for name in ['PixelClassifier','PixelTrainingTable']:line=line.replace('-> '+name+':','-> '+name+' | None:')
+            if current=='PixelContourJob':line=line.replace('-> PixelContours:', '-> PixelContours | None:')
             if current=='PixelPredictionJob':line=line.replace('-> PixelPredictionResult:','-> PixelPredictionResult | None:')
             if current=='ObjectFeatureTable' and 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
             if current=='ObjectClassifierJob':
@@ -45,7 +46,7 @@ def main():
             if current=='ObjectClassifierArchive':line=line.replace('-> ObjectClassificationResult:', '-> ObjectClassificationResult | None:')
             if current=='ObjectCellFeatureSource':line=line.replace('-> AnalysisProvenance:', '-> AnalysisProvenance | None:')
             if current in ('GuiOptions','GuiReport') and 'def pixel_' in line:
-                for name in ['PixelClassifier','PixelTrainingTable','PixelPredictionResult','PixelTrainingOptions','PixelPredictionOptions','ForestParameters']:
+                for name in ['PixelClassifier','PixelTrainingTable','PixelPredictionResult','PixelTrainingOptions','PixelPredictionOptions','ForestParameters','PixelContours','TissueContourOptions']:
                     line=line.replace('-> '+name+':','-> '+name+' | None:').replace('arg: '+name+',','arg: '+name+' | None,')
             if current in ('GuiOptions','GuiReport') and 'def classifier_' in line:
                 for name in ['ForestModel','ObjectFeatureOptions','ForestParameters','ObjectClassificationResult']:

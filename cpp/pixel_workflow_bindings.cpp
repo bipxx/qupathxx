@@ -62,6 +62,9 @@ void bind_pixel_workflows(nb::module_& m) {
         .def("valid_numpy",[](nb::object self,bool copy){const auto& r=nb::cast<const PixelPredictionResult&>(self);return array(r.valid(),{std::size_t(r.height()),std::size_t(r.width())},self,copy);},"copy"_a=false)
         .def("vote_fractions_numpy",[](nb::object self,bool copy){const auto& r=nb::cast<const PixelPredictionResult&>(self);return array(r.vote_fractions(),{std::size_t(r.height()),std::size_t(r.width())},self,copy);},"copy"_a=false);
     m.def("predict_pixel_region",[](const PixelPredictionRequest& r){return predict_pixel_region(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
+    nb::class_<PixelContourJob>(m,"PixelContourJob").def(nb::init<>()).def("request",&PixelContourJob::request,"request"_a,"result"_a,"options"_a=TissueContourOptions{})
+        .def_prop_ro("busy",&PixelContourJob::busy).def("cancel",&PixelContourJob::cancel).def("poll",&PixelContourJob::poll)
+        .def("wait",&PixelContourJob::wait,nb::call_guard<nb::gil_scoped_release>()).def_prop_ro("result",&PixelContourJob::result);
     nb::class_<PixelContours>(m,"PixelContours").def_prop_ro("contours",&PixelContours::contours).def_prop_ro("prediction_sha256",&PixelContours::prediction_sha256);
     m.def("trace_pixel_prediction",[](std::shared_ptr<const PixelPredictionResult> result,TissueContourOptions options){return trace_pixel_prediction(std::move(result),options);},"result"_a,"options"_a=TissueContourOptions{},nb::call_guard<nb::gil_scoped_release>());
     m.def("publish_pixel_contours",&publish_pixel_contours,"document"_a,"request"_a,"contours"_a,"name_prefix"_a="Pixel");
@@ -70,8 +73,9 @@ void bind_pixel_workflows(nb::module_& m) {
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
         .def_rw("pixel_open",&GuiOptions::pixel_open).def_rw("pixel_selected_only",&GuiOptions::pixel_selected_only).def_rw("pixel_replace_model",&GuiOptions::pixel_replace_model).def_rw("pixel_show_overlay",&GuiOptions::pixel_show_overlay)
         .def_rw("pixel_object_id",&GuiOptions::pixel_object_id).def_rw("pixel_preview_budget",&GuiOptions::pixel_preview_budget).def_rw("pixel_model_path",&GuiOptions::pixel_model_path)
-        .def_rw("pixel_training_options",&GuiOptions::pixel_training_options).def_rw("pixel_prediction_options",&GuiOptions::pixel_prediction_options).def_rw("pixel_parameters",&GuiOptions::pixel_parameters).def_rw("pixel_model",&GuiOptions::pixel_model);
+        .def_rw("pixel_contour_options",&GuiOptions::pixel_contour_options).def_rw("pixel_training_options",&GuiOptions::pixel_training_options).def_rw("pixel_prediction_options",&GuiOptions::pixel_prediction_options).def_rw("pixel_parameters",&GuiOptions::pixel_parameters).def_rw("pixel_model",&GuiOptions::pixel_model);
     nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport"))
+        .def_ro("pixel_contour_state",&GuiReport::pixel_contour_state).def_ro("pixel_contours",&GuiReport::pixel_contours).def_ro("pixel_published_ids",&GuiReport::pixel_published_ids).def_ro("pixel_contours_published",&GuiReport::pixel_contours_published)
         .def_ro("pixel_training_state",&GuiReport::pixel_training_state).def_ro("pixel_prediction_state",&GuiReport::pixel_prediction_state).def_ro("pixel_error",&GuiReport::pixel_error).def_ro("pixel_io_state",&GuiReport::pixel_io_state).def_ro("pixel_io_error",&GuiReport::pixel_io_error)
         .def_ro("pixel_model",&GuiReport::pixel_model).def_ro("pixel_training_table",&GuiReport::pixel_training_table).def_ro("pixel_result",&GuiReport::pixel_result)
         .def_ro("pixel_preview_ready",&GuiReport::pixel_preview_ready).def_ro("pixel_overlay_visible",&GuiReport::pixel_overlay_visible).def_ro("pixel_gpu_bytes",&GuiReport::pixel_gpu_bytes).def_ro("pixel_peak_gpu_bytes",&GuiReport::pixel_peak_gpu_bytes)
