@@ -7,6 +7,10 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Native resize preserves the view center and overlay pixels. Minimized windows
+  suspend drawing while managed commands, saves and autosave continue; see
+  [window lifecycle and measurements](docs/window-lifecycle.md).
+
 - Automated native and installed-wheel checks cover Windows headless/GUI and
   Linux headless/minimal/sanitizer configurations. Development artifacts and
   their limits are described in [CI and distribution](docs/ci-distribution.md).

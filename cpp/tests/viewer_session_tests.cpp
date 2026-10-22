@@ -47,6 +47,18 @@ int main() {
         id=session.close(true);check(h.until(owner,session,id).state=="succeeded" && h.closed);session.take(id);owner.finish(h.context);check(session.stats().state=="closed" && retained->bytes()[0]==16);rejects([&]{session.catalog();});
         {ViewerLimits small;small.tickets=1;ViewerSession bounded((root/"x").u8string(),small);for(int i=0;i<1000;++i) {auto t=bounded.catalog();rejects([&]{bounded.catalog();});check(bounded.cancel(t));bounded.take(t);}check(!bounded.stats().queued && !bounded.stats().queued_bytes);}
         {Harness test;ViewerLimits small;small.result_bytes=65536;ViewerSession bounded((root/"x").u8string(),small);detail::ViewerOwner controller(bounded);auto t=bounded.read_region(1,{0,0,0,256,256});check(test.until(controller,bounded,t).state=="failed");check(bounded.stats().retained_bytes==0);controller.finish(test.context);}
+        {
+            Harness paused;ViewerSession frozen((root/"frozen").u8string());detail::ViewerOwner controller(frozen);
+            paused.context.frame=30;paused.context.active_image=1;paused.context.activate=[](auto){};
+            auto ticket=frozen.activate(2);
+            for(int i=0;i<5;++i) controller.pump(paused.context);
+            check(frozen.take(ticket).state=="failed" && frozen.stats().frame==30);
+            paused.context.activate=[&](auto image){paused.project->set_active_image(image);};
+            ticket=frozen.activate(2);controller.pump(paused.context);
+            paused.context.active_image=paused.project->active_image();controller.pump(paused.context);
+            check(frozen.take(ticket).state=="succeeded" && frozen.stats().frame==30);
+            controller.finish(paused.context);
+        }
         fs::remove_all(root);std::cout<<"Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed\n";
     }catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

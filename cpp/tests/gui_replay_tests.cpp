@@ -39,6 +39,20 @@ int main() {
         GuiReplay legacy({up,key},1);std::size_t count=0;
         for(int i=0;i<5;++i) {legacy.dispatch([](const auto&)->bool{throw std::logic_error("legacy wait");},[&](const auto&){++count;},Clock::time_point{});legacy.finish_frame();}
         check(legacy.frame()==5 && legacy.waits()==0 && legacy.complete() && count==2);
+
+        GuiInput resize;resize.kind=GuiInputKind::ResizeWindow;resize.x=1000;resize.y=600;
+        GuiReplay size_ok({resize},1);
+        for(double bad:{0.,639.,8193.,1000.5,std::numeric_limits<double>::infinity(),std::numeric_limits<double>::quiet_NaN()}) {
+            auto invalid=resize;invalid.x=bad;rejects<std::invalid_argument>([&]{GuiReplay reject({invalid},1);});
+        }
+        GuiInput minimize;minimize.kind=GuiInputKind::MinimizeWindow;minimize.frame=2;
+        GuiInput restore;restore.kind=GuiInputKind::RestoreWindow;restore.frame=5;
+        auto after=key;after.frame=6;after.wait_for=GuiInputWait::WindowReady;
+        GuiReplay lifecycle({minimize,restore,after},1);
+        auto invalid=key;invalid.frame=3;
+        rejects<std::invalid_argument>([&]{GuiReplay reject({minimize,invalid,restore},1);});
+        restore.wait_for=GuiInputWait::WindowReady;
+        rejects<std::invalid_argument>([&]{GuiReplay reject({restore},1);});
         std::cout<<"gui replay passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

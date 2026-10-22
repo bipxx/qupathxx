@@ -1,0 +1,145 @@
+{
+  "schema": "qpx.window-lifecycle-benchmark/1",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "objects": 100000,
+  "logical_frames": 180,
+  "repetitions": 3,
+  "benchmark_tool_sha256": "24d529012fdce2d48661313223355371bd6dfe8d3f5a2f5f3bdc2fe13511e041",
+  "source_tree_sha256": "116ade1a31facb97d7d48ed2a4951c9f50bb22437d8fed4d1da97e23c047d9ca",
+  "build_git_revision": "6837a3609bdac90a6a7c5fa29bcbf63b03f153e3+dirty",
+  "native_sha256": "d6ba48e7e302adceb4eeb50c2a6fff0e9cef85a0e300c9e4c105cf40852bdd51",
+  "runs": [
+    {
+      "repetition": 0,
+      "minimized": false,
+      "wall_seconds": 6.381869199918583,
+      "process_cpu_seconds": 14.984375,
+      "cpu_core_fraction": 2.347960218330887,
+      "rendered_frames": 180,
+      "logical_frames": 180,
+      "suspended_iterations": 0,
+      "suspended_work_ms": 0.0,
+      "suspended_wait_ms": 0.0,
+      "rendered_cpu_p95_ms": 1.4989,
+      "max_rendered_cpu_ms": 1.9282,
+      "gpu_tile_peak_bytes": 4194304,
+      "framebuffer": [
+        1440,
+        900
+      ],
+      "framebuffer_sha256": "8b73ffcff3fb1188399ed3dc832bd1908d453593a9bdc3207410dd9e3689d60c",
+      "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)"
+    },
+    {
+      "repetition": 0,
+      "minimized": true,
+      "wall_seconds": 8.839587799971923,
+      "process_cpu_seconds": 11.1875,
+      "cpu_core_fraction": 1.265613312878179,
+      "rendered_frames": 24,
+      "logical_frames": 180,
+      "suspended_iterations": 156,
+      "suspended_work_ms": 28.184399999999982,
+      "suspended_wait_ms": 4623.323700000003,
+      "rendered_cpu_p95_ms": 3.1023,
+      "max_rendered_cpu_ms": 20.4867,
+      "gpu_tile_peak_bytes": 4194304,
+      "framebuffer": [
+        1440,
+        900
+      ],
+      "framebuffer_sha256": "8b73ffcff3fb1188399ed3dc832bd1908d453593a9bdc3207410dd9e3689d60c",
+      "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)"
+    },
+    {
+      "repetition": 1,
+      "minimized": true,
+      "wall_seconds": 7.854715300025418,
+      "process_cpu_seconds": 9.921875,
+      "cpu_core_fraction": 1.2631743635530486,
+      "rendered_frames": 24,
+      "logical_frames": 180,
+      "suspended_iterations": 156,
+      "suspended_work_ms": 14.582700000000015,
+      "suspended_wait_ms": 4765.884800000002,
+      "rendered_cpu_p95_ms": 4.2562,
+      "max_rendered_cpu_ms": 11.184,
+      "gpu_tile_peak_bytes": 4194304,
+      "framebuffer": [
+        1440,
+        900
+      ],
+      "framebuffer_sha256": "8b73ffcff3fb1188399ed3dc832bd1908d453593a9bdc3207410dd9e3689d60c",
+      "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)"
+    },
+    {
+      "repetition": 1,
+      "minimized": false,
+      "wall_seconds": 6.203042499953881,
+      "process_cpu_seconds": 14.046875,
+      "cpu_core_fraction": 2.2645137446832644,
+      "rendered_frames": 180,
+      "logical_frames": 180,
+      "suspended_iterations": 0,
+      "suspended_work_ms": 0.0,
+      "suspended_wait_ms": 0.0,
+      "rendered_cpu_p95_ms": 1.3685,
+      "max_rendered_cpu_ms": 2.6576,
+      "gpu_tile_peak_bytes": 4194304,
+      "framebuffer": [
+        1440,
+        900
+      ],
+      "framebuffer_sha256": "8b73ffcff3fb1188399ed3dc832bd1908d453593a9bdc3207410dd9e3689d60c",
+      "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)"
+    },
+    {
+      "repetition": 2,
+      "minimized": false,
+      "wall_seconds": 6.390610300004482,
+      "process_cpu_seconds": 11.65625,
+      "cpu_core_fraction": 1.8239650757599513,
+      "rendered_frames": 180,
+      "logical_frames": 180,
+      "suspended_iterations": 0,
+      "suspended_work_ms": 0.0,
+      "suspended_wait_ms": 0.0,
+      "rendered_cpu_p95_ms": 1.4709,
+      "max_rendered_cpu_ms": 1.8526,
+      "gpu_tile_peak_bytes": 4194304,
+      "framebuffer": [
+        1440,
+        900
+      ],
+      "framebuffer_sha256": "8b73ffcff3fb1188399ed3dc832bd1908d453593a9bdc3207410dd9e3689d60c",
+      "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)"
+    },
+    {
+      "repetition": 2,
+      "minimized": true,
+      "wall_seconds": 7.667388300062157,
+      "process_cpu_seconds": 8.140625,
+      "cpu_core_fraction": 1.0617207165488158,
+      "rendered_frames": 24,
+      "logical_frames": 180,
+      "suspended_iterations": 156,
+      "suspended_work_ms": 14.682599999999994,
+      "suspended_wait_ms": 4787.715400000002,
+      "rendered_cpu_p95_ms": 2.4617,
+      "max_rendered_cpu_ms": 10.1851,
+      "gpu_tile_peak_bytes": 4194304,
+      "framebuffer": [
+        1440,
+        900
+      ],
+      "framebuffer_sha256": "8b73ffcff3fb1188399ed3dc832bd1908d453593a9bdc3207410dd9e3689d60c",
+      "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)"
+    }
+  ],
+  "median_cpu_core_fraction": {
+    "active": 2.2645137446832644,
+    "minimized": 1.2631743635530486
+  },
+  "scope": "Synthetic static selected rectangles. Per-invocation wall/process CPU includes context setup, initial drawing, driver work, waiting, capture and teardown; excludes scene construction. Process CPU sums all process threads. Minimized work is wall time before the event wait, including model/command/save servicing; wait time is separate. Rendered-frame timings exclude minimized iterations and presentation. No first-render or hardware GPU speedup claim."
+}

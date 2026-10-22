@@ -29,12 +29,24 @@ public:
     GuiReplay(std::vector<GuiInput> events,double timeout):events_(std::move(events)),deadline_(timeout) {
         for(const auto& event:events_) {
             if(event.frame<0) throw std::invalid_argument("negative replay frame");
-            if(event.wait_for!=GuiInputWait::Immediate && event.wait_for!=GuiInputWait::TargetReady && event.wait_for!=GuiInputWait::StartupFinished && event.wait_for!=GuiInputWait::TissueReady && event.wait_for!=GuiInputWait::TissueContoursReady && event.wait_for!=GuiInputWait::TissueContoursPublished && event.wait_for!=GuiInputWait::TissueArchived && event.wait_for!=GuiInputWait::TissueVerified && event.wait_for!=GuiInputWait::CellsReady && event.wait_for!=GuiInputWait::CellsPublished && event.wait_for!=GuiInputWait::CellsArchived && event.wait_for!=GuiInputWait::CellsVerified && event.wait_for!=GuiInputWait::CellTableSaved && event.wait_for!=GuiInputWait::FileFingerprintReady && event.wait_for!=GuiInputWait::MeasurementTableSaved && event.wait_for!=GuiInputWait::StainsEstimated && event.wait_for!=GuiInputWait::StainsApplied && event.wait_for!=GuiInputWait::BatchFinished)
+            if(event.kind==GuiInputKind::ResizeWindow && (!std::isfinite(event.x) || !std::isfinite(event.y) ||
+               event.x<640 || event.y<480 || event.x>8192 || event.y>8192 || std::floor(event.x)!=event.x || std::floor(event.y)!=event.y))
+                throw std::invalid_argument("resize replay requires integer window dimensions between 640x480 and 8192x8192");
+            if(event.wait_for==GuiInputWait::WindowReady && (event.kind==GuiInputKind::ResizeWindow || event.kind==GuiInputKind::MinimizeWindow || event.kind==GuiInputKind::RestoreWindow))
+                throw std::invalid_argument("window controls cannot wait for window readiness");
+            if(event.wait_for!=GuiInputWait::Immediate && event.wait_for!=GuiInputWait::TargetReady && event.wait_for!=GuiInputWait::StartupFinished && event.wait_for!=GuiInputWait::TissueReady && event.wait_for!=GuiInputWait::TissueContoursReady && event.wait_for!=GuiInputWait::TissueContoursPublished && event.wait_for!=GuiInputWait::TissueArchived && event.wait_for!=GuiInputWait::TissueVerified && event.wait_for!=GuiInputWait::CellsReady && event.wait_for!=GuiInputWait::CellsPublished && event.wait_for!=GuiInputWait::CellsArchived && event.wait_for!=GuiInputWait::CellsVerified && event.wait_for!=GuiInputWait::CellTableSaved && event.wait_for!=GuiInputWait::FileFingerprintReady && event.wait_for!=GuiInputWait::MeasurementTableSaved && event.wait_for!=GuiInputWait::StainsEstimated && event.wait_for!=GuiInputWait::StainsApplied && event.wait_for!=GuiInputWait::BatchFinished && event.wait_for!=GuiInputWait::WindowReady)
                 throw std::invalid_argument("invalid GUI replay readiness condition");
             if(event.wait_for==GuiInputWait::TargetReady && (event.kind!=GuiInputKind::LeftDown || event.target<GuiInputTarget::DisplayReset || event.target>GuiInputTarget::CancelDiscardCheckpoint))
                 throw std::invalid_argument("target readiness requires LeftDown on a named button target");
         }
         std::stable_sort(events_.begin(),events_.end(),[](const auto& a,const auto& b){return a.frame<b.frame;});
+        bool minimized=false;
+        for(const auto& event:events_) {
+            if(event.kind==GuiInputKind::MinimizeWindow) minimized=true;
+            else if(event.kind==GuiInputKind::RestoreWindow || event.kind==GuiInputKind::CloseWindow) minimized=false;
+            else if(minimized && event.kind!=GuiInputKind::ResizeWindow)
+                throw std::invalid_argument("restore the window before replaying UI input");
+        }
     }
     template<class Ready,class Emit> void dispatch(Ready&& ready,Emit&& emit,GuiReplayDeadline::Clock::time_point now) {
         blocked_=false;

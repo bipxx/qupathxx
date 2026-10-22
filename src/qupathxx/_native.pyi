@@ -1426,6 +1426,12 @@ class GuiInputKind(enum.Enum):
 
     CANCEL_BATCH_KEY = 62
 
+    RESIZE_WINDOW = 63
+
+    MINIMIZE_WINDOW = 64
+
+    RESTORE_WINDOW = 65
+
     FINGERPRINT_FILE_KEY = 54
 
     CANCEL_FINGERPRINT_FILE_KEY = 55
@@ -1503,6 +1509,8 @@ class GuiInputWait(enum.Enum):
     STAINS_APPLIED = 16
 
     BATCH_FINISHED = 17
+
+    WINDOW_READY = 18
 
 class GuiInput:
     def __init__(self) -> None: ...
@@ -1934,6 +1942,18 @@ class GuiReport:
     def __init__(self, _native_only: Never) -> None: ...
     @property
     def frames(self) -> int: ...
+
+    @property
+    def suspended_iterations(self) -> int: ...
+
+    @property
+    def suspended_work_ms(self) -> float: ...
+
+    @property
+    def suspended_wait_ms(self) -> float: ...
+
+    @property
+    def window_iconified(self) -> bool: ...
 
     @property
     def overlay_cache_bytes(self) -> int: ...

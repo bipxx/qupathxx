@@ -58,7 +58,7 @@ completion or interactive motion latency.
 Overview navigation and RGB display controls are implemented. Tests replay
 pointer pan, wheel zoom, rectangle drawing and overview clicks through ImGui's
 input queue. The initial 2560 x 1440 synthetic pyramid workload is implemented;
-vendor cold reads, resize, minimize, per-monitor DPI changes, prolonged cache
+vendor cold reads, per-monitor DPI changes, prolonged cache
 pressure and the 100,000-object culling benchmark remain open. ICC transforms,
 fluorescence controls and docking/layout work need separate implementation.
 
@@ -76,6 +76,10 @@ lookup table only during GPU upload. The identity path uploads raw bytes directl
 Changing settings discards display textures but preserves raw decoded cache
 entries. Measurements and source metadata do not change. This remains RGB8
 display, not a fluorescence channel model or quantitative stain transformation.
+
+Native window resizing, minimize/restore behavior and the reduced-work owner
+loop are covered by the [window lifecycle contract](window-lifecycle.md).
+Per-monitor DPI transitions and hardware/OS input delivery remain separate gates.
 
 The Python API exposes DisplaySettings, GuiOptions and deterministic GuiInput
 records. Replay uses the same ImGui events as GLFW input. Coordinates are

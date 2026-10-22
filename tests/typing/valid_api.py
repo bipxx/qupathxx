@@ -50,3 +50,18 @@ def matching_import(doc: q.Document, text: str) -> q.InterchangeReport:
     options.interchange_allow_losses=True
     options.qupath_ellipse_precision=True
     return q.import_geojson(doc,text,assume_pixels=True,allow_losses=True,qupath_ellipse_precision=True)
+
+
+def resize_after_minimize(doc: q.Document) -> tuple[int, float, bool]:
+    minimize=q.GuiInput()
+    minimize.frame,minimize.kind=0,q.GuiInputKind.MINIMIZE_WINDOW
+    restore=q.GuiInput()
+    restore.frame,restore.kind=2,q.GuiInputKind.RESTORE_WINDOW
+    resize=q.GuiInput()
+    resize.frame,resize.kind,resize.x,resize.y=3,q.GuiInputKind.RESIZE_WINDOW,1040,660
+    ready=q.GuiInput()
+    ready.frame,ready.wait_for=4,q.GuiInputWait.WINDOW_READY
+    options=q.GuiOptions()
+    options.inputs=[minimize,restore,resize,ready]
+    report=q.show(doc,frame_limit=12,options=options)
+    return report.suspended_iterations,report.suspended_work_ms,report.window_iconified

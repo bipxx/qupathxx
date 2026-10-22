@@ -1606,6 +1606,34 @@ GEOS-disabled/headless-only contracts. Hosted GUI skips its two ungenerated
 large-pyramid cases plus the backend/headless/live-reference configurations.
 No new hardware GPU or frame-time performance claim is made.
 
+Packet 61 adds real native window resize/minimize/restore replay and a suspended
+viewer path. Minimized iterations service native commands, job completion,
+save reconciliation and recovery timers, then wait for events for up to 20 ms.
+They skip UI preparation, spatial/overlay work, tile upload and drawing. Window
+resize preserves the image center/zoom and does not dirty an unchanged saved
+view; overlay-pixel translation is checked exactly. Window readiness gates image
+input on the new rendered layout. Capture/settlement require restoration, and a
+finite startup blocked before its first paint has a bounded failure path.
+
+Activation failure detection now uses owner-pump cycles rather than rendered
+frames, preserving queue progress while minimized. Native tests cover activation
+success/failure with a frozen frame counter. Fourteen GUI cases cover window
+operations, precise overlay pixels, saved views, image selection, no-frame
+autosave, managed edit/inspect/activation/save/force-close, startup cancellation
+and validation errors. Public stubs and the typing fixture expose the additions.
+See [window lifecycle](window-lifecycle.md) and the
+[source/native-identified benchmark](benchmarks/window-lifecycle-windows.json).
+
+The paired 100000-object software-rendered workload retains six alternating runs
+at 180 logical frames. Active runs draw 180 frames; minimized runs draw 24 and
+service 156 suspended loops. All final framebuffer hashes match. Median whole-
+invocation CPU per wall second is 2.2645 cores active / 1.2632 minimized, about
+44% lower, including context setup/drawing/capture/teardown and driver threads.
+Suspended-loop work totals 14.58–28.18 ms per run. This is reduced minimized
+activity, not an improvement claim for the unresolved cold-first-render or dense
+interactive frame-time gates. Docking/layout, per-monitor DPI, vendor campaigns
+and all other unfinished M0-M7 requirements remain active.
+
 These are development candidates. Linux wheels still require the explicit GEOS
 SDK/system OpenSlide runtime. Windows hardware/DPI campaigns, user-machine
 installer acceptance, macOS, project license and fixture decisions, the M2 cold

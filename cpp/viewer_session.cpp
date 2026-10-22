@@ -92,12 +92,13 @@ namespace detail {
 struct ViewerOwner::Impl {
     using Ticket=ViewerSession::Impl::Ticket;
     struct Work {
-        std::shared_ptr<Ticket> ticket;std::unique_ptr<Command> command;ViewerEvent seed;Clock::time_point started;std::uint64_t frame=0;
+        std::shared_ptr<Ticket> ticket;std::unique_ptr<Command> command;ViewerEvent seed;Clock::time_point started;std::uint64_t cycle=0;
         std::optional<AnalysisRequest> analysis;std::optional<TissueRequest> tissue;std::optional<CellRequest> cells;
         std::optional<MeasurementTableRequest> table;std::optional<CellTableRequest> cell_table;
         std::shared_ptr<ImageServer> reader;std::future<ViewerEvent> future;
     };
     std::shared_ptr<ViewerSession::Impl> state;std::unique_ptr<Work> work;bool ended=false;
+    std::uint64_t cycle=0;
     explicit Impl(ViewerSession& session):state(session.impl_) {std::lock_guard<std::mutex> lock(state->mutex);if(state->stats.state!="created") throw std::runtime_error("viewer session can only be run once");state->stats.state="opening";}
     void reserve(const std::shared_ptr<Ticket>& t,const ViewerEvent& e) {const auto bytes=payload(e);std::lock_guard<std::mutex> lock(state->mutex);if(bytes>state->limits.result_bytes-(state->stats.retained_bytes-t->retained)) throw std::length_error("viewer result budget exceeded; consume completed tickets or disable retained results");state->stats.retained_bytes=state->stats.retained_bytes-t->retained+bytes;t->retained=bytes;}
     void complete(const std::shared_ptr<Ticket>& t,ViewerEvent e) {
@@ -122,7 +123,7 @@ struct ViewerOwner::Impl {
         if(command.action==Action::Activate) {
             if(stale || w.ticket->cancelled.load()) {failure(w.ticket,stale?"workspace replaced":"activation cancelled",stale?"stale":"cancelled");work.reset();return;}
             if(c.active_image==command.image) {auto e=w.seed;e.state="succeeded";complete(w.ticket,std::move(e));work.reset();}
-            else if(!c.blocked && c.frame>w.frame+2) {failure(w.ticket,"image activation failed or was superseded");work.reset();}return;
+            else if(!c.blocked && cycle-w.cycle>2) {failure(w.ticket,"image activation failed or was superseded");work.reset();}return;
         }
         if(stale || c.closing) w.ticket->cancelled.store(true);
         if(w.future.wait_for(std::chrono::seconds(0))!=std::future_status::ready) return;
@@ -161,7 +162,7 @@ struct ViewerOwner::Impl {
         }
         if(command->action==Action::Select) {if(e.image_id!=c.active_image) throw std::invalid_argument("activate the target image before selecting objects");c.select(command->ids);done();return;}
         if(work) throw std::runtime_error("a viewer script job is already running; wait for its ticket");
-        auto pending=std::make_unique<Work>();pending->ticket=ticket;pending->command=std::move(command);pending->seed=e;pending->started=started;pending->frame=c.frame;auto& cmd=*pending->command;
+        auto pending=std::make_unique<Work>();pending->ticket=ticket;pending->command=std::move(command);pending->seed=e;pending->started=started;pending->cycle=cycle;auto& cmd=*pending->command;
         if(cmd.action==Action::Save) {if(!c.save(cmd.text)) throw std::runtime_error("a GUI save is already running");work=std::move(pending);return;}
         if(cmd.action==Action::Activate) {c.activate(e.image_id);work=std::move(pending);return;}
         if(cmd.action==Action::Region) {validate_region(doc->metadata(),cmd.region);pending->reader=doc->server();}
@@ -189,6 +190,9 @@ ViewerOwner::ViewerOwner(ViewerSession& session):impl_(std::make_unique<Impl>(se
 ViewerOwner::~ViewerOwner() {try {fail("viewer ended before completion was observed; inspect any authorized output files");}catch(...) {}}
 void ViewerOwner::poll(const ViewerContext& context) {if(impl_->ended) return;impl_->poll(context);impl_->update(context);}
 void ViewerOwner::pump(const ViewerContext& context) {
+    if(impl_->ended) return;
+    if(impl_->cycle==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("viewer owner cycle exhausted");
+    ++impl_->cycle;
     poll(context);if(impl_->ended || context.closing) return;std::shared_ptr<Impl::Ticket> ticket;std::unique_ptr<Command> command;
     {std::lock_guard<std::mutex> lock(impl_->state->mutex);if(impl_->state->queue.empty()) return;auto position=impl_->state->queue.begin();if(context.blocked) {position=std::find_if(position,impl_->state->queue.end(),[&](auto id){return impl_->state->find(id)->command->action==Action::Close;});if(position==impl_->state->queue.end()) return;}const auto id=*position;impl_->state->queue.erase(position);ticket=impl_->state->find(id);impl_->state->stats.queued_bytes-=ticket->queued;ticket->queued=0;command=std::move(ticket->command);ticket->event.state="running";impl_->state->stats.queued=impl_->state->queue.size();}
     const auto start=Clock::now();try {impl_->start(context,ticket,std::move(command));}catch(const std::exception& e) {impl_->failure(ticket,error_text(e));}
