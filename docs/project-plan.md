@@ -1886,3 +1886,11 @@ pending. This packet establishes
 the shared engine; object/pixel snapshots, background jobs, atomic undoable
 publication, retained project provenance and ImGui training are still required.
 The overall plan remains active with all other M0–M7 gaps retained.
+
+The first full local regression run passed 1,326 with six skips and exposed
+one existing GUI workspace fixture race: its fixed 0.9-second SQLite lock
+could expire before Cancel/Undo replay. The fixture now holds the lock through
+a GUI-triggered CSV publication after Undo, waits for the visible Cancel target,
+and checks the lock-holder's exit status. The 33-case workspace/recovery/
+classifier set passes with that synchronization. Full regression is repeated
+on the same native artifact; production GUI behavior is unchanged.

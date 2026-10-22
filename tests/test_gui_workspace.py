@@ -161,21 +161,29 @@ def test_locked_project_load_can_be_cancelled_while_live_undo_runs(tmp_path):
     identity = current.identity
     doc.rename_annotation(obj, 'Undo while loading')
     ready = tmp_path/'locked'
-    script = "import sqlite3,sys,time; from pathlib import Path; db=sqlite3.connect(sys.argv[1]); db.execute('BEGIN EXCLUSIVE'); Path(sys.argv[2]).write_text('ready'); time.sleep(0.9); db.rollback(); db.close()"
-    child = subprocess.Popen([sys.executable, '-c', script, str(source_path), str(ready)])
+    marker = tmp_path/'undo-exported.csv'
+    # Keep loading blocked through the real Cancel/Undo/export replay. A fixed
+    # sleep can expire during software-GL startup, exposing a different modal
+    # before the intended click. The child fails if the replay never arrives.
+    script = "import sqlite3,sys,time; from pathlib import Path; db=sqlite3.connect(sys.argv[1]); db.execute('BEGIN EXCLUSIVE'); Path(sys.argv[2]).write_text('ready'); deadline=time.monotonic()+8\nwhile not Path(sys.argv[3]).exists() and time.monotonic()<deadline: time.sleep(.01)\nreached=Path(sys.argv[3]).exists(); db.rollback(); db.close(); sys.exit(0 if reached else 3)"
+    child = subprocess.Popen([sys.executable, '-c', script, str(source_path), str(ready), str(marker)])
     try:
         deadline = time.monotonic()+5
         while not ready.exists() and time.monotonic() < deadline:
             time.sleep(.01)
         assert ready.exists()
         config = options(current, source_path)
-        config.inputs = [event(3, q.GuiInputKind.OPEN_PROJECT_KEY), *click(7, q.GuiInputTarget.CANCEL_PROJECT_LOAD),
-                         event(12, q.GuiInputKind.UNDO_KEY)]
+        config.measurement_table_path, config.replay_timeout_seconds = str(marker), 10
+        down, up = click(7, q.GuiInputTarget.CANCEL_PROJECT_LOAD)
+        down.wait_for = q.GuiInputWait.TARGET_READY
+        config.inputs = [event(3, q.GuiInputKind.OPEN_PROJECT_KEY), down, up,
+                         event(12, q.GuiInputKind.UNDO_KEY), event(16, q.GuiInputKind.EXPORT_MEASUREMENT_TABLE_KEY)]
         report = q.show(doc, frame_limit=85, options=config)
         assert not report.project_error and report.project_replacements == 0
+        assert marker.is_file() and report.measurement_table_state == 'succeeded'
         assert current.identity == identity and doc.annotation(obj).name == 'Original'
     finally:
-        child.wait(timeout=5)
+        assert child.wait(timeout=10) == 0
 
 
 def test_python_owned_inactive_documents_retire_without_gil_deadlock(tmp_path):
