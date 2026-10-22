@@ -1717,6 +1717,15 @@ levels exactly without an SDK loader path. See [reader runtime validation](reade
 This closes the identified fixture exclusion for the pinned configuration;
 broader reader/vendor acceptance and other M0–M7 requirements remain open.
 
+Hosted packet 63 validation at code commit
+`aa0dcac8a417a1026e5c07163b33483925a3a768` passes Windows GUI/headless,
+Linux headless and Linux sanitizer. Windows GUI passes 1278 Python cases and
+34 native cases; headless Windows/Linux pass 1031/1025 and 33 native cases
+each. The [raw evidence record](benchmarks/reader-ci-windows-linux.json) also
+retains the remaining Linux minimal job as pending in prerequisite setup,
+rather than claiming a completed five-job run. Full milestone acceptance
+remains open.
+
 M1's thumbnail policy is implemented for the current dense/OpenSlide readers.
 Broader vendor, damage, axes, metadata and ICC acceptance remains open, alongside
 all other unfinished milestone requirements.

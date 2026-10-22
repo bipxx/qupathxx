@@ -3,6 +3,9 @@
 The first image-server packet separates reading pixels from document state and
 display. Dense RGB images and OpenSlide share the same synchronous C++ interface.
 It is available in the installed Python package and the native region CLI.
+Verified development wheels use the pinned Windows/Linux OpenSlide SDK;
+[reader runtime validation](reader-runtime.md) records exact small-level TIFF
+checks and why the older Ubuntu system reader is outside that acceptance.
 
 ## Coordinates and pixel representation
 
