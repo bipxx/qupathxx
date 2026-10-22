@@ -1,0 +1,94 @@
+{
+  "schema": "qpx.local-validation/1",
+  "commit": "ace0fc3863c57cc54257ff2305fc9d59fb90b127",
+  "observed_utc": "2026-10-22T16:07:22.244796+00:00",
+  "scope": "Full installed Windows llvmpipe suite and responsive-control, docking, scaling, recovery, batch and provenance checks on the final artifact. Ubuntu minimal native checked separately. No physical monitor delivery, macOS, hardware frame-budget, installer or full parity acceptance.",
+  "python": {
+    "tests": 1323,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1317,
+    "seconds": 500.485,
+    "sha256": "478c1d92724954c494416a88e63f2cce703bd853bcab5ee28a7fad22ffe9c96d"
+  },
+  "focused": {
+    "tests": 79,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 79,
+    "seconds": 81.841,
+    "sha256": "e516b23f1cfb1977223140f29bcccbd04fa3d1161c2f894a8d3eff8379c53d05"
+  },
+  "windows_native": {
+    "tests": 34,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 34,
+    "seconds": 7.0,
+    "sha256": "a208383551692ed4352c348c248fc2672eaa6a649151066292d5e0c969dbfae9"
+  },
+  "linux_minimal": {
+    "tests": 33,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 33,
+    "seconds": 0.0,
+    "sha256": "06579298aed7a629755ea036f254a586004c0a99ffd2a9d42aad3367b13617e5"
+  },
+  "workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "33beff343414371a47534963c8c48042385f27cd103d604340d723c9aada509c",
+    "source_tree_sha256": "dee4af557c99488b6b6c86f053897e9d1d11676558c99f65bd17faa63c93d7b5",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "95355c87d436f3d68b44383dfd5e0e8b66bd7c7ff6d00d41751543ff9c6367f3",
+    "bytes": 10062987
+  },
+  "checks": {
+    "layout66-stubs.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "layout66-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "layout66-typing-negative.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "benchmarks": {
+    "responsive-aperio-navigation-windows.json": {
+      "local_file_sha256": "ee08026c6b955089906edf623765a1a6668513884f0446092816a6b762426bdb",
+      "canonical_json_sha256": "daa4ce09bcc0059425b7ae121971fe3fdc065f84b30a6f195e17b53eaf49818f"
+    },
+    "responsive-large-navigation-windows.json": {
+      "local_file_sha256": "9e900e858b122eaacf3cc005550ac4c8ac027d7a6addcd7d724ab833f1350f8d",
+      "canonical_json_sha256": "11ed11863000246a196fd3e4a5e2028d5cacef13062f0cc000afdf472ab4b899"
+    }
+  },
+  "benchmark_hash_policy": "local_file_sha256 hashes original Windows output bytes; canonical_json_sha256 hashes sorted-key compact JSON encoded as UTF-8 and survives checkout line-ending conversion.",
+  "ci": {
+    "run": "https://github.com/bipxx/qupathxx/actions/runs/39809787592"
+  }
+}

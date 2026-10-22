@@ -1847,3 +1847,9 @@ parent/new phase profiles retain artifact identities and startup/dynamic
 spikes. Steady median widget cost remains sub-ms in both variants; variable
 software whole-frame p95 values do not accept the hardware budget. Full
 regression and hosted CI evidence are recorded as those runs complete.
+
+The final full local installed software-GL suite passes 1,317 tests with six
+skips. Its [artifact record](benchmarks/responsive-local-windows-linux.json)
+checks the same wheel/native/source identities as the 79 focused cases,
+installed workflow and navigation samples. The current hosted validation is
+[run 39809787592](https://github.com/bipxx/qupathxx/actions/runs/39809787592).

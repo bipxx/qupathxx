@@ -79,3 +79,11 @@ the new wheel. Median draw submission is 0.73 ms for the parent and
 these samples establish neither a speedup nor the 16.7 ms hardware frame
 budget. Driver calls can block; GPU completion latency is not measured.
 Cold/dynamic rendering and physical hardware/DPI acceptance remain open.
+
+
+The final full installed Windows software-GL regression suite passes 1,317
+with six skips. The [local validation record](benchmarks/responsive-local-windows-linux.json)
+retains JUnit/log hashes, final wheel/native identity, the installed workflow,
+and matching navigation samples. The [hosted CI run](https://github.com/bipxx/qupathxx/actions/runs/39809787592)
+checks the same code across the five supported CI configurations; hosted
+results are recorded separately from local acceptance.
