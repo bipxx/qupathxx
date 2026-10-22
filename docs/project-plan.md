@@ -1929,7 +1929,15 @@ visually checked with no helper-layout overflow. The full installed regression
 suite passes 1,340 tests with six skips. The [local artifact record](benchmarks/object-classifier-local-windows-linux.json)
 verifies the same wheel/native/source across the tests, installed workflow,
 numeric samples and rendered preview. Hosted [run 39831450439](https://github.com/bipxx/qupathxx/actions/runs/39831450439)
-targets `914744f` and is still running; its completion is not yet claimed.
+targets `914744f` and completed successfully with all five jobs successful.
+Windows GUI passes 1,339 Python/seven skips and 37 native; Windows headless
+passes 1,051 Python/290 skips and Linux headless 1,045/296, with 36 native
+each. Minimal and ASan/UBSan pass 36 native. The [hosted artifact record](benchmarks/object-classifier-ci-windows-linux.json)
+verifies wheels, installed workflows, stubs/typing, standalone executables,
+notices and benchmark identities. All three hosted object samples reproduce
+the local fixture's exact feature-table/model hashes and changed-object count.
+This seeded synthetic fixture does not establish biological accuracy or
+hardware performance budgets.
 
 The [10,000](benchmarks/object-classifier-10000-windows.json) and
 [100,000-object](benchmarks/object-classifier-100000-windows.json) native samples
@@ -1940,3 +1948,35 @@ is the principal next optimization target, not an accepted frame-budget gate.
 Retained classifier project/recovery provenance, richer feature-source manifests,
 pixel classifiers, validation cohorts, QuPath comparisons, TMA and the remaining
 M0–M7 requirements stay open. No overall completion is claimed.
+
+### Packet 69: compact class publication and history
+
+Replaces classifier publication through full object replacements with reversible
+class-string commands. The public C++/Python `Document.apply_classifications`
+operation validates the entire batch before commit, preserves geometry/nuclei/
+hierarchy/cell links, updates revisions once, and keeps copied document histories
+independent. Project save blocks remain immutable across apply/undo/redo,
+including untouched rows with newer revisions in the same block.
+
+The [paired Windows comparison](benchmarks/object-classification-publication-comparison-windows.json)
+uses two fresh-process observations per implementation in A B B A order.
+At 100,000 objects, median owner publication decreases from 272.9 to 44.6 ms
+with history disabled, and from 291.2 to 46.1 ms with identical 256 MiB history
+limits. Charged history payload decreases from 67.8 to 5.5 MB; undo/redo decrease
+from about 190/187 to 25/25 ms. A separate default-64-MiB candidate sample
+verifies every label through undo/redo. Model/table hashes and changed-object
+counts match in each comparison. The figures are synthetic local measurements
+on a shared workstation, not biological evidence or hardware budget acceptance.
+Large publication still exceeds a 16 ms frame budget.
+
+Focused installed tests pass 25 cases, including five real ImGui workflows and
+project snapshots spanning storage-block boundaries. Windows GUI native passes
+37; Windows headless, Linux training/minimal and ASan/UBSan pass 36 each.
+Exact public stubs and strict positive/seven-error negative typing pass.
+The full installed regression passes 1,337 tests with 11 skips; five Aperio
+cases skipped because the fixture variable was unset then pass in an exact-node
+rerun with the identified fixture. This verifies 1,342 distinct cases with six
+expected platform/headless/opt-in skips remaining. The [local artifact record](benchmarks/classification-publication-local-windows-linux.json)
+retains both reports, deduplicates cases, and verifies wheel/native/source and
+benchmark identities. The installed workflow also passes. Hosted validation for
+this source is pending; no result is claimed. Remaining M0–M7 requirements stay open.

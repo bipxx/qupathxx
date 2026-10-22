@@ -107,6 +107,27 @@ preset while preserving the configured snapshot budget. Accepted models can be
 reused across images; pending results become stale on document changes.
 Selected-scope changes also cancel pending work.
 
+Class publication uses a compact reversible field transaction. It retains object
+IDs and class strings in history, preserving geometry, nuclei, hierarchy and
+cell-feature links. Apply, undo and redo each advance the document/render
+revision once; geometry and calibration revisions remain unchanged. Immutable
+project-save blocks are copied before publication, so an already captured save
+keeps its original labels and object revisions. Copied documents own independent
+undo payloads.
+
+The same owner-thread operation is available from Python for bulk labelling:
+
+```python
+document.apply_classifications([(cell_id, "Tumor"), (other_id, "")],
+                               label="Review cells")
+```
+
+An empty class clears the label. Unknown or duplicate IDs, invalid text and an
+insufficient enabled history budget reject the entire batch. Unchanged batches
+preserve revision and redo. The history budget can be raised explicitly or
+recording disabled using `set_history_limits`; publication never silently
+disables undo to fit a batch.
+
 GUI defaults use 64 trees/depth eight; native defaults remain 64/depth twelve.
 The training estimate includes working/packed trees, portable copies and vector
 growth at 512 bytes per bounded node, plus matrix/row scratch. Large/deep
@@ -139,7 +160,28 @@ The [10,000-object](benchmarks/object-classifier-10000-windows.json) and
 overlapping rectangles with repeated discrete sizes and no image reads.
 Each phase is measured once, including Python conversion. At 100,000 objects,
 capture is 11.6 ms with 24.7 MB charged payload; extraction/prediction is 27.1 ms.
-Publication is **238 ms on the owner thread**, with history explicitly disabled.
-This is the main remaining large-batch responsiveness gap and does not meet a
-16 ms frame budget. History-enabled bulk publication, large polygons, real
-cells, hardware rendering and biological accuracy need separate work.
+The original publication path took **238 ms on the owner thread**, with history
+explicitly disabled.
+
+The [paired publication comparison](benchmarks/object-classification-publication-comparison-windows.json)
+compares that wheel with compact class commands, using A B B A order and two
+fresh-process observations per implementation/configuration. Model/table
+identities and changed-object counts match in every pair. At 10,000 objects,
+median publication falls from 20.4 to 3.9 ms; at 100,000 objects, from 272.9 to
+44.6 ms with history disabled. With the same explicit 256 MiB history budget,
+100,000-object publication falls from 291.2 to 46.1 ms, undo/redo from about
+190/187 to 25/25 ms, and charged history payload from 67.8 to 5.5 MB. A separate
+candidate sample also verifies all labels through undo/redo using the default
+64 MiB budget. These payload figures describe command accounting, not process RSS.
+
+The shared workstation was not reserved exclusively; two observations per
+version are limited local evidence. Large publication still exceeds a 16 ms
+frame budget. Large polygons, real cells, hardware rendering and biological
+accuracy need separate work.
+
+The [compact-command validation record](benchmarks/classification-publication-local-windows-linux.json)
+verifies 1,342 distinct passing installed cases: 1,337 in the complete run plus
+the exact five Aperio cases rerun after setting the missing fixture variable.
+Six expected platform/headless/opt-in skips remain. It also records focused GUI/
+snapshot tests, Windows/Linux native configurations, stubs/typing, installed
+workflow and matching wheel/native/source/benchmark identities.

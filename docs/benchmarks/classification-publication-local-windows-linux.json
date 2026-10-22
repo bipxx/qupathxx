@@ -1,0 +1,131 @@
+{
+  "schema": "qpx.local-validation/1",
+  "commit": "c6d963406a2b47600163a1d03d109607e50c3b79",
+  "observed_utc": "2026-10-22T19:11:06.328589+00:00",
+  "scope": "Compact class-only publication/history and immutable project saves on the exact installed Windows development wheel, plus native Windows/Linux configurations. Project classifier provenance, pixel/TMA workflows, training validation and hardware budgets remain open.",
+  "combined_python": {
+    "tests": 1348,
+    "passed": 1342,
+    "skipped": 6,
+    "method": "Complete suite without Aperio environment: 1337 passed/11 skipped. Exact five fixture-skipped node IDs rerun with QUPATHXX_APERIO_FIXTURE: five passed. Counts deduplicated by classname and test name; six expected platform/headless/opt-in skips remain."
+  },
+  "python": {
+    "tests": 1348,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 11,
+    "passed": 1337,
+    "seconds": 490.523,
+    "sha256": "9b9cef083908562748240a945838a6c415f49a9109a27c067e6d1d9a5efbe0b1"
+  },
+  "aperio": {
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 5,
+    "seconds": 6.224,
+    "sha256": "e89a76dab19c0164cb302f070785558cff5e522db22b2ac845c25fd26b23efde"
+  },
+  "focused": {
+    "tests": 25,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 25,
+    "seconds": 9.688,
+    "sha256": "db64e3efabb1147c1064603d1e7124ccadb8c51b5ee7ce77db3d78a4a2a555a0"
+  },
+  "windows_gui_native": {
+    "tests": 37,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 37,
+    "seconds": 7.0,
+    "sha256": "a67990128871293c0ff072fa2a8fcf609e659d1f305250bcc09abb844de36bf3"
+  },
+  "windows_native": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 36,
+    "seconds": 6.0,
+    "sha256": "64d3388a2c0efec05330b7e2eeb0ce6a6a19add4095c47a29889822b231de3a6"
+  },
+  "linux_native": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 36,
+    "seconds": 1.0,
+    "sha256": "606200da997451c65523486f5e366813b358d8aa860a53cc5a38d4de588a80cf"
+  },
+  "linux_minimal": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 36,
+    "seconds": 0.0,
+    "sha256": "4714c320440d024602d2c7ce9909e84e519ba16ba94e3f69f61081710de21615"
+  },
+  "linux_sanitizer": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 36,
+    "seconds": 10.0,
+    "sha256": "ad01f71cb56828756a9f040f1e465cd607c3bf30320db099e373c2bcd256e628"
+  },
+  "workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "9c0255e93f2230224f1b957fc052680678771dba949bc0b7bb407252c4cf794d",
+    "source_tree_sha256": "b4564035d969acf3acc9fa3b9ba9992b39b6d585729f7af39456f00ed44f1f69",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "637b84455ac3f17d05452aaa141519d554e5de3be2e8f6b02821086bf20020f1",
+    "bytes": 11285373
+  },
+  "benchmarks": {
+    "object-classification-publication-comparison-windows.json": {
+      "file_sha256": "f5d5ca340761ccade911ad8f924e8063e222bfbcfb73afe9f866aece0800c945"
+    }
+  },
+  "checks": {
+    "classes69-stubs.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "classes69-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "classes69-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "performance_limit": "Paired A B B A synthetic publication/history comparison; two samples per implementation/configuration. Large-batch publication remains above a 16ms frame budget; no hardware or research accuracy acceptance.",
+  "ci": {
+    "status_at_capture": "not_yet_started"
+  }
+}
