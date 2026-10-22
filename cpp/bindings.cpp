@@ -373,7 +373,7 @@ NB_MODULE(_native, m) {
     m.def("show", &run_project_gui, "project"_a, "frame_limit"_a = 0, "capture_path"_a = "", "options"_a=GuiOptions{});
 #else
     m.attr("has_gui") = false;
-    m.def("show", [](Document&, int, const std::string&, const GuiOptions&) { throw std::runtime_error("rebuild with -Ccmake.define.QUPATHXX_BUILD_GUI=ON"); }, "document"_a, "frame_limit"_a = 0, "capture_path"_a = "", "options"_a=GuiOptions{});
-    m.def("show", [](std::shared_ptr<Project>, int, const std::string&, const GuiOptions&) { throw std::runtime_error("rebuild with -Ccmake.define.QUPATHXX_BUILD_GUI=ON"); }, "project"_a, "frame_limit"_a = 0, "capture_path"_a = "", "options"_a=GuiOptions{});
+    m.def("show", [](Document&, int, const std::string&, const GuiOptions&) -> GuiReport { throw std::runtime_error("rebuild with -Ccmake.define.QUPATHXX_BUILD_GUI=ON"); }, "document"_a, "frame_limit"_a = 0, "capture_path"_a = "", "options"_a=GuiOptions{});
+    m.def("show", [](std::shared_ptr<Project>, int, const std::string&, const GuiOptions&) -> GuiReport { throw std::runtime_error("rebuild with -Ccmake.define.QUPATHXX_BUILD_GUI=ON"); }, "project"_a, "frame_limit"_a = 0, "capture_path"_a = "", "options"_a=GuiOptions{});
 #endif
 }

@@ -1,0 +1,20 @@
+{
+  "schema": "qpx.ci-runtime-assets/1",
+  "openslide": {
+    "url": "https://github.com/openslide/openslide-bin/releases/download/v4.0.1.2/openslide-bin-4.0.1.2-windows-x64.zip",
+    "filename": "openslide-bin-4.0.1.2-windows-x64.zip",
+    "bytes": 21492351,
+    "sha256": "841bef094e1504a831caaaf767a969be436e30d84bc16a33f4d941953409c150",
+    "prefix": "openslide-bin-4.0.1.2-windows-x64"
+  },
+  "mesa": {
+    "url": "https://github.com/pal1000/mesa-dist-win/releases/download/26.2.4/mesa3d-26.2.4-release-msvc.7z",
+    "filename": "mesa3d-26.2.4-release-msvc.7z",
+    "bytes": 70257286,
+    "sha256": "351fc8c8b695878ffb3eaa044b3ead08672a48b1a045e3c3e3975811df0f6695",
+    "files": {
+      "x64/opengl32.dll": "75b295fc80df0eaa8f1264c28663f6932c8b72d36513eb092556608858b7f5e0",
+      "x64/libgallium_wgl.dll": "53e49adf87590d5b0cab8553b1e98084812040cc1fca8c487695b17b7af3702e"
+    }
+  }
+}

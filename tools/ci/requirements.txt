@@ -1,0 +1,11 @@
+nanobind==3.1.0
+scikit-build-core==1.1.1
+pytest==9.1.1
+numpy==2.5.4; python_version >= '3.12'
+numpy==1.26.4; python_version < '3.12'
+Pillow==13.0.0
+tifffile==2024.9.20
+openslide-python==1.4.6
+scipy==1.16.3
+scikit-image==0.26.0
+mypy==2.4.0
