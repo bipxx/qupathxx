@@ -1,0 +1,83 @@
+{
+  "schema": "qpx.qupath-comparison-contract/1",
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "image": {
+    "width": 256,
+    "height": 256,
+    "calibration_um": [
+      0.5,
+      0.25
+    ],
+    "pattern": "r=(3*x+5*y)%256;g=(7*x+11*y)%256;b=(13*x+17*y)%256",
+    "sampling": "level-zero pixel centers, ROI.contains(x+0.5,y+0.5)"
+  },
+  "tolerances": {
+    "geometry_absolute": 1e-06,
+    "geometry_relative": 1e-10,
+    "float_absolute": 1e-06,
+    "float_relative": 1e-06,
+    "basis_absolute": 1e-14,
+    "sample_count": 0,
+    "mask_mismatched_pixels": 0,
+    "upstream_export_coordinate_absolute": 0.005000001,
+    "ellipse_length_relative": 0.0005
+  },
+  "scope": {
+    "objects": 10,
+    "area_compartments": 9,
+    "color_pixels": 260,
+    "white_models": 2,
+    "round_trip_identity": "Native numeric IDs become new QuPath UUIDs; compare objects by unique fixture name.",
+    "serialization": "Record created and QuPath-decoded geometry/masks separately; upstream coordinate quantization can change pixel membership.",
+    "excluded": [
+      "QuPath plugin parity",
+      "tissue and cell segmentation parity",
+      "hierarchy",
+      "derived classes",
+      "vendor decoding",
+      "non-default axes",
+      "Java binary project formats"
+    ],
+    "retained_edge_cases": 2,
+    "verified_edge_conditions": [
+      "Half-pixel hole boundary membership and counts, including 1874 covered centers for geometric area 1850"
+    ]
+  },
+  "algorithm_differences": {
+    "ellipse_length": {
+      "native": "radius-scaled adaptive quadrature",
+      "qupath": "Ramanujan second approximation, EllipseROI.getScaledLength",
+      "policy": "Use a separate 0.05% engineering budget for ellipse lengths, report the actual relative error and check the native value independently by dense quadrature. Other geometry tolerances are unchanged.",
+      "fixture_axis_ratios": [
+        1.5,
+        3,
+        100,
+        200
+      ]
+    },
+    "subpixel_export": {
+      "name": "Subpixel boundary",
+      "policy": "Compare native import to QuPath decoding of the same GeoJSON. Retain pre-export geometry and masks separately to expose upstream quantization."
+    }
+  },
+  "unmet_gates": [
+    {
+      "name": "very_thin_ellipse_decoded_geometry_parity",
+      "policy": "Do not widen coordinate/area tolerances. Report the native raw analytic envelope and QuPath float/repair-decoded envelope separately. This known disagreement keeps the overall comparison partial.",
+      "case": "Very thin ellipse"
+    }
+  ]
+}

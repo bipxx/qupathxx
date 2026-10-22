@@ -1,0 +1,8 @@
+# Captures are byte-addressed by their provenance manifest.
+tests/fixtures/qupath-0.7.0/** -text whitespace=cr-at-eol
+docs/benchmarks/qupath-runtime-windows.json -text whitespace=cr-at-eol
+
+# Hashed reference tooling has identical source bytes in every checkout.
+tools/upstream/qupath_reference.groovy text eol=lf
+tools/compare_qupath.py text eol=lf
+tools/fetch_qupath.py text eol=lf

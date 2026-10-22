@@ -677,3 +677,31 @@ all 55 frames and a 220.86 ms cold maximum. Raw source/native-identified records
 and every frame phase are retained in docs/benchmarks. Report-only warm timings
 are distinguished from the all-frame trace. These observations do not close the
 cold-render target, broader platform/slide performance or remaining M0-M7 gates.
+
+
+The fifty-eighth packet adds reproducible comparisons against the official pinned
+QuPath v0.7.0 Windows runtime. Bundle SHA/size and all 496 extracted file identities
+are verified; a fresh public download/extraction is exercised. Independent Groovy
+API output and a real native-export/QuPath-import/export round trip are retained
+with generator/contract/data hashes. Ten primary objects cover flat classes/RGB,
+Unicode, analytic and general shapes, cells/nuclei and UUID remapping. Exact
+pixel-center masks and 108 tiled OD/stain mean jobs match in both directions;
+OD/stain errors stay below 1.1e-7 for two white models and 260 RGB triples.
+
+The corpus retains pre-export and decoded geometry/masks: QuPath serialization
+changes a subpixel rectangle from 441 to 400 covered centers. Ellipse perimeter
+methods differ explicitly, with a separate 0.05% engineering budget and independent
+dense quadrature of the native result. A half-pixel hole agrees exactly. A very
+thin ellipse has a genuine decoded-envelope disagreement of about 0.12 pixels;
+it remains a named gate, strict expected failure and partial/exit-2 report.
+No coordinate tolerance was widened to hide it. See qupath-comparisons.md and the
+source/native-identified raw report for the exact scope, values and exclusions.
+
+Sixty-five focused reference cases pass with one expected geometry failure,
+including live regeneration from a freshly downloaded/verified runtime cache.
+The combined reference/interchange/stain/analysis set passes 128 cases with that
+one expected failure. Native application code is unchanged from the prior
+1158-case installed-wheel validation. These checks introduce no new renderer or
+whole-slide performance claim. Thin-ellipse decoder handling, broader workflow/
+segmentation comparisons, CI/distribution, license/fixture decisions and all
+unfinished M0-M7 requirements remain active.

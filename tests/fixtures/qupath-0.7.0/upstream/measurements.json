@@ -1,0 +1,359 @@
+{
+  "schema": "qpx.qupath-reference/1",
+  "qupath_version": "0.7.0",
+  "java_version": "25.0.2",
+  "calibration": [
+    0.5,
+    0.25
+  ],
+  "objects": [
+    {
+      "id": "00000000-0000-0000-0000-000000000001",
+      "name": "Rectangle",
+      "kind": "annotation",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "geometry": {
+        "area": 1022.625,
+        "length": 131.5,
+        "area_um2": 127.828125,
+        "length_um": 53.125,
+        "bounds": [
+          10.25,
+          20.5,
+          40.5,
+          25.25
+        ]
+      }
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000002",
+      "name": "Ellipse",
+      "kind": "annotation",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "geometry": {
+        "area": 471.23889803846896,
+        "length": 79.32719794625616,
+        "area_um2": 58.90486225480862,
+        "length_um": 33.4122319495668,
+        "bounds": [
+          70.0,
+          10.0,
+          30.0,
+          20.0
+        ]
+      }
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000003",
+      "name": "Hole",
+      "kind": "annotation",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "geometry": {
+        "area": 1850.0,
+        "length": 230.0,
+        "area_um2": 231.25,
+        "length_um": 90.0,
+        "bounds": [
+          10.0,
+          80.0,
+          50.0,
+          40.0
+        ]
+      }
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000004",
+      "name": "Multipart",
+      "kind": "annotation",
+      "geometry": {
+        "area": 700.0,
+        "length": 150.0,
+        "area_um2": 87.5,
+        "length_um": 55.0,
+        "bounds": [
+          80.0,
+          80.0,
+          50.0,
+          20.0
+        ]
+      }
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000005",
+      "name": "Polyline",
+      "kind": "annotation",
+      "geometry": {
+        "area": 0.0,
+        "length": 36.05551275463989,
+        "area_um2": 0.0,
+        "length_um": 14.155694150420949,
+        "bounds": [
+          15.0,
+          145.0,
+          25.0,
+          15.0
+        ]
+      }
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000006",
+      "name": "Points μ",
+      "kind": "annotation",
+      "geometry": {
+        "area": 0.0,
+        "length": 0.0,
+        "area_um2": 0.0,
+        "length_um": 0.0,
+        "bounds": [
+          80.0,
+          145.0,
+          20.0,
+          20.0
+        ]
+      }
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000007",
+      "name": "Detection",
+      "kind": "detection",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "geometry": {
+        "area": 150.0,
+        "length": 50.0,
+        "area_um2": 18.75,
+        "length_um": 17.5,
+        "bounds": [
+          150.0,
+          20.0,
+          10.0,
+          15.0
+        ]
+      }
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000008",
+      "name": "Cell",
+      "kind": "cell",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "geometry": {
+        "area": 1600.0,
+        "length": 160.0,
+        "area_um2": 200.0,
+        "length_um": 60.0,
+        "bounds": [
+          170.0,
+          70.0,
+          40.0,
+          40.0
+        ]
+      },
+      "nucleus": {
+        "area": 117.80972450961724,
+        "length": 39.66359897312808,
+        "area_um2": 14.726215563702155,
+        "length_um": 16.7061159747834,
+        "bounds": [
+          180.0,
+          80.0,
+          15.0,
+          10.0
+        ]
+      }
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000009",
+      "name": "Subpixel boundary",
+      "kind": "annotation",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "geometry": {
+        "area": 400.0,
+        "length": 80.0,
+        "area_um2": 50.0,
+        "length_um": 30.0,
+        "bounds": [
+          150.5,
+          150.5,
+          20.0,
+          20.0
+        ]
+      }
+    },
+    {
+      "id": "00000000-0000-0000-0000-000000000010",
+      "name": "Eccentric ellipse",
+      "kind": "annotation",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "geometry": {
+        "area": 314.1592653589793,
+        "length": 400.01421594331987,
+        "area_um2": 39.269908169872416,
+        "length_um": 199.95458398754604,
+        "bounds": [
+          20.0,
+          219.0,
+          200.0,
+          2.0
+        ]
+      }
+    }
+  ],
+  "created_geometry": [
+    {
+      "name": "Rectangle",
+      "geometry": {
+        "area": 1022.625,
+        "length": 131.5,
+        "area_um2": 127.828125,
+        "length_um": 53.125,
+        "bounds": [
+          10.25,
+          20.5,
+          40.5,
+          25.25
+        ]
+      }
+    },
+    {
+      "name": "Ellipse",
+      "geometry": {
+        "area": 471.23889803846896,
+        "length": 79.32719794625616,
+        "area_um2": 58.90486225480862,
+        "length_um": 33.4122319495668,
+        "bounds": [
+          70.0,
+          10.0,
+          30.0,
+          20.0
+        ]
+      }
+    },
+    {
+      "name": "Hole",
+      "geometry": {
+        "area": 1850.0,
+        "length": 230.0,
+        "area_um2": 231.25,
+        "length_um": 90.0,
+        "bounds": [
+          10.0,
+          80.0,
+          50.0,
+          40.0
+        ]
+      }
+    },
+    {
+      "name": "Multipart",
+      "geometry": {
+        "area": 700.0,
+        "length": 150.0,
+        "area_um2": 87.5,
+        "length_um": 55.0,
+        "bounds": [
+          80.0,
+          80.0,
+          50.0,
+          20.0
+        ]
+      }
+    },
+    {
+      "name": "Polyline",
+      "geometry": {
+        "area": 0.0,
+        "length": 36.05551275463989,
+        "area_um2": 0.0,
+        "length_um": 14.155694150420949,
+        "bounds": [
+          15.0,
+          145.0,
+          25.0,
+          15.0
+        ]
+      }
+    },
+    {
+      "name": "Points μ",
+      "geometry": {
+        "area": 0.0,
+        "length": 0.0,
+        "area_um2": 0.0,
+        "length_um": 0.0,
+        "bounds": [
+          80.0,
+          145.0,
+          20.0,
+          20.0
+        ]
+      }
+    },
+    {
+      "name": "Detection",
+      "geometry": {
+        "area": 150.0,
+        "length": 50.0,
+        "area_um2": 18.75,
+        "length_um": 17.5,
+        "bounds": [
+          150.0,
+          20.0,
+          10.0,
+          15.0
+        ]
+      }
+    },
+    {
+      "name": "Cell",
+      "geometry": {
+        "area": 1600.0,
+        "length": 160.0,
+        "area_um2": 200.0,
+        "length_um": 60.0,
+        "bounds": [
+          170.0,
+          70.0,
+          40.0,
+          40.0
+        ]
+      }
+    },
+    {
+      "name": "Subpixel boundary",
+      "geometry": {
+        "area": 400.0800040000004,
+        "length": 80.00800000000004,
+        "area_um2": 50.01000050000005,
+        "length_um": 30.003000000000014,
+        "bounds": [
+          150.499,
+          150.499,
+          20.00200000000001,
+          20.00200000000001
+        ]
+      }
+    },
+    {
+      "name": "Eccentric ellipse",
+      "geometry": {
+        "area": 314.1592653589793,
+        "length": 400.01421594331987,
+        "area_um2": 39.269908169872416,
+        "length_um": 199.95458398754604,
+        "bounds": [
+          20.0,
+          219.0,
+          200.0,
+          2.0
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,243 @@
+{
+  "schema": "qpx.qupath-comparison/1",
+  "state": "partial",
+  "unmet_gates": [
+    {
+      "name": "very_thin_ellipse_decoded_geometry_parity",
+      "policy": "Do not widen coordinate/area tolerances. Report the native raw analytic envelope and QuPath float/repair-decoded envelope separately. This known disagreement keeps the overall comparison partial.",
+      "case": "Very thin ellipse"
+    }
+  ],
+  "platform": "Windows-11-10.0.26200-SP0",
+  "native_sha256": "ca556d9d9759f443fc8211b15789cb5933519502e7357e44aad66ff93ee0f937",
+  "source_tree_sha256": "9362e1477facb6e1a9d67ac7d42a9927c7bd1090c750bdb978c462d97c1303a5",
+  "generator_sha256": "6fe106a3ff9258a3da6c0a7a8554a5f18fba8a4756e4434919e8b5b616115cb5",
+  "contract_sha256": "1bec8d2516a1c2d1ea8a923ef61e0e59c59469321a327f27396c2818ff422ec1",
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "tolerances": {
+    "geometry_absolute": 1e-06,
+    "geometry_relative": 1e-10,
+    "float_absolute": 1e-06,
+    "float_relative": 1e-06,
+    "basis_absolute": 1e-14,
+    "sample_count": 0,
+    "mask_mismatched_pixels": 0,
+    "upstream_export_coordinate_absolute": 0.005000001,
+    "ellipse_length_relative": 0.0005
+  },
+  "original": {
+    "objects": 10,
+    "area_compartments": 9,
+    "mask_mismatches": 0,
+    "analysis_jobs": 54,
+    "geometry_max_absolute_error": 0.0,
+    "ellipse_length_differences": [
+      {
+        "name": "Ellipse",
+        "compartment": "body",
+        "unit": "pixels",
+        "native": 79.32719794645294,
+        "qupath": 79.32719794625616,
+        "relative_error": 2.480583082925962e-12
+      },
+      {
+        "name": "Ellipse",
+        "compartment": "body",
+        "unit": "um",
+        "native": 33.412233051388135,
+        "qupath": 33.4122319495668,
+        "relative_error": 3.2976585775578864e-08
+      },
+      {
+        "name": "Cell",
+        "compartment": "nucleus",
+        "unit": "pixels",
+        "native": 39.66359897322647,
+        "qupath": 39.66359897312808,
+        "relative_error": 2.480583082925962e-12
+      },
+      {
+        "name": "Cell",
+        "compartment": "nucleus",
+        "unit": "um",
+        "native": 16.706116525694068,
+        "qupath": 16.7061159747834,
+        "relative_error": 3.2976585775578864e-08
+      },
+      {
+        "name": "Eccentric ellipse",
+        "compartment": "body",
+        "unit": "pixels",
+        "native": 400.10983297226517,
+        "qupath": 400.01421594331987,
+        "relative_error": 0.00023903407712601627
+      },
+      {
+        "name": "Eccentric ellipse",
+        "compartment": "body",
+        "unit": "um",
+        "native": 200.01546166060115,
+        "qupath": 199.95458398754604,
+        "relative_error": 0.0003044575015039142
+      }
+    ],
+    "od_max_absolute_error": 5.8433532679202926e-08,
+    "stain_max_absolute_error": 1.0800170890945537e-07,
+    "roi_mean_max_absolute_error": 0.0,
+    "analysis_jobs_wall_ms": 4.005600116215646,
+    "import_notices": [
+      {
+        "code": "ellipse_hint",
+        "count": 3
+      }
+    ]
+  },
+  "roundtrip": {
+    "objects": 10,
+    "area_compartments": 9,
+    "mask_mismatches": 0,
+    "analysis_jobs": 54,
+    "geometry_max_absolute_error": 0.0,
+    "ellipse_length_differences": [
+      {
+        "name": "Ellipse",
+        "compartment": "body",
+        "unit": "pixels",
+        "native": 79.32719794645294,
+        "qupath": 79.32719794625616,
+        "relative_error": 2.480583082925962e-12
+      },
+      {
+        "name": "Ellipse",
+        "compartment": "body",
+        "unit": "um",
+        "native": 33.412233051388135,
+        "qupath": 33.4122319495668,
+        "relative_error": 3.2976585775578864e-08
+      },
+      {
+        "name": "Cell",
+        "compartment": "nucleus",
+        "unit": "pixels",
+        "native": 39.66359897322647,
+        "qupath": 39.66359897312808,
+        "relative_error": 2.480583082925962e-12
+      },
+      {
+        "name": "Cell",
+        "compartment": "nucleus",
+        "unit": "um",
+        "native": 16.706116525694068,
+        "qupath": 16.7061159747834,
+        "relative_error": 3.2976585775578864e-08
+      },
+      {
+        "name": "Eccentric ellipse",
+        "compartment": "body",
+        "unit": "pixels",
+        "native": 400.10983297226517,
+        "qupath": 400.01421594331987,
+        "relative_error": 0.00023903407712601627
+      },
+      {
+        "name": "Eccentric ellipse",
+        "compartment": "body",
+        "unit": "um",
+        "native": 200.01546166060115,
+        "qupath": 199.95458398754604,
+        "relative_error": 0.0003044575015039142
+      }
+    ],
+    "od_max_absolute_error": 5.8433532679202926e-08,
+    "stain_max_absolute_error": 1.0800170890945537e-07,
+    "roi_mean_max_absolute_error": 0.0,
+    "analysis_jobs_wall_ms": 4.048099974170327,
+    "import_notices": [
+      {
+        "code": "ellipse_hint",
+        "count": 3
+      }
+    ]
+  },
+  "upstream_serialization_changes": [
+    {
+      "name": "Subpixel boundary",
+      "created_area": 400.0800040000004,
+      "decoded_area": 400.0,
+      "bounds_max_absolute_error": 0.0020000000000095497,
+      "created_samples": 441,
+      "decoded_samples": 400
+    }
+  ],
+  "retained_edge_cases": [
+    {
+      "name": "Very thin ellipse",
+      "state": "known_parity_gap",
+      "native_bounds": [
+        170.0,
+        220.45,
+        60.0,
+        0.10000000000002274
+      ],
+      "qupath_decoded_bounds": [
+        170.05999755859375,
+        220.4499969482422,
+        59.8800048828125,
+        0.100006103515625
+      ],
+      "bounds_max_absolute_error": 0.1199951171875,
+      "native_area": 4.712388980385761,
+      "qupath_decoded_area": 4.703251632097457,
+      "created_samples": 60,
+      "decoded_samples": 60,
+      "native_samples": 60,
+      "mask_equal": true,
+      "roi_mean_max_absolute_error": 0.0
+    },
+    {
+      "name": "Half-pixel hole",
+      "state": "passed",
+      "native_bounds": [
+        10.0,
+        80.0,
+        50.0,
+        40.0
+      ],
+      "qupath_decoded_bounds": [
+        10.0,
+        80.0,
+        50.0,
+        40.0
+      ],
+      "bounds_max_absolute_error": 0.0,
+      "native_area": 1850.0,
+      "qupath_decoded_area": 1850.0,
+      "created_samples": 1874,
+      "decoded_samples": 1874,
+      "native_samples": 1874,
+      "mask_equal": true,
+      "roi_mean_max_absolute_error": 0.0
+    }
+  ],
+  "native_export_notices": [
+    {
+      "code": "ellipse_polygonized",
+      "count": 3
+    }
+  ],
+  "identity_loss": "Native numeric IDs are replaced with QuPath UUIDs; object comparisons use unique names.",
+  "performance_scope": "analysis_jobs_wall_ms times 54 native jobs per direction only; setup, masks, QuPath and file IO excluded"
+}

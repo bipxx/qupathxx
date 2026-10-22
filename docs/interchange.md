@@ -66,8 +66,11 @@ IDs are not QuPath UUID identities; QuPath can regenerate them. Our own analytic
 hints/parent extensions are not interpreted by QuPath. QuPath ellipse envelopes
 are reconstructed when `isEllipse` is present, with an `ellipse_hint` notice.
 The committed protocol fixture is hand authored from the public schema; it is
-not an upstream-generated fixture. No QuPath runtime round trip or numerical
-parity acceptance is claimed yet.
+not an upstream-generated fixture. A separate pinned runtime corpus now checks
+flat shape/class/cell/nucleus round trips and measurements; see
+[QuPath comparisons](qupath-comparisons.md). UUID remapping and upstream
+quantization are recorded. A very-thin ellipse decoder disagreement keeps
+interoperability acceptance partial; hierarchy and broader workflows remain open.
 
 `tests/test_interchange.py`, the native interchange suite and GUI F6/F7 replay
 cover the stated contracts. `tools/benchmark_interchange.py` measures a bounded

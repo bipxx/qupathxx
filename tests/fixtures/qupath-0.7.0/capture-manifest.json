@@ -1,0 +1,74 @@
+{
+  "schema": "qpx.qupath-capture/1",
+  "captured_utc": "2026-10-22T07:33:37.277793+00:00",
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "generator_sha256": "6fe106a3ff9258a3da6c0a7a8554a5f18fba8a4756e4434919e8b5b616115cb5",
+  "contract_sha256": "1bec8d2516a1c2d1ea8a923ef61e0e59c59469321a327f27396c2818ff422ec1",
+  "comparison_tool_sha256": "77b155666feecce5ef58b0c3508da82ddf6232539e668b1430e7f93428c413ad",
+  "native_sha256": "ca556d9d9759f443fc8211b15789cb5933519502e7357e44aad66ff93ee0f937",
+  "native_source_tree_sha256": "9362e1477facb6e1a9d67ac7d42a9927c7bd1090c750bdb978c462d97c1303a5",
+  "comparison_state": "partial",
+  "files": {
+    "upstream/objects.geojson": {
+      "bytes": 13722,
+      "sha256": "b1f8613b1f56e8d561d30dca6be6b6253c98858ee50fc41a5a221a1539f8130d"
+    },
+    "upstream/measurements.json": {
+      "bytes": 7304,
+      "sha256": "34fc82b1ab0b22f4b573ef030272bcffee90b08eec079c4ea95b01571e8beb02"
+    },
+    "upstream/colors.json": {
+      "bytes": 79806,
+      "sha256": "94eb6a1f93918c2412ba2b4395c9b99f34c8f32ef42462f1b931aa97cea06159"
+    },
+    "upstream/roi-means.json": {
+      "bytes": 7748,
+      "sha256": "77e4289dec25ab5608a744d476db42459a9341951ce10faac60d47c0ca219cc6"
+    },
+    "upstream/edge-cases.json": {
+      "bytes": 5629,
+      "sha256": "b9e986edd61de6e0612c1d65e5ce6d39369e3d018561d551f7eef56ccef1de3a"
+    },
+    "roundtrip/objects.geojson": {
+      "bytes": 13725,
+      "sha256": "dba9757aba42ed7d237572685f9e558068306a84889623923ddd9c5019dc255a"
+    },
+    "roundtrip/measurements.json": {
+      "bytes": 7222,
+      "sha256": "fb83b70078c0191c2fb70bfc550b5e86e0731b2beda1e8d0a4b95feada1d2c56"
+    },
+    "roundtrip/colors.json": {
+      "bytes": 79806,
+      "sha256": "94eb6a1f93918c2412ba2b4395c9b99f34c8f32ef42462f1b931aa97cea06159"
+    },
+    "roundtrip/roi-means.json": {
+      "bytes": 7749,
+      "sha256": "dd1fcc7fbddb6ace95de70af73b6c87e97625e6fa48bacf9447771f2b141d7ae"
+    },
+    "roundtrip/edge-cases.json": {
+      "bytes": 5629,
+      "sha256": "b9e986edd61de6e0612c1d65e5ce6d39369e3d018561d551f7eef56ccef1de3a"
+    },
+    "native-export.geojson": {
+      "bytes": 62382,
+      "sha256": "dddb0cf1469d8c50d6c9a4b4fd4c9364051bd02950395f23a8e63451a180f26b"
+    },
+    "report.json": {
+      "bytes": 7594,
+      "sha256": "00e7c2929a592f01fda2530bc5fead98899c0ace75d682f62a4495c1936c0ea2"
+    }
+  }
+}
