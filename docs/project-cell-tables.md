@@ -57,9 +57,11 @@ The historical row key is `(project_identity, image_id, record_id, cell_label)`.
 their image document. Several publication sets may refer to the same archived
 row. Project CSV does not duplicate a historical row for every published object,
 nor replace captured values with current names, classes or edited geometry.
-Tables that join current published-object metadata, project-wide ROI/tissue
-measurement tables, complete file/binary/runtime manifests and QuPath numerical comparisons
-remain open work. [Capture-time source/build facts](analysis-capture-provenance.md) are available
+[Joined cell object tables](cell-object-tables.md) optionally emit a row for each
+live cell with current metadata/geometry and historical feature identity, including
+manual or missing-archive cells. Project-wide ROI/tissue measurement tables,
+complete file/binary/runtime manifests and QuPath numerical comparisons remain
+open work. [Capture-time source/build facts](analysis-capture-provenance.md) are available
 through the associated archived results. This CSV is a measurement view, not a
 complete project manifest.
 

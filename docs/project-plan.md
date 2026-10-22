@@ -1169,3 +1169,34 @@ warm request capture is 0.0012 ms p95. With 1000 records in a selected/all-visib
 to synthetic data on one Windows PC. Complete file/binary/runtime manifests,
 joined published-object metadata, project-wide ROI/tissue tables, numerical
 comparisons and all unfinished M0-M7 work remain active.
+
+
+The forty-seventh packet adds native tables joining current cell-object identity,
+name, class/color, parent, geometry and export-time calibration to immutable
+archived detector values. Document/project exports use new 92/97-column schemas
+through the existing request/options, bounded native worker and atomic file API.
+Manual and missing-archive cells remain rows with explicit status and blank
+measurements. Repeated publication yields distinct object keys, while referenced
+runs are retained once per image. Strict currentness checks object geometry as
+well as source verification. The ImGui checkbox and image/project shortcuts share
+this implementation without requiring source selection. Existing historical-label
+schemas remain available. See [joined cell object tables](cell-object-tables.md).
+
+Immutable block capture and per-run status caching avoid per-cell name/geometry
+copies. The 32768-row fixture captures at 3.83 ms p95 and writes in 90.45 ms.
+A 1000-image catalog with an active 104097-object selected/all-visible viewer
+records 16.87 ms p95 CPU frame work while exporting, with 5.68 ms GUI capture.
+The 131072-row fixture writes in 333.39 ms but its 18.68 ms p95 strict capture
+remains an interactive latency target. Original document CSV bytes still match
+their historical SHA-256. These observations are scoped to synthetic warm data
+on one Windows PC. Larger capture optimization, complete file/binary/runtime
+manifests, project-wide ROI/tissue tables, numerical comparisons and all
+unfinished M0-M7 work remain active.
+
+
+The final installed GUI wheel passes 958 Python cases with two Windows symlink
+cases skipped, including 19 new joined-table cases. Full/core/minimal native
+suites pass (27/26/26), including the original C++ aggregate option initializer.
+Final desktop review verifies readable controls and successful image/project
+export without selecting a source annotation; all historical document CSV bytes
+retain their earlier digest.

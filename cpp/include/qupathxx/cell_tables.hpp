@@ -4,6 +4,7 @@ namespace qpx {
 struct CellTableOptions {
     bool require_current=false;
     std::size_t byte_limit=256*1024*1024,snapshot_budget=256*1024*1024;
+    bool published_objects=false;
     void validate() const;
 };
 class CellTableRequest {

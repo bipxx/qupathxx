@@ -7,6 +7,7 @@ namespace nb=nanobind;using namespace nb::literals;
 void bind_cell_tables(nb::module_& m) {
     using namespace qpx;
     nb::class_<CellTableOptions>(m,"CellTableOptions").def(nb::init<>()).def_rw("require_current",&CellTableOptions::require_current)
+        .def_rw("published_objects",&CellTableOptions::published_objects)
         .def_rw("byte_limit",&CellTableOptions::byte_limit).def_rw("snapshot_budget",&CellTableOptions::snapshot_budget).def("validate",&CellTableOptions::validate);
     nb::class_<CellTableRequest>(m,"CellTableRequest").def(nb::init<const Document&,const std::vector<std::uint64_t>&,CellTableOptions>(),"document"_a,"record_ids"_a=std::vector<std::uint64_t>{},"options"_a=CellTableOptions{})
         .def(nb::init<const Project&,const std::vector<std::uint64_t>&,CellTableOptions>(),"project"_a,"image_ids"_a=std::vector<std::uint64_t>{},"options"_a=CellTableOptions{})
@@ -37,6 +38,7 @@ void bind_cell_tables(nb::module_& m) {
         .def("poll",&CellTableExportJob::poll).def("wait",&CellTableExportJob::wait,nb::call_guard<nb::gil_scoped_release>()).def("cancel",&CellTableExportJob::cancel).def_prop_ro("busy",&CellTableExportJob::busy);
     auto options=nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"));
     options.def_rw("cell_table_path",&GuiOptions::cell_table_path).def_rw("cell_table_require_current",&GuiOptions::cell_table_require_current)
+        .def_rw("cell_table_published_objects",&GuiOptions::cell_table_published_objects)
         .def_rw("cell_table_byte_limit",&GuiOptions::cell_table_byte_limit).def_rw("cell_table_snapshot_budget",&GuiOptions::cell_table_snapshot_budget);
     auto report=nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport"));
     report.def_ro("cell_table_state",&GuiReport::cell_table_state).def_ro("cell_table_error",&GuiReport::cell_table_error).def_ro("cell_table_path",&GuiReport::cell_table_path)

@@ -1,6 +1,8 @@
 #include "qupathxx/cell_tables.hpp"
 #include "qupathxx/project.hpp"
 #include "atomic_export.hpp"
+#include "object_snapshot.hpp"
+#include "cell_object_status.hpp"
 #include <charconv>
 #include <chrono>
 #include <cmath>
@@ -30,12 +32,14 @@ const std::string& header() {
 }
 }
 struct CellTableRequest::Data {
-    struct Image {std::uint64_t id=0,revision=0,width=0,height=0;std::string name;};
+    struct Image {std::uint64_t id=0,revision=0,width=0,height=0;std::string name;std::optional<double> x,y;};
     struct Entry {std::shared_ptr<const CellRecord> record;std::string status;std::size_t image=0;};
-    std::vector<Entry> entries;std::vector<Image> images;CellTableOptions options;
+    struct Object {const Annotation* value;std::string status;std::optional<std::uint32_t> color;std::size_t image=0,entry=std::numeric_limits<std::size_t>::max();};
+    std::vector<Entry> entries;std::vector<Image> images;std::vector<Object> objects;std::vector<std::shared_ptr<const Document::ObjectBlock>> blocks;CellTableOptions options;
     std::string identity;bool project=false;std::uint64_t revision=0,generation=0,rows=0;std::size_t bytes=0;double capture_ms=0;
     void charge(std::size_t value) {if(value>options.snapshot_budget-bytes) throw std::length_error("cell table snapshot exceeds memory budget");bytes+=value;}
     void append(const Document& doc,std::uint64_t id,std::string name,const std::vector<std::uint64_t>& record_ids={}) {
+        if(options.published_objects) {append_objects(doc,id,std::move(name),record_ids);return;}
         std::vector<std::shared_ptr<const CellRecord>> records;
         if(record_ids.empty()) records=doc.cell_records();else for(auto record:record_ids) records.push_back(doc.cell_record(record));
         charge(sizeof(Image)+name.capacity());const auto image=images.size();
@@ -45,8 +49,58 @@ struct CellTableRequest::Data {
             charge(sizeof(Entry)+record->payload_bytes()+status.capacity());rows+=record->result->features().size();entries.push_back({record,std::move(status),image});
         }
     }
+    void append_objects(const Document& doc,std::uint64_t id,std::string name,const std::vector<std::uint64_t>& record_ids) {
+        for(auto record:record_ids) doc.cell_record(record);
+        charge(sizeof(Image)+name.capacity());const auto image=images.size();
+        images.push_back({id,doc.revision(),std::uint64_t(doc.metadata().width),std::uint64_t(doc.metadata().height),std::move(name),doc.pixel_width_um(),doc.pixel_height_um()});
+        const auto missing=std::numeric_limits<std::size_t>::max();std::map<std::uint64_t,std::size_t> retained;
+        auto selected=[&](const Annotation& a) {return a.kind==ObjectKind::Cell && (record_ids.empty() || (a.cell_feature_link && std::binary_search(record_ids.begin(),record_ids.end(),a.cell_feature_link->record_id)));};
+        auto append=[&](const Annotation& a) {
+            Object object{&a,"no_features",{},image};
+            if(!a.class_name.empty()) object.color=doc.classes().at(a.class_name).color;
+            if(a.cell_feature_link) {
+                const auto run=a.cell_feature_link->record_id;auto found=retained.find(run);
+                if(found==retained.end()) {
+                    auto index=missing;const auto live=doc.cells_.find(run);
+                    if(live!=doc.cells_.end()) {
+                        const auto record=live->second.value;auto state=doc.cell_status(run);
+                        charge(sizeof(Entry)+record->payload_bytes()+state.capacity());index=entries.size();entries.push_back({record,std::move(state),image});
+                    }
+                    found=retained.emplace(run,index).first;
+                }
+                object.entry=found->second;
+                object.status=object.entry==missing?"archive_missing":detail::cell_geometry_status(a,*entries[object.entry].record->result,entries[object.entry].status);
+                if(object.status=="invalid_label") throw std::invalid_argument("invalid cell object feature label");
+            }
+            if(options.require_current && object.status!="current") throw std::invalid_argument("cell object table requires current verified measurements and unchanged geometry");
+            charge(sizeof(Object)+object.status.capacity());objects.push_back(std::move(object));++rows;
+        };
+#ifdef QUPATHXX_HAS_PROJECT
+        // Immutable canonical blocks already carry owned names/geometry and cached
+        // payload sizes. Retain only blocks containing included cells.
+        for(const auto& item:doc.object_blocks_) {
+            const auto& block=item.second;bool kept=false;
+            for(const auto& a:block->values) if(selected(a)) {
+                if(!kept) {charge(sizeof(block)+block->bytes);blocks.push_back(block);kept=true;}
+                append(a);
+            }
+        }
+#else
+        // Storage-disabled builds have no published block index. Build a bounded
+        // private block of selected values, never retain pointers to live nodes.
+        std::size_t count=0;for(const auto& item:doc.objects()) if(selected(item.second)) ++count;
+        if(count) {
+            charge(sizeof(Document::ObjectBlock)+64+count*sizeof(Annotation)+sizeof(std::shared_ptr<const Document::ObjectBlock>));
+            auto block=std::make_shared<Document::ObjectBlock>();block->values.reserve(count);
+            for(const auto& item:doc.objects()) if(selected(item.second)) {
+                const auto& a=item.second;charge(64+a.name.size()+a.class_name.size()+a.geometry.payload_bytes()+(a.nucleus?a.nucleus->payload_bytes():0));block->values.push_back(a);
+            }
+            for(const auto& a:block->values) append(a);blocks.push_back(std::move(block));
+        }
+#endif
+    }
     void finish(std::chrono::steady_clock::time_point start) {
-        charge((entries.capacity()-entries.size())*sizeof(Entry)+(images.capacity()-images.size())*sizeof(Image));
+        charge((entries.capacity()-entries.size())*sizeof(Entry)+(images.capacity()-images.size())*sizeof(Image)+(objects.capacity()-objects.size())*sizeof(Object)+(blocks.capacity()-blocks.size())*sizeof(std::shared_ptr<const Document::ObjectBlock>));
         capture_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
     }
 };
@@ -83,31 +137,87 @@ std::uint64_t CellTableRequest::project_generation() const {return data_->genera
 std::uint64_t CellTableRequest::project_revision() const {return data_->project?data_->revision:0;}
 CellTableOptions CellTableRequest::options() const {return data_->options;}
 struct CellTableWriter {
+    static std::string schema(const CellTableRequest& request) {
+        if(request.data_->options.published_objects) return request.data_->project?"qpx.project-cell-object-table/1":"qpx.cell-object-table/1";
+        return request.data_->project?"qpx.project-cell-table/1":"qpx.cell-table/1";
+    }
+    static void context(Row& row,const CellTableRequest& request,const CellTableRequest::Data::Image& image) {
+        if(request.data_->project) {row.string(request.data_->identity);row.integer(request.data_->generation);row.integer(request.data_->revision);row.integer(image.id);row.string(image.name);}
+    }
+    static Row prefix(const CellTableRequest& request,const CellTableRequest::Data::Entry& entry) {
+        const auto& image=request.data_->images.at(entry.image);
+        const auto& record=*entry.record;const auto& result=*record.result;const auto& n=*result.nuclei();const auto& p=result.parameters();
+        Row row;context(row,request,image);
+        row.string(schema(request));row.integer(record.id);row.integer(n.object_id());row.integer(n.object_revision());row.integer(n.document_revision());row.integer(image.revision);
+        row.string(entry.status);row.string(record.producer);row.string(result.algorithm());row.string(n.input_sha256());row.integer(image.width);row.integer(image.height);row.integer(n.level());row.real(n.downsample());
+        row.string(feature_name(p.feature));row.string(p.feature==TissueFeature::OpticalDensitySum?"optical_density_rgb":"stain_concentrations");
+        for(auto v:{p.threshold,p.sigma,p.min_peak_radius,p.min_seed_distance,p.cell_expansion}) row.real(v);
+        row.integer(p.min_nucleus_pixels);row.integer(p.max_nucleus_pixels);row.integer(p.connectivity);
+        row.separator();row.text+=std::to_string(p.level);
+        for(auto v:{std::uint64_t(p.tile_size),std::uint64_t(p.max_cells),std::uint64_t(p.work_bytes),std::uint64_t(p.contours.clip_to_roi),std::uint64_t(p.contours.max_components),std::uint64_t(p.contours.max_edges),std::uint64_t(p.contours.max_vertices),std::uint64_t(p.contours.work_bytes)}) row.integer(v);
+        row.vector(n.white());for(const auto& v:n.stains()) row.vector(v);return row;
+    }
+    static void feature(Row& row,const CellResult& result,std::uint32_t label) {
+        const auto& f=result.features().at(label-1);const auto& a=result.nuclei()->components().at(label-1);const auto& b=result.cells()->components().at(label-1);
+        row.integer(f.label);row.integer(f.nucleus_pixels);row.integer(f.cell_pixels);row.integer(f.cell_pixels-f.nucleus_pixels);
+        for(auto v:{a.centroid.x,a.centroid.y,b.centroid.x,b.centroid.y}) row.real(v);
+        row.vector(f.nucleus_rgb);row.vector(f.cell_rgb);row.optional(f.cytoplasm_rgb);row.vector(f.nucleus_channels);row.vector(f.cell_channels);row.optional(f.cytoplasm_channels);
+    }
+    static void optional(Row& row,std::optional<double> value) {if(value) row.real(*value);else row.separator();}
+    static double area(double value,double x,double y) {
+        auto result=value*x*y;
+        if(!std::isfinite(result) || (result==0 && value!=0)) {
+            int a=0,b=0,c=0;const auto mantissa=std::frexp(value,&a)*std::frexp(x,&b)*std::frexp(y,&c);result=std::scalbn(mantissa,a+b+c);
+        }
+        return result; // Row::real rejects an unrepresentable final result.
+    }
+    static void object(Row& row,const CellTableRequest::Data::Object& object,const CellTableRequest::Data::Image& image) {
+        const auto& a=*object.value;row.integer(a.id);row.integer(a.revision);row.string(a.name);row.integer(a.parent_id);row.string(a.class_name);
+        if(object.color) row.integer(*object.color);else row.separator();row.string(object.status);
+        const auto b=a.geometry.bounds();for(auto v:{b.x,b.y,b.width,b.height,a.geometry.area(),a.geometry.perimeter()}) row.real(v);
+        if(a.nucleus) {row.real(a.nucleus->area());row.real(a.nucleus->perimeter());}else {row.separator();row.separator();}
+        optional(row,image.x);optional(row,image.y);
+        if(image.x && image.y) {
+            row.real(area(a.geometry.area(),*image.x,*image.y));row.real(*image.x==*image.y?a.geometry.perimeter()* *image.x:a.geometry.scaled_length(*image.x,*image.y));
+            if(a.nucleus) {row.real(area(a.nucleus->area(),*image.x,*image.y));row.real(*image.x==*image.y?a.nucleus->perimeter()* *image.x:a.nucleus->scaled_length(*image.x,*image.y));}else {row.separator();row.separator();}
+        } else for(int i=0;i<4;++i) row.separator();
+    }
     template<class Sink> static void run(const CellTableRequest& request,Sink&& sink,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* rows=nullptr) {
-        export_checkpoint(cancelled);sink(request.data_->project?std::string("project_identity,project_generation,project_revision,image_id,image_name,")+header():header());std::uint64_t done=0;
-        for(const auto& entry:request.data_->entries) {
-            const auto& image=request.data_->images.at(entry.image);
-            const auto& record=*entry.record;const auto& result=*record.result;const auto& n=*result.nuclei();const auto& p=result.parameters();
-            const auto& nuclei=n.components();const auto& bodies=result.cells()->components();
-            export_checkpoint(cancelled);if(result.features().empty()) continue;
-            // Run metadata is identical for every cell; format it once.
-            Row prefix;
-            if(request.data_->project) {prefix.string(request.data_->identity);prefix.integer(request.data_->generation);prefix.integer(request.data_->revision);prefix.integer(image.id);prefix.string(image.name);}
-            prefix.string(request.data_->project?"qpx.project-cell-table/1":"qpx.cell-table/1");prefix.integer(record.id);prefix.integer(n.object_id());prefix.integer(n.object_revision());prefix.integer(n.document_revision());prefix.integer(image.revision);
-            prefix.string(entry.status);prefix.string(record.producer);prefix.string(result.algorithm());prefix.string(n.input_sha256());prefix.integer(image.width);prefix.integer(image.height);prefix.integer(n.level());prefix.real(n.downsample());
-            prefix.string(feature_name(p.feature));prefix.string(p.feature==TissueFeature::OpticalDensitySum?"optical_density_rgb":"stain_concentrations");
-            for(auto v:{p.threshold,p.sigma,p.min_peak_radius,p.min_seed_distance,p.cell_expansion}) prefix.real(v);
-            prefix.integer(p.min_nucleus_pixels);prefix.integer(p.max_nucleus_pixels);prefix.integer(p.connectivity);
-            // Requested auto level is signed; the actual sampled level above is nonnegative.
-            prefix.separator();prefix.text+=std::to_string(p.level);
-            for(auto v:{std::uint64_t(p.tile_size),std::uint64_t(p.max_cells),std::uint64_t(p.work_bytes),std::uint64_t(p.contours.clip_to_roi),std::uint64_t(p.contours.max_components),std::uint64_t(p.contours.max_edges),std::uint64_t(p.contours.max_vertices),std::uint64_t(p.contours.work_bytes)}) prefix.integer(v);
-            prefix.vector(n.white());for(const auto& v:n.stains()) prefix.vector(v);
-            for(const auto& f:result.features()) {
-                export_checkpoint(cancelled);Row row;row.text=prefix.text;row.first=false;
-                row.integer(f.label);row.integer(f.nucleus_pixels);row.integer(f.cell_pixels);row.integer(f.cell_pixels-f.nucleus_pixels);
-                const auto& a=nuclei.at(f.label-1);const auto& b=bodies.at(f.label-1);
-                for(auto v:{a.centroid.x,a.centroid.y,b.centroid.x,b.centroid.y}) row.real(v);
-                row.vector(f.nucleus_rgb);row.vector(f.cell_rgb);row.optional(f.cytoplasm_rgb);row.vector(f.nucleus_channels);row.vector(f.cell_channels);row.optional(f.cytoplasm_channels);
+        export_checkpoint(cancelled);
+        std::string columns=request.data_->project?std::string("project_identity,project_generation,project_revision,image_id,image_name,")+header():header();
+        if(request.data_->options.published_objects) {
+            columns.resize(columns.size()-2);
+            columns+=",object_id,object_revision,object_name,object_parent_id,object_class,object_class_color,object_status_at_capture,object_min_x_px,object_min_y_px,object_width_px,object_height_px,object_area_px2,object_length_px,object_nucleus_area_px2,object_nucleus_length_px,export_pixel_width_um,export_pixel_height_um,object_area_um2,object_length_um,object_nucleus_area_um2,object_nucleus_length_um\r\n";
+        }
+        sink(columns);std::uint64_t done=0;
+        if(request.data_->options.published_objects) {
+            std::size_t cached=std::numeric_limits<std::size_t>::max();Row saved_prefix;
+            for(const auto& item:request.data_->objects) {
+                export_checkpoint(cancelled);const auto& image=request.data_->images.at(item.image);Row row;
+                if(item.entry!=std::numeric_limits<std::size_t>::max()) {
+                    if(cached!=item.entry) {saved_prefix=prefix(request,request.data_->entries.at(item.entry));cached=item.entry;}
+                    row=saved_prefix;feature(row,*request.data_->entries[item.entry].record->result,item.value->cell_feature_link->label);
+                } else {
+                    context(row,request,image);
+                    // Explicit blanks preserve unresolved/manual objects without invented features.
+                    for(int column=0;column<71;++column) {
+                        if(column==0) row.string(schema(request));
+                        else if(column==1 && item.value->cell_feature_link) row.integer(item.value->cell_feature_link->record_id);
+                        else if(column==5) row.integer(image.revision);
+                        else if(column==6) row.string(item.status);
+                        else if(column==10) row.integer(image.width);
+                        else if(column==11) row.integer(image.height);
+                        else if(column==45 && item.value->cell_feature_link) row.integer(item.value->cell_feature_link->label);
+                        else row.separator();
+                    }
+                }
+                object(row,item,image);sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
+            }
+        } else for(const auto& entry:request.data_->entries) {
+            export_checkpoint(cancelled);if(entry.record->result->features().empty()) continue;
+            const auto saved_prefix=prefix(request,entry);
+            for(const auto& f:entry.record->result->features()) {
+                export_checkpoint(cancelled);Row row;row.text=saved_prefix.text;row.first=false;feature(row,*entry.record->result,f.label);
                 sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
             }
         }

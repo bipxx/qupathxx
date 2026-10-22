@@ -157,6 +157,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if(options.overlay_cache_budget>256u*1024u*1024u) throw std::invalid_argument("overlay cache budget exceeds 256 MiB");
     if(options.cell_table_path.size()>32768 || options.cell_table_path.find('\0')!=std::string::npos) throw std::invalid_argument("invalid cell table path");
     CellTableOptions cell_table_options;cell_table_options.require_current=options.cell_table_require_current;
+    cell_table_options.published_objects=options.cell_table_published_objects;
     cell_table_options.byte_limit=options.cell_table_byte_limit;cell_table_options.snapshot_budget=options.cell_table_snapshot_budget;cell_table_options.validate();
     if (!glfwInit()) throw std::runtime_error("GLFW initialization failed");
     Session session;
@@ -1449,7 +1450,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ImGui::BeginDisabled(state!="current" || !has_geos());
                 if(ImGui::Button("Add saved cells")) {try {document.publish_cell_record(saved->id);error.clear();} catch(const std::exception& e) {error=e.what();}}
                 ImGui::EndDisabled();
-                const bool can_export=!cell_table_job.busy() && (!cell_table_options.require_current || state=="current");
+                const bool can_export=!cell_table_options.published_objects && !cell_table_job.busy() && (!cell_table_options.require_current || state=="current");
                 ImGui::BeginDisabled(!can_export);
                 const bool export_table=ImGui::Button("Export cell table (Ctrl+Alt+X)") || (!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyAlt && !io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_X,false));
                 ImGui::EndDisabled();
@@ -1464,7 +1465,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(has_image || options.project) {
             ImGui::SeparatorText("Cell table export");
             ImGui::SetNextItemWidth(240);ImGui::InputTextWithHint("##Cell table path","Cell table .csv destination",cell_table_path,sizeof(cell_table_path));
-            ImGui::Checkbox("Require current cell runs",&cell_table_options.require_current);
+            ImGui::Checkbox("Require current measurements",&cell_table_options.require_current);
+            ImGui::Checkbox("Join live cell objects",&cell_table_options.published_objects);
+            if(cell_table_options.published_objects) {
+                ImGui::TextWrapped("Current names, classes and geometry; archived feature values. Missing measurements remain blank.");
+                ImGui::BeginDisabled(cell_table_job.busy() || !has_image);
+                const bool export_objects=ImGui::Button("Export image cells (Ctrl+Alt+X)") || (!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyAlt && !io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_X,false));
+                ImGui::EndDisabled();
+                if(export_objects && !cell_table_job.busy() && has_image) {try {CellTableRequest request(document,{},cell_table_options);cell_table_job.request(request,cell_table_path);cell_table_error.clear();} catch(const std::exception& e) {cell_table_error=e.what();}}
+            }
         }
         if(options.project) {
             ImGui::BeginDisabled(cell_table_job.busy());

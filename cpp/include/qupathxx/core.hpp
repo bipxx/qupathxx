@@ -83,6 +83,7 @@ private:
 };
 // Coordinates are level-zero image pixels; calibration is micrometers/pixel.
 class Document {
+    friend class CellTableRequest;
 public:
     explicit Document(Image image);
     explicit Document(std::shared_ptr<ImageServer> server);
@@ -488,6 +489,7 @@ struct GuiOptions {
     std::string cell_table_path;
     bool cell_table_require_current=false;
     std::size_t cell_table_byte_limit=256*1024*1024,cell_table_snapshot_budget=256*1024*1024;
+    bool cell_table_published_objects=false;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 GuiReport run_project_gui(std::shared_ptr<Project> project, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});

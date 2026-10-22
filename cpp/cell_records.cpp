@@ -1,4 +1,5 @@
 #include "qupathxx/cells.hpp"
+#include "cell_object_status.hpp"
 #include <limits>
 #include <stdexcept>
 #include <tuple>
@@ -85,12 +86,7 @@ CellFeature Document::cell_object_feature(std::uint64_t id) const {
 std::string Document::cell_object_status(std::uint64_t id) const {
     const auto& a=find(id);if(!a.cell_feature_link) return "no_features";
     const auto& link=*a.cell_feature_link;const auto it=cells_.find(link.record_id);if(it==cells_.end()) return "archive_missing";
-    const auto& r=*it->second.value->result;
-    if(!link.label || link.label>r.features().size()) return "invalid_label";
-    if(!r.cell_contours() || !r.nucleus_contours()) return "geometry_unavailable";
-    if(a.kind!=ObjectKind::Cell || !a.nucleus || !a.geometry.equals(r.cell_contours()->components().at(link.label-1).geometry) ||
-       !a.nucleus->equals(r.nucleus_contours()->components().at(link.label-1).geometry)) return "geometry_changed";
-    return cell_status(link.record_id);
+    return detail::cell_geometry_status(a,*it->second.value->result,cell_status(link.record_id));
 }
 bool Document::verify_cells(std::uint64_t id,const CellRequest& request,const CellResult& result) {
     if(!request.matches(*this,request.object_id()) || request.ticket_!=result.ticket_) throw std::invalid_argument("cell verification result does not match its current request");

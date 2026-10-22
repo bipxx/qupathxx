@@ -90,8 +90,10 @@ geometry-oriented schema. [Cell CSV](cell-tables.md) remains keyed by archived
 run labels; use the typed object reference to join it to published cell IDs.
 [Project-wide archived cell CSV](project-cell-tables.md) adds image context to
 the historical rows. Capture-time [source/build provenance](analysis-capture-provenance.md) is stored
-with new runs. Joined current-object tables, full-file/binary/runtime manifests and numerical
-QuPath feature comparisons remain open work.
+with new runs. [Joined cell object tables](cell-object-tables.md) export live
+identity/classification/geometry alongside historical features and unresolved
+references. Full-file/binary/runtime manifests and numerical QuPath feature
+comparisons remain open work.
 
 ## Validation
 

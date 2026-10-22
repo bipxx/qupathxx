@@ -7,6 +7,9 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Cell tables join live names, classes and geometry to historical measurements,
+  including explicit missing values; see [joined cell tables](docs/cell-object-tables.md).
+
 - Capture-time source, calibration and native build provenance survives ROI,
   tissue and cell archives, project/recovery storage and rechecks; see
   [capture provenance](docs/analysis-capture-provenance.md).

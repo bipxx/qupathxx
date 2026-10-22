@@ -20,7 +20,9 @@ int main() {
     const auto first=doc.keep_cells(request,result);CellTableRequest captured(doc);check(captured.row_count()==2 && captured.record_count()==1 && captured.document_revision()==doc.revision());
     const auto csv=cell_measurements_csv(captured);check(csv.find("qpx.cell-table/1")!=std::string::npos && csv.find("optical_density_rgb")!=std::string::npos && csv.find("\r\n")!=std::string::npos);
     const auto previous=std::locale::global(std::locale(std::locale::classic(),new Comma));check(cell_measurements_csv(captured)==csv);std::locale::global(previous);
-    CellTableOptions options;options.byte_limit=csv.size();check(cell_measurements_csv(CellTableRequest(doc,{},options))==csv);
+    // Existing three-field C++ aggregate initialization keeps its original meaning.
+    CellTableOptions options{false,256*1024*1024,256*1024*1024};check(!options.published_objects);
+    options.byte_limit=csv.size();check(cell_measurements_csv(CellTableRequest(doc,{},options))==csv);
     options.byte_limit=csv.size()-1;rejects<std::length_error>([&]{cell_measurements_csv(CellTableRequest(doc,{},options));});
     options={};options.snapshot_budget=captured.snapshot_bytes();check(CellTableRequest(doc,{},options).snapshot_bytes()==captured.snapshot_bytes());
     --options.snapshot_budget;rejects<std::length_error>([&]{CellTableRequest invalid(doc,{},options);});
@@ -48,6 +50,22 @@ int main() {
         --options.snapshot_budget;rejects<std::length_error>([&]{CellTableRequest short_snapshot(project,{},options);});
         project.remove_image(image);project.remove_image(empty);check(cell_measurements_csv(all)==table && CellTableRequest(project).row_count()==0);
     }
-    std::cout<<"Cell table numeric snapshots, locale, budgets, cancellation and atomic files passed\n";
+    {
+        Document manual(Image(16,16,std::vector<std::uint8_t>(16*16*3,255)));
+        manual.add_cell(Roi::rectangle({1,2,4,6}),Roi::rectangle({2,3,1,2}),"manual");manual.set_calibration(.5,.25);
+        options={};options.published_objects=true;CellTableRequest captured_objects(manual,{},options);
+        auto table=cell_measurements_csv(captured_objects);check(captured_objects.row_count()==1 && captured_objects.record_count()==0);
+        check(table.find("qpx.cell-object-table/1")!=std::string::npos && table.find("no_features")!=std::string::npos && table.find("object_area_um2")!=std::string::npos);
+        options.require_current=true;rejects<std::invalid_argument>([&]{CellTableRequest invalid(manual,{},options);});
+    }
+    if(has_geos()) {
+        const auto ids=doc.publish_cell_record(third);options={};options.published_objects=true;
+        CellTableRequest joined(doc,{},options);const auto table=cell_measurements_csv(joined);
+        check(joined.row_count()==ids.size() && joined.record_count()==1 && table.find("qpx.cell-object-table/1")!=std::string::npos);
+        check(doc.remove_cells(third) && cell_measurements_csv(joined)==table);
+        auto missing=cell_measurements_csv(CellTableRequest(doc,{},options));check(missing.find("archive_missing")!=std::string::npos);
+        options.require_current=true;rejects<std::invalid_argument>([&]{CellTableRequest invalid(doc,{},options);});
+    }
+    std::cout<<"Cell tables, joined objects, locale, budgets, cancellation and atomic files passed\n";
  } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

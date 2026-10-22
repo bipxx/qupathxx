@@ -76,8 +76,10 @@ Rows refer to archived labels. [Published cell feature links](cell-feature-links
 join object IDs to these `(record_id, cell_label)` keys; several publication sets
 can refer to one run. Editing/classifying published cells does not rewrite
 historical features. [Project-wide archived cell tables](project-cell-tables.md)
-add image context. Joined current-object metadata, project-wide ROI/tissue tables
-and complete file/binary/runtime manifests remain open work.
+add image context. [Joined cell object tables](cell-object-tables.md) optionally
+include current names/classes/geometry with explicit historical features and
+missing values. Project-wide ROI/tissue tables and complete file/binary/runtime
+manifests remain open work.
 [Capture-time provenance](analysis-capture-provenance.md) remains associated with
 each archived run; the existing CSV schema retains its original columns. No physical-area column is synthesized
 from current calibration, which may differ from capture time.

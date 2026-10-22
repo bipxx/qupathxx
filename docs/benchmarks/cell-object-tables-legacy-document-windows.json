@@ -1,0 +1,19 @@
+{
+  "native_sha256": "cdca015c81cc51594dded43a251aa8c0b1cc27ca6889df6668cdcdccad87fb30",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "pixels": 65536,
+  "cells_per_run": 4096,
+  "records": 8,
+  "rows": 32768,
+  "snapshot_bytes": 49741303,
+  "capture_ms": 0.0197,
+  "detector_ms": 596.6649,
+  "input_sha256": "a5320e94af70dcc2eb8c37fafebc6cadab2e3548e341ee4da567ef5570cdcc88",
+  "objects": 1,
+  "bytes": 15469017,
+  "submit_ms": 0.07970002479851246,
+  "write_ms": 41.6369,
+  "max_poll_ms": 0.020399922505021095,
+  "rows_per_second": 786994.2286769669,
+  "sha256": "9d6024e61d340ce357fdd91fc46308f58c9d74e74c7c71aa8c9528283fbf4c10"
+}
