@@ -28,6 +28,7 @@ public:
     static CellRequest replay(const Document&,std::uint64_t record_id);
 private:
     friend struct CellKernel;
+    friend struct InputDigestKernel;
     friend class Document;
     std::shared_ptr<const char> ticket_=std::make_shared<const char>();
     TissueRequest source_;

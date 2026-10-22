@@ -17,6 +17,7 @@ using namespace nb::literals;
 void bind_scheduler(nb::module_&);
 void bind_analysis(nb::module_&);
 void bind_stain_estimation(nb::module_&);
+void bind_project_batch(nb::module_&);
 void bind_tissue(nb::module_&);
 void bind_cells(nb::module_&);
 void bind_cell_tables(nb::module_&);
@@ -358,6 +359,7 @@ NB_MODULE(_native, m) {
     bind_measurement_tables(m);
     bind_provenance(m);
     bind_file_fingerprint(m);
+    bind_project_batch(m);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.

@@ -1,4 +1,5 @@
 #include "provenance_codec.hpp"
+#include "batch_checkpoint.hpp"
 #include "reader_provenance.hpp"
 #include "object_snapshot.hpp"
 #include "qupathxx/project.hpp"
@@ -92,11 +93,12 @@ Project::Project() {
     for(int i=0;i<32;++i) identity_.push_back(hex[random()&15]);
     instance_identity_=identity_;
 }
-std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size_t& bytes) const {
+std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size_t& bytes,const std::set<std::uint64_t>* selected) const {
     bytes=0;
     auto add=[&](std::size_t count) { if(count>budget-bytes) throw std::length_error("project snapshot exceeds memory budget"); bytes+=count; };
     add(sizeof(Project)+path_.size()+identity_.size());
     for(const auto& [id,e]:entries_) {
+        if(selected && !selected->count(id)) continue;
         add(sizeof(Entry)+sizeof(Document)+128+e.info.name.size()+e.info.source_path.size()+e.info.reader.size());
         if(e.info.embedded) add(e.document->image().pixels().size());
         else add(sizeof(LinkedServer)+e.document->metadata().levels.size()*sizeof(ImageLevel)+e.document->metadata().vendor.size()+e.info.source_path.size()+e.info.reader.size()+sizeof(ReaderSource)+256+e.info.source_path.size()+e.info.reader.size());
@@ -110,11 +112,14 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         add(e.document->tissue_blocks_.values.size()*(sizeof(Document::TissueBlock)+sizeof(std::shared_ptr<const Document::TissueBlock>)));
         add(e.document->analysis_blocks_.values.size()*(sizeof(Document::AnalysisBlock)+sizeof(std::shared_ptr<const Document::AnalysisBlock>)));
     }
-    for(const auto& [id,v]:views_) add(sizeof(ProjectView)+64);
+    for(const auto& [id,v]:views_) if(!selected || selected->count(id)) add(sizeof(ProjectView)+64);
     auto snapshot=std::make_unique<Project>();
     snapshot->identity_=identity_; snapshot->path_=path_; snapshot->generation_=generation_;
-    snapshot->next_id_=next_id_; snapshot->active_image_=active_image_; snapshot->revision_=revision_; snapshot->views_=views_;
+    snapshot->next_id_=next_id_; snapshot->active_image_=active_image_; snapshot->revision_=revision_;
+    for(const auto& [id,v]:views_) if(!selected || selected->count(id)) snapshot->views_.emplace(id,v);
+    if(selected && !selected->count(snapshot->active_image_)) snapshot->active_image_=selected->empty()?0:*selected->begin();
     for(const auto& [id,e]:entries_) {
+        if(selected && !selected->count(id)) continue;
         auto doc=std::shared_ptr<Document>(new Document());
         // Save-only authority: no mutable indexes, selection or edit history enter
         // the worker. Immutable ROI storage and dense source pixels are shared.
@@ -267,7 +272,7 @@ std::string sqlite_version() {
 }
 #ifndef QUPATHXX_HAS_PROJECT
 void Project::save(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
-void Project::save_impl(const std::string&,const std::string&,const std::atomic<bool>*,const RecoveryInfo*) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
+void Project::save_impl(const std::string&,const std::string&,const std::atomic<bool>*,const RecoveryInfo*,const detail::BatchCheckpoint*) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
 void Project::save_recovery(const std::string&,const std::string&,const RecoveryInfo&,const std::atomic<bool>*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::shared_ptr<Project> Project::open(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::shared_ptr<Project> Project::open_impl(const std::string&,bool,const std::string&,LoadProgress*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
@@ -448,13 +453,14 @@ Roi decode(Statement& s,int column) {
 void Project::save(const std::string& path) {
     save_impl(path,"");
 }
-void Project::save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled,const RecoveryInfo* recovery) {
+void Project::save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled,const RecoveryInfo* recovery,const detail::BatchCheckpoint* batch) {
     auto destination=absolute(path);
     std::map<std::uint64_t,std::uint64_t> revisions;
     for(const auto& [id,e]:entries_) revisions.emplace(id,e.document->revision());
     Database db(destination,true);
     db.cancellation(cancelled);
     db.exec("PRAGMA foreign_keys=ON; PRAGMA synchronous=FULL;");
+    if(batch) {const auto pages=batch->max_file_bytes/static_cast<std::uint64_t>(scalar(db,"PRAGMA page_size"));if(!pages) throw std::length_error("batch checkpoint byte limit is too small");db.exec(("PRAGMA max_page_count="+std::to_string(pages)).c_str());}
     Transaction transaction(db,true);
     const bool fresh=scalar(db,"PRAGMA application_id")==0 && scalar(db,"PRAGMA user_version")==0 &&
         scalar(db,"SELECT count(*) FROM sqlite_schema WHERE name NOT LIKE 'sqlite_%'")==0;
@@ -576,6 +582,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         row.string(1,recovery->identity); row.string(2,recovery->session); row.string(3,recovery->base_path); row.string(4,std::to_string(recovery->base_generation));
         row.integer(5,recovery->created_unix_ms); row.integer(6,static_cast<std::int64_t>(recovery->images)); row.integer(7,static_cast<std::int64_t>(recovery->objects)); row.done();
     }
+    if(batch) detail::write_batch_checkpoint(db.db,*batch,cancelled);else db.exec("DROP TABLE IF EXISTS qpx_batch_checkpoint;");
     if(cancelled && cancelled->load()) throw std::runtime_error("project save cancelled");
     transaction.commit();
     path_.swap(destination); generation_=next_generation; saved_revision_=revision_; saved_revisions_.swap(revisions);
@@ -585,10 +592,10 @@ std::shared_ptr<Project> Project::open(const std::string& path) {
 }
 std::shared_ptr<Project> Project::recover(const std::string& path,const std::string& base) { return open_impl(path,true,base); }
 std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recovery,const std::string& base_path,LoadProgress* progress) {
-    auto stopped=[&] {if(progress && progress->cancelled.load()) throw std::runtime_error("project opening cancelled");};
+    auto stopped=[&] {if(progress && progress->cancellation()->load()) throw std::runtime_error("project opening cancelled");};
     stopped();
-    auto source=absolute(path); Database db(source,false,progress?&progress->cancelled:nullptr);
-    db.cancellation(progress?&progress->cancelled:nullptr); Transaction transaction(db,false);
+    auto source=absolute(path); Database db(source,false,progress?progress->cancellation():nullptr);
+    db.cancellation(progress?progress->cancellation():nullptr); Transaction transaction(db,false);
     if(recovery_table(db)!=recovery) throw std::invalid_argument(recovery?"not a recovery snapshot":"use Project.recover for recovery snapshots");
     auto version=schema(db,recovery);
     std::optional<RecoveryInfo> recovery_info;
@@ -719,7 +726,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             if(image->second.document->analysis_.count(record->id) || image->second.document->tissue_.count(record->id)) throw std::invalid_argument("duplicate tissue record ID");
             auto roi=decode(rows,3);const auto size=sqlite3_column_bytes(rows.stmt,4);
             if(rows.type(4)!=SQLITE_BLOB || size<0) throw std::invalid_argument("invalid tissue mask blob");
-            record->result=TissueArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,4)),static_cast<std::size_t>(size),std::move(roi),image->second.document->metadata(),progress?&progress->cancelled:nullptr);
+            record->result=TissueArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,4)),static_cast<std::size_t>(size),std::move(roi),image->second.document->metadata(),progress?progress->cancellation():nullptr);
             ProvenanceCodec::attach(record->result,read_provenance(number(rows.string(0)),record->id));
             image->second.document->restore_tissue(std::move(record));
         }
@@ -733,7 +740,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             if(image->second.document->analysis_.count(record->id) || image->second.document->tissue_.count(record->id) || image->second.document->cells_.count(record->id)) throw std::invalid_argument("duplicate cell record ID");
             auto roi=decode(rows,3);const auto size=sqlite3_column_bytes(rows.stmt,4);
             if(rows.type(4)!=SQLITE_BLOB || size<0) throw std::invalid_argument("invalid cell archive blob");
-            record->result=CellArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,4)),static_cast<std::size_t>(size),std::move(roi),image->second.document->metadata(),progress?&progress->cancelled:nullptr);
+            record->result=CellArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,4)),static_cast<std::size_t>(size),std::move(roi),image->second.document->metadata(),progress?progress->cancellation():nullptr);
             const auto p=read_provenance(number(rows.string(0)),record->id);ProvenanceCodec::attach(record->result->nuclei(),p);ProvenanceCodec::attach(record->result->cells(),p);
             image->second.document->restore_cells(std::move(record));
         }

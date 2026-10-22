@@ -3,6 +3,7 @@
 #include <utility>
 
 namespace qpx {
+namespace detail {struct BatchCheckpoint;}
 class ProjectAutosave;
 class ProjectSaveJob;
 struct RecoveryRetention {
@@ -77,6 +78,8 @@ public:
 private:
     friend class CellTableRequest;
     friend class MeasurementTableRequest;
+    friend struct ProjectBatchKernel;
+    friend class ProjectBatchRequest;
     friend class ProjectAutosave;
     friend class ProjectSaveJob;
     friend GuiReport run_gui(Document&,int,const std::string&,const GuiOptions&);
@@ -84,6 +87,8 @@ private:
     bool can_retire_on_worker() const;
     struct LoadProgress {
         std::atomic<bool> cancelled{false};
+        const std::atomic<bool>* external_cancelled=nullptr;
+        const std::atomic<bool>* cancellation() const {return external_cancelled?external_cancelled:&cancelled;}
         std::atomic<int> phase{1};
         std::atomic<std::size_t> images{0},objects{0},total_images{0},total_objects{0};
     };
@@ -100,8 +105,8 @@ private:
     };
     static RecoveryRetentionStats prune_recoveries_impl(const std::string& path,const RecoveryRetention&,
         const std::atomic<bool>* cancelled,RetentionProgress* progress);
-    std::unique_ptr<Project> snapshot_for_save(std::size_t budget,std::size_t& bytes) const;
-    void save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled=nullptr,const RecoveryInfo* recovery=nullptr);
+    std::unique_ptr<Project> snapshot_for_save(std::size_t budget,std::size_t& bytes,const std::set<std::uint64_t>* selected=nullptr) const;
+    void save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled=nullptr,const RecoveryInfo* recovery=nullptr,const detail::BatchCheckpoint* batch=nullptr);
     void save_recovery(const std::string& path,const std::string& link_directory,const RecoveryInfo& info,const std::atomic<bool>* cancelled=nullptr);
     // Only native factories can assert that the shared_ptr control block and
     // its deleter contain no Python references. External documents default off.

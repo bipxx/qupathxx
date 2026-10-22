@@ -185,6 +185,7 @@ public:
     bool verify_cells(std::uint64_t id,const CellRequest&,const CellResult&);
     bool remove_cells(std::uint64_t id);
 private:
+    friend struct ProjectBatchKernel;
     friend class Project;
     friend class AnalysisRequest;
     // Copies/assignments are independent live authorities, including when a

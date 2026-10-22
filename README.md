@@ -7,6 +7,11 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Native headless project batches run ROI, tissue and cell workflows with per-image
+  checkpoints, verified restart, failure policies and embedded CSV. C++, Python
+  jobs and the packaged CLI share the implementation; see
+  [project batch processing](docs/project-batch.md).
+
 - Native ROI stain estimation uses bounded deterministic sampling, reusable model
   identities, Python jobs and ImGui estimate/apply controls. See
   [stain estimation](docs/stain-estimation.md).

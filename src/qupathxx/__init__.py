@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    ProjectBatchKind, ProjectBatchFailure, ProjectBatchOptions, ProjectBatchSelection, ProjectBatchRequest, ProjectBatchImageResult, ProjectBatchReport, ProjectBatchStats, ProjectBatchJob, run_project_batch, project_batch_image_json, project_batch_report_json, batch_checkpoint_csv, save_batch_checkpoint_csv, input_sha256,
     StainEstimateParameters, StainEstimateRequest, StainEstimateResult, StainEstimateJob, estimate_stains, stain_model_sha256, stain_estimate_json, save_stain_estimate,
     FileVersion, ReaderSource, SourceFileAssociation, associate_source_file, reader_source_json, source_file_association_json, save_source_file_association,
     FileFingerprintOptions, FileFingerprint, FileFingerprintStats, FileFingerprintJob, fingerprint_file, file_fingerprint_json, save_file_fingerprint,
@@ -25,6 +26,7 @@ from ._native import (
 )
 
 __all__ = [
+    "ProjectBatchKind", "ProjectBatchFailure", "ProjectBatchOptions", "ProjectBatchSelection", "ProjectBatchRequest", "ProjectBatchImageResult", "ProjectBatchReport", "ProjectBatchStats", "ProjectBatchJob", "run_project_batch", "project_batch_image_json", "project_batch_report_json", "batch_checkpoint_csv", "save_batch_checkpoint_csv", "input_sha256",
     "StainEstimateParameters", "StainEstimateRequest", "StainEstimateResult", "StainEstimateJob", "estimate_stains", "stain_model_sha256", "stain_estimate_json", "save_stain_estimate",
     "FileVersion", "ReaderSource", "SourceFileAssociation", "associate_source_file", "reader_source_json", "source_file_association_json", "save_source_file_association",
     "FileFingerprintOptions", "FileFingerprint", "FileFingerprintStats", "FileFingerprintJob", "fingerprint_file", "file_fingerprint_json", "save_file_fingerprint",

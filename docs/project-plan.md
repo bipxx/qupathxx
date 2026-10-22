@@ -1330,3 +1330,44 @@ This evidence establishes the defined OD-plane method, not upstream algorithm
 parity or broad stain variability. QuPath comparisons, project model registries,
 headless processing/live scripting, complete portable manifests, reader continuity
 and all remaining M0-M7 work stay active.
+
+
+The fifty-third packet implements native headless project processing for ROI
+OD/stain means, tissue and cell workflows. C++, nanobind snapshot/jobs and a
+packaged standalone CLI share selection, bounded capture, per-image failure
+policies and cancellation. Each completed image publishes an independent
+SQLite project checkpoint containing archived results and generated-only CSV;
+ordinary saves invalidate completion metadata. Verified restart recomputes
+requested pixel-stream digests and checks canonical project/metadata/CSV
+checksums before reuse. Linked pixel changes create new results, while edited
+or damaged matching checkpoints fail explicitly. See [project batch
+processing](project-batch.md).
+
+All 22 focused installed-wheel cases pass, including direct-kernel/independent
+CSV comparisons, snapshot lifetime, coarse-grid hashes, changed linked pixels,
+corruption/invalidation, failure policies, budgets, output locking, Unicode CLI,
+long-path repeated publication, optional cell publication and viewer reopening.
+Native tests additionally verify cancellation after an image checkpoint and
+restart of remaining images. Full/core/minimal native suites pass 32/31/31.
+
+The 16-image synthetic tissue workload with 100000 background detections charges
+51.34 MB of snapshot payload. Capture p95 is 3.129 ms, submit 0.0458 ms and maximum
+sampled poll 0.0182 ms. First processing takes 1377.46 ms and verified restart
+938.20 ms. With 100001 selected/visible objects, concurrent batch processing
+records 16.85 ms p95 CPU frame work, excluding presentation wait. The raw Windows
+benchmark records exact native/source hashes. These payload limits are not an
+RSS cap; the CLI still loads the whole input model, and one writable image,
+algorithm/table/codec buffers and SQLite can coexist with the snapshot.
+
+This establishes the defined native headless workflows, not complete M6 parity.
+Owned NumPy arrays, live scripting/stubs, a GUI batch launcher, abandoned-work
+cleanup, portable/distributed workers and long-running real-slide memory and
+throughput validation remain. All other unfinished M0-M7 scope remains active.
+
+
+The final installed GUI wheel regression passes 1081 Python cases with two
+existing Windows file-symlink permission skips in 247.04 s. Native full/core/
+minimal suites pass 32/31/31; a separate storage-disabled build compiles the CLI
+and passes the focused batch/digest/storage-rejection check. Source fingerprint
+verification is included in the full installed-wheel run. The benchmark above
+uses that same native artifact. The full M0-M7 goal remains active.

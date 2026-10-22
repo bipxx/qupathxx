@@ -31,6 +31,7 @@ public:
     static TissueRequest replay(const Document&,std::uint64_t record_id);
 private:
     friend struct TissueKernel;
+    friend struct InputDigestKernel;
     friend class Document;
     std::shared_ptr<const char> ticket_=std::make_shared<const char>();
     AnalysisRequest source_;

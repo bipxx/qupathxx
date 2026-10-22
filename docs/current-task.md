@@ -8,12 +8,12 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the final installed-wheel regression passes 1059 Python cases with two file-symlink cases
+Evidence: the final installed-wheel regression passes 1081 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
-and recovery; thirty-one native suites pass in the full GUI build and
-thirty pass in core/minimal builds with optional geometry/readers/
+and recovery; thirty-two native suites pass in the full GUI build and
+thirty-one pass in core/minimal builds with optional geometry/readers/
 interchange enabled and disabled. The installed GUI wheel includes its
 packaged runtime libraries and licenses.
 All cell archives and cell/ROI/tissue table cases are included in that full run.
@@ -496,3 +496,44 @@ Known-direction errors are 0.184 / 0.0038 degrees. The selected/all-visible
 100001-object viewer records 26.79 ms estimation and 0.62 ms p95 CPU frame work;
 that frame metric excludes presentation wait and does not assert a refresh rate.
 Raw data records exact source/native hashes and the one-PC synthetic scope.
+
+
+The fifty-third packet implements native headless project processing for ROI
+OD/stain means, tissue and cell workflows. C++, nanobind snapshot/jobs and a
+packaged standalone CLI share selection, bounded capture, per-image failure
+policies and cancellation. Each completed image publishes an independent
+SQLite project checkpoint containing archived results and generated-only CSV;
+ordinary saves invalidate completion metadata. Verified restart recomputes
+requested pixel-stream digests and checks canonical project/metadata/CSV
+checksums before reuse. Linked pixel changes create new results, while edited
+or damaged matching checkpoints fail explicitly. See [project batch
+processing](project-batch.md).
+
+All 22 focused installed-wheel cases pass, including direct-kernel/independent
+CSV comparisons, snapshot lifetime, coarse-grid hashes, changed linked pixels,
+corruption/invalidation, failure policies, budgets, output locking, Unicode CLI,
+long-path repeated publication, optional cell publication and viewer reopening.
+Native tests additionally verify cancellation after an image checkpoint and
+restart of remaining images. Full/core/minimal native suites pass 32/31/31.
+
+The 16-image synthetic tissue workload with 100000 background detections charges
+51.34 MB of snapshot payload. Capture p95 is 3.129 ms, submit 0.0458 ms and maximum
+sampled poll 0.0182 ms. First processing takes 1377.46 ms and verified restart
+938.20 ms. With 100001 selected/visible objects, concurrent batch processing
+records 16.85 ms p95 CPU frame work, excluding presentation wait. The raw Windows
+benchmark records exact native/source hashes. These payload limits are not an
+RSS cap; the CLI still loads the whole input model, and one writable image,
+algorithm/table/codec buffers and SQLite can coexist with the snapshot.
+
+This establishes the defined native headless workflows, not complete M6 parity.
+Owned NumPy arrays, live scripting/stubs, a GUI batch launcher, abandoned-work
+cleanup, portable/distributed workers and long-running real-slide memory and
+throughput validation remain. All other unfinished M0-M7 scope remains active.
+
+
+The final installed GUI wheel regression passes 1081 Python cases with two
+existing Windows file-symlink permission skips in 247.04 s. Native full/core/
+minimal suites pass 32/31/31; a separate storage-disabled build compiles the CLI
+and passes the focused batch/digest/storage-rejection check. Source fingerprint
+verification is included in the full installed-wheel run. The benchmark above
+uses that same native artifact. The full M0-M7 goal remains active.
