@@ -937,13 +937,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             style=base_style;style.ScaleAllSizes(next_scale.logical);
             ImFontConfig font;font.SizePixels=13.f*next_scale.logical;font.RasterizerDensity=next_scale.framebuffer;
             input.Fonts->AddFontDefault(&font);
-            if(!ImGui_ImplOpenGL3_CreateFontsTexture()) throw std::runtime_error("UI font texture creation failed");
+            // The backend creates the texture in NewFrame, after its device
+            // objects exist. Creating it here would duplicate the first upload.
             font_scale=next_scale;fonts_initialized=true;++font_rebuilds;
             drawing=marquee=vertex_dragging=false;active_vertex.reset();draft_points.clear();
             input.AddMouseButtonEvent(0,false);input.AddMouseButtonEvent(1,false);ImGui::ClearActiveID();
         }
         ui_scale=next_scale;
         ImGui_ImplOpenGL3_NewFrame();
+        if(!input.Fonts->TexID) throw std::runtime_error("UI font texture creation failed");
         ImGui::NewFrame();
         bool save_project_requested=false;
         bool autosave_requested=false;
