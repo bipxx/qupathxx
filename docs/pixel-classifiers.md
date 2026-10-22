@@ -264,7 +264,8 @@ A three-class default-training regression first reproduced the inherited
 forest preset exceeding the work budget; the 32-tree/depth-8 pixel preset now
 trains its 6,000-row cohort successfully. An optional read-only Claude review
 timed out without a result; no independent
-review acceptance is claimed. Hosted validation for this increment is pending.
+review acceptance is claimed. Hosted [run 39861383111](https://github.com/bipxx/qupathxx/actions/runs/39861383111)
+targets `7a95601`; its result is pending.
 
 ## Remaining workflow
 

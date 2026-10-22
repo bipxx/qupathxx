@@ -2115,3 +2115,7 @@ The high-level pixel forest defaults now use 32 trees/depth 8. The general
 wheel. Both default high-level training entry points now pass that case, while
 explicit forest settings and general engine defaults are preserved. The numeric
 identities of both explicit-preset benchmark fixtures remain unchanged.
+
+Hosted [run 39861383111](https://github.com/bipxx/qupathxx/actions/runs/39861383111)
+targets `7a95601` and is pending. No hosted pass is claimed for the final
+source-worker/default-preset increment until this run completes.
