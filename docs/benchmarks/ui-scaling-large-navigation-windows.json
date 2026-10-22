@@ -1,0 +1,66 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "python": "3.12.8",
+  "fixture": "large-pyramid.tif",
+  "sha256": "09301eba1210f7c7335e33993f0fe73cc74f7fc34ac85b1da5a9bb5043776845",
+  "source_tree_sha256": "a113bce9023e9fa504a7fda091cd878c80e6edf63c29bd4c2549ccf4d372dff1",
+  "native_sha256": "a9490cdf2b7df755590f7b01275a9cfdf2af290488f5c23ae3bddafd964bdf2f",
+  "window_logical_size": [
+    1440,
+    900
+  ],
+  "ui_multiplier": 1,
+  "scale_cycle": true,
+  "runs": [
+    {
+      "name": "first-view",
+      "elapsed_seconds": 4.56696440000087,
+      "frames": 180,
+      "cpu_frame_p95_ms": 5.4511,
+      "max_cpu_frame_ms": 27.1895,
+      "uploaded_tiles": 87,
+      "peak_gpu_payload_bytes": 17822976,
+      "pending_tiles_at_exit": 0,
+      "framebuffer_size": [
+        1440,
+        900
+      ],
+      "generations": 23,
+      "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+      "docked_workspace": true,
+      "overview_state": "succeeded",
+      "overview_gpu_payload_bytes": 5000,
+      "gl_version": "4.6 (Core Profile) Mesa 26.2.4 (git-9a0169f2a7)",
+      "monitor_scale": 1.0,
+      "framebuffer_scale": 1.0,
+      "effective_ui_scale": 1.25,
+      "font_rebuilds": 4
+    },
+    {
+      "name": "repeat-view",
+      "elapsed_seconds": 4.959043599897996,
+      "frames": 180,
+      "cpu_frame_p95_ms": 24.521,
+      "max_cpu_frame_ms": 30.0638,
+      "uploaded_tiles": 80,
+      "peak_gpu_payload_bytes": 15987968,
+      "pending_tiles_at_exit": 0,
+      "framebuffer_size": [
+        1440,
+        900
+      ],
+      "generations": 23,
+      "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+      "docked_workspace": true,
+      "overview_state": "succeeded",
+      "overview_gpu_payload_bytes": 5000,
+      "gl_version": "4.6 (Core Profile) Mesa 26.2.4 (git-9a0169f2a7)",
+      "monitor_scale": 1.0,
+      "framebuffer_scale": 1.0,
+      "effective_ui_scale": 1.25,
+      "font_rebuilds": 4
+    }
+  ],
+  "scope": "ImGui zoom/overview replay. CPU timing excludes explicit swap/vsync and capture; includes planning/upload/draw submission. Driver calls may block. No GPU completion latency claim."
+}

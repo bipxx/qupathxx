@@ -1432,6 +1432,8 @@ class GuiInputKind(enum.Enum):
 
     RESTORE_WINDOW = 65
 
+    SET_UI_SCALE = 66
+
     FINGERPRINT_FILE_KEY = 54
 
     CANCEL_FINGERPRINT_FILE_KEY = 55
@@ -1575,6 +1577,12 @@ class GuiInput:
 
 class GuiOptions:
     def __init__(self) -> None: ...
+
+    @property
+    def ui_scale(self) -> float: ...
+
+    @ui_scale.setter
+    def ui_scale(self, arg: float, /) -> None: ...
 
     @property
     def docked_workspace(self) -> bool: ...
@@ -1991,6 +1999,18 @@ class GuiReport:
 
     @property
     def canvas_visible(self) -> bool: ...
+
+    @property
+    def monitor_scale(self) -> float: ...
+
+    @property
+    def framebuffer_scale(self) -> float: ...
+
+    @property
+    def ui_scale(self) -> float: ...
+
+    @property
+    def font_rebuilds(self) -> int: ...
 
     @property
     def overview_state(self) -> str: ...

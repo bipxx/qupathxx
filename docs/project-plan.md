@@ -1771,3 +1771,31 @@ separately from the completed successful jobs. The Linux minimal job now reaches
 and passes tests; the prior reader-only run ended cancelled during its old
 package-index setup before compilation. All other unfinished M0-M7 gates remain
 active; this packet does not establish a supported release or full QuPath parity.
+
+
+### Packet 65: monitor-aware fonts and live UI size
+
+The viewer separates GLFW monitor content scale from framebuffer density,
+rebuilds fonts and theme sizes from the original style when effective scale
+changes, and invalidates canvas overlays when font resources change. A bounded
+per-viewer UI multiplier is available through C++/Python, both launchers and
+visible UI controls. Repeated values skip rebuilds; small successive DPI changes
+accumulate against the last built fonts rather than being lost to a per-frame
+tolerance. Drawing gestures cancel on changes, and existing canvas resize
+handling preserves the project camera. See [UI scaling](ui-scaling.md).
+
+This implements DPI handling and deterministic override checks; physical
+mixed-monitor delivery, macOS Retina, fractional-density hardware and M0/M2
+cold/dynamic frame-budget acceptance remain open. UI multipliers are not saved
+in layout preferences or project history. ICC, fluorescence display and the
+remaining M0–M7 workflow/release gates remain unfinished.
+
+Local validation: 1,306 installed software-GL tests pass with six skips, plus a
+26-case final docking/scaling run including compact scaled resize; Windows
+native 34 and Ubuntu minimal 33 pass. Source-exact stubs, strict positive and
+seven expected negative typing checks pass. The installed workflow verifies
+125% scaling and one initial font build. Navigation samples with three live
+scale changes record four font builds per run, no pending tiles and bounded
+tile payload; p95 CPU observations span 5.37–24.52 ms on llvmpipe and do not
+accept the hardware frame target. Raw samples and reproduction are linked in
+[UI scaling](ui-scaling.md).

@@ -295,7 +295,7 @@ NB_MODULE(_native, m) {
         .value("EXPORT_MEASUREMENT_TABLE_KEY",GuiInputKind::ExportMeasurementTableKey).value("CANCEL_MEASUREMENT_TABLE_KEY",GuiInputKind::CancelMeasurementTableKey)
         .value("ESTIMATE_STAINS_KEY",GuiInputKind::EstimateStainsKey).value("APPLY_STAIN_ESTIMATE_KEY",GuiInputKind::ApplyStainEstimateKey).value("CANCEL_STAIN_ESTIMATE_KEY",GuiInputKind::CancelStainEstimateKey)
         .value("RUN_BATCH_KEY",GuiInputKind::RunBatchKey).value("CANCEL_BATCH_KEY",GuiInputKind::CancelBatchKey)
-        .value("RESIZE_WINDOW",GuiInputKind::ResizeWindow).value("MINIMIZE_WINDOW",GuiInputKind::MinimizeWindow).value("RESTORE_WINDOW",GuiInputKind::RestoreWindow)
+        .value("RESIZE_WINDOW",GuiInputKind::ResizeWindow).value("MINIMIZE_WINDOW",GuiInputKind::MinimizeWindow).value("RESTORE_WINDOW",GuiInputKind::RestoreWindow).value("SET_UI_SCALE",GuiInputKind::SetUiScale)
         .value("FINGERPRINT_FILE_KEY",GuiInputKind::FingerprintFileKey).value("CANCEL_FINGERPRINT_FILE_KEY",GuiInputKind::CancelFingerprintFileKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image).value("PROJECT_LIST",GuiInputTarget::ProjectList).value("DISPLAY_RESET",GuiInputTarget::DisplayReset)
         .value("DISCARD_RECOVERY_REPLACEMENT",GuiInputTarget::DiscardRecoveryReplacement).value("KEEP_RECOVERY_CLOSE",GuiInputTarget::KeepRecoveryClose).value("CANCEL_CLOSE",GuiInputTarget::CancelClose).value("DISCARD_CLOSE",GuiInputTarget::DiscardClose)
@@ -308,7 +308,7 @@ NB_MODULE(_native, m) {
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift).def_rw("wait_for",&GuiInput::wait_for);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>())
-        .def_rw("docked_workspace",&GuiOptions::docked_workspace).def_rw("layout_path",&GuiOptions::layout_path).def_rw("reset_layout",&GuiOptions::reset_layout).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
+        .def_rw("ui_scale",&GuiOptions::ui_scale).def_rw("docked_workspace",&GuiOptions::docked_workspace).def_rw("layout_path",&GuiOptions::layout_path).def_rw("reset_layout",&GuiOptions::reset_layout).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
         .def_rw("replay_timeout_seconds",&GuiOptions::replay_timeout_seconds).def_rw("settle_tiles",&GuiOptions::settle_tiles)
         .def_rw("interchange_assume_pixels",&GuiOptions::interchange_assume_pixels).def_rw("interchange_allow_losses",&GuiOptions::interchange_allow_losses).def_rw("qupath_ellipse_precision",&GuiOptions::qupath_ellipse_precision)
         .def_rw("overlay_cache_budget",&GuiOptions::overlay_cache_budget)
@@ -326,6 +326,7 @@ NB_MODULE(_native, m) {
     nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
         .def_ro("docked_workspace",&GuiReport::docked_workspace).def_ro("layout_loaded",&GuiReport::layout_loaded).def_ro("layout_saved",&GuiReport::layout_saved).def_ro("layout_error",&GuiReport::layout_error)
         .def_ro("browser_bounds",&GuiReport::browser_bounds).def_ro("display_bounds",&GuiReport::display_bounds).def_ro("measurement_bounds",&GuiReport::measurement_bounds).def_ro("canvas_bounds",&GuiReport::canvas_bounds).def_ro("canvas_visible",&GuiReport::canvas_visible)
+        .def_ro("monitor_scale",&GuiReport::monitor_scale).def_ro("framebuffer_scale",&GuiReport::framebuffer_scale).def_ro("ui_scale",&GuiReport::ui_scale).def_ro("font_rebuilds",&GuiReport::font_rebuilds)
         .def_ro("overview_state",&GuiReport::overview_state).def_ro("overview_error",&GuiReport::overview_error)
         .def_ro("overview_result",&GuiReport::overview_result).def_ro("overview_gpu_bytes",&GuiReport::overview_gpu_bytes)
         .def_ro("overview_peak_gpu_bytes",&GuiReport::overview_peak_gpu_bytes)

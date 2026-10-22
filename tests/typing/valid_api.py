@@ -86,3 +86,13 @@ def docked_workspace(doc: q.Document) -> tuple[q.Rect, bool, str]:
     options.reset_layout=False
     report=q.show(doc,frame_limit=10,options=options)
     return report.canvas_bounds,report.canvas_visible,report.layout_error
+
+
+def scaled_workspace(doc: q.Document) -> tuple[float, float, float, int]:
+    options=q.GuiOptions()
+    options.ui_scale=1.5
+    event=q.GuiInput()
+    event.frame,event.kind,event.x=3,q.GuiInputKind.SET_UI_SCALE,1.25
+    options.inputs=[event]
+    report=q.show(doc,frame_limit=10,options=options)
+    return report.monitor_scale,report.framebuffer_scale,report.ui_scale,report.font_rebuilds

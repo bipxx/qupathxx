@@ -4,10 +4,11 @@
 #include <string>
 int main(int argc, char** argv) {
     try {
-        bool smoke=false,empty=false,compact=false,reset_layout=false; std::string path,project_path,recovery_path,recovery_base,layout_path; std::uint64_t image_id=0;
+        bool smoke=false,empty=false,compact=false,reset_layout=false; std::string path,project_path,recovery_path,recovery_base,layout_path; std::uint64_t image_id=0; double ui_scale=1;
         for (int i=1;i<argc;++i) {
             auto arg=std::string(argv[i]);
             if(arg=="--smoke") smoke=true;
+            else if(arg=="--ui-scale" && i+1<argc) {std::string value=argv[++i];std::size_t used=0;ui_scale=std::stod(value,&used);if(used!=value.size()) throw std::invalid_argument("invalid UI scale");}
             else if(arg=="--compact") compact=true;
             else if(arg=="--reset-layout") reset_layout=true;
             else if(arg=="--layout" && i+1<argc) layout_path=argv[++i];
@@ -17,11 +18,11 @@ int main(int argc, char** argv) {
             else if(arg=="--recovery-base" && i+1<argc) recovery_base=argv[++i];
             else if(arg=="--image-id" && i+1<argc) { std::string value=argv[++i]; std::size_t used=0; image_id=std::stoull(value,&used); if(used!=value.size() || value.empty() || value[0]=='-') throw std::invalid_argument("invalid image ID"); }
             else if(path.empty() && arg.rfind("--",0)!=0) path=arg;
-            else throw std::invalid_argument("Usage: qupathxx_app [image | --project file | --recover snapshot | --empty] [--recovery-base primary] [--image-id id] [--compact | --layout preferences.ini] [--reset-layout] [--smoke]");
+            else throw std::invalid_argument("Usage: qupathxx_app [image | --project file | --recover snapshot | --empty] [--recovery-base primary] [--image-id id] [--compact | --layout preferences.ini] [--reset-layout] [--ui-scale multiplier] [--smoke]");
         }
         if(!recovery_base.empty() && recovery_path.empty()) throw std::invalid_argument("--recovery-base requires --recover");
         auto workspace_options=[&] {
-            qpx::GuiOptions options;options.docked_workspace=!compact;options.reset_layout=reset_layout;
+            qpx::GuiOptions options;options.ui_scale=ui_scale;options.docked_workspace=!compact;options.reset_layout=reset_layout;
             if(compact && (reset_layout || !layout_path.empty())) throw std::invalid_argument("--layout and --reset-layout require the docked workspace");
             if(!compact) options.layout_path=layout_path.empty()?(smoke?std::string{}:qpx::default_workspace_layout_path()):layout_path;
             return options;

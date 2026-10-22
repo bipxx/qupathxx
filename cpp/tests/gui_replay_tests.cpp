@@ -53,6 +53,14 @@ int main() {
         rejects<std::invalid_argument>([&]{GuiReplay reject({minimize,invalid,restore},1);});
         restore.wait_for=GuiInputWait::WindowReady;
         rejects<std::invalid_argument>([&]{GuiReplay reject({restore},1);});
+        const auto win=GuiScale::from(2,1,1),retina=GuiScale::from(2,2,1),override_scale=GuiScale::from(2,2,1.5);
+        check(win.logical==2 && win.framebuffer==1 && retina.logical==1 && retina.framebuffer==2 && override_scale.logical==1.5f);
+        check(GuiScale::from(0,0,1).same_fonts(GuiScale{}));
+        check(!win.same_fonts(retina) && retina.same_fonts(GuiScale::from(2,2,1)));
+        GuiInput scale;scale.kind=GuiInputKind::SetUiScale;scale.x=1.5;GuiReplay scale_ok({scale},1);
+        for(double bad:{0.,.49,3.01,std::numeric_limits<double>::infinity(),std::numeric_limits<double>::quiet_NaN()}) {
+            scale.x=bad;rejects<std::invalid_argument>([&]{GuiReplay reject({scale},1);});
+        }
         std::cout<<"gui replay passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

@@ -18,6 +18,8 @@ def main():
     parser.add_argument("--height", type=int, default=1440)
     parser.add_argument("--navigate", action="store_true", help="Replay wheel zoom and overview clicks through ImGui")
     parser.add_argument("--docked", action="store_true", help="Use the split docked research workspace")
+    parser.add_argument("--ui-scale", type=float, default=1)
+    parser.add_argument("--scale-cycle", action="store_true", help="Replay live UI multipliers 1.5, 1, 1.25 at frames 60, 90, 120")
     parser.add_argument("--output", type=Path, default=Path("build/viewer-benchmark.json"))
     args = parser.parse_args()
     if args.frames < 30:
@@ -27,6 +29,7 @@ def main():
     options = q.GuiOptions()
     options.width, options.height = args.width, args.height
     options.docked_workspace = args.docked
+    options.ui_scale = args.ui_scale
     if args.navigate:
         if args.frames < 120:
             parser.error("navigation requires at least 120 frames")
@@ -41,6 +44,15 @@ def main():
             event.x, event.y = .7, .5
             events.append(event)
         options.inputs = events
+    if args.scale_cycle:
+        if args.frames < 150:
+            parser.error("scale cycle requires at least 150 frames")
+        events = list(options.inputs)
+        for frame, multiplier in [(60, 1.5), (90, 1), (120, 1.25)]:
+            event = q.GuiInput()
+            event.frame, event.kind, event.x = frame, q.GuiInputKind.SET_UI_SCALE, multiplier
+            events.append(event)
+        options.inputs = events
     runs = []
     try:
         for label in ["first-view", "repeat-view"]:
@@ -49,6 +61,7 @@ def main():
             runs.append({
                 "name": label, "elapsed_seconds": time.perf_counter() - start,
                 "frames": report.frames, "cpu_frame_p95_ms": report.cpu_frame_p95_ms,
+                "max_cpu_frame_ms": report.max_cpu_frame_ms,
                 "uploaded_tiles": report.uploaded_tiles, "peak_gpu_payload_bytes": report.peak_gpu_bytes,
                 "pending_tiles_at_exit": report.pending_tiles,
                 "framebuffer_size": [report.framebuffer_width, report.framebuffer_height],
@@ -56,6 +69,8 @@ def main():
                 "docked_workspace": report.docked_workspace, "overview_state": report.overview_state,
                 "overview_gpu_payload_bytes": report.overview_gpu_bytes,
                 "gl_version": report.gl_version,
+                "monitor_scale": report.monitor_scale, "framebuffer_scale": report.framebuffer_scale,
+                "effective_ui_scale": report.ui_scale, "font_rebuilds": report.font_rebuilds,
             })
     finally:
         server.close()
@@ -68,7 +83,8 @@ def main():
         "sha256": digest,
         "source_tree_sha256": q.build_environment().source_tree_sha256,
         "native_sha256": hashlib.sha256(Path(_native.__file__).read_bytes()).hexdigest(),
-        "window_logical_size": [args.width, args.height], "runs": runs,
+        "window_logical_size": [args.width, args.height], "ui_multiplier": args.ui_scale,
+        "scale_cycle": args.scale_cycle, "runs": runs,
         "scope": ("ImGui zoom/overview replay" if args.navigate else "Static fit view") +
                  ". CPU timing excludes explicit swap/vsync and capture; includes planning/upload/draw submission. Driver calls may block. No GPU completion latency claim.",
     }

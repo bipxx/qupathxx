@@ -17,12 +17,16 @@ def main():
     parser.add_argument("--compact", action="store_true", help="Use the compact single-inspector workspace")
     parser.add_argument("--layout", help="Separate .ini file for workspace layout preferences")
     parser.add_argument("--reset-layout", action="store_true", help="Restore the default dock layout")
+    parser.add_argument("--ui-scale", type=float, default=1, help="Monitor-aware UI size multiplier, 0.5 to 3 (default 1)")
     args = parser.parse_args()
+    if not .5 <= args.ui_scale <= 3:
+        parser.error("--ui-scale must be between 0.5 and 3")
     if args.compact and (args.layout or args.reset_layout):
         parser.error("--layout and --reset-layout require the docked workspace")
     if args.recovery_base and not args.recover:
         parser.error("--recovery-base requires --recover")
     def launch(document, options):
+        options.ui_scale = args.ui_scale
         options.docked_workspace = not args.compact
         options.reset_layout = args.reset_layout
         options.layout_path = args.layout or (default_workspace_layout_path() if not args.smoke and not args.compact else "")

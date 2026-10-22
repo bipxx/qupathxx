@@ -8,6 +8,7 @@
 #include "gui_tiles.hpp"
 #include "gui_thumbnail.hpp"
 #include "gui_workspace.hpp"
+#include "gui_scale.hpp"
 #include "gui_tissue.hpp"
 #include "qupathxx/cells.hpp"
 #include "qupathxx/cell_tables.hpp"
@@ -162,8 +163,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if(options.start_view && (!std::isfinite(options.start_view->zoom) || options.start_view->zoom<=0 ||
         !std::isfinite(options.start_view->origin.x) || !std::isfinite(options.start_view->origin.y))) throw std::invalid_argument("invalid initial viewport");
     if (options.width<640 || options.width>8192 || options.height<480 || options.height>8192) throw std::invalid_argument("invalid window dimensions");
+    GuiScale::validate(options.ui_scale);
     for (const auto& event:options.inputs) {
-        const bool window_control=event.kind==GuiInputKind::ResizeWindow || event.kind==GuiInputKind::MinimizeWindow || event.kind==GuiInputKind::RestoreWindow;
+        const bool window_control=event.kind==GuiInputKind::ResizeWindow || event.kind==GuiInputKind::MinimizeWindow || event.kind==GuiInputKind::RestoreWindow || event.kind==GuiInputKind::SetUiScale;
         if(event.frame<(window_control?0:2) || event.frame>=frame_limit ||
            (!window_control && (!std::isfinite(event.x) || !std::isfinite(event.y) ||
             (event.target!=GuiInputTarget::Image && (event.x<0 || event.x>1 || event.y<0 || event.y>1)) ||
@@ -209,6 +211,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     ImGui::StyleColorsDark();
     auto& style = ImGui::GetStyle(); style.FrameRounding = 4; style.WindowRounding = 0;
     style.Colors[ImGuiCol_WindowBg] = ImVec4(.075f, .085f, .105f, 1);
+    const ImGuiStyle base_style=style;
+    double ui_multiplier=options.ui_scale;
+    GuiScale ui_scale,font_scale;bool fonts_initialized=false;std::uint64_t font_rebuilds=0;
     session.platform = ImGui_ImplGlfw_InitForOpenGL(session.window, true);
     if (!session.platform) throw std::runtime_error("ImGui GLFW initialization failed");
     session.renderer = ImGui_ImplOpenGL3_Init("#version 150");
@@ -780,6 +785,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
         };
         auto replay_emit=[&](const GuiInput& event) {
+            if(event.kind==GuiInputKind::SetUiScale) {ui_multiplier=event.x;return;}
             if(event.kind==GuiInputKind::ResizeWindow) {glfwSetWindowSize(session.window,static_cast<int>(event.x),static_cast<int>(event.y));replay_geometry_changed=true;return;}
             if(event.kind==GuiInputKind::MinimizeWindow) {glfwIconifyWindow(session.window);return;}
             if(event.kind==GuiInputKind::RestoreWindow) {glfwRestoreWindow(session.window);replay_geometry_changed=true;return;}
@@ -908,7 +914,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         };
         if(suspend_window()) continue;
         was_suspended=false;minimized_startup.reset();
-        ImGui_ImplOpenGL3_NewFrame(); ImGui_ImplGlfw_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
         // Test/benchmark replay enters the same ImGui event queue as GLFW input.
         if (!options.inputs.empty()) {
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
@@ -921,6 +927,23 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(suspend_window()) continue;
         if(replay_geometry_changed) ImGui_ImplGlfw_NewFrame();
 
+        float sx=1,sy=1;glfwGetWindowContentScale(session.window,&sx,&sy);
+        const auto next_scale=GuiScale::from(std::max(sx,sy),std::max(input.DisplayFramebufferScale.x,input.DisplayFramebufferScale.y),ui_multiplier);
+        if(!fonts_initialized || !font_scale.same_fonts(next_scale)) {
+            // Rebuild only between frames, on the GL owner thread. Never scale
+            // the previous style, which would accumulate rounding and drift.
+            overlay_cache.clear();
+            ImGui_ImplOpenGL3_DestroyFontsTexture();input.Fonts->Clear();
+            style=base_style;style.ScaleAllSizes(next_scale.logical);
+            ImFontConfig font;font.SizePixels=13.f*next_scale.logical;font.RasterizerDensity=next_scale.framebuffer;
+            input.Fonts->AddFontDefault(&font);
+            if(!ImGui_ImplOpenGL3_CreateFontsTexture()) throw std::runtime_error("UI font texture creation failed");
+            font_scale=next_scale;fonts_initialized=true;++font_rebuilds;
+            drawing=marquee=vertex_dragging=false;active_vertex.reset();draft_points.clear();
+            input.AddMouseButtonEvent(0,false);input.AddMouseButtonEvent(1,false);ImGui::ClearActiveID();
+        }
+        ui_scale=next_scale;
+        ImGui_ImplOpenGL3_NewFrame();
         ImGui::NewFrame();
         bool save_project_requested=false;
         bool autosave_requested=false;
@@ -989,13 +1012,18 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (selected && tool!=6 && !io.WantTextInput && !editing_blocked && has_image && ImGui::IsKeyPressed(ImGuiKey_Delete)) delete_selection();
         ImGui::SameLine(); ImGui::TextDisabled("Ctrl+click: toggle | Shift+drag: select box | Ctrl+A: all | Right drag: pan");
         ImGui::EndDisabled();
+        if(ImGui::SmallButton("UI -")) ui_multiplier=std::max(.5,ui_multiplier-.25);
+        ImGui::SameLine();ImGui::Text("UI %.0f%%",ui_multiplier*100);
+        ImGui::SameLine();if(ImGui::SmallButton("UI +")) ui_multiplier=std::min(3.,ui_multiplier+.25);
+        ImGui::SameLine();if(ImGui::SmallButton("Automatic UI size")) ui_multiplier=1;
         if(workspace.enabled()) {
+            ImGui::SameLine();
             if(ImGui::Button("Reset layout")) workspace.reset();
             layout_reset_offset=ImGui::GetItemRectMin();auto lr=ImGui::GetItemRectMax();layout_reset_size={lr.x-layout_reset_offset.x,lr.y-layout_reset_offset.y};mark_target(GuiInputTarget::ResetLayout);
             if(!workspace.error().empty()) ImGui::TextWrapped("Layout preferences: %s",workspace.error().c_str());
             workspace.dockspace();
             workspace.begin("Project and objects",workspace.browser);
-        } else ImGui::BeginChild("Inspector", {285,0}, ImGuiChildFlags_Borders);
+        } else ImGui::BeginChild("Inspector", {285*ui_scale.logical,0}, ImGuiChildFlags_Borders);
         if(options.project) {
             // Route these chords so ImGui's own PageUp/PageDown navigation
             // cannot also focus/activate an inspector text field.
@@ -2282,7 +2310,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         saved_cells?saved_cells->id:0,saved_cells?active_document->cell_status(saved_cells->id):std::string{},
         final_table.state,cell_table_error.empty()?final_table.error:cell_table_error,final_table.path,final_table.rows,final_table.bytes,final_table.capture_ms,final_table.write_ms,
         final_fingerprint.state,final_fingerprint.error.empty()?fingerprint_error:final_fingerprint.error,fingerprint_job.result(),final_fingerprint.bytes,final_fingerprint.elapsed_ms,
-        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied,batch.stats().state,batch.error(),batch.result(),suspended_iterations,suspended_work_ms,suspended_wait_ms,bool(glfwGetWindowAttrib(session.window,GLFW_ICONIFIED)),overview.state(),overview.error(),overview.result(),overview.bytes(),overview.peak_bytes(),workspace.enabled(),workspace.loaded(),layout_saved,workspace.error(),workspace.browser,workspace.display,workspace.measurements,workspace.canvas,canvas_visible};
+        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied,batch.stats().state,batch.error(),batch.result(),suspended_iterations,suspended_work_ms,suspended_wait_ms,bool(glfwGetWindowAttrib(session.window,GLFW_ICONIFIED)),overview.state(),overview.error(),overview.result(),overview.bytes(),overview.peak_bytes(),workspace.enabled(),workspace.loaded(),layout_saved,workspace.error(),workspace.browser,workspace.display,workspace.measurements,workspace.canvas,canvas_visible,ui_scale.monitor,ui_scale.framebuffer,ui_scale.logical,font_rebuilds};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");
