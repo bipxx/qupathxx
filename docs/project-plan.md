@@ -1978,5 +1978,6 @@ cases skipped because the fixture variable was unset then pass in an exact-node
 rerun with the identified fixture. This verifies 1,342 distinct cases with six
 expected platform/headless/opt-in skips remaining. The [local artifact record](benchmarks/classification-publication-local-windows-linux.json)
 retains both reports, deduplicates cases, and verifies wheel/native/source and
-benchmark identities. The installed workflow also passes. Hosted validation for
-this source is pending; no result is claimed. Remaining M0–M7 requirements stay open.
+benchmark identities. The installed workflow also passes. Hosted [run 39837928441](https://github.com/bipxx/qupathxx/actions/runs/39837928441)
+targets `c47192e` and is running; no result is claimed. Remaining M0–M7
+requirements stay open.

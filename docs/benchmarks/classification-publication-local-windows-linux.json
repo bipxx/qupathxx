@@ -126,6 +126,9 @@
   },
   "performance_limit": "Paired A B B A synthetic publication/history comparison; two samples per implementation/configuration. Large-batch publication remains above a 16ms frame budget; no hardware or research accuracy acceptance.",
   "ci": {
-    "status_at_capture": "not_yet_started"
+    "run": "https://github.com/bipxx/qupathxx/actions/runs/39837928441",
+    "source_commit": "c47192e4f9897790b75fcf07daa12f6e3171f8a9",
+    "status_at_capture": "in_progress",
+    "observed_utc": "2026-10-22T19:12:09.762804+00:00"
   }
 }
