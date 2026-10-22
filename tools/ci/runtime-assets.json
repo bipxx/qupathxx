@@ -7,6 +7,13 @@
     "sha256": "841bef094e1504a831caaaf767a969be436e30d84bc16a33f4d941953409c150",
     "prefix": "openslide-bin-4.0.1.2-windows-x64"
   },
+  "openslide_linux": {
+    "url": "https://github.com/openslide/openslide-bin/releases/download/v4.0.1.2/openslide-bin-4.0.1.2-linux-x86_64.tar.xz",
+    "filename": "openslide-bin-4.0.1.2-linux-x86_64.tar.xz",
+    "bytes": 12293060,
+    "sha256": "d3e3316fd0a2256533c53f1c56edc637923d478961b84b2644e64065abfa52a6",
+    "prefix": "openslide-bin-4.0.1.2-linux-x86_64"
+  },
   "mesa": {
     "url": "https://github.com/pal1000/mesa-dist-win/releases/download/26.2.4/mesa3d-26.2.4-release-msvc.7z",
     "filename": "mesa3d-26.2.4-release-msvc.7z",

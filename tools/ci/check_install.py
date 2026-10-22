@@ -18,6 +18,8 @@ def main():
     parser.add_argument('--gui', action='store_true')
     parser.add_argument('--software-gl', action='store_true')
     parser.add_argument('--standalone-project', type=Path)
+    parser.add_argument('--openslide-version')
+    parser.add_argument('--openslide-runtime-sha256')
     args = parser.parse_args()
     import qupathxx as q
     from qupathxx import _native
@@ -43,6 +45,22 @@ def main():
             if member not in names or len(wheel.read(member)) < 100:
                 raise RuntimeError('missing dependency notice: '+relative)
     assert q.has_gui == args.gui and q.has_geos and q.has_openslide and q.has_project and q.has_interchange
+    reader_version = q.build_environment().openslide_version
+    if args.openslide_version and reader_version != args.openslide_version:
+        raise RuntimeError('loaded OpenSlide version differs from the verified SDK: '+reader_version)
+    reader_runtime_sha256 = None
+    if args.openslide_runtime_sha256:
+        runtime = native.parent/'libopenslide.so.1'
+        reader_runtime_sha256 = hashlib.sha256(runtime.read_bytes()).hexdigest()
+        with zipfile.ZipFile(args.wheel) as wheel:
+            packaged_sha = hashlib.sha256(wheel.read('qupathxx/libopenslide.so.1')).hexdigest()
+            assert wheel.read('qupathxx/licenses/openslide-sdk/OpenSlide/COPYING.LESSER')
+        if reader_runtime_sha256 != args.openslide_runtime_sha256 or packaged_sha != reader_runtime_sha256:
+            raise RuntimeError('bundled OpenSlide runtime differs from the verified SDK')
+        mapped = {Path(line.split(maxsplit=5)[5]).resolve() for line in Path('/proc/self/maps').read_text(encoding='utf8').splitlines()
+                  if len(line.split(maxsplit=5)) == 6 and '/libopenslide.so' in line.split(maxsplit=5)[5]}
+        if mapped != {runtime.resolve()}:
+            raise RuntimeError('native module did not load its bundled OpenSlide runtime: '+repr(mapped))
     with tempfile.TemporaryDirectory(prefix='qupathxx-install-') as directory:
         root = Path(directory)
         project = q.Project()
@@ -90,6 +108,8 @@ def main():
                       native=str(native), native_sha256=hashlib.sha256(native.read_bytes()).hexdigest(),
                       source_tree_sha256=q.build_environment().source_tree_sha256,
                       gui=q.has_gui, geos=q.has_geos, openslide=q.has_openslide, gl_renderer=renderer,
+                      openslide_version=reader_version,
+                      openslide_runtime_sha256=reader_runtime_sha256,
                       framebuffer=[report.framebuffer_width, report.framebuffer_height] if args.gui else None,
                       roi_samples=result.samples, native_batch_checkpoints=len(checkpoints))
     args.output.write_text(json.dumps(report, indent=2)+'\n', encoding='utf8')

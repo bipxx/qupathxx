@@ -18,7 +18,10 @@ listed configurations and fixture scope; it does not accept every M0–M7 gate.
 GEOS is built from a checksum-pinned source archive. Cached SDK files are hashed
 before reuse. Windows OpenSlide and test-only Mesa archives have pinned sizes
 and SHA-256 identities in `tools/ci/runtime-assets.json`; extracted SDK files and
-the selected Mesa DLLs are verified. Linux uses the runner's OpenSlide package.
+the selected Mesa DLLs are verified. Linux uses the pinned self-contained
+OpenSlide SDK and bundles its reader ELF/notices with `$ORIGIN` resolution;
+the installed probe verifies the mapped library and exact SDK hash. See
+[reader runtime validation](reader-runtime.md).
 The sanitizer job instruments this project's native code and embedded SQLite;
 the shared GEOS SDK is not sanitizer-instrumented. These checks do not include
 ThreadSanitizer or establish race freedom.
@@ -66,7 +69,7 @@ source budget without creating an output file. It requires the Microsoft Visual 
 for the desktop app.
 
 Artifacts are development candidates, not published supported releases. The Linux
-wheel uses the explicitly built GEOS SDK via `LD_LIBRARY_PATH` and the system
+wheel uses the explicitly built GEOS SDK via `LD_LIBRARY_PATH` and its bundled
 OpenSlide runtime; it is not an audited portable manylinux wheel. macOS wheels,
 hardware/DPI campaigns, clean user-machine installers, project license selection
 and the remaining workflow/format acceptance work are still open. No package is

@@ -94,12 +94,12 @@ These checks establish this defined policy, not QuPath thumbnail pixel parity.
 The first [Linux CI attempt](https://github.com/bipxx/qupathxx/actions/runs/39771927905)
 returned unexpected color/alpha from a generated 8 x 4 TIFF natural level
 stored in a 16 x 16 tile, along with a raster-width warning. The same fixture
-passed on the bundled Windows reader stack. This packet does not resolve that
-backend edge case. The final portable acceptance fixture uses complete tiles
-at its smallest 32 x 16 level and independently checks decoded RGB/alpha before
-thumbnail reduction. Partial-tile levels on the Linux system reader remain
-part of the open M1 reader-validation work; passing thumbnail tests do not
-establish acceptance for them.
+passed on the bundled Windows reader stack. Packet 62 initially retained a
+complete-tile acceptance fixture. Packet 63 reproduces the corruption with
+Ubuntu OpenSlide 3.4.1 and verifies exact pixels with the pinned 4.0.1 SDK.
+Linux development wheels now bundle that SDK runtime; regression cases include
+8 x 4, 9 x 5 and portrait small levels and independently check every decoded
+level before thumbnail reduction. See [reader runtime validation](reader-runtime.md).
 
 The final [five-configuration CI run](https://github.com/bipxx/qupathxx/actions/runs/39773391727)
 passes, including 1273 Windows GUI Python cases and 34 native GUI tests.

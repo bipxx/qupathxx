@@ -1704,6 +1704,19 @@ fixture is included in every applicable hosted suite. The
 [raw validation record](benchmarks/thumbnail-ci-windows-linux.json) retains
 test counts, skip reasons, artifact hashes and exact native/source identities.
 
+### Packet 63: pinned Linux reader and small-level TIFF acceptance
+
+The formerly excluded TIFF levels now receive exact decoded-pixel and Fraction
+thumbnail checks: narrow, partial-tile and portrait pyramids. Direct C API
+comparison reproduces corruption with Ubuntu OpenSlide 3.4.1 and exact output
+with the pinned OpenSlide 4.0.1 SDK. Linux development wheels bundle that
+SDK's self-contained ELF and notices, with `$ORIGIN` resolution for the module
+and native executables. CI checks archive/cache integrity, version and actual
+mapped reader identity. A relocated local wheel and CLI read all nine reference
+levels exactly without an SDK loader path. See [reader runtime validation](reader-runtime.md).
+This closes the identified fixture exclusion for the pinned configuration;
+broader reader/vendor acceptance and other M0–M7 requirements remain open.
+
 M1's thumbnail policy is implemented for the current dense/OpenSlide readers.
 Broader vendor, damage, axes, metadata and ICC acceptance remains open, alongside
 all other unfinished milestone requirements.

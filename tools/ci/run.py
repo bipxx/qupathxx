@@ -81,7 +81,7 @@ def main():
     full = args.mode != 'minimal'
     # Verify external inputs before spending time compiling the SDK and wheel.
     mesa = assets.mesa(ROOT/'build/ci/deps') if args.mode == 'gui' and os.name == 'nt' else None
-    openslide = assets.openslide(ROOT/'build/ci/deps') if full and os.name == 'nt' else None
+    openslide = assets.openslide(ROOT/'build/ci/deps') if full and args.mode != 'sanitize' else None
     if args.mode in ['headless', 'gui']:
         run([sys.executable, '-I', ROOT/'tools/fetch_reader_fixtures.py'], work/'fixtures.log', env)
         env['QUPATHXX_APERIO_FIXTURE'] = str(ROOT/'build/fixtures/CMU-1-Small-Region.svs')
@@ -98,6 +98,8 @@ def main():
         flags['GEOS_ROOT'] = str(geos)
     if openslide:
         flags['OpenSlide_ROOT'] = str(openslide)
+        if os.name != 'nt':
+            flags['QUPATHXX_BUNDLE_OPENSLIDE'] = 'ON'
     if args.mode == 'sanitize':
         sanitizer = '-fsanitize=address,undefined -fno-omit-frame-pointer'
         flags.update(CMAKE_CXX_FLAGS=sanitizer, CMAKE_C_FLAGS=sanitizer, CMAKE_EXE_LINKER_FLAGS=sanitizer,
@@ -139,7 +141,9 @@ def main():
     if args.live_reference:
         env['QUPATHXX_COMPARE_QUPATH'] = '1'
     command = [test_python, '-I', ROOT/'tools/ci/check_install.py', '--wheel', wheel, '--output', work/'installed-workflow.json',
-               '--standalone-project', work/'standalone-input.qpxproj']
+               '--standalone-project', work/'standalone-input.qpxproj', '--openslide-version', '4.0.1']
+    if os.name != 'nt':
+        command += ['--openslide-runtime-sha256', assets.sha(openslide/'lib/libopenslide.so.1')]
     if args.mode == 'gui':
         command += ['--gui', '--software-gl']
     run(command, work/'installed-workflow.log', env)

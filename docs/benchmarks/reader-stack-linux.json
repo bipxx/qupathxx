@@ -1,0 +1,358 @@
+{
+  "schema": "qpx.reader-stack-comparison/1",
+  "scope": "Ubuntu 24.04 WSL x86_64; same generated deflate TIFF bytes; direct C API RGBA plus relocated native/Python checks. Single-call timings are diagnostic, not a performance comparison.",
+  "fixtures": {
+    "tifffile": "2024.9.20",
+    "numpy": "2.5.4",
+    "cases": [
+      {
+        "path": "narrow.tif",
+        "sha256": "5641046288b2daacc8cdc06906b84a285c3561e8c43d9b425c71cc7ca6385bc8",
+        "levels": [
+          {
+            "width": 128,
+            "height": 64,
+            "expected": "narrow-0.rgba"
+          },
+          {
+            "width": 32,
+            "height": 16,
+            "expected": "narrow-1.rgba"
+          },
+          {
+            "width": 8,
+            "height": 4,
+            "expected": "narrow-2.rgba"
+          }
+        ]
+      },
+      {
+        "path": "partial.tif",
+        "sha256": "2ed98da9cde32bd3ae73851c4f249bd952133014a11c4a1a6bdb871fc4a40485",
+        "levels": [
+          {
+            "width": 129,
+            "height": 67,
+            "expected": "partial-0.rgba"
+          },
+          {
+            "width": 33,
+            "height": 17,
+            "expected": "partial-1.rgba"
+          },
+          {
+            "width": 9,
+            "height": 5,
+            "expected": "partial-2.rgba"
+          }
+        ]
+      },
+      {
+        "path": "full.tif",
+        "sha256": "89942df052cf51b3e982f594288b815224b1f9d729e9e9ad269b2a73ee2628a1",
+        "levels": [
+          {
+            "width": 128,
+            "height": 64,
+            "expected": "full-0.rgba"
+          },
+          {
+            "width": 64,
+            "height": 32,
+            "expected": "full-1.rgba"
+          },
+          {
+            "width": 32,
+            "height": 16,
+            "expected": "full-2.rgba"
+          }
+        ]
+      }
+    ]
+  },
+  "system": {
+    "version": "3.4.1",
+    "library_sha256": "a253c8ed721907525c372852a3f093b804135c212a53e1d5b6e0863bfae5e006",
+    "cases": [
+      {
+        "name": "narrow.tif",
+        "level": 0,
+        "width": 128,
+        "height": 64,
+        "elapsed_ms": 36.95834399999853,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "03d96e916b2583ccbc8e67fac6d05ca1994f62c6d9b2ec7be6fc951ccb040046",
+        "expected_sha256": "03d96e916b2583ccbc8e67fac6d05ca1994f62c6d9b2ec7be6fc951ccb040046"
+      },
+      {
+        "name": "narrow.tif",
+        "level": 1,
+        "width": 32,
+        "height": 16,
+        "elapsed_ms": 9.978053999986969,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "e00319a9e1dff9c09cfd918be2f73b73ede266986c615db0b693a123773ffadf",
+        "expected_sha256": "e00319a9e1dff9c09cfd918be2f73b73ede266986c615db0b693a123773ffadf"
+      },
+      {
+        "name": "narrow.tif",
+        "level": 2,
+        "width": 8,
+        "height": 4,
+        "elapsed_ms": 8.039620000005243,
+        "error": null,
+        "mismatched_bytes": 128,
+        "rgba_sha256": "d4e13a7f5428c2a3b7296bc6974c42aa2f69e77be220a566a087854ce222585e",
+        "expected_sha256": "ee6c0c09b36a42668911cf65c3ee47737c7759491a76ec3a1611a8184dc504e0"
+      },
+      {
+        "name": "partial.tif",
+        "level": 0,
+        "width": 129,
+        "height": 67,
+        "elapsed_ms": 39.93880799998806,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "087220b783401ba5a1ce0fe51724273abe5a8566c5da9d62e5c0f44c21aa7837",
+        "expected_sha256": "087220b783401ba5a1ce0fe51724273abe5a8566c5da9d62e5c0f44c21aa7837"
+      },
+      {
+        "name": "partial.tif",
+        "level": 1,
+        "width": 33,
+        "height": 17,
+        "elapsed_ms": 12.726611999994475,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "6a6533a16b1030c2dfb716f7c6d9343aa8ffd05264bad3435aeb4e944fc67cfe",
+        "expected_sha256": "6a6533a16b1030c2dfb716f7c6d9343aa8ffd05264bad3435aeb4e944fc67cfe"
+      },
+      {
+        "name": "partial.tif",
+        "level": 2,
+        "width": 9,
+        "height": 5,
+        "elapsed_ms": 6.015005000023166,
+        "error": null,
+        "mismatched_bytes": 140,
+        "rgba_sha256": "d8f0e78bafb64be55f27a993da8713c615b8bc71e7ee1fc764e47195a23a7005",
+        "expected_sha256": "c548a409474899dccc6aa02f77c1e997c5bf589a561cb675d610c088b67b453d"
+      },
+      {
+        "name": "full.tif",
+        "level": 0,
+        "width": 128,
+        "height": 64,
+        "elapsed_ms": 27.151080000010097,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "03d96e916b2583ccbc8e67fac6d05ca1994f62c6d9b2ec7be6fc951ccb040046",
+        "expected_sha256": "03d96e916b2583ccbc8e67fac6d05ca1994f62c6d9b2ec7be6fc951ccb040046"
+      },
+      {
+        "name": "full.tif",
+        "level": 1,
+        "width": 64,
+        "height": 32,
+        "elapsed_ms": 12.194370000003119,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "e9afdfe4d6c89275749d7f39f279a0378bac919a7de7e27492360ac5ae55c6ec",
+        "expected_sha256": "e9afdfe4d6c89275749d7f39f279a0378bac919a7de7e27492360ac5ae55c6ec"
+      },
+      {
+        "name": "full.tif",
+        "level": 2,
+        "width": 32,
+        "height": 16,
+        "elapsed_ms": 6.779034000004458,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "275105220b0dfd2374122a050d68b3961ef1ea96783f7c9b39f0851317ba239e",
+        "expected_sha256": "275105220b0dfd2374122a050d68b3961ef1ea96783f7c9b39f0851317ba239e"
+      }
+    ]
+  },
+  "pinned": {
+    "version": "4.0.1",
+    "library_sha256": "552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df",
+    "cases": [
+      {
+        "name": "narrow.tif",
+        "level": 0,
+        "width": 128,
+        "height": 64,
+        "elapsed_ms": 3.09962500000438,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "03d96e916b2583ccbc8e67fac6d05ca1994f62c6d9b2ec7be6fc951ccb040046",
+        "expected_sha256": "03d96e916b2583ccbc8e67fac6d05ca1994f62c6d9b2ec7be6fc951ccb040046"
+      },
+      {
+        "name": "narrow.tif",
+        "level": 1,
+        "width": 32,
+        "height": 16,
+        "elapsed_ms": 0.9981320000065352,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "e00319a9e1dff9c09cfd918be2f73b73ede266986c615db0b693a123773ffadf",
+        "expected_sha256": "e00319a9e1dff9c09cfd918be2f73b73ede266986c615db0b693a123773ffadf"
+      },
+      {
+        "name": "narrow.tif",
+        "level": 2,
+        "width": 8,
+        "height": 4,
+        "elapsed_ms": 1.0310790000005454,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "ee6c0c09b36a42668911cf65c3ee47737c7759491a76ec3a1611a8184dc504e0",
+        "expected_sha256": "ee6c0c09b36a42668911cf65c3ee47737c7759491a76ec3a1611a8184dc504e0"
+      },
+      {
+        "name": "partial.tif",
+        "level": 0,
+        "width": 129,
+        "height": 67,
+        "elapsed_ms": 2.8250209999782783,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "087220b783401ba5a1ce0fe51724273abe5a8566c5da9d62e5c0f44c21aa7837",
+        "expected_sha256": "087220b783401ba5a1ce0fe51724273abe5a8566c5da9d62e5c0f44c21aa7837"
+      },
+      {
+        "name": "partial.tif",
+        "level": 1,
+        "width": 33,
+        "height": 17,
+        "elapsed_ms": 1.151249000002963,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "6a6533a16b1030c2dfb716f7c6d9343aa8ffd05264bad3435aeb4e944fc67cfe",
+        "expected_sha256": "6a6533a16b1030c2dfb716f7c6d9343aa8ffd05264bad3435aeb4e944fc67cfe"
+      },
+      {
+        "name": "partial.tif",
+        "level": 2,
+        "width": 9,
+        "height": 5,
+        "elapsed_ms": 1.0600670000258106,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "c548a409474899dccc6aa02f77c1e997c5bf589a561cb675d610c088b67b453d",
+        "expected_sha256": "c548a409474899dccc6aa02f77c1e997c5bf589a561cb675d610c088b67b453d"
+      },
+      {
+        "name": "full.tif",
+        "level": 0,
+        "width": 128,
+        "height": 64,
+        "elapsed_ms": 3.3024749999981395,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "03d96e916b2583ccbc8e67fac6d05ca1994f62c6d9b2ec7be6fc951ccb040046",
+        "expected_sha256": "03d96e916b2583ccbc8e67fac6d05ca1994f62c6d9b2ec7be6fc951ccb040046"
+      },
+      {
+        "name": "full.tif",
+        "level": 1,
+        "width": 64,
+        "height": 32,
+        "elapsed_ms": 1.3217039999915414,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "e9afdfe4d6c89275749d7f39f279a0378bac919a7de7e27492360ac5ae55c6ec",
+        "expected_sha256": "e9afdfe4d6c89275749d7f39f279a0378bac919a7de7e27492360ac5ae55c6ec"
+      },
+      {
+        "name": "full.tif",
+        "level": 2,
+        "width": 32,
+        "height": 16,
+        "elapsed_ms": 0.9124519999943459,
+        "error": null,
+        "mismatched_bytes": 0,
+        "rgba_sha256": "275105220b0dfd2374122a050d68b3961ef1ea96783f7c9b39f0851317ba239e",
+        "expected_sha256": "275105220b0dfd2374122a050d68b3961ef1ea96783f7c9b39f0851317ba239e"
+      }
+    ]
+  },
+  "relocated": {
+    "schema": "qpx.relocated-reader/1",
+    "python": "3.14.4 (main, Apr 14 2026, 14:26:14) [Clang 22.1.3 ]",
+    "openslide_version": "4.0.1",
+    "native_sha256": "930f0fcc233acb7885b64efac5f4c6bc1991e615a95ea9638c52b91c72b7da36",
+    "source_tree_sha256": "84df79d697ae4d6e7426db9d964f74312e18bbab63ff8042f2a19099f4b0fd0e",
+    "reader_runtime_sha256": "552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df",
+    "loaded_bundled_runtime": true,
+    "cli_without_ld_library_path": true,
+    "cases": [
+      {
+        "name": "narrow.tif",
+        "level": 0,
+        "width": 128,
+        "height": 64,
+        "rgba_sha256": "03d96e916b2583ccbc8e67fac6d05ca1994f62c6d9b2ec7be6fc951ccb040046"
+      },
+      {
+        "name": "narrow.tif",
+        "level": 1,
+        "width": 32,
+        "height": 16,
+        "rgba_sha256": "e00319a9e1dff9c09cfd918be2f73b73ede266986c615db0b693a123773ffadf"
+      },
+      {
+        "name": "narrow.tif",
+        "level": 2,
+        "width": 8,
+        "height": 4,
+        "rgba_sha256": "ee6c0c09b36a42668911cf65c3ee47737c7759491a76ec3a1611a8184dc504e0"
+      },
+      {
+        "name": "partial.tif",
+        "level": 0,
+        "width": 129,
+        "height": 67,
+        "rgba_sha256": "087220b783401ba5a1ce0fe51724273abe5a8566c5da9d62e5c0f44c21aa7837"
+      },
+      {
+        "name": "partial.tif",
+        "level": 1,
+        "width": 33,
+        "height": 17,
+        "rgba_sha256": "6a6533a16b1030c2dfb716f7c6d9343aa8ffd05264bad3435aeb4e944fc67cfe"
+      },
+      {
+        "name": "partial.tif",
+        "level": 2,
+        "width": 9,
+        "height": 5,
+        "rgba_sha256": "c548a409474899dccc6aa02f77c1e997c5bf589a561cb675d610c088b67b453d"
+      },
+      {
+        "name": "full.tif",
+        "level": 0,
+        "width": 128,
+        "height": 64,
+        "rgba_sha256": "03d96e916b2583ccbc8e67fac6d05ca1994f62c6d9b2ec7be6fc951ccb040046"
+      },
+      {
+        "name": "full.tif",
+        "level": 1,
+        "width": 64,
+        "height": 32,
+        "rgba_sha256": "e9afdfe4d6c89275749d7f39f279a0378bac919a7de7e27492360ac5ae55c6ec"
+      },
+      {
+        "name": "full.tif",
+        "level": 2,
+        "width": 32,
+        "height": 16,
+        "rgba_sha256": "275105220b0dfd2374122a050d68b3961ef1ea96783f7c9b39f0851317ba239e"
+      }
+    ]
+  }
+}

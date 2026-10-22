@@ -3,10 +3,12 @@ import hashlib
 import json
 import ntpath
 import os
+import platform
 from pathlib import Path, PurePosixPath
 import shutil
 import subprocess
 import tempfile
+import tarfile
 import urllib.request
 import zipfile
 
@@ -47,6 +49,10 @@ def download(spec, cache):
 
 
 def openslide(cache):
+    if os.name != 'nt':
+        if platform.system() != 'Linux' or platform.machine() not in ('x86_64', 'AMD64'):
+            raise ValueError('verified OpenSlide SDK supports Windows x64 and Linux x86_64')
+        return openslide_linux(cache)
     spec = SPEC['openslide']
     archive = download(spec, cache)
     target = Path(cache).resolve()/'openslide'
@@ -73,6 +79,46 @@ def openslide(cache):
                 expected = hashlib.file_digest(source, 'sha256').hexdigest()
             if sha(path) != expected:
                 raise ValueError('cached SDK file changed: '+info.filename)
+    return target/spec['prefix']
+
+
+def openslide_linux(cache):
+    spec = SPEC['openslide_linux']
+    archive = download(spec, cache)
+    target = Path(cache).resolve()/'openslide-linux'
+    with tarfile.open(archive, 'r:xz') as bundle:
+        members = bundle.getmembers()
+        for member in members:
+            path = PurePosixPath(member.name)
+            if path.is_absolute() or '..' in path.parts or ntpath.splitdrive(member.name)[0] or '\\' in member.name:
+                raise ValueError('invalid SDK archive path')
+            if not (member.isfile() or member.isdir() or member.issym()):
+                raise ValueError('unsupported SDK archive entry')
+            if member.issym() and (PurePosixPath(member.linkname).is_absolute() or ntpath.splitdrive(member.linkname)[0] or '\\' in member.linkname):
+                raise ValueError('invalid SDK archive link')
+        if not target.exists():
+            with tempfile.TemporaryDirectory(dir=Path(cache).resolve()) as temporary:
+                stage = Path(temporary)/'sdk'
+                stage.mkdir()
+                bundle.extractall(stage, filter='data')
+                stage.rename(target)
+        for member in members:
+            path = target/member.name
+            if not path.resolve().is_relative_to(target):
+                raise ValueError('SDK extraction escapes its cache')
+            if member.isdir():
+                if not path.is_dir():
+                    raise ValueError('SDK directory changed')
+            elif member.issym():
+                if not path.is_symlink() or os.readlink(path) != member.linkname:
+                    raise ValueError('SDK link changed: '+member.name)
+            else:
+                if path.is_symlink() or not path.is_file() or path.stat().st_size != member.size:
+                    raise ValueError('SDK extraction differs: '+member.name)
+                with bundle.extractfile(member) as source:
+                    expected = hashlib.file_digest(source, 'sha256').hexdigest()
+                if sha(path) != expected:
+                    raise ValueError('cached SDK file changed: '+member.name)
     return target/spec['prefix']
 
 
