@@ -60,7 +60,9 @@ it includes neither Python nor Mesa. A disposable copy runs the project viewer,
 batch checkpoint workflow and exact-pixel region extraction with only Windows
 system directories on `PATH`. Mesa is added only to that test copy. The candidate
 also opens the Aperio slide fixture and compares extracted pixels with the
-installed reader. It requires the Microsoft Visual C++ x64 runtime and OpenGL 3.2
+installed reader. Thumbnail gates check exact dense and complete-tile TIFF
+pixels. The single-level Aperio thumbnail must reject its inadequate default
+source budget without creating an output file. It requires the Microsoft Visual C++ x64 runtime and OpenGL 3.2
 for the desktop app.
 
 Artifacts are development candidates, not published supported releases. The Linux
@@ -71,6 +73,16 @@ and the remaining workflow/format acceptance work are still open. No package is
 automatically published to PyPI or a GitHub Release.
 
 ## Recorded validation
+
+[Thumbnail run 39773391727](https://github.com/bipxx/qupathxx/actions/runs/39773391727)
+passes all five configurations. The Windows GUI suite passes 1273 Python tests
+with six fixture/configuration skips, including thumbnail publication and
+minimized-window activation visibility. Windows/Linux headless pass 1026/1019
+with 253/260 skips. Native GUI passes 34 tests; all other configurations pass 33.
+The [artifact record](benchmarks/thumbnail-ci-windows-linux.json) includes the
+standalone dense/TIFF thumbnail success and default-budget Aperio rejection
+checks. The [thumbnail policy](thumbnails.md) records the unresolved Linux
+partial-tile TIFF edge case; these development candidates do not accept it.
 
 [Run 39757130782](https://github.com/bipxx/qupathxx/actions/runs/39757130782)
 passes all five jobs at source revision `f12a644246025820bf9846c9378d3edc83cff134`.

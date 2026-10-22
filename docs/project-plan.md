@@ -1684,6 +1684,26 @@ waiting Python producer of success. The full regression run exposed the prior
 notification race in a minimized window; a concurrent native check covers
 success visibility while the rendered frame counter stays frozen.
 
+The fixed local native binary passes 34 CTest cases, 32 focused thumbnail/window
+cases, generated-stub checks, strict positive/negative typing and the installed
+workflow probe. Its full software-GL run passes 1274 Python cases with five
+skips in 356.17 s. That full suite was collected before the TIFF fixture changed
+to complete tiles; all twelve thumbnail cases then pass with the final fixture
+on the same native binary. System-only-PATH native export checks cover exact
+TIFF pixels and rejection of the over-budget single-level Aperio fixture.
+
+Final hosted validation passes all five jobs in
+[run 39773391727](https://github.com/bipxx/qupathxx/actions/runs/39773391727),
+at code commit `17ca5233cb82e5b6635e31c19707991478dad842`.
+Windows GUI passes 1273 Python cases with six skips in 404.61 s; Windows/Linux
+headless pass 1026/1019 with 253/260 skips. GUI native passes 34 tests and all
+other native configurations pass 33 each, including ASan/UBSan. Installed
+workflows, generated stubs, strict positive/seven-error negative typing and
+standalone project/slide/batch/thumbnail gates pass. The final portable TIFF
+fixture is included in every applicable hosted suite. The
+[raw validation record](benchmarks/thumbnail-ci-windows-linux.json) retains
+test counts, skip reasons, artifact hashes and exact native/source identities.
+
 M1's thumbnail policy is implemented for the current dense/OpenSlide readers.
 Broader vendor, damage, axes, metadata and ICC acceptance remains open, alongside
 all other unfinished milestone requirements.

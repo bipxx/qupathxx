@@ -91,6 +91,23 @@ OpenSlide pyramid and native CLI output. GUI tests inspect the captured preview,
 source switching, separate GPU payload, empty projects and unavailable levels.
 These checks establish this defined policy, not QuPath thumbnail pixel parity.
 
+The first [Linux CI attempt](https://github.com/bipxx/qupathxx/actions/runs/39771927905)
+returned unexpected color/alpha from a generated 8 x 4 TIFF natural level
+stored in a 16 x 16 tile, along with a raster-width warning. The same fixture
+passed on the bundled Windows reader stack. This packet does not resolve that
+backend edge case. The final portable acceptance fixture uses complete tiles
+at its smallest 32 x 16 level and independently checks decoded RGB/alpha before
+thumbnail reduction. Partial-tile levels on the Linux system reader remain
+part of the open M1 reader-validation work; passing thumbnail tests do not
+establish acceptance for them.
+
+The final [five-configuration CI run](https://github.com/bipxx/qupathxx/actions/runs/39773391727)
+passes, including 1273 Windows GUI Python cases and 34 native GUI tests.
+Windows/Linux headless, minimal native, sanitizer, installed workflow,
+stub/typing and standalone gates also pass. The
+[validation record](benchmarks/thumbnail-ci-windows-linux.json) identifies
+artifacts, skips and the separately checked final local TIFF fixture.
+
 ## Local timing evidence
 
 [Default-budget samples](benchmarks/thumbnails-windows.json) retain seven
