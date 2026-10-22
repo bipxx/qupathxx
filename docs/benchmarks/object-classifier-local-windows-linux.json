@@ -1,0 +1,135 @@
+{
+  "schema": "qpx.local-validation/1",
+  "commit": "914744fd58b4f45e2e21ba6b24a0a42fc17b4f0e",
+  "observed_utc": "2026-10-22T18:29:53.029007+00:00",
+  "scope": "Native object feature/classifier workflow and real ImGui controls on the exact installed Windows development wheel, plus native Windows/Linux configurations. Project classifier provenance, pixel/TMA workflows, training validation and large-batch owner publication optimization remain open.",
+  "python": {
+    "tests": 1346,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1340,
+    "seconds": 481.722,
+    "sha256": "f34e559932bc7bfda4b7f9b9110ce2b5a27b614814d0e7d49e3369da954a871e"
+  },
+  "focused": {
+    "tests": 23,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 23,
+    "seconds": 9.95,
+    "sha256": "7163e0a4070e1b1ff4a8ca0f92e90ae2dd2fda7c9cdcc186f95d0c7a7ea57a3d"
+  },
+  "windows_gui_native": {
+    "tests": 37,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 37,
+    "seconds": 6.0,
+    "sha256": "b426022513810d3796a6ea33b2bcfbfbaf26e372ae892d8c6dcc5dccbc7d260d"
+  },
+  "windows_native": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 36,
+    "seconds": 5.0,
+    "sha256": "e8edd91dda5574be716aa6294ea8ce320c97c6695480d2d166a5868d6c4e74d7"
+  },
+  "linux_native": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 36,
+    "seconds": 0.0,
+    "sha256": "77a1e68d869e5a902eb014e0e7f08f70215ad7f8704811246a40da8521b0c87a"
+  },
+  "linux_minimal": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 36,
+    "seconds": 0.0,
+    "sha256": "81a53cdaf16d2880ca2a4b90735f1992da23f08ece45d5f317a5f37356152ffa"
+  },
+  "linux_sanitizer": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 36,
+    "seconds": 2.0,
+    "sha256": "ccc8a9bbeb7df8ea09392d4d06acdfeb4207ef09980e8a1e7ca44279d4518132"
+  },
+  "workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "a9185583523a275b810f5f8fdd24256026a0c077ac83e2ef177b4dad614816da",
+    "source_tree_sha256": "ffdc2d3c96148fbeb8d04dbb287fa2f90a61c8cd688b2e0ba1eea68810b53e27",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "9e3f71129b422569563f370b29893b19ab6f2ee8b09fdcc4fee1cf8dba473e35",
+    "bytes": 11258059
+  },
+  "preview": {
+    "native_source_sha256": "ffdc2d3c96148fbeb8d04dbb287fa2f90a61c8cd688b2e0ba1eea68810b53e27",
+    "model_sha256": "0d776684945663d58786554eb473921480c8c34457223d10599727e51f58730a",
+    "rows": [
+      7,
+      8
+    ],
+    "state": "ready",
+    "ui_overflow": 0,
+    "capture_ms": 0.0066,
+    "file": "../images/object-classifier-panel.png",
+    "sha256": "9e4ace8c2711c269c0523afdf707a863ec11c6315eb72897a1a73094d72e1279"
+  },
+  "benchmarks": {
+    "object-classifier-10000-windows.json": {
+      "file_sha256": "7683bfeb7edfd3b8540e6131512186d07948d4cdfc9d48f732c7dc2d164120e4",
+      "canonical_json_sha256": "0d4a2650138de6c95f18c51eef0e0025424acf542e986a4abcdb1951b7222985"
+    },
+    "object-classifier-100000-windows.json": {
+      "file_sha256": "be7ce397e1f35e20d4c23096834518fb65c0c3d72ca4270033bde9b342e91d84",
+      "canonical_json_sha256": "373c4088e1223da497ca0b7423926856f43b0e7272afb90153ab6d18fef565aa"
+    }
+  },
+  "checks": {
+    "object68-stubs.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "object68-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "object68-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "performance_limit": "100000-object sample: 238 ms owner publication with history disabled; not a frame-budget or research accuracy acceptance.",
+  "ci": {
+    "run": "https://github.com/bipxx/qupathxx/actions/runs/39831450439",
+    "status_at_capture": "in_progress"
+  }
+}

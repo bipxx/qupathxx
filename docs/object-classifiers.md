@@ -125,6 +125,15 @@ NumPy ownership, atomic class changes, history, staleness/cancellation, model
 files and real ImGui train/preview/apply/undo/save/load. They include a 125%
 smaller window and invalid-file preservation.
 
+The [local artifact record](benchmarks/object-classifier-local-windows-linux.json)
+ties the 1,340-test passing installed suite, 23 focused tests, native test
+configurations, typing, screenshots and samples to the same native/source/wheel
+identities. Hosted validation is tracked in the project plan.
+
+![Native ImGui classifier preview](images/object-classifier-panel.png)
+
+Native rendering of the synthetic rectangle fixture with two object predictions.
+
 The [10,000-object](benchmarks/object-classifier-10000-windows.json) and
 [100,000-object](benchmarks/object-classifier-100000-windows.json) samples use
 overlapping rectangles with repeated discrete sizes and no image reads.

@@ -1926,7 +1926,10 @@ Local focused tests pass 23 cases, including five real ImGui workflows and a
 training/minimal and ASan/UBSan pass 36 each. Installed workflow, exact stubs
 and strict positive/seven-error negative typing pass. A rendered preview was
 visually checked with no helper-layout overflow. The full installed regression
-suite is running; hosted CI will validate the pushed change.
+suite passes 1,340 tests with six skips. The [local artifact record](benchmarks/object-classifier-local-windows-linux.json)
+verifies the same wheel/native/source across the tests, installed workflow,
+numeric samples and rendered preview. Hosted [run 39831450439](https://github.com/bipxx/qupathxx/actions/runs/39831450439)
+targets `914744f` and is still running; its completion is not yet claimed.
 
 The [10,000](benchmarks/object-classifier-10000-windows.json) and
 [100,000-object](benchmarks/object-classifier-100000-windows.json) native samples
