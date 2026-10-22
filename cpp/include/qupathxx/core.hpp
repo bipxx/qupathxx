@@ -80,10 +80,11 @@ public:
     static Image read_ppm(const std::string& path);
     int width() const { return width_; }
     int height() const { return height_; }
-    const std::vector<std::uint8_t>& pixels() const { return rgb_; }
+    const std::vector<std::uint8_t>& pixels() const { return *rgb_; }
+    std::shared_ptr<const std::vector<std::uint8_t>> pixels_owner() const { return rgb_; }
 private:
     int width_, height_;
-    std::vector<std::uint8_t> rgb_;
+    std::shared_ptr<const std::vector<std::uint8_t>> rgb_;
 };
 // Coordinates are level-zero image pixels; calibration is micrometers/pixel.
 class Document {

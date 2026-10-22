@@ -1,0 +1,23 @@
+from pathlib import Path
+import numpy as np
+from numpy.typing import NDArray
+import qupathxx as q
+
+
+def workflow(source: NDArray[np.uint8], output: Path) -> tuple[NDArray[np.uint8], NDArray[np.float32], str]:
+    image=q.Image.from_numpy(source)
+    doc=q.Document(image);project=q.Project();image_id=project.add_document(doc)
+    obj=doc.add_rectangle(q.Rect(0,0,image.width,image.height))
+    pixels=doc.server.read_region(q.RegionRequest(0,0,0,image.width,image.height))
+    transform=q.StainTransform([[1.,0.,0.],[0.,1.,0.]])
+    rgb: NDArray[np.uint8]=image.numpy()
+    floats: NDArray[np.float32]=transform.deconvolve(pixels).numpy()
+    request=q.AnalysisRequest(doc,obj,transform);doc.keep_analysis(request,q.analyze(request))
+    q.save_measurements_csv(q.MeasurementTableRequest(project,q.MeasurementTableKind.ROI),str(output))
+    options=q.ProjectBatchOptions();options.kind=q.ProjectBatchKind.TISSUE
+    selection=q.ProjectBatchSelection();selection.image_id=image_id;selection.object_ids=[obj]
+    job=q.ProjectBatchJob();job.request(q.ProjectBatchRequest(project,transform,[selection],options),str(output.parent))
+    status: q.ProjectBatchStats=job.wait();report=job.result
+    if report is not None:
+        return rgb,floats,q.project_batch_report_json(report)
+    return rgb,floats,status.error

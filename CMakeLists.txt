@@ -120,7 +120,7 @@ if(QUPATHXX_BUILD_PYTHON)
   execute_process(COMMAND "${Python_EXECUTABLE}" -m nanobind --cmake_dir
     OUTPUT_VARIABLE nanobind_ROOT OUTPUT_STRIP_TRAILING_WHITESPACE COMMAND_ERROR_IS_FATAL ANY)
   find_package(nanobind CONFIG REQUIRED)
-  nanobind_add_module(_native cpp/bindings.cpp cpp/scheduler_bindings.cpp cpp/analysis_bindings.cpp cpp/tissue_bindings.cpp cpp/cell_bindings.cpp cpp/cell_table_bindings.cpp cpp/measurement_table_bindings.cpp cpp/provenance_bindings.cpp cpp/file_fingerprint_bindings.cpp cpp/stain_estimation_bindings.cpp cpp/project_batch_bindings.cpp)
+  nanobind_add_module(_native cpp/bindings.cpp cpp/scheduler_bindings.cpp cpp/analysis_bindings.cpp cpp/tissue_bindings.cpp cpp/cell_bindings.cpp cpp/cell_table_bindings.cpp cpp/measurement_table_bindings.cpp cpp/provenance_bindings.cpp cpp/file_fingerprint_bindings.cpp cpp/stain_estimation_bindings.cpp cpp/project_batch_bindings.cpp cpp/array_bindings.cpp)
   target_link_libraries(_native PRIVATE qupathxx_core)
   qupathxx_copy_runtime(_native)
   if(QUPATHXX_BUILD_GUI)

@@ -34,6 +34,7 @@ struct RegionRequest {
 class PixelBuffer {
 public:
     PixelBuffer(std::int64_t width, std::int64_t height);
+    PixelBuffer(std::int64_t width, std::int64_t height,std::vector<std::uint8_t> rgba);
     std::int64_t width() const { return width_; }
     std::int64_t height() const { return height_; }
     std::int64_t row_stride() const { return width_ * 4; }

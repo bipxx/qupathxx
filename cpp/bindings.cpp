@@ -18,6 +18,7 @@ void bind_scheduler(nb::module_&);
 void bind_analysis(nb::module_&);
 void bind_stain_estimation(nb::module_&);
 void bind_project_batch(nb::module_&);
+void bind_arrays(nb::module_&);
 void bind_tissue(nb::module_&);
 void bind_cells(nb::module_&);
 void bind_cell_tables(nb::module_&);
@@ -129,7 +130,7 @@ NB_MODULE(_native, m) {
         .def("latest_analysis",&Document::latest_analysis).def("analysis_status",&Document::analysis_status)
         .def("keep_analysis",&Document::keep_analysis).def("verify_analysis",&Document::verify_analysis).def("remove_analysis",&Document::remove_analysis)
         .def(nb::init<std::shared_ptr<ImageServer>>())
-        .def_prop_ro("image", &Document::image, nb::rv_policy::reference_internal)
+        .def_prop_ro("image", [](const Document& d) {return d.image();})
         .def_prop_ro("server", &Document::server)
         .def_prop_ro("metadata", [](const Document& d) { return d.metadata(); })
         .def_prop_ro("annotations", [](const Document& d) { return d.annotations(); })
@@ -360,6 +361,7 @@ NB_MODULE(_native, m) {
     bind_provenance(m);
     bind_file_fingerprint(m);
     bind_project_batch(m);
+    bind_arrays(m);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.

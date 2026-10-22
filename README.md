@@ -7,6 +7,12 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- NumPy region/float/label views retain native ownership; RGB/RGBA imports copy
+  strided uint8 inputs into owned native buffers. See
+  [NumPy exchange](docs/numpy-arrays.md) and the
+  [complete region workflow example](examples/region_workflow.py). Public typed
+  declarations ship with the wheel; see [Python API](docs/python-api.md).
+
 - Native headless project batches run ROI, tissue and cell workflows with per-image
   checkpoints, verified restart, failure policies and embedded CSV. C++, Python
   jobs and the packaged CLI share the implementation; see
@@ -148,7 +154,7 @@ print(len(doc.annotations))  # Includes annotations drawn in the UI.
 ```
 
 `Image(width, height, rgb)` accepts a flat sequence of RGB bytes and copies into
-native storage. The initial API has no NumPy zero-copy interface. Documents are
+native storage. Read-only NumPy views retain native pixel ownership; writable exports use explicit copies. Documents are
 single-threaded; `show` retains the Python GIL to prevent concurrent Python
 mutation. It does not provide a live Python console or background processing.
 
@@ -244,14 +250,16 @@ No naparixx or QuPath source has been copied into this project.
 
 1. Extend the RGB tiled viewer with docking, fluorescence/ICC display, real
    vendor navigation benchmarks, resize/minimize and per-monitor DPI validation.
-2. Extend rectangular hierarchy/classes and undo/redo with robust polygon/ellipse
-   ROIs, detection/cell objects, multi-selection, spatial indexing and interchange.
-3. Project persistence with versioned native schema and explicit QuPath import
-   compatibility checks. `.qpproj` and `.qpdata` are not supported yet.
-4. Color deconvolution, tissue detection and watershed cell detection with
-   reproducible parameters and comparisons against a pinned QuPath release.
-5. NumPy array exchange, cancellable jobs and Python analysis integrations.
-6. Classification, whole-slide batch processing, plugin APIs and distribution.
+2. Broaden complex-geometry editing/performance fixtures and compare hierarchy,
+   class, shape and interchange behavior with pinned upstream workflows.
+3. Add explicit QuPath project import compatibility checks. `.qpproj` and
+   `.qpdata` remain unsupported; native SQLite projects are implemented.
+4. Validate stain/tissue/cell workflows against a pinned QuPath runtime and add
+   the remaining physical filters and processing options.
+5. Add live-viewer Python command queues/notifications and model integrations;
+   NumPy exchange, native jobs, headless batches and public stubs are implemented.
+6. Add classifiers, tissue microarrays, broader plugin/distributed batch workflows
+   and the clean-machine/platform distribution gates in the project plan.
 
 Groovy scripts, Java extensions, Bio-Formats and existing QuPath projects will
 require dedicated compatibility work. Full parity needs an upstream feature

@@ -10,6 +10,11 @@ template<class Exception, class Action> void rejects(Action action) {
 }
 int main() {
     try {
+        qpx::Image original(2,1,{1,2,3,4,5,6});auto copy=original;
+        check(original.pixels_owner()==copy.pixels_owner());auto retained=original.pixels_owner();original=qpx::Image(1,1,{9,8,7});
+        check(*retained==std::vector<std::uint8_t>({1,2,3,4,5,6}) && copy.pixels()==*retained);
+        qpx::PixelBuffer imported(1,1,std::vector<std::uint8_t>{1,2,3,4});check(imported.bytes()==std::vector<std::uint8_t>({1,2,3,4}));
+        rejects<std::invalid_argument>([]{qpx::PixelBuffer bad(1,1,std::vector<std::uint8_t>{1});});
         auto s = qpx::dense_image_server(qpx::Image(2,1,{10,20,30,100,110,120}));
         auto held=s->shared_from_this();
         check(held.get()==s.get() && !held.owner_before(s) && !s.owner_before(held));

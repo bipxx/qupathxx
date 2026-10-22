@@ -57,7 +57,8 @@ server/document references while their native snapshot is being written, then
 wait for completion and validate the saved pixels. Reads return
 owning buffers independent of both document and server lifetime. Metadata and
 annotation values exported to Python are snapshots. `PixelBuffer.data` currently
-copies into Python `bytes`; there is no writable alias or zero-copy array API.
+copies into Python `bytes`. Read-only NumPy views and explicit independent writable
+copies are now available; see [NumPy exchange](numpy-arrays.md).
 
 Read and close operations serialize on a per-server mutex. Close waits for an
 in-flight synchronous read, is idempotent, and makes subsequent reads fail.

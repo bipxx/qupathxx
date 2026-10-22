@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the final installed-wheel regression passes 1081 Python cases with two file-symlink cases
+Evidence: the final installed-native regression passes 1122 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
@@ -537,3 +537,39 @@ minimal suites pass 32/31/31; a separate storage-disabled build compiles the CLI
 and passes the focused batch/digest/storage-rejection check. Source fingerprint
 verification is included in the full installed-wheel run. The benchmark above
 uses that same native artifact. The full M0-M7 goal remains active.
+
+
+The fifty-fourth packet implements M6 NumPy exchange and public typed declarations.
+Native RGB images share immutable backing; Document.image returns an owning Image
+copy so wrappers and exported arrays survive reader replacement. RGB/RGBA imports
+copy exact strided uint8 pixels into native buffers. Region, float and label views
+are read-only, with explicit independent writable copies; masks materialize
+independent uint8 arrays. The complete region example opens pixels, annotates,
+analyzes, exports project measurements and saves/reopens in the viewer. See
+[NumPy exchange](numpy-arrays.md) and [Python API declarations](python-api.md).
+
+Wheels include generated native/public stubs and a PEP 561 marker. Generation
+checks match the installed extension. Strict mypy accepts the declarations,
+example and positive workflow and rejects five intended cases, including native-
+only result construction. Installed tests cover public exports/class members,
+ownership after relink/closure/eviction/archive removal, strided imports, exact
+bytes/dtypes, read-only enforcement, concurrent native job completion, invalid
+inputs, interpreter shutdown and example/UI reopening. All 41 focused cases pass
+on NumPy 2.5.4 and 1.26.4. A clean environment without NumPy still imports and
+reads native regions.
+
+The full installed-native regression passes 1122 Python cases with two existing
+Windows file-symlink permission skips in 272.65 s. Full/core/minimal native suites
+pass 32/31/31; storage-disabled image-server and batch checks also pass. A final
+static-only constructor annotation correction is packaged and the 41 focused
+cases, stub regeneration and strict positive/negative type checks pass again;
+the exact native binary remains unchanged.
+
+The warm synthetic 1024x1024 benchmark records a 4 MiB region view and float32
+view at about 0.0004 ms p95 (metadata/ownership work, near timer resolution).
+Writable region copies take 1.905 ms p95 and the older Python-bytes copy route
+1.429 ms. RGB import takes 1.309 ms p95 and a reversed/column-sliced import
+2.538 ms. This establishes avoided payload copies for views, not universally
+faster copies or a process memory cap. Raw data includes exact source/native
+hashes. Live viewer queues, model adapters, beta API compatibility, broader
+platform/long-running benchmarks and all unfinished M0-M7 work remain active.

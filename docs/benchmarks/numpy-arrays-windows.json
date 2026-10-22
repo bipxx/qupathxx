@@ -1,0 +1,32 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "numpy_version": "2.5.4",
+  "native_sha256": "2316eaba2309e26eb5cac54316be4825716c29aea8d017aee9f7b3e2aabc73de",
+  "source_tree_sha256": "4ed3ac6a0294fe381dab8e9efd573d6e4637f198b9852dae97177ba4621c7aaa",
+  "size": 1024,
+  "region_bytes": 4194304,
+  "import_rgb": {
+    "p50_ms": 1.0587000288069248,
+    "p95_ms": 1.309199957177043
+  },
+  "import_strided_rgb": {
+    "p50_ms": 1.8777999794110656,
+    "p95_ms": 2.5378999998793006
+  },
+  "region_view": {
+    "p50_ms": 0.000400003045797348,
+    "p95_ms": 0.000400003045797348
+  },
+  "region_copy": {
+    "p50_ms": 1.1355000315234065,
+    "p95_ms": 1.9046999514102936
+  },
+  "region_bytes_copy_legacy": {
+    "p50_ms": 0.9564999490976334,
+    "p95_ms": 1.4288000529631972
+  },
+  "float_view": {
+    "p50_ms": 0.000400003045797348,
+    "p95_ms": 0.000400003045797348
+  }
+}

@@ -17,6 +17,7 @@ std::size_t region_byte_count(std::int64_t w, std::int64_t h) {
     return static_cast<std::size_t>(w * h * 4);
 }
 PixelBuffer::PixelBuffer(std::int64_t w, std::int64_t h) : width_(w), height_(h), bytes_(region_byte_count(w,h), 0) {}
+PixelBuffer::PixelBuffer(std::int64_t w,std::int64_t h,std::vector<std::uint8_t> rgba) : width_(w),height_(h),bytes_(std::move(rgba)) {if(bytes_.size()!=region_byte_count(w,h)) throw std::invalid_argument("expected width * height * 4 RGBA bytes");}
 void validate_region(const ImageMetadata& m, const RegionRequest& r) {
     region_byte_count(r.width, r.height);
     if (r.level < 0 || static_cast<std::size_t>(r.level) >= m.levels.size()) throw std::out_of_range("invalid pyramid level");

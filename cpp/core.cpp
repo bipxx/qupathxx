@@ -49,8 +49,8 @@ void Rect::validate() const {
 }
 double Rect::area() const { validate(); return width * height; }
 bool Rect::contains(Point p) const { return p.x >= x && p.y >= y && p.x < x + width && p.y < y + height; }
-Image::Image(int w, int h, std::vector<std::uint8_t> rgb) : width_(w), height_(h), rgb_(std::move(rgb)) {
-    if (rgb_.size() != pixel_count(w, h)) throw std::invalid_argument("expected width * height * 3 RGB bytes");
+Image::Image(int w, int h, std::vector<std::uint8_t> rgb) : width_(w), height_(h), rgb_(std::make_shared<const std::vector<std::uint8_t>>(std::move(rgb))) {
+    if (rgb_->size() != pixel_count(w, h)) throw std::invalid_argument("expected width * height * 3 RGB bytes");
 }
 Image Image::demo() {
     constexpr int w = 1024, h = 768;
