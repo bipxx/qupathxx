@@ -96,3 +96,14 @@ def scaled_workspace(doc: q.Document) -> tuple[float, float, float, int]:
     options.inputs=[event]
     report=q.show(doc,frame_limit=10,options=options)
     return report.monitor_scale,report.framebuffer_scale,report.ui_scale,report.font_rebuilds
+
+
+def responsive_workspace(project: q.Project) -> tuple[int, int, int, float, str]:
+    options=q.GuiOptions()
+    options.docked_workspace=True
+    event=q.GuiInput()
+    event.frame,event.kind,event.target=3,q.GuiInputKind.LEFT_DOWN,q.GuiInputTarget.SAVE_PROJECT
+    event.wait_for=q.GuiInputWait.TARGET_READY
+    options.inputs=[event]
+    report=q.show(project,frame_limit=10,options=options)
+    return report.ui_stacked_fields,report.ui_wrapped_buttons,report.ui_overflow_items,report.ui_max_overflow,report.ui_overflow_label

@@ -71,6 +71,9 @@ def main():
                 "gl_version": report.gl_version,
                 "monitor_scale": report.monitor_scale, "framebuffer_scale": report.framebuffer_scale,
                 "effective_ui_scale": report.ui_scale, "font_rebuilds": report.font_rebuilds,
+                "ui_stacked_fields": report.ui_stacked_fields, "ui_wrapped_buttons": report.ui_wrapped_buttons,
+                "ui_overflow_items": report.ui_overflow_items, "ui_max_overflow": report.ui_max_overflow,
+                "ui_overflow_label": report.ui_overflow_label,
             })
     finally:
         server.close()

@@ -1819,3 +1819,31 @@ checks pass. The [raw CI record](benchmarks/ui-scaling-ci-windows-linux.json)
 preserves actual job-summary lag alongside completed successful run/step
 proof and validates candidate archive identities. High-scale responsive layout,
 physical DPI/hardware performance and the remaining M0–M7 gates remain open.
+
+
+### Packet 66: responsive native controls and toolbar
+
+The workspace and batch form use measured field/label layouts, wrapped buttons
+and checkbox labels, narrow RGB/stain editors, viewport-bounded modals and a
+fitted overview. Toolbar actions flow when needed and navigation help moves
+into a popup instead of clipping. Compact inspectors preserve canvas space.
+Wrapped label glyphs use CPU fine clipping instead of extra GPU scissor
+commands. Field IDs stay stable across layout changes; hidden panes do not
+publish ready button targets. Per-viewer layout diagnostics reset even when
+no frame is painted. See [responsive workspace](responsive-workspace.md).
+
+A named Save project replay target exercises real wrapped-button saving.
+Recovery concurrency tests hold their SQLite lock until an actual GUI export
+is published after Undo, removing a startup-duration assumption while still
+proving editing/export remain live during blocked recovery I/O. Physical DPI,
+font coverage, broader vendor/workflow parity and hardware frame-budget gates
+remain open. Earlier packet measurements and observations retain their
+historical scope; the new responsive records describe this implementation.
+
+The final focused suite passes 79 cases, with Windows native 34 and local
+Ubuntu minimal 33 passing. Installed 125% workspace, source-exact stubs and
+positive/seven-error negative typing checks pass. Navigation and alternating
+parent/new phase profiles retain artifact identities and startup/dynamic
+spikes. Steady median widget cost remains sub-ms in both variants; variable
+software whole-frame p95 values do not accept the hardware budget. Full
+regression and hosted CI evidence are recorded as those runs complete.

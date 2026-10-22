@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/project_batch.hpp"
+#include "gui_layout.hpp"
 #include <imgui.h>
 #include <algorithm>
 #include <array>
@@ -38,50 +39,52 @@ public:
         bool cancel=shortcut && io.KeyShift;
         if(shortcut) open_=true;
         if(open_) {
-            ImGui::SetNextWindowSize({std::min(460.f,io.DisplaySize.x-20),std::min(720.f,io.DisplaySize.y-100)},ImGuiCond_FirstUseEver);
-            ImGui::SetNextWindowPos({std::max(10.f,io.DisplaySize.x-480),88},ImGuiCond_FirstUseEver);
+            const float scale=ImGui::GetFontSize()/13.f;
+            const ImVec2 initial_size{std::min(460.f*scale,io.DisplaySize.x-20),std::min(720.f*scale,io.DisplaySize.y-40)};
+            ImGui::SetNextWindowSize(initial_size,ImGuiCond_FirstUseEver);
+            ImGui::SetNextWindowPos({std::max(10.f,io.DisplaySize.x-initial_size.x-20),std::min(88.f*scale,std::max(10.f,io.DisplaySize.y-initial_size.y-10))},ImGuiCond_FirstUseEver);
             if(ImGui::Begin("Project batch",&open_)) {
             ImGui::PushID("project-batch");
             ImGui::BeginDisabled(job_.busy() || blocked);
-            ImGui::SetNextItemWidth(240);
-            ImGui::InputTextWithHint("##output","Output directory",output_.data(),output_.size());
+            ui::SetNextItemWidth(240);
+            ui::InputTextWithHint("##output","Output directory",output_.data(),output_.size());
             int kind=static_cast<int>(options_.kind);
-            if(ImGui::Combo("Workflow",&kind,"ROI means\0Tissue\0Cells\0")) options_.kind=static_cast<ProjectBatchKind>(kind);
-            ImGui::Checkbox("Selected objects only",&selected_only_);
+            if(ui::Combo("Workflow",&kind,"ROI means\0Tissue\0Cells\0")) options_.kind=static_cast<ProjectBatchKind>(kind);
+            ui::Checkbox("Selected objects only",&selected_only_);
             ImGui::TextWrapped(selected_only_?"Selected objects in the active image.":"Matching area objects in every project image.");
             if(!selected_only_) {
                 int object_kind=static_cast<int>(options_.object_kind);
-                if(ImGui::Combo("Object kind",&object_kind,"Annotations\0Detections\0Cells\0")) options_.object_kind=static_cast<ObjectKind>(object_kind);
+                if(ui::Combo("Object kind",&object_kind,"Annotations\0Detections\0Cells\0")) options_.object_kind=static_cast<ObjectKind>(object_kind);
             }
-            ImGui::Checkbox("Use image analysis settings",&use_image_settings_);
+            ui::Checkbox("Use image analysis settings",&use_image_settings_);
             if(use_image_settings_) ImGui::TextWrapped("Uses the Region analysis, Tissue and Cells settings in the image inspector.");
             ImGui::BeginDisabled(use_image_settings_);
             if(options_.kind!=ProjectBatchKind::Cells) options_.publish_cells=false;
             if(options_.kind==ProjectBatchKind::Cells) options_.nucleus=false;
             if(options_.kind==ProjectBatchKind::Roi) {
                 int feature=static_cast<int>(options_.roi_kind);
-                if(ImGui::Combo("Features",&feature,"RGB optical density\0Supplied stains\0")) options_.roi_kind=static_cast<AnalysisKind>(feature);
-                ImGui::Checkbox("Use nucleus",&options_.nucleus);
+                if(ui::Combo("Features",&feature,"RGB optical density\0Supplied stains\0")) options_.roi_kind=static_cast<AnalysisKind>(feature);
+                ui::Checkbox("Use nucleus",&options_.nucleus);
             } else {
                 auto& feature=options_.kind==ProjectBatchKind::Tissue?options_.tissue.feature:options_.cells.feature;
                 int selected_feature=static_cast<int>(feature);
-                if(ImGui::Combo("Feature",&selected_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0")) feature=static_cast<TissueFeature>(selected_feature);
+                if(ui::Combo("Feature",&selected_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0")) feature=static_cast<TissueFeature>(selected_feature);
                 auto& threshold=options_.kind==ProjectBatchKind::Tissue?options_.tissue.threshold:options_.cells.threshold;
-                ImGui::InputDouble("Threshold >=",&threshold,0,0,"%.5g");
+                ui::InputDouble("Threshold >=",&threshold,0,0,"%.5g");
                 auto& level=options_.kind==ProjectBatchKind::Tissue?options_.tissue.level:options_.cells.level;
-                ImGui::InputInt("Level (-1=auto)",&level);
+                ui::InputInt("Level (-1=auto)",&level);
 
             }
             ImGui::EndDisabled();
-            if(options_.kind==ProjectBatchKind::Cells) ImGui::Checkbox("Publish cell objects",&options_.publish_cells);
+            if(options_.kind==ProjectBatchKind::Cells) ui::Checkbox("Publish cell objects",&options_.publish_cells);
             int failure=static_cast<int>(options_.failure);
-            if(ImGui::Combo("On image error",&failure,"Stop\0Continue\0")) options_.failure=static_cast<ProjectBatchFailure>(failure);
-            ImGui::Checkbox("Reuse matching checkpoints",&options_.resume);
+            if(ui::Combo("On image error",&failure,"Stop\0Continue\0")) options_.failure=static_cast<ProjectBatchFailure>(failure);
+            ui::Checkbox("Reuse matching checkpoints",&options_.resume);
             ImGui::TextWrapped("Uses the current white/stain vectors. Results go to independent checkpoints; the open project is unchanged.");
             ImGui::BeginDisabled(!project || !project->active_image());
-            start=ImGui::Button("Run batch (Ctrl+Alt+B)") || start;
+            start=ui::Button("Run batch (Ctrl+Alt+B)") || start;
             ImGui::EndDisabled();ImGui::EndDisabled();
-            if(job_.busy()) cancel=ImGui::Button("Cancel batch") || cancel;
+            if(job_.busy()) cancel=ui::Button("Cancel batch") || cancel;
             ImGui::TextWrapped("Batch: %s / %s",stats_.state.c_str(),stats_.phase.c_str());
             if(stats_.total_images) {
                 ImGui::ProgressBar(float(double(stats_.completed_images)/stats_.total_images));
@@ -95,7 +98,7 @@ public:
                     const auto& image=report->images[i];
                     ImGui::TextWrapped("%s: %s%s%s",image.image_name.c_str(),image.state.c_str(),image.error.empty()?"":" / ",image.error.c_str());
                 }
-                if(report->images.size()>20) ImGui::TextDisabled("More images in the run report.");
+                if(report->images.size()>20) ui::TextDisabled("More images in the run report.");
             }
             if(!error().empty()) ImGui::TextWrapped("%s",error().c_str());
             ImGui::PopID();

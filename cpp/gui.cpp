@@ -21,6 +21,7 @@
 #include <mutex>
 #include "gui_overlay.hpp"
 #include "gui_batch.hpp"
+#include "gui_layout.hpp"
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <imgui_impl_glfw.h>
@@ -203,7 +204,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     session.window = glfwCreateWindow(options.width, options.height, "qupathxx | Bioimage analysis", nullptr, nullptr);
     if (!session.window) throw std::runtime_error("OpenGL window creation failed");
     glfwMakeContextCurrent(session.window); glfwSwapInterval(1);
-    IMGUI_CHECKVERSION(); ImGui::CreateContext(); session.context = true;
+    IMGUI_CHECKVERSION(); ImGui::CreateContext(); session.context = true;ui::begin_frame();
     ImGui::GetIO().IniFilename=nullptr;
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     if(options.docked_workspace) ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
@@ -379,11 +380,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t list_revision=std::numeric_limits<std::uint64_t>::max();
     int frames = 0;
     std::uint64_t settle_frames=0;
-    std::array<int,static_cast<std::size_t>(GuiInputTarget::ResetLayout)+1> target_seen;
+    std::array<int,static_cast<std::size_t>(GuiInputTarget::SaveProject)+1> target_seen;
     target_seen.fill(-2);
     auto mark_target=[&](GuiInputTarget target) {
         const auto* modal=ImGui::GetTopMostPopupModal();
-        target_seen[static_cast<std::size_t>(target)]=(!modal || modal==ImGui::GetCurrentWindow()) && ImGui::IsItemVisible() &&
+        target_seen[static_cast<std::size_t>(target)]=!ImGui::GetCurrentWindow()->SkipItems && (!modal || modal==ImGui::GetCurrentWindow()) && ImGui::IsItemVisible() &&
             !ImGui::IsWindowAppearing() && !(ImGui::GetItemFlags()&ImGuiItemFlags_Disabled)?frames:-2;
     };
     std::size_t visible_count=0;
@@ -391,7 +392,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     TilePlan plan;
     GuiThumbnail overview;
     bool canvas_visible=true;
-    ImVec2 layout_reset_offset{},layout_reset_size{};
+    ImVec2 layout_reset_offset{},layout_reset_size{},save_project_offset{},save_project_size{};
     Viewport overview_view;
     DisplaySettings display=options.display;
     std::optional<ProjectView> restore_view;
@@ -798,6 +799,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             auto origin=event.target==GuiInputTarget::Canvas?previous_canvas:(event.target==GuiInputTarget::Overview?overview_offset:list_offset);
             auto extent=event.target==GuiInputTarget::Canvas?previous_canvas_size:(event.target==GuiInputTarget::Overview?overview_size:list_size);
             if(event.target==GuiInputTarget::Window) {origin={0,0};extent=input.DisplaySize;}
+            if(event.target==GuiInputTarget::SaveProject) {origin=save_project_offset;extent=save_project_size;}
             if(event.target==GuiInputTarget::ResetLayout) {origin=layout_reset_offset;extent=layout_reset_size;}
             if(event.target==GuiInputTarget::ProjectList) { origin=project_list_offset; extent=project_list_size; }
             if(event.target==GuiInputTarget::DisplayReset) { origin=display_reset_offset; extent=display_reset_size; }
@@ -946,7 +948,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ui_scale=next_scale;
         ImGui_ImplOpenGL3_NewFrame();
         if(!input.Fonts->TexID) throw std::runtime_error("UI font texture creation failed");
-        ImGui::NewFrame();
+        ImGui::NewFrame();ui::begin_frame();
         bool save_project_requested=false;
         bool autosave_requested=false;
         const bool editing_blocked=editing_is_blocked();
@@ -960,13 +962,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 (options.startup_kind=="image"?"Opening image...":options.startup_kind=="recovery"?"Opening recovery...":"Opening project..."));
             ImGui::TextWrapped("%s",options.startup_path.c_str());
             const char* stage=phase==1?"Reading file metadata":phase==2?"Reading project data":phase==3?"Validating image objects":phase==4?"Checking project references":"Preparing workspace";
-            ImGui::TextDisabled("%s",stage);
+            ui::TextDisabled("%s",stage);
             if(options.startup_kind!="image" && phase>1) {
                 ImGui::Text("Images: %zu / %zu   Objects read: %zu / %zu",startup_progress->images.load(),startup_progress->total_images.load(),
                     startup_progress->objects.load(),startup_progress->total_objects.load());
             }
             ImGui::BeginDisabled(project_load_cancelled);
-            if(ImGui::Button("Cancel opening")) {project_load_cancelled=true; startup_progress->cancelled.store(true);}
+            if(ui::Button("Cancel opening")) {project_load_cancelled=true; startup_progress->cancelled.store(true);}
             cancel_load_offset=ImGui::GetItemRectMin(); auto cl=ImGui::GetItemRectMax(); cancel_load_size={cl.x-cancel_load_offset.x,cl.y-cancel_load_offset.y}; mark_target(GuiInputTarget::CancelProjectLoad);
             ImGui::EndDisabled(); ImGui::Separator();
         } else if(startup_requested && !startup_succeeded && project_replacements==0 &&
@@ -974,12 +976,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::TextWrapped("%s",startup_cancelled?"Opening cancelled. The workspace is empty.":project_error.c_str());
         }
         ImGui::BeginDisabled(editing_blocked);
-        ImGui::TextColored({.3f,.8f,.75f,1}, "qupathxx"); ImGui::SameLine(); ImGui::TextDisabled("/  Research workspace");
+        ImGui::TextColored({.3f,.8f,.75f,1}, "qupathxx"); ImGui::SameLine(); ui::TextDisabled("/  Research workspace");
         if(!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyAlt && io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_X,false)) cell_table_job.cancel();
         if(live) {
-            const auto scripting=live->stats();ImGui::TextDisabled("Python session connected / %zu pending",scripting.queued);
-            if(scripting.active_ticket) {ImGui::TextDisabled("Processing script job");ImGui::SameLine();if(ImGui::SmallButton("Cancel script job")) live->cancel_active();}
-            else ImGui::TextDisabled("Ready");
+            const auto scripting=live->stats();ui::TextDisabled("Python session connected / %zu pending",scripting.queued);
+            if(scripting.active_ticket) {ui::TextDisabled("Processing script job");ImGui::SameLine();if(ui::SmallButton("Cancel script job")) live->cancel_active();}
+            else ui::TextDisabled("Ready");
         }
         ImGui::Separator();
         ImGui::BeginDisabled(!has_image);
@@ -992,16 +994,16 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(ImGui::IsKeyPressed(ImGuiKey_V)) tool=6;
             if(ImGui::IsKeyPressed(ImGuiKey_H)) tool=7;
         }
-        ImGui::SetNextItemWidth(125);
-        ImGui::Combo("Tool",&tool,"Select\0Rectangle\0Ellipse\0Polygon\0Polyline\0Points\0Vertices\0Hole\0"); ImGui::SameLine();
+        ui::SetNextItemWidth(125);
+        ui::Combo("Tool",&tool,"Select\0Rectangle\0Ellipse\0Polygon\0Polyline\0Points\0Vertices\0Hole\0"); ImGui::SameLine();
         if(tool!=previous_tool) { vertex_dragging=false; active_vertex.reset(); marquee=false; drawing=false; draft_points.clear(); previous_tool=tool; }
-        if (ImGui::Button("Fit image")) fit = true;
+        if (ui::Button("Fit image")) fit = true;
         auto history_action=[&](bool redo) { try { if(redo) document.redo(); else document.undo(); error.clear(); } catch(const std::exception& e) { error=e.what(); } };
         if (!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Z)) history_action(false);
         if (!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Y)) history_action(true);
-        ImGui::SameLine(); ImGui::BeginDisabled(!document.can_undo()); if (ImGui::Button("Undo")) history_action(false); ImGui::EndDisabled();
-        ImGui::SameLine(); ImGui::BeginDisabled(!document.can_redo()); if (ImGui::Button("Redo")) history_action(true); ImGui::EndDisabled();
-        ImGui::SameLine();if(ImGui::Button(batch.busy()?"Batch running...":"Batch...")) batch.open();
+        ImGui::SameLine(); ImGui::BeginDisabled(!document.can_undo()); if (ui::Button("Undo")) history_action(false); ImGui::EndDisabled();
+        ImGui::SameLine(); ImGui::BeginDisabled(!document.can_redo()); if (ui::Button("Redo")) history_action(true); ImGui::EndDisabled();
+        ImGui::SameLine();if(ui::Button(batch.busy()?"Batch running...":"Batch...")) batch.open();
         selected=selection->primary();
         if(!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_A)) { selection->select_all(); selected=selection->primary(); }
         auto delete_selection=[&]() {
@@ -1012,43 +1014,54 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             } catch(const std::exception& e) { error=e.what(); }
         };
         if (selected && tool!=6 && !io.WantTextInput && !editing_blocked && has_image && ImGui::IsKeyPressed(ImGuiKey_Delete)) delete_selection();
-        ImGui::SameLine(); ImGui::TextDisabled("Ctrl+click: toggle | Shift+drag: select box | Ctrl+A: all | Right drag: pan");
+        ImGui::SameLine();
+        constexpr auto navigation_help="Ctrl+click: toggle | Shift+drag: select box | Ctrl+A: all | Right drag: pan";
+        if(ImGui::CalcTextSize(navigation_help).x<=ui::available()) ui::TextDisabled("%s",navigation_help);
+        else {
+            if(ui::SmallButton("Help")) ImGui::OpenPopup("Navigation shortcuts");
+            if(ImGui::BeginPopup("Navigation shortcuts")) {
+                ImGui::TextUnformatted("Ctrl+click: toggle selection\nShift+drag: select box\nCtrl+A: select all\nRight drag: pan");ImGui::EndPopup();
+            }
+        }
         ImGui::EndDisabled();
-        if(ImGui::SmallButton("UI -")) ui_multiplier=std::max(.5,ui_multiplier-.25);
+        if(ui::SmallButton("UI -")) ui_multiplier=std::max(.5,ui_multiplier-.25);
         ImGui::SameLine();ImGui::Text("UI %.0f%%",ui_multiplier*100);
-        ImGui::SameLine();if(ImGui::SmallButton("UI +")) ui_multiplier=std::min(3.,ui_multiplier+.25);
-        ImGui::SameLine();if(ImGui::SmallButton("Automatic UI size")) ui_multiplier=1;
+        ImGui::SameLine();if(ui::SmallButton("UI +")) ui_multiplier=std::min(3.,ui_multiplier+.25);
+        ImGui::SameLine();if(ui::SmallButton("Auto UI")) ui_multiplier=1;
         if(workspace.enabled()) {
             ImGui::SameLine();
-            if(ImGui::Button("Reset layout")) workspace.reset();
+            if(ui::Button("Reset layout")) workspace.reset();
             layout_reset_offset=ImGui::GetItemRectMin();auto lr=ImGui::GetItemRectMax();layout_reset_size={lr.x-layout_reset_offset.x,lr.y-layout_reset_offset.y};mark_target(GuiInputTarget::ResetLayout);
             if(!workspace.error().empty()) ImGui::TextWrapped("Layout preferences: %s",workspace.error().c_str());
             workspace.dockspace();
             workspace.begin("Project and objects",workspace.browser);
-        } else ImGui::BeginChild("Inspector", {285*ui_scale.logical,0}, ImGuiChildFlags_Borders);
+        } else ImGui::BeginChild("Inspector", {std::min(285*ui_scale.logical,io.DisplaySize.x*.45f),0}, ImGuiChildFlags_Borders);
         if(options.project) {
             // Route these chords so ImGui's own PageUp/PageDown navigation
             // cannot also focus/activate an inspector text field.
             const bool next_image=ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_PageDown,ImGuiInputFlags_RouteGlobal);
             const bool previous_image=ImGui::Shortcut(ImGuiMod_Ctrl | ImGuiKey_PageUp,ImGuiInputFlags_RouteGlobal);
-            ImGui::SeparatorText(options.project->dirty()?"Project - unsaved":"Project");
+            ui::SeparatorText(options.project->dirty()?"Project - unsaved":"Project");
             ImGui::BeginDisabled(save_job.busy());
-            ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Project path","Destination .qpxproj file",project_path,sizeof(project_path));
-            if(ImGui::Button("Save project (Ctrl+S)") || (!editing_blocked && !save_job.busy() && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_S))) {
+            ui::SetNextItemWidth(240); ui::InputTextWithHint("##Project path","Destination .qpxproj file",project_path,sizeof(project_path));
+            const bool save_pressed=ui::Button("Save project (Ctrl+S)");
+            save_project_offset=ImGui::GetItemRectMin();const auto save_max=ImGui::GetItemRectMax();
+            save_project_size={save_max.x-save_project_offset.x,save_max.y-save_project_offset.y};mark_target(GuiInputTarget::SaveProject);
+            if(save_pressed || (!editing_blocked && !save_job.busy() && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_S))) {
                 save_project_requested=true;
             }
             ImGui::EndDisabled();
-            if(save_job.busy()) ImGui::TextDisabled("Saving project...");
-            ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Open project path","Project file to open",project_open_path,sizeof(project_open_path));
+            if(save_job.busy()) ui::TextDisabled("Saving project...");
+            ui::SetNextItemWidth(240); ui::InputTextWithHint("##Open project path","Project file to open",project_open_path,sizeof(project_open_path));
             ImGui::BeginDisabled(project_load.valid() || save_job.busy() || maintenance_job.valid());
-            if(ImGui::Button("Open project (Ctrl+O)") || (!editing_blocked && !project_load.valid() && !save_job.busy() && !maintenance_job.valid() && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_O))) {
+            if(ui::Button("Open project (Ctrl+O)") || (!editing_blocked && !project_load.valid() && !save_job.busy() && !maintenance_job.valid() && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_O))) {
                 const std::string path=project_open_path;
                 project_load_cancelled=false; loading_recovery=false; project_error.clear();
                 project_load=std::async(std::launch::async,load_project,path,false,std::string{});
             }
             ImGui::EndDisabled();
             ImGui::BeginDisabled(project_load.valid() || save_job.busy() || maintenance_job.valid());
-            if(ImGui::Button("New project (Ctrl+N)") || (!editing_blocked && !project_load.valid() && !save_job.busy() && !maintenance_job.valid() && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_N))) {
+            if(ui::Button("New project (Ctrl+N)") || (!editing_blocked && !project_load.valid() && !save_job.busy() && !maintenance_job.valid() && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_N))) {
                 staged_project=std::make_shared<Project>(); staged_is_recovery=false;
                 drawing=marquee=vertex_dragging=false; active_vertex.reset(); draft_points.clear(); tool=previous_tool=0;
                 if(options.project->dirty()) recovery_popup_requested=recovery_dialog_active=true;
@@ -1057,9 +1070,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
             ImGui::EndDisabled();
             if(project_load.valid() && !startup_active) {
-                ImGui::TextDisabled(project_load_cancelled?"Finishing cancelled load...":(loading_recovery?"Opening recovery...":"Opening project..."));
+                ui::TextDisabled(project_load_cancelled?"Finishing cancelled load...":(loading_recovery?"Opening recovery...":"Opening project..."));
                 ImGui::BeginDisabled(project_load_cancelled);
-                if(ImGui::Button("Cancel opening")) project_load_cancelled=true;
+                if(ui::Button("Cancel opening")) project_load_cancelled=true;
                 cancel_load_offset=ImGui::GetItemRectMin(); auto cl=ImGui::GetItemRectMax(); cancel_load_size={cl.x-cancel_load_offset.x,cl.y-cancel_load_offset.y}; mark_target(GuiInputTarget::CancelProjectLoad);
                 ImGui::EndDisabled();
             }
@@ -1075,9 +1088,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 pending_image=it==project_images.end()?project_images[next_image?0:project_images.size()-1].id:project_images[(index+project_images.size()+(next_image?1:-1))%project_images.size()].id;
             }
             if(ImGui::CollapsingHeader("Project images",ImGuiTreeNodeFlags_DefaultOpen)) {
-                ImGui::SetNextItemWidth(170);
-                if(ImGui::InputTextWithHint("##Image filter","Filter image names",project_filter,sizeof(project_filter))) project_filter_dirty=true;
-                ImGui::SameLine(); if(ImGui::SmallButton("Refresh")) project_catalog_dirty=true;
+                ui::SetNextItemWidth(170);
+                if(ui::InputTextWithHint("##Image filter","Filter image names",project_filter,sizeof(project_filter))) project_filter_dirty=true;
+                ImGui::SameLine(); if(ui::SmallButton("Refresh")) project_catalog_dirty=true;
                 ImGui::BeginChild("Project image list",{0,100},ImGuiChildFlags_Borders);
                 project_list_offset=ImGui::GetCursorScreenPos(); project_list_size=ImGui::GetContentRegionAvail();
                 ImGuiListClipper image_clipper; image_clipper.Begin(static_cast<int>(project_rows.size()));
@@ -1090,23 +1103,23 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     ImGui::PopID(); ImGui::PopID();
                 }
                 ImGui::EndChild();
-                ImGui::TextDisabled("%zu of %zu images",project_rows.size(),project_images.size());
+                ui::TextDisabled("%zu of %zu images",project_rows.size(),project_images.size());
                 ImGui::BeginDisabled(!has_image || project_load.valid());
-                if(ImGui::Button("Remove image (F12)")) remove_image=true;
+                if(ui::Button("Remove image (F12)")) remove_image=true;
                 ImGui::EndDisabled();
                 if(ImGui::TreeNodeEx("Image source / name",options.project_image_path.empty()?0:ImGuiTreeNodeFlags_DefaultOpen)) {
-                    ImGui::SetNextItemWidth(240); ImGui::InputText("Image name",project_image_name,sizeof(project_image_name));
+                    ui::SetNextItemWidth(240); ui::InputText("Image name",project_image_name,sizeof(project_image_name));
                     ImGui::BeginDisabled(!has_image);
-                    if(ImGui::Button("Rename image")) {
+                    if(ui::Button("Rename image")) {
                         try { options.project->rename_image(active_image,project_image_name); project_catalog_dirty=true; project_error.clear(); }
                         catch(const std::exception& e) { project_error=e.what(); }
                     }
                     ImGui::EndDisabled();
-                    ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Image source","Image file to add or relink",project_image_path,sizeof(project_image_path));
-                    if(ImGui::Button("Add image (F8)")) add_image=true;
+                    ui::SetNextItemWidth(240); ui::InputTextWithHint("##Image source","Image file to add or relink",project_image_path,sizeof(project_image_path));
+                    if(ui::Button("Add image (F8)")) add_image=true;
                     auto current=std::find_if(project_images.begin(),project_images.end(),[&](const auto& item){return item.id==active_image;});
                     ImGui::BeginDisabled(current==project_images.end() || current->embedded);
-                    if(ImGui::Button("Relink image (F9)")) relink_image=true;
+                    if(ui::Button("Relink image (F9)")) relink_image=true;
                     ImGui::EndDisabled();
                     ImGui::TreePop();
                 }
@@ -1132,37 +1145,37 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(ImGui::CollapsingHeader("Recovery",(!options.recovery_path.empty() || !recovery_candidates.empty() || !options.project->recovery_source().empty())?ImGuiTreeNodeFlags_DefaultOpen:0)) {
                 if(!options.project->recovery_source().empty() && options.project->dirty()) ImGui::TextWrapped("Recovered workspace. Save this project to retain its changes.");
                 ImGui::TextWrapped("Recovery preserves unsaved work separately from Save project.");
-                ImGui::SetNextItemWidth(110);
-                if(ImGui::InputDouble("Interval (seconds)",&autosave_interval,10,60,"%.1f")) {
+                ui::SetNextItemWidth(110);
+                if(ui::InputDouble("Interval (seconds)",&autosave_interval,10,60,"%.1f")) {
                     if(!std::isfinite(autosave_interval) || autosave_interval<0 || autosave_interval>86400) autosave_interval=60;
                     next_autosave=std::chrono::steady_clock::now()+std::chrono::duration<double>(autosave_interval);
                 }
-                ImGui::TextDisabled("0 disables periodic recovery.");
-                ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Autosave path","Automatic destination",autosave_path,sizeof(autosave_path));
+                ui::TextDisabled("0 disables periodic recovery.");
+                ui::SetNextItemWidth(240); ui::InputTextWithHint("##Autosave path","Automatic destination",autosave_path,sizeof(autosave_path));
                 ImGui::BeginDisabled(autosave.busy());
-                if(ImGui::Button("Save recovery now (F10)")) autosave_requested=true;
+                if(ui::Button("Save recovery now (F10)")) autosave_requested=true;
                 ImGui::EndDisabled();
                 if(autosave.busy() && autosave_stats.checkpoint_published) {
-                    if(autosave_stats.cancel_requested) ImGui::TextDisabled("Stopping recovery maintenance...");
-                    else if(autosave_stats.maintenance_phase=="scanning") {ImGui::TextDisabled("Recovery published."); ImGui::TextDisabled("Checked %zu checkpoint headers...",autosave_stats.retention_inspected);}
-                    else if(autosave_stats.maintenance_phase=="collecting") {ImGui::TextDisabled("Recovery published."); ImGui::TextDisabled("Removed %zu old checkpoints...",autosave_stats.retention_removed);}
-                    else ImGui::TextDisabled("Recovery published. Finishing maintenance...");
+                    if(autosave_stats.cancel_requested) ui::TextDisabled("Stopping recovery maintenance...");
+                    else if(autosave_stats.maintenance_phase=="scanning") {ui::TextDisabled("Recovery published."); ui::TextDisabled("Checked %zu checkpoint headers...",autosave_stats.retention_inspected);}
+                    else if(autosave_stats.maintenance_phase=="collecting") {ui::TextDisabled("Recovery published."); ui::TextDisabled("Removed %zu old checkpoints...",autosave_stats.retention_removed);}
+                    else ui::TextDisabled("Recovery published. Finishing maintenance...");
                     ImGui::BeginDisabled(autosave_stats.cancel_requested);
-                    if(ImGui::Button("Stop maintenance (Ctrl+F10)")) autosave.cancel();
+                    if(ui::Button("Stop maintenance (Ctrl+F10)")) autosave.cancel();
                     ImGui::EndDisabled();
                 }
-                else if(autosave.busy()) ImGui::TextDisabled("Writing recovery...");
-                else if(autosave_stats.state=="ready") ImGui::TextDisabled("Recovery saved; project still unsaved.");
+                else if(autosave.busy()) ui::TextDisabled("Writing recovery...");
+                else if(autosave_stats.state=="ready") ui::TextDisabled("Recovery saved; project still unsaved.");
                 if(!autosave.busy() && autosave_stats.retention_cancelled) ImGui::TextWrapped("Maintenance stopped. Published recovery retained.");
                 if(!autosave_stats.error.empty()) ImGui::TextWrapped("%s",autosave_stats.error.c_str());
                 if(!autosave_stats.work_cleanup_error.empty()) ImGui::TextWrapped("Recovery work cleanup: %s",autosave_stats.work_cleanup_error.c_str());
-                bool retention_changed=ImGui::Checkbox("Remove old inactive checkpoints",&retention.enabled);
+                bool retention_changed=ui::Checkbox("Remove old inactive checkpoints",&retention.enabled);
                 if(retention.enabled) {
                     int keep=static_cast<int>(retention.keep_latest);
-                    ImGui::SetNextItemWidth(110);
-                    if(ImGui::InputInt("Keep newest",&keep)) {retention.keep_latest=static_cast<std::size_t>(std::clamp(keep,1,1024)); retention_changed=true;}
-                    ImGui::SetNextItemWidth(110);
-                    if(ImGui::InputDouble("Minimum age (days)",&retention.max_age_days,1,7,"%.1f")) {
+                    ui::SetNextItemWidth(110);
+                    if(ui::InputInt("Keep newest",&keep)) {retention.keep_latest=static_cast<std::size_t>(std::clamp(keep,1,1024)); retention_changed=true;}
+                    ui::SetNextItemWidth(110);
+                    if(ui::InputDouble("Minimum age (days)",&retention.max_age_days,1,7,"%.1f")) {
                         if(!std::isfinite(retention.max_age_days)) retention.max_age_days=30;
                         retention.max_age_days=std::clamp(retention.max_age_days,1.,36500.); retention_changed=true;
                     }
@@ -1171,7 +1184,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(retention_changed) autosave.set_retention(retention);
                 if(!autosave_stats.retention_error.empty()) ImGui::TextWrapped("Recovery retention: %s",autosave_stats.retention_error.c_str());
                 if(!autosave_ui_error.empty()) ImGui::TextWrapped("%s",autosave_ui_error.c_str());
-                if(ImGui::Button("Find recovery files (F5)")) find_recoveries=true;
+                if(ui::Button("Find recovery files (F5)")) find_recoveries=true;
                 for(const auto& item:recovery_candidates) {
                     ImGui::PushID(item.path.c_str());
                     auto label=recovery_label(item);
@@ -1184,15 +1197,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     if(!item.error.empty()) ImGui::TextWrapped("%s",item.error.c_str());
                     ImGui::PopID();
                 }
-                ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Restore recovery","Recovery file to open",recovery_path,sizeof(recovery_path));
+                ui::SetNextItemWidth(240); ui::InputTextWithHint("##Restore recovery","Recovery file to open",recovery_path,sizeof(recovery_path));
                 ImGui::TextUnformatted("Primary location (optional)");
-                ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Recovery primary","Use recorded location when empty",recovery_base_path,sizeof(recovery_base_path));
+                ui::SetNextItemWidth(240); ui::InputTextWithHint("##Recovery primary","Use recorded location when empty",recovery_base_path,sizeof(recovery_base_path));
                 ImGui::BeginDisabled(autosave.busy() || project_load.valid() || save_job.busy() || maintenance_job.valid());
-                if(ImGui::Button("Open recovery (F11)")) recover_requested=true;
-                if(ImGui::Button("Delete selected checkpoint...")) review_checkpoint=true;
+                if(ui::Button("Open recovery (F11)")) recover_requested=true;
+                if(ui::Button("Delete selected checkpoint...")) review_checkpoint=true;
                 if(ImGui::IsItemHovered()) ImGui::SetTooltip("Ctrl+Shift+Backspace: review checkpoint deletion");
                 ImGui::EndDisabled();
-                if(maintenance_job.valid()) ImGui::TextDisabled("Working on recovery file...");
+                if(maintenance_job.valid()) ui::TextDisabled("Working on recovery file...");
                 if(!maintenance_error.empty()) ImGui::TextWrapped("%s",maintenance_error.c_str());
             }
             if(find_recoveries && !recovery_scan.valid()) {
@@ -1221,15 +1234,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImVec2 overview_clip_min{},overview_clip_max{};
         if(has_image) {
         if(has_interchange() && ImGui::CollapsingHeader("Import / export",options.interchange_path.empty()?0:ImGuiTreeNodeFlags_DefaultOpen)) {
-            ImGui::SetNextItemWidth(240); ImGui::InputTextWithHint("##Interchange path",".geojson or .csv destination",interchange_path,sizeof(interchange_path));
+            ui::SetNextItemWidth(240); ui::InputTextWithHint("##Interchange path",".geojson or .csv destination",interchange_path,sizeof(interchange_path));
             ImGui::TextWrapped("Full-resolution image pixels, top-left origin.");
-            ImGui::Checkbox("Assume image pixels",&interchange_pixels);
-            ImGui::Checkbox("Allow lossy conversion",&interchange_losses);
+            ui::Checkbox("Assume image pixels",&interchange_pixels);
+            ui::Checkbox("Allow lossy conversion",&interchange_losses);
             ImGui::BeginDisabled(!has_geos());
-            ImGui::Checkbox("Match QuPath ellipse bounds",&qupath_ellipse_precision);
+            ui::Checkbox("Match QuPath ellipse bounds",&qupath_ellipse_precision);
             ImGui::EndDisabled();
             if(qupath_ellipse_precision) ImGui::TextWrapped("Coordinate changes require Allow lossy conversion. Native analytic hints remain exact.");
-            ImGui::Checkbox("Selected objects only",&interchange_selected);
+            ui::Checkbox("Selected objects only",&interchange_selected);
             auto export_ids=[&]() {
                 auto ids=interchange_selected?selection->ids():std::vector<std::uint64_t>{};
                 if(interchange_selected && ids.empty()) throw std::invalid_argument("Select objects before exporting a subset");
@@ -1239,16 +1252,16 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 interchange_status=std::string(action)+" "+std::to_string(report.features)+" objects";
                 for(const auto& issue:report.issues) interchange_status+="\n"+issue.message+" ("+std::to_string(issue.count)+")";
             };
-            if(ImGui::Button("Export GeoJSON (F6)") || (!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F6))) {
+            if(ui::Button("Export GeoJSON (F6)") || (!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F6))) {
                 try { status(save_geojson(document,interchange_path,export_ids(),interchange_losses),"Exported"); }
                 catch(const std::exception& e) { interchange_status=e.what(); }
             }
-            if(ImGui::Button("Import GeoJSON (F7)") || (!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F7))) {
+            if(ui::Button("Import GeoJSON (F7)") || (!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F7))) {
                 try { auto report=load_geojson(document,interchange_path,interchange_pixels,interchange_losses,qupath_ellipse_precision); selection->replace(report.imported_ids); selected=selection->primary(); status(report,"Imported"); }
                 catch(const std::exception& e) { interchange_status=e.what(); }
             }
-            ImGui::Checkbox("Include mean RGB",&csv_intensity);
-            if(ImGui::Button("Export measurements CSV")) {
+            ui::Checkbox("Include mean RGB",&csv_intensity);
+            if(ui::Button("Export measurements CSV")) {
                 try { save_measurements_csv(document,interchange_path,export_ids(),csv_intensity); interchange_status="Exported measurements"; }
                 catch(const std::exception& e) { interchange_status=e.what(); }
             }
@@ -1256,7 +1269,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         ImGui::Text("IMAGE"); ImGui::Text("%lld x %lld pixels",static_cast<long long>(image.width),static_cast<long long>(image.height));
         ImGui::Text("%zu pyramid levels",image.levels.size());
-        ImGui::SeparatorText("Overview");
+        ui::SeparatorText("Overview");
+        overview_size.x=std::min(250.f*ui_scale.logical,ui::available());overview_size.y=overview_size.x*.6f;
         overview_offset=ImGui::GetCursorScreenPos();
         ImGui::InvisibleButton("overview navigation",overview_size);
         overview_draw=ImGui::GetWindowDrawList();
@@ -1266,38 +1280,38 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             auto center=overview_view.screen_to_image({io.MousePos.x-overview_offset.x,io.MousePos.y-overview_offset.y});
             overview_center=Point{std::clamp(center.x,0.,static_cast<double>(image.width)),std::clamp(center.y,0.,static_cast<double>(image.height))};
         }
-        ImGui::SeparatorText("Display");
+        ui::SeparatorText("Display");
         int mode=static_cast<int>(display.mode);
-        if (ImGui::Combo("Channels",&mode,"RGB\0Grayscale\0Red\0Green\0Blue\0")) display.mode=static_cast<DisplayMode>(mode);
+        if (ui::Combo("Channels",&mode,"RGB\0Grayscale\0Red\0Green\0Blue\0")) display.mode=static_cast<DisplayMode>(mode);
         float black=static_cast<float>(display.black),white=static_cast<float>(display.white),gamma=static_cast<float>(display.gamma);
-        if (ImGui::SliderFloat("Black",&black,0,254,"%.0f")) display.black=std::min<double>(black,std::max(0.,display.white-.001));
-        if (ImGui::SliderFloat("White",&white,1,255,"%.0f")) display.white=std::max<double>(white,std::min(255.,display.black+.001));
-        if (ImGui::SliderFloat("Gamma",&gamma,.1f,5,"%.2f")) display.gamma=gamma;
-        if (ImGui::Button("Reset display")) display=DisplaySettings{};
+        if (ui::SliderFloat("Black",&black,0,254,"%.0f")) display.black=std::min<double>(black,std::max(0.,display.white-.001));
+        if (ui::SliderFloat("White",&white,1,255,"%.0f")) display.white=std::max<double>(white,std::min(255.,display.black+.001));
+        if (ui::SliderFloat("Gamma",&gamma,.1f,5,"%.2f")) display.gamma=gamma;
+        if (ui::Button("Reset display")) display=DisplaySettings{};
         display_reset_offset=ImGui::GetItemRectMin();
         auto display_reset_max=ImGui::GetItemRectMax(); display_reset_size={display_reset_max.x-display_reset_offset.x,display_reset_max.y-display_reset_offset.y}; mark_target(GuiInputTarget::DisplayReset);
         tiles->set_display(display);
         overview.update(active_document->server(),display);
-        if (!document.pixel_width_um() || !document.pixel_height_um()) ImGui::TextDisabled("Physical calibration unknown");
+        if (!document.pixel_width_um() || !document.pixel_height_um()) ui::TextDisabled("Physical calibration unknown");
         if (calibration_revision!=document.calibration_revision()) {
             draft_calibration[0]=document.pixel_width_um().value_or(0);
             draft_calibration[1]=document.pixel_height_um().value_or(0);
             calibration_revision=document.calibration_revision();
         }
-        ImGui::SetNextItemWidth(120);
-        ImGui::InputDouble("Pixel width (um)",&draft_calibration[0],0,0,"%.6g");
-        ImGui::SetNextItemWidth(120);
-        ImGui::InputDouble("Pixel height (um)",&draft_calibration[1],0,0,"%.6g");
-        if (ImGui::Button("Apply calibration")) {
+        ui::SetNextItemWidth(120);
+        ui::InputDouble("Pixel width (um)",&draft_calibration[0],0,0,"%.6g");
+        ui::SetNextItemWidth(120);
+        ui::InputDouble("Pixel height (um)",&draft_calibration[1],0,0,"%.6g");
+        if (ui::Button("Apply calibration")) {
             try { document.set_calibration(draft_calibration[0], draft_calibration[1]); error.clear(); }
             catch (const std::exception& e) { error = e.what(); }
         }
         ImGui::SameLine();
-        if (ImGui::Button("Clear")) {
+        if (ui::Button("Clear")) {
             try { document.clear_calibration(); error.clear(); } catch(const std::exception& e) { error=e.what(); }
         }
         if(workspace.enabled()) {ImGui::End();workspace.begin("Project and objects",workspace.browser);}
-        ImGui::Spacing(); ImGui::SeparatorText("Objects");
+        ImGui::Spacing(); ui::SeparatorText("Objects");
         if (list_revision!=document.structure_revision()) {
             list_ids.clear(); list_ids.reserve(document.object_count());
             for (const auto& [id,a]:document.objects()) list_ids.push_back(id);
@@ -1320,18 +1334,18 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         ImGui::EndChild();
         if(ImGui::CollapsingHeader("Classes")) {
-            ImGui::SetNextItemWidth(180);
-            if(ImGui::BeginCombo("Registry",class_key.empty()?"New class":class_key.c_str())) {
+            ui::SetNextItemWidth(180);
+            if(ui::BeginCombo("Registry",class_key.empty()?"New class":class_key.c_str())) {
                 if(ImGui::Selectable("New class",class_key.empty())) { class_key.clear(); class_name[0]=0; }
                 for(const auto& [name,c]:document.classes()) if(ImGui::Selectable(name.c_str(),name==class_key)) {
                     class_key=name; std::memcpy(class_name,name.c_str(),name.size()+1);
                     class_color[0]=((c.color>>16)&255)/255.f; class_color[1]=((c.color>>8)&255)/255.f; class_color[2]=(c.color&255)/255.f;
                 }
-                ImGui::EndCombo();
+                ui::EndCombo();
             }
-            ImGui::SetNextItemWidth(180); ImGui::InputText("Class name",class_name,sizeof(class_name));
-            ImGui::SetNextItemWidth(180); ImGui::ColorEdit3("RGB",class_color);
-            if(ImGui::Button("Save color")) {
+            ui::SetNextItemWidth(180); ui::InputText("Class name",class_name,sizeof(class_name));
+            ui::SetNextItemWidth(180); ui::ColorEdit3("RGB",class_color);
+            if(ui::Button("Save color")) {
                 try {
                     // Rename is a separate explicit command so one button is
                     // always one journal step and cannot partially rename.
@@ -1343,43 +1357,43 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
             if(!class_key.empty()) {
                 ImGui::SameLine();
-                if(ImGui::Button("Rename")) {
+                if(ui::Button("Rename")) {
                     try { document.rename_class(class_key,class_name); class_key=class_name; error.clear(); }
                     catch(const std::exception& e) { error=e.what(); }
                 }
                 ImGui::Text("Assigned: %zu",document.class_count(class_key));
-                if(ImGui::Button("Remove unused class")) {
+                if(ui::Button("Remove unused class")) {
                     try { document.remove_class(class_key); class_key.clear(); class_name[0]=0; error.clear(); }
                     catch(const std::exception& e) { error=e.what(); }
                 }
             }
         }
         ImGui::Text("Selected: %zu",selection->size());
-        if(selected && ImGui::Button("Delete selected")) delete_selection();
-        if(selected) { ImGui::SameLine(); if(ImGui::Button("Clear selection")) { selection->clear(); selected=0; } }
+        if(selected && ui::Button("Delete selected")) delete_selection();
+        if(selected) { ImGui::SameLine(); if(ui::Button("Clear selection")) { selection->clear(); selected=0; } }
         if(selection->size()>1) {
-            if(ImGui::BeginCombo("Batch class",batch_class.empty()?"Unclassified":batch_class.c_str())) {
+            if(ui::BeginCombo("Batch class",batch_class.empty()?"Unclassified":batch_class.c_str())) {
                 if(ImGui::Selectable("Unclassified",batch_class.empty())) batch_class.clear();
                 for(const auto& [name,c]:document.classes()) if(ImGui::Selectable(name.c_str(),name==batch_class)) batch_class=name;
-                ImGui::EndCombo();
+                ui::EndCombo();
             }
-            if(ImGui::Button("Classify selected")) {
+            if(ui::Button("Classify selected")) {
                 try { document.classify_objects(selection->ids(),batch_class); error.clear(); }
                 catch(const std::exception& e) { error=e.what(); }
             }
             if(has_geos()) {
-                ImGui::SetNextItemWidth(140);
-                ImGui::Combo("Boolean",&boolean_operation,"Union\0Intersection\0Difference\0XOR\0");
-                ImGui::TextDisabled("Target: primary; operands retained");
+                ui::SetNextItemWidth(140);
+                ui::Combo("Boolean",&boolean_operation,"Union\0Intersection\0Difference\0XOR\0");
+                ui::TextDisabled("Target: primary; operands retained");
                 ImGui::TextWrapped("Ellipses use 512-edge approximations.");
-                if(ImGui::Button("Apply Boolean (B)") || (!io.WantTextInput && !editing_blocked && !io.KeyCtrl && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_B))) {
+                if(ui::Button("Apply Boolean (B)") || (!io.WantTextInput && !editing_blocked && !io.KeyCtrl && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_B))) {
                     try {
                         auto ids=selection->ids(); ids.erase(std::remove(ids.begin(),ids.end(),selected),ids.end());
                         document.apply_boolean(selected,ids,static_cast<BooleanOp>(boolean_operation)); error.clear();
                     } catch(const std::exception& e) { error=e.what(); }
                 }
             }
-            ImGui::TextDisabled("Inspector edits the primary object");
+            ui::TextDisabled("Inspector edits the primary object");
         }
         if (selected) {
             if (editor_id!=selected || editor_revision!=document.revision()) {
@@ -1394,25 +1408,25 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(object.kind==ObjectKind::Annotation && has_geos() &&
                 (object.geometry.kind()==RoiKind::Rectangle || object.geometry.kind()==RoiKind::Ellipse)) {
                 if(object.geometry.kind()==RoiKind::Ellipse) ImGui::TextWrapped("Polygon conversion uses 512 edges.");
-                if(ImGui::Button("Convert to polygon")) {
+                if(ui::Button("Convert to polygon")) {
                     try { document.update_roi(selected,object.geometry.as_polygon()); error.clear(); }
                     catch(const std::exception& e) { error=e.what(); }
                 }
             }
-            if(object.kind==ObjectKind::Cell) ImGui::TextDisabled(object.nucleus?"Nucleus ROI present":"No nucleus ROI");
-            ImGui::InputText("Name",draft_name,sizeof(draft_name));
-            if(ImGui::BeginCombo("Class",draft_class[0]?draft_class:"Unclassified")) {
+            if(object.kind==ObjectKind::Cell) ui::TextDisabled(object.nucleus?"Nucleus ROI present":"No nucleus ROI");
+            ui::InputText("Name",draft_name,sizeof(draft_name));
+            if(ui::BeginCombo("Class",draft_class[0]?draft_class:"Unclassified")) {
                 if(ImGui::Selectable("Unclassified",!draft_class[0])) draft_class[0]=0;
                 for(const auto& [name,c]:document.classes()) if(ImGui::Selectable(name.c_str(),name==draft_class))
                     std::memcpy(draft_class,name.c_str(),name.size()+1);
-                ImGui::EndCombo();
+                ui::EndCombo();
             }
             ImGui::BeginDisabled(object.is_detection());
-            ImGui::InputDouble("X",&draft_roi.x); ImGui::InputDouble("Y",&draft_roi.y);
+            ui::InputDouble("X",&draft_roi.x); ui::InputDouble("Y",&draft_roi.y);
             ImGui::BeginDisabled(draft_geometry.kind()!=RoiKind::Rectangle && draft_geometry.kind()!=RoiKind::Ellipse);
-            ImGui::InputDouble("Width",&draft_roi.width); ImGui::InputDouble("Height",&draft_roi.height); ImGui::EndDisabled(); ImGui::EndDisabled();
-            ImGui::InputScalar("Parent ID",ImGuiDataType_U64,&draft_parent);
-            if (ImGui::Button("Apply object edit")) {
+            ui::InputDouble("Width",&draft_roi.width); ui::InputDouble("Height",&draft_roi.height); ImGui::EndDisabled(); ImGui::EndDisabled();
+            ui::InputScalar("Parent ID",ImGuiDataType_U64,&draft_parent);
+            if (ui::Button("Apply object edit")) {
                 try {
                     auto bounds=draft_geometry.bounds();
                     auto geometry=draft_geometry.kind()==RoiKind::Rectangle?Roi::rectangle(draft_roi):
@@ -1423,7 +1437,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
         }
         if(workspace.enabled()) {ImGui::End();workspace.begin("Measurements and jobs",workspace.measurements);}
-        ImGui::SeparatorText(selection->size()>1?"Measurements (primary object)":"Measurements");
+        ui::SeparatorText(selection->size()>1?"Measurements (primary object)":"Measurements");
         mean.poll(selected,document.revision());
         auto analysis_status=analysis.poll(document,selected);
         if(pending_analysis_recheck && !analysis.busy()) {
@@ -1441,7 +1455,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 if(features.roi.area_um2) {
                     ImGui::Text("Area: %.6g um^2",*features.roi.area_um2);
                     ImGui::Text("Length: %.6g um",*features.roi.length_um);
-                } else ImGui::TextDisabled("Physical measurements: set calibration first");
+                } else ui::TextDisabled("Physical measurements: set calibration first");
                 if(features.nucleus) {
                     ImGui::Text("Nucleus area: %.6g px^2",features.nucleus->area_px2);
                     ImGui::Text("Nucleus length: %.6g px",features.nucleus->length_px);
@@ -1454,7 +1468,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             const auto measured_cell=document.annotation(selected);
             if(measured_cell.cell_feature_link) {
                 const auto link=*measured_cell.cell_feature_link;
-                ImGui::SeparatorText("Captured cell features");
+                ui::SeparatorText("Captured cell features");
                 ImGui::Text("Run: %llu / label: %u",static_cast<unsigned long long>(link.record_id),link.label);
                 const auto status=document.cell_object_status(selected);ImGui::Text("Feature status: %s",status.c_str());
                 if(status!="archive_missing" && status!="invalid_label") {
@@ -1468,43 +1482,43 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
             if (mean.measured==selected && mean.value) ImGui::Text("Mean RGB: %.3f",*mean.value);
             ImGui::BeginDisabled(mean.active());
-            if (ImGui::Button("Measure mean RGB")) mean.start(document.server(),document.annotation(selected),document.revision());
+            if (ui::Button("Measure mean RGB")) mean.start(document.server(),document.annotation(selected),document.revision());
             ImGui::EndDisabled();
-            if (mean.active()) ImGui::TextDisabled("Measuring...");
+            if (mean.active()) ui::TextDisabled("Measuring...");
             if (!mean.error.empty()) ImGui::TextWrapped("%s",mean.error.c_str());
-            ImGui::SeparatorText("Region analysis");
-            bool analysis_changed=ImGui::Combo("Features",&analysis_kind,"RGB optical density\0Supplied stains\0");
-            analysis_changed=ImGui::Checkbox("Use nucleus",&analysis_nucleus) || analysis_changed;
-            analysis_changed=ImGui::InputScalarN("White RGB",ImGuiDataType_Double,analysis_white.data(),3,nullptr,nullptr,"%.5g") || analysis_changed;
+            ui::SeparatorText("Region analysis");
+            bool analysis_changed=ui::Combo("Features",&analysis_kind,"RGB optical density\0Supplied stains\0");
+            analysis_changed=ui::Checkbox("Use nucleus",&analysis_nucleus) || analysis_changed;
+            analysis_changed=ui::InputScalarN("White RGB",ImGuiDataType_Double,analysis_white.data(),3,nullptr,nullptr,"%.5g") || analysis_changed;
             if(analysis_kind==1) {
-                analysis_changed=ImGui::InputScalarN("Stain 1",ImGuiDataType_Double,analysis_vectors.data(),3,nullptr,nullptr,"%.5g") || analysis_changed;
-                analysis_changed=ImGui::InputScalarN("Stain 2",ImGuiDataType_Double,analysis_vectors.data()+3,3,nullptr,nullptr,"%.5g") || analysis_changed;
+                analysis_changed=ui::InputScalarN("Stain 1",ImGuiDataType_Double,analysis_vectors.data(),3,nullptr,nullptr,"%.5g") || analysis_changed;
+                analysis_changed=ui::InputScalarN("Stain 2",ImGuiDataType_Double,analysis_vectors.data()+3,3,nullptr,nullptr,"%.5g") || analysis_changed;
                 ImGui::TextWrapped("Supply validated OD directions. Channel 3 is a signed residual.");
             }
             if(analysis_changed) {analysis.cancel();tissue.cancel();cell_job.cancel();stain_estimate.cancel();stain_estimate_applied=false;}
             if(ImGui::CollapsingHeader("Stain estimation settings")) {
                 bool changed=false;
-                ImGui::SetNextItemWidth(100);changed=ImGui::InputDouble("Minimum OD",&stain_estimate_parameters.min_od,0,0,"%.5g") || changed;
-                ImGui::SetNextItemWidth(100);changed=ImGui::InputDouble("Trim fraction",&stain_estimate_parameters.trim_quantile,0,0,"%.5g") || changed;
-                ImGui::SetNextItemWidth(100);changed=ImGui::InputDouble("Min angle (deg)",&stain_estimate_parameters.min_angle_degrees,0,0,"%.5g") || changed;
-                ImGui::SetNextItemWidth(100);changed=ImGui::InputDouble("Max residual",&stain_estimate_parameters.max_residual_fraction,0,0,"%.5g") || changed;
-                ImGui::SetNextItemWidth(100);changed=ImGui::InputScalar("Read pixels",ImGuiDataType_U64,&stain_estimate_parameters.max_read_pixels) || changed;
+                ui::SetNextItemWidth(100);changed=ui::InputDouble("Minimum OD",&stain_estimate_parameters.min_od,0,0,"%.5g") || changed;
+                ui::SetNextItemWidth(100);changed=ui::InputDouble("Trim fraction",&stain_estimate_parameters.trim_quantile,0,0,"%.5g") || changed;
+                ui::SetNextItemWidth(100);changed=ui::InputDouble("Min angle (deg)",&stain_estimate_parameters.min_angle_degrees,0,0,"%.5g") || changed;
+                ui::SetNextItemWidth(100);changed=ui::InputDouble("Max residual",&stain_estimate_parameters.max_residual_fraction,0,0,"%.5g") || changed;
+                ui::SetNextItemWidth(100);changed=ui::InputScalar("Read pixels",ImGuiDataType_U64,&stain_estimate_parameters.max_read_pixels) || changed;
                 std::uint64_t limit=stain_estimate_parameters.sample_limit;
-                ImGui::SetNextItemWidth(100);if(ImGui::InputScalar("Kept samples",ImGuiDataType_U64,&limit)) {stain_estimate_parameters.sample_limit=static_cast<std::size_t>(limit);changed=true;}
-                ImGui::SetNextItemWidth(80);changed=ImGui::InputInt("Level (-1 auto)",&stain_estimate_parameters.level) || changed;
+                ui::SetNextItemWidth(100);if(ui::InputScalar("Kept samples",ImGuiDataType_U64,&limit)) {stain_estimate_parameters.sample_limit=static_cast<std::size_t>(limit);changed=true;}
+                ui::SetNextItemWidth(80);changed=ui::InputInt("Level (-1 auto)",&stain_estimate_parameters.level) || changed;
                 if(changed) {stain_estimate.cancel();stain_estimate_applied=false;stain_estimate_error.clear();}
             }
             const bool estimate_key=!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F3,false);
             ImGui::BeginDisabled(stain_estimate.busy());
-            const bool estimate_clicked=ImGui::Button("Estimate stains (F3)") || (estimate_key && !io.KeyCtrl && !io.KeyShift);
+            const bool estimate_clicked=ui::Button("Estimate stains (F3)") || (estimate_key && !io.KeyCtrl && !io.KeyShift);
             ImGui::EndDisabled();
             if(estimate_clicked && !stain_estimate.busy()) {try {stain_estimate.request(StainEstimateRequest(document,selected,stain_estimate_parameters,{analysis_white[0],analysis_white[1],analysis_white[2]},analysis_nucleus));stain_estimate_applied=false;stain_estimate_error.clear();error.clear();} catch(const std::exception& e) {stain_estimate_error=e.what();}}
-            if((estimate_key && io.KeyCtrl) || (stain_estimate.busy() && ImGui::Button("Cancel estimate (Ctrl+F3)"))) {stain_estimate.cancel();stain_estimate_applied=false;}
+            if((estimate_key && io.KeyCtrl) || (stain_estimate.busy() && ui::Button("Cancel estimate (Ctrl+F3)"))) {stain_estimate.cancel();stain_estimate_applied=false;}
             const auto estimate_status=stain_estimate.poll(document,selected);
             if(stain_estimate.busy()) ImGui::Text("Stain tiles: %llu / %llu",static_cast<unsigned long long>(estimate_status.completed_tiles),static_cast<unsigned long long>(estimate_status.total_tiles));
             if(const auto estimate=stain_estimate.result()) {
                 ImGui::Text("Stain separation: %.2f deg",estimate->angle_degrees);ImGui::Text("Plane residual: %.4g",estimate->residual_fraction);
-                const bool use=ImGui::Button("Use estimated stains (Shift+F3)") || (estimate_key && io.KeyShift && !io.KeyCtrl);
+                const bool use=ui::Button("Use estimated stains (Shift+F3)") || (estimate_key && io.KeyShift && !io.KeyCtrl);
                 if(use) {
                     estimated_basis=estimate->stains;estimated_white=estimate->white;analysis_kind=1;
                     for(std::size_t c=0;c<3;++c) {analysis_vectors[c]=estimate->stains[0][c];analysis_vectors[c+3]=estimate->stains[1][c];analysis_white[c]=estimate->white[c];}
@@ -1517,7 +1531,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(estimate_status.state=="stale") ImGui::TextWrapped("Stain estimation inputs changed; estimate again.");
             const bool analysis_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_M);
             ImGui::BeginDisabled(analysis.busy());
-            const bool start_analysis=ImGui::Button("Analyze region (Ctrl+M)") || (analysis_key && !io.KeyShift);
+            const bool start_analysis=ui::Button("Analyze region (Ctrl+M)") || (analysis_key && !io.KeyShift);
             ImGui::EndDisabled();
             if(start_analysis && !analysis.busy()) {
                 try {analysis.request(AnalysisRequest(document,selected,make_transform(analysis_kind==1),analysis_kind==0?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans,analysis_nucleus));error.clear();}
@@ -1525,7 +1539,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
             if(analysis.busy()) {
                 ImGui::Text("Tiles: %llu / %llu",static_cast<unsigned long long>(analysis_status.completed_tiles),static_cast<unsigned long long>(analysis_status.total_tiles));
-                if(ImGui::Button("Cancel analysis") || (analysis_key && io.KeyShift)) analysis.cancel();
+                if(ui::Button("Cancel analysis") || (analysis_key && io.KeyShift)) analysis.cancel();
             }
             if(const auto result=analysis.result()) {
                 const char* od_labels[]={"Mean OD R","Mean OD G","Mean OD B"};
@@ -1534,12 +1548,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ImGui::Text("%llu samples / %.3f ms",static_cast<unsigned long long>(result->samples),result->elapsed_ms);
             }
             if(!analysis_status.error.empty()) ImGui::TextWrapped("Analysis: %s",analysis_status.error.c_str());
-            if(analysis_status.state=="stale") ImGui::TextDisabled("Inputs changed; run analysis again.");
-            if(analysis_status.state=="cancelled") ImGui::TextDisabled("Analysis cancelled.");
+            if(analysis_status.state=="stale") ui::TextDisabled("Inputs changed; run analysis again.");
+            if(analysis_status.state=="cancelled") ui::TextDisabled("Analysis cancelled.");
             const bool archive_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_K);
             const bool can_keep=analysis_status.state=="ready" && !analysis.busy() && kept_analysis_generation!=analysis_status.generation;
             ImGui::BeginDisabled(!can_keep);
-            const bool keep_clicked=ImGui::Button("Keep result (Ctrl+K)") || (archive_key && !io.KeyShift);
+            const bool keep_clicked=ui::Button("Keep result (Ctrl+K)") || (archive_key && !io.KeyShift);
             ImGui::EndDisabled();
             if(can_keep && keep_clicked) {
                 try {analysis.keep_result(document,selected);kept_analysis_generation=analysis_status.generation;error.clear();}
@@ -1548,7 +1562,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(const auto saved=document.latest_analysis(selected)) {
                 provenance_info(saved->result.provenance);
                 const auto state=document.analysis_status(saved->id);
-                ImGui::SeparatorText("Saved analysis");
+                ui::SeparatorText("Saved analysis");
                 const char* label=state=="current"?"Verified for this session":state=="unverified"?"Needs recheck":
                     state=="object_changed"?"Object changed":state=="source_changed"?"Source changed":state=="source_closed"?"Image closed":"Recheck failed";
                 ImGui::TextUnformatted(label);
@@ -1556,7 +1570,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 for(std::size_t c=0;c<3;++c) ImGui::Text("Saved channel %d: %.6g",static_cast<int>(c+1),saved->result.means[c]);
                 const bool can_recheck=!analysis.busy() && state!="object_changed" && state!="source_closed";
                 ImGui::BeginDisabled(!can_recheck);
-                const bool recheck_clicked=ImGui::Button("Recheck saved (Ctrl+Shift+K)") || (archive_key && io.KeyShift);
+                const bool recheck_clicked=ui::Button("Recheck saved (Ctrl+Shift+K)") || (archive_key && io.KeyShift);
                 ImGui::EndDisabled();
                 if(can_recheck && recheck_clicked) {
                     try {
@@ -1574,33 +1588,33 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     ImGui::TextWrapped("Input SHA-256: %s",saved->result.input_sha256.c_str());ImGui::TreePop();
                 }
             }
-            ImGui::SeparatorText("Threshold tissue mask");
+            ui::SeparatorText("Threshold tissue mask");
             const auto tissue_status=tissue.poll(document,selected);
             ImGui::PushItemWidth(132.f);
-            bool tissue_changed=ImGui::Combo("Tissue feature",&tissue_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0");
+            bool tissue_changed=ui::Combo("Tissue feature",&tissue_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0");
             const auto level_label=tissue_parameters.level<0?std::string("Auto (budget)"):"Level "+std::to_string(tissue_parameters.level);
-            if(ImGui::BeginCombo("Tissue level",level_label.c_str())) {
+            if(ui::BeginCombo("Tissue level",level_label.c_str())) {
                 if(ImGui::Selectable("Auto (work budget)",tissue_parameters.level<0)) {tissue_parameters.level=-1;tissue_changed=true;}
                 for(std::size_t i=0;i<image.levels.size();++i) {
                     const auto label="Level "+std::to_string(i)+" / "+std::to_string(image.levels[i].downsample)+"x";
                     if(ImGui::Selectable(label.c_str(),tissue_parameters.level==static_cast<std::int32_t>(i))) {tissue_parameters.level=static_cast<std::int32_t>(i);tissue_changed=true;}
                 }
-                ImGui::EndCombo();
+                ui::EndCombo();
             }
-            tissue_changed=ImGui::InputDouble("Threshold >=",&tissue_parameters.threshold,0,0,"%.5g") || tissue_changed;
-            tissue_changed=ImGui::Combo("Connectivity",&tissue_connectivity,"4 neighbors\0 8 neighbors\0") || tissue_changed;
-            tissue_changed=ImGui::InputScalar("Min pixels",ImGuiDataType_U64,&tissue_parameters.min_pixels) || tissue_changed;
-            tissue_changed=ImGui::InputScalar("Max (0=off)",ImGuiDataType_U64,&tissue_parameters.max_pixels) || tissue_changed;
-            tissue_changed=ImGui::InputInt("Opening radius",&tissue_parameters.open_radius) || tissue_changed;
-            tissue_changed=ImGui::InputInt("Closing radius",&tissue_parameters.close_radius) || tissue_changed;
-            tissue_changed=ImGui::Checkbox("Fill enclosed holes",&tissue_parameters.fill_holes) || tissue_changed;
-            if(tissue_parameters.fill_holes) tissue_changed=ImGui::InputScalar("Hole max (0=all)",ImGuiDataType_U64,&tissue_parameters.max_hole_pixels) || tissue_changed;
+            tissue_changed=ui::InputDouble("Threshold >=",&tissue_parameters.threshold,0,0,"%.5g") || tissue_changed;
+            tissue_changed=ui::Combo("Connectivity",&tissue_connectivity,"4 neighbors\0 8 neighbors\0") || tissue_changed;
+            tissue_changed=ui::InputScalar("Min pixels",ImGuiDataType_U64,&tissue_parameters.min_pixels) || tissue_changed;
+            tissue_changed=ui::InputScalar("Max (0=off)",ImGuiDataType_U64,&tissue_parameters.max_pixels) || tissue_changed;
+            tissue_changed=ui::InputInt("Opening radius",&tissue_parameters.open_radius) || tissue_changed;
+            tissue_changed=ui::InputInt("Closing radius",&tissue_parameters.close_radius) || tissue_changed;
+            tissue_changed=ui::Checkbox("Fill enclosed holes",&tissue_parameters.fill_holes) || tissue_changed;
+            if(tissue_parameters.fill_holes) tissue_changed=ui::InputScalar("Hole max (0=all)",ImGuiDataType_U64,&tissue_parameters.max_hole_pixels) || tissue_changed;
             ImGui::PopItemWidth();
-            ImGui::TextDisabled("Radii and sizes use sampled pixels");
+            ui::TextDisabled("Radii and sizes use sampled pixels");
             if(tissue_changed) tissue.cancel();
             const bool tissue_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_D,false);
             ImGui::BeginDisabled(tissue.busy());
-            const bool detect_clicked=ImGui::Button("Detect tissue (Ctrl+D)") || (tissue_key && !io.KeyShift);
+            const bool detect_clicked=ui::Button("Detect tissue (Ctrl+D)") || (tissue_key && !io.KeyShift);
             ImGui::EndDisabled();
             if(detect_clicked && !tissue.busy()) {
                 try {
@@ -1609,38 +1623,38 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 } catch(const std::exception& e) {error=e.what();}
             }
             if(tissue.busy()) {
-                ImGui::TextDisabled("%s",tissue_status.phase=="contours"?"Tracing tissue contours...":tissue_status.phase=="cleanup"?"Cleaning tissue mask...":tissue_status.phase=="components"?"Finding components...":"Reading and thresholding...");
-                if(ImGui::Button("Cancel tissue") || (tissue_key && io.KeyShift)) tissue.cancel();
+                ui::TextDisabled("%s",tissue_status.phase=="contours"?"Tracing tissue contours...":tissue_status.phase=="cleanup"?"Cleaning tissue mask...":tissue_status.phase=="components"?"Finding components...":"Reading and thresholding...");
+                if(ui::Button("Cancel tissue") || (tissue_key && io.KeyShift)) tissue.cancel();
             }
-            ImGui::Checkbox("Show tissue mask",&show_tissue);
+            ui::Checkbox("Show tissue mask",&show_tissue);
             if(const auto result=tissue.result()) {
                 ImGui::Text("Level %d / %.5gx / %lld x %lld",result->level(),result->downsample(),static_cast<long long>(result->width()),static_cast<long long>(result->height()));
-                ImGui::TextDisabled("Size filters count sampled pixels");
+                ui::TextDisabled("Size filters count sampled pixels");
                 ImGui::Text("Components: %zu",result->components().size());
                 ImGui::Text("Kept pixels: %llu",static_cast<unsigned long long>(result->foreground_pixels()));
                 ImGui::Text("Cleaned: %llu / filled: %llu",static_cast<unsigned long long>(result->cleaned_pixels()),static_cast<unsigned long long>(result->filled_pixels()));
                 ImGui::Text("Samples: %llu / %.3f ms",static_cast<unsigned long long>(result->samples()),result->elapsed_ms());
-                if(show_tissue && !tissue_preview.ready()) ImGui::TextDisabled("Preparing mask preview...");
+                if(show_tissue && !tissue_preview.ready()) ui::TextDisabled("Preparing mask preview...");
             }
             const bool contour_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_J,false);
             const bool can_trace=has_geos() && !tissue.busy() && bool(tissue.result());
             ImGui::BeginDisabled(!can_trace);
-            const bool trace_clicked=ImGui::Button("Trace contours (Ctrl+J)") || (contour_key && !io.KeyShift);
+            const bool trace_clicked=ui::Button("Trace contours (Ctrl+J)") || (contour_key && !io.KeyShift);
             ImGui::EndDisabled();
             if(trace_clicked && can_trace) {try {tissue.request_contours();tissue_annotations_added=0;error.clear();} catch(const std::exception& e) {error=e.what();}}
             const auto contours=tissue.contours();
             const bool can_keep_contours=contours && !contours->components().empty() && !tissue.busy() && !tissue.contours_published();
             ImGui::BeginDisabled(!can_keep_contours);
-            const bool keep_contours_clicked=ImGui::Button("Add annotations (Ctrl+Shift+J)") || (contour_key && io.KeyShift);
+            const bool keep_contours_clicked=ui::Button("Add annotations (Ctrl+Shift+J)") || (contour_key && io.KeyShift);
             ImGui::EndDisabled();
             if(keep_contours_clicked && can_keep_contours) {try {tissue_annotations_added=tissue.keep_contours(document,selected).size();error.clear();} catch(const std::exception& e) {error=e.what();}}
             if(contours) ImGui::Text("Contours: %zu / %zu vertices",contours->components().size(),contours->vertex_count());
             if(tissue.contours_published()) ImGui::Text("Added %zu annotations (Undo available)",tissue_annotations_added);
-            if(!has_geos()) ImGui::TextDisabled("Contour creation requires GEOS");
+            if(!has_geos()) ui::TextDisabled("Contour creation requires GEOS");
             const bool tissue_archive_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_U,false);
             const bool can_archive=tissue_status.state=="ready" && !tissue.busy() && bool(tissue.result()) && kept_tissue_generation!=tissue_status.generation;
             ImGui::BeginDisabled(!can_archive);
-            const bool archive_clicked=ImGui::Button("Keep tissue mask (Ctrl+U)") || (tissue_archive_key && !io.KeyShift);
+            const bool archive_clicked=ui::Button("Keep tissue mask (Ctrl+U)") || (tissue_archive_key && !io.KeyShift);
             ImGui::EndDisabled();
             if(can_archive && archive_clicked) {try {tissue.keep_result(document,selected);kept_tissue_generation=tissue_status.generation;error.clear();} catch(const std::exception& e) {error=e.what();}}
             if(const auto saved=document.latest_tissue(selected)) {
@@ -1651,7 +1665,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ImGui::Text("Saved components: %zu",saved->result->components().size());
                 const bool can_recheck_tissue=!tissue.busy() && state!="object_changed" && state!="source_closed";
                 ImGui::BeginDisabled(!can_recheck_tissue);
-                const bool recheck=ImGui::Button("Recheck saved mask (Ctrl+Shift+U)") || (tissue_archive_key && io.KeyShift);
+                const bool recheck=ui::Button("Recheck saved mask (Ctrl+Shift+U)") || (tissue_archive_key && io.KeyShift);
                 ImGui::EndDisabled();
                 if(recheck && can_recheck_tissue) {try {
                     tissue.request(TissueRequest::replay(document,saved->id));verifying_tissue=saved->id;
@@ -1661,55 +1675,55 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     error.clear();
                 } catch(const std::exception& e) {error=e.what();}}
                 ImGui::BeginDisabled(tissue.busy());
-                if(ImGui::Button("Remove saved mask")) {try {document.remove_tissue(saved->id);error.clear();} catch(const std::exception& e) {error=e.what();}}
+                if(ui::Button("Remove saved mask")) {try {document.remove_tissue(saved->id);error.clear();} catch(const std::exception& e) {error=e.what();}}
                 ImGui::EndDisabled();
             }
             if(!tissue_status.error.empty()) ImGui::TextWrapped("Tissue: %s",tissue_status.error.c_str());
             if(!tissue_preview.error().empty()) ImGui::TextWrapped("Mask: %s",tissue_preview.error().c_str());
-            ImGui::SeparatorText("Watershed cells");
+            ui::SeparatorText("Watershed cells");
             ImGui::PushItemWidth(118);
-            ImGui::SetNextItemWidth(132);bool cell_changed=ImGui::Combo("Cell feature",&cell_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0");
-            cell_changed=ImGui::InputDouble("Cell threshold",&cell_parameters.threshold,0,0,"%.5g") || cell_changed;
-            cell_changed=ImGui::InputDouble("Blur sigma",&cell_parameters.sigma,0,0,"%.3g") || cell_changed;
-            cell_changed=ImGui::InputDouble("Peak radius >=",&cell_parameters.min_peak_radius,0,0,"%.3g") || cell_changed;
-            cell_changed=ImGui::InputDouble("Seed spacing",&cell_parameters.min_seed_distance,0,0,"%.3g") || cell_changed;
-            cell_changed=ImGui::InputDouble("Cell expansion",&cell_parameters.cell_expansion,0,0,"%.3g") || cell_changed;
-            cell_changed=ImGui::InputScalar("Nucleus min px",ImGuiDataType_U64,&cell_parameters.min_nucleus_pixels) || cell_changed;
-            cell_changed=ImGui::InputScalar("Nucleus max (0=all)",ImGuiDataType_U64,&cell_parameters.max_nucleus_pixels) || cell_changed;
-            cell_changed=ImGui::Combo("Cell neighbors",&cell_connectivity,"4 neighbors\0 8 neighbors\0") || cell_changed;
+            ui::SetNextItemWidth(132);bool cell_changed=ui::Combo("Cell feature",&cell_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0");
+            cell_changed=ui::InputDouble("Cell threshold",&cell_parameters.threshold,0,0,"%.5g") || cell_changed;
+            cell_changed=ui::InputDouble("Blur sigma",&cell_parameters.sigma,0,0,"%.3g") || cell_changed;
+            cell_changed=ui::InputDouble("Peak radius >=",&cell_parameters.min_peak_radius,0,0,"%.3g") || cell_changed;
+            cell_changed=ui::InputDouble("Seed spacing",&cell_parameters.min_seed_distance,0,0,"%.3g") || cell_changed;
+            cell_changed=ui::InputDouble("Cell expansion",&cell_parameters.cell_expansion,0,0,"%.3g") || cell_changed;
+            cell_changed=ui::InputScalar("Nucleus min px",ImGuiDataType_U64,&cell_parameters.min_nucleus_pixels) || cell_changed;
+            cell_changed=ui::InputScalar("Nucleus max (0=all)",ImGuiDataType_U64,&cell_parameters.max_nucleus_pixels) || cell_changed;
+            cell_changed=ui::Combo("Cell neighbors",&cell_connectivity,"4 neighbors\0 8 neighbors\0") || cell_changed;
             const auto cell_level_label=cell_parameters.level<0?std::string("Auto (budget)"):"Level "+std::to_string(cell_parameters.level);
-            if(ImGui::BeginCombo("Cell level",cell_level_label.c_str())) {
+            if(ui::BeginCombo("Cell level",cell_level_label.c_str())) {
                 if(ImGui::Selectable("Auto (budget)",cell_parameters.level<0)) {cell_parameters.level=-1;cell_changed=true;}
                 for(std::size_t i=0;i<image.levels.size();++i) {const auto label="Level "+std::to_string(i);if(ImGui::Selectable(label.c_str(),cell_parameters.level==static_cast<std::int32_t>(i))) {cell_parameters.level=static_cast<std::int32_t>(i);cell_changed=true;}}
-                ImGui::EndCombo();
+                ui::EndCombo();
             }
-            ImGui::TextDisabled("Radii/sizes use sampled pixels");
+            ui::TextDisabled("Radii/sizes use sampled pixels");
             if(cell_changed) cell_job.cancel();
             const auto cell_status=cell_job.poll(document,selected);
             const bool cell_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_G,false);
             ImGui::BeginDisabled(cell_job.busy());
-            const bool detect_cells_clicked=ImGui::Button("Detect cells (Ctrl+G)") || (cell_key && !io.KeyShift && !io.KeyAlt);
+            const bool detect_cells_clicked=ui::Button("Detect cells (Ctrl+G)") || (cell_key && !io.KeyShift && !io.KeyAlt);
             ImGui::EndDisabled();
             if(detect_cells_clicked && !cell_job.busy()) {try {
                 cell_parameters.feature=static_cast<TissueFeature>(cell_feature);cell_parameters.connectivity=cell_connectivity?8:4;
                 cell_job.request(CellRequest(document,selected,make_transform(cell_feature!=0),cell_parameters));cell_annotations_added=0;error.clear();
             } catch(const std::exception& e) {error=e.what();}}
-            if(cell_job.busy()) {ImGui::TextDisabled("Cells: %s",cell_status.phase.c_str());if(ImGui::Button("Cancel cells (Ctrl+Alt+G)")) cell_job.cancel();}
+            if(cell_job.busy()) {ui::TextDisabled("Cells: %s",cell_status.phase.c_str());if(ui::Button("Cancel cells (Ctrl+Alt+G)")) cell_job.cancel();}
             if(cell_key && io.KeyAlt) cell_job.cancel();
-            ImGui::Checkbox("Show cell preview",&show_cells);ImGui::Combo("Cell preview",&cell_preview_body,"Nuclei\0Cell bodies\0");
+            ui::Checkbox("Show cell preview",&show_cells);ui::Combo("Cell preview",&cell_preview_body,"Nuclei\0Cell bodies\0");
             ImGui::PopItemWidth();
             if(const auto result=cell_job.result()) {
                 ImGui::Text("Detected cells: %zu",result->features().size());ImGui::Text("Markers: %zu / %.3f ms",result->markers().size(),result->elapsed_ms());
                 ImGui::Text("Cell level: %d / %.5gx",result->nuclei()->level(),result->nuclei()->downsample());
             }
             const bool can_add_cells=has_geos() && !cell_job.busy() && bool(cell_job.result()) && !cell_job.result()->features().empty() && !cell_job.published();
-            ImGui::BeginDisabled(!can_add_cells);const bool add_cells=ImGui::Button("Add cells (Ctrl+Shift+G)") || (cell_key && io.KeyShift && !io.KeyAlt);ImGui::EndDisabled();
+            ImGui::BeginDisabled(!can_add_cells);const bool add_cells=ui::Button("Add cells (Ctrl+Shift+G)") || (cell_key && io.KeyShift && !io.KeyAlt);ImGui::EndDisabled();
             if(add_cells && can_add_cells) {try {cell_annotations_added=cell_job.keep_result(document,selected).size();error.clear();} catch(const std::exception& e) {error=e.what();}}
             if(cell_job.published()) ImGui::Text("Added %zu cells (Undo available)",cell_annotations_added);
             const bool cell_record_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_C,false);
             const bool can_keep_cells=cell_status.state=="ready" && !cell_job.busy() && bool(cell_job.result()) && kept_cell_generation!=cell_status.generation;
             ImGui::BeginDisabled(!can_keep_cells);
-            const bool keep_cells=ImGui::Button("Keep cell run (Ctrl+Shift+C)") || (cell_record_key && io.KeyShift && !io.KeyAlt);
+            const bool keep_cells=ui::Button("Keep cell run (Ctrl+Shift+C)") || (cell_record_key && io.KeyShift && !io.KeyAlt);
             ImGui::EndDisabled();
             if(can_keep_cells && keep_cells) {try {cell_job.keep_record(document,selected);kept_cell_generation=cell_status.generation;error.clear();} catch(const std::exception& e) {error=e.what();}}
             if(const auto saved=document.latest_cells(selected)) {
@@ -1717,46 +1731,46 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 const auto state=document.cell_status(saved->id);ImGui::Text("Saved cell run: %llu",static_cast<unsigned long long>(saved->id));
                 ImGui::Text("Saved cells: %zu",saved->result->features().size());ImGui::Text("Cell record: %s",state.c_str());
                 ImGui::BeginDisabled(cell_job.busy() || state=="object_changed" || state=="source_closed");
-                const bool recheck=ImGui::Button("Recheck cells (Ctrl+Alt+C)") || (cell_record_key && io.KeyAlt && !io.KeyShift);
+                const bool recheck=ui::Button("Recheck cells (Ctrl+Alt+C)") || (cell_record_key && io.KeyAlt && !io.KeyShift);
                 ImGui::EndDisabled();
                 if(recheck && !cell_job.busy() && state!="object_changed" && state!="source_closed") {try {
                     cell_job.request(CellRequest::replay(document,saved->id));verifying_cells=saved->id;error.clear();
                 } catch(const std::exception& e) {error=e.what();}}
                 ImGui::BeginDisabled(state!="current" || !has_geos());
-                if(ImGui::Button("Add saved cells")) {try {document.publish_cell_record(saved->id);error.clear();} catch(const std::exception& e) {error=e.what();}}
+                if(ui::Button("Add saved cells")) {try {document.publish_cell_record(saved->id);error.clear();} catch(const std::exception& e) {error=e.what();}}
                 ImGui::EndDisabled();
                 const bool can_export=!cell_table_options.published_objects && !cell_table_job.busy() && (!cell_table_options.require_current || state=="current");
                 ImGui::BeginDisabled(!can_export);
-                const bool export_table=ImGui::Button("Export cell table (Ctrl+Alt+X)") || (!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyAlt && !io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_X,false));
+                const bool export_table=ui::Button("Export cell table (Ctrl+Alt+X)") || (!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyAlt && !io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_X,false));
                 ImGui::EndDisabled();
                 if(can_export && export_table) {try {CellTableRequest request(document,{saved->id},cell_table_options);cell_table_job.request(request,cell_table_path);cell_table_error.clear();} catch(const std::exception& e) {cell_table_error=e.what();}}
             }
-            if(!has_geos()) ImGui::TextDisabled("Cell objects require GEOS");
+            if(!has_geos()) ui::TextDisabled("Cell objects require GEOS");
             if(!cell_status.error.empty()) ImGui::TextWrapped("Cells: %s",cell_status.error.c_str());
             if(!cell_preview.error().empty()) ImGui::TextWrapped("Cell preview: %s",cell_preview.error().c_str());
 
-        } else ImGui::TextDisabled("Select an annotation");
-        } else ImGui::TextDisabled("Select or add an image to use image tools.");
+        } else ui::TextDisabled("Select an annotation");
+        } else ui::TextDisabled("Select or add an image to use image tools.");
         if(!has_image && workspace.enabled()) {
-            ImGui::End();workspace.begin("Project and objects",workspace.browser);ImGui::TextDisabled("No active image");
+            ImGui::End();workspace.begin("Project and objects",workspace.browser);ui::TextDisabled("No active image");
             ImGui::End();workspace.begin("Measurements and jobs",workspace.measurements);
         }
         if(has_image || options.project) {
-            ImGui::SeparatorText("Cell table export");
-            ImGui::SetNextItemWidth(240);ImGui::InputTextWithHint("##Cell table path","Cell table .csv destination",cell_table_path,sizeof(cell_table_path));
-            ImGui::Checkbox("Require current measurements",&cell_table_options.require_current);
-            ImGui::Checkbox("Join live cell objects",&cell_table_options.published_objects);
+            ui::SeparatorText("Cell table export");
+            ui::SetNextItemWidth(240);ui::InputTextWithHint("##Cell table path","Cell table .csv destination",cell_table_path,sizeof(cell_table_path));
+            ui::Checkbox("Require current measurements",&cell_table_options.require_current);
+            ui::Checkbox("Join live cell objects",&cell_table_options.published_objects);
             if(cell_table_options.published_objects) {
                 ImGui::TextWrapped("Current names, classes and geometry; archived feature values. Missing measurements remain blank.");
                 ImGui::BeginDisabled(cell_table_job.busy() || !has_image);
-                const bool export_objects=ImGui::Button("Export image cells (Ctrl+Alt+X)") || (!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyAlt && !io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_X,false));
+                const bool export_objects=ui::Button("Export image cells (Ctrl+Alt+X)") || (!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyAlt && !io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_X,false));
                 ImGui::EndDisabled();
                 if(export_objects && !cell_table_job.busy() && has_image) {try {CellTableRequest request(document,{},cell_table_options);cell_table_job.request(request,cell_table_path);cell_table_error.clear();} catch(const std::exception& e) {cell_table_error=e.what();}}
             }
         }
         if(options.project) {
             ImGui::BeginDisabled(cell_table_job.busy());
-            const bool export_project=ImGui::Button("Export project cells (Ctrl+Shift+X)") || (!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyShift && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_X,false));
+            const bool export_project=ui::Button("Export project cells (Ctrl+Shift+X)") || (!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyShift && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_X,false));
             ImGui::EndDisabled();
             if(export_project && !cell_table_job.busy()) {try {CellTableRequest request(*options.project,{},cell_table_options);cell_table_job.request(request,cell_table_path);cell_table_error.clear();} catch(const std::exception& e) {cell_table_error=e.what();}}
         }
@@ -1764,7 +1778,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(table_status.state!="idle") {
             ImGui::Text("Cell table: %s",table_status.state.c_str());
             ImGui::Text("Cell rows: %llu / %llu",static_cast<unsigned long long>(table_status.rows),static_cast<unsigned long long>(table_status.total_rows));
-            if(cell_table_job.busy() && ImGui::Button("Cancel table (Ctrl+Alt+Shift+X)")) cell_table_job.cancel();
+            if(cell_table_job.busy() && ui::Button("Cancel table (Ctrl+Alt+Shift+X)")) cell_table_job.cancel();
             if(!table_status.error.empty()) ImGui::TextWrapped("%s",table_status.error.c_str());
         }
         if(!cell_table_error.empty()) ImGui::TextWrapped("%s",cell_table_error.c_str());
@@ -1774,17 +1788,17 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(measurement_key && io.KeyShift && io.KeyAlt) measurement_job.cancel();
         if(export_measurement_image || export_measurement_project) ImGui::SetNextItemOpen(true);
         if(ImGui::CollapsingHeader("ROI and tissue tables",options.measurement_table_path.empty()?0:ImGuiTreeNodeFlags_DefaultOpen)) {
-            ImGui::SetNextItemWidth(150);ImGui::Combo("Measurements",&measurement_kind,"ROI channel means\0Tissue components\0");
-            ImGui::SetNextItemWidth(240);ImGui::InputTextWithHint("##Measurement destination","Measurement .csv destination",measurement_path,sizeof(measurement_path));
-            ImGui::Checkbox("Require current ROI / tissue runs",&measurement_options.require_current);
+            ui::SetNextItemWidth(150);ui::Combo("Measurements",&measurement_kind,"ROI channel means\0Tissue components\0");
+            ui::SetNextItemWidth(240);ui::InputTextWithHint("##Measurement destination","Measurement .csv destination",measurement_path,sizeof(measurement_path));
+            ui::Checkbox("Require current ROI / tissue runs",&measurement_options.require_current);
             ImGui::TextWrapped("Archived results and capture-time calibration; empty tissue runs have a summary row.");
             ImGui::BeginDisabled(measurement_job.busy() || !has_image);
-            export_measurement_image=ImGui::Button("Export image (Ctrl+Alt+Q)") || export_measurement_image;ImGui::EndDisabled();
+            export_measurement_image=ui::Button("Export image (Ctrl+Alt+Q)") || export_measurement_image;ImGui::EndDisabled();
             ImGui::BeginDisabled(measurement_job.busy() || !options.project);
-            export_measurement_project=ImGui::Button("Export project (Ctrl+Shift+Q)") || export_measurement_project;ImGui::EndDisabled();
+            export_measurement_project=ui::Button("Export project (Ctrl+Shift+Q)") || export_measurement_project;ImGui::EndDisabled();
             const auto status=measurement_job.poll();
             if(status.state!="idle") {ImGui::Text("Measurements: %s",status.state.c_str());ImGui::Text("Rows: %llu / %llu",static_cast<unsigned long long>(status.rows),static_cast<unsigned long long>(status.total_rows));}
-            if(measurement_job.busy() && ImGui::Button("Cancel export (Ctrl+Alt+Shift+Q)")) measurement_job.cancel();
+            if(measurement_job.busy() && ui::Button("Cancel export (Ctrl+Alt+Shift+Q)")) measurement_job.cancel();
             if(!status.error.empty()) ImGui::TextWrapped("%s",status.error.c_str());
             if(!measurement_error.empty()) ImGui::TextWrapped("%s",measurement_error.c_str());
         }
@@ -1801,18 +1815,18 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         bool fingerprint_start=fingerprint_key;
         if(fingerprint_key) ImGui::SetNextItemOpen(true);
         if(ImGui::CollapsingHeader("File checksum",options.file_fingerprint_path.empty()?0:ImGuiTreeNodeFlags_DefaultOpen)) {
-            ImGui::Checkbox("Associate active image",&fingerprint_associate);
+            ui::Checkbox("Associate active image",&fingerprint_associate);
             ImGui::BeginDisabled(fingerprint_associate);
-            ImGui::SetNextItemWidth(240);ImGui::InputTextWithHint("##Fingerprint input","File to hash",fingerprint_path,sizeof(fingerprint_path));
-            if(has_image && ImGui::Button("Use image file")) {
+            ui::SetNextItemWidth(240);ui::InputTextWithHint("##Fingerprint input","File to hash",fingerprint_path,sizeof(fingerprint_path));
+            if(has_image && ui::Button("Use image file")) {
                 try {const auto path=document.server()->source_locator();if(path.empty()) throw std::invalid_argument("This image has no file locator; enter a path.");if(path.size()>32768) throw std::length_error("image locator is too long");std::fill(std::begin(fingerprint_path),std::end(fingerprint_path),0);std::copy(path.begin(),path.end(),fingerprint_path);} catch(const std::exception& e) {fingerprint_error=e.what();}
             }
             ImGui::EndDisabled();
             if(fingerprint_associate) ImGui::TextWrapped("Hashes the active image path; JSON includes its reader generation.");
-            ImGui::SetNextItemWidth(240);ImGui::InputTextWithHint("##Fingerprint output","Optional .json destination",fingerprint_output,sizeof(fingerprint_output));
+            ui::SetNextItemWidth(240);ui::InputTextWithHint("##Fingerprint output","Optional .json destination",fingerprint_output,sizeof(fingerprint_output));
             ImGui::TextWrapped("Hashes one file. Multi-file slides need separate entries.");
-            ImGui::BeginDisabled(fingerprint_job.busy());if(ImGui::Button("Hash file (Ctrl+Shift+F)")) fingerprint_start=true;ImGui::EndDisabled();
-            if(fingerprint_job.busy() && ImGui::Button("Cancel file hash")) fingerprint_job.cancel();
+            ImGui::BeginDisabled(fingerprint_job.busy());if(ui::Button("Hash file (Ctrl+Shift+F)")) fingerprint_start=true;ImGui::EndDisabled();
+            if(fingerprint_job.busy() && ui::Button("Cancel file hash")) fingerprint_job.cancel();
             const auto status=fingerprint_job.poll();ImGui::Text("File checksum: %s",status.state.c_str());
             if(status.state!="idle") {ImGui::TextWrapped("Bytes: %llu / %llu",static_cast<unsigned long long>(status.bytes),static_cast<unsigned long long>(status.total_bytes));ImGui::TextWrapped("%s",status.path.c_str());}
             if(const auto value=fingerprint_job.result()) {ImGui::TextUnformatted("SHA-256:");ImGui::TextUnformatted(value->sha256.substr(0,32).c_str());ImGui::TextUnformatted(value->sha256.substr(32).c_str());ImGui::TextWrapped("Observed file metadata was stable while reading.");}
@@ -2118,15 +2132,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(workspace.enabled()) ImGui::End(); else ImGui::EndChild();
         ImGui::EndDisabled();
         if(maintenance_popup_requested) {ImGui::OpenPopup("Delete recovery checkpoint?"); maintenance_popup_requested=false;}
-        if(ImGui::BeginPopupModal("Delete recovery checkpoint?",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
+        if(ui::BeginPopupModal("Delete recovery checkpoint?",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
             if(reviewed_checkpoint) {
-                ImGui::PushTextWrapPos(ImGui::GetCursorPosX()+520);
+                ImGui::PushTextWrapPos(ImGui::GetCursorPosX()+std::min(520.f*ui_scale.logical,ui::available()));
                 ImGui::TextWrapped("Permanently delete this recovery checkpoint? This does not discard the live workspace or change the primary project.");
                 ImGui::TextWrapped("%s",reviewed_checkpoint->path.c_str());
                 ImGui::TextWrapped("%s / %zu images",recovery_label(*reviewed_checkpoint).c_str(),reviewed_checkpoint->images);
                 ImGui::TextWrapped("Automatic recovery saving or another open window may create another checkpoint later.");
                 ImGui::PopTextWrapPos();
-                if(ImGui::Button("Permanently delete checkpoint")) {
+                if(ui::Button("Permanently delete checkpoint")) {
                     auto reviewed=*reviewed_checkpoint; maintenance_epoch=workspace_epoch; maintenance_error.clear();
                     maintenance_job=std::async(std::launch::async,[reviewed] {
                         MaintenanceResult result;
@@ -2137,63 +2151,63 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 }
                 confirm_checkpoint_offset=ImGui::GetItemRectMin(); auto confirm_max=ImGui::GetItemRectMax(); confirm_checkpoint_size={confirm_max.x-confirm_checkpoint_offset.x,confirm_max.y-confirm_checkpoint_offset.y}; mark_target(GuiInputTarget::ConfirmDiscardCheckpoint);
                 ImGui::SameLine();
-                if(ImGui::Button("Cancel")) {reviewed_checkpoint.reset(); maintenance_dialog_active=false; ImGui::CloseCurrentPopup();}
+                if(ui::Button("Cancel")) {reviewed_checkpoint.reset(); maintenance_dialog_active=false; ImGui::CloseCurrentPopup();}
                 cancel_checkpoint_offset=ImGui::GetItemRectMin(); auto cancel_max=ImGui::GetItemRectMax(); cancel_checkpoint_size={cancel_max.x-cancel_checkpoint_offset.x,cancel_max.y-cancel_checkpoint_offset.y}; mark_target(GuiInputTarget::CancelDiscardCheckpoint);
             }
             ImGui::EndPopup();
         }
         if(remove_popup_requested) { ImGui::OpenPopup("Remove image?"); remove_popup_requested=false; }
-        if(ImGui::BeginPopupModal("Remove image?",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
+        if(ui::BeginPopupModal("Remove image?",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
             const auto item=std::find_if(project_images.begin(),project_images.end(),[&](const auto& image){return image.id==active_image;});
             ImGui::TextWrapped("Remove %s from this project?",item==project_images.end()?"this image":item->name.c_str());
             ImGui::TextWrapped("This removes its %zu objects, view and editing history from the workspace. Undo cannot restore the entry. Save project to persist the removal. The source image file stays on disk.",document.object_count());
-            if(ImGui::Button("Remove image")) { pending_remove=active_image; remove_dialog_active=false; ImGui::CloseCurrentPopup(); }
+            if(ui::Button("Remove image")) { pending_remove=active_image; remove_dialog_active=false; ImGui::CloseCurrentPopup(); }
             confirm_remove_offset=ImGui::GetItemRectMin(); auto confirm_max=ImGui::GetItemRectMax(); confirm_remove_size={confirm_max.x-confirm_remove_offset.x,confirm_max.y-confirm_remove_offset.y}; mark_target(GuiInputTarget::ConfirmRemoveImage);
             ImGui::SameLine();
-            if(ImGui::Button("Cancel")) { remove_dialog_active=false; ImGui::CloseCurrentPopup(); }
+            if(ui::Button("Cancel")) { remove_dialog_active=false; ImGui::CloseCurrentPopup(); }
             cancel_remove_offset=ImGui::GetItemRectMin(); auto cancel_max=ImGui::GetItemRectMax(); cancel_remove_size={cancel_max.x-cancel_remove_offset.x,cancel_max.y-cancel_remove_offset.y}; mark_target(GuiInputTarget::CancelRemoveImage);
             ImGui::EndPopup();
         }
         if(recovery_popup_requested) { ImGui::OpenPopup("Replace workspace?"); recovery_popup_requested=false; }
-        if(ImGui::BeginPopupModal("Replace workspace?",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
+        if(ui::BeginPopupModal("Replace workspace?",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
             if(close_recovery_popup) { ImGui::CloseCurrentPopup(); close_recovery_popup=false; recovery_dialog_active=false; }
             else {
                 ImGui::TextWrapped(staged_is_recovery?"Replace this workspace with the selected recovery? Save or discard its current unsaved changes first.":"Replace this workspace with the opened project? Save or discard its current unsaved changes first.");
                 if(staged_project) ImGui::TextWrapped("Open: %s",staged_is_recovery?staged_project->recovery_source().c_str():(staged_project->path().empty()?"New empty project":staged_project->path().c_str()));
                 if(staged_project && staged_is_recovery && !staged_project->path().empty()) ImGui::TextWrapped("Saved project location: %s",staged_project->path().c_str());
-                ImGui::SetNextItemWidth(400); ImGui::InputTextWithHint("##Save before recovery","Current project destination",project_path,sizeof(project_path));
+                ui::SetNextItemWidth(400); ui::InputTextWithHint("##Save before recovery","Current project destination",project_path,sizeof(project_path));
                 ImGui::BeginDisabled(restore_pending || restore_after_save || save_job.busy());
-                if(ImGui::Button(staged_is_recovery?"Save current and recover":"Save current and open")) { save_project_requested=true; restore_after_save=true; }
+                if(ui::Button(staged_is_recovery?"Save current and recover":"Save current and open")) { save_project_requested=true; restore_after_save=true; }
                 save_recovery_offset=ImGui::GetItemRectMin(); auto sr=ImGui::GetItemRectMax(); save_recovery_size={sr.x-save_recovery_offset.x,sr.y-save_recovery_offset.y}; mark_target(GuiInputTarget::SaveRecoveryReplacement);
-                if(ImGui::Button(staged_is_recovery?"Discard current and recover":"Discard current and open")) { autosave.cancel(); restore_pending=true; }
+                if(ui::Button(staged_is_recovery?"Discard current and recover":"Discard current and open")) { autosave.cancel(); restore_pending=true; }
                 discard_recovery_offset=ImGui::GetItemRectMin(); auto dr=ImGui::GetItemRectMax(); discard_recovery_size={dr.x-discard_recovery_offset.x,dr.y-discard_recovery_offset.y}; mark_target(GuiInputTarget::DiscardRecoveryReplacement);
-                if(ImGui::Button("Cancel")) {
+                if(ui::Button("Cancel")) {
                     staged_project.reset();
                     recovery_dialog_active=false; ImGui::CloseCurrentPopup();
                 }
                 cancel_recovery_offset=ImGui::GetItemRectMin(); auto cr=ImGui::GetItemRectMax(); cancel_recovery_size={cr.x-cancel_recovery_offset.x,cr.y-cancel_recovery_offset.y}; mark_target(GuiInputTarget::CancelRecoveryReplacement);
                 ImGui::EndDisabled();
-                if(restore_pending) ImGui::TextDisabled("Preparing workspace...");
+                if(restore_pending) ui::TextDisabled("Preparing workspace...");
                 if(!project_error.empty()) ImGui::TextWrapped("%s",project_error.c_str());
             }
             ImGui::EndPopup();
         }
         if(close_popup_requested) { ImGui::OpenPopup("Unsaved project"); close_popup_requested=false; }
-        if(ImGui::BeginPopupModal("Unsaved project",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
+        if(ui::BeginPopupModal("Unsaved project",nullptr,ImGuiWindowFlags_AlwaysAutoResize)) {
             ImGui::TextWrapped("Save this project, keep a recovery copy, or discard its unsaved changes before closing.");
-            ImGui::SetNextItemWidth(400); ImGui::InputTextWithHint("##Close save path","Project destination",project_path,sizeof(project_path));
-            ImGui::SetNextItemWidth(400); ImGui::InputTextWithHint("##Close recovery path","Automatic recovery destination",autosave_path,sizeof(autosave_path));
+            ui::SetNextItemWidth(400); ui::InputTextWithHint("##Close save path","Project destination",project_path,sizeof(project_path));
+            ui::SetNextItemWidth(400); ui::InputTextWithHint("##Close recovery path","Automatic recovery destination",autosave_path,sizeof(autosave_path));
             ImGui::BeginDisabled(close_action!=0);
-            if(ImGui::Button("Save and close")) { save_project_requested=true; close_action=1; close_wait_only=false; }
+            if(ui::Button("Save and close")) { save_project_requested=true; close_action=1; close_wait_only=false; }
             save_close_offset=ImGui::GetItemRectMin(); auto sc=ImGui::GetItemRectMax(); save_close_size={sc.x-save_close_offset.x,sc.y-save_close_offset.y}; mark_target(GuiInputTarget::SaveClose);
-            if(ImGui::Button("Keep recovery and close")) { close_action=2; close_keep_started=false; }
+            if(ui::Button("Keep recovery and close")) { close_action=2; close_keep_started=false; }
             keep_close_offset=ImGui::GetItemRectMin(); auto kc=ImGui::GetItemRectMax(); keep_close_size={kc.x-keep_close_offset.x,kc.y-keep_close_offset.y}; mark_target(GuiInputTarget::KeepRecoveryClose);
-            if(ImGui::Button("Discard and close")) { autosave.clear(); close_action=3; }
+            if(ui::Button("Discard and close")) { autosave.clear(); close_action=3; }
             discard_close_offset=ImGui::GetItemRectMin(); auto dc=ImGui::GetItemRectMax(); discard_close_size={dc.x-discard_close_offset.x,dc.y-discard_close_offset.y}; mark_target(GuiInputTarget::DiscardClose);
-            if(ImGui::Button("Cancel")) { close_dialog_active=false; ImGui::CloseCurrentPopup(); }
+            if(ui::Button("Cancel")) { close_dialog_active=false; ImGui::CloseCurrentPopup(); }
             cancel_close_offset=ImGui::GetItemRectMin(); auto cc=ImGui::GetItemRectMax(); cancel_close_size={cc.x-cancel_close_offset.x,cc.y-cancel_close_offset.y}; mark_target(GuiInputTarget::CancelClose);
             ImGui::EndDisabled();
-            if(close_action) ImGui::TextDisabled("Finishing save...");
+            if(close_action) ui::TextDisabled("Finishing save...");
             if(!project_error.empty()) ImGui::TextWrapped("%s",project_error.c_str());
             if(!autosave_ui_error.empty()) ImGui::TextWrapped("%s",autosave_ui_error.c_str());
             ImGui::EndPopup();
@@ -2312,7 +2326,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         saved_cells?saved_cells->id:0,saved_cells?active_document->cell_status(saved_cells->id):std::string{},
         final_table.state,cell_table_error.empty()?final_table.error:cell_table_error,final_table.path,final_table.rows,final_table.bytes,final_table.capture_ms,final_table.write_ms,
         final_fingerprint.state,final_fingerprint.error.empty()?fingerprint_error:final_fingerprint.error,fingerprint_job.result(),final_fingerprint.bytes,final_fingerprint.elapsed_ms,
-        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied,batch.stats().state,batch.error(),batch.result(),suspended_iterations,suspended_work_ms,suspended_wait_ms,bool(glfwGetWindowAttrib(session.window,GLFW_ICONIFIED)),overview.state(),overview.error(),overview.result(),overview.bytes(),overview.peak_bytes(),workspace.enabled(),workspace.loaded(),layout_saved,workspace.error(),workspace.browser,workspace.display,workspace.measurements,workspace.canvas,canvas_visible,ui_scale.monitor,ui_scale.framebuffer,ui_scale.logical,font_rebuilds};
+        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied,batch.stats().state,batch.error(),batch.result(),suspended_iterations,suspended_work_ms,suspended_wait_ms,bool(glfwGetWindowAttrib(session.window,GLFW_ICONIFIED)),overview.state(),overview.error(),overview.result(),overview.bytes(),overview.peak_bytes(),workspace.enabled(),workspace.loaded(),layout_saved,workspace.error(),workspace.browser,workspace.display,workspace.measurements,workspace.canvas,canvas_visible,ui_scale.monitor,ui_scale.framebuffer,ui_scale.logical,font_rebuilds,ui::layout_stats.stacked_fields,ui::layout_stats.wrapped_buttons,ui::layout_stats.overflow_items,ui::layout_stats.max_overflow,ui::layout_stats.first_overflow};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

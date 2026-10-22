@@ -1479,6 +1479,8 @@ class GuiInputTarget(enum.Enum):
 
     RESET_LAYOUT = 19
 
+    SAVE_PROJECT = 20
+
 class GuiInputWait(enum.Enum):
     IMMEDIATE = 0
 
@@ -2011,6 +2013,21 @@ class GuiReport:
 
     @property
     def font_rebuilds(self) -> int: ...
+
+    @property
+    def ui_stacked_fields(self) -> int: ...
+
+    @property
+    def ui_wrapped_buttons(self) -> int: ...
+
+    @property
+    def ui_overflow_items(self) -> int: ...
+
+    @property
+    def ui_max_overflow(self) -> float: ...
+
+    @property
+    def ui_overflow_label(self) -> str: ...
 
     @property
     def overview_state(self) -> str: ...

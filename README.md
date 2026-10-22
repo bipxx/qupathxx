@@ -12,7 +12,8 @@ QuPath port or a compatible replacement for Java QuPath.
   can opt in; see the [docked workspace](docs/docked-workspace.md).
 
 - Monitor-aware fonts and controls support live UI size changes while preserving
-  the slide camera; see [UI scaling](docs/ui-scaling.md).
+  the slide camera; fields and buttons adapt to narrow panes. See
+  [UI scaling](docs/ui-scaling.md) and the [responsive workspace](docs/responsive-workspace.md).
 
 - Complete bounded thumbnails are available in C++, Python and the native CLI.
   The asynchronous ImGui overview rejects stale image results; see the

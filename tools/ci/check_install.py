@@ -108,6 +108,7 @@ def main():
                 raise RuntimeError('installed docked workspace did not save its separate layout preferences')
             assert report.browser_bounds.x < report.canvas_bounds.x < report.display_bounds.x
             assert report.canvas_bounds.y < report.measurement_bounds.y
+            assert report.ui_overflow_items == 0 and report.ui_max_overflow <= .75, (report.ui_overflow_label, report.ui_max_overflow)
             assert report.font_rebuilds == 1
             assert abs(report.ui_scale-report.monitor_scale/report.framebuffer_scale*1.25) < 1e-5
             if (report.framebuffer_width, report.framebuffer_height) != (requested.width, requested.height):
@@ -126,6 +127,10 @@ def main():
                       framebuffer_scale=report.framebuffer_scale if args.gui else None,
                       ui_scale=report.ui_scale if args.gui else None,
                       font_rebuilds=report.font_rebuilds if args.gui else None,
+                      ui_stacked_fields=report.ui_stacked_fields if args.gui else None,
+                      ui_wrapped_buttons=report.ui_wrapped_buttons if args.gui else None,
+                      ui_overflow_items=report.ui_overflow_items if args.gui else None,
+                      ui_max_overflow=report.ui_max_overflow if args.gui else None,
                       framebuffer=[report.framebuffer_width, report.framebuffer_height] if args.gui else None,
                       roi_samples=result.samples, native_batch_checkpoints=len(checkpoints))
     args.output.write_text(json.dumps(report, indent=2)+'\n', encoding='utf8')
