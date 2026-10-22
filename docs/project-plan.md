@@ -1863,3 +1863,26 @@ Installed 125% workspace, stubs, typing and standalone checks pass. The
 source and standalone ZIP identities, alongside local regression and navigation
 artifacts. The physical DPI, cold/dynamic hardware performance, vendor/parity,
 licensing/fixture and remaining M0–M7 release gates stay open.
+
+### Packet 67: native numeric classifier engine
+
+Adds an optional OpenCV 4.11.0 core/ML training backend, immutable ordered-float
+random forests, exact feature/unit contracts, deterministic seeds and tie
+handling, per-training-row vote verification, input/model digests, bounded
+portable model bytes and nanobind array snapshots. Prediction and model loading
+remain available in minimal builds without OpenCV. The pinned SDK builder,
+cache checks, notices and full CI configurations cover the training dependency.
+See [classifier engine](classifier-engine.md) for scientific limits and format.
+
+Local native tests pass 35/35 in the full Windows GUI build, 34/34 in Windows
+with training and no GUI, Linux with training, and Linux minimal without
+training. The classifier test also passes ASan/UBSan with leak detection.
+Installed Python classifier tests pass 10/10, source-exact stubs and strict
+positive/seven-error negative typing pass, and the installed 125% GUI workflow
+passes. The [numeric Windows sample](benchmarks/classifier-engine-windows.json)
+records 906 ms training and median 199 ms for 80,000-row prediction including
+input copies and Python results. Full Python regression and hosted CI are
+pending. This packet establishes
+the shared engine; object/pixel snapshots, background jobs, atomic undoable
+publication, retained project provenance and ImGui training are still required.
+The overall plan remains active with all other M0–M7 gaps retained.

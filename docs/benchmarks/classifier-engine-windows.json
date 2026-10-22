@@ -1,0 +1,42 @@
+{
+  "schema": "qpx.classifier-benchmark/1",
+  "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "numpy": "2.5.4",
+  "backend": "OpenCV/4.11.0/RTrees/ordered-f32/qpx-1",
+  "training_rows": 10000,
+  "prediction_rows": 80000,
+  "features": 8,
+  "classes": 3,
+  "trees": 64,
+  "nodes": 27216,
+  "max_depth": 10,
+  "seed": 671,
+  "training_ms": 906.474299961701,
+  "reload_ms": 0.41360000614076853,
+  "prediction_ms": [
+    186.4065999398008,
+    202.90330005809665,
+    196.13930000923574,
+    198.97290004882962,
+    206.03210001718253
+  ],
+  "median_prediction_ms": 198.97290004882962,
+  "fixture_agreement": 0.9749625,
+  "model_bytes": 544863,
+  "model_sha256": "de3a9cb3cbf3d4635f0a04c80a4a0236dab11040150b248efa39d18f955d9306",
+  "training_sha256": "ccc4592076e1e45896152e014b4dc6a302af24fa067de5ddcaa762e5bb9cf9bc",
+  "input_sha256": "4624f4ebc26c95986ebcb1aa55765375947796e56ab0ef46b15ac02c5219666b",
+  "native_sha256": "885d296d2181bef515fc366abdfdea5b0e7f75dea8fba9219edacfd8483fab89",
+  "includes": "Native traversal, input snapshot and Python result construction; five sequential calls, no warm-up discarded",
+  "excludes": "Image access, object features, document edits, GUI and biological validation",
+  "environment": {
+    "app_version": "0.1.0",
+    "source_tree_sha256": "08784ea01deade38df35abf8100cadca7e4b9feb886a37ab56b6b6ee4d8fd282",
+    "git_revision": "eaac93fe5d4f41666b0cab7aa3cfa0dd3f7effea+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "compiler_flags": "base=/DWIN32 /D_WINDOWS /EHsc;Release=/O2 /Ob2 /DNDEBUG;Debug=/Zi /Ob0 /Od /RTC1;RelWithDebInfo=/Zi /O2 /Ob1 /DNDEBUG;MinSizeRel=/O1 /Ob1 /DNDEBUG",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  }
+}

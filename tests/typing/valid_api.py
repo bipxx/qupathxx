@@ -107,3 +107,13 @@ def responsive_workspace(project: q.Project) -> tuple[int, int, int, float, str]
     options.inputs=[event]
     report=q.show(project,frame_limit=10,options=options)
     return report.ui_stacked_fields,report.ui_wrapped_buttons,report.ui_overflow_items,report.ui_max_overflow,report.ui_overflow_label
+
+
+def numeric_classifier(samples: NDArray[np.float32], labels: NDArray[np.uint32]) -> tuple[list[q.ClassifierPrediction], str]:
+    available: bool=q.has_classifier_training
+    if not available:
+        raise RuntimeError('training backend unavailable')
+    schema=[q.ClassifierFeature('area','um2')]
+    model=q.train_forest(samples,labels,schema,['small','large'],q.ForestParameters())
+    restored=q.ForestModel.from_bytes(model.to_bytes())
+    return restored.predict(samples,schema),restored.sha256

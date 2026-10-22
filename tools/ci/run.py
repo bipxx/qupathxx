@@ -13,6 +13,8 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import assets
+sys.path.insert(0, str(ROOT/'tools'))
+import build_opencv_sdk
 
 
 def run(args, log, env=None, timeout=2400, expected=0):
@@ -39,6 +41,23 @@ def ensure_geos(work):
         saved = dict(source='d5e5192a686d065eaed082de14dd26244c5c8e02bff16b2c6cce3265f648e00e',
                      files={p.relative_to(sdk).as_posix(): assets.sha(p) for p in sdk.rglob('*') if p.is_file()})
         marker.write_text(json.dumps(saved, indent=2)+'\n', encoding='utf8')
+    return sdk
+
+
+def ensure_opencv(work):
+    sdk = ROOT/'build/deps/opencv-sdk'
+    marker = sdk/'qupathxx-opencv-sdk.json'
+    if not marker.exists():
+        run([sys.executable, '-I', ROOT/'tools/build_opencv_sdk.py', '--jobs', '2'], work/'opencv-build.log')
+    saved = json.loads(marker.read_text(encoding='utf8'))
+    if (saved.get('schema') != 'qpx.opencv-sdk/1' or saved.get('version') != build_opencv_sdk.VERSION
+            or saved.get('commit') != build_opencv_sdk.COMMIT or saved.get('source_sha256') != build_opencv_sdk.SHA256
+            or saved.get('options') != build_opencv_sdk.OPTIONS or not saved.get('files')):
+        raise ValueError('cached OpenCV SDK configuration differs')
+    for name, digest in saved['files'].items():
+        path = (sdk/name).resolve()
+        if not path.is_relative_to(sdk.resolve()) or assets.sha(path) != digest:
+            raise ValueError('cached OpenCV SDK changed: '+name)
     return sdk
 
 
@@ -86,6 +105,7 @@ def main():
         run([sys.executable, '-I', ROOT/'tools/fetch_reader_fixtures.py'], work/'fixtures.log', env)
         env['QUPATHXX_APERIO_FIXTURE'] = str(ROOT/'build/fixtures/CMU-1-Small-Region.svs')
     geos = ensure_geos(work) if full else None
+    opencv = ensure_opencv(work) if full else None
     if geos:
         env['LD_LIBRARY_PATH'] = os.pathsep.join([str(geos/'lib'), str(geos/'lib64'), env.get('LD_LIBRARY_PATH', '')])
     flags = dict(QUPATHXX_BUILD_TESTS='ON', QUPATHXX_BUILD_GUI='ON' if args.mode == 'gui' else 'OFF',
@@ -93,9 +113,13 @@ def main():
                  QUPATHXX_BUILD_GEOS='ON' if full else 'OFF',
                  QUPATHXX_BUILD_INTERCHANGE='ON' if full else 'OFF',
                  QUPATHXX_BUILD_PROJECT='ON' if full else 'OFF',
+                 QUPATHXX_BUILD_CLASSIFIER_TRAINING='ON' if full else 'OFF',
                  QUPATHXX_BUILD_OPENSLIDE='ON' if full and args.mode != 'sanitize' else 'OFF')
     if geos:
         flags['GEOS_ROOT'] = str(geos)
+    if opencv:
+        flags['OpenCV_DIR'] = str(opencv if os.name == 'nt' else opencv/'lib/cmake/opencv4')
+        flags['QUPATHXX_OPENCV_NOTICES'] = str(opencv/'share/licenses/opencv')
     if openslide:
         flags['OpenSlide_ROOT'] = str(openslide)
         if os.name != 'nt':
@@ -149,6 +173,8 @@ def main():
     run(command, work/'installed-workflow.log', env)
     run([test_python, '-I', '-m', 'pytest', 'tests', '-q', '-o', 'faulthandler_timeout=60',
          f'--junitxml={work}/python-tests.xml'], work/'python-tests.log', env, 2400)
+    run([test_python, '-I', ROOT/'tools/benchmark_classifier.py', '--output', work/'classifier-benchmark.json'],
+        work/'classifier-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/generate_stubs.py', '--check'], work/'stubs.log', env)
     run([test_python, '-I', '-m', 'mypy', '--strict', 'tests/typing/valid_api.py', 'examples/live_workflow.py', 'examples/region_workflow.py'], work/'typing.log', env)
     negative_log = work/'typing-negative.log'

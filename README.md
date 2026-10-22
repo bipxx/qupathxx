@@ -51,6 +51,11 @@ QuPath port or a compatible replacement for Java QuPath.
   identities, Python jobs and ImGui estimate/apply controls. See
   [stain estimation](docs/stain-estimation.md).
 
+- Native random forests train through an optional pinned OpenCV backend and
+  expose portable model bytes, strict feature schemas and tree votes to Python.
+  Document classification and its UI are still in development; see the
+  [classifier engine contract](docs/classifier-engine.md).
+
 - Cached reader generations and open-time file observations persist in analysis
   provenance; Python and ImGui compare them with native file fingerprints through
   atomic association exports. See [reader source association](docs/reader-source-association.md).

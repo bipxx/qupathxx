@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    ClassifierFeature, ForestParameters, ClassifierPrediction, ForestModel, has_classifier_training, train_forest,
     default_workspace_layout_path,
     ThumbnailOptions, ThumbnailPlan, ThumbnailResult, ThumbnailStats, ThumbnailJob, plan_thumbnail, read_thumbnail,
     ViewerLimits, ViewerEvent, ViewerStats, ViewerSession,
@@ -29,6 +30,7 @@ from ._native import (
 )
 
 __all__ = [
+    "ClassifierFeature", "ForestParameters", "ClassifierPrediction", "ForestModel", "has_classifier_training", "train_forest",
     "default_workspace_layout_path",
     "ThumbnailOptions", "ThumbnailPlan", "ThumbnailResult", "ThumbnailStats", "ThumbnailJob", "plan_thumbnail", "read_thumbnail",
     "ViewerLimits", "ViewerEvent", "ViewerStats", "ViewerSession",

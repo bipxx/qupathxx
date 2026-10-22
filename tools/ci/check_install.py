@@ -35,7 +35,8 @@ def main():
         for suffix in ['licenses/geos/COPYING', 'licenses/sqlite/sqlite-LICENSE.txt', 'licenses/nlohmann-json/LICENSE.MIT']:
             if not any(name.endswith(suffix) for name in names):
                 raise RuntimeError('missing runtime notice: '+suffix)
-        required = ['nanobind/LICENSE', 'robin-map/LICENSE']
+        required = ['nanobind/LICENSE', 'robin-map/LICENSE', 'opencv/LICENSE',
+                    'opencv/softfloat-notice.txt', 'opencv/zlib-notice.txt', 'opencv/SOURCE-NOTICES.txt']
         if args.gui:
             required += ['glfw/LICENSE.md', 'imgui/LICENSE.txt', 'imgui/ProggyClean-LICENSE.txt',
                          'imgui/Khronos-LICENSE.txt', 'imgui/Khronos-NOTICE.txt', 'imgui/imgl3w-LICENSE.txt']
@@ -45,6 +46,7 @@ def main():
             if member not in names or len(wheel.read(member)) < 100:
                 raise RuntimeError('missing dependency notice: '+relative)
     assert q.has_gui == args.gui and q.has_geos and q.has_openslide and q.has_project and q.has_interchange
+    assert q.has_classifier_training
     reader_version = q.build_environment().openslide_version
     if args.openslide_version and reader_version != args.openslide_version:
         raise RuntimeError('loaded OpenSlide version differs from the verified SDK: '+reader_version)
