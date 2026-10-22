@@ -200,3 +200,51 @@ fixtures pass strict mypy, and seven intended negative cases reject. The standal
 live CLI example saves/reopens its output, and visual inspection checks the fixed
 status row and scripted ROI. The raw final performance record uses this exact
 native artifact. The full project goal remains active.
+
+Developer frame profiling is opt-in through `QUPATHXX_GUI_PROFILE`, an output
+filename read when the viewer starts. For example, in PowerShell:
+
+```powershell
+$env:QUPATHXX_GUI_PROFILE = "$PWD/build/gui-frames.json"
+python tools/benchmark_viewer_session.py --output build/live-profile.json
+Remove-Item Env:QUPATHXX_GUI_PROFILE
+```
+
+The private `qpx.gui-profile/1` trace retains the first 4096 rendered frames,
+then writes atomically at normal shutdown. It performs no file I/O in the frame
+loop. Each frame includes its sequence, startup-at-entry state, canvas cache
+hit, visible-object count and CPU phase timings. The source fingerprint is stored
+once at trace level. Model, widgets, tiles, cache setup,
+query, geometry, remaining UI and OpenGL submission phases partition timed CPU
+work. Query also includes image/preview draw-command preparation; widget time
+includes GLFW/ImGui frame setup. This is CPU wall timing, including any driver
+waits during GL submission, rather than GPU execution timing. Swap/presentation
+and work before the frame loop are outside these phase totals. Profiling an
+empty/loading canvas attributes its UI preparation to `other_ms`; phases not
+visited remain zero. An invalid/unwritable profile destination reports an error.
+
+The [initial phase trace](benchmarks/gui-profile-before-windows.json) isolates
+272.74 ms in the first OpenGL render, with no visible objects. The following
+100001-object rebuild spends 30.57 ms in geometry and 4.80 ms in spatial querying.
+Dense selections now avoid repeated per-object selection-tree searches: complete
+selections use their synchronized count; substantial partial selections walk a
+sorted snapshot. Small views of large selections retain bounded per-object tree
+lookups rather than copying the entire selection. Render order, geometry, labels
+and class/selection colors are preserved. A regression compares canvas pixels
+between dense and sparse membership paths with the same visible selection.
+
+The [new trace](benchmarks/gui-profile-windows.json) and its
+[matching workload record](benchmarks/live-viewer-profile-windows.json) measure
+17.176 ms p95 GUI CPU work and 276.13 ms maximum. The
+[initial workload record](benchmarks/live-viewer-profile-before-windows.json)
+measures 17.066 ms p95 and 272.91 ms maximum. Geometry phases vary across these
+runs; they do not establish a performance improvement. Both retain the same
+mixed close-after-jobs scope without appended idle frames. The initial trace
+predates the additive `other_ms` field, so its phase sums omit remaining UI work.
+Each matching workload record identifies the exact native binary and source.
+The first-render delay and cold large-scene rebuild remain open performance work.
+
+The profiled wheel passes 1145 Python cases with two existing Windows symlink
+permission skips in 309.94 s, all 33 native tests and the public stub check.
+The dense/sparse selection fixture also receives a visual check. These checks
+validate this packet; broader compatibility and performance gates remain open.

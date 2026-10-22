@@ -16,6 +16,7 @@
 #include "viewer_bridge.hpp"
 #include <mutex>
 #include "gui_overlay.hpp"
+#include "gui_profile.hpp"
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <imgui_impl_glfw.h>
@@ -129,6 +130,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if (!capture_path.empty() && !frame_limit) throw std::invalid_argument("capture_path requires a positive frame_limit");
     if(options.settle_tiles && !frame_limit) throw std::invalid_argument("tile settlement requires a positive frame_limit");
     GuiReplay replay(options.inputs,options.replay_timeout_seconds);
+    detail::GuiProfiler profiler;
     GuiReplayDeadline settlement(options.replay_timeout_seconds);
     options.display.validate();
     if(options.analysis_vectors.size()!=6 || options.analysis_white.size()!=3 || options.analysis_kind<0 || options.analysis_kind>1)
@@ -463,6 +465,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             else {if(!options.settle_tiles) break;settlement.check(std::chrono::steady_clock::now(),"tile uploads");}
         }
         auto frame_start=std::chrono::steady_clock::now();
+        detail::GuiFrameSample profile;profile.frame=frames;profile.startup=startup_active;auto profile_mark=frame_start;
+        auto profile_lap=[&] {if(!profiler.enabled()) return 0.;const auto now=std::chrono::steady_clock::now();const auto ms=std::chrono::duration<double,std::milli>(now-profile_mark).count();profile_mark=now;return ms;};
         if(retired_workspace.valid() && retired_workspace.wait_for(std::chrono::seconds(0))==std::future_status::ready)
             max_retirement_ms=std::max(max_retirement_ms,retired_workspace.get());
         poll_maintenance();
@@ -650,6 +654,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         if(live) live->pump(live_context());
         if(exit_requested) break;
+        profile.model_ms=profile_lap();
         glfwPollEvents(); ImGui_ImplOpenGL3_NewFrame(); ImGui_ImplGlfw_NewFrame();
         // Test/benchmark replay enters the same ImGui event queue as GLFW input.
         auto& input=ImGui::GetIO();
@@ -1790,6 +1795,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         auto* draw = ImGui::GetWindowDrawList();
         draw->PushClipRect(offset, {offset.x+size.x, offset.y+size.y}, true);
+        profile.widgets_ms=profile_lap();
         draw->AddRectFilled(offset, {offset.x+size.x,offset.y+size.y}, IM_COL32(18,21,27,255));
         auto dpi=std::max(io.DisplayFramebufferScale.x,io.DisplayFramebufferScale.y);
         auto inputs=std::make_tuple(viewport.origin.x,viewport.origin.y,viewport.zoom,size.x,size.y,dpi);
@@ -1802,6 +1808,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         const auto detected=cell_job.result();cell_preview.update(detected?(cell_preview_body?detected->cells():detected->nuclei()):nullptr,show_cells);
         for(const auto& tile:plan.tiles) tiles->texture(tile); // Preserve tile LRU use even on a canvas-cache hit.
         if(!overlay_display || !(*overlay_display==display)) {overlay_cache.clear();overlay_display=display;}
+        profile.tiles_ms=profile_lap();
         const auto visible_min=viewport.screen_to_image({0,0}),visible_max=viewport.screen_to_image({size.x,size.y});
         const auto clip=draw->_CmdHeader.ClipRect;const auto* shared=ImGui::GetDrawListSharedData();
         const OverlayKey next_overlay_key{&document,selection.get(),document.render_revision(),selection->revision(),selected,viewport.zoom,viewport.origin.x,viewport.origin.y,
@@ -1809,7 +1816,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             draw->Flags,shared->TexUvWhitePixel.x,shared->TexUvWhitePixel.y,shared->CurveTessellationTol,shared->CircleSegmentMaxError,
             tiles->uploads(),tiles->generations(),tissue.poll(document,selected).generation,cell_job.poll(document,selected).generation,tiles->bytes(),tissue.result().get(),detected.get(),
             show_tissue,show_cells,tissue_preview.ready(),cell_preview.ready(),cell_preview_body};
-        if(overlay_cache.prepare(next_overlay_key,clip,max_texture,options.overlay_cache_budget)) overlay_cache.draw(draw);
+        const bool overlay_hit=overlay_cache.prepare(next_overlay_key,clip,max_texture,options.overlay_cache_budget);profile.cache_hit=overlay_hit;profile.cache_ms=profile_lap();
+        if(overlay_hit) overlay_cache.draw(draw);
         else {
         for (const auto& tile : plan.tiles) if (auto texture=tiles->texture(tile)) {
             draw->AddImage(static_cast<ImTextureID>(texture),screen(viewport,{tile.bounds.x,tile.bounds.y},offset),
@@ -1818,12 +1826,24 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(show_tissue) tissue_preview.draw(draw,viewport,offset,size);
         if(show_cells) cell_preview.draw(draw,viewport,offset,size);
         auto visible_ids=document.query_region({visible_min.x,visible_min.y,visible_max.x-visible_min.x,visible_max.y-visible_min.y});
-        visible_count=visible_ids.size();
+        visible_count=visible_ids.size();profile.query_ms=profile_lap();
+        // Dense selections use a single sorted walk. Sparse views retain tree
+        // lookups so a tiny viewport never copies a large off-screen selection.
+        const auto selection_count=selection->size();
+        const bool all_selected=selection_count==document.objects().size();
+        const bool merge_selection=!all_selected && selection_count>=64 && visible_ids.size()>=64 && selection_count/4<=visible_ids.size();
+        const auto selected_ids=merge_selection?selection->ids():std::vector<std::uint64_t>{};
+        auto selected_cursor=selected_ids.begin();
         for (auto id:visible_ids) {
+            bool is_selected=all_selected;
+            if(merge_selection) {
+                while(selected_cursor!=selected_ids.end() && *selected_cursor<id) ++selected_cursor;
+                is_selected=selected_cursor!=selected_ids.end() && *selected_cursor==id;
+            } else if(!all_selected && selection_count) is_selected=selection->contains(id);
             const auto& a=document.objects().at(id); const auto r=a.geometry.bounds();
             auto p0 = screen(viewport,{r.x,r.y},offset);
-            auto color = selection->contains(a.id) ? IM_COL32(255,205,85,255) : IM_COL32(65,225,190,255);
-            if(!selection->contains(a.id) && !a.class_name.empty()) {
+            auto color = is_selected ? IM_COL32(255,205,85,255) : IM_COL32(65,225,190,255);
+            if(!is_selected && !a.class_name.empty()) {
                 auto found=document.classes().find(a.class_name);
                 if(found!=document.classes().end()) {
                     auto rgb=found->second.color; color=IM_COL32((rgb>>16)&255,(rgb>>8)&255,rgb&255,255);
@@ -1835,6 +1855,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             // every visible detection. Keep annotation names and selected labels.
             if(!a.is_detection() || a.id==selected) draw->AddText(p0,color,a.name.c_str());
         }
+        profile.geometry_ms=profile_lap();
         overlay_cache.capture(draw);
         }
         if(tool==6 && vertex_id) {
@@ -2037,10 +2058,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 next_autosave=std::chrono::steady_clock::now()+std::chrono::duration<double>(std::max(1.,autosave_interval));
             }
         }
+        profile.other_ms=profile_lap();
         ImGui::Render(); int w,h; glfwGetFramebufferSize(session.window,&w,&h); last_width=w; last_height=h; glViewport(0,0,w,h);
         glClearColor(.07f,.08f,.1f,1); glClear(GL_COLOR_BUFFER_BIT);
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+        profile.render_ms=profile_lap();profile.visible=visible_count;
         auto cpu_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-frame_start).count();
+        profile.total_ms=cpu_ms;profiler.add(profile);
         if (frames>=10 || startup_requested) {
             if (frame_times.size()==4096) frame_times.erase(frame_times.begin(),frame_times.begin()+2048);
             frame_times.push_back(cpu_ms);
@@ -2092,6 +2116,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if(autosave.busy()) autosave.wait();
     if(maintenance_job.valid()) {maintenance_job.wait(); poll_maintenance(true);}
     if(retired_workspace.valid()) max_retirement_ms=std::max(max_retirement_ms,retired_workspace.get());
+    profiler.save();
     std::sort(frame_times.begin(),frame_times.end());
     auto p95=frame_times.empty()?0:frame_times[static_cast<std::size_t>((frame_times.size()-1)*.95)];
     const bool empty=options.project && !active_image;

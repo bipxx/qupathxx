@@ -126,3 +126,62 @@ def test_finished_native_preview_invalidates_cached_canvas(tmp_path, cells):
         # Inspector displays nondeterministic worker timing; compare canvas bytes.
         captures.append(np.frombuffer(pixels,dtype=np.uint8).reshape(height,width,3)[60:,310:].copy())
     np.testing.assert_array_equal(*captures)
+
+
+def test_opt_in_frame_profile_reports_bounded_phase_timings(tmp_path, monkeypatch):
+    import json
+
+    path = tmp_path/'frames.json'
+    monkeypatch.setenv('QUPATHXX_GUI_PROFILE', str(path))
+    report = q.show(document(), frame_limit=15)
+    trace = json.loads(path.read_text())
+    assert trace['schema'] == 'qpx.gui-profile/1'
+    assert trace['source_tree_sha256'] == q.build_environment().source_tree_sha256
+    assert len(trace['frames']) == min(report.frames, 4096)
+    phases = ['model_ms', 'widgets_ms', 'tiles_ms', 'cache_ms', 'query_ms',
+              'geometry_ms', 'other_ms', 'render_ms']
+    for frame in trace['frames']:
+        assert all(frame[key] >= 0 for key in phases)
+        assert sum(frame[key] for key in phases) <= frame['total_ms'] + .01
+    assert any(frame['cache_hit'] for frame in trace['frames'])
+
+
+@pytest.mark.skipif(not q.has_project, reason='project workspace')
+def test_dense_and_sparse_selection_paths_preserve_canvas_pixels(tmp_path):
+    from test_viewer_session import completed, run
+
+    doc = q.Document(q.Image(1024, 1024, [35, 60, 90]*1024*1024))
+    doc.set_history_limits(0, 0)
+    edits = [q.ObjectEdit.create_geometry(
+        q.Roi.rectangle(q.Rect(6+(i%16)*7, 8+(i//16)*12, 5, 7)),
+        kind=q.ObjectKind.DETECTION, class_name='Tumor') for i in range(128)]
+    edits += [q.ObjectEdit.create_geometry(q.Roi.rectangle(q.Rect(900+(i%32)*2, 900+(i//32)*2, 1, 1)),
+              kind=q.ObjectKind.DETECTION) for i in range(512)]
+    doc.execute(edits)
+    doc.set_class('Tumor', 0xe03080)
+    project = q.Project()
+    project.add_document(doc)
+    view = q.ProjectView()
+    view.center, view.zoom = q.Point(64, 64), 4
+    project.set_view(1, view)
+    source = tmp_path/'selection.qpxproj'
+    project.save(str(source))
+    captures = []
+    visible_selection = list(range(1, 97))
+    for extra in [[], list(range(129, 641))]:
+        session = q.ViewerSession(str(source))
+        # Keep the primary visible object identical in both presentations.
+        selected = extra + visible_selection
+        def producer():
+            completed(session, session.catalog())
+            completed(session, session.select(1, selected))
+        capture = tmp_path/f'selection-{len(extra)}.ppm'
+        options = q.GuiOptions()
+        options.settle_tiles = True
+        report = run(session, producer, frames=40, options=options, capture=str(capture))
+        assert report.selected_ids == sorted(selected)
+        assert report.visible_objects == 128
+        _, dimensions, _, pixels = capture.read_bytes().split(b'\n', 3)
+        width, height = map(int, dimensions.split())
+        captures.append(np.frombuffer(pixels, dtype=np.uint8).reshape(height, width, 3)[60:,310:].copy())
+    np.testing.assert_array_equal(*captures)

@@ -1454,3 +1454,16 @@ fixtures pass strict mypy, and seven intended negative cases reject. The standal
 live CLI example saves/reopens its output, and visual inspection checks the fixed
 status row and scripted ROI. The raw final performance record uses this exact
 native artifact. The full project goal remains active.
+
+Packet 56 adds bounded developer CPU phase traces and removes redundant
+selection membership lookups from dense canvas rebuilds. Dense/sparse paths
+preserve exact canvas pixels. First OpenGL submission (272.74 ms before visible
+objects) is isolated from spatial queries and geometry. New versus baseline
+profiled mixed runs measure 17.176 / 17.066 ms p95 and 276.13 / 272.91 ms maximum;
+no overall speedup is established. Raw source/native-identified records and phase
+traces are retained; docs/live-viewer.md documents the opt-in tool and scope.
+Cold-render/M2 and remaining M0-M7 gates remain open.
+
+Packet 56 validation: 1145 installed-wheel Python cases pass with two existing
+Windows symlink permission skips (309.94 s), and all 33 native cases pass. Public
+stubs match; dense/sparse selection pixels match and are visually inspected.

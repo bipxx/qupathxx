@@ -620,3 +620,26 @@ fixtures pass strict mypy, and seven intended negative cases reject. The standal
 live CLI example saves/reopens its output, and visual inspection checks the fixed
 status row and scripted ROI. The raw final performance record uses this exact
 native artifact. The full project goal remains active.
+
+The fifty-sixth packet adds opt-in, bounded per-frame CPU phase profiling and
+removes redundant selection-tree searches during canvas rebuilds. The trace
+separates driver submission from spatial queries, geometry and model/UI work;
+4096 records are retained without frame-loop I/O. Dense selection membership
+uses a sorted walk, full selection uses synchronized counts, and tiny views
+of large selections keep sparse lookups. Existing geometry/order/labels/colors
+are preserved. Exact canvas comparison covers dense versus sparse membership.
+
+The initial trace isolates a 272.74 ms first OpenGL render before objects become
+visible; a subsequent 100001-object geometry rebuild takes 30.57 ms. The new
+mixed workload records 17.176 ms p95 and 276.13 ms maximum, versus 17.066 ms /
+272.91 ms in the profiled baseline. These runs do not establish a speedup or meet
+the cold-frame goal. Source/native-identified raw traces and matching workload
+records are retained under docs/benchmarks; see live-viewer.md for timing scope.
+The 16 overlay/profiling cases pass, including exact dense/sparse canvas pixels;
+all 33 native tests pass. The broader project goal and M0-M7 gates remain active.
+
+Final installed-wheel validation passes 1145 Python cases with two existing
+Windows symlink permission skips in 309.94 s. All 33 native cases pass; public
+stubs match the installed module. The dense/sparse fixture is visually inspected
+in addition to its exact canvas comparison. Benchmark/trace records use this
+same native artifact; the full project goal remains active.
