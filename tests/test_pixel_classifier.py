@@ -79,3 +79,20 @@ def test_all_invalid_is_owned_empty_mask(scene):
     result=q.classify_pixels(q.PixelBuffer.from_numpy(pixels),scene[2])
     assert result.valid_pixels==result.classified_pixels==0 and result.class_counts==[0,0]
     assert not result.labels_numpy().any() and np.isnan(result.vote_fractions_numpy()).all()
+
+
+def test_saved_stain_recipe_preserves_transform_and_predictions(scene):
+    pixels,buffer,_,expected=scene
+    transform=q.StainTransform([[.65,.70,.29],[.27,.57,.78]],white=[230,240,250])
+    options=q.PixelFeatureOptions();options.rgb=False;options.optical_density=options.stains=True;options.sigmas=[0,1]
+    features=q.extract_pixel_features(buffer,options,transform);valid=features.valid_numpy().ravel().astype(bool)
+    parameters=q.ForestParameters();parameters.trees=8;parameters.max_depth=4
+    forest=q.train_forest(features.numpy().reshape(-1,options.feature_count)[valid],expected.ravel()[valid],features.features,['red','blue'],parameters)
+    recipe=q.PixelClassifier(forest,options,transform);portable=q.PixelClassifier.from_bytes(recipe.to_bytes())
+    assert portable.transform.white==transform.white and portable.transform.stains==transform.stains
+    assert portable.to_bytes()==recipe.to_bytes()
+    result=q.classify_pixels(buffer,recipe);reopened=q.classify_pixels(buffer,portable)
+    assert result.sha256==reopened.sha256
+    np.testing.assert_array_equal(result.labels_numpy()[pixels[:,:,3]==255],expected[pixels[:,:,3]==255]+1)
+    changed=q.StainTransform([[.65,.70,.29],[.27,.57,.78]],white=[220,240,250])
+    with pytest.raises(ValueError,match='schema'):q.PixelClassifier(forest,options,changed)
