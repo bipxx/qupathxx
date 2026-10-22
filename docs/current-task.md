@@ -8,12 +8,12 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the final installed-wheel regression passes 960 Python cases with two file-symlink cases
+Evidence: the final installed-wheel regression passes 984 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
-and recovery; twenty-seven native suites pass in the full GUI build and
-twenty-six pass in core/minimal builds with optional geometry/readers/
+and recovery; twenty-eight native suites pass in the full GUI build and
+twenty-seven pass in core/minimal builds with optional geometry/readers/
 interchange enabled and disabled. The installed GUI wheel includes its
 packaged runtime libraries and licenses.
 All cell-archive and cell-table cases are included in that full run.
@@ -405,8 +405,18 @@ Mixed-status document/filter/project CSVs match their previous bytes. Capturing
 16.85 ms p95 CPU frame work and 2.85 ms GUI capture. The 131072-row logical payload
 falls by about 10.8 MB. See cell-object-tables.md for scope and raw evidence.
 
-Next complete full-file/binary/runtime manifests and project-wide ROI/tissue
-feature tables. Continue
+The forty-ninth packet adds explicit native file observations through Python and
+ImGui: bounded streaming SHA-256, filesystem identity/write/change checks,
+progress/cancellation, immutable results and optional atomic JSON. Input paths and
+hardlink/renamed aliases are protected from JSON replacement. A 1 GiB warm file
+hashes in 658 ms at 1555 MiB/s with 0.074 ms request and 0.091 ms maximum poll;
+the 100000-object selected viewer records 16.88 ms p95 CPU frame work while hashing.
+See file-fingerprints.md. This observes a chosen file at hashing time; it does not
+retroactively bind archived reader bytes or enumerate a multi-file slide.
+
+Next associate file observations with reader/request generations, enumerate slide
+file dependencies, complete native binary/Python/runtime inventories and portable
+manifests, and implement project-wide ROI/tissue feature tables. Continue
 numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged

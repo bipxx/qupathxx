@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    FileFingerprintOptions, FileFingerprint, FileFingerprintStats, FileFingerprintJob, fingerprint_file, file_fingerprint_json, save_file_fingerprint,
     BuildEnvironment, AnalysisProvenance, build_environment, provenance_json, save_provenance,
     CellTableOptions, CellTableRequest, CellTableExportStats, CellTableExportJob, cell_measurements_csv, save_cell_measurements_csv,
     CellFeatureLink, CellRecord, CellParameters, CellRequest, CellMarker, CellFeature, CellResult, CellStats, CellJob, detect_cells,
@@ -21,6 +22,7 @@ from ._native import (
 )
 
 __all__ = [
+    "FileFingerprintOptions", "FileFingerprint", "FileFingerprintStats", "FileFingerprintJob", "fingerprint_file", "file_fingerprint_json", "save_file_fingerprint",
     "BuildEnvironment", "AnalysisProvenance", "build_environment", "provenance_json", "save_provenance",
     "CellTableOptions", "CellTableRequest", "CellTableExportStats", "CellTableExportJob", "cell_measurements_csv", "save_cell_measurements_csv",
     "CellFeatureLink", "CellRecord", "CellParameters", "CellRequest", "CellMarker", "CellFeature", "CellResult", "CellStats", "CellJob", "detect_cells",

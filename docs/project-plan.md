@@ -1226,3 +1226,26 @@ The final installed GUI wheel passes 960 Python cases with two Windows file-
 symlink cases skipped. Native full/core/minimal suites pass (27/26/26), and the
 focused table/archive/provenance/desktop selection passes 105 cases. Public
 request/options and CSV schemas retain their previous meaning.
+
+
+The forty-ninth packet adds explicit file fingerprints in the C++ core, nanobind
+and ImGui. A bounded native worker hashes one regular file, validates handle and
+path identity/length/write/change observations, reports progress and supports
+cooperative cancellation. Optional JSON commits atomically and input/hardlink/
+renamed aliases cannot become the output. Read-only results preserve observation
+history without retaining a reader, document, Python owner or open file. The
+sidebar supports manual/current-image paths, a JSON destination and keyboard
+start/cancel commands. See [file fingerprints](file-fingerprints.md).
+
+The installed GUI wheel passes 984 Python cases with two Windows file-symlink
+cases skipped; native full/core/minimal suites pass (28/27/27). Twenty-four new
+cases cover independent digests, chunk edges, Unicode, limits, alias preservation,
+atomic files, writer conflicts, lifetime, GIL release and desktop flows. Visual
+review verifies the complete digest and progress; a desktop cancel preserves its
+old destination. A 1 GiB warm observation takes 658.47 ms (1555 MiB/s), with
+0.074 ms request and 0.091 ms maximum sampled poll. The selected/all-visible
+100000-object viewer measures 16.88 ms p95 CPU frame work while hashing.
+These observations are scoped to synthetic files on one Windows PC. Reader/request
+generation association, complete slide dependency and binary/runtime inventories,
+portable manifests, project-wide ROI/tissue tables, numerical comparisons and all
+unfinished M0-M7 work remain active.

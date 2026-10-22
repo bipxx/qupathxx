@@ -1,5 +1,6 @@
 #include "qupathxx/provenance.hpp"
 #include "atomic_export.hpp"
+#include "utf8_text.hpp"
 #include "build_manifest.hpp"
 #include <charconv>
 #include <chrono>
@@ -16,20 +17,7 @@
 #endif
 namespace qpx {
 namespace {
-void text(const std::string& s,std::size_t max=32768) {
-    if(s.size()>max || s.find('\0')!=std::string::npos) throw std::invalid_argument("invalid provenance text");
-    for(std::size_t i=0;i<s.size();) {
-        const auto c=static_cast<unsigned char>(s[i++]);if(c<128) continue;
-        unsigned count=0;std::uint32_t value=0,minimum=0;
-        if(c>=0xc2 && c<=0xdf) {count=1;value=c&31;minimum=128;}
-        else if(c>=0xe0 && c<=0xef) {count=2;value=c&15;minimum=2048;}
-        else if(c>=0xf0 && c<=0xf4) {count=3;value=c&7;minimum=65536;}
-        else throw std::invalid_argument("invalid provenance UTF-8");
-        if(count>s.size()-i) throw std::invalid_argument("truncated provenance UTF-8");
-        for(unsigned n=0;n<count;++n) {const auto next=static_cast<unsigned char>(s[i++]);if((next&0xc0)!=0x80) throw std::invalid_argument("invalid provenance UTF-8 continuation");value=(value<<6)|(next&63);}
-        if(value<minimum || value>0x10ffff || (value>=0xd800 && value<=0xdfff)) throw std::invalid_argument("invalid provenance UTF-8 code point");
-    }
-}
+void text(const std::string& s,std::size_t max=32768) {detail::bounded_utf8(s,max);}
 bool hex(const std::string& s) {return s.size()==64 && s.find_first_not_of("0123456789abcdef")==std::string::npos;}
 void calibration(std::optional<double> v) {if(v && (!std::isfinite(*v) || *v<=0)) throw std::invalid_argument("invalid provenance calibration");}
 struct Json {

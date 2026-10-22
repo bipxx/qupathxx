@@ -63,9 +63,10 @@ The configured Git HEAD is a navigation hint; `+dirty` marks a non-clean checkou
 It does not identify uncommitted source by itself. The source byte fingerprint
 records those actual source inputs even before committing. Runtime library
 versions are not binary library hashes, and the build fingerprint is not a hash
-of the linked executable. Full-file image hashes, native dependency/executable
-fingerprints, Python package inventories and complete portable replay manifests
-remain open work. No environment is inferred from legacy data.
+of the linked executable. [Standalone file observations](file-fingerprints.md) now provide bounded native
+whole-file hashes. Their association with captured reader/request generations,
+complete multi-file slide inventories, native dependency/executable fingerprints,
+Python package inventories and portable replay manifests remain open work. No environment is inferred from legacy data.
 
 ## Storage, validation and rechecking
 

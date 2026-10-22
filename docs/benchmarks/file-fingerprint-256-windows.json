@@ -1,0 +1,16 @@
+{
+  "platform": "Windows-11-10.0.26200-SP0",
+  "native_sha256": "f93f44dd892b3161a6def9529743847fb7e98ca8ad8afcca0b6ebaf23e4ce374",
+  "source_tree_sha256": "b96e9cec3822132b7df5728d1cba43d41762f0fb2d3c0491b81a210ce7f1a7df",
+  "file_bytes": 268435456,
+  "buffer_bytes": 1048576,
+  "sha256": "486cc817b95d853d3c357ff283b204c0144bd255e73fe2deb1389493b257e3c0",
+  "identity_scheme": "windows.volume-file-id128/1",
+  "first_ms": 173.2905,
+  "submit_ms": 0.07800001185387373,
+  "max_poll_ms": 0.03530003596097231,
+  "hash_ms": 176.4312,
+  "worker_ms": 181.8243,
+  "mib_per_second": 1450.990527752461,
+  "json_bytes": 533
+}

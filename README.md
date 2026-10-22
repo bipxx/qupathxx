@@ -7,6 +7,10 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Native file SHA-256 observations provide bounded streaming, progress/cancellation,
+  stable metadata checks and atomic JSON through Python and ImGui; see
+  [file fingerprints](docs/file-fingerprints.md).
+
 - Cell tables join live names, classes and geometry to historical measurements,
   including explicit missing values; see [joined cell tables](docs/cell-object-tables.md).
 

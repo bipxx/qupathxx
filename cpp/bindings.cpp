@@ -20,6 +20,7 @@ void bind_tissue(nb::module_&);
 void bind_cells(nb::module_&);
 void bind_cell_tables(nb::module_&);
 void bind_provenance(nb::module_&);
+void bind_file_fingerprint(nb::module_&);
 NB_MODULE(_native, m) {
     using namespace qpx;
     m.def("optical_density",&optical_density,"intensity"_a,"white"_a=255.);
@@ -283,7 +284,8 @@ NB_MODULE(_native, m) {
         .value("KEEP_TISSUE_KEY",GuiInputKind::KeepTissueKey).value("RECHECK_TISSUE_KEY",GuiInputKind::RecheckTissueKey)
         .value("DETECT_CELLS_KEY",GuiInputKind::DetectCellsKey).value("KEEP_CELLS_KEY",GuiInputKind::KeepCellsKey).value("CANCEL_CELLS_KEY",GuiInputKind::CancelCellsKey)
         .value("KEEP_CELL_RUN_KEY",GuiInputKind::KeepCellRunKey).value("RECHECK_CELL_RUN_KEY",GuiInputKind::RecheckCellRunKey)
-        .value("EXPORT_CELL_TABLE_KEY",GuiInputKind::ExportCellTableKey).value("CANCEL_CELL_TABLE_KEY",GuiInputKind::CancelCellTableKey);
+        .value("EXPORT_CELL_TABLE_KEY",GuiInputKind::ExportCellTableKey).value("CANCEL_CELL_TABLE_KEY",GuiInputKind::CancelCellTableKey)
+        .value("FINGERPRINT_FILE_KEY",GuiInputKind::FingerprintFileKey).value("CANCEL_FINGERPRINT_FILE_KEY",GuiInputKind::CancelFingerprintFileKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image).value("PROJECT_LIST",GuiInputTarget::ProjectList).value("DISPLAY_RESET",GuiInputTarget::DisplayReset)
         .value("DISCARD_RECOVERY_REPLACEMENT",GuiInputTarget::DiscardRecoveryReplacement).value("KEEP_RECOVERY_CLOSE",GuiInputTarget::KeepRecoveryClose).value("CANCEL_CLOSE",GuiInputTarget::CancelClose).value("DISCARD_CLOSE",GuiInputTarget::DiscardClose)
         .value("SAVE_CLOSE",GuiInputTarget::SaveClose).value("SAVE_RECOVERY_REPLACEMENT",GuiInputTarget::SaveRecoveryReplacement).value("CANCEL_RECOVERY_REPLACEMENT",GuiInputTarget::CancelRecoveryReplacement).value("CANCEL_PROJECT_LOAD",GuiInputTarget::CancelProjectLoad).value("CONFIRM_REMOVE_IMAGE",GuiInputTarget::ConfirmRemoveImage).value("CANCEL_REMOVE_IMAGE",GuiInputTarget::CancelRemoveImage).value("CONFIRM_DISCARD_CHECKPOINT",GuiInputTarget::ConfirmDiscardCheckpoint).value("CANCEL_DISCARD_CHECKPOINT",GuiInputTarget::CancelDiscardCheckpoint);
@@ -291,7 +293,7 @@ NB_MODULE(_native, m) {
         .value("TISSUE_READY",GuiInputWait::TissueReady).value("TISSUE_CONTOURS_READY",GuiInputWait::TissueContoursReady).value("TISSUE_CONTOURS_PUBLISHED",GuiInputWait::TissueContoursPublished)
         .value("TISSUE_ARCHIVED",GuiInputWait::TissueArchived).value("TISSUE_VERIFIED",GuiInputWait::TissueVerified)
         .value("CELLS_READY",GuiInputWait::CellsReady).value("CELLS_PUBLISHED",GuiInputWait::CellsPublished)
-        .value("CELLS_ARCHIVED",GuiInputWait::CellsArchived).value("CELLS_VERIFIED",GuiInputWait::CellsVerified).value("CELL_TABLE_SAVED",GuiInputWait::CellTableSaved);
+        .value("CELLS_ARCHIVED",GuiInputWait::CellsArchived).value("CELLS_VERIFIED",GuiInputWait::CellsVerified).value("CELL_TABLE_SAVED",GuiInputWait::CellTableSaved).value("FILE_FINGERPRINT_READY",GuiInputWait::FileFingerprintReady);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift).def_rw("wait_for",&GuiInput::wait_for);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
@@ -349,6 +351,7 @@ NB_MODULE(_native, m) {
     bind_cells(m);
     bind_cell_tables(m);
     bind_provenance(m);
+    bind_file_fingerprint(m);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;
     // Retain GIL: Document is single-threaded and shared with the UI.
