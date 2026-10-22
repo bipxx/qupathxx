@@ -30,3 +30,15 @@ def managed(path: str) -> NDArray[np.uint8] | None:
     if event.pixels is not None:
         return event.pixels.numpy()
     return None
+
+
+def desktop_batch(project: q.Project, directory: str) -> q.ProjectBatchReport | None:
+    options=q.GuiOptions()
+    preset=q.ProjectBatchOptions()
+    preset.kind=q.ProjectBatchKind.TISSUE
+    options.batch_options=preset
+    options.batch_options=None
+    options.batch_output_directory=directory
+    options.batch_selected_objects=True
+    report=q.show(project,frame_limit=5,options=options)
+    return report.batch_result

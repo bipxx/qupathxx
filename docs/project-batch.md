@@ -1,4 +1,4 @@
-# Headless project processing
+# Project batch processing
 
 The native batch API runs archived ROI OD/stain means, tissue detection or cell
 detection over a frozen project snapshot. Each completed image publishes a
@@ -130,8 +130,9 @@ failure requiring explicit recovery/recompute policy from the caller.
 
 Normal completion cleans only known files in its own marked work directory.
 Abrupt termination can leave private work directories; restart ignores them.
-Automatic abandoned-work cleanup, portable/distributed workers, a GUI batch
-launcher, live scripting and complete M6 workflow parity remain unfinished.
+Automatic abandoned-work cleanup, portable/distributed workers and complete
+M6 workflow parity remain unfinished. The desktop launcher and managed live
+scripting are implemented within their documented scope.
 Windows publication uses write-through move; no cross-platform power-loss
 durability claim is made. The GUI, Python and original project remain the
 authorities for their own live mutable state.
@@ -175,3 +176,93 @@ minimal suites pass 32/31/31; a separate storage-disabled build compiles the CLI
 and passes the focused batch/digest/storage-rejection check. Source fingerprint
 verification is included in the full installed-wheel run. The benchmark above
 uses that same native artifact. The full M0-M7 goal remains active.
+
+
+## Desktop launcher
+
+Open **Batch...** in the toolbar. Choose ROI means, tissue or cells; enter an
+output directory and choose all matching area objects across the project or
+only selected objects in the active image. Empty selected scope is an error,
+so it never silently expands to every object. Choose Stop or Continue for an
+image error and whether matching checkpoints may be reused. Cell publication
+creates objects in output checkpoints, keeping the current project unchanged.
+
+By default, the launcher takes the current Region analysis, Tissue and Cells
+settings, including white/stain vectors, when Run is pressed. The panel can
+instead use a separate preset. Python can supply the full typed preset with
+`GuiOptions.batch_options`, plus `batch_output_directory` and
+`batch_selected_objects`. The optional parameter object is copied before a
+managed viewer releases the GIL. Later parameter edits do not alter a run.
+
+```python
+options = q.GuiOptions()
+options.batch_output_directory = "results"
+preset = q.ProjectBatchOptions()
+preset.kind = q.ProjectBatchKind.TISSUE
+preset.failure = q.ProjectBatchFailure.CONTINUE
+preset.tissue.threshold = 0.45
+options.batch_options = preset
+q.show(project, options=options)
+```
+
+Run with **Ctrl+Alt+B** and cancel with **Ctrl+Alt+Shift+B**, or use the panel
+buttons. The panel shows phase, completed/total images and objects, saved/reused/
+failed counts, the report path and the first 20 per-image results. The complete
+structured report retains every image. Closing the panel leaves the job running;
+use Batch running... to reopen it. Closing/returning from the viewer cancels
+unfinished work, waits for the current native operation to settle and returns
+its terminal report. Completed checkpoints remain usable. Scripts can inspect
+`GuiReport.batch_state`, `batch_error` and `batch_result` after the viewer returns.
+
+The GUI captures one native frozen request on its owner thread; source pixels,
+analysis, hashing, checkpoint/CSV writing and restart verification run in the
+existing batch worker. Selection and active image changes after submission do
+not change the captured scope. No result is published back into the displayed
+project, including after a workspace replacement. Both classic `show(project)`
+and managed `show(session)` use this launcher and the same worker API as Python
+and the standalone CLI. Capture cost and bounded snapshot bytes remain explicit;
+this does not claim zero cost on the owner thread or a whole-process memory cap.
+
+Readiness-gated GUI replay adds `RUN_BATCH_KEY`, `CANCEL_BATCH_KEY` and
+`GuiInputWait.BATCH_FINISHED`. The wait means that an accepted run has reached
+any terminal state, including failed/partial/cancelled; it does not imply success.
+Preflight errors that prevent a run are exposed through `batch_error` and do not
+satisfy that readiness condition. A finite run that ends before completion
+cancels the job, so tests/scripts requiring completion should use the readiness
+gate rather than guessing a number of frames.
+
+
+The desktop launcher is checked on a synthetic embedded 512x512 image containing
+100000 background detections, one source area annotation and 100001 selected
+objects. A run captures 39524152 logical snapshot bytes in 3.837 ms and writes
+one independent checkpoint in 777.31 ms. The 55-frame trace measures 17.049 ms
+p95 CPU frame work and a 220.86 ms maximum, including cold frames. Overlay payload
+is 3675040 bytes and tile payload 1048576 bytes. The existing GuiReport timer,
+which excludes the first ten direct-document frames, records 16.722 ms p95;
+it must not be substituted for the complete-frame measurements.
+
+The readiness gate ends this benchmark after completion and three additional
+logical frames, rather than appending a long idle capture. Setup/object creation
+and screenshot readback are outside the timed frame phases. This is one synthetic
+Windows/RTX 4090 workload, not a vendor-slide throughput claim, process memory
+cap or proof of the 16.7 ms target. The [workload record](benchmarks/gui-batch-windows.json)
+identifies the native binary/source and measurement scope; the [complete phase
+trace](benchmarks/gui-batch-frames-windows.json) includes every rendered frame.
+The cold maximum and broader M2/M7 workloads remain open.
+
+Thirteen focused installed-wheel desktop cases pass, and the full/core/minimal
+native suites pass 33/32/32. A framebuffer regression verifies that clicking the
+slide cannot raise the full-screen workspace over the batch window. The
+launcher/result summary is also visually inspected. Native batch checkpoints,
+CSV validation, failure policies and restart tests remain shared with the existing
+engine tests. Source object/archive isolation does not disable ordinary GUI
+camera/display preference publication.
+
+
+Final packet 57 validation: 1158 installed-wheel Python cases pass with two
+existing Windows symlink permission skips (268.18 s); native full/core/minimal
+suites pass 33/32/32. Public stubs match and strict mypy accepts the typed fixture
+and both workflow examples. The final launcher is visually inspected and its
+focus regression passes. The matching source/native-identified benchmark records
+3.837 ms capture and 17.049 ms all-frame p95 with a 220.86 ms cold maximum.
+The full project goal and all unfinished M0-M7 requirements remain active.

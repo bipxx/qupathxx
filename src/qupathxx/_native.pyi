@@ -1422,6 +1422,10 @@ class GuiInputKind(enum.Enum):
 
     CANCEL_STAIN_ESTIMATE_KEY = 60
 
+    RUN_BATCH_KEY = 61
+
+    CANCEL_BATCH_KEY = 62
+
     FINGERPRINT_FILE_KEY = 54
 
     CANCEL_FINGERPRINT_FILE_KEY = 55
@@ -1497,6 +1501,8 @@ class GuiInputWait(enum.Enum):
     STAINS_ESTIMATED = 15
 
     STAINS_APPLIED = 16
+
+    BATCH_FINISHED = 17
 
 class GuiInput:
     def __init__(self) -> None: ...
@@ -1888,6 +1894,24 @@ class GuiOptions:
     @file_fingerprint_buffer_bytes.setter
     def file_fingerprint_buffer_bytes(self, arg: int, /) -> None: ...
 
+    @property
+    def batch_output_directory(self) -> str: ...
+
+    @batch_output_directory.setter
+    def batch_output_directory(self, arg: str, /) -> None: ...
+
+    @property
+    def batch_options(self) -> ProjectBatchOptions | None: ...
+
+    @batch_options.setter
+    def batch_options(self, arg: ProjectBatchOptions | None, /) -> None: ...
+
+    @property
+    def batch_selected_objects(self) -> bool: ...
+
+    @batch_selected_objects.setter
+    def batch_selected_objects(self, arg: bool, /) -> None: ...
+
 class GuiReport:
     def __init__(self, _native_only: Never) -> None: ...
     @property
@@ -2264,6 +2288,15 @@ class GuiReport:
 
     @property
     def file_fingerprint_ms(self) -> float: ...
+
+    @property
+    def batch_state(self) -> str: ...
+
+    @property
+    def batch_error(self) -> str: ...
+
+    @property
+    def batch_result(self) -> ProjectBatchReport | None: ...
 
 class AnalysisKind(enum.Enum):
     OPTICAL_DENSITY_MEANS = 0

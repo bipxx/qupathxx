@@ -1467,3 +1467,22 @@ Cold-render/M2 and remaining M0-M7 gates remain open.
 Packet 56 validation: 1145 installed-wheel Python cases pass with two existing
 Windows symlink permission skips (309.94 s), and all 33 native cases pass. Public
 stubs match; dense/sparse selection pixels match and are visually inspected.
+
+Packet 57 connects the native project batch engine to the desktop. The ImGui
+launcher captures frozen requests, processes independently on the existing
+worker and reports per-image checkpoints without changing the open project.
+ROI/tissue/cell workflows, selected scope, current settings/typed presets,
+Stop/Continue, resume, publication and cancellation share Python/CLI semantics.
+Thirteen desktop cases and native full/core/minimal suites (33/32/32) pass.
+Managed entry detaches preset ownership before GIL release; nullable public
+fields have regenerated stubs and a strict typing fixture. Broader batch cleanup,
+portable/distributed workers, M2 and all unfinished M0-M7 gates remain open.
+
+
+Final packet 57 validation: 1158 installed-wheel Python cases pass with two
+existing Windows symlink permission skips (268.18 s); native full/core/minimal
+suites pass 33/32/32. Public stubs match and strict mypy accepts the typed fixture
+and both workflow examples. The final launcher is visually inspected and its
+focus regression passes. The matching source/native-identified benchmark records
+3.837 ms capture and 17.049 ms all-frame p95 with a 220.86 ms cold maximum.
+The full project goal and all unfinished M0-M7 requirements remain active.

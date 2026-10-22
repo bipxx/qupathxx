@@ -4,6 +4,7 @@
 #include "qupathxx/project_save.hpp"
 #include "qupathxx/interchange.hpp"
 #include "qupathxx/analysis.hpp"
+#include "gui_profile.hpp"
 #include "gui_tiles.hpp"
 #include "gui_tissue.hpp"
 #include "qupathxx/cells.hpp"
@@ -16,7 +17,7 @@
 #include "viewer_bridge.hpp"
 #include <mutex>
 #include "gui_overlay.hpp"
-#include "gui_profile.hpp"
+#include "gui_batch.hpp"
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <imgui_impl_glfw.h>
@@ -131,6 +132,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if(options.settle_tiles && !frame_limit) throw std::invalid_argument("tile settlement requires a positive frame_limit");
     GuiReplay replay(options.inputs,options.replay_timeout_seconds);
     detail::GuiProfiler profiler;
+    detail::GuiBatch batch(options);
     GuiReplayDeadline settlement(options.replay_timeout_seconds);
     options.display.validate();
     if(options.analysis_vectors.size()!=6 || options.analysis_white.size()!=3 || options.analysis_kind<0 || options.analysis_kind>1)
@@ -470,6 +472,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(retired_workspace.valid() && retired_workspace.wait_for(std::chrono::seconds(0))==std::future_status::ready)
             max_retirement_ms=std::max(max_retirement_ms,retired_workspace.get());
         poll_maintenance();
+        batch.poll();
         auto previous_autosave_state=autosave_stats.state;
         autosave_stats=autosave.poll();
         if(autosave_stats.state=="error" && previous_autosave_state!="error")
@@ -665,6 +668,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12,ImGuiKey_M,ImGuiKey_K,ImGuiKey_D,ImGuiKey_F,ImGuiKey_Q,ImGuiKey_F3}) input.AddKeyEvent(key,false);
         }
         replay.dispatch([&](const GuiInput& event) {
+            if(event.wait_for==GuiInputWait::BatchFinished) return batch.finished();
             if(event.wait_for==GuiInputWait::StainsEstimated || event.wait_for==GuiInputWait::StainsApplied) return !stain_estimate.busy() && bool(stain_estimate.result()) && (event.wait_for==GuiInputWait::StainsEstimated || stain_estimate_applied);
             if(event.wait_for==GuiInputWait::FileFingerprintReady) return fingerprint_job.poll().state=="succeeded";
             if(event.wait_for==GuiInputWait::CellsReady) return !cell_job.busy() && bool(cell_job.result());
@@ -745,6 +749,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::VertexKey: input.AddKeyEvent(ImGuiKey_V,true); break;
                 case GuiInputKind::HoleKey: input.AddKeyEvent(ImGuiKey_H,true); break;
                 case GuiInputKind::InsertKey: input.AddKeyEvent(ImGuiKey_I,true); break;
+                case GuiInputKind::RunBatchKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_B,true);break;
+                case GuiInputKind::CancelBatchKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_B,true);break;
                 case GuiInputKind::BooleanKey: input.AddKeyEvent(ImGuiKey_B,true); break;
                 case GuiInputKind::SaveKey: input.AddKeyEvent(ImGuiMod_Ctrl,true); input.AddKeyEvent(ImGuiKey_S,true); break;
                 case GuiInputKind::ExportKey: input.AddKeyEvent(ImGuiKey_F6,true); break;
@@ -795,7 +801,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         const bool editing_blocked=startup_active || close_dialog_active || recovery_dialog_active || restore_pending || remove_dialog_active || maintenance_dialog_active;
         const auto& io = ImGui::GetIO();
         ImGui::SetNextWindowPos({0,0}); ImGui::SetNextWindowSize(io.DisplaySize);
-        ImGui::Begin("Workspace", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings);
+        ImGui::Begin("Workspace", nullptr, ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoBringToFrontOnFocus);
         if(startup_active) {
             ++startup_frames;
             const auto phase=startup_progress->phase.load();
@@ -844,6 +850,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Y)) history_action(true);
         ImGui::SameLine(); ImGui::BeginDisabled(!document.can_undo()); if (ImGui::Button("Undo")) history_action(false); ImGui::EndDisabled();
         ImGui::SameLine(); ImGui::BeginDisabled(!document.can_redo()); if (ImGui::Button("Redo")) history_action(true); ImGui::EndDisabled();
+        ImGui::SameLine();if(ImGui::Button(batch.busy()?"Batch running...":"Batch...")) batch.open();
         selected=selection->primary();
         if(!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_A)) { selection->select_all(); selected=selection->primary(); }
         auto delete_selection=[&]() {
@@ -1198,7 +1205,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ImGui::Combo("Boolean",&boolean_operation,"Union\0Intersection\0Difference\0XOR\0");
                 ImGui::TextDisabled("Target: primary; operands retained");
                 ImGui::TextWrapped("Ellipses use 512-edge approximations.");
-                if(ImGui::Button("Apply Boolean (B)") || (!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_B))) {
+                if(ImGui::Button("Apply Boolean (B)") || (!io.WantTextInput && !editing_blocked && !io.KeyCtrl && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_B))) {
                     try {
                         auto ids=selection->ids(); ids.erase(std::remove(ids.begin(),ids.end(),selected),ids.end());
                         document.apply_boolean(selected,ids,static_cast<BooleanOp>(boolean_operation)); error.clear();
@@ -2002,6 +2009,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::EndPopup();
         }
         ImGui::End();
+        batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,cell_parameters,static_cast<AnalysisKind>(analysis_kind),analysis_nucleus,make_transform);
         if(options.project) {
             bool recovery_operation=false;
             try {
@@ -2105,6 +2113,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     }
     // Finite embedded runs also return a durable save result and reconcile the
     // caller's project. No live authority or Python-owned objects enter workers.
+    batch.finish();
     if(stain_estimate.busy()) {if(!frame_limit) stain_estimate.cancel();stain_estimate.wait(*active_document,selection->primary());}
     if(save_job.busy()) save_job.wait();
     if(cell_table_job.busy()) cell_table_job.wait();
@@ -2160,7 +2169,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         saved_cells?saved_cells->id:0,saved_cells?active_document->cell_status(saved_cells->id):std::string{},
         final_table.state,cell_table_error.empty()?final_table.error:cell_table_error,final_table.path,final_table.rows,final_table.bytes,final_table.capture_ms,final_table.write_ms,
         final_fingerprint.state,final_fingerprint.error.empty()?fingerprint_error:final_fingerprint.error,fingerprint_job.result(),final_fingerprint.bytes,final_fingerprint.elapsed_ms,
-        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied};
+        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied,batch.stats().state,batch.error(),batch.result()};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

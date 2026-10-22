@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the final installed-native regression passes 1143 Python cases with two file-symlink cases
+Evidence: the final installed-native regression passes 1158 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
@@ -643,3 +643,37 @@ Windows symlink permission skips in 309.94 s. All 33 native cases pass; public
 stubs match the installed module. The dense/sparse fixture is visually inspected
 in addition to its exact canvas comparison. Benchmark/trace records use this
 same native artifact; the full project goal remains active.
+
+The fifty-seventh packet implements the desktop launcher for the existing native
+project batch engine. A dedicated ImGui window opens from the toolbar or
+Ctrl+Alt+B. It supports ROI/tissue/cell workflows, whole-project matching area
+objects or explicit active-image selection, current analysis settings or typed
+presets, Stop/Continue, checkpoint reuse and optional output cell publication.
+Its bounded summary shows progress and the first 20 image outcomes; the full
+structured report retains every outcome. Output checkpoints are independent of
+the live workspace, so switching images or replacing the workspace cannot cause
+late batch publication into the current model. Closing/returning cancels
+unfinished work and settles the worker, retaining durable completed checkpoints.
+
+Managed viewer entry copies the optional batch preset before releasing the GIL.
+GuiReport exposes a nullable native batch result and terminal state/error; optional
+presets also accept None. Python stubs are regenerated and the typed fixture
+covers these fields. Thirteen focused desktop cases pass, including all three
+workflows, resume, cell publication, selected scope/image switch, empty-scope and
+missing-directory rejection, Stop/Continue after a missing source, finite exit,
+explicit cancellation, current white values, managed native-owned viewing and floating-window focus.
+The full/core/minimal native suites pass 33/32/32. See project-batch.md for the
+launcher, readiness contract and remaining broader batch/M6 requirements.
+
+
+The final installed GUI wheel passes 1158 Python cases with two existing Windows
+symlink permission skips in 268.18 s. All 33 native tests pass on the final build;
+core/minimal suites pass 32/32. Public stubs match, and the typed fixture plus
+both examples pass strict mypy. The final launcher is visually inspected; its
+focus regression verifies that clicking the canvas cannot hide the batch window.
+The 100001-selected-object desktop batch trace records 3.837 ms frozen capture,
+39.52 MB logical snapshot charge, 777.31 ms batch processing, 17.049 ms p95 across
+all 55 frames and a 220.86 ms cold maximum. Raw source/native-identified records
+and every frame phase are retained in docs/benchmarks. Report-only warm timings
+are distinguished from the all-frame trace. These observations do not close the
+cold-render target, broader platform/slide performance or remaining M0-M7 gates.

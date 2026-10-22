@@ -1,5 +1,6 @@
 #include "qupathxx/viewer_session.hpp"
 #include "qupathxx/stain_estimation.hpp"
+#include "qupathxx/project_batch.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/typing.h>
 #include <nanobind/stl/string.h>
@@ -41,6 +42,7 @@ void bind_viewer_session(nb::module_& m) {
         // before releasing the GIL. The endpoint argument stays owned here.
         if(options.cell_parameters) options.cell_parameters=std::make_shared<const CellParameters>(*options.cell_parameters);
         if(options.stain_estimate_parameters) options.stain_estimate_parameters=std::make_shared<const StainEstimateParameters>(*options.stain_estimate_parameters);
+        if(options.batch_options) options.batch_options=std::make_shared<const ProjectBatchOptions>(*options.batch_options);
         GuiReport report;{nb::gil_scoped_release release;report=run_viewer_session(session,frames,capture,options);}return report;
     },"session"_a,"frame_limit"_a=0,"capture_path"_a="","options"_a=GuiOptions{});
 #else

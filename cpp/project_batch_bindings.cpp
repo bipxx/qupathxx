@@ -4,6 +4,7 @@
 #include <nanobind/stl/shared_ptr.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
+#include <nanobind/stl/optional.h>
 namespace nb=nanobind;using namespace nb::literals;
 void bind_project_batch(nb::module_& m) {
     using namespace qpx;
@@ -43,5 +44,14 @@ void bind_project_batch(nb::module_& m) {
     m.def("save_batch_checkpoint_csv",&save_batch_checkpoint_csv,"checkpoint"_a,"path"_a,nb::call_guard<nb::gil_scoped_release>());
     m.def("input_sha256",[](const AnalysisRequest& r){return input_sha256(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
     m.def("input_sha256",[](const TissueRequest& r){return input_sha256(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
+    nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions")).def_rw("batch_output_directory",&GuiOptions::batch_output_directory)
+        .def_prop_rw("batch_options",[](const GuiOptions& o)->std::optional<std::shared_ptr<const ProjectBatchOptions>> {
+            if(o.batch_options) return o.batch_options;return std::nullopt;
+        },[](GuiOptions& o,std::optional<std::shared_ptr<const ProjectBatchOptions>> value){o.batch_options=value?*value:nullptr;})
+        .def_rw("batch_selected_objects",&GuiOptions::batch_selected_objects);
+    nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport")).def_ro("batch_state",&GuiReport::batch_state)
+        .def_ro("batch_error",&GuiReport::batch_error).def_prop_ro("batch_result",[](const GuiReport& r)->std::optional<std::shared_ptr<const ProjectBatchReport>> {
+            if(r.batch_result) return r.batch_result;return std::nullopt;
+        });
     m.def("input_sha256",[](const CellRequest& r){return input_sha256(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
 }

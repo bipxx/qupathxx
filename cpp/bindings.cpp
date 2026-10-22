@@ -292,6 +292,7 @@ NB_MODULE(_native, m) {
         .value("EXPORT_CELL_TABLE_KEY",GuiInputKind::ExportCellTableKey).value("CANCEL_CELL_TABLE_KEY",GuiInputKind::CancelCellTableKey)
         .value("EXPORT_MEASUREMENT_TABLE_KEY",GuiInputKind::ExportMeasurementTableKey).value("CANCEL_MEASUREMENT_TABLE_KEY",GuiInputKind::CancelMeasurementTableKey)
         .value("ESTIMATE_STAINS_KEY",GuiInputKind::EstimateStainsKey).value("APPLY_STAIN_ESTIMATE_KEY",GuiInputKind::ApplyStainEstimateKey).value("CANCEL_STAIN_ESTIMATE_KEY",GuiInputKind::CancelStainEstimateKey)
+        .value("RUN_BATCH_KEY",GuiInputKind::RunBatchKey).value("CANCEL_BATCH_KEY",GuiInputKind::CancelBatchKey)
         .value("FINGERPRINT_FILE_KEY",GuiInputKind::FingerprintFileKey).value("CANCEL_FINGERPRINT_FILE_KEY",GuiInputKind::CancelFingerprintFileKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image).value("PROJECT_LIST",GuiInputTarget::ProjectList).value("DISPLAY_RESET",GuiInputTarget::DisplayReset)
         .value("DISCARD_RECOVERY_REPLACEMENT",GuiInputTarget::DiscardRecoveryReplacement).value("KEEP_RECOVERY_CLOSE",GuiInputTarget::KeepRecoveryClose).value("CANCEL_CLOSE",GuiInputTarget::CancelClose).value("DISCARD_CLOSE",GuiInputTarget::DiscardClose)
@@ -300,7 +301,7 @@ NB_MODULE(_native, m) {
         .value("TISSUE_READY",GuiInputWait::TissueReady).value("TISSUE_CONTOURS_READY",GuiInputWait::TissueContoursReady).value("TISSUE_CONTOURS_PUBLISHED",GuiInputWait::TissueContoursPublished)
         .value("TISSUE_ARCHIVED",GuiInputWait::TissueArchived).value("TISSUE_VERIFIED",GuiInputWait::TissueVerified)
         .value("CELLS_READY",GuiInputWait::CellsReady).value("CELLS_PUBLISHED",GuiInputWait::CellsPublished)
-        .value("CELLS_ARCHIVED",GuiInputWait::CellsArchived).value("CELLS_VERIFIED",GuiInputWait::CellsVerified).value("CELL_TABLE_SAVED",GuiInputWait::CellTableSaved).value("FILE_FINGERPRINT_READY",GuiInputWait::FileFingerprintReady).value("MEASUREMENT_TABLE_SAVED",GuiInputWait::MeasurementTableSaved).value("STAINS_ESTIMATED",GuiInputWait::StainsEstimated).value("STAINS_APPLIED",GuiInputWait::StainsApplied);
+        .value("CELLS_ARCHIVED",GuiInputWait::CellsArchived).value("CELLS_VERIFIED",GuiInputWait::CellsVerified).value("CELL_TABLE_SAVED",GuiInputWait::CellTableSaved).value("FILE_FINGERPRINT_READY",GuiInputWait::FileFingerprintReady).value("MEASUREMENT_TABLE_SAVED",GuiInputWait::MeasurementTableSaved).value("STAINS_ESTIMATED",GuiInputWait::StainsEstimated).value("STAINS_APPLIED",GuiInputWait::StainsApplied).value("BATCH_FINISHED",GuiInputWait::BatchFinished);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift).def_rw("wait_for",&GuiInput::wait_for);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>()).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
