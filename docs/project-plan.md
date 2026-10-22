@@ -1793,12 +1793,19 @@ cold/dynamic frame-budget acceptance remain open. UI multipliers are not saved
 in layout preferences or project history. ICC, fluorescence display and the
 remaining M0–M7 workflow/release gates remain unfinished.
 
-Local validation: 1,306 installed software-GL tests pass with six skips, plus a
-26-case final docking/scaling run including compact scaled resize; Windows
+Local validation: 1,307 installed software-GL tests pass with six skips, plus a
+47-case final docking/scaling/provenance run including compact scaled resize; Windows
 native 34 and Ubuntu minimal 33 pass. Source-exact stubs, strict positive and
 seven expected negative typing checks pass. The installed workflow verifies
 125% scaling and one initial font build. Navigation samples with three live
 scale changes record four font builds per run, no pending tiles and bounded
-tile payload; p95 CPU observations span 5.37–24.52 ms on llvmpipe and do not
+tile payload; p95 CPU observations span 4.31–24.15 ms on llvmpipe and do not
 accept the hardware frame target. Raw samples and reproduction are linked in
 [UI scaling](ui-scaling.md).
+
+The final implementation lets the OpenGL backend create font textures in its
+NewFrame after device initialization, avoiding the redundant initial upload
+and untracked texture that an explicit earlier creation could leave behind.
+The full 1,307-test local suite, 47 focused checks, native checks and navigation
+samples were repeated on this corrected artifact; source/native identities
+are recorded in the local validation record.

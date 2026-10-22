@@ -4,8 +4,8 @@
   "python": "3.12.8",
   "fixture": "CMU-1-Small-Region.svs",
   "sha256": "ed92d5a9f2e86df67640d6f92ce3e231419ce127131697fbbce42ad5e002c8a7",
-  "source_tree_sha256": "a113bce9023e9fa504a7fda091cd878c80e6edf63c29bd4c2549ccf4d372dff1",
-  "native_sha256": "a9490cdf2b7df755590f7b01275a9cfdf2af290488f5c23ae3bddafd964bdf2f",
+  "source_tree_sha256": "366fcc31b99fdf43c39b3e2b7b8656ee9808302b4277c76980b454ddeeb38ff0",
+  "native_sha256": "0e1eb93ade1ad32dc8084dd03a5ead97becc03416d4f2568bb0e792172506925",
   "window_logical_size": [
     1440,
     900
@@ -15,10 +15,10 @@
   "runs": [
     {
       "name": "first-view",
-      "elapsed_seconds": 4.174882799969055,
+      "elapsed_seconds": 4.422077500028536,
       "frames": 180,
-      "cpu_frame_p95_ms": 5.3674,
-      "max_cpu_frame_ms": 33.6182,
+      "cpu_frame_p95_ms": 5.0542,
+      "max_cpu_frame_ms": 33.1987,
       "uploaded_tiles": 70,
       "peak_gpu_payload_bytes": 18350080,
       "pending_tiles_at_exit": 0,
@@ -39,12 +39,12 @@
     },
     {
       "name": "repeat-view",
-      "elapsed_seconds": 5.111485800007358,
+      "elapsed_seconds": 4.6673535000300035,
       "frames": 180,
-      "cpu_frame_p95_ms": 20.5194,
-      "max_cpu_frame_ms": 37.4058,
-      "uploaded_tiles": 69,
-      "peak_gpu_payload_bytes": 18087936,
+      "cpu_frame_p95_ms": 24.1472,
+      "max_cpu_frame_ms": 49.9289,
+      "uploaded_tiles": 70,
+      "peak_gpu_payload_bytes": 18350080,
       "pending_tiles_at_exit": 0,
       "framebuffer_size": [
         1440,

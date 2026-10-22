@@ -20,8 +20,11 @@ scale, alongside `monitor_scale`, `framebuffer_scale` and `font_rebuilds`.
 
 Style dimensions are rebuilt from the original theme, avoiding cumulative
 rounding when moving between scales. Font textures rebuild on the GL owner
-thread only when effective scale or density changes. Cached canvas overlays
-are explicitly invalidated even if OpenGL reuses a font texture identifier.
+thread only when effective scale or density changes.
+The OpenGL backend owns texture creation in its `NewFrame`, after device
+initialization, avoiding a duplicate startup upload and an untracked texture.
+Cached canvas overlays are explicitly invalidated even if OpenGL reuses a font
+texture identifier.
 Unfinished drawing gestures are cancelled on scale changes. Existing camera
 resize handling preserves the source point at the canvas center and zoom;
 tile LOD continues to use actual framebuffer density independently of UI size.
@@ -57,10 +60,9 @@ GPU completion latency or establish a speedup over another build.
 
 ## Validation sample
 
-The installed Windows software-GL suite passed 1,306 tests with six skips.
-A final 26-case docking/scaling run also covers the additional compact scaled
-resize case, accumulated small scale changes, exact overlay pixels and both
-launchers. Windows native tests pass 34, local Ubuntu minimal tests pass 33,
+The installed Windows software-GL suite passed 1,307 tests with six skips.
+A final 47-case docking/scaling/provenance run covers compact scaled resize,
+accumulated small scale changes, exact overlay pixels and both launchers. Windows native tests pass 34, local Ubuntu minimal tests pass 33,
 and source-exact stubs plus strict positive/seven-error negative typing pass.
 The installed-workflow check opens a separate-layout docked workspace at 125%
 and verifies exactly one initial font build.
@@ -68,9 +70,9 @@ The [local artifact record](benchmarks/ui-scaling-local-windows-linux.json)
 retains test/log hashes, wheel identity and the matching installed workflow.
 
 The [Aperio sample](benchmarks/ui-scaling-aperio-navigation-windows.json)
-records 5.37/20.52 ms p95 and 33.62/37.41 ms maximum CPU frame work for two
+records 5.05/24.15 ms p95 and 33.20/49.93 ms maximum CPU frame work for two
 180-frame views. The [large synthetic sample](benchmarks/ui-scaling-large-navigation-windows.json)
-records 5.45/24.52 ms p95 and 27.19/30.06 ms maximum. Both replay navigation
+records 4.31/18.66 ms p95 and 29.94/24.09 ms maximum. Both replay navigation
 and three live scale changes. Each run rebuilds fonts exactly four times
 (initial plus changes), finishes with no pending tiles and stays below 18 MiB
 of main tile GPU payload. The overview payload is reported separately; the
