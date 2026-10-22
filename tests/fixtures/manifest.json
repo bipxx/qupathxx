@@ -127,7 +127,7 @@
     "capture_manifest": "qupath-0.7.0/capture-manifest.json",
     "generator": "tools/upstream/qupath_reference.groovy",
     "provenance": "Independent official QuPath v0.7.0 Windows runtime; archive and all extracted files verified before generation. Synthetic inputs; no patient/slide data.",
-    "state": "partial; very-thin ellipse decoder geometry parity remains unresolved",
+    "state": "captured gates pass with explicit loss-aware QuPath ellipse precision matching; broader interoperability remains partial",
     "purpose": "Live native-to-QuPath round trip, geometry/calibration, OD/stain kernels, exact sampling masks and tiled ROI means; retained quantization and decoder differences"
   }
 }

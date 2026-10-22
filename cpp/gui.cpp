@@ -348,7 +348,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     char interchange_path[32769]={};
     if(options.interchange_path.size()>32768 || options.interchange_path.find('\0')!=std::string::npos) throw std::invalid_argument("invalid interchange path");
     std::memcpy(interchange_path,options.interchange_path.c_str(),options.interchange_path.size()+1);
-    bool interchange_pixels=false,interchange_losses=false,interchange_selected=false,csv_intensity=false;
+    bool interchange_pixels=options.interchange_assume_pixels,interchange_losses=options.interchange_allow_losses,interchange_selected=false,csv_intensity=false;
+    bool qupath_ellipse_precision=options.qupath_ellipse_precision;
     std::string interchange_status;
     std::uint64_t editor_id=0,editor_revision=0;
     char draft_name[4097]={},draft_class[4097]={};
@@ -1062,6 +1063,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::TextWrapped("Full-resolution image pixels, top-left origin.");
             ImGui::Checkbox("Assume image pixels",&interchange_pixels);
             ImGui::Checkbox("Allow lossy conversion",&interchange_losses);
+            ImGui::BeginDisabled(!has_geos());
+            ImGui::Checkbox("Match QuPath ellipse bounds",&qupath_ellipse_precision);
+            ImGui::EndDisabled();
+            if(qupath_ellipse_precision) ImGui::TextWrapped("Coordinate changes require Allow lossy conversion. Native analytic hints remain exact.");
             ImGui::Checkbox("Selected objects only",&interchange_selected);
             auto export_ids=[&]() {
                 auto ids=interchange_selected?selection->ids():std::vector<std::uint64_t>{};
@@ -1077,7 +1082,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 catch(const std::exception& e) { interchange_status=e.what(); }
             }
             if(ImGui::Button("Import GeoJSON (F7)") || (!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F7))) {
-                try { auto report=load_geojson(document,interchange_path,interchange_pixels,interchange_losses); selection->replace(report.imported_ids); selected=selection->primary(); status(report,"Imported"); }
+                try { auto report=load_geojson(document,interchange_path,interchange_pixels,interchange_losses,qupath_ellipse_precision); selection->replace(report.imported_ids); selected=selection->primary(); status(report,"Imported"); }
                 catch(const std::exception& e) { interchange_status=e.what(); }
             }
             ImGui::Checkbox("Include mean RGB",&csv_intensity);

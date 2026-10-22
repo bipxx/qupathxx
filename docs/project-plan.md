@@ -1514,3 +1514,33 @@ one expected failure. Native application code is unchanged from the prior
 whole-slide performance claim. Thin-ellipse decoder handling, broader workflow/
 segmentation comparisons, CI/distribution, license/fixture decisions and all
 unfinished M0-M7 requirements remain active.
+
+
+The fifty-ninth packet resolves the captured thin-ellipse decoder gate with an
+explicit native import policy. `qupath_ellipse_precision=True` runs GEOS valid
+0.01-pixel precision reduction and then derives an envelope from separately
+rounded float extrema, matching pinned QuPath v0.7.0. The default raw envelope
+and native analytic hints remain exact. Changed matching bounds require loss
+permission and emit a counted issue; collapsed/unrepresentable inputs reject
+before objects/classes/IDs change. Undo/Redo and project persistence retain the
+canonical matched geometry. Native, Python/file and ImGui import paths share it;
+GUI choices and public stubs expose the policy without a Java dependency.
+
+A fresh pinned runtime capture now reports passed with no unresolved captured
+gates. Thin-ellipse bounds and area match exactly, its masks/counts/means agree,
+and lengths satisfy the unchanged method-specific ellipse budget. The previous
+strict expected failure is a passing regression. Raw-mode bounds remain in the
+report rather than being erased. Full/core/minimal native suites pass 33/32/32;
+a separate interchange-enabled, GEOS/project/Python/GUI-disabled native probe
+also passes. Focused precision/interchange cases pass 27 with one backend-specific
+skip; the combined precision/reference set passes 75 with that skip.
+
+The final installed GUI wheel passes 1233 Python cases with three expected skips
+(two Windows symlink permissions and the GEOS-disabled-only Python case) in
+272.23 s, with no expected failures. Public stubs match and strict mypy accepts
+the typed fixture and both workflow examples. The import controls and conversion
+notice are visually inspected. A 1000-ellipse one-time import benchmark records
+84.10 ms median raw / 342.22 ms matching (358.16 ms matching maximum), with exact
+source/native identity and cost scope retained. This is import overhead, not a
+new frame-rate claim. Broader interoperability, M2 cold rendering and all
+unfinished M0-M7 requirements remain active.

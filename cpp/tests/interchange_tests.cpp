@@ -11,7 +11,24 @@ int main() {
         check(measurements_csv(source).find("Cell")!=std::string::npos);
         if(!has_interchange()) {
             bool rejected=false; try { export_geojson(source); } catch(const std::runtime_error&) { rejected=true; }
+            check(rejected);
+            rejected=false;try {import_geojson(source,"{}",true,true,true);} catch(const std::runtime_error&) {rejected=true;}
             check(rejected); return 0;
+        }
+        const std::string foreign=R"({"type":"Feature","geometry":{"type":"Polygon","isEllipse":true,"coordinates":[[[1.123,2.234],[3.987,2.234],[3.987,5.876],[1.123,5.876],[1.123,2.234]]]},"properties":{}})";
+        Document precision(Image::demo());bool precision_rejected=false;
+        if(has_geos()) {
+            try {import_geojson(precision,foreign,true,false,true);} catch(const std::invalid_argument&) {precision_rejected=true;}
+            check(precision_rejected && precision.objects().empty());
+            auto converted=import_geojson(precision,foreign,true,true,true);
+            const auto bounds=precision.annotation(converted.imported_ids.front()).geometry.bounds();
+            const double x=static_cast<float>(1.12),y=static_cast<float>(2.23);
+            check(bounds.x==x && bounds.y==y && bounds.width==double(float(3.99))-x && bounds.height==double(float(5.88))-y);
+            check(converted.issues.size()==2 && converted.issues.back().code=="qupath_ellipse_precision_changed");
+        } else {
+            try {import_geojson(precision,foreign,true,true,true);} catch(const std::runtime_error&) {precision_rejected=true;}
+            check(precision_rejected && precision.objects().empty());
+            check(import_geojson(precision,foreign,true).imported_ids.size()==1);
         }
         auto exported=export_geojson(source);
         check(exported.text==export_geojson(source).text);

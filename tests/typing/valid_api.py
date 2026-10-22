@@ -42,3 +42,11 @@ def desktop_batch(project: q.Project, directory: str) -> q.ProjectBatchReport | 
     options.batch_selected_objects=True
     report=q.show(project,frame_limit=5,options=options)
     return report.batch_result
+
+
+def matching_import(doc: q.Document, text: str) -> q.InterchangeReport:
+    options=q.GuiOptions()
+    options.interchange_assume_pixels=True
+    options.interchange_allow_losses=True
+    options.qupath_ellipse_precision=True
+    return q.import_geojson(doc,text,assume_pixels=True,allow_losses=True,qupath_ellipse_precision=True)

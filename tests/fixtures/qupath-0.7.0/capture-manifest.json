@@ -1,6 +1,6 @@
 {
   "schema": "qpx.qupath-capture/1",
-  "captured_utc": "2026-10-22T07:33:37.277793+00:00",
+  "captured_utc": "2026-10-22T08:01:08.716827+00:00",
   "upstream": {
     "tag": "v0.7.0",
     "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
@@ -16,11 +16,11 @@
     "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
   },
   "generator_sha256": "6fe106a3ff9258a3da6c0a7a8554a5f18fba8a4756e4434919e8b5b616115cb5",
-  "contract_sha256": "1bec8d2516a1c2d1ea8a923ef61e0e59c59469321a327f27396c2818ff422ec1",
-  "comparison_tool_sha256": "77b155666feecce5ef58b0c3508da82ddf6232539e668b1430e7f93428c413ad",
-  "native_sha256": "ca556d9d9759f443fc8211b15789cb5933519502e7357e44aad66ff93ee0f937",
-  "native_source_tree_sha256": "9362e1477facb6e1a9d67ac7d42a9927c7bd1090c750bdb978c462d97c1303a5",
-  "comparison_state": "partial",
+  "contract_sha256": "86b8ad9ef42bed3751f3592ce16c09934a9bc77e65e527e082268cc89d98a85d",
+  "comparison_tool_sha256": "d410fb750a80dba2527f7ef409ae4d69dad8db30f2f4d9c64b1b5c77b64b29a8",
+  "native_sha256": "6d128742a6bff324ace225781cc37cfb8501a1e4d25cac0a7390af9035268616",
+  "native_source_tree_sha256": "a95ca607fe6f43a2da79661f699c1a9798a2da633a65a364cb1a190f833723a2",
+  "comparison_state": "passed",
   "files": {
     "upstream/objects.geojson": {
       "bytes": 13722,
@@ -44,11 +44,11 @@
     },
     "roundtrip/objects.geojson": {
       "bytes": 13725,
-      "sha256": "dba9757aba42ed7d237572685f9e558068306a84889623923ddd9c5019dc255a"
+      "sha256": "14de159c7d8957966f2b04dd76177334589ae03faa9ee7d2abe5cea912eb83a2"
     },
     "roundtrip/measurements.json": {
       "bytes": 7222,
-      "sha256": "fb83b70078c0191c2fb70bfc550b5e86e0731b2beda1e8d0a4b95feada1d2c56"
+      "sha256": "6e4d801023226d07e7cb6ec50688c4b92912da3ada6aecba4821ebb49b6d53b1"
     },
     "roundtrip/colors.json": {
       "bytes": 79806,
@@ -67,8 +67,8 @@
       "sha256": "dddb0cf1469d8c50d6c9a4b4fd4c9364051bd02950395f23a8e63451a180f26b"
     },
     "report.json": {
-      "bytes": 7594,
-      "sha256": "00e7c2929a592f01fda2530bc5fead98899c0ace75d682f62a4495c1936c0ea2"
+      "bytes": 8312,
+      "sha256": "937da4c3b1164579ed19cd7872a8ab43ebe67dbc901eb1e68ea8fc2dcc3956fd"
     }
   }
 }

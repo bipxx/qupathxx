@@ -69,8 +69,9 @@ The committed protocol fixture is hand authored from the public schema; it is
 not an upstream-generated fixture. A separate pinned runtime corpus now checks
 flat shape/class/cell/nucleus round trips and measurements; see
 [QuPath comparisons](qupath-comparisons.md). UUID remapping and upstream
-quantization are recorded. A very-thin ellipse decoder disagreement keeps
-interoperability acceptance partial; hierarchy and broader workflows remain open.
+quantization are recorded. The explicit QuPath ellipse precision option resolves the captured thin-ellipse
+decoder case with reported coordinate loss; hierarchy and broader workflows
+remain open. Default import preserves raw analytic envelopes.
 
 `tests/test_interchange.py`, the native interchange suite and GUI F6/F7 replay
 cover the stated contracts. `tools/benchmark_interchange.py` measures a bounded
@@ -84,3 +85,12 @@ in 329 ms. This excludes filesystem IO and intensity reads, with history disable
 A streaming duplicate-key/depth validation pass avoids the library callback
 parser's growing-array rescans (about 23 seconds before this change). See the
 [recorded workload](benchmarks/interchange-100000-windows.json).
+
+
+`import_geojson` and `load_geojson` accept `qupath_ellipse_precision=False`.
+Opting in matches pinned QuPath v0.7.0's precision-reduced float envelope for
+foreign `isEllipse` hints and requires GEOS. Any changed bounds require
+`allow_losses=True` and produce `qupath_ellipse_precision_changed`. Collapsed
+or unrepresentable envelopes reject before publication. Native analytic hints
+remain exact. The GUI exposes the same choice as Match QuPath ellipse bounds,
+with independent Assume image pixels and Allow lossy conversion controls.

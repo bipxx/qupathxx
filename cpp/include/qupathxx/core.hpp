@@ -528,6 +528,7 @@ struct GuiOptions {
     std::string batch_output_directory;
     std::shared_ptr<const ProjectBatchOptions> batch_options;
     bool batch_selected_objects=false;
+    bool interchange_assume_pixels=false,interchange_allow_losses=false,qupath_ellipse_precision=false;
     detail::ViewerOwner* viewer_owner=nullptr;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});

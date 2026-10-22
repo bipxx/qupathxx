@@ -1,4 +1,5 @@
 #include "qupathxx/geometry.hpp"
+#include "qupath_precision.hpp"
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -133,6 +134,40 @@ struct Backend {
     bool predicate(char result) const { if(result==2) throw std::runtime_error(error.data()); return result==1; }
 };
 #endif
+}
+namespace detail {
+Rect qupath_ellipse_bounds(const Ring& shell) {
+#ifdef QUPATHXX_HAS_GEOS
+    check_vertices(shell);
+    if(shell.size()<3) throw std::invalid_argument("QuPath ellipse requires a polygon shell");
+    for(auto point:shell) if(std::abs(point.x)>std::numeric_limits<float>::max() || std::abs(point.y)>std::numeric_limits<float>::max())
+        throw std::invalid_argument("QuPath ellipse exceeds float coordinate range");
+    Backend backend;
+    std::ostringstream out;out.imbue(std::locale::classic());out.precision(17);
+    out<<"POLYGON(";append_ring(out,shell,true);out<<')';
+    backend.geometry=backend.read(out.str());
+    auto destroy=[&](GEOSGeometry* geometry){GEOSGeom_destroy_r(backend.ctx,geometry);};
+    std::unique_ptr<GEOSGeometry,decltype(destroy)> reduced(
+        GEOSGeom_setPrecision_r(backend.ctx,backend.geometry,.01,GEOS_PREC_VALID_OUTPUT),destroy);
+    if(!reduced) throw std::invalid_argument(std::string("QuPath ellipse precision reduction failed: ")+backend.error.data());
+    if(GEOSisEmpty_r(backend.ctx,reduced.get())!=0) throw std::invalid_argument("QuPath ellipse collapses at 0.01-pixel precision");
+    double left=0,top=0,right=0,bottom=0;
+    if(!GEOSGeom_getXMin_r(backend.ctx,reduced.get(),&left) || !GEOSGeom_getYMin_r(backend.ctx,reduced.get(),&top) ||
+       !GEOSGeom_getXMax_r(backend.ctx,reduced.get(),&right) || !GEOSGeom_getYMax_r(backend.ctx,reduced.get(),&bottom))
+        throw std::invalid_argument("QuPath ellipse precision envelope is unavailable");
+    // Cast the extrema separately: QuPath computes double widths from its
+    // float coordinate sequence, rather than casting the width itself.
+    left=static_cast<float>(left);top=static_cast<float>(top);
+    right=static_cast<float>(right);bottom=static_cast<float>(bottom);
+    Rect result{left,top,right-left,bottom-top};
+    if(!std::isfinite(result.width) || !std::isfinite(result.height) || result.width<=0 || result.height<=0)
+        throw std::invalid_argument("QuPath ellipse collapses in float coordinates");
+    return result;
+#else
+    (void)shell;
+    throw std::runtime_error("QuPath ellipse precision requires GEOS");
+#endif
+}
 }
 struct Roi::Data {
     RoiKind kind;

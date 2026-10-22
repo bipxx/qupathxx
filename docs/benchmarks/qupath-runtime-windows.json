@@ -1,18 +1,12 @@
 {
   "schema": "qpx.qupath-comparison/1",
-  "state": "partial",
-  "unmet_gates": [
-    {
-      "name": "very_thin_ellipse_decoded_geometry_parity",
-      "policy": "Do not widen coordinate/area tolerances. Report the native raw analytic envelope and QuPath float/repair-decoded envelope separately. This known disagreement keeps the overall comparison partial.",
-      "case": "Very thin ellipse"
-    }
-  ],
+  "state": "passed",
+  "unmet_gates": [],
   "platform": "Windows-11-10.0.26200-SP0",
-  "native_sha256": "ca556d9d9759f443fc8211b15789cb5933519502e7357e44aad66ff93ee0f937",
-  "source_tree_sha256": "9362e1477facb6e1a9d67ac7d42a9927c7bd1090c750bdb978c462d97c1303a5",
+  "native_sha256": "6d128742a6bff324ace225781cc37cfb8501a1e4d25cac0a7390af9035268616",
+  "source_tree_sha256": "a95ca607fe6f43a2da79661f699c1a9798a2da633a65a364cb1a190f833723a2",
   "generator_sha256": "6fe106a3ff9258a3da6c0a7a8554a5f18fba8a4756e4434919e8b5b616115cb5",
-  "contract_sha256": "1bec8d2516a1c2d1ea8a923ef61e0e59c59469321a327f27396c2818ff422ec1",
+  "contract_sha256": "86b8ad9ef42bed3751f3592ce16c09934a9bc77e65e527e082268cc89d98a85d",
   "upstream": {
     "tag": "v0.7.0",
     "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
@@ -97,7 +91,7 @@
     "od_max_absolute_error": 5.8433532679202926e-08,
     "stain_max_absolute_error": 1.0800170890945537e-07,
     "roi_mean_max_absolute_error": 0.0,
-    "analysis_jobs_wall_ms": 4.005600116215646,
+    "analysis_jobs_wall_ms": 4.428499843925238,
     "import_notices": [
       {
         "code": "ellipse_hint",
@@ -164,7 +158,7 @@
     "od_max_absolute_error": 5.8433532679202926e-08,
     "stain_max_absolute_error": 1.0800170890945537e-07,
     "roi_mean_max_absolute_error": 0.0,
-    "analysis_jobs_wall_ms": 4.048099974170327,
+    "analysis_jobs_wall_ms": 4.402400576509535,
     "import_notices": [
       {
         "code": "ellipse_hint",
@@ -185,12 +179,12 @@
   "retained_edge_cases": [
     {
       "name": "Very thin ellipse",
-      "state": "known_parity_gap",
+      "state": "passed",
       "native_bounds": [
-        170.0,
-        220.45,
-        60.0,
-        0.10000000000002274
+        170.05999755859375,
+        220.4499969482422,
+        59.8800048828125,
+        0.100006103515625
       ],
       "qupath_decoded_bounds": [
         170.05999755859375,
@@ -198,9 +192,31 @@
         59.8800048828125,
         0.100006103515625
       ],
-      "bounds_max_absolute_error": 0.1199951171875,
-      "native_area": 4.712388980385761,
+      "default_raw_bounds": [
+        170.0,
+        220.45,
+        60.0,
+        0.10000000000002274
+      ],
+      "default_raw_area": 4.712388980385761,
+      "import_policy": "qupath_ellipse_precision=True, allow_losses=True",
+      "import_notices": [
+        {
+          "code": "ellipse_hint",
+          "count": 1
+        },
+        {
+          "code": "qupath_ellipse_precision_changed",
+          "count": 1
+        }
+      ],
+      "bounds_max_absolute_error": 0.0,
+      "native_area": 4.703251632097457,
       "qupath_decoded_area": 4.703251632097457,
+      "length_relative_errors": {
+        "pixels": 0.0003641200903613217,
+        "um": 0.00038229267653553094
+      },
       "created_samples": 60,
       "decoded_samples": 60,
       "native_samples": 60,
@@ -222,9 +238,22 @@
         50.0,
         40.0
       ],
+      "default_raw_bounds": [
+        10.0,
+        80.0,
+        50.0,
+        40.0
+      ],
+      "default_raw_area": 1850.0,
+      "import_policy": "qupath_ellipse_precision=True, allow_losses=True",
+      "import_notices": [],
       "bounds_max_absolute_error": 0.0,
       "native_area": 1850.0,
       "qupath_decoded_area": 1850.0,
+      "length_relative_errors": {
+        "pixels": 0.0,
+        "um": 0.0
+      },
       "created_samples": 1874,
       "decoded_samples": 1874,
       "native_samples": 1874,
@@ -238,6 +267,7 @@
       "count": 3
     }
   ],
+  "ellipse_import_policy": "Default preserves raw envelopes; explicit matching requires loss permission for changed bounds.",
   "identity_loss": "Native numeric IDs are replaced with QuPath UUIDs; object comparisons use unique names.",
   "performance_scope": "analysis_jobs_wall_ms times 54 native jobs per direction only; setup, masks, QuPath and file IO excluded"
 }

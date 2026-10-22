@@ -8,8 +8,8 @@ QuPath port or a compatible replacement for Java QuPath.
 ## Implemented
 
 - Pinned QuPath runtime references check geometry, sampling, OD/stains and a real
-  native/QuPath round trip. Quantization and the unresolved thin-ellipse decoder
-  difference are explicit; see [QuPath comparisons](docs/qupath-comparisons.md).
+  native/QuPath round trip. Quantization and the explicit loss-aware thin-ellipse matching
+  policy are recorded; see [QuPath comparisons](docs/qupath-comparisons.md).
 
 - Managed live viewers accept typed commands from Python producer threads, with
   owner-side edits, background analysis, notifications, saves and bounded queues.

@@ -1,5 +1,6 @@
 #include "qupathxx/interchange.hpp"
 #include "atomic_export.hpp"
+#include "qupath_precision.hpp"
 #include <algorithm>
 #include <atomic>
 #include <cmath>
@@ -78,10 +79,10 @@ void save_measurements_csv(const Document& doc,const std::string& path,const std
 InterchangeReport save_geojson(const Document& doc,const std::string& path,const std::vector<std::uint64_t>& ids,bool losses) {
     auto report=export_geojson(doc,ids,losses); atomic_write(path,report.text); return report;
 }
-InterchangeReport load_geojson(Document& doc,const std::string& path,bool pixels,bool losses) { return import_geojson(doc,read_file(path),pixels,losses); }
+InterchangeReport load_geojson(Document& doc,const std::string& path,bool pixels,bool losses,bool qupath_precision) { return import_geojson(doc,read_file(path),pixels,losses,qupath_precision); }
 #ifndef QUPATHXX_HAS_INTERCHANGE
 InterchangeReport export_geojson(const Document&,const std::vector<std::uint64_t>&,bool) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
-InterchangeReport import_geojson(Document&,const std::string&,bool,bool) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
+InterchangeReport import_geojson(Document&,const std::string&,bool,bool,bool) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
 #else
 namespace {
 using Json=nlohmann::json;
@@ -178,6 +179,7 @@ struct Reader {
     std::vector<std::pair<std::size_t,std::string>> parents;
     std::map<std::string,ObjectClass> classes;
     std::size_t vertex_count=0;
+    bool qupath_precision=false;
     Point point(const Json& value) {
         if(!value.is_array() || value.size()!=2) throw std::invalid_argument("only 2D XY coordinates are supported");
         return {real(value[0]),real(value[1])};
@@ -241,7 +243,14 @@ struct Reader {
             if(parts.size()!=1 || !parts[0].holes.empty()) throw std::invalid_argument("invalid QuPath ellipse hint");
             auto p=parts[0].shell; double x=p[0].x,y=p[0].y,r=x,b=y;
             for(auto v:p) { x=std::min(x,v.x); y=std::min(y,v.y); r=std::max(r,v.x); b=std::max(b,v.y); }
-            notices.add("ellipse_hint","Ellipse reconstructed from QuPath's polygon envelope"); return Roi::ellipse({x,y,r-x,b-y});
+            Rect bounds{x,y,r-x,b-y};
+            if(qupath_precision) {
+                const auto reduced=detail::qupath_ellipse_bounds(p);
+                if(reduced.x!=bounds.x || reduced.y!=bounds.y || reduced.width!=bounds.width || reduced.height!=bounds.height)
+                    notices.add("qupath_ellipse_precision_changed","Ellipse bounds changed to match QuPath's precision-reduced float envelope",true);
+                bounds=reduced;
+            }
+            notices.add("ellipse_hint","Ellipse reconstructed from QuPath's polygon envelope"); return Roi::ellipse(bounds);
         }
         return Roi::multipolygon(std::move(parts));
     }
@@ -310,12 +319,12 @@ InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint
     }
     out<<"]}\n"; bounded(out); InterchangeReport report; report.text=out.str(); report.features=objects.size(); report.issues=notices.finish(); return report;
 }
-InterchangeReport import_geojson(Document& doc,const std::string& input,bool pixels,bool losses) {
+InterchangeReport import_geojson(Document& doc,const std::string& input,bool pixels,bool losses,bool qupath_precision) {
     if(input.size()>byte_limit) throw std::length_error("GeoJSON exceeds 256 MiB limit");
     if(input.find('\0')!=std::string::npos) throw std::invalid_argument("GeoJSON contains NUL bytes");
     try {
         StrictJson validator; Json::sax_parse(input,&validator);
-        auto root=Json::parse(input); Reader reader{doc,Notices{losses,{}},{},{},{},{},{}};
+        auto root=Json::parse(input); Reader reader{doc,Notices{losses,{}},{},{},{},{},{}}; reader.qupath_precision=qupath_precision;
         if(!root.is_object()) throw std::invalid_argument("expected a Feature or FeatureCollection");
         if(root.contains("crs") && !root["crs"].is_null()) throw std::invalid_argument("geographic/projected CRS is not supported; convert to image pixels first");
         if(root.contains("qupathxx")) {

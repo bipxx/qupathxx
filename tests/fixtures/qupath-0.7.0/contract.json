@@ -65,7 +65,9 @@
         1.5,
         3,
         100,
-        200
+        200,
+        600,
+        1200
       ]
     },
     "subpixel_export": {
@@ -73,11 +75,16 @@
       "policy": "Compare native import to QuPath decoding of the same GeoJSON. Retain pre-export geometry and masks separately to expose upstream quantization."
     }
   },
-  "unmet_gates": [
+  "gates": [
     {
       "name": "very_thin_ellipse_decoded_geometry_parity",
-      "policy": "Do not widen coordinate/area tolerances. Report the native raw analytic envelope and QuPath float/repair-decoded envelope separately. This known disagreement keeps the overall comparison partial.",
+      "policy": "Explicit qupath_ellipse_precision matching must meet the original coordinate/area gate. Default raw bounds remain unchanged; changed matching bounds require loss permission and an import notice.",
       "case": "Very thin ellipse"
     }
-  ]
+  ],
+  "import_policy": {
+    "default": "Preserve raw/native analytic bounds",
+    "qupath_ellipse_precision": "QuPath v0.7.0 0.01-pixel valid precision reduction, then float extrema, only for foreign isEllipse hints",
+    "allow_losses": "Required if the matching envelope changes; native qupathxx analytic hints stay exact"
+  }
 }

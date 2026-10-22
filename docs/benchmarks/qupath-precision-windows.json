@@ -1,0 +1,32 @@
+{
+  "schema": "qpx.qupath-precision-benchmark/1",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "native_sha256": "6d128742a6bff324ace225781cc37cfb8501a1e4d25cac0a7390af9035268616",
+  "source_tree_sha256": "a95ca607fe6f43a2da79661f699c1a9798a2da633a65a364cb1a190f833723a2",
+  "objects": 1000,
+  "input_bytes": 1834931,
+  "repetitions": 5,
+  "measurement_scope": "one synchronous native import including parse/validation/publication; input/document creation and post-import checks excluded",
+  "raw": {
+    "samples_ms": [
+      84.10350000485778,
+      84.44150001741946,
+      83.95160001236945,
+      84.16059997398406,
+      82.71240000613034
+    ],
+    "median_ms": 84.10350000485778,
+    "maximum_ms": 84.44150001741946
+  },
+  "matching": {
+    "samples_ms": [
+      336.00409992504865,
+      342.2202999936417,
+      341.1367000080645,
+      350.51699995528907,
+      358.1563999177888
+    ],
+    "median_ms": 342.2202999936417,
+    "maximum_ms": 358.1563999177888
+  }
+}

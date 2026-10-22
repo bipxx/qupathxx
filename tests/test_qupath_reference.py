@@ -28,7 +28,7 @@ def test_capture_identity_and_independent_runtime_provenance():
     assert manifest['upstream']['revision'] == '04ccfa4fb7d43e9b566393e08e83690b72248d44'
     assert manifest['upstream']['bundle_sha256'] == '5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c'
     assert manifest['upstream']['runtime_files'] == 496
-    assert len(manifest['files']) == 12 and manifest['comparison_state'] == 'partial'
+    assert len(manifest['files']) == 12 and manifest['comparison_state'] == 'passed'
     for direction in ['upstream', 'roundtrip']:
         data = comparison.read(FIXTURES/direction/'measurements.json')
         assert data['qupath_version'] == '0.7.0' and data['java_version'] == '25.0.2'
@@ -166,11 +166,13 @@ def test_retained_edge_case_results_remain_explicit():
     assert half['native_area'] == half['qupath_decoded_area'] == 1850
     thin = next(r for r in result if r['name'] == 'Very thin ellipse')
     # Keep its geometry disagreement visible even though its mask/means agree.
-    assert thin['mask_equal'] and thin['native_samples'] == thin['decoded_samples'] == 60
+    assert thin['state'] == 'passed' and thin['mask_equal'] and thin['native_samples'] == thin['decoded_samples'] == 60
+    assert thin['default_raw_bounds'] == pytest.approx([170,220.45,60,.1])
+    assert any(i['code']=='qupath_ellipse_precision_changed' for i in thin['import_notices'])
+    assert max(thin['length_relative_errors'].values()) < TOL['ellipse_length_relative']
 
 
 @GEOMETRY
-@pytest.mark.xfail(strict=True, raises=AssertionError, reason='QuPath float/topology repair changes a very thin ellipse envelope; explicit unresolved interchange gate')
 def test_very_thin_ellipse_matches_qupath_decoded_envelope():
     thin = next(r for r in comparison.compare_edges(FIXTURES/'upstream', CONTRACT) if r['name'] == 'Very thin ellipse')
     assert thin['native_bounds'] == pytest.approx(thin['qupath_decoded_bounds'], abs=TOL['geometry_absolute'], rel=TOL['geometry_relative'])
@@ -178,14 +180,15 @@ def test_very_thin_ellipse_matches_qupath_decoded_envelope():
 
 
 @GEOMETRY
-def test_offline_checker_returns_partial_instead_of_a_green_parity_gate(tmp_path):
+def test_offline_checker_reports_explicit_matching_policy(tmp_path):
     output = tmp_path/'offline'
     result = subprocess.run([sys.executable, '-I', str(ROOT/'tools/compare_qupath.py'), '--reference-root', str(FIXTURES), '--output', str(output)],
                             capture_output=True, timeout=60)
-    assert result.returncode == 2, result.stdout.decode('utf8', errors='replace')
+    assert result.returncode == 0, result.stdout.decode('utf8', errors='replace')
     report = comparison.read(output/'report.json')
-    assert report['state'] == 'partial'
-    assert [gate['name'] for gate in report['unmet_gates']] == ['very_thin_ellipse_decoded_geometry_parity']
+    assert report['state'] == 'passed'
+    assert report['unmet_gates'] == []
+    assert report['retained_edge_cases'][0]['import_policy'] == 'qupath_ellipse_precision=True, allow_losses=True'
     assert report['original']['analysis_jobs'] == report['roundtrip']['analysis_jobs'] == 54
     assert report['original']['mask_mismatches'] == report['roundtrip']['mask_mismatches'] == 0
 
@@ -197,9 +200,9 @@ def test_live_pinned_runtime_regenerates_an_independent_roundtrip(tmp_path):
     cache = os.environ.get('QUPATHXX_QUPATH_CACHE', str(ROOT/'build/upstream/qupath'))
     result = subprocess.run([sys.executable, '-I', str(ROOT/'tools/compare_qupath.py'), '--runtime-cache', cache, '--output', str(output)],
                             capture_output=True, timeout=300)
-    assert result.returncode == 2, result.stdout.decode('utf8', errors='replace')
+    assert result.returncode == 0, result.stdout.decode('utf8', errors='replace')
     manifest = comparison.verify_capture(output, CONTRACT)
-    assert manifest['comparison_state'] == 'partial'
+    assert manifest['comparison_state'] == 'passed'
     report = comparison.read(output/'report.json')
     assert report['original']['objects'] == report['roundtrip']['objects'] == 10
     assert report['original']['roi_mean_max_absolute_error'] <= TOL['float_absolute']

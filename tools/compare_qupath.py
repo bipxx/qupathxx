@@ -220,7 +220,11 @@ def compare_edges(folder, contract):
     transform=q.StainTransform(means['vectors'],means['white'])
     for case in read(Path(folder)/'edge-cases.json')['cases']:
         doc=pixels_document(contract)
-        q.import_geojson(doc,case['geojson'],assume_pixels=True)
+        raw_doc=pixels_document(contract)
+        q.import_geojson(raw_doc,case['geojson'],assume_pixels=True)
+        raw_roi=raw_doc.annotations[0].geometry
+        raw_bounds=raw_roi.bounds
+        imported=q.import_geojson(doc,case['geojson'],assume_pixels=True,allow_losses=True,qupath_ellipse_precision=True)
         roi=doc.annotations[0].geometry
         bounds=roi.bounds
         native=[bounds.x,bounds.y,bounds.width,bounds.height]
@@ -233,14 +237,26 @@ def compare_edges(folder, contract):
             mean_error=max(mean_error,float(np.max(np.abs(np.asarray(actual.means)-case['decoded_region'][key]))))
         bounds_error=max(abs(a-b) for a,b in zip(native,decoded))
         area_error=abs(roi.area-case['decoded_geometry']['area'])
+        measurement=doc.shape_measurements(doc.annotations[0].id).roi
+        wanted=case['decoded_geometry']
+        length_errors={}
+        for unit,actual,target in [('pixels',measurement.length_px,wanted['length']),('um',measurement.length_um,wanted['length_um'])]:
+            relative=abs(actual-target)/target
+            budget=contract['tolerances']['ellipse_length_relative'] if roi.kind==q.RoiKind.ELLIPSE else contract['tolerances']['geometry_relative']
+            np.testing.assert_allclose(actual,target,atol=contract['tolerances']['geometry_absolute'],rtol=budget)
+            length_errors[unit]=relative
         mask_equal=hashlib.sha256(mask).hexdigest()==case['decoded_region']['mask_sha256']
         gap=(bounds_error>contract['tolerances']['geometry_absolute'] or area_error>contract['tolerances']['geometry_absolute'] or not mask_equal)
         result.append(dict(name=case['name'],state='known_parity_gap' if gap else 'passed',native_bounds=native,qupath_decoded_bounds=decoded,
+                           default_raw_bounds=[raw_bounds.x,raw_bounds.y,raw_bounds.width,raw_bounds.height],default_raw_area=raw_roi.area,
+                           import_policy='qupath_ellipse_precision=True, allow_losses=True',
+                           import_notices=[dict(code=i.code,count=i.count) for i in imported.issues],
                            bounds_max_absolute_error=bounds_error,
                            native_area=roi.area,qupath_decoded_area=case['decoded_geometry']['area'],
+                           length_relative_errors=length_errors,
                            created_samples=case['created_region']['samples'],decoded_samples=case['decoded_region']['samples'],
                            native_samples=count,mask_equal=mask_equal,roi_mean_max_absolute_error=mean_error))
-        if gap and not any(gate['case']==case['name'] for gate in contract['unmet_gates']):
+        if gap and not any(gate['case']==case['name'] for gate in contract['gates']):
             raise ValueError('unregistered edge discrepancy: '+case['name'])
     if len(result)!=contract['scope']['retained_edge_cases']:
         raise ValueError('edge case count differs')
@@ -284,7 +300,7 @@ def main():
     export_doc, _ = document(reference/'upstream', contract)
     export_report = q.export_geojson(export_doc, allow_losses=True)
     edges=compare_edges(reference/'upstream',contract)
-    unmet=[gate for gate in contract['unmet_gates'] if any(edge['name']==gate['case'] and edge['state']!='passed' for edge in edges)]
+    unmet=[gate for gate in contract['gates'] if any(edge['name']==gate['case'] and edge['state']!='passed' for edge in edges)]
     report = dict(schema='qpx.qupath-comparison/1', state='partial' if unmet else 'passed', unmet_gates=unmet, platform=platform.platform(),
                   native_sha256=sha(_native.__file__), source_tree_sha256=q.build_environment().source_tree_sha256,
                   generator_sha256=sha(GENERATOR), contract_sha256=sha(FIXTURES/'contract.json'),
@@ -293,6 +309,7 @@ def main():
                   upstream_serialization_changes=serialization_changes(reference/'upstream'),
                   retained_edge_cases=edges,
                   native_export_notices=[dict(code=i.code, count=i.count) for i in export_report.issues],
+                  ellipse_import_policy='Default preserves raw envelopes; explicit matching requires loss permission for changed bounds.',
                   identity_loss='Native numeric IDs are replaced with QuPath UUIDs; object comparisons use unique names.',
                   performance_scope='analysis_jobs_wall_ms times 54 native jobs per direction only; setup, masks, QuPath and file IO excluded')
     (output/'report.json').write_text(json.dumps(report, indent=2)+'\n', encoding='utf8')

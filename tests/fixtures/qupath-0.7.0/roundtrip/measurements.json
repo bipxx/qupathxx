@@ -8,7 +8,7 @@
   ],
   "objects": [
     {
-      "id": "2e6c6aa9-53e2-4e2d-8aa3-aba22320d62d",
+      "id": "c79533c5-4132-4d3a-ba79-dfd0d0fcbcc7",
       "name": "Rectangle",
       "kind": "annotation",
       "classification": "Tumor",
@@ -27,7 +27,7 @@
       }
     },
     {
-      "id": "604acada-5274-4d42-b356-88a54f2df6ff",
+      "id": "91faef22-ba30-491f-9415-675251d1c836",
       "name": "Ellipse",
       "kind": "annotation",
       "classification": "Tumor",
@@ -46,7 +46,7 @@
       }
     },
     {
-      "id": "b3543177-028a-4a65-a002-38a8b0b2c72b",
+      "id": "6139ad3a-83b4-42fa-bea8-ddde5b947dcc",
       "name": "Hole",
       "kind": "annotation",
       "classification": "Tumor",
@@ -65,7 +65,7 @@
       }
     },
     {
-      "id": "4ccbeaab-92ea-46b9-8872-8da20e79c00f",
+      "id": "53a64e76-a76d-45ef-ab7f-614e0943389b",
       "name": "Multipart",
       "kind": "annotation",
       "geometry": {
@@ -82,7 +82,7 @@
       }
     },
     {
-      "id": "1a19211c-0787-4b57-bd01-6b3a492bdefa",
+      "id": "b7dd4aa1-2a69-448f-adaa-a988d6429af8",
       "name": "Polyline",
       "kind": "annotation",
       "geometry": {
@@ -99,7 +99,7 @@
       }
     },
     {
-      "id": "d2d5cd8a-85e6-41a0-a17f-5ae3bd7679ba",
+      "id": "5dc269a0-9654-4b77-af73-310c43cea5d4",
       "name": "Points μ",
       "kind": "annotation",
       "geometry": {
@@ -116,7 +116,7 @@
       }
     },
     {
-      "id": "1a63c94a-c9d9-4a92-9b69-5cccbb6d8863",
+      "id": "ff4abfd4-7bcf-487d-a61f-7e4275a71119",
       "name": "Detection",
       "kind": "detection",
       "classification": "Tumor",
@@ -135,7 +135,7 @@
       }
     },
     {
-      "id": "0562700f-e31f-4dc2-8d7f-513f76cd794e",
+      "id": "b55b6d8a-d02a-4f82-b8af-25cf096e7778",
       "name": "Cell",
       "kind": "cell",
       "classification": "Tumor",
@@ -166,7 +166,7 @@
       }
     },
     {
-      "id": "f7279aa8-4d21-4f54-83e7-9a3f9194f4ac",
+      "id": "d3615c0a-eac4-443c-ab63-67d7370f6333",
       "name": "Subpixel boundary",
       "kind": "annotation",
       "classification": "Tumor",
@@ -185,7 +185,7 @@
       }
     },
     {
-      "id": "9ade2c9f-3959-4e8e-89e9-87b479873bbb",
+      "id": "9de1f691-bbfb-44d4-9481-9139300b8dd4",
       "name": "Eccentric ellipse",
       "kind": "annotation",
       "classification": "Tumor",
