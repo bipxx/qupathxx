@@ -55,8 +55,9 @@ QuPath port or a compatible replacement for Java QuPath.
   expose portable model bytes, strict feature schemas and tree votes to Python.
   The [object workflow](docs/object-classifiers.md) adds feature snapshots,
   background jobs, undoable labels and ImGui train/preview/apply/model-file
-  controls. Project classifier records, pixel workflows and large-batch
-  publication performance remain unfinished; see also the
+  controls, retained cohorts/application audits, and project/recovery persistence.
+  Pixel workflows, research validation and large-batch frame budgets remain
+  unfinished; see also the
   [classifier engine contract](docs/classifier-engine.md).
 
 - Cached reader generations and open-time file observations persist in analysis

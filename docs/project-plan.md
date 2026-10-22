@@ -1931,7 +1931,7 @@ verifies the same wheel/native/source across the tests, installed workflow,
 numeric samples and rendered preview. Hosted [run 39831450439](https://github.com/bipxx/qupathxx/actions/runs/39831450439)
 targets `914744f` and completed successfully with all five jobs successful.
 Windows GUI passes 1,339 Python/seven skips and 37 native; Windows headless
-passes 1,051 Python/290 skips and Linux headless 1,045/296, with 36 native
+passes 1,051 Python/295 skips and Linux headless 1,045/301, with 36 native
 each. Minimal and ASan/UBSan pass 36 native. The [hosted artifact record](benchmarks/object-classifier-ci-windows-linux.json)
 verifies wheels, installed workflows, stubs/typing, standalone executables,
 notices and benchmark identities. All three hosted object samples reproduce
@@ -1979,5 +1979,45 @@ rerun with the identified fixture. This verifies 1,342 distinct cases with six
 expected platform/headless/opt-in skips remaining. The [local artifact record](benchmarks/classification-publication-local-windows-linux.json)
 retains both reports, deduplicates cases, and verifies wheel/native/source and
 benchmark identities. The installed workflow also passes. Hosted [run 39837928441](https://github.com/bipxx/qupathxx/actions/runs/39837928441)
-targets `c47192e` and is running; no result is claimed. Remaining M0–M7
+targets `c47192e` and completed successfully with all five jobs successful.
+Windows GUI passes 1,341 Python/seven skips and 37 native; Windows headless
+passes 1,053/295 and Linux headless 1,047/301, with 36 native each. Minimal and
+sanitizer pass 36 native. The [hosted artifact record](benchmarks/classification-publication-ci-windows-linux.json)
+verifies exact wheels, installed workflows, stubs/typing, standalone archives,
+notices and numeric/object fixture identities. This CI run covers compact class
+edits, rather than the subsequent classifier archive work. Remaining M0–M7
 requirements stay open.
+
+### Packet 70: retained classifier cohorts and application audits
+
+Adds worker-prepared immutable training/prediction artifacts, original float32
+matrices and labels/revisions/kinds, geometry/calibration and captured object-ID
+namespace bounds, portable models and source/build provenance. RGB inputs retain
+their original measurements and deduplicated cell-run manifests, including source
+ROI/grid, algorithm, parameters, stains/white reference and input identity.
+Training cohorts are retained explicitly. Job application retains threshold and
+changed IDs in the same revision as the class edit; one Undo restores labels and
+keeps the historical audit. Reopened artifacts never restore live request authority.
+
+Schema 8 persists these records through project saves, recovery and batch
+checkpoints. Failed migration/data saves roll back together. Batch validation now
+shares schema bounds, charges archive materialization and seals classifier table
+contents. ImGui can keep training records and reuse saved models after reopen.
+See the [workflow contract and rendered preview](object-classifiers.md).
+
+The [local validation record](benchmarks/classifier-archive-local-windows-linux.json)
+verifies 1,357 installed tests with six expected skips, 40 focused cases, 37
+Windows GUI native and 36 each Windows headless/Linux training/minimal/sanitizer.
+Two additional native cases pass in a project build without OpenCV, verifying
+backend-free record reopening and inference. Exact stubs, strict positive/seven-
+error negative typing and installed workflow pass. The record retains the
+investigated autosave fixture and batch schema failures and final passing reports.
+
+The [100,000-object retained-pipeline sample](benchmarks/classifier-archive-100000-windows.json)
+measures 110 ms worker extraction/inference/archive preparation, 65 ms owner
+application, and 0.04 ms native save capture through shared immutable artifacts.
+Writing takes 373 ms and reopen 317 ms. Charged archive/history payloads are
+76.5/5.5 MB. These are single observations on a shared workstation; they do not
+accept a hardware/frame or biological validation gate. Large publication remains
+above 16 ms. Hosted validation for this source is pending; pixel/TMA workflows,
+research cohorts, QuPath comparisons and remaining M0–M7 requirements stay open.

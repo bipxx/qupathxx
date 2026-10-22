@@ -1,0 +1,40 @@
+{
+  "schema": "qpx.classifier-archive-benchmark/1",
+  "rows": 10000,
+  "prediction_rows": 9600,
+  "prepare_ms": 33.3526999456808,
+  "training_job_ms": 2.114600036293268,
+  "retain_training_ms": 0.0077999429777264595,
+  "capture_wall_ms": 1.324299955740571,
+  "capture_native_ms": 1.1927,
+  "prediction_and_archive_ms": 10.334499995224178,
+  "publication_ms": 4.068800015375018,
+  "undo_ms": 2.621800056658685,
+  "redo_ms": 1.8814000068232417,
+  "history_bytes": 528723,
+  "classifier_records": 2,
+  "archive_payload_bytes": 7651782,
+  "save": {
+    "capture_wall_ms": 0.18660002388060093,
+    "capture_native_ms": 0.0427,
+    "write_ms": 52.4065,
+    "snapshot_bytes": 11569073,
+    "file_bytes": 2465792
+  },
+  "reopen_ms": 29.414599994197488,
+  "model_sha256": "478ae085ba228ddef085157e985f5d36fb99f4dcee3c5bb22970a003debe79c9",
+  "table_sha256": "61b03fe73edc38bc48b4d7347bac9771597517fc9d7bd42f793e9f43ad754697",
+  "prediction_archive_sha256": "8a100557e14ba8f076f99082632789c0258472bba29c82ffbd610f6ff585d163",
+  "native_sha256": "a3d7c31126e8d9906184e41eeee4a5135ca5a321080f1e2fec961b0342d9909f",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "environment": {
+    "app_version": "0.1.0",
+    "source_tree_sha256": "6034a511bb74a7e4e1f90c2d16487600533cff4e6a33c07f8add967f5b7ccf09",
+    "git_revision": "e49620c9180fe067e756e9d51fba9822191015fa+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "compiler_flags": "base=/DWIN32 /D_WINDOWS /EHsc;Release=/O2 /Ob2 /DNDEBUG;Debug=/Zi /Ob0 /Od /RTC1;RelWithDebInfo=/Zi /O2 /Ob1 /DNDEBUG;MinSizeRel=/O1 /Ob1 /DNDEBUG",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "scope": "One fresh process; one call per phase. Overlapping synthetic rectangles with repeated sizes, 400 training labels and 32 trees/depth 8. Prediction includes feature extraction, inference and archive preparation on worker. Publication includes native class edit, immutable audit insertion and Python changed-ID conversion. Save capture shares immutable artifacts; writer persists objects and archives. Default 64 MiB history, no image reads or biological accuracy evidence. Shared workstation; no hardware/frame-budget acceptance."
+}

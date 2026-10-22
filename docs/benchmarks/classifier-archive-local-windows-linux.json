@@ -1,0 +1,161 @@
+{
+  "schema": "qpx.local-validation/1",
+  "commit": "5bba755e4f02b722bfa5b0fe54a7f12e0522ecde",
+  "observed_utc": "2026-10-22T20:29:46.930374+00:00",
+  "scope": "Immutable classifier training/prediction cohorts and atomic application audits, schema 8 project/recovery/batch persistence, native ImGui retention/model reuse and source manifests. Pixel/TMA workflows, research validation and hardware/frame budgets remain open.",
+  "python": {
+    "tests": 1363,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1357,
+    "seconds": 690.965,
+    "sha256": "ec10f222159c6c229a5c4e7146bb7fd5a17a6c2a138cf905bd733971710256db"
+  },
+  "focused": {
+    "tests": 40,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 40,
+    "seconds": 15.573,
+    "sha256": "82586b32e1cf590e0121cc71cbba8701874735935e4845c9f7fe5423710b127b"
+  },
+  "windows_gui_native": {
+    "tests": 37,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 37,
+    "seconds": 3.0,
+    "sha256": "c97b5832a71b5a54385baf22da8e803f31e7f690e50f4bf2af83e5f8b80e83b8"
+  },
+  "windows_native": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 36,
+    "seconds": 5.0,
+    "sha256": "04804ad25555f46a1328feb1d286582c14f616e7a541a9a5abb45c76dd489e2b"
+  },
+  "linux_native": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 36,
+    "seconds": 1.0,
+    "sha256": "ad14e98663c34e595449d93217d3cc2849be3fe9614298617fcbcfd79c502b07"
+  },
+  "linux_minimal": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 36,
+    "seconds": 0.0,
+    "sha256": "c74a1086eab71b99a6621f17e364cbdd9ea88d222a434adb53dd0db8a70588e6"
+  },
+  "linux_sanitizer": {
+    "tests": 36,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 36,
+    "seconds": 3.0,
+    "sha256": "8b75913a6dffbbd7a327c304f189c5557064a39cf64795dda02ec0f35f7a6870"
+  },
+  "backend_free_project": {
+    "tests": 2,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 2,
+    "seconds": 0.0,
+    "sha256": "0716dd3b3d45b1ae1bd4f8014ac03801fa28770f5973800e97cefaf0e6a33799"
+  },
+  "workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "a3d7c31126e8d9906184e41eeee4a5135ca5a321080f1e2fec961b0342d9909f",
+    "source_tree_sha256": "6034a511bb74a7e4e1f90c2d16487600533cff4e6a33c07f8add967f5b7ccf09",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "082a40ea06c1b67944c5b7468d235adc105614a655b3d51231bf9ef6eb1efc17",
+    "bytes": 11701224
+  },
+  "opencv_notices": {
+    "qupathxx/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "qupathxx/licenses/opencv/softfloat-notice.txt": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3",
+    "qupathxx/licenses/opencv/SOURCE-NOTICES.txt": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba",
+    "qupathxx/licenses/opencv/zlib-notice.txt": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+  },
+  "preview": {
+    "native_source_sha256": "6034a511bb74a7e4e1f90c2d16487600533cff4e6a33c07f8add967f5b7ccf09",
+    "model_sha256": "0d776684945663d58786554eb473921480c8c34457223d10599727e51f58730a",
+    "rows": [
+      7,
+      8
+    ],
+    "record_id": 9,
+    "archive_sha256": "f67c880c3c5652fe2fe50fbc7274ba2e947ecf178588909d36f257e149cce6f8",
+    "state": "ready",
+    "ui_overflow": 0,
+    "capture_ms": 0.0137,
+    "file": "../images/classifier-project-records.png",
+    "sha256": "c2a6c186c9179209523517a564b3e37ddad25c7c84cd817ea7d4552167e46e74"
+  },
+  "benchmarks": {
+    "classifier-archive-10000-windows.json": {
+      "file_sha256": "a9fca6818da284930f7e271606a95409e3bdb6a6b4a64ff5f1d503b91232396b"
+    },
+    "classifier-archive-100000-windows.json": {
+      "file_sha256": "250242c9f940013461745fc1ace1a91b981287526b782d7e208d56274acbff47"
+    }
+  },
+  "checks": {
+    "archive70-stubs.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "archive70-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "archive70-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "investigated_preliminary_failures": [
+    {
+      "kind": "test fixture",
+      "description": "Autosave correctly skipped a clean project; the new recovery fixture now makes an edit before requesting recovery.",
+      "log": "archive70-first-focused.log",
+      "sha256": "bb42b978966506c0024ae4de78f28b41935361a045948619e8330d8b4d37bd8d"
+    },
+    {
+      "kind": "integration regression",
+      "description": "Batch checkpoint validation accepted only schema 7. The final implementation centralizes schema bounds, seals classifier rows and charges archives to batch materialization; native and Python batch preservation/tamper tests pass."
+    }
+  ],
+  "performance_limit": "One observation per phase on shared Windows workstation. 100000 objects: 110 ms worker extraction/inference/archive, 65 ms owner publication, 0.04 ms native save capture. Publication and undo remain above a 16 ms frame target; no hardware or biological acceptance.",
+  "ci": {
+    "status_at_capture": "not_yet_started"
+  }
+}

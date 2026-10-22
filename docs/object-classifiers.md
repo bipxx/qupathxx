@@ -134,10 +134,61 @@ growth at 512 bytes per bounded node, plus matrix/row scratch. Large/deep
 configurations may need an explicit larger work budget.
 
 Model files preserve schema, parameters, backend and numeric training identity.
-Feature tables/prediction provenance currently remain in memory. Projects
-preserve applied classes and cell links, but not yet the classifier model,
-training cohort or result record. Model saving does not accept the planned
-project-provenance workflow.
+Schema 8 projects and recovery snapshots also retain immutable classifier
+records: the model, complete captured cohort, original labels/revisions/kinds,
+selected geometry, captured object-ID namespace, calibration, original float32 matrix, feature schema, source
+and build provenance. RGB cohorts retain per-row measurements and links to
+deduplicated cell-run manifests, including input identity, source ROI, sampling
+level, algorithm, producer, parameters, stains and white reference. These
+manifests survive removal of the original cell raster archive.
+
+`ObjectClassifierJob` prepares its archive on the native worker. After training,
+call `job.retain_training(document, name="Reviewed training cohort")`, or choose
+**Keep training record in project**. Unlabelled rows remain visible in the
+captured table but are excluded from the model's training identity. Retention
+requires the same current request; it advances the document revision and marks
+the project dirty.
+
+A prediction record preserves its prediction cohort. Preserve the original
+training cohort with a training record; importing a bare forest file does not
+invent missing training rows. Model SHA-256 identifies matching models across
+records and images.
+
+`job.apply(document, min_vote_fraction=0.5)` retains an application audit and
+publishes labels in one document revision, preserving one-Undo behavior. A
+failed history or archive quota check publishes neither. The audit stores the
+threshold and exact changed IDs. Undo restores labels and retains the audit:
+`applied` describes the historical event, rather than the current class state.
+An application that changes no labels still retains its decision and advances
+the revision. The explicit `retain_record=False` option skips retention.
+The lower-level `apply_object_classification` function remains a class-edit
+operation; callers can use the job API for retained provenance.
+
+Records are available through `document.classifier_records` and
+`document.classifier_record(id)`. Inspect a cohort with `record.archive.table`,
+including `body_roi(row)`, `nucleus_roi(row)`, `cell_origin(row)` and
+`cell_feature(row)`. Remove a retained record explicitly with
+`document.remove_classifier_record(id)`. In the GUI, **Project classifier
+records** selects an archive and **Use saved classifier model** activates its
+model. Prediction always captures a fresh request. Reopening an artifact never
+restores permission to apply an old prediction to a live document.
+
+The bounded, checksummed record format embeds the existing portable forest.
+It validates cohort/model training identity, table identity, metadata and source
+links on load, and regenerates prediction votes from the preserved float32
+matrix. Reopening and prediction require no OpenCV training backend. Project
+migration from versions 1–7 to 8 shares the save transaction; failed saves roll
+back both migration and data. Save capture shares immutable artifacts and
+charges their precomputed payload, without traversing cohort rows on the owner
+thread. Limits are 10,000 records/256 MiB charged retained payload per document,
+128 MiB encoded artifacts, 160 MiB encoded records, and the existing per-request
+snapshot budget. Artifact limits leave room for the application envelope. These
+accounting limits are distinct from process RSS.
+
+![Saved classifier record and prediction preview](images/classifier-project-records.png)
+
+Native ImGui rendering of a reopened synthetic project: its retained training
+cohort supplies the active model, with two fresh predictions ready for review.
 
 ## Evidence and performance limits
 
@@ -185,3 +236,21 @@ the exact five Aperio cases rerun after setting the missing fixture variable.
 Six expected platform/headless/opt-in skips remain. It also records focused GUI/
 snapshot tests, Windows/Linux native configurations, stubs/typing, installed
 workflow and matching wheel/native/source/benchmark identities.
+
+The [archive validation record](benchmarks/classifier-archive-local-windows-linux.json)
+verifies the subsequent archive implementation against 1,357 passing installed
+cases/six expected skips, 40 focused cases, Windows/Linux native tests, ASan/UBSan
+and a project build without OpenCV. It retains the investigated clean-project
+autosave fixture and batch schema integration failure, followed by final passing
+reports. It also ties installed workflow, typing, rendered UI and samples to the
+same wheel/native/source identities.
+
+The [10,000](benchmarks/classifier-archive-10000-windows.json) and
+[100,000-object](benchmarks/classifier-archive-100000-windows.json) archive samples
+measure the complete retained pipeline. At 100,000 objects, worker extraction/
+inference/archive preparation takes 110 ms, owner publication 65 ms, and native
+save capture 0.04 ms. The writer takes 373 ms and reopen 317 ms; charged retained
+archive payload is 76.5 MB and history 5.5 MB. Each phase is observed once on a
+shared workstation. This workload adds persistence to the earlier class-only
+comparison and is not a paired speed comparison. Bulk publication remains above
+the 16 ms frame target.
