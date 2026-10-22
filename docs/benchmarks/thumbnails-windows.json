@@ -1,0 +1,136 @@
+{
+  "schema": "qpx.thumbnail-benchmark/1",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+  "native_sha256": "22815aac4250c770044c70a6ca6b982bee4e90943ee555d9402b6598b25c735d",
+  "source_tree_sha256": "777993c7fe7b4aad91dba7711ed55b7ccfb0eb63118e9d09fc10153961aab4e4",
+  "runs": 7,
+  "policy": "250x150, source limit 4194304 pixels, default output budget, one complete natural level, encoded-RGB area filtering",
+  "timing": "whole synchronous call; repeated inputs may be warm; no speedup or RSS claim",
+  "cases": [
+    {
+      "name": "dense-2048",
+      "input_sha256": null,
+      "base": [
+        2048,
+        2048
+      ],
+      "level": 0,
+      "source": [
+        2048,
+        2048
+      ],
+      "output": [
+        150,
+        150
+      ],
+      "source_rgba_bytes": 16777216,
+      "output_rgba_bytes": 90000,
+      "median_wall_ms": 17.023300053551793,
+      "samples": [
+        {
+          "wall_ms": 17.023300053551793,
+          "native_ms": 16.495,
+          "rgba_sha256": "2bc0dc78e1a177c0bee7e2903f10f32ed20febdd6fada4a92ca7382a1b1734db"
+        },
+        {
+          "wall_ms": 16.9214999768883,
+          "native_ms": 16.4065,
+          "rgba_sha256": "2bc0dc78e1a177c0bee7e2903f10f32ed20febdd6fada4a92ca7382a1b1734db"
+        },
+        {
+          "wall_ms": 16.989999916404486,
+          "native_ms": 16.467,
+          "rgba_sha256": "2bc0dc78e1a177c0bee7e2903f10f32ed20febdd6fada4a92ca7382a1b1734db"
+        },
+        {
+          "wall_ms": 17.239200067706406,
+          "native_ms": 16.7279,
+          "rgba_sha256": "2bc0dc78e1a177c0bee7e2903f10f32ed20febdd6fada4a92ca7382a1b1734db"
+        },
+        {
+          "wall_ms": 17.061799997463822,
+          "native_ms": 16.556,
+          "rgba_sha256": "2bc0dc78e1a177c0bee7e2903f10f32ed20febdd6fada4a92ca7382a1b1734db"
+        },
+        {
+          "wall_ms": 17.53760001156479,
+          "native_ms": 17.0378,
+          "rgba_sha256": "2bc0dc78e1a177c0bee7e2903f10f32ed20febdd6fada4a92ca7382a1b1734db"
+        },
+        {
+          "wall_ms": 17.000599997118115,
+          "native_ms": 16.4822,
+          "rgba_sha256": "2bc0dc78e1a177c0bee7e2903f10f32ed20febdd6fada4a92ca7382a1b1734db"
+        }
+      ]
+    },
+    {
+      "name": "CMU-1-Small-Region.svs",
+      "input_sha256": "ed92d5a9f2e86df67640d6f92ce3e231419ce127131697fbbce42ad5e002c8a7",
+      "base": [
+        2220,
+        2967
+      ],
+      "state": "unavailable",
+      "error": "no adequate natural pyramid level fits the thumbnail source pixel limit"
+    },
+    {
+      "name": "large-pyramid.tif",
+      "input_sha256": "09301eba1210f7c7335e33993f0fe73cc74f7fc34ac85b1da5a9bb5043776845",
+      "base": [
+        100352,
+        2048
+      ],
+      "level": 8,
+      "source": [
+        392,
+        8
+      ],
+      "output": [
+        250,
+        5
+      ],
+      "source_rgba_bytes": 12544,
+      "output_rgba_bytes": 5000,
+      "median_wall_ms": 0.07890001870691776,
+      "samples": [
+        {
+          "wall_ms": 0.5760999629274011,
+          "native_ms": 0.569,
+          "rgba_sha256": "6a0ce5f870166c928f4ff366c1bb90ce9b1085aa73ff5ae16b93385e21b84a26"
+        },
+        {
+          "wall_ms": 0.08599995635449886,
+          "native_ms": 0.0834,
+          "rgba_sha256": "6a0ce5f870166c928f4ff366c1bb90ce9b1085aa73ff5ae16b93385e21b84a26"
+        },
+        {
+          "wall_ms": 0.08020002860575914,
+          "native_ms": 0.0791,
+          "rgba_sha256": "6a0ce5f870166c928f4ff366c1bb90ce9b1085aa73ff5ae16b93385e21b84a26"
+        },
+        {
+          "wall_ms": 0.0787999015301466,
+          "native_ms": 0.078,
+          "rgba_sha256": "6a0ce5f870166c928f4ff366c1bb90ce9b1085aa73ff5ae16b93385e21b84a26"
+        },
+        {
+          "wall_ms": 0.07890001870691776,
+          "native_ms": 0.078,
+          "rgba_sha256": "6a0ce5f870166c928f4ff366c1bb90ce9b1085aa73ff5ae16b93385e21b84a26"
+        },
+        {
+          "wall_ms": 0.07889990229159594,
+          "native_ms": 0.0781,
+          "rgba_sha256": "6a0ce5f870166c928f4ff366c1bb90ce9b1085aa73ff5ae16b93385e21b84a26"
+        },
+        {
+          "wall_ms": 0.07880001794546843,
+          "native_ms": 0.0782,
+          "rgba_sha256": "6a0ce5f870166c928f4ff366c1bb90ce9b1085aa73ff5ae16b93385e21b84a26"
+        }
+      ]
+    }
+  ]
+}

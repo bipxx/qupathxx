@@ -6,9 +6,10 @@ is required to fit or navigate a slide.
 
 The planner selects a level using zoom and framebuffer scale. Coarse fallback
 tiles load first when affordable, with central detail tiles prioritized next.
-The main view and overview each request at most 128 tiles, sharing decoded/GPU
-entries for identical regions. When the available pyramid cannot cover the
-view within that limit, the canvas explicitly asks the user to zoom in. Native
+The main view requests at most 128 tiles. The overview uses a separate
+[complete bounded thumbnail job](thumbnails.md) and one texture; unavailable
+levels produce an explicit status. When the available pyramid cannot cover the
+main view within its tile limit, the canvas explicitly asks the user to zoom in. Native
 tests exercise trillion-pixel metadata without allocating large images.
 
 Geometry stays double precision until final screen conversion. Integer tile

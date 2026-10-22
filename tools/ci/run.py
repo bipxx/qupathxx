@@ -171,6 +171,10 @@ def main():
         run([native_test/'qupathxx_region.exe', ppm, '0', '0', '0', '2', '2', pam], work/'standalone-region.log', clean, 60)
         if pam.read_bytes().split(b'ENDHDR\n', 1)[1] != bytes([16, 32, 64, 255])*4:
             raise RuntimeError('standalone region pixels differ')
+        thumb = work/'standalone-thumbnail.pam'
+        run([native_test/'qupathxx_region.exe', '--thumbnail', ppm, '1', '1', thumb], work/'standalone-thumbnail.log', clean, 60)
+        if thumb.read_bytes().split(b'ENDHDR\n', 1)[1] != bytes([16, 32, 64, 255]):
+            raise RuntimeError('standalone thumbnail pixels differ')
         slide = Path(env['QUPATHXX_APERIO_FIXTURE'])
         run([native_test/'qupathxx_app.exe', slide, '--smoke'], work/'standalone-slide-gui.log', clean, 120)
         slide_region = work/'standalone-slide.pam'
@@ -181,6 +185,14 @@ def main():
             work/'installed-slide-region.log', env, 60)
         if slide_region.read_bytes() != reference.read_bytes():
             raise RuntimeError('standalone slide pixels differ from installed reader')
+        slide_thumb = work/'standalone-slide-thumbnail.pam'
+        run([native_test/'qupathxx_region.exe', '--thumbnail', slide, '250', '150', slide_thumb],
+            work/'standalone-slide-thumbnail.log', clean, 60)
+        thumb_reference = work/'installed-slide-thumbnail.pam'
+        run([install/'Lib/site-packages/qupathxx/qupathxx_region.exe', '--thumbnail', slide, '250', '150', thumb_reference],
+            work/'installed-slide-thumbnail.log', env, 60)
+        if slide_thumb.read_bytes() != thumb_reference.read_bytes():
+            raise RuntimeError('standalone slide thumbnail differs from installed reader')
     (work/'result.json').write_text(json.dumps(dict(mode=args.mode, wheel=wheel.name, wheel_sha256=assets.sha(wheel),
                                                   python=sys.version, tested_utc=time.time()), indent=2)+'\n', encoding='utf8')
 

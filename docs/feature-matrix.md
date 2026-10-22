@@ -41,8 +41,9 @@ M0 remains open: geometry and SQLite probes are recorded in geometry-spatial.md 
 choose the project license, obtain broader slide/damage fixtures, and freeze
 benchmark hardware plus workflow tolerances. A bounded native read scheduler,
 cancellation and decoded caching are implemented; see the
-[scheduler contract](tile-scheduler-contract.md). M1 remains open for thumbnail
-policy and broader reader validation. Tiled rendering and viewport integration
+[scheduler contract](tile-scheduler-contract.md). A [complete bounded thumbnail
+policy](thumbnails.md) provides native/Python/CLI access and an asynchronous
+overview. M1 remains open for broader reader validation. Tiled rendering and viewport integration
 are implemented, including overview navigation and RGB display controls.
 M2 remains open for docking/layout, fluorescence/ICC, OS/DPI interactions and
 vendor stress benchmarks. Keep reader, scheduler, planner and OpenGL checks passing.

@@ -57,6 +57,15 @@ int main() {
             ticket=frozen.activate(2);controller.pump(paused.context);
             paused.context.active_image=paused.project->active_image();controller.pump(paused.context);
             check(frozen.take(ticket).state=="succeeded" && frozen.stats().frame==30);
+            for(int i=0;i<64;++i) {
+                const std::uint64_t target=i%2+1;ticket=frozen.activate(target);
+                auto observer=std::async(std::launch::async,[&,ticket,target] {
+                    auto event=frozen.wait(ticket,3);return event.state=="succeeded" && frozen.stats().active_image==target;
+                });
+                controller.pump(paused.context);
+                paused.context.active_image=paused.project->active_image();controller.pump(paused.context);
+                check(observer.get());frozen.take(ticket);
+            }
             controller.finish(paused.context);
         }
         fs::remove_all(root);std::cout<<"Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed\n";

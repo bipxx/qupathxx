@@ -122,7 +122,11 @@ struct ViewerOwner::Impl {
         }
         if(command.action==Action::Activate) {
             if(stale || w.ticket->cancelled.load()) {failure(w.ticket,stale?"workspace replaced":"activation cancelled",stale?"stale":"cancelled");work.reset();return;}
-            if(c.active_image==command.image) {auto e=w.seed;e.state="succeeded";complete(w.ticket,std::move(e));work.reset();}
+            if(c.active_image==command.image) {
+                // A waiting producer can wake inside complete(). Publish the
+                // adopted image snapshot before its successful activation.
+                update(c);auto e=w.seed;e.state="succeeded";complete(w.ticket,std::move(e));work.reset();
+            }
             else if(!c.blocked && cycle-w.cycle>2) {failure(w.ticket,"image activation failed or was superseded");work.reset();}return;
         }
         if(stale || c.closing) w.ticket->cancelled.store(true);

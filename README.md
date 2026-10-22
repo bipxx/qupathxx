@@ -7,6 +7,10 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Complete bounded thumbnails are available in C++, Python and the native CLI.
+  The asynchronous ImGui overview rejects stale image results; see the
+  [thumbnail policy and measurements](docs/thumbnails.md).
+
 - Native resize preserves the view center and overlay pixels. Minimized windows
   suspend drawing while managed commands, saves and autosave continue; see
   [window lifecycle and measurements](docs/window-lifecycle.md).
@@ -236,6 +240,7 @@ CMake build places it in the executable output directory):
 
 ```powershell
 build/cp312-cp312-win_amd64/Release/qupathxx_region.exe sample.svs 1000 2000 0 256 256 region.pam
+build/cp312-cp312-win_amd64/Release/qupathxx_region.exe --thumbnail sample.svs 250 150 thumbnail.pam
 ```
 
 See the [image-server contract](docs/image-server-contract.md) for pixel,

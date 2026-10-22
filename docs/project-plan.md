@@ -1667,3 +1667,23 @@ These are development candidates. Linux wheels still require the explicit GEOS
 SDK/system OpenSlide runtime. Windows hardware/DPI campaigns, user-machine
 installer acceptance, macOS, project license and fixture decisions, the M2 cold
 frame target and all other unfinished M0-M7 requirements remain active.
+
+### Packet 62: complete thumbnails and bounded overview publication
+
+Native/Python thumbnail planning and reads now define no-upscaling aspect fit,
+smallest adequate complete natural-level selection, source/output pixel budgets
+and alpha-aware integer area filtering. A native single-owner background job
+handles cancellation and reader/result lifetime. The region executable adds
+`--thumbnail` without Python. The ImGui overview uses one asynchronous complete
+texture with source-switch rejection and separate payload reporting, replacing
+the previous potentially truncated overview tile plan. Empty workspaces reap
+cancelled jobs and settle normally. See the [policy and evidence](thumbnails.md).
+
+Managed activation publishes the adopted image statistics before notifying a
+waiting Python producer of success. The full regression run exposed the prior
+notification race in a minimized window; a concurrent native check covers
+success visibility while the rendered frame counter stays frozen.
+
+M1's thumbnail policy is implemented for the current dense/OpenSlide readers.
+Broader vendor, damage, axes, metadata and ICC acceptance remains open, alongside
+all other unfinished milestone requirements.

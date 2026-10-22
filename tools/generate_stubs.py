@@ -28,6 +28,10 @@ def main():
             if 'def numpy(' in line and current in ('Image','PixelBuffer','FloatRgbImage'):
                 dtype='float32' if current=='FloatRgbImage' else 'uint8';line=line.replace('-> object:','-> NDArray[numpy.'+dtype+']:')
             if 'def labels_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint32]:')
+            # A shared_ptr return can be empty; stubgen otherwise loses that
+            # distinction for the thumbnail publication/report accessors.
+            if current in ('ThumbnailJob','GuiReport'):
+                line=line.replace('-> ThumbnailResult:', '-> ThumbnailResult | None:')
             lines.append(line)
             if line.startswith('class ') and current in native_only:
                 lines.append('    def __init__(self, _native_only: Never) -> None: ...')

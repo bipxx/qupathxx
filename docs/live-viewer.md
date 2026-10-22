@@ -5,6 +5,8 @@ The main Python thread calls `q.show(session)`; a Python producer thread submits
 typed commands and waits for their notifications. The viewer opens its own
 project from a `.qpxproj` file through the background loader. It paints while
 loading and performs document edits/publication on its owner thread.
+Successful activation publishes the adopted image in `session.stats` before
+notifying waiting producers, including while the window is minimized.
 
 ```python
 import threading

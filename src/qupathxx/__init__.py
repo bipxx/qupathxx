@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    ThumbnailOptions, ThumbnailPlan, ThumbnailResult, ThumbnailStats, ThumbnailJob, plan_thumbnail, read_thumbnail,
     ViewerLimits, ViewerEvent, ViewerStats, ViewerSession,
     ProjectBatchKind, ProjectBatchFailure, ProjectBatchOptions, ProjectBatchSelection, ProjectBatchRequest, ProjectBatchImageResult, ProjectBatchReport, ProjectBatchStats, ProjectBatchJob, run_project_batch, project_batch_image_json, project_batch_report_json, batch_checkpoint_csv, save_batch_checkpoint_csv, input_sha256,
     StainEstimateParameters, StainEstimateRequest, StainEstimateResult, StainEstimateJob, estimate_stains, stain_model_sha256, stain_estimate_json, save_stain_estimate,
@@ -27,6 +28,7 @@ from ._native import (
 )
 
 __all__ = [
+    "ThumbnailOptions", "ThumbnailPlan", "ThumbnailResult", "ThumbnailStats", "ThumbnailJob", "plan_thumbnail", "read_thumbnail",
     "ViewerLimits", "ViewerEvent", "ViewerStats", "ViewerSession",
     "ProjectBatchKind", "ProjectBatchFailure", "ProjectBatchOptions", "ProjectBatchSelection", "ProjectBatchRequest", "ProjectBatchImageResult", "ProjectBatchReport", "ProjectBatchStats", "ProjectBatchJob", "run_project_batch", "project_batch_image_json", "project_batch_report_json", "batch_checkpoint_csv", "save_batch_checkpoint_csv", "input_sha256",
     "StainEstimateParameters", "StainEstimateRequest", "StainEstimateResult", "StainEstimateJob", "estimate_stains", "stain_model_sha256", "stain_estimate_json", "save_stain_estimate",

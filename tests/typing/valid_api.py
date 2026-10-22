@@ -65,3 +65,15 @@ def resize_after_minimize(doc: q.Document) -> tuple[int, float, bool]:
     options.inputs=[minimize,restore,resize,ready]
     report=q.show(doc,frame_limit=12,options=options)
     return report.suspended_iterations,report.suspended_work_ms,report.window_iconified
+
+
+def thumbnail_workflow(server: q.ImageServer) -> tuple[q.ThumbnailPlan, q.PixelBuffer, q.ThumbnailStats]:
+    options=q.ThumbnailOptions()
+    options.max_width,options.max_height=250,150
+    plan=q.plan_thumbnail(server.metadata,options)
+    job=q.ThumbnailJob()
+    job.request(server,options)
+    stats=job.wait()
+    result=job.result()
+    assert result is not None
+    return plan,result.pixels,stats

@@ -1,4 +1,5 @@
 #include "qupathxx/core.hpp"
+#include "qupathxx/thumbnail.hpp"
 #include "qupathxx/analysis.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/project_recovery.hpp"
@@ -19,6 +20,7 @@ void bind_analysis(nb::module_&);
 void bind_stain_estimation(nb::module_&);
 void bind_project_batch(nb::module_&);
 void bind_arrays(nb::module_&);
+void bind_thumbnails(nb::module_&);
 void bind_viewer_session(nb::module_&);
 void bind_tissue(nb::module_&);
 void bind_cells(nb::module_&);
@@ -321,6 +323,9 @@ NB_MODULE(_native, m) {
         .def_rw("tissue_open_radius",&GuiOptions::tissue_open_radius).def_rw("tissue_close_radius",&GuiOptions::tissue_close_radius)
         .def_rw("tissue_fill_holes",&GuiOptions::tissue_fill_holes).def_rw("tissue_max_hole_pixels",&GuiOptions::tissue_max_hole_pixels);
     nb::class_<GuiReport>(m,"GuiReport").def_ro("frames",&GuiReport::frames)
+        .def_ro("overview_state",&GuiReport::overview_state).def_ro("overview_error",&GuiReport::overview_error)
+        .def_ro("overview_result",&GuiReport::overview_result).def_ro("overview_gpu_bytes",&GuiReport::overview_gpu_bytes)
+        .def_ro("overview_peak_gpu_bytes",&GuiReport::overview_peak_gpu_bytes)
         .def_ro("suspended_iterations",&GuiReport::suspended_iterations).def_ro("suspended_work_ms",&GuiReport::suspended_work_ms)
         .def_ro("suspended_wait_ms",&GuiReport::suspended_wait_ms).def_ro("window_iconified",&GuiReport::window_iconified)
         .def_ro("overlay_cache_bytes",&GuiReport::overlay_cache_bytes).def_ro("overlay_cache_peak_bytes",&GuiReport::overlay_cache_peak_bytes)
@@ -368,6 +373,7 @@ NB_MODULE(_native, m) {
     bind_file_fingerprint(m);
     bind_project_batch(m);
     bind_arrays(m);
+    bind_thumbnails(m);
     bind_viewer_session(m);
 #ifdef QUPATHXX_HAS_GUI
     m.attr("has_gui") = true;

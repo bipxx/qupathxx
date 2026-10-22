@@ -6,6 +6,7 @@
 #include "qupathxx/analysis.hpp"
 #include "gui_profile.hpp"
 #include "gui_tiles.hpp"
+#include "gui_thumbnail.hpp"
 #include "gui_tissue.hpp"
 #include "qupathxx/cells.hpp"
 #include "qupathxx/cell_tables.hpp"
@@ -379,7 +380,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::size_t visible_count=0;
     std::vector<double> frame_times;
     TilePlan plan;
-    TilePlan overview_plan;
+    GuiThumbnail overview;
     Viewport overview_view;
     DisplaySettings display=options.display;
     std::optional<ProjectView> restore_view;
@@ -606,7 +607,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 drawing=marquee=vertex_dragging=false; active_vertex.reset(); draft_points.clear(); vertex_paths.clear(); vertex_id=hole_id=editor_id=selected=list_anchor=0;
                 tool=previous_tool=0; class_key.clear(); batch_class.clear(); error.clear(); interchange_status.clear();
                 list_ids.clear(); list_revision=calibration_revision=std::numeric_limits<std::uint64_t>::max();
-                plan={}; overview_plan={}; plan_inputs.reset(); published_view_inputs.reset(); overview_center.reset();
+                plan={}; overview.reset(); plan_inputs.reset(); published_view_inputs.reset(); overview_center.reset();
                 project_catalog_dirty=true; copy_recovery_path(project_path,options.project->path()); project_error.clear();
                 recovery_candidates.clear();
                 if(!same_recovery_file(autosave.stats().path,options.project->recovery_source())) autosave.clear();
@@ -691,7 +692,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     draft_points.clear(); vertex_paths.clear(); vertex_id=hole_id=editor_id=0;
                     tool=previous_tool=0; class_key.clear(); batch_class.clear(); error.clear(); interchange_status.clear();
                     list_ids.clear(); list_revision=calibration_revision=std::numeric_limits<std::uint64_t>::max();
-                    plan={}; overview_plan={}; plan_inputs.reset(); overview_center.reset();
+                    plan={}; overview.reset(); plan_inputs.reset(); overview_center.reset();
                     max_image_switch_ms=std::max(max_image_switch_ms,std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-frame_start).count());
                 }
                 refresh_active_image=false; project_error.clear();
@@ -1216,12 +1217,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         overview_draw=ImGui::GetWindowDrawList();
         overview_clip_min=overview_draw->GetClipRectMin(); overview_clip_max=overview_draw->GetClipRectMax();
         overview_view.fit(image.width,image.height,overview_size.x,overview_size.y);
-        if (overview_plan.tiles.empty()) overview_plan=plan_view_tiles(image,overview_view,overview_size.x,overview_size.y,1,256,128);
         if (ImGui::IsItemActive() && ImGui::IsMouseDown(0)) {
             auto center=overview_view.screen_to_image({io.MousePos.x-overview_offset.x,io.MousePos.y-overview_offset.y});
             overview_center=Point{std::clamp(center.x,0.,static_cast<double>(image.width)),std::clamp(center.y,0.,static_cast<double>(image.height))};
         }
-        if (overview_plan.truncated) ImGui::TextDisabled("Overview limited by source pyramid");
         ImGui::SeparatorText("Display");
         int mode=static_cast<int>(display.mode);
         if (ImGui::Combo("Channels",&mode,"RGB\0Grayscale\0Red\0Green\0Blue\0")) display.mode=static_cast<DisplayMode>(mode);
@@ -1939,8 +1938,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if (!plan_inputs || *plan_inputs!=inputs) {
             plan=plan_view_tiles(image,viewport,size.x,size.y,dpi,256,128); plan_inputs=inputs;
         }
-        auto combined=plan; combined.tiles.insert(combined.tiles.end(),overview_plan.tiles.begin(),overview_plan.tiles.end());
-        tiles->update(combined);
+        overview.update(active_document->server(),display);
+        tiles->update(plan);
         tissue_preview.update(tissue.result(),show_tissue);
         const auto detected=cell_job.result();cell_preview.update(detected?(cell_preview_body?detected->cells():detected->nuclei()):nullptr,show_cells);
         for(const auto& tile:plan.tiles) tiles->texture(tile); // Preserve tile LRU use even on a canvas-cache hit.
@@ -2030,8 +2029,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         overview_draw->PushClipRect({std::max(overview_offset.x,overview_clip_min.x),std::max(overview_offset.y,overview_clip_min.y)},
             {std::min(overview_offset.x+overview_size.x,overview_clip_max.x),std::min(overview_offset.y+overview_size.y,overview_clip_max.y)},false);
         overview_draw->AddRectFilled(overview_offset,{overview_offset.x+overview_size.x,overview_offset.y+overview_size.y},IM_COL32(18,21,27,255));
-        for (const auto& tile:overview_plan.tiles) if (auto texture=tiles->texture(tile)) overview_draw->AddImage(static_cast<ImTextureID>(texture),
-            screen(overview_view,{tile.bounds.x,tile.bounds.y},overview_offset),screen(overview_view,{tile.bounds.x+tile.bounds.width,tile.bounds.y+tile.bounds.height},overview_offset));
+        if(overview.ready()) overview_draw->AddImage(static_cast<ImTextureID>(overview.texture()),
+            screen(overview_view,{0,0},overview_offset),screen(overview_view,{double(image.width),double(image.height)},overview_offset));
+        else overview_draw->AddText({overview_offset.x+4,overview_offset.y+4},IM_COL32(210,215,225,255),
+            overview.state()=="failed"?"Overview unavailable":"Loading overview...");
         auto top_left=viewport.screen_to_image({0,0}),bottom_right=viewport.screen_to_image({size.x,size.y});
         overview_draw->AddRect(screen(overview_view,top_left,overview_offset),screen(overview_view,bottom_right,overview_offset),IM_COL32(255,205,85,255),0,0,2);
         overview_draw->PopClipRect();
@@ -2052,6 +2053,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             }
         }
         } else {
+            overview.update(nullptr,display); // Reap a cancelled old-source job in an empty workspace.
             overlay_cache.clear();overlay_display.reset();
             visible_count=0;
             ImGui::GetWindowDrawList()->AddText({offset.x+32,offset.y+32},IM_COL32(190,205,220,255),project_images.empty()?"No images in this project.\nAdd an image in Project images, or open another project.":"No image selected.\nSelect an image in Project images.");
@@ -2155,7 +2157,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         replay.finish_frame(!settling);
         if(settling) ++settle_frames;
-        const bool tiles_settled=!startup_active && !project_load.valid() && !restore_pending && !tiles->pending() && tiles->error().empty();
+        const bool tiles_settled=!startup_active && !project_load.valid() && !restore_pending && !tiles->pending() && tiles->error().empty() && (!has_image || overview.settled());
         if(options.settle_tiles && !within_frames() && !tiles->error().empty()) throw std::runtime_error("GUI tile settlement failed: "+tiles->error());
         const bool final_frame=!within_frames() && !restore_after_save && !restore_pending && (!options.settle_tiles || tiles_settled);
         if (!capture_path.empty() && final_frame) capture(capture_path,w,h);
@@ -2237,7 +2239,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         tissue_status.elapsed_ms,tissue_preview.ready(),tissue_result?tissue_result->level():-1,tissue_result?tissue_result->downsample():0,
         tissue_result?tissue_result->width():0,tissue_result?tissue_result->height():0,tissue_result?tissue_result->cleaned_pixels():0,
         tissue_result?tissue_result->filled_pixels():0,tissue_result?tissue_result->cleanup_ms():0,
-        replay.frame(),replay.waits(),settle_frames,replay.complete(),!startup_active && !project_load.valid() && !restore_pending && !tiles->pending() && tiles->error().empty(),
+        replay.frame(),replay.waits(),settle_frames,replay.complete(),!startup_active && !project_load.valid() && !restore_pending && !tiles->pending() && tiles->error().empty() && (empty || overview.settled()),
         tissue_contours?tissue_contours->components().size():0,tissue_contours?tissue_contours->edge_count():0,tissue_contours?tissue_contours->vertex_count():0,
         tissue.contours_published()?tissue_annotations_added:0,tissue_contours?tissue_contours->elapsed_ms():0,tissue.contours_published(),
         saved_tissue?saved_tissue->id:0,saved_tissue?active_document->tissue_status(saved_tissue->id):std::string{},
@@ -2246,7 +2248,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         saved_cells?saved_cells->id:0,saved_cells?active_document->cell_status(saved_cells->id):std::string{},
         final_table.state,cell_table_error.empty()?final_table.error:cell_table_error,final_table.path,final_table.rows,final_table.bytes,final_table.capture_ms,final_table.write_ms,
         final_fingerprint.state,final_fingerprint.error.empty()?fingerprint_error:final_fingerprint.error,fingerprint_job.result(),final_fingerprint.bytes,final_fingerprint.elapsed_ms,
-        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied,batch.stats().state,batch.error(),batch.result(),suspended_iterations,suspended_work_ms,suspended_wait_ms,bool(glfwGetWindowAttrib(session.window,GLFW_ICONIFIED))};
+        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied,batch.stats().state,batch.error(),batch.result(),suspended_iterations,suspended_work_ms,suspended_wait_ms,bool(glfwGetWindowAttrib(session.window,GLFW_ICONIFIED)),overview.state(),overview.error(),overview.result(),overview.bytes(),overview.peak_bytes()};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");
