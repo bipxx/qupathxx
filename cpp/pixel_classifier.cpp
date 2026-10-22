@@ -30,20 +30,28 @@ struct PixelClassifier::Data {
     ForestModel forest;
     PixelFeatureOptions options;
     StainTransform transform;
+    std::optional<PixelResolution> resolution;
     std::vector<std::uint8_t> bytes;
     std::string sha;
     Data(const ForestModel& f,PixelFeatureOptions o,const StainTransform& t):forest(f),options(std::move(o)),transform(t) {}
 };
-PixelClassifier::PixelClassifier(const ForestModel& forest,PixelFeatureOptions options,const StainTransform& transform) {
+void PixelResolution::validate() const {
+    if(!std::isfinite(downsample) || downsample<1 || bool(pixel_width_um)!=bool(pixel_height_um)) throw std::invalid_argument("invalid pixel sampling resolution");
+    if(pixel_width_um && (!std::isfinite(*pixel_width_um) || !std::isfinite(*pixel_height_um) || *pixel_width_um<=0 || *pixel_height_um<=0)) throw std::invalid_argument("pixel sampling calibration must be positive and finite");
+}
+PixelClassifier::PixelClassifier(const ForestModel& forest,PixelFeatureOptions options,const StainTransform& transform,std::optional<PixelResolution> resolution) {
+    if(resolution) resolution->validate();
     const auto schema=pixel_feature_schema(options,transform);const auto& actual=forest.features();if(schema.size()!=actual.size()) throw std::invalid_argument("pixel classifier feature schema mismatch");
     for(std::size_t i=0;i<schema.size();++i) if(schema[i].name!=actual[i].name || schema[i].unit!=actual[i].unit) throw std::invalid_argument("pixel classifier feature schema mismatch");
-    auto data=std::make_shared<Data>(forest,std::move(options),transform);const auto& o=data->options;Writer w;
+    auto data=std::make_shared<Data>(forest,std::move(options),transform);const auto& o=data->options;data->resolution=resolution;Writer w;if(resolution) w.b[3]=2;
     w.integer(std::uint64_t(o.rgb)|(std::uint64_t(o.optical_density)<<1)|(std::uint64_t(o.stains)<<2)|(std::uint64_t(o.gradient_magnitude)<<3)|(std::uint64_t(o.laplacian)<<4));
     w.integer(o.sigmas.size());for(auto sigma:o.sigmas) w.real(sigma);w.integer(o.work_bytes);
     for(auto v:transform.white()) w.real(v);for(const auto& row:transform.stains()) for(auto v:row) w.real(v);
+    if(resolution) {w.real(resolution->downsample);w.integer(resolution->physical());if(resolution->physical()) {w.real(*resolution->pixel_width_um);w.real(*resolution->pixel_height_um);}}
     const auto bytes=forest.bytes();w.integer(bytes.size());w.b.insert(w.b.end(),bytes.begin(),bytes.end());const auto digest=hash(w.b.data(),w.b.size());w.b.insert(w.b.end(),digest.begin(),digest.end());
     if(w.b.size()>limit) throw std::length_error("pixel classifier recipe exceeds 64 MiB plus 4 KiB");w.b.shrink_to_fit();data->bytes=std::move(w.b);data->sha=hash(data->bytes.data(),data->bytes.size());data_=std::move(data);
 }
+std::optional<PixelResolution> PixelClassifier::resolution() const {return data_->resolution;}
 const ForestModel& PixelClassifier::forest() const {return data_->forest;}
 PixelFeatureOptions PixelClassifier::options() const {return data_->options;}
 const StainTransform& PixelClassifier::transform() const {return data_->transform;}
@@ -52,13 +60,14 @@ const std::vector<std::string>& PixelClassifier::classes() const {return forest(
 const std::vector<std::uint8_t>& PixelClassifier::bytes() const {return data_->bytes;}
 const std::string& PixelClassifier::sha256() const {return data_->sha;}
 PixelClassifier PixelClassifier::from_bytes(const std::vector<std::uint8_t>& bytes) {
-    if(bytes.size()<68 || bytes.size()>limit || std::memcmp(bytes.data(),"QPC\1",4)) throw std::invalid_argument("unsupported pixel classifier recipe encoding");
+    if(bytes.size()<68 || bytes.size()>limit || (std::memcmp(bytes.data(),"QPC",3) || (bytes[3]!=1 && bytes[3]!=2))) throw std::invalid_argument("unsupported pixel classifier recipe encoding");
     if(hash(bytes.data(),bytes.size()-64)!=std::string(reinterpret_cast<const char*>(bytes.data()+bytes.size()-64),64)) throw std::invalid_argument("pixel classifier recipe checksum mismatch");
     Reader r{bytes.data()+4,bytes.size()-68};PixelFeatureOptions o;const auto flags=r.integer(31);o.rgb=flags&1;o.optical_density=flags&2;o.stains=flags&4;o.gradient_magnitude=flags&8;o.laplacian=flags&16;
     const auto n=r.integer(8);if(!n) throw std::invalid_argument("pixel classifier recipe has no scales");o.sigmas.clear();for(std::size_t i=0;i<n;++i) o.sigmas.push_back(r.real());o.work_bytes=static_cast<std::size_t>(r.integer(1024ULL*1024*1024));o.validate();
     ColorVector white;std::array<ColorVector,3> stains;for(auto& v:white) v=r.real();for(auto& row:stains) for(auto& v:row) v=r.real();const auto transform=StainTransform::from_normalized(stains,white);
+    std::optional<PixelResolution> resolution;if(bytes[3]==2) {PixelResolution v;v.downsample=r.real();if(r.integer(1)) {v.pixel_width_um=r.real();v.pixel_height_um=r.real();}v.validate();resolution=v;}
     const auto size=r.integer(64u*1024*1024);if(size!=r.left) throw std::invalid_argument("invalid pixel classifier forest payload length");
-    const auto forest=ForestModel::from_bytes(std::vector<std::uint8_t>(r.p,r.p+size));PixelClassifier result(forest,std::move(o),transform);
+    const auto forest=ForestModel::from_bytes(std::vector<std::uint8_t>(r.p,r.p+size));PixelClassifier result(forest,std::move(o),transform,resolution);
     if(result.bytes()!=bytes) throw std::invalid_argument("noncanonical pixel classifier recipe");return result;
 }
 std::shared_ptr<const PixelClassification> classify_pixels(const PixelBuffer& input,const PixelClassifier& classifier,double minimum,std::optional<PixelFeatureWindow> window,std::size_t budget,const std::atomic<bool>* cancelled) {

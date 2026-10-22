@@ -1,0 +1,65 @@
+#include "qupathxx/pixel_prediction.hpp"
+#include <nanobind/nanobind.h>
+#include <nanobind/ndarray.h>
+#include <nanobind/stl/optional.h>
+#include <nanobind/stl/shared_ptr.h>
+#include <nanobind/stl/string.h>
+#include <nanobind/stl/vector.h>
+namespace nb=nanobind;using namespace nb::literals;
+namespace {
+template<class T> nb::object array(const std::vector<T>& values,std::initializer_list<std::size_t> shape,nb::handle owner,bool copy) {
+    if(!copy) return nb::ndarray<nb::numpy,const T>(values.data(),shape,owner).cast();auto storage=std::make_unique<std::vector<T>>(values);auto* data=storage->data();nb::capsule capsule(storage.get(),[](void* p) noexcept {delete static_cast<std::vector<T>*>(p);});storage.release();return nb::ndarray<nb::numpy,T>(data,shape,capsule).cast();
+}
+}
+void bind_pixel_workflows(nb::module_& m) {
+    using namespace qpx;const StainTransform identity({{1,0,0},{0,1,0}});
+    nb::class_<PixelTrainingOptions>(m,"PixelTrainingOptions").def(nb::init<>())
+        .def_rw("features",&PixelTrainingOptions::features).def_rw("level",&PixelTrainingOptions::level).def_rw("calibrated",&PixelTrainingOptions::calibrated).def_rw("balanced",&PixelTrainingOptions::balanced)
+        .def_rw("tile_size",&PixelTrainingOptions::tile_size).def_rw("max_samples",&PixelTrainingOptions::max_samples).def_rw("max_samples_per_class",&PixelTrainingOptions::max_samples_per_class)
+        .def_rw("work_bytes",&PixelTrainingOptions::work_bytes).def_rw("seed",&PixelTrainingOptions::seed).def_rw("max_scanned_pixels",&PixelTrainingOptions::max_scanned_pixels).def("validate",&PixelTrainingOptions::validate);
+    nb::class_<PixelTrainingRequest>(m,"PixelTrainingRequest")
+        .def(nb::init<const Document&,const std::vector<std::uint64_t>&,const StainTransform&,PixelTrainingOptions>(),"document"_a,"annotation_ids"_a,"transform"_a=identity,"options"_a=PixelTrainingOptions{})
+        .def("matches",&PixelTrainingRequest::matches).def_prop_ro("options",&PixelTrainingRequest::options).def_prop_ro("resolution",&PixelTrainingRequest::resolution)
+        .def_prop_ro("document_revision",&PixelTrainingRequest::document_revision).def_prop_ro("snapshot_bytes",&PixelTrainingRequest::snapshot_bytes).def_prop_ro("capture_ms",&PixelTrainingRequest::capture_ms).def_prop_ro("provenance",&PixelTrainingRequest::provenance);
+    nb::class_<PixelTrainingTable>(m,"PixelTrainingTable")
+        .def_prop_ro("algorithm",&PixelTrainingTable::algorithm).def_prop_ro("row_count",&PixelTrainingTable::row_count)
+        .def_prop_ro("classes",[](const PixelTrainingTable& t){return t.classes();}).def_prop_ro("features",[](const PixelTrainingTable& t){return t.features();})
+        .def_prop_ro("eligible_class_pixels",[](const PixelTrainingTable& t){return t.eligible_class_pixels();}).def_prop_ro("sampled_class_counts",[](const PixelTrainingTable& t){return t.sampled_class_counts();})
+        .def_prop_ro("ambiguous_pixels",&PixelTrainingTable::ambiguous_pixels).def_prop_ro("scanned_pixels",&PixelTrainingTable::scanned_pixels).def_prop_ro("tiles",&PixelTrainingTable::tiles)
+        .def_prop_ro("options",&PixelTrainingTable::options).def_prop_ro("resolution",&PixelTrainingTable::resolution).def_prop_ro("transform",&PixelTrainingTable::transform,nb::rv_policy::copy)
+        .def_prop_ro("provenance",&PixelTrainingTable::provenance).def_prop_ro("sha256",&PixelTrainingTable::sha256).def_prop_ro("input_sha256",&PixelTrainingTable::input_sha256)
+        .def_prop_ro("retained_bytes",&PixelTrainingTable::retained_bytes).def_prop_ro("estimated_work_bytes",&PixelTrainingTable::estimated_work_bytes).def_prop_ro("elapsed_ms",&PixelTrainingTable::elapsed_ms)
+        .def("numpy",[](nb::object self,bool copy){const auto& t=nb::cast<const PixelTrainingTable&>(self);return array(t.values(),{t.row_count(),t.features().size()},self,copy);},"copy"_a=false)
+        .def("labels_numpy",[](nb::object self,bool copy){const auto& t=nb::cast<const PixelTrainingTable&>(self);return array(t.labels(),{t.row_count()},self,copy);},"copy"_a=false)
+        .def("coordinates_numpy",[](nb::object self,bool copy){const auto& t=nb::cast<const PixelTrainingTable&>(self);return array(t.coordinates(),{t.row_count(),2},self,copy);},"copy"_a=false)
+        .def("annotation_ids_numpy",[](nb::object self,bool copy){const auto& t=nb::cast<const PixelTrainingTable&>(self);return array(t.annotation_ids(),{t.row_count()},self,copy);},"copy"_a=false);
+    nb::class_<PixelTrainingStats>(m,"PixelTrainingStats").def_prop_ro("state",[](const PixelTrainingStats& s){return s.state;}).def_prop_ro("phase",[](const PixelTrainingStats& s){return s.phase;})
+        .def_prop_ro("error",[](const PixelTrainingStats& s){return s.error;}).def_prop_ro("generation",[](const PixelTrainingStats& s){return s.generation;})
+        .def_prop_ro("completed_tiles",[](const PixelTrainingStats& s){return s.completed_tiles;}).def_prop_ro("total_tiles",[](const PixelTrainingStats& s){return s.total_tiles;}).def_prop_ro("elapsed_ms",[](const PixelTrainingStats& s){return s.elapsed_ms;});
+    nb::class_<PixelTrainingJob>(m,"PixelTrainingJob").def(nb::init<>()).def("train",&PixelTrainingJob::train,"request"_a,"parameters"_a=ForestParameters{})
+        .def_prop_ro("busy",&PixelTrainingJob::busy).def("cancel",&PixelTrainingJob::cancel).def("poll",&PixelTrainingJob::poll)
+        .def("wait",&PixelTrainingJob::wait,nb::call_guard<nb::gil_scoped_release>()).def_prop_ro("table",&PixelTrainingJob::table).def_prop_ro("model",&PixelTrainingJob::model);
+    m.def("sample_pixel_training",[](const PixelTrainingRequest& r){return sample_pixel_training(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
+    m.def("train_pixel_classifier",[](const PixelTrainingTable& t,ForestParameters p){return train_pixel_classifier(t,p);},"table"_a,"parameters"_a=ForestParameters{},nb::call_guard<nb::gil_scoped_release>());
+    m.def("pixel_classifier_level",&pixel_classifier_level,"document"_a,"classifier"_a);
+    nb::class_<PixelPredictionOptions>(m,"PixelPredictionOptions").def(nb::init<>()).def_rw("tile_size",&PixelPredictionOptions::tile_size).def_rw("work_bytes",&PixelPredictionOptions::work_bytes)
+        .def_rw("min_vote_fraction",&PixelPredictionOptions::min_vote_fraction).def("validate",&PixelPredictionOptions::validate);
+    nb::class_<PixelPredictionRequest>(m,"PixelPredictionRequest")
+        .def(nb::init<const Document&,std::uint64_t,const PixelClassifier&,PixelPredictionOptions>(),"document"_a,"object_id"_a,"classifier"_a,"options"_a=PixelPredictionOptions{})
+        .def("matches",&PixelPredictionRequest::matches).def_prop_ro("object_id",&PixelPredictionRequest::object_id).def_prop_ro("document_revision",&PixelPredictionRequest::document_revision)
+        .def_prop_ro("level",&PixelPredictionRequest::level).def_prop_ro("downsample",&PixelPredictionRequest::downsample).def_prop_ro("level_bounds",&PixelPredictionRequest::level_bounds)
+        .def_prop_ro("estimated_work_bytes",&PixelPredictionRequest::estimated_work_bytes).def_prop_ro("total_tiles",&PixelPredictionRequest::total_tiles);
+    nb::class_<PixelPredictionResult>(m,"PixelPredictionResult")
+        .def_prop_ro("algorithm",&PixelPredictionResult::algorithm).def_prop_ro("width",&PixelPredictionResult::width).def_prop_ro("height",&PixelPredictionResult::height)
+        .def_prop_ro("object_id",&PixelPredictionResult::object_id).def_prop_ro("level",&PixelPredictionResult::level).def_prop_ro("downsample",&PixelPredictionResult::downsample)
+        .def_prop_ro("bounds",&PixelPredictionResult::bounds).def_prop_ro("level_bounds",&PixelPredictionResult::level_bounds).def_prop_ro("roi",&PixelPredictionResult::roi,nb::rv_policy::copy)
+        .def_prop_ro("provenance",&PixelPredictionResult::provenance).def_prop_ro("model",&PixelPredictionResult::model,nb::rv_policy::copy).def_prop_ro("options",&PixelPredictionResult::options)
+        .def_prop_ro("class_counts",[](const PixelPredictionResult& r){return r.class_counts();}).def_prop_ro("valid_pixels",&PixelPredictionResult::valid_pixels).def_prop_ro("classified_pixels",&PixelPredictionResult::classified_pixels)
+        .def_prop_ro("estimated_work_bytes",&PixelPredictionResult::estimated_work_bytes).def_prop_ro("elapsed_ms",&PixelPredictionResult::elapsed_ms).def_prop_ro("sha256",&PixelPredictionResult::sha256).def_prop_ro("input_sha256",&PixelPredictionResult::input_sha256)
+        .def("labels_numpy",[](nb::object self,bool copy){const auto& r=nb::cast<const PixelPredictionResult&>(self);return array(r.labels(),{std::size_t(r.height()),std::size_t(r.width())},self,copy);},"copy"_a=false)
+        .def("valid_numpy",[](nb::object self,bool copy){const auto& r=nb::cast<const PixelPredictionResult&>(self);return array(r.valid(),{std::size_t(r.height()),std::size_t(r.width())},self,copy);},"copy"_a=false)
+        .def("vote_fractions_numpy",[](nb::object self,bool copy){const auto& r=nb::cast<const PixelPredictionResult&>(self);return array(r.vote_fractions(),{std::size_t(r.height()),std::size_t(r.width())},self,copy);},"copy"_a=false);
+    m.def("predict_pixel_region",[](const PixelPredictionRequest& r){return predict_pixel_region(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
+    nb::class_<PixelPredictionJob>(m,"PixelPredictionJob").def(nb::init<>()).def("request",&PixelPredictionJob::request).def_prop_ro("busy",&PixelPredictionJob::busy).def("cancel",&PixelPredictionJob::cancel)
+        .def("poll",&PixelPredictionJob::poll).def("wait",&PixelPredictionJob::wait,nb::call_guard<nb::gil_scoped_release>()).def_prop_ro("result",&PixelPredictionJob::result);
+}

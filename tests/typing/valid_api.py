@@ -161,3 +161,26 @@ def pixel_recipe(pixels: q.PixelBuffer, forest: q.ForestModel, options: q.PixelF
     result.valid_numpy()
     portable: q.PixelClassifier = q.PixelClassifier.from_bytes(recipe.to_bytes())
     return portable.sha256 + result.sha256
+
+
+def annotated_pixel_training(doc: q.Document, ids: list[int]) -> q.PixelClassifier | None:
+    job=q.PixelTrainingJob()
+    request=q.PixelTrainingRequest(doc, ids)
+    job.train(request)
+    job.wait(doc)
+    table: q.PixelTrainingTable | None = job.table
+    if table is not None:
+        table.numpy()
+        table.coordinates_numpy()
+        table.annotation_ids_numpy()
+    return job.model
+
+
+def pixel_source_mask(doc: q.Document, object_id: int, model: q.PixelClassifier) -> str:
+    resolution: q.PixelResolution | None = model.resolution
+    request=q.PixelPredictionRequest(doc, object_id, model)
+    result: q.PixelPredictionResult=q.predict_pixel_region(request)
+    result.labels_numpy()
+    result.valid_numpy()
+    result.vote_fractions_numpy()
+    return result.sha256 if resolution is not None else ''

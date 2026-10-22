@@ -29,8 +29,15 @@ def main():
                 dtype='float32' if current=='FloatRgbImage' else 'uint8';line=line.replace('-> object:','-> NDArray[numpy.'+dtype+']:')
             if 'def labels_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint32]:')
             if current=='PixelFeatureImage' and 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
-            if current in ('PixelFeatureImage','PixelClassification') and 'def valid_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint8]:')
-            if current=='PixelClassification' and 'def vote_fractions_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
+            if current in ('PixelFeatureImage','PixelClassification','PixelPredictionResult') and 'def valid_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint8]:')
+            if current in ('PixelClassification','PixelPredictionResult') and 'def vote_fractions_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
+            if current=='PixelTrainingTable':
+                if 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
+                if 'def coordinates_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.int64]:')
+                if 'def annotation_ids_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint64]:')
+            if current=='PixelTrainingJob':
+                for name in ['PixelClassifier','PixelTrainingTable']:line=line.replace('-> '+name+':','-> '+name+' | None:')
+            if current=='PixelPredictionJob':line=line.replace('-> PixelPredictionResult:','-> PixelPredictionResult | None:')
             if current=='ObjectFeatureTable' and 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
             if current=='ObjectClassifierJob':
                 for name in ['ForestModel','ObjectFeatureTable','ObjectClassificationResult','ObjectClassifierArchive']:

@@ -1,11 +1,18 @@
 #pragma once
 #include "qupathxx/pixel_features.hpp"
 namespace qpx {
+struct PixelResolution {
+    double downsample=1;
+    std::optional<double> pixel_width_um,pixel_height_um;
+    void validate() const;
+    bool physical() const {return pixel_width_um.has_value();}
+};
 // Immutable grid-pixel recipe. The caller supplies the sampled resolution;
 // source/Document authority and resampling are not inferred from an RGBA buffer.
 class PixelClassifier {
 public:
-    PixelClassifier(const ForestModel&,PixelFeatureOptions,const StainTransform&);
+    PixelClassifier(const ForestModel&,PixelFeatureOptions,const StainTransform&,std::optional<PixelResolution> resolution={});
+    std::optional<PixelResolution> resolution() const;
     const ForestModel& forest() const;
     PixelFeatureOptions options() const;
     const StainTransform& transform() const;

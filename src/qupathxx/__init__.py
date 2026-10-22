@@ -1,6 +1,8 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
     ObjectCellFeatureSource, ObjectFeatureCellOrigin, ObjectClassifierArchive, ObjectClassifierRecord, archive_object_classifier,
+    PixelResolution, PixelTrainingOptions, PixelTrainingRequest, PixelTrainingTable, PixelTrainingStats, PixelTrainingJob, sample_pixel_training, train_pixel_classifier, pixel_classifier_level,
+    PixelPredictionOptions, PixelPredictionRequest, PixelPredictionResult, PixelPredictionJob, predict_pixel_region,
     PixelClassifier,
     PixelClassification,
     classify_pixels,
@@ -39,6 +41,8 @@ from ._native import (
 
 __all__ = [
     "ObjectCellFeatureSource", "ObjectFeatureCellOrigin", "ObjectClassifierArchive", "ObjectClassifierRecord", "archive_object_classifier",
+    "PixelResolution", "PixelTrainingOptions", "PixelTrainingRequest", "PixelTrainingTable", "PixelTrainingStats", "PixelTrainingJob", "sample_pixel_training", "train_pixel_classifier", "pixel_classifier_level",
+    "PixelPredictionOptions", "PixelPredictionRequest", "PixelPredictionResult", "PixelPredictionJob", "predict_pixel_region",
     "PixelClassifier",
     "PixelClassification",
     "classify_pixels",
