@@ -141,3 +141,11 @@ Project/recovery retention of pixel cohorts/results, contour publication,
 full-slide streaming masks, viewport-limited prediction, unmatched-resolution
 resampling and expanded features remain open. Model files preserve the numeric
 recipe, not the original labelled training cohort or project audit history.
+
+
+Hosted [run 39868162623](https://github.com/bipxx/qupathxx/actions/runs/39868162623)
+passed all five jobs for `5000c14`. The [artifact verification record](benchmarks/gui-pixel-ci-windows-linux.json)
+checks installed wheel/native identities, public typing, native suites, standalone
+archives and the hosted 10,000-object GUI benchmark. Windows GUI passed 1,409
+Python cases with seven expected skips; the local record includes the optional
+fixture. This run precedes pixel contour publication.

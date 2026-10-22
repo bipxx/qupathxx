@@ -2171,8 +2171,7 @@ The investigated coordinate/property fixtures and public GuiReport export gap
 are retained in the record; none are hidden behind a green final count.
 
 Hosted [run 39868162623](https://github.com/bipxx/qupathxx/actions/runs/39868162623)
-targets `5000c14` and is running. No hosted UI-increment pass is claimed until
-that run completes.
+targets `5000c14` and passed all five jobs. The [hosted artifact record](benchmarks/gui-pixel-ci-windows-linux.json) verifies the wheels, installed workflows, public typing, native suites and 10,000-object GUI pixel benchmark. Hosted Windows GUI passed 1,409 Python cases with seven expected skips; local validation covers the additional optional fixture.
 
 
 ### Packet 74 — pixel mask contours and atomic annotation publication
@@ -2207,3 +2206,9 @@ contour/source-worker cases including Aperio, 39 Windows GUI native and 38 each
 Windows headless/Linux training/minimal/sanitizer. Exact public stubs, strict
 positive/seven-error negative typing and installed software-GL launch pass.
 Working-source, installed native, wheel and benchmark identities agree.
+
+
+Contour implementation commit: `5e50a62`. Its local artifact record predates the
+commit and identifies the exact working-source fingerprint and wheel/native
+hashes. Hosted contour CI starts after publication; the successful preceding
+F5-panel run is separate evidence and does not validate this contour increment.
