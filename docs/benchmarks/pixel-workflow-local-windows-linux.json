@@ -1,25 +1,25 @@
 {
   "schema": "qpx.local-validation/1",
-  "commit": "9675a5cb8a9b1ca9cafd62f807b50de347b0d86f",
-  "observed_utc": "2026-10-22T21:39:10.576018+00:00",
+  "commit": "8c3c5d3df5dbee5598ebba7956691f2613ec3365",
+  "observed_utc": "2026-10-22T21:57:12.758552+00:00",
   "scope": "Immutable annotation snapshots, deterministic balanced/overlap-aware pixel sampling, resolution-bound portable QPC2 models (QPC1 compatibility), natural-level matching and source-aware native worker prediction with stale/cancel reconciliation. Includes real Aperio direct-context comparison and backend-free native fractional/integer grid inference. ImGui pixel controls, project records, streaming/resampling, research/TMA and hardware gates remain open.",
   "python": {
-    "tests": 1404,
+    "tests": 1405,
     "failures": 0,
     "errors": 0,
     "skipped": 6,
-    "passed": 1398,
-    "seconds": 520.342,
-    "sha256": "b2c3dba9920fb0c21a03a190453c30cb4b6f1669cec58156a7e444b03ce9c986"
+    "passed": 1399,
+    "seconds": 544.026,
+    "sha256": "bfa7edd2be6afaf4b6113d396f62676c4d76ed8d8b7c0a03cbda25b5977b0849"
   },
   "focused": {
-    "tests": 156,
+    "tests": 157,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
-    "passed": 156,
-    "seconds": 7.619,
-    "sha256": "6c8904bc01697f01669be406e7bcf70acf7bc4109df848f4fbb36255558005ad"
+    "passed": 157,
+    "seconds": 10.623,
+    "sha256": "004071eb0c99a689ec4c176d23865fc95083b99abcd4c3dab7cb8d74060238e7"
   },
   "windows_gui_native": {
     "tests": 39,
@@ -27,8 +27,8 @@
     "errors": 0,
     "skipped": 0,
     "passed": 39,
-    "seconds": 9.0,
-    "sha256": "7670b21133c671d661bda3120aa979d6be2590322a655e126868b80b1ac6bc14"
+    "seconds": 7.0,
+    "sha256": "069ada9d6f8c4a97381e3e719b4e913820e8b1c03041c779e4bda51ea1e17f3f"
   },
   "windows_native": {
     "tests": 38,
@@ -36,8 +36,8 @@
     "errors": 0,
     "skipped": 0,
     "passed": 38,
-    "seconds": 6.0,
-    "sha256": "7316f3eec9d91dbad58882e2ba988dad824b1209bb5fcb294d5bb6b53be83e78"
+    "seconds": 7.0,
+    "sha256": "66f987c59460635c765f65ee57b58d8a3e6fe8d896d7b718337ec18a2cebd3b9"
   },
   "linux_native": {
     "tests": 38,
@@ -46,7 +46,7 @@
     "skipped": 0,
     "passed": 38,
     "seconds": 1.0,
-    "sha256": "63d5593599556ed02446d9f82a3f990f815730c0d83389fa6b8354fad88af695"
+    "sha256": "1444d0d4e1f49f17686d44e1bbd99bf8b00e20725f48366f40bf9a9587829914"
   },
   "linux_minimal": {
     "tests": 38,
@@ -55,7 +55,7 @@
     "skipped": 0,
     "passed": 38,
     "seconds": 0.0,
-    "sha256": "52d2c9251ad2e859033d3b94b6ad0b211a26dd8b718fe9a2892d83dd34f33f33"
+    "sha256": "7fa8354c02e28d7d04b2357756e46807be3c106e1194a4dc91f1df7365ede4d5"
   },
   "linux_sanitizer": {
     "tests": 38,
@@ -64,15 +64,15 @@
     "skipped": 0,
     "passed": 38,
     "seconds": 5.0,
-    "sha256": "e65ceb77cbee0bdf668c9b5d502d17cc0f172378385d848eaded4f44ef69458a"
+    "sha256": "2197e5ed2e49c360173567ff1416a8bfc0d676c63e9337fb94f4b34fd885edab"
   },
-  "distinct_passed_cases": 1398,
+  "distinct_passed_cases": 1399,
   "additional_focused_cases": [],
   "workflow": {
     "schema": "qpx.installed-workflow/1",
     "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
-    "native_sha256": "d379e168fa61966e1e3e8c7c49731eb9e18c2e500210396f81965ef14c2ded5c",
-    "source_tree_sha256": "a9441fb754dd5b9d9322d90e57c5710ba38271e52eba2e3e60ef8ea16d9bf92f",
+    "native_sha256": "fc69cca44f44a0aa8c694895598a4871106562a1e9dcad1c588d6f94b46c54b3",
+    "source_tree_sha256": "c8da0364ed0d1d9a950726cf4385146a884dbf6b69b22792f2039314ade66079",
     "gui": true,
     "geos": true,
     "openslide": true,
@@ -98,8 +98,8 @@
   },
   "wheel": {
     "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
-    "sha256": "3d547b2ebc40d564f795179cb5a35f4d18ded7219ac17218079eec06f893cc6f",
-    "bytes": 11790289
+    "sha256": "17c6ea7372bd3fd51cb2bb18244261a86a9e49c7affb85822095c5622d71aaaf",
+    "bytes": 11790733
   },
   "opencv_notices": {
     "qupathxx/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
@@ -109,10 +109,10 @@
   },
   "benchmarks": {
     "pixel-workflow-512-windows.json": {
-      "file_sha256": "e2868cd1df99db0022a8740ead4ed9f42b318387707097db0273891e09e0b8f0"
+      "file_sha256": "72e013d314d546ebfd1e6c41b01245f8667d1654d63a2c5e10bf101b7390a051"
     },
     "pixel-workflow-1024-windows.json": {
-      "file_sha256": "78e28c67fe602996d3dc2bfa8aef37f02a053bbd21fbe492279c140341951f66"
+      "file_sha256": "57371c20233e5513df721a9dc45642902e90860941802639603da4f90c36131d"
     }
   },
   "checks": {
@@ -120,7 +120,7 @@
     "pixel72-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
     "pixel72-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
   },
-  "performance_limit": "Single synthetic observation per phase on a shared workstation. 1024x1024: capture0.09/0.02ms, worker sampling+training892ms, prediction937ms. Sampling work6.1MB, retained charged table0.69MB, source prediction13.9MB versus direct-buffer210.8MB. Different decoder/capture scopes; no RSS, paired implementation speedup, UI/frame-budget acceptance or biological accuracy claim.",
+  "performance_limit": "Single synthetic observation per phase on a shared workstation. 1024x1024: capture0.13/0.02ms, worker sampling+training797ms, prediction982ms. Sampling work6.1MB, retained charged table0.69MB, source prediction13.9MB versus direct-buffer210.8MB. Different decoder/capture scopes; no RSS, paired implementation speedup, UI/frame-budget acceptance or biological accuracy claim.",
   "investigated_preliminary_failures": [
     {
       "kind": "test fixture",
@@ -133,6 +133,18 @@
       "log_sha256": "e226afcd80d66b6c23c021700b3112384b0897482e052d057050d4dd932fd3a2"
     }
   ],
+  "default_preset_regression": {
+    "before": {
+      "state": "failed",
+      "error": "classifier training work estimate 272523264 exceeds budget 267688448",
+      "source": "a9441fb754dd5b9d9322d90e57c5710ba38271e52eba2e3e60ef8ea16d9bf92f"
+    },
+    "after_case": "tests/test_pixel_workflows.py::test_default_three_class_pixel_training_fits_default_work_budget",
+    "after_state": "ready",
+    "rows": 6000,
+    "trees": 32,
+    "max_depth": 8
+  },
   "peer_review": {
     "skill": "claude-peer-review",
     "status": "timed_out_without_result",

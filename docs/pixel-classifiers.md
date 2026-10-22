@@ -169,7 +169,11 @@ context and per-pixel class membership. Retained-byte fields are conservative
 charged estimates, rather than a process RSS measurement.
 
 `train_pixel_classifier(table, parameters)` returns a resolution-bound portable
-recipe. `PixelTrainingJob.train(request, parameters)` performs sampling and
+recipe. Omitted forest settings use `pixel_forest_parameters()`: 32 trees and
+depth 8. This high-level pixel preset fits the default sampled cohorts within
+the work budget; the general `ForestParameters()` defaults remain 64 trees and
+depth 12. Explicit parameters are preserved and checked against the remaining
+budget, rather than silently reduced. `PixelTrainingJob.train(request, parameters)` performs sampling and
 training in one native worker. `poll(document)`/`wait(document)` report planning,
 sampling and training phases, completed/total tiles and failure details, then
 expose `table`/`model` when ready. There is one worker and no backlog. Cancellation,
@@ -231,11 +235,11 @@ labels, exact source-tiled/direct-buffer votes and stale-result rejection.
 
 | Synthetic grid | Worker sampling + training | Source prediction | Prediction work estimate | Direct buffer work estimate |
 | --- | --- | --- | --- | --- |
-| [512×512](benchmarks/pixel-workflow-512-windows.json) | 241 ms | 268 ms | 6.8 MB | 52.8 MB |
-| [1024×1024](benchmarks/pixel-workflow-1024-windows.json) | 892 ms | 937 ms | 13.9 MB | 210.8 MB |
+| [512×512](benchmarks/pixel-workflow-512-windows.json) | 191 ms | 206 ms | 6.8 MB | 52.8 MB |
+| [1024×1024](benchmarks/pixel-workflow-1024-windows.json) | 797 ms | 982 ms | 13.9 MB | 210.8 MB |
 
-Owner training capture takes 0.09–0.10 ms in these samples and prediction capture
-0.02–0.03 ms. Sampling work is about 6.1 MB and retained charged table size about
+Owner training capture takes 0.08–0.13 ms in these samples and prediction capture
+about 0.02 ms. Sampling work is about 6.1 MB and retained charged table size about
 0.69 MB in both. These are single observations per phase on a shared workstation,
 with 18 features, 128-pixel output tiles and 16 trees/depth 4. Direct-buffer timing
 excludes source decode/capture and uses a fully owned RGBA frame. They do not
@@ -250,13 +254,16 @@ backend-free portable inference and gated stale-worker rejection. The supplied
 ROI classes are synthetic labels, not annotated biological ground truth.
 
 The [source-worker local validation record](benchmarks/pixel-workflow-local-windows-linux.json)
-verifies exact working-source, installed native and wheel identities, 1,398
-full-suite passes with six expected skips and 156 focused passes. Windows GUI
+verifies exact working-source, installed native and wheel identities, 1,399
+full-suite passes with six expected skips and 157 focused passes. Windows GUI
 native passes 39; Windows headless/Linux training/minimal/sanitizer pass 38 each.
 Exact public stubs, strict positive/seven-error negative typing, the source
 example and installed software-GL GUI launch pass. The record distinguishes an
 outside-ROI test-fixture correction and a benchmark property-call correction.
-An optional read-only Claude review timed out without a result; no independent
+A three-class default-training regression first reproduced the inherited
+forest preset exceeding the work budget; the 32-tree/depth-8 pixel preset now
+trains its 6,000-row cohort successfully. An optional read-only Claude review
+timed out without a result; no independent
 review acceptance is claimed. Hosted validation for this increment is pending.
 
 ## Remaining workflow

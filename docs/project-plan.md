@@ -2088,8 +2088,8 @@ can be reused on a new matching document without restoring live authority.
 See the [contracts and runnable workflow](pixel-classifiers.md).
 
 The [1024×1024 pipeline sample](benchmarks/pixel-workflow-1024-windows.json)
-measures 0.09 ms training capture, 892 ms worker sampling/training, 0.02 ms
-prediction capture and 937 ms source prediction. The balanced 4,000-row cohort
+measures 0.13 ms training capture, 797 ms worker sampling/training, 0.02 ms
+prediction capture and 982 ms source prediction. The balanced 4,000-row cohort
 has about 0.69 MB charged retained size; sampling work is about 6.1 MB. Source
 prediction estimates 13.9 MB versus 210.8 MB for the already-owned direct-buffer
 path, with identical labels and vote fractions. These are single observations
@@ -2102,9 +2102,16 @@ features remain open. TMA, biological cohorts, direct QuPath pixel comparisons
 and all remaining M0–M7 requirements also remain open.
 
 The [local artifact record](benchmarks/pixel-workflow-local-windows-linux.json)
-verifies 1,398 installed tests with six expected skips, 156 focused tests including
+verifies 1,399 installed tests with six expected skips, 157 focused tests including
 a real Aperio direct-context comparison, 39 Windows GUI native and 38 each
 Windows headless/Linux training/minimal/sanitizer. Exact stubs, strict typing,
 the source workflow example and installed software-GL launch pass. Wheel/native/
 working-source and both benchmark identities agree. The optional read-only peer
 review timed out without a result; no independent review pass is claimed.
+
+The high-level pixel forest defaults now use 32 trees/depth 8. The general
+64-tree/depth-12 preset exceeded the default remaining work allowance for a
+6,000-row three-class cohort; that failure was reproduced against the prior
+wheel. Both default high-level training entry points now pass that case, while
+explicit forest settings and general engine defaults are preserved. The numeric
+identities of both explicit-preset benchmark fixtures remain unchanged.
