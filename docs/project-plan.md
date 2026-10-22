@@ -2061,5 +2061,50 @@ with maximum 3.8 MB per tile. The context/copy overhead is explicit; no frame or
 research acceptance is inferred.
 
 Hosted [run 39854833786](https://github.com/bipxx/qupathxx/actions/runs/39854833786)
-targets `875006d` and has been queued. No hosted pass is claimed for this
-pixel increment until that run completes.
+targets `875006d` and completed successfully in all five jobs. The
+[hosted artifact record](benchmarks/pixel-classifier-ci-windows-linux.json)
+verifies installed wheels/workflows, stubs/typing, standalone bundles and
+numeric/object/pixel fixture identities. Windows GUI passes 1,380 Python/seven
+skips and 38 native; Windows/Linux headless pass 1,091/1,085 Python with 37
+native each. Minimal and sanitizer pass 37 native. Source-aware annotation
+jobs and QPC2 resolution binding below are subsequent work, outside that run.
+
+### Packet 72: annotated pixel training and source-aware workers
+
+Adds immutable labelled area snapshots, deterministic per-class bottom-k
+sampling, optional balancing, same-class overlap deduplication and explicit
+conflict exclusion. Original selected geometry is retained with provenance and
+sampled-grid coordinates/IDs. Bounds on snapshot, scan plan, reservoirs and
+features apply before image decoding; tiles unable to improve the reservoirs
+skip feature extraction. Native worker capture/publication stays on the owning
+thread, with cancellation, no backlog and strict document/source reconciliation.
+
+QPC2 recipes retain the actual grid downsample and optional physical spacing;
+QPC1 buffer recipes remain readable. Source-aware prediction resolves natural
+levels against both physical axes or raw downsample, checks output/tile budgets,
+reads context halos and assembles ROI/alpha-masked labels/votes. Unmatched
+resolution rejects instead of silently changing feature scale. Reopened models
+can be reused on a new matching document without restoring live authority.
+See the [contracts and runnable workflow](pixel-classifiers.md).
+
+The [1024×1024 pipeline sample](benchmarks/pixel-workflow-1024-windows.json)
+measures 0.09 ms training capture, 892 ms worker sampling/training, 0.02 ms
+prediction capture and 937 ms source prediction. The balanced 4,000-row cohort
+has about 0.69 MB charged retained size; sampling work is about 6.1 MB. Source
+prediction estimates 13.9 MB versus 210.8 MB for the already-owned direct-buffer
+path, with identical labels and vote fractions. These are single observations
+per phase on a shared workstation, not a paired implementation speedup, RSS,
+frame/UI publication or biological validation acceptance.
+
+The pixel ImGui panel/overlays, contour publication, project/recovery retention,
+full-slide streaming masks, unmatched-grid resampling and expanded texture
+features remain open. TMA, biological cohorts, direct QuPath pixel comparisons
+and all remaining M0–M7 requirements also remain open.
+
+The [local artifact record](benchmarks/pixel-workflow-local-windows-linux.json)
+verifies 1,398 installed tests with six expected skips, 156 focused tests including
+a real Aperio direct-context comparison, 39 Windows GUI native and 38 each
+Windows headless/Linux training/minimal/sanitizer. Exact stubs, strict typing,
+the source workflow example and installed software-GL launch pass. Wheel/native/
+working-source and both benchmark identities agree. The optional read-only peer
+review timed out without a result; no independent review pass is claimed.

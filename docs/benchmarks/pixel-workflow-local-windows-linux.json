@@ -1,0 +1,145 @@
+{
+  "schema": "qpx.local-validation/1",
+  "commit": "9675a5cb8a9b1ca9cafd62f807b50de347b0d86f",
+  "observed_utc": "2026-10-22T21:39:10.576018+00:00",
+  "scope": "Immutable annotation snapshots, deterministic balanced/overlap-aware pixel sampling, resolution-bound portable QPC2 models (QPC1 compatibility), natural-level matching and source-aware native worker prediction with stale/cancel reconciliation. Includes real Aperio direct-context comparison and backend-free native fractional/integer grid inference. ImGui pixel controls, project records, streaming/resampling, research/TMA and hardware gates remain open.",
+  "python": {
+    "tests": 1404,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1398,
+    "seconds": 520.342,
+    "sha256": "b2c3dba9920fb0c21a03a190453c30cb4b6f1669cec58156a7e444b03ce9c986"
+  },
+  "focused": {
+    "tests": 156,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 156,
+    "seconds": 7.619,
+    "sha256": "6c8904bc01697f01669be406e7bcf70acf7bc4109df848f4fbb36255558005ad"
+  },
+  "windows_gui_native": {
+    "tests": 39,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 39,
+    "seconds": 9.0,
+    "sha256": "7670b21133c671d661bda3120aa979d6be2590322a655e126868b80b1ac6bc14"
+  },
+  "windows_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 6.0,
+    "sha256": "7316f3eec9d91dbad58882e2ba988dad824b1209bb5fcb294d5bb6b53be83e78"
+  },
+  "linux_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 1.0,
+    "sha256": "63d5593599556ed02446d9f82a3f990f815730c0d83389fa6b8354fad88af695"
+  },
+  "linux_minimal": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 0.0,
+    "sha256": "52d2c9251ad2e859033d3b94b6ad0b211a26dd8b718fe9a2892d83dd34f33f33"
+  },
+  "linux_sanitizer": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 5.0,
+    "sha256": "e65ceb77cbee0bdf668c9b5d502d17cc0f172378385d848eaded4f44ef69458a"
+  },
+  "distinct_passed_cases": 1398,
+  "additional_focused_cases": [],
+  "workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "d379e168fa61966e1e3e8c7c49731eb9e18c2e500210396f81965ef14c2ded5c",
+    "source_tree_sha256": "a9441fb754dd5b9d9322d90e57c5710ba38271e52eba2e3e60ef8ea16d9bf92f",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "3d547b2ebc40d564f795179cb5a35f4d18ded7219ac17218079eec06f893cc6f",
+    "bytes": 11790289
+  },
+  "opencv_notices": {
+    "qupathxx/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "qupathxx/licenses/opencv/softfloat-notice.txt": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3",
+    "qupathxx/licenses/opencv/SOURCE-NOTICES.txt": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba",
+    "qupathxx/licenses/opencv/zlib-notice.txt": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+  },
+  "benchmarks": {
+    "pixel-workflow-512-windows.json": {
+      "file_sha256": "e2868cd1df99db0022a8740ead4ed9f42b318387707097db0273891e09e0b8f0"
+    },
+    "pixel-workflow-1024-windows.json": {
+      "file_sha256": "78e28c67fe602996d3dc2bfa8aef37f02a053bbd21fbe492279c140341951f66"
+    }
+  },
+  "checks": {
+    "pixel72-stub-check.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "pixel72-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "pixel72-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "performance_limit": "Single synthetic observation per phase on a shared workstation. 1024x1024: capture0.09/0.02ms, worker sampling+training892ms, prediction937ms. Sampling work6.1MB, retained charged table0.69MB, source prediction13.9MB versus direct-buffer210.8MB. Different decoder/capture scopes; no RSS, paired implementation speedup, UI/frame-budget acceptance or biological accuracy claim.",
+  "investigated_preliminary_failures": [
+    {
+      "kind": "test fixture",
+      "description": "Document correctly rejected the outside-image ROI before training capture; the fixture now asserts that earlier validation.",
+      "log_sha256": "57d166415c3e8cad609472abcdb3c8c592841ef95daf157e5f0c3f86ac7fc4ac"
+    },
+    {
+      "kind": "benchmark driver",
+      "description": "The revision binding is a property; corrected an accidental method call after the numeric oracles.",
+      "log_sha256": "e226afcd80d66b6c23c021700b3112384b0897482e052d057050d4dd932fd3a2"
+    }
+  ],
+  "peer_review": {
+    "skill": "claude-peer-review",
+    "status": "timed_out_without_result",
+    "timeout_seconds": 240,
+    "log_sha256": "574d6d6c06ac381d94747efc5eed0a993ab082fad0e06d9b920dff84f31052b2"
+  },
+  "ci": {
+    "status_at_capture": "not_yet_started"
+  }
+}

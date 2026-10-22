@@ -47,6 +47,13 @@ does not enable GPU memory or asynchronous device transfers.
 | `PixelClassification.labels_numpy(copy=False)` | height, width | uint32 | Read-only class index plus one (zero unknown), retaining the result |
 | `PixelClassification.vote_fractions_numpy(copy=False)` | height, width | float32 | Read-only top tree vote fraction (NaN invalid), retaining the result |
 | `PixelClassification.valid_numpy(copy=False)` | height, width | uint8 | Read-only 0/1 validity, retaining the result |
+| `PixelTrainingTable.numpy(copy=False)` | samples, features | float32 | Read-only sampled values, retaining the table |
+| `PixelTrainingTable.labels_numpy(copy=False)` | samples | uint32 | Read-only zero-based class indices, retaining the table |
+| `PixelTrainingTable.coordinates_numpy(copy=False)` | samples, 2 | int64 | Read-only sampled-grid x/y coordinates, retaining the table |
+| `PixelTrainingTable.annotation_ids_numpy(copy=False)` | samples | uint64 | Read-only source object IDs, retaining the table |
+| `PixelPredictionResult.labels_numpy(copy=False)` | height, width | uint32 | Read-only source ROI labels, retaining the result |
+| `PixelPredictionResult.vote_fractions_numpy(copy=False)` | height, width | float32 | Read-only votes/NaNs, retaining the result |
+| `PixelPredictionResult.valid_numpy(copy=False)` | height, width | uint8 | Read-only ROI/alpha validity, retaining the result |
 
 Exports are C contiguous with native-endian numeric types. Cell nucleus/body
 results are `TissueResult` instances, so use `cells.nuclei.labels_numpy()` or

@@ -1,0 +1,54 @@
+{
+  "schema": "qpx.pixel-workflow-benchmark/1",
+  "size": 1024,
+  "feature_count": 18,
+  "training_capture_wall_ms": 0.08709996473044157,
+  "training_capture_native_ms": 0.0743,
+  "training_snapshot_bytes": 28654,
+  "training_worker_wall_ms": 892.4224999500439,
+  "training_worker_native_ms": 891.5459,
+  "sampling_native_ms": 878.3198,
+  "training_rows": 4000,
+  "sampled_class_counts": [
+    2000,
+    2000
+  ],
+  "eligible_class_pixels": [
+    524288,
+    524288
+  ],
+  "scanned_pixels": 1048576,
+  "training_tiles": 64,
+  "sampling_estimated_work_bytes": 6108686,
+  "table_retained_charged_bytes": 690798,
+  "prediction_capture_wall_ms": 0.022500054910779,
+  "prediction_worker_wall_ms": 936.5718000335619,
+  "prediction_native_ms": 936.4718,
+  "prediction_tiles": 64,
+  "prediction_estimated_work_bytes": 13854284,
+  "direct_buffer_wall_ms": 1183.2595999585465,
+  "direct_buffer_estimated_work_bytes": 210829312,
+  "model_sha256": "e4f8080fc733dae731f080883ebe6832886f054ffcb7cab17a4a72a0a088df88",
+  "table_sha256": "7ffb41e4131c569de89bc2987915f6d834851bfae39504a5c02160f455e1a7b9",
+  "sampling_input_sha256": "780be795ed03389d0fd97388ec1a79a916ce75b0ddefcc055f0275bb6c3fb2d2",
+  "prediction_sha256": "7feda13a325d4e0a9d1c164a4fcaeb740f0c7b6edccb561067fb238c883b1d1d",
+  "prediction_input_sha256": "40308e56940f494ea19917c2db7e67f4f5db94bbc75e7969ec667ee586e4a19f",
+  "native_sha256": "d379e168fa61966e1e3e8c7c49731eb9e18c2e500210396f81965ef14c2ded5c",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "environment": {
+    "source_tree_sha256": "a9441fb754dd5b9d9322d90e57c5710ba38271e52eba2e3e60ef8ea16d9bf92f",
+    "git_revision": "62cc38512a70c92a2c9df8e0069bb2376f9513ad+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "verified": [
+    "every sampled RGB and class",
+    "balanced 4000-row cohort",
+    "portable resolution-bound recipe roundtrip",
+    "every synthetic predicted class",
+    "source-tiled labels and vote fractions exactly equal direct buffer",
+    "document edit retires controller result"
+  ],
+  "scope": "One observation per phase on a shared workstation, synthetic RGB data and two rectangular labels, level0 calibrated .5/.25um, 128px output tiles, 16 trees/depth4. Source prediction includes decoder calls, context, features, masks and worker reconciliation; direct buffer prediction excludes decoder/capture and uses an already owned full RGBA frame. Work estimates exclude original image, retained model, Python arrays and runtime; no RSS, paired implementation speedup, frame-budget, UI/project-publication or biological accuracy acceptance."
+}
