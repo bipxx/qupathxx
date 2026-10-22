@@ -74,12 +74,19 @@
     "dpi65-typing-negative.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
   },
   "benchmarks": {
-    "ui-scaling-aperio-navigation-windows.json": "cb054e4882c03553b6500ca87e98623774c5f63ec9e6e1a8b798116c1c9965a3",
-    "ui-scaling-large-navigation-windows.json": "95554788ec8fdaaeffac09011ea72387208e99ba66ce70b30ad0553907620d7f"
+    "ui-scaling-aperio-navigation-windows.json": {
+      "local_file_sha256": "cb054e4882c03553b6500ca87e98623774c5f63ec9e6e1a8b798116c1c9965a3",
+      "canonical_json_sha256": "ae6c2bba0ae50531a9037ae3cd5df1bc833d10798c3e921c3868956abcc7e30d"
+    },
+    "ui-scaling-large-navigation-windows.json": {
+      "local_file_sha256": "95554788ec8fdaaeffac09011ea72387208e99ba66ce70b30ad0553907620d7f",
+      "canonical_json_sha256": "3cfde562dab2edef4761f4e836e5e43b906bc54ebc20e10a0fc5f6ebaae7a1ba"
+    }
   },
   "ci": {
     "run": "https://github.com/bipxx/qupathxx/actions/runs/39794190326",
     "observed_status": "queued",
     "completed_jobs": 0
-  }
+  },
+  "benchmark_hash_policy": "local_file_sha256 hashes original Windows output bytes; canonical_json_sha256 hashes sorted-key compact JSON encoded as UTF-8 and survives checkout line-ending conversion."
 }

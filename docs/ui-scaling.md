@@ -37,6 +37,11 @@ rebuilds, repeated changes, camera and project invariants, routed image input,
 and exact cached-versus-immediate framebuffer equality. Replaying a user
 multiplier does not emulate OS monitor delivery. Physical mixed-DPI monitor
 moves, macOS Retina and fractional-density hardware acceptance remain open.
+At 200% in a 1440 x 900 window, a visual check confirms the centered canvas
+but shows clipped inspector labels and toolbar hints in the default split.
+Wider panels or a larger window provide more room. Responsive wrapping and
+fixed-width field refinement remain open; font/style scaling alone does not
+complete the high-DPI layout acceptance campaign.
 
 To collect a navigation sample with live scale changes from an installed GUI
 wheel, run:

@@ -1783,6 +1783,9 @@ visible UI controls. Repeated values skip rebuilds; small successive DPI changes
 accumulate against the last built fonts rather than being lost to a per-frame
 tolerance. Drawing gestures cancel on changes, and existing canvas resize
 handling preserves the project camera. See [UI scaling](ui-scaling.md).
+Visual checks at 200% in a 1440x900 window retain the centered canvas but show
+clipped inspector labels and toolbar hints. Responsive wrapping and field-width
+refinement remain required alongside the physical-monitor campaign.
 
 This implements DPI handling and deterministic override checks; physical
 mixed-monitor delivery, macOS Retina, fractional-density hardware and M0/M2
