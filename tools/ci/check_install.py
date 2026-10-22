@@ -33,6 +33,15 @@ def main():
         for suffix in ['licenses/geos/COPYING', 'licenses/sqlite/sqlite-LICENSE.txt', 'licenses/nlohmann-json/LICENSE.MIT']:
             if not any(name.endswith(suffix) for name in names):
                 raise RuntimeError('missing runtime notice: '+suffix)
+        required = ['nanobind/LICENSE', 'robin-map/LICENSE']
+        if args.gui:
+            required += ['glfw/LICENSE.md', 'imgui/LICENSE.txt', 'imgui/ProggyClean-LICENSE.txt',
+                         'imgui/Khronos-LICENSE.txt', 'imgui/Khronos-NOTICE.txt', 'imgui/imgl3w-LICENSE.txt']
+            required += ['imgui/'+h+'-LICENSE.txt' for h in ['imstb_rectpack.h', 'imstb_textedit.h', 'imstb_truetype.h']]
+        for relative in required:
+            member = 'qupathxx/licenses/'+relative
+            if member not in names or len(wheel.read(member)) < 100:
+                raise RuntimeError('missing dependency notice: '+relative)
     assert q.has_gui == args.gui and q.has_geos and q.has_openslide and q.has_project and q.has_interchange
     with tempfile.TemporaryDirectory(prefix='qupathxx-install-') as directory:
         root = Path(directory)
@@ -72,12 +81,16 @@ def main():
         if args.gui:
             report = q.show(q.Project.open(str(source)), frame_limit=20)
             renderer = report.gl_renderer
+            requested = q.GuiOptions()
+            if (report.framebuffer_width, report.framebuffer_height) != (requested.width, requested.height):
+                raise RuntimeError('desktop must fit the requested 1440x900 replay window at 100% scale')
             if args.software_gl and 'llvmpipe' not in renderer.lower():
                 raise RuntimeError('GUI check did not use the required software renderer: '+renderer)
         report = dict(schema='qpx.installed-workflow/1', python=sys.version, executable=sys.executable,
                       native=str(native), native_sha256=hashlib.sha256(native.read_bytes()).hexdigest(),
                       source_tree_sha256=q.build_environment().source_tree_sha256,
                       gui=q.has_gui, geos=q.has_geos, openslide=q.has_openslide, gl_renderer=renderer,
+                      framebuffer=[report.framebuffer_width, report.framebuffer_height] if args.gui else None,
                       roi_samples=result.samples, native_batch_checkpoints=len(checkpoints))
     args.output.write_text(json.dumps(report, indent=2)+'\n', encoding='utf8')
     print(json.dumps(report, indent=2))

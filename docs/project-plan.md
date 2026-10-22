@@ -24,7 +24,7 @@ classification, scripting and integrations.
 
 | Release | User outcome | Scope boundary |
 | --- | --- | --- |
-| Current 0.1 foundation | View demo/PPM images, draw rectangles, access measurements from Python | Already implemented; no slide support or persistence |
+| Starting 0.1 foundation | View demo/PPM images, draw rectangles, access measurements from Python | Historical starting point; later implementation packets below track current behavior |
 | 0.2 slide annotation alpha | Open supported slides, navigate, annotate, save and reopen projects | Milestones M0 through M4 |
 | 0.3 research analysis beta | Run calibrated tissue/cell workflows from UI and Python, batch export results | Milestones M5 and M6 |
 | 1.0 defined workflow release | Install supported packages and reproduce accepted research workflows | M7; only the published support matrix is promised |
@@ -34,7 +34,10 @@ The long-term target includes QuPath's major research workflows. Java binary
 compatibility, JavaFX widget parity, Java extensions and executing Groovy scripts
 are outside the initial release. Python provides the new scripting surface.
 
-## Current foundation
+## Starting foundation (historical)
+
+This section records the initial state. The workflow inventory and the latest
+implementation packets below track current capabilities and validation.
 
 The first image-access packet has been implemented. See the
 [workflow inventory](feature-matrix.md) and [image-server contract](image-server-contract.md)
@@ -1570,6 +1573,16 @@ partial-transfer restart, retry limits, permanent HTTP errors and corrupt data.
 External inputs are now checked before expensive compilation.
 See [CI and distribution](ci-distribution.md)
 for the matrix, reproduction steps, artifacts and scope.
+
+The hosted GUI run exposed a smaller desktop that clipped the requested window,
+changing replay geometry and leaving controls off screen. CI now prepares a
+1920x1080 desktop and checks the actual requested 1440x900 framebuffer before
+replays. No interaction assertion or pixel threshold is relaxed. Artifact review
+also found missing direct GUI/binding notices: CMake now installs nanobind,
+robin-map, GLFW/ImGui, embedded STB/font/GL loader and Khronos notices from the
+actual sources and pinned upstream notice copies. Missing notice markers fail
+configuration; the installed-wheel probe requires the enabled dependencies'
+notices. Local configuration/install staging verifies these rules.
 
 These are development candidates. Linux wheels still require the explicit GEOS
 SDK/system OpenSlide runtime. Windows hardware/DPI campaigns, user-machine

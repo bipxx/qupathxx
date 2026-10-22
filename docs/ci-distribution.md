@@ -23,6 +23,13 @@ The sanitizer job instruments this project's native code and embedded SQLite;
 the shared GEOS SDK is not sanitizer-instrumented. These checks do not include
 ThreadSanitizer or establish race freedom.
 
+Enabled builds install notices for the bindings, robin-map, GLFW, Dear ImGui,
+its embedded STB code, default font and GL loader, in addition to the core/runtime
+notices. They come from the actual dependency sources or the pinned copies
+documented in [third-party notices](../third_party/README.md). The installed-wheel
+probe requires them; extraction markers missing from a new dependency stop
+configuration for review.
+
 The Windows GUI job uses Mesa llvmpipe. It copies the actual Python executable
 and two verified renderer DLLs into an owned temporary directory, with explicit
 paths to the test environment's standard library and installed packages. It also
@@ -30,6 +37,9 @@ adds the renderer to the disposable installed package for native CLI tests.
 System OpenGL and the base interpreter are untouched. The workflow report checks
 that the GUI really selected llvmpipe. This checks software rendering and replay
 behavior, not hardware GPU performance, per-monitor DPI or vendor drivers.
+The disposable runner uses a 1920x1080 desktop; the probe requires the requested
+1440x900 framebuffer at 100% scale. This avoids Windows clipping the initial
+window to its smaller default desktop and changing normalized replay geometry.
 
 Each wheel is installed into a new virtual environment and imported in isolated
 Python mode. A workflow probe verifies the loaded native binary against the

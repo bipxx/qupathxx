@@ -167,9 +167,11 @@ print(len(doc.annotations))  # Includes annotations drawn in the UI.
 ```
 
 `Image(width, height, rgb)` accepts a flat sequence of RGB bytes and copies into
-native storage. Read-only NumPy views retain native pixel ownership; writable exports use explicit copies. Documents are
-single-threaded; `show` retains the Python GIL to prevent concurrent Python
-mutation. It does not provide a live Python console or background processing.
+native storage. Read-only NumPy views retain native pixel ownership; writable
+exports use explicit copies. Documents have a single owner. `show(Document)` and
+`show(Project)` retain the Python GIL. For live Python producers, use
+`show(ViewerSession)` on the main thread: it releases the GIL and routes queued
+commands to the native owner. See [live viewer sessions](docs/live-viewer.md).
 
 Standalone C++ build, with no Python dependency:
 
@@ -181,15 +183,13 @@ build/desktop/Release/qupathxx_app.exe
 ```
 
 Python checks: `.venv/Scripts/python -m pytest`.
-The native executable accepts `--smoke` to render three frames and exit.
+The native executable accepts `--smoke` for a finite startup/render/shutdown check.
 
-Validated on Windows with MSVC 19.44 and Python 3.12: 129 Python tests including
-transaction, hierarchy, pyramid, Aperio and opt-in framebuffer checks, eleven native suites with
-and without OpenSlide/GEOS, and GUI startup/render/shutdown with known and unknown
-calibration. ImGui input replay verifies zoom, pan, shape drawing/history and overview
-navigation; actual OS pointer delivery and monitor DPI transitions remain open.
-The Python tests also pass from a wheel installed into a fresh virtual
-environment, using its packaged OpenSlide/GEOS DLLs and native CLI.
+The [CI matrix](docs/ci-distribution.md) checks native configurations, fresh
+installed wheels, typing and software-rendered desktop workflows on hosted
+Windows/Linux runners. ImGui input replay covers navigation, editing, analysis,
+project storage/recovery and managed Python producers. Actual OS pointer delivery,
+hardware GPU performance and monitor DPI transitions remain open.
 
 ## OpenSlide region reading
 
