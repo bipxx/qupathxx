@@ -1,0 +1,132 @@
+{
+  "schema": "qpx.local-validation/1",
+  "commit": "dfe954a7ff757993bde2bc19cd38003b578cf628",
+  "observed_utc": "2026-10-22T21:08:19.942461+00:00",
+  "scope": "Owned pixel features, context-halo tiling, portable recipes and bounded label/vote inference, atomic recipe files and NumPy ownership. Shared Gaussian cell/stain regressions included. Source-aware jobs, physical sampling policy, ImGui pixel controls and project pixel records remain open, as do research/TMA and hardware gates.",
+  "python": {
+    "tests": 1386,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1380,
+    "seconds": 489.414,
+    "sha256": "d6f21402d77cc9911511e761bd71780c7d69624d9bad301b53f431a297eda16d"
+  },
+  "focused": {
+    "tests": 139,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 139,
+    "seconds": 5.713,
+    "sha256": "87de7409cb7c67ca2ff67b90aa5f0827b07ee20a618c6e7ebb0c81168d22f3fa"
+  },
+  "windows_gui_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 7.0,
+    "sha256": "3e81e9590997293f01db9bfce7674c9c4edd19f9b6107c533cbc672154c30217"
+  },
+  "windows_native": {
+    "tests": 37,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 37,
+    "seconds": 35.0,
+    "sha256": "efa59d7dfbed7ae6ac4a40f6375f16fa495429babef335f6ef5cadb9f7a7e70d"
+  },
+  "linux_native": {
+    "tests": 37,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 37,
+    "seconds": 1.0,
+    "sha256": "a58aadf0834408b46b6ab794443fe6e1b7d7c7a2b1fbe72159b94a1518438603"
+  },
+  "linux_minimal": {
+    "tests": 37,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 37,
+    "seconds": 0.0,
+    "sha256": "3911b7633d76428486726d0f7b50bda2cc25d7c07d9141be9728bda9949e47b4"
+  },
+  "linux_sanitizer": {
+    "tests": 37,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 37,
+    "seconds": 4.0,
+    "sha256": "86502e2d0b84b82d69cbdf552a7992c7d3708c83108d22f1dfda0c86fb2a1a40"
+  },
+  "distinct_passed_cases": 1381,
+  "additional_focused_cases": [
+    [
+      "tests.test_pixel_classifier",
+      "test_saved_stain_recipe_preserves_transform_and_predictions"
+    ]
+  ],
+  "workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "3be8e797a2012ffddadb0f7c41622d8b65630bda238bdf19591301500959dd63",
+    "source_tree_sha256": "2eb6a2ffc272584782932004ef7059f4e0681cb501aa20262c9acbb9306b6e46",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "b73d6723b4fde04ff0276cea15464b70aebaf1cf14d8ee61d0cef8e0ef253124",
+    "bytes": 11737811
+  },
+  "opencv_notices": {
+    "qupathxx/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "qupathxx/licenses/opencv/softfloat-notice.txt": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3",
+    "qupathxx/licenses/opencv/SOURCE-NOTICES.txt": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba",
+    "qupathxx/licenses/opencv/zlib-notice.txt": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+  },
+  "benchmarks": {
+    "pixel-classifier-512-windows.json": {
+      "file_sha256": "5e9882faa3888434b8827886e03a8c506a2bc5294a4621037373bef4f06bb9c5"
+    },
+    "pixel-classifier-1024-windows.json": {
+      "file_sha256": "2ae47e5cbdd1503401b5ea85f2a5696888959c07f79ef98375376b8b90b697d8"
+    }
+  },
+  "checks": {
+    "pixel71-stub-check.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "pixel71-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "pixel71-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "performance_limit": "Synthetic shared-workstation grid. 512x512 median full prediction about195ms/52.8MB work estimate; 128x128 halo tiles maximum3.8MB with bit-identical masks. Work estimates exclude caller inputs/models, Python copies and runtime. No paired implementation speedup, hardware/frame-budget acceptance or biological accuracy claim.",
+  "ci": {
+    "status_at_capture": "not_yet_started"
+  }
+}

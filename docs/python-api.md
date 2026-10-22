@@ -67,3 +67,9 @@ individual analysis/job contracts. Static annotations do not grant permission
 to mutate a document from another thread or from a worker callback. Managed [live viewer queues/notifications](live-viewer.md) are implemented.
 Broader command coverage, external model adapters and release compatibility
 gates remain unfinished.
+
+[Pixel recipes and masks](pixel-classifiers.md) expose typed feature options,
+context windows, immutable models/results and uint32/float32/uint8 NumPy views.
+The [pixel example](../examples/pixel_classifier.py) trains, saves, reopens and
+predicts a synthetic grid; physical sampling and source authority remain with
+the caller.

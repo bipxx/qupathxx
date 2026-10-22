@@ -42,6 +42,11 @@ does not enable GPU memory or asynchronous device transfers.
 | `FloatRgbImage.numpy(copy=False)` | height, width, 3 | float32 | Read-only transform storage, retaining the native wrapper |
 | `TissueResult.labels_numpy(copy=False)` | height, width | uint32 | Read-only labels, retaining the native result |
 | `TissueResult.mask_numpy()` | height, width | uint8 | Newly allocated writable 0/255 mask |
+| `PixelFeatureImage.numpy(copy=False)` | height, width, features | float32 | Read-only feature storage, retaining the result |
+| `PixelFeatureImage.valid_numpy(copy=False)` | height, width | uint8 | Read-only 0/1 validity, retaining the result |
+| `PixelClassification.labels_numpy(copy=False)` | height, width | uint32 | Read-only class index plus one (zero unknown), retaining the result |
+| `PixelClassification.vote_fractions_numpy(copy=False)` | height, width | float32 | Read-only top tree vote fraction (NaN invalid), retaining the result |
+| `PixelClassification.valid_numpy(copy=False)` | height, width | uint8 | Read-only 0/1 validity, retaining the result |
 
 Exports are C contiguous with native-endian numeric types. Cell nucleus/body
 results are `TissueResult` instances, so use `cells.nuclei.labels_numpy()` or
@@ -120,3 +125,6 @@ This evidence covers one warm synthetic size on one Windows PC. It does not
 establish large-slide throughput, process RSS limits, all NumPy releases or
 platforms, GPU/framework interoperability, or a cross-platform performance
 budget. Remaining M0-M7 validation stays active.
+
+The [pixel feature/classifier API](pixel-classifiers.md) uses sampled-grid scales
+and explicit halo contexts. Its arrays follow the same retained-view/copy rules.

@@ -56,7 +56,9 @@ QuPath port or a compatible replacement for Java QuPath.
   The [object workflow](docs/object-classifiers.md) adds feature snapshots,
   background jobs, undoable labels and ImGui train/preview/apply/model-file
   controls, retained cohorts/application audits, and project/recovery persistence.
-  Pixel workflows, research validation and large-batch frame budgets remain
+  The [pixel buffer API](docs/pixel-classifiers.md) adds multiscale features,
+  portable recipes and bounded tiled label/vote masks. Annotation-driven pixel
+  UI workflows, research validation and large-batch frame budgets remain
   unfinished; see also the
   [classifier engine contract](docs/classifier-engine.md).
 

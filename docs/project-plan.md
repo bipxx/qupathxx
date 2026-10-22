@@ -2020,6 +2020,42 @@ Writing takes 373 ms and reopen 317 ms. Charged archive/history payloads are
 76.5/5.5 MB. These are single observations on a shared workstation; they do not
 accept a hardware/frame or biological validation gate. Large publication remains
 above 16 ms. Hosted [run 39849552492](https://github.com/bipxx/qupathxx/actions/runs/39849552492)
-targets `e04aac1` and is running; no hosted result is claimed for this source.
+targets `e04aac1` and completed successfully in all five jobs. The
+[hosted artifact record](benchmarks/classifier-archive-ci-windows-linux.json)
+verifies installed wheels/workflows, stubs/typing, standalone distributions and
+classifier benchmark identities. Windows GUI passes 1,356 Python/seven skips
+and 37 native; Windows/Linux headless pass 1,067/1,061 Python with 36 native
+each. Minimal and sanitizer pass 36 native each.
 Pixel/TMA workflows, research cohorts, QuPath comparisons and remaining M0–M7
 requirements stay open.
+
+### Packet 71: owned pixel features and portable mask inference
+
+Adds a native multiscale RGB/OD/stain feature extractor, optional gradient and
+Laplacian, exact context-halo tiling, read-only owned NumPy views, immutable
+pixel recipes, bounded forest inference and atomic recipe files. Saved recipes
+bind the feature schema, scales and transform. Invalid alpha is excluded from
+training/inference; masks preserve validity, tree-vote fractions and thresholds.
+The shared Gaussian implementation retains cell arithmetic and cancellation.
+See [pixel contracts and remaining workflow](pixel-classifiers.md).
+
+The [512×512 synthetic sample](benchmarks/pixel-classifier-512-windows.json)
+verifies every synthetic label and bit-identical tiled/full masks. Median full
+prediction is about 195 ms with 52.8 MB estimated work; 128×128 tiles need at
+most 3.8 MB each. These measurements exclude caller inputs/models and runtime
+allocation overhead, and do not accept a hardware or research gate.
+
+Pixel annotation sampling, physical-resolution policy, source-aware asynchronous
+jobs, ImGui controls/overlays and project/recovery pixel records remain open.
+TMA, biological cohorts, direct pixel QuPath comparisons and remaining M0–M7
+requirements also remain open.
+
+The [local artifact record](benchmarks/pixel-classifier-local-windows-linux.json)
+verifies exact wheel/native/source identities and 1,381 distinct installed
+passing cases (1,380 full-suite with six expected skips, plus the saved-stain
+case in 139 focused passes). Windows GUI native passes 38; Windows headless,
+Linux training/minimal and sanitizer pass 37 each. Public stubs, strict typing
+and installed software-GL workflow pass. The 1024×1024 sample also verifies
+identical tiled/full masks: full median 762 ms/210.8 MB estimate, tiled 918 ms
+with maximum 3.8 MB per tile. The context/copy overhead is explicit; no frame or
+research acceptance is inferred.

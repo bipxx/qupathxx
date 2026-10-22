@@ -1,0 +1,47 @@
+{
+  "schema": "qpx.pixel-classifier-benchmark/1",
+  "size": 1024,
+  "tile": 128,
+  "tiles": 64,
+  "feature_count": 18,
+  "halo": 7,
+  "training_ms": 10.643600020557642,
+  "full_samples": [
+    {
+      "wall_ms": 757.8422999940813,
+      "native_ms": 755.5946,
+      "estimated_work_bytes": 210829312
+    },
+    {
+      "wall_ms": 761.6551000392064,
+      "native_ms": 758.9784,
+      "estimated_work_bytes": 210829312
+    },
+    {
+      "wall_ms": 766.0144999390468,
+      "native_ms": 763.3762,
+      "estimated_work_bytes": 210829312
+    }
+  ],
+  "median_full_wall_ms": 761.6551000392064,
+  "tiled_wall_ms": 917.9699999513105,
+  "maximum_tile_estimated_work_bytes": 3842560,
+  "full_sha256": "e43b9698d51f82f250e914f31b8b675e4775d9543e3dac7cc6f799516ee0fca2",
+  "input_sha256": "b19a0ab9100c630cd5ea2a0781dfdc405084127b941779128da760ab34595650",
+  "model_sha256": "2ada49707f71bb31cf5aa78639c1bc16b862eb17d5871c9adfeb2bea1c47946e",
+  "native_sha256": "3be8e797a2012ffddadb0f7c41622d8b65630bda238bdf19591301500959dd63",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "environment": {
+    "source_tree_sha256": "2eb6a2ffc272584782932004ef7059f4e0681cb501aa20262c9acbb9306b6e46",
+    "git_revision": "523c9a15fdba14f9062fd44f44989303fbb0eed0+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "verified": [
+    "every synthetic class label",
+    "portable recipe roundtrip",
+    "halo-tiled labels and vote fractions exactly equal full output"
+  ],
+  "scope": "Synthetic RGB grid; sampled-grid-pixel sigmas, 16 trees/depth4. Three full calls by default and one sequential tiled traversal on a shared workstation. Training uses a subsampled synthetic grid, not biological labels. Work estimates exclude caller RGBA, retained model, Python allocations and process runtime. Tiled timing includes Python slicing/copying, native extraction/inference and stitching. No paired implementation speedup, hardware/frame budget or research accuracy acceptance."
+}
