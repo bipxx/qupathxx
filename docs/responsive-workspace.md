@@ -87,3 +87,16 @@ retains JUnit/log hashes, final wheel/native identity, the installed workflow,
 and matching navigation samples. The [hosted CI run](https://github.com/bipxx/qupathxx/actions/runs/39809787592)
 checks the same code across the five supported CI configurations; hosted
 results are recorded separately from local acceptance.
+
+
+The [hosted run](https://github.com/bipxx/qupathxx/actions/runs/39809787592)
+completed successfully with all five job conclusions successful. Windows
+software-GL passes 1,316 Python tests/seven skips and 34 native tests. Windows
+headless passes 1,033/290 and Linux headless 1,027/296 with 33 native each;
+minimal Linux and ASan/UBSan also pass 33. Installed workspace checks measure
+zero helper overflow at 125%. Source-exact stubs, positive/seven-error negative
+typing, standalone project/slide/batch/thumbnail/layout checks and candidate
+ZIP identity checks pass. The [CI artifact record](benchmarks/responsive-ci-windows-linux.json)
+retains test/log hashes and verifies the standalone package against its wheel
+without Python or Mesa payloads. These development candidates do not complete
+physical DPI, installer/portability, macOS or the remaining M0–M7 requirements.

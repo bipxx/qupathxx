@@ -1853,3 +1853,13 @@ skips. Its [artifact record](benchmarks/responsive-local-windows-linux.json)
 checks the same wheel/native/source identities as the 79 focused cases,
 installed workflow and navigation samples. The current hosted validation is
 [run 39809787592](https://github.com/bipxx/qupathxx/actions/runs/39809787592).
+
+Hosted [run 39809787592](https://github.com/bipxx/qupathxx/actions/runs/39809787592)
+completed successfully with all five jobs successful. Windows GUI passes
+1,316 Python/seven skips and 34 native; Windows headless 1,033/290 and Linux
+headless 1,027/296 with 33 native each; minimal and sanitizer also pass 33.
+Installed 125% workspace, stubs, typing and standalone checks pass. The
+[CI record](benchmarks/responsive-ci-windows-linux.json) verifies wheel/native/
+source and standalone ZIP identities, alongside local regression and navigation
+artifacts. The physical DPI, cold/dynamic hardware performance, vendor/parity,
+licensing/fixture and remaining M0–M7 release gates stay open.
