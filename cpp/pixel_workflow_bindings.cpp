@@ -63,4 +63,15 @@ void bind_pixel_workflows(nb::module_& m) {
     m.def("predict_pixel_region",[](const PixelPredictionRequest& r){return predict_pixel_region(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
     nb::class_<PixelPredictionJob>(m,"PixelPredictionJob").def(nb::init<>()).def("request",&PixelPredictionJob::request).def_prop_ro("busy",&PixelPredictionJob::busy).def("cancel",&PixelPredictionJob::cancel)
         .def("poll",&PixelPredictionJob::poll).def("wait",&PixelPredictionJob::wait,nb::call_guard<nb::gil_scoped_release>()).def_prop_ro("result",&PixelPredictionJob::result);
+    nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
+        .def_rw("pixel_open",&GuiOptions::pixel_open).def_rw("pixel_selected_only",&GuiOptions::pixel_selected_only).def_rw("pixel_replace_model",&GuiOptions::pixel_replace_model).def_rw("pixel_show_overlay",&GuiOptions::pixel_show_overlay)
+        .def_rw("pixel_object_id",&GuiOptions::pixel_object_id).def_rw("pixel_preview_budget",&GuiOptions::pixel_preview_budget).def_rw("pixel_model_path",&GuiOptions::pixel_model_path)
+        .def_rw("pixel_training_options",&GuiOptions::pixel_training_options).def_rw("pixel_prediction_options",&GuiOptions::pixel_prediction_options).def_rw("pixel_parameters",&GuiOptions::pixel_parameters).def_rw("pixel_model",&GuiOptions::pixel_model);
+    nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport"))
+        .def_ro("pixel_training_state",&GuiReport::pixel_training_state).def_ro("pixel_prediction_state",&GuiReport::pixel_prediction_state).def_ro("pixel_error",&GuiReport::pixel_error).def_ro("pixel_io_state",&GuiReport::pixel_io_state).def_ro("pixel_io_error",&GuiReport::pixel_io_error)
+        .def_ro("pixel_model",&GuiReport::pixel_model).def_ro("pixel_training_table",&GuiReport::pixel_training_table).def_ro("pixel_result",&GuiReport::pixel_result)
+        .def_ro("pixel_preview_ready",&GuiReport::pixel_preview_ready).def_ro("pixel_overlay_visible",&GuiReport::pixel_overlay_visible).def_ro("pixel_gpu_bytes",&GuiReport::pixel_gpu_bytes).def_ro("pixel_peak_gpu_bytes",&GuiReport::pixel_peak_gpu_bytes)
+        .def_ro("pixel_uploaded_tiles",&GuiReport::pixel_uploaded_tiles).def_ro("pixel_preview_generation",&GuiReport::pixel_preview_generation).def_ro("pixel_capture_ms",&GuiReport::pixel_capture_ms)
+        .def_ro("pixel_catalog_inspected",&GuiReport::pixel_catalog_inspected).def_ro("pixel_catalog_max_step",&GuiReport::pixel_catalog_max_step).def_ro("pixel_catalog_complete",&GuiReport::pixel_catalog_complete).def_ro("canvas_content_bounds",&GuiReport::canvas_content_bounds);
+
 }

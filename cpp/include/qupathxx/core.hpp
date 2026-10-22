@@ -13,7 +13,7 @@
 #include "qupathxx/analysis_types.hpp"
 
 namespace qpx {
-namespace detail {struct ClassificationEdit;}
+namespace detail {struct ClassificationEdit;class GuiPixelClassifier;}
 class Project;
 struct FileFingerprint;
 struct SourceFileAssociation;
@@ -22,6 +22,11 @@ struct StainEstimateParameters;
 struct ObjectFeatureOptions;
 struct ForestParameters;
 class ForestModel;
+class PixelClassifier;
+class PixelTrainingTable;
+class PixelPredictionResult;
+struct PixelTrainingOptions;
+struct PixelPredictionOptions;
 class ObjectClassificationResult;
 class ObjectClassifierArchive;
 class ObjectFeatureRequest;
@@ -101,6 +106,7 @@ class Document {
     friend class CellTableRequest;
     friend class MeasurementTableRequest;
     friend class ObjectFeatureRequest;
+    friend class detail::GuiPixelClassifier;
 public:
     explicit Document(Image image);
     explicit Document(std::shared_ptr<ImageServer> server);
@@ -516,10 +522,21 @@ struct GuiReport {
     std::size_t classified_objects=0;
     double classifier_capture_ms=0;
     std::uint64_t classifier_record_id=0;
+    std::string pixel_training_state="idle",pixel_prediction_state="idle",pixel_error,pixel_io_state="idle",pixel_io_error;
+    std::shared_ptr<const PixelClassifier> pixel_model;
+    std::shared_ptr<const PixelTrainingTable> pixel_training_table;
+    std::shared_ptr<const PixelPredictionResult> pixel_result;
+    bool pixel_preview_ready=false,pixel_overlay_visible=false;
+    std::size_t pixel_gpu_bytes=0,pixel_peak_gpu_bytes=0,pixel_uploaded_tiles=0;
+    std::uint64_t pixel_preview_generation=0;
+    double pixel_capture_ms=0;
+    std::size_t pixel_catalog_inspected=0,pixel_catalog_max_step=0;
+    bool pixel_catalog_complete=false;
+    Rect canvas_content_bounds{0,0,1,1};
 };
-enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey, TraceTissueKey, KeepTissueContoursKey, KeepTissueKey, RecheckTissueKey, DetectCellsKey, KeepCellsKey, CancelCellsKey, KeepCellRunKey, RecheckCellRunKey, ExportCellTableKey, CancelCellTableKey, FingerprintFileKey, CancelFingerprintFileKey, ExportMeasurementTableKey, CancelMeasurementTableKey, EstimateStainsKey, ApplyStainEstimateKey, CancelStainEstimateKey, RunBatchKey, CancelBatchKey, ResizeWindow, MinimizeWindow, RestoreWindow, SetUiScale, ObjectClassifierKey };
-enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord };
-enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified, CellsReady, CellsPublished, CellsArchived, CellsVerified, CellTableSaved, FileFingerprintReady, MeasurementTableSaved, StainsEstimated, StainsApplied, BatchFinished, WindowReady, ObjectClassifierTrained, ObjectClassifierPredicted, ObjectClassifierApplied, ClassifierModelSaved, ClassifierModelLoaded, ClassifierTrainingRetained, ClassifierRecordLoaded };
+enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey, TraceTissueKey, KeepTissueContoursKey, KeepTissueKey, RecheckTissueKey, DetectCellsKey, KeepCellsKey, CancelCellsKey, KeepCellRunKey, RecheckCellRunKey, ExportCellTableKey, CancelCellTableKey, FingerprintFileKey, CancelFingerprintFileKey, ExportMeasurementTableKey, CancelMeasurementTableKey, EstimateStainsKey, ApplyStainEstimateKey, CancelStainEstimateKey, RunBatchKey, CancelBatchKey, ResizeWindow, MinimizeWindow, RestoreWindow, SetUiScale, ObjectClassifierKey, PixelClassifierKey };
+enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord, TrainPixelClassifier, PredictPixelClasses, CancelPixelClassifier, SavePixelModel, LoadPixelModel, TogglePixelOverlay };
+enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified, CellsReady, CellsPublished, CellsArchived, CellsVerified, CellTableSaved, FileFingerprintReady, MeasurementTableSaved, StainsEstimated, StainsApplied, BatchFinished, WindowReady, ObjectClassifierTrained, ObjectClassifierPredicted, ObjectClassifierApplied, ClassifierModelSaved, ClassifierModelLoaded, ClassifierTrainingRetained, ClassifierRecordLoaded, PixelClassifierTrained, PixelClassifierPredicted, PixelPreviewReady, PixelModelSaved, PixelModelLoaded };
 struct GuiInput {
     int frame = 0;
     GuiInputKind kind = GuiInputKind::Move;
@@ -593,6 +610,14 @@ struct GuiOptions {
     std::shared_ptr<const ObjectFeatureOptions> classifier_features;
     std::shared_ptr<const ForestParameters> classifier_parameters;
     std::shared_ptr<const ForestModel> classifier_model;
+    bool pixel_open=false,pixel_selected_only=false,pixel_replace_model=false,pixel_show_overlay=true;
+    std::uint64_t pixel_object_id=0;
+    std::size_t pixel_preview_budget=32u*1024*1024;
+    std::string pixel_model_path;
+    std::shared_ptr<const PixelTrainingOptions> pixel_training_options;
+    std::shared_ptr<const PixelPredictionOptions> pixel_prediction_options;
+    std::shared_ptr<const ForestParameters> pixel_parameters;
+    std::shared_ptr<const PixelClassifier> pixel_model;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 std::string default_workspace_layout_path();

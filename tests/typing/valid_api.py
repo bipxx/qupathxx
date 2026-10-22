@@ -185,3 +185,25 @@ def pixel_source_mask(doc: q.Document, object_id: int, model: q.PixelClassifier)
     result.valid_numpy()
     result.vote_fractions_numpy()
     return result.sha256 if resolution is not None else ''
+
+
+def pixel_desktop_options(model: q.PixelClassifier, training: q.PixelTrainingOptions) -> q.GuiOptions:
+    options=q.GuiOptions()
+    options.pixel_model=model
+    options.pixel_training_options=training
+    options.pixel_parameters=q.pixel_forest_parameters()
+    options.pixel_prediction_options=q.PixelPredictionOptions()
+    options.pixel_open=True
+    options.pixel_object_id=1
+    return options
+
+
+def pixel_desktop_result(report: q.GuiReport) -> q.PixelClassifier | None:
+    bounds: q.Rect=report.canvas_content_bounds
+    result: q.PixelPredictionResult | None=report.pixel_result
+    if result is not None:
+        result.labels_numpy()
+    table: q.PixelTrainingTable | None=report.pixel_training_table
+    if table is not None:
+        table.coordinates_numpy()
+    return report.pixel_model

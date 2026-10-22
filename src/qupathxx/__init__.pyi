@@ -208,6 +208,7 @@ from ._native import (
     DisplayMode as DisplayMode,
     display_pixels as display_pixels,
     GuiOptions as GuiOptions,
+    GuiReport as GuiReport,
     GuiInput as GuiInput,
     GuiInputKind as GuiInputKind,
     GuiInputTarget as GuiInputTarget,

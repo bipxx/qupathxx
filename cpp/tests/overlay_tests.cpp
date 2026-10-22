@@ -14,6 +14,8 @@ int main() {
             check(overlay_surface({10.3f,20.7f,99.2f,88.1f},{200,120},{scale,scale},4096,s->bytes()).has_value());
             check(!overlay_surface({10.3f,20.7f,99.2f,88.1f},{200,120},{scale,scale},4096,s->bytes()-1));
         }
+        OverlayKey key{},other=key;check(key==other);
+        ++other.pixel_generation;check(!(key==other));other=key;other.show_pixels=true;check(!(key==other));other=key;other.pixels_ready=true;check(!(key==other));
         auto clipped=overlay_surface({-20,-30,1000,1000},{200,120},{1,1},4096,1000000);
         check(clipped && clipped->x==0 && clipped->y==0 && clipped->width==200 && clipped->height==120);
         check(!overlay_surface({0,0,200,120},{200,120},{1,1},100,1000000));

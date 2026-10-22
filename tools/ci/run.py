@@ -183,6 +183,9 @@ def main():
         work/'pixel-classifier-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_workflow.py', '--output', work/'pixel-workflow-benchmark.json'],
         work/'pixel-workflow-benchmark.log', env, 120)
+    if args.mode == 'gui':
+        run([test_python, '-I', ROOT/'tools/benchmark_gui_pixel.py', '--output', work/'gui-pixel-benchmark.json'],
+            work/'gui-pixel-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/generate_stubs.py', '--check'], work/'stubs.log', env)
     run([test_python, '-I', '-m', 'mypy', '--strict', 'tests/typing/valid_api.py', 'examples/live_workflow.py', 'examples/region_workflow.py'], work/'typing.log', env)
     negative_log = work/'typing-negative.log'

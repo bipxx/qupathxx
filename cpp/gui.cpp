@@ -23,6 +23,7 @@
 #include "gui_batch.hpp"
 #include "gui_layout.hpp"
 #include "gui_object_classifier.hpp"
+#include "gui_pixel_classifier.hpp"
 #include <imgui.h>
 #include <imgui_internal.h>
 #include <imgui_impl_glfw.h>
@@ -211,6 +212,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     if(options.docked_workspace) ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     GuiWorkspace workspace(options);
+    detail::GuiPixelClassifier pixel_classifier(options);
     ImGui::StyleColorsDark();
     auto& style = ImGui::GetStyle(); style.FrameRounding = 4; style.WindowRounding = 0;
     style.Colors[ImGuiCol_WindowBg] = ImVec4(.075f, .085f, .105f, 1);
@@ -382,7 +384,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t list_revision=std::numeric_limits<std::uint64_t>::max();
     int frames = 0;
     std::uint64_t settle_frames=0;
-    std::array<int,static_cast<std::size_t>(GuiInputTarget::UseClassifierRecord)+1> target_seen;
+    std::array<int,static_cast<std::size_t>(GuiInputTarget::TogglePixelOverlay)+1> target_seen;
     target_seen.fill(-2);
     auto mark_target=[&](GuiInputTarget target) {
         const auto* modal=ImGui::GetTopMostPopupModal();
@@ -714,7 +716,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         auto& document=*active_document;
         analysis.poll(document,selected);stain_estimate.poll(document,selected);
-        classifier.update(document,*selection);
+        classifier.update(document,*selection);pixel_classifier.update(document,*selection);
         cell_table_job.poll();measurement_job.poll();
         cell_job.poll(document,selected);if(!cell_job.result()) cell_preview.clear();
         if(verifying_cells && !cell_job.busy()) {
@@ -760,6 +762,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(event.wait_for==GuiInputWait::ClassifierModelLoaded) return classifier.io_state()=="loaded";
             if(event.wait_for==GuiInputWait::ClassifierTrainingRetained) return classifier.retained();
             if(event.wait_for==GuiInputWait::ClassifierRecordLoaded) return classifier.record_loaded();
+            if(event.wait_for==GuiInputWait::PixelClassifierTrained) return pixel_classifier.trained();
+            if(event.wait_for==GuiInputWait::PixelClassifierPredicted) return pixel_classifier.predicted();
+            if(event.wait_for==GuiInputWait::PixelPreviewReady) return pixel_classifier.preview_ready();
+            if(event.wait_for==GuiInputWait::PixelModelSaved) return pixel_classifier.io_state()=="saved";
+            if(event.wait_for==GuiInputWait::PixelModelLoaded) return pixel_classifier.io_state()=="loaded";
             if(event.wait_for==GuiInputWait::StainsEstimated || event.wait_for==GuiInputWait::StainsApplied) return !stain_estimate.busy() && bool(stain_estimate.result()) && (event.wait_for==GuiInputWait::StainsEstimated || stain_estimate_applied);
             if(event.wait_for==GuiInputWait::FileFingerprintReady) return fingerprint_job.poll().state=="succeeded";
             if(event.wait_for==GuiInputWait::CellsReady) return !cell_job.busy() && bool(cell_job.result());
@@ -812,6 +819,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(event.target==GuiInputTarget::SaveProject) {origin=save_project_offset;extent=save_project_size;}
             if(event.target>=GuiInputTarget::TrainObjectClassifier && event.target<=GuiInputTarget::UseClassifierRecord) {
                 const auto bounds=classifier.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};
+            }
+            if(event.target>=GuiInputTarget::TrainPixelClassifier && event.target<=GuiInputTarget::TogglePixelOverlay) {
+                const auto bounds=pixel_classifier.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};
             }
             if(event.target==GuiInputTarget::ResetLayout) {origin=layout_reset_offset;extent=layout_reset_size;}
             if(event.target==GuiInputTarget::ProjectList) { origin=project_list_offset; extent=project_list_size; }
@@ -893,6 +903,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::ApplyStainEstimateKey: input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_F3,true);break;
                 case GuiInputKind::CancelStainEstimateKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiKey_F3,true);break;
                 case GuiInputKind::ObjectClassifierKey: input.AddKeyEvent(ImGuiKey_F4,true);break;
+                case GuiInputKind::PixelClassifierKey: input.AddKeyEvent(ImGuiKey_F5,true);break;
                 case GuiInputKind::ExportMeasurementTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,!event.shift);input.AddKeyEvent(ImGuiKey_Q,true);break;
                 case GuiInputKind::CancelMeasurementTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_Q,true);break;
                 case GuiInputKind::ExportCellTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,!event.shift);input.AddKeyEvent(ImGuiKey_X,true);break;
@@ -1034,7 +1045,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         else {
             if(ui::SmallButton("Help")) ImGui::OpenPopup("Navigation shortcuts");
             if(ImGui::BeginPopup("Navigation shortcuts")) {
-                ImGui::TextUnformatted("Ctrl+click: toggle selection\nShift+drag: select box\nCtrl+A: select all\nRight drag: pan\nF4: object classifiers");ImGui::EndPopup();
+                ImGui::TextUnformatted("Ctrl+click: toggle selection\nShift+drag: select box\nCtrl+A: select all\nRight drag: pan\nF4: object classifiers\nF5: pixel classifiers");ImGui::EndPopup();
             }
         }
         ImGui::EndDisabled();
@@ -1502,6 +1513,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if (!mean.error.empty()) ImGui::TextWrapped("%s",mean.error.c_str());
             ui::SeparatorText("Region analysis");
             if(ui::Button("Object classifiers (F4)")) classifier.open();
+            if(ui::Button("Pixel classifiers (F5)")) pixel_classifier.open();
             bool analysis_changed=ui::Combo("Features",&analysis_kind,"RGB optical density\0Supplied stains\0");
             analysis_changed=ui::Checkbox("Use nucleus",&analysis_nucleus) || analysis_changed;
             analysis_changed=ui::InputScalarN("White RGB",ImGuiDataType_Double,analysis_white.data(),3,nullptr,nullptr,"%.5g") || analysis_changed;
@@ -1510,7 +1522,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 analysis_changed=ui::InputScalarN("Stain 2",ImGuiDataType_Double,analysis_vectors.data()+3,3,nullptr,nullptr,"%.5g") || analysis_changed;
                 ImGui::TextWrapped("Supply validated OD directions. Channel 3 is a signed residual.");
             }
-            if(analysis_changed) {analysis.cancel();tissue.cancel();cell_job.cancel();stain_estimate.cancel();stain_estimate_applied=false;}
+            if(analysis_changed) {pixel_classifier.invalidate_training();analysis.cancel();tissue.cancel();cell_job.cancel();stain_estimate.cancel();stain_estimate_applied=false;}
             if(ImGui::CollapsingHeader("Stain estimation settings")) {
                 bool changed=false;
                 ui::SetNextItemWidth(100);changed=ui::InputDouble("Minimum OD",&stain_estimate_parameters.min_od,0,0,"%.5g") || changed;
@@ -2023,7 +2035,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             plan=plan_view_tiles(image,viewport,size.x,size.y,dpi,256,128); plan_inputs=inputs;
         }
         tiles->update(plan);
-        tissue_preview.update(tissue.result(),show_tissue);
+        tissue_preview.update(tissue.result(),show_tissue);pixel_classifier.update_preview();
         const auto detected=cell_job.result();cell_preview.update(detected?(cell_preview_body?detected->cells():detected->nuclei()):nullptr,show_cells);
         for(const auto& tile:plan.tiles) tiles->texture(tile); // Preserve tile LRU use even on a canvas-cache hit.
         if(!overlay_display || !(*overlay_display==display)) {overlay_cache.clear();overlay_display=display;}
@@ -2034,7 +2046,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             offset.x,offset.y,size.x,size.y,clip.x,clip.y,clip.z,clip.w,ImGui::GetFont(),ImGui::GetFontSize(),ImGui::GetIO().Fonts->TexID,
             draw->Flags,shared->TexUvWhitePixel.x,shared->TexUvWhitePixel.y,shared->CurveTessellationTol,shared->CircleSegmentMaxError,
             tiles->uploads(),tiles->generations(),tissue.poll(document,selected).generation,cell_job.poll(document,selected).generation,tiles->bytes(),tissue.result().get(),detected.get(),
-            show_tissue,show_cells,tissue_preview.ready(),cell_preview.ready(),cell_preview_body};
+            show_tissue,show_cells,tissue_preview.ready(),cell_preview.ready(),cell_preview_body,pixel_classifier.preview().generation(),pixel_classifier.show_overlay(),pixel_classifier.preview_ready()};
         const bool overlay_hit=overlay_cache.prepare(next_overlay_key,clip,max_texture,options.overlay_cache_budget);profile.cache_hit=overlay_hit;profile.cache_ms=profile_lap();
         if(overlay_hit) overlay_cache.draw(draw);
         else {
@@ -2043,6 +2055,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 screen(viewport,{tile.bounds.x+tile.bounds.width,tile.bounds.y+tile.bounds.height},offset));
         }
         if(show_tissue) tissue_preview.draw(draw,viewport,offset,size);
+        pixel_classifier.draw_preview(draw,viewport,offset,size);
         if(show_cells) cell_preview.draw(draw,viewport,offset,size);
         auto visible_ids=document.query_region({visible_min.x,visible_min.y,visible_max.x-visible_min.x,visible_max.y-visible_min.y});
         visible_count=visible_ids.size();profile.query_ms=profile_lap();
@@ -2230,6 +2243,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::End();
         batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,cell_parameters,static_cast<AnalysisKind>(analysis_kind),analysis_nucleus,make_transform);
         classifier.draw(document,*selection,editing_blocked,has_image,mark_target);
+        pixel_classifier.draw(document,*selection,editing_blocked,has_image,mark_target,make_transform);
         service_project(save_project_requested,autosave_requested,editing_blocked,true);
         profile.other_ms=profile_lap();
         ImGui::Render(); int w,h; glfwGetFramebufferSize(session.window,&w,&h); last_width=w; last_height=h; glViewport(0,0,w,h);
@@ -2245,7 +2259,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         replay.finish_frame(!settling);
         if(settling) ++settle_frames;
-        const bool tiles_settled=!startup_active && !project_load.valid() && !restore_pending && (!canvas_visible || (!tiles->pending() && tiles->error().empty())) && (!has_image || overview.settled());
+        const bool tiles_settled=pixel_classifier.settled() && !startup_active && !project_load.valid() && !restore_pending && (!canvas_visible || (!tiles->pending() && tiles->error().empty())) && (!has_image || overview.settled());
         if(options.settle_tiles && !within_frames() && !tiles->error().empty()) throw std::runtime_error("GUI tile settlement failed: "+tiles->error());
         const bool final_frame=!within_frames() && !restore_after_save && !restore_pending && (!options.settle_tiles || tiles_settled);
         if (!capture_path.empty() && final_frame) capture(capture_path,w,h);
@@ -2281,6 +2295,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     // caller's project. No live authority or Python-owned objects enter workers.
     batch.finish();
     classifier.finish(*active_document,*selection,frame_limit>0);
+    pixel_classifier.finish(*active_document,*selection,frame_limit>0);
     if(stain_estimate.busy()) {if(!frame_limit) stain_estimate.cancel();stain_estimate.wait(*active_document,selection->primary());}
     if(save_job.busy()) save_job.wait();
     if(cell_table_job.busy()) cell_table_job.wait();
@@ -2343,7 +2358,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         saved_cells?saved_cells->id:0,saved_cells?active_document->cell_status(saved_cells->id):std::string{},
         final_table.state,cell_table_error.empty()?final_table.error:cell_table_error,final_table.path,final_table.rows,final_table.bytes,final_table.capture_ms,final_table.write_ms,
         final_fingerprint.state,final_fingerprint.error.empty()?fingerprint_error:final_fingerprint.error,fingerprint_job.result(),final_fingerprint.bytes,final_fingerprint.elapsed_ms,
-        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied,batch.stats().state,batch.error(),batch.result(),suspended_iterations,suspended_work_ms,suspended_wait_ms,bool(glfwGetWindowAttrib(session.window,GLFW_ICONIFIED)),overview.state(),overview.error(),overview.result(),overview.bytes(),overview.peak_bytes(),workspace.enabled(),workspace.loaded(),layout_saved,workspace.error(),workspace.browser,workspace.display,workspace.measurements,workspace.canvas,canvas_visible,ui_scale.monitor,ui_scale.framebuffer,ui_scale.logical,font_rebuilds,ui::layout_stats.stacked_fields,ui::layout_stats.wrapped_buttons,ui::layout_stats.overflow_items,ui::layout_stats.max_overflow,ui::layout_stats.first_overflow,classifier.stats().state,classifier.error(),classifier.io_state(),classifier.io_error(),classifier.model(),classifier.result(),classifier.changed(),classifier.capture_ms(),classifier.record_id()};
+        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied,batch.stats().state,batch.error(),batch.result(),suspended_iterations,suspended_work_ms,suspended_wait_ms,bool(glfwGetWindowAttrib(session.window,GLFW_ICONIFIED)),overview.state(),overview.error(),overview.result(),overview.bytes(),overview.peak_bytes(),workspace.enabled(),workspace.loaded(),layout_saved,workspace.error(),workspace.browser,workspace.display,workspace.measurements,workspace.canvas,canvas_visible,ui_scale.monitor,ui_scale.framebuffer,ui_scale.logical,font_rebuilds,ui::layout_stats.stacked_fields,ui::layout_stats.wrapped_buttons,ui::layout_stats.overflow_items,ui::layout_stats.max_overflow,ui::layout_stats.first_overflow,classifier.stats().state,classifier.error(),classifier.io_state(),classifier.io_error(),classifier.model(),classifier.result(),classifier.changed(),classifier.capture_ms(),classifier.record_id(),pixel_classifier.training_stats().state,pixel_classifier.prediction_stats().state,pixel_classifier.error(),pixel_classifier.io_state(),pixel_classifier.io_error(),pixel_classifier.model(),pixel_classifier.table(),pixel_classifier.result(),pixel_classifier.preview_ready(),canvas_visible && pixel_classifier.overlay_visible(),pixel_classifier.preview().bytes(),pixel_classifier.preview().peak_bytes(),pixel_classifier.preview().completed_tiles(),pixel_classifier.preview().generation(),pixel_classifier.capture_ms(),pixel_classifier.catalog_inspected(),pixel_classifier.catalog_max_step(),pixel_classifier.catalog_complete(),Rect{previous_canvas.x,previous_canvas.y,previous_canvas_size.x,previous_canvas_size.y}};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

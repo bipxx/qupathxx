@@ -1450,6 +1450,8 @@ class GuiInputKind(enum.Enum):
 
     OBJECT_CLASSIFIERS_KEY = 67
 
+    PIXEL_CLASSIFIERS_KEY = 68
+
     FINGERPRINT_FILE_KEY = 54
 
     CANCEL_FINGERPRINT_FILE_KEY = 55
@@ -1513,6 +1515,18 @@ class GuiInputTarget(enum.Enum):
 
     CLASSIFIER_USE_RECORD = 28
 
+    PIXEL_TRAIN = 29
+
+    PIXEL_PREDICT = 30
+
+    PIXEL_CANCEL = 31
+
+    PIXEL_SAVE_MODEL = 32
+
+    PIXEL_LOAD_MODEL = 33
+
+    PIXEL_TOGGLE_OVERLAY = 34
+
 class GuiInputWait(enum.Enum):
     IMMEDIATE = 0
 
@@ -1565,6 +1579,16 @@ class GuiInputWait(enum.Enum):
     CLASSIFIER_TRAINING_RETAINED = 24
 
     CLASSIFIER_RECORD_LOADED = 25
+
+    PIXEL_TRAINED = 26
+
+    PIXEL_PREDICTED = 27
+
+    PIXEL_PREVIEW_READY = 28
+
+    PIXEL_MODEL_SAVED = 29
+
+    PIXEL_MODEL_LOADED = 30
 
 class GuiInput:
     def __init__(self) -> None: ...
@@ -2076,6 +2100,72 @@ class GuiOptions:
     @classifier_record_id.setter
     def classifier_record_id(self, arg: int, /) -> None: ...
 
+    @property
+    def pixel_open(self) -> bool: ...
+
+    @pixel_open.setter
+    def pixel_open(self, arg: bool, /) -> None: ...
+
+    @property
+    def pixel_selected_only(self) -> bool: ...
+
+    @pixel_selected_only.setter
+    def pixel_selected_only(self, arg: bool, /) -> None: ...
+
+    @property
+    def pixel_replace_model(self) -> bool: ...
+
+    @pixel_replace_model.setter
+    def pixel_replace_model(self, arg: bool, /) -> None: ...
+
+    @property
+    def pixel_show_overlay(self) -> bool: ...
+
+    @pixel_show_overlay.setter
+    def pixel_show_overlay(self, arg: bool, /) -> None: ...
+
+    @property
+    def pixel_object_id(self) -> int: ...
+
+    @pixel_object_id.setter
+    def pixel_object_id(self, arg: int, /) -> None: ...
+
+    @property
+    def pixel_preview_budget(self) -> int: ...
+
+    @pixel_preview_budget.setter
+    def pixel_preview_budget(self, arg: int, /) -> None: ...
+
+    @property
+    def pixel_model_path(self) -> str: ...
+
+    @pixel_model_path.setter
+    def pixel_model_path(self, arg: str, /) -> None: ...
+
+    @property
+    def pixel_training_options(self) -> PixelTrainingOptions | None: ...
+
+    @pixel_training_options.setter
+    def pixel_training_options(self, arg: PixelTrainingOptions | None, /) -> None: ...
+
+    @property
+    def pixel_prediction_options(self) -> PixelPredictionOptions | None: ...
+
+    @pixel_prediction_options.setter
+    def pixel_prediction_options(self, arg: PixelPredictionOptions | None, /) -> None: ...
+
+    @property
+    def pixel_parameters(self) -> ForestParameters | None: ...
+
+    @pixel_parameters.setter
+    def pixel_parameters(self, arg: ForestParameters | None, /) -> None: ...
+
+    @property
+    def pixel_model(self) -> PixelClassifier | None: ...
+
+    @pixel_model.setter
+    def pixel_model(self, arg: PixelClassifier | None, /) -> None: ...
+
 class GuiReport:
     def __init__(self, _native_only: Never) -> None: ...
     @property
@@ -2569,6 +2659,63 @@ class GuiReport:
 
     @property
     def classifier_record_id(self) -> int: ...
+
+    @property
+    def pixel_training_state(self) -> str: ...
+
+    @property
+    def pixel_prediction_state(self) -> str: ...
+
+    @property
+    def pixel_error(self) -> str: ...
+
+    @property
+    def pixel_io_state(self) -> str: ...
+
+    @property
+    def pixel_io_error(self) -> str: ...
+
+    @property
+    def pixel_model(self) -> PixelClassifier | None: ...
+
+    @property
+    def pixel_training_table(self) -> PixelTrainingTable | None: ...
+
+    @property
+    def pixel_result(self) -> PixelPredictionResult | None: ...
+
+    @property
+    def pixel_preview_ready(self) -> bool: ...
+
+    @property
+    def pixel_overlay_visible(self) -> bool: ...
+
+    @property
+    def pixel_gpu_bytes(self) -> int: ...
+
+    @property
+    def pixel_peak_gpu_bytes(self) -> int: ...
+
+    @property
+    def pixel_uploaded_tiles(self) -> int: ...
+
+    @property
+    def pixel_preview_generation(self) -> int: ...
+
+    @property
+    def pixel_capture_ms(self) -> float: ...
+
+    @property
+    def pixel_catalog_inspected(self) -> int: ...
+
+    @property
+    def pixel_catalog_max_step(self) -> int: ...
+
+    @property
+    def pixel_catalog_complete(self) -> bool: ...
+
+    @property
+    def canvas_content_bounds(self) -> Rect: ...
 
 class AnalysisKind(enum.Enum):
     OPTICAL_DENSITY_MEANS = 0

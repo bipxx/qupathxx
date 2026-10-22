@@ -44,6 +44,9 @@ def main():
                     line=line.replace('-> '+name+':','-> '+name+' | None:')
             if current=='ObjectClassifierArchive':line=line.replace('-> ObjectClassificationResult:', '-> ObjectClassificationResult | None:')
             if current=='ObjectCellFeatureSource':line=line.replace('-> AnalysisProvenance:', '-> AnalysisProvenance | None:')
+            if current in ('GuiOptions','GuiReport') and 'def pixel_' in line:
+                for name in ['PixelClassifier','PixelTrainingTable','PixelPredictionResult','PixelTrainingOptions','PixelPredictionOptions','ForestParameters']:
+                    line=line.replace('-> '+name+':','-> '+name+' | None:').replace('arg: '+name+',','arg: '+name+' | None,')
             if current in ('GuiOptions','GuiReport') and 'def classifier_' in line:
                 for name in ['ForestModel','ObjectFeatureOptions','ForestParameters','ObjectClassificationResult']:
                     line=line.replace('-> '+name+':','-> '+name+' | None:').replace('arg: '+name+',','arg: '+name+' | None,')
