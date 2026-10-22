@@ -7,6 +7,10 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Project-wide ROI means and tissue component CSV use immutable native snapshots,
+  historical calibration and background atomic export in Python and ImGui; see
+  [measurement tables](docs/measurement-tables.md).
+
 - Native file SHA-256 observations provide bounded streaming, progress/cancellation,
   stable metadata checks and atomic JSON through Python and ImGui; see
   [file fingerprints](docs/file-fingerprints.md).

@@ -76,6 +76,7 @@ public:
     std::uint64_t generation() const { return generation_; }
 private:
     friend class CellTableRequest;
+    friend class MeasurementTableRequest;
     friend class ProjectAutosave;
     friend class ProjectSaveJob;
     friend GuiReport run_gui(Document&,int,const std::string&,const GuiOptions&);

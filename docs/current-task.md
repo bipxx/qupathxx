@@ -8,15 +8,15 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the final installed-wheel regression passes 984 Python cases with two file-symlink cases
+Evidence: the final installed-wheel regression passes 1011 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
-and recovery; twenty-eight native suites pass in the full GUI build and
-twenty-seven pass in core/minimal builds with optional geometry/readers/
+and recovery; twenty-nine native suites pass in the full GUI build and
+twenty-eight pass in core/minimal builds with optional geometry/readers/
 interchange enabled and disabled. The installed GUI wheel includes its
 packaged runtime libraries and licenses.
-All cell-archive and cell-table cases are included in that full run.
+All cell archives and cell/ROI/tissue table cases are included in that full run.
 The 100000-object document benchmark records approximately 230 ms batch creation,
 116 ms undo, 126 ms redo and 815 bytes of history payload for a rename. The spatial
 benchmark covers 1000 region queries and a cached narrow GUI view of 828 visible
@@ -416,7 +416,7 @@ retroactively bind archived reader bytes or enumerate a multi-file slide.
 
 Next associate file observations with reader/request generations, enumerate slide
 file dependencies, complete native binary/Python/runtime inventories and portable
-manifests, and implement project-wide ROI/tissue feature tables. Continue
+manifests, and extend measurement registries and annotation joins. Continue
 numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged
@@ -427,3 +427,25 @@ Outstanding M0 decisions: project license choice
 (asked asynchronously; no license selected yet), broader malformed-image
 fixtures and numerical QuPath comparison tolerances. GEOS dependency selection
 and packaging are now recorded with source identity and independent tests.
+
+
+The fiftieth packet adds project/document ROI channel-mean and tissue-component
+CSV tables, native immutable capture, historical calibration and source build
+identity, bounded streaming/background atomic export, cancellation/progress and
+Python/ImGui controls. Empty tissue runs retain explicit summary rows. See
+measurement-tables.md. Full M0-M7 scope remains open, including portable
+execution manifests and file observation association with reader generations.
+
+The desktop controls are visually reviewed in a 1440x1000 capture.
+The final benchmark with 1000 images and 100001 selected objects captures 8000 ROI runs
+at 1.483 ms p95 and 8 tissue runs / 32768 component rows at 0.204 ms p95. Desktop
+CPU frame p95 is 16.997 / 16.852 ms; background CSV writes take 20.397 / 38.031 ms
+outside the viewer. See measurement-tables.md and its raw benchmark for exact
+artifact fingerprints, workload bounds and desktop timings. Larger archives,
+complex shapes, real slide catalogs and other platforms remain unverified.
+
+The final installed GUI wheel passes 1011 Python cases with the two existing
+Windows file-symlink permission skips in 238.56 s. All native suites pass in the
+full/core/minimal builds (29/28/28). Source and binary fingerprints in the raw
+benchmark identify this final dropdown-width build. The 40-case focused
+workspace/export run also verifies the readiness-based same-file replay.

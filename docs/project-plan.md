@@ -1249,3 +1249,32 @@ These observations are scoped to synthetic files on one Windows PC. Reader/reque
 generation association, complete slide dependency and binary/runtime inventories,
 portable manifests, project-wide ROI/tissue tables, numerical comparisons and all
 unfinished M0-M7 work remain active.
+
+
+The fiftieth packet adds immutable native project/document ROI and tissue tables
+with nanobind bindings and ImGui controls. Rows preserve original source IDs,
+verification status at export capture, algorithm/parameters, pixel digests,
+calibration and build provenance. Empty tissue detections produce explicit
+summary rows. Bounded CSV streaming, atomic output, a single cancellable worker,
+GIL release, progress and GUI readiness gates use the same native request.
+See [measurement tables](measurement-tables.md).
+
+Twenty-seven new focused Python/desktop cases and all native full/core/minimal
+suites pass (29/28/28). The combined workspace/export selection passes 40 cases;
+the workspace same-file replay now waits for replacement image controls before
+its final save rather than assuming asynchronous adoption finishes by a fixed
+frame. The 1000-image synthetic benchmark captures 8000 ROI runs at 1.483 ms p95
+and 8 tissue runs / 32768 component rows at 0.204 ms p95. With 100001 selected
+objects, desktop CPU frame p95 is 16.997 / 16.852 ms respectively. These are one-
+machine synthetic observations, not broad vendor or cross-platform evidence.
+
+Complete portable manifests, reader-generation/file observation association,
+slide dependency inventories, general feature registries and annotation joins,
+classifiers, scripting, OS delivery and all other unfinished M0-M7 work remain
+active. ROI/tissue table export completes this scoped workflow, not the full plan.
+
+The final installed GUI wheel passes 1011 Python cases with two existing Windows
+file-symlink permission skips in 238.56 s. Native suites remain 29/28/28. The final
+sidebar is visually checked after correcting the measurement selector width;
+its exact native/source fingerprints and benchmark values are recorded in the
+measurement-table documentation and raw JSON.

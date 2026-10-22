@@ -102,7 +102,13 @@ def test_save_before_opening_same_file_reloads_saved_generation(tmp_path):
     current, doc, image, obj, primary = workspace(tmp_path, 'current', (210, 60, 30))
     doc.rename_annotation(obj, 'Latest edit')
     config = options(current, primary)
+    # The final save must address the adopted workspace, not race the background
+    # save/load. Its image controls become ready only after replacement closes
+    # the modal. Reset is harmless here: this fixture uses the default display.
+    adopted = event(30, q.GuiInputKind.LEFT_DOWN, q.GuiInputTarget.DISPLAY_RESET)
+    adopted.wait_for = q.GuiInputWait.TARGET_READY
     config.inputs = [event(4, q.GuiInputKind.OPEN_PROJECT_KEY), *click(18, q.GuiInputTarget.SAVE_RECOVERY_REPLACEMENT),
+                     adopted, event(31, q.GuiInputKind.LEFT_UP, q.GuiInputTarget.DISPLAY_RESET),
                      event(35, q.GuiInputKind.SAVE_KEY)]
     report = q.show(doc, frame_limit=50, options=config)
     assert not report.project_error and report.project_replacements == 1

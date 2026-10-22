@@ -8,6 +8,7 @@
 #include "gui_tissue.hpp"
 #include "qupathxx/cells.hpp"
 #include "qupathxx/cell_tables.hpp"
+#include "qupathxx/measurement_tables.hpp"
 #include "qupathxx/file_fingerprint.hpp"
 #include "gui_replay.hpp"
 #include "gui_overlay.hpp"
@@ -205,6 +206,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(p->effective_pixel_width_um && p->effective_pixel_height_um) ImGui::TextWrapped("Captured calibration: %.5g / %.5g um/px",*p->effective_pixel_width_um,*p->effective_pixel_height_um);
         else ImGui::TextWrapped("Captured calibration: unknown");
     };
+    if(options.measurement_table_path.size()>32768 || options.measurement_table_path.find('\0')!=std::string::npos || options.measurement_table_kind<0 || options.measurement_table_kind>1) throw std::invalid_argument("invalid measurement table options");
+    MeasurementTableOptions measurement_options;measurement_options.require_current=options.measurement_table_require_current;
+    measurement_options.byte_limit=options.measurement_table_byte_limit;measurement_options.snapshot_budget=options.measurement_table_snapshot_budget;measurement_options.validate();
+    MeasurementTableExportJob measurement_job;std::string measurement_error;
+    int measurement_kind=options.measurement_table_kind;
+    char measurement_path[32769]={};std::copy(options.measurement_table_path.begin(),options.measurement_table_path.end(),measurement_path);
     CellTableExportJob cell_table_job;std::string cell_table_error;
     char cell_table_path[32769]={};std::copy(options.cell_table_path.begin(),options.cell_table_path.end(),cell_table_path);
     OverlayCache overlay_cache;std::optional<DisplaySettings> overlay_display;
@@ -585,7 +592,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         auto& document=*active_document;
         analysis.poll(document,selected);
-        cell_table_job.poll();
+        cell_table_job.poll();measurement_job.poll();
         cell_job.poll(document,selected);if(!cell_job.result()) cell_preview.clear();
         if(verifying_cells && !cell_job.busy()) {
             try {if(cell_job.poll(document,selected).state=="ready") cell_job.verify_record(document,verifying_cells);} catch(const std::exception& e) {error=e.what();}
@@ -617,11 +624,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
             input.AddKeyEvent(ImGuiKey_J,false);input.AddKeyEvent(ImGuiKey_U,false);input.AddKeyEvent(ImGuiKey_G,false);input.AddKeyEvent(ImGuiKey_C,false);input.AddKeyEvent(ImGuiKey_X,false);input.AddKeyEvent(ImGuiMod_Alt,false);
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
-            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12,ImGuiKey_M,ImGuiKey_K,ImGuiKey_D,ImGuiKey_F}) input.AddKeyEvent(key,false);
+            for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12,ImGuiKey_M,ImGuiKey_K,ImGuiKey_D,ImGuiKey_F,ImGuiKey_Q}) input.AddKeyEvent(key,false);
         }
         replay.dispatch([&](const GuiInput& event) {
             if(event.wait_for==GuiInputWait::FileFingerprintReady) return fingerprint_job.poll().state=="succeeded";
             if(event.wait_for==GuiInputWait::CellsReady) return !cell_job.busy() && bool(cell_job.result());
+            if(event.wait_for==GuiInputWait::MeasurementTableSaved) return !measurement_job.busy() && measurement_job.poll().state=="succeeded";
             if(event.wait_for==GuiInputWait::CellTableSaved) return !cell_table_job.busy() && cell_table_job.poll().state=="succeeded";
             if(event.wait_for==GuiInputWait::CellsPublished) return !cell_job.busy() && cell_job.published();
             if(event.wait_for==GuiInputWait::CellsArchived || event.wait_for==GuiInputWait::CellsVerified) {
@@ -728,6 +736,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::RecheckCellRunKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_C,true);break;
                 case GuiInputKind::FingerprintFileKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_F,true);break;
                 case GuiInputKind::CancelFingerprintFileKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_F,true);break;
+                case GuiInputKind::ExportMeasurementTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,!event.shift);input.AddKeyEvent(ImGuiKey_Q,true);break;
+                case GuiInputKind::CancelMeasurementTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_Q,true);break;
                 case GuiInputKind::ExportCellTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,!event.shift);input.AddKeyEvent(ImGuiKey_X,true);break;
                 case GuiInputKind::CancelCellTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_X,true);break;
                 case GuiInputKind::KeepTissueKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiKey_U,true);break;
@@ -1499,6 +1509,34 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(!table_status.error.empty()) ImGui::TextWrapped("%s",table_status.error.c_str());
         }
         if(!cell_table_error.empty()) ImGui::TextWrapped("%s",cell_table_error.c_str());
+        const bool measurement_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_Q,false);
+        bool export_measurement_image=measurement_key && io.KeyAlt && !io.KeyShift;
+        bool export_measurement_project=measurement_key && io.KeyShift && !io.KeyAlt;
+        if(measurement_key && io.KeyShift && io.KeyAlt) measurement_job.cancel();
+        if(export_measurement_image || export_measurement_project) ImGui::SetNextItemOpen(true);
+        if(ImGui::CollapsingHeader("ROI and tissue tables",options.measurement_table_path.empty()?0:ImGuiTreeNodeFlags_DefaultOpen)) {
+            ImGui::SetNextItemWidth(150);ImGui::Combo("Measurements",&measurement_kind,"ROI channel means\0Tissue components\0");
+            ImGui::SetNextItemWidth(240);ImGui::InputTextWithHint("##Measurement destination","Measurement .csv destination",measurement_path,sizeof(measurement_path));
+            ImGui::Checkbox("Require current ROI / tissue runs",&measurement_options.require_current);
+            ImGui::TextWrapped("Archived results and capture-time calibration; empty tissue runs have a summary row.");
+            ImGui::BeginDisabled(measurement_job.busy() || !has_image);
+            export_measurement_image=ImGui::Button("Export image (Ctrl+Alt+Q)") || export_measurement_image;ImGui::EndDisabled();
+            ImGui::BeginDisabled(measurement_job.busy() || !options.project);
+            export_measurement_project=ImGui::Button("Export project (Ctrl+Shift+Q)") || export_measurement_project;ImGui::EndDisabled();
+            const auto status=measurement_job.poll();
+            if(status.state!="idle") {ImGui::Text("Measurements: %s",status.state.c_str());ImGui::Text("Rows: %llu / %llu",static_cast<unsigned long long>(status.rows),static_cast<unsigned long long>(status.total_rows));}
+            if(measurement_job.busy() && ImGui::Button("Cancel export (Ctrl+Alt+Shift+Q)")) measurement_job.cancel();
+            if(!status.error.empty()) ImGui::TextWrapped("%s",status.error.c_str());
+            if(!measurement_error.empty()) ImGui::TextWrapped("%s",measurement_error.c_str());
+        }
+        if(!measurement_job.busy() && ((export_measurement_image && has_image) || (export_measurement_project && options.project))) {
+            try {
+                const auto kind=measurement_kind==0?MeasurementTableKind::Roi:MeasurementTableKind::Tissue;
+                if(export_measurement_project) measurement_job.request(MeasurementTableRequest(*options.project,kind,{},measurement_options),measurement_path);
+                else measurement_job.request(MeasurementTableRequest(document,kind,{},measurement_options),measurement_path);
+                measurement_error.clear();
+            } catch(const std::exception& e) {measurement_error=e.what();}
+        }
         const bool fingerprint_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyShift && !io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_F,false);
         const bool fingerprint_cancel=!io.WantTextInput && !editing_blocked && io.KeyCtrl && io.KeyShift && io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_F,false);
         bool fingerprint_start=fingerprint_key;
@@ -1960,6 +1998,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     // caller's project. No live authority or Python-owned objects enter workers.
     if(save_job.busy()) save_job.wait();
     if(cell_table_job.busy()) cell_table_job.wait();
+    if(measurement_job.busy()) {if(frame_limit==0) measurement_job.cancel();measurement_job.wait();}
     if(!frame_limit) fingerprint_job.cancel();
     const auto final_fingerprint=fingerprint_job.wait();
     reconcile_save();
@@ -1979,6 +2018,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     const auto final_cells=cell_job.poll(*active_document,selection->primary());
     const auto saved_cells=active_document->latest_cells(selection->primary());
     const auto final_table=cell_table_job.poll();
+    const auto final_measurement=measurement_job.poll();
     if(!cell_job.result()) cell_preview.clear();
     if(!tissue_result) tissue_preview.clear();
     return {frames,previous_uploads+tiles->uploads(),std::max(previous_peak_bytes,tiles->peak_bytes()),previous_generations+tiles->generations(),p95,tiles->pending(),empty?0:viewport.zoom,empty?Point{}:viewport.origin,
@@ -2005,7 +2045,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         overlay_cache.bytes(),overlay_cache.peak_bytes,overlay_cache.builds,overlay_cache.hits,overlay_cache.fallbacks,
         saved_cells?saved_cells->id:0,saved_cells?active_document->cell_status(saved_cells->id):std::string{},
         final_table.state,cell_table_error.empty()?final_table.error:cell_table_error,final_table.path,final_table.rows,final_table.bytes,final_table.capture_ms,final_table.write_ms,
-        final_fingerprint.state,final_fingerprint.error.empty()?fingerprint_error:final_fingerprint.error,fingerprint_job.result(),final_fingerprint.bytes,final_fingerprint.elapsed_ms};
+        final_fingerprint.state,final_fingerprint.error.empty()?fingerprint_error:final_fingerprint.error,fingerprint_job.result(),final_fingerprint.bytes,final_fingerprint.elapsed_ms,
+        final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms};
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");
