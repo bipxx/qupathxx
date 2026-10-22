@@ -2264,3 +2264,8 @@ sanitizer. Exact stubs, strict positive/seven-error negative typing and installe
 software-GL launch pass. The source manifest, wheel/native, benchmark and actual
 framebuffer identities agree. The record preserves the preliminary replay
 allowlist/target-array omission and the test's copied-input-list correction.
+
+
+Implementation commit: `f03d1c3`. Hosted contour-UI
+[run 39873943656](https://github.com/bipxx/qupathxx/actions/runs/39873943656)
+targets that commit and is running. No hosted contour-UI pass is claimed yet.
