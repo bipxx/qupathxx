@@ -107,8 +107,8 @@ skips, and 139 focused passes. Deduplication verifies 1,381 distinct passing
 cases, including the additional saved-stain recipe regression. Native checks
 pass 38 Windows GUI and 37 each Windows headless/Linux training/minimal/sanitizer.
 Exact stubs, strict positive/seven-error negative typing and the installed
-software-GL GUI workflow pass. These local results precede this increment's
-hosted CI result.
+software-GL GUI workflow pass. Hosted [run 39854833786](https://github.com/bipxx/qupathxx/actions/runs/39854833786)
+targets `875006d`; its result is pending.
 
 ## Remaining workflow
 

@@ -2059,3 +2059,7 @@ and installed software-GL workflow pass. The 1024×1024 sample also verifies
 identical tiled/full masks: full median 762 ms/210.8 MB estimate, tiled 918 ms
 with maximum 3.8 MB per tile. The context/copy overhead is explicit; no frame or
 research acceptance is inferred.
+
+Hosted [run 39854833786](https://github.com/bipxx/qupathxx/actions/runs/39854833786)
+targets `875006d` and has been queued. No hosted pass is claimed for this
+pixel increment until that run completes.
