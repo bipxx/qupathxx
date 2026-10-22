@@ -1200,3 +1200,29 @@ suites pass (27/26/26), including the original C++ aggregate option initializer.
 Final desktop review verifies readable controls and successful image/project
 export without selecting a source annotation; all historical document CSV bytes
 retain their earlier digest.
+
+
+The forty-eighth packet optimizes joined-table capture by retaining immutable
+blocks and per-image run/status/class maps instead of per-cell export rows.
+The worker derives geometry status and formats cells from those frozen inputs;
+constructor-time strict validation, exact row counts, filtering, quotas and CSV
+schemas remain intact. A final emitted-row check precedes atomic publication.
+Two new cases cover derived-status/class changes after capture and stale/manual
+neighbors in strict filtered snapshots. A pre-change mixed-status fixture retains
+identical document, filtered and project CSV bytes.
+
+The 32768/131072-row strict capture p95 improves from 3.83/18.68 ms to 0.49/2.24 ms
+on the recorded synthetic workloads. The larger logical snapshot payload falls
+from 217745007 to 206938167 bytes. A 1000-image catalog with 104097 selected/visible
+objects measures 16.85 ms p95 CPU frame work, with 2.85 ms GUI capture during export.
+Historical document CSV retains its original digest. See
+[joined cell tables](cell-object-tables.md) for all four raw recordings and limits.
+These observations are scoped to one Windows PC. Full-file/binary/runtime
+manifests, project-wide ROI/tissue tables, broader geometry/vendor performance,
+numerical comparisons and all unfinished M0-M7 work remain active.
+
+
+The final installed GUI wheel passes 960 Python cases with two Windows file-
+symlink cases skipped. Native full/core/minimal suites pass (27/26/26), and the
+focused table/archive/provenance/desktop selection passes 105 cases. Public
+request/options and CSV schemas retain their previous meaning.

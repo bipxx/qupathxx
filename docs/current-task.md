@@ -8,7 +8,7 @@ commands, bounded undo/redo, general immutable ROIs, cell/nucleus objects, a sha
 provides polygon topology; ellipse metrics/masks use analytic geometry. Python
 and ImGui share the native model. See geometry-spatial.md and document-commands.md.
 
-Evidence: the final installed-wheel regression passes 958 Python cases with two file-symlink cases
+Evidence: the final installed-wheel regression passes 960 Python cases with two file-symlink cases
 skipped (this Windows account cannot create them; the junction passes).
 Coverage includes readiness-gated GUI replay, settled captures, tissue cleanup,
 immutable archives, analysis/provenance, stains, shapes, interchange, projects
@@ -394,14 +394,19 @@ and atomically publishes the captured table. See cell-object-tables.md.
 Immutable object blocks and per-run status capture reduce owner-thread work.
 The 32768-row recording captures at 3.83 ms p95; the 1000-image/104097-object
 selected viewer measures 16.87 ms p95 CPU frame work during export, with 5.68 ms
-GUI capture. The 131072-row strict capture measures 18.68 ms p95 and remains a
-latency target. Historical document CSV retains its original byte digest.
+GUI capture. The initial 131072-row strict capture measured 18.68 ms p95. Historical document CSV retains its original byte digest.
 
-Next reduce larger strict joined-cell capture latency while preserving native
-owner-thread validation. Investigate capturing only block/run/class handles and
-deriving per-object rows on the worker, while retaining exact row counts, quotas
-and capture-time statuses. Complete full-file/binary/runtime manifests and
-project-wide ROI/tissue feature tables. Continue
+The forty-eighth packet removes per-cell export-row/status allocation from joined
+capture. Immutable block handles, referenced run/status maps and class colors
+are sufficient to derive the same rows on the worker. Strict geometry checks
+remain on the owner thread, and an emitted-row guard protects file publication.
+Mixed-status document/filter/project CSVs match their previous bytes. Capturing
+32768/131072 rows measures 0.49/2.24 ms p95; the 1000-image selected viewer records
+16.85 ms p95 CPU frame work and 2.85 ms GUI capture. The 131072-row logical payload
+falls by about 10.8 MB. See cell-object-tables.md for scope and raw evidence.
+
+Next complete full-file/binary/runtime manifests and project-wide ROI/tissue
+feature tables. Continue
 numerical comparisons and improve initial
 rendering and metadata/capture latency. Preserve all unfinished
 M2 work: OS/DPI delivery, resize/minimize, docking, fluorescence/ICC, prolonged

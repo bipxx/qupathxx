@@ -91,17 +91,20 @@ geometry changed. This is a capture-time check, not a lock on subsequent edits.
 Capture runs on the document/project owner thread. Storage-enabled builds scan
 contiguous immutable object blocks and retain only blocks containing included
 cells; they copy no per-cell names or geometry. Source status and archive payload
-are resolved once per referenced run per image. A shared native geometry-status
-helper checks each object against the captured contours, including strict mode.
-The snapshot retains class colors, statuses and effective calibration. Builds
+are resolved once per referenced run per image. Strict mode checks each selected
+object against captured contours on the owner thread and still rejects invalid
+captures immediately. The snapshot retains referenced class colors, run statuses
+and effective calibration. There is no per-cell export-row allocation: the worker
+derives each object status from immutable geometry/contours and the captured run
+status. Rechecking the live run after capture cannot change that derived value. Builds
 without storage create a private bounded block of selected cell values. Neither
 path performs image reads or source-file existence checks. Formatting computes
 current shape metrics on the native export worker from those captured handles;
 it never accesses a live project/document, reader or Python wrapper.
 
 The default 256 MiB snapshot budget (configurable to 512 MiB) now also charges
-retained object blocks (including any neighboring unselected values), row/status
-storage and handle/vector capacities. Storage-disabled captures charge their
+retained object blocks (including any neighboring unselected values), per-image
+run/class maps and handle/vector capacities. Storage-disabled captures charge their
 private selected-value block. Shared geometry aliases are conservatively charged
 inside each block. Existing archive
 payloads, project/image metadata and the scratch allowance remain charged.
@@ -110,7 +113,8 @@ transient allocator overhead are outside these logical budgets. Output defaults
 to 256 MiB. Copying the request shares the native snapshot in constant time.
 
 The existing single native worker provides progress, cancellation between rows,
-bounded row buffering and atomic sibling-file replacement. Failure/cancellation
+bounded row buffering and atomic sibling-file replacement. Before publication,
+the writer checks that the emitted row count equals the captured total. Failure/cancellation
 before replacement preserves the previous destination; committed exports report
 success. Live rename/reclassification, edits, calibration changes, deletion,
 archive removal, image/catalog changes and wrapper destruction cannot change
@@ -151,7 +155,7 @@ object key, archived count, class, physical body area and streamed/string byte
 equality before recording timings. Repeated publication increases object rows
 without duplicating a run; it is not additional detection work.
 
-The final Windows recording captures 32768 rows at 3.83 ms p95 and writes their
+The initial joined-table recording captures 32768 rows at 3.83 ms p95 and writes their
 21.1 MB CSV in 90.45 ms. A 1000-image catalog with 100000 unrelated annotations
 captures at 5.42 ms p95. During export its active 104097-object selected/all-visible
 viewer measures 16.87 ms p95 and 17.11 ms maximum CPU frame work, including a
@@ -160,8 +164,8 @@ logical payload is about 92 MB, independent of most unrelated annotation blocks.
 
 Publishing four sets per run produces 131072 rows, 217745007 logical snapshot
 bytes and an 84.6 MB CSV written in 333.39 ms. Capture measures 18.68 ms p95;
-this larger strict-capture workload exceeds one 60 Hz frame budget and remains
-a responsiveness target. No whole-slide/vendor throughput or process RSS claim
+this initial strict-capture workload exceeded one 60 Hz frame budget and
+motivated the block/run/class capture optimization below. No whole-slide/vendor throughput or process RSS claim
 is implied by these warm synthetic observations on one PC.
 
 The archived-label regression writes 32768 rows in 41.64 ms and retains the
@@ -181,9 +185,58 @@ their meaning. A visual capture verifies readable controls, image/project export
 buttons and the successful row count without a selected source annotation.
 
 
-The final installed GUI wheel passes 958 Python cases, with two file-symlink
+The initial joined-table GUI wheel passes 958 Python cases, with two file-symlink
 cases skipped on this Windows account (the junction case passes). All 27 native
 full-GUI suites and 26 suites in each core/minimal configuration pass. The final
 full run includes the corrected narrow-sidebar button label and the source-byte
 fingerprint check; the focused archive/table/provenance/desktop selection passes
 103 cases.
+
+
+## Capture optimization
+
+The next capture implementation removes per-object export rows and status strings.
+It retains immutable blocks, referenced run/index/status maps and referenced
+class colors, while counting selected cells and validating strict geometry on
+the owner thread. The worker iterates those blocks in canonical order, filters
+neighbors against the captured run selection and derives object status from
+captured geometry, contours and run status. It accesses no live authority. This
+keeps constructor-time strict rejection, exact row totals and the existing CSV
+schemas/bytes. A final emitted-row check protects file publication.
+
+Two additional regression cases verify that later run rechecks/class changes do
+not change captured unverified rows, and strict selection excludes stale/manual
+neighbors in retained blocks. A pre-change saved fixture with manual, removed-
+archive, edited, closed-source and quoted/classified cells produces identical
+document, filtered-document and project CSV bytes after the refactor. Original
+historical-label CSV still matches its earlier digest.
+
+| Warm synthetic workload | Previous capture p95 | Updated capture p95 |
+| --- | --- | --- |
+| 32768 cell objects across eight images | 3.83 ms | 0.49 ms |
+| 131072 cell objects across eight images | 18.68 ms | 2.24 ms |
+| 1000-image catalog, active scene with 100000 unrelated annotations | 5.42 ms | 2.54 ms |
+
+The 131072-row logical snapshot payload drops from 217745007 to 206938167 bytes;
+worker writing is 310.36 ms. The active 104097-object selected/all-visible viewer
+measures 16.85 ms p95 and 17.35 ms maximum CPU frame work, with 2.85 ms GUI
+capture and 142.22 ms background writing. This resolves the measured capture
+bottleneck for this workload; it does not establish timings for all geometry,
+class distributions, hardware, vendor slides or sustained pressure. These are
+single-PC warm observations, and logical accounting remains distinct from RSS.
+The earlier recordings remain available for comparison.
+
+Updated raw evidence:
+
+- [32768 rows](benchmarks/cell-table-capture-32768-windows.json)
+- [131072 rows](benchmarks/cell-table-capture-131072-windows.json)
+- [1000-image viewer](benchmarks/cell-table-capture-view-1000-windows.json)
+- [Historical CSV](benchmarks/cell-table-capture-legacy-document-windows.json)
+
+
+The updated installed GUI wheel passes 960 Python cases with two Windows file-
+symlink cases skipped; the junction case passes. The focused table/archive/
+provenance/desktop selection passes 105 cases. Native full/core/minimal suites
+pass 27/26/26, including storage-disabled private-block capture. Exact snapshot
+and output quota endpoints, strict constructor rejection and atomic file failure
+remain covered.

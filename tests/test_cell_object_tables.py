@@ -255,3 +255,26 @@ def test_unrepresentable_physical_metrics_fail_on_worker_without_replacing_file(
     request=q.CellTableRequest(doc,options=options());path=tmp_path/"overflow.csv";path.write_bytes(b"sentinel")
     job=q.CellTableExportJob();assert job.request(request,str(path));status=job.wait()
     assert status.state=="failed" and status.error and path.read_bytes()==b"sentinel" and not list(tmp_path.glob("*.qpx-tmp-*"))
+
+
+@pytest.mark.skipif(not q.has_project or not q.has_geos,reason="project cell publication")
+def test_deferred_rows_preserve_unverified_status_after_live_recheck_and_class_changes(tmp_path):
+    doc,_,_,record,ids=published();project=q.Project();image=project.add_document(doc);path=tmp_path/"captured-status.qpxproj";project.save(str(path))
+    restored=q.Project.open(str(path)).document(image);captured=q.CellTableRequest(restored,options=options())
+    expected=q.cell_measurements_csv(captured)
+    request=q.CellRequest.replay(restored,record);assert restored.verify_cells(record,request,q.detect_cells(request))
+    restored.rename_class("Tumor","renamed");restored.set_class("renamed",0);restored.update_nucleus(ids[0],None)
+    assert q.cell_measurements_csv(captured)==expected
+    assert {r["object_status_at_capture"] for r in rows(expected)}=={"unverified"}
+
+
+@pytest.mark.skipif(not q.has_geos,reason="cell publication")
+def test_strict_filtered_capture_ignores_stale_neighbors_in_retained_block():
+    doc,_,_,old,old_ids=published();request=q.CellRequest.replay(doc,old)
+    fresh=doc.keep_cells(request,q.detect_cells(request));fresh_ids=doc.publish_cell_record(fresh)
+    doc.classify_objects(old_ids,"not selected");doc.update_nucleus(old_ids[0],None);doc.remove_cells(old)
+    doc.add_cell(q.Roi.rectangle(q.Rect(1,1,2,2)),name="not selected manual")
+    captured=q.CellTableRequest(doc,[fresh],options(True));expected=q.cell_measurements_csv(captured)
+    actual=rows(expected);assert [int(r["object_id"]) for r in actual]==fresh_ids and captured.record_count==1
+    assert all(r["object_class"]=="" and r["object_status_at_capture"]=="current" for r in actual)
+    doc.remove_cells(fresh);doc.remove_objects(fresh_ids);assert q.cell_measurements_csv(captured)==expected

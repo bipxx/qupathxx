@@ -32,10 +32,15 @@ const std::string& header() {
 }
 }
 struct CellTableRequest::Data {
-    struct Image {std::uint64_t id=0,revision=0,width=0,height=0;std::string name;std::optional<double> x,y;};
+    struct Image {
+        std::uint64_t id=0,revision=0,width=0,height=0;std::string name;std::optional<double> x,y;
+        bool filtered=false;
+        std::map<std::uint64_t,std::size_t> runs;
+        std::map<std::string,std::uint32_t> colors;
+    };
     struct Entry {std::shared_ptr<const CellRecord> record;std::string status;std::size_t image=0;};
-    struct Object {const Annotation* value;std::string status;std::optional<std::uint32_t> color;std::size_t image=0,entry=std::numeric_limits<std::size_t>::max();};
-    std::vector<Entry> entries;std::vector<Image> images;std::vector<Object> objects;std::vector<std::shared_ptr<const Document::ObjectBlock>> blocks;CellTableOptions options;
+    struct Block {std::shared_ptr<const Document::ObjectBlock> value;std::size_t image=0;};
+    std::vector<Entry> entries;std::vector<Image> images;std::vector<Block> blocks;CellTableOptions options;
     std::string identity;bool project=false;std::uint64_t revision=0,generation=0,rows=0;std::size_t bytes=0;double capture_ms=0;
     void charge(std::size_t value) {if(value>options.snapshot_budget-bytes) throw std::length_error("cell table snapshot exceeds memory budget");bytes+=value;}
     void append(const Document& doc,std::uint64_t id,std::string name,const std::vector<std::uint64_t>& record_ids={}) {
@@ -53,27 +58,39 @@ struct CellTableRequest::Data {
         for(auto record:record_ids) doc.cell_record(record);
         charge(sizeof(Image)+name.capacity());const auto image=images.size();
         images.push_back({id,doc.revision(),std::uint64_t(doc.metadata().width),std::uint64_t(doc.metadata().height),std::move(name),doc.pixel_width_um(),doc.pixel_height_um()});
-        const auto missing=std::numeric_limits<std::size_t>::max();std::map<std::uint64_t,std::size_t> retained;
+        const auto missing=std::numeric_limits<std::size_t>::max();auto& captured=images.back();captured.filtered=!record_ids.empty();
+        const std::string* last_class=nullptr;std::uint64_t last_run=0;std::size_t last_entry=missing;
         auto selected=[&](const Annotation& a) {return a.kind==ObjectKind::Cell && (record_ids.empty() || (a.cell_feature_link && std::binary_search(record_ids.begin(),record_ids.end(),a.cell_feature_link->record_id)));};
         auto append=[&](const Annotation& a) {
-            Object object{&a,"no_features",{},image};
-            if(!a.class_name.empty()) object.color=doc.classes().at(a.class_name).color;
-            if(a.cell_feature_link) {
-                const auto run=a.cell_feature_link->record_id;auto found=retained.find(run);
-                if(found==retained.end()) {
-                    auto index=missing;const auto live=doc.cells_.find(run);
-                    if(live!=doc.cells_.end()) {
-                        const auto record=live->second.value;auto state=doc.cell_status(run);
-                        charge(sizeof(Entry)+record->payload_bytes()+state.capacity());index=entries.size();entries.push_back({record,std::move(state),image});
-                    }
-                    found=retained.emplace(run,index).first;
+            if(!a.class_name.empty() && (!last_class || *last_class!=a.class_name)) {
+                auto color=captured.colors.find(a.class_name);
+                if(color==captured.colors.end()) {
+                    charge(64+sizeof(std::pair<const std::string,std::uint32_t>)+a.class_name.size());
+                    color=captured.colors.emplace(a.class_name,doc.classes().at(a.class_name).color).first;
                 }
-                object.entry=found->second;
-                object.status=object.entry==missing?"archive_missing":detail::cell_geometry_status(a,*entries[object.entry].record->result,entries[object.entry].status);
-                if(object.status=="invalid_label") throw std::invalid_argument("invalid cell object feature label");
+                last_class=&color->first;
             }
-            if(options.require_current && object.status!="current") throw std::invalid_argument("cell object table requires current verified measurements and unchanged geometry");
-            charge(sizeof(Object)+object.status.capacity());objects.push_back(std::move(object));++rows;
+            if(a.cell_feature_link) {
+                const auto run=a.cell_feature_link->record_id;
+                if(run!=last_run) {
+                    auto found=captured.runs.find(run);
+                    if(found==captured.runs.end()) {
+                        auto index=missing;const auto live=doc.cells_.find(run);
+                        if(live!=doc.cells_.end()) {
+                            const auto record=live->second.value;auto state=doc.cell_status(run);
+                            charge(sizeof(Entry)+record->payload_bytes()+state.capacity());index=entries.size();entries.push_back({record,std::move(state),image});
+                        }
+                        charge(64+sizeof(std::pair<const std::uint64_t,std::size_t>));found=captured.runs.emplace(run,index).first;
+                    }
+                    last_run=run;last_entry=found->second;
+                }
+                if(last_entry!=missing) {
+                    const auto& entry=entries[last_entry];const auto& result=*entry.record->result;
+                    if(!a.cell_feature_link->label || a.cell_feature_link->label>result.features().size()) throw std::invalid_argument("invalid cell object feature label");
+                    if(options.require_current && detail::cell_geometry_status(a,result,entry.status)!="current") throw std::invalid_argument("cell object table requires current verified measurements and unchanged geometry");
+                } else if(options.require_current) throw std::invalid_argument("cell object table requires current verified measurements and unchanged geometry");
+            } else if(options.require_current) throw std::invalid_argument("cell object table requires current verified measurements and unchanged geometry");
+            ++rows;
         };
 #ifdef QUPATHXX_HAS_PROJECT
         // Immutable canonical blocks already carry owned names/geometry and cached
@@ -81,7 +98,7 @@ struct CellTableRequest::Data {
         for(const auto& item:doc.object_blocks_) {
             const auto& block=item.second;bool kept=false;
             for(const auto& a:block->values) if(selected(a)) {
-                if(!kept) {charge(sizeof(block)+block->bytes);blocks.push_back(block);kept=true;}
+                if(!kept) {charge(sizeof(Block)+block->bytes);blocks.push_back({block,image});kept=true;}
                 append(a);
             }
         }
@@ -90,17 +107,17 @@ struct CellTableRequest::Data {
         // private block of selected values, never retain pointers to live nodes.
         std::size_t count=0;for(const auto& item:doc.objects()) if(selected(item.second)) ++count;
         if(count) {
-            charge(sizeof(Document::ObjectBlock)+64+count*sizeof(Annotation)+sizeof(std::shared_ptr<const Document::ObjectBlock>));
+            charge(sizeof(Document::ObjectBlock)+64+count*sizeof(Annotation)+sizeof(Block));
             auto block=std::make_shared<Document::ObjectBlock>();block->values.reserve(count);
             for(const auto& item:doc.objects()) if(selected(item.second)) {
                 const auto& a=item.second;charge(64+a.name.size()+a.class_name.size()+a.geometry.payload_bytes()+(a.nucleus?a.nucleus->payload_bytes():0));block->values.push_back(a);
             }
-            for(const auto& a:block->values) append(a);blocks.push_back(std::move(block));
+            for(const auto& a:block->values) append(a);blocks.push_back({std::move(block),image});
         }
 #endif
     }
     void finish(std::chrono::steady_clock::time_point start) {
-        charge((entries.capacity()-entries.size())*sizeof(Entry)+(images.capacity()-images.size())*sizeof(Image)+(objects.capacity()-objects.size())*sizeof(Object)+(blocks.capacity()-blocks.size())*sizeof(std::shared_ptr<const Document::ObjectBlock>));
+        charge((entries.capacity()-entries.size())*sizeof(Entry)+(images.capacity()-images.size())*sizeof(Image)+(blocks.capacity()-blocks.size())*sizeof(Block));
         capture_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
     }
 };
@@ -171,9 +188,9 @@ struct CellTableWriter {
         }
         return result; // Row::real rejects an unrepresentable final result.
     }
-    static void object(Row& row,const CellTableRequest::Data::Object& object,const CellTableRequest::Data::Image& image) {
-        const auto& a=*object.value;row.integer(a.id);row.integer(a.revision);row.string(a.name);row.integer(a.parent_id);row.string(a.class_name);
-        if(object.color) row.integer(*object.color);else row.separator();row.string(object.status);
+    static void object(Row& row,const Annotation& a,const std::string& status,const CellTableRequest::Data::Image& image) {
+        row.integer(a.id);row.integer(a.revision);row.string(a.name);row.integer(a.parent_id);row.string(a.class_name);
+        if(!a.class_name.empty()) row.integer(image.colors.at(a.class_name));else row.separator();row.string(status);
         const auto b=a.geometry.bounds();for(auto v:{b.x,b.y,b.width,b.height,a.geometry.area(),a.geometry.perimeter()}) row.real(v);
         if(a.nucleus) {row.real(a.nucleus->area());row.real(a.nucleus->perimeter());}else {row.separator();row.separator();}
         optional(row,image.x);optional(row,image.y);
@@ -191,27 +208,37 @@ struct CellTableWriter {
         }
         sink(columns);std::uint64_t done=0;
         if(request.data_->options.published_objects) {
-            std::size_t cached=std::numeric_limits<std::size_t>::max();Row saved_prefix;
-            for(const auto& item:request.data_->objects) {
-                export_checkpoint(cancelled);const auto& image=request.data_->images.at(item.image);Row row;
-                if(item.entry!=std::numeric_limits<std::size_t>::max()) {
-                    if(cached!=item.entry) {saved_prefix=prefix(request,request.data_->entries.at(item.entry));cached=item.entry;}
-                    row=saved_prefix;feature(row,*request.data_->entries[item.entry].record->result,item.value->cell_feature_link->label);
-                } else {
-                    context(row,request,image);
-                    // Explicit blanks preserve unresolved/manual objects without invented features.
-                    for(int column=0;column<71;++column) {
-                        if(column==0) row.string(schema(request));
-                        else if(column==1 && item.value->cell_feature_link) row.integer(item.value->cell_feature_link->record_id);
-                        else if(column==5) row.integer(image.revision);
-                        else if(column==6) row.string(item.status);
-                        else if(column==10) row.integer(image.width);
-                        else if(column==11) row.integer(image.height);
-                        else if(column==45 && item.value->cell_feature_link) row.integer(item.value->cell_feature_link->label);
-                        else row.separator();
+            const auto missing=std::numeric_limits<std::size_t>::max();std::size_t cached=missing;Row saved_prefix;
+            for(const auto& block:request.data_->blocks) {
+                export_checkpoint(cancelled);const auto& image=request.data_->images.at(block.image);
+                std::uint64_t last_run=0;std::size_t entry=missing;
+                for(const auto& a:block.value->values) {
+                    export_checkpoint(cancelled);if(a.kind!=ObjectKind::Cell) continue;
+                    if(image.filtered && (!a.cell_feature_link || !image.runs.count(a.cell_feature_link->record_id))) continue;
+                    std::string status="no_features";Row row;
+                    if(a.cell_feature_link) {
+                        if(last_run!=a.cell_feature_link->record_id) {last_run=a.cell_feature_link->record_id;entry=image.runs.at(last_run);}
+                        status=entry==missing?"archive_missing":detail::cell_geometry_status(a,*request.data_->entries[entry].record->result,request.data_->entries[entry].status);
                     }
+                    if(a.cell_feature_link && entry!=missing) {
+                        if(cached!=entry) {saved_prefix=prefix(request,request.data_->entries.at(entry));cached=entry;}
+                        row=saved_prefix;feature(row,*request.data_->entries[entry].record->result,a.cell_feature_link->label);
+                    } else {
+                        context(row,request,image);
+                        // Explicit blanks preserve unresolved/manual objects without invented features.
+                        for(int column=0;column<71;++column) {
+                            if(column==0) row.string(schema(request));
+                            else if(column==1 && a.cell_feature_link) row.integer(a.cell_feature_link->record_id);
+                            else if(column==5) row.integer(image.revision);
+                            else if(column==6) row.string(status);
+                            else if(column==10) row.integer(image.width);
+                            else if(column==11) row.integer(image.height);
+                            else if(column==45 && a.cell_feature_link) row.integer(a.cell_feature_link->label);
+                            else row.separator();
+                        }
+                    }
+                    object(row,a,status,image);sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
                 }
-                object(row,item,image);sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
             }
         } else for(const auto& entry:request.data_->entries) {
             export_checkpoint(cancelled);if(entry.record->result->features().empty()) continue;
@@ -221,6 +248,7 @@ struct CellTableWriter {
                 sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
             }
         }
+        if(done!=request.row_count()) throw std::logic_error("cell table row count mismatch");
         export_checkpoint(cancelled);
     }
     static void save(const CellTableRequest& request,const std::string& path,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* rows=nullptr,std::atomic<std::size_t>* bytes=nullptr) {
