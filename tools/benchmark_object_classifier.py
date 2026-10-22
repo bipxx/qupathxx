@@ -14,13 +14,14 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--rows', type=int, default=10000)
     ap.add_argument('--output', type=Path, required=True)
+    ap.add_argument('--history', action='store_true')
+    ap.add_argument('--history-limit-mib', type=int, default=64)
     args = ap.parse_args()
     if not 500 <= args.rows <= 100000:
         ap.error('--rows must be 500..100000')
     started = time.perf_counter()
     doc = q.Document(q.Image(64, 64, [80]*64*64*3))
-    # History is separately tested with real undo/redo fixtures. This sample
-    # measures one large publication without retaining a duplicate edit corpus.
+    # Fixture preparation is excluded from retained command history.
     doc.set_history_limits(0, 0)
     edits = []
     for row in range(args.rows):
@@ -31,6 +32,10 @@ def main():
     ids = doc.execute(edits, 'Prepare benchmark cells')
     del edits
     prepare_ms = (time.perf_counter()-started)*1000
+    if args.history:
+        if not 1 <= args.history_limit_mib <= 1024:
+            ap.error('--history-limit-mib must be 1..1024')
+        doc.set_history_limits(128, args.history_limit_mib*1024*1024)
     options = q.ObjectFeatureOptions()
     options.snapshot_bytes = 128*1024*1024
     started = time.perf_counter()
@@ -52,6 +57,18 @@ def main():
     assert len(changed) == args.rows-400
     assert all(doc.annotation(ids[row]).class_name == ('small' if 2+row % 20 < 10 else 'large')
                for row in range(400, args.rows))
+    retained_history_bytes = doc.history_bytes
+    undo_ms = redo_ms = None
+    if args.history:
+        started = time.perf_counter()
+        assert doc.undo()
+        undo_ms = (time.perf_counter()-started)*1000
+        assert all(doc.annotation(i).class_name == '' for i in ids[400:])
+        started = time.perf_counter()
+        assert doc.redo()
+        redo_ms = (time.perf_counter()-started)*1000
+        assert all(doc.annotation(ids[row]).class_name == ('small' if 2+row % 20 < 10 else 'large')
+                   for row in range(400, args.rows))
     environment = q.build_environment()
     payload = dict(schema='qpx.object-classifier-benchmark/1', rows=args.rows,
                    prediction_rows=args.rows-400, training_rows=400, features=len(model.features),
@@ -59,7 +76,8 @@ def main():
                    capture_native_ms=request.capture_ms, snapshot_bytes=request.snapshot_bytes,
                    snapshot_limit_bytes=options.snapshot_bytes, classification_ms=classification_ms,
                    publication_ms=publication_ms, changed_objects=len(changed),
-                   history_enabled=False, model_sha256=model.sha256,
+                   history_enabled=args.history, history_limit_bytes=args.history_limit_mib*1024*1024 if args.history else 0,
+                   retained_history_bytes=retained_history_bytes, undo_ms=undo_ms, redo_ms=redo_ms, model_sha256=model.sha256,
                    table_sha256=result.table.sha256, backend=model.backend,
                    native_sha256=hashlib.sha256(Path(_native.__file__).read_bytes()).hexdigest(),
                    python=sys.version, platform=platform.platform(),

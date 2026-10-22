@@ -8,6 +8,7 @@ def workflow(source: NDArray[np.uint8], output: Path) -> tuple[NDArray[np.uint8]
     image=q.Image.from_numpy(source)
     doc=q.Document(image);project=q.Project();image_id=project.add_document(doc)
     obj=doc.add_rectangle(q.Rect(0,0,image.width,image.height))
+    doc.apply_classifications([(obj, "Tissue")], label="Classify region")
     pixels=doc.server.read_region(q.RegionRequest(0,0,0,image.width,image.height))
     transform=q.StainTransform([[1.,0.,0.],[0.,1.,0.]])
     rgb: NDArray[np.uint8]=image.numpy()

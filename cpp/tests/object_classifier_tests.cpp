@@ -4,9 +4,42 @@
 #include <iostream>
 #include <stdexcept>
 using namespace qpx;
-void check(bool v) {if(!v) throw std::runtime_error("object classifier check failed");}
+void checked(bool v,int line) {if(!v) throw std::runtime_error("object classifier check failed at line "+std::to_string(line));}
+#define check(value) checked((value),__LINE__)
 template<class F> void rejects(F f) {try {f();} catch(const std::exception&) {return;}throw std::runtime_error("missing object classifier rejection");}
 int main() {try {
+    {
+        Document d(Image::demo());
+        const auto parent=d.add_rectangle({0,0,100,100});
+        const auto a=d.add_cell(Roi::rectangle({1,1,10,10}),Roi::rectangle({2,2,2,2}),"Cell",parent,"old");
+        const auto b=d.add_detection(Roi::rectangle({20,20,5,5}));
+        d.set_calibration(.5,.25);d.set_class("old",0x123456);d.clear_history();
+        const auto saved=d.annotation(a);const auto structure=d.structure_revision(),calibration=d.calibration_revision(),revision=d.revision();
+        d.apply_classifications({{b,"new"},{a,"new"}},"Batch classes");
+        check(d.revision()==revision+1 && d.render_revision()==d.revision() && d.structure_revision()==structure && d.calibration_revision()==calibration);
+        check(d.class_count("new")==2 && d.class_count("old")==0 && d.class_count("")==0 && d.undo_label()=="Batch classes");
+        const auto changed=d.annotation(a);
+        check(changed.geometry.equals(saved.geometry) && changed.nucleus->equals(*saved.nucleus) && changed.parent_id==parent && changed.name==saved.name && changed.cell_feature_link==saved.cell_feature_link);
+        Document copied=d,assigned(Image::demo());assigned=d;
+        check(d.undo() && d.annotation(a).class_name=="old" && d.annotation(b).class_name.empty() && d.class_count("old")==1 && d.object_class("old").color==0x123456);
+        rejects([&]{d.object_class("new");});
+        check(copied.undo() && assigned.undo()); // Mutable undo payloads must be independent.
+        check(d.redo() && copied.redo() && assigned.redo());
+        d.rename_annotation(b,"Renamed");check(d.undo());const auto untouched=d.annotation(b).revision;
+        d.apply_classifications({{a,""}});check(!d.can_redo() && d.class_count("new")==1 && d.class_count("")==0);
+        check(d.undo() && d.annotation(b).revision==untouched && d.class_count("new")==2);
+        d.rename_class("new","renamed");check(d.undo() && d.undo() && d.annotation(a).class_name=="old");
+        check(d.redo() && d.redo() && d.annotation(a).class_name=="renamed" && d.undo() && d.annotation(a).class_name=="new");
+        const auto before=d.revision(),bytes=d.history_bytes();
+        rejects([&]{d.apply_classifications({{a,"next"},{999999,"next"}});});
+        rejects([&]{d.apply_classifications({{a,"new"},{a,"new"}});});
+        rejects([&]{d.apply_classifications({{a,std::string(4097,'x')}});});
+        check(d.revision()==before && d.history_bytes()==bytes && d.annotation(a).class_name=="new");
+        d.apply_classifications({{a,"new"}});d.apply_classifications({});check(d.revision()==before && d.can_redo());
+        d.set_history_limits(128,1);rejects([&]{d.apply_classifications({{a,"next"}});});
+        check(d.revision()==before && d.annotation(a).class_name=="new");
+        d.set_history_limits(0,0);d.apply_classifications({{a,"next"}});check(!d.can_undo() && d.class_count("next")==1);
+    }
     Document doc(Image(512,512,std::vector<std::uint8_t>(512*512*3,80)));
     std::vector<std::uint64_t> ids;
     for(int i=0;i<8;++i) {const auto side=i<3?2.+i:i<6?20.+i-3:i==6?3.5:21.5;ids.push_back(doc.add_detection(Roi::rectangle({double(i*50),10,side,side}),"Object",0,i<3?"small":i<6?"large":""));}

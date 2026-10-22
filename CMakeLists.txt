@@ -15,6 +15,7 @@ add_library(qupathxx_core STATIC cpp/core.cpp cpp/document_edits.cpp cpp/selecti
 target_sources(qupathxx_core PRIVATE cpp/thumbnail.cpp)
 target_sources(qupathxx_core PRIVATE cpp/classifier.cpp)
 target_sources(qupathxx_core PRIVATE cpp/object_classifier.cpp)
+target_sources(qupathxx_core PRIVATE cpp/document_classifications.cpp)
 target_sources(qupathxx_core PRIVATE cpp/classifier_io.cpp)
 if(QUPATHXX_BUILD_CLASSIFIER_TRAINING)
   set(OpenCV_STATIC ON)

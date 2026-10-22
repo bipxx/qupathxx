@@ -531,6 +531,7 @@ void Document::set_calibration(double x,double y) {
 }
 void Document::clear_calibration() { Staging staged(*this); save_edit(staged,{},"Clear calibration"); }
 void Document::apply_record(const EditRecord& record,bool forward) {
+    if(record.classifications.value) {toggle_classifications(*record.classifications.value);return;}
     Staging staged(*this); const auto& patch=forward?record.after:record.before;
     for (const auto& [id,value]:patch) staged.write(id,value);
     for(const auto& [name,value]:(forward?record.after_classes:record.before_classes)) staged.write_class(name,value);

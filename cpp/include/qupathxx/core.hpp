@@ -13,6 +13,7 @@
 #include "qupathxx/analysis_types.hpp"
 
 namespace qpx {
+namespace detail {struct ClassificationEdit;}
 class Project;
 struct FileFingerprint;
 struct SourceFileAssociation;
@@ -118,6 +119,7 @@ public:
     void remove_class(const std::string& name);
     void rename_class(const std::string& old_name, std::string new_name);
     void classify_objects(const std::vector<std::uint64_t>& ids, std::string class_name);
+    void apply_classifications(const std::vector<std::pair<std::uint64_t,std::string>>& assignments,std::string label="Classify objects");
     std::uint64_t add_rectangle(Rect roi, std::string name = "Annotation");
     std::uint64_t add_roi(Roi roi, std::string name="Annotation");
     std::uint64_t add_detection(Roi roi, std::string name="Detection", std::uint64_t parent_id=0, std::string class_name="");
@@ -285,15 +287,25 @@ private:
     using ObjectPatch = std::map<std::uint64_t,std::optional<Annotation>>;
     using ClassPatch = std::map<std::string,std::optional<ObjectClass>>;
     struct Calibration { std::optional<double> x,y; };
+    struct ClassificationHistory {
+        std::shared_ptr<detail::ClassificationEdit> value;
+        ClassificationHistory()=default;
+        ClassificationHistory(const ClassificationHistory&);
+        ClassificationHistory& operator=(const ClassificationHistory&);
+        ClassificationHistory(ClassificationHistory&&) noexcept=default;
+        ClassificationHistory& operator=(ClassificationHistory&&) noexcept=default;
+    };
     struct EditRecord {
         ObjectPatch before,after;
         Calibration before_calibration,after_calibration;
         ClassPatch before_classes,after_classes;
         std::string label;
         std::size_t bytes = 0;
+        ClassificationHistory classifications{};
     };
     struct Staging;
     void apply_record(const EditRecord&, bool forward);
+    void toggle_classifications(detail::ClassificationEdit&);
     void commit(Staging&, Calibration);
     void save_edit(Staging&, Calibration, std::string label);
     void trim_history();

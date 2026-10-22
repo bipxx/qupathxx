@@ -157,15 +157,14 @@ struct ObjectClassifierKernel {
         if(!std::isfinite(minimum) || minimum<0 || minimum>1) throw std::invalid_argument("invalid minimum vote fraction");
         if(!request.matches(doc) || result.table_->snapshot_!=request.data_) throw std::invalid_argument("object classification is stale or belongs to another request");
         if(result.predictions_.size()!=request.row_count()) throw std::logic_error("object classification row count mismatch");
-        std::vector<ObjectEdit> edits;std::vector<std::uint64_t> changed;
+        std::vector<std::pair<std::uint64_t,std::string>> edits;std::vector<std::uint64_t> changed;
+        edits.reserve(result.predictions_.size());changed.reserve(result.predictions_.size());
         for(std::size_t row=0;row<result.predictions_.size();++row) {
             const auto& p=result.predictions_[row];if(p.vote_fraction<minimum) continue;
-            const auto id=result.table_->ids_[row];auto a=doc.annotation(id);const auto& label=result.model_->classes().at(p.class_index);if(a.class_name==label) continue;
-            a.class_name=label;edits.push_back({ObjectEditKind::Replace,std::move(a)});changed.push_back(id);
+            const auto id=result.table_->ids_[row];const auto& label=result.model_->classes().at(p.class_index);if(doc.objects().at(id).class_name==label) continue;
+            edits.emplace_back(id,label);changed.push_back(id);
         }
-        // execute validates and allocates the complete patch before touching
-        // canonical objects, class registry, counts or history.
-        doc.execute(edits,"Apply object classifier");return changed;
+        doc.apply_classifications(edits,"Apply object classifier");return changed;
     }
 };
 std::shared_ptr<const ObjectFeatureTable> extract_object_features(const ObjectFeatureRequest& request,const std::atomic<bool>* cancelled) {return ObjectClassifierKernel::extract(request,cancelled);}

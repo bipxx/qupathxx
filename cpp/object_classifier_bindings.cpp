@@ -4,9 +4,12 @@
 #include <nanobind/stl/shared_ptr.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
+#include <nanobind/stl/pair.h>
 namespace nb=nanobind;using namespace nb::literals;
 void bind_object_classifiers(nb::module_& m) {
     using namespace qpx;
+    nb::borrow<nb::class_<Document>>(m.attr("Document"))
+        .def("apply_classifications",&Document::apply_classifications,"assignments"_a,"label"_a="Classify objects");
     nb::class_<ObjectFeatureOptions>(m,"ObjectFeatureOptions").def(nb::init<>())
         .def_static("from_model",&ObjectFeatureOptions::from_model,"model"_a)
         .def_rw("calibrated",&ObjectFeatureOptions::calibrated).def_rw("nucleus_shape",&ObjectFeatureOptions::nucleus_shape)
