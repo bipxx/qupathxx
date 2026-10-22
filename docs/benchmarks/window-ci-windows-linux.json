@@ -1,0 +1,319 @@
+{
+  "schema": "qpx.ci-validation/1",
+  "commit": "760829a64ab2e7ccd1dea08a79688d7bebc1e528",
+  "run": "https://github.com/bipxx/qupathxx/actions/runs/39765232014",
+  "started_utc": "2026-10-22T10:43:26Z",
+  "completed_utc": "2026-10-22T10:59:49Z",
+  "scope": "Hosted CI development candidates; no hardware GPU/DPI, manylinux portability, macOS, installer or complete workflow-parity acceptance.",
+  "jobs": [
+    {
+      "name": "Linux ASan UBSan native",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/39765232014/job/119778906576",
+      "conclusion": "success",
+      "native": {
+        "tests": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 32,
+        "seconds": 9.0,
+        "sha256": "e20cba6b5d4c4c6358ce7f93ea1391e267ce24ea7e485126fa5de7a66152e0aa"
+      }
+    },
+    {
+      "name": "Linux headless Python 3.12 NumPy 2",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/39765232014/job/119778906681",
+      "conclusion": "success",
+      "native": {
+        "tests": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 32,
+        "seconds": 1.0,
+        "sha256": "2a37e087092d0dc2db453abc33d6693838d513e62680f56abb7cadc8e803932e"
+      },
+      "python": {
+        "tests": 1262,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 254,
+        "passed": 1008,
+        "seconds": 39.878,
+        "sha256": "c95f00edf12ddb6a0615e0d3a9a7245bbe0d4aad320745f4aaaea9f2e1bcb0c4",
+        "skip_reasons": {
+          "GEOS-disabled configuration": 1,
+          "Windows case insensitive anchor path": 1,
+          "Windows delete-sharing failure": 1,
+          "Windows file delete sharing": 1,
+          "Windows file sharing check": 1,
+          "Windows read-only file attribute check": 1,
+          "Windows read-only marker write protection": 1,
+          "Windows read-only replacement failure": 1,
+          "desktop cell publication": 2,
+          "desktop replay": 11,
+          "opt-in GEOS desktop replay": 2,
+          "opt-in GUI": 3,
+          "opt-in ImGui import replay": 2,
+          "opt-in desktop batch workflow": 13,
+          "opt-in desktop replay": 36,
+          "opt-in geometry desktop replay": 6,
+          "opt-in managed viewer": 10,
+          "opt-in native desktop replay": 8,
+          "opt-in native window lifecycle": 15,
+          "opt-in pinned Windows QuPath runtime": 1,
+          "opt-in project desktop": 4,
+          "opt-in project desktop replay": 6,
+          "requires GUI build and QUPATHXX_TEST_GUI=1": 27,
+          "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+          "requires desktop GUI": 2,
+          "requires generated large pyramid fixture": 1,
+          "requires real desktop GUI": 1
+        }
+      },
+      "workflow": {
+        "schema": "qpx.installed-workflow/1",
+        "python": "3.12.15 (main, Oct  1 2026, 02:35:59) [GCC 13.3.0]",
+        "native_sha256": "f1b2851f2beef435a37427c8efc8ff9bd3f850888095689bbd199b7db98ed4eb",
+        "source_tree_sha256": "f7ac6932501cdb8540a76a5eee990f3944a5817ee7cc5e2b7bee20e7b8d13ebd",
+        "gui": false,
+        "geos": true,
+        "openslide": true,
+        "gl_renderer": "",
+        "framebuffer": null,
+        "roi_samples": 320,
+        "native_batch_checkpoints": 1
+      },
+      "artifact": {
+        "mode": "headless",
+        "wheel": "qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl",
+        "wheel_sha256": "cb33db9ec7f84fd90b6e5215b78738eae76b7d49623c39b6fc817b508010532e",
+        "python": "3.12.15 (main, Oct  1 2026, 02:35:59) [GCC 13.3.0]",
+        "tested_utc": 1792666006.2873769
+      },
+      "checks": {
+        "stubs.log": "820fb7328bf07e4438dd45655755085f118f178efd9d4af074057ff0e9eb03d0",
+        "typing-negative.log": "a1787cf629e1f16f8fdc2e3a7d6fdee281d2a79738f68301b1a6d5f41953fb26",
+        "typing.log": "8228fcc5ce46d42d01caf3cd941f4e9c5f2bcc372bb5b147a2f0572d2dd675a8"
+      }
+    },
+    {
+      "name": "Windows headless Python 3.11 NumPy 1",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/39765232014/job/119778906738",
+      "conclusion": "success",
+      "native": {
+        "tests": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 32,
+        "seconds": 2.0,
+        "sha256": "dd4c236b53966bece514495fda19784c827ae76c90fb92b5f06e69ae01d4463f"
+      },
+      "python": {
+        "tests": 1262,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 247,
+        "passed": 1015,
+        "seconds": 83.656,
+        "sha256": "520164715c95cea48c333727ce4afc3d24bcbaba347ca8bd69139c5a4ebfb1b5",
+        "skip_reasons": {
+          "GEOS-disabled configuration": 1,
+          "desktop cell publication": 2,
+          "desktop replay": 11,
+          "opt-in GEOS desktop replay": 2,
+          "opt-in GUI": 3,
+          "opt-in ImGui import replay": 2,
+          "opt-in desktop batch workflow": 13,
+          "opt-in desktop replay": 36,
+          "opt-in geometry desktop replay": 6,
+          "opt-in managed viewer": 10,
+          "opt-in native desktop replay": 8,
+          "opt-in native window lifecycle": 15,
+          "opt-in pinned Windows QuPath runtime": 1,
+          "opt-in project desktop": 4,
+          "opt-in project desktop replay": 6,
+          "requires GUI build and QUPATHXX_TEST_GUI=1": 27,
+          "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+          "requires desktop GUI": 2,
+          "requires generated large pyramid fixture": 1,
+          "requires real desktop GUI": 1
+        }
+      },
+      "workflow": {
+        "schema": "qpx.installed-workflow/1",
+        "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+        "native_sha256": "e5dedc5e74580c3c2c76f9cfd514f3d8ebe79105dba96c997561ac704eb3beeb",
+        "source_tree_sha256": "6e59cdd0bca49d25f6cffb21a31d6ef1c96bc419fac1fa717832fe2fda180e54",
+        "gui": false,
+        "geos": true,
+        "openslide": true,
+        "gl_renderer": "",
+        "framebuffer": null,
+        "roi_samples": 320,
+        "native_batch_checkpoints": 1
+      },
+      "artifact": {
+        "mode": "headless",
+        "wheel": "qupathxx-0.1.0-cp311-cp311-win_amd64.whl",
+        "wheel_sha256": "5dc350b0e9fd927314b96c737753cbfd359bcafbced61f7c3d2a0fa9c88de37b",
+        "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+        "tested_utc": 1792666366.5984457
+      },
+      "checks": {
+        "stubs.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+        "typing-negative.log": "2b87adf2c6420f383ca63881031324399ef2536debb1cfaef74efbeddf859bc6",
+        "typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24"
+      }
+    },
+    {
+      "name": "Windows GUI Python 3.12 software GL",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/39765232014/job/119778906802",
+      "conclusion": "success",
+      "native": {
+        "tests": 33,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 33,
+        "seconds": 2.0,
+        "sha256": "095d1608c3572b890c52eb75b46666328830f2d03735a5c1950ed176725640dd"
+      },
+      "python": {
+        "tests": 1262,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 5,
+        "passed": 1257,
+        "seconds": 400.77,
+        "sha256": "78894452f26f642d9006b5d6f4d5bef1b912436ceecff0a8e497a603263cd72e",
+        "skip_reasons": {
+          "GEOS-disabled configuration": 1,
+          "generate large fixture with tools/generate_large_fixture.py": 1,
+          "headless wheel contract": 1,
+          "opt-in pinned Windows QuPath runtime": 1,
+          "requires generated large pyramid fixture": 1
+        }
+      },
+      "workflow": {
+        "schema": "qpx.installed-workflow/1",
+        "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+        "native_sha256": "e83e48d70dcba100541c2187bf428fa86e958995542b1455d5f23cbe1f9eb3c1",
+        "source_tree_sha256": "6e59cdd0bca49d25f6cffb21a31d6ef1c96bc419fac1fa717832fe2fda180e54",
+        "gui": true,
+        "geos": true,
+        "openslide": true,
+        "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+        "framebuffer": [
+          1440,
+          900
+        ],
+        "roi_samples": 320,
+        "native_batch_checkpoints": 1
+      },
+      "artifact": {
+        "mode": "gui",
+        "wheel": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+        "wheel_sha256": "5df85081eb34b6ab8ba00719263c0e9ec7025b71741aed99984573f41f61d7e9",
+        "python": "3.12.10 (tags/v3.12.10:0cc8128, Apr  8 2025, 12:21:36) [MSC v.1943 64 bit (AMD64)]",
+        "tested_utc": 1792666783.3912187
+      },
+      "checks": {
+        "standalone-batch.log": "bf8ef00fee43c91aa857ce6266edcf39454552bd6bd94958f2d27cdd5c77c2e8",
+        "standalone-gui.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "standalone-region.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "standalone-slide-gui.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "standalone-slide-region.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "stubs.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+        "typing-negative.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead",
+        "typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24"
+      },
+      "standalone": {
+        "filename": "qupathxx-windows-x64-candidate.zip",
+        "bytes": 7884233,
+        "sha256": "a14e4b9e61f0fd1e6a9bc98a76d31e2aa67ec2fd98fcaeb86167c0f098662d55",
+        "files": {
+          "geos.dll": "2d65ee33a6f29b523d0e16832e489b6c36fbbb00fb0cae5f83a21a96fc5b0129",
+          "geos_c.dll": "5aeab6efb57600d7535084cd76889d847c85eea772effd8494e93f618eb4e615",
+          "libopenslide-1.dll": "dc8e35ad0ce001c4e878f2bebc23e87fb85d2bdebec5a542af2ecec3cb5cd635",
+          "qupathxx_app.exe": "d533a566b7938f80fc1b02a4cd1e2b0db7755989f7817a3df753d7e3542b805e",
+          "qupathxx_batch.exe": "a64b739aab91f5de52394cc69b18f0d30cbaa0da538372fa50bddc4ba576bf92",
+          "qupathxx_region.exe": "96052f48edac19196b4ef2452e13c96c40a3e1b04355aa4b0b85252893e226b2",
+          "README.txt": "314ec56acbde8374a1976913243cba2acd5b1934186878d23382e8637b00b94e",
+          "licenses/geos/COPYING": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551",
+          "licenses/glfw/LICENSE.md": "7593ce7c7be05f3a0589ebc78091ba3db70f82c7a4acaea15a0b70230247df2c",
+          "licenses/imgui/imgl3w-LICENSE.txt": "565e23a9974c44bf7e5e47c280de542ec758a82e97dcb1da3fb3496660921f88",
+          "licenses/imgui/imstb_rectpack.h-LICENSE.txt": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2",
+          "licenses/imgui/imstb_textedit.h-LICENSE.txt": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2",
+          "licenses/imgui/imstb_truetype.h-LICENSE.txt": "06f6b081941f054102bfc696d7f09b8905fee176d1ed08d334e4bad5c1d751c2",
+          "licenses/imgui/Khronos-LICENSE.txt": "a4be3716671cb6dbc2ed80aa91bb6675eb01971147c77d7a62bee11f15b83c14",
+          "licenses/imgui/Khronos-NOTICE.txt": "f76051f667cfbfbf5cc55c9656cf46ce11579dcd9d9373e95daeb08ef2fc0e93",
+          "licenses/imgui/LICENSE.txt": "55e058cc5899e6077a819ad1005d6d1f4528f65ae100795c9692f9fa6525a8ce",
+          "licenses/imgui/ProggyClean-LICENSE.txt": "898c573f0bf1901b40743432b1d78845bb5b4fc4c1660d6ee0820a8d987319f7",
+          "licenses/nanobind/LICENSE": "f305091a4e57805870b217a28ea4b1f16610eece8457d2370f822a9696b75836",
+          "licenses/nlohmann-json/LICENSE.MIT": "46a65cffd1ea955132d95a8dd921640714a8d6b537d2e4e482d31145ae95b603",
+          "licenses/openslide-sdk/cairo/COPYING": "67228a9f7c5f9b67c58f556f1be178f62da4d9e2e6285318d8c74d567255abdf",
+          "licenses/openslide-sdk/cairo/COPYING-LGPL-2.1": "9e9e8608c4cdda51a78cc3a385f4ec9a2e4c96d5ecad74ac8bca5fca3e563b7d",
+          "licenses/openslide-sdk/cairo/COPYING-MPL-1.1": "53692a2ed6c6a2c6ec9b32dd0b820dfae91e0a1fcdf625ca9ed0bdf8705fcc4f",
+          "licenses/openslide-sdk/glib/COPYING": "fa6f36630bb1e0c571d34b2bbdf188d08495c9dbf58f28cac112f303fc1f58fb",
+          "licenses/openslide-sdk/libdicom/LICENSE": "86287375f6fc517fb9d69a62ec08ebd08f33869d426aec0a4c575376fa3daca8",
+          "licenses/openslide-sdk/libffi/LICENSE": "d5699fa516968e3a1550e6c902b7441c78856f2603d61bedd0b0662a26655366",
+          "licenses/openslide-sdk/libjpeg-turbo/LICENSE.md": "e10114e6e40f3d0311c401ca25245ac5ef459a43c20f976fd63f03e816f5741f",
+          "licenses/openslide-sdk/libjpeg-turbo/README.ijg": "75815e3bf6484201a3c3d17a1bbf10f2e8e3237f84df10a2357ea896db2a81d6",
+          "licenses/openslide-sdk/libpng/LICENSE": "bdb0a645ea18c60507d0368379b1ac5474b92255fcc2d115e07486a7672ba526",
+          "licenses/openslide-sdk/libtiff/LICENSE.md": "0e27c2382d7b8147972bbb746e04059a1152c8d0fda9d03ef1399d1a433c4ade",
+          "licenses/openslide-sdk/libxml2/Copyright": "5d4873884a890122a4b9b20ad56ac6f7da1d796a5bfcf04a427970ac96217626",
+          "licenses/openslide-sdk/OpenJPEG/LICENSE": "a6af136f3e15038a666b61f376612a07d9a4e48cb7c01adbf3e33b3f14ab49b6",
+          "licenses/openslide-sdk/OpenSlide/COPYING.LESSER": "20e50fe7aae3e56378ebf0417d9de904f55a0e61e4df315333e632a4d3555d95",
+          "licenses/openslide-sdk/pixman/COPYING": "fac9270f0987b96ff4533fca3548c633e02083cbba4a0172a3b149b2e4019793",
+          "licenses/openslide-sdk/proxy-libintl/COPYING": "d245807f90032872d1438d741ed21e2490e1175dc8aa3afa5ddb6c8e529b58e5",
+          "licenses/openslide-sdk/SQLite/PUBLIC-DOMAIN.txt": "452d1e9b9ac57647fd26b9a0eee6a647e0d090f180897b3626ea1278ccb1cf95",
+          "licenses/openslide-sdk/uthash/LICENSE": "e9b9aac8421b6d29176c6f23f6f7a907194245e35ef99ace10839734961cfaa2",
+          "licenses/openslide-sdk/zlib-ng/LICENSE.md": "6c9f0d975b41afaa34d22f55bb8986ce69e5cb7ad327cb2b28820cd425edf5ee",
+          "licenses/openslide-sdk/Zstandard/LICENSE": "7055266497633c9025b777c78eb7235af13922117480ed5c674677adc381c9d8",
+          "licenses/robin-map/LICENSE": "3351535e1abffa4f2d6dfec9ee48bd0cdd72cd1d6d04dd9155f1ab5f58c54dbe",
+          "licenses/sqlite/sqlite-LICENSE.txt": "1172bc75acf43852aa9a9368887a3500b7aaea8f213c81853a1bc93d7ae262a0"
+        }
+      }
+    },
+    {
+      "name": "Linux minimal native",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/39765232014/job/119778908392",
+      "conclusion": "success",
+      "native": {
+        "tests": 32,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "passed": 32,
+        "seconds": 0.0,
+        "sha256": "50a2bc28561face323ce9ced5cd458da5afc874519e0b99dc64d2e42cfd40efb"
+      }
+    }
+  ],
+  "local_validation": {
+    "scope": "Full installed software-GL suite collected with 14 window cases, then all 15 focused cases including added dirty-close confirmation, on the same native binary.",
+    "python": {
+      "tests": 1261,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 4,
+      "passed": 1257,
+      "seconds": 388.299,
+      "sha256": "d0bab24c07bf25cba448e6346f2f7520d06d6c89c1e36b2dd14549ee774be1b0",
+      "skip_reasons": {
+        "GEOS-disabled configuration": 1,
+        "file symlink creation unavailable": 2,
+        "headless wheel contract": 1
+      }
+    },
+    "focused_cases": 15,
+    "focused_log_sha256": "6d8c9acd256080bed63868e6f7a971ec2d85c5ae5101d1c2c42bd3247f6c4b00",
+    "native_cases": 33,
+    "native_log_sha256": "9ad7c04d85b20a328e3858aa8ecddbf08dc04887a1bab1e7893d62fc7c5e54f1",
+    "native_sha256": "d6ba48e7e302adceb4eeb50c2a6fff0e9cef85a0e300c9e4c105cf40852bdd51",
+    "source_tree_sha256": "116ade1a31facb97d7d48ed2a4951c9f50bb22437d8fed4d1da97e23c047d9ca",
+    "benchmark": "window-lifecycle-windows.json"
+  }
+}

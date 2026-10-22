@@ -2,8 +2,9 @@
 
 The native viewer detects actual GLFW iconification. While minimized, it skips
 ImGui frame preparation, spatial queries, overlay construction, tile upload and
-OpenGL drawing/presentation. It continues polling workers, processing managed
-commands, reconciling project saves and scheduling recovery autosaves. An idle
+OpenGL drawing/presentation. Workers continue computing, and the viewer processes
+managed commands, reconciles project saves and schedules recovery autosaves. Existing
+modal/ownership restrictions still apply, and UI-only publication waits for restoration. An idle
 iteration waits for events for up to 20 ms; input can wake it earlier. A close
 request restores a minimized window when a visible confirmation is needed.
 Force-close commands can finish directly without rendering.
@@ -94,3 +95,43 @@ This measures reduced activity while the application is actually minimized. It
 does not improve or accept the separate cold-first-render, dense interactive
 frame-time, hardware driver or per-monitor DPI budgets. Small-screen layout,
 docking and broader OS interaction campaigns remain M2 work.
+
+A separate [fixed-duration before/after record](benchmarks/minimized-cpu-comparison-windows.json)
+compares the previous validated local wheel with the new wheel. The
+[capture source](benchmarks/minimized_cpu_capture.py) controls only its own
+worker PID's GLFW window using Windows `ShowWindow`, so both versions use the
+same external control method. It warms the adopted 100000-object selected scene
+for 30 rendered frames, waits another 100 ms after changing state, then measures
+two seconds. Fresh processes and alternating order produce twelve retained runs.
+
+During the minimized intervals, the previous wheel draws 58–67 frames and samples
+1.8125–2.015625 process CPU-seconds per interval. The new wheel draws zero frames
+and samples zero CPU-time increments in all three minimized intervals. These
+zeros are recorded timer samples, not a claim of zero actual work. The active
+controls vary substantially, and this record establishes no active-rendering
+speedup or regression. Native/source hashes and the capture-source hash identify
+both builds and the method.
+
+To reproduce with two installed GUI environments using the same software GL:
+
+```powershell
+python -I docs/benchmarks/minimized_cpu_capture.py --baseline-python C:/path/to/previous/python.exe --current-python C:/path/to/current/python.exe --seconds 2 --repetitions 3 --output build/minimized-cpu-comparison.json
+```
+
+## Recorded regression gates
+
+[Hosted run 39765232014](https://github.com/bipxx/qupathxx/actions/runs/39765232014)
+passes all five jobs at implementation revision
+`760829a64ab2e7ccd1dea08a79688d7bebc1e528`. Windows GUI passes 1257 Python cases
+with five skips, including all fifteen window cases. Windows/Linux headless pass
+1015/1008 cases with 247/254 configuration/fixture skips. Native GUI passes 33;
+all four other native configurations pass 32 each, including ASan/UBSan. Stubs,
+positive/negative typing, installed workflows and standalone checks pass.
+
+The [raw CI record](benchmarks/window-ci-windows-linux.json) retains native,
+source, wheel and archive hashes with complete candidate file identities. The
+local full suite collected fourteen window cases and passed 1257 cases with four
+skips in 388.32 seconds; the complete fifteen-case focused set then passed in
+7.31 seconds on the same binary. The added case verifies dirty-close confirmation
+after minimization without changing the primary file. The hosted full run
+includes it. No expected failures or relaxed interaction thresholds are used.

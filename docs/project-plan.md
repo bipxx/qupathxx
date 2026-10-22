@@ -1617,7 +1617,7 @@ finite startup blocked before its first paint has a bounded failure path.
 
 Activation failure detection now uses owner-pump cycles rather than rendered
 frames, preserving queue progress while minimized. Native tests cover activation
-success/failure with a frozen frame counter. Fourteen GUI cases cover window
+success/failure with a frozen frame counter. Fifteen GUI cases cover window
 operations, precise overlay pixels, saved views, image selection, no-frame
 autosave, managed edit/inspect/activation/save/force-close, startup cancellation
 and validation errors. Public stubs and the typing fixture expose the additions.
@@ -1633,6 +1633,35 @@ Suspended-loop work totals 14.58–28.18 ms per run. This is reduced minimized
 activity, not an improvement claim for the unresolved cold-first-render or dense
 interactive frame-time gates. Docking/layout, per-monitor DPI, vendor campaigns
 and all other unfinished M0-M7 requirements remain active.
+
+A fixed-duration before/after capture separately compares the previous validated
+wheel and the new wheel on the same 100000-object selected project and software
+renderer. It uses own-PID Windows window control for both versions and excludes
+loading/startup after an adoption-plus-30-frame warmup. Across three two-second
+minimized intervals the previous wheel draws 58–67 frames and samples 1.81–2.02
+CPU-seconds; the new wheel draws none and records zero sampled CPU increments.
+Zero samples do not mean zero work. All twelve active/minimized control runs,
+build/source hashes and the capture source are retained in the
+[comparison record](benchmarks/minimized-cpu-comparison-windows.json).
+The active controls vary and do not establish an active-rendering speedup.
+
+Packet 61 final validation: all five jobs pass in
+[run 39765232014](https://github.com/bipxx/qupathxx/actions/runs/39765232014).
+Windows GUI passes 1257 Python cases with five configuration/fixture skips,
+including all fifteen window cases. Windows/Linux headless pass 1015/1008 with
+247/254 skips. Native GUI passes 33 and all four other native configurations
+pass 32 each, including ASan/UBSan. Installed workflows, source-exact stubs,
+positive/negative strict typing and native standalone project/slide/batch checks
+pass. [Raw CI evidence](benchmarks/window-ci-windows-linux.json) identifies exact
+native/source/wheel/ZIP artifacts and file hashes.
+
+Local full validation passed 1257 cases with four skips in 388.32 s, collected
+before the final dirty-close case was added. All fifteen focused window cases
+then passed on the same artifact in 7.31 s, and all 33 native tests/stubs/strict
+typing passed. The current hosted full run includes that final case. The resized
+1040x660 canvas and annotation alignment also receive a visual check. M2's cold
+rendering, dynamic interaction, docking/layout, hardware/DPI and remaining
+workflow/platform gates remain open.
 
 These are development candidates. Linux wheels still require the explicit GEOS
 SDK/system OpenSlide runtime. Windows hardware/DPI campaigns, user-machine
