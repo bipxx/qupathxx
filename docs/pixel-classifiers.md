@@ -269,9 +269,61 @@ review acceptance is claimed. Hosted [run 39861383111](https://github.com/bipxx/
 targets `7a95601` and passed all five jobs. The [hosted artifact record](benchmarks/pixel-workflow-ci-windows-linux.json) verifies installed artifacts
 and the sampled-cohort fixture. It precedes the F5 panel/preview increment.
 
+## Trace and publish prediction masks
+
+The C++ API in `qupathxx/pixel_contours.hpp` and matching Python functions
+convert a completed source prediction into class annotations:
+
+```python
+request = q.PixelPredictionRequest(document, object_id, model)
+result = q.predict_pixel_region(request)
+options = q.TissueContourOptions()
+options.work_bytes = 64 * 1024 * 1024
+traced = q.trace_pixel_prediction(result, options)
+ids = q.publish_pixel_contours(document, request, traced, name_prefix="Prediction")
+```
+
+`PixelContours.contours` exposes the existing immutable `TissueContours` value
+API. Its `input_sha256` and `PixelContours.prediction_sha256` identify the numeric
+prediction output, including the classifier and confidence threshold. Unknown
+label zero contributes no geometry. Disconnected regions of one class form one
+multipolygon; class labels become annotation classes. Holes and shared class
+boundaries are preserved. The algorithm borrows the immutable label raster and
+copies only the bounded class summary, avoiding a full mask per class.
+
+Clipping defaults to the original ROI and image bounds. Clipped annotations
+become children of the source object; `clip_to_roi=False` publishes raster
+footprints at the root. Fractional grids use level-zero pixel edges and the
+captured natural downsample. Clipping retains the existing GEOS approximation
+for curved ROIs. `max_components` bounds the model's class slots, including
+absent classes; edges, vertices and work have separate limits. The work estimate
+covers tracing allocations, excluding the already-owned prediction/model and
+allocator overhead. C++ accepts a cancellation flag. Python releases the GIL
+while tracing, so a caller can run it in a worker; document publication belongs
+on the owner thread. The F5 panel does not yet expose tracing/publication controls.
+
+`result.matches(request)` checks exact captured-snapshot identity. Publication
+also requires `request.matches(document)`; an equivalent independently captured
+request, another document, source closure, or any intervening document revision
+is rejected. Successful publication uses one compound edit, so class creation,
+geometry and hierarchy undo/redo together. Empty output is a no-op. Published
+annotations survive ordinary project/recovery saves as native objects; this does
+not archive the pixel training cohort, recipe or mask. After a nonempty publish,
+the original request is stale; use Undo/Redo for that batch.
+
+The [1,024-square synthetic sample](benchmarks/pixel-contours-1024-windows.json)
+checks every predicted label, 4,096 polygon parts, exact class areas and undo/redo.
+Tracing took 113.9 ms and publication 0.031 ms, with 4,326,400 estimated work bytes
+and 570,537 retained geometry bytes. These are single observations on a shared
+Windows workstation, not process RSS, UI-frame or biological acceptance results.
+Reproduce with `python tools/benchmark_pixel_contours.py --size 1024 --output report.json`.
+The [local artifact record](benchmarks/pixel-contours-local-windows-linux.json)
+verifies 1,426 full-suite passes, 77 focused passes, all native configurations,
+public typing and the installed software-GL workflow.
+
 ## Remaining workflow
 
-Contour publication, project/recovery pixel records, full-slide streaming outputs,
+Pixel contour UI controls, project/recovery pixel records, full-slide streaming outputs,
 expanded texture features and resampling between unmatched resolutions remain
 open. Research cohorts and direct QuPath comparisons also remain required.
 Object classifier records do not persist pixel recipes or these training tables.

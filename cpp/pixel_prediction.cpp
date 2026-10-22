@@ -23,6 +23,8 @@ struct PixelPredictionRequest::Data {
     std::int64_t x=0,y=0,w=0,h=0;std::size_t fixed=0,work=0,feature_budget=0;std::uint64_t tiles=0,revision=0,id=0;
     Data(const PixelClassifier& m,PixelPredictionOptions o):model(m),options(o) {}
 };
+
+bool PixelPredictionResult::matches(const PixelPredictionRequest& request) const {return snapshot_==request.data_;}
 void PixelPredictionOptions::validate() const {if(tile_size<16 || tile_size>512 || work_bytes<1024*1024 || work_bytes>1024ULL*1024*1024 || !std::isfinite(min_vote_fraction) || min_vote_fraction<0 || min_vote_fraction>1) throw std::invalid_argument("invalid source pixel prediction options");}
 PixelPredictionRequest::PixelPredictionRequest(const Document& doc,std::uint64_t id,const PixelClassifier& model,PixelPredictionOptions options):source_(doc.server()) {
     options.validate();if(options.min_vote_fraction==0) options.min_vote_fraction=0;auto data=std::make_shared<Data>(model,options);data->level=pixel_classifier_level(doc,model);data->metadata=source_->metadata();data->roi=doc.annotation(id).geometry;data->id=id;data->revision=doc.revision();

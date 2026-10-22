@@ -1,0 +1,118 @@
+{
+  "schema": "qpx.local-validation/1",
+  "base_commit": "26f64e9be233c3ccd922f92b6695a94e84ac691a",
+  "observed_utc": "2026-10-22T23:10:28.416750+00:00",
+  "scope": "Shared-edge pixel prediction contours and strict snapshot/document/source-checked atomic class annotation publication. Published objects round-trip through existing project saves. Pixel UI controls, pixel archive records, streaming, research and hardware gates remain open.",
+  "python": {
+    "tests": 1432,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1426,
+    "seconds": 505.333,
+    "sha256": "d6dc17019811ba47a9b0ac18d863b1654d7b7eb32cce9d26c7e2f239885a03b4"
+  },
+  "focused": {
+    "tests": 77,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 77,
+    "seconds": 1.119,
+    "sha256": "11c44820102077f24d3121ad3de85cb242b3a2bfedae8f5efbba67e30a56fc69"
+  },
+  "windows_gui_native": {
+    "tests": 39,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 39,
+    "seconds": 6.0,
+    "sha256": "c4bc3cded1e6996ba5a9985774c03f45ce75bdb01c04ec1a0c209bab67ca4977"
+  },
+  "windows_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 5.0,
+    "sha256": "706b97c4602014021308f3e1d801e1e6a78a2ea3a424b6a17b509f57db3d34a5"
+  },
+  "linux_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 0.0,
+    "sha256": "130232f11cb6c40c7345e6a3b0a6d24a93b013a774d2dba30ebeb9ab31d92b8d"
+  },
+  "linux_minimal": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 0.0,
+    "sha256": "7d446f78e55e455d57c7a8b1ca9f0cdcdc3648ff34388fad92343ff0f40d01c0"
+  },
+  "linux_sanitizer": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 3.0,
+    "sha256": "210a1f61bd50f27387debc90931907e085850fbde0c89d2764c08d8bd84a7321"
+  },
+  "workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "82b60055157130b219bb16e3b786f07482747fc14d3250af6d987f22fb6f0cf0",
+    "source_tree_sha256": "52a929b46ead1e6b5cd72525d02d9c0924f5a422121ddff76b2e72aebe09e596",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "8e2ade47305d38d6180cd4ca161bae3c5a2cbaf52e4b17b6b5e64f3d23bbe2b8",
+    "bytes": 11892749
+  },
+  "opencv_notices": {
+    "qupathxx/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "qupathxx/licenses/opencv/softfloat-notice.txt": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3",
+    "qupathxx/licenses/opencv/SOURCE-NOTICES.txt": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba",
+    "qupathxx/licenses/opencv/zlib-notice.txt": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+  },
+  "benchmark": {
+    "file": "pixel-contours-1024-windows.json",
+    "sha256": "eb119af35abbe6615e4334739145d79579108433afbf3acbe5108877ec53741a"
+  },
+  "checks": {
+    "pixel74-stub-check.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "pixel74-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "pixel74-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "performance_limit": "Single shared-workstation CPU sample; estimates exclude allocator/RSS and the existing prediction buffers. No hardware, UI-frame or biological acceptance claim."
+}

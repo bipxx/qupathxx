@@ -2173,3 +2173,37 @@ are retained in the record; none are hidden behind a green final count.
 Hosted [run 39868162623](https://github.com/bipxx/qupathxx/actions/runs/39868162623)
 targets `5000c14` and is running. No hosted UI-increment pass is claimed until
 that run completes.
+
+
+### Packet 74 — pixel mask contours and atomic annotation publication
+
+Added C++/nanobind `PixelContours`, `trace_pixel_prediction` and
+`publish_pixel_contours`. The existing shared-boundary raster tracer now accepts
+an immutable pixel-prediction adapter without copying a full mask per class.
+Class regions become multipolygon annotations, preserving holes and disconnected
+parts; unknown labels are omitted. Publication checks exact request/result
+identity plus current document/source authority and applies one compound edit.
+Clipped output uses the source as parent; raw footprints publish at the root.
+Native project saves preserve the published annotation geometry/classes/hierarchy.
+
+Focused tests cover every cell of nested and diagonal-contact masks, absent
+classes, fractional clipping, empty no-ops, independent concurrent GEOS contexts,
+quota failures, strict stale/equivalent-request rejection, project round trips
+and undo/redo. The [1,024-square sample](benchmarks/pixel-contours-1024-windows.json)
+checks all labels and 4,096 polygon parts: tracing 113.9 ms, publication 0.031 ms,
+estimated tracing work 4.3 MB and retained geometry 0.57 MB. This is a synthetic
+single shared-workstation CPU sample, excluding RSS and existing prediction
+buffers; no UI-frame, hardware or research acceptance is claimed.
+
+The F5 trace/publish controls, immutable project/recovery pixel-training and mask
+records, full-slide streaming, viewport-limited prediction, unmatched-grid
+resampling, expanded features, TMA and research/QuPath comparison gates remain
+open. All outstanding M0–M7 requirements remain in force.
+
+
+The [local validation record](benchmarks/pixel-contours-local-windows-linux.json)
+verifies 1,426 installed Python passes with six expected skips, all 77 focused
+contour/source-worker cases including Aperio, 39 Windows GUI native and 38 each
+Windows headless/Linux training/minimal/sanitizer. Exact public stubs, strict
+positive/seven-error negative typing and installed software-GL launch pass.
+Working-source, installed native, wheel and benchmark identities agree.

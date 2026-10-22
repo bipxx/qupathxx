@@ -23,10 +23,12 @@ private:
     std::optional<ObjectFeatureRequest> authority_;
     std::shared_ptr<ImageServer> source_;
     friend struct PixelPredictionKernel;
+    friend class PixelPredictionResult;
 };
 class PixelPredictionResult : public std::enable_shared_from_this<PixelPredictionResult> {
 public:
     const char* algorithm() const {return "qpx.source-pixel-classification/1";}
+    bool matches(const PixelPredictionRequest&) const;
     std::int64_t width() const;
     std::int64_t height() const;
     std::uint64_t object_id() const;

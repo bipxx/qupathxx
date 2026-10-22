@@ -1,0 +1,30 @@
+{
+  "schema": "qpx.pixel-contour-benchmark/1",
+  "size": 1024,
+  "fixture": "16-pixel alternating opaque RGB squares; two classes; 8 trees/depth 3; sigma 0",
+  "native_sha256": "82b60055157130b219bb16e3b786f07482747fc14d3250af6d987f22fb6f0cf0",
+  "source_tree_sha256": "52a929b46ead1e6b5cd72525d02d9c0924f5a422121ddff76b2e72aebe09e596",
+  "model_sha256": "37adf8dd3c779d311347cf5a7537b88d4af5b04642663278a1f2cb792c58d17c",
+  "prediction_sha256": "85f68b15061038091efaf1f680c9d81ac61c2cad9bdb20b2b1169c9549d0ff7b",
+  "class_counts": [
+    524288,
+    524288
+  ],
+  "prediction_ms": 246.3603,
+  "trace_ms": 113.86410007253289,
+  "publish_ms": 0.030700000934302807,
+  "edge_count": 8320,
+  "vertex_count": 16384,
+  "polygon_parts": 4096,
+  "estimated_trace_work_bytes": 4326400,
+  "retained_geometry_bytes": 570537,
+  "history_bytes": 571537,
+  "published_annotations": 2,
+  "verified": [
+    "every predicted label",
+    "exact geometry areas and part count",
+    "atomic publication",
+    "undo/redo"
+  ],
+  "limitations": "Single shared-workstation CPU sample; estimates exclude allocator/RSS and the existing prediction buffers. No hardware, UI-frame or biological acceptance claim."
+}

@@ -207,3 +207,12 @@ def pixel_desktop_result(report: q.GuiReport) -> q.PixelClassifier | None:
     if table is not None:
         table.coordinates_numpy()
     return report.pixel_model
+
+
+def publish_pixel_mask(document: q.Document, request: q.PixelPredictionRequest, result: q.PixelPredictionResult) -> list[int]:
+    if not result.matches(request):
+        return []
+    traced: q.PixelContours=q.trace_pixel_prediction(result)
+    geometry: q.TissueContours=traced.contours
+    assert geometry.input_sha256==traced.prediction_sha256
+    return q.publish_pixel_contours(document,request,traced)

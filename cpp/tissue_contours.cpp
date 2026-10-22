@@ -1,4 +1,6 @@
 #include "qupathxx/tissue.hpp"
+#include "qupathxx/pixel_contours.hpp"
+#include "qupathxx/provenance.hpp"
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -14,7 +16,7 @@ namespace {
 void checkpoint(const std::atomic<bool>* flag) {if(flag && flag->load(std::memory_order_relaxed)) throw std::runtime_error("tissue contour conversion cancelled");}
 // Ordered adjacent-label pairs split straight runs at every raster junction.
 // Thus diagonal contacts are noded without materializing one edge per pixel.
-template<class Emit> void boundary_runs(const TissueResult& mask,Emit&& emit,const std::atomic<bool>* cancelled) {
+template<class Mask,class Emit> void boundary_runs(const Mask& mask,Emit&& emit,const std::atomic<bool>* cancelled) {
     const auto w=mask.width(),h=mask.height();const auto& labels=mask.labels();
     for(std::int64_t y=0;y<=h;++y) {
         checkpoint(cancelled);std::uint32_t a=0,b=0;std::int64_t start=0;
@@ -112,7 +114,7 @@ void TissueContourOptions::validate() const {
     if(!work_bytes || work_bytes>512u*1024u*1024u) throw std::invalid_argument("tissue contour work budget must be 1 byte..512 MiB");
 }
 struct TissueContourKernel {
-    static std::shared_ptr<const TissueContours> run(const TissueResult& mask,TissueContourOptions options,const std::atomic<bool>* cancelled) {
+    template<class Mask> static std::shared_ptr<const TissueContours> run(const Mask& mask,TissueContourOptions options,const std::atomic<bool>* cancelled) {
         options.validate();checkpoint(cancelled);
 #ifndef QUPATHXX_HAS_GEOS
         (void)mask;throw std::runtime_error("tissue contours require QUPATHXX_BUILD_GEOS=ON");
@@ -175,5 +177,41 @@ struct TissueContourKernel {
 #endif
     }
 };
+namespace {
+// Borrow the immutable raster; only the <=256-entry class summary is copied.
+struct PixelRaster {
+    const PixelPredictionResult& result;
+    struct Component {std::uint32_t label;std::uint64_t pixels;};
+    std::vector<Component> classes;
+    explicit PixelRaster(const PixelPredictionResult& r):result(r) {
+        for(std::size_t i=0;i<r.class_counts().size();++i) classes.push_back({static_cast<std::uint32_t>(i+1),r.class_counts()[i]});
+    }
+    const auto& components() const {return classes;}
+    const auto& labels() const {return result.labels();}
+    auto width() const {return result.width();} auto height() const {return result.height();}
+    auto foreground_pixels() const {return result.classified_pixels();}
+    const auto& roi() const {return result.roi();}
+    auto bounds() const {return result.bounds();} auto downsample() const {return result.downsample();}
+    Rect image_bounds() const {const auto& s=result.provenance()->source;return {0,0,double(s.width),double(s.height)};}
+    const auto& input_sha256() const {return result.sha256();}
+    auto object_id() const {return result.object_id();}
+};
+}
+std::shared_ptr<const PixelContours> trace_pixel_prediction(std::shared_ptr<const PixelPredictionResult> result,TissueContourOptions options,const std::atomic<bool>* cancelled) {
+    if(!result) throw std::invalid_argument("pixel prediction is required");
+    auto contours=TissueContourKernel::run(PixelRaster(*result),options,cancelled);
+    return std::shared_ptr<const PixelContours>(new PixelContours(std::move(result),std::move(contours)));
+}
+std::vector<std::uint64_t> publish_pixel_contours(Document& document,const PixelPredictionRequest& request,const PixelContours& traced,std::string prefix) {
+    const auto& result=*traced.prediction_;
+    if(!request.matches(document) || !result.matches(request)) throw std::logic_error("pixel contours no longer match the current document and request");
+    std::vector<ObjectEdit> edits;edits.reserve(traced.contours_->components().size());
+    const auto parent=traced.contours_->options().clip_to_roi?result.object_id():0;
+    for(const auto& c:traced.contours_->components()) {
+        const auto& classification=result.model().classes().at(c.label-1);
+        edits.push_back(ObjectEdit::create_geometry(c.geometry,prefix+" "+classification,parent,classification));
+    }
+    return document.execute(edits,"Add pixel classifier annotations");
+}
 std::shared_ptr<const TissueContours> trace_tissue(const TissueResult& result,TissueContourOptions options,const std::atomic<bool>* cancelled) {return TissueContourKernel::run(result,options,cancelled);}
 }

@@ -1,4 +1,4 @@
-#include "qupathxx/pixel_prediction.hpp"
+#include "qupathxx/pixel_contours.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/ndarray.h>
 #include <nanobind/stl/optional.h>
@@ -51,6 +51,7 @@ void bind_pixel_workflows(nb::module_& m) {
         .def_prop_ro("level",&PixelPredictionRequest::level).def_prop_ro("downsample",&PixelPredictionRequest::downsample).def_prop_ro("level_bounds",&PixelPredictionRequest::level_bounds)
         .def_prop_ro("estimated_work_bytes",&PixelPredictionRequest::estimated_work_bytes).def_prop_ro("total_tiles",&PixelPredictionRequest::total_tiles);
     nb::class_<PixelPredictionResult>(m,"PixelPredictionResult")
+        .def("matches",&PixelPredictionResult::matches)
         .def_prop_ro("algorithm",&PixelPredictionResult::algorithm).def_prop_ro("width",&PixelPredictionResult::width).def_prop_ro("height",&PixelPredictionResult::height)
         .def_prop_ro("object_id",&PixelPredictionResult::object_id).def_prop_ro("level",&PixelPredictionResult::level).def_prop_ro("downsample",&PixelPredictionResult::downsample)
         .def_prop_ro("bounds",&PixelPredictionResult::bounds).def_prop_ro("level_bounds",&PixelPredictionResult::level_bounds).def_prop_ro("roi",&PixelPredictionResult::roi,nb::rv_policy::copy)
@@ -61,6 +62,9 @@ void bind_pixel_workflows(nb::module_& m) {
         .def("valid_numpy",[](nb::object self,bool copy){const auto& r=nb::cast<const PixelPredictionResult&>(self);return array(r.valid(),{std::size_t(r.height()),std::size_t(r.width())},self,copy);},"copy"_a=false)
         .def("vote_fractions_numpy",[](nb::object self,bool copy){const auto& r=nb::cast<const PixelPredictionResult&>(self);return array(r.vote_fractions(),{std::size_t(r.height()),std::size_t(r.width())},self,copy);},"copy"_a=false);
     m.def("predict_pixel_region",[](const PixelPredictionRequest& r){return predict_pixel_region(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
+    nb::class_<PixelContours>(m,"PixelContours").def_prop_ro("contours",&PixelContours::contours).def_prop_ro("prediction_sha256",&PixelContours::prediction_sha256);
+    m.def("trace_pixel_prediction",[](std::shared_ptr<const PixelPredictionResult> result,TissueContourOptions options){return trace_pixel_prediction(std::move(result),options);},"result"_a,"options"_a=TissueContourOptions{},nb::call_guard<nb::gil_scoped_release>());
+    m.def("publish_pixel_contours",&publish_pixel_contours,"document"_a,"request"_a,"contours"_a,"name_prefix"_a="Pixel");
     nb::class_<PixelPredictionJob>(m,"PixelPredictionJob").def(nb::init<>()).def("request",&PixelPredictionJob::request).def_prop_ro("busy",&PixelPredictionJob::busy).def("cancel",&PixelPredictionJob::cancel)
         .def("poll",&PixelPredictionJob::poll).def("wait",&PixelPredictionJob::wait,nb::call_guard<nb::gil_scoped_release>()).def_prop_ro("result",&PixelPredictionJob::result);
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
