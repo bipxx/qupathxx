@@ -2019,5 +2019,7 @@ application, and 0.04 ms native save capture through shared immutable artifacts.
 Writing takes 373 ms and reopen 317 ms. Charged archive/history payloads are
 76.5/5.5 MB. These are single observations on a shared workstation; they do not
 accept a hardware/frame or biological validation gate. Large publication remains
-above 16 ms. Hosted validation for this source is pending; pixel/TMA workflows,
-research cohorts, QuPath comparisons and remaining M0–M7 requirements stay open.
+above 16 ms. Hosted [run 39849552492](https://github.com/bipxx/qupathxx/actions/runs/39849552492)
+targets `e04aac1` and is running; no hosted result is claimed for this source.
+Pixel/TMA workflows, research cohorts, QuPath comparisons and remaining M0–M7
+requirements stay open.

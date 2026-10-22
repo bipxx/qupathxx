@@ -156,6 +156,9 @@
   ],
   "performance_limit": "One observation per phase on shared Windows workstation. 100000 objects: 110 ms worker extraction/inference/archive, 65 ms owner publication, 0.04 ms native save capture. Publication and undo remain above a 16 ms frame target; no hardware or biological acceptance.",
   "ci": {
-    "status_at_capture": "not_yet_started"
+    "run": "https://github.com/bipxx/qupathxx/actions/runs/39849552492",
+    "source_commit": "e04aac1d2a4fd3f496a98d3e77401d1d5f9b023f",
+    "status_at_capture": "in_progress",
+    "observed_utc": "2026-10-22T20:32:21.538302+00:00"
   }
 }
