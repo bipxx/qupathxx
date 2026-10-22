@@ -1748,3 +1748,26 @@ provided by the verified self-contained SDK; no system package-index update is
 needed for these jobs. This removes the prerequisite step that held the prior
 minimal job before compilation. M2's hardware/DPI, dynamic/cold-frame targets
 and remaining workflow/platform gates stay open.
+
+Packet 64 local validation passes the full installed software-GL suite:
+1293 Python cases with six skips in 494.62 s, all fourteen focused docking/
+preference cases, 34 Windows native cases, 33 local Linux minimal native cases,
+generated stubs, positive/seven-error negative strict typing, the installed
+docked workflow and standalone layout smoke. Native/source identities are
+retained with the navigation observations. The final workspace capture is
+visually checked for panel placement and aligned image/annotation rendering.
+
+Packet 64 hosted validation at `61d3eb2aef5eaa6429534b560f50ae86dca9ab71`
+has all five jobs complete successfully in
+[run 39787239562](https://github.com/bipxx/qupathxx/actions/runs/39787239562).
+Windows GUI passes 1292 Python cases with seven skips and 34 native cases;
+Windows/Linux headless pass 1033/1027 with 266/272 skips. Minimal, sanitizer
+and both headless native configurations pass 33 each. Installed docked
+workflow, source-exact stubs, strict positive/seven-error negative typing and
+standalone layout/project/slide/batch/thumbnail gates pass. The
+[raw artifact record](benchmarks/docking-ci-windows-linux.json) preserves exact
+source/native/wheel/ZIP identities and the pending GitHub aggregate metadata
+separately from the completed successful jobs. The Linux minimal job now reaches
+and passes tests; the prior reader-only run ended cancelled during its old
+package-index setup before compilation. All other unfinished M0-M7 gates remain
+active; this packet does not establish a supported release or full QuPath parity.

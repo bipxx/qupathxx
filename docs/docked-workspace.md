@@ -81,6 +81,22 @@ equivalence, resize, image switching, empty projects, history, hidden-canvas
 settlement, preference failures/source protection and standalone launch.
 The Windows native suite passes 34 cases; a local minimal Linux build passes
 33. Strict typing and generated-stub checks include the new API.
+The full installed Windows software-GL suite passes 1293 Python cases with six
+fixture/platform skips in 494.62 s on the same native artifact. The final
+four-panel capture also receives a visual check for canvas/annotation alignment,
+overview framing and panel placement.
+
+All five jobs in [run 39787239562](https://github.com/bipxx/qupathxx/actions/runs/39787239562)
+complete successfully at code commit `61d3eb2aef5eaa6429534b560f50ae86dca9ab71`.
+Windows GUI passes 1292 Python tests with seven skips and 34 native tests.
+Windows/Linux headless pass 1033/1027 with 266/272 skips. All four other native
+configurations pass 33 tests each, including ASan/UBSan. Installed docked
+workflow, source-exact stubs, strict positive/seven-error negative typing and
+standalone project/slide/batch/thumbnail/layout save-reload gates pass.
+The [artifact record](benchmarks/docking-ci-windows-linux.json) verifies wheel,
+native binary, source and standalone ZIP identities. At capture, GitHub's
+aggregate run metadata still says in-progress; the record retains that state
+separately from the five completed successful jobs.
 
 The [Aperio navigation samples](benchmarks/docked-aperio-navigation-windows.json)
 record p95 CPU frame work of 4.00/22.28 ms for two 180-frame views. The

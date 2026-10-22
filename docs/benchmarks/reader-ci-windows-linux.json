@@ -435,5 +435,20 @@
       ]
     },
     "reader_comparison": "reader-stack-linux.json"
+  },
+  "later_outcome": {
+    "status": "completed",
+    "conclusion": "cancelled",
+    "updated_utc": "2026-10-22T13:27:06Z",
+    "minimal": {
+      "conclusion": "cancelled",
+      "started_utc": "2026-10-22T12:26:46Z",
+      "completed_utc": "2026-10-22T13:27:06Z",
+      "stage": "Linux prerequisites",
+      "compiled": false,
+      "log_sha256": "343fd2a674445f9da6421c9307803351337407c2ecf0177021e12d9ab4c319f2"
+    },
+    "note": "Final cancellation occurred before the docking commit push; four completed jobs remain successful. The later docking run validates the combined source with the system package-index refresh removed.",
+    "followup": "https://github.com/bipxx/qupathxx/actions/runs/39787239562"
   }
 }

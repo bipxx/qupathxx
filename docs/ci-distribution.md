@@ -7,6 +7,13 @@ JUnit results and available workflow reports, including on failure. Actions use
 pinned revisions and read-only repository permissions. A green run accepts its
 listed configurations and fixture scope; it does not accept every M0–M7 gate.
 
+Linux jobs use Ninja already available on the hosted runner. If it is absent,
+the tool step installs the pinned `ninja==1.13.0` binary wheel, with bounded pip
+transport retries and a three-minute step timeout. It does not refresh system
+package indexes. The verified self-contained OpenSlide SDK supplies the reader
+runtime; the prior package-index step could hold an otherwise minimal job
+before any compilation or tests.
+
 | Configuration | Checks |
 | --- | --- |
 | Windows 2022, Python 3.11, NumPy 1.26 | Full headless wheel, native and installed Python suites, public stubs and strict typing |
@@ -76,6 +83,15 @@ and the remaining workflow/format acceptance work are still open. No package is
 automatically published to PyPI or a GitHub Release.
 
 ## Recorded validation
+
+[Docked workspace run 39787239562](https://github.com/bipxx/qupathxx/actions/runs/39787239562)
+has five completed successful jobs: Windows GUI passes 1292 Python tests and
+34 native tests; Windows/Linux headless pass 1033/1027 Python tests and 33 native
+tests each. Minimal and sanitizer configurations pass 33 each. Installed GUI
+validation now opens the docked workspace and saves separate layout preferences;
+the standalone candidate also saves and reloads a layout. Exact artifact hashes,
+skips, local checks and the separately recorded pending aggregate run metadata
+are in the [validation record](benchmarks/docking-ci-windows-linux.json).
 
 [Thumbnail run 39773391727](https://github.com/bipxx/qupathxx/actions/runs/39773391727)
 passes all five configurations. The Windows GUI suite passes 1273 Python tests

@@ -58,6 +58,14 @@ completed jobs. The [CI evidence record](benchmarks/reader-ci-windows-linux.json
 records their exact artifact identities. At the recorded observation, the fifth
 job, Linux minimal native, is still in its runner's prerequisite setup;
 that pending job is not counted as a pass.
+That job later ends cancelled in prerequisite setup at 13:27:06 UTC, before
+the docking follow-up push. Its four successful jobs remain valid evidence;
+it did not compile or run the minimal tests. The later
+[docking run](https://github.com/bipxx/qupathxx/actions/runs/39787239562) has all
+five jobs complete successfully on the combined reader/workspace code, with
+the system package-index refresh removed. The
+[later outcome](benchmarks/reader-ci-windows-linux.json) records the cancellation
+and the log identity without rewriting the earlier observation.
 
 CI verifies every extracted SDK file against its pinned archive before building,
 including Linux symlink targets. Corrupted files, traversal paths and changed
