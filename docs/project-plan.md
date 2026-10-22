@@ -2117,5 +2117,55 @@ explicit forest settings and general engine defaults are preserved. The numeric
 identities of both explicit-preset benchmark fixtures remain unchanged.
 
 Hosted [run 39861383111](https://github.com/bipxx/qupathxx/actions/runs/39861383111)
-targets `7a95601` and is pending. No hosted pass is claimed for the final
-source-worker/default-preset increment until this run completes.
+targets `7a95601` and completed successfully in all five jobs. The
+[hosted artifact record](benchmarks/pixel-workflow-ci-windows-linux.json)
+verifies exact installed artifacts, notices, stubs/typing, standalone bundles and
+source-worker fixture cohorts. Windows GUI passes 1,398 Python/seven skips and
+39 native; Windows/Linux headless pass 1,109/1,103 Python with 38 native each.
+Minimal and sanitizer pass 38 native. This source precedes the F5 panel below.
+
+### Packet 73: real ImGui pixel workflow and bounded mask preview
+
+Adds an F5 pixel panel for labelled-area worker training, source-aware ROI
+prediction, cancellation, resolution-bound model files and adjustable class
+colors/opacity. Default training excludes cells/detections; explicit selected
+areas can include them. Model I/O validates before adoption, preserves the
+active model after invalid input and uses native atomic file operations.
+The [workflow contract and actual captures](pixel-classifier-ui.md) describe
+the controls and remaining work.
+
+The panel indexes at most 1,024 objects per frame and scans nothing while the
+unused panel is closed. Live identity/revision guards invalidate map iterators.
+GPU previews use at most four 256px uploads/frame, a default 32 MiB payload
+allowance (up to 128 MiB), and at most 4,096 textures. Only complete previews
+are drawn; result/palette/readiness/visibility changes invalidate the canvas
+cache. Context-thread resets happen before the next draw. Numeric results
+remain usable when only the GPU preview budget is exceeded.
+
+Real-window oracles compare visible/hidden framebuffer pixels, an asymmetric
+polygon/hole and more than 300 exact image-space samples. The additive
+`canvas_content_bounds` distinguishes drawable content from docked window bounds;
+viewport origin is a screen translation. `GuiReport` is now publicly exported,
+with typed pixel controller/results/options and native replay targets/readiness.
+Tests also cover scaled/narrow windows, model roundtrips/errors, cancellation,
+image replacement, 16-tile uploads, large catalogs and the inactive panel.
+
+The [100,000-cell real-window sample](benchmarks/gui-pixel-100000-windows.json)
+uses off-screen cells: p95 CPU frame 1.78 ms, maximum 16.44 ms, prediction
+capture 0.0135 ms and 119,040 bytes of GPU mask payload. Every mask label and
+balanced training counts are checked. These single shared-workstation llvmpipe samples
+are not dense visible drawing, biological validation, process RSS or hardware
+acceptance; the worst frame still exceeds 16 ms.
+
+Pixel project/recovery records, contour publication, full-slide streaming,
+viewport-limited prediction, unmatched-grid resampling and expanded features
+remain open, along with TMA, research cohorts, direct QuPath pixel comparisons
+and every remaining M0–M7 acceptance requirement.
+
+The [local artifact record](benchmarks/gui-pixel-local-windows-linux.json) verifies
+1,410 installed passes with six expected skips, 17 focused real-window pixel/
+object cases, 39 Windows GUI native and 38 each Windows headless/Linux training/
+minimal/sanitizer. Exact stubs, strict typing and installed software-GL launch
+pass. Source/native/wheel, benchmark and actual framebuffer identities agree.
+The investigated coordinate/property fixtures and public GuiReport export gap
+are retained in the record; none are hidden behind a green final count.

@@ -1,0 +1,172 @@
+{
+  "schema": "qpx.local-validation/1",
+  "commit": "686a344618a922014637182ca4097b3cf3282e52",
+  "observed_utc": "2026-10-22T22:53:06.334955+00:00",
+  "scope": "Real F5 ImGui pixel training/prediction/model-file panel, bounded annotation catalog, class-colored GL mask preview with generation/readiness/visibility cache invalidation, exact canvas-content coordinates and public GuiReport export. Kernels/records reuse native owner/worker boundaries. Project pixel records, contour publication, streaming/resampling, research/TMA and hardware/frame gates remain open",
+  "python": {
+    "tests": 1416,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1410,
+    "seconds": 518.979,
+    "sha256": "1f1f8a4f1bfa122acfe82edb08c5c78f82e52b66a5144cde9cb72d1657a9ec92"
+  },
+  "focused_gui": {
+    "tests": 17,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 17,
+    "seconds": 36.505,
+    "sha256": "0577e379198e94eebfc5129b0d0c2597370d14d35a1cc6679e837a96445ae45f"
+  },
+  "windows_gui_native": {
+    "tests": 39,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 39,
+    "seconds": 7.0,
+    "sha256": "5b6215ff12d714246ac53418007087be132c98ed387801ebb2f1040e4ba180b3"
+  },
+  "windows_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 8.0,
+    "sha256": "b4ec0a75fbceea5844072102fbc73d650774e23b5cc997ea64c745facc7efc04"
+  },
+  "linux_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 1.0,
+    "sha256": "5b1b60d5b977fd6bb0fd7274d0d4067ec02a20aa1eac04f4e7a0ab430b5a1006"
+  },
+  "linux_minimal": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 0.0,
+    "sha256": "d65c9942a8ec684ab0309f003070388015b51d532e05e17f17ccaca9d5640dbd"
+  },
+  "linux_sanitizer": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 3.0,
+    "sha256": "7e90dc0324dff704f1b35853774273362734691042c6055bfebd4ee970e0df6d"
+  },
+  "distinct_passed_cases": 1410,
+  "additional_focused_cases": [],
+  "workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "3595ac2d4fd7d3867bea106c65b5c0ac04d620c2bc9c55bfbd9e3445c9564bce",
+    "source_tree_sha256": "a93552ebc11283578683ca824dd16cee479ac2194e2feb377a4a4166244ca250",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "a2751a140844f4cc3fc446a4ef72829d5aba2ff6172152212cd7ad282bd2c15f",
+    "bytes": 11884994
+  },
+  "opencv_notices": {
+    "qupathxx/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "qupathxx/licenses/opencv/softfloat-notice.txt": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3",
+    "qupathxx/licenses/opencv/SOURCE-NOTICES.txt": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba",
+    "qupathxx/licenses/opencv/zlib-notice.txt": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+  },
+  "benchmarks": {
+    "gui-pixel-10000-windows.json": {
+      "file_sha256": "8b4808a58c5dd81f50dd1efcbd332754a7cdf1ae1cbf6e4cce3f931097f1276c"
+    },
+    "gui-pixel-100000-windows.json": {
+      "file_sha256": "20d09b03571c4163a820f0f5e61058b9dd9263b0e62214d5ccab7af0601c104a"
+    }
+  },
+  "preview": {
+    "source_tree_sha256": "a93552ebc11283578683ca824dd16cee479ac2194e2feb377a4a4166244ca250",
+    "model_sha256": "dc4e06625d0c6012677b3121b3dce0b4b911c3e7fcb9148d344b1f132393c71d",
+    "prediction_sha256": "473092d62a929fd8fa076b4d5dee7f7d5dd7b3f242a03661c459d3460c592cd8",
+    "classes": [
+      "blue",
+      "red"
+    ],
+    "training_rows": 128,
+    "classified_pixels": 3872,
+    "gpu_bytes": 19712,
+    "framebuffer": [
+      1920,
+      1080
+    ],
+    "ui_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_overflow": 0
+  },
+  "images": {
+    "panel": {
+      "file": "../images/pixel-classifier-panel.png",
+      "sha256": "a5d7c12512703cde37a426cb56992c4c938a9ec99e231a8c58ee28ccb918c3f9"
+    },
+    "mask": {
+      "file": "../images/pixel-classifier-mask.png",
+      "sha256": "b13399ff539e45a85165a67508fe42d8302aa514b10a3069f15b99b7a280a479"
+    }
+  },
+  "checks": {
+    "pixel73-stub-check.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "pixel73-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "pixel73-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "performance_limit": "Single synthetic observation per phase on shared Windows workstation, llvmpipe. 100000 off-screen cells: catalog step cap1024, p95 frame CPU1.78ms, max16.44ms, prediction capture0.0135ms, 119040-byte preview. Not dense visible drawing, source-wide throughput, RSS or biological/hardware acceptance. Worst frame exceeds16ms",
+  "investigated_preliminary_failures": [
+    {
+      "kind": "framebuffer test coordinates",
+      "description": "Viewport origin is a screen translation, and docked-pane bounds do not describe legacy canvas content. The test now uses the actual exported content rectangle and checks an asymmetric polygon/hole against more than300 frame samples.",
+      "log_sha256": "b3ea518ccd5bd2924a0c418262bd612d7be1099e9a096427aae916fa8b574907"
+    },
+    {
+      "kind": "test fixture",
+      "description": "Project active_image is a Python property; the image-switch fixture now uses it.",
+      "log_sha256": "b624d1847c0522dec7c7b3d1408978c843acfaee806f69c9f2febcb92e72c9a7"
+    },
+    {
+      "kind": "public typing gap",
+      "description": "GuiReport was returned by show but absent from the public package exports. It is now publicly exported and strict typing passes."
+    }
+  ],
+  "ci": {
+    "status_at_capture": "not_yet_started"
+  }
+}

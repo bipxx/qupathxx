@@ -73,3 +73,7 @@ context windows, immutable models/results and uint32/float32/uint8 NumPy views.
 The [pixel example](../examples/pixel_classifier.py) trains, saves, reopens and
 predicts a synthetic grid; physical sampling and source authority remain with
 the caller.
+
+The public `GuiReport` includes typed pixel-worker/controller results and the
+logical `canvas_content_bounds` used for image-to-framebuffer mapping. See the
+[F5 pixel desktop contract](pixel-classifier-ui.md).

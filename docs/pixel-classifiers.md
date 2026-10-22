@@ -4,7 +4,8 @@ The C++ and Python APIs extract multiscale pixel features, sample labelled
 ROIs on native workers, train through the optional forest backend, and predict
 source-aware ROI masks using portable saved recipes. See the [runnable example](../examples/pixel_classifier.py)
 and [native contracts](../cpp/include/qupathxx/pixel_classifier.hpp).
-The annotation-driven ImGui pixel panel and project pixel records remain open.
+The [F5 ImGui panel](pixel-classifier-ui.md) now exposes training, model files
+and bounded previews. Project pixel records remain open.
 See the [source-aware example](../examples/pixel_workflow.py).
 
 ## Numeric contract
@@ -265,12 +266,12 @@ forest preset exceeding the work budget; the 32-tree/depth-8 pixel preset now
 trains its 6,000-row cohort successfully. An optional read-only Claude review
 timed out without a result; no independent
 review acceptance is claimed. Hosted [run 39861383111](https://github.com/bipxx/qupathxx/actions/runs/39861383111)
-targets `7a95601`; its result is pending.
+targets `7a95601` and passed all five jobs. The [hosted artifact record](benchmarks/pixel-workflow-ci-windows-linux.json) verifies installed artifacts
+and the sampled-cohort fixture. It precedes the F5 panel/preview increment.
 
 ## Remaining workflow
 
-The ImGui pixel training/prediction panel, bounded overlay upload, contour
-publication, project/recovery pixel records, full-slide streaming outputs,
+Contour publication, project/recovery pixel records, full-slide streaming outputs,
 expanded texture features and resampling between unmatched resolutions remain
 open. Research cohorts and direct QuPath comparisons also remain required.
 Object classifier records do not persist pixel recipes or these training tables.

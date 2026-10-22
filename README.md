@@ -58,8 +58,9 @@ QuPath port or a compatible replacement for Java QuPath.
   controls, retained cohorts/application audits, and project/recovery persistence.
   The [pixel buffer API](docs/pixel-classifiers.md) adds multiscale features,
   portable resolution-bound recipes, labelled-ROI worker training and bounded
-  source-aware label/vote masks. Pixel UI workflows, research validation and
-  large-batch frame budgets remain
+  source-aware label/vote masks. The [F5 pixel panel](docs/pixel-classifier-ui.md)
+  adds worker training, model files and bounded class-colored overlays. Pixel
+  project records, research validation and large-batch frame budgets remain
   unfinished; see also the
   [classifier engine contract](docs/classifier-engine.md).
 
