@@ -1,5 +1,5 @@
 #pragma once
-#include "qupathxx/object_classifier.hpp"
+#include "qupathxx/object_classifier_archive.hpp"
 #include "gui_layout.hpp"
 #include "utf8_text.hpp"
 #include <imgui.h>
@@ -20,11 +20,12 @@ class GuiObjectClassifier {
     bool open_=false,selected_only_=false,unclassified_only_=true,replace_=false,trained_=false,applied_=false;
     double minimum_=.5,capture_ms_=0;
     std::size_t changed_=0;
-    std::uint64_t adopted_=0;
+    std::uint64_t adopted_=0,record_id_=0,selected_record_=0;
+    bool record_loaded_=false,retained_=false;
     std::vector<std::uint64_t> captured_selection_;
     std::string error_,io_state_="idle",io_error_;
     std::array<char,4096> path_{};
-    std::array<Rect,6> targets_{};
+    std::array<Rect,8> targets_{};
     struct IoResult {std::shared_ptr<const ForestModel> model;std::optional<ObjectFeatureOptions> features;std::string error;bool save=false;};
     std::future<IoResult> io_;
     std::atomic<bool> io_cancelled_{false};
@@ -48,7 +49,7 @@ class GuiObjectClassifier {
         return ids;
     }
     void begin(const Document& doc,const ObjectSelection& selection,bool train) {
-        job_.cancel();captured_selection_.clear();applied_=false;changed_=0;
+        job_.cancel();captured_selection_.clear();applied_=false;changed_=0;retained_=false;
         if(train) trained_=false;
         try {
             auto ids=choose(doc,selection,train);if(ids.empty()) throw std::invalid_argument(train?"No labelled objects in the chosen scope":"No prediction targets in the chosen scope");
@@ -73,6 +74,7 @@ class GuiObjectClassifier {
 public:
     explicit GuiObjectClassifier(const GuiOptions& options):features_(options.classifier_features?*options.classifier_features:ObjectFeatureOptions{}),parameters_(options.classifier_parameters?*options.classifier_parameters:ForestParameters{}),
         open_(options.classifier_open),selected_only_(options.classifier_selected_only),unclassified_only_(options.classifier_unclassified_only),replace_(options.classifier_replace_model),minimum_(options.classifier_min_vote_fraction) {
+        selected_record_=options.classifier_record_id;
         if(!options.classifier_parameters) parameters_.max_depth=8;
         features_.validate();parameters_.validate();
         if(!std::isfinite(minimum_) || minimum_<0 || minimum_>1) throw std::invalid_argument("invalid GUI classifier minimum vote fraction");
@@ -91,6 +93,9 @@ public:
     bool trained() const {return trained_ && !job_.busy();}
     bool predicted() const {return stats_.state=="ready" && bool(job_.result());}
     bool applied() const {return applied_;}
+    bool retained() const {return retained_;}
+    bool record_loaded() const {return record_loaded_;}
+    std::uint64_t record_id() const {return record_id_;}
     const std::string& io_state() const {return io_state_;}
     const std::string& io_error() const {return io_error_;}
     std::string error() const {return error_.empty()?stats_.error:error_;}
@@ -139,12 +144,15 @@ public:
         ImGui::EndDisabled();if(changed) changed_settings();
         auto unavailable=[&]{return blocked || !has_image || job_.busy() || io_.valid();};
         if(button("Train from labelled objects",GuiInputTarget::TrainObjectClassifier,unavailable() || !has_classifier_training())) begin(doc,selection,true);
+        if(stats_.state=="ready" && !job_.result() && button("Keep training record in project",GuiInputTarget::KeepClassifierTraining,unavailable())) {
+            try {record_id_=job_.retain_training(doc);selected_record_=record_id_;retained_=true;stats_=job_.poll(doc);error_.clear();}catch(const std::exception& e) {error_=e.what();}
+        }
         if(!has_classifier_training()) ImGui::TextWrapped("Training is unavailable in this build. Load a model to predict.");
         if(button("Predict object classes",GuiInputTarget::PredictObjectClasses,unavailable() || !model_)) begin(doc,selection,false);
         ui::SetNextItemWidth(120);ui::InputDouble("Minimum tree vote fraction",&minimum_,0,0,"%.3f");
         ImGui::TextWrapped("Tree vote fractions are not calibrated probabilities.");
         if(button("Apply predictions (one Undo)",GuiInputTarget::ApplyObjectClasses,unavailable() || !predicted())) {
-            try {changed_=job_.apply(doc,minimum_).size();stats_=job_.poll(doc);applied_=true;error_.clear();}catch(const std::exception& e) {error_=e.what();}
+            try {changed_=job_.apply(doc,minimum_).size();record_id_=doc.revision();stats_=job_.poll(doc);applied_=true;error_.clear();}catch(const std::exception& e) {error_=e.what();}
         }
         if(button("Cancel classifier work",GuiInputTarget::CancelObjectClassifier,!job_.busy() && !io_.valid())) {job_.cancel();io_cancelled_.store(true);applied_=false;}
         if(job_.busy()) ImGui::Text("%s: %llu / %llu feature rows",stats_.phase.c_str(),static_cast<unsigned long long>(stats_.completed_rows),static_cast<unsigned long long>(stats_.total_rows));
@@ -164,6 +172,24 @@ public:
         if(button("Load model",GuiInputTarget::LoadClassifierModel,file_busy || !path_[0])) file(false);
         if(io_state_!="idle") ImGui::Text("Model file: %s",io_state_.c_str());
         if(!io_error_.empty()) ImGui::TextWrapped("%s",io_error_.c_str());
+        if(doc.classifier_record_count() && ImGui::CollapsingHeader("Project classifier records",!model_?ImGuiTreeNodeFlags_DefaultOpen:0)) {
+        const auto records=doc.classifier_records();std::shared_ptr<const ObjectClassifierRecord> selected;
+        for(const auto& r:records) if(r->id==selected_record_) selected=r;
+        if(!selected && !records.empty()) {selected=records.back();selected_record_=selected->id;}
+        if(!records.empty()) {
+            if(ui::BeginCombo("Saved classifier record",selected?selected->name.c_str():"Select record")) {
+                ImGuiListClipper clipper;clipper.Begin(static_cast<int>(records.size()));while(clipper.Step()) for(int i=clipper.DisplayStart;i<clipper.DisplayEnd;++i) {
+                    const auto& record=records[i];ImGui::PushID(static_cast<int>(i));const auto label=record->name+" (#"+std::to_string(record->id)+")";if(ImGui::Selectable(label.c_str(),record->id==selected_record_)) selected_record_=record->id;ImGui::PopID();
+                }ui::EndCombo();
+            }
+            if(selected) ImGui::Text("Record %llu / %s / %zu feature rows",static_cast<unsigned long long>(selected->id),selected->archive->purpose().c_str(),selected->archive->table()->object_ids().size());
+        }
+        if(button("Use saved classifier model",GuiInputTarget::UseClassifierRecord,unavailable() || !selected)) {
+            try {job_.cancel();model_=selected->archive->model();const auto budget=features_.snapshot_bytes;features_=ObjectFeatureOptions::from_model(*model_);features_.snapshot_bytes=budget;record_id_=selected->id;record_loaded_=true;trained_=false;applied_=false;error_.clear();}catch(const std::exception& e) {error_=e.what();}
+        }
+        ImGui::TextWrapped("Applied predictions keep an audit record. Undo restores labels and keeps the record.");
+        }
+
         if(auto result=job_.result()) {
             const auto& ids=result->table()->object_ids();const auto& predictions=result->predictions();
             ImGui::Text("Preview: %zu objects; snapshot %.3f ms",ids.size(),capture_ms_);

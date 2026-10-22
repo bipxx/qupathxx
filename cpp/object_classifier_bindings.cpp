@@ -1,10 +1,11 @@
-#include "qupathxx/object_classifier.hpp"
+#include "qupathxx/object_classifier_archive.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/ndarray.h>
 #include <nanobind/stl/shared_ptr.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
 #include <nanobind/stl/pair.h>
+void bind_object_classifier_archives(nanobind::module_&);
 namespace nb=nanobind;using namespace nb::literals;
 void bind_object_classifiers(nb::module_& m) {
     using namespace qpx;
@@ -50,15 +51,17 @@ void bind_object_classifiers(nb::module_& m) {
         .def("poll",&ObjectClassifierJob::poll,"document"_a).def("wait",&ObjectClassifierJob::wait,"document"_a,nb::call_guard<nb::gil_scoped_release>())
         .def("cancel",&ObjectClassifierJob::cancel).def_prop_ro("busy",&ObjectClassifierJob::busy)
         .def_prop_ro("model",&ObjectClassifierJob::model).def_prop_ro("table",&ObjectClassifierJob::table).def_prop_ro("result",&ObjectClassifierJob::result)
-        .def("apply",&ObjectClassifierJob::apply,"document"_a,"min_vote_fraction"_a=0);
+        .def("apply",&ObjectClassifierJob::apply,"document"_a,"min_vote_fraction"_a=0,"retain_record"_a=true)
+        .def_prop_ro("archive",&ObjectClassifierJob::archive).def("retain_training",&ObjectClassifierJob::retain_training,"document"_a,"name"_a="Object classifier training");
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
         .def_rw("classifier_open",&GuiOptions::classifier_open).def_rw("classifier_selected_only",&GuiOptions::classifier_selected_only)
         .def_rw("classifier_unclassified_only",&GuiOptions::classifier_unclassified_only).def_rw("classifier_replace_model",&GuiOptions::classifier_replace_model)
         .def_rw("classifier_min_vote_fraction",&GuiOptions::classifier_min_vote_fraction).def_rw("classifier_model_path",&GuiOptions::classifier_model_path)
-        .def_rw("classifier_features",&GuiOptions::classifier_features).def_rw("classifier_parameters",&GuiOptions::classifier_parameters).def_rw("classifier_model",&GuiOptions::classifier_model);
+        .def_rw("classifier_features",&GuiOptions::classifier_features).def_rw("classifier_parameters",&GuiOptions::classifier_parameters).def_rw("classifier_model",&GuiOptions::classifier_model).def_rw("classifier_record_id",&GuiOptions::classifier_record_id);
     nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport"))
         .def_ro("classifier_state",&GuiReport::classifier_state).def_ro("classifier_error",&GuiReport::classifier_error)
         .def_ro("classifier_io_state",&GuiReport::classifier_io_state).def_ro("classifier_io_error",&GuiReport::classifier_io_error)
         .def_ro("classifier_model",&GuiReport::classifier_model).def_ro("classifier_result",&GuiReport::classifier_result)
-        .def_ro("classified_objects",&GuiReport::classified_objects).def_ro("classifier_capture_ms",&GuiReport::classifier_capture_ms);
+        .def_ro("classified_objects",&GuiReport::classified_objects).def_ro("classifier_capture_ms",&GuiReport::classifier_capture_ms).def_ro("classifier_record_id",&GuiReport::classifier_record_id);
+    bind_object_classifier_archives(m);
 }

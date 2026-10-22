@@ -107,3 +107,34 @@ def test_unknown_model_file_never_replaces_current_model(tmp_path):
     assert report.classifier_model.sha256 == model.sha256
     assert path.read_bytes() == b'not a classifier'
     assert all(not doc.annotation(i).class_name for i in ids[-2:])
+
+
+def test_real_window_retains_training_and_reuses_model_from_reopened_project(tmp_path):
+    if not q.has_classifier_training or not q.has_project:
+        pytest.skip('requires training and project storage')
+    doc, ids = workspace()
+    project = q.Project(); image = project.add_document(doc, 'Classifier study')
+    options = q.GuiOptions(); options.classifier_open = True
+    options.autosave_interval_seconds = 0; options.classifier_parameters = parameters()
+    options.inputs = [*click(4, q.GuiInputTarget.CLASSIFIER_TRAIN), ready(8, q.GuiInputWait.CLASSIFIER_TRAINED),
+                      *click(12, q.GuiInputTarget.CLASSIFIER_KEEP_TRAINING), ready(16, q.GuiInputWait.CLASSIFIER_TRAINING_RETAINED),
+                      *click(20, q.GuiInputTarget.CLASSIFIER_PREDICT), ready(24, q.GuiInputWait.CLASSIFIER_PREDICTED),
+                      *click(28, q.GuiInputTarget.CLASSIFIER_APPLY), ready(32, q.GuiInputWait.CLASSIFIER_APPLIED)]
+    report = q.show(project, frame_limit=65, options=options)
+    assert not report.classifier_error and doc.classifier_record_count == 2
+    training, applied = doc.classifier_records
+    assert training.archive.purpose == 'training' and applied.applied
+    assert report.classifier_record_id == applied.id and applied.changed_objects == ids[-2:]
+    assert doc.undo() and all(doc.annotation(i).class_name == '' for i in ids[-2:])
+    path = tmp_path/'classifier-study.qpxproj'; project.save(str(path))
+    reopened = q.Project.open(str(path)); current = reopened.document(image)
+    reused = q.GuiOptions(); reused.classifier_open = True
+    reused.width, reused.height, reused.ui_scale = 960, 720, 1.25
+    reused.autosave_interval_seconds = 0; reused.classifier_record_id = training.id
+    reused.inputs = [*click(4, q.GuiInputTarget.CLASSIFIER_USE_RECORD), ready(8, q.GuiInputWait.CLASSIFIER_RECORD_LOADED),
+                     *click(12, q.GuiInputTarget.CLASSIFIER_PREDICT), ready(16, q.GuiInputWait.CLASSIFIER_PREDICTED),
+                     *click(20, q.GuiInputTarget.CLASSIFIER_APPLY), ready(24, q.GuiInputWait.CLASSIFIER_APPLIED)]
+    second = q.show(reopened, frame_limit=65, options=reused)
+    assert not second.classifier_error and second.classifier_model.sha256 == training.archive.model.sha256
+    assert second.classified_objects == 2 and current.classifier_record_count == 3
+    assert report.ui_overflow_items == second.ui_overflow_items == 0

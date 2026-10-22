@@ -85,7 +85,7 @@ def test_all_three_archives_preserve_capture_facts_after_save_reopen_and_recheck
     assert values[2].nuclei.provenance is values[2].cells.provenance
     doc.set_calibration(7,8);project=q.Project();image=project.add_document(doc);path=tmp_path/"history.qpxproj";project.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0]==7 and db.execute("SELECT count(*) FROM analysis_provenance").fetchone()[0]==3
+        assert db.execute("PRAGMA user_version").fetchone()[0]== 8 and db.execute("SELECT count(*) FROM analysis_provenance").fetchone()[0]==3
     restored=q.Project.open(str(path)).document(image)
     observed=[restored.analysis_record(ids[0]).result.provenance,restored.tissue_record(ids[1]).result.provenance,restored.cell_record(ids[2]).result.nuclei.provenance]
     assert [q.provenance_json(p) for p in observed]==expected and restored.pixel_width_um==7
@@ -103,7 +103,7 @@ def test_all_three_archives_preserve_capture_facts_after_save_reopen_and_recheck
 def test_schema6_legacy_archives_remain_explicitly_unknown_and_migrate_transactionally(tmp_path):
     doc,_,ids,_=results();project=q.Project();image=project.add_document(doc);path=tmp_path/"legacy.qpxproj";project.save(str(path))
     with sqlite3.connect(path) as db:
-        db.execute("DROP TABLE analysis_provenance");db.execute("PRAGMA user_version=6")
+        db.execute("DROP TABLE classifier_records");db.execute("DROP TABLE analysis_provenance");db.execute("PRAGMA user_version=6")
         db.execute("CREATE TRIGGER fail_provenance BEFORE INSERT ON objects BEGIN SELECT RAISE(ABORT,'injected provenance migration'); END")
     loaded=q.Project.open(str(path));legacy=loaded.document(image)
     assert legacy.analysis_record(ids[0]).result.provenance is None and legacy.tissue_record(ids[1]).result.provenance is None and legacy.cell_record(ids[2]).result.nuclei.provenance is None
@@ -115,7 +115,7 @@ def test_schema6_legacy_archives_remain_explicitly_unknown_and_migrate_transacti
         assert not db.execute("SELECT count(*) FROM sqlite_schema WHERE name='analysis_provenance'").fetchone()[0]
         db.execute("DROP TRIGGER fail_provenance")
     loaded.save(str(path))
-    with sqlite3.connect(path) as db:assert db.execute("PRAGMA user_version").fetchone()[0]==7 and db.execute("SELECT count(*) FROM analysis_provenance").fetchone()[0]==0
+    with sqlite3.connect(path) as db:assert db.execute("PRAGMA user_version").fetchone()[0]== 8 and db.execute("SELECT count(*) FROM analysis_provenance").fetchone()[0]==0
 
 
 @pytest.mark.skipif(not q.has_project,reason="project storage")

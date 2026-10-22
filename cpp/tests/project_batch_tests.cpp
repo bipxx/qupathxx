@@ -1,5 +1,7 @@
 #include "qupathxx/project_batch.hpp"
 #include "qupathxx/input_digest.hpp"
+#include "qupathxx/object_classifier_archive.hpp"
+#include "object_forest_fixture.hpp"
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -18,11 +20,15 @@ int main() {
         CellRequest cr(*doc,object,t);check(input_sha256(cr)==detect_cells(cr)->nuclei()->input_sha256());
         Project p;const auto image=p.add_document(doc,"quoted, image\nname");
         if(!has_project()) {rejects([&]{ProjectBatchRequest r(p,t);});fs::remove_all(root);return 0;}
+        ObjectClassifierJob classifier;const auto model=ForestModel::from_bytes(qpx_test::object_forest_fixture());
+        check(classifier.predict(ObjectFeatureRequest(*doc,{object}),model) && classifier.wait(*doc).state=="ready");classifier.apply(*doc);
+        const auto audit=doc->classifier_records().back();
         const ProjectBatchRequest captured(p,t);check(captured.image_count()==1 && captured.object_count()==1);
         doc->rename_annotation(object,"later");
         auto r=run_project_batch(captured,(root/"roi").u8string());if(r.state!="succeeded") throw std::runtime_error(r.error+(r.images.empty()?"":r.images[0].error));
         check(r.saved==1 && r.images[0].records==1 && doc->analysis_records().empty());
         auto restored=Project::open(r.images[0].path);check(restored->document(image)->annotation(object).name!="later" && restored->document(image)->analysis_records().size()==1);
+        check(restored->document(image)->classifier_record_count()==1 && restored->document(image)->classifier_record(audit->id)->archive->sha256()==audit->archive->sha256());
         const auto csv=batch_checkpoint_csv(r.images[0].path);check(csv.find("batch_image_name")!=std::string::npos && csv.find("quoted, image\nname")!=std::string::npos);
         save_batch_checkpoint_csv(r.images[0].path,(root/"measurements.csv").u8string());
         rejects([&]{save_batch_checkpoint_csv(r.images[0].path,r.images[0].path);});

@@ -4,6 +4,12 @@
 #include "qupathxx/provenance.hpp"
 
 namespace qpx {
+struct ObjectCellFeatureSource;
+struct ObjectFeatureCellOrigin {
+    std::uint64_t record_id=0;
+    std::uint32_t label=0;
+    std::shared_ptr<const ObjectCellFeatureSource> source;
+};
 struct ObjectFeatureOptions {
     bool calibrated=true, nucleus_shape=false, cell_rgb=false, cytoplasm_rgb=false;
     std::size_t snapshot_bytes=64*1024*1024;
@@ -29,8 +35,10 @@ private:
     std::shared_ptr<ImageServer> source_; // Retired on the controller thread.
     friend struct ObjectClassifierKernel;
     friend class ObjectFeatureTable;
+    friend class Document;
+    friend struct ObjectClassifierArchiveCodec;
 };
-class ObjectFeatureTable {
+class ObjectFeatureTable : public std::enable_shared_from_this<ObjectFeatureTable> {
 public:
     const std::vector<std::uint64_t>& object_ids() const {return ids_;}
     const std::vector<std::uint64_t>& object_revisions() const {return revisions_;}
@@ -41,6 +49,10 @@ public:
     const std::vector<float>& values() const {return values_;}
     const std::string& sha256() const {return digest_;}
     const std::shared_ptr<const AnalysisProvenance>& source_anchor() const {return anchor_;}
+    const Roi& body_roi(std::size_t row) const;
+    std::optional<Roi> nucleus_roi(std::size_t row) const;
+    std::optional<ObjectFeatureCellOrigin> cell_origin(std::size_t row) const;
+    std::optional<CellFeature> cell_feature(std::size_t row) const;
 private:
     ObjectFeatureTable()=default;
     std::shared_ptr<const ObjectFeatureRequest::Data> snapshot_;
@@ -52,11 +64,13 @@ private:
     std::string digest_;
     std::shared_ptr<const AnalysisProvenance> anchor_;
     friend struct ObjectClassifierKernel;
+    friend class Document;
+    friend struct ObjectClassifierArchiveCodec;
 };
 std::shared_ptr<const ObjectFeatureTable> extract_object_features(const ObjectFeatureRequest&,const std::atomic<bool>* cancelled=nullptr);
 ForestModel train_object_forest(const ObjectFeatureTable&,ForestParameters={},const std::atomic<bool>* cancelled=nullptr);
 
-class ObjectClassificationResult {
+class ObjectClassificationResult : public std::enable_shared_from_this<ObjectClassificationResult> {
 public:
     const std::shared_ptr<const ObjectFeatureTable>& table() const {return table_;}
     const std::shared_ptr<const ForestModel>& model() const {return model_;}
@@ -71,6 +85,7 @@ private:
     std::string model_sha256_;
     double elapsed_ms_=0;
     friend struct ObjectClassifierKernel;
+    friend struct ObjectClassifierArchiveCodec;
 };
 std::shared_ptr<const ObjectClassificationResult> classify_objects(const ObjectFeatureRequest&,const ForestModel&,const std::atomic<bool>* cancelled=nullptr);
 // One compound class edit, preserving names, geometry, hierarchy and cell links.
@@ -94,7 +109,9 @@ public:
     std::shared_ptr<const ForestModel> model() const;
     std::shared_ptr<const ObjectFeatureTable> table() const;
     std::shared_ptr<const ObjectClassificationResult> result() const;
-    std::vector<std::uint64_t> apply(Document&,double min_vote_fraction=0);
+    std::shared_ptr<const ObjectClassifierArchive> archive() const;
+    std::uint64_t retain_training(Document&,std::string name="Object classifier training");
+    std::vector<std::uint64_t> apply(Document&,double min_vote_fraction=0,bool retain_record=true);
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
 };

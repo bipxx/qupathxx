@@ -23,6 +23,9 @@ struct ObjectFeatureOptions;
 struct ForestParameters;
 class ForestModel;
 class ObjectClassificationResult;
+class ObjectClassifierArchive;
+class ObjectFeatureRequest;
+struct ObjectClassifierRecord;
 struct CellParameters;
 struct ProjectBatchOptions;
 struct ProjectBatchReport;
@@ -196,9 +199,15 @@ public:
     std::string cell_object_status(std::uint64_t object_id) const;
     bool verify_cells(std::uint64_t id,const CellRequest&,const CellResult&);
     bool remove_cells(std::uint64_t id);
+    std::vector<std::shared_ptr<const ObjectClassifierRecord>> classifier_records() const;
+    std::shared_ptr<const ObjectClassifierRecord> classifier_record(std::uint64_t id) const;
+    std::size_t classifier_record_count() const {return classifiers_.size()+classifiers_snapshot_.size();}
+    std::uint64_t keep_classifier_training(const ObjectFeatureRequest&,std::shared_ptr<const ObjectClassifierArchive>,std::string name="Object classifier training");
+    bool remove_classifier_record(std::uint64_t id);
 private:
     friend struct ProjectBatchKernel;
     friend class Project;
+    friend struct ObjectClassifierKernel;
     friend class AnalysisRequest;
     // Copies/assignments are independent live authorities, including when a
     // copied document happens to share its immutable image source and IDs.
@@ -277,6 +286,10 @@ private:
     std::vector<std::shared_ptr<const CellRecord>> cells_snapshot_;
     std::size_t cells_bytes_=0;
     void restore_cells(std::shared_ptr<const CellRecord>);
+    std::map<std::uint64_t,std::shared_ptr<const ObjectClassifierRecord>> classifiers_;
+    std::vector<std::shared_ptr<const ObjectClassifierRecord>> classifiers_snapshot_;
+    std::size_t classifiers_bytes_=0;
+    void restore_classifier(std::shared_ptr<const ObjectClassifierRecord>);
     Document() = default; // Project's private save snapshots populate canonical fields only.
     static std::shared_ptr<Document> restore(std::shared_ptr<ImageServer> server,
         const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
@@ -502,10 +515,11 @@ struct GuiReport {
     std::shared_ptr<const ObjectClassificationResult> classifier_result;
     std::size_t classified_objects=0;
     double classifier_capture_ms=0;
+    std::uint64_t classifier_record_id=0;
 };
 enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey, TraceTissueKey, KeepTissueContoursKey, KeepTissueKey, RecheckTissueKey, DetectCellsKey, KeepCellsKey, CancelCellsKey, KeepCellRunKey, RecheckCellRunKey, ExportCellTableKey, CancelCellTableKey, FingerprintFileKey, CancelFingerprintFileKey, ExportMeasurementTableKey, CancelMeasurementTableKey, EstimateStainsKey, ApplyStainEstimateKey, CancelStainEstimateKey, RunBatchKey, CancelBatchKey, ResizeWindow, MinimizeWindow, RestoreWindow, SetUiScale, ObjectClassifierKey };
-enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel };
-enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified, CellsReady, CellsPublished, CellsArchived, CellsVerified, CellTableSaved, FileFingerprintReady, MeasurementTableSaved, StainsEstimated, StainsApplied, BatchFinished, WindowReady, ObjectClassifierTrained, ObjectClassifierPredicted, ObjectClassifierApplied, ClassifierModelSaved, ClassifierModelLoaded };
+enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord };
+enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified, CellsReady, CellsPublished, CellsArchived, CellsVerified, CellTableSaved, FileFingerprintReady, MeasurementTableSaved, StainsEstimated, StainsApplied, BatchFinished, WindowReady, ObjectClassifierTrained, ObjectClassifierPredicted, ObjectClassifierApplied, ClassifierModelSaved, ClassifierModelLoaded, ClassifierTrainingRetained, ClassifierRecordLoaded };
 struct GuiInput {
     int frame = 0;
     GuiInputKind kind = GuiInputKind::Move;
@@ -575,6 +589,7 @@ struct GuiOptions {
     bool classifier_replace_model=false;
     double classifier_min_vote_fraction=.5;
     std::string classifier_model_path;
+    std::uint64_t classifier_record_id=0;
     std::shared_ptr<const ObjectFeatureOptions> classifier_features;
     std::shared_ptr<const ForestParameters> classifier_parameters;
     std::shared_ptr<const ForestModel> classifier_model;

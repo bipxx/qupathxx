@@ -141,3 +141,13 @@ def object_classifier_job(doc: q.Document, ids: list[int]) -> str:
     options.classifier_model=model
     options.classifier_features=q.ObjectFeatureOptions.from_model(model)
     return model.sha256
+
+
+def classifier_audit(document: q.Document, job: q.ObjectClassifierJob) -> q.ForestModel | None:
+    artifact: q.ObjectClassifierArchive | None = job.archive
+    if artifact is None:
+        return None
+    record_id: int = job.retain_training(document, name="Reviewed training cohort")
+    record: q.ObjectClassifierRecord = document.classifier_record(record_id)
+    model: q.ForestModel = record.archive.model
+    return model

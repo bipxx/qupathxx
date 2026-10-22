@@ -30,8 +30,10 @@ def main():
             if 'def labels_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint32]:')
             if current=='ObjectFeatureTable' and 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
             if current=='ObjectClassifierJob':
-                for name in ['ForestModel','ObjectFeatureTable','ObjectClassificationResult']:
+                for name in ['ForestModel','ObjectFeatureTable','ObjectClassificationResult','ObjectClassifierArchive']:
                     line=line.replace('-> '+name+':','-> '+name+' | None:')
+            if current=='ObjectClassifierArchive':line=line.replace('-> ObjectClassificationResult:', '-> ObjectClassificationResult | None:')
+            if current=='ObjectCellFeatureSource':line=line.replace('-> AnalysisProvenance:', '-> AnalysisProvenance | None:')
             if current in ('GuiOptions','GuiReport') and 'def classifier_' in line:
                 for name in ['ForestModel','ObjectFeatureOptions','ForestParameters','ObjectClassificationResult']:
                     line=line.replace('-> '+name+':','-> '+name+' | None:').replace('arg: '+name+',','arg: '+name+' | None,')

@@ -42,7 +42,7 @@ void Document::restore_analysis(AnalysisRecord record) {
     const auto bytes=record.payload_bytes();
     if(analysis_.size()>=100000 || bytes>256u*1024u*1024u-analysis_bytes_) throw std::length_error("analysis archive exceeds its 100000-record/256 MiB limit");
     const auto key=std::make_pair(record.result.object_id,record.id); const auto id=record.id;
-    if(analysis_.count(id) || tissue_.count(id) || cells_.count(id)) throw std::invalid_argument("duplicate analysis record ID");
+    if(analysis_.count(id) || tissue_.count(id) || cells_.count(id) || classifiers_.count(id)) throw std::invalid_argument("duplicate analysis record ID");
     auto immutable=std::make_shared<const AnalysisRecord>(std::move(record));
     const bool reuse=!analysis_free_slots_.empty();
     const auto slot=reuse?analysis_free_slots_.back():analysis_next_slot_;

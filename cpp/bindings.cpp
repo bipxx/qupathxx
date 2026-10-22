@@ -303,14 +303,16 @@ NB_MODULE(_native, m) {
         .value("SAVE_CLOSE",GuiInputTarget::SaveClose).value("SAVE_RECOVERY_REPLACEMENT",GuiInputTarget::SaveRecoveryReplacement).value("CANCEL_RECOVERY_REPLACEMENT",GuiInputTarget::CancelRecoveryReplacement).value("CANCEL_PROJECT_LOAD",GuiInputTarget::CancelProjectLoad).value("CONFIRM_REMOVE_IMAGE",GuiInputTarget::ConfirmRemoveImage).value("CANCEL_REMOVE_IMAGE",GuiInputTarget::CancelRemoveImage).value("CONFIRM_DISCARD_CHECKPOINT",GuiInputTarget::ConfirmDiscardCheckpoint).value("CANCEL_DISCARD_CHECKPOINT",GuiInputTarget::CancelDiscardCheckpoint).value("WINDOW",GuiInputTarget::Window).value("RESET_LAYOUT",GuiInputTarget::ResetLayout).value("SAVE_PROJECT",GuiInputTarget::SaveProject)
         .value("CLASSIFIER_TRAIN",GuiInputTarget::TrainObjectClassifier).value("CLASSIFIER_PREDICT",GuiInputTarget::PredictObjectClasses)
         .value("CLASSIFIER_APPLY",GuiInputTarget::ApplyObjectClasses).value("CLASSIFIER_CANCEL",GuiInputTarget::CancelObjectClassifier)
-        .value("CLASSIFIER_SAVE_MODEL",GuiInputTarget::SaveClassifierModel).value("CLASSIFIER_LOAD_MODEL",GuiInputTarget::LoadClassifierModel);
+        .value("CLASSIFIER_SAVE_MODEL",GuiInputTarget::SaveClassifierModel).value("CLASSIFIER_LOAD_MODEL",GuiInputTarget::LoadClassifierModel)
+        .value("CLASSIFIER_KEEP_TRAINING",GuiInputTarget::KeepClassifierTraining).value("CLASSIFIER_USE_RECORD",GuiInputTarget::UseClassifierRecord);
     nb::enum_<GuiInputWait>(m,"GuiInputWait").value("IMMEDIATE",GuiInputWait::Immediate).value("TARGET_READY",GuiInputWait::TargetReady).value("STARTUP_FINISHED",GuiInputWait::StartupFinished)
         .value("TISSUE_READY",GuiInputWait::TissueReady).value("TISSUE_CONTOURS_READY",GuiInputWait::TissueContoursReady).value("TISSUE_CONTOURS_PUBLISHED",GuiInputWait::TissueContoursPublished)
         .value("TISSUE_ARCHIVED",GuiInputWait::TissueArchived).value("TISSUE_VERIFIED",GuiInputWait::TissueVerified)
         .value("CELLS_READY",GuiInputWait::CellsReady).value("CELLS_PUBLISHED",GuiInputWait::CellsPublished)
         .value("CELLS_ARCHIVED",GuiInputWait::CellsArchived).value("CELLS_VERIFIED",GuiInputWait::CellsVerified).value("CELL_TABLE_SAVED",GuiInputWait::CellTableSaved).value("FILE_FINGERPRINT_READY",GuiInputWait::FileFingerprintReady).value("MEASUREMENT_TABLE_SAVED",GuiInputWait::MeasurementTableSaved).value("STAINS_ESTIMATED",GuiInputWait::StainsEstimated).value("STAINS_APPLIED",GuiInputWait::StainsApplied).value("BATCH_FINISHED",GuiInputWait::BatchFinished).value("WINDOW_READY",GuiInputWait::WindowReady)
         .value("CLASSIFIER_TRAINED",GuiInputWait::ObjectClassifierTrained).value("CLASSIFIER_PREDICTED",GuiInputWait::ObjectClassifierPredicted)
-        .value("CLASSIFIER_APPLIED",GuiInputWait::ObjectClassifierApplied).value("CLASSIFIER_MODEL_SAVED",GuiInputWait::ClassifierModelSaved).value("CLASSIFIER_MODEL_LOADED",GuiInputWait::ClassifierModelLoaded);
+        .value("CLASSIFIER_APPLIED",GuiInputWait::ObjectClassifierApplied).value("CLASSIFIER_MODEL_SAVED",GuiInputWait::ClassifierModelSaved).value("CLASSIFIER_MODEL_LOADED",GuiInputWait::ClassifierModelLoaded)
+        .value("CLASSIFIER_TRAINING_RETAINED",GuiInputWait::ClassifierTrainingRetained).value("CLASSIFIER_RECORD_LOADED",GuiInputWait::ClassifierRecordLoaded);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift).def_rw("wait_for",&GuiInput::wait_for);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>())

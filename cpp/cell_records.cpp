@@ -36,7 +36,7 @@ void Document::restore_cells(std::shared_ptr<const CellRecord> record) {
     const auto bytes=record->payload_bytes();
     if(cells_.size()>=10000 || bytes>256u*1024u*1024u-cells_bytes_) throw std::length_error("cell archive exceeds its 10000-record/256 MiB limit");
     const auto id=record->id;const auto key=std::make_pair(record->result->nuclei()->object_id(),id);
-    if(cells_.count(id) || tissue_.count(id) || analysis_.count(id)) throw std::invalid_argument("duplicate cell record ID");
+    if(cells_.count(id) || tissue_.count(id) || analysis_.count(id) || classifiers_.count(id)) throw std::invalid_argument("duplicate cell record ID");
     cells_by_object_.emplace(key,true);
     try {cells_.emplace(id,StoredCells{std::move(record),{},{},false});} catch(...) {cells_by_object_.erase(key);throw;}
     cells_bytes_+=bytes;

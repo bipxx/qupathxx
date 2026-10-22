@@ -1,4 +1,7 @@
-#include "qupathxx/object_classifier.hpp"
+#include "qupathxx/object_classifier_archive.hpp"
+#include "../object_classifier_archive.hpp"
+#include "../sha256.hpp"
+#include "object_forest_fixture.hpp"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -52,9 +55,41 @@ int main() {try {
     rejects([&]{ObjectFeatureRequest bad(doc,{});});
     Document independent=doc;check(!request.matches(independent));
     std::atomic<bool> cancelled{true};rejects([&]{extract_object_features(request,&cancelled);});
+    {
+        auto model=ForestModel::from_bytes(qpx_test::object_forest_fixture());auto result=classify_objects(request,model);
+        auto archive=archive_object_classifier(result->table(),model,result);
+        ObjectClassifierRecord record;record.id=doc.revision()+1;record.name="Prediction audit";record.archive=archive;
+        const auto bytes=ObjectClassifierArchiveCodec::encode(record,nullptr);
+        auto restored=ObjectClassifierArchiveCodec::decode(bytes.data(),bytes.size(),doc.metadata(),nullptr);
+        check(restored->archive->sha256()==archive->sha256() && restored->archive->model()->sha256()==model.sha256() && restored->archive->table()->sha256()==table->sha256());
+        check(restored->archive->result()->predictions()[0].votes==result->predictions()[0].votes && restored->archive->table()->body_roi(0).equals(doc.annotation(ids[0]).geometry));
+        check(!restored->archive->table()->cell_origin(0) && !restored->archive->table()->cell_feature(0));
+        for(const auto length:std::vector<std::size_t>{0,1,4,67,bytes.size()-1}) rejects([&]{ObjectClassifierArchiveCodec::decode(bytes.data(),length,doc.metadata(),nullptr);});
+        auto corrupt=bytes;corrupt.back()^=1;rejects([&]{ObjectClassifierArchiveCodec::decode(corrupt.data(),corrupt.size(),doc.metadata(),nullptr);});
+        corrupt=bytes;for(int i=0;i<8;++i) corrupt[4+i]=0;Sha256 checksum;checksum.update(corrupt.data(),corrupt.size()-64);const auto hash=checksum.finish();std::copy(hash.begin(),hash.end(),corrupt.end()-64);
+        rejects([&]{ObjectClassifierArchiveCodec::decode(corrupt.data(),corrupt.size(),doc.metadata(),nullptr);});
+        rejects([&]{ObjectClassifierArchiveCodec::encode(record,&cancelled);});rejects([&]{ObjectClassifierArchiveCodec::decode(bytes.data(),bytes.size(),doc.metadata(),&cancelled);});
+        ObjectClassifierJob publication;check(publication.predict(request,model) && publication.wait(doc).state=="ready" && publication.archive());
+        const auto before=doc.revision();const auto changed=publication.apply(doc);check(changed.size()==8 && doc.revision()==before+1 && doc.classifier_record_count()==1);
+        const auto audit=doc.classifier_records().back();check(audit->id==doc.revision() && audit->applied && audit->changed_objects==changed);
+        check(doc.undo() && doc.annotation(ids[0]).class_name=="small" && doc.classifier_record_count()==1);
+        check(doc.redo() && doc.annotation(ids[0]).class_name=="B");check(doc.undo());
+        check(doc.remove_classifier_record(audit->id) && !doc.remove_classifier_record(audit->id));
+        // These mutations retire the original request, preserving strict authority.
+        request=ObjectFeatureRequest(doc,ids);table=extract_object_features(request);
+    }
     if(has_classifier_training()) {
         ForestParameters p;p.trees=24;p.max_depth=4;
         auto model=train_object_forest(*table,p);check(model.training_rows()==6 && model.classes()==std::vector<std::string>({"large","small"}));
+        {
+            Document retained=doc;ObjectFeatureRequest training_request(retained,ids);ObjectClassifierJob training;
+            check(training.train(training_request,p) && training.wait(retained).state=="ready" && training.archive());
+            const auto archive=training.archive();const auto id=training.retain_training(retained,"Training cohort");
+            check(training.poll(retained).state=="retained" && retained.classifier_record(id)->archive==archive);
+            const auto bytes=ObjectClassifierArchiveCodec::encode(*retained.classifier_record(id),nullptr);
+            check(ObjectClassifierArchiveCodec::decode(bytes.data(),bytes.size(),retained.metadata(),nullptr)->archive->sha256()==archive->sha256());
+            rejects([&]{retained.keep_classifier_training(training_request,archive);});
+        }
         auto result=classify_objects(request,model);check(result->predictions().size()==8 && result->model_sha256()==model.sha256());
         const auto saved=doc.annotation(ids[6]);const auto revision=doc.revision();doc.clear_history();
         auto changed=apply_object_classification(doc,request,*result);check(changed==std::vector<std::uint64_t>({ids[6],ids[7]}) && doc.revision()==revision+1);
@@ -68,6 +103,19 @@ int main() {try {
         check(job.predict(current,model));doc.rename_annotation(ids[0],"Changed");check(job.wait(doc).state=="stale" && !job.result());
         auto fresh=ObjectFeatureRequest(doc,ids);check(job.predict(fresh,model));check(job.wait(doc).state=="ready");job.apply(doc);check(job.poll(doc).state=="applied");rejects([&]{job.apply(doc);});
         auto no_labels=ObjectFeatureRequest(doc,{ids[0]});rejects([&]{train_object_forest(*extract_object_features(no_labels),p);});
+    }
+    if(has_geos()) {
+        Document rgb(Image(16,16,std::vector<std::uint8_t>(16*16*3,0)));const auto parent=rgb.add_rectangle({0,0,16,16});
+        CellParameters parameters;parameters.sigma=0;parameters.min_nucleus_pixels=1;parameters.min_seed_distance=0;parameters.cell_expansion=1;
+        CellRequest request(rgb,parent,StainTransform({{1,0,0},{0,1,0}}),parameters);const auto detected=detect_cells(request);const auto cells=rgb.publish_cells(request,detected);
+        ObjectFeatureOptions options;options.cell_rgb=true;const auto features=ObjectFeatureRequest(rgb,cells,options);const auto table=extract_object_features(features);
+        std::vector<std::pair<std::string,std::string>> schema;for(const auto& f:table->features()) schema.emplace_back(f.name,f.unit);
+        const auto model=ForestModel::from_bytes(qpx_test::object_forest_fixture(schema));const auto result=classify_objects(features,model);
+        const auto archive=archive_object_classifier(result->table(),model,result);ObjectClassifierRecord record;record.id=rgb.revision()+1;record.name="Cell measurements";record.archive=archive;
+        const auto bytes=ObjectClassifierArchiveCodec::encode(record,nullptr);const auto restored=ObjectClassifierArchiveCodec::decode(bytes.data(),bytes.size(),rgb.metadata(),nullptr);
+        const auto origin=restored->archive->table()->cell_origin(0);check(origin && origin->source->object_id==parent && origin->source->input_sha256==detected->nuclei()->input_sha256());
+        check(restored->archive->sha256()==archive->sha256() && restored->archive->table()->nucleus_roi(0));
+        check(restored->archive->table()->cell_feature(0)->cell_rgb==detected->features()[0].cell_rgb);
     }
     const auto cell=doc.add_cell(Roi::rectangle({20,100,4,4}),Roi::rectangle({21,101,2,2}));doc.set_calibration(2,.5);
     ObjectFeatureOptions options;options.nucleus_shape=true;

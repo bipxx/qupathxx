@@ -1,4 +1,5 @@
 #include "batch_checkpoint.hpp"
+#include "project_schema.hpp"
 #include "qupathxx/project_batch.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
@@ -30,7 +31,10 @@ void bytes(Sha256& h,const void* data,std::size_t size,const std::atomic<bool>* 
 void text(Sha256& h,const std::string& s,const std::atomic<bool>* c) {h.integer(s.size());bytes(h,s.data(),s.size(),c);}
 std::string data_digest(sqlite3* db,const std::atomic<bool>* c) {
     Sha256 hash;const std::string tag="qpx.batch-data/1";hash.update(tag.data(),tag.size());
-    for(const auto& spec:std::vector<std::pair<std::string,std::string>>{{"project","identity"},{"images","id"},{"levels","image_id,ordinal"},{"classes","image_id,name"},{"objects","image_id,id"},{"views","image_id"},{"analysis_records","image_id,id"},{"tissue_records","image_id,id"},{"cell_records","image_id,id"},{"cell_feature_links","image_id,object_id"},{"analysis_provenance","image_id,record_id"}}) {
+    std::vector<std::pair<std::string,std::string>> tables={{"project","identity"},{"images","id"},{"levels","image_id,ordinal"},{"classes","image_id,name"},{"objects","image_id,id"},{"views","image_id"},{"analysis_records","image_id,id"},{"tissue_records","image_id,id"},{"cell_records","image_id,id"},{"cell_feature_links","image_id,object_id"},{"analysis_provenance","image_id,record_id"}};
+    Row schema(db,"PRAGMA user_version");if(!schema.next()) throw std::invalid_argument("missing batch project schema");
+    if(sqlite3_column_int(schema.value,0)>=8) tables.emplace_back("classifier_records","image_id,id");
+    for(const auto& spec:tables) {
         text(hash,spec.first,c);Row row(db,"SELECT * FROM "+spec.first+" ORDER BY "+spec.second);
         while(row.next()) {export_checkpoint(c);const auto columns=sqlite3_column_count(row.value);hash.integer(columns);
             for(int i=0;i<columns;++i) {const auto type=sqlite3_column_type(row.value,i);hash.integer(type);
@@ -62,7 +66,7 @@ BatchCheckpoint read_batch_checkpoint(const std::string& path,const std::atomic<
     if(!csv_limit || csv_limit>256*1024*1024) throw std::invalid_argument("invalid checkpoint CSV limit");export_checkpoint(c);
     sqlite3* raw=nullptr;const auto code=sqlite3_open_v2(path.c_str(),&raw,SQLITE_OPEN_READONLY|SQLITE_OPEN_NOMUTEX,nullptr);std::unique_ptr<sqlite3,decltype(&sqlite3_close)> db(raw,&sqlite3_close);if(code!=SQLITE_OK) throw std::runtime_error(raw?sqlite3_errmsg(raw):"cannot open batch checkpoint");
     sqlite3_limit(raw,SQLITE_LIMIT_LENGTH,272*1024*1024);sqlite3_busy_timeout(raw,1000);if(c) sqlite3_progress_handler(raw,1000,[](void* p){return static_cast<const std::atomic<bool>*>(p)->load()?1:0;},const_cast<std::atomic<bool>*>(c));
-    {Row app(raw,"PRAGMA application_id");Row version(raw,"PRAGMA user_version");if(!app.next() || sqlite3_column_int(app.value,0)!=1364219992 || !version.next() || sqlite3_column_int(version.value,0)!=7) throw std::invalid_argument("not a supported batch project");}
+    {Row app(raw,"PRAGMA application_id");Row version(raw,"PRAGMA user_version");if(!app.next() || sqlite3_column_int(app.value,0)!=1364219992 || !version.next() || (sqlite3_column_int(version.value,0)<first_batch_project_schema_version || sqlite3_column_int(version.value,0)>project_schema_version)) throw std::invalid_argument("not a supported batch project");}
     check(sqlite3_exec(raw,"BEGIN",nullptr,nullptr,nullptr),raw);Row marker(raw,"SELECT version,parameters_sha,input_sha,pixel_sha,source_identity,image_id,image_name,parameters,data_sha,source_locator,source_file_identity,source_generation,source_revision,objects,generated_bytes,csv,seal_sha FROM qpx_batch_checkpoint");if(!marker.next() || sqlite3_column_type(marker.value,0)!=SQLITE_INTEGER || sqlite3_column_int(marker.value,0)!=1) throw std::invalid_argument("not a supported batch checkpoint");
     BatchCheckpoint m;m.parameters_sha256=marker.text(1);m.input_sha256=marker.text(2);m.pixel_sha256=marker.text(3);m.source_identity=marker.text(4);m.image_id=marker.text(5);m.image_name=marker.text(6,4096);m.parameters_json=marker.text(7,512*1024);m.data_sha256=marker.text(8);m.source_locator=marker.text(9);m.source_file_identity=marker.text(10);
     m.source_generation=marker.number(11);m.source_revision=marker.number(12);m.objects=marker.number(13);m.generated_bytes=marker.number(14);

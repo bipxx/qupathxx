@@ -133,7 +133,7 @@ std::string ProjectBatchRequest::parameters_json() const {return data_->json;}
 std::string ProjectBatchRequest::parameters_sha256() const {return data_->sha;}
 struct ProjectBatchKernel {
     static std::uint64_t cost(const Document& d,bool embedded) {
-        auto value=65536+2ULL*(d.object_bytes_+d.analysis_bytes_+d.tissue_bytes_+d.cells_bytes_)+(embedded?2ULL*d.image().pixels().size():65536);
+        auto value=65536+2ULL*(d.object_bytes_+d.analysis_bytes_+d.tissue_bytes_+d.cells_bytes_+d.classifiers_bytes_)+(embedded?2ULL*d.image().pixels().size():65536);
         value+=4ULL*(d.metadata().levels.size()*sizeof(ImageLevel)+d.metadata().vendor.size()+d.server()->source_locator().size());
         for(const auto& item:d.classes_) value+=4ULL*(sizeof(ObjectClass)+128+item.first.size()+item.second.name.size());return value;
     }

@@ -6,6 +6,9 @@
 #include "qupathxx/source_identity.hpp"
 #include "tissue_archive.hpp"
 #include "cell_archive.hpp"
+#include "geometry_archive.hpp"
+#include "object_classifier_archive.hpp"
+#include "project_schema.hpp"
 #include <algorithm>
 #include <array>
 #include <charconv>
@@ -108,6 +111,8 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         add(e.document->analysis_bytes_);
         add(e.document->tissue_bytes_);
         add(e.document->cells_bytes_);
+        add(e.document->classifiers_bytes_);
+        add(e.document->classifiers_.size()*sizeof(std::shared_ptr<const ObjectClassifierRecord>));
         add(e.document->cells_.size()*sizeof(std::shared_ptr<const CellRecord>));
         add(e.document->tissue_blocks_.values.size()*(sizeof(Document::TissueBlock)+sizeof(std::shared_ptr<const Document::TissueBlock>)));
         add(e.document->analysis_blocks_.values.size()*(sizeof(Document::AnalysisBlock)+sizeof(std::shared_ptr<const Document::AnalysisBlock>)));
@@ -143,6 +148,9 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         doc->cells_snapshot_.reserve(e.document->cells_.size());
         for(const auto& entry:e.document->cells_) doc->cells_snapshot_.push_back(entry.second.value);
         doc->cells_bytes_=e.document->cells_bytes_;
+        doc->classifiers_snapshot_.reserve(e.document->classifiers_.size());
+        for(const auto& entry:e.document->classifiers_) doc->classifiers_snapshot_.push_back(entry.second);
+        doc->classifiers_bytes_=e.document->classifiers_bytes_;
         snapshot->entries_.emplace(id,Entry{e.info,std::move(doc)});
     }
     return snapshot;
@@ -370,8 +378,8 @@ std::uint64_t number(const std::string& text) {
 int schema(Database& db,bool allow_recovery=false) {
     auto version=scalar(db,"PRAGMA user_version");
     auto app=scalar(db,"PRAGMA application_id");
-    if((app!=application_id && !(allow_recovery && app==recovery_application_id)) || (version!=1 && version!=2 && version!=3 && version!=4 && version!=5 && version!=6 && version!=7))
-        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 through 7)");
+    if((app!=application_id && !(allow_recovery && app==recovery_application_id)) || (version<1 || version>detail::project_schema_version))
+        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 through 8)");
     return static_cast<int>(version);
 }
 void create_views(Database& db) {
@@ -392,6 +400,9 @@ void create_cell_links(Database& db) {
 void create_provenance(Database& db) {
     db.exec("CREATE TABLE analysis_provenance(image_id TEXT NOT NULL REFERENCES images(id),record_id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,record_id)) STRICT; PRAGMA user_version=7;");
 }
+void create_classifiers(Database& db) {
+    db.exec("CREATE TABLE classifier_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=8;");
+}
 bool recovery_table(Database& db) { return scalar(db,"SELECT count(*) FROM sqlite_schema WHERE type='table' AND name='recovery'")!=0; }
 RecoveryInfo recovery_header(Database& db,const std::string& path) {
     if(scalar(db,"PRAGMA application_id")!=recovery_application_id || schema(db,true)<2 || !recovery_table(db)) throw std::invalid_argument("not a supported recovery snapshot");
@@ -411,44 +422,13 @@ RecoveryInfo recovery_header(Database& db,const std::string& path) {
         throw std::invalid_argument("recovery metadata does not match snapshot");
     return info;
 }
-struct Encoder {
-    std::vector<std::uint8_t> bytes={'Q','R','O',1};
-    void u32(std::size_t value) { if(value>1000000) throw std::length_error("geometry count exceeds limit"); for(int i=0;i<4;++i) bytes.push_back(static_cast<std::uint8_t>(value>>(8*i))); }
-    void real(double v) { std::uint64_t bits; static_assert(sizeof(v)==sizeof(bits),"64-bit doubles required"); std::memcpy(&bits,&v,8); for(int i=0;i<8;++i) bytes.push_back(static_cast<std::uint8_t>(bits>>(8*i))); }
-    void ring(const Ring& ring) { u32(ring.size()); for(auto p:ring) { real(p.x); real(p.y); } }
-};
-std::vector<std::uint8_t> encode(const Roi& roi) {
-    Encoder e; e.bytes.push_back(static_cast<std::uint8_t>(roi.kind()));
-    if(roi.kind()==RoiKind::Rectangle || roi.kind()==RoiKind::Ellipse) { auto r=roi.bounds(); for(auto v:{r.x,r.y,r.width,r.height}) e.real(v); }
-    else if(roi.is_area()) { auto parts=roi.polygon_parts(); e.u32(parts.size()); for(const auto& part:parts) { e.ring(part.shell); e.u32(part.holes.size()); for(const auto& hole:part.holes) e.ring(hole); } }
-    else e.ring(roi.paths().at(0));
-    return std::move(e.bytes);
-}
-struct Decoder {
-    const std::uint8_t* p; std::size_t remaining,total=0;
-    std::uint8_t byte() { if(!remaining) throw std::invalid_argument("truncated ROI blob"); --remaining; return *p++; }
-    std::uint32_t u32() { std::uint32_t v=0; for(int i=0;i<4;++i) v|=std::uint32_t(byte())<<(8*i); return v; }
-    double real() { std::uint64_t bits=0; for(int i=0;i<8;++i) bits|=std::uint64_t(byte())<<(8*i); double v; std::memcpy(&v,&bits,8); return v; }
-    Ring ring() { auto n=u32(); if(n>1000000 || n>remaining/16 || total>1000000-n) throw std::invalid_argument("invalid persisted vertex count"); total+=n; Ring r; r.reserve(n); for(std::uint32_t i=0;i<n;++i) { auto x=real(),y=real(); r.emplace_back(x,y); } return r; }
-};
+std::vector<std::uint8_t> encode(const Roi& roi) {return GeometryArchiveCodec::encode(roi);}
 Roi decode(Statement& s,int column) {
-    auto size=sqlite3_column_bytes(s.stmt,column);
-    if(s.type(column)!=SQLITE_BLOB || size<5 || size>32*1024*1024) throw std::invalid_argument("invalid ROI blob");
-    Decoder d{static_cast<const std::uint8_t*>(sqlite3_column_blob(s.stmt,column)),static_cast<std::size_t>(size)};
-    if(d.byte()!='Q' || d.byte()!='R' || d.byte()!='O' || d.byte()!=1) throw std::invalid_argument("unsupported ROI encoding");
-    auto kind=static_cast<RoiKind>(d.byte());
-    auto roi=[&]()->Roi {
-        if(kind==RoiKind::Rectangle || kind==RoiKind::Ellipse) { auto x=d.real(),y=d.real(),w=d.real(),h=d.real(); return kind==RoiKind::Rectangle?Roi::rectangle({x,y,w,h}):Roi::ellipse({x,y,w,h}); }
-        if(kind==RoiKind::Polyline) return Roi::polyline(d.ring());
-        if(kind==RoiKind::Points) return Roi::points(d.ring());
-        if(kind!=RoiKind::Polygon && kind!=RoiKind::MultiPolygon) throw std::invalid_argument("unknown persisted ROI kind");
-        auto count=d.u32(); if(!count || count>1000000 || count>d.remaining/8 || (kind==RoiKind::Polygon && count!=1) || (kind==RoiKind::MultiPolygon && count<2)) throw std::invalid_argument("invalid persisted polygon count");
-        std::vector<PolygonPart> parts;
-        for(std::uint32_t i=0;i<count;++i) { auto shell=d.ring(); auto n=d.u32(); if(n>d.remaining/4) throw std::invalid_argument("invalid hole count"); std::vector<Ring> holes; for(std::uint32_t j=0;j<n;++j) holes.push_back(d.ring()); parts.emplace_back(std::move(shell),std::move(holes)); }
-        return Roi::multipolygon(std::move(parts));
-    }();
-    if(d.remaining) throw std::invalid_argument("trailing ROI blob bytes"); return roi;
+    const auto size=sqlite3_column_bytes(s.stmt,column);
+    if(s.type(column)!=SQLITE_BLOB || size<0) throw std::invalid_argument("invalid ROI blob");
+    return GeometryArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(s.stmt,column)),static_cast<std::size_t>(size));
 }
+
 }
 void Project::save(const std::string& path) {
     save_impl(path,"");
@@ -492,9 +472,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<5) create_cells(db);
         if(version<6) create_cell_links(db);
         if(version<7) create_provenance(db);
+        if(version<8) create_classifiers(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);}
-    db.exec("DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);}
+    db.exec("DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -507,6 +488,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement view(db,"INSERT INTO views VALUES(?,?,?,?,?,?,?,?)");
     Statement tissue(db,"INSERT INTO tissue_records VALUES(?,?,?,?,?)");
     Statement cells(db,"INSERT INTO cell_records VALUES(?,?,?,?,?)");
+    Statement classifiers(db,"INSERT INTO classifier_records VALUES(?,?,?)");
     Statement analysis(db,"INSERT INTO analysis_records VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     auto directory=link_directory.empty()?fs::u8path(destination).parent_path():fs::u8path(link_directory);
     for(const auto& [id,e]:entries_) {
@@ -574,6 +556,12 @@ void Project::save_impl(const std::string& path,const std::string& link_director
       };
       for(const auto& entry:e.document->cells_) write_cells(*entry.second.value);
       for(const auto& record:e.document->cells_snapshot_) write_cells(*record);
+      auto write_classifier=[&](const ObjectClassifierRecord& record) {
+        const auto bytes=ObjectClassifierArchiveCodec::encode(record,cancelled);
+        classifiers.string(1,std::to_string(image_id));classifiers.string(2,std::to_string(record.id));classifiers.blob(3,bytes);classifiers.done();
+      };
+      for(const auto& entry:e.document->classifiers_) write_classifier(*entry.second);
+      for(const auto& record:e.document->classifiers_snapshot_) write_classifier(*record);
     }
     // Canonical rows and recovery provenance must commit together.
     if(recovery) {
@@ -743,6 +731,18 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             record->result=CellArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,4)),static_cast<std::size_t>(size),std::move(roi),image->second.document->metadata(),progress?progress->cancellation():nullptr);
             const auto p=read_provenance(number(rows.string(0)),record->id);ProvenanceCodec::attach(record->result->nuclei(),p);ProvenanceCodec::attach(record->result->cells(),p);
             image->second.document->restore_cells(std::move(record));
+        }
+    }
+    if(version>=8) {
+        Statement rows(db,"SELECT image_id,id,payload FROM classifier_records ORDER BY image_id,id");
+        while(rows.row()) {
+            stopped();const auto image=project->entries_.find(number(rows.string(0)));
+            if(image==project->entries_.end()) throw std::invalid_argument("orphaned classifier record");
+            const auto size=sqlite3_column_bytes(rows.stmt,2);
+            if(rows.type(2)!=SQLITE_BLOB || size<0) throw std::invalid_argument("invalid classifier archive blob");
+            const auto record=ObjectClassifierArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,2)),static_cast<std::size_t>(size),image->second.document->metadata(),progress?progress->cancellation():nullptr);
+            if(record->id!=number(rows.string(1))) throw std::invalid_argument("classifier record identity mismatch");
+            image->second.document->restore_classifier(record);
         }
     }
     if(version>=7 && scalar(db,"SELECT count(*) FROM analysis_provenance p WHERE NOT EXISTS (SELECT 1 FROM analysis_records a WHERE a.image_id=p.image_id AND a.id=p.record_id) AND NOT EXISTS (SELECT 1 FROM tissue_records t WHERE t.image_id=p.image_id AND t.id=p.record_id) AND NOT EXISTS (SELECT 1 FROM cell_records c WHERE c.image_id=p.image_id AND c.id=p.record_id)")) throw std::invalid_argument("orphaned analysis provenance");

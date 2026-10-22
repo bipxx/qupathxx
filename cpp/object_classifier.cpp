@@ -3,6 +3,8 @@
 #include "qupathxx/source_identity.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
+#include "object_feature_snapshot.hpp"
+#include "object_classifier_archive.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -28,17 +30,6 @@ std::vector<ClassifierFeature> feature_schema(const ObjectFeatureOptions& option
     return features;
 }
 }
-struct ObjectFeatureRequest::Data {
-    struct Row {std::uint64_t id,revision;std::string label;Roi body;std::optional<Roi> nucleus;ObjectKind kind;};
-    ObjectFeatureOptions options;
-    std::vector<Row> rows;
-    std::vector<CellFeature> cells; // Allocated only by RGB feature presets.
-    std::shared_ptr<const AnalysisProvenance> anchor;
-    std::uint64_t revision=0;
-    double sx=1,sy=1,capture_ms=0;
-    bool physical=false;
-    std::size_t bytes=0;
-};
 void ObjectFeatureOptions::validate() const {
     if(snapshot_bytes<1024*1024 || snapshot_bytes>256u*1024*1024 || (cytoplasm_rgb && !cell_rgb)) throw std::invalid_argument("invalid object feature options");
 }
@@ -58,21 +49,29 @@ ObjectFeatureRequest::ObjectFeatureRequest(const Document& doc,const std::vector
     if(!source_ || source_->closed()) throw std::invalid_argument("object features require an open source");
     auto selected=ids;if(!std::is_sorted(selected.begin(),selected.end())) std::sort(selected.begin(),selected.end());
     if(std::adjacent_find(selected.begin(),selected.end())!=selected.end()) throw std::invalid_argument("duplicate object feature ID");
-    auto data=std::make_shared<Data>();data->options=options;data->revision=doc.revision();
+    auto data=std::make_shared<Data>();data->options=options;data->revision=doc.revision();data->next_id=doc.next_id_;
     auto charge=[&](std::size_t n) {if(n>options.snapshot_bytes-data->bytes) throw std::length_error("object feature snapshot exceeds memory budget");data->bytes+=n;};
     charge(sizeof(Data)+selected.size()*sizeof(Data::Row));data->rows.reserve(selected.size());
-    if(options.cell_rgb) {charge(selected.size()*sizeof(CellFeature));data->cells.reserve(selected.size());}
+    if(options.cell_rgb) {charge(selected.size()*(sizeof(CellFeature)+sizeof(Data::Origin)));data->cells.reserve(selected.size());data->origins.reserve(selected.size());}
     if(options.calibrated && doc.pixel_width_um() && doc.pixel_height_um()) {data->physical=true;data->sx=*doc.pixel_width_um();data->sy=*doc.pixel_height_um();}
+    std::map<std::uint64_t,std::shared_ptr<const ObjectCellFeatureSource>> source_runs;
     for(auto id:selected) {
         auto a=doc.annotation(id);detail::bounded_utf8(a.class_name,256);
         if(!a.geometry.is_area() || (options.nucleus_shape && !a.nucleus)) throw std::invalid_argument("object features require area geometry and requested nuclei");
-        charge(a.class_name.size()+a.geometry.payload_bytes()+(options.nucleus_shape && a.nucleus?a.nucleus->payload_bytes():0));
-        Data::Row row{id,a.revision,std::move(a.class_name),a.geometry,options.nucleus_shape?a.nucleus:std::nullopt,a.kind};
+        charge(a.class_name.size()+a.geometry.payload_bytes()+((options.nucleus_shape || options.cell_rgb) && a.nucleus?a.nucleus->payload_bytes():0));
+        Data::Row row{id,a.revision,std::move(a.class_name),a.geometry,(options.nucleus_shape || options.cell_rgb)?a.nucleus:std::nullopt,a.kind};
         if(options.cell_rgb) {
             if(a.kind!=ObjectKind::Cell || doc.cell_object_status(id)!="current") throw std::invalid_argument("RGB features require current verified published cell measurements");
             auto cell=doc.cell_object_feature(id);
             if(options.cytoplasm_rgb && !cell.cytoplasm_rgb) throw std::invalid_argument("cell has no cytoplasm measurements");
             data->cells.push_back(std::move(cell));
+            const auto& link=*a.cell_feature_link;auto found=source_runs.find(link.record_id);
+            if(found==source_runs.end()) {
+                const auto record=doc.cell_record(link.record_id);const auto& result=*record->result;const auto& nucleus=*result.nuclei();
+                auto run=std::make_shared<ObjectCellFeatureSource>();run->record_id=link.record_id;run->object_id=nucleus.object_id();run->object_revision=nucleus.object_revision();run->document_revision=nucleus.document_revision();run->cell_count=result.features().size();run->producer=record->producer;run->algorithm=result.algorithm();run->input_sha256=nucleus.input_sha256();run->parameters=result.parameters();run->roi=nucleus.roi();run->level=nucleus.level();run->downsample=nucleus.downsample();run->white=nucleus.white();run->stains=nucleus.stains();run->provenance=nucleus.provenance();
+                charge(run->payload_bytes());found=source_runs.emplace(link.record_id,std::move(run)).first;
+            }
+            data->origins.push_back({link.record_id,link.label,found->second});
         }
         data->rows.push_back(std::move(row));
     }
@@ -93,6 +92,11 @@ double ObjectFeatureRequest::capture_ms() const {return data_->capture_ms;}
 ObjectFeatureOptions ObjectFeatureRequest::options() const {return data_->options;}
 const std::shared_ptr<const AnalysisProvenance>& ObjectFeatureRequest::source_anchor() const {return data_->anchor;}
 ObjectFeatureOptions ObjectFeatureTable::options() const {return snapshot_->options;}
+const Roi& ObjectFeatureTable::body_roi(std::size_t row) const {return snapshot_->rows.at(row).body;}
+std::optional<Roi> ObjectFeatureTable::nucleus_roi(std::size_t row) const {return snapshot_->rows.at(row).nucleus;}
+std::optional<ObjectFeatureCellOrigin> ObjectFeatureTable::cell_origin(std::size_t row) const {(void)snapshot_->rows.at(row);if(snapshot_->origins.empty()) return {};return snapshot_->origins.at(row);}
+std::optional<CellFeature> ObjectFeatureTable::cell_feature(std::size_t row) const {(void)snapshot_->rows.at(row);if(snapshot_->cells.empty()) return {};return snapshot_->cells.at(row);}
+
 
 struct ObjectClassifierKernel {
     static std::shared_ptr<const ObjectFeatureTable> extract(const ObjectFeatureRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* progress=nullptr) {
@@ -153,7 +157,7 @@ struct ObjectClassifierKernel {
         }
         checkpoint(cancelled);result->elapsed_ms_=elapsed(started);return result;
     }
-    static std::vector<std::uint64_t> apply(Document& doc,const ObjectFeatureRequest& request,const ObjectClassificationResult& result,double minimum) {
+    static std::vector<std::uint64_t> apply(Document& doc,const ObjectFeatureRequest& request,const ObjectClassificationResult& result,double minimum,std::shared_ptr<const ObjectClassifierArchive> archive=nullptr) {
         if(!std::isfinite(minimum) || minimum<0 || minimum>1) throw std::invalid_argument("invalid minimum vote fraction");
         if(!request.matches(doc) || result.table_->snapshot_!=request.data_) throw std::invalid_argument("object classification is stale or belongs to another request");
         if(result.predictions_.size()!=request.row_count()) throw std::logic_error("object classification row count mismatch");
@@ -164,7 +168,20 @@ struct ObjectClassifierKernel {
             const auto id=result.table_->ids_[row];const auto& label=result.model_->classes().at(p.class_index);if(doc.objects().at(id).class_name==label) continue;
             edits.emplace_back(id,label);changed.push_back(id);
         }
-        doc.apply_classifications(edits,"Apply object classifier");return changed;
+        std::map<std::uint64_t,std::shared_ptr<const ObjectClassifierRecord>> record_nodes;std::size_t record_bytes=0;
+        const auto before=doc.revision_;
+        if(archive) {
+            if(archive->table()!=result.table_ || !archive->result() || archive->result().get()!=&result) throw std::invalid_argument("classifier archive does not match prediction result");
+            if(before==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("document revision exhausted");
+            auto record=std::make_shared<ObjectClassifierRecord>();record->id=before+1;record->name="Applied object classifier";record->archive=std::move(archive);record->applied=true;record->minimum_vote_fraction=minimum;record->changed_objects=changed;record_bytes=record->payload_bytes();
+            if(doc.classifiers_.size()>=10000 || record_bytes>256u*1024*1024-doc.classifiers_bytes_) throw std::length_error("classifier archive exceeds its 10000-record/256 MiB limit");
+            record_nodes.emplace(record->id,std::move(record));
+        }
+        doc.apply_classifications(edits,"Apply object classifier");
+        // All archive allocation and quota checks precede the class transaction.
+        // The same revision identifies the edit and its retained audit record.
+        if(!record_nodes.empty()) {if(doc.revision_==before) ++doc.revision_;doc.classifiers_.merge(record_nodes);doc.classifiers_bytes_+=record_bytes;}
+        return changed;
     }
 };
 std::shared_ptr<const ObjectFeatureTable> extract_object_features(const ObjectFeatureRequest& request,const std::atomic<bool>* cancelled) {return ObjectClassifierKernel::extract(request,cancelled);}
@@ -173,11 +190,12 @@ std::shared_ptr<const ObjectClassificationResult> classify_objects(const ObjectF
 std::vector<std::uint64_t> apply_object_classification(Document& doc,const ObjectFeatureRequest& request,const ObjectClassificationResult& result,double minimum) {return ObjectClassifierKernel::apply(doc,request,result,minimum);}
 
 struct ObjectClassifierJob::Impl {
-    struct Completion {std::shared_ptr<const ObjectFeatureTable> table;std::shared_ptr<const ForestModel> model;std::shared_ptr<const ObjectClassificationResult> result;std::string error;double elapsed_ms=0;};
+    struct Completion {std::shared_ptr<const ObjectFeatureTable> table;std::shared_ptr<const ForestModel> model;std::shared_ptr<const ObjectClassificationResult> result;std::shared_ptr<const ObjectClassifierArchive> archive;std::string error;double elapsed_ms=0;};
     std::optional<ObjectFeatureRequest> request;
     std::shared_ptr<const ForestModel> input_model,model;
     std::shared_ptr<const ObjectFeatureTable> table;
     std::shared_ptr<const ObjectClassificationResult> result;
+    std::shared_ptr<const ObjectClassifierArchive> archive;
     ForestParameters parameters;
     std::future<Completion> future;
     std::atomic<bool> cancelled{false};std::atomic<std::uint64_t> progress{0};
@@ -187,11 +205,11 @@ struct ObjectClassifierJob::Impl {
         if(future.valid()) return false;
         p.validate();
         if(stats.generation==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("object classifier generation exhausted");
-        request=r;parameters=p;input_model=std::move(input);model.reset();table.reset();result.reset();cancelled.store(false);progress.store(0);stale=false;training=train;
+        request=r;parameters=p;input_model=std::move(input);model.reset();table.reset();result.reset();archive.reset();cancelled.store(false);progress.store(0);stale=false;training=train;
         ++stats.generation;stats.state="running";stats.phase="features";stats.error.clear();stats.completed_rows=0;stats.total_rows=r.row_count();stats.elapsed_ms=0;
         try {future=std::async(std::launch::async,[this] {
             Completion out;const auto started=Clock::now();
-            try {out.table=ObjectClassifierKernel::extract(*request,&cancelled,&progress);if(training) out.model=std::make_shared<const ForestModel>(ObjectClassifierKernel::train(*out.table,parameters,&cancelled));else {out.result=ObjectClassifierKernel::predict(out.table,*input_model,&cancelled);out.model=input_model;}}
+            try {out.table=ObjectClassifierKernel::extract(*request,&cancelled,&progress);if(training) out.model=std::make_shared<const ForestModel>(ObjectClassifierKernel::train(*out.table,parameters,&cancelled));else {out.result=ObjectClassifierKernel::predict(out.table,*input_model,&cancelled);out.model=input_model;}out.archive=archive_object_classifier(out.table,*out.model,out.result,&cancelled);}
             catch(const std::exception& e) {out.error=e.what();out.table.reset();out.model.reset();out.result.reset();}
             out.elapsed_ms=elapsed(started);return out;
         });} catch(...) {request.reset();input_model.reset();stats.state="failed";stats.phase="finished";stats.error="could not start object classifier worker";throw;}
@@ -203,13 +221,13 @@ ObjectClassifierJob::~ObjectClassifierJob() {cancel();if(busy()) impl_->future.w
 bool ObjectClassifierJob::busy() const {return impl_->future.valid();}
 bool ObjectClassifierJob::train(const ObjectFeatureRequest& r,ForestParameters p) {return impl_->start(r,true,p,{});}
 bool ObjectClassifierJob::predict(const ObjectFeatureRequest& r,const ForestModel& m) {return impl_->start(r,false,{},std::make_shared<const ForestModel>(m));}
-void ObjectClassifierJob::cancel() {impl_->cancelled.store(true);impl_->model.reset();impl_->table.reset();impl_->result.reset();if(impl_->request) impl_->stats.state=busy()?"cancelling":"cancelled";if(!busy()) {impl_->request.reset();impl_->input_model.reset();}}
+void ObjectClassifierJob::cancel() {impl_->cancelled.store(true);impl_->model.reset();impl_->table.reset();impl_->result.reset();impl_->archive.reset();if(impl_->request) impl_->stats.state=busy()?"cancelling":"cancelled";if(!busy()) {impl_->request.reset();impl_->input_model.reset();}}
 ObjectClassifierStats ObjectClassifierJob::poll(const Document& doc) {
-    auto& s=*impl_;if(s.request && !s.request->matches(doc)) {s.stale=true;s.cancelled.store(true);s.model.reset();s.table.reset();s.result.reset();s.stats.state=busy()?"cancelling":"stale";}
+    auto& s=*impl_;if(s.request && !s.request->matches(doc)) {s.stale=true;s.cancelled.store(true);s.model.reset();s.table.reset();s.result.reset();s.archive.reset();s.stats.state=busy()?"cancelling":"stale";}
     s.stats.completed_rows=s.progress.load(std::memory_order_relaxed);if(busy() && s.stats.completed_rows==s.stats.total_rows) s.stats.phase=s.training?"training":"predicting";
     if(busy() && s.future.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
         try {auto out=s.future.get();s.stats.elapsed_ms=out.elapsed_ms;
-            if(s.stale) s.stats.state="stale";else if(s.cancelled.load()) s.stats.state="cancelled";else if(!out.error.empty()) {s.stats.state="failed";s.stats.error=std::move(out.error);}else {s.table=std::move(out.table);s.model=std::move(out.model);s.result=std::move(out.result);s.stats.state="ready";}}
+            if(s.stale) s.stats.state="stale";else if(s.cancelled.load()) s.stats.state="cancelled";else if(!out.error.empty()) {s.stats.state="failed";s.stats.error=std::move(out.error);}else {s.table=std::move(out.table);s.model=std::move(out.model);s.result=std::move(out.result);s.archive=std::move(out.archive);s.stats.state="ready";}}
         catch(const std::exception& e) {s.stats.state="failed";s.stats.error=e.what();}
         s.stats.phase="finished";
     }
@@ -219,8 +237,13 @@ ObjectClassifierStats ObjectClassifierJob::wait(const Document& doc) {poll(doc);
 std::shared_ptr<const ForestModel> ObjectClassifierJob::model() const {return impl_->model;}
 std::shared_ptr<const ObjectFeatureTable> ObjectClassifierJob::table() const {return impl_->table;}
 std::shared_ptr<const ObjectClassificationResult> ObjectClassifierJob::result() const {return impl_->result;}
-std::vector<std::uint64_t> ObjectClassifierJob::apply(Document& doc,double minimum) {
+std::shared_ptr<const ObjectClassifierArchive> ObjectClassifierJob::archive() const {return impl_->archive;}
+std::uint64_t ObjectClassifierJob::retain_training(Document& doc,std::string name) {
+    if(poll(doc).state!="ready" || !impl_->request || !impl_->archive || impl_->result) throw std::logic_error("no current training record to retain");
+    const auto id=doc.keep_classifier_training(*impl_->request,impl_->archive,std::move(name));impl_->stats.state="retained";impl_->request.reset();impl_->input_model.reset();return id;
+}
+std::vector<std::uint64_t> ObjectClassifierJob::apply(Document& doc,double minimum,bool retain_record) {
     if(poll(doc).state!="ready" || !impl_->result || !impl_->request) throw std::logic_error("no current object predictions to apply");
-    auto changed=apply_object_classification(doc,*impl_->request,*impl_->result,minimum);impl_->stats.state="applied";impl_->request.reset();impl_->input_model.reset();return changed;
+    auto changed=ObjectClassifierKernel::apply(doc,*impl_->request,*impl_->result,minimum,retain_record?impl_->archive:nullptr);impl_->stats.state="applied";impl_->request.reset();impl_->input_model.reset();return changed;
 }
 }
