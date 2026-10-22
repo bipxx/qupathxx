@@ -1,6 +1,12 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
     ObjectCellFeatureSource, ObjectFeatureCellOrigin, ObjectClassifierArchive, ObjectClassifierRecord, archive_object_classifier,
+    PixelClassifier,
+    PixelClassification,
+    classify_pixels,
+    load_pixel_classifier,
+    save_pixel_classifier,
+    PixelFeatureOptions, PixelFeatureWindow, PixelFeatureImage, pixel_feature_schema, pixel_feature_work_bytes, extract_pixel_features,
     ObjectFeatureOptions, ObjectFeatureRequest, ObjectFeatureTable, ObjectClassificationResult, ObjectClassifierStats, ObjectClassifierJob, extract_object_features, train_object_forest, classify_objects, apply_object_classification,
     ClassifierFeature, ForestParameters, ClassifierPrediction, ForestModel, has_classifier_training, train_forest, load_forest_model, save_forest_model,
     default_workspace_layout_path,
@@ -33,6 +39,12 @@ from ._native import (
 
 __all__ = [
     "ObjectCellFeatureSource", "ObjectFeatureCellOrigin", "ObjectClassifierArchive", "ObjectClassifierRecord", "archive_object_classifier",
+    "PixelClassifier",
+    "PixelClassification",
+    "classify_pixels",
+    "load_pixel_classifier",
+    "save_pixel_classifier",
+    "PixelFeatureOptions", "PixelFeatureWindow", "PixelFeatureImage", "pixel_feature_schema", "pixel_feature_work_bytes", "extract_pixel_features",
     "ObjectFeatureOptions", "ObjectFeatureRequest", "ObjectFeatureTable", "ObjectClassificationResult", "ObjectClassifierStats", "ObjectClassifierJob", "extract_object_features", "train_object_forest", "classify_objects", "apply_object_classification",
     "ClassifierFeature", "ForestParameters", "ClassifierPrediction", "ForestModel", "has_classifier_training", "train_forest", "load_forest_model", "save_forest_model",
     "default_workspace_layout_path",

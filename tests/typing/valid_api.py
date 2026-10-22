@@ -151,3 +151,13 @@ def classifier_audit(document: q.Document, job: q.ObjectClassifierJob) -> q.Fore
     record: q.ObjectClassifierRecord = document.classifier_record(record_id)
     model: q.ForestModel = record.archive.model
     return model
+
+
+def pixel_recipe(pixels: q.PixelBuffer, forest: q.ForestModel, options: q.PixelFeatureOptions) -> str:
+    recipe: q.PixelClassifier = q.PixelClassifier(forest, options)
+    result: q.PixelClassification = q.classify_pixels(pixels, recipe, work_bytes=32*1024*1024)
+    result.labels_numpy(copy=True)
+    result.vote_fractions_numpy()
+    result.valid_numpy()
+    portable: q.PixelClassifier = q.PixelClassifier.from_bytes(recipe.to_bytes())
+    return portable.sha256 + result.sha256

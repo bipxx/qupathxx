@@ -179,6 +179,8 @@ def main():
         work/'object-classifier-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_classifier_archives.py', '--rows', '10000', '--output', work/'classifier-archive-benchmark.json'],
         work/'classifier-archive-benchmark.log', env, 120)
+    run([test_python, '-I', ROOT/'tools/benchmark_pixel_classifier.py', '--output', work/'pixel-classifier-benchmark.json'],
+        work/'pixel-classifier-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/generate_stubs.py', '--check'], work/'stubs.log', env)
     run([test_python, '-I', '-m', 'mypy', '--strict', 'tests/typing/valid_api.py', 'examples/live_workflow.py', 'examples/region_workflow.py'], work/'typing.log', env)
     negative_log = work/'typing-negative.log'

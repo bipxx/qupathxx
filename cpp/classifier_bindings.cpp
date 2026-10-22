@@ -6,6 +6,7 @@
 #include <cstring>
 namespace nb=nanobind;using namespace nb::literals;
 void bind_object_classifiers(nb::module_&);
+void bind_pixel_features(nb::module_&);
 namespace {
 using Samples=nb::ndarray<const float,nb::ndim<2>,nb::device::cpu>;
 using Labels=nb::ndarray<const std::uint32_t,nb::ndim<1>,nb::device::cpu>;
@@ -41,4 +42,5 @@ void bind_classifiers(nb::module_& m) {
         nb::gil_scoped_release release;return train_forest(samples,labels,schema,classes,p);
     },"samples"_a.noconvert(),"labels"_a.noconvert(),"schema"_a,"classes"_a,"parameters"_a=ForestParameters{});
     bind_object_classifiers(m);
+    bind_pixel_features(m);
 }
