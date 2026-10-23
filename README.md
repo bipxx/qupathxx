@@ -75,6 +75,8 @@ QuPath port or a compatible replacement for Java QuPath.
   opens, verifies and previews individual historical blocks without changing the current image.
   The standalone [pixel commands](docs/pixel-stream-cli.md) export from saved projects
   and verify QPS1 files through `qupathxx_batch`.
+  [Schema-10 project links](docs/pixel-stream-records.md) retain bounded external-file
+  descriptors, with explicit verified reopen and relinking in the inspector.
   Research validation and large-batch
   frame budgets remain unfinished;
   see also the

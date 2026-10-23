@@ -88,10 +88,24 @@ void bind_pixel_workflows(nb::module_& m) {
     nb::class_<PixelStreamFileSummary>(m,"PixelStreamFileSummary")
         .def_ro("bytes",&PixelStreamFileSummary::bytes).def_ro("blocks",&PixelStreamFileSummary::blocks).def_ro("valid_pixels",&PixelStreamFileSummary::valid_pixels)
         .def_ro("classified_pixels",&PixelStreamFileSummary::classified_pixels).def_ro("class_counts",&PixelStreamFileSummary::class_counts).def_ro("sha256",&PixelStreamFileSummary::sha256);
+    nb::class_<PixelStreamLink>(m,"PixelStreamLink")
+        .def_prop_ro("path",&PixelStreamLink::path).def_prop_ro("summary",&PixelStreamLink::summary,nb::rv_policy::copy)
+        .def_prop_ro("model_sha256",&PixelStreamLink::model_sha256).def_prop_ro("source_width",&PixelStreamLink::source_width).def_prop_ro("source_height",&PixelStreamLink::source_height)
+        .def_prop_ro("object_id",&PixelStreamLink::object_id).def_prop_ro("document_revision",&PixelStreamLink::document_revision)
+        .def_prop_ro("level_bounds",&PixelStreamLink::level_bounds).def_prop_ro("windowed",&PixelStreamLink::windowed).def_prop_ro("block_size",&PixelStreamLink::block_size)
+        .def_prop_ro("payload_bytes",&PixelStreamLink::payload_bytes).def("same_content",&PixelStreamLink::same_content,"other"_a);
+    nb::class_<PixelStreamRecord>(m,"PixelStreamRecord").def_ro("id",&PixelStreamRecord::id).def_ro("name",&PixelStreamRecord::name)
+        .def_ro("link",&PixelStreamRecord::link).def_prop_ro("payload_bytes",&PixelStreamRecord::payload_bytes);
+    m.def("prepare_pixel_stream_link",[](const std::string& path,std::uint64_t limit){return prepare_pixel_stream_link(path,limit);},"path"_a,"max_bytes"_a=1ULL<<40,nb::call_guard<nb::gil_scoped_release>());
+    nb::borrow<nb::class_<Document>>(m.attr("Document"))
+        .def_prop_ro("pixel_stream_records",&Document::pixel_stream_records).def_prop_ro("pixel_stream_record_count",&Document::pixel_stream_record_count)
+        .def("pixel_stream_record",&Document::pixel_stream_record,"id"_a).def("keep_pixel_stream",&Document::keep_pixel_stream,"link"_a,"name"_a="Pixel stream")
+        .def("remove_pixel_stream_record",&Document::remove_pixel_stream_record,"id"_a).def("relink_pixel_stream_record",&Document::relink_pixel_stream_record,"id"_a,"link"_a);
     nb::class_<PixelStreamFile>(m,"PixelStreamFile").def(nb::init<const std::string&,std::uint64_t>(),"path"_a,"max_bytes"_a=1ULL<<40)
         .def("cancel",&PixelStreamFile::cancel).def_prop_ro("cancelled",&PixelStreamFile::cancelled)
         .def("read_block",&PixelStreamFile::read_block,"index"_a,nb::call_guard<nb::gil_scoped_release>())
         .def("verify",[](const PixelStreamFile& file){file.verify();},nb::call_guard<nb::gil_scoped_release>())
+        .def("link",&PixelStreamFile::link)
         .def_prop_ro("verified",&PixelStreamFile::verified).def_prop_ro("level_bounds",&PixelStreamFile::level_bounds)
         .def_prop_ro("block_size",&PixelStreamFile::block_size).def_prop_ro("windowed",&PixelStreamFile::windowed)
         .def_prop_ro("declared_summary",&PixelStreamFile::declared_summary,nb::rv_policy::copy);
@@ -113,9 +127,10 @@ void bind_pixel_workflows(nb::module_& m) {
         .def_ro("block_index",&PixelStreamReadStats::block_index).def_ro("elapsed_ms",&PixelStreamReadStats::elapsed_ms)
         .def_ro("verified",&PixelStreamReadStats::verified).def_ro("windowed",&PixelStreamReadStats::windowed)
         .def_ro("block_size",&PixelStreamReadStats::block_size).def_ro("level_bounds",&PixelStreamReadStats::level_bounds)
-        .def_ro("declared_summary",&PixelStreamReadStats::declared_summary).def_ro("block",&PixelStreamReadStats::block);
+        .def_ro("declared_summary",&PixelStreamReadStats::declared_summary).def_ro("block",&PixelStreamReadStats::block).def_ro("link",&PixelStreamReadStats::link);
     nb::class_<PixelStreamReadJob>(m,"PixelStreamReadJob").def(nb::init<>())
         .def("open",&PixelStreamReadJob::open,"path"_a,"index"_a=0,"max_bytes"_a=1ULL<<40)
+        .def("open_link",&PixelStreamReadJob::open_link,"link"_a,"index"_a=0,"max_bytes"_a=1ULL<<40)
         .def("read",&PixelStreamReadJob::read,"index"_a).def("verify",&PixelStreamReadJob::verify)
         .def("close",&PixelStreamReadJob::close).def("cancel",&PixelStreamReadJob::cancel).def_prop_ro("busy",&PixelStreamReadJob::busy)
         .def("poll",&PixelStreamReadJob::poll).def("wait",&PixelStreamReadJob::wait,nb::call_guard<nb::gil_scoped_release>());

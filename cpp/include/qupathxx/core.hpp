@@ -36,6 +36,8 @@ struct PixelPredictionOptions;
 struct PixelStreamOptions;
 struct PixelStreamExportStats;
 struct PixelStreamReadStats;
+class PixelStreamLink;
+struct PixelStreamRecord;
 class ObjectClassificationResult;
 class ObjectClassifierArchive;
 class ObjectFeatureRequest;
@@ -225,6 +227,12 @@ public:
     std::uint64_t keep_pixel_training(const PixelTrainingRequest&,std::shared_ptr<const PixelClassifierArchive>,std::string name="Pixel classifier training");
     std::uint64_t keep_pixel_prediction(const PixelPredictionRequest&,std::shared_ptr<const PixelClassifierArchive>,std::string name="Pixel classifier prediction");
     bool remove_pixel_classifier_record(std::uint64_t id);
+    std::vector<std::shared_ptr<const PixelStreamRecord>> pixel_stream_records() const;
+    std::shared_ptr<const PixelStreamRecord> pixel_stream_record(std::uint64_t id) const;
+    std::size_t pixel_stream_record_count() const {return streams_.size()+streams_snapshot_.size();}
+    std::uint64_t keep_pixel_stream(std::shared_ptr<const PixelStreamLink>,std::string name="Pixel stream");
+    bool remove_pixel_stream_record(std::uint64_t id);
+    void relink_pixel_stream_record(std::uint64_t id,std::shared_ptr<const PixelStreamLink>);
 
 private:
     friend struct ProjectBatchKernel;
@@ -316,6 +324,10 @@ private:
     std::vector<std::shared_ptr<const PixelClassifierRecord>> pixels_snapshot_;
     std::size_t pixels_bytes_=0;
     void restore_pixel_classifier(std::shared_ptr<const PixelClassifierRecord>);
+    std::map<std::uint64_t,std::shared_ptr<const PixelStreamRecord>> streams_;
+    std::vector<std::shared_ptr<const PixelStreamRecord>> streams_snapshot_;
+    std::size_t streams_bytes_=0;
+    void restore_pixel_stream(std::shared_ptr<const PixelStreamRecord>);
 
     Document() = default; // Project's private save snapshots populate canonical fields only.
     static std::shared_ptr<Document> restore(std::shared_ptr<ImageServer> server,
@@ -569,10 +581,13 @@ struct GuiReport {
     std::size_t pixel_stream_read_gpu_bytes=0,pixel_stream_read_peak_gpu_bytes=0;
     bool pixel_stream_read_preview_ready=false;
     Rect pixel_stream_read_preview_bounds{0,0,0,0};
+    std::uint64_t pixel_stream_record_id=0,pixel_stream_selected_record_id=0;
+    std::size_t pixel_stream_record_catalog_max_step=0;
+    bool pixel_stream_record_catalog_complete=false;
 };
 enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey, TraceTissueKey, KeepTissueContoursKey, KeepTissueKey, RecheckTissueKey, DetectCellsKey, KeepCellsKey, CancelCellsKey, KeepCellRunKey, RecheckCellRunKey, ExportCellTableKey, CancelCellTableKey, FingerprintFileKey, CancelFingerprintFileKey, ExportMeasurementTableKey, CancelMeasurementTableKey, EstimateStainsKey, ApplyStainEstimateKey, CancelStainEstimateKey, RunBatchKey, CancelBatchKey, ResizeWindow, MinimizeWindow, RestoreWindow, SetUiScale, ObjectClassifierKey, PixelClassifierKey };
-enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord, TrainPixelClassifier, PredictPixelClasses, CancelPixelClassifier, SavePixelModel, LoadPixelModel, TogglePixelOverlay, TracePixelContours, PublishPixelContours, KeepPixelTraining, KeepPixelPrediction, UsePixelRecordModel, PreviewPixelRecord, RemovePixelRecord, ExportPixelStream, OpenPixelStreamBrowser, OpenPixelStreamFile, ReadPixelStreamBlock, PreviousPixelStreamBlock, NextPixelStreamBlock, VerifyPixelStreamFile, CancelPixelStreamRead, ClosePixelStreamFile };
-enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified, CellsReady, CellsPublished, CellsArchived, CellsVerified, CellTableSaved, FileFingerprintReady, MeasurementTableSaved, StainsEstimated, StainsApplied, BatchFinished, WindowReady, ObjectClassifierTrained, ObjectClassifierPredicted, ObjectClassifierApplied, ClassifierModelSaved, ClassifierModelLoaded, ClassifierTrainingRetained, ClassifierRecordLoaded, PixelClassifierTrained, PixelClassifierPredicted, PixelPreviewReady, PixelModelSaved, PixelModelLoaded, PixelContoursReady, PixelContoursPublished, PixelRecordKept, PixelRecordModelLoaded, PixelHistoricalPreviewReady, PixelStreamFinished, PixelStreamReadReady, PixelStreamReadFinished, PixelStreamVerified };
+enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord, TrainPixelClassifier, PredictPixelClasses, CancelPixelClassifier, SavePixelModel, LoadPixelModel, TogglePixelOverlay, TracePixelContours, PublishPixelContours, KeepPixelTraining, KeepPixelPrediction, UsePixelRecordModel, PreviewPixelRecord, RemovePixelRecord, ExportPixelStream, OpenPixelStreamBrowser, OpenPixelStreamFile, ReadPixelStreamBlock, PreviousPixelStreamBlock, NextPixelStreamBlock, VerifyPixelStreamFile, CancelPixelStreamRead, ClosePixelStreamFile, KeepPixelStreamLink, OpenPixelStreamRecord, RelinkPixelStreamRecord, RemovePixelStreamRecord };
+enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified, CellsReady, CellsPublished, CellsArchived, CellsVerified, CellTableSaved, FileFingerprintReady, MeasurementTableSaved, StainsEstimated, StainsApplied, BatchFinished, WindowReady, ObjectClassifierTrained, ObjectClassifierPredicted, ObjectClassifierApplied, ClassifierModelSaved, ClassifierModelLoaded, ClassifierTrainingRetained, ClassifierRecordLoaded, PixelClassifierTrained, PixelClassifierPredicted, PixelPreviewReady, PixelModelSaved, PixelModelLoaded, PixelContoursReady, PixelContoursPublished, PixelRecordKept, PixelRecordModelLoaded, PixelHistoricalPreviewReady, PixelStreamFinished, PixelStreamReadReady, PixelStreamReadFinished, PixelStreamVerified, PixelStreamLinked };
 struct GuiInput {
     int frame = 0;
     GuiInputKind kind = GuiInputKind::Move;

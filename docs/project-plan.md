@@ -2786,5 +2786,88 @@ result; these fixture checks imply no general biological or retraining identity.
 
 Implementation commit: `521fec743e48790c0dfbb4ab5d8783bc91d51a84`. Hosted
 [run 39907928777](https://github.com/bipxx/qupathxx/actions/runs/39907928777)
-targets that exact commit and is pending. It includes all prior inspector tests
-and the new native CLI tests/probe. No hosted CLI pass is claimed yet.
+completed successfully on all five jobs. The
+[hosted record](benchmarks/pixel-stream-cli-ci-windows-linux.json) verifies
+1,692 GUI Python passes with seven expected skips, 1,355 Windows headless
+passes, 1,349 Linux passes, 39 GUI native and 38 in every other native mode.
+It checks all 46 CLI cases including actual interruption, 21 reader-job cases,
+nine inspector GUI cases, earlier stream/archive/analysis workflows, installed
+launch, typing/stubs, source/wheel/executable identities and the CLI process
+benchmark. Schema 10 project links belong to the following packet and are not
+covered by this earlier run.
+
+
+## Packet 84 — bounded project links to historical streams
+
+Schema 10 adds a separate checksummed QSL1 descriptor table for external QPS1
+files. Preparing a descriptor verifies the complete file; adoption stores only
+its path, commitment, model identity, source/grid metadata and aggregate counts.
+Descriptors restore no live source/request/publication capability. A destination
+document must have the captured dimensions; this permits an explicitly historical
+attachment and does not assert source-pixel identity or current model validity.
+Project opening validates bounded metadata without opening the external file.
+
+Native/Python APIs prepare/keep/list/relink/remove descriptors, and the reader
+job exposes a prepared link after complete verification. Opening a saved link
+fully verifies the external file and compares captured content before exposing
+any block. F5 inspector controls keep verified links, browse saved records,
+open with verification, relink matching content and remove metadata without
+removing files. The clipped catalog inspects at most 1,024 entries per frame.
+
+Each document limits stream records to 10,000 and 64 MiB charged retained payload;
+each QSL1 encoding is at most 128 KiB. No stream model or mask array is embedded.
+Project save, background save, autosave/recovery and batch snapshots charge and
+preserve descriptors. Paths are made relative to final destination directories
+when possible, supporting move-together and save-as behavior. Missing files do
+not block project load. Schema 1–9 load and upgrade transactionally. Batch
+checkpoint integrity digests include descriptor rows, rejecting tampered links.
+See the [project-link contract](pixel-stream-records.md).
+
+Thirty-one new persistence/API cases cover immutable descriptors, limits,
+dimension checks, all nine legacy schemas, migration rollback, missing/moved
+files, save-as, relinking, changed/corrupt files, forged rows, recovery/background
+save and batch preservation/digest rejection. Six actual GUI cases cover normal
+and narrow keep/reopen, disabled unverified adoption, missing-file reporting,
+verified relinking and removal with the external file retained. Existing native
+checks exercise three pyramid levels and descriptor codec corruption.
+
+The [10,000-record probe](benchmarks/pixel-stream-records-10000-windows.json)
+references one 37.8 MB, 256-block historical file. Encodings total 4,188,890 bytes,
+with a 419-byte maximum; the project occupies 17,444,864 bytes including its
+12,582,912-byte dense synthetic source. Preparation takes 316 ms, adoption of all
+records 3.63 ms, save 97.0 ms and open 48.8 ms. The real-window catalog max is 1,024
+entries/frame, selected mask GPU storage 65,536 bytes, and CPU frame p95/max
+2.66/18.63 ms. The document stays unchanged; first viewer presentation can change
+view preferences and dirty the project. This shared-workstation probe establishes
+no many-distinct-file/network/vendor-slide throughput, RSS, hardware/frame-budget
+or biological acceptance.
+
+A Windows-created schema10 project also passes through the native Linux batch
+path. Reopening its checkpoint on Windows preserves descriptor content, name
+and resolved relative path. The original file need not be decoded for batch
+snapshotting. Both platforms retain historical metadata, with no restored live
+publication authority.
+
+Project-linked historical descriptors are implemented by this packet. Stream
+packaging/copy management, project-wide resumable pixel-classifier batches,
+current-source reconciliation, stitched whole-stream contour publication,
+unmatched-grid resampling, expanded features, TMA, research/QuPath comparisons
+and all other outstanding M0–M7 requirements remain open.
+
+The [final local record](benchmarks/pixel-stream-records-local-windows-linux.json)
+verifies 1,730 installed Python passes with six expected skips, all 31 new
+persistence and six new GUI cases without skips, 146 focused persistence passes
+(two optional fixture/desktop skips), 15 focused GUI passes, 39 GUI native and 38
+in each Windows headless/Linux training/minimal/ASan-UBSan configuration. Exact
+stubs, strict typing, installed software-GL launch, wheel/native/source identities,
+the 10,000-link benchmark and Windows–Linux checkpoint roundtrip are verified.
+
+Development failures are preserved in the local record: the native test first
+compared a prior replaced-file commitment, then invalidated a separate captured
+prediction by mutating its document; both fixture assumptions were corrected
+without weakening authority checks. Autosave fixtures now use a dirty project,
+a .qpxrecover suffix and an existing custom directory. The disabled-control
+replay sends an immediate click rather than waiting for disabled readiness.
+The catalog probe reports legitimate view-preference dirty state while asserting
+unchanged document revision/descriptors. Interrupted Linux build handles were
+confirmed absent, original SIGHUP logs retained, and restarted checks passed.

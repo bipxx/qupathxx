@@ -5,7 +5,7 @@
 #include <limits>
 namespace qpx {
 struct PixelStreamReadJob::Impl {
-    struct Completion {std::shared_ptr<PixelStreamFile> file;std::shared_ptr<const PixelPredictionResult> block;std::shared_ptr<const PixelStreamFileSummary> summary;std::string error;double ms=0;};
+    struct Completion {std::shared_ptr<PixelStreamFile> file;std::shared_ptr<const PixelPredictionResult> block;std::shared_ptr<const PixelStreamFileSummary> summary;std::shared_ptr<const PixelStreamLink> link;std::string error;double ms=0;};
     std::shared_ptr<PixelStreamFile> file;
     std::future<Completion> future;std::atomic<bool> cancelled{false};
     PixelStreamReadStats stats;
@@ -25,13 +25,20 @@ PixelStreamReadJob::PixelStreamReadJob():impl_(std::make_unique<Impl>()) {}
 PixelStreamReadJob::~PixelStreamReadJob() {cancel();if(busy()) impl_->future.wait();}
 bool PixelStreamReadJob::busy() const {return impl_->future.valid();}
 void PixelStreamReadJob::cancel() {
-    auto& s=*impl_;if(!busy() && !s.file) return;s.cancelled.store(true);if(s.file) s.file->cancel();s.stats.block.reset();s.stats.verified=false;s.stats.error.clear();s.stats.state=busy()?"cancelling":"cancelled";
+    auto& s=*impl_;if(!busy() && !s.file) return;s.cancelled.store(true);if(s.file) s.file->cancel();s.stats.block.reset();s.stats.verified=false;s.stats.link.reset();s.stats.error.clear();s.stats.state=busy()?"cancelling":"cancelled";
 }
 bool PixelStreamReadJob::open(const std::string& path,std::uint64_t index,std::uint64_t max_bytes) {
+    return open_impl(path,index,max_bytes,{});
+}
+bool PixelStreamReadJob::open_link(std::shared_ptr<const PixelStreamLink> expected,std::uint64_t index,std::uint64_t max_bytes) {
+    if(busy()) return false;if(!expected) throw std::invalid_argument("pixel stream link is required");const auto path=expected->path();return open_impl(path,index,max_bytes,std::move(expected));
+}
+bool PixelStreamReadJob::open_impl(const std::string& path,std::uint64_t index,std::uint64_t max_bytes,std::shared_ptr<const PixelStreamLink> expected) {
     if(busy()) return false;if(max_bytes<128 || max_bytes>(1ULL<<46)) throw std::invalid_argument("invalid pixel stream file byte limit");
     auto& s=*impl_;const auto generation=s.stats.generation;s.stats={};s.stats.generation=generation;s.begin("opening");s.stats.block_index=index;s.file.reset();
-    s.start([state=&s,path,index,max_bytes](Impl::Completion& out) {
+    s.start([state=&s,path,index,max_bytes,expected=std::move(expected)](Impl::Completion& out) {
         out.file=std::make_shared<PixelStreamFile>(path,max_bytes);detail::export_checkpoint(&state->cancelled);
+        if(expected) {out.file->verify(&state->cancelled);out.link=out.file->link();if(!expected->same_content(*out.link)) throw std::invalid_argument("saved pixel stream content does not match project link");}
         out.summary=std::make_shared<const PixelStreamFileSummary>(out.file->declared_summary());out.block=out.file->read_block(index);
     });return true;
 }
@@ -43,7 +50,7 @@ bool PixelStreamReadJob::read(std::uint64_t index) {
 bool PixelStreamReadJob::verify() {
     auto& s=*impl_;if(busy()) return false;if(!s.file || s.file->cancelled()) throw std::logic_error("open a pixel stream file before verification");
     s.begin("verifying");s.stats.verified=false;
-    s.start([state=&s](Impl::Completion&) {state->file->verify(&state->cancelled);});return true;
+    s.start([state=&s](Impl::Completion& out) {state->file->verify(&state->cancelled);out.link=state->file->link();});return true;
 }
 bool PixelStreamReadJob::close() {
     auto& s=*impl_;if(busy()) return false;s.file.reset();const auto generation=s.stats.generation;s.stats={};s.stats.generation=generation;return true;
@@ -53,13 +60,13 @@ PixelStreamReadStats PixelStreamReadJob::poll() {
     if(busy() && s.future.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
         try {
             auto out=s.future.get();s.stats.elapsed_ms=out.ms;
-            if(s.cancelled.load()) {s.stats.state="cancelled";s.stats.block.reset();s.stats.verified=false;}
-            else if(!out.error.empty()) {s.stats.state="failed";s.stats.error=std::move(out.error);s.stats.block.reset();s.stats.verified=false;}
+            if(s.cancelled.load()) {s.stats.state="cancelled";s.stats.block.reset();s.stats.verified=false;s.stats.link.reset();}
+            else if(!out.error.empty()) {s.stats.state="failed";s.stats.error=std::move(out.error);s.stats.block.reset();s.stats.verified=false;s.stats.link.reset();}
             else {
                 if(out.file) {s.file=std::move(out.file);s.stats.declared_summary=std::move(out.summary);s.stats.level_bounds=s.file->level_bounds();s.stats.block_size=s.file->block_size();s.stats.windowed=s.file->windowed();}
-                if(out.block) s.stats.block=std::move(out.block);s.stats.verified=s.file->verified();s.stats.state="ready";
+                if(out.link) s.stats.link=std::move(out.link);if(out.block) s.stats.block=std::move(out.block);s.stats.verified=s.file->verified();s.stats.state="ready";
             }
-        }catch(const std::exception& e) {s.stats.state="failed";s.stats.error=e.what();s.stats.block.reset();s.stats.verified=false;}
+        }catch(const std::exception& e) {s.stats.state="failed";s.stats.error=e.what();s.stats.block.reset();s.stats.verified=false;s.stats.link.reset();}
     }
     return s.stats;
 }

@@ -11,8 +11,12 @@ class GuiPixelStreamBrowser {
     PixelStreamReadJob job_;PixelStreamReadStats stats_;GuiPixelPreview preview_;
     std::shared_ptr<const PixelPredictionResult> palette_source_;
     std::vector<std::uint32_t> palette_;std::array<char,4096> path_{};
-    std::array<Rect,7> targets_{};Rect image_bounds_{0,0,0,0};
+    std::array<Rect,11> targets_{};Rect image_bounds_{0,0,0,0};
     std::uint64_t index_=0,max_bytes_=1ULL<<40;bool open_=false,visible_=false;std::string error_;
+    using Records=std::map<std::uint64_t,std::shared_ptr<const PixelStreamRecord>>;
+    std::shared_ptr<const char> identity_;std::uint64_t revision_=0,selected_=0,kept_=0;
+    Records::const_iterator cursor_;std::vector<std::shared_ptr<const PixelStreamRecord>> records_;
+    bool complete_=false;std::size_t max_step_=0;
     static std::size_t index(GuiInputTarget t) {return static_cast<std::size_t>(t)-static_cast<std::size_t>(GuiInputTarget::OpenPixelStreamFile);}
     template<class Work> void run(Work work) {try {work();error_.clear();update();}catch(const std::exception& e) {error_=e.what();}}
 public:
@@ -21,6 +25,13 @@ public:
         if(max_bytes_<128 || max_bytes_>(1ULL<<46)) throw std::invalid_argument("invalid pixel stream file byte limit");
     }
     void open() {open_=true;}
+    void catalog(const Document& doc,const Records& records,const std::shared_ptr<const char>& identity) {
+        if(identity_!=identity || revision_!=doc.revision()) {if(identity_!=identity) {selected_=kept_=0;}identity_=identity;revision_=doc.revision();cursor_=records.cbegin();records_.clear();complete_=false;if(selected_ && !records.count(selected_)) selected_=0;if(!selected_ && !records.empty()) selected_=records.begin()->first;}
+        std::size_t step=0;while(open_ && !complete_ && step<1024) {if(cursor_==records.cend()) {complete_=true;break;}records_.push_back((cursor_++)->second);++step;}max_step_=std::max(max_step_,step);
+    }
+    std::uint64_t kept() const {return kept_;}std::uint64_t selected() const {return selected_;}
+    bool catalog_complete() const {return complete_;}std::size_t catalog_max_step() const {return max_step_;}
+
     void cancel() {job_.cancel();}
     bool busy() const {return job_.busy();}
     bool settled() const {return !busy() && (!open_ || !visible_ || !stats_.block || preview_.ready() || !preview_.error().empty());}
@@ -39,7 +50,7 @@ public:
         preview_.update(open_?stats_.block:nullptr,palette_,false,1024*1024);
     }
     void finish(bool finite) {if(!finite) job_.cancel();if(job_.busy()) job_.wait();update();if(open_) preview_.update(stats_.block,palette_,true,1024*1024);}
-    void draw(bool blocked,const std::function<void(GuiInputTarget)>& mark) {
+    void draw(Document& doc,bool blocked,const std::function<void(GuiInputTarget)>& mark) {
         image_bounds_={0,0,0,0};visible_=false;if(!open_) return;
         const auto* vp=ImGui::GetMainViewport();const auto scale=ImGui::GetFontSize()/13.f;
         ImGui::SetNextWindowSize({std::min(650.f*scale,vp->WorkSize.x*.88f),std::min(680.f*scale,vp->WorkSize.y*.88f)},ImGuiCond_Appearing);
@@ -62,6 +73,15 @@ public:
         ImGui::TextWrapped("%s%s",stats_.state.c_str(),stats_.verified?" / full file verified":" / whole-file totals not verified");
         if(!error().empty()) ImGui::TextWrapped("%s",error().c_str());
         if(stats_.declared_summary) {const auto& summary=*stats_.declared_summary;ImGui::TextWrapped("%llu blocks / %llu bytes / %s",static_cast<unsigned long long>(summary.blocks),static_cast<unsigned long long>(summary.bytes),stats_.windowed?"windowed target":"full target");ImGui::TextWrapped("%llu valid / %llu classified pixels (%s totals)",static_cast<unsigned long long>(summary.valid_pixels),static_cast<unsigned long long>(summary.classified_pixels),stats_.verified?"verified":"declared");}
+        const bool compatible=stats_.verified && stats_.link && stats_.link->source_width()==doc.metadata().width && stats_.link->source_height()==doc.metadata().height;
+        if(button("Keep verified stream link",GuiInputTarget::KeepPixelStreamLink,disabled() || !compatible)) run([&] {kept_=selected_=doc.keep_pixel_stream(stats_.link);});
+        std::shared_ptr<const PixelStreamRecord> selected;if(selected_) {try {selected=doc.pixel_stream_record(selected_);}catch(const std::out_of_range&) {selected_=0;}}
+        ImGui::BeginDisabled(disabled());const auto label=selected?"#"+std::to_string(selected->id)+" / "+selected->name:std::string("No saved stream links");
+        if(ui::BeginCombo("Project stream links",label.c_str())) {ImGuiListClipper clipper;clipper.Begin(static_cast<int>(records_.size()));while(clipper.Step()) for(int i=clipper.DisplayStart;i<clipper.DisplayEnd;++i) {ImGui::PushID(i);const auto& r=records_[i];const auto name="#"+std::to_string(r->id)+" / "+r->name;if(ImGui::Selectable(name.c_str(),r->id==selected_)) selected_=r->id;ImGui::PopID();}ui::EndCombo();}ImGui::EndDisabled();
+        if(button("Open saved stream",GuiInputTarget::OpenPixelStreamRecord,disabled() || !selected)) run([&] {index_=0;const auto path=selected->link->path();bounded_utf8(path,path_.size()-1);path_.fill(0);std::memcpy(path_.data(),path.data(),path.size());job_.open_link(selected->link,index_,max_bytes_);});ImGui::SameLine();
+        if(button("Relink selected stream",GuiInputTarget::RelinkPixelStreamRecord,disabled() || !selected || !stats_.verified || !stats_.link || !selected->link->same_content(*stats_.link))) run([&] {doc.relink_pixel_stream_record(selected_,stats_.link);});ImGui::SameLine();
+        if(button("Remove stream link",GuiInputTarget::RemovePixelStreamRecord,disabled() || !selected)) run([&] {doc.remove_pixel_stream_record(selected_);selected_=0;});
+        if(selected && ImGui::CollapsingHeader("Saved stream link details")) {ImGui::TextWrapped("%s",selected->link->path().c_str());ImGui::TextWrapped("Historical content SHA-256: %s",selected->link->summary().sha256.c_str());ImGui::TextWrapped("Project loading checks metadata only. Opening this link verifies the complete external file. Removing a link does not delete its file.");}
         if(stats_.block) {
             const auto& block=*stats_.block;ImGui::TextWrapped("Historical block %llu: %lld x %lld at level %d",static_cast<unsigned long long>(stats_.block_index),static_cast<long long>(block.width()),static_cast<long long>(block.height()),block.level());
             ImGui::TextWrapped("Labels only. This preview is separate from the current image.");

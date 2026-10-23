@@ -76,8 +76,8 @@ the inspector preview. Live prediction/overlay fields continue to describe the
 main image's analysis.
 
 See the [QPS1 file contract](pixel-stream-file.md) and
-[background export](pixel-stream-export.md). Project-linked file records,
-resume, source reconciliation for current-slide overlays and stitched
+[background export](pixel-stream-export.md). [Project-linked historical descriptors](pixel-stream-records.md) are available.
+Resume, source reconciliation for current-slide overlays and stitched
 whole-stream contour publication remain open.
 
 

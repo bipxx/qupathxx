@@ -191,11 +191,15 @@ def main():
         work/'pixel-stream-read-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_cli.py', '--work', work/'pixel-stream-cli', '--output', work/'pixel-stream-cli-benchmark.json'],
         work/'pixel-stream-cli-benchmark.log', env, 120)
+    run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_records.py', '--file', work/'pixel-stream-file.qps', '--project', work/'pixel-stream-links.qpxproj', '--output', work/'pixel-stream-record-benchmark.json'],
+        work/'pixel-stream-record-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_file.py', '--job', '--file', work/'pixel-stream-job.qps', '--output', work/'pixel-stream-job-benchmark.json'],
         work/'pixel-stream-job-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_archives.py', '--output', work/'pixel-archive-benchmark.json'],
         work/'pixel-archive-benchmark.log', env, 120)
     if args.mode == 'gui':
+        run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_records.py', '--gui', '--file', work/'pixel-stream-file.qps', '--project', work/'gui-pixel-stream-links.qpxproj', '--output', work/'gui-pixel-stream-record-benchmark.json'],
+            work/'gui-pixel-stream-record-benchmark.log', env, 120)
         run([test_python, '-I', ROOT/'tools/benchmark_gui_pixel_stream_read.py', '--file', work/'pixel-stream-file.qps', '--output', work/'gui-pixel-stream-read-benchmark.json', '--capture', work/'gui-pixel-stream-read.ppm'],
             work/'gui-pixel-stream-read-benchmark.log', env, 120)
         run([test_python, '-I', ROOT/'tools/benchmark_gui_pixel_stream.py', '--file', work/'gui-pixel-stream.qps', '--output', work/'gui-pixel-stream-benchmark.json'],

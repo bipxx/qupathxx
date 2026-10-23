@@ -1,0 +1,43 @@
+{
+  "schema": "qpx.pixel-stream-record-benchmark/1",
+  "records": 10000,
+  "stream_bytes": 37804298,
+  "stream_blocks": 256,
+  "content_sha256": "386a44256b9a9072cb379e668798071c672bb41ea5ca2c2b23b2d076d9610991",
+  "descriptor_payload_bytes": 485,
+  "record_payload_bytes": 588,
+  "total_encoded_descriptor_bytes": 4188890,
+  "max_encoded_descriptor_bytes": 419,
+  "project_bytes": 17444864,
+  "project_schema": 10,
+  "prepare_ms": 316.28240004647523,
+  "adopt_all_ms": 3.626300022006035,
+  "save_ms": 96.99540003202856,
+  "open_ms": 48.77650004345924,
+  "gui": {
+    "document_unchanged": true,
+    "project_dirty": true,
+    "frames": 115,
+    "cpu_frame_p95_ms": 2.6619,
+    "max_cpu_frame_ms": 18.6303,
+    "catalog_max_step": 1024,
+    "catalog_complete": true,
+    "gpu_bytes": 65536,
+    "peak_gpu_bytes": 65536,
+    "ui_overflow": 0,
+    "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "capture": {
+      "file": "pixel84-linked-browser-verified.ppm",
+      "sha256": "757eb7186ec8cdfb5709c0a15f5f2d2819a867882e263cdf1c7dc1ae6ce2a6dc"
+    }
+  },
+  "native_sha256": "9153d3333bed49b68743ac112a72c69cb32801e66db9d6738ac654dba21fe089",
+  "environment": {
+    "source_tree_sha256": "72445606a4be1bbde0caba66d407f6b1652e5175114f7ab1250f94b9969a2c76",
+    "git_revision": "d8c32492771ec9a518bb8262af33ae15246a4017+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "scope": "Synthetic descriptor/catalog/persistence observation. All links reference one fully verified file; project embeds only its synthetic source image and bounded descriptor rows, not external stream arrays or model. Relative-path relocation is checked by tests. Optional GUI uses clipped dropdown/catalog steps and one historical block preview. No RSS, many distinct files, network storage, vendor WSI, hardware/frame-budget or biological acceptance. Project and external output retained."
+}

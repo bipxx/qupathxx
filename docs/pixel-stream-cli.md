@@ -63,7 +63,7 @@ cooperative cancellation guarantee.
 
 This command exports one image/area per invocation. Shell/Python orchestration
 can invoke it for multiple targets. Project-wide resumable pixel-classifier
-batches, project-linked stream records, source reconciliation and stitched
+batches, source reconciliation and stitched
 whole-stream contour publication remain open. This addition does not mark those
 requirements complete.
 

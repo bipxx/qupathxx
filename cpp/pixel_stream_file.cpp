@@ -120,6 +120,11 @@ Rect PixelStreamFile::level_bounds() const {const auto& g=impl_->grid;return {do
 std::size_t PixelStreamFile::block_size() const {return static_cast<std::size_t>(impl_->grid.step);}
 bool PixelStreamFile::windowed() const {return impl_->grid.windowed;}
 const PixelStreamFileSummary& PixelStreamFile::declared_summary() const {return impl_->summary;}
+std::shared_ptr<const PixelStreamLink> PixelStreamFile::link() const {
+    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);stop(&s.cancelled);if(!s.verified.load()) throw std::logic_error("verify all stream blocks before preparing a project link");
+    auto link=std::make_shared<PixelStreamLink>();link->path_=s.path;link->summary_=s.summary;const auto& first=*s.prototype->result();link->model_=first.model().sha256();const auto& source=first.provenance()->source;link->width_=source.width;link->height_=source.height;link->object_=first.object_id();link->revision_=first.provenance()->document_revision;
+    const std::uint64_t grid[]={s.grid.x,s.grid.y,s.grid.w,s.grid.h};std::copy(std::begin(grid),std::end(grid),std::begin(link->grid_));link->windowed_=s.grid.windowed;link->block_=static_cast<std::size_t>(s.grid.step);link->validate();stop(&s.cancelled);return link;
+}
 PixelStreamFileSummary save_pixel_stream(PixelPredictionStream& stream,const std::string& input,bool replace,std::uint64_t max_bytes,const std::atomic<bool>* cancel) {
     limit(max_bytes);stop(cancel);if(stream.completed_blocks() || stream.state()!="ready") throw std::invalid_argument("saving requires a fresh pixel producer");const auto path=detail::export_path(input);
     std::unique_ptr<detail::ReaderFileGuard> old;const auto status=std::filesystem::symlink_status(std::filesystem::u8path(path));

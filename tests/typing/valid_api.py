@@ -307,3 +307,14 @@ def inspect_stream_file(path: str) -> q.PixelPredictionResult:
     assert job.wait().verified
     assert job.close()
     return result.block
+
+
+def keep_stream_link(document: q.Document, path: str) -> q.PixelStreamRecord:
+    link: q.PixelStreamLink=q.prepare_pixel_stream_link(path)
+    identity=document.keep_pixel_stream(link,"Historical stream")
+    record: q.PixelStreamRecord=document.pixel_stream_record(identity)
+    job=q.PixelStreamReadJob()
+    assert job.open_link(record.link)
+    result=job.wait()
+    assert result.verified and result.link is not None
+    return record

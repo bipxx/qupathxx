@@ -96,7 +96,7 @@ Block offsets are calculated from the grid and edge dimensions; no disk or RAM
 offset table is required. The effective block size can be smaller than the
 configured producer size when a single block covers the entire target.
 
-Restart/resume, project-linked stream records, stitched whole-stream contours
+Restart/resume and stitched whole-stream contours
 remain open. The [saved-file inspector](pixel-stream-browser.md) opens and verifies historical blocks. This format provides atomic complete
 numeric output and bounded historical access for those later workflows.
 

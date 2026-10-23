@@ -1,0 +1,260 @@
+{
+  "schema": "qpx.pixel-stream-record-local/1",
+  "observed_utc": "2026-10-23T06:22:24.205673+00:00",
+  "scope": "Schema10 bounded historical external QPS1 descriptors with transactional legacy migrations, snapshot/recovery/batch preservation and digests, native/Python verified preparation/adoption/relink/remove, and real inspector controls. Missing-file project loading performs no QPS I/O. No current-source pixel identity, stream packaging, resumable pixel batches, stitching, unmatched-grid resampling, research/TMA or hardware/RSS/frame-budget acceptance.",
+  "tests": {
+    "python": {
+      "tests": 1736,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 6,
+      "passed": 1730,
+      "seconds": 612.1,
+      "sha256": "b295ac90a0b5c88f8967ff39457ce06f28d7fb40d1c551507067cd2bc7767102"
+    },
+    "persistence_focused": {
+      "tests": 148,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2,
+      "passed": 146,
+      "seconds": 9.056,
+      "sha256": "6aa0d6ebeec4e9d6614c1b6bf538fc27f64a81cd224b0e4720c102087b836821"
+    },
+    "gui_focused": {
+      "tests": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 15,
+      "seconds": 28.637,
+      "sha256": "79796bd34b83c22f4349b1f23fb3c85d30afb454a904e9a8fb365d74624c08ec"
+    },
+    "windows_gui_native": {
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 39,
+      "seconds": 6.0,
+      "sha256": "aad44cb7bca929b779636339ef7194eed7f348da3370c75fc65edacae4af0187"
+    },
+    "windows_native": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 9.0,
+      "sha256": "58e730bf469cb53bd64718a2923bdf814c1188ecd299a4fc6c97f165257cae89"
+    },
+    "linux_native": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 2.0,
+      "sha256": "9efbfd83c71d66b9b70c1f7c0f61e5a2b1c3a528526f64dcb687b568e2a8e136"
+    },
+    "linux_minimal": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 2.0,
+      "sha256": "9a03b4b6763bc51860896d988bed5be1af099ae9bf37c001475981dc67299334"
+    },
+    "linux_sanitizers": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 5.0,
+      "sha256": "e39cc43faa02c63b6b4e4c6a7d7964546e3007978539f223e6d1632eedab3ad7"
+    }
+  },
+  "new_cases": {
+    "test_pixel_stream_records": [
+      "test_only_complete_verification_prepares_an_immutable_link",
+      "test_metadata_record_is_historical_bounded_and_not_an_edit_command",
+      "test_rejected_record_names_do_not_change_revision[]",
+      "test_rejected_record_names_do_not_change_revision[xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx]",
+      "test_rejected_record_names_do_not_change_revision[bad\\x00name]",
+      "test_dimension_mismatch_is_rejected_without_claiming_source_identity",
+      "test_schema10_roundtrip_and_missing_file_do_not_access_external_values",
+      "test_project_and_stream_directory_can_move_together",
+      "test_save_as_rebases_stream_path_without_modifying_descriptor",
+      "test_relink_requires_exact_verified_content_and_never_deletes_files",
+      "test_opening_link_verifies_complete_file_before_exposing_values",
+      "test_complete_different_valid_file_is_rejected_for_saved_link",
+      "test_legacy_schemas_load_and_transactionally_upgrade_to_schema10[1]",
+      "test_legacy_schemas_load_and_transactionally_upgrade_to_schema10[2]",
+      "test_legacy_schemas_load_and_transactionally_upgrade_to_schema10[3]",
+      "test_legacy_schemas_load_and_transactionally_upgrade_to_schema10[4]",
+      "test_legacy_schemas_load_and_transactionally_upgrade_to_schema10[5]",
+      "test_legacy_schemas_load_and_transactionally_upgrade_to_schema10[6]",
+      "test_legacy_schemas_load_and_transactionally_upgrade_to_schema10[7]",
+      "test_legacy_schemas_load_and_transactionally_upgrade_to_schema10[8]",
+      "test_legacy_schemas_load_and_transactionally_upgrade_to_schema10[9]",
+      "test_schema9_migration_rolls_back_with_the_original_bytes_intact",
+      "test_corrupt_or_forged_stream_record_rows_are_rejected[checksum]",
+      "test_corrupt_or_forged_stream_record_rows_are_rejected[id]",
+      "test_corrupt_or_forged_stream_record_rows_are_rejected[orphan]",
+      "test_corrupt_or_forged_stream_record_rows_are_rejected[source]",
+      "test_corrupt_or_forged_stream_record_rows_are_rejected[bounds]",
+      "test_corrupt_or_forged_stream_record_rows_are_rejected[class-counts]",
+      "test_corrupt_or_forged_stream_record_rows_are_rejected[trailing]",
+      "test_autosave_recovery_and_background_save_capture_links_without_reading_file",
+      "test_batch_checkpoints_preserve_links_and_digest_the_descriptor_rows"
+    ],
+    "test_gui_pixel_stream_records": [
+      "test_keep_verified_file_link_from_real_inspector_survives_project_reopen[dimensions0-1.0]",
+      "test_keep_verified_file_link_from_real_inspector_survives_project_reopen[dimensions1-1.25]",
+      "test_real_inspector_never_keeps_an_unverified_link",
+      "test_saved_record_missing_file_is_preserved_and_reports_error",
+      "test_real_relink_updates_path_only_after_matching_file_verification",
+      "test_real_remove_link_keeps_external_file_and_historical_preview"
+    ]
+  },
+  "installed": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "9153d3333bed49b68743ac112a72c69cb32801e66db9d6738ac654dba21fe089",
+    "source_tree_sha256": "72445606a4be1bbde0caba66d407f6b1652e5175114f7ab1250f94b9969a2c76",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "bytes": 12216394,
+    "sha256": "5b28084db10fd6996bbcb448228b345f99ff7dce4674a0e3b84e4f4cfb897fcb"
+  },
+  "benchmark": {
+    "file": "pixel-stream-records-10000-windows.json",
+    "sha256": "caa885156c280d12ebd4c40e0b5af4b909b4bc714b97948d66526cf338ef346f",
+    "values": {
+      "schema": "qpx.pixel-stream-record-benchmark/1",
+      "records": 10000,
+      "stream_bytes": 37804298,
+      "stream_blocks": 256,
+      "content_sha256": "386a44256b9a9072cb379e668798071c672bb41ea5ca2c2b23b2d076d9610991",
+      "descriptor_payload_bytes": 485,
+      "record_payload_bytes": 588,
+      "total_encoded_descriptor_bytes": 4188890,
+      "max_encoded_descriptor_bytes": 419,
+      "project_bytes": 17444864,
+      "project_schema": 10,
+      "prepare_ms": 316.28240004647523,
+      "adopt_all_ms": 3.626300022006035,
+      "save_ms": 96.99540003202856,
+      "open_ms": 48.77650004345924,
+      "gui": {
+        "document_unchanged": true,
+        "project_dirty": true,
+        "frames": 115,
+        "cpu_frame_p95_ms": 2.6619,
+        "max_cpu_frame_ms": 18.6303,
+        "catalog_max_step": 1024,
+        "catalog_complete": true,
+        "gpu_bytes": 65536,
+        "peak_gpu_bytes": 65536,
+        "ui_overflow": 0,
+        "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+        "capture": {
+          "file": "pixel84-linked-browser-verified.ppm",
+          "sha256": "757eb7186ec8cdfb5709c0a15f5f2d2819a867882e263cdf1c7dc1ae6ce2a6dc"
+        }
+      },
+      "native_sha256": "9153d3333bed49b68743ac112a72c69cb32801e66db9d6738ac654dba21fe089",
+      "environment": {
+        "source_tree_sha256": "72445606a4be1bbde0caba66d407f6b1652e5175114f7ab1250f94b9969a2c76",
+        "git_revision": "d8c32492771ec9a518bb8262af33ae15246a4017+dirty",
+        "compiler": "MSVC 19.44.35225.0",
+        "configuration": "Release",
+        "platform": "Windows AMD64"
+      },
+      "scope": "Synthetic descriptor/catalog/persistence observation. All links reference one fully verified file; project embeds only its synthetic source image and bounded descriptor rows, not external stream arrays or model. Relative-path relocation is checked by tests. Optional GUI uses clipped dropdown/catalog steps and one historical block preview. No RSS, many distinct files, network storage, vendor WSI, hardware/frame-budget or biological acceptance. Project and external output retained."
+    },
+    "project_sha256": "67bfbd51f29e2b369aae7488c0c8e0dbea1ccb3bdb14e1a079f737a573be4541"
+  },
+  "linux_project_checkpoint_roundtrip": {
+    "schema": "qpx.pixel-stream-link-interop/1",
+    "report": {
+      "schema": "qpx.project-batch/1",
+      "state": "succeeded",
+      "error": "",
+      "report_path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/pixel84-cross-platform/linux-batch/run-553c678cb5cdc63efd7ee848bb9a1b30.json",
+      "parameters_sha256": "b60ad0e75bd29ebe5f1be1fcb4e281ce7d7dbac0329f900191c124578232f59a",
+      "source_identity": "e47cfae57352b36ffee2a930d1f3e7c7",
+      "source_generation": 1,
+      "source_revision": 0,
+      "saved": 1,
+      "reused": 0,
+      "failed": 0,
+      "snapshot_bytes": 104532,
+      "capture_ms": 0.238942,
+      "elapsed_ms": 181.497773,
+      "images": [
+        {
+          "schema": "qpx.batch-image/1",
+          "image_id": 1,
+          "image_name": "Image",
+          "state": "saved",
+          "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/pixel84-cross-platform/linux-batch/image-1-8d65135c1c54af6f4e0ae32cbb24ebf41873444f969849fa1622e7a3cd2304ce/33afd501f97dee5ea82f9e4a0334057c772c67d58d9b4d9feb85f9bc2fc133e0.qpxproj",
+          "error": "",
+          "input_sha256": "8822f458c104160b0e02f5a1b6b8d8246bb06648324765510e0296fa4780d1a0",
+          "pixel_sha256": "33afd501f97dee5ea82f9e4a0334057c772c67d58d9b4d9feb85f9bc2fc133e0",
+          "objects": 1,
+          "records": 1,
+          "elapsed_ms": 176.064466
+        }
+      ]
+    },
+    "same_content": true,
+    "same_name": true,
+    "same_resolved_path": true,
+    "records": 1,
+    "project_schema": 10
+  },
+  "screenshot": {
+    "file": "pixel-stream-project-links.png",
+    "sha256": "09d257560d1a9db025f70a102d4356ff7a40abd62ee9a772b864cbc4e9b673f2",
+    "visually_checked": true
+  },
+  "checks": {
+    "pixel84-stubs-check.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "pixel84-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "pixel84-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "development_notes": [
+    "Initial native test compared a linked replacement file with an earlier provenance-bearing content commitment; corrected to the actual linked file. A second native failure showed the test invalidated a later captured prediction by mutating its document revision; link roundtrip now uses a separate document. Authority checks were not weakened.",
+    "Initial API assertions incorrectly requested autosave of a clean project and used a primary .qpxproj suffix rather than .qpxrecover. Recovery fixture now makes the document dirty and uses an existing parent/.qpxrecover, matching the established autosave contract.",
+    "Windows batch paths can use the equivalent extended prefix; test compares normalized path spelling. Disabled Keep control test sends an immediate click rather than waiting for a disabled control to become ready.",
+    "Initial catalog probe asserted a clean project after first viewer presentation. The final probe checks unchanged document revision/descriptors and reports view-preference dirty state separately.",
+    "First Linux builds ended with SIGHUP. Their original process handles were absent and build logs confirmed termination; preserved interruption logs and restarted builds passed.",
+    "Four initial/development corrections above change tests/probes; the new descriptor codec additionally rejects an empty stored path. Final complete suite uses the frozen release wheel."
+  ]
+}

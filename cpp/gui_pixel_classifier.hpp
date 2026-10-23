@@ -98,7 +98,7 @@ public:
     void open() {open_=true;}
     void invalidate_training() {if(training_.busy()) cancel_training();}
     void update(Document& doc,const ObjectSelection& selection) {
-        browser_.update();
+        browser_.update();browser_.catalog(doc,doc.streams_,doc.analysis_identity_.token);
         if(preview_reset_) {preview_.clear();preview_reset_=false;}
         const bool changed_document=catalog_identity_ && catalog_identity_!=doc.analysis_identity_.token;
         if(changed_document) {stream_.cancel();cancel_training();cancel_prediction();target_=0;record_loaded_=false;}
@@ -150,9 +150,9 @@ public:
     Rect bounds(GuiInputTarget t) const {return t>=GuiInputTarget::OpenPixelStreamFile?browser_.bounds(t):targets_.at(index(t));}
     void finish(Document& doc,const ObjectSelection& selection,bool finite) {if(!finite) {stream_.cancel();archives_.cancel();training_.cancel();cancel_prediction();io_cancelled_.store(true);}if(training_.busy()) training_.wait(doc);if(prediction_.busy()) prediction_.wait(doc);if(contours_.busy()) contours_.wait(doc);if(io_.valid()) io_.wait();archives_.wait();if(stream_.busy()) stream_.wait(doc);browser_.finish(finite);update(doc,selection);}
     void draw(Document& doc,const ObjectSelection& selection,bool blocked,bool has_image,const std::function<void(GuiInputTarget)>& mark,const std::function<StainTransform(bool)>& transform,Rect visible) {
-        if(!ImGui::GetIO().WantTextInput && !blocked && ImGui::IsKeyPressed(ImGuiKey_F5,false)) open_=!open_;if(!open_) {browser_.draw(blocked,mark);return;}
+        if(!ImGui::GetIO().WantTextInput && !blocked && ImGui::IsKeyPressed(ImGuiKey_F5,false)) open_=!open_;if(!open_) {browser_.draw(doc,blocked,mark);return;}
         const auto* vp=ImGui::GetMainViewport();const auto scale=ImGui::GetFontSize()/13.f;ImGui::SetNextWindowSize({std::min(620.f*scale,vp->WorkSize.x*.88f),std::min(720.f*scale,vp->WorkSize.y*.88f)},ImGuiCond_Appearing);ImGui::SetNextWindowPos({vp->WorkPos.x+vp->WorkSize.x*.5f,vp->WorkPos.y+vp->WorkSize.y*.5f},ImGuiCond_Appearing,{.5f,.5f});ImGui::SetNextWindowSizeConstraints({std::min(260.f*scale,vp->WorkSize.x),std::min(160.f*scale,vp->WorkSize.y)},vp->WorkSize);
-        if(!ImGui::Begin("Pixel classifiers",&open_)) {ImGui::End();browser_.draw(blocked,mark);return;}
+        if(!ImGui::Begin("Pixel classifiers",&open_)) {ImGui::End();browser_.draw(doc,blocked,mark);return;}
         auto button=[&](const char* label,GuiInputTarget target,bool disabled){ImGui::BeginDisabled(disabled);const bool clicked=ui::Button(label);const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};mark(target);ImGui::EndDisabled();return clicked;};
         const bool busy=stream_.busy() || archives_.busy() || training_.busy() || prediction_.busy() || contours_.busy() || io_.valid();const bool disabled=blocked || !has_image || busy;
         // Primary actions remain above advanced controls in narrow windows.
@@ -241,7 +241,7 @@ public:
         if(published_) ImGui::TextWrapped("Published %zu class annotations",published_ids_.size());
         if(model_ && ImGui::CollapsingHeader("Overlay colors",colors_.size()<=8?ImGuiTreeNodeFlags_DefaultOpen:0)) {bool palette=ui::SliderFloat("Opacity",&opacity_,0,1);for(std::size_t i=0;i<colors_.size();++i) {ImGui::PushID(static_cast<int>(i));const auto label="Class "+std::to_string(i+1)+" / "+model_->classes()[i];palette=ui::ColorEdit3(label.c_str(),colors_[i].data()) || palette;ImGui::PopID();}if(palette) make_palette();}
         if(auto result=prediction_.result()) {if(result->windowed()) ImGui::TextWrapped("Windowed prediction: captured visible grid; pan and predict again to update.");ImGui::TextWrapped("%lld x %lld / level %d / %.1f ms",static_cast<long long>(result->width()),static_cast<long long>(result->height()),result->level(),result->elapsed_ms());ImGui::TextWrapped("%llu classified pixels; preview %s",static_cast<unsigned long long>(result->classified_pixels()),preview_.ready()?"ready":"preparing");}
-        ImGui::End();browser_.draw(blocked,mark);
+        ImGui::End();browser_.draw(doc,blocked,mark);
     }
 };
 }

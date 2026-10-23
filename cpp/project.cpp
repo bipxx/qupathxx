@@ -9,6 +9,7 @@
 #include "geometry_archive.hpp"
 #include "object_classifier_archive.hpp"
 #include "pixel_classifier_archive.hpp"
+#include "pixel_stream_record.hpp"
 #include "project_schema.hpp"
 #include <algorithm>
 #include <array>
@@ -112,6 +113,8 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         add(e.document->analysis_bytes_);
         add(e.document->tissue_bytes_);
         add(e.document->cells_bytes_);
+        add(e.document->streams_bytes_);
+        add(e.document->streams_.size()*sizeof(std::shared_ptr<const PixelStreamRecord>));
         add(e.document->pixels_bytes_);
         add(e.document->pixels_.size()*sizeof(std::shared_ptr<const PixelClassifierRecord>));
         add(e.document->classifiers_bytes_);
@@ -157,6 +160,9 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         doc->pixels_snapshot_.reserve(e.document->pixels_.size());
         for(const auto& entry:e.document->pixels_) doc->pixels_snapshot_.push_back(entry.second);
         doc->pixels_bytes_=e.document->pixels_bytes_;
+        doc->streams_snapshot_.reserve(e.document->streams_.size());
+        for(const auto& entry:e.document->streams_) doc->streams_snapshot_.push_back(entry.second);
+        doc->streams_bytes_=e.document->streams_bytes_;
         snapshot->entries_.emplace(id,Entry{e.info,std::move(doc)});
     }
     return snapshot;
@@ -385,7 +391,7 @@ int schema(Database& db,bool allow_recovery=false) {
     auto version=scalar(db,"PRAGMA user_version");
     auto app=scalar(db,"PRAGMA application_id");
     if((app!=application_id && !(allow_recovery && app==recovery_application_id)) || (version<1 || version>detail::project_schema_version))
-        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 through 9)");
+        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 through 10)");
     return static_cast<int>(version);
 }
 void create_views(Database& db) {
@@ -411,6 +417,9 @@ void create_classifiers(Database& db) {
 }
 void create_pixel_classifiers(Database& db) {
     db.exec("CREATE TABLE pixel_classifier_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=9;");
+}
+void create_pixel_streams(Database& db) {
+    db.exec("CREATE TABLE pixel_stream_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=10;");
 }
 bool recovery_table(Database& db) { return scalar(db,"SELECT count(*) FROM sqlite_schema WHERE type='table' AND name='recovery'")!=0; }
 RecoveryInfo recovery_header(Database& db,const std::string& path) {
@@ -483,9 +492,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<7) create_provenance(db);
         if(version<8) create_classifiers(db);
         if(version<9) create_pixel_classifiers(db);
+        if(version<10) create_pixel_streams(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);}
-    db.exec("DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);}
+    db.exec("DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -500,6 +510,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement cells(db,"INSERT INTO cell_records VALUES(?,?,?,?,?)");
     Statement classifiers(db,"INSERT INTO classifier_records VALUES(?,?,?)");
     Statement pixels(db,"INSERT INTO pixel_classifier_records VALUES(?,?,?)");
+    Statement streams(db,"INSERT INTO pixel_stream_records VALUES(?,?,?)");
     Statement analysis(db,"INSERT INTO analysis_records VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     auto directory=link_directory.empty()?fs::u8path(destination).parent_path():fs::u8path(link_directory);
     for(const auto& [id,e]:entries_) {
@@ -579,6 +590,9 @@ void Project::save_impl(const std::string& path,const std::string& link_director
       };
       for(const auto& entry:e.document->pixels_) write_pixel(*entry.second);
       for(const auto& record:e.document->pixels_snapshot_) write_pixel(*record);
+      auto write_stream=[&](const PixelStreamRecord& record) {const auto bytes=PixelStreamRecordCodec::encode(record,directory.u8string(),cancelled);streams.string(1,std::to_string(image_id));streams.string(2,std::to_string(record.id));streams.blob(3,bytes);streams.done();};
+      for(const auto& entry:e.document->streams_) write_stream(*entry.second);
+      for(const auto& record:e.document->streams_snapshot_) write_stream(*record);
 
     }
     // Canonical rows and recovery provenance must commit together.
@@ -770,6 +784,15 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             const auto size=sqlite3_column_bytes(rows.stmt,2);if(rows.type(2)!=SQLITE_BLOB || size<0) throw std::invalid_argument("invalid pixel classifier blob");
             const auto record=PixelClassifierArchiveCodec::record(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,2)),static_cast<std::size_t>(size),image->second.document->metadata(),progress?progress->cancellation():nullptr);
             if(record->id!=number(rows.string(1))) throw std::invalid_argument("pixel classifier record identity mismatch");image->second.document->restore_pixel_classifier(record);
+        }
+    }
+    if(version>=10) {
+        Statement rows(db,"SELECT image_id,id,payload FROM pixel_stream_records ORDER BY image_id,id");
+        while(rows.row()) {
+            stopped();const auto image=project->entries_.find(number(rows.string(0)));if(image==project->entries_.end()) throw std::invalid_argument("orphaned pixel stream record");
+            const auto size=sqlite3_column_bytes(rows.stmt,2);if(rows.type(2)!=SQLITE_BLOB || size<0 || size>128*1024) throw std::invalid_argument("invalid pixel stream record blob");
+            const auto record=PixelStreamRecordCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,2)),static_cast<std::size_t>(size),fs::u8path(source).parent_path().u8string(),progress?progress->cancellation():nullptr);
+            if(record->id!=number(rows.string(1))) throw std::invalid_argument("pixel stream record identity mismatch");image->second.document->restore_pixel_stream(record);
         }
     }
     if(version>=7 && scalar(db,"SELECT count(*) FROM analysis_provenance p WHERE NOT EXISTS (SELECT 1 FROM analysis_records a WHERE a.image_id=p.image_id AND a.id=p.record_id) AND NOT EXISTS (SELECT 1 FROM tissue_records t WHERE t.image_id=p.image_id AND t.id=p.record_id) AND NOT EXISTS (SELECT 1 FROM cell_records c WHERE c.image_id=p.image_id AND c.id=p.record_id)")) throw std::invalid_argument("orphaned analysis provenance");

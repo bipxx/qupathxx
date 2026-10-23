@@ -4,6 +4,7 @@
 #include "qupathxx/pixel_stream_file.hpp"
 #include "../gui_pixel_archives.hpp"
 #include "../sha256.hpp"
+#include "../pixel_stream_record.hpp"
 #include "object_forest_fixture.hpp"
 #include <algorithm>
 #include <chrono>
@@ -95,6 +96,14 @@ int main() {try {
             PixelStreamReadJob read_job;check(read_job.open(output.path.u8string()) && !read_job.open(output.path.u8string()) && !read_job.close());
             const auto opened=read_job.wait();check(opened.state=="ready" && opened.block && !opened.verified && opened.declared_summary->class_counts==summary.class_counts);
             check(read_job.verify());const auto verified=read_job.wait();check(verified.state=="ready" && verified.verified && verified.block==opened.block);
+            check(verified.link && verified.link->summary().sha256==survived.declared_summary().sha256 && verified.link->model_sha256()==model.sha256());
+            Document linked_doc(source);
+            const auto linked=linked_doc.keep_pixel_stream(verified.link,"Native stream link");const auto saved_link=linked_doc.pixel_stream_record(linked);
+            const auto encoded_link=PixelStreamRecordCodec::encode(*saved_link,output.path.parent_path().u8string(),nullptr);
+            const auto decoded_link=PixelStreamRecordCodec::decode(encoded_link.data(),encoded_link.size(),output.path.parent_path().u8string(),nullptr);
+            check(decoded_link->link->same_content(*saved_link->link) && decoded_link->link->path()==saved_link->link->path() && encoded_link.size()<4096);
+            auto corrupt_link=encoded_link;corrupt_link.back()^=1;rejects([&] {PixelStreamRecordCodec::decode(corrupt_link.data(),corrupt_link.size(),output.path.parent_path().u8string(),nullptr);});
+            linked_doc.relink_pixel_stream_record(linked,decoded_link->link);check(linked_doc.pixel_stream_record_count()==1 && linked_doc.remove_pixel_stream_record(linked) && !linked_doc.remove_pixel_stream_record(linked));
             check(read_job.read(summary.blocks-1));const auto last_block=read_job.wait();check(last_block.state=="ready" && last_block.block_index==summary.blocks-1 && last_block.block->sha256()==survived.read_block(summary.blocks-1)->sha256());
             read_job.cancel();check(read_job.poll().state=="cancelled" && !read_job.poll().block);rejects([&] {read_job.read(0);});
             check(read_job.open(output.path.u8string()));check(read_job.wait().state=="ready");check(read_job.close() && read_job.poll().state=="idle" && !read_job.poll().block && opened.block->valid_pixels()==survived.read_block(0)->valid_pixels());
