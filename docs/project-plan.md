@@ -3714,3 +3714,78 @@ optimization and calibrated-cell exports. It does not qualify the newer physical
 area/viewer candidates. Project license, macOS/GUI packages, hardware/scientific
 acceptance and every other open M0–M7 requirement remain open. Release readiness
 stays false.
+
+
+## Physical nucleus-area filter candidate (packet 103)
+
+The [physical-area contract](cell-area-limits.md) adds inclusive optional minimum
+and maximum nucleus areas to native/Python requests, headless CLI, per-image
+project batches and ImGui. Resolution intersects existing sampled limits on the
+captured natural grid, using anisotropic calibration and stable product comparisons.
+Two binary searches compile the bounds once; no image read or per-cell unit
+conversion is added. Existing archives retain the resolved recipe and capture
+provenance. Replay freezes that recipe; new requests resolve current calibration.
+Batch manifests additionally retain original physical arguments and reject
+incompatible checkpoint reuse after calibration changes.
+
+Local Linux validation passes 42 native suites, 96 focused cases and the full
+1,680-pass regression with 394 optional skips and four strict scientific expected
+failures. Installed runtime relocation, stubs and strict positive/negative typing
+pass. Windows passes 43 native suites and 117 focused Python/desktop cases plus
+installed workflows/stubs/typing; full regression and visual inspection remain
+pending. The receipts retain the first two Linux test expectation corrections.
+Hosted acceptance is pending, so this packet remains a validation candidate.
+Physical radii, arbitrary resampling, scientific segmentation acceptance, hardware
+performance and every other outstanding M0–M7 requirement remain open.
+
+
+Packet 103 local validation is now complete: Windows full regression passes
+2,064 cases with 10 optional skips and four strict scientific expected failures;
+Linux remains 1,680 passes with 394 optional skips and the same four failures.
+The completed desktop frame is visually inspected after scrolling the inspector
+within the actual Windows-clamped framebuffer. Both physical bounds, one detected
+and saved cell, captured calibration, the frozen 81–90-sample recipe and successful
+one-row CSV export are visible, with zero reported UI overflow. Hosted acceptance
+remains pending at run 40022136685, source 87e691be724be88183876cfaa1b583b2bb27a947.
+The candidate is public on validation/physical-cell-areas-103; no main promotion
+or scientific/hardware/release acceptance is implied by the local checks.
+
+
+Subsequent packet-105 native viewer validation exposed a packet-103 calibration
+staleness gap: active physical requests could publish after units changed during
+execution. Three direct regressions reproduce it, including enabled zero bounds.
+The fix captures the calibration revision in active physical requests and rejects
+stale publication; ordinary sampled requests and historical replay are preserved.
+Rebuilt Windows/Linux validation is pending. Earlier full passes and hosted run
+40022136685 predate this fix and cannot accept it. Main promotion remains withheld.
+
+
+Calibration-stale fix revalidation: corrected Linux passes 42 native suites,
+99 focused tests and the full 1,683-pass regression (394 optional skips, four
+scientific expected failures). Corrected Windows passes 43 native suites and
+120 focused cases plus installed/stub/typing checks; its completed frame is
+visually inspected with one exported cell and zero UI overflow. Windows full
+regression and hosted run 40024473049 at f8cb02a139d5c4b4651978425cb064472b3f1b81
+remain pending. Main promotion and all other unfinished M0–M7 gates remain open.
+
+
+Corrected packet-103 local validation is complete: Windows full regression passes
+2,067 cases (10 optional skips, four scientific expected failures), alongside
+the corrected Linux 1,683-pass result. Native, focused, installed runtime,
+stubs/typing and completed-frame checks pass. Hosted run 40024473049 and its
+artifact audit remain pending; superseded run 40022136685 is cancelled. Main
+promotion and all other unfinished M0–M7 requirements remain open.
+
+
+Packet 103 hosted acceptance is complete at source
+f8cb02a139d5c4b4651978425cb064472b3f1b81, run 40024473049. All five jobs pass;
+the artifact audit verifies 22 physical-area cases per Python cohort, including
+three calibration-stale regressions, plus three desktop cases, native/installed
+identities, runtime relocation, standalone payloads, full Aperio checks, stubs and
+strict positive/negative typing. Windows desktop passes 2,066 Python/43 native,
+Windows headless 1,683/42, Linux headless 1,681/42, and minimal/sanitizer each
+pass 42 native suites. The completed desktop overview is visually inspected.
+The defined engineering scope is accepted for main promotion; four scientific
+expected failures remain per Python cohort. Physical radii, resampling, biology,
+hardware, current-candidate portable/Mac qualification and every other open
+M0–M7 requirement remain separate gates. Release readiness stays false.

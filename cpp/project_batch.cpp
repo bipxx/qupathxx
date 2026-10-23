@@ -1,6 +1,7 @@
 #include "qupathxx/project_batch.hpp"
 #include "qupathxx/tma.hpp"
 #include "qupathxx/input_digest.hpp"
+#include "calibrated_cell_numeric.hpp"
 #include "qupathxx/pixel_stream_file.hpp"
 #include "qupathxx/cell_tables.hpp"
 #include "qupathxx/measurement_tables.hpp"
@@ -135,6 +136,13 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
     s<<"{\"schema\":\"qpx.batch-parameters/1\",\"kind\":"<<int(o.kind)<<",\"roi_kind\":"<<int(o.roi_kind)<<",\"object_kind\":"<<int(o.object_kind)<<",\"nucleus\":"<<(o.nucleus?"true":"false")<<",\"publish_cells\":"<<(o.publish_cells?"true":"false")<<",\"roi_tile_size\":"<<o.roi_tile_size<<",\"model_sha256\":"<<batch_json_quote(stain_model_sha256(t))<<",\"white\":"<<vector(t.white())<<",\"stains\":["<<vector(t.stains()[0])<<','<<vector(t.stains()[1])<<','<<vector(t.stains()[2])<<']';
     s<<",\"tissue\":{\"feature\":"<<int(p.feature)<<",\"threshold\":"<<p.threshold<<",\"connectivity\":"<<p.connectivity<<",\"level\":"<<p.level<<",\"open_radius\":"<<p.open_radius<<",\"close_radius\":"<<p.close_radius<<",\"fill_holes\":"<<(p.fill_holes?"true":"false")<<",\"max_hole_pixels\":"<<p.max_hole_pixels<<",\"min_pixels\":"<<p.min_pixels<<",\"max_pixels\":"<<p.max_pixels<<",\"tile_size\":"<<p.tile_size<<",\"max_components\":"<<p.max_components<<",\"work_bytes\":"<<p.work_bytes<<'}';
     s<<",\"cells\":{\"feature\":"<<int(c.feature)<<",\"threshold\":"<<c.threshold<<",\"sigma\":"<<c.sigma<<",\"min_peak_radius\":"<<c.min_peak_radius<<",\"min_seed_distance\":"<<c.min_seed_distance<<",\"cell_expansion\":"<<c.cell_expansion<<",\"min_nucleus_pixels\":"<<c.min_nucleus_pixels<<",\"max_nucleus_pixels\":"<<c.max_nucleus_pixels<<",\"connectivity\":"<<c.connectivity<<",\"level\":"<<c.level<<",\"tile_size\":"<<c.tile_size<<",\"max_cells\":"<<c.max_cells<<",\"work_bytes\":"<<c.work_bytes<<",\"contours\":{\"clip_to_roi\":"<<(c.contours.clip_to_roi?"true":"false")<<",\"max_components\":"<<c.contours.max_components<<",\"max_edges\":"<<c.contours.max_edges<<",\"max_vertices\":"<<c.contours.max_vertices<<",\"work_bytes\":"<<c.contours.work_bytes<<"}}";
+    if(o.cell_min_nucleus_area_um2 || o.cell_max_nucleus_area_um2) {
+        s<<",\"cell_area_limits\":{\"minimum_um2\":";
+        if(o.cell_min_nucleus_area_um2) s<<*o.cell_min_nucleus_area_um2;else s<<"null";
+        s<<",\"maximum_um2\":";
+        if(o.cell_max_nucleus_area_um2) s<<*o.cell_max_nucleus_area_um2;else s<<"null";
+        s<<'}';
+    }
     if(o.tma_only) s<<",\"tma_scope\":{\"include_missing\":"<<(o.include_missing_tma?"true":"false")<<'}';
     if(o.kind==ProjectBatchKind::Pixels) {const auto& v=o.pixels;
         s<<",\"pixels\":{\"model_sha256\":"<<batch_json_quote(o.pixel_model->sha256())<<",\"block_size\":"<<v.block_size<<",\"tile_size\":"<<v.prediction.tile_size<<",\"work_bytes\":"<<v.prediction.work_bytes<<",\"min_vote_fraction\":"<<v.prediction.min_vote_fraction<<",\"max_pixels\":"<<v.max_pixels<<",\"max_blocks\":"<<v.max_blocks<<",\"file_limit\":"<<o.pixel_file_limit<<",\"total_limit\":"<<o.pixel_total_limit<<'}';
@@ -152,6 +160,9 @@ struct ProjectBatchRequest::Data {
     explicit Data(const StainTransform& t):transform(t) {}
 };
 void ProjectBatchOptions::validate() const {
+    detail::validate_cell_area_limits(cell_min_nucleus_area_um2,cell_max_nucleus_area_um2);
+    if(kind!=ProjectBatchKind::Cells && (cell_min_nucleus_area_um2 || cell_max_nucleus_area_um2))
+        throw std::invalid_argument("physical nucleus area limits require a cell batch");
     if(kind!=ProjectBatchKind::Roi && kind!=ProjectBatchKind::Tissue && kind!=ProjectBatchKind::Cells && kind!=ProjectBatchKind::Pixels && kind!=ProjectBatchKind::Raw) throw std::invalid_argument("invalid batch kind");
     if(failure!=ProjectBatchFailure::Stop && failure!=ProjectBatchFailure::Continue) throw std::invalid_argument("invalid batch failure policy");
     if(roi_kind!=AnalysisKind::OpticalDensityMeans && roi_kind!=AnalysisKind::StainMeans) throw std::invalid_argument("invalid batch ROI kind");
@@ -257,7 +268,7 @@ struct ProjectBatchKernel {
                             }
                             else if(o.kind==ProjectBatchKind::Roi) {AnalysisRequest r(*doc,id,d.transform,o.roi_kind,o.nucleus,o.roi_tile_size);if(compute) {auto value=analyze(r,c);digest=value.input_sha256;record=doc->keep_analysis(r,value);bytes=doc->analysis_record(record).payload_bytes();}else digest=input_sha256(r,c);}
                             else if(o.kind==ProjectBatchKind::Tissue) {TissueRequest r(*doc,id,d.transform,o.tissue,o.nucleus);if(compute) {auto value=detect_tissue(r,c);digest=value->input_sha256();record=doc->keep_tissue(r,value);bytes=doc->tissue_record(record)->payload_bytes();}else digest=input_sha256(r,c);}
-                            else {CellRequest r(*doc,id,d.transform,o.cells);if(compute) {auto value=detect_cells(r,c);digest=value->nuclei()->input_sha256();record=doc->keep_cells(r,value);bytes=doc->cell_record(record)->payload_bytes();if(o.publish_cells) {const auto extra=4ULL*value->retained_bytes()+value->features().size()*512ULL;if(cost(*doc,input.info.embedded)>o.materialize_budget || extra>o.materialize_budget-cost(*doc,input.info.embedded)) throw std::length_error("cell publication exceeds batch materialization budget");doc->publish_cell_record(record);}}else digest=input_sha256(r,c);}
+                            else {auto r=CellRequest::with_nucleus_area_limits(*doc,id,d.transform,o.cell_min_nucleus_area_um2,o.cell_max_nucleus_area_um2,o.cells);if(compute) {auto value=detect_cells(r,c);digest=value->nuclei()->input_sha256();record=doc->keep_cells(r,value);bytes=doc->cell_record(record)->payload_bytes();if(o.publish_cells) {const auto extra=4ULL*value->retained_bytes()+value->features().size()*512ULL;if(cost(*doc,input.info.embedded)>o.materialize_budget || extra>o.materialize_budget-cost(*doc,input.info.embedded)) throw std::length_error("cell publication exceeds batch materialization budget");doc->publish_cell_record(record);}}else digest=input_sha256(r,c);}
                             pixels.integer(id);pixels.update(digest.data(),digest.size());
                             if(compute) {if(bytes>o.result_budget-generated) throw std::length_error("batch image exceeds result budget");generated+=bytes;records.push_back(record);if(cost(*doc,input.info.embedded)>o.materialize_budget) throw std::length_error("batch results exceed materialization budget");if(progress) progress->objects.fetch_add(1);}
                         }check();return pixels.finish();

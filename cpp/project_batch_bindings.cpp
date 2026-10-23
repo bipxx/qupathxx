@@ -18,7 +18,9 @@ void bind_project_batch(nb::module_& m) {
         .def_rw("result_budget",&ProjectBatchOptions::result_budget).def_rw("csv_limit",&ProjectBatchOptions::csv_limit).def_rw("checkpoint_limit",&ProjectBatchOptions::checkpoint_limit)
         .def_rw("pixel_model",&ProjectBatchOptions::pixel_model).def_rw("pixels",&ProjectBatchOptions::pixels).def_rw("pixel_file_limit",&ProjectBatchOptions::pixel_file_limit).def_rw("pixel_total_limit",&ProjectBatchOptions::pixel_total_limit)
         .def_rw("raw",&ProjectBatchOptions::raw).def_rw("raw_follow_display",&ProjectBatchOptions::raw_follow_display).def_rw("raw_max_pixels",&ProjectBatchOptions::raw_max_pixels)
-        .def_rw("tissue",&ProjectBatchOptions::tissue).def_rw("cells",&ProjectBatchOptions::cells).def("validate",&ProjectBatchOptions::validate);
+        .def_rw("tissue",&ProjectBatchOptions::tissue).def_rw("cells",&ProjectBatchOptions::cells)
+        .def_rw("cell_min_nucleus_area_um2",&ProjectBatchOptions::cell_min_nucleus_area_um2)
+        .def_rw("cell_max_nucleus_area_um2",&ProjectBatchOptions::cell_max_nucleus_area_um2).def("validate",&ProjectBatchOptions::validate);
     nb::class_<ProjectBatchSelection>(m,"ProjectBatchSelection").def(nb::init<>()).def_rw("image_id",&ProjectBatchSelection::image_id).def_rw("object_ids",&ProjectBatchSelection::object_ids);
     nb::class_<ProjectBatchRequest>(m,"ProjectBatchRequest")
         .def(nb::init<const Project&,const StainTransform&,const std::vector<ProjectBatchSelection>&,ProjectBatchOptions>(),"project"_a,"transform"_a,"selection"_a=std::vector<ProjectBatchSelection>{},"options"_a=ProjectBatchOptions{})

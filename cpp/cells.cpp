@@ -1,6 +1,7 @@
 #include "qupathxx/cells.hpp"
 #include "cell_contours.hpp"
 #include "cell_numeric.hpp"
+#include "calibrated_cell_numeric.hpp"
 #include "sha256.hpp"
 #include <chrono>
 #include <cstring>
@@ -101,6 +102,41 @@ void CellParameters::validate() const {
 }
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,CellParameters p):
     source_(choose(doc,id,transform,p)),parameters_(p),reader_(doc.server()),transform_(transform),object_revision_(doc.annotation(id).revision),document_revision_(doc.revision()) {work_=estimate(source_,p);}
+CellRequest CellRequest::with_nucleus_area_limits(const Document& doc,std::uint64_t id,const StainTransform& transform,
+    std::optional<double> minimum,std::optional<double> maximum,CellParameters p) {
+    detail::validate_cell_area_limits(minimum,maximum);
+    CellRequest request(doc,id,transform,p);
+    if(!minimum && !maximum) return request;
+    request.physical_calibration_revision_=doc.calibration_revision();
+    const auto& provenance=request.source_.provenance();
+    if(!provenance || !provenance->effective_pixel_width_um || !provenance->effective_pixel_height_um)
+        throw std::invalid_argument("physical nucleus area limits require both pixel calibration axes");
+    const auto x=*provenance->effective_pixel_width_um,y=*provenance->effective_pixel_height_um,scale=request.downsample();
+    const auto grid=request.level_bounds();
+    const auto count=static_cast<std::uint64_t>(grid.width)*static_cast<std::uint64_t>(grid.height);
+    if(count==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("cell sampling grid is not representable");
+    auto first=[&](auto predicate) {
+        std::uint64_t lo=1,hi=count+1;
+        while(lo<hi) {const auto mid=lo+(hi-lo)/2;
+            const auto area=detail::calibrated_cell_product({double(mid),scale,scale,x,y},true);
+            if(predicate(area)) hi=mid;else lo=mid+1;
+        }
+        return lo;
+    };
+    const auto lower=minimum?first([&](double area){return area>=*minimum;}):1;
+    // A nonempty nucleus always has positive mathematical area, including when
+    // the final double underflows. Explicit maximum zero therefore rejects all.
+    const auto upper=maximum?(*maximum==0?0:first([&](double area){return area>*maximum;})-1):count;
+    const auto effective_min=std::max(p.min_nucleus_pixels,lower);
+    const auto effective_max=std::min(p.max_nucleus_pixels?p.max_nucleus_pixels:count,upper);
+    if(effective_min>effective_max) {
+        request.parameters_.min_nucleus_pixels=count+1;request.parameters_.max_nucleus_pixels=0;
+    } else {
+        request.parameters_.min_nucleus_pixels=effective_min;
+        if(upper<count && (!p.max_nucleus_pixels || upper<p.max_nucleus_pixels)) request.parameters_.max_nucleus_pixels=upper;
+    }
+    request.parameters_.validate();return request;
+}
 CalibratedCellFeature CellResult::calibrated_feature(std::uint32_t label) const {
     if(!label || label>features_.size()) throw std::out_of_range("cell label is outside this result");
     CalibratedCellFeature value;value.label=label;
@@ -109,18 +145,7 @@ CalibratedCellFeature CellResult::calibrated_feature(std::uint32_t label) const 
     value.pixel_width_um=provenance->effective_pixel_width_um;
     value.pixel_height_um=provenance->effective_pixel_height_um;
     if(!value.pixel_width_um || !value.pixel_height_um) return value;
-    auto product=[](std::initializer_list<double> factors) {
-        double result=1;bool zero=false,subnormal=false;
-        for(auto factor:factors) {if(!std::isfinite(factor) || factor<0) throw std::invalid_argument("invalid calibrated cell factor");zero=zero || factor==0;result*=factor;subnormal=subnormal || std::fpclassify(result)==FP_SUBNORMAL;}
-        if(zero) return 0.;
-        if(!std::isfinite(result) || result==0 || subnormal) {
-            double mantissa=1;int exponent=0;
-            for(auto factor:factors) {int part=0,adjust=0;mantissa*=std::frexp(factor,&part);mantissa=std::frexp(mantissa,&adjust);exponent+=part+adjust;}
-            result=std::scalbn(mantissa,exponent);
-        }
-        if(!std::isfinite(result) || result==0) throw std::overflow_error("calibrated cell feature is not representable");
-        return result;
-    };
+    auto product=[](std::initializer_list<double> factors) {return detail::calibrated_cell_product(factors);};
     const auto& feature=features_[label-1];const auto scale=nuclei_->downsample();
     const auto x=*value.pixel_width_um,y=*value.pixel_height_um;
     value.nucleus_sample_area_um2=product({double(feature.nucleus_pixels),scale,scale,x,y});
