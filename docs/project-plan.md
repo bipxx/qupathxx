@@ -3581,3 +3581,30 @@ packet94's five-job hosted artifact audit accepts its characterization scope and
 is merged to main at `961016d8d34e65388d6d21a0d03600fd64bad748`. This retains all
 four scientific failures and does not accept full QuPath parity, portable or Mac
 distribution, biological validation or the overall M0–M7 goal.
+
+### Packet99: preserve the original short-kernel traversal
+
+The [short-kernel refinement](masked-gaussian-performance.md#short-kernel-refinement)
+retains the original two-axis Gaussian traversal for radii up to six and uses
+the block traversal for larger kernels. Coefficients, domain normalization,
+summation order, scratch allocations, numerical identities and public APIs remain
+unchanged. The independent direct 2D oracle expands to 231 cases, including the
+adjacent floating-point values around the sigma-two branch boundary; ASan/UBSan
+passes. GCC/MSVC paired outputs match the original implementation bit-for-bit.
+
+Native suites pass 42 Windows and 41 Linux cases. Focused Python checks pass
+156 Windows cases with four optional skips/four expected scientific failures and
+50 Linux reader/runtime cases with two desktop skips. Installed workflows,
+relocation, stubs, typing, QuPath characterization and classifier fixture
+identities pass for source
+`afedc41994196ea996789808b0c5f8d030cb7339a6516a245929243df68744a3`.
+
+Complete-call timings repeat the fixed six 512² workloads against the original
+wheels with seven alternating pairs and serialized platform passes. Output
+signatures agree with 64 retained cells. There is no slower observed median in
+these selected cases; Windows sigma-one pixel/cell calls are approximately
+neutral at 1.004×/1.011×, while sigma16 pixel extraction records 2.128× Windows
+and 1.703× Linux. These are observations on a shared workstation, not statistical
+or universal performance acceptance. Full regression is running, the original
+mixed-result data remains retained and the candidate is not promoted to main.
+All other M0–M7 requirements and the intermittent first-wait issue remain open.

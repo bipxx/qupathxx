@@ -1,0 +1,580 @@
+{
+  "schema": "qpx.gaussian-workflow-benchmark/1",
+  "size": 512,
+  "repeats": 7,
+  "warmups": 1,
+  "order": "alternate baseline-first/candidate-first in persistent isolated interpreters",
+  "identities": {
+    "baseline": {
+      "ready": true,
+      "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+      "platform": "win32",
+      "native_sha256": "469a26405eaab26ba616a04ad1691bd0aea18e5a43eba203b0d5ed0cd745ea9b",
+      "source_tree_sha256": "1069666f68e222c2740d98eeff13a19c53329140561e5a87910e4b329394ca4a",
+      "pixel_input_sha256": "81aa6cd7f5edd27cd6bfc5e9280cc65179386308d4317f2d356b571ed808f108",
+      "cell_input_sha256": "9c54559e05f27bac540a5a7a17a51e44f6aca9508089ad51f9da2356469a10d9"
+    },
+    "candidate": {
+      "ready": true,
+      "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+      "platform": "win32",
+      "native_sha256": "8f62bed6a04e592404024d0dff44af006ff7f96d99fe5d65ef22733b8f766471",
+      "source_tree_sha256": "afedc41994196ea996789808b0c5f8d030cb7339a6516a245929243df68744a3",
+      "pixel_input_sha256": "81aa6cd7f5edd27cd6bfc5e9280cc65179386308d4317f2d356b571ed808f108",
+      "cell_input_sha256": "9c54559e05f27bac540a5a7a17a51e44f6aca9508089ad51f9da2356469a10d9"
+    }
+  },
+  "benchmark_source_sha256": "82a56240edb97479a8c722a01abe9335a26937f34cc70edd4a67a9ad2fb762db",
+  "cases": [
+    {
+      "kind": "pixel-features",
+      "sigma": 1,
+      "samples": {
+        "baseline": [
+          {
+            "wall_ms": 193.69029998779297,
+            "native_ms": 193.0394
+          },
+          {
+            "wall_ms": 201.40010002069175,
+            "native_ms": 200.3855
+          },
+          {
+            "wall_ms": 191.5714000351727,
+            "native_ms": 190.2366
+          },
+          {
+            "wall_ms": 193.40059999376535,
+            "native_ms": 192.1769
+          },
+          {
+            "wall_ms": 227.97169990371913,
+            "native_ms": 226.8498
+          },
+          {
+            "wall_ms": 230.44129996560514,
+            "native_ms": 229.2468
+          },
+          {
+            "wall_ms": 231.80480010341853,
+            "native_ms": 230.4105
+          }
+        ],
+        "candidate": [
+          {
+            "wall_ms": 178.6627999972552,
+            "native_ms": 177.8342
+          },
+          {
+            "wall_ms": 191.93460000678897,
+            "native_ms": 191.0802
+          },
+          {
+            "wall_ms": 192.3172000097111,
+            "native_ms": 191.4734
+          },
+          {
+            "wall_ms": 227.32979990541935,
+            "native_ms": 225.9239
+          },
+          {
+            "wall_ms": 200.64649998676032,
+            "native_ms": 199.589
+          },
+          {
+            "wall_ms": 227.03660000115633,
+            "native_ms": 226.0636
+          },
+          {
+            "wall_ms": 228.208800079301,
+            "native_ms": 227.053
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "baseline": 201.40010002069175,
+        "candidate": 200.64649998676032
+      },
+      "speed_ratio": 1.0037558593545421,
+      "signature": {
+        "algorithm": "qpx.pixel-features/1",
+        "sha256": "c1e7d21f61f7d5d7842f44c96d1e36c693f79a2c101950b88b0934e7861d00b5",
+        "input_sha256": "b92648d46cdfbe7d47781d90ecd578d00e6fd7f62fdaaffec330683e4e96f10e",
+        "features_sha256": "56314757add7da6382eccc102c5d0b8987149fa668dd870af5cfa53d3348ca4e",
+        "valid_sha256": "8f77beca3c07477aab195144e8533553e876ddf5154d346333347729105f1777",
+        "valid_pixels": 261307,
+        "columns": 18
+      },
+      "output_bits_equal": true,
+      "resources": {
+        "baseline": {
+          "estimated_work_bytes": 52756480,
+          "retained_bytes": 19140026
+        },
+        "candidate": {
+          "estimated_work_bytes": 52756480,
+          "retained_bytes": 19140026
+        }
+      }
+    },
+    {
+      "kind": "pixel-features",
+      "sigma": 4,
+      "samples": {
+        "baseline": [
+          {
+            "wall_ms": 322.1689999336377,
+            "native_ms": 320.9259
+          },
+          {
+            "wall_ms": 327.88140000775456,
+            "native_ms": 326.7744
+          },
+          {
+            "wall_ms": 291.2747000809759,
+            "native_ms": 290.1029
+          },
+          {
+            "wall_ms": 321.74140005372465,
+            "native_ms": 320.6069
+          },
+          {
+            "wall_ms": 322.8729999391362,
+            "native_ms": 321.4007
+          },
+          {
+            "wall_ms": 315.2174000861123,
+            "native_ms": 313.9745
+          },
+          {
+            "wall_ms": 323.924700031057,
+            "native_ms": 322.515
+          }
+        ],
+        "candidate": [
+          {
+            "wall_ms": 226.01510002277792,
+            "native_ms": 224.8893
+          },
+          {
+            "wall_ms": 225.52430001087487,
+            "native_ms": 224.3173
+          },
+          {
+            "wall_ms": 227.15459996834397,
+            "native_ms": 226.149
+          },
+          {
+            "wall_ms": 228.68370008654892,
+            "native_ms": 227.5385
+          },
+          {
+            "wall_ms": 234.02370000258088,
+            "native_ms": 232.647
+          },
+          {
+            "wall_ms": 240.38149998523295,
+            "native_ms": 239.2634
+          },
+          {
+            "wall_ms": 240.32460001762956,
+            "native_ms": 238.963
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "baseline": 322.1689999336377,
+        "candidate": 228.68370008654892
+      },
+      "speed_ratio": 1.4087973905079714,
+      "signature": {
+        "algorithm": "qpx.pixel-features/1",
+        "sha256": "f21e1efbfe0b6cb4a0be52016737459e0e6c2fa39c4ff76810355be367ace5ed",
+        "input_sha256": "36a7dcd8a8845d38f7efdf0308130ceefd2b30d9d0767ef06612705dbf908baf",
+        "features_sha256": "59e214a28e7d0af1198b333c8b73c34f4d2237ddc837f190ffbc300eef4c0afb",
+        "valid_sha256": "8f77beca3c07477aab195144e8533553e876ddf5154d346333347729105f1777",
+        "valid_pixels": 261307,
+        "columns": 18
+      },
+      "output_bits_equal": true,
+      "resources": {
+        "baseline": {
+          "estimated_work_bytes": 52756480,
+          "retained_bytes": 19140026
+        },
+        "candidate": {
+          "estimated_work_bytes": 52756480,
+          "retained_bytes": 19140026
+        }
+      }
+    },
+    {
+      "kind": "pixel-features",
+      "sigma": 16,
+      "samples": {
+        "baseline": [
+          {
+            "wall_ms": 715.6526000471786,
+            "native_ms": 714.7173
+          },
+          {
+            "wall_ms": 700.3403999842703,
+            "native_ms": 699.1358
+          },
+          {
+            "wall_ms": 748.6792999552563,
+            "native_ms": 747.2661
+          },
+          {
+            "wall_ms": 767.9425000678748,
+            "native_ms": 766.7965
+          },
+          {
+            "wall_ms": 778.0376999871805,
+            "native_ms": 776.477
+          },
+          {
+            "wall_ms": 809.8463999340311,
+            "native_ms": 808.3643
+          },
+          {
+            "wall_ms": 793.7308999244124,
+            "native_ms": 792.3014
+          }
+        ],
+        "candidate": [
+          {
+            "wall_ms": 333.41839991044253,
+            "native_ms": 332.4064
+          },
+          {
+            "wall_ms": 321.6027000453323,
+            "native_ms": 320.5138
+          },
+          {
+            "wall_ms": 311.93050008732826,
+            "native_ms": 310.9433
+          },
+          {
+            "wall_ms": 378.36049997713417,
+            "native_ms": 377.1844
+          },
+          {
+            "wall_ms": 372.4995000520721,
+            "native_ms": 371.5289
+          },
+          {
+            "wall_ms": 376.0470000561327,
+            "native_ms": 374.3883
+          },
+          {
+            "wall_ms": 360.86489993613213,
+            "native_ms": 360.002
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "baseline": 767.9425000678748,
+        "candidate": 360.86489993613213
+      },
+      "speed_ratio": 2.128060945256215,
+      "signature": {
+        "algorithm": "qpx.pixel-features/1",
+        "sha256": "9baa1447cc28826e0f076a8d1b2a24a9c68d508317b6399c5f13e8e442ec3db0",
+        "input_sha256": "6fe0b052dad167b832934658ec2ee8c364c32ad736c9e1ffabff45992088a820",
+        "features_sha256": "49417142d6f57aeb41ef9073ff39586cd7d01165d545465479f096faf85882e4",
+        "valid_sha256": "8f77beca3c07477aab195144e8533553e876ddf5154d346333347729105f1777",
+        "valid_pixels": 261307,
+        "columns": 18
+      },
+      "output_bits_equal": true,
+      "resources": {
+        "baseline": {
+          "estimated_work_bytes": 52756480,
+          "retained_bytes": 19140026
+        },
+        "candidate": {
+          "estimated_work_bytes": 52756480,
+          "retained_bytes": 19140026
+        }
+      }
+    },
+    {
+      "kind": "cells",
+      "sigma": 1,
+      "samples": {
+        "baseline": [
+          {
+            "wall_ms": 133.10350000392646,
+            "native_ms": 131.8878
+          },
+          {
+            "wall_ms": 135.58430003467947,
+            "native_ms": 134.3953
+          },
+          {
+            "wall_ms": 143.25670001562685,
+            "native_ms": 142.1671
+          },
+          {
+            "wall_ms": 139.23780003096908,
+            "native_ms": 138.4986
+          },
+          {
+            "wall_ms": 134.84150008298457,
+            "native_ms": 133.9792
+          },
+          {
+            "wall_ms": 135.5817000148818,
+            "native_ms": 134.7974
+          },
+          {
+            "wall_ms": 126.88210001215339,
+            "native_ms": 125.6395
+          }
+        ],
+        "candidate": [
+          {
+            "wall_ms": 134.12780000362545,
+            "native_ms": 133.2958
+          },
+          {
+            "wall_ms": 124.67970000579953,
+            "native_ms": 123.3947
+          },
+          {
+            "wall_ms": 130.665700067766,
+            "native_ms": 129.1874
+          },
+          {
+            "wall_ms": 137.07709999289364,
+            "native_ms": 136.0638
+          },
+          {
+            "wall_ms": 147.24580000620335,
+            "native_ms": 146.2792
+          },
+          {
+            "wall_ms": 135.7573999557644,
+            "native_ms": 134.774
+          },
+          {
+            "wall_ms": 126.6426999354735,
+            "native_ms": 125.6681
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "baseline": 135.5817000148818,
+        "candidate": 134.12780000362545
+      },
+      "speed_ratio": 1.010839661958349,
+      "signature": {
+        "algorithm": "qpx.distance-watershed/1",
+        "count": 64,
+        "input_sha256": "5eac179a6cf63a56d79f10bd5648d4de2037ff3b287abdab752302050e21dbc3",
+        "nucleus_sha256": "a27c5a8224a21acd61c4df1fa6ddc124ad36b11dfff52ecd7a0bfbe2a683fab8",
+        "body_sha256": "f07df4205b06800dbe679063a159ebe4983e7043ba037083dbbb3b99ac31ca04",
+        "compartment_features_sha256": "cb42ec43c42778bc5ef00ac56d32cec5a0145cb822dc97d3a794c2fda70e0324",
+        "nucleus_geometry_sha256": "676e87e26b69cdb854fc79ed0c4798b99f6c0c04475dcb97d3c7f775e228a680",
+        "body_geometry_sha256": "9503e8a1f0c65baf4cc693ef55aafe76111fbc0c4b244d849f8cc2013bf8a97f"
+      },
+      "output_bits_equal": true,
+      "resources": {
+        "baseline": {
+          "estimated_work_bytes": 98471936,
+          "retained_bytes": 2373234
+        },
+        "candidate": {
+          "estimated_work_bytes": 98471936,
+          "retained_bytes": 2373234
+        }
+      }
+    },
+    {
+      "kind": "cells",
+      "sigma": 4,
+      "samples": {
+        "baseline": [
+          {
+            "wall_ms": 176.3245000038296,
+            "native_ms": 175.0378
+          },
+          {
+            "wall_ms": 187.42089997977018,
+            "native_ms": 185.423
+          },
+          {
+            "wall_ms": 174.0964000346139,
+            "native_ms": 172.964
+          },
+          {
+            "wall_ms": 184.19669999275357,
+            "native_ms": 182.9275
+          },
+          {
+            "wall_ms": 146.6935999924317,
+            "native_ms": 145.8935
+          },
+          {
+            "wall_ms": 160.29779997188598,
+            "native_ms": 159.1436
+          },
+          {
+            "wall_ms": 151.43630001693964,
+            "native_ms": 150.2366
+          }
+        ],
+        "candidate": [
+          {
+            "wall_ms": 160.68129998166114,
+            "native_ms": 159.3925
+          },
+          {
+            "wall_ms": 154.43580003920943,
+            "native_ms": 153.1603
+          },
+          {
+            "wall_ms": 162.33900003135204,
+            "native_ms": 160.9828
+          },
+          {
+            "wall_ms": 161.5947000682354,
+            "native_ms": 160.3002
+          },
+          {
+            "wall_ms": 154.88600009121,
+            "native_ms": 153.6297
+          },
+          {
+            "wall_ms": 149.7470000758767,
+            "native_ms": 148.5847
+          },
+          {
+            "wall_ms": 136.01950008887798,
+            "native_ms": 135.0121
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "baseline": 174.0964000346139,
+        "candidate": 154.88600009121
+      },
+      "speed_ratio": 1.1240292856171068,
+      "signature": {
+        "algorithm": "qpx.distance-watershed/1",
+        "count": 64,
+        "input_sha256": "5eac179a6cf63a56d79f10bd5648d4de2037ff3b287abdab752302050e21dbc3",
+        "nucleus_sha256": "504c683a9478fbce455f8f24a5c0e4a702ce8495975f64bf14e6868803ee0fcb",
+        "body_sha256": "48c519e4787933338f8b89ab41e65711ed780fafbbeb16b22c9cdb1f6ed31368",
+        "compartment_features_sha256": "19394a6be70d709cb96bb81e340f7418e61172b3c2f411f4bf189b0f3ce63c29",
+        "nucleus_geometry_sha256": "b77c61282d26612d047179a744a515205306b89327954ed8f3971ecd81bb7205",
+        "body_geometry_sha256": "8d61790b0fb18adf2e1570686ff5a83f4f78a05db88670ede571052d6e77963a"
+      },
+      "output_bits_equal": true,
+      "resources": {
+        "baseline": {
+          "estimated_work_bytes": 98471936,
+          "retained_bytes": 2421474
+        },
+        "candidate": {
+          "estimated_work_bytes": 98471936,
+          "retained_bytes": 2421474
+        }
+      }
+    },
+    {
+      "kind": "cells",
+      "sigma": 16,
+      "samples": {
+        "baseline": [
+          {
+            "wall_ms": 261.51079998817295,
+            "native_ms": 260.1505
+          },
+          {
+            "wall_ms": 227.2378000197932,
+            "native_ms": 226.1383
+          },
+          {
+            "wall_ms": 219.71239999402314,
+            "native_ms": 218.8105
+          },
+          {
+            "wall_ms": 210.651500034146,
+            "native_ms": 210.1237
+          },
+          {
+            "wall_ms": 223.64169999491423,
+            "native_ms": 222.7996
+          },
+          {
+            "wall_ms": 213.85830000508577,
+            "native_ms": 213.2482
+          },
+          {
+            "wall_ms": 224.64609995950013,
+            "native_ms": 224.0514
+          }
+        ],
+        "candidate": [
+          {
+            "wall_ms": 165.73750006500632,
+            "native_ms": 164.8369
+          },
+          {
+            "wall_ms": 149.32890003547072,
+            "native_ms": 148.4114
+          },
+          {
+            "wall_ms": 154.38419999554753,
+            "native_ms": 153.3406
+          },
+          {
+            "wall_ms": 155.1165001001209,
+            "native_ms": 153.9286
+          },
+          {
+            "wall_ms": 158.52050005923957,
+            "native_ms": 157.4776
+          },
+          {
+            "wall_ms": 154.70099996309727,
+            "native_ms": 153.9628
+          },
+          {
+            "wall_ms": 169.54530007205904,
+            "native_ms": 168.6077
+          }
+        ]
+      },
+      "median_wall_ms": {
+        "baseline": 223.64169999491423,
+        "candidate": 155.1165001001209
+      },
+      "speed_ratio": 1.4417660265062926,
+      "signature": {
+        "algorithm": "qpx.distance-watershed/1",
+        "count": 64,
+        "input_sha256": "5eac179a6cf63a56d79f10bd5648d4de2037ff3b287abdab752302050e21dbc3",
+        "nucleus_sha256": "41726613da1c03da018019947db7a48d348ea3943bfbab493d64275db007e13d",
+        "body_sha256": "83887f54a7f6c62d1e6a1deb72d9890933e82b80182104cbdb424baef40d51c8",
+        "compartment_features_sha256": "6ea3fe95dca4c37ae0d5fa566b155fc646eb32be6f4103d53e1b37aa1c1878f8",
+        "nucleus_geometry_sha256": "f8ecc4dcfc44dac1b226c17066855000763af9c80ef1468660bec80b30b1438f",
+        "body_geometry_sha256": "f1de738fbbd0a9ac19a37382f7a1dc220e189e07fb0d0b1a9e98c3357f5b13ae"
+      },
+      "output_bits_equal": true,
+      "resources": {
+        "baseline": {
+          "estimated_work_bytes": 98471936,
+          "retained_bytes": 2416784
+        },
+        "candidate": {
+          "estimated_work_bytes": 98471936,
+          "retained_bytes": 2416784
+        }
+      }
+    }
+  ],
+  "scope": "Paired single-host synthetic native workflow calls. Pixel timing includes all feature/derivative extraction; cell timing includes request capture, detection, contours and features. Input construction, worker startup, result hashing, transport and file I/O excluded. No biological, whole-slide, GPU/frame, RSS or universal hardware speed claim."
+}

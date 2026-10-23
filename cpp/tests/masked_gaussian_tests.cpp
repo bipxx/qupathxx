@@ -7,7 +7,7 @@
 int main() {
     try {
         for(auto shape:{std::pair<std::size_t,std::size_t>{1,1},{1,7},{8,1},{3,5},{17,19},{257,3},{259,5}})
-        for(double sigma:{0.,1e-300,.1,.6,1.,2.,2.1,4.,16.}) for(int pattern=0;pattern<3;++pattern) {
+        for(double sigma:{0.,1e-300,.1,.6,1.,std::nextafter(2.,0.),2.,std::nextafter(2.,3.),2.1,4.,16.}) for(int pattern=0;pattern<3;++pattern) {
             const auto width=shape.first,height=shape.second;
             std::vector<double> input(width*height);
             std::vector<std::uint8_t> domain(width*height);

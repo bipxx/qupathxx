@@ -2,15 +2,15 @@
 
 Cell detection and classifier pixel features share a native, domain-normalized
 Gaussian kernel. Profiling the existing implementation exposed repeated boundary
-tests and strided vertical dot products. The candidate computes valid offset
-ranges once per output position. For long vertical kernels it accumulates contiguous
-256-column spans; short kernels retain scalar dot products to avoid output-array
-traffic. Each output still adds the same coefficients in ascending offset order.
+tests and strided vertical dot products. The current candidate retains the original
+two-axis traversal for kernel radii at most six. Larger kernels compute valid offset
+ranges once per output position and accumulate contiguous 256-column vertical spans.
+Each output still adds the same coefficients in ascending offset order.
 Truncation, domain weighting, final normalization and scratch allocation sizes
 remain unchanged. No new threads, approximation, parameter tuning or schema
 changes are introduced.
 
-The [local profile](benchmarks/masked-gaussian-local-windows-linux.json) records
+The initial candidate's [local profile](benchmarks/masked-gaussian-local-windows-linux.json) records
 paired baseline/candidate measurements on an Intel Core i7-12700K under WSL2.
 Both functions are compiled into one executable with GCC 13.3, `-O3`, C++17 and
 `-ffp-contract=off`. A warm-up precedes seven measured repetitions, alternating
@@ -43,7 +43,7 @@ Linux checks. The Windows isolated analysis/pixel-feature/QuPath comparison suit
 passes 57 tests with the same four strict expected failures from the
 [cell comparison corpus](qupath-cell-comparisons.md).
 
-This remains a candidate. A first Windows full-suite process stalled in an existing
+The initial candidate's first Windows full-suite process stalled in an existing
 asynchronous ROI measurement wait. Fresh direct probes, collection followed by
 the same job, and isolated pytest checks complete successfully; the cause remains
 unresolved. A separate 2,000-job Windows stress process also completes. After more
@@ -63,7 +63,7 @@ close any outstanding M0–M7 gate.
 
 ## Complete workflow timing
 
-The [workflow validation receipt](benchmarks/gaussian-workflow-validation-windows-linux.json)
+The initial candidate's [workflow validation receipt](benchmarks/gaussian-workflow-validation-windows-linux.json)
 binds the baseline and optimized wheels to their actual loaded native artifacts.
 Their only changed runtime C++ file is `cpp/masked_gaussian.hpp`; the CMake/native
 test additions are also identified. Separate persistent installed-package
@@ -105,6 +105,45 @@ python -I tools/benchmark_gaussian_workflows.py --baseline-python BASELINE_PYTHO
 The benchmark refuses to record speed ratios if any paired result signature or
 input/interpreter identity differs. Venv interpreter paths are preserved rather
 than resolving Unix symlinks to the base Python. Neither interpreter opens a GUI.
+
+## Short-kernel refinement
+
+The [revised candidate receipt](benchmarks/gaussian-short-kernel-validation-windows-linux.json)
+records source fingerprint
+`afedc41994196ea996789808b0c5f8d030cb7339a6516a245929243df68744a3`.
+The original traversal is restored for `ceil(3*sigma) <= 6`, covering the common
+sigma values up to two sampled pixels. The larger-kernel block path is retained.
+This responds to the mixed small-kernel complete-call observations rather than
+assuming that a faster isolated kernel always improves the calling workflow.
+
+The independent 2D oracle now covers 231 cases, including the adjacent floating-point
+values below and above sigma two. ASan/UBSan passes. GCC and MSVC paired kernels
+preserve every tested output bit against the original implementation. Native suites
+pass 42 Windows and 41 Linux cases; focused Python checks pass 156 Windows cases
+with four optional skips/four scientific expected failures and 50 Linux reader/runtime
+cases with two desktop skips. Both installed workflows, stubs, strict typing,
+QuPath characterization metrics and seeded classifier identities pass.
+
+The complete-call comparison repeats the same fixed six cases against the
+pre-optimization wheels, with one warm-up, seven alternating pairs and serialized
+platform timing passes. All paired output signatures match and every cell run
+retains 64 cells. The observed median ratios are:
+
+| Workflow | Sigma | Windows median ratio | Linux median ratio |
+| --- | ---: | ---: | ---: |
+| Pixel features | 1 | 1.004× | 1.095× |
+| Pixel features | 4 | 1.409× | 1.173× |
+| Pixel features | 16 | 2.128× | 1.703× |
+| Cell detection and contours | 1 | 1.011× | 1.065× |
+| Cell detection and contours | 4 | 1.124× | 1.278× |
+| Cell detection and contours | 16 | 1.442× | 1.225× |
+
+No slower median is observed in these selected cases. The near-one Windows
+short-kernel ratios are effectively neutral observations; these samples do not
+establish statistical significance or uniform hardware performance. The original
+mixed-result recordings remain available. Full regression for the revised source
+is running, and the optimization remains on a validation branch. Project-wide
+performance, scientific acceptance and the original intermittent wait stay open.
 
 ## Reproducing the paired kernel probe
 

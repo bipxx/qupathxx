@@ -21,6 +21,7 @@ tools/ci/requirements-macos-native.txt text eol=lf
 tools/benchmark_gaussian_workflows.py text eol=lf
 docs/benchmarks/gaussian-workflows-paired-*.json -text whitespace=cr-at-eol
 docs/benchmarks/gaussian-workflow-validation-windows-linux.json -text whitespace=cr-at-eol
+docs/benchmarks/gaussian-short-kernel-*.json -text whitespace=cr-at-eol
 tools/upstream/qupath_cells_reference.groovy text eol=lf
 tools/compare_qupath_cells.py text eol=lf
 tools/qupath_cells_fixture.py text eol=lf
