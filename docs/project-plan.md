@@ -3094,3 +3094,9 @@ configurations were undercharged; and Ctrl+Alt+T also selected Points. The final
 wheel includes the fixes and the complete suite was rerun against it. Optional
 independent Claude review timed out after 240 seconds; no peer-review pass is
 claimed. Native source ownership and validation follow the ../naparixx reference.
+
+
+Packet87 implementation commit: `7adb9c62988e8440645e3c43ce1fe1af6d35411e`.
+Hosted [run 39930850486](https://github.com/bipxx/qupathxx/actions/runs/39930850486)
+targets that exact commit and was queued when observed. The acceptance above is
+local; no hosted packet87 pass is claimed yet. The overall M0–M7 goal remains active.
