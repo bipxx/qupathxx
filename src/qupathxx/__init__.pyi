@@ -26,6 +26,8 @@ from ._native import (
     publish_pixel_contours as publish_pixel_contours,
     PixelStreamFile as PixelStreamFile,
     PixelStreamFileSummary as PixelStreamFileSummary,
+    PixelStreamExportStats as PixelStreamExportStats,
+    PixelStreamExportJob as PixelStreamExportJob,
     save_pixel_stream as save_pixel_stream,
     PixelStreamOptions as PixelStreamOptions,
     PixelPredictionStream as PixelPredictionStream,

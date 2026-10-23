@@ -2,6 +2,7 @@
 from concurrent.futures import ThreadPoolExecutor
 import gc
 import hashlib
+import os
 from pathlib import Path
 import struct
 import time
@@ -164,6 +165,18 @@ def test_reader_rejects_later_file_mutation_and_keeps_returned_values(tmp_path):
     b=bytearray(path.read_bytes());b[-1]^=1;path.write_bytes(b)
     with pytest.raises(RuntimeError,match='changed'):file.read_block(0)
     assert not file.verified;np.testing.assert_array_equal(block.labels_numpy(),values)
+
+
+@pytest.mark.parametrize('offset',[80,-1],ids=['header','footer'])
+@pytest.mark.parametrize('operation',['read_first','verify'])
+def test_cached_reader_rechecks_content_after_timestamp_restored_mutation(tmp_path,offset,operation):
+    _,_,_,path,_=saved(tmp_path);file=q.PixelStreamFile(str(path));file.verify();original=path.stat()
+    block=file.read_block(0);expected=block.labels_numpy().copy();data=bytearray(path.read_bytes());data[offset]^=1;path.write_bytes(data)
+    os.utime(path,ns=(original.st_atime_ns,original.st_mtime_ns))
+    with pytest.raises(RuntimeError,match='changed'):
+        if operation=='read_first':file.read_block(0)
+        else:file.verify()
+    assert not file.verified;np.testing.assert_array_equal(block.labels_numpy(),expected)
 
 
 def test_reader_cancellation_is_terminal_and_keeps_prior_arrays(tmp_path):

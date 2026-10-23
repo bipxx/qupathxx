@@ -1,0 +1,385 @@
+{
+  "schema": "qpx.pixel-stream-export-local/1",
+  "observed_utc": "2026-10-23T04:42:55.803061+00:00",
+  "scope": "Native/Python owner-thread export controller, one background worker, real F5 export/cancel controls, historical capture, progress, atomic file results and direct reader framing/header rechecks. No resume, project-linked files, interactive historical file browser, stitched publication, RSS, vendor WSI, hardware/frame-budget or biological acceptance.",
+  "tests": {
+    "python": {
+      "tests": 1623,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 6,
+      "passed": 1617,
+      "seconds": 565.594,
+      "sha256": "4010abe27741614af4416e2025625a177773a503078cce72072875b4a0baf7fd"
+    },
+    "focused_api": {
+      "tests": 197,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 2,
+      "passed": 195,
+      "seconds": 10.504,
+      "sha256": "b9e446342070cd9907372c2c0f8e758b86790c8cfd80c538d783b94f76c8f4a8"
+    },
+    "windows_gui_native": {
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 39,
+      "seconds": 8.0,
+      "sha256": "587b198d2e23bc2e57dd99e380810de94bba619f3e8af0e16fdf9447fbad6e9c"
+    },
+    "windows_native": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 6.0,
+      "sha256": "5deeac828cafdfbf060a2f91a9aef277d719de44c3d3f1b00aad3e8f6160f7b8"
+    },
+    "linux_native": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 1.0,
+      "sha256": "86fbdfd80fb6f214a4d339d9561ed916a5aba266c0ee1e8b39f6e542f5359c2c"
+    },
+    "linux_minimal": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 0.0,
+      "sha256": "f66d6bcfc60cebd883a6576716ce93f399a5ddf43c7531c7370ee64d8440c2b8"
+    },
+    "linux_sanitizers": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 4.0,
+      "sha256": "997d13ee0f05d18efad8620969328f4c5b85f422ab0fcead9af2116933506249"
+    }
+  },
+  "new_cases": {
+    "test_pixel_stream_export_job": [
+      "test_export_job_completes_exact_file_without_document_changes[None-16]",
+      "test_export_job_completes_exact_file_without_document_changes[None-256]",
+      "test_export_job_completes_exact_file_without_document_changes[window1-16]",
+      "test_export_job_completes_exact_file_without_document_changes[window1-256]",
+      "test_failed_job_can_restart_and_preserves_existing_file",
+      "test_cancel_after_worker_commit_before_owner_poll_reports_saved",
+      "test_captured_export_is_historical_after_document_edits",
+      "test_cancel_cleans_temporary_and_keeps_valid_old_file[False]",
+      "test_cancel_cleans_temporary_and_keeps_valid_old_file[True]",
+      "test_bad_limit_is_synchronous_and_leaves_idle_job[0]",
+      "test_bad_limit_is_synchronous_and_leaves_idle_job[127]",
+      "test_bad_limit_is_synchronous_and_leaves_idle_job[70368744177665]",
+      "test_worker_finishes_with_only_native_source_model_owners",
+      "test_destroy_running_job_joins_without_gil_deadlock_or_partial_file"
+    ],
+    "test_gui_pixel_stream": [
+      "test_real_panel_exports_complete_file_without_retaining_mask[dimensions0-1.0]",
+      "test_real_panel_exports_complete_file_without_retaining_mask[dimensions1-1.25]",
+      "test_real_panel_reports_unrelated_destination_failure",
+      "test_real_panel_cancel_leaves_no_partial_file",
+      "test_real_panel_stream_uses_captured_visible_window[dimensions0-1.0]",
+      "test_real_panel_stream_uses_captured_visible_window[dimensions1-1.25]",
+      "test_real_panel_replaces_verified_stream_only_when_requested"
+    ],
+    "test_pixel_stream_file": [
+      "test_saved_masks_are_indexed_exact_crops_and_verify_complete_totals[None-16]",
+      "test_saved_masks_are_indexed_exact_crops_and_verify_complete_totals[None-32]",
+      "test_saved_masks_are_indexed_exact_crops_and_verify_complete_totals[None-256]",
+      "test_saved_masks_are_indexed_exact_crops_and_verify_complete_totals[window1-16]",
+      "test_saved_masks_are_indexed_exact_crops_and_verify_complete_totals[window1-32]",
+      "test_saved_masks_are_indexed_exact_crops_and_verify_complete_totals[window1-256]",
+      "test_saved_blocks_outlive_file_source_and_target_without_live_authority",
+      "test_existing_non_stream_file_is_never_overwritten_or_consumed[False]",
+      "test_existing_non_stream_file_is_never_overwritten_or_consumed[True]",
+      "test_explicit_replacement_verifies_old_file_and_invalidates_old_reader",
+      "test_byte_limits_reject_before_large_allocation_or_final_output[0]",
+      "test_byte_limits_reject_before_large_allocation_or_final_output[127]",
+      "test_byte_limits_reject_before_large_allocation_or_final_output[128]",
+      "test_byte_limits_reject_before_large_allocation_or_final_output[1024]",
+      "test_header_charge_is_included_in_final_byte_limit",
+      "test_only_fresh_producers_can_be_saved",
+      "test_cancelled_writer_cleans_temporary_and_preserves_existing_destination[False]",
+      "test_cancelled_writer_cleans_temporary_and_preserves_existing_destination[True]",
+      "test_replace_flag_does_not_clobber_unvalidated_raced_in_destination",
+      "test_malformed_file_headers_and_completion_are_rejected[magic]",
+      "test_malformed_file_headers_and_completion_are_rejected[header_length]",
+      "test_malformed_file_headers_and_completion_are_rejected[header_checksum]",
+      "test_malformed_file_headers_and_completion_are_rejected[scope]",
+      "test_malformed_file_headers_and_completion_are_rejected[grid]",
+      "test_malformed_file_headers_and_completion_are_rejected[truncated]",
+      "test_malformed_file_headers_and_completion_are_rejected[trailing]",
+      "test_malformed_file_headers_and_completion_are_rejected[footer_checksum]",
+      "test_malformed_file_headers_and_completion_are_rejected[digest]",
+      "test_corrupt_block_is_detected_lazily_by_checksum_or_numeric_hash[False]",
+      "test_corrupt_block_is_detected_lazily_by_checksum_or_numeric_hash[True]",
+      "test_re_signed_declared_totals_do_not_bypass_complete_verification",
+      "test_reader_rejects_later_file_mutation_and_keeps_returned_values",
+      "test_cached_reader_rechecks_content_after_timestamp_restored_mutation[read_first-header]",
+      "test_cached_reader_rechecks_content_after_timestamp_restored_mutation[read_first-footer]",
+      "test_cached_reader_rechecks_content_after_timestamp_restored_mutation[verify-header]",
+      "test_cached_reader_rechecks_content_after_timestamp_restored_mutation[verify-footer]",
+      "test_reader_cancellation_is_terminal_and_keeps_prior_arrays",
+      "test_long_complete_verification_can_be_cancelled_from_another_python_thread"
+    ],
+    "test_pixel_stream_file_portable": [
+      "test_windows_stream_file_values_are_portable_without_training[rectangle]",
+      "test_windows_stream_file_values_are_portable_without_training[polygon-window]"
+    ]
+  },
+  "installed": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "7024bd181055b7d78721632a8a0cdfda66591148a4dd507d3a4ba8ac7df484f2",
+    "source_tree_sha256": "ffb52785786d75f81536f71196bdc17f9ec1196fb2f4de0eb34a31a71fc08a1f",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "bytes": 12073305,
+    "sha256": "44756eba9b6690adad710cedffdcd383bce263938186c94e4987754edc3d94d6"
+  },
+  "benchmarks": [
+    {
+      "file": "gui-pixel-stream-1024-windows.json",
+      "sha256": "a029c43694b75514be5dd68953d99f2e49983a6b57bec3d51bc6a0ada27739ec",
+      "values": {
+        "schema": "qpx.gui-pixel-stream-benchmark/1",
+        "size": 1024,
+        "objects": 10000,
+        "blocks": 64,
+        "file_bytes": 9454345,
+        "content_sha256": "a040a1286dcad91fce6c79183ddd061c4196f90cbaf33863e50d96b492f6a9f7",
+        "estimated_producer_work_bytes": 4406028,
+        "max_block_array_bytes": 147456,
+        "budget_bytes": 8388608,
+        "wall_ms": 3194.4743000203744,
+        "worker_ms": 907.0706,
+        "frames": 141,
+        "cpu_frame_p95_ms": 2.1514,
+        "max_cpu_frame_ms": 3.8332,
+        "catalog_max_step": 1024,
+        "catalog_inspected": 10003,
+        "gpu_bytes": 0,
+        "peak_gpu_bytes": 0,
+        "ui_overflow": 0,
+        "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+        "native_sha256": "7024bd181055b7d78721632a8a0cdfda66591148a4dd507d3a4ba8ac7df484f2",
+        "environment": {
+          "source_tree_sha256": "ffb52785786d75f81536f71196bdc17f9ec1196fb2f4de0eb34a31a71fc08a1f",
+          "git_revision": "5fc6e9cd0c00ba9657a5564b9a71b314483dacb4+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Single synthetic shared-workstation software-GL observation. Real F5 button, one native worker, offscreen cells, bounded1024-object catalog steps, no output preview and all saved arrays compared with independent windows. Source/model, file metadata and worker bookkeeping are outside producer allowance. Not dense visible annotation rendering, RSS, vendor WSI, hardware/frame-budget or biological acceptance. Output retained.",
+        "capture": {
+          "file": "pixel81-gui-stream.ppm",
+          "sha256": "1a47dea3b56fa431a559062e20e3069eba2dea923d5d9871375a56c79ca7b606"
+        }
+      }
+    },
+    {
+      "file": "gui-pixel-stream-2048-windows.json",
+      "sha256": "1ad4527044c57f3c2d73df12c5d5e9df8074f94ebed8ef925fa8af3749100adc",
+      "values": {
+        "schema": "qpx.gui-pixel-stream-benchmark/1",
+        "size": 2048,
+        "objects": 10000,
+        "blocks": 256,
+        "file_bytes": 37804298,
+        "content_sha256": "ad197918d3e2e2ed424cedcd612f3a84ae9b1a3f932a9dc221e23771cdb42f11",
+        "estimated_producer_work_bytes": 4406028,
+        "max_block_array_bytes": 147456,
+        "budget_bytes": 8388608,
+        "wall_ms": 11606.70750006102,
+        "worker_ms": 9488.2027,
+        "frames": 560,
+        "cpu_frame_p95_ms": 2.3306,
+        "max_cpu_frame_ms": 6.1915,
+        "catalog_max_step": 1024,
+        "catalog_inspected": 10003,
+        "gpu_bytes": 0,
+        "peak_gpu_bytes": 0,
+        "ui_overflow": 0,
+        "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+        "native_sha256": "7024bd181055b7d78721632a8a0cdfda66591148a4dd507d3a4ba8ac7df484f2",
+        "environment": {
+          "source_tree_sha256": "ffb52785786d75f81536f71196bdc17f9ec1196fb2f4de0eb34a31a71fc08a1f",
+          "git_revision": "5fc6e9cd0c00ba9657a5564b9a71b314483dacb4+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Single synthetic shared-workstation software-GL observation. Real F5 button, one native worker, offscreen cells, bounded1024-object catalog steps, no output preview and all saved arrays compared with independent windows. Source/model, file metadata and worker bookkeeping are outside producer allowance. Not dense visible annotation rendering, RSS, vendor WSI, hardware/frame-budget or biological acceptance. Output retained."
+      }
+    },
+    {
+      "file": "pixel-stream-job-1024-windows.json",
+      "sha256": "622485ddac4b78cd56bd750c252724001f5e4321204f2829f2f5f09c3e6f9f79",
+      "values": {
+        "schema": "qpx.pixel-stream-file-benchmark/1",
+        "size": 1024,
+        "pixels": 1048576,
+        "blocks": 64,
+        "block_size": 128,
+        "budget_bytes": 8388608,
+        "estimated_producer_work_bytes": 4406028,
+        "job": {
+          "capture_ms": 0.1697000116109848,
+          "polls": 616,
+          "maximum_poll_ms": 0.06050011143088341,
+          "last_256_poll_p95_ms": 0.023350032279267907,
+          "retained_poll_samples": 256,
+          "state": "saved"
+        },
+        "file_bytes": 9454346,
+        "raw_mask_bytes": 9437184,
+        "header_archive_bytes": 151722,
+        "record_overhead_bytes": 12600,
+        "max_block_array_bytes": 147456,
+        "write_ms": 979.0662000887096,
+        "open_ms": 11.989899910986423,
+        "verify_ms": 89.78839998599142,
+        "indexed_oracle_ms": 1287.9942000145093,
+        "file_sha256": "8995c6af009e78607da4768a02a33f1ce1a08961b6384f75f538b258c37074e7",
+        "content_sha256": "dcf7b93d59d7eae771b91a8129bb9616d8265e4640df1bc21b89aa9373051d04",
+        "model_sha256": "8081155d82ae06e7118663c8b3794dddff8795a05521fed3c91ef99361bfe592",
+        "class_counts": [
+          524288,
+          524288
+        ],
+        "valid_pixels": 1048576,
+        "file": "pixel81-job-mask-1024.qps",
+        "native_sha256": "7024bd181055b7d78721632a8a0cdfda66591148a4dd507d3a4ba8ac7df484f2",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "environment": {
+          "source_tree_sha256": "ffb52785786d75f81536f71196bdc17f9ec1196fb2f4de0eb34a31a71fc08a1f",
+          "git_revision": "5fc6e9cd0c00ba9657a5564b9a71b314483dacb4+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "verified": [
+          "atomic complete export and unchanged document",
+          "all record checksums/numeric masks/aggregate counts and content commitment",
+          "out-of-order block reads equal independent window requests",
+          "one model/provenance header and no full output array"
+        ],
+        "scope": "Single shared-workstation synthetic in-memory RGB source and local disk observation. Producer budget excludes source/model; file header has separate128MiB encoded/256MiB retained artifact caps, plus a block and64KiB I/O buffer. Timing includes OS flush, not a power-loss guarantee. Not RSS, vendor WSI, network storage, GUI frame, hardware or biological acceptance. Output file is retained for inspection."
+      }
+    },
+    {
+      "file": "pixel-stream-job-2048-windows.json",
+      "sha256": "a4112e69432f985cd68a146a118dfdc7264859614153b99b2e256e56c47d65a5",
+      "values": {
+        "schema": "qpx.pixel-stream-file-benchmark/1",
+        "size": 2048,
+        "pixels": 4194304,
+        "blocks": 256,
+        "block_size": 128,
+        "budget_bytes": 8388608,
+        "estimated_producer_work_bytes": 4406028,
+        "job": {
+          "capture_ms": 0.15670002903789282,
+          "polls": 2448,
+          "maximum_poll_ms": 0.09670003782957792,
+          "last_256_poll_p95_ms": 0.016600009985268116,
+          "retained_poll_samples": 256,
+          "state": "saved"
+        },
+        "file_bytes": 37804298,
+        "raw_mask_bytes": 37748736,
+        "header_archive_bytes": 151722,
+        "record_overhead_bytes": 51000,
+        "max_block_array_bytes": 147456,
+        "write_ms": 3824.785399949178,
+        "open_ms": 13.665899983607233,
+        "verify_ms": 441.37610006146133,
+        "indexed_oracle_ms": 4822.652200004086,
+        "file_sha256": "7add30ea338160fe979c97fb2715582d0ada15d8b06681e631e8db7a1072d1ee",
+        "content_sha256": "c0baa763b1a1245989228023731b207718e233deab1e122373a74eeb7148f5c4",
+        "model_sha256": "6428dc478b389afcb6ea60f6170d269c8faf732b0039a21ed345e7acbd24eeba",
+        "class_counts": [
+          2097152,
+          2097152
+        ],
+        "valid_pixels": 4194304,
+        "file": "pixel81-job-mask-2048.qps",
+        "native_sha256": "7024bd181055b7d78721632a8a0cdfda66591148a4dd507d3a4ba8ac7df484f2",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "environment": {
+          "source_tree_sha256": "ffb52785786d75f81536f71196bdc17f9ec1196fb2f4de0eb34a31a71fc08a1f",
+          "git_revision": "5fc6e9cd0c00ba9657a5564b9a71b314483dacb4+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "verified": [
+          "atomic complete export and unchanged document",
+          "all record checksums/numeric masks/aggregate counts and content commitment",
+          "out-of-order block reads equal independent window requests",
+          "one model/provenance header and no full output array"
+        ],
+        "scope": "Single shared-workstation synthetic in-memory RGB source and local disk observation. Producer budget excludes source/model; file header has separate128MiB encoded/256MiB retained artifact caps, plus a block and64KiB I/O buffer. Timing includes OS flush, not a power-loss guarantee. Not RSS, vendor WSI, network storage, GUI frame, hardware or biological acceptance. Output file is retained for inspection."
+      }
+    }
+  ],
+  "linux_minimal_interop": {
+    "blocks": 12,
+    "all_numeric_hashes_match": true,
+    "sha256": "aa35a9961e4a4d36d8d49af71cd8474459bd4acc2fa4a32e16679ae0693772a6"
+  },
+  "screenshot": {
+    "file": "pixel-stream-export.png",
+    "sha256": "ef8c1e263a66931499cbb0e4dcac264149d60c164c45bd1e82d72df8251bee35",
+    "visually_checked": true
+  },
+  "prior_hosted_failure": {
+    "file": "pixel-stream-file-ci-failure-windows.json",
+    "sha256": "1b97c5c82083160f79e88dfe66f77acf76c16bc3e65e77e8e65be1977f4b07a6"
+  },
+  "checks": {
+    "pixel81-verified-stubs.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "pixel81-verified-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "pixel81-verified-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "notes": [
+    "Initial14 job API and38 GUI focused cases passed before the final direct file-framing repair. The complete final suite covers both changes.",
+    "Focused API run skipped two optional reader cases without its fixture environment; full suite enables the Aperio fixture and verifies every new case without skips.",
+    "Two real-window probes ran serially before the full suite. Python polling/file probes ran while the full GUI suite was active; timings are shared-workstation observations, not uncontended throughput.",
+    "Successful commit is reported saved despite a late cancellation. Summary owner allocation is performed before writing so its allocation cannot report failure after commit."
+  ]
+}

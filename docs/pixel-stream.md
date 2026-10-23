@@ -96,7 +96,8 @@ can use existing QPA2 artifacts, retaining their original target and cropped gri
 For compact complete disk output, use [QPS1 stream files](pixel-stream-file.md),
 which retain the model once and provide indexed historical block access.
 
-Restart/resume, stitched contour publication and a desktop streaming job remain
+The [background export job](pixel-stream-export.md) powers native/Python and F5
+streamed disk output. Restart/resume and stitched contour publication remain
 open. This native/Python producer supplies their
 bounded source/mask processing primitive; it does not complete those workflows.
 

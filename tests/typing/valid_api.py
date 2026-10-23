@@ -287,3 +287,12 @@ def write_stream_file(producer: q.PixelPredictionStream, path: str) -> q.PixelPr
     file.verify()
     assert file.verified and not file.cancelled
     return file.read_block(0)
+
+
+def export_stream_job(document: q.Document, target: int, model: q.PixelClassifier, path: str) -> q.PixelStreamExportStats:
+    job=q.PixelStreamExportJob()
+    assert job.request(document,target,model,path)
+    result: q.PixelStreamExportStats=job.wait(document)
+    if result.summary is not None:
+        assert result.summary.blocks==result.total_blocks
+    return result

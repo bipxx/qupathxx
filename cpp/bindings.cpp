@@ -1,3 +1,4 @@
+#include "qupathxx/pixel_stream_file.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/thumbnail.hpp"
 #include "qupathxx/analysis.hpp"
@@ -307,7 +308,7 @@ NB_MODULE(_native, m) {
         .value("CLASSIFIER_KEEP_TRAINING",GuiInputTarget::KeepClassifierTraining).value("CLASSIFIER_USE_RECORD",GuiInputTarget::UseClassifierRecord)
         .value("PIXEL_TRAIN",GuiInputTarget::TrainPixelClassifier).value("PIXEL_PREDICT",GuiInputTarget::PredictPixelClasses).value("PIXEL_CANCEL",GuiInputTarget::CancelPixelClassifier)
         .value("PIXEL_SAVE_MODEL",GuiInputTarget::SavePixelModel).value("PIXEL_LOAD_MODEL",GuiInputTarget::LoadPixelModel).value("PIXEL_TOGGLE_OVERLAY",GuiInputTarget::TogglePixelOverlay).value("PIXEL_TRACE",GuiInputTarget::TracePixelContours).value("PIXEL_PUBLISH",GuiInputTarget::PublishPixelContours)
-        .value("PIXEL_KEEP_TRAINING",GuiInputTarget::KeepPixelTraining).value("PIXEL_KEEP_PREDICTION",GuiInputTarget::KeepPixelPrediction).value("PIXEL_USE_RECORD_MODEL",GuiInputTarget::UsePixelRecordModel).value("PIXEL_PREVIEW_RECORD",GuiInputTarget::PreviewPixelRecord).value("PIXEL_REMOVE_RECORD",GuiInputTarget::RemovePixelRecord);
+        .value("PIXEL_KEEP_TRAINING",GuiInputTarget::KeepPixelTraining).value("PIXEL_KEEP_PREDICTION",GuiInputTarget::KeepPixelPrediction).value("PIXEL_USE_RECORD_MODEL",GuiInputTarget::UsePixelRecordModel).value("PIXEL_PREVIEW_RECORD",GuiInputTarget::PreviewPixelRecord).value("PIXEL_REMOVE_RECORD",GuiInputTarget::RemovePixelRecord).value("PIXEL_EXPORT_STREAM",GuiInputTarget::ExportPixelStream);
     nb::enum_<GuiInputWait>(m,"GuiInputWait").value("IMMEDIATE",GuiInputWait::Immediate).value("TARGET_READY",GuiInputWait::TargetReady).value("STARTUP_FINISHED",GuiInputWait::StartupFinished)
         .value("TISSUE_READY",GuiInputWait::TissueReady).value("TISSUE_CONTOURS_READY",GuiInputWait::TissueContoursReady).value("TISSUE_CONTOURS_PUBLISHED",GuiInputWait::TissueContoursPublished)
         .value("TISSUE_ARCHIVED",GuiInputWait::TissueArchived).value("TISSUE_VERIFIED",GuiInputWait::TissueVerified)
@@ -318,7 +319,7 @@ NB_MODULE(_native, m) {
         .value("CLASSIFIER_TRAINING_RETAINED",GuiInputWait::ClassifierTrainingRetained).value("CLASSIFIER_RECORD_LOADED",GuiInputWait::ClassifierRecordLoaded)
         .value("PIXEL_TRAINED",GuiInputWait::PixelClassifierTrained).value("PIXEL_PREDICTED",GuiInputWait::PixelClassifierPredicted).value("PIXEL_PREVIEW_READY",GuiInputWait::PixelPreviewReady)
         .value("PIXEL_MODEL_SAVED",GuiInputWait::PixelModelSaved).value("PIXEL_MODEL_LOADED",GuiInputWait::PixelModelLoaded).value("PIXEL_CONTOURS_READY",GuiInputWait::PixelContoursReady).value("PIXEL_CONTOURS_PUBLISHED",GuiInputWait::PixelContoursPublished)
-        .value("PIXEL_RECORD_KEPT",GuiInputWait::PixelRecordKept).value("PIXEL_RECORD_MODEL_LOADED",GuiInputWait::PixelRecordModelLoaded).value("PIXEL_HISTORICAL_PREVIEW_READY",GuiInputWait::PixelHistoricalPreviewReady);
+        .value("PIXEL_RECORD_KEPT",GuiInputWait::PixelRecordKept).value("PIXEL_RECORD_MODEL_LOADED",GuiInputWait::PixelRecordModelLoaded).value("PIXEL_HISTORICAL_PREVIEW_READY",GuiInputWait::PixelHistoricalPreviewReady).value("PIXEL_STREAM_FINISHED",GuiInputWait::PixelStreamFinished);
     nb::class_<GuiInput>(m,"GuiInput").def(nb::init<>()).def_rw("frame",&GuiInput::frame).def_rw("kind",&GuiInput::kind)
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift).def_rw("wait_for",&GuiInput::wait_for);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>())
@@ -349,7 +350,7 @@ NB_MODULE(_native, m) {
         .def_ro("suspended_wait_ms",&GuiReport::suspended_wait_ms).def_ro("window_iconified",&GuiReport::window_iconified)
         .def_ro("overlay_cache_bytes",&GuiReport::overlay_cache_bytes).def_ro("overlay_cache_peak_bytes",&GuiReport::overlay_cache_peak_bytes)
         .def_ro("overlay_cache_builds",&GuiReport::overlay_cache_builds).def_ro("overlay_cache_hits",&GuiReport::overlay_cache_hits).def_ro("overlay_cache_fallbacks",&GuiReport::overlay_cache_fallbacks)
-        .def_ro("replay_frame",&GuiReport::replay_frame).def_ro("replay_wait_frames",&GuiReport::replay_wait_frames).def_ro("replay_physical_wheel_events_ignored",&GuiReport::replay_physical_wheel_events_ignored).def_ro("settle_frames",&GuiReport::settle_frames)
+        .def_ro("pixel_stream",&GuiReport::pixel_stream).def_ro("replay_frame",&GuiReport::replay_frame).def_ro("replay_wait_frames",&GuiReport::replay_wait_frames).def_ro("replay_physical_wheel_events_ignored",&GuiReport::replay_physical_wheel_events_ignored).def_ro("settle_frames",&GuiReport::settle_frames)
         .def_ro("replay_complete",&GuiReport::replay_complete).def_ro("tiles_settled",&GuiReport::tiles_settled)
         .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)
         .def_ro("generations",&GuiReport::generations).def_ro("cpu_frame_p95_ms",&GuiReport::cpu_frame_p95_ms)

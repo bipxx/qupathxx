@@ -2569,4 +2569,79 @@ suite resolved it. Hosted QPS1 validation will be tracked after publication.
 
 Implementation commit: `766ec0944dedfd130815acd07929ef662db176eb`. Hosted
 [run 39899386538](https://github.com/bipxx/qupathxx/actions/runs/39899386538)
-targets that exact commit and is in progress. No hosted QPS1 pass is claimed yet.
+completed with four passing jobs and one Windows headless Python3.11 failure.
+The [failure record](benchmarks/pixel-stream-file-ci-failure-windows.json) verifies
+that native tests passed on every job, and GUI/Linux QPS1 cases passed. The
+headless reader returned cached block zero after footer mutation; metadata
+version checks alone did not reliably distinguish rapid writes on Windows.
+Packet81 below repairs direct content revalidation; packet80 is not described
+as fully validated.
+
+
+## Packet 81 — background stream export and direct file revalidation
+
+`PixelStreamExportJob` exposes one native worker to Python and the F5 panel.
+The owner captures a bounded producer and retains its source/model owners;
+the worker writes immutable blocks through the same atomic QPS1 writer without
+reading or mutating a Document. Polling returns counter/authority snapshots,
+not masks. The controller rejects overlapping requests, supports restart after
+collection, and cancels/joins on destruction. A committed file is reported as
+saved even if cancellation arrives before collection. The summary owner is
+allocated before writing, avoiding an allocation failure after commit.
+
+F5 now offers Export pixel stream, file/block/work/size settings, progress and
+Cancel pixel work. Existing visible-only selection captures the viewport;
+export never creates a full output mask or GPU preview. Image switches cancel
+pending work; interactive close cancels and joins, while finite replay waits.
+See the [job contract and screenshot](pixel-stream-export.md).
+
+Fourteen new job cases cover exact full/windowed files, overlap rejection,
+restart, cancellation, late cancellation after commit, historical captures,
+invalid limits, native owner lifetime and bounded subprocess shutdown. Seven
+real GUI cases cover normal/narrow layouts, visible-window block arrays,
+explicit replacement, unrelated-file preservation and cancellation. Native
+checks cover three pyramid levels, injected source failure and cancellation
+during a gated virtual-slide decoder read.
+
+The prior packet's Windows headless hosted failure exposed a cached-header
+integrity gap: metadata stamps did not reliably distinguish rapid file writes.
+Indexed reads now directly recheck prefix/header commitment and actual footer.
+Block-zero access and complete verification also rehash the stored header using
+a fixed 64 KiB buffer. Full verification retains sequential block processing;
+other indexed accesses do not scan the entire header or file. The original
+failing assertion is unchanged, with four timestamp-restored header/footer
+read/verify cases and native mutation cases added. The
+[prior hosted failure record](benchmarks/pixel-stream-file-ci-failure-windows.json)
+preserves all five job outcomes and the failed Windows artifact identities.
+
+Real F5 probes use 10,000 offscreen cells and an 18-feature, 16-tree model.
+The [1,024-square](benchmarks/gui-pixel-stream-1024-windows.json) and
+[2,048-square](benchmarks/gui-pixel-stream-2048-windows.json) exports retain
+zero mask GPU bytes, estimate 4,406,028 producer work bytes and bound each
+output block's arrays to 147,456 bytes. Every saved array is compared against an
+independent window. CPU frame p95/max observations are 2.15/3.83 ms and 2.33/6.19 ms;
+worker times are 0.907 s and 9.488 s. These are serial synthetic software-GL probes,
+with offscreen catalog load, not dense visible drawing, RSS, hardware/frame
+budgets, vendor WSI throughput or biological acceptance.
+
+The [Python 1,024-square](benchmarks/pixel-stream-job-1024-windows.json) and
+[2,048-square](benchmarks/pixel-stream-job-2048-windows.json) probes measure
+request capture at 0.170/0.157 ms and maximum observed owner polling at 0.061/0.097 ms,
+retaining at most 256 polling samples. They also verify every saved block.
+Those probes overlap the full GUI suite; timings are shared-workstation
+observations, not an uncontended throughput comparison.
+
+Resume, project-linked stream records, an interactive historical file browser,
+stitched whole-stream contour publication, unmatched-grid resampling, expanded
+features, TMA, research/QuPath comparisons and all other outstanding M0–M7
+requirements remain open.
+
+The [final local record](benchmarks/pixel-stream-export-local-windows-linux.json)
+verifies 1,617 installed Python passes with six expected skips, all 14 new job,
+seven GUI and 38 stream-file cases without skips, 39 GUI native and 38 each
+Windows headless/Linux training/minimal/ASan-UBSan passes. Exact stubs, strict
+positive/negative typing, installed software-GL launch, native/wheel/source
+identities, portable fixture hashes and both pairs of benchmarks are checked.
+The original hosted mutation assertion passes unchanged on the corrected wheel.
+Hosted verification of this implementation is tracked after publication; the
+prior packet's mixed CI outcome is preserved separately.

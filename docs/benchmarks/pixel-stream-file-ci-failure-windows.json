@@ -1,0 +1,255 @@
+{
+  "schema": "qpx.pixel-stream-file-ci-failure/1",
+  "commit": "766ec0944dedfd130815acd07929ef662db176eb",
+  "run": "https://github.com/bipxx/qupathxx/actions/runs/39899386538",
+  "job": "https://github.com/bipxx/qupathxx/actions/runs/39899386538/job/120237170176",
+  "conclusion": "failure",
+  "python": {
+    "tests": 1598,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 328,
+    "passed": 1269,
+    "sha256": "b19076263f3ad403ab05b217c338aad6787fbc71fa4a8280d4da242e672b2ed8",
+    "failing_cases": [
+      {
+        "module": "tests.test_pixel_stream_file",
+        "name": "test_reader_rejects_later_file_mutation_and_keeps_returned_values",
+        "message": "Failed: DID NOT RAISE RuntimeError"
+      }
+    ]
+  },
+  "native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "sha256": "9d833b6a86e871b049498340e1e120c94ea4a50f4a78f2eee196f5a162d8e7a4",
+    "failing_cases": []
+  },
+  "installed": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.11.9 (tags/v3.11.9:de54cf5, Apr  2 2024, 10:12:12) [MSC v.1938 64 bit (AMD64)]",
+    "native_sha256": "b4b38f8bb15cd773be439988fd5ccc67e85304484535ef6a90f91f5b07f48d92",
+    "source_tree_sha256": "9c8f4dfa0042a04b0b721fb18a3ac516287fbeccb674a2c5f9d2004d3e5ea9e8",
+    "gui": false,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": false,
+    "layout_saved": false,
+    "monitor_scale": null,
+    "framebuffer_scale": null,
+    "ui_scale": null,
+    "font_rebuilds": null,
+    "ui_stacked_fields": null,
+    "ui_wrapped_buttons": null,
+    "ui_overflow_items": null,
+    "ui_max_overflow": null,
+    "framebuffer": null,
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp311-cp311-win_amd64.whl",
+    "sha256": "5d5a231c2ff569f37674d3775baa2aa0f9267a22163770069609d811f7ea92fc",
+    "bytes": 8996925
+  },
+  "job_log_sha256": "5ea550d7c3c3da4be1c121876f3ef5e1edff35bfb505c1ee4effefd3e3793b01",
+  "finding": "After verifying and caching block zero, changing the footer did not reliably change the Windows metadata version observed by the reader. A later block-zero access returned cached values without rereading framing.",
+  "repair": "Packet81 rechecks prefix/header commitment and actual completion footer on every indexed access, rehashes the stored header for block-zero access and complete verification, and retains bounded I/O buffers. Original failing assertion is unchanged; four timestamp-restored header/footer read/verify cases and native mutation cases were added.",
+  "scope": "Failure evidence for this Windows headless job only. This commit is not reported as fully validated. New implementation requires its own complete local and hosted checks.",
+  "hosted_run": {
+    "status": "completed",
+    "conclusion": "failure",
+    "jobs": [
+      {
+        "name": "Linux headless Python 3.12 NumPy 2",
+        "conclusion": "success",
+        "native": {
+          "tests": 38,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "passed": 38,
+          "sha256": "097e54e754e594b49d5092ba57401ef93026783295e08d20f0f24f6ed065d725",
+          "failing_cases": []
+        },
+        "python": {
+          "tests": 1598,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 334,
+          "passed": 1264,
+          "sha256": "58c411c93a1f220d11d486aff0b0c8eab002823353a5cf51dd683e0c89d93402",
+          "failing_cases": []
+        },
+        "file_benchmark": {
+          "schema": "qpx.pixel-stream-file-benchmark/1",
+          "size": 1024,
+          "pixels": 1048576,
+          "blocks": 64,
+          "block_size": 128,
+          "budget_bytes": 8388608,
+          "estimated_producer_work_bytes": 4405754,
+          "file_bytes": 9454272,
+          "raw_mask_bytes": 9437184,
+          "header_archive_bytes": 151648,
+          "record_overhead_bytes": 12600,
+          "max_block_array_bytes": 147456,
+          "write_ms": 1065.250939000009,
+          "open_ms": 3.237802000001011,
+          "verify_ms": 127.14685099996359,
+          "indexed_oracle_ms": 1062.1045089999939,
+          "file_sha256": "deae7649df9cc711bf591aa56b2d4f5c995b94e4e64817e9eb3eabb6a3f3f1f9",
+          "content_sha256": "92effd838af246501f408cd88c9e4283216e95a253579a707f1fdc8f1dd6fa65",
+          "model_sha256": "0838d563abc99d05b7beca3c11c570e6d05d7fa75eb1ae10769283d63bb01f5d",
+          "class_counts": [
+            524288,
+            524288
+          ],
+          "valid_pixels": 1048576,
+          "file": "pixel-stream-file.qps",
+          "native_sha256": "ad3760dd9e5e38453d38aff5cde26924a37a79e3f882c3395075d8ddb90d08e0",
+          "platform": "Linux-6.17.0-1022-azure-x86_64-with-glibc2.39",
+          "environment": {
+            "source_tree_sha256": "51fcacd409da26b6ba3ae65aa498d85fa08f20b729088bc0a5c9ba53069c2b5c",
+            "git_revision": "766ec0944dedfd130815acd07929ef662db176eb",
+            "compiler": "GNU 13.3.0",
+            "configuration": "Release",
+            "platform": "Linux x86_64"
+          },
+          "verified": [
+            "atomic complete export and unchanged document",
+            "all record checksums/numeric masks/aggregate counts and content commitment",
+            "out-of-order block reads equal independent window requests",
+            "one model/provenance header and no full output array"
+          ],
+          "scope": "Single shared-workstation synthetic in-memory RGB source and local disk observation. Producer budget excludes source/model; file header has separate128MiB encoded/256MiB retained artifact caps, plus a block and64KiB I/O buffer. Timing includes OS flush, not a power-loss guarantee. Not RSS, vendor WSI, network storage, GUI frame, hardware or biological acceptance. Output file is retained for inspection."
+        }
+      },
+      {
+        "name": "Windows GUI Python 3.12 software GL",
+        "conclusion": "success",
+        "native": {
+          "tests": 39,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "passed": 39,
+          "sha256": "123a0fe8626891ed34686d1512accead00bba62b169bd57588623907fa143ee1",
+          "failing_cases": []
+        },
+        "python": {
+          "tests": 1598,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 7,
+          "passed": 1591,
+          "sha256": "d4ec75fad2689ba3bb5bbc11b3ca6183a4491ef197bc6ee6031b7c780b708c4c",
+          "failing_cases": []
+        },
+        "file_benchmark": {
+          "schema": "qpx.pixel-stream-file-benchmark/1",
+          "size": 1024,
+          "pixels": 1048576,
+          "blocks": 64,
+          "block_size": 128,
+          "budget_bytes": 8388608,
+          "estimated_producer_work_bytes": 4406028,
+          "file_bytes": 9454338,
+          "raw_mask_bytes": 9437184,
+          "header_archive_bytes": 151714,
+          "record_overhead_bytes": 12600,
+          "max_block_array_bytes": 147456,
+          "write_ms": 1409.5225999999457,
+          "open_ms": 2.742600000146922,
+          "verify_ms": 134.79750000010426,
+          "indexed_oracle_ms": 1469.6642999999767,
+          "file_sha256": "b5f97ad2a325588666422246f43bd9fdb5b1d5162c569db8c43d3df9bc99749b",
+          "content_sha256": "4bf0a5dae5ba639dc3f5cb6a62709d0c1dd13410d7c9f72a4f9bf8e03183a2d8",
+          "model_sha256": "8081155d82ae06e7118663c8b3794dddff8795a05521fed3c91ef99361bfe592",
+          "class_counts": [
+            524288,
+            524288
+          ],
+          "valid_pixels": 1048576,
+          "file": "pixel-stream-file.qps",
+          "native_sha256": "a470ef566d1eead9fbfc37964ac47bdd8772f1586c8488eb4e130aaa53c993ac",
+          "platform": "Windows-2022Server-10.0.20348-SP0",
+          "environment": {
+            "source_tree_sha256": "9c8f4dfa0042a04b0b721fb18a3ac516287fbeccb674a2c5f9d2004d3e5ea9e8",
+            "git_revision": "766ec0944dedfd130815acd07929ef662db176eb",
+            "compiler": "MSVC 19.44.35229.0",
+            "configuration": "Release",
+            "platform": "Windows AMD64"
+          },
+          "verified": [
+            "atomic complete export and unchanged document",
+            "all record checksums/numeric masks/aggregate counts and content commitment",
+            "out-of-order block reads equal independent window requests",
+            "one model/provenance header and no full output array"
+          ],
+          "scope": "Single shared-workstation synthetic in-memory RGB source and local disk observation. Producer budget excludes source/model; file header has separate128MiB encoded/256MiB retained artifact caps, plus a block and64KiB I/O buffer. Timing includes OS flush, not a power-loss guarantee. Not RSS, vendor WSI, network storage, GUI frame, hardware or biological acceptance. Output file is retained for inspection."
+        }
+      },
+      {
+        "name": "Linux minimal native",
+        "conclusion": "success",
+        "native": {
+          "tests": 38,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "passed": 38,
+          "sha256": "141e9cfbd464d4771503a72e95b25f2a885beabaf369c10b2c7844261fd9301e",
+          "failing_cases": []
+        }
+      },
+      {
+        "name": "Windows headless Python 3.11 NumPy 1",
+        "conclusion": "failure",
+        "native": {
+          "tests": 38,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "passed": 38,
+          "sha256": "9d833b6a86e871b049498340e1e120c94ea4a50f4a78f2eee196f5a162d8e7a4",
+          "failing_cases": []
+        },
+        "python": {
+          "tests": 1598,
+          "failures": 1,
+          "errors": 0,
+          "skipped": 328,
+          "passed": 1269,
+          "sha256": "b19076263f3ad403ab05b217c338aad6787fbc71fa4a8280d4da242e672b2ed8",
+          "failing_cases": [
+            {
+              "module": "tests.test_pixel_stream_file",
+              "name": "test_reader_rejects_later_file_mutation_and_keeps_returned_values",
+              "message": "Failed: DID NOT RAISE RuntimeError"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Linux ASan UBSan native",
+        "conclusion": "success",
+        "native": {
+          "tests": 38,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "passed": 38,
+          "sha256": "ace0e1cc735c4a9cd8b336a4fee7829c19793c01d1b44ea99e379cb3c22e9b10",
+          "failing_cases": []
+        }
+      }
+    ]
+  }
+}

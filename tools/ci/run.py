@@ -187,9 +187,13 @@ def main():
         work/'pixel-stream-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_file.py', '--file', work/'pixel-stream-file.qps', '--output', work/'pixel-stream-file-benchmark.json'],
         work/'pixel-stream-file-benchmark.log', env, 120)
+    run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_file.py', '--job', '--file', work/'pixel-stream-job.qps', '--output', work/'pixel-stream-job-benchmark.json'],
+        work/'pixel-stream-job-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_archives.py', '--output', work/'pixel-archive-benchmark.json'],
         work/'pixel-archive-benchmark.log', env, 120)
     if args.mode == 'gui':
+        run([test_python, '-I', ROOT/'tools/benchmark_gui_pixel_stream.py', '--file', work/'gui-pixel-stream.qps', '--output', work/'gui-pixel-stream-benchmark.json'],
+            work/'gui-pixel-stream-benchmark.log', env, 120)
         run([test_python, '-I', ROOT/'tools/benchmark_gui_pixel.py', '--output', work/'gui-pixel-benchmark.json'],
             work/'gui-pixel-benchmark.log', env, 120)
         run([test_python, '-I', ROOT/'tools/benchmark_gui_pixel_contours.py', '--output', work/'gui-pixel-contour-benchmark.json'],

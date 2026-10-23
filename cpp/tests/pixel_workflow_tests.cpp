@@ -85,7 +85,15 @@ int main() {try {
             auto broken=std::make_shared<Pyramid>();broken->fail_after=1;Document failed(broken);failed.set_calibration(.5,.25);const auto failed_id=failed.add_roi(Roi::rectangle({3,4,57,39}));PixelPredictionStream failed_writer(failed,failed_id,model,stream_options);
             std::ifstream before_file(output.path,std::ios::binary);const std::vector<char> before((std::istreambuf_iterator<char>(before_file)),{});before_file.close();
             rejects([&]{save_pixel_stream(failed_writer,output.path.u8string(),true);});check(failed_writer.completed_blocks()==1);
-            std::ifstream after_file(output.path,std::ios::binary);const std::vector<char> after((std::istreambuf_iterator<char>(after_file)),{});check(before==after);
+            std::ifstream after_file(output.path,std::ios::binary);const std::vector<char> after((std::istreambuf_iterator<char>(after_file)),{});check(before==after);after_file.close();
+            PixelStreamExportJob export_job;check(export_job.request(doc,roi,model,output.path.u8string(),stream_options,{},true));
+            check(!export_job.request(doc,roi,model,output.path.u8string(),stream_options,{},true));
+            const auto saved=export_job.wait(doc);check(saved.state=="saved" && saved.summary && saved.summary->class_counts==summary.class_counts && saved.current && saved.completed_blocks==saved.total_blocks && !export_job.busy());
+            export_job.cancel();check(export_job.poll(doc).state=="saved");
+            check(export_job.request(failed,failed_id,model,output.path.u8string(),stream_options,{},true));const auto failed_export=export_job.wait(failed);check(failed_export.state=="failed" && !failed_export.summary && failed_export.generation==2);
+            PixelStreamFile survived(output.path.u8string());survived.verify();check(survived.declared_summary().class_counts==summary.class_counts);
+            std::fstream mutate(output.path,std::ios::in|std::ios::out|std::ios::binary);mutate.seekg(-1,std::ios::end);char last;mutate.get(last);mutate.seekp(-1,std::ios::end);mutate.put(last^1);mutate.close();
+            rejects([&]{survived.read_block(0);});rejects([&]{survived.verify();});check(!survived.verified());
         }
         prediction.tile_size=32;const auto tiled=predict_pixel_region(PixelPredictionRequest(doc,roi,model,prediction));check(tiled->sha256()==result->sha256());
         rejects([&]{predict_pixel_region(predict,&cancelled);});prediction.work_bytes=1024*1024;rejects([&]{PixelPredictionRequest too_small(doc,roi,model,prediction);});
@@ -125,6 +133,11 @@ int main() {try {
         const auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(5);while(!huge->entered && std::chrono::steady_clock::now()<deadline) std::this_thread::sleep_for(std::chrono::milliseconds(1));
         check(huge->entered && gated.busy());rejects([&]{gated.next();});gated.cancel();huge->release.store(true);
         check(worker.get() && !gated.busy() && gated.state()=="cancelled" && !gated.completed_blocks() && !gated.valid_pixels());
+        std::random_device random;const auto path=std::filesystem::temp_directory_path()/("qupathxx-cancel-export-"+std::to_string(random())+"-"+std::to_string(random())+".qps");
+        PixelStreamExportJob export_job;huge->entered.store(false);huge->release.store(false);check(export_job.request(large,id,model,path.u8string(),stream_options));
+        const auto export_deadline=std::chrono::steady_clock::now()+std::chrono::seconds(5);while(!huge->entered && std::chrono::steady_clock::now()<export_deadline) std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        const bool entered=huge->entered;export_job.cancel();huge->release.store(true);const auto cancelled_export=export_job.wait(large);
+        check(entered && cancelled_export.state=="cancelled" && !cancelled_export.summary && !cancelled_export.completed_blocks && !std::filesystem::exists(path));
     }
     {
         // Float rectangle reporting cannot distinguish adjacent grid integers

@@ -61,11 +61,11 @@ int main() {
         for(double bad:{0.,.49,3.01,std::numeric_limits<double>::infinity(),std::numeric_limits<double>::quiet_NaN()}) {
             scale.x=bad;rejects<std::invalid_argument>([&]{GuiReplay reject({scale},1);});
         }
-        for(auto target:{GuiInputTarget::TracePixelContours,GuiInputTarget::PublishPixelContours,GuiInputTarget::KeepPixelTraining,GuiInputTarget::KeepPixelPrediction,GuiInputTarget::UsePixelRecordModel,GuiInputTarget::PreviewPixelRecord,GuiInputTarget::RemovePixelRecord}) {
+        for(auto target:{GuiInputTarget::TracePixelContours,GuiInputTarget::PublishPixelContours,GuiInputTarget::KeepPixelTraining,GuiInputTarget::KeepPixelPrediction,GuiInputTarget::UsePixelRecordModel,GuiInputTarget::PreviewPixelRecord,GuiInputTarget::RemovePixelRecord,GuiInputTarget::ExportPixelStream}) {
             GuiInput click;click.kind=GuiInputKind::LeftDown;click.target=target;click.wait_for=GuiInputWait::TargetReady;
             GuiReplay accepted({click},1);
         }
-        for(auto condition:{GuiInputWait::PixelContoursReady,GuiInputWait::PixelContoursPublished,GuiInputWait::PixelRecordKept,GuiInputWait::PixelRecordModelLoaded,GuiInputWait::PixelHistoricalPreviewReady}) {
+        for(auto condition:{GuiInputWait::PixelContoursReady,GuiInputWait::PixelContoursPublished,GuiInputWait::PixelRecordKept,GuiInputWait::PixelRecordModelLoaded,GuiInputWait::PixelHistoricalPreviewReady,GuiInputWait::PixelStreamFinished}) {
             GuiInput wait;wait.kind=GuiInputKind::Move;wait.wait_for=condition;GuiReplay accepted({wait},1);
         }
         std::cout<<"gui replay passed\n";

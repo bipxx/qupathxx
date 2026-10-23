@@ -97,7 +97,20 @@ void bind_pixel_workflows(nb::module_& m) {
         .def_prop_ro("declared_summary",&PixelStreamFile::declared_summary,nb::rv_policy::copy);
     m.def("save_pixel_stream",[](PixelPredictionStream& stream,const std::string& path,bool replace,std::uint64_t max_bytes){return save_pixel_stream(stream,path,replace,max_bytes);},
         "stream"_a,"path"_a,"replace_existing"_a=false,"max_bytes"_a=1ULL<<40,nb::call_guard<nb::gil_scoped_release>());
+    nb::class_<PixelStreamExportStats>(m,"PixelStreamExportStats")
+        .def_ro("state",&PixelStreamExportStats::state).def_ro("error",&PixelStreamExportStats::error).def_ro("generation",&PixelStreamExportStats::generation)
+        .def_ro("completed_blocks",&PixelStreamExportStats::completed_blocks).def_ro("total_blocks",&PixelStreamExportStats::total_blocks)
+        .def_ro("valid_pixels",&PixelStreamExportStats::valid_pixels).def_ro("classified_pixels",&PixelStreamExportStats::classified_pixels)
+        .def_ro("estimated_work_bytes",&PixelStreamExportStats::estimated_work_bytes).def_ro("elapsed_ms",&PixelStreamExportStats::elapsed_ms)
+        .def_ro("current",&PixelStreamExportStats::current).def_ro("summary",&PixelStreamExportStats::summary);
+    nb::class_<PixelStreamExportJob>(m,"PixelStreamExportJob").def(nb::init<>())
+        .def("request",&PixelStreamExportJob::request,"document"_a,"object_id"_a,"model"_a,"path"_a,"options"_a=PixelStreamOptions{},"window"_a=nb::none(),"replace_existing"_a=false,"max_bytes"_a=1ULL<<40)
+        .def_prop_ro("busy",&PixelStreamExportJob::busy).def("cancel",&PixelStreamExportJob::cancel)
+        .def("poll",&PixelStreamExportJob::poll,"document"_a)
+        .def("wait",&PixelStreamExportJob::wait,"document"_a,nb::call_guard<nb::gil_scoped_release>());
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
+        .def_rw("pixel_stream_path",&GuiOptions::pixel_stream_path).def_rw("pixel_stream_replace",&GuiOptions::pixel_stream_replace)
+        .def_rw("pixel_stream_options",&GuiOptions::pixel_stream_options).def_rw("pixel_stream_max_bytes",&GuiOptions::pixel_stream_max_bytes)
         .def_rw("pixel_open",&GuiOptions::pixel_open).def_rw("pixel_selected_only",&GuiOptions::pixel_selected_only).def_rw("pixel_replace_model",&GuiOptions::pixel_replace_model).def_rw("pixel_show_overlay",&GuiOptions::pixel_show_overlay).def_rw("pixel_viewport_only",&GuiOptions::pixel_viewport_only)
         .def_rw("pixel_object_id",&GuiOptions::pixel_object_id).def_rw("pixel_preview_budget",&GuiOptions::pixel_preview_budget).def_rw("pixel_model_path",&GuiOptions::pixel_model_path)
         .def_rw("pixel_contour_options",&GuiOptions::pixel_contour_options).def_rw("pixel_training_options",&GuiOptions::pixel_training_options).def_rw("pixel_prediction_options",&GuiOptions::pixel_prediction_options).def_rw("pixel_parameters",&GuiOptions::pixel_parameters).def_rw("pixel_model",&GuiOptions::pixel_model);

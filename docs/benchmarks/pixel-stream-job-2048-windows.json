@@ -1,0 +1,51 @@
+{
+  "schema": "qpx.pixel-stream-file-benchmark/1",
+  "size": 2048,
+  "pixels": 4194304,
+  "blocks": 256,
+  "block_size": 128,
+  "budget_bytes": 8388608,
+  "estimated_producer_work_bytes": 4406028,
+  "job": {
+    "capture_ms": 0.15670002903789282,
+    "polls": 2448,
+    "maximum_poll_ms": 0.09670003782957792,
+    "last_256_poll_p95_ms": 0.016600009985268116,
+    "retained_poll_samples": 256,
+    "state": "saved"
+  },
+  "file_bytes": 37804298,
+  "raw_mask_bytes": 37748736,
+  "header_archive_bytes": 151722,
+  "record_overhead_bytes": 51000,
+  "max_block_array_bytes": 147456,
+  "write_ms": 3824.785399949178,
+  "open_ms": 13.665899983607233,
+  "verify_ms": 441.37610006146133,
+  "indexed_oracle_ms": 4822.652200004086,
+  "file_sha256": "7add30ea338160fe979c97fb2715582d0ada15d8b06681e631e8db7a1072d1ee",
+  "content_sha256": "c0baa763b1a1245989228023731b207718e233deab1e122373a74eeb7148f5c4",
+  "model_sha256": "6428dc478b389afcb6ea60f6170d269c8faf732b0039a21ed345e7acbd24eeba",
+  "class_counts": [
+    2097152,
+    2097152
+  ],
+  "valid_pixels": 4194304,
+  "file": "pixel81-job-mask-2048.qps",
+  "native_sha256": "7024bd181055b7d78721632a8a0cdfda66591148a4dd507d3a4ba8ac7df484f2",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "environment": {
+    "source_tree_sha256": "ffb52785786d75f81536f71196bdc17f9ec1196fb2f4de0eb34a31a71fc08a1f",
+    "git_revision": "5fc6e9cd0c00ba9657a5564b9a71b314483dacb4+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "verified": [
+    "atomic complete export and unchanged document",
+    "all record checksums/numeric masks/aggregate counts and content commitment",
+    "out-of-order block reads equal independent window requests",
+    "one model/provenance header and no full output array"
+  ],
+  "scope": "Single shared-workstation synthetic in-memory RGB source and local disk observation. Producer budget excludes source/model; file header has separate128MiB encoded/256MiB retained artifact caps, plus a block and64KiB I/O buffer. Timing includes OS flush, not a power-loss guarantee. Not RSS, vendor WSI, network storage, GUI frame, hardware or biological acceptance. Output file is retained for inspection."
+}

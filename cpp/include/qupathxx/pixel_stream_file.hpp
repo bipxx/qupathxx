@@ -24,4 +24,25 @@ private:
     friend PixelStreamFileSummary save_pixel_stream(PixelPredictionStream&,const std::string&,bool,std::uint64_t,const std::atomic<bool>*);
 };
 PixelStreamFileSummary save_pixel_stream(PixelPredictionStream&,const std::string& path,bool replace_existing=false,std::uint64_t max_bytes=1ULL<<40,const std::atomic<bool>* cancelled=nullptr);
+struct PixelStreamExportStats {
+    std::string state="idle",error;
+    std::uint64_t generation=0,completed_blocks=0,total_blocks=0,valid_pixels=0,classified_pixels=0;
+    std::size_t estimated_work_bytes=0;
+    double elapsed_ms=0;
+    bool current=false;
+    std::shared_ptr<const PixelStreamFileSummary> summary;
+};
+// Owner-thread controller; cancel and producer progress use native atomics.
+// The worker never accesses Document or publishes document mutations.
+class PixelStreamExportJob {
+public:
+    PixelStreamExportJob();~PixelStreamExportJob();
+    PixelStreamExportJob(const PixelStreamExportJob&)=delete;
+    bool request(const Document&,std::uint64_t,const PixelClassifier&,const std::string&,
+        PixelStreamOptions={},std::optional<Rect> window={},bool replace_existing=false,std::uint64_t max_bytes=1ULL<<40);
+    bool busy() const;void cancel();
+    PixelStreamExportStats poll(const Document&);PixelStreamExportStats wait(const Document&);
+private:
+    struct Impl;std::unique_ptr<Impl> impl_;
+};
 }

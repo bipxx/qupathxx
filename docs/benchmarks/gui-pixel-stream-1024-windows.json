@@ -1,0 +1,35 @@
+{
+  "schema": "qpx.gui-pixel-stream-benchmark/1",
+  "size": 1024,
+  "objects": 10000,
+  "blocks": 64,
+  "file_bytes": 9454345,
+  "content_sha256": "a040a1286dcad91fce6c79183ddd061c4196f90cbaf33863e50d96b492f6a9f7",
+  "estimated_producer_work_bytes": 4406028,
+  "max_block_array_bytes": 147456,
+  "budget_bytes": 8388608,
+  "wall_ms": 3194.4743000203744,
+  "worker_ms": 907.0706,
+  "frames": 141,
+  "cpu_frame_p95_ms": 2.1514,
+  "max_cpu_frame_ms": 3.8332,
+  "catalog_max_step": 1024,
+  "catalog_inspected": 10003,
+  "gpu_bytes": 0,
+  "peak_gpu_bytes": 0,
+  "ui_overflow": 0,
+  "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+  "native_sha256": "7024bd181055b7d78721632a8a0cdfda66591148a4dd507d3a4ba8ac7df484f2",
+  "environment": {
+    "source_tree_sha256": "ffb52785786d75f81536f71196bdc17f9ec1196fb2f4de0eb34a31a71fc08a1f",
+    "git_revision": "5fc6e9cd0c00ba9657a5564b9a71b314483dacb4+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "scope": "Single synthetic shared-workstation software-GL observation. Real F5 button, one native worker, offscreen cells, bounded1024-object catalog steps, no output preview and all saved arrays compared with independent windows. Source/model, file metadata and worker bookkeeping are outside producer allowance. Not dense visible annotation rendering, RSS, vendor WSI, hardware/frame-budget or biological acceptance. Output retained.",
+  "capture": {
+    "file": "pixel81-gui-stream.ppm",
+    "sha256": "1a47dea3b56fa431a559062e20e3069eba2dea923d5d9871375a56c79ca7b606"
+  }
+}

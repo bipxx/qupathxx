@@ -53,10 +53,24 @@ void ordered_start(Sha256& h,const std::string& header,const std::string& first)
 void record_start(Sha256& h,std::uint64_t i) {const char tag[]="qpx.pixel-stream-block/1";h.update(tag,sizeof(tag)-1);h.integer(i);}
 }
 struct PixelStreamFile::Impl {
-    std::string path,header_hash;std::shared_ptr<const FileVersion> version;std::shared_ptr<const PixelClassifierArchive> prototype;
+    std::string path,header_hash,footer_checksum;Bytes prefix;std::shared_ptr<const FileVersion> version;std::shared_ptr<const PixelClassifierArchive> prototype;
     Grid grid;std::uint64_t payload=0;PixelStreamFileSummary summary;mutable std::mutex reader;mutable std::atomic<bool> verified{false};std::atomic<bool> cancelled{false};
 };
 struct PixelStreamFileCodec {
+    static void framing(PixelStreamFile::Impl& s,std::istream& file,bool full_header,const std::atomic<bool>* cancel) {
+        stop(cancel);stop(&s.cancelled);file.seekg(0);const auto prefix=read(file,68);
+        auto changed=[] {throw std::runtime_error("pixel stream file changed since opening");};
+        if(prefix!=s.prefix) changed();
+        if(full_header) {
+            Sha256 head;head.update(prefix.data(),prefix.size());std::array<std::uint8_t,65536> buffer{};auto remaining=s.payload-132;
+            while(remaining) {stop(cancel);stop(&s.cancelled);const auto count=static_cast<std::size_t>(std::min<std::uint64_t>(remaining,buffer.size()));exact(file,buffer.data(),count);head.update(buffer.data(),count);remaining-=count;}
+            if(head.finish()!=s.header_hash) changed();
+        }else file.seekg(static_cast<std::streamoff>(s.payload-64));
+        if(text(file,64)!=s.header_hash) changed();
+        const auto bytes=footer_size(s.summary.class_counts.size());file.seekg(static_cast<std::streamoff>(s.summary.bytes-bytes));const auto footer=read(file,static_cast<std::size_t>(bytes-64));const auto checksum=text(file,64);
+        Sha256 tail;tail.update(s.header_hash.data(),s.header_hash.size());tail.update(footer.data(),footer.size());if(checksum!=s.footer_checksum || tail.finish()!=checksum) changed();
+        stop(cancel);stop(&s.cancelled);
+    }
     static std::array<std::uint64_t,4> coordinates(const PixelPredictionResult& block) {const auto& d=*block.snapshot_;return {std::uint64_t(d.x),std::uint64_t(d.y),std::uint64_t(d.w),std::uint64_t(d.h)};}
     static std::shared_ptr<PixelPredictionResult> blank(const PixelPredictionResult& first,const std::array<std::uint64_t,4>& grid) {
         auto out=std::shared_ptr<PixelPredictionResult>(new PixelPredictionResult());auto d=std::make_shared<PixelPredictionRequest::Data>(*first.snapshot_);
@@ -88,14 +102,14 @@ PixelStreamFile::PixelStreamFile(const std::string& input,std::uint64_t max_byte
     s.summary.bytes=expected;s.summary.blocks=s.grid.blocks;s.summary.valid_pixels=integer(footer.data()+4);s.summary.classified_pixels=integer(footer.data()+12);std::uint64_t sum=0;
     for(std::size_t i=0;i<classes;++i) {const auto count=integer(footer.data()+20+i*8);if(count>multiply(s.grid.w,s.grid.h)) throw std::invalid_argument("pixel stream footer count exceeds grid");sum+=count;s.summary.class_counts.push_back(count);}
     if(sum!=s.summary.classified_pixels || sum>s.summary.valid_pixels || s.summary.valid_pixels>multiply(s.grid.w,s.grid.h)) throw std::invalid_argument("invalid pixel stream completion totals");
-    s.summary.sha256.assign(reinterpret_cast<const char*>(footer.data()+20+classes*8),64);hex_hash(s.summary.sha256);observed.verify();
+    s.summary.sha256.assign(reinterpret_cast<const char*>(footer.data()+20+classes*8),64);hex_hash(s.summary.sha256);s.prefix=std::move(prefix);s.footer_checksum=checksum;observed.verify();
 }
 PixelStreamFile::~PixelStreamFile()=default;
 std::shared_ptr<const PixelPredictionResult> PixelStreamFile::read_block(std::uint64_t index) const {
-    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);try {stop(&s.cancelled);detail::ReaderFileGuard observed(s.path);same(*s.version,*observed.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);if(!file) throw std::runtime_error("cannot reopen pixel stream file");auto result=PixelStreamFileCodec::block(s,file,index,true,nullptr);observed.verify();stop(&s.cancelled);return result.first;}catch(...) {s.verified.store(false);throw;}
+    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);try {stop(&s.cancelled);detail::ReaderFileGuard observed(s.path);same(*s.version,*observed.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);if(!file) throw std::runtime_error("cannot reopen pixel stream file");PixelStreamFileCodec::framing(s,file,index==0,nullptr);auto result=PixelStreamFileCodec::block(s,file,index,true,nullptr);observed.verify();stop(&s.cancelled);return result.first;}catch(...) {s.verified.store(false);throw;}
 }
 void PixelStreamFile::verify(const std::atomic<bool>* cancel) const {
-    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);s.verified.store(false);stop(cancel);detail::ReaderFileGuard observed(s.path);same(*s.version,*observed.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);if(!file) throw std::runtime_error("cannot reopen pixel stream file");file.seekg(static_cast<std::streamoff>(s.payload));Sha256 ordered;ordered_start(ordered,s.header_hash,s.prototype->sha256());std::vector<std::uint64_t> counts(s.summary.class_counts.size());std::uint64_t valid=0,classified=0;
+    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);s.verified.store(false);stop(cancel);detail::ReaderFileGuard observed(s.path);same(*s.version,*observed.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);if(!file) throw std::runtime_error("cannot reopen pixel stream file");PixelStreamFileCodec::framing(s,file,true,cancel);file.seekg(static_cast<std::streamoff>(s.payload));Sha256 ordered;ordered_start(ordered,s.header_hash,s.prototype->sha256());std::vector<std::uint64_t> counts(s.summary.class_counts.size());std::uint64_t valid=0,classified=0;
     for(std::uint64_t i=0;i<s.grid.blocks;++i) {auto block=PixelStreamFileCodec::block(s,file,i,false,cancel);if(i) ordered.update(block.second.data(),block.second.size());valid+=block.first->valid_pixels();classified+=block.first->classified_pixels();for(std::size_t j=0;j<counts.size();++j) counts[j]+=block.first->class_counts()[j];}
     if(ordered.finish()!=s.summary.sha256 || counts!=s.summary.class_counts || valid!=s.summary.valid_pixels || classified!=s.summary.classified_pixels) throw std::invalid_argument("pixel stream completion verification failed");observed.verify();stop(cancel);stop(&s.cancelled);s.verified.store(true);
 }

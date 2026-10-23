@@ -22,6 +22,10 @@ every block sequentially and recomputes the ordered commitment and aggregate
 totals. A corrupt unrequested block can therefore be detected later rather
 than during opening. `declared_summary` deliberately names footer declarations;
 they are fully corroborated only after successful complete verification.
+Each indexed access also rechecks prefix/header commitment and footer framing.
+Block-zero reads and complete verification rehash the stored header, rather
+than trusting its cached decoded value. This detects framing/header changes
+even when filesystem timestamps do not distinguish rapid writes.
 
 The reader retains decoded metadata and the first block, not an open decoder
 handle or a full mask. Each access checks the original file version against a
@@ -64,7 +68,8 @@ Do not use the same producer concurrently from another consumer during saving.
 Coverage and progress checks reject interference rather than publishing a
 missing or reordered stream. Python producer cancellation stops unfinished
 prediction. The native writer additionally accepts an I/O cancellation token;
-there is no separate Python export job for cancelling the final flush/commit.
+the [background export job](pixel-stream-export.md) exposes both producer and
+writer cancellation to Python and the desktop.
 
 ## QPS1 layout
 
@@ -92,7 +97,7 @@ offset table is required. The effective block size can be smaller than the
 configured producer size when a single block covers the entire target.
 
 Restart/resume, project-linked stream records, stitched whole-stream contours
-and desktop streaming jobs remain open. This format provides atomic complete
+and an interactive historical file browser remain open. This format provides atomic complete
 numeric output and bounded historical access for those later workflows.
 
 
