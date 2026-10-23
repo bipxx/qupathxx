@@ -48,6 +48,16 @@ The [Windows report](benchmarks/qupath-cells-windows.json) and
 retain the actual results. Nucleus foreground IoU below compares unions of labels;
 individual object matches and cell-body metrics remain in the full report.
 
+The [hosted artifact audit](benchmarks/qupath-cells-ci-windows-linux.json) accepts
+the characterization at commit `7a4bc4ea7552582007e569cf5e89cac7d4ac3111`, run
+39989634700. All five jobs pass. Windows desktop passes 1,995 Python/41 native,
+Windows headless 1,617 Python/40 native, Linux headless 1,615 Python/40 native,
+and Linux minimal/ASan/UBSan each pass 40 native tests. Each Python environment
+passes 19 characterization cases with exactly four strict scientific expected
+failures. The inherited reader/runtime/typing/standalone artifact checks pass,
+and the completed desktop overview is visually inspected. These checks accept
+the defined comparison evidence, while segmentation and biological gates remain open.
+
 | Case | QuPath cells | Native cells | Nucleus foreground IoU |
 | --- | ---: | ---: | ---: |
 | Blank | 0 | 0 | 1.00000 |

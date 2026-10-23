@@ -3464,6 +3464,19 @@ small synthetic timings do not accept whole-slide performance or biological
 accuracy. Scientific acceptance, broader workflows and the remaining M0–M7
 requirements remain open.
 
+Hosted packet94 acceptance is recorded in the
+[five-job artifact audit](benchmarks/qupath-cells-ci-windows-linux.json), run
+39989634700 at exact commit `7a4bc4ea7552582007e569cf5e89cac7d4ac3111`.
+Windows desktop passes 1,995 Python and 41 native tests, Linux headless passes
+1,615 Python and 40 native tests, and Windows headless passes 1,617 Python and
+40 native tests. Linux minimal and ASan/UBSan each pass 40 native tests. All three
+Python environments pass the 19 characterization cases and retain exactly four
+strict scientific expected failures. Artifact/native identities, full reader
+pixels, runtime relocation, overview controls/frame, typing and standalone
+payloads pass the inherited audit. The completed desktop overview is visually
+inspected. This accepts characterization, not segmentation parity, biological
+accuracy, manylinux qualification or M0–M7 completion.
+
 ### Packet95: measured shared-kernel optimization and portable SDK layout fix
 
 The [masked Gaussian candidate](masked-gaussian-performance.md) improves the
