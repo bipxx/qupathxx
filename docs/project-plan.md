@@ -3719,3 +3719,15 @@ pending. The receipts retain the first two Linux test expectation corrections.
 Hosted acceptance is pending, so this packet remains a validation candidate.
 Physical radii, arbitrary resampling, scientific segmentation acceptance, hardware
 performance and every other outstanding M0–M7 requirement remain open.
+
+
+Packet 103 local validation is now complete: Windows full regression passes
+2,064 cases with 10 optional skips and four strict scientific expected failures;
+Linux remains 1,680 passes with 394 optional skips and the same four failures.
+The completed desktop frame is visually inspected after scrolling the inspector
+within the actual Windows-clamped framebuffer. Both physical bounds, one detected
+and saved cell, captured calibration, the frozen 81–90-sample recipe and successful
+one-row CSV export are visible, with zero reported UI overflow. Hosted acceptance
+remains pending at run 40022136685, source 87e691be724be88183876cfaa1b583b2bb27a947.
+The candidate is public on validation/physical-cell-areas-103; no main promotion
+or scientific/hardware/release acceptance is implied by the local checks.

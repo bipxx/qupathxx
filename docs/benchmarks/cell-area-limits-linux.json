@@ -47,5 +47,11 @@
       "test_cli_preserves_requested_physical_bounds_and_reuses_checkpoints"
     ],
     "correction": "Corrected expectations: a nonempty integer range can contain no actual nuclei; normalized CLI stain basis requires nine components. Implementation unchanged for these corrections."
+  },
+  "source_content_commit": "87e691be724be88183876cfaa1b583b2bb27a947",
+  "hosted_acceptance": {
+    "state": "pending",
+    "run_id": 40022136685,
+    "source_commit": "87e691be724be88183876cfaa1b583b2bb27a947"
   }
 }

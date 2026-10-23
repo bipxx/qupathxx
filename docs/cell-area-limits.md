@@ -78,6 +78,10 @@ pyramid is supplied to this full run.
 
 The [Windows receipt](benchmarks/cell-area-limits-windows.json) records 43 native
 suites, 117 focused Python/desktop passes, installed workflows and matching
-stubs/typing. Full Windows regression, completed-frame inspection and hosted
-acceptance are pending; this candidate remains provisional. These checks do not
-accept segmentation parity or hardware performance.
+stubs/typing. The full Windows regression passes 2,064 cases, with 10 optional
+skips and four strict scientific expected failures. The visually inspected
+[completed desktop frame](images/cell-physical-area-limits.png) shows both limits,
+one saved cell, the frozen 81–90-sample recipe and successful one-row calibrated
+CSV export, with no UI overflow. Hosted run 40022136685 is pending; this candidate
+remains provisional. These checks do not accept segmentation parity or hardware
+performance.

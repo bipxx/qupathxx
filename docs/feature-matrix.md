@@ -65,7 +65,6 @@ thin-ellipse expected failure is a passing regression. This evidence does not ac
 
 The provisional [physical nucleus-area candidate](cell-area-limits.md) resolves
 inclusive calibrated bounds into frozen sample cutoffs through native/Python,
-CLI, project batches and ImGui. Linux full regression and Windows focused desktop
-checks pass; Windows full regression, visual inspection and hosted acceptance
-remain pending. This narrows the physical-filter gap without accepting physical
+CLI, project batches and ImGui. Windows/Linux full regressions and desktop
+visual inspection pass; hosted acceptance remains pending. This narrows the physical-filter gap without accepting physical
 radii, arbitrary resampling or cell segmentation parity.

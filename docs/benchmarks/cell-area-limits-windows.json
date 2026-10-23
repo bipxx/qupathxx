@@ -1,25 +1,67 @@
 {
   "schema": "qpx.cell-area-limits-validation/1",
-  "platform": "windows",
-  "state": "focused-verified-full-and-hosted-pending",
+  "state": "local-full-verified-hosted-pending",
   "release_ready": false,
+  "platform": "windows",
   "source_tree_sha256": "7dbdfbfcf4f7c58357baf30a49aedb50692df398d478899ef33abb14afadab3a",
   "native_sha256": "d03ca42b18dedad5a9a2e8a9f7b258b271f16f062b230212ebecf6420636aba7",
+  "wheel_sha256": "6a5d29e682d29f65ef40ff38ed0acfe0e0f38704ffad220f2845152b36a7a348",
   "native": {
     "passed": 43,
-    "skipped": 0,
+    "optional_skips": 0,
+    "strict_scientific_expected_failures": 0,
     "junit_sha256": "12771cf75209cb0ca9755784d46ef9b236a5c34d9331398fc6863e1511edba83"
   },
   "focused": {
     "passed": 117,
-    "skipped": 0,
+    "optional_skips": 0,
+    "strict_scientific_expected_failures": 0,
     "junit_sha256": "ad9c94d62028a1a64325c5259675d22a590f14347adf5fd4d4bd4f3ed832b745"
+  },
+  "full": {
+    "passed": 2064,
+    "optional_skips": 10,
+    "strict_scientific_expected_failures": 4,
+    "junit_sha256": "3800076a3e52b6ba2fa59d13e4ac5ec47d916cf7862700667ffad5ae88482e74"
   },
   "installed_report_sha256": "131e7696d740c706366b55cebd9f66a0e8291ae527a644114a03390b25810dad",
   "stubs_match": true,
   "strict_positive_typing": true,
   "negative_typing_errors": 7,
-  "full_regression": "running",
-  "rendered_capture": "pending",
-  "performance_accepted": false
+  "generated_large_pyramid_fixture_sha256": "09301eba1210f7c7335e33993f0fe73cc74f7fc34ac85b1da5a9bb5043776845",
+  "contract": "Inclusive physical area bounds intersect sampled limits once per captured request; saved runs freeze the resolved recipe, while batches retain original physical arguments and resolve each image/ROI.",
+  "performance": {
+    "algorithm": "Two binary searches over possible sample counts; no image reads or detector-loop changes for resolution.",
+    "measured_performance_accepted": false
+  },
+  "limits": [
+    "Physical radii and arbitrary resampling remain open.",
+    "Four scientific acceptance failures remain.",
+    "No biological, hardware or release acceptance."
+  ],
+  "source_content_commit": "87e691be724be88183876cfaa1b583b2bb27a947",
+  "hosted_acceptance": {
+    "state": "pending",
+    "run_id": 40022136685,
+    "source_commit": "87e691be724be88183876cfaa1b583b2bb27a947"
+  },
+  "rendered_capture": {
+    "file": "images/cell-physical-area-limits.png",
+    "sha256": "d48a4d8ba17164faa7bc3a039f3dd297e1b365ec15969f7bd66edcecc1bda80a",
+    "visually_inspected": true,
+    "report": {
+      "rows": 1,
+      "minimum_um2": 10.1,
+      "maximum_um2": 11.25,
+      "resolved_min_samples": 81,
+      "resolved_max_samples": 90,
+      "csv_sha256": "9eccb2960e9d3150a0efc53a30606d2d84e277d3dcba0c87e022bcb1d237ae77",
+      "capture_sha256": "760e45b9df3130a68a77400133bba591acbb6edf1669911dbddbddb8b34c2f58",
+      "source_tree_sha256": "7dbdfbfcf4f7c58357baf30a49aedb50692df398d478899ef33abb14afadab3a",
+      "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+      "ui_overflow_items": 0,
+      "ui_max_overflow": 0.0
+    },
+    "scope": "Scrolled inspector shows both inclusive bounds, one detected/saved cell, frozen 81\u201390 sample recipe, captured calibration and successful one-row CSV export. Windows clamps requested window height; capture uses actual framebuffer."
+  }
 }
