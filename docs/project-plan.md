@@ -2330,3 +2330,8 @@ software-GL launch pass. The working-source manifest, wheel/native and both
 benchmark identities agree. It preserves the shared-ownership/GIL deadlock,
 fixture/report corrections and both investigated desktop runs; the final full
 run retains every framebuffer parity assertion and passes all current cases.
+
+
+Implementation commit: `71c1ace`. Hosted pixel-artifact
+[run 39882241870](https://github.com/bipxx/qupathxx/actions/runs/39882241870)
+targets that commit and is running. No hosted pixel-artifact pass is claimed yet.
