@@ -3196,3 +3196,19 @@ The [download correction receipt](benchmarks/tiff-zlib-download-correction.json)
 records independent clean fetch/build checks on Windows CMake 3.31.6/4.4 and
 Linux. This fixes retrieval without weakening content verification; replacement
 hosted validation remains required.
+
+
+Packet88 corrected hosted acceptance: commit
+`ca728de487d7f0eafb655666e5c2eab3dfb87cea`,
+[run 39946118461](https://github.com/bipxx/qupathxx/actions/runs/39946118461),
+passed all five jobs. The [hosted verification receipt](benchmarks/tiff-reader-ci-windows-linux.json)
+checks installed wheel hashes, native/source identities, dependency notices,
+strict typing and stubs, standalone archives, all earlier workflow probes,
+67 TIFF API/project/CLI cases and seven desktop cases. Python counts are 1,892
+Windows GUI, 1,528 Windows headless and 1,522 Linux passes; native counts are
+41 GUI and 40 in every other job. The exact raw-array, distinct-channel,
+cache-reuse and independent-close probes pass on all Python configurations.
+Fingerprint comparisons are within each installed artifact/configuration;
+Windows and Linux source fingerprints differ with checkout line endings.
+The earlier failed download run is not represented as all-green. This accepts
+the declared TIFF subset and regression scope, not the full M0–M7 goal.
