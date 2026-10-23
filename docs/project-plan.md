@@ -2946,3 +2946,9 @@ wheel/native/source identities pass. The 1024²/2048² synthetic probes observe
 block input hash matching the independently framed aggregate. The conservative
 inference producer estimate remains 1,352,748 bytes at both sizes; this is not
 measured RSS, project-batch reuse, vendor-slide or hardware acceptance.
+
+
+Packet85 implementation commit: `01765da93fa0441529cec84c699cac77c2d90845`.
+Hosted [run 39914212056](https://github.com/bipxx/qupathxx/actions/runs/39914212056)
+targets that exact commit and is queued. The evidence above is local validation;
+no hosted packet85 pass is claimed yet.
