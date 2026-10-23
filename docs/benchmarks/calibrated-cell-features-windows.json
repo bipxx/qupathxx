@@ -53,8 +53,13 @@
       "junit_sha256": "c178ae28f5e2e2354d18741301c6569d60f0ebb3e1566d81dbb2b5ecb9cec5f2"
     }
   },
+  "gui_cell_table_test_sha256": "fb0e34b2538af6a46e0c6bfb39593748257be1d5e2b9e752df8d2a44c707c7b1",
   "full_regression": "running",
-  "hosted_acceptance": "pending",
+  "hosted_acceptance": {
+    "state": "pending",
+    "run_id": 40007801590,
+    "source_commit": "2b633e530ac30412ec712782a704863914531e57"
+  },
   "performance_accepted": false,
   "scope": "Windows native/Python/CLI/ImGui capture-time calibrated features and versioned exports, including immutable units, legacy missing values, project restoration, alias protection and atomic failures. No segmentation parity or hardware performance acceptance."
 }

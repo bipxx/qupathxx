@@ -3654,7 +3654,9 @@ precision edit; that failure is retained. The fresh full regression passes
 1,655 tests, with 392 optional skips and four strict scientific expected failures.
 Installed workflows, exact bundled runtime/relocation checks, matching stubs,
 positive typing and all seven required negative typing errors pass. Hosted run
-40004623992 validates the candidate source separately. Windows desktop and
+40007801590 at `2b633e530ac30412ec712782a704863914531e57` validates the candidate
+source separately. It supersedes cancelled run 40004623992 after correcting the
+latest-run GUI expectation and adding known/unknown cases. Windows desktop and
 hosted acceptance remain required. Subsequent Windows validation passes 43 native
 suites and 76 focused Python/GUI checks, installed workflows, matching stubs and
 strict positive/negative typing. A completed-frame capture verifies the checked
