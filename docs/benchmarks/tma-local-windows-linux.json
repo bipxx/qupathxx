@@ -1,0 +1,243 @@
+{
+  "schema": "qpx.tma-local-validation/1",
+  "scope": "Initial native/Python/ImGui TMA vertical slice; no full QuPath or M0-M7 acceptance.",
+  "source_tree_sha256": "3bae848cee5f5c1e3690ad3a5d15c047ce8f92665350bf3842aa6219be249017",
+  "native_sha256": "395a645e6b81dc964644c0b61394407d63cb37857ae129864a6440849b77eaef",
+  "wheel": {
+    "path": "build\\ci\\tma87-final4-wheels\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "bytes": 12408154,
+    "sha256": "10360251a6a505dd470be671707e46ebb8eab59b7ce856d0cd7e00f4b206c22c"
+  },
+  "all_python": {
+    "tests": 1824,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 6,
+    "passed": 1818,
+    "sha256": "b4685f81339d709add71d4c2110bd464a9340830a36152c4de9964a5554d0f0e"
+  },
+  "tma_api": {
+    "tests": 23,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "passed": 23,
+    "sha256": "1f8c515b109da6586d17ee2d146a0137b1c8b4cd6616ecb5b83f4afe75b6e4d8"
+  },
+  "native": {
+    "windows-headless": {
+      "tests": 39,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 39,
+      "sha256": "a6ab17385bfca5b7d37307c4d7fc55a9d5f558a0fe5b2cc4eee4d0237a927b56"
+    },
+    "windows-gui": {
+      "tests": 40,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 40,
+      "sha256": "b375e92fc6dd4d4a67db5137c3747cdd8c4356f9b836efe86c7626505e8d70d6"
+    },
+    "linux-training": {
+      "tests": 39,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 39,
+      "sha256": "35210f47fa9a06c0ac51b20c721cbd5e47a3d32abfd2f72261611222621b922b"
+    },
+    "linux-minimal": {
+      "tests": 39,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 39,
+      "sha256": "c4274a0cb8b0065c10fec11313eeaf6a75880e5cc6821fda2f1f5219149bf4e3"
+    },
+    "linux-project-asan-ubsan": {
+      "tests": 39,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 39,
+      "sha256": "69513eb875d23816d94345d989ec1d8333bfba09a00479ac5e1e52fe9d6b7883"
+    }
+  },
+  "cases": {
+    "test_tma": [
+      "test_immutable_snapshot_history_and_independent_tma_revision",
+      "test_vacancy_metadata_and_context_preserve_csv_and_revision",
+      "test_equal_layouts_from_independent_owners_are_charged_separately",
+      "test_invalid_options_are_atomic[rows-0]",
+      "test_invalid_options_are_atomic[columns-513]",
+      "test_invalid_options_are_atomic[width--1]",
+      "test_invalid_options_are_atomic[name-]",
+      "test_invalid_options_are_atomic[row_labels-value4]",
+      "test_project_roundtrip_and_schema10_upgrade",
+      "test_corrupt_project_metadata_rejected[checksum]",
+      "test_corrupt_project_metadata_rejected[row]",
+      "test_corrupt_project_metadata_rejected[missing]",
+      "test_corrupt_project_metadata_rejected[orphan]",
+      "test_corrupt_project_metadata_rejected[duplicate-slot]",
+      "test_corrupt_project_metadata_rejected[case-limit]",
+      "test_batch_present_missing_and_snapshot_capture",
+      "test_per_core_workflows_join_metadata[ProjectBatchKind.ROI]",
+      "test_per_core_workflows_join_metadata[ProjectBatchKind.TISSUE]",
+      "test_per_core_workflows_join_metadata[ProjectBatchKind.CELLS]",
+      "test_per_core_workflows_join_metadata[ProjectBatchKind.PIXELS]",
+      "test_all_missing_grid_has_empty_analysis_and_keeps_inventory",
+      "test_native_cli_tma_scope_and_csv[False]",
+      "test_native_cli_tma_scope_and_csv[True]"
+    ],
+    "test_gui_tma": [
+      "test_create_grid_and_missing_flag",
+      "test_tma_shortcut_preserves_the_active_annotation_tool",
+      "test_case_geometry_and_grid_translation",
+      "test_metadata_export_is_captured_and_new_file_only[False]",
+      "test_metadata_export_is_captured_and_new_file_only[True]",
+      "test_fill_vacancy_and_dissolve_keep_objects",
+      "test_per_core_batch_launcher_excludes_missing",
+      "test_managed_grid_and_metadata_commands"
+    ]
+  },
+  "configuration_source_fingerprints": {
+    "windows-headless": "3bae848cee5f5c1e3690ad3a5d15c047ce8f92665350bf3842aa6219be249017",
+    "windows-gui": "3bae848cee5f5c1e3690ad3a5d15c047ce8f92665350bf3842aa6219be249017",
+    "linux-training": "3bae848cee5f5c1e3690ad3a5d15c047ce8f92665350bf3842aa6219be249017",
+    "linux-minimal": "3bae848cee5f5c1e3690ad3a5d15c047ce8f92665350bf3842aa6219be249017",
+    "linux-project-asan-ubsan": "3bae848cee5f5c1e3690ad3a5d15c047ce8f92665350bf3842aa6219be249017"
+  },
+  "benchmarks": {
+    "tma-10000-windows.json": {
+      "sha256": "8df3aa6557965a599e527095975a2cf0e04d88554190bb77a569b40ea7cf67fd",
+      "result": {
+        "schema": "qpx.tma-benchmark/1",
+        "cores": 10000,
+        "missing": 1000,
+        "create_ms": 35.37359996698797,
+        "snapshot_ms": 3.791600000113249,
+        "edit_1000_ms": 9.72229999024421,
+        "csv_ms": 11.541299987584352,
+        "csv_bytes": 1058099,
+        "snapshot_bytes": 5646247,
+        "immutable_snapshot_verified": true,
+        "unrelated_edit_kept_tma_revision": true,
+        "gui": null,
+        "native_sha256": "395a645e6b81dc964644c0b61394407d63cb37857ae129864a6440849b77eaef",
+        "environment": {
+          "source_tree_sha256": "3bae848cee5f5c1e3690ad3a5d15c047ce8f92665350bf3842aa6219be249017",
+          "git_revision": "ceb16cd7725e57b8e49f2358d5df4878038b589f+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Synthetic 100x100 grid on a shared workstation. Timings are observations, not hardware acceptance. Snapshot bytes are accounted native payload, not measured RSS. No biological or QuPath parity acceptance."
+      }
+    },
+    "tma-10000-gui-windows.json": {
+      "sha256": "636000f3f783944ff806b0d50f0ca7ad67a56310fd88ce6e2ac993da57a819b7",
+      "result": {
+        "schema": "qpx.tma-benchmark/1",
+        "cores": 10000,
+        "missing": 1000,
+        "create_ms": 19.684000057168305,
+        "snapshot_ms": 1.7331999260932207,
+        "edit_1000_ms": 7.920200005173683,
+        "csv_ms": 10.39800001308322,
+        "csv_bytes": 1058099,
+        "snapshot_bytes": 5646247,
+        "immutable_snapshot_verified": true,
+        "unrelated_edit_kept_tma_revision": true,
+        "gui": {
+          "frames": 80,
+          "catalog_max_step": 8,
+          "ui_overflow": 0,
+          "cpu_frame_p95_ms": 1.5177
+        },
+        "native_sha256": "395a645e6b81dc964644c0b61394407d63cb37857ae129864a6440849b77eaef",
+        "environment": {
+          "source_tree_sha256": "3bae848cee5f5c1e3690ad3a5d15c047ce8f92665350bf3842aa6219be249017",
+          "git_revision": "ceb16cd7725e57b8e49f2358d5df4878038b589f+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Synthetic 100x100 grid on a shared workstation. Timings are observations, not hardware acceptance. Snapshot bytes are accounted native payload, not measured RSS. No biological or QuPath parity acceptance."
+      }
+    }
+  },
+  "cross_platform": {
+    "schema": "qpx.tma-cross-platform/1",
+    "source_sha256": "3119d348cca081c8009ead0e1b1bc21fa1490fbcfde1afd2dbcef57f949ee930",
+    "checkpoint_sha256": "5a17328ce69443ff528f9ce239f620c899dfe6c2029b02701db94e45b62c954c",
+    "windows_source_linux_analysis_windows_reopen": true,
+    "slots": 6,
+    "occupied": 5,
+    "missing": 1,
+    "vacant": 1,
+    "records": 4,
+    "all_metadata_fields_equal_except_document_revision": true,
+    "source_unchanged": true,
+    "scope": "Synthetic embedded RGB project, Unicode/quoted/newline case metadata, one missing and one vacant core. Linux native ROI analysis preserves TMA metadata for Windows reopening. No vendor slide or biological acceptance."
+  },
+  "installed_workflow": {
+    "sha256": "e5bdc265f40ac2b94804c97818a49459699a42bce3c31712535f2f824da2321c",
+    "result": {
+      "schema": "qpx.installed-workflow/1",
+      "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\software-probe\\python.exe",
+      "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\check-install\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+      "native_sha256": "395a645e6b81dc964644c0b61394407d63cb37857ae129864a6440849b77eaef",
+      "source_tree_sha256": "3bae848cee5f5c1e3690ad3a5d15c047ce8f92665350bf3842aa6219be249017",
+      "gui": true,
+      "geos": true,
+      "openslide": true,
+      "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+      "openslide_version": "4.0.1",
+      "openslide_runtime_sha256": null,
+      "docked_workspace": true,
+      "layout_saved": true,
+      "monitor_scale": 1.0,
+      "framebuffer_scale": 1.0,
+      "ui_scale": 1.25,
+      "font_rebuilds": 1,
+      "ui_stacked_fields": 0,
+      "ui_wrapped_buttons": 0,
+      "ui_overflow_items": 0,
+      "ui_max_overflow": 0.0,
+      "framebuffer": [
+        1440,
+        900
+      ],
+      "roi_samples": 320,
+      "native_batch_checkpoints": 1
+    }
+  },
+  "checks": {
+    "stubs": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "typing": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "typing-negative": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "screenshot": {
+    "file": "images/tma-grid.png",
+    "sha256": "dbc51e7c287053afd143d3a3ce6ff6af930c61d7e37cd1fff031c2eec0f09b19"
+  },
+  "workflow_screenshot": {
+    "file": "images/tma-workflow.png",
+    "sha256": "44d686fd5595b05b7e7749c31a4eb22a2c1153746f49c5e2bcbf8d6fa7b3bd74"
+  },
+  "development_evidence": {
+    "replay_allowlist_regression": "build/tma87-dev-gui-tests.xml",
+    "tab_press_requires_prior_hover": "build/tma87-final2-gui-tests.xml",
+    "independent_configuration_budget_failure_sha256": "56799210f488bd68441fbc31cf9f70e593a144ce972822f79035bd800ab94ff0",
+    "optional_peer_review": "Timed out after 240 seconds; no independent review pass claimed. Pre-final full-suite runs were stopped when the binary changed for the allocation and shortcut fixes; the complete final4-wheel run is authoritative."
+  },
+  "limitations": [
+    "Synthetic RGB fixtures and shared-workstation timings only. Accounted native payload is not measured RSS.",
+    "Automatic dearraying, direct QuPath TMA interchange, case aggregation, biological/upstream validation and hardware acceptance remain open.",
+    "Overall M0-M7 goal remains active; this packet does not complete the project."
+  ]
+}

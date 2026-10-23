@@ -11,7 +11,7 @@ struct ProjectBatchOptions {
     ProjectBatchFailure failure=ProjectBatchFailure::Stop;
     AnalysisKind roi_kind=AnalysisKind::OpticalDensityMeans;
     ObjectKind object_kind=ObjectKind::Annotation;
-    bool nucleus=false,resume=true,publish_cells=false;
+    bool nucleus=false,resume=true,publish_cells=false,tma_only=false,include_missing_tma=false;
     std::size_t roi_tile_size=256,snapshot_budget=256*1024*1024,materialize_budget=512*1024*1024,result_budget=256*1024*1024,csv_limit=64*1024*1024;
     std::uint64_t checkpoint_limit=1024ULL*1024*1024;
     TissueParameters tissue;CellParameters cells;

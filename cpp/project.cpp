@@ -1,3 +1,4 @@
+#include "tma_internal.hpp"
 #include "provenance_codec.hpp"
 #include "batch_checkpoint.hpp"
 #include "reader_provenance.hpp"
@@ -137,7 +138,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         doc->server_=e.info.embedded?e.document->server_:std::make_shared<LinkedServer>(e.document->metadata(),e.info.source_path,e.info.reader);
         doc->object_snapshot_.reserve(e.document->object_blocks_.size());
         for(const auto& [key,block]:e.document->object_blocks_) doc->object_snapshot_.push_back(block);
-        doc->object_snapshot_count_=e.document->objects_.size();doc->object_bytes_=e.document->object_bytes_;
+        doc->object_snapshot_count_=e.document->objects_.size();doc->object_bytes_=e.document->object_bytes_;doc->tma_index_=e.document->tma_index_;doc->tma_revision_=e.document->tma_revision_;
         doc->classes_=e.document->classes_;
         doc->next_id_=e.document->next_id_; doc->revision_=e.document->revision_;
         doc->pixel_width_um_=e.document->pixel_width_um_; doc->pixel_height_um_=e.document->pixel_height_um_;
@@ -391,7 +392,7 @@ int schema(Database& db,bool allow_recovery=false) {
     auto version=scalar(db,"PRAGMA user_version");
     auto app=scalar(db,"PRAGMA application_id");
     if((app!=application_id && !(allow_recovery && app==recovery_application_id)) || (version<1 || version>detail::project_schema_version))
-        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 through 10)");
+        throw std::invalid_argument("not a supported qupathxx project schema (expected version 1 through 11)");
     return static_cast<int>(version);
 }
 void create_views(Database& db) {
@@ -420,6 +421,9 @@ void create_pixel_classifiers(Database& db) {
 }
 void create_pixel_streams(Database& db) {
     db.exec("CREATE TABLE pixel_stream_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=10;");
+}
+void create_tma(Database& db) {
+    db.exec("CREATE TABLE tma_grids(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),payload BLOB NOT NULL) STRICT; CREATE TABLE tma_cores(image_id TEXT NOT NULL,object_id TEXT NOT NULL,row_index INTEGER NOT NULL,column_index INTEGER NOT NULL,missing INTEGER NOT NULL,case_id TEXT NOT NULL,PRIMARY KEY(image_id,object_id),FOREIGN KEY(image_id,object_id) REFERENCES objects(image_id,id)) STRICT; PRAGMA user_version=11;");
 }
 bool recovery_table(Database& db) { return scalar(db,"SELECT count(*) FROM sqlite_schema WHERE type='table' AND name='recovery'")!=0; }
 RecoveryInfo recovery_header(Database& db,const std::string& path) {
@@ -493,9 +497,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<8) create_classifiers(db);
         if(version<9) create_pixel_classifiers(db);
         if(version<10) create_pixel_streams(db);
+        if(version<11) create_tma(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);}
-    db.exec("DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);}
+    db.exec("DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -504,6 +509,8 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement object(db,"INSERT INTO objects VALUES(?,?,?,?,?,?,?,?,?)");
     Statement provenance(db,"INSERT INTO analysis_provenance VALUES(?,?,?)");
     auto write_provenance=[&](std::uint64_t image,std::uint64_t record,const std::shared_ptr<const AnalysisProvenance>& p) {if(p) {provenance.string(1,std::to_string(image));provenance.string(2,std::to_string(record));const auto bytes=ProvenanceCodec::encode(*p);provenance.blob(3,bytes);provenance.done();}};
+    Statement tma_grid(db,"INSERT INTO tma_grids VALUES(?,?)");
+    Statement tma_core(db,"INSERT INTO tma_cores VALUES(?,?,?,?,?,?)");
     Statement cell_link(db,"INSERT INTO cell_feature_links VALUES(?,?,?,?)");
     Statement view(db,"INSERT INTO views VALUES(?,?,?,?,?,?,?,?)");
     Statement tissue(db,"INSERT INTO tissue_records VALUES(?,?,?,?,?)");
@@ -523,6 +530,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         image.optional(11,doc.pixel_width_um_); image.optional(12,doc.pixel_height_um_); image.string(13,std::to_string(doc.next_id_)); image.string(14,std::to_string(doc.revision_));
         if(e.info.embedded) image.blob(15,doc.image().pixels());
         image.done();
+        if(doc.tma_index_) {tma_grid.string(1,key);const auto bytes=TmaCodec::encode(*doc.tma_index_->info);tma_grid.blob(2,bytes);tma_grid.done();}
         auto saved_view=views_.find(id);
         if(saved_view!=views_.end()) {
             const auto& v=saved_view->second; validate_view(v,m);
@@ -540,6 +548,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
             auto geometry=encode(a.geometry); object.blob(8,geometry);
             auto nucleus=a.nucleus?encode(*a.nucleus):std::vector<std::uint8_t>{}; if(a.nucleus) object.blob(9,nucleus);
             object.done();
+            if(a.tma_core) {const auto& t=*a.tma_core;tma_core.string(1,key);tma_core.string(2,std::to_string(a.id));tma_core.integer(3,static_cast<std::int64_t>(t.row()));tma_core.integer(4,static_cast<std::int64_t>(t.column()));tma_core.integer(5,t.missing()?1:0);tma_core.string(6,t.case_id());tma_core.done();}
             if(a.cell_feature_link) {cell_link.string(1,key);cell_link.string(2,std::to_string(a.id));cell_link.string(3,std::to_string(a.cell_feature_link->record_id));cell_link.integer(4,a.cell_feature_link->label);cell_link.done();}
         };
         for(const auto& [object_id,a]:doc.objects_) write_object(a);
@@ -679,6 +688,16 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         classes.string(1,key);
         while(classes.row()) { auto color=classes.integer(1); if(color<0 || color>0xffffff) throw std::invalid_argument("invalid persisted class color"); definitions.push_back({classes.string(0),static_cast<std::uint32_t>(color)}); }
         classes.check(sqlite3_reset(classes.stmt)); classes.check(sqlite3_clear_bindings(classes.stmt));
+        std::shared_ptr<const TmaGridInfo> grid;
+        std::map<std::uint64_t,std::shared_ptr<const TmaCoreInfo>> core_metadata;
+        if(version>=11) {
+            Statement row(db,"SELECT payload FROM tma_grids WHERE image_id=?");row.string(1,key);
+            if(row.row()) {const auto n=sqlite3_column_bytes(row.stmt,0);if(row.type(0)!=SQLITE_BLOB || n<0 || n>256*1024) throw std::invalid_argument("invalid TMA grid payload");grid=TmaCodec::decode(sqlite3_column_blob(row.stmt,0),static_cast<std::size_t>(n));if(row.row()) throw std::invalid_argument("duplicate TMA grid");}
+            Statement cores(db,"SELECT object_id,row_index,column_index,missing,case_id FROM tma_cores WHERE image_id=?");cores.string(1,key);
+            while(cores.row()) {stopped();const auto r=cores.integer(1),c=cores.integer(2),missing=cores.integer(3);if(!grid || r<0 || c<0 || (missing!=0 && missing!=1) || core_metadata.size()>=10000) throw std::invalid_argument("invalid TMA core metadata");
+                const auto id=number(cores.string(0));if(!id || !core_metadata.emplace(id,TmaCodec::core(grid,static_cast<std::size_t>(r),static_cast<std::size_t>(c),missing!=0,cores.string(4))).second) throw std::invalid_argument("duplicate TMA core metadata");}
+            if(grid && core_metadata.empty()) throw std::invalid_argument("TMA grid has no core objects");
+        }
         std::vector<Annotation> annotations;
         objects.string(1,key);
         while(objects.row()) {
@@ -690,9 +709,11 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
                 const auto label=objects.integer(9);if(label<1 || label>1000000) throw std::invalid_argument("invalid cell feature label");
                 annotations.back().cell_feature_link=CellFeatureLink{number(objects.string(8)),static_cast<std::uint32_t>(label)};
             }
+            if(const auto tma=core_metadata.find(annotations.back().id);tma!=core_metadata.end()) {annotations.back().tma_core=tma->second;core_metadata.erase(tma);}
             if(progress) progress->objects.fetch_add(1,std::memory_order_relaxed);
         }
         objects.check(sqlite3_reset(objects.stmt)); objects.check(sqlite3_clear_bindings(objects.stmt));
+        if(!core_metadata.empty()) throw std::invalid_argument("orphaned TMA core metadata");
         stopped(); if(progress) progress->phase.store(3);
         auto document=Document::restore(std::move(server),annotations,definitions,images.optional(10),images.optional(11),number(images.string(12)),number(images.string(13)));
         project->saved_revisions_.emplace(info.id,document->revision());
@@ -795,6 +816,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             if(record->id!=number(rows.string(1))) throw std::invalid_argument("pixel stream record identity mismatch");image->second.document->restore_pixel_stream(record);
         }
     }
+    if(version>=11 && (scalar(db,"SELECT count(*) FROM tma_grids WHERE image_id NOT IN (SELECT id FROM images)") || scalar(db,"SELECT count(*) FROM tma_cores WHERE image_id NOT IN (SELECT id FROM images)"))) throw std::invalid_argument("orphaned TMA grid data");
     if(version>=7 && scalar(db,"SELECT count(*) FROM analysis_provenance p WHERE NOT EXISTS (SELECT 1 FROM analysis_records a WHERE a.image_id=p.image_id AND a.id=p.record_id) AND NOT EXISTS (SELECT 1 FROM tissue_records t WHERE t.image_id=p.image_id AND t.id=p.record_id) AND NOT EXISTS (SELECT 1 FROM cell_records c WHERE c.image_id=p.image_id AND c.id=p.record_id)")) throw std::invalid_argument("orphaned analysis provenance");
     if(version>=6) {
         if(scalar(db,"SELECT count(*) FROM cell_feature_links l WHERE NOT EXISTS (SELECT 1 FROM objects o WHERE o.image_id=l.image_id AND o.id=l.object_id)")) throw std::invalid_argument("orphaned cell feature link");

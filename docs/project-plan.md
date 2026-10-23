@@ -3023,5 +3023,74 @@ uses the frozen final5 wheel, including the last path/revision/layout fixes.
 
 Packet86 implementation commit: `1d4467fa0dacae26dd438eab51722f0c20277302`.
 Hosted [run 39918571026](https://github.com/bipxx/qupathxx/actions/runs/39918571026)
-targets that exact commit and is in progress. The evidence above is local;
-no hosted packet86 pass is claimed yet. The overall M0–M7 goal remains active.
+targets that exact commit and completed successfully in all five jobs. The
+[hosted receipt](benchmarks/project-pixel-batch-ci-windows-linux.json) verifies
+1,785 GUI Python, 1,436 Windows headless Python and 1,430 Linux Python passes,
+39 GUI native and 38 native passes in each other job, installed wheel identities,
+all 25 project-pixel API cases, six GUI cases, portable input hashes, zero-inference
+resume and interruption during an observed stream write. The overall M0–M7
+goal remains active.
+
+
+### Packet 87: tissue microarray grids and per-core workflows
+
+The [TMA contract](tissue-microarrays.md) adds one native-owned editable grid per
+document. Analytic ellipse annotations retain stable IDs, row/column labels,
+missing flags and shared case identifiers. Missing and vacant slots remain
+distinct. Creation, per-core geometry, labels, case/missing edits, whole-grid and
+child translation, vacancy filling and grid dissolution use atomic undoable
+commands. Immutable bounded snapshots survive edits and owner destruction.
+Equal layouts from independent owners are charged as distinct allocations.
+
+Project schema 11 persists checksummed grid configuration and occupied slots;
+versions 1–10 remain readable and migrate transactionally on save. Managed
+viewers accept native grid factories and metadata commands through the existing
+revision-checked queue. Generic replacement preserves core tags and rejects
+non-ellipse core geometry. GeoJSON explicitly reports omitted TMA metadata.
+
+The ImGui TMA panel provides creation, core catalog/edits, grid labels/movement,
+metadata export and the common per-core batch launcher. A dedicated TMA revision
+keeps unrelated detection edits from rebuilding the catalog, and list clipping
+bounds inspected slots per frame. Ctrl+Alt+T preserves the active annotation tool.
+The batch Object kind selector also removes the erroneous Pixel streams entry;
+that choice belongs to Workflow.
+
+Native/Python/CLI/ImGui batches support present-core scope and explicit inclusion
+of missing cores for ROI, tissue, cell and pixel workflows. Captured metadata
+joins the existing analysis CSV, with stable core selectors and revision checks.
+Metadata CSV includes all slots, including vacancies. The GUI exporter captures
+a native snapshot and atomically creates a new file without replacing existing
+files. Canonical checkpoint checksums include both TMA tables.
+
+The reproducible [10,000-core native probe](benchmarks/tma-10000-windows.json)
+records creation, snapshot, 1,000-core missing edits and CSV timings, immutable
+snapshot checks and roughly 5.4 MiB accounted snapshot payload. These shared
+workstation observations are not measured RSS or supported-hardware acceptance.
+
+Automatic dearraying, direct QuPath TMA interchange, case-level aggregation,
+biological/independent QuPath validation and hardware acceptance remain open.
+The TMA inventory row is Partial. Other M0–M7 requirements remain active; this
+packet does not complete the project plan.
+
+
+Final local [validation receipt](benchmarks/tma-local-windows-linux.json): 1,818
+Python passes with six optional skips, including all 23 TMA API/CLI and eight
+ImGui/managed-viewer cases; 40 Windows GUI native and 39 Windows headless,
+Linux training, Linux minimal and project-enabled ASan/UBSan native passes.
+Public stubs, strict positive/negative typing and installed-wheel/CLI/GUI smoke
+checks pass. All final configurations share source fingerprint
+`3bae848cee5f5c1e3690ad3a5d15c047ce8f92665350bf3842aa6219be249017`.
+
+The [GUI probe](benchmarks/tma-10000-gui-windows.json) inspected at most eight
+catalog rows per frame with zero UI overflow for 10,000 cores. The
+[workflow capture](images/tma-workflow.png) and [stress capture](images/tma-grid.png)
+were visually inspected. Windows-created Unicode/quoted/multiline metadata,
+one missing slot and one vacancy survive native Linux analysis and Windows
+checkpoint reopening with all metadata fields equal except document revision.
+
+Development regressions are retained: the replay validator initially rejected
+new targets; tab presses needed prior pointer hover; independent equal grid
+configurations were undercharged; and Ctrl+Alt+T also selected Points. The final
+wheel includes the fixes and the complete suite was rerun against it. Optional
+independent Claude review timed out after 240 seconds; no peer-review pass is
+claimed. Native source ownership and validation follow the ../naparixx reference.

@@ -42,6 +42,7 @@ int execute(const std::vector<std::string>& args) {
             "--white R,G,B  --stains R,G,B,R,G,B[,R,G,B]  --normalized\n"
             "--threshold NUMBER  --level INTEGER  --tile-size INTEGER\n"
             "--continue-on-error  --no-resume  --publish-cells  --nucleus\n"
+            "--tma-only  --include-missing-tma (TMA scope only)\n"
             "--snapshot-bytes N  --materialize-bytes N  --result-bytes N\n"
             "--csv-bytes N  --checkpoint-bytes N\n"
             "Default model: H&E basis (0.65,0.70,0.29), (0.07,0.99,0.11).\n"
@@ -78,6 +79,8 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--result-bytes") options.result_budget=static_cast<std::size_t>(integer(value()));
             else if(flag=="--csv-bytes") options.csv_limit=static_cast<std::size_t>(integer(value()));
             else if(flag=="--checkpoint-bytes") options.checkpoint_limit=integer(value());
+            else if(flag=="--tma-only") options.tma_only=true;
+            else if(flag=="--include-missing-tma") options.include_missing_tma=true;
             else if(flag=="--continue-on-error") options.failure=ProjectBatchFailure::Continue;
             else if(flag=="--no-resume") options.resume=false;
             else if(flag=="--publish-cells") options.publish_cells=true;

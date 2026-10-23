@@ -341,3 +341,20 @@ def project_pixel_batch(project: q.Project, model: q.PixelClassifier, directory:
     for image in result.images:
         assert image.inferred_blocks >= 0 and image.hashed_blocks >= 0
     return result
+
+
+def tissue_microarray(document: q.Document, session: q.ViewerSession) -> str:
+    options = q.TmaGridOptions()
+    options.rows, options.columns = 2, 3
+    options.origin = q.Point(30, 30)
+    ids: list[int] = document.create_tma_grid(options)
+    document.set_tma_missing([ids[0]], True)
+    document.set_tma_case_ids({ids[0]: 'case-001'})
+    grid = document.tma_grid()
+    assert grid is not None
+    core = grid.core(0, 0)
+    assert core is not None and core.tma_core is not None
+    session.execute(1, [q.ObjectEdit.tma_metadata(core.id, core.tma_core.with_case_id('case-002'))])
+    edits: list[q.ObjectEdit] = q.tma_grid_edits(options)
+    session.execute(2, edits)
+    return q.tma_metadata_csv(grid)

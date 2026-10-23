@@ -12,6 +12,7 @@ void bind_project_batch(nb::module_& m) {
     nb::enum_<ProjectBatchFailure>(m,"ProjectBatchFailure").value("STOP",ProjectBatchFailure::Stop).value("CONTINUE",ProjectBatchFailure::Continue);
     nb::class_<ProjectBatchOptions>(m,"ProjectBatchOptions").def(nb::init<>())
         .def_rw("kind",&ProjectBatchOptions::kind).def_rw("failure",&ProjectBatchOptions::failure).def_rw("roi_kind",&ProjectBatchOptions::roi_kind).def_rw("object_kind",&ProjectBatchOptions::object_kind)
+        .def_rw("tma_only",&ProjectBatchOptions::tma_only).def_rw("include_missing_tma",&ProjectBatchOptions::include_missing_tma)
         .def_rw("nucleus",&ProjectBatchOptions::nucleus).def_rw("resume",&ProjectBatchOptions::resume).def_rw("publish_cells",&ProjectBatchOptions::publish_cells)
         .def_rw("roi_tile_size",&ProjectBatchOptions::roi_tile_size).def_rw("snapshot_budget",&ProjectBatchOptions::snapshot_budget).def_rw("materialize_budget",&ProjectBatchOptions::materialize_budget)
         .def_rw("result_budget",&ProjectBatchOptions::result_budget).def_rw("csv_limit",&ProjectBatchOptions::csv_limit).def_rw("checkpoint_limit",&ProjectBatchOptions::checkpoint_limit)

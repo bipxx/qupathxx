@@ -7,6 +7,10 @@ QuPath port or a compatible replacement for Java QuPath.
 
 ## Implemented
 
+- Native tissue microarray grids support undoable core edits, missing flags,
+  case IDs, project persistence, per-core analysis and CSV exports through
+  Python and ImGui; see [tissue microarrays](docs/tissue-microarrays.md).
+
 - Docked desktop launchers place project/objects, image/display and measurements
   around the slide canvas, with separate layout preferences. Embedded callers
   can opt in; see the [docked workspace](docs/docked-workspace.md).

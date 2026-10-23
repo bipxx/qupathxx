@@ -1,4 +1,5 @@
 #include "qupathxx/project_batch.hpp"
+#include "qupathxx/tma.hpp"
 #include "qupathxx/input_digest.hpp"
 #include "qupathxx/pixel_stream_file.hpp"
 #include "qupathxx/cell_tables.hpp"
@@ -10,6 +11,7 @@
 #include "atomic_export.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
+#include <algorithm>
 #include <chrono>
 #include <filesystem>
 #include <fstream>
@@ -133,6 +135,7 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
     s<<"{\"schema\":\"qpx.batch-parameters/1\",\"kind\":"<<int(o.kind)<<",\"roi_kind\":"<<int(o.roi_kind)<<",\"object_kind\":"<<int(o.object_kind)<<",\"nucleus\":"<<(o.nucleus?"true":"false")<<",\"publish_cells\":"<<(o.publish_cells?"true":"false")<<",\"roi_tile_size\":"<<o.roi_tile_size<<",\"model_sha256\":"<<batch_json_quote(stain_model_sha256(t))<<",\"white\":"<<vector(t.white())<<",\"stains\":["<<vector(t.stains()[0])<<','<<vector(t.stains()[1])<<','<<vector(t.stains()[2])<<']';
     s<<",\"tissue\":{\"feature\":"<<int(p.feature)<<",\"threshold\":"<<p.threshold<<",\"connectivity\":"<<p.connectivity<<",\"level\":"<<p.level<<",\"open_radius\":"<<p.open_radius<<",\"close_radius\":"<<p.close_radius<<",\"fill_holes\":"<<(p.fill_holes?"true":"false")<<",\"max_hole_pixels\":"<<p.max_hole_pixels<<",\"min_pixels\":"<<p.min_pixels<<",\"max_pixels\":"<<p.max_pixels<<",\"tile_size\":"<<p.tile_size<<",\"max_components\":"<<p.max_components<<",\"work_bytes\":"<<p.work_bytes<<'}';
     s<<",\"cells\":{\"feature\":"<<int(c.feature)<<",\"threshold\":"<<c.threshold<<",\"sigma\":"<<c.sigma<<",\"min_peak_radius\":"<<c.min_peak_radius<<",\"min_seed_distance\":"<<c.min_seed_distance<<",\"cell_expansion\":"<<c.cell_expansion<<",\"min_nucleus_pixels\":"<<c.min_nucleus_pixels<<",\"max_nucleus_pixels\":"<<c.max_nucleus_pixels<<",\"connectivity\":"<<c.connectivity<<",\"level\":"<<c.level<<",\"tile_size\":"<<c.tile_size<<",\"max_cells\":"<<c.max_cells<<",\"work_bytes\":"<<c.work_bytes<<",\"contours\":{\"clip_to_roi\":"<<(c.contours.clip_to_roi?"true":"false")<<",\"max_components\":"<<c.contours.max_components<<",\"max_edges\":"<<c.contours.max_edges<<",\"max_vertices\":"<<c.contours.max_vertices<<",\"work_bytes\":"<<c.contours.work_bytes<<"}}";
+    if(o.tma_only) s<<",\"tma_scope\":{\"include_missing\":"<<(o.include_missing_tma?"true":"false")<<'}';
     if(o.kind==ProjectBatchKind::Pixels) {const auto& v=o.pixels;
         s<<",\"pixels\":{\"model_sha256\":"<<batch_json_quote(o.pixel_model->sha256())<<",\"block_size\":"<<v.block_size<<",\"tile_size\":"<<v.prediction.tile_size<<",\"work_bytes\":"<<v.prediction.work_bytes<<",\"min_vote_fraction\":"<<v.prediction.min_vote_fraction<<",\"max_pixels\":"<<v.max_pixels<<",\"max_blocks\":"<<v.max_blocks<<",\"file_limit\":"<<o.pixel_file_limit<<",\"total_limit\":"<<o.pixel_total_limit<<'}';
     }
@@ -153,6 +156,7 @@ void ProjectBatchOptions::validate() const {
     if(roi_kind!=AnalysisKind::OpticalDensityMeans && roi_kind!=AnalysisKind::StainMeans) throw std::invalid_argument("invalid batch ROI kind");
     if(object_kind!=ObjectKind::Annotation && object_kind!=ObjectKind::Detection && object_kind!=ObjectKind::Cell) throw std::invalid_argument("invalid batch object kind");
     if(roi_tile_size<16 || roi_tile_size>1024 || !snapshot_budget || snapshot_budget>4ULL*1024*1024*1024 || !materialize_budget || materialize_budget>4ULL*1024*1024*1024 || !result_budget || result_budget>768ULL*1024*1024 || !csv_limit || csv_limit>256ULL*1024*1024 || checkpoint_limit<4096 || checkpoint_limit>4ULL*1024*1024*1024) throw std::invalid_argument("invalid batch resource limits");
+    if((include_missing_tma && !tma_only) || (tma_only && nucleus)) throw std::invalid_argument("TMA scope requires body cores and an explicit missing-core policy");
     pixels.validate();
     if(pixel_file_limit<4096 || pixel_file_limit>(64ULL<<40) || pixel_total_limit<4096 || pixel_total_limit>(64ULL<<40)) throw std::invalid_argument("invalid pixel batch file limits");
     if(kind==ProjectBatchKind::Pixels && (!pixel_model || nucleus || publish_cells)) throw std::invalid_argument("pixel batch requires a model and body ROIs without cell publication");
@@ -161,12 +165,18 @@ void ProjectBatchOptions::validate() const {
 ProjectBatchRequest::ProjectBatchRequest(const Project& project,const StainTransform& transform,const std::vector<ProjectBatchSelection>& selection,ProjectBatchOptions options) {
     const auto start=Clock::now();if(!has_project()) throw std::runtime_error("project batch requires project storage");options.validate();if(selection.size()>10000 || (selection.empty() && project.entries_.size()>10000)) throw std::length_error("batch exceeds 10000 images");
     const auto& actual_transform=options.kind==ProjectBatchKind::Pixels?options.pixel_model->transform():transform;auto d=std::make_shared<Data>(actual_transform);d->options=options;if(options.kind!=ProjectBatchKind::Pixels) d->options.pixel_model.reset();d->json=parameters(options,actual_transform);d->sha=hash(d->json);auto chosen=selection;if(chosen.empty()) for(const auto& [id,e]:project.entries_) chosen.push_back({id,{}});
+    if(options.tma_only && selection.empty()) {chosen.erase(std::remove_if(chosen.begin(),chosen.end(),[&](const auto& item){return !project.entry(item.image_id).document->tma_core_count();}),chosen.end());if(chosen.empty()) throw std::invalid_argument("project has no TMA grids");}
     std::sort(chosen.begin(),chosen.end(),[](const auto& a,const auto& b){return a.image_id<b.image_id;});std::set<std::uint64_t> ids;std::size_t charge=sizeof(Data)+65536+d->json.capacity()+d->sha.capacity();
     if(options.kind==ProjectBatchKind::Pixels) charge+=4ULL*options.pixel_model->bytes().size()+64ULL*options.pixel_model->forest().node_count()+65536;
     for(auto& item:chosen) {
         if(!ids.insert(item.image_id).second) throw std::invalid_argument("duplicate batch image selection");const auto& doc=*project.entry(item.image_id).document;
         if(item.object_ids.size()>100000) throw std::length_error("batch object selection exceeds limit");
-        if(item.object_ids.empty()) {for(const auto& [id,a]:doc.objects()) if(a.kind==options.object_kind && a.geometry.is_area()) item.object_ids.push_back(id);}
+        if(options.tma_only) {
+            if(!doc.tma_core_count()) throw std::invalid_argument("selected image has no TMA grid");
+            if(item.object_ids.empty()) item.object_ids=doc.tma_core_ids(options.include_missing_tma);
+            else {std::sort(item.object_ids.begin(),item.object_ids.end());item.object_ids.erase(std::unique(item.object_ids.begin(),item.object_ids.end()),item.object_ids.end());std::vector<std::uint64_t> filtered;filtered.reserve(item.object_ids.size());for(auto id:item.object_ids) {const auto a=doc.annotation(id);if(a.tma_core && (options.include_missing_tma || !a.tma_core->missing())) filtered.push_back(id);}item.object_ids=std::move(filtered);}
+        }
+        else if(item.object_ids.empty()) {for(const auto& [id,a]:doc.objects()) if(a.kind==options.object_kind && a.geometry.is_area()) item.object_ids.push_back(id);}
         else {std::sort(item.object_ids.begin(),item.object_ids.end());item.object_ids.erase(std::unique(item.object_ids.begin(),item.object_ids.end()),item.object_ids.end());for(auto id:item.object_ids) if(!doc.annotation(id).geometry.is_area()) throw std::invalid_argument("batch source must have an area ROI");}
         if(options.kind==ProjectBatchKind::Pixels && item.object_ids.size()>10000-doc.pixel_stream_record_count()) throw std::length_error("pixel batch exceeds per-image stream catalog limit");
         if(item.object_ids.size()>100000-d->objects) throw std::length_error("batch exceeds 100000 source objects");d->objects+=item.object_ids.size();charge+=sizeof(ProjectBatchSelection)+item.object_ids.capacity()*sizeof(std::uint64_t);
@@ -274,6 +284,7 @@ struct ProjectBatchKernel {
                         if(o.kind==ProjectBatchKind::Pixels) table=pixel_csv(*doc,records,o);
                         else if(o.kind==ProjectBatchKind::Cells) {CellTableOptions options;options.require_current=true;options.byte_limit=o.csv_limit;options.snapshot_budget=o.materialize_budget>512*1024*1024?512*1024*1024:o.materialize_budget;table=cell_measurements_csv(CellTableRequest(table_doc,records,options),c);}
                         else {MeasurementTableOptions options;options.require_current=true;options.byte_limit=o.csv_limit;options.snapshot_budget=o.materialize_budget>512*1024*1024?512*1024*1024:o.materialize_budget;table=measurements_csv(MeasurementTableRequest(table_doc,o.kind==ProjectBatchKind::Roi?MeasurementTableKind::Roi:MeasurementTableKind::Tissue,records,options),c);}
+                        if(o.tma_only) {const auto used=cost(*doc,input.info.embedded);if(used>=o.materialize_budget) throw std::length_error("TMA table snapshot exceeds materialization budget");const auto grid=doc->tma_grid(static_cast<std::size_t>(std::min<std::uint64_t>(o.materialize_budget-used,64*1024*1024)));if(!grid) throw std::logic_error("captured TMA grid disappeared");table=tma_context_csv(*grid,table,o.csv_limit,o.kind!=ProjectBatchKind::Pixels);}
                         const auto prefix=csv_quote(report.source_identity)+','+std::to_string(report.source_generation)+','+std::to_string(report.source_revision)+','+std::to_string(item.image_id)+','+csv_quote(input.info.name)+',';meta.csv=with_context(table,prefix,o.csv_limit);
                         phase(4);const auto file=work.path/"result.qpxproj";
                         if(o.kind==ProjectBatchKind::Pixels && !bundle) bundle=std::make_unique<PixelBatchBundle>(folder,item.object_ids.size());

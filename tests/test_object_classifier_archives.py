@@ -106,7 +106,7 @@ def test_project_and_recovery_keep_exact_cohorts_without_live_authority(tmp_path
     project = q.Project(); image = project.add_document(doc, 'Cohort')
     path = tmp_path/'classifier.qpxproj'; project.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute('PRAGMA user_version').fetchone()[0] == 10
+        assert db.execute('PRAGMA user_version').fetchone()[0] == 11
         assert db.execute('SELECT count(*) FROM classifier_records').fetchone()[0] == 1
     loaded_project = q.Project.open(str(path)); loaded = loaded_project.document(image)
     record = loaded.classifier_record(original.id)
@@ -172,6 +172,7 @@ def test_schema_seven_migration_rolls_back_on_save_failure(tmp_path):
     doc, ids = workspace(); project = q.Project(); project.add_document(doc)
     path = tmp_path/'legacy.qpxproj'; project.save(str(path))
     with sqlite3.connect(path) as db:
+        db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
         db.execute('DROP TABLE pixel_stream_records');db.execute('DROP TABLE pixel_classifier_records');db.execute('DROP TABLE classifier_records'); db.execute('PRAGMA user_version=7')
         db.execute("CREATE TRIGGER injected BEFORE INSERT ON images BEGIN SELECT RAISE(ABORT,'injected classifier migration'); END")
     _, job = predicted(doc, ids); job.apply(doc)

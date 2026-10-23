@@ -1,3 +1,4 @@
+#include "tma_internal.hpp"
 #include "object_snapshot.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/cells.hpp"
@@ -14,7 +15,7 @@ bool same_object(const std::optional<Annotation>& a,const std::optional<Annotati
     if (!a) return true;
     return a->id==b->id && a->name==b->name && a->class_name==b->class_name && a->parent_id==b->parent_id &&
         a->geometry.equals(b->geometry) && a->kind==b->kind &&
-        a->nucleus.has_value()==b->nucleus.has_value() && (!a->nucleus || a->nucleus->equals(*b->nucleus)) && a->cell_feature_link==b->cell_feature_link;
+        a->nucleus.has_value()==b->nucleus.has_value() && (!a->nucleus || a->nucleus->equals(*b->nucleus)) && a->cell_feature_link==b->cell_feature_link && bool(a->tma_core)==bool(b->tma_core) && (!a->tma_core || a->tma_core->same_metadata(*b->tma_core));
 }
 void text(const std::string& value) {
     if (value.size()>4096 || value.find('\0')!=std::string::npos) throw std::invalid_argument("object text must be at most 4096 bytes and contain no NUL");
@@ -27,6 +28,9 @@ ObjectEdit ObjectEdit::replace(std::uint64_t id,Rect roi,std::string name,std::u
     return replace_geometry(id,Roi::rectangle(roi),std::move(name),parent,std::move(classification));
 }
 ObjectEdit ObjectEdit::remove(std::uint64_t id) { return {ObjectEditKind::Remove,{id,"",{},0,"",0}}; }
+ObjectEdit ObjectEdit::tma_metadata(std::uint64_t id,std::shared_ptr<const TmaCoreInfo> info) {
+    ObjectEdit out{ObjectEditKind::TmaMetadata,{id,"",{},0,"",0}};out.value.tma_core=std::move(info);return out;
+}
 ObjectEdit ObjectEdit::create_geometry(Roi geometry,std::string name,std::uint64_t parent,std::string classification,ObjectKind kind,std::optional<Roi> nucleus) {
     return {ObjectEditKind::Create,{0,std::move(name),std::move(geometry),parent,std::move(classification),0,kind,std::move(nucleus)}};
 }
@@ -119,6 +123,7 @@ struct Document::Staging {
         if(!a.class_name.empty() && !has_class(a.class_name)) throw std::invalid_argument("object class is not registered");
         if(a.kind!=ObjectKind::Annotation && a.kind!=ObjectKind::Detection && a.kind!=ObjectKind::Cell)
             throw std::invalid_argument("invalid object kind");
+        if(a.tma_core) {a.tma_core->validate();if(a.kind!=ObjectKind::Annotation || a.geometry.kind()!=RoiKind::Ellipse) throw std::invalid_argument("TMA cores must be elliptical annotations");}
         if(a.nucleus && a.kind!=ObjectKind::Cell) throw std::invalid_argument("only cells may have a nucleus ROI");
         if(a.kind==ObjectKind::Cell && (!a.geometry.is_area() || (a.nucleus && !a.nucleus->is_area())))
             throw std::invalid_argument("cell and nucleus ROIs must have area");
@@ -184,7 +189,7 @@ std::vector<Annotation> Document::annotations() const {
     return result;
 }
 std::size_t Document::object_payload(const Annotation& a) {
-    return sizeof(Annotation)+64+a.name.size()+a.class_name.size()+a.geometry.payload_bytes()+(a.nucleus?a.nucleus->payload_bytes():0);
+    return sizeof(Annotation)+64+a.name.size()+a.class_name.size()+a.geometry.payload_bytes()+(a.nucleus?a.nucleus->payload_bytes():0)+(a.tma_core?a.tma_core->payload_bytes():0);
 }
 std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
     const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,
@@ -205,7 +210,9 @@ std::shared_ptr<Document> Document::restore(std::shared_ptr<ImageServer> server,
         if(!a.id || a.id>=next_id || !a.revision || a.revision>revision || (a.cell_feature_link && a.cell_feature_link->record_id>revision) || !result->objects_.emplace(a.id,a).second)
             throw std::invalid_argument("invalid persisted object identity or revision");
     }
+    result->restore_tma_index();
 #ifdef QUPATHXX_HAS_PROJECT
+    if(result->tma_index_) result->object_bytes_+=result->tma_index_->payload_bytes();
     // The candidate is private; build immutable save blocks once on the loader
     // worker rather than deferring a full traversal to the first UI capture.
     for(auto first=result->objects_.begin();first!=result->objects_.end();) {
@@ -286,13 +293,15 @@ std::vector<std::uint64_t> Document::children(std::uint64_t parent) const {
     return it==children_.end()?std::vector<std::uint64_t>{}:std::vector<std::uint64_t>(it->second.begin(),it->second.end());
 }
 void Document::commit(Staging& staged,Calibration calibration) {
-    staged.validate();
+    staged.validate();const auto tma=prepare_tma(staged.before,staged.after);
     if (revision_==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("document revision exhausted");
     std::optional<std::map<std::uint64_t,std::optional<Rect>>> spatial_delta;
     bool spatial_reset=false;
-    bool membership_changed=false;
-    for(const auto& [id,value]:staged.after)
+    bool membership_changed=false,tma_changed=false;
+    for(const auto& [id,value]:staged.after) {
         membership_changed |= staged.before.at(id).has_value()!=value.has_value();
+        tma_changed |= bool(value && value->tma_core) || bool(staged.before.at(id) && staged.before.at(id)->tma_core);
+    }
     if(spatial_ && !spatial_rebuild_) for(const auto& [id,value]:staged.after) {
         auto old=objects_.find(id);
         const auto previous=old==objects_.end()?std::optional<Rect>{}:std::optional<Rect>{old->second.bounds()};
@@ -318,7 +327,7 @@ void Document::commit(Staging& staged,Calibration calibration) {
 #ifdef QUPATHXX_HAS_PROJECT
     std::map<std::uint64_t,std::shared_ptr<const ObjectBlock>> block_nodes;
     std::vector<std::uint64_t> changed_blocks;
-    auto object_bytes=object_bytes_;
+    auto object_bytes=object_bytes_-(tma_index_?tma_index_->payload_bytes():0)+(tma?tma->payload_bytes():0);
     for(auto first=staged.after.begin();first!=staged.after.end();) {
         const auto key=(first->first-1)/256;auto last=first;
         while(last!=staged.after.end() && (last->first-1)/256==key) ++last;
@@ -349,7 +358,7 @@ void Document::commit(Staging& staged,Calibration calibration) {
 #endif
     // std::map node transfer with integral comparison does not allocate.
     for (const auto& [id,value]:staged.after) objects_.erase(id);
-    objects_.merge(nodes);
+    objects_.merge(nodes);tma_index_=tma;
 #ifdef QUPATHXX_HAS_PROJECT
     for(auto key:changed_blocks) object_blocks_.erase(key);
     object_blocks_.merge(block_nodes);object_bytes_=object_bytes;
@@ -364,6 +373,7 @@ void Document::commit(Staging& staged,Calibration calibration) {
     else if(spatial_delta) spatial_dirty_.swap(*spatial_delta);
     if(pixel_width_um_!=calibration.x || pixel_height_um_!=calibration.y) calibration_revision_=revision_+1;
     pixel_width_um_=calibration.x; pixel_height_um_=calibration.y; ++revision_;render_revision_=revision_;
+    if(tma_changed) tma_revision_=revision_;
     if(membership_changed) structure_revision_=revision_;
 }
 void Document::trim_history() {
@@ -382,8 +392,11 @@ void Document::save_edit(Staging& staged,Calibration calibration,std::string lab
     text(label); staged.normalize();
     if (staged.after.empty() && staged.after_classes.empty() && calibration.x==pixel_width_um_ && calibration.y==pixel_height_um_) return;
     std::size_t bytes=sizeof(EditRecord)+label.size();
-    for (auto* patch:{&staged.before,&staged.after}) for (const auto& [id,a]:*patch)
-        bytes+=sizeof(std::uint64_t)+sizeof(std::optional<Annotation>)+(a?a->name.size()+a->class_name.size()+a->geometry.payload_bytes()+(a->nucleus?a->nucleus->payload_bytes():0):0);
+    std::set<const TmaGridInfo*> tma_layouts;
+    for (auto* patch:{&staged.before,&staged.after}) for (const auto& [id,a]:*patch) {
+        bytes+=sizeof(std::uint64_t)+sizeof(std::optional<Annotation>)+(a?a->name.size()+a->class_name.size()+a->geometry.payload_bytes()+(a->nucleus?a->nucleus->payload_bytes():0)+(a->tma_core?a->tma_core->payload_bytes():0):0);
+        if(a && a->tma_core && tma_layouts.insert(a->tma_core->grid_info().get()).second) bytes+=a->tma_core->grid_info()->payload_bytes();
+    }
     for(auto* patch:{&staged.before_classes,&staged.after_classes}) for(const auto& [name,value]:*patch)
         bytes+=sizeof(std::string)+name.size()+sizeof(std::optional<ObjectClass>)+(value?value->name.size():0);
     const bool recording=history_steps_ && history_budget_;
@@ -409,8 +422,11 @@ std::vector<std::uint64_t> Document::execute(const std::vector<ObjectEdit>& edit
         } else if (edit.kind==ObjectEditKind::Replace) {
             const auto previous=staged.get(edit.value.id);if (!previous) throw std::out_of_range("annotation does not exist");
             auto value=edit.value;
+            if(!value.tma_core) value.tma_core=previous->tma_core;
             if(value.kind==ObjectKind::Cell && !value.cell_feature_link) value.cell_feature_link=previous->cell_feature_link;
             staged.write(value.id,std::move(value));
+        } else if(edit.kind==ObjectEditKind::TmaMetadata) {
+            auto value=staged.get(edit.value.id);if(!value) throw std::out_of_range("annotation does not exist");value->tma_core=edit.value.tma_core;staged.write(value->id,std::move(value));
         } else if (edit.kind==ObjectEditKind::Remove) staged.remove_subtree(edit.value.id);
         else throw std::invalid_argument("invalid object edit kind");
     }

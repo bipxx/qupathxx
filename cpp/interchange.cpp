@@ -310,6 +310,7 @@ InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint
     for(auto id:objects) {
         const auto& a=doc.objects().at(id); Json properties={{"name",a.name},{"objectType",object_kind(a.kind)}};
         if(!a.class_name.empty()) { auto c=doc.object_class(a.class_name).color; properties["classification"]={{"name",a.class_name},{"color",Json::array({(c>>16)&255,(c>>8)&255,c&255})}}; }
+        if(a.tma_core) notices.add("tma_metadata_omitted","TMA grid, missing flags and case metadata are omitted; cores become ordinary annotations",true);
         if(a.cell_feature_link) notices.add("cell_features_dropped","Cell feature links and run archives are not represented in GeoJSON",true);
         auto parent=a.parent_id; if(parent && !exported.count(parent)) { notices.add("parent_not_exported","Parent omitted because it is not in the exported subset",true); parent=0; }
         properties["qupathxx"]={{"parentId",std::to_string(parent)}};

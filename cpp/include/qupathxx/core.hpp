@@ -13,7 +13,10 @@
 #include "qupathxx/analysis_types.hpp"
 
 namespace qpx {
-namespace detail {struct ClassificationEdit;class GuiPixelClassifier;}
+namespace detail {struct ClassificationEdit;class GuiPixelClassifier;class GuiTma;struct TmaIndex;}
+struct TmaGridOptions;
+class TmaGrid;
+class TmaCoreInfo;
 class Project;
 struct FileFingerprint;
 struct SourceFileAssociation;
@@ -84,16 +87,18 @@ struct Annotation {
     ObjectKind kind = ObjectKind::Annotation;
     std::optional<Roi> nucleus;
     std::optional<CellFeatureLink> cell_feature_link;
+    std::shared_ptr<const TmaCoreInfo> tma_core;
     Rect bounds() const;
     bool is_detection() const { return kind!=ObjectKind::Annotation; }
 };
-enum class ObjectEditKind { Create, Replace, Remove };
+enum class ObjectEditKind { Create, Replace, Remove, TmaMetadata };
 struct ObjectEdit {
     ObjectEditKind kind;
     Annotation value;
     static ObjectEdit create(Rect roi, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="");
     static ObjectEdit replace(std::uint64_t id, Rect roi, std::string name, std::uint64_t parent_id=0, std::string class_name="");
     static ObjectEdit remove(std::uint64_t id);
+    static ObjectEdit tma_metadata(std::uint64_t id,std::shared_ptr<const TmaCoreInfo>);
     static ObjectEdit create_geometry(Roi geometry, std::string name="Annotation", std::uint64_t parent_id=0, std::string class_name="", ObjectKind kind=ObjectKind::Annotation, std::optional<Roi> nucleus=std::nullopt);
     static ObjectEdit replace_geometry(std::uint64_t id, Roi geometry, std::string name, std::uint64_t parent_id=0, std::string class_name="", ObjectKind kind=ObjectKind::Annotation, std::optional<Roi> nucleus=std::nullopt);
 };
@@ -118,6 +123,7 @@ class Document {
     friend class MeasurementTableRequest;
     friend class ObjectFeatureRequest;
     friend class detail::GuiPixelClassifier;
+    friend class detail::GuiTma;
 public:
     explicit Document(Image image);
     explicit Document(std::shared_ptr<ImageServer> server);
@@ -128,6 +134,17 @@ public:
     const std::map<std::uint64_t,Annotation>& objects() const { return objects_; }
     Annotation annotation(std::uint64_t id) const { return find(id); }
     std::size_t object_count() const { return objects_.size()+object_snapshot_count_; }
+    std::shared_ptr<const TmaGrid> tma_grid(std::size_t byte_limit=64*1024*1024) const;
+    std::vector<std::uint64_t> tma_core_ids(bool include_missing=false) const;
+    std::size_t tma_core_count() const;
+    std::uint64_t tma_revision() const {return tma_revision_;}
+    std::vector<std::uint64_t> create_tma_grid(const TmaGridOptions&);
+    std::uint64_t add_tma_core(std::size_t row,std::size_t column,Rect bounds,std::string case_id="",bool missing=false);
+    void translate_tma_grid(double dx,double dy,bool include_descendants=true);
+    void set_tma_missing(const std::vector<std::uint64_t>&,bool);
+    void set_tma_case_ids(const std::map<std::uint64_t,std::string>&);
+    void set_tma_labels(std::string name,const std::vector<std::string>& rows,const std::vector<std::string>& columns,bool rename_cores=true);
+    void clear_tma_grid(bool delete_cores=false);
     std::uint64_t revision() const { return revision_; }
     std::uint64_t structure_revision() const { return structure_revision_; }
     // Geometry/class/calibration commands change this; archival records do not.
@@ -356,6 +373,10 @@ private:
         ClassificationHistory classifications{};
     };
     struct Staging;
+    std::shared_ptr<const detail::TmaIndex> tma_index_;
+    std::uint64_t tma_revision_=0;
+    std::shared_ptr<const detail::TmaIndex> prepare_tma(const ObjectPatch&,const ObjectPatch&) const;
+    void restore_tma_index();
     void apply_record(const EditRecord&, bool forward);
     void toggle_classifications(detail::ClassificationEdit&);
     void commit(Staging&, Calibration);
@@ -584,10 +605,13 @@ struct GuiReport {
     std::uint64_t pixel_stream_record_id=0,pixel_stream_selected_record_id=0;
     std::size_t pixel_stream_record_catalog_max_step=0;
     bool pixel_stream_record_catalog_complete=false;
+    std::string tma_error,tma_export_state;
+    std::vector<std::uint64_t> tma_created_ids;
+    std::size_t tma_cores=0,tma_missing_cores=0,tma_catalog_max_step=0,tma_metadata_bytes=0;
 };
-enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey, TraceTissueKey, KeepTissueContoursKey, KeepTissueKey, RecheckTissueKey, DetectCellsKey, KeepCellsKey, CancelCellsKey, KeepCellRunKey, RecheckCellRunKey, ExportCellTableKey, CancelCellTableKey, FingerprintFileKey, CancelFingerprintFileKey, ExportMeasurementTableKey, CancelMeasurementTableKey, EstimateStainsKey, ApplyStainEstimateKey, CancelStainEstimateKey, RunBatchKey, CancelBatchKey, ResizeWindow, MinimizeWindow, RestoreWindow, SetUiScale, ObjectClassifierKey, PixelClassifierKey };
-enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord, TrainPixelClassifier, PredictPixelClasses, CancelPixelClassifier, SavePixelModel, LoadPixelModel, TogglePixelOverlay, TracePixelContours, PublishPixelContours, KeepPixelTraining, KeepPixelPrediction, UsePixelRecordModel, PreviewPixelRecord, RemovePixelRecord, ExportPixelStream, OpenPixelStreamBrowser, OpenPixelStreamFile, ReadPixelStreamBlock, PreviousPixelStreamBlock, NextPixelStreamBlock, VerifyPixelStreamFile, CancelPixelStreamRead, ClosePixelStreamFile, KeepPixelStreamLink, OpenPixelStreamRecord, RelinkPixelStreamRecord, RemovePixelStreamRecord };
-enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified, CellsReady, CellsPublished, CellsArchived, CellsVerified, CellTableSaved, FileFingerprintReady, MeasurementTableSaved, StainsEstimated, StainsApplied, BatchFinished, WindowReady, ObjectClassifierTrained, ObjectClassifierPredicted, ObjectClassifierApplied, ClassifierModelSaved, ClassifierModelLoaded, ClassifierTrainingRetained, ClassifierRecordLoaded, PixelClassifierTrained, PixelClassifierPredicted, PixelPreviewReady, PixelModelSaved, PixelModelLoaded, PixelContoursReady, PixelContoursPublished, PixelRecordKept, PixelRecordModelLoaded, PixelHistoricalPreviewReady, PixelStreamFinished, PixelStreamReadReady, PixelStreamReadFinished, PixelStreamVerified, PixelStreamLinked };
+enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey, TraceTissueKey, KeepTissueContoursKey, KeepTissueKey, RecheckTissueKey, DetectCellsKey, KeepCellsKey, CancelCellsKey, KeepCellRunKey, RecheckCellRunKey, ExportCellTableKey, CancelCellTableKey, FingerprintFileKey, CancelFingerprintFileKey, ExportMeasurementTableKey, CancelMeasurementTableKey, EstimateStainsKey, ApplyStainEstimateKey, CancelStainEstimateKey, RunBatchKey, CancelBatchKey, ResizeWindow, MinimizeWindow, RestoreWindow, SetUiScale, ObjectClassifierKey, PixelClassifierKey, TmaKey };
+enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord, TrainPixelClassifier, PredictPixelClasses, CancelPixelClassifier, SavePixelModel, LoadPixelModel, TogglePixelOverlay, TracePixelContours, PublishPixelContours, KeepPixelTraining, KeepPixelPrediction, UsePixelRecordModel, PreviewPixelRecord, RemovePixelRecord, ExportPixelStream, OpenPixelStreamBrowser, OpenPixelStreamFile, ReadPixelStreamBlock, PreviousPixelStreamBlock, NextPixelStreamBlock, VerifyPixelStreamFile, CancelPixelStreamRead, ClosePixelStreamFile, KeepPixelStreamLink, OpenPixelStreamRecord, RelinkPixelStreamRecord, RemovePixelStreamRecord, CreateTmaGrid, ToggleTmaMissing, SelectTmaPresent, ApplyTmaCase, ApplyTmaGeometry, TranslateTmaGrid, ClearTmaGrid, OpenTmaBatch, ExportTmaMetadata, CancelTmaMetadata, TmaCoreTab, TmaGridTab, TmaExportTab, ApplyTmaLabels };
+enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified, CellsReady, CellsPublished, CellsArchived, CellsVerified, CellTableSaved, FileFingerprintReady, MeasurementTableSaved, StainsEstimated, StainsApplied, BatchFinished, WindowReady, ObjectClassifierTrained, ObjectClassifierPredicted, ObjectClassifierApplied, ClassifierModelSaved, ClassifierModelLoaded, ClassifierTrainingRetained, ClassifierRecordLoaded, PixelClassifierTrained, PixelClassifierPredicted, PixelPreviewReady, PixelModelSaved, PixelModelLoaded, PixelContoursReady, PixelContoursPublished, PixelRecordKept, PixelRecordModelLoaded, PixelHistoricalPreviewReady, PixelStreamFinished, PixelStreamReadReady, PixelStreamReadFinished, PixelStreamVerified, PixelStreamLinked , TmaGridReady, TmaMetadataSaved };
 struct GuiInput {
     int frame = 0;
     GuiInputKind kind = GuiInputKind::Move;
@@ -648,6 +672,12 @@ struct GuiOptions {
     std::string batch_output_directory;
     std::shared_ptr<const ProjectBatchOptions> batch_options;
     bool batch_selected_objects=false;
+    bool tma_open=false;
+    int tma_tab=0;
+    std::shared_ptr<const TmaGridOptions> tma_options;
+    std::string tma_case_id,tma_metadata_path;
+    Point tma_translation;
+    std::optional<Rect> tma_core_bounds;
     bool interchange_assume_pixels=false,interchange_allow_losses=false,qupath_ellipse_precision=false;
     detail::ViewerOwner* viewer_owner=nullptr;
     bool docked_workspace=false,reset_layout=false;

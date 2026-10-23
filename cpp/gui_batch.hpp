@@ -25,6 +25,7 @@ public:
     }
     void poll() {stats_=job_.poll();}
     void open() {open_=true;}
+    void open_tma() {open_=true;options_.tma_only=true;options_.include_missing_tma=false;options_.nucleus=false;selected_only_=true;}
     bool busy() const {return job_.busy();}
     bool finished() const {return !job_.busy() && stats_.state!="idle";}
     void finish() {if(job_.busy()) job_.cancel();stats_=job_.wait();}
@@ -50,11 +51,13 @@ public:
             ui::InputTextWithHint("##output","Output directory",output_.data(),output_.size());
             int kind=static_cast<int>(options_.kind);
             if(ui::Combo("Workflow",&kind,"ROI means\0Tissue\0Cells\0Pixel streams\0")) options_.kind=static_cast<ProjectBatchKind>(kind);
+            ui::Checkbox("TMA cores only",&options_.tma_only);
+            if(options_.tma_only) {ui::Checkbox("Include missing cores",&options_.include_missing_tma);options_.nucleus=false;}else options_.include_missing_tma=false;
             ui::Checkbox("Selected objects only",&selected_only_);
             ImGui::TextWrapped(selected_only_?"Selected objects in the active image.":"Matching area objects in every project image.");
-            if(!selected_only_) {
+            if(!selected_only_ && !options_.tma_only) {
                 int object_kind=static_cast<int>(options_.object_kind);
-                if(ui::Combo("Object kind",&object_kind,"Annotations\0Detections\0Cells\0Pixel streams\0")) options_.object_kind=static_cast<ObjectKind>(object_kind);
+                if(ui::Combo("Object kind",&object_kind,"Annotations\0Detections\0Cells\0")) options_.object_kind=static_cast<ObjectKind>(object_kind);
             }
             if(options_.kind!=ProjectBatchKind::Pixels) ui::Checkbox("Use image analysis settings",&use_image_settings_);
             if(use_image_settings_ && options_.kind!=ProjectBatchKind::Pixels) ImGui::TextWrapped("Uses the Region analysis, Tissue and Cells settings in the image inspector.");
@@ -73,7 +76,7 @@ public:
             } else if(options_.kind==ProjectBatchKind::Roi) {
                 int feature=static_cast<int>(options_.roi_kind);
                 if(ui::Combo("Features",&feature,"RGB optical density\0Supplied stains\0")) options_.roi_kind=static_cast<AnalysisKind>(feature);
-                ui::Checkbox("Use nucleus",&options_.nucleus);
+                if(!options_.tma_only) ui::Checkbox("Use nucleus",&options_.nucleus);
             } else {
                 auto& feature=options_.kind==ProjectBatchKind::Tissue?options_.tissue.feature:options_.cells.feature;
                 int selected_feature=static_cast<int>(feature);
@@ -126,7 +129,7 @@ public:
                 }
                 auto run_options=options_;
                 if(run_options.kind==ProjectBatchKind::Pixels) {if(!run_options.pixel_model && pixel_model) run_options.pixel_model=*pixel_model;run_options.nucleus=false;}
-                else if(use_image_settings_) {run_options.tissue=tissue;run_options.cells=cells;run_options.roi_kind=roi_kind;run_options.nucleus=run_options.kind==ProjectBatchKind::Cells?false:nucleus;}
+                else if(use_image_settings_) {run_options.tissue=tissue;run_options.cells=cells;run_options.roi_kind=roi_kind;run_options.nucleus=(run_options.kind==ProjectBatchKind::Cells || run_options.tma_only)?false:nucleus;}
                 const bool stains=run_options.kind!=ProjectBatchKind::Pixels && (run_options.kind==ProjectBatchKind::Roi?run_options.roi_kind==AnalysisKind::StainMeans:
                     (run_options.kind==ProjectBatchKind::Tissue?run_options.tissue.feature:run_options.cells.feature)!=TissueFeature::OpticalDensitySum);
                 ProjectBatchRequest request(*project,transform(stains),chosen,run_options);

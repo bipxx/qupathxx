@@ -1,0 +1,23 @@
+{
+  "schema": "qpx.tma-benchmark/1",
+  "cores": 10000,
+  "missing": 1000,
+  "create_ms": 35.37359996698797,
+  "snapshot_ms": 3.791600000113249,
+  "edit_1000_ms": 9.72229999024421,
+  "csv_ms": 11.541299987584352,
+  "csv_bytes": 1058099,
+  "snapshot_bytes": 5646247,
+  "immutable_snapshot_verified": true,
+  "unrelated_edit_kept_tma_revision": true,
+  "gui": null,
+  "native_sha256": "395a645e6b81dc964644c0b61394407d63cb37857ae129864a6440849b77eaef",
+  "environment": {
+    "source_tree_sha256": "3bae848cee5f5c1e3690ad3a5d15c047ce8f92665350bf3842aa6219be249017",
+    "git_revision": "ceb16cd7725e57b8e49f2358d5df4878038b589f+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "scope": "Synthetic 100x100 grid on a shared workstation. Timings are observations, not hardware acceptance. Snapshot bytes are accounted native payload, not measured RSS. No biological or QuPath parity acceptance."
+}

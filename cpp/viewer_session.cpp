@@ -1,3 +1,4 @@
+#include "qupathxx/tma.hpp"
 #include "viewer_bridge.hpp"
 #include "atomic_export.hpp"
 #include "utf8_text.hpp"
@@ -25,12 +26,14 @@ struct Command {
     TissueParameters tissue;CellParameters cells;
     explicit Command(Action a):action(a) {}
     std::size_t bytes() const {std::size_t n=sizeof(Command)+text.capacity()+edits.capacity()*sizeof(ObjectEdit)+ids.capacity()*8+(transform?sizeof(StainTransform)+128:0);
-        for(const auto& e:edits) {n+=e.value.name.capacity()+e.value.class_name.capacity();if(e.kind!=ObjectEditKind::Remove) n+=e.value.geometry.payload_bytes()+(e.value.nucleus?e.value.nucleus->payload_bytes():0);}return n;}
+        std::set<const TmaGridInfo*> grids;
+        for(const auto& e:edits) {n+=e.value.name.capacity()+e.value.class_name.capacity();if(e.kind==ObjectEditKind::Create || e.kind==ObjectEditKind::Replace) n+=e.value.geometry.payload_bytes()+(e.value.nucleus?e.value.nucleus->payload_bytes():0);if(e.value.tma_core) {n+=e.value.tma_core->payload_bytes();if(grids.insert(e.value.tma_core->grid_info().get()).second) n+=e.value.tma_core->grid_info()->payload_bytes();}}return n;}
 };
 std::size_t payload(const ViewerEvent& e) {
     std::size_t n=e.object_ids.capacity()*8+e.images.capacity()*sizeof(ProjectImage);
     for(const auto& i:e.images) n+=i.name.capacity()+i.source_path.capacity()+i.reader.capacity();
     if(e.object) n+=sizeof(Annotation)+e.object->name.capacity()+e.object->class_name.capacity()+e.object->geometry.payload_bytes()+(e.object->nucleus?e.object->nucleus->payload_bytes():0);
+    if(e.object && e.object->tma_core) n+=e.object->tma_core->payload_bytes()+e.object->tma_core->grid_info()->payload_bytes();
     if(e.metadata) n+=sizeof(ImageMetadata)+e.metadata->vendor.capacity()+e.metadata->levels.capacity()*sizeof(ImageLevel);
     if(e.analysis) n+=sizeof(AnalysisResult)+(e.analysis->provenance?e.analysis->provenance->payload_bytes():0);
     if(e.tissue) n+=e.tissue->retained_bytes();if(e.cells) n+=e.cells->retained_bytes();if(e.pixels) n+=sizeof(PixelBuffer)+e.pixels->bytes().capacity();return n;

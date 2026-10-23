@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    TmaGridOptions, TmaGridInfo, TmaCoreInfo, TmaGrid, tma_grid_edits, tma_metadata_csv, tma_context_csv,
     ObjectCellFeatureSource, ObjectFeatureCellOrigin, ObjectClassifierArchive, ObjectClassifierRecord, archive_object_classifier,
     pixel_forest_parameters,
     PixelResolution, PixelTrainingOptions, PixelTrainingRequest, PixelTrainingTable, PixelTrainingStats, PixelTrainingJob, sample_pixel_training, train_pixel_classifier, pixel_classifier_level,
@@ -45,6 +46,7 @@ from ._native import (
 )
 
 __all__ = [
+    "TmaGridOptions", "TmaGridInfo", "TmaCoreInfo", "TmaGrid", "tma_grid_edits", "tma_metadata_csv", "tma_context_csv",
     "ObjectCellFeatureSource", "ObjectFeatureCellOrigin", "ObjectClassifierArchive", "ObjectClassifierRecord", "archive_object_classifier",
     "pixel_forest_parameters",
     "PixelResolution", "PixelTrainingOptions", "PixelTrainingRequest", "PixelTrainingTable", "PixelTrainingStats", "PixelTrainingJob", "sample_pixel_training", "train_pixel_classifier", "pixel_classifier_level",

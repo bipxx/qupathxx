@@ -20,6 +20,7 @@ void bind_scheduler(nb::module_&);
 void bind_analysis(nb::module_&);
 void bind_stain_estimation(nb::module_&);
 void bind_project_batch(nb::module_&);
+void bind_tma(nb::module_&);
 void bind_arrays(nb::module_&);
 void bind_thumbnails(nb::module_&);
 void bind_classifiers(nb::module_&);
@@ -297,7 +298,7 @@ NB_MODULE(_native, m) {
         .value("EXPORT_MEASUREMENT_TABLE_KEY",GuiInputKind::ExportMeasurementTableKey).value("CANCEL_MEASUREMENT_TABLE_KEY",GuiInputKind::CancelMeasurementTableKey)
         .value("ESTIMATE_STAINS_KEY",GuiInputKind::EstimateStainsKey).value("APPLY_STAIN_ESTIMATE_KEY",GuiInputKind::ApplyStainEstimateKey).value("CANCEL_STAIN_ESTIMATE_KEY",GuiInputKind::CancelStainEstimateKey)
         .value("RUN_BATCH_KEY",GuiInputKind::RunBatchKey).value("CANCEL_BATCH_KEY",GuiInputKind::CancelBatchKey)
-        .value("RESIZE_WINDOW",GuiInputKind::ResizeWindow).value("MINIMIZE_WINDOW",GuiInputKind::MinimizeWindow).value("RESTORE_WINDOW",GuiInputKind::RestoreWindow).value("SET_UI_SCALE",GuiInputKind::SetUiScale).value("OBJECT_CLASSIFIERS_KEY",GuiInputKind::ObjectClassifierKey).value("PIXEL_CLASSIFIERS_KEY",GuiInputKind::PixelClassifierKey)
+        .value("RESIZE_WINDOW",GuiInputKind::ResizeWindow).value("MINIMIZE_WINDOW",GuiInputKind::MinimizeWindow).value("RESTORE_WINDOW",GuiInputKind::RestoreWindow).value("SET_UI_SCALE",GuiInputKind::SetUiScale).value("OBJECT_CLASSIFIERS_KEY",GuiInputKind::ObjectClassifierKey).value("PIXEL_CLASSIFIERS_KEY",GuiInputKind::PixelClassifierKey).value("TMA_KEY",GuiInputKind::TmaKey)
         .value("FINGERPRINT_FILE_KEY",GuiInputKind::FingerprintFileKey).value("CANCEL_FINGERPRINT_FILE_KEY",GuiInputKind::CancelFingerprintFileKey);
     nb::enum_<GuiInputTarget>(m,"GuiInputTarget").value("CANVAS",GuiInputTarget::Canvas).value("OVERVIEW",GuiInputTarget::Overview).value("OBJECT_LIST",GuiInputTarget::ObjectList).value("IMAGE",GuiInputTarget::Image).value("PROJECT_LIST",GuiInputTarget::ProjectList).value("DISPLAY_RESET",GuiInputTarget::DisplayReset)
         .value("DISCARD_RECOVERY_REPLACEMENT",GuiInputTarget::DiscardRecoveryReplacement).value("KEEP_RECOVERY_CLOSE",GuiInputTarget::KeepRecoveryClose).value("CANCEL_CLOSE",GuiInputTarget::CancelClose).value("DISCARD_CLOSE",GuiInputTarget::DiscardClose)
@@ -311,8 +312,12 @@ NB_MODULE(_native, m) {
         .value("PIXEL_KEEP_TRAINING",GuiInputTarget::KeepPixelTraining).value("PIXEL_KEEP_PREDICTION",GuiInputTarget::KeepPixelPrediction).value("PIXEL_USE_RECORD_MODEL",GuiInputTarget::UsePixelRecordModel).value("PIXEL_PREVIEW_RECORD",GuiInputTarget::PreviewPixelRecord).value("PIXEL_REMOVE_RECORD",GuiInputTarget::RemovePixelRecord).value("PIXEL_EXPORT_STREAM",GuiInputTarget::ExportPixelStream)
         .value("PIXEL_STREAM_BROWSER",GuiInputTarget::OpenPixelStreamBrowser).value("PIXEL_STREAM_OPEN",GuiInputTarget::OpenPixelStreamFile).value("PIXEL_STREAM_READ",GuiInputTarget::ReadPixelStreamBlock)
         .value("PIXEL_STREAM_PREVIOUS",GuiInputTarget::PreviousPixelStreamBlock).value("PIXEL_STREAM_NEXT",GuiInputTarget::NextPixelStreamBlock).value("PIXEL_STREAM_VERIFY",GuiInputTarget::VerifyPixelStreamFile).value("PIXEL_STREAM_CANCEL",GuiInputTarget::CancelPixelStreamRead).value("PIXEL_STREAM_CLOSE",GuiInputTarget::ClosePixelStreamFile)
-        .value("PIXEL_STREAM_KEEP_LINK",GuiInputTarget::KeepPixelStreamLink).value("PIXEL_STREAM_OPEN_RECORD",GuiInputTarget::OpenPixelStreamRecord).value("PIXEL_STREAM_RELINK",GuiInputTarget::RelinkPixelStreamRecord).value("PIXEL_STREAM_REMOVE_RECORD",GuiInputTarget::RemovePixelStreamRecord);
-    nb::enum_<GuiInputWait>(m,"GuiInputWait").value("IMMEDIATE",GuiInputWait::Immediate).value("TARGET_READY",GuiInputWait::TargetReady).value("STARTUP_FINISHED",GuiInputWait::StartupFinished)
+        .value("PIXEL_STREAM_KEEP_LINK",GuiInputTarget::KeepPixelStreamLink).value("PIXEL_STREAM_OPEN_RECORD",GuiInputTarget::OpenPixelStreamRecord).value("PIXEL_STREAM_RELINK",GuiInputTarget::RelinkPixelStreamRecord).value("PIXEL_STREAM_REMOVE_RECORD",GuiInputTarget::RemovePixelStreamRecord)
+        .value("TMA_CREATE",GuiInputTarget::CreateTmaGrid).value("TMA_MISSING",GuiInputTarget::ToggleTmaMissing).value("TMA_SELECT_PRESENT",GuiInputTarget::SelectTmaPresent)
+        .value("TMA_CASE",GuiInputTarget::ApplyTmaCase).value("TMA_GEOMETRY",GuiInputTarget::ApplyTmaGeometry).value("TMA_TRANSLATE",GuiInputTarget::TranslateTmaGrid)
+        .value("TMA_CLEAR",GuiInputTarget::ClearTmaGrid).value("TMA_BATCH",GuiInputTarget::OpenTmaBatch).value("TMA_EXPORT",GuiInputTarget::ExportTmaMetadata).value("TMA_CANCEL_EXPORT",GuiInputTarget::CancelTmaMetadata)
+        .value("TMA_CORE_TAB",GuiInputTarget::TmaCoreTab).value("TMA_GRID_TAB",GuiInputTarget::TmaGridTab).value("TMA_EXPORT_TAB",GuiInputTarget::TmaExportTab).value("TMA_LABELS",GuiInputTarget::ApplyTmaLabels);
+    nb::enum_<GuiInputWait>(m,"GuiInputWait").value("TMA_GRID_READY",GuiInputWait::TmaGridReady).value("TMA_METADATA_SAVED",GuiInputWait::TmaMetadataSaved).value("IMMEDIATE",GuiInputWait::Immediate).value("TARGET_READY",GuiInputWait::TargetReady).value("STARTUP_FINISHED",GuiInputWait::StartupFinished)
         .value("TISSUE_READY",GuiInputWait::TissueReady).value("TISSUE_CONTOURS_READY",GuiInputWait::TissueContoursReady).value("TISSUE_CONTOURS_PUBLISHED",GuiInputWait::TissueContoursPublished)
         .value("TISSUE_ARCHIVED",GuiInputWait::TissueArchived).value("TISSUE_VERIFIED",GuiInputWait::TissueVerified)
         .value("CELLS_READY",GuiInputWait::CellsReady).value("CELLS_PUBLISHED",GuiInputWait::CellsPublished)
@@ -397,6 +402,7 @@ NB_MODULE(_native, m) {
     bind_measurement_tables(m);
     bind_provenance(m);
     bind_file_fingerprint(m);
+    bind_tma(m);
     bind_project_batch(m);
     bind_arrays(m);
     bind_thumbnails(m);
