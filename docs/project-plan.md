@@ -3463,3 +3463,40 @@ reports characterized-partial and rejects any segmentation-parity claim. These
 small synthetic timings do not accept whole-slide performance or biological
 accuracy. Scientific acceptance, broader workflows and the remaining M0–M7
 requirements remain open.
+
+### Packet95: measured shared-kernel optimization and portable SDK layout fix
+
+The [masked Gaussian candidate](masked-gaussian-performance.md) improves the
+shared cell/pixel-feature kernel without changing its coefficient order, domain
+normalization, truncation, scratch allocation or numerical identity. Paired
+baseline/candidate runs compare every output bit; long vertical kernels process
+contiguous 256-column spans, while short kernels avoid repeated output-array
+traffic. At 1024² on the recorded host, sigma 1 medians improve 1.12–1.13×,
+sigma 4 improves 1.54–1.88× and sigma 16 improves 2.86–2.99×. These are paired
+single-host kernel observations, not full-workflow or hardware acceptance.
+
+An independent direct 2D oracle covers 189 shape/sigma/domain combinations,
+including tiny sigma, one-pixel axes and block boundaries; cancellation propagates.
+ASan/UBSan passes for this standalone test. Native suites pass 42 Windows and 41
+Linux tests. Linux full installed regression passes 1,623 tests with 389 optional
+skips and four strict expected failures; Windows isolated analysis/pixel-feature/
+QuPath checks pass 57 tests with the same four expected failures. Existing QuPath
+cell metrics and shared-ROI checks, and fixture-trained classifier identities,
+are unchanged across both rebuilt packages. MSVC and GCC paired outputs match
+their baselines byte-for-byte.
+
+A Windows full-suite process stalls in an existing AnalysisJob wait inside the
+Microsoft Concurrency runtime. Native stack inspection also observes a blocked
+WMI/COM query; a causal connection is not established. Fresh direct, collection
+and 2,000-job stress probes pass. The live process and stack evidence are retained;
+no complete Windows regression acceptance or main promotion is inferred. The
+[profile receipt](benchmarks/masked-gaussian-local-windows-linux.json) identifies
+the artifacts, source, tests and unresolved run. The candidate remains provisional.
+
+Separately, both manylinux builders in run 39986257233 fail before wheel
+compilation because OpenCV installs its config under lib64 while the wrapper
+assumes lib. The SDK helper and wrapper now locate exactly one complete root,
+lib or lib64 config; six regression cases cover supported/missing/incomplete/
+ambiguous layouts and pass on Windows/Linux. The isolated fix is published at
+`16e8d0f9cfdbe1796d50a906aeb07a4d7083f5e6`, with fresh portable run
+39991725062 pending. No older-ABI success or portable release is claimed.

@@ -1,0 +1,647 @@
+{
+  "schema": "qpx.masked-gaussian-profile/1",
+  "state": "linux-full-verified-windows-full-regression-unresolved",
+  "baseline_commit": "b8648fe",
+  "baseline_header_sha256": "1ca38951fa20967683d9a5c411bc8bbfdb49c0a9162170b9272053530c6d745f",
+  "optimized_header_sha256": "2d50072246b0c0869135fa30d7d9b6db5649386ccc216b8c32f07bb2c94396e4",
+  "benchmark_source_sha256": "6f33b6daf6136f049e4780088c9a654e606da6590f5fbc8aee3218a2f0633611",
+  "source_tree_sha256": "37109d9eb6597439b7e3a73b675a0051f1ae0b8efc1f0e4b3fd65c709278b672",
+  "compiler": "g++ 13.3.0 Ubuntu 24.04",
+  "flags": [
+    "-O3",
+    "-std=c++17",
+    "-ffp-contract=off"
+  ],
+  "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
+  "execution": "WSL2 Linux x86_64",
+  "warmups": 1,
+  "paired_order": "alternates baseline-first and optimized-first by repetition",
+  "profiles": [
+    {
+      "raw": {
+        "size": 512,
+        "repeats": 7,
+        "cases": [
+          {
+            "domain": "full",
+            "sigma": 1,
+            "median_ms": 8.650716,
+            "output_bits_fnv1a64": "e4faae55eb9b22d8",
+            "samples_ms": [
+              11.234454,
+              7.824487,
+              9.164809,
+              8.793851,
+              8.360195,
+              8.316985,
+              8.650716
+            ],
+            "baseline_median_ms": 9.285776,
+            "output_bits_equal": true,
+            "baseline_samples_ms": [
+              9.223224,
+              10.356313,
+              9.95439,
+              11.496068,
+              7.409876,
+              9.285776,
+              8.280984
+            ]
+          },
+          {
+            "domain": "full",
+            "sigma": 4,
+            "median_ms": 12.027082,
+            "output_bits_fnv1a64": "d9b860e4d943e51d",
+            "samples_ms": [
+              12.027082,
+              11.915828,
+              15.320408,
+              12.018581,
+              11.382077,
+              12.510022,
+              12.293121
+            ],
+            "baseline_median_ms": 20.285729,
+            "output_bits_equal": true,
+            "baseline_samples_ms": [
+              18.442332,
+              20.285729,
+              21.16513,
+              21.198322,
+              21.257062,
+              19.921629,
+              17.802075
+            ]
+          },
+          {
+            "domain": "full",
+            "sigma": 16,
+            "median_ms": 33.603307,
+            "output_bits_fnv1a64": "73313a89d85f9091",
+            "samples_ms": [
+              35.615057,
+              33.603307,
+              36.15872,
+              33.041865,
+              30.288451,
+              35.50656,
+              32.057648
+            ],
+            "baseline_median_ms": 81.870685,
+            "output_bits_equal": true,
+            "baseline_samples_ms": [
+              83.3715,
+              77.143512,
+              76.714188,
+              76.926818,
+              81.870685,
+              83.163804,
+              82.554265
+            ]
+          },
+          {
+            "domain": "holes",
+            "sigma": 1,
+            "median_ms": 8.183912,
+            "output_bits_fnv1a64": "e553b708e1ca44d4",
+            "samples_ms": [
+              7.886598,
+              6.53239,
+              6.797836,
+              8.183912,
+              8.409826,
+              9.869206,
+              8.513258
+            ],
+            "baseline_median_ms": 9.377599,
+            "output_bits_equal": true,
+            "baseline_samples_ms": [
+              9.377599,
+              9.026195,
+              9.601587,
+              9.217142,
+              9.634577,
+              12.27265,
+              8.35847
+            ]
+          },
+          {
+            "domain": "holes",
+            "sigma": 4,
+            "median_ms": 11.728165,
+            "output_bits_fnv1a64": "3379c58e73863dac",
+            "samples_ms": [
+              11.82567,
+              10.221253,
+              10.972747,
+              11.728165,
+              14.190212,
+              12.401834,
+              10.538555
+            ],
+            "baseline_median_ms": 20.545657,
+            "output_bits_equal": true,
+            "baseline_samples_ms": [
+              20.187165,
+              20.663516,
+              20.897448,
+              20.545657,
+              17.540836,
+              21.325951,
+              19.687721
+            ]
+          },
+          {
+            "domain": "holes",
+            "sigma": 16,
+            "median_ms": 32.676139,
+            "output_bits_fnv1a64": "fbc64d79148bc8a6",
+            "samples_ms": [
+              31.785268,
+              32.676139,
+              27.411531,
+              30.534906,
+              34.180917,
+              37.344641,
+              39.884732
+            ],
+            "baseline_median_ms": 86.020247,
+            "output_bits_equal": true,
+            "baseline_samples_ms": [
+              79.976419,
+              80.400316,
+              86.020247,
+              82.578473,
+              106.927718,
+              98.421515,
+              89.726872
+            ]
+          }
+        ]
+      },
+      "sha256": "beb2b1e231e5d2ce670a9a3a7aff4280159e543514148cdeb50b7d8a23c4f394",
+      "speedup": [
+        {
+          "domain": "full",
+          "sigma": 1,
+          "ratio": 1.073411264454873
+        },
+        {
+          "domain": "full",
+          "sigma": 4,
+          "ratio": 1.686670881598712
+        },
+        {
+          "domain": "full",
+          "sigma": 16,
+          "ratio": 2.436387734100099
+        },
+        {
+          "domain": "holes",
+          "sigma": 1,
+          "ratio": 1.1458577511586148
+        },
+        {
+          "domain": "holes",
+          "sigma": 4,
+          "ratio": 1.751821960212872
+        },
+        {
+          "domain": "holes",
+          "sigma": 16,
+          "ratio": 2.6325095201731146
+        }
+      ]
+    },
+    {
+      "raw": {
+        "size": 1024,
+        "repeats": 7,
+        "cases": [
+          {
+            "domain": "full",
+            "sigma": 1,
+            "median_ms": 19.240525,
+            "output_bits_fnv1a64": "119ca681d0cd8107",
+            "samples_ms": [
+              16.546662,
+              21.302576,
+              21.981726,
+              19.240525,
+              19.897221,
+              18.413056,
+              16.362002
+            ],
+            "baseline_median_ms": 21.484934,
+            "output_bits_equal": true,
+            "baseline_samples_ms": [
+              21.732851,
+              21.484934,
+              22.239015,
+              21.267572,
+              21.156361,
+              21.811461,
+              20.584937
+            ]
+          },
+          {
+            "domain": "full",
+            "sigma": 4,
+            "median_ms": 30.858338,
+            "output_bits_fnv1a64": "2da3195d78d8b3e3",
+            "samples_ms": [
+              31.89739,
+              28.782484,
+              31.736383,
+              30.369663,
+              32.648747,
+              30.57897,
+              30.858338
+            ],
+            "baseline_median_ms": 58.005473,
+            "output_bits_equal": true,
+            "baseline_samples_ms": [
+              58.005473,
+              60.301938,
+              59.938489,
+              57.613478,
+              58.306644,
+              55.600227,
+              55.085209
+            ]
+          },
+          {
+            "domain": "full",
+            "sigma": 16,
+            "median_ms": 105.240081,
+            "output_bits_fnv1a64": "5dc50e6a9a0ec66b",
+            "samples_ms": [
+              95.589149,
+              101.51356,
+              99.521257,
+              117.511766,
+              111.383277,
+              126.988989,
+              105.240081
+            ],
+            "baseline_median_ms": 314.605995,
+            "output_bits_equal": true,
+            "baseline_samples_ms": [
+              314.605995,
+              287.042507,
+              293.618268,
+              386.310635,
+              350.022241,
+              330.466086,
+              302.178976
+            ]
+          },
+          {
+            "domain": "holes",
+            "sigma": 1,
+            "median_ms": 21.312847,
+            "output_bits_fnv1a64": "f6e66bb2ef3fdb29",
+            "samples_ms": [
+              20.552148,
+              19.024351,
+              20.172268,
+              21.636123,
+              23.916914,
+              21.312847,
+              24.424271
+            ],
+            "baseline_median_ms": 24.057584,
+            "output_bits_equal": true,
+            "baseline_samples_ms": [
+              29.176328,
+              22.602641,
+              21.142646,
+              22.32862,
+              24.057584,
+              27.38405,
+              25.959806
+            ]
+          },
+          {
+            "domain": "holes",
+            "sigma": 4,
+            "median_ms": 34.308961,
+            "output_bits_fnv1a64": "3ef258dbdc73e210",
+            "samples_ms": [
+              34.308961,
+              34.920158,
+              32.524049,
+              37.207783,
+              35.2985,
+              30.880744,
+              31.415666
+            ],
+            "baseline_median_ms": 52.857965,
+            "output_bits_equal": true,
+            "baseline_samples_ms": [
+              55.353822,
+              54.598045,
+              52.750897,
+              51.601384,
+              52.365519,
+              53.89421,
+              52.857965
+            ]
+          },
+          {
+            "domain": "holes",
+            "sigma": 16,
+            "median_ms": 97.925958,
+            "output_bits_fnv1a64": "be9eb9ddb49f1694",
+            "samples_ms": [
+              101.258167,
+              102.216313,
+              97.322455,
+              99.714869,
+              97.925958,
+              96.203756,
+              95.25834
+            ],
+            "baseline_median_ms": 280.374607,
+            "output_bits_equal": true,
+            "baseline_samples_ms": [
+              271.199868,
+              286.886562,
+              275.904349,
+              280.374607,
+              289.432888,
+              272.525715,
+              297.860631
+            ]
+          }
+        ]
+      },
+      "sha256": "9a1f472c2f8001f21a61e6a259d7c08abcd93a5d9a6ba24ae59a5cd75db053d2",
+      "speedup": [
+        {
+          "domain": "full",
+          "sigma": 1,
+          "ratio": 1.1166500914086284
+        },
+        {
+          "domain": "full",
+          "sigma": 4,
+          "ratio": 1.8797341904803817
+        },
+        {
+          "domain": "full",
+          "sigma": 16,
+          "ratio": 2.9894123228582465
+        },
+        {
+          "domain": "holes",
+          "sigma": 1,
+          "ratio": 1.1287832169958334
+        },
+        {
+          "domain": "holes",
+          "sigma": 4,
+          "ratio": 1.5406460428807507
+        },
+        {
+          "domain": "holes",
+          "sigma": 16,
+          "ratio": 2.863128558824005
+        }
+      ]
+    }
+  ],
+  "native": {
+    "windows": {
+      "passed": 42,
+      "junit_sha256": "f46db2600a4f0d17fbb3426aaffeeb83ffb6e369fc018d4eccc1e1b4ddf425f0"
+    },
+    "linux": {
+      "passed": 41,
+      "junit_sha256": "b6ad577390043683cf6911298e29387c3970a19ed39e8c16d4ba9eee7f6013c4"
+    }
+  },
+  "installed": {
+    "windows": {
+      "schema": "qpx.installed-workflow/1",
+      "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\software-probe\\python.exe",
+      "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\check-install\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+      "native_sha256": "946975f7c71531e51281056333b92a778024e783303d02ac37e95e3c92df5a3d",
+      "source_tree_sha256": "37109d9eb6597439b7e3a73b675a0051f1ae0b8efc1f0e4b3fd65c709278b672",
+      "gui": true,
+      "geos": true,
+      "openslide": true,
+      "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+      "openslide_version": "4.0.1",
+      "openslide_runtime_sha256": null,
+      "docked_workspace": true,
+      "layout_saved": true,
+      "monitor_scale": 1.0,
+      "framebuffer_scale": 1.0,
+      "ui_scale": 1.25,
+      "font_rebuilds": 1,
+      "ui_stacked_fields": 0,
+      "ui_wrapped_buttons": 0,
+      "ui_overflow_items": 0,
+      "ui_max_overflow": 0.0,
+      "framebuffer": [
+        1440,
+        900
+      ],
+      "raw_archive_records": 1,
+      "raw_replay_verified": true,
+      "raw_input_sha256": "ff618dfd592aaf66e46f6fdede2c89eeb5165696a781839b69df3832a94c01e5",
+      "raw_batch_reused": true,
+      "roi_samples": 320,
+      "native_batch_checkpoints": 1
+    },
+    "linux": {
+      "schema": "qpx.installed-workflow/1",
+      "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+      "executable": "/home/heq/.cache/qupathxx-runtime92/python/bin/python",
+      "native": "/home/heq/.cache/qupathxx-runtime92/python/lib/python3.12/site-packages/qupathxx/_native.cpython-312-x86_64-linux-gnu.so",
+      "native_sha256": "ed1522044bf74663c357883cd89dda6ea4e8fca71f169981d1d85beb469c0642",
+      "source_tree_sha256": "37109d9eb6597439b7e3a73b675a0051f1ae0b8efc1f0e4b3fd65c709278b672",
+      "gui": false,
+      "geos": true,
+      "openslide": true,
+      "gl_renderer": "",
+      "openslide_version": "4.0.1",
+      "openslide_runtime_sha256": "552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df",
+      "docked_workspace": false,
+      "layout_saved": false,
+      "monitor_scale": null,
+      "framebuffer_scale": null,
+      "ui_scale": null,
+      "font_rebuilds": null,
+      "ui_stacked_fields": null,
+      "ui_wrapped_buttons": null,
+      "ui_overflow_items": null,
+      "ui_max_overflow": null,
+      "framebuffer": null,
+      "raw_archive_records": 1,
+      "raw_replay_verified": true,
+      "raw_input_sha256": "ff618dfd592aaf66e46f6fdede2c89eeb5165696a781839b69df3832a94c01e5",
+      "raw_batch_reused": true,
+      "roi_samples": 320,
+      "native_batch_checkpoints": 1
+    }
+  },
+  "linux_python": {
+    "passed": 1623,
+    "optional_skips": 389,
+    "strict_expected_failures": 4,
+    "junit_sha256": "4ee940ab0fcb81a02573657d4ca01a17fc46bebaea3dd46089242961074bc28a"
+  },
+  "windows_focused": {
+    "passed": 57,
+    "strict_expected_failures": 4,
+    "junit_sha256": "2a95095e5cfa3353348e1425cc38fc986ed6220546d40201124fc328a9ae7f50"
+  },
+  "msvc_512_bit_comparison": {
+    "raw": {
+      "size": 512,
+      "repeats": 3,
+      "cases": [
+        {
+          "domain": "full",
+          "sigma": 1,
+          "median_ms": 8.1564,
+          "output_bits_fnv1a64": "e4faae55eb9b22d8",
+          "samples_ms": [
+            7.6594,
+            8.1564,
+            12.6362
+          ],
+          "baseline_median_ms": 10.7638,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            10.7638,
+            10.5417,
+            13.1712
+          ]
+        },
+        {
+          "domain": "full",
+          "sigma": 4,
+          "median_ms": 13.0356,
+          "output_bits_fnv1a64": "d9b860e4d943e51d",
+          "samples_ms": [
+            11.8107,
+            13.0356,
+            14.4849
+          ],
+          "baseline_median_ms": 28.8619,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            28.8619,
+            29.4799,
+            27.0566
+          ]
+        },
+        {
+          "domain": "full",
+          "sigma": 16,
+          "median_ms": 34.5842,
+          "output_bits_fnv1a64": "73313a89d85f9091",
+          "samples_ms": [
+            34.4966,
+            34.6444,
+            34.5842
+          ],
+          "baseline_median_ms": 122.4658,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            122.4658,
+            115.6834,
+            220.5387
+          ]
+        },
+        {
+          "domain": "holes",
+          "sigma": 1,
+          "median_ms": 8.4722,
+          "output_bits_fnv1a64": "e553b708e1ca44d4",
+          "samples_ms": [
+            11.6443,
+            8.4722,
+            8.0765
+          ],
+          "baseline_median_ms": 12.0322,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            12.7973,
+            11.2694,
+            12.0322
+          ]
+        },
+        {
+          "domain": "holes",
+          "sigma": 4,
+          "median_ms": 12.4681,
+          "output_bits_fnv1a64": "3379c58e73863dac",
+          "samples_ms": [
+            12.4681,
+            12.4718,
+            12.2023
+          ],
+          "baseline_median_ms": 30.8652,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            45.9974,
+            29.8155,
+            30.8652
+          ]
+        },
+        {
+          "domain": "holes",
+          "sigma": 16,
+          "median_ms": 36.2037,
+          "output_bits_fnv1a64": "fbc64d79148bc8a6",
+          "samples_ms": [
+            63.4159,
+            36.2037,
+            35.3024
+          ],
+          "baseline_median_ms": 123.7289,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            171.4964,
+            123.7289,
+            112.0797
+          ]
+        }
+      ]
+    },
+    "flags": [
+      "/O2",
+      "/fp:precise",
+      "/std:c++17"
+    ],
+    "timing_excluded_due_to_concurrent_validation": true
+  },
+  "prior_cell_segmentation_metrics_and_shared_roi_results_unchanged": true,
+  "prior_classifier_fixture_model_and_prediction_identities_unchanged": true,
+  "windows_stress": {
+    "analysis_jobs": 2000,
+    "passed": true,
+    "log_sha256": "a1590d79737463cdfa819df1ebf65c514cdc1998c13e24610f9db0e0c27e0202"
+  },
+  "unresolved_windows_full_suite": {
+    "state": "live-stalled",
+    "process_id": 91036,
+    "wrapper_session_id": 71592,
+    "python_trace_sha256": "a6346bc3c98d5ced285e9f3ed958220319db849ed813b2f23fdfc280cabb207c",
+    "native_stack_sha256": "3fe652b12dee1714fe9ac2edf141662633f04cfbf7926c22e910f17feb80d128",
+    "symbol_resolution_sha256": "07958c904d0d2a3653bb3392cdc0fafd0940fc94a15e8f57e25aa594f2c4ddc3",
+    "diagnosis": "AnalysisJob::wait is blocked in Microsoft Concurrency task wait; idle task-pool threads and a blocked _wmi COM query are observed. Causality unresolved. Fresh direct/collection/2000-job probes pass. No full Windows pass claimed."
+  },
+  "reference_checks": {
+    "independent_direct_2d_cases": 189,
+    "asan_ubsan": true,
+    "asan_ubsan_log_sha256": "d946f57dbc1682364231548d648f76fb862d16ec62595d5a5e0b464b3b7fd6a9"
+  },
+  "scope": "Single-host paired kernel observations including scratch allocation. Not whole-workflow throughput, hardware/frame acceptance or a supported release. Full regression remains pending."
+}
