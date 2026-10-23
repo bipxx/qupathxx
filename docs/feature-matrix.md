@@ -110,3 +110,16 @@ tests (10 optional skips and four scientific expected failures), alongside Linux
 installed, 147 focused desktop/Python, stubs and typing checks pass. Hosted
 acceptance and its artifact audit remain pending at run 40025778794; main
 promotion and all other open M0–M7 requirements remain separate gates.
+
+
+Packet 105 hosted acceptance is complete at source
+201bd8ed266d4803defd7321390b930cafe9dcb7, run 40025778794. All five jobs pass
+and the artifact audit verifies seven new command cases on desktop (five headless
+passes plus two explicit desktop skips), all 22 physical-area cases, three
+physical-area desktop cases, native/installed/standalone identities, runtime
+relocation, full reader workflows, stubs and strict positive/negative typing.
+Windows desktop passes 2,073 Python/43 native, Windows headless 1,688/42, Linux
+headless 1,686/42, and minimal/sanitizer each pass 42 native suites. The completed
+desktop frame is visually inspected. The engineering scope is accepted for main
+promotion. Four scientific expected failures remain per Python cohort; broader
+commands/adapters, biology, hardware, portable/Mac and release gates remain open.

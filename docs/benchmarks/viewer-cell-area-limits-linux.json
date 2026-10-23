@@ -1,6 +1,6 @@
 {
   "schema": "qpx.viewer-cell-area-limits-validation/1",
-  "state": "linux-full-verified-windows-full-verified-hosted-pending",
+  "state": "engineering-scope-accepted-hosted-audited",
   "release_ready": false,
   "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
   "build_git_revision": "unknown",
@@ -35,11 +35,13 @@
     "cause": "New owner-side calibration-change regression exposed missing calibration dependency in physical requests; the fix captures calibration revision, without changing ordinary sampled requests or archived replay."
   },
   "scope": "Copied native physical bounds/parameters, owner-time resolution, background detection, calibration-stale rejection, native archive publication, cancellation/budget reclamation, headless Python queue and typing. Desktop producer/export/save/reopen tests are pending.",
-  "gui_validation": "Separate Windows receipt passes 43 native, 147 focused and 2,074 full Python tests; hosted acceptance remains pending.",
+  "gui_validation": "Separate Windows native/focused/full and hosted artifact acceptance passes.",
   "hosted_acceptance": {
-    "state": "pending",
+    "state": "accepted",
     "run_id": 40025778794,
-    "source_commit": "201bd8ed266d4803defd7321390b930cafe9dcb7"
+    "source_commit": "201bd8ed266d4803defd7321390b930cafe9dcb7",
+    "receipt_file": "viewer-cell-area-limits-ci-windows-linux.json",
+    "receipt_sha256": "a738335f5757abd7f530b16ab19f25beff5de2debd41e666361557bfa58db726"
   },
   "performance_accepted": false,
   "limits": [
@@ -47,5 +49,11 @@
     "Four scientific expected failures remain.",
     "No GUI, hardware or release acceptance from headless tests."
   ],
-  "source_content_commit": "201bd8ed266d4803defd7321390b930cafe9dcb7"
+  "source_content_commit": "201bd8ed266d4803defd7321390b930cafe9dcb7",
+  "local_validation_snapshot": {
+    "file": "viewer-cell-area-limits-linux-local.json",
+    "sha256": "4be4fd4a5b70b16976a7b090215a8ab8a695964a96e7675ede8341425a1f214a",
+    "captured_file_sha256": "5d7781a1eb60ee8f51e82e066daa55fb1057a0d98ec246c5497094dcbc3c5221"
+  },
+  "published_text_encoding": "UTF-8 LF"
 }

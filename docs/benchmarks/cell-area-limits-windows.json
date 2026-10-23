@@ -1,36 +1,68 @@
 {
   "schema": "qpx.cell-area-limits-validation/1",
-  "platform": "windows",
-  "state": "fixed-focused-verified-full-and-hosted-pending",
+  "state": "engineering-scope-accepted-hosted-audited",
   "release_ready": false,
-  "source_content_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81",
+  "platform": "windows",
   "source_tree_sha256": "793cdfb895709edd88b676489e82bba5258aba78cd4065f2dc195658abd8d2b0",
   "native_sha256": "7a9e670ffb69725e8ae6afff5ed6714fd24fe9adcc2d9eb419377d4bfc5e443d",
+  "wheel_sha256": "25f57213ade5532bb26e3e78a0dd18987bddd8ffdf5892e9c4d04c06692f8c31",
   "native": {
     "passed": 43,
-    "skipped": 0,
+    "optional_skips": 0,
+    "strict_scientific_expected_failures": 0,
     "junit_sha256": "d161f8db63713e4f71570b7cdf66f9686dcf84fcb7eb4acdaabed453e3227f85"
   },
   "focused": {
     "passed": 120,
-    "skipped": 0,
+    "optional_skips": 0,
+    "strict_scientific_expected_failures": 0,
     "junit_sha256": "bb7bcf31a937dfd952d07a86963a1f822abf0106f4350238cb6831cc7434d5de"
+  },
+  "full": {
+    "passed": 2067,
+    "optional_skips": 10,
+    "strict_scientific_expected_failures": 4,
+    "junit_sha256": "2ca55d8aa3b12752df0584ff492f6c6df9901b61294b8556b66680d365ceaa4a"
   },
   "installed_report_sha256": "44588534516def756f9d79bc46aadf050f399686e16efd1e2cae7eccfb9049e4",
   "stubs_match": true,
   "strict_positive_typing": true,
   "negative_typing_errors": 7,
-  "full_regression": "running",
-  "hosted_acceptance": {
-    "state": "pending",
-    "run_id": 40024473049,
-    "source_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81"
+  "generated_large_pyramid_fixture_sha256": "09301eba1210f7c7335e33993f0fe73cc74f7fc34ac85b1da5a9bb5043776845",
+  "contract": "Inclusive physical area bounds intersect sampled limits once per captured request; saved runs freeze the resolved recipe, while batches retain original physical arguments and resolve each image/ROI.",
+  "performance": {
+    "algorithm": "Two binary searches over possible sample counts; no image reads or detector-loop changes for resolution.",
+    "measured_performance_accepted": false
   },
+  "limits": [
+    "Physical radii and arbitrary resampling remain open.",
+    "Four scientific acceptance failures remain.",
+    "No biological, hardware or release acceptance."
+  ],
   "calibration_stale_regression": {
     "before_junit_sha256": "05f4e594943990bf16074e25a7925ef41bc2b6f7825843e35b66e96234b5e80b",
     "before_failures": 3,
     "after_focused_passes": 3,
     "contract": "Active physical captures depend on calibration revision; ordinary sampled requests and archived replay preserve existing semantics."
+  },
+  "source_content_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81",
+  "hosted_acceptance": {
+    "state": "accepted",
+    "run_id": 40024473049,
+    "source_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81",
+    "preceding_run": {
+      "run_id": 40022136685,
+      "source_commit": "87e691be724be88183876cfaa1b583b2bb27a947",
+      "state": "cancelled",
+      "reason": "Superseded by the reproduced calibration-staleness regression and fix."
+    },
+    "receipt_file": "cell-area-limits-ci-windows-linux.json",
+    "receipt_sha256": "b0de90663dbc4864f7b6a8fdc754454d56252cfc13e6905bc5c07de764191f08",
+    "captured_receipt_sha256": "0af9041e7c40b7ab4a072e4fbeea48e7dcea2cf619700f0aa5308d1ea1343a49"
+  },
+  "prior_full_regression": {
+    "junit_sha256": "3800076a3e52b6ba2fa59d13e4ac5ec47d916cf7862700667ffad5ae88482e74",
+    "scope": "Earlier source predates calibration-stale fix; retained as historical evidence only."
   },
   "rendered_capture": {
     "file": "images/cell-physical-area-limits.png",
@@ -50,10 +82,10 @@
       "ui_max_overflow": 0.0
     }
   },
-  "prior_full_regression": {
-    "source_content_commit": "87e691be724be88183876cfaa1b583b2bb27a947",
-    "junit_sha256": "3800076a3e52b6ba2fa59d13e4ac5ec47d916cf7862700667ffad5ae88482e74",
-    "scope": "Previous full pass predates the calibration-staleness fix and does not accept the current candidate."
+  "local_validation_snapshot": {
+    "file": "cell-area-limits-windows-local.json",
+    "sha256": "71f0096b66ff2edfdba8c8cfc826bd3cc0c12c1610701781386feb3c3c0e5bed",
+    "captured_file_sha256": "874961690c04b516bb2f507cf835f155315114e05be32b4e38f70e92185a0640"
   },
-  "performance_accepted": false
+  "published_text_encoding": "UTF-8 LF"
 }

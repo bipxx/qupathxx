@@ -1,6 +1,6 @@
 {
   "schema": "qpx.viewer-cell-area-limits-validation/1",
-  "state": "windows-full-verified-hosted-pending",
+  "state": "engineering-scope-accepted-hosted-audited",
   "release_ready": false,
   "source_content_commit": "201bd8ed266d4803defd7321390b930cafe9dcb7",
   "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
@@ -37,13 +37,21 @@
     "junit_sha256": "52d831675aab129ed6c5d8a7a7719b2df77047cc776bf44be03c287f265e355d"
   },
   "hosted_acceptance": {
-    "state": "pending",
+    "state": "accepted",
     "run_id": 40025778794,
-    "source_commit": "201bd8ed266d4803defd7321390b930cafe9dcb7"
+    "source_commit": "201bd8ed266d4803defd7321390b930cafe9dcb7",
+    "receipt_file": "viewer-cell-area-limits-ci-windows-linux.json",
+    "receipt_sha256": "a738335f5757abd7f530b16ab19f25beff5de2debd41e666361557bfa58db726"
   },
   "performance_accepted": false,
   "limits": [
     "Four scientific expected failures remain.",
     "No hardware, portable or release acceptance."
-  ]
+  ],
+  "local_validation_snapshot": {
+    "file": "viewer-cell-area-limits-windows-local.json",
+    "sha256": "28dcc1ec8dee16b57a87843e4f728f6ec64e103758cfb061d2cad2f8fcbb4407",
+    "captured_file_sha256": "73b20f1b4caf63683a64289599de758bb7130f0f8b68f7b37fb74ae633d0a765"
+  },
+  "published_text_encoding": "UTF-8 LF"
 }

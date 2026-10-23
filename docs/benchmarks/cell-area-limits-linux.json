@@ -1,6 +1,6 @@
 {
   "schema": "qpx.cell-area-limits-validation/1",
-  "state": "local-full-verified-hosted-pending",
+  "state": "engineering-scope-accepted-hosted-audited",
   "release_ready": false,
   "platform": "linux",
   "source_tree_sha256": "793cdfb895709edd88b676489e82bba5258aba78cd4065f2dc195658abd8d2b0",
@@ -56,8 +56,27 @@
   },
   "source_content_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81",
   "hosted_acceptance": {
-    "state": "pending",
+    "state": "accepted",
     "run_id": 40024473049,
-    "source_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81"
-  }
+    "source_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81",
+    "preceding_run": {
+      "run_id": 40022136685,
+      "source_commit": "87e691be724be88183876cfaa1b583b2bb27a947",
+      "state": "cancelled",
+      "reason": "Superseded by the reproduced calibration-staleness regression and fix."
+    },
+    "receipt_file": "cell-area-limits-ci-windows-linux.json",
+    "receipt_sha256": "b0de90663dbc4864f7b6a8fdc754454d56252cfc13e6905bc5c07de764191f08",
+    "captured_receipt_sha256": "0af9041e7c40b7ab4a072e4fbeea48e7dcea2cf619700f0aa5308d1ea1343a49"
+  },
+  "prior_full_regression": {
+    "junit_sha256": "7bcd93bebb285ec91cf4d7c1ffc941e01c42bc0aed7b92a73672a628847f83de",
+    "scope": "Earlier source predates calibration-stale fix; retained as historical evidence only."
+  },
+  "local_validation_snapshot": {
+    "file": "cell-area-limits-linux-local.json",
+    "sha256": "0260dde99d9571a503d31727f23aa2e589b39f72c5e8c1f3383b3983551532ed",
+    "captured_file_sha256": "ff5440ac2d7d25df1ad0555d7ff6d11de0c682617ae693002e367e1c77aa6b36"
+  },
+  "published_text_encoding": "UTF-8 LF"
 }

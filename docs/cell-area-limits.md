@@ -7,8 +7,9 @@ limits into ordinary integer nucleus-sample cutoffs before detection.
 
 **Validation update:** the calibration-staleness gap found by the managed-viewer
 test is fixed. Three regressions failed before the fix and now pass. Corrected
-Linux full validation and Windows focused/native checks pass; Windows full
-regression and hosted run 40024473049 remain pending. Main promotion is withheld.
+Windows/Linux full validation and hosted run 40024473049 pass. The
+[artifact audit](benchmarks/cell-area-limits-ci-windows-linux.json) accepts the
+defined engineering scope; scientific, hardware and release gates remain open.
 
 ```python
 parameters = qupathxx.CellParameters()
@@ -62,7 +63,8 @@ Project batches accept `ProjectBatchOptions.cell_min_nucleus_area_um2` and
 `cell_max_nucleus_area_um2`. They resolve each image/ROI independently. The
 `cell_area_limits` entry in the batch parameter manifest retains both original
 physical arguments, including null disabled bounds, and participates in the
-parameter hash. Default manifests retain their existing bytes. Unknown calibration
+parameter hash. Both-disabled manifests retain the existing field layout; their build/source
+identities still describe the executing build. Unknown calibration
 follows the selected per-image failure policy; changed calibration cannot reuse an
 incompatible checkpoint. These options reject non-cell batch kinds.
 
@@ -103,8 +105,9 @@ even when `retain_result=False`; that flag controls the event's retained cell
 result. Consume terminal tickets with `take` to reclaim endpoint storage.
 Existing `session.cells` retains its ordinary sampled-parameter behavior.
 
-The managed-viewer extension is undergoing separate packet-105 validation;
-the packet-103 receipts below do not validate that additional command.
+The managed-viewer extension has separate [artifact acceptance](benchmarks/viewer-cell-area-limits-ci-windows-linux.json).
+The physical-request receipts below identify their own source; the additional
+command receipt identifies its tested native/Python owner path.
 
 This adds physical nucleus area filtering. Blur, peak/seed distance and cell
 expansion still use sampled pixels. Arbitrary resampling, physical radii, QuPath
@@ -118,22 +121,40 @@ large pyramid is supplied to this full run.
 
 The [Windows receipt](benchmarks/cell-area-limits-windows.json) records 43 native
 suites, 120 focused Python/desktop passes, installed workflows and matching
-stubs/typing. The corrected full Windows regression remains running. Its prior
-2,064-pass result predates the calibration-staleness fix and is retained as
-historical evidence. The visually inspected [completed desktop frame](images/cell-physical-area-limits.png)
+stubs/typing. The corrected full Windows regression passes 2,067 cases, with
+10 optional skips and four strict scientific expected failures. Its prior
+2,064-pass result predates the calibration-staleness fix and remains historical
+evidence. The visually inspected [completed desktop frame](images/cell-physical-area-limits.png)
 uses the corrected build and shows both limits, one saved cell, the frozen
 81–90-sample recipe and successful one-row calibrated CSV export, with no UI
 overflow. Hosted run 40024473049 at source
-`f8cb02a139d5c4b4651978425cb064472b3f1b81` is pending; preceding run 40022136685
-does not accept the fix. The candidate remains provisional and does not accept
-segmentation parity or hardware performance.
+`f8cb02a139d5c4b4651978425cb064472b3f1b81` passes all five jobs and the full
+artifact audit. Windows desktop passes 2,066 Python/43 native tests, Windows
+headless passes 1,683/42, Linux headless passes 1,681/42, and minimal/sanitizer
+configurations each pass 42 native suites. All installed Python cohorts pass
+22 physical-area cases, including the three stale-calibration regressions; desktop
+passes three physical-area GUI cases. Four scientific expected failures remain
+in every Python cohort. Preceding run 40022136685 was cancelled after the gap was
+reproduced. The accepted scope does not establish segmentation parity, hardware
+performance, portable packaging or a supported release.
 
 
-The additional managed-viewer candidate's [Linux receipt](benchmarks/viewer-cell-area-limits-linux.json)
-records 42 native suites, 114 focused passes and 1,688 full-regression passes,
-with 396 optional skips and four scientific expected failures. Its runtime,
-installed stubs and strict typing checks pass. The [Windows receipt](benchmarks/viewer-cell-area-limits-windows.json) records
-43 native suites and 147 focused passes, including both new producer desktop
-workflows. The Windows full regression passes 2,074 cases, with 10 optional
-skips and four scientific expected failures. Hosted acceptance remains pending. The packet-103 receipts describe their own physical
-request source, while this separate receipt identifies the added queue command.
+Published receipt-file hashes bind Git-committed UTF-8 LF bytes. Separate
+`captured_file_sha256`/`captured_receipt_sha256` values preserve the original local
+capture bytes; canonical JSON hashes preserve content identity across line-ending
+normalization. Native, wheel, fixture and downloaded artifact hashes continue to
+bind their original binary/file bytes.
+
+
+The managed-viewer [Linux](benchmarks/viewer-cell-area-limits-linux.json) and
+[Windows](benchmarks/viewer-cell-area-limits-windows.json) records bind full local
+regressions of 1,688 and 2,074 passes, respectively. Its [hosted artifact audit](benchmarks/viewer-cell-area-limits-ci-windows-linux.json)
+accepts source `201bd8ed266d4803defd7321390b930cafe9dcb7`, run 40025778794.
+All five jobs pass: desktop has 2,073 Python/43 native passes, Windows headless
+1,688/42, Linux headless 1,686/42, and minimal/sanitizer configurations each pass
+42 native suites. All seven additional command cases pass desktop; five pass
+headless with two desktop-only skips. The 22 physical-area cases and three
+physical-area GUI cases retain their passing scope. Four scientific expected
+failures remain per Python cohort. The defined engineering scope is accepted;
+broader commands/adapters, science, hardware, portable/Mac and release gates
+remain open.
