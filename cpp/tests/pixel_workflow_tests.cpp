@@ -1,5 +1,6 @@
 #include "qupathxx/pixel_contours.hpp"
 #include "qupathxx/pixel_classifier_archive.hpp"
+#include "../gui_pixel_archives.hpp"
 #include "object_forest_fixture.hpp"
 #include <algorithm>
 #include <chrono>
@@ -80,6 +81,26 @@ int main() {try {
         auto gated=std::make_shared<Pyramid>();Document blocked(gated);const auto left=blocked.add_detection(Roi::rectangle({0,0,32,48}),"Left",0,"A"),right=blocked.add_detection(Roi::rectangle({32,0,32,48}),"Right",0,"B");
         PixelTrainingJob job;struct Release {std::shared_ptr<Pyramid> p;~Release(){p->release.store(true);}} release{gated};gated->release.store(false);const PixelTrainingRequest r(blocked,{left,right},transform,options);check(job.train(r) && !job.train(r));
         const auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(5);while(!gated->entered && std::chrono::steady_clock::now()<deadline) std::this_thread::sleep_for(std::chrono::milliseconds(1));check(gated->entered);blocked.rename_annotation(left,"Changed");check(job.poll(blocked).state=="cancelling");gated->release.store(true);check(job.wait(blocked).state=="stale" && !job.model());
+    }
+    {
+        // Complete preparation before polling to make cancellation/staleness
+        // reconciliation deterministic, independent of machine/frame timing.
+        Document retained(std::make_shared<Pyramid>());retained.set_calibration(.5,.25);
+        const auto id=retained.add_roi(Roi::rectangle({0,0,16,16}));
+        auto model=std::make_shared<const PixelClassifier>(fixture(options.features,transform,table->resolution()));
+        PixelPredictionRequest request(retained,id,*model);auto result=predict_pixel_region(request);
+        detail::GuiPixelArchives archives;std::map<std::uint64_t,std::shared_ptr<const PixelClassifierRecord>> records;
+        const auto identity=std::make_shared<const char>(0);const auto revision=retained.revision();
+        archives.keep(request,result);archives.wait();archives.cancel();archives.update(retained,records,identity,true);
+        check(archives.state()=="cancelled" && retained.revision()==revision && !retained.pixel_classifier_record_count());
+        archives.keep(request,result);archives.wait();retained.rename_annotation(id,"Changed during preparation");
+        archives.update(retained,records,identity,true);check(archives.state()=="stale" && !retained.pixel_classifier_record_count());
+        request=PixelPredictionRequest(retained,id,*model);result=predict_pixel_region(request);
+        archives.keep(request,result);archives.wait();archives.update(retained,records,identity,true);
+        check(archives.state()=="kept" && retained.pixel_classifier_record_count()==1 && archives.kept());
+        check(retained.pixel_classifier_record(archives.kept())->archive->result()==result);
+        archives.update(retained,records,std::make_shared<const char>(0),true);
+        check(archives.state()=="idle" && !archives.kept() && !archives.selected());
     }
     std::cout<<"Annotation sampling, overlap/balance, portable resolution, tiled source prediction and stale jobs passed\n";return 0;
 } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}}

@@ -210,7 +210,41 @@ replay integration and copied-input-list fixture failures are retained in the
 record, alongside the final passing runs.
 
 
-Native [retained pixel artifacts](pixel-classifier-archives.md) are available through
-the C++ and Python APIs and persist in schema-9 projects/recovery. The panel's
-artifact keep/browser/reuse actions remain open. A retained model can already
-be supplied programmatically through `GuiOptions.pixel_model`.
+The F5 panel also retains [pixel artifacts](pixel-classifier-archives.md) in
+schema-9 projects and recovery files. After training, choose **Keep training
+cohort** to retain the original sampled rows, labelled areas and model. After
+prediction, choose **Keep prediction mask** to retain labels, validity, winning
+votes, the original target and model. Preparation runs on a native worker;
+adoption checks the original request against the current document. Cancelled
+or stale work adds no record. Retaining a record changes the document revision,
+so predict again before publishing annotations.
+
+Choose an entry under **Saved pixel records**. **Use saved model** loads its
+recipe for a new prediction. **Preview saved mask** displays the original
+numeric mask with a historical label, including after the source target has
+been edited or deleted. This preview supplies no live request, tracing or
+publication authority. **Predict area** recomputes a current result using the
+saved model. **Saved record details** shows the original revision, counts,
+payload charge and artifact checksum. **Remove record** removes the retained
+entry and clears its active mask preview; the current model remains available.
+
+The record browser copies at most 1,024 entries per frame and clips its popup
+list. Opening a project restores numeric values and provenance without starting
+analysis or granting old results authority over the current document.
+
+![Actual F5 saved mask browser and historical preview](images/pixel-classifier-archives.png)
+
+The [1,024-square retention probe](benchmarks/gui-pixel-archives-10000-windows.json)
+uses the real controls with 10,000 off-screen cell objects. It verifies every
+saved label and winning vote against a fresh prediction, limits object indexing
+to 1,024 entries per frame, and retains a 19.15 MB artifact with a 4 MiB GL mask.
+On this shared Windows llvmpipe workstation, CPU frame p95 was 2.57 ms and the
+worst frame was 23.48 ms. This single synthetic observation does not establish
+RSS, dense visible-object performance, hardware or biological acceptance;
+the 16 ms worst-frame gate remains open.
+
+The [local saved-record validation](benchmarks/gui-pixel-archives-local-windows-linux.json)
+verifies 1,505 full-suite passes with six expected skips, all 82 focused
+widget/archive/portable cases, native configurations, exact stubs, strict typing
+and installed launch. It checks source/wheel/native and screenshot identities
+and retains the initial disabled-button readiness fixture correction.

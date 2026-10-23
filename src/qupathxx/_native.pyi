@@ -1545,6 +1545,16 @@ class GuiInputTarget(enum.Enum):
 
     PIXEL_PUBLISH = 36
 
+    PIXEL_KEEP_TRAINING = 37
+
+    PIXEL_KEEP_PREDICTION = 38
+
+    PIXEL_USE_RECORD_MODEL = 39
+
+    PIXEL_PREVIEW_RECORD = 40
+
+    PIXEL_REMOVE_RECORD = 41
+
 class GuiInputWait(enum.Enum):
     IMMEDIATE = 0
 
@@ -1611,6 +1621,12 @@ class GuiInputWait(enum.Enum):
     PIXEL_CONTOURS_READY = 31
 
     PIXEL_CONTOURS_PUBLISHED = 32
+
+    PIXEL_RECORD_KEPT = 33
+
+    PIXEL_RECORD_MODEL_LOADED = 34
+
+    PIXEL_HISTORICAL_PREVIEW_READY = 35
 
 class GuiInput:
     def __init__(self) -> None: ...
@@ -2699,6 +2715,24 @@ class GuiReport:
 
     @property
     def pixel_contours_published(self) -> bool: ...
+
+    @property
+    def pixel_archive_state(self) -> str: ...
+
+    @property
+    def pixel_record_id(self) -> int: ...
+
+    @property
+    def pixel_selected_record_id(self) -> int: ...
+
+    @property
+    def pixel_historical_result(self) -> PixelPredictionResult | None: ...
+
+    @property
+    def pixel_record_catalog_max_step(self) -> int: ...
+
+    @property
+    def pixel_record_catalog_complete(self) -> bool: ...
 
     @property
     def pixel_training_state(self) -> str: ...

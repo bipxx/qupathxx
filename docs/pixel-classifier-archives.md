@@ -136,3 +136,14 @@ deadlock and its bounded regression, plus fixture/report and desktop replay
 corrections. Retained artifacts, ID-counter rollback and namespace rejection,
 transaction rollback, asynchronous/recovery snapshots and batch digest/budget
 binding have explicit runtime coverage.
+
+The [hosted schema-9 verification](benchmarks/pixel-archives-ci-windows-linux.json)
+records all five jobs passing for `71c1ace`: 1,496 Windows GUI, 1,187 Windows
+headless and 1,181 Linux Python passes, plus 39 GUI native and 38 in every other
+native configuration. All 51 archive and three portable-fixture cases pass on
+each Python platform, including the GEOS polygon fixture on Linux. The record
+checks wheel/native/source identities, typing, standalone packaging and the
+installed archive benchmark. This run precedes the F5 saved-record controls.
+
+Use the [F5 artifact browser](pixel-classifier-ui.md) to retain a live cohort or
+mask, reuse its model, inspect a historical mask or remove the retained entry.

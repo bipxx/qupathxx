@@ -2334,4 +2334,53 @@ run retains every framebuffer parity assertion and passes all current cases.
 
 Implementation commit: `71c1ace`. Hosted pixel-artifact
 [run 39882241870](https://github.com/bipxx/qupathxx/actions/runs/39882241870)
-targets that commit and is running. No hosted pixel-artifact pass is claimed yet.
+targets that commit and passed all five jobs. The [hosted artifact verification](benchmarks/pixel-archives-ci-windows-linux.json) checks source/wheel/native identities, 51 archive and three portable cases on each Python platform, installed benchmarks, typing and standalone packaging.
+
+
+## Packet 77 — F5 retained pixel records
+
+The pixel panel now has worker-backed **Keep training cohort** and **Keep
+prediction mask** actions. Only immutable numeric values enter preparation;
+requests and source ownership stay on the owner until the worker is joined.
+Owner adoption rechecks the exact request against the current document. A
+native controller regression deterministically completes preparation, then
+cancels or edits before polling, and verifies that neither case adds a record.
+
+The bounded record browser supports saved model reuse, historical mask preview,
+original artifact counts/revision/checksum inspection and removal. Historical
+masks have their own report field and no live request, contour or publication
+authority. Fresh prediction clears the historical view. Removing the active
+record or switching images clears its GL preview; ordinary geometry edits do
+not rewrite original numeric values. Annotation and record indexing each copy
+at most 1,024 entries per frame, and popup rows use clipping. Action rows wrap
+for the smaller scaled window.
+
+Eight real-window regressions cover training/model reuse, retention of masks,
+disabled historical tracing/publication, saved/reopened masks after target
+editing/deletion, removal, recomputation and image switching. Both default and
+960×720 at 1.25 scale are exercised. All 82 focused widget/archive/portable
+cases pass, as do 39 GUI native and 38 each Windows headless/Linux training/
+minimal/sanitizer cases. Exact public stubs and strict positive/seven-error
+negative typing pass. Two initial tests incorrectly waited for deliberately
+disabled historical trace/publication actions; immediate-click attempts retain
+all no-publication/no-edit assertions and now pass.
+
+The [installed retention probe](benchmarks/gui-pixel-archives-10000-windows.json)
+uses 10,000 off-camera cells and a 1,024-square mask, verifies every saved
+label/vote against a fresh oracle, and retains 19.15 MB with a 4 MiB GL mask.
+CPU frame p95 is 2.57 ms; maximum is 23.48 ms. This single synthetic shared
+llvmpipe-workstation observation does not establish RSS, dense-visible-object,
+hardware, biological or the 16 ms worst-frame gate. The
+[F5 guide](pixel-classifier-ui.md) includes the actual installed-app capture.
+
+Full-slide streaming, viewport-limited prediction, unmatched-grid resampling,
+expanded feature families, TMA, research/QuPath validation, hardware/frame gates
+and all other outstanding M0–M7 acceptance requirements remain open.
+
+The [local artifact record](benchmarks/gui-pixel-archives-local-windows-linux.json)
+verifies the final installed full suite: 1,505 passes and six expected skips,
+all 82 focused cases, all native configurations, exact stubs/strict typing and
+installed software-GL launch. It binds the source manifest, wheel/native,
+benchmark and lossless screenshot identities, and preserves the preliminary
+disabled-button fixture correction. Hosted validation for this new UI packet
+will be tracked separately from the completed schema-9 artifact run.

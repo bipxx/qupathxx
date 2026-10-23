@@ -245,3 +245,13 @@ def retain_pixel_cohort(document: q.Document, request: q.PixelTrainingRequest, t
     assert source.id
     identifier=document.keep_pixel_training(request,archive)
     return document.pixel_classifier_record(identifier)
+
+
+def historical_pixel_preview(report: q.GuiReport) -> q.PixelPredictionResult | None:
+    state: str=report.pixel_archive_state
+    selected: int=report.pixel_selected_record_id
+    kept: int=report.pixel_record_id
+    step: int=report.pixel_record_catalog_max_step
+    complete: bool=report.pixel_record_catalog_complete
+    assert state and selected>=0 and kept>=0 and step<=1024 and isinstance(complete,bool)
+    return report.pixel_historical_result
