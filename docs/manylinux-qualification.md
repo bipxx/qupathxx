@@ -48,3 +48,59 @@ for the requested 2.28 policy and creates no retagged wheel. That negative check
 and local smoke do not qualify an older ABI. Positive builder/consumer evidence
 still requires the hosted run; supported releases, other platforms, hardware
 acceptance and project-license selection retain their separate open gates.
+
+## Observed builder layout failure
+
+Run 39986257233 reached the real older-baseline SDK build. Its CPython 3.11 job
+installed OpenCV under `lib64/cmake/opencv4`, then failed because the CI wrapper
+passed a nonexistent `lib/cmake/opencv4` to CMake. No qualified wheel or consumer
+acceptance resulted. The SDK helper and CI wrapper now locate exactly one complete
+config in the SDK root, `lib`, or `lib64`; missing, incomplete and ambiguous
+layouts fail explicitly. Six regression cases cover those layouts. The build and
+consumer requirements above remain unchanged and require a new successful run.
+
+## Accepting downloaded evidence
+
+`tools/ci/accept_manylinux.py` requires one completed successful hosted commit
+and both CPython builder/consumer cohorts. Wheels must have matching filename
+and WHEEL tags, qualification hashes, complete native/runtime payload manifests
+and runtime notices. Pinned tool versions, builder image/libc, the original
+tested wheel and original/qualified installed, relocated and fresh-consumer
+native/source identities must agree. Both consumers use the pinned slide fixture.
+
+The checker requires passing native, builder and consumer JUnit evidence, public
+stubs, positive/negative typing, package-local runtime records, geometry, Unicode
+annotation/project reopening, retained analysis, CSV, exact native region pixels
+and batch/checkpoint CSV. Only the explicitly recorded QuPath cell scientific
+expected failures are allowed; other expected failures reject acceptance.
+
+```powershell
+gh run download RUN --dir build/portable-evidence
+gh run view RUN --json headSha,url,status,conclusion,jobs > build/portable-run.json
+python -I tools/ci/accept_manylinux.py --artifacts build/portable-evidence --run-json build/portable-run.json --commit FULL_COMMIT --output build/portable-acceptance.json
+```
+
+The receipt is written only after all checks pass. Its state is
+`build-and-fresh-consumer-accepted` and `release_ready` stays false. The checker
+audits evidence downloaded from trusted CI; it does not authenticate arbitrary
+files or replace the builder's actual ELF symbol-policy check. Scientific failures
+remain counted and do not become scientific acceptance. Project license,
+GUI/macOS, biological accuracy, hardware budgets and releases need separate gates.
+
+The [auditor receipt](benchmarks/manylinux-acceptance-auditor-windows-linux.json)
+records 31 focused tests passing on Windows/Linux, including mixed/unfinished
+runs, corruption, mismatched runtimes, wrong fixtures, loader overrides and
+incomplete workflow/test/typing rejection. Synthetic cohorts test evidence binding,
+not executable ELF validity. Actual failed run 39986257233 is rejected without
+publishing a receipt. Positive hosted acceptance still requires the pending run.
+
+## Observed GEOS verifier layout failure
+
+Run 39991725062 passes wheel compilation and all 40 native tests, then exposes
+the same lib/lib64 assumption in the GEOS runtime verifier. The verifier and
+relocated-library regression now select one unambiguous C API library directory
+from lib or lib64. Four new layout cases cover both locations and reject missing
+or ambiguous runtimes. Exact installed/wheel/SDK hash matching and the relocation
+policy are preserved. New portable run 39995913896 at commit
+`1ff10524cc14665ffe2bee65310db742a6359205` is pending; the failure is not accepted
+as a portable package pass.

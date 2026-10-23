@@ -1,0 +1,81 @@
+{
+  "schema": "qpx.macos-native-preflight/1",
+  "macos_execution_validated": false,
+  "release_ready": false,
+  "workflow_sha256": "1aed2281db369a928794a1fc3c4651dc524e20ece9362e650cf2b27641d0470b",
+  "runner_sha256": "3050a1fa0331afc429210361757a44ed0f356dbe83bf5e2348989f21852c4852",
+  "requirements_sha256": "8dbd8435cde2b63f987fffbffe4fb04c0c7cd6d1cf015bb86908081261d4b721",
+  "tools": {
+    "cmake": {
+      "version": "4.4.4",
+      "macos_wheels": [
+        {
+          "filename": "cmake-4.4.4-py3-none-macosx_10_10_universal2.whl",
+          "sha256": "883962a72b1b3a16ff445427f24c8caca9797dd9e563bbe208cbcd89e877f9d3"
+        }
+      ]
+    },
+    "ninja": {
+      "version": "1.13.0",
+      "macos_wheels": [
+        {
+          "filename": "ninja-1.13.0-py3-none-macosx_10_9_universal2.whl",
+          "sha256": "fa2a8bfc62e31b08f83127d1613d10821775a0eb334197154c4d6067b7068ff1"
+        }
+      ]
+    }
+  },
+  "runner_labels": {
+    "x86_64": "macos-15-intel",
+    "arm64": "macos-15",
+    "source": "https://docs.github.com/en/actions/reference/runners/github-hosted-runners"
+  },
+  "workflow_lint": {
+    "version": "1.7.12",
+    "archive_sha256": "6e7241b51e6817ea6a047693d8e6fed13b31819c9a0dd6c5a726e1592d22f6e9",
+    "passed": true
+  },
+  "wrong_platform_rejected_before_work": true,
+  "geos_layout_fix": {
+    "windows": {
+      "passed": 27,
+      "junit_sha256": "7fbbbacbbf027987f963cd23aaec326d941bfca964982c7050d6c6989691480c"
+    },
+    "linux": {
+      "passed": 27,
+      "junit_sha256": "ef9ad588a525c86be501a015df5e6f48ecbd790a6d319034efe7e5eba1b1de20"
+    },
+    "actual_lib64_sdk_runtime": {
+      "schema": "qpx.linux-runtime/1",
+      "source_tree_sha256": "37109d9eb6597439b7e3a73b675a0051f1ae0b8efc1f0e4b3fd65c709278b672",
+      "native_sha256": "ed1522044bf74663c357883cd89dda6ea4e8fca71f169981d1d85beb469c0642",
+      "runtimes": {
+        "libgeos_c.so.1": "3de5397ee6ab750bf15d18c76948ba9e16e9ad8d445cc37f5d841214861efede",
+        "libgeos.so.3.15.0": "1eac69ca6de9cb51ce148e1e3f368dbcc1f062b067eef2265ca387f6d7f9c201",
+        "libopenslide.so.1": "552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df"
+      },
+      "mapped_from_package": true,
+      "geos_license_matches_sdk": true,
+      "relocated_python_geometry": true,
+      "relocated_region_pixels": true,
+      "relocated_batch": true,
+      "ld_library_path_used": false,
+      "relocated_child": {
+        "native": "/tmp/qpx-linux-runtime-qy56dvuv/relocated package/qupathxx/_native.cpython-312-x86_64-linux-gnu.so",
+        "mapped": [
+          "/tmp/qpx-linux-runtime-qy56dvuv/relocated package/qupathxx/libgeos.so.3.15.0",
+          "/tmp/qpx-linux-runtime-qy56dvuv/relocated package/qupathxx/libgeos_c.so.1",
+          "/tmp/qpx-linux-runtime-qy56dvuv/relocated package/qupathxx/libopenslide.so.1"
+        ],
+        "boolean_area": 150
+      },
+      "scope": "Installed and relocated Linux package resolves its bundled GEOS/OpenSlide runtimes without SDK search paths. System glibc/libstdc++ compatibility and manylinux policy remain separate gates."
+    },
+    "runtime_receipt_sha256": "1516a03a02c6ce0d1c4205b95fa678b57e1f8e483a9c5bca8280247242cc7046",
+    "bundling_regressions": {
+      "passed": 4,
+      "junit_sha256": "4c1edeade13b46ee501cd9b5075b6e96f3d4eca57bcb2651ce8c91a67869cb0c"
+    }
+  },
+  "scope": "Mac workflow/input preflight only; no Mac execution, package or release claim. GEOS lib64 runtime evidence was executed on the Linux development host."
+}

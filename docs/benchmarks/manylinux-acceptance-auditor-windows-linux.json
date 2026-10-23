@@ -1,0 +1,28 @@
+{
+  "schema": "qpx.manylinux-auditor-validation/1",
+  "auditor_sha256": "5b08ab5d63122ee8298ab84d3a103049cff3b64253e92ccb529c9e9b81450cef",
+  "tests_sha256": "4f859800d103cdb70e90a2aa51423b286939069150b094c63cf189b2dcce3eed",
+  "platforms": {
+    "windows": {
+      "passed": 31,
+      "junit_sha256": "a3b4592f111096834e3c399ee38935d76852801f0c4eaf9a85d2f5a8c2ebb457"
+    },
+    "linux": {
+      "passed": 31,
+      "junit_sha256": "9e85cd06bbc21afb79b03828fc787cedad63cc14dd00fb7d0f0e4bf096abbd4b"
+    }
+  },
+  "real_failed_run": {
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/39986257233",
+    "commit": "68db5c5af84c69ff667f716ddec8acc857f6bac3",
+    "status": "completed",
+    "conclusion": "failure",
+    "rejected": true,
+    "acceptance_report_created": false,
+    "metadata_sha256": "efd93d8f3ea36afff431f2ec6d401f56b37d1e9ff4355ff6c5be6857b0b92e2e",
+    "rejection_log_sha256": "986347a2d2150792beaad76c142d18473c8f9c9e25e1d4789476e501a9862445"
+  },
+  "positive_hosted_portable_acceptance": false,
+  "release_ready": false,
+  "scope": "Focused auditor unit tests and actual failed-run rejection. Synthetic payloads exercise evidence binding, not real ELF validity or positive older-ABI support."
+}

@@ -1,0 +1,447 @@
+{
+  "schema": "qpx.gaussian-short-kernel-validation/1",
+  "state": "local-full-verified-hosted-pending",
+  "source_tree_sha256": "afedc41994196ea996789808b0c5f8d030cb7339a6516a245929243df68744a3",
+  "header_sha256": "8e519ea337b13d9029733576424fbcf8ead3b4a8c223becbafb1626ac47100ce",
+  "native_test_source_sha256": "a7eda8eb91706128c99ae46c05eb4983964f8983b520594b62a204e2e4c4f369",
+  "direct_2d_oracle_cases": 231,
+  "asan_ubsan_pass": true,
+  "asan_ubsan_log_sha256": "d946f57dbc1682364231548d648f76fb862d16ec62595d5a5e0b464b3b7fd6a9",
+  "baseline_header_sha256": "1ca38951fa20967683d9a5c411bc8bbfdb49c0a9162170b9272053530c6d745f",
+  "paired_kernel": {
+    "compiler": "GCC 13.3.0",
+    "flags": [
+      "-O3",
+      "-std=c++17",
+      "-ffp-contract=off"
+    ],
+    "raw": {
+      "size": 1024,
+      "repeats": 7,
+      "cases": [
+        {
+          "domain": "full",
+          "sigma": 1,
+          "median_ms": 42.124395,
+          "output_bits_fnv1a64": "119ca681d0cd8107",
+          "samples_ms": [
+            41.9428,
+            42.343979,
+            41.1487,
+            42.124395,
+            63.106866,
+            42.92849,
+            36.841123
+          ],
+          "baseline_median_ms": 41.823934,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            38.213959,
+            43.004596,
+            40.334709,
+            46.8266,
+            59.073424,
+            41.823934,
+            38.468916
+          ]
+        },
+        {
+          "domain": "full",
+          "sigma": 4,
+          "median_ms": 55.293928,
+          "output_bits_fnv1a64": "2da3195d78d8b3e3",
+          "samples_ms": [
+            54.563671,
+            50.359235,
+            46.857016,
+            59.11973,
+            57.871346,
+            55.293928,
+            56.614704
+          ],
+          "baseline_median_ms": 92.944311,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            86.109381,
+            90.133926,
+            86.93486,
+            102.592213,
+            92.944311,
+            95.93144,
+            97.722003
+          ]
+        },
+        {
+          "domain": "full",
+          "sigma": 16,
+          "median_ms": 176.364021,
+          "output_bits_fnv1a64": "5dc50e6a9a0ec66b",
+          "samples_ms": [
+            208.656209,
+            197.037442,
+            196.177046,
+            176.364021,
+            166.468941,
+            154.476625,
+            151.860965
+          ],
+          "baseline_median_ms": 607.811648,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            759.622225,
+            607.811648,
+            863.112287,
+            743.81281,
+            543.719467,
+            583.733728,
+            573.467352
+          ]
+        },
+        {
+          "domain": "holes",
+          "sigma": 1,
+          "median_ms": 41.802356,
+          "output_bits_fnv1a64": "f6e66bb2ef3fdb29",
+          "samples_ms": [
+            40.677374,
+            44.573639,
+            43.787192,
+            35.984595,
+            38.289426,
+            41.802356,
+            42.738088
+          ],
+          "baseline_median_ms": 42.073752,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            47.599863,
+            53.372159,
+            38.969094,
+            42.073752,
+            40.480761,
+            45.717454,
+            41.059004
+          ]
+        },
+        {
+          "domain": "holes",
+          "sigma": 4,
+          "median_ms": 54.268641,
+          "output_bits_fnv1a64": "3ef258dbdc73e210",
+          "samples_ms": [
+            49.981144,
+            88.264457,
+            69.708765,
+            51.558477,
+            57.573325,
+            44.497593,
+            54.268641
+          ],
+          "baseline_median_ms": 113.370309,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            91.219007,
+            113.370309,
+            159.423023,
+            151.664732,
+            116.712901,
+            107.412579,
+            86.64254
+          ]
+        },
+        {
+          "domain": "holes",
+          "sigma": 16,
+          "median_ms": 155.65581,
+          "output_bits_fnv1a64": "be9eb9ddb49f1694",
+          "samples_ms": [
+            144.891874,
+            165.902426,
+            151.395792,
+            168.564074,
+            155.65581,
+            152.33379,
+            170.552011
+          ],
+          "baseline_median_ms": 504.975021,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            464.32661,
+            517.215505,
+            526.600383,
+            504.975021,
+            492.928485,
+            441.546135,
+            518.299951
+          ]
+        }
+      ]
+    }
+  },
+  "msvc_output_bits": {
+    "flags": [
+      "/O2",
+      "/fp:precise",
+      "/std:c++17"
+    ],
+    "raw": {
+      "size": 512,
+      "repeats": 3,
+      "cases": [
+        {
+          "domain": "full",
+          "sigma": 1,
+          "median_ms": 7.3638,
+          "output_bits_fnv1a64": "e4faae55eb9b22d8",
+          "samples_ms": [
+            7.3638,
+            7.6883,
+            6.3105
+          ],
+          "baseline_median_ms": 6.6014,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            6.8386,
+            6.6014,
+            6.5094
+          ]
+        },
+        {
+          "domain": "full",
+          "sigma": 4,
+          "median_ms": 8.8009,
+          "output_bits_fnv1a64": "d9b860e4d943e51d",
+          "samples_ms": [
+            7.0697,
+            9.137,
+            8.8009
+          ],
+          "baseline_median_ms": 20.086,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            21.8892,
+            20.086,
+            18.5483
+          ]
+        },
+        {
+          "domain": "full",
+          "sigma": 16,
+          "median_ms": 24.9158,
+          "output_bits_fnv1a64": "73313a89d85f9091",
+          "samples_ms": [
+            24.2643,
+            24.9943,
+            24.9158
+          ],
+          "baseline_median_ms": 76.7676,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            76.7676,
+            81.5027,
+            76.1638
+          ]
+        },
+        {
+          "domain": "holes",
+          "sigma": 1,
+          "median_ms": 6.9132,
+          "output_bits_fnv1a64": "e553b708e1ca44d4",
+          "samples_ms": [
+            6.2955,
+            7.0476,
+            6.9132
+          ],
+          "baseline_median_ms": 7.5789,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            9.7649,
+            7.1541,
+            7.5789
+          ]
+        },
+        {
+          "domain": "holes",
+          "sigma": 4,
+          "median_ms": 8.5426,
+          "output_bits_fnv1a64": "3379c58e73863dac",
+          "samples_ms": [
+            7.3135,
+            8.8966,
+            8.5426
+          ],
+          "baseline_median_ms": 19.4472,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            19.7316,
+            18.74,
+            19.4472
+          ]
+        },
+        {
+          "domain": "holes",
+          "sigma": 16,
+          "median_ms": 24.6583,
+          "output_bits_fnv1a64": "fbc64d79148bc8a6",
+          "samples_ms": [
+            24.6583,
+            21.9916,
+            25.3651
+          ],
+          "baseline_median_ms": 74.1366,
+          "output_bits_equal": true,
+          "baseline_samples_ms": [
+            74.1366,
+            67.3573,
+            76.6614
+          ]
+        }
+      ]
+    },
+    "timing_used_for_claim": false
+  },
+  "platforms": {
+    "windows": {
+      "installed": {
+        "schema": "qpx.installed-workflow/1",
+        "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+        "executable": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\software-probe\\python.exe",
+        "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\check-install\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+        "native_sha256": "8f62bed6a04e592404024d0dff44af006ff7f96d99fe5d65ef22733b8f766471",
+        "source_tree_sha256": "afedc41994196ea996789808b0c5f8d030cb7339a6516a245929243df68744a3",
+        "gui": true,
+        "geos": true,
+        "openslide": true,
+        "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+        "openslide_version": "4.0.1",
+        "openslide_runtime_sha256": null,
+        "docked_workspace": true,
+        "layout_saved": true,
+        "monitor_scale": 1.0,
+        "framebuffer_scale": 1.0,
+        "ui_scale": 1.25,
+        "font_rebuilds": 1,
+        "ui_stacked_fields": 0,
+        "ui_wrapped_buttons": 0,
+        "ui_overflow_items": 0,
+        "ui_max_overflow": 0.0,
+        "framebuffer": [
+          1440,
+          900
+        ],
+        "raw_archive_records": 1,
+        "raw_replay_verified": true,
+        "raw_input_sha256": "ff618dfd592aaf66e46f6fdede2c89eeb5165696a781839b69df3832a94c01e5",
+        "raw_batch_reused": true,
+        "roi_samples": 320,
+        "native_batch_checkpoints": 1
+      },
+      "wheel": {
+        "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+        "sha256": "72c2ce436b08c0873d564ae3ec9692ed681b04e13c937cbcdc2b752aeb6fdb29"
+      },
+      "native": {
+        "tests": 42,
+        "passed": 42,
+        "optional_skips": 0,
+        "strict_expected_failures": 0,
+        "junit_sha256": "0ea331ba92eb1ce80de12fc5c5d0eb2bea3c5819d6a6b21ba3d4b0ebac13f33e"
+      },
+      "focused": {
+        "tests": 164,
+        "passed": 156,
+        "optional_skips": 4,
+        "strict_expected_failures": 4,
+        "junit_sha256": "8c683860daf24132c68862243af384a6f7ca8936fdd12e84b6560e27186bbc66"
+      },
+      "stubs_and_typing_pass": true,
+      "qupath_cell_metrics_unchanged": true,
+      "classifier_fixture_identity_unchanged": true,
+      "workflow_report": {
+        "path": "docs/benchmarks/gaussian-short-kernel-workflows-windows.json",
+        "sha256": "70210370ee6561a7b96d50c1ef047ac9e3b1d2ca79ca5808f39226ec19c946a4"
+      }
+    },
+    "linux": {
+      "installed": {
+        "schema": "qpx.installed-workflow/1",
+        "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+        "executable": "/home/heq/.cache/qupathxx-runtime92/python/bin/python",
+        "native": "/home/heq/.cache/qupathxx-runtime92/python/lib/python3.12/site-packages/qupathxx/_native.cpython-312-x86_64-linux-gnu.so",
+        "native_sha256": "2a1d3116a62e18db15078507bcf6d5d09652e2e1e2f746bf7dcc1282cfd0ebd1",
+        "source_tree_sha256": "afedc41994196ea996789808b0c5f8d030cb7339a6516a245929243df68744a3",
+        "gui": false,
+        "geos": true,
+        "openslide": true,
+        "gl_renderer": "",
+        "openslide_version": "4.0.1",
+        "openslide_runtime_sha256": "552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df",
+        "docked_workspace": false,
+        "layout_saved": false,
+        "monitor_scale": null,
+        "framebuffer_scale": null,
+        "ui_scale": null,
+        "font_rebuilds": null,
+        "ui_stacked_fields": null,
+        "ui_wrapped_buttons": null,
+        "ui_overflow_items": null,
+        "ui_max_overflow": null,
+        "framebuffer": null,
+        "raw_archive_records": 1,
+        "raw_replay_verified": true,
+        "raw_input_sha256": "ff618dfd592aaf66e46f6fdede2c89eeb5165696a781839b69df3832a94c01e5",
+        "raw_batch_reused": true,
+        "roi_samples": 320,
+        "native_batch_checkpoints": 1
+      },
+      "wheel": {
+        "filename": "qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl",
+        "sha256": "395f6c759b2d9c0a43208ff945cb0a41d9603457f9202f0324151f2ba1aa76a4"
+      },
+      "native": {
+        "tests": 41,
+        "passed": 41,
+        "optional_skips": 0,
+        "strict_expected_failures": 0,
+        "junit_sha256": "8d5388dafb147072b4d47890f3f7f23726f1195cb31afff873d567b236302350"
+      },
+      "focused": {
+        "tests": 52,
+        "passed": 50,
+        "optional_skips": 2,
+        "strict_expected_failures": 0,
+        "junit_sha256": "0fbe9e14c74be95a80ab9bb91a1f0037d221499d698fae2a643c7049de831c8d"
+      },
+      "stubs_and_typing_pass": true,
+      "qupath_cell_metrics_unchanged": true,
+      "classifier_fixture_identity_unchanged": true,
+      "workflow_report": {
+        "path": "docs/benchmarks/gaussian-short-kernel-workflows-linux.json",
+        "sha256": "0bfa88afa1d3b3301d03d28e9cb56029155c5f358288b9223c9fd68bf7263b1e"
+      }
+    }
+  },
+  "complete_workflow_platform_passes_serialized": true,
+  "full_regression": {
+    "windows_session_id": 11025,
+    "linux_session_id": 27061,
+    "accepted": true,
+    "linux": {
+      "state": "completed",
+      "passed": 1644,
+      "optional_skips": 389,
+      "strict_expected_failures": 4,
+      "junit_sha256": "52fe4fcfb68c0baeb3c823b7b4923b325d70b2cc00158b403d0d3a2e107b70e1"
+    },
+    "windows": {
+      "state": "completed",
+      "passed": 2023,
+      "optional_skips": 10,
+      "strict_expected_failures": 4,
+      "junit_sha256": "475245c92a78ac2d27c7547096f5ed51bbd7fafca868cf189bfb3b62f485f8a6"
+    }
+  },
+  "uniform_hardware_performance_accepted": false,
+  "release_ready": false,
+  "scope": "Original traversal retained for radii <=6, with the block traversal for larger kernels. Output signatures match the pre-optimization baseline. Paired 512\u00b2 synthetic workflow observations on one shared workstation are not universal performance or release acceptance."
+}

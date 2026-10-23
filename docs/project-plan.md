@@ -3476,3 +3476,156 @@ pixels, runtime relocation, overview controls/frame, typing and standalone
 payloads pass the inherited audit. The completed desktop overview is visually
 inspected. This accepts characterization, not segmentation parity, biological
 accuracy, manylinux qualification or M0–M7 completion.
+
+### Packet95: measured shared-kernel optimization and portable SDK layout fix
+
+The [masked Gaussian candidate](masked-gaussian-performance.md) improves the
+shared cell/pixel-feature kernel without changing its coefficient order, domain
+normalization, truncation, scratch allocation or numerical identity. Paired
+baseline/candidate runs compare every output bit; long vertical kernels process
+contiguous 256-column spans, while short kernels avoid repeated output-array
+traffic. At 1024² on the recorded host, sigma 1 medians improve 1.12–1.13×,
+sigma 4 improves 1.54–1.88× and sigma 16 improves 2.86–2.99×. These are paired
+single-host kernel observations, not full-workflow or hardware acceptance.
+
+An independent direct 2D oracle covers 189 shape/sigma/domain combinations,
+including tiny sigma, one-pixel axes and block boundaries; cancellation propagates.
+ASan/UBSan passes for this standalone test. Native suites pass 42 Windows and 41
+Linux tests. Linux full installed regression passes 1,623 tests with 389 optional
+skips and four strict expected failures; Windows isolated analysis/pixel-feature/
+QuPath checks pass 57 tests with the same four expected failures. Existing QuPath
+cell metrics and shared-ROI checks, and fixture-trained classifier identities,
+are unchanged across both rebuilt packages. MSVC and GCC paired outputs match
+their baselines byte-for-byte.
+
+A Windows full-suite process stalls in an existing AnalysisJob wait inside the
+Microsoft Concurrency runtime. Native stack inspection also observes a blocked
+WMI/COM query; a causal connection is not established. Fresh direct, collection
+and 2,000-job stress probes pass. After more than 20 minutes in the same wait,
+the specific process is stopped with final stacks and identity retained. A fresh
+full run passes 2,002 tests with ten optional skips and four expected failures,
+including software-rendered GUI checks. The original intermittent cause remains open.
+The separate Windows headless suite passes 1,622 tests with 390 optional skips
+and four expected failures. The first failed attempt remains recorded;
+no fix for that intermittent wait or main promotion is inferred. The
+[profile receipt](benchmarks/masked-gaussian-local-windows-linux.json) identifies
+the artifacts, source, tests and unresolved run. The candidate remains provisional.
+
+Separately, both manylinux builders in run 39986257233 fail before wheel
+compilation because OpenCV installs its config under lib64 while the wrapper
+assumes lib. The SDK helper and wrapper now locate exactly one complete root,
+lib or lib64 config; six regression cases cover supported/missing/incomplete/
+ambiguous layouts and pass on Windows/Linux. The isolated fix is published at
+`16e8d0f9cfdbe1796d50a906aeb07a4d7083f5e6`, with fresh portable run
+39991725062 pending. No older-ABI success or portable release is claimed.
+
+### Packet96: portable build and fresh-consumer artifact acceptance
+
+The [portable acceptance checker](manylinux-qualification.md#accepting-downloaded-evidence)
+requires one successful hosted commit and both CPython builder/consumer cohorts.
+It binds wheel/native/runtime payloads, original/qualified installed artifacts,
+source fingerprints, pinned images/tool versions, fixtures, native/full Python
+JUnit, typing and fresh-consumer project/measurement/native CLI workflow records.
+Missing consumers, wrong commits, corrupt/mixed artifacts, failed tests and
+incomplete workflows reject report publication.
+
+The [auditor receipt](benchmarks/manylinux-acceptance-auditor-windows-linux.json)
+records 31 focused passes on Windows/Linux and rejection of the actual failed
+portable run without an output receipt. Synthetic cohorts exercise binding guards,
+not real ELF validity. Successful acceptance explicitly keeps release_ready false
+and counts unresolved scientific expected failures. Positive portable evidence,
+supported releases and every other open M0–M7 gate still need their own evidence.
+
+### Packet97: native macOS portability gates and GEOS SDK verification
+
+The [native macOS gate](macos-native-validation.md) builds the geometry, TIFF,
+project/interchange and classifier engine on Intel and Apple silicon hosts. It
+uses hash-verified GEOS/OpenCV source SDKs and hash-pinned CMake/Ninja wheels.
+Native tests, exact region CLI pixels, Mach-O architecture, linked runtimes,
+SDK/notices and host/tool identities are retained. Python/GUI/OpenSlide,
+relocated wheels, deployment targets, signing and supported packages remain
+subsequent macOS requirements. Local preflight rejects the wrong platform before
+creating work, and actionlint 1.7.12 accepts the workflow. Hosted Mac execution
+remains required; no macOS pass is inferred from a Linux or Windows check.
+
+Portable run 39991725062 passes wheel compilation and 40 native tests before
+failing the GEOS verifier's lib-directory assumption. The verifier and bundling
+regression now resolve one C API runtime in lib or lib64, rejecting absence and
+ambiguity. Four layout tests join the prior SDK/auditor tests: 27 focused passes
+on each local platform. An actual lib64-layout SDK passes installed/relocated
+runtime hashes, geometry and native region/batch/CSV; all four native bundling
+configuration regressions also pass. New run 39995913896 is pending. Neither this
+fix nor the Mac preflight completes portable distribution or the full M0–M7 goal.
+
+### Packet98: complete workflow performance and completed Windows regression
+
+The [paired workflow benchmark](masked-gaussian-performance.md#complete-workflow-timing)
+compares installed baseline/optimized wheels in persistent isolated interpreters.
+Final platform passes are serialized; within each workload one warm-up precedes
+seven alternating paired calls. Input generation, result hashing and transport
+are outside the complete native-call timer. Loaded artifacts, source identities,
+raw samples, work estimates and all output signatures are retained.
+
+All feature/validity arrays, nucleus/body labels, compartment features and contour
+outputs agree within each platform, with 64 retained cells at each sigma. Pixel
+sigma16 improves 1.944× Windows/1.669× Linux; the complete cell call improves
+1.287×/1.267×. Several small-kernel cases are 4–11% slower, with wide sample ranges.
+No uniform workflow speedup or hardware budget is accepted. Kernel-only ratios
+are not substituted for complete workflow throughput. The candidate stays on its
+validation branch pending representative acceptance.
+
+The Windows GUI repeat finishes with 2,002 passes, ten optional skips and four
+strict scientific expected failures. The first stalled attempt and unresolved
+intermittent wait remain recorded in the updated follow-up receipt. Separately,
+packet94's five-job hosted artifact audit accepts its characterization scope and
+is merged to main at `961016d8d34e65388d6d21a0d03600fd64bad748`. This retains all
+four scientific failures and does not accept full QuPath parity, portable or Mac
+distribution, biological validation or the overall M0–M7 goal.
+
+### Packet99: preserve the original short-kernel traversal
+
+The [short-kernel refinement](masked-gaussian-performance.md#short-kernel-refinement)
+retains the original two-axis Gaussian traversal for radii up to six and uses
+the block traversal for larger kernels. Coefficients, domain normalization,
+summation order, scratch allocations, numerical identities and public APIs remain
+unchanged. The independent direct 2D oracle expands to 231 cases, including the
+adjacent floating-point values around the sigma-two branch boundary; ASan/UBSan
+passes. GCC/MSVC paired outputs match the original implementation bit-for-bit.
+
+Native suites pass 42 Windows and 41 Linux cases. Focused Python checks pass
+156 Windows cases with four optional skips/four expected scientific failures and
+50 Linux reader/runtime cases with two desktop skips. Installed workflows,
+relocation, stubs, typing, QuPath characterization and classifier fixture
+identities pass for source
+`afedc41994196ea996789808b0c5f8d030cb7339a6516a245929243df68744a3`.
+
+Complete-call timings repeat the fixed six 512² workloads against the original
+wheels with seven alternating pairs and serialized platform passes. Output
+signatures agree with 64 retained cells. There is no slower observed median in
+these selected cases; Windows sigma-one pixel/cell calls are approximately
+neutral at 1.004×/1.011×, while sigma16 pixel extraction records 2.128× Windows
+and 1.703× Linux. These are observations on a shared workstation, not statistical
+or universal performance acceptance. Full regression is running, the original
+mixed-result data remains retained and the candidate is not promoted to main.
+All other M0–M7 requirements and the intermittent first-wait issue remain open.
+
+The initial packet95 source now has a completed
+[hosted artifact audit](benchmarks/masked-gaussian-ci-windows-linux.json), run
+39994191471 at commit `9926c8bf74444ab83bb5fe982dde855bf14b6adc`. Windows desktop
+passes 2,001 Python/42 native, Windows headless 1,623 Python/41 native, Linux
+headless 1,621 Python/41 native, and Linux minimal/ASan/UBSan each pass 41 native.
+The Gaussian oracle and six SDK-layout cases pass alongside inherited workflow,
+artifact/runtime, reader, typing and standalone checks. Each Python environment
+retains exactly four scientific expected failures. The desktop frame is visually
+inspected. This accepts the initial source's declared functional scope, not the
+packet99 revision or uniform performance. Run 39999426023 is the separate
+pending hosted check for packet99; both local full regressions are now complete.
+
+The revised packet99 Linux full installed suite subsequently passes 1,644 tests,
+389 optional skips and four strict scientific expected failures (2,037 collected
+cases). The Windows GUI suite also completes: 2,023 passes, ten optional skips
+and four strict scientific expected failures, again 2,037 collected cases.
+Both JUnit identities are recorded in the revised validation receipt. Hosted
+packet99, portable and native macOS acceptance remain pending. The original
+intermittent wait remains unresolved; these successful runs do not establish its
+cause or a fix. No main promotion of the optimization is inferred.
