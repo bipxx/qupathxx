@@ -105,3 +105,10 @@ passes three physical-area GUI cases. Four scientific expected failures remain
 in every Python cohort. Preceding run 40022136685 was cancelled after the gap was
 reproduced. The accepted scope does not establish segmentation parity, hardware
 performance, portable packaging or a supported release.
+
+
+Published receipt-file hashes bind Git-committed UTF-8 LF bytes. Separate
+`captured_file_sha256`/`captured_receipt_sha256` values preserve the original local
+capture bytes; canonical JSON hashes preserve content identity across line-ending
+normalization. Native, wheel, fixture and downloaded artifact hashes continue to
+bind their original binary/file bytes.
