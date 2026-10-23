@@ -77,4 +77,12 @@ budget. The desktop also supports this explicit limit through
 increase/decrease controls; see [the overview budget contract](thumbnails.md).
 Its default limit still reports unavailability for this fixture. Other vendors,
 ICC, physical DPI delivery and sustained navigation stress remain open.
-Extended hosted acceptance has not yet been recorded.
+Hosted acceptance for the full-pyramid reader increment is recorded in the
+[five-job artifact receipt](benchmarks/extended-reader-ci-windows-linux.json),
+for commit `19015cb624aef7060c07c2cc1763c19a8e6a3fc8` and
+[run 39971285919](https://github.com/bipxx/qupathxx/actions/runs/39971285919).
+All three installed configurations pass their enabled full-slide cases, and
+their selected region/overview hashes match the local references. This accepts
+the packet90 reader scope. The subsequent configurable overview-budget increment
+also passes its [separate five-job hosted audit](benchmarks/overview-budget-ci-windows-linux.json)
+for commit `f11c0b0fbad5d9b4c700dcf78041c497925c5f02`.

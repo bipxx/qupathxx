@@ -3294,6 +3294,17 @@ reports unavailability for this fixture's 5,913,875-pixel lowest level; viewport
 tiles still render and settle. Configurable desktop overview budgets remain an
 implementation gap. Extended hosted acceptance is pending, and M0–M7 remain open.
 
+Packet90 hosted follow-up: commit `19015cb624aef7060c07c2cc1763c19a8e6a3fc8`,
+[run 39971285919](https://github.com/bipxx/qupathxx/actions/runs/39971285919),
+passes all five configurations. The [artifact audit](benchmarks/extended-reader-ci-windows-linux.json)
+verifies 1,950 Windows desktop, 1,580 Windows headless and 1,574 Linux headless
+Python passes, plus 41/40 native tests and sanitizer/minimal configurations.
+All twelve extended vendor cases pass on the desktop; each headless job passes
+eleven and skips the desktop-only case. All three installed benchmark region and
+overview hashes match the local references, and cache reuse requires only one
+read for nine subsequent hits. This accepts the declared reader scope, not
+complete vendor, QuPath, biological or hardware parity.
+
 ### Packet91: configurable bounded desktop overviews
 
 The [overview contract](thumbnails.md) now exposes
@@ -3331,3 +3342,15 @@ CPU frame samples stay below 40 ms while complete-overview workers take about
 freeze hardware/RSS/frame acceptance. Extended hosted acceptance remains pending;
 M0–M7, broader formats, ICC, physical DPI, biological comparisons, portable releases
 and the unanswered project-license decision remain open.
+
+Packet91 hosted follow-up: commit `f11c0b0fbad5d9b4c700dcf78041c497925c5f02`,
+[run 39975999713](https://github.com/bipxx/qupathxx/actions/runs/39975999713),
+passes all five configurations. The [artifact receipt](benchmarks/overview-budget-ci-windows-linux.json)
+verifies 1,968 Windows desktop, 1,590 Windows headless and 1,584 Linux headless
+Python passes, plus 41/40 native checks and sanitizer/minimal configurations.
+All twelve desktop thumbnail cases pass, including budget buttons, invalid
+limits, source switches and both launcher paths. All fourteen extended vendor
+cases pass on the desktop; headless jobs pass twelve and skip two desktop cases.
+The captured GUI probe has zero overflow, bounded payloads, matching complete
+preview hashes and no retained preview after lowering to an inadequate limit.
+This declared scope is accepted; complete M0–M7 acceptance remains open.

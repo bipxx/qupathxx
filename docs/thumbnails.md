@@ -126,7 +126,10 @@ The overview-budget increment passes [local validation](benchmarks/overview-budg
 and 50 focused thumbnail/budget/vendor cases. Generated stubs, strict typing,
 installed workflows and Linux dense CLI checks also pass. The local Linux native
 configuration disables OpenSlide and GUI; it does not establish new real-vendor
-Linux acceptance for the budget increment. Extended hosted acceptance is pending.
+Linux acceptance for the budget increment.
+[Hosted acceptance](benchmarks/overview-budget-ci-windows-linux.json) now passes
+all five configurations for commit `f11c0b0fbad5d9b4c700dcf78041c497925c5f02`,
+including all twelve desktop thumbnail cases and the four-case captured GUI probe.
 
 The [four-case software-OpenGL probe](benchmarks/gui-overview-windows.json)
 checks default rejection, an explicit complete preview, interactive increase and
