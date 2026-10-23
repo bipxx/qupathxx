@@ -1,0 +1,930 @@
+{
+  "schema": "qpx.cell-area-paired-profile/1",
+  "performance_accepted": false,
+  "cases": [
+    {
+      "size": 128,
+      "cells": 64,
+      "summary": {
+        "constructor_ns_per_call": {
+          "sampled": {
+            "median": 2679.8999999999996,
+            "minimum": 2399.0,
+            "maximum": 3420.6
+          },
+          "physical": {
+            "median": 3954.5,
+            "minimum": 3855.8,
+            "maximum": 4268.8
+          },
+          "paired_physical_minus_sampled": {
+            "median": 1278.3000000000002,
+            "minimum": 692.7999999999997,
+            "maximum": 1589.0
+          }
+        },
+        "request_and_detection_ms": {
+          "sampled": {
+            "median": 10.45015,
+            "minimum": 9.774,
+            "maximum": 12.6518
+          },
+          "physical": {
+            "median": 10.5192,
+            "minimum": 10.1391,
+            "maximum": 12.4834
+          },
+          "paired_physical_minus_sampled": {
+            "median": -0.0492000000000008,
+            "minimum": -0.9653999999999989,
+            "maximum": 0.7604000000000006
+          }
+        }
+      },
+      "samples": [
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 4268.8,
+            "sampled": 2989.6
+          },
+          "request_and_detection_ms": {
+            "physical": 10.1668,
+            "sampled": 11.1322
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2678.2,
+            "physical": 3955.6
+          },
+          "request_and_detection_ms": {
+            "sampled": 10.5257,
+            "physical": 10.4927
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 3952.4,
+            "sampled": 2402.8
+          },
+          "request_and_detection_ms": {
+            "physical": 10.5344,
+            "sampled": 9.774
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2795.4,
+            "physical": 3953.4
+          },
+          "request_and_detection_ms": {
+            "sampled": 10.0565,
+            "physical": 10.504
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 3855.8,
+            "sampled": 2407.4
+          },
+          "request_and_detection_ms": {
+            "physical": 10.9113,
+            "sampled": 10.1953
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2681.6,
+            "physical": 3907.0
+          },
+          "request_and_detection_ms": {
+            "sampled": 10.3746,
+            "physical": 10.1391
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 3988.0,
+            "sampled": 2399.0
+          },
+          "request_and_detection_ms": {
+            "physical": 10.6086,
+            "sampled": 10.674
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 3420.6,
+            "physical": 4113.4
+          },
+          "request_and_detection_ms": {
+            "sampled": 12.6518,
+            "physical": 12.4834
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        }
+      ]
+    },
+    {
+      "size": 512,
+      "cells": 1024,
+      "summary": {
+        "constructor_ns_per_call": {
+          "sampled": {
+            "median": 2510.9,
+            "minimum": 2367.0,
+            "maximum": 2848.6
+          },
+          "physical": {
+            "median": 4221.6,
+            "minimum": 3955.6,
+            "maximum": 4380.6
+          },
+          "paired_physical_minus_sampled": {
+            "median": 1654.8000000000002,
+            "minimum": 1198.6,
+            "maximum": 1917.0
+          }
+        },
+        "request_and_detection_ms": {
+          "sampled": {
+            "median": 182.92905,
+            "minimum": 176.1207,
+            "maximum": 195.9918
+          },
+          "physical": {
+            "median": 184.5846,
+            "minimum": 179.096,
+            "maximum": 205.8629
+          },
+          "paired_physical_minus_sampled": {
+            "median": 3.4373000000000076,
+            "minimum": -4.894300000000015,
+            "maximum": 9.871099999999984
+          }
+        }
+      },
+      "samples": [
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 4262.6,
+            "sampled": 2403.8
+          },
+          "request_and_detection_ms": {
+            "physical": 179.096,
+            "sampled": 176.1207
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2757.0,
+            "physical": 3955.6
+          },
+          "request_and_detection_ms": {
+            "sampled": 179.6614,
+            "physical": 185.5397
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 4042.8,
+            "sampled": 2392.2
+          },
+          "request_and_detection_ms": {
+            "physical": 192.3698,
+            "sampled": 188.4705
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2848.6,
+            "physical": 4380.6
+          },
+          "request_and_detection_ms": {
+            "sampled": 183.6821,
+            "physical": 183.8424
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 4208.0,
+            "sampled": 2463.4
+          },
+          "request_and_detection_ms": {
+            "physical": 184.8902,
+            "sampled": 177.9904
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2558.4,
+            "physical": 4089.2
+          },
+          "request_and_detection_ms": {
+            "sampled": 189.1733,
+            "physical": 184.279
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 4284.0,
+            "sampled": 2367.0
+          },
+          "request_and_detection_ms": {
+            "physical": 181.3104,
+            "sampled": 182.176
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2576.2,
+            "physical": 4235.2
+          },
+          "request_and_detection_ms": {
+            "sampled": 195.9918,
+            "physical": 205.8629
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        }
+      ]
+    },
+    {
+      "size": 1024,
+      "cells": 4096,
+      "summary": {
+        "constructor_ns_per_call": {
+          "sampled": {
+            "median": 2675.8,
+            "minimum": 2467.8,
+            "maximum": 3182.2
+          },
+          "physical": {
+            "median": 4422.9,
+            "minimum": 4009.0,
+            "maximum": 5301.0
+          },
+          "paired_physical_minus_sampled": {
+            "median": 1764.6,
+            "minimum": 1301.8000000000002,
+            "maximum": 2118.8
+          }
+        },
+        "request_and_detection_ms": {
+          "sampled": {
+            "median": 828.075,
+            "minimum": 753.135,
+            "maximum": 1070.4613
+          },
+          "physical": {
+            "median": 818.3624,
+            "minimum": 762.8643,
+            "maximum": 1072.242
+          },
+          "paired_physical_minus_sampled": {
+            "median": 5.7549999999999955,
+            "minimum": -50.82740000000001,
+            "maximum": 86.69690000000003
+          }
+        }
+      },
+      "samples": [
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 4278.6,
+            "sampled": 2467.8
+          },
+          "request_and_detection_ms": {
+            "physical": 762.8643,
+            "sampled": 753.135
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2707.2,
+            "physical": 4009.0
+          },
+          "request_and_detection_ms": {
+            "sampled": 826.6381,
+            "physical": 811.9334
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 4221.4,
+            "sampled": 2503.0
+          },
+          "request_and_detection_ms": {
+            "physical": 916.2088,
+            "sampled": 829.5119
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2660.0,
+            "physical": 4011.4
+          },
+          "request_and_detection_ms": {
+            "sampled": 775.7266,
+            "physical": 767.5845
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 4685.6,
+            "sampled": 2691.6
+          },
+          "request_and_detection_ms": {
+            "physical": 1072.242,
+            "sampled": 1070.4613
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2945.6,
+            "physical": 4567.2
+          },
+          "request_and_detection_ms": {
+            "sampled": 837.4462,
+            "physical": 786.6188
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 5301.0,
+            "sampled": 3182.2
+          },
+          "request_and_detection_ms": {
+            "physical": 852.3934,
+            "sampled": 836.4949
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2646.0,
+            "physical": 4638.8
+          },
+          "request_and_detection_ms": {
+            "sampled": 788.8894,
+            "physical": 824.7914
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+          "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        }
+      ]
+    }
+  ],
+  "protocol": "One excluded fresh-process warmup and eight paired fresh-process observations per size; alternating first arm. Within each child, input setup and per-arm warmup precede timers. Exact nucleus/body labels and numeric compartment features agree.",
+  "limitations": [
+    "Only synthetic dense natural-grid RGB squares, sigma zero, anisotropic calibration and nonbinding inclusive physical limits.",
+    "Work-byte estimates are not process RSS; imported libraries, allocators and other processes affect measurements.",
+    "No universal speedup, biological throughput, hardware or UI/frame-budget acceptance."
+  ]
+}

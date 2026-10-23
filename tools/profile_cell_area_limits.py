@@ -28,6 +28,8 @@ if args.child_size:
     obj=doc.add_rectangle(q.Rect(0,0,size,size));transform=q.StainTransform([[1,0,0],[0,1,0]])
     raw=q.CellParameters();raw.sigma=0;raw.threshold=.5;raw.min_nucleus_pixels=1;raw.cell_expansion=3;raw.level=0
     sampled=q.CellParameters();sampled.sigma=0;sampled.threshold=.5;sampled.min_nucleus_pixels=64;sampled.max_nucleus_pixels=96;sampled.cell_expansion=3;sampled.level=0
+    contours=q.TissueContourOptions();contours.work_bytes=64*1024*1024
+    raw.contours=contours;sampled.contours=contours
     creators=dict(sampled=lambda:q.CellRequest(doc,obj,transform,sampled),
         physical=lambda:q.CellRequest.with_nucleus_area_limits(doc,obj,transform,8.,12.,raw))
     order=['physical','sampled'] if args.physical_first else ['sampled','physical']
@@ -60,6 +62,7 @@ if args.child_size:
     output=dict(schema='qpx.cell-area-paired-observation/1',size=size,cells=(size//16)**2,order=order,
         constructor_iterations=iterations,constructor_ns_per_call=constructor,request_and_detection_ms=timings,
         label_and_feature_hashes=hashes['sampled'],estimated_work_bytes=requests['physical'].estimated_work_bytes,
+        contour_work_budget_bytes=contours.work_bytes,total_work_budget_bytes=raw.work_bytes,
         source_tree_sha256=q.build_environment().source_tree_sha256,build_git_revision=q.build_environment().git_revision,
         native_sha256=hashlib.sha256(Path(_native.__file__).read_bytes()).hexdigest(),platform=platform.platform(),
         python=sys.version,script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),performance_accepted=False)

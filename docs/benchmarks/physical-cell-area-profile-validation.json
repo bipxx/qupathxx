@@ -1,0 +1,65 @@
+{
+  "schema": "qpx.cell-area-profile-validation/1",
+  "state": "paired-output-and-record-integrity-verified",
+  "performance_accepted": false,
+  "source_content_commit": "201bd8ed266d4803defd7321390b930cafe9dcb7",
+  "script_file": "tools/profile_cell_area_limits.py",
+  "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+  "cpu": "12th Gen Intel(R) Core(TM) i7-12700K",
+  "platforms": {
+    "windows": {
+      "file": "physical-cell-area-profile-windows.json",
+      "published_sha256": "435588608b060a9395a2022d204b3f4890458e4cd8f4cd5b277fbddcf8946937",
+      "captured_sha256": "9eb1ffb7106fdb3f114128135e65bc290124bbf43f563b2ecede37e73e87979f",
+      "environment": {
+        "compiler": "MSVC 19.44.35225.0",
+        "configuration": "Release",
+        "platform": "Windows AMD64",
+        "numpy": "2.5.4",
+        "geos": "3.15.0-CAPI-1.21.0",
+        "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+        "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+        "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty"
+      }
+    },
+    "linux": {
+      "file": "physical-cell-area-profile-linux.json",
+      "published_sha256": "568d7f2a573e2d46223b555a89d1f8cf0f0e9b47ed5430eb81b3def714a8c829",
+      "captured_sha256": "568d7f2a573e2d46223b555a89d1f8cf0f0e9b47ed5430eb81b3def714a8c829",
+      "environment": {
+        "compiler": "GNU 13.3.0",
+        "configuration": "Release",
+        "platform": "Linux x86_64",
+        "numpy": "2.5.4",
+        "geos": "3.15.0-CAPI-1.21.0",
+        "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+        "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+        "build_git_revision": "unknown"
+      }
+    }
+  },
+  "paired_observations": 48,
+  "excluded_fresh_process_warmups": 6,
+  "alternating_order_balanced": true,
+  "all_label_and_numeric_feature_hashes_match_between_arms": true,
+  "cross_platform_label_and_numeric_feature_hashes_match": true,
+  "first_attempt": {
+    "source_commit": "43735d1a69d124334306b6d3bff1b9b6e1ac318e",
+    "script_sha256": "f617284ad7f2d4c332050cebc231450048e9740d2bedcfa8287b519246129436",
+    "failed_size": 1024,
+    "failed_phase": "excluded fresh-process warmup",
+    "reason": "Default 32 MiB cell contour budget rejected the 4,096-cell case.",
+    "all_first_attempt_timings_excluded": true,
+    "log_file": "physical-cell-area-profile-first-attempt.txt",
+    "published_log_sha256": "ea433ab0e409e46e36c768d4922005decf4fcc313b9d0455c9899ee10634ae63",
+    "captured_log_sha256": "a981401b43b701e5d66a056a3d2e6053c9f03ebdd6091cf283cd690b1511b70b"
+  },
+  "configuration": "Both final arms explicitly use 64 MiB contour and 256 MiB overall work budgets. Production defaults were not changed.",
+  "execution_context": "Windows then WSL/Linux, after local GUI tests completed. Shared workstation; other process activity and CPU scheduling were not controlled.",
+  "hash_encoding": "Published JSON/text hashes bind UTF-8 LF bytes; captured hashes retain original output bytes.",
+  "limits": [
+    "Only deterministic dense RGB square phantoms with sigma zero, natural level zero and anisotropic calibration.",
+    "Whole-detection timing differences are not attributed to bound conversion; ranges are broad.",
+    "No uniform speedup, performance parity, biological throughput, process RSS, hardware/frame-budget or release acceptance."
+  ]
+}
