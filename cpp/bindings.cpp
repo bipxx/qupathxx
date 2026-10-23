@@ -53,6 +53,9 @@ NB_MODULE(_native, m) {
     nb::class_<Rect>(m, "Rect").def(nb::init<>()).def(nb::init<double,double,double,double>())
         .def_rw("x", &Rect::x).def_rw("y", &Rect::y).def_rw("width", &Rect::width).def_rw("height", &Rect::height)
         .def_prop_ro("area", &Rect::area).def("contains", &Rect::contains);
+    nb::enum_<RoiSamplingPolicy>(m,"RoiSamplingPolicy")
+        .value("GEOMETRY_COVERAGE",RoiSamplingPolicy::GeometryCoverage)
+        .value("POLYGON_WINDING",RoiSamplingPolicy::PolygonWinding);
     nb::enum_<RoiKind>(m,"RoiKind").value("RECTANGLE",RoiKind::Rectangle).value("ELLIPSE",RoiKind::Ellipse)
         .value("POLYGON",RoiKind::Polygon).value("MULTIPOLYGON",RoiKind::MultiPolygon).value("POLYLINE",RoiKind::Polyline).value("POINTS",RoiKind::Points);
     nb::enum_<BooleanOp>(m,"BooleanOp").value("UNION",BooleanOp::Union).value("INTERSECTION",BooleanOp::Intersection)
@@ -66,6 +69,7 @@ NB_MODULE(_native, m) {
         .def_prop_ro("area",&Roi::area).def_prop_ro("perimeter",&Roi::perimeter).def_prop_ro("is_area",&Roi::is_area)
         .def_prop_ro("wkt",&Roi::wkt).def_prop_ro("paths",&Roi::paths).def_prop_ro("polygon_parts",&Roi::polygon_parts)
         .def("contains",&Roi::contains,nb::call_guard<nb::gil_scoped_release>())
+        .def("contains_sample",&Roi::contains_sample,"point"_a,"sampling_policy"_a,nb::call_guard<nb::gil_scoped_release>())
         .def("covers",&Roi::covers,nb::call_guard<nb::gil_scoped_release>())
         .def("distance",&Roi::distance,nb::call_guard<nb::gil_scoped_release>())
         .def("as_polygon",&Roi::as_polygon)
@@ -345,6 +349,7 @@ NB_MODULE(_native, m) {
         .def_rw("autosave_path",&GuiOptions::autosave_path).def_rw("recovery_path",&GuiOptions::recovery_path).def_rw("recovery_base_path",&GuiOptions::recovery_base_path).def_rw("project_open_path",&GuiOptions::project_open_path).def_rw("autosave_interval_seconds",&GuiOptions::autosave_interval_seconds).def_rw("autosave_snapshot_budget",&GuiOptions::autosave_snapshot_budget).def_rw("save_snapshot_budget",&GuiOptions::save_snapshot_budget)
         .def_rw("startup_path",&GuiOptions::startup_path).def_rw("startup_kind",&GuiOptions::startup_kind).def_rw("startup_image_id",&GuiOptions::startup_image_id)
         .def_rw("recovery_retention_enabled",&GuiOptions::recovery_retention_enabled).def_rw("recovery_keep_latest",&GuiOptions::recovery_keep_latest).def_rw("recovery_max_age_days",&GuiOptions::recovery_max_age_days)
+        .def_rw("roi_sampling_policy",&GuiOptions::roi_sampling_policy).def_rw("tissue_sampling_policy",&GuiOptions::tissue_sampling_policy)
         .def_rw("analysis_kind",&GuiOptions::analysis_kind).def_rw("analysis_nucleus",&GuiOptions::analysis_nucleus)
         .def_rw("analysis_vectors",&GuiOptions::analysis_vectors).def_rw("analysis_white",&GuiOptions::analysis_white)
         .def_rw("tissue_feature",&GuiOptions::tissue_feature).def_rw("tissue_threshold",&GuiOptions::tissue_threshold)

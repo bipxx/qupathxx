@@ -6,7 +6,7 @@
 namespace qpx {
 namespace {
 void advance(std::uint64_t revision) {if(revision==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("document revision exhausted");}
-auto parameters(const TissueParameters& p) {return std::make_tuple(p.feature,p.threshold,p.connectivity,p.level,p.open_radius,p.close_radius,p.fill_holes,p.max_hole_pixels,p.min_pixels,p.max_pixels,p.tile_size,p.max_components,p.work_bytes);}
+auto parameters(const TissueParameters& p) {return std::make_tuple(p.feature,p.threshold,p.connectivity,p.level,p.open_radius,p.close_radius,p.fill_holes,p.max_hole_pixels,p.min_pixels,p.max_pixels,p.tile_size,p.max_components,p.work_bytes,p.sampling_policy);}
 bool equivalent(const TissueResult& a,const TissueResult& b) {
     return a.algorithm()==b.algorithm() && a.input_sha256()==b.input_sha256() && a.object_id()==b.object_id() &&
         a.object_revision()==b.object_revision() && a.nucleus()==b.nucleus() && a.roi().equals(b.roi()) &&

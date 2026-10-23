@@ -57,6 +57,7 @@ public:
     std::uint64_t inspect_raw(std::uint64_t image_id);
     std::uint64_t read_raw(std::uint64_t image_id,RawRegionRequest);
     std::uint64_t set_tiff_view(std::uint64_t image_id,TiffView);
+    std::uint64_t analyze_with_sampling_policy(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,RoiSamplingPolicy,AnalysisKind=AnalysisKind::OpticalDensityMeans,bool nucleus=false);
     std::uint64_t analyze(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,AnalysisKind=AnalysisKind::OpticalDensityMeans,bool nucleus=false);
     std::uint64_t tissue(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,TissueParameters={},bool retain_result=false);
     std::uint64_t cells(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,CellParameters={},bool retain_result=false);

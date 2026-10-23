@@ -202,34 +202,37 @@ def compare_case(folder, contract, case):
         decoded = np.frombuffer(gzip.decompress((folder / (name+'-decoded.u32le.gz')).read_bytes()),
                                 dtype='<u4').reshape(height, width)
         serialization_changes[name] = int(np.count_nonzero(refs[name] != decoded))
-    for region in reference['decoded_regions']:
-        obj = objects['cell_'+str(region['label'])]
-        nucleus = region['compartment'] == 'nucleus'
-        sample = q.TissueParameters(); sample.threshold=0; sample.level=0
-        sampled = q.detect_tissue(q.TissueRequest(shared,obj.id,transform,sample,nucleus))
-        mask = canvas(sampled,width,height)>0
-        expected_mask = np.frombuffer(gzip.decompress((folder / (region['compartment']+'-decoded.u32le.gz')).read_bytes()),
-                                      dtype='<u4').reshape(height,width) == region['label']
-        mismatch = int(np.count_nonzero(mask != expected_mask))
-        centers = np.argwhere(mask != expected_mask).tolist()
-        roi = obj.nucleus if nucleus else obj.geometry
-        boundary_only = all(on_polygon_boundary(roi,x+.5,y+.5) for y,x in centers)
-        errors, count_errors, means_pass = [], [], True
-        for tile in contract['tile_sizes']:
-            for kind, key in [(q.AnalysisKind.OPTICAL_DENSITY_MEANS,'od_mean'),
-                              (q.AnalysisKind.STAIN_MEANS,'stain_mean')]:
-                result = q.analyze(q.AnalysisRequest(shared,obj.id,transform,kind,nucleus,tile))
-                count_errors.append(abs(result.samples-region['pixels']))
-                wanted = np.asarray(region[key]); actual = np.asarray(result.means)
-                errors.append(float(np.max(np.abs(actual-wanted))))
-                means_pass = means_pass and bool(np.allclose(actual,wanted,
-                    atol=tolerance['feature_absolute'],rtol=tolerance['feature_relative']))
-        shared_regions.append(dict(label=region['label'],compartment=region['compartment'],
-            mask_mismatches=mismatch,sample_count_error=max(count_errors),max_mean_absolute_error=max(errors),
-            passed=means_pass and mismatch==0 and max(count_errors)<=tolerance['sampling_count_error'],
-            mismatched_centers_yx=centers,mismatches_only_on_polygon_boundary=boundary_only,
-            native_only_centers=int(np.count_nonzero(mask & ~expected_mask)),
-            reference_only_centers=int(np.count_nonzero(expected_mask & ~mask))))
+    winding_regions = []
+    for policy, region_reports in [(q.RoiSamplingPolicy.GEOMETRY_COVERAGE, shared_regions),
+                                   (q.RoiSamplingPolicy.POLYGON_WINDING, winding_regions)]:
+        for region in reference['decoded_regions']:
+            obj = objects['cell_'+str(region['label'])]
+            nucleus = region['compartment'] == 'nucleus'
+            sample = q.TissueParameters(); sample.threshold=0; sample.level=0; sample.sampling_policy=policy
+            sampled = q.detect_tissue(q.TissueRequest(shared,obj.id,transform,sample,nucleus))
+            mask = canvas(sampled,width,height)>0
+            expected_mask = np.frombuffer(gzip.decompress((folder / (region['compartment']+'-decoded.u32le.gz')).read_bytes()),
+                                          dtype='<u4').reshape(height,width) == region['label']
+            mismatch = int(np.count_nonzero(mask != expected_mask))
+            centers = np.argwhere(mask != expected_mask).tolist()
+            roi = obj.nucleus if nucleus else obj.geometry
+            boundary_only = all(on_polygon_boundary(roi,x+.5,y+.5) for y,x in centers)
+            errors, count_errors, means_pass = [], [], True
+            for tile in contract['tile_sizes']:
+                for kind, key in [(q.AnalysisKind.OPTICAL_DENSITY_MEANS,'od_mean'),
+                                  (q.AnalysisKind.STAIN_MEANS,'stain_mean')]:
+                    result = q.analyze(q.AnalysisRequest(shared,obj.id,transform,kind,nucleus,tile,policy))
+                    count_errors.append(abs(result.samples-region['pixels']))
+                    wanted = np.asarray(region[key]); actual = np.asarray(result.means)
+                    errors.append(float(np.max(np.abs(actual-wanted))))
+                    means_pass = means_pass and bool(np.allclose(actual,wanted,
+                        atol=tolerance['feature_absolute'],rtol=tolerance['feature_relative']))
+            region_reports.append(dict(label=region['label'],compartment=region['compartment'],
+                mask_mismatches=mismatch,sample_count_error=max(count_errors),max_mean_absolute_error=max(errors),
+                passed=means_pass and mismatch==0 and max(count_errors)<=tolerance['sampling_count_error'],
+                mismatched_centers_yx=centers,mismatches_only_on_polygon_boundary=boundary_only,
+                native_only_centers=int(np.count_nonzero(mask & ~expected_mask)),
+                reference_only_centers=int(np.count_nonzero(expected_mask & ~mask))))
     differences = []
     feature_by_label = {f.label:f for f in results[0].features}
     for name in ['nucleus','body']:
@@ -250,7 +253,7 @@ def compare_case(folder, contract, case):
         gates['isolated_centroid'] = len(matches)==3 and all(m['centroid_error_px']<=tolerance['isolated_centroid_error_max_px'] for m in matches)
     return dict(case_name=case['name'],grid_equivalent=case.get('grid_equivalent',True),
         segmentation=segmentation,reference_collisions=reference['collisions'],
-        tile_invariant=True,shared_roi_regions=shared_regions,matched_feature_differences=differences,
+        tile_invariant=True,shared_roi_regions=shared_regions,shared_roi_regions_winding=winding_regions,matched_feature_differences=differences,
         serialization_changed_label_pixels=serialization_changes,
         characterization_gates=gates,timings=timings)
 
@@ -262,6 +265,8 @@ def compare(folder):
     cases = [compare_case(folder, contract, case) for case in contract['cases']]
     return dict(schema='qpx.qupath-cells-comparison/1',state='characterized-partial',
         segmentation_parity_accepted=False,biological_validation=False,
+        explicit_winding_sampling_accepted=all(r['passed'] for case in cases for r in case['shared_roi_regions_winding']),
+        explicit_winding_compartments=sum(len(case['shared_roi_regions_winding']) for case in cases),
         native_sha256=sha(native.__file__),source_tree_sha256=q.build_environment().source_tree_sha256,
         capture_manifest_sha256=sha(Path(folder)/'capture-manifest.json'),
         comparison_tool_sha256=sha(__file__),cases=cases)
@@ -278,7 +283,7 @@ def main():
         capture(folder)
     report = compare(folder)
     args.report.parent.mkdir(parents=True,exist_ok=True)
-    args.report.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n',encoding='utf-8')
+    args.report.write_bytes((json.dumps(report,indent=2,allow_nan=False)+'\n').encode('utf-8'))
     print(json.dumps(dict(state=report['state'],cases=len(report['cases']),report=str(args.report))))
 
 

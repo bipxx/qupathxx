@@ -9,16 +9,18 @@ void bind_analysis(nb::module_& m) {
     using namespace qpx;
     nb::enum_<AnalysisKind>(m,"AnalysisKind").value("OPTICAL_DENSITY_MEANS",AnalysisKind::OpticalDensityMeans).value("STAIN_MEANS",AnalysisKind::StainMeans);
     nb::class_<AnalysisRequest>(m,"AnalysisRequest")
-        .def(nb::init<const Document&,std::uint64_t,const StainTransform&,AnalysisKind,bool,std::size_t>(),
-            "document"_a,"object_id"_a,"transform"_a,"kind"_a=AnalysisKind::StainMeans,"nucleus"_a=false,"tile_size"_a=256)
+        .def(nb::init<const Document&,std::uint64_t,const StainTransform&,AnalysisKind,bool,std::size_t,RoiSamplingPolicy>(),
+            "document"_a,"object_id"_a,"transform"_a,"kind"_a=AnalysisKind::StainMeans,"nucleus"_a=false,"tile_size"_a=256,"sampling_policy"_a=RoiSamplingPolicy::GeometryCoverage)
         .def("matches",&AnalysisRequest::matches,"document"_a,"selected_id"_a)
         .def_prop_ro("object_id",&AnalysisRequest::object_id).def_prop_ro("object_revision",&AnalysisRequest::object_revision)
         .def_prop_ro("document_revision",&AnalysisRequest::document_revision).def_prop_ro("kind",&AnalysisRequest::kind)
+        .def_prop_ro("sampling_policy",&AnalysisRequest::sampling_policy)
         .def_prop_ro("nucleus",&AnalysisRequest::nucleus).def_prop_ro("tile_size",&AnalysisRequest::tile_size)
         .def_prop_ro("total_tiles",&AnalysisRequest::total_tiles).def_prop_ro("roi",&AnalysisRequest::roi)
         .def_prop_ro("transform",&AnalysisRequest::transform,nb::rv_policy::copy)
         .def_static("replay",&AnalysisRequest::replay,"document"_a,"record_id"_a);
     nb::class_<AnalysisResult>(m,"AnalysisResult")
+        .def_prop_ro("sampling_policy",&AnalysisResult::sampling_policy)
         .def_ro("algorithm",&AnalysisResult::algorithm).def_ro("input_sha256",&AnalysisResult::input_sha256).def_ro("object_id",&AnalysisResult::object_id)
         .def_ro("object_revision",&AnalysisResult::object_revision).def_ro("document_revision",&AnalysisResult::document_revision)
         .def_ro("kind",&AnalysisResult::kind).def_ro("nucleus",&AnalysisResult::nucleus)

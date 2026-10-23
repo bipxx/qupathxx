@@ -3879,3 +3879,37 @@ qualifies the accepted physical-area/viewer source, with the declared small
 consumer fixture. New winding-sampling changes, GUI/macOS, scientific/biological
 accuracy, hardware/RSS/frame budgets, license and supported-release gates remain
 open. The full M0-M7 objective stays active.
+
+
+## Packet109: explicit polygon-winding sampling candidate
+
+Native ROI channel means and tissue masks capture `RoiSamplingPolicy`, with
+geometry coverage as the existing default and explicit polygon winding for
+half-open boundary samples. Prepared GEOS predicates handle interior/exterior;
+only boundary samples traverse native rings. The option reaches nanobind, native
+CLI, batch manifests/checkpoint identity, ImGui/image presets and managed viewer
+commands. ROI algorithm/input identifiers and QTM2 tissue archives preserve
+policy across save/recovery/replay; QTM1 coverage remains readable and unchanged.
+Unknown policies and cross-policy verification reject. Cell segmentation itself
+is unchanged. See the [sampling contract](roi-sampling.md).
+
+Both local native builds pass (Windows 43 suites, Linux 42) with identical
+source-content fingerprint 724c58ac89682a214f59df3c413cd68609dd3fd95170c993f4ef929f04231176.
+Windows focused validation passes 384 Python/desktop cases with three scientific
+expected failures, alongside installed runtime, stubs and strict typing. Explicit
+winding matches all 42 pinned reference compartments at unchanged count/mask and
+OD/stain tolerances across three tile sizes. The three isolated-cell segmentation
+gates remain strict expected failures; legacy boundary characterization remains.
+
+The first Linux full run has 1,704 passes and two packaging failures from stale
+generated stubs (401 optional skips, three scientific expected failures). Those
+stubs are regenerated; a subsequent policy/package run passes 25 cases with three
+desktop skips, including pyramid/morphology replay. Four first pyramid tests
+needed an explicit file-backed source path in their setup; the corrected tests
+also pass on Windows. A subsequent Linux full attempt is invalidated by host disk
+exhaustion and WSL emergency read-only I/O errors. Inactive build-cache clean and
+compression free space; no WSL repair is attempted. Windows full regression and
+fresh hosted Linux/Windows acceptance remain pending. The paired ROI/tissue
+profiler is implemented and a Windows complex-polygon child smoke passes; full
+performance observations remain pending. This candidate does not complete
+biology, hardware/RSS/frame, platform/release/license or the full M0-M7 plan.

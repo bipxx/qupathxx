@@ -13,12 +13,29 @@ void check_cancelled(const std::atomic<bool>* c) {
     if(c && c->load(std::memory_order_relaxed)) throw std::runtime_error("analysis cancelled");
 }
 }
+const char* roi_analysis_algorithm(RoiSamplingPolicy policy) {
+    validate_sampling_policy(policy);
+    return policy==RoiSamplingPolicy::GeometryCoverage?"qpx.roi-channel-means/1":"qpx.roi-channel-means/winding-1";
+}
+RoiSamplingPolicy roi_analysis_sampling_policy(const std::string& algorithm) {
+    if(algorithm=="qpx.roi-channel-means/1") return RoiSamplingPolicy::GeometryCoverage;
+    if(algorithm=="qpx.roi-channel-means/winding-1") return RoiSamplingPolicy::PolygonWinding;
+    throw std::invalid_argument("unsupported ROI analysis algorithm");
+}
+const char* analysis_input_format(RoiSamplingPolicy policy,bool pyramid) {
+    validate_sampling_policy(policy);
+    if(policy==RoiSamplingPolicy::PolygonWinding) return pyramid?"qpx.rgba-level-tiles/winding-1":"qpx.rgba-tiles/winding-1";
+    return pyramid?"qpx.rgba-level-tiles/1":"qpx.rgba-tiles/1";
+}
 AnalysisRequest::AnalysisRequest(const Document& document,std::uint64_t id,const StainTransform& transform,
     AnalysisKind kind,bool nucleus,std::size_t tile_size):AnalysisRequest(document,id,transform,kind,nucleus,tile_size,false) {}
 AnalysisRequest::AnalysisRequest(const Document& document,std::uint64_t id,const StainTransform& transform,
-    AnalysisKind kind,bool nucleus,std::size_t tile_size,bool allow_empty_grid):identity_(document.analysis_identity_.token),source_(document.server()),
+    AnalysisKind kind,bool nucleus,std::size_t tile_size,RoiSamplingPolicy policy):AnalysisRequest(document,id,transform,kind,nucleus,tile_size,false,policy) {}
+AnalysisRequest::AnalysisRequest(const Document& document,std::uint64_t id,const StainTransform& transform,
+    AnalysisKind kind,bool nucleus,std::size_t tile_size,bool allow_empty_grid,RoiSamplingPolicy policy):identity_(document.analysis_identity_.token),source_(document.server()),
     object_id_(id),object_revision_(0),document_revision_(document.revision()),total_tiles_(0),kind_(kind),nucleus_(nucleus),
     tile_size_(tile_size),transform_(transform) {
+    validate_sampling_policy(policy);sampling_policy_=policy;
     if(kind!=AnalysisKind::OpticalDensityMeans && kind!=AnalysisKind::StainMeans) throw std::invalid_argument("invalid analysis kind");
     if(tile_size<16 || tile_size>1024) throw std::invalid_argument("analysis tile size must be 16..1024");
     if(!source_ || source_->closed()) throw std::invalid_argument("analysis requires an open source");
@@ -50,12 +67,12 @@ bool AnalysisRequest::matches(const Document& document,std::uint64_t selected_id
 struct AnalysisKernel {
     static AnalysisResult run(const AnalysisRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr) {
         const auto started=std::chrono::steady_clock::now(); check_cancelled(cancelled);
-        AnalysisResult result;result.provenance=request.provenance_;
+        AnalysisResult result;result.provenance=request.provenance_;result.algorithm=roi_analysis_algorithm(request.sampling_policy_);
         result.object_id=request.object_id_; result.object_revision=request.object_revision_; result.document_revision=request.document_revision_;
         result.kind=request.kind_; result.nucleus=request.nucleus_; result.white=request.transform_.white(); result.stains=request.transform_.stains();
         ColorVector sum{},correction{};
         Sha256 digest;
-        constexpr char format[]="qpx.rgba-tiles/1";digest.update(format,sizeof(format)-1);
+        const std::string format=analysis_input_format(request.sampling_policy_);digest.update(format.data(),format.size());
         digest.integer(static_cast<std::uint64_t>(request.source_->metadata().width));
         digest.integer(static_cast<std::uint64_t>(request.source_->metadata().height));
         for(auto value:{request.x0_,request.y0_,request.x1_,request.y1_}) digest.integer(static_cast<std::uint64_t>(value));
@@ -76,7 +93,10 @@ struct AnalysisKernel {
                     for(std::int64_t col=0;col<w;++col) {
                         const auto i=static_cast<std::size_t>((row*w+col)*3);
                         if(!std::isfinite(data[i])) continue;
-                        if(request.roi_.kind()!=RoiKind::Rectangle && !request.roi_.contains({static_cast<double>(x+col)+.5,static_cast<double>(y+row)+.5})) continue;
+                        if(request.roi_.kind()!=RoiKind::Rectangle) {
+                            const Point center{static_cast<double>(x+col)+.5,static_cast<double>(y+row)+.5};
+                            if(!(request.sampling_policy_==RoiSamplingPolicy::GeometryCoverage?request.roi_.contains(center):request.roi_.contains_sample(center,request.sampling_policy_))) continue;
+                        }
                         for(std::size_t c=0;c<3;++c) {
                             const double v=data[i+c]-correction[c],next=sum[c]+v;
                             correction[c]=(next-sum[c])-v; sum[c]=next;
@@ -170,7 +190,7 @@ bool AnalysisJob::verify_result(Document& document,std::uint64_t id) {
 }
 AnalysisRequest AnalysisRequest::replay(const Document& document,std::uint64_t id) {
     const auto record=document.analysis_record(id);
-    AnalysisRequest request(document,record.result.object_id,StainTransform::from_normalized(record.result.stains,record.result.white),record.result.kind,record.result.nucleus,record.tile_size);
+    AnalysisRequest request(document,record.result.object_id,StainTransform::from_normalized(record.result.stains,record.result.white),record.result.kind,record.result.nucleus,record.tile_size,record.result.sampling_policy());
     if(request.object_revision()!=record.result.object_revision || !request.roi().equals(record.roi)) throw std::invalid_argument("saved analysis object has changed");
     return request;
 }

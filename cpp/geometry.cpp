@@ -283,6 +283,42 @@ Roi Roi::points(Ring points) {
     auto d=std::make_shared<Data>(); d->kind=RoiKind::Points; d->paths.push_back(std::move(points)); d->bounds=envelope(d->paths);
     std::ostringstream out; out.imbue(std::locale::classic()); out.precision(17); out<<"MULTIPOINT"; append_ring(out,d->paths.front(),false); d->wkt=out.str(); return Roi(d);
 }
+void validate_sampling_policy(RoiSamplingPolicy policy) {
+    if(policy!=RoiSamplingPolicy::GeometryCoverage && policy!=RoiSamplingPolicy::PolygonWinding)
+        throw std::invalid_argument("invalid ROI sampling policy");
+}
+bool Roi::contains_sample(Point p,RoiSamplingPolicy policy) const {
+    validate_sampling_policy(policy);
+    const auto& d=data();
+    if(policy==RoiSamplingPolicy::GeometryCoverage || (d.kind!=RoiKind::Polygon && d.kind!=RoiKind::MultiPolygon)) return contains(p);
+    finite(p);
+#ifdef QUPATHXX_HAS_GEOS
+    std::lock_guard<std::mutex> lock(d.backend->mutex);
+    // Prepared predicates keep ordinary interior/exterior queries indexed. Only
+    // actual boundary points need the explicit half-open crossing rule.
+    if(d.backend->predicate(GEOSPreparedContainsXY_r(d.backend->ctx,d.backend->prepared,p.x,p.y))) return true;
+    if(!d.backend->predicate(GEOSPreparedIntersectsXY_r(d.backend->ctx,d.backend->prepared,p.x,p.y))) return false;
+    auto ring_contains=[&](const Ring& path) {
+        bool inside=false;
+        for(std::size_t i=0;i<path.size();++i) {
+            const auto& a=path[i];const auto& b=path[(i+1)%path.size()];
+            if((a.y>p.y)==(b.y>p.y)) continue;
+            const auto fraction=(p.y-a.y)/(b.y-a.y);
+            if(p.x<a.x+(b.x-a.x)*fraction) inside=!inside;
+        }
+        return inside;
+    };
+    std::size_t offset=0;
+    for(auto count:d.polygon_sizes) {
+        bool inside=ring_contains(d.paths[offset]);
+        for(std::size_t i=1;i<count;++i) if(ring_contains(d.paths[offset+i])) inside=false;
+        offset+=count;if(inside) return true;
+    }
+    return false;
+#else
+    throw std::runtime_error("GEOS topology is disabled");
+#endif
+}
 bool Roi::contains(Point p) const {
     finite(p); const auto& d=data();
     if(d.kind==RoiKind::Rectangle) return d.bounds.contains(p);
