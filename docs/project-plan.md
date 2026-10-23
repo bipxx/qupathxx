@@ -3696,3 +3696,21 @@ different storage contexts. These are bounded observations rather than a speedup
 RSS, segmentation-throughput or frame-budget acceptance.
 Physical detection filters, scientific
 segmentation acceptance and every other open M0–M7 requirement remain open.
+
+
+## Packet104: current accepted engine portable qualification
+
+Hosted run 40021039038 at accepted main source
+`e457c74719204841b87f33f80e4871c79bf42b54` passes both CPython 3.11/3.12
+manylinux_2_28_x86_64 builders and both fresh pinned Debian consumers. The
+[artifact acceptance receipt](benchmarks/manylinux104-build-consumer-acceptance.json)
+verifies wheel/native/runtime identities, unchanged qualified payloads, pinned
+policy/assets/notices, relocation, stubs/typing, reader pixels and retained
+project/analysis/CSV/batch workflows. Each builder passes 42 native suites and
+1,659 Python tests; each consumer passes 1,643 Python tests, with four strict
+scientific expected failures per Python cohort and optional skips kept separate.
+This closes the older-revision portable evidence gap for the accepted Gaussian
+optimization and calibrated-cell exports. It does not qualify the newer physical
+area/viewer candidates. Project license, macOS/GUI packages, hardware/scientific
+acceptance and every other open M0–M7 requirement remain open. Release readiness
+stays false.

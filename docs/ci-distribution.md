@@ -145,3 +145,12 @@ python -I tools/ci/run.py --mode headless --work build/ci/my-new-run
 
 The work directory must not already exist. Other modes are `gui`, `minimal`,
 `native` and `sanitize`; the GUI matrix configuration currently targets Windows.
+
+
+The accepted Gaussian/calibrated-cell main revision
+`e457c74719204841b87f33f80e4871c79bf42b54` also passes
+[manylinux builder and fresh-consumer qualification](manylinux-qualification.md#current-accepted-gaussian-and-calibrated-cell-engine)
+for headless CPython 3.11/3.12 on x86-64. This is exact-artifact development
+qualification; supported releases, GUI/macOS, scientific and hardware gates
+remain separate. The newer physical-area and live-viewer candidates are not
+covered by that receipt.

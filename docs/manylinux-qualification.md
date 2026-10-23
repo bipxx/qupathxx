@@ -119,3 +119,24 @@ This establishes the pipeline on its older engine revision. Current Gaussian
 and calibrated-cell sources need a new qualification run before their artifacts
 can claim that policy. Supported release and the other M0–M7 requirements remain
 open.
+
+
+## Current accepted Gaussian and calibrated-cell engine
+
+Run [40021039038](https://github.com/bipxx/qupathxx/actions/runs/40021039038)
+qualifies accepted main revision `e457c74719204841b87f33f80e4871c79bf42b54`,
+including the short-kernel Gaussian optimization and capture-time calibrated cell
+features. The [artifact audit](benchmarks/manylinux104-build-consumer-acceptance.json)
+passes for CPython 3.11 and 3.12 `manylinux_2_28_x86_64` wheels and both fresh
+pinned Debian consumers. Each builder passes 42 native suites and 1,659 Python
+cases; each fresh consumer passes 1,643 Python cases. Each Python cohort retains
+exactly four scientific expected failures, with optional skips recorded separately.
+
+The audit binds original/qualified wheel and installed native hashes, unchanged
+runtime payloads, ELF policy/tags, pinned assets and notices, relocation checks,
+stubs, strict positive/negative typing, exact reader pixels, project restoration,
+analysis/CSV and batch workflows. It closes the older-engine qualification gap
+for this exact accepted source. The newer physical-area and managed-viewer
+candidates require their own qualification. GUI/macOS, project license, biological
+accuracy, hardware budgets and supported releases remain open; `release_ready`
+stays false.
