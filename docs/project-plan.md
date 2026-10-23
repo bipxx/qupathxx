@@ -3626,6 +3626,14 @@ The revised packet99 Linux full installed suite subsequently passes 1,644 tests,
 cases). The Windows GUI suite also completes: 2,023 passes, ten optional skips
 and four strict scientific expected failures, again 2,037 collected cases.
 Both JUnit identities are recorded in the revised validation receipt. Hosted
-packet99, portable and native macOS acceptance remain pending. The original
-intermittent wait remains unresolved; these successful runs do not establish its
-cause or a fix. No main promotion of the optimization is inferred.
+packet99 subsequently passes its [five-job artifact audit](benchmarks/gaussian-short-kernel-ci-windows-linux.json)
+at source `a961c64788ce60889d39852c17564fb4b0c3b5ae`, run 39999426023. Windows GUI
+passes 2,022 Python/42 native, Windows headless 1,644 Python/41 native, Linux
+headless 1,642 Python/41 native, and minimal/ASan/UBSan each pass 41 native tests.
+Runtime relocation, installed workflows, standalone outputs, reader checks,
+stubs/typing, fixed classifier identities and the completed desktop frame are
+audited. Four strict scientific expected failures remain in each Python job.
+The engineering scope is accepted for promotion; universal performance,
+portable/native macOS acceptance and every other open M0–M7 gate remain open.
+The original intermittent wait remains unresolved; these successful runs do not
+establish its cause or a fix.

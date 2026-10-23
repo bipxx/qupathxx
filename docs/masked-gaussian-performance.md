@@ -156,8 +156,14 @@ establish statistical significance or uniform hardware performance. The original
 mixed-result recordings remain available. Linux full regression for the revised
 source passes 1,644 tests with 389 optional skips and four scientific expected
 failures. Windows full regression completes with 2,023 passes, ten optional skips
-and four scientific expected failures. The optimization remains on a validation
-branch pending its hosted checks. Project-wide
+and four scientific expected failures. The [hosted artifact audit](benchmarks/gaussian-short-kernel-ci-windows-linux.json)
+also passes all five regular jobs at source `a961c64788ce60889d39852c17564fb4b0c3b5ae`,
+run 39999426023. Windows GUI passes 2,022 Python/42 native tests, Windows headless
+1,644 Python/41 native, Linux headless 1,642 Python/41 native, and minimal and
+ASan/UBSan each pass 41 native tests. All three Python environments retain four
+strict scientific expected failures. Artifact/runtime, reader, standalone,
+stubs/typing, seeded classifier identities and the completed desktop frame are
+audited. This accepts the declared engineering scope for promotion. Project-wide
 performance, scientific acceptance and the original intermittent wait stay open.
 
 ## Reproducing the paired kernel probe
