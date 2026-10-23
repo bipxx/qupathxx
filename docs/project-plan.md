@@ -2384,3 +2384,8 @@ installed software-GL launch. It binds the source manifest, wheel/native,
 benchmark and lossless screenshot identities, and preserves the preliminary
 disabled-button fixture correction. Hosted validation for this new UI packet
 will be tracked separately from the completed schema-9 artifact run.
+
+Implementation commit: `47ee4f8`. Hosted
+[run 39885297011](https://github.com/bipxx/qupathxx/actions/runs/39885297011)
+targets that commit and is running. No hosted pass for the F5 record controls
+is claimed yet.
