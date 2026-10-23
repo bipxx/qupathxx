@@ -36,3 +36,11 @@ The older source predates the current cell-characterization corpus; its zero
 scientific expected-failure count does not resolve the four newer scientific
 gates. Project license, macOS/GUI, biological/hardware and supported release
 requirements remain open; `release_ready` stays false.
+
+
+The subsequent [current-engine qualification](manylinux-qualification.md#current-accepted-gaussian-and-calibrated-cell-engine)
+now accepts the Gaussian/calibrated-cell revision at
+`e457c74719204841b87f33f80e4871c79bf42b54` through run 40021039038. Both Python
+builders and fresh consumers pass the unchanged artifact auditor. The four
+scientific expected failures remain explicit; supported release readiness is
+still false. This does not qualify the newer physical-area/viewer candidates.
