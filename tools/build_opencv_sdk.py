@@ -39,6 +39,17 @@ def sha(path):
         return hashlib.file_digest(stream, 'sha256').hexdigest()
 
 
+def cmake_config_directory(prefix):
+    """Locate the one installed SDK config without assuming a Linux libdir."""
+    prefix = Path(prefix)
+    candidates = [prefix, prefix/'lib/cmake/opencv4', prefix/'lib64/cmake/opencv4']
+    matches = [path for path in candidates if (path/'OpenCVConfig.cmake').is_file()
+               and (path/'OpenCVConfig-version.cmake').is_file()]
+    if len(matches) != 1:
+        raise ValueError('OpenCV SDK must contain exactly one complete CMake config in root, lib or lib64')
+    return matches[0]
+
+
 def main():
     root = Path(__file__).resolve().parents[1]
     parser = argparse.ArgumentParser()
@@ -116,7 +127,7 @@ def main():
     marker = prefix/'qupathxx-opencv-sdk.json'
     files = {p.relative_to(prefix).as_posix(): sha(p) for p in sorted(prefix.rglob('*')) if p.is_file() and p != marker}
     marker.write_text(json.dumps(dict(schema='qpx.opencv-sdk/1',version=VERSION,commit=COMMIT,source_sha256=SHA256,options=OPTIONS,files=files),indent=2)+'\n',encoding='utf8')
-    print(f'OpenCV_DIR={prefix if sys.platform == "win32" else prefix/"lib/cmake/opencv4"}')
+    print(f'OpenCV_DIR={cmake_config_directory(prefix)}')
 
 
 if __name__ == '__main__':

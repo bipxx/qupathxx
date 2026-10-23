@@ -48,3 +48,13 @@ for the requested 2.28 policy and creates no retagged wheel. That negative check
 and local smoke do not qualify an older ABI. Positive builder/consumer evidence
 still requires the hosted run; supported releases, other platforms, hardware
 acceptance and project-license selection retain their separate open gates.
+
+## Observed builder layout failure
+
+Run 39986257233 reached the real older-baseline SDK build. Its CPython 3.11 job
+installed OpenCV under `lib64/cmake/opencv4`, then failed because the CI wrapper
+passed a nonexistent `lib/cmake/opencv4` to CMake. No qualified wheel or consumer
+acceptance resulted. The SDK helper and CI wrapper now locate exactly one complete
+config in the SDK root, `lib`, or `lib64`; missing, incomplete and ambiguous
+layouts fail explicitly. Six regression cases cover those layouts. The build and
+consumer requirements above remain unchanged and require a new successful run.

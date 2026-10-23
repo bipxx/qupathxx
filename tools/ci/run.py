@@ -127,7 +127,7 @@ def main():
         if os.name != 'nt' and args.mode == 'headless':
             flags['QUPATHXX_BUNDLE_GEOS'] = 'ON'
     if opencv:
-        flags['OpenCV_DIR'] = str(opencv if os.name == 'nt' else opencv/'lib/cmake/opencv4')
+        flags['OpenCV_DIR'] = str(build_opencv_sdk.cmake_config_directory(opencv))
         flags['QUPATHXX_OPENCV_NOTICES'] = str(opencv/'share/licenses/opencv')
     if openslide:
         flags['OpenSlide_ROOT'] = str(openslide)
