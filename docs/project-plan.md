@@ -2871,3 +2871,8 @@ replay sends an immediate click rather than waiting for disabled readiness.
 The catalog probe reports legitimate view-preference dirty state while asserting
 unchanged document revision/descriptors. Interrupted Linux build handles were
 confirmed absent, original SIGHUP logs retained, and restarted checks passed.
+
+Implementation commit: `c327cbf20cf6f28a2760937d1ef61950159d291c`. Hosted
+[run 39911144099](https://github.com/bipxx/qupathxx/actions/runs/39911144099)
+targets that exact commit and is queued. No hosted schema10/project-link pass
+is claimed yet.
