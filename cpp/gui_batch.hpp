@@ -7,6 +7,22 @@
 #include <stdexcept>
 
 namespace qpx::detail {
+inline bool cell_area_controls(std::optional<double>& minimum,std::optional<double>& maximum) {
+    bool changed=false;
+    if(ImGui::CollapsingHeader("Physical nucleus area",(minimum || maximum)?ImGuiTreeNodeFlags_DefaultOpen:0)) {
+        auto bound=[&](const char* toggle,const char* label,std::optional<double>& value) {
+            bool enabled=bool(value);
+            if(ui::Checkbox(toggle,&enabled)) {value=enabled?std::optional<double>(0):std::nullopt;changed=true;}
+            if(value) {double number=*value;if(ui::InputDouble(label,&number,0,0,"%.8g")) {value=number;changed=true;}}
+        };
+        bound("Minimum area (um^2)","Area minimum >=",minimum);
+        bound("Maximum area (um^2)","Area maximum <=",maximum);
+        if(maximum && *maximum==0)
+            ImGui::TextWrapped("Maximum zero keeps no nuclei. Disable the maximum to remove the upper bound.");
+        ImGui::TextWrapped("Uses image calibration and the selected sampling level. Both sampled and physical size limits apply.");
+    }
+    return changed;
+}
 // The owner captures once. Workers process an independent project snapshot;
 // no completion callback publishes into the currently displayed workspace.
 class GuiBatch {
@@ -33,7 +49,8 @@ public:
     const std::string& error() const {return error_.empty()?stats_.error:error_;}
     std::shared_ptr<const ProjectBatchReport> result() const {return job_.result();}
     template<class Transform>
-    void draw(const Project* project,std::uint64_t image_id,const ObjectSelection* selection,bool blocked,const TissueParameters& tissue,const CellParameters& cells,AnalysisKind roi_kind,bool nucleus,std::shared_ptr<const PixelClassifier> pixel_model,Transform&& transform) {
+    void draw(const Project* project,std::uint64_t image_id,const ObjectSelection* selection,bool blocked,const TissueParameters& tissue,const CellParameters& cells,
+        std::optional<double> cell_min_area,std::optional<double> cell_max_area,AnalysisKind roi_kind,bool nucleus,std::shared_ptr<const PixelClassifier> pixel_model,Transform&& transform) {
         const auto& io=ImGui::GetIO();
         const bool shortcut=!io.WantTextInput && io.KeyCtrl && io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_B,false);
         bool start=shortcut && !io.KeyShift && !blocked;
@@ -63,6 +80,7 @@ public:
             if(use_image_settings_ && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ImGui::TextWrapped("Uses the Region analysis, Tissue and Cells settings in the image inspector.");
             ImGui::BeginDisabled(use_image_settings_ && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw);
             if(options_.kind!=ProjectBatchKind::Cells) options_.publish_cells=false;
+            if(options_.kind!=ProjectBatchKind::Cells) {options_.cell_min_nucleus_area_um2.reset();options_.cell_max_nucleus_area_um2.reset();}
             if(options_.kind==ProjectBatchKind::Cells || options_.kind==ProjectBatchKind::Pixels) options_.nucleus=false;
             if(options_.kind==ProjectBatchKind::Pixels) {
                 ImGui::BeginDisabled(!pixel_model);if(ui::Button("Use active pixel model") && pixel_model) options_.pixel_model=*pixel_model;ImGui::EndDisabled();
@@ -91,6 +109,8 @@ public:
                 ui::InputDouble("Threshold >=",&threshold,0,0,"%.5g");
                 auto& level=options_.kind==ProjectBatchKind::Tissue?options_.tissue.level:options_.cells.level;
                 ui::InputInt("Level (-1=auto)",&level);
+                if(options_.kind==ProjectBatchKind::Cells)
+                    cell_area_controls(options_.cell_min_nucleus_area_um2,options_.cell_max_nucleus_area_um2);
 
             }
             ImGui::EndDisabled();
@@ -135,7 +155,11 @@ public:
                 }
                 auto run_options=options_;
                 if(run_options.kind==ProjectBatchKind::Pixels) {if(!run_options.pixel_model && pixel_model) run_options.pixel_model=*pixel_model;run_options.nucleus=false;}
-                else if(use_image_settings_ && run_options.kind!=ProjectBatchKind::Raw) {run_options.tissue=tissue;run_options.cells=cells;run_options.roi_kind=roi_kind;run_options.nucleus=(run_options.kind==ProjectBatchKind::Cells || run_options.tma_only)?false:nucleus;}
+                else if(use_image_settings_ && run_options.kind!=ProjectBatchKind::Raw) {
+                    run_options.tissue=tissue;run_options.cells=cells;run_options.roi_kind=roi_kind;
+                    run_options.nucleus=(run_options.kind==ProjectBatchKind::Cells || run_options.tma_only)?false:nucleus;
+                    if(run_options.kind==ProjectBatchKind::Cells) {run_options.cell_min_nucleus_area_um2=cell_min_area;run_options.cell_max_nucleus_area_um2=cell_max_area;}
+                }
                 const bool stains=run_options.kind!=ProjectBatchKind::Raw && run_options.kind!=ProjectBatchKind::Pixels && (run_options.kind==ProjectBatchKind::Roi?run_options.roi_kind==AnalysisKind::StainMeans:
                     (run_options.kind==ProjectBatchKind::Tissue?run_options.tissue.feature:run_options.cells.feature)!=TissueFeature::OpticalDensitySum);
                 ProjectBatchRequest request(*project,transform(stains),chosen,run_options);

@@ -15,7 +15,8 @@ struct CellParameters {
 class CellRequest {
 public:
     CellRequest(const Document&,std::uint64_t,const StainTransform&,CellParameters={});
-    bool matches(const Document& d,std::uint64_t id) const {return source_.matches(d,id);}
+    bool matches(const Document& d,std::uint64_t id) const {return source_.matches(d,id) &&
+        (!physical_calibration_revision_ || *physical_calibration_revision_==d.calibration_revision());}
     const CellParameters& parameters() const {return parameters_;}
     std::uint64_t object_id() const {return source_.object_id();}
     std::int32_t level() const {return source_.level();}
@@ -26,6 +27,11 @@ public:
     std::uint64_t total_tiles() const {return source_.total_tiles();}
     std::size_t estimated_work_bytes() const {return work_;}
     static CellRequest replay(const Document&,std::uint64_t record_id);
+    // Resolve inclusive physical area bounds on the selected natural grid.
+    // Returned parameters contain the frozen sampled-pixel cutoffs used by the
+    // ordinary detector/archive/replay path; invocation arguments are not kept.
+    static CellRequest with_nucleus_area_limits(const Document&,std::uint64_t,const StainTransform&,
+        std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},CellParameters={});
 private:
     friend struct CellKernel;
     friend struct InputDigestKernel;
@@ -36,6 +42,7 @@ private:
     std::shared_ptr<ImageServer> reader_;
     StainTransform transform_;
     std::uint64_t object_revision_,document_revision_;
+    std::optional<std::uint64_t> physical_calibration_revision_;
     std::size_t work_=0;
 };
 struct CellMarker {

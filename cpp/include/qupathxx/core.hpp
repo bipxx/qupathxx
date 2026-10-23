@@ -705,6 +705,7 @@ struct GuiOptions {
     double replay_timeout_seconds=5;
     bool settle_tiles=false;
     std::shared_ptr<const CellParameters> cell_parameters;
+    std::optional<double> cell_min_nucleus_area_um2,cell_max_nucleus_area_um2;
     std::size_t overlay_cache_budget=64*1024*1024;
     std::string cell_table_path;
     bool cell_table_require_current=false;

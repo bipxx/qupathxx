@@ -4,6 +4,18 @@ from numpy.typing import NDArray
 import qupathxx as q
 
 
+def physical_cell_request(document: q.Document, object_id: int, transform: q.StainTransform) -> q.CellRequest:
+    request = q.CellRequest.with_nucleus_area_limits(document, object_id, transform, minimum_um2=10.0, maximum_um2=100.0)
+    options = q.ProjectBatchOptions()
+    options.kind = q.ProjectBatchKind.CELLS
+    options.cell_min_nucleus_area_um2 = 10.0
+    options.cell_max_nucleus_area_um2 = None
+    gui = q.GuiOptions()
+    gui.cell_min_nucleus_area_um2 = 10.0
+    gui.cell_max_nucleus_area_um2 = 100.0
+    return request
+
+
 def calibrated_cell_values(result: q.CellResult) -> q.CalibratedCellFeature:
     feature = result.calibrated_feature(1)
     area: float | None = feature.nucleus_sample_area_um2

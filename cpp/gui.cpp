@@ -11,6 +11,7 @@
 #include "gui_scale.hpp"
 #include "gui_tissue.hpp"
 #include "qupathxx/cells.hpp"
+#include "calibrated_cell_numeric.hpp"
 #include "qupathxx/cell_tables.hpp"
 #include "qupathxx/measurement_tables.hpp"
 #include "qupathxx/file_fingerprint.hpp"
@@ -202,6 +203,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     char fingerprint_path[32769]={},fingerprint_output[32769]={};
     std::copy(options.file_fingerprint_path.begin(),options.file_fingerprint_path.end(),fingerprint_path);
     std::copy(options.file_fingerprint_output.begin(),options.file_fingerprint_output.end(),fingerprint_output);
+    detail::validate_cell_area_limits(options.cell_min_nucleus_area_um2,options.cell_max_nucleus_area_um2);
     if (!glfwInit()) throw std::runtime_error("GLFW initialization failed");
     Session session;
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -259,6 +261,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     char cell_table_path[32769]={};std::copy(options.cell_table_path.begin(),options.cell_table_path.end(),cell_table_path);
     OverlayCache overlay_cache;std::optional<DisplaySettings> overlay_display;
     CellParameters cell_parameters=options.cell_parameters?*options.cell_parameters:CellParameters{};cell_parameters.validate();
+    auto cell_min_area=options.cell_min_nucleus_area_um2,cell_max_area=options.cell_max_nucleus_area_um2;
     int cell_feature=static_cast<int>(cell_parameters.feature),cell_connectivity=cell_parameters.connectivity==8?1:0,cell_preview_body=0;
     bool show_cells=true;std::size_t cell_annotations_added=0;
     std::size_t tissue_annotations_added=0;
@@ -1789,6 +1792,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             cell_changed=ui::InputDouble("Cell expansion",&cell_parameters.cell_expansion,0,0,"%.3g") || cell_changed;
             cell_changed=ui::InputScalar("Nucleus min px",ImGuiDataType_U64,&cell_parameters.min_nucleus_pixels) || cell_changed;
             cell_changed=ui::InputScalar("Nucleus max (0=all)",ImGuiDataType_U64,&cell_parameters.max_nucleus_pixels) || cell_changed;
+            cell_changed=detail::cell_area_controls(cell_min_area,cell_max_area) || cell_changed;
             cell_changed=ui::Combo("Cell neighbors",&cell_connectivity,"4 neighbors\0 8 neighbors\0") || cell_changed;
             const auto cell_level_label=cell_parameters.level<0?std::string("Auto (budget)"):"Level "+std::to_string(cell_parameters.level);
             if(ui::BeginCombo("Cell level",cell_level_label.c_str())) {
@@ -1796,7 +1800,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 for(std::size_t i=0;i<image.levels.size();++i) {const auto label="Level "+std::to_string(i);if(ImGui::Selectable(label.c_str(),cell_parameters.level==static_cast<std::int32_t>(i))) {cell_parameters.level=static_cast<std::int32_t>(i);cell_changed=true;}}
                 ui::EndCombo();
             }
-            ui::TextDisabled("Radii/sizes use sampled pixels");
+            ImGui::TextWrapped("Radii and nucleus count limits use sampled pixels.");
             if(cell_changed) cell_job.cancel();
             const auto cell_status=cell_job.poll(document,selected);
             const bool cell_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_G,false);
@@ -1805,7 +1809,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::EndDisabled();
             if(detect_cells_clicked && !cell_job.busy()) {try {
                 cell_parameters.feature=static_cast<TissueFeature>(cell_feature);cell_parameters.connectivity=cell_connectivity?8:4;
-                cell_job.request(CellRequest(document,selected,make_transform(cell_feature!=0),cell_parameters));cell_annotations_added=0;error.clear();
+                cell_job.request(CellRequest::with_nucleus_area_limits(document,selected,make_transform(cell_feature!=0),cell_min_area,cell_max_area,cell_parameters));cell_annotations_added=0;error.clear();
             } catch(const std::exception& e) {error=e.what();}}
             if(cell_job.busy()) {ui::TextDisabled("Cells: %s",cell_status.phase.c_str());if(ui::Button("Cancel cells (Ctrl+Alt+G)")) cell_job.cancel();}
             if(cell_key && io.KeyAlt) cell_job.cancel();
@@ -1829,6 +1833,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 provenance_info(saved->result->nuclei()->provenance());
                 const auto state=document.cell_status(saved->id);ImGui::Text("Saved cell run: %llu",static_cast<unsigned long long>(saved->id));
                 ImGui::Text("Saved cells: %zu",saved->result->features().size());ImGui::Text("Cell record: %s",state.c_str());
+                const auto& frozen=saved->result->parameters();
+                if(frozen.max_nucleus_pixels) ImGui::TextWrapped("Saved nucleus samples: %llu to %llu",
+                    static_cast<unsigned long long>(frozen.min_nucleus_pixels),static_cast<unsigned long long>(frozen.max_nucleus_pixels));
+                else ImGui::TextWrapped("Saved nucleus samples: at least %llu",static_cast<unsigned long long>(frozen.min_nucleus_pixels));
                 ImGui::BeginDisabled(cell_job.busy() || state=="object_changed" || state=="source_closed");
                 const bool recheck=ui::Button("Recheck cells (Ctrl+Alt+C)") || (cell_record_key && io.KeyAlt && !io.KeyShift);
                 ImGui::EndDisabled();
@@ -2322,7 +2330,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             mean.invalidate();previous_uploads+=tiles->uploads();previous_generations+=tiles->generations();previous_peak_bytes=std::max(previous_peak_bytes,tiles->peak_bytes());
             tiles=std::make_unique<GuiTiles>(document.server());overlay_cache.clear();overlay_display.reset();plan={};overview.reset();plan_inputs.reset();overview_center.reset();published_view_inputs.reset();
         }
-        batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,cell_parameters,static_cast<AnalysisKind>(analysis_kind),analysis_nucleus,pixel_classifier.model(),make_transform);
+        batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,cell_parameters,cell_min_area,cell_max_area,static_cast<AnalysisKind>(analysis_kind),analysis_nucleus,pixel_classifier.model(),make_transform);
         classifier.draw(document,*selection,editing_blocked,has_image,mark_target);
         const auto pixel_top_left=viewport.screen_to_image({0,0}),pixel_bottom_right=viewport.screen_to_image({previous_canvas_size.x,previous_canvas_size.y});
         pixel_classifier.draw(document,*selection,editing_blocked,has_image,mark_target,make_transform,{pixel_top_left.x,pixel_top_left.y,pixel_bottom_right.x-pixel_top_left.x,pixel_bottom_right.y-pixel_top_left.y});

@@ -16,6 +16,7 @@ struct ProjectBatchOptions {
     std::size_t roi_tile_size=256,snapshot_budget=256*1024*1024,materialize_budget=512*1024*1024,result_budget=256*1024*1024,csv_limit=64*1024*1024;
     std::uint64_t checkpoint_limit=1024ULL*1024*1024;
     TissueParameters tissue;CellParameters cells;
+    std::optional<double> cell_min_nucleus_area_um2,cell_max_nucleus_area_um2;
     std::optional<PixelClassifier> pixel_model;
     PixelStreamOptions pixels;
     std::uint64_t pixel_file_limit=1ULL<<40,pixel_total_limit=1ULL<<40;

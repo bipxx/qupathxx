@@ -14,6 +14,10 @@ int main() {
         StainTransform transform({{1,0,0},{0,1,0}});
         auto unknown=detect_cells(CellRequest(doc,target,transform,p));check(unknown->features().size()==1);
         check(!unknown->calibrated_feature(1).nucleus_sample_area_um2);
+        bool missing=false;
+        try {CellRequest::with_nucleus_area_limits(doc,target,transform,1.,{},p);}
+        catch(const std::invalid_argument&) {missing=true;}
+        check(missing);
         doc.set_calibration(.5,.25);
         auto result=detect_cells(CellRequest(doc,target,transform,p));const auto f=result->calibrated_feature(1);
         check(f.pixel_width_um==.5 && f.pixel_height_um==.25);
@@ -21,7 +25,21 @@ int main() {
         check(*f.cell_sample_area_um2==result->features()[0].cell_pixels*.125);
         check(*f.cytoplasm_sample_area_um2==*f.cell_sample_area_um2-*f.nucleus_sample_area_um2);
         check(f.nucleus_centroid_um->x==12*.5 && f.nucleus_centroid_um->y==11*.25);
-        doc.set_calibration(2,3);doc.server()->close();
+        const auto exact=CellRequest::with_nucleus_area_limits(doc,target,transform,10.,10.,p);
+        check(exact.parameters().min_nucleus_pixels==80 && exact.parameters().max_nucleus_pixels==80);
+        check(p.min_nucleus_pixels==1 && p.max_nucleus_pixels==0);
+        const auto filtered=detect_cells(exact);check(filtered->features().size()==1);
+        auto restored=CellArchiveCodec::encode(*filtered);
+        auto frozen=CellArchiveCodec::decode(restored.data(),restored.size(),filtered->nuclei()->roi(),doc.metadata());
+        check(frozen->parameters().min_nucleus_pixels==80 && frozen->parameters().max_nucleus_pixels==80);
+        check(detect_cells(CellRequest::with_nucleus_area_limits(doc,target,transform,std::nextafter(10.,20.),{},p))->features().empty());
+        check(detect_cells(CellRequest::with_nucleus_area_limits(doc,target,transform,{},std::nextafter(10.,0.),p))->features().empty());
+        const auto empty=CellRequest::with_nucleus_area_limits(doc,target,transform,{},0.,p);
+        check(empty.parameters().min_nucleus_pixels==32*24+1 && empty.parameters().max_nucleus_pixels==0);
+        check(detect_cells(empty)->features().empty());
+        doc.set_calibration(2,3);
+        check(!exact.matches(doc,target));
+        doc.server()->close();
         check(result->calibrated_feature(1).nucleus_sample_area_um2==f.nucleus_sample_area_um2);
         const auto bytes=CellArchiveCodec::encode(*result);
         const auto legacy=CellArchiveCodec::decode(bytes.data(),bytes.size(),result->nuclei()->roi(),doc.metadata());
