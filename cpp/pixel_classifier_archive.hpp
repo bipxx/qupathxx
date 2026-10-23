@@ -8,5 +8,6 @@ struct PixelClassifierArchiveCodec {
     static std::vector<std::uint8_t> encode(const PixelClassifierRecord&,const std::atomic<bool>*);
     static std::shared_ptr<const PixelClassifierRecord> record(const std::uint8_t*,std::size_t,const ImageMetadata&,const std::atomic<bool>*);
     static void seal(PixelClassifierArchive&,std::vector<std::uint8_t>);
+    static void validate_prediction(const PixelPredictionResult&,const std::atomic<bool>*);
 };
 }

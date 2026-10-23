@@ -1,0 +1,260 @@
+{
+  "schema": "qpx.pixel-stream-file-local/1",
+  "observed_utc": "2026-10-23T04:15:22.933086+00:00",
+  "scope": "Atomic complete QPS1 export, model-once storage, bounded indexed historical access, verification/cancellation and guarded replacement. No resume, project-linked stream record, stitched publication, desktop streaming job, RSS, hardware or biological acceptance.",
+  "tests": {
+    "python": {
+      "tests": 1598,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 6,
+      "passed": 1592,
+      "seconds": 540.197,
+      "sha256": "2981831cb936b538fb805a83a029fd987c7aec4159ef6093e20d0ba704deedfa"
+    },
+    "windows_gui_native": {
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 39,
+      "seconds": 6.0,
+      "sha256": "95b89a30fffc864d70bf5491c07bdad2caeb5338d642a8f1b39d2302a6e131a1"
+    },
+    "windows_native": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 6.0,
+      "sha256": "d6c3393faac7acf7cb0f803f90b02390ad9d115b60442a055f67ca00128fcdf9"
+    },
+    "linux_native": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 1.0,
+      "sha256": "5af654a46ac9f93af05144958e51ebe488fd3b37269e71004742f9e75740a6d7"
+    },
+    "linux_minimal": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 0.0,
+      "sha256": "e0d4a9326047f310cd9287059f0f8134e59bfa55287d3ec61349887fda31b3dd"
+    },
+    "linux_sanitizers": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 7.0,
+      "sha256": "a0f44c1f3a3962c0bd4de9efbcbb0d537949c17725f168f4290e65705c4784ca"
+    }
+  },
+  "installed": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "491ee1c28ca550b43e49805af64d883a0de16a7bbef0d62741eb53ec408846bc",
+    "source_tree_sha256": "0f4f1d47ee68c96b5eec842c6878af7720642350db814174c3b10a20ed0f51a1",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "bytes": 12038657,
+    "sha256": "e1244e6f3d8efa6829f98ad36f81a955fac7671075bb2c4144b683f29f2aa573"
+  },
+  "benchmarks": [
+    {
+      "file": "pixel-stream-file-1024-windows.json",
+      "sha256": "b6e4612711858b3f947d5a01824b2b43a81082ec17343722e2443f9b521febee",
+      "values": {
+        "schema": "qpx.pixel-stream-file-benchmark/1",
+        "size": 1024,
+        "pixels": 1048576,
+        "blocks": 64,
+        "block_size": 128,
+        "budget_bytes": 8388608,
+        "estimated_producer_work_bytes": 4406028,
+        "file_bytes": 9454346,
+        "raw_mask_bytes": 9437184,
+        "header_archive_bytes": 151722,
+        "record_overhead_bytes": 12600,
+        "max_block_array_bytes": 147456,
+        "write_ms": 834.7131999908015,
+        "open_ms": 10.513099958188832,
+        "verify_ms": 79.41280002705753,
+        "indexed_oracle_ms": 1059.6595000242814,
+        "file_sha256": "268ead68177ef15d6a805e7baff9c610ba5a873aa09b62f804fddbd5748bea9f",
+        "content_sha256": "727b6b00e92872d36c9516d3c0598c023dca16995db44d7f65c1ef4e72330028",
+        "model_sha256": "8081155d82ae06e7118663c8b3794dddff8795a05521fed3c91ef99361bfe592",
+        "class_counts": [
+          524288,
+          524288
+        ],
+        "valid_pixels": 1048576,
+        "file": "pixel80-verified-mask-1024.qps",
+        "native_sha256": "491ee1c28ca550b43e49805af64d883a0de16a7bbef0d62741eb53ec408846bc",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "environment": {
+          "source_tree_sha256": "0f4f1d47ee68c96b5eec842c6878af7720642350db814174c3b10a20ed0f51a1",
+          "git_revision": "53785ccfb65baaecd3b1f34fea402bc00e0fa2ca+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "verified": [
+          "atomic complete export and unchanged document",
+          "all record checksums/numeric masks/aggregate counts and content commitment",
+          "out-of-order block reads equal independent window requests",
+          "one model/provenance header and no full output array"
+        ],
+        "scope": "Single shared-workstation synthetic in-memory RGB source and local disk observation. Producer budget excludes source/model; file header has separate128MiB encoded/256MiB retained artifact caps, plus a block and64KiB I/O buffer. Timing includes OS flush, not a power-loss guarantee. Not RSS, vendor WSI, network storage, GUI frame, hardware or biological acceptance. Output file is retained for inspection."
+      }
+    },
+    {
+      "file": "pixel-stream-file-2048-windows.json",
+      "sha256": "6356f606ad494905054c88fe8d6434151ffd1ded0a80626538b9193b7140cffc",
+      "values": {
+        "schema": "qpx.pixel-stream-file-benchmark/1",
+        "size": 2048,
+        "pixels": 4194304,
+        "blocks": 256,
+        "block_size": 128,
+        "budget_bytes": 8388608,
+        "estimated_producer_work_bytes": 4406028,
+        "file_bytes": 37804298,
+        "raw_mask_bytes": 37748736,
+        "header_archive_bytes": 151722,
+        "record_overhead_bytes": 51000,
+        "max_block_array_bytes": 147456,
+        "write_ms": 3398.0078999884427,
+        "open_ms": 8.25710000935942,
+        "verify_ms": 333.4359999280423,
+        "indexed_oracle_ms": 3583.3300000522286,
+        "file_sha256": "8dd89ffc4052abb2eb8663aac0f483cfdabcd2108f675a28626de43cd6193b7c",
+        "content_sha256": "45759d100d4a6e3bd3780829c6f4d738d5760dd10678da0f5ea99aec4dc1a199",
+        "model_sha256": "6428dc478b389afcb6ea60f6170d269c8faf732b0039a21ed345e7acbd24eeba",
+        "class_counts": [
+          2097152,
+          2097152
+        ],
+        "valid_pixels": 4194304,
+        "file": "pixel80-verified-mask-2048.qps",
+        "native_sha256": "491ee1c28ca550b43e49805af64d883a0de16a7bbef0d62741eb53ec408846bc",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "environment": {
+          "source_tree_sha256": "0f4f1d47ee68c96b5eec842c6878af7720642350db814174c3b10a20ed0f51a1",
+          "git_revision": "53785ccfb65baaecd3b1f34fea402bc00e0fa2ca+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "verified": [
+          "atomic complete export and unchanged document",
+          "all record checksums/numeric masks/aggregate counts and content commitment",
+          "out-of-order block reads equal independent window requests",
+          "one model/provenance header and no full output array"
+        ],
+        "scope": "Single shared-workstation synthetic in-memory RGB source and local disk observation. Producer budget excludes source/model; file header has separate128MiB encoded/256MiB retained artifact caps, plus a block and64KiB I/O buffer. Timing includes OS flush, not a power-loss guarantee. Not RSS, vendor WSI, network storage, GUI frame, hardware or biological acceptance. Output file is retained for inspection."
+      }
+    }
+  ],
+  "portable_fixtures": {
+    "schema": "qpx.pixel-stream-file-fixtures/1",
+    "origin": "Synthetic RGB source, original Windows-native model/geometry/provenance and compact QPS1 output. Checksums do not authenticate authors.",
+    "source_tree_sha256": "08ee16508bce42c1950efcd81bb69e5483c65f0479571195af30a9ebe2802d16",
+    "fixtures": [
+      {
+        "name": "rectangle",
+        "file": "rectangle-v1-windows.qps",
+        "bytes": 25161,
+        "file_sha256": "39cece18d9d112f77015e43c28b6bae096adb32548dc47be2ba66892955aef37",
+        "content_sha256": "3d3420d4529b763a078ec5b35fb4cc893771d4de8f41abff4a08835dd3e16b11",
+        "blocks": 12,
+        "class_counts": [
+          1288,
+          952
+        ],
+        "windowed": false,
+        "numeric_sha256": [
+          "107223465dee164ada0530331630406d7b570ed5a617bd49c5c41a5ca369f679",
+          "69863979fbac167ce3e4a64381c1bc77b7fa062dbf19b90f7d3cadb3118139a8",
+          "bd5fdebff4ea1250bbbdbb6f70057955cf9a7b165b2a5b6d9dd7b3939d0f7ed0",
+          "537320da35241da422ac6f6e4ba2fbf59b7112da5e636ea4e1ace301304c8bdf",
+          "78d431898e5892f30806d247828991eed5224a9c027a576dc56eb1c06dd8cfea",
+          "120debefe4ad20d52b5635427eeec1a37c155385d825e17ae5ecb6b467a8d48c",
+          "976ad2f31d5226543c78fda8f9216beecaa2cf7a786193573aae9ee2495d61bd",
+          "3545721a51d055453865ec02f3a6f9835884c14b7e2477b29e5427515e9e28ae",
+          "171e42e0658153f97b5202c92a89b3e6009b43d7961c22703753f2992f8dd2c9",
+          "0b187307795c90b3b9076df04bd88865bffcdebed28700600b2ffc82e4e08f73",
+          "6a6ed1c9bc2d142f3ddc15f4cdae2b1e862880ad16b057cf5992c4edc156e99f",
+          "d5667d423c6e469d7e5d295e2e5d14e948b8183908b12afd5bf9a3dd99160203"
+        ]
+      },
+      {
+        "name": "polygon-window",
+        "file": "polygon-window-v1-windows.qps",
+        "bytes": 7239,
+        "file_sha256": "91a4338d1efee9dceded198036cf9493d6464cb6ba8c0c315864dea229e446f0",
+        "content_sha256": "2589a03231145e6b13eafcac8a30af9eb1c87160f0cb0b7c81f393b95a01a50e",
+        "blocks": 4,
+        "class_counts": [
+          256,
+          144
+        ],
+        "windowed": true,
+        "numeric_sha256": [
+          "a8a1c8317ded2eaafb4deebd83b6c7e629cd7b32a663a9dfb0712a820afdf242",
+          "8ed26bac36d7f202b02fd8cc0e0854a2626b5f165e855c9d02c3b0930fca8989",
+          "56250ad56e00da4dd3690c2c77734d34affe59f40ef3fca65ea4af26b7fe5919",
+          "c82d608c9b5b9a9170e32990c2825dcd76212f0fd5e11f2f54737527945a77bf"
+        ]
+      }
+    ]
+  },
+  "linux_minimal_interop": {
+    "blocks": 12,
+    "all_numeric_hashes_match": true
+  },
+  "checks": {
+    "pixel80-verified-stub-check.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "pixel80-verified-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "pixel80-verified-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead",
+    "pixel80-verified-interop-linux.log": "aa35a9961e4a4d36d8d49af71cd8474459bd4acc2fa4a32e16679ae0693772a6",
+    "pixel80-coordinate-test.xml": "e456016ae8ec23bf4f03fb25cd1a7cd062ee6659112b6159817d886dc8c03612"
+  },
+  "development_notes": [
+    "Synthetic file benchmarks ran while the full GUI regression suite was active; timings are shared-workstation observations, not uncontended throughput.",
+    "Initial native test compile failed because the summary class_counts field was called as a function; corrected test.",
+    "Initial full Python run:1591 passed,6 skipped,1 provenance failure after compiled source was edited during testing. Final wheel rebuilt from frozen source; complete suite repeated.",
+    "Large-coordinate native regression changes stored x by one above2^53 and recomputes framing checksums; reader rejects exact integer coverage mismatch."
+  ]
+}

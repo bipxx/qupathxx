@@ -1,0 +1,53 @@
+{
+  "schema": "qpx.pixel-stream-file-fixtures/1",
+  "origin": "Synthetic RGB source, original Windows-native model/geometry/provenance and compact QPS1 output. Checksums do not authenticate authors.",
+  "source_tree_sha256": "08ee16508bce42c1950efcd81bb69e5483c65f0479571195af30a9ebe2802d16",
+  "fixtures": [
+    {
+      "name": "rectangle",
+      "file": "rectangle-v1-windows.qps",
+      "bytes": 25161,
+      "file_sha256": "39cece18d9d112f77015e43c28b6bae096adb32548dc47be2ba66892955aef37",
+      "content_sha256": "3d3420d4529b763a078ec5b35fb4cc893771d4de8f41abff4a08835dd3e16b11",
+      "blocks": 12,
+      "class_counts": [
+        1288,
+        952
+      ],
+      "windowed": false,
+      "numeric_sha256": [
+        "107223465dee164ada0530331630406d7b570ed5a617bd49c5c41a5ca369f679",
+        "69863979fbac167ce3e4a64381c1bc77b7fa062dbf19b90f7d3cadb3118139a8",
+        "bd5fdebff4ea1250bbbdbb6f70057955cf9a7b165b2a5b6d9dd7b3939d0f7ed0",
+        "537320da35241da422ac6f6e4ba2fbf59b7112da5e636ea4e1ace301304c8bdf",
+        "78d431898e5892f30806d247828991eed5224a9c027a576dc56eb1c06dd8cfea",
+        "120debefe4ad20d52b5635427eeec1a37c155385d825e17ae5ecb6b467a8d48c",
+        "976ad2f31d5226543c78fda8f9216beecaa2cf7a786193573aae9ee2495d61bd",
+        "3545721a51d055453865ec02f3a6f9835884c14b7e2477b29e5427515e9e28ae",
+        "171e42e0658153f97b5202c92a89b3e6009b43d7961c22703753f2992f8dd2c9",
+        "0b187307795c90b3b9076df04bd88865bffcdebed28700600b2ffc82e4e08f73",
+        "6a6ed1c9bc2d142f3ddc15f4cdae2b1e862880ad16b057cf5992c4edc156e99f",
+        "d5667d423c6e469d7e5d295e2e5d14e948b8183908b12afd5bf9a3dd99160203"
+      ]
+    },
+    {
+      "name": "polygon-window",
+      "file": "polygon-window-v1-windows.qps",
+      "bytes": 7239,
+      "file_sha256": "91a4338d1efee9dceded198036cf9493d6464cb6ba8c0c315864dea229e446f0",
+      "content_sha256": "2589a03231145e6b13eafcac8a30af9eb1c87160f0cb0b7c81f393b95a01a50e",
+      "blocks": 4,
+      "class_counts": [
+        256,
+        144
+      ],
+      "windowed": true,
+      "numeric_sha256": [
+        "a8a1c8317ded2eaafb4deebd83b6c7e629cd7b32a663a9dfb0712a820afdf242",
+        "8ed26bac36d7f202b02fd8cc0e0854a2626b5f165e855c9d02c3b0930fca8989",
+        "56250ad56e00da4dd3690c2c77734d34affe59f40ef3fca65ea4af26b7fe5919",
+        "c82d608c9b5b9a9170e32990c2825dcd76212f0fd5e11f2f54737527945a77bf"
+      ]
+    }
+  ]
+}

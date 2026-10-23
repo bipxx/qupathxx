@@ -28,6 +28,7 @@ private:
     friend class Document;
     friend class PixelPredictionResult;
     friend class PixelPredictionStream;
+    friend struct PixelStreamFileCodec;
 };
 class PixelPredictionResult : public std::enable_shared_from_this<PixelPredictionResult> {
 public:
@@ -67,6 +68,7 @@ private:
     friend struct PixelPredictionKernel;
     friend struct PixelClassifierArchiveCodec;
     friend class Document;
+    friend struct PixelStreamFileCodec;
 };
 std::shared_ptr<const PixelPredictionResult> predict_pixel_region(const PixelPredictionRequest&,const std::atomic<bool>* cancelled=nullptr);
 class PixelPredictionJob {

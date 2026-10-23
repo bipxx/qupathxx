@@ -1,0 +1,43 @@
+{
+  "schema": "qpx.pixel-stream-file-benchmark/1",
+  "size": 1024,
+  "pixels": 1048576,
+  "blocks": 64,
+  "block_size": 128,
+  "budget_bytes": 8388608,
+  "estimated_producer_work_bytes": 4406028,
+  "file_bytes": 9454346,
+  "raw_mask_bytes": 9437184,
+  "header_archive_bytes": 151722,
+  "record_overhead_bytes": 12600,
+  "max_block_array_bytes": 147456,
+  "write_ms": 834.7131999908015,
+  "open_ms": 10.513099958188832,
+  "verify_ms": 79.41280002705753,
+  "indexed_oracle_ms": 1059.6595000242814,
+  "file_sha256": "268ead68177ef15d6a805e7baff9c610ba5a873aa09b62f804fddbd5748bea9f",
+  "content_sha256": "727b6b00e92872d36c9516d3c0598c023dca16995db44d7f65c1ef4e72330028",
+  "model_sha256": "8081155d82ae06e7118663c8b3794dddff8795a05521fed3c91ef99361bfe592",
+  "class_counts": [
+    524288,
+    524288
+  ],
+  "valid_pixels": 1048576,
+  "file": "pixel80-verified-mask-1024.qps",
+  "native_sha256": "491ee1c28ca550b43e49805af64d883a0de16a7bbef0d62741eb53ec408846bc",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "environment": {
+    "source_tree_sha256": "0f4f1d47ee68c96b5eec842c6878af7720642350db814174c3b10a20ed0f51a1",
+    "git_revision": "53785ccfb65baaecd3b1f34fea402bc00e0fa2ca+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "verified": [
+    "atomic complete export and unchanged document",
+    "all record checksums/numeric masks/aggregate counts and content commitment",
+    "out-of-order block reads equal independent window requests",
+    "one model/provenance header and no full output array"
+  ],
+  "scope": "Single shared-workstation synthetic in-memory RGB source and local disk observation. Producer budget excludes source/model; file header has separate128MiB encoded/256MiB retained artifact caps, plus a block and64KiB I/O buffer. Timing includes OS flush, not a power-loss guarantee. Not RSS, vendor WSI, network storage, GUI frame, hardware or biological acceptance. Output file is retained for inspection."
+}

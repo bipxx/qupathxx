@@ -93,10 +93,11 @@ capabilities. Tracing a block is allowed, but an independently captured request
 cannot grant it publication authority. Explicit whole-stream publication needs
 a separate reconciled operation; it is not implemented here. Individual blocks
 can use existing QPA2 artifacts, retaining their original target and cropped grid.
-This is not a compact durable whole-slide stream format.
+For compact complete disk output, use [QPS1 stream files](pixel-stream-file.md),
+which retain the model once and provide indexed historical block access.
 
-Durable streamed disk output, restart/resume, stitched contour publication and a
-desktop streaming job remain open. This native/Python producer supplies their
+Restart/resume, stitched contour publication and a desktop streaming job remain
+open. This native/Python producer supplies their
 bounded source/mask processing primitive; it does not complete those workflows.
 
 ## Validation and measured allocation bounds

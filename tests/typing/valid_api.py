@@ -278,3 +278,12 @@ def streaming_pixel_counts(document: q.Document, target: int, model: q.PixelClas
     for block in producer:
         assert block.width<=128
     return producer.class_counts
+
+
+def write_stream_file(producer: q.PixelPredictionStream, path: str) -> q.PixelPredictionResult:
+    summary: q.PixelStreamFileSummary=q.save_pixel_stream(producer,path)
+    assert summary.bytes>0 and summary.blocks>0
+    file=q.PixelStreamFile(path)
+    file.verify()
+    assert file.verified and not file.cancelled
+    return file.read_block(0)

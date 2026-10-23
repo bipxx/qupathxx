@@ -68,7 +68,8 @@ QuPath port or a compatible replacement for Java QuPath.
   [prediction windows](docs/pixel-prediction-windows.md) bound masks to a requested
   or visible natural-grid region while preserving feature context.
   A [native/Python block producer](docs/pixel-stream.md) consumes full targets
-  with bounded output storage; durable streamed export and GUI streaming remain open.
+  with bounded output storage. [QPS1 files](docs/pixel-stream-file.md) store complete
+  streams atomically with indexed, verified historical access; GUI streaming remains open.
   Research validation and large-batch
   frame budgets remain unfinished;
   see also the

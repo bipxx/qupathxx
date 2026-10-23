@@ -1,0 +1,43 @@
+{
+  "schema": "qpx.pixel-stream-file-benchmark/1",
+  "size": 2048,
+  "pixels": 4194304,
+  "blocks": 256,
+  "block_size": 128,
+  "budget_bytes": 8388608,
+  "estimated_producer_work_bytes": 4406028,
+  "file_bytes": 37804298,
+  "raw_mask_bytes": 37748736,
+  "header_archive_bytes": 151722,
+  "record_overhead_bytes": 51000,
+  "max_block_array_bytes": 147456,
+  "write_ms": 3398.0078999884427,
+  "open_ms": 8.25710000935942,
+  "verify_ms": 333.4359999280423,
+  "indexed_oracle_ms": 3583.3300000522286,
+  "file_sha256": "8dd89ffc4052abb2eb8663aac0f483cfdabcd2108f675a28626de43cd6193b7c",
+  "content_sha256": "45759d100d4a6e3bd3780829c6f4d738d5760dd10678da0f5ea99aec4dc1a199",
+  "model_sha256": "6428dc478b389afcb6ea60f6170d269c8faf732b0039a21ed345e7acbd24eeba",
+  "class_counts": [
+    2097152,
+    2097152
+  ],
+  "valid_pixels": 4194304,
+  "file": "pixel80-verified-mask-2048.qps",
+  "native_sha256": "491ee1c28ca550b43e49805af64d883a0de16a7bbef0d62741eb53ec408846bc",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "environment": {
+    "source_tree_sha256": "0f4f1d47ee68c96b5eec842c6878af7720642350db814174c3b10a20ed0f51a1",
+    "git_revision": "53785ccfb65baaecd3b1f34fea402bc00e0fa2ca+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "verified": [
+    "atomic complete export and unchanged document",
+    "all record checksums/numeric masks/aggregate counts and content commitment",
+    "out-of-order block reads equal independent window requests",
+    "one model/provenance header and no full output array"
+  ],
+  "scope": "Single shared-workstation synthetic in-memory RGB source and local disk observation. Producer budget excludes source/model; file header has separate128MiB encoded/256MiB retained artifact caps, plus a block and64KiB I/O buffer. Timing includes OS flush, not a power-loss guarantee. Not RSS, vendor WSI, network storage, GUI frame, hardware or biological acceptance. Output file is retained for inspection."
+}

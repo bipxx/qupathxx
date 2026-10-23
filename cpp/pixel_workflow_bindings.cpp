@@ -1,5 +1,6 @@
 #include "qupathxx/pixel_contours.hpp"
 #include "qupathxx/pixel_stream.hpp"
+#include "qupathxx/pixel_stream_file.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/ndarray.h>
 #include <nanobind/stl/optional.h>
@@ -84,6 +85,18 @@ void bind_pixel_workflows(nb::module_& m) {
         .def_prop_ro("total_blocks",&PixelPredictionStream::total_blocks).def_prop_ro("completed_blocks",&PixelPredictionStream::completed_blocks)
         .def_prop_ro("valid_pixels",&PixelPredictionStream::valid_pixels).def_prop_ro("classified_pixels",&PixelPredictionStream::classified_pixels).def_prop_ro("class_counts",&PixelPredictionStream::class_counts)
         .def_prop_ro("estimated_work_bytes",&PixelPredictionStream::estimated_work_bytes);
+    nb::class_<PixelStreamFileSummary>(m,"PixelStreamFileSummary")
+        .def_ro("bytes",&PixelStreamFileSummary::bytes).def_ro("blocks",&PixelStreamFileSummary::blocks).def_ro("valid_pixels",&PixelStreamFileSummary::valid_pixels)
+        .def_ro("classified_pixels",&PixelStreamFileSummary::classified_pixels).def_ro("class_counts",&PixelStreamFileSummary::class_counts).def_ro("sha256",&PixelStreamFileSummary::sha256);
+    nb::class_<PixelStreamFile>(m,"PixelStreamFile").def(nb::init<const std::string&,std::uint64_t>(),"path"_a,"max_bytes"_a=1ULL<<40)
+        .def("cancel",&PixelStreamFile::cancel).def_prop_ro("cancelled",&PixelStreamFile::cancelled)
+        .def("read_block",&PixelStreamFile::read_block,"index"_a,nb::call_guard<nb::gil_scoped_release>())
+        .def("verify",[](const PixelStreamFile& file){file.verify();},nb::call_guard<nb::gil_scoped_release>())
+        .def_prop_ro("verified",&PixelStreamFile::verified).def_prop_ro("level_bounds",&PixelStreamFile::level_bounds)
+        .def_prop_ro("block_size",&PixelStreamFile::block_size).def_prop_ro("windowed",&PixelStreamFile::windowed)
+        .def_prop_ro("declared_summary",&PixelStreamFile::declared_summary,nb::rv_policy::copy);
+    m.def("save_pixel_stream",[](PixelPredictionStream& stream,const std::string& path,bool replace,std::uint64_t max_bytes){return save_pixel_stream(stream,path,replace,max_bytes);},
+        "stream"_a,"path"_a,"replace_existing"_a=false,"max_bytes"_a=1ULL<<40,nb::call_guard<nb::gil_scoped_release>());
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
         .def_rw("pixel_open",&GuiOptions::pixel_open).def_rw("pixel_selected_only",&GuiOptions::pixel_selected_only).def_rw("pixel_replace_model",&GuiOptions::pixel_replace_model).def_rw("pixel_show_overlay",&GuiOptions::pixel_show_overlay).def_rw("pixel_viewport_only",&GuiOptions::pixel_viewport_only)
         .def_rw("pixel_object_id",&GuiOptions::pixel_object_id).def_rw("pixel_preview_budget",&GuiOptions::pixel_preview_budget).def_rw("pixel_model_path",&GuiOptions::pixel_model_path)

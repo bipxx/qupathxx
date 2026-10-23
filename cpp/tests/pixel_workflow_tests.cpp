@@ -1,7 +1,9 @@
 #include "qupathxx/pixel_contours.hpp"
 #include "qupathxx/pixel_classifier_archive.hpp"
 #include "qupathxx/pixel_stream.hpp"
+#include "qupathxx/pixel_stream_file.hpp"
 #include "../gui_pixel_archives.hpp"
+#include "../sha256.hpp"
 #include "object_forest_fixture.hpp"
 #include <algorithm>
 #include <chrono>
@@ -9,17 +11,20 @@
 #include <iostream>
 #include <stdexcept>
 #include <thread>
+#include <filesystem>
+#include <fstream>
+#include <random>
 using namespace qpx;
 void checked(bool value,int line) {if(!value) throw std::runtime_error("pixel workflow check failed at line "+std::to_string(line));}
 #define check(v) checked((v),__LINE__)
 template<class F> void rejects(F f) {try {f();}catch(const std::exception&) {return;}throw std::runtime_error("missing pixel workflow rejection");}
 class Pyramid final:public ImageServer {
 public:
-    ImageMetadata info;mutable std::atomic<unsigned> reads{0};mutable std::atomic<bool> entered{false},release{true};std::atomic<bool> shut{false};
+    ImageMetadata info;mutable std::atomic<unsigned> reads{0};mutable std::atomic<bool> entered{false},release{true};std::atomic<bool> shut{false};unsigned fail_after=std::numeric_limits<unsigned>::max();
     Pyramid() {info.width=64;info.height=48;info.levels={{64,48,1},{43,32,1.5},{32,24,2}};}
     const ImageMetadata& metadata() const override {return info;}
     PixelBuffer read_region(const RegionRequest& r) const override {
-        validate_region(info,r);++reads;entered.store(true);while(!release.load()) std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        validate_region(info,r);if(++reads>fail_after) throw std::runtime_error("injected source read failure");entered.store(true);while(!release.load()) std::this_thread::sleep_for(std::chrono::milliseconds(1));
         const auto scale=info.levels[r.level].downsample;const auto gx=std::llround(r.x/scale),gy=std::llround(r.y/scale);PixelBuffer pixels(r.width,r.height);auto& b=pixels.writable_bytes();
         for(std::int64_t y=0;y<r.height;++y) for(std::int64_t x=0;x<r.width;++x) {const auto i=static_cast<std::size_t>(y*r.width+x);const auto xx=gx+x,yy=gy+y;b[i*4]=xx<info.levels[r.level].width/2?0:200;b[i*4+1]=static_cast<std::uint8_t>(yy);b[i*4+2]=17;b[i*4+3]=(xx+yy)%17==0?0:(xx+2*yy)%29==0?128:255;}return pixels;
     }
@@ -69,6 +74,19 @@ int main() {try {
         }
         check(stream.state()=="complete" && stream.completed_blocks()==stream.total_blocks() && stream.class_counts()==result->class_counts() && stream.valid_pixels()==result->valid_pixels() && !stream.next());
         PixelPredictionStream cancelled_stream(doc,roi,model,stream_options);const auto reads=source->reads.load();cancelled_stream.cancel();rejects([&]{cancelled_stream.next();});check(cancelled_stream.state()=="cancelled" && !cancelled_stream.completed_blocks() && source->reads==reads);
+        {
+            struct Output {std::filesystem::path path;bool owned=false;~Output(){if(owned) {std::error_code ec;std::filesystem::remove(path,ec);}}};
+            std::random_device random;Output output{std::filesystem::temp_directory_path()/("qupathxx-stream-"+std::to_string(random())+"-"+std::to_string(random())+".qps")};
+            PixelPredictionStream writer(doc,roi,model,stream_options);const auto summary=save_pixel_stream(writer,output.path.u8string());output.owned=true;
+            PixelStreamFile file(output.path.u8string());check(!file.verified() && file.declared_summary().sha256==summary.sha256 && summary.blocks==writer.total_blocks());file.verify();check(file.verified() && summary.class_counts==result->class_counts());
+            std::uint64_t seen=0;for(std::uint64_t i=0;i<summary.blocks;++i) {const auto block=file.read_block(i);seen+=std::uint64_t(block->width())*block->height();check(block->windowed() && !block->matches(predict));}check(seen==std::uint64_t(result->width())*result->height());
+            rejects([&]{file.read_block(summary.blocks);});PixelPredictionStream occupied(doc,roi,model,stream_options);rejects([&]{save_pixel_stream(occupied,output.path.u8string());});check(!occupied.completed_blocks());
+            PixelPredictionStream replacement(doc,roi,model,stream_options);const auto replaced=save_pixel_stream(replacement,output.path.u8string(),true);PixelStreamFile reopened(output.path.u8string());reopened.verify();check(replaced.class_counts==summary.class_counts);
+            auto broken=std::make_shared<Pyramid>();broken->fail_after=1;Document failed(broken);failed.set_calibration(.5,.25);const auto failed_id=failed.add_roi(Roi::rectangle({3,4,57,39}));PixelPredictionStream failed_writer(failed,failed_id,model,stream_options);
+            std::ifstream before_file(output.path,std::ios::binary);const std::vector<char> before((std::istreambuf_iterator<char>(before_file)),{});before_file.close();
+            rejects([&]{save_pixel_stream(failed_writer,output.path.u8string(),true);});check(failed_writer.completed_blocks()==1);
+            std::ifstream after_file(output.path,std::ios::binary);const std::vector<char> after((std::istreambuf_iterator<char>(after_file)),{});check(before==after);
+        }
         prediction.tile_size=32;const auto tiled=predict_pixel_region(PixelPredictionRequest(doc,roi,model,prediction));check(tiled->sha256()==result->sha256());
         rejects([&]{predict_pixel_region(predict,&cancelled);});prediction.work_bytes=1024*1024;rejects([&]{PixelPredictionRequest too_small(doc,roi,model,prediction);});
         const auto archived=archive_pixel_prediction(result);check(archived->purpose()=="prediction" && archived->annotations().front().id==roi);
@@ -107,6 +125,22 @@ int main() {try {
         const auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(5);while(!huge->entered && std::chrono::steady_clock::now()<deadline) std::this_thread::sleep_for(std::chrono::milliseconds(1));
         check(huge->entered && gated.busy());rejects([&]{gated.next();});gated.cancel();huge->release.store(true);
         check(worker.get() && !gated.busy() && gated.state()=="cancelled" && !gated.completed_blocks() && !gated.valid_pixels());
+    }
+    {
+        // Float rectangle reporting cannot distinguish adjacent grid integers
+        // here. A re-signed prefix must still match the prototype exactly.
+        constexpr std::int64_t base=9007199254741120LL;auto far=std::make_shared<Pyramid>();far->info.width=base+1024;far->info.levels={{base+1024,48,1}};
+        Document distant(far);distant.set_calibration(.5,.25);const auto id=distant.add_roi(Roi::rectangle({double(base),4,32,32}));const auto model=fixture(options.features,transform,table->resolution());PixelStreamOptions settings;settings.block_size=16;
+        std::random_device random;const auto path=std::filesystem::temp_directory_path()/("qupathxx-far-stream-"+std::to_string(random())+"-"+std::to_string(random())+".qps");
+        struct RemoveOwned {std::filesystem::path path;bool owned=false;~RemoveOwned(){if(owned) {std::error_code ec;std::filesystem::remove(path,ec);}}} output{path};
+        PixelPredictionStream stream(distant,id,model,settings,Rect{double(base),4,16,16});save_pixel_stream(stream,path.u8string());output.owned=true;PixelStreamFile valid(path.u8string());valid.verify();
+        std::ifstream input(path,std::ios::binary);std::vector<char> bytes((std::istreambuf_iterator<char>(input)),{});input.close();
+        auto integer=[&](std::size_t at){std::uint64_t n=0;for(int i=0;i<8;++i) n|=std::uint64_t(static_cast<unsigned char>(bytes[at+i]))<<(8*i);return n;};
+        const auto length=integer(60),header_at=68+length;for(int i=0;i<8;++i) bytes[4+i]=static_cast<char>(std::uint64_t(base+1)>>(8*i));
+        Sha256 header;header.update(bytes.data(),header_at);const auto header_hash=header.finish();std::copy(header_hash.begin(),header_hash.end(),bytes.begin()+header_at);
+        const auto prototype_hash=std::string(bytes.data()+68+length-64,64);Sha256 ordered;const std::string domain="qpx.pixel-stream-content/1";ordered.update(domain.data(),domain.size());ordered.update(header_hash.data(),64);ordered.update(prototype_hash.data(),64);const auto commitment=ordered.finish();std::copy(commitment.begin(),commitment.end(),bytes.end()-128);
+        const auto footer_at=bytes.size()-(4+16+model.classes().size()*8+128);Sha256 footer;footer.update(header_hash.data(),64);footer.update(bytes.data()+footer_at,bytes.size()-64-footer_at);const auto footer_hash=footer.finish();std::copy(footer_hash.begin(),footer_hash.end(),bytes.end()-64);
+        std::ofstream changed(path,std::ios::binary|std::ios::trunc);changed.write(bytes.data(),static_cast<std::streamsize>(bytes.size()));changed.close();rejects([&]{PixelStreamFile rejected(path.u8string());});
     }
     const auto bare=fixture(options.features,transform);check(bare.bytes()[3]==1);rejects([&]{pixel_classifier_level(doc,bare);});
     PixelResolution bad;bad.pixel_width_um=.5;rejects([&]{bad.validate();});

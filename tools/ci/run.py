@@ -185,6 +185,8 @@ def main():
         work/'pixel-workflow-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream.py', '--output', work/'pixel-stream-benchmark.json'],
         work/'pixel-stream-benchmark.log', env, 120)
+    run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_file.py', '--file', work/'pixel-stream-file.qps', '--output', work/'pixel-stream-file-benchmark.json'],
+        work/'pixel-stream-file-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_archives.py', '--output', work/'pixel-archive-benchmark.json'],
         work/'pixel-archive-benchmark.log', env, 120)
     if args.mode == 'gui':

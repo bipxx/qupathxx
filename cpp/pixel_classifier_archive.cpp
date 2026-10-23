@@ -144,6 +144,9 @@ std::shared_ptr<const PixelClassifierArchive> PixelClassifierArchiveCodec::predi
     for(std::size_t i=0;i<result->labels().size();++i) {if((i&4095)==0) stop(cancelled);u32(w,result->labels()[i]);const auto valid=result->valid()[i];w.raw(&valid,1);u32(w,std::isfinite(result->vote_fractions()[i])?bits(result->vote_fractions()[i]):0x7fc00000u);}
     w.finish();seal(*out,std::move(w.b));stop(cancelled);return out;
 }
+void PixelClassifierArchiveCodec::validate_prediction(const PixelPredictionResult& result,const std::atomic<bool>* cancelled) {
+    if(!result.snapshot_) throw std::invalid_argument("pixel block has no snapshot");mask_check(result,*result.snapshot_,cancelled);
+}
 std::shared_ptr<const PixelClassifierArchive> PixelClassifierArchiveCodec::decode(const std::uint8_t* data,std::size_t size,const std::atomic<bool>* cancelled) {
     stop(cancelled);const bool windowed=data && size>=4 && std::memcmp(data,"QPA\2",4)==0;Reader r(data,size,windowed?"QPA\2":"QPA\1");const bool training=r.integer(1)!=0;if(windowed && training) throw std::invalid_argument("windowed pixel archive cannot contain a training cohort");auto model=PixelClassifier::from_bytes(r.blob(64u*1024*1024+4096));const auto pv=r.view(4u*1024*1024);auto provenance=ProvenanceCodec::decode(pv.first,pv.second);metadata(*provenance);
     auto out=std::shared_ptr<PixelClassifierArchive>(new PixelClassifierArchive());out->model_=std::make_shared<const PixelClassifier>(model);const auto annotations=r.integer(4096);if(!annotations || (!training && annotations!=1)) throw std::invalid_argument("invalid pixel annotation snapshot count");out->annotations_.reserve(annotations);

@@ -2512,5 +2512,57 @@ remains active. The local record preserves the initial failure and reproduction.
 
 Implementation commit: `08151d4`. Hosted
 [run 39894647437](https://github.com/bipxx/qupathxx/actions/runs/39894647437)
-targets that commit and is running. No hosted block-producer/replay-isolation
-pass is claimed yet.
+completed successfully on all five jobs. The [hosted receipt](benchmarks/pixel-stream-ci-windows-linux.json) verifies 1,555 GUI Python passes with seven skips, 1,234 Windows headless passes, 1,228 Linux passes and all native configurations, including the 24 producer cases and real Win32 wheel regression.
+
+
+## Packet 80 — compact durable pixel stream files
+
+`save_pixel_stream` consumes a fresh native producer into one atomic QPS1
+output. The model, original ROI and captured provenance occur once in a bounded
+QPA2 header; remaining records pack labels, validity and vote fractions with
+per-block checksums. Grid-derived offsets provide indexed reads without a
+per-block offset list. A completion footer commits ordered content and totals.
+`PixelStreamFile` validates header/length/footer at open, validates requested
+blocks lazily, and verifies every record and aggregate on demand. Loaded arrays
+remain immutable historical values with no restored live publication authority.
+
+Replacement requires an explicitly requested, fully verified prior stream.
+Source failure, cancellation and output limits remove temporary output and
+preserve the destination. A newly appearing destination remains protected even
+when replacement was requested. Reader file-version guards detect replacement
+and mutation; returned array owners survive reader/source destruction. Reads
+and verification release the Python GIL and support terminal reader cancellation.
+The native writer also accepts an I/O cancellation token; a separate Python
+export job for cancelling final flush/commit remains open.
+
+Thirty-four file API cases cover full/windowed grids and edge blocks, historical
+lifetimes, safe replacement, cancellation, concurrent destination creation,
+malformed framing, raw corruption, re-signed invalid numeric values and false
+aggregate totals. Two Windows-generated fixtures exercise portable rectangle
+and polygon-window values. Native tests compare full mosaics at three pyramid
+levels, preserve a prior file on source failure, and reject a re-signed integer
+grid mismatch above 2^53, where adjacent coordinates alias as doubles.
+
+See the [file contract](pixel-stream-file.md). Resume, project-linked stream
+records, stitched whole-stream contour publication, desktop streaming jobs,
+unmatched-grid resampling, expanded features, TMA, research/QuPath comparisons
+and all other outstanding M0–M7 requirements remain open.
+
+The [1,024-square](benchmarks/pixel-stream-file-1024-windows.json) and
+[2,048-square](benchmarks/pixel-stream-file-2048-windows.json) probes compare
+all saved blocks out of order with independent prediction windows. Both retain
+at most 147,456 bytes of block arrays and estimate 4,406,028 producer work bytes.
+One 151,722-byte header serves 64 or 256 blocks. Files occupy 9,454,346 and
+37,804,298 bytes; export including flush took 0.835 and 3.398 seconds, and full
+verification 0.079 and 0.333 seconds. These synthetic shared-workstation probes
+ran while the GUI regression suite was active; they are observations, not an
+uncontended throughput comparison, RSS bound or whole-slide acceptance result.
+
+The [final local record](benchmarks/pixel-stream-file-local-windows-linux.json)
+checks 1,592 installed Python passes with six expected skips, 39 GUI native
+passes and 38 each Windows headless, Linux training, Linux minimal and Linux
+ASan/UBSan passes. Exact stubs, strict positive/negative typing, installed
+software-GL launch, wheel/native/source identities and portable fixture hashes
+are verified. The initial full run had one provenance mismatch after source
+changed during testing; rebuilding from frozen source and repeating the entire
+suite resolved it. Hosted QPS1 validation will be tracked after publication.
