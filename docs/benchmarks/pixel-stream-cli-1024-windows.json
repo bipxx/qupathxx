@@ -1,0 +1,34 @@
+{
+  "schema": "qpx.pixel-stream-cli-benchmark/1",
+  "size": 1024,
+  "blocks": 64,
+  "file_bytes": 9454346,
+  "file_sha256": "d9818ea15968d60a873ae4c8e2494c599e53a04699055abf6965a5874e9d58c0",
+  "content_sha256": "12cabc6602472fd05c173b1bf76fefa3037fd9b9ba5ee60bfcd9183d4539d472",
+  "export_process_ms": 1088.6782999150455,
+  "verify_process_ms": 142.31160003691912,
+  "worker_ms": 940.2224,
+  "progress_lines": 10,
+  "stdout_bytes": 4224,
+  "estimated_producer_work_bytes": 4406028,
+  "budget_bytes": 8388608,
+  "max_block_array_bytes": 147456,
+  "valid_pixels": 1048576,
+  "class_counts": [
+    524288,
+    524288
+  ],
+  "executable_sha256": "b352fd87b63c7f9bb462d74934ac5b31ecf328b696f20e9261b2e019f2d3f830",
+  "native_sha256": "33b22b3342353d05a620f931f238adf67f89f989b79b2706774a1e7ce9caa52e",
+  "model_sha256": "8081155d82ae06e7118663c8b3794dddff8795a05521fed3c91ef99361bfe592",
+  "project_sha256": "402f45eb38af97c16fa2c0e8b400f280039da7f6e23a1880275f0e7060c34aa8",
+  "model_file_sha256": "8081155d82ae06e7118663c8b3794dddff8795a05521fed3c91ef99361bfe592",
+  "environment": {
+    "source_tree_sha256": "0b2425b9f2bbb5193fc2b6a89e0421ffba0bf294e4648d6ecad42d2ab7c806bf",
+    "git_revision": "75296136dc4d70be2450f07daa36175be8fc2f35+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "scope": "Single shared-workstation synthetic embedded RGB project. Separate installed native export/verify processes, at most128px block output, all label/valid/vote arrays compared against Python window predictions, original project/model bytes unchanged. Process timing includes project/model load and OS flush. Source/model/metadata/thread bookkeeping outside producer budget; not RSS, vendor WSI, resume, project-wide batch, hardware or biological acceptance. All files retained."
+}

@@ -1,0 +1,345 @@
+{
+  "schema": "qpx.pixel-stream-cli-local/1",
+  "observed_utc": "2026-10-23T05:49:05.858389+00:00",
+  "scope": "Standalone native single-target project/model QPS1 export and complete file verification. Tests cover installed Windows executable, exact Python mask oracle, cooperative Ctrl-Break cancellation, unchanged project/model, unrelated-file preservation, error protocol and old batch CLI regressions. Linux/minimal verification, Linux project export with exact cross-platform block arrays and cooperative SIGINT cancellation checked locally; hosted checks remain pending. No project-wide resumable pixel batch, project-linked streams, RSS, vendor WSI, hardware/frame-budget or biological acceptance.",
+  "tests": {
+    "cli_and_existing_batch": {
+      "tests": 68,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 1,
+      "passed": 67,
+      "seconds": 7.391,
+      "sha256": "15d24ca226af5874824c0b8f6e448639c84e5a4b5bfd4cf3b69b52cb3219d603"
+    },
+    "provenance_and_stream_api": {
+      "tests": 96,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 96,
+      "seconds": 11.037,
+      "sha256": "4a83e6fcad7c83ab9040bf07115ef1242c659903dc1c9212a069bf24fb8ae58b"
+    },
+    "windows_gui_native": {
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 39,
+      "seconds": 15.0,
+      "sha256": "b0ad6317c747396ff0f73c9e2121c65d557637e3f6746f99cb2234cf2cf4314a"
+    },
+    "windows_native": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 6.0,
+      "sha256": "2dd58bf5893d5fe9e0234d77e077bdf5389d4d751ea4149a7ff743ca588d31ff"
+    },
+    "linux_native": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 1.0,
+      "sha256": "570efc0cdbba51fc428cc28b74cd08366d17856d1559eba1cdae30aa5bf727db"
+    },
+    "linux_minimal": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 0.0,
+      "sha256": "22246d14dddab6e70a640d36d69f387e23294e81140323285075c832aeca954f"
+    },
+    "linux_sanitizers": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 4.0,
+      "sha256": "02f64803510f567abc4e3fe43fcf41176d3d4eb5b70b105fe12adbc05ca3396f"
+    }
+  },
+  "new_cli_cases": [
+    "test_cli_export_matches_independent_python_blocks_and_preserves_project[None-16]",
+    "test_cli_export_matches_independent_python_blocks_and_preserves_project[None-128]",
+    "test_cli_export_matches_independent_python_blocks_and_preserves_project[window1-16]",
+    "test_cli_export_matches_independent_python_blocks_and_preserves_project[window1-128]",
+    "test_cli_never_overwrites_unrelated_output_or_input_files[False]",
+    "test_cli_never_overwrites_unrelated_output_or_input_files[True]",
+    "test_cli_explicit_verified_replacement_and_default_refusal",
+    "test_cli_rejects_invalid_export_without_output[args0]",
+    "test_cli_rejects_invalid_export_without_output[args1]",
+    "test_cli_rejects_invalid_export_without_output[args2]",
+    "test_cli_rejects_invalid_export_without_output[args3]",
+    "test_cli_rejects_invalid_export_without_output[args4]",
+    "test_cli_rejects_invalid_export_without_output[args5]",
+    "test_cli_rejects_invalid_export_without_output[args6]",
+    "test_cli_rejects_invalid_export_without_output[args7]",
+    "test_cli_rejects_invalid_export_without_output[args8]",
+    "test_cli_rejects_invalid_export_without_output[args9]",
+    "test_cli_rejects_invalid_export_without_output[args10]",
+    "test_cli_rejects_invalid_export_without_output[args11]",
+    "test_cli_rejects_invalid_export_without_output[args12]",
+    "test_cli_rejects_invalid_export_without_output[args13]",
+    "test_cli_rejects_invalid_export_without_output[args14]",
+    "test_cli_rejects_invalid_export_without_output[args15]",
+    "test_cli_rejects_invalid_export_without_output[args16]",
+    "test_cli_rejects_invalid_export_without_output[args17]",
+    "test_cli_rejects_invalid_export_without_output[args18]",
+    "test_cli_rejects_invalid_export_without_output[args19]",
+    "test_cli_missing_image_or_target_is_reported_before_work[ids0]",
+    "test_cli_missing_image_or_target_is_reported_before_work[ids1]",
+    "test_cli_missing_image_or_target_is_reported_before_work[ids2]",
+    "test_cli_missing_image_or_target_is_reported_before_work[ids3]",
+    "test_cli_missing_image_or_target_is_reported_before_work[ids4]",
+    "test_cli_missing_image_or_target_is_reported_before_work[ids5]",
+    "test_cli_verification_failure_never_reports_trusted_summary[bad-checksum]",
+    "test_cli_verification_failure_never_reports_trusted_summary[truncated]",
+    "test_cli_verification_failure_never_reports_trusted_summary[unrelated]",
+    "test_cli_verification_failure_never_reports_trusted_summary[missing]",
+    "test_cli_verification_failure_never_reports_trusted_summary[byte-limit]",
+    "test_cli_verification_argument_errors[args0]",
+    "test_cli_verification_argument_errors[args1]",
+    "test_cli_verification_argument_errors[args2]",
+    "test_cli_verification_argument_errors[args3]",
+    "test_cli_verification_argument_errors[args4]",
+    "test_cli_verification_argument_errors[args5]",
+    "test_cli_interrupt_cancels_worker_and_leaves_no_partial_file",
+    "test_help_describes_pixel_commands_and_old_batch_options"
+  ],
+  "skip_reasons": [
+    {
+      "module": "tests.test_project_batch",
+      "name": "test_checkpoint_opens_in_existing_viewer",
+      "reason": "opt-in GUI"
+    }
+  ],
+  "installed": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "33b22b3342353d05a620f931f238adf67f89f989b79b2706774a1e7ce9caa52e",
+    "source_tree_sha256": "0b2425b9f2bbb5193fc2b6a89e0421ffba0bf294e4648d6ecad42d2ab7c806bf",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "bytes": 12179213,
+    "sha256": "1cf275c632bc3f684650bc89f0b66b2ed60d3032656d3ead4cec5a64db6287ad"
+  },
+  "executable_sha256": "b352fd87b63c7f9bb462d74934ac5b31ecf328b696f20e9261b2e019f2d3f830",
+  "benchmarks": [
+    {
+      "file": "pixel-stream-cli-1024-windows.json",
+      "sha256": "7ac177c82ddcd2ca64921cd7f0cac7530fc9b1195b367ae24b505ad50dc751dd",
+      "values": {
+        "schema": "qpx.pixel-stream-cli-benchmark/1",
+        "size": 1024,
+        "blocks": 64,
+        "file_bytes": 9454346,
+        "file_sha256": "d9818ea15968d60a873ae4c8e2494c599e53a04699055abf6965a5874e9d58c0",
+        "content_sha256": "12cabc6602472fd05c173b1bf76fefa3037fd9b9ba5ee60bfcd9183d4539d472",
+        "export_process_ms": 1088.6782999150455,
+        "verify_process_ms": 142.31160003691912,
+        "worker_ms": 940.2224,
+        "progress_lines": 10,
+        "stdout_bytes": 4224,
+        "estimated_producer_work_bytes": 4406028,
+        "budget_bytes": 8388608,
+        "max_block_array_bytes": 147456,
+        "valid_pixels": 1048576,
+        "class_counts": [
+          524288,
+          524288
+        ],
+        "executable_sha256": "b352fd87b63c7f9bb462d74934ac5b31ecf328b696f20e9261b2e019f2d3f830",
+        "native_sha256": "33b22b3342353d05a620f931f238adf67f89f989b79b2706774a1e7ce9caa52e",
+        "model_sha256": "8081155d82ae06e7118663c8b3794dddff8795a05521fed3c91ef99361bfe592",
+        "project_sha256": "402f45eb38af97c16fa2c0e8b400f280039da7f6e23a1880275f0e7060c34aa8",
+        "model_file_sha256": "8081155d82ae06e7118663c8b3794dddff8795a05521fed3c91ef99361bfe592",
+        "environment": {
+          "source_tree_sha256": "0b2425b9f2bbb5193fc2b6a89e0421ffba0bf294e4648d6ecad42d2ab7c806bf",
+          "git_revision": "75296136dc4d70be2450f07daa36175be8fc2f35+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Single shared-workstation synthetic embedded RGB project. Separate installed native export/verify processes, at most128px block output, all label/valid/vote arrays compared against Python window predictions, original project/model bytes unchanged. Process timing includes project/model load and OS flush. Source/model/metadata/thread bookkeeping outside producer budget; not RSS, vendor WSI, resume, project-wide batch, hardware or biological acceptance. All files retained."
+      }
+    },
+    {
+      "file": "pixel-stream-cli-2048-windows.json",
+      "sha256": "ff8dcd15e0b9ac14c7983b43043295b08414eec154800bab71bfd872cb08ef92",
+      "values": {
+        "schema": "qpx.pixel-stream-cli-benchmark/1",
+        "size": 2048,
+        "blocks": 256,
+        "file_bytes": 37804298,
+        "file_sha256": "f9ac48fc746ba8bd19d8a8d1058aefecbb7006a22a469fc4cb734e3fab29bfbf",
+        "content_sha256": "386a44256b9a9072cb379e668798071c672bb41ea5ca2c2b23b2d076d9610991",
+        "export_process_ms": 4054.8099000006914,
+        "verify_process_ms": 402.9217000352219,
+        "worker_ms": 3998.4457,
+        "progress_lines": 38,
+        "stdout_bytes": 15545,
+        "estimated_producer_work_bytes": 4406028,
+        "budget_bytes": 8388608,
+        "max_block_array_bytes": 147456,
+        "valid_pixels": 4194304,
+        "class_counts": [
+          2097152,
+          2097152
+        ],
+        "executable_sha256": "b352fd87b63c7f9bb462d74934ac5b31ecf328b696f20e9261b2e019f2d3f830",
+        "native_sha256": "33b22b3342353d05a620f931f238adf67f89f989b79b2706774a1e7ce9caa52e",
+        "model_sha256": "6428dc478b389afcb6ea60f6170d269c8faf732b0039a21ed345e7acbd24eeba",
+        "project_sha256": "abe3ec7026a3f24d5ae731f302c8f4e5e7d367dc3b0a1d06b47f5810d33f48d5",
+        "model_file_sha256": "6428dc478b389afcb6ea60f6170d269c8faf732b0039a21ed345e7acbd24eeba",
+        "environment": {
+          "source_tree_sha256": "0b2425b9f2bbb5193fc2b6a89e0421ffba0bf294e4648d6ecad42d2ab7c806bf",
+          "git_revision": "75296136dc4d70be2450f07daa36175be8fc2f35+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Single shared-workstation synthetic embedded RGB project. Separate installed native export/verify processes, at most128px block output, all label/valid/vote arrays compared against Python window predictions, original project/model bytes unchanged. Process timing includes project/model load and OS flush. Source/model/metadata/thread bookkeeping outside producer budget; not RSS, vendor WSI, resume, project-wide batch, hardware or biological acceptance. All files retained."
+      }
+    }
+  ],
+  "linux_verification": {
+    "schema": "qpx.pixel-verify/1",
+    "state": "verified",
+    "error": "",
+    "path": "build/pixel83-cli-2048/mask.qps",
+    "source_tree_sha256": "0b2425b9f2bbb5193fc2b6a89e0421ffba0bf294e4648d6ecad42d2ab7c806bf",
+    "summary": {
+      "bytes": 37804298,
+      "blocks": 256,
+      "valid_pixels": 4194304,
+      "classified_pixels": 4194304,
+      "content_sha256": "386a44256b9a9072cb379e668798071c672bb41ea5ca2c2b23b2d076d9610991",
+      "class_counts": [
+        2097152,
+        2097152
+      ]
+    }
+  },
+  "minimal_verification": {
+    "schema": "qpx.pixel-verify/1",
+    "state": "verified",
+    "error": "",
+    "path": "tests/data/pixel-streams/rectangle-v1-windows.qps",
+    "source_tree_sha256": "0b2425b9f2bbb5193fc2b6a89e0421ffba0bf294e4648d6ecad42d2ab7c806bf",
+    "summary": {
+      "bytes": 25161,
+      "blocks": 12,
+      "valid_pixels": 2240,
+      "classified_pixels": 2240,
+      "content_sha256": "3d3420d4529b763a078ec5b35fb4cc893771d4de8f41abff4a08835dd3e16b11",
+      "class_counts": [
+        1288,
+        952
+      ]
+    }
+  },
+  "cross_platform_export": {
+    "blocks": 256,
+    "exact_all_numeric_hashes_and_arrays": true,
+    "ordered_numeric_sha256": "4438fe142b6e718ca03d7a261e44e2b8021f1553d107536abd203d3385a24b4c",
+    "linux_export": {
+      "schema": "qpx.pixel-export/1",
+      "state": "saved",
+      "error": "",
+      "path": "build/pixel83-linux-mask-2048.qps",
+      "image_id": 1,
+      "object_id": 3,
+      "model_sha256": "6428dc478b389afcb6ea60f6170d269c8faf732b0039a21ed345e7acbd24eeba",
+      "source_tree_sha256": "0b2425b9f2bbb5193fc2b6a89e0421ffba0bf294e4648d6ecad42d2ab7c806bf",
+      "completed_blocks": 256,
+      "total_blocks": 256,
+      "estimated_work_bytes": 4405704,
+      "elapsed_ms": 23217.714004,
+      "summary": {
+        "bytes": 37804212,
+        "blocks": 256,
+        "valid_pixels": 4194304,
+        "classified_pixels": 4194304,
+        "content_sha256": "999db8fca9ec8b9faaf6fed24d9d08eee74d7e42d3159b15ee73315f2107c624",
+        "class_counts": [
+          2097152,
+          2097152
+        ]
+      }
+    },
+    "linux_verification": {
+      "schema": "qpx.pixel-verify/1",
+      "state": "verified",
+      "error": "",
+      "path": "build/pixel83-linux-mask-2048.qps",
+      "source_tree_sha256": "0b2425b9f2bbb5193fc2b6a89e0421ffba0bf294e4648d6ecad42d2ab7c806bf",
+      "summary": {
+        "bytes": 37804212,
+        "blocks": 256,
+        "valid_pixels": 4194304,
+        "classified_pixels": 4194304,
+        "content_sha256": "999db8fca9ec8b9faaf6fed24d9d08eee74d7e42d3159b15ee73315f2107c624",
+        "class_counts": [
+          2097152,
+          2097152
+        ]
+      }
+    },
+    "linux_executable_sha256": "e965646fbd12301ceb6d28f5706f43c879e9318e66b17184eae31f83cf9b08cc",
+    "linux_file_sha256": "3a982e2e7f8916325ad219be644954efc317b357be5996549b6d322716dd7c1a",
+    "linux_sigint_cancellation": {
+      "exit_code": 130,
+      "final": {
+        "schema": "qpx.pixel-export/1",
+        "state": "cancelled",
+        "error": "",
+        "path": "build/pixel83-linux-cancel.qps",
+        "image_id": 1,
+        "object_id": 3,
+        "model_sha256": "6428dc478b389afcb6ea60f6170d269c8faf732b0039a21ed345e7acbd24eeba",
+        "source_tree_sha256": "0b2425b9f2bbb5193fc2b6a89e0421ffba0bf294e4648d6ecad42d2ab7c806bf",
+        "completed_blocks": 0,
+        "total_blocks": 16384,
+        "estimated_work_bytes": 658888,
+        "elapsed_ms": 6.699695,
+        "summary": null
+      },
+      "no_output": true
+    },
+    "caveat": "Exported from the same original saved Windows project/model. Framed content differs with captured provenance; this proves numeric equality for this fixture, not general retraining or biological accuracy."
+  },
+  "stubs_log_sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+  "validation_scope": "Targeted current-wheel CLI/batch/provenance/stream regressions and all native configurations. No complete current-wheel Python/desktop-suite result is claimed for this CLI-only change; the prior inspector full-suite/hosted records remain historical evidence for that earlier implementation."
+}

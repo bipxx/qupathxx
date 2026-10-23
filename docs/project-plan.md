@@ -2724,3 +2724,59 @@ Implementation commit: `867eade45a0f33e46ec9f1428851857d50a4270a`. Hosted
 [run 39906932004](https://github.com/bipxx/qupathxx/actions/runs/39906932004)
 targets that exact commit and is in progress. No hosted inspector pass is
 claimed yet.
+
+
+## Packet 83 — standalone pixel stream export and verification
+
+`qupathxx_batch --export-pixels PROJECT IMAGE_ID OBJECT_ID MODEL OUTPUT.qps`
+uses the same native background export job as Python/F5. The standalone process
+loads a saved project and resolution-bound model, captures one target and emits
+bounded QPS1 blocks without editing or saving its inputs. Options expose block,
+kernel tile, work, pixel/block/file quotas, vote threshold, level-zero window
+and explicit verified replacement. JSONL progress is limited to changed counters
+at 100 ms intervals; terminal saved output includes the committed file summary.
+
+`--verify-pixels FILE.qps` validates the complete stream without a project,
+training backend or live slide. It reports a trusted summary only after the
+scan succeeds. Argument/setup and worker/file failures have distinct exit
+codes; Ctrl-C/Ctrl-Break/SIGINT/SIGTERM request cancellation and join native work.
+An already committed file remains saved after late cancellation. Existing
+project-wide ROI/tissue/cell batch and CSV checkpoint command syntax remains.
+See the [command contract](pixel-stream-cli.md).
+
+All 46 new installed-executable cases pass, including four exact full/windowed
+mosaics, Unicode paths, unchanged project bytes, verification summaries, output
+protection for project/model/unrelated files, explicit verified replacement,
+malformed inputs, quotas, missing targets, corrupt files and real Windows
+Ctrl-Break cancellation. Existing headless batch checks also pass. The
+[local record](benchmarks/pixel-stream-cli-local-windows-linux.json) checks 67
+CLI/batch cases (one opt-in desktop skip), 96 provenance/stream cases without
+skips, 39 GUI native and 38 each Windows headless/Linux training/minimal/sanitizer
+passes, exact stubs and installed software-GL launch. This is targeted validation
+of a CLI-only change; no full current-wheel Python/desktop-suite pass is claimed.
+
+The [1,024-square](benchmarks/pixel-stream-cli-1024-windows.json) and
+[2,048-square](benchmarks/pixel-stream-cli-2048-windows.json) probes invoke separate
+installed export and verification processes. Every saved label/validity/vote is
+compared with an independent Python window, and source project/model file hashes
+remain unchanged. Both estimate 4,406,028 producer work bytes and bound output
+arrays at 147,456 bytes. Export process observations are 1.089 s and 4.055 s;
+verification processes take 0.142 s and 0.403 s. Progress output is 4,224 and 15,545
+bytes across 10/38 lines. Times include project/model loading and OS flush on a
+shared workstation; source/model/header/thread storage is outside the producer
+allowance. No RSS, vendor WSI, hardware or biological acceptance is inferred.
+
+Project-wide resumable pixel-classifier batches, project-linked stream records,
+source reconciliation, stitched whole-stream contours, unmatched-grid resampling,
+expanded features, TMA, research/QuPath comparisons and every other outstanding
+M0–M7 requirement remain open. One-target CLI orchestration does not complete
+the project-wide batch requirement.
+
+A locally built Linux executable with project support also exports the original
+saved Windows 2,048-square project/model. All 256 block numeric hashes and every
+label/validity/vote array match the Windows export exactly. Each file has its
+own captured provenance, so framed content commitments differ. Linux SIGINT
+cancels a running 16-square-block export with exit 130 and no partial output.
+Linux training/minimal executables also verify existing Windows-produced files.
+The local record includes the Linux executable/output identities and cancellation
+result; these fixture checks imply no general biological or retraining identity.

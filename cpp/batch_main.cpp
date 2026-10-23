@@ -1,5 +1,6 @@
 #include "qupathxx/project_batch.hpp"
 #include "batch_checkpoint.hpp"
+#include "pixel_stream_cli.hpp"
 #include <charconv>
 #include <cmath>
 #include <csignal>
@@ -28,6 +29,11 @@ int execute(const std::vector<std::string>& args) {
     if(args.size()==1 || (args.size()==2 && args[1]=="--help")) {
         std::cout<<"Usage: qupathxx_batch PROJECT OUTPUT_DIRECTORY [options]\n"
             "       qupathxx_batch --export-csv CHECKPOINT OUTPUT.csv\n"
+            "       qupathxx_batch --export-pixels PROJECT IMAGE_ID OBJECT_ID MODEL OUTPUT.qps [options]\n"
+            "       qupathxx_batch --verify-pixels FILE.qps [--file-bytes N]\n"
+            "Pixel export: --block-size N --work-bytes N --tile-size N --file-bytes N\n"
+            "              --max-pixels N --max-blocks N --min-vote NUMBER\n"
+            "              --window X,Y,WIDTH,HEIGHT --replace-existing\n"
             "--kind od|stains|tissue|cells  --image ID (repeatable)\n"
             "--object ID (repeatable, requires one --image)\n"
             "--white R,G,B  --stains R,G,B,R,G,B[,R,G,B]  --normalized\n"
@@ -40,6 +46,7 @@ int execute(const std::vector<std::string>& args) {
         return args.size()==1?2:0;
     }
     try {
+        if(const auto result=detail::pixel_stream_cli(args,cancelled)) return *result;
         if(args.size()==4 && args[1]=="--export-csv") {save_batch_checkpoint_csv(args[2],args[3]);return 0;}
         if(args.size()<3 || args[1].rfind("--",0)==0) throw std::invalid_argument("expected PROJECT and OUTPUT_DIRECTORY; see --help");
         ProjectBatchOptions options;std::vector<ProjectBatchSelection> selection;std::vector<std::uint64_t> objects;
@@ -73,7 +80,7 @@ int execute(const std::vector<std::string>& args) {
         const auto report=run_project_batch(request,args[2],&cancelled,[](const auto& image){std::cout<<project_batch_image_json(image)<<'\n'<<std::flush;});
         std::cout<<project_batch_report_json(report)<<std::flush;return report.state=="succeeded"?0:report.state=="cancelled"?130:1;
     } catch(const std::exception& e) {
-        std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<qpx::detail::batch_json_quote(e.what())<<"}\n";return 2;
+        std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<qpx::detail::batch_json_quote(e.what())<<"}\n";return cancelled.load()?130:2;
     }
 }
 }

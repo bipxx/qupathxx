@@ -73,6 +73,8 @@ QuPath port or a compatible replacement for Java QuPath.
   [background export job](docs/pixel-stream-export.md) also powers F5 stream export
   with progress and cancellation. A separate [saved-file inspector](docs/pixel-stream-browser.md)
   opens, verifies and previews individual historical blocks without changing the current image.
+  The standalone [pixel commands](docs/pixel-stream-cli.md) export from saved projects
+  and verify QPS1 files through `qupathxx_batch`.
   Research validation and large-batch
   frame budgets remain unfinished;
   see also the
