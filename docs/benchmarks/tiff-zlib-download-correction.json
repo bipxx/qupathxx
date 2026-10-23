@@ -1,0 +1,23 @@
+{
+  "schema": "qpx.zlib-mirror-proof/1",
+  "release_url": "https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz",
+  "sha256": "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16",
+  "bytes": 1502830,
+  "same_original_pinned_archive": true,
+  "original_hosted_failure": "39945420670 Windows headless: www.zlib.net download checksum e022b5420eefdfde21ef713f023e428d7b8f3e5cec0cf686813bbfb064ac77ae",
+  "official_release_digest_verified": true,
+  "clean_fetch_builds": {
+    "tiff88-zlib-fresh-fetch": "1222f82498423d50ab80891986ef32b0284a9cfbcecc9699b7067515bf35946d",
+    "tiff88-zlib-fresh-build": "dbebabd0bf091f5e447ef6676c47545607b07f18aec6c064f04b8bb0ad24fd9f",
+    "tiff88-zlib-cmake331-fetch": "c7a8d18cf051b12dc626247ddbef34536fab9445a9a59b05499afe4fcd133941",
+    "tiff88-zlib-cmake331-build": "f6e7c07beafb8f052f0b00c201eea0a382d797e9c8a93a9087d37b7d476678e7",
+    "tiff88-zlib-linux-fetch": "43a94dfa55837a624f444712346136817179f1fdf8b7125669e032d6f60f88e6",
+    "tiff88-zlib-linux-build": "b456d45310f840d427e9bb1e945c9bcd065298c5258d911f9ea3105ab8db2221"
+  },
+  "checks": [
+    "Windows CMake 3.31.6 clean download, extraction and prefixed static build",
+    "Windows CMake 4.4 clean download, extraction and prefixed static build",
+    "Linux CMake clean download, extraction and prefixed static build"
+  ],
+  "scope": "Download URL correction only; same version and exact original archive bytes. The implementation acceptance remains attached to commit 696dfb1. A replacement hosted run must verify the corrected build configuration."
+}

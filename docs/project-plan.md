@@ -3182,3 +3182,17 @@ uses the selected level's alpha tags. Both mode directions pass in the full
 Python suite, and 12 exact native previews pass on Windows, Linux and
 ASAN/UBSAN. Raw samples remain unchanged. The full corrected-wheel suite was
 rerun after the fix; earlier green results do not substitute for it.
+
+
+Packet88 hosted follow-up: implementation commit
+`696dfb1e45253831e21fba244df5fbf0e009fc22` triggered
+[run 39945420670](https://github.com/bipxx/qupathxx/actions/runs/39945420670).
+The Windows headless job failed before compilation because its www.zlib.net
+response did not match the pinned zlib checksum. No all-green hosted acceptance
+is claimed for that run. The primary source URL now uses the official zlib
+GitHub release, with the versioned zlib archive as fallback. Version and SHA-256
+are unchanged, and downloaded bytes equal the original pinned archive exactly.
+The [download correction receipt](benchmarks/tiff-zlib-download-correction.json)
+records independent clean fetch/build checks on Windows CMake 3.31.6/4.4 and
+Linux. This fixes retrieval without weakening content verification; replacement
+hosted validation remains required.
