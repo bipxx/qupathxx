@@ -1,53 +1,40 @@
 {
   "schema": "qpx.cell-area-limits-validation/1",
-  "state": "superseded-by-calibration-stale-fix-revalidation-pending",
-  "release_ready": false,
   "platform": "windows",
-  "source_tree_sha256": "7dbdfbfcf4f7c58357baf30a49aedb50692df398d478899ef33abb14afadab3a",
-  "native_sha256": "d03ca42b18dedad5a9a2e8a9f7b258b271f16f062b230212ebecf6420636aba7",
-  "wheel_sha256": "6a5d29e682d29f65ef40ff38ed0acfe0e0f38704ffad220f2845152b36a7a348",
+  "state": "fixed-focused-verified-full-and-hosted-pending",
+  "release_ready": false,
+  "source_content_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81",
+  "source_tree_sha256": "793cdfb895709edd88b676489e82bba5258aba78cd4065f2dc195658abd8d2b0",
+  "native_sha256": "7a9e670ffb69725e8ae6afff5ed6714fd24fe9adcc2d9eb419377d4bfc5e443d",
   "native": {
     "passed": 43,
-    "optional_skips": 0,
-    "strict_scientific_expected_failures": 0,
-    "junit_sha256": "12771cf75209cb0ca9755784d46ef9b236a5c34d9331398fc6863e1511edba83"
+    "skipped": 0,
+    "junit_sha256": "d161f8db63713e4f71570b7cdf66f9686dcf84fcb7eb4acdaabed453e3227f85"
   },
   "focused": {
-    "passed": 117,
-    "optional_skips": 0,
-    "strict_scientific_expected_failures": 0,
-    "junit_sha256": "ad9c94d62028a1a64325c5259675d22a590f14347adf5fd4d4bd4f3ed832b745"
+    "passed": 120,
+    "skipped": 0,
+    "junit_sha256": "bb7bcf31a937dfd952d07a86963a1f822abf0106f4350238cb6831cc7434d5de"
   },
-  "full": {
-    "passed": 2064,
-    "optional_skips": 10,
-    "strict_scientific_expected_failures": 4,
-    "junit_sha256": "3800076a3e52b6ba2fa59d13e4ac5ec47d916cf7862700667ffad5ae88482e74"
-  },
-  "installed_report_sha256": "131e7696d740c706366b55cebd9f66a0e8291ae527a644114a03390b25810dad",
+  "installed_report_sha256": "44588534516def756f9d79bc46aadf050f399686e16efd1e2cae7eccfb9049e4",
   "stubs_match": true,
   "strict_positive_typing": true,
   "negative_typing_errors": 7,
-  "generated_large_pyramid_fixture_sha256": "09301eba1210f7c7335e33993f0fe73cc74f7fc34ac85b1da5a9bb5043776845",
-  "contract": "Inclusive physical area bounds intersect sampled limits once per captured request; saved runs freeze the resolved recipe, while batches retain original physical arguments and resolve each image/ROI.",
-  "performance": {
-    "algorithm": "Two binary searches over possible sample counts; no image reads or detector-loop changes for resolution.",
-    "measured_performance_accepted": false
-  },
-  "limits": [
-    "Physical radii and arbitrary resampling remain open.",
-    "Four scientific acceptance failures remain.",
-    "No biological, hardware or release acceptance."
-  ],
-  "source_content_commit": "87e691be724be88183876cfaa1b583b2bb27a947",
+  "full_regression": "running",
   "hosted_acceptance": {
     "state": "pending",
-    "run_id": 40022136685,
-    "source_commit": "87e691be724be88183876cfaa1b583b2bb27a947"
+    "run_id": 40024473049,
+    "source_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81"
+  },
+  "calibration_stale_regression": {
+    "before_junit_sha256": "05f4e594943990bf16074e25a7925ef41bc2b6f7825843e35b66e96234b5e80b",
+    "before_failures": 3,
+    "after_focused_passes": 3,
+    "contract": "Active physical captures depend on calibration revision; ordinary sampled requests and archived replay preserve existing semantics."
   },
   "rendered_capture": {
     "file": "images/cell-physical-area-limits.png",
-    "sha256": "d48a4d8ba17164faa7bc3a039f3dd297e1b365ec15969f7bd66edcecc1bda80a",
+    "sha256": "e855f287fb1e31fd7c4beb73d54bf346bca28672ac09dbd2606d7cb6ecb3a2bb",
     "visually_inspected": true,
     "report": {
       "rows": 1,
@@ -56,20 +43,17 @@
       "resolved_min_samples": 81,
       "resolved_max_samples": 90,
       "csv_sha256": "9eccb2960e9d3150a0efc53a30606d2d84e277d3dcba0c87e022bcb1d237ae77",
-      "capture_sha256": "760e45b9df3130a68a77400133bba591acbb6edf1669911dbddbddb8b34c2f58",
-      "source_tree_sha256": "7dbdfbfcf4f7c58357baf30a49aedb50692df398d478899ef33abb14afadab3a",
+      "capture_sha256": "bfc28fa21d005fc136b5f851615dd581d32866aa512649a7129fdc8a91b46a76",
+      "source_tree_sha256": "793cdfb895709edd88b676489e82bba5258aba78cd4065f2dc195658abd8d2b0",
       "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
       "ui_overflow_items": 0,
       "ui_max_overflow": 0.0
-    },
-    "scope": "Scrolled inspector shows both inclusive bounds, one detected/saved cell, frozen 81\u201390 sample recipe, captured calibration and successful one-row CSV export. Windows clamps requested window height; capture uses actual framebuffer."
+    }
   },
-  "calibration_stale_issue": {
-    "reproduced": true,
-    "regression_cases": 3,
-    "description": "Active physical requests remained publishable after live calibration changed; discovered by the managed-viewer native test and independently reproduced for direct requests, including enabled zero bounds.",
-    "fix": "Capture the calibration revision for active physical requests and include it in matches(); ordinary sampled requests and archived replay retain their existing semantics.",
-    "fixed_build_validation": "pending",
-    "prior_hosted_scope": "Run 40022136685 predates the fix and cannot accept it."
-  }
+  "prior_full_regression": {
+    "source_content_commit": "87e691be724be88183876cfaa1b583b2bb27a947",
+    "junit_sha256": "3800076a3e52b6ba2fa59d13e4ac5ec47d916cf7862700667ffad5ae88482e74",
+    "scope": "Previous full pass predates the calibration-staleness fix and does not accept the current candidate."
+  },
+  "performance_accepted": false
 }

@@ -3740,3 +3740,12 @@ The fix captures the calibration revision in active physical requests and reject
 stale publication; ordinary sampled requests and historical replay are preserved.
 Rebuilt Windows/Linux validation is pending. Earlier full passes and hosted run
 40022136685 predate this fix and cannot accept it. Main promotion remains withheld.
+
+
+Calibration-stale fix revalidation: corrected Linux passes 42 native suites,
+99 focused tests and the full 1,683-pass regression (394 optional skips, four
+scientific expected failures). Corrected Windows passes 43 native suites and
+120 focused cases plus installed/stub/typing checks; its completed frame is
+visually inspected with one exported cell and zero UI overflow. Windows full
+regression and hosted run 40024473049 at f8cb02a139d5c4b4651978425cb064472b3f1b81
+remain pending. Main promotion and all other unfinished M0–M7 gates remain open.

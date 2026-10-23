@@ -5,12 +5,10 @@ nucleus areas in square micrometers. It captures the same image/ROI and selects
 the same natural sampling grid as the ordinary request, then compiles the area
 limits into ordinary integer nucleus-sample cutoffs before detection.
 
-**Validation update:** a subsequent managed-viewer test exposed a calibration
-staleness gap in the initial candidate. Active physical requests now capture the
-calibration revision and reject publication after it changes. The three new
-regressions fail against the preceding build; rebuilt validation is pending.
-The local results below describe the preceding candidate and do not accept this
-fix. Hosted run 40022136685 also predates it. Main promotion remains withheld.
+**Validation update:** the calibration-staleness gap found by the managed-viewer
+test is fixed. Three regressions failed before the fix and now pass. Corrected
+Linux full validation and Windows focused/native checks pass; Windows full
+regression and hosted run 40024473049 remain pending. Main promotion is withheld.
 
 ```python
 parameters = qupathxx.CellParameters()
@@ -82,17 +80,19 @@ expansion still use sampled pixels. Arbitrary resampling, physical radii, QuPath
 segmentation agreement and biological validation remain separate requirements.
 
 The [Linux receipt](benchmarks/cell-area-limits-linux.json) records 42 native
-suites, 96 focused passes and the full regression: 1,680 passes, 394 optional
-skips and four strict scientific expected failures. Installed stubs, strict
-positive/negative typing and relocated runtime checks pass. The generated large
-pyramid is supplied to this full run.
+suites, 99 focused passes and the corrected full regression: 1,683 passes,
+394 optional skips and four strict scientific expected failures. Installed stubs,
+strict positive/negative typing and relocated runtime checks pass. The generated
+large pyramid is supplied to this full run.
 
 The [Windows receipt](benchmarks/cell-area-limits-windows.json) records 43 native
-suites, 117 focused Python/desktop passes, installed workflows and matching
-stubs/typing. The full Windows regression passes 2,064 cases, with 10 optional
-skips and four strict scientific expected failures. The visually inspected
-[completed desktop frame](images/cell-physical-area-limits.png) shows both limits,
-one saved cell, the frozen 81–90-sample recipe and successful one-row calibrated
-CSV export, with no UI overflow. Hosted run 40022136685 is pending; this candidate
-remains provisional. These checks do not accept segmentation parity or hardware
-performance.
+suites, 120 focused Python/desktop passes, installed workflows and matching
+stubs/typing. The corrected full Windows regression remains running. Its prior
+2,064-pass result predates the calibration-staleness fix and is retained as
+historical evidence. The visually inspected [completed desktop frame](images/cell-physical-area-limits.png)
+uses the corrected build and shows both limits, one saved cell, the frozen
+81–90-sample recipe and successful one-row calibrated CSV export, with no UI
+overflow. Hosted run 40024473049 at source
+`f8cb02a139d5c4b4651978425cb064472b3f1b81` is pending; preceding run 40022136685
+does not accept the fix. The candidate remains provisional and does not accept
+segmentation parity or hardware performance.

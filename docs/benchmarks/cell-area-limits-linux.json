@@ -1,30 +1,30 @@
 {
   "schema": "qpx.cell-area-limits-validation/1",
-  "state": "superseded-by-calibration-stale-fix-revalidation-pending",
+  "state": "local-full-verified-hosted-pending",
   "release_ready": false,
   "platform": "linux",
-  "source_tree_sha256": "7dbdfbfcf4f7c58357baf30a49aedb50692df398d478899ef33abb14afadab3a",
-  "native_sha256": "38c34cde7b0be035a510711a1a23304f4c38987a6aa4bc08f7c5b50c42dfb638",
-  "wheel_sha256": "7d9acbcf7a949a3ff05ce8935ca5c47334b75b97e3c4cbd57e40a7e0554be7de",
+  "source_tree_sha256": "793cdfb895709edd88b676489e82bba5258aba78cd4065f2dc195658abd8d2b0",
+  "native_sha256": "9dd2506166bc41080e215b071e40a2f57cc1e08113eb457b418e8d500e5a1b66",
+  "wheel_sha256": "077e2c4fed8ee09557bc1b7fa09dedf4115dde1d1cb17cd3f97d3e2e5aa651d6",
   "native": {
     "passed": 42,
     "optional_skips": 0,
     "strict_scientific_expected_failures": 0,
-    "junit_sha256": "b18ac9f571934e6881397ce361b9e1296badd5b9416307d7aad0587fba877a5d"
+    "junit_sha256": "c33d007058530368ca256926b7810117691b7d973aeb487fb095cfd09fdec42e"
   },
   "focused": {
-    "passed": 96,
+    "passed": 99,
     "optional_skips": 1,
     "strict_scientific_expected_failures": 0,
-    "junit_sha256": "070877482aee4af513d64afcbc45ba2ab45bbc8084dd0b26e4b27568d2ec36e0"
+    "junit_sha256": "a7416999398a3b2b9b8e9a0b3f65891dc9cb96a6de93eefe79604d46e7e6f2be"
   },
   "full": {
-    "passed": 1680,
+    "passed": 1683,
     "optional_skips": 394,
     "strict_scientific_expected_failures": 4,
-    "junit_sha256": "7bcd93bebb285ec91cf4d7c1ffc941e01c42bc0aed7b92a73672a628847f83de"
+    "junit_sha256": "f9467d5a1680401731e0012ffdde18af9056d586681eff34062084aba7d8a240"
   },
-  "installed_report_sha256": "3a2999cf6943db841c19125b42ccb48aa95088b1814bd94d75e04c76843c7fdd",
+  "installed_report_sha256": "773cc9508e1566caf5b4903b409344e5c5f5d6976451d6bbbdea69ccc6e9f5a1",
   "stubs_match": true,
   "strict_positive_typing": true,
   "negative_typing_errors": 7,
@@ -39,7 +39,13 @@
     "Four scientific acceptance failures remain.",
     "No biological, hardware or release acceptance."
   ],
-  "runtime_relocation_report_sha256": "a384438270548f1444e929b0f5c09ee605f726706d9079c91e720857ee146214",
+  "calibration_stale_regression": {
+    "before_junit_sha256": "05f4e594943990bf16074e25a7925ef41bc2b6f7825843e35b66e96234b5e80b",
+    "before_failures": 3,
+    "after_focused_passes": 3,
+    "contract": "Active physical captures depend on calibration revision; ordinary sampled requests and archived replay preserve existing semantics."
+  },
+  "runtime_relocation_report_sha256": "792a5bc652375954131160ccd3332dc9d6d354bc03f904d95476c3b6623392b7",
   "first_focused_attempt": {
     "junit_sha256": "fec8ed0583d6e31eeac73f995c75e1424a460021cc5a3d21e2b3634980d0eeb4",
     "failed_cases": [
@@ -48,18 +54,10 @@
     ],
     "correction": "Corrected expectations: a nonempty integer range can contain no actual nuclei; normalized CLI stain basis requires nine components. Implementation unchanged for these corrections."
   },
-  "source_content_commit": "87e691be724be88183876cfaa1b583b2bb27a947",
+  "source_content_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81",
   "hosted_acceptance": {
     "state": "pending",
-    "run_id": 40022136685,
-    "source_commit": "87e691be724be88183876cfaa1b583b2bb27a947"
-  },
-  "calibration_stale_issue": {
-    "reproduced": true,
-    "regression_cases": 3,
-    "description": "Active physical requests remained publishable after live calibration changed; discovered by the managed-viewer native test and independently reproduced for direct requests, including enabled zero bounds.",
-    "fix": "Capture the calibration revision for active physical requests and include it in matches(); ordinary sampled requests and archived replay retain their existing semantics.",
-    "fixed_build_validation": "pending",
-    "prior_hosted_scope": "Run 40022136685 predates the fix and cannot accept it."
+    "run_id": 40024473049,
+    "source_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81"
   }
 }
