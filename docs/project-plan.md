@@ -2566,3 +2566,7 @@ software-GL launch, wheel/native/source identities and portable fixture hashes
 are verified. The initial full run had one provenance mismatch after source
 changed during testing; rebuilding from frozen source and repeating the entire
 suite resolved it. Hosted QPS1 validation will be tracked after publication.
+
+Implementation commit: `766ec0944dedfd130815acd07929ef662db176eb`. Hosted
+[run 39899386538](https://github.com/bipxx/qupathxx/actions/runs/39899386538)
+targets that exact commit and is in progress. No hosted QPS1 pass is claimed yet.
