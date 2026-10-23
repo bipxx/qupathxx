@@ -20,6 +20,7 @@ public:
     Rect level_bounds() const;std::size_t block_size() const;bool windowed() const;
     const PixelStreamFileSummary& declared_summary() const;
     std::shared_ptr<const PixelStreamLink> link() const;
+    std::string input_sha256() const; // Available only after complete verification.
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
     friend struct PixelStreamFileCodec;

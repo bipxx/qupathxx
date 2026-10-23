@@ -1,0 +1,23 @@
+{
+  "schema": "qpx.pixel-input-digest-benchmark/1",
+  "size": 2048,
+  "blocks": 256,
+  "valid_pixels": 3294288,
+  "input_sha256": "033d1cb284bc6e896732206fefc49dd6fbe6b412431fa66298c9959360d044f1",
+  "hash_only_ms": 127.18830001540482,
+  "inference_ms": 1725.5302000558004,
+  "observed_speedup": 13.5667368763228,
+  "estimated_producer_work_bytes": 1352748,
+  "budget_bytes": 8388608,
+  "max_block_array_bytes": 147456,
+  "model_sha256": "486b62c984dedb49bcaac40b7b7863e55ffc29346c96ee2e12e65feff6c0c96c",
+  "environment": {
+    "source_tree_sha256": "494b1bd6762818f1e4c4dfcf943dcbb452dcccbfd29ecd67d63be4a1d1375e54",
+    "git_revision": "b9423265417bf2bc24d278e19c539ef8de217289+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "scope": "Single synthetic embedded RGB source on a shared workstation. Hash-only scan compared with independently framed input hashes of every inferred block. No output block collection retained; transient Python ownership is outside the producer estimate. Producer estimate is conservative for inference; not measured RSS, vendor-slide throughput, project-batch resume or biological acceptance.",
+  "native_sha256": "c572640ba3abc258be7aa9d2d831b1dcdff36a725babfb0bc0338edf81c42c4f"
+}

@@ -1,0 +1,164 @@
+{
+  "schema": "qpx.pixel-input-digest-local/1",
+  "observed_utc": "2026-10-23T06:52:35.745518+00:00",
+  "scope": "Exact hash-only feature/request/stream scans, without feature extraction or forest inference; non-consuming single-consumer stream scan and cached aggregate from complete QPS1 verification. Format unchanged. Prerequisite only: project-wide resumable pixel batches, source reconciliation, stitching, broad M0-M7, biological and hardware/RSS acceptance remain open.",
+  "tests": {
+    "python": {
+      "tests": 1761,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 6,
+      "passed": 1755,
+      "seconds": 654.328,
+      "sha256": "1f41de16fb2b556affeefa047fce6d9e6fde9366d76ab2ae986429b9a854c9e0"
+    },
+    "focused": {
+      "tests": 25,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 25,
+      "seconds": 0.686,
+      "sha256": "d119c6f6a6bf6e58679ab45a577e3ceeff336e35d47955f86ef93fde10764487"
+    },
+    "windows_native": {
+      "tests": 38,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 5.0,
+      "sha256": "21c6103e6204cd995d2b247fa9af4276ea298479f5abff100bf2253a531829d0"
+    },
+    "windows_gui_native": {
+      "tests": 39,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 39,
+      "seconds": 7.0,
+      "sha256": "8d57c24aff16a5bfbcedfbca134f3faa65dbc2cbd3c6d777fafc36557c2aebd0"
+    },
+    "linux_native": {
+      "tests": 38,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 2.0,
+      "sha256": "da81540f91e17ac29f402eb8cae367ba36c83de4d9f8cd0627f978c5f61ae128"
+    },
+    "linux_minimal": {
+      "tests": 38,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 0.0,
+      "sha256": "9b4c43e89f62a5e223520727fe175543799c7b1e73a8bb662c7096a4e31692ea"
+    },
+    "linux_sanitizers": {
+      "tests": 38,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 4.0,
+      "sha256": "bb5c84e9f196d3888bf3aea68bbf482eefbceb1274522c6db35ad5f51b3a5919"
+    }
+  },
+  "installed": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "c572640ba3abc258be7aa9d2d831b1dcdff36a725babfb0bc0338edf81c42c4f",
+    "source_tree_sha256": "494b1bd6762818f1e4c4dfcf943dcbb452dcccbfd29ecd67d63be4a1d1375e54",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "bytes": 12221902,
+    "sha256": "e6e682acdcdb57e807af698359fa7fbac2c88cfbf11faa9e387555ea4e412242"
+  },
+  "benchmarks": {
+    "1024": {
+      "file": "pixel-input-digest-1024-windows.json",
+      "sha256": "c118b54c85ec9c246c1dd5dfa0b5872ebfae256780a21a9754a0e96fd672720a",
+      "values": {
+        "schema": "qpx.pixel-input-digest-benchmark/1",
+        "size": 1024,
+        "blocks": 64,
+        "valid_pixels": 823592,
+        "input_sha256": "b9167f73362e500cb55354eb36a476549eebfff0ea337b5811cf320d3a1483b2",
+        "hash_only_ms": 27.645499911159277,
+        "inference_ms": 432.9340000404045,
+        "observed_speedup": 15.66019791400654,
+        "estimated_producer_work_bytes": 1352748,
+        "budget_bytes": 8388608,
+        "max_block_array_bytes": 147456,
+        "model_sha256": "486b62c984dedb49bcaac40b7b7863e55ffc29346c96ee2e12e65feff6c0c96c",
+        "environment": {
+          "source_tree_sha256": "494b1bd6762818f1e4c4dfcf943dcbb452dcccbfd29ecd67d63be4a1d1375e54",
+          "git_revision": "b9423265417bf2bc24d278e19c539ef8de217289+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Single synthetic embedded RGB source on a shared workstation. Hash-only scan compared with independently framed input hashes of every inferred block. No output block collection retained; transient Python ownership is outside the producer estimate. Producer estimate is conservative for inference; not measured RSS, vendor-slide throughput, project-batch resume or biological acceptance.",
+        "native_sha256": "c572640ba3abc258be7aa9d2d831b1dcdff36a725babfb0bc0338edf81c42c4f"
+      }
+    },
+    "2048": {
+      "file": "pixel-input-digest-2048-windows.json",
+      "sha256": "b2f59511d73b456dc2bf40b2eb00511861c28f08bc69b6ffa6364bbdc859dfbd",
+      "values": {
+        "schema": "qpx.pixel-input-digest-benchmark/1",
+        "size": 2048,
+        "blocks": 256,
+        "valid_pixels": 3294288,
+        "input_sha256": "033d1cb284bc6e896732206fefc49dd6fbe6b412431fa66298c9959360d044f1",
+        "hash_only_ms": 127.18830001540482,
+        "inference_ms": 1725.5302000558004,
+        "observed_speedup": 13.5667368763228,
+        "estimated_producer_work_bytes": 1352748,
+        "budget_bytes": 8388608,
+        "max_block_array_bytes": 147456,
+        "model_sha256": "486b62c984dedb49bcaac40b7b7863e55ffc29346c96ee2e12e65feff6c0c96c",
+        "environment": {
+          "source_tree_sha256": "494b1bd6762818f1e4c4dfcf943dcbb452dcccbfd29ecd67d63be4a1d1375e54",
+          "git_revision": "b9423265417bf2bc24d278e19c539ef8de217289+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Single synthetic embedded RGB source on a shared workstation. Hash-only scan compared with independently framed input hashes of every inferred block. No output block collection retained; transient Python ownership is outside the producer estimate. Producer estimate is conservative for inference; not measured RSS, vendor-slide throughput, project-batch resume or biological acceptance.",
+        "native_sha256": "c572640ba3abc258be7aa9d2d831b1dcdff36a725babfb0bc0338edf81c42c4f"
+      }
+    }
+  },
+  "checks": {
+    "stubs-check": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "typing": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "negative-typing": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  }
+}

@@ -66,9 +66,19 @@ PixelPredictionOptions PixelPredictionResult::options() const {return snapshot_-
 const PixelClassifier& PixelPredictionResult::model() const {return snapshot_->model;}
 std::size_t PixelPredictionResult::estimated_work_bytes() const {return snapshot_->work;}
 struct PixelPredictionKernel {
+    static void input_header(Sha256& input,const PixelPredictionRequest::Data& d) {const std::string tag="qpx.source-pixel-input/1";input.update(tag.data(),tag.size());input.integer(d.metadata.width);input.integer(d.metadata.height);input.integer(d.level);real(input,d.metadata.levels[d.level].downsample);input.integer(d.options.tile_size);}
+    static std::string input(const PixelPredictionRequest& request,const std::atomic<bool>* cancelled) {
+        stop(cancelled);const auto& d=*request.data_;const auto& p=d.options;const auto& level=d.metadata.levels[d.level];const auto halo=d.model.options().halo();Sha256 hash;input_header(hash,d);
+        auto options=d.model.options();options.work_bytes=d.feature_budget;
+        for(auto y=d.y;y<d.y+d.h;) {const auto h=std::min<std::int64_t>(p.tile_size,d.y+d.h-y);for(auto x=d.x;x<d.x+d.w;) {stop(cancelled);const auto w=std::min<std::int64_t>(p.tile_size,d.x+d.w-x),cx=std::max<std::int64_t>(0,x-halo),cy=std::max<std::int64_t>(0,y-halo),right=x+w+std::min(halo,level.width-x-w),bottom=y+h+std::min(halo,level.height-y-h),cw=right-cx,ch=bottom-cy;
+            const auto pixels=request.source_->read_region({origin(cx,level.downsample),origin(cy,level.downsample),d.level,cw,ch});stop(cancelled);if(pixels.width()!=cw || pixels.height()!=ch || pixels.bytes().size()!=region_byte_count(cw,ch)) throw std::runtime_error("pixel prediction reader returned incorrect dimensions or storage");
+            const auto digest=pixel_feature_input_sha256(pixels,d.model.transform(),options,PixelFeatureWindow{level.width,level.height,x,y,w,h,cx,cy},cancelled);hash.update(digest.data(),digest.size());
+            for(std::int64_t yy=0;yy<h;++yy) {stop(cancelled);for(std::int64_t xx=0;xx<w;++xx) hash.integer(d.roi.contains({(double(x+xx)+.5)*level.downsample,(double(y+yy)+.5)*level.downsample}));}x+=w;}y+=h;
+        }stop(cancelled);return hash.finish();
+    }
     static std::shared_ptr<const PixelPredictionResult> run(const PixelPredictionRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr) {
         const auto start=Clock::now();stop(cancelled);const auto& d=*request.data_;const auto& p=d.options;const auto& level=d.metadata.levels[d.level];const auto halo=d.model.options().halo();auto out=std::shared_ptr<PixelPredictionResult>(new PixelPredictionResult());out->snapshot_=request.data_;const auto count=static_cast<std::size_t>(d.w)*d.h;
-        out->labels_.resize(count);out->valid_.resize(count);out->fractions_.assign(count,std::numeric_limits<float>::quiet_NaN());out->counts_.resize(d.model.classes().size());Sha256 input;const std::string tag="qpx.source-pixel-input/1";input.update(tag.data(),tag.size());input.integer(d.metadata.width);input.integer(d.metadata.height);input.integer(d.level);real(input,level.downsample);input.integer(p.tile_size);std::uint64_t tiles=0;
+        out->labels_.resize(count);out->valid_.resize(count);out->fractions_.assign(count,std::numeric_limits<float>::quiet_NaN());out->counts_.resize(d.model.classes().size());Sha256 input;input_header(input,d);std::uint64_t tiles=0;
         for(auto y=d.y;y<d.y+d.h;) {const auto h=std::min<std::int64_t>(p.tile_size,d.y+d.h-y);for(auto x=d.x;x<d.x+d.w;) {stop(cancelled);const auto w=std::min<std::int64_t>(p.tile_size,d.x+d.w-x),cx=std::max<std::int64_t>(0,x-halo),cy=std::max<std::int64_t>(0,y-halo),right=x+w+std::min(halo,level.width-x-w),bottom=y+h+std::min(halo,level.height-y-h),cw=right-cx,ch=bottom-cy;
             const auto pixels=request.source_->read_region({origin(cx,level.downsample),origin(cy,level.downsample),d.level,cw,ch});stop(cancelled);if(pixels.width()!=cw || pixels.height()!=ch || pixels.bytes().size()!=region_byte_count(cw,ch)) throw std::runtime_error("pixel prediction reader returned incorrect dimensions or storage");
             const auto result=classify_pixels(pixels,d.model,p.min_vote_fraction,PixelFeatureWindow{level.width,level.height,x,y,w,h,cx,cy},d.feature_budget,cancelled);input.update(result->input_sha256().data(),result->input_sha256().size());
@@ -80,6 +90,7 @@ struct PixelPredictionKernel {
         for(std::size_t i=0;i<count;++i) {if((i&4095)==0) stop(cancelled);hash.integer(out->valid_[i]);hash.integer(out->labels_[i]);std::uint32_t bits=0x7fc00000;if(std::isfinite(out->fractions_[i])) std::memcpy(&bits,&out->fractions_[i],4);hash.integer(bits);}out->sha_=hash.finish();out->ms_=elapsed(start);stop(cancelled);return out;
     }
 };
+std::string input_sha256(const PixelPredictionRequest& request,const std::atomic<bool>* cancelled) {return PixelPredictionKernel::input(request,cancelled);}
 std::shared_ptr<const PixelPredictionResult> predict_pixel_region(const PixelPredictionRequest& request,const std::atomic<bool>* cancelled) {return PixelPredictionKernel::run(request,cancelled);}
 struct PixelPredictionJob::Impl {
     struct Completion {std::shared_ptr<const PixelPredictionResult> result;std::string error;double ms=0;};

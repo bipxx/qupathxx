@@ -318,3 +318,13 @@ def keep_stream_link(document: q.Document, path: str) -> q.PixelStreamRecord:
     result=job.wait()
     assert result.verified and result.link is not None
     return record
+
+
+def pixel_input_hashes(pixels: q.PixelBuffer, request: q.PixelPredictionRequest,
+                       stream: q.PixelPredictionStream, file: q.PixelStreamFile) -> list[str]:
+    feature: str = q.pixel_feature_input_sha256(pixels)
+    source: str = q.input_sha256(request)
+    current: str = stream.input_sha256()
+    file.verify()
+    historical: str = file.input_sha256()
+    return [feature, source, current, historical]

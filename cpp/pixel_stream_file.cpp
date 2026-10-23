@@ -4,6 +4,7 @@
 #include "atomic_export.hpp"
 #include "reader_file_guard.hpp"
 #include "sha256.hpp"
+#include "pixel_stream_digest.hpp"
 #include <array>
 #include <cmath>
 #include <cstring>
@@ -53,7 +54,7 @@ void ordered_start(Sha256& h,const std::string& header,const std::string& first)
 void record_start(Sha256& h,std::uint64_t i) {const char tag[]="qpx.pixel-stream-block/1";h.update(tag,sizeof(tag)-1);h.integer(i);}
 }
 struct PixelStreamFile::Impl {
-    std::string path,header_hash,footer_checksum;Bytes prefix;std::shared_ptr<const FileVersion> version;std::shared_ptr<const PixelClassifierArchive> prototype;
+    std::string path,header_hash,footer_checksum,input_sha;Bytes prefix;std::shared_ptr<const FileVersion> version;std::shared_ptr<const PixelClassifierArchive> prototype;
     Grid grid;std::uint64_t payload=0;PixelStreamFileSummary summary;mutable std::mutex reader;mutable std::atomic<bool> verified{false};std::atomic<bool> cancelled{false};
 };
 struct PixelStreamFileCodec {
@@ -109,10 +110,11 @@ std::shared_ptr<const PixelPredictionResult> PixelStreamFile::read_block(std::ui
     auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);try {stop(&s.cancelled);detail::ReaderFileGuard observed(s.path);same(*s.version,*observed.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);if(!file) throw std::runtime_error("cannot reopen pixel stream file");PixelStreamFileCodec::framing(s,file,index==0,nullptr);auto result=PixelStreamFileCodec::block(s,file,index,true,nullptr);observed.verify();stop(&s.cancelled);return result.first;}catch(...) {s.verified.store(false);throw;}
 }
 void PixelStreamFile::verify(const std::atomic<bool>* cancel) const {
-    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);s.verified.store(false);stop(cancel);detail::ReaderFileGuard observed(s.path);same(*s.version,*observed.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);if(!file) throw std::runtime_error("cannot reopen pixel stream file");PixelStreamFileCodec::framing(s,file,true,cancel);file.seekg(static_cast<std::streamoff>(s.payload));Sha256 ordered;ordered_start(ordered,s.header_hash,s.prototype->sha256());std::vector<std::uint64_t> counts(s.summary.class_counts.size());std::uint64_t valid=0,classified=0;
-    for(std::uint64_t i=0;i<s.grid.blocks;++i) {auto block=PixelStreamFileCodec::block(s,file,i,false,cancel);if(i) ordered.update(block.second.data(),block.second.size());valid+=block.first->valid_pixels();classified+=block.first->classified_pixels();for(std::size_t j=0;j<counts.size();++j) counts[j]+=block.first->class_counts()[j];}
-    if(ordered.finish()!=s.summary.sha256 || counts!=s.summary.class_counts || valid!=s.summary.valid_pixels || classified!=s.summary.classified_pixels) throw std::invalid_argument("pixel stream completion verification failed");observed.verify();stop(cancel);stop(&s.cancelled);s.verified.store(true);
+    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);s.verified.store(false);stop(cancel);detail::ReaderFileGuard observed(s.path);same(*s.version,*observed.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);if(!file) throw std::runtime_error("cannot reopen pixel stream file");PixelStreamFileCodec::framing(s,file,true,cancel);file.seekg(static_cast<std::streamoff>(s.payload));Sha256 ordered;ordered_start(ordered,s.header_hash,s.prototype->sha256());Sha256 inputs;detail::pixel_stream_input_header(inputs,s.prototype->model()->sha256(),s.grid.blocks);std::vector<std::uint64_t> counts(s.summary.class_counts.size());std::uint64_t valid=0,classified=0;
+    for(std::uint64_t i=0;i<s.grid.blocks;++i) {auto block=PixelStreamFileCodec::block(s,file,i,false,cancel);detail::pixel_stream_input_block(inputs,i,block.first->input_sha256());if(i) ordered.update(block.second.data(),block.second.size());valid+=block.first->valid_pixels();classified+=block.first->classified_pixels();for(std::size_t j=0;j<counts.size();++j) counts[j]+=block.first->class_counts()[j];}
+    if(ordered.finish()!=s.summary.sha256 || counts!=s.summary.class_counts || valid!=s.summary.valid_pixels || classified!=s.summary.classified_pixels) throw std::invalid_argument("pixel stream completion verification failed");observed.verify();stop(cancel);stop(&s.cancelled);s.input_sha=inputs.finish();s.verified.store(true);
 }
+std::string PixelStreamFile::input_sha256() const {auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);stop(&s.cancelled);if(!s.verified.load()) throw std::logic_error("verify all stream blocks before reading the input digest");return s.input_sha;}
 void PixelStreamFile::cancel() {impl_->cancelled.store(true);impl_->verified.store(false);}
 bool PixelStreamFile::cancelled() const {return impl_->cancelled.load();}
 bool PixelStreamFile::verified() const {return !impl_->cancelled.load() && impl_->verified.load();}

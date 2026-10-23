@@ -1,6 +1,8 @@
 #include "qupathxx/pixel_stream.hpp"
 #include "pixel_workflow_snapshot.hpp"
 #include "pixel_prediction_grid.hpp"
+#include "pixel_stream_digest.hpp"
+#include "qupathxx/input_digest.hpp"
 #include <algorithm>
 #include <array>
 #include <cmath>
@@ -23,7 +25,7 @@ struct PixelPredictionStream::Impl {
     std::optional<PixelPredictionRequest> prototype;
     std::int64_t x=0,y=0,w=0,h=0;std::uint64_t columns=0,blocks=0;std::size_t block_size=0,work=0;bool windowed=false;
     std::atomic<std::uint64_t> completed{0},valid{0},classified{0};std::array<std::atomic<std::uint64_t>,256> counts{};
-    std::atomic<bool> cancelled{false};std::atomic<State> state{State::Ready};std::mutex consumer,publication;
+    std::atomic<bool> cancelled{false},hashing{false};std::atomic<State> state{State::Ready};std::mutex consumer,publication;
 };
 PixelPredictionStream::PixelPredictionStream(const Document& doc,std::uint64_t id,const PixelClassifier& model,PixelStreamOptions options,std::optional<Rect> window):impl_(std::make_unique<Impl>()) {
     options.validate();auto& s=*impl_;const auto selected=pixel_classifier_level(doc,model);const auto& metadata=doc.metadata();const auto& grid=metadata.levels.at(selected);
@@ -46,6 +48,19 @@ PixelPredictionStream::PixelPredictionStream(const Document& doc,std::uint64_t i
     for(auto& count:s.counts) count.store(0);
 }
 PixelPredictionStream::~PixelPredictionStream()=default;
+std::string PixelPredictionStream::input_sha256(const std::atomic<bool>* cancelled) const {
+    auto& s=*impl_;std::unique_lock<std::mutex> lock(s.consumer,std::try_to_lock);if(!lock.owns_lock()) throw std::logic_error("pixel stream already has an active consumer");
+    auto stop=[&] {if(s.cancelled.load() || (cancelled && cancelled->load())) throw std::runtime_error("pixel stream input digest cancelled");};stop();if(s.state.load()==State::Failed) throw std::logic_error("pixel stream has failed");if(s.prototype->source_->closed()) throw std::runtime_error("pixel stream source is closed");
+    struct Reset {std::atomic<bool>& flag;~Reset(){flag.store(false);}} reset{s.hashing};s.hashing.store(true);Sha256 hash;detail::pixel_stream_input_header(hash,s.prototype->data_->model.sha256(),s.blocks);
+    for(std::uint64_t i=0;i<s.blocks;++i) {
+        stop();auto request=*s.prototype;auto data=std::make_shared<PixelPredictionRequest::Data>(*request.data_);
+        data->x=s.x+static_cast<std::int64_t>(i%s.columns)*s.block_size;data->y=s.y+static_cast<std::int64_t>(i/s.columns)*s.block_size;
+        data->w=std::min<std::int64_t>(s.block_size,s.x+s.w-data->x);data->h=std::min<std::int64_t>(s.block_size,s.y+s.h-data->y);data->windowed=true;
+        data->tiles=((std::uint64_t(data->w)+data->options.tile_size-1)/data->options.tile_size)*((std::uint64_t(data->h)+data->options.tile_size-1)/data->options.tile_size);request.data_=std::move(data);
+        const auto input=qpx::input_sha256(request,cancelled?cancelled:&s.cancelled);detail::pixel_stream_input_block(hash,i,input);
+    }
+    stop();return hash.finish();
+}
 std::shared_ptr<const PixelPredictionResult> PixelPredictionStream::next() {
     auto& s=*impl_;std::unique_lock<std::mutex> lock(s.consumer,std::try_to_lock);if(!lock.owns_lock()) throw std::logic_error("pixel stream already has an active consumer");
     if(s.cancelled.load()) throw std::runtime_error("pixel stream cancelled");
@@ -64,9 +79,9 @@ std::shared_ptr<const PixelPredictionResult> PixelPredictionStream::next() {
     }catch(...) {s.state.store(State::Failed);throw;}
 }
 void PixelPredictionStream::cancel() {std::lock_guard<std::mutex> publication(impl_->publication);if(impl_->state.load()!=State::Complete) impl_->cancelled.store(true);}
-bool PixelPredictionStream::busy() const {return impl_->state.load()==State::Producing;}
+bool PixelPredictionStream::busy() const {return impl_->state.load()==State::Producing || impl_->hashing.load();}
 bool PixelPredictionStream::matches(const Document& doc) const {return impl_->prototype->matches(doc);}
-std::string PixelPredictionStream::state() const {if(impl_->cancelled.load()) return busy()?"cancelling":"cancelled";switch(impl_->state.load()) {case State::Ready:return "ready";case State::Producing:return "producing";case State::Complete:return "complete";default:return "failed";}}
+std::string PixelPredictionStream::state() const {if(impl_->cancelled.load()) return busy()?"cancelling":"cancelled";if(impl_->hashing.load()) return "hashing";switch(impl_->state.load()) {case State::Ready:return "ready";case State::Producing:return "producing";case State::Complete:return "complete";default:return "failed";}}
 Rect PixelPredictionStream::level_bounds() const {const auto& s=*impl_;return {double(s.x),double(s.y),double(s.w),double(s.h)};}
 std::int32_t PixelPredictionStream::level() const {return impl_->prototype->level();}
 double PixelPredictionStream::downsample() const {return impl_->prototype->downsample();}

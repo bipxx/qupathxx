@@ -49,6 +49,7 @@ from ._native import (
     PixelFeatureOptions as PixelFeatureOptions,
     PixelFeatureWindow as PixelFeatureWindow,
     PixelFeatureImage as PixelFeatureImage,
+    pixel_feature_input_sha256 as pixel_feature_input_sha256,
     pixel_feature_schema as pixel_feature_schema,
     pixel_feature_work_bytes as pixel_feature_work_bytes,
     extract_pixel_features as extract_pixel_features,

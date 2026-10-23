@@ -1,4 +1,5 @@
 #include "qupathxx/pixel_contours.hpp"
+#include "qupathxx/input_digest.hpp"
 #include "qupathxx/pixel_classifier_archive.hpp"
 #include "qupathxx/pixel_stream.hpp"
 #include "qupathxx/pixel_stream_file.hpp"
@@ -78,8 +79,8 @@ int main() {try {
         {
             struct Output {std::filesystem::path path;bool owned=false;~Output(){if(owned) {std::error_code ec;std::filesystem::remove(path,ec);}}};
             std::random_device random;Output output{std::filesystem::temp_directory_path()/("qupathxx-stream-"+std::to_string(random())+"-"+std::to_string(random())+".qps")};
-            PixelPredictionStream writer(doc,roi,model,stream_options);const auto summary=save_pixel_stream(writer,output.path.u8string());output.owned=true;
-            PixelStreamFile file(output.path.u8string());check(!file.verified() && file.declared_summary().sha256==summary.sha256 && summary.blocks==writer.total_blocks());file.verify();check(file.verified() && summary.class_counts==result->class_counts());
+            PixelPredictionStream writer(doc,roi,model,stream_options);const auto source_input=writer.input_sha256();check(writer.completed_blocks()==0 && !writer.busy() && writer.state()=="ready");const auto summary=save_pixel_stream(writer,output.path.u8string());output.owned=true;
+            PixelStreamFile file(output.path.u8string());check(!file.verified() && file.declared_summary().sha256==summary.sha256 && summary.blocks==writer.total_blocks());file.verify();check(file.verified() && summary.class_counts==result->class_counts());check(file.input_sha256()==source_input && writer.input_sha256()==source_input && writer.completed_blocks()==summary.blocks && writer.state()=="complete");check(input_sha256(predict)==result->input_sha256());
             std::uint64_t seen=0;for(std::uint64_t i=0;i<summary.blocks;++i) {const auto block=file.read_block(i);seen+=std::uint64_t(block->width())*block->height();check(block->windowed() && !block->matches(predict));}check(seen==std::uint64_t(result->width())*result->height());
             rejects([&]{file.read_block(summary.blocks);});PixelPredictionStream occupied(doc,roi,model,stream_options);rejects([&]{save_pixel_stream(occupied,output.path.u8string());});check(!occupied.completed_blocks());
             PixelPredictionStream replacement(doc,roi,model,stream_options);const auto replaced=save_pixel_stream(replacement,output.path.u8string(),true);PixelStreamFile reopened(output.path.u8string());reopened.verify();check(replaced.class_counts==summary.class_counts);
@@ -149,6 +150,11 @@ int main() {try {
         const auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(5);while(!huge->entered && std::chrono::steady_clock::now()<deadline) std::this_thread::sleep_for(std::chrono::milliseconds(1));
         check(huge->entered && gated.busy());rejects([&]{gated.next();});gated.cancel();huge->release.store(true);
         check(worker.get() && !gated.busy() && gated.state()=="cancelled" && !gated.completed_blocks() && !gated.valid_pixels());
+        PixelPredictionStream digest_stream(large,id,model,stream_options,Rect{0,0,128,128});huge->entered.store(false);huge->release.store(false);
+        auto digest_worker=std::async(std::launch::async,[&] {try {digest_stream.input_sha256();return false;}catch(const std::runtime_error&) {return true;}});
+        const auto digest_deadline=std::chrono::steady_clock::now()+std::chrono::seconds(5);while(!huge->entered && std::chrono::steady_clock::now()<digest_deadline) std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        const bool digest_entered=huge->entered;const bool digest_busy=digest_stream.busy();if(digest_entered) {rejects([&]{digest_stream.next();});rejects([&]{digest_stream.input_sha256();});}digest_stream.cancel();huge->release.store(true);
+        check(digest_worker.get() && digest_entered && digest_busy && !digest_stream.busy() && !digest_stream.completed_blocks() && digest_stream.state()=="cancelled");
         std::random_device random;const auto path=std::filesystem::temp_directory_path()/("qupathxx-cancel-export-"+std::to_string(random())+"-"+std::to_string(random())+".qps");
         PixelStreamExportJob export_job;huge->entered.store(false);huge->release.store(false);check(export_job.request(large,id,model,path.u8string(),stream_options));
         const auto export_deadline=std::chrono::steady_clock::now()+std::chrono::seconds(5);while(!huge->entered && std::chrono::steady_clock::now()<export_deadline) std::this_thread::sleep_for(std::chrono::milliseconds(1));

@@ -2874,5 +2874,75 @@ confirmed absent, original SIGHUP logs retained, and restarted checks passed.
 
 Implementation commit: `c327cbf20cf6f28a2760937d1ef61950159d291c`. Hosted
 [run 39911144099](https://github.com/bipxx/qupathxx/actions/runs/39911144099)
-targets that exact commit and is queued. No hosted schema10/project-link pass
-is claimed yet.
+targets that exact commit and passes all five jobs. The
+[hosted record](benchmarks/pixel-stream-records-ci-windows-linux.json) verifies
+1,729 GUI, 1,386 Windows headless and 1,380 Linux headless Python passes, all
+31 persistence cases on each Python platform, all six new inspector cases on
+Windows GUI, native 39/38 checks, wheel/native/source identities, standalone
+artifacts and the 10,000-record benchmarks. Expected optional skips are retained
+in the report. Project-wide resumable pixel batches remain open.
+
+
+### Packet 85: hash-only pixel input scans
+
+The native/Python [input digest APIs](pixel-input-digests.md) now scan decoded
+feature context, captured source requests and full stream grids without feature
+planes or forest inference. Existing feature extraction uses the same input hash
+routine, preserving its original commitment. Source requests follow the same
+halo/tile geometry and ROI membership framing as prediction. A stream scan does
+not consume blocks or advance counters and shares the producer consumer guard.
+
+Complete QPS1 verification accumulates the stream input digest in its existing
+sequential pass. The accessor requires successful verification and returns that
+scan's cached value. QPS1 bytes and project schema 10 are unchanged. File changes
+are detected by subsequent reader operations, not by the cached accessor.
+
+This is a prerequisite for future project-wide resumable pixel batches. Digest
+equality alone does not compare all inference parameters or grant publication
+authority. Project-wide resume, source reconciliation, packaging, stitching,
+unmatched-grid resampling and all other open M0–M7 requirements remain open.
+
+
+Next implementation target: resumable project pixel batches. Keep the existing
+ROI/tissue/cell batch paths compatible and add a pixel-stream kind with a pinned
+model and bounded stream/prediction options. Capture each image's targets and
+source metadata before starting its worker; workers must not mutate the live
+project or acquire publication authority from historical links.
+
+1. Define a versioned checkpoint specification covering model hash, all inference
+   settings (including vote threshold), exact grid/ROI, source association and
+   output format. Include these fields in the existing canonical batch digest.
+2. Write each image's outputs into an exclusively created, owned bundle. Publish
+   each QPS1 file atomically and publish the final project/checkpoint marker only
+   after all outputs verify. Preserve completed bundles on cancellation; clean
+   only explicitly owned partial paths. Never infer ownership from a filename.
+3. For resume, validate checkpoint metadata, every output's full QPS1 commitment
+   and the current non-consuming source input scan before reuse. Matching input
+   hashes alone are insufficient. A missing/corrupt/moved output or changed
+   model/settings/grid/source must trigger recomputation or a clear failure,
+   according to an explicit resume policy. Avoid forest inference on valid reuse.
+4. Store bounded schema10 historical descriptors in the completed image
+   checkpoint, with relative paths resolved against its final location. Preserve
+   existing batch CSV/report behavior and expose equivalent native, Python,
+   standalone CLI and ImGui progress/cancellation controls.
+5. Verify fresh execution, unchanged reuse without forest calls, source/model/
+   threshold/ROI changes, output corruption, late cancellation, interrupted bundle
+   recovery, output-directory collisions, Windows/Linux reopen and bounded memory
+   with large synthetic grids. Compare every emitted numeric block against the
+   existing single-target pipeline; report resume scan and inference separately.
+
+This target is planned, not implemented by packet85. Stitched contours, reader
+and resampling coverage, TMA, research comparisons, release/support and hardware
+acceptance continue to require their own M0–M7 completion evidence.
+
+
+The [packet85 local report](benchmarks/pixel-input-digest-local-windows-linux.json)
+verifies 1,755 installed Python passes and six expected skips, all 25 new digest
+cases without skips, 39 Windows GUI native and 38 each in Windows headless,
+Linux training/minimal and ASan/UBSan configurations. Generated stubs, strict
+positive/negative typing, installed software-GL/standalone launch, and exact
+wheel/native/source identities pass. The 1024²/2048² synthetic probes observe
+27.6/127.2 ms hashing versus 432.9/1725.5 ms inference (15.7×/13.6×), with every
+block input hash matching the independently framed aggregate. The conservative
+inference producer estimate remains 1,352,748 bytes at both sizes; this is not
+measured RSS, project-batch reuse, vendor-slide or hardware acceptance.

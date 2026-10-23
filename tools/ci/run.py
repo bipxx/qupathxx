@@ -189,6 +189,8 @@ def main():
         work/'pixel-stream-file-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_read.py', '--file', work/'pixel-stream-file.qps', '--output', work/'pixel-stream-read-benchmark.json'],
         work/'pixel-stream-read-benchmark.log', env, 120)
+    run([test_python, '-I', ROOT/'tools/benchmark_pixel_input_digest.py', '--output', work/'pixel-input-digest-benchmark.json'],
+        work/'pixel-input-digest-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_cli.py', '--work', work/'pixel-stream-cli', '--output', work/'pixel-stream-cli-benchmark.json'],
         work/'pixel-stream-cli-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_records.py', '--file', work/'pixel-stream-file.qps', '--project', work/'pixel-stream-links.qpxproj', '--output', work/'pixel-stream-record-benchmark.json'],

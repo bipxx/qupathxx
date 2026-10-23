@@ -15,6 +15,9 @@ public:
     PixelPredictionStream(const Document&,std::uint64_t object_id,const PixelClassifier&,PixelStreamOptions={},std::optional<Rect> window={});
     ~PixelPredictionStream();PixelPredictionStream(const PixelPredictionStream&)=delete;
     std::shared_ptr<const PixelPredictionResult> next(); // Empty only at successful exhaustion.
+    // Re-read captured decoded context/ROI membership without inference or
+    // consuming blocks. Shares the single-consumer guard with next().
+    std::string input_sha256(const std::atomic<bool>* cancelled=nullptr) const;
     void cancel();bool busy() const;
     bool matches(const Document&) const;
     std::string state() const;

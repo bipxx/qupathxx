@@ -33,6 +33,19 @@ Plan plan(std::int64_t iw,std::int64_t ih,const PixelFeatureOptions& options,std
     bytes+=static_cast<std::size_t>(outw*outh*stride);if(bytes>options.work_bytes || 65536>options.work_bytes-bytes) throw std::length_error("pixel feature scratch exceeds memory budget");bytes+=65536;
     return {r,x,y,right-x,bottom-y,bytes};
 }
+void validate_pixels(const PixelBuffer& input) {
+    if(input.width()<=0 || input.height()<=0 || std::uint64_t(input.width())>std::numeric_limits<std::size_t>::max()/4/std::uint64_t(input.height()) || input.bytes().size()!=std::size_t(input.width())*std::size_t(input.height())*4) throw std::invalid_argument("invalid pixel feature RGBA storage");
+}
+std::string input_hash(const PixelBuffer& input,const Plan& p,const std::vector<ClassifierFeature>& features,std::vector<std::uint8_t>* copy,const std::atomic<bool>* cancelled) {
+    Sha256 hash;const std::string tag="qpx.pixel-feature-input/1";hash.update(tag.data(),tag.size());
+    for(auto v:{p.window.image_width,p.window.image_height,p.window.x,p.window.y,p.window.width,p.window.height,p.x,p.y,p.w,p.h}) hash.integer(v);
+    hash.integer(features.size());for(const auto& f:features) {text(hash,f.name);text(hash,f.unit);}
+    const auto width=static_cast<std::size_t>(p.w);for(std::int64_t y=0;y<p.h;++y) {
+        stopped(cancelled);const auto offset=static_cast<std::size_t>(p.y-p.window.input_y+y)*static_cast<std::size_t>(input.width())+static_cast<std::size_t>(p.x-p.window.input_x);
+        const auto* row=input.bytes().data()+offset*4;if(copy) {auto* target=copy->data()+static_cast<std::size_t>(y)*width*4;std::copy_n(row,width*4,target);row=target;}hash.update(row,width*4);
+    }
+    stopped(cancelled);return hash.finish();
+}
 }
 void PixelFeatureOptions::validate() const {
     if(!rgb && !optical_density && !stains) throw std::invalid_argument("pixel features require at least one channel group");
@@ -59,20 +72,16 @@ std::vector<ClassifierFeature> pixel_feature_schema(const PixelFeatureOptions& o
     return out;
 }
 std::size_t pixel_feature_work_bytes(std::int64_t width,std::int64_t height,const PixelFeatureOptions& options,std::optional<PixelFeatureWindow> window) {return plan(width,height,options,window).work;}
+std::string pixel_feature_input_sha256(const PixelBuffer& input,const StainTransform& transform,PixelFeatureOptions options,std::optional<PixelFeatureWindow> window,const std::atomic<bool>* cancelled) {
+    stopped(cancelled);validate_pixels(input);const auto p=plan(input.width(),input.height(),options,window);return input_hash(input,p,pixel_feature_schema(options,transform),nullptr,cancelled);
+}
 std::size_t PixelFeatureImage::retained_bytes() const {std::size_t n=sizeof(PixelFeatureImage)+values_.capacity()*sizeof(float)+valid_.capacity()+features_.capacity()*sizeof(ClassifierFeature)+options_.sigmas.capacity()*sizeof(double)+sha256_.capacity()+input_sha256_.capacity();for(const auto& f:features_) n+=f.name.capacity()+f.unit.capacity();return n;}
 std::shared_ptr<const PixelFeatureImage> extract_pixel_features(const PixelBuffer& input,const StainTransform& transform,PixelFeatureOptions options,std::optional<PixelFeatureWindow> window,const std::atomic<bool>* cancelled) {
-    const auto started=std::chrono::steady_clock::now();stopped(cancelled);if(input.width()<=0 || input.height()<=0 || std::uint64_t(input.width())>std::numeric_limits<std::size_t>::max()/4/std::uint64_t(input.height()) || input.bytes().size()!=std::size_t(input.width())*std::size_t(input.height())*4) throw std::invalid_argument("invalid pixel feature RGBA storage");const auto p=plan(input.width(),input.height(),options,window);
+    const auto started=std::chrono::steady_clock::now();stopped(cancelled);validate_pixels(input);const auto p=plan(input.width(),input.height(),options,window);
     auto out=std::shared_ptr<PixelFeatureImage>(new PixelFeatureImage());out->window_=p.window;out->options_=std::move(options);out->features_=pixel_feature_schema(out->options_,transform);out->white_=transform.white();out->stains_=transform.stains();out->work_bytes_=p.work;out->cx_=p.x;out->cy_=p.y;out->cw_=p.w;out->ch_=p.h;
     const auto width=static_cast<std::size_t>(p.w),height=static_cast<std::size_t>(p.h),count=width*height,rows=static_cast<std::size_t>(p.window.width)*static_cast<std::size_t>(p.window.height),columns=out->features_.size();
-    PixelBuffer pixels(p.w,p.h);auto& bytes=pixels.writable_bytes();const auto& source=input.bytes();
-    Sha256 input_hash;const std::string input_tag="qpx.pixel-feature-input/1";input_hash.update(input_tag.data(),input_tag.size());
-    for(auto v:{p.window.image_width,p.window.image_height,p.window.x,p.window.y,p.window.width,p.window.height,p.x,p.y,p.w,p.h}) input_hash.integer(v);
-    input_hash.integer(out->features_.size());for(const auto& f:out->features_) {text(input_hash,f.name);text(input_hash,f.unit);}
-    for(std::size_t y=0;y<height;++y) {
-        stopped(cancelled);const auto offset=static_cast<std::size_t>(p.y-p.window.input_y+static_cast<std::int64_t>(y))*static_cast<std::size_t>(input.width())+static_cast<std::size_t>(p.x-p.window.input_x);
-        std::copy_n(source.data()+offset*4,width*4,bytes.data()+y*width*4);input_hash.update(bytes.data()+y*width*4,width*4);
-    }
-    out->input_sha256_=input_hash.finish();std::vector<std::uint8_t> domain(count);for(std::size_t i=0;i<count;++i) {if((i&4095)==0) stopped(cancelled);domain[i]=bytes[i*4+3]==255;}
+    PixelBuffer pixels(p.w,p.h);auto& bytes=pixels.writable_bytes();
+    out->input_sha256_=input_hash(input,p,out->features_,&bytes,cancelled);std::vector<std::uint8_t> domain(count);for(std::size_t i=0;i<count;++i) {if((i&4095)==0) stopped(cancelled);domain[i]=bytes[i*4+3]==255;}
     out->values_.assign(rows*columns,std::numeric_limits<float>::quiet_NaN());out->valid_.resize(rows);
     const auto ox=static_cast<std::size_t>(p.window.x-p.x),oy=static_cast<std::size_t>(p.window.y-p.y),ow=static_cast<std::size_t>(p.window.width),oh=static_cast<std::size_t>(p.window.height);
     for(std::size_t y=0;y<oh;++y) {stopped(cancelled);for(std::size_t x=0;x<ow;++x) {const auto valid=domain[(oy+y)*width+ox+x];out->valid_[y*ow+x]=valid;out->valid_pixels_+=valid;}}

@@ -1,3 +1,4 @@
+#include "qupathxx/input_digest.hpp"
 #include "qupathxx/pixel_contours.hpp"
 #include "qupathxx/pixel_stream.hpp"
 #include "qupathxx/pixel_stream_file.hpp"
@@ -76,6 +77,7 @@ void bind_pixel_workflows(nb::module_& m) {
         .def_rw("max_pixels",&PixelStreamOptions::max_pixels).def_rw("max_blocks",&PixelStreamOptions::max_blocks).def("validate",&PixelStreamOptions::validate);
     nb::class_<PixelPredictionStream>(m,"PixelPredictionStream")
         .def(nb::init<const Document&,std::uint64_t,const PixelClassifier&,PixelStreamOptions,std::optional<Rect>>(),"document"_a,"object_id"_a,"classifier"_a,"options"_a=PixelStreamOptions{},"window"_a=nb::none())
+        .def("input_sha256",[](const PixelPredictionStream& stream){return stream.input_sha256();},nb::call_guard<nb::gil_scoped_release>())
         .def("next",&PixelPredictionStream::next,nb::call_guard<nb::gil_scoped_release>()).def("cancel",&PixelPredictionStream::cancel).def("matches",&PixelPredictionStream::matches)
         .def("__iter__",[](PixelPredictionStream& stream)->PixelPredictionStream& {return stream;},nb::rv_policy::reference)
         .def("__next__",[](PixelPredictionStream& stream) {std::shared_ptr<const PixelPredictionResult> result;{nb::gil_scoped_release release;result=stream.next();}if(!result) throw nb::stop_iteration();return result;})
@@ -105,10 +107,11 @@ void bind_pixel_workflows(nb::module_& m) {
         .def("cancel",&PixelStreamFile::cancel).def_prop_ro("cancelled",&PixelStreamFile::cancelled)
         .def("read_block",&PixelStreamFile::read_block,"index"_a,nb::call_guard<nb::gil_scoped_release>())
         .def("verify",[](const PixelStreamFile& file){file.verify();},nb::call_guard<nb::gil_scoped_release>())
-        .def("link",&PixelStreamFile::link)
+        .def("link",&PixelStreamFile::link).def("input_sha256",&PixelStreamFile::input_sha256,nb::call_guard<nb::gil_scoped_release>())
         .def_prop_ro("verified",&PixelStreamFile::verified).def_prop_ro("level_bounds",&PixelStreamFile::level_bounds)
         .def_prop_ro("block_size",&PixelStreamFile::block_size).def_prop_ro("windowed",&PixelStreamFile::windowed)
         .def_prop_ro("declared_summary",&PixelStreamFile::declared_summary,nb::rv_policy::copy);
+    m.def("input_sha256",[](const PixelPredictionRequest& request){return input_sha256(request);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
     m.def("save_pixel_stream",[](PixelPredictionStream& stream,const std::string& path,bool replace,std::uint64_t max_bytes){return save_pixel_stream(stream,path,replace,max_bytes);},
         "stream"_a,"path"_a,"replace_existing"_a=false,"max_bytes"_a=1ULL<<40,nb::call_guard<nb::gil_scoped_release>());
     nb::class_<PixelStreamExportStats>(m,"PixelStreamExportStats")

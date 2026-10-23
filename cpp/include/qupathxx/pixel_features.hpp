@@ -59,4 +59,6 @@ private:
     friend std::shared_ptr<const PixelFeatureImage> extract_pixel_features(const PixelBuffer&,const StainTransform&,PixelFeatureOptions,std::optional<PixelFeatureWindow>,const std::atomic<bool>*);
 };
 std::shared_ptr<const PixelFeatureImage> extract_pixel_features(const PixelBuffer&,const StainTransform&,PixelFeatureOptions={},std::optional<PixelFeatureWindow> window={},const std::atomic<bool>* cancelled=nullptr);
+// Same decoded context/schema commitment as extraction, without feature planes.
+std::string pixel_feature_input_sha256(const PixelBuffer&,const StainTransform&,PixelFeatureOptions={},std::optional<PixelFeatureWindow> window={},const std::atomic<bool>* cancelled=nullptr);
 }

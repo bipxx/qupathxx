@@ -69,5 +69,6 @@ void bind_pixel_features(nb::module_& m) {
     m.def("save_pixel_classifier",[](const PixelClassifier& c,const std::string& path,bool replace){save_pixel_classifier(c,path,replace);},"classifier"_a,"path"_a,"replace_existing"_a=false,nb::call_guard<nb::gil_scoped_release>());
     m.def("pixel_feature_schema",&pixel_feature_schema,"options"_a=PixelFeatureOptions{},"transform"_a=identity);
     m.def("pixel_feature_work_bytes",&pixel_feature_work_bytes,"input_width"_a,"input_height"_a,"options"_a=PixelFeatureOptions{},"window"_a=nb::none());
+    m.def("pixel_feature_input_sha256",[](const PixelBuffer& p,PixelFeatureOptions o,const StainTransform& t,std::optional<PixelFeatureWindow> w){return pixel_feature_input_sha256(p,t,std::move(o),w);},"pixels"_a,"options"_a=PixelFeatureOptions{},"transform"_a=identity,"window"_a=nb::none(),nb::call_guard<nb::gil_scoped_release>());
     m.def("extract_pixel_features",[](const PixelBuffer& p,PixelFeatureOptions o,const StainTransform& t,std::optional<PixelFeatureWindow> w){return extract_pixel_features(p,t,std::move(o),w);},"pixels"_a,"options"_a=PixelFeatureOptions{},"transform"_a=identity,"window"_a=nb::none(),nb::call_guard<nb::gil_scoped_release>());
 }
