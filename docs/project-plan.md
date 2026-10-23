@@ -3521,3 +3521,24 @@ portable run without an output receipt. Synthetic cohorts exercise binding guard
 not real ELF validity. Successful acceptance explicitly keeps release_ready false
 and counts unresolved scientific expected failures. Positive portable evidence,
 supported releases and every other open M0–M7 gate still need their own evidence.
+
+### Packet97: native macOS portability gates and GEOS SDK verification
+
+The [native macOS gate](macos-native-validation.md) builds the geometry, TIFF,
+project/interchange and classifier engine on Intel and Apple silicon hosts. It
+uses hash-verified GEOS/OpenCV source SDKs and hash-pinned CMake/Ninja wheels.
+Native tests, exact region CLI pixels, Mach-O architecture, linked runtimes,
+SDK/notices and host/tool identities are retained. Python/GUI/OpenSlide,
+relocated wheels, deployment targets, signing and supported packages remain
+subsequent macOS requirements. Local preflight rejects the wrong platform before
+creating work, and actionlint 1.7.12 accepts the workflow. Hosted Mac execution
+remains required; no macOS pass is inferred from a Linux or Windows check.
+
+Portable run 39991725062 passes wheel compilation and 40 native tests before
+failing the GEOS verifier's lib-directory assumption. The verifier and bundling
+regression now resolve one C API runtime in lib or lib64, rejecting absence and
+ambiguity. Four layout tests join the prior SDK/auditor tests: 27 focused passes
+on each local platform. An actual lib64-layout SDK passes installed/relocated
+runtime hashes, geometry and native region/batch/CSV; all four native bundling
+configuration regressions also pass. New run 39995913896 is pending. Neither this
+fix nor the Mac preflight completes portable distribution or the full M0–M7 goal.
