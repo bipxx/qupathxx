@@ -3645,11 +3645,15 @@ alias protection. Project reopen and missing-source history exports are covered.
 The table benchmark accepts the same calibration option and verifies physical
 sample areas before recording timings.
 
-The provisional [Linux receipt](benchmarks/calibrated-cell-features-linux.json)
+The [Linux receipt](benchmarks/calibrated-cell-features-linux.json)
 records 42 passing native suites, 157 focused Python passes with two optional
 skips, matching stubs and strict positive typing. A 1,024-row benchmark smoke
 verifies output under concurrent load; its timings are not performance evidence.
 The earlier full run rejects an older binary's source identity after the
-precision edit; that failure is retained. A fresh full regression and Windows
-desktop validation remain required. Physical detection filters, scientific
+precision edit; that failure is retained. The fresh full regression passes
+1,655 tests, with 392 optional skips and four strict scientific expected failures.
+Installed workflows, exact bundled runtime/relocation checks, matching stubs,
+positive typing and all seven required negative typing errors pass. Hosted run
+40004623992 validates the candidate source separately. Windows desktop and
+hosted acceptance remain required. Physical detection filters, scientific
 segmentation acceptance and every other open M0–M7 requirement remain open.

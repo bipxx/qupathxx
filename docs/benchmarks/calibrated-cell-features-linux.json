@@ -1,6 +1,6 @@
 {
   "schema": "qpx.calibrated-cell-features-validation/1",
-  "state": "linux-focused-verified-full-and-windows-pending",
+  "state": "linux-full-verified-windows-and-hosted-pending",
   "release_ready": false,
   "source_tree_sha256": "d4bfd70b9155ed899be8f32360fffd529373aa520ef717fabd631139d7763463",
   "native_sha256": "f85ad552b9fab424a9eed82fc8c5b5c9b467efe1a9292621f648fc5856ab3111",
@@ -16,7 +16,23 @@
       "junit_sha256": "a72623d8039652bf43b4c8decff40118f2a35fd5375536e45268fde3b530df95"
     },
     "stubs_match": true,
-    "strict_typing": true
+    "strict_typing": true,
+    "full": {
+      "passed": 1655,
+      "skipped": 396,
+      "junit_sha256": "06ca38f2592c54a3e02a376581931ac2c32d529c8235390407bf520a3e629ae3",
+      "optional_skips": 392,
+      "strict_expected_failures": 4
+    },
+    "runtime_relocation": {
+      "passed": true,
+      "report_sha256": "6a4b9988527418eb5b961809073762f1563e85a7735fa12e27aa6a9aa4bfc6d5"
+    },
+    "installed_workflow": {
+      "passed": true,
+      "report_sha256": "8f4ec073fa56773d57ae8a25260717d8b30f1cfb9290f6318827e3dd46729254"
+    },
+    "negative_typing_errors": 7
   },
   "scope": "Native capture-time sampled areas and centroids, opt-in CSV v2, Python, standalone project CSV command; Windows GUI validation pending.",
   "precision_regression": {
@@ -39,5 +55,10 @@
     "performance_accepted": false,
     "reason": "Concurrent compilation and tests; timing is not accepted performance evidence.",
     "report_sha256": "c9eb3520f3e472c8efc6e54c88f2f797bc0198e49b87749c5700b3b92b6f4a40"
+  },
+  "hosted": {
+    "run_id": 40004623992,
+    "source_commit": "55951f080a4be4634982a58212ce8fa70e3b194a",
+    "state": "pending"
   }
 }

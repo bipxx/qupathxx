@@ -66,3 +66,12 @@ destination. The command shares the default table byte limit of 256 MiB.
 This feature does not change segmentation, add physical-unit detection filters,
 resample images to an arbitrary resolution, or establish agreement with QuPath
 cell detection. Those remain separate analysis acceptance requirements.
+
+The [Linux validation receipt](benchmarks/calibrated-cell-features-linux.json)
+records 42 native suites, 157 focused Python tests and a full suite with 1,655
+passes, 392 optional skips and four scientific expected failures. Installed
+workflows, runtime relocation, stubs and strict typing pass. Windows desktop and
+hosted candidate acceptance remain pending. To verify calibrated table throughput
+on a quiet machine, use `tools/benchmark_cell_tables.py --capture-calibration`;
+`--gui` additionally exercises desktop export. The recorded small smoke check
+ran under concurrent load and establishes output correctness only.
