@@ -3100,3 +3100,11 @@ Packet87 implementation commit: `7adb9c62988e8440645e3c43ce1fe1af6d35411e`.
 Hosted [run 39930850486](https://github.com/bipxx/qupathxx/actions/runs/39930850486)
 targets that exact commit and was queued when observed. The acceptance above is
 local; no hosted packet87 pass is claimed yet. The overall M0–M7 goal remains active.
+
+
+Hosted follow-up: the Linux Python suite passed, but run 39930850486 failed in a
+later descriptor benchmark that still required project schema 10. The benchmark
+now requires schema 11 and retains its 10,000-record, bounded-payload, exact
+reopen and clipped GUI checks. Both native-installed headless and desktop probes
+pass; see the [benchmark correction receipt](benchmarks/tma-schema-benchmark-fix.json).
+The original run is not accepted as all-green; the correction requires a new run.

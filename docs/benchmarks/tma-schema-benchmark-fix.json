@@ -1,0 +1,81 @@
+{
+  "schema": "qpx.tma-schema-benchmark-fix/1",
+  "original_run": "https://github.com/bipxx/qupathxx/actions/runs/39930850486",
+  "failure": "Linux Python tests and preceding benchmarks passed; historical stream-record benchmark still asserted schema 10 after the TMA schema-11 migration.",
+  "change": "Assert project schema 11 while retaining descriptor count, per-record size, roundtrip and clipped GUI checks.",
+  "checks": {
+    "tma87-schema-fix-headless.json": {
+      "sha256": "6400d178f6904cdccb5e834c31796951320dc50517519a37fcc5a4dd55d9e114",
+      "result": {
+        "schema": "qpx.pixel-stream-record-benchmark/1",
+        "records": 10000,
+        "stream_bytes": 9454346,
+        "stream_blocks": 64,
+        "content_sha256": "727b6b00e92872d36c9516d3c0598c023dca16995db44d7f65c1ef4e72330028",
+        "descriptor_payload_bytes": 501,
+        "record_payload_bytes": 604,
+        "total_encoded_descriptor_bytes": 4238890,
+        "max_encoded_descriptor_bytes": 424,
+        "project_bytes": 8011776,
+        "project_schema": 11,
+        "prepare_ms": 87.51300000585616,
+        "adopt_all_ms": 4.208499914966524,
+        "save_ms": 79.40629997756332,
+        "open_ms": 43.23459998704493,
+        "gui": null,
+        "native_sha256": "395a645e6b81dc964644c0b61394407d63cb37857ae129864a6440849b77eaef",
+        "environment": {
+          "source_tree_sha256": "3bae848cee5f5c1e3690ad3a5d15c047ce8f92665350bf3842aa6219be249017",
+          "git_revision": "ceb16cd7725e57b8e49f2358d5df4878038b589f+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Synthetic descriptor/catalog/persistence observation. All links reference one fully verified file; project embeds only its synthetic source image and bounded descriptor rows, not external stream arrays or model. Relative-path relocation is checked by tests. Optional GUI uses clipped dropdown/catalog steps and one historical block preview. No RSS, many distinct files, network storage, vendor WSI, hardware/frame-budget or biological acceptance. Project and external output retained."
+      }
+    },
+    "tma87-schema-fix-gui.json": {
+      "sha256": "0429a9e2037a2f41ad9632ad46ba201e22945134008e24234e672e0ffed24aac",
+      "result": {
+        "schema": "qpx.pixel-stream-record-benchmark/1",
+        "records": 10000,
+        "stream_bytes": 9454346,
+        "stream_blocks": 64,
+        "content_sha256": "727b6b00e92872d36c9516d3c0598c023dca16995db44d7f65c1ef4e72330028",
+        "descriptor_payload_bytes": 501,
+        "record_payload_bytes": 604,
+        "total_encoded_descriptor_bytes": 4238890,
+        "max_encoded_descriptor_bytes": 424,
+        "project_bytes": 8011776,
+        "project_schema": 11,
+        "prepare_ms": 81.17529994342476,
+        "adopt_all_ms": 3.4251000033691525,
+        "save_ms": 79.83179995790124,
+        "open_ms": 46.20350000914186,
+        "gui": {
+          "document_unchanged": true,
+          "project_dirty": true,
+          "frames": 103,
+          "cpu_frame_p95_ms": 1.947,
+          "max_cpu_frame_ms": 18.1972,
+          "catalog_max_step": 1024,
+          "catalog_complete": true,
+          "gpu_bytes": 65536,
+          "peak_gpu_bytes": 65536,
+          "ui_overflow": 0,
+          "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)"
+        },
+        "native_sha256": "395a645e6b81dc964644c0b61394407d63cb37857ae129864a6440849b77eaef",
+        "environment": {
+          "source_tree_sha256": "3bae848cee5f5c1e3690ad3a5d15c047ce8f92665350bf3842aa6219be249017",
+          "git_revision": "ceb16cd7725e57b8e49f2358d5df4878038b589f+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Synthetic descriptor/catalog/persistence observation. All links reference one fully verified file; project embeds only its synthetic source image and bounded descriptor rows, not external stream arrays or model. Relative-path relocation is checked by tests. Optional GUI uses clipped dropdown/catalog steps and one historical block preview. No RSS, many distinct files, network storage, vendor WSI, hardware/frame-budget or biological acceptance. Project and external output retained."
+      }
+    }
+  },
+  "scope": "Installed final4 TMA native wheel, unchanged compiled source. The original run is not accepted as all-green. Hosted validation for the benchmark fix must complete separately."
+}
