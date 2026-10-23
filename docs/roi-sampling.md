@@ -56,18 +56,28 @@ Prepared geometry predicates handle ordinary interior and exterior samples;
 only exact boundary points traverse rings. There is no per-sample geometry copy.
 End-to-end performance and scientific acceptance require separate measurements.
 
-Linux validation passes 42 native suites and a 320-pass focused Python run
-with 17 optional skips. All 42 pinned reference compartment masks, counts and
-OD/stain means match with explicit winding sampling, across the three declared
-tile sizes and unchanged tolerances. Legacy coverage characterization remains.
-The original focused run retains four expected failures; the resampled gate is
-now an explicit winding acceptance test. Three isolated-cell segmentation gates
-remain expected failures. Windows, full regression, package/typing, hosted
-validation and performance qualification remain pending. This is a validation
-candidate and does not establish segmentation parity or biological accuracy.
+The corrected source `14788f23325d74dcb2ff016d82d994786eecd999` passes
+43 Windows native suites and 393 focused Python/desktop cases, with three
+isolated-cell scientific expected failures. All 35 sampling cases pass, including
+robust diagonal crossings, pyramid/morphology archives, producer commands and
+ImGui equivalence. Installed workflows, generated stubs and strict positive/
+negative typing pass. A larger triangle exposed four incorrectly included centers
+in the first binary; robust orientation fixes that defect without interpolated
+intersections. Earlier full passes and run 40037162200 predate the fix and cannot
+accept it; that hosted run is cancelled.
 
+Explicit winding matches all 42 pinned reference compartment masks/counts and
+OD/stain means across three declared tile sizes and unchanged tolerances.
+Coverage characterization and the three isolated-cell segmentation failures
+remain visible. Full corrected Windows regression and
+[hosted acceptance](https://github.com/bipxx/qupathxx/actions/runs/40039352934)
+remain pending. The local Linux filesystem became read-only after host disk
+exhaustion; its pre-fix partial results are historical and do not qualify the fix.
+This does not establish segmentation parity or biological accuracy.
 
-A larger diagonal regression exposed four incorrectly included boundary centers
-in the initial binary. Boundary crossings now use robust orientation, preserving
-exact collinearity without division. The corrected native build and its hosted
-validation are pending; earlier local/hosted passes and timings predate this fix.
+The [desktop record](benchmarks/roi-sampling-desktop-windows.json) binds a visually
+inspected frame with both winding selectors, saved ROI/tissue results at 24,976
+samples and zero reported UI overflow. The [paired timing observations](roi-sampling-performance.md)
+record exact outputs and measurable overhead separately from performance acceptance.
+
+![Explicit winding selectors and retained ROI/tissue results](images/roi-polygon-sampling.png)

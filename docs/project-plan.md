@@ -3926,3 +3926,18 @@ translations and ROI/tissue counts are covered. Rebuild and validation are pendi
 run 40037162200 at 94c74a4 is cancelled as superseded. The initial performance
 observations and full passes identify the pre-fix binary and cannot accept this
 fix. Main promotion remains withheld.
+
+
+Corrected packet-109 Windows validation passes 43 native suites and 393 focused
+Python/desktop tests with three scientific expected failures. All 35 policy cases,
+installed workflows, generated stubs and strict positive/negative typing pass.
+The large diagonal now has exactly 24,976 ROI and tissue samples; the visually
+inspected desktop shows both winding selectors and saved results with zero UI
+overflow. [Paired observations](roi-sampling-performance.md) retain 32 corrected
+fresh-process pairs and four excluded warmups, exact numeric output checks and
+actual native/source/profiler identities. Their 0.4-23.5 ms paired median overhead
+on synthetic warm workloads keeps optimization open; no uniform runtime, RSS,
+biology or hardware acceptance is claimed. Native source projection proves all
+242 build inputs match corrected commit 14788f23325d74dcb2ff016d82d994786eecd999
+up to checkout CRLF. Corrected full Windows regression and hosted run 40039352934
+remain pending; main promotion and all other M0-M7 gates remain open.
