@@ -3608,3 +3608,15 @@ and 1.703× Linux. These are observations on a shared workstation, not statistic
 or universal performance acceptance. Full regression is running, the original
 mixed-result data remains retained and the candidate is not promoted to main.
 All other M0–M7 requirements and the intermittent first-wait issue remain open.
+
+The initial packet95 source now has a completed
+[hosted artifact audit](benchmarks/masked-gaussian-ci-windows-linux.json), run
+39994191471 at commit `9926c8bf74444ab83bb5fe982dde855bf14b6adc`. Windows desktop
+passes 2,001 Python/42 native, Windows headless 1,623 Python/41 native, Linux
+headless 1,621 Python/41 native, and Linux minimal/ASan/UBSan each pass 41 native.
+The Gaussian oracle and six SDK-layout cases pass alongside inherited workflow,
+artifact/runtime, reader, typing and standalone checks. Each Python environment
+retains exactly four scientific expected failures. The desktop frame is visually
+inspected. This accepts the initial source's declared functional scope, not the
+packet99 revision or uniform performance. Run 39999426023 is the separate
+pending hosted check for packet99; local full regression is also running.

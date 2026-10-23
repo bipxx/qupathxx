@@ -61,6 +61,18 @@ training and prediction identities also match the prior baseline. The profile
 does not accept the candidate for release or
 close any outstanding M0–M7 gate.
 
+The initial candidate's [hosted artifact audit](benchmarks/masked-gaussian-ci-windows-linux.json)
+now passes all five jobs at commit `9926c8bf74444ab83bb5fe982dde855bf14b6adc`,
+run 39994191471. Windows desktop passes 2,001 Python/42 native tests, Windows
+headless 1,623 Python/41 native, Linux headless 1,621 Python/41 native, and Linux
+minimal/ASan/UBSan each pass 41 native tests. The direct Gaussian native test,
+six SDK-layout regressions, characterization cases and inherited artifact/runtime/
+reader/typing/standalone gates pass, with four scientific expected failures in
+each Python environment. The completed desktop frame is visually inspected.
+This accepts functional validation of that initial source only. It does not
+validate the subsequent short-kernel revision, establish uniform performance,
+resolve the initial intermittent wait or accept a supported release.
+
 ## Complete workflow timing
 
 The initial candidate's [workflow validation receipt](benchmarks/gaussian-workflow-validation-windows-linux.json)
