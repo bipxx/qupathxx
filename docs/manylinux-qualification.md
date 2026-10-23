@@ -102,5 +102,11 @@ relocated-library regression now select one unambiguous C API library directory
 from lib or lib64. Four new layout cases cover both locations and reject missing
 or ambiguous runtimes. Exact installed/wheel/SDK hash matching and the relocation
 policy are preserved. New portable run 39995913896 at commit
-`1ff10524cc14665ffe2bee65310db742a6359205` is pending; the failure is not accepted
-as a portable package pass.
+`1ff10524cc14665ffe2bee65310db742a6359205` reaches ABI qualification for CPython
+3.11, where the scanner incorrectly treats the x86-64 GLIBC loader as an
+unbundled dependency. The [loader-policy correction](manylinux-loader-policy.md)
+retains symbol-version checks and is submitted as run 40003114384 at
+`03ed2828c262415263a1e8e1f75eccc7e68dd9d6`. Twelve focused checks pass on both
+Windows and Linux; replay of the actual failed requirements passes against the
+pinned policy. Neither the original failure nor this replay is accepted as a
+portable package or fresh-consumer pass.
