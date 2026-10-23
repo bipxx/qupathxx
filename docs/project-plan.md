@@ -2509,3 +2509,8 @@ events, and filters other wheel input before ImGui NewFrame. The new regression
 requires at least three ignored OS events and an intact positive scripted zoom;
 all original camera/window assertions remain unchanged. Unscripted wheel routing
 remains active. The local record preserves the initial failure and reproduction.
+
+Implementation commit: `08151d4`. Hosted
+[run 39894647437](https://github.com/bipxx/qupathxx/actions/runs/39894647437)
+targets that commit and is running. No hosted block-producer/replay-isolation
+pass is claimed yet.
