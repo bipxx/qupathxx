@@ -61,3 +61,11 @@ The [pinned runtime comparison corpus](qupath-comparisons.md) includes independe
 QuPath-generated data and retained edge discrepancies. Its captured decoder gates now pass (exit 0) using the explicit matching
 policy; default raw bounds and conversion notices remain visible. The previous
 thin-ellipse expected failure is a passing regression. This evidence does not accept complete QuPath workflow parity.
+
+
+The provisional [physical nucleus-area candidate](cell-area-limits.md) resolves
+inclusive calibrated bounds into frozen sample cutoffs through native/Python,
+CLI, project batches and ImGui. Linux full regression and Windows focused desktop
+checks pass; Windows full regression, visual inspection and hosted acceptance
+remain pending. This narrows the physical-filter gap without accepting physical
+radii, arbitrary resampling or cell segmentation parity.

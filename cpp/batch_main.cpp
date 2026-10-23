@@ -45,6 +45,7 @@ int execute(const std::vector<std::string>& args) {
             "               --max-pixels N --max-blocks N (per target)\n"
             "--white R,G,B  --stains R,G,B,R,G,B[,R,G,B]  --normalized\n"
             "--threshold NUMBER  --level INTEGER  --tile-size INTEGER\n"
+            "Cell area: --cell-min-area-um2 NUMBER --cell-max-area-um2 NUMBER (inclusive)\n"
             "--continue-on-error  --no-resume  --publish-cells  --nucleus\n"
             "--tma-only  --include-missing-tma (TMA scope only)\n"
             "--snapshot-bytes N  --materialize-bytes N  --result-bytes N\n"
@@ -86,6 +87,8 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--stains") {const auto v=numbers(value());if(v.size()!=6 && v.size()!=9) throw std::invalid_argument("stains require six or nine components");stains.clear();for(std::size_t n=0;n<v.size();n+=3) stains.push_back({v[n],v[n+1],v[n+2]});}
             else if(flag=="--normalized") normalized=true;
             else if(flag=="--threshold") options.cells.threshold=options.tissue.threshold=real(value());
+            else if(flag=="--cell-min-area-um2") options.cell_min_nucleus_area_um2=real(value());
+            else if(flag=="--cell-max-area-um2") options.cell_max_nucleus_area_um2=real(value());
             else if(flag=="--level") {const auto& v=value();if(v=="-1") options.cells.level=options.tissue.level=-1;else {auto n=integer(v);if(n>INT32_MAX) throw std::invalid_argument("level exceeds int32");options.cells.level=options.tissue.level=static_cast<std::int32_t>(n);}}
             else if(flag=="--tile-size") requested_tile_size=static_cast<std::size_t>(integer(value()));
             else if(flag=="--snapshot-bytes") options.snapshot_budget=static_cast<std::size_t>(integer(value()));

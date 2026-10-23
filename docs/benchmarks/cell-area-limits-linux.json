@@ -1,0 +1,51 @@
+{
+  "schema": "qpx.cell-area-limits-validation/1",
+  "state": "local-full-verified-hosted-pending",
+  "release_ready": false,
+  "platform": "linux",
+  "source_tree_sha256": "7dbdfbfcf4f7c58357baf30a49aedb50692df398d478899ef33abb14afadab3a",
+  "native_sha256": "38c34cde7b0be035a510711a1a23304f4c38987a6aa4bc08f7c5b50c42dfb638",
+  "wheel_sha256": "7d9acbcf7a949a3ff05ce8935ca5c47334b75b97e3c4cbd57e40a7e0554be7de",
+  "native": {
+    "passed": 42,
+    "optional_skips": 0,
+    "strict_scientific_expected_failures": 0,
+    "junit_sha256": "b18ac9f571934e6881397ce361b9e1296badd5b9416307d7aad0587fba877a5d"
+  },
+  "focused": {
+    "passed": 96,
+    "optional_skips": 1,
+    "strict_scientific_expected_failures": 0,
+    "junit_sha256": "070877482aee4af513d64afcbc45ba2ab45bbc8084dd0b26e4b27568d2ec36e0"
+  },
+  "full": {
+    "passed": 1680,
+    "optional_skips": 394,
+    "strict_scientific_expected_failures": 4,
+    "junit_sha256": "7bcd93bebb285ec91cf4d7c1ffc941e01c42bc0aed7b92a73672a628847f83de"
+  },
+  "installed_report_sha256": "3a2999cf6943db841c19125b42ccb48aa95088b1814bd94d75e04c76843c7fdd",
+  "stubs_match": true,
+  "strict_positive_typing": true,
+  "negative_typing_errors": 7,
+  "generated_large_pyramid_fixture_sha256": "09301eba1210f7c7335e33993f0fe73cc74f7fc34ac85b1da5a9bb5043776845",
+  "contract": "Inclusive physical area bounds intersect sampled limits once per captured request; saved runs freeze the resolved recipe, while batches retain original physical arguments and resolve each image/ROI.",
+  "performance": {
+    "algorithm": "Two binary searches over possible sample counts; no image reads or detector-loop changes for resolution.",
+    "measured_performance_accepted": false
+  },
+  "limits": [
+    "Physical radii and arbitrary resampling remain open.",
+    "Four scientific acceptance failures remain.",
+    "No biological, hardware or release acceptance."
+  ],
+  "runtime_relocation_report_sha256": "a384438270548f1444e929b0f5c09ee605f726706d9079c91e720857ee146214",
+  "first_focused_attempt": {
+    "junit_sha256": "fec8ed0583d6e31eeac73f995c75e1424a460021cc5a3d21e2b3634980d0eeb4",
+    "failed_cases": [
+      "test_physical_and_sampled_limits_intersect_and_empty_ranges_are_frozen",
+      "test_cli_preserves_requested_physical_bounds_and_reuses_checkpoints"
+    ],
+    "correction": "Corrected expectations: a nonempty integer range can contain no actual nuclei; normalized CLI stain basis requires nine components. Implementation unchanged for these corrections."
+  }
+}

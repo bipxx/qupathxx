@@ -124,6 +124,9 @@ QuPath port or a compatible replacement for Java QuPath.
 - Capture-time cell calibration provides sampled areas in square micrometers and
   centroid coordinates in micrometers, including opt-in CSV v2 and native project
   exports; see [calibrated cell features](docs/calibrated-cell-features.md).
+  Inclusive [physical nucleus-area filters](docs/cell-area-limits.md) are available
+  through native/Python, CLI, batch and desktop paths; candidate validation is
+  recorded separately from segmentation acceptance.
 - Lossless cell-run archives with parameters, markers, compartment features,
   project/recovery storage and pixel rechecking; see [cell archives](docs/cell-archive.md).
 - Bounded GPU canvas caching reuses unchanged image/annotation pixels while

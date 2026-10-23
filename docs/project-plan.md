@@ -3696,3 +3696,26 @@ different storage contexts. These are bounded observations rather than a speedup
 RSS, segmentation-throughput or frame-budget acceptance.
 Physical detection filters, scientific
 segmentation acceptance and every other open M0–M7 requirement remain open.
+
+
+## Physical nucleus-area filter candidate (packet 103)
+
+The [physical-area contract](cell-area-limits.md) adds inclusive optional minimum
+and maximum nucleus areas to native/Python requests, headless CLI, per-image
+project batches and ImGui. Resolution intersects existing sampled limits on the
+captured natural grid, using anisotropic calibration and stable product comparisons.
+Two binary searches compile the bounds once; no image read or per-cell unit
+conversion is added. Existing archives retain the resolved recipe and capture
+provenance. Replay freezes that recipe; new requests resolve current calibration.
+Batch manifests additionally retain original physical arguments and reject
+incompatible checkpoint reuse after calibration changes.
+
+Local Linux validation passes 42 native suites, 96 focused cases and the full
+1,680-pass regression with 394 optional skips and four strict scientific expected
+failures. Installed runtime relocation, stubs and strict positive/negative typing
+pass. Windows passes 43 native suites and 117 focused Python/desktop cases plus
+installed workflows/stubs/typing; full regression and visual inspection remain
+pending. The receipts retain the first two Linux test expectation corrections.
+Hosted acceptance is pending, so this packet remains a validation candidate.
+Physical radii, arbitrary resampling, scientific segmentation acceptance, hardware
+performance and every other outstanding M0–M7 requirement remain open.

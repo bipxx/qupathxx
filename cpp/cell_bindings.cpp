@@ -16,6 +16,8 @@ void bind_cells(nb::module_& m) {
         .def_rw("max_cells",&CellParameters::max_cells).def_rw("work_bytes",&CellParameters::work_bytes).def_rw("contours",&CellParameters::contours).def("validate",&CellParameters::validate);
     nb::class_<CellRequest>(m,"CellRequest").def(nb::init<const Document&,std::uint64_t,const StainTransform&,CellParameters>(),"document"_a,"object_id"_a,"transform"_a,"parameters"_a=CellParameters{})
         .def_static("replay",&CellRequest::replay,"document"_a,"record_id"_a)
+        .def_static("with_nucleus_area_limits",&CellRequest::with_nucleus_area_limits,"document"_a,"object_id"_a,"transform"_a,
+            "minimum_um2"_a=nb::none(),"maximum_um2"_a=nb::none(),"parameters"_a=CellParameters{})
         .def("matches",&CellRequest::matches).def_prop_ro("parameters",[](const CellRequest& r){return r.parameters();})
         .def_prop_ro("object_id",&CellRequest::object_id).def_prop_ro("level",&CellRequest::level).def_prop_ro("downsample",&CellRequest::downsample)
         .def_prop_ro("bounds",&CellRequest::bounds).def_prop_ro("level_bounds",&CellRequest::level_bounds).def_prop_ro("roi",&CellRequest::roi)
@@ -59,7 +61,9 @@ void bind_cells(nb::module_& m) {
         .def("keep_result",&CellJob::keep_result,"document"_a,"selected_id"_a,"name_prefix"_a="Cell","class_name"_a="")
         .def("keep_record",&CellJob::keep_record,"document"_a,"selected_id"_a).def("verify_record",&CellJob::verify_record,"document"_a,"record_id"_a);
     auto options=nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"));
-    options.def_prop_rw("cell_parameters",[](const GuiOptions& o){return o.cell_parameters?*o.cell_parameters:CellParameters{};},[](GuiOptions& o,CellParameters p){p.validate();o.cell_parameters=std::make_shared<const CellParameters>(std::move(p));});
+    options.def_prop_rw("cell_parameters",[](const GuiOptions& o){return o.cell_parameters?*o.cell_parameters:CellParameters{};},[](GuiOptions& o,CellParameters p){p.validate();o.cell_parameters=std::make_shared<const CellParameters>(std::move(p));})
+        .def_rw("cell_min_nucleus_area_um2",&GuiOptions::cell_min_nucleus_area_um2)
+        .def_rw("cell_max_nucleus_area_um2",&GuiOptions::cell_max_nucleus_area_um2);
     auto report=nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport"));
     report.def_ro("cell_state",&GuiReport::cell_state).def_ro("cell_error",&GuiReport::cell_error).def_ro("cell_result",&GuiReport::cell_result)
         .def_ro("cell_annotations_added",&GuiReport::cell_annotations_added).def_ro("cell_gpu_bytes",&GuiReport::cell_gpu_bytes)

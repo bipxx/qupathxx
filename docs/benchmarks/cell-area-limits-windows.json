@@ -1,0 +1,25 @@
+{
+  "schema": "qpx.cell-area-limits-validation/1",
+  "platform": "windows",
+  "state": "focused-verified-full-and-hosted-pending",
+  "release_ready": false,
+  "source_tree_sha256": "7dbdfbfcf4f7c58357baf30a49aedb50692df398d478899ef33abb14afadab3a",
+  "native_sha256": "d03ca42b18dedad5a9a2e8a9f7b258b271f16f062b230212ebecf6420636aba7",
+  "native": {
+    "passed": 43,
+    "skipped": 0,
+    "junit_sha256": "12771cf75209cb0ca9755784d46ef9b236a5c34d9331398fc6863e1511edba83"
+  },
+  "focused": {
+    "passed": 117,
+    "skipped": 0,
+    "junit_sha256": "ad9c94d62028a1a64325c5259675d22a590f14347adf5fd4d4bd4f3ed832b745"
+  },
+  "installed_report_sha256": "131e7696d740c706366b55cebd9f66a0e8291ae527a644114a03390b25810dad",
+  "stubs_match": true,
+  "strict_positive_typing": true,
+  "negative_typing_errors": 7,
+  "full_regression": "running",
+  "rendered_capture": "pending",
+  "performance_accepted": false
+}
