@@ -1,6 +1,6 @@
 {
   "schema": "qpx.viewer-cell-area-limits-validation/1",
-  "state": "linux-full-verified-windows-and-hosted-pending",
+  "state": "linux-full-verified-windows-full-verified-hosted-pending",
   "release_ready": false,
   "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
   "build_git_revision": "unknown",
@@ -35,7 +35,7 @@
     "cause": "New owner-side calibration-change regression exposed missing calibration dependency in physical requests; the fix captures calibration revision, without changing ordinary sampled requests or archived replay."
   },
   "scope": "Copied native physical bounds/parameters, owner-time resolution, background detection, calibration-stale rejection, native archive publication, cancellation/budget reclamation, headless Python queue and typing. Desktop producer/export/save/reopen tests are pending.",
-  "gui_validation": "Separate Windows focused/native receipt passes; Windows full regression remains pending.",
+  "gui_validation": "Separate Windows receipt passes 43 native, 147 focused and 2,074 full Python tests; hosted acceptance remains pending.",
   "hosted_acceptance": {
     "state": "pending",
     "run_id": 40025778794,

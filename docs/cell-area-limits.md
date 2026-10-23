@@ -134,5 +134,6 @@ records 42 native suites, 114 focused passes and 1,688 full-regression passes,
 with 396 optional skips and four scientific expected failures. Its runtime,
 installed stubs and strict typing checks pass. The [Windows receipt](benchmarks/viewer-cell-area-limits-windows.json) records
 43 native suites and 147 focused passes, including both new producer desktop
-workflows. Windows full regression and hosted acceptance remain pending. The packet-103 receipts describe their own physical
+workflows. The Windows full regression passes 2,074 cases, with 10 optional
+skips and four scientific expected failures. Hosted acceptance remains pending. The packet-103 receipts describe their own physical
 request source, while this separate receipt identifies the added queue command.

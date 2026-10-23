@@ -1,6 +1,6 @@
 {
   "schema": "qpx.viewer-cell-area-limits-validation/1",
-  "state": "windows-focused-verified-full-and-hosted-pending",
+  "state": "windows-full-verified-hosted-pending",
   "release_ready": false,
   "source_content_commit": "201bd8ed266d4803defd7321390b930cafe9dcb7",
   "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
@@ -30,7 +30,12 @@
     "test_unknown_units_fail_the_ticket_without_archiving_a_new_run"
   ],
   "scope": "Copied producer parameters, native owner resolution/publication, calibration-stale native regression, Python-producer detection/export/save/reopen, retained calibrated result lifetime, missing calibration failure without a new archive, queued cancellation and invalid-bound ticket reclamation.",
-  "full_regression": "running",
+  "full_regression": {
+    "passed": 2074,
+    "optional_skips": 10,
+    "strict_scientific_expected_failures": 4,
+    "junit_sha256": "52d831675aab129ed6c5d8a7a7719b2df77047cc776bf44be03c287f265e355d"
+  },
   "hosted_acceptance": {
     "state": "pending",
     "run_id": 40025778794,

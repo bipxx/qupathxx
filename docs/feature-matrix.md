@@ -102,3 +102,11 @@ use source-content fingerprint 9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4
 The Linux full 1,688-pass result stands; Windows full regression is running.
 Hosted run 40025778794 at 201bd8ed266d4803defd7321390b930cafe9dcb7 remains
 pending. Main promotion, scientific/hardware and all other open gates remain open.
+
+
+Packet-105 local validation is complete: Windows full regression passes 2,074
+tests (10 optional skips and four scientific expected failures), alongside Linux
+1,688 passes (396 optional skips and the same four failures). The Windows native,
+installed, 147 focused desktop/Python, stubs and typing checks pass. Hosted
+acceptance and its artifact audit remain pending at run 40025778794; main
+promotion and all other open M0–M7 requirements remain separate gates.
