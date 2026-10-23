@@ -65,3 +65,9 @@ now an explicit winding acceptance test. Three isolated-cell segmentation gates
 remain expected failures. Windows, full regression, package/typing, hosted
 validation and performance qualification remain pending. This is a validation
 candidate and does not establish segmentation parity or biological accuracy.
+
+
+A larger diagonal regression exposed four incorrectly included boundary centers
+in the initial binary. Boundary crossings now use robust orientation, preserving
+exact collinearity without division. The corrected native build and its hosted
+validation are pending; earlier local/hosted passes and timings predate this fix.

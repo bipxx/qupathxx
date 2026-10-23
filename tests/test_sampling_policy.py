@@ -238,6 +238,33 @@ def test_multipart_and_analytic_predicates_keep_their_domains():
             assert shape.contains_sample(point, WINDING) == shape.contains(point)
 
 
+@pytest.mark.parametrize('span', [223, 997])
+@pytest.mark.parametrize('origin', [16.5, 1048576.5])
+@pytest.mark.parametrize('reverse', [False, True])
+def test_exact_diagonal_boundary_uses_orientation_without_interpolation(span, origin, reverse):
+    vertices = [q.Point(origin, origin), q.Point(origin+span, origin), q.Point(origin, origin+span)]
+    if reverse:
+        vertices.reverse()
+    roi = q.Roi.polygon(vertices)
+    for offset in range(1, span):
+        point = q.Point(origin+offset, origin+span-offset)
+        assert roi.contains(point)
+        assert not roi.contains_sample(point, WINDING), offset
+
+
+def test_long_diagonal_native_roi_and_tissue_counts():
+    doc = q.Document(q.Image(256, 256, [100]*256*256*3))
+    obj = doc.add_roi(q.Roi.polygon([q.Point(16.5,16.5), q.Point(239.5,16.5), q.Point(16.5,239.5)]))
+    transform = q.StainTransform([[1,0,0],[0,1,0]])
+    request = q.AnalysisRequest(doc, obj, transform, sampling_policy=WINDING)
+    assert q.analyze(request).samples == 223*224//2
+    coverage = q.AnalysisRequest(doc, obj, transform)
+    assert q.analyze(coverage).samples == 223*224//2+222
+    p = q.TissueParameters(); p.level = 0; p.threshold = 0; p.sampling_policy = WINDING
+    tissue = q.detect_tissue(q.TissueRequest(doc, obj, transform, p))
+    assert tissue.samples == tissue.foreground_pixels == 223*224//2
+
+
 @pytest.mark.skipif(not q.has_project, reason='project archives')
 @pytest.mark.parametrize('level', [1, 2])
 @pytest.mark.parametrize('cleanup', [False, True])

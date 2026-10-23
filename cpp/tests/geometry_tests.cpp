@@ -31,6 +31,13 @@ int main() {
             check(hole.contains_sample({8,5},RoiSamplingPolicy::PolygonWinding));
             check(hole.contains({10,5}) && !hole.contains_sample({10,5},RoiSamplingPolicy::PolygonWinding));
             check(hole.contains_sample({0,5},RoiSamplingPolicy::PolygonWinding));
+            auto diagonal=Roi::polygon({{16.5,16.5},{239.5,16.5},{16.5,239.5}});
+            std::uint64_t winding_samples=0,coverage_samples=0;
+            for(int y=16;y<239;++y) for(int x=16;x<239;++x) {
+                winding_samples+=diagonal.contains_sample({x+.5,y+.5},RoiSamplingPolicy::PolygonWinding);
+                coverage_samples+=diagonal.contains({x+.5,y+.5});
+            }
+            check(winding_samples==24976 && coverage_samples==25198);
             check(hole.area()==64 && hole.perimeter()==64);
             check(!hole.contains({5,5}) && hole.contains({1,1}));
             check(!hole.covers(Roi::rectangle({3,3,1,1})));

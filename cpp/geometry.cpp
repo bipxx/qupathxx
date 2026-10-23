@@ -303,8 +303,12 @@ bool Roi::contains_sample(Point p,RoiSamplingPolicy policy) const {
         for(std::size_t i=0;i<path.size();++i) {
             const auto& a=path[i];const auto& b=path[(i+1)%path.size()];
             if((a.y>p.y)==(b.y>p.y)) continue;
-            const auto fraction=(p.y-a.y)/(b.y-a.y);
-            if(p.x<a.x+(b.x-a.x)*fraction) inside=!inside;
+            // Division/interpolation can move an exact diagonal intersection
+            // by an ulp and admit a boundary center. Robust orientation keeps
+            // collinear centers excluded from this half-open crossing.
+            const auto side=GEOSOrientationIndex_r(d.backend->ctx,a.x,a.y,b.x,b.y,p.x,p.y);
+            if(side < -1 || side > 1) throw std::runtime_error("GEOS orientation test failed");
+            if((b.y>a.y && side>0) || (b.y<a.y && side<0)) inside=!inside;
         }
         return inside;
     };

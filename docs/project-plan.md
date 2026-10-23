@@ -3913,3 +3913,16 @@ fresh hosted Linux/Windows acceptance remain pending. The paired ROI/tissue
 profiler is implemented and a Windows complex-polygon child smoke passes; full
 performance observations remain pending. This candidate does not complete
 biology, hardware/RSS/frame, platform/release/license or the full M0-M7 plan.
+
+
+Packet-109 visual validation exposed an exact-boundary arithmetic defect after
+the initial 2,098-pass Windows full run (13 optional skips, three scientific
+expected failures). A 223-pixel diagonal triangle wrongly included four boundary
+centers: 24,980 samples instead of 24,976. Three direct regressions fail against
+the first binary; six reversed/translated cases already pass. The boundary-only
+crossing now uses robust GEOS orientation instead of interpolated intersections.
+Coverage/picking remains unchanged. Native counts, two sizes, both orientations,
+translations and ROI/tissue counts are covered. Rebuild and validation are pending;
+run 40037162200 at 94c74a4 is cancelled as superseded. The initial performance
+observations and full passes identify the pre-fix binary and cannot accept this
+fix. Main promotion remains withheld.
