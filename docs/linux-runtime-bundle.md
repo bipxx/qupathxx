@@ -59,6 +59,10 @@ this fingerprint. A separate native GEOS-only build disables OpenSlide, GUI,
 Python, TIFF and training; its installed batch executable resolves both GEOS
 libraries locally and processes an embedded project without `LD_LIBRARY_PATH`.
 
+The [manylinux qualification pipeline](manylinux-qualification.md) separately
+builds against an older baseline and checks fresh consumers; its hosted acceptance
+remains pending.
+
 The [hosted artifact audit](benchmarks/linux-runtime-ci-windows-linux.json) accepts
 this scope at commit `5bfb9de85f607146c1c809c1360dd97af554271a`. All five jobs pass:
 Windows desktop 1,968 Python/41 native, Windows headless 1,590 Python/40 native,

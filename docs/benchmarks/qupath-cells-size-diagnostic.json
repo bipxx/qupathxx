@@ -1,0 +1,11 @@
+{
+  "schema": "qpx.cell-size-diagnostic/1",
+  "case": "isolated_three",
+  "change": "Diagnostic only: maximum nucleus pixel filter disabled; comparison contract unchanged",
+  "count": 3,
+  "nucleus_pixels": [
+    324,
+    208,
+    540
+  ]
+}

@@ -37,6 +37,8 @@ QuPath port or a compatible replacement for Java QuPath.
 - Pinned QuPath runtime references check geometry, sampling, OD/stains and a real
   native/QuPath round trip. Quantization and the explicit loss-aware thin-ellipse matching
   policy are recorded; see [QuPath comparisons](docs/qupath-comparisons.md).
+  A separate [cell-plugin corpus](docs/qupath-cell-comparisons.md) records
+  segmentation and feature differences, including unresolved acceptance gates.
 
 - Managed live viewers accept typed commands from Python producer threads, with
   owner-side edits, background analysis, notifications, saves and bounded queues.

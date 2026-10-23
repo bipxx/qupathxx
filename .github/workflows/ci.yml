@@ -8,6 +8,10 @@ on:
     paths-ignore: ['docs/**', 'README.md']
   workflow_dispatch:
     inputs:
+      portable_linux:
+        description: Build and qualify CPython 3.11/3.12 manylinux wheels and test fresh Debian consumers
+        type: boolean
+        default: false
       live_reference:
         description: Also run the downloaded QuPath reference on Windows
         type: boolean
@@ -26,6 +30,7 @@ concurrency:
 
 jobs:
   validate:
+    if: ${{ !inputs.portable_linux }}
     name: ${{ matrix.name }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
@@ -114,3 +119,116 @@ jobs:
             build/ci/job/gui-overview.png
             build/ci/job/wheels/*.whl
             build/ci/job/qupathxx-windows-x64-candidate.zip
+
+  manylinux-build:
+    if: ${{ inputs.portable_linux }}
+    name: Manylinux build Python ${{ matrix.python }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    container:
+      image: quay.io/pypa/manylinux_2_28_x86_64@sha256:076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: '3.11'
+            abi: cp311-cp311
+          - python: '3.12'
+            abi: cp312-cp312
+    env:
+      PYBIN: /opt/python/${{ matrix.abi }}/bin
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+        with:
+          persist-credentials: false
+      - name: Qualification dependencies
+        shell: bash
+        run: '"$PYBIN/python" -m pip install --only-binary=:all: -r tools/ci/requirements-manylinux.txt'
+      - name: Baseline GEOS SDK cache
+        uses: actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0
+        with:
+          path: build/deps/geos-sdk
+          key: manylinux228-geos-${{ hashFiles('tools/ci/manylinux-assets.json', 'tools/build_geos_sdk.py') }}
+      - name: Baseline OpenCV SDK cache
+        uses: actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0
+        with:
+          path: build/deps/opencv-sdk
+          key: manylinux228-opencv-${{ hashFiles('tools/ci/manylinux-assets.json', 'tools/build_opencv_sdk.py') }}
+      - name: Reader fixture cache
+        uses: actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0
+        with:
+          path: build/fixtures
+          key: reader-fixtures-${{ hashFiles('tests/fixtures/manifest.json') }}
+      - name: Build qualify and recheck
+        shell: bash
+        env:
+          EXTENDED_READERS: ${{ inputs.extended_readers && '--extended-readers' || '' }}
+        run: |
+          export PATH="$PYBIN:$PATH"
+          "$PYBIN/python" -I tools/ci/run_manylinux.py --work build/ci/portable $EXTENDED_READERS
+      - name: Qualified wheel and audit evidence
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        with:
+          name: manylinux-${{ matrix.python }}
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            build/ci/portable/qualified/*.whl
+            build/ci/portable/*.json
+            build/ci/portable/*.xml
+            build/ci/portable/*.log
+
+  manylinux-consumer:
+    if: ${{ inputs.portable_linux }}
+    name: Debian consumer Python ${{ matrix.python }}
+    needs: manylinux-build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    container:
+      image: ${{ matrix.image }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - python: '3.11'
+            image: library/python@sha256:8fb0b110b022c70cbe09d3ff1fb313654f31f9c814abb0d48180af56d906a199
+          - python: '3.12'
+            image: library/python@sha256:57d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0
+    steps:
+      - name: System C++ runtime
+        shell: bash
+        run: |
+          apt-get -o Acquire::Retries=3 update
+          apt-get -o Acquire::Retries=3 install -y --no-install-recommends libstdc++6 libgcc-s1
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+        with:
+          persist-credentials: false
+      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
+        with:
+          name: manylinux-${{ matrix.python }}
+          path: build/ci/candidate
+      - name: Install qualified candidate
+        shell: bash
+        run: |
+          python -m venv build/ci/consumer
+          build/ci/consumer/bin/python -m pip install --only-binary=:all: -r tools/ci/requirements.txt build/ci/candidate/qualified/*.whl
+          build/ci/consumer/bin/python -I tools/fetch_reader_fixtures.py
+      - name: Fresh consumer workflows
+        shell: bash
+        run: |
+          unset LD_LIBRARY_PATH LD_PRELOAD
+          test ! -d build/deps/geos-sdk
+          build/ci/consumer/bin/python -I tools/ci/check_manylinux_consumer.py --wheel build/ci/candidate/qualified/*.whl --qualification build/ci/candidate/qualification.json --slide build/fixtures/CMU-1-Small-Region.svs --output build/ci/consumer-probe.json
+          QUPATHXX_TEST_GUI=0 QUPATHXX_APERIO_FIXTURE="$PWD/build/fixtures/CMU-1-Small-Region.svs" build/ci/consumer/bin/python -I -m pytest tests -q -o faulthandler_timeout=60 --junitxml=build/ci/consumer-tests.xml > build/ci/consumer-tests.log 2>&1
+      - name: Consumer evidence
+        if: always()
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+        with:
+          name: manylinux-consumer-${{ matrix.python }}
+          retention-days: 14
+          if-no-files-found: warn
+          path: |
+            build/ci/consumer-probe.json
+            build/ci/consumer-tests.xml
+            build/ci/consumer-tests.log

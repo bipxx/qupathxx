@@ -1,0 +1,8 @@
+{
+  "schema": "qpx.qupath-cells-repeat/1",
+  "files": 64,
+  "byte_identical": true,
+  "first_manifest_sha256": "0a36fa01faf55b13bd0112b39d75371c0a7ecfee795f43a5775b43a46571ac1c",
+  "second_manifest_sha256": "b10531c0904b4ad4622a8c81f01d867181abec2ddd50b9d6040c5c00b06b02c3",
+  "payload_bytes": 236941
+}

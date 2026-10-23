@@ -3403,3 +3403,76 @@ runtime-bundling scope; the candidate is not yet an audited
 manylinux or supported cross-distribution release. System ABI qualification,
 macOS packaging, supported installers, project-license selection and the other
 M0–M7 format/scientific/hardware gates remain open.
+
+### Packet93: older-ABI wheel qualification and fresh consumers
+
+The [manylinux pipeline](manylinux-qualification.md) adds an optional portable
+mode to the existing CI workflow. It builds CPython 3.11/3.12 candidates inside
+an architecture-specific, digest-pinned manylinux 2.28 image, then tests qualified
+artifacts in independent digest-pinned Debian Python containers with the system
+C++ runtime and no SDK cache. Image identities were resolved and byte-digest
+verified through the public registries; qualification tools are version-pinned.
+
+Every packaged ELF, including native region/batch executables, must satisfy the
+policy's symbol versions and dependency closure. Auditwheel repair may update
+platform metadata, but runtime and notice payloads must remain unchanged. The
+qualified artifact is reinstalled and rechecked for exact SDK hashes and actual
+package-local mappings. Fresh consumers verify the source commit and artifact,
+then open a real slide, annotate, measure against NumPy, save/reopen retained
+analysis, export measurements and exercise exact native region pixels plus batch
+checkpoints and CSV. The full installed consumer suite is also required.
+
+The [preflight receipt](benchmarks/manylinux-preflight-windows-linux.json) records
+eight passing policy cases on both local platforms, actionlint validation and
+the real-slide workflow smoke. The existing Ubuntu-built wheel audits as
+manylinux 2.39; all six ELFs reject the requested 2.28 policy and no retagged
+artifact is produced. This confirms the negative guard, not a successful portable
+build. Docker is unavailable locally, so positive older-baseline build/consumer
+evidence must come from the hosted run. No manylinux support or M7 completion is
+claimed from this preparation; all remaining M0–M7 gates persist.
+
+### Packet94: independent QuPath cell-workflow characterization
+
+The [cell comparison corpus](qupath-cell-comparisons.md) invokes the pinned
+QuPath v0.7.0 watershed plugin on nine independent RGB phantoms. Its 64 payloads
+retain original/decoded nucleus and body masks, GeoJSON, plugin measurements,
+independent RGB/OD/stain samples, image inputs and parameter identities. A second
+live capture reproduced all payload bytes. The runtime remains an optional
+verified download and no Java segmentation implementation is copied.
+
+The native harness reports one-to-one IoU assignment, unmatched objects,
+split/merge relations, foreground IoU/Dice, area/centroid differences and matched
+feature differences. Native labels and compartment features are identical across
+16/64/256 read tiles for every case. Windows and Linux report identical segmentation
+metrics; all 36 shared-ROI compartments in the eight natural-grid cases pass exact
+sampling and 1e-6 transformed-feature tolerances. Both focused suites pass 139
+tests with four optional skips and four strict expected failures.
+
+Acceptance failures are retained explicitly. The isolated-three fixture yields
+three QuPath cells and two native cells, failing the declared count, IoU and
+centroid gates. A separate maximum-size-disabled diagnostic exposes a native
+540-pixel nucleus exceeding the unchanged 512-pixel limit. The resampled fixture
+also disagrees on 98 boundary centers across six compartments; original and
+QuPath-decoded maps are identical, so export quantization is excluded as the cause.
+The native closed polygon predicate includes these additional centers. No global
+sampling policy or frozen tolerance is changed to hide the difference.
+
+The [cross-platform receipt](benchmarks/qupath-cells-validation-windows-linux.json)
+binds the native artifacts, source, reports and capture identities. The harness
+reports characterized-partial and rejects any segmentation-parity claim. These
+small synthetic timings do not accept whole-slide performance or biological
+accuracy. Scientific acceptance, broader workflows and the remaining M0–M7
+requirements remain open.
+
+Hosted packet94 acceptance is recorded in the
+[five-job artifact audit](benchmarks/qupath-cells-ci-windows-linux.json), run
+39989634700 at exact commit `7a4bc4ea7552582007e569cf5e89cac7d4ac3111`.
+Windows desktop passes 1,995 Python and 41 native tests, Linux headless passes
+1,615 Python and 40 native tests, and Windows headless passes 1,617 Python and
+40 native tests. Linux minimal and ASan/UBSan each pass 40 native tests. All three
+Python environments pass the 19 characterization cases and retain exactly four
+strict scientific expected failures. Artifact/native identities, full reader
+pixels, runtime relocation, overview controls/frame, typing and standalone
+payloads pass the inherited audit. The completed desktop overview is visually
+inspected. This accepts characterization, not segmentation parity, biological
+accuracy, manylinux qualification or M0–M7 completion.
