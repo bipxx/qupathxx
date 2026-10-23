@@ -36,6 +36,34 @@ def test_gui_export_matches_native_bytes_and_preserves_document(tmp_path):
     assert report.selected_ids==[obj] and doc.revision==revision and doc.object_count==1
 
 
+@pytest.mark.parametrize('calibration',[None,(.5,.25)])
+def test_gui_capture_calibration_export_keeps_historical_units(tmp_path,calibration):
+    doc,obj,_,_=setup()
+    # Capture a second run after assigning physical units; the first run remains
+    # unknown. Later edits must not replace either run's captured calibration.
+    if calibration is not None:
+        doc.set_calibration(*calibration)
+        capture(doc,obj)
+    doc.set_calibration(2,3)
+    table_options=q.CellTableOptions()
+    table_options.include_capture_calibration=True
+    # The selected-annotation command exports its latest archived run.
+    expected=q.cell_measurements_csv(doc,[doc.latest_cells(obj).id],options=table_options)
+    options=q.GuiOptions()
+    path=tmp_path/'captured.csv'
+    options.cell_table_path=str(path)
+    options.cell_table_capture_calibration=True
+    options.inputs=[event(4,q.GuiInputKind.SELECT_ALL_KEY),
+                    event(8,q.GuiInputKind.EXPORT_CELL_TABLE_KEY,wait=q.GuiInputWait.CELLS_ARCHIVED),
+                    event(10,q.GuiInputKind.MOVE,wait=q.GuiInputWait.CELL_TABLE_SAVED)]
+    report=q.show(doc,frame_limit=30,options=options)
+    assert report.cell_table_state=='succeeded' and not report.cell_table_error
+    assert path.read_bytes()==expected.encode()
+    values=list(csv.DictReader(io.StringIO(expected)))
+    assert {row['capture_pixel_width_um'] for row in values}==({''} if calibration is None else {'0.5'})
+    assert all(row['table_schema']=='qpx.cell-table/2' for row in values)
+
+
 def test_detect_archive_and_export_use_one_native_run(tmp_path):
     doc=document(phantom(64))
     obj=doc.add_rectangle(q.Rect(0,0,64,64))

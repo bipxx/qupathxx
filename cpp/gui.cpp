@@ -193,6 +193,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if(options.cell_table_path.size()>32768 || options.cell_table_path.find('\0')!=std::string::npos) throw std::invalid_argument("invalid cell table path");
     CellTableOptions cell_table_options;cell_table_options.require_current=options.cell_table_require_current;
     cell_table_options.published_objects=options.cell_table_published_objects;
+    cell_table_options.include_capture_calibration=options.cell_table_capture_calibration;
     cell_table_options.byte_limit=options.cell_table_byte_limit;cell_table_options.snapshot_budget=options.cell_table_snapshot_budget;cell_table_options.validate();
     for(const auto* path:{&options.file_fingerprint_path,&options.file_fingerprint_output}) if(path->size()>32768 || path->find('\0')!=std::string::npos) throw std::invalid_argument("invalid file fingerprint path");
     FileFingerprintOptions fingerprint_options;fingerprint_options.byte_limit=options.file_fingerprint_byte_limit;fingerprint_options.buffer_bytes=options.file_fingerprint_buffer_bytes;fingerprint_options.validate();
@@ -1858,6 +1859,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ui::SetNextItemWidth(240);ui::InputTextWithHint("##Cell table path","Cell table .csv destination",cell_table_path,sizeof(cell_table_path));
             ui::Checkbox("Require current measurements",&cell_table_options.require_current);
             ui::Checkbox("Join live cell objects",&cell_table_options.published_objects);
+            ui::Checkbox("Include captured calibration",&cell_table_options.include_capture_calibration);
             if(cell_table_options.published_objects) {
                 ImGui::TextWrapped("Current names, classes and geometry; archived feature values. Missing measurements remain blank.");
                 ImGui::BeginDisabled(cell_table_job.busy() || !has_image);

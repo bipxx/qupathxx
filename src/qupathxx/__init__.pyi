@@ -180,6 +180,7 @@ from ._native import (
     CellRequest as CellRequest,
     CellMarker as CellMarker,
     CellFeature as CellFeature,
+    CalibratedCellFeature as CalibratedCellFeature,
     CellResult as CellResult,
     CellStats as CellStats,
     CellJob as CellJob,

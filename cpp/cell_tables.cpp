@@ -155,8 +155,9 @@ std::uint64_t CellTableRequest::project_revision() const {return data_->project?
 CellTableOptions CellTableRequest::options() const {return data_->options;}
 struct CellTableWriter {
     static std::string schema(const CellTableRequest& request) {
-        if(request.data_->options.published_objects) return request.data_->project?"qpx.project-cell-object-table/1":"qpx.cell-object-table/1";
-        return request.data_->project?"qpx.project-cell-table/1":"qpx.cell-table/1";
+        const bool calibrated=request.data_->options.include_capture_calibration;
+        if(request.data_->options.published_objects) return request.data_->project?(calibrated?"qpx.project-cell-object-table/2":"qpx.project-cell-object-table/1"):(calibrated?"qpx.cell-object-table/2":"qpx.cell-object-table/1");
+        return request.data_->project?(calibrated?"qpx.project-cell-table/2":"qpx.project-cell-table/1"):(calibrated?"qpx.cell-table/2":"qpx.cell-table/1");
     }
     static void context(Row& row,const CellTableRequest& request,const CellTableRequest::Data::Image& image) {
         if(request.data_->project) {row.string(request.data_->identity);row.integer(request.data_->generation);row.integer(request.data_->revision);row.integer(image.id);row.string(image.name);}
@@ -174,11 +175,19 @@ struct CellTableWriter {
         for(auto v:{std::uint64_t(p.tile_size),std::uint64_t(p.max_cells),std::uint64_t(p.work_bytes),std::uint64_t(p.contours.clip_to_roi),std::uint64_t(p.contours.max_components),std::uint64_t(p.contours.max_edges),std::uint64_t(p.contours.max_vertices),std::uint64_t(p.contours.work_bytes)}) row.integer(v);
         row.vector(n.white());for(const auto& v:n.stains()) row.vector(v);return row;
     }
-    static void feature(Row& row,const CellResult& result,std::uint32_t label) {
+    static void feature(Row& row,const CellResult& result,std::uint32_t label,bool calibrated) {
         const auto& f=result.features().at(label-1);const auto& a=result.nuclei()->components().at(label-1);const auto& b=result.cells()->components().at(label-1);
         row.integer(f.label);row.integer(f.nucleus_pixels);row.integer(f.cell_pixels);row.integer(f.cell_pixels-f.nucleus_pixels);
         for(auto v:{a.centroid.x,a.centroid.y,b.centroid.x,b.centroid.y}) row.real(v);
         row.vector(f.nucleus_rgb);row.vector(f.cell_rgb);row.optional(f.cytoplasm_rgb);row.vector(f.nucleus_channels);row.vector(f.cell_channels);row.optional(f.cytoplasm_channels);
+        if(calibrated) {
+            const auto value=result.calibrated_feature(label);
+            optional(row,value.pixel_width_um);optional(row,value.pixel_height_um);
+            optional(row,value.nucleus_sample_area_um2);optional(row,value.cell_sample_area_um2);optional(row,value.cytoplasm_sample_area_um2);
+            for(const auto& point:{value.nucleus_centroid_um,value.cell_centroid_um}) {
+                if(point) {row.real(point->x);row.real(point->y);} else {row.separator();row.separator();}
+            }
+        }
     }
     static void optional(Row& row,std::optional<double> value) {if(value) row.real(*value);else row.separator();}
     static double area(double value,double x,double y) {
@@ -202,6 +211,10 @@ struct CellTableWriter {
     template<class Sink> static void run(const CellTableRequest& request,Sink&& sink,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* rows=nullptr) {
         export_checkpoint(cancelled);
         std::string columns=request.data_->project?std::string("project_identity,project_generation,project_revision,image_id,image_name,")+header():header();
+        if(request.data_->options.include_capture_calibration) {
+            columns.resize(columns.size()-2);
+            columns+=",capture_pixel_width_um,capture_pixel_height_um,nucleus_sample_area_um2,cell_sample_area_um2,cytoplasm_sample_area_um2,nucleus_centroid_x_um,nucleus_centroid_y_um,cell_centroid_x_um,cell_centroid_y_um\r\n";
+        }
         if(request.data_->options.published_objects) {
             columns.resize(columns.size()-2);
             columns+=",object_id,object_revision,object_name,object_parent_id,object_class,object_class_color,object_status_at_capture,object_min_x_px,object_min_y_px,object_width_px,object_height_px,object_area_px2,object_length_px,object_nucleus_area_px2,object_nucleus_length_px,export_pixel_width_um,export_pixel_height_um,object_area_um2,object_length_um,object_nucleus_area_um2,object_nucleus_length_um\r\n";
@@ -222,7 +235,7 @@ struct CellTableWriter {
                     }
                     if(a.cell_feature_link && entry!=missing) {
                         if(cached!=entry) {saved_prefix=prefix(request,request.data_->entries.at(entry));cached=entry;}
-                        row=saved_prefix;feature(row,*request.data_->entries[entry].record->result,a.cell_feature_link->label);
+                        row=saved_prefix;feature(row,*request.data_->entries[entry].record->result,a.cell_feature_link->label,request.data_->options.include_capture_calibration);
                     } else {
                         context(row,request,image);
                         // Explicit blanks preserve unresolved/manual objects without invented features.
@@ -236,6 +249,7 @@ struct CellTableWriter {
                             else if(column==45 && a.cell_feature_link) row.integer(a.cell_feature_link->label);
                             else row.separator();
                         }
+                        if(request.data_->options.include_capture_calibration) for(int column=0;column<9;++column) row.separator();
                     }
                     object(row,a,status,image);sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
                 }
@@ -244,7 +258,7 @@ struct CellTableWriter {
             export_checkpoint(cancelled);if(entry.record->result->features().empty()) continue;
             const auto saved_prefix=prefix(request,entry);
             for(const auto& f:entry.record->result->features()) {
-                export_checkpoint(cancelled);Row row;row.text=saved_prefix.text;row.first=false;feature(row,*entry.record->result,f.label);
+                export_checkpoint(cancelled);Row row;row.text=saved_prefix.text;row.first=false;feature(row,*entry.record->result,f.label,request.data_->options.include_capture_calibration);
                 sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
             }
         }

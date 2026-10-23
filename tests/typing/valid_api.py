@@ -4,6 +4,19 @@ from numpy.typing import NDArray
 import qupathxx as q
 
 
+def calibrated_cell_values(result: q.CellResult) -> q.CalibratedCellFeature:
+    feature = result.calibrated_feature(1)
+    area: float | None = feature.nucleus_sample_area_um2
+    point: q.Point | None = feature.cell_centroid_um
+    options = q.CellTableOptions()
+    options.include_capture_calibration = True
+    gui = q.GuiOptions()
+    gui.cell_table_capture_calibration = True
+    if area is not None and point is not None:
+        assert area >= 0 and point.x >= 0
+    return feature
+
+
 def workflow(source: NDArray[np.uint8], output: Path) -> tuple[NDArray[np.uint8], NDArray[np.float32], str]:
     image=q.Image.from_numpy(source)
     doc=q.Document(image);project=q.Project();image_id=project.add_document(doc)

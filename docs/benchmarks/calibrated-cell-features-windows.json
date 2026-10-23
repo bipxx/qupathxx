@@ -1,0 +1,108 @@
+{
+  "schema": "qpx.calibrated-cell-features-validation/1",
+  "state": "local-full-and-hosted-source-verified",
+  "release_ready": false,
+  "source_tree_sha256": "d4bfd70b9155ed899be8f32360fffd529373aa520ef717fabd631139d7763463",
+  "native_sha256": "68aa8ecfd20eb122591a1fae9210203fc27f23f8f44a00667d2bb0b1ef435560",
+  "build_git_revision": "b426bb0a904aa27223ab44a3d06c48f7367ca600",
+  "wheel_sha256": "cda827501d3a0b96afc8b4ab216d9345e5f832bf703f376a318ce236cbd582e1",
+  "native": {
+    "passed": 43,
+    "failures": 0,
+    "skipped": 0,
+    "junit_sha256": "51cae955d8001ebef18ac7b1cbe0b9f8e060f6b3655998905b5d3f4d378ab684"
+  },
+  "focused": {
+    "passed": 76,
+    "failures": 0,
+    "skipped": 0,
+    "junit_sha256": "a662a3c0813e2e89d7591d497deb5ab1688477bd79325d4df61d99122d6a0d24"
+  },
+  "stubs_match": true,
+  "strict_positive_typing": true,
+  "required_negative_typing_errors": 7,
+  "installed_workflow_report_sha256": "0c0974ef8a3263447fdd36d7b69d0e89f36dc57e57c591302b1149e177f6d49e",
+  "rendered_capture": {
+    "file": "images/cell-capture-calibration.png",
+    "sha256": "d55b93433be5e2526f2cc1045f808767d4d75b55ab9b752bd5a10097cd39b8a0",
+    "visually_inspected": true,
+    "report": {
+      "rows": 2,
+      "csv_sha256": "a1f51fb0dd6a109322db8ebe99f203e639bca9d447f45d181867ccc818b11d3c",
+      "capture_sha256": "0e04d1cc72a757ce4f25d9d03093e4ec97eb09797a3cbc4805f7e8859b515af3",
+      "source_tree_sha256": "d4bfd70b9155ed899be8f32360fffd529373aa520ef717fabd631139d7763463",
+      "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+      "ui_overflow_items": 0,
+      "ui_max_overflow": 0.0,
+      "cell_table_state": "succeeded"
+    }
+  },
+  "first_focused_attempt": {
+    "result": {
+      "passed": 73,
+      "failures": 2,
+      "skipped": 0,
+      "junit_sha256": "dae9eaa883989a5d17c8c5a684c08bf0c1e8126a1c8ba96396a2922a3e9f1c70"
+    },
+    "test_expectation_correction": "The selected-annotation command exports its latest archived run; the new test incorrectly expected all runs. Known and unknown capture cases now check the existing latest-run contract.",
+    "existing_recheck_timeout": "One timeout waiting for cell-table export; isolated and full focused repeat pass. Cause unresolved.",
+    "isolated_recheck": {
+      "passed": 1,
+      "failures": 0,
+      "skipped": 0,
+      "junit_sha256": "c178ae28f5e2e2354d18741301c6569d60f0ebb3e1566d81dbb2b5ecb9cec5f2"
+    }
+  },
+  "gui_cell_table_test_sha256": "fb0e34b2538af6a46e0c6bfb39593748257be1d5e2b9e752df8d2a44c707c7b1",
+  "full_regression": {
+    "passed": 2035,
+    "failures": 0,
+    "skipped": 17,
+    "junit_sha256": "deae7e750051b44126303da0090d2b8a5beb03b38232eb703e808418bd388565",
+    "optional_skips": 13,
+    "strict_expected_failures": 4,
+    "skip_reasons": {
+      "Linux SDK symlink semantics": 1,
+      "requires opt-in Linux GEOS SDK": 4,
+      "generate large fixture with tools/generate_large_fixture.py": 1,
+      "headless wheel contract": 1,
+      "requires generated large pyramid fixture": 1,
+      "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+      "Resampled polygon boundary memberships differ from QuPath": 1,
+      "GEOS-disabled configuration": 1,
+      "opt-in pinned Windows QuPath runtime": 1,
+      "file symlink creation unavailable": 2,
+      "requires generated OpenSlide pyramid": 1
+    }
+  },
+  "hosted_acceptance": {
+    "state": "accepted",
+    "run_id": 40014418579,
+    "source_commit": "2a7eabb5f4744e8e0379d6df52128236014dce04",
+    "extended_readers": true,
+    "regular_jobs_passed": 5,
+    "standard_run": {
+      "run_id": 40007801590,
+      "source_commit": "2b633e530ac30412ec712782a704863914531e57",
+      "conclusion": "success",
+      "extended_readers": false
+    },
+    "superseded_run": {
+      "run_id": 40004623992,
+      "conclusion": "cancelled",
+      "reason": "Corrected latest-run GUI expectations."
+    }
+  },
+  "performance_accepted": false,
+  "scope": "Windows native/Python/CLI/ImGui capture-time calibrated features and versioned exports, including immutable units, legacy missing values, project restoration, alias protection and atomic failures. No segmentation parity or hardware performance acceptance.",
+  "generated_fixture_followup": {
+    "result": {
+      "passed": 3,
+      "failures": 0,
+      "skipped": 0,
+      "junit_sha256": "b5d6c40ee3b0eb5d000645658deaf4f9b9201930d418b0e240db16dabc65559d"
+    },
+    "fixture_sha256": "09301eba1210f7c7335e33993f0fe73cc74f7fc34ac85b1da5a9bb5043776845",
+    "scope": "Three generated-pyramid checks skipped in the full run pass after supplying the same generated fixture, including desktop navigation; full-suite counts remain unchanged."
+  }
+}

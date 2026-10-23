@@ -121,6 +121,9 @@ QuPath port or a compatible replacement for Java QuPath.
   archived runs; see [project cell tables](docs/project-cell-tables.md).
 - Native cell measurement CSV with immutable capture, background atomic export,
   Python and ImGui controls; see [cell tables](docs/cell-tables.md).
+- Capture-time cell calibration provides sampled areas in square micrometers and
+  centroid coordinates in micrometers, including opt-in CSV v2 and native project
+  exports; see [calibrated cell features](docs/calibrated-cell-features.md).
 - Lossless cell-run archives with parameters, markers, compartment features,
   project/recovery storage and pixel rechecking; see [cell archives](docs/cell-archive.md).
 - Bounded GPU canvas caching reuses unchanged image/annotation pixels while
