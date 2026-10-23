@@ -2645,3 +2645,8 @@ identities, portable fixture hashes and both pairs of benchmarks are checked.
 The original hosted mutation assertion passes unchanged on the corrected wheel.
 Hosted verification of this implementation is tracked after publication; the
 prior packet's mixed CI outcome is preserved separately.
+
+Implementation commit: `5f132d44f9235288c5a9c28d70101303de48a185`. Hosted
+[run 39901919127](https://github.com/bipxx/qupathxx/actions/runs/39901919127)
+targets that exact commit and is queued. No hosted export-job/direct-framing
+pass is claimed yet.
