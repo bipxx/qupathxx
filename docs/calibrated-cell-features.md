@@ -50,6 +50,8 @@ Background exports use the same immutable request and atomic output policy.
 
 The desktop cell-table controls provide **Include captured calibration**.
 Embedded callers can set `GuiOptions.cell_table_capture_calibration = True`.
+The selected-annotation export uses its latest archived run, as in schema `/1`;
+the project export covers the selected table mode across project images.
 The standalone command exports historical records from a saved project:
 
 ```text
@@ -71,7 +73,19 @@ The [Linux validation receipt](benchmarks/calibrated-cell-features-linux.json)
 records 42 native suites, 157 focused Python tests and a full suite with 1,655
 passes, 392 optional skips and four scientific expected failures. Installed
 workflows, runtime relocation, stubs and strict typing pass. Windows desktop and
-hosted candidate acceptance remain pending. To verify calibrated table throughput
+hosted candidate acceptance remain pending. The [Windows receipt](benchmarks/calibrated-cell-features-windows.json)
+adds 43 native suites, 76 focused Python/GUI checks, installed workflows and
+strict typing. The full Windows suite is running. An existing export-recheck
+test times out once, then passes both alone and in the full focused repeat;
+the original result is retained and its cause remains unresolved.
+
+The completed native frame shows the checked capture option and successful
+two-row export while the document displays its later calibration. The CSV retains
+the original 0.5/0.25 micrometers per pixel, with zero reported UI overflow.
+
+![Captured calibration selected after a successful cell-table export](images/cell-capture-calibration.png)
+
+To verify calibrated table throughput
 on a quiet machine, use `tools/benchmark_cell_tables.py --capture-calibration`;
 `--gui` additionally exercises desktop export. The recorded small smoke check
 ran under concurrent load and establishes output correctness only.

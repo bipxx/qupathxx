@@ -3655,5 +3655,12 @@ precision edit; that failure is retained. The fresh full regression passes
 Installed workflows, exact bundled runtime/relocation checks, matching stubs,
 positive typing and all seven required negative typing errors pass. Hosted run
 40004623992 validates the candidate source separately. Windows desktop and
-hosted acceptance remain required. Physical detection filters, scientific
+hosted acceptance remain required. Subsequent Windows validation passes 43 native
+suites and 76 focused Python/GUI checks, installed workflows, matching stubs and
+strict positive/negative typing. A completed-frame capture verifies the checked
+capture-calibration option and two-row historical export with zero UI overflow.
+The new GUI test now follows the existing latest-run export contract and covers
+known and unknown calibration separately. One existing recheck/export timeout is
+retained; isolated and full focused repeats pass without proving its cause.
+The full Windows regression is running. Physical detection filters, scientific
 segmentation acceptance and every other open M0–M7 requirement remain open.
