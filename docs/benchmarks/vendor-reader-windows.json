@@ -1,0 +1,48 @@
+{
+  "schema": "qpx.vendor-reader-benchmark/1",
+  "fixture_sha256": "00a3d54482cd707abf254fe69dccc8d06b8ff757a1663f1290c23418c480eb30",
+  "native_sha256": "f90c2321a75f8ea2e2de1ff091c0646fd6e38f1182b0c66d1408d7d6e397470c",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "source_tree_sha256": "223d8b2a94105dc038fa2a1e09f5894d846509a81801990318fa4cf3ec8bb3f4",
+  "openslide_version": "4.0.1",
+  "region_shape": [
+    193,
+    257,
+    4
+  ],
+  "warm_iterations": 9,
+  "regions": [
+    {
+      "level": 0,
+      "first_read_ms": 3.1241000397130847,
+      "warm_median_ms": 1.179700018838048,
+      "warm_max_ms": 1.8631999846547842,
+      "rgba_sha256": "07f91ce5567f7fe760421e885cc06f9eaadeb28ce462197f6dbb0cec45363389"
+    },
+    {
+      "level": 1,
+      "first_read_ms": 7.536099990829825,
+      "warm_median_ms": 4.366799956187606,
+      "warm_max_ms": 5.321100004948676,
+      "rgba_sha256": "b1e3255812afaf606e401f6ef330fc1f56cf028acdd92d29bbbbe452b69cc44c"
+    },
+    {
+      "level": 2,
+      "first_read_ms": 12.277800007723272,
+      "warm_median_ms": 4.668300040066242,
+      "warm_max_ms": 10.53839991800487,
+      "rgba_sha256": "11663160c79effab55df626fc60aad8c634cdb2974c9d05bb505c8ae02c5f13f"
+    }
+  ],
+  "scheduler_first_ms": 6.272600032389164,
+  "scheduler_cache_median_ms": 0.025300076231360435,
+  "scheduler_reads": 1,
+  "scheduler_cache_hits": 9,
+  "scheduler_cache_bytes": 198404,
+  "scheduler_cache_limit": 8388608,
+  "overview_ms": 248.4241999918595,
+  "overview_source_pixels": 5913875,
+  "overview_rgba_sha256": "b3bb322d8603b670963922cc2aa495642840959604f1acff76bd9c5d4db6142e",
+  "scope": "local repeated regions; first read may use OS/backend cache; not RSS or frame acceptance"
+}

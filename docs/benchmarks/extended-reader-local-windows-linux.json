@@ -1,0 +1,138 @@
+{
+  "schema": "qpx.extended-reader-validation/1",
+  "engine_commit": "bd422ccc21e397549aacf80deddd1c34067db488",
+  "fixture_sha256": "00a3d54482cd707abf254fe69dccc8d06b8ff757a1663f1290c23418c480eb30",
+  "openslide_version": "4.0.1",
+  "windows": {
+    "sha256": "c819fe5db275dfae60d6a0dc77796d4815669de5350bb0c4503058aa4ece3ed5",
+    "passed": 12,
+    "skipped": 0,
+    "cases": [
+      {
+        "name": "test_real_metadata_and_calibrated_measurement",
+        "skipped": false
+      },
+      {
+        "name": "test_real_pyramid_regions_padding_and_owned_buffers[0]",
+        "skipped": false
+      },
+      {
+        "name": "test_real_pyramid_regions_padding_and_owned_buffers[1]",
+        "skipped": false
+      },
+      {
+        "name": "test_real_pyramid_regions_padding_and_owned_buffers[2]",
+        "skipped": false
+      },
+      {
+        "name": "test_installed_region_cli_on_real_pyramid[0]",
+        "skipped": false
+      },
+      {
+        "name": "test_installed_region_cli_on_real_pyramid[1]",
+        "skipped": false
+      },
+      {
+        "name": "test_installed_region_cli_on_real_pyramid[2]",
+        "skipped": false
+      },
+      {
+        "name": "test_real_scheduler_cache_generation_and_pending_close",
+        "skipped": false
+      },
+      {
+        "name": "test_complete_real_overview_against_independent_global_area_mean",
+        "skipped": false
+      },
+      {
+        "name": "test_truncated_vendor_container_is_rejected",
+        "skipped": false
+      },
+      {
+        "name": "test_damaged_jpeg_tile_reports_latched_error_and_other_handle_survives",
+        "skipped": false
+      },
+      {
+        "name": "test_real_vendor_desktop_zoom_settles_with_bounded_unavailable_overview",
+        "skipped": false
+      }
+    ]
+  },
+  "linux": {
+    "sha256": "7bcd1b4f27e0e7e388961e194cf34f840acf1da67427fa407c82c33dab6ea7a3",
+    "passed": 11,
+    "skipped": 1,
+    "cases": [
+      {
+        "name": "test_real_metadata_and_calibrated_measurement",
+        "skipped": false
+      },
+      {
+        "name": "test_real_pyramid_regions_padding_and_owned_buffers[0]",
+        "skipped": false
+      },
+      {
+        "name": "test_real_pyramid_regions_padding_and_owned_buffers[1]",
+        "skipped": false
+      },
+      {
+        "name": "test_real_pyramid_regions_padding_and_owned_buffers[2]",
+        "skipped": false
+      },
+      {
+        "name": "test_installed_region_cli_on_real_pyramid[0]",
+        "skipped": false
+      },
+      {
+        "name": "test_installed_region_cli_on_real_pyramid[1]",
+        "skipped": false
+      },
+      {
+        "name": "test_installed_region_cli_on_real_pyramid[2]",
+        "skipped": false
+      },
+      {
+        "name": "test_real_scheduler_cache_generation_and_pending_close",
+        "skipped": false
+      },
+      {
+        "name": "test_complete_real_overview_against_independent_global_area_mean",
+        "skipped": false
+      },
+      {
+        "name": "test_truncated_vendor_container_is_rejected",
+        "skipped": false
+      },
+      {
+        "name": "test_damaged_jpeg_tile_reports_latched_error_and_other_handle_survives",
+        "skipped": false
+      },
+      {
+        "name": "test_real_vendor_desktop_zoom_settles_with_bounded_unavailable_overview",
+        "skipped": true
+      }
+    ]
+  },
+  "tests_sha256": "3c843a6c3741cc7c865b7c33bff6d38c1de18237fb259dea25b7a05574db20e5",
+  "benchmark_tool_sha256": "1c239a30346d5767bf8bf6abd7c13d629a2493de8446d6031fe060e739a1f8db",
+  "source_fingerprints": {
+    "windows": "223d8b2a94105dc038fa2a1e09f5894d846509a81801990318fa4cf3ec8bb3f4",
+    "linux": "a5e5ea6886c6c79ae8b645c6ff8fe1d2336cba1db7459e648f3b1793b41d9ce1"
+  },
+  "native_sha256": {
+    "windows": "f90c2321a75f8ea2e2de1ff091c0646fd6e38f1182b0c66d1408d7d6e397470c",
+    "linux": "c46caf56b5b74ac8872a951abb40e0f58ea4553b4fb7cd4bc1fdf404996fcda3"
+  },
+  "benchmark_sha256": {
+    "vendor-reader-windows.json": "b68c1662e7e50a613fa139e052a787cdad3cfd117d5f19f77bf0120b2624f13e",
+    "vendor-reader-linux.json": "b5c390645988594ea572eef8c8f4dc4f64fc0c5796d7e477d03671caece2e955"
+  },
+  "windows_zoom_capture_sha256": "878d460fa9c34c9b7cd04a27afcde532c0da0f6854e8c357448759d5a2e2af73",
+  "exact_cross_platform_region_levels": [
+    0,
+    1,
+    2
+  ],
+  "exact_cross_platform_overview": true,
+  "scope": "Pinned full Aperio pyramid, same OpenSlide decoder version; local installed Windows GUI and hosted Linux headless wheel in WSL with local pinned GEOS SDK. Adapter and bounded-work evidence, not independent decoder/QuPath/biological parity, RSS or hardware frame acceptance. Extended hosted run still required."
+}

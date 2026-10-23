@@ -90,6 +90,7 @@ def main():
     parser.add_argument('--mode', choices=['minimal', 'native', 'sanitize', 'headless', 'gui'], required=True)
     parser.add_argument('--work', type=Path, required=True)
     parser.add_argument('--live-reference', action='store_true')
+    parser.add_argument('--extended-readers', action='store_true')
     args = parser.parse_args()
     work = args.work.resolve()
     work.mkdir(parents=True, exist_ok=False)
@@ -102,8 +103,11 @@ def main():
     mesa = assets.mesa(ROOT/'build/ci/deps') if args.mode == 'gui' and os.name == 'nt' else None
     openslide = assets.openslide(ROOT/'build/ci/deps') if full and args.mode != 'sanitize' else None
     if args.mode in ['headless', 'gui']:
-        run([sys.executable, '-I', ROOT/'tools/fetch_reader_fixtures.py'], work/'fixtures.log', env)
+        run([sys.executable, '-I', ROOT/'tools/fetch_reader_fixtures.py'] +
+            (['--extended'] if args.extended_readers else []), work/'fixtures.log', env)
         env['QUPATHXX_APERIO_FIXTURE'] = str(ROOT/'build/fixtures/CMU-1-Small-Region.svs')
+        if args.extended_readers:
+            env['QUPATHXX_APERIO_MULTILEVEL_FIXTURE'] = str(ROOT/'build/fixtures/CMU-1.svs')
     geos = ensure_geos(work) if full else None
     opencv = ensure_opencv(work) if full else None
     if geos:
@@ -174,6 +178,10 @@ def main():
     run(command, work/'installed-workflow.log', env)
     run([test_python, '-I', '-m', 'pytest', 'tests', '-q', '-o', 'faulthandler_timeout=60',
          f'--junitxml={work}/python-tests.xml'], work/'python-tests.log', env, 2400)
+    if args.extended_readers:
+        run([test_python, '-I', ROOT/'tools/benchmark_vendor_reader.py',
+             '--slide', env['QUPATHXX_APERIO_MULTILEVEL_FIXTURE'], '--output', work/'vendor-reader-benchmark.json'],
+            work/'vendor-reader-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_classifier.py', '--output', work/'classifier-benchmark.json'],
         work/'classifier-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_object_classifier.py', '--rows', '10000', '--output', work/'object-classifier-benchmark.json'],
@@ -289,7 +297,7 @@ def main():
             work/'standalone-slide-thumbnail.log', clean, 60, expected=1)
         if slide_thumb.exists() or 'source pixel limit' not in (work/'standalone-slide-thumbnail.log').read_text(encoding='utf8'):
             raise RuntimeError('standalone Aperio thumbnail must reject its inadequate default source budget before writing')
-    (work/'result.json').write_text(json.dumps(dict(mode=args.mode, wheel=wheel.name, wheel_sha256=assets.sha(wheel),
+    (work/'result.json').write_text(json.dumps(dict(mode=args.mode, extended_readers=args.extended_readers, wheel=wheel.name, wheel_sha256=assets.sha(wheel),
                                                   python=sys.version, tested_utc=time.time()), indent=2)+'\n', encoding='utf8')
 
 

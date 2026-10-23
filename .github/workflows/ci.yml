@@ -12,6 +12,10 @@ on:
         description: Also run the downloaded QuPath reference on Windows
         type: boolean
         default: false
+      extended_readers:
+        description: Also validate the full pinned multilevel Aperio slide (169 MiB)
+        type: boolean
+        default: false
 
 permissions:
   contents: read
@@ -94,7 +98,8 @@ jobs:
         shell: bash
         env:
           LIVE_REFERENCE: ${{ inputs.live_reference && runner.os == 'Windows' && matrix.mode == 'gui' && '--live-reference' || '' }}
-        run: python -I tools/ci/run.py --mode '${{ matrix.mode }}' --work build/ci/job $LIVE_REFERENCE
+          EXTENDED_READERS: ${{ inputs.extended_readers && (matrix.mode == 'headless' || matrix.mode == 'gui') && '--extended-readers' || '' }}
+        run: python -I tools/ci/run.py --mode '${{ matrix.mode }}' --work build/ci/job $LIVE_REFERENCE $EXTENDED_READERS
       - name: Reports and candidate artifacts
         if: always()
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0

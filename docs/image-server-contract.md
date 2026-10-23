@@ -83,8 +83,11 @@ in `tests/fixtures/manifest.json` and compared with the official Python binding
 and native CLI. That comparison checks adapter consistency, not independent
 decoder correctness: both use OpenSlide. The generated TIFF's expected pixels
 are specified independently of OpenSlide. The small Aperio fixture has one
-level; real vendor multilevel and damaged-tile coverage remain open.
+level. The opt-in [extended Aperio checks](extended-reader-validation.md) add a
+real three-level vendor pyramid, fractional downsample, partial-alpha edges,
+truncated containers and damaged JPEG tiles. Other vendors remain unvalidated.
 
 The desktop GUI now displays dense and OpenSlide sources through the
 [tiled viewer](tiled-viewer.md), native scheduler and bounded GPU cache. Thumbnail
-policy, interaction automation and ICC display conversion remain M1/M2 work.
+policy and interaction automation have separate bounded contracts and tests;
+ICC display conversion and broader vendor stress remain M1/M2 work.

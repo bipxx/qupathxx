@@ -13,6 +13,34 @@
       "license": "CC0-1.0",
       "license_source": "https://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/",
       "purpose": "Aperio vendor region reads and metadata; single pyramid level"
+    },
+    {
+      "filename": "CMU-1.svs",
+      "bytes": 177552579,
+      "url": "https://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/CMU-1.svs",
+      "sha256": "00a3d54482cd707abf254fe69dccc8d06b8ff757a1663f1290c23418c480eb30",
+      "license": "CC0-1.0",
+      "license_source": "https://openslide.cs.cmu.edu/download/openslide-testdata/Aperio/index.yaml",
+      "tier": "extended",
+      "purpose": "Real multilevel Aperio JPEG reads, edge padding, reader lifetime, bounded scheduling and viewer navigation; opt-in extended validation",
+      "dimensions": [
+        [
+          46000,
+          32914
+        ],
+        [
+          11500,
+          8228
+        ],
+        [
+          2875,
+          2057
+        ]
+      ],
+      "pixel_size_um": [
+        0.499,
+        0.499
+      ]
     }
   ],
   "generated": [

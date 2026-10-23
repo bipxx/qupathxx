@@ -1,0 +1,48 @@
+{
+  "schema": "qpx.vendor-reader-benchmark/1",
+  "fixture_sha256": "00a3d54482cd707abf254fe69dccc8d06b8ff757a1663f1290c23418c480eb30",
+  "native_sha256": "c46caf56b5b74ac8872a951abb40e0f58ea4553b4fb7cd4bc1fdf404996fcda3",
+  "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+  "processor": "x86_64",
+  "source_tree_sha256": "a5e5ea6886c6c79ae8b645c6ff8fe1d2336cba1db7459e648f3b1793b41d9ce1",
+  "openslide_version": "4.0.1",
+  "region_shape": [
+    193,
+    257,
+    4
+  ],
+  "warm_iterations": 9,
+  "regions": [
+    {
+      "level": 0,
+      "first_read_ms": 9.660420000045633,
+      "warm_median_ms": 1.0842799999863928,
+      "warm_max_ms": 2.071739000029993,
+      "rgba_sha256": "07f91ce5567f7fe760421e885cc06f9eaadeb28ce462197f6dbb0cec45363389"
+    },
+    {
+      "level": 1,
+      "first_read_ms": 17.483536999861826,
+      "warm_median_ms": 4.413435000060417,
+      "warm_max_ms": 4.810936000012589,
+      "rgba_sha256": "b1e3255812afaf606e401f6ef330fc1f56cf028acdd92d29bbbbe452b69cc44c"
+    },
+    {
+      "level": 2,
+      "first_read_ms": 23.438440999825616,
+      "warm_median_ms": 4.465729999992618,
+      "warm_max_ms": 5.610277999949176,
+      "rgba_sha256": "11663160c79effab55df626fc60aad8c634cdb2974c9d05bb505c8ae02c5f13f"
+    }
+  ],
+  "scheduler_first_ms": 4.700472999957128,
+  "scheduler_cache_median_ms": 0.1026249999540596,
+  "scheduler_reads": 1,
+  "scheduler_cache_hits": 9,
+  "scheduler_cache_bytes": 198404,
+  "scheduler_cache_limit": 8388608,
+  "overview_ms": 388.4540320000269,
+  "overview_source_pixels": 5913875,
+  "overview_rgba_sha256": "b3bb322d8603b670963922cc2aa495642840959604f1acff76bd9c5d4db6142e",
+  "scope": "local repeated regions; first read may use OS/backend cache; not RSS or frame acceptance"
+}

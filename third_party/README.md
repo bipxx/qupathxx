@@ -22,3 +22,10 @@ Missing extraction markers or a missing nanobind license stop configuration.
 
 GEOS, nlohmann/json and Windows OpenSlide SDK notices are installed by their
 existing dependency rules. Standalone candidates copy the wheel's notice tree.
+
+Quantitative TIFF builds also install libtiff's `LICENSE.md`, the separate
+TIFF zlib runtime's `LICENSE`, and tinyxml2's `LICENSE.txt`. OpenCV builds retain
+its `LICENSE`, embedded softfloat/zlib notices and source notice inventory.
+The OpenSlide SDK notice tree covers its bundled dependencies as well as
+OpenSlide itself. These are dependency notices; their presence does not resolve
+the outstanding project license or the release distribution review.

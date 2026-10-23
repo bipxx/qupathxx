@@ -63,6 +63,9 @@ transport failures at most three times; bad identity and permanent HTTP errors
 fail immediately. External SDK/fixture inputs are checked before compilation.
 Captured QuPath numerical references run by default; manual
 dispatch can additionally regenerate live references in the Windows GUI job.
+Manual dispatch can also enable `extended_readers` for the pinned full Aperio
+pyramid, damaged-tile checks and a per-level/cache benchmark. The ordinary smoke
+fixture remains the default; see [extended reader validation](extended-reader-validation.md).
 
 The Windows GUI artifact contains a wheel and a standalone candidate ZIP. The
 ZIP is extracted from the original wheel's executables, runtime DLLs and notices;

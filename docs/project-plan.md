@@ -3267,3 +3267,29 @@ schema-12 input; the receipt's expected count was corrected from the older 33.
 This packet does not complete M0–M7; broader
 Bio-Formats readers, raw cell/classifier features, runtime/build manifests,
 biological/QuPath comparisons and hardware acceptance remain open.
+
+### Packet90: full vendor pyramid and damaged-reader validation
+
+The [extended reader contract](extended-reader-validation.md) pins the public
+177,552,579-byte CMU-1 Aperio slide and adds an opt-in manual CI mode. The regular
+smoke download remains small. Fixture download/verification hashes stream in
+bounded chunks rather than allocating a whole 169 MiB file buffer.
+
+The [local Windows/Linux receipt](benchmarks/extended-reader-local-windows-linux.json)
+records eleven full-pyramid reader cases passing on each platform and an additional
+passing Windows desktop zoom case. Exact three-level adapter pixels, fractional
+downsample, partial alpha, padding, owned buffers, installed CLI output, calibrated
+means, cache reuse, generation/close/reopen behavior, complete overview reduction,
+truncated headers and damaged JPEG tiles are covered. The alpha oracle reads the
+upstream premultiplied C buffer and applies the documented rounded conversion;
+ordinary OpenSlide Python truncation is checked separately. Both use OpenSlide,
+so this is adapter consistency rather than independent decoder validation.
+
+The Windows/Linux region hashes and complete overview hash agree. Nine repeated
+scheduler requests hit the cache after one read, with 198,404 bytes retained
+against an 8 MiB budget. Local timings are recorded separately for each platform;
+they do not establish portable latency, RSS or hardware frame acceptance.
+The current desktop overview retains its default 4 Mi-pixel source budget and
+reports unavailability for this fixture's 5,913,875-pixel lowest level; viewport
+tiles still render and settle. Configurable desktop overview budgets remain an
+implementation gap. Extended hosted acceptance is pending, and M0–M7 remain open.
