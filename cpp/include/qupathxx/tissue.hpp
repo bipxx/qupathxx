@@ -12,6 +12,7 @@ struct TissueParameters {
     std::uint64_t max_hole_pixels=0; // 0 fills every enclosed eligible background component.
     std::uint64_t min_pixels=1,max_pixels=0;
     std::size_t tile_size=256,max_components=100000,work_bytes=64*1024*1024;
+    RoiSamplingPolicy sampling_policy=RoiSamplingPolicy::GeometryCoverage;
     void validate() const;
 };
 class TissueRequest {
@@ -62,7 +63,7 @@ public:
     std::int64_t height() const {return static_cast<std::int64_t>(level_bounds_.height);}
     std::int32_t level() const {return level_;}
     double downsample() const {return downsample_;}
-    const char* input_format() const {return level_==0?"qpx.rgba-tiles/1":"qpx.rgba-level-tiles/1";}
+    const char* input_format() const {return analysis_input_format(parameters_.sampling_policy,level_!=0);}
     const Roi& roi() const {return roi_;}
     Rect image_bounds() const {return image_bounds_;}
     const std::vector<std::uint32_t>& labels() const {return labels_;}

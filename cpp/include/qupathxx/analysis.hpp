@@ -10,11 +10,13 @@ class AnalysisRequest {
 public:
     AnalysisRequest(const Document&,std::uint64_t object_id,const StainTransform&,
         AnalysisKind kind=AnalysisKind::StainMeans,bool nucleus=false,std::size_t tile_size=256);
+    AnalysisRequest(const Document&,std::uint64_t,const StainTransform&,AnalysisKind,bool,std::size_t,RoiSamplingPolicy);
     bool matches(const Document&,std::uint64_t selected_id) const;
     std::uint64_t object_id() const {return object_id_;}
     std::uint64_t object_revision() const {return object_revision_;}
     std::uint64_t document_revision() const {return document_revision_;}
     AnalysisKind kind() const {return kind_;}
+    RoiSamplingPolicy sampling_policy() const {return sampling_policy_;}
     bool nucleus() const {return nucleus_;}
     std::size_t tile_size() const {return tile_size_;}
     std::uint64_t total_tiles() const {return total_tiles_;}
@@ -30,11 +32,12 @@ private:
     friend class Document;
     friend class TissueRequest;
     friend struct TissueKernel;
-    AnalysisRequest(const Document&,std::uint64_t,const StainTransform&,AnalysisKind,bool,std::size_t,bool allow_empty_grid);
+    AnalysisRequest(const Document&,std::uint64_t,const StainTransform&,AnalysisKind,bool,std::size_t,bool allow_empty_grid,RoiSamplingPolicy=RoiSamplingPolicy::GeometryCoverage);
     std::shared_ptr<const char> identity_;
     std::shared_ptr<ImageServer> source_;
     std::uint64_t object_id_,object_revision_,document_revision_,total_tiles_;
     AnalysisKind kind_;
+    RoiSamplingPolicy sampling_policy_=RoiSamplingPolicy::GeometryCoverage;
     bool nucleus_;
     std::size_t tile_size_;
     Roi roi_;

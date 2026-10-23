@@ -242,6 +242,7 @@ from ._native import (
     ProjectSaveStats as ProjectSaveStats,
     Roi as Roi,
     RoiKind as RoiKind,
+    RoiSamplingPolicy as RoiSamplingPolicy,
     BooleanOp as BooleanOp,
     PolygonPart as PolygonPart,
     has_geos as has_geos,

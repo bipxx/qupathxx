@@ -691,6 +691,7 @@ struct GuiOptions {
     bool recovery_retention_enabled=false;
     std::size_t recovery_keep_latest=10;
     double recovery_max_age_days=30;
+    RoiSamplingPolicy roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage,tissue_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
     int analysis_kind=0; // 0: RGB optical-density means; 1: supplied-stain means.
     bool analysis_nucleus=false;
     std::vector<double> analysis_vectors={.65,.70,.29,.07,.99,.11};

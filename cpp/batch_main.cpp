@@ -46,6 +46,7 @@ int execute(const std::vector<std::string>& args) {
             "--white R,G,B  --stains R,G,B,R,G,B[,R,G,B]  --normalized\n"
             "--threshold NUMBER  --level INTEGER  --tile-size INTEGER\n"
             "Cell area: --cell-min-area-um2 NUMBER --cell-max-area-um2 NUMBER (inclusive)\n"
+            "--roi-sampling coverage|winding  --tissue-sampling coverage|winding\n"
             "--continue-on-error  --no-resume  --publish-cells  --nucleus\n"
             "--tma-only  --include-missing-tma (TMA scope only)\n"
             "--snapshot-bytes N  --materialize-bytes N  --result-bytes N\n"
@@ -64,6 +65,12 @@ int execute(const std::vector<std::string>& args) {
         for(std::size_t i=3;i<args.size();++i) {
             const auto& flag=args[i];auto value=[&]()->const std::string& {if(++i==args.size()) throw std::invalid_argument("missing value for "+flag);return args[i];};
             if(flag=="--kind") {const auto& v=value();if(v=="od" || v=="stains") {options.kind=ProjectBatchKind::Roi;options.roi_kind=v=="od"?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans;}else if(v=="tissue") options.kind=ProjectBatchKind::Tissue;else if(v=="cells") options.kind=ProjectBatchKind::Cells;else if(v=="pixels") options.kind=ProjectBatchKind::Pixels;else if(v=="raw") options.kind=ProjectBatchKind::Raw;else throw std::invalid_argument("unknown batch kind");}
+            else if(flag=="--roi-sampling" || flag=="--tissue-sampling") {
+                const auto& v=value();
+                if(v!="coverage" && v!="winding") throw std::invalid_argument("sampling must be coverage or winding");
+                const auto policy=v=="coverage"?RoiSamplingPolicy::GeometryCoverage:RoiSamplingPolicy::PolygonWinding;
+                if(flag=="--roi-sampling") options.roi_sampling_policy=policy;else options.tissue.sampling_policy=policy;
+            }
             else if(flag=="--raw-level" || flag=="--raw-channel" || flag=="--raw-channels" || flag=="--raw-z" || flag=="--raw-time") {
                 const auto n=integer(value());if(n>65535 && !(flag=="--raw-channels" && n==65536)) throw std::invalid_argument("raw axis exceeds limit");
                 if(flag=="--raw-level") options.raw.region.level=static_cast<std::int32_t>(n);

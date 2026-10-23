@@ -50,7 +50,7 @@ public:
     std::shared_ptr<const ProjectBatchReport> result() const {return job_.result();}
     template<class Transform>
     void draw(const Project* project,std::uint64_t image_id,const ObjectSelection* selection,bool blocked,const TissueParameters& tissue,const CellParameters& cells,
-        std::optional<double> cell_min_area,std::optional<double> cell_max_area,AnalysisKind roi_kind,bool nucleus,std::shared_ptr<const PixelClassifier> pixel_model,Transform&& transform) {
+        std::optional<double> cell_min_area,std::optional<double> cell_max_area,AnalysisKind roi_kind,RoiSamplingPolicy roi_sampling_policy,bool nucleus,std::shared_ptr<const PixelClassifier> pixel_model,Transform&& transform) {
         const auto& io=ImGui::GetIO();
         const bool shortcut=!io.WantTextInput && io.KeyCtrl && io.KeyAlt && ImGui::IsKeyPressed(ImGuiKey_B,false);
         bool start=shortcut && !io.KeyShift && !blocked;
@@ -79,6 +79,8 @@ public:
             if(options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ui::Checkbox("Use image analysis settings",&use_image_settings_);
             if(use_image_settings_ && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ImGui::TextWrapped("Uses the Region analysis, Tissue and Cells settings in the image inspector.");
             ImGui::BeginDisabled(use_image_settings_ && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw);
+            if(options_.kind!=ProjectBatchKind::Roi) options_.roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
+            if(options_.kind!=ProjectBatchKind::Tissue) options_.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;
             if(options_.kind!=ProjectBatchKind::Cells) options_.publish_cells=false;
             if(options_.kind!=ProjectBatchKind::Cells) {options_.cell_min_nucleus_area_um2.reset();options_.cell_max_nucleus_area_um2.reset();}
             if(options_.kind==ProjectBatchKind::Cells || options_.kind==ProjectBatchKind::Pixels) options_.nucleus=false;
@@ -98,10 +100,16 @@ public:
                 if(!options_.raw_follow_display) {axis("Z (zero-based)",options_.raw.z);axis("Time (zero-based)",options_.raw.t);}
                 if(!options_.tma_only) ui::Checkbox("Use nucleus",&options_.nucleus);
             } else if(options_.kind==ProjectBatchKind::Roi) {
+                int sampling=static_cast<int>(options_.roi_sampling_policy);
+                if(ui::Combo("ROI polygon samples",&sampling,"Geometry coverage\0Polygon winding\0")) options_.roi_sampling_policy=static_cast<RoiSamplingPolicy>(sampling);
                 int feature=static_cast<int>(options_.roi_kind);
                 if(ui::Combo("Features",&feature,"RGB optical density\0Supplied stains\0")) options_.roi_kind=static_cast<AnalysisKind>(feature);
                 if(!options_.tma_only) ui::Checkbox("Use nucleus",&options_.nucleus);
             } else {
+                if(options_.kind==ProjectBatchKind::Tissue) {
+                    int sampling=static_cast<int>(options_.tissue.sampling_policy);
+                    if(ui::Combo("Tissue polygon samples",&sampling,"Geometry coverage\0Polygon winding\0")) options_.tissue.sampling_policy=static_cast<RoiSamplingPolicy>(sampling);
+                }
                 auto& feature=options_.kind==ProjectBatchKind::Tissue?options_.tissue.feature:options_.cells.feature;
                 int selected_feature=static_cast<int>(feature);
                 if(ui::Combo("Feature",&selected_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0")) feature=static_cast<TissueFeature>(selected_feature);
@@ -156,10 +164,12 @@ public:
                 auto run_options=options_;
                 if(run_options.kind==ProjectBatchKind::Pixels) {if(!run_options.pixel_model && pixel_model) run_options.pixel_model=*pixel_model;run_options.nucleus=false;}
                 else if(use_image_settings_ && run_options.kind!=ProjectBatchKind::Raw) {
-                    run_options.tissue=tissue;run_options.cells=cells;run_options.roi_kind=roi_kind;
+                    run_options.tissue=tissue;run_options.cells=cells;run_options.roi_kind=roi_kind;run_options.roi_sampling_policy=roi_sampling_policy;
                     run_options.nucleus=(run_options.kind==ProjectBatchKind::Cells || run_options.tma_only)?false:nucleus;
                     if(run_options.kind==ProjectBatchKind::Cells) {run_options.cell_min_nucleus_area_um2=cell_min_area;run_options.cell_max_nucleus_area_um2=cell_max_area;}
                 }
+                if(run_options.kind!=ProjectBatchKind::Roi) run_options.roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
+                if(run_options.kind!=ProjectBatchKind::Tissue) run_options.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;
                 const bool stains=run_options.kind!=ProjectBatchKind::Raw && run_options.kind!=ProjectBatchKind::Pixels && (run_options.kind==ProjectBatchKind::Roi?run_options.roi_kind==AnalysisKind::StainMeans:
                     (run_options.kind==ProjectBatchKind::Tissue?run_options.tissue.feature:run_options.cells.feature)!=TissueFeature::OpticalDensitySum);
                 ProjectBatchRequest request(*project,transform(stains),chosen,run_options);

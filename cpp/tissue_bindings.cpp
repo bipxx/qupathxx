@@ -11,6 +11,7 @@ void bind_tissue(nb::module_& m) {
     nb::enum_<TissueFeature>(m,"TissueFeature").value("OPTICAL_DENSITY_SUM",TissueFeature::OpticalDensitySum)
         .value("STAIN_1",TissueFeature::Stain1).value("STAIN_2",TissueFeature::Stain2).value("STAIN_3",TissueFeature::Stain3);
     nb::class_<TissueParameters>(m,"TissueParameters").def(nb::init<>()).def_rw("feature",&TissueParameters::feature)
+        .def_rw("sampling_policy",&TissueParameters::sampling_policy)
         .def_rw("threshold",&TissueParameters::threshold).def_rw("connectivity",&TissueParameters::connectivity)
         .def_rw("level",&TissueParameters::level)
         .def_rw("open_radius",&TissueParameters::open_radius).def_rw("close_radius",&TissueParameters::close_radius)

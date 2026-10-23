@@ -9,7 +9,7 @@ void advance(std::uint64_t revision) {if(revision==std::numeric_limits<std::uint
 void check_result(const Document& document,const AnalysisRequest& request,const AnalysisResult& result) {
     if(!request.matches(document,request.object_id())) throw std::invalid_argument("analysis request is stale");
     if(result.object_id!=request.object_id() || result.object_revision!=request.object_revision() || result.document_revision!=request.document_revision() ||
-       result.provenance!=request.provenance() || result.kind!=request.kind() || result.nucleus!=request.nucleus() || result.white!=request.transform().white() || result.stains!=request.transform().stains())
+       result.provenance!=request.provenance() || result.algorithm!=roi_analysis_algorithm(request.sampling_policy()) || result.kind!=request.kind() || result.nucleus!=request.nucleus() || result.white!=request.transform().white() || result.stains!=request.transform().stains())
         throw std::invalid_argument("analysis result does not match its request");
 }
 }
@@ -17,7 +17,8 @@ std::size_t AnalysisRecord::payload_bytes() const {return sizeof(AnalysisRecord)
 void AnalysisRecord::validate(const ImageMetadata& metadata) const {
     const auto& r=result;
     if(r.provenance) {r.provenance->validate();if(r.provenance->object_id!=r.object_id || r.provenance->object_revision!=r.object_revision || r.provenance->document_revision!=r.document_revision || r.provenance->nucleus!=r.nucleus || r.provenance->source.width!=metadata.width || r.provenance->source.height!=metadata.height) throw std::invalid_argument("analysis provenance identity mismatch");}
-    if(!id || !r.object_id || r.object_revision>r.document_revision || r.document_revision>=id || r.algorithm!="qpx.roi-channel-means/1" ||
+    (void)r.sampling_policy();
+    if(!id || !r.object_id || r.object_revision>r.document_revision || r.document_revision>=id ||
        (r.kind!=AnalysisKind::OpticalDensityMeans && r.kind!=AnalysisKind::StainMeans) || !r.samples || !r.tiles ||
        tile_size<16 || tile_size>1024 || !std::isfinite(r.elapsed_ms) || r.elapsed_ms<0)
         throw std::invalid_argument("invalid analysis record metadata");
@@ -83,7 +84,7 @@ bool Document::verify_analysis(std::uint64_t id,const AnalysisRequest& request,c
     // Reverification is derived state; validate against the archived capture
     // bounds without advancing or exhausting the live canonical revision.
     check.validate(metadata());
-    if(old.object_id!=result.object_id || old.object_revision!=result.object_revision || old.kind!=result.kind || old.nucleus!=result.nucleus ||
+    if(old.algorithm!=result.algorithm || old.object_id!=result.object_id || old.object_revision!=result.object_revision || old.kind!=result.kind || old.nucleus!=result.nucleus ||
        old.white!=result.white || old.stains!=result.stains || stored.value->tile_size!=request.tile_size() || !stored.value->roi.equals(request.roi()))
         throw std::invalid_argument("verification request does not match saved analysis parameters");
     stored.identity=analysis_identity_.token;stored.source=server_;

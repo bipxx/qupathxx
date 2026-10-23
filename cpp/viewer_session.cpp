@@ -24,6 +24,7 @@ struct Command {
     bool flag=false,nucleus=false;std::string text;std::vector<ObjectEdit> edits;std::vector<std::uint64_t> ids;
     RegionRequest region{0,0,0,1,1};std::shared_ptr<const StainTransform> transform;
     RawRegionRequest raw_region;TiffView tiff_view;
+    RoiSamplingPolicy sampling_policy=RoiSamplingPolicy::GeometryCoverage;
     AnalysisKind analysis=AnalysisKind::OpticalDensityMeans;MeasurementTableKind table=MeasurementTableKind::Roi;
     TissueParameters tissue;CellParameters cells;std::optional<double> cell_min_area,cell_max_area;
     explicit Command(Action a):action(a) {}
@@ -95,7 +96,8 @@ std::uint64_t ViewerSession::read_raw(std::uint64_t image,RawRegionRequest r) {
     Command c(Action::RawRegion);c.image=image;c.raw_region=r;return impl_->submit(std::move(c));
 }
 std::uint64_t ViewerSession::set_tiff_view(std::uint64_t image,TiffView view) {view.validate();Command c(Action::TiffView);c.image=image;c.tiff_view=view;return impl_->submit(std::move(c));}
-std::uint64_t ViewerSession::analyze(std::uint64_t image,std::uint64_t object,const StainTransform& transform,AnalysisKind kind,bool nucleus) {Command c(Action::Analyze);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.analysis=kind;c.flag=nucleus;return impl_->submit(std::move(c));}
+std::uint64_t ViewerSession::analyze(std::uint64_t image,std::uint64_t object,const StainTransform& transform,AnalysisKind kind,bool nucleus) {return analyze_with_sampling_policy(image,object,transform,RoiSamplingPolicy::GeometryCoverage,kind,nucleus);}
+std::uint64_t ViewerSession::analyze_with_sampling_policy(std::uint64_t image,std::uint64_t object,const StainTransform& transform,RoiSamplingPolicy policy,AnalysisKind kind,bool nucleus) {validate_sampling_policy(policy);Command c(Action::Analyze);c.sampling_policy=policy;c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.analysis=kind;c.flag=nucleus;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::tissue(std::uint64_t image,std::uint64_t object,const StainTransform& transform,TissueParameters p,bool retain) {p.validate();Command c(Action::Tissue);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.tissue=p;c.flag=retain;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::cells(std::uint64_t image,std::uint64_t object,const StainTransform& transform,CellParameters p,bool retain) {return cells_with_nucleus_area_limits(image,object,transform,{},{},p,retain);}
 std::uint64_t ViewerSession::cells_with_nucleus_area_limits(std::uint64_t image,std::uint64_t object,const StainTransform& transform,
@@ -216,7 +218,7 @@ struct ViewerOwner::Impl {
             if(!c.project->path().empty()) paths.push_back(c.project->path());if(!c.project->recovery_source().empty()) paths.push_back(c.project->recovery_source());
             pending->raw_table.emplace(*doc,cmd.ids,cmd.flag,state->limits.snapshot_bytes,paths);
         }
-        else if(cmd.action==Action::Analyze) pending->analysis.emplace(*doc,e.object_id,*cmd.transform,cmd.analysis,cmd.flag);
+        else if(cmd.action==Action::Analyze) pending->analysis.emplace(*doc,e.object_id,*cmd.transform,cmd.analysis,cmd.flag,256,cmd.sampling_policy);
         else if(cmd.action==Action::Tissue) pending->tissue.emplace(*doc,e.object_id,*cmd.transform,cmd.tissue);
         else if(cmd.action==Action::Cells) pending->cells.emplace(CellRequest::with_nucleus_area_limits(*doc,e.object_id,*cmd.transform,cmd.cell_min_area,cmd.cell_max_area,cmd.cells));
         else if(cmd.action==Action::Measurements) {MeasurementTableOptions o;o.byte_limit=state->limits.result_bytes;o.snapshot_budget=state->limits.snapshot_bytes;o.require_current=cmd.flag;if(doc) pending->table.emplace(*doc,cmd.table,cmd.ids,o);else pending->table.emplace(*c.project,cmd.table,std::vector<std::uint64_t>{},o);}

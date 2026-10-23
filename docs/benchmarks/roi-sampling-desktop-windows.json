@@ -1,0 +1,22 @@
+{
+  "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+  "native_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+  "analysis_samples": 24976,
+  "tissue_samples": 24976,
+  "analysis_algorithm": "qpx.roi-channel-means/winding-1",
+  "tissue_algorithm": "qpx.threshold-components/winding-1",
+  "ui_overflow_items": 0,
+  "ui_max_overflow": 0.0,
+  "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+  "framebuffer": [
+    1400,
+    1901
+  ],
+  "capture_sha256": "31979f85ad1722b399646a266f98588fdaf8c85b3ec19d1188e1ae206bcfb88e",
+  "schema": "qpx.roi-sampling-desktop/1",
+  "source_content_commit": "14788f23325d74dcb2ff016d82d994786eecd999",
+  "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+  "capture_file": "../images/roi-polygon-sampling.png",
+  "visually_inspected": true,
+  "scope": "Both polygon-winding selectors, ROI and tissue counts of 24,976, saved result/mask verification and captured calibration are readable. Software-GL desktop capture; no hardware frame acceptance."
+}

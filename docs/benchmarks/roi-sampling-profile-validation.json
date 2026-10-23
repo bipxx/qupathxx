@@ -1,0 +1,302 @@
+{
+  "schema": "qpx.roi-sampling-profile-validation/1",
+  "source_content_commit": "14788f23325d74dcb2ff016d82d994786eecd999",
+  "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+  "checkout_source_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+  "committed_lf_source_sha256": "fbef08757147d6c95fca3bac1a036759b88a42a335d73c6a00b37dd016b1b9ac",
+  "profile_file": "roi-sampling-profile-windows.json",
+  "profile_sha256": "fa92db86c98090f7a42cdc5cd5f47188163964381e2fc0ba4bb81e9221b1c886",
+  "source_projection_file": "roi-sampling-source-projection.json",
+  "source_projection_sha256": "b89709b7930d54a4aecd79955dd6128e86f03741cde50ca6076f471a3c9268dc",
+  "profiler_file": "tools/profile_roi_sampling.py",
+  "profiler_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+  "retained_paired_processes": 32,
+  "excluded_fresh_process_warmups": [
+    {
+      "schema": "qpx.roi-sampling-observation/1",
+      "size": 256,
+      "shape": "square-hole",
+      "order": [
+        "coverage",
+        "winding"
+      ],
+      "timed_repetitions": 3,
+      "request_and_analysis_ms": {
+        "roi": {
+          "coverage": [
+            7.5114,
+            7.4132,
+            7.7343
+          ],
+          "winding": [
+            8.4868,
+            8.3414,
+            9.3224
+          ]
+        },
+        "tissue": {
+          "coverage": [
+            8.426,
+            8.8195,
+            8.9283
+          ],
+          "winding": [
+            10.3257,
+            12.1268,
+            9.8531
+          ]
+        }
+      },
+      "exact_outputs": {
+        "roi": {
+          "samples": 54279,
+          "means": [
+            0.45420914849144894,
+            0.4581644378001835,
+            0.4474280262294045
+          ]
+        },
+        "tissue": {
+          "samples": 54279,
+          "foreground": 54279,
+          "components": 1,
+          "labels_sha256": "f2cfc59bbd092572e6671bfa4cdfffbd110e9bbe567d734e54ebdada98076f0e"
+        }
+      },
+      "tissue_work_budget_bytes": 268435456,
+      "estimated_tissue_work_bytes": 5542400,
+      "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+      "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+      "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+      "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+      "performance_accepted": false
+    },
+    {
+      "schema": "qpx.roi-sampling-observation/1",
+      "size": 1024,
+      "shape": "square-hole",
+      "order": [
+        "coverage",
+        "winding"
+      ],
+      "timed_repetitions": 3,
+      "request_and_analysis_ms": {
+        "roi": {
+          "coverage": [
+            137.0183,
+            130.4203,
+            117.0616
+          ],
+          "winding": [
+            138.6883,
+            135.915,
+            142.8307
+          ]
+        },
+        "tissue": {
+          "coverage": [
+            148.4436,
+            152.0313,
+            157.2926
+          ],
+          "winding": [
+            163.9604,
+            163.6152,
+            177.8841
+          ]
+        }
+      },
+      "exact_outputs": {
+        "roi": {
+          "samples": 915975,
+          "means": [
+            0.45175549630132733,
+            0.45237442308006115,
+            0.4521083508777669
+          ]
+        },
+        "tissue": {
+          "samples": 915975,
+          "foreground": 915975,
+          "components": 1,
+          "labels_sha256": "8d2b6e6c728adb853c1f1bb4b8c7d7207b6861dd31683e01eafe58f5a058a3ad"
+        }
+      },
+      "tissue_work_budget_bytes": 268435456,
+      "estimated_tissue_work_bytes": 15772160,
+      "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+      "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+      "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+      "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+      "performance_accepted": false
+    },
+    {
+      "schema": "qpx.roi-sampling-observation/1",
+      "size": 256,
+      "shape": "complex",
+      "order": [
+        "coverage",
+        "winding"
+      ],
+      "timed_repetitions": 3,
+      "request_and_analysis_ms": {
+        "roi": {
+          "coverage": [
+            7.277,
+            6.9572,
+            8.6972
+          ],
+          "winding": [
+            8.5589,
+            8.3944,
+            8.6899
+          ]
+        },
+        "tissue": {
+          "coverage": [
+            10.4683,
+            8.3925,
+            8.4545
+          ],
+          "winding": [
+            10.4652,
+            9.58,
+            9.6101
+          ]
+        }
+      },
+      "exact_outputs": {
+        "roi": {
+          "samples": 37990,
+          "means": [
+            0.47113219170970144,
+            0.46068808542965084,
+            0.45038509849663877
+          ]
+        },
+        "tissue": {
+          "samples": 37990,
+          "foreground": 37990,
+          "components": 1,
+          "labels_sha256": "f9717a2bfa7a07cb79cbb0aa3815059960e23643c838d5b6e147a4637216554b"
+        }
+      },
+      "tissue_work_budget_bytes": 268435456,
+      "estimated_tissue_work_bytes": 4591712,
+      "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+      "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+      "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+      "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+      "performance_accepted": false
+    },
+    {
+      "schema": "qpx.roi-sampling-observation/1",
+      "size": 1024,
+      "shape": "complex",
+      "order": [
+        "coverage",
+        "winding"
+      ],
+      "timed_repetitions": 3,
+      "request_and_analysis_ms": {
+        "roi": {
+          "coverage": [
+            119.1097,
+            114.6111,
+            120.4944
+          ],
+          "winding": [
+            143.3258,
+            135.3723,
+            149.7298
+          ]
+        },
+        "tissue": {
+          "coverage": [
+            134.5182,
+            135.5243,
+            126.8883
+          ],
+          "winding": [
+            163.2159,
+            160.0999,
+            160.5574
+          ]
+        }
+      },
+      "exact_outputs": {
+        "roi": {
+          "samples": 607773,
+          "means": [
+            0.45181789479559326,
+            0.4527593532079948,
+            0.4525855941479408
+          ]
+        },
+        "tissue": {
+          "samples": 607773,
+          "foreground": 607773,
+          "components": 1,
+          "labels_sha256": "4694b95c422cab08659db0c610138307d5ab08a92592d5eb8067bd32de4fa873"
+        }
+      },
+      "tissue_work_budget_bytes": 268435456,
+      "estimated_tissue_work_bytes": 13709952,
+      "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+      "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+      "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+      "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+      "performance_accepted": false
+    }
+  ],
+  "raw_child_sha256": {
+    "square-hole-256-0.json": "b077f3e3cf1bb0ceb108d5c8fd4431016fec4c8a8ddab02c168e2fa97bd2ee55",
+    "square-hole-256-1.json": "2d2dca72a1cd4e83fbc78aa784f2345d5758d306a8b017dad487b7f277b2557c",
+    "square-hole-256-2.json": "8647e4d1889acb806537b4cae44efe571f66b27db3198b30f2dc2f24aaf42625",
+    "square-hole-256-3.json": "efc3e7ec969be0c901a0740f0e3b37042b91651bf5a320b0dba6e5d9bce2c8d1",
+    "square-hole-256-4.json": "7fcf1d65da96d5c6565cc5dac80e7ee32525f733fcc7298d314fd4d6e7503660",
+    "square-hole-256-5.json": "ffbbf7e1e878be69ffaba3ede94c6d8f6fe044699834e74a8226b46eda75e7b5",
+    "square-hole-256-6.json": "ac696df5c4b8fc3458adbb0be6c13832a1d9bc01107471609d3c6b2cec789e99",
+    "square-hole-256-7.json": "acab1ab0fa2a38500846ba1961e861b41233633f6f1659d1b2e3835ec9708630",
+    "square-hole-256-8.json": "3c28ac95d85483388ce761aac175eafd57d6524061b7f86582b5f2f499d5c060",
+    "square-hole-1024-0.json": "2570d9f9fecaed8bf9fb103ad77adc23396f08c4514b8b569199e6e4f7cdb8eb",
+    "square-hole-1024-1.json": "64efedebcdc44fdf66561e358c43a3479857f390e91ae4892a65adfe17403171",
+    "square-hole-1024-2.json": "0bf75371195d27bbe0e7c8b85fda72636badfa15f5568acc2b66c001f48011a6",
+    "square-hole-1024-3.json": "e1841ecb150214dd28fb62a18b3383fa08d5b07ab89809b8afe6f6d396bf964e",
+    "square-hole-1024-4.json": "64f3cec51fc29c5295100437615f173e49d0f3a241c9ea0c8d510794be5b91f1",
+    "square-hole-1024-5.json": "119a0313b3483386cef906c8bfcd1c5b02b65617798487f3bc90d90a8c4f9b1d",
+    "square-hole-1024-6.json": "5f74c3be947e39be6b5acb377cbd66c31c58a381d80c2481a7e8d8a61fa76bfb",
+    "square-hole-1024-7.json": "ff2f519df4028d33b8c1b3e2c50e406ffbc4f4126d1be078d78ff8d67b070eab",
+    "square-hole-1024-8.json": "f54b99aec420acf1fa19a9b6155a099b7658745fd6da92a1266881663b9371a3",
+    "complex-256-0.json": "518966b6dc3e2c527fd9637d8c07d396761d810baa32636887a3268c6306a159",
+    "complex-256-1.json": "f8ce5a49b27ed1ad548b56c305b6fa7b314fbd29205ca95221a26e517ed7b6dd",
+    "complex-256-2.json": "2bad06a57f56ec89a428a1fd42f59c81bc2d6118ee0d1a70f8b8c13da56f0950",
+    "complex-256-3.json": "900bcc2143f201cb97c2b80f27208de3b012584f9ff01e978a2b6b2877271d94",
+    "complex-256-4.json": "ce08482c642d15852c23b4f32dffcee08c72a785a934fa5fae0caa60ce119824",
+    "complex-256-5.json": "901892b5b595c920eaac08ab4f80a78c956ea1ec0c6700a415c68a05268c2cd9",
+    "complex-256-6.json": "b83bb155c09a1f0843578457ddfe6acd1d09bd3a063dd9199be73ab3766b2475",
+    "complex-256-7.json": "286abbb164215811ac29530a05ecce58263bc263fca87a6ffc55ed3f3a50d216",
+    "complex-256-8.json": "4562dd1ffd3f03b7e2c93419a0a076c677132f49487269688b684dfac51bd48c",
+    "complex-1024-0.json": "1c78adaf6c4ecd405c9ba661b602ef27c160e0d0e6bf9b75f3f5fcb0677f25d1",
+    "complex-1024-1.json": "f924a9c686632372fc840178dc2fdf64543c6a22693c87f6a1a272318f5b34ab",
+    "complex-1024-2.json": "732bd9ae7861d5a79edc94c3e098701f2a2106eac719b0b0ed71759dfa623912",
+    "complex-1024-3.json": "32eb9594453b24f22b33785562e03a931c92296dccda6faae46fe8c9edcff38e",
+    "complex-1024-4.json": "085bb0de58c61eb632bda6546c7c9535f994cbd732ebbc40d876c2320a9097c8",
+    "complex-1024-5.json": "ebe39357d8fc67591ca6573600f6d9889b808e25fe80c1a601ee50068c4f6c4b",
+    "complex-1024-6.json": "9919d773c4799cbaa666d28c2d2bc756fe26f4faf2940a6c51aa67a9bddaed08",
+    "complex-1024-7.json": "61dfa52e750bd6bab61294c4f78ed89e2f5949f784cf5a061604482d8fec7a79",
+    "complex-1024-8.json": "a3c5d035c07ab615e62cced2c805769c86760685942290e3c9616e5f39ed7602"
+  },
+  "all_numeric_outputs_equal": true,
+  "performance_accepted": false,
+  "published_text_encoding": "UTF-8 LF",
+  "scope": "Corrected Windows binary only. Synthetic warm ROI/tissue calls, exact paired output checks and raw timings. No RSS, cold startup, slide decoding, biology, GPU/frame, supported hardware or universal parity/speedup acceptance. Other system activity is uncontrolled."
+}

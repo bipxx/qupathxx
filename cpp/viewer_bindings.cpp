@@ -36,6 +36,7 @@ void bind_viewer_session(nb::module_& m) {
         .def("analyze_raw",&ViewerSession::analyze_raw,"image_id"_a,"request"_a,"object_id"_a=0,"nucleus"_a=false,"retain_result"_a=false)
         .def("verify_raw_analysis",&ViewerSession::verify_raw_analysis,"image_id"_a,"record_id"_a)
         .def("export_raw_measurements",&ViewerSession::export_raw_measurements,"image_id"_a,"path"_a,"require_current"_a=false,"record_ids"_a=std::vector<std::uint64_t>{})
+        .def("analyze_with_sampling_policy",&ViewerSession::analyze_with_sampling_policy,"image_id"_a,"object_id"_a,"transform"_a,"sampling_policy"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
         .def("analyze",&ViewerSession::analyze,"image_id"_a,"object_id"_a,"transform"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
         .def("tissue",&ViewerSession::tissue,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=TissueParameters{},"retain_result"_a=false)
         .def("cells",&ViewerSession::cells,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=CellParameters{},"retain_result"_a=false)

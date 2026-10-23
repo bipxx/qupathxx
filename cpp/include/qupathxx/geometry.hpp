@@ -28,6 +28,8 @@ struct PolygonPart {
 };
 enum class RoiKind { Rectangle=0, Ellipse=1, Polygon=2, MultiPolygon=3, Polyline=4, Points=5 };
 enum class BooleanOp { Union, Intersection, Difference, SymmetricDifference };
+enum class RoiSamplingPolicy { GeometryCoverage=0, PolygonWinding=1 };
+void validate_sampling_policy(RoiSamplingPolicy);
 // Immutable shared geometry. Rectangle bounds remain available through the
 // legacy Annotation.roi Python property, but this is the authoritative shape.
 class Roi {
@@ -46,6 +48,10 @@ public:
     double scaled_length(double x_scale,double y_scale) const;
     bool is_area() const;
     bool contains(Point) const;
+    // Explicit sample-domain policy. Geometry hit-testing remains contains().
+    // Winding changes only polygon edges; analytic/non-area shapes retain their
+    // existing membership. Valid polygon shells/holes are interpreted by role.
+    bool contains_sample(Point,RoiSamplingPolicy) const;
     bool covers(const Roi&) const;
     double distance(Point) const;
     Roi translated(double dx,double dy) const;

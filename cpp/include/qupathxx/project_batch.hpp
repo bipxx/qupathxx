@@ -21,6 +21,7 @@ struct ProjectBatchOptions {
     PixelStreamOptions pixels;
     std::uint64_t pixel_file_limit=1ULL<<40,pixel_total_limit=1ULL<<40;
     RawRegionRequest raw;bool raw_follow_display=true;std::uint64_t raw_max_pixels=1000000000;
+    RoiSamplingPolicy roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
     void validate() const;
 };
 struct ProjectBatchSelection {std::uint64_t image_id=0;std::vector<std::uint64_t> object_ids;};

@@ -3879,3 +3879,83 @@ qualifies the accepted physical-area/viewer source, with the declared small
 consumer fixture. New winding-sampling changes, GUI/macOS, scientific/biological
 accuracy, hardware/RSS/frame budgets, license and supported-release gates remain
 open. The full M0-M7 objective stays active.
+
+
+## Packet109: explicit polygon-winding sampling candidate
+
+Native ROI channel means and tissue masks capture `RoiSamplingPolicy`, with
+geometry coverage as the existing default and explicit polygon winding for
+half-open boundary samples. Prepared GEOS predicates handle interior/exterior;
+only boundary samples traverse native rings. The option reaches nanobind, native
+CLI, batch manifests/checkpoint identity, ImGui/image presets and managed viewer
+commands. ROI algorithm/input identifiers and QTM2 tissue archives preserve
+policy across save/recovery/replay; QTM1 coverage remains readable and unchanged.
+Unknown policies and cross-policy verification reject. Cell segmentation itself
+is unchanged. See the [sampling contract](roi-sampling.md).
+
+Both local native builds pass (Windows 43 suites, Linux 42) with identical
+source-content fingerprint 724c58ac89682a214f59df3c413cd68609dd3fd95170c993f4ef929f04231176.
+Windows focused validation passes 384 Python/desktop cases with three scientific
+expected failures, alongside installed runtime, stubs and strict typing. Explicit
+winding matches all 42 pinned reference compartments at unchanged count/mask and
+OD/stain tolerances across three tile sizes. The three isolated-cell segmentation
+gates remain strict expected failures; legacy boundary characterization remains.
+
+The first Linux full run has 1,704 passes and two packaging failures from stale
+generated stubs (401 optional skips, three scientific expected failures). Those
+stubs are regenerated; a subsequent policy/package run passes 25 cases with three
+desktop skips, including pyramid/morphology replay. Four first pyramid tests
+needed an explicit file-backed source path in their setup; the corrected tests
+also pass on Windows. A subsequent Linux full attempt is invalidated by host disk
+exhaustion and WSL emergency read-only I/O errors. Inactive build-cache clean and
+compression free space; no WSL repair is attempted. Windows full regression and
+fresh hosted Linux/Windows acceptance remain pending. The paired ROI/tissue
+profiler is implemented and a Windows complex-polygon child smoke passes; full
+performance observations remain pending. This candidate does not complete
+biology, hardware/RSS/frame, platform/release/license or the full M0-M7 plan.
+
+
+Packet-109 visual validation exposed an exact-boundary arithmetic defect after
+the initial 2,098-pass Windows full run (13 optional skips, three scientific
+expected failures). A 223-pixel diagonal triangle wrongly included four boundary
+centers: 24,980 samples instead of 24,976. Three direct regressions fail against
+the first binary; six reversed/translated cases already pass. The boundary-only
+crossing now uses robust GEOS orientation instead of interpolated intersections.
+Coverage/picking remains unchanged. Native counts, two sizes, both orientations,
+translations and ROI/tissue counts are covered. Rebuild and validation are pending;
+run 40037162200 at 94c74a4 is cancelled as superseded. The initial performance
+observations and full passes identify the pre-fix binary and cannot accept this
+fix. Main promotion remains withheld.
+
+
+Corrected packet-109 Windows validation passes 43 native suites and 393 focused
+Python/desktop tests with three scientific expected failures. All 35 policy cases,
+installed workflows, generated stubs and strict positive/negative typing pass.
+The large diagonal now has exactly 24,976 ROI and tissue samples; the visually
+inspected desktop shows both winding selectors and saved results with zero UI
+overflow. [Paired observations](roi-sampling-performance.md) retain 32 corrected
+fresh-process pairs and four excluded warmups, exact numeric output checks and
+actual native/source/profiler identities. Their 0.4-23.5 ms paired median overhead
+on synthetic warm workloads keeps optimization open; no uniform runtime, RSS,
+biology or hardware acceptance is claimed. Native source projection proves all
+242 build inputs match corrected commit 14788f23325d74dcb2ff016d82d994786eecd999
+up to checkout CRLF. Corrected full Windows regression and hosted run 40039352934
+remain pending; main promotion and all other M0-M7 gates remain open.
+
+
+Packet 109 corrected acceptance is complete at source
+14788f23325d74dcb2ff016d82d994786eecd999, hosted run 40039352934. All five jobs
+pass and the artifact audit verifies 35 policy cases on desktop (32 headless
+passes plus three desktop skips), all nine robust diagonal cases, the 42 pinned
+compartment sampling checks, native/installed/standalone identities, relocation,
+full Aperio workflows, stubs and strict typing, and inherited classifier/reader/
+batch/archive checks. Desktop passes 2,109 Python/43 native, Windows headless
+1,721/42, Linux headless 1,719/42, and minimal/sanitizer each pass 42 native.
+The completed hosted overview is visually inspected. Local corrected Windows
+full regression passes 2,107 tests, with 13 optional skips and three scientific
+expected failures; its native/focused/installed/stub/typing and policy capture
+checks pass. Source/native/profile/capture receipt links are verified against
+committed UTF-8 LF bytes. The defined engineering scope is accepted for main
+promotion. Three isolated-cell segmentation gates, winding overhead optimization,
+biological/hardware/RSS/frame, current-source portable/Mac, license and supported
+release requirements remain open. The full M0-M7 goal stays active.
