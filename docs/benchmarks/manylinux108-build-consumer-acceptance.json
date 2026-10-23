@@ -415,7 +415,10 @@
       "fresh_consumer_workflows": true
     }
   ],
-  "assets_sha256": "7953565736551416096c7067ff9ffc5d2159ef3e09b760d114fceaaa91a41801",
+  "assets_sha256": "20997d3c9f207ca9d6e068c0e07f02d990d2b7ff80b944b8feb2f1b71f8a088f",
   "auditor_sha256": "5b08ab5d63122ee8298ab84d3a103049cff3b64253e92ccb529c9e9b81450cef",
-  "scope": "Declared headless CPython ABI and fresh Debian consumer workflows only. Project license, supported release, GUI/macOS, scientific and hardware acceptance remain separate gates."
+  "scope": "Declared headless CPython ABI and fresh Debian consumer workflows only. Project license, supported release, GUI/macOS, scientific and hardware acceptance remain separate gates.",
+  "captured_assets_sha256": "7953565736551416096c7067ff9ffc5d2159ef3e09b760d114fceaaa91a41801",
+  "captured_auditor_sha256": "5b08ab5d63122ee8298ab84d3a103049cff3b64253e92ccb529c9e9b81450cef",
+  "evidence_hash_convention": "Artifact evidence retains original downloaded bytes. Auditor and assets hashes identify committed UTF-8 LF files; captured hashes retain the equivalent Windows checkout bytes used for the audit."
 }
