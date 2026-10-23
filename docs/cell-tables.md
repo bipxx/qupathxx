@@ -1,5 +1,9 @@
 # Cell measurement tables
 
+Opt-in [capture-time calibrated features](calibrated-cell-features.md) add sampled
+areas in square micrometers and centroid coordinates in micrometers using the
+saved run's calibration. Default schema-1 exports retain their existing layout.
+
 Archived cell features export through the native C++ engine as deterministic
 UTF-8 CSV. The file contains one row per cell, keyed by `(record_id, cell_label)`.
 It includes source/capture revisions, captured currentness, input digest, sampled

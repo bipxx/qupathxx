@@ -1,0 +1,43 @@
+{
+  "schema": "qpx.calibrated-cell-features-validation/1",
+  "state": "linux-focused-verified-full-and-windows-pending",
+  "release_ready": false,
+  "source_tree_sha256": "d4bfd70b9155ed899be8f32360fffd529373aa520ef717fabd631139d7763463",
+  "native_sha256": "f85ad552b9fab424a9eed82fc8c5b5c9b467efe1a9292621f648fc5856ab3111",
+  "linux": {
+    "native": {
+      "passed": 42,
+      "skipped": 0,
+      "junit_sha256": "c017659ee121857de527ba7fc2ac978ca71fab3ca6b2d7ee259c552e9d82c884"
+    },
+    "focused": {
+      "passed": 157,
+      "skipped": 2,
+      "junit_sha256": "a72623d8039652bf43b4c8decff40118f2a35fd5375536e45268fde3b530df95"
+    },
+    "stubs_match": true,
+    "strict_typing": true
+  },
+  "scope": "Native capture-time sampled areas and centroids, opt-in CSV v2, Python, standalone project CSV command; Windows GUI validation pending.",
+  "precision_regression": {
+    "before_fix_failed": true,
+    "independent_reference": "80-digit Decimal products from exact input doubles",
+    "before_junit_sha256": "c52d99e2c231b19648d48e41b445b68c9f5abd38d314468dc87861b49cc3a219",
+    "after_passed": true
+  },
+  "superseded_full_run": {
+    "passed": 1651,
+    "optional_skips": 392,
+    "strict_expected_failures": 4,
+    "failures": 1,
+    "failure": "Source fingerprint rejected the older binary after the precision source edit.",
+    "junit_sha256": "c90d792b8fb26b8f43fb2afa9e812b16eb8508025397b83f56e75f9679582d88"
+  },
+  "benchmark_smoke": {
+    "rows": 1024,
+    "output_verified": true,
+    "performance_accepted": false,
+    "reason": "Concurrent compilation and tests; timing is not accepted performance evidence.",
+    "report_sha256": "c9eb3520f3e472c8efc6e54c88f2f797bc0198e49b87749c5700b3b92b6f4a40"
+  }
+}

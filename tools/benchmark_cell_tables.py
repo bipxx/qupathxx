@@ -11,6 +11,7 @@ import time
 
 import numpy as np
 import qupathxx as q
+from qupathxx import _native
 
 
 def main():
@@ -19,6 +20,7 @@ def main():
     parser.add_argument("--records",type=int,default=8)
     parser.add_argument("--objects",type=int,default=0)
     parser.add_argument("--gui",action="store_true")
+    parser.add_argument("--capture-calibration",action="store_true")
     parser.add_argument("--output",type=Path,default=Path("build/cell-tables.json"))
     args=parser.parse_args()
     if args.size not in [128,256,512] or not 1<=args.records<=8 or not 0<=args.objects<=100000:
@@ -27,6 +29,7 @@ def main():
     mask=np.abs(xx % 4-2)+np.abs(yy % 4-2)<=1
     rgb=np.where(mask[...,None],0,255).repeat(3,axis=2).astype(np.uint8)
     doc=q.Document(q.Image(args.size,args.size,rgb.ravel().tolist()))
+    if args.capture_calibration:doc.set_calibration(.5,.25)
     doc.set_history_limits(0,0)
     if args.objects:
         doc.execute([q.ObjectEdit.create_geometry(q.Roi.rectangle(q.Rect(i % args.size,(i//args.size) % args.size,.5,.5))) for i in range(args.objects)])
@@ -39,9 +42,11 @@ def main():
     result=q.detect_cells(source)
     assert result.cell_count==(args.size//4)**2 and all(f.nucleus_pixels==5 and f.cell_pixels==5 for f in result.features)
     ids=[doc.keep_cells(source,result) for _ in range(args.records)]
-    captured=q.CellTableRequest(doc)
-    native=next(Path(q.__file__).parent.glob("_native*.pyd"),None)
-    output=dict(native_sha256=hashlib.sha256(native.read_bytes()).hexdigest() if native else None,platform=platform.platform(),pixels=mask.size,cells_per_run=result.cell_count,records=args.records,
+    table_options=q.CellTableOptions();table_options.include_capture_calibration=args.capture_calibration
+    captured=q.CellTableRequest(doc,options=table_options)
+    native=Path(_native.__file__)
+    output=dict(native_sha256=hashlib.sha256(native.read_bytes()).hexdigest(),source_tree_sha256=q.build_environment().source_tree_sha256,
+                capture_calibration=args.capture_calibration,platform=platform.platform(),pixels=mask.size,cells_per_run=result.cell_count,records=args.records,
                 rows=captured.row_count,snapshot_bytes=captured.snapshot_bytes,capture_ms=captured.capture_ms,
                 detector_ms=result.elapsed_ms,input_sha256=result.nuclei.input_sha256,objects=doc.object_count)
     with tempfile.TemporaryDirectory(prefix="qpx-cell-tables-") as directory:
@@ -59,11 +64,15 @@ def main():
         assert len(parsed)==captured.row_count and status.bytes==len(data)
         assert {int(r["record_id"]) for r in parsed}==set(ids)
         assert all(r["nucleus_samples"]==r["cell_samples"]=="5" and r["cytoplasm_samples"]=="0" and r["cytoplasm_mean_r"]=="" for r in parsed)
+        if args.capture_calibration:
+            assert all(float(r['nucleus_sample_area_um2'])==.625 and float(r['cell_sample_area_um2'])==.625
+                       and float(r['cytoplasm_sample_area_um2'])==0 for r in parsed)
         assert data==q.cell_measurements_csv(captured).encode()
         output.update(bytes=status.bytes,submit_ms=submit_ms,write_ms=status.write_ms,max_poll_ms=max_poll,
                       rows_per_second=captured.row_count/(status.write_ms/1000),sha256=hashlib.sha256(data).hexdigest())
         if args.gui:
             options=q.GuiOptions();options.cell_table_path=str(path)
+            options.cell_table_capture_calibration=args.capture_calibration
             def event(frame,kind,wait=q.GuiInputWait.IMMEDIATE):
                 e=q.GuiInput();e.frame,e.kind,e.wait_for=frame,kind,wait;return e
             options.inputs=[event(4,q.GuiInputKind.SELECT_ALL_KEY),event(20,q.GuiInputKind.EXPORT_CELL_TABLE_KEY),
@@ -71,7 +80,7 @@ def main():
             report=q.show(doc,frame_limit=180,options=options)
             assert report.cell_table_state=="succeeded" and report.cell_table_rows==result.cell_count
             assert len(report.selected_ids)==args.objects+1
-            assert path.read_bytes()==q.cell_measurements_csv(doc,[ids[-1]]).encode()
+            assert path.read_bytes()==q.cell_measurements_csv(doc,[ids[-1]],options=table_options).encode()
             output.update(selected=len(report.selected_ids),visible=report.visible_objects,cpu_frame_p95_ms=report.cpu_frame_p95_ms,
                           max_cpu_frame_ms=report.max_cpu_frame_ms,gui_capture_ms=report.cell_table_capture_ms,
                           gui_write_ms=report.cell_table_write_ms,canvas_gpu_bytes=report.overlay_cache_bytes,gl_renderer=report.gl_renderer)

@@ -5,6 +5,7 @@
 #include <chrono>
 #include <cstring>
 #include <future>
+#include <initializer_list>
 #include <map>
 #include <numeric>
 #include <tuple>
@@ -100,6 +101,36 @@ void CellParameters::validate() const {
 }
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,CellParameters p):
     source_(choose(doc,id,transform,p)),parameters_(p),reader_(doc.server()),transform_(transform),object_revision_(doc.annotation(id).revision),document_revision_(doc.revision()) {work_=estimate(source_,p);}
+CalibratedCellFeature CellResult::calibrated_feature(std::uint32_t label) const {
+    if(!label || label>features_.size()) throw std::out_of_range("cell label is outside this result");
+    CalibratedCellFeature value;value.label=label;
+    const auto& provenance=nuclei_->provenance();
+    if(!provenance) return value; // Legacy archives do not invent calibration.
+    value.pixel_width_um=provenance->effective_pixel_width_um;
+    value.pixel_height_um=provenance->effective_pixel_height_um;
+    if(!value.pixel_width_um || !value.pixel_height_um) return value;
+    auto product=[](std::initializer_list<double> factors) {
+        double result=1;bool zero=false,subnormal=false;
+        for(auto factor:factors) {if(!std::isfinite(factor) || factor<0) throw std::invalid_argument("invalid calibrated cell factor");zero=zero || factor==0;result*=factor;subnormal=subnormal || std::fpclassify(result)==FP_SUBNORMAL;}
+        if(zero) return 0.;
+        if(!std::isfinite(result) || result==0 || subnormal) {
+            double mantissa=1;int exponent=0;
+            for(auto factor:factors) {int part=0,adjust=0;mantissa*=std::frexp(factor,&part);mantissa=std::frexp(mantissa,&adjust);exponent+=part+adjust;}
+            result=std::scalbn(mantissa,exponent);
+        }
+        if(!std::isfinite(result) || result==0) throw std::overflow_error("calibrated cell feature is not representable");
+        return result;
+    };
+    const auto& feature=features_[label-1];const auto scale=nuclei_->downsample();
+    const auto x=*value.pixel_width_um,y=*value.pixel_height_um;
+    value.nucleus_sample_area_um2=product({double(feature.nucleus_pixels),scale,scale,x,y});
+    value.cell_sample_area_um2=product({double(feature.cell_pixels),scale,scale,x,y});
+    value.cytoplasm_sample_area_um2=product({double(feature.cell_pixels-feature.nucleus_pixels),scale,scale,x,y});
+    const auto a=nuclei_->components().at(label-1).centroid,b=cells_->components().at(label-1).centroid;
+    value.nucleus_centroid_um=Point{product({a.x,x}),product({a.y,y})};
+    value.cell_centroid_um=Point{product({b.x,x}),product({b.y,y})};
+    return value;
+}
 std::size_t CellResult::retained_bytes() const {return sizeof(CellResult)+markers_.capacity()*sizeof(CellMarker)+features_.capacity()*sizeof(CellFeature)+(nuclei_?nuclei_->retained_bytes():0)+(cells_?cells_->retained_bytes():0)+(nucleus_contours_?nucleus_contours_->retained_bytes():0)+(cell_contours_?cell_contours_->retained_bytes():0);}
 struct CellKernel {
     static std::shared_ptr<const TissueResult> raster(const CellRequest& request,std::vector<std::uint32_t> labels,std::size_t count,const std::string& digest,std::uint64_t samples,std::uint64_t threshold,bool body,const std::atomic<bool>* cancelled) {

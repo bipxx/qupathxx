@@ -49,6 +49,12 @@ struct CellFeature {
     ColorVector nucleus_rgb{},cell_rgb{},nucleus_channels{},cell_channels{};
     std::optional<ColorVector> cytoplasm_rgb,cytoplasm_channels;
 };
+struct CalibratedCellFeature {
+    std::uint32_t label=0;
+    std::optional<double> pixel_width_um,pixel_height_um;
+    std::optional<double> nucleus_sample_area_um2,cell_sample_area_um2,cytoplasm_sample_area_um2;
+    std::optional<Point> nucleus_centroid_um,cell_centroid_um;
+};
 class CellResult : public std::enable_shared_from_this<CellResult> {
 public:
     CellResult(const CellResult&)=delete;
@@ -59,6 +65,8 @@ public:
     const std::shared_ptr<const TissueContours>& nucleus_contours() const {return nucleus_contours_;}
     const std::shared_ptr<const TissueContours>& cell_contours() const {return cell_contours_;}
     const std::vector<CellFeature>& features() const {return features_;}
+    // O(1), capture-time sampling geometry; never consults a live Document.
+    CalibratedCellFeature calibrated_feature(std::uint32_t label) const;
     const std::vector<CellMarker>& markers() const {return markers_;}
     std::size_t raw_peaks() const {return raw_peaks_;}
     double elapsed_ms() const {return elapsed_ms_;}

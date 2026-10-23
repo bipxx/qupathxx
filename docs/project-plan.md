@@ -3626,3 +3626,30 @@ The revised packet99 Linux full installed suite subsequently passes 1,644 tests,
 cases). Its JUnit identity is added to the revised validation receipt. The local
 Windows GUI suite continues, and hosted packet99, portable and native macOS
 acceptance remain pending. No main promotion of the optimization is inferred.
+
+### Packet100: captured physical cell features and versioned table export
+
+[Calibrated cell features](calibrated-cell-features.md) derive sampled nucleus,
+cell and cytoplasm areas and level-zero centroid coordinates from immutable
+capture-time provenance. Lookup uses retained statistics without pixel reads.
+Unknown or legacy calibration stays unknown; current document calibration is
+never substituted. Fractional pyramid levels and anisotropic axes are supported.
+Subnormal intermediate products use normalized multiplication; an independent
+80-digit Decimal regression reproduces the earlier precision loss and passes
+after the correction. Unrepresentable final values reject export atomically.
+
+An opt-in native/Python/desktop table option adds nine fields and schema `/2`;
+default `/1` exports retain their layout. The standalone project CSV command
+shares snapshot formatting, atomic output, cancellation and input/linked-image
+alias protection. Project reopen and missing-source history exports are covered.
+The table benchmark accepts the same calibration option and verifies physical
+sample areas before recording timings.
+
+The provisional [Linux receipt](benchmarks/calibrated-cell-features-linux.json)
+records 42 passing native suites, 157 focused Python passes with two optional
+skips, matching stubs and strict positive typing. A 1,024-row benchmark smoke
+verifies output under concurrent load; its timings are not performance evidence.
+The earlier full run rejects an older binary's source identity after the
+precision edit; that failure is retained. A fresh full regression and Windows
+desktop validation remain required. Physical detection filters, scientific
+segmentation acceptance and every other open M0–M7 requirement remain open.
