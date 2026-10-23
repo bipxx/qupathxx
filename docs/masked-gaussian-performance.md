@@ -155,8 +155,9 @@ short-kernel ratios are effectively neutral observations; these samples do not
 establish statistical significance or uniform hardware performance. The original
 mixed-result recordings remain available. Linux full regression for the revised
 source passes 1,644 tests with 389 optional skips and four scientific expected
-failures. Windows full regression is still running, and the optimization remains
-on a validation branch. Project-wide
+failures. Windows full regression completes with 2,023 passes, ten optional skips
+and four scientific expected failures. The optimization remains on a validation
+branch pending its hosted checks. Project-wide
 performance, scientific acceptance and the original intermittent wait stay open.
 
 ## Reproducing the paired kernel probe

@@ -3619,10 +3619,13 @@ artifact/runtime, reader, typing and standalone checks. Each Python environment
 retains exactly four scientific expected failures. The desktop frame is visually
 inspected. This accepts the initial source's declared functional scope, not the
 packet99 revision or uniform performance. Run 39999426023 is the separate
-pending hosted check for packet99; local full regression is also running.
+pending hosted check for packet99; both local full regressions are now complete.
 
 The revised packet99 Linux full installed suite subsequently passes 1,644 tests,
 389 optional skips and four strict scientific expected failures (2,037 collected
-cases). Its JUnit identity is added to the revised validation receipt. The local
-Windows GUI suite continues, and hosted packet99, portable and native macOS
-acceptance remain pending. No main promotion of the optimization is inferred.
+cases). The Windows GUI suite also completes: 2,023 passes, ten optional skips
+and four strict scientific expected failures, again 2,037 collected cases.
+Both JUnit identities are recorded in the revised validation receipt. Hosted
+packet99, portable and native macOS acceptance remain pending. The original
+intermittent wait remains unresolved; these successful runs do not establish its
+cause or a fix. No main promotion of the optimization is inferred.
