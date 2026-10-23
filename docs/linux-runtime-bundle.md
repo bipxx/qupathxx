@@ -63,7 +63,14 @@ The [manylinux qualification pipeline](manylinux-qualification.md) separately
 builds against an older baseline and checks fresh consumers; its hosted acceptance
 remains pending.
 
-These are local development-candidate gates. Hosted acceptance, older-system
-ABI/manylinux qualification, macOS distribution, supported installers and the
+The [hosted artifact audit](benchmarks/linux-runtime-ci-windows-linux.json) accepts
+this scope at commit `5bfb9de85f607146c1c809c1360dd97af554271a`. All five jobs pass:
+Windows desktop 1,968 Python/41 native, Windows headless 1,590 Python/40 native,
+Linux headless 1,588 Python/40 native, and 40 native checks each for Linux minimal
+and ASan/UBSan. Runtime records match the installed native and wheel artifacts;
+all package-local runtime and relocation checks pass, including all four Linux
+configuration cases. The captured desktop overview is visually inspected.
+
+Older-system ABI/manylinux qualification, macOS distribution, supported installers and the
 unanswered project-license decision remain open. Scientific/QuPath and hardware
 acceptance have their own outstanding gates in the project plan.
