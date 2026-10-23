@@ -3389,7 +3389,17 @@ uses `$ORIGIN`, resolves both package-local GEOS libraries without SDK search
 paths and processes an embedded project. This checks that the GEOS-only path is
 independent of OpenSlide's existing loader setup.
 
-Hosted packet92 acceptance remains pending. The candidate is not yet an audited
-manylinux or supported cross-distribution release; system ABI qualification,
+Hosted packet92 acceptance is recorded in the
+[five-job artifact audit](benchmarks/linux-runtime-ci-windows-linux.json), run
+39981903974 at exact commit `5bfb9de85f607146c1c809c1360dd97af554271a`.
+Windows desktop passes 1,968 Python and 41 native tests; Windows headless passes
+1,590 Python and 40 native tests; Linux headless passes 1,588 Python and 40 native
+tests. Linux minimal and ASan/UBSan each pass 40 native tests. The audit checks
+artifact/native identities, full reader hashes, overview controls and completed
+frame, fixture-trained models, typing, standalone payloads and the exact relocated
+Linux runtime/notice probe. All four Linux bundle configuration cases pass.
+The completed desktop frame is visually inspected. This accepts the declared
+runtime-bundling scope; the candidate is not yet an audited
+manylinux or supported cross-distribution release. System ABI qualification,
 macOS packaging, supported installers, project-license selection and the other
 M0–M7 format/scientific/hardware gates remain open.
