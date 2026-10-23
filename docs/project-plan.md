@@ -3862,3 +3862,20 @@ JSON and text hashes are verified against committed UTF-8 LF bytes. Scientific,
 biological, hardware/RSS/frame, supported-release and all other M0–M7 gates remain
 open. Portable qualification of the accepted physical-area/viewer source is now
 running as 40031349839 on validation/portable-viewer-cells-108.
+
+
+## Packet108: physical-area/viewer portable qualification
+
+Hosted run 40031349839 completes successfully at exact source
+201bd8ed266d4803defd7321390b930cafe9dcb7. The committed artifact auditor accepts
+CPython 3.11 and 3.12 headless manylinux_2_28_x86_64 wheels and both pinned fresh
+Debian consumers. Each builder passes 42 native suites and 1,686 Python cases;
+each consumer passes 1,670 Python cases. Four scientific expected failures
+remain per Python cohort, with optional skips retained in the receipt.
+The [portable qualification record](manylinux-qualification.md#physical-area-and-managed-viewer-engine-follow-up)
+binds wheel/native/runtime hashes, policy, pinned assets/notices, relocation,
+stubs/typing and fresh reader/project/analysis/export/batch workflows. This
+qualifies the accepted physical-area/viewer source, with the declared small
+consumer fixture. New winding-sampling changes, GUI/macOS, scientific/biological
+accuracy, hardware/RSS/frame budgets, license and supported-release gates remain
+open. The full M0-M7 objective stays active.

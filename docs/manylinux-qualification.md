@@ -118,7 +118,7 @@ qualifies CPython 3.11/3.12 wheels at exact source
 `03ed2828c262415263a1e8e1f75eccc7e68dd9d6`, including fresh Debian consumers.
 This establishes the pipeline on its older engine revision. Current Gaussian
 and calibrated-cell sources need a new qualification run before their artifacts
-can claim that policy. Supported release and the other M0–M7 requirements remain
+can claim that policy. Supported release and the other M0鈥揗7 requirements remain
 open.
 
 
@@ -143,11 +143,20 @@ accuracy, hardware budgets and supported releases remain open; `release_ready`
 stays false.
 ## Physical-area and managed-viewer engine follow-up
 
-The physical-area and managed-viewer engineering scopes are now accepted on
-main. Their source-content revision `201bd8ed266d4803defd7321390b930cafe9dcb7`
-is undergoing portable qualification in
+The physical-area and managed-viewer engineering scopes are accepted on main.
+Their exact source-content revision `201bd8ed266d4803defd7321390b930cafe9dcb7`
+now passes both builders, both fresh consumers and the
+[artifact audit](benchmarks/manylinux108-build-consumer-acceptance.json) in
 [run 40031349839](https://github.com/bipxx/qupathxx/actions/runs/40031349839).
-This run must pass both builders, both fresh consumers and the artifact auditor
-before its wheels can claim the policy. The accepted older-engine receipt above
-does not qualify these additional source changes. Supported-release and all
-other scientific/hardware/platform gates remain separate.
+CPython 3.11 and 3.12 each pass 42 native suites, 1,686 builder Python cases
+and 1,670 fresh-consumer Python cases, retaining four scientific expected
+failures per Python cohort. Optional skips are recorded in the receipt.
+
+The auditor checks wheel/native/runtime identities, pinned assets and notices,
+ELF policy/tags, relocation, stubs and strict typing, and fresh Debian reader,
+project, analysis, CSV and batch workflows. These remain headless
+`manylinux_2_28_x86_64` candidates. Fresh consumers use the pinned small Aperio
+fixture; their skips do not establish full-pyramid vendor coverage. GUI/macOS,
+project license, biological accuracy, hardware budgets and supported releases
+remain open; `release_ready` stays false. The winding-sampling work is newer
+and is not qualified by this receipt.
