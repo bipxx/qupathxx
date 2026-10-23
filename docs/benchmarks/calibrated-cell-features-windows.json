@@ -1,6 +1,6 @@
 {
   "schema": "qpx.calibrated-cell-features-validation/1",
-  "state": "windows-focused-verified-full-and-hosted-pending",
+  "state": "windows-full-verified-hosted-pending",
   "release_ready": false,
   "source_tree_sha256": "d4bfd70b9155ed899be8f32360fffd529373aa520ef717fabd631139d7763463",
   "native_sha256": "68aa8ecfd20eb122591a1fae9210203fc27f23f8f44a00667d2bb0b1ef435560",
@@ -54,7 +54,27 @@
     }
   },
   "gui_cell_table_test_sha256": "fb0e34b2538af6a46e0c6bfb39593748257be1d5e2b9e752df8d2a44c707c7b1",
-  "full_regression": "running",
+  "full_regression": {
+    "passed": 2035,
+    "failures": 0,
+    "skipped": 17,
+    "junit_sha256": "deae7e750051b44126303da0090d2b8a5beb03b38232eb703e808418bd388565",
+    "optional_skips": 13,
+    "strict_expected_failures": 4,
+    "skip_reasons": {
+      "Linux SDK symlink semantics": 1,
+      "requires opt-in Linux GEOS SDK": 4,
+      "generate large fixture with tools/generate_large_fixture.py": 1,
+      "headless wheel contract": 1,
+      "requires generated large pyramid fixture": 1,
+      "Frozen isolated-cell QuPath acceptance gates remain unresolved": 3,
+      "Resampled polygon boundary memberships differ from QuPath": 1,
+      "GEOS-disabled configuration": 1,
+      "opt-in pinned Windows QuPath runtime": 1,
+      "file symlink creation unavailable": 2,
+      "requires generated OpenSlide pyramid": 1
+    }
+  },
   "hosted_acceptance": {
     "state": "pending",
     "run_id": 40007801590,

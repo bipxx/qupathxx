@@ -58,7 +58,10 @@ ellipse boundary. GEOS provides linear polygon area, length and predicates.
 Mean RGB samples pixel centers inside the ROI and excludes transparent pixels.
 Lines and points have zero area and reject mean-intensity requests. Physical
 calibration scales area; it does not change raw geometry or RGB sampling.
-Independent analytic tests pass; QuPath numerical comparison fixtures remain open.
+Independent analytic tests and the pinned QuPath flat geometry, calibrated
+feature and pixel-center sampling corpus pass within their documented scope;
+see [QuPath comparisons](qupath-comparisons.md). Hierarchy and interactive editing
+workflow comparisons remain separate acceptance work.
 
 ## Index and editing
 

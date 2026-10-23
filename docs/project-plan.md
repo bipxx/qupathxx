@@ -3619,13 +3619,24 @@ artifact/runtime, reader, typing and standalone checks. Each Python environment
 retains exactly four scientific expected failures. The desktop frame is visually
 inspected. This accepts the initial source's declared functional scope, not the
 packet99 revision or uniform performance. Run 39999426023 is the separate
-pending hosted check for packet99; local full regression is also running.
+pending hosted check for packet99; both local full regressions are now complete.
 
 The revised packet99 Linux full installed suite subsequently passes 1,644 tests,
 389 optional skips and four strict scientific expected failures (2,037 collected
-cases). Its JUnit identity is added to the revised validation receipt. The local
-Windows GUI suite continues, and hosted packet99, portable and native macOS
-acceptance remain pending. No main promotion of the optimization is inferred.
+cases). The Windows GUI suite also completes: 2,023 passes, ten optional skips
+and four strict scientific expected failures, again 2,037 collected cases.
+Both JUnit identities are recorded in the revised validation receipt. Hosted
+packet99 subsequently passes its [five-job artifact audit](benchmarks/gaussian-short-kernel-ci-windows-linux.json)
+at source `a961c64788ce60889d39852c17564fb4b0c3b5ae`, run 39999426023. Windows GUI
+passes 2,022 Python/42 native, Windows headless 1,644 Python/41 native, Linux
+headless 1,642 Python/41 native, and minimal/ASan/UBSan each pass 41 native tests.
+Runtime relocation, installed workflows, standalone outputs, reader checks,
+stubs/typing, fixed classifier identities and the completed desktop frame are
+audited. Four strict scientific expected failures remain in each Python job.
+The engineering scope is accepted for promotion; universal performance,
+portable/native macOS acceptance and every other open M0–M7 gate remain open.
+The original intermittent wait remains unresolved; these successful runs do not
+establish its cause or a fix.
 
 ### Packet100: captured physical cell features and versioned table export
 
@@ -3664,5 +3675,9 @@ capture-calibration option and two-row historical export with zero UI overflow.
 The new GUI test now follows the existing latest-run export contract and covers
 known and unknown calibration separately. One existing recheck/export timeout is
 retained; isolated and full focused repeats pass without proving its cause.
-The full Windows regression is running. Physical detection filters, scientific
+The full Windows regression passes 2,035 tests, with 13 optional skips and four
+strict scientific expected failures. The native calibration regression also
+passes Linux address/undefined sanitizers with leak detection in a minimal
+optional-feature configuration, without accepting the full sanitizer suite.
+Physical detection filters, scientific
 segmentation acceptance and every other open M0–M7 requirement remain open.

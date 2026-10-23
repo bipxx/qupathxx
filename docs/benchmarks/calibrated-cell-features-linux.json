@@ -32,7 +32,33 @@
       "passed": true,
       "report_sha256": "8f4ec073fa56773d57ae8a25260717d8b30f1cfb9290f6318827e3dd46729254"
     },
-    "negative_typing_errors": 7
+    "negative_typing_errors": 7,
+    "sanitized_calibration": {
+      "result": {
+        "passed": 1,
+        "skipped": 0,
+        "junit_sha256": "18c1d79105b816c3728613fa051a9aa57b04ef8834fd01b27494117064f357b9"
+      },
+      "binary_sha256": "060009d62685636378d84ed2e7ddea83d250aec341f8bd07e9b7080676b7860f",
+      "flags": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_FLAGS": "-fsanitize=address,undefined -fno-omit-frame-pointer",
+        "CMAKE_EXE_LINKER_FLAGS": "-fsanitize=address,undefined",
+        "QUPATHXX_BUILD_TESTS": "ON",
+        "QUPATHXX_BUILD_PYTHON": "OFF",
+        "QUPATHXX_BUILD_GUI": "OFF",
+        "QUPATHXX_BUILD_GEOS": "OFF",
+        "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+        "QUPATHXX_BUILD_PROJECT": "OFF",
+        "QUPATHXX_BUILD_INTERCHANGE": "OFF",
+        "QUPATHXX_BUILD_TIFF": "OFF",
+        "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "OFF"
+      },
+      "address_and_undefined_runtimes_linked": true,
+      "leak_detection": true,
+      "halt_on_error": true,
+      "scope": "Only the native cell_calibration test in a minimal optional-feature configuration; no full sanitizer-suite acceptance."
+    }
   },
   "scope": "Native capture-time sampled areas and centroids, opt-in CSV v2, Python, standalone project CSV command; Windows GUI validation pending.",
   "precision_regression": {

@@ -72,10 +72,13 @@ cell detection. Those remain separate analysis acceptance requirements.
 The [Linux validation receipt](benchmarks/calibrated-cell-features-linux.json)
 records 42 native suites, 157 focused Python tests and a full suite with 1,655
 passes, 392 optional skips and four scientific expected failures. Installed
-workflows, runtime relocation, stubs and strict typing pass. Windows desktop and
-hosted candidate acceptance remain pending. The [Windows receipt](benchmarks/calibrated-cell-features-windows.json)
+workflows, runtime relocation, stubs and strict typing pass. The native calibration
+regression also passes address/undefined sanitizers with leak detection in a
+minimal optional-feature configuration; this does not accept the full sanitizer
+suite. Hosted candidate acceptance remains pending. The [Windows receipt](benchmarks/calibrated-cell-features-windows.json)
 adds 43 native suites, 76 focused Python/GUI checks, installed workflows and
-strict typing. The full Windows suite is running. An existing export-recheck
+strict typing. The full Windows suite passes 2,035 tests, with 13 optional skips
+and four strict scientific expected failures. An existing export-recheck
 test times out once, then passes both alone and in the full focused repeat;
 the original result is retained and its cause remains unresolved.
 

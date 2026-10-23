@@ -1,6 +1,6 @@
 {
   "schema": "qpx.gaussian-short-kernel-validation/1",
-  "state": "linux-full-verified-windows-full-and-hosted-pending",
+  "state": "local-full-and-hosted-source-verified",
   "source_tree_sha256": "afedc41994196ea996789808b0c5f8d030cb7339a6516a245929243df68744a3",
   "header_sha256": "8e519ea337b13d9029733576424fbcf8ead3b4a8c223becbafb1626ac47100ce",
   "native_test_source_sha256": "a7eda8eb91706128c99ae46c05eb4983964f8983b520594b62a204e2e4c4f369",
@@ -425,16 +425,29 @@
   "full_regression": {
     "windows_session_id": 11025,
     "linux_session_id": 27061,
-    "accepted": false,
+    "accepted": true,
     "linux": {
       "state": "completed",
       "passed": 1644,
       "optional_skips": 389,
       "strict_expected_failures": 4,
       "junit_sha256": "52fe4fcfb68c0baeb3c823b7b4923b325d70b2cc00158b403d0d3a2e107b70e1"
+    },
+    "windows": {
+      "state": "completed",
+      "passed": 2023,
+      "optional_skips": 10,
+      "strict_expected_failures": 4,
+      "junit_sha256": "475245c92a78ac2d27c7547096f5ed51bbd7fafca868cf189bfb3b62f485f8a6"
     }
   },
   "uniform_hardware_performance_accepted": false,
   "release_ready": false,
-  "scope": "Original traversal retained for radii <=6, with the block traversal for larger kernels. Output signatures match the pre-optimization baseline. Paired 512\u00b2 synthetic workflow observations on one shared workstation are not universal performance or release acceptance."
+  "scope": "Original traversal retained for radii <=6, with the block traversal for larger kernels. Output signatures match the pre-optimization baseline. Paired 512\u00b2 synthetic workflow observations on one shared workstation are not universal performance or release acceptance.",
+  "hosted": {
+    "run_id": 39999426023,
+    "source_commit": "a961c64788ce60889d39852c17564fb4b0c3b5ae",
+    "conclusion": "success",
+    "scope": "Five regular engineering jobs and artifact audit; scientific and uniform hardware performance gates remain open."
+  }
 }

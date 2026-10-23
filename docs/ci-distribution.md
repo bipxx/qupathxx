@@ -105,8 +105,10 @@ minimized-window activation visibility. Windows/Linux headless pass 1026/1019
 with 253/260 skips. Native GUI passes 34 tests; all other configurations pass 33.
 The [artifact record](benchmarks/thumbnail-ci-windows-linux.json) includes the
 standalone dense/TIFF thumbnail success and default-budget Aperio rejection
-checks. The [thumbnail policy](thumbnails.md) records the unresolved Linux
-partial-tile TIFF edge case; these development candidates do not accept it.
+checks. The historical Linux partial-tile TIFF corruption is reproduced with
+OpenSlide 3.4.1 and passes exact-pixel regressions with the pinned 4.0.1 runtime;
+see [reader runtime validation](reader-runtime.md). This accepts those fixtures,
+while broader vendor and format validation remains open.
 
 [Run 39757130782](https://github.com/bipxx/qupathxx/actions/runs/39757130782)
 passes all five jobs at source revision `f12a644246025820bf9846c9378d3edc83cff134`.
