@@ -1,0 +1,418 @@
+{
+  "schema": "qpx.manylinux-preflight/1",
+  "policy": "manylinux_2_28_x86_64",
+  "windows_policy": {
+    "passed": 8,
+    "sha256": "f2abf4e3a473a6d5469b5578e36d031d6929c7b1f5f854344bc337c79ba2f17b"
+  },
+  "linux_policy": {
+    "passed": 8,
+    "sha256": "8c9cd123520ab161c8718e15a9dafc466488cbc491b5947803afb12dbc2460ff"
+  },
+  "actionlint": {
+    "version": "1.7.7",
+    "binary_sha256": "6d470a52039a433bccdf57bd65170885a5b23e511155d0de587c2c3ce0eb1c24",
+    "workflow_sha256": "680d29136221c60d795d858251a00060ada7ac3abd770b09cba4774795986a3f",
+    "passed": true
+  },
+  "inputs_sha256": "7953565736551416096c7067ff9ffc5d2159ef3e09b760d114fceaaa91a41801",
+  "baseline_rejection": {
+    "schema": "qpx.manylinux-qualification/1",
+    "engine_commit": null,
+    "policy": "manylinux_2_28_x86_64",
+    "input_wheel": "qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl",
+    "input_wheel_sha256": "1e1b663a2096381d0e47a81571404f69a84ed2d52e448521f4f548d84adb4658",
+    "elf_payloads": {
+      "qupathxx/_native.cpython-312-x86_64-linux-gnu.so": {
+        "sha256": "f139096993f700f375ecdbe99dff8cbacb3dfe410a4df04bf0bc9137ec143ffe",
+        "needed": [
+          "libm.so.6",
+          "libz.so.1",
+          "libgeos_c.so.1",
+          "libopenslide.so.1",
+          "libstdc++.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "soname": null,
+        "version_requirements": {
+          "libgcc_s.so.1": [
+            "GCC_3.0"
+          ],
+          "ld-linux-x86-64.so.2": [
+            "GLIBC_2.3"
+          ],
+          "libm.so.6": [
+            "GLIBC_2.2.5",
+            "GLIBC_2.29",
+            "GLIBC_2.35"
+          ],
+          "libstdc++.so.6": [
+            "CXXABI_1.3",
+            "CXXABI_1.3.11",
+            "CXXABI_1.3.13",
+            "CXXABI_1.3.2",
+            "CXXABI_1.3.3",
+            "CXXABI_1.3.5",
+            "CXXABI_1.3.8",
+            "CXXABI_1.3.9",
+            "GLIBCXX_3.4",
+            "GLIBCXX_3.4.11",
+            "GLIBCXX_3.4.14",
+            "GLIBCXX_3.4.15",
+            "GLIBCXX_3.4.18",
+            "GLIBCXX_3.4.19",
+            "GLIBCXX_3.4.20",
+            "GLIBCXX_3.4.21",
+            "GLIBCXX_3.4.22",
+            "GLIBCXX_3.4.26",
+            "GLIBCXX_3.4.29",
+            "GLIBCXX_3.4.30",
+            "GLIBCXX_3.4.9"
+          ],
+          "libc.so.6": [
+            "GLIBC_2.14",
+            "GLIBC_2.2.5",
+            "GLIBC_2.28",
+            "GLIBC_2.3.4",
+            "GLIBC_2.32",
+            "GLIBC_2.33",
+            "GLIBC_2.34",
+            "GLIBC_2.38",
+            "GLIBC_2.4"
+          ]
+        }
+      },
+      "qupathxx/libgeos.so.3.15.0": {
+        "sha256": "1eac69ca6de9cb51ce148e1e3f368dbcc1f062b067eef2265ca387f6d7f9c201",
+        "needed": [
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "soname": "libgeos.so.3.15.0",
+        "version_requirements": {
+          "libgcc_s.so.1": [
+            "GCC_3.0"
+          ],
+          "ld-linux-x86-64.so.2": [
+            "GLIBC_2.3"
+          ],
+          "libm.so.6": [
+            "GLIBC_2.2.5",
+            "GLIBC_2.29"
+          ],
+          "libc.so.6": [
+            "GLIBC_2.14",
+            "GLIBC_2.2.5",
+            "GLIBC_2.3.4",
+            "GLIBC_2.32",
+            "GLIBC_2.38",
+            "GLIBC_2.4"
+          ],
+          "libstdc++.so.6": [
+            "CXXABI_1.3",
+            "CXXABI_1.3.5",
+            "CXXABI_1.3.8",
+            "CXXABI_1.3.9",
+            "GLIBCXX_3.4",
+            "GLIBCXX_3.4.11",
+            "GLIBCXX_3.4.14",
+            "GLIBCXX_3.4.15",
+            "GLIBCXX_3.4.18",
+            "GLIBCXX_3.4.19",
+            "GLIBCXX_3.4.20",
+            "GLIBCXX_3.4.21",
+            "GLIBCXX_3.4.26",
+            "GLIBCXX_3.4.29",
+            "GLIBCXX_3.4.32",
+            "GLIBCXX_3.4.9"
+          ]
+        }
+      },
+      "qupathxx/libgeos_c.so.1": {
+        "sha256": "3de5397ee6ab750bf15d18c76948ba9e16e9ad8d445cc37f5d841214861efede",
+        "needed": [
+          "libgeos.so.3.15.0",
+          "libstdc++.so.6",
+          "libm.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6"
+        ],
+        "soname": "libgeos_c.so.1",
+        "version_requirements": {
+          "libgcc_s.so.1": [
+            "GCC_3.0"
+          ],
+          "libc.so.6": [
+            "GLIBC_2.14",
+            "GLIBC_2.2.5",
+            "GLIBC_2.3.4",
+            "GLIBC_2.32",
+            "GLIBC_2.4"
+          ],
+          "libm.so.6": [
+            "GLIBC_2.2.5"
+          ],
+          "libstdc++.so.6": [
+            "CXXABI_1.3",
+            "CXXABI_1.3.9",
+            "GLIBCXX_3.4",
+            "GLIBCXX_3.4.11",
+            "GLIBCXX_3.4.21",
+            "GLIBCXX_3.4.29",
+            "GLIBCXX_3.4.32",
+            "GLIBCXX_3.4.9"
+          ]
+        }
+      },
+      "qupathxx/libopenslide.so.1": {
+        "sha256": "552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df",
+        "needed": [
+          "libm.so.6",
+          "libdl.so.2",
+          "libgcc_s.so.1",
+          "libpthread.so.0",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "soname": "libopenslide.so.1",
+        "version_requirements": {
+          "libdl.so.2": [
+            "GLIBC_2.2.5"
+          ],
+          "ld-linux-x86-64.so.2": [
+            "GLIBC_2.3"
+          ],
+          "libgcc_s.so.1": [
+            "GCC_3.0",
+            "GCC_3.3.1"
+          ],
+          "libpthread.so.0": [
+            "GLIBC_2.12",
+            "GLIBC_2.2.5",
+            "GLIBC_2.3.2"
+          ],
+          "libc.so.6": [
+            "GLIBC_2.11",
+            "GLIBC_2.14",
+            "GLIBC_2.16",
+            "GLIBC_2.17",
+            "GLIBC_2.2.5",
+            "GLIBC_2.25",
+            "GLIBC_2.28",
+            "GLIBC_2.3",
+            "GLIBC_2.3.3",
+            "GLIBC_2.3.4",
+            "GLIBC_2.4",
+            "GLIBC_2.7",
+            "GLIBC_2.8",
+            "GLIBC_2.9"
+          ],
+          "libm.so.6": [
+            "GLIBC_2.15",
+            "GLIBC_2.2.5"
+          ]
+        }
+      },
+      "qupathxx/qupathxx_batch": {
+        "sha256": "0da3891c02537ee4c1db3a41ab3041cbbf82d65ba1904c5e1e624075f12a328e",
+        "needed": [
+          "libm.so.6",
+          "libz.so.1",
+          "libgeos_c.so.1",
+          "libopenslide.so.1",
+          "libstdc++.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "soname": null,
+        "version_requirements": {
+          "libgcc_s.so.1": [
+            "GCC_3.0"
+          ],
+          "ld-linux-x86-64.so.2": [
+            "GLIBC_2.3"
+          ],
+          "libm.so.6": [
+            "GLIBC_2.2.5",
+            "GLIBC_2.27",
+            "GLIBC_2.29",
+            "GLIBC_2.35"
+          ],
+          "libstdc++.so.6": [
+            "CXXABI_1.3",
+            "CXXABI_1.3.11",
+            "CXXABI_1.3.13",
+            "CXXABI_1.3.2",
+            "CXXABI_1.3.3",
+            "CXXABI_1.3.5",
+            "CXXABI_1.3.8",
+            "CXXABI_1.3.9",
+            "GLIBCXX_3.4",
+            "GLIBCXX_3.4.11",
+            "GLIBCXX_3.4.14",
+            "GLIBCXX_3.4.15",
+            "GLIBCXX_3.4.17",
+            "GLIBCXX_3.4.18",
+            "GLIBCXX_3.4.19",
+            "GLIBCXX_3.4.20",
+            "GLIBCXX_3.4.21",
+            "GLIBCXX_3.4.22",
+            "GLIBCXX_3.4.26",
+            "GLIBCXX_3.4.29",
+            "GLIBCXX_3.4.32",
+            "GLIBCXX_3.4.9"
+          ],
+          "libc.so.6": [
+            "GLIBC_2.14",
+            "GLIBC_2.2.5",
+            "GLIBC_2.28",
+            "GLIBC_2.3.4",
+            "GLIBC_2.32",
+            "GLIBC_2.33",
+            "GLIBC_2.34",
+            "GLIBC_2.38",
+            "GLIBC_2.4",
+            "GLIBC_2.6"
+          ]
+        }
+      },
+      "qupathxx/qupathxx_region": {
+        "sha256": "6480f153c837a5b0770e9ea1ff16fa304d9d2be4f1043f2c2f8191d18cf7b7c5",
+        "needed": [
+          "libm.so.6",
+          "libz.so.1",
+          "libgeos_c.so.1",
+          "libopenslide.so.1",
+          "libstdc++.so.6",
+          "libgcc_s.so.1",
+          "libc.so.6",
+          "ld-linux-x86-64.so.2"
+        ],
+        "soname": null,
+        "version_requirements": {
+          "libgcc_s.so.1": [
+            "GCC_3.0"
+          ],
+          "ld-linux-x86-64.so.2": [
+            "GLIBC_2.3"
+          ],
+          "libm.so.6": [
+            "GLIBC_2.2.5",
+            "GLIBC_2.29",
+            "GLIBC_2.35"
+          ],
+          "libstdc++.so.6": [
+            "CXXABI_1.3",
+            "CXXABI_1.3.11",
+            "CXXABI_1.3.13",
+            "CXXABI_1.3.2",
+            "CXXABI_1.3.3",
+            "CXXABI_1.3.8",
+            "CXXABI_1.3.9",
+            "GLIBCXX_3.4",
+            "GLIBCXX_3.4.11",
+            "GLIBCXX_3.4.14",
+            "GLIBCXX_3.4.15",
+            "GLIBCXX_3.4.18",
+            "GLIBCXX_3.4.19",
+            "GLIBCXX_3.4.20",
+            "GLIBCXX_3.4.21",
+            "GLIBCXX_3.4.22",
+            "GLIBCXX_3.4.26",
+            "GLIBCXX_3.4.29",
+            "GLIBCXX_3.4.32",
+            "GLIBCXX_3.4.9"
+          ],
+          "libc.so.6": [
+            "GLIBC_2.14",
+            "GLIBC_2.2.5",
+            "GLIBC_2.3.4",
+            "GLIBC_2.32",
+            "GLIBC_2.33",
+            "GLIBC_2.34",
+            "GLIBC_2.38",
+            "GLIBC_2.4"
+          ]
+        }
+      }
+    },
+    "abi_errors": {
+      "qupathxx/_native.cpython-312-x86_64-linux-gnu.so": [
+        "libc.so.6: unsupported version GLIBC_2.32",
+        "libc.so.6: unsupported version GLIBC_2.33",
+        "libc.so.6: unsupported version GLIBC_2.34",
+        "libc.so.6: unsupported version GLIBC_2.38",
+        "libm.so.6: unsupported version GLIBC_2.29",
+        "libm.so.6: unsupported version GLIBC_2.35",
+        "libstdc++.so.6: unsupported version CXXABI_1.3.13",
+        "libstdc++.so.6: unsupported version GLIBCXX_3.4.26",
+        "libstdc++.so.6: unsupported version GLIBCXX_3.4.29",
+        "libstdc++.so.6: unsupported version GLIBCXX_3.4.30",
+        "unbundled dependency: ld-linux-x86-64.so.2"
+      ],
+      "qupathxx/libgeos.so.3.15.0": [
+        "libc.so.6: unsupported version GLIBC_2.32",
+        "libc.so.6: unsupported version GLIBC_2.38",
+        "libm.so.6: unsupported version GLIBC_2.29",
+        "libstdc++.so.6: unsupported version GLIBCXX_3.4.26",
+        "libstdc++.so.6: unsupported version GLIBCXX_3.4.29",
+        "libstdc++.so.6: unsupported version GLIBCXX_3.4.32",
+        "unbundled dependency: ld-linux-x86-64.so.2"
+      ],
+      "qupathxx/libgeos_c.so.1": [
+        "libc.so.6: unsupported version GLIBC_2.32",
+        "libstdc++.so.6: unsupported version GLIBCXX_3.4.29",
+        "libstdc++.so.6: unsupported version GLIBCXX_3.4.32"
+      ],
+      "qupathxx/libopenslide.so.1": [
+        "unbundled dependency: ld-linux-x86-64.so.2"
+      ],
+      "qupathxx/qupathxx_batch": [
+        "libc.so.6: unsupported version GLIBC_2.32",
+        "libc.so.6: unsupported version GLIBC_2.33",
+        "libc.so.6: unsupported version GLIBC_2.34",
+        "libc.so.6: unsupported version GLIBC_2.38",
+        "libm.so.6: unsupported version GLIBC_2.29",
+        "libm.so.6: unsupported version GLIBC_2.35",
+        "libstdc++.so.6: unsupported version CXXABI_1.3.13",
+        "libstdc++.so.6: unsupported version GLIBCXX_3.4.26",
+        "libstdc++.so.6: unsupported version GLIBCXX_3.4.29",
+        "libstdc++.so.6: unsupported version GLIBCXX_3.4.32",
+        "unbundled dependency: ld-linux-x86-64.so.2"
+      ],
+      "qupathxx/qupathxx_region": [
+        "libc.so.6: unsupported version GLIBC_2.32",
+        "libc.so.6: unsupported version GLIBC_2.33",
+        "libc.so.6: unsupported version GLIBC_2.34",
+        "libc.so.6: unsupported version GLIBC_2.38",
+        "libm.so.6: unsupported version GLIBC_2.29",
+        "libm.so.6: unsupported version GLIBC_2.35",
+        "libstdc++.so.6: unsupported version CXXABI_1.3.13",
+        "libstdc++.so.6: unsupported version GLIBCXX_3.4.26",
+        "libstdc++.so.6: unsupported version GLIBCXX_3.4.29",
+        "libstdc++.so.6: unsupported version GLIBCXX_3.4.32",
+        "unbundled dependency: ld-linux-x86-64.so.2"
+      ]
+    },
+    "tools": {
+      "auditwheel": "6.6.0",
+      "patchelf": "0.17.2.4",
+      "packaging": "26.3",
+      "pyelftools": "0.33"
+    },
+    "qualified": false
+  },
+  "real_slide_workflow_smoke": {
+    "passed": true,
+    "mean": 148.28722222222223,
+    "slide": "CMU-1-Small-Region.svs",
+    "scope": "Current local Linux wheel workflow smoke only; this does not qualify its ABI or simulate an older consumer."
+  },
+  "scope": "Preflight only: every ELF in the known too-new local wheel rejects manylinux_2_28 and no retagged wheel is created. Pinned older-baseline builder, qualified artifact and fresh Debian consumers still require hosted evidence."
+}

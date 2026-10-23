@@ -1,0 +1,37 @@
+{
+  "schema": "qpx.manylinux-inputs/1",
+  "policy": "manylinux_2_28_x86_64",
+  "builder": {
+    "image": "quay.io/pypa/manylinux_2_28_x86_64@sha256:076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff",
+    "source_tag": "quay.io/pypa/manylinux_2_28_x86_64:latest",
+    "digest": "sha256:076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff",
+    "os": "linux",
+    "architecture": "amd64",
+    "created_utc": "2026-10-21T22:22:43.390787163Z",
+    "source_revision": null
+  },
+  "consumers": {
+    "3.11": {
+      "image": "library/python@sha256:8fb0b110b022c70cbe09d3ff1fb313654f31f9c814abb0d48180af56d906a199",
+      "source_tag": "library/python:3.11-slim-bookworm",
+      "digest": "sha256:8fb0b110b022c70cbe09d3ff1fb313654f31f9c814abb0d48180af56d906a199",
+      "os": "linux",
+      "architecture": "amd64",
+      "created_utc": "2026-10-21T01:13:01.833700531Z",
+      "source_revision": null
+    },
+    "3.12": {
+      "image": "library/python@sha256:57d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0",
+      "source_tag": "library/python:3.12-slim-bookworm",
+      "digest": "sha256:57d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0",
+      "os": "linux",
+      "architecture": "amd64",
+      "created_utc": "2026-10-21T01:10:35.41553475Z",
+      "source_revision": null
+    }
+  },
+  "auditwheel": "6.6.0",
+  "patchelf": "0.17.2.4",
+  "packaging": "26.3",
+  "pyelftools": "0.33"
+}

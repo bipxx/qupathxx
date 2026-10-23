@@ -3393,3 +3393,30 @@ Hosted packet92 acceptance remains pending. The candidate is not yet an audited
 manylinux or supported cross-distribution release; system ABI qualification,
 macOS packaging, supported installers, project-license selection and the other
 M0–M7 format/scientific/hardware gates remain open.
+
+### Packet93: older-ABI wheel qualification and fresh consumers
+
+The [manylinux pipeline](manylinux-qualification.md) adds an optional portable
+mode to the existing CI workflow. It builds CPython 3.11/3.12 candidates inside
+an architecture-specific, digest-pinned manylinux 2.28 image, then tests qualified
+artifacts in independent digest-pinned Debian Python containers with the system
+C++ runtime and no SDK cache. Image identities were resolved and byte-digest
+verified through the public registries; qualification tools are version-pinned.
+
+Every packaged ELF, including native region/batch executables, must satisfy the
+policy's symbol versions and dependency closure. Auditwheel repair may update
+platform metadata, but runtime and notice payloads must remain unchanged. The
+qualified artifact is reinstalled and rechecked for exact SDK hashes and actual
+package-local mappings. Fresh consumers verify the source commit and artifact,
+then open a real slide, annotate, measure against NumPy, save/reopen retained
+analysis, export measurements and exercise exact native region pixels plus batch
+checkpoints and CSV. The full installed consumer suite is also required.
+
+The [preflight receipt](benchmarks/manylinux-preflight-windows-linux.json) records
+eight passing policy cases on both local platforms, actionlint validation and
+the real-slide workflow smoke. The existing Ubuntu-built wheel audits as
+manylinux 2.39; all six ELFs reject the requested 2.28 policy and no retagged
+artifact is produced. This confirms the negative guard, not a successful portable
+build. Docker is unavailable locally, so positive older-baseline build/consumer
+evidence must come from the hosted run. No manylinux support or M7 completion is
+claimed from this preparation; all remaining M0–M7 gates persist.

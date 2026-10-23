@@ -59,6 +59,10 @@ this fingerprint. A separate native GEOS-only build disables OpenSlide, GUI,
 Python, TIFF and training; its installed batch executable resolves both GEOS
 libraries locally and processes an embedded project without `LD_LIBRARY_PATH`.
 
+The [manylinux qualification pipeline](manylinux-qualification.md) separately
+builds against an older baseline and checks fresh consumers; its hosted acceptance
+remains pending.
+
 These are local development-candidate gates. Hosted acceptance, older-system
 ABI/manylinux qualification, macOS distribution, supported installers and the
 unanswered project-license decision remain open. Scientific/QuPath and hardware
