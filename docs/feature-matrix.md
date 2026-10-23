@@ -65,7 +65,30 @@ thin-ellipse expected failure is a passing regression. This evidence does not ac
 
 The provisional [physical nucleus-area candidate](cell-area-limits.md) resolves
 inclusive calibrated bounds into frozen sample cutoffs through native/Python,
-CLI, project batches and ImGui. Linux full regression and Windows focused desktop
-checks pass; Windows full regression, visual inspection and hosted acceptance
-remain pending. This narrows the physical-filter gap without accepting physical
+CLI, project batches and ImGui. Windows/Linux full regressions and desktop
+visual inspection pass; hosted acceptance remains pending. This narrows the physical-filter gap without accepting physical
 radii, arbitrary resampling or cell segmentation parity.
+
+
+Subsequent packet-105 native viewer validation exposed a packet-103 calibration
+staleness gap: active physical requests could publish after units changed during
+execution. Three direct regressions reproduce it, including enabled zero bounds.
+The fix captures the calibration revision in active physical requests and rejects
+stale publication; ordinary sampled requests and historical replay are preserved.
+Rebuilt Windows/Linux validation is pending. Earlier full passes and hosted run
+40022136685 predate this fix and cannot accept it. Main promotion remains withheld.
+
+
+Calibration-stale fix revalidation: corrected Linux passes 42 native suites,
+99 focused tests and the full 1,683-pass regression (394 optional skips, four
+scientific expected failures). Corrected Windows passes 43 native suites and
+120 focused cases plus installed/stub/typing checks; its completed frame is
+visually inspected with one exported cell and zero UI overflow. Windows full
+regression and hosted run 40024473049 at f8cb02a139d5c4b4651978425cb064472b3f1b81
+remain pending. Main promotion and all other unfinished M0–M7 gates remain open.
+
+
+The packet-105 managed-viewer candidate queues calibrated cell-area requests
+through copied native data and owner-side resolution/publication. Linux full
+regression, native lifecycle/staleness and typed queue checks pass; desktop and
+hosted acceptance remain pending. See the [platform receipt](benchmarks/viewer-cell-area-limits-linux.json).

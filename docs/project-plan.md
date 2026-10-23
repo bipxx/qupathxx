@@ -3719,3 +3719,55 @@ pending. The receipts retain the first two Linux test expectation corrections.
 Hosted acceptance is pending, so this packet remains a validation candidate.
 Physical radii, arbitrary resampling, scientific segmentation acceptance, hardware
 performance and every other outstanding M0–M7 requirement remain open.
+
+
+Packet 103 local validation is now complete: Windows full regression passes
+2,064 cases with 10 optional skips and four strict scientific expected failures;
+Linux remains 1,680 passes with 394 optional skips and the same four failures.
+The completed desktop frame is visually inspected after scrolling the inspector
+within the actual Windows-clamped framebuffer. Both physical bounds, one detected
+and saved cell, captured calibration, the frozen 81–90-sample recipe and successful
+one-row CSV export are visible, with zero reported UI overflow. Hosted acceptance
+remains pending at run 40022136685, source 87e691be724be88183876cfaa1b583b2bb27a947.
+The candidate is public on validation/physical-cell-areas-103; no main promotion
+or scientific/hardware/release acceptance is implied by the local checks.
+
+
+Subsequent packet-105 native viewer validation exposed a packet-103 calibration
+staleness gap: active physical requests could publish after units changed during
+execution. Three direct regressions reproduce it, including enabled zero bounds.
+The fix captures the calibration revision in active physical requests and rejects
+stale publication; ordinary sampled requests and historical replay are preserved.
+Rebuilt Windows/Linux validation is pending. Earlier full passes and hosted run
+40022136685 predate this fix and cannot accept it. Main promotion remains withheld.
+
+
+Calibration-stale fix revalidation: corrected Linux passes 42 native suites,
+99 focused tests and the full 1,683-pass regression (394 optional skips, four
+scientific expected failures). Corrected Windows passes 43 native suites and
+120 focused cases plus installed/stub/typing checks; its completed frame is
+visually inspected with one exported cell and zero UI overflow. Windows full
+regression and hosted run 40024473049 at f8cb02a139d5c4b4651978425cb064472b3f1b81
+remain pending. Main promotion and all other unfinished M0–M7 gates remain open.
+
+
+## Packet105: queued physical cell analysis in the managed viewer
+
+`ViewerSession.cells_with_nucleus_area_limits` copies native bounds, transform
+and sampled parameters at submission, then resolves image/ROI calibration on the
+viewer owner when the command executes. It uses the existing background native
+detector, archive publication, cancellation, result budgets and ticket lifecycle.
+Invalid numeric ranges reject without consuming a ticket. Missing calibration
+fails the executing ticket without archiving a run. Calibration changes after
+capture reject stale publication; archived replay retains its frozen recipe.
+
+The initial new native test exposed packet 103's calibration-staleness gap.
+That failure is retained and the shared request fix is validated. Linux passes
+42 native suites, 114 focused Python cases (13 optional skips), matching stubs,
+strict positive/negative typing, runtime relocation and installed workflows.
+Its full regression passes 1,688 cases with 396 optional skips and four strict
+scientific expected failures. The two new Python-producer desktop tests cover
+cell/export/save/reopen and missing-unit failure; they remain pending on Windows.
+Desktop/full Windows and hosted acceptance are pending. This candidate does not
+complete broader live commands, external model adapters, scientific/hardware
+acceptance or the remaining M0–M7 requirements.

@@ -56,6 +56,25 @@ def test_disabled_physical_limits_preserve_unknown_calibration_and_original_reci
             request(doc,obj,base.parameters,minimum,maximum)
 
 
+@pytest.mark.parametrize('minimum,maximum',[(10.1,11.25),(0.,None),(None,0.)])
+def test_calibration_changes_stale_physical_capture_but_not_frozen_archive_replay(minimum,maximum):
+    doc,obj,base,_=scene()
+    captured=request(doc,obj,base.parameters,minimum,maximum)
+    ordinary=request(doc,obj,base.parameters)
+    assert captured.matches(doc,obj) and ordinary.matches(doc,obj)
+    value=q.detect_cells(captured);record=doc.keep_cells(captured,value)
+    count=doc.cell_record_count
+    doc.set_calibration(2,3)
+    assert not captured.matches(doc,obj)
+    assert ordinary.matches(doc,obj)
+    with pytest.raises(ValueError,match='does not match'):
+        doc.keep_cells(captured,value)
+    assert doc.cell_record_count==count
+    replay=q.CellRequest.replay(doc,record)
+    assert replay.matches(doc,obj)
+    np.testing.assert_array_equal(q.detect_cells(replay).nuclei.labels_numpy(),value.nuclei.labels_numpy())
+
+
 @pytest.mark.parametrize('minimum,maximum',[(math.nan,None),(None,math.inf),(-1.,None),(None,-1.),(2.,1.)])
 def test_invalid_physical_ranges_are_rejected(minimum,maximum):
     doc,obj,base,_=scene()

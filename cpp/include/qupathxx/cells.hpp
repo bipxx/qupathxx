@@ -15,7 +15,8 @@ struct CellParameters {
 class CellRequest {
 public:
     CellRequest(const Document&,std::uint64_t,const StainTransform&,CellParameters={});
-    bool matches(const Document& d,std::uint64_t id) const {return source_.matches(d,id);}
+    bool matches(const Document& d,std::uint64_t id) const {return source_.matches(d,id) &&
+        (!physical_calibration_revision_ || *physical_calibration_revision_==d.calibration_revision());}
     const CellParameters& parameters() const {return parameters_;}
     std::uint64_t object_id() const {return source_.object_id();}
     std::int32_t level() const {return source_.level();}
@@ -41,6 +42,7 @@ private:
     std::shared_ptr<ImageServer> reader_;
     StainTransform transform_;
     std::uint64_t object_revision_,document_revision_;
+    std::optional<std::uint64_t> physical_calibration_revision_;
     std::size_t work_=0;
 };
 struct CellMarker {

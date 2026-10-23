@@ -71,6 +71,43 @@ int main() {
             }
             controller.finish(paused.context);
         }
+        {
+            Harness test;std::vector<std::uint8_t> rgb(48*40*3,245);
+            auto fill=[&](int x0,int y0,int width,int height) {for(int y=y0;y<y0+height;++y) for(int x=x0;x<x0+width;++x) {
+                const auto index=(y*48+x)*3;rgb[index]=35;rgb[index+1]=45;rgb[index+2]=75;
+            }};
+            fill(7,8,8,10);fill(29,22,10,9);
+            auto doc=std::make_shared<Document>(Image(48,40,std::move(rgb)));doc->set_calibration(.5,.25);
+            auto object=doc->add_rectangle({0,0,48,40});auto image=test.project->add_document(doc,"physical areas");
+            ViewerSession endpoint((root/"areas.qpxproj").u8string());detail::ViewerOwner controller(endpoint);
+            CellParameters parameters;parameters.sigma=0;parameters.threshold=.5;parameters.min_nucleus_pixels=1;parameters.cell_expansion=3;
+            rejects([&]{endpoint.cells_with_nucleus_area_limits(image,object,transform,-1.,{},parameters);});
+            rejects([&]{endpoint.cells_with_nucleus_area_limits(image,object,transform,12.,11.,parameters);});
+            check(endpoint.stats().tickets==0 && endpoint.stats().queued_bytes==0);
+            auto ticket=endpoint.cells_with_nucleus_area_limits(image,object,transform,10.1,11.25,parameters,true);
+            parameters.min_nucleus_pixels=10000;
+            auto result=test.until(controller,endpoint,ticket);
+            check(result.state=="succeeded" && result.committed && result.record_id && result.cells && result.cells->features().size()==1);
+            check(result.cells->parameters().min_nucleus_pixels==81 && result.cells->parameters().max_nucleus_pixels==90);
+            check(result.cells->features()[0].nucleus_pixels==90 && result.cells->calibrated_feature(1).nucleus_sample_area_um2==11.25);
+            auto retained_cells=result.cells;endpoint.take(ticket);check(endpoint.stats().retained_bytes==0);
+            parameters.min_nucleus_pixels=1;
+            // Resolution happens when the owner handles the command, not on the producer.
+            ticket=endpoint.cells_with_nucleus_area_limits(image,object,transform,10.1,11.25,parameters,true);
+            doc->set_calibration(2,3);result=test.until(controller,endpoint,ticket);
+            check(result.state=="succeeded" && result.cells && result.cells->features().empty());endpoint.take(ticket);
+            const auto records=doc->cell_record_count();
+            ticket=endpoint.cells_with_nucleus_area_limits(image,object,transform,10.1,11.25,parameters,true);
+            test.step(controller);doc->set_calibration(.5,.25);
+            check(test.until(controller,endpoint,ticket).state=="stale" && doc->cell_record_count()==records);endpoint.take(ticket);
+            ticket=endpoint.cells_with_nucleus_area_limits(1,1,transform,0.,{},parameters,true);
+            result=test.until(controller,endpoint,ticket);check(result.state=="failed" && !result.committed && !result.record_id);
+            check(result.error.find("both pixel calibration axes")!=std::string::npos);endpoint.take(ticket);
+            ticket=endpoint.cells_with_nucleus_area_limits(image,object,transform,{},0.,parameters,true);
+            check(endpoint.cancel(ticket));check(endpoint.take(ticket).state=="cancelled" && doc->cell_record_count()==records);
+            controller.finish(test.context);doc->server()->close();
+            check(retained_cells->calibrated_feature(1).nucleus_sample_area_um2==11.25);
+        }
         if(has_tiff()) {
             // Independent little-endian TIFF fixture; no reader encoder shares its implementation.
             const auto input=root/"quantitative.tif";std::vector<unsigned char> bytes={'I','I',42,0,8,0,0,0};

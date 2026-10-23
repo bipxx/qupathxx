@@ -5,6 +5,11 @@ nucleus areas in square micrometers. It captures the same image/ROI and selects
 the same natural sampling grid as the ordinary request, then compiles the area
 limits into ordinary integer nucleus-sample cutoffs before detection.
 
+**Validation update:** the calibration-staleness gap found by the managed-viewer
+test is fixed. Three regressions failed before the fix and now pass. Corrected
+Linux full validation and Windows focused/native checks pass; Windows full
+regression and hosted run 40024473049 remain pending. Main promotion is withheld.
+
 ```python
 parameters = qupathxx.CellParameters()
 parameters.min_nucleus_pixels = 1
@@ -46,6 +51,10 @@ raw physical thresholds. Existing QCL version-1 archives preserve those integer
 cutoffs and capture provenance. Replaying a saved run executes its frozen cutoffs
 and does not reinterpret them using later document calibration. Call the factory
 again for a new image/ROI or when requesting physical limits under new calibration.
+An unarchived request with an enabled physical bound becomes stale if the
+document calibration revision changes after capture. Both-disabled requests
+retain ordinary matching behavior. Replaying an already archived recipe does not
+reenable a physical calibration dependency.
 Copying `request.parameters` explicitly copies the sampled recipe. Calibrated
 historical measurements continue to use their original captured units.
 
@@ -66,18 +75,63 @@ Embedded callers can initialize `GuiOptions.cell_min_nucleus_area_um2` and
 `cell_max_nucleus_area_um2`. Project batch presets expose the same options; using
 image analysis settings captures the current inspector's physical limits.
 
+Managed live-viewer producers can submit the same workflow:
+
+```python
+ticket = session.cells_with_nucleus_area_limits(
+    image_id, annotation_id, transform,
+    minimum_um2=10.1, maximum_um2=100.0,
+    parameters=parameters, retain_result=True,
+)
+event = session.wait(ticket, timeout_seconds=30)
+if event.state in ("queued", "running"):
+    raise TimeoutError("Cell detection is still pending; retain the ticket to poll it")
+event = session.take(ticket)
+if event.state != "succeeded":
+    raise RuntimeError(event.error)
+print(event.record_id, event.cells.cell_count)
+```
+
+The producer submits copied native bounds, transform and sampled parameters;
+it does not access the viewer's live document. The owner resolves physical
+limits against the image/ROI and calibration when the command starts. A queued
+command therefore observes document changes made before execution. Changes
+after capture use the existing stale-result rejection and publish no new run.
+Invalid numeric ranges reject before allocating a ticket; unknown calibration
+fails the executing ticket. A successful command archives the resolved recipe
+even when `retain_result=False`; that flag controls the event's retained cell
+result. Consume terminal tickets with `take` to reclaim endpoint storage.
+Existing `session.cells` retains its ordinary sampled-parameter behavior.
+
+The managed-viewer extension is undergoing separate packet-105 validation;
+the packet-103 receipts below do not validate that additional command.
+
 This adds physical nucleus area filtering. Blur, peak/seed distance and cell
 expansion still use sampled pixels. Arbitrary resampling, physical radii, QuPath
 segmentation agreement and biological validation remain separate requirements.
 
 The [Linux receipt](benchmarks/cell-area-limits-linux.json) records 42 native
-suites, 96 focused passes and the full regression: 1,680 passes, 394 optional
-skips and four strict scientific expected failures. Installed stubs, strict
-positive/negative typing and relocated runtime checks pass. The generated large
-pyramid is supplied to this full run.
+suites, 99 focused passes and the corrected full regression: 1,683 passes,
+394 optional skips and four strict scientific expected failures. Installed stubs,
+strict positive/negative typing and relocated runtime checks pass. The generated
+large pyramid is supplied to this full run.
 
 The [Windows receipt](benchmarks/cell-area-limits-windows.json) records 43 native
-suites, 117 focused Python/desktop passes, installed workflows and matching
-stubs/typing. Full Windows regression, completed-frame inspection and hosted
-acceptance are pending; this candidate remains provisional. These checks do not
-accept segmentation parity or hardware performance.
+suites, 120 focused Python/desktop passes, installed workflows and matching
+stubs/typing. The corrected full Windows regression remains running. Its prior
+2,064-pass result predates the calibration-staleness fix and is retained as
+historical evidence. The visually inspected [completed desktop frame](images/cell-physical-area-limits.png)
+uses the corrected build and shows both limits, one saved cell, the frozen
+81–90-sample recipe and successful one-row calibrated CSV export, with no UI
+overflow. Hosted run 40024473049 at source
+`f8cb02a139d5c4b4651978425cb064472b3f1b81` is pending; preceding run 40022136685
+does not accept the fix. The candidate remains provisional and does not accept
+segmentation parity or hardware performance.
+
+
+The additional managed-viewer candidate's [Linux receipt](benchmarks/viewer-cell-area-limits-linux.json)
+records 42 native suites, 114 focused passes and 1,688 full-regression passes,
+with 396 optional skips and four scientific expected failures. Its runtime,
+installed stubs and strict typing checks pass. Desktop producer tests and hosted
+acceptance remain pending. The packet-103 receipts describe their own physical
+request source, while this separate receipt identifies the added queue command.

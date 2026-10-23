@@ -1,0 +1,46 @@
+{
+  "schema": "qpx.viewer-cell-area-limits-validation/1",
+  "state": "linux-full-verified-windows-and-hosted-pending",
+  "release_ready": false,
+  "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+  "build_git_revision": "unknown",
+  "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+  "wheel_sha256": "8c28e3aac4704cdf80a93607e9f8812ce00d6ea2d623521ecc0af1191d6d38ff",
+  "native": {
+    "passed": 42,
+    "optional_skips": 0,
+    "strict_scientific_expected_failures": 0,
+    "junit_sha256": "d786340ff7b641810c7337db3968c41d703e340b45a4a42e92c140c779d97801"
+  },
+  "focused": {
+    "passed": 114,
+    "optional_skips": 13,
+    "strict_scientific_expected_failures": 0,
+    "junit_sha256": "4840d21905907e7af864a5379692b638d608e27d2fb34bdc06b2695c8250a188"
+  },
+  "full": {
+    "passed": 1688,
+    "optional_skips": 396,
+    "strict_scientific_expected_failures": 4,
+    "junit_sha256": "404e6d6fa3da2e904f94ddb7fe4c289b5782fb61ad6f2ec67927a417c7a29915"
+  },
+  "stubs_match": true,
+  "strict_positive_typing": true,
+  "negative_typing_errors": 7,
+  "installed_report_sha256": "1e790a576bd2afa920367ff5d0e82cb8472a260b0c3072e72346be1bf5487a3a",
+  "runtime_relocation_report_sha256": "477cb9a1330eb7a703dabd297a521a363b1e7898717d83f0e3124e626215e3f6",
+  "first_native_attempt": {
+    "junit_sha256": "2e7a13463785b8fa0472e36a56392feb3c18c6f248e69383edeb3bc750689b07",
+    "failed": "viewer_session",
+    "cause": "New owner-side calibration-change regression exposed missing calibration dependency in physical requests; the fix captures calibration revision, without changing ordinary sampled requests or archived replay."
+  },
+  "scope": "Copied native physical bounds/parameters, owner-time resolution, background detection, calibration-stale rejection, native archive publication, cancellation/budget reclamation, headless Python queue and typing. Desktop producer/export/save/reopen tests are pending.",
+  "gui_validation": "pending",
+  "hosted_acceptance": "pending",
+  "performance_accepted": false,
+  "limits": [
+    "Physical radii/arbitrary resampling remain open.",
+    "Four scientific expected failures remain.",
+    "No GUI, hardware or release acceptance from headless tests."
+  ]
+}

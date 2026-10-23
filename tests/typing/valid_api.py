@@ -368,6 +368,11 @@ def project_pixel_batch(project: q.Project, model: q.PixelClassifier, directory:
     return result
 
 
+def queued_physical_cells(session: q.ViewerSession, transform: q.StainTransform) -> int:
+    return session.cells_with_nucleus_area_limits(1, 1, transform, minimum_um2=10.1,
+        maximum_um2=100., parameters=q.CellParameters(), retain_result=True)
+
+
 def tissue_microarray(document: q.Document, session: q.ViewerSession) -> str:
     options = q.TmaGridOptions()
     options.rows, options.columns = 2, 3
