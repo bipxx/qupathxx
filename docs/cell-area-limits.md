@@ -7,8 +7,9 @@ limits into ordinary integer nucleus-sample cutoffs before detection.
 
 **Validation update:** the calibration-staleness gap found by the managed-viewer
 test is fixed. Three regressions failed before the fix and now pass. Corrected
-Windows/Linux full validation passes; hosted run 40024473049 remains pending.
-Main promotion is withheld until its artifact audit passes.
+Windows/Linux full validation and hosted run 40024473049 pass. The
+[artifact audit](benchmarks/cell-area-limits-ci-windows-linux.json) accepts the
+defined engineering scope; scientific, hardware and release gates remain open.
 
 ```python
 parameters = qupathxx.CellParameters()
@@ -62,7 +63,8 @@ Project batches accept `ProjectBatchOptions.cell_min_nucleus_area_um2` and
 `cell_max_nucleus_area_um2`. They resolve each image/ROI independently. The
 `cell_area_limits` entry in the batch parameter manifest retains both original
 physical arguments, including null disabled bounds, and participates in the
-parameter hash. Default manifests retain their existing bytes. Unknown calibration
+parameter hash. Both-disabled manifests retain the existing field layout; their build/source
+identities still describe the executing build. Unknown calibration
 follows the selected per-image failure policy; changed calibration cannot reuse an
 incompatible checkpoint. These options reject non-cell batch kinds.
 
@@ -94,6 +96,12 @@ evidence. The visually inspected [completed desktop frame](images/cell-physical-
 uses the corrected build and shows both limits, one saved cell, the frozen
 81–90-sample recipe and successful one-row calibrated CSV export, with no UI
 overflow. Hosted run 40024473049 at source
-`f8cb02a139d5c4b4651978425cb064472b3f1b81` is pending; preceding run 40022136685
-does not accept the fix. The candidate remains provisional and does not accept
-segmentation parity or hardware performance.
+`f8cb02a139d5c4b4651978425cb064472b3f1b81` passes all five jobs and the full
+artifact audit. Windows desktop passes 2,066 Python/43 native tests, Windows
+headless passes 1,683/42, Linux headless passes 1,681/42, and minimal/sanitizer
+configurations each pass 42 native suites. All installed Python cohorts pass
+22 physical-area cases, including the three stale-calibration regressions; desktop
+passes three physical-area GUI cases. Four scientific expected failures remain
+in every Python cohort. Preceding run 40022136685 was cancelled after the gap was
+reproduced. The accepted scope does not establish segmentation parity, hardware
+performance, portable packaging or a supported release.

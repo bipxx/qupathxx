@@ -3757,3 +3757,17 @@ the corrected Linux 1,683-pass result. Native, focused, installed runtime,
 stubs/typing and completed-frame checks pass. Hosted run 40024473049 and its
 artifact audit remain pending; superseded run 40022136685 is cancelled. Main
 promotion and all other unfinished M0–M7 requirements remain open.
+
+
+Packet 103 hosted acceptance is complete at source
+f8cb02a139d5c4b4651978425cb064472b3f1b81, run 40024473049. All five jobs pass;
+the artifact audit verifies 22 physical-area cases per Python cohort, including
+three calibration-stale regressions, plus three desktop cases, native/installed
+identities, runtime relocation, standalone payloads, full Aperio checks, stubs and
+strict positive/negative typing. Windows desktop passes 2,066 Python/43 native,
+Windows headless 1,683/42, Linux headless 1,681/42, and minimal/sanitizer each
+pass 42 native suites. The completed desktop overview is visually inspected.
+The defined engineering scope is accepted for main promotion; four scientific
+expected failures remain per Python cohort. Physical radii, resampling, biology,
+hardware, current-candidate portable/Mac qualification and every other open
+M0–M7 requirement remain separate gates. Release readiness stays false.

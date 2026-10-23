@@ -1,6 +1,6 @@
 {
   "schema": "qpx.cell-area-limits-validation/1",
-  "state": "local-full-verified-hosted-pending",
+  "state": "engineering-scope-accepted-hosted-audited",
   "release_ready": false,
   "platform": "windows",
   "source_tree_sha256": "793cdfb895709edd88b676489e82bba5258aba78cd4065f2dc195658abd8d2b0",
@@ -47,7 +47,7 @@
   },
   "source_content_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81",
   "hosted_acceptance": {
-    "state": "pending",
+    "state": "accepted",
     "run_id": 40024473049,
     "source_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81",
     "preceding_run": {
@@ -55,7 +55,9 @@
       "source_commit": "87e691be724be88183876cfaa1b583b2bb27a947",
       "state": "cancelled",
       "reason": "Superseded by the reproduced calibration-staleness regression and fix."
-    }
+    },
+    "receipt_file": "cell-area-limits-ci-windows-linux.json",
+    "receipt_sha256": "0af9041e7c40b7ab4a072e4fbeea48e7dcea2cf619700f0aa5308d1ea1343a49"
   },
   "prior_full_regression": {
     "junit_sha256": "3800076a3e52b6ba2fa59d13e4ac5ec47d916cf7862700667ffad5ae88482e74",
@@ -78,5 +80,9 @@
       "ui_overflow_items": 0,
       "ui_max_overflow": 0.0
     }
+  },
+  "local_validation_snapshot": {
+    "file": "cell-area-limits-windows-local.json",
+    "sha256": "874961690c04b516bb2f507cf835f155315114e05be32b4e38f70e92185a0640"
   }
 }
