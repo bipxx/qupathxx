@@ -7,8 +7,8 @@ limits into ordinary integer nucleus-sample cutoffs before detection.
 
 **Validation update:** the calibration-staleness gap found by the managed-viewer
 test is fixed. Three regressions failed before the fix and now pass. Corrected
-Linux full validation and Windows focused/native checks pass; Windows full
-regression and hosted run 40024473049 remain pending. Main promotion is withheld.
+Windows/Linux full validation passes; hosted run 40024473049 remains pending.
+Main promotion is withheld until its artifact audit passes.
 
 ```python
 parameters = qupathxx.CellParameters()
@@ -87,9 +87,10 @@ large pyramid is supplied to this full run.
 
 The [Windows receipt](benchmarks/cell-area-limits-windows.json) records 43 native
 suites, 120 focused Python/desktop passes, installed workflows and matching
-stubs/typing. The corrected full Windows regression remains running. Its prior
-2,064-pass result predates the calibration-staleness fix and is retained as
-historical evidence. The visually inspected [completed desktop frame](images/cell-physical-area-limits.png)
+stubs/typing. The corrected full Windows regression passes 2,067 cases, with
+10 optional skips and four strict scientific expected failures. Its prior
+2,064-pass result predates the calibration-staleness fix and remains historical
+evidence. The visually inspected [completed desktop frame](images/cell-physical-area-limits.png)
 uses the corrected build and shows both limits, one saved cell, the frozen
 81–90-sample recipe and successful one-row calibrated CSV export, with no UI
 overflow. Hosted run 40024473049 at source

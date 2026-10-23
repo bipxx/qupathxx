@@ -58,6 +58,16 @@
   "hosted_acceptance": {
     "state": "pending",
     "run_id": 40024473049,
-    "source_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81"
+    "source_commit": "f8cb02a139d5c4b4651978425cb064472b3f1b81",
+    "preceding_run": {
+      "run_id": 40022136685,
+      "source_commit": "87e691be724be88183876cfaa1b583b2bb27a947",
+      "state": "cancelled",
+      "reason": "Superseded by the reproduced calibration-staleness regression and fix."
+    }
+  },
+  "prior_full_regression": {
+    "junit_sha256": "7bcd93bebb285ec91cf4d7c1ffc941e01c42bc0aed7b92a73672a628847f83de",
+    "scope": "Earlier source predates calibration-stale fix; retained as historical evidence only."
   }
 }

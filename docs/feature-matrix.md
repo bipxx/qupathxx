@@ -86,3 +86,11 @@ scientific expected failures). Corrected Windows passes 43 native suites and
 visually inspected with one exported cell and zero UI overflow. Windows full
 regression and hosted run 40024473049 at f8cb02a139d5c4b4651978425cb064472b3f1b81
 remain pending. Main promotion and all other unfinished M0–M7 gates remain open.
+
+
+Corrected packet-103 local validation is complete: Windows full regression passes
+2,067 cases (10 optional skips, four scientific expected failures), alongside
+the corrected Linux 1,683-pass result. Native, focused, installed runtime,
+stubs/typing and completed-frame checks pass. Hosted run 40024473049 and its
+artifact audit remain pending; superseded run 40022136685 is cancelled. Main
+promotion and all other unfinished M0–M7 requirements remain open.
