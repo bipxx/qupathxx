@@ -1557,6 +1557,22 @@ class GuiInputTarget(enum.Enum):
 
     PIXEL_EXPORT_STREAM = 42
 
+    PIXEL_STREAM_BROWSER = 43
+
+    PIXEL_STREAM_OPEN = 44
+
+    PIXEL_STREAM_READ = 45
+
+    PIXEL_STREAM_PREVIOUS = 46
+
+    PIXEL_STREAM_NEXT = 47
+
+    PIXEL_STREAM_VERIFY = 48
+
+    PIXEL_STREAM_CANCEL = 49
+
+    PIXEL_STREAM_CLOSE = 50
+
 class GuiInputWait(enum.Enum):
     IMMEDIATE = 0
 
@@ -1631,6 +1647,12 @@ class GuiInputWait(enum.Enum):
     PIXEL_HISTORICAL_PREVIEW_READY = 35
 
     PIXEL_STREAM_FINISHED = 36
+
+    PIXEL_STREAM_READ_READY = 37
+
+    PIXEL_STREAM_READ_FINISHED = 38
+
+    PIXEL_STREAM_VERIFIED = 39
 
 class GuiInput:
     def __init__(self) -> None: ...
@@ -2143,6 +2165,30 @@ class GuiOptions:
     def classifier_record_id(self, arg: int, /) -> None: ...
 
     @property
+    def pixel_stream_browser_open(self) -> bool: ...
+
+    @pixel_stream_browser_open.setter
+    def pixel_stream_browser_open(self, arg: bool, /) -> None: ...
+
+    @property
+    def pixel_stream_read_path(self) -> str: ...
+
+    @pixel_stream_read_path.setter
+    def pixel_stream_read_path(self, arg: str, /) -> None: ...
+
+    @property
+    def pixel_stream_read_index(self) -> int: ...
+
+    @pixel_stream_read_index.setter
+    def pixel_stream_read_index(self, arg: int, /) -> None: ...
+
+    @property
+    def pixel_stream_read_max_bytes(self) -> int: ...
+
+    @pixel_stream_read_max_bytes.setter
+    def pixel_stream_read_max_bytes(self, arg: int, /) -> None: ...
+
+    @property
     def pixel_stream_path(self) -> str: ...
 
     @pixel_stream_path.setter
@@ -2344,6 +2390,21 @@ class GuiReport:
 
     @property
     def overlay_cache_fallbacks(self) -> int: ...
+
+    @property
+    def pixel_stream_read(self) -> PixelStreamReadStats: ...
+
+    @property
+    def pixel_stream_read_gpu_bytes(self) -> int: ...
+
+    @property
+    def pixel_stream_read_peak_gpu_bytes(self) -> int: ...
+
+    @property
+    def pixel_stream_read_preview_ready(self) -> bool: ...
+
+    @property
+    def pixel_stream_read_preview_bounds(self) -> Rect: ...
 
     @property
     def pixel_stream(self) -> PixelStreamExportStats: ...
@@ -5956,6 +6017,61 @@ class PixelStreamExportJob:
     def poll(self, document: Document) -> PixelStreamExportStats: ...
 
     def wait(self, document: Document) -> PixelStreamExportStats: ...
+
+class PixelStreamReadStats:
+    def __init__(self, _native_only: Never) -> None: ...
+    @property
+    def state(self) -> str: ...
+
+    @property
+    def error(self) -> str: ...
+
+    @property
+    def generation(self) -> int: ...
+
+    @property
+    def block_index(self) -> int: ...
+
+    @property
+    def elapsed_ms(self) -> float: ...
+
+    @property
+    def verified(self) -> bool: ...
+
+    @property
+    def windowed(self) -> bool: ...
+
+    @property
+    def block_size(self) -> int: ...
+
+    @property
+    def level_bounds(self) -> Rect: ...
+
+    @property
+    def declared_summary(self) -> PixelStreamFileSummary: ...
+
+    @property
+    def block(self) -> PixelPredictionResult: ...
+
+class PixelStreamReadJob:
+    def __init__(self) -> None: ...
+
+    def open(self, path: str, index: int = ..., max_bytes: int = ...) -> bool: ...
+
+    def read(self, index: int) -> bool: ...
+
+    def verify(self) -> bool: ...
+
+    def close(self) -> bool: ...
+
+    def cancel(self) -> None: ...
+
+    @property
+    def busy(self) -> bool: ...
+
+    def poll(self) -> PixelStreamReadStats: ...
+
+    def wait(self) -> PixelStreamReadStats: ...
 
 class PixelAnnotationSnapshot:
     def __init__(self, _native_only: Never) -> None: ...

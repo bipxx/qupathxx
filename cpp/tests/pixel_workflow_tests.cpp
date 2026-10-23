@@ -92,8 +92,15 @@ int main() {try {
             export_job.cancel();check(export_job.poll(doc).state=="saved");
             check(export_job.request(failed,failed_id,model,output.path.u8string(),stream_options,{},true));const auto failed_export=export_job.wait(failed);check(failed_export.state=="failed" && !failed_export.summary && failed_export.generation==2);
             PixelStreamFile survived(output.path.u8string());survived.verify();check(survived.declared_summary().class_counts==summary.class_counts);
+            PixelStreamReadJob read_job;check(read_job.open(output.path.u8string()) && !read_job.open(output.path.u8string()) && !read_job.close());
+            const auto opened=read_job.wait();check(opened.state=="ready" && opened.block && !opened.verified && opened.declared_summary->class_counts==summary.class_counts);
+            check(read_job.verify());const auto verified=read_job.wait();check(verified.state=="ready" && verified.verified && verified.block==opened.block);
+            check(read_job.read(summary.blocks-1));const auto last_block=read_job.wait();check(last_block.state=="ready" && last_block.block_index==summary.blocks-1 && last_block.block->sha256()==survived.read_block(summary.blocks-1)->sha256());
+            read_job.cancel();check(read_job.poll().state=="cancelled" && !read_job.poll().block);rejects([&] {read_job.read(0);});
+            check(read_job.open(output.path.u8string()));check(read_job.wait().state=="ready");check(read_job.close() && read_job.poll().state=="idle" && !read_job.poll().block && opened.block->valid_pixels()==survived.read_block(0)->valid_pixels());
+            check(read_job.open(output.path.u8string()) && read_job.wait().state=="ready");
             std::fstream mutate(output.path,std::ios::in|std::ios::out|std::ios::binary);mutate.seekg(-1,std::ios::end);char last;mutate.get(last);mutate.seekp(-1,std::ios::end);mutate.put(last^1);mutate.close();
-            rejects([&]{survived.read_block(0);});rejects([&]{survived.verify();});check(!survived.verified());
+            check(read_job.verify());check(read_job.wait().state=="failed" && !read_job.poll().block && !read_job.poll().verified);rejects([&]{survived.read_block(0);});rejects([&]{survived.verify();});check(!survived.verified());
         }
         prediction.tile_size=32;const auto tiled=predict_pixel_region(PixelPredictionRequest(doc,roi,model,prediction));check(tiled->sha256()==result->sha256());
         rejects([&]{predict_pixel_region(predict,&cancelled);});prediction.work_bytes=1024*1024;rejects([&]{PixelPredictionRequest too_small(doc,roi,model,prediction);});

@@ -8,7 +8,7 @@ namespace qpx::detail {
 // Context-thread only. At most four 256px tiles (1 MiB) per frame;
 // reveal only a complete preview. Generation/readiness invalidate canvas caches.
 class GuiPixelPreview {
-    struct Tile {GLuint texture;Rect bounds;};
+    struct Tile {GLuint texture;Rect bounds,local;};
     std::shared_ptr<const PixelPredictionResult> owner_;
     std::vector<Tile> tiles_;std::vector<std::uint32_t> palette_;
     std::size_t cursor_=0,total_=0,bytes_=0,peak_=0;std::uint64_t generation_=0;
@@ -38,12 +38,17 @@ public:
                 for(std::int64_t yy=0;yy<h;++yy) for(std::int64_t xx=0;xx<w;++xx) {const auto label=owner_->labels()[static_cast<std::size_t>((y+yy)*width+x+xx)];const auto i=static_cast<std::size_t>((yy*w+xx)*4);const auto color=label?palette_.at(label-1):0;any=any || label;for(unsigned c=0;c<4;++c) rgba[i+c]=static_cast<std::uint8_t>(color>>(c*8));}
                 if(!any) continue;GLuint texture=0;glGenTextures(1,&texture);glBindTexture(GL_TEXTURE_2D,texture);glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_NEAREST);glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_NEAREST);glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,0x812F);glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,0x812F);glPixelStorei(GL_UNPACK_ALIGNMENT,1);
                 glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,static_cast<GLsizei>(w),static_cast<GLsizei>(h),0,GL_RGBA,GL_UNSIGNED_BYTE,rgba.data());if(!texture || glGetError()!=GL_NO_ERROR) {if(texture) glDeleteTextures(1,&texture);throw std::runtime_error("pixel preview upload failed");}
-                tiles_.push_back({texture,{origin.x+x*scale,origin.y+y*scale,w*scale,h*scale}});bytes_+=rgba.size();peak_=std::max(peak_,bytes_);
+                tiles_.push_back({texture,{origin.x+x*scale,origin.y+y*scale,w*scale,h*scale},{double(x),double(y),double(w),double(h)}});bytes_+=rgba.size();peak_=std::max(peak_,bytes_);
             }glBindTexture(GL_TEXTURE_2D,0);
         }catch(const std::exception& e) {error_=e.what();}
     }
     void draw(ImDrawList* draw,const Viewport& view,ImVec2 offset,ImVec2 size) const {
         if(!ready()) return;for(const auto& tile:tiles_) {const auto a=view.image_to_screen({tile.bounds.x,tile.bounds.y}),b=view.image_to_screen({tile.bounds.x+tile.bounds.width,tile.bounds.y+tile.bounds.height});if(b.x<0 || b.y<0 || a.x>size.x || a.y>size.y) continue;draw->AddImage(static_cast<ImTextureID>(tile.texture),{offset.x+float(a.x),offset.y+float(a.y)},{offset.x+float(b.x),offset.y+float(b.y)});}
+    }
+    void draw_local(ImDrawList* draw,ImVec2 offset,ImVec2 size) const {
+        if(!ready()) return;const auto scale=std::min(double(size.x)/owner_->width(),double(size.y)/owner_->height());
+        const ImVec2 origin{offset.x+float((size.x-owner_->width()*scale)*.5),offset.y+float((size.y-owner_->height()*scale)*.5)};
+        for(const auto& tile:tiles_) {const auto& b=tile.local;draw->AddImage(static_cast<ImTextureID>(tile.texture),{origin.x+float(b.x*scale),origin.y+float(b.y*scale)},{origin.x+float((b.x+b.width)*scale),origin.y+float((b.y+b.height)*scale)});}
     }
 };
 }

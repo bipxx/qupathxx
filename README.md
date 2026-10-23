@@ -71,7 +71,8 @@ QuPath port or a compatible replacement for Java QuPath.
   with bounded output storage. [QPS1 files](docs/pixel-stream-file.md) store complete
   streams atomically with indexed, verified historical access. The native/Python
   [background export job](docs/pixel-stream-export.md) also powers F5 stream export
-  with progress and cancellation.
+  with progress and cancellation. A separate [saved-file inspector](docs/pixel-stream-browser.md)
+  opens, verifies and previews individual historical blocks without changing the current image.
   Research validation and large-batch
   frame budgets remain unfinished;
   see also the

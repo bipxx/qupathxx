@@ -28,6 +28,8 @@ from ._native import (
     PixelStreamFileSummary as PixelStreamFileSummary,
     PixelStreamExportStats as PixelStreamExportStats,
     PixelStreamExportJob as PixelStreamExportJob,
+    PixelStreamReadStats as PixelStreamReadStats,
+    PixelStreamReadJob as PixelStreamReadJob,
     save_pixel_stream as save_pixel_stream,
     PixelStreamOptions as PixelStreamOptions,
     PixelPredictionStream as PixelPredictionStream,

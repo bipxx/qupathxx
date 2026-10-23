@@ -45,4 +45,26 @@ public:
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
 };
+struct PixelStreamReadStats {
+    std::string state="idle",error;
+    std::uint64_t generation=0,block_index=0;
+    double elapsed_ms=0;
+    bool verified=false,windowed=false;
+    std::size_t block_size=0;
+    Rect level_bounds;
+    std::shared_ptr<const PixelStreamFileSummary> declared_summary;
+    std::shared_ptr<const PixelPredictionResult> block;
+};
+// Owner-thread controller with one worker and no request queue. Values are
+// historical; neither a live source nor a Document capability is restored.
+class PixelStreamReadJob {
+public:
+    PixelStreamReadJob();~PixelStreamReadJob();PixelStreamReadJob(const PixelStreamReadJob&)=delete;
+    bool open(const std::string& path,std::uint64_t index=0,std::uint64_t max_bytes=1ULL<<40);
+    bool read(std::uint64_t index);bool verify();bool close();
+    bool busy() const;void cancel();
+    PixelStreamReadStats poll();PixelStreamReadStats wait();
+private:
+    struct Impl;std::unique_ptr<Impl> impl_;
+};
 }

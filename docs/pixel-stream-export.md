@@ -69,8 +69,7 @@ and `pixel_stream_max_bytes` configure the same controls for replay;
 The producer work estimate excludes caller-owned source/model storage. File
 encoding retains one bounded QPA2 metadata header plus a block and I/O buffer;
 the controller also owns worker/future/stats bookkeeping. None is a process RSS
-or hard shutdown-latency guarantee. Resume, project-linked files, whole-stream
-contour stitching and an interactive historical file browser remain open.
+or hard shutdown-latency guarantee. The [saved-file inspector](pixel-stream-browser.md) provides historical block navigation and verification. Resume, project-linked files and whole-stream contour stitching remain open.
 
 
 The [local validation record](benchmarks/pixel-stream-export-local-windows-linux.json)

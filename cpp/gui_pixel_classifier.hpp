@@ -1,6 +1,7 @@
 #pragma once
 #include "gui_pixel_preview.hpp"
 #include "gui_pixel_archives.hpp"
+#include "gui_pixel_stream_browser.hpp"
 #include "qupathxx/pixel_stream_file.hpp"
 #include "qupathxx/pixel_contours.hpp"
 #include "gui_layout.hpp"
@@ -15,7 +16,7 @@
 #include <sstream>
 namespace qpx::detail {
 class GuiPixelClassifier {
-    GuiPixelArchives archives_;
+    GuiPixelArchives archives_;GuiPixelStreamBrowser browser_;
     PixelStreamExportJob stream_;PixelStreamExportStats stream_stats_;PixelStreamOptions stream_options_;
     std::array<char,4096> stream_path_{};bool stream_replace_=false;std::uint64_t stream_max_bytes_=1ULL<<40;
     std::optional<PixelTrainingRequest> training_request_;
@@ -34,7 +35,7 @@ class GuiPixelClassifier {
     bool open_=false,selected_only_=false,replace_=false,show_=true,viewport_only_=false,trained_=false,preview_reset_=false;
     std::uint64_t target_=0,adopted_=0;std::size_t preview_limit_=0;double capture_ms_=0;float opacity_=.45f;
     std::vector<std::array<float,3>> colors_;std::vector<std::uint32_t> palette_;
-    std::array<char,4096> path_{};std::array<char,256> scales_{};std::array<Rect,14> targets_{};
+    std::array<char,4096> path_{};std::array<char,256> scales_{};std::array<Rect,15> targets_{};
     std::string error_,io_state_="idle",io_error_;
     struct IoResult {std::shared_ptr<const PixelClassifier> model;std::string error;bool save=false;};
     std::future<IoResult> io_;std::atomic<bool> io_cancelled_{false};
@@ -89,7 +90,7 @@ class GuiPixelClassifier {
         try {io_=std::async(std::launch::async,[this,path,model=std::move(model),save,replace] {IoResult out;out.save=save;try {if(save) save_pixel_classifier(*model,path,replace,&io_cancelled_);else {auto loaded=load_pixel_classifier(path,&io_cancelled_);if(!loaded.resolution()) throw std::invalid_argument("Pixel preview requires a resolution-bound model; this file is an unbound buffer recipe");out.model=std::make_shared<const PixelClassifier>(std::move(loaded));}}catch(const std::exception& e) {out.error=e.what();}return out;});}catch(const std::exception& e) {io_state_="failed";io_error_=e.what();}
     }
 public:
-    explicit GuiPixelClassifier(const GuiOptions& o):contour_options_(o.pixel_contour_options?*o.pixel_contour_options:TissueContourOptions{}),options_(o.pixel_training_options?*o.pixel_training_options:PixelTrainingOptions{}),prediction_options_(o.pixel_prediction_options?*o.pixel_prediction_options:PixelPredictionOptions{}),parameters_(o.pixel_parameters?*o.pixel_parameters:pixel_forest_parameters()),open_(o.pixel_open),selected_only_(o.pixel_selected_only),replace_(o.pixel_replace_model),show_(o.pixel_show_overlay),viewport_only_(o.pixel_viewport_only),target_(o.pixel_object_id),preview_limit_(o.pixel_preview_budget) {
+    explicit GuiPixelClassifier(const GuiOptions& o):browser_(o),contour_options_(o.pixel_contour_options?*o.pixel_contour_options:TissueContourOptions{}),options_(o.pixel_training_options?*o.pixel_training_options:PixelTrainingOptions{}),prediction_options_(o.pixel_prediction_options?*o.pixel_prediction_options:PixelPredictionOptions{}),parameters_(o.pixel_parameters?*o.pixel_parameters:pixel_forest_parameters()),open_(o.pixel_open),selected_only_(o.pixel_selected_only),replace_(o.pixel_replace_model),show_(o.pixel_show_overlay),viewport_only_(o.pixel_viewport_only),target_(o.pixel_object_id),preview_limit_(o.pixel_preview_budget) {
         stream_options_=o.pixel_stream_options?*o.pixel_stream_options:PixelStreamOptions{};if(!o.pixel_stream_options) stream_options_.prediction=prediction_options_;stream_options_.validate();stream_replace_=o.pixel_stream_replace;stream_max_bytes_=o.pixel_stream_max_bytes;if(stream_max_bytes_<128 || stream_max_bytes_>(1ULL<<46)) throw std::invalid_argument("invalid pixel stream file byte limit");bounded_utf8(o.pixel_stream_path,stream_path_.size()-1);std::memcpy(stream_path_.data(),o.pixel_stream_path.data(),o.pixel_stream_path.size());
         contour_options_.validate();options_.validate();prediction_options_.validate();parameters_.validate();if(preview_limit_>128u*1024*1024) throw std::invalid_argument("pixel preview budget exceeds 128 MiB");bounded_utf8(o.pixel_model_path,path_.size()-1);std::memcpy(path_.data(),o.pixel_model_path.data(),o.pixel_model_path.size());scales_text();if(o.pixel_model) model_=std::make_shared<const PixelClassifier>(*o.pixel_model);
     }
@@ -97,6 +98,7 @@ public:
     void open() {open_=true;}
     void invalidate_training() {if(training_.busy()) cancel_training();}
     void update(Document& doc,const ObjectSelection& selection) {
+        browser_.update();
         if(preview_reset_) {preview_.clear();preview_reset_=false;}
         const bool changed_document=catalog_identity_ && catalog_identity_!=doc.analysis_identity_.token;
         if(changed_document) {stream_.cancel();cancel_training();cancel_prediction();target_=0;record_loaded_=false;}
@@ -121,7 +123,8 @@ public:
     bool preview_ready() const {return preview_.ready();}
     bool show_overlay() const {return show_;}
     bool overlay_visible() const {return show_ && opacity_>0 && preview_.ready() && preview_source() && preview_source()->classified_pixels()>0;}
-    bool settled() const {return !stream_.busy() && !archives_.busy() && !contours_.busy() && !training_.busy() && !prediction_.busy() && !io_.valid() && (!show_ || !preview_source() || preview_.ready() || !preview_.error().empty());}
+    bool settled() const {return browser_.settled() && !stream_.busy() && !archives_.busy() && !contours_.busy() && !training_.busy() && !prediction_.busy() && !io_.valid() && (!show_ || !preview_source() || preview_.ready() || !preview_.error().empty());}
+    const GuiPixelStreamBrowser& browser() const {return browser_;}
     const PixelStreamExportStats& stream_stats() const {return stream_stats_;}
     const GuiPixelArchives& archives() const {return archives_;}
     bool record_loaded() const {return record_loaded_;}
@@ -131,7 +134,7 @@ public:
     const PixelTrainingStats& prediction_stats() const {return prediction_stats_;}
     const std::string& io_state() const {return io_state_;}
     const std::string& io_error() const {return io_error_;}
-    std::string error() const {if(!error_.empty()) return error_;if(!stream_stats_.error.empty()) return stream_stats_.error;if(!archives_.error().empty()) return archives_.error();if(!training_stats_.error.empty()) return training_stats_.error;if(!prediction_stats_.error.empty()) return prediction_stats_.error;if(!contour_stats_.error.empty()) return contour_stats_.error;return preview_.error();}
+    std::string error() const {if(!error_.empty()) return error_;if(!browser_.error().empty()) return browser_.error();if(!stream_stats_.error.empty()) return stream_stats_.error;if(!archives_.error().empty()) return archives_.error();if(!training_stats_.error.empty()) return training_stats_.error;if(!prediction_stats_.error.empty()) return prediction_stats_.error;if(!contour_stats_.error.empty()) return contour_stats_.error;return preview_.error();}
     std::shared_ptr<const PixelClassifier> model() const {return model_;}
     std::shared_ptr<const PixelPredictionResult> result() const {return prediction_.result();}
     std::shared_ptr<const PixelTrainingTable> table() const {return training_.table();}
@@ -144,12 +147,12 @@ public:
     std::size_t catalog_inspected() const {return catalog_inspected_;}
     std::size_t catalog_max_step() const {return catalog_max_step_;}
     bool catalog_complete() const {return catalog_complete_;}
-    Rect bounds(GuiInputTarget t) const {return targets_.at(index(t));}
-    void finish(Document& doc,const ObjectSelection& selection,bool finite) {if(!finite) {stream_.cancel();archives_.cancel();training_.cancel();cancel_prediction();io_cancelled_.store(true);}if(training_.busy()) training_.wait(doc);if(prediction_.busy()) prediction_.wait(doc);if(contours_.busy()) contours_.wait(doc);if(io_.valid()) io_.wait();archives_.wait();if(stream_.busy()) stream_.wait(doc);update(doc,selection);}
+    Rect bounds(GuiInputTarget t) const {return t>=GuiInputTarget::OpenPixelStreamFile?browser_.bounds(t):targets_.at(index(t));}
+    void finish(Document& doc,const ObjectSelection& selection,bool finite) {if(!finite) {stream_.cancel();archives_.cancel();training_.cancel();cancel_prediction();io_cancelled_.store(true);}if(training_.busy()) training_.wait(doc);if(prediction_.busy()) prediction_.wait(doc);if(contours_.busy()) contours_.wait(doc);if(io_.valid()) io_.wait();archives_.wait();if(stream_.busy()) stream_.wait(doc);browser_.finish(finite);update(doc,selection);}
     void draw(Document& doc,const ObjectSelection& selection,bool blocked,bool has_image,const std::function<void(GuiInputTarget)>& mark,const std::function<StainTransform(bool)>& transform,Rect visible) {
-        if(!ImGui::GetIO().WantTextInput && !blocked && ImGui::IsKeyPressed(ImGuiKey_F5,false)) open_=!open_;if(!open_) return;
+        if(!ImGui::GetIO().WantTextInput && !blocked && ImGui::IsKeyPressed(ImGuiKey_F5,false)) open_=!open_;if(!open_) {browser_.draw(blocked,mark);return;}
         const auto* vp=ImGui::GetMainViewport();const auto scale=ImGui::GetFontSize()/13.f;ImGui::SetNextWindowSize({std::min(620.f*scale,vp->WorkSize.x*.88f),std::min(720.f*scale,vp->WorkSize.y*.88f)},ImGuiCond_Appearing);ImGui::SetNextWindowPos({vp->WorkPos.x+vp->WorkSize.x*.5f,vp->WorkPos.y+vp->WorkSize.y*.5f},ImGuiCond_Appearing,{.5f,.5f});ImGui::SetNextWindowSizeConstraints({std::min(260.f*scale,vp->WorkSize.x),std::min(160.f*scale,vp->WorkSize.y)},vp->WorkSize);
-        if(!ImGui::Begin("Pixel classifiers",&open_)) {ImGui::End();return;}
+        if(!ImGui::Begin("Pixel classifiers",&open_)) {ImGui::End();browser_.draw(blocked,mark);return;}
         auto button=[&](const char* label,GuiInputTarget target,bool disabled){ImGui::BeginDisabled(disabled);const bool clicked=ui::Button(label);const auto a=ImGui::GetItemRectMin(),b=ImGui::GetItemRectMax();targets_[index(target)]={a.x,a.y,b.x-a.x,b.y-a.y};mark(target);ImGui::EndDisabled();return clicked;};
         const bool busy=stream_.busy() || archives_.busy() || training_.busy() || prediction_.busy() || contours_.busy() || io_.valid();const bool disabled=blocked || !has_image || busy;
         // Primary actions remain above advanced controls in narrow windows.
@@ -157,6 +160,7 @@ public:
         ImGui::SameLine();
         if(button("Predict area",GuiInputTarget::PredictPixelClasses,disabled || !model_)) predict(doc,selection,visible);
         ImGui::SameLine();if(button("Export pixel stream",GuiInputTarget::ExportPixelStream,disabled || !model_ || !stream_path_[0])) export_stream(doc,selection,visible);
+        ImGui::SameLine();if(button("Saved stream files",GuiInputTarget::OpenPixelStreamBrowser,blocked)) browser_.open();
         ImGui::BeginDisabled(disabled);if(ui::Checkbox("Predict visible part of area only",&viewport_only_)) cancel_prediction();ImGui::EndDisabled();
         if(button("Trace pixel contours",GuiInputTarget::TracePixelContours,disabled || !has_geos() || !prediction_.result() || !prediction_request_ || published_)) trace(doc);
         ImGui::SameLine();
@@ -237,7 +241,7 @@ public:
         if(published_) ImGui::TextWrapped("Published %zu class annotations",published_ids_.size());
         if(model_ && ImGui::CollapsingHeader("Overlay colors",colors_.size()<=8?ImGuiTreeNodeFlags_DefaultOpen:0)) {bool palette=ui::SliderFloat("Opacity",&opacity_,0,1);for(std::size_t i=0;i<colors_.size();++i) {ImGui::PushID(static_cast<int>(i));const auto label="Class "+std::to_string(i+1)+" / "+model_->classes()[i];palette=ui::ColorEdit3(label.c_str(),colors_[i].data()) || palette;ImGui::PopID();}if(palette) make_palette();}
         if(auto result=prediction_.result()) {if(result->windowed()) ImGui::TextWrapped("Windowed prediction: captured visible grid; pan and predict again to update.");ImGui::TextWrapped("%lld x %lld / level %d / %.1f ms",static_cast<long long>(result->width()),static_cast<long long>(result->height()),result->level(),result->elapsed_ms());ImGui::TextWrapped("%llu classified pixels; preview %s",static_cast<unsigned long long>(result->classified_pixels()),preview_.ready()?"ready":"preparing");}
-        ImGui::End();
+        ImGui::End();browser_.draw(blocked,mark);
     }
 };
 }

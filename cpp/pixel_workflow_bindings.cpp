@@ -108,7 +108,20 @@ void bind_pixel_workflows(nb::module_& m) {
         .def_prop_ro("busy",&PixelStreamExportJob::busy).def("cancel",&PixelStreamExportJob::cancel)
         .def("poll",&PixelStreamExportJob::poll,"document"_a)
         .def("wait",&PixelStreamExportJob::wait,"document"_a,nb::call_guard<nb::gil_scoped_release>());
+    nb::class_<PixelStreamReadStats>(m,"PixelStreamReadStats")
+        .def_ro("state",&PixelStreamReadStats::state).def_ro("error",&PixelStreamReadStats::error).def_ro("generation",&PixelStreamReadStats::generation)
+        .def_ro("block_index",&PixelStreamReadStats::block_index).def_ro("elapsed_ms",&PixelStreamReadStats::elapsed_ms)
+        .def_ro("verified",&PixelStreamReadStats::verified).def_ro("windowed",&PixelStreamReadStats::windowed)
+        .def_ro("block_size",&PixelStreamReadStats::block_size).def_ro("level_bounds",&PixelStreamReadStats::level_bounds)
+        .def_ro("declared_summary",&PixelStreamReadStats::declared_summary).def_ro("block",&PixelStreamReadStats::block);
+    nb::class_<PixelStreamReadJob>(m,"PixelStreamReadJob").def(nb::init<>())
+        .def("open",&PixelStreamReadJob::open,"path"_a,"index"_a=0,"max_bytes"_a=1ULL<<40)
+        .def("read",&PixelStreamReadJob::read,"index"_a).def("verify",&PixelStreamReadJob::verify)
+        .def("close",&PixelStreamReadJob::close).def("cancel",&PixelStreamReadJob::cancel).def_prop_ro("busy",&PixelStreamReadJob::busy)
+        .def("poll",&PixelStreamReadJob::poll).def("wait",&PixelStreamReadJob::wait,nb::call_guard<nb::gil_scoped_release>());
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
+        .def_rw("pixel_stream_browser_open",&GuiOptions::pixel_stream_browser_open).def_rw("pixel_stream_read_path",&GuiOptions::pixel_stream_read_path)
+        .def_rw("pixel_stream_read_index",&GuiOptions::pixel_stream_read_index).def_rw("pixel_stream_read_max_bytes",&GuiOptions::pixel_stream_read_max_bytes)
         .def_rw("pixel_stream_path",&GuiOptions::pixel_stream_path).def_rw("pixel_stream_replace",&GuiOptions::pixel_stream_replace)
         .def_rw("pixel_stream_options",&GuiOptions::pixel_stream_options).def_rw("pixel_stream_max_bytes",&GuiOptions::pixel_stream_max_bytes)
         .def_rw("pixel_open",&GuiOptions::pixel_open).def_rw("pixel_selected_only",&GuiOptions::pixel_selected_only).def_rw("pixel_replace_model",&GuiOptions::pixel_replace_model).def_rw("pixel_show_overlay",&GuiOptions::pixel_show_overlay).def_rw("pixel_viewport_only",&GuiOptions::pixel_viewport_only)

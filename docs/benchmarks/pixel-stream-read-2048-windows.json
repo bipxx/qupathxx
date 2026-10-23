@@ -1,0 +1,32 @@
+{
+  "schema": "qpx.pixel-stream-read-benchmark/1",
+  "file": "pixel81-job-mask-2048.qps",
+  "file_bytes": 37804298,
+  "file_sha256": "7add30ea338160fe979c97fb2715582d0ada15d8b06681e631e8db7a1072d1ee",
+  "content_sha256": "c0baa763b1a1245989228023731b207718e233deab1e122373a74eeb7148f5c4",
+  "blocks": 256,
+  "valid_pixels": 4194304,
+  "class_counts": [
+    2097152,
+    2097152
+  ],
+  "max_block_array_bytes": 147456,
+  "open_request_ms": 0.14919997192919254,
+  "open_worker_ms": 5.3452,
+  "verify_wall_ms": 375.6538999732584,
+  "indexed_wall_ms": 761.2540998961776,
+  "read_request_max_ms": 0.48289995174854994,
+  "polls": 990,
+  "max_poll_ms": 0.3712000325322151,
+  "last_256_poll_p95_ms": 0.02829998265951872,
+  "retained_poll_samples": 256,
+  "native_sha256": "015d00fe0b431815b4f96b682a4e125f6c562f64a372c9d4bb8ba63a9ffcb193",
+  "environment": {
+    "source_tree_sha256": "785e126760da6e7ce6d6ce58d4d344c934d503276c3e2928901d87fd9f489e69",
+    "git_revision": "504fc669b84a8b688a615e63a80799fb8f45a012+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "scope": "Read-only synthetic/file observation. One native job operation at a time, no request queue, fixed256 poll-sample storage, out-of-order reads, independently summed block-array counts and full file verification. No full mask or block index list. File header and selected/verification blocks have separate bounded allowances. Not RSS, training, original-slide numerical/biological accuracy, hardware or GUI acceptance."
+}

@@ -1,0 +1,346 @@
+{
+  "schema": "qpx.pixel-stream-browser-local/1",
+  "observed_utc": "2026-10-23T05:38:27.408833+00:00",
+  "scope": "Native/Python asynchronous historical QPS1 inspector and independent real-window label preview. Indexed reads, cancellation, restart, close, complete verification, immutable ownership, no live publication authority. No project-linked stream records, resume, whole-stream contours, source-reconciled current-slide overlays, RSS, hardware/frame-budget or biological acceptance.",
+  "tests": {
+    "python": {
+      "tests": 1653,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 6,
+      "passed": 1647,
+      "seconds": 790.737,
+      "sha256": "31a87bb23918570f245afe7088c94fc406ea1775761e4ccb2aea4e23838dcd3a"
+    },
+    "focused_api": {
+      "tests": 75,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 75,
+      "seconds": 7.334,
+      "sha256": "deba739566d7469e379f754c6eb2a3acf23cdfb73c1af7eefd03e14d8106cae7"
+    },
+    "focused_gui": {
+      "tests": 46,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 46,
+      "seconds": 75.931,
+      "sha256": "ca8a7823ef8df57e95ac1b0be599c355475635f5435eacfd79e774d136b54fc6"
+    },
+    "final_browser": {
+      "tests": 9,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 9,
+      "seconds": 16.981,
+      "sha256": "1438dc579838d1203b4f8801a12142d36e8a90baa1fddd9ece567ae13c524cab"
+    },
+    "overlay_browser_recheck": {
+      "tests": 25,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 25,
+      "seconds": 53.114,
+      "sha256": "0c0e263f2a73a46b843e3d4d50b6a502835d5f8bab6f5b384149ef3c40fd9052"
+    },
+    "windows_gui_native": {
+      "tests": 39,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 39,
+      "seconds": 8.0,
+      "sha256": "d2fca0dd039dfa08aaa5c8d026e9cc0026a7707cceba32821d64da0fcf370c6a"
+    },
+    "windows_native": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 5.0,
+      "sha256": "c015113ad69ae5d8c0aefb6b85273f670017cfc575f3abb106941f997f66c54f"
+    },
+    "linux_native": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 1.0,
+      "sha256": "f6d211a39beac1ab7980c1251c2cb22f82f1009cbdd89be9f69e16fd2a408ec9"
+    },
+    "linux_minimal": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 0.0,
+      "sha256": "29b6fb01a080216925e4eb46a6046191f0f3bcab7f654c4298511bc2e7ce6dd2"
+    },
+    "linux_sanitizers": {
+      "tests": 38,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 5.0,
+      "sha256": "3009663f29b9c5784e08133ede10f2dc8275fd7f19beb6bdb12b1fd908f9739e"
+    }
+  },
+  "new_cases": {
+    "test_pixel_stream_read_job": [
+      "test_idle_job_and_missing_reader_operations",
+      "test_open_reads_requested_block_and_declares_unverified_totals[0]",
+      "test_open_reads_requested_block_and_declares_unverified_totals[1]",
+      "test_open_reads_requested_block_and_declares_unverified_totals[5]",
+      "test_open_reads_requested_block_and_declares_unverified_totals[11]",
+      "test_navigation_verification_and_close_keep_value_snapshots_alive",
+      "test_pending_request_has_no_queue_or_close_side_effect",
+      "test_out_of_range_read_clears_display_and_can_retry_same_reader",
+      "test_failed_open_replaces_old_reader_and_can_reopen",
+      "test_invalid_file_limit_does_not_launch_worker[0]",
+      "test_invalid_file_limit_does_not_launch_worker[127]",
+      "test_invalid_file_limit_does_not_launch_worker[70368744177665]",
+      "test_valid_too_small_limit_fails_without_decoded_values",
+      "test_cancel_open_discards_even_a_completed_uncollected_result",
+      "test_cancel_pending_reader_is_terminal_until_reopened[read]",
+      "test_cancel_pending_reader_is_terminal_until_reopened[verify]",
+      "test_changed_file_invalidates_result_and_verification_without_losing_old_views",
+      "test_unrequested_corrupt_block_is_rejected_on_read_and_complete_scan",
+      "test_result_and_summary_copies_cannot_rewrite_reader_state",
+      "test_loaded_block_restores_no_live_publication_authority",
+      "test_python_owner_shutdown_during_read_and_verification_does_not_deadlock"
+    ],
+    "test_gui_pixel_stream_browser": [
+      "test_real_browser_opens_historical_blocks_and_has_exact_rendered_colors[0-dimensions0-1.0]",
+      "test_real_browser_opens_historical_blocks_and_has_exact_rendered_colors[0-dimensions1-1.25]",
+      "test_real_browser_opens_historical_blocks_and_has_exact_rendered_colors[11-dimensions0-1.0]",
+      "test_real_browser_opens_historical_blocks_and_has_exact_rendered_colors[11-dimensions1-1.25]",
+      "test_real_browser_navigates_verifies_and_releases_preview_on_close",
+      "test_real_browser_verifies_whole_file_without_live_document_authority",
+      "test_real_browser_reports_corrupt_file_without_showing_previous_values",
+      "test_real_browser_reopens_loaded_file_and_replaces_preview",
+      "test_real_browser_cancel_interrupts_complete_scan_and_preserves_file"
+    ]
+  },
+  "installed": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "015d00fe0b431815b4f96b682a4e125f6c562f64a372c9d4bb8ba63a9ffcb193",
+    "source_tree_sha256": "785e126760da6e7ce6d6ce58d4d344c934d503276c3e2928901d87fd9f489e69",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "bytes": 12109003,
+    "sha256": "2deeb1a2d10b26ff0ee9886536d4d0871756255d5518c51b5e3155e51c58121d"
+  },
+  "benchmarks": [
+    {
+      "file": "gui-pixel-stream-read-1024-windows.json",
+      "sha256": "00e3db579d1bd5c8baf57e4acad1d6ef8faf0d63b3e2064857831850716a4069",
+      "values": {
+        "schema": "qpx.gui-pixel-stream-read-benchmark/1",
+        "file": "pixel81-job-mask-1024.qps",
+        "blocks": 64,
+        "content_sha256": "dcf7b93d59d7eae771b91a8129bb9616d8265e4640df1bc21b89aa9373051d04",
+        "block_index": 0,
+        "block_width": 128,
+        "block_height": 128,
+        "block_sha256": "aca261403b938f25f486981e8e256acb9ff4029fc2651c72c45b261563a6a395",
+        "verified": true,
+        "objects": 10000,
+        "wall_ms": 2910.1043000118807,
+        "frames": 104,
+        "cpu_frame_p95_ms": 2.3763,
+        "max_cpu_frame_ms": 2.8703,
+        "gpu_bytes": 65536,
+        "peak_gpu_bytes": 65536,
+        "main_mask_gpu_bytes": 0,
+        "catalog_inspected": 0,
+        "ui_overflow": 0,
+        "rendered_color_samples": 6241,
+        "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+        "capture": {
+          "file": "pixel82-browser-1024.ppm",
+          "sha256": "808d8d36348460eb945faf24530285f9ee0bc8408b56196c4a79e5da314e8a5b"
+        },
+        "native_sha256": "015d00fe0b431815b4f96b682a4e125f6c562f64a372c9d4bb8ba63a9ffcb193",
+        "environment": {
+          "source_tree_sha256": "785e126760da6e7ce6d6ce58d4d344c934d503276c3e2928901d87fd9f489e69",
+          "git_revision": "504fc669b84a8b688a615e63a80799fb8f45a012+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "One synthetic shared-workstation software-GL observation with offscreen cells. Real open/navigation/verification controls, source-independent block preview, exact block-array reference and sampled rendered label colors. At most one512-square block preview/four256px uploads, no current-slide mask or classifier adoption. No RSS, dense visible drawing, vendor-slide throughput, hardware/frame-budget or biological acceptance."
+      }
+    },
+    {
+      "file": "gui-pixel-stream-read-2048-windows.json",
+      "sha256": "816df51c4b7c7b0213dbcf94969b1edf43fd8ec135b6fbf0e826be4bcecc9c30",
+      "values": {
+        "schema": "qpx.gui-pixel-stream-read-benchmark/1",
+        "file": "pixel81-job-mask-2048.qps",
+        "blocks": 256,
+        "content_sha256": "c0baa763b1a1245989228023731b207718e233deab1e122373a74eeb7148f5c4",
+        "block_index": 0,
+        "block_width": 128,
+        "block_height": 128,
+        "block_sha256": "cce8dee57eb82bfab158e34b163e1925bcd1cd512716a9250cae2856279b3d15",
+        "verified": true,
+        "objects": 10000,
+        "wall_ms": 2946.9988000346348,
+        "frames": 118,
+        "cpu_frame_p95_ms": 2.094,
+        "max_cpu_frame_ms": 2.7528,
+        "gpu_bytes": 65536,
+        "peak_gpu_bytes": 65536,
+        "main_mask_gpu_bytes": 0,
+        "catalog_inspected": 0,
+        "ui_overflow": 0,
+        "rendered_color_samples": 6241,
+        "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+        "capture": {
+          "file": "pixel82-browser-2048.ppm",
+          "sha256": "5c0d0c118bfb395f7ac62108d1622df2dfa99cf60f7181d574ee957d1c1fe4ae"
+        },
+        "native_sha256": "015d00fe0b431815b4f96b682a4e125f6c562f64a372c9d4bb8ba63a9ffcb193",
+        "environment": {
+          "source_tree_sha256": "785e126760da6e7ce6d6ce58d4d344c934d503276c3e2928901d87fd9f489e69",
+          "git_revision": "504fc669b84a8b688a615e63a80799fb8f45a012+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "One synthetic shared-workstation software-GL observation with offscreen cells. Real open/navigation/verification controls, source-independent block preview, exact block-array reference and sampled rendered label colors. At most one512-square block preview/four256px uploads, no current-slide mask or classifier adoption. No RSS, dense visible drawing, vendor-slide throughput, hardware/frame-budget or biological acceptance."
+      }
+    },
+    {
+      "file": "pixel-stream-read-1024-windows.json",
+      "sha256": "c071bb06e68c7a9b622a51fe422b16c8490d8fd42957149a4dcb8fb8887d31f5",
+      "values": {
+        "schema": "qpx.pixel-stream-read-benchmark/1",
+        "file": "pixel81-job-mask-1024.qps",
+        "file_bytes": 9454346,
+        "file_sha256": "8995c6af009e78607da4768a02a33f1ce1a08961b6384f75f538b258c37074e7",
+        "content_sha256": "dcf7b93d59d7eae771b91a8129bb9616d8265e4640df1bc21b89aa9373051d04",
+        "blocks": 64,
+        "valid_pixels": 1048576,
+        "class_counts": [
+          524288,
+          524288
+        ],
+        "max_block_array_bytes": 147456,
+        "open_request_ms": 0.1778000732883811,
+        "open_worker_ms": 4.6501,
+        "verify_wall_ms": 85.75550001114607,
+        "indexed_wall_ms": 154.7912999521941,
+        "read_request_max_ms": 0.03730005118995905,
+        "polls": 225,
+        "max_poll_ms": 0.03270001616328955,
+        "last_256_poll_p95_ms": 0.014379993081092815,
+        "retained_poll_samples": 225,
+        "native_sha256": "015d00fe0b431815b4f96b682a4e125f6c562f64a372c9d4bb8ba63a9ffcb193",
+        "environment": {
+          "source_tree_sha256": "785e126760da6e7ce6d6ce58d4d344c934d503276c3e2928901d87fd9f489e69",
+          "git_revision": "504fc669b84a8b688a615e63a80799fb8f45a012+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Read-only synthetic/file observation. One native job operation at a time, no request queue, fixed256 poll-sample storage, out-of-order reads, independently summed block-array counts and full file verification. No full mask or block index list. File header and selected/verification blocks have separate bounded allowances. Not RSS, training, original-slide numerical/biological accuracy, hardware or GUI acceptance."
+      }
+    },
+    {
+      "file": "pixel-stream-read-2048-windows.json",
+      "sha256": "558fd7cef2105b0048bf802cbca9994725bd7d1863ab8591d398285b6433d043",
+      "values": {
+        "schema": "qpx.pixel-stream-read-benchmark/1",
+        "file": "pixel81-job-mask-2048.qps",
+        "file_bytes": 37804298,
+        "file_sha256": "7add30ea338160fe979c97fb2715582d0ada15d8b06681e631e8db7a1072d1ee",
+        "content_sha256": "c0baa763b1a1245989228023731b207718e233deab1e122373a74eeb7148f5c4",
+        "blocks": 256,
+        "valid_pixels": 4194304,
+        "class_counts": [
+          2097152,
+          2097152
+        ],
+        "max_block_array_bytes": 147456,
+        "open_request_ms": 0.14919997192919254,
+        "open_worker_ms": 5.3452,
+        "verify_wall_ms": 375.6538999732584,
+        "indexed_wall_ms": 761.2540998961776,
+        "read_request_max_ms": 0.48289995174854994,
+        "polls": 990,
+        "max_poll_ms": 0.3712000325322151,
+        "last_256_poll_p95_ms": 0.02829998265951872,
+        "retained_poll_samples": 256,
+        "native_sha256": "015d00fe0b431815b4f96b682a4e125f6c562f64a372c9d4bb8ba63a9ffcb193",
+        "environment": {
+          "source_tree_sha256": "785e126760da6e7ce6d6ce58d4d344c934d503276c3e2928901d87fd9f489e69",
+          "git_revision": "504fc669b84a8b688a615e63a80799fb8f45a012+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Read-only synthetic/file observation. One native job operation at a time, no request queue, fixed256 poll-sample storage, out-of-order reads, independently summed block-array counts and full file verification. No full mask or block index list. File header and selected/verification blocks have separate bounded allowances. Not RSS, training, original-slide numerical/biological accuracy, hardware or GUI acceptance."
+      }
+    }
+  ],
+  "screenshot": {
+    "file": "pixel-stream-browser.png",
+    "sha256": "930f44a9c4ba26b8f9c6bc8362c9758a48dde2f29be92bd0461674a022b46e26",
+    "visually_checked": true
+  },
+  "checks": {
+    "pixel82-verified-stubs.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "pixel82-verified-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "pixel82-verified-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead",
+    "pixel82-verified-interop-linux.log": "aa35a9961e4a4d36d8d49af71cd8474459bd4acc2fa4a32e16679ae0693772a6"
+  },
+  "initial_full_run": {
+    "tests": 1652,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1645,
+    "seconds": 742.853,
+    "sha256": "ad2b8013603e8130804b4db42da5c9fbfb77fd8249dca34a1dc97eb637832dec"
+  },
+  "notes": [
+    "Initial full suite failed existing test_finished_native_preview_invalidates_cached_canvas[False] with a1.79percent framebuffer mismatch. New inspector assertions passed. Original pixel-equality assertion remains unchanged; subsequent25 overlay/browser cases and complete final suite pass on the same compiled binary. No production fix or established root cause is claimed for this transient mismatch.",
+    "Final browser tests add a real-button cancellation scan over16384 blocks and direct-read after reopen. All9 browser cases pass independently and in the final complete suite.",
+    "Real-window probes ran serially before the full suite. Read-only job probes overlapped the initial full suite; timings are shared-workstation observations.",
+    "Inspector retains one bounded file header and selected block; verification adds a transient block. The preview is separate from the current-slide canvas and never adopts a classifier or live request."
+  ]
+}

@@ -2648,5 +2648,74 @@ prior packet's mixed CI outcome is preserved separately.
 
 Implementation commit: `5f132d44f9235288c5a9c28d70101303de48a185`. Hosted
 [run 39901919127](https://github.com/bipxx/qupathxx/actions/runs/39901919127)
-targets that exact commit and is queued. No hosted export-job/direct-framing
-pass is claimed yet.
+completed successfully on all five jobs. The
+[hosted record](benchmarks/pixel-stream-export-ci-windows-linux.json) verifies
+1,616 GUI Python passes with seven expected skips, 1,288 Windows headless
+passes, 1,282 Linux passes and all native configurations. It checks all 14 export
+job cases, seven actual export/cancel GUI cases, 38 file cases (including the
+original Windows mutation regression), portable fixtures, source/wheel/native
+identities, installed launch, stubs, typing and benchmark/standalone artifacts.
+
+
+## Packet 82 — asynchronous historical stream inspector
+
+`PixelStreamReadJob` opens, reads and verifies QPS1 files on one native worker,
+with no request queue, live image requirement or training-backend dependency.
+The owner polls immutable stats and a selected block, cancels pending work,
+reopens after cancellation and closes collected readers. Cancellation discards
+completed-but-uncollected read results. Old stats/arrays retain native owners;
+shutdown cancels and joins without requiring Python code on the worker.
+
+F5 Saved stream files opens a separate inspector with indexed/previous/next
+navigation, complete verification, cancellation and close. Its local label
+canvas never overlays an unrelated current image or adopts the saved model.
+Block geometry, original source/calibration, class colors and block/file counts
+are available; footer totals remain labelled declared until verified. All image
+and file work happens outside the frame loop. At most one 512-square selected
+block is uploaded in four 256-square tiles, capped at 1 MiB mask GPU data.
+
+Twenty-one reader-job cases cover direct/out-of-order reads, verification,
+invalid inputs, missing/corrupt/changed files, retries, cancellation, immutable
+stats, value ownership and subprocess shutdown. Nine actual GUI cases cover
+normal/narrow first/edge block colors, navigation, verification, close, reopen,
+direct read, corruption and real-button cancellation of a 16,384-block scan.
+Native checks cover three pyramid levels and file mutation after a successful
+open. The [inspector contract](pixel-stream-browser.md) includes a verified
+real-window screenshot and native/Python usage.
+
+The [1,024-square](benchmarks/gui-pixel-stream-read-1024-windows.json) and
+[2,048-square](benchmarks/gui-pixel-stream-read-2048-windows.json) software-GL
+probes open and fully verify 64/256-block files, navigate away and back, compare
+all selected arrays and check 6,241 rendered label-color samples. Each keeps
+65,536 mask GPU bytes; current-slide mask storage remains zero. CPU frame
+p95/max observations are 2.38/2.87 ms and 2.09/2.75 ms. Ten thousand offscreen
+cells are present, but the closed classifier panel inspects no annotation
+catalog entries. These probes ran serially before the full suite and establish
+no dense visible drawing, process RSS, vendor WSI, hardware/frame-budget or
+biological acceptance.
+
+The read-only [64-block](benchmarks/pixel-stream-read-1024-windows.json) and
+[256-block](benchmarks/pixel-stream-read-2048-windows.json) Python probes visit
+all blocks out of order and independently sum array counts against the verified
+footer. Poll timing retains at most 256 samples; no whole mask or index list is
+assembled. These probes overlap the initial GUI suite and report shared-machine
+observations, not uncontended throughput.
+
+Project-linked stream records, restart/resume, source reconciliation for
+current-slide overlays, stitched whole-stream contours, unmatched-grid
+resampling, expanded features, TMA, research/QuPath comparisons and every other
+outstanding M0–M7 requirement remain open.
+
+The [final local record](benchmarks/pixel-stream-browser-local-windows-linux.json)
+verifies 1,647 installed Python passes with six expected skips, all 21 new reader
+and nine browser cases without skips, 75 focused API and 46 focused GUI passes,
+39 GUI native and 38 each Windows headless/Linux training/minimal/ASan-UBSan
+passes. Exact stubs, strict typing, installed software-GL launch, wheel/source/
+native identities, the portable file probe and all four benchmarks are checked.
+
+The initial full run had 1,645 passes, six skips and one existing cached-canvas
+pixel comparison failure (1.79 percent mismatch). The original pixel-equality
+assertion remains unchanged. A 25-case overlay/browser recheck and the complete
+final suite pass on the same compiled binary; all nine final browser cases also
+pass independently. No root cause or production fix for that transient mismatch
+is claimed. The local record preserves both full-run results.

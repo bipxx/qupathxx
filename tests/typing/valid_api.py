@@ -296,3 +296,14 @@ def export_stream_job(document: q.Document, target: int, model: q.PixelClassifie
     if result.summary is not None:
         assert result.summary.blocks==result.total_blocks
     return result
+
+
+def inspect_stream_file(path: str) -> q.PixelPredictionResult:
+    job=q.PixelStreamReadJob()
+    assert job.open(path)
+    result: q.PixelStreamReadStats=job.wait()
+    assert result.block is not None and result.declared_summary is not None
+    assert job.verify()
+    assert job.wait().verified
+    assert job.close()
+    return result.block

@@ -1,0 +1,36 @@
+{
+  "schema": "qpx.gui-pixel-stream-read-benchmark/1",
+  "file": "pixel81-job-mask-2048.qps",
+  "blocks": 256,
+  "content_sha256": "c0baa763b1a1245989228023731b207718e233deab1e122373a74eeb7148f5c4",
+  "block_index": 0,
+  "block_width": 128,
+  "block_height": 128,
+  "block_sha256": "cce8dee57eb82bfab158e34b163e1925bcd1cd512716a9250cae2856279b3d15",
+  "verified": true,
+  "objects": 10000,
+  "wall_ms": 2946.9988000346348,
+  "frames": 118,
+  "cpu_frame_p95_ms": 2.094,
+  "max_cpu_frame_ms": 2.7528,
+  "gpu_bytes": 65536,
+  "peak_gpu_bytes": 65536,
+  "main_mask_gpu_bytes": 0,
+  "catalog_inspected": 0,
+  "ui_overflow": 0,
+  "rendered_color_samples": 6241,
+  "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+  "capture": {
+    "file": "pixel82-browser-2048.ppm",
+    "sha256": "5c0d0c118bfb395f7ac62108d1622df2dfa99cf60f7181d574ee957d1c1fe4ae"
+  },
+  "native_sha256": "015d00fe0b431815b4f96b682a4e125f6c562f64a372c9d4bb8ba63a9ffcb193",
+  "environment": {
+    "source_tree_sha256": "785e126760da6e7ce6d6ce58d4d344c934d503276c3e2928901d87fd9f489e69",
+    "git_revision": "504fc669b84a8b688a615e63a80799fb8f45a012+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "scope": "One synthetic shared-workstation software-GL observation with offscreen cells. Real open/navigation/verification controls, source-independent block preview, exact block-array reference and sampled rendered label colors. At most one512-square block preview/four256px uploads, no current-slide mask or classifier adoption. No RSS, dense visible drawing, vendor-slide throughput, hardware/frame-budget or biological acceptance."
+}
