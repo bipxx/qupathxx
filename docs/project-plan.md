@@ -3731,3 +3731,12 @@ one-row CSV export are visible, with zero reported UI overflow. Hosted acceptanc
 remains pending at run 40022136685, source 87e691be724be88183876cfaa1b583b2bb27a947.
 The candidate is public on validation/physical-cell-areas-103; no main promotion
 or scientific/hardware/release acceptance is implied by the local checks.
+
+
+Subsequent packet-105 native viewer validation exposed a packet-103 calibration
+staleness gap: active physical requests could publish after units changed during
+execution. Three direct regressions reproduce it, including enabled zero bounds.
+The fix captures the calibration revision in active physical requests and rejects
+stale publication; ordinary sampled requests and historical replay are preserved.
+Rebuilt Windows/Linux validation is pending. Earlier full passes and hosted run
+40022136685 predate this fix and cannot accept it. Main promotion remains withheld.

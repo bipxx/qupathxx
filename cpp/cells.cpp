@@ -107,6 +107,7 @@ CellRequest CellRequest::with_nucleus_area_limits(const Document& doc,std::uint6
     detail::validate_cell_area_limits(minimum,maximum);
     CellRequest request(doc,id,transform,p);
     if(!minimum && !maximum) return request;
+    request.physical_calibration_revision_=doc.calibration_revision();
     const auto& provenance=request.source_.provenance();
     if(!provenance || !provenance->effective_pixel_width_um || !provenance->effective_pixel_height_um)
         throw std::invalid_argument("physical nucleus area limits require both pixel calibration axes");

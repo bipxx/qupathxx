@@ -5,6 +5,13 @@ nucleus areas in square micrometers. It captures the same image/ROI and selects
 the same natural sampling grid as the ordinary request, then compiles the area
 limits into ordinary integer nucleus-sample cutoffs before detection.
 
+**Validation update:** a subsequent managed-viewer test exposed a calibration
+staleness gap in the initial candidate. Active physical requests now capture the
+calibration revision and reject publication after it changes. The three new
+regressions fail against the preceding build; rebuilt validation is pending.
+The local results below describe the preceding candidate and do not accept this
+fix. Hosted run 40022136685 also predates it. Main promotion remains withheld.
+
 ```python
 parameters = qupathxx.CellParameters()
 parameters.min_nucleus_pixels = 1
@@ -46,6 +53,10 @@ raw physical thresholds. Existing QCL version-1 archives preserve those integer
 cutoffs and capture provenance. Replaying a saved run executes its frozen cutoffs
 and does not reinterpret them using later document calibration. Call the factory
 again for a new image/ROI or when requesting physical limits under new calibration.
+An unarchived request with an enabled physical bound becomes stale if the
+document calibration revision changes after capture. Both-disabled requests
+retain ordinary matching behavior. Replaying an already archived recipe does not
+reenable a physical calibration dependency.
 Copying `request.parameters` explicitly copies the sampled recipe. Calibrated
 historical measurements continue to use their original captured units.
 

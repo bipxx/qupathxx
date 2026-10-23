@@ -1,6 +1,6 @@
 {
   "schema": "qpx.cell-area-limits-validation/1",
-  "state": "local-full-verified-hosted-pending",
+  "state": "superseded-by-calibration-stale-fix-revalidation-pending",
   "release_ready": false,
   "platform": "linux",
   "source_tree_sha256": "7dbdfbfcf4f7c58357baf30a49aedb50692df398d478899ef33abb14afadab3a",
@@ -53,5 +53,13 @@
     "state": "pending",
     "run_id": 40022136685,
     "source_commit": "87e691be724be88183876cfaa1b583b2bb27a947"
+  },
+  "calibration_stale_issue": {
+    "reproduced": true,
+    "regression_cases": 3,
+    "description": "Active physical requests remained publishable after live calibration changed; discovered by the managed-viewer native test and independently reproduced for direct requests, including enabled zero bounds.",
+    "fix": "Capture the calibration revision for active physical requests and include it in matches(); ordinary sampled requests and archived replay retain their existing semantics.",
+    "fixed_build_validation": "pending",
+    "prior_hosted_scope": "Run 40022136685 predates the fix and cannot accept it."
   }
 }

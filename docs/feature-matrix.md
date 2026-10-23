@@ -68,3 +68,12 @@ inclusive calibrated bounds into frozen sample cutoffs through native/Python,
 CLI, project batches and ImGui. Windows/Linux full regressions and desktop
 visual inspection pass; hosted acceptance remains pending. This narrows the physical-filter gap without accepting physical
 radii, arbitrary resampling or cell segmentation parity.
+
+
+Subsequent packet-105 native viewer validation exposed a packet-103 calibration
+staleness gap: active physical requests could publish after units changed during
+execution. Three direct regressions reproduce it, including enabled zero bounds.
+The fix captures the calibration revision in active physical requests and rejects
+stale publication; ordinary sampled requests and historical replay are preserved.
+Rebuilt Windows/Linux validation is pending. Earlier full passes and hosted run
+40022136685 predate this fix and cannot accept it. Main promotion remains withheld.

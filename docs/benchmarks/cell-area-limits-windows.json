@@ -1,6 +1,6 @@
 {
   "schema": "qpx.cell-area-limits-validation/1",
-  "state": "local-full-verified-hosted-pending",
+  "state": "superseded-by-calibration-stale-fix-revalidation-pending",
   "release_ready": false,
   "platform": "windows",
   "source_tree_sha256": "7dbdfbfcf4f7c58357baf30a49aedb50692df398d478899ef33abb14afadab3a",
@@ -63,5 +63,13 @@
       "ui_max_overflow": 0.0
     },
     "scope": "Scrolled inspector shows both inclusive bounds, one detected/saved cell, frozen 81\u201390 sample recipe, captured calibration and successful one-row CSV export. Windows clamps requested window height; capture uses actual framebuffer."
+  },
+  "calibration_stale_issue": {
+    "reproduced": true,
+    "regression_cases": 3,
+    "description": "Active physical requests remained publishable after live calibration changed; discovered by the managed-viewer native test and independently reproduced for direct requests, including enabled zero bounds.",
+    "fix": "Capture the calibration revision for active physical requests and include it in matches(); ordinary sampled requests and archived replay retain their existing semantics.",
+    "fixed_build_validation": "pending",
+    "prior_hosted_scope": "Run 40022136685 predates the fix and cannot accept it."
   }
 }

@@ -37,7 +37,9 @@ int main() {
         const auto empty=CellRequest::with_nucleus_area_limits(doc,target,transform,{},0.,p);
         check(empty.parameters().min_nucleus_pixels==32*24+1 && empty.parameters().max_nucleus_pixels==0);
         check(detect_cells(empty)->features().empty());
-        doc.set_calibration(2,3);doc.server()->close();
+        doc.set_calibration(2,3);
+        check(!exact.matches(doc,target));
+        doc.server()->close();
         check(result->calibrated_feature(1).nucleus_sample_area_um2==f.nucleus_sample_area_um2);
         const auto bytes=CellArchiveCodec::encode(*result);
         const auto legacy=CellArchiveCodec::decode(bytes.data(),bytes.size(),result->nuclei()->roi(),doc.metadata());
