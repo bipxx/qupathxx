@@ -3354,3 +3354,42 @@ cases pass on the desktop; headless jobs pass twelve and skip two desktop cases.
 The captured GUI probe has zero overflow, bounded payloads, matching complete
 preview hashes and no retained preview after lowering to an inadequate limit.
 This declared scope is accepted; complete M0–M7 acceptance remains open.
+
+### Packet92: bundled Linux GEOS runtimes and relocation gates
+
+The [Linux runtime contract](linux-runtime-bundle.md) adds opt-in
+`QUPATHXX_BUNDLE_GEOS`, copies both imported shared libraries under their loader
+SONAMEs, requires the matching SDK notice and validates the C API's exact
+`$ORIGIN` path. Installed modules and executables use package-relative loader
+paths when either Linux runtime bundle is enabled. Static SDKs, missing notices
+and unsuitable C API paths reject during configuration. The pinned SDK builder
+accepts separate cache roots and bounded build parallelism, including MSVC's
+compiler parallelism, and explicitly configures Linux install paths.
+
+Linux headless CI enables both GEOS and OpenSlide bundles, clears
+`LD_LIBRARY_PATH` after native build tests, then verifies installed/relocated
+library mappings and exact SDK/wheel hashes before the regular installed suite.
+A fresh isolated process imports a copied package in a path containing spaces
+and executes native GEOS geometry. Relocated region extraction, native batch
+checkpoints and explicit CSV export also pass. The probe checks the SDK's exact
+GEOS notice rather than treating an arbitrary notice as release acceptance.
+
+The [local receipt](benchmarks/linux-runtime-local-windows-linux.json) records
+source fingerprint `1069666f68e222c2740d98eeff13a19c53329140561e5a87910e4b329394ca4a`:
+1,590 Linux Python passes with 389 documented desktop/platform skips, 40 Linux
+native tests, four bundling-configuration guards and 50 focused passes with two
+desktop-only skips. Windows passes 41 native tests and 50 focused cases with
+four Linux-only skips. Both installed workflow, stub and strict typing gates pass,
+including exactly seven negative typing errors. No fresh full Windows suite is
+claimed for this packaging-only source fingerprint.
+
+A separate installed native build disables OpenSlide, Python, GUI, quantitative
+TIFF and training while retaining GEOS, projects and interchange. Its batch ELF
+uses `$ORIGIN`, resolves both package-local GEOS libraries without SDK search
+paths and processes an embedded project. This checks that the GEOS-only path is
+independent of OpenSlide's existing loader setup.
+
+Hosted packet92 acceptance remains pending. The candidate is not yet an audited
+manylinux or supported cross-distribution release; system ABI qualification,
+macOS packaging, supported installers, project-license selection and the other
+M0–M7 format/scientific/hardware gates remain open.

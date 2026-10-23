@@ -1,0 +1,157 @@
+{
+  "schema": "qpx.linux-runtime-validation/1",
+  "source_tree_sha256": "1069666f68e222c2740d98eeff13a19c53329140561e5a87910e4b329394ca4a",
+  "wheels": {
+    "windows": {
+      "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+      "bytes": 13382654,
+      "sha256": "575995b0f57944343f54c4b751c978935f3ae4063c25b289a60d01073c051c7e",
+      "native_sha256": "469a26405eaab26ba616a04ad1691bd0aea18e5a43eba203b0d5ed0cd745ea9b"
+    },
+    "linux": {
+      "filename": "qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl",
+      "bytes": 12189848,
+      "sha256": "1e1b663a2096381d0e47a81571404f69a84ed2d52e448521f4f548d84adb4658",
+      "native_sha256": "f139096993f700f375ecdbe99dff8cbacb3dfe410a4df04bf0bc9137ec143ffe"
+    }
+  },
+  "linux_native": {
+    "tests": 40,
+    "passed": 40,
+    "skipped": 0,
+    "sha256": "6003df80ab363922584ebdfa1781a6751c464eda15499331f8d7b9cc1024a1c9",
+    "skip_reasons": {}
+  },
+  "windows_native": {
+    "tests": 41,
+    "passed": 41,
+    "skipped": 0,
+    "sha256": "9ab644acad6e94a09bc1b22b8baeeabdd2f216e8cad92bbc9df67b2ce46fb0e5",
+    "skip_reasons": {}
+  },
+  "linux_full": {
+    "tests": 1979,
+    "passed": 1590,
+    "skipped": 389,
+    "sha256": "540e604fbbf94019b834c24e694a28a17a57ffc4c3690b5765d9ae4b2baa2c7f",
+    "skip_reasons": {
+      "desktop cell publication": 2,
+      "desktop replay": 11,
+      "opt-in native desktop replay": 8,
+      "opt-in desktop batch workflow": 13,
+      "opt-in project desktop replay": 6,
+      "opt-in desktop replay": 36,
+      "opt-in geometry desktop replay": 6,
+      "opt-in native docking": 12,
+      "opt-in responsive GUI": 10,
+      "requires GUI/project build and QUPATHXX_TEST_GUI=1": 96,
+      "requires GUI build and QUPATHXX_TEST_GUI=1": 33,
+      "requires GUI/training and QUPATHXX_TEST_GUI=1": 38,
+      "opt-in desktop pixel batch workflow": 6,
+      "requires GUI and QUPATHXX_TEST_GUI=1": 9,
+      "requires GUI/project and opt-in replay": 6,
+      "opt-in project desktop": 4,
+      "opt-in raw desktop": 7,
+      "opt-in raw records desktop": 5,
+      "opt-in native DPI scaling": 14,
+      "opt-in native GUI": 14,
+      "opt-in GEOS desktop replay": 2,
+      "opt-in TMA desktop": 8,
+      "Windows GUI wheel-message regression": 1,
+      "opt-in native window lifecycle": 15,
+      "opt-in GUI": 3,
+      "Windows read-only replacement failure": 1,
+      "requires real desktop GUI": 1,
+      "Windows read-only file attribute check": 1,
+      "GEOS-disabled configuration": 1,
+      "opt-in ImGui import replay": 2,
+      "opt-in pinned Windows QuPath runtime": 1,
+      "Windows file sharing check": 1,
+      "Windows file delete sharing": 1,
+      "requires desktop GUI": 2,
+      "Windows case insensitive anchor path": 1,
+      "Windows read-only marker write protection": 1,
+      "Windows delete-sharing failure": 1,
+      "opt-in managed viewer": 10
+    }
+  },
+  "linux_focused": {
+    "tests": 52,
+    "passed": 50,
+    "skipped": 2,
+    "sha256": "3579f73575192139bc80fc4796ec05b31008c52c1967522ecbd92c19f01d8c6b",
+    "skip_reasons": {
+      "opt-in native GUI": 2
+    }
+  },
+  "windows_focused": {
+    "tests": 54,
+    "passed": 50,
+    "skipped": 4,
+    "sha256": "eee323752e8529a022025836b5ec925b7b1f4aa540f458b85ba49a73fd3fcad9",
+    "skip_reasons": {
+      "requires opt-in Linux GEOS SDK": 4
+    }
+  },
+  "bundle_configuration": {
+    "tests": 4,
+    "passed": 4,
+    "skipped": 0,
+    "sha256": "9c7975a84895a3ccdf18be8d985993a61b5e2974663c51702bc979ba42746aeb",
+    "skip_reasons": {}
+  },
+  "linux_runtime": {
+    "schema": "qpx.linux-runtime/1",
+    "source_tree_sha256": "1069666f68e222c2740d98eeff13a19c53329140561e5a87910e4b329394ca4a",
+    "native_sha256": "f139096993f700f375ecdbe99dff8cbacb3dfe410a4df04bf0bc9137ec143ffe",
+    "runtimes": {
+      "libgeos_c.so.1": "3de5397ee6ab750bf15d18c76948ba9e16e9ad8d445cc37f5d841214861efede",
+      "libgeos.so.3.15.0": "1eac69ca6de9cb51ce148e1e3f368dbcc1f062b067eef2265ca387f6d7f9c201",
+      "libopenslide.so.1": "552b5b77901bc9c7e7cc6e02a0b4f2861ffa85572b036a063db4f19ed2f357df"
+    },
+    "mapped_from_package": true,
+    "geos_license_matches_sdk": true,
+    "relocated_python_geometry": true,
+    "relocated_region_pixels": true,
+    "relocated_batch": true,
+    "ld_library_path_used": false,
+    "relocated_child": {
+      "native": "/tmp/qpx-linux-runtime-6sx48wdt/relocated package/qupathxx/_native.cpython-312-x86_64-linux-gnu.so",
+      "mapped": [
+        "/tmp/qpx-linux-runtime-6sx48wdt/relocated package/qupathxx/libgeos.so.3.15.0",
+        "/tmp/qpx-linux-runtime-6sx48wdt/relocated package/qupathxx/libgeos_c.so.1",
+        "/tmp/qpx-linux-runtime-6sx48wdt/relocated package/qupathxx/libopenslide.so.1"
+      ],
+      "boolean_area": 150
+    },
+    "scope": "Installed and relocated Linux package resolves its bundled GEOS/OpenSlide runtimes without SDK search paths. System glibc/libstdc++ compatibility and manylinux policy remain separate gates."
+  },
+  "geos_only": {
+    "schema": "qpx.geos-only-runtime/1",
+    "source_tree_sha256": "1069666f68e222c2740d98eeff13a19c53329140561e5a87910e4b329394ca4a",
+    "batch_cli_sha256": "576a3bc18ced3c71873df915f6ec878b549d70786837f0419c1870e2970f6294",
+    "runtime_sha256": {
+      "libgeos_c.so.1": "3de5397ee6ab750bf15d18c76948ba9e16e9ad8d445cc37f5d841214861efede",
+      "libgeos.so.3.15.0": "1eac69ca6de9cb51ce148e1e3f368dbcc1f062b067eef2265ca387f6d7f9c201"
+    },
+    "batch_checkpoint_verified": true,
+    "ld_library_path_used": false,
+    "openslide_built": false,
+    "python_built": false,
+    "scope": "Installed native GEOS-only configuration resolves both copied GEOS libraries through $ORIGIN and processes an embedded project without OpenSlide."
+  },
+  "installed": {
+    "windows": {
+      "sha256": "2cfb5e53dbb1389e4eeca6a813564c5c5a18f33dca1c6d2bd01e58b347c05736",
+      "source_tree_sha256": "1069666f68e222c2740d98eeff13a19c53329140561e5a87910e4b329394ca4a"
+    },
+    "linux": {
+      "sha256": "57871c62f8d9d2b62f390236fd1ba5b93828da148d4728591f1ca5a2d432a1d0",
+      "source_tree_sha256": "1069666f68e222c2740d98eeff13a19c53329140561e5a87910e4b329394ca4a"
+    }
+  },
+  "stubs_checked_both_platforms": true,
+  "strict_typing_checked_both_platforms": true,
+  "negative_typing_errors_each": 7,
+  "scope": "Local Linux full installed suite without LD_LIBRARY_PATH, exact bundled SDK hashes and GEOS notice, relocated Python/native CLI/batch workflow; GEOS-only native configuration without OpenSlide. Windows native/focused/installed regressions pass; no fresh full Windows suite is claimed for this source fingerprint. Hosted acceptance, manylinux/system ABI qualification and other release gates remain open."
+}

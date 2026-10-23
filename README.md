@@ -23,6 +23,8 @@ QuPath port or a compatible replacement for Java QuPath.
   The asynchronous ImGui overview rejects stale image results and exposes bounded
   source budgets through desktop controls, Python and CLI options; see the
   [thumbnail policy and measurements](docs/thumbnails.md).
+- Linux headless candidates can bundle GEOS and OpenSlide with verified relocated
+  Python/native CLI loading; see [runtime packaging](docs/linux-runtime-bundle.md).
 
 - Native resize preserves the view center and overlay pixels. Minimized windows
   suspend drawing while managed commands, saves and autosave continue; see

@@ -37,7 +37,7 @@ def ensure_geos(work):
             if assets.sha(sdk/name) != digest:
                 raise ValueError('cached GEOS SDK changed: '+name)
     else:
-        run([sys.executable, '-I', ROOT/'tools/build_geos_sdk.py'], work/'geos-build.log')
+        run([sys.executable, '-I', ROOT/'tools/build_geos_sdk.py', '--jobs', '2'], work/'geos-build.log')
         saved = dict(source='d5e5192a686d065eaed082de14dd26244c5c8e02bff16b2c6cce3265f648e00e',
                      files={p.relative_to(sdk).as_posix(): assets.sha(p) for p in sdk.rglob('*') if p.is_file()})
         marker.write_text(json.dumps(saved, indent=2)+'\n', encoding='utf8')
@@ -112,6 +112,8 @@ def main():
     opencv = ensure_opencv(work) if full else None
     if geos:
         env['LD_LIBRARY_PATH'] = os.pathsep.join([str(geos/'lib'), str(geos/'lib64'), env.get('LD_LIBRARY_PATH', '')])
+        if os.name != 'nt':
+            env['QUPATHXX_GEOS_SDK'] = str(geos)
     flags = dict(QUPATHXX_BUILD_TESTS='ON', QUPATHXX_BUILD_GUI='ON' if args.mode == 'gui' else 'OFF',
                  QUPATHXX_BUILD_PYTHON='ON' if args.mode in ['headless', 'gui'] else 'OFF',
                  QUPATHXX_BUILD_GEOS='ON' if full else 'OFF',
@@ -122,6 +124,8 @@ def main():
                  QUPATHXX_BUILD_OPENSLIDE='ON' if full and args.mode != 'sanitize' else 'OFF')
     if geos:
         flags['GEOS_ROOT'] = str(geos)
+        if os.name != 'nt' and args.mode == 'headless':
+            flags['QUPATHXX_BUNDLE_GEOS'] = 'ON'
     if opencv:
         flags['OpenCV_DIR'] = str(opencv if os.name == 'nt' else opencv/'lib/cmake/opencv4')
         flags['QUPATHXX_OPENCV_NOTICES'] = str(opencv/'share/licenses/opencv')
@@ -158,6 +162,11 @@ def main():
     python = install/('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
     run([python, '-m', 'pip', 'install', '-r', ROOT/'tools/ci/requirements.txt', wheel], work/'install.log', env)
     test_python = python
+    if os.name != 'nt':
+        env.pop('LD_LIBRARY_PATH', None)
+        run([python, '-I', ROOT/'tools/ci/check_linux_runtime.py', '--wheel', wheel,
+             '--geos-sdk', geos, '--openslide-sdk', openslide, '--output', work/'linux-runtime.json'],
+            work/'linux-runtime.log', env, 120)
     if args.mode == 'gui' and os.name == 'nt':
         run([python, '-I', ROOT/'tools/ci/assets.py', '--software-python', work/'software-python', '--mesa-root', mesa], work/'software-python.log')
         test_python = work/'software-python/python.exe'

@@ -1,5 +1,6 @@
 """Build the pinned shared GEOS SDK and retain its license for wheel packaging."""
 import hashlib
+import argparse
 from pathlib import Path
 import shutil
 import subprocess
@@ -13,8 +14,14 @@ SHA256 = "d5e5192a686d065eaed082de14dd26244c5c8e02bff16b2c6cce3265f648e00e"
 
 
 def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--work-dir', type=Path, help='Independent source/build/SDK cache (default build/deps)')
+    parser.add_argument('--jobs', type=int, default=8)
+    args = parser.parse_args()
+    if not 1 <= args.jobs <= 64:
+        parser.error('--jobs must be between 1 and 64')
     root = Path(__file__).resolve().parents[1]
-    deps = root / "build/deps"
+    deps = args.work_dir.resolve() if args.work_dir else root / "build/deps"
     deps.mkdir(parents=True, exist_ok=True)
     archive = deps / f"geos-{VERSION}.tar.bz2"
     if not archive.exists():
@@ -40,9 +47,11 @@ def main():
         "-DBUILD_SHARED_LIBS=ON", f"-DCMAKE_INSTALL_PREFIX={sdk}", "-DCMAKE_BUILD_TYPE=Release",
     ]
     if sys.platform == "win32":
-        command += ["-G", "Visual Studio 17 2022", "-A", "x64", "-DCMAKE_CXX_FLAGS=/MP8 /EHsc /utf-8"]
+        command += ["-G", "Visual Studio 17 2022", "-A", "x64", f"-DCMAKE_CXX_FLAGS=/MP{args.jobs} /EHsc /utf-8"]
+    elif sys.platform.startswith('linux'):
+        command += ['-DCMAKE_INSTALL_RPATH=$ORIGIN']
     subprocess.run(command, check=True)
-    subprocess.run([cmake, "--build", str(build), "--config", "Release", "--parallel", "8"], check=True)
+    subprocess.run([cmake, "--build", str(build), "--config", "Release", "--parallel", str(args.jobs)], check=True)
     subprocess.run([cmake, "--install", str(build), "--config", "Release"], check=True)
     license_dir = sdk / "share/licenses/geos"
     license_dir.mkdir(parents=True, exist_ok=True)

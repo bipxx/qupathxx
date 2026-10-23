@@ -79,8 +79,10 @@ source budget without creating an output file. It requires the Microsoft Visual 
 for the desktop app.
 
 Artifacts are development candidates, not published supported releases. The Linux
-wheel uses the explicitly built GEOS SDK via `LD_LIBRARY_PATH` and its bundled
-OpenSlide runtime; it is not an audited portable manylinux wheel. macOS wheels,
+headless candidate now [bundles GEOS and OpenSlide runtimes](linux-runtime-bundle.md),
+with exact SDK hashes, installed process mappings and relocated Python/native CLI
+checks after clearing `LD_LIBRARY_PATH`. Native build tests still use their SDK
+paths. This is not an audited portable manylinux wheel. macOS wheels,
 hardware/DPI campaigns, clean user-machine installers, project license selection
 and the remaining workflow/format acceptance work are still open. No package is
 automatically published to PyPI or a GitHub Release.
