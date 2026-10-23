@@ -16,11 +16,15 @@ def sha(path):
 
 
 def requirement_errors(needed,versions,provided,whitelist,allowed_versions):
+    # This scanner supports only EM_X86_64 GLIBC wheels. auditwheel excludes
+    # the ELF loader from libraries to vendor (policy/__init__.py, 6.6.0).
+    # Keep the exact architecture-specific name and audit its symbols too.
+    system = set(whitelist) | {'ld-linux-x86-64.so.2'}
     errors=[]
     for name in needed:
-        if name not in provided and name not in whitelist:errors.append('unbundled dependency: '+name)
+        if name not in provided and name not in system:errors.append('unbundled dependency: '+name)
     for library,required in versions.items():
-        if library in whitelist:
+        if library in system:
             for version in required:
                 if version not in allowed_versions:errors.append(library+': unsupported version '+version)
     return sorted(errors)
