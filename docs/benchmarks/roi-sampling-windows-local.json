@@ -1,0 +1,58 @@
+{
+  "schema": "qpx.roi-sampling-local-validation/1",
+  "state": "local-validation-complete",
+  "source_content_commit": "14788f23325d74dcb2ff016d82d994786eecd999",
+  "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+  "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+  "native_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+  "native": {
+    "tests": 43,
+    "passed": 43,
+    "optional_skips": 0,
+    "strict_scientific_expected_failures": [],
+    "sha256": "32ee5d0dd3be1cc4266f9240e768dd67426930f0896d7130e0deb10f3947c0eb"
+  },
+  "focused": {
+    "tests": 396,
+    "passed": 393,
+    "optional_skips": 0,
+    "strict_scientific_expected_failures": [
+      "test_isolated_cell_upstream_acceptance_gate[baseline_count]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_nucleus_iou]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_centroid]"
+    ],
+    "sha256": "50e8e6f6cc8e35c730d1462f52bd531b1d447fb310cc0d34385dc76e0772f83d"
+  },
+  "full": {
+    "tests": 2123,
+    "passed": 2107,
+    "optional_skips": 13,
+    "strict_scientific_expected_failures": [
+      "test_isolated_cell_upstream_acceptance_gate[baseline_count]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_nucleus_iou]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_centroid]"
+    ],
+    "sha256": "51f80fadc087952650269fecdd5e9a8e1188c6603de0b47fad8d580a9fb7852e"
+  },
+  "policy_cases": 35,
+  "explicit_winding_compartments": 42,
+  "installed_workflow_sha256": "affa6cb7f0c3a89f96170091e7a49c32c0900acbeaf22f0e8d1dd75aa84d0962",
+  "wheel_sha256": "b3d11e7167d7460da580dd290c8a81ef470e5bc3f2e8236850c0e6b80d2fbdb5",
+  "strict_positive_typing": "Success: no issues found in 3 source files",
+  "strict_negative_typing_errors": 7,
+  "evidence": {
+    "sampling109-windows-stubs.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "sampling109-windows-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "sampling109-windows-typing-negative.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead",
+    "sampling109-windows-comparison.json": "613c9bf688d0e353a604a443bf17196c68fc5d3f1db5c73367865d67c8398135"
+  },
+  "scientific_segmentation_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "limitations": [
+    "Exact policy masks/counts/means accepted on pinned synthetic and triangle cases only.",
+    "Three isolated-cell segmentation expected failures remain. Optional skips are retained.",
+    "Software GL; no hardware, RSS/frame or biological acceptance."
+  ],
+  "published_text_encoding": "UTF-8 LF"
+}

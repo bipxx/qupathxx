@@ -161,7 +161,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         {analysis_vectors[3],analysis_vectors[4],analysis_vectors[5]}}:std::vector<ColorVector>{{1,0,0},{0,1,0}},
         {analysis_white[0],analysis_white[1],analysis_white[2]});};
     make_transform(options.analysis_kind==1);
+    validate_sampling_policy(options.roi_sampling_policy);
+    validate_sampling_policy(options.tissue_sampling_policy);
     TissueParameters tissue_parameters;
+    tissue_parameters.sampling_policy=options.tissue_sampling_policy;
     tissue_parameters.feature=static_cast<TissueFeature>(options.tissue_feature);tissue_parameters.threshold=options.tissue_threshold;
     tissue_parameters.connectivity=options.tissue_connectivity;tissue_parameters.min_pixels=options.tissue_min_pixels;tissue_parameters.max_pixels=options.tissue_max_pixels;
     tissue_parameters.level=options.tissue_level;tissue_parameters.open_radius=options.tissue_open_radius;tissue_parameters.close_radius=options.tissue_close_radius;
@@ -271,6 +274,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     bool show_tissue=true;
     int tissue_feature=options.tissue_feature,tissue_connectivity=options.tissue_connectivity==8?1:0;
     int analysis_kind=options.analysis_kind;
+    auto roi_sampling_policy=options.roi_sampling_policy;
     bool analysis_nucleus=options.analysis_nucleus;
     std::uint64_t kept_analysis_generation=0,pending_analysis_recheck=0;
     Viewport viewport;
@@ -1590,6 +1594,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(ui::Button("Object classifiers (F4)")) classifier.open();
             if(ui::Button("Pixel classifiers (F5)")) pixel_classifier.open();
             bool analysis_changed=ui::Combo("Features",&analysis_kind,"RGB optical density\0Supplied stains\0");
+            int roi_sampling=static_cast<int>(roi_sampling_policy);
+            if(ui::Combo("ROI polygon samples",&roi_sampling,"Geometry coverage\0Polygon winding\0")) {roi_sampling_policy=static_cast<RoiSamplingPolicy>(roi_sampling);analysis_changed=true;}
             analysis_changed=ui::Checkbox("Use nucleus",&analysis_nucleus) || analysis_changed;
             analysis_changed=ui::InputScalarN("White RGB",ImGuiDataType_Double,analysis_white.data(),3,nullptr,nullptr,"%.5g") || analysis_changed;
             if(analysis_kind==1) {
@@ -1636,7 +1642,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             const bool start_analysis=ui::Button("Analyze region (Ctrl+M)") || (analysis_key && !io.KeyShift);
             ImGui::EndDisabled();
             if(start_analysis && !analysis.busy()) {
-                try {analysis.request(AnalysisRequest(document,selected,make_transform(analysis_kind==1),analysis_kind==0?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans,analysis_nucleus));error.clear();}
+                try {analysis.request(AnalysisRequest(document,selected,make_transform(analysis_kind==1),analysis_kind==0?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans,analysis_nucleus,256,roi_sampling_policy));error.clear();}
                 catch(const std::exception& e) {error=e.what();}
             }
             if(analysis.busy()) {
@@ -1678,6 +1684,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     try {
                         auto replay=AnalysisRequest::replay(document,saved->id);
                         analysis.request(replay);pending_analysis_recheck=saved->id;
+                        roi_sampling_policy=saved->result.sampling_policy();
                         analysis_kind=saved->result.kind==AnalysisKind::StainMeans?1:0;analysis_nucleus=saved->result.nucleus;
                         analysis_white.assign(saved->result.white.begin(),saved->result.white.end());
                         for(std::size_t i=0;i<2;++i) for(std::size_t c=0;c<3;++c) analysis_vectors[i*3+c]=saved->result.stains[i][c];
@@ -1694,6 +1701,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             const auto tissue_status=tissue.poll(document,selected);
             ImGui::PushItemWidth(132.f);
             bool tissue_changed=ui::Combo("Tissue feature",&tissue_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0");
+            int tissue_sampling=static_cast<int>(tissue_parameters.sampling_policy);
+            if(ui::Combo("Tissue polygon samples",&tissue_sampling,"Geometry coverage\0Polygon winding\0")) {tissue_parameters.sampling_policy=static_cast<RoiSamplingPolicy>(tissue_sampling);tissue_changed=true;}
             const auto level_label=tissue_parameters.level<0?std::string("Auto (budget)"):"Level "+std::to_string(tissue_parameters.level);
             if(ui::BeginCombo("Tissue level",level_label.c_str())) {
                 if(ImGui::Selectable("Auto (work budget)",tissue_parameters.level<0)) {tissue_parameters.level=-1;tissue_changed=true;}
@@ -2330,7 +2339,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             mean.invalidate();previous_uploads+=tiles->uploads();previous_generations+=tiles->generations();previous_peak_bytes=std::max(previous_peak_bytes,tiles->peak_bytes());
             tiles=std::make_unique<GuiTiles>(document.server());overlay_cache.clear();overlay_display.reset();plan={};overview.reset();plan_inputs.reset();overview_center.reset();published_view_inputs.reset();
         }
-        batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,cell_parameters,cell_min_area,cell_max_area,static_cast<AnalysisKind>(analysis_kind),analysis_nucleus,pixel_classifier.model(),make_transform);
+        batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,cell_parameters,cell_min_area,cell_max_area,static_cast<AnalysisKind>(analysis_kind),roi_sampling_policy,analysis_nucleus,pixel_classifier.model(),make_transform);
         classifier.draw(document,*selection,editing_blocked,has_image,mark_target);
         const auto pixel_top_left=viewport.screen_to_image({0,0}),pixel_bottom_right=viewport.screen_to_image({previous_canvas_size.x,previous_canvas_size.y});
         pixel_classifier.draw(document,*selection,editing_blocked,has_image,mark_target,make_transform,{pixel_top_left.x,pixel_top_left.y,pixel_bottom_right.x-pixel_top_left.x,pixel_bottom_right.y-pixel_top_left.y});

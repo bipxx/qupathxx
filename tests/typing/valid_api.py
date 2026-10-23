@@ -441,3 +441,21 @@ def saved_raw_measurements(document: q.Document, region: q.RawRegionRequest,
     options.raw_follow_display = False
     options.validate()
     return result
+
+
+def polygon_sampling(document: q.Document, object_id: int, transform: q.StainTransform,
+                     session: q.ViewerSession) -> q.RoiSamplingPolicy:
+    policy = q.RoiSamplingPolicy.POLYGON_WINDING
+    request = q.AnalysisRequest(document, object_id, transform, sampling_policy=policy)
+    result = q.analyze(request)
+    roi: q.Roi = request.roi
+    member: bool = roi.contains_sample(q.Point(1, 1), policy)
+    parameters = q.TissueParameters()
+    parameters.sampling_policy = policy
+    session.analyze_with_sampling_policy(1, object_id, transform, policy)
+    options = q.GuiOptions()
+    options.roi_sampling_policy = options.tissue_sampling_policy = policy
+    batch = q.ProjectBatchOptions()
+    batch.roi_sampling_policy = policy
+    assert isinstance(member, bool)
+    return result.sampling_policy

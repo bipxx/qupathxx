@@ -1,0 +1,13 @@
+{
+  "schema": "qpx.roi-sampling-validation/1",
+  "state": "engineering-scope-accepted-hosted-audited",
+  "source_content_commit": "14788f23325d74dcb2ff016d82d994786eecd999",
+  "hosted_acceptance": {
+    "run": "https://github.com/bipxx/qupathxx/actions/runs/40039352934",
+    "receipt_file": "roi-sampling-ci-windows-linux.json",
+    "receipt_sha256": "d27ff5a4c20032adf215dcbadcc18c3832b0e2396b85d605cf0fab64ae25465c"
+  },
+  "release_ready": false,
+  "performance_accepted": false,
+  "local_validation": "Post-fix local Linux unavailable: WSL emergency read-only filesystem after host disk exhaustion. Hosted current-source Linux full/native, runtime and sanitizer evidence is accepted; pre-fix local evidence is superseded."
+}

@@ -100,11 +100,24 @@ polygon boundary predicate and QuPath membership disagree on these edge centers.
 Changing the global boundary policy would affect existing geometry and measurement
 contracts and is not silently performed by this comparison tool.
 
-These unresolved gates appear as four strict expected failures in pytest, alongside
-passing characterization and corruption checks. A newly passing gate triggers an
-unexpected-pass failure for review. The tool reports `characterized-partial` and
-`segmentation_parity_accepted: false`; exit zero means the characterization ran,
-not that segmentation, biological accuracy or M5 acceptance passed.
+Three isolated-cell segmentation gates remain strict expected failures in pytest.
+The resampled shared-ROI gate now explicitly selects
+[`POLYGON_WINDING`](roi-sampling.md). Across all nine cases, its 42 compartment
+masks and counts match exactly, and OD/stain means pass the unchanged 1e-6
+absolute/relative tolerances at all three tile sizes. The comparison retains
+`shared_roi_regions` for legacy coverage and adds `shared_roi_regions_winding`;
+the six legacy resampled discrepancies above remain unchanged. Global geometry
+membership, picking and the default analysis policy retain their existing rules.
+
+The report exposes `explicit_winding_sampling_accepted` and the compartment
+count separately. This accepts the explicit sampling mode on the pinned corpus;
+cell detection itself is unchanged. The tool continues to report
+`characterized-partial` and `segmentation_parity_accepted: false`. Exit zero means
+the characterization ran, not that segmentation, biological accuracy or M5
+acceptance passed. The corrected [Windows full validation](benchmarks/roi-sampling-windows-local.json)
+and [five-job hosted audit](benchmarks/roi-sampling-ci-windows-linux.json) accept
+the explicit sampling engineering scope. The [Windows comparison](benchmarks/qupath-cells-winding-windows.json)
+retains every case and both sampling policies.
 
 ## Reproduction and limits
 

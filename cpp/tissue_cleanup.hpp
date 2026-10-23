@@ -6,6 +6,11 @@
 #include <stdexcept>
 namespace qpx::tissue_detail {
 inline bool enabled(const TissueParameters& p) {return p.open_radius || p.close_radius || p.fill_holes;}
+inline const char* algorithm(const TissueParameters& p,std::int32_t level) {
+    if(p.sampling_policy==RoiSamplingPolicy::PolygonWinding)
+        return enabled(p)?"qpx.threshold-components/winding-3":level?"qpx.threshold-components/winding-2":"qpx.threshold-components/winding-1";
+    return enabled(p)?"qpx.threshold-components/3":level?"qpx.threshold-components/2":"qpx.threshold-components/1";
+}
 inline void checkpoint(const std::atomic<bool>* cancelled) {
     if(cancelled && cancelled->load(std::memory_order_relaxed)) throw std::runtime_error("tissue detection cancelled");
 }

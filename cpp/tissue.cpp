@@ -26,6 +26,7 @@ std::int64_t read_origin(std::int64_t index,double scale) {
 }
 }
 void TissueParameters::validate() const {
+    validate_sampling_policy(sampling_policy);
     if(feature!=TissueFeature::OpticalDensitySum && feature!=TissueFeature::Stain1 && feature!=TissueFeature::Stain2 && feature!=TissueFeature::Stain3)
         throw std::invalid_argument("invalid tissue feature");
     if(!std::isfinite(threshold)) throw std::invalid_argument("tissue threshold must be finite");
@@ -38,7 +39,7 @@ void TissueParameters::validate() const {
     if(!work_bytes || work_bytes>512u*1024u*1024u) throw std::invalid_argument("tissue work budget must be 1 byte..512 MiB");
 }
 TissueRequest::TissueRequest(const Document& document,std::uint64_t id,const StainTransform& transform,TissueParameters parameters,bool nucleus):
-    source_(document,id,transform,stain_feature(parameters.feature)?AnalysisKind::StainMeans:AnalysisKind::OpticalDensityMeans,nucleus,parameters.tile_size,true),parameters_(parameters) {
+    source_(document,id,transform,stain_feature(parameters.feature)?AnalysisKind::StainMeans:AnalysisKind::OpticalDensityMeans,nucleus,parameters.tile_size,true,parameters.sampling_policy),parameters_(parameters) {
     parameters_.validate();
     const auto& metadata=source_.source_->metadata();const auto& levels=metadata.levels;const auto b=source_.roi_.bounds();
     if(levels.empty() || levels.size()>static_cast<std::size_t>(std::numeric_limits<std::int32_t>::max())) throw std::invalid_argument("invalid tissue pyramid metadata");
@@ -82,8 +83,8 @@ struct TissueKernel {
         const auto count=static_cast<std::size_t>(width*height);
         output->bounds_=request.bounds();output->level_bounds_=request.level_bounds();output->level_=request.level_;output->downsample_=scale;
         output->roi_=source.roi_;output->image_bounds_={0,0,double(source.source_->metadata().width),double(source.source_->metadata().height)};
-        if(request.level_!=0) output->algorithm_="qpx.threshold-components/2";
-        const bool cleanup=tissue_detail::enabled(p);if(cleanup) output->algorithm_="qpx.threshold-components/3";
+        output->algorithm_=tissue_detail::algorithm(p,request.level_);
+        const bool cleanup=tissue_detail::enabled(p);
         output->parameters_=p;output->estimated_work_bytes_=request.estimated_work_bytes_;
         output->object_id_=source.object_id_;output->object_revision_=source.object_revision_;output->document_revision_=source.document_revision_;
         output->nucleus_=source.nucleus_;output->white_=source.transform_.white();output->stains_=source.transform_.stains();
@@ -116,7 +117,10 @@ struct TissueKernel {
                     for(std::int64_t col=0;col<w;++col) {
                         const auto i=static_cast<std::size_t>((row*w+col)*3);
                         if(!std::isfinite(data[i])) continue;
-                        if(source.roi_.kind()!=RoiKind::Rectangle && !source.roi_.contains({(static_cast<double>(x+col)+.5)*scale,(static_cast<double>(y+row)+.5)*scale})) continue;
+                        if(source.roi_.kind()!=RoiKind::Rectangle) {
+                            const Point center{(static_cast<double>(x+col)+.5)*scale,(static_cast<double>(y+row)+.5)*scale};
+                            if(!(p.sampling_policy==RoiSamplingPolicy::GeometryCoverage?source.roi_.contains(center):source.roi_.contains_sample(center,p.sampling_policy))) continue;
+                        }
                         ++output->samples_;
                         const auto target=static_cast<std::size_t>((y-request.y0_+row)*width+x-request.x0_+col);
                         if(cleanup) domain[target]=1;

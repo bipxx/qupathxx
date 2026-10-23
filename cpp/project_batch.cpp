@@ -143,6 +143,10 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
         if(o.cell_max_nucleus_area_um2) s<<*o.cell_max_nucleus_area_um2;else s<<"null";
         s<<'}';
     }
+    if(o.roi_sampling_policy!=RoiSamplingPolicy::GeometryCoverage)
+        s<<",\"roi_sampling_policy\":"<<int(o.roi_sampling_policy);
+    if(p.sampling_policy!=RoiSamplingPolicy::GeometryCoverage)
+        s<<",\"tissue_sampling_policy\":"<<int(p.sampling_policy);
     if(o.tma_only) s<<",\"tma_scope\":{\"include_missing\":"<<(o.include_missing_tma?"true":"false")<<'}';
     if(o.kind==ProjectBatchKind::Pixels) {const auto& v=o.pixels;
         s<<",\"pixels\":{\"model_sha256\":"<<batch_json_quote(o.pixel_model->sha256())<<",\"block_size\":"<<v.block_size<<",\"tile_size\":"<<v.prediction.tile_size<<",\"work_bytes\":"<<v.prediction.work_bytes<<",\"min_vote_fraction\":"<<v.prediction.min_vote_fraction<<",\"max_pixels\":"<<v.max_pixels<<",\"max_blocks\":"<<v.max_blocks<<",\"file_limit\":"<<o.pixel_file_limit<<",\"total_limit\":"<<o.pixel_total_limit<<'}';
@@ -160,6 +164,11 @@ struct ProjectBatchRequest::Data {
     explicit Data(const StainTransform& t):transform(t) {}
 };
 void ProjectBatchOptions::validate() const {
+    validate_sampling_policy(roi_sampling_policy);
+    if(kind!=ProjectBatchKind::Roi && roi_sampling_policy!=RoiSamplingPolicy::GeometryCoverage)
+        throw std::invalid_argument("ROI sampling policy requires an ROI batch");
+    if(kind!=ProjectBatchKind::Tissue && tissue.sampling_policy!=RoiSamplingPolicy::GeometryCoverage)
+        throw std::invalid_argument("tissue sampling policy requires a tissue batch");
     detail::validate_cell_area_limits(cell_min_nucleus_area_um2,cell_max_nucleus_area_um2);
     if(kind!=ProjectBatchKind::Cells && (cell_min_nucleus_area_um2 || cell_max_nucleus_area_um2))
         throw std::invalid_argument("physical nucleus area limits require a cell batch");
@@ -266,7 +275,7 @@ struct ProjectBatchKernel {
                                 if(compute) {auto value=analyze_raw(r,c);digest=value->input_sha256();result.raw_tiles+=value->tiles();record=doc->keep_raw_analysis(r,value);bytes=doc->raw_analysis_record(record)->payload_bytes();}
                                 else {auto value=raw_analysis_input_digest(r,c);digest=value.input_sha256;result.raw_hashed_tiles+=value.tiles;}
                             }
-                            else if(o.kind==ProjectBatchKind::Roi) {AnalysisRequest r(*doc,id,d.transform,o.roi_kind,o.nucleus,o.roi_tile_size);if(compute) {auto value=analyze(r,c);digest=value.input_sha256;record=doc->keep_analysis(r,value);bytes=doc->analysis_record(record).payload_bytes();}else digest=input_sha256(r,c);}
+                            else if(o.kind==ProjectBatchKind::Roi) {AnalysisRequest r(*doc,id,d.transform,o.roi_kind,o.nucleus,o.roi_tile_size,o.roi_sampling_policy);if(compute) {auto value=analyze(r,c);digest=value.input_sha256;record=doc->keep_analysis(r,value);bytes=doc->analysis_record(record).payload_bytes();}else digest=input_sha256(r,c);}
                             else if(o.kind==ProjectBatchKind::Tissue) {TissueRequest r(*doc,id,d.transform,o.tissue,o.nucleus);if(compute) {auto value=detect_tissue(r,c);digest=value->input_sha256();record=doc->keep_tissue(r,value);bytes=doc->tissue_record(record)->payload_bytes();}else digest=input_sha256(r,c);}
                             else {auto r=CellRequest::with_nucleus_area_limits(*doc,id,d.transform,o.cell_min_nucleus_area_um2,o.cell_max_nucleus_area_um2,o.cells);if(compute) {auto value=detect_cells(r,c);digest=value->nuclei()->input_sha256();record=doc->keep_cells(r,value);bytes=doc->cell_record(record)->payload_bytes();if(o.publish_cells) {const auto extra=4ULL*value->retained_bytes()+value->features().size()*512ULL;if(cost(*doc,input.info.embedded)>o.materialize_budget || extra>o.materialize_budget-cost(*doc,input.info.embedded)) throw std::length_error("cell publication exceeds batch materialization budget");doc->publish_cell_record(record);}}else digest=input_sha256(r,c);}
                             pixels.integer(id);pixels.update(digest.data(),digest.size());

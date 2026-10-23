@@ -81,6 +81,7 @@ def characterized():
 @pytest.mark.parametrize('name', [case['name'] for case in CONTRACT['cases']])
 def test_cell_characterization_preserves_tile_and_measurement_evidence(characterized, name):
     result = characterized[name]
+    assert all(region['passed'] for region in result['shared_roi_regions_winding'])
     assert result['tile_invariant']
     assert [t['tile_size'] for t in result['timings']] == [16,64,256]
     assert result['serialization_changed_label_pixels'] == dict(nucleus=0,body=0)
@@ -103,6 +104,7 @@ def test_isolated_cell_upstream_acceptance_gate(characterized, gate):
 
 
 @GEOMETRY
-@pytest.mark.xfail(strict=True,reason='Resampled polygon boundary memberships differ from QuPath')
-def test_resampled_cell_shared_roi_acceptance_gate(characterized):
-    assert all(r['passed'] for r in characterized['resampled_reference']['shared_roi_regions'])
+def test_resampled_cell_explicit_winding_sampling_acceptance_gate(characterized):
+    assert all(r['passed'] for r in characterized['resampled_reference']['shared_roi_regions_winding'])
+    assert sum(len(case['shared_roi_regions_winding']) for case in characterized.values()) == 42
+    assert not all(r['passed'] for r in characterized['resampled_reference']['shared_roi_regions'])

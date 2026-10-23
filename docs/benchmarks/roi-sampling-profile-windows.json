@@ -1,0 +1,2133 @@
+{
+  "schema": "qpx.roi-sampling-profile/1",
+  "performance_accepted": false,
+  "protocol": "One excluded fresh-process warmup and eight retained paired fresh processes per case; four each first-arm order. Per workflow, each child warms both arms then times three request-and-analysis calls per arm. Summaries compare per-child medians; all raw times are retained.",
+  "limitations": [
+    "Synthetic dense RGB natural-grid ROIs only; no slide decoding, biological or GUI throughput claim.",
+    "Cases avoid intentional boundary sample centers and require exact numeric output equality.",
+    "Work estimates are not RSS; system contention, allocation and library effects are uncontrolled.",
+    "No universal speedup, performance parity or hardware-budget acceptance."
+  ],
+  "cases": [
+    {
+      "shape": "square-hole",
+      "size": 256,
+      "summary_ms": {
+        "roi": {
+          "coverage": {
+            "median": 8.04955,
+            "minimum": 6.7569,
+            "maximum": 10.0077
+          },
+          "winding": {
+            "median": 8.34295,
+            "minimum": 8.1761,
+            "maximum": 8.947
+          },
+          "winding_minus_coverage": {
+            "median": 0.36555000000000026,
+            "minimum": -1.0607000000000006,
+            "maximum": 1.4748999999999999
+          }
+        },
+        "tissue": {
+          "coverage": {
+            "median": 8.981300000000001,
+            "minimum": 7.8843,
+            "maximum": 9.2012
+          },
+          "winding": {
+            "median": 9.8079,
+            "minimum": 9.0907,
+            "maximum": 10.8569
+          },
+          "winding_minus_coverage": {
+            "median": 0.7538500000000008,
+            "minimum": 0.2835000000000001,
+            "maximum": 2.9726
+          }
+        }
+      },
+      "samples": [
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "square-hole",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                6.6403,
+                8.7217,
+                8.4593
+              ],
+              "coverage": [
+                8.1769,
+                8.4365,
+                7.1376
+              ]
+            },
+            "tissue": {
+              "winding": [
+                8.9187,
+                10.6048,
+                9.8434
+              ],
+              "coverage": [
+                11.6313,
+                8.9122,
+                8.7012
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 54279,
+              "means": [
+                0.45420914849144894,
+                0.4581644378001835,
+                0.4474280262294045
+              ]
+            },
+            "tissue": {
+              "samples": 54279,
+              "foreground": 54279,
+              "components": 1,
+              "labels_sha256": "f2cfc59bbd092572e6671bfa4cdfffbd110e9bbe567d734e54ebdada98076f0e"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 5542400,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "square-hole",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                7.3861,
+                6.365,
+                6.7569
+              ],
+              "winding": [
+                10.1535,
+                8.2318,
+                7.893
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                8.3486,
+                9.0483,
+                9.2229
+              ],
+              "winding": [
+                8.7386,
+                10.2233,
+                9.7981
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 54279,
+              "means": [
+                0.45420914849144894,
+                0.4581644378001835,
+                0.4474280262294045
+              ]
+            },
+            "tissue": {
+              "samples": 54279,
+              "foreground": 54279,
+              "components": 1,
+              "labels_sha256": "f2cfc59bbd092572e6671bfa4cdfffbd110e9bbe567d734e54ebdada98076f0e"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 5542400,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "square-hole",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                7.8614,
+                8.3537,
+                8.3008
+              ],
+              "coverage": [
+                8.1627,
+                7.5844,
+                9.484
+              ]
+            },
+            "tissue": {
+              "winding": [
+                9.7317,
+                9.7583,
+                10.6019
+              ],
+              "coverage": [
+                9.2012,
+                8.6696,
+                9.3084
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 54279,
+              "means": [
+                0.45420914849144894,
+                0.4581644378001835,
+                0.4474280262294045
+              ]
+            },
+            "tissue": {
+              "samples": 54279,
+              "foreground": 54279,
+              "components": 1,
+              "labels_sha256": "f2cfc59bbd092572e6671bfa4cdfffbd110e9bbe567d734e54ebdada98076f0e"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 5542400,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "square-hole",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                7.5965,
+                7.1394,
+                7.6395
+              ],
+              "winding": [
+                10.8424,
+                8.5275,
+                8.5875
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                8.6246,
+                8.8072,
+                9.6032
+              ],
+              "winding": [
+                10.2212,
+                9.0907,
+                7.8807
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 54279,
+              "means": [
+                0.45420914849144894,
+                0.4581644378001835,
+                0.4474280262294045
+              ]
+            },
+            "tissue": {
+              "samples": 54279,
+              "foreground": 54279,
+              "components": 1,
+              "labels_sha256": "f2cfc59bbd092572e6671bfa4cdfffbd110e9bbe567d734e54ebdada98076f0e"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 5542400,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "square-hole",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                8.947,
+                11.6316,
+                8.3636
+              ],
+              "coverage": [
+                10.0077,
+                7.096,
+                12.9809
+              ]
+            },
+            "tissue": {
+              "winding": [
+                11.5277,
+                9.1061,
+                9.6314
+              ],
+              "coverage": [
+                8.9304,
+                8.8046,
+                10.9371
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 54279,
+              "means": [
+                0.45420914849144894,
+                0.4581644378001835,
+                0.4474280262294045
+              ]
+            },
+            "tissue": {
+              "samples": 54279,
+              "foreground": 54279,
+              "components": 1,
+              "labels_sha256": "f2cfc59bbd092572e6671bfa4cdfffbd110e9bbe567d734e54ebdada98076f0e"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 5542400,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "square-hole",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                7.6952,
+                7.9364,
+                9.23
+              ],
+              "winding": [
+                8.3851,
+                9.2424,
+                8.0338
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                7.8843,
+                7.6765,
+                7.8942
+              ],
+              "winding": [
+                9.8546,
+                11.8122,
+                10.8569
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 54279,
+              "means": [
+                0.45420914849144894,
+                0.4581644378001835,
+                0.4474280262294045
+              ]
+            },
+            "tissue": {
+              "samples": 54279,
+              "foreground": 54279,
+              "components": 1,
+              "labels_sha256": "f2cfc59bbd092572e6671bfa4cdfffbd110e9bbe567d734e54ebdada98076f0e"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 5542400,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "square-hole",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                7.957,
+                8.1761,
+                8.2399
+              ],
+              "coverage": [
+                7.705,
+                10.8574,
+                8.5869
+              ]
+            },
+            "tissue": {
+              "winding": [
+                10.3829,
+                11.4249,
+                9.8222
+              ],
+              "coverage": [
+                8.385,
+                9.0322,
+                11.0409
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 54279,
+              "means": [
+                0.45420914849144894,
+                0.4581644378001835,
+                0.4474280262294045
+              ]
+            },
+            "tissue": {
+              "samples": 54279,
+              "foreground": 54279,
+              "components": 1,
+              "labels_sha256": "f2cfc59bbd092572e6671bfa4cdfffbd110e9bbe567d734e54ebdada98076f0e"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 5542400,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "square-hole",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                7.6017,
+                7.2461,
+                7.0767
+              ],
+              "winding": [
+                8.1865,
+                8.972,
+                8.19
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                9.0598,
+                8.7285,
+                9.1698
+              ],
+              "winding": [
+                9.8177,
+                11.149,
+                8.7649
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 54279,
+              "means": [
+                0.45420914849144894,
+                0.4581644378001835,
+                0.4474280262294045
+              ]
+            },
+            "tissue": {
+              "samples": 54279,
+              "foreground": 54279,
+              "components": 1,
+              "labels_sha256": "f2cfc59bbd092572e6671bfa4cdfffbd110e9bbe567d734e54ebdada98076f0e"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 5542400,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        }
+      ]
+    },
+    {
+      "shape": "square-hole",
+      "size": 1024,
+      "summary_ms": {
+        "roi": {
+          "coverage": {
+            "median": 125.22485,
+            "minimum": 119.8999,
+            "maximum": 130.0475
+          },
+          "winding": {
+            "median": 142.13855,
+            "minimum": 132.0359,
+            "maximum": 149.2502
+          },
+          "winding_minus_coverage": {
+            "median": 15.537500000000001,
+            "minimum": 7.187600000000003,
+            "maximum": 23.41550000000001
+          }
+        },
+        "tissue": {
+          "coverage": {
+            "median": 152.8246,
+            "minimum": 143.9782,
+            "maximum": 164.7179
+          },
+          "winding": {
+            "median": 170.19985,
+            "minimum": 166.6743,
+            "maximum": 180.5761
+          },
+          "winding_minus_coverage": {
+            "median": 17.725949999999997,
+            "minimum": 2.622000000000014,
+            "maximum": 30.15119999999999
+          }
+        }
+      },
+      "samples": [
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "square-hole",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                145.7347,
+                141.544,
+                139.9884
+              ],
+              "coverage": [
+                119.9748,
+                119.7796,
+                119.8999
+              ]
+            },
+            "tissue": {
+              "winding": [
+                168.7403,
+                159.2406,
+                167.4889
+              ],
+              "coverage": [
+                151.9576,
+                160.9545,
+                156.3408
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 915975,
+              "means": [
+                0.45175549630132733,
+                0.45237442308006115,
+                0.4521083508777669
+              ]
+            },
+            "tissue": {
+              "samples": 915975,
+              "foreground": 915975,
+              "components": 1,
+              "labels_sha256": "8d2b6e6c728adb853c1f1bb4b8c7d7207b6861dd31683e01eafe58f5a058a3ad"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 15772160,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "square-hole",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                121.0732,
+                123.7155,
+                123.3495
+              ],
+              "winding": [
+                142.1734,
+                135.4471,
+                133.9273
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                150.4249,
+                150.5553,
+                149.3595
+              ],
+              "winding": [
+                178.9891,
+                180.5761,
+                181.7468
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 915975,
+              "means": [
+                0.45175549630132733,
+                0.45237442308006115,
+                0.4521083508777669
+              ]
+            },
+            "tissue": {
+              "samples": 915975,
+              "foreground": 915975,
+              "components": 1,
+              "labels_sha256": "8d2b6e6c728adb853c1f1bb4b8c7d7207b6861dd31683e01eafe58f5a058a3ad"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 15772160,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "square-hole",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                138.7609,
+                139.402,
+                146.3774
+              ],
+              "coverage": [
+                127.0858,
+                133.3044,
+                123.5495
+              ]
+            },
+            "tissue": {
+              "winding": [
+                163.4351,
+                175.4238,
+                167.3399
+              ],
+              "coverage": [
+                158.6323,
+                173.3149,
+                164.7179
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 915975,
+              "means": [
+                0.45175549630132733,
+                0.45237442308006115,
+                0.4521083508777669
+              ]
+            },
+            "tissue": {
+              "samples": 915975,
+              "foreground": 915975,
+              "components": 1,
+              "labels_sha256": "8d2b6e6c728adb853c1f1bb4b8c7d7207b6861dd31683e01eafe58f5a058a3ad"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 15772160,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "square-hole",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                123.9755,
+                125.5282,
+                124.8483
+              ],
+              "winding": [
+                135.7067,
+                132.0359,
+                128.8716
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                162.0362,
+                141.8256,
+                146.5207
+              ],
+              "winding": [
+                164.7111,
+                166.6743,
+                176.7264
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 915975,
+              "means": [
+                0.45175549630132733,
+                0.45237442308006115,
+                0.4521083508777669
+              ]
+            },
+            "tissue": {
+              "samples": 915975,
+              "foreground": 915975,
+              "components": 1,
+              "labels_sha256": "8d2b6e6c728adb853c1f1bb4b8c7d7207b6861dd31683e01eafe58f5a058a3ad"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 15772160,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "square-hole",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                138.0141,
+                143.9908,
+                147.7606
+              ],
+              "coverage": [
+                126.839,
+                133.7255,
+                130.0475
+              ]
+            },
+            "tissue": {
+              "winding": [
+                165.244,
+                174.0607,
+                170.9329
+              ],
+              "coverage": [
+                159.1987,
+                154.2348,
+                157.5009
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 915975,
+              "means": [
+                0.45175549630132733,
+                0.45237442308006115,
+                0.4521083508777669
+              ]
+            },
+            "tissue": {
+              "samples": 915975,
+              "foreground": 915975,
+              "components": 1,
+              "labels_sha256": "8d2b6e6c728adb853c1f1bb4b8c7d7207b6861dd31683e01eafe58f5a058a3ad"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 15772160,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "square-hole",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                119.6705,
+                125.8347,
+                139.0001
+              ],
+              "winding": [
+                149.2502,
+                166.3635,
+                143.1672
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                151.4807,
+                150.6683,
+                154.8155
+              ],
+              "winding": [
+                171.9829,
+                182.8663,
+                176.6084
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 915975,
+              "means": [
+                0.45175549630132733,
+                0.45237442308006115,
+                0.4521083508777669
+              ]
+            },
+            "tissue": {
+              "samples": 915975,
+              "foreground": 915975,
+              "components": 1,
+              "labels_sha256": "8d2b6e6c728adb853c1f1bb4b8c7d7207b6861dd31683e01eafe58f5a058a3ad"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 15772160,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "square-hole",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                142.8097,
+                149.691,
+                135.0354
+              ],
+              "coverage": [
+                122.5634,
+                124.1984,
+                124.5347
+              ]
+            },
+            "tissue": {
+              "winding": [
+                169.4668,
+                170.0108,
+                152.0777
+              ],
+              "coverage": [
+                150.2803,
+                154.1685,
+                163.3697
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 915975,
+              "means": [
+                0.45175549630132733,
+                0.45237442308006115,
+                0.4521083508777669
+              ]
+            },
+            "tissue": {
+              "samples": 915975,
+              "foreground": 915975,
+              "components": 1,
+              "labels_sha256": "8d2b6e6c728adb853c1f1bb4b8c7d7207b6861dd31683e01eafe58f5a058a3ad"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 15772160,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "square-hole",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                125.6014,
+                132.4037,
+                123.6078
+              ],
+              "winding": [
+                142.7331,
+                138.9344,
+                146.5206
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                143.9782,
+                143.201,
+                150.9587
+              ],
+              "winding": [
+                164.2319,
+                171.7618,
+                177.8604
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 915975,
+              "means": [
+                0.45175549630132733,
+                0.45237442308006115,
+                0.4521083508777669
+              ]
+            },
+            "tissue": {
+              "samples": 915975,
+              "foreground": 915975,
+              "components": 1,
+              "labels_sha256": "8d2b6e6c728adb853c1f1bb4b8c7d7207b6861dd31683e01eafe58f5a058a3ad"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 15772160,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        }
+      ]
+    },
+    {
+      "shape": "complex",
+      "size": 256,
+      "summary_ms": {
+        "roi": {
+          "coverage": {
+            "median": 6.9379,
+            "minimum": 6.1427,
+            "maximum": 8.1224
+          },
+          "winding": {
+            "median": 8.460650000000001,
+            "minimum": 8.2827,
+            "maximum": 9.7409
+          },
+          "winding_minus_coverage": {
+            "median": 1.6306499999999997,
+            "minimum": 0.5708000000000002,
+            "maximum": 2.310600000000001
+          }
+        },
+        "tissue": {
+          "coverage": {
+            "median": 7.83345,
+            "minimum": 6.7244,
+            "maximum": 8.9355
+          },
+          "winding": {
+            "median": 10.0021,
+            "minimum": 9.2938,
+            "maximum": 12.1788
+          },
+          "winding_minus_coverage": {
+            "median": 2.1241,
+            "minimum": 0.8976999999999986,
+            "maximum": 3.2433000000000014
+          }
+        }
+      },
+      "samples": [
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "complex",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                11.3978,
+                8.96,
+                7.3055
+              ],
+              "coverage": [
+                6.3778,
+                6.9169,
+                8.5828
+              ]
+            },
+            "tissue": {
+              "winding": [
+                10.5477,
+                10.5592,
+                12.9462
+              ],
+              "coverage": [
+                8.6138,
+                8.8615,
+                7.8877
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 37990,
+              "means": [
+                0.47113219170970144,
+                0.46068808542965084,
+                0.45038509849663877
+              ]
+            },
+            "tissue": {
+              "samples": 37990,
+              "foreground": 37990,
+              "components": 1,
+              "labels_sha256": "f9717a2bfa7a07cb79cbb0aa3815059960e23643c838d5b6e147a4637216554b"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 4591712,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "complex",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                7.2988,
+                7.0024,
+                8.9938
+              ],
+              "winding": [
+                8.6138,
+                8.2827,
+                7.8766
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                7.468,
+                6.8707,
+                7.522
+              ],
+              "winding": [
+                11.4939,
+                10.7018,
+                10.3272
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 37990,
+              "means": [
+                0.47113219170970144,
+                0.46068808542965084,
+                0.45038509849663877
+              ]
+            },
+            "tissue": {
+              "samples": 37990,
+              "foreground": 37990,
+              "components": 1,
+              "labels_sha256": "f9717a2bfa7a07cb79cbb0aa3815059960e23643c838d5b6e147a4637216554b"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 4591712,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "complex",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                11.622,
+                7.5762,
+                8.468
+              ],
+              "coverage": [
+                6.9172,
+                6.6338,
+                6.8252
+              ]
+            },
+            "tissue": {
+              "winding": [
+                7.7334,
+                9.5612,
+                9.2938
+              ],
+              "coverage": [
+                7.3158,
+                6.5181,
+                7.8182
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 37990,
+              "means": [
+                0.47113219170970144,
+                0.46068808542965084,
+                0.45038509849663877
+              ]
+            },
+            "tissue": {
+              "samples": 37990,
+              "foreground": 37990,
+              "components": 1,
+              "labels_sha256": "f9717a2bfa7a07cb79cbb0aa3815059960e23643c838d5b6e147a4637216554b"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 4591712,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "complex",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                6.4598,
+                7.2333,
+                6.7873
+              ],
+              "winding": [
+                9.4087,
+                8.44,
+                8.079
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                8.1096,
+                7.8963,
+                7.6855
+              ],
+              "winding": [
+                9.4279,
+                9.1358,
+                9.8801
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 37990,
+              "means": [
+                0.47113219170970144,
+                0.46068808542965084,
+                0.45038509849663877
+              ]
+            },
+            "tissue": {
+              "samples": 37990,
+              "foreground": 37990,
+              "components": 1,
+              "labels_sha256": "f9717a2bfa7a07cb79cbb0aa3815059960e23643c838d5b6e147a4637216554b"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 4591712,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "complex",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                7.2586,
+                10.2777,
+                9.7409
+              ],
+              "coverage": [
+                8.1224,
+                8.5423,
+                6.7534
+              ]
+            },
+            "tissue": {
+              "winding": [
+                9.4819,
+                9.9634,
+                10.4305
+              ],
+              "coverage": [
+                6.7244,
+                6.1829,
+                8.2597
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 37990,
+              "means": [
+                0.47113219170970144,
+                0.46068808542965084,
+                0.45038509849663877
+              ]
+            },
+            "tissue": {
+              "samples": 37990,
+              "foreground": 37990,
+              "components": 1,
+              "labels_sha256": "f9717a2bfa7a07cb79cbb0aa3815059960e23643c838d5b6e147a4637216554b"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 4591712,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "complex",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                6.1427,
+                6.5212,
+                6.0054
+              ],
+              "winding": [
+                11.0572,
+                8.4533,
+                7.6777
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                7.8666,
+                7.7706,
+                7.0972
+              ],
+              "winding": [
+                9.9883,
+                10.0408,
+                10.7406
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 37990,
+              "means": [
+                0.47113219170970144,
+                0.46068808542965084,
+                0.45038509849663877
+              ]
+            },
+            "tissue": {
+              "samples": 37990,
+              "foreground": 37990,
+              "components": 1,
+              "labels_sha256": "f9717a2bfa7a07cb79cbb0aa3815059960e23643c838d5b6e147a4637216554b"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 4591712,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "complex",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                8.5828,
+                8.548,
+                8.1843
+              ],
+              "coverage": [
+                6.2494,
+                7.9772,
+                8.0577
+              ]
+            },
+            "tissue": {
+              "winding": [
+                9.1033,
+                12.1788,
+                13.4195
+              ],
+              "coverage": [
+                9.0589,
+                8.6137,
+                8.9355
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 37990,
+              "means": [
+                0.47113219170970144,
+                0.46068808542965084,
+                0.45038509849663877
+              ]
+            },
+            "tissue": {
+              "samples": 37990,
+              "foreground": 37990,
+              "components": 1,
+              "labels_sha256": "f9717a2bfa7a07cb79cbb0aa3815059960e23643c838d5b6e147a4637216554b"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 4591712,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 256,
+          "shape": "complex",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                5.4761,
+                6.9589,
+                8.183
+              ],
+              "winding": [
+                8.4068,
+                8.0116,
+                9.0186
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                8.9965,
+                8.5592,
+                8.2766
+              ],
+              "winding": [
+                9.2309,
+                9.4569,
+                11.1702
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 37990,
+              "means": [
+                0.47113219170970144,
+                0.46068808542965084,
+                0.45038509849663877
+              ]
+            },
+            "tissue": {
+              "samples": 37990,
+              "foreground": 37990,
+              "components": 1,
+              "labels_sha256": "f9717a2bfa7a07cb79cbb0aa3815059960e23643c838d5b6e147a4637216554b"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 4591712,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        }
+      ]
+    },
+    {
+      "shape": "complex",
+      "size": 1024,
+      "summary_ms": {
+        "roi": {
+          "coverage": {
+            "median": 116.2356,
+            "minimum": 111.075,
+            "maximum": 122.1592
+          },
+          "winding": {
+            "median": 140.1259,
+            "minimum": 131.0044,
+            "maximum": 150.5836
+          },
+          "winding_minus_coverage": {
+            "median": 22.656799999999997,
+            "minimum": 18.121100000000013,
+            "maximum": 31.179799999999986
+          }
+        },
+        "tissue": {
+          "coverage": {
+            "median": 133.57815,
+            "minimum": 129.5903,
+            "maximum": 143.9681
+          },
+          "winding": {
+            "median": 155.97629999999998,
+            "minimum": 153.5305,
+            "maximum": 163.2748
+          },
+          "winding_minus_coverage": {
+            "median": 23.50744999999999,
+            "minimum": 10.793700000000001,
+            "maximum": 28.986999999999995
+          }
+        }
+      },
+      "samples": [
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "complex",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                140.2803,
+                144.3988,
+                137.2792
+              ],
+              "coverage": [
+                122.1592,
+                120.8287,
+                123.9098
+              ]
+            },
+            "tissue": {
+              "winding": [
+                154.0201,
+                155.3477,
+                161.2552
+              ],
+              "coverage": [
+                134.245,
+                144.2798,
+                143.9681
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 607773,
+              "means": [
+                0.45181789479559326,
+                0.4527593532079948,
+                0.4525855941479408
+              ]
+            },
+            "tissue": {
+              "samples": 607773,
+              "foreground": 607773,
+              "components": 1,
+              "labels_sha256": "4694b95c422cab08659db0c610138307d5ab08a92592d5eb8067bd32de4fa873"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 13709952,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "complex",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                111.075,
+                109.0163,
+                117.4672
+              ],
+              "winding": [
+                137.4182,
+                131.0044,
+                130.9492
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                131.681,
+                142.0489,
+                130.2149
+              ],
+              "winding": [
+                153.5305,
+                147.2654,
+                161.7057
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 607773,
+              "means": [
+                0.45181789479559326,
+                0.4527593532079948,
+                0.4525855941479408
+              ]
+            },
+            "tissue": {
+              "samples": 607773,
+              "foreground": 607773,
+              "components": 1,
+              "labels_sha256": "4694b95c422cab08659db0c610138307d5ab08a92592d5eb8067bd32de4fa873"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 13709952,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "complex",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                150.5836,
+                146.0033,
+                152.8643
+              ],
+              "coverage": [
+                119.4038,
+                121.8766,
+                116.5589
+              ]
+            },
+            "tissue": {
+              "winding": [
+                150.2872,
+                158.6729,
+                158.0249
+              ],
+              "coverage": [
+                128.6965,
+                132.8595,
+                134.948
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 607773,
+              "means": [
+                0.45181789479559326,
+                0.4527593532079948,
+                0.4525855941479408
+              ]
+            },
+            "tissue": {
+              "samples": 607773,
+              "foreground": 607773,
+              "components": 1,
+              "labels_sha256": "4694b95c422cab08659db0c610138307d5ab08a92592d5eb8067bd32de4fa873"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 13709952,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "complex",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                118.25,
+                113.1681,
+                119.0523
+              ],
+              "winding": [
+                138.5688,
+                137.0006,
+                153.1563
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                131.2477,
+                124.3079,
+                130.8598
+              ],
+              "winding": [
+                159.2709,
+                159.8468,
+                170.6715
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 607773,
+              "means": [
+                0.45181789479559326,
+                0.4527593532079948,
+                0.4525855941479408
+              ]
+            },
+            "tissue": {
+              "samples": 607773,
+              "foreground": 607773,
+              "components": 1,
+              "labels_sha256": "4694b95c422cab08659db0c610138307d5ab08a92592d5eb8067bd32de4fa873"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 13709952,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "complex",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                131.3115,
+                146.7037,
+                143.5433
+              ],
+              "coverage": [
+                110.7336,
+                113.7394,
+                115.4946
+              ]
+            },
+            "tissue": {
+              "winding": [
+                154.6673,
+                154.2188,
+                166.6088
+              ],
+              "coverage": [
+                132.7058,
+                134.2968,
+                138.1982
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 607773,
+              "means": [
+                0.45181789479559326,
+                0.4527593532079948,
+                0.4525855941479408
+              ]
+            },
+            "tissue": {
+              "samples": 607773,
+              "foreground": 607773,
+              "components": 1,
+              "labels_sha256": "4694b95c422cab08659db0c610138307d5ab08a92592d5eb8067bd32de4fa873"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 13709952,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "complex",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                112.0789,
+                116.7484,
+                108.6606
+              ],
+              "winding": [
+                139.1571,
+                132.836,
+                130.8434
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                123.0132,
+                136.3448,
+                129.5903
+              ],
+              "winding": [
+                156.5238,
+                163.145,
+                156.6049
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 607773,
+              "means": [
+                0.45181789479559326,
+                0.4527593532079948,
+                0.4525855941479408
+              ]
+            },
+            "tissue": {
+              "samples": 607773,
+              "foreground": 607773,
+              "components": 1,
+              "labels_sha256": "4694b95c422cab08659db0c610138307d5ab08a92592d5eb8067bd32de4fa873"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 13709952,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "complex",
+          "order": [
+            "winding",
+            "coverage"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "winding": [
+                142.1491,
+                142.3744,
+                134.9895
+              ],
+              "coverage": [
+                117.0562,
+                111.1475,
+                118.4882
+              ]
+            },
+            "tissue": {
+              "winding": [
+                154.044,
+                151.5612,
+                154.8324
+              ],
+              "coverage": [
+                136.6752,
+                152.6096,
+                143.2503
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 607773,
+              "means": [
+                0.45181789479559326,
+                0.4527593532079948,
+                0.4525855941479408
+              ]
+            },
+            "tissue": {
+              "samples": 607773,
+              "foreground": 607773,
+              "components": 1,
+              "labels_sha256": "4694b95c422cab08659db0c610138307d5ab08a92592d5eb8067bd32de4fa873"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 13709952,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.roi-sampling-observation/1",
+          "size": 1024,
+          "shape": "complex",
+          "order": [
+            "coverage",
+            "winding"
+          ],
+          "timed_repetitions": 3,
+          "request_and_analysis_ms": {
+            "roi": {
+              "coverage": [
+                119.1503,
+                115.415,
+                115.3627
+              ],
+              "winding": [
+                139.5331,
+                148.1349,
+                139.9715
+              ]
+            },
+            "tissue": {
+              "coverage": [
+                133.146,
+                137.4669,
+                140.0556
+              ],
+              "winding": [
+                156.2738,
+                163.2748,
+                172.7705
+              ]
+            }
+          },
+          "exact_outputs": {
+            "roi": {
+              "samples": 607773,
+              "means": [
+                0.45181789479559326,
+                0.4527593532079948,
+                0.4525855941479408
+              ]
+            },
+            "tissue": {
+              "samples": 607773,
+              "foreground": 607773,
+              "components": 1,
+              "labels_sha256": "4694b95c422cab08659db0c610138307d5ab08a92592d5eb8067bd32de4fa873"
+            }
+          },
+          "tissue_work_budget_bytes": 268435456,
+          "estimated_tissue_work_bytes": 13709952,
+          "native_sha256": "0e3c404f573d2d109f77d41226c82abbc72bc89fa0185a73f0798db1c8210f53",
+          "source_tree_sha256": "0d98a11391f0f37317af6c99c0b8211a35e5294c0dcb5b4752ababa4ea9ea498",
+          "build_git_revision": "14788f23325d74dcb2ff016d82d994786eecd999",
+          "script_sha256": "dd9f17b4543cda6b005c93133c970e06c235a8b54fec9d88c124592bb7ef66a0",
+          "platform": "Windows-11-10.0.26200-SP0",
+          "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+          "performance_accepted": false
+        }
+      ]
+    }
+  ]
+}
