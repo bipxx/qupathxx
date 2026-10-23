@@ -53,6 +53,6 @@ python -I tools/profile_roi_sampling.py --output-directory build/roi-sampling-pr
 ```
 
 Corrected Windows native/focused, installed, stubs/typing and desktop checks pass.
-Full local regression and [hosted validation](https://github.com/bipxx/qupathxx/actions/runs/40039352934)
-remain pending. Scientific segmentation, hardware and supported-release gates
+Corrected full Windows regression and the [hosted artifact audit](benchmarks/roi-sampling-ci-windows-linux.json)
+pass at this exact source. Engineering acceptance does not accept performance. Scientific segmentation, hardware and supported-release gates
 remain separate requirements.

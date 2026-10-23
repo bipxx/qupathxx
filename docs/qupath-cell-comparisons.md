@@ -114,8 +114,10 @@ count separately. This accepts the explicit sampling mode on the pinned corpus;
 cell detection itself is unchanged. The tool continues to report
 `characterized-partial` and `segmentation_parity_accepted: false`. Exit zero means
 the characterization ran, not that segmentation, biological accuracy or M5
-acceptance passed. Windows/Linux local checks are recorded separately from the
-pending full/hosted validation of this candidate.
+acceptance passed. The corrected [Windows full validation](benchmarks/roi-sampling-windows-local.json)
+and [five-job hosted audit](benchmarks/roi-sampling-ci-windows-linux.json) accept
+the explicit sampling engineering scope. The [Windows comparison](benchmarks/qupath-cells-winding-windows.json)
+retains every case and both sampling policies.
 
 ## Reproduction and limits
 

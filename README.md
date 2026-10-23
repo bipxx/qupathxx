@@ -41,7 +41,8 @@ QuPath port or a compatible replacement for Java QuPath.
   policy are recorded; see [QuPath comparisons](docs/qupath-comparisons.md).
   Explicit [polygon sampling](docs/roi-sampling.md) retains capture/replay policy
   across native/Python, CLI, batches and ImGui, with separate legacy and winding
-  reference comparisons. This source is a validation candidate.
+  reference comparisons. Corrected native, full Windows and hosted Windows/Linux
+  engineering validation pass; segmentation and performance acceptance remain open.
   A separate [cell-plugin corpus](docs/qupath-cell-comparisons.md) records
   segmentation and feature differences, including unresolved acceptance gates.
 

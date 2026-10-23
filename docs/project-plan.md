@@ -3941,3 +3941,21 @@ biology or hardware acceptance is claimed. Native source projection proves all
 242 build inputs match corrected commit 14788f23325d74dcb2ff016d82d994786eecd999
 up to checkout CRLF. Corrected full Windows regression and hosted run 40039352934
 remain pending; main promotion and all other M0-M7 gates remain open.
+
+
+Packet 109 corrected acceptance is complete at source
+14788f23325d74dcb2ff016d82d994786eecd999, hosted run 40039352934. All five jobs
+pass and the artifact audit verifies 35 policy cases on desktop (32 headless
+passes plus three desktop skips), all nine robust diagonal cases, the 42 pinned
+compartment sampling checks, native/installed/standalone identities, relocation,
+full Aperio workflows, stubs and strict typing, and inherited classifier/reader/
+batch/archive checks. Desktop passes 2,109 Python/43 native, Windows headless
+1,721/42, Linux headless 1,719/42, and minimal/sanitizer each pass 42 native.
+The completed hosted overview is visually inspected. Local corrected Windows
+full regression passes 2,107 tests, with 13 optional skips and three scientific
+expected failures; its native/focused/installed/stub/typing and policy capture
+checks pass. Source/native/profile/capture receipt links are verified against
+committed UTF-8 LF bytes. The defined engineering scope is accepted for main
+promotion. Three isolated-cell segmentation gates, winding overhead optimization,
+biological/hardware/RSS/frame, current-source portable/Mac, license and supported
+release requirements remain open. The full M0-M7 goal stays active.

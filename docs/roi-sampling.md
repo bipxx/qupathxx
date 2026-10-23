@@ -69,10 +69,16 @@ accept it; that hosted run is cancelled.
 Explicit winding matches all 42 pinned reference compartment masks/counts and
 OD/stain means across three declared tile sizes and unchanged tolerances.
 Coverage characterization and the three isolated-cell segmentation failures
-remain visible. Full corrected Windows regression and
-[hosted acceptance](https://github.com/bipxx/qupathxx/actions/runs/40039352934)
-remain pending. The local Linux filesystem became read-only after host disk
-exhaustion; its pre-fix partial results are historical and do not qualify the fix.
+remain visible. Corrected Windows full regression passes 2,107 cases with 13 optional skips
+and three scientific expected failures. The [hosted artifact audit](benchmarks/roi-sampling-ci-windows-linux.json)
+accepts all five jobs in [run 40039352934](https://github.com/bipxx/qupathxx/actions/runs/40039352934).
+Desktop passes 2,109 Python/43 native, Windows headless 1,721/42, Linux headless
+1,719/42, and minimal/sanitizer each pass 42 native suites. All 35 policy cases
+pass desktop; 32 pass headless with three desktop skips. The nine new robust
+diagonal regressions pass each Python cohort. Engineering scope is accepted;
+three isolated-cell scientific expected failures remain per Python cohort. The local Linux filesystem became read-only after host disk
+exhaustion; current-source Linux qualification comes from the hosted full/native,
+runtime and sanitizer evidence. Pre-fix local results remain historical.
 This does not establish segmentation parity or biological accuracy.
 
 The [desktop record](benchmarks/roi-sampling-desktop-windows.json) binds a visually
