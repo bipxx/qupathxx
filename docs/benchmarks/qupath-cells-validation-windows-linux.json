@@ -1,0 +1,53 @@
+{
+  "schema": "qpx.qupath-cells-validation/1",
+  "source_tree_sha256": "1069666f68e222c2740d98eeff13a19c53329140561e5a87910e4b329394ca4a",
+  "capture_manifest_sha256": "0a36fa01faf55b13bd0112b39d75371c0a7ecfee795f43a5775b43a46571ac1c",
+  "comparison_tool_sha256": "4ceca6fa8f40ccc5fd6dccf046f58a35a1003ce3f9f2e2826e58665363ef2b2a",
+  "segmentation_parity_accepted": false,
+  "biological_validation": false,
+  "reports": {
+    "windows": {
+      "path": "docs/benchmarks/qupath-cells-windows.json",
+      "sha256": "fdf39f2c0d84c403b57a59f85c6ad156b564676d377d3c33ab2ba10b9217f87e",
+      "native_sha256": "469a26405eaab26ba616a04ad1691bd0aea18e5a43eba203b0d5ed0cd745ea9b"
+    },
+    "linux": {
+      "path": "docs/benchmarks/qupath-cells-linux.json",
+      "sha256": "96e2452bf3522a3a0f526bb84a016ff9b99c24ccc6ed11bf6c088a58f1dd09e9",
+      "native_sha256": "f139096993f700f375ecdbe99dff8cbacb3dfe410a4df04bf0bc9137ec143ffe"
+    }
+  },
+  "windows": {
+    "tests": 147,
+    "passed": 139,
+    "optional_skips": 4,
+    "strict_expected_failures": 4,
+    "junit_sha256": "38cf145931e6ea09da40c1a3401b4cbd190d445038c3c796de340fd1ad33a82b"
+  },
+  "linux": {
+    "tests": 147,
+    "passed": 139,
+    "optional_skips": 4,
+    "strict_expected_failures": 4,
+    "junit_sha256": "fe42ce19910f57b278ffd25421e797fdc0a393b2d16f12ba02b66e62b067bcc3"
+  },
+  "cases": 9,
+  "tile_sizes": [
+    16,
+    64,
+    256
+  ],
+  "native_labels_and_features_tile_invariant": true,
+  "cross_platform_segmentation_metrics_equal": true,
+  "passing_shared_roi_compartments": 36,
+  "unresolved_shared_roi_compartments": 6,
+  "unresolved_polygon_boundary_centers": 98,
+  "live_repeat": {
+    "schema": "qpx.qupath-cells-repeat/1",
+    "files": 64,
+    "byte_identical": true,
+    "first_manifest_sha256": "0a36fa01faf55b13bd0112b39d75371c0a7ecfee795f43a5775b43a46571ac1c",
+    "second_manifest_sha256": "b10531c0904b4ad4622a8c81f01d867181abec2ddd50b9d6040c5c00b06b02c3",
+    "payload_bytes": 236941
+  }
+}

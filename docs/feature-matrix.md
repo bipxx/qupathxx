@@ -33,6 +33,13 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 
 ## Current packet and remaining decisions
 
+The independent [QuPath cell-plugin corpus](qupath-cell-comparisons.md) now
+characterizes nine synthetic workflows, including IoU/counts, split/merge
+relations and feature differences. Tile invariance and 36 shared-ROI compartment
+checks pass on Windows/Linux. Isolated-cell acceptance and six resampled
+boundary-membership comparisons retain explicit failures; the cell workflow
+remains Partial and full M5 acceptance is open.
+
 The image-server contract is recorded in [image-server-contract.md](image-server-contract.md).
 Reader fixture identities and retrieval are committed; large binary fixtures
 and SDK downloads stay under the ignored build directory.

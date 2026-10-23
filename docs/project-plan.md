@@ -3420,3 +3420,36 @@ artifact is produced. This confirms the negative guard, not a successful portabl
 build. Docker is unavailable locally, so positive older-baseline build/consumer
 evidence must come from the hosted run. No manylinux support or M7 completion is
 claimed from this preparation; all remaining M0–M7 gates persist.
+
+### Packet94: independent QuPath cell-workflow characterization
+
+The [cell comparison corpus](qupath-cell-comparisons.md) invokes the pinned
+QuPath v0.7.0 watershed plugin on nine independent RGB phantoms. Its 64 payloads
+retain original/decoded nucleus and body masks, GeoJSON, plugin measurements,
+independent RGB/OD/stain samples, image inputs and parameter identities. A second
+live capture reproduced all payload bytes. The runtime remains an optional
+verified download and no Java segmentation implementation is copied.
+
+The native harness reports one-to-one IoU assignment, unmatched objects,
+split/merge relations, foreground IoU/Dice, area/centroid differences and matched
+feature differences. Native labels and compartment features are identical across
+16/64/256 read tiles for every case. Windows and Linux report identical segmentation
+metrics; all 36 shared-ROI compartments in the eight natural-grid cases pass exact
+sampling and 1e-6 transformed-feature tolerances. Both focused suites pass 139
+tests with four optional skips and four strict expected failures.
+
+Acceptance failures are retained explicitly. The isolated-three fixture yields
+three QuPath cells and two native cells, failing the declared count, IoU and
+centroid gates. A separate maximum-size-disabled diagnostic exposes a native
+540-pixel nucleus exceeding the unchanged 512-pixel limit. The resampled fixture
+also disagrees on 98 boundary centers across six compartments; original and
+QuPath-decoded maps are identical, so export quantization is excluded as the cause.
+The native closed polygon predicate includes these additional centers. No global
+sampling policy or frozen tolerance is changed to hide the difference.
+
+The [cross-platform receipt](benchmarks/qupath-cells-validation-windows-linux.json)
+binds the native artifacts, source, reports and capture identities. The harness
+reports characterized-partial and rejects any segmentation-parity claim. These
+small synthetic timings do not accept whole-slide performance or biological
+accuracy. Scientific acceptance, broader workflows and the remaining M0–M7
+requirements remain open.

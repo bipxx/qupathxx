@@ -6,3 +6,9 @@ docs/benchmarks/qupath-runtime-windows.json -text whitespace=cr-at-eol
 tools/upstream/qupath_reference.groovy text eol=lf
 tools/compare_qupath.py text eol=lf
 tools/fetch_qupath.py text eol=lf
+
+tests/fixtures/qupath-cells-0.7.0/** -text whitespace=cr-at-eol
+docs/benchmarks/qupath-cells-*.json -text whitespace=cr-at-eol
+tools/upstream/qupath_cells_reference.groovy text eol=lf
+tools/compare_qupath_cells.py text eol=lf
+tools/qupath_cells_fixture.py text eol=lf
