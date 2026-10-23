@@ -3254,6 +3254,16 @@ Warm input-only scans took about 3.23 ms versus 19.45 ms for statistics, without
 additional tile decodes. These are local observations, not hardware/RSS/frame
 acceptance guarantees.
 
-Hosted acceptance remains pending. This packet does not complete M0–M7; broader
+Hosted acceptance: [run 39965551529](https://github.com/bipxx/qupathxx/actions/runs/39965551529)
+for implementation commit `bd422ccc21e397549aacf80deddd1c34067db488` passes all five
+jobs. The [artifact verification receipt](benchmarks/raw-records-ci-windows-linux.json)
+checks the 40 raw headless cases in each installed configuration, five raw-record
+desktop cases, native suites, installed workflows, typing and 10,000-record
+benchmarks. Windows desktop passes 1,938 Python cases; Windows/Linux headless pass
+1,569/1,563 respectively, with explicitly recorded platform and desktop skips.
+The schema-13 stream migration corpus has 34 cases, including the newly added
+schema-12 input; the receipt's expected count was corrected from the older 33.
+
+This packet does not complete M0–M7; broader
 Bio-Formats readers, raw cell/classifier features, runtime/build manifests,
 biological/QuPath comparisons and hardware acceptance remain open.

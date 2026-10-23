@@ -2,7 +2,9 @@
 
 This work adds persistent quantitative measurements for the native TIFF reader.
 The declared scope passes [local verification](benchmarks/raw-records-local-windows-linux.json);
-hosted acceptance is tracked separately. This is an M5/M6 increment, not a completed
+the [hosted verification receipt](benchmarks/raw-records-ci-windows-linux.json)
+also passes all five jobs for implementation commit `bd422ccc21e397549aacf80deddd1c34067db488`.
+This is an M5/M6 increment, not a completed
 milestone or a claim of QuPath compatibility.
 
 `RawAnalysisRequest` captures a rectangle or an object's body/nucleus ROI, selected
