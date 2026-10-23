@@ -3019,3 +3019,9 @@ reuse exposed a session revision reset despite equal inputs/manifests. The final
 regressions retain exact path/cross-entry-point assertions. Small-target default
 block reuse now validates the file's effective canonical step. Final evidence
 uses the frozen final5 wheel, including the last path/revision/layout fixes.
+
+
+Packet86 implementation commit: `1d4467fa0dacae26dd438eab51722f0c20277302`.
+Hosted [run 39918571026](https://github.com/bipxx/qupathxx/actions/runs/39918571026)
+targets that exact commit and is in progress. The evidence above is local;
+no hosted packet86 pass is claimed yet. The overall M0–M7 goal remains active.
