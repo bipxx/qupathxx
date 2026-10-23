@@ -3108,3 +3108,14 @@ now requires schema 11 and retains its 10,000-record, bounded-payload, exact
 reopen and clipped GUI checks. Both native-installed headless and desktop probes
 pass; see the [benchmark correction receipt](benchmarks/tma-schema-benchmark-fix.json).
 The original run is not accepted as all-green; the correction requires a new run.
+
+
+Corrected hosted acceptance: commit `16476dc8007d4e0718e27770411dd355d973284d`,
+[run 39931928471](https://github.com/bipxx/qupathxx/actions/runs/39931928471),
+passed all five jobs. The [hosted receipt](benchmarks/tma-ci-windows-linux.json)
+verifies 1,817 Windows GUI Python, 1,460 Windows headless Python and 1,454 Linux
+Python passes; 40 GUI native and 39 native passes in each other configuration;
+all 23 TMA API and eight GUI cases; installed binary/source identities; and
+10,000-core native and clipped desktop probes. The original run was superseded
+and cancelled after its Linux benchmark failure. The broader M0–M7 goal remains
+active; reader/axis/raw-data work is not covered by this TMA acceptance.
