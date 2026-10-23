@@ -2722,8 +2722,11 @@ is claimed. The local record preserves both full-run results.
 
 Implementation commit: `867eade45a0f33e46ec9f1428851857d50a4270a`. Hosted
 [run 39906932004](https://github.com/bipxx/qupathxx/actions/runs/39906932004)
-targets that exact commit and is in progress. No hosted inspector pass is
-claimed yet.
+targets that exact commit. Linux headless, minimal and sanitizer jobs passed;
+the Windows jobs were still running when packet83 was published. The newer
+packet83 run includes these inspector checks and the new CLI cases. Repository
+concurrency is configured to supersede older main-branch runs. No complete
+hosted inspector pass is claimed for this earlier commit.
 
 
 ## Packet 83 — standalone pixel stream export and verification
@@ -2780,3 +2783,8 @@ cancels a running 16-square-block export with exit 130 and no partial output.
 Linux training/minimal executables also verify existing Windows-produced files.
 The local record includes the Linux executable/output identities and cancellation
 result; these fixture checks imply no general biological or retraining identity.
+
+Implementation commit: `521fec743e48790c0dfbb4ab5d8783bc91d51a84`. Hosted
+[run 39907928777](https://github.com/bipxx/qupathxx/actions/runs/39907928777)
+targets that exact commit and is pending. It includes all prior inspector tests
+and the new native CLI tests/probe. No hosted CLI pass is claimed yet.
