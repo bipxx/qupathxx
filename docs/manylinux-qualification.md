@@ -110,3 +110,12 @@ retains symbol-version checks and is submitted as run 40003114384 at
 Windows and Linux; replay of the actual failed requirements passes against the
 pinned policy. Neither the original failure nor this replay is accepted as a
 portable package or fresh-consumer pass.
+
+The loader-policy follow-up now passes all four builder/consumer jobs. Its
+[audited acceptance](benchmarks/manylinux101-build-consumer-acceptance.json)
+qualifies CPython 3.11/3.12 wheels at exact source
+`03ed2828c262415263a1e8e1f75eccc7e68dd9d6`, including fresh Debian consumers.
+This establishes the pipeline on its older engine revision. Current Gaussian
+and calibrated-cell sources need a new qualification run before their artifacts
+can claim that policy. Supported release and the other M0–M7 requirements remain
+open.
