@@ -1,6 +1,7 @@
 #include "qupathxx/project_batch.hpp"
 #include "batch_checkpoint.hpp"
 #include "pixel_stream_cli.hpp"
+#include "cell_table_cli.hpp"
 #include <charconv>
 #include <cmath>
 #include <csignal>
@@ -29,6 +30,7 @@ int execute(const std::vector<std::string>& args) {
     if(args.size()==1 || (args.size()==2 && args[1]=="--help")) {
         std::cout<<"Usage: qupathxx_batch PROJECT OUTPUT_DIRECTORY [options]\n"
             "       qupathxx_batch --export-csv CHECKPOINT OUTPUT.csv\n"
+            "       qupathxx_batch --export-cell-table PROJECT OUTPUT.csv [--capture-calibration] [--published] [--require-current]\n"
             "       qupathxx_batch --export-pixels PROJECT IMAGE_ID OBJECT_ID MODEL OUTPUT.qps [options]\n"
             "       qupathxx_batch --verify-pixels FILE.qps [--file-bytes N]\n"
             "Pixel export: --block-size N --work-bytes N --tile-size N --file-bytes N\n"
@@ -53,6 +55,7 @@ int execute(const std::vector<std::string>& args) {
     }
     try {
         if(const auto result=detail::pixel_stream_cli(args,cancelled)) return *result;
+        if(const auto result=detail::cell_table_cli(args,cancelled)) return *result;
         if(args.size()==4 && args[1]=="--export-csv") {save_batch_checkpoint_csv(args[2],args[3]);return 0;}
         if(args.size()<3 || args[1].rfind("--",0)==0) throw std::invalid_argument("expected PROJECT and OUTPUT_DIRECTORY; see --help");
         ProjectBatchOptions options;std::vector<ProjectBatchSelection> selection;std::vector<std::uint64_t> objects;

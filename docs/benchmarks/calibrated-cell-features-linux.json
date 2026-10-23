@@ -1,0 +1,112 @@
+{
+  "schema": "qpx.calibrated-cell-features-validation/1",
+  "state": "local-full-and-hosted-source-verified",
+  "release_ready": false,
+  "source_tree_sha256": "d4bfd70b9155ed899be8f32360fffd529373aa520ef717fabd631139d7763463",
+  "native_sha256": "f85ad552b9fab424a9eed82fc8c5b5c9b467efe1a9292621f648fc5856ab3111",
+  "linux": {
+    "native": {
+      "passed": 42,
+      "skipped": 0,
+      "junit_sha256": "c017659ee121857de527ba7fc2ac978ca71fab3ca6b2d7ee259c552e9d82c884"
+    },
+    "focused": {
+      "passed": 157,
+      "skipped": 2,
+      "junit_sha256": "a72623d8039652bf43b4c8decff40118f2a35fd5375536e45268fde3b530df95"
+    },
+    "stubs_match": true,
+    "strict_typing": true,
+    "full": {
+      "passed": 1655,
+      "skipped": 396,
+      "junit_sha256": "06ca38f2592c54a3e02a376581931ac2c32d529c8235390407bf520a3e629ae3",
+      "optional_skips": 392,
+      "strict_expected_failures": 4
+    },
+    "runtime_relocation": {
+      "passed": true,
+      "report_sha256": "6a4b9988527418eb5b961809073762f1563e85a7735fa12e27aa6a9aa4bfc6d5"
+    },
+    "installed_workflow": {
+      "passed": true,
+      "report_sha256": "8f4ec073fa56773d57ae8a25260717d8b30f1cfb9290f6318827e3dd46729254"
+    },
+    "negative_typing_errors": 7,
+    "sanitized_calibration": {
+      "result": {
+        "passed": 1,
+        "skipped": 0,
+        "junit_sha256": "18c1d79105b816c3728613fa051a9aa57b04ef8834fd01b27494117064f357b9"
+      },
+      "binary_sha256": "060009d62685636378d84ed2e7ddea83d250aec341f8bd07e9b7080676b7860f",
+      "flags": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_CXX_FLAGS": "-fsanitize=address,undefined -fno-omit-frame-pointer",
+        "CMAKE_EXE_LINKER_FLAGS": "-fsanitize=address,undefined",
+        "QUPATHXX_BUILD_TESTS": "ON",
+        "QUPATHXX_BUILD_PYTHON": "OFF",
+        "QUPATHXX_BUILD_GUI": "OFF",
+        "QUPATHXX_BUILD_GEOS": "OFF",
+        "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+        "QUPATHXX_BUILD_PROJECT": "OFF",
+        "QUPATHXX_BUILD_INTERCHANGE": "OFF",
+        "QUPATHXX_BUILD_TIFF": "OFF",
+        "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "OFF"
+      },
+      "address_and_undefined_runtimes_linked": true,
+      "leak_detection": true,
+      "halt_on_error": true,
+      "scope": "Only the native cell_calibration test in a minimal optional-feature configuration; no full sanitizer-suite acceptance."
+    },
+    "generated_fixture_followup": {
+      "result": {
+        "passed": 2,
+        "skipped": 0,
+        "junit_sha256": "68f95b867e321ee3422d54ecb38be918d2eeb9728dfa547c8877e7c1cb305fae"
+      },
+      "fixture_sha256": "09301eba1210f7c7335e33993f0fe73cc74f7fc34ac85b1da5a9bb5043776845",
+      "scope": "Two generated-pyramid checks skipped in the full run pass after supplying the same generated fixture; full-suite counts remain unchanged."
+    }
+  },
+  "scope": "Native capture-time sampled areas and centroids, opt-in CSV v2, Python, standalone project CSV command; Windows GUI validation pending.",
+  "precision_regression": {
+    "before_fix_failed": true,
+    "independent_reference": "80-digit Decimal products from exact input doubles",
+    "before_junit_sha256": "c52d99e2c231b19648d48e41b445b68c9f5abd38d314468dc87861b49cc3a219",
+    "after_passed": true
+  },
+  "superseded_full_run": {
+    "passed": 1651,
+    "optional_skips": 392,
+    "strict_expected_failures": 4,
+    "failures": 1,
+    "failure": "Source fingerprint rejected the older binary after the precision source edit.",
+    "junit_sha256": "c90d792b8fb26b8f43fb2afa9e812b16eb8508025397b83f56e75f9679582d88"
+  },
+  "benchmark_smoke": {
+    "rows": 1024,
+    "output_verified": true,
+    "performance_accepted": false,
+    "reason": "Concurrent compilation and tests; timing is not accepted performance evidence.",
+    "report_sha256": "c9eb3520f3e472c8efc6e54c88f2f797bc0198e49b87749c5700b3b92b6f4a40"
+  },
+  "hosted": {
+    "state": "accepted",
+    "run_id": 40014418579,
+    "source_commit": "2a7eabb5f4744e8e0379d6df52128236014dce04",
+    "extended_readers": true,
+    "regular_jobs_passed": 5,
+    "standard_run": {
+      "run_id": 40007801590,
+      "source_commit": "2b633e530ac30412ec712782a704863914531e57",
+      "conclusion": "success",
+      "extended_readers": false
+    },
+    "superseded_run": {
+      "run_id": 40004623992,
+      "conclusion": "cancelled",
+      "reason": "Corrected latest-run GUI expectations."
+    }
+  }
+}

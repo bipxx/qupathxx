@@ -25,7 +25,15 @@ void bind_cells(nb::module_& m) {
     nb::class_<CellFeature>(m,"CellFeature").def_ro("label",&CellFeature::label).def_ro("nucleus_pixels",&CellFeature::nucleus_pixels).def_ro("cell_pixels",&CellFeature::cell_pixels)
         .def_ro("nucleus_rgb",&CellFeature::nucleus_rgb).def_ro("cell_rgb",&CellFeature::cell_rgb).def_ro("cytoplasm_rgb",&CellFeature::cytoplasm_rgb)
         .def_ro("nucleus_channels",&CellFeature::nucleus_channels).def_ro("cell_channels",&CellFeature::cell_channels).def_ro("cytoplasm_channels",&CellFeature::cytoplasm_channels);
+    nb::class_<CalibratedCellFeature>(m,"CalibratedCellFeature").def_ro("label",&CalibratedCellFeature::label)
+        .def_ro("pixel_width_um",&CalibratedCellFeature::pixel_width_um).def_ro("pixel_height_um",&CalibratedCellFeature::pixel_height_um)
+        .def_ro("nucleus_sample_area_um2",&CalibratedCellFeature::nucleus_sample_area_um2)
+        .def_ro("cell_sample_area_um2",&CalibratedCellFeature::cell_sample_area_um2)
+        .def_ro("cytoplasm_sample_area_um2",&CalibratedCellFeature::cytoplasm_sample_area_um2)
+        .def_prop_ro("nucleus_centroid_um",[](const CalibratedCellFeature& v){return v.nucleus_centroid_um;})
+        .def_prop_ro("cell_centroid_um",[](const CalibratedCellFeature& v){return v.cell_centroid_um;});
     nb::class_<CellResult>(m,"CellResult").def_prop_ro("algorithm",&CellResult::algorithm).def_prop_ro("parameters",[](const CellResult& r){return r.parameters();})
+        .def("calibrated_feature",&CellResult::calibrated_feature,"label"_a)
         .def_prop_ro("nuclei",&CellResult::nuclei).def_prop_ro("cells",&CellResult::cells)
         .def_prop_ro("nucleus_contours",&CellResult::nucleus_contours).def_prop_ro("cell_contours",&CellResult::cell_contours)
         .def_prop_ro("features",[](const CellResult& r){return r.features();}).def_prop_ro("markers",[](const CellResult& r){return r.markers();})

@@ -1,0 +1,24 @@
+{
+  "schema": "qpx.calibrated-cell-table-profile-validation/1",
+  "state": "bounded-observations-verified",
+  "release_ready": false,
+  "uniform_performance_accepted": false,
+  "rows": 32768,
+  "records_of_one_immutable_result": 8,
+  "cells_per_record": 4096,
+  "output_bytes": 17110689,
+  "identical_csv_sha256": "8cc78929a589b9f8fbf5c76ea17fdac54abbb0a15820ab68c973188a9b3e6726",
+  "identical_input_sha256": "a5320e94af70dcc2eb8c37fafebc6cadab2e3548e341ee4da567ef5570cdcc88",
+  "source_tree_sha256": "d4bfd70b9155ed899be8f32360fffd529373aa520ef717fabd631139d7763463",
+  "profiles": {
+    "windows": {
+      "file": "calibrated-cell-tables-windows.json",
+      "sha256": "b1565279235531918e81f38dd765a85fe0e817a4de7df304282531bfaa02c79f"
+    },
+    "linux": {
+      "file": "calibrated-cell-tables-linux.json",
+      "sha256": "17b08035209e0af100badb6ea4c58608af726b0a89bd8293a9fa379504f8a54e"
+    }
+  },
+  "scope": "All fourteen measured exports have identical CSV bytes and deterministic input identity. One excluded warm-up precedes seven fresh-process calls per platform. Windows/Linux passes are serialized. Timings include native atomic-file export only; storage contexts differ. Native snapshot estimates may vary with allocation and are retained as ranges; they are not global process RSS. No speedup, segmentation throughput, biological or frame-budget acceptance."
+}

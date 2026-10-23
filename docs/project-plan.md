@@ -3637,3 +3637,62 @@ The engineering scope is accepted for promotion; universal performance,
 portable/native macOS acceptance and every other open M0–M7 gate remain open.
 The original intermittent wait remains unresolved; these successful runs do not
 establish its cause or a fix.
+
+### Packet100: captured physical cell features and versioned table export
+
+[Calibrated cell features](calibrated-cell-features.md) derive sampled nucleus,
+cell and cytoplasm areas and level-zero centroid coordinates from immutable
+capture-time provenance. Lookup uses retained statistics without pixel reads.
+Unknown or legacy calibration stays unknown; current document calibration is
+never substituted. Fractional pyramid levels and anisotropic axes are supported.
+Subnormal intermediate products use normalized multiplication; an independent
+80-digit Decimal regression reproduces the earlier precision loss and passes
+after the correction. Unrepresentable final values reject export atomically.
+
+An opt-in native/Python/desktop table option adds nine fields and schema `/2`;
+default `/1` exports retain their layout. The standalone project CSV command
+shares snapshot formatting, atomic output, cancellation and input/linked-image
+alias protection. Project reopen and missing-source history exports are covered.
+The table benchmark accepts the same calibration option and verifies physical
+sample areas before recording timings.
+
+The [Linux receipt](benchmarks/calibrated-cell-features-linux.json)
+records 42 passing native suites, 157 focused Python passes with two optional
+skips, matching stubs and strict positive typing. A 1,024-row benchmark smoke
+verifies output under concurrent load; its timings are not performance evidence.
+The earlier full run rejects an older binary's source identity after the
+precision edit; that failure is retained. The fresh full regression passes
+1,655 tests, with 392 optional skips and four strict scientific expected failures.
+Installed workflows, exact bundled runtime/relocation checks, matching stubs,
+positive typing and all seven required negative typing errors pass. Hosted run
+40007801590 at `2b633e530ac30412ec712782a704863914531e57` validates the candidate
+source separately. It supersedes cancelled run 40004623992 after correcting the
+latest-run GUI expectation and adding known/unknown cases; its optional full-slide
+reader checks were disabled. The [full-reader hosted artifact audit](benchmarks/calibrated-cell-features-ci-windows-linux.json)
+subsequently passes all five regular jobs at source
+`2a7eabb5f4744e8e0379d6df52128236014dce04`, run 40014418579: Windows GUI passes
+2,037 Python/43 native, Windows headless 1,657 Python/42 native, Linux headless
+1,655 Python/42 native, and minimal/ASan/UBSan each pass 42 native suites.
+Each installed environment passes all 13 calibration cases, and the desktop
+passes eight cell-table cases. The four scientific expected failures remain;
+runtime/reader, standalone, stubs/typing and the completed frame are audited.
+The declared engineering scope is accepted for promotion. Local Windows validation passes 43 native
+suites and 76 focused Python/GUI checks, installed workflows, matching stubs and
+strict positive/negative typing. A completed-frame capture verifies the checked
+capture-calibration option and two-row historical export with zero UI overflow.
+The new GUI test now follows the existing latest-run export contract and covers
+known and unknown calibration separately. One existing recheck/export timeout is
+retained; isolated and full focused repeats pass without proving its cause.
+The full Windows regression passes 2,035 tests, with 13 optional skips and four
+strict scientific expected failures. The native calibration regression also
+passes Linux address/undefined sanitizers with leak detection in a minimal
+optional-feature configuration, without accepting the full sanitizer suite.
+Generated-pyramid follow-ups pass three Windows checks, including navigation,
+and two Linux checks that were skipped before supplying the fixture. A separate
+serialized export profile records seven post-warm-up calls per platform for
+32,768 rows; all fourteen 17,110,689-byte CSV outputs match exactly. Worker
+export medians are 101.6 ms Windows and 71.6 ms Linux/WSL, with broad ranges and
+different storage contexts. These are bounded observations rather than a speedup,
+RSS, segmentation-throughput or frame-budget acceptance.
+Physical detection filters, scientific
+segmentation acceptance and every other open M0–M7 requirement remain open.
