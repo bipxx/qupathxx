@@ -58,6 +58,15 @@
       "leak_detection": true,
       "halt_on_error": true,
       "scope": "Only the native cell_calibration test in a minimal optional-feature configuration; no full sanitizer-suite acceptance."
+    },
+    "generated_fixture_followup": {
+      "result": {
+        "passed": 2,
+        "skipped": 0,
+        "junit_sha256": "68f95b867e321ee3422d54ecb38be918d2eeb9728dfa547c8877e7c1cb305fae"
+      },
+      "fixture_sha256": "09301eba1210f7c7335e33993f0fe73cc74f7fc34ac85b1da5a9bb5043776845",
+      "scope": "Two generated-pyramid checks skipped in the full run pass after supplying the same generated fixture; full-suite counts remain unchanged."
     }
   },
   "scope": "Native capture-time sampled areas and centroids, opt-in CSV v2, Python, standalone project CSV command; Windows GUI validation pending.",

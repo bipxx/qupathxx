@@ -81,6 +81,9 @@ strict typing. The full Windows suite passes 2,035 tests, with 13 optional skips
 and four strict scientific expected failures. An existing export-recheck
 test times out once, then passes both alone and in the full focused repeat;
 the original result is retained and its cause remains unresolved.
+After supplying the generated large-pyramid fixture, two Linux checks and three
+Windows checks (including desktop navigation) that were skipped in those full
+runs pass separately. The receipts preserve the original full-suite counts.
 
 The completed native frame shows the checked capture option and successful
 two-row export while the document displays its later calibration. The CSV retains
@@ -92,3 +95,23 @@ To verify calibrated table throughput
 on a quiet machine, use `tools/benchmark_cell_tables.py --capture-calibration`;
 `--gui` additionally exercises desktop export. The recorded small smoke check
 ran under concurrent load and establishes output correctness only.
+
+Separate [export observations](benchmarks/calibrated-cell-table-profile-validation.json)
+use the same 4,096-cell immutable result retained as eight records: 32,768 rows
+and 17,110,689 CSV bytes. An excluded warm-up precedes seven fresh-process calls
+on each platform, with Windows and Linux passes serialized. Every measured CSV
+has identical bytes across all fourteen calls. Physical areas are checked
+against the known five-sample nuclei before recording results.
+
+| Native worker export | Median | Observed range |
+| --- | --- | --- |
+| [Windows](benchmarks/calibrated-cell-tables-windows.json) | 101.6 ms | 57.3–112.7 ms |
+| [Linux/WSL](benchmarks/calibrated-cell-tables-linux.json) | 71.6 ms | 57.5–102.9 ms |
+
+Owner capture medians are 0.031 ms Windows and 0.00695 ms Linux; observed maximum
+poll durations are 0.108 ms and 0.0327 ms. Snapshot accounting estimates are
+retained as ranges, including allocator-dependent variation; they are not process
+RSS. The host is an Intel i7-12700K. Windows and WSL use different temporary-file
+storage contexts. Startup, image construction, detection and validation are outside
+the native worker export timer. These observations do not establish a speedup,
+segmentation throughput, universal performance or a GUI frame budget.

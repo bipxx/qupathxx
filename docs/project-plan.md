@@ -3679,5 +3679,12 @@ The full Windows regression passes 2,035 tests, with 13 optional skips and four
 strict scientific expected failures. The native calibration regression also
 passes Linux address/undefined sanitizers with leak detection in a minimal
 optional-feature configuration, without accepting the full sanitizer suite.
+Generated-pyramid follow-ups pass three Windows checks, including navigation,
+and two Linux checks that were skipped before supplying the fixture. A separate
+serialized export profile records seven post-warm-up calls per platform for
+32,768 rows; all fourteen 17,110,689-byte CSV outputs match exactly. Worker
+export medians are 101.6 ms Windows and 71.6 ms Linux/WSL, with broad ranges and
+different storage contexts. These are bounded observations rather than a speedup,
+RSS, segmentation-throughput or frame-budget acceptance.
 Physical detection filters, scientific
 segmentation acceptance and every other open M0–M7 requirement remain open.

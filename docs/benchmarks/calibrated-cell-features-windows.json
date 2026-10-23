@@ -81,5 +81,15 @@
     "source_commit": "2b633e530ac30412ec712782a704863914531e57"
   },
   "performance_accepted": false,
-  "scope": "Windows native/Python/CLI/ImGui capture-time calibrated features and versioned exports, including immutable units, legacy missing values, project restoration, alias protection and atomic failures. No segmentation parity or hardware performance acceptance."
+  "scope": "Windows native/Python/CLI/ImGui capture-time calibrated features and versioned exports, including immutable units, legacy missing values, project restoration, alias protection and atomic failures. No segmentation parity or hardware performance acceptance.",
+  "generated_fixture_followup": {
+    "result": {
+      "passed": 3,
+      "failures": 0,
+      "skipped": 0,
+      "junit_sha256": "b5d6c40ee3b0eb5d000645658deaf4f9b9201930d418b0e240db16dabc65559d"
+    },
+    "fixture_sha256": "09301eba1210f7c7335e33993f0fe73cc74f7fc34ac85b1da5a9bb5043776845",
+    "scope": "Three generated-pyramid checks skipped in the full run pass after supplying the same generated fixture, including desktop navigation; full-suite counts remain unchanged."
+  }
 }
