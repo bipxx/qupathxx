@@ -68,6 +68,10 @@ int main() {
         for(auto condition:{GuiInputWait::PixelContoursReady,GuiInputWait::PixelContoursPublished,GuiInputWait::PixelRecordKept,GuiInputWait::PixelRecordModelLoaded,GuiInputWait::PixelHistoricalPreviewReady,GuiInputWait::PixelStreamFinished,GuiInputWait::PixelStreamReadReady,GuiInputWait::PixelStreamReadFinished,GuiInputWait::PixelStreamVerified,GuiInputWait::PixelStreamLinked}) {
             GuiInput wait;wait.kind=GuiInputKind::Move;wait.wait_for=condition;GuiReplay accepted({wait},1);
         }
+        for(auto target:{GuiInputTarget::OverviewBudgetIncrease,GuiInputTarget::OverviewBudgetDecrease}) {
+            GuiInput click;click.kind=GuiInputKind::LeftDown;click.target=target;click.wait_for=GuiInputWait::TargetReady;
+            GuiReplay accepted({click},1);
+        }
         std::cout<<"gui replay passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

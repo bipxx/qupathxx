@@ -17,9 +17,19 @@ class GuiThumbnail {
     bool requested_=false;
     std::string state_="idle",error_;
     std::size_t bytes_=0,peak_=0;
+    std::uint64_t source_pixel_limit_=ThumbnailOptions{}.source_pixel_limit;
     void clear_texture() {if(texture_) glDeleteTextures(1,&texture_);texture_=0;bytes_=0;display_.reset();}
 public:
+    explicit GuiThumbnail(std::uint64_t source_pixel_limit=ThumbnailOptions{}.source_pixel_limit) {set_source_pixel_limit(source_pixel_limit);}
     ~GuiThumbnail() {clear_texture();}
+    void set_source_pixel_limit(std::uint64_t value) {
+        ThumbnailOptions options;options.source_pixel_limit=value;options.validate();
+        if(value==source_pixel_limit_) return;
+        if(raw_ && raw_->plan.source_pixels<=value) {source_pixel_limit_=value;return;}
+        job_.cancel();request_source_.reset();raw_.reset();clear_texture();
+        source_pixel_limit_=value;requested_=false;state_="idle";error_.clear();
+    }
+    std::uint64_t source_pixel_limit() const {return source_pixel_limit_;}
     void reset() {job_.cancel();source_.reset();request_source_.reset();raw_.reset();clear_texture();requested_=false;state_="idle";error_.clear();}
     void update(std::shared_ptr<ImageServer> server,const DisplaySettings& display) {
         if(source_!=server) {reset();source_=std::move(server);}
@@ -27,6 +37,7 @@ public:
         if(!requested_ && source_ && !job_.busy()) {
             try {
                 ThumbnailOptions options;options.max_width=250;options.max_height=150;
+                options.source_pixel_limit=source_pixel_limit_;
                 job_.request(source_,options);request_source_=source_;state_="running";
             } catch(const std::exception& error) {state_="failed";error_=error.what();}
             requested_=true;

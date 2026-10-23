@@ -71,13 +71,43 @@ briefly coexist; driver allocations remain outside payload accounting.
 `settle_tiles` also waits for overview success or explicit failure, while an
 empty workspace settles without a thumbnail.
 
+`GuiOptions.overview_source_pixel_limit` sets the overview source budget in
+pixels (default 4,194,304, maximum 67,108,864). The inspector shows its source
+RGBA allocation budget and provides **Increase limit** and **Decrease limit**
+buttons. Increasing doubles the budget up to the maximum (or returns a
+sub-default limit to the default); decreasing halves it
+back toward the default. Explicit API limits below the default remain supported.
+The final value is exposed as `GuiReport.overview_source_pixel_limit`.
+
+An already completed preview that fits the new limit retains its pixels and
+texture without another decode. Otherwise, changing the limit immediately clears
+the old preview and cancels the previous request. The controller polls its completion before starting one replacement,
+so repeated changes do not accumulate decoder jobs. A synchronous decode cannot
+be interrupted; its cancelled output is rejected. Source changes preserve the
+window's selected limit. This setting is temporary presentation state, separate
+from project content and its undo history. The displayed budget covers source
+RGBA bytes; decoder buffers, caches, output and driver allocations are additional.
+
+For the full CMU-1 Aperio fixture, the lowest level contains 5,913,875 pixels.
+The default budget reports unavailability. An explicit 8,388,608-pixel budget
+allows a complete overview without changing the viewport tile cache limits:
+
+```python
+options = q.GuiOptions()
+options.overview_source_pixel_limit = 8 * 1024 * 1024
+q.show(q.Document(q.open_slide("CMU-1.svs")), options=options)
+```
+
 The standalone native command requires no Python:
 
 ```text
-qupathxx_region --thumbnail IMAGE MAX_WIDTH MAX_HEIGHT OUTPUT.pam
+qupathxx_region --thumbnail IMAGE MAX_WIDTH MAX_HEIGHT OUTPUT.pam [--source-pixels PIXELS]
+qupathxx_app IMAGE --overview-source-pixels 8388608
+python -m qupathxx IMAGE --overview-source-pixels 8388608
 ```
 
-It writes straight-alpha RGBA PAM using default pixel budgets and the same
+The region command writes straight-alpha RGBA PAM using the selected source
+budget, default output budget and the same
 filter as Python/GUI. The original explicit region syntax remains available.
 Output cannot be the input image. As with existing region export, filesystem
 write failure can leave a partial output file.
@@ -90,6 +120,23 @@ an exact Fraction RGB oracle, buffer lifetime, job transitions, a real synthetic
 OpenSlide pyramid and native CLI output. GUI tests inspect the captured preview,
 source switching, separate GPU payload, empty projects and unavailable levels.
 These checks establish this defined policy, not QuPath thumbnail pixel parity.
+
+The overview-budget increment passes [local validation](benchmarks/overview-budget-local-windows-linux.json):
+1,969 Windows Python/desktop tests, 41 Windows native tests, 40 Linux native tests
+and 50 focused thumbnail/budget/vendor cases. Generated stubs, strict typing,
+installed workflows and Linux dense CLI checks also pass. The local Linux native
+configuration disables OpenSlide and GUI; it does not establish new real-vendor
+Linux acceptance for the budget increment. Extended hosted acceptance is pending.
+
+The [four-case software-OpenGL probe](benchmarks/gui-overview-windows.json)
+checks default rejection, an explicit complete preview, interactive increase and
+interactive decrease, all with zero UI overflow. Complete previews contain
+125,400 GPU payload bytes and have identical RGBA hashes. On this run the
+complete-overview workers took about 165–171 ms; recorded maximum CPU frame times
+stayed below 40 ms. These local startup-inclusive samples do not establish hardware
+frame-time or RSS acceptance. Decoder buffers and driver allocations are additional.
+
+![Full Aperio slide with its complete overview and source-budget controls](images/vendor-overview-budget.png)
 
 The first [Linux CI attempt](https://github.com/bipxx/qupathxx/actions/runs/39771927905)
 returned unexpected color/alpha from a generated 8 x 4 TIFF natural level

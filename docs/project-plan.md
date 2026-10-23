@@ -3293,3 +3293,41 @@ The current desktop overview retains its default 4 Mi-pixel source budget and
 reports unavailability for this fixture's 5,913,875-pixel lowest level; viewport
 tiles still render and settle. Configurable desktop overview budgets remain an
 implementation gap. Extended hosted acceptance is pending, and M0–M7 remain open.
+
+### Packet91: configurable bounded desktop overviews
+
+The [overview contract](thumbnails.md) now exposes
+`GuiOptions.overview_source_pixel_limit` and the final limit in `GuiReport`.
+ImGui increase/decrease buttons use the same native controller. The default stays
+4 Mi-pixels, with an explicit maximum of 64 Mi-pixels. Both desktop launchers
+accept `--overview-source-pixels`; the native region thumbnail CLI accepts
+`--source-pixels`. Limits are validated before decoding. The native app's demo
+success path also returns zero explicitly, fixing the compiler's missing-return
+warning and making default smoke launches reliable.
+
+A completed preview that remains within the changed budget reuses its pixels and
+texture. Otherwise, the controller clears the preview, cancels the previous job
+and waits through nonblocking polls before launching one replacement. Source
+switches retain the chosen window budget and reject old-source output. This is
+temporary presentation state; no project schema or undo edit is added. The budget
+applies to source RGBA bytes, with decoder buffers, output and driver allocations
+outside that accounting.
+
+The [local receipt](benchmarks/overview-budget-local-windows-linux.json) verifies
+source fingerprint `734f5b44e65f8bd0a03d44f6d617a87c26e0648f521ef98390f9b27156a138ae`,
+1,969 passing Windows Python/desktop cases with six documented skips, 41 Windows
+native checks, 40 Linux native checks and 50 focused cases. Installed workflows,
+packaged stubs and strict positive/seven-error negative typing pass. Linux native
+CLI checks cover exact dense pixels, default/explicit limits, invalid arguments,
+unknown flags and source protection; this configuration disables OpenSlide and GUI.
+
+The [GUI probe](benchmarks/gui-overview-windows.json) checks default rejection,
+explicit completion, interactive increase and interactive decrease. The full
+Aperio slide's complete previews have matching hashes and 125,400-byte GPU payloads;
+both failure cases retain no preview. All four cases have zero UI overflow and
+remain within the independent canvas cache budget. Local software-renderer maximum
+CPU frame samples stay below 40 ms while complete-overview workers take about
+165–171 ms. These observations and the inspected completed-frame capture do not
+freeze hardware/RSS/frame acceptance. Extended hosted acceptance remains pending;
+M0–M7, broader formats, ICC, physical DPI, biological comparisons, portable releases
+and the unanswered project-license decision remain open.

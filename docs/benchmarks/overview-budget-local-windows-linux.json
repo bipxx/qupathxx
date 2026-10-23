@@ -1,0 +1,70 @@
+{
+  "schema": "qpx.overview-budget-validation/1",
+  "source_tree_sha256": "734f5b44e65f8bd0a03d44f6d617a87c26e0648f521ef98390f9b27156a138ae",
+  "native_sha256": "6d50baac462737607b708531e9786de217461c273b1058c7a87c3173898d393d",
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "e1e364d90eeb136a80f381b6675e29270de7019d1c05920ce9edf416c0fc56f7"
+  },
+  "windows_native": {
+    "tests": 41,
+    "passed": 41,
+    "skipped": 0,
+    "sha256": "52976d8a708b8944255846fd7b3f7ec13b146436966be9ff7c2d3093a7d9ebca",
+    "skip_reasons": {}
+  },
+  "linux_native": {
+    "tests": 40,
+    "passed": 40,
+    "skipped": 0,
+    "sha256": "d5f0a47b42a69d17cfbdf786d5e4f4dfc58da441a74709b20d616978590a0455",
+    "skip_reasons": {}
+  },
+  "focused": {
+    "tests": 50,
+    "passed": 50,
+    "skipped": 0,
+    "sha256": "76065a68e1851ca289234189e3241ef9a8b39e2183d7011920ee0ea925968b0a",
+    "skip_reasons": {}
+  },
+  "windows_full": {
+    "tests": 1975,
+    "passed": 1969,
+    "skipped": 6,
+    "sha256": "13cfe76875312ce537b3f2dff8e8396c7e0d33905f82059054724f006d22f5e9",
+    "skip_reasons": {
+      "Linux SDK symlink semantics": 1,
+      "headless wheel contract": 1,
+      "GEOS-disabled configuration": 1,
+      "opt-in pinned Windows QuPath runtime": 1,
+      "file symlink creation unavailable": 2
+    }
+  },
+  "installed": {
+    "sha256": "b439077a4d78e5040f96c53c28fe422afb8251693b3a50c70eb5d478d504cdee",
+    "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)"
+  },
+  "stubs_checked": true,
+  "positive_typing_passed": true,
+  "negative_typing_errors": 7,
+  "linux_cli": {
+    "schema": "qpx.overview-linux-cli/1",
+    "source_tree_sha256": "734f5b44e65f8bd0a03d44f6d617a87c26e0648f521ef98390f9b27156a138ae",
+    "region_cli_sha256": "6ba24312bf182034bc4a11beca727eec73791ff746c1ec0bcdf5460a59ef5709",
+    "features": {
+      "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+      "QUPATHXX_BUILD_TIFF": "ON",
+      "QUPATHXX_BUILD_GUI": "OFF",
+      "QUPATHXX_BUILD_GEOS": "OFF",
+      "QUPATHXX_BUILD_PROJECT": "ON"
+    },
+    "valid_explicit_and_default_pixels": true,
+    "invalid_limits_rejected": 5,
+    "source_protected": true,
+    "unknown_flag_rejected": true,
+    "scope": "Local Linux native CLI parsing, bounded planning and exact dense pixels; OpenSlide is disabled in this native configuration."
+  },
+  "gui_benchmark_sha256": "ec3783f8dcf1c1ca4cc8bf617117776495c06b3c33c0d27a8a278c7363b5239b",
+  "completed_frame_capture_sha256": "9481a164289d1fdcb0c183de09eb3c921d172aab78991211fbc49626685a798b",
+  "scope": "Local Windows installed C++/Python/native CLI/ImGui overview budgets, retry/stale preview rejection and preservation across sources; full Windows suite, Linux native and dense CLI. Linux native configuration disables OpenSlide and GUI. Extended hosted acceptance, other vendors, hardware/RSS and physical DPI gates remain open."
+}

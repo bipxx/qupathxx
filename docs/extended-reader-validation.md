@@ -72,7 +72,9 @@ do not establish RSS, hardware frame budgets or long-run performance.
 
 The lowest source level has 5,913,875 pixels, exceeding the default 4,194,304-pixel
 overview budget. Native/Python thumbnail requests work with an explicit 8 Mi-pixel
-budget; the current desktop overview retains its default limit and reports
-unavailability. Configurable desktop overview budgets remain open, alongside
-other vendors, ICC, physical DPI delivery and sustained navigation stress.
+budget. The desktop also supports this explicit limit through
+`GuiOptions.overview_source_pixel_limit`, `--overview-source-pixels` and its
+increase/decrease controls; see [the overview budget contract](thumbnails.md).
+Its default limit still reports unavailability for this fixture. Other vendors,
+ICC, physical DPI delivery and sustained navigation stress remain open.
 Extended hosted acceptance has not yet been recorded.

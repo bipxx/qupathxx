@@ -185,3 +185,28 @@ def test_real_vendor_desktop_zoom_settles_with_bounded_unavailable_overview(vend
             assert report.overview_state=='failed' and 'source pixel limit' in report.overview_error
             assert report.overview_result is None and report.overview_gpu_bytes==0
     finally:source.close()
+
+
+def test_real_vendor_thumbnail_cli_explicit_source_budget(vendor_slide,tmp_path):
+    path,_=vendor_slide;output=tmp_path/'overview.pam'
+    cli=Path(_native.__file__).with_name('qupathxx_region.exe' if sys.platform=='win32' else 'qupathxx_region')
+    done=subprocess.run([str(cli),'--thumbnail',str(path),'250','150',str(output),'--source-pixels',str(8*1024*1024)],capture_output=True,timeout=30)
+    assert done.returncode==0,done.stderr.decode('utf-8',errors='replace')
+    source=q.open_slide(str(path));options=q.ThumbnailOptions()
+    options.max_width=250;options.max_height=150;options.source_pixel_limit=8*1024*1024
+    try:assert output.read_bytes().split(b'ENDHDR\n',1)[1]==q.read_thumbnail(source,options).pixels.data
+    finally:source.close()
+
+
+@pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='opt-in native GUI')
+def test_real_vendor_desktop_explicit_overview_budget(vendor_slide,tmp_path):
+    path,_=vendor_slide;source=q.open_slide(str(path));options=q.GuiOptions()
+    options.settle_tiles=True;options.overview_source_pixel_limit=8*1024*1024
+    try:
+        report=q.show(q.Document(source),frame_limit=120,capture_path=str(tmp_path/'vendor-overview.ppm'),options=options)
+        assert report.tiles_settled and report.uploaded_tiles>0 and report.pending_tiles==0
+        assert report.overview_state=='succeeded' and not report.overview_error
+        assert report.overview_source_pixel_limit==8*1024*1024
+        assert report.overview_result.plan.level==2 and report.overview_result.plan.source_pixels==2875*2057
+        assert 0<report.overview_gpu_bytes<=250*150*4 and report.peak_gpu_bytes<=64*1024*1024
+    finally:source.close()

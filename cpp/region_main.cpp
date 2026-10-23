@@ -18,10 +18,10 @@ std::int64_t number(const char* text) {
 }
 static int launch(int argc, char** argv) {
     if(argc>1 && std::string(argv[1])=="--raw") return raw_region_cli(argc,argv);
-    const bool thumbnail=argc==6 && std::string(argv[1])=="--thumbnail";
-    if (argc != 8 && !thumbnail) {
+    const bool thumbnail=argc>1 && std::string(argv[1])=="--thumbnail";
+    if ((thumbnail && !(argc==6 || (argc==8 && std::string(argv[6])=="--source-pixels"))) || (!thumbnail && argc!=8)) {
         std::cerr << "Usage: qupathxx_region IMAGE X Y LEVEL WIDTH HEIGHT OUTPUT.pam\n"
-                     "       qupathxx_region --thumbnail IMAGE MAX_WIDTH MAX_HEIGHT OUTPUT.pam\n"
+                     "       qupathxx_region --thumbnail IMAGE MAX_WIDTH MAX_HEIGHT OUTPUT.pam [--source-pixels PIXELS]\n"
                      "Level-zero X/Y; output WIDTH/HEIGHT at LEVEL. PPM uses dense reader.\n";
         return 2;
     }
@@ -39,6 +39,8 @@ static int launch(int argc, char** argv) {
             const auto w=number(argv[3]),h=number(argv[4]);
             if(w<1 || h<1 || w>4096 || h>4096) throw std::invalid_argument("thumbnail bounds must be 1..4096 pixels");
             qpx::ThumbnailOptions options;options.max_width=static_cast<std::int32_t>(w);options.max_height=static_cast<std::int32_t>(h);
+            if(argc==8) {const auto limit=number(argv[7]);if(limit<1) throw std::invalid_argument("thumbnail source pixel limit must be positive");options.source_pixel_limit=static_cast<std::uint64_t>(limit);}
+            options.validate();
             preview=qpx::read_thumbnail(*server,options);
         } else {
             auto level=number(argv[4]);

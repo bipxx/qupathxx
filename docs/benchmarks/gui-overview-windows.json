@@ -1,0 +1,73 @@
+{
+  "schema": "qpx.gui-overview-benchmark/1",
+  "source_tree_sha256": "734f5b44e65f8bd0a03d44f6d617a87c26e0648f521ef98390f9b27156a138ae",
+  "native_sha256": "6d50baac462737607b708531e9786de217461c273b1058c7a87c3173898d393d",
+  "fixture_sha256": "00a3d54482cd707abf254fe69dccc8d06b8ff757a1663f1290c23418c480eb30",
+  "cases": [
+    {
+      "case": "default_unavailable",
+      "frames": 30,
+      "wall_ms": 977.1619000239298,
+      "cpu_frame_p95_ms": 28.5401,
+      "max_cpu_frame_ms": 29.1471,
+      "overview_worker_ms": null,
+      "source_pixels": 0,
+      "source_pixel_limit": 4194304,
+      "overview_gpu_bytes": 0,
+      "overview_peak_gpu_bytes": 0,
+      "canvas_peak_gpu_bytes": 23655500,
+      "overview_rgba_sha256": null,
+      "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+      "ui_overflow": 0
+    },
+    {
+      "case": "explicit_complete",
+      "frames": 30,
+      "wall_ms": 1003.2311999239028,
+      "cpu_frame_p95_ms": 26.5905,
+      "max_cpu_frame_ms": 28.897,
+      "overview_worker_ms": 170.821,
+      "source_pixels": 5913875,
+      "source_pixel_limit": 8388608,
+      "overview_gpu_bytes": 125400,
+      "overview_peak_gpu_bytes": 125400,
+      "canvas_peak_gpu_bytes": 23655500,
+      "overview_rgba_sha256": "b3bb322d8603b670963922cc2aa495642840959604f1acff76bd9c5d4db6142e",
+      "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+      "ui_overflow": 0
+    },
+    {
+      "case": "interactive_raise",
+      "frames": 30,
+      "wall_ms": 1000.8006999269128,
+      "cpu_frame_p95_ms": 37.2495,
+      "max_cpu_frame_ms": 39.4434,
+      "overview_worker_ms": 165.0424,
+      "source_pixels": 5913875,
+      "source_pixel_limit": 8388608,
+      "overview_gpu_bytes": 125400,
+      "overview_peak_gpu_bytes": 125400,
+      "canvas_peak_gpu_bytes": 23655500,
+      "overview_rgba_sha256": "b3bb322d8603b670963922cc2aa495642840959604f1acff76bd9c5d4db6142e",
+      "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+      "ui_overflow": 0
+    },
+    {
+      "case": "interactive_lower",
+      "frames": 30,
+      "wall_ms": 1117.0022999867797,
+      "cpu_frame_p95_ms": 36.0527,
+      "max_cpu_frame_ms": 38.6955,
+      "overview_worker_ms": null,
+      "source_pixels": 0,
+      "source_pixel_limit": 4194304,
+      "overview_gpu_bytes": 0,
+      "overview_peak_gpu_bytes": 0,
+      "canvas_peak_gpu_bytes": 23655500,
+      "overview_rgba_sha256": null,
+      "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+      "ui_overflow": 0
+    }
+  ],
+  "scope": "Local completed-frame software/hardware renderer as recorded; requested buffer budgets, not RSS, decoder-memory or hardware frame acceptance. Wall time includes window startup and fixed frames."
+}

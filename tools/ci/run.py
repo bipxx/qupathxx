@@ -182,6 +182,10 @@ def main():
         run([test_python, '-I', ROOT/'tools/benchmark_vendor_reader.py',
              '--slide', env['QUPATHXX_APERIO_MULTILEVEL_FIXTURE'], '--output', work/'vendor-reader-benchmark.json'],
             work/'vendor-reader-benchmark.log', env, 120)
+        if args.mode == 'gui':
+            run([test_python, '-I', ROOT/'tools/benchmark_gui_overview.py',
+                 '--slide', env['QUPATHXX_APERIO_MULTILEVEL_FIXTURE'], '--output', work/'gui-overview-benchmark.json',
+                 '--capture', work/'gui-overview.png'], work/'gui-overview-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_classifier.py', '--output', work/'classifier-benchmark.json'],
         work/'classifier-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_object_classifier.py', '--rows', '10000', '--output', work/'object-classifier-benchmark.json'],

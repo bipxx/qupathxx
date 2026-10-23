@@ -20,7 +20,10 @@ def main():
     parser.add_argument("--layout", help="Separate .ini file for workspace layout preferences")
     parser.add_argument("--reset-layout", action="store_true", help="Restore the default dock layout")
     parser.add_argument("--ui-scale", type=float, default=1, help="Monitor-aware UI size multiplier, 0.5 to 3 (default 1)")
+    parser.add_argument("--overview-source-pixels", type=int, default=4*1024*1024, help="Overview source pixel budget, 1 to 67108864 (default 4194304); decoder memory is additional")
     args = parser.parse_args()
+    if not 1 <= args.overview_source_pixels <= 64*1024*1024:
+        parser.error("--overview-source-pixels must be between 1 and 67108864")
     if args.tiff_series is not None and (not args.image or not 0 <= args.tiff_series < 65536):
         parser.error("--tiff-series requires an image and an index from 0 to 65535")
     if not .5 <= args.ui_scale <= 3:
@@ -31,6 +34,7 @@ def main():
         parser.error("--recovery-base requires --recover")
     def launch(document, options):
         options.ui_scale = args.ui_scale
+        options.overview_source_pixel_limit = args.overview_source_pixels
         options.image_reader = args.reader
         if args.tiff_series is not None:
             tiff = TiffOpenOptions()

@@ -68,3 +68,63 @@ def test_inadequate_pyramid_reports_unavailable_without_partial_preview():
     assert report.tiles_settled and report.overview_state == 'failed'
     assert 'source pixel limit' in report.overview_error
     assert report.overview_result is None and report.overview_gpu_bytes == 0
+
+
+def budget_click(frame,target):
+    event=replay(frame,q.GuiInputKind.LEFT_DOWN,target=target)
+    event.wait_for=q.GuiInputWait.TARGET_READY
+    return [event,replay(frame+1,q.GuiInputKind.LEFT_UP,target=target)]
+
+
+@pytest.mark.parametrize('lower_again',[False,True])
+def test_overview_budget_buttons_retry_and_reject_old_preview(lower_again):
+    doc=q.Document(q.Image(2049,2048,[50,100,150]*(2049*2048)))
+    options=config();options.replay_timeout_seconds=15
+    options.inputs=budget_click(4,q.GuiInputTarget.OVERVIEW_BUDGET_INCREASE)
+    if lower_again:
+        options.inputs+=budget_click(8,q.GuiInputTarget.OVERVIEW_BUDGET_DECREASE)
+    report=q.show(doc,frame_limit=20,options=options)
+    assert report.tiles_settled and report.pending_tiles==0
+    if lower_again:
+        assert report.overview_source_pixel_limit==4*1024*1024
+        assert report.overview_state=='failed' and 'source pixel limit' in report.overview_error
+        assert report.overview_result is None and report.overview_gpu_bytes==0
+    else:
+        assert report.overview_source_pixel_limit==8*1024*1024
+        assert report.overview_state=='succeeded' and not report.overview_error
+        result=report.overview_result
+        assert result.plan.source_pixels==2049*2048
+        np.testing.assert_array_equal(result.pixels.numpy(),np.broadcast_to([50,100,150,255],(result.plan.height,result.plan.width,4)))
+        assert report.overview_gpu_bytes<=250*150*4
+
+
+@pytest.mark.parametrize('limit',[0,64*1024*1024+1])
+def test_invalid_overview_budget_rejects_before_opening_window(limit):
+    options=config();options.overview_source_pixel_limit=limit
+    with pytest.raises(ValueError,match='pixel limits'):
+        q.show(q.Document(q.Image.demo()),frame_limit=1,options=options)
+
+
+def test_explicit_overview_budget_survives_source_switch():
+    project=q.Project()
+    project.add_document(q.Document(q.Image(512,512,[200,10,20]*512*512)))
+    second=project.add_document(q.Document(q.Image(768,512,[10,200,30]*768*512)))
+    project.active_image=project.images[0].id
+    options=config();options.overview_source_pixel_limit=8*1024*1024
+    options.inputs=[replay(4,q.GuiInputKind.NEXT_IMAGE_KEY)]
+    report=q.show(project,frame_limit=20,options=options)
+    assert report.active_image==second and report.overview_source_pixel_limit==8*1024*1024
+    assert report.overview_state=='succeeded' and not report.overview_error
+    np.testing.assert_array_equal(report.overview_result.pixels.numpy(),np.broadcast_to([10,200,30,255],(150,225,4)))
+
+
+@pytest.mark.parametrize('native',[False,True])
+def test_viewer_cli_accepts_explicit_overview_budget(native):
+    from pathlib import Path
+    import subprocess
+    import sys
+    executable=Path(q.__file__).parent/'qupathxx_app.exe'
+    if native and not executable.exists():pytest.skip('Windows native desktop CLI')
+    command=[str(executable)] if native else [sys.executable,'-I','-m','qupathxx']
+    done=subprocess.run(command+['--overview-source-pixels',str(8*1024*1024),'--smoke'],capture_output=True,timeout=60)
+    assert done.returncode==0,done.stderr.decode('utf-8',errors='replace')

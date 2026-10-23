@@ -111,5 +111,6 @@ jobs:
             build/ci/job/*.log
             build/ci/job/*.json
             build/ci/job/*.xml
+            build/ci/job/gui-overview.png
             build/ci/job/wheels/*.whl
             build/ci/job/qupathxx-windows-x64-candidate.zip

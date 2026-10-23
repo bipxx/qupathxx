@@ -1727,6 +1727,10 @@ class GuiInputTarget(enum.Enum):
 
     RAW_RECORDS_TAB = 82
 
+    OVERVIEW_BUDGET_INCREASE = 83
+
+    OVERVIEW_BUDGET_DECREASE = 84
+
 class GuiInputWait(enum.Enum):
     TIFF_READY = 43
 
@@ -1935,6 +1939,12 @@ class GuiOptions:
 
     @settle_tiles.setter
     def settle_tiles(self, arg: bool, /) -> None: ...
+
+    @property
+    def overview_source_pixel_limit(self) -> int: ...
+
+    @overview_source_pixel_limit.setter
+    def overview_source_pixel_limit(self, arg: int, /) -> None: ...
 
     @property
     def interchange_assume_pixels(self) -> bool: ...
@@ -2633,6 +2643,9 @@ class GuiReport:
 
     @property
     def overview_peak_gpu_bytes(self) -> int: ...
+
+    @property
+    def overview_source_pixel_limit(self) -> int: ...
 
     @property
     def suspended_iterations(self) -> int: ...

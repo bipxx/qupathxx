@@ -320,7 +320,8 @@ NB_MODULE(_native, m) {
         .value("TMA_CLEAR",GuiInputTarget::ClearTmaGrid).value("TMA_BATCH",GuiInputTarget::OpenTmaBatch).value("TMA_EXPORT",GuiInputTarget::ExportTmaMetadata).value("TMA_CANCEL_EXPORT",GuiInputTarget::CancelTmaMetadata)
         .value("TMA_CORE_TAB",GuiInputTarget::TmaCoreTab).value("TMA_GRID_TAB",GuiInputTarget::TmaGridTab).value("TMA_EXPORT_TAB",GuiInputTarget::TmaExportTab).value("TMA_LABELS",GuiInputTarget::ApplyTmaLabels)
         .value("TIFF_APPLY",GuiInputTarget::ApplyTiffView).value("TIFF_ADD_SERIES",GuiInputTarget::AddTiffSeries).value("RAW_MEASURE",GuiInputTarget::MeasureRawRegion).value("RAW_EXPORT",GuiInputTarget::ExportRawRegion).value("RAW_CANCEL",GuiInputTarget::CancelRawTask).value("RAW_DISPLAY_TAB",GuiInputTarget::RawDisplayTab).value("RAW_DATA_TAB",GuiInputTarget::RawDataTab).value("RAW_RESULTS_TAB",GuiInputTarget::RawResultsTab)
-        .value("RAW_KEEP",GuiInputTarget::KeepRawAnalysis).value("RAW_VERIFY",GuiInputTarget::VerifyRawAnalysisRecord).value("RAW_REMOVE",GuiInputTarget::RemoveRawAnalysisRecord).value("RAW_CSV_EXPORT",GuiInputTarget::ExportRawMeasurements).value("RAW_CSV_CANCEL",GuiInputTarget::CancelRawMeasurements).value("RAW_RECORDS_TAB",GuiInputTarget::RawRecordsTab);
+        .value("RAW_KEEP",GuiInputTarget::KeepRawAnalysis).value("RAW_VERIFY",GuiInputTarget::VerifyRawAnalysisRecord).value("RAW_REMOVE",GuiInputTarget::RemoveRawAnalysisRecord).value("RAW_CSV_EXPORT",GuiInputTarget::ExportRawMeasurements).value("RAW_CSV_CANCEL",GuiInputTarget::CancelRawMeasurements).value("RAW_RECORDS_TAB",GuiInputTarget::RawRecordsTab)
+        .value("OVERVIEW_BUDGET_INCREASE",GuiInputTarget::OverviewBudgetIncrease).value("OVERVIEW_BUDGET_DECREASE",GuiInputTarget::OverviewBudgetDecrease);
     nb::enum_<GuiInputWait>(m,"GuiInputWait").value("TIFF_READY",GuiInputWait::TiffReady).value("TIFF_VIEW_APPLIED",GuiInputWait::TiffViewApplied).value("RAW_TASK_FINISHED",GuiInputWait::RawTaskFinished).value("RAW_NUMPY_SAVED",GuiInputWait::RawNumpySaved).value("RAW_ANALYSIS_KEPT",GuiInputWait::RawAnalysisKept).value("RAW_ANALYSIS_VERIFIED",GuiInputWait::RawAnalysisVerified).value("RAW_MEASUREMENTS_SAVED",GuiInputWait::RawMeasurementsSaved).value("TMA_GRID_READY",GuiInputWait::TmaGridReady).value("TMA_METADATA_SAVED",GuiInputWait::TmaMetadataSaved).value("IMMEDIATE",GuiInputWait::Immediate).value("TARGET_READY",GuiInputWait::TargetReady).value("STARTUP_FINISHED",GuiInputWait::StartupFinished)
         .value("TISSUE_READY",GuiInputWait::TissueReady).value("TISSUE_CONTOURS_READY",GuiInputWait::TissueContoursReady).value("TISSUE_CONTOURS_PUBLISHED",GuiInputWait::TissueContoursPublished)
         .value("TISSUE_ARCHIVED",GuiInputWait::TissueArchived).value("TISSUE_VERIFIED",GuiInputWait::TissueVerified)
@@ -337,7 +338,7 @@ NB_MODULE(_native, m) {
         .def_rw("target",&GuiInput::target).def_rw("x",&GuiInput::x).def_rw("y",&GuiInput::y).def_rw("wheel",&GuiInput::wheel).def_rw("ctrl",&GuiInput::ctrl).def_rw("shift",&GuiInput::shift).def_rw("wait_for",&GuiInput::wait_for);
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>())
         .def_rw("ui_scale",&GuiOptions::ui_scale).def_rw("docked_workspace",&GuiOptions::docked_workspace).def_rw("layout_path",&GuiOptions::layout_path).def_rw("reset_layout",&GuiOptions::reset_layout).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
-        .def_rw("replay_timeout_seconds",&GuiOptions::replay_timeout_seconds).def_rw("settle_tiles",&GuiOptions::settle_tiles)
+        .def_rw("replay_timeout_seconds",&GuiOptions::replay_timeout_seconds).def_rw("settle_tiles",&GuiOptions::settle_tiles).def_rw("overview_source_pixel_limit",&GuiOptions::overview_source_pixel_limit)
         .def_rw("interchange_assume_pixels",&GuiOptions::interchange_assume_pixels).def_rw("interchange_allow_losses",&GuiOptions::interchange_allow_losses).def_rw("qupath_ellipse_precision",&GuiOptions::qupath_ellipse_precision)
         .def_rw("overlay_cache_budget",&GuiOptions::overlay_cache_budget)
         .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view).def_rw("project",&GuiOptions::project).def_rw("interchange_path",&GuiOptions::interchange_path).def_rw("project_image_path",&GuiOptions::project_image_path)
@@ -358,7 +359,7 @@ NB_MODULE(_native, m) {
         .def_ro("ui_stacked_fields",&GuiReport::ui_stacked_fields).def_ro("ui_wrapped_buttons",&GuiReport::ui_wrapped_buttons).def_ro("ui_overflow_items",&GuiReport::ui_overflow_items).def_ro("ui_max_overflow",&GuiReport::ui_max_overflow).def_ro("ui_overflow_label",&GuiReport::ui_overflow_label)
         .def_ro("overview_state",&GuiReport::overview_state).def_ro("overview_error",&GuiReport::overview_error)
         .def_ro("overview_result",&GuiReport::overview_result).def_ro("overview_gpu_bytes",&GuiReport::overview_gpu_bytes)
-        .def_ro("overview_peak_gpu_bytes",&GuiReport::overview_peak_gpu_bytes)
+        .def_ro("overview_peak_gpu_bytes",&GuiReport::overview_peak_gpu_bytes).def_ro("overview_source_pixel_limit",&GuiReport::overview_source_pixel_limit)
         .def_ro("suspended_iterations",&GuiReport::suspended_iterations).def_ro("suspended_work_ms",&GuiReport::suspended_work_ms)
         .def_ro("suspended_wait_ms",&GuiReport::suspended_wait_ms).def_ro("window_iconified",&GuiReport::window_iconified)
         .def_ro("overlay_cache_bytes",&GuiReport::overlay_cache_bytes).def_ro("overlay_cache_peak_bytes",&GuiReport::overlay_cache_peak_bytes)

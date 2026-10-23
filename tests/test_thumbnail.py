@@ -146,6 +146,39 @@ def test_real_pyramid_uses_bounded_complete_natural_level():
     server.close()
 
 
+@pytest.mark.parametrize('limit',['0','-1','67108865','abc','9223372036854775808'])
+def test_thumbnail_cli_rejects_invalid_source_budget_without_output(tmp_path,limit):
+    executable=Path(q.__file__).parent/('qupathxx_region.exe' if __import__('os').name=='nt' else 'qupathxx_region')
+    path=tmp_path/'image.ppm';path.write_bytes(b'P6\n1 1\n255\n'+bytes([40,80,160]))
+    output=tmp_path/'thumbnail.pam'
+    done=subprocess.run([str(executable),'--thumbnail',str(path),'1','1',str(output),'--source-pixels',limit],capture_output=True,timeout=30)
+    assert done.returncode==1 and not output.exists()
+    assert path.read_bytes()==b'P6\n1 1\n255\n'+bytes([40,80,160])
+
+
+def test_thumbnail_cli_explicit_budget_exact_pixels_and_source_protection(tmp_path):
+    executable=Path(q.__file__).parent/('qupathxx_region.exe' if __import__('os').name=='nt' else 'qupathxx_region')
+    path=tmp_path/'image.ppm';original=b'P6\n2 1\n255\n'+bytes([40,80,160,80,120,200]);path.write_bytes(original)
+    output=tmp_path/'thumbnail.pam'
+    command=[str(executable),'--thumbnail',str(path),'1','1',str(output),'--source-pixels','2']
+    done=subprocess.run(command,capture_output=True,timeout=30)
+    assert done.returncode==0,done.stderr
+    assert output.read_bytes().split(b'ENDHDR\n',1)[1]==bytes([60,100,180,255])
+    command[5]=str(path)
+    assert subprocess.run(command,capture_output=True,timeout=30).returncode==1
+    assert path.read_bytes()==original
+    command[5]=str(tmp_path/'unknown.pam');command[6]='--unknown-budget'
+    assert subprocess.run(command,capture_output=True,timeout=30).returncode==2
+    assert not Path(command[5]).exists()
+
+
+@pytest.mark.parametrize('limit',['0','-1','67108865'])
+def test_python_viewer_cli_rejects_overview_budget_before_launch(limit):
+    done=subprocess.run([sys.executable,'-I','-m','qupathxx','--overview-source-pixels',limit],capture_output=True,timeout=30)
+    assert done.returncode==2
+    assert b'--overview-source-pixels must be between 1 and 67108864' in done.stderr
+
+
 @pytest.mark.skipif(not q.has_openslide, reason='requires OpenSlide')
 @pytest.mark.parametrize('dimensions', [
     [(128, 64), (64, 32), (32, 16)],
