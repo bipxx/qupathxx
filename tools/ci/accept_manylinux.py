@@ -1,0 +1,189 @@
+"""Audit downloaded builder/consumer evidence; never infer release readiness.
+
+Download a completed run with gh run download RUN --dir ARTIFACTS, and save
+gh run view RUN --json headSha,url,status,conclusion,jobs as --run-json.
+This audits a trusted CI run's evidence, not signatures or untrusted artifacts.
+"""
+import argparse
+from collections import Counter
+import hashlib
+import json
+from pathlib import Path, PurePosixPath
+import re
+import xml.etree.ElementTree as ET
+import zipfile
+
+ASSETS = Path(__file__).with_name('manylinux-assets.json')
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def read(path):
+    return json.loads(Path(path).read_text(encoding='utf-8'))
+
+
+def sha(path):
+    with Path(path).open('rb') as stream:
+        return hashlib.file_digest(stream,'sha256').hexdigest()
+
+
+def junit(path, minimum):
+    root = ET.parse(path).getroot()
+    cases = list(root.iter('testcase'))
+    require(len(cases)>=minimum,'test evidence is too small: '+str(path))
+    require(not any(t.find('failure') is not None or t.find('error') is not None for t in cases),
+            'failed test evidence: '+str(path))
+    skipped = [t for t in cases if t.find('skipped') is not None]
+    xfailed = [t for t in skipped if t.find('skipped').get('type')=='pytest.xfail']
+    for case in xfailed:
+        require(case.get('classname','').endswith('test_qupath_cells_reference') and
+                case.get('name','').split('[')[0] in ['test_isolated_cell_upstream_acceptance_gate',
+                                                     'test_resampled_cell_shared_roi_acceptance_gate'],
+                'unreviewed expected failure: '+case.get('name',''))
+    passed = len(cases)-len(skipped)
+    require(passed>=minimum,'too few passing tests: '+str(path))
+    return dict(tests=len(cases),passed=passed,skipped=len(skipped)-len(xfailed),
+                expected_scientific_failures=len(xfailed),sha256=sha(path),
+                skip_reasons=dict(Counter(t.find('skipped').get('message','') for t in skipped)))
+
+
+def successful_run(run, commit):
+    require(re.fullmatch('[0-9a-f]{40}',commit) is not None,'expected a full source commit')
+    require(run['headSha']==commit and run['status']=='completed' and run['conclusion']=='success',
+            'run is not successful at the requested commit')
+    jobs = {j['name']:j for j in run['jobs']}
+    expected = {f'{role} Python {version}' for role in ['Manylinux build','Debian consumer']
+                for version in ['3.11','3.12']}
+    require(expected.issubset(jobs),'missing builder or consumer job')
+    require(all(jobs[name]['status']=='completed' and jobs[name]['conclusion']=='success' for name in expected),
+            'builder or consumer job did not pass')
+    require(all(j['conclusion'] in ['success','skipped'] for j in run['jobs']),
+            'run contains a failed or unfinished job')
+
+
+def audit_version(folder, version, commit, assets):
+    build = folder/('manylinux-'+version)
+    consumer = folder/('manylinux-consumer-'+version)
+    qualification = read(build/'qualification.json')
+    require(qualification['schema']=='qpx.manylinux-qualification/1' and qualification['qualified'] is True,
+            'wheel did not qualify')
+    require(qualification['engine_commit']==commit and qualification['policy']==assets['policy'],
+            'qualification source or policy differs')
+    require(qualification['abi_errors']=={} and qualification['runtime_payloads_unchanged'] is True,
+            'ABI errors or modified runtime payloads')
+    require(qualification['tools']=={k:assets[k] for k in ['auditwheel','patchelf','packaging','pyelftools']},
+            'qualification tool versions differ')
+    tag = 'cp'+version.replace('.','')
+    require(qualification['python_tags']==[tag],'qualification Python ABI differs')
+    wheel_name = qualification['qualified_wheel']
+    require(PurePosixPath(wheel_name).name==wheel_name and '\\' not in wheel_name,'invalid wheel filename')
+    require(wheel_name.endswith('-'+tag+'-'+tag+'-'+assets['policy']+'.whl'),'wheel tag differs')
+    wheel = build/'qualified'/wheel_name
+    require(sha(wheel)==qualification['qualified_wheel_sha256'],'qualified wheel hash differs')
+    with zipfile.ZipFile(wheel) as archive:
+        names=archive.namelist()
+        require(len(names)==len(set(names)),'duplicate wheel entries')
+        payloads={n:hashlib.sha256(archive.read(n)).hexdigest() for n in names
+                  if not n.endswith('/') and '.dist-info/' not in n}
+        require(payloads==qualification['runtime_payload_sha256'],'runtime/notices payload hashes differ')
+        require(all(name in payloads and payloads[name]==entry['sha256']
+                    for name,entry in qualification['elf_payloads'].items()),'ELF manifest differs')
+        actual_elf={name for name in payloads if archive.read(name).startswith(b'\x7fELF')}
+        require(actual_elf==set(qualification['elf_payloads']),'ELF manifest omits payloads')
+        required={'qupathxx/qupathxx_region','qupathxx/qupathxx_batch','qupathxx/libgeos_c.so.1','qupathxx/libopenslide.so.1'}
+        native=[name for name in actual_elf if name.startswith('qupathxx/_native.')]
+        require(required.issubset(actual_elf) and len(native)==1 and
+                any(PurePosixPath(n).name.startswith('libgeos.so.') for n in actual_elf),'full native payload missing')
+        metadata=[n for n in names if n.endswith('.dist-info/WHEEL')]
+        require(len(metadata)==1,'wheel metadata missing or ambiguous')
+        tags=[line[5:] for line in archive.read(metadata[0]).decode().splitlines() if line.startswith('Tag: ')]
+        require(tags==[tag+'-'+tag+'-'+assets['policy']],'advertised wheel tag differs')
+        for notice in ['geos/COPYING','openslide-sdk/OpenSlide/COPYING.LESSER','opencv/LICENSE','libtiff/LICENSE.md']:
+            require(len(archive.read('qupathxx/licenses/'+notice))>100,'missing runtime notice')
+    image=read(build/'build-image.json')
+    require(image['image']==assets['builder']['image'] and image['libc']=='glibc 2.28' and
+            image['engine_commit']==commit and image['python'].startswith(version+'.'),'build image or interpreter differs')
+    installed=read(build/'qualified-installed.json')
+    original=read(build/'installed-workflow.json')
+    runtime=read(build/'qualified-runtime.json')
+    probe=read(consumer/'consumer-probe.json')
+    result=read(build/'result.json')
+    require(result['mode']=='headless' and result['wheel_sha256']==qualification['input_wheel_sha256'],
+            'original tested wheel identity differs')
+    require(runtime['schema']=='qpx.linux-runtime/1','unexpected relocated runtime schema')
+    require(probe['schema']=='qpx.manylinux-consumer/1' and probe['engine_commit']==commit and
+            probe['policy']==assets['policy'] and probe['wheel_sha256']==sha(wheel),'consumer artifact identity differs')
+    source=installed['source_tree_sha256']
+    require(re.fullmatch('[0-9a-f]{64}',source) is not None,'invalid source fingerprint')
+    for report in [original,installed,runtime,probe]:
+        require(report['source_tree_sha256']==source and report['native_sha256']==payloads[native[0]],
+                'installed/relocated/consumer native identity differs')
+    for report in [original,installed]:
+        require(report['gui'] is False and report['geos'] is True and report['openslide'] is True,
+                'installed workflow capabilities differ')
+    require(probe['python'].startswith(version+'.') and probe['libc']==['glibc','2.36'],
+            'fresh Debian interpreter or libc differs from pinned consumer')
+    for key in ['mapped_from_package','geos_license_matches_sdk','relocated_python_geometry',
+                'relocated_region_pixels','relocated_batch']:
+        require(runtime[key] is True,'failed relocated runtime check: '+key)
+    require(runtime['ld_library_path_used'] is False and probe['loader_overrides_used'] is False,
+            'loader overrides used')
+    for name,digest in runtime['runtimes'].items():
+        require(payloads.get('qupathxx/'+name)==digest,'runtime mapping identity differs')
+    require(set(runtime['runtimes'])==set(probe['mapped_runtimes']) and len(probe['mapped_runtimes'])==3,
+            'consumer runtime mappings differ')
+    require(probe['geos_union_area']==150,'consumer geometry reference differs')
+    for key in ['unicode_annotation_reopened','retained_analysis_reopened','measurement_csv',
+                'native_region_exact','native_batch_checkpoint','native_batch_csv']:
+        require(probe[key] is True,'consumer workflow failed: '+key)
+    root=Path(__file__).resolve().parents[2]
+    fixtures=read(root/'tests/fixtures/manifest.json')
+    fixture=next(f for f in fixtures['downloads'] if f['filename']=='CMU-1-Small-Region.svs')
+    require(probe['slide_sha256']==fixture['sha256'],'consumer fixture hash differs')
+    require('Public stubs match' in (build/'stubs.log').read_text(encoding='utf-8'),'stub check missing')
+    require('Success: no issues found in 3 source files' in (build/'typing.log').read_text(encoding='utf-8'),
+            'positive typing check missing')
+    negative=(build/'typing-negative.log').read_text(encoding='utf-8')
+    require(sorted(map(int,re.findall(r'invalid_api.py:(\d+): error:',negative)))==[6,7,8,9,11,13,14],
+            'negative typing checks differ')
+    tests=dict(native=junit(build/'native-tests.xml',40),builder=junit(build/'python-tests.xml',1500),
+               consumer=junit(consumer/'consumer-tests.xml',1500))
+    require(tests['native']['skipped']==tests['native']['expected_scientific_failures']==0,'native tests skipped')
+    return dict(python=version,source_tree_sha256=source,wheel=wheel_name,wheel_sha256=sha(wheel),
+        native_sha256=payloads[native[0]],runtimes=runtime['runtimes'],fixture_sha256=probe['slide_sha256'],
+        builder_image=image['image'],consumer_image=assets['consumers'][version]['image'],tests=tests,
+        evidence={str(path.relative_to(folder)):sha(path) for base in [build,consumer]
+                  for path in sorted(base.glob('*')) if path.is_file() and path.suffix in ['.json','.log','.xml']},
+        runtime_payloads_unchanged=True,fresh_consumer_workflows=True)
+
+
+def audit(folder, run, commit):
+    successful_run(run,commit)
+    assets=read(ASSETS)
+    versions=[audit_version(Path(folder),version,commit,assets) for version in ['3.11','3.12']]
+    require(versions[0]['source_tree_sha256']==versions[1]['source_tree_sha256'],'builder source trees differ')
+    require(versions[0]['fixture_sha256']==versions[1]['fixture_sha256'],'consumer fixtures differ')
+    return dict(schema='qpx.manylinux-acceptance/1',commit=commit,run=run['url'],policy=assets['policy'],
+        state='build-and-fresh-consumer-accepted',release_ready=False,versions=versions,
+        assets_sha256=sha(ASSETS),auditor_sha256=sha(__file__),
+        scope='Declared headless CPython ABI and fresh Debian consumer workflows only. Project license, supported release, GUI/macOS, scientific and hardware acceptance remain separate gates.')
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--artifacts',type=Path,required=True)
+    parser.add_argument('--run-json',type=Path,required=True)
+    parser.add_argument('--commit',required=True)
+    parser.add_argument('--output',type=Path,required=True)
+    args=parser.parse_args()
+    report=audit(args.artifacts,read(args.run_json),args.commit)
+    args.output.parent.mkdir(parents=True,exist_ok=True)
+    args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
+    print(json.dumps(dict(state=report['state'],commit=report['commit'],release_ready=False)))
+
+
+if __name__=='__main__':
+    main()

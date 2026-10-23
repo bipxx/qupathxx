@@ -58,3 +58,38 @@ acceptance resulted. The SDK helper and CI wrapper now locate exactly one comple
 config in the SDK root, `lib`, or `lib64`; missing, incomplete and ambiguous
 layouts fail explicitly. Six regression cases cover those layouts. The build and
 consumer requirements above remain unchanged and require a new successful run.
+
+## Accepting downloaded evidence
+
+`tools/ci/accept_manylinux.py` requires one completed successful hosted commit
+and both CPython builder/consumer cohorts. Wheels must have matching filename
+and WHEEL tags, qualification hashes, complete native/runtime payload manifests
+and runtime notices. Pinned tool versions, builder image/libc, the original
+tested wheel and original/qualified installed, relocated and fresh-consumer
+native/source identities must agree. Both consumers use the pinned slide fixture.
+
+The checker requires passing native, builder and consumer JUnit evidence, public
+stubs, positive/negative typing, package-local runtime records, geometry, Unicode
+annotation/project reopening, retained analysis, CSV, exact native region pixels
+and batch/checkpoint CSV. Only the explicitly recorded QuPath cell scientific
+expected failures are allowed; other expected failures reject acceptance.
+
+```powershell
+gh run download RUN --dir build/portable-evidence
+gh run view RUN --json headSha,url,status,conclusion,jobs > build/portable-run.json
+python -I tools/ci/accept_manylinux.py --artifacts build/portable-evidence --run-json build/portable-run.json --commit FULL_COMMIT --output build/portable-acceptance.json
+```
+
+The receipt is written only after all checks pass. Its state is
+`build-and-fresh-consumer-accepted` and `release_ready` stays false. The checker
+audits evidence downloaded from trusted CI; it does not authenticate arbitrary
+files or replace the builder's actual ELF symbol-policy check. Scientific failures
+remain counted and do not become scientific acceptance. Project license,
+GUI/macOS, biological accuracy, hardware budgets and releases need separate gates.
+
+The [auditor receipt](benchmarks/manylinux-acceptance-auditor-windows-linux.json)
+records 31 focused tests passing on Windows/Linux, including mixed/unfinished
+runs, corruption, mismatched runtimes, wrong fixtures, loader overrides and
+incomplete workflow/test/typing rejection. Synthetic cohorts test evidence binding,
+not executable ELF validity. Actual failed run 39986257233 is rejected without
+publishing a receipt. Positive hosted acceptance still requires the pending run.

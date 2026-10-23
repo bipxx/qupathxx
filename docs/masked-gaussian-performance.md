@@ -46,8 +46,13 @@ passes 57 tests with the same four strict expected failures from the
 This remains a candidate. A Windows full-suite process is stalled in an existing
 asynchronous ROI measurement wait. Fresh direct probes, collection followed by
 the same job, and isolated pytest checks complete successfully; the cause remains
-unresolved. A separate 2,000-job Windows stress process also completes. The live
-process and its stack evidence are retained, and no full Windows pass is inferred
+unresolved. A separate 2,000-job Windows stress process also completes. After more
+than 20 minutes in the same wait, the specific stalled process was stopped with
+final stacks and identity retained. A fresh full run passed that point and is
+progressing through software-rendered GUI tests. A separate complete Windows
+headless suite passes 1,622 tests with 390 optional skips and four expected failures.
+The [follow-up receipt](benchmarks/masked-gaussian-validation-followup.json)
+retains both attempts. No full GUI-enabled Windows pass is inferred
 from the isolated checks. Linux full regression passes 1,623 tests with 389 optional
 skips and four strict expected failures. Existing cell-comparison metrics and
 shared-ROI results are unchanged on both platforms; seeded classifier model,

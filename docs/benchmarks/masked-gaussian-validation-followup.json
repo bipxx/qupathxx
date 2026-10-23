@@ -1,0 +1,27 @@
+{
+  "schema": "qpx.masked-gaussian-validation-followup/1",
+  "source_tree_sha256": "37109d9eb6597439b7e3a73b675a0051f1ae0b8efc1f0e4b3fd65c709278b672",
+  "native_sha256": "946975f7c71531e51281056333b92a778024e783303d02ac37e95e3c92df5a3d",
+  "original_profile_sha256": "6318b9e228e707e1ab873111d1d85622d23e4d90f199106549590b4b5545ceab",
+  "windows_headless": {
+    "passed": 1622,
+    "optional_skips": 390,
+    "strict_expected_failures": 4,
+    "junit_sha256": "fa21c5120f257b831dba025b1a61c82451301cf46d452ee88f67aff036c92857"
+  },
+  "first_gui_run": {
+    "state": "manually-stopped-after-confirmed-stall",
+    "process_id": 91036,
+    "wrapper_session_id": 71592,
+    "final_stacks_sha256": "fa6b5b44a39a4a191c42c4481f3e166769f57d85465cb0e2f1310516a4dae807",
+    "identity_sha256": "10664cdb78283ea8f30990f61ced609d6aaae85743ecdc0766c342969989a65b",
+    "accepted": false
+  },
+  "repeated_gui_run": {
+    "state": "live-progress-through-GUI",
+    "process_id": 91244,
+    "session_id": 11237,
+    "accepted": false
+  },
+  "release_ready": false
+}

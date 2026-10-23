@@ -3488,7 +3488,11 @@ their baselines byte-for-byte.
 A Windows full-suite process stalls in an existing AnalysisJob wait inside the
 Microsoft Concurrency runtime. Native stack inspection also observes a blocked
 WMI/COM query; a causal connection is not established. Fresh direct, collection
-and 2,000-job stress probes pass. The live process and stack evidence are retained;
+and 2,000-job stress probes pass. After more than 20 minutes in the same wait,
+the specific process is stopped with final stacks and identity retained. A fresh
+full run passes that point and is progressing through software-rendered GUI checks.
+The separate Windows headless suite passes 1,622 tests with 390 optional skips
+and four expected failures. The first failed attempt remains recorded;
 no complete Windows regression acceptance or main promotion is inferred. The
 [profile receipt](benchmarks/masked-gaussian-local-windows-linux.json) identifies
 the artifacts, source, tests and unresolved run. The candidate remains provisional.
@@ -3500,3 +3504,20 @@ lib or lib64 config; six regression cases cover supported/missing/incomplete/
 ambiguous layouts and pass on Windows/Linux. The isolated fix is published at
 `16e8d0f9cfdbe1796d50a906aeb07a4d7083f5e6`, with fresh portable run
 39991725062 pending. No older-ABI success or portable release is claimed.
+
+### Packet96: portable build and fresh-consumer artifact acceptance
+
+The [portable acceptance checker](manylinux-qualification.md#accepting-downloaded-evidence)
+requires one successful hosted commit and both CPython builder/consumer cohorts.
+It binds wheel/native/runtime payloads, original/qualified installed artifacts,
+source fingerprints, pinned images/tool versions, fixtures, native/full Python
+JUnit, typing and fresh-consumer project/measurement/native CLI workflow records.
+Missing consumers, wrong commits, corrupt/mixed artifacts, failed tests and
+incomplete workflows reject report publication.
+
+The [auditor receipt](benchmarks/manylinux-acceptance-auditor-windows-linux.json)
+records 31 focused passes on Windows/Linux and rejection of the actual failed
+portable run without an output receipt. Synthetic cohorts exercise binding guards,
+not real ELF validity. Successful acceptance explicitly keeps release_ready false
+and counts unresolved scientific expected failures. Positive portable evidence,
+supported releases and every other open M0–M7 gate still need their own evidence.
