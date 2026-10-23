@@ -153,8 +153,10 @@ retains 64 cells. The observed median ratios are:
 No slower median is observed in these selected cases. The near-one Windows
 short-kernel ratios are effectively neutral observations; these samples do not
 establish statistical significance or uniform hardware performance. The original
-mixed-result recordings remain available. Full regression for the revised source
-is running, and the optimization remains on a validation branch. Project-wide
+mixed-result recordings remain available. Linux full regression for the revised
+source passes 1,644 tests with 389 optional skips and four scientific expected
+failures. Windows full regression is still running, and the optimization remains
+on a validation branch. Project-wide
 performance, scientific acceptance and the original intermittent wait stay open.
 
 ## Reproducing the paired kernel probe

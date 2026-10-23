@@ -1,6 +1,6 @@
 {
   "schema": "qpx.gaussian-short-kernel-validation/1",
-  "state": "focused-and-paired-verified-full-regression-pending",
+  "state": "linux-full-verified-windows-full-and-hosted-pending",
   "source_tree_sha256": "afedc41994196ea996789808b0c5f8d030cb7339a6516a245929243df68744a3",
   "header_sha256": "8e519ea337b13d9029733576424fbcf8ead3b4a8c223becbafb1626ac47100ce",
   "native_test_source_sha256": "a7eda8eb91706128c99ae46c05eb4983964f8983b520594b62a204e2e4c4f369",
@@ -425,7 +425,14 @@
   "full_regression": {
     "windows_session_id": 11025,
     "linux_session_id": 27061,
-    "accepted": false
+    "accepted": false,
+    "linux": {
+      "state": "completed",
+      "passed": 1644,
+      "optional_skips": 389,
+      "strict_expected_failures": 4,
+      "junit_sha256": "52fe4fcfb68c0baeb3c823b7b4923b325d70b2cc00158b403d0d3a2e107b70e1"
+    }
   },
   "uniform_hardware_performance_accepted": false,
   "release_ready": false,
