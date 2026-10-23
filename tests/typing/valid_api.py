@@ -328,3 +328,16 @@ def pixel_input_hashes(pixels: q.PixelBuffer, request: q.PixelPredictionRequest,
     file.verify()
     historical: str = file.input_sha256()
     return [feature, source, current, historical]
+
+
+def project_pixel_batch(project: q.Project, model: q.PixelClassifier, directory: str) -> q.ProjectBatchReport:
+    options = q.ProjectBatchOptions()
+    options.kind = q.ProjectBatchKind.PIXELS
+    options.pixel_model = model
+    options.pixels = q.PixelStreamOptions()
+    options.pixel_total_limit = 1024*1024*1024
+    request = q.ProjectBatchRequest(project, model.transform, options=options)
+    result = q.run_project_batch(request, directory)
+    for image in result.images:
+        assert image.inferred_blocks >= 0 and image.hashed_blocks >= 0
+    return result

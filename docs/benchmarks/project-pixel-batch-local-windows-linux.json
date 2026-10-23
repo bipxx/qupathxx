@@ -1,0 +1,503 @@
+{
+  "schema": "qpx.project-pixel-batch-local/1",
+  "observed_utc": "2026-10-23T07:32:24.334575+00:00",
+  "scope": "Captured pinned-model project-wide per-target QPS exports, atomic image completion bundles, verified hash-only image-level reuse, native/Python/CLI/ImGui parity, ownership/cancellation/restart/corruption/relocation/resource gates and class CSV. Block-level resume, orphan reclamation, output packaging, stitching, resampling, wider M0-M7, research/TMA and hardware/RSS acceptance remain open.",
+  "tests": {
+    "python": {
+      "tests": 1792,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 6,
+      "passed": 1786,
+      "seconds": 664.395,
+      "sha256": "b4194379383a1c050aa1d4202b96088882193c887cacb9a93d8c3590184d4546"
+    },
+    "focused": {
+      "tests": 72,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 1,
+      "passed": 71,
+      "seconds": 13.001,
+      "sha256": "5f67b3f7ab51d97d1fb4962c9cd0ad265ae453f0288cc3130c4ebb2d89cb40a6"
+    },
+    "gui_focused": {
+      "tests": 6,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 6,
+      "seconds": 10.55,
+      "sha256": "7ef7eaf6b0b8d3de7f5d4d13a2f6adbb337a713bcd5bd54cb013006225bec816"
+    },
+    "windows_native": {
+      "tests": 38,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 6.0,
+      "sha256": "b543fcacc16a8a2f3905e6690d65e1389889a1de2a514bab021acf777a61b6a0"
+    },
+    "windows_gui_native": {
+      "tests": 39,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 39,
+      "seconds": 8.0,
+      "sha256": "aaccdc80e7c13b161f203a9c1b02791774bdf5bc0d11142fc6a8a07ea31ac6e3"
+    },
+    "linux_native": {
+      "tests": 38,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 2.0,
+      "sha256": "0a5f3f071e5e0b2afec8f35720870c5d92049d63844150e9178b611f7c9348a5"
+    },
+    "linux_minimal": {
+      "tests": 38,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 0.0,
+      "sha256": "c59fb5aade4f84ad412e317bf06c435b7c3ea253531bc2167e1bdd0a0e844408"
+    },
+    "linux_core_sanitizers": {
+      "tests": 38,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 5.0,
+      "sha256": "d44a9d52624fe39445b5e8f4a3508ef9d95be454ba19b5b09f4f57203b8239ba"
+    },
+    "linux_project_sanitizers": {
+      "tests": 38,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 38,
+      "seconds": 10.0,
+      "sha256": "08f7c187978d4a3d35a9abc2a31bd2d938a0fe798d67b807c05d5d042b439c8f"
+    }
+  },
+  "new_cases": {
+    "test_project_pixel_batch": [
+      "test_fresh_batch_all_numeric_blocks_csv_and_hash_only_resume[16]",
+      "test_fresh_batch_all_numeric_blocks_csv_and_hash_only_resume[256]",
+      "test_resume_rejects_changed_completed_output_and_no_resume_preserves_it[missing]",
+      "test_resume_rejects_changed_completed_output_and_no_resume_preserves_it[footer]",
+      "test_resume_rejects_changed_completed_output_and_no_resume_preserves_it[block]",
+      "test_resume_rejects_changed_completed_output_and_no_resume_preserves_it[checkpoint]",
+      "test_failed_image_leaves_no_completed_bundle_or_pixel_files[result_budget]",
+      "test_failed_image_leaves_no_completed_bundle_or_pixel_files[csv_limit]",
+      "test_failed_image_leaves_no_completed_bundle_or_pixel_files[checkpoint_limit]",
+      "test_failed_image_leaves_no_completed_bundle_or_pixel_files[pixel_file_limit]",
+      "test_failed_image_leaves_no_completed_bundle_or_pixel_files[pixel_total_limit]",
+      "test_existing_historical_catalog_preserved_and_excluded_from_reuse_outputs",
+      "test_owned_partial_and_foreign_directories_are_ignored_and_preserved",
+      "test_bundle_relative_links_survive_batch_directory_relocation",
+      "test_capture_or_prediction_changes_create_fresh_checkpoints[vote]",
+      "test_capture_or_prediction_changes_create_fresh_checkpoints[block]",
+      "test_capture_or_prediction_changes_create_fresh_checkpoints[tile]",
+      "test_capture_or_prediction_changes_create_fresh_checkpoints[roi]",
+      "test_capture_or_prediction_changes_create_fresh_checkpoints[model]",
+      "test_empty_target_image_has_reusable_completed_checkpoint",
+      "test_options_validation_and_captured_model_ownership",
+      "test_native_cli_fresh_resume_and_model_arguments",
+      "test_job_cancellation_keeps_first_image_and_resume_finishes_remaining_image",
+      "test_continue_policy_commits_valid_image_and_reports_failed_image",
+      "test_linked_source_pixels_change_invalidates_reuse_with_same_input_metadata"
+    ],
+    "test_gui_pixel_batch": [
+      "test_gui_pixel_batch_fresh_resume_and_pinned_model[False]",
+      "test_gui_pixel_batch_fresh_resume_and_pinned_model[True]",
+      "test_gui_pixel_batch_file_limit_failure_policy[ProjectBatchFailure.STOP-failed-1]",
+      "test_gui_pixel_batch_file_limit_failure_policy[ProjectBatchFailure.CONTINUE-partial-2]",
+      "test_gui_pixel_batch_cancellation_leaves_no_incomplete_output[False]",
+      "test_gui_pixel_batch_cancellation_leaves_no_incomplete_output[True]"
+    ]
+  },
+  "installed": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "9ec6ce026dd96b53dc2efcaa1cf38b7ffe0cd46abe9c597a406b83946dd4adc0",
+    "source_tree_sha256": "b05270479700e9431e52ae46dd23e5f36a8a50e5eeac479c111397e404f41bfb",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "bytes": 12277167,
+    "sha256": "1c7184d2989487267c5afb5a36759750e6e1b605c6ffddae94a72a4a833d0ea8"
+  },
+  "benchmarks": {
+    "1024": {
+      "file": "project-pixel-batch-1024-windows.json",
+      "sha256": "b73d619027293436ed3e478fca7d108f661308b8af1639a5a91a3b97e869cd87",
+      "values": {
+        "schema": "qpx.project-pixel-batch-benchmark/1",
+        "size": 1024,
+        "images": 2,
+        "capture_ms": 0.19509997218847275,
+        "fresh_ms": 1521.528200013563,
+        "resume_ms": 391.2060000002384,
+        "observed_speedup": 3.889327362087074,
+        "snapshot_bytes": 6459620,
+        "snapshot_budget": 268435456,
+        "producer_budget": 8388608,
+        "estimated_producer_work_bytes": 1352748,
+        "max_block_array_bytes": 147456,
+        "verified": [
+          {
+            "image_id": 1,
+            "blocks": 64,
+            "inferred_on_resume": 0,
+            "stream_bytes": 9452585,
+            "input_sha256": "df55278e331f687a3431a592baebd2bbea76688b0c53bd4037a6db72fdbed015",
+            "file_sha256": "51ad3e7b741cdcd5601fa794c42311e7f8cae9f0ba61f90c8abfd25e10aecf5c",
+            "content_sha256": "f344541b7ce10aad2825fe1c60ca4dab4b3793a122bcdd8d83d913e4d6470d85"
+          },
+          {
+            "image_id": 2,
+            "blocks": 64,
+            "inferred_on_resume": 0,
+            "stream_bytes": 9452585,
+            "input_sha256": "be59c46a857f6372eb0118f99ba71d321abc321f40cd4b20d3dafa48c1c3f5f3",
+            "file_sha256": "cefdc5ac2f536a33c0da3897887addf29b42d09ed52c089d1b8097cb188e8993",
+            "content_sha256": "2f2f868da5a2cf31f14634846ff1c56eb7dcfc413231fc281e8a31b35a772ec3"
+          }
+        ],
+        "parameters_sha256": "739cad8ca94c6d24ded3e45bfbb0220aecc340aab891772c98b5d85b5e058e68",
+        "model_sha256": "486b62c984dedb49bcaac40b7b7863e55ffc29346c96ee2e12e65feff6c0c96c",
+        "source_project_sha256": "010833dae52fdd25cf761b1c42aca8428924c361f8f1cf4437ba49ae8c067e59",
+        "native_sha256": "9ec6ce026dd96b53dc2efcaa1cf38b7ffe0cd46abe9c597a406b83946dd4adc0",
+        "environment": {
+          "source_tree_sha256": "b05270479700e9431e52ae46dd23e5f36a8a50e5eeac479c111397e404f41bfb",
+          "git_revision": "199d1e0d741b24f0fb5cc1a687c3bff855234eae+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Two synthetic embedded RGB images, one target each, portable fixture model, shared workstation. Fresh includes inference, full QPS verification and atomic image checkpoints. Resume includes input snapshot serialization, hash-only source scan, checkpoint checksum and full saved-output verification; zero inferred blocks. Every block compared with direct window inference and source/model/output bytes retained. No measured RSS, vendor/network storage throughput, hardware/frame budget or biological acceptance."
+      }
+    },
+    "2048": {
+      "file": "project-pixel-batch-2048-windows.json",
+      "sha256": "06a9debb12e34666d302d3c2c93dc153989867fa1f2108c416a1fa3bba6e2744",
+      "values": {
+        "schema": "qpx.project-pixel-batch-benchmark/1",
+        "size": 2048,
+        "images": 2,
+        "capture_ms": 0.18420000560581684,
+        "fresh_ms": 6406.550700077787,
+        "resume_ms": 1536.4296999759972,
+        "observed_speedup": 4.1697649428267844,
+        "snapshot_bytes": 25333988,
+        "snapshot_budget": 268435456,
+        "producer_budget": 8388608,
+        "estimated_producer_work_bytes": 1352748,
+        "max_block_array_bytes": 147456,
+        "verified": [
+          {
+            "image_id": 1,
+            "blocks": 256,
+            "inferred_on_resume": 0,
+            "stream_bytes": 37802537,
+            "input_sha256": "2e1a9386dc4ee2a063f9cab1fb5c394f9ad075dbc19b375be2ac05df0389b050",
+            "file_sha256": "83a7204069ec28a4b49d8ef916d339f6276725bead97bfe8e4c064fa9763398f",
+            "content_sha256": "e1a0525321bf3a5bb0dff93e1c4e3066dbd52f4652dfd392712c391a2c39c2e1"
+          },
+          {
+            "image_id": 2,
+            "blocks": 256,
+            "inferred_on_resume": 0,
+            "stream_bytes": 37802537,
+            "input_sha256": "a3ac7d5f61d0c9e27b087fd41dd4b9f2723033822994cf7f6b88df0e88b173e8",
+            "file_sha256": "65d9ce3375ebf86b6bddc8156e844587baf195a50f4b0b7847a6be635039834b",
+            "content_sha256": "10a3784a2669f14808cf4389ae0d876a73c6565780a69ff3f5e39e6deea5bd6a"
+          }
+        ],
+        "parameters_sha256": "739cad8ca94c6d24ded3e45bfbb0220aecc340aab891772c98b5d85b5e058e68",
+        "model_sha256": "486b62c984dedb49bcaac40b7b7863e55ffc29346c96ee2e12e65feff6c0c96c",
+        "source_project_sha256": "741fbed601067cce9e2b8e1b61029763de498517e89d8769da30d9a4e1121c1c",
+        "native_sha256": "9ec6ce026dd96b53dc2efcaa1cf38b7ffe0cd46abe9c597a406b83946dd4adc0",
+        "environment": {
+          "source_tree_sha256": "b05270479700e9431e52ae46dd23e5f36a8a50e5eeac479c111397e404f41bfb",
+          "git_revision": "199d1e0d741b24f0fb5cc1a687c3bff855234eae+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Two synthetic embedded RGB images, one target each, portable fixture model, shared workstation. Fresh includes inference, full QPS verification and atomic image checkpoints. Resume includes input snapshot serialization, hash-only source scan, checkpoint checksum and full saved-output verification; zero inferred blocks. Every block compared with direct window inference and source/model/output bytes retained. No measured RSS, vendor/network storage throughput, hardware/frame budget or biological acceptance."
+      }
+    }
+  },
+  "linux_checkpoint_reopen_and_numeric_oracles": {
+    "schema": "qpx.project-pixel-batch-cross-platform/1",
+    "linux_first": {
+      "schema": "qpx.project-batch/1",
+      "state": "succeeded",
+      "error": "",
+      "report_path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/pixel86-linux-batch/run-6853335b89120b7f3c77ce4787a6a3fb.json",
+      "parameters_sha256": "f23ff4e646747c15cc02f601cf5c58dbc51ffc4a9a70d8d46c10c06599b44b7c",
+      "source_identity": "28e542b99648be40c1600c2cb8dfd30b",
+      "source_generation": 1,
+      "source_revision": 0,
+      "saved": 2,
+      "reused": 0,
+      "failed": 0,
+      "snapshot_bytes": 6460626,
+      "capture_ms": 0.322066,
+      "elapsed_ms": 22421.667626,
+      "images": [
+        {
+          "schema": "qpx.batch-image/1",
+          "image_id": 1,
+          "image_name": "Image 0",
+          "state": "saved",
+          "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/pixel86-linux-batch/image-1-5a80e0b296da0b58c1af8e13889d9327eee4ea1d94b425b775b7dee11d8265b3/pixels-5d95bbd0e527abfc3d05740d04f06297/result.qpxproj",
+          "error": "",
+          "input_sha256": "30e9bfea31a3e7437e5636e6b990c059df253c0903dacde83badd79c53274eb8",
+          "pixel_sha256": "df55278e331f687a3431a592baebd2bbea76688b0c53bd4037a6db72fdbed015",
+          "objects": 1,
+          "records": 1,
+          "inferred_blocks": 64,
+          "hashed_blocks": 0,
+          "verified_blocks": 64,
+          "stream_bytes": 9452499,
+          "elapsed_ms": 13415.632447
+        },
+        {
+          "schema": "qpx.batch-image/1",
+          "image_id": 2,
+          "image_name": "Image 1",
+          "state": "saved",
+          "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/pixel86-linux-batch/image-2-d5596933c1cfa844edfb1c5da11baa15245ede4149d23a0fc5543cb43cf88f78/pixels-a28918bdd057d2ef5cdb7c699015ad97/result.qpxproj",
+          "error": "",
+          "input_sha256": "0991c1a4af3fef1407a3e8bc508f055e1f03b06110a984f01e6cc311a326e3e4",
+          "pixel_sha256": "be59c46a857f6372eb0118f99ba71d321abc321f40cd4b20d3dafa48c1c3f5f3",
+          "objects": 1,
+          "records": 1,
+          "inferred_blocks": 64,
+          "hashed_blocks": 0,
+          "verified_blocks": 64,
+          "stream_bytes": 9452499,
+          "elapsed_ms": 8995.065369
+        }
+      ]
+    },
+    "linux_reused": {
+      "schema": "qpx.project-batch/1",
+      "state": "succeeded",
+      "error": "",
+      "report_path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/pixel86-linux-batch/run-021c90c9a8c4ed49b597e5fd0a731494.json",
+      "parameters_sha256": "f23ff4e646747c15cc02f601cf5c58dbc51ffc4a9a70d8d46c10c06599b44b7c",
+      "source_identity": "28e542b99648be40c1600c2cb8dfd30b",
+      "source_generation": 1,
+      "source_revision": 0,
+      "saved": 0,
+      "reused": 2,
+      "failed": 0,
+      "snapshot_bytes": 6460626,
+      "capture_ms": 0.293136,
+      "elapsed_ms": 11948.308406,
+      "images": [
+        {
+          "schema": "qpx.batch-image/1",
+          "image_id": 1,
+          "image_name": "Image 0",
+          "state": "reused",
+          "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/pixel86-linux-batch/image-1-5a80e0b296da0b58c1af8e13889d9327eee4ea1d94b425b775b7dee11d8265b3/pixels-5d95bbd0e527abfc3d05740d04f06297/result.qpxproj",
+          "error": "",
+          "input_sha256": "30e9bfea31a3e7437e5636e6b990c059df253c0903dacde83badd79c53274eb8",
+          "pixel_sha256": "df55278e331f687a3431a592baebd2bbea76688b0c53bd4037a6db72fdbed015",
+          "objects": 1,
+          "records": 1,
+          "inferred_blocks": 0,
+          "hashed_blocks": 64,
+          "verified_blocks": 64,
+          "stream_bytes": 9452499,
+          "elapsed_ms": 5111.918304
+        },
+        {
+          "schema": "qpx.batch-image/1",
+          "image_id": 2,
+          "image_name": "Image 1",
+          "state": "reused",
+          "path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/pixel86-linux-batch/image-2-d5596933c1cfa844edfb1c5da11baa15245ede4149d23a0fc5543cb43cf88f78/pixels-a28918bdd057d2ef5cdb7c699015ad97/result.qpxproj",
+          "error": "",
+          "input_sha256": "0991c1a4af3fef1407a3e8bc508f055e1f03b06110a984f01e6cc311a326e3e4",
+          "pixel_sha256": "be59c46a857f6372eb0118f99ba71d321abc321f40cd4b20d3dafa48c1c3f5f3",
+          "objects": 1,
+          "records": 1,
+          "inferred_blocks": 0,
+          "hashed_blocks": 64,
+          "verified_blocks": 64,
+          "stream_bytes": 9452499,
+          "elapsed_ms": 6814.371186
+        }
+      ]
+    },
+    "verified": [
+      {
+        "image_id": 1,
+        "blocks": 64,
+        "numeric_arrays_and_sha_identical": true,
+        "input_sha256": "cb624b9c1189df6f6e9b46c6889e9b98b9d4d2efe805e8c7582ae91e32043009",
+        "linux_content_sha256": "4dd8f04036ecb0b6b1f4854f63fb32d646cc6d3826e4a9110eef88665eecafdb",
+        "windows_content_sha256": "f344541b7ce10aad2825fe1c60ca4dab4b3793a122bcdd8d83d913e4d6470d85",
+        "relative_link_opened_on_windows": true,
+        "linux_environment": {
+          "app_version": "0.1.0",
+          "source_tree_sha256": "b05270479700e9431e52ae46dd23e5f36a8a50e5eeac479c111397e404f41bfb",
+          "compiler": "GNU 13.3.0",
+          "compiler_flags": "base=;Release=-O3 -DNDEBUG;Debug=-g;RelWithDebInfo=-O2 -g -DNDEBUG;MinSizeRel=-Os -DNDEBUG",
+          "configuration": "unspecified",
+          "platform": "Linux x86_64",
+          "geos_version": "",
+          "openslide_version": "",
+          "sqlite_version": "3.54.1"
+        }
+      },
+      {
+        "image_id": 2,
+        "blocks": 64,
+        "numeric_arrays_and_sha_identical": true,
+        "input_sha256": "474128f326e35a9406af4c60015681e072940be78155ddf66a2435a20a726c5f",
+        "linux_content_sha256": "29ad60e7ae5b7e1e8af1373646036cf5bf24a3cf856d2421366816a291a9a4a9",
+        "windows_content_sha256": "2f2f868da5a2cf31f14634846ff1c56eb7dcfc413231fc281e8a31b35a772ec3",
+        "relative_link_opened_on_windows": true,
+        "linux_environment": {
+          "app_version": "0.1.0",
+          "source_tree_sha256": "b05270479700e9431e52ae46dd23e5f36a8a50e5eeac479c111397e404f41bfb",
+          "compiler": "GNU 13.3.0",
+          "compiler_flags": "base=;Release=-O3 -DNDEBUG;Debug=-g;RelWithDebInfo=-O2 -g -DNDEBUG;MinSizeRel=-Os -DNDEBUG",
+          "configuration": "unspecified",
+          "platform": "Linux x86_64",
+          "geos_version": "",
+          "openslide_version": "",
+          "sqlite_version": "3.54.1"
+        }
+      }
+    ],
+    "scope": "Windows embedded source/model exported and reused by installed-style Linux native batch executable; both generated image checkpoints reopened on Windows and all128 numeric/input hashes and label/valid/vote arrays match Windows output. Content commitments retain platform provenance. Shared WSL filesystem timings are not cross-platform throughput comparisons."
+  },
+  "interrupts": {
+    "windows": {
+      "schema": "qpx.project-pixel-batch-interrupt/1",
+      "exit_code": 130,
+      "signal": "CTRL_BREAK",
+      "observed_owned_bundle_before_signal": true,
+      "observed_stream_temporary_before_signal": true,
+      "elapsed_ms": 125.0,
+      "source_sha256": "610969b5ad900fca8a5d2580fba2766879b92b8a64d676e5c5dfc49e474a438b",
+      "model_file_sha256": "486b62c984dedb49bcaac40b7b7863e55ffc29346c96ee2e12e65feff6c0c96c",
+      "executable_sha256": "eaa9d3f25bb8c907dae09d2134d5ce77713e47ae8bf2077689df625fe5cfda54",
+      "native_sha256": "9ec6ce026dd96b53dc2efcaa1cf38b7ffe0cd46abe9c597a406b83946dd4adc0",
+      "source_tree_sha256": "b05270479700e9431e52ae46dd23e5f36a8a50e5eeac479c111397e404f41bfb",
+      "report": {
+        "schema": "qpx.project-batch/1",
+        "state": "cancelled",
+        "error": "export cancelled",
+        "report_path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\pixel86-cli-writing-interrupt\\output\\run-dbc620192dcb5e9dde734040a3131d5e.json",
+        "parameters_sha256": "d717f5637b4fd930ac381bd2ba373f5f6deed54f49929aeff31b6f8af606e946",
+        "source_identity": "5f43ae459f802af906b2751c4f57488c",
+        "source_generation": 1,
+        "source_revision": 0,
+        "saved": 0,
+        "reused": 0,
+        "failed": 0,
+        "snapshot_bytes": 12749382,
+        "capture_ms": 0.1361,
+        "elapsed_ms": 76.2199,
+        "images": []
+      },
+      "no_incomplete_outputs": true,
+      "source_and_model_unchanged": true
+    },
+    "linux": {
+      "schema": "qpx.project-pixel-batch-interrupt/1",
+      "exit_code": 130,
+      "signal": "SIGINT",
+      "observed_stream_temporary_before_signal": true,
+      "elapsed_ms": 7715.7527650000475,
+      "executable_sha256": "41ad109ae48f1f78c03e9d70ed8bf9992ab742d2245202e76bffe71370a7e029",
+      "source_sha256": "741fbed601067cce9e2b8e1b61029763de498517e89d8769da30d9a4e1121c1c",
+      "model_sha256": "486b62c984dedb49bcaac40b7b7863e55ffc29346c96ee2e12e65feff6c0c96c",
+      "no_incomplete_outputs": true,
+      "source_and_model_unchanged": true,
+      "report": {
+        "schema": "qpx.project-batch/1",
+        "state": "cancelled",
+        "error": "export cancelled",
+        "report_path": "/mnt/c/Users/HEQ/Projects/qupathxx/build/pixel86-linux-interrupt/run-427dd48ec27346c40989d9fdc789f2eb.json",
+        "parameters_sha256": "f808af53a2cb0b6af5faa4d55b35f9fefa61486be6bf73173936e84b90314a63",
+        "source_identity": "7f387ba2604ee7263d9f566a3d473c00",
+        "source_generation": 1,
+        "source_revision": 0,
+        "saved": 0,
+        "reused": 0,
+        "failed": 0,
+        "snapshot_bytes": 25334993,
+        "capture_ms": 0.168561,
+        "elapsed_ms": 3874.598261,
+        "images": []
+      }
+    }
+  },
+  "gui": {
+    "state": "succeeded",
+    "saved": 2,
+    "frames": 140,
+    "ui_overflow": 0,
+    "document_revisions_unchanged": true,
+    "source_project_bytes_unchanged": true,
+    "project_dirty_after_view_preferences": true,
+    "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "native_sha256": "9ec6ce026dd96b53dc2efcaa1cf38b7ffe0cd46abe9c597a406b83946dd4adc0",
+    "source_tree_sha256": "b05270479700e9431e52ae46dd23e5f36a8a50e5eeac479c111397e404f41bfb",
+    "screenshot": {
+      "file": "project-pixel-batch.png",
+      "sha256": "55479e37111e8c95e8f5ff4a9bb6ba6030dafa24b34546ae8fedef5912ddbecc",
+      "visually_checked": true
+    }
+  },
+  "checks": {
+    "stubs-check": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "typing": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "negative-typing": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "development_notes": [
+    "Initial CSV budget test mistakenly allowed4096bytes, which fit this small CSV. Corrected to the intended one-byte rejection. No production guard was weakened.",
+    "Cross-entry-point regression exposed a Windows temporary-path overflow in a nested pixel bundle. New bundle paths use extended Windows syntax, including temporary names. Fresh and resumed reports now retain the same path representation; original exact path assertions pass.",
+    "Python/CLI manifests and serialized inputs were identical, but live project revision1 reset to0 on reopen. Pixel cache identity now uses stable project identity/generation plus exact serialized input and current pixels; session revision remains an audit field. Legacy workflows retain their revision behavior.",
+    "Inspection found a single-block QPS stores an effective block size smaller than the requested size. Resume now checks that canonical size and the regression runs both16 and256pixel blocks, including the default-size small-target case.",
+    "Resume holds the checkpoint guard while reusing the already verified canonical scan, applies actual per-file remaining limits and actual decoded descriptor result limits, and reads descriptors without materializing a second embedded image.",
+    "Initial and intermediate failure logs are preserved under build/pixel86-focused-tests.log, pixel86-final-focused-tests.log and pixel86-final3-focused-tests.log; the full regression and reported probes use the final5 release wheel."
+  ]
+}

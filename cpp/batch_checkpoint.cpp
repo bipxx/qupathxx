@@ -1,5 +1,8 @@
 #include "batch_checkpoint.hpp"
 #include "project_schema.hpp"
+#include "pixel_stream_record.hpp"
+#include <filesystem>
+#include <algorithm>
 #include "qupathxx/project_batch.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
@@ -76,9 +79,25 @@ BatchCheckpoint read_batch_checkpoint(const std::string& path,const std::atomic<
     if(seal(m,csv,std::size_t(n),c)!=marker.text(16,64)) throw std::invalid_argument("batch checkpoint metadata checksum mismatch");if(include_csv) m.csv.assign(static_cast<const char*>(csv),std::size_t(n));
     if(marker.next()) throw std::invalid_argument("duplicate batch checkpoint metadata");if(data_digest(raw,c)!=m.data_sha256) throw std::invalid_argument("batch checkpoint data checksum mismatch");export_checkpoint(c);check(sqlite3_exec(raw,"COMMIT",nullptr,nullptr,nullptr),raw);return m;
 }
+std::vector<std::shared_ptr<const PixelStreamRecord>> batch_pixel_records(const std::string& path,std::uint64_t image_id,const std::set<std::uint64_t>& excluded,std::size_t budget,const std::atomic<bool>* c) {
+    export_checkpoint(c);sqlite3* raw=nullptr;const auto code=sqlite3_open_v2(path.c_str(),&raw,SQLITE_OPEN_READONLY|SQLITE_OPEN_NOMUTEX,nullptr);std::unique_ptr<sqlite3,decltype(&sqlite3_close)> db(raw,&sqlite3_close);
+    if(code!=SQLITE_OK) throw std::runtime_error(raw?sqlite3_errmsg(raw):"cannot open pixel checkpoint");sqlite3_limit(raw,SQLITE_LIMIT_LENGTH,128*1024);sqlite3_busy_timeout(raw,1000);
+    if(c) sqlite3_progress_handler(raw,1000,[](void* p){return static_cast<const std::atomic<bool>*>(p)->load()?1:0;},const_cast<std::atomic<bool>*>(c));
+    Row row(raw,"SELECT id,payload FROM pixel_stream_records WHERE image_id=?");const auto image=std::to_string(image_id);check(sqlite3_bind_text(row.value,1,image.c_str(),-1,SQLITE_TRANSIENT),raw);
+    std::vector<std::shared_ptr<const PixelStreamRecord>> result;std::size_t used=0,count=0;const auto directory=std::filesystem::u8path(path).parent_path().u8string();
+    while(row.next()) {export_checkpoint(c);if(++count>10000) throw std::length_error("pixel checkpoint catalog exceeds limit");const auto id=row.number(0);if(excluded.count(id)) continue;
+        const auto n=sqlite3_column_bytes(row.value,1);if(sqlite3_column_type(row.value,1)!=SQLITE_BLOB || n<=0 || n>128*1024) throw std::invalid_argument("invalid pixel checkpoint descriptor");
+        const auto charge=4ULL*std::size_t(n)+4096;if(charge>budget-used) throw std::length_error("pixel checkpoint descriptors exceed materialization budget");used+=charge;
+        auto record=PixelStreamRecordCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(row.value,1)),std::size_t(n),directory,c);
+        if(record->id!=id) throw std::invalid_argument("pixel checkpoint descriptor id mismatch");result.push_back(std::move(record));
+    }
+    std::sort(result.begin(),result.end(),[](const auto& a,const auto& b){return a->id<b->id;});return result;
+}
+
 #else
 void write_batch_checkpoint(sqlite3*,const BatchCheckpoint&,const std::atomic<bool>*) {throw std::runtime_error("batch checkpoints require project storage");}
 BatchCheckpoint read_batch_checkpoint(const std::string&,const std::atomic<bool>*,bool,std::size_t) {throw std::runtime_error("batch checkpoints require project storage");}
+std::vector<std::shared_ptr<const PixelStreamRecord>> batch_pixel_records(const std::string&,std::uint64_t,const std::set<std::uint64_t>&,std::size_t,const std::atomic<bool>*) {throw std::runtime_error("batch checkpoints require project storage");}
 #endif
 }
 namespace qpx {

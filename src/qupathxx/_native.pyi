@@ -4425,6 +4425,8 @@ class ProjectBatchKind(enum.Enum):
 
     CELLS = 2
 
+    PIXELS = 3
+
 class ProjectBatchFailure(enum.Enum):
     STOP = 0
 
@@ -4512,6 +4514,30 @@ class ProjectBatchOptions:
     def checkpoint_limit(self, arg: int, /) -> None: ...
 
     @property
+    def pixel_model(self) -> PixelClassifier | None: ...
+
+    @pixel_model.setter
+    def pixel_model(self, arg: PixelClassifier | None, /) -> None: ...
+
+    @property
+    def pixels(self) -> PixelStreamOptions: ...
+
+    @pixels.setter
+    def pixels(self, arg: PixelStreamOptions, /) -> None: ...
+
+    @property
+    def pixel_file_limit(self) -> int: ...
+
+    @pixel_file_limit.setter
+    def pixel_file_limit(self, arg: int, /) -> None: ...
+
+    @property
+    def pixel_total_limit(self) -> int: ...
+
+    @pixel_total_limit.setter
+    def pixel_total_limit(self, arg: int, /) -> None: ...
+
+    @property
     def tissue(self) -> TissueParameters: ...
 
     @tissue.setter
@@ -4583,6 +4609,18 @@ class ProjectBatchImageResult:
 
     @property
     def pixel_sha256(self) -> str: ...
+
+    @property
+    def inferred_blocks(self) -> int: ...
+
+    @property
+    def hashed_blocks(self) -> int: ...
+
+    @property
+    def verified_blocks(self) -> int: ...
+
+    @property
+    def stream_bytes(self) -> int: ...
 
     @property
     def objects(self) -> int: ...

@@ -34,8 +34,11 @@ int execute(const std::vector<std::string>& args) {
             "Pixel export: --block-size N --work-bytes N --tile-size N --file-bytes N\n"
             "              --max-pixels N --max-blocks N --min-vote NUMBER\n"
             "              --window X,Y,WIDTH,HEIGHT --replace-existing\n"
-            "--kind od|stains|tissue|cells  --image ID (repeatable)\n"
+            "--kind od|stains|tissue|cells|pixels  --image ID (repeatable)\n"
             "--object ID (repeatable, requires one --image)\n"
+            "Pixel batches: --pixel-model MODEL --block-size N --pixel-work-bytes N\n"
+            "               --pixel-file-bytes N --pixel-total-bytes N --min-vote NUMBER\n"
+            "               --max-pixels N --max-blocks N (per target)\n"
             "--white R,G,B  --stains R,G,B,R,G,B[,R,G,B]  --normalized\n"
             "--threshold NUMBER  --level INTEGER  --tile-size INTEGER\n"
             "--continue-on-error  --no-resume  --publish-cells  --nucleus\n"
@@ -50,10 +53,18 @@ int execute(const std::vector<std::string>& args) {
         if(args.size()==4 && args[1]=="--export-csv") {save_batch_checkpoint_csv(args[2],args[3]);return 0;}
         if(args.size()<3 || args[1].rfind("--",0)==0) throw std::invalid_argument("expected PROJECT and OUTPUT_DIRECTORY; see --help");
         ProjectBatchOptions options;std::vector<ProjectBatchSelection> selection;std::vector<std::uint64_t> objects;
-        ColorVector white{255,255,255};std::vector<ColorVector> stains{{.65,.70,.29},{.07,.99,.11}};bool normalized=false;
+        std::optional<std::size_t> requested_tile_size;std::string pixel_model_path;ColorVector white{255,255,255};std::vector<ColorVector> stains{{.65,.70,.29},{.07,.99,.11}};bool normalized=false;
         for(std::size_t i=3;i<args.size();++i) {
             const auto& flag=args[i];auto value=[&]()->const std::string& {if(++i==args.size()) throw std::invalid_argument("missing value for "+flag);return args[i];};
-            if(flag=="--kind") {const auto& v=value();if(v=="od" || v=="stains") {options.kind=ProjectBatchKind::Roi;options.roi_kind=v=="od"?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans;}else if(v=="tissue") options.kind=ProjectBatchKind::Tissue;else if(v=="cells") options.kind=ProjectBatchKind::Cells;else throw std::invalid_argument("unknown batch kind");}
+            if(flag=="--kind") {const auto& v=value();if(v=="od" || v=="stains") {options.kind=ProjectBatchKind::Roi;options.roi_kind=v=="od"?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans;}else if(v=="tissue") options.kind=ProjectBatchKind::Tissue;else if(v=="cells") options.kind=ProjectBatchKind::Cells;else if(v=="pixels") options.kind=ProjectBatchKind::Pixels;else throw std::invalid_argument("unknown batch kind");}
+            else if(flag=="--pixel-model") pixel_model_path=value();
+            else if(flag=="--block-size") options.pixels.block_size=static_cast<std::size_t>(integer(value()));
+            else if(flag=="--pixel-work-bytes") options.pixels.prediction.work_bytes=static_cast<std::size_t>(integer(value()));
+            else if(flag=="--pixel-file-bytes") options.pixel_file_limit=integer(value());
+            else if(flag=="--pixel-total-bytes") options.pixel_total_limit=integer(value());
+            else if(flag=="--max-pixels") options.pixels.max_pixels=integer(value());
+            else if(flag=="--max-blocks") options.pixels.max_blocks=integer(value());
+            else if(flag=="--min-vote") options.pixels.prediction.min_vote_fraction=real(value());
             else if(flag=="--image") selection.push_back({integer(value()),{}});
             else if(flag=="--object") objects.push_back(integer(value()));
             else if(flag=="--white") {const auto v=numbers(value());if(v.size()!=3) throw std::invalid_argument("white requires three components");std::copy(v.begin(),v.end(),white.begin());}
@@ -61,7 +72,7 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--normalized") normalized=true;
             else if(flag=="--threshold") options.cells.threshold=options.tissue.threshold=real(value());
             else if(flag=="--level") {const auto& v=value();if(v=="-1") options.cells.level=options.tissue.level=-1;else {auto n=integer(v);if(n>INT32_MAX) throw std::invalid_argument("level exceeds int32");options.cells.level=options.tissue.level=static_cast<std::int32_t>(n);}}
-            else if(flag=="--tile-size") options.roi_tile_size=options.cells.tile_size=options.tissue.tile_size=static_cast<std::size_t>(integer(value()));
+            else if(flag=="--tile-size") requested_tile_size=static_cast<std::size_t>(integer(value()));
             else if(flag=="--snapshot-bytes") options.snapshot_budget=static_cast<std::size_t>(integer(value()));
             else if(flag=="--materialize-bytes") options.materialize_budget=static_cast<std::size_t>(integer(value()));
             else if(flag=="--result-bytes") options.result_budget=static_cast<std::size_t>(integer(value()));
@@ -75,6 +86,8 @@ int execute(const std::vector<std::string>& args) {
         }
         if(!objects.empty()) {if(selection.size()!=1) throw std::invalid_argument("--object requires exactly one --image");selection[0].object_ids=objects;}
         if(normalized && stains.size()!=3) throw std::invalid_argument("--normalized requires a complete nine-component basis");
+        if(requested_tile_size) {if(options.kind==ProjectBatchKind::Pixels) options.pixels.prediction.tile_size=*requested_tile_size;else options.roi_tile_size=options.cells.tile_size=options.tissue.tile_size=*requested_tile_size;}
+        if(!pixel_model_path.empty()) {if(options.kind!=ProjectBatchKind::Pixels) throw std::invalid_argument("--pixel-model requires --kind pixels");options.pixel_model=load_pixel_classifier(pixel_model_path,&cancelled);}
         const auto transform=normalized?StainTransform::from_normalized({stains[0],stains[1],stains[2]},white):StainTransform(stains,white);options.validate();
         auto project=Project::open(args[1]);ProjectBatchRequest request(*project,transform,selection,options);project.reset();
         const auto report=run_project_batch(request,args[2],&cancelled,[](const auto& image){std::cout<<project_batch_image_json(image)<<'\n'<<std::flush;});

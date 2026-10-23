@@ -1,9 +1,10 @@
 #pragma once
 #include "qupathxx/project.hpp"
 #include "qupathxx/cells.hpp"
+#include "qupathxx/pixel_stream.hpp"
 #include <functional>
 namespace qpx {
-enum class ProjectBatchKind { Roi, Tissue, Cells };
+enum class ProjectBatchKind { Roi, Tissue, Cells, Pixels };
 enum class ProjectBatchFailure { Stop, Continue };
 struct ProjectBatchOptions {
     ProjectBatchKind kind=ProjectBatchKind::Roi;
@@ -14,6 +15,9 @@ struct ProjectBatchOptions {
     std::size_t roi_tile_size=256,snapshot_budget=256*1024*1024,materialize_budget=512*1024*1024,result_budget=256*1024*1024,csv_limit=64*1024*1024;
     std::uint64_t checkpoint_limit=1024ULL*1024*1024;
     TissueParameters tissue;CellParameters cells;
+    std::optional<PixelClassifier> pixel_model;
+    PixelStreamOptions pixels;
+    std::uint64_t pixel_file_limit=1ULL<<40,pixel_total_limit=1ULL<<40;
     void validate() const;
 };
 struct ProjectBatchSelection {std::uint64_t image_id=0;std::vector<std::uint64_t> object_ids;};
@@ -28,6 +32,7 @@ private:
 struct ProjectBatchImageResult {
     std::uint64_t image_id=0;std::string image_name,state,path,error,input_sha256,pixel_sha256;
     std::size_t objects=0,records=0;double elapsed_ms=0;
+    std::uint64_t inferred_blocks=0,hashed_blocks=0,verified_blocks=0,stream_bytes=0;
 };
 struct ProjectBatchReport {
     std::string state="idle",error,report_path,parameters_sha256,source_identity;

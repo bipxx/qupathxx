@@ -1,5 +1,6 @@
 #include "qupathxx/project_batch.hpp"
 #include "qupathxx/input_digest.hpp"
+#include "qupathxx/pixel_stream_file.hpp"
 #include "qupathxx/object_classifier_archive.hpp"
 #include "object_forest_fixture.hpp"
 #include <filesystem>
@@ -41,6 +42,20 @@ int main() {
         Project many;many.add_document(doc,"first");auto other=std::make_shared<Document>(Image(32,24,std::vector<std::uint8_t>(32*24*3,32)));other->add_rectangle({0,0,16,16});many.add_document(other,"second");
         ProjectBatchRequest multi(many,t);cancelled.store(false);auto interrupted=run_project_batch(multi,(root/"interrupted").u8string(),&cancelled,[&](const auto& item){if(item.state=="saved") cancelled.store(true);});
         check(interrupted.state=="cancelled" && interrupted.saved==1);cancelled.store(false);auto restarted=run_project_batch(multi,(root/"interrupted").u8string(),&cancelled);check(restarted.state=="succeeded" && restarted.reused==1 && restarted.saved==1);
+        PixelFeatureOptions features;features.sigmas={0,1};std::vector<std::pair<std::string,std::string>> schema;for(const auto& f:pixel_feature_schema(features,t)) schema.emplace_back(f.name,f.unit);
+        ProjectBatchOptions pixels;pixels.kind=ProjectBatchKind::Pixels;pixels.pixel_model=PixelClassifier(ForestModel::from_bytes(qpx_test::object_forest_fixture(schema)),features,t,PixelResolution{});pixels.pixels.block_size=16;pixels.pixels.prediction.tile_size=16;pixels.pixels.prediction.work_bytes=8*1024*1024;
+        const ProjectBatchRequest pixel_request(p,t,{},pixels);const auto prior=doc->revision();auto pixel_saved=run_project_batch(pixel_request,(root/"pixels").u8string());
+        if(pixel_saved.state!="succeeded") throw std::runtime_error(pixel_saved.error+(pixel_saved.images.empty()?"":pixel_saved.images[0].error));
+        check(pixel_saved.saved==1 && pixel_saved.images[0].records==1 && pixel_saved.images[0].inferred_blocks>0 && !pixel_saved.images[0].hashed_blocks && doc->revision()==prior && !doc->pixel_stream_record_count());
+        const auto pixel_path=pixel_saved.images[0].path;const auto pixel_project=Project::open(pixel_path);const auto links=pixel_project->document(image)->pixel_stream_records();check(links.size()==1);
+        PixelStreamFile pixel_file(links[0]->link->path());pixel_file.verify();check(pixel_file.link()->same_content(*links[0]->link));
+        const auto reused=run_project_batch(pixel_request,(root/"pixels").u8string());check(reused.state=="succeeded" && reused.reused==1 && reused.images[0].path==pixel_path && reused.images[0].inferred_blocks==0 && reused.images[0].hashed_blocks==pixel_saved.images[0].inferred_blocks && reused.images[0].verified_blocks==reused.images[0].hashed_blocks);
+        check(batch_checkpoint_csv(pixel_path).find("class_pixels")!=std::string::npos);
+        {std::fstream file(fs::u8path(links[0]->link->path()),std::ios::binary|std::ios::in|std::ios::out);file.seekp(-1,std::ios::end);file.put('X');}
+        check(run_project_batch(pixel_request,(root/"pixels").u8string()).state=="failed");
+        pixels.resume=false;check(run_project_batch(ProjectBatchRequest(p,t,{},pixels),(root/"pixels").u8string()).saved==1);
+        pixels.pixel_total_limit=4096;const auto limited=run_project_batch(ProjectBatchRequest(p,t,{},pixels),(root/"pixel-limit").u8string());check(limited.state=="failed");
+        std::size_t retained=0;for(const auto& e:fs::recursive_directory_iterator(root/"pixel-limit")) if(e.path().extension()==".qps" || e.path().filename()=="result.qpxproj") ++retained;check(retained==0);
         fs::remove_all(root);std::cout<<"Batch workflows, snapshot, restart, invalidation, bounds, CSV and cancellation passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

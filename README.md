@@ -79,6 +79,8 @@ QuPath port or a compatible replacement for Java QuPath.
   descriptors, with explicit verified reopen and relinking in the inspector.
   [Hash-only input scans](docs/pixel-input-digests.md) compare captured source
   inputs with verified streams without running forest inference.
+  [Resumable project pixel batches](docs/project-pixel-batches.md) export pinned
+  models across project targets and reuse fully verified image bundles.
   Research validation and large-batch
   frame budgets remain unfinished;
   see also the

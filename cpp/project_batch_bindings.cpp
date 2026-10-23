@@ -8,13 +8,14 @@
 namespace nb=nanobind;using namespace nb::literals;
 void bind_project_batch(nb::module_& m) {
     using namespace qpx;
-    nb::enum_<ProjectBatchKind>(m,"ProjectBatchKind").value("ROI",ProjectBatchKind::Roi).value("TISSUE",ProjectBatchKind::Tissue).value("CELLS",ProjectBatchKind::Cells);
+    nb::enum_<ProjectBatchKind>(m,"ProjectBatchKind").value("ROI",ProjectBatchKind::Roi).value("TISSUE",ProjectBatchKind::Tissue).value("CELLS",ProjectBatchKind::Cells).value("PIXELS",ProjectBatchKind::Pixels);
     nb::enum_<ProjectBatchFailure>(m,"ProjectBatchFailure").value("STOP",ProjectBatchFailure::Stop).value("CONTINUE",ProjectBatchFailure::Continue);
     nb::class_<ProjectBatchOptions>(m,"ProjectBatchOptions").def(nb::init<>())
         .def_rw("kind",&ProjectBatchOptions::kind).def_rw("failure",&ProjectBatchOptions::failure).def_rw("roi_kind",&ProjectBatchOptions::roi_kind).def_rw("object_kind",&ProjectBatchOptions::object_kind)
         .def_rw("nucleus",&ProjectBatchOptions::nucleus).def_rw("resume",&ProjectBatchOptions::resume).def_rw("publish_cells",&ProjectBatchOptions::publish_cells)
         .def_rw("roi_tile_size",&ProjectBatchOptions::roi_tile_size).def_rw("snapshot_budget",&ProjectBatchOptions::snapshot_budget).def_rw("materialize_budget",&ProjectBatchOptions::materialize_budget)
         .def_rw("result_budget",&ProjectBatchOptions::result_budget).def_rw("csv_limit",&ProjectBatchOptions::csv_limit).def_rw("checkpoint_limit",&ProjectBatchOptions::checkpoint_limit)
+        .def_rw("pixel_model",&ProjectBatchOptions::pixel_model).def_rw("pixels",&ProjectBatchOptions::pixels).def_rw("pixel_file_limit",&ProjectBatchOptions::pixel_file_limit).def_rw("pixel_total_limit",&ProjectBatchOptions::pixel_total_limit)
         .def_rw("tissue",&ProjectBatchOptions::tissue).def_rw("cells",&ProjectBatchOptions::cells).def("validate",&ProjectBatchOptions::validate);
     nb::class_<ProjectBatchSelection>(m,"ProjectBatchSelection").def(nb::init<>()).def_rw("image_id",&ProjectBatchSelection::image_id).def_rw("object_ids",&ProjectBatchSelection::object_ids);
     nb::class_<ProjectBatchRequest>(m,"ProjectBatchRequest")
@@ -24,6 +25,7 @@ void bind_project_batch(nb::module_& m) {
     nb::class_<ProjectBatchImageResult>(m,"ProjectBatchImageResult")
         .def_ro("image_id",&ProjectBatchImageResult::image_id).def_ro("image_name",&ProjectBatchImageResult::image_name).def_ro("state",&ProjectBatchImageResult::state)
         .def_ro("path",&ProjectBatchImageResult::path).def_ro("error",&ProjectBatchImageResult::error).def_ro("input_sha256",&ProjectBatchImageResult::input_sha256).def_ro("pixel_sha256",&ProjectBatchImageResult::pixel_sha256)
+        .def_ro("inferred_blocks",&ProjectBatchImageResult::inferred_blocks).def_ro("hashed_blocks",&ProjectBatchImageResult::hashed_blocks).def_ro("verified_blocks",&ProjectBatchImageResult::verified_blocks).def_ro("stream_bytes",&ProjectBatchImageResult::stream_bytes)
         .def_ro("objects",&ProjectBatchImageResult::objects).def_ro("records",&ProjectBatchImageResult::records).def_ro("elapsed_ms",&ProjectBatchImageResult::elapsed_ms);
     nb::class_<ProjectBatchReport>(m,"ProjectBatchReport")
         .def_ro("state",&ProjectBatchReport::state).def_ro("error",&ProjectBatchReport::error).def_ro("report_path",&ProjectBatchReport::report_path).def_ro("parameters_sha256",&ProjectBatchReport::parameters_sha256)

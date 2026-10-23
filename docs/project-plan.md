@@ -2950,5 +2950,72 @@ measured RSS, project-batch reuse, vendor-slide or hardware acceptance.
 
 Packet85 implementation commit: `01765da93fa0441529cec84c699cac77c2d90845`.
 Hosted [run 39914212056](https://github.com/bipxx/qupathxx/actions/runs/39914212056)
-targets that exact commit and is queued. The evidence above is local validation;
-no hosted packet85 pass is claimed yet.
+targets that exact commit and passes all five jobs. The
+[hosted report](benchmarks/pixel-input-digest-ci-windows-linux.json) verifies
+1,754 GUI, 1,411 Windows headless and 1,405 Linux headless Python passes, all
+25 input-digest cases on all Python platforms, native 39/38 checks, exact
+wheel/native/source identities and portable digest equality with the local
+1024² fixture. Expected optional skips remain recorded. Project pixel batches
+are later work and are not covered by that run.
+
+
+### Packet 86: resumable project pixel batches
+
+The native batch engine adds a pinned-model pixel-stream workflow with shared
+Python, standalone CLI and ImGui entry points. Each image uses an exclusively
+owned bundle with per-target atomic QPS1 outputs. Full verification precedes
+schema10 descriptor adoption and publication of the final checkpoint project.
+Only that final project marks an image complete. The original project is not
+mutated. Class-count CSV and terminal per-image inference/hash/verification
+block counters use the existing batch report and failure-policy contracts.
+
+Resume validates the parameter manifest, stable project identity/generation,
+serialized input, canonical checkpoint data, target/model/layout descriptors,
+every saved QPS block and a fresh non-consuming current-source hash scan. The
+checkpoint guard remains active throughout reuse; its data is scanned once.
+Descriptors are read without loading a second embedded image. Session project
+revisions reset on reopen and remain audit fields rather than pixel cache keys,
+so Python and the CLI can share equal saved inputs. Generated output paths are
+relative to the image bundle. Incomplete and foreign directories are ignored;
+normal cancellation cleans only known outputs owned by the current worker.
+
+The [workflow contract](project-pixel-batches.md) documents resource limits,
+parameter capture, file corruption policy, interrupted restart, CSV paths and
+GUI/CLI controls. Generic ROI/tissue/cell manifests and workflows remain intact.
+Project-wide pixel batch export and verified image-level resume are implemented
+by this packet. Intra-image block resume, orphan reclamation, output packaging,
+stitched contours, unmatched-grid resampling, expanded readers/features, TMA,
+research/QuPath comparisons, release/support and all other outstanding M0–M7
+requirements remain open.
+
+
+The [final local report](benchmarks/project-pixel-batch-local-windows-linux.json)
+verifies 1,786 installed Python passes with six expected skips, all 25 new API
+and six new GUI cases without skips, 71 focused passes (one opt-in viewer skip),
+39 GUI native and 38 Windows headless/Linux training/minimal/core-sanitizer
+passes. An additional project-enabled ASan/UBSan configuration passes all 38,
+exercising the new checkpoint/SQLite paths. Exact stubs, strict typing,
+installed software-GL/standalone launch and wheel/native/source identities pass.
+
+The two-image synthetic probes take 1521.5/6406.6ms fresh and 391.2/1536.4ms on
+verified resume at 1024²/2048² per image (3.89×/4.17× observed). Resume infers
+zero blocks and verifies every output. All128/512 Windows blocks match direct
+window inference. Capture estimates are 6,459,620/25,333,988bytes; producer work
+stays 1,352,748bytes and per-block arrays at 147,456bytes. These are single shared
+workstation observations, not RSS/vendor/network/hardware acceptance.
+
+Linux exports and reuses the same Windows-created source/model. Both checkpoint
+projects reopen on Windows, and all 128 block numeric/input hashes and label/
+valid/vote arrays match Windows output. Windows Ctrl+Break and Linux SIGINT
+interrupt active QPS temporary files, exit 130, retain source/model bytes and
+leave no incomplete output. The real [desktop capture](images/project-pixel-batch.png)
+shows successful two-image completion, unchanged document revisions/source
+project bytes, and zero UI overflow; viewer preferences can dirty the project.
+
+Development evidence is retained: a CSV test initially allowed 4 KiB rather than
+one byte; a nested bundle exposed Windows temporary-name overflow; fresh and
+reused paths used different equivalent Windows spellings; and cross-entry-point
+reuse exposed a session revision reset despite equal inputs/manifests. The final
+regressions retain exact path/cross-entry-point assertions. Small-target default
+block reuse now validates the file's effective canonical step. Final evidence
+uses the frozen final5 wheel, including the last path/revision/layout fixes.

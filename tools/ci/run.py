@@ -191,6 +191,10 @@ def main():
         work/'pixel-stream-read-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_input_digest.py', '--output', work/'pixel-input-digest-benchmark.json'],
         work/'pixel-input-digest-benchmark.log', env, 120)
+    run([test_python, '-I', ROOT/'tools/benchmark_project_pixel_batch.py', '--work', work/'project-pixel-batch', '--output', work/'project-pixel-batch-benchmark.json'],
+        work/'project-pixel-batch-benchmark.log', env, 180)
+    run([test_python, '-I', ROOT/'tools/probe_project_pixel_batch_cancel.py', '--work', work/'pixel-batch-interrupt', '--output', work/'pixel-batch-interrupt.json'],
+        work/'pixel-batch-interrupt.log', env, 90)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_cli.py', '--work', work/'pixel-stream-cli', '--output', work/'pixel-stream-cli-benchmark.json'],
         work/'pixel-stream-cli-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_records.py', '--file', work/'pixel-stream-file.qps', '--project', work/'pixel-stream-links.qpxproj', '--output', work/'pixel-stream-record-benchmark.json'],

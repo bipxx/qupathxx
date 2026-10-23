@@ -1,5 +1,6 @@
 #include "qupathxx/project_batch.hpp"
 #include "qupathxx/input_digest.hpp"
+#include "qupathxx/pixel_stream_file.hpp"
 #include "qupathxx/cell_tables.hpp"
 #include "qupathxx/measurement_tables.hpp"
 #include "qupathxx/stain_estimation.hpp"
@@ -28,16 +29,16 @@ std::string hash(const std::string& s) {Sha256 h;h.update(s.data(),s.size());ret
 std::string real(double n) {std::ostringstream s;s.imbue(std::locale::classic());s<<std::setprecision(17)<<n;return s.str();}
 std::string vector(const ColorVector& v) {return '['+real(v[0])+','+real(v[1])+','+real(v[2])+']';}
 std::string error_text(const std::exception& e) {std::string s=e.what();try {detail::bounded_utf8(s,32768);} catch(...) {return "batch operation failed (error text is not bounded UTF-8)";}return s;}
-fs::path access_path(const fs::path& path) {
+fs::path access_path(const fs::path& path,bool extended=false) {
 #ifdef _WIN32
     auto value=fs::absolute(path).lexically_normal().native();
-    if(value.size()>240 && value.rfind(L"\\\\?\\",0)!=0) {
+    if((extended || value.size()>240) && value.rfind(L"\\\\?\\",0)!=0) {
         if(value.rfind(L"\\\\",0)==0) value=L"\\\\?\\UNC\\"+value.substr(2);
         else value=L"\\\\?\\"+value;
     }
     return fs::path(value);
 #else
-    return path;
+    (void)extended;return path;
 #endif
 }
 bool plain(const fs::path& path,bool directory) {
@@ -72,6 +73,45 @@ struct Work {
         std::error_code e;for(const auto* name:{"input.qpxproj","result.qpxproj"}) for(const auto* suffix:{"","-journal","-wal","-shm"}) {if(!plain(path,true)) return;fs::remove(path/(std::string(name)+suffix),e);if(e) return;}fs::remove(path/"owner",e);if(!e) fs::remove(path,e);
     } catch(...) {}}
 };
+class PixelBatchBundle {
+    std::string owner_;
+    bool committed_=false;
+    std::vector<std::filesystem::path> outputs_;
+public:
+    std::filesystem::path path;
+    PixelBatchBundle(const std::filesystem::path& root,std::size_t count):owner_(token()) {
+        outputs_.reserve(count);path=access_path(root/("pixels-"+owner_),true);
+        if(!std::filesystem::create_directory(path)) throw std::runtime_error("cannot create pixel batch bundle");
+        std::ofstream file(path/"owner",std::ios::binary);file<<"qupathxx pixel batch 1\n"<<owner_;file.close();
+        if(!file) {std::error_code error;std::filesystem::remove(path/"owner",error);std::filesystem::remove(path,error);throw std::runtime_error("cannot mark pixel batch bundle");}
+    }
+    PixelBatchBundle(const PixelBatchBundle&)=delete;
+    static bool owned(const std::filesystem::path& root) {
+        const auto name=root.filename().u8string();if(name.size()!=39 || name.rfind("pixels-",0)!=0) return false;
+        for(std::size_t i=7;i<name.size();++i) if(!((name[i]>='0' && name[i]<='9') || (name[i]>='a' && name[i]<='f'))) return false;
+        if(!plain(root,true) || !plain(root/"owner",false)) return false;
+        const auto expected="qupathxx pixel batch 1\n"+name.substr(7);std::ifstream file(root/"owner",std::ios::binary);
+        std::string bytes(expected.size()+1,'\0');file.read(bytes.data(),static_cast<std::streamsize>(bytes.size()));
+        return !file.bad() && file.gcount()==static_cast<std::streamsize>(expected.size()) && bytes.compare(0,expected.size(),expected)==0;
+    }
+    std::filesystem::path output(std::uint64_t id) const {return path/("object-"+std::to_string(id)+".qps");}
+    void saved(std::filesystem::path output) {outputs_.push_back(std::move(output));}
+    void commit() noexcept {committed_=true;}
+    ~PixelBatchBundle() {
+        if(committed_) return;
+        try {
+            if(!owned(path)) return;
+            if(std::filesystem::exists(path/"result.qpxproj")) return;
+            std::error_code error;
+            for(const auto& output:outputs_) {if(!plain(path,true)) return;if(plain(output,false)) {std::filesystem::remove(output,error);if(error) return;}}
+            // A published completion marker wins even if an exception prevented
+            // the owner's final state update. Unknown files are never removed.
+            if(std::filesystem::exists(path/"result.qpxproj")) return;
+            for(const auto& entry:std::filesystem::directory_iterator(path)) if(entry.path().filename()!="owner") return;
+            std::filesystem::remove(path/"owner",error);if(!error) std::filesystem::remove(path,error);
+        } catch(...) {}
+    }
+};
 void publish(const fs::path& source,const fs::path& destination,const std::atomic<bool>* c) {
     detail::export_checkpoint(c);
 #ifdef _WIN32
@@ -93,6 +133,9 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
     s<<"{\"schema\":\"qpx.batch-parameters/1\",\"kind\":"<<int(o.kind)<<",\"roi_kind\":"<<int(o.roi_kind)<<",\"object_kind\":"<<int(o.object_kind)<<",\"nucleus\":"<<(o.nucleus?"true":"false")<<",\"publish_cells\":"<<(o.publish_cells?"true":"false")<<",\"roi_tile_size\":"<<o.roi_tile_size<<",\"model_sha256\":"<<batch_json_quote(stain_model_sha256(t))<<",\"white\":"<<vector(t.white())<<",\"stains\":["<<vector(t.stains()[0])<<','<<vector(t.stains()[1])<<','<<vector(t.stains()[2])<<']';
     s<<",\"tissue\":{\"feature\":"<<int(p.feature)<<",\"threshold\":"<<p.threshold<<",\"connectivity\":"<<p.connectivity<<",\"level\":"<<p.level<<",\"open_radius\":"<<p.open_radius<<",\"close_radius\":"<<p.close_radius<<",\"fill_holes\":"<<(p.fill_holes?"true":"false")<<",\"max_hole_pixels\":"<<p.max_hole_pixels<<",\"min_pixels\":"<<p.min_pixels<<",\"max_pixels\":"<<p.max_pixels<<",\"tile_size\":"<<p.tile_size<<",\"max_components\":"<<p.max_components<<",\"work_bytes\":"<<p.work_bytes<<'}';
     s<<",\"cells\":{\"feature\":"<<int(c.feature)<<",\"threshold\":"<<c.threshold<<",\"sigma\":"<<c.sigma<<",\"min_peak_radius\":"<<c.min_peak_radius<<",\"min_seed_distance\":"<<c.min_seed_distance<<",\"cell_expansion\":"<<c.cell_expansion<<",\"min_nucleus_pixels\":"<<c.min_nucleus_pixels<<",\"max_nucleus_pixels\":"<<c.max_nucleus_pixels<<",\"connectivity\":"<<c.connectivity<<",\"level\":"<<c.level<<",\"tile_size\":"<<c.tile_size<<",\"max_cells\":"<<c.max_cells<<",\"work_bytes\":"<<c.work_bytes<<",\"contours\":{\"clip_to_roi\":"<<(c.contours.clip_to_roi?"true":"false")<<",\"max_components\":"<<c.contours.max_components<<",\"max_edges\":"<<c.contours.max_edges<<",\"max_vertices\":"<<c.contours.max_vertices<<",\"work_bytes\":"<<c.contours.work_bytes<<"}}";
+    if(o.kind==ProjectBatchKind::Pixels) {const auto& v=o.pixels;
+        s<<",\"pixels\":{\"model_sha256\":"<<batch_json_quote(o.pixel_model->sha256())<<",\"block_size\":"<<v.block_size<<",\"tile_size\":"<<v.prediction.tile_size<<",\"work_bytes\":"<<v.prediction.work_bytes<<",\"min_vote_fraction\":"<<v.prediction.min_vote_fraction<<",\"max_pixels\":"<<v.max_pixels<<",\"max_blocks\":"<<v.max_blocks<<",\"file_limit\":"<<o.pixel_file_limit<<",\"total_limit\":"<<o.pixel_total_limit<<'}';
+    }
     s<<",\"environment\":{\"app_version\":"<<batch_json_quote(e->app_version)<<",\"source_tree_sha256\":"<<batch_json_quote(e->source_tree_sha256)<<",\"compiler\":"<<batch_json_quote(e->compiler)<<",\"compiler_flags\":"<<batch_json_quote(e->compiler_flags)<<",\"configuration\":"<<batch_json_quote(e->configuration)<<",\"platform\":"<<batch_json_quote(e->platform)<<",\"geos_version\":"<<batch_json_quote(e->geos_version)<<",\"openslide_version\":"<<batch_json_quote(e->openslide_version)<<",\"sqlite_version\":"<<batch_json_quote(e->sqlite_version)<<"}}";
     auto value=s.str();if(value.size()>512*1024) throw std::length_error("batch parameter manifest exceeds limit");return value;
 }
@@ -105,22 +148,27 @@ struct ProjectBatchRequest::Data {
     explicit Data(const StainTransform& t):transform(t) {}
 };
 void ProjectBatchOptions::validate() const {
-    if(kind!=ProjectBatchKind::Roi && kind!=ProjectBatchKind::Tissue && kind!=ProjectBatchKind::Cells) throw std::invalid_argument("invalid batch kind");
+    if(kind!=ProjectBatchKind::Roi && kind!=ProjectBatchKind::Tissue && kind!=ProjectBatchKind::Cells && kind!=ProjectBatchKind::Pixels) throw std::invalid_argument("invalid batch kind");
     if(failure!=ProjectBatchFailure::Stop && failure!=ProjectBatchFailure::Continue) throw std::invalid_argument("invalid batch failure policy");
     if(roi_kind!=AnalysisKind::OpticalDensityMeans && roi_kind!=AnalysisKind::StainMeans) throw std::invalid_argument("invalid batch ROI kind");
     if(object_kind!=ObjectKind::Annotation && object_kind!=ObjectKind::Detection && object_kind!=ObjectKind::Cell) throw std::invalid_argument("invalid batch object kind");
     if(roi_tile_size<16 || roi_tile_size>1024 || !snapshot_budget || snapshot_budget>4ULL*1024*1024*1024 || !materialize_budget || materialize_budget>4ULL*1024*1024*1024 || !result_budget || result_budget>768ULL*1024*1024 || !csv_limit || csv_limit>256ULL*1024*1024 || checkpoint_limit<4096 || checkpoint_limit>4ULL*1024*1024*1024) throw std::invalid_argument("invalid batch resource limits");
+    pixels.validate();
+    if(pixel_file_limit<4096 || pixel_file_limit>(64ULL<<40) || pixel_total_limit<4096 || pixel_total_limit>(64ULL<<40)) throw std::invalid_argument("invalid pixel batch file limits");
+    if(kind==ProjectBatchKind::Pixels && (!pixel_model || nucleus || publish_cells)) throw std::invalid_argument("pixel batch requires a model and body ROIs without cell publication");
     tissue.validate();cells.validate();if(kind==ProjectBatchKind::Cells && nucleus) throw std::invalid_argument("cell batch uses body source ROIs");if(publish_cells && (kind!=ProjectBatchKind::Cells || !has_geos())) throw std::invalid_argument("cell publication requires a cells batch and native geometry");
 }
 ProjectBatchRequest::ProjectBatchRequest(const Project& project,const StainTransform& transform,const std::vector<ProjectBatchSelection>& selection,ProjectBatchOptions options) {
     const auto start=Clock::now();if(!has_project()) throw std::runtime_error("project batch requires project storage");options.validate();if(selection.size()>10000 || (selection.empty() && project.entries_.size()>10000)) throw std::length_error("batch exceeds 10000 images");
-    auto d=std::make_shared<Data>(transform);d->options=options;d->json=parameters(options,transform);d->sha=hash(d->json);auto chosen=selection;if(chosen.empty()) for(const auto& [id,e]:project.entries_) chosen.push_back({id,{}});
+    const auto& actual_transform=options.kind==ProjectBatchKind::Pixels?options.pixel_model->transform():transform;auto d=std::make_shared<Data>(actual_transform);d->options=options;if(options.kind!=ProjectBatchKind::Pixels) d->options.pixel_model.reset();d->json=parameters(options,actual_transform);d->sha=hash(d->json);auto chosen=selection;if(chosen.empty()) for(const auto& [id,e]:project.entries_) chosen.push_back({id,{}});
     std::sort(chosen.begin(),chosen.end(),[](const auto& a,const auto& b){return a.image_id<b.image_id;});std::set<std::uint64_t> ids;std::size_t charge=sizeof(Data)+65536+d->json.capacity()+d->sha.capacity();
+    if(options.kind==ProjectBatchKind::Pixels) charge+=4ULL*options.pixel_model->bytes().size()+64ULL*options.pixel_model->forest().node_count()+65536;
     for(auto& item:chosen) {
         if(!ids.insert(item.image_id).second) throw std::invalid_argument("duplicate batch image selection");const auto& doc=*project.entry(item.image_id).document;
         if(item.object_ids.size()>100000) throw std::length_error("batch object selection exceeds limit");
         if(item.object_ids.empty()) {for(const auto& [id,a]:doc.objects()) if(a.kind==options.object_kind && a.geometry.is_area()) item.object_ids.push_back(id);}
         else {std::sort(item.object_ids.begin(),item.object_ids.end());item.object_ids.erase(std::unique(item.object_ids.begin(),item.object_ids.end()),item.object_ids.end());for(auto id:item.object_ids) if(!doc.annotation(id).geometry.is_area()) throw std::invalid_argument("batch source must have an area ROI");}
+        if(options.kind==ProjectBatchKind::Pixels && item.object_ids.size()>10000-doc.pixel_stream_record_count()) throw std::length_error("pixel batch exceeds per-image stream catalog limit");
         if(item.object_ids.size()>100000-d->objects) throw std::length_error("batch exceeds 100000 source objects");d->objects+=item.object_ids.size();charge+=sizeof(ProjectBatchSelection)+item.object_ids.capacity()*sizeof(std::uint64_t);
     }
     if(charge>=options.snapshot_budget) throw std::length_error("batch capture exceeds snapshot budget");std::size_t bytes=0;d->snapshot=project.snapshot_for_save(options.snapshot_budget-charge,bytes,&ids);d->bytes=bytes+charge;d->selections=std::move(chosen);d->capture=std::chrono::duration<double,std::milli>(Clock::now()-start).count();data_=std::move(d);
@@ -137,6 +185,31 @@ struct ProjectBatchKernel {
         value+=4ULL*(d.metadata().levels.size()*sizeof(ImageLevel)+d.metadata().vendor.size()+d.server()->source_locator().size());
         for(const auto& item:d.classes_) value+=4ULL*(sizeof(ObjectClass)+128+item.first.size()+item.second.name.size());return value;
     }
+    static void verify_pixels(const fs::path& candidate,const Document& source,const ProjectBatchSelection& item,const ProjectBatchOptions& o,const std::string& expected,std::size_t budget,ProjectBatchImageResult& stats,const std::atomic<bool>* c) {
+        std::set<std::uint64_t> old;for(const auto& r:source.pixel_stream_records()) old.insert(r->id);
+        std::size_t index=0;std::uint64_t bytes=0,generated=0;Sha256 inputs;const std::string tag="qpx.batch-pixels/1";inputs.update(tag.data(),tag.size());
+        for(const auto& r:detail::batch_pixel_records(access_path(candidate).u8string(),item.image_id,old,budget,c)) {
+            detail::export_checkpoint(c);
+            if(index>=item.object_ids.size()) throw std::invalid_argument("pixel batch checkpoint has extra output records");
+            const auto retained=r->payload_bytes();if(retained>o.result_budget-generated) throw std::length_error("pixel checkpoint descriptors exceed result budget");generated+=retained;
+            const auto id=item.object_ids[index++];const auto& link=*r->link;const auto path=access_path(candidate.parent_path()/("object-"+std::to_string(id)+".qps"));
+            if(access_path(fs::u8path(link.path())).lexically_normal()!=path.lexically_normal() || link.object_id()!=id || link.model_sha256()!=o.pixel_model->sha256() || link.windowed() || double(link.block_size())!=std::min(double(o.pixels.block_size),std::max(link.level_bounds().width,link.level_bounds().height))) throw std::invalid_argument("pixel batch output descriptor does not match target/model/bundle");
+            if(!plain(path,false) || link.summary().bytes>o.pixel_total_limit-bytes) throw std::length_error("pixel batch output is not plain or exceeds total file limit");
+            PixelStreamFile file(path.u8string(),std::min(o.pixel_file_limit,o.pixel_total_limit-bytes));file.verify(c);
+            if(!file.link()->same_content(link)) throw std::invalid_argument("pixel batch output differs from its saved descriptor");
+            bytes+=file.declared_summary().bytes;stats.stream_bytes+=file.declared_summary().bytes;stats.verified_blocks+=file.declared_summary().blocks;const auto input=file.input_sha256();inputs.integer(id);inputs.update(input.data(),input.size());
+        }
+        if(index!=item.object_ids.size() || inputs.finish()!=expected) throw std::invalid_argument("pixel batch output input digest does not match current source");
+    }
+    static std::string pixel_csv(const Document& doc,const std::vector<std::uint64_t>& records,const ProjectBatchOptions& o) {
+        std::string csv="object_id,record_id,path,model_sha256,content_sha256,blocks,valid_pixels,classified_pixels,class_index,class_name,class_pixels\r\n";
+        auto append=[&](const std::string& row) {if(csv.size()>o.csv_limit || row.size()>o.csv_limit-csv.size()) throw std::length_error("pixel batch CSV exceeds byte limit");csv+=row;};
+        for(const auto id:records) {const auto& r=*doc.pixel_stream_record(id);const auto& l=*r.link;const auto& v=l.summary();
+            const auto prefix=std::to_string(l.object_id())+','+std::to_string(id)+','+csv_quote(fs::u8path(l.path()).filename().u8string())+','+csv_quote(l.model_sha256())+','+csv_quote(v.sha256)+','+std::to_string(v.blocks)+','+std::to_string(v.valid_pixels)+','+std::to_string(v.classified_pixels)+',';
+            for(std::size_t i=0;i<v.class_counts.size();++i) append(prefix+std::to_string(i+1)+','+csv_quote(o.pixel_model->classes()[i])+','+std::to_string(v.class_counts[i])+"\r\n");
+        }
+        if(csv.size()>o.csv_limit) throw std::length_error("pixel batch CSV exceeds byte limit");return csv;
+    }
     static ProjectBatchReport run(const ProjectBatchRequest& request,const std::string& directory,const std::atomic<bool>* c,Progress* progress,const std::function<void(const ProjectBatchImageResult&)>& sink) {
         const auto started=Clock::now();const auto& d=*request.data_;const auto& o=d.options;ProjectBatchReport report;report.parameters_sha256=d.sha;report.source_identity=d.snapshot->identity_;report.source_generation=d.snapshot->generation_;report.source_revision=d.snapshot->revision_;report.snapshot_bytes=d.bytes;report.capture_ms=d.capture;std::size_t report_bytes=65536+d.selections.size()*sizeof(ProjectBatchImageResult);report.images.reserve(d.selections.size());
         auto phase=[&](int p){if(progress) progress->phase.store(p);};auto check=[&]{detail::export_checkpoint(c);};fs::path root;
@@ -148,29 +221,49 @@ struct ProjectBatchKernel {
                     phase(1);if(cost(*input.document,input.info.embedded)>o.materialize_budget) throw std::length_error("batch image exceeds materialization budget");Work work(root);
                     Project isolated;isolated.identity_=d.snapshot->identity_;isolated.next_id_=d.snapshot->next_id_;isolated.active_image_=item.image_id;isolated.entries_.emplace(item.image_id,input);const auto view=d.snapshot->views_.find(item.image_id);if(view!=d.snapshot->views_.end()) isolated.views_.emplace(*view);
                     isolated.save_impl((work.path/"input.qpxproj").u8string(),"",c);result.input_sha256=fingerprint_file((work.path/"input.qpxproj").u8string(),{},c)->sha256;
-                    const auto spec=hash(d.sha+result.input_sha256+std::to_string(report.source_generation)+":"+std::to_string(report.source_revision));const auto folder=root/("image-"+std::to_string(item.image_id)+"-"+spec);fs::create_directories(folder);if(!plain(folder,true)) throw std::runtime_error("batch image output must be a plain directory");
-                    Project::LoadProgress load;load.external_cancelled=c;auto project=Project::open_impl((work.path/"input.qpxproj").u8string(),false,"",&load);auto doc=project->document(item.image_id);doc->set_history_limits(0,0);check();
+                    const auto spec=hash(d.sha+result.input_sha256+std::to_string(report.source_generation)+":"+std::to_string(o.kind==ProjectBatchKind::Pixels?0:report.source_revision));const auto folder=root/("image-"+std::to_string(item.image_id)+"-"+spec);fs::create_directories(folder);if(!plain(folder,true)) throw std::runtime_error("batch image output must be a plain directory");
+                    Project::LoadProgress load;load.external_cancelled=c;auto project=Project::open_impl((work.path/"input.qpxproj").u8string(),false,"",&load);auto doc=project->document(item.image_id);doc->set_history_limits(0,0);check();std::unique_ptr<PixelBatchBundle> bundle;std::uint64_t stream_bytes=0;
                     auto pixel_stream=[&](bool compute,std::vector<std::uint64_t>& records,std::uint64_t& generated) {
                         Sha256 pixels;const std::string tag="qpx.batch-pixels/1";pixels.update(tag.data(),tag.size());
                         for(auto id:item.object_ids) {check();std::string digest;std::uint64_t record=0,bytes=0;
-                            if(o.kind==ProjectBatchKind::Roi) {AnalysisRequest r(*doc,id,d.transform,o.roi_kind,o.nucleus,o.roi_tile_size);if(compute) {auto value=analyze(r,c);digest=value.input_sha256;record=doc->keep_analysis(r,value);bytes=doc->analysis_record(record).payload_bytes();}else digest=input_sha256(r,c);}
+                            if(o.kind==ProjectBatchKind::Pixels) {
+                                PixelPredictionStream stream(*doc,id,*o.pixel_model,o.pixels);
+                                if(compute) {
+                                    if(!bundle) bundle=std::make_unique<PixelBatchBundle>(folder,item.object_ids.size());
+                                    auto path=bundle->output(id);if(o.pixel_total_limit-stream_bytes<4096) throw std::length_error("pixel batch exceeds total file limit");
+                                    const auto value=save_pixel_stream(stream,path.u8string(),false,std::min(o.pixel_file_limit,o.pixel_total_limit-stream_bytes),c);bundle->saved(std::move(path));stream_bytes+=value.bytes;result.inferred_blocks+=value.blocks;
+                                    PixelStreamFile file(bundle->output(id).u8string(),o.pixel_file_limit);file.verify(c);digest=file.input_sha256();result.verified_blocks+=file.declared_summary().blocks;result.stream_bytes+=file.declared_summary().bytes;
+                                    record=doc->keep_pixel_stream(file.link(),"Pixel batch");bytes=doc->pixel_stream_record(record)->payload_bytes();
+                                } else {digest=stream.input_sha256(c);result.hashed_blocks+=stream.total_blocks();}
+                            }
+                            else if(o.kind==ProjectBatchKind::Roi) {AnalysisRequest r(*doc,id,d.transform,o.roi_kind,o.nucleus,o.roi_tile_size);if(compute) {auto value=analyze(r,c);digest=value.input_sha256;record=doc->keep_analysis(r,value);bytes=doc->analysis_record(record).payload_bytes();}else digest=input_sha256(r,c);}
                             else if(o.kind==ProjectBatchKind::Tissue) {TissueRequest r(*doc,id,d.transform,o.tissue,o.nucleus);if(compute) {auto value=detect_tissue(r,c);digest=value->input_sha256();record=doc->keep_tissue(r,value);bytes=doc->tissue_record(record)->payload_bytes();}else digest=input_sha256(r,c);}
                             else {CellRequest r(*doc,id,d.transform,o.cells);if(compute) {auto value=detect_cells(r,c);digest=value->nuclei()->input_sha256();record=doc->keep_cells(r,value);bytes=doc->cell_record(record)->payload_bytes();if(o.publish_cells) {const auto extra=4ULL*value->retained_bytes()+value->features().size()*512ULL;if(cost(*doc,input.info.embedded)>o.materialize_budget || extra>o.materialize_budget-cost(*doc,input.info.embedded)) throw std::length_error("cell publication exceeds batch materialization budget");doc->publish_cell_record(record);}}else digest=input_sha256(r,c);}
                             pixels.integer(id);pixels.update(digest.data(),digest.size());
                             if(compute) {if(bytes>o.result_budget-generated) throw std::length_error("batch image exceeds result budget");generated+=bytes;records.push_back(record);if(cost(*doc,input.info.embedded)>o.materialize_budget) throw std::length_error("batch results exceed materialization budget");if(progress) progress->objects.fetch_add(1);}
                         }check();return pixels.finish();
                     };
+                    std::optional<detail::BatchCheckpoint> cached_meta;std::unique_ptr<detail::ReaderFileGuard> cached_guard;
                     auto find=[&](const std::string& digest)->fs::path {
+                        if(o.kind==ProjectBatchKind::Pixels) {
+                            std::size_t count=0;for(const auto& entry:fs::directory_iterator(folder)) {check();if(++count>100000) throw std::length_error("pixel batch directory exceeds entry limit");
+                                const auto path=access_path(entry.path(),true);if(!PixelBatchBundle::owned(path) || !plain(path/"result.qpxproj",false)) continue;
+                                const auto file=path/"result.qpxproj";if(fs::file_size(file)>o.checkpoint_limit) throw std::length_error("pixel batch checkpoint exceeds byte limit");
+                                auto guard=std::make_unique<detail::ReaderFileGuard>(file.u8string());auto meta=detail::read_batch_checkpoint(file.u8string(),c,false,o.csv_limit);guard->verify();
+                                if(meta.pixel_sha256==digest) {cached_meta=std::move(meta);cached_guard=std::move(guard);return file;}
+                            }return {};
+                        }
                         const auto preferred=folder/(digest+".qpxproj");if(fs::exists(preferred)) return preferred;
                         std::vector<fs::path> names;std::size_t count=0;for(const auto& e:fs::directory_iterator(folder)) {check();if(++count>100000) throw std::length_error("batch checkpoint directory exceeds entry limit");const auto n=e.path().filename().u8string();if(n.rfind(digest+"-",0)==0 && n.size()==105 && n.substr(n.size()-8)==".qpxproj" && plain(e.path(),false)) names.push_back(e.path());}
                         if(names.empty()) return {};std::sort(names.begin(),names.end());return names.front();
                     };
-                    bool candidates=false;if(o.resume) {std::size_t count=0;for(const auto& e:fs::directory_iterator(folder)) {check();if(++count>100000) throw std::length_error("batch checkpoint directory exceeds entry limit");const auto n=e.path().filename().u8string();if((n.size()==72 || n.size()==105) && n.substr(n.size()-8)==".qpxproj") {candidates=true;break;}}}
+                    bool candidates=false;if(o.resume) {std::size_t count=0;for(const auto& e:fs::directory_iterator(folder)) {check();if(++count>100000) throw std::length_error("batch checkpoint directory exceeds entry limit");const auto n=e.path().filename().u8string();if(o.kind==ProjectBatchKind::Pixels?(PixelBatchBundle::owned(access_path(e.path())) && plain(access_path(e.path())/"result.qpxproj",false)):((n.size()==72 || n.size()==105) && n.substr(n.size()-8)==".qpxproj")) {candidates=true;break;}}}
                     if(candidates) {
                         phase(2);std::vector<std::uint64_t> unused;std::uint64_t bytes=0;const auto digest=pixel_stream(false,unused,bytes);const auto candidate=find(digest);
                         if(!candidate.empty()) {
-                            phase(5);if(!plain(candidate,false) || fs::file_size(candidate)>o.checkpoint_limit) throw std::length_error("batch checkpoint is not plain or exceeds byte limit");detail::ReaderFileGuard guard(access_path(candidate).u8string());const auto meta=detail::read_batch_checkpoint(access_path(candidate).u8string(),c,false,o.csv_limit);guard.verify();
-                            if(meta.parameters_sha256!=d.sha || meta.input_sha256!=result.input_sha256 || meta.pixel_sha256!=digest || meta.image_id!=std::to_string(item.image_id) || meta.source_identity!=report.source_identity || meta.source_generation!=report.source_generation || meta.source_revision!=report.source_revision || meta.objects!=item.object_ids.size() || meta.generated_bytes>o.result_budget) throw std::invalid_argument("batch checkpoint does not match this request");
+                            phase(5);if(!plain(candidate,false) || fs::file_size(candidate)>o.checkpoint_limit) throw std::length_error("batch checkpoint is not plain or exceeds byte limit");auto guard=cached_guard?std::move(cached_guard):std::make_unique<detail::ReaderFileGuard>(access_path(candidate).u8string());const auto meta=cached_meta?std::move(*cached_meta):detail::read_batch_checkpoint(access_path(candidate).u8string(),c,false,o.csv_limit);guard->verify();
+                            if(meta.parameters_sha256!=d.sha || meta.input_sha256!=result.input_sha256 || meta.pixel_sha256!=digest || meta.image_id!=std::to_string(item.image_id) || meta.source_identity!=report.source_identity || meta.source_generation!=report.source_generation || (o.kind!=ProjectBatchKind::Pixels && meta.source_revision!=report.source_revision) || meta.objects!=item.object_ids.size() || meta.generated_bytes>o.result_budget) throw std::invalid_argument("batch checkpoint does not match this request");
+                            if(o.kind==ProjectBatchKind::Pixels) {if(cost(*doc,input.info.embedded)+meta.generated_bytes*2>o.materialize_budget) throw std::length_error("pixel checkpoint exceeds materialization budget");verify_pixels(candidate,*doc,item,o,digest,o.materialize_budget-cost(*doc,input.info.embedded),result,c);guard->verify();}
                             result.pixel_sha256=digest;result.path=access_path(candidate).u8string();result.records=item.object_ids.size();result.state="reused";++report.reused;if(progress) progress->objects.fetch_add(item.object_ids.size());
                         }
                     }
@@ -178,10 +271,15 @@ struct ProjectBatchKernel {
                         phase(3);std::vector<std::uint64_t> records;std::uint64_t generated=0;result.pixel_sha256=pixel_stream(true,records,generated);result.records=records.size();detail::BatchCheckpoint meta;meta.parameters_sha256=d.sha;meta.input_sha256=result.input_sha256;meta.pixel_sha256=result.pixel_sha256;meta.source_identity=report.source_identity;meta.source_generation=report.source_generation;meta.source_revision=report.source_revision;meta.image_id=std::to_string(item.image_id);meta.image_name=input.info.name;meta.parameters_json=d.json;meta.objects=item.object_ids.size();meta.generated_bytes=generated;meta.max_file_bytes=o.checkpoint_limit;meta.source_locator=input.info.source_path;
                         if(const auto source=doc->server()->reader_source()) if(source->primary) meta.source_file_identity=source->primary->identity;
                         std::string table;Document empty(Image(1,1,{0,0,0}));const auto& table_doc=records.empty()?empty:*doc;
-                        if(o.kind==ProjectBatchKind::Cells) {CellTableOptions options;options.require_current=true;options.byte_limit=o.csv_limit;options.snapshot_budget=o.materialize_budget>512*1024*1024?512*1024*1024:o.materialize_budget;table=cell_measurements_csv(CellTableRequest(table_doc,records,options),c);}
+                        if(o.kind==ProjectBatchKind::Pixels) table=pixel_csv(*doc,records,o);
+                        else if(o.kind==ProjectBatchKind::Cells) {CellTableOptions options;options.require_current=true;options.byte_limit=o.csv_limit;options.snapshot_budget=o.materialize_budget>512*1024*1024?512*1024*1024:o.materialize_budget;table=cell_measurements_csv(CellTableRequest(table_doc,records,options),c);}
                         else {MeasurementTableOptions options;options.require_current=true;options.byte_limit=o.csv_limit;options.snapshot_budget=o.materialize_budget>512*1024*1024?512*1024*1024:o.materialize_budget;table=measurements_csv(MeasurementTableRequest(table_doc,o.kind==ProjectBatchKind::Roi?MeasurementTableKind::Roi:MeasurementTableKind::Tissue,records,options),c);}
                         const auto prefix=csv_quote(report.source_identity)+','+std::to_string(report.source_generation)+','+std::to_string(report.source_revision)+','+std::to_string(item.image_id)+','+csv_quote(input.info.name)+',';meta.csv=with_context(table,prefix,o.csv_limit);
-                        phase(4);const auto file=work.path/"result.qpxproj";project->save_impl(file.u8string(),folder.u8string(),c,nullptr,&meta);check();auto destination=folder/(result.pixel_sha256+".qpxproj");if(fs::exists(destination)) destination=folder/(result.pixel_sha256+"-"+token()+".qpxproj");publish(file,destination,c);result.path=access_path(destination).u8string();result.state="saved";++report.saved;
+                        phase(4);const auto file=work.path/"result.qpxproj";
+                        if(o.kind==ProjectBatchKind::Pixels && !bundle) bundle=std::make_unique<PixelBatchBundle>(folder,item.object_ids.size());
+                        const auto destination_folder=bundle?bundle->path:folder;project->save_impl(file.u8string(),destination_folder.u8string(),c,nullptr,&meta);check();
+                        auto destination=bundle?bundle->path/"result.qpxproj":folder/(result.pixel_sha256+".qpxproj");if(!bundle && fs::exists(destination)) destination=folder/(result.pixel_sha256+"-"+token()+".qpxproj");
+                        publish(file,destination,c);if(bundle) bundle->commit();result.path=access_path(destination).u8string();result.state="saved";++report.saved;
                     }
                 } catch(const std::exception& e) {if(c && c->load()) throw;result.state="failed";result.error=error_text(e);result.records=0;++report.failed;}
                 result.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-image_start).count();const auto bytes=result.image_name.capacity()+result.path.capacity()+result.error.capacity()+result.input_sha256.capacity()+result.pixel_sha256.capacity()+result.state.capacity();if(bytes>64*1024*1024-report_bytes) throw std::length_error("batch report exceeds memory limit");report_bytes+=bytes;report.images.push_back(result);if(progress) progress->images.store(report.images.size());if(sink) sink(result);
@@ -197,7 +295,7 @@ struct ProjectBatchKernel {
     }
 };
 ProjectBatchReport run_project_batch(const ProjectBatchRequest& request,const std::string& output,const std::atomic<bool>* c,const std::function<void(const ProjectBatchImageResult&)>& sink) {return ProjectBatchKernel::run(request,output,c,nullptr,sink);}
-std::string project_batch_image_json(const ProjectBatchImageResult& r) {return "{\"schema\":\"qpx.batch-image/1\",\"image_id\":"+std::to_string(r.image_id)+",\"image_name\":"+batch_json_quote(r.image_name)+",\"state\":"+batch_json_quote(r.state)+",\"path\":"+batch_json_quote(r.path)+",\"error\":"+batch_json_quote(r.error)+",\"input_sha256\":"+batch_json_quote(r.input_sha256)+",\"pixel_sha256\":"+batch_json_quote(r.pixel_sha256)+",\"objects\":"+std::to_string(r.objects)+",\"records\":"+std::to_string(r.records)+",\"elapsed_ms\":"+real(r.elapsed_ms)+"}";}
+std::string project_batch_image_json(const ProjectBatchImageResult& r) {return "{\"schema\":\"qpx.batch-image/1\",\"image_id\":"+std::to_string(r.image_id)+",\"image_name\":"+batch_json_quote(r.image_name)+",\"state\":"+batch_json_quote(r.state)+",\"path\":"+batch_json_quote(r.path)+",\"error\":"+batch_json_quote(r.error)+",\"input_sha256\":"+batch_json_quote(r.input_sha256)+",\"pixel_sha256\":"+batch_json_quote(r.pixel_sha256)+",\"objects\":"+std::to_string(r.objects)+",\"records\":"+std::to_string(r.records)+",\"inferred_blocks\":"+std::to_string(r.inferred_blocks)+",\"hashed_blocks\":"+std::to_string(r.hashed_blocks)+",\"verified_blocks\":"+std::to_string(r.verified_blocks)+",\"stream_bytes\":"+std::to_string(r.stream_bytes)+",\"elapsed_ms\":"+real(r.elapsed_ms)+"}";}
 std::string project_batch_report_json(const ProjectBatchReport& r) {
     std::string s="{\"schema\":\"qpx.project-batch/1\",\"state\":"+batch_json_quote(r.state)+",\"error\":"+batch_json_quote(r.error)+",\"report_path\":"+batch_json_quote(r.report_path)+",\"parameters_sha256\":"+batch_json_quote(r.parameters_sha256)+",\"source_identity\":"+batch_json_quote(r.source_identity)+",\"source_generation\":"+std::to_string(r.source_generation)+",\"source_revision\":"+std::to_string(r.source_revision)+",\"saved\":"+std::to_string(r.saved)+",\"reused\":"+std::to_string(r.reused)+",\"failed\":"+std::to_string(r.failed)+",\"snapshot_bytes\":"+std::to_string(r.snapshot_bytes)+",\"capture_ms\":"+real(r.capture_ms)+",\"elapsed_ms\":"+real(r.elapsed_ms)+",\"images\":[";
     bool first=true;for(const auto& image:r.images) {if(!first) s+=',';first=false;s+=project_batch_image_json(image);if(s.size()>64*1024*1024) throw std::length_error("batch report exceeds byte limit");}return s+"]}\n";

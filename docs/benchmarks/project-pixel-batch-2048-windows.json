@@ -1,0 +1,46 @@
+{
+  "schema": "qpx.project-pixel-batch-benchmark/1",
+  "size": 2048,
+  "images": 2,
+  "capture_ms": 0.18420000560581684,
+  "fresh_ms": 6406.550700077787,
+  "resume_ms": 1536.4296999759972,
+  "observed_speedup": 4.1697649428267844,
+  "snapshot_bytes": 25333988,
+  "snapshot_budget": 268435456,
+  "producer_budget": 8388608,
+  "estimated_producer_work_bytes": 1352748,
+  "max_block_array_bytes": 147456,
+  "verified": [
+    {
+      "image_id": 1,
+      "blocks": 256,
+      "inferred_on_resume": 0,
+      "stream_bytes": 37802537,
+      "input_sha256": "2e1a9386dc4ee2a063f9cab1fb5c394f9ad075dbc19b375be2ac05df0389b050",
+      "file_sha256": "83a7204069ec28a4b49d8ef916d339f6276725bead97bfe8e4c064fa9763398f",
+      "content_sha256": "e1a0525321bf3a5bb0dff93e1c4e3066dbd52f4652dfd392712c391a2c39c2e1"
+    },
+    {
+      "image_id": 2,
+      "blocks": 256,
+      "inferred_on_resume": 0,
+      "stream_bytes": 37802537,
+      "input_sha256": "a3ac7d5f61d0c9e27b087fd41dd4b9f2723033822994cf7f6b88df0e88b173e8",
+      "file_sha256": "65d9ce3375ebf86b6bddc8156e844587baf195a50f4b0b7847a6be635039834b",
+      "content_sha256": "10a3784a2669f14808cf4389ae0d876a73c6565780a69ff3f5e39e6deea5bd6a"
+    }
+  ],
+  "parameters_sha256": "739cad8ca94c6d24ded3e45bfbb0220aecc340aab891772c98b5d85b5e058e68",
+  "model_sha256": "486b62c984dedb49bcaac40b7b7863e55ffc29346c96ee2e12e65feff6c0c96c",
+  "source_project_sha256": "741fbed601067cce9e2b8e1b61029763de498517e89d8769da30d9a4e1121c1c",
+  "native_sha256": "9ec6ce026dd96b53dc2efcaa1cf38b7ffe0cd46abe9c597a406b83946dd4adc0",
+  "environment": {
+    "source_tree_sha256": "b05270479700e9431e52ae46dd23e5f36a8a50e5eeac479c111397e404f41bfb",
+    "git_revision": "199d1e0d741b24f0fb5cc1a687c3bff855234eae+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "scope": "Two synthetic embedded RGB images, one target each, portable fixture model, shared workstation. Fresh includes inference, full QPS verification and atomic image checkpoints. Resume includes input snapshot serialization, hash-only source scan, checkpoint checksum and full saved-output verification; zero inferred blocks. Every block compared with direct window inference and source/model/output bytes retained. No measured RSS, vendor/network storage throughput, hardware/frame budget or biological acceptance."
+}
