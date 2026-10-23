@@ -3789,3 +3789,56 @@ The defined engineering scope is accepted for main promotion; four scientific
 expected failures remain per Python cohort. Physical radii, resampling, biology,
 hardware, current-candidate portable/Mac qualification and every other open
 M0–M7 requirement remain separate gates. Release readiness stays false.
+
+
+## Packet105: queued physical cell analysis in the managed viewer
+
+`ViewerSession.cells_with_nucleus_area_limits` copies native bounds, transform
+and sampled parameters at submission, then resolves image/ROI calibration on the
+viewer owner when the command executes. It uses the existing background native
+detector, archive publication, cancellation, result budgets and ticket lifecycle.
+Invalid numeric ranges reject without consuming a ticket. Missing calibration
+fails the executing ticket without archiving a run. Calibration changes after
+capture reject stale publication; archived replay retains its frozen recipe.
+
+The initial new native test exposed packet 103's calibration-staleness gap.
+That failure is retained and the shared request fix is validated. Linux passes
+42 native suites, 114 focused Python cases (13 optional skips), matching stubs,
+strict positive/negative typing, runtime relocation and installed workflows.
+Its full regression passes 1,688 cases with 396 optional skips and four strict
+scientific expected failures. The two new Python-producer desktop tests cover
+cell/export/save/reopen and missing-unit failure; they remain pending on Windows.
+Desktop/full Windows and hosted acceptance are pending. This candidate does not
+complete broader live commands, external model adapters, scientific/hardware
+acceptance or the remaining M0–M7 requirements.
+
+
+Packet-105 Windows focused validation now passes 43 native suites and 147
+Python/desktop cases, matching installed stubs and strict positive/negative
+typing. All seven new command cases pass, including producer-thread detection,
+export/save/reopen and missing-unit failure without a new record. Both platforms
+use source-content fingerprint 9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1.
+The Linux full 1,688-pass result stands; Windows full regression is running.
+Hosted run 40025778794 at 201bd8ed266d4803defd7321390b930cafe9dcb7 remains
+pending. Main promotion, scientific/hardware and all other open gates remain open.
+
+
+Packet-105 local validation is complete: Windows full regression passes 2,074
+tests (10 optional skips and four scientific expected failures), alongside Linux
+1,688 passes (396 optional skips and the same four failures). The Windows native,
+installed, 147 focused desktop/Python, stubs and typing checks pass. Hosted
+acceptance and its artifact audit remain pending at run 40025778794; main
+promotion and all other open M0–M7 requirements remain separate gates.
+
+
+Packet 105 hosted acceptance is complete at source
+201bd8ed266d4803defd7321390b930cafe9dcb7, run 40025778794. All five jobs pass
+and the artifact audit verifies seven new command cases on desktop (five headless
+passes plus two explicit desktop skips), all 22 physical-area cases, three
+physical-area desktop cases, native/installed/standalone identities, runtime
+relocation, full reader workflows, stubs and strict positive/negative typing.
+Windows desktop passes 2,073 Python/43 native, Windows headless 1,688/42, Linux
+headless 1,686/42, and minimal/sanitizer each pass 42 native suites. The completed
+desktop frame is visually inspected. The engineering scope is accepted for main
+promotion. Four scientific expected failures remain per Python cohort; broader
+commands/adapters, biology, hardware, portable/Mac and release gates remain open.

@@ -77,6 +77,38 @@ Embedded callers can initialize `GuiOptions.cell_min_nucleus_area_um2` and
 `cell_max_nucleus_area_um2`. Project batch presets expose the same options; using
 image analysis settings captures the current inspector's physical limits.
 
+Managed live-viewer producers can submit the same workflow:
+
+```python
+ticket = session.cells_with_nucleus_area_limits(
+    image_id, annotation_id, transform,
+    minimum_um2=10.1, maximum_um2=100.0,
+    parameters=parameters, retain_result=True,
+)
+event = session.wait(ticket, timeout_seconds=30)
+if event.state in ("queued", "running"):
+    raise TimeoutError("Cell detection is still pending; retain the ticket to poll it")
+event = session.take(ticket)
+if event.state != "succeeded":
+    raise RuntimeError(event.error)
+print(event.record_id, event.cells.cell_count)
+```
+
+The producer submits copied native bounds, transform and sampled parameters;
+it does not access the viewer's live document. The owner resolves physical
+limits against the image/ROI and calibration when the command starts. A queued
+command therefore observes document changes made before execution. Changes
+after capture use the existing stale-result rejection and publish no new run.
+Invalid numeric ranges reject before allocating a ticket; unknown calibration
+fails the executing ticket. A successful command archives the resolved recipe
+even when `retain_result=False`; that flag controls the event's retained cell
+result. Consume terminal tickets with `take` to reclaim endpoint storage.
+Existing `session.cells` retains its ordinary sampled-parameter behavior.
+
+The managed-viewer extension has separate [artifact acceptance](benchmarks/viewer-cell-area-limits-ci-windows-linux.json).
+The physical-request receipts below identify their own source; the additional
+command receipt identifies its tested native/Python owner path.
+
 This adds physical nucleus area filtering. Blur, peak/seed distance and cell
 expansion still use sampled pixels. Arbitrary resampling, physical radii, QuPath
 segmentation agreement and biological validation remain separate requirements.
@@ -112,3 +144,17 @@ Published receipt-file hashes bind Git-committed UTF-8 LF bytes. Separate
 capture bytes; canonical JSON hashes preserve content identity across line-ending
 normalization. Native, wheel, fixture and downloaded artifact hashes continue to
 bind their original binary/file bytes.
+
+
+The managed-viewer [Linux](benchmarks/viewer-cell-area-limits-linux.json) and
+[Windows](benchmarks/viewer-cell-area-limits-windows.json) records bind full local
+regressions of 1,688 and 2,074 passes, respectively. Its [hosted artifact audit](benchmarks/viewer-cell-area-limits-ci-windows-linux.json)
+accepts source `201bd8ed266d4803defd7321390b930cafe9dcb7`, run 40025778794.
+All five jobs pass: desktop has 2,073 Python/43 native passes, Windows headless
+1,688/42, Linux headless 1,686/42, and minimal/sanitizer configurations each pass
+42 native suites. All seven additional command cases pass desktop; five pass
+headless with two desktop-only skips. The 22 physical-area cases and three
+physical-area GUI cases retain their passing scope. Four scientific expected
+failures remain per Python cohort. The defined engineering scope is accepted;
+broader commands/adapters, science, hardware, portable/Mac and release gates
+remain open.

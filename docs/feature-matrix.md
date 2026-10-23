@@ -108,3 +108,40 @@ The defined engineering scope is accepted for main promotion; four scientific
 expected failures remain per Python cohort. Physical radii, resampling, biology,
 hardware, current-candidate portable/Mac qualification and every other open
 M0–M7 requirement remain separate gates. Release readiness stays false.
+
+
+The packet-105 managed-viewer candidate queues calibrated cell-area requests
+through copied native data and owner-side resolution/publication. Linux full
+regression, native lifecycle/staleness and typed queue checks pass; desktop and
+hosted acceptance remain pending. See the [platform receipt](benchmarks/viewer-cell-area-limits-linux.json).
+
+
+Packet-105 Windows focused validation now passes 43 native suites and 147
+Python/desktop cases, matching installed stubs and strict positive/negative
+typing. All seven new command cases pass, including producer-thread detection,
+export/save/reopen and missing-unit failure without a new record. Both platforms
+use source-content fingerprint 9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1.
+The Linux full 1,688-pass result stands; Windows full regression is running.
+Hosted run 40025778794 at 201bd8ed266d4803defd7321390b930cafe9dcb7 remains
+pending. Main promotion, scientific/hardware and all other open gates remain open.
+
+
+Packet-105 local validation is complete: Windows full regression passes 2,074
+tests (10 optional skips and four scientific expected failures), alongside Linux
+1,688 passes (396 optional skips and the same four failures). The Windows native,
+installed, 147 focused desktop/Python, stubs and typing checks pass. Hosted
+acceptance and its artifact audit remain pending at run 40025778794; main
+promotion and all other open M0–M7 requirements remain separate gates.
+
+
+Packet 105 hosted acceptance is complete at source
+201bd8ed266d4803defd7321390b930cafe9dcb7, run 40025778794. All five jobs pass
+and the artifact audit verifies seven new command cases on desktop (five headless
+passes plus two explicit desktop skips), all 22 physical-area cases, three
+physical-area desktop cases, native/installed/standalone identities, runtime
+relocation, full reader workflows, stubs and strict positive/negative typing.
+Windows desktop passes 2,073 Python/43 native, Windows headless 1,688/42, Linux
+headless 1,686/42, and minimal/sanitizer each pass 42 native suites. The completed
+desktop frame is visually inspected. The engineering scope is accepted for main
+promotion. Four scientific expected failures remain per Python cohort; broader
+commands/adapters, biology, hardware, portable/Mac and release gates remain open.
