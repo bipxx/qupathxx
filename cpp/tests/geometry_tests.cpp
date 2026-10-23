@@ -38,6 +38,12 @@ int main() {
                 coverage_samples+=diagonal.contains({x+.5,y+.5});
             }
             check(winding_samples==24976 && coverage_samples==25198);
+            auto grid_edges=Roi::polygon(square(0,64),{square(16,48)});
+            for(int y=-1;y<=65;++y) for(int x=-1;x<=65;++x) {
+                const bool outer=x>=0 && x<64 && y>=0 && y<64;
+                const bool inner=x>=16 && x<48 && y>=16 && y<48;
+                check(grid_edges.contains_sample({double(x),double(y)},RoiSamplingPolicy::PolygonWinding)==(outer && !inner));
+            }
             check(hole.area()==64 && hole.perimeter()==64);
             check(!hole.contains({5,5}) && hole.contains({1,1}));
             check(!hole.covers(Roi::rectangle({3,3,1,1})));
