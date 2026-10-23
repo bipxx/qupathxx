@@ -29,6 +29,8 @@ private:
     std::optional<ObjectFeatureRequest> authority_;
     std::shared_ptr<ImageServer> source_;
     friend struct PixelTrainingKernel;
+    friend struct PixelClassifierArchiveCodec;
+    friend class Document;
 };
 class PixelTrainingTable : public std::enable_shared_from_this<PixelTrainingTable> {
 public:
@@ -66,6 +68,8 @@ private:
     std::size_t work_=0;double ms_=0;
     std::string sha_,input_sha_;
     friend struct PixelTrainingKernel;
+    friend struct PixelClassifierArchiveCodec;
+    friend class Document;
 };
 std::shared_ptr<const PixelTrainingTable> sample_pixel_training(const PixelTrainingRequest&,const std::atomic<bool>* cancelled=nullptr);
 PixelClassifier train_pixel_classifier(const PixelTrainingTable&,ForestParameters=pixel_forest_parameters(),const std::atomic<bool>* cancelled=nullptr);

@@ -25,6 +25,10 @@ class ForestModel;
 class PixelClassifier;
 class PixelTrainingTable;
 class PixelPredictionResult;
+class PixelTrainingRequest;
+class PixelPredictionRequest;
+class PixelClassifierArchive;
+struct PixelClassifierRecord;
 class PixelContours;
 struct TissueContourOptions;
 struct PixelTrainingOptions;
@@ -212,6 +216,13 @@ public:
     std::size_t classifier_record_count() const {return classifiers_.size()+classifiers_snapshot_.size();}
     std::uint64_t keep_classifier_training(const ObjectFeatureRequest&,std::shared_ptr<const ObjectClassifierArchive>,std::string name="Object classifier training");
     bool remove_classifier_record(std::uint64_t id);
+    std::vector<std::shared_ptr<const PixelClassifierRecord>> pixel_classifier_records() const;
+    std::shared_ptr<const PixelClassifierRecord> pixel_classifier_record(std::uint64_t id) const;
+    std::size_t pixel_classifier_record_count() const {return pixels_.size()+pixels_snapshot_.size();}
+    std::uint64_t keep_pixel_training(const PixelTrainingRequest&,std::shared_ptr<const PixelClassifierArchive>,std::string name="Pixel classifier training");
+    std::uint64_t keep_pixel_prediction(const PixelPredictionRequest&,std::shared_ptr<const PixelClassifierArchive>,std::string name="Pixel classifier prediction");
+    bool remove_pixel_classifier_record(std::uint64_t id);
+
 private:
     friend struct ProjectBatchKernel;
     friend class Project;
@@ -298,6 +309,11 @@ private:
     std::vector<std::shared_ptr<const ObjectClassifierRecord>> classifiers_snapshot_;
     std::size_t classifiers_bytes_=0;
     void restore_classifier(std::shared_ptr<const ObjectClassifierRecord>);
+    std::map<std::uint64_t,std::shared_ptr<const PixelClassifierRecord>> pixels_;
+    std::vector<std::shared_ptr<const PixelClassifierRecord>> pixels_snapshot_;
+    std::size_t pixels_bytes_=0;
+    void restore_pixel_classifier(std::shared_ptr<const PixelClassifierRecord>);
+
     Document() = default; // Project's private save snapshots populate canonical fields only.
     static std::shared_ptr<Document> restore(std::shared_ptr<ImageServer> server,
         const std::vector<Annotation>& objects,const std::vector<ObjectClass>& classes,

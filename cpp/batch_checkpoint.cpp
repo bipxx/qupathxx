@@ -34,6 +34,7 @@ std::string data_digest(sqlite3* db,const std::atomic<bool>* c) {
     std::vector<std::pair<std::string,std::string>> tables={{"project","identity"},{"images","id"},{"levels","image_id,ordinal"},{"classes","image_id,name"},{"objects","image_id,id"},{"views","image_id"},{"analysis_records","image_id,id"},{"tissue_records","image_id,id"},{"cell_records","image_id,id"},{"cell_feature_links","image_id,object_id"},{"analysis_provenance","image_id,record_id"}};
     Row schema(db,"PRAGMA user_version");if(!schema.next()) throw std::invalid_argument("missing batch project schema");
     if(sqlite3_column_int(schema.value,0)>=8) tables.emplace_back("classifier_records","image_id,id");
+    if(sqlite3_column_int(schema.value,0)>=9) tables.emplace_back("pixel_classifier_records","image_id,id");
     for(const auto& spec:tables) {
         text(hash,spec.first,c);Row row(db,"SELECT * FROM "+spec.first+" ORDER BY "+spec.second);
         while(row.next()) {export_checkpoint(c);const auto columns=sqlite3_column_count(row.value);hash.integer(columns);

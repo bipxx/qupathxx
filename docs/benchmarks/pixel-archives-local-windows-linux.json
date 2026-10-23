@@ -1,0 +1,213 @@
+{
+  "schema": "qpx.local-validation/1",
+  "base_commit": "e3055afaaa56042fcd7e114e2a43356d1be26337",
+  "observed_utc": "2026-10-23T01:06:53.310728+00:00",
+  "scope": "Native immutable pixel training/prediction artifacts, bounded semantic/checksum decoding, original annotation geometry/revision/kind/source/build provenance, exact numeric/model/cohort identity, shared native ownership, strict retention authority and captured object counter, schema9 transactional project/recovery and async snapshots, batch materialization and integrity binding, portable Windows fixtures. Replay pointer persistence and a phase-synchronized startup lock fixture remove unrelated desktop test races. F5 artifact browser/keep/reuse, streaming/resampling, research/TMA and hardware/frame gates remain open.",
+  "python": {
+    "tests": 1503,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1497,
+    "seconds": 639.223,
+    "sha256": "52953e5c90b96214a7ed368205e989aa23e55ecd2aea09f92378e44831f32f2e"
+  },
+  "focused": {
+    "tests": 80,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 80,
+    "seconds": 43.042,
+    "sha256": "b8757e77bf865c127e7c3b787768e8fe064b04d5cc3c65acca621d0216b865a2"
+  },
+  "portable_fixtures": {
+    "tests": 3,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 3,
+    "seconds": 0.454,
+    "sha256": "667d1ad6d30fbd961fd4f57083f25da09bfffee171aa32e9f9cc62ae1712b9c5"
+  },
+  "storage_focused": {
+    "tests": 311,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 2,
+    "passed": 309,
+    "seconds": 21.226,
+    "sha256": "5d09878b40eabe2614aad576e3b78c9f78005d305f323e5a6a41b4ca80f05118"
+  },
+  "startup_focused": {
+    "tests": 18,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "passed": 17,
+    "seconds": 36.44,
+    "sha256": "2ca30cf9092cea80a914df59b575968764665fc100fb3208b38a84c31ee54718"
+  },
+  "windows_gui_native": {
+    "tests": 39,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 39,
+    "seconds": 8.0,
+    "sha256": "2e884ec1adbd39a31a3db69e973c3f6a1abd4222457a271d55642d5a3ab7d22a"
+  },
+  "windows_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 8.0,
+    "sha256": "0c8894429b4f68244b88086de7680587dff68b1d152c8c6b933880cac064252e"
+  },
+  "linux_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 1.0,
+    "sha256": "ad7311c6d53543c6ce02f85f3f8c6b2742aab5edea91f316fcba61e0a903c4e6"
+  },
+  "linux_minimal": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 0.0,
+    "sha256": "9e1623c64da39f70642c0d378b3e75b6ee2e74841548a30ea48703e311d7ea76"
+  },
+  "linux_sanitizer": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 7.0,
+    "sha256": "ca96db509b82d5297411f63a5c898eea2c3efebee15113e085a5f95c8135f769"
+  },
+  "workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "92f91319c9414efd8cddf85c422152f54a96f565dc1744285778b34b91a34b0f",
+    "source_tree_sha256": "6f0d2d988c479ad3bf35f04ea168e6be6d274b90625007c617fe544f9a89b433",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "de1a57371e545df3ae2b2f8f3fc20c74286e49e75868b79e9b44ca63f1f09fdd",
+    "bytes": 11989614
+  },
+  "opencv_notices": {
+    "qupathxx/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "qupathxx/licenses/opencv/softfloat-notice.txt": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3",
+    "qupathxx/licenses/opencv/SOURCE-NOTICES.txt": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba",
+    "qupathxx/licenses/opencv/zlib-notice.txt": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+  },
+  "benchmarks": [
+    {
+      "file": "pixel-archives-512-windows.json",
+      "sha256": "8811240dd76154b2fa15a8190fdb81765805c154530caa5954aff6c6d4d6f039"
+    },
+    {
+      "file": "pixel-archives-1024-windows.json",
+      "sha256": "afce89d4125dee398b186c8802ade5503e48222a420b81cba2cef2db6fabc66b"
+    }
+  ],
+  "portable_fixture_manifest": {
+    "file": "tests\\data\\pixel-archives\\manifest.json",
+    "sha256": "ad2a5b2bf357e1a6f8ddf2fd114bf3ef72a990b5e008be8e34b3047b5a126720"
+  },
+  "portable_fixture_files": {
+    "training-v1-windows.qpa": "834aad311d18bd18f771ed29a125cf2cc219c39aee271b1cc0c847b0648dca42",
+    "prediction-v1-windows.qpa": "10eb804a521a5a09fac6534776ee23923274a7dca8ae1686f39d84317111c7a0",
+    "rectangle-prediction-v1-windows.qpa": "a5a7b1c0cab759a43c805fd361f2e6eb2040bb4dfbc79dda29b551cdf8563ee9"
+  },
+  "linux_minimal_interop": {
+    "log_sha256": "40a602761b50693a0a03c86a8ffb85919ac7e62b8e049ee09fe11204f06dc867",
+    "verified": [
+      [
+        "834aad311d18bd18f771ed29a125cf2cc219c39aee271b1cc0c847b0648dca42",
+        "a1b8422490b0deaa47dd67e76cd486dbf31a04577d8db3f2fb75a93be1c1b54b"
+      ],
+      [
+        "a5a7b1c0cab759a43c805fd361f2e6eb2040bb4dfbc79dda29b551cdf8563ee9",
+        "1be03af237e31ce5fb14299a1993437bcb1218186cbcf7ba56e36d661fef1505"
+      ]
+    ],
+    "scope": "Windows training and rectangle prediction artifacts read and canonically re-encoded without GEOS or training backend. Polygon-with-hole fixture requires GEOS and is tested on installed Windows; hosted full-backend validation is pending."
+  },
+  "checks": {
+    "pixel76-stub-check.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "pixel76-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "pixel76-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "performance_limit": "Single synthetic shared-workstation CPU sample. Charged payload/work estimates are conservative quotas, not allocator/RSS measurements. Encoding/decoding and save writing run outside the GUI owner capture. No biological, hardware or frame-budget acceptance claim.",
+  "verification_inputs": {
+    "tests/test_pixel_archives.py": "2524e3e665f9f01a333d2a148f8375296ace5b1336f767aea49d518494d60b2b",
+    "tests/test_pixel_archive_portable.py": "d9a1f0e002799f4fe38c8202d1891d883e68c7f268ea35dc158cee8e05cb9f41",
+    "tests/startup_lock_holder.py": "2aab8ac977012fc9a41936a91645c356f962f52804b36d326da46c1b6a09007a",
+    "tests/test_gui_startup.py": "bc1059cb12629ccfe1424e0647e725c5dfb8d97f715a9871dd27f25ac0d6ab46",
+    "tests/typing/valid_api.py": "628887c0e75cb71b00ddfda286102fbb465e22fc07f348f150bb06872acf7bbc",
+    "tools/benchmark_pixel_archives.py": "16a2c20220226bc50094f2c18229e97cc6dd1fee72dc8ff15cfecdf1e985666d",
+    "tools/ci/run.py": "677988d944e55ec46185c5beb10ab9f12b10ca72af33dde95354d79ebf3cd8fd",
+    "tools/generate_stubs.py": "1215de91d7ebb928986ef03939832cc9356d34ff5f77eedaab54a7bb3d1ee5b9"
+  },
+  "investigated_preliminary_failures": [
+    {
+      "kind": "shared native ownership deadlock",
+      "description": "Without enable_shared_from_this, a Python-to-shared_ptr archive conversion retained a Python owner. Save-worker cleanup attempted the GIL while wait() held it. Stack inspection proved the wait cycle; archive/record native shared ownership and a bounded subprocess regression now pass.",
+      "stack_sha256": "bbabafe0ae2ede7439e0434517b9fd08d2abefd0fd0565f10dc467da35301994"
+    },
+    {
+      "kind": "autosave fixture",
+      "description": "The recovery fixture requested autosave immediately after a clean save; autosave correctly skipped it. The fixture now makes a project edit before requesting the immutable snapshot.",
+      "log_sha256": "f93d71bc81048966cd2dc64f3867ec089f30e87a2ff6c4dbd8de2d9338b36efb"
+    },
+    {
+      "kind": "benchmark property call",
+      "description": "The first report formatting called the row_count property as a function; corrected to a property read.",
+      "log_sha256": "3253e692a1dbbcb81ff4c17a905789f85f8f5e789283b27b4bd17db460b85e6d"
+    },
+    {
+      "kind": "startup lock timing fixture",
+      "description": "A 0.7-second lock expired during context initialization. The Win32 fixture now releases only after an owner-process frame6 resize is observed, preserving strict cancellation/drawability assertions.",
+      "log_sha256": "537ee10cd9bf5725c52dfd6d83d644c0066b6875156955b0072600f76d017e4f"
+    },
+    {
+      "kind": "replay physical-pointer interference",
+      "description": "Full-frame comparisons differed only in dock splitter hover colors (1530 pixels at x337..1101,y645..646 in one capture). The replay now retains synthetic pointer state across physical frames; complete framebuffer parity assertions remain unchanged.",
+      "log_sha256": "253f35f0266a54b4279eb02638ba6e5343ba4652ad14d8709dc2caff4295f942",
+      "immediate_sha256": "fb88ff924b4231863c807ce8723dffafa6e6fc1b91ec7bd2954aee04e1daae69",
+      "cached_sha256": "a4a8970f6927be08a42087e05d21b04a35dc08ee4465e14a888f011e110f0703"
+    }
+  ]
+}

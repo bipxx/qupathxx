@@ -1,4 +1,4 @@
-#include "qupathxx/pixel_training.hpp"
+#include "pixel_workflow_snapshot.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
 #include <algorithm>
@@ -29,15 +29,6 @@ struct Sample {std::uint64_t priority,id;std::int64_t x,y;std::vector<float> val
 bool less_sample(const Sample& a,const Sample& b) {if(a.priority!=b.priority) return a.priority<b.priority;if(a.y!=b.y) return a.y<b.y;return a.x<b.x;}
 bool close(double a,double b) {return std::isfinite(a) && std::isfinite(b) && std::abs(a-b)<=1e-9*std::max(std::abs(a),std::abs(b));}
 }
-struct PixelTrainingRequest::Data {
-    struct Row {std::uint64_t id;Roi roi;std::uint32_t label;};
-    PixelTrainingOptions options;StainTransform transform;PixelResolution resolution;
-    std::vector<Row> rows;std::vector<std::string> classes;
-    std::shared_ptr<const AnalysisProvenance> provenance;
-    ImageMetadata metadata;
-    std::size_t bytes=0;std::uint64_t revision=0;double capture_ms=0;
-    Data(PixelTrainingOptions o,const StainTransform& t):options(std::move(o)),transform(t) {}
-};
 ForestParameters pixel_forest_parameters() {ForestParameters p;p.trees=32;p.max_depth=8;return p;}
 void PixelTrainingOptions::validate() const {
     features.validate();
@@ -62,7 +53,7 @@ PixelTrainingRequest::PixelTrainingRequest(const Document& doc,const std::vector
         charge(a.geometry.payload_bytes()+a.class_name.size()+sizeof(std::string));classes.insert(a.class_name);if(classes.size()>256) throw std::invalid_argument("pixel training exceeds 256 classes");
     }
     if(classes.size()<2 || options.max_samples/classes.size()<2) throw std::invalid_argument("pixel training requires two classes and at least two samples per class");data->classes.assign(classes.begin(),classes.end());data->rows.reserve(selected.size());
-    for(auto id:selected) {const auto a=doc.annotation(id);data->rows.push_back({id,a.geometry,static_cast<std::uint32_t>(std::lower_bound(data->classes.begin(),data->classes.end(),a.class_name)-data->classes.begin())});}
+    for(auto id:selected) {const auto a=doc.annotation(id);data->rows.push_back({id,a.geometry,static_cast<std::uint32_t>(std::lower_bound(data->classes.begin(),data->classes.end(),a.class_name)-data->classes.begin()),a.revision,a.kind});}
     charge(0);if(!authority_->matches(doc)) throw std::runtime_error("document changed during pixel training capture");data->capture_ms=elapsed(start);data_=std::move(data);
 }
 bool PixelTrainingRequest::matches(const Document& doc) const {return authority_ && authority_->matches(doc);}

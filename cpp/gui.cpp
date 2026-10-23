@@ -385,6 +385,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     int frames = 0;
     std::uint64_t settle_frames=0;
     std::array<int,static_cast<std::size_t>(GuiInputTarget::PublishPixelContours)+1> target_seen;
+    std::optional<ImVec2> replay_mouse; // Hold synthetic pointer state between replay events.
     target_seen.fill(-2);
     auto mark_target=[&](GuiInputTarget target) {
         const auto* modal=ImGui::GetTopMostPopupModal();
@@ -845,8 +846,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 const auto limit=static_cast<double>(std::numeric_limits<float>::max())/4;
                 if(!std::isfinite(p.x) || !std::isfinite(p.y) || std::abs(p.x)>limit || std::abs(p.y)>limit)
                     throw std::invalid_argument("image replay position exceeds screen coordinate range");
-                input.AddMousePosEvent(previous_canvas.x+static_cast<float>(p.x),previous_canvas.y+static_cast<float>(p.y));
-            } else input.AddMousePosEvent(origin.x+static_cast<float>(event.x)*extent.x,origin.y+static_cast<float>(event.y)*extent.y);
+                replay_mouse=ImVec2{previous_canvas.x+static_cast<float>(p.x),previous_canvas.y+static_cast<float>(p.y)};
+                input.AddMousePosEvent(replay_mouse->x,replay_mouse->y);
+            } else {replay_mouse=ImVec2{origin.x+static_cast<float>(event.x)*extent.x,origin.y+static_cast<float>(event.y)*extent.y};input.AddMousePosEvent(replay_mouse->x,replay_mouse->y);}
             if(event.ctrl) input.AddKeyEvent(ImGuiMod_Ctrl,true);
             if(event.shift) input.AddKeyEvent(ImGuiMod_Shift,true);
             switch(event.kind) {
@@ -951,6 +953,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
             for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12,ImGuiKey_M,ImGuiKey_K,ImGuiKey_D,ImGuiKey_F,ImGuiKey_Q,ImGuiKey_F3}) input.AddKeyEvent(key,false);
         }
+        if(replay_mouse) input.AddMousePosEvent(replay_mouse->x,replay_mouse->y);
         replay_geometry_changed=false;
         replay.dispatch(replay_ready,replay_emit,std::chrono::steady_clock::now());
         if(suspend_window()) continue;

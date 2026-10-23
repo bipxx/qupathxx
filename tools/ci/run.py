@@ -183,6 +183,8 @@ def main():
         work/'pixel-classifier-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_workflow.py', '--output', work/'pixel-workflow-benchmark.json'],
         work/'pixel-workflow-benchmark.log', env, 120)
+    run([test_python, '-I', ROOT/'tools/benchmark_pixel_archives.py', '--output', work/'pixel-archive-benchmark.json'],
+        work/'pixel-archive-benchmark.log', env, 120)
     if args.mode == 'gui':
         run([test_python, '-I', ROOT/'tools/benchmark_gui_pixel.py', '--output', work/'gui-pixel-benchmark.json'],
             work/'gui-pixel-benchmark.log', env, 120)

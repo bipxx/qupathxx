@@ -37,6 +37,8 @@ def main():
                 if 'def annotation_ids_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint64]:')
             if current=='PixelTrainingJob':
                 for name in ['PixelClassifier','PixelTrainingTable']:line=line.replace('-> '+name+':','-> '+name+' | None:')
+            if current=='PixelClassifierArchive':
+                for name in ['PixelTrainingTable','PixelPredictionResult']:line=line.replace('-> '+name+':','-> '+name+' | None:')
             if current=='PixelContourJob':line=line.replace('-> PixelContours:', '-> PixelContours | None:')
             if current=='PixelPredictionJob':line=line.replace('-> PixelPredictionResult:','-> PixelPredictionResult | None:')
             if current=='ObjectFeatureTable' and 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')

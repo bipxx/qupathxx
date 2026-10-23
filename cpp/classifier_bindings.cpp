@@ -8,6 +8,7 @@ namespace nb=nanobind;using namespace nb::literals;
 void bind_object_classifiers(nb::module_&);
 void bind_pixel_features(nb::module_&);
 void bind_pixel_workflows(nb::module_&);
+void bind_pixel_archives(nb::module_&);
 namespace {
 using Samples=nb::ndarray<const float,nb::ndim<2>,nb::device::cpu>;
 using Labels=nb::ndarray<const std::uint32_t,nb::ndim<1>,nb::device::cpu>;
@@ -45,4 +46,5 @@ void bind_classifiers(nb::module_& m) {
     bind_object_classifiers(m);
     bind_pixel_features(m);
     bind_pixel_workflows(m);
+    bind_pixel_archives(m);
 }

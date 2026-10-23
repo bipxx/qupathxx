@@ -23,6 +23,8 @@ private:
     std::optional<ObjectFeatureRequest> authority_;
     std::shared_ptr<ImageServer> source_;
     friend struct PixelPredictionKernel;
+    friend struct PixelClassifierArchiveCodec;
+    friend class Document;
     friend class PixelPredictionResult;
 };
 class PixelPredictionResult : public std::enable_shared_from_this<PixelPredictionResult> {
@@ -60,6 +62,8 @@ private:
     std::uint64_t valid_pixels_=0,classified_pixels_=0;double ms_=0;
     std::string sha_,input_sha_;
     friend struct PixelPredictionKernel;
+    friend struct PixelClassifierArchiveCodec;
+    friend class Document;
 };
 std::shared_ptr<const PixelPredictionResult> predict_pixel_region(const PixelPredictionRequest&,const std::atomic<bool>* cancelled=nullptr);
 class PixelPredictionJob {

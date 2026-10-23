@@ -208,3 +208,9 @@ public stubs, strict typing and installed software-GL launch. It verifies exact
 source/wheel/native identities and lossless screenshot pixels. Preliminary
 replay integration and copied-input-list fixture failures are retained in the
 record, alongside the final passing runs.
+
+
+Native [retained pixel artifacts](pixel-classifier-archives.md) are available through
+the C++ and Python APIs and persist in schema-9 projects/recovery. The panel's
+artifact keep/browser/reuse actions remain open. A retained model can already
+be supplied programmatically through `GuiOptions.pixel_model`.

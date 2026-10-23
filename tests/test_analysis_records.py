@@ -171,7 +171,7 @@ def test_v2_migration_rollback_and_success(tmp_path):
     path = tmp_path/"v2.qpxproj"
     project.save(str(path))
     with sqlite3.connect(path) as db:
-        db.execute("DROP TABLE classifier_records");db.execute("DROP TABLE analysis_provenance");db.execute("DROP TABLE cell_feature_links")
+        db.execute("DROP TABLE pixel_classifier_records");db.execute("DROP TABLE classifier_records");db.execute("DROP TABLE analysis_provenance");db.execute("DROP TABLE cell_feature_links")
         db.execute("DROP TABLE cell_records")
         db.execute("DROP TABLE tissue_records")
         db.execute("DROP TABLE analysis_records")
@@ -188,7 +188,7 @@ def test_v2_migration_rollback_and_success(tmp_path):
         db.execute("DROP TRIGGER fail_migration")
     restored.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 8
+        assert db.execute("PRAGMA user_version").fetchone()[0] == 9
         assert db.execute("PRAGMA quick_check").fetchone()[0] == "ok"
 
 
@@ -239,7 +239,7 @@ def test_schema2_recovery_without_archives_remains_readable(tmp_path):
     autosave = q.ProjectAutosave()
     assert autosave.request(project, str(checkpoint)) and autosave.wait().completed == 1
     with sqlite3.connect(checkpoint) as db:
-        db.execute("DROP TABLE classifier_records");db.execute("DROP TABLE analysis_provenance");db.execute("DROP TABLE cell_feature_links")
+        db.execute("DROP TABLE pixel_classifier_records");db.execute("DROP TABLE classifier_records");db.execute("DROP TABLE analysis_provenance");db.execute("DROP TABLE cell_feature_links")
         db.execute("DROP TABLE cell_records")
         db.execute("DROP TABLE tissue_records")
         db.execute("DROP TABLE analysis_records")

@@ -2268,4 +2268,65 @@ allowlist/target-array omission and the test's copied-input-list correction.
 
 Implementation commit: `f03d1c3`. Hosted contour-UI
 [run 39873943656](https://github.com/bipxx/qupathxx/actions/runs/39873943656)
-targets that commit and is running. No hosted contour-UI pass is claimed yet.
+targets that commit and passed all five jobs. The [artifact record](benchmarks/gui-pixel-contours-ci-windows-linux.json) verifies all 24 contour/controller cases per Python platform, all 20 GUI pixel cases, native suites, typing and the real-window contour benchmark. It precedes pixel artifact persistence.
+
+
+### Packet 76 — native pixel artifacts and schema-9 persistence
+
+Added immutable `PixelClassifierArchive`/`PixelClassifierRecord` values and
+C++/nanobind preparation, byte encoding/decoding, owner retention, inspection and
+removal APIs. Original training areas retain IDs, revisions, kinds, labels and
+exact geometry; cohorts retain coordinates, owner IDs, labels, features, counts,
+options/seeds, transform/resolution and source/build provenance. Prediction
+artifacts retain the source ROI, natural grid, recipe/model, threshold, labels,
+validity and winning fractions/counts. Numeric cohort/model/mask identities are
+checked. Decoding restores no live request or publication ticket.
+
+`QPA1` artifacts and `QPR1` record envelopes enforce bounded sizes, semantic and
+checksum validation, finite/statistical constraints and canonical invalid votes.
+A 128 MiB encoding/256 MiB charged retained artifact limit and per-document
+10,000-record/256 MiB budget bound allocation. Geometry verification has an
+estimated-operation preflight cap. Retention requires exact current authority;
+the record captures the next-object counter so stored state cannot roll it back
+and reuse deleted unselected IDs. Namespace collisions and stale/decoded work
+are rejected without partial publication.
+
+Schema 9 includes native pixel records in explicit saves, recovery/autosave and
+shared immutable asynchronous snapshots. Schemas 1–8 remain readable; migration
+shares the save transaction and rolls back on failure. Batch materialization
+charges the pixel payload, and version-aware checkpoint digests bind its table.
+Synthetic Windows fixtures are canonically re-encoded on installed Windows and,
+for shapes supported without GEOS, a backend-free Linux native probe.
+
+Validation exposed a real shared-ownership/GIL wait cycle during worker cleanup:
+archives/records now preserve native shared ownership rather than a Python owner.
+A subprocess-bounded async save/recovery regression preserves this requirement.
+A clean-state autosave fixture and a benchmark property access were corrected.
+Desktop validation also exposed unrelated timed startup locking and physical
+cursor interference. The Win32 lock fixture observes a frame6 resize before
+release, and replay retains synthetic pointer state across physical frames.
+Full framebuffer parity assertions remain unchanged.
+
+The [1,024-square sample](benchmarks/pixel-archives-1024-windows.json) verifies all
+mask labels/votes and immutable captures: owner save capture 0.025 ms, native
+mask encode/decode 117/114 ms, worker save write 103 ms and reopen 144 ms. Charged
+mask payload is 19.15 MB and captured project charge 23.02 MB. These are single
+synthetic shared-workstation observations, not RSS, hardware, biological or
+frame-budget acceptance. The [artifact contract](pixel-classifier-archives.md)
+describes the supported scope and bounds.
+
+F5 retained-artifact keep/browser/reuse controls, full-slide streaming,
+viewport-limited prediction, unmatched-grid resampling, expanded features,
+TMA, research/QuPath comparisons and every other outstanding M0–M7 acceptance
+requirement remain open.
+
+
+The [local artifact record](benchmarks/pixel-archives-local-windows-linux.json)
+verifies 1,497 installed Python passes with six expected skips, all 80 focused
+archive/portable/docking/scaling cases, the 309-case storage pass with two optional
+skips, 39 Windows GUI native and 38 each Windows headless/Linux training/minimal/
+sanitizer. Exact stubs, strict positive/seven-error negative typing and installed
+software-GL launch pass. The working-source manifest, wheel/native and both
+benchmark identities agree. It preserves the shared-ownership/GIL deadlock,
+fixture/report corrections and both investigated desktop runs; the final full
+run retains every framebuffer parity assertion and passes all current cases.

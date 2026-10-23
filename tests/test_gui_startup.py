@@ -93,8 +93,9 @@ def test_locked_startup_remains_drawable_and_can_cancel_before_adoption(tmp_path
     _, path, _, _ = source(tmp_path)
     before = path.read_bytes()
     ready = tmp_path/'locked'
-    script = "import sqlite3,sys,time; from pathlib import Path; db=sqlite3.connect(sys.argv[1]); db.execute('BEGIN EXCLUSIVE'); Path(sys.argv[2]).touch(); time.sleep(.7); db.rollback(); db.close()"
-    child = subprocess.Popen([sys.executable, '-I', '-c', script, str(path), str(ready)])
+    release,painted=tmp_path/'release',tmp_path/'painted'
+    child = subprocess.Popen([sys.executable, '-I', str(Path(__file__).with_name('startup_lock_holder.py')),
+        str(path),str(ready),str(release),str(painted),str(os.getpid()),'1024','768'])
     try:
         deadline = time.monotonic()+5
         while not ready.exists() and time.monotonic() < deadline:
@@ -110,7 +111,10 @@ def test_locked_startup_remains_drawable_and_can_cancel_before_adoption(tmp_path
                 event.frame, event.kind, event.target = frame, kind, q.GuiInputTarget.CANCEL_PROJECT_LOAD
                 inputs.append(event)
             options.inputs = inputs
+        resize=q.GuiInput();resize.frame=6;resize.kind=q.GuiInputKind.RESIZE_WINDOW;resize.x=1024;resize.y=768
+        options.inputs += [resize]
         report = q.show(target, frame_limit=20, options=options)
+        if os.name=='nt':assert painted.exists()  # Actual replay progress, independent of context startup time.
         assert report.startup_frames > 5 and not report.project_error
         assert report.startup_cancelled == cancel and report.startup_succeeded != cancel
         if cancel:
@@ -120,7 +124,9 @@ def test_locked_startup_remains_drawable_and_can_cancel_before_adoption(tmp_path
             assert target.images and report.project_replacements == 1 and report.uploaded_tiles > 0
         assert path.read_bytes() == before
     finally:
+        release.touch()
         child.wait(timeout=5)
+        assert child.returncode==0
 
 
 

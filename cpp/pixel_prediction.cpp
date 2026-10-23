@@ -1,4 +1,4 @@
-#include "qupathxx/pixel_prediction.hpp"
+#include "pixel_workflow_snapshot.hpp"
 #include "sha256.hpp"
 #include <algorithm>
 #include <chrono>
@@ -16,23 +16,16 @@ std::int64_t edge(double x,double scale,std::int64_t limit) {const auto v=std::c
 std::int64_t origin(std::int64_t x,double scale) {const auto v=std::round(static_cast<long double>(x)*scale);if(!std::isfinite(v) || v<0 || v>=static_cast<long double>(std::numeric_limits<std::int64_t>::max())) throw std::invalid_argument("pixel prediction read origin overflow");return static_cast<std::int64_t>(v);}
 void real(Sha256& h,double x) {std::uint64_t b;std::memcpy(&b,&x,8);h.integer(b);}
 }
-struct PixelPredictionRequest::Data {
-    PixelClassifier model;PixelPredictionOptions options;Roi roi;
-    std::shared_ptr<const AnalysisProvenance> provenance;
-    ImageMetadata metadata;std::int32_t level=0;
-    std::int64_t x=0,y=0,w=0,h=0;std::size_t fixed=0,work=0,feature_budget=0;std::uint64_t tiles=0,revision=0,id=0;
-    Data(const PixelClassifier& m,PixelPredictionOptions o):model(m),options(o) {}
-};
 
 bool PixelPredictionResult::matches(const PixelPredictionRequest& request) const {return snapshot_==request.data_;}
 void PixelPredictionOptions::validate() const {if(tile_size<16 || tile_size>512 || work_bytes<1024*1024 || work_bytes>1024ULL*1024*1024 || !std::isfinite(min_vote_fraction) || min_vote_fraction<0 || min_vote_fraction>1) throw std::invalid_argument("invalid source pixel prediction options");}
 PixelPredictionRequest::PixelPredictionRequest(const Document& doc,std::uint64_t id,const PixelClassifier& model,PixelPredictionOptions options):source_(doc.server()) {
-    options.validate();if(options.min_vote_fraction==0) options.min_vote_fraction=0;auto data=std::make_shared<Data>(model,options);data->level=pixel_classifier_level(doc,model);data->metadata=source_->metadata();data->roi=doc.annotation(id).geometry;data->id=id;data->revision=doc.revision();
+    options.validate();if(options.min_vote_fraction==0) options.min_vote_fraction=0;auto data=std::make_shared<Data>(model,options);data->level=pixel_classifier_level(doc,model);data->metadata=source_->metadata();const auto object=doc.annotation(id);data->roi=object.geometry;data->id=id;data->revision=doc.revision();data->kind=object.kind;data->class_name=object.class_name;
     ObjectFeatureOptions guard;guard.calibrated=false;guard.snapshot_bytes=std::min<std::size_t>(options.work_bytes,256u*1024*1024);authority_.emplace(doc,std::vector<std::uint64_t>{id},guard);data->provenance=authority_->source_anchor();
     const auto b=data->roi.bounds();if(b.x<0 || b.y<0 || static_cast<long double>(b.x)+b.width>data->metadata.width || static_cast<long double>(b.y)+b.height>data->metadata.height) throw std::invalid_argument("pixel prediction ROI must lie inside the image");
     const auto& level=data->metadata.levels[data->level];data->x=edge(b.x,level.downsample,level.width);data->y=edge(b.y,level.downsample,level.height);data->w=edge(b.x+b.width,level.downsample,level.width)-data->x;data->h=edge(b.y+b.height,level.downsample,level.height)-data->y;
     if(data->w<=0 || data->h<=0) throw std::invalid_argument("pixel prediction ROI contains no sampled pixel centers");
-    const auto snapshot=sizeof(Data)+authority_->snapshot_bytes()+data->roi.payload_bytes()+data->provenance->payload_bytes()+262144;
+    const auto snapshot=sizeof(Data)+data->class_name.size()+authority_->snapshot_bytes()+data->roi.payload_bytes()+data->provenance->payload_bytes()+262144;
     if(snapshot>=options.work_bytes || std::uint64_t(data->w)>(options.work_bytes-snapshot)/9/std::uint64_t(data->h)) throw std::length_error("pixel prediction output exceeds memory budget; select a smaller ROI");
     data->fixed=snapshot+static_cast<std::size_t>(data->w)*data->h*9;
     const auto halo=model.options().halo(),tw=std::min<std::int64_t>(data->w,options.tile_size),th=std::min<std::int64_t>(data->h,options.tile_size),cw=std::min(level.width,tw+2*halo),ch=std::min(level.height,th+2*halo);

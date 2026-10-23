@@ -340,7 +340,7 @@ public typing and the installed software-GL workflow.
 
 ## Remaining workflow
 
-Project/recovery pixel records, full-slide streaming outputs,
+F5 retained-artifact controls, full-slide streaming outputs,
 expanded texture features and resampling between unmatched resolutions remain
 open. Research cohorts and direct QuPath comparisons also remain required.
 Object classifier records do not persist pixel recipes or these training tables.
@@ -351,3 +351,10 @@ passed all five jobs for `87e01df`. Its [artifact record](benchmarks/pixel-conto
 checks installed wheel/native identities, all 16 contour cases per Python platform,
 public typing, native suites and existing F5 prediction compatibility. It
 precedes `PixelContourJob` and the F5 trace/publish controls.
+
+
+[Pixel classifier archives](pixel-classifier-archives.md) now retain native training
+cohorts and prediction masks, with exact original geometry/revisions/kinds,
+source/build provenance, model and numeric data. Schema-9 project, asynchronous
+save, recovery and batch checkpoint paths include these artifacts. Loading
+restores values and audit metadata without live request/publication authority.

@@ -61,9 +61,10 @@ QuPath port or a compatible replacement for Java QuPath.
   source-aware label/vote masks and exact, undoable class contour publication.
   The [F5 pixel panel](docs/pixel-classifier-ui.md)
   adds worker training, model files, bounded class-colored overlays and contour
-  publication. Pixel
-  project records, research validation and large-batch frame budgets remain
-  unfinished; see also the
+  publication. [Native pixel artifacts](docs/pixel-classifier-archives.md) retain
+  training cohorts and prediction masks in projects/recovery. Their F5 record
+  controls, research validation and large-batch frame budgets remain unfinished;
+  see also the
   [classifier engine contract](docs/classifier-engine.md).
 
 - Cached reader generations and open-time file observations persist in analysis

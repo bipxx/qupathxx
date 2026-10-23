@@ -233,3 +233,15 @@ def configure_pixel_contours(options: q.GuiOptions, report: q.GuiReport) -> list
     if value is not None:
         assert value.prediction_sha256
     return report.pixel_published_ids
+
+
+def retain_pixel_cohort(document: q.Document, request: q.PixelTrainingRequest, table: q.PixelTrainingTable, model: q.PixelClassifier) -> q.PixelClassifierRecord:
+    archive: q.PixelClassifierArchive=q.archive_pixel_training(table,model)
+    decoded: q.PixelClassifierArchive=q.PixelClassifierArchive.from_bytes(archive.to_bytes())
+    cohort: q.PixelTrainingTable | None=decoded.table
+    prediction: q.PixelPredictionResult | None=decoded.result
+    assert cohort is not None and prediction is None
+    source: q.PixelAnnotationSnapshot=decoded.annotations[0]
+    assert source.id
+    identifier=document.keep_pixel_training(request,archive)
+    return document.pixel_classifier_record(identifier)
