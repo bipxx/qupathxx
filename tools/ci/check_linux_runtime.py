@@ -16,6 +16,13 @@ def sha(path):
     with path.open('rb') as stream:return hashlib.file_digest(stream,'sha256').hexdigest()
 
 
+def geos_runtime_directory(sdk):
+    matches=[Path(sdk)/name for name in ['lib','lib64'] if (Path(sdk)/name/'libgeos_c.so.1').is_file()]
+    if len(matches)!=1:
+        raise ValueError('GEOS SDK must contain exactly one C API runtime in lib or lib64')
+    return matches[0]
+
+
 def mapped_libraries():
     return {Path(parts[5]).resolve() for line in Path('/proc/self/maps').read_text(encoding='utf-8').splitlines()
             if len(parts:=line.split(maxsplit=5))==6 and Path(parts[5]).name.startswith(('libgeos','libopenslide'))}
@@ -49,11 +56,12 @@ def main():
     import qupathxx as q
     from qupathxx import _native
     native=Path(_native.__file__).resolve();package=native.parent
-    capi=args.geos_sdk/'lib/libgeos_c.so.1'
+    geos_lib=geos_runtime_directory(args.geos_sdk)
+    capi=geos_lib/'libgeos_c.so.1'
     dynamic=subprocess.check_output(['readelf','-d',str(capi)],text=True)
     needed=re.findall(r'Shared library: \[(libgeos\.so\.[^\]]+)\]',dynamic)
     assert len(needed)==1 and re.search(r'\((?:RUNPATH|RPATH)\).*\[\$ORIGIN\]',dynamic)
-    expected={'libgeos_c.so.1':capi,needed[0]:args.geos_sdk/'lib'/needed[0],
+    expected={'libgeos_c.so.1':capi,needed[0]:geos_lib/needed[0],
               'libopenslide.so.1':args.openslide_sdk/'lib/libopenslide.so.1'}
     with zipfile.ZipFile(args.wheel) as archive:
         assert hashlib.sha256(archive.read('qupathxx/'+native.name)).hexdigest()==sha(native)

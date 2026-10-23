@@ -93,3 +93,14 @@ runs, corruption, mismatched runtimes, wrong fixtures, loader overrides and
 incomplete workflow/test/typing rejection. Synthetic cohorts test evidence binding,
 not executable ELF validity. Actual failed run 39986257233 is rejected without
 publishing a receipt. Positive hosted acceptance still requires the pending run.
+
+## Observed GEOS verifier layout failure
+
+Run 39991725062 passes wheel compilation and all 40 native tests, then exposes
+the same lib/lib64 assumption in the GEOS runtime verifier. The verifier and
+relocated-library regression now select one unambiguous C API library directory
+from lib or lib64. Four new layout cases cover both locations and reject missing
+or ambiguous runtimes. Exact installed/wheel/SDK hash matching and the relocation
+policy are preserved. New portable run 39995913896 at commit
+`1ff10524cc14665ffe2bee65310db742a6359205` is pending; the failure is not accepted
+as a portable package pass.
