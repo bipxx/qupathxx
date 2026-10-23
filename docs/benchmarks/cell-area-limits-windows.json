@@ -57,7 +57,8 @@
       "reason": "Superseded by the reproduced calibration-staleness regression and fix."
     },
     "receipt_file": "cell-area-limits-ci-windows-linux.json",
-    "receipt_sha256": "0af9041e7c40b7ab4a072e4fbeea48e7dcea2cf619700f0aa5308d1ea1343a49"
+    "receipt_sha256": "b0de90663dbc4864f7b6a8fdc754454d56252cfc13e6905bc5c07de764191f08",
+    "captured_receipt_sha256": "0af9041e7c40b7ab4a072e4fbeea48e7dcea2cf619700f0aa5308d1ea1343a49"
   },
   "prior_full_regression": {
     "junit_sha256": "3800076a3e52b6ba2fa59d13e4ac5ec47d916cf7862700667ffad5ae88482e74",
@@ -83,6 +84,8 @@
   },
   "local_validation_snapshot": {
     "file": "cell-area-limits-windows-local.json",
-    "sha256": "874961690c04b516bb2f507cf835f155315114e05be32b4e38f70e92185a0640"
-  }
+    "sha256": "71f0096b66ff2edfdba8c8cfc826bd3cc0c12c1610701781386feb3c3c0e5bed",
+    "captured_file_sha256": "874961690c04b516bb2f507cf835f155315114e05be32b4e38f70e92185a0640"
+  },
+  "published_text_encoding": "UTF-8 LF"
 }

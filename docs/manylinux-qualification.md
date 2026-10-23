@@ -1,7 +1,8 @@
 # Manylinux qualification pipeline
 
-This pipeline is under validation. No supported manylinux wheel is accepted yet.
-The existing local Linux development wheel audits as `manylinux_2_39_x86_64`;
+This pipeline qualifies exact development artifacts. No supported manylinux
+release is accepted yet; accepted revisions and the current follow-up are listed
+below. The original local Linux development wheel audited as `manylinux_2_39_x86_64`;
 bundling its dependencies does not lower its system ABI requirements.
 
 The optional `portable_linux` input to the existing CI workflow builds CPython
@@ -140,3 +141,13 @@ for this exact accepted source. The newer physical-area and managed-viewer
 candidates require their own qualification. GUI/macOS, project license, biological
 accuracy, hardware budgets and supported releases remain open; `release_ready`
 stays false.
+## Physical-area and managed-viewer engine follow-up
+
+The physical-area and managed-viewer engineering scopes are now accepted on
+main. Their source-content revision `201bd8ed266d4803defd7321390b930cafe9dcb7`
+is undergoing portable qualification in
+[run 40031349839](https://github.com/bipxx/qupathxx/actions/runs/40031349839).
+This run must pass both builders, both fresh consumers and the artifact auditor
+before its wheels can claim the policy. The accepted older-engine receipt above
+does not qualify these additional source changes. Supported-release and all
+other scientific/hardware/platform gates remain separate.

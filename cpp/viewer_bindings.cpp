@@ -39,6 +39,8 @@ void bind_viewer_session(nb::module_& m) {
         .def("analyze",&ViewerSession::analyze,"image_id"_a,"object_id"_a,"transform"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
         .def("tissue",&ViewerSession::tissue,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=TissueParameters{},"retain_result"_a=false)
         .def("cells",&ViewerSession::cells,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=CellParameters{},"retain_result"_a=false)
+        .def("cells_with_nucleus_area_limits",&ViewerSession::cells_with_nucleus_area_limits,"image_id"_a,"object_id"_a,"transform"_a,
+            "minimum_um2"_a=nb::none(),"maximum_um2"_a=nb::none(),"parameters"_a=CellParameters{},"retain_result"_a=false)
         .def("export_measurements",&ViewerSession::export_measurements,"image_id"_a,"kind"_a,"path"_a,"require_current"_a=false,"record_ids"_a=std::vector<std::uint64_t>{})
         .def("export_cells",&ViewerSession::export_cells,"image_id"_a,"path"_a,"require_current"_a=false,"record_ids"_a=std::vector<std::uint64_t>{}).def("save",&ViewerSession::save,"path"_a).def("close",&ViewerSession::close,"discard_changes"_a=false);
 #ifdef QUPATHXX_HAS_GUI

@@ -1,0 +1,28 @@
+128 64 {'sampled': 9395.6, 'physical': 9408.4} {'sampled': 22.2767, 'physical': 11.4399}
+128 64 {'physical': 9683.2, 'sampled': 4743.2} {'physical': 20.7147, 'sampled': 18.3846}
+128 64 {'sampled': 4132.0, 'physical': 5789.6} {'sampled': 19.6672, 'physical': 22.1329}
+128 64 {'physical': 7236.2, 'sampled': 3827.0} {'physical': 18.4638, 'sampled': 16.508}
+128 64 {'sampled': 3361.0, 'physical': 5948.0} {'sampled': 16.6959, 'physical': 14.3138}
+128 64 {'physical': 3935.6, 'sampled': 2589.4} {'physical': 16.9384, 'sampled': 16.5821}
+128 64 {'sampled': 2903.2, 'physical': 3841.4} {'sampled': 12.2523, 'physical': 11.1081}
+128 64 {'physical': 4635.8, 'sampled': 2993.6} {'physical': 13.3792, 'sampled': 14.03}
+128 64 {'sampled': 3767.2, 'physical': 4755.6} {'sampled': 10.9944, 'physical': 12.3018}
+512 1024 {'sampled': 2661.0, 'physical': 4138.6} {'sampled': 202.5856, 'physical': 208.4636}
+512 1024 {'physical': 4165.0, 'sampled': 3224.2} {'physical': 205.3073, 'sampled': 250.4728}
+512 1024 {'sampled': 3056.2, 'physical': 4984.2} {'sampled': 295.0956, 'physical': 252.8559}
+512 1024 {'physical': 4036.0, 'sampled': 2472.6} {'physical': 217.6422, 'sampled': 194.4582}
+512 1024 {'sampled': 2779.2, 'physical': 4577.6} {'sampled': 187.4281, 'physical': 172.5849}
+512 1024 {'physical': 6437.0, 'sampled': 2831.2} {'physical': 216.4741, 'sampled': 185.4852}
+512 1024 {'sampled': 2869.0, 'physical': 4128.6} {'sampled': 199.3217, 'physical': 191.7355}
+512 1024 {'physical': 5431.2, 'sampled': 2674.6} {'physical': 195.3414, 'sampled': 183.6393}
+512 1024 {'sampled': 3027.6, 'physical': 4816.4} {'sampled': 184.1925, 'physical': 180.4641}
+Traceback (most recent call last):
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\profile_cell_area_limits_107.py", line 36, in <module>
+    q.detect_cells(creators[name]())
+ValueError: tissue contour work budget exceeded
+Traceback (most recent call last):
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\profile_cell_area_limits_107.py", line 79, in <module>
+    subprocess.run(command,check=True)
+  File "C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\cell105-windows-python\\Scripts\\python.exe', '-I', 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\profile_cell_area_limits_107.py', '--child-size', '1024', '--child-out', 'build\\cell107-profile-windows\\1024-0.json']' returned non-zero exit status 1.

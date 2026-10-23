@@ -2,6 +2,7 @@
 #include "viewer_bridge.hpp"
 #include "atomic_export.hpp"
 #include "utf8_text.hpp"
+#include "calibrated_cell_numeric.hpp"
 #include <algorithm>
 #include <chrono>
 #include <condition_variable>
@@ -24,7 +25,7 @@ struct Command {
     RegionRequest region{0,0,0,1,1};std::shared_ptr<const StainTransform> transform;
     RawRegionRequest raw_region;TiffView tiff_view;
     AnalysisKind analysis=AnalysisKind::OpticalDensityMeans;MeasurementTableKind table=MeasurementTableKind::Roi;
-    TissueParameters tissue;CellParameters cells;
+    TissueParameters tissue;CellParameters cells;std::optional<double> cell_min_area,cell_max_area;
     explicit Command(Action a):action(a) {}
     std::size_t bytes() const {std::size_t n=sizeof(Command)+text.capacity()+edits.capacity()*sizeof(ObjectEdit)+ids.capacity()*8+(transform?sizeof(StainTransform)+128:0);
         std::set<const TmaGridInfo*> grids;
@@ -96,7 +97,13 @@ std::uint64_t ViewerSession::read_raw(std::uint64_t image,RawRegionRequest r) {
 std::uint64_t ViewerSession::set_tiff_view(std::uint64_t image,TiffView view) {view.validate();Command c(Action::TiffView);c.image=image;c.tiff_view=view;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::analyze(std::uint64_t image,std::uint64_t object,const StainTransform& transform,AnalysisKind kind,bool nucleus) {Command c(Action::Analyze);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.analysis=kind;c.flag=nucleus;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::tissue(std::uint64_t image,std::uint64_t object,const StainTransform& transform,TissueParameters p,bool retain) {p.validate();Command c(Action::Tissue);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.tissue=p;c.flag=retain;return impl_->submit(std::move(c));}
-std::uint64_t ViewerSession::cells(std::uint64_t image,std::uint64_t object,const StainTransform& transform,CellParameters p,bool retain) {p.validate();Command c(Action::Cells);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.cells=p;c.flag=retain;return impl_->submit(std::move(c));}
+std::uint64_t ViewerSession::cells(std::uint64_t image,std::uint64_t object,const StainTransform& transform,CellParameters p,bool retain) {return cells_with_nucleus_area_limits(image,object,transform,{},{},p,retain);}
+std::uint64_t ViewerSession::cells_with_nucleus_area_limits(std::uint64_t image,std::uint64_t object,const StainTransform& transform,
+    std::optional<double> minimum,std::optional<double> maximum,CellParameters p,bool retain) {
+    p.validate();detail::validate_cell_area_limits(minimum,maximum);
+    Command c(Action::Cells);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);
+    c.cells=p;c.flag=retain;c.cell_min_area=minimum;c.cell_max_area=maximum;return impl_->submit(std::move(c));
+}
 std::uint64_t ViewerSession::export_measurements(std::uint64_t image,MeasurementTableKind kind,const std::string& path,bool current,const std::vector<std::uint64_t>& ids) {if(ids.size()>100000 || (!image && !ids.empty())) throw std::invalid_argument("record selection requires one image and at most 100000 records");Command c(Action::Measurements);c.ids=ids;c.image=image;c.table=kind;c.text=detail::export_path(path);c.flag=current;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::export_cells(std::uint64_t image,const std::string& path,bool current,const std::vector<std::uint64_t>& ids) {if(ids.size()>100000 || (!image && !ids.empty())) throw std::invalid_argument("record selection requires one image and at most 100000 records");Command c(Action::CellTable);c.ids=ids;c.image=image;c.text=detail::export_path(path);c.flag=current;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::analyze_raw(std::uint64_t image,RawRegionRequest region,std::uint64_t object,bool nucleus,bool retain) {
@@ -211,7 +218,7 @@ struct ViewerOwner::Impl {
         }
         else if(cmd.action==Action::Analyze) pending->analysis.emplace(*doc,e.object_id,*cmd.transform,cmd.analysis,cmd.flag);
         else if(cmd.action==Action::Tissue) pending->tissue.emplace(*doc,e.object_id,*cmd.transform,cmd.tissue);
-        else if(cmd.action==Action::Cells) pending->cells.emplace(*doc,e.object_id,*cmd.transform,cmd.cells);
+        else if(cmd.action==Action::Cells) pending->cells.emplace(CellRequest::with_nucleus_area_limits(*doc,e.object_id,*cmd.transform,cmd.cell_min_area,cmd.cell_max_area,cmd.cells));
         else if(cmd.action==Action::Measurements) {MeasurementTableOptions o;o.byte_limit=state->limits.result_bytes;o.snapshot_budget=state->limits.snapshot_bytes;o.require_current=cmd.flag;if(doc) pending->table.emplace(*doc,cmd.table,cmd.ids,o);else pending->table.emplace(*c.project,cmd.table,std::vector<std::uint64_t>{},o);}
         else if(cmd.action==Action::CellTable) {CellTableOptions o;o.byte_limit=state->limits.result_bytes;o.snapshot_budget=state->limits.snapshot_bytes;o.require_current=cmd.flag;if(doc) pending->cell_table.emplace(*doc,cmd.ids,o);else pending->cell_table.emplace(*c.project,std::vector<std::uint64_t>{},o);}
         if(pending->raw) pending->seed.object_id=pending->raw->object_id();

@@ -1,0 +1,930 @@
+{
+  "schema": "qpx.cell-area-paired-profile/1",
+  "performance_accepted": false,
+  "cases": [
+    {
+      "size": 128,
+      "cells": 64,
+      "summary": {
+        "constructor_ns_per_call": {
+          "sampled": {
+            "median": 2151.7690000000002,
+            "minimum": 2073.692,
+            "maximum": 2350.824
+          },
+          "physical": {
+            "median": 3401.842,
+            "minimum": 3182.694,
+            "maximum": 3576.742
+          },
+          "paired_physical_minus_sampled": {
+            "median": 1200.6460000000002,
+            "minimum": 891.2179999999998,
+            "maximum": 1503.0500000000002
+          }
+        },
+        "request_and_detection_ms": {
+          "sampled": {
+            "median": 6.2315505,
+            "minimum": 5.963351,
+            "maximum": 6.773531
+          },
+          "physical": {
+            "median": 6.2629405,
+            "minimum": 6.192757,
+            "maximum": 8.290122
+          },
+          "paired_physical_minus_sampled": {
+            "median": 0.17404249999999966,
+            "minimum": -0.5807739999999999,
+            "maximum": 2.061178
+          }
+        }
+      },
+      "samples": [
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 3407.418,
+            "sampled": 2187.14
+          },
+          "request_and_detection_ms": {
+            "physical": 6.5159,
+            "sampled": 6.182562
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2291.476,
+            "physical": 3182.694
+          },
+          "request_and_detection_ms": {
+            "sampled": 6.123793,
+            "physical": 6.218703
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 3338.578,
+            "sampled": 2157.564
+          },
+          "request_and_detection_ms": {
+            "physical": 6.294736,
+            "sampled": 6.266499
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2145.974,
+            "physical": 3480.148
+          },
+          "request_and_detection_ms": {
+            "sampled": 6.234157,
+            "physical": 6.729274
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 3576.742,
+            "sampled": 2073.692
+          },
+          "request_and_detection_ms": {
+            "physical": 6.192757,
+            "sampled": 6.773531
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2350.824,
+            "physical": 3396.266
+          },
+          "request_and_detection_ms": {
+            "sampled": 5.963351,
+            "physical": 6.216526
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 3453.762,
+            "sampled": 2082.536
+          },
+          "request_and_detection_ms": {
+            "physical": 6.231145,
+            "sampled": 6.334932
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 128,
+          "cells": 64,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2111.612,
+            "physical": 3229.37
+          },
+          "request_and_detection_ms": {
+            "sampled": 6.228944,
+            "physical": 8.290122
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "7d8b5450161b7817d1d53976d80e7acb1bf0fbb7f91fb94271fa4441c6960198",
+            "bodies_sha256": "39085151e78c8e8b75918f8e8bd822cbb40e6538fce0d8830a569daa16761559",
+            "features_sha256": "0d08fcdb28e5cff7c0e188b13b4ab16d8d9d8ed3c87a94083fd14ae5a0b985bb"
+          },
+          "estimated_work_bytes": 146887680,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        }
+      ]
+    },
+    {
+      "size": 512,
+      "cells": 1024,
+      "summary": {
+        "constructor_ns_per_call": {
+          "sampled": {
+            "median": 2152.7780000000002,
+            "minimum": 1932.496,
+            "maximum": 23375.622
+          },
+          "physical": {
+            "median": 3445.946,
+            "minimum": 3176.81,
+            "maximum": 10355.76
+          },
+          "paired_physical_minus_sampled": {
+            "median": 1310.128,
+            "minimum": -18672.006,
+            "maximum": 6921.91
+          }
+        },
+        "request_and_detection_ms": {
+          "sampled": {
+            "median": 139.510167,
+            "minimum": 113.37565,
+            "maximum": 600.303773
+          },
+          "physical": {
+            "median": 126.4286755,
+            "minimum": 106.693886,
+            "maximum": 858.870538
+          },
+          "paired_physical_minus_sampled": {
+            "median": -5.004856499999995,
+            "minimum": -145.303835,
+            "maximum": 258.56676500000003
+          }
+        }
+      },
+      "samples": [
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 3475.612,
+            "sampled": 2008.458
+          },
+          "request_and_detection_ms": {
+            "physical": 120.250217,
+            "sampled": 113.37565
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2074.046,
+            "physical": 3176.81
+          },
+          "request_and_detection_ms": {
+            "sampled": 131.845304,
+            "physical": 124.289967
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 3220.538,
+            "sampled": 1944.52
+          },
+          "request_and_detection_ms": {
+            "physical": 106.693886,
+            "sampled": 126.729881
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2231.51,
+            "physical": 3416.28
+          },
+          "request_and_detection_ms": {
+            "sampled": 124.871814,
+            "physical": 122.417438
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 3276.734,
+            "sampled": 1932.496
+          },
+          "request_and_detection_ms": {
+            "physical": 128.567384,
+            "sampled": 147.17503
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 3243.244,
+            "physical": 4649.184
+          },
+          "request_and_detection_ms": {
+            "sampled": 274.121924,
+            "physical": 316.407436
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 10355.76,
+            "sampled": 3433.85
+          },
+          "request_and_detection_ms": {
+            "physical": 368.202915,
+            "sampled": 513.50675
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 512,
+          "cells": 1024,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 23375.622,
+            "physical": 4703.616
+          },
+          "request_and_detection_ms": {
+            "sampled": 600.303773,
+            "physical": 858.870538
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "54d6633fcfe3661395f261d534b95ac9adf075207fd85d3ca35d032efe686a57",
+            "bodies_sha256": "c678f2716fcc3404dfc771c3cdbb7a179422e48bc0b6104976dbbe090add4044",
+            "features_sha256": "5fe443356d633894dd1395ecab591b77ccff2679cef0f05b26ec11668a4537c8"
+          },
+          "estimated_work_bytes": 166563840,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        }
+      ]
+    },
+    {
+      "size": 1024,
+      "cells": 4096,
+      "summary": {
+        "constructor_ns_per_call": {
+          "sampled": {
+            "median": 2294.212,
+            "minimum": 1937.448,
+            "maximum": 3600.226
+          },
+          "physical": {
+            "median": 3706.8010000000004,
+            "minimum": 3265.312,
+            "maximum": 5678.438
+          },
+          "paired_physical_minus_sampled": {
+            "median": 1433.0809999999997,
+            "minimum": 998.038,
+            "maximum": 2852.406
+          }
+        },
+        "request_and_detection_ms": {
+          "sampled": {
+            "median": 640.2427175,
+            "minimum": 567.418878,
+            "maximum": 2097.233516
+          },
+          "physical": {
+            "median": 715.0565425,
+            "minimum": 597.361862,
+            "maximum": 2523.914015
+          },
+          "paired_physical_minus_sampled": {
+            "median": 52.67645550000003,
+            "minimum": -242.6303190000001,
+            "maximum": 789.4032109999999
+          }
+        }
+      },
+      "samples": [
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 3265.312,
+            "sampled": 1937.448
+          },
+          "request_and_detection_ms": {
+            "physical": 750.590799,
+            "sampled": 993.221118
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2278.196,
+            "physical": 3438.922
+          },
+          "request_and_detection_ms": {
+            "sampled": 2097.233516,
+            "physical": 2523.914015
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 5678.438,
+            "sampled": 3600.226
+          },
+          "request_and_detection_ms": {
+            "physical": 1464.034669,
+            "sampled": 674.631458
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2631.396,
+            "physical": 3629.434
+          },
+          "request_and_detection_ms": {
+            "sampled": 607.290406,
+            "physical": 626.307453
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 3784.168,
+            "sampled": 2058.044
+          },
+          "request_and_detection_ms": {
+            "physical": 621.393227,
+            "sampled": 669.927928
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2109.498,
+            "physical": 3350.468
+          },
+          "request_and_detection_ms": {
+            "sampled": 610.557507,
+            "physical": 685.967434
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "physical",
+            "sampled"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "physical": 4285.172,
+            "sampled": 2746.874
+          },
+          "request_and_detection_ms": {
+            "physical": 744.145651,
+            "sampled": 582.856183
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        },
+        {
+          "schema": "qpx.cell-area-paired-observation/1",
+          "size": 1024,
+          "cells": 4096,
+          "order": [
+            "sampled",
+            "physical"
+          ],
+          "constructor_iterations": 500,
+          "constructor_ns_per_call": {
+            "sampled": 2310.228,
+            "physical": 5162.634
+          },
+          "request_and_detection_ms": {
+            "sampled": 567.418878,
+            "physical": 597.361862
+          },
+          "label_and_feature_hashes": {
+            "nuclei_sha256": "d4a5f7fd4951a7808436c48633bbda322131d2755291e7c678bdb3f99aa8759a",
+            "bodies_sha256": "da0fc632239b63868a1f2951e55c7fa0e3d420a3c5539c7d2553a2b566c9ef51",
+            "features_sha256": "20e6e13e28b861913e66906699c6431a2113998932ac17941c588ae2c21c254c"
+          },
+          "estimated_work_bytes": 229498880,
+          "contour_work_budget_bytes": 67108864,
+          "total_work_budget_bytes": 268435456,
+          "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+          "build_git_revision": "unknown",
+          "native_sha256": "659cca3691afd18e8c4d8b655c5865a08b600ea1710e8f8b7238e50f6fca8305",
+          "platform": "Linux-6.18.54.1-microsoft-standard-WSL2-x86_64-with-glibc2.39",
+          "python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]",
+          "script_sha256": "f71dffa13394b46bdfd0727f124f03840ef4d135753f917b503b7af3a3017239",
+          "performance_accepted": false
+        }
+      ]
+    }
+  ],
+  "protocol": "One excluded fresh-process warmup and eight paired fresh-process observations per size; alternating first arm. Within each child, input setup and per-arm warmup precede timers. Exact nucleus/body labels and numeric compartment features agree.",
+  "limitations": [
+    "Only synthetic dense natural-grid RGB squares, sigma zero, anisotropic calibration and nonbinding inclusive physical limits.",
+    "Work-byte estimates are not process RSS; imported libraries, allocators and other processes affect measurements.",
+    "No universal speedup, biological throughput, hardware or UI/frame-budget acceptance."
+  ]
+}

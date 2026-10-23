@@ -5481,8 +5481,10 @@
   ],
   "local_validation": {
     "file": "cell-area-limits-windows-local.json",
-    "file_sha256": "874961690c04b516bb2f507cf835f155315114e05be32b4e38f70e92185a0640",
-    "canonical_json_sha256": "683e3c343e682e05d9d2d85c762c72f496b99fa22fe200a6842910f7f12a2360"
+    "file_sha256": "71f0096b66ff2edfdba8c8cfc826bd3cc0c12c1610701781386feb3c3c0e5bed",
+    "canonical_json_sha256": "683e3c343e682e05d9d2d85c762c72f496b99fa22fe200a6842910f7f12a2360",
+    "captured_file_sha256": "874961690c04b516bb2f507cf835f155315114e05be32b4e38f70e92185a0640",
+    "file_sha256_encoding": "Git-committed UTF-8 LF bytes; captured_file_sha256 retains the original local bytes."
   },
   "fixture_retraining": {
     "local_and_three_hosted_models_identical": true,
@@ -5497,5 +5499,6 @@
     "scope": "Completed full Aperio canvas, complete overview, source budget controls, calibration and table export controls are readable."
   },
   "physical_cell_area_scope_accepted": true,
-  "release_ready": false
+  "release_ready": false,
+  "published_text_encoding": "UTF-8 LF"
 }
