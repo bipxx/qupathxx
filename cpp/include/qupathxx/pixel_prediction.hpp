@@ -27,6 +27,7 @@ private:
     friend struct PixelClassifierArchiveCodec;
     friend class Document;
     friend class PixelPredictionResult;
+    friend class PixelPredictionStream;
 };
 class PixelPredictionResult : public std::enable_shared_from_this<PixelPredictionResult> {
 public:

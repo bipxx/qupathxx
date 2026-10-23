@@ -40,6 +40,7 @@ def main():
             if current=='PixelClassifierArchive':
                 for name in ['PixelTrainingTable','PixelPredictionResult']:line=line.replace('-> '+name+':','-> '+name+' | None:')
             if current=='PixelContourJob':line=line.replace('-> PixelContours:', '-> PixelContours | None:')
+            if current=='PixelPredictionStream' and 'def next(' in line:line=line.replace('-> PixelPredictionResult:', '-> PixelPredictionResult | None:')
             if current=='PixelPredictionJob':line=line.replace('-> PixelPredictionResult:','-> PixelPredictionResult | None:')
             if current=='ObjectFeatureTable' and 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
             if current=='ObjectClassifierJob':

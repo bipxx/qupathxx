@@ -1,4 +1,5 @@
 #include "qupathxx/pixel_contours.hpp"
+#include "qupathxx/pixel_stream.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/ndarray.h>
 #include <nanobind/stl/optional.h>
@@ -70,6 +71,19 @@ void bind_pixel_workflows(nb::module_& m) {
     m.def("publish_pixel_contours",&publish_pixel_contours,"document"_a,"request"_a,"contours"_a,"name_prefix"_a="Pixel");
     nb::class_<PixelPredictionJob>(m,"PixelPredictionJob").def(nb::init<>()).def("request",&PixelPredictionJob::request).def_prop_ro("busy",&PixelPredictionJob::busy).def("cancel",&PixelPredictionJob::cancel)
         .def("poll",&PixelPredictionJob::poll).def("wait",&PixelPredictionJob::wait,nb::call_guard<nb::gil_scoped_release>()).def_prop_ro("result",&PixelPredictionJob::result);
+    nb::class_<PixelStreamOptions>(m,"PixelStreamOptions").def(nb::init<>()).def_rw("prediction",&PixelStreamOptions::prediction).def_rw("block_size",&PixelStreamOptions::block_size)
+        .def_rw("max_pixels",&PixelStreamOptions::max_pixels).def_rw("max_blocks",&PixelStreamOptions::max_blocks).def("validate",&PixelStreamOptions::validate);
+    nb::class_<PixelPredictionStream>(m,"PixelPredictionStream")
+        .def(nb::init<const Document&,std::uint64_t,const PixelClassifier&,PixelStreamOptions,std::optional<Rect>>(),"document"_a,"object_id"_a,"classifier"_a,"options"_a=PixelStreamOptions{},"window"_a=nb::none())
+        .def("next",&PixelPredictionStream::next,nb::call_guard<nb::gil_scoped_release>()).def("cancel",&PixelPredictionStream::cancel).def("matches",&PixelPredictionStream::matches)
+        .def("__iter__",[](PixelPredictionStream& stream)->PixelPredictionStream& {return stream;},nb::rv_policy::reference)
+        .def("__next__",[](PixelPredictionStream& stream) {std::shared_ptr<const PixelPredictionResult> result;{nb::gil_scoped_release release;result=stream.next();}if(!result) throw nb::stop_iteration();return result;})
+        .def_prop_ro("state",&PixelPredictionStream::state).def_prop_ro("busy",&PixelPredictionStream::busy).def_prop_ro("level_bounds",&PixelPredictionStream::level_bounds)
+        .def_prop_ro("level",&PixelPredictionStream::level).def_prop_ro("downsample",&PixelPredictionStream::downsample).def_prop_ro("windowed",&PixelPredictionStream::windowed)
+        .def_prop_ro("object_id",&PixelPredictionStream::object_id).def_prop_ro("document_revision",&PixelPredictionStream::document_revision)
+        .def_prop_ro("total_blocks",&PixelPredictionStream::total_blocks).def_prop_ro("completed_blocks",&PixelPredictionStream::completed_blocks)
+        .def_prop_ro("valid_pixels",&PixelPredictionStream::valid_pixels).def_prop_ro("classified_pixels",&PixelPredictionStream::classified_pixels).def_prop_ro("class_counts",&PixelPredictionStream::class_counts)
+        .def_prop_ro("estimated_work_bytes",&PixelPredictionStream::estimated_work_bytes);
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
         .def_rw("pixel_open",&GuiOptions::pixel_open).def_rw("pixel_selected_only",&GuiOptions::pixel_selected_only).def_rw("pixel_replace_model",&GuiOptions::pixel_replace_model).def_rw("pixel_show_overlay",&GuiOptions::pixel_show_overlay).def_rw("pixel_viewport_only",&GuiOptions::pixel_viewport_only)
         .def_rw("pixel_object_id",&GuiOptions::pixel_object_id).def_rw("pixel_preview_budget",&GuiOptions::pixel_preview_budget).def_rw("pixel_model_path",&GuiOptions::pixel_model_path)

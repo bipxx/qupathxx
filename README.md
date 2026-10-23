@@ -67,6 +67,8 @@ QuPath port or a compatible replacement for Java QuPath.
   restoring live publication authority. Native/Python and F5
   [prediction windows](docs/pixel-prediction-windows.md) bound masks to a requested
   or visible natural-grid region while preserving feature context.
+  A [native/Python block producer](docs/pixel-stream.md) consumes full targets
+  with bounded output storage; durable streamed export and GUI streaming remain open.
   Research validation and large-batch
   frame budgets remain unfinished;
   see also the

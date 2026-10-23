@@ -127,3 +127,20 @@ Windows file-symlink cases skipped. All nineteen native suites pass in full,
 core and minimal configurations. The three previously intermittent checks now
 use explicit readiness/completion contracts; source data and workflow assertions
 remain verified. This does not accept every asynchronous GUI or reader workload.
+
+## Scripted wheel ownership
+
+A nonempty `GuiOptions.inputs` list selects scripted wheel ownership for the
+entire `show` call. Replay-generated wheel events are tagged by ImGui event ID;
+other wheel events are filtered before `NewFrame`. Deferred scripted wheel
+events retain their tags while queued. This prevents desktop scroll messages
+from zooming the canvas or scrolling a panel during deterministic replay.
+An unscripted session uses normal GLFW wheel routing.
+
+`GuiReport.replay_physical_wheel_events_ignored` reports how many untagged wheel
+events were removed. A Win32 regression posts three real `WM_MOUSEWHEEL`
+messages to the test owner's resized GLFW window. It requires at least three
+ignored events while a scripted positive wheel step still changes zoom from
+2 to 2.4. The same fixture on the prior binary produced 1.3888888888888888,
+the exact net result of those three negative steps plus the positive scripted
+step. No global cursor movement or messages to other applications are used.

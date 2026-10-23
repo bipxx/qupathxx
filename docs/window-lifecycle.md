@@ -135,3 +135,10 @@ skips in 388.32 seconds; the complete fifteen-case focused set then passed in
 7.31 seconds on the same binary. The added case verifies dirty-close confirmation
 after minimization without changing the primary file. The hosted full run
 includes it. No expected failures or relaxed interaction thresholds are used.
+
+Later block-producer validation exposed physical wheel interference during a
+scripted minimize/restore test: zoom changed from 2 to `2 / 1.2³` despite no
+scheduled wheel input. A real Win32 message fixture reproduced the interference.
+[Scripted wheel ownership](gui-replay.md#scripted-wheel-ownership) now isolates
+replay events while retaining their deferred delivery. The original camera,
+center, suspended-work and project-state assertions remain unchanged.

@@ -1,0 +1,287 @@
+{
+  "schema": "qpx.pixel-stream-local/1",
+  "observed_utc": "2026-10-23T03:21:06.266530+00:00",
+  "scope": "Native/Python single-consumer bounded block producer, exact source context, caller-owned result lifetime, quotas, cancellation, counters and historical snapshots. Native virtual source plans62500 blocks over32000-square ROI with no full source allocation and exercises two bounded blocks plus gated cancellation. Includes investigated physical-wheel replay isolation. Durable streamed output, resume, stitched publication, GUI streaming and other outstanding project gates remain open.",
+  "python": {
+    "tests": 1562,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1556,
+    "seconds": 655.482,
+    "sha256": "1ae7391f449f5dd8bb142998b9977a7aad1f9f726a6180b955e1f12c3dcef05b"
+  },
+  "api_focused": {
+    "tests": 143,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 143,
+    "seconds": 4.517,
+    "sha256": "ea983193340f5b1bb1965749a4ce5c071a668a36127f4ccdd88927dc2d7d9165"
+  },
+  "window_focused": {
+    "tests": 16,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 16,
+    "seconds": 32.55,
+    "sha256": "988c4e48243ef93caa791f28e525ef61898b925acc0f49a6ae7f01ff16a3b07a"
+  },
+  "windows_gui_native": {
+    "tests": 39,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 39,
+    "seconds": 9.0,
+    "sha256": "b0ceb548cd772d74708cb9a136596f5c524fe463c5cd586b1e373002cb1f4fdb"
+  },
+  "windows_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 16.0,
+    "sha256": "2c3b28759818fa805409579475695dab07d7987a1edc3d0eae82c44a976271c3"
+  },
+  "linux_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 1.0,
+    "sha256": "81a23bc6debfd66440cdf63450be9930f597a28cf30d71f113bf36c7816db6b0"
+  },
+  "linux_minimal": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 0.0,
+    "sha256": "e525ce3dbbb65ff18712297e02c45af7ce54384de9b7c9cde9e7a33b494690cc"
+  },
+  "linux_sanitizer": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 6.0,
+    "sha256": "22caa22d52f189ada597f1af59025198106f93fb2922559b945d483d501c17f4"
+  },
+  "workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "6f08b952c315900ff36eb86824dcc7a7422cd6fb519c3479dcdbb409d9e7aa73",
+    "source_tree_sha256": "4eb53dfba8ab9ab6923f59880e3f1ffc8e439d5671f46d132df0bd782be95d90",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "bytes": 12023436,
+    "sha256": "2d0a1cad76bb6b4d602ead08b8c588770a65e1d9f960d390c3cc2c9eafe8605d"
+  },
+  "opencv_notices": {
+    "qupathxx/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "qupathxx/licenses/opencv/softfloat-notice.txt": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3",
+    "qupathxx/licenses/opencv/SOURCE-NOTICES.txt": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba",
+    "qupathxx/licenses/opencv/zlib-notice.txt": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+  },
+  "benchmarks": [
+    {
+      "file": "pixel-stream-1024-windows.json",
+      "sha256": "d1d3b04476b642c30bf4c177fba1c236c4a5da0986bd2fd8a0d1b051eb7ad23d",
+      "values": {
+        "schema": "qpx.pixel-stream-benchmark/1",
+        "size": 1024,
+        "pixels": 1048576,
+        "blocks": 64,
+        "block_size": 128,
+        "budget_bytes": 8388608,
+        "estimated_producer_work_bytes": 4406028,
+        "max_block_pixels": 16384,
+        "max_block_array_bytes": 147456,
+        "capture_ms": 0.01750001683831215,
+        "producer_ms": 780.2633997052908,
+        "block_p95_ms": 14.792949939146636,
+        "block_max_ms": 15.269999974407256,
+        "class_counts": [
+          524288,
+          524288
+        ],
+        "valid_pixels": 1048576,
+        "classified_pixels": 1048576,
+        "model_sha256": "09bb7ffa2222dec98919dd4f81cf0afda9a4728754ceac5b63445c212a8cb08f",
+        "ordered_block_digest": "3c61a93aa5cf7fdc1f501f0e50f1d8bad0f9dd6531d57c07ae151ec67345a555",
+        "native_sha256": "6f08b952c315900ff36eb86824dcc7a7422cd6fb519c3479dcdbb409d9e7aa73",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "environment": {
+          "source_tree_sha256": "4eb53dfba8ab9ab6923f59880e3f1ffc8e439d5671f46d132df0bd782be95d90",
+          "git_revision": "1b4c228bcb64a9956c1dfa8b99bc9b8887418607+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "verified": [
+          "full target rejected under the same budget",
+          "all block labels/validity/votes equal independently captured window requests",
+          "complete counters and unchanged Document",
+          "no retained block list or full output array"
+        ],
+        "scope": "Synthetic in-memory RGB source; input pixels and immutable model are caller-owned. Producer timings exclude oracle verification. Work/array sizes are allocation estimates, not process RSS. No file-backed WSI throughput, disk output, GUI frame, hardware or biological acceptance claim. Native virtual-slide tests separately exercise a32000-square target without a full source allocation."
+      }
+    },
+    {
+      "file": "pixel-stream-2048-windows.json",
+      "sha256": "5b2e19be95aeddec999bf65e17624c44c3b637c544eabbb31907e3f5c0721655",
+      "values": {
+        "schema": "qpx.pixel-stream-benchmark/1",
+        "size": 2048,
+        "pixels": 4194304,
+        "blocks": 256,
+        "block_size": 128,
+        "budget_bytes": 8388608,
+        "estimated_producer_work_bytes": 4406028,
+        "max_block_pixels": 16384,
+        "max_block_array_bytes": 147456,
+        "capture_ms": 0.016900012269616127,
+        "producer_ms": 3756.723000551574,
+        "block_p95_ms": 18.28452496556565,
+        "block_max_ms": 20.20599995739758,
+        "class_counts": [
+          2097152,
+          2097152
+        ],
+        "valid_pixels": 4194304,
+        "classified_pixels": 4194304,
+        "model_sha256": "5db28d7be7a317d1730e5d48bd7c2e120346a7d7b7162b28dcf122d16dd88698",
+        "ordered_block_digest": "abb856874679a88e7816c341fffb861fc82d2061e5fc8032e9c06153bd1de051",
+        "native_sha256": "6f08b952c315900ff36eb86824dcc7a7422cd6fb519c3479dcdbb409d9e7aa73",
+        "platform": "Windows-11-10.0.26200-SP0",
+        "environment": {
+          "source_tree_sha256": "4eb53dfba8ab9ab6923f59880e3f1ffc8e439d5671f46d132df0bd782be95d90",
+          "git_revision": "1b4c228bcb64a9956c1dfa8b99bc9b8887418607+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "verified": [
+          "full target rejected under the same budget",
+          "all block labels/validity/votes equal independently captured window requests",
+          "complete counters and unchanged Document",
+          "no retained block list or full output array"
+        ],
+        "scope": "Synthetic in-memory RGB source; input pixels and immutable model are caller-owned. Producer timings exclude oracle verification. Work/array sizes are allocation estimates, not process RSS. No file-backed WSI throughput, disk output, GUI frame, hardware or biological acceptance claim. Native virtual-slide tests separately exercise a32000-square target without a full source allocation."
+      }
+    }
+  ],
+  "checks": {
+    "pixel79-stub-check.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "pixel79-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "pixel79-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "test_pixel_stream_cases": [
+    "test_stream_covers_grid_once_and_matches_full_labels_votes_and_halos[None-16-16]",
+    "test_stream_covers_grid_once_and_matches_full_labels_votes_and_halos[None-16-32]",
+    "test_stream_covers_grid_once_and_matches_full_labels_votes_and_halos[None-16-64]",
+    "test_stream_covers_grid_once_and_matches_full_labels_votes_and_halos[None-32-16]",
+    "test_stream_covers_grid_once_and_matches_full_labels_votes_and_halos[None-32-32]",
+    "test_stream_covers_grid_once_and_matches_full_labels_votes_and_halos[None-32-64]",
+    "test_stream_covers_grid_once_and_matches_full_labels_votes_and_halos[window1-16-16]",
+    "test_stream_covers_grid_once_and_matches_full_labels_votes_and_halos[window1-16-32]",
+    "test_stream_covers_grid_once_and_matches_full_labels_votes_and_halos[window1-16-64]",
+    "test_stream_covers_grid_once_and_matches_full_labels_votes_and_halos[window1-32-16]",
+    "test_stream_covers_grid_once_and_matches_full_labels_votes_and_halos[window1-32-32]",
+    "test_stream_covers_grid_once_and_matches_full_labels_votes_and_halos[window1-32-64]",
+    "test_invalid_or_exceeded_stream_limits_fail_before_publication[block_size-0]",
+    "test_invalid_or_exceeded_stream_limits_fail_before_publication[block_size-15]",
+    "test_invalid_or_exceeded_stream_limits_fail_before_publication[block_size-513]",
+    "test_invalid_or_exceeded_stream_limits_fail_before_publication[max_pixels-0]",
+    "test_invalid_or_exceeded_stream_limits_fail_before_publication[max_pixels-10]",
+    "test_invalid_or_exceeded_stream_limits_fail_before_publication[max_blocks-0]",
+    "test_invalid_or_exceeded_stream_limits_fail_before_publication[max_blocks-1]",
+    "test_cancel_before_start_and_between_blocks_never_advances_partial_counts",
+    "test_stream_blocks_remain_values_after_edits_and_never_gain_publication_authority",
+    "test_source_close_is_terminal_failure_and_arrays_outlive_stream_and_document",
+    "test_large_full_target_streams_within_budget_that_rejects_full_mask",
+    "test_input_options_and_window_are_captured_by_value"
+  ],
+  "test_pixel_prediction_windows_cases": [
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[16-bounds0]",
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[16-bounds1]",
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[16-bounds2]",
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[16-bounds3]",
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[32-bounds0]",
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[32-bounds1]",
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[32-bounds2]",
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[32-bounds3]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds0]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds1]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds2]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds3]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds4]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds5]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds6]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds7]",
+    "test_large_target_fits_small_window_budget_without_allocating_full_mask",
+    "test_window_archive_roundtrip_and_old_marker_cannot_reinterpret_cropped_grid",
+    "test_window_encoding_rejects_training_marker_and_grid_outside_original_target",
+    "test_project_roundtrip_retains_window_and_original_target",
+    "test_window_contours_publish_only_current_cropped_mask_and_undo_atomically",
+    "test_aperio_window_uses_source_context_and_matches_full_target_crop"
+  ],
+  "test_pixel_archive_portable_cases": [
+    "test_windows_pixel_archive_fixture_is_portable_without_training_backend[training]",
+    "test_windows_pixel_archive_fixture_is_portable_without_training_backend[prediction]",
+    "test_windows_pixel_archive_fixture_is_portable_without_training_backend[rectangle-prediction]",
+    "test_windows_pixel_archive_fixture_is_portable_without_training_backend[window-prediction]"
+  ],
+  "test_gui_wheel_replay_cases": [
+    "test_native_wheel_messages_are_isolated_but_scripted_zoom_is_preserved"
+  ],
+  "investigated_desktop_failure": {
+    "initial_full_log_sha256": "b62878bb84ee77814dcd30334fdc35c71e5543b49a93528ba5a1388525472961",
+    "initial_full_xml_sha256": "2026ffe2eb0c2b88c5d0a4cde07cdb26b20f2b1ece1de3dba43a090b8c756bd6",
+    "controlled_reproduction_log_sha256": "340f5ee7b11f096d234a7454adb50d67e39d87702469c1b10d5ee85eb92e3f80",
+    "controlled_reproduction_xml_sha256": "58372d539107f33966c16d7cee179c49b0094abc8ff8cbb032103a1137ef8179",
+    "description": "Initial full suite:1554pass6skip1failure. Minimize/restore camera changed2 to2/(1.2**3) with no scheduled wheel. Posting three real WM_MOUSEWHEEL messages to the owned resized GLFW window reproduced a scripted2.4 zoom becoming1.3888888888888888. Replay now retains tagged synthetic wheel EventIds and filters other wheel events before ImGui NewFrame, preserving deferred scripted events. New regression requires at least3 ignored OS wheel events plus exact2.4 scripted zoom; all original window assertions remain unchanged."
+  },
+  "verification_inputs": {
+    "cpp/tests/pixel_workflow_tests.cpp": "f9c2cdb09264a46bd8d9ac4f207575ab187ed145e70a0016006f444e1e51f67b",
+    "tests/test_pixel_stream.py": "4461cca4f0df5771f01f43f72fa84396fdc52a81fbc068106927234771196029",
+    "tests/gui_wheel_sender.py": "3de467cac130b52c6e28ec48e22a4ee48a2bbfeccfbd538cc2250a6b65740e1a",
+    "tests/test_gui_wheel_replay.py": "9ec2c9064a44ed024f0f6c37098dd0caf4d5c4341f6cc11fac8d88ac280adfca",
+    "tests/test_gui_window.py": "ff076609786df1c422d5e4a21008a7029d4931ee08aaa2bb92766bbc2a57adeb",
+    "tools/benchmark_pixel_stream.py": "7cda562e9ce981636df49c285f6b6535fe356e20f7eeed4dd5ad96e4f397b77d",
+    "tests/typing/valid_api.py": "93eda09ec0723595d3f76fe22ce899154e8a495eee845131d9223310991011f9",
+    "tools/ci/run.py": "6c86f6dc43b998fd02f4fa477596682eb7b62db568aa4fd3afd481b341a74844",
+    "tools/generate_stubs.py": "454ceaba513d48551779b84566f90392028899334cbd55516e4f43b949671cec"
+  },
+  "performance_limit": "Synthetic dense in-memory source; source pixels/model and caller-retained blocks are outside the producer allowance. Per-block timing excludes oracle checks. No RSS, file-backed slide throughput, disk format, GUI frame-budget, hardware or biological acceptance claim."
+}

@@ -24,6 +24,8 @@ from ._native import (
     PixelContours as PixelContours,
     trace_pixel_prediction as trace_pixel_prediction,
     publish_pixel_contours as publish_pixel_contours,
+    PixelStreamOptions as PixelStreamOptions,
+    PixelPredictionStream as PixelPredictionStream,
     PixelPredictionOptions as PixelPredictionOptions,
     PixelPredictionRequest as PixelPredictionRequest,
     PixelPredictionResult as PixelPredictionResult,

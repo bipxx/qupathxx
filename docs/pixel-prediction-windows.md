@@ -43,6 +43,10 @@ memory accounting and exact request identity follow the existing
 [source workflow](pixel-classifiers.md). Windowing adds no unmatched-grid
 resampling or whole-slide streaming output.
 
+The native/Python [block producer](pixel-stream.md) can now iterate the complete
+target or a requested window without allocating the complete output mask.
+Durable streamed output and GUI streaming remain separate unfinished work.
+
 ## Desktop use
 
 In **F5**, enable **Predict visible part of area only**, choose the target and

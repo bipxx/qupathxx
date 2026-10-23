@@ -349,7 +349,7 @@ NB_MODULE(_native, m) {
         .def_ro("suspended_wait_ms",&GuiReport::suspended_wait_ms).def_ro("window_iconified",&GuiReport::window_iconified)
         .def_ro("overlay_cache_bytes",&GuiReport::overlay_cache_bytes).def_ro("overlay_cache_peak_bytes",&GuiReport::overlay_cache_peak_bytes)
         .def_ro("overlay_cache_builds",&GuiReport::overlay_cache_builds).def_ro("overlay_cache_hits",&GuiReport::overlay_cache_hits).def_ro("overlay_cache_fallbacks",&GuiReport::overlay_cache_fallbacks)
-        .def_ro("replay_frame",&GuiReport::replay_frame).def_ro("replay_wait_frames",&GuiReport::replay_wait_frames).def_ro("settle_frames",&GuiReport::settle_frames)
+        .def_ro("replay_frame",&GuiReport::replay_frame).def_ro("replay_wait_frames",&GuiReport::replay_wait_frames).def_ro("replay_physical_wheel_events_ignored",&GuiReport::replay_physical_wheel_events_ignored).def_ro("settle_frames",&GuiReport::settle_frames)
         .def_ro("replay_complete",&GuiReport::replay_complete).def_ro("tiles_settled",&GuiReport::tiles_settled)
         .def_ro("uploaded_tiles",&GuiReport::uploaded_tiles).def_ro("peak_gpu_bytes",&GuiReport::peak_gpu_bytes)
         .def_ro("generations",&GuiReport::generations).def_ro("cpu_frame_p95_ms",&GuiReport::cpu_frame_p95_ms)

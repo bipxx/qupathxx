@@ -248,6 +248,8 @@ def retain_pixel_cohort(document: q.Document, request: q.PixelTrainingRequest, t
 
 
 def historical_pixel_preview(report: q.GuiReport) -> q.PixelPredictionResult | None:
+    ignored: int=report.replay_physical_wheel_events_ignored
+    assert ignored>=0
     state: str=report.pixel_archive_state
     selected: int=report.pixel_selected_record_id
     kept: int=report.pixel_record_id
@@ -264,3 +266,15 @@ def windowed_pixel_request(document: q.Document, target: int, model: q.PixelClas
     options=q.GuiOptions()
     options.pixel_viewport_only=True
     return request
+
+
+def streaming_pixel_counts(document: q.Document, target: int, model: q.PixelClassifier) -> list[int]:
+    options=q.PixelStreamOptions()
+    options.block_size=128
+    producer=q.PixelPredictionStream(document,target,model,options)
+    first: q.PixelPredictionResult | None=producer.next()
+    if first is not None:
+        assert first.windowed
+    for block in producer:
+        assert block.width<=128
+    return producer.class_counts

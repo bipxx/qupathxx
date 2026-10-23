@@ -1,0 +1,39 @@
+{
+  "schema": "qpx.pixel-stream-benchmark/1",
+  "size": 2048,
+  "pixels": 4194304,
+  "blocks": 256,
+  "block_size": 128,
+  "budget_bytes": 8388608,
+  "estimated_producer_work_bytes": 4406028,
+  "max_block_pixels": 16384,
+  "max_block_array_bytes": 147456,
+  "capture_ms": 0.016900012269616127,
+  "producer_ms": 3756.723000551574,
+  "block_p95_ms": 18.28452496556565,
+  "block_max_ms": 20.20599995739758,
+  "class_counts": [
+    2097152,
+    2097152
+  ],
+  "valid_pixels": 4194304,
+  "classified_pixels": 4194304,
+  "model_sha256": "5db28d7be7a317d1730e5d48bd7c2e120346a7d7b7162b28dcf122d16dd88698",
+  "ordered_block_digest": "abb856874679a88e7816c341fffb861fc82d2061e5fc8032e9c06153bd1de051",
+  "native_sha256": "6f08b952c315900ff36eb86824dcc7a7422cd6fb519c3479dcdbb409d9e7aa73",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "environment": {
+    "source_tree_sha256": "4eb53dfba8ab9ab6923f59880e3f1ffc8e439d5671f46d132df0bd782be95d90",
+    "git_revision": "1b4c228bcb64a9956c1dfa8b99bc9b8887418607+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "verified": [
+    "full target rejected under the same budget",
+    "all block labels/validity/votes equal independently captured window requests",
+    "complete counters and unchanged Document",
+    "no retained block list or full output array"
+  ],
+  "scope": "Synthetic in-memory RGB source; input pixels and immutable model are caller-owned. Producer timings exclude oracle verification. Work/array sizes are allocation estimates, not process RSS. No file-backed WSI throughput, disk output, GUI frame, hardware or biological acceptance claim. Native virtual-slide tests separately exercise a32000-square target without a full source allocation."
+}

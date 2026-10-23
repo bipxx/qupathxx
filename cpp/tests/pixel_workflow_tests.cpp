@@ -1,5 +1,6 @@
 #include "qupathxx/pixel_contours.hpp"
 #include "qupathxx/pixel_classifier_archive.hpp"
+#include "qupathxx/pixel_stream.hpp"
 #include "../gui_pixel_archives.hpp"
 #include "object_forest_fixture.hpp"
 #include <algorithm>
@@ -59,7 +60,16 @@ int main() {try {
         rejects([&]{PixelPredictionRequest invalid(doc,roi,model,prediction,Rect{100,100,2,2});});
         rejects([&]{PixelPredictionRequest invalid(doc,roi,model,prediction,Rect{1,1,0,2});});
         for(std::int64_t y=0;y<result->height();++y) for(std::int64_t x=0;x<result->width();++x) {const auto gx=static_cast<std::int64_t>(region.x)+x,gy=static_cast<std::int64_t>(region.y)+y;const auto i=static_cast<std::size_t>(y*result->width()+x),j=static_cast<std::size_t>(gy*level.width+gx);const bool valid=doc.annotation(roi).geometry.contains({(gx+.5)*level.downsample,(gy+.5)*level.downsample}) && full->valid()[j];check(result->valid()[i]==valid);if(valid) {check(result->labels()[i]==full->labels()[j] && result->vote_fractions()[i]==full->vote_fractions()[j]);++counts[result->labels()[i]-1];}else check(!result->labels()[i] && std::isnan(result->vote_fractions()[i]));}
-        check(result->class_counts()==std::vector<std::uint64_t>({counts[0],counts[1]}));prediction.tile_size=32;const auto tiled=predict_pixel_region(PixelPredictionRequest(doc,roi,model,prediction));check(tiled->sha256()==result->sha256());
+        check(result->class_counts()==std::vector<std::uint64_t>({counts[0],counts[1]}));
+        PixelStreamOptions stream_options;stream_options.block_size=16;stream_options.prediction.tile_size=16;stream_options.prediction.work_bytes=8*1024*1024;
+        PixelPredictionStream stream(doc,roi,model,stream_options);check(stream.matches(doc) && !stream.windowed() && stream.completed_blocks()==0 && stream.estimated_work_bytes()<=stream_options.prediction.work_bytes);
+        while(auto block=stream.next()) {const auto grid=block->level_bounds();check(block->windowed() && block->width()<=16 && block->height()<=16);
+            for(std::int64_t y=0;y<block->height();++y) for(std::int64_t x=0;x<block->width();++x) {const auto i=std::size_t(y*block->width()+x),j=std::size_t((std::int64_t(grid.y-region.y)+y)*result->width()+std::int64_t(grid.x-region.x)+x);check(block->labels()[i]==result->labels()[j] && block->valid()[i]==result->valid()[j]);if(block->valid()[i]) check(block->vote_fractions()[i]==result->vote_fractions()[j]);}
+            const auto saved=archive_pixel_prediction(block);check(PixelClassifierArchive::from_bytes(saved->bytes())->result()->sha256()==block->sha256());
+        }
+        check(stream.state()=="complete" && stream.completed_blocks()==stream.total_blocks() && stream.class_counts()==result->class_counts() && stream.valid_pixels()==result->valid_pixels() && !stream.next());
+        PixelPredictionStream cancelled_stream(doc,roi,model,stream_options);const auto reads=source->reads.load();cancelled_stream.cancel();rejects([&]{cancelled_stream.next();});check(cancelled_stream.state()=="cancelled" && !cancelled_stream.completed_blocks() && source->reads==reads);
+        prediction.tile_size=32;const auto tiled=predict_pixel_region(PixelPredictionRequest(doc,roi,model,prediction));check(tiled->sha256()==result->sha256());
         rejects([&]{predict_pixel_region(predict,&cancelled);});prediction.work_bytes=1024*1024;rejects([&]{PixelPredictionRequest too_small(doc,roi,model,prediction);});
         const auto archived=archive_pixel_prediction(result);check(archived->purpose()=="prediction" && archived->annotations().front().id==roi);
         const auto restored=PixelClassifierArchive::from_bytes(archived->bytes());check(restored->sha256()==archived->sha256() && restored->result()->labels()==result->labels() && !restored->result()->matches(predict));
@@ -83,6 +93,20 @@ int main() {try {
         }else check(traced.state=="failed" && !contour_job.result());
         PixelPredictionJob job;check(job.request(current));check(job.wait(doc).state=="ready" && job.result());doc.rename_annotation(roi,"Changed");check(job.poll(doc).state=="stale" && !job.result());if(has_geos()) check(contour_job.poll(doc).state=="stale" && !contour_job.result());
         doc.remove_annotation(roi);
+    }
+    {
+        auto huge=std::make_shared<Pyramid>();huge->info.width=huge->info.height=32000;huge->info.levels={{32000,32000,1}};
+        Document large(huge);large.set_calibration(.5,.25);const auto id=large.add_roi(Roi::rectangle({0,0,32000,32000}));const auto model=fixture(options.features,transform,table->resolution());
+        PixelStreamOptions stream_options;stream_options.block_size=128;stream_options.prediction.work_bytes=8*1024*1024;
+        rejects([&]{PixelPredictionRequest full(large,id,model,stream_options.prediction);});
+        PixelPredictionStream stream(large,id,model,stream_options);check(!huge->reads && stream.total_blocks()==62500 && stream.estimated_work_bytes()<=stream_options.prediction.work_bytes);
+        check(stream.next()->width()==128 && stream.next()->height()==128 && stream.completed_blocks()==2 && huge->reads==2);stream.cancel();rejects([&]{stream.next();});
+        PixelPredictionStream gated(large,id,model,stream_options);huge->entered.store(false);huge->release.store(false);
+        auto worker=std::async(std::launch::async,[&] {try {gated.next();return false;}catch(const std::runtime_error&) {return true;}});
+        struct ReleaseStreamRead {std::shared_ptr<Pyramid> source;~ReleaseStreamRead() {source->release.store(true);}} release{huge};
+        const auto deadline=std::chrono::steady_clock::now()+std::chrono::seconds(5);while(!huge->entered && std::chrono::steady_clock::now()<deadline) std::this_thread::sleep_for(std::chrono::milliseconds(1));
+        check(huge->entered && gated.busy());rejects([&]{gated.next();});gated.cancel();huge->release.store(true);
+        check(worker.get() && !gated.busy() && gated.state()=="cancelled" && !gated.completed_blocks() && !gated.valid_pixels());
     }
     const auto bare=fixture(options.features,transform);check(bare.bytes()[3]==1);rejects([&]{pixel_classifier_level(doc,bare);});
     PixelResolution bad;bad.pixel_width_um=.5;rejects([&]{bad.validate();});

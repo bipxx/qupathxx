@@ -2448,5 +2448,64 @@ maximum keeps the broad 16 ms frame gate open.
 
 Implementation commit: `0a76c84`. Hosted
 [run 39888265017](https://github.com/bipxx/qupathxx/actions/runs/39888265017)
-targets that commit and is running. No hosted windowed-prediction pass is
-claimed yet.
+targets that commit and passed all five jobs. The [hosted window verification](benchmarks/pixel-prediction-windows-ci-windows-linux.json) checks 22 window API cases and all four portable artifacts on each Python platform, three viewport GUI cases, native suites, installed probes, typing and exact artifact identities. It precedes the block producer.
+
+
+## Packet 79 — native bounded block producer
+
+`PixelPredictionStream` now captures one immutable target/model/source snapshot
+and emits natural-grid blocks in row-major order without allocating a complete
+mask or storing a block queue. Python iterates the native producer with the GIL
+released during each kernel call. Returned immutable arrays own their blocks;
+retaining them is caller storage outside the producer allowance. A prototype
+request budgets the largest block after reserving producer/snapshot bookkeeping.
+Pixel and block quotas reject oversized scans before pixel reads.
+
+The synchronous producer has no hidden thread. A single-consumer guard rejects
+concurrent production, while cancellation and atomic progress queries can run
+concurrently. Final counter/result adoption is serialized with cancellation.
+An uncancellable in-flight read may finish; its cancelled block is discarded
+without advancing counters. Source close fails further production. Document
+edits make matches(document) false but do not rewrite the captured numeric ROI.
+No live prediction request is returned, so independently captured requests
+cannot publish old block contours as current analysis.
+
+All 143 focused source/window/archive/stream cases pass, including 24 new Python
+producer cases. Native checks compare blocks with full masks at levels 1, 1.5, 2,
+including alpha and ROI membership, and round-trip individual QPA2 blocks. A
+32,000-square virtual source plans 62,500 blocks without reading pixels; its
+full mask is rejected under 8 MiB, while the first two 128-square blocks require
+only two bounded reads. A gated reader verifies overlapping-consumer rejection
+and cancellation while a decoder read remains in progress. Native checks pass
+39 GUI and 38 each Windows headless/Linux training/minimal/sanitizer cases.
+
+The [1,024-square producer probe](benchmarks/pixel-stream-1024-windows.json)
+uses an 18-feature, 16-tree recipe and 8 MiB budget. It consumes all 64 blocks,
+compares every label/validity/vote with separately captured window requests,
+and retains no block list. Estimated producer work is 4.41 MB, with at most
+147,456 bytes of output arrays per 128-square block. Producer time is 0.780 s,
+excluding oracle checks. This is a single synthetic in-memory observation;
+input pixels/models are caller-owned, and it proves no RSS, file-backed WSI
+throughput, disk-output, GUI-frame, hardware or biological acceptance.
+
+See the [producer contract](pixel-stream.md). Durable streamed output,
+restart/resume, stitched whole-stream contour publication and a desktop
+streaming job remain open. Unmatched-grid resampling, expanded features, TMA,
+research/QuPath validation and every other outstanding M0–M7 requirement also
+remain open.
+
+The [final local record](benchmarks/pixel-stream-local-windows-linux.json)
+verifies 1,556 full-suite passes with six expected skips, all 143 API and 16
+window-focused cases, native configurations, exact stubs, strict typing and
+installed launch. The 2,048-square run consumes 256 blocks in 3.757 s, with the
+same 4,406,028 estimated producer bytes and 147,456 maximum block-array bytes
+as the 1,024-square run. Source/wheel/native and both benchmark identities agree.
+
+The first full run passed 1,554 cases but exposed one minimize/restore camera
+failure: zoom changed from 2 to `2 / 1.2³` with no scheduled wheel. Posting three
+real Win32 wheel messages reproduced a scripted 2.4 becoming 1.3888888888888888.
+Replay now retains explicitly generated wheel event IDs, including deferred
+events, and filters other wheel input before ImGui NewFrame. The new regression
+requires at least three ignored OS events and an intact positive scripted zoom;
+all original camera/window assertions remain unchanged. Unscripted wheel routing
+remains active. The local record preserves the initial failure and reproduction.
