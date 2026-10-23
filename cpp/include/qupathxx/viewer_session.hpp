@@ -3,6 +3,7 @@
 #include "qupathxx/cells.hpp"
 #include "qupathxx/measurement_tables.hpp"
 #include "qupathxx/cell_tables.hpp"
+#include "qupathxx/raw_image.hpp"
 namespace qpx {
 namespace detail {class ViewerOwner;}
 struct ViewerLimits {
@@ -23,6 +24,9 @@ struct ViewerEvent {
     std::shared_ptr<const TissueResult> tissue;
     std::shared_ptr<const CellResult> cells;
     std::shared_ptr<const PixelBuffer> pixels;
+    std::shared_ptr<const RawPixelBuffer> raw_pixels;
+    std::shared_ptr<const RawImageMetadata> raw_metadata;
+    std::optional<TiffView> tiff_view;
     std::uint64_t samples=0,components=0,rows=0;
     std::size_t bytes=0;
 };
@@ -49,6 +53,9 @@ public:
     std::uint64_t select(std::uint64_t image_id,const std::vector<std::uint64_t>&);
     std::uint64_t activate(std::uint64_t image_id);
     std::uint64_t read_region(std::uint64_t image_id,RegionRequest);
+    std::uint64_t inspect_raw(std::uint64_t image_id);
+    std::uint64_t read_raw(std::uint64_t image_id,RawRegionRequest);
+    std::uint64_t set_tiff_view(std::uint64_t image_id,TiffView);
     std::uint64_t analyze(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,AnalysisKind=AnalysisKind::OpticalDensityMeans,bool nucleus=false);
     std::uint64_t tissue(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,TissueParameters={},bool retain_result=false);
     std::uint64_t cells(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,CellParameters={},bool retain_result=false);

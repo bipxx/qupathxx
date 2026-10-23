@@ -1,13 +1,18 @@
 #include "qupathxx/core.hpp"
 #include "qupathxx/project.hpp"
+#include "qupathxx/raw_image.hpp"
 #include <iostream>
+#include <vector>
+#include <filesystem>
 #include <string>
-int main(int argc, char** argv) {
+static int launch(int argc, char** argv) {
     try {
-        bool smoke=false,empty=false,compact=false,reset_layout=false; std::string path,project_path,recovery_path,recovery_base,layout_path; std::uint64_t image_id=0; double ui_scale=1;
+        bool smoke=false,empty=false,compact=false,reset_layout=false; std::string path,project_path,recovery_path,recovery_base,layout_path,reader="auto"; std::uint64_t image_id=0; double ui_scale=1;std::optional<std::uint32_t> tiff_series;
         for (int i=1;i<argc;++i) {
             auto arg=std::string(argv[i]);
             if(arg=="--smoke") smoke=true;
+            else if(arg=="--reader" && i+1<argc) reader=argv[++i];
+            else if(arg=="--tiff-series" && i+1<argc) {std::string value=argv[++i];std::size_t used=0;const auto n=std::stoul(value,&used);if(value.empty() || value[0]=='-' || used!=value.size() || n>65535) throw std::invalid_argument("invalid TIFF series index");tiff_series=std::uint32_t(n);}
             else if(arg=="--ui-scale" && i+1<argc) {std::string value=argv[++i];std::size_t used=0;ui_scale=std::stod(value,&used);if(used!=value.size()) throw std::invalid_argument("invalid UI scale");}
             else if(arg=="--compact") compact=true;
             else if(arg=="--reset-layout") reset_layout=true;
@@ -21,8 +26,10 @@ int main(int argc, char** argv) {
             else throw std::invalid_argument("Usage: qupathxx_app [image | --project file | --recover snapshot | --empty] [--recovery-base primary] [--image-id id] [--compact | --layout preferences.ini] [--reset-layout] [--ui-scale multiplier] [--smoke]");
         }
         if(!recovery_base.empty() && recovery_path.empty()) throw std::invalid_argument("--recovery-base requires --recover");
+        if(tiff_series && path.empty()) throw std::invalid_argument("--tiff-series requires an image path");
         auto workspace_options=[&] {
             qpx::GuiOptions options;options.ui_scale=ui_scale;options.docked_workspace=!compact;options.reset_layout=reset_layout;
+            options.image_reader=reader;if(tiff_series) {qpx::TiffOpenOptions tiff;tiff.view.series=*tiff_series;options.tiff_options=std::make_shared<const qpx::TiffOpenOptions>(tiff);options.image_reader="tiff";}
             if(compact && (reset_layout || !layout_path.empty())) throw std::invalid_argument("--layout and --reset-layout require the docked workspace");
             if(!compact) options.layout_path=layout_path.empty()?(smoke?std::string{}:qpx::default_workspace_layout_path()):layout_path;
             return options;
@@ -60,3 +67,12 @@ int main(int argc, char** argv) {
         if (smoke && !report.uploaded_tiles) throw std::runtime_error("smoke run did not upload any image tiles");
     } catch (const std::exception& e) { std::cerr << e.what() << '\n'; return 1; }
 }
+
+#ifdef _WIN32
+int wmain(int argc,wchar_t** argv) {
+    try {std::vector<std::string> text;for(int i=0;i<argc;++i) text.push_back(std::filesystem::path(argv[i]).u8string());std::vector<char*> pointers;for(auto& item:text) pointers.push_back(item.data());pointers.push_back(nullptr);return launch(argc,pointers.data());}
+    catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 2;}
+}
+#else
+int main(int argc,char** argv) {return launch(argc,argv);}
+#endif

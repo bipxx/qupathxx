@@ -31,6 +31,9 @@ def main():
             if current=='PixelFeatureImage' and 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
             if current in ('PixelFeatureImage','PixelClassification','PixelPredictionResult') and 'def valid_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint8]:')
             if current in ('PixelClassification','PixelPredictionResult') and 'def vote_fractions_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
+            if current=='RawPixelBuffer':
+                if 'def numpy(' in line:line=line.replace('-> object:', '-> NDArray[numpy.generic]:')
+                if 'def valid_numpy(' in line:line=line.replace('-> object:', '-> NDArray[numpy.uint8]:')
             if current=='PixelTrainingTable':
                 if 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
                 if 'def coordinates_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.int64]:')

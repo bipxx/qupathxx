@@ -22,6 +22,7 @@
 #include "gui_overlay.hpp"
 #include "gui_batch.hpp"
 #include "gui_tma.hpp"
+#include "gui_raw.hpp"
 #include "gui_layout.hpp"
 #include "gui_object_classifier.hpp"
 #include "gui_pixel_classifier.hpp"
@@ -141,6 +142,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     detail::GuiProfiler profiler;
     detail::GuiBatch batch(options);
     detail::GuiTma tma(options);
+    detail::GuiRaw raw(options);
     detail::GuiObjectClassifier classifier(options);
     GuiReplayDeadline settlement(options.replay_timeout_seconds);
     GuiReplayDeadline minimized_startup(options.replay_timeout_seconds);
@@ -353,6 +355,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     ImVec2 discard_recovery_offset{},discard_recovery_size{},keep_close_offset{},keep_close_size{},cancel_close_offset{},cancel_close_size{},discard_close_offset{},discard_close_size{};
     ImVec2 save_close_offset{},save_close_size{},save_recovery_offset{},save_recovery_size{},cancel_recovery_offset{},cancel_recovery_size{};
     char project_image_path[32769]={},project_image_name[4097]={},project_filter[257]={};
+    const char* reader_names[]={"auto","ppm","openslide","tiff"};int image_reader=0;
+    for(int i=0;i<4;++i) if(options.image_reader==reader_names[i]) image_reader=i;
     if(options.project_image_path.size()>32768 || options.project_image_path.find('\0')!=std::string::npos)
         throw std::invalid_argument("invalid project image path");
     std::memcpy(project_image_path,options.project_image_path.c_str(),options.project_image_path.size()+1);
@@ -386,7 +390,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t list_revision=std::numeric_limits<std::uint64_t>::max();
     int frames = 0;
     std::uint64_t settle_frames=0;
-    std::array<int,static_cast<std::size_t>(GuiInputTarget::ApplyTmaLabels)+1> target_seen;
+    std::array<int,static_cast<std::size_t>(GuiInputTarget::RawResultsTab)+1> target_seen;
     std::optional<ImVec2> replay_mouse; // Hold synthetic pointer state between replay events.
     std::set<unsigned int> replay_wheels;std::uint64_t ignored_physical_wheels=0;
     target_seen.fill(-2);
@@ -481,6 +485,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         c.blocked=c.opening || startup_active || close_dialog_active || recovery_dialog_active || restore_pending || remove_dialog_active || maintenance_dialog_active;
         c.closing=exit_requested || glfwWindowShouldClose(session.window);
         c.activate=[&](std::uint64_t id){pending_image=id;};
+        c.refresh_source=[&](std::uint64_t id){if(id==active_image) {mean.invalidate();pending_image=id;refresh_active_image=true;}};
         c.select=[&](const std::vector<std::uint64_t>& ids){selection->replace(ids);selected=selection->primary();};
         c.save=[&](const std::string& path){if(save_job.busy()) return false;const auto started=save_job.request(options.project,path);if(started) {save_result_pending=true;std::memcpy(project_path,path.c_str(),path.size()+1);}return started;};
         c.save_stats=[&]{reconcile_save();return save_job.stats();};c.cancel_save=[&]{save_job.cancel();};
@@ -759,6 +764,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     rendered_window_width==width && rendered_window_height==height;
             }
             if(event.wait_for==GuiInputWait::TmaGridReady) return document.tma_core_count()>0;
+            if(event.wait_for==GuiInputWait::TiffReady) return raw.ready(document);
+            if(event.wait_for==GuiInputWait::TiffViewApplied) return raw.applied(document);
+            if(event.wait_for==GuiInputWait::RawTaskFinished) return raw.finished();
+            if(event.wait_for==GuiInputWait::RawNumpySaved) return raw.task_state()=="saved";
             if(event.wait_for==GuiInputWait::TmaMetadataSaved) return tma.export_state()=="saved";
             if(event.wait_for==GuiInputWait::BatchFinished) return batch.finished();
             if(event.wait_for==GuiInputWait::ObjectClassifierTrained) return classifier.trained();
@@ -803,6 +812,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(event.wait_for==GuiInputWait::TissueContoursPublished) return !tissue.busy() && tissue.contours_published();
             if(target_seen[static_cast<std::size_t>(event.target)]!=frames-1) return false;
             if(event.target>=GuiInputTarget::CreateTmaGrid && event.target<=GuiInputTarget::ApplyTmaLabels) return tma.enabled(event.target);
+            if(event.target>=GuiInputTarget::ApplyTiffView && event.target<=GuiInputTarget::RawResultsTab) return raw.enabled(event.target);
             switch(event.target) {
                 case GuiInputTarget::DisplayReset:
                     return has_image && !startup_active && !close_dialog_active && !recovery_dialog_active && !restore_pending && !remove_dialog_active && !maintenance_dialog_active;
@@ -841,6 +851,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 const auto bounds=pixel_classifier.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};
             }
             if(event.target>=GuiInputTarget::CreateTmaGrid && event.target<=GuiInputTarget::ApplyTmaLabels) {const auto bounds=tma.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
+            if(event.target>=GuiInputTarget::ApplyTiffView && event.target<=GuiInputTarget::RawResultsTab) {const auto bounds=raw.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
             if(event.target==GuiInputTarget::ResetLayout) {origin=layout_reset_offset;extent=layout_reset_size;}
             if(event.target==GuiInputTarget::ProjectList) { origin=project_list_offset; extent=project_list_size; }
             if(event.target==GuiInputTarget::DisplayReset) { origin=display_reset_offset; extent=display_reset_size; }
@@ -927,6 +938,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 case GuiInputKind::CancelStainEstimateKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiKey_F3,true);break;
                 case GuiInputKind::ObjectClassifierKey: input.AddKeyEvent(ImGuiKey_F4,true);break;
                 case GuiInputKind::TmaKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiKey_T,true);break;
+                case GuiInputKind::RawChannelsKey: input.AddKeyEvent(ImGuiKey_F2,true);break;
                 case GuiInputKind::PixelClassifierKey: input.AddKeyEvent(ImGuiKey_F5,true);break;
                 case GuiInputKind::ExportMeasurementTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,!event.shift);input.AddKeyEvent(ImGuiKey_Q,true);break;
                 case GuiInputKind::CancelMeasurementTableKey: input.AddKeyEvent(ImGuiMod_Ctrl,true);input.AddKeyEvent(ImGuiMod_Alt,true);input.AddKeyEvent(ImGuiMod_Shift,true);input.AddKeyEvent(ImGuiKey_Q,true);break;
@@ -968,7 +980,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui_ImplGlfw_NewFrame();
         // Test/benchmark replay enters the same ImGui event queue as GLFW input.
         if (!options.inputs.empty()) {
-            input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);
+            input.AddKeyEvent(ImGuiKey_R,false); input.AddKeyEvent(ImGuiKey_Z,false); input.AddKeyEvent(ImGuiKey_Y,false);input.AddKeyEvent(ImGuiKey_F2,false);
             input.AddKeyEvent(ImGuiKey_J,false);input.AddKeyEvent(ImGuiKey_U,false);input.AddKeyEvent(ImGuiKey_G,false);input.AddKeyEvent(ImGuiKey_C,false);input.AddKeyEvent(ImGuiKey_X,false);input.AddKeyEvent(ImGuiMod_Alt,false);
             input.AddKeyEvent(ImGuiMod_Ctrl,false); input.AddKeyEvent(ImGuiMod_Shift,false); input.AddKeyEvent(ImGuiKey_Delete,false);
             for(auto key:{ImGuiKey_E,ImGuiKey_P,ImGuiKey_L,ImGuiKey_T,ImGuiKey_Enter,ImGuiKey_A,ImGuiKey_Escape,ImGuiKey_V,ImGuiKey_H,ImGuiKey_I,ImGuiKey_B,ImGuiKey_S,ImGuiKey_O,ImGuiKey_N,ImGuiKey_Backspace,ImGuiKey_F5,ImGuiKey_F6,ImGuiKey_F7,ImGuiKey_PageDown,ImGuiKey_PageUp,ImGuiKey_F8,ImGuiKey_F9,ImGuiKey_F10,ImGuiKey_F11,ImGuiKey_F12,ImGuiKey_M,ImGuiKey_K,ImGuiKey_D,ImGuiKey_F,ImGuiKey_Q,ImGuiKey_F3}) input.AddKeyEvent(key,false);
@@ -1068,6 +1080,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::SameLine(); ImGui::BeginDisabled(!document.can_redo()); if (ui::Button("Redo")) history_action(true); ImGui::EndDisabled();
         ImGui::SameLine();if(ui::Button(batch.busy()?"Batch running...":"Batch...")) batch.open();
         ImGui::SameLine();if(ui::Button("TMA...")) tma.open();
+        if(document.server()->reader_id()=="tiff") {ImGui::SameLine();if(ui::Button("Raw channels (F2)")) raw.open();}
         selected=selection->primary();
         if(!io.WantTextInput && !editing_blocked && has_image && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_A)) { selection->select_all(); selected=selection->primary(); }
         auto delete_selection=[&]() {
@@ -1180,6 +1193,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     }
                     ImGui::EndDisabled();
                     ui::SetNextItemWidth(240); ui::InputTextWithHint("##Image source","Image file to add or relink",project_image_path,sizeof(project_image_path));
+                    ui::Combo("Reader",&image_reader,"Auto\0PPM\0OpenSlide\0TIFF quantitative\0");
                     if(ui::Button("Add image (F8)")) add_image=true;
                     auto current=std::find_if(project_images.begin(),project_images.end(),[&](const auto& item){return item.id==active_image;});
                     ImGui::BeginDisabled(current==project_images.end() || current->embedded);
@@ -1193,7 +1207,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 drawing=marquee=vertex_dragging=false; active_vertex.reset(); draft_points.clear(); tool=previous_tool=0;
             }
             if(add_image) {
-                try { pending_image=options.project->add_image(project_image_path); project_catalog_dirty=true; project_error.clear(); }
+                try {if(image_reader==3 || (image_reader==0 && has_tiff() && is_ome_tiff_path(project_image_path))) raw.open_image(*options.project,project_image_path,options.tiff_options?*options.tiff_options:TiffOpenOptions{});else pending_image=options.project->add_image(project_image_path,reader_names[image_reader]);project_catalog_dirty=true; project_error.clear(); }
                 catch(const std::exception& e) { project_error=e.what(); }
             }
             if(relink_image) {
@@ -2282,6 +2296,12 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         }
         ImGui::End();
         if(tma.draw(document,*selection,options.project.get(),editing_blocked,has_image,mark_target)) batch.open_tma();
+        const auto raw_change=raw.draw(document,*selection,options.project.get(),editing_blocked,mark_target);
+        if(raw_change.image) {pending_image=raw_change.image;project_catalog_dirty=true;}
+        if(raw_change.refresh) {
+            mean.invalidate();previous_uploads+=tiles->uploads();previous_generations+=tiles->generations();previous_peak_bytes=std::max(previous_peak_bytes,tiles->peak_bytes());
+            tiles=std::make_unique<GuiTiles>(document.server());overlay_cache.clear();overlay_display.reset();plan={};overview.reset();plan_inputs.reset();overview_center.reset();published_view_inputs.reset();
+        }
         batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,cell_parameters,static_cast<AnalysisKind>(analysis_kind),analysis_nucleus,pixel_classifier.model(),make_transform);
         classifier.draw(document,*selection,editing_blocked,has_image,mark_target);
         const auto pixel_top_left=viewport.screen_to_image({0,0}),pixel_bottom_right=viewport.screen_to_image({previous_canvas_size.x,previous_canvas_size.y});
@@ -2313,14 +2333,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             } else {
                 // Paint the initial workspace before any file I/O starts. The
                 // worker owns only native factories, metadata and atomics.
-                auto kind=options.startup_kind,path=options.startup_path,base=options.recovery_base_path;
+                auto kind=options.startup_kind,path=options.startup_path,base=options.recovery_base_path,reader=options.image_reader;
+                const auto tiff_options=options.tiff_options?*options.tiff_options:TiffOpenOptions{};
                 const auto image_id=options.startup_image_id;
-                project_load=std::async(std::launch::async,[kind,path,base,image_id,progress=startup_progress] {
+                project_load=std::async(std::launch::async,[kind,path,base,reader,tiff_options,image_id,progress=startup_progress] {
                     const auto start=std::chrono::steady_clock::now();
                     std::shared_ptr<Project> candidate;
                     if(kind=="image") {
                         if(progress->cancelled.load()) throw std::runtime_error("image opening cancelled");
-                        candidate=std::make_shared<Project>(); candidate->add_image(path);
+                        candidate=std::make_shared<Project>();if(reader=="tiff" || (reader=="auto" && has_tiff() && is_ome_tiff_path(path))) candidate->add_tiff_source(open_tiff(path,tiff_options,&progress->cancelled));else candidate->add_image(path,reader);
                         progress->total_images.store(1); progress->images.store(1);
                     } else candidate=Project::open_impl(path,kind=="recovery",base,progress.get());
                     if(progress->cancelled.load()) throw std::runtime_error("opening cancelled");
@@ -2336,6 +2357,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     // Finite embedded runs also return a durable save result and reconcile the
     // caller's project. No live authority or Python-owned objects enter workers.
     tma.finish(frame_limit>0);
+    raw.finish(active_document,frame_limit>0);
     batch.finish();
     classifier.finish(*active_document,*selection,frame_limit>0);
     pixel_classifier.finish(*active_document,*selection,frame_limit>0);
@@ -2402,7 +2424,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         final_table.state,cell_table_error.empty()?final_table.error:cell_table_error,final_table.path,final_table.rows,final_table.bytes,final_table.capture_ms,final_table.write_ms,
         final_fingerprint.state,final_fingerprint.error.empty()?fingerprint_error:final_fingerprint.error,fingerprint_job.result(),final_fingerprint.bytes,final_fingerprint.elapsed_ms,
         final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied,batch.stats().state,batch.error(),batch.result(),suspended_iterations,suspended_work_ms,suspended_wait_ms,bool(glfwGetWindowAttrib(session.window,GLFW_ICONIFIED)),overview.state(),overview.error(),overview.result(),overview.bytes(),overview.peak_bytes(),workspace.enabled(),workspace.loaded(),layout_saved,workspace.error(),workspace.browser,workspace.display,workspace.measurements,workspace.canvas,canvas_visible,ui_scale.monitor,ui_scale.framebuffer,ui_scale.logical,font_rebuilds,ui::layout_stats.stacked_fields,ui::layout_stats.wrapped_buttons,ui::layout_stats.overflow_items,ui::layout_stats.max_overflow,ui::layout_stats.first_overflow,classifier.stats().state,classifier.error(),classifier.io_state(),classifier.io_error(),classifier.model(),classifier.result(),classifier.changed(),classifier.capture_ms(),classifier.record_id(),pixel_classifier.training_stats().state,pixel_classifier.prediction_stats().state,pixel_classifier.error(),pixel_classifier.io_state(),pixel_classifier.io_error(),pixel_classifier.model(),pixel_classifier.table(),pixel_classifier.result(),pixel_classifier.preview_ready(),canvas_visible && pixel_classifier.overlay_visible(),pixel_classifier.preview().bytes(),pixel_classifier.preview().peak_bytes(),pixel_classifier.preview().completed_tiles(),pixel_classifier.preview().generation(),pixel_classifier.capture_ms(),pixel_classifier.catalog_inspected(),pixel_classifier.catalog_max_step(),pixel_classifier.catalog_complete(),Rect{previous_canvas.x,previous_canvas.y,previous_canvas_size.x,previous_canvas_size.y},pixel_classifier.contour_state(),pixel_classifier.traced(),pixel_classifier.published_ids(),pixel_classifier.contours_published(),pixel_classifier.archives().state(),pixel_classifier.archives().kept(),pixel_classifier.archives().selected(),pixel_classifier.historical_result(),pixel_classifier.archives().max_step(),pixel_classifier.archives().complete(),ignored_physical_wheels,std::make_shared<const PixelStreamExportStats>(pixel_classifier.stream_stats()),std::make_shared<const PixelStreamReadStats>(pixel_classifier.browser().stats()),pixel_classifier.browser().preview().bytes(),pixel_classifier.browser().preview().peak_bytes(),pixel_classifier.browser().preview().ready(),pixel_classifier.browser().preview_bounds(),pixel_classifier.browser().kept(),pixel_classifier.browser().selected(),pixel_classifier.browser().catalog_max_step(),pixel_classifier.browser().catalog_complete()};
-    report.tma_error=tma.error();report.tma_export_state=tma.export_state();report.tma_created_ids=tma.created();report.tma_cores=active_document->tma_core_count();report.tma_missing_cores=report.tma_cores-active_document->tma_core_ids().size();report.tma_catalog_max_step=tma.catalog_max_step();report.tma_metadata_bytes=tma.metadata_bytes();return report;
+    report.tma_error=tma.error();report.tma_export_state=tma.export_state();report.tma_created_ids=tma.created();report.tma_cores=active_document->tma_core_count();report.tma_missing_cores=report.tma_cores-active_document->tma_core_ids().size();report.tma_catalog_max_step=tma.catalog_max_step();report.tma_metadata_bytes=tma.metadata_bytes();
+    report.tiff_state=raw.state();report.raw_task_state=raw.task_state();report.raw_error=raw.error();report.raw_statistics=raw.statistics();report.tiff_view_changes=raw.changes();report.raw_export_bytes=raw.export_bytes();report.raw_catalog_max_step=raw.catalog_max_step();return report;
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

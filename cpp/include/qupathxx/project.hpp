@@ -58,6 +58,9 @@ public:
     void restore_recovery(const std::string& path,const std::string& base_path="");
     void save(const std::string& path);
     std::uint64_t add_image(const std::string& path,std::string reader="auto",std::string name="");
+    std::uint64_t add_tiff_image(const std::string& path,const TiffOpenOptions&,std::string name="");
+    std::uint64_t add_tiff_source(std::shared_ptr<ImageServer>,std::string name="");
+    void set_tiff_view(std::uint64_t id,const TiffView&);
     std::uint64_t add_document(std::shared_ptr<Document> document,std::string name="",
         std::string source_path="",std::string reader="auto");
     std::shared_ptr<Document> document(std::uint64_t id) const;
@@ -76,6 +79,7 @@ public:
     const std::string& recovery_source() const { return recovery_source_; }
     std::uint64_t generation() const { return generation_; }
 private:
+    friend class detail::GuiRaw;
     friend class CellTableRequest;
     friend class MeasurementTableRequest;
     friend struct ProjectBatchKernel;

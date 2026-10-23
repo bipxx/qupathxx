@@ -91,7 +91,7 @@ def test_roundtrip_retains_every_numeric_field_and_rechecks(tmp_path, feature, e
     with pytest.raises(ValueError, match="current request"):
         restored.keep_cells(replay, old)
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 11
+        assert db.execute("PRAGMA user_version").fetchone()[0] == 12
 
 
 @project_only
@@ -161,7 +161,7 @@ def test_save_and_recovery_capture_keep_removed_runs_isolated(tmp_path):
 def test_schema4_migration_rolls_back_with_failed_save(tmp_path):
     project, doc, image, obj, _, _, _, path = saved(tmp_path)
     with sqlite3.connect(path) as db:
-        db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
+        db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
         db.execute("DROP TABLE pixel_stream_records");db.execute("DROP TABLE pixel_classifier_records");db.execute("DROP TABLE classifier_records");db.execute("DROP TABLE analysis_provenance");db.execute("DROP TABLE cell_feature_links")
         db.execute("DROP TABLE cell_records")
         db.execute("PRAGMA user_version=4")
@@ -177,7 +177,7 @@ def test_schema4_migration_rolls_back_with_failed_save(tmp_path):
         db.execute("DROP TRIGGER fail_cells")
     loaded.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute("PRAGMA user_version").fetchone()[0] == 11
+        assert db.execute("PRAGMA user_version").fetchone()[0] == 12
 
 
 def rewrite_checksum(data, roi):

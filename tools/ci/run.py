@@ -114,6 +114,7 @@ def main():
                  QUPATHXX_BUILD_INTERCHANGE='ON' if full else 'OFF',
                  QUPATHXX_BUILD_PROJECT='ON' if full else 'OFF',
                  QUPATHXX_BUILD_CLASSIFIER_TRAINING='ON' if full else 'OFF',
+                 QUPATHXX_BUILD_TIFF='ON' if full else 'OFF',
                  QUPATHXX_BUILD_OPENSLIDE='ON' if full and args.mode != 'sanitize' else 'OFF')
     if geos:
         flags['GEOS_ROOT'] = str(geos)
@@ -195,6 +196,8 @@ def main():
         work/'project-pixel-batch-benchmark.log', env, 180)
     run([test_python, '-I', ROOT/'tools/probe_project_pixel_batch_cancel.py', '--work', work/'pixel-batch-interrupt', '--output', work/'pixel-batch-interrupt.json'],
         work/'pixel-batch-interrupt.log', env, 90)
+    run([test_python, '-I', ROOT/'tools/benchmark_tiff_reader.py', '--output', work/'tiff-reader-benchmark.json'],
+        work/'tiff-reader-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_tma.py', '--output', work/'tma-benchmark.json'],
         work/'tma-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_cli.py', '--work', work/'pixel-stream-cli', '--output', work/'pixel-stream-cli-benchmark.json'],
@@ -206,6 +209,8 @@ def main():
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_archives.py', '--output', work/'pixel-archive-benchmark.json'],
         work/'pixel-archive-benchmark.log', env, 120)
     if args.mode == 'gui':
+        run([test_python, '-I', ROOT/'tools/benchmark_tiff_reader.py', '--gui', '--output', work/'gui-tiff-reader-benchmark.json', '--capture', work/'gui-tiff-reader.ppm'],
+            work/'gui-tiff-reader-benchmark.log', env, 120)
         run([test_python, '-I', ROOT/'tools/benchmark_tma.py', '--gui', '--output', work/'gui-tma-benchmark.json', '--capture', work/'gui-tma.ppm'],
             work/'gui-tma-benchmark.log', env, 120)
         run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_records.py', '--gui', '--file', work/'pixel-stream-file.qps', '--project', work/'gui-pixel-stream-links.qpxproj', '--output', work/'gui-pixel-stream-record-benchmark.json'],

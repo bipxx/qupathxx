@@ -1,0 +1,570 @@
+{
+  "schema": "qpx.tiff-reader-local-validation/1",
+  "scope": "Initial native/Python/CLI/ImGui typed TIFF and single-file OME vertical slice; full M0-M7 goal remains active.",
+  "source_tree_sha256": "8533a9fb7f1e50407a70bbafe8fba5b26373486c736191e92a9f30eb9158d8a9",
+  "native_sha256": "805c511308ad382d7a451fe48b696b2875a6731a2189ae2b14eb99dd53871f92",
+  "wheel": {
+    "path": "build\\ci\\tiff88-final2-wheels\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "bytes": 13192737,
+    "sha256": "ac29d11c10f6c74f69cd0e384af3e20ca5a284cd250e5b575c8c52fb8076a518"
+  },
+  "all_python": {
+    "tests": 1899,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 6,
+    "passed": 1893,
+    "sha256": "322dcbfa4e3751e9b210eb3f5367df6d5c2220cdb11b8c76f7c55d290e42d8ef"
+  },
+  "cases": {
+    "test_tiff_reader": [
+      "test_exact_native_dtype_and_owned_arrays[strip-uint8]",
+      "test_exact_native_dtype_and_owned_arrays[strip-uint16]",
+      "test_exact_native_dtype_and_owned_arrays[strip-int8]",
+      "test_exact_native_dtype_and_owned_arrays[strip-int16]",
+      "test_exact_native_dtype_and_owned_arrays[strip-uint32]",
+      "test_exact_native_dtype_and_owned_arrays[strip-int32]",
+      "test_exact_native_dtype_and_owned_arrays[strip-uint64]",
+      "test_exact_native_dtype_and_owned_arrays[strip-int64]",
+      "test_exact_native_dtype_and_owned_arrays[strip-float32]",
+      "test_exact_native_dtype_and_owned_arrays[strip-float64]",
+      "test_exact_native_dtype_and_owned_arrays[tile-uint8]",
+      "test_exact_native_dtype_and_owned_arrays[tile-uint16]",
+      "test_exact_native_dtype_and_owned_arrays[tile-int8]",
+      "test_exact_native_dtype_and_owned_arrays[tile-int16]",
+      "test_exact_native_dtype_and_owned_arrays[tile-uint32]",
+      "test_exact_native_dtype_and_owned_arrays[tile-int32]",
+      "test_exact_native_dtype_and_owned_arrays[tile-uint64]",
+      "test_exact_native_dtype_and_owned_arrays[tile-int64]",
+      "test_exact_native_dtype_and_owned_arrays[tile-float32]",
+      "test_exact_native_dtype_and_owned_arrays[tile-float64]",
+      "test_exact_native_dtype_and_owned_arrays[bigendian-uint8]",
+      "test_exact_native_dtype_and_owned_arrays[bigendian-uint16]",
+      "test_exact_native_dtype_and_owned_arrays[bigendian-int8]",
+      "test_exact_native_dtype_and_owned_arrays[bigendian-int16]",
+      "test_exact_native_dtype_and_owned_arrays[bigendian-uint32]",
+      "test_exact_native_dtype_and_owned_arrays[bigendian-int32]",
+      "test_exact_native_dtype_and_owned_arrays[bigendian-uint64]",
+      "test_exact_native_dtype_and_owned_arrays[bigendian-int64]",
+      "test_exact_native_dtype_and_owned_arrays[bigendian-float32]",
+      "test_exact_native_dtype_and_owned_arrays[bigendian-float64]",
+      "test_rgb_channel_selection_and_preview_cache[contig]",
+      "test_rgb_channel_selection_and_preview_cache[separate]",
+      "test_padding_statistics_nonfinite_and_numpy_export",
+      "test_ome_plane_orders_and_calibration[ZCT]",
+      "test_ome_plane_orders_and_calibration[ZTC]",
+      "test_ome_plane_orders_and_calibration[CZT]",
+      "test_ome_plane_orders_and_calibration[CTZ]",
+      "test_ome_plane_orders_and_calibration[TZC]",
+      "test_ome_plane_orders_and_calibration[TCZ]",
+      "test_subifd_integer_pyramid_and_plain_pages",
+      "test_cache_budget_and_source_mutation",
+      "test_unsupported_or_invalid_metadata_is_explicit[orientation]",
+      "test_unsupported_or_invalid_metadata_is_explicit[bits]",
+      "test_unsupported_or_invalid_metadata_is_explicit[badxml]",
+      "test_unsupported_or_invalid_metadata_is_explicit[incomplete]",
+      "test_roi_statistics_matches_independent_pixel_center_mask",
+      "test_ome_grouped_rgb_and_explicit_shuffled_tiffdata",
+      "test_parallel_native_views_and_snapshot_options",
+      "test_decode_budget_and_invalid_requests_fail_before_large_output",
+      "test_preview_uses_each_pyramid_levels_own_alpha_mode[assocalpha]",
+      "test_preview_uses_each_pyramid_levels_own_alpha_mode[unassalpha]"
+    ],
+    "test_tiff_project": [
+      "test_view_change_preserves_objects_history_and_exact_raw",
+      "test_corrupt_view_rows_rejected[checksum]",
+      "test_corrupt_view_rows_rejected[missing]",
+      "test_corrupt_view_rows_rejected[orphan]",
+      "test_relink_retains_axes_and_display_selection",
+      "test_dense_document_cannot_claim_quantitative_tiff_link"
+    ],
+    "test_tiff_cli": [
+      "test_native_raw_export_exact_and_existing_output_preserved[uint16]",
+      "test_native_raw_export_exact_and_existing_output_preserved[int64]",
+      "test_native_raw_export_exact_and_existing_output_preserved[uint64]",
+      "test_native_raw_export_exact_and_existing_output_preserved[float64]",
+      "test_input_and_hardlink_cannot_be_overwritten",
+      "test_invalid_arguments_never_create_output[--z--1]",
+      "test_invalid_arguments_never_create_output[--channels-0]",
+      "test_invalid_arguments_never_create_output[--width-999999999]",
+      "test_invalid_arguments_never_create_output[--level-9]",
+      "test_invalid_arguments_never_create_output[--unknown-1]"
+    ],
+    "test_gui_raw": [
+      "test_apply_native_display_view",
+      "test_async_raw_measure_and_numpy_export[measure]",
+      "test_async_raw_measure_and_numpy_export[export]",
+      "test_managed_raw_read_view_change_and_persistence",
+      "test_open_plain_tiff_series_as_an_independent_project_image",
+      "test_gui_export_preserves_existing_file",
+      "test_managed_raw_budget_uses_actual_dtype_and_reclaims_failed_result"
+    ]
+  },
+  "native": {
+    "windows-headless": {
+      "tests": 40,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 40,
+      "sha256": "1b4a85e25ebf1d1a3e39b409f5762cdb832e165c722ad9cfa6cf9fa49c841d3d"
+    },
+    "windows-gui": {
+      "tests": 41,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 41,
+      "sha256": "49ca4f45518b0f3cfcd360ae8fc57cb3c3542b51a514f0b7f00139c86b332b92"
+    },
+    "linux-training": {
+      "tests": 40,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 40,
+      "sha256": "04a27f73680357b12a8c2ce19d3296ab640fe6f2376b5436189c73c62a9e886c"
+    },
+    "linux-minimal": {
+      "tests": 40,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 40,
+      "sha256": "ab0fd6134a9e9fd45248be6d738c7c03ea144448051275a0e750884483d98d1e"
+    },
+    "linux-project-asan-ubsan": {
+      "tests": 40,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 40,
+      "sha256": "2da63954d50c70f123d692ea71bd285201327d298367fd6cccaba937f643ab10"
+    }
+  },
+  "configuration_source_fingerprints": {
+    "windows-headless": "8533a9fb7f1e50407a70bbafe8fba5b26373486c736191e92a9f30eb9158d8a9",
+    "windows-gui": "8533a9fb7f1e50407a70bbafe8fba5b26373486c736191e92a9f30eb9158d8a9",
+    "linux-training": "8533a9fb7f1e50407a70bbafe8fba5b26373486c736191e92a9f30eb9158d8a9",
+    "linux-minimal": "8533a9fb7f1e50407a70bbafe8fba5b26373486c736191e92a9f30eb9158d8a9",
+    "linux-project-asan-ubsan": "8533a9fb7f1e50407a70bbafe8fba5b26373486c736191e92a9f30eb9158d8a9"
+  },
+  "benchmarks": {
+    "tiff-reader-windows.json": {
+      "sha256": "32bbb0382c6375424e357e421686c22ffab023a4380e8af4dfbdd19f3c766f1e",
+      "result": {
+        "schema": "qpx.tiff-reader-benchmark/1",
+        "shape": [
+          1024,
+          1024,
+          4
+        ],
+        "dtype": "uint16",
+        "open_ms": 600.5455999402329,
+        "cold_read_ms": 40.70290003437549,
+        "four_warm_views_ms": 84.64699995238334,
+        "statistics_ms": 79.1686000302434,
+        "decoded_blocks": 64,
+        "cache_hits": 128,
+        "cache_peak_bytes": 8404992,
+        "cache_budget_bytes": 16777216,
+        "exact_raw_verified": true,
+        "preview_verified": true,
+        "view_cache_reuse_verified": true,
+        "distinct_channels_verified": true,
+        "independent_close_verified": true,
+        "gui": null,
+        "native_sha256": "805c511308ad382d7a451fe48b696b2875a6731a2189ae2b14eb99dd53871f92",
+        "environment": {
+          "source_tree_sha256": "8533a9fb7f1e50407a70bbafe8fba5b26373486c736191e92a9f30eb9158d8a9",
+          "git_revision": "f91c3273113a0a27bea9a01061785b37cb971721+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Synthetic independent tifffile fixture on a shared workstation. Timings are observations, not hardware acceptance. Cache charge is native accounting, not process RSS. No biological validation."
+      }
+    },
+    "tiff-reader-gui-windows.json": {
+      "sha256": "ff7b118b2c93540035b9474d5986cdf2c3415bd1b877f5c272dbd0010353e47c",
+      "result": {
+        "schema": "qpx.tiff-reader-benchmark/1",
+        "shape": [
+          1024,
+          1024,
+          4
+        ],
+        "dtype": "uint16",
+        "open_ms": 692.9065999574959,
+        "cold_read_ms": 54.60650008171797,
+        "four_warm_views_ms": 115.88359985034913,
+        "statistics_ms": 95.53930000402033,
+        "decoded_blocks": 64,
+        "cache_hits": 128,
+        "cache_peak_bytes": 8404992,
+        "cache_budget_bytes": 16777216,
+        "exact_raw_verified": true,
+        "preview_verified": true,
+        "view_cache_reuse_verified": true,
+        "distinct_channels_verified": true,
+        "independent_close_verified": true,
+        "gui": {
+          "frames": 80,
+          "tiff_state": "ready",
+          "ui_overflow": 0,
+          "cpu_frame_p95_ms": 2.927
+        },
+        "native_sha256": "805c511308ad382d7a451fe48b696b2875a6731a2189ae2b14eb99dd53871f92",
+        "environment": {
+          "source_tree_sha256": "8533a9fb7f1e50407a70bbafe8fba5b26373486c736191e92a9f30eb9158d8a9",
+          "git_revision": "f91c3273113a0a27bea9a01061785b37cb971721+dirty",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Synthetic independent tifffile fixture on a shared workstation. Timings are observations, not hardware acceptance. Cache charge is native accounting, not process RSS. No biological validation."
+      }
+    }
+  },
+  "windows_linux_big_endian_deflate_exact_numpy_exports": [
+    {
+      "dtype": "uint8",
+      "exact_samples": true,
+      "same_numpy_bytes": true
+    },
+    {
+      "dtype": "int8",
+      "exact_samples": true,
+      "same_numpy_bytes": true
+    },
+    {
+      "dtype": "uint16",
+      "exact_samples": true,
+      "same_numpy_bytes": true
+    },
+    {
+      "dtype": "int16",
+      "exact_samples": true,
+      "same_numpy_bytes": true
+    },
+    {
+      "dtype": "uint32",
+      "exact_samples": true,
+      "same_numpy_bytes": true
+    },
+    {
+      "dtype": "int32",
+      "exact_samples": true,
+      "same_numpy_bytes": true
+    },
+    {
+      "dtype": "uint64",
+      "exact_samples": true,
+      "same_numpy_bytes": true
+    },
+    {
+      "dtype": "int64",
+      "exact_samples": true,
+      "same_numpy_bytes": true
+    },
+    {
+      "dtype": "float32",
+      "exact_samples": true,
+      "same_numpy_bytes": true
+    },
+    {
+      "dtype": "float64",
+      "exact_samples": true,
+      "same_numpy_bytes": true
+    }
+  ],
+  "instrumented_deflate_dtypes": [
+    {
+      "dtype": "float32",
+      "asan_ubsan_clean": true,
+      "exact_numpy_bytes": true
+    },
+    {
+      "dtype": "float64",
+      "asan_ubsan_clean": true,
+      "exact_numpy_bytes": true
+    },
+    {
+      "dtype": "int16",
+      "asan_ubsan_clean": true,
+      "exact_numpy_bytes": true
+    },
+    {
+      "dtype": "int32",
+      "asan_ubsan_clean": true,
+      "exact_numpy_bytes": true
+    },
+    {
+      "dtype": "int64",
+      "asan_ubsan_clean": true,
+      "exact_numpy_bytes": true
+    },
+    {
+      "dtype": "int8",
+      "asan_ubsan_clean": true,
+      "exact_numpy_bytes": true
+    },
+    {
+      "dtype": "uint16",
+      "asan_ubsan_clean": true,
+      "exact_numpy_bytes": true
+    },
+    {
+      "dtype": "uint32",
+      "asan_ubsan_clean": true,
+      "exact_numpy_bytes": true
+    },
+    {
+      "dtype": "uint64",
+      "asan_ubsan_clean": true,
+      "exact_numpy_bytes": true
+    },
+    {
+      "dtype": "uint8",
+      "asan_ubsan_clean": true,
+      "exact_numpy_bytes": true
+    }
+  ],
+  "frozen_batch_view_and_resume": {
+    "schema": "qpx.tiff-batch-proof/1",
+    "frozen_view_preserved": true,
+    "same_rgb_analysis": true,
+    "verified_resume": true,
+    "source_tree_sha256": "8533a9fb7f1e50407a70bbafe8fba5b26373486c736191e92a9f30eb9158d8a9"
+  },
+  "startup_launchers": {
+    "schema": "qpx.tiff-startup-proof/1",
+    "source_tree_sha256": "8533a9fb7f1e50407a70bbafe8fba5b26373486c736191e92a9f30eb9158d8a9",
+    "app_sha256": "972d23c7fbbae4387ebabf3567587b02cf98ffc918861b4f808f733f192573a1",
+    "cases": [
+      {
+        "runtime": "native",
+        "flags": [
+          "--reader",
+          "tiff"
+        ],
+        "native_startup_and_uploaded_tiles": true
+      },
+      {
+        "runtime": "native",
+        "flags": [
+          "--tiff-series",
+          "1"
+        ],
+        "native_startup_and_uploaded_tiles": true
+      },
+      {
+        "runtime": "python",
+        "flags": [
+          "--reader",
+          "tiff"
+        ],
+        "native_startup_and_uploaded_tiles": true
+      },
+      {
+        "runtime": "python",
+        "flags": [
+          "--tiff-series",
+          "1"
+        ],
+        "native_startup_and_uploaded_tiles": true
+      }
+    ]
+  },
+  "pyramid_alpha_platforms": {
+    "schema": "qpx.tiff-alpha-proof/1",
+    "source_tree_sha256": "8533a9fb7f1e50407a70bbafe8fba5b26373486c736191e92a9f30eb9158d8a9",
+    "cases": [
+      {
+        "platform": "windows",
+        "base_alpha": "assocalpha",
+        "level": 0,
+        "exact_rgba": [
+          128,
+          64,
+          32,
+          128
+        ]
+      },
+      {
+        "platform": "windows",
+        "base_alpha": "assocalpha",
+        "level": 1,
+        "exact_rgba": [
+          128,
+          64,
+          32,
+          128
+        ]
+      },
+      {
+        "platform": "linux",
+        "base_alpha": "assocalpha",
+        "level": 0,
+        "exact_rgba": [
+          128,
+          64,
+          32,
+          128
+        ]
+      },
+      {
+        "platform": "linux",
+        "base_alpha": "assocalpha",
+        "level": 1,
+        "exact_rgba": [
+          128,
+          64,
+          32,
+          128
+        ]
+      },
+      {
+        "platform": "asan-ubsan",
+        "base_alpha": "assocalpha",
+        "level": 0,
+        "exact_rgba": [
+          128,
+          64,
+          32,
+          128
+        ]
+      },
+      {
+        "platform": "asan-ubsan",
+        "base_alpha": "assocalpha",
+        "level": 1,
+        "exact_rgba": [
+          128,
+          64,
+          32,
+          128
+        ]
+      },
+      {
+        "platform": "windows",
+        "base_alpha": "unassalpha",
+        "level": 0,
+        "exact_rgba": [
+          128,
+          64,
+          32,
+          128
+        ]
+      },
+      {
+        "platform": "windows",
+        "base_alpha": "unassalpha",
+        "level": 1,
+        "exact_rgba": [
+          128,
+          64,
+          32,
+          128
+        ]
+      },
+      {
+        "platform": "linux",
+        "base_alpha": "unassalpha",
+        "level": 0,
+        "exact_rgba": [
+          128,
+          64,
+          32,
+          128
+        ]
+      },
+      {
+        "platform": "linux",
+        "base_alpha": "unassalpha",
+        "level": 1,
+        "exact_rgba": [
+          128,
+          64,
+          32,
+          128
+        ]
+      },
+      {
+        "platform": "asan-ubsan",
+        "base_alpha": "unassalpha",
+        "level": 0,
+        "exact_rgba": [
+          128,
+          64,
+          32,
+          128
+        ]
+      },
+      {
+        "platform": "asan-ubsan",
+        "base_alpha": "unassalpha",
+        "level": 1,
+        "exact_rgba": [
+          128,
+          64,
+          32,
+          128
+        ]
+      }
+    ]
+  },
+  "installed_workflow": {
+    "sha256": "ecc33d7fc8ce18bd7e8052b081215a6c037a5c6448265c604da98b85b5ad2254",
+    "result": {
+      "schema": "qpx.installed-workflow/1",
+      "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+      "executable": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\software-probe\\python.exe",
+      "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\check-install\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+      "native_sha256": "805c511308ad382d7a451fe48b696b2875a6731a2189ae2b14eb99dd53871f92",
+      "source_tree_sha256": "8533a9fb7f1e50407a70bbafe8fba5b26373486c736191e92a9f30eb9158d8a9",
+      "gui": true,
+      "geos": true,
+      "openslide": true,
+      "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+      "openslide_version": "4.0.1",
+      "openslide_runtime_sha256": null,
+      "docked_workspace": true,
+      "layout_saved": true,
+      "monitor_scale": 1.0,
+      "framebuffer_scale": 1.0,
+      "ui_scale": 1.25,
+      "font_rebuilds": 1,
+      "ui_stacked_fields": 0,
+      "ui_wrapped_buttons": 0,
+      "ui_overflow_items": 0,
+      "ui_max_overflow": 0.0,
+      "framebuffer": [
+        1440,
+        900
+      ],
+      "roi_samples": 320,
+      "native_batch_checkpoints": 1
+    }
+  },
+  "checks": {
+    "stubs": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "typing": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "typing-negative": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "screenshot": {
+    "file": "images/quantitative-tiff.png",
+    "sha256": "9a2e7322cdc280ad0169adc92fcdb26a7fde35dac57110bf2e8b27b5ca625d80"
+  },
+  "development_evidence": [
+    "First wheel build failed after a source edit triggered concurrent CMake regeneration. Frozen-source replacement builds passed; no failed build accepted.",
+    "Initial fixture corrections cover transparent uncompressed strip chopping, Windows open-file rename behavior and tifffile filename-based OME inference. Final full suite is authoritative.",
+    "Synthetic benchmark explicitly closes projected native reader before Windows temporary-directory cleanup.",
+    "Final alpha regression: different alpha modes across pyramid levels initially produced an overbright reduced preview. Conversion now reads the selected level alpha tags; both directions are tested and the complete replacement-wheel suite is rerun."
+  ],
+  "limitations": [
+    "Single-file OME and declared TIFF codec/layout subset only; broader formats, ICC, multi-file and noninteger pyramid workflows remain open.",
+    "Raw statistics are ad-hoc; existing RGB classifiers do not consume raw multichannel features automatically.",
+    "Synthetic timings and accounted cache bytes are not hardware/RSS acceptance or biological/upstream validation."
+  ]
+}

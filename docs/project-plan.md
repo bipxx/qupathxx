@@ -3119,3 +3119,66 @@ all 23 TMA API and eight GUI cases; installed binary/source identities; and
 10,000-core native and clipped desktop probes. The original run was superseded
 and cancelled after its Linux benchmark failure. The broader M0–M7 goal remains
 active; reader/axis/raw-data work is not covered by this TMA acceptance.
+
+
+### Packet88: typed TIFF/OME channels and native quantitative workflows
+
+Added an optional C++ TIFF/BigTIFF and single-file OME reader, ten native sample
+types, raw HWC buffers and validity masks, explicit channel/Z/time/series axes,
+native integer-scale SubIFD pyramids, calibrated metadata, raw ROI statistics
+and atomic NumPy exports. The RGBA8 display contract remains separate from raw
+quantitative values. Immutable display views share their native dataset/cache
+and retain independent close states. Runtime read guards reject observed source
+file changes. Project schema 12 persists checksummed resolved TIFF views and
+transactionally upgrades schemas 1–11.
+
+Native CLI, nanobind arrays, managed viewer commands and the ImGui F2 channel
+panel use the same native reader. Metadata, display preparation, measurement,
+new-series opening and export run in C++ workers; the UI owner publishes model
+changes. Display replacement preserves annotation history/calibration and
+invalidates old RGB analysis through source identity. The frozen batch probe
+retains its captured TIFF view after the live document changes and verifies
+checkpoint resume. See the [reader contract](quantitative-tiff.md) and
+[visually inspected channel panel](images/quantitative-tiff.png).
+
+Independent tifffile fixtures cover byte orders, strips/tiles, planar layouts,
+all six OME plane orders, grouped RGB, explicit shuffled TiffData, SubIFDs,
+nonfinite samples, uint64 extremes, padding, cache reuse, file mutation, array
+ownership, corruption, project migrations and native Unicode CLI paths.
+Windows/Linux native exporters additionally produce byte-identical NumPy files
+for ten sample types from big-endian Deflate TIFFs. CI enables the optional
+reader in full configurations and preserves its disabled minimal build.
+
+The [headless cache probe](benchmarks/tiff-reader-windows.json) and
+[desktop probe](benchmarks/tiff-reader-gui-windows.json) verify exact samples,
+independently calculated previews and statistics, independent close states,
+and four warm views with no extra decoding after the initial 64 blocks. Peak
+cache charge is 8,404,992 bytes within a 16 MiB budget; desktop reports zero
+layout overflow. Synthetic workstation timings and cache accounting are not
+hardware or process RSS acceptance.
+
+JPEG/YCbCr/palette/complex/bit-packed/rotated inputs, multi-file OME,
+noninteger/anisotropic pyramids and broader Bio-Formats readers remain open.
+Raw statistics are ad-hoc; raw multichannel classifier features and saved raw
+analysis records are future work. ICC, biological/upstream validation, broader
+vendor fixtures, physical OS/DPI interactions and release gates remain open.
+This packet advances M1/M2/M6; it does not complete M0–M7.
+
+
+Packet88 local acceptance is recorded in the
+[verification receipt](benchmarks/tiff-reader-local-windows-linux.json): 1,893
+Python passes and six optional skips, including 51 reader, six TIFF project,
+ten native CLI and seven real GUI cases. Windows native headless/GUI pass
+40/41 tests; Linux training, minimal and Project-ON ASAN/UBSAN pass 40 each.
+Installed smoke, reproducible public stubs and strict positive/negative typing
+checks pass. The final native module SHA-256 is
+`805c511308ad382d7a451fe48b696b2875a6731a2189ae2b14eb99dd53871f92`;
+all local configurations share source fingerprint
+`8533a9fb7f1e50407a70bbafe8fba5b26373486c736191e92a9f30eb9158d8a9`.
+
+A final independent alpha fixture found that a reduced TIFF level with a
+changed alpha mode initially used the base level's conversion. Preview now
+uses the selected level's alpha tags. Both mode directions pass in the full
+Python suite, and 12 exact native previews pass on Windows, Linux and
+ASAN/UBSAN. Raw samples remain unchanged. The full corrected-wheel suite was
+rerun after the fix; earlier green results do not substitute for it.

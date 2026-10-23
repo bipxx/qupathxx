@@ -1,9 +1,12 @@
 #include "reader_provenance.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/thumbnail.hpp"
+#include "qupathxx/raw_image.hpp"
+#include "raw_cli.hpp"
 #include <fstream>
 #include <filesystem>
 #include <iostream>
+#include <vector>
 #include <limits>
 #include <optional>
 #include <stdexcept>
@@ -13,7 +16,8 @@ std::int64_t number(const char* text) {
     if (text[end]) throw std::invalid_argument("invalid integer argument");
     return value;
 }
-int main(int argc, char** argv) {
+static int launch(int argc, char** argv) {
+    if(argc>1 && std::string(argv[1])=="--raw") return raw_region_cli(argc,argv);
     const bool thumbnail=argc==6 && std::string(argv[1])=="--thumbnail";
     if (argc != 8 && !thumbnail) {
         std::cerr << "Usage: qupathxx_region IMAGE X Y LEVEL WIDTH HEIGHT OUTPUT.pam\n"
@@ -28,7 +32,7 @@ int main(int argc, char** argv) {
             std::filesystem::weakly_canonical(std::filesystem::u8path(output)))
             throw std::invalid_argument("output must not overwrite the source image");
         auto server = path.size() >= 4 && path.substr(path.size()-4) == ".ppm"
-            ? qpx::ppm_image_server(path) : qpx::open_slide(path);
+            ? qpx::ppm_image_server(path) : qpx::has_tiff() && qpx::is_ome_tiff_path(path)?qpx::open_tiff(path):qpx::open_slide(path);
         std::shared_ptr<const qpx::ThumbnailResult> preview;
         std::optional<qpx::PixelBuffer> explicit_region;
         if(thumbnail) {
@@ -47,5 +51,15 @@ int main(int argc, char** argv) {
             << "\nDEPTH 4\nMAXVAL 255\nTUPLTYPE RGB_ALPHA\nENDHDR\n";
         out.write(reinterpret_cast<const char*>(region.bytes().data()), static_cast<std::streamsize>(region.bytes().size()));
         out.close(); if (!out) throw std::runtime_error("failed to write output region");
+        return 0;
     } catch (const std::exception& e) { std::cerr << e.what() << '\n'; return 1; }
 }
+
+#ifdef _WIN32
+int wmain(int argc,wchar_t** argv) {
+    try {std::vector<std::string> text;for(int i=0;i<argc;++i) text.push_back(std::filesystem::path(argv[i]).u8string());std::vector<char*> pointers;for(auto& item:text) pointers.push_back(item.data());pointers.push_back(nullptr);return launch(argc,pointers.data());}
+    catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 2;}
+}
+#else
+int main(int argc,char** argv) {return launch(argc,argv);}
+#endif

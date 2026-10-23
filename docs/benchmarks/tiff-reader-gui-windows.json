@@ -1,0 +1,37 @@
+{
+  "schema": "qpx.tiff-reader-benchmark/1",
+  "shape": [
+    1024,
+    1024,
+    4
+  ],
+  "dtype": "uint16",
+  "open_ms": 692.9065999574959,
+  "cold_read_ms": 54.60650008171797,
+  "four_warm_views_ms": 115.88359985034913,
+  "statistics_ms": 95.53930000402033,
+  "decoded_blocks": 64,
+  "cache_hits": 128,
+  "cache_peak_bytes": 8404992,
+  "cache_budget_bytes": 16777216,
+  "exact_raw_verified": true,
+  "preview_verified": true,
+  "view_cache_reuse_verified": true,
+  "distinct_channels_verified": true,
+  "independent_close_verified": true,
+  "gui": {
+    "frames": 80,
+    "tiff_state": "ready",
+    "ui_overflow": 0,
+    "cpu_frame_p95_ms": 2.927
+  },
+  "native_sha256": "805c511308ad382d7a451fe48b696b2875a6731a2189ae2b14eb99dd53871f92",
+  "environment": {
+    "source_tree_sha256": "8533a9fb7f1e50407a70bbafe8fba5b26373486c736191e92a9f30eb9158d8a9",
+    "git_revision": "f91c3273113a0a27bea9a01061785b37cb971721+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "scope": "Synthetic independent tifffile fixture on a shared workstation. Timings are observations, not hardware acceptance. Cache charge is native accounting, not process RSS. No biological validation."
+}

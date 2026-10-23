@@ -82,6 +82,9 @@ inline bool InputDouble(const char* label,double* value,double step=0,double fas
 inline bool InputInt(const char* label,int* value,int step=1,int fast=100,ImGuiInputTextFlags flags=0) {
     return field(label,[&](const char* id){return ImGui::InputInt(id,value,ImGui::CalcItemWidth()<3*ImGui::GetFrameHeight()?0:step,fast,flags);});
 }
+inline bool InputInt64(const char* label,std::int64_t* value) {
+    return field(label,[&](const char* id){return ImGui::InputScalar(id,ImGuiDataType_S64,value);});
+}
 // BeginCombo changes the current window when open; retain the parent ID scope
 // until EndCombo restores that window, rather than popping the popup's stack.
 inline bool BeginCombo(const char* label,const char* preview,ImGuiComboFlags flags=0) {

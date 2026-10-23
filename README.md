@@ -372,3 +372,7 @@ rechecking in Python and ImGui.
 
 [Immutable object snapshots](docs/object-snapshots.md) share captured object
 blocks with save/recovery workers and preserve isolation during live edits.
+
+The optional [quantitative TIFF/OME reader](docs/quantitative-tiff.md) preserves
+stored sample types and channel/Z/time axes separately from RGBA previews. Build
+with `QUPATHXX_BUILD_TIFF=ON`; open its native channel panel with F2.

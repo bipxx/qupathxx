@@ -9,6 +9,7 @@
 namespace qpx {
 class Image;
 struct ReaderSource;
+struct RawImageMetadata;struct RawRegionRequest;class RawPixelBuffer;struct TiffView;struct TiffOpenOptions;struct TiffReadStats;struct RawRegionStatistics;
 enum class PixelType { UInt8 };
 enum class PixelLayout { RGBA };
 struct ImageLevel {
@@ -56,6 +57,12 @@ public:
     virtual std::string source_locator() const {return {};}
     virtual std::shared_ptr<const ReaderSource> reader_source() const {return {};}
     virtual PixelBuffer read_region(const RegionRequest& request) const = 0;
+    virtual std::shared_ptr<const RawImageMetadata> raw_metadata(const std::atomic<bool>* =nullptr) const {return {};}
+    virtual RawPixelBuffer read_raw(const RawRegionRequest&,const std::atomic<bool>* =nullptr) const;
+    virtual std::shared_ptr<const TiffView> tiff_view() const {return {};}
+    virtual std::shared_ptr<const TiffOpenOptions> tiff_options() const {return {};}
+    virtual std::shared_ptr<ImageServer> with_tiff_view(const TiffView&,const std::atomic<bool>* =nullptr) const;
+    virtual std::shared_ptr<const TiffReadStats> tiff_read_stats() const {return {};}
     virtual void close() = 0;
     virtual bool closed() const = 0;
 };

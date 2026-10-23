@@ -14,6 +14,7 @@ struct ViewerContext {
     std::function<ProjectSaveStats()> save_stats;
     std::function<void()> cancel_save;
     std::function<void(bool)> close;
+    std::function<void(std::uint64_t)> refresh_source;
 };
 // Entire controller is owner-thread-only. Worker closures borrow Work storage;
 // endpoint threads touch only mutex-protected tickets and cancellation atomics.

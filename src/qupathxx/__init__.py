@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    SampleType, RawImageMetadata, RawRegionRequest, RawPixelBuffer, TiffView, TiffOpenOptions, TiffReadStats, RawRegionStatistics, open_tiff, has_tiff, tiff_library_version, raw_region_statistics, save_raw_numpy,
     TmaGridOptions, TmaGridInfo, TmaCoreInfo, TmaGrid, tma_grid_edits, tma_metadata_csv, tma_context_csv,
     ObjectCellFeatureSource, ObjectFeatureCellOrigin, ObjectClassifierArchive, ObjectClassifierRecord, archive_object_classifier,
     pixel_forest_parameters,
@@ -46,6 +47,7 @@ from ._native import (
 )
 
 __all__ = [
+    "SampleType", "RawImageMetadata", "RawRegionRequest", "RawPixelBuffer", "TiffView", "TiffOpenOptions", "TiffReadStats", "RawRegionStatistics", "open_tiff", "has_tiff", "tiff_library_version", "raw_region_statistics", "save_raw_numpy",
     "TmaGridOptions", "TmaGridInfo", "TmaCoreInfo", "TmaGrid", "tma_grid_edits", "tma_metadata_csv", "tma_context_csv",
     "ObjectCellFeatureSource", "ObjectFeatureCellOrigin", "ObjectClassifierArchive", "ObjectClassifierRecord", "archive_object_classifier",
     "pixel_forest_parameters",

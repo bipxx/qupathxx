@@ -18,6 +18,8 @@ void bind_viewer_session(nb::module_& m) {
         .def_ro("action",&ViewerEvent::action).def_ro("state",&ViewerEvent::state).def_ro("error",&ViewerEvent::error).def_ro("path",&ViewerEvent::path).def_ro("committed",&ViewerEvent::committed).def_ro("elapsed_ms",&ViewerEvent::elapsed_ms)
         .def_ro("object_ids",&ViewerEvent::object_ids).def_ro("images",&ViewerEvent::images).def_ro("object",&ViewerEvent::object).def_ro("metadata",&ViewerEvent::metadata)
         .def_ro("analysis",&ViewerEvent::analysis).def_ro("tissue",&ViewerEvent::tissue).def_ro("cells",&ViewerEvent::cells).def_ro("pixels",&ViewerEvent::pixels)
+        .def_ro("raw_pixels",&ViewerEvent::raw_pixels).def_ro("raw_metadata",&ViewerEvent::raw_metadata)
+        .def_prop_ro("tiff_view",[](const ViewerEvent& event){return event.tiff_view;})
         .def_ro("samples",&ViewerEvent::samples).def_ro("components",&ViewerEvent::components).def_ro("rows",&ViewerEvent::rows).def_ro("bytes",&ViewerEvent::bytes);
     nb::class_<ViewerStats>(m,"ViewerStats")
         .def_ro("state",&ViewerStats::state).def_ro("error",&ViewerStats::error).def_ro("project_identity",&ViewerStats::project_identity)
@@ -29,6 +31,8 @@ void bind_viewer_session(nb::module_& m) {
         .def("catalog",&ViewerSession::catalog,"after_id"_a=0,"limit"_a=64).def("inspect",&ViewerSession::inspect,"image_id"_a,"object_id"_a=0)
         .def("execute",[](ViewerSession& s,std::uint64_t image,nb::typed<nb::sequence,ObjectEdit> values,std::string label,std::optional<std::uint64_t> revision){if(nb::len(values)>s.limits().max_edits) throw std::length_error("viewer edit count exceeds limit");std::vector<ObjectEdit> edits;edits.reserve(nb::len(values));for(auto item:values) edits.push_back(nb::cast<ObjectEdit>(item));return s.execute(image,edits,std::move(label),revision);},"image_id"_a,"edits"_a,"label"_a="Python edits","expected_revision"_a=nb::none())
         .def("select",&ViewerSession::select,"image_id"_a,"object_ids"_a).def("activate",&ViewerSession::activate,"image_id"_a).def("read_region",&ViewerSession::read_region,"image_id"_a,"request"_a)
+        .def("inspect_raw",&ViewerSession::inspect_raw,"image_id"_a).def("read_raw",&ViewerSession::read_raw,"image_id"_a,"request"_a)
+        .def("set_tiff_view",&ViewerSession::set_tiff_view,"image_id"_a,"view"_a)
         .def("analyze",&ViewerSession::analyze,"image_id"_a,"object_id"_a,"transform"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
         .def("tissue",&ViewerSession::tissue,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=TissueParameters{},"retain_result"_a=false)
         .def("cells",&ViewerSession::cells,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=CellParameters{},"retain_result"_a=false)

@@ -14,14 +14,15 @@
 namespace qpx {
 namespace {
 using Clock=std::chrono::steady_clock;
-enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close};
-const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close"};return values[static_cast<int>(a)];}
+enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close,RawMetadata,RawRegion,TiffView};
+const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close","raw_metadata","raw_region","tiff_view"};return values[static_cast<int>(a)];}
 bool terminal(const std::string& state) {return state!="queued" && state!="running";}
 std::string error_text(const std::exception& e) {std::string text=e.what();try {detail::bounded_utf8(text,8192);}catch(...) {return "viewer operation failed (invalid or oversized error text)";}return text;}
 struct Command {
     Action action;std::uint64_t image=0,object=0,after=0;std::optional<std::uint64_t> revision;std::size_t limit=64;
     bool flag=false;std::string text;std::vector<ObjectEdit> edits;std::vector<std::uint64_t> ids;
     RegionRequest region{0,0,0,1,1};std::shared_ptr<const StainTransform> transform;
+    RawRegionRequest raw_region;TiffView tiff_view;
     AnalysisKind analysis=AnalysisKind::OpticalDensityMeans;MeasurementTableKind table=MeasurementTableKind::Roi;
     TissueParameters tissue;CellParameters cells;
     explicit Command(Action a):action(a) {}
@@ -36,7 +37,8 @@ std::size_t payload(const ViewerEvent& e) {
     if(e.object && e.object->tma_core) n+=e.object->tma_core->payload_bytes()+e.object->tma_core->grid_info()->payload_bytes();
     if(e.metadata) n+=sizeof(ImageMetadata)+e.metadata->vendor.capacity()+e.metadata->levels.capacity()*sizeof(ImageLevel);
     if(e.analysis) n+=sizeof(AnalysisResult)+(e.analysis->provenance?e.analysis->provenance->payload_bytes():0);
-    if(e.tissue) n+=e.tissue->retained_bytes();if(e.cells) n+=e.cells->retained_bytes();if(e.pixels) n+=sizeof(PixelBuffer)+e.pixels->bytes().capacity();return n;
+    if(e.tissue) n+=e.tissue->retained_bytes();if(e.cells) n+=e.cells->retained_bytes();if(e.pixels) n+=sizeof(PixelBuffer)+e.pixels->bytes().capacity();
+    if(e.raw_pixels) n+=sizeof(RawPixelBuffer)+64+e.raw_pixels->payload_bytes();if(e.raw_metadata) n+=e.raw_metadata->payload_bytes();return n;
 }
 }
 struct ViewerSession::Impl {
@@ -84,6 +86,13 @@ std::uint64_t ViewerSession::execute(std::uint64_t image,const std::vector<Objec
 std::uint64_t ViewerSession::select(std::uint64_t image,const std::vector<std::uint64_t>& ids) {if(!image || ids.size()>impl_->limits.max_edits) throw std::invalid_argument("invalid viewer selection");Command c(Action::Select);c.image=image;c.ids=ids;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::activate(std::uint64_t image) {if(!image) throw std::invalid_argument("viewer activation requires an image ID");Command c(Action::Activate);c.image=image;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::read_region(std::uint64_t image,RegionRequest region) {if(region_byte_count(region.width,region.height)>impl_->limits.region_bytes) throw std::length_error("viewer region exceeds byte limit");Command c(Action::Region);c.image=image;c.region=region;return impl_->submit(std::move(c));}
+std::uint64_t ViewerSession::inspect_raw(std::uint64_t image) {Command c(Action::RawMetadata);c.image=image;return impl_->submit(std::move(c));}
+std::uint64_t ViewerSession::read_raw(std::uint64_t image,RawRegionRequest r) {
+    const auto unit=std::uint64_t(r.channels)+1,limit=impl_->limits.region_bytes;
+    if(!r.channels || r.channels>65536 || r.region.width<=0 || r.region.height<=0 || r.region.level<0 || std::uint64_t(r.region.width)>limit/unit || std::uint64_t(r.region.height)>limit/(unit*std::uint64_t(r.region.width))) throw std::length_error("viewer raw region exceeds byte limit");
+    Command c(Action::RawRegion);c.image=image;c.raw_region=r;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::set_tiff_view(std::uint64_t image,TiffView view) {view.validate();Command c(Action::TiffView);c.image=image;c.tiff_view=view;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::analyze(std::uint64_t image,std::uint64_t object,const StainTransform& transform,AnalysisKind kind,bool nucleus) {Command c(Action::Analyze);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.analysis=kind;c.flag=nucleus;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::tissue(std::uint64_t image,std::uint64_t object,const StainTransform& transform,TissueParameters p,bool retain) {p.validate();Command c(Action::Tissue);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.tissue=p;c.flag=retain;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::cells(std::uint64_t image,std::uint64_t object,const StainTransform& transform,CellParameters p,bool retain) {p.validate();Command c(Action::Cells);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.cells=p;c.flag=retain;return impl_->submit(std::move(c));}
@@ -98,7 +107,7 @@ struct ViewerOwner::Impl {
         std::shared_ptr<Ticket> ticket;std::unique_ptr<Command> command;ViewerEvent seed;Clock::time_point started;std::uint64_t cycle=0;
         std::optional<AnalysisRequest> analysis;std::optional<TissueRequest> tissue;std::optional<CellRequest> cells;
         std::optional<MeasurementTableRequest> table;std::optional<CellTableRequest> cell_table;
-        std::shared_ptr<ImageServer> reader;std::future<ViewerEvent> future;
+        std::shared_ptr<ImageServer> reader,replacement;std::future<ViewerEvent> future;std::size_t region_limit=0;
     };
     std::shared_ptr<ViewerSession::Impl> state;std::unique_ptr<Work> work;bool ended=false;
     std::uint64_t cycle=0;
@@ -145,10 +154,11 @@ struct ViewerOwner::Impl {
             if(!matches) {failure(w.ticket,"source changed before publication","stale");work.reset();return;}
             if(e.state=="failed" || e.state=="cancelled") {complete(w.ticket,std::move(e));work.reset();return;}
             auto tissue=e.tissue;auto cells=e.cells;if(!command.flag) {e.tissue.reset();e.cells.reset();}reserve(w.ticket,e);
+            if(w.replacement) {doc->adopt_tiff_source(std::move(w.replacement));e.committed=true;if(c.refresh_source) c.refresh_source(e.image_id);}
             if(w.analysis) e.record_id=doc->keep_analysis(*w.analysis,*e.analysis);
             if(w.tissue) e.record_id=doc->keep_tissue(*w.tissue,tissue);
             if(w.cells) e.record_id=doc->keep_cells(*w.cells,cells);
-            e.committed=e.record_id!=0;e.document_revision=doc->revision();complete(w.ticket,std::move(e));
+            e.committed=e.committed || e.record_id!=0;e.document_revision=doc->revision();complete(w.ticket,std::move(e));
         }catch(const std::exception& e) {failure(w.ticket,error_text(e),w.ticket->cancelled.load()?"cancelled":"failed");}work.reset();
     }
     void start(const ViewerContext& c,const std::shared_ptr<Ticket>& ticket,std::unique_ptr<Command> command) {
@@ -173,6 +183,10 @@ struct ViewerOwner::Impl {
         if(cmd.action==Action::Save) {if(!c.save(cmd.text)) throw std::runtime_error("a GUI save is already running");work=std::move(pending);return;}
         if(cmd.action==Action::Activate) {c.activate(e.image_id);work=std::move(pending);return;}
         if(cmd.action==Action::Region) {validate_region(doc->metadata(),cmd.region);pending->reader=doc->server();}
+        else if(cmd.action==Action::RawRegion || cmd.action==Action::RawMetadata || cmd.action==Action::TiffView) {
+            pending->reader=doc->server();pending->region_limit=state->limits.region_bytes;
+            if(cmd.action==Action::TiffView) {const auto previous=pending->reader->tiff_view();if(!previous || previous->series!=cmd.tiff_view.series) throw std::invalid_argument("viewer TIFF changes require the same series; open other series as separate images");}
+        }
         else if(cmd.action==Action::Analyze) pending->analysis.emplace(*doc,e.object_id,*cmd.transform,cmd.analysis,cmd.flag);
         else if(cmd.action==Action::Tissue) pending->tissue.emplace(*doc,e.object_id,*cmd.transform,cmd.tissue);
         else if(cmd.action==Action::Cells) pending->cells.emplace(*doc,e.object_id,*cmd.transform,cmd.cells);
@@ -182,7 +196,14 @@ struct ViewerOwner::Impl {
             auto& w=*borrowed;auto e=w.seed;const auto* cancel=&w.ticket->cancelled;
             try {
                 export_checkpoint(cancel);
-                if(w.reader) e.pixels=std::make_shared<const PixelBuffer>(w.reader->read_region(w.command->region));
+                if(w.reader) {
+                    const auto action=w.command->action;
+                    if(action==Action::TiffView) {w.replacement=w.reader->with_tiff_view(w.command->tiff_view,cancel);e.raw_metadata=w.replacement->raw_metadata();e.tiff_view=*w.replacement->tiff_view();e.metadata=w.replacement->metadata();}
+                    else if(action==Action::RawMetadata || action==Action::RawRegion) {
+                        e.raw_metadata=w.reader->raw_metadata(cancel);if(!e.raw_metadata) throw std::invalid_argument("image has no raw quantitative samples");if(auto view=w.reader->tiff_view()) e.tiff_view=*view;
+                        if(action==Action::RawRegion) {const auto& r=w.command->raw_region;r.validate(*e.raw_metadata);const auto bytes=std::uint64_t(r.region.width)*r.region.height*(std::uint64_t(r.channels)*sample_bytes(e.raw_metadata->sample_type)+1);if(bytes>w.region_limit) throw std::length_error("viewer raw region exceeds byte limit");e.raw_pixels=std::make_shared<const RawPixelBuffer>(w.reader->read_raw(r,cancel));}
+                    }else e.pixels=std::make_shared<const PixelBuffer>(w.reader->read_region(w.command->region));
+                }
                 else if(w.analysis) {e.analysis=qpx::analyze(*w.analysis,cancel);e.samples=e.analysis->samples;}
                 else if(w.tissue) {e.tissue=detect_tissue(*w.tissue,cancel);e.samples=e.tissue->samples();e.components=e.tissue->components().size();}
                 else if(w.cells) {e.cells=detect_cells(*w.cells,cancel);e.samples=e.cells->nuclei()->samples();e.components=e.cells->features().size();}

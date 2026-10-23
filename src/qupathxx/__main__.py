@@ -1,12 +1,14 @@
 import argparse
 import sys
 
-from . import Document, Image, Project, GuiOptions, has_project, show, default_workspace_layout_path
+from . import Document, Image, Project, GuiOptions, TiffOpenOptions, has_project, show, default_workspace_layout_path
 
 
 def main():
     parser = argparse.ArgumentParser(description="qupathxx Dear ImGui viewer")
     parser.add_argument("image", nargs="?", help="OpenSlide-supported slide or binary P6 PPM; omit for demo")
+    parser.add_argument("--reader", choices=["auto", "ppm", "openslide", "tiff"], default="auto", help="Image reader; tiff preserves quantitative TIFF/OME samples")
+    parser.add_argument("--tiff-series", type=int, help="Open one TIFF/OME series as this image")
     opening = parser.add_mutually_exclusive_group()
     opening.add_argument("--project", help="Open a native SQLite project")
     opening.add_argument("--recover", help="Restore unsaved work from a recovery snapshot")
@@ -19,6 +21,8 @@ def main():
     parser.add_argument("--reset-layout", action="store_true", help="Restore the default dock layout")
     parser.add_argument("--ui-scale", type=float, default=1, help="Monitor-aware UI size multiplier, 0.5 to 3 (default 1)")
     args = parser.parse_args()
+    if args.tiff_series is not None and (not args.image or not 0 <= args.tiff_series < 65536):
+        parser.error("--tiff-series requires an image and an index from 0 to 65535")
     if not .5 <= args.ui_scale <= 3:
         parser.error("--ui-scale must be between 0.5 and 3")
     if args.compact and (args.layout or args.reset_layout):
@@ -27,6 +31,14 @@ def main():
         parser.error("--recovery-base requires --recover")
     def launch(document, options):
         options.ui_scale = args.ui_scale
+        options.image_reader = args.reader
+        if args.tiff_series is not None:
+            tiff = TiffOpenOptions()
+            view = tiff.view
+            view.series = args.tiff_series
+            tiff.view = view
+            options.tiff_options = tiff
+            options.image_reader = "tiff"
         options.docked_workspace = not args.compact
         options.reset_layout = args.reset_layout
         options.layout_path = args.layout or (default_workspace_layout_path() if not args.smoke and not args.compact else "")

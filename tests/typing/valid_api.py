@@ -358,3 +358,25 @@ def tissue_microarray(document: q.Document, session: q.ViewerSession) -> str:
     edits: list[q.ObjectEdit] = q.tma_grid_edits(options)
     session.execute(2, edits)
     return q.tma_metadata_csv(grid)
+
+
+def quantitative_tiff(path: str, session: q.ViewerSession) -> q.RawRegionStatistics:
+    options = q.TiffOpenOptions()
+    options.cache_bytes = 8 * 1024 * 1024
+    server = q.open_tiff(path, options)
+    metadata = server.raw_metadata
+    assert metadata is not None
+    request = q.RawRegionRequest()
+    request.region = q.RegionRequest(0, 0, 0, 16, 16)
+    request.channels = min(2, metadata.channels)
+    raw: q.RawPixelBuffer = server.read_raw(request)
+    values: NDArray[np.generic] = raw.numpy()
+    validity: NDArray[np.uint8] = raw.valid_numpy()
+    assert values.shape[:2] == validity.shape
+    view = server.tiff_view
+    assert view is not None
+    projected: q.ImageServer = server.with_tiff_view(view)
+    session.inspect_raw(1)
+    session.read_raw(1, request)
+    session.set_tiff_view(1, view)
+    return q.raw_region_statistics(projected, request)

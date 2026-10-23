@@ -1,4 +1,5 @@
 #include "tma_internal.hpp"
+#include "qupathxx/raw_image.hpp"
 #include "provenance_codec.hpp"
 #include "batch_checkpoint.hpp"
 #include "reader_provenance.hpp"
@@ -41,13 +42,14 @@ std::string reader_name(const std::string& path,std::string reader) {
     if(reader=="auto") {
         auto ext=fs::u8path(path).extension().u8string();
         std::transform(ext.begin(),ext.end(),ext.begin(),[](unsigned char c){return static_cast<char>(std::tolower(c));});
-        reader=ext==".ppm"?"ppm":"openslide";
+        const auto ome=is_ome_tiff_path(path);
+        reader=ext==".ppm"?"ppm":has_tiff() && ome?"tiff":"openslide";
     }
-    if(reader!="ppm" && reader!="openslide") throw std::invalid_argument("image reader must be auto, ppm or openslide");
+    if(reader!="ppm" && reader!="openslide" && reader!="tiff") throw std::invalid_argument("image reader must be auto, ppm, openslide or tiff");
     return reader;
 }
-std::shared_ptr<ImageServer> read_image(const std::string& path,const std::string& reader) {
-    return reader=="ppm"?ppm_image_server(path):open_slide(path);
+std::shared_ptr<ImageServer> read_image(const std::string& path,const std::string& reader,std::shared_ptr<const TiffView> view={},const std::atomic<bool>* cancelled=nullptr,std::shared_ptr<const TiffOpenOptions> budgets={}) {
+    if(reader=="tiff") {TiffOpenOptions options;if(budgets) options=*budgets;if(view) options.view=*view;return open_tiff(path,options,cancelled);}return reader=="ppm"?ppm_image_server(path):open_slide(path);
 }
 void validate_metadata(const ImageMetadata& m) {
     if(m.pixel_type!=PixelType::UInt8 || m.layout!=PixelLayout::RGBA || m.width<=0 || m.height<=0 || m.levels.empty() || m.levels.size()>65536 ||
@@ -72,6 +74,7 @@ void compatible(const ImageMetadata& expected,const ImageMetadata& actual) {
 class LinkedServer final : public ImageServer {
     ImageMetadata metadata_;
     std::string path_,reader_;
+    std::shared_ptr<const TiffView> tiff_view_;std::shared_ptr<const TiffOpenOptions> tiff_options_;
     mutable std::shared_ptr<ImageServer> server_;
     mutable std::shared_ptr<const ReaderSource> source_;
     mutable std::mutex mutex_;
@@ -80,15 +83,26 @@ public:
     std::string reader_id() const override {return reader_;}
     std::string source_locator() const override {return path_;}
     std::shared_ptr<const ReaderSource> reader_source() const override {return std::atomic_load(&source_);}
-    LinkedServer(ImageMetadata m,std::string path,std::string reader) : metadata_(std::move(m)),path_(std::move(path)),reader_(std::move(reader)) { validate_metadata(metadata_);source_=make_reader_source(reader_,path_,"unopened"); }
+    LinkedServer(ImageMetadata m,std::string path,std::string reader,std::shared_ptr<const TiffView> view={},std::shared_ptr<const TiffOpenOptions> budgets={}) : metadata_(std::move(m)),path_(std::move(path)),reader_(std::move(reader)),tiff_view_(std::move(view)),tiff_options_(std::move(budgets)) {
+        validate_metadata(metadata_);if(tiff_view_ && !tiff_options_) {TiffOpenOptions options;options.view=*tiff_view_;tiff_options_=std::make_shared<const TiffOpenOptions>(options);}if((reader_=="tiff")!=bool(tiff_view_)) throw std::invalid_argument("TIFF project link requires its captured view");
+        auto identity=reader_;if(tiff_view_) {identity=tiff_view_encode(*tiff_view_);identity.resize(identity.size()-64);identity="tiff:"+identity;}source_=make_reader_source(identity,path_,"unopened");
+    }
     const ImageMetadata& metadata() const override { return metadata_; }
-    PixelBuffer read_region(const RegionRequest& request) const override {
-        std::lock_guard<std::mutex> lock(mutex_);
+    void open_locked(const std::atomic<bool>* cancelled=nullptr) const {
         if(closed_) throw std::runtime_error("image server is closed");
-        if(!server_) { auto candidate=read_image(path_,reader_); compatible(metadata_,candidate->metadata());const auto actual=candidate->reader_source();
+        if(!server_) { auto candidate=read_image(path_,reader_,tiff_view_,cancelled,tiff_options_); compatible(metadata_,candidate->metadata());const auto actual=candidate->reader_source();
             if(actual) {auto next=std::make_shared<ReaderSource>(*actual);next->generation=std::atomic_load(&source_)->generation;next->validate();std::shared_ptr<const ReaderSource> published=std::move(next);std::atomic_store(&source_,std::move(published));}server_=std::move(candidate); }
+    }
+    PixelBuffer read_region(const RegionRequest& request) const override {
+        std::lock_guard<std::mutex> lock(mutex_);open_locked();
         return server_->read_region(request);
     }
+    std::shared_ptr<const TiffView> tiff_view() const override {return tiff_view_;}
+    std::shared_ptr<const TiffOpenOptions> tiff_options() const override {return tiff_options_;}
+    std::shared_ptr<ImageServer> with_tiff_view(const TiffView& view,const std::atomic<bool>* cancelled=nullptr) const override {std::lock_guard<std::mutex> lock(mutex_);open_locked(cancelled);return server_->with_tiff_view(view,cancelled);}
+    std::shared_ptr<const RawImageMetadata> raw_metadata(const std::atomic<bool>* cancelled=nullptr) const override {if(reader_!="tiff") return {};std::lock_guard<std::mutex> lock(mutex_);if(!server_) open_locked(cancelled);return server_->raw_metadata(cancelled);}
+    RawPixelBuffer read_raw(const RawRegionRequest& request,const std::atomic<bool>* cancelled=nullptr) const override {if(reader_!="tiff") throw std::invalid_argument("image reader has no raw quantitative samples");std::lock_guard<std::mutex> lock(mutex_);open_locked(cancelled);return server_->read_raw(request,cancelled);}
+    std::shared_ptr<const TiffReadStats> tiff_read_stats() const override {if(reader_!="tiff") return {};std::lock_guard<std::mutex> lock(mutex_);return server_?server_->tiff_read_stats():std::make_shared<const TiffReadStats>();}
     bool closed() const override { return closed_.load(); }
     void close() override { std::lock_guard<std::mutex> lock(mutex_); if(server_) server_->close(); closed_=true; }
 };
@@ -108,6 +122,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         add(sizeof(Entry)+sizeof(Document)+128+e.info.name.size()+e.info.source_path.size()+e.info.reader.size());
         if(e.info.embedded) add(e.document->image().pixels().size());
         else add(sizeof(LinkedServer)+e.document->metadata().levels.size()*sizeof(ImageLevel)+e.document->metadata().vendor.size()+e.info.source_path.size()+e.info.reader.size()+sizeof(ReaderSource)+256+e.info.source_path.size()+e.info.reader.size());
+        if(e.document->server()->tiff_view()) add(sizeof(TiffView)+1024);
         add(e.document->object_bytes_);
         add(e.document->object_blocks_.size()*sizeof(std::shared_ptr<const Document::ObjectBlock>));
         for(const auto& [name,c]:e.document->classes_) add(sizeof(ObjectClass)+96+name.size()+c.name.size());
@@ -135,7 +150,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         auto doc=std::shared_ptr<Document>(new Document());
         // Save-only authority: no mutable indexes, selection or edit history enter
         // the worker. Immutable ROI storage and dense source pixels are shared.
-        doc->server_=e.info.embedded?e.document->server_:std::make_shared<LinkedServer>(e.document->metadata(),e.info.source_path,e.info.reader);
+        doc->server_=e.info.embedded?e.document->server_:std::make_shared<LinkedServer>(e.document->metadata(),e.info.source_path,e.info.reader,e.document->server()->tiff_view(),e.document->server()->tiff_options());
         doc->object_snapshot_.reserve(e.document->object_blocks_.size());
         for(const auto& [key,block]:e.document->object_blocks_) doc->object_snapshot_.push_back(block);
         doc->object_snapshot_count_=e.document->objects_.size();doc->object_bytes_=e.document->object_bytes_;doc->tma_index_=e.document->tma_index_;doc->tma_revision_=e.document->tma_revision_;
@@ -199,6 +214,14 @@ std::uint64_t Project::add_image(const std::string& path,std::string reader,std:
     entries_.at(id).native_lifetime=true;
     return id;
 }
+std::uint64_t Project::add_tiff_image(const std::string& path,const TiffOpenOptions& options,std::string name) {
+    return add_tiff_source(open_tiff(absolute(path),options),std::move(name));
+}
+std::uint64_t Project::add_tiff_source(std::shared_ptr<ImageServer> server,std::string name) {
+    if(!server || server->reader_id()!="tiff" || !server->tiff_view() || server->source_locator().empty()) throw std::invalid_argument("project requires a native opened TIFF source");
+    const auto source=server->source_locator();const auto id=add_document(std::make_shared<Document>(std::move(server)),std::move(name),source,"tiff");entries_.at(id).native_lifetime=true;return id;
+}
+void Project::set_tiff_view(std::uint64_t id,const TiffView& view) {document(id)->set_tiff_view(view);}
 std::uint64_t Project::add_document(std::shared_ptr<Document> doc,std::string name,std::string source,std::string reader) {
     if(!doc) throw std::invalid_argument("project requires a document");
     for(const auto& [id,e]:entries_) if(e.document.get()==doc.get()) throw std::invalid_argument("document already belongs to this project");
@@ -210,7 +233,9 @@ std::uint64_t Project::add_document(std::shared_ptr<Document> doc,std::string na
         reader="embedded";
     } else {
         source=absolute(source); reader=reader_name(source,std::move(reader));
-        if(fs::exists(fs::u8path(source))) compatible(doc->metadata(),read_image(source,reader)->metadata());
+        const auto trusted_tiff=reader=="tiff" && doc->server()->reader_id()=="tiff" && doc->server()->source_locator()==source && bool(doc->server()->tiff_view());
+        if(reader=="tiff" && !trusted_tiff) throw std::invalid_argument("attach a native TIFF document with the same source, or use add_tiff_image");
+        if(fs::exists(fs::u8path(source)) && !trusted_tiff) compatible(doc->metadata(),read_image(source,reader,doc->server()->tiff_view())->metadata());
     }
     if(name.empty()) name=embedded?"Image":fs::u8path(source).filename().u8string(); text(name);
     auto id=next_id_;
@@ -265,10 +290,10 @@ void Project::rename_image(std::uint64_t id,std::string name) {
 }
 void Project::relink(std::uint64_t id,const std::string& path) {
     const auto& old=entry(id); if(old.info.embedded) throw std::invalid_argument("embedded images do not require relinking");
-    auto source=absolute(path); auto server=read_image(source,old.info.reader); compatible(old.document->metadata(),server->metadata());
+    auto source=absolute(path); auto server=read_image(source,old.info.reader,old.document->server()->tiff_view(),nullptr,old.document->server()->tiff_options()); compatible(old.document->metadata(),server->metadata());
     // Keep recorded source metadata and manual calibration separate from new
     // reader metadata. Existing external server references retain their source.
-    auto linked=std::make_shared<LinkedServer>(old.document->metadata(),source,old.info.reader);
+    auto linked=std::make_shared<LinkedServer>(old.document->metadata(),source,old.info.reader,server->tiff_view(),server->tiff_options());
     advance(revision_);
     entries_.at(id).info.source_path.swap(source); entries_.at(id).document->server_=std::move(linked); ++revision_;
 }
@@ -425,6 +450,9 @@ void create_pixel_streams(Database& db) {
 void create_tma(Database& db) {
     db.exec("CREATE TABLE tma_grids(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),payload BLOB NOT NULL) STRICT; CREATE TABLE tma_cores(image_id TEXT NOT NULL,object_id TEXT NOT NULL,row_index INTEGER NOT NULL,column_index INTEGER NOT NULL,missing INTEGER NOT NULL,case_id TEXT NOT NULL,PRIMARY KEY(image_id,object_id),FOREIGN KEY(image_id,object_id) REFERENCES objects(image_id,id)) STRICT; PRAGMA user_version=11;");
 }
+void create_tiff_views(Database& db) {
+    db.exec("CREATE TABLE tiff_views(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),payload BLOB NOT NULL) STRICT; PRAGMA user_version=12;");
+}
 bool recovery_table(Database& db) { return scalar(db,"SELECT count(*) FROM sqlite_schema WHERE type='table' AND name='recovery'")!=0; }
 RecoveryInfo recovery_header(Database& db,const std::string& path) {
     if(scalar(db,"PRAGMA application_id")!=recovery_application_id || schema(db,true)<2 || !recovery_table(db)) throw std::invalid_argument("not a supported recovery snapshot");
@@ -498,9 +526,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<9) create_pixel_classifiers(db);
         if(version<10) create_pixel_streams(db);
         if(version<11) create_tma(db);
+        if(version<12) create_tiff_views(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);}
-    db.exec("DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);}
+    db.exec("DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -510,6 +539,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement provenance(db,"INSERT INTO analysis_provenance VALUES(?,?,?)");
     auto write_provenance=[&](std::uint64_t image,std::uint64_t record,const std::shared_ptr<const AnalysisProvenance>& p) {if(p) {provenance.string(1,std::to_string(image));provenance.string(2,std::to_string(record));const auto bytes=ProvenanceCodec::encode(*p);provenance.blob(3,bytes);provenance.done();}};
     Statement tma_grid(db,"INSERT INTO tma_grids VALUES(?,?)");
+    Statement tiff_view(db,"INSERT INTO tiff_views VALUES(?,?)");
     Statement tma_core(db,"INSERT INTO tma_cores VALUES(?,?,?,?,?,?)");
     Statement cell_link(db,"INSERT INTO cell_feature_links VALUES(?,?,?,?)");
     Statement view(db,"INSERT INTO views VALUES(?,?,?,?,?,?,?,?)");
@@ -530,6 +560,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         image.optional(11,doc.pixel_width_um_); image.optional(12,doc.pixel_height_um_); image.string(13,std::to_string(doc.next_id_)); image.string(14,std::to_string(doc.revision_));
         if(e.info.embedded) image.blob(15,doc.image().pixels());
         image.done();
+        if(const auto projection=doc.server()->tiff_view()) {if(e.info.reader!="tiff" || e.info.embedded) throw std::invalid_argument("TIFF view does not match project reader");const auto encoded=tiff_view_encode(*projection);const std::vector<std::uint8_t> bytes(encoded.begin(),encoded.end());tiff_view.string(1,key);tiff_view.blob(2,bytes);tiff_view.done();}
         if(doc.tma_index_) {tma_grid.string(1,key);const auto bytes=TmaCodec::encode(*doc.tma_index_->info);tma_grid.blob(2,bytes);tma_grid.done();}
         auto saved_view=views_.find(id);
         if(saved_view!=views_.end()) {
@@ -682,7 +713,9 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         } else {
             if(file.empty() || images.type(14)!=SQLITE_NULL || reader_name(file,info.reader)!=info.reader) throw std::invalid_argument("invalid linked image descriptor");
             text(file,32768); auto location=fs::u8path(file); if(location.is_relative()) location=fs::u8path(source).parent_path()/location;
-            info.source_path=absolute(location.u8string()); server=std::make_shared<LinkedServer>(metadata,info.source_path,info.reader);
+            std::shared_ptr<const TiffView> selected;
+            if(version>=12) {Statement row(db,"SELECT payload FROM tiff_views WHERE image_id=?");row.string(1,key);if(row.row()) {const auto n=sqlite3_column_bytes(row.stmt,0);if(row.type(0)!=SQLITE_BLOB || n<0 || n>4096 || info.reader!="tiff") throw std::invalid_argument("invalid project TIFF view");selected=std::make_shared<const TiffView>(tiff_view_decode(std::string(static_cast<const char*>(sqlite3_column_blob(row.stmt,0)),std::size_t(n))));if(row.row()) throw std::invalid_argument("duplicate project TIFF view");}}
+            info.source_path=absolute(location.u8string()); server=std::make_shared<LinkedServer>(metadata,info.source_path,info.reader,std::move(selected));
         }
         std::vector<ObjectClass> definitions;
         classes.string(1,key);
@@ -816,6 +849,7 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             if(record->id!=number(rows.string(1))) throw std::invalid_argument("pixel stream record identity mismatch");image->second.document->restore_pixel_stream(record);
         }
     }
+    if(version>=12 && scalar(db,"SELECT count(*) FROM tiff_views t LEFT JOIN images i ON i.id=t.image_id WHERE i.id IS NULL OR i.reader!='tiff' OR i.embedded!=0")) throw std::invalid_argument("orphaned or incompatible TIFF view data");
     if(version>=11 && (scalar(db,"SELECT count(*) FROM tma_grids WHERE image_id NOT IN (SELECT id FROM images)") || scalar(db,"SELECT count(*) FROM tma_cores WHERE image_id NOT IN (SELECT id FROM images)"))) throw std::invalid_argument("orphaned TMA grid data");
     if(version>=7 && scalar(db,"SELECT count(*) FROM analysis_provenance p WHERE NOT EXISTS (SELECT 1 FROM analysis_records a WHERE a.image_id=p.image_id AND a.id=p.record_id) AND NOT EXISTS (SELECT 1 FROM tissue_records t WHERE t.image_id=p.image_id AND t.id=p.record_id) AND NOT EXISTS (SELECT 1 FROM cell_records c WHERE c.image_id=p.image_id AND c.id=p.record_id)")) throw std::invalid_argument("orphaned analysis provenance");
     if(version>=6) {
