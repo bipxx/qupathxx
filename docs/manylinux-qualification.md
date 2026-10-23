@@ -58,3 +58,12 @@ acceptance resulted. The SDK helper and CI wrapper now locate exactly one comple
 config in the SDK root, `lib`, or `lib64`; missing, incomplete and ambiguous
 layouts fail explicitly. Six regression cases cover those layouts. The build and
 consumer requirements above remain unchanged and require a new successful run.
+
+The next run, 39991725062, passes wheel compilation and all 40 native tests,
+then exposes the same lib/lib64 assumption in the independent GEOS runtime
+verifier. The runtime verifier and relocated-library regression now select one
+unambiguous C API library directory from lib or lib64. Four new layout cases
+reject absent and ambiguous C API runtimes and cover both supported locations.
+This preserves exact installed/wheel/SDK hash matching and the relocation policy;
+no library is copied or retagged to bypass the check. A new successful build and
+fresh-consumer run remains required.

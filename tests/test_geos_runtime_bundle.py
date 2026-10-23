@@ -1,11 +1,15 @@
 """Linux SDK bundling contract: real relocated ELF plus invalid-input rejection."""
 import os
+import importlib.util
 from pathlib import Path
 import shutil
 import subprocess
 import sys
 
 import pytest
+
+spec=importlib.util.spec_from_file_location('qpx_geos_runtime_probe',Path(__file__).resolve().parents[1]/'tools/ci/check_linux_runtime.py')
+runtime_probe=importlib.util.module_from_spec(spec);spec.loader.exec_module(runtime_probe)
 
 
 pytestmark=pytest.mark.skipif(sys.platform!='linux' or not os.environ.get('QUPATHXX_GEOS_SDK'),reason='requires opt-in Linux GEOS SDK')
@@ -42,7 +46,7 @@ def test_bundled_geos_c_api_resolves_its_cpp_runtime_after_relocation(tmp_path):
     subprocess.run(['cmake','--install',str(build)],check=True,capture_output=True,timeout=30)
     payload=prefix/'qupathxx';libraries=list(payload.glob('libgeos*.so*'))
     assert len(libraries)==2 and (payload/'libgeos_c.so.1').is_file()
-    for library in libraries:assert library.read_bytes()==(sdk/'lib'/library.name).read_bytes()
+    for library in libraries:assert library.read_bytes()==(runtime_probe.geos_runtime_directory(sdk)/library.name).read_bytes()
     relocated=tmp_path/'another location';shutil.move(str(prefix),relocated)
     env=os.environ.copy();env.pop('LD_LIBRARY_PATH',None)
     ran=subprocess.run([str(relocated/'qupathxx/probe')],env=env,capture_output=True,timeout=30)
