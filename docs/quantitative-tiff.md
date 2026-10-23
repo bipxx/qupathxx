@@ -132,3 +132,9 @@ the [headless](benchmarks/tiff-reader-windows.json) and
 The [local verification receipt](benchmarks/tiff-reader-local-windows-linux.json)
 records the frozen wheel, complete suite, native configurations, cross-platform
 exports, alpha regression, launcher checks and remaining limits.
+
+
+[Raw analysis records](raw-analysis-records.md) extend the reader with saved
+per-channel statistics, exact input digests, original object/TMA context,
+explicit replay verification, CSV snapshots and captured project batches.
+The Data, Results and Records tabs share native workers with Python commands.

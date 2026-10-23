@@ -15,10 +15,10 @@ void bind_viewer_session(nb::module_& m) {
         .def_rw("command_bytes",&ViewerLimits::command_bytes).def_rw("max_edits",&ViewerLimits::max_edits).def_rw("region_bytes",&ViewerLimits::region_bytes).def_rw("snapshot_bytes",&ViewerLimits::snapshot_bytes).def("validate",&ViewerLimits::validate);
     nb::class_<ViewerEvent>(m,"ViewerEvent")
         .def_ro("ticket",&ViewerEvent::ticket).def_ro("epoch",&ViewerEvent::epoch).def_ro("image_id",&ViewerEvent::image_id).def_ro("object_id",&ViewerEvent::object_id).def_ro("record_id",&ViewerEvent::record_id).def_ro("document_revision",&ViewerEvent::document_revision)
-        .def_ro("action",&ViewerEvent::action).def_ro("state",&ViewerEvent::state).def_ro("error",&ViewerEvent::error).def_ro("path",&ViewerEvent::path).def_ro("committed",&ViewerEvent::committed).def_ro("elapsed_ms",&ViewerEvent::elapsed_ms)
+        .def_ro("action",&ViewerEvent::action).def_ro("state",&ViewerEvent::state).def_ro("error",&ViewerEvent::error).def_ro("path",&ViewerEvent::path).def_ro("committed",&ViewerEvent::committed).def_ro("verified",&ViewerEvent::verified).def_ro("elapsed_ms",&ViewerEvent::elapsed_ms)
         .def_ro("object_ids",&ViewerEvent::object_ids).def_ro("images",&ViewerEvent::images).def_ro("object",&ViewerEvent::object).def_ro("metadata",&ViewerEvent::metadata)
         .def_ro("analysis",&ViewerEvent::analysis).def_ro("tissue",&ViewerEvent::tissue).def_ro("cells",&ViewerEvent::cells).def_ro("pixels",&ViewerEvent::pixels)
-        .def_ro("raw_pixels",&ViewerEvent::raw_pixels).def_ro("raw_metadata",&ViewerEvent::raw_metadata)
+        .def_ro("raw_analysis",&ViewerEvent::raw_analysis).def_ro("raw_pixels",&ViewerEvent::raw_pixels).def_ro("raw_metadata",&ViewerEvent::raw_metadata)
         .def_prop_ro("tiff_view",[](const ViewerEvent& event){return event.tiff_view;})
         .def_ro("samples",&ViewerEvent::samples).def_ro("components",&ViewerEvent::components).def_ro("rows",&ViewerEvent::rows).def_ro("bytes",&ViewerEvent::bytes);
     nb::class_<ViewerStats>(m,"ViewerStats")
@@ -33,6 +33,9 @@ void bind_viewer_session(nb::module_& m) {
         .def("select",&ViewerSession::select,"image_id"_a,"object_ids"_a).def("activate",&ViewerSession::activate,"image_id"_a).def("read_region",&ViewerSession::read_region,"image_id"_a,"request"_a)
         .def("inspect_raw",&ViewerSession::inspect_raw,"image_id"_a).def("read_raw",&ViewerSession::read_raw,"image_id"_a,"request"_a)
         .def("set_tiff_view",&ViewerSession::set_tiff_view,"image_id"_a,"view"_a)
+        .def("analyze_raw",&ViewerSession::analyze_raw,"image_id"_a,"request"_a,"object_id"_a=0,"nucleus"_a=false,"retain_result"_a=false)
+        .def("verify_raw_analysis",&ViewerSession::verify_raw_analysis,"image_id"_a,"record_id"_a)
+        .def("export_raw_measurements",&ViewerSession::export_raw_measurements,"image_id"_a,"path"_a,"require_current"_a=false,"record_ids"_a=std::vector<std::uint64_t>{})
         .def("analyze",&ViewerSession::analyze,"image_id"_a,"object_id"_a,"transform"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
         .def("tissue",&ViewerSession::tissue,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=TissueParameters{},"retain_result"_a=false)
         .def("cells",&ViewerSession::cells,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=CellParameters{},"retain_result"_a=false)

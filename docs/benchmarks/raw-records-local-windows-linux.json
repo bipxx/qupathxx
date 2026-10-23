@@ -1,0 +1,166 @@
+{
+  "schema": "qpx.raw-records-local-validation/1",
+  "scope": "Native TIFF raw-analysis records, schema13 archives, original object/TMA context, explicit replay, CSV snapshots, managed commands, native/Python/CLI/ImGui batches and hash-only reuse. The whole M0-M7 goal is not complete.",
+  "source_tree_sha256": "223d8b2a94105dc038fa2a1e09f5894d846509a81801990318fa4cf3ec8bb3f4",
+  "wheel": {
+    "file": "build\\ci\\raw89-final3-wheels\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "61d919963197181cbba9606d2a87063f8e266a2f31f9e54108ec7baa7fb0b973",
+    "native_sha256": "f90c2321a75f8ea2e2de1ff091c0646fd6e38f1182b0c66d1408d7d6e397470c"
+  },
+  "native": {
+    "Windows headless": {
+      "tests": 40,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 40,
+      "seconds": 8.0,
+      "sha256": "38a2940e48cac283ce6b6daf46042b5c02a62d30abe1150eb02a169fb64f6faa",
+      "source_tree_sha256": "223d8b2a94105dc038fa2a1e09f5894d846509a81801990318fa4cf3ec8bb3f4"
+    },
+    "Windows GUI": {
+      "tests": 41,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 41,
+      "seconds": 9.0,
+      "sha256": "c1a9822655bae9171f907a35eaceeba42d1d4ff80346913d8b36cb28067347e7",
+      "source_tree_sha256": "223d8b2a94105dc038fa2a1e09f5894d846509a81801990318fa4cf3ec8bb3f4"
+    },
+    "Linux full": {
+      "tests": 40,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 40,
+      "seconds": 2.0,
+      "sha256": "93163ddd2e9f6ef29ff40d56dd936973c187b2ebf5e39e700fc8d7871c984295",
+      "source_tree_sha256": "223d8b2a94105dc038fa2a1e09f5894d846509a81801990318fa4cf3ec8bb3f4"
+    },
+    "Linux ASan UBSan": {
+      "tests": 40,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 40,
+      "seconds": 8.0,
+      "sha256": "c15d6c7777e549087b23a8d4537f95461b2d4f4ffa310d3588d17448493fbe90",
+      "source_tree_sha256": "223d8b2a94105dc038fa2a1e09f5894d846509a81801990318fa4cf3ec8bb3f4"
+    },
+    "Linux optional features disabled": {
+      "tests": 40,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "passed": 40,
+      "seconds": 0.0,
+      "sha256": "9bd7108081efc8057274fc4fb77900d3b5934939cf76e08aac26256e6d9864f6",
+      "source_tree_sha256": "223d8b2a94105dc038fa2a1e09f5894d846509a81801990318fa4cf3ec8bb3f4"
+    }
+  },
+  "python_full": {
+    "tests": 1945,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1939,
+    "seconds": 648.868,
+    "sha256": "0144a2e760586e887a88054709f9a80157784fd72015ccc7c8629088a1e545f1"
+  },
+  "supplemental_desktop": {
+    "tests": 5,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 5,
+    "seconds": 6.979,
+    "sha256": "5b5d0dfb9fff119f9c3a6aa670170b79d0613af858aced72ef2353ada5c89700"
+  },
+  "focused_raw_workflow": {
+    "tests": 40,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 40,
+    "seconds": 2.155,
+    "sha256": "4d293688cc65fcb2a77d79097157929d959dead861c5b0188c4e9cf89bccf999"
+  },
+  "supplemental_note": "Five raw-record desktop cases also appear in the full suite. They include desktop verify/remove and missing-source historical export. The 40-case focused raw API/archive/CSV/batch run also appears in the full suite. Counts are not summed.",
+  "desktop_capture": {
+    "file": "../images/raw-analysis-records.png",
+    "sha256": "c1ebaa2aaa6e471cf5c579ec7603ee8773c954eee58a7e7bc3688c1b27cd1027",
+    "report": {
+      "frames": 18,
+      "record_id": 9,
+      "status": "current",
+      "records": 1,
+      "overflow": 0,
+      "source_tree_sha256": "223d8b2a94105dc038fa2a1e09f5894d846509a81801990318fa4cf3ec8bb3f4"
+    }
+  },
+  "installed_workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\software-probe\\python.exe",
+    "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\check-install\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "native_sha256": "f90c2321a75f8ea2e2de1ff091c0646fd6e38f1182b0c66d1408d7d6e397470c",
+    "source_tree_sha256": "223d8b2a94105dc038fa2a1e09f5894d846509a81801990318fa4cf3ec8bb3f4",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "raw_archive_records": 1,
+    "raw_replay_verified": true,
+    "raw_input_sha256": "ff618dfd592aaf66e46f6fdede2c89eeb5165696a781839b69df3832a94c01e5",
+    "raw_batch_reused": true,
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "stubs_and_strict_typing": true,
+  "benchmarks": {
+    "file": "raw-records-windows.json",
+    "sha256": "878cbae3a98876cac61f3ef1bed01313c9d566c2bada38ae815beb5ecbed20d4",
+    "records": 10000,
+    "page_max_ms": 0.016200006939470768,
+    "table_capture_ms": 3.4949000691995025,
+    "save_capture_ms": 0.129799940623343
+  },
+  "cross_platform": {
+    "file": "raw-records-cross-platform.json",
+    "sha256": "98fd3646e3e091532d6339f1b27d59684fed8d229dc2a3dff38b5f7093cd729f"
+  },
+  "regressions": [
+    "Python-to-native shared result ownership during asynchronous save snapshot retirement (subprocess timeout bounded)",
+    "archive checksum and semantic corruption",
+    "uint64 one-bit input change with unchanged float64 mean",
+    "display projection independent hashes and natural-pyramid sample centers",
+    "original TMA case context, stale label rejection and indirect parent moves into/between/out of cores",
+    "raw batch checkpoint integrity and hash-only reuse",
+    "historical CSV without source decoding"
+  ],
+  "limits": [
+    "Optional native TIFF subset only; no broader Bio-Formats support.",
+    "Statistics use float64; input digest preserves exact source bits.",
+    "Logical payload/cache budgets are not aggregate process RSS limits.",
+    "External data are not whole-file frozen; source observations and ROI input hashes have distinct scope.",
+    "Full runtime/build manifests, biological/QuPath equivalence and hardware frame acceptance remain open.",
+    "Hosted validation remains separate from this local receipt."
+  ]
+}

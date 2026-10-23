@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    RawTmaContext, RawObjectContext, RawAnalysisRequest, RawAnalysisMetadata, RawAnalysisResult, RawAnalysisRecord, RawInputDigest, RawAnalysisStats, RawAnalysisJob, RawTableRequest, RawTableStats, RawTableJob, analyze_raw, raw_analysis_input_digest, raw_analysis_csv, save_raw_analysis_csv,
     SampleType, RawImageMetadata, RawRegionRequest, RawPixelBuffer, TiffView, TiffOpenOptions, TiffReadStats, RawRegionStatistics, open_tiff, has_tiff, tiff_library_version, raw_region_statistics, save_raw_numpy,
     TmaGridOptions, TmaGridInfo, TmaCoreInfo, TmaGrid, tma_grid_edits, tma_metadata_csv, tma_context_csv,
     ObjectCellFeatureSource, ObjectFeatureCellOrigin, ObjectClassifierArchive, ObjectClassifierRecord, archive_object_classifier,
@@ -47,6 +48,7 @@ from ._native import (
 )
 
 __all__ = [
+    'RawTmaContext', 'RawObjectContext', 'RawAnalysisRequest', 'RawAnalysisMetadata', 'RawAnalysisResult', 'RawAnalysisRecord', 'RawInputDigest', 'RawAnalysisStats', 'RawAnalysisJob', 'RawTableRequest', 'RawTableStats', 'RawTableJob', 'analyze_raw', 'raw_analysis_input_digest', 'raw_analysis_csv', 'save_raw_analysis_csv',
     "SampleType", "RawImageMetadata", "RawRegionRequest", "RawPixelBuffer", "TiffView", "TiffOpenOptions", "TiffReadStats", "RawRegionStatistics", "open_tiff", "has_tiff", "tiff_library_version", "raw_region_statistics", "save_raw_numpy",
     "TmaGridOptions", "TmaGridInfo", "TmaCoreInfo", "TmaGrid", "tma_grid_edits", "tma_metadata_csv", "tma_context_csv",
     "ObjectCellFeatureSource", "ObjectFeatureCellOrigin", "ObjectClassifierArchive", "ObjectClassifierRecord", "archive_object_classifier",

@@ -97,6 +97,31 @@ def main():
             raise RuntimeError(batch.stderr.decode('utf8', errors='replace'))
         checkpoints = list((root/'batch').rglob('*.qpxproj'))
         assert len(checkpoints) == 1 and len(q.Project.open(str(checkpoints[0])).document(image).analysis_records) == 2
+        # Quantitative records use original samples and survive a project round trip.
+        import tifffile
+        raw_values=np.arange(2*16*24,dtype='uint16').reshape(2,16,24)
+        raw_source=root/'channels.ome.tif'
+        tifffile.imwrite(raw_source,raw_values,ome=True,photometric='minisblack',byteorder='>',compression='deflate',metadata={'axes':'CYX'})
+        raw_project=q.Project();raw_image=raw_project.add_tiff_image(str(raw_source));raw_doc=raw_project.document(raw_image)
+        raw_object=raw_doc.add_rectangle(q.Rect(0,0,24,16),'Native raw')
+        raw_region=q.RawRegionRequest();raw_region.region=q.RegionRequest(0,0,0,24,16);raw_region.channels=2
+        raw_request=q.RawAnalysisRequest(raw_doc,raw_region,raw_object);raw_result=q.analyze_raw(raw_request)
+        np.testing.assert_allclose(raw_result.statistics.means,raw_values.mean(axis=(1,2)),rtol=1e-12)
+        assert q.raw_analysis_input_digest(raw_request).input_sha256==raw_result.input_sha256
+        raw_record=raw_doc.keep_raw_analysis(raw_request,raw_result);raw_path=root/'raw.qpxproj';raw_project.save(str(raw_path))
+        raw_loaded=q.Project.open(str(raw_path)).document(raw_image);assert raw_loaded.raw_analysis_status(raw_record)=='unverified'
+        raw_replay=q.RawAnalysisRequest.replay(raw_loaded,raw_record);raw_revision=raw_loaded.revision
+        raw_verified=raw_loaded.verify_raw_analysis(raw_record,raw_replay,q.analyze_raw(raw_replay))
+        assert raw_verified and raw_loaded.revision==raw_revision
+        q.save_raw_analysis_csv(q.RawTableRequest(raw_loaded,[raw_record],True),str(root/'raw.csv'))
+        raw_batch_reused=False
+        for attempt in range(2):
+            raw_batch=subprocess.run([str(cli),str(raw_path),str(root/'raw-batch'),'--kind','raw','--raw-channels','2'],capture_output=True,timeout=60)
+            if raw_batch.returncode:raise RuntimeError(raw_batch.stderr.decode('utf8',errors='replace'))
+            summary=next(json.loads(line) for line in raw_batch.stdout.decode('utf8').splitlines() if json.loads(line)['schema']=='qpx.project-batch/1')
+            assert summary['saved']==(attempt==0) and summary['reused']==(attempt==1)
+            raw_batch_reused=attempt==1
+        raw_loaded.server.close();raw_doc.server.close()
         renderer = ''
         if args.gui:
             requested = q.GuiOptions()
@@ -134,6 +159,7 @@ def main():
                       ui_overflow_items=report.ui_overflow_items if args.gui else None,
                       ui_max_overflow=report.ui_max_overflow if args.gui else None,
                       framebuffer=[report.framebuffer_width, report.framebuffer_height] if args.gui else None,
+                      raw_archive_records=1,raw_replay_verified=raw_verified,raw_input_sha256=raw_result.input_sha256,raw_batch_reused=raw_batch_reused,
                       roi_samples=result.samples, native_batch_checkpoints=len(checkpoints))
     args.output.write_text(json.dumps(report, indent=2)+'\n', encoding='utf8')
     print(json.dumps(report, indent=2))

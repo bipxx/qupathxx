@@ -238,7 +238,7 @@ def test_empty_project_and_legacy_schema_save_use_same_worker(tmp_path):
     loaded = q.Project.open(str(legacy))
     assert job.request(loaded, str(legacy)) and job.wait().applied
     db = sqlite3.connect(legacy)
-    assert db.execute('PRAGMA user_version').fetchone()[0] == 12
+    assert db.execute('PRAGMA user_version').fetchone()[0] == 13
     db.close()
     assert not loaded.dirty and loaded.generation == 2
 

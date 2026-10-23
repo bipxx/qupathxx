@@ -3,7 +3,7 @@
 #include "qupathxx/cells.hpp"
 #include "qupathxx/measurement_tables.hpp"
 #include "qupathxx/cell_tables.hpp"
-#include "qupathxx/raw_image.hpp"
+#include "qupathxx/raw_tables.hpp"
 namespace qpx {
 namespace detail {class ViewerOwner;}
 struct ViewerLimits {
@@ -14,7 +14,7 @@ struct ViewerLimits {
 struct ViewerEvent {
     std::uint64_t ticket=0,epoch=0,image_id=0,object_id=0,record_id=0,document_revision=0;
     std::string action,state="queued",error,path;
-    bool committed=false;
+    bool committed=false,verified=false;
     double elapsed_ms=0;
     std::vector<std::uint64_t> object_ids;
     std::vector<ProjectImage> images;
@@ -24,6 +24,7 @@ struct ViewerEvent {
     std::shared_ptr<const TissueResult> tissue;
     std::shared_ptr<const CellResult> cells;
     std::shared_ptr<const PixelBuffer> pixels;
+    std::shared_ptr<const RawAnalysisResult> raw_analysis;
     std::shared_ptr<const RawPixelBuffer> raw_pixels;
     std::shared_ptr<const RawImageMetadata> raw_metadata;
     std::optional<TiffView> tiff_view;
@@ -61,6 +62,9 @@ public:
     std::uint64_t cells(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,CellParameters={},bool retain_result=false);
     std::uint64_t export_measurements(std::uint64_t image_id,MeasurementTableKind,const std::string&,bool require_current=false,const std::vector<std::uint64_t>& record_ids={});
     std::uint64_t export_cells(std::uint64_t image_id,const std::string&,bool require_current=false,const std::vector<std::uint64_t>& record_ids={});
+    std::uint64_t analyze_raw(std::uint64_t image_id,RawRegionRequest,std::uint64_t object_id=0,bool nucleus=false,bool retain_result=false);
+    std::uint64_t verify_raw_analysis(std::uint64_t image_id,std::uint64_t record_id);
+    std::uint64_t export_raw_measurements(std::uint64_t image_id,const std::string&,bool require_current=false,const std::vector<std::uint64_t>& record_ids={});
     std::uint64_t save(const std::string&);
     std::uint64_t close(bool discard_changes=false);
 private:

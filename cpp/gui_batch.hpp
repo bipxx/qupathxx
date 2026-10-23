@@ -50,7 +50,7 @@ public:
             ui::SetNextItemWidth(240);
             ui::InputTextWithHint("##output","Output directory",output_.data(),output_.size());
             int kind=static_cast<int>(options_.kind);
-            if(ui::Combo("Workflow",&kind,"ROI means\0Tissue\0Cells\0Pixel streams\0")) options_.kind=static_cast<ProjectBatchKind>(kind);
+            if(ui::Combo("Workflow",&kind,"ROI means\0Tissue\0Cells\0Pixel streams\0Raw channel statistics\0")) options_.kind=static_cast<ProjectBatchKind>(kind);
             ui::Checkbox("TMA cores only",&options_.tma_only);
             if(options_.tma_only) {ui::Checkbox("Include missing cores",&options_.include_missing_tma);options_.nucleus=false;}else options_.include_missing_tma=false;
             ui::Checkbox("Selected objects only",&selected_only_);
@@ -59,9 +59,9 @@ public:
                 int object_kind=static_cast<int>(options_.object_kind);
                 if(ui::Combo("Object kind",&object_kind,"Annotations\0Detections\0Cells\0")) options_.object_kind=static_cast<ObjectKind>(object_kind);
             }
-            if(options_.kind!=ProjectBatchKind::Pixels) ui::Checkbox("Use image analysis settings",&use_image_settings_);
-            if(use_image_settings_ && options_.kind!=ProjectBatchKind::Pixels) ImGui::TextWrapped("Uses the Region analysis, Tissue and Cells settings in the image inspector.");
-            ImGui::BeginDisabled(use_image_settings_ && options_.kind!=ProjectBatchKind::Pixels);
+            if(options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ui::Checkbox("Use image analysis settings",&use_image_settings_);
+            if(use_image_settings_ && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ImGui::TextWrapped("Uses the Region analysis, Tissue and Cells settings in the image inspector.");
+            ImGui::BeginDisabled(use_image_settings_ && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw);
             if(options_.kind!=ProjectBatchKind::Cells) options_.publish_cells=false;
             if(options_.kind==ProjectBatchKind::Cells || options_.kind==ProjectBatchKind::Pixels) options_.nucleus=false;
             if(options_.kind==ProjectBatchKind::Pixels) {
@@ -73,6 +73,12 @@ public:
                 if(ui::InputInt("Prediction tile size",&tile)) options_.pixels.prediction.tile_size=static_cast<std::size_t>(tile);
                 if(ui::InputInt("Prediction memory (MiB)",&mib)) options_.pixels.prediction.work_bytes=static_cast<std::size_t>(std::clamp(mib,1,1024))*1024*1024;
                 ui::InputDouble("Minimum vote",&options_.pixels.prediction.min_vote_fraction,0,0,"%.5g");
+            } else if(options_.kind==ProjectBatchKind::Raw) {
+                ui::Checkbox("Use each image's displayed Z/time",&options_.raw_follow_display);
+                auto axis=[&](const char* label,std::uint32_t& value,int minimum=0) {int n=static_cast<int>(value);if(ui::InputInt(label,&n)) value=static_cast<std::uint32_t>(std::clamp(n,minimum,minimum?65536:65535));};
+                ui::InputInt("Raw pyramid level",&options_.raw.region.level);axis("First channel (zero-based)",options_.raw.first_channel);axis("Channel count",options_.raw.channels,1);
+                if(!options_.raw_follow_display) {axis("Z (zero-based)",options_.raw.z);axis("Time (zero-based)",options_.raw.t);}
+                if(!options_.tma_only) ui::Checkbox("Use nucleus",&options_.nucleus);
             } else if(options_.kind==ProjectBatchKind::Roi) {
                 int feature=static_cast<int>(options_.roi_kind);
                 if(ui::Combo("Features",&feature,"RGB optical density\0Supplied stains\0")) options_.roi_kind=static_cast<AnalysisKind>(feature);
@@ -92,7 +98,7 @@ public:
             int failure=static_cast<int>(options_.failure);
             if(ui::Combo("On image error",&failure,"Stop\0Continue\0")) options_.failure=static_cast<ProjectBatchFailure>(failure);
             ui::Checkbox("Reuse matching checkpoints",&options_.resume);
-            ImGui::TextWrapped(options_.kind==ProjectBatchKind::Pixels?"Uses the pinned pixel model. Each target produces a verified QPS file; only complete image bundles are reused. The open project is unchanged.":"Uses the current white/stain vectors. Results go to independent checkpoints; the open project is unchanged.");
+            ImGui::TextWrapped(options_.kind==ProjectBatchKind::Raw?"Measures original TIFF samples at the selected axes. Each ROI retains its input hash and original labels in an independent checkpoint.":options_.kind==ProjectBatchKind::Pixels?"Uses the pinned pixel model. Each target produces a verified QPS file; only complete image bundles are reused. The open project is unchanged.":"Uses the current white/stain vectors. Results go to independent checkpoints; the open project is unchanged.");
             ImGui::BeginDisabled(!project || !project->active_image());
             start=ui::Button("Run batch (Ctrl+Alt+B)") || start;
             ImGui::EndDisabled();ImGui::EndDisabled();
@@ -129,8 +135,8 @@ public:
                 }
                 auto run_options=options_;
                 if(run_options.kind==ProjectBatchKind::Pixels) {if(!run_options.pixel_model && pixel_model) run_options.pixel_model=*pixel_model;run_options.nucleus=false;}
-                else if(use_image_settings_) {run_options.tissue=tissue;run_options.cells=cells;run_options.roi_kind=roi_kind;run_options.nucleus=(run_options.kind==ProjectBatchKind::Cells || run_options.tma_only)?false:nucleus;}
-                const bool stains=run_options.kind!=ProjectBatchKind::Pixels && (run_options.kind==ProjectBatchKind::Roi?run_options.roi_kind==AnalysisKind::StainMeans:
+                else if(use_image_settings_ && run_options.kind!=ProjectBatchKind::Raw) {run_options.tissue=tissue;run_options.cells=cells;run_options.roi_kind=roi_kind;run_options.nucleus=(run_options.kind==ProjectBatchKind::Cells || run_options.tma_only)?false:nucleus;}
+                const bool stains=run_options.kind!=ProjectBatchKind::Raw && run_options.kind!=ProjectBatchKind::Pixels && (run_options.kind==ProjectBatchKind::Roi?run_options.roi_kind==AnalysisKind::StainMeans:
                     (run_options.kind==ProjectBatchKind::Tissue?run_options.tissue.feature:run_options.cells.feature)!=TissueFeature::OpticalDensitySum);
                 ProjectBatchRequest request(*project,transform(stains),chosen,run_options);
                 job_.request(request,output_.data());error_.clear();poll();

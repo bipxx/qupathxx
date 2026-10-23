@@ -380,3 +380,34 @@ def quantitative_tiff(path: str, session: q.ViewerSession) -> q.RawRegionStatist
     session.read_raw(1, request)
     session.set_tiff_view(1, view)
     return q.raw_region_statistics(projected, request)
+
+
+def saved_raw_measurements(document: q.Document, region: q.RawRegionRequest,
+                           session: q.ViewerSession) -> q.RawAnalysisResult:
+    captured = q.RawAnalysisRequest(document, region)
+    result: q.RawAnalysisResult = q.analyze_raw(captured)
+    digest: q.RawInputDigest = q.raw_analysis_input_digest(captured)
+    assert digest.input_sha256 == result.input_sha256
+    record_id = document.keep_raw_analysis(captured, result)
+    record: q.RawAnalysisRecord = document.raw_analysis_record(record_id)
+    context: q.RawObjectContext = record.result.object_context
+    if context.tma is not None:
+        case_id: str = context.tma.case_id
+    replay = q.RawAnalysisRequest.replay(document, record_id)
+    job = q.RawAnalysisJob()
+    job.request(replay)
+    state: q.RawAnalysisStats = job.wait(document)
+    if state.state == 'ready':
+        job.verify_result(document, record_id)
+    table = q.RawTableRequest(document, [record_id], require_current=True)
+    csv: str = q.raw_analysis_csv(table)
+    assert csv
+    session.analyze_raw(1, region, retain_result=True)
+    session.verify_raw_analysis(1, record_id)
+    session.export_raw_measurements(1, 'measurements.csv', record_ids=[record_id])
+    options = q.ProjectBatchOptions()
+    options.kind = q.ProjectBatchKind.RAW
+    options.raw = region
+    options.raw_follow_display = False
+    options.validate()
+    return result

@@ -3212,3 +3212,48 @@ Fingerprint comparisons are within each installed artifact/configuration;
 Windows and Linux source fingerprints differ with checkout line endings.
 The earlier failed download run is not represented as all-green. This accepts
 the declared TIFF subset and regression scope, not the full M0–M7 goal.
+
+
+### Packet 89: reproducible raw-analysis records (local verification complete)
+
+This M5/M6 increment retains quantitative TIFF channel statistics as native
+immutable records with exact sample hashes, original object/TMA context, explicit
+replay verification, schema-13 archives, snapshot CSV, managed-viewer commands and
+raw project batches. Native, nanobind Python, CLI and ImGui workflows share the
+same workers. See [the contract](raw-analysis-records.md),
+[Records panel](images/raw-analysis-records.png), and
+[local verification receipt](benchmarks/raw-records-local-windows-linux.json).
+
+The frozen installed implementation passes 1,939 Python/desktop cases with six
+skips, including 40 focused raw API/archive/CSV/batch cases and five raw-record
+ImGui cases. Windows GUI passes 41 native tests; Windows headless, Linux full,
+Linux ASan/UBSan and Linux with optional features disabled pass 40 each. Every
+local configuration reports source fingerprint
+`223d8b2a94105dc038fa2a1e09f5894d846509a81801990318fa4cf3ec8bb3f4`.
+Packaged stubs, strict positive/negative typing and installed standalone workflows
+pass. Windows/Linux native checkpoints agree on raw hashes, measurements and
+original case context; archives read in both directions and explicitly reverify.
+
+Independent references cover all ten sample types, big-endian compressed data,
+Z/time/channels, masks, natural pyramid sample centers, padding and calibration.
+A one-bit uint64 input change invalidates verification even when its float64 mean
+is unchanged. Corrupt archive/checkpoint tests reject altered content. The save
+snapshot regression is timeout-bounded and exercises retirement after removal of
+the live record, preserving native shared ownership across Python. Desktop tests
+cover keeping, verifying, removing and exporting records with missing source data.
+The same-frame removal path clears its retained selection before drawing again.
+Nearest-core eligibility resolves the current ancestor chain: moving a parent
+into, between or out of TMA cores invalidates child context without requiring a
+child revision change. Historical labels remain immutable.
+
+The [10,000-record probe](benchmarks/raw-records-windows.json) keeps distinct results for one child ROI
+nested under a parent and TMA core. On the measured Windows machine, maximum
+64-record paging took about 0.016 ms, table snapshot capture 3.49 ms and project
+save capture 0.13 ms. It checks all 40,000 CSV rows and reopens every saved record.
+Warm input-only scans took about 3.23 ms versus 19.45 ms for statistics, without
+additional tile decodes. These are local observations, not hardware/RSS/frame
+acceptance guarantees.
+
+Hosted acceptance remains pending. This packet does not complete M0–M7; broader
+Bio-Formats readers, raw cell/classifier features, runtime/build manifests,
+biological/QuPath comparisons and hardware acceptance remain open.

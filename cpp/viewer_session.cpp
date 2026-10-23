@@ -14,13 +14,13 @@
 namespace qpx {
 namespace {
 using Clock=std::chrono::steady_clock;
-enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close,RawMetadata,RawRegion,TiffView};
-const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close","raw_metadata","raw_region","tiff_view"};return values[static_cast<int>(a)];}
+enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close,RawMetadata,RawRegion,TiffView,RawAnalyze,RawVerify,RawTable};
+const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close","raw_metadata","raw_region","tiff_view","raw_analyze","raw_verify","raw_table"};return values[static_cast<int>(a)];}
 bool terminal(const std::string& state) {return state!="queued" && state!="running";}
 std::string error_text(const std::exception& e) {std::string text=e.what();try {detail::bounded_utf8(text,8192);}catch(...) {return "viewer operation failed (invalid or oversized error text)";}return text;}
 struct Command {
     Action action;std::uint64_t image=0,object=0,after=0;std::optional<std::uint64_t> revision;std::size_t limit=64;
-    bool flag=false;std::string text;std::vector<ObjectEdit> edits;std::vector<std::uint64_t> ids;
+    bool flag=false,nucleus=false;std::string text;std::vector<ObjectEdit> edits;std::vector<std::uint64_t> ids;
     RegionRequest region{0,0,0,1,1};std::shared_ptr<const StainTransform> transform;
     RawRegionRequest raw_region;TiffView tiff_view;
     AnalysisKind analysis=AnalysisKind::OpticalDensityMeans;MeasurementTableKind table=MeasurementTableKind::Roi;
@@ -38,6 +38,7 @@ std::size_t payload(const ViewerEvent& e) {
     if(e.metadata) n+=sizeof(ImageMetadata)+e.metadata->vendor.capacity()+e.metadata->levels.capacity()*sizeof(ImageLevel);
     if(e.analysis) n+=sizeof(AnalysisResult)+(e.analysis->provenance?e.analysis->provenance->payload_bytes():0);
     if(e.tissue) n+=e.tissue->retained_bytes();if(e.cells) n+=e.cells->retained_bytes();if(e.pixels) n+=sizeof(PixelBuffer)+e.pixels->bytes().capacity();
+    if(e.raw_analysis) n+=e.raw_analysis->payload_bytes();
     if(e.raw_pixels) n+=sizeof(RawPixelBuffer)+64+e.raw_pixels->payload_bytes();if(e.raw_metadata) n+=e.raw_metadata->payload_bytes();return n;
 }
 }
@@ -98,6 +99,15 @@ std::uint64_t ViewerSession::tissue(std::uint64_t image,std::uint64_t object,con
 std::uint64_t ViewerSession::cells(std::uint64_t image,std::uint64_t object,const StainTransform& transform,CellParameters p,bool retain) {p.validate();Command c(Action::Cells);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.cells=p;c.flag=retain;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::export_measurements(std::uint64_t image,MeasurementTableKind kind,const std::string& path,bool current,const std::vector<std::uint64_t>& ids) {if(ids.size()>100000 || (!image && !ids.empty())) throw std::invalid_argument("record selection requires one image and at most 100000 records");Command c(Action::Measurements);c.ids=ids;c.image=image;c.table=kind;c.text=detail::export_path(path);c.flag=current;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::export_cells(std::uint64_t image,const std::string& path,bool current,const std::vector<std::uint64_t>& ids) {if(ids.size()>100000 || (!image && !ids.empty())) throw std::invalid_argument("record selection requires one image and at most 100000 records");Command c(Action::CellTable);c.ids=ids;c.image=image;c.text=detail::export_path(path);c.flag=current;return impl_->submit(std::move(c));}
+std::uint64_t ViewerSession::analyze_raw(std::uint64_t image,RawRegionRequest region,std::uint64_t object,bool nucleus,bool retain) {
+    Command c(Action::RawAnalyze);c.image=image;c.object=object;c.raw_region=region;c.nucleus=nucleus;c.flag=retain;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::verify_raw_analysis(std::uint64_t image,std::uint64_t record) {
+    if(!record) throw std::invalid_argument("raw verification requires a record ID");Command c(Action::RawVerify);c.image=image;c.after=record;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::export_raw_measurements(std::uint64_t image,const std::string& path,bool current,const std::vector<std::uint64_t>& ids) {
+    if(ids.size()>10000) throw std::invalid_argument("raw selection exceeds 10000 records");Command c(Action::RawTable);c.image=image;c.ids=ids;c.text=detail::export_path(path);c.flag=current;return impl_->submit(std::move(c));
+}
 std::uint64_t ViewerSession::save(const std::string& path) {Command c(Action::Save);c.text=detail::export_path(path);return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::close(bool discard) {Command c(Action::Close);c.flag=discard;return impl_->submit(std::move(c));}
 namespace detail {
@@ -106,6 +116,7 @@ struct ViewerOwner::Impl {
     struct Work {
         std::shared_ptr<Ticket> ticket;std::unique_ptr<Command> command;ViewerEvent seed;Clock::time_point started;std::uint64_t cycle=0;
         std::optional<AnalysisRequest> analysis;std::optional<TissueRequest> tissue;std::optional<CellRequest> cells;
+        std::optional<RawAnalysisRequest> raw;std::optional<RawTableRequest> raw_table;
         std::optional<MeasurementTableRequest> table;std::optional<CellTableRequest> cell_table;
         std::shared_ptr<ImageServer> reader,replacement;std::future<ViewerEvent> future;std::size_t region_limit=0;
     };
@@ -143,14 +154,14 @@ struct ViewerOwner::Impl {
         }
         if(stale || c.closing) w.ticket->cancelled.store(true);
         if(w.future.wait_for(std::chrono::seconds(0))!=std::future_status::ready) return;
-        const bool export_job=command.action==Action::Measurements || command.action==Action::CellTable;
+        const bool export_job=command.action==Action::Measurements || command.action==Action::CellTable || command.action==Action::RawTable;
         if(c.blocked && !stale && !c.closing && !w.ticket->cancelled.load() && !export_job) return;
         try {
             auto e=w.future.get();e.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-w.started).count();
             if(!export_job && (stale || c.closing || w.ticket->cancelled.load())) {failure(w.ticket,stale?"workspace replaced":"viewer job cancelled",stale?"stale":"cancelled");work.reset();return;}
             if(export_job) {if(stale && e.committed) e.state="detached";complete(w.ticket,std::move(e));work.reset();return;}
             std::shared_ptr<Document> doc;try {doc=c.project->document(e.image_id);}catch(const std::out_of_range&) {failure(w.ticket,"source image removed","stale");work.reset();return;}bool matches=true;
-            if(w.analysis) matches=w.analysis->matches(*doc,e.object_id);if(w.tissue) matches=w.tissue->matches(*doc,e.object_id);if(w.cells) matches=w.cells->matches(*doc,e.object_id);if(w.reader) matches=doc->server()==w.reader;
+            if(w.analysis) matches=w.analysis->matches(*doc,e.object_id);if(w.tissue) matches=w.tissue->matches(*doc,e.object_id);if(w.cells) matches=w.cells->matches(*doc,e.object_id);if(w.raw) matches=w.raw->matches(*doc);if(w.reader) matches=doc->server()==w.reader;
             if(!matches) {failure(w.ticket,"source changed before publication","stale");work.reset();return;}
             if(e.state=="failed" || e.state=="cancelled") {complete(w.ticket,std::move(e));work.reset();return;}
             auto tissue=e.tissue;auto cells=e.cells;if(!command.flag) {e.tissue.reset();e.cells.reset();}reserve(w.ticket,e);
@@ -158,7 +169,11 @@ struct ViewerOwner::Impl {
             if(w.analysis) e.record_id=doc->keep_analysis(*w.analysis,*e.analysis);
             if(w.tissue) e.record_id=doc->keep_tissue(*w.tissue,tissue);
             if(w.cells) e.record_id=doc->keep_cells(*w.cells,cells);
-            e.committed=e.committed || e.record_id!=0;e.document_revision=doc->revision();complete(w.ticket,std::move(e));
+            if(w.raw && command.action==Action::RawVerify) {
+                e.record_id=command.after;e.verified=doc->verify_raw_analysis(command.after,*w.raw,e.raw_analysis);
+                if(!e.verified) {e.state="failed";e.error="raw input or statistics differ from archived capture";}
+            }else if(w.raw && command.flag) e.record_id=doc->keep_raw_analysis(*w.raw,e.raw_analysis);
+            e.committed=e.committed || (e.record_id!=0 && command.action!=Action::RawVerify);e.document_revision=doc->revision();complete(w.ticket,std::move(e));
         }catch(const std::exception& e) {failure(w.ticket,error_text(e),w.ticket->cancelled.load()?"cancelled":"failed");}work.reset();
     }
     void start(const ViewerContext& c,const std::shared_ptr<Ticket>& ticket,std::unique_ptr<Command> command) {
@@ -187,11 +202,19 @@ struct ViewerOwner::Impl {
             pending->reader=doc->server();pending->region_limit=state->limits.region_bytes;
             if(cmd.action==Action::TiffView) {const auto previous=pending->reader->tiff_view();if(!previous || previous->series!=cmd.tiff_view.series) throw std::invalid_argument("viewer TIFF changes require the same series; open other series as separate images");}
         }
+        else if(cmd.action==Action::RawAnalyze) pending->raw.emplace(*doc,cmd.raw_region,cmd.object,cmd.nucleus);
+        else if(cmd.action==Action::RawVerify) pending->raw.emplace(RawAnalysisRequest::replay(*doc,cmd.after));
+        else if(cmd.action==Action::RawTable) {
+            pending->region_limit=state->limits.result_bytes;std::vector<std::string> paths{state->path};
+            if(!c.project->path().empty()) paths.push_back(c.project->path());if(!c.project->recovery_source().empty()) paths.push_back(c.project->recovery_source());
+            pending->raw_table.emplace(*doc,cmd.ids,cmd.flag,state->limits.snapshot_bytes,paths);
+        }
         else if(cmd.action==Action::Analyze) pending->analysis.emplace(*doc,e.object_id,*cmd.transform,cmd.analysis,cmd.flag);
         else if(cmd.action==Action::Tissue) pending->tissue.emplace(*doc,e.object_id,*cmd.transform,cmd.tissue);
         else if(cmd.action==Action::Cells) pending->cells.emplace(*doc,e.object_id,*cmd.transform,cmd.cells);
         else if(cmd.action==Action::Measurements) {MeasurementTableOptions o;o.byte_limit=state->limits.result_bytes;o.snapshot_budget=state->limits.snapshot_bytes;o.require_current=cmd.flag;if(doc) pending->table.emplace(*doc,cmd.table,cmd.ids,o);else pending->table.emplace(*c.project,cmd.table,std::vector<std::uint64_t>{},o);}
         else if(cmd.action==Action::CellTable) {CellTableOptions o;o.byte_limit=state->limits.result_bytes;o.snapshot_budget=state->limits.snapshot_bytes;o.require_current=cmd.flag;if(doc) pending->cell_table.emplace(*doc,cmd.ids,o);else pending->cell_table.emplace(*c.project,std::vector<std::uint64_t>{},o);}
+        if(pending->raw) pending->seed.object_id=pending->raw->object_id();
         auto* borrowed=pending.get();pending->future=std::async(std::launch::async,[borrowed] {
             auto& w=*borrowed;auto e=w.seed;const auto* cancel=&w.ticket->cancelled;
             try {
@@ -204,6 +227,8 @@ struct ViewerOwner::Impl {
                         if(action==Action::RawRegion) {const auto& r=w.command->raw_region;r.validate(*e.raw_metadata);const auto bytes=std::uint64_t(r.region.width)*r.region.height*(std::uint64_t(r.channels)*sample_bytes(e.raw_metadata->sample_type)+1);if(bytes>w.region_limit) throw std::length_error("viewer raw region exceeds byte limit");e.raw_pixels=std::make_shared<const RawPixelBuffer>(w.reader->read_raw(r,cancel));}
                     }else e.pixels=std::make_shared<const PixelBuffer>(w.reader->read_region(w.command->region));
                 }
+                else if(w.raw) {e.raw_analysis=qpx::analyze_raw(*w.raw,cancel);e.samples=e.raw_analysis->statistics().valid_pixels;}
+                else if(w.raw_table) {e.bytes=save_raw_analysis_csv(*w.raw_table,w.command->text,false,w.region_limit,cancel);e.path=w.command->text;e.rows=w.raw_table->rows();e.committed=true;}
                 else if(w.analysis) {e.analysis=qpx::analyze(*w.analysis,cancel);e.samples=e.analysis->samples;}
                 else if(w.tissue) {e.tissue=detect_tissue(*w.tissue,cancel);e.samples=e.tissue->samples();e.components=e.tissue->components().size();}
                 else if(w.cells) {e.cells=detect_cells(*w.cells,cancel);e.samples=e.cells->nuclei()->samples();e.components=e.cells->features().size();}

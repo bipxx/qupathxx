@@ -376,3 +376,9 @@ blocks with save/recovery workers and preserve isolation during live edits.
 The optional [quantitative TIFF/OME reader](docs/quantitative-tiff.md) preserves
 stored sample types and channel/Z/time axes separately from RGBA previews. Build
 with `QUPATHXX_BUILD_TIFF=ON`; open its native channel panel with F2.
+
+
+[Saved raw measurements](docs/raw-analysis-records.md) retain original channel
+statistics, exact sample hashes and object/TMA context. The native, Python and
+ImGui workflows support replay verification, historical CSV export and captured
+raw project batches with hash-only checkpoint reuse.

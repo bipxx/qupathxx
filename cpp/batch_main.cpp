@@ -34,7 +34,9 @@ int execute(const std::vector<std::string>& args) {
             "Pixel export: --block-size N --work-bytes N --tile-size N --file-bytes N\n"
             "              --max-pixels N --max-blocks N --min-vote NUMBER\n"
             "              --window X,Y,WIDTH,HEIGHT --replace-existing\n"
-            "--kind od|stains|tissue|cells|pixels  --image ID (repeatable)\n"
+            "Raw options: --raw-level N --raw-channel N --raw-channels N (zero-based axes)\n"
+            "             --raw-z N --raw-time N --raw-explicit-axes --raw-max-pixels N\n"
+            "--kind od|stains|tissue|cells|pixels|raw  --image ID (repeatable)\n"
             "--object ID (repeatable, requires one --image)\n"
             "Pixel batches: --pixel-model MODEL --block-size N --pixel-work-bytes N\n"
             "               --pixel-file-bytes N --pixel-total-bytes N --min-vote NUMBER\n"
@@ -57,7 +59,16 @@ int execute(const std::vector<std::string>& args) {
         std::optional<std::size_t> requested_tile_size;std::string pixel_model_path;ColorVector white{255,255,255};std::vector<ColorVector> stains{{.65,.70,.29},{.07,.99,.11}};bool normalized=false;
         for(std::size_t i=3;i<args.size();++i) {
             const auto& flag=args[i];auto value=[&]()->const std::string& {if(++i==args.size()) throw std::invalid_argument("missing value for "+flag);return args[i];};
-            if(flag=="--kind") {const auto& v=value();if(v=="od" || v=="stains") {options.kind=ProjectBatchKind::Roi;options.roi_kind=v=="od"?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans;}else if(v=="tissue") options.kind=ProjectBatchKind::Tissue;else if(v=="cells") options.kind=ProjectBatchKind::Cells;else if(v=="pixels") options.kind=ProjectBatchKind::Pixels;else throw std::invalid_argument("unknown batch kind");}
+            if(flag=="--kind") {const auto& v=value();if(v=="od" || v=="stains") {options.kind=ProjectBatchKind::Roi;options.roi_kind=v=="od"?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans;}else if(v=="tissue") options.kind=ProjectBatchKind::Tissue;else if(v=="cells") options.kind=ProjectBatchKind::Cells;else if(v=="pixels") options.kind=ProjectBatchKind::Pixels;else if(v=="raw") options.kind=ProjectBatchKind::Raw;else throw std::invalid_argument("unknown batch kind");}
+            else if(flag=="--raw-level" || flag=="--raw-channel" || flag=="--raw-channels" || flag=="--raw-z" || flag=="--raw-time") {
+                const auto n=integer(value());if(n>65535 && !(flag=="--raw-channels" && n==65536)) throw std::invalid_argument("raw axis exceeds limit");
+                if(flag=="--raw-level") options.raw.region.level=static_cast<std::int32_t>(n);
+                else if(flag=="--raw-channel") options.raw.first_channel=static_cast<std::uint32_t>(n);
+                else if(flag=="--raw-channels") options.raw.channels=static_cast<std::uint32_t>(n);
+                else {options.raw_follow_display=false;if(flag=="--raw-z") options.raw.z=static_cast<std::uint32_t>(n);else options.raw.t=static_cast<std::uint32_t>(n);}
+            }
+            else if(flag=="--raw-max-pixels") options.raw_max_pixels=integer(value());
+            else if(flag=="--raw-explicit-axes") options.raw_follow_display=false;
             else if(flag=="--pixel-model") pixel_model_path=value();
             else if(flag=="--block-size") options.pixels.block_size=static_cast<std::size_t>(integer(value()));
             else if(flag=="--pixel-work-bytes") options.pixels.prediction.work_bytes=static_cast<std::size_t>(integer(value()));

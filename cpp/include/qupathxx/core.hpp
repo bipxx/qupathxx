@@ -14,6 +14,7 @@
 
 namespace qpx {
 namespace detail {struct ClassificationEdit;class GuiPixelClassifier;class GuiTma;class GuiRaw;class ViewerOwner;struct TmaIndex;}
+class RawAnalysisRequest;class RawAnalysisResult;struct RawAnalysisRecord;
 struct TmaGridOptions;
 class TmaGrid;
 class TmaCoreInfo;
@@ -253,6 +254,16 @@ public:
     std::uint64_t keep_pixel_stream(std::shared_ptr<const PixelStreamLink>,std::string name="Pixel stream");
     bool remove_pixel_stream_record(std::uint64_t id);
     void relink_pixel_stream_record(std::uint64_t id,std::shared_ptr<const PixelStreamLink>);
+    std::vector<std::shared_ptr<const RawAnalysisRecord>> raw_analysis_records() const;
+    std::vector<std::shared_ptr<const RawAnalysisRecord>> raw_analysis_page(std::uint64_t after_id=0,std::size_t limit=64) const;
+    std::shared_ptr<const RawAnalysisRecord> raw_analysis_record(std::uint64_t id) const;
+    std::shared_ptr<const RawAnalysisRecord> latest_raw_analysis(std::uint64_t object_id) const;
+    std::size_t raw_analysis_record_count() const {return raw_analysis_.size()+raw_analysis_snapshot_count_;}
+    std::string raw_analysis_status(std::uint64_t id) const;
+    std::uint64_t keep_raw_analysis(const RawAnalysisRequest&,std::shared_ptr<const RawAnalysisResult>);
+    bool verify_raw_analysis(std::uint64_t id,const RawAnalysisRequest&,std::shared_ptr<const RawAnalysisResult>);
+    bool remove_raw_analysis(std::uint64_t id);
+
 
 private:
     friend struct ProjectBatchKernel;
@@ -260,6 +271,7 @@ private:
     friend class Project;
     friend struct ObjectClassifierKernel;
     friend class AnalysisRequest;
+    friend class RawAnalysisRequest;
     // Copies/assignments are independent live authorities, including when a
     // copied document happens to share its immutable image source and IDs.
     struct AnalysisIdentity {
@@ -268,6 +280,31 @@ private:
         AnalysisIdentity(const AnalysisIdentity&) {}
         AnalysisIdentity& operator=(const AnalysisIdentity&) {token=std::make_shared<const char>();return *this;}
     } analysis_identity_;
+    struct StoredRawAnalysis {
+        std::shared_ptr<const RawAnalysisRecord> value;
+        std::shared_ptr<const char> identity;
+        std::shared_ptr<const ReaderSource> observed_source;
+        bool verified=false;
+        std::size_t slot=0;
+    };
+    struct RawAnalysisBlock {
+        std::array<std::shared_ptr<const RawAnalysisRecord>,256> records;
+        bool sealed=false;
+    };
+    struct RawAnalysisBlocks {
+        std::vector<std::shared_ptr<RawAnalysisBlock>> values;
+        RawAnalysisBlocks()=default;
+        RawAnalysisBlocks(const RawAnalysisBlocks& other):values(other.values) {for(const auto& block:values) if(!block->sealed) block->sealed=true;}
+        RawAnalysisBlocks& operator=(const RawAnalysisBlocks& other) {if(this!=&other) {RawAnalysisBlocks copy(other);values.swap(copy.values);}return *this;}
+        RawAnalysisBlocks(RawAnalysisBlocks&&)=default;RawAnalysisBlocks& operator=(RawAnalysisBlocks&&)=default;
+    };
+    std::map<std::uint64_t,StoredRawAnalysis> raw_analysis_;
+    RawAnalysisBlocks raw_analysis_blocks_;
+    std::vector<std::shared_ptr<const RawAnalysisBlock>> raw_analysis_snapshot_;
+    std::vector<std::size_t> raw_analysis_free_slots_;
+    std::size_t raw_analysis_next_slot_=0,raw_analysis_snapshot_count_=0,raw_analysis_bytes_=0;
+    std::map<std::pair<std::uint64_t,std::uint64_t>,bool> raw_analysis_by_object_;
+    void restore_raw_analysis(std::shared_ptr<const RawAnalysisRecord>);
     struct StoredAnalysis {
         std::shared_ptr<const AnalysisRecord> value;
         std::shared_ptr<const char> identity;
@@ -615,10 +652,15 @@ struct GuiReport {
     std::string tiff_state,raw_task_state,raw_error;
     std::shared_ptr<const RawRegionStatistics> raw_statistics;
     std::size_t tiff_view_changes=0,raw_export_bytes=0,raw_catalog_max_step=0;
+    std::shared_ptr<const RawAnalysisResult> raw_analysis_result;
+    std::string raw_analysis_state="idle",raw_csv_state="idle",raw_record_status;
+    std::uint64_t raw_record_id=0,raw_csv_rows=0;
+    std::size_t raw_records=0,raw_csv_bytes=0;
+
 };
 enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey, TraceTissueKey, KeepTissueContoursKey, KeepTissueKey, RecheckTissueKey, DetectCellsKey, KeepCellsKey, CancelCellsKey, KeepCellRunKey, RecheckCellRunKey, ExportCellTableKey, CancelCellTableKey, FingerprintFileKey, CancelFingerprintFileKey, ExportMeasurementTableKey, CancelMeasurementTableKey, EstimateStainsKey, ApplyStainEstimateKey, CancelStainEstimateKey, RunBatchKey, CancelBatchKey, ResizeWindow, MinimizeWindow, RestoreWindow, SetUiScale, ObjectClassifierKey, PixelClassifierKey, TmaKey, RawChannelsKey };
-enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord, TrainPixelClassifier, PredictPixelClasses, CancelPixelClassifier, SavePixelModel, LoadPixelModel, TogglePixelOverlay, TracePixelContours, PublishPixelContours, KeepPixelTraining, KeepPixelPrediction, UsePixelRecordModel, PreviewPixelRecord, RemovePixelRecord, ExportPixelStream, OpenPixelStreamBrowser, OpenPixelStreamFile, ReadPixelStreamBlock, PreviousPixelStreamBlock, NextPixelStreamBlock, VerifyPixelStreamFile, CancelPixelStreamRead, ClosePixelStreamFile, KeepPixelStreamLink, OpenPixelStreamRecord, RelinkPixelStreamRecord, RemovePixelStreamRecord, CreateTmaGrid, ToggleTmaMissing, SelectTmaPresent, ApplyTmaCase, ApplyTmaGeometry, TranslateTmaGrid, ClearTmaGrid, OpenTmaBatch, ExportTmaMetadata, CancelTmaMetadata, TmaCoreTab, TmaGridTab, TmaExportTab, ApplyTmaLabels, ApplyTiffView, AddTiffSeries, MeasureRawRegion, ExportRawRegion, CancelRawTask, RawDisplayTab, RawDataTab, RawResultsTab };
-enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified, CellsReady, CellsPublished, CellsArchived, CellsVerified, CellTableSaved, FileFingerprintReady, MeasurementTableSaved, StainsEstimated, StainsApplied, BatchFinished, WindowReady, ObjectClassifierTrained, ObjectClassifierPredicted, ObjectClassifierApplied, ClassifierModelSaved, ClassifierModelLoaded, ClassifierTrainingRetained, ClassifierRecordLoaded, PixelClassifierTrained, PixelClassifierPredicted, PixelPreviewReady, PixelModelSaved, PixelModelLoaded, PixelContoursReady, PixelContoursPublished, PixelRecordKept, PixelRecordModelLoaded, PixelHistoricalPreviewReady, PixelStreamFinished, PixelStreamReadReady, PixelStreamReadFinished, PixelStreamVerified, PixelStreamLinked , TmaGridReady, TmaMetadataSaved, TiffReady, TiffViewApplied, RawTaskFinished, RawNumpySaved };
+enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord, TrainPixelClassifier, PredictPixelClasses, CancelPixelClassifier, SavePixelModel, LoadPixelModel, TogglePixelOverlay, TracePixelContours, PublishPixelContours, KeepPixelTraining, KeepPixelPrediction, UsePixelRecordModel, PreviewPixelRecord, RemovePixelRecord, ExportPixelStream, OpenPixelStreamBrowser, OpenPixelStreamFile, ReadPixelStreamBlock, PreviousPixelStreamBlock, NextPixelStreamBlock, VerifyPixelStreamFile, CancelPixelStreamRead, ClosePixelStreamFile, KeepPixelStreamLink, OpenPixelStreamRecord, RelinkPixelStreamRecord, RemovePixelStreamRecord, CreateTmaGrid, ToggleTmaMissing, SelectTmaPresent, ApplyTmaCase, ApplyTmaGeometry, TranslateTmaGrid, ClearTmaGrid, OpenTmaBatch, ExportTmaMetadata, CancelTmaMetadata, TmaCoreTab, TmaGridTab, TmaExportTab, ApplyTmaLabels, ApplyTiffView, AddTiffSeries, MeasureRawRegion, ExportRawRegion, CancelRawTask, RawDisplayTab, RawDataTab, RawResultsTab, KeepRawAnalysis, VerifyRawAnalysisRecord, RemoveRawAnalysisRecord, ExportRawMeasurements, CancelRawMeasurements, RawRecordsTab };
+enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified, CellsReady, CellsPublished, CellsArchived, CellsVerified, CellTableSaved, FileFingerprintReady, MeasurementTableSaved, StainsEstimated, StainsApplied, BatchFinished, WindowReady, ObjectClassifierTrained, ObjectClassifierPredicted, ObjectClassifierApplied, ClassifierModelSaved, ClassifierModelLoaded, ClassifierTrainingRetained, ClassifierRecordLoaded, PixelClassifierTrained, PixelClassifierPredicted, PixelPreviewReady, PixelModelSaved, PixelModelLoaded, PixelContoursReady, PixelContoursPublished, PixelRecordKept, PixelRecordModelLoaded, PixelHistoricalPreviewReady, PixelStreamFinished, PixelStreamReadReady, PixelStreamReadFinished, PixelStreamVerified, PixelStreamLinked , TmaGridReady, TmaMetadataSaved, TiffReady, TiffViewApplied, RawTaskFinished, RawNumpySaved, RawAnalysisKept, RawAnalysisVerified, RawMeasurementsSaved };
 struct GuiInput {
     int frame = 0;
     GuiInputKind kind = GuiInputKind::Move;
@@ -682,7 +724,9 @@ struct GuiOptions {
     bool tma_open=false;
     bool raw_open=false;
     int raw_tab=0;
-    std::string image_reader="auto",raw_numpy_path;
+    std::string image_reader="auto",raw_numpy_path,raw_csv_path;
+    std::uint64_t raw_record_id=0;
+    bool raw_require_current=false;
     std::shared_ptr<const TiffOpenOptions> tiff_options;
     std::shared_ptr<const RawRegionRequest> raw_request;
     int tma_tab=0;

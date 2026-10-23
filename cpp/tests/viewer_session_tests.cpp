@@ -1,12 +1,15 @@
 #include "../viewer_bridge.hpp"
+#include "qupathxx/source_identity.hpp"
 #include <chrono>
 #include <filesystem>
 #include <iostream>
 #include <future>
+#include <fstream>
 #include <random>
 #include <thread>
 using namespace qpx;
-void check(bool value) {if(!value) throw std::runtime_error("viewer session check failed");}
+void checked(bool value,int line) {if(!value) throw std::runtime_error("viewer session check failed at line "+std::to_string(line));}
+#define check(...) checked((__VA_ARGS__),__LINE__)
 template<class F> void rejects(F f) {try {f();}catch(const std::exception&) {return;}throw std::runtime_error("missing viewer rejection");}
 struct Harness {
     std::shared_ptr<Project> project=std::make_shared<Project>();std::vector<ProjectImage> images;ProjectSaveJob save_job;
@@ -67,6 +70,40 @@ int main() {
                 check(observer.get());frozen.take(ticket);
             }
             controller.finish(paused.context);
+        }
+        if(has_tiff()) {
+            // Independent little-endian TIFF fixture; no reader encoder shares its implementation.
+            const auto input=root/"quantitative.tif";std::vector<unsigned char> bytes={'I','I',42,0,8,0,0,0};
+            auto u16=[&](std::uint16_t n){bytes.push_back(n&255);bytes.push_back(n>>8);};auto u32=[&](std::uint32_t n){for(int i=0;i<4;++i) bytes.push_back((n>>(8*i))&255);};
+            u16(10);auto tag=[&](std::uint16_t id,std::uint16_t type,std::uint32_t n){u16(id);u16(type);u32(1);u32(n);};
+            tag(256,4,2);tag(257,4,2);tag(258,3,16);tag(259,3,1);tag(262,3,1);tag(273,4,134);tag(277,3,1);tag(278,4,2);tag(279,4,8);tag(339,3,1);u32(0);
+            for(auto value:{1,256,40000,65535}) u16(static_cast<std::uint16_t>(value));
+            {std::ofstream file(input,std::ios::binary);file.write(reinterpret_cast<const char*>(bytes.data()),bytes.size());}
+            Harness test;auto doc=std::make_shared<Document>(open_tiff(input.u8string()));const auto object=doc->add_rectangle({0,0,2,2});
+            const auto image=test.project->add_document(doc,"raw",input.u8string(),"tiff");test.images=test.project->images();
+            ViewerSession endpoint((root/"raw.qpxproj").u8string());detail::ViewerOwner controller(endpoint);
+            RawRegionRequest region;region.region=RegionRequest(0,0,0,2,2);
+            auto ticket=endpoint.analyze_raw(image,region,object);auto result=test.until(controller,endpoint,ticket);
+            check(result.state=="succeeded" && !result.committed && !result.record_id && result.raw_analysis && result.samples==4);
+            check(result.raw_analysis->statistics().means[0]==26448. && doc->raw_analysis_record_count()==0);endpoint.take(ticket);
+            ticket=endpoint.analyze_raw(image,region,object,false,true);test.step(controller);
+            // Preview changes do not invalidate the quantitative request captured by the owner.
+            auto view=*doc->server()->tiff_view();view.upper={100,100,100};doc->set_tiff_view(view);
+            result=test.until(controller,endpoint,ticket);check(result.state=="succeeded" && result.committed && result.record_id);
+            const auto record=result.record_id;auto retained_raw=result.raw_analysis;endpoint.take(ticket);check(endpoint.stats().retained_bytes==0);
+            const auto canonical=doc->revision();ticket=endpoint.verify_raw_analysis(image,record);result=test.until(controller,endpoint,ticket);
+            check(result.state=="succeeded" && result.verified && !result.committed && result.record_id==record && doc->revision()==canonical);endpoint.take(ticket);
+            ticket=endpoint.export_raw_measurements(image,(root/"raw.csv").u8string(),true,{record,record});result=test.until(controller,endpoint,ticket);
+            check(result.state=="succeeded" && result.committed && result.rows==1 && fs::file_size(root/"raw.csv")>100);endpoint.take(ticket);
+            ticket=endpoint.export_raw_measurements(image,input.u8string());check(test.until(controller,endpoint,ticket).state=="failed");endpoint.take(ticket);
+            ticket=endpoint.analyze_raw(image,region,object,false,true);test.step(controller);doc->rename_annotation(object,"edited");
+            check(test.until(controller,endpoint,ticket).state=="stale" && doc->raw_analysis_record_count()==1);endpoint.take(ticket);
+            ticket=endpoint.verify_raw_analysis(image,record);check(test.until(controller,endpoint,ticket).state=="failed");endpoint.take(ticket);
+            ticket=endpoint.export_raw_measurements(image,(root/"stale.csv").u8string(),true);check(test.until(controller,endpoint,ticket).state=="failed" && !fs::exists(root/"stale.csv"));endpoint.take(ticket);
+            doc->server()->close();fs::remove(input);
+            ticket=endpoint.export_raw_measurements(image,(root/"historical.csv").u8string());result=test.until(controller,endpoint,ticket);check(result.state=="succeeded" && result.committed);endpoint.take(ticket);
+            check(retained_raw->statistics().means[0]==26448. && retained_raw->source()->primary);
+            controller.finish(test.context);
         }
         fs::remove_all(root);std::cout<<"Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed\n";
     }catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}

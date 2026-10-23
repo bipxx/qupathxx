@@ -41,6 +41,7 @@ std::string data_digest(sqlite3* db,const std::atomic<bool>* c) {
     if(sqlite3_column_int(schema.value,0)>=10) tables.emplace_back("pixel_stream_records","image_id,id");
     if(sqlite3_column_int(schema.value,0)>=11) {tables.emplace_back("tma_grids","image_id");tables.emplace_back("tma_cores","image_id,object_id");}
     if(sqlite3_column_int(schema.value,0)>=12) tables.emplace_back("tiff_views","image_id");
+    if(sqlite3_column_int(schema.value,0)>=13) tables.emplace_back("raw_analysis_records","image_id,id");
     for(const auto& spec:tables) {
         text(hash,spec.first,c);Row row(db,"SELECT * FROM "+spec.first+" ORDER BY "+spec.second);
         while(row.next()) {export_checkpoint(c);const auto columns=sqlite3_column_count(row.value);hash.integer(columns);

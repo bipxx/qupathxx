@@ -4,6 +4,7 @@
 #include "qupathxx/source_identity.hpp"
 #include "atomic_export.hpp"
 #include "sha256.hpp"
+#include "raw_statistics_internal.hpp"
 #include <algorithm>
 #include <cctype>
 #include <filesystem>
@@ -112,14 +113,25 @@ void save_raw_numpy(const RawPixelBuffer& buffer,const std::string& path,bool re
     file.write(reinterpret_cast<const char*>(magic),sizeof(magic));file.write(header.data(),header.size());
     std::visit([&](const auto& values){const auto* p=reinterpret_cast<const char*>(values.data());auto n=values.size()*sizeof(typename std::decay_t<decltype(values)>::value_type);while(n) {const auto step=std::min<std::size_t>(n,65536);file.write(p,step);p+=step;n-=step;}},buffer.storage());file.commit(replace);
 }
-RawRegionStatistics raw_region_statistics(const ImageServer& server,const RawRegionRequest& r,std::size_t tile,const Roi* mask,std::uint64_t maximum,const std::atomic<bool>* cancelled) {
+void RawStatisticsKernel::validate_coordinates(const RawImageMetadata& metadata,const RawRegionRequest& request) {coordinates(metadata,request);}
+RawRegionStatistics RawStatisticsKernel::run(const ImageServer& server,const RawRegionRequest& r,std::size_t tile,const Roi* mask,std::uint64_t maximum,const std::atomic<bool>* cancelled,Sha256* digest,std::atomic<std::uint64_t>* completed,bool collect_statistics) {
     const auto metadata=server.raw_metadata(cancelled);if(!metadata) throw std::invalid_argument("image has no raw quantitative samples");coordinates(*metadata,r);
     if(tile<16 || tile>1024 || !maximum || maximum>1000000000000ULL || std::uint64_t(r.region.width)>maximum/std::uint64_t(r.region.height)) throw std::length_error("raw statistics exceeds pixel/tile limits");
     const auto d=metadata->levels[r.region.level].downsample;if(d!=std::floor(d)) throw std::invalid_argument("raw statistics requires an integer natural pyramid scale");
-    RawRegionStatistics result;result.pixels=std::uint64_t(r.region.width)*r.region.height;result.finite_samples.resize(r.channels);result.nonfinite_samples.resize(r.channels);result.means.resize(r.channels);result.minima.resize(r.channels);result.maxima.resize(r.channels);
+    RawRegionStatistics result;result.pixels=std::uint64_t(r.region.width)*r.region.height;if(collect_statistics) {result.finite_samples.resize(r.channels);result.nonfinite_samples.resize(r.channels);result.means.resize(r.channels);result.minima.resize(r.channels);result.maxima.resize(r.channels);}
     for(std::int64_t y=0;y<r.region.height;y+=tile) for(std::int64_t x=0;x<r.region.width;x+=tile) {
         detail::export_checkpoint(cancelled);auto next=r;next.region=RegionRequest(r.region.x+x*std::int64_t(d),r.region.y+y*std::int64_t(d),r.region.level,std::min<std::int64_t>(tile,r.region.width-x),std::min<std::int64_t>(tile,r.region.height-y));const auto block=server.read_raw(next,cancelled);
-        std::visit([&](const auto& values) {for(std::size_t i=0;i<block.valid().size();++i) {
+        if(digest) {
+            for(auto value:{next.region.x,next.region.y,next.region.width,next.region.height}) digest->integer(static_cast<std::uint64_t>(value));
+            digest->update(block.valid().data(),block.valid().size());
+            const std::uint16_t one=1;const bool little=*reinterpret_cast<const unsigned char*>(&one)==1;
+            std::visit([&](const auto& values) {
+                using T=typename std::decay_t<decltype(values)>::value_type;
+                if(little || sizeof(T)==1) digest->update(values.data(),values.size()*sizeof(T));
+                else for(const auto& value:values) {const auto* bytes=reinterpret_cast<const unsigned char*>(&value);unsigned char canonical[sizeof(T)];for(std::size_t i=0;i<sizeof(T);++i) canonical[i]=bytes[sizeof(T)-1-i];digest->update(canonical,sizeof(T));}
+            },block.storage());
+        }
+        if(collect_statistics) std::visit([&](const auto& values) {for(std::size_t i=0;i<block.valid().size();++i) {
             if(!block.valid()[i]) continue;const auto bx=i%std::size_t(block.width()),by=i/std::size_t(block.width());
             const auto grid_x=next.region.x/std::int64_t(d)-(next.region.x%std::int64_t(d)<0),grid_y=next.region.y/std::int64_t(d)-(next.region.y%std::int64_t(d)<0);
             if(mask && !mask->contains({(grid_x+double(bx)+.5)*d,(grid_y+double(by)+.5)*d})) continue;++result.valid_pixels;
@@ -129,6 +141,10 @@ RawRegionStatistics raw_region_statistics(const ImageServer& server,const RawReg
                 result.minima[c]=result.minima[c]?std::min(*result.minima[c],value):value;result.maxima[c]=result.maxima[c]?std::max(*result.maxima[c],value):value;
             }
         }},block.storage());
+        if(completed) completed->fetch_add(1,std::memory_order_relaxed);
     }return result;
+}
+RawRegionStatistics raw_region_statistics(const ImageServer& server,const RawRegionRequest& request,std::size_t tile,const Roi* mask,std::uint64_t maximum,const std::atomic<bool>* cancelled) {
+    return RawStatisticsKernel::run(server,request,tile,mask,maximum,cancelled);
 }
 }

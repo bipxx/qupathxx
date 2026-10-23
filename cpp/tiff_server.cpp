@@ -288,7 +288,7 @@ public:
 // Each logical view owns an independent close state and provenance descriptor.
 // Native dataset/index/cache ownership is shared across immutable projections.
 class TiffServer final:public ImageServer {
-    mutable std::mutex mutex_;std::shared_ptr<TiffData> data_;bool closed_=false;
+    mutable std::mutex mutex_;std::shared_ptr<TiffData> data_;std::atomic<bool> closed_{false};
     ImageMetadata metadata_;std::shared_ptr<const RawImageMetadata> raw_;
     std::shared_ptr<const TiffView> view_;std::shared_ptr<const TiffOpenOptions> options_;
     std::shared_ptr<const ReaderSource> source_;std::string path_;TiffReadStats final_stats_;
@@ -308,7 +308,7 @@ public:
     PixelBuffer read_region(const RegionRequest& r) const override {std::lock_guard<std::mutex> lock(mutex_);if(closed_) throw std::runtime_error("TIFF view is closed");return data_->read_view(r,*view_);}
     RawPixelBuffer read_raw(const RawRegionRequest& r,const std::atomic<bool>* cancelled=nullptr) const override {std::lock_guard<std::mutex> lock(mutex_);if(closed_) throw std::runtime_error("TIFF view is closed");return data_->read_raw(r,cancelled);}
     std::shared_ptr<ImageServer> with_tiff_view(const TiffView& view,const std::atomic<bool>* cancelled=nullptr) const override {std::lock_guard<std::mutex> lock(mutex_);if(closed_) throw std::runtime_error("TIFF view is closed");return std::make_shared<TiffServer>(data_,view,cancelled);}
-    bool closed() const override {std::lock_guard<std::mutex> lock(mutex_);return closed_;}
+    bool closed() const override {return closed_.load(std::memory_order_relaxed);}
     void close() override {std::lock_guard<std::mutex> lock(mutex_);if(data_) {final_stats_=*data_->tiff_read_stats();final_stats_.cache_bytes=0;data_.reset();}closed_=true;}
 };
 }

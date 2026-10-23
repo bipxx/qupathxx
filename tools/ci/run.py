@@ -198,6 +198,8 @@ def main():
         work/'pixel-batch-interrupt.log', env, 90)
     run([test_python, '-I', ROOT/'tools/benchmark_tiff_reader.py', '--output', work/'tiff-reader-benchmark.json'],
         work/'tiff-reader-benchmark.log', env, 120)
+    run([test_python, '-I', ROOT/'tools/benchmark_raw_records.py', '--output', work/'raw-records-benchmark.json'],
+        work/'raw-records-benchmark.log', env, 180)
     run([test_python, '-I', ROOT/'tools/benchmark_tma.py', '--output', work/'tma-benchmark.json'],
         work/'tma-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/benchmark_pixel_stream_cli.py', '--work', work/'pixel-stream-cli', '--output', work/'pixel-stream-cli-benchmark.json'],
