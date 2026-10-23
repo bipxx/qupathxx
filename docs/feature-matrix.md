@@ -92,3 +92,13 @@ The packet-105 managed-viewer candidate queues calibrated cell-area requests
 through copied native data and owner-side resolution/publication. Linux full
 regression, native lifecycle/staleness and typed queue checks pass; desktop and
 hosted acceptance remain pending. See the [platform receipt](benchmarks/viewer-cell-area-limits-linux.json).
+
+
+Packet-105 Windows focused validation now passes 43 native suites and 147
+Python/desktop cases, matching installed stubs and strict positive/negative
+typing. All seven new command cases pass, including producer-thread detection,
+export/save/reopen and missing-unit failure without a new record. Both platforms
+use source-content fingerprint 9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1.
+The Linux full 1,688-pass result stands; Windows full regression is running.
+Hosted run 40025778794 at 201bd8ed266d4803defd7321390b930cafe9dcb7 remains
+pending. Main promotion, scientific/hardware and all other open gates remain open.

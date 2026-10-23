@@ -1,0 +1,44 @@
+{
+  "schema": "qpx.viewer-cell-area-limits-validation/1",
+  "state": "windows-focused-verified-full-and-hosted-pending",
+  "release_ready": false,
+  "source_content_commit": "201bd8ed266d4803defd7321390b930cafe9dcb7",
+  "source_tree_sha256": "9dd1d11b7d6d8b4e51a481e734f52d46b72c9e345707bb3d4fdf33ff8c6d27d1",
+  "build_git_revision": "87e691be724be88183876cfaa1b583b2bb27a947+dirty",
+  "native_sha256": "a1f2d4486baa33dade6aebbe06e5520719e2a6ec37562be8fb86df5572fbc2da",
+  "wheel_sha256": "0dbf627d91e783f7e9e94f10409a236eec3d040e7173d7b92c9a17832af1a7ec",
+  "native": {
+    "passed": 43,
+    "junit_sha256": "6f16f1f7fef703579d7d8eafc24b61c35ba04ac50da3ee9494c9b67064ce7600"
+  },
+  "focused": {
+    "passed": 147,
+    "junit_sha256": "864a7dc739956ecb4af1e0ab3e3e99909f9763987136e3f0f42ec2cebd55c295"
+  },
+  "stubs_match": true,
+  "strict_positive_typing": true,
+  "negative_typing_errors": 7,
+  "installed_report_sha256": "b80f003809f0457141aa14136c40fb6ebe4dbd62b15f1eec33b6b46503c2228b",
+  "gui_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+  "added_command_cases": [
+    "test_invalid_physical_limits_do_not_consume_a_viewer_ticket[-1.0-None]",
+    "test_invalid_physical_limits_do_not_consume_a_viewer_ticket[None-inf]",
+    "test_invalid_physical_limits_do_not_consume_a_viewer_ticket[nan-None]",
+    "test_invalid_physical_limits_do_not_consume_a_viewer_ticket[12.0-11.0]",
+    "test_physical_cell_command_can_be_cancelled_without_opening_a_renderer",
+    "test_python_producer_archives_and_exports_the_same_physical_recipe",
+    "test_unknown_units_fail_the_ticket_without_archiving_a_new_run"
+  ],
+  "scope": "Copied producer parameters, native owner resolution/publication, calibration-stale native regression, Python-producer detection/export/save/reopen, retained calibrated result lifetime, missing calibration failure without a new archive, queued cancellation and invalid-bound ticket reclamation.",
+  "full_regression": "running",
+  "hosted_acceptance": {
+    "state": "pending",
+    "run_id": 40025778794,
+    "source_commit": "201bd8ed266d4803defd7321390b930cafe9dcb7"
+  },
+  "performance_accepted": false,
+  "limits": [
+    "Four scientific expected failures remain.",
+    "No hardware, portable or release acceptance."
+  ]
+}

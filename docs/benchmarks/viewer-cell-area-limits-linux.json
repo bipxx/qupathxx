@@ -35,12 +35,17 @@
     "cause": "New owner-side calibration-change regression exposed missing calibration dependency in physical requests; the fix captures calibration revision, without changing ordinary sampled requests or archived replay."
   },
   "scope": "Copied native physical bounds/parameters, owner-time resolution, background detection, calibration-stale rejection, native archive publication, cancellation/budget reclamation, headless Python queue and typing. Desktop producer/export/save/reopen tests are pending.",
-  "gui_validation": "pending",
-  "hosted_acceptance": "pending",
+  "gui_validation": "Separate Windows focused/native receipt passes; Windows full regression remains pending.",
+  "hosted_acceptance": {
+    "state": "pending",
+    "run_id": 40025778794,
+    "source_commit": "201bd8ed266d4803defd7321390b930cafe9dcb7"
+  },
   "performance_accepted": false,
   "limits": [
     "Physical radii/arbitrary resampling remain open.",
     "Four scientific expected failures remain.",
     "No GUI, hardware or release acceptance from headless tests."
-  ]
+  ],
+  "source_content_commit": "201bd8ed266d4803defd7321390b930cafe9dcb7"
 }
