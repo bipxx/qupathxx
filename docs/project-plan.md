@@ -3667,8 +3667,16 @@ Installed workflows, exact bundled runtime/relocation checks, matching stubs,
 positive typing and all seven required negative typing errors pass. Hosted run
 40007801590 at `2b633e530ac30412ec712782a704863914531e57` validates the candidate
 source separately. It supersedes cancelled run 40004623992 after correcting the
-latest-run GUI expectation and adding known/unknown cases. Windows desktop and
-hosted acceptance remain required. Subsequent Windows validation passes 43 native
+latest-run GUI expectation and adding known/unknown cases; its optional full-slide
+reader checks were disabled. The [full-reader hosted artifact audit](benchmarks/calibrated-cell-features-ci-windows-linux.json)
+subsequently passes all five regular jobs at source
+`2a7eabb5f4744e8e0379d6df52128236014dce04`, run 40014418579: Windows GUI passes
+2,037 Python/43 native, Windows headless 1,657 Python/42 native, Linux headless
+1,655 Python/42 native, and minimal/ASan/UBSan each pass 42 native suites.
+Each installed environment passes all 13 calibration cases, and the desktop
+passes eight cell-table cases. The four scientific expected failures remain;
+runtime/reader, standalone, stubs/typing and the completed frame are audited.
+The declared engineering scope is accepted for promotion. Local Windows validation passes 43 native
 suites and 76 focused Python/GUI checks, installed workflows, matching stubs and
 strict positive/negative typing. A completed-frame capture verifies the checked
 capture-calibration option and two-row historical export with zero UI overflow.

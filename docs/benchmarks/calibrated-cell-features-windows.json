@@ -1,6 +1,6 @@
 {
   "schema": "qpx.calibrated-cell-features-validation/1",
-  "state": "windows-full-verified-hosted-pending",
+  "state": "local-full-and-hosted-source-verified",
   "release_ready": false,
   "source_tree_sha256": "d4bfd70b9155ed899be8f32360fffd529373aa520ef717fabd631139d7763463",
   "native_sha256": "68aa8ecfd20eb122591a1fae9210203fc27f23f8f44a00667d2bb0b1ef435560",
@@ -76,9 +76,22 @@
     }
   },
   "hosted_acceptance": {
-    "state": "pending",
-    "run_id": 40007801590,
-    "source_commit": "2b633e530ac30412ec712782a704863914531e57"
+    "state": "accepted",
+    "run_id": 40014418579,
+    "source_commit": "2a7eabb5f4744e8e0379d6df52128236014dce04",
+    "extended_readers": true,
+    "regular_jobs_passed": 5,
+    "standard_run": {
+      "run_id": 40007801590,
+      "source_commit": "2b633e530ac30412ec712782a704863914531e57",
+      "conclusion": "success",
+      "extended_readers": false
+    },
+    "superseded_run": {
+      "run_id": 40004623992,
+      "conclusion": "cancelled",
+      "reason": "Corrected latest-run GUI expectations."
+    }
   },
   "performance_accepted": false,
   "scope": "Windows native/Python/CLI/ImGui capture-time calibrated features and versioned exports, including immutable units, legacy missing values, project restoration, alias protection and atomic failures. No segmentation parity or hardware performance acceptance.",

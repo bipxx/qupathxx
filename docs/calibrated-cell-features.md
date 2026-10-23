@@ -75,7 +75,17 @@ passes, 392 optional skips and four scientific expected failures. Installed
 workflows, runtime relocation, stubs and strict typing pass. The native calibration
 regression also passes address/undefined sanitizers with leak detection in a
 minimal optional-feature configuration; this does not accept the full sanitizer
-suite. Hosted candidate acceptance remains pending. The [Windows receipt](benchmarks/calibrated-cell-features-windows.json)
+suite. The [hosted artifact audit](benchmarks/calibrated-cell-features-ci-windows-linux.json)
+passes all five regular jobs with full-slide reader checks enabled, at source
+`2a7eabb5f4744e8e0379d6df52128236014dce04`, run 40014418579. Windows GUI passes
+2,037 Python/43 native, Windows headless 1,657 Python/42 native, Linux headless
+1,655 Python/42 native, and minimal/ASan/UBSan each pass 42 native suites.
+All three installed configurations pass the 13 calibration cases; the desktop
+passes eight cell-table cases. Four strict scientific expected failures remain
+in each Python job. Runtime, standalone, typing and reader artifacts are audited,
+and the completed desktop frame is visually inspected. This accepts the feature's
+engineering scope; biological, portable/macOS and release gates remain open.
+The [Windows receipt](benchmarks/calibrated-cell-features-windows.json)
 adds 43 native suites, 76 focused Python/GUI checks, installed workflows and
 strict typing. The full Windows suite passes 2,035 tests, with 13 optional skips
 and four strict scientific expected failures. An existing export-recheck
