@@ -17,6 +17,7 @@ struct PixelPredictionRequest::Data {
     ImageMetadata metadata;std::int32_t level=0;
     std::int64_t x=0,y=0,w=0,h=0;std::size_t fixed=0,work=0,feature_budget=0;std::uint64_t tiles=0,revision=0,id=0;ObjectKind kind=ObjectKind::Annotation;
     Data(const PixelClassifier& m,PixelPredictionOptions o):model(m),options(o) {}
+    bool windowed=false;
 };
 
 }

@@ -255,3 +255,12 @@ def historical_pixel_preview(report: q.GuiReport) -> q.PixelPredictionResult | N
     complete: bool=report.pixel_record_catalog_complete
     assert state and selected>=0 and kept>=0 and step<=1024 and isinstance(complete,bool)
     return report.pixel_historical_result
+
+
+def windowed_pixel_request(document: q.Document, target: int, model: q.PixelClassifier) -> q.PixelPredictionRequest:
+    window: q.Rect=q.Rect(10,20,64,64)
+    request=q.PixelPredictionRequest(document,target,model,window=window)
+    assert request.windowed
+    options=q.GuiOptions()
+    options.pixel_viewport_only=True
+    return request

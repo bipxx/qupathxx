@@ -1,0 +1,36 @@
+{
+  "schema": "qpx.gui-pixel-archive-benchmark/1",
+  "objects": 10000,
+  "size": 1024,
+  "frames": 240,
+  "cpu_frame_p95_ms": 2.6523,
+  "max_cpu_frame_ms": 5.0253,
+  "capture_ms": 0.0209,
+  "catalog_max_step": 1024,
+  "record_catalog_max_step": 1,
+  "historical_mask_sha256": "6e1e9f453bd4f288e6ecc92ed06112ba8e8e24f6a8205f453c16d3465358d023",
+  "archive_sha256": "b5bc4ae6105f50ed02467149d91f80a8e9d421f44fdc6d7d5ff560da51923108",
+  "retained_bytes": 2073317,
+  "windowed": true,
+  "mask_width": 372,
+  "mask_height": 269,
+  "estimated_work_bytes": 3820632,
+  "gpu_bytes": 400272,
+  "peak_gpu_bytes": 400272,
+  "ui_overflow": 0,
+  "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+  "native_sha256": "5c342cee1e3a7e78e6cc545023646a1024d1cbd69b9a4fd3d28d6a0e6becbe3a",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "environment": {
+    "source_tree_sha256": "fb3c7efc18e1f597cdd66739b2e335106c079a16e4d7a218428c96634c0e9500",
+    "git_revision": "64417c91eacab72b909dea166449f07e337d511c+dirty",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "scope": "Synthetic shared-workstation software-GL observation. F5 predicts, worker-prepares and retains a mask, then displays the historical artifact. All labels/votes agree with a fresh native oracle. Unlabelled cells lie outside the fixed camera. This does not establish dense visible-object, frame-budget, RSS, hardware or biological acceptance.",
+  "capture": {
+    "file": "pixel78-viewport.ppm",
+    "sha256": "6d50e0f621d2c395b124d82292d8a747bd580abe5aabfbf300d25b100977ff22"
+  }
+}

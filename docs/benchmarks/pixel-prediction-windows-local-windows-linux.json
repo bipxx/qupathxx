@@ -1,0 +1,291 @@
+{
+  "schema": "qpx.pixel-prediction-windows-local/1",
+  "observed_utc": "2026-10-23T02:11:19.748099+00:00",
+  "scope": "Natural-grid request windows and F5 visible-area capture, exact feature context, bounded mask storage, atomic live contour publication, durable QPA2 cropped masks and QPA1 backward compatibility. Full-slide streaming, resampling, expanded features, research/TMA and every other outstanding project gate remain open.",
+  "python": {
+    "tests": 1537,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 6,
+    "passed": 1531,
+    "seconds": 582.3,
+    "sha256": "ff18a559b647a47cad76c681fd088dbc8f3f844db0ccbe1419a7dba3f7f78495"
+  },
+  "api_focused": {
+    "tests": 119,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 119,
+    "seconds": 2.312,
+    "sha256": "14d4f823e3989e75dc65eccdaab7a3e34c10b3799f1278d4dc1cde0425b0b745"
+  },
+  "gui_focused": {
+    "tests": 57,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 57,
+    "seconds": 77.37,
+    "sha256": "f40ca1bd728f972d3e2ceaebe01c59547a8be411777e404bc587c5e448000427"
+  },
+  "windows_gui_native": {
+    "tests": 39,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 39,
+    "seconds": 7.0,
+    "sha256": "8d3a81abd19c176ae8e713923017af0a5492c05638ce57334eba12cd4b97b6d0"
+  },
+  "windows_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 5.0,
+    "sha256": "a9a91b24b9de33be56440dbc717e9343682d8ec1bbab1f16602f5f52d5797a8a"
+  },
+  "linux_native": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 0.0,
+    "sha256": "81940ae0ddab5519d7455a9610530dac34243cf58d4c8768f123a666fdc2c52a"
+  },
+  "linux_minimal": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 0.0,
+    "sha256": "293c80dd8975e8f0ec0a795bd24d5affcade4f18d70ebadea69f13ff25508858"
+  },
+  "linux_sanitizer": {
+    "tests": 38,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 38,
+    "seconds": 3.0,
+    "sha256": "ee590ad37ab9561f230e336169072eab2405e99b06ba70ad7d66fe6548667355"
+  },
+  "workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "native_sha256": "5c342cee1e3a7e78e6cc545023646a1024d1cbd69b9a4fd3d28d6a0e6becbe3a",
+    "source_tree_sha256": "fb3c7efc18e1f597cdd66739b2e335106c079a16e4d7a218428c96634c0e9500",
+    "gui": true,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": true,
+    "layout_saved": true,
+    "monitor_scale": 1.0,
+    "framebuffer_scale": 1.0,
+    "ui_scale": 1.25,
+    "font_rebuilds": 1,
+    "ui_stacked_fields": 0,
+    "ui_wrapped_buttons": 0,
+    "ui_overflow_items": 0,
+    "ui_max_overflow": 0.0,
+    "framebuffer": [
+      1440,
+      900
+    ],
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "bytes": 12013205,
+    "sha256": "7cbd4b3b17f30c2f7aa9585574e2c01f9ecb0f642973840e8a11b169515f0d8b"
+  },
+  "opencv_notices": {
+    "qupathxx/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+    "qupathxx/licenses/opencv/softfloat-notice.txt": "07360afca97fb6a725a50797960c4506f592dab5331df2b780c85e459d422ce3",
+    "qupathxx/licenses/opencv/SOURCE-NOTICES.txt": "d57f5f7ee96bbb3152012bfc293175868d73fe348e1d9f8a223ccfc87a3461ba",
+    "qupathxx/licenses/opencv/zlib-notice.txt": "36bbf559e8540020cd01e5e61547ed0f295e3cba735569702ca6f284ecbd5acc"
+  },
+  "benchmark": {
+    "file": "gui-pixel-windows-10000-windows.json",
+    "sha256": "d1ef9cf8f273574d31a0cd53925f9d0908a2fea78807ab14adb1e8655230fa20",
+    "values": {
+      "schema": "qpx.gui-pixel-archive-benchmark/1",
+      "objects": 10000,
+      "size": 1024,
+      "frames": 240,
+      "cpu_frame_p95_ms": 2.6523,
+      "max_cpu_frame_ms": 5.0253,
+      "capture_ms": 0.0209,
+      "catalog_max_step": 1024,
+      "record_catalog_max_step": 1,
+      "historical_mask_sha256": "6e1e9f453bd4f288e6ecc92ed06112ba8e8e24f6a8205f453c16d3465358d023",
+      "archive_sha256": "b5bc4ae6105f50ed02467149d91f80a8e9d421f44fdc6d7d5ff560da51923108",
+      "retained_bytes": 2073317,
+      "windowed": true,
+      "mask_width": 372,
+      "mask_height": 269,
+      "estimated_work_bytes": 3820632,
+      "gpu_bytes": 400272,
+      "peak_gpu_bytes": 400272,
+      "ui_overflow": 0,
+      "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+      "native_sha256": "5c342cee1e3a7e78e6cc545023646a1024d1cbd69b9a4fd3d28d6a0e6becbe3a",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "environment": {
+        "source_tree_sha256": "fb3c7efc18e1f597cdd66739b2e335106c079a16e4d7a218428c96634c0e9500",
+        "git_revision": "64417c91eacab72b909dea166449f07e337d511c+dirty",
+        "compiler": "MSVC 19.44.35225.0",
+        "configuration": "Release",
+        "platform": "Windows AMD64"
+      },
+      "scope": "Synthetic shared-workstation software-GL observation. F5 predicts, worker-prepares and retains a mask, then displays the historical artifact. All labels/votes agree with a fresh native oracle. Unlabelled cells lie outside the fixed camera. This does not establish dense visible-object, frame-budget, RSS, hardware or biological acceptance.",
+      "capture": {
+        "file": "pixel78-viewport.ppm",
+        "sha256": "6d50e0f621d2c395b124d82292d8a747bd580abe5aabfbf300d25b100977ff22"
+      }
+    }
+  },
+  "capture": {
+    "file": "docs/images/pixel-prediction-window.png",
+    "sha256": "cb835c88281bcbe3e72e620e06542603cd15f1261dafd089e2b4a138305a8400",
+    "ppm_sha256": "6d50e0f621d2c395b124d82292d8a747bd580abe5aabfbf300d25b100977ff22",
+    "lossless_pixels_verified": true
+  },
+  "checks": {
+    "pixel78-stub-check.log": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "pixel78-typing.log": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "pixel78-negative-typing.log": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "preliminary_fixture_corrections": {
+    "fixture_log_sha256": "361b0256d34676e9438abfb01fafeb2706c802c26e788fcf836af45cbccc007c",
+    "gui_command_log_sha256": "57a8ffd943da39bbe7e19d4b85a4d9ed7ed6b39d98c2002e25f8912d6e8e4fc2",
+    "description": "Initial fixture used RGBA with the RGB-only Image.from_numpy constructor; corrected to RGB. Initial GUI command named test_gui_scaling.py instead of test_gui_scale.py and collected no tests; corrected command passes."
+  },
+  "performance_limit": "Single synthetic shared-workstation software-GL observation, off-camera cells. The full mask is rejected under the configured8MiB budget; a372x269 visible mask fits. No RSS, dense-visible-object, hardware, biological or broad frame-budget acceptance claim.",
+  "test_pixel_prediction_windows_cases": [
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[16-bounds0]",
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[16-bounds1]",
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[16-bounds2]",
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[16-bounds3]",
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[32-bounds0]",
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[32-bounds1]",
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[32-bounds2]",
+    "test_window_is_exact_crop_of_full_mask_with_identical_feature_context[32-bounds3]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds0]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds1]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds2]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds3]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds4]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds5]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds6]",
+    "test_invalid_or_empty_center_window_does_not_mutate_document[bounds7]",
+    "test_large_target_fits_small_window_budget_without_allocating_full_mask",
+    "test_window_archive_roundtrip_and_old_marker_cannot_reinterpret_cropped_grid",
+    "test_window_encoding_rejects_training_marker_and_grid_outside_original_target",
+    "test_project_roundtrip_retains_window_and_original_target",
+    "test_window_contours_publish_only_current_cropped_mask_and_undo_atomically",
+    "test_aperio_window_uses_source_context_and_matches_full_target_crop"
+  ],
+  "test_gui_pixel_windows_cases": [
+    "test_visible_window_matches_native_crop_in_responsive_panel[dimensions0-1.0]",
+    "test_visible_window_matches_native_crop_in_responsive_panel[dimensions1-1.25]",
+    "test_large_target_window_fits_budget_and_survives_retention_as_historical_mask"
+  ],
+  "test_gui_pixel_archives_cases": [
+    "test_keep_training_from_real_panel_and_reuse_model[dimensions0-1.0]",
+    "test_keep_training_from_real_panel_and_reuse_model[dimensions1-1.25]",
+    "test_keep_mask_then_preview_is_historical_and_cannot_publish[dimensions0-1.0]",
+    "test_keep_mask_then_preview_is_historical_and_cannot_publish[dimensions1-1.25]",
+    "test_reopened_mask_uses_original_values_after_target_edit_and_deletion",
+    "test_remove_previewed_record_releases_gpu_and_keeps_model",
+    "test_recompute_from_saved_mask_restores_fresh_authority",
+    "test_image_switch_clears_historical_preview_and_record_selection"
+  ],
+  "test_pixel_archive_portable_cases": [
+    "test_windows_pixel_archive_fixture_is_portable_without_training_backend[training]",
+    "test_windows_pixel_archive_fixture_is_portable_without_training_backend[prediction]",
+    "test_windows_pixel_archive_fixture_is_portable_without_training_backend[rectangle-prediction]",
+    "test_windows_pixel_archive_fixture_is_portable_without_training_backend[window-prediction]"
+  ],
+  "portable_manifest": {
+    "sha256": "b92aadf0705cd602f6e8242c0cb579a3327fc9a259e312a4cc378b3ec518dfda",
+    "files": {
+      "training-v1-windows.qpa": "834aad311d18bd18f771ed29a125cf2cc219c39aee271b1cc0c847b0648dca42",
+      "prediction-v1-windows.qpa": "10eb804a521a5a09fac6534776ee23923274a7dca8ae1686f39d84317111c7a0",
+      "rectangle-prediction-v1-windows.qpa": "a5a7b1c0cab759a43c805fd361f2e6eb2040bb4dfbc79dda29b551cdf8563ee9",
+      "window-prediction-v2-windows.qpa": "1a50375c21079e7d28be8342e0344bcdd69efe077ed644521256ea4aff7f99f5"
+    }
+  },
+  "linux_minimal_interop": {
+    "log_sha256": "0a8898dc18f01c0fc2da6b744f18f2b44806fa049fd52d2dccc779764a174537",
+    "verified": [
+      [
+        "834aad311d18bd18f771ed29a125cf2cc219c39aee271b1cc0c847b0648dca42",
+        "a1b8422490b0deaa47dd67e76cd486dbf31a04577d8db3f2fb75a93be1c1b54b"
+      ],
+      [
+        "a5a7b1c0cab759a43c805fd361f2e6eb2040bb4dfbc79dda29b551cdf8563ee9",
+        "1be03af237e31ce5fb14299a1993437bcb1218186cbcf7ba56e36d661fef1505"
+      ],
+      [
+        "1a50375c21079e7d28be8342e0344bcdd69efe077ed644521256ea4aff7f99f5",
+        "ee8e7173f845797e0c6e40627a0f60a2802ec0cc130372041102df024a391a96"
+      ]
+    ],
+    "scope": "Windows QPA1 training/rectangle and QPA2 window read/canonical re-encoding without GUI, GEOS or training backend; polygon topology requires GEOS."
+  },
+  "verification_inputs": {
+    "cpp/tests/pixel_workflow_tests.cpp": "6b0707d06b47e808c4a398ed100cdc42227ff2b3f597885bf59d89d93f13ab48",
+    "tests/test_pixel_prediction_windows.py": "3a2a237f7423a11b2ec2da38b60d10dc3b6d02d60f55d5e134912e3867000d42",
+    "tests/test_gui_pixel_windows.py": "888480455f93cbd61e7401c2df209072059e6518de0eccc24ad5958b43bcdd2b",
+    "tests/test_pixel_archive_portable.py": "66927aec8db4381a458848e94060a2cb39dbd8ec01b9c19e9b84a59321abfdd8",
+    "tools/benchmark_gui_pixel_archives.py": "d2c03b15973dc82ce2919daa284c1bef40392808b2ea980bcd1dc8f38d839319",
+    "tests/typing/valid_api.py": "56b3acd55a81334a550ff23837010c7b0b507810950f4091e6605091e995e605",
+    "tools/ci/run.py": "32a19b529c9a24e5c6ccc7dc8ddd1a486331ee27638cc2293e0ba5b4573416bf"
+  },
+  "same_build_full_mask_probe": {
+    "file": "gui-pixel-full-10000-windows.json",
+    "sha256": "81d6d9da6f3f8594ebc20643c2422f957b4821df28a9e0b5ecdb169bdce52403",
+    "values": {
+      "schema": "qpx.gui-pixel-archive-benchmark/1",
+      "objects": 10000,
+      "size": 1024,
+      "frames": 263,
+      "cpu_frame_p95_ms": 2.3498,
+      "max_cpu_frame_ms": 23.0727,
+      "capture_ms": 0.0255,
+      "catalog_max_step": 1024,
+      "record_catalog_max_step": 1,
+      "historical_mask_sha256": "46eef61bdc7533f963d1c40f2d4daeb958c3f1a5904fcdb42ca5460a06331fbe",
+      "archive_sha256": "f004da8ae43e03c066de831db405f43c2893e2d05c5a5ccfd19774fc4c94e7a1",
+      "retained_bytes": 19146461,
+      "windowed": false,
+      "mask_width": 1024,
+      "mask_height": 1024,
+      "estimated_work_bytes": 12357204,
+      "gpu_bytes": 4194304,
+      "peak_gpu_bytes": 4194304,
+      "ui_overflow": 0,
+      "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+      "native_sha256": "5c342cee1e3a7e78e6cc545023646a1024d1cbd69b9a4fd3d28d6a0e6becbe3a",
+      "platform": "Windows-11-10.0.26200-SP0",
+      "environment": {
+        "source_tree_sha256": "fb3c7efc18e1f597cdd66739b2e335106c079a16e4d7a218428c96634c0e9500",
+        "git_revision": "64417c91eacab72b909dea166449f07e337d511c+dirty",
+        "compiler": "MSVC 19.44.35225.0",
+        "configuration": "Release",
+        "platform": "Windows AMD64"
+      },
+      "scope": "Synthetic shared-workstation software-GL observation. F5 predicts, worker-prepares and retains a mask, then displays the historical artifact. All labels/votes agree with a fresh native oracle. Unlabelled cells lie outside the fixed camera. This does not establish dense visible-object, frame-budget, RSS, hardware or biological acceptance."
+    },
+    "scope": "Same installed native/source build and synthetic image/object count, separate shared-workstation runs with different cameras and work budgets. Allocation sizes are compared; timing is observational, not a controlled speedup or broad frame-budget acceptance."
+  }
+}

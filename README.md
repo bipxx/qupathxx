@@ -64,7 +64,10 @@ QuPath port or a compatible replacement for Java QuPath.
   publication. [Native pixel artifacts](docs/pixel-classifier-archives.md) retain
   training cohorts and prediction masks in projects/recovery. F5 keeps and
   browses records, reuses their models and previews historical masks without
-  restoring live publication authority. Research validation and large-batch
+  restoring live publication authority. Native/Python and F5
+  [prediction windows](docs/pixel-prediction-windows.md) bound masks to a requested
+  or visible natural-grid region while preserving feature context.
+  Research validation and large-batch
   frame budgets remain unfinished;
   see also the
   [classifier engine contract](docs/classifier-engine.md).

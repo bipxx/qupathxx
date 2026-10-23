@@ -6,6 +6,10 @@ source/build provenance. `PixelClassifierRecord` stores that artifact in a
 Document. C++ uses `qupathxx/pixel_classifier_archive.hpp`; Python exposes the
 same values and functions.
 
+[Windowed prediction masks](pixel-prediction-windows.md) preserve their exact
+cropped natural grid and full original target using QPA2. Full masks and training
+cohorts retain QPA1; both persist in the existing schema-9 record envelope.
+
 ```python
 request = q.PixelTrainingRequest(document, labelled_ids, transform, options)
 table = q.sample_pixel_training(request)

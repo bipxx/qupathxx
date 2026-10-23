@@ -18,7 +18,7 @@ def click(frame,target):
 
 
 def main():
-    ap=argparse.ArgumentParser();ap.add_argument('--objects',type=int,default=10000);ap.add_argument('--size',type=int,default=1024);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--capture',type=Path);args=ap.parse_args()
+    ap=argparse.ArgumentParser();ap.add_argument('--objects',type=int,default=10000);ap.add_argument('--size',type=int,default=1024);ap.add_argument('--viewport',action='store_true');ap.add_argument('--output',type=Path,required=True);ap.add_argument('--capture',type=Path);args=ap.parse_args()
     if not 0<=args.objects<=100000 or not 64<=args.size<=2048:ap.error('objects must be 0..100000 and size 64..2048')
     size=args.size;rgb=np.empty((size,size,3),dtype=np.uint8);rgb[:,:size//2]=[220,30,10];rgb[:,size//2:]=[10,30,220]
     doc=q.Document(q.Image.from_numpy(rgb));doc.set_history_limits(0,0);doc.set_calibration(.5,.5)
@@ -28,9 +28,15 @@ def main():
     training=q.PixelTrainingOptions();features=q.PixelFeatureOptions();features.sigmas=[0];training.features=features;training.max_samples=128;training.max_samples_per_class=64
     parameters=q.pixel_forest_parameters();parameters.trees=16;parameters.max_depth=4
     model=q.train_pixel_classifier(q.sample_pixel_training(q.PixelTrainingRequest(doc,[a,b],options=training)),parameters)
-    oracle=q.predict_pixel_region(q.PixelPredictionRequest(doc,root,model));revision=doc.revision
+    oracle=None if args.viewport else q.predict_pixel_region(q.PixelPredictionRequest(doc,root,model));revision=doc.revision
     options=q.GuiOptions();options.pixel_open=True;options.pixel_model=model;options.pixel_object_id=root;options.autosave_interval_seconds=0;options.replay_timeout_seconds=60
     options.settle_tiles=True;view=q.Viewport();view.origin=q.Point(0,0);view.zoom=3;options.start_view=view
+    if args.viewport:
+        options.pixel_viewport_only=True;budget=q.PixelPredictionOptions();budget.work_bytes=8*1024*1024;options.pixel_prediction_options=budget
+        view.origin=q.Point(-size*.375*view.zoom,-size*.25*view.zoom);options.start_view=view
+        try:q.PixelPredictionRequest(doc,root,model,budget)
+        except (ValueError,RuntimeError):pass
+        else:raise AssertionError('viewport probe requires a full mask that exceeds the configured budget')
     options.inputs=[*click(4,q.GuiInputTarget.PIXEL_PREDICT),event(8,q.GuiInputKind.MOVE,wait=q.GuiInputWait.PIXEL_PREVIEW_READY),
         *click(12,q.GuiInputTarget.PIXEL_KEEP_PREDICTION),event(16,q.GuiInputKind.MOVE,wait=q.GuiInputWait.PIXEL_RECORD_KEPT),
         *click(20,q.GuiInputTarget.PIXEL_PREVIEW_RECORD),event(24,q.GuiInputKind.MOVE,wait=q.GuiInputWait.PIXEL_HISTORICAL_PREVIEW_READY)]
@@ -38,6 +44,10 @@ def main():
     report=q.show(doc,frame_limit=240,capture_path=str(args.capture) if args.capture else '',options=options)
     assert report.replay_complete and not report.pixel_error,report.pixel_error
     assert report.pixel_archive_state=='kept' and doc.revision==revision+1 and doc.pixel_classifier_record_count==1
+    if args.viewport:
+        window=q.Rect(-report.final_origin.x/report.final_zoom,-report.final_origin.y/report.final_zoom,report.canvas_content_bounds.width/report.final_zoom,report.canvas_content_bounds.height/report.final_zoom)
+        oracle=q.predict_pixel_region(q.PixelPredictionRequest(doc,root,model,budget,window))
+        assert oracle.windowed and oracle.estimated_work_bytes<=budget.work_bytes and oracle.width<size and oracle.height<size
     assert report.pixel_result is None and report.pixel_historical_result.sha256==oracle.sha256
     np.testing.assert_array_equal(report.pixel_historical_result.labels_numpy(),oracle.labels_numpy())
     np.testing.assert_array_equal(report.pixel_historical_result.vote_fractions_numpy(),oracle.vote_fractions_numpy())
@@ -50,6 +60,7 @@ def main():
         cpu_frame_p95_ms=report.cpu_frame_p95_ms,max_cpu_frame_ms=report.max_cpu_frame_ms,capture_ms=report.pixel_capture_ms,
         catalog_max_step=report.pixel_catalog_max_step,record_catalog_max_step=report.pixel_record_catalog_max_step,
         historical_mask_sha256=oracle.sha256,archive_sha256=record.archive.sha256,retained_bytes=record.archive.payload_bytes,
+        windowed=oracle.windowed,mask_width=oracle.width,mask_height=oracle.height,estimated_work_bytes=oracle.estimated_work_bytes,
         gpu_bytes=report.pixel_gpu_bytes,peak_gpu_bytes=report.pixel_peak_gpu_bytes,ui_overflow=report.ui_overflow_items,renderer=report.gl_renderer,
         native_sha256=hashlib.sha256(Path(_native.__file__).read_bytes()).hexdigest(),platform=platform.platform(),
         environment={name:getattr(env,name) for name in ['source_tree_sha256','git_revision','compiler','configuration','platform']},

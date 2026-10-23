@@ -2251,7 +2251,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         ImGui::End();
         batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,cell_parameters,static_cast<AnalysisKind>(analysis_kind),analysis_nucleus,make_transform);
         classifier.draw(document,*selection,editing_blocked,has_image,mark_target);
-        pixel_classifier.draw(document,*selection,editing_blocked,has_image,mark_target,make_transform);
+        const auto pixel_top_left=viewport.screen_to_image({0,0}),pixel_bottom_right=viewport.screen_to_image({previous_canvas_size.x,previous_canvas_size.y});
+        pixel_classifier.draw(document,*selection,editing_blocked,has_image,mark_target,make_transform,{pixel_top_left.x,pixel_top_left.y,pixel_bottom_right.x-pixel_top_left.x,pixel_bottom_right.y-pixel_top_left.y});
         service_project(save_project_requested,autosave_requested,editing_blocked,true);
         profile.other_ms=profile_lap();
         ImGui::Render(); int w,h; glfwGetFramebufferSize(session.window,&w,&h); last_width=w; last_height=h; glViewport(0,0,w,h);

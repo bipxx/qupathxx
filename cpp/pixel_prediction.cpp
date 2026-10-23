@@ -1,4 +1,5 @@
 #include "pixel_workflow_snapshot.hpp"
+#include "pixel_prediction_grid.hpp"
 #include "sha256.hpp"
 #include <algorithm>
 #include <chrono>
@@ -19,10 +20,11 @@ void real(Sha256& h,double x) {std::uint64_t b;std::memcpy(&b,&x,8);h.integer(b)
 
 bool PixelPredictionResult::matches(const PixelPredictionRequest& request) const {return snapshot_==request.data_;}
 void PixelPredictionOptions::validate() const {if(tile_size<16 || tile_size>512 || work_bytes<1024*1024 || work_bytes>1024ULL*1024*1024 || !std::isfinite(min_vote_fraction) || min_vote_fraction<0 || min_vote_fraction>1) throw std::invalid_argument("invalid source pixel prediction options");}
-PixelPredictionRequest::PixelPredictionRequest(const Document& doc,std::uint64_t id,const PixelClassifier& model,PixelPredictionOptions options):source_(doc.server()) {
+PixelPredictionRequest::PixelPredictionRequest(const Document& doc,std::uint64_t id,const PixelClassifier& model,PixelPredictionOptions options,std::optional<Rect> window):source_(doc.server()) {
     options.validate();if(options.min_vote_fraction==0) options.min_vote_fraction=0;auto data=std::make_shared<Data>(model,options);data->level=pixel_classifier_level(doc,model);data->metadata=source_->metadata();const auto object=doc.annotation(id);data->roi=object.geometry;data->id=id;data->revision=doc.revision();data->kind=object.kind;data->class_name=object.class_name;
     ObjectFeatureOptions guard;guard.calibrated=false;guard.snapshot_bytes=std::min<std::size_t>(options.work_bytes,256u*1024*1024);authority_.emplace(doc,std::vector<std::uint64_t>{id},guard);data->provenance=authority_->source_anchor();
-    const auto b=data->roi.bounds();if(b.x<0 || b.y<0 || static_cast<long double>(b.x)+b.width>data->metadata.width || static_cast<long double>(b.y)+b.height>data->metadata.height) throw std::invalid_argument("pixel prediction ROI must lie inside the image");
+    const auto original=data->roi.bounds();if(original.x<0 || original.y<0 || static_cast<long double>(original.x)+original.width>data->metadata.width || static_cast<long double>(original.y)+original.height>data->metadata.height) throw std::invalid_argument("pixel prediction ROI must lie inside the image");
+    const auto b=detail::pixel_prediction_window(original,window);data->windowed=window.has_value();
     const auto& level=data->metadata.levels[data->level];data->x=edge(b.x,level.downsample,level.width);data->y=edge(b.y,level.downsample,level.height);data->w=edge(b.x+b.width,level.downsample,level.width)-data->x;data->h=edge(b.y+b.height,level.downsample,level.height)-data->y;
     if(data->w<=0 || data->h<=0) throw std::invalid_argument("pixel prediction ROI contains no sampled pixel centers");
     const auto snapshot=sizeof(Data)+data->class_name.size()+authority_->snapshot_bytes()+data->roi.payload_bytes()+data->provenance->payload_bytes()+262144;
@@ -49,6 +51,8 @@ double PixelPredictionRequest::downsample() const {return data_->metadata.levels
 Rect PixelPredictionRequest::level_bounds() const {return {double(data_->x),double(data_->y),double(data_->w),double(data_->h)};}
 std::size_t PixelPredictionRequest::estimated_work_bytes() const {return data_->work;}
 std::uint64_t PixelPredictionRequest::total_tiles() const {return data_->tiles;}
+bool PixelPredictionRequest::windowed() const {return data_->windowed;}
+bool PixelPredictionResult::windowed() const {return snapshot_->windowed;}
 std::int64_t PixelPredictionResult::width() const {return snapshot_->w;}
 std::int64_t PixelPredictionResult::height() const {return snapshot_->h;}
 std::uint64_t PixelPredictionResult::object_id() const {return snapshot_->id;}

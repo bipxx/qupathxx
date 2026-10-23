@@ -23,6 +23,9 @@ the installed application; the mask and model were computed through its buttons.
    on the image. **Predict area** uses the model's saved feature/resolution recipe.
    Missing calibration or no matching natural level produces a clear error;
    the viewer does not silently resample or reinterpret feature scales.
+   Enable **Predict visible part of area only** to capture a bounded
+   [viewport window](pixel-prediction-windows.md) in a large target. Panning does
+   not automatically rerun analysis; press Predict again for the new view.
 3. After prediction, choose **Trace pixel contours**. Native background tracing
    preserves holes and disconnected regions, using shared class boundaries.
    Inspect class/edge/vertex counts, then **Publish class annotations**. Each

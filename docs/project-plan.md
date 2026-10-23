@@ -2387,5 +2387,61 @@ will be tracked separately from the completed schema-9 artifact run.
 
 Implementation commit: `47ee4f8`. Hosted
 [run 39885297011](https://github.com/bipxx/qupathxx/actions/runs/39885297011)
-targets that commit and is running. No hosted pass for the F5 record controls
-is claimed yet.
+targets that commit and passed all five jobs. The [hosted F5 record verification](benchmarks/gui-pixel-archives-ci-windows-linux.json) checks all eight new record-widget cases, all 20 existing pixel-widget cases, native suites, installed benchmarks, typing and source/wheel/native identities. This run precedes windowed prediction.
+
+
+## Packet 78 — bounded native and visible-window pixel prediction
+
+`PixelPredictionRequest` accepts an optional level-zero window. The original
+annotation, provenance and exact live authority remain unchanged; only sampled
+output centers are restricted to the intersecting natural-grid window. The
+same source-image halo supplies feature context across window edges. Invalid,
+nonfinite, unrepresentable, disjoint and center-empty windows fail at capture.
+A large rectangle whose full output exceeds an 8 MiB budget can be predicted in
+small windows without allocating the full output mask or mutating its geometry.
+
+F5 captures the canvas rectangle when **Predict visible part of area only** is
+enabled. The mask remains anchored after panning; the user explicitly predicts
+a new view. Retention, model reuse, historical preview and atomic contour
+publication work on the cropped grid. Historical views identify windowed masks;
+record details identify cropped/full coverage and dimensions. Selected record
+IDs remain visible, with separate widget scopes for duplicate or ID-like names.
+
+QPA2 retains a windowed mask's snapped grid and original annotation in the
+existing schema-9 envelope. QPA1 training and full-mask bytes remain supported
+and canonical. QPA1 still requires full original sampled bounds; QPA2 permits
+only a contained subgrid and rejects training payloads. Numeric identity already
+includes the emitted grid. No original unsnapped user-window coordinates or live
+authority are reconstructed. Windows-produced QPA1 training/rectangle and QPA2
+window fixtures are read and canonically re-encoded by native Linux without
+GUI, GEOS or the training backend; polygon topology still requires GEOS.
+
+All 119 focused API/source/contour/archive cases and 57 real-window/docking/scale
+cases pass, including 22 new native/Python window cases, three viewport UI cases,
+four portable fixtures and a real Aperio crop/context comparison. Native checks
+pass 39 GUI and 38 each Windows headless/Linux training/minimal/sanitizer cases.
+Exact public stubs and strict positive/seven-error negative typing pass. Initial
+fixture/command errors (RGBA supplied to an RGB-only constructor and a mistyped
+GUI test filename) were corrected; no product assertions were removed.
+
+The [10,000-object viewport probe](benchmarks/gui-pixel-windows-10000-windows.json)
+rejects the full 1,024-square mask under an 8 MiB budget, then predicts and retains
+a 372×269 visible grid: 3.82 MB estimated native work, 2.07 MB retained artifact and
+400 KB GL mask. Every saved label/vote agrees with a fresh windowed request.
+CPU frame p95/max is 2.65/5.03 ms in this one synthetic shared-workstation
+llvmpipe observation. It does not establish RSS, dense visible-object, hardware,
+biological or broad frame-budget acceptance. See the
+[window contract and installed capture](pixel-prediction-windows.md).
+
+Full-slide streaming output, unmatched-grid resampling, expanded features,
+TMA, research/QuPath comparisons and every other outstanding M0–M7 requirement
+remain open.
+
+The [local verification](benchmarks/pixel-prediction-windows-local-windows-linux.json)
+records 1,531 full-suite passes with six expected skips and installed launch,
+alongside all focused/native/typing checks and exact source/wheel/native,
+fixture and screenshot identities. A same-build full-mask probe uses 12.36 MB
+estimated work, 19.15 MB retained charge and 4 MiB GL storage, versus 3.82 MB,
+2.07 MB and 400 KB for the visible window. Separate cameras/budgets and shared
+hardware preclude a controlled timing-speedup claim. The full run's 23.07 ms
+maximum keeps the broad 16 ms frame gate open.

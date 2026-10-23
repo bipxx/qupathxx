@@ -9,7 +9,7 @@ struct PixelPredictionOptions {
 class PixelPredictionRequest {
 public:
     struct Data;
-    PixelPredictionRequest(const Document&,std::uint64_t object_id,const PixelClassifier&,PixelPredictionOptions={});
+    PixelPredictionRequest(const Document&,std::uint64_t object_id,const PixelClassifier&,PixelPredictionOptions={},std::optional<Rect> window={});
     bool matches(const Document&) const;
     std::uint64_t object_id() const;
     std::uint64_t document_revision() const;
@@ -18,6 +18,7 @@ public:
     Rect level_bounds() const;
     std::size_t estimated_work_bytes() const;
     std::uint64_t total_tiles() const;
+    bool windowed() const;
 private:
     std::shared_ptr<const Data> data_;
     std::optional<ObjectFeatureRequest> authority_;
@@ -31,6 +32,7 @@ class PixelPredictionResult : public std::enable_shared_from_this<PixelPredictio
 public:
     const char* algorithm() const {return "qpx.source-pixel-classification/1";}
     bool matches(const PixelPredictionRequest&) const;
+    bool windowed() const;
     std::int64_t width() const;
     std::int64_t height() const;
     std::uint64_t object_id() const;

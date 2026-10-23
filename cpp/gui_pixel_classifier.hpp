@@ -28,7 +28,7 @@ class GuiPixelClassifier {
     PixelTrainingOptions options_;PixelPredictionOptions prediction_options_;ForestParameters parameters_;
     PixelTrainingJob training_;PixelPredictionJob prediction_;PixelTrainingStats training_stats_,prediction_stats_;
     std::shared_ptr<const PixelClassifier> model_;GuiPixelPreview preview_;
-    bool open_=false,selected_only_=false,replace_=false,show_=true,trained_=false,preview_reset_=false;
+    bool open_=false,selected_only_=false,replace_=false,show_=true,viewport_only_=false,trained_=false,preview_reset_=false;
     std::uint64_t target_=0,adopted_=0;std::size_t preview_limit_=0;double capture_ms_=0;float opacity_=.45f;
     std::vector<std::array<float,3>> colors_;std::vector<std::uint32_t> palette_;
     std::array<char,4096> path_{};std::array<char,256> scales_{};std::array<Rect,13> targets_{};
@@ -59,8 +59,8 @@ class GuiPixelClassifier {
             PixelTrainingRequest request(doc,ids,transform,options_);capture_ms_=request.capture_ms();if(!training_.train(request,parameters_)) return;training_request_=request;cancel_prediction();trained_=false;captured_selection_=selected_only_?selection.ids():std::vector<std::uint64_t>{};error_.clear();
         }catch(const std::exception& e) {error_=e.what();}
     }
-    void predict(const Document& doc,const ObjectSelection& selection) {
-        try {if(!model_) throw std::logic_error("Train or load a pixel model first");const auto id=target_?target_:selection.primary();if(!id) throw std::invalid_argument("Select an area for prediction");const auto start=std::chrono::steady_clock::now();PixelPredictionRequest request(doc,id,*model_,prediction_options_);capture_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();if(prediction_.request(request)) {historical_.reset();historical_record_=0;clear_contours();prediction_request_=request;error_.clear();}}catch(const std::exception& e) {error_=e.what();}
+    void predict(const Document& doc,const ObjectSelection& selection,Rect visible) {
+        try {if(!model_) throw std::logic_error("Train or load a pixel model first");const auto id=target_?target_:selection.primary();if(!id) throw std::invalid_argument("Select an area for prediction");const auto start=std::chrono::steady_clock::now();PixelPredictionRequest request(doc,id,*model_,prediction_options_,viewport_only_?std::optional<Rect>(visible):std::nullopt);capture_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();if(prediction_.request(request)) {historical_.reset();historical_record_=0;clear_contours();prediction_request_=request;error_.clear();}}catch(const std::exception& e) {error_=e.what();}
     }
     void trace(const Document& doc) {
         try {
@@ -80,7 +80,7 @@ class GuiPixelClassifier {
         try {io_=std::async(std::launch::async,[this,path,model=std::move(model),save,replace] {IoResult out;out.save=save;try {if(save) save_pixel_classifier(*model,path,replace,&io_cancelled_);else {auto loaded=load_pixel_classifier(path,&io_cancelled_);if(!loaded.resolution()) throw std::invalid_argument("Pixel preview requires a resolution-bound model; this file is an unbound buffer recipe");out.model=std::make_shared<const PixelClassifier>(std::move(loaded));}}catch(const std::exception& e) {out.error=e.what();}return out;});}catch(const std::exception& e) {io_state_="failed";io_error_=e.what();}
     }
 public:
-    explicit GuiPixelClassifier(const GuiOptions& o):contour_options_(o.pixel_contour_options?*o.pixel_contour_options:TissueContourOptions{}),options_(o.pixel_training_options?*o.pixel_training_options:PixelTrainingOptions{}),prediction_options_(o.pixel_prediction_options?*o.pixel_prediction_options:PixelPredictionOptions{}),parameters_(o.pixel_parameters?*o.pixel_parameters:pixel_forest_parameters()),open_(o.pixel_open),selected_only_(o.pixel_selected_only),replace_(o.pixel_replace_model),show_(o.pixel_show_overlay),target_(o.pixel_object_id),preview_limit_(o.pixel_preview_budget) {
+    explicit GuiPixelClassifier(const GuiOptions& o):contour_options_(o.pixel_contour_options?*o.pixel_contour_options:TissueContourOptions{}),options_(o.pixel_training_options?*o.pixel_training_options:PixelTrainingOptions{}),prediction_options_(o.pixel_prediction_options?*o.pixel_prediction_options:PixelPredictionOptions{}),parameters_(o.pixel_parameters?*o.pixel_parameters:pixel_forest_parameters()),open_(o.pixel_open),selected_only_(o.pixel_selected_only),replace_(o.pixel_replace_model),show_(o.pixel_show_overlay),viewport_only_(o.pixel_viewport_only),target_(o.pixel_object_id),preview_limit_(o.pixel_preview_budget) {
         contour_options_.validate();options_.validate();prediction_options_.validate();parameters_.validate();if(preview_limit_>128u*1024*1024) throw std::invalid_argument("pixel preview budget exceeds 128 MiB");bounded_utf8(o.pixel_model_path,path_.size()-1);std::memcpy(path_.data(),o.pixel_model_path.data(),o.pixel_model_path.size());scales_text();if(o.pixel_model) model_=std::make_shared<const PixelClassifier>(*o.pixel_model);
     }
     ~GuiPixelClassifier() {contours_.cancel();io_cancelled_.store(true);if(io_.valid()) io_.wait();}
@@ -134,7 +134,7 @@ public:
     bool catalog_complete() const {return catalog_complete_;}
     Rect bounds(GuiInputTarget t) const {return targets_.at(index(t));}
     void finish(Document& doc,const ObjectSelection& selection,bool finite) {if(!finite) {archives_.cancel();training_.cancel();cancel_prediction();io_cancelled_.store(true);}if(training_.busy()) training_.wait(doc);if(prediction_.busy()) prediction_.wait(doc);if(contours_.busy()) contours_.wait(doc);if(io_.valid()) io_.wait();archives_.wait();update(doc,selection);}
-    void draw(Document& doc,const ObjectSelection& selection,bool blocked,bool has_image,const std::function<void(GuiInputTarget)>& mark,const std::function<StainTransform(bool)>& transform) {
+    void draw(Document& doc,const ObjectSelection& selection,bool blocked,bool has_image,const std::function<void(GuiInputTarget)>& mark,const std::function<StainTransform(bool)>& transform,Rect visible) {
         if(!ImGui::GetIO().WantTextInput && !blocked && ImGui::IsKeyPressed(ImGuiKey_F5,false)) open_=!open_;if(!open_) return;
         const auto* vp=ImGui::GetMainViewport();const auto scale=ImGui::GetFontSize()/13.f;ImGui::SetNextWindowSize({std::min(620.f*scale,vp->WorkSize.x*.88f),std::min(720.f*scale,vp->WorkSize.y*.88f)},ImGuiCond_Appearing);ImGui::SetNextWindowPos({vp->WorkPos.x+vp->WorkSize.x*.5f,vp->WorkPos.y+vp->WorkSize.y*.5f},ImGuiCond_Appearing,{.5f,.5f});ImGui::SetNextWindowSizeConstraints({std::min(260.f*scale,vp->WorkSize.x),std::min(160.f*scale,vp->WorkSize.y)},vp->WorkSize);
         if(!ImGui::Begin("Pixel classifiers",&open_)) {ImGui::End();return;}
@@ -143,7 +143,8 @@ public:
         // Primary actions remain above advanced controls in narrow windows.
         if(button("Train labelled areas",GuiInputTarget::TrainPixelClassifier,disabled || !has_classifier_training() || (!selected_only_ && !catalog_complete_))) {try {train(doc,selection,transform(options_.features.stains));}catch(const std::exception& e) {error_=e.what();}}
         ImGui::SameLine();
-        if(button("Predict area",GuiInputTarget::PredictPixelClasses,disabled || !model_)) predict(doc,selection);
+        if(button("Predict area",GuiInputTarget::PredictPixelClasses,disabled || !model_)) predict(doc,selection,visible);
+        ImGui::BeginDisabled(disabled);if(ui::Checkbox("Predict visible part of area only",&viewport_only_)) cancel_prediction();ImGui::EndDisabled();
         if(button("Trace pixel contours",GuiInputTarget::TracePixelContours,disabled || !has_geos() || !prediction_.result() || !prediction_request_ || published_)) trace(doc);
         ImGui::SameLine();
         if(button("Publish class annotations",GuiInputTarget::PublishPixelContours,disabled || !contours_ready() || published_)) publish(doc);
@@ -156,9 +157,10 @@ public:
         std::shared_ptr<const PixelClassifierRecord> record;
         if(archives_.selected()) {const auto found=doc.pixels_.find(archives_.selected());if(found!=doc.pixels_.end()) record=found->second;}
         ImGui::BeginDisabled(blocked || busy);
-        if(ui::BeginCombo("Saved pixel records",record?record->name.c_str():"No saved records")) {
+        const auto record_preview=record?"#"+std::to_string(record->id)+" / "+record->name:std::string("No saved records");
+        if(ui::BeginCombo("Saved pixel records",record_preview.c_str())) {
             ImGuiListClipper clipper;clipper.Begin(static_cast<int>(archives_.records().size()));
-            while(clipper.Step()) for(int i=clipper.DisplayStart;i<clipper.DisplayEnd;++i) {const auto& r=archives_.records()[i];const auto label="#"+std::to_string(r->id)+" / "+r->archive->purpose()+" / "+r->name;if(ImGui::Selectable(label.c_str(),archives_.selected()==r->id)) archives_.select(r->id);}
+            while(clipper.Step()) for(int i=clipper.DisplayStart;i<clipper.DisplayEnd;++i) {ImGui::PushID(i);const auto& r=archives_.records()[i];const auto label="#"+std::to_string(r->id)+" / "+r->archive->purpose()+" / "+r->name;if(ImGui::Selectable(label.c_str(),archives_.selected()==r->id)) archives_.select(r->id);ImGui::PopID();}
             ui::EndCombo();
         }
         ImGui::EndDisabled();
@@ -167,14 +169,14 @@ public:
         if(button("Preview saved mask",GuiInputTarget::PreviewPixelRecord,disabled || !record || !record->archive->result())) {cancel_training();adopt(record->archive->model(),doc);historical_=record->archive->result();historical_record_=record->id;}
         ImGui::SameLine();
         if(button("Remove record",GuiInputTarget::RemovePixelRecord,disabled || !record)) {doc.remove_pixel_classifier_record(record->id);if(historical_record_==record->id) cancel_prediction();}
-        if(historical_) ImGui::TextWrapped("Historical mask - recompute before publishing annotations.");
+        if(historical_) ImGui::TextWrapped("%s - recompute before publishing annotations.",historical_->windowed()?"Historical windowed mask":"Historical mask");
         if(archives_.state()!="idle") ImGui::Text("Record: %s",archives_.state().c_str());
         if(record && ImGui::CollapsingHeader("Saved record details")) {
             const auto& archive=*record->archive;ImGui::TextWrapped("%s / %zu original areas / %zu retained bytes",archive.purpose().c_str(),archive.annotations().size(),archive.payload_bytes());
             ImGui::TextWrapped("Artifact SHA-256: %s",archive.sha256().c_str());
             ImGui::TextWrapped("Captured document revision: %llu",static_cast<unsigned long long>(archive.provenance()->document_revision));
             if(archive.table()) ImGui::Text("%zu original training rows",archive.table()->row_count());
-            if(archive.result()) ImGui::Text("%llu original classified pixels",static_cast<unsigned long long>(archive.result()->classified_pixels()));
+            if(archive.result()) {const auto& r=*archive.result();ImGui::Text("%llu original classified pixels",static_cast<unsigned long long>(r.classified_pixels()));ImGui::TextWrapped("%lld x %lld / level %d / %s",static_cast<long long>(r.width()),static_cast<long long>(r.height()),r.level(),r.windowed()?"windowed grid":"full target grid");}
         }
         if(training_stats_.state!="idle") ImGui::TextWrapped("Training: %s / %s (%llu/%llu tiles)",training_stats_.state.c_str(),training_stats_.phase.c_str(),static_cast<unsigned long long>(training_stats_.completed_tiles),static_cast<unsigned long long>(training_stats_.total_tiles));
         if(contour_state()!="idle") ImGui::TextWrapped("Contours: %s%s",contour_state().c_str(),published_?" (use Undo/Redo for this batch)":"");
@@ -212,7 +214,7 @@ public:
         if(auto geometry=this->traced()) {const auto& c=*geometry->contours();ImGui::TextWrapped("%zu classes / %zu edges / %zu vertices / %.1f ms",c.components().size(),c.edge_count(),c.vertex_count(),c.elapsed_ms());}
         if(published_) ImGui::TextWrapped("Published %zu class annotations",published_ids_.size());
         if(model_ && ImGui::CollapsingHeader("Overlay colors",colors_.size()<=8?ImGuiTreeNodeFlags_DefaultOpen:0)) {bool palette=ui::SliderFloat("Opacity",&opacity_,0,1);for(std::size_t i=0;i<colors_.size();++i) {ImGui::PushID(static_cast<int>(i));const auto label="Class "+std::to_string(i+1)+" / "+model_->classes()[i];palette=ui::ColorEdit3(label.c_str(),colors_[i].data()) || palette;ImGui::PopID();}if(palette) make_palette();}
-        if(auto result=prediction_.result()) {ImGui::TextWrapped("%lld x %lld / level %d / %.1f ms",static_cast<long long>(result->width()),static_cast<long long>(result->height()),result->level(),result->elapsed_ms());ImGui::TextWrapped("%llu classified pixels; preview %s",static_cast<unsigned long long>(result->classified_pixels()),preview_.ready()?"ready":"preparing");}
+        if(auto result=prediction_.result()) {if(result->windowed()) ImGui::TextWrapped("Windowed prediction: captured visible grid; pan and predict again to update.");ImGui::TextWrapped("%lld x %lld / level %d / %.1f ms",static_cast<long long>(result->width()),static_cast<long long>(result->height()),result->level(),result->elapsed_ms());ImGui::TextWrapped("%llu classified pixels; preview %s",static_cast<unsigned long long>(result->classified_pixels()),preview_.ready()?"ready":"preparing");}
         ImGui::End();
     }
 };

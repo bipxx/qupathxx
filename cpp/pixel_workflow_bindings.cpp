@@ -46,12 +46,12 @@ void bind_pixel_workflows(nb::module_& m) {
     nb::class_<PixelPredictionOptions>(m,"PixelPredictionOptions").def(nb::init<>()).def_rw("tile_size",&PixelPredictionOptions::tile_size).def_rw("work_bytes",&PixelPredictionOptions::work_bytes)
         .def_rw("min_vote_fraction",&PixelPredictionOptions::min_vote_fraction).def("validate",&PixelPredictionOptions::validate);
     nb::class_<PixelPredictionRequest>(m,"PixelPredictionRequest")
-        .def(nb::init<const Document&,std::uint64_t,const PixelClassifier&,PixelPredictionOptions>(),"document"_a,"object_id"_a,"classifier"_a,"options"_a=PixelPredictionOptions{})
+        .def(nb::init<const Document&,std::uint64_t,const PixelClassifier&,PixelPredictionOptions,std::optional<Rect>>(),"document"_a,"object_id"_a,"classifier"_a,"options"_a=PixelPredictionOptions{},"window"_a=nb::none())
         .def("matches",&PixelPredictionRequest::matches).def_prop_ro("object_id",&PixelPredictionRequest::object_id).def_prop_ro("document_revision",&PixelPredictionRequest::document_revision)
         .def_prop_ro("level",&PixelPredictionRequest::level).def_prop_ro("downsample",&PixelPredictionRequest::downsample).def_prop_ro("level_bounds",&PixelPredictionRequest::level_bounds)
-        .def_prop_ro("estimated_work_bytes",&PixelPredictionRequest::estimated_work_bytes).def_prop_ro("total_tiles",&PixelPredictionRequest::total_tiles);
+        .def_prop_ro("estimated_work_bytes",&PixelPredictionRequest::estimated_work_bytes).def_prop_ro("total_tiles",&PixelPredictionRequest::total_tiles).def_prop_ro("windowed",&PixelPredictionRequest::windowed);
     nb::class_<PixelPredictionResult>(m,"PixelPredictionResult")
-        .def("matches",&PixelPredictionResult::matches)
+        .def("matches",&PixelPredictionResult::matches).def_prop_ro("windowed",&PixelPredictionResult::windowed)
         .def_prop_ro("algorithm",&PixelPredictionResult::algorithm).def_prop_ro("width",&PixelPredictionResult::width).def_prop_ro("height",&PixelPredictionResult::height)
         .def_prop_ro("object_id",&PixelPredictionResult::object_id).def_prop_ro("level",&PixelPredictionResult::level).def_prop_ro("downsample",&PixelPredictionResult::downsample)
         .def_prop_ro("bounds",&PixelPredictionResult::bounds).def_prop_ro("level_bounds",&PixelPredictionResult::level_bounds).def_prop_ro("roi",&PixelPredictionResult::roi,nb::rv_policy::copy)
@@ -71,7 +71,7 @@ void bind_pixel_workflows(nb::module_& m) {
     nb::class_<PixelPredictionJob>(m,"PixelPredictionJob").def(nb::init<>()).def("request",&PixelPredictionJob::request).def_prop_ro("busy",&PixelPredictionJob::busy).def("cancel",&PixelPredictionJob::cancel)
         .def("poll",&PixelPredictionJob::poll).def("wait",&PixelPredictionJob::wait,nb::call_guard<nb::gil_scoped_release>()).def_prop_ro("result",&PixelPredictionJob::result);
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
-        .def_rw("pixel_open",&GuiOptions::pixel_open).def_rw("pixel_selected_only",&GuiOptions::pixel_selected_only).def_rw("pixel_replace_model",&GuiOptions::pixel_replace_model).def_rw("pixel_show_overlay",&GuiOptions::pixel_show_overlay)
+        .def_rw("pixel_open",&GuiOptions::pixel_open).def_rw("pixel_selected_only",&GuiOptions::pixel_selected_only).def_rw("pixel_replace_model",&GuiOptions::pixel_replace_model).def_rw("pixel_show_overlay",&GuiOptions::pixel_show_overlay).def_rw("pixel_viewport_only",&GuiOptions::pixel_viewport_only)
         .def_rw("pixel_object_id",&GuiOptions::pixel_object_id).def_rw("pixel_preview_budget",&GuiOptions::pixel_preview_budget).def_rw("pixel_model_path",&GuiOptions::pixel_model_path)
         .def_rw("pixel_contour_options",&GuiOptions::pixel_contour_options).def_rw("pixel_training_options",&GuiOptions::pixel_training_options).def_rw("pixel_prediction_options",&GuiOptions::pixel_prediction_options).def_rw("pixel_parameters",&GuiOptions::pixel_parameters).def_rw("pixel_model",&GuiOptions::pixel_model);
     nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport"))

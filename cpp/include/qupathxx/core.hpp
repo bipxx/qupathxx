@@ -637,7 +637,7 @@ struct GuiOptions {
     std::shared_ptr<const ObjectFeatureOptions> classifier_features;
     std::shared_ptr<const ForestParameters> classifier_parameters;
     std::shared_ptr<const ForestModel> classifier_model;
-    bool pixel_open=false,pixel_selected_only=false,pixel_replace_model=false,pixel_show_overlay=true;
+    bool pixel_open=false,pixel_selected_only=false,pixel_replace_model=false,pixel_show_overlay=true,pixel_viewport_only=false;
     std::uint64_t pixel_object_id=0;
     std::size_t pixel_preview_budget=32u*1024*1024;
     std::string pixel_model_path;
