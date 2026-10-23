@@ -2445,3 +2445,8 @@ estimated work, 19.15 MB retained charge and 4 MiB GL storage, versus 3.82 MB,
 2.07 MB and 400 KB for the visible window. Separate cameras/budgets and shared
 hardware preclude a controlled timing-speedup claim. The full run's 23.07 ms
 maximum keeps the broad 16 ms frame gate open.
+
+Implementation commit: `0a76c84`. Hosted
+[run 39888265017](https://github.com/bipxx/qupathxx/actions/runs/39888265017)
+targets that commit and is running. No hosted windowed-prediction pass is
+claimed yet.
