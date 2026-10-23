@@ -22,3 +22,17 @@ resolves all five loader failures without any other dependency/version errors.
 This replay checks the recorded requirements; it is not a new scan of the wheel
 or a portable installation result. A new hosted build and both fresh consumers
 must still complete before accepting portable distribution.
+
+Run [40003114384](https://github.com/bipxx/qupathxx/actions/runs/40003114384)
+subsequently passes both builders and both fresh Debian consumers at
+`03ed2828c262415263a1e8e1f75eccc7e68dd9d6`. The
+[artifact acceptance record](benchmarks/manylinux101-build-consumer-acceptance.json)
+verifies manylinux_2_28_x86_64 tags, unchanged ELF/runtime payloads, pinned assets,
+wheel/installed hashes, SDK notices, native tests, typing and consumer workflows
+for CPython 3.11 and 3.12. Each builder passes 40 native suites. This accepts the
+pipeline and the two artifacts at that exact older engine revision. Current
+Gaussian/calibrated-cell revisions still require their own portable qualification.
+The older source predates the current cell-characterization corpus; its zero
+scientific expected-failure count does not resolve the four newer scientific
+gates. Project license, macOS/GUI, biological/hardware and supported release
+requirements remain open; `release_ready` stays false.
