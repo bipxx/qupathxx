@@ -3842,3 +3842,23 @@ headless 1,686/42, and minimal/sanitizer each pass 42 native suites. The complet
 desktop frame is visually inspected. The engineering scope is accepted for main
 promotion. Four scientific expected failures remain per Python cohort; broader
 commands/adapters, biology, hardware, portable/Mac and release gates remain open.
+## Packet107: paired physical-area request observations
+
+The [reproducible profiler](../tools/profile_cell_area_limits.py) and
+[profile records](cell-area-performance.md) compare compiled physical bounds with
+the equivalent integer recipe at 128, 512 and 1,024 pixels per side (64, 1,024 and
+4,096 cells). Windows then Linux/WSL each exclude one fresh-process warmup per
+size and retain eight paired fresh processes with balanced first-arm order.
+All 48 pairs have identical nucleus/body labels and numeric compartment features;
+those hashes also match across platforms. Native artifacts and source-content
+revision 201bd8ed266d4803defd7321390b930cafe9dcb7 identify the profiled engine.
+
+Median paired constructor overhead is approximately 1.2–1.8 microseconds.
+Whole-detection ranges are broad and do not accept speedup or performance parity.
+The default 32 MiB contour guard rejects the largest case in the retained first
+attempt; the complete protocol explicitly uses 64 MiB contour and 256 MiB overall
+budgets for both arms without changing production defaults. Published profiler,
+JSON and text hashes are verified against committed UTF-8 LF bytes. Scientific,
+biological, hardware/RSS/frame, supported-release and all other M0–M7 gates remain
+open. Portable qualification of the accepted physical-area/viewer source is now
+running as 40031349839 on validation/portable-viewer-cells-108.
