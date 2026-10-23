@@ -43,22 +43,68 @@ Linux checks. The Windows isolated analysis/pixel-feature/QuPath comparison suit
 passes 57 tests with the same four strict expected failures from the
 [cell comparison corpus](qupath-cell-comparisons.md).
 
-This remains a candidate. A Windows full-suite process is stalled in an existing
+This remains a candidate. A first Windows full-suite process stalled in an existing
 asynchronous ROI measurement wait. Fresh direct probes, collection followed by
 the same job, and isolated pytest checks complete successfully; the cause remains
 unresolved. A separate 2,000-job Windows stress process also completes. After more
 than 20 minutes in the same wait, the specific stalled process was stopped with
-final stacks and identity retained. A fresh full run passed that point and is
-progressing through software-rendered GUI tests. A separate complete Windows
+final stacks and identity retained. A fresh full run passes 2,002 tests with ten
+optional skips and four strict expected failures, including software-rendered GUI
+checks. The original intermittent wait's cause remains unresolved. A separate complete Windows
 headless suite passes 1,622 tests with 390 optional skips and four expected failures.
 The [follow-up receipt](benchmarks/masked-gaussian-validation-followup.json)
-retains both attempts. No full GUI-enabled Windows pass is inferred
-from the isolated checks. Linux full regression passes 1,623 tests with 389 optional
+retains both attempts and identifies the completed full-suite evidence. Linux full
+regression passes 1,623 tests with 389 optional
 skips and four strict expected failures. Existing cell-comparison metrics and
 shared-ROI results are unchanged on both platforms; seeded classifier model,
 training and prediction identities also match the prior baseline. The profile
 does not accept the candidate for release or
 close any outstanding M0–M7 gate.
+
+## Complete workflow timing
+
+The [workflow validation receipt](benchmarks/gaussian-workflow-validation-windows-linux.json)
+binds the baseline and optimized wheels to their actual loaded native artifacts.
+Their only changed runtime C++ file is `cpp/masked_gaussian.hpp`; the CMake/native
+test additions are also identified. Separate persistent installed-package
+interpreters process identical 512² synthetic inputs. Each workload has one warm-up
+and seven paired measured calls, alternating baseline/candidate order. Final Windows
+and Linux timing passes run sequentially; preliminary overlapping passes are excluded.
+
+Pixel features include RGB and OD Gaussian, gradient and Laplacian extraction over
+an input with transparent holes. Cell calls include request capture, decoding,
+smoothing, watershed, expansion, geometry/contours and compartment measurements.
+All cell runs retain 64 cells. Within each platform, full feature/validity arrays,
+native result/input identities, nucleus/body labels, all compartment features and
+contour WKT have matching output signatures across every measured call. Input
+construction, worker startup, result hashing, IPC and output-file I/O are outside
+the timer. The records retain all raw wall/native timing samples and work estimates.
+
+| Workflow | Sigma | Windows median ratio | Linux median ratio |
+| --- | ---: | ---: | ---: |
+| Pixel features | 1 | 1.100× | 0.955× |
+| Pixel features | 4 | 1.332× | 1.234× |
+| Pixel features | 16 | 1.944× | 1.669× |
+| Cell detection and contours | 1 | 0.959× | 0.945× |
+| Cell detection and contours | 4 | 1.072× | 0.904× |
+| Cell detection and contours | 16 | 1.287× | 1.267× |
+
+A ratio below one means the candidate was slower. Small-kernel observations
+include roughly 4–11% slower calls, and the shared workstation has wide timing
+ranges. The records do not establish statistical significance or uniform workflow
+improvement. In particular, the approximately threefold large-kernel result must
+not be described as a threefold complete-cell-workflow speedup. The candidate stays
+on a validation branch while representative performance acceptance remains open.
+
+Reproduce using two installed-package environments without replacing either wheel:
+
+```powershell
+python -I tools/benchmark_gaussian_workflows.py --baseline-python BASELINE_PYTHON --candidate-python CANDIDATE_PYTHON --size 512 --repeats 7 --output build/paired-workflows.json
+```
+
+The benchmark refuses to record speed ratios if any paired result signature or
+input/interpreter identity differs. Venv interpreter paths are preserved rather
+than resolving Unix symlinks to the base Python. Neither interpreter opens a GUI.
 
 ## Reproducing the paired kernel probe
 

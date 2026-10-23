@@ -18,10 +18,15 @@
     "accepted": false
   },
   "repeated_gui_run": {
-    "state": "live-progress-through-GUI",
+    "state": "completed",
     "process_id": 91244,
     "session_id": 11237,
-    "accepted": false
+    "accepted": true,
+    "passed": 2002,
+    "optional_skips": 10,
+    "strict_expected_failures": 4,
+    "junit_sha256": "337fa60f2ad0e41d6b8439524d73ddef8721db816c7aefa05573e40b413cca49",
+    "intermittent_first_wait_cause_resolved": false
   },
   "release_ready": false
 }

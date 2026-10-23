@@ -1,0 +1,61 @@
+{
+  "schema": "qpx.gaussian-workflow-validation/1",
+  "benchmark_source_sha256": "82a56240edb97479a8c722a01abe9335a26937f34cc70edd4a67a9ad2fb762db",
+  "reports": {
+    "windows": {
+      "path": "docs/benchmarks/gaussian-workflows-paired-windows.json",
+      "sha256": "6934d7d55259236b27128ce16ecd26cc736de010be5f3689749d1d21e89ab54a"
+    },
+    "linux": {
+      "path": "docs/benchmarks/gaussian-workflows-paired-linux.json",
+      "sha256": "feb59dca9a50aa8d1d4b468588af0fc85d27a40a6f31d79dcc27b59373560b6c"
+    }
+  },
+  "wheels": {
+    "windows": {
+      "baseline": {
+        "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+        "sha256": "575995b0f57944343f54c4b751c978935f3ae4063c25b289a60d01073c051c7e",
+        "native_sha256": "469a26405eaab26ba616a04ad1691bd0aea18e5a43eba203b0d5ed0cd745ea9b"
+      },
+      "candidate": {
+        "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+        "sha256": "94564bf10a2b0e301873a74e70630d056efb5de22d2c974f351194a5d38cc104",
+        "native_sha256": "946975f7c71531e51281056333b92a778024e783303d02ac37e95e3c92df5a3d"
+      }
+    },
+    "linux": {
+      "baseline": {
+        "filename": "qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl",
+        "sha256": "1e1b663a2096381d0e47a81571404f69a84ed2d52e448521f4f548d84adb4658",
+        "native_sha256": "f139096993f700f375ecdbe99dff8cbacb3dfe410a4df04bf0bc9137ec143ffe"
+      },
+      "candidate": {
+        "filename": "qupathxx-0.1.0-cp312-cp312-linux_x86_64.whl",
+        "sha256": "ba8abbd4e8b063c5990f762988f0c0108c20ae90a6e4e34c8aa522fb0038e25a",
+        "native_sha256": "ed1522044bf74663c357883cd89dda6ea4e8fca71f169981d1d85beb469c0642"
+      }
+    }
+  },
+  "source_diff_runtime_files": [
+    "cpp/masked_gaussian.hpp"
+  ],
+  "source_diff_sha256": "ab254503fe6f02ea70977b527413121015c1a1ce9cbe46142ccc2849a5e275b7",
+  "baseline_source_commit": "b8648fe",
+  "candidate_source_commit": "9926c8b",
+  "candidate_source_tree_sha256": "37109d9eb6597439b7e3a73b675a0051f1ae0b8efc1f0e4b3fd65c709278b672",
+  "final_platform_timing_runs_serialized": true,
+  "preliminary_overlapping_runs_excluded": true,
+  "all_within_platform_output_signatures_equal": true,
+  "windows_full_repeat": {
+    "passed": 2002,
+    "optional_skips": 10,
+    "strict_expected_failures": 4,
+    "junit_sha256": "337fa60f2ad0e41d6b8439524d73ddef8721db816c7aefa05573e40b413cca49"
+  },
+  "first_windows_stall_retained": true,
+  "intermittent_wait_cause_resolved": false,
+  "uniform_workflow_speedup_accepted": false,
+  "release_ready": false,
+  "scope": "Paired synthetic complete native calls on one shared workstation. Wide sample ranges and slower small-kernel cases are retained. Functional identity does not imply uniform speed, biological validity, hardware budgets or release acceptance."
+}

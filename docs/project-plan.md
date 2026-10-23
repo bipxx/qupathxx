@@ -3503,10 +3503,11 @@ Microsoft Concurrency runtime. Native stack inspection also observes a blocked
 WMI/COM query; a causal connection is not established. Fresh direct, collection
 and 2,000-job stress probes pass. After more than 20 minutes in the same wait,
 the specific process is stopped with final stacks and identity retained. A fresh
-full run passes that point and is progressing through software-rendered GUI checks.
+full run passes 2,002 tests with ten optional skips and four expected failures,
+including software-rendered GUI checks. The original intermittent cause remains open.
 The separate Windows headless suite passes 1,622 tests with 390 optional skips
 and four expected failures. The first failed attempt remains recorded;
-no complete Windows regression acceptance or main promotion is inferred. The
+no fix for that intermittent wait or main promotion is inferred. The
 [profile receipt](benchmarks/masked-gaussian-local-windows-linux.json) identifies
 the artifacts, source, tests and unresolved run. The candidate remains provisional.
 
@@ -3555,3 +3556,28 @@ on each local platform. An actual lib64-layout SDK passes installed/relocated
 runtime hashes, geometry and native region/batch/CSV; all four native bundling
 configuration regressions also pass. New run 39995913896 is pending. Neither this
 fix nor the Mac preflight completes portable distribution or the full M0–M7 goal.
+
+### Packet98: complete workflow performance and completed Windows regression
+
+The [paired workflow benchmark](masked-gaussian-performance.md#complete-workflow-timing)
+compares installed baseline/optimized wheels in persistent isolated interpreters.
+Final platform passes are serialized; within each workload one warm-up precedes
+seven alternating paired calls. Input generation, result hashing and transport
+are outside the complete native-call timer. Loaded artifacts, source identities,
+raw samples, work estimates and all output signatures are retained.
+
+All feature/validity arrays, nucleus/body labels, compartment features and contour
+outputs agree within each platform, with 64 retained cells at each sigma. Pixel
+sigma16 improves 1.944× Windows/1.669× Linux; the complete cell call improves
+1.287×/1.267×. Several small-kernel cases are 4–11% slower, with wide sample ranges.
+No uniform workflow speedup or hardware budget is accepted. Kernel-only ratios
+are not substituted for complete workflow throughput. The candidate stays on its
+validation branch pending representative acceptance.
+
+The Windows GUI repeat finishes with 2,002 passes, ten optional skips and four
+strict scientific expected failures. The first stalled attempt and unresolved
+intermittent wait remain recorded in the updated follow-up receipt. Separately,
+packet94's five-job hosted artifact audit accepts its characterization scope and
+is merged to main at `961016d8d34e65388d6d21a0d03600fd64bad748`. This retains all
+four scientific failures and does not accept full QuPath parity, portable or Mac
+distribution, biological validation or the overall M0–M7 goal.
