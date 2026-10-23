@@ -2719,3 +2719,8 @@ assertion remains unchanged. A 25-case overlay/browser recheck and the complete
 final suite pass on the same compiled binary; all nine final browser cases also
 pass independently. No root cause or production fix for that transient mismatch
 is claimed. The local record preserves both full-run results.
+
+Implementation commit: `867eade45a0f33e46ec9f1428851857d50a4270a`. Hosted
+[run 39906932004](https://github.com/bipxx/qupathxx/actions/runs/39906932004)
+targets that exact commit and is in progress. No hosted inspector pass is
+claimed yet.
