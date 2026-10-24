@@ -8,42 +8,42 @@
       "rows": 1000,
       "input_bytes": 11522,
       "input_sha256": "8629cba01253a260c388c2f0c1e2079f00078ea98cf162ff42d92305e924ad61",
-      "median_ms": 7.162399939261377,
+      "median_ms": 7.729299948550761,
       "trials": [
         {
           "trial": 0,
           "warmup": true,
-          "milliseconds": 8.171499939635396,
+          "milliseconds": 7.236399920657277,
           "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
         },
         {
           "trial": 1,
           "warmup": false,
-          "milliseconds": 7.532999967224896,
+          "milliseconds": 7.281300029717386,
           "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
         },
         {
           "trial": 2,
           "warmup": false,
-          "milliseconds": 6.64670008700341,
+          "milliseconds": 8.613000041805208,
           "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
         },
         {
           "trial": 3,
           "warmup": false,
-          "milliseconds": 7.162399939261377,
+          "milliseconds": 7.5400000205263495,
           "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
         },
         {
           "trial": 4,
           "warmup": false,
-          "milliseconds": 7.154299993999302,
+          "milliseconds": 7.729299948550761,
           "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
         },
         {
           "trial": 5,
           "warmup": false,
-          "milliseconds": 7.163800066336989,
+          "milliseconds": 8.545499993488193,
           "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
         }
       ]
@@ -52,42 +52,42 @@
       "rows": 10000,
       "input_bytes": 124665,
       "input_sha256": "2bf59efae4bb2973063c6a952f38677078608e940d92f1a2d092ff8ea21b994d",
-      "median_ms": 10.747199994511902,
+      "median_ms": 10.752299916930497,
       "trials": [
         {
           "trial": 0,
           "warmup": true,
-          "milliseconds": 10.533799999393523,
+          "milliseconds": 12.141400016844273,
           "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
         },
         {
           "trial": 1,
           "warmup": false,
-          "milliseconds": 10.25559997651726,
+          "milliseconds": 10.692000039853156,
           "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
         },
         {
           "trial": 2,
           "warmup": false,
-          "milliseconds": 10.747199994511902,
+          "milliseconds": 11.251599993556738,
           "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
         },
         {
           "trial": 3,
           "warmup": false,
-          "milliseconds": 11.160699999891222,
+          "milliseconds": 10.956999962218106,
           "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
         },
         {
           "trial": 4,
           "warmup": false,
-          "milliseconds": 11.427000048570335,
+          "milliseconds": 10.752299916930497,
           "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
         },
         {
           "trial": 5,
           "warmup": false,
-          "milliseconds": 10.66020003054291,
+          "milliseconds": 10.508000035770237,
           "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
         }
       ]
@@ -96,51 +96,51 @@
       "rows": 100000,
       "input_bytes": 1246137,
       "input_sha256": "9ab2028a8d6bb963bc50a6f83e0928c7008cd0dcb68df198d1834807cd12beb3",
-      "median_ms": 28.39360001962632,
+      "median_ms": 31.41890000551939,
       "trials": [
         {
           "trial": 0,
           "warmup": true,
-          "milliseconds": 28.84699997957796,
+          "milliseconds": 29.477100004442036,
           "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
         },
         {
           "trial": 1,
           "warmup": false,
-          "milliseconds": 28.54750002734363,
+          "milliseconds": 30.49630008172244,
           "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
         },
         {
           "trial": 2,
           "warmup": false,
-          "milliseconds": 28.10170000884682,
+          "milliseconds": 30.790999997407198,
           "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
         },
         {
           "trial": 3,
           "warmup": false,
-          "milliseconds": 28.39360001962632,
+          "milliseconds": 34.474899992346764,
           "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
         },
         {
           "trial": 4,
           "warmup": false,
-          "milliseconds": 29.79659999255091,
+          "milliseconds": 31.41890000551939,
           "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
         },
         {
           "trial": 5,
           "warmup": false,
-          "milliseconds": 28.233999968506396,
+          "milliseconds": 31.87960002105683,
           "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
         }
       ]
     }
   ],
-  "native_sha256": "d91cd1785cb3c36de8b7d1e153ac7e216823d76ad1c785c56a31b53b347d5745",
+  "native_sha256": "3ccda90b1916134e8a873ae358aa78fd1fb1e0d28e00588cd1e5bf90a8b0b272",
   "environment": {
-    "source_tree_sha256": "069f796c0b059176f5cbe79609c1f091644c261a1ff2d8b2672f99c73315535f",
-    "git_revision": "e6bb0fcd3ffdfb8067cf3f1e43ea98b3a2f73352",
+    "source_tree_sha256": "46a980b25e54df1f17f02945be6f59f6e8ba52419bb4264cd8a84acf79e7f323",
+    "git_revision": "914b7e2cd02a49c87907d578ea0b736a8cefb71d",
     "compiler": "MSVC 19.44.35225.0",
     "configuration": "Release",
     "platform": "Windows AMD64"
