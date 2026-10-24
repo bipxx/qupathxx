@@ -4604,10 +4604,10 @@ labels and queue counts. The seven eligible pinned QuPath expansion maps remain
 exact. QCL4 body statistics reuse previously validated ROI-domain membership;
 an independent malformed-domain case preserves its sample count yet is rejected.
 
-The built candidate `ee54cdb` passes all 47 native suites, 153 focused Python
-checks, install/stub checks and positive/negative typing. Eight new installed
-cases check exact no-growth/unit-boundary labels, measurements and saved replay.
-Full desktop regression is running. The paired workflow series and all earlier
+The initial built candidate `ee54cdb` passes all 47 native suites, 153 focused Python
+checks and 2,370 full GUI Python cases, with 13 optional skips and three legacy
+scientific xfails. Eight new installed cases check exact no-growth/unit-boundary
+labels, measurements and saved replay. The paired workflow series and all earlier
 pilots, controls and raw observations are retained; default-radius sampled
 detection/reopen medians improve modestly on this uncontrolled fixture, while
 some other timings regress. One-pixel expansion avoids unnecessary work and
@@ -4622,5 +4622,19 @@ also passes all five jobs: GUI 2,364 Python/47 native, Windows headless 1,964/46
 Linux headless 1,962/46, and minimal/sanitizer 46 native each. All 53 sampled
 workflows and both source-pixel-verified NDPI contexts are covered. The portable
 builders pass and their original fresh-consumer jobs remain queued. These
-results do not validate this optimization candidate. Main remains at
-`2afdcb9`, and the full M0–M7 objective remains active.
+results do not validate this optimization candidate. Its
+[portable audit](benchmarks/sampled-cells-portable.json) now also accepts both
+builders and fresh consumers, including 50/48 sampled cases respectively with
+their explicit desktop/large-fixture skip scopes. The exact validated source is
+fast-forwarded from `2afdcb9` to `ddd3bb9` on main; the
+[promotion receipt](benchmarks/sampled-cells-main-promotion.json) excludes this
+optimization candidate and any supported-release claim.
+
+Additional probes then reveal two domain-validation gaps: result equivalence
+omits packed opacity bits, allowing a same-count edit with unchanged empty labels
+to pass replay; an ellipse boundary can be geometrically covered yet outside
+the canonical sample grid. Both new regression cases fail the initial module,
+while the original-domain control passes. Native verification now includes the
+packed domain and decoding enforces the sample grid. The fix passes 47 native
+suites and 156 focused Python cases; clean-source/full validation and updated
+profiling remain required. The full M0–M7 objective remains active.

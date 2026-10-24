@@ -17,7 +17,11 @@ def native(cases):
             'missing small-frontier native equivalence cohort')
     require(all(selected[0].find(k) is None for k in ['failure','error','skipped']),
             'small-frontier native case failed or skipped')
-    return dict(priority_keys=64,heap_equivalence_cases=1344)
+    domain=[t for t in cases if t.get('name')=='log_cell_recipe']
+    require(len(domain)==1 and 'Sampled historical domain excludes covered geometry outside the sample grid' in domain[0].findtext('system-out','') and
+            all(domain[0].find(k) is None for k in ['failure','error','skipped']),
+            'missing native historical-domain grid regression')
+    return dict(priority_keys=64,heap_equivalence_cases=1344,historical_domain_grid_checked=True)
 
 
 def python(cases, root, commit):
@@ -27,13 +31,18 @@ def python(cases, root, commit):
     require(git.returncode==0 and git.stdout==path.read_bytes(),
             'frontier workflow contract differs from dispatched source')
     expected=json.loads(path.read_text())
-    require(expected['schema']=='qpx.expansion-frontier-cohort/1' and
+    require(expected['schema']=='qpx.expansion-frontier-cohort/2' and
             len(expected['cases'])==len(set(expected['cases']))==8,'invalid frontier workflow contract')
     selected=[t for t in cases if t.get('classname','').rsplit('.',1)[-1]==expected['classname']]
     require(sorted(t.get('name') for t in selected)==expected['cases'],'frontier workflow cases differ')
     require(all(t.find(k) is None for t in selected for k in ['failure','error','skipped']),
             'frontier workflow case failed or skipped')
-    return dict(passed=8,cohort_contract_sha256=hashlib.sha256(path.read_bytes()).hexdigest())
+    require(len(expected['domain_cases'])==len(set(expected['domain_cases']))==3,'invalid domain workflow contract')
+    domains=[t for t in cases if t.get('classname','').rsplit('.',1)[-1]==expected['domain_classname']]
+    require(sorted(t.get('name') for t in domains)==expected['domain_cases'],'historical-domain workflow cases differ')
+    require(all(t.find(k) is None for t in domains for k in ['failure','error','skipped']),
+            'historical-domain workflow case failed or skipped')
+    return dict(passed=8,domain_replay_passed=3,cohort_contract_sha256=hashlib.sha256(path.read_bytes()).hexdigest())
 
 
 def unchanged_real_masks(candidate, baseline, padding):

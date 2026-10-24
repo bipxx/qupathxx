@@ -96,3 +96,20 @@ missing, duplicate, skipped, failed and older native cases. The full
 Windows/Linux and Mac command-line gates reject the otherwise-valid earlier
 sampled candidate when the frontier flag is requested. These are engineering
 checks; the flag does not assert a timing improvement or hardware acceptance.
+
+Before publishing this candidate, additional replay probes exposed two gaps in
+the earlier sampled recipe. A checksum-valid opacity-domain edit could preserve
+the sample count and empty labels while passing pixel replay, because result
+comparison omitted the packed domain. An ellipse could also cover a boundary
+point outside the canonical sample grid, which the domain decoder did not
+exclude. The initial module fails both new regressions while its unchanged
+control passes. Verification now compares packed domains, and decoding checks
+the canonical grid as well as geometric coverage. Existing archive versions
+keep their earlier rules. The gate additionally requires all three original/
+changed-domain Python cases and the native ellipse-grid regression.
+
+The initial 2,370-pass full regression and performance profiles remain bound to
+source `ee54cdb`, before these fixes; they are retained as initial evidence.
+The domain-fix build passes 47 native suites and 156 focused Python cases.
+Final clean-source validation and performance measurements must be rerun before
+accepting or publishing the updated candidate.
