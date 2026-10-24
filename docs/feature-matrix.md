@@ -68,9 +68,12 @@ hardware, biological and supported-release acceptance remain separate.
 A separate [multi-grid cohort candidate](tma-cohorts.md) now implements captured
 raw-row pooling, image/core namespaces, canonical source manifests, native/Python
 file APIs, explicit project CLI selection and an ImGui project-pooling control.
-Its first Windows SDK build passes 47 native suites and 111 TMA API/CLI cases.
-One of 17 desktop cases exposes an owner-thread status defect; a fix awaits
-rebuild. Full installed, desktop and platform acceptance remains open.
+The [fixed installed Windows build](benchmarks/tma-cohort-validation-windows.json)
+passes 47 native suites, all 128 focused TMA cases and 2,470 full Python tests,
+with 13 optional skips and the same three strict science xfails. The owner-thread
+status defect is fixed; the saved-state two-grid capture is visually reviewed.
+[Both Mac native audits](benchmarks/tma-cohort-macos.json) accept all 46 suites.
+Complete Windows/Linux and portable acceptance remain open.
 
 The accepted TMA case-summary engine adds native/Python/ImGui single-grid replicate
 pooling, explicit weighting, missing-core exclusion, unassigned-core isolation,

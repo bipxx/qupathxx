@@ -5,11 +5,15 @@ It extends the [single-grid workflow](tissue-microarrays.md); existing single-gr
 CSV schemas and output bytes are retained. Native core/file regressions and
 13 standalone CLI probes pass. The [first installed Windows build](benchmarks/tma-cohort-initial-windows.json)
 passes 47 native suites and 111 TMA API/CLI cases, including 46 new cohort cases.
-Desktop replay passes 16 of 17 cases and exposes an owner-thread preflight error
-that leaves the export status idle. A fix sets failed state and clears the
-published byte count; it requires a rebuilt wheel and replay before acceptance.
-Generated packaged stubs, full regression and source-bound platform validation
-are still pending.
+Initial desktop replay passed 16 of 17 cases and exposed an owner-thread
+preflight error that left the export status idle. The rebuilt fix passes all
+17 desktop cases, packaged stubs and typing. The [full installed validation](benchmarks/tma-cohort-validation-windows.json)
+passes 2,470 Python tests, 13 optional skips and three unchanged strict science
+xfails, plus 47 native suites. The saved-state cohort capture is visually
+reviewed and verifies weighted mean 5 across two grids with zero UI overflow.
+[Both Mac native architectures](benchmarks/tma-cohort-macos.json) pass all 46
+suites, including cohort pooling and atomic file markers. Complete Windows/Linux
+and portable builder/consumer acceptance remain pending.
 
 ## Captures and identity
 
@@ -132,4 +136,5 @@ cohort desktop cases. The no-project failure reports failed state and retains
 its input. Packaged stubs, positive/negative typing and all 258 raw compiler
 inputs match their stated evidence. Twenty [altered-evidence controls](benchmarks/tma-cohort-audit-controls.json)
 reject old, missing, duplicate, failed, skipped and stale evidence. Full
-installed regression, final capture review and platform audits are pending.
+installed regression and capture review now pass as recorded above; complete
+Windows/Linux and portable platform acceptance remain pending.

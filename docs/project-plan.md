@@ -4769,6 +4769,11 @@ The initial scale probe independently checks 24 retained observations through
 one million rows across four grids and 3,996 cores. All 108 inherited
 single-grid paired samples retain identical CSV hashes; timings are mixed and
 do not establish a general speedup. See the [cohort contract](tma-cohorts.md).
-Final installed stubs/typing, positive fixed desktop replay, full regression,
-platform audits, peak memory and hardware acceptance remain open. M0-M7 remain
-partial; no license or supported-release acceptance is implied.
+The [fixed full Windows validation](benchmarks/tma-cohort-validation-windows.json)
+now passes 47 native suites, 128 focused cases and 2,470 Python tests, with 13
+optional skips and three unchanged strict science xfails. Packaged stubs, typing,
+all 17 desktop cases and the visually reviewed saved-state cohort capture pass.
+[Both Mac native audits](benchmarks/tma-cohort-macos.json) also pass all 46 suites
+with the cohort markers required. Complete Windows/Linux and portable audits,
+peak memory and hardware acceptance remain open. M0-M7 remain partial; no license
+or supported-release acceptance is implied.
