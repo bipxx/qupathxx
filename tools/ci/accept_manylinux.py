@@ -228,6 +228,45 @@ def ndpi_cohorts(folder):
     return report
 
 
+def watershed_body_cohorts(folder):
+    """Require all captured body recipes in builders and fresh consumers."""
+    contract=read(Path(__file__).resolve().parents[2]/'tests/fixtures/qupath-cells-0.7.0/contract.json')
+    desktop={'test_body_gui_captured_recipe_and_published_pixels',
+             'test_body_managed_viewer_copies_recipe_and_reopens_retained_result',
+             'test_body_gui_batch_keeps_distinct_recipe'}
+    expected={f"test_production_body_mode_pinned_labels_and_measurements[{tile}-{case['name']}]"
+              for tile in contract['tile_sizes'] for case in contract['cases']}
+    expected.update(f'test_body_worker_rejects_stale_authority_and_cancellation[{change}]'
+                    for change in ['selection','rename','close','authority','cancel'])
+    expected.update(f'test_body_mode_natural_level_identity_and_work_admission[{level}]' for level in range(3))
+    expected.update(desktop|{'test_body_archive_replay_classifier_and_legacy_records',
+                            'test_body_batch_mode_has_distinct_resume_and_cli_recipe',
+                            'test_body_candidate_limit_failure_keeps_document_and_worker_reusable',
+                            'test_body_expansion_respects_transparent_source_domain'})
+    report=[]
+    for version in ['3.11','3.12']:
+        build=Path(folder)/('manylinux-'+version)
+        native=list(ET.parse(build/'native-tests.xml').getroot().iter('testcase'))
+        expansion=[t for t in native if t.get('name')=='cell_expansion']
+        require(len(expansion)==1 and all(expansion[0].find(k) is None for k in ['failure','error','skipped']),
+                'native cell expansion suite missing or did not pass')
+        for cohort,path in [('builder',build/'python-tests.xml'),
+                            ('consumer',Path(folder)/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+            cases=[t for t in ET.parse(path).getroot().iter('testcase')
+                   if t.get('classname','').endswith('test_log_body_cells')]
+            require(len(cases)==42 and {t.get('name') for t in cases}==expected,
+                    'production watershed-body cohort differs')
+            require(all(t.find('failure') is None and t.find('error') is None for t in cases),
+                    'production watershed-body case failed')
+            skipped=[t for t in cases if t.find('skipped') is not None]
+            require({t.get('name') for t in skipped}==desktop and
+                    all(t.find('skipped').get('type')!='pytest.xfail' for t in skipped),
+                    'unexpected skipped or expected-failing watershed-body cases')
+            report.append(dict(python=version,cohort=cohort,passed=39,desktop_skipped=3,
+                               cases=[t.get('name') for t in cases],junit_sha256=sha(path)))
+    return report
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--artifacts',type=Path,required=True)
@@ -236,12 +275,15 @@ def main():
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--unified-engine',action='store_true',help='Also require the explicit LoG, decimal parser and cache cohorts in all four Python runs')
     parser.add_argument('--ndpi-readers',action='store_true',help='Also require NDPI builder and default native-link cases; consumers retain their small-fixture scope')
+    parser.add_argument('--watershed-bodies',action='store_true',help='Also require all production body recipes and native expansion in both builders/consumers')
     args=parser.parse_args()
     report=audit(args.artifacts,read(args.run_json),args.commit)
-    if args.unified_engine or args.ndpi_readers:
+    if args.unified_engine or args.ndpi_readers or args.watershed_bodies:
         report['unified_engine_cohorts']=unified_cohorts(args.artifacts)
     if args.ndpi_readers:
         report['ndpi_reader_cohorts']=ndpi_cohorts(args.artifacts)
+    if args.watershed_bodies:
+        report['watershed_body_cohorts']=watershed_body_cohorts(args.artifacts)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(state=report['state'],commit=report['commit'],release_ready=False)))
