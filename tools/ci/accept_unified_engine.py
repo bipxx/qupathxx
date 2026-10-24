@@ -23,6 +23,7 @@ parser.add_argument('run');parser.add_argument('commit')
 parser.add_argument('--artifacts',type=Path,default=ROOT/'build/ci/unified121-hosted')
 parser.add_argument('--output',type=Path,default=ROOT/'build/unified-ci-windows-linux.json')
 parser.add_argument('--ndpi-readers',action='store_true',help='Also require real nine-level NDPI and default native project-link regressions')
+parser.add_argument('--rendered-loop',action='store_true',help='Require ordinary, startup and bounded long-session rendered-loop timing cases')
 parser.add_argument('--linux-only',action='store_true',help='Audit only the three successful Linux jobs; never accepts the full matrix')
 args=parser.parse_args();RUN=args.run;COMMIT=args.commit
 def sha(path):
@@ -538,6 +539,22 @@ for job in run['jobs']:
             fixture_bytes=fixture['bytes'],dimensions=fixture['dimensions'],pixel_size_um=fixture['pixel_size_um'],
             native_project_save_replay_exercised=True,cases=[dict(name=t.get('name'),skipped=t.find('skipped') is not None) for t in ndpi],
             default_attachment_cases=[t.get('name') for t in attachments])
+    if args.rendered_loop and (folder/'python-tests.xml').exists():
+        required = {
+            ('test_gui_tiles', 'test_real_tiled_render_and_cleanup'),
+            ('test_gui_tiles', 'test_rendered_loop_timing_retains_bounded_recent_samples'),
+            ('test_gui_startup', 'test_startup_validates_then_adopts_and_selects_image[project]'),
+            ('test_gui_startup', 'test_startup_validates_then_adopts_and_selects_image[recovery]'),
+        }
+        cases = [t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase')
+                 if (t.get('classname', '').rsplit('.', 1)[-1], t.get('name')) in required]
+        assert len(cases) == len(required), 'missing rendered-loop timing contract cases'
+        assert not any(t.find('failure') is not None or t.find('error') is not None for t in cases)
+        desktop = 'GUI' in job['name']
+        assert all((t.find('skipped') is None) == desktop for t in cases)
+        entry['rendered_loop_timing'] = dict(
+            passed=4 if desktop else 0, desktop_skipped=0 if desktop else 4,
+            cases=[t.get('name') for t in cases], performance_accepted=False)
     report['jobs'].append(entry)
 report['fixture_retraining']=dict(local_and_audited_hosted_models_identical=True,
     model_sha256=local['model_sha256'],training_sha256=local['training_sha256'],
