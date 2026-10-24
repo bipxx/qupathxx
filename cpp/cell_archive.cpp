@@ -174,7 +174,11 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* d
         std::vector<Stats> stats(components);
         for(std::size_t i=0;i<count;++i) {
             if((i&4095)==0) checkpoint(cancelled);const auto label=r->labels_[i];if(!label) continue;const auto xx=i%width,yy=i/width;auto& s=stats[label-1];
-            if(body && (x+xx<left || y+yy<top || x+xx>=right || y+yy>=bottom || !roi.contains({(double(x)+xx+.5)*scale,(double(y)+yy+.5)*scale}))) throw std::invalid_argument("cell label exceeds source ROI");
+            // QCL4 already checked every opaque domain sample against the ROI
+            // and rejected every label outside that domain. Reuse that proof
+            // instead of repeating a geometry predicate for each body pixel.
+            if(body && (x+xx<left || y+yy<top || x+xx>=right || y+yy>=bottom ||
+                        (version<4 && !roi.contains({(double(x)+xx+.5)*scale,(double(y)+yy+.5)*scale})))) throw std::invalid_argument("cell label exceeds source ROI");
             ++s.n;s.sx+=xx;s.sy+=yy;s.minx=std::min<std::uint64_t>(s.minx,xx);s.miny=std::min<std::uint64_t>(s.miny,yy);s.maxx=std::max<std::uint64_t>(s.maxx,xx);s.maxy=std::max<std::uint64_t>(s.maxy,yy);
         }
         r->components_.reserve(components);

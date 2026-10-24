@@ -95,6 +95,19 @@ int main() {
         const auto blank_bytes=CellArchiveCodec::encode(*blank_result);require(CellArchiveCodec::encode(*CellArchiveCodec::decode(blank_bytes.data(),blank_bytes.size(),blank_request.roi(),blank_doc.metadata()))==blank_bytes);
         {auto bad=blank_bytes;bad[bad.size()-65]|=128;sign(bad,blank_request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),blank_request.roi(),blank_doc.metadata());});}
         {auto bad=blank_bytes;bad[bad.size()-64-4-8]^=1;sign(bad,blank_request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),blank_request.roi(),blank_doc.metadata());});}
+        {
+            Document contextual(Image(11,11,std::vector<std::uint8_t>(11*11*3,255)));
+            const auto region=contextual.add_rectangle({3,3,5,5});
+            const CellRequest context_request(contextual,region,transform,sampled);
+            const auto empty=detect_cells(context_request);require(empty->features().empty() && empty->nuclei()->samples()==25);
+            auto bad=CellArchiveCodec::encode(*empty);const auto first=bad.size()-64-(121+7)/8;
+            // Preserve the sample count while moving an opaque domain bit
+            // outside the ROI. Domain validation must reject it even with no
+            // body pixels on which to repeat the geometry predicate.
+            bad[first]^=1;bad[first+36/8]^=static_cast<std::uint8_t>(1u<<(36%8));
+            sign(bad,context_request.roi());
+            rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),context_request.roi(),contextual.metadata());});
+        }
         auto unsupported=sampled;unsupported.min_seed_distance=4;rejects([&]{unsupported.validate();});unsupported=sampled;unsupported.min_peak_radius=1;rejects([&]{unsupported.validate();});unsupported=sampled;unsupported.connectivity=4;rejects([&]{unsupported.validate();});
         require(CellArchiveCodec::encode(*restored)==bytes && CellArchiveCodec::encode(*body_restored)==body_bytes && CellArchiveCodec::encode(*sampled_restored)==sampled_bytes);
         std::cout<<"Sampled LoG QCL4, explicit seed preset, typed recipe identities, replay and QCL1/2/3 preservation passed\n";
