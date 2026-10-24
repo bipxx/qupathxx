@@ -1,4 +1,5 @@
 #include "../log_watershed.hpp"
+#include "../shape_watershed.hpp"
 #include "build_manifest.hpp"
 #include <cstring>
 #include <fstream>
@@ -46,6 +47,26 @@ std::uint32_t read_integer(std::istream& stream) {
 void write_integer(std::ostream& stream,std::uint32_t value) {
     for(unsigned i=0;i<4;++i) stream.put(static_cast<char>((value>>(i*8))&255));
 }
+void shape_probe(const char* input,const char* output) {
+    std::ifstream stream(input,std::ios::binary);char magic[4];stream.read(magic,4);require(stream.good() && std::memcmp(magic,"QLR1",4)==0);
+    const auto width=read_integer(stream),height=read_integer(stream);read_integer(stream);
+    require(width && height && std::uint64_t(width)*height<=1024*1024);std::vector<std::uint8_t> mask(std::size_t(width)*height);
+    for(auto& value:mask) value=read_integer(stream)!=0;require(stream.peek()==std::char_traits<char>::eof());
+    const auto result=qpx::cell_detail::sampled_shape_watershed(mask,width,height);
+    std::ofstream target(output,std::ios::binary|std::ios::trunc);require(bool(target));target.write("QLR1",4);
+    write_integer(target,width);write_integer(target,height);write_integer(target,1);for(auto v:result.mask) write_integer(target,v);target.flush();require(bool(target));
+}
+void shape_contract() {
+    using qpx::cell_detail::sampled_shape_watershed;
+    const std::vector<std::uint8_t> blank(25),full(25,1),single={0,0,0,0,1,0,0,0,0};
+    require(sampled_shape_watershed(blank,5,5).mask==blank);require(sampled_shape_watershed(full,5,5).mask==full);
+    require(sampled_shape_watershed(single,3,3).mask==single);
+    bool invalid=false;try {sampled_shape_watershed(single,2,3);} catch(const std::invalid_argument&) {invalid=true;}require(invalid);
+    bool bounded=false;try {sampled_shape_watershed(single,3,3,.5,100,1);} catch(const std::length_error&) {bounded=true;}require(bounded);
+    std::atomic<bool> cancelled{true};bool stopped=false;try {sampled_shape_watershed(single,3,3,.5,100,100000,&cancelled);} catch(const std::runtime_error&) {stopped=true;}require(stopped);
+    std::vector<std::uint8_t> particles(81);for(std::size_t y=1;y<9;y+=3) for(std::size_t x=1;x<9;x+=3) particles[y*9+x]=1;
+    bool limited=false;try {sampled_shape_watershed(particles,9,9,.5,1);} catch(const std::length_error&) {limited=true;}require(limited);
+}
 void probe(const char* input,const char* output,bool response_basins=false,bool regions_only=false,bool dual_background=false) {
     std::ifstream stream(input,std::ios::binary);char magic[4];stream.read(magic,4);
     require(stream.good() && std::memcmp(magic,"QLP1",4)==0);
@@ -80,9 +101,11 @@ int main(int argc,char** argv) {
         if(argc==4 && std::string(argv[1])=="--response-regions") {probe(argv[2],argv[3],true,true);return 0;}
         if(argc==4 && std::string(argv[1])=="--dual-background") {probe(argv[2],argv[3],false,false,true);return 0;}
         if(argc==4 && std::string(argv[1])=="--dual-regions") {probe(argv[2],argv[3],false,true,true);return 0;}
+        if(argc==4 && std::string(argv[1])=="--shape-split") {shape_probe(argv[2],argv[3]);return 0;}
         require(argc==1);
         using namespace qpx::cell_detail;
         reconstruction_oracle();
+        shape_contract();
         std::vector<std::uint8_t> leak4={0,1,1,1,0,1,1,1,1},leak8=leak4;
         log_fill_holes(leak4,3,3,nullptr);log_fill_holes(leak8,3,3,nullptr,true);
         require(leak4[4]==1 && leak8[4]==0);
