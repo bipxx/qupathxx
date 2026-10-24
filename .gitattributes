@@ -59,3 +59,5 @@ docs/benchmarks/darwin-declarations-*.json -text whitespace=cr-at-eol
 docs/benchmarks/gui-stack-*.json -text whitespace=cr-at-eol
 docs/benchmarks/cell-expansion-*.json -text whitespace=cr-at-eol
 tools/compare_cell_expansion.py text eol=lf
+docs/benchmarks/watershed-bodies-*.json -text whitespace=cr-at-eol
+docs/benchmarks/qupath-cells-watershed-bodies-*.json -text whitespace=cr-at-eol

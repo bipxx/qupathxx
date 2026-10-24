@@ -4400,3 +4400,22 @@ cancellation, direct GUI, managed viewer and desktop batch recipes. Existing LoG
 and distance tests remain in place. Production, typed-wheel, full native/GUI,
 hosted, portable, Mac, scientific and performance gates remain pending; the
 standalone expansion receipt does not qualify these changed production inputs.
+
+
+Packet133's combined typed source2afd (including private-zlib isolation) passes
+47 native suites and all92 focused Python cases:42 new body cases plus50
+existing LoG cases. Installed workflow, generated stubs, three positive typing
+inputs and all seven negative typing rejections pass. The [local receipt](benchmarks/watershed-bodies-windows-local.json)
+verifies251 committed inputs against the compiled fingerprint and keeps the
+exact native/tool/test identities. The [production comparison](benchmarks/qupath-cells-watershed-bodies-windows.json)
+accepts seven exact pinned nucleus maps and eight exact body maps, including
+the ROI-hole body. ROI-hole nuclei and the deliberately unmatched resampled
+case remain different. All42 explicit-winding compartment gates and three-tile
+invariance pass without relaxed tolerances; broad segmentation/biology remain
+false. Existing distance/LoG encodings and default behavior are retained.
+
+Full local GUI regression is running. Exact source2afd Windows/Linux run40073408498
+and Mac run40073489057 are independent gates. The new explicit source-auditor
+mode requires the extra native suite,42 body workflow cases and bound nine-case
+comparison; an older accepted engine rejects under that mode. Full local/hosted,
+portable, Mac, performance, license and supported-release/M0–M7 gates stay open.

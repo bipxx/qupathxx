@@ -1,0 +1,65 @@
+{
+  "schema": "qpx.production-watershed-bodies-local/1",
+  "source": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+  "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+  "source_projection": {
+    "actual_source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+    "git_lf_source_tree_sha256": "2574939bad225f90a7698980f7e8c0203dd4b1c0b977f5f3a9c08eb20b556d94",
+    "input_count": 251,
+    "committed_inputs_match_compiled": true
+  },
+  "checks": {
+    "native": {
+      "passed": 47,
+      "sha256": "f13fe284245bacb55d9b84d5620e37e3ed2a068f11c92704d764c4bf3592cf99"
+    },
+    "focused": {
+      "passed": 92,
+      "sha256": "fc319420909e7ca4f7f4e26a9786798f38a7c85ea6348f234b2a7edaa24470ab"
+    }
+  },
+  "installed_workflow_sha256": "27ef11699b45181c40dbc8a41677e7a6c869249bb3d194205899aacd2ff605d6",
+  "stubs_sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+  "positive_typing_sha256": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+  "negative_typing": {
+    "rejected_lines": [
+      6,
+      7,
+      8,
+      9,
+      11,
+      13,
+      14
+    ],
+    "sha256": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "production_comparison_sha256": "d938b5b950438666fa165cbf2dd821947e5897e9e857a1a902a79ab8db6ff252",
+  "exact_pinned_masks": {
+    "nucleus": [
+      "blank",
+      "isolated_three",
+      "touching_pair",
+      "gap_pair",
+      "size_filters",
+      "gradient_noise",
+      "anisotropic_level0"
+    ],
+    "body": [
+      "blank",
+      "isolated_three",
+      "touching_pair",
+      "gap_pair",
+      "size_filters",
+      "roi_cut_hole",
+      "gradient_noise",
+      "anisotropic_level0"
+    ]
+  },
+  "explicit_winding_compartments": 42,
+  "full_gui_accepted": false,
+  "hosted_matrix_accepted": false,
+  "macos_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "scope": "Local typed GUI wheel/native/focused/installed validation and nine-case pinned characterization. Full local GUI is running. ROI-hole nuclei and unmatched resampling remain different; no broad segmentation, biological, hardware or M0-M7 acceptance."
+}

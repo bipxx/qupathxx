@@ -63,8 +63,26 @@ aware table schemas. Shared ImGui cell and batch controls expose “LoG with
 watershed bodies”; managed viewer commands capture the same native parameters.
 LoG prominence/context options apply to both LoG variants.
 
-The first production wheel is building. New workflow checks cover the pinned
+The [local typed production wheel](benchmarks/watershed-bodies-windows-local.json)
+passes 47 native suites, 92 focused Python cases, installed workflow, generated
+stub consistency, three positive typing inputs and seven intended negative
+typing rejections. All 251 committed CMake inputs match the compiled source
+fingerprint at `2afdcb99555bf142211cdfa836a4671a6f54bbf1`, including the
+private TIFF-zlib symbol-isolation fix. New workflow checks cover the pinned
 corpus, independent compartment RGB means, tile invariance, all three saved
 recipe modes and classifier sources, CLI/batch resume, pyramid work admission,
 stale-result/cancellation behavior and direct/batch/managed desktop capture.
-Passing expansion-only checks above does not accept this production integration.
+The [nine-case production comparison](benchmarks/qupath-cells-watershed-bodies-windows.json)
+now records exact nucleus labels in seven natural-grid cases and exact body
+labels in eight, including the ROI-hole case. The ROI-hole nucleus foreground
+IoU remains 0.969849; the resampled nucleus/body IoU is 0.938983/0.938699.
+All 42 explicit-winding shared-geometry measurements retain their original
+tolerances and pass, and all detector labels/features are tile-invariant.
+The comparison retains segmentation parity and biological validation as false.
+
+The full local GUI regression and source-specific Windows/Linux/Mac runs are
+pending. Use the source auditor with `--watershed-bodies --ndpi-readers
+--rendered-loop --gui-stack` to require the new native suite, all 42 production
+body cases (three desktop-only) and source/native/tool-bound comparison output.
+It accepts the old engine under the old gates and rejects it under the new mode.
+Portable consumers, broad science, hardware and supported release remain open.

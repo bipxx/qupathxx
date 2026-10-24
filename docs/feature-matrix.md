@@ -192,3 +192,13 @@ native/1,812 Python and fresh consumers1,773 Python, with the large-fixture
 consumer skips preserved in the [receipt](benchmarks/portable-ndpi-build-consumer.json).
 Mac124 and the remaining research/hardware/release gates stay open. One real
 NDPI family narrows the reader gap without accepting the whole M1 inventory.
+
+
+The explicit [watershed-body LoG recipe](cell-expansion.md) adds strict-radius
+four-connected expansion with collision lines, preserved through QCL3/QCA3,
+Python/CLI/batches/ImGui and managed viewer captures. Local source2afd passes
+47 native and92 focused cases plus installed/stub/typing gates. Its independent
+production corpus has seven exact nucleus maps and eight exact body maps;
+ROI-edge nuclei and unmatched-grid resampling retain measured differences.
+The full GUI and hosted platform gates are pending. Cell detection remains
+Partial; expansion/kernel comparisons do not establish broader biology or M5.
