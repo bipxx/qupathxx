@@ -7,7 +7,7 @@ this hardware; large-object, large-pyramid, reader, analysis and long-batch
 budgets remain separate requirements in the project plan.
 
 Use the exact Windows GUI wheel from native source
-`459361c78f5994300f9bb5b7fb6ddd01f47eab3c`, after its source-specific installed
+`794f29f2629112a3b36452b1b259a361576468c7`, after its source-specific installed
 Windows/Linux artifact audit passes. The trial record must retain the wheel,
 native and benchmark script hashes, compiled Git revision and source fingerprint.
 Use a fresh installation without software OpenGL DLLs. Require the actual
@@ -63,4 +63,11 @@ The driver rejects earlier/partial engine audits before opening a window. It
 checks the installed binary against the audited GUI artifact, retains all raw
 trials, phase traces, logs, load readings and failures, and reports only the
 named navigation target's acceptance. Use the existing source auditor with
-`--ndpi-readers --rendered-loop` to prepare the required full engine audit.
+`--ndpi-readers --rendered-loop --gui-stack` to prepare the required full engine audit.
+
+The earlier source459 was not qualified: its GUI matrix failed a standalone
+project-startup case with a native stack-overflow status. Source794 moves large
+session UI storage off the caller's stack and adds repeated startup on the
+unchanged 1 MiB native executable stack. The replacement source must pass the
+full matrix before any qualification trial. Workload, hardware, tolerances,
+33 ms target and frozen viewer-script bytes remain unchanged.

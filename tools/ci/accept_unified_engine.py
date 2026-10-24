@@ -24,6 +24,7 @@ parser.add_argument('--artifacts',type=Path,default=ROOT/'build/ci/unified121-ho
 parser.add_argument('--output',type=Path,default=ROOT/'build/unified-ci-windows-linux.json')
 parser.add_argument('--ndpi-readers',action='store_true',help='Also require real nine-level NDPI and default native project-link regressions')
 parser.add_argument('--rendered-loop',action='store_true',help='Require ordinary, startup and bounded long-session rendered-loop timing cases')
+parser.add_argument('--gui-stack',action='store_true',help='Require repeated native project startup on the default Windows executable stack')
 parser.add_argument('--linux-only',action='store_true',help='Audit only the three successful Linux jobs; never accepts the full matrix')
 args=parser.parse_args();RUN=args.run;COMMIT=args.commit
 def sha(path):
@@ -555,6 +556,18 @@ for job in run['jobs']:
         entry['rendered_loop_timing'] = dict(
             passed=4 if desktop else 0, desktop_skipped=0 if desktop else 4,
             cases=[t.get('name') for t in cases], performance_accepted=False)
+    if args.gui_stack and (folder/'python-tests.xml').exists():
+        cases = [t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase')
+                 if t.get('classname', '').endswith('test_gui_startup') and
+                 t.get('name') == 'test_native_launcher_repeated_project_startup_with_default_stack']
+        assert len(cases) == 1, 'missing default-stack native launcher regression'
+        case = cases[0]
+        assert case.find('failure') is None and case.find('error') is None
+        desktop = 'GUI' in job['name']
+        assert (case.find('skipped') is None) == desktop
+        entry['gui_stack'] = dict(passed=int(desktop), desktop_skipped=int(not desktop),
+                                 native_processes=8 if desktop else 0,
+                                 default_executable_stack_bytes=1024*1024)
     report['jobs'].append(entry)
 report['fixture_retraining']=dict(local_and_audited_hosted_models_identical=True,
     model_sha256=local['model_sha256'],training_sha256=local['training_sha256'],
@@ -563,6 +576,7 @@ report['auditor']=dict(path='tools/ci/accept_unified_engine.py',sha256=sha(Path(
 report['windows_linux_engineering_scope_accepted']=not args.linux_only
 report['linux_engineering_scope_accepted']=True
 report['ndpi_readers_required']=args.ndpi_readers
+report['gui_stack_required']=args.gui_stack
 report['performance_accepted']=False
 report['macos_accepted']=False
 report['release_ready']=False
