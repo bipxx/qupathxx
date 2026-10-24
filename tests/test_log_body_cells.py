@@ -60,8 +60,8 @@ def test_body_archive_replay_classifier_and_legacy_records(tmp_path):
     doc, obj, transform = scene()
     records, ids, modes = [], [], {}
     for p in [q.CellParameters(), parameters(), body_parameters()]:
-        result = q.detect_cells(q.CellRequest(doc, obj, transform, p))
         request = q.CellRequest(doc, obj, transform, p)
+        result = q.detect_cells(request)
         record = doc.keep_cells(request, result)
         records.append((record, result))
         published = doc.publish_cell_record(record)
