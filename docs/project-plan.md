@@ -4022,8 +4022,11 @@ Generated public stubs are frozen at source `7f47a963e0d0a3f51a9c35681eb4ad8116e
 the rebuilt wheel passes 45 native suites, 50 focused cases, installed workflows,
 matching stubs and strict positive/negative typing. Full regression remains
 running. `tools/profile_log_cells.py` adds isolated-process scaling, process
-peak-memory observations and tile-invariant label/feature checks; smoke runs at
-256 and 1024 pixels pass, while the repeated profile remains pending. No hardware,
+peak-memory observations and tile-invariant label/feature checks. The repeated
+[profile](benchmarks/log-cell-scaling-windows.json) now passes 24 fresh-process
+observations (six excluded warmups), with all output hashes invariant across
+tile-size arms. At 1024 square pixels, median detection is 384–463 ms and whole
+process peak working set is about 107 MiB. No hardware,
 RSS-budget, biological or full-platform acceptance is claimed. This candidate
 still needs integration with separately validated parser, Darwin-width and
 boundary-cache changes before unified qualification and main promotion.
