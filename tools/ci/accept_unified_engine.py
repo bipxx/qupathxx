@@ -27,8 +27,10 @@ parser.add_argument('--rendered-loop',action='store_true',help='Require ordinary
 parser.add_argument('--gui-stack',action='store_true',help='Require repeated native project startup on the default Windows executable stack')
 parser.add_argument('--watershed-bodies',action='store_true',help='Require strict-radius production body recipes, native expansion and pinned comparison')
 parser.add_argument('--sampled-shape',action='store_true',help='Also require all 26 frozen native masks/maxima and 53 capture/cohort checks; implies watershed bodies')
+parser.add_argument('--sampled-cells',action='store_true',help='Require QCL4 production recipe, 53 sampled workflow cases and independent comparison; implies sampled shape')
 parser.add_argument('--linux-only',action='store_true',help='Audit only the three successful Linux jobs; never accepts the full matrix')
 args=parser.parse_args();RUN=args.run;COMMIT=args.commit
+args.sampled_shape=args.sampled_shape or args.sampled_cells
 args.watershed_bodies=args.watershed_bodies or args.sampled_shape
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -619,6 +621,41 @@ for job in run['jobs']:
             entry['watershed_bodies']=dict(passed=42-len(skipped),desktop_skipped=len(skipped),
                 exact_natural_grid_cases=sorted(exact),comparison_sha256=sha(folder/'qupath-cells-body-comparison.json'),
                 broader_segmentation_parity_accepted=False)
+    if args.sampled_cells:
+        selected=[t for t in native_cases if t.get('name')=='log_cell_recipe']
+        assert len(selected)==1
+        native_output=selected[0].findtext('system-out','')
+        assert 'Sampled LoG QCL4, explicit seed preset, typed recipe identities, replay and QCL1/2/3 preservation passed' in native_output
+        assert 'Sampled clipped components without in-ROI markers retain measurements and replay labels' in native_output
+        contract='tests/fixtures/imagej-shape-1.54p/sampled-cell-workflows.json'
+        assert (ROOT/contract).read_bytes()==subprocess.check_output(['git','-C',str(ROOT),'show',COMMIT+':'+contract])
+        expected=json.loads((ROOT/contract).read_text())
+        assert len(expected['cases'])==53 and len(expected['desktop_cases'])==3
+        accepted=dict(native_qcl4=True,clipped_measurements=True,cohort_contract_sha256=sha(ROOT/contract))
+        if (folder/'python-tests.xml').exists():
+            cases=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase')
+                   if t.get('classname','').rsplit('.',1)[-1]==expected['classname']]
+            assert sorted(t.get('name') for t in cases)==expected['cases'], 'sampled production cohort differs'
+            assert not any(t.find('failure') is not None or t.find('error') is not None for t in cases)
+            skipped={t.get('name') for t in cases if t.find('skipped') is not None}
+            assert skipped==(set() if 'GUI' in job['name'] else set(expected['desktop_cases']))
+            observation=json.loads((folder/'qupath-cells-sampled-comparison.json').read_text())
+            assert observation['cell_algorithm']=='log-sampled' and observation['build_git_revision']==COMMIT
+            assert observation['native_sha256']==entry['workflow']['native_sha256']
+            assert observation['source_tree_sha256']==entry['workflow']['source_tree_sha256']
+            assert observation['comparison_tool_sha256']==sha(ROOT/'tools/compare_qupath_cells.py')
+            assert observation['explicit_winding_sampling_accepted'] and observation['explicit_winding_compartments']==42
+            assert not observation['segmentation_parity_accepted'] and not observation['biological_validation']
+            assert len(observation['cases'])==9
+            exact={'blank','isolated_three','touching_pair','gap_pair','size_filters','gradient_noise','anisotropic_level0'}
+            for case in observation['cases']:
+                assert case['tile_invariant']
+                if case['case_name'] not in exact: continue
+                for mask in case['segmentation'].values():
+                    assert mask['foreground_iou']==1 and mask['unmatched_reference']==mask['unmatched_native']==0
+                    assert all(match['iou']==1 and match['centroid_error_px']==0 for match in mask['matches'])
+            accepted.update(passed=53-len(skipped),desktop_skipped=len(skipped),comparison_sha256=sha(folder/'qupath-cells-sampled-comparison.json'))
+        entry['sampled_cells']=accepted
     report['jobs'].append(entry)
 report['fixture_retraining']=dict(local_and_audited_hosted_models_identical=True,
     model_sha256=local['model_sha256'],training_sha256=local['training_sha256'],
@@ -630,6 +667,7 @@ report['ndpi_readers_required']=args.ndpi_readers
 report['gui_stack_required']=args.gui_stack
 report['watershed_bodies_required']=args.watershed_bodies
 report['sampled_shape_required']=args.sampled_shape
+report['sampled_cells_required']=args.sampled_cells
 report['performance_accepted']=False
 report['macos_accepted']=False
 report['release_ready']=False
