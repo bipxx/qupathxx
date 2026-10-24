@@ -4865,7 +4865,15 @@ with the independent ELF oracle and pass source-bound helper/CLI verification.
 See the [Linux manifest contract](linux-runtime-manifests.md),
 [local receipt](benchmarks/linux-runtime-manifest-local-windows.json) and
 [controls](benchmarks/linux-runtime-manifest-controls.json). Native engine inputs
-are unchanged; new hosted qualification and promotion are pending. Dynamic
+are unchanged. Exact-source
+[Windows/Linux](benchmarks/linux-runtime-manifest-engine.json),
+[Mac](benchmarks/linux-runtime-manifest-macos.json) and
+[portable builder/consumer](benchmarks/linux-runtime-manifest-portable.json)
+audits pass with all 180 exact manifest/ELF cases in each of seven installed
+Python cohorts. Windows GUI passes 2,653 Python/47 native tests; Windows headless
+2,243/46 and Linux headless 2,241/46. Minimal/sanitizer and both Mac jobs retain
+all 46 native suites. [Promotion](benchmarks/linux-runtime-manifest-main-promotion.json)
+fast-forwards main from `d943e9c` to exact audited source `82e159f`. Dynamic
 loader/runtime availability, ELF version-export validity, Mach-O, supported
 installers/signing, licensing, hardware and biology remain open; full M0-M7
 completion is not claimed.

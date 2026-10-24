@@ -117,5 +117,8 @@ per size). At 4,096 modules and 12,293 edges, the first run's median changes fro
 4,944.70 ms to 7.27 ms; the final run changes from 5,930.50 ms to 13.35 ms.
 Final separate traced peaks are 246,688 baseline bytes and 707,192 indexed
 bytes, an increase of 460,504 bytes. All three package manifest hashes and all
-seeded graph/rejection outcomes agree. Hosted candidate validation and main
-promotion remain pending.
+seeded graph/rejection outcomes agree. The indexed tool bytes are unchanged in
+accepted candidate 148, whose seven installed Python cohorts include the new
+regression. [Promotion](benchmarks/linux-runtime-manifest-main-promotion.json)
+brings that tool into main at exact audited source `82e159f`. The component
+profile does not establish whole-package or hardware performance acceptance.

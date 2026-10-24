@@ -79,7 +79,15 @@ their binary records agree with the independent ELF oracle and all CLI
 verifications/source-bound helper positives pass. The
 [local receipt](benchmarks/linux-runtime-manifest-local-windows.json) distinguishes
 new tooling from input packages compiled at accepted source `15ee0e8`. Native
-compiler inputs are unchanged. New exact-source hosted qualification remains
-pending. This does not accept arbitrary loader behavior, process memory,
+compiler inputs are unchanged. Exact-source
+[Windows/Linux](benchmarks/linux-runtime-manifest-engine.json),
+[Mac](benchmarks/linux-runtime-manifest-macos.json) and
+[portable builder/consumer](benchmarks/linux-runtime-manifest-portable.json)
+audits are accepted. All 180 manifest/ELF cases pass in each of seven installed
+Python cohorts. Windows GUI passes 2,653 Python/47 native tests; Windows headless
+passes 2,243/46 and Linux headless 2,241/46. Minimal/sanitizer and both Mac jobs
+retain all 46 native suites. [Promotion](benchmarks/linux-runtime-manifest-main-promotion.json)
+fast-forwards main from `d943e9c` to exact audited source `82e159f`.
+This does not accept arbitrary loader behavior, process memory,
 hardware, Mach-O, installers/signing, license or a supported release; M0-M7
 remain partial.

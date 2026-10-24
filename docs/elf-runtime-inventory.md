@@ -43,6 +43,7 @@ accepted cohort source `15ee0e8`; this is not a new engine compilation.
 Candidate 147 supplies the binary reader. Candidate 148 adds
 [Linux wheel file manifests](linux-runtime-manifests.md), direct origin RUNPATH
 resolution, bounded atomic publication/verification and source-bound CI gates.
-Its new hosted validation remains pending. Mach-O inventories, dynamic
+Its [new hosted validation](linux-runtime-manifests.md) is accepted at exact
+source `82e159f`. Mach-O inventories, dynamic
 loading, installed prerequisites, signing, licensing and supported release also
 remain open. The full M0-M7 project remains partial.
