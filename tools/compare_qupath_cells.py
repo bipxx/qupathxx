@@ -1,7 +1,7 @@
 """Capture pinned QuPath cells or characterize an immutable captured corpus.
 
-The two detectors intentionally use different algorithms. Passing measurement
-checks does not establish segmentation parity or biological accuracy.
+Native detector modes have distinct recipe identities. Passing measurement
+checks does not establish general segmentation parity or biological accuracy.
 """
 import argparse
 from datetime import datetime, timezone
