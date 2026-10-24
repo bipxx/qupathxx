@@ -4636,5 +4636,19 @@ to pass replay; an ellipse boundary can be geometrically covered yet outside
 the canonical sample grid. Both new regression cases fail the initial module,
 while the original-domain control passes. Native verification now includes the
 packed domain and decoding enforces the sample grid. The fix passes 47 native
-suites and 156 focused Python cases; clean-source/full validation and updated
-profiling remain required. The full M0–M7 objective remains active.
+suites and 156 focused Python cases. The clean `d544b38` build now passes
+[final local validation](benchmarks/expansion-frontier-validation-windows.json):
+2,373 full Python cases, 13 optional skips and the same three legacy scientific
+xfails; 47 native suites; 156 focused checks; and 116 post-fix comparison checks
+with three desktop skips and the three retained xfails. All 254 raw compiler
+inputs match the compiled fingerprint and committed source. The updated gate
+requires both domain regressions, the unchanged control and all 36 real-slide
+mask hashes across the three recipes, two contexts and three tile sizes.
+
+The post-fix unpinned and placement-controlled timing series are both retained.
+Their mixed timings do not establish a general performance guarantee. The
+[source-registered main navigation trial set](benchmarks/sampled-navigation-hardware-windows.json)
+retains all three processes/six views, each around 17 ms rendered-wall p95,
+but remains ineligible because trial 2's before-load reading is 32%, above the
+unchanged 25% ceiling. No trial or threshold is dropped or relaxed. Frontier
+platform CI and the full M0–M7 objective remain open.

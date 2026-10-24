@@ -114,6 +114,13 @@ The domain-fix build passes 47 native suites and 156 focused Python cases.
 Final clean-source validation and performance measurements must be rerun before
 accepting or publishing the updated candidate.
 
+That [post-fix clean validation](benchmarks/expansion-frontier-validation-windows.json)
+now passes 2,373 full Python cases, 47 native suites and 156 focused cases;
+116 additional comparison checks pass with three desktop skips and the three
+retained scientific xfails. The final full suite retains 13 optional skips and
+the same three xfails. All 36 real-slide compartment maps remain unchanged.
+The post-fix timing series below are retained separately from the initial data.
+
 The [domain-fixed unpinned series](benchmarks/expansion-domain-fixed-workflow-windows.json)
 retains another 60 observations/12 warmups. At 1,024 pixels, sampled detection
 medians are 252.67 ms baseline and 253.20 ms candidate, while legacy detection

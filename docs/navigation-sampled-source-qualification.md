@@ -31,3 +31,9 @@ separate cell-workflow profiler do not apply to this qualification.
 This can qualify only the named navigation workload on the registered source.
 It cannot qualify the later expansion/domain-fix candidate, other research
 workloads, general performance, biological accuracy or a supported release.
+
+The [first source-139 trial set](benchmarks/sampled-navigation-hardware-windows.json)
+records all six views near 17 ms rendered-wall p95. It is not accepted: trial 2
+starts at 32% observed CPU load, above the frozen 25% ceiling. Trials 1 and 3
+meet eligibility and view checks. The complete result remains available; no
+trial is omitted, no threshold changes, and no repeat is substituted for it.
