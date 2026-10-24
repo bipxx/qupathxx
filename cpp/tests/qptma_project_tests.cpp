@@ -12,9 +12,10 @@ void check(bool ok){if(!ok)throw std::runtime_error("qptma project assertion fai
 template<class F>void rejects(F f){try{f();}catch(const std::exception&){return;}throw std::runtime_error("missing qptma project rejection");}
 std::string bytes(const std::filesystem::path& p){std::ifstream f(p,std::ios::binary);return {std::istreambuf_iterator<char>(f),std::istreambuf_iterator<char>()};}
 int main(int argc,char** argv){try {
-#ifndef QUPATHXX_HAS_PROJECT
-    std::cout<<"QPTMA project storage disabled in this configuration\n";return 0;
-#else
+    if(!has_project()) {
+        Project disabled;rejects([&]{disabled.save_new("disabled.qpxproj");});
+        std::cout<<"QPTMA project storage disabled in this configuration\n";return 0;
+    }
     check(argc==3);namespace fs=std::filesystem;
     const auto root=fs::u8path(argv[2])/("project-"+std::to_string(std::chrono::steady_clock::now().time_since_epoch().count()));fs::create_directories(root);
     auto first=std::make_shared<Document>(Image(8,8,std::vector<std::uint8_t>(8*8*3,42)));
@@ -45,9 +46,8 @@ int main(int argc,char** argv){try {
     const auto prior_export=bytes(exported);result=detail::qptma_project_cli({"batch","--export-qptma",output,exported,"--image",std::to_string(b)},cancelled);check(result && *result==1 && bytes(exported)==prior_export);
     result=detail::qptma_project_cli({"batch","--import-qptma",source,wire,source,"--image",std::to_string(b)},cancelled);check(result && *result==1 && bytes(source)==original);
     rejects([&]{detail::qptma_project_cli({"batch","--export-qptma",output,exported},cancelled);});
-    auto journal=fs::u8path(source);journal+="-journal";{std::ofstream out(journal);out<<"journal preflight marker";}
+    auto journal=fs::u8path(source);journal+="-journal";{std::ofstream out(journal,std::ios::binary);out<<std::string(1024,'\0');}
     check(Project::open_without_journal_recovery(source)->images().size()==2);
-    result=detail::qptma_project_cli({"batch","--export-qptma",source,(root/"journal.qptma").u8string(),"--image",std::to_string(b)},cancelled);check(result && *result==1 && bytes(journal)=="journal preflight marker" && !fs::exists(root/"journal.qptma") && bytes(source)==original);
+    result=detail::qptma_project_cli({"batch","--export-qptma",source,(root/"journal.qptma").u8string(),"--image",std::to_string(b)},cancelled);check(result && *result==1 && bytes(journal)==std::string(1024,'\0') && !fs::exists(root/"journal.qptma") && bytes(source)==original);
     std::cout<<"QPTMA project atomic new-file publication, budgets, guards, races, persistence and explicit-image CLI passed\n";
-#endif
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}

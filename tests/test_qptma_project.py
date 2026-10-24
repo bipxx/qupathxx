@@ -16,7 +16,7 @@ FIXTURE=Path(__file__).resolve().parent/'fixtures/qupath-tma-0.7.0/fractional-im
 def scene(tmp_path, linked=False):
     first=q.Document(q.Image(8,8,[42]*8*8*3));first.add_rectangle(q.Rect(1,1,3,3),'Retained annotation');first.set_calibration(.5,.25)
     second=q.Document(q.Image(256,192,[255]*256*192*3))
-    project=q.Project();a=project.add_document(first,'untouched');b=project.add_document(second,'TMA target');project.set_active_image(a)
+    project=q.Project();a=project.add_document(first,'untouched');b=project.add_document(second,'TMA target');project.active_image=a
     view=q.ProjectView();view.center=q.Point(3,4);view.zoom=.75;project.set_view(a,view)
     image=None
     if linked:
@@ -115,16 +115,19 @@ def test_project_cli_invalid_geometry_existing_grid_and_input_aliases_are_atomic
 
 
 def test_nonhot_journal_does_not_block_read_only_project_open(tmp_path):
-    project,a,b,source,_=scene(tmp_path);journal=Path(str(source)+'-journal');journal.write_bytes(b'not a hot SQLite journal');before=source.read_bytes()
+    project,a,b,source,_=scene(tmp_path);journal=Path(str(source)+'-journal');journal.write_bytes(bytes(1024));before=source.read_bytes()
     opened=q.Project.open_without_journal_recovery(str(source))
-    assert len(opened.images)==2 and source.read_bytes()==before and journal.read_bytes()==b'not a hot SQLite journal'
+    assert len(opened.images)==2 and source.read_bytes()==before and journal.read_bytes()==bytes(1024)
 
 
 def test_hot_journal_is_not_repaired_by_read_only_open_or_qptma_cli(tmp_path):
     project,a,b,source,_=scene(tmp_path)
+    import numpy as np
+    project.add_document(q.Document(q.Image.from_numpy(np.full((1024,1024,3),255,dtype=np.uint8))),'spill fixture')
+    project.save(str(source))
     script="""import os,sqlite3,sys
 connection=sqlite3.connect(sys.argv[1]);connection.execute('PRAGMA journal_mode=DELETE');connection.execute('PRAGMA synchronous=FULL')
-connection.execute('PRAGMA cache_size=1');connection.execute('PRAGMA cache_spill=ON');connection.execute('BEGIN IMMEDIATE')
+connection.execute('PRAGMA cache_size=1');connection.execute('PRAGMA cache_spill=1');connection.execute('BEGIN IMMEDIATE')
 connection.execute('UPDATE images SET rgb=zeroblob(length(rgb)) WHERE embedded=1');os._exit(0)
 """
     subprocess.run([sys.executable,'-I','-c',script,str(source)],check=True,timeout=20)
