@@ -57,7 +57,7 @@ transparency, natural pyramids, cancellation, stale results, saved recipes,
 classifier sources, batch/CLI and managed viewer capture. The rebuilt generated-stub Windows wheel passes the same 45 native suites and
 50 focused cases, installed runtime workflows, matching public stubs, three
 strict positive typing files and all seven intended negative typing errors.
-Broad regression and repeated performance checks are still running; these
+Broad regression checks are still running; these
 observations do not accept a supported release.
 
 The implemented contract is:
@@ -107,3 +107,19 @@ The batch executable accepts `--cell-algorithm log`,
 summary output is JSON lines. Desktop cell and batch panels expose the same
 detector choice and applicable parameters. Nondefault LoG-only options reject
 when the distance detector is selected.
+
+
+## Production scaling observations
+
+The [source/tool/native-bound Windows profile](benchmarks/log-cell-scaling-windows.json)
+retains all 24 isolated-process observations, including six excluded warmup
+observations. Across 256, 512 and 1024 square inputs, each tile-size arm retains
+three samples and all labels and captured numeric RGB features agree. At 1024
+pixels, the 256-cell run takes median 384–463 ms depending on the tile-size arm;
+whole-process peak working set is about 107 MiB. Timers exclude input generation
+and independent output checks. Process peaks include Python, NumPy, imports,
+input generation and native allocations; they are not a native RSS limit.
+All 246 actual build inputs match compiled source `7f47a96` after CRLF
+normalization. The tool comes from `16c9ce1`; the receipt keeps both identities.
+These synthetic shared-workstation observations do not accept biological,
+hardware, frame-time or universal performance requirements.

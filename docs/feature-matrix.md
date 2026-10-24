@@ -153,6 +153,8 @@ archive, classifier-source and table surfaces. Its initial Windows wheel passes
 45 native suites and 50 focused installed cases. The unchanged isolated-nucleus
 count/IoU/centroid gates pass for this mode, while the legacy detector keeps its
 strict expected failures. Seven pinned nucleus cases are exact; ROI edges,
-resampling and body expansion remain different. The rebuilt typed wheel, broad
-regression, repeated memory/timing profile, unified-source platform qualification,
-biology and supported release gates remain open. Cell detection stays Partial.
+resampling and body expansion remain different. The rebuilt Windows wheel passes native, installed, focused, stub and typing
+checks. The [repeated scaling profile](benchmarks/log-cell-scaling-windows.json)
+retains all 24 observations and invariant labels/RGB features across tile sizes.
+Broad regression, unified-source platform qualification, biology and supported
+release gates remain open. Cell detection stays Partial.
