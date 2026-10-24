@@ -3975,3 +3975,22 @@ fixture scope remain explicit in the [receipt](benchmarks/manylinux114-build-con
 This qualifies the corrected sampling engine. The newer boundary-grid prototype,
 Mac compilation, biology, hardware/RSS/frame, license, supported release and all
 other unfinished M0-M7 requirements remain open.
+
+
+## Packet117: native LoG / shape-watershed foundation
+
+The independently implemented native kernel at
+11bd25943f826c75b3fe6f16ad7b92681c83ee31 passes a standalone C++17 suite,
+including twelve independent fixed-point reconstruction oracle cases. An exact
+source/native/tool-bound comparison retains all nine pinned cases under two
+feature recipes. All cell counts match; seven cases have exact matched nucleus
+masks and centroids. The isolated three nuclei have IoU 1 and zero centroid
+error. ROI-edge/hole and resampled cases remain visible at roughly 0.970/0.939
+foreground IoU. [Implementation and integration requirements](log-watershed.md)
+record the native algorithm, resource guards and remaining production surfaces.
+
+This is a native engine foundation, not an installed detector acceptance. Body
+expansion, features, archive/replay, batch/CLI, ImGui/viewer controls and typed
+production-mode integration remain to implement and verify. Existing distance
+watershed and its three strict scientific expected failures are unchanged.
+No biology, hardware/RSS/frame, platform release or full M0-M7 completion is claimed.
