@@ -57,8 +57,12 @@ transparency, natural pyramids, cancellation, stale results, saved recipes,
 classifier sources, batch/CLI and managed viewer capture. The rebuilt generated-stub Windows wheel passes the same 45 native suites and
 50 focused cases, installed runtime workflows, matching public stubs, three
 strict positive typing files and all seven intended negative typing errors.
-Broad regression checks are still running; these
-observations do not accept a supported release.
+The complete Windows regression passes 2,157 tests, with 13 optional skips and
+the same three legacy-detector scientific xfails. The
+[local receipt](benchmarks/log-cell-windows-local.json) binds the installed wheel,
+native module, 246 build inputs, test XML, stubs/typing and
+[desktop frame](images/log-cell-batch-windows.png). These observations do not
+accept a supported release.
 
 The implemented contract is:
 
@@ -123,3 +127,13 @@ All 246 actual build inputs match compiled source `7f47a96` after CRLF
 normalization. The tool comes from `16c9ce1`; the receipt keeps both identities.
 These synthetic shared-workstation observations do not accept biological,
 hardware, frame-time or universal performance requirements.
+
+
+The installed production [nine-case comparison](benchmarks/qupath-cells-log-production-windows.json)
+retains nucleus and body metrics, matched-feature differences, split/merge
+relations, serialization checks and all 42 shared-geometry measurement checks.
+Its source/native/tool identities match the local validation receipt. The
+separate hosted Linux headless job passes 1,766 Python cases and 44 native suites,
+including 47 LoG cases and three explicit desktop skips. Its Git-LF source
+fingerprint equals the local source projection; Windows/Linux full-matrix and
+unified-source acceptance still require their own completed artifact audits.

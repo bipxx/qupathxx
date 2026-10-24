@@ -156,5 +156,10 @@ strict expected failures. Seven pinned nucleus cases are exact; ROI edges,
 resampling and body expansion remain different. The rebuilt Windows wheel passes native, installed, focused, stub and typing
 checks. The [repeated scaling profile](benchmarks/log-cell-scaling-windows.json)
 retains all 24 observations and invariant labels/RGB features across tile sizes.
-Broad regression, unified-source platform qualification, biology and supported
-release gates remain open. Cell detection stays Partial.
+The complete Windows regression passes 2,157 cases, 13 optional skips and the
+three unchanged legacy scientific xfails; the
+[receipt](benchmarks/log-cell-windows-local.json) includes installed identities,
+source projection, test evidence and the inspected desktop capture. Hosted
+Linux headless passes 1,766 Python/44 native (47 LoG cases plus three desktop
+skips), and minimal/sanitizer pass 44. Overall hosted, unified-source platform,
+biology and supported release gates remain open. Cell detection stays Partial.
