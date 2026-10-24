@@ -2,6 +2,7 @@
 #include "qupathxx/input_digest.hpp"
 #include "../cell_archive.hpp"
 #include "../sha256.hpp"
+#include <algorithm>
 #include <iostream>
 using namespace qpx;
 namespace {
