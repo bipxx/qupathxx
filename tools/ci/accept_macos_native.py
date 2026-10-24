@@ -7,6 +7,9 @@ from pathlib import Path
 import subprocess
 import xml.etree.ElementTree as ET
 
+resampling_spec=importlib.util.spec_from_file_location('qpx_resampling_evidence',Path(__file__).with_name('resampling_evidence.py'))
+resampling=importlib.util.module_from_spec(resampling_spec);resampling_spec.loader.exec_module(resampling)
+
 
 def require(value, message):
     if not value:
@@ -49,7 +52,7 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
         require(data['commit']==commit and data['architecture']==arch,'native record source/architecture differs')
         xml=ET.parse(folder/'native-tests.xml').getroot()
         cases=list(xml.iter('testcase'))
-        require(len(cases)==data['tests']['passed']==46,'native suite count differs')
+        require(len(cases)==data['tests']['passed']==47,'native suite count differs')
         require(not any(t.find(k) is not None for t in cases for k in ['failure','error','skipped']),
                 'native test failed or skipped')
         require(sorted(t.get('name') for t in cases)==sorted(data['tests']['names']),'native suite ledger differs')
@@ -82,9 +85,11 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
                 'invalid executable digest')
         links=(folder/'batch-runtime-links.log').read_text()
         require('@rpath/libgeos_c.' in links and 'libSystem.B.dylib' in links,'native runtime link record differs')
-        entries.append(dict(architecture=arch,native_passed=46,frozen_shape_masks_and_maxima=26,
+        entries.append(dict(architecture=arch,native_passed=47,frozen_shape_masks_and_maxima=26,
             sampled_production_native=sampled_cells,
             evidence_sha256={p.name:sha(p) for p in sorted(folder.iterdir()) if p.is_file()},ci_result=data))
+        entries[-1]['resampling_native']=resampling.native(cases)
+        entries[-1]['resampling_sources']=resampling.source_contract(Path(__file__).resolve().parents[2],commit)
         if small_frontier:entries[-1]['small_frontier']=frontier.native(cases)
         if tma_cases:entries[-1]['tma_cases']=tma.native(cases,file_export=file_export,cohort=cohort)
         if macho_inventory:entries[-1]['macho_inventory']=mac_inventory.audit(folder,Path(__file__).resolve().parents[2],commit,arch,data)

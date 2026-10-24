@@ -16,6 +16,9 @@ import math
 import xml.etree.ElementTree as ET
 import zipfile
 
+resampling_spec=importlib.util.spec_from_file_location('qpx_resampling_evidence',Path(__file__).with_name('resampling_evidence.py'))
+resampling=importlib.util.module_from_spec(resampling_spec);resampling_spec.loader.exec_module(resampling)
+
 ROOT=Path(__file__).resolve().parents[2]
 if not __debug__:
     raise RuntimeError('artifact audit requires Python assertions enabled')
@@ -108,8 +111,10 @@ local=json.loads((ROOT/'docs/benchmarks/classifier-engine-windows.json').read_te
 for job in run['jobs']:
     folder=args.artifacts/folders[job['name']]
     entry=dict(name=job['name'],url=job['url'],status=job['status'],conclusion=job['conclusion'],native=junit(folder/'native-tests.xml'))
-    assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)
+    assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)+1
     native_cases=list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase'))
+    entry['resampling_native']=resampling.native(native_cases)
+    entry['resampling_sources']=resampling.source_contract(ROOT,COMMIT)
     if args.sampled_shape:
         selected=[t for t in native_cases if t.get('name')=='log_watershed']
         assert len(selected)==1 and 'Sampled shape 26 frozen masks and maxima passed' in selected[0].findtext('system-out',''), 'missing frozen sampled-shape native conformance'
@@ -132,6 +137,7 @@ for job in run['jobs']:
     assert entry['native']['skipped']==0
     if (folder/'python-tests.xml').exists():
         entry['python']=junit(folder/'python-tests.xml')
+        entry['resampling_python']=resampling.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')))
         contours=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_pixel_contours')]
         assert len(contours)==24 and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in contours)
         entry['pixel_contour_cases']=[t.get('name') for t in contours]

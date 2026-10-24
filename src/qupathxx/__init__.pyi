@@ -260,6 +260,8 @@ from ._native import (
     Rect as Rect,
     RegionRequest as RegionRequest,
     Viewport as Viewport,
+    resample_area as resample_area,
+    read_resampled_region as read_resampled_region,
     dense_image_server as dense_image_server,
     has_gui as has_gui,
     has_openslide as has_openslide,

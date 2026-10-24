@@ -55,7 +55,7 @@ def test_invalid_output_rejects(width, height):
 
 def test_excessive_cross_axis_work_rejects_before_huge_decode():
     server = q.Document(q.Image.demo()).server
-    with pytest.raises(RuntimeError, match='overlap work limit'):
+    with pytest.raises(ValueError, match='overlap work limit'):
         q.read_resampled_region(server, q.RegionRequest(0, 0, 0, 67108864, 1), 1, 67108864)
 
 
@@ -66,3 +66,26 @@ def test_closed_server_and_invalid_level():
     server.close()
     with pytest.raises(RuntimeError):
         q.read_resampled_region(server, q.RegionRequest(0, 0, 0, 1, 1), 2, 2)
+
+
+def test_standalone_cli_resampling_pixels_header_and_input_protection(tmp_path):
+    from pathlib import Path
+    import os
+    import subprocess
+    executable = Path(q.__file__).parent/('qupathxx_region.exe' if os.name == 'nt' else 'qupathxx_region')
+    assert executable.is_file(), 'installed native region executable required'
+    source = tmp_path/'source with spaces.ppm'
+    original = b'P6\n2 1\n255\n'+bytes([10, 20, 30, 110, 120, 130])
+    source.write_bytes(original)
+    output = tmp_path/'resized.pam'
+    command = [str(executable), '--resample', str(source), '-1', '0', '0', '4', '1', '2', '1', str(output)]
+    subprocess.run(command, check=True, capture_output=True, timeout=30)
+    header, pixels = output.read_bytes().split(b'ENDHDR\n')
+    assert header == b'P7\nWIDTH 2\nHEIGHT 1\nDEPTH 4\nMAXVAL 255\nTUPLTYPE RGB_ALPHA\n'
+    assert pixels == bytes([10, 20, 30, 128, 110, 120, 130, 128])
+    command[-1] = str(source)
+    assert subprocess.run(command, capture_output=True, timeout=30).returncode == 1
+    assert source.read_bytes() == original
+    command[-1], command[8] = str(tmp_path/'invalid.pam'), '0'
+    assert subprocess.run(command, capture_output=True, timeout=30).returncode == 1
+    assert not Path(command[-1]).exists()

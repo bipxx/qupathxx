@@ -506,3 +506,9 @@ def cohort_case_summary(first: q.TmaGrid, second: q.TmaGrid, table: str) -> tupl
     return (q.tma_cohort_manifest_csv(captures),
             q.tma_cohort_case_summary_csv(captures, table, 'value', 'weight'),
             q.save_tma_cohort_case_summary_csv(captures, 'new.csv', 'inputs.csv', 'value', 'weight'))
+
+
+def resize_region(server: q.ImageServer) -> q.PixelBuffer:
+    request = q.RegionRequest(10, 20, 0, 300, 200)
+    result = q.read_resampled_region(server, request, 120, 80)
+    return q.resample_area(result, 60, 40)
