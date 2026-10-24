@@ -4702,6 +4702,24 @@ markers plus exact Python cohorts are required by `--tma-file-export` audits.
 The full installed Windows regression now passes 2,417 tests (13 optional
 skips, three unchanged strict legacy scientific xfails), and the saved-state
 ImGui capture verifies the weighted result with zero UI overflow. Fresh
-platform audits remain pending; M0-M7
+platform audits for the shared exporter/CLI are now accepted, and `083da0c`
+is promoted to `main`. M0-M7
 and performance, biological, hardware, licensing and supported-release gates
 remain open.
+
+
+## Bounded case-file input loading (candidate 143)
+
+The native loader uses its retained regular-file observation to reject files
+above the configured CSV limit before opening the data stream, and reserves
+storage for an admitted input. Per-chunk limits and file-change checks remain
+in place. A native Windows regression changed from 1,114,112 read-transfer bytes
+to zero for an oversized input. Two installed boundary cases retain inclusive
+admission at the exact limit and rejection one byte below the input size.
+All 29 file/API/CLI cases pass initially.
+
+The paired pilot retains 32 fresh-process observations, with eight declared
+warmups. Output hashes and independently checked statistics are unchanged.
+Median peak working set on the 24 MB valid input changes from 41.8 MB to 31.1 MB.
+These are scoped observations; wall time, hardware and general performance
+acceptance remain open. Full installed and hosted validation is pending.

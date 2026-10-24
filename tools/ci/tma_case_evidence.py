@@ -52,7 +52,7 @@ def python(cases, root, commit, gui=False, file_export=False):
     require(contract['schema'] == 'qpx.tma-case-cohort/1', 'invalid TMA case cohort schema')
     groups = [('test_tma_case_summary', 'cases', 13)]
     if file_export:
-        groups.append(('test_tma_case_export', 'file_cases', 27))
+        groups.append(('test_tma_case_export', 'file_cases', 29))
     if gui:
         groups.append(('test_gui_tma', 'gui_cases', 4))
     result = dict(cohort_contract_sha256=hashlib.sha256(path.read_bytes()).hexdigest())

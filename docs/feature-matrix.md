@@ -33,25 +33,25 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 
 ## Current packet and remaining decisions
 
-The single-grid case-summary source `914b7e2` is now on `main`, including
-weighted pooling, explicit missing/unassigned core behavior, native/Python/ImGui
-export and portable signed-decimal parsing. Its exact-source
-[Windows/Linux audit](benchmarks/tma-case-windows-linux.json),
-[both macOS native architectures](benchmarks/tma-case-macos.json) and
-[portable builders/fresh consumers](benchmarks/tma-case-portable.json) are accepted.
-[Promotion evidence](benchmarks/tma-case-main-promotion.json) records the
-fast-forward from `691c0f3` while preserving the divergent local root branch.
-That parent already contains the domain replay corrections and bounded expansion
-queue. Mixed timing observations do not establish a general speedup. M0-M7
-science, hardware, license and supported-package requirements remain open.
+The shared case-file API and standalone CLI source `083da0c` is now on `main`,
+including thin Python bindings and the ImGui native worker. Exact-source
+[Windows/Linux](benchmarks/tma-case-file-windows-linux.json),
+[both macOS native architectures](benchmarks/tma-case-file-macos.json) and
+[portable builders/fresh consumers](benchmarks/tma-case-file-portable.json)
+are accepted. [Promotion evidence](benchmarks/tma-case-file-main-promotion.json)
+records the fast-forward from `914b7e2` while preserving the divergent local
+root branch. The installed Windows suite passes 2,417 tests with 13 optional
+skips and three strict legacy scientific xfails. M0-M7 science, hardware,
+license and supported-release requirements remain open.
 
-A shared native file exporter and standalone `--export-tma-cases` CLI are now
-implemented in candidate 142. The [initial installed checks](benchmarks/tma-case-file-initial-windows.json)
-pass 47 native suites and 75 focused cases, including 27 new file/CLI cases.
-Captured snapshots, protected source versions, byte budgets and atomic new-file
-publication are shared with ImGui. The [full installed Windows suite](benchmarks/tma-case-file-validation-windows.json)
-passes 2,417 tests, with 13 optional skips and three unchanged legacy science
-xfails. Hosted file-export acceptance remains open.
+An input-loading candidate now rejects an observed oversized measurement file
+before data reads and reserves admitted input storage. Its native quota test
+and 29 installed file/CLI cases pass. The
+[paired pilot](benchmarks/tma-case-input-pilot-windows.json) retains all 32
+observations: CSV hashes and independent statistics agree, and the largest
+24 MB input's median process peak working set falls from 41.8 MB to 31.1 MB.
+Wall-time differences remain unaccepted. Full installed and hosted acceptance
+of this optimization are pending.
 
 The accepted TMA case-summary engine adds native/Python/ImGui single-grid replicate
 pooling, explicit weighting, missing-core exclusion, unassigned-core isolation,

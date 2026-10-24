@@ -157,7 +157,11 @@ match the previous API bytes and preserve protected files; that executable
 imports no Python or OpenGL runtime. The [full installed Windows validation](benchmarks/tma-case-file-validation-windows.json)
 passes 2,417 tests (13 optional skips, three unchanged strict legacy scientific
 xfails), and a captured ImGui export saves the expected weighted result without
-UI overflow. Hosted file-export acceptance remains open.
+UI overflow. The shared exporter/CLI source `083da0c` is promoted after
+[Windows/Linux](benchmarks/tma-case-file-windows-linux.json),
+[both Mac native](benchmarks/tma-case-file-macos.json) and
+[portable consumer](benchmarks/tma-case-file-portable.json) audits.
+The input-loading candidate below has separate pending gates.
 
 The TMA panel's Export tab offers **Summarize replicate cores by case**, an
 optional measurement CSV, value and weight columns, and an explicit unversioned

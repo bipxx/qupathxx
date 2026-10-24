@@ -79,6 +79,25 @@ def test_native_file_export_explicit_unversioned_input(tmp_path):
     assert row['measurement_revision_status'] == 'unversioned'
 
 
+@pytest.mark.parametrize('below_limit', [False, True])
+def test_native_file_input_budget_boundary(tmp_path, below_limit):
+    document, ids, snapshot, _ = setup_case()
+    table = measurement_table(snapshot, [(ids[0], 2, 1)]*200)
+    expected = q.tma_case_summary_csv(snapshot, table, 'value', 'weight').encode()
+    raw = table.encode()
+    assert len(raw) > len(expected)
+    source, output = tmp_path/'input.csv', tmp_path/'cases.csv'
+    source.write_bytes(raw)
+    if below_limit:
+        with pytest.raises((ValueError, RuntimeError)):
+            q.save_tma_case_summary_csv(snapshot, str(output), str(source), 'value', 'weight', byte_limit=len(raw)-1)
+        assert not output.exists() and not list(tmp_path.glob('*.qpx-tmp-*'))
+    else:
+        assert q.save_tma_case_summary_csv(snapshot, str(output), str(source), 'value', 'weight', byte_limit=len(raw)) == len(expected)
+        assert output.read_bytes() == expected
+    assert source.read_bytes() == raw
+
+
 def cli(*args):
     executable = Path(_native.__file__).with_name('qupathxx_batch.exe' if os.name == 'nt' else 'qupathxx_batch')
     return subprocess.run([str(executable), *map(str, args)], capture_output=True, text=True, encoding='utf8', timeout=30)

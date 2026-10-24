@@ -32,6 +32,8 @@
     "test_native_file_export_preserves_files_and_cleans_partial_output[malformed]",
     "test_native_file_export_preserves_files_and_cleans_partial_output[missing_file]",
     "test_native_file_export_preserves_files_and_cleans_partial_output[stale]",
+    "test_native_file_input_budget_boundary[False]",
+    "test_native_file_input_budget_boundary[True]",
     "test_standalone_argument_errors_create_no_output[options0]",
     "test_standalone_argument_errors_create_no_output[options1]",
     "test_standalone_argument_errors_create_no_output[options2]",
