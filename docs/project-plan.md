@@ -4774,6 +4774,12 @@ now passes 47 native suites, 128 focused cases and 2,470 Python tests, with 13
 optional skips and three unchanged strict science xfails. Packaged stubs, typing,
 all 17 desktop cases and the visually reviewed saved-state cohort capture pass.
 [Both Mac native audits](benchmarks/tma-cohort-macos.json) also pass all 46 suites
-with the cohort markers required. Complete Windows/Linux and portable audits,
-peak memory and hardware acceptance remain open. M0-M7 remain partial; no license
-or supported-release acceptance is implied.
+with the cohort markers required. Complete source-bound
+[Windows/Linux](benchmarks/tma-cohort-windows-linux.json) and corrected
+[portable builder/consumer](benchmarks/tma-cohort-portable.json) audits now pass:
+hosted Windows GUI 2,473 Python/47 native, Windows headless 2,063/46 and Linux
+headless 2,061/46; minimal/sanitizer and both Mac jobs retain all 46 native suites.
+The first portable dispatch omitted extended readers and is retained as rejected;
+the corrected run exercises the required NDPI native replay. [Promotion](benchmarks/tma-cohort-main-promotion.json)
+fast-forwards main from `132288c` to exact audited source `15ee0e8`. M0-M7,
+peak memory, hardware, biological, license and supported-release gates remain open.

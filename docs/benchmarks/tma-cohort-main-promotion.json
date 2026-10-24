@@ -1,0 +1,56 @@
+{
+  "schema": "qpx.tma-cohort-main-promotion/1",
+  "previous_main": "132288c377ed65fa50b9acaad80d8e82b0f64fe0",
+  "promoted_source": "15ee0e83e0c377b526fecefeff88733db79a9585",
+  "observed_remote_main": "15ee0e83e0c377b526fecefeff88733db79a9585",
+  "fast_forward_only": true,
+  "forced": false,
+  "root_local_main": "c86d3237f6f679f5651948d95c17e2d617684c46",
+  "root_local_main_unchanged": true,
+  "engineering_audits": [
+    {
+      "file": "cohort144-engine-acceptance.json",
+      "sha256": "837cab33646fa112f52c38ab7ac493bea794f0066242b249202f80780d581552"
+    },
+    {
+      "file": "cohort144-macos-acceptance.json",
+      "sha256": "5930eeb17daaffe57bc9ee45856c091f4b673bd2ae3ec84f8dc27f232dc1d0e0"
+    },
+    {
+      "file": "cohort144-portable-extended-acceptance.json",
+      "sha256": "a3021f623427a0ff94732867e36b03f11b5f1e525e5532a09b4cb86b07cb8a7a"
+    }
+  ],
+  "hosted_engine_run": 40107885405,
+  "hosted_macos_run": 40107886982,
+  "hosted_portable_run": 40109395411,
+  "initial_portable_run": 40107889036,
+  "initial_portable_rejected": true,
+  "initial_portable_rejection_sha256": "99fb155aee8d66aa3437d0b22175740612293153d659757fac870c507c4449d4",
+  "initial_portable_reason": "Missing extended-reader dispatch option; required NDPI native project replay absent. Original workflow/artifacts and rejection retained.",
+  "corrected_portable_inputs": {
+    "portable_linux": true,
+    "extended_readers": true
+  },
+  "performance_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "scope": "Captured multi-grid raw-row pooling, namespaced core selectors, canonical source manifests, shared atomic file API and native/Python/CLI/ImGui integration after exact-source engineering audits. The first narrower portable run was rejected; corrected extended-reader builders and fresh consumers are accepted. M0-M7, biological parity, hardware eligibility, license, full runtime manifests and supported release remain incomplete.",
+  "public_evidence": [
+    {
+      "file": "tma-cohort-windows-linux.json",
+      "sha256": "837cab33646fa112f52c38ab7ac493bea794f0066242b249202f80780d581552",
+      "original_receipt": "cohort144-engine-acceptance.json"
+    },
+    {
+      "file": "tma-cohort-macos.json",
+      "sha256": "5930eeb17daaffe57bc9ee45856c091f4b673bd2ae3ec84f8dc27f232dc1d0e0",
+      "original_receipt": "cohort144-macos-acceptance.json"
+    },
+    {
+      "file": "tma-cohort-portable.json",
+      "sha256": "1cea9fda5f39eae73f2940c08f3396884588468af08219ae0f5b9f313471fcc9",
+      "original_receipt": "cohort144-portable-extended-acceptance.json"
+    }
+  ]
+}

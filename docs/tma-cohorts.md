@@ -12,8 +12,12 @@ passes 2,470 Python tests, 13 optional skips and three unchanged strict science
 xfails, plus 47 native suites. The saved-state cohort capture is visually
 reviewed and verifies weighted mean 5 across two grids with zero UI overflow.
 [Both Mac native architectures](benchmarks/tma-cohort-macos.json) pass all 46
-suites, including cohort pooling and atomic file markers. Complete Windows/Linux
-and portable builder/consumer acceptance remain pending.
+suites, including cohort pooling and atomic file markers. The complete
+[Windows/Linux](benchmarks/tma-cohort-windows-linux.json) and corrected
+[portable builder/consumer](benchmarks/tma-cohort-portable.json) audits are now
+accepted at exact source `15ee0e8`, which is [promoted to main](benchmarks/tma-cohort-main-promotion.json).
+The hosted Windows GUI job passes 2,473 Python/47 native tests. These are
+engineering scopes; performance, biological, hardware and release gates remain open.
 
 ## Captures and identity
 
@@ -136,13 +140,14 @@ cohort desktop cases. The no-project failure reports failed state and retains
 its input. Packaged stubs, positive/negative typing and all 258 raw compiler
 inputs match their stated evidence. Twenty [altered-evidence controls](benchmarks/tma-cohort-audit-controls.json)
 reject old, missing, duplicate, failed, skipped and stale evidence. Full
-installed regression and capture review now pass as recorded above; complete
-Windows/Linux and portable platform acceptance remain pending.
+installed regression, capture review and complete platform engineering
+acceptance now pass as recorded above.
 
 The [first portable workflow](benchmarks/tma-cohort-portable-initial-rejection.json)
 finished successfully but omitted the required extended-reader dispatch input.
 The unchanged audit rejected missing native NDPI project replay in both builders.
 Its cohort helper cases pass, which does not satisfy the complete qualification.
-Original artifacts and the failed audit are retained. One corrected dispatch
-with extended readers enabled is running at the same source; acceptance remains
-pending and no gate is relaxed.
+Original artifacts and the failed audit are retained. The corrected dispatch
+with extended readers enabled now passes both builders and fresh consumers at
+the same source. No gate is relaxed; promotion records the corrected run and
+retains the initial rejection.
