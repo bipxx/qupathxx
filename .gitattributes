@@ -107,3 +107,6 @@ tests/test_runtime_manifest.py text eol=lf
 docs/benchmarks/windows-runtime-*.json text eol=lf
 tools/ci/run.py text eol=lf
 tools/profile_runtime_closures.py text eol=lf
+tools/ci/elf_dependencies.py text eol=lf
+tests/test_elf_dependencies.py text eol=lf
+docs/benchmarks/elf-runtime-*.json text eol=lf
