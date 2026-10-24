@@ -1,0 +1,39 @@
+{
+  "schema": "qpx.tma-case-audit-controls/1",
+  "positive_real_junit": {
+    "native": {
+      "case_aggregation_checked": true,
+      "compensated_signed_sums_checked": true,
+      "mean_underflow_checked": true,
+      "cancellation_checked": true
+    },
+    "python": {
+      "cohort_contract_sha256": "eb85dd78682626681ae942e8f384bee4b3f04e06677cc6f9c566aac39d653472",
+      "cases_passed": 13,
+      "gui_cases_passed": 4
+    }
+  },
+  "native_junit_sha256": "3817092e5aa2d1fb6f72e2dae89aaff645246ec032de422b267815cfa153dce8",
+  "python_junit_sha256": "27f31eb6a6a64a7ac84162b9a4e4929887217a29bbe5e55f86363a2fa0b7431f",
+  "helper_sha256": "a0f42e0a97668d13eb523cda8767c3c979483a9292723ef20f12984c0c9bb3c5",
+  "contract_sha256": "eb85dd78682626681ae942e8f384bee4b3f04e06677cc6f9c566aac39d653472",
+  "negative_controls_rejected": [
+    "old-native-evidence",
+    "missing-native-case",
+    "duplicate-native-case",
+    "native-failure",
+    "native-error",
+    "native-skipped",
+    "missing-TMA compensated signed sums",
+    "missing-TMA case aggregation",
+    "missing-python-case",
+    "duplicate-python-case",
+    "python-failure",
+    "python-error",
+    "python-skipped",
+    "missing-desktop-case",
+    "wrong-source-commit",
+    "changed-contract-bytes"
+  ],
+  "scope": "Guard self-check using real local JUnit and a separate local contract repository. This is not hosted candidate acceptance."
+}

@@ -173,11 +173,13 @@ public:
                     ui::Checkbox("Summarize replicate cores by case",&case_summary_);
                     if(case_summary_) {
                         ImGui::TextWrapped("Missing cores contribute no measurements. Cores without a case ID stay separate. Leave the input empty for case inventory only.");
+                        ImGui::TextUnformatted("Measurement CSV (optional)");
                         ui::InputTextWithHint("##TMA measurements path","Optional measurement CSV input",measurements_path_.data(),measurements_path_.size());
                         ui::InputText("Value column",value_column_.data(),value_column_.size());
                         ui::InputText("Weight column (optional)",weight_column_.data(),weight_column_.size());
                         ui::Checkbox("Allow input without core revisions",&allow_unversioned_);
                     } else ImGui::TextWrapped("Metadata CSV includes present, missing and vacant slots. It captures the grid when requested and creates a new file.");
+                    ImGui::TextUnformatted("New CSV output");
                     ui::InputTextWithHint("##TMA metadata path","New CSV output file",path_.data(),path_.size());ImGui::EndDisabled();
                     if(button(case_summary_?"Export case summary CSV":"Export core metadata CSV",GuiInputTarget::ExportTmaMetadata,disabled || export_.valid() || !path_[0])) perform([&]{write_metadata(doc,project);});
                     if(button("Cancel CSV export",GuiInputTarget::CancelTmaMetadata,!export_.valid())) cancel_.store(true);

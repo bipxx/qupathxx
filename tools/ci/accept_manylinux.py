@@ -316,7 +316,9 @@ def main():
     parser.add_argument('--watershed-bodies',action='store_true',help='Also require all production body recipes and native expansion in both builders/consumers')
     parser.add_argument('--sampled-cells',action='store_true',help='Require frozen shape/QCL4 native and sampled production builder/consumer cohorts; implies earlier engine/body/NDPI gates')
     parser.add_argument('--small-frontier',action='store_true',help='Require native queue equivalence and all eight unit-radius cases in builders and consumers; implies sampled cells')
+    parser.add_argument('--tma-cases',action='store_true',help='Require exact native and Python TMA case aggregation in both builders/consumers; implies small frontier')
     args=parser.parse_args()
+    args.small_frontier=args.small_frontier or args.tma_cases
     args.sampled_cells=args.sampled_cells or args.small_frontier
     if args.sampled_cells:
         args.unified_engine=args.ndpi_readers=args.watershed_bodies=True
@@ -342,6 +344,19 @@ def main():
                                 ('consumer',args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
                 result=frontier.python(list(ET.parse(path).getroot().iter('testcase')),root,args.commit)
                 report['small_frontier_cohorts'].append(dict(python=version,cohort=cohort,native=native,**result))
+    if args.tma_cases:
+        spec=importlib.util.spec_from_file_location('qpx_tma_case_evidence',Path(__file__).with_name('tma_case_evidence.py'))
+        tma=importlib.util.module_from_spec(spec);spec.loader.exec_module(tma)
+        report['tma_case_helper_sha256']=sha(Path(__file__).with_name('tma_case_evidence.py'))
+        report['tma_case_cohorts']=[]
+        root=Path(__file__).resolve().parents[2]
+        for version in ['3.11','3.12']:
+            folder=args.artifacts/('manylinux-'+version)
+            native=tma.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+            for cohort,path in [('builder',folder/'python-tests.xml'),
+                                ('consumer',args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+                result=tma.python(list(ET.parse(path).getroot().iter('testcase')),root,args.commit)
+                report['tma_case_cohorts'].append(dict(python=version,cohort=cohort,native=native,**result))
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(state=report['state'],commit=report['commit'],release_ready=False)))

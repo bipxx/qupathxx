@@ -83,3 +83,11 @@ tests/fixtures/imagej-shape-1.54p/** -text whitespace=cr-at-eol,-blank-at-eol
 tests/fixtures/imagej-shape-1.54p/native/*.u8 -diff
 tools/profile_sampled_log.py text eol=lf
 docs/benchmarks/sampled-shape-*.json -text whitespace=cr-at-eol
+
+# Case summaries and exact-byte audit contracts.
+tests/fixtures/tma-case-summary-workflows.json text eol=lf
+tools/ci/tma_case_evidence.py text eol=lf
+tools/profile_tma_cases.py text eol=lf
+docs/benchmarks/sampled-cells-ndpi-windows.json text eol=lf
+docs/benchmarks/tma-case-*.json -text whitespace=cr-at-eol
+docs/benchmarks/expansion-frontier-*.json -text whitespace=cr-at-eol

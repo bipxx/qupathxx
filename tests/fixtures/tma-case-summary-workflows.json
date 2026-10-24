@@ -1,0 +1,24 @@
+{
+  "schema": "qpx.tma-case-cohort/1",
+  "cases": [
+    "test_inventory_counts_vacancy_without_inventing_measurements",
+    "test_mean_underflow_cannot_silently_become_zero",
+    "test_rejects_invalid_or_unrepresentable_measurements[ 1-1]",
+    "test_rejects_invalid_or_unrepresentable_measurements[1-NaN]",
+    "test_rejects_invalid_or_unrepresentable_measurements[1e-300-1e-300]",
+    "test_rejects_invalid_or_unrepresentable_measurements[1e308-1e308]",
+    "test_rejects_invalid_or_unrepresentable_measurements[2--1]",
+    "test_rejects_invalid_or_unrepresentable_measurements[inf-1]",
+    "test_rejects_invalid_or_unrepresentable_measurements[nan-1]",
+    "test_replicates_weighted_oracle_snapshot_and_unassigned_isolation",
+    "test_revision_opt_in_never_bypasses_a_supplied_stale_revision",
+    "test_selectors_malformed_csv_and_byte_limits",
+    "test_signed_cancellation_keeps_small_replicate_contribution"
+  ],
+  "gui_cases": [
+    "test_case_summary_export[input_alias]",
+    "test_case_summary_export[inventory]",
+    "test_case_summary_export[stale]",
+    "test_case_summary_export[weighted]"
+  ]
+}

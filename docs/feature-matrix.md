@@ -24,7 +24,7 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 | Tissue detection | qupath-core-processing, qupath-extension-processing | analysis | Partial | Bounded OD/stain masks at native pyramid levels, square opening/closing, domain-aware size-bounded hole filling, global 4/8-connected components, level-zero statistics, digests, GUI preview, mask archives/rechecking and atomic contour/annotation publication pass; capture-time source/calibration/build provenance passes; arbitrary resampling/kernels, physical filters, smoothing/median, complete file/binary/runtime manifests and QuPath runtime comparisons remain |
 | Cell detection and features | qupath-core-processing, qupath-extension-processing | analysis | Partial | Native distance-marker watershed, normalized smoothing, nonoverlapping expansion, compartment features, pyramid grids, atomic cell/nucleus publication, ImGui preview and lossless run archives/rechecking and schema-6 published feature links pass independent synthetic references; native document/project-wide archived-run CSV export passes; capture-time source/calibration/build provenance passes; joined live-object metadata/shape tables pass; inclusive [physical nucleus-area filters](cell-area-limits.md) pass the defined Windows/Linux engineering scope; full file/binary/runtime manifests, physical radii, arbitrary resampling, split/merge and QuPath feature tolerances remain |
 | Pixel and object classifiers | qupath-core-processing, qupath-gui-fx | analysis/gui | Partial | Native/Python forests, geometry/verified-cell snapshots, labelled-ROI pixel training, source label/vote masks, exact undoable contour publication, ImGui controls, saved cohort/mask/model reuse and schema-10 project/recovery/batch persistence implemented. Natural-grid [windowed prediction](pixel-prediction-windows.md) bounds output to the visible or requested region, and the [native/Python block producer](pixel-stream.md) iterates full targets without retaining the full mask. Atomic [QPS1 streamed files](pixel-stream-file.md) provide indexed historical blocks and complete verification. A shared native/Python [background export job](pixel-stream-export.md) also powers cancellable F5 file export without retaining a full mask. The [saved-file inspector](pixel-stream-browser.md) provides asynchronous indexed navigation, verification and a separate block preview. The [standalone CLI](pixel-stream-cli.md) exports one saved project target and verifies files. [Schema-10 external stream links](pixel-stream-records.md) preserve historical file descriptors and provide verified reopen/relink. [Hash-only scans](pixel-input-digests.md) compare feature/request/stream inputs without forest inference. [Project pixel batches](project-pixel-batches.md) provide captured-model exports and hash-only verified resume through native/Python/CLI/ImGui. Stitched contours, unmatched-grid resampling, expanded features, research/QuPath comparisons and hardware/frame budgets remain; see [object](object-classifiers.md) and [pixel](pixel-classifiers.md) workflows |
-| Tissue microarrays | qupath-core, qupath-gui-fx | core/analysis/gui | Partial | Native/Python/ImGui ellipse grids, undoable core/label/geometry edits, missing flags, shared case IDs, vacancies, bounded immutable snapshots, managed viewer commands, schema-11 persistence, present/missing-aware ROI/tissue/cell/pixel batches and metadata/context CSV; see [TMA contract](tissue-microarrays.md). Automatic dearraying, direct QuPath TMA interchange, case aggregation, biological/upstream comparisons and hardware acceptance remain |
+| Tissue microarrays | qupath-core, qupath-gui-fx | core/analysis/gui | Partial | Native/Python/ImGui ellipse grids, undoable core/label/geometry edits, missing flags, shared case IDs, vacancies, bounded immutable snapshots, managed viewer commands, schema-11 persistence, present/missing-aware ROI/tissue/cell/pixel batches, metadata/context CSV and single-grid case inventory/weighted measurement summaries; see [TMA contract](tissue-microarrays.md). Automatic dearraying, direct QuPath TMA interchange, cross-grid case pooling, biological/upstream comparisons and hardware acceptance remain |
 | Batch workflows | qupath-core, qupath-gui-fx | jobs | Partial | Native/Python/headless CLI ROI/tissue/cell processing, frozen capture, atomic per-image project/CSV checkpoints, pixel-verified restart, failure policies and cancellation; desktop launcher with progress, scope, presets and terminal reports; standalone single-target pixel-stream export/verification and project-wide captured-model pixel batches with verified hash-only resume are implemented; TMA core scope and CSV context are available; captured [raw-channel batches](raw-analysis-records.md) include immutable records and hash-only checkpoint reuse through native/Python/CLI/ImGui; distributed/portable workers and abandoned-work cleanup remain |
 | Python scripting | New API replacing Groovy workflow surface | bindings | Partial | Shared document/region API and ROI analysis jobs pass; native batch execution is implemented; owned NumPy region/float/label views, strided imports, packaged public stubs and typed workflow checks pass; managed live viewer queues/notifications, owner-only publication and GIL/thread checks pass; broader commands/model adapters and beta compatibility gates remain |
 | Bio-Formats and multiplex data | qupath-extension-bioformats | io | Partial | Optional [quantitative TIFF/OME reader](quantitative-tiff.md), typed raw arrays, channel/Z/time selections and display composites, schema-12 views, native worker UI and managed Python commands; schema-13 raw measurement records, explicit replay, historical CSV and raw batches; broader Bio-Formats readers, multi-file OME, raw classifier features and workflow validation remain |
@@ -33,27 +33,34 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 
 ## Current packet and remaining decisions
 
-The fully audited production body-mode engine `2afdcb9` is now on `main` after
-successful Windows/Linux, portable CPython3.11/3.12 fresh-consumer and both Mac
-native architecture gates. [Promotion evidence](benchmarks/watershed-bodies-main-promotion.json)
-records the exact fast-forward source. This does not publish a supported release
-or close outstanding M0â€“M7 science, hardware, license or packaging requirements.
+The sampled production recipe source `ddd3bb9` is on `main` after audited
+Windows/Linux, portable CPython 3.11/3.12 fresh-consumer and both macOS native
+architecture gates. [Promotion evidence](benchmarks/sampled-cells-main-promotion.json)
+records the exact fast-forward source. M0¨CM7 science, hardware, license and
+supported-package requirements remain open.
 
-The newer [sampled shape candidate](sampled-shape-watershed.md) remains on its
-validation branch. Its native masks and selected maxima match 26 frozen ImageJ
-cases exactly; real-slide nucleus IoU reaches 0.994 at explicit zero context.
-Its kernel-only source `4a07b0e` passes the audited Windows/Linux matrix and both
-Mac native architectures. The later explicit [sampled cell recipe](sampled-cell-recipes.md)
-adds QCL4/QCA4, Python/CLI/batch/ImGui integration, historical-domain replay and
-clipped-component measurements. It passes 47 local native suites and 145 focused
-Python cases. The full installed GUI regression now passes 2,362 tests with 13
-optional skips and three retained legacy scientific xfails. Production-recipe
-hosted validation and performance acceptance remain open; prior kernel gates do
-not cover the new recipe. The full workflow profile retains every observation
-and does not show a speed improvement on the isolated-disk fixture.
+The frontier/domain candidate `691c0f3` fixes historical sampled-domain replay
+checks and adds a bounded queue for small-radius expansion. Its
+[Linux engineering audit](benchmarks/expansion-frontier-linux-only.json),
+[macOS native audit](benchmarks/expansion-frontier-macos.json) and
+[portable builder/consumer audit](benchmarks/expansion-frontier-portable.json)
+pass. Windows GUI completion and the combined Windows/Linux artifact audit
+remain pending. Timing observations are mixed; no general speedup or hardware
+acceptance is claimed. The latest navigation qualification met frame timing but
+failed the frozen ambient CPU eligibility limit in one trial.
+
+The TMA case-summary candidate adds native/Python/ImGui single-grid replicate
+pooling, explicit weighting, missing-core exclusion, unassigned-core isolation,
+revision checks and bounded cancellable CSV export. The
+[initial installed validation](benchmarks/tma-case-initial-validation-windows.json)
+passed 47 native suites, 48 focused cases and 2,390 full Python cases, with 13
+optional skips and three retained strict legacy science xfails. A final panel
+label refinement is undergoing validation. Source-bound CI cohort guards reject
+missing, duplicate, failed, skipped and stale evidence. Cross-platform TMA
+candidate acceptance and broader biological/QuPath comparisons remain open.
 
 The [real-slide cell comparison](qupath-ndpi-cell-comparisons.md) now retains
-an immutable QuPath NDPI capture and exact source pixels. Native LoG modes
+an immutable QuPath NDPI capture and exact source pixels. The legacy natural-grid LoG modes
 detect299 cells versus506 upstream, with nucleus foreground IoU0.506.
 Tile invariance and independent native RGB/count checks pass; real-tissue
 segmentation parity remains unresolved. The source2afd Windows/Linux artifact

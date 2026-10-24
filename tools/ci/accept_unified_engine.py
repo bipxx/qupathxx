@@ -30,14 +30,20 @@ parser.add_argument('--watershed-bodies',action='store_true',help='Require stric
 parser.add_argument('--sampled-shape',action='store_true',help='Also require all 26 frozen native masks/maxima and 53 capture/cohort checks; implies watershed bodies')
 parser.add_argument('--sampled-cells',action='store_true',help='Require QCL4 production recipe, 53 sampled workflow cases and independent comparison; implies sampled shape')
 parser.add_argument('--small-frontier',action='store_true',help='Require 1344 native queue comparisons and eight strict unit-radius workflow cases; implies sampled cells')
+parser.add_argument('--tma-cases',action='store_true',help='Require exact case aggregation, numeric regression and desktop export cohorts; implies small frontier')
 parser.add_argument('--linux-only',action='store_true',help='Audit only the three successful Linux jobs; never accepts the full matrix')
 args=parser.parse_args();RUN=args.run;COMMIT=args.commit
+args.small_frontier=args.small_frontier or args.tma_cases
 args.sampled_cells=args.sampled_cells or args.small_frontier
 args.sampled_shape=args.sampled_shape or args.sampled_cells
 args.watershed_bodies=args.watershed_bodies or args.sampled_shape
 if args.small_frontier:
     spec=importlib.util.spec_from_file_location('qpx_frontier_evidence',Path(__file__).with_name('frontier_evidence.py'))
     frontier=importlib.util.module_from_spec(spec);spec.loader.exec_module(frontier)
+if args.tma_cases:
+    spec=importlib.util.spec_from_file_location('qpx_tma_case_evidence',Path(__file__).with_name('tma_case_evidence.py'))
+    tma_cases=importlib.util.module_from_spec(spec);spec.loader.exec_module(tma_cases)
+
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 def junit(path):
@@ -337,7 +343,7 @@ for job in run['jobs']:
         entry['tma_benchmark']=tma
         if 'GUI' in job['name']:
             cases=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_gui_tma')]
-            assert len(cases)==8 and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in cases)
+            assert len(cases)==(12 if args.tma_cases else 8) and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in cases)
             entry['tma_gui_cases']=[t.get('name') for t in cases]
             b=json.loads((folder/'gui-tma-benchmark.json').read_text(encoding='utf8'))
             assert b['native_sha256']==workflow['native_sha256'] and b['environment']['source_tree_sha256']==workflow['source_tree_sha256'] and b['environment']['git_revision']==COMMIT
@@ -704,6 +710,10 @@ for job in run['jobs']:
                     preserved.append(frontier.unchanged_real_masks(candidate,original,padding))
                 entry['small_frontier']['real_slide_masks_preserved']=preserved
                 entry['small_frontier']['real_slide_baseline_sha256']=sha(ROOT/baseline_path)
+    if args.tma_cases:
+        entry['tma_cases']=tma_cases.native(native_cases)
+        if (folder/'python-tests.xml').exists():
+            entry['tma_cases'].update(tma_cases.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),ROOT,COMMIT,gui='GUI' in job['name']))
     report['jobs'].append(entry)
 report['fixture_retraining']=dict(local_and_audited_hosted_models_identical=True,
     model_sha256=local['model_sha256'],training_sha256=local['training_sha256'],
@@ -718,6 +728,8 @@ report['sampled_shape_required']=args.sampled_shape
 report['sampled_cells_required']=args.sampled_cells
 report['small_frontier_required']=args.small_frontier
 if args.small_frontier:report['frontier_helper_sha256']=sha(Path(__file__).with_name('frontier_evidence.py'))
+report['tma_cases_required']=args.tma_cases
+if args.tma_cases:report['tma_case_helper_sha256']=sha(Path(__file__).with_name('tma_case_evidence.py'))
 report['performance_accepted']=False
 report['macos_accepted']=False
 report['release_ready']=False
