@@ -99,5 +99,9 @@ std::string tma_cohort_manifest_csv(const TmaCohort&,std::size_t byte_limit=64*1
 std::string tma_cohort_case_summary_csv(const TmaCohort&,const std::string& table="",const std::string& value_column="",
     const std::string& weight_column="",std::size_t byte_limit=64*1024*1024,bool allow_unversioned=false,
     const std::atomic<bool>* cancelled=nullptr);
+// Shared bounded loader and atomic new-file publication for cohort summaries.
+std::size_t save_tma_cohort_case_summary_csv(const TmaCohort&,const std::string& output_path,
+    const std::string& input_path="",const std::string& value_column="",const std::string& weight_column="",
+    std::size_t byte_limit=64*1024*1024,bool allow_unversioned=false,const std::atomic<bool>* cancelled=nullptr);
 std::vector<ObjectEdit> tma_grid_edits(const TmaGridOptions&);
 }

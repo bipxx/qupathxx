@@ -114,6 +114,35 @@ void cohort_summary_contracts() {
     a.reset();b.reset();check(tma_cohort_case_summary_csv(cohort,table,"Value","Weight")==summary);
     std::cout<<"TMA cohort raw-row pooling, image/core namespaces, isolated unassigned cores, source manifests, stale revisions and cancellation passed\n";
 }
+void cohort_file_contracts(const std::filesystem::path& root) {
+    namespace fs=std::filesystem;
+    auto doc=std::make_shared<Document>(Image(128,96,std::vector<std::uint8_t>(128*96*3,32)));
+    TmaGridOptions o;o.rows=1;o.columns=2;o.origin={30,30};o.row_step={0,30};o.column_step={40,0};o.width=20;o.height=20;
+    const auto ids=doc->create_tma_grid(o);doc->set_tma_case_ids({{ids[0],"file cohort"}});const auto grid=doc->tma_grid();
+    const TmaCohort cohort{{7,grid}};
+    const auto table="image_id,object_id,object_revision,Value\r\n7,"+std::to_string(ids[0])+','+std::to_string(grid->core(0,0)->revision)+",3.5\r\n";
+    const auto input=root/"cohort-input.csv",output=root/"cohort-output.csv",inventory=root/"cohort-inventory.csv";
+    {std::ofstream stream(input,std::ios::binary);stream.write(table.data(),table.size());check(bool(stream));}
+    auto read=[](const fs::path& path) {std::ifstream stream(path,std::ios::binary);check(bool(stream));return std::string(std::istreambuf_iterator<char>(stream),{});};
+    const auto expected=tma_cohort_case_summary_csv(cohort,table,"Value");
+    check(save_tma_cohort_case_summary_csv(cohort,output.u8string(),input.u8string(),"Value")==expected.size());
+    check(read(output)==expected && read(input)==table);
+    rejects([&]{save_tma_cohort_case_summary_csv(cohort,output.u8string());});check(read(output)==expected);
+    rejects([&]{save_tma_cohort_case_summary_csv(cohort,input.u8string(),input.u8string(),"Value");});check(read(input)==table);
+    rejects([&]{save_tma_cohort_case_summary_csv(cohort,(root/"cohort-limited.csv").u8string(),input.u8string(),"Value","",1);});
+    check(!fs::exists(root/"cohort-limited.csv"));
+    check(save_tma_cohort_case_summary_csv(cohort,inventory.u8string())==tma_cohort_case_summary_csv(cohort).size());
+    check(read(inventory)==tma_cohort_case_summary_csv(cohort));
+    bool invalid_before_io=false;
+    try {save_tma_cohort_case_summary_csv({},"");}catch(const std::invalid_argument& e) {invalid_before_io=std::string(e.what()).find("1..4096")!=std::string::npos;}
+    check(invalid_before_io);
+    std::atomic<bool> stop{true};bool cancelled_before_io=false;
+    try {save_tma_cohort_case_summary_csv(cohort,"","","","",64*1024*1024,false,&stop);}
+    catch(const std::exception& e) {cancelled_before_io=std::string(e.what()).find("cancel")!=std::string::npos;}
+    check(cancelled_before_io);
+    for(const auto& entry:fs::directory_iterator(root)) check(entry.path().filename().u8string().find(".qpx-tmp-")==std::string::npos);
+    std::cout<<"TMA cohort atomic files preserve captured CSV bytes, existing files and input aliases; capture validation and cancellation precede I/O\n";
+}
 int main() {
     namespace fs=std::filesystem;const auto root=fs::current_path()/("tma-test-"+std::to_string(std::random_device{}()));
     try {
@@ -140,6 +169,7 @@ int main() {
         const auto filled=doc->add_tma_core(0,2,{135,18,30,24},"replacement");check(filled!=ids[2] && doc->tma_grid()->core(0,2)->id==filled);
         const auto snapshot=doc->tma_grid();
         check(fs::create_directory(root));
+        cohort_file_contracts(root);
         {
             const auto a=snapshot->core(0,0);const auto input=root/"case-input.csv",output=root/"cases.csv",inventory=root/"inventory.csv";
             const auto table="object_id,object_revision,Value,Weight\r\n"+std::to_string(a->id)+','+std::to_string(a->revision)+",2,3\r\n";

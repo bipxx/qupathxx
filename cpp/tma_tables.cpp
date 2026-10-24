@@ -1,4 +1,5 @@
 #include "qupathxx/tma.hpp"
+#include "tma_internal.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
 #include "decimal_quantity.hpp"
@@ -80,15 +81,9 @@ void checkpoint(const std::atomic<bool>* cancelled) {
     if(cancelled && cancelled->load(std::memory_order_relaxed)) throw std::runtime_error("TMA cohort cancelled");
 }
 Captures captures(const TmaCohort& cohort,std::size_t maximum,const std::atomic<bool>* cancelled) {
-    limit(maximum);checkpoint(cancelled);
-    if(cohort.empty() || cohort.size()>4096) throw std::invalid_argument("TMA cohort requires 1..4096 grids");
-    Captures result;result.reserve(cohort.size());std::size_t bytes=0;
-    for(const auto& entry:cohort) {
-        checkpoint(cancelled);
-        if(!entry.first || !entry.second) throw std::invalid_argument("TMA cohort requires positive image IDs and nonnull grids");
-        if(entry.second->payload_bytes()>maximum-bytes) throw std::length_error("TMA cohort captures exceed byte limit");
-        bytes+=entry.second->payload_bytes();result.emplace_back(entry.first,entry.second.get());
-    }
+    detail::validate_tma_cohort(cohort,maximum,cancelled);
+    Captures result;result.reserve(cohort.size());
+    for(const auto& entry:cohort) result.emplace_back(entry.first,entry.second.get());
     return result;
 }
 std::string hash_text(const std::string& text,const std::atomic<bool>* cancelled) {
@@ -231,6 +226,17 @@ std::string case_summary(const Captures& sources,bool cohort,const std::string& 
 std::string tma_case_summary_csv(const TmaGrid& grid,const std::string& table,const std::string& value,
     const std::string& weight,std::size_t maximum,bool unversioned,const std::atomic<bool>* cancelled) {
     return case_summary({{0,&grid}},false,table,value,weight,maximum,unversioned,cancelled);
+}
+void detail::validate_tma_cohort(const TmaCohort& cohort,std::size_t maximum,const std::atomic<bool>* cancelled) {
+    limit(maximum);checkpoint(cancelled);
+    if(cohort.empty() || cohort.size()>4096) throw std::invalid_argument("TMA cohort requires 1..4096 grids");
+    std::size_t bytes=0;
+    for(const auto& entry:cohort) {
+        checkpoint(cancelled);
+        if(!entry.first || !entry.second) throw std::invalid_argument("TMA cohort requires positive image IDs and nonnull grids");
+        if(entry.second->payload_bytes()>maximum-bytes) throw std::length_error("TMA cohort captures exceed byte limit");
+        bytes+=entry.second->payload_bytes();
+    }
 }
 std::string tma_cohort_manifest_csv(const TmaCohort& cohort,std::size_t maximum,const std::atomic<bool>* cancelled) {
     return cohort_manifest(captures(cohort,maximum,cancelled),maximum,cancelled);
