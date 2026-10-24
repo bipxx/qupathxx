@@ -5043,6 +5043,8 @@ def tma_context_csv(snapshot: TmaGrid, table: str, byte_limit: int = ..., requir
 
 def tma_case_summary_csv(snapshot: TmaGrid, table: str = ..., value_column: str = ..., weight_column: str = ..., byte_limit: int = ..., allow_unversioned: bool = ...) -> str: ...
 
+def save_tma_case_summary_csv(snapshot: TmaGrid, output_path: str, input_path: str = ..., value_column: str = ..., weight_column: str = ..., byte_limit: int = ..., allow_unversioned: bool = ...) -> int: ...
+
 class SampleType(enum.Enum):
     UINT8 = 0
 

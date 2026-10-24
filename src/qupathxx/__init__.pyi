@@ -37,6 +37,7 @@ from ._native import (
     tma_metadata_csv as tma_metadata_csv,
     tma_context_csv as tma_context_csv,
     tma_case_summary_csv as tma_case_summary_csv,
+    save_tma_case_summary_csv as save_tma_case_summary_csv,
     ObjectCellFeatureSource as ObjectCellFeatureSource,
     ObjectFeatureCellOrigin as ObjectFeatureCellOrigin,
     ObjectClassifierArchive as ObjectClassifierArchive,
