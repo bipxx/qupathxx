@@ -77,9 +77,10 @@ remain; three byte-identical runtime aliases coalesce. The
 [local receipt](benchmarks/macos-relocation-local-windows.json) retains real-input
 plan observations and explicitly distinguishes them from actual relocation.
 
-Actual Apple editing/signature execution on qupathxx, source-bound relocated
-archive CI audits, relocated native region/batch/GEOS workflows and runtime-image
-mapping checks are still required. No new hosted run of this executor is claimed.
+Candidate 152 connects actual Apple editing/signature execution, source-bound
+archive CI audits and [fresh native region/batch/GEOS runtime/image-mapping probes](macos-relocated-runtime.md).
+Its new exact-source hosted qualification remains pending; this local planning
+receipt does not accept actual relocation.
 Python/GUI/OpenSlide macOS packaging, runtime/ABI availability, installers/
 distribution signing, license, hardware and scientific/QuPath acceptance remain
 open. Full M0-M7 completion is not claimed.

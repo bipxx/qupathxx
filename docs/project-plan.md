@@ -4943,3 +4943,23 @@ and [local receipt](benchmarks/macos-relocation-local-windows.json). Actual Appl
 editing and relocated native workflows, source-bound CI validation and broader
 Mac packaging remain pending. No native runtime, hardware, biological, licensing,
 signing or full M0-M7 completion is inferred from this local proof.
+
+## Actual Mac relocation and fresh native runtime gates (candidate 152)
+
+The Mac workflow now executes staged Apple install-name/ad-hoc integrity steps,
+uploads both original and relocated bytes and runs region, legacy-project OD
+batch/checkpoint/CSV and GEOS union/image-mapping probes from a fresh extraction
+whose path contains spaces. Loader search overrides are removed. Source and
+package hashes, calibrated scalar expectations and actual mapped GEOS paths
+must agree. The source-bound auditor reconstructs plans/metadata and checks
+every command, log and retained artifact before accepting host engineering.
+
+All 358 focused cases pass, including 31 runtime protocol/simulated-flow tests
+and 14 command-audit cases. A complete simulation exposed a child/ledger filename
+collision, now fixed with the original failure retained. The scalar CSV contract
+also passes against an older accepted Windows executable; that is a pilot, not
+new Mac acceptance. See the [runtime contract](macos-relocated-runtime.md) and
+[local receipt](benchmarks/macos-relocation-runtime-local-windows.json). Actual
+Intel/arm64 relocation and host runtime qualification remain pending. Older-OS,
+arbitrary ABI, Mac Python/GUI/OpenSlide, installers/signing, licensing, hardware
+and biological/research acceptance remain open; full M0-M7 is still partial.
