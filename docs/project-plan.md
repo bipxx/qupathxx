@@ -4193,3 +4193,23 @@ Startup and ordinary GUI checks exercise their respective warmup/sample rules;
 benchmark and typed exports expose both measurements. Source-specific GUI/native,
 stub/typing, regression and performance validation are pending. No33ms wall or
 hardware acceptance follows from the earlier CPU observation alone.
+
+
+Packet127's [completed Windows local receipt](benchmarks/rendered-loop-local-windows.json)
+accepts 2,205 Python cases, 46 native suites, installed/stub/typing checks and
+the 4,200-frame bounded-retention case. Thirteen optional skips and the same
+three scientific xfails remain explicit. Its Linux source-specific artifact
+audit accepts 1,812 Python / 45 native plus minimal/sanitizer; hosted Windows
+GUI and overall matrix gates remain independent.
+
+Renderer-specific profiling now retains source-bound raw traces and reconstructs
+CPU percentiles. One RTX 4090 NDPI pair reports 17.15/17.08 ms wall p95; the
+sequential software-renderer pair reports 38.72/38.22 ms. Exact-pixel immediate/
+cached 100,000-object pairs report 127.30/17.10 ms wall p95 for the full view;
+the zoomed view culls to 3,010 visible objects. An initial failed-selection trial
+is retained, and the benchmark establishes a canvas target before Ctrl+A without
+changing native selection behavior. See the [timing contract and evidence](frame-timing.md).
+All are observations of compiled source2c. The [frozen navigation protocol](navigation-performance-protocol.md)
+requires three independent trials of newer qualified source459 before accepting
+this hardware/workload target. General hardware, physical DPI, scientific,
+platform, license and M0–M7 release gates are not accepted by these observations.

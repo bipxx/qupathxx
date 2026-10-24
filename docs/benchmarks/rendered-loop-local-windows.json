@@ -1,0 +1,58 @@
+{
+  "schema": "qpx.rendered-loop-local-validation/1",
+  "compiled_commit": "2c6ce765de0badc1ca0ccd96313925eb8351105e",
+  "native_sha256": "fa5a2ea3179fbb6ad1728139c9eee17b284ba9cce4be85669dab00838b398512",
+  "source_tree_sha256": "1ca2a4c3f15b9c6ef380450eb7231b4936c61051e9a4613b0e30ae4d9d30fcf6",
+  "source_projection": {
+    "compiled_commit": "2c6ce765de0badc1ca0ccd96313925eb8351105e",
+    "current_commit": "afff1a61931b021bb37e834833888c8c0cab63f9",
+    "input_count": 248,
+    "actual_source_tree_sha256": "1ca2a4c3f15b9c6ef380450eb7231b4936c61051e9a4613b0e30ae4d9d30fcf6",
+    "compiled_inputs_equal_current_git": true,
+    "actual_bytes_match_compiled": true
+  },
+  "native": {
+    "total": 46,
+    "passed": 46,
+    "failure": 0,
+    "error": 0,
+    "skipped": 0,
+    "sha256": "183d1869ed211779570030b07f1060d2e1ad7c882f96b95e27c20a241367ab0b"
+  },
+  "full_gui": {
+    "total": 2221,
+    "passed": 2205,
+    "failure": 0,
+    "error": 0,
+    "skipped": 16,
+    "sha256": "7008e00d742b4490cdfdd7f0163fc329a02ade468c149e58a4b852c7382c5c1e"
+  },
+  "rollover": {
+    "total": 1,
+    "passed": 1,
+    "failure": 0,
+    "error": 0,
+    "skipped": 0,
+    "sha256": "a79eba8ad4e0ad2449fef9fca4c4df5d768d0e4d9ec394f6c58eaf74adb92912"
+  },
+  "installed_workflow_sha256": "c79e75fd40b604558831121c04ce9bd78e954f4344c3e7d2bede7599ea9b8b46",
+  "stubs_check_sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+  "positive_typing_sha256": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+  "negative_typing": {
+    "rejected_lines": [
+      6,
+      7,
+      8,
+      9,
+      11,
+      13,
+      14
+    ],
+    "sha256": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "legacy_scientific_xfails": 3,
+  "optional_skips": 13,
+  "performance_accepted": false,
+  "release_ready": false,
+  "scope": "Local Windows GUI engineering validation; optional fixture/platform cases remain skipped and legacy scientific xfails remain explicit. Hardware/software timing observations are separately bound receipts; no complete M0-M7, performance or release acceptance."
+}
