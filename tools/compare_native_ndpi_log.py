@@ -24,6 +24,7 @@ def main():
     parser.add_argument('--image',type=Path,required=True)
     parser.add_argument('--output-directory',type=Path,required=True)
     parser.add_argument('--report',type=Path,required=True)
+    parser.add_argument('--imagej-runtime-cache',type=Path,help='Also isolate shape splitting with verified pinned ImageJ APIs')
     args=parser.parse_args()
     comparison=load('qpx_native_ndpi_capture','compare_qupath_ndpi_cells.py')
     metrics=load('qpx_native_ndpi_labels','label_comparison.py')
@@ -81,6 +82,34 @@ def main():
             capture_manifest_sha256=comparison.sha(reference/'capture-manifest.json'),source_pixels_equal=True,
             legacy_kernel_matches_production=True,production_integrated=False,
             scientific_accepted=False,performance_accepted=False,results=results)
+        if args.imagej_runtime_cache:
+            runtime=load('qpx_native_ndpi_runtime','fetch_qupath.py').fetch(args.imagej_runtime_cache)
+            stage=ROOT/'tools/upstream/imagej_edm_probe.groovy'
+            region_maps=[]
+            for option in ['--regions','--response-regions']:
+                path=args.output_directory/(option[2:]+'.qlr')
+                subprocess.run([str(args.executable),option,str(input),str(path)],check=True)
+                region_maps.append(path)
+            report['response_basin_region_mask_equal']=region_maps[0].read_bytes()==region_maps[1].read_bytes()
+            output=args.output_directory/'imagej-edm.qlr'
+            capture=subprocess.run([str(runtime),'script','--args',str(region_maps[0].resolve()),
+                '--args',str(output.resolve()),'--args',f'{padding},{padding},{width},{height}',str(stage)],
+                stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=300)
+            log=args.output_directory/'imagej-edm.log';log.write_bytes(capture.stdout);capture.check_returncode()
+            raw=output.read_bytes()
+            if raw[:4]!=b'QLR1' or struct.unpack_from('<II',raw,4)!=(rw,rh):raise ValueError('incorrect ImageJ stage protocol')
+            grid=np.frombuffer(raw,dtype='<u4',offset=16).reshape(rh,rw)
+            local=grid[padding:padding+height,padding:padding+width]
+            counts=np.bincount(local.ravel());sums=np.bincount(local.ravel(),weights=score[padding:padding+height,padding:padding+width].ravel())
+            means=np.divide(sums,counts,out=np.zeros_like(sums),where=counts>0)
+            keep=(counts>=p.min_nucleus_pixels)&(counts<=p.max_nucleus_pixels)&(means>=p.threshold);keep[0]=False
+            dense=np.cumsum(keep,dtype=np.uint32)*keep;local=dense[local]
+            report['imagej_shape_stage']=dict(input_sha256=comparison.sha(region_maps[0]),
+                output_sha256=comparison.sha(output),script_sha256=comparison.sha(stage),
+                log_sha256=comparison.sha(log),native_count=int(local.max()),
+                metrics=metrics.metrics(labels,local,contract['comparison']),
+                runtime_upstream=comparison.read((comparison.CONTRACT.parent/contract['upstream_contract']).resolve())['upstream'])
+            print(json.dumps(dict(stage='imagej_shape',native_count=int(local.max()),foreground_iou=report['imagej_shape_stage']['metrics']['foreground_iou'])),flush=True)
         args.report.parent.mkdir(parents=True,exist_ok=True)
         args.report.write_bytes((json.dumps(report,indent=2,allow_nan=False)+'\n').encode())
     finally:server.close()

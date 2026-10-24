@@ -18,6 +18,11 @@ if(width<=0 || height<=0 || (long)width*height>1024*1024 || input.remaining()!=(
 def mask=new ByteProcessor(width,height)
 for(int i=0;i<width*height;i++) mask.set(i,input.getInt()==0?0:255)
 new EDM().toWatershed(mask)
+def roi=args[2].split(',').collect {it as int}
+if(roi.size()!=4 || roi[0]<0 || roi[1]<0 || roi[2]<=0 || roi[3]<=0 || roi[0]+roi[2]>width || roi[1]+roi[3]>height)
+    throw new IllegalArgumentException('Invalid ROI')
+for(int y=0;y<height;y++) for(int x=0;x<width;x++)
+    if(x<roi[0] || y<roi[1] || x>=roi[0]+roi[2] || y>=roi[1]+roi[3]) mask.set(x,y,0)
 mask.setThreshold(127,Double.POSITIVE_INFINITY,0)
 def regions=RoiLabeling.getFilledPolygonROIs(mask,Wand.FOUR_CONNECTED)
 def labels=new FloatProcessor(width,height)
