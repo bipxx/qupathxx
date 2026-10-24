@@ -2,6 +2,7 @@
 import argparse
 import gzip
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import struct
@@ -24,12 +25,18 @@ def main():
     args = parser.parse_args()
     executable = args.executable.resolve()
     fixtures = ROOT / 'tests/fixtures/qupath-cells-0.7.0'
-    contract = json.loads((fixtures / 'contract.json').read_text(encoding='utf-8'))
+    capture_tool = ROOT / 'tools/compare_qupath_cells.py'
+    spec = importlib.util.spec_from_file_location('qpx_pinned_cell_capture', capture_tool)
+    capture = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(capture)
+    contract = capture.verify_capture(fixtures / 'capture')
     width, height = contract['width'], contract['height']
     environment = json.loads(subprocess.check_output([str(executable), '--environment'], text=True))
     report = dict(schema='qpx.native-cell-expansion-comparison/1',
                   environment=environment, native_sha256=sha(executable), tool_sha256=sha(Path(__file__)),
                   contract_sha256=sha(fixtures / 'contract.json'), cases=[],
+                  capture_manifest_sha256=sha(fixtures / 'capture/capture-manifest.json'),
+                  capture_verifier_sha256=sha(capture_tool),
                   production_recipe_integrated=False, segmentation_parity_accepted=False,
                   biological_validation=False, performance_accepted=False,
                   scope='Expansion-only comparison starting from pinned upstream nuclei. No detector, context, arbitrary resampling or production recipe acceptance.')
