@@ -33,6 +33,7 @@ int execute(const std::vector<std::string>& args) {
             "       qupathxx_batch --export-csv CHECKPOINT OUTPUT.csv\n"
             "       qupathxx_batch --export-cell-table PROJECT OUTPUT.csv [--capture-calibration] [--published] [--require-current]\n"
             "       qupathxx_batch --export-tma-cases PROJECT OUTPUT.csv [--image ID]\n"
+            "       qupathxx_batch --export-tma-cohort PROJECT OUTPUT.csv (--image ID ... | --all-tma-images)\n"
             "       qupathxx_batch --export-pixels PROJECT IMAGE_ID OBJECT_ID MODEL OUTPUT.qps [options]\n"
             "       qupathxx_batch --verify-pixels FILE.qps [--file-bytes N]\n"
             "Pixel export: --block-size N --work-bytes N --tile-size N --file-bytes N\n"
