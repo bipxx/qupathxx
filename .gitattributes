@@ -55,3 +55,4 @@ tools/qualify_navigation.py text eol=lf
 docs/benchmarks/rendered-loop-*.json -text whitespace=cr-at-eol
 docs/benchmarks/darwin-training-size-*.json -text whitespace=cr-at-eol
 docs/benchmarks/darwin-prediction-size-*.json -text whitespace=cr-at-eol
+docs/benchmarks/gui-stack-*.json -text whitespace=cr-at-eol

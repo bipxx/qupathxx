@@ -1,0 +1,46 @@
+{
+  "schema": "qpx.gui-stack-local/1",
+  "source": "794f29f2629112a3b36452b1b259a361576468c7",
+  "native_sha256": "9e7e6213a9e7b6b7db4317066e2fd90326df204cf325edf48ad5440efee76d34",
+  "source_tree_sha256": "3b88554ec94e235aa14181423e724b180c1285d151a4398d953cc4cdfe0c6628",
+  "native": {
+    "total": 46,
+    "passed": 46,
+    "sha256": "b25cbac44b3995faa75c5e62ff13ac30ee828e8b7f77ce5e5a43bf277ca80163"
+  },
+  "focused": {
+    "total": 35,
+    "passed": 35,
+    "sha256": "45fe2eb5077e5e043f3fda6da9b5d101828b3f0bda04f9c8f22ce897b995c68b"
+  },
+  "native_startup_processes": 8,
+  "executable_stack_reserve_bytes": 1048576,
+  "app_sha256": "dd78735921c4846d0459e692d32b1bdf868e6f77be5189dfa6854f054a7f1e9c",
+  "stack_frame": {
+    "before_bytes": 894880,
+    "after_bytes": 362320,
+    "reduction_bytes": 532560,
+    "old_disassembly_sha256": "8b6607daf7cb8a2f272f5ac96db6f0c5d94c98bfd95061917cb479a7e23ab79d",
+    "new_disassembly_sha256": "c77654456464b5df17291f708e1452a4384de632c2dd31fb6371bbe15ab8fce6",
+    "measurement": "MSVC run_gui prologue allocation before callee frames; unchanged 1 MiB executable reserve"
+  },
+  "installed_workflow_sha256": "5af2a5593bb4ff3a1172fd882d060218bd15586a345382c3ddf29c8e292c0901",
+  "stubs_sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+  "typing_sha256": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+  "original_ci_failure": {
+    "run": 40065385261,
+    "job": 120787436111,
+    "status": "0xc00000fd",
+    "log_sha256": "b7ead1540bc5290a6a2f1561cb7660b480c5bf97119f2364741f1f5290af39ad"
+  },
+  "original_local_reproduction": {
+    "trials": 20,
+    "failures": 0,
+    "result_sha256": "31eabe7039091f56465549f116d318e1a805e6cbc6fdb4213789d0e1148d533b",
+    "note": "The CI failure did not reproduce locally in these trials."
+  },
+  "full_gui_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "scope": "Local native/installed/stub/typing/focused validation and quantitative stack reduction only. Full GUI regression is still running; CI crash resolution and full-source/platform/performance acceptance remain unproven."
+}
