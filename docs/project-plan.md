@@ -4193,3 +4193,22 @@ Startup and ordinary GUI checks exercise their respective warmup/sample rules;
 benchmark and typed exports expose both measurements. Source-specific GUI/native,
 stub/typing, regression and performance validation are pending. No33ms wall or
 hardware acceptance follows from the earlier CPU observation alone.
+
+
+## Packet128: Darwin pixel-training memory arithmetic
+
+Mac124 Intel native validation at source `1b90075`, run 40061480958,
+failed to compile `pixel_training.cpp`: multiplying `size_t` widths by
+`int64_t` heights promoted scratch accounting to `unsigned long long` on
+Darwin, conflicting with `size_t` arguments to `std::min` and `std::max`.
+The Windows/Linux aliases had masked this portability defect. The job's
+artifact upload also timed out; the completed job log retains the compiler
+diagnostics independently of that upload failure.
+
+Source `46abb4b89924ca686048acd9fd24301681f3a7af` casts both dimensions to
+`size_t` before bounded scratch multiplication. Memory limits, feature values,
+archive formats and worker ownership retain their existing behavior. A local
+Windows native build, both Mac architectures in run 40064794386 and a fresh
+extended Windows/Linux matrix are pending. This source includes packet127's
+wall timing and long-session check; earlier engine qualification cannot accept
+this changed source. Main promotion and every remaining M0–M7 gate stay open.
