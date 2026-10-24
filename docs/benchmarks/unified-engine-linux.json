@@ -2131,7 +2131,7 @@
   },
   "auditor": {
     "path": "tools/ci/accept_unified_engine.py",
-    "sha256": "078738f987a63aab15ab3dada500f0974feac47d3af89ffa0388edf37707482c"
+    "sha256": "3c9c5cc333ad782dbd043c7a454c85d89c04cf58bd08df575fa7192087d5e9b0"
   },
   "windows_linux_engineering_scope_accepted": false,
   "linux_engineering_scope_accepted": true,
@@ -2140,17 +2140,20 @@
   "release_ready": false,
   "overall_project_complete": false,
   "negative_audit_checks": {
-    "wrong-source": {
-      "rejected": true,
-      "log_sha256": "f2ce43a4ca45287ef40c851cb5ba9537f9d6f73f162865acef0a4d480d3607fb"
-    },
-    "optimized": {
-      "rejected": true,
-      "log_sha256": "cbc4109a7a492cb5d2f1d19bbe965f6bede0878166b304eb3babcdcfb3467ea1"
-    },
-    "log-skip": {
-      "rejected": true,
-      "log_sha256": "71bf3caf24f4b9f78395d87699ec2c612ccabbe90839774f91ef3730453cdd8e"
+    "auditor_sha256": "3c9c5cc333ad782dbd043c7a454c85d89c04cf58bd08df575fa7192087d5e9b0",
+    "checks": {
+      "wrong-source": {
+        "rejected": true,
+        "log_sha256": "f2ce43a4ca45287ef40c851cb5ba9537f9d6f73f162865acef0a4d480d3607fb"
+      },
+      "optimized": {
+        "rejected": true,
+        "log_sha256": "cbc4109a7a492cb5d2f1d19bbe965f6bede0878166b304eb3babcdcfb3467ea1"
+      },
+      "log-skip": {
+        "rejected": true,
+        "log_sha256": "71bf3caf24f4b9f78395d87699ec2c612ccabbe90839774f91ef3730453cdd8e"
+      }
     }
   }
 }

@@ -515,4 +515,3 @@ report['overall_project_complete']=False
 args.output.parent.mkdir(parents=True,exist_ok=True)
 args.output.write_bytes((json.dumps(report,indent=2)+'\n').encode('utf-8'))
 print(json.dumps([dict(name=j['name'],native=j['native']['passed'],python=j.get('python',{}).get('passed')) for j in report['jobs']],indent=2))
-
