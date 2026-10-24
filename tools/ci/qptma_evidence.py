@@ -1,12 +1,13 @@
 """Require source-bound native and installed QPTMA correctness cohorts."""
 import hashlib
 import json
+import re
 from pathlib import Path
 import subprocess
 SOURCES=['CMakeLists.txt','cpp/qptma.cpp','cpp/include/qupathxx/qptma.hpp','cpp/tma_bindings.cpp','cpp/tests/qptma_tests.cpp',
  'src/qupathxx/__init__.py','src/qupathxx/__init__.pyi','src/qupathxx/_native.pyi','tests/test_qptma.py','tests/test_qptma_reference.py','tests/test_qptma_evidence.py',
  'tools/ci/accept_unified_engine.py','tools/ci/accept_manylinux.py','tools/ci/accept_macos_native.py',
- 'tools/ci/qptma_evidence.py','tools/ci/qptma-cases.json','tools/upstream/qupath_tma_reference.groovy',
+ 'tools/ci/qptma_evidence.py','tools/ci/qptma-cases.json','tools/ci/run.py','tools/generate_stubs.py','tests/typing/qptma_invalid.py','tests/typing/valid_api.py','tools/upstream/qupath_tma_reference.groovy',
  *['tests/fixtures/qupath-tma-0.7.0/'+name for name in ['manifest.json','reference.json','fractional-import.qptma','qupath-export.qptma','capture.log']]]
 CASES=json.loads(Path(__file__).with_name('qptma-cases.json').read_text(encoding='utf-8'))
 MARKER='QPTMA native fixture, fractional/quoted wire, atomic history, quotas and 10000-core round trips passed'
@@ -38,3 +39,9 @@ def python(cases):
         require(all(case.find(tag) is None for case in selected for tag in ['failure','error','skipped']),'qptma installed cohort failed or skipped')
         groups.append(dict(classname=classname,passed=len(selected)))
     return dict(passed=sum(group['passed'] for group in groups),groups=groups)
+
+
+def typing_errors(path):
+    text=Path(path).read_text(encoding='utf-8')
+    require(sorted(map(int,re.findall(r'qptma_invalid\.py:(\d+): error:',text)))==[4,5,6], 'QPTMA negative typing errors differ')
+    return dict(expected_errors=3,sha256=hashlib.sha256(Path(path).read_bytes()).hexdigest())

@@ -286,6 +286,10 @@ def main():
     lines = re.findall(r'invalid_api\.py:(\d+): error:', negative_log.read_text(encoding='utf8'))
     if sorted(map(int, lines)) != [6, 7, 8, 9, 11, 13, 14]:
         raise RuntimeError('negative typing fixture must reject all seven intended mistakes')
+    qptma_negative_log=work/'qptma-typing-negative.log'
+    run([test_python,'-I','-m','mypy','--strict','--no-incremental','tests/typing/qptma_invalid.py'],qptma_negative_log,env,expected=1)
+    if sorted(map(int,re.findall(r'qptma_invalid\.py:(\d+): error:',qptma_negative_log.read_text(encoding='utf-8')))) != [4,5,6]:
+        raise RuntimeError('QPTMA typing fixture must reject all three intended mistakes')
     if os.name == 'nt' and args.mode == 'gui':
         stage = archive_windows(wheel, work)
         inspect = [sys.executable, '-I', ROOT/'tools/ci/runtime_manifest.py', '--native-archive',

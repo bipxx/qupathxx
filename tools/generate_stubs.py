@@ -27,6 +27,7 @@ def main():
             if line.startswith('class '):current=line.split()[1].split('(')[0].rstrip(':')
             if 'def numpy(' in line and current in ('Image','PixelBuffer','FloatRgbImage'):
                 dtype='float32' if current=='FloatRgbImage' else 'uint8';line=line.replace('-> object:','-> NDArray[numpy.'+dtype+']:')
+            if current=='QptmaData' and 'def cores(' in line:line=line.replace('arg: list,','arg: list[QptmaCore],')
             if 'def labels_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint32]:')
             if current=='PixelFeatureImage' and 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
             if current in ('PixelFeatureImage','PixelClassification','PixelPredictionResult') and 'def valid_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint8]:')
