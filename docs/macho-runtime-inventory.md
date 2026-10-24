@@ -59,7 +59,8 @@ the inputs, parser/probe identities, observations and scope.
 This binary-reader packet does not produce a macOS runtime package. Candidate
 150 adds [native/SDK evidence snapshots](macos-native-inventory.md), source-bound
 archive reinspection and actual `otool` comparison to the macOS workflow;
-its new hosted validation is pending. Origin/install-name resolution and
+its [actual Intel/arm64 hosted validation](benchmarks/macos-native-inventory-macos.json)
+is accepted at `82c20ff`. Origin/install-name resolution and
 relocation remain required. The current Mac native
 build may embed SDK paths; that existing limitation remains explicit. macOS
 wheel/GUI/OpenSlide support, installers/signing, runtime/ABI availability,
