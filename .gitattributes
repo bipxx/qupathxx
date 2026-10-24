@@ -142,3 +142,11 @@ tests/test_linux_runtime_manifest.py text eol=lf
 tools/upstream/qupath_tma_reference.groovy text eol=lf
 tests/fixtures/qupath-tma-0.7.0/** -text
 tests/test_qptma_reference.py text eol=lf
+
+# Actual upstream/native interchange evidence is byte-addressed.
+docs/benchmarks/qupath-tma-native-roundtrip/** -text
+docs/benchmarks/qupath-tma-native-roundtrip-windows.json -text
+tools/ci/qptma-cases.json text eol=lf
+tools/ci/qptma_evidence.py text eol=lf
+tests/test_qptma.py text eol=lf
+tests/test_qptma_evidence.py text eol=lf
