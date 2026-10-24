@@ -1,0 +1,289 @@
+{
+  "schema": "qpx.windows-static-manifest-local-validation/1",
+  "tooling_source": "d5cdb9a33ca6985b9dd79aae87c75ef57a0c8cb1",
+  "native_engine_inputs_unchanged_from": "15ee0e83e0c377b526fecefeff88733db79a9585",
+  "unit_cases_passed": 54,
+  "unit_junit_sha256": "07a6e6c02f981410dcf0021a4acc351f290aaa3902a66680da5aceed8cc86d3f",
+  "controls_rejected": 21,
+  "controls_sha256": "35efabef147dbd9a444fb538c3d59b64c6fe13afaa7d6d0f33133249ef5ff209",
+  "positive": {
+    "gui": {
+      "source": "d5cdb9a33ca6985b9dd79aae87c75ef57a0c8cb1",
+      "tooling_sha256": {
+        "tools/ci/run.py": "3b7d4e09ed72b6bbd105472e18efe9b601afc3ea505063588b6f9ced95234ac7",
+        "tools/ci/runtime_manifest.py": "5dd9ba31600fb9115ded424075d70508234ad425b28afdb3feb7faeae4eee2a1",
+        "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+        "tools/ci/probe_pe_forwarders.py": "f0d479365858ee439bdb4430c8e929855ff9ce73d4bd5ae6c68dd6b8f6c14780",
+        "tools/ci/runtime_manifest_evidence.py": "5d426fa9c9f821404508f4bb74ace93557329b4fd1d066a6fcda4a214d1b9174"
+      },
+      "wheel_manifest_sha256": "8d6e2695f46cf5c1ea76069156dab5538bdbc05353d81799862a0978686eb261",
+      "wheel_files": 57,
+      "wheel_binaries": 7,
+      "wheel_dependency_edges": 131,
+      "native_forwarder_probe_sha256": "1046f57ab2f8968eee3e2dc93023221c7c762d201b9e97511f5810b14d8d66cf",
+      "static_windows_manifest_accepted": true,
+      "dynamic_loading_exhaustively_verified": false,
+      "external_runtime_availability_verified": false,
+      "release_ready": false,
+      "scope": "Exact-source offline archive reinspection and static dependency records. Native forwarder execution and binary digests are CI-generated evidence; fixture binary bytes are not uploaded. This does not accept deployment/runtime availability, arbitrary ABI, hardware, signing or a supported release.",
+      "native_manifest_sha256": "1f3a852984930b1bdbe49bb83ff895c978ee2602549ec9337fec9a4dbced4826",
+      "native_files": 48,
+      "native_binaries": 6,
+      "native_dependency_edges": 105
+    },
+    "headless": {
+      "source": "d5cdb9a33ca6985b9dd79aae87c75ef57a0c8cb1",
+      "tooling_sha256": {
+        "tools/ci/run.py": "3b7d4e09ed72b6bbd105472e18efe9b601afc3ea505063588b6f9ced95234ac7",
+        "tools/ci/runtime_manifest.py": "5dd9ba31600fb9115ded424075d70508234ad425b28afdb3feb7faeae4eee2a1",
+        "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+        "tools/ci/probe_pe_forwarders.py": "f0d479365858ee439bdb4430c8e929855ff9ce73d4bd5ae6c68dd6b8f6c14780",
+        "tools/ci/runtime_manifest_evidence.py": "5d426fa9c9f821404508f4bb74ace93557329b4fd1d066a6fcda4a214d1b9174"
+      },
+      "wheel_manifest_sha256": "3173b7d98acbcc9d12484af1eefa7eaef2a9fccd797797cf32276ef16f72e9a1",
+      "wheel_files": 47,
+      "wheel_binaries": 6,
+      "wheel_dependency_edges": 101,
+      "native_forwarder_probe_sha256": "1046f57ab2f8968eee3e2dc93023221c7c762d201b9e97511f5810b14d8d66cf",
+      "static_windows_manifest_accepted": true,
+      "dynamic_loading_exhaustively_verified": false,
+      "external_runtime_availability_verified": false,
+      "release_ready": false,
+      "scope": "Exact-source offline archive reinspection and static dependency records. Native forwarder execution and binary digests are CI-generated evidence; fixture binary bytes are not uploaded. This does not accept deployment/runtime availability, arbitrary ABI, hardware, signing or a supported release."
+    }
+  },
+  "actual_wheel_dumpbin_probe": {
+    "schema": "qpx.windows-runtime-manifest-probe/1",
+    "wheel_sha256": "44951baa35fa7587f0966fa14c35c5fcf7edb9f6a9897fbc534a2985a689445e",
+    "wheel_compiled_source": "5f5a610ac56f56830cfb2917b3b70412b5028e32",
+    "files": 57,
+    "binaries": 7,
+    "dependency_edges": 131,
+    "all_file_hashes_checked": true,
+    "all_pe_imports_match_dumpbin": true,
+    "records": [
+      {
+        "file": "qupathxx/_native.cp312-win_amd64.pyd",
+        "sha256": "b73e65d960a9a21012d6888d40fb990fec59a80a956d1fb1c58867e771ea17f0",
+        "dumpbin_dependencies": [
+          "api-ms-win-crt-convert-l1-1-0.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-locale-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "api-ms-win-crt-utility-l1-1-0.dll",
+          "bcrypt.dll",
+          "concrt140.dll",
+          "gdi32.dll",
+          "geos_c.dll",
+          "imm32.dll",
+          "kernel32.dll",
+          "libopenslide-1.dll",
+          "msvcp140.dll",
+          "msvcp140_2.dll",
+          "opengl32.dll",
+          "python312.dll",
+          "shell32.dll",
+          "user32.dll",
+          "vcruntime140.dll",
+          "vcruntime140_1.dll"
+        ],
+        "machine_matches": true
+      },
+      {
+        "file": "qupathxx/geos.dll",
+        "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e",
+        "dumpbin_dependencies": [
+          "api-ms-win-crt-convert-l1-1-0.dll",
+          "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-locale-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "kernel32.dll",
+          "msvcp140.dll",
+          "vcruntime140.dll",
+          "vcruntime140_1.dll"
+        ],
+        "machine_matches": true
+      },
+      {
+        "file": "qupathxx/geos_c.dll",
+        "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6",
+        "dumpbin_dependencies": [
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "geos.dll",
+          "kernel32.dll",
+          "msvcp140.dll",
+          "vcruntime140.dll",
+          "vcruntime140_1.dll"
+        ],
+        "machine_matches": true
+      },
+      {
+        "file": "qupathxx/libopenslide-1.dll",
+        "sha256": "dc8e35ad0ce001c4e878f2bebc23e87fb85d2bdebec5a542af2ecec3cb5cd635",
+        "dumpbin_dependencies": [
+          "advapi32.dll",
+          "api-ms-win-crt-convert-l1-1-0.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-locale-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-private-l1-1-0.dll",
+          "api-ms-win-crt-process-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "api-ms-win-crt-utility-l1-1-0.dll",
+          "bcrypt.dll",
+          "gdi32.dll",
+          "kernel32.dll",
+          "msimg32.dll",
+          "ole32.dll",
+          "shell32.dll",
+          "user32.dll",
+          "ws2_32.dll"
+        ],
+        "machine_matches": true
+      },
+      {
+        "file": "qupathxx/qupathxx_app.exe",
+        "sha256": "6a3cad9a9836b76b64416dcc66529a0ca0852d3d4bf4b6512e08286b374a692a",
+        "dumpbin_dependencies": [
+          "api-ms-win-crt-convert-l1-1-0.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-locale-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "api-ms-win-crt-utility-l1-1-0.dll",
+          "bcrypt.dll",
+          "concrt140.dll",
+          "gdi32.dll",
+          "geos_c.dll",
+          "imm32.dll",
+          "kernel32.dll",
+          "libopenslide-1.dll",
+          "msvcp140.dll",
+          "msvcp140_2.dll",
+          "opengl32.dll",
+          "shell32.dll",
+          "user32.dll",
+          "vcruntime140.dll",
+          "vcruntime140_1.dll"
+        ],
+        "machine_matches": true
+      },
+      {
+        "file": "qupathxx/qupathxx_batch.exe",
+        "sha256": "e643df96bc6d01239cc1207e7fe0bde5b48d8d54c6a08cca6efd87954f3e67bf",
+        "dumpbin_dependencies": [
+          "api-ms-win-crt-convert-l1-1-0.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-locale-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "api-ms-win-crt-utility-l1-1-0.dll",
+          "bcrypt.dll",
+          "geos_c.dll",
+          "kernel32.dll",
+          "libopenslide-1.dll",
+          "msvcp140.dll",
+          "msvcp140_2.dll",
+          "vcruntime140.dll",
+          "vcruntime140_1.dll"
+        ],
+        "machine_matches": true
+      },
+      {
+        "file": "qupathxx/qupathxx_region.exe",
+        "sha256": "fc53adb4abe732b7ccf7b3bb6196caef2714fc8b12dc0cc3d09596f746c1247d",
+        "dumpbin_dependencies": [
+          "api-ms-win-crt-convert-l1-1-0.dll",
+          "api-ms-win-crt-environment-l1-1-0.dll",
+          "api-ms-win-crt-filesystem-l1-1-0.dll",
+          "api-ms-win-crt-heap-l1-1-0.dll",
+          "api-ms-win-crt-locale-l1-1-0.dll",
+          "api-ms-win-crt-math-l1-1-0.dll",
+          "api-ms-win-crt-runtime-l1-1-0.dll",
+          "api-ms-win-crt-stdio-l1-1-0.dll",
+          "api-ms-win-crt-string-l1-1-0.dll",
+          "api-ms-win-crt-time-l1-1-0.dll",
+          "api-ms-win-crt-utility-l1-1-0.dll",
+          "bcrypt.dll",
+          "kernel32.dll",
+          "libopenslide-1.dll",
+          "msvcp140.dll",
+          "vcruntime140.dll",
+          "vcruntime140_1.dll"
+        ],
+        "machine_matches": true
+      }
+    ],
+    "native_forwarder_probe": {
+      "binaries_sha256": {
+        "qpx_manifest_bridge.dll": "f6ae52ff607de02d62da0857336fbedc6d629b4803a2a11b453be769ea215c96",
+        "qpx_manifest_front.dll": "d3f08d1e78ab83675e1b68fcabfbe7a249733407cea7e23ce25e2b72e0237bde"
+      },
+      "direct_result": 123,
+      "fixture": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\runtime145-forwarder-repro",
+      "forwarded_result": 123,
+      "parser_modules": [
+        "qpx_manifest_bridge.dll"
+      ],
+      "probe_sha256": "b2788a0dd9b552cbbfff2af07c6eab7bf0ab6c8fd3c351cfd88c3ca9cd13b3c2",
+      "release_ready": false,
+      "schema": "qpx.pe-forwarder-native-probe/1",
+      "scope": "Own C functions and compiler-built fixtures only. Export directory records are written into explicitly allocated fixture storage before loading. Windows resolves the forwarder and returns the independently specified constant. This does not validate arbitrary ABI or loader behavior."
+    },
+    "static_only": true,
+    "external_runtime_availability_verified": false,
+    "release_ready": false,
+    "overall_project_complete": false
+  },
+  "native_forwarder_probe": {
+    "binaries_sha256": {
+      "qpx_manifest_bridge.dll": "738cd541487ff045e2c5ec3807a76f997b0fcd1dc6520c48ead96a2e2c316041",
+      "qpx_manifest_front.dll": "4f2cb4220665ace48373e0c36852b8f6e72a9ed0c9ddb7f1bea9b367a2edef39"
+    },
+    "direct_result": 123,
+    "fixture": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\runtime145-forwarder-ci-source",
+    "forwarded_result": 123,
+    "parser_modules": [
+      "qpx_manifest_bridge.dll"
+    ],
+    "probe_sha256": "f0d479365858ee439bdb4430c8e929855ff9ce73d4bd5ae6c68dd6b8f6c14780",
+    "release_ready": false,
+    "schema": "qpx.pe-forwarder-native-probe/1",
+    "scope": "Own C functions and compiler-built fixtures only. Export directory records are written into explicitly allocated fixture storage before loading. Windows resolves the forwarder and returns the independently specified constant. This does not validate arbitrary ABI or loader behavior."
+  },
+  "full_new_source_ci_validated": false,
+  "static_only": true,
+  "external_runtime_availability_verified": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "scope": "Pure tooling change tested against previously accepted Windows artifacts, with complete file/static-graph regeneration and actual native forwarder execution on owned fixtures. This is not a new whole-engine exact-source qualification or supported release."
+}

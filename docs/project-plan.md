@@ -4783,3 +4783,25 @@ The first portable dispatch omitted extended readers and is retained as rejected
 the corrected run exercises the required NDPI native replay. [Promotion](benchmarks/tma-cohort-main-promotion.json)
 fast-forwards main from `132288c` to exact audited source `15ee0e8`. M0-M7,
 peak memory, hardware, biological, license and supported-release gates remain open.
+
+
+## Windows package file and static runtime manifests (candidate 145)
+
+A bounded offline verifier inventories every file in Windows GUI/headless wheels
+and standalone candidate archives, hashes package/file bytes and constructs
+PE32+ x64 ordinary/delayed-import and export-forwarder graphs. Bundled DLLs must
+resolve as siblings; OS/API-set, CPython and Microsoft C++ runtime prerequisites
+are explicit declarations. Native executables and archives must remain Python
+independent. Generated manifests are verified again before CI continues; the
+source-bound engine auditor reinspects uploaded package bytes and requires a
+separate owned native forwarding probe.
+
+Local validation passes 54 malformed-data/layout/dependency/publication cases and
+21 altered-evidence controls. All seven binaries and 131 imports in the accepted
+GUI wheel agree with MSVC dumpbin; the owned forwarding fixture returns 123.
+Actual GUI/headless wheels and the 48-file standalone archive pass inspection.
+Native engine compiler inputs are unchanged. See the
+[manifest contract](windows-runtime-manifests.md). New exact-source CI validation
+and promotion are pending. Dynamic loader coverage, installed runtime
+availability, ELF/Mach-O manifests, signing, license and supported packaging
+remain separate M7 requirements; the full M0-M7 objective remains partial.

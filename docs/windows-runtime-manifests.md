@@ -73,5 +73,12 @@ Both forms generate and verify successfully. The owned native forwarding probe
 returns the independently specified constant 123. Initial metadata/fixture
 issues and exploratory fixture builds remain in the ignored build evidence.
 
-Source-bound altered-evidence controls, final CI execution and promotion are
-still pending. This candidate does not close M7 or the broader M0-M7 objective.
+The [local validation receipt](benchmarks/windows-runtime-manifest-local-windows.json)
+binds the 54 passing cases, actual wheel/ZIP observations and owned native probe.
+Twenty-one [altered-evidence controls](benchmarks/windows-runtime-manifest-controls.json)
+reject missing files/edges, wrong architecture or mode, altered hashes/results,
+stale tooling, JSON changes and a standalone archive paired with a different
+otherwise-valid wheel. Both GUI and headless helper positives pass against
+previously accepted artifacts. Native compiler inputs are unchanged from the
+accepted cohort source. New exact-source CI execution and promotion remain
+pending. This candidate does not close M7 or the broader M0-M7 objective.
