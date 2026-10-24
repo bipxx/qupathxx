@@ -14,6 +14,10 @@ Use a fresh installation without software OpenGL DLLs. Require the actual
 reported renderer `NVIDIA GeForce RTX 4090/PCIe/SSE2`; a different renderer is
 an ineligible hardware trial and its observation must still be retained.
 
+Freeze the viewer script at Git-blob SHA-256
+`acb0f034fcc818519cefc20f3bc7222c6b470b30169d76a49a07b0dc235a3bc2`.
+Require the same script bytes in all qualification processes.
+
 Hardware: Intel i7-12700K, 12 cores / 20 logical processors, 137167814656 bytes
 RAM, RTX 4090 Windows driver 32.0.16.1088. Record Windows, Python, GL version,
 driver, display mode and CPU load before and after each trial. The workstation
