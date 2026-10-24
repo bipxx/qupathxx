@@ -25,6 +25,7 @@ def main():
     parser.add_argument('--output-directory',type=Path,required=True)
     parser.add_argument('--report',type=Path,required=True)
     parser.add_argument('--imagej-runtime-cache',type=Path,help='Also isolate shape splitting with verified pinned ImageJ APIs')
+    parser.add_argument('--context-padding',type=int,choices=range(257),help='Explicit diagnostic override; default uses the frozen contract')
     args=parser.parse_args()
     comparison=load('qpx_native_ndpi_capture','compare_qupath_ndpi_cells.py')
     metrics=load('qpx_native_ndpi_labels','label_comparison.py')
@@ -36,6 +37,7 @@ def main():
     if '+dirty' in environment['git_revision']:raise ValueError('native candidate must have committed source')
     args.output_directory.mkdir(parents=True,exist_ok=False)
     x,y,width,height=contract['roi'];padding=contract['native']['context_padding']
+    if args.context_padding is not None:padding=args.context_padding
     rw,rh=width+2*padding,height+2*padding
     server=q.open_slide(str(args.image))
     try:
@@ -56,7 +58,7 @@ def main():
         doc=q.Document(server);target=doc.add_rectangle(q.Rect(*contract['roi']))
         p=q.CellParameters()
         for key,value in contract['native'].items():setattr(p,key,value)
-        p.algorithm=q.CellAlgorithm.LOG_WATERSHED_BODIES;p.tile_size=64
+        p.algorithm=q.CellAlgorithm.LOG_WATERSHED_BODIES;p.tile_size=64;p.context_padding=padding
         control=q.detect_cells(q.CellRequest(doc,target,transform,p))
         production=comparison.local_labels(control.nuclei,contract['roi'])
         results=[]
@@ -81,7 +83,7 @@ def main():
             tool_sha256=comparison.sha(Path(__file__)),input_sha256=comparison.sha(input),
             capture_manifest_sha256=comparison.sha(reference/'capture-manifest.json'),source_pixels_equal=True,
             legacy_kernel_matches_production=True,production_integrated=False,
-            scientific_accepted=False,performance_accepted=False,results=results)
+            scientific_accepted=False,performance_accepted=False,context_padding=padding,results=results)
         if args.imagej_runtime_cache:
             runtime=load('qpx_native_ndpi_runtime','fetch_qupath.py').fetch(args.imagej_runtime_cache)
             stage=ROOT/'tools/upstream/imagej_edm_probe.groovy'
