@@ -1,5 +1,6 @@
 """Qualify the frozen RTX 4090 NDPI navigation workload; retain every trial."""
 import argparse
+import ast
 from datetime import datetime, timezone
 import hashlib
 import json
@@ -108,6 +109,7 @@ def main():
     parser.add_argument("--engine-audit", type=Path, required=True)
     parser.add_argument("--image", type=Path, required=True)
     parser.add_argument("--output-directory", type=Path, required=True)
+    parser.add_argument("--source-contract",type=Path,help="Preregister a newer audited source while retaining the frozen workload and thresholds")
     args = parser.parse_args()
     output = args.output_directory.resolve()
     output.mkdir(parents=True, exist_ok=False)
@@ -125,16 +127,42 @@ def main():
 
     try:
         require(os.name == "nt", "qualification requires the declared Windows host")
+        engine=ENGINE
+        expected_auditor=sha(ROOT / "tools/ci/accept_unified_engine.py")
+        if args.source_contract:
+            contract=json.loads(args.source_contract.read_text(encoding="utf-8"))
+            require(contract["schema"]=="qpx.navigation-source-substitution/1" and
+                    contract["original_engine_commit"]==ENGINE,"source contract does not identify the original frozen protocol")
+            require(contract["frozen_protocol_sha256"]==report["protocol_sha256"] and
+                    contract["benchmark_tool_sha256"]==TOOL_SHA,"source contract changed the frozen workload")
+            reference=subprocess.check_output(["git","-C",str(ROOT),"show",contract["criteria_source_commit"]+":tools/qualify_navigation.py"]).decode("utf-8")
+            current=Path(__file__).read_text(encoding="utf-8")
+            names={"snapshot","hardware_issues","inspect_view"}
+            require(set(contract["criteria_sha256"])==names,"source contract omits frozen qualification criteria")
+            for text in [reference,current]:
+                functions={n.name:ast.get_source_segment(text,n) for n in ast.parse(text).body if isinstance(n,ast.FunctionDef)}
+                require(all(hashlib.sha256(functions[name].encode()).hexdigest()==contract["criteria_sha256"][name] for name in names),
+                        "source substitution changed a frozen qualification criterion")
+            engine=contract["engine_commit"]
+            require(len(engine)==40 and all(c in "0123456789abcdef" for c in engine),"source contract requires a full committed engine identity")
+            auditor=subprocess.check_output(["git","-C",str(ROOT),"show",engine+":tools/ci/accept_unified_engine.py"])
+            expected_auditor=hashlib.sha256(auditor).hexdigest()
+            require(expected_auditor==contract["engine_auditor_sha256"],"source contract auditor differs from the committed source")
+            report.update(engine_commit=engine,source_contract=contract,source_contract_sha256=sha(args.source_contract),
+                          source_substitution=True)
         audit = json.loads(args.engine_audit.read_text(encoding="utf-8"))
         report["engine_audit_sha256"] = sha(args.engine_audit)
-        require(audit["commit"] == audit["engine_commit"] == ENGINE,
+        require(audit["commit"] == audit["engine_commit"] == engine,
                 "engine audit does not qualify the frozen source")
         require(audit["windows_linux_engineering_scope_accepted"] is True and
                 audit["ndpi_readers_required"] is True and len(audit["jobs"]) == 5 and
                 all(j["status"] == "completed" and j["conclusion"] == "success" for j in audit["jobs"]),
                 "complete source-specific Windows/Linux and NDPI acceptance is required")
-        require(audit["auditor"]["sha256"] == sha(ROOT / "tools/ci/accept_unified_engine.py"),
-                "engine audit was not produced by the current source auditor")
+        require(audit["auditor"]["sha256"] == expected_auditor,
+                "engine audit was not produced by the required source auditor")
+        if args.source_contract and audit.get("frontier_helper_sha256"):
+            helper=subprocess.check_output(["git","-C",str(ROOT),"show",engine+":tools/ci/frontier_evidence.py"])
+            require(hashlib.sha256(helper).hexdigest()==audit["frontier_helper_sha256"],"engine audit helper differs from committed source")
         gui = [j for j in audit["jobs"] if j["name"] == "Windows GUI Python 3.12 software GL"]
         require(len(gui) == 1 and gui[0].get("rendered_loop_timing", {}).get("passed") == 4,
                 "audited GUI timing contracts are missing")
@@ -147,7 +175,7 @@ def main():
         from qupathxx import _native
         native = Path(_native.__file__).resolve()
         workflow = gui[0]["workflow"]
-        require(q.has_gui and q.build_environment().git_revision == ENGINE and
+        require(q.has_gui and q.build_environment().git_revision == engine and
                 sha(native) == workflow["native_sha256"] and
                 q.build_environment().source_tree_sha256 == workflow["source_tree_sha256"],
                 "installed native binary is not the audited GUI wheel")
@@ -188,7 +216,7 @@ def main():
                 continue
             trial["receipt_sha256"] = sha(receipt)
             data = json.loads(receipt.read_text(encoding="utf-8"))
-            require(data["build_git_revision"] == ENGINE and data["tool_sha256"] == TOOL_SHA and
+            require(data["build_git_revision"] == engine and data["tool_sha256"] == TOOL_SHA and
                     data["native_sha256"] == report["native_sha256"] and
                     data["source_tree_sha256"] == report["source_tree_sha256"] and
                     data["sha256"] == FIXTURE_SHA, "trial identity differs from the protocol")

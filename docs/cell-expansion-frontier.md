@@ -133,3 +133,13 @@ contracts. This controls worker placement, not ambient load, and does not
 replace the separately frozen GUI/hardware qualification protocol. The first
 paired pinned run uses the predeclared mask `0x1`, four measured repetitions
 per build/recipe/size and one retained/excluded warmup per combination.
+
+The [fixed-affinity series](benchmarks/expansion-affinity-workflow-windows.json)
+retains all 60 observations/12 warmups, with every worker mask verified. At
+1,024 pixels, legacy detection medians are 296.69 ms baseline and 270.67 ms
+candidate; sampled detection is 295.95 versus 272.19 ms. Sampled reopen is
+191.89 versus 179.12 ms. Legacy replay is slower, 294.49 versus 305.00 ms,
+and its process-wall median is also slightly slower. The direction differs
+from some unpinned observations, so these diagnostic results do not establish
+a general speedup or controlled hardware acceptance. All labels and saved
+replay checks pass across builds and recipes.
