@@ -50,8 +50,12 @@ before data reads and reserves admitted input storage. Its native quota test,
 [paired pilot](benchmarks/tma-case-input-pilot-windows.json) retains all 32
 observations: CSV hashes and independent statistics agree, and the largest
 24 MB input's median process peak working set falls from 41.8 MB to 31.1 MB.
-Wall-time differences remain unaccepted. Full installed and hosted acceptance
-of this optimization are pending.
+Wall-time differences remain unaccepted. The source-bound
+[Linux-only audit](benchmarks/tma-case-input-linux-partial.json) accepts 46 native
+suites in each Linux configuration and 2,015 installed headless Python cases,
+including the exact TMA file-export cohort. Full installed Windows, the complete
+Windows/Linux matrix, both Mac architectures and portable builder/consumer
+acceptance of this optimization remain pending.
 
 The accepted TMA case-summary engine adds native/Python/ImGui single-grid replicate
 pooling, explicit weighting, missing-core exclusion, unassigned-core isolation,

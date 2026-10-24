@@ -4650,8 +4650,13 @@ Their mixed timings do not establish a general performance guarantee. The
 [source-registered main navigation trial set](benchmarks/sampled-navigation-hardware-windows.json)
 retains all three processes/six views, each around 17 ms rendered-wall p95,
 but remains ineligible because trial 2's before-load reading is 32%, above the
-unchanged 25% ceiling. No trial or threshold is dropped or relaxed. Frontier
-platform CI and the full M0–M7 objective remain open.
+unchanged 25% ceiling. No trial or threshold is dropped or relaxed. The later
+source-bound [Windows/Linux](benchmarks/expansion-frontier-windows-linux.json),
+[Mac native](benchmarks/expansion-frontier-macos.json) and
+[portable](benchmarks/expansion-frontier-portable.json) engineering audits accept
+source `691c0f3`; its [promotion receipt](benchmarks/expansion-frontier-main-promotion.json)
+records the fast-forward to main. Hardware/performance acceptance and the full
+M0–M7 objective remain open.
 
 
 ## Single-grid TMA case summaries (candidate 141)
@@ -4725,4 +4730,8 @@ The paired pilot retains 32 fresh-process observations, with eight declared
 warmups. Output hashes and independently checked statistics are unchanged.
 Median peak working set on the 24 MB valid input changes from 41.8 MB to 31.1 MB.
 These are scoped observations; wall time, hardware and general performance
-acceptance remain open. Full installed and hosted validation is pending.
+acceptance remain open. The [Linux-only source audit](benchmarks/tma-case-input-linux-partial.json)
+now passes 46 native suites in each of the three configurations and 2,015
+installed headless Python cases, including the file-export cohort. Full Windows
+regression, complete Windows/Linux engineering acceptance, Mac native and
+portable builder/consumer validation remain pending.
