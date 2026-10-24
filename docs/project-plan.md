@@ -4220,3 +4220,19 @@ and accepts 45 Windows native suites. Existing pixel-workflow checks cover
 scratch-budget rejection and tile-invariant training samples. This run does
 not supply real-NDPI fixture, GUI, Python-wheel or Mac acceptance. Both exact-source
 hosted matrices remain independent gates.
+
+
+Mac124 Arm diagnostics also identify the same promotion in prediction scratch
+and vote-buffer estimates (`pixel_prediction.cpp`). Both Mac jobs are terminal
+failures; the Arm build log is retained even though Intel artifact upload failed.
+The training-only source46 follow-up is superseded because it leaves this
+observed compilation defect unchanged. Its cancellation is based on that source
+evidence, not queue duration.
+
+Source `459361c78f5994300f9bb5b7fb6ddd01f47eab3c` casts the prediction
+scratch dimensions to `size_t` too. The [updated local receipt](benchmarks/darwin-prediction-size-windows-native.json)
+verifies all 248 inputs against the compiled engine and accepts all 45 Windows
+native suites. New Mac run40065293769 and extended Windows/Linux run40065385261
+must qualify that exact source. Mac compilation now gathers all independent
+Ninja failures in one run, retaining full logs for diagnosis. No platform,
+scientific, performance or release gate is accepted from the type fix alone.
