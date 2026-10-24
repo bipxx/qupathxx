@@ -164,6 +164,40 @@ def test_body_worker_rejects_stale_authority_and_cancellation(change):
         job.keep_result(doc, selected)
 
 
+def test_body_candidate_limit_failure_keeps_document_and_worker_reusable():
+    doc, obj, transform = scene()
+    p = body_parameters()
+    p.max_cells = 1
+    job = q.CellJob()
+    revision = doc.revision
+    assert job.request(q.CellRequest(doc, obj, transform, p))
+    report = job.wait(doc, obj)
+    assert report.state == 'failed' and 'limit' in report.error
+    assert job.result is None and doc.revision == revision and doc.object_count == 1
+    assert job.request(q.CellRequest(doc, obj, transform, body_parameters()))
+    assert job.wait(doc, obj).state == 'ready' and job.result.cell_count == 3
+
+
+@pytest.mark.skipif(not q.has_tiff, reason='native transparent TIFF')
+def test_body_expansion_respects_transparent_source_domain(tmp_path):
+    import tifffile
+    from test_log_cells import phantoms
+    case = next(c for c in CONTRACT['cases'] if c['name'] == 'isolated_three')
+    rgb = phantoms.pixels(CONTRACT, case)
+    rgba = np.concatenate([rgb, np.full((*rgb.shape[:2], 1), 255, dtype=np.uint8)], axis=2)
+    rgba[55:65, 43:53, 3] = 0
+    rgba[95:100, 110:115, 3] = 128
+    path = tmp_path/'alpha.tif'
+    tifffile.imwrite(path, rgba, photometric='rgb', extrasamples='unassalpha', metadata=None)
+    doc = q.Document(q.open_tiff(str(path)))
+    obj = doc.add_rectangle(q.Rect(0, 0, 256, 192))
+    result = q.detect_cells(q.CellRequest(doc, obj, q.StainTransform(CONTRACT['vectors']), body_parameters()))
+    opaque = rgba[..., 3] == 255
+    assert result.nuclei.samples == int(opaque.sum())
+    assert not result.nuclei.labels_numpy()[~opaque].any()
+    assert not result.cells.labels_numpy()[~opaque].any()
+
+
 @pytest.mark.parametrize('level', [0, 1, 2])
 def test_body_mode_natural_level_identity_and_work_admission(pyramid_levels, level):
     server, _ = pyramid_levels
