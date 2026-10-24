@@ -63,10 +63,62 @@ void case_summary_contracts() {
     doc.reset();check(tma_case_summary_csv(*snapshot,table,"Value","Weight")==summary);
     std::cout<<"TMA case aggregation, weighted arithmetic, missing/unassigned cores, stale revisions and cancellation passed\n";
 }
+void cohort_summary_contracts() {
+    auto make=[] {
+        auto doc=std::make_shared<Document>(Image(256,192,std::vector<std::uint8_t>(256*192*3,32)));
+        TmaGridOptions o;o.rows=1;o.columns=3;o.origin={30,30};o.row_step={0,60};o.column_step={60,0};o.width=30;o.height=24;
+        doc->create_tma_grid(o);return doc;
+    };
+    auto a=make(),b=make();const auto ai=a->tma_core_ids(),bi=b->tma_core_ids();check(ai==bi);
+    a->set_tma_case_ids({{ai[0],"P"}});a->remove_annotation(ai[2]);
+    b->set_tma_case_ids({{bi[0],"P"},{bi[1],"P"}});b->set_tma_missing({bi[1]},true);
+    const auto ag=a->tma_grid(),bg=b->tma_grid();const TmaCohort cohort{{11,ag},{22,bg}};
+    auto row=[](std::uint64_t image,const Document& doc,std::uint64_t id,const std::string& value,const std::string& weight) {
+        return std::to_string(image)+','+std::to_string(id)+','+std::to_string(doc.annotation(id).revision)+','+value+','+weight+"\r\n";
+    };
+    const std::string header="image_id,source_object_id,source_object_revision,Value,Weight\r\n";
+    const auto table=header+row(11,*a,ai[0],"2","1")+row(22,*b,bi[0],"4","3")+row(11,*a,ai[0],"8","2")+
+        row(22,*b,bi[1],"100","20")+row(11,*a,ai[1],"10","0")+row(22,*b,bi[2],"12","2");
+    const auto summary=tma_cohort_case_summary_csv(cohort,table,"Value","Weight");
+    check(summary.find("qpx.tma-cohort-case-summary/1")!=std::string::npos);
+    check(summary.find(",\"P\",,,2,3,2,1,2,3,1,\"Value\",\"Weight\",")!=std::string::npos);
+    check(summary.find(",14,6,30,4.666666666666667,5,2,8\r\n")!=std::string::npos);
+    check(summary.find(",\"\",11,"+std::to_string(ai[1])+",1,1,1,0,1,1,0,")!=std::string::npos);
+    check(summary.find(",\"\",22,"+std::to_string(bi[2])+",1,1,1,0,1,1,0,")!=std::string::npos);
+    check(summary.find(",10,0,0,10,,10,10\r\n")!=std::string::npos);
+    check(summary.find(",12,2,24,12,12,12,12\r\n")!=std::string::npos);
+    const auto manifest=tma_cohort_manifest_csv(cohort);
+    check(manifest.find("qpx.tma-cohort-sources/1")!=std::string::npos && manifest.find("\",11,")!=std::string::npos && manifest.find("\",22,")!=std::string::npos);
+    check(tma_cohort_case_summary_csv({{22,bg},{11,ag}},table,"Value","Weight")==summary);
+    check(tma_cohort_manifest_csv({{22,bg},{11,ag}})==manifest);
+    auto alias=table;alias.replace(0,8,"source_image_id");const auto aliased=tma_cohort_case_summary_csv(cohort,alias,"Value","Weight");
+    check(aliased.find(",14,6,30,4.666666666666667,5,2,8\r\n")!=std::string::npos);
+    const auto no_images="source_object_id,source_object_revision,Value\r\n";
+    rejects([&]{tma_cohort_case_summary_csv(cohort,no_images,"Value");});
+    rejects([&]{tma_cohort_case_summary_csv(cohort,header+row(33,*a,ai[0],"2","1"),"Value","Weight");});
+    rejects([&]{tma_cohort_case_summary_csv(cohort,header+row(11,*b,bi[2],"2","1"),"Value","Weight");});
+    rejects([&]{tma_cohort_manifest_csv({});});rejects([&]{tma_cohort_manifest_csv({{0,ag}});});
+    rejects([&]{tma_cohort_manifest_csv({{11,nullptr}});});
+    rejects([&]{tma_cohort_manifest_csv(cohort,ag->payload_bytes()+bg->payload_bytes()-1);});
+    rejects([&]{tma_cohort_case_summary_csv(cohort,table,"Value","Weight",1);});
+    const auto legacy="image_id,object_id,Value\n11,"+std::to_string(ai[0])+",2\n";
+    rejects([&]{tma_cohort_case_summary_csv(cohort,legacy,"Value");});
+    check(tma_cohort_case_summary_csv(cohort,legacy,"Value","",64*1024*1024,true).find("unversioned")!=std::string::npos);
+    const auto inventory=tma_cohort_case_summary_csv(cohort);
+    check(inventory.find("no_measurements")!=std::string::npos && inventory.find(",\"P\",,,2,3,2,1,0,0,0,")!=std::string::npos);
+    std::atomic<bool> stop{true};rejects([&]{tma_cohort_manifest_csv(cohort,64*1024*1024,&stop);});
+    rejects([&]{tma_cohort_case_summary_csv(cohort,table,"Value","Weight",64*1024*1024,false,&stop);});
+    b->set_tma_case_ids({{bi[0],"changed"}});const TmaCohort changed{{11,ag},{22,b->tma_grid()}};
+    check(tma_cohort_manifest_csv(changed)!=manifest);
+    rejects([&]{tma_cohort_case_summary_csv(changed,table,"Value","Weight",64*1024*1024,true);});
+    a.reset();b.reset();check(tma_cohort_case_summary_csv(cohort,table,"Value","Weight")==summary);
+    std::cout<<"TMA cohort raw-row pooling, image/core namespaces, isolated unassigned cores, source manifests, stale revisions and cancellation passed\n";
+}
 int main() {
     namespace fs=std::filesystem;const auto root=fs::current_path()/("tma-test-"+std::to_string(std::random_device{}()));
     try {
         case_summary_contracts();
+        cohort_summary_contracts();
         auto doc=std::make_shared<Document>(Image(256,192,std::vector<std::uint8_t>(256*192*3,32)));
         TmaGridOptions options;options.rows=2;options.columns=3;options.origin={30,30};options.row_step={0,60};options.column_step={60,0};options.width=30;options.height=24;
         options.name="Test grid";options.row_labels={"A","B"};const auto ids=doc->create_tma_grid(options);check(ids.size()==6 && doc->tma_core_count()==6 && doc->tma_core_ids().size()==6 && doc->revision()==1);
