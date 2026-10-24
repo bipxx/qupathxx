@@ -1,0 +1,115 @@
+{
+  "schema": "qpx.decimal-calibration-windows-local/1",
+  "source_commit": "4fe2e1a2521abb8675e1c39697b11b1855305f79",
+  "source_environment": {
+    "git_revision": "4fe2e1a2521abb8675e1c39697b11b1855305f79",
+    "source_tree_sha256": "60c748a2e7ceb5bff43ff0a2c30e887c41bc6504e78b656e8a8241b0141d8e1f"
+  },
+  "headless": true,
+  "gui_validated": false,
+  "native": {
+    "tests": 43,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 43,
+    "expected_failures": [],
+    "optional_skips": 0,
+    "seconds": 11.0,
+    "sha256": "a1ca8a4ffeda71de2a6ac6f27173d025c48985a690ab531d3632409fe5f4a079"
+  },
+  "focused": {
+    "tests": 209,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 7,
+    "passed": 202,
+    "expected_failures": [
+      "test_isolated_cell_upstream_acceptance_gate[baseline_count]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_nucleus_iou]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_centroid]"
+    ],
+    "optional_skips": 4,
+    "seconds": 20.757,
+    "sha256": "8a33a5a07ed85adf344f545de0e4ddb34abeece4c127fddca7ca04746dc86673"
+  },
+  "full_python": {
+    "tests": 2135,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 404,
+    "passed": 1731,
+    "expected_failures": [
+      "test_isolated_cell_upstream_acceptance_gate[baseline_count]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_nucleus_iou]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_centroid]"
+    ],
+    "optional_skips": 401,
+    "seconds": 155.997,
+    "sha256": "371d7d66be49d38a73044f961912b7d0d7994102e98773047f4fbad6f19e9152"
+  },
+  "installed_workflow": {
+    "schema": "qpx.installed-workflow/1",
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "executable": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\portability115-windows-python\\Scripts\\python.exe",
+    "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\portability115-windows-python\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "native_sha256": "482b5b77eae082c52e8c69f4b001f38f0335d13c3eb3c6f2735df2c791c187a0",
+    "source_tree_sha256": "60c748a2e7ceb5bff43ff0a2c30e887c41bc6504e78b656e8a8241b0141d8e1f",
+    "gui": false,
+    "geos": true,
+    "openslide": true,
+    "gl_renderer": "",
+    "openslide_version": "4.0.1",
+    "openslide_runtime_sha256": null,
+    "docked_workspace": false,
+    "layout_saved": false,
+    "monitor_scale": null,
+    "framebuffer_scale": null,
+    "ui_scale": null,
+    "font_rebuilds": null,
+    "ui_stacked_fields": null,
+    "ui_wrapped_buttons": null,
+    "ui_overflow_items": null,
+    "ui_max_overflow": null,
+    "framebuffer": null,
+    "raw_archive_records": 1,
+    "raw_replay_verified": true,
+    "raw_input_sha256": "ff618dfd592aaf66e46f6fdede2c89eeb5165696a781839b69df3832a94c01e5",
+    "raw_batch_reused": true,
+    "roi_samples": 320,
+    "native_batch_checkpoints": 1
+  },
+  "installed_receipt_sha256": "3e3464c47c14219b94189cf4d0d942efca4da002f3000e187196f1657203d411",
+  "wheel_sha256": "41eea1b7e467e4329da6b2fbea6e8167c438222964fefb7fadd259e2e137cd07",
+  "wheel_native_equals_installed": true,
+  "installed_comma_c_locale_exercised": true,
+  "stubs_match": true,
+  "strict_typing": {
+    "positive_files": 3,
+    "negative_errors": 7
+  },
+  "ome_literal_cases": 12,
+  "source_projection": {
+    "path": "decimal-calibration-source-projection.json",
+    "sha256": "84c7a9e894f073662be66fc2c3d17c6e494251caae218e5bbb29b0db24fceccb"
+  },
+  "logs_sha256": {
+    "build": "fd09e58795d463f3e659450a9f478ab3664e12f2432ce3c409f2b2daa66172a6",
+    "verify": "faab3bdbddbfde1c6bca07eeef98a0979d464b1ebd131d1df8f63f698fc4bd1a",
+    "install": "d134c51451183d8a61aa7acdd01201a41956f939cf120eaad4c27bec70df3f4c",
+    "native": "857dacf78de3c81c99d33ea34612a328c9d7f8f5cc1e1cb11b9021ed0165d19c",
+    "installed": "3e3464c47c14219b94189cf4d0d942efca4da002f3000e187196f1657203d411",
+    "focused": "8f3ca99e1e26e652ab70f15ef81f366836a2cb55938338e33f117d0c7f8398a0",
+    "all-python": "05f75329aec2106e535911f5bd74dcd980495584483b9a756f11e9cd8a9c9702",
+    "all-python-argument-error": "b558c2cace46daf0be23ce542aff9471fdcb6fa65210e692aaa06afdf00c8764",
+    "stubs": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+    "typing": "281a094c39385b4d7b53e5db635f52158036861433c2a4975b9039e77a627a24",
+    "typing-negative": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+  },
+  "prior_invocation_error": "First full-suite PowerShell invocation returned 4 before collecting tests because of an argument construction error. Preserved separately; corrected structured subprocess invocation completed with exit 0.",
+  "full_matrix_accepted": false,
+  "macos_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "scope": "Exact installed headless Windows wheel, native/TIFF/project/raw/sampling and full Python regression, stubs and typing. No GUI, new performance, biological or Mac qualification; three scientific expected failures remain. Hosted full artifact audit and other M0-M7 gates remain open."
+}

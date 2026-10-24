@@ -1,0 +1,13 @@
+{
+  "schema": "qpx.decimal-calibration-source-projection/1",
+  "source_commit": "4fe2e1a2521abb8675e1c39697b11b1855305f79",
+  "input_files": 244,
+  "actual_windows_checkout_sha256": "60c748a2e7ceb5bff43ff0a2c30e887c41bc6504e78b656e8a8241b0141d8e1f",
+  "committed_lf_sha256": "00370c5a4a3e32ed15f3dd380c53f1253cf7bd77466b21a61f87334fe654886a",
+  "windows_native_source_identity_matches": true,
+  "hosted_linux_source_identity_matches": true,
+  "all_inputs_equal_committed_lf_after_crlf_normalization": true,
+  "crlf_different_files": 242,
+  "method": "Reproduce CMake sorted path=SHA256 newline manifest for actual checkout and Git LF archive with core.autocrlf=false. Require exactly identical input sets and equality after CRLF normalization. Native and hosted installed identities checked independently.",
+  "scope": "Build input byte identity only; no performance, biology or release acceptance."
+}

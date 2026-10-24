@@ -4008,3 +4008,18 @@ Three isolated-cell scientific expected failures remain explicit. The
 inspected JUnit and installed receipt identities; the other matrix jobs, both
 Mac architectures and the complete artifact audit remain pending. Main promotion
 is withheld. The local integrated Windows wheel is still compiling.
+
+
+Packet115's installed Windows headless wheel now passes 43 native suites,
+202 focused cases and the full 1,731-case Python regression (401 optional skips,
+three strict scientific expected failures). All twelve literal OME cases,
+installed workflows, stubs, three positive typing files and exactly seven
+negative typing errors are verified. The native suite exercises an installed
+German C numeric locale. The [Windows receipt](benchmarks/decimal-calibration-windows-local.json)
+binds the wheel/native bytes and logs; its [source projection](benchmarks/decimal-calibration-source-projection.json)
+proves all 244 build inputs match commit 4fe2e1a after CRLF normalization and
+reproduces both actual Windows and committed-LF/Linux native identities. The
+first full-suite command's argument error is retained; it collected no tests,
+and the corrected invocation completed successfully. Hosted Linux headless and
+minimal jobs pass. Both Mac jobs, the remaining hosted matrix and the complete
+artifact audit remain pending. No main promotion or full M0-M7 completion is claimed.
