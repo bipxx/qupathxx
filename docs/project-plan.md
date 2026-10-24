@@ -4095,3 +4095,18 @@ total alone does not describe the coverage change. An exact-source followup
 with extended readers is requested. This accepts the stated builder/fresh-small-
 consumer scope; it does not qualify the later width/cache/LoG sources, Mac,
 biology/hardware or a supported release. The full M0-M7 goal stays active.
+
+
+Packet118 extended-reader follow-up run [40055489607](https://github.com/bipxx/qupathxx/actions/runs/40055489607)
+passes all four jobs at the same parser source
+`4fe2e1a2521abb8675e1c39697b11b1855305f79`. Both CPython builders pass
+43 native suites and 1,731 Python cases; both fresh Debian consumers pass
+1,715 Python cases. Each Python cohort retains the three strict legacy-detector
+scientific xfails. The [extended receipt](benchmarks/manylinux118-extended-build-consumer-acceptance.json)
+records all twelve formerly skipped full Aperio builder cases now passing,
+alongside all twelve new OME decimal cases in both builders. The first receipt
+remains available with its narrower coverage. The auditor independently checks
+wheel identities, bundled runtime hashes, source fingerprints, native/Python
+results, stubs, typing and fresh-consumer workflows. These results cover the
+parser source only; cache, width, LoG, macOS and supported release acceptance
+remain separate.
