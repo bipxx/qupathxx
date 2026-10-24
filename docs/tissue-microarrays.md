@@ -99,7 +99,46 @@ Input and output are bounded to 64 MiB by default, at most 256 MiB.
 The GUI metadata exporter uses a native background task, a captured snapshot and
 atomic new-file publication. Existing files are preserved.
 
-Automatic dearraying, rotated ellipse geometry, case-level aggregation, direct
+## Case summaries
+
+`tma_case_summary_csv(snapshot)` exports one inventory row per case ID. Cores
+without a case ID each receive their own row keyed by `unassigned_core_id`.
+Missing cores count toward inventory but contribute no measurements. Vacant
+slots are reported in the repeated grid context; these grid counts are not
+additive across summary rows.
+
+Supply `table`, `value_column`, and optionally `weight_column` to aggregate
+replicate-core measurements. Every measurement row contributes to the mean;
+this is a pooled row mean, so cores with more rows have more influence.
+The weighted mean is `sum(value * weight) / sum(weight)`. Omitted weights are
+one. Zero total weight leaves the weighted mean blank. Cases without measured
+rows retain blank statistics rather than zeros. Sums, extrema, row counts,
+measured core counts and excluded missing-core row counts are exported together.
+
+```python
+case_csv = q.tma_case_summary_csv(
+    snapshot, measurements_csv, value_column="mean_red", weight_column="pixels"
+)
+```
+
+Input rows select a captured core using `source_object_id` and
+`source_object_revision`, or `object_id` and `object_revision`. Supplied revisions
+must match the snapshot, including rows for missing cores. Tables without
+revisions require `allow_unversioned=True` and are marked unversioned in the
+output. Non-core selectors, malformed records, duplicate headers, nonfinite
+values, negative weights and unrepresentable arithmetic are rejected. The exact
+input bytes are identified by SHA-256. Input and output each have a 64 MiB
+default limit, configurable up to 256 MiB through the native/Python API.
+
+The TMA panel's Export tab offers **Summarize replicate cores by case**, an
+optional measurement CSV, value and weight columns, and an explicit unversioned
+input opt-in. A native worker captures the grid and settings, reads at most
+64 MiB, verifies the input file has not changed, and publishes a new output file
+atomically. Cancellation discards unpublished output. Existing files and input
+files are preserved. This implementation is undergoing installed-package and
+desktop validation; it does not establish biological or upstream equivalence.
+
+Automatic dearraying, rotated ellipse geometry, direct
 QuPath TMA import/export, survival analysis, biological validation and supported
 hardware acceptance remain future work.
 

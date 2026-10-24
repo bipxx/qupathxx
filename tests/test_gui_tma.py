@@ -6,6 +6,7 @@ import qupathxx as q
 from test_tma import scene, rows
 from test_gui_tiles import replay
 from test_viewer_session import completed, run
+from test_tma_case_summary import measurement_table
 
 pytestmark = pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI') != '1', reason='opt-in TMA desktop')
 
@@ -113,6 +114,37 @@ def test_fill_vacancy_and_dissolve_keep_objects():
     report = q.show(doc, frame_limit=20, options=o)
     assert not report.tma_error and report.tma_cores == 0 and doc.object_count == 6
     assert doc.undo() and doc.tma_core_count == 6
+
+
+@pytest.mark.parametrize('mode', ['inventory', 'weighted', 'input_alias', 'stale'])
+def test_case_summary_export(tmp_path, mode):
+    doc, ids = scene()
+    doc.set_tma_case_ids({ids[0]: 'replicate', ids[1]: 'replicate'})
+    snapshot = doc.tma_grid()
+    table = measurement_table(snapshot, [(ids[0], 2, 1), (ids[1], 4, 3)])
+    source, output = tmp_path/'measurements.csv', tmp_path/'cases.csv'
+    source.write_bytes(table.encode())
+    o = options()
+    o.tma_tab, o.tma_case_summary = 2, True
+    o.tma_metadata_path = str(source if mode == 'input_alias' else output)
+    if mode != 'inventory':
+        o.tma_measurements_path = str(source)
+        o.tma_value_column, o.tma_weight_column = 'value', 'weight'
+    if mode == 'stale':
+        doc.set_tma_missing([ids[0]], True)
+    o.inputs = click(4, q.GuiInputTarget.TMA_EXPORT)
+    report = q.show(doc, frame_limit=30, options=o)
+    assert source.read_bytes() == table.encode()
+    assert report.ui_overflow_items == 0
+    if mode in ('input_alias', 'stale'):
+        assert report.tma_export_state == 'failed' and report.tma_error
+        assert not output.exists()
+    else:
+        assert report.tma_export_state == 'saved' and not report.tma_error
+        row = next(r for r in rows(output.read_text(encoding='utf8')) if r['case_id'] == 'replicate')
+        assert row['cores'] == '2'
+        assert row['weighted_mean'] == ('3.5' if mode == 'weighted' else '')
+        assert report.tma_metadata_bytes == output.stat().st_size
 
 
 @pytest.mark.skipif(not q.has_project, reason='batch project')

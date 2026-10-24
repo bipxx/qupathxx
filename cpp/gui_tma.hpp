@@ -13,6 +13,7 @@
 #include <limits>
 #include <functional>
 #include <chrono>
+#include <fstream>
 
 namespace qpx::detail {
 class GuiTma {
@@ -24,6 +25,9 @@ class GuiTma {
     std::array<char,257> name_{},case_{};
     std::array<char,129> row_label_{},column_label_{};
     std::array<char,32769> path_{};
+    std::array<char,32769> measurements_path_{};
+    std::array<char,129> value_column_{},weight_column_{};
+    bool case_summary_=false,allow_unversioned_=false;
     std::string error_,initial_case_,export_state_="idle";
     std::optional<Rect> initial_bounds_;
     std::weak_ptr<const char> identity_;
@@ -59,17 +63,37 @@ class GuiTma {
         auto wide=std::filesystem::u8path(path).native();if(wide.rfind(L"\\\\?\\",0)!=0) {if(wide.rfind(L"\\\\",0)==0) wide=L"\\\\?\\UNC\\"+wide.substr(2);else wide=L"\\\\?\\"+wide;path=std::filesystem::path(wide).u8string();}
 #endif
         std::vector<std::string> sources;const auto locator=doc.server()->source_locator();if(!locator.empty()) sources.push_back(locator);if(project) {if(!project->path().empty()) sources.push_back(project->path());if(!project->recovery_source().empty()) sources.push_back(project->recovery_source());}
+        const bool summary=case_summary_,unversioned=allow_unversioned_;
+        const std::string input=summary && measurements_path_[0]?export_path(measurements_path_.data()):"",value=value_column_.data(),weight=weight_column_.data();
+        if(!input.empty()) sources.push_back(input);
         const auto snapshot=grid_;cancel_.store(false);metadata_bytes_=0;export_state_="writing";
-        export_=std::async(std::launch::async,[this,snapshot,path,sources] {
-            Export result;try {export_checkpoint(&cancel_);const auto csv=tma_metadata_csv(*snapshot);export_checkpoint(&cancel_);for(const auto& source:sources) guard_file_output(export_path(source),"",path);
+        export_=std::async(std::launch::async,[this,snapshot,path,sources,summary,unversioned,input,value,weight] {
+            Export result;try {
+                export_checkpoint(&cancel_);std::string table;std::unique_ptr<ReaderFileGuard> input_guard;
+                for(const auto& source:sources) guard_file_output(export_path(source),"",path);
+                if(!input.empty()) {
+                    input_guard=std::make_unique<ReaderFileGuard>(input);
+                    std::ifstream stream(std::filesystem::u8path(input),std::ios::binary);
+                    if(!stream) throw std::runtime_error("cannot open TMA measurement CSV");
+                    std::array<char,65536> chunk;
+                    while(stream) {
+                        export_checkpoint(&cancel_);stream.read(chunk.data(),chunk.size());const auto n=static_cast<std::size_t>(stream.gcount());
+                        if(n>64*1024*1024-table.size()) throw std::length_error("TMA measurement CSV exceeds byte limit");table.append(chunk.data(),n);
+                    }
+                    if(!stream.eof() || stream.bad()) throw std::runtime_error("cannot read TMA measurement CSV");
+                    input_guard->verify();
+                    if(table.empty()) throw std::invalid_argument("TMA measurement CSV is empty");
+                }
+                const auto csv=summary?tma_case_summary_csv(*snapshot,table,value,weight,64*1024*1024,unversioned,&cancel_):tma_metadata_csv(*snapshot);
+                export_checkpoint(&cancel_);for(const auto& source:sources) guard_file_output(export_path(source),"",path);
                 AtomicExportFile output(path,64*1024*1024,&cancel_);for(std::size_t at=0;at<csv.size();) {const auto n=std::min<std::size_t>(65536,csv.size()-at);output.write(csv.data()+at,n);at+=n;}
-                for(const auto& source:sources) guard_file_output(export_path(source),"",path);result.state="saved";result.bytes=csv.size();output.commit(false);
+                for(const auto& source:sources) guard_file_output(export_path(source),"",path);if(input_guard) input_guard->verify();result.state="saved";result.bytes=csv.size();output.commit(false);
             }catch(const std::exception& e) {result.bytes=0;result.state=cancel_.load()?"cancelled":"failed";try {result.error=e.what();bounded_utf8(result.error,8192);}catch(...) {result.error="TMA CSV export failed";}}
             return result;
         });
     }
 public:
-    explicit GuiTma(const GuiOptions& initial):open_(initial.tma_open),explicit_options_(bool(initial.tma_options)),initial_tab_(initial.tma_tab),options_(initial.tma_options?*initial.tma_options:TmaGridOptions{}),initial_case_(initial.tma_case_id),initial_bounds_(initial.tma_core_bounds),delta_(initial.tma_translation) {if(initial_tab_<0 || initial_tab_>2) throw std::invalid_argument("invalid TMA panel tab");options_.validate();copy(name_,options_.name);copy(path_,initial.tma_metadata_path);bounded_utf8(initial_case_,256);if(initial_bounds_) initial_bounds_->validate();}
+    explicit GuiTma(const GuiOptions& initial):open_(initial.tma_open),explicit_options_(bool(initial.tma_options)),initial_tab_(initial.tma_tab),options_(initial.tma_options?*initial.tma_options:TmaGridOptions{}),initial_case_(initial.tma_case_id),initial_bounds_(initial.tma_core_bounds),delta_(initial.tma_translation) {if(initial_tab_<0 || initial_tab_>2) throw std::invalid_argument("invalid TMA panel tab");options_.validate();copy(name_,options_.name);copy(path_,initial.tma_metadata_path);case_summary_=initial.tma_case_summary;allow_unversioned_=initial.tma_allow_unversioned;copy(measurements_path_,initial.tma_measurements_path);copy(value_column_,initial.tma_value_column);copy(weight_column_,initial.tma_weight_column);bounded_utf8(initial_case_,256);if(initial_bounds_) initial_bounds_->validate();}
     ~GuiTma() {finish(false);}
     void open() {open_=true;}
     Rect bounds(GuiInputTarget target) const {return targets_.at(index(target));}
@@ -145,11 +169,19 @@ public:
                     ImGui::EndTabItem();
                 }
                 if(tab("Export",2,GuiInputTarget::TmaExportTab)) {
-                    ImGui::TextWrapped("Metadata CSV includes present, missing and vacant slots. It captures the grid when requested and creates a new file.");
-                    ui::InputTextWithHint("##TMA metadata path","New metadata CSV file",path_.data(),path_.size());
-                    if(button("Export core metadata CSV",GuiInputTarget::ExportTmaMetadata,disabled || export_.valid() || !path_[0])) perform([&]{write_metadata(doc,project);});
-                    if(button("Cancel metadata export",GuiInputTarget::CancelTmaMetadata,!export_.valid())) cancel_.store(true);
-                    ImGui::TextWrapped("Metadata CSV: %s",export_state_.c_str());ImGui::EndTabItem();
+                    ImGui::BeginDisabled(export_.valid());
+                    ui::Checkbox("Summarize replicate cores by case",&case_summary_);
+                    if(case_summary_) {
+                        ImGui::TextWrapped("Missing cores contribute no measurements. Cores without a case ID stay separate. Leave the input empty for case inventory only.");
+                        ui::InputTextWithHint("##TMA measurements path","Optional measurement CSV input",measurements_path_.data(),measurements_path_.size());
+                        ui::InputText("Value column",value_column_.data(),value_column_.size());
+                        ui::InputText("Weight column (optional)",weight_column_.data(),weight_column_.size());
+                        ui::Checkbox("Allow input without core revisions",&allow_unversioned_);
+                    } else ImGui::TextWrapped("Metadata CSV includes present, missing and vacant slots. It captures the grid when requested and creates a new file.");
+                    ui::InputTextWithHint("##TMA metadata path","New CSV output file",path_.data(),path_.size());ImGui::EndDisabled();
+                    if(button(case_summary_?"Export case summary CSV":"Export core metadata CSV",GuiInputTarget::ExportTmaMetadata,disabled || export_.valid() || !path_[0])) perform([&]{write_metadata(doc,project);});
+                    if(button("Cancel CSV export",GuiInputTarget::CancelTmaMetadata,!export_.valid())) cancel_.store(true);
+                    ImGui::TextWrapped("CSV export: %s",export_state_.c_str());ImGui::EndTabItem();
                 }
                 ImGui::EndTabBar();activate_tab_=false;
             }

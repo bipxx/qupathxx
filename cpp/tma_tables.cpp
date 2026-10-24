@@ -1,6 +1,7 @@
 #include "qupathxx/tma.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
+#include <algorithm>
 #include <charconv>
 #include <cmath>
 #include <limits>

@@ -45,10 +45,16 @@ void bind_tma(nb::module_& m) {
     m.def("tma_grid_edits",&tma_grid_edits,"options"_a=TmaGridOptions{},nb::call_guard<nb::gil_scoped_release>());
     m.def("tma_metadata_csv",&tma_metadata_csv,"snapshot"_a,"byte_limit"_a=64*1024*1024,nb::call_guard<nb::gil_scoped_release>());
     m.def("tma_context_csv",&tma_context_csv,"snapshot"_a,"table"_a,"byte_limit"_a=64*1024*1024,"require_revision"_a=true,nb::call_guard<nb::gil_scoped_release>());
+    m.def("tma_case_summary_csv",[](const TmaGrid& snapshot,const std::string& table,const std::string& value,const std::string& weight,std::size_t limit,bool unversioned) {
+        return tma_case_summary_csv(snapshot,table,value,weight,limit,unversioned);
+    },"snapshot"_a,"table"_a="","value_column"_a="","weight_column"_a="","byte_limit"_a=64*1024*1024,"allow_unversioned"_a=false,nb::call_guard<nb::gil_scoped_release>());
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
         .def_rw("tma_open",&GuiOptions::tma_open).def_rw("tma_tab",&GuiOptions::tma_tab)
         .def_prop_rw("tma_options",[](const GuiOptions& o)->std::optional<std::shared_ptr<const TmaGridOptions>> {if(o.tma_options) return o.tma_options;return {};},[](GuiOptions& o,std::optional<std::shared_ptr<const TmaGridOptions>> v){o.tma_options=v?*v:nullptr;})
         .def_rw("tma_case_id",&GuiOptions::tma_case_id).def_rw("tma_metadata_path",&GuiOptions::tma_metadata_path)
+        .def_rw("tma_case_summary",&GuiOptions::tma_case_summary).def_rw("tma_measurements_path",&GuiOptions::tma_measurements_path)
+        .def_rw("tma_value_column",&GuiOptions::tma_value_column).def_rw("tma_weight_column",&GuiOptions::tma_weight_column)
+        .def_rw("tma_allow_unversioned",&GuiOptions::tma_allow_unversioned)
         .def_rw("tma_translation",&GuiOptions::tma_translation).def_rw("tma_core_bounds",&GuiOptions::tma_core_bounds);
     nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport"))
         .def_ro("tma_error",&GuiReport::tma_error).def_ro("tma_export_state",&GuiReport::tma_export_state)
