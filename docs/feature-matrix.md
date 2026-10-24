@@ -33,19 +33,26 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 
 ## Current packet and remaining decisions
 
-The captured multi-grid TMA cohort source `15ee0e8` is now on `main`, including
-native/Python manifest and raw-row pooling APIs, atomic file export, explicit
-project CLI selection and ImGui project pooling. Exact-source
-[Windows/Linux](benchmarks/tma-cohort-windows-linux.json),
-[both Mac native architectures](benchmarks/tma-cohort-macos.json) and
-[portable builders/fresh consumers](benchmarks/tma-cohort-portable.json) audits
-are accepted. [Promotion evidence](benchmarks/tma-cohort-main-promotion.json)
-records the fast-forward from `132288c` while preserving the divergent local
-root branch. The installed Windows suite passes 2,470 tests with 13 optional
-skips and three strict legacy science xfails; the hosted Windows GUI job passes
-2,473 tests. The initially narrower portable run is explicitly rejected, with
-the corrected extended-reader qualification accepted. M0-M7 science, hardware,
-license and supported-release requirements remain open.
+The accepted engineering source on public `main` is `82e159f`, including the
+captured multi-grid TMA workflow and Windows/Linux runtime manifests.
+Exact-source [Windows/Linux](benchmarks/linux-runtime-manifest-engine.json),
+[Mac native](benchmarks/linux-runtime-manifest-macos.json) and
+[portable builder/consumer](benchmarks/linux-runtime-manifest-portable.json)
+audits pass. [Promotion evidence](benchmarks/linux-runtime-manifest-main-promotion.json)
+records the fast-forward while preserving the divergent local root branch.
+The hosted Windows GUI suite passes 2,653 Python tests and 47 native suites;
+Windows/Linux headless suites pass 2,243/2,241 Python tests and 46 native suites.
+These are engineering cohorts, with the existing scientific exclusions retained.
+
+The separate [Mac snapshot candidate](benchmarks/macos-native-inventory-macos.json)
+has accepted Intel/arm64 native inventory evidence. Relocation and fresh-package
+runtime qualification for source `b0d12245` is running in
+[40125033683](https://github.com/bipxx/qupathxx/actions/runs/40125033683).
+A subsequent [offline artifact-audit candidate](benchmarks/macos-runtime-artifact-audit-local-windows.json)
+passes 389 focused local tests, including complete synthetic runtime evidence
+and altered-artifact rejection. That synthetic evidence does not establish
+native Mac execution or qualify this later candidate for promotion.
+M0–M7 science, hardware, license and supported-release requirements remain open.
 
 The input loader rejects an observed oversized measurement file
 before data reads and reserves admitted input storage. Its native quota test,

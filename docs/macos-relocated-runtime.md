@@ -49,12 +49,18 @@ The geometry child result has a distinct filename from its command ledger.
 
 ## Current evidence and remaining gates
 
-The local suite passes 358 cases, including 31 runtime contract/simulated-flow
-tests and 14 command-ledger audit cases. The complete local probe test uses
+The local suite passes 389 cases, including 38 runtime contract/simulated-flow
+tests, 14 command-ledger audit cases and 24 complete synthetic artifact-audit
+cases. One complete synthetic runtime evidence set is accepted; 23 altered or
+coordinately rewritten artifact sets reject acceptance. Seven additional PAM
+cases enforce the exact dimensions, depth, tuple type, header uniqueness and
+pixel length. The uploaded fixed PPM input is checked independently. These
+fixtures exercise the offline protocol and do not execute Apple tools or native
+Mac binaries; see the [candidate receipt](benchmarks/macos-runtime-artifact-audit-local-windows.json). The complete local probe test uses
 labelled simulated commands and never executes Mac binary fixtures. It found
 and fixed an initial collision between `geometry.json` child output and its
 command ledger; the original failed run is retained. The shared frozen Python
-case contract now includes all nine runtime-inventory classes for future
+case contract now includes all ten runtime-inventory classes for future
 installed engine/portable validation.
 
 A separate pilot checks the scalar CSV contract against the previously accepted
@@ -62,8 +68,12 @@ Windows executable and existing project fixture. It uses an older accepted
 compiled engine and does not qualify this Mac source. The
 [local receipt](benchmarks/macos-relocation-runtime-local-windows.json) records
 that distinction. Native compiler inputs are unchanged. Actual Apple edits,
-Intel/arm64 package image mappings and host workflows require the newly
-dispatched exact-source run and subsequent artifact audit before acceptance.
+Intel/arm64 package image mappings and host workflows require exact-source
+hosted execution and subsequent artifact audit before acceptance. Run
+[40125033683](https://github.com/bipxx/qupathxx/actions/runs/40125033683)
+uses the earlier `b0d12245` source and was in progress when this candidate was
+recorded. Its source-bound audit uses that version of the tools; it cannot
+qualify the new PPM upload or stronger PAM checks in this candidate.
 
 This scope does not establish an older-macOS support matrix, arbitrary symbol/
 ABI coverage, Python/GUI/OpenSlide Mac packages, installers, distribution signing,
