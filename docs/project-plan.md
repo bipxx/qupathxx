@@ -4671,8 +4671,9 @@ and synthetic sizes through 100,000 rows. Two numerical regressions were found
 and fixed before publication. Final path-field labels also pass
 the full Windows validation at source `e6bb0fc`. The initial Mac TMA candidate
 failed to compile at floating `from_chars`; a strict signed-decimal parser using
-the existing immutable C locale passes native checks and awaits fresh installed
-and platform acceptance. Hosted source-bound TMA audits remain open. See the
+the existing immutable C locale now passes 47 native suites, 48 focused cases
+and 2,390 installed Windows tests at source `914b7e2`, plus 46 native arm64 Mac
+suites. Intel Mac and complete hosted source-bound TMA audits remain open. See the
 [TMA contract](tissue-microarrays.md) and
 [initial receipt](benchmarks/tma-case-initial-validation-windows.json).
 

@@ -55,7 +55,10 @@ cohort guards reject missing, duplicate, failed, skipped and stale evidence.
 The initial macOS TMA candidate failed to compile because its C++17 library
 lacks floating `from_chars`. A strict signed-decimal parser using the existing
 immutable C locale replaces it; [native checks and guard controls](benchmarks/tma-case-portable-parser-controls.json)
-pass locally. Fresh installed/platform validation of that parser is pending.
+pass locally. The portable-parser installed Windows wheel also passes all
+2,390 tests, and [macOS arm64 native observation](benchmarks/tma-case-parser-arm64.json)
+passes 46 suites. Intel macOS and the complete Windows/Linux/portable artifact
+audits remain pending.
 Cross-grid case pooling, biological/QuPath equivalence and hardware acceptance
 remain open. The latest navigation qualification met frame timing but failed
 the frozen ambient CPU eligibility limit in one trial.

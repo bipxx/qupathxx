@@ -161,7 +161,9 @@ files are preserved. The [initial local installed validation](benchmarks/tma-cas
 passes native, Python and desktop checks. The [final panel-label validation](benchmarks/tma-case-validation-windows.json)
 also passes the full Windows suite. The initial Mac candidate exposed a missing
 C++17 floating parser overload; the [portable signed-decimal replacement](benchmarks/tma-case-portable-parser-controls.json)
-passes local native checks and awaits fresh installed/platform acceptance. This does not establish biological or
+passes the [fresh full Windows validation](benchmarks/tma-case-validation-windows.json)
+and 46 [macOS arm64 native suites](benchmarks/tma-case-parser-arm64.json).
+Intel native and full hosted matrix acceptance remain pending. This does not establish biological or
 upstream equivalence. The [scale profile](benchmarks/tma-case-profile-windows.json)
 retains every trial and verifies counts and statistics independently through
 100,000 measurement rows; its timings are synthetic observations.

@@ -5,7 +5,8 @@
       "case_aggregation_checked": true,
       "compensated_signed_sums_checked": true,
       "mean_underflow_checked": true,
-      "cancellation_checked": true
+      "cancellation_checked": true,
+      "signed_decimal_locale_checked": true
     },
     "python": {
       "cohort_contract_sha256": "eb85dd78682626681ae942e8f384bee4b3f04e06677cc6f9c566aac39d653472",
@@ -13,9 +14,17 @@
       "gui_cases_passed": 4
     }
   },
-  "native_junit_sha256": "3817092e5aa2d1fb6f72e2dae89aaff645246ec032de422b267815cfa153dce8",
-  "python_junit_sha256": "27f31eb6a6a64a7ac84162b9a4e4929887217a29bbe5e55f86363a2fa0b7431f",
-  "helper_sha256": "a0f42e0a97668d13eb523cda8767c3c979483a9292723ef20f12984c0c9bb3c5",
+  "actual_source_positive": {
+    "commit": "914b7e2cd02a49c87907d578ea0b736a8cefb71d",
+    "python": {
+      "cohort_contract_sha256": "eb85dd78682626681ae942e8f384bee4b3f04e06677cc6f9c566aac39d653472",
+      "cases_passed": 13,
+      "gui_cases_passed": 4
+    }
+  },
+  "native_junit_sha256": "6f8eddb1f25e11b557be283f056940e3b2291ab599129eaec60b2127c4f5a42a",
+  "python_junit_sha256": "1e90d133a66305722d3aef82e860d4d64e367722bd9e9d6744c27e2c0638353c",
+  "helper_sha256": "7fd5944c3f923806be943a2c0ea2a29d6453a0612ac1452a77f202463dc46117",
   "contract_sha256": "eb85dd78682626681ae942e8f384bee4b3f04e06677cc6f9c566aac39d653472",
   "negative_controls_rejected": [
     "old-native-evidence",
@@ -33,21 +42,14 @@
     "python-skipped",
     "missing-desktop-case",
     "wrong-source-commit",
+    "pre-portable-native-evidence",
+    "missing-decimal-case",
+    "duplicate-decimal-case",
+    "decimal-failure",
+    "decimal-error",
+    "decimal-skipped",
+    "missing-signed-parser-marker",
     "changed-contract-bytes"
   ],
-  "scope": "Guard self-check using real local JUnit and a separate local contract repository. This is not hosted candidate acceptance. Actual-source contract/native/Python positive checks also passed at the compiled revision.",
-  "actual_source_positive": {
-    "commit": "e6bb0fcd3ffdfb8067cf3f1e43ea98b3a2f73352",
-    "native": {
-      "case_aggregation_checked": true,
-      "compensated_signed_sums_checked": true,
-      "mean_underflow_checked": true,
-      "cancellation_checked": true
-    },
-    "python": {
-      "cohort_contract_sha256": "eb85dd78682626681ae942e8f384bee4b3f04e06677cc6f9c566aac39d653472",
-      "cases_passed": 13,
-      "gui_cases_passed": 4
-    }
-  }
+  "scope": "Guard self-check using real local JUnit and a separate local contract repository. This is not hosted candidate acceptance."
 }
