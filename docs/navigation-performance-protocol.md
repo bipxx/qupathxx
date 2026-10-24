@@ -24,8 +24,9 @@ driver, display mode and CPU load before and after each trial. The workstation
 is shared; require both observed CPU-load readings at most 25 percent and run
 no other owned GUI, capture, native build or performance workload concurrently.
 A load reading outside that condition makes the trial ineligible, not a pass.
-No OS cache flush is requested; this is warm filesystem/reader navigation,
-with a newly opened reader per process and two separate windows per process.
+No OS cache flush is requested; fixture hashing may warm the filesystem.
+Each process opens a new reader and uses first-view and repeat-view windows.
+This does not establish cold-storage latency or a fully warm decoder cache.
 
 Run three independent child processes, retaining every trial and both views:
 

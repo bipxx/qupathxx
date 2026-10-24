@@ -136,7 +136,7 @@ def main():
         require(audit["auditor"]["sha256"] == sha(ROOT / "tools/ci/accept_unified_engine.py"),
                 "engine audit was not produced by the current source auditor")
         gui = [j for j in audit["jobs"] if j["name"] == "Windows GUI Python 3.12 software GL"]
-        require(len(gui) == 1 and gui[0]["rendered_loop_timing"]["passed"] == 4,
+        require(len(gui) == 1 and gui[0].get("rendered_loop_timing", {}).get("passed") == 4,
                 "audited GUI timing contracts are missing")
         import qupathxx as q
         from qupathxx import _native
@@ -187,6 +187,9 @@ def main():
                     data["native_sha256"] == report["native_sha256"] and
                     data["source_tree_sha256"] == report["source_tree_sha256"] and
                     data["sha256"] == FIXTURE_SHA, "trial identity differs from the protocol")
+            require(data["window_logical_size"] == [2560, 1440] and
+                    data["scale_cycle"] is True and data["ui_multiplier"] == 1,
+                    "trial arguments differ from the frozen workload")
             require([v["name"] for v in data["runs"]] == ["first-view", "repeat-view"],
                     "trial does not contain both expected views")
             for view in data["runs"]:

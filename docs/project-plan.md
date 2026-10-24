@@ -4256,3 +4256,23 @@ native suites. New Mac run40065293769 and extended Windows/Linux run40065385261
 must qualify that exact source. Mac compilation now gathers all independent
 Ninja failures in one run, retaining full logs for diagnosis. No platform,
 scientific, performance or release gate is accepted from the type fix alone.
+
+
+The timing source551 passes its [complete Windows/Linux engineering audit](benchmarks/rendered-loop-windows-linux.json)
+in run40064597282: Windows GUI2,207 Python/46 native, Windows headless1,814/45,
+Linux headless1,812/45, minimal/sanitizer45. All four new timing contract cases
+pass GUI and skip explicitly headless; inherited workflows/runtime/standalone,
+NDPI, scientific characterization and typing gates remain audited.
+
+The newer Darwin source459 also passes the [Linux artifact audit](benchmarks/darwin-prediction-size-linux.json)
+in run40065385261 (1,812 Python/45 native plus minimal/sanitizer45). Its Windows
+headless job passes independently; the GUI job and overall source459 acceptance
+remain pending. Intel Mac run40065293769 has started and Arm is queued.
+
+The executable `tools/qualify_navigation.py` enforces the frozen hardware/source
+protocol and retains every trial. It rejects an older complete source audit
+before opening a window. Component probes accept the two recorded hardware
+view datasets, reject both software-renderer datasets, reject an injected wrong
+final camera despite completed replay, and reject the observed overloaded CPU
+context. These probes do not qualify the newer engine or hardware target. The
+positive three-process qualification awaits that source's full installed matrix.

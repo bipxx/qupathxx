@@ -95,3 +95,14 @@ The benchmark now establishes a canvas target before Ctrl+A, saves diagnostic
 results before assertions, and retains the original full-selection/revision,
 budget and exact-pixel checks. Both subsequent full/zoomed pairs pass. No native
 input behavior or selection implementation is changed in this investigation.
+
+
+Run40064597282 now passes the [full source-specific Windows/Linux audit](benchmarks/rendered-loop-windows-linux.json)
+at source `551a7b4afc1b8c7c2cf9c194428b68024643ad3d`: Windows GUI passes
+2,207 Python / 46 native, Windows headless 1,814 / 45, Linux headless 1,812 / 45,
+and minimal/sanitizer each pass 45 native suites. All four ordinary/startup/
+long-session timing cases pass on GUI and explicitly skip headless. The audit
+also accepts inherited NDPI/LoG/parser/cache/scientific-characterization,
+installed-wheel, standalone, runtime, stub and typing gates at that source.
+This qualifies the timing change's engineering scope; the later Darwin
+training/prediction source459 and its hardware protocol remain separate gates.
