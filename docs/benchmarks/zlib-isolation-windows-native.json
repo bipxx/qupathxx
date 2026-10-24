@@ -1,0 +1,29 @@
+{
+  "schema": "qpx.zlib-isolation-native-local/1",
+  "source": "d1c64f260287f94311f8940dd5e1ef020ee19b34",
+  "source_projection": {
+    "actual_source_tree_sha256": "37268ef82f6a48d21a01adf5d123782bd45ba1c73d9fd3175aa2deeaa75b437a",
+    "git_lf_source_tree_sha256": "29e19eab3ddb84161b209318b2f05ab14495a0bd887b4c0031b0b28768923771",
+    "input_count": 249,
+    "committed_inputs_match_compiled": true
+  },
+  "native": {
+    "passed": 45,
+    "junit_sha256": "c85205f1e2d68c8079025c4737fed756d5ed3d1472f3baa2d3c73e3c11f10a35",
+    "log_sha256": "9f39f2e8e8b614f6a2459adba5da7d5db49520d65ade955cdb446105812ef3f3"
+  },
+  "private_zlib": {
+    "archive_sha256": "de49ffc32448d8ff812a52d50b5d7f3d4da33f0c4f0c24e7517fbeb9be239dfa",
+    "symbols_sha256": "beb35dc816a7507fa36d85f60fabd9162387526c2dc9ff0e1c15554d2b258eb6",
+    "private_error_table_defined": true,
+    "unprefixed_error_table_absent": true
+  },
+  "macos_failed_run": 40069145837,
+  "arm_job_log_sha256": "18a6c9328be583b59b277aa29b9afd8df04697f894b42f7536b080edcb464ccc",
+  "macos_followup": 40072054364,
+  "macos_accepted": false,
+  "windows_linux_full_matrix_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "scope": "Windows headless native and private TIFF-zlib symbol inspection. No Mac link success, GUI wheel, full platform or performance acceptance from this observation."
+}

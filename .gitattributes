@@ -57,3 +57,4 @@ docs/benchmarks/darwin-training-size-*.json -text whitespace=cr-at-eol
 docs/benchmarks/darwin-prediction-size-*.json -text whitespace=cr-at-eol
 docs/benchmarks/darwin-declarations-*.json -text whitespace=cr-at-eol
 docs/benchmarks/gui-stack-*.json -text whitespace=cr-at-eol
+docs/benchmarks/zlib-isolation-*.json -text whitespace=cr-at-eol

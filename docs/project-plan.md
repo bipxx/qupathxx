@@ -4356,3 +4356,26 @@ stack audit modes are enabled; the new GUI cases are collected and skipped
 headless. This Linux-only receipt leaves Windows, Mac and overall acceptance
 false. Local source794 full GUI testing and both source757 hosted matrices
 remain independent live validation work.
+
+
+## Packet132: private TIFF zlib symbol isolation
+
+Mac130 Arm in run40069145837 compiles the fixed declaration sites, then fails
+to link because `_z_errmsg` is defined by both the pinned TIFF zlib and the
+OpenCV static SDK. Public zlib API prefixing is already enabled, but this
+internal error-table symbol is not covered by zlib's prefix header. The
+complete failed job log is retained; Intel remains an independent live job.
+
+Source `d1c64f260287f94311f8940dd5e1ef020ee19b34` adds the target-private
+`z_errmsg=qpx_tiff_z_errmsg` definition only to the pinned `zlibstatic` target.
+Fetched dependency source files and TIFF/public-consumer compilation are not
+modified. The [local native receipt](benchmarks/zlib-isolation-windows-native.json)
+verifies249 committed build inputs against the compiled engine,45 passing
+native suites and the archive symbol table: the private error table is defined
+and the unprefixed table is absent. This is not Mac link acceptance.
+
+Both Mac architectures validate this exact source in run40072054364. The
+separate `validation/zlib-engine-132` Windows/Linux dispatch must qualify the
+same changed source with NDPI/timing/default-stack audit modes before replacing
+source757 engineering acceptance. No release, platform, performance or complete
+M0–M7 claim follows from the local symbol check. Main promotion remains withheld.
