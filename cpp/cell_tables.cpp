@@ -117,7 +117,7 @@ struct CellTableRequest::Data {
 #endif
     }
     void finish(std::chrono::steady_clock::time_point start) {
-        for(const auto& entry:entries) detector_parameters=detector_parameters || entry.record->result->parameters().algorithm==CellAlgorithm::LogWatershed;
+        for(const auto& entry:entries) detector_parameters=detector_parameters || entry.record->result->parameters().algorithm!=CellAlgorithm::DistanceWatershed;
         charge((entries.capacity()-entries.size())*sizeof(Entry)+(images.capacity()-images.size())*sizeof(Image)+(blocks.capacity()-blocks.size())*sizeof(Block));
         capture_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
     }
@@ -163,8 +163,8 @@ struct CellTableWriter {
     static void detector(Row& row,const CellTableRequest& request,const CellResult* result) {
         if(!request.data_->detector_parameters) return;
         if(!result) {row.separator();row.separator();row.separator();return;}
-        const auto& p=result->parameters();row.string(p.algorithm==CellAlgorithm::LogWatershed?"log":"distance");
-        if(p.algorithm==CellAlgorithm::LogWatershed) {row.real(p.log_prominence);row.integer(p.context_padding);}
+        const auto& p=result->parameters();row.string(p.algorithm==CellAlgorithm::LogWatershedBodies?"log-bodies":(p.algorithm==CellAlgorithm::LogWatershed?"log":"distance"));
+        if(p.algorithm!=CellAlgorithm::DistanceWatershed) {row.real(p.log_prominence);row.integer(p.context_padding);}
         else {row.separator();row.separator();}
     }
     static void context(Row& row,const CellTableRequest& request,const CellTableRequest::Data::Image& image) {

@@ -1,7 +1,7 @@
 #pragma once
 #include "qupathxx/tissue.hpp"
 namespace qpx {
-enum class CellAlgorithm { DistanceWatershed=0, LogWatershed=1 };
+enum class CellAlgorithm { DistanceWatershed=0, LogWatershed=1, LogWatershedBodies=2 };
 struct CellParameters {
     CellAlgorithm algorithm=CellAlgorithm::DistanceWatershed;
     double log_prominence=.5;

@@ -4,6 +4,7 @@
 #include "calibrated_cell_numeric.hpp"
 #include "cell_recipe.hpp"
 #include "log_watershed.hpp"
+#include "cell_expansion.hpp"
 #include "sha256.hpp"
 #include <chrono>
 #include <cstring>
@@ -169,7 +170,7 @@ std::size_t CellResult::retained_bytes() const {return sizeof(CellResult)+marker
 struct CellKernel {
     static std::shared_ptr<const TissueResult> raster(const CellRequest& request,std::vector<std::uint32_t> labels,std::size_t count,const std::string& digest,std::uint64_t samples,std::uint64_t threshold,bool body,const std::atomic<bool>* cancelled) {
         auto r=std::shared_ptr<TissueResult>(new TissueResult());r->provenance_=request.source_.provenance();r->algorithm_=body?"qpx.cell-bodies/1":"qpx.cell-nuclei/1";r->input_sha256_=digest;
-        if(request.parameters_.algorithm==CellAlgorithm::LogWatershed) {r->algorithm_=body?"qpx.log-cell-bodies/1":"qpx.log-cell-nuclei/1";r->input_format_override_=cell_detail::input_format(request.parameters_.algorithm,request.level()!=0);}
+        if(request.parameters_.algorithm!=CellAlgorithm::DistanceWatershed) {r->algorithm_=cell_detail::mask_algorithm(request.parameters_.algorithm,body);r->input_format_override_=cell_detail::input_format(request.parameters_.algorithm,request.level()!=0);}
         r->bounds_=request.bounds();r->level_bounds_=request.level_bounds();r->level_=request.level();r->downsample_=request.downsample();r->roi_=request.roi();
         r->image_bounds_={0,0,double(request.reader_->metadata().width),double(request.reader_->metadata().height)};r->parameters_=request.source_.parameters();
         r->white_=request.transform_.white();r->stains_=request.transform_.stains();r->object_id_=request.object_id();r->object_revision_=request.object_revision_;r->document_revision_=request.document_revision_;
@@ -230,9 +231,9 @@ struct CellKernel {
                 for(std::int64_t row=0;row<h;++row) {checkpoint(cancelled);for(std::int64_t col=0;col<w;++col) {
                     const auto src=static_cast<std::size_t>(row*w+col),dst=static_cast<std::size_t>(y-y0+row)*width+static_cast<std::size_t>(x-x0+col);
                     if(!std::isfinite(values.values()[src*3])) continue;
-                    if(p.algorithm==CellAlgorithm::LogWatershed) smooth[dst]=p.feature==TissueFeature::OpticalDensitySum?
+                    if(p.algorithm!=CellAlgorithm::DistanceWatershed) smooth[dst]=p.feature==TissueFeature::OpticalDensitySum?
                         double(values.values()[src*3])+double(values.values()[src*3+1])+double(values.values()[src*3+2]):values.values()[src*3+static_cast<int>(p.feature)-1];
-                    if((p.algorithm==CellAlgorithm::LogWatershed && (x+col<roi_grid.x || y+row<roi_grid.y || x+col>=roi_grid.x+roi_grid.width || y+row>=roi_grid.y+roi_grid.height)) ||
+                    if((p.algorithm!=CellAlgorithm::DistanceWatershed && (x+col<roi_grid.x || y+row<roi_grid.y || x+col>=roi_grid.x+roi_grid.width || y+row>=roi_grid.y+roi_grid.height)) ||
                        !request.roi().contains({(double(x+col)+.5)*scale,(double(y+row)+.5)*scale})) continue;
                     domain[dst]=1;++samples;for(std::size_t c=0;c<3;++c) {channels[dst*3+c]=values.values()[src*3+c];rgb[dst*3+c]=pixels.bytes()[src*4+c];}
                     smooth[dst]=p.feature==TissueFeature::OpticalDensitySum?double(channels[dst*3])+double(channels[dst*3+1])+double(channels[dst*3+2]):channels[dst*3+static_cast<int>(p.feature)-1];
@@ -243,7 +244,7 @@ struct CellKernel {
         if(!samples) throw std::invalid_argument("cell ROI contains no opaque pixel centers");const auto sha=digest.finish();
         if(phase) phase->store(2);
         std::vector<double> distance;std::vector<std::uint32_t> nuclei;
-        if(p.algorithm==CellAlgorithm::LogWatershed) {
+        if(p.algorithm!=CellAlgorithm::DistanceWatershed) {
             std::vector<float> feature(smooth.begin(),smooth.end());std::vector<double>().swap(smooth);
             cell_detail::LogParameters log;log.sigma=p.sigma;log.threshold=p.threshold;log.prominence=p.log_prominence;
             log.minimum_radius=p.min_peak_radius;log.minimum_spacing=p.min_seed_distance;log.minimum_area=p.min_nucleus_pixels;log.maximum_area=p.max_nucleus_pixels;
@@ -270,7 +271,9 @@ struct CellKernel {
         std::size_t count=0;for(auto& marker:result->markers_) {marker.center={(grid.x+marker.pixel_index%width+.5)*scale,(grid.y+marker.pixel_index/width+.5)*scale};count=std::max<std::size_t>(count,marker.result_label);}
         std::vector<std::uint8_t>().swap(mask);std::vector<std::uint32_t> bodies(n);
         if(phase) phase->store(5);
-        if(count && p.cell_expansion>0) {
+        if(count && p.cell_expansion>0 && p.algorithm==CellAlgorithm::LogWatershedBodies) {
+            bodies=cell_detail::expand_cells_watershed(nuclei,domain,width,height,p.cell_expansion,p.work_bytes,cancelled).labels;
+        } else if(count && p.cell_expansion>0) {
             distance.resize(n);
             for(std::size_t i=0;i<n;++i) {if((i&4095)==0) checkpoint(cancelled);distance[i]=nuclei[i]?0:cell_detail::infinity;}
             std::vector<std::uint32_t> nearest;cell_detail::distance(distance,width,height,false,&nearest,cancelled);

@@ -41,6 +41,17 @@ int main() {
         CellParameters inactive;inactive.context_padding=33;rejects([&]{inactive.validate();});
         CellParameters invalid;invalid.algorithm=static_cast<CellAlgorithm>(9);rejects([&]{invalid.validate();});
         const auto legacy=detect_cells(CellRequest(doc,object,transform,{}));require(CellArchiveCodec::encode(*legacy)[3]==1);
+        auto body_parameters=p;body_parameters.algorithm=CellAlgorithm::LogWatershedBodies;
+        const CellRequest body_request(doc,object,transform,body_parameters);const auto body_result=detect_cells(body_request);
+        require(std::string(body_result->algorithm())=="qpx.log-watershed-bodies/1");
+        require(body_result->nuclei()->labels()==result->nuclei()->labels());
+        require(input_sha256(body_request)==body_result->nuclei()->input_sha256() && input_sha256(body_request)!=input_sha256(request));
+        const auto body_bytes=CellArchiveCodec::encode(*body_result);require(body_bytes[3]==3);
+        const auto body_restored=CellArchiveCodec::decode(body_bytes.data(),body_bytes.size(),body_request.roi(),doc.metadata());
+        require(body_restored->parameters().algorithm==body_parameters.algorithm && body_restored->cells()->labels()==body_result->cells()->labels());
+        const auto body_record=doc.keep_cells(body_request,body_result);const auto body_replay=CellRequest::replay(doc,body_record);
+        require(doc.verify_cells(body_record,body_replay,*detect_cells(body_replay)));
+        for(auto version:{1,2,4}) {auto bad=body_bytes;bad[3]=static_cast<std::uint8_t>(version);sign(bad,body_request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),body_request.roi(),doc.metadata());});}
         std::cout<<"Captured LoG context, fractional ROI clipping, digests, QCL2, replay and legacy QCL1 passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

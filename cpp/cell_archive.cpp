@@ -57,7 +57,7 @@ std::uint64_t edge(double coordinate,double scale,std::int64_t limit) {
 std::vector<std::uint8_t> CellArchiveCodec::encode(const CellResult& r,const std::atomic<bool>* cancelled) {
     checkpoint(cancelled);r.parameters().validate();if(std::string(r.algorithm())!=cell_detail::algorithm_id(r.parameters().algorithm)) throw std::invalid_argument("unsupported cell archive algorithm");
     Writer w;const auto& n=*r.nuclei();const auto& p=r.parameters();
-    if(p.algorithm==CellAlgorithm::LogWatershed) {w.bytes[3]=2;w.u64(1);w.real(p.log_prominence);w.u64(p.context_padding);}
+    if(p.algorithm!=CellAlgorithm::DistanceWatershed) {w.bytes[3]=p.algorithm==CellAlgorithm::LogWatershedBodies?3:2;w.u64(static_cast<std::uint64_t>(p.algorithm));w.real(p.log_prominence);w.u64(p.context_padding);}
     for(auto v:{n.object_id(),n.object_revision(),n.document_revision(),std::uint64_t(p.feature)}) w.u64(v);
     for(auto v:{p.threshold,p.sigma,p.min_peak_radius,p.min_seed_distance,p.cell_expansion}) w.real(v);
     for(auto v:{p.min_nucleus_pixels,p.max_nucleus_pixels,std::uint64_t(p.connectivity),std::uint64_t(std::int64_t(p.level)+1),std::uint64_t(p.tile_size),std::uint64_t(p.max_cells),std::uint64_t(p.work_bytes),
@@ -81,11 +81,11 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* d
     const std::string digest(reinterpret_cast<const char*>(data+size-64),64);
     if(!hex(digest) || checksum(data,size-64,roi,cancelled)!=digest) throw std::invalid_argument("cell archive checksum mismatch");
     Reader d{data,size-64};if(d.byte()!='Q' || d.byte()!='C' || d.byte()!='L') throw std::invalid_argument("unsupported cell archive encoding");
-    const auto version=d.byte();if(version!=1 && version!=2) throw std::invalid_argument("unsupported cell archive encoding");
+    const auto version=d.byte();if(version<1 || version>3) throw std::invalid_argument("unsupported cell archive encoding");
     auto result=std::shared_ptr<CellResult>(new CellResult());auto& p=result->parameters_;
-    if(version==2) {
-        if(d.u64()!=1) throw std::invalid_argument("unsupported QCL2 cell algorithm");
-        p.algorithm=CellAlgorithm::LogWatershed;p.log_prominence=d.real();p.context_padding=static_cast<std::uint32_t>(d.limited(4096));
+    if(version>=2) {
+        const auto algorithm=d.u64();if(algorithm!=(version==3?2u:1u)) throw std::invalid_argument("unsupported cell archive algorithm/version");
+        p.algorithm=static_cast<CellAlgorithm>(algorithm);p.log_prominence=d.real();p.context_padding=static_cast<std::uint32_t>(d.limited(4096));
     }
     result->algorithm_=cell_detail::algorithm_id(p.algorithm);
     const auto object=d.u64(),object_revision=d.u64(),document_revision=d.u64();
@@ -147,7 +147,7 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* d
     if(d.left) throw std::invalid_argument("trailing cell archive payload");
     auto raster=[&](std::vector<std::uint32_t> labels,bool body) {
         auto r=std::shared_ptr<TissueResult>(new TissueResult());r->algorithm_=body?"qpx.cell-bodies/1":"qpx.cell-nuclei/1";r->input_sha256_=input;r->roi_=roi;
-        if(p.algorithm==CellAlgorithm::LogWatershed) {r->algorithm_=body?"qpx.log-cell-bodies/1":"qpx.log-cell-nuclei/1";r->input_format_override_=cell_detail::input_format(p.algorithm,level!=0);}
+        if(p.algorithm!=CellAlgorithm::DistanceWatershed) {r->algorithm_=cell_detail::mask_algorithm(p.algorithm,body);r->input_format_override_=cell_detail::input_format(p.algorithm,level!=0);}
         r->object_id_=object;r->object_revision_=object_revision;r->document_revision_=document_revision;r->level_=level;r->downsample_=scale;r->white_=white;r->stains_=stains;
         r->image_bounds_={0,0,double(metadata.width),double(metadata.height)};r->level_bounds_={double(x),double(y),double(width),double(height)};r->bounds_={double(x)*scale,double(y)*scale,double(width)*scale,double(height)*scale};
         r->parameters_.feature=p.feature;r->parameters_.threshold=p.threshold;r->parameters_.level=level;r->parameters_.tile_size=p.tile_size;r->parameters_.max_components=p.max_cells;r->parameters_.work_bytes=p.work_bytes;

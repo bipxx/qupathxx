@@ -9,7 +9,8 @@ namespace nb=nanobind;using namespace nb::literals;
 void bind_cells(nb::module_& m) {
     using namespace qpx;
     nb::enum_<CellAlgorithm>(m,"CellAlgorithm")
-        .value("DISTANCE_WATERSHED",CellAlgorithm::DistanceWatershed).value("LOG_WATERSHED",CellAlgorithm::LogWatershed);
+        .value("DISTANCE_WATERSHED",CellAlgorithm::DistanceWatershed).value("LOG_WATERSHED",CellAlgorithm::LogWatershed)
+        .value("LOG_WATERSHED_BODIES",CellAlgorithm::LogWatershedBodies);
     nb::class_<CellParameters>(m,"CellParameters").def(nb::init<>())
         .def_rw("algorithm",&CellParameters::algorithm).def_rw("log_prominence",&CellParameters::log_prominence).def_rw("context_padding",&CellParameters::context_padding)
         .def_rw("feature",&CellParameters::feature).def_rw("threshold",&CellParameters::threshold).def_rw("sigma",&CellParameters::sigma)

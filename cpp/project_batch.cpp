@@ -143,8 +143,8 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
         if(o.cell_max_nucleus_area_um2) s<<*o.cell_max_nucleus_area_um2;else s<<"null";
         s<<'}';
     }
-    if(c.algorithm==CellAlgorithm::LogWatershed)
-        s<<",\"cell_algorithm\":1,\"cell_log_prominence\":"<<c.log_prominence<<",\"cell_context_padding\":"<<c.context_padding;
+    if(c.algorithm!=CellAlgorithm::DistanceWatershed)
+        s<<",\"cell_algorithm\":"<<static_cast<int>(c.algorithm)<<",\"cell_log_prominence\":"<<c.log_prominence<<",\"cell_context_padding\":"<<c.context_padding;
     if(o.roi_sampling_policy!=RoiSamplingPolicy::GeometryCoverage)
         s<<",\"roi_sampling_policy\":"<<int(o.roi_sampling_policy);
     if(p.sampling_policy!=RoiSamplingPolicy::GeometryCoverage)
