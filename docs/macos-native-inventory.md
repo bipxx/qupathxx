@@ -66,6 +66,7 @@ and all independent raw `otool` records agree. Native compiler inputs are
 unchanged. This native-only qualification does not claim new installed Python
 engine/portable cohorts or main promotion of candidate 150.
 
-Install-name/origin resolution, relocation without build SDKs, macOS Python/
+Candidate 151 adds [identity/location planning and a staged executor](macos-relocation.md);
+its actual relocation/runtime and CI proof remain pending. Relocation without build SDKs, macOS Python/
 GUI/OpenSlide packaging, runtime/ABI availability, installers/signing, licensing,
 hardware and research acceptance remain open. Full M0-M7 completion is not claimed.

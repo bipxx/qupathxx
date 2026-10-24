@@ -4923,3 +4923,23 @@ SDK identities and raw oracle records agree. This native-only qualification
 does not claim new installed Python cohorts or main promotion of candidate 150.
 Relocated Mac packages, runtime/ABI checks, signing/installers, license, hardware
 and biological/research acceptance remain open; full M0-M7 remains partial.
+
+## Mac native relocation plan and staged Apple-tool executor (candidate 151)
+
+The planner selects captured dylib identities/explicit source locations,
+coalesces identical aliases and produces direct loader/executable-relative
+dependency edits with source RPATH removal. All load kinds require providers;
+ambiguous/colliding, unresolved, unsupported namespace/environment and declared
+version-floor cases fail. Per-root closures preserve load/version metadata.
+The native-Mac-only executor edits new copies, retains Apple tool logs, applies
+ad-hoc integrity checks and reinspects all protected metadata and archive bytes.
+Publisher signing and runtime workflows remain unverified.
+
+All 313 focused cases pass, including 34 planner and 11 staged verifier/simulated
+orchestration cases. Both real accepted Intel/arm64 snapshots admit 11 planned
+files/four binaries from 14 captured files/seven records, preserving all notices
+and 13 load/interpreter edges. See the [relocation contract](macos-relocation.md)
+and [local receipt](benchmarks/macos-relocation-local-windows.json). Actual Apple
+editing and relocated native workflows, source-bound CI validation and broader
+Mac packaging remain pending. No native runtime, hardware, biological, licensing,
+signing or full M0-M7 completion is inferred from this local proof.
