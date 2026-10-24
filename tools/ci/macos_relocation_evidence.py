@@ -81,7 +81,7 @@ def audit_runtime(folder,plan,manifest,report,logical_work,python_executable,rep
         ('batch',[str(package/'bin/qupathxx_batch'),str(logical/'input.qpxproj'),str(logical/'batch'),'--kind','od','--image','1','--object','1'],True),
         ('export',[str(package/'bin/qupathxx_batch'),'--export-csv',str(logical/relative),str(logical/'measurements.csv')],True),
         ('geometry',[python_executable,'-I',str(PurePosixPath(repository_root)/'tools/ci/check_macos_relocated_runtime.py'),
-                     '--geometry-child',str(package/capis[0]),'--geometry-output',str(logical/'geometry.json')],False)]
+                     '--geometry-child',str(package/capis[0]),'--geometry-output',str(logical/'geometry-child.json')],False)]
     require(len(report['commands'])==len(definitions),'Mac runtime command cohort differs')
     for record,(label,arguments,diagnostics) in zip(report['commands'],definitions):
         require(set(record)=={'label','arguments','exit_code','stdout_sha256','stderr_sha256','loader_diagnostics'} and
@@ -104,7 +104,7 @@ def audit_runtime(folder,plan,manifest,report,logical_work,python_executable,rep
             report['region_rgba']==[60,100,180,255],'Mac native region pixels differ')
     with sqlite3.connect(checkpoints[0].resolve().as_uri()+'?mode=ro',uri=True) as database:
         require(database.execute('SELECT count(*) FROM analysis_records').fetchone()[0]==1,'Mac checkpoint retained analysis differs')
-    geometry=read(folder/'geometry.json')
+    geometry=read(folder/'geometry-child.json')
     equal(report['geometry'],geometry,'Mac geometry child summary differs')
     equal(json.loads((folder/'geometry.stdout.log').read_text(encoding='utf-8'),object_pairs_hook=common.unique_object),
           geometry,'Mac geometry stdout differs from child record')
@@ -118,7 +118,7 @@ def audit_runtime(folder,plan,manifest,report,logical_work,python_executable,rep
         relative=PurePosixPath(item['path']).relative_to(package).as_posix()
         require(item['sha256']==file_hashes[relative],'Mac mapped GEOS bytes differ from uploaded archive')
     for key,path in [('checkpoint_sha256',checkpoints[0]),('csv_sha256',folder/'measurements.csv'),
-                     ('pam_sha256',folder/'output.pam'),('geometry_report_sha256',folder/'geometry.json')]:
+                     ('pam_sha256',folder/'output.pam'),('geometry_report_sha256',folder/'geometry-child.json')]:
         require(report[key]==sha(path),'Mac runtime retained artifact hash differs: '+key)
     return dict(native_region_exact=True,native_batch_checkpoint=True,native_batch_csv=True,geos_union_area=150,
                 package_image_mappings_verified=True,loader_search_overrides_used=False,fixture_preserved=True)

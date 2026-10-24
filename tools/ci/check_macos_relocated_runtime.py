@@ -212,7 +212,7 @@ def probe(archive,plan,project_fixture,work,output):
     require(sha(project_fixture)==sha(project)==original_fixture_sha,'relocated native batch changed original fixture')
     capis=[item['target'] for item in plan['edits'] if Path(item['target']).name.startswith('libgeos_c.')]
     require(len(capis)==1,'relocated GEOS C API provider cohort differs')
-    geometry_path=work/'geometry.json'
+    geometry_path=work/'geometry-child.json'
     run('geometry',[sys.executable,'-I',Path(__file__).resolve(),'--geometry-child',package/capis[0],'--geometry-output',geometry_path],False)
     geometry=json.loads(geometry_path.read_text(encoding='utf-8'))
     expected_paths=sorted(str((package/key).resolve()) for key in closure(plan,capis[0]) if Path(key).name.startswith('libgeos'))

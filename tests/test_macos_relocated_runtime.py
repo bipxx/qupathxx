@@ -7,6 +7,7 @@ import math
 from pathlib import Path
 import shutil
 import sqlite3
+import subprocess
 
 import pytest
 
@@ -113,3 +114,52 @@ def test_checked_in_legacy_project_fixture_and_changed_pixel_control(tmp_path):
     target=tmp_path/'changed.qpxproj';shutil.copy2(fixture,target)
     with sqlite3.connect(target) as connection:connection.execute("UPDATE images SET rgb=? WHERE id='1'",(bytes([31,60,90])*4,))
     with pytest.raises(ValueError):runtime.fixture_contract(target)
+
+
+def test_full_runtime_orchestration_with_labelled_simulated_commands(tmp_path,monkeypatch):
+    from test_macos_relocation_plan import snapshot,ROOTS
+    from test_macos_relocate import stage_fixture
+    original=snapshot(tmp_path,native_dependencies=((0xc,'@rpath/libgeos_c.1.dylib'),),
+        capi_id='@rpath/libgeos_c.1.dylib',cpp_id='@rpath/libgeos.3.15.0.dylib',
+        capi_dependencies=((0xc,'@rpath/libgeos.3.15.0.dylib'),))
+    plan=runtime.relocation.planner.create_plan(original,'arm64',ROOTS)
+    stage=stage_fixture(tmp_path,original,plan)
+    archive=tmp_path/'relocated.zip';runtime.relocation.pack(stage,plan,archive)
+    fixture=Path(__file__).resolve().parent/'fixtures/project-v1.qpxproj'
+    identity=runtime.fixture_contract(fixture)['identity'];work=tmp_path/'runtime';output=tmp_path/'runtime.json'
+    monkeypatch.setattr(runtime.platform,'system',lambda:'Darwin')
+    monkeypatch.setattr(runtime.platform,'machine',lambda:'arm64')
+    # This adapter only represents fake process diagnostics on Windows. The
+    # actual POSIX dyld format/parser has independent tests above.
+    monkeypatch.setattr(runtime,'loaded_from_diagnostics',lambda text,names:sorted(json.loads(text)))
+    calls=[]
+    def run(arguments,**options):
+        arguments=list(map(str,arguments));calls.append(arguments)
+        assert 'LD_LIBRARY_PATH' not in options['env'] and 'DYLD_LIBRARY_PATH' not in options['env']
+        package=work/'fresh relocated package with spaces'
+        if '--geometry-child' in arguments:
+            library=Path(arguments[arguments.index('--geometry-child')+1])
+            paths=[package/key for key in runtime.closure(plan,'lib/libgeos_c.1.dylib')]
+            geometry=dict(schema='qpx.macos-geos-relocated-child/1',library=str(library.resolve()),
+                geos_version='simulated-only',union_area=150,mapped=[dict(path=str(p.resolve()),sha256=runtime.sha(p)) for p in paths],release_ready=False)
+            target=Path(arguments[-1]);target.write_bytes(runtime.common.canonical_json(geometry))
+            return subprocess.CompletedProcess(arguments,0,json.dumps(geometry).encode('utf-8'),b'')
+        mappings=[str((package/key).resolve()) for key in runtime.closure(plan,'bin/'+Path(arguments[0]).name)]
+        stderr=json.dumps(mappings).encode('utf-8')
+        assert options['env']['DYLD_PRINT_LIBRARIES']=='1'
+        if '--thumbnail' in arguments:
+            Path(arguments[5]).write_bytes(b'P7\nENDHDR\n'+bytes([60,100,180,255]))
+            return subprocess.CompletedProcess(arguments,0,b'',stderr)
+        if '--export-csv' in arguments:
+            Path(arguments[-1]).write_text(csv_text(),encoding='utf-8')
+            return subprocess.CompletedProcess(arguments,0,b'',stderr)
+        directory=work/'batch/selected';directory.mkdir(parents=True)
+        with sqlite3.connect(directory/'checkpoint.qpxproj') as db:
+            db.execute('CREATE TABLE analysis_records(id INTEGER)');db.execute('INSERT INTO analysis_records VALUES(1)')
+        text=batch_text(source_identity=identity)
+        return subprocess.CompletedProcess(arguments,0,text.encode('utf-8'),stderr)
+    monkeypatch.setattr(runtime.subprocess,'run',run)
+    before=fixture.read_bytes();result=runtime.probe(archive,plan,fixture,work,output)
+    assert len(calls)==4 and result['batch']['records']==1 and result['geometry']['union_area']==150
+    assert result['all_package_bytes_preserved'] and result['fixture_preserved'] and fixture.read_bytes()==before
+    assert not result['loader_search_overrides_used'] and not result['release_ready']
