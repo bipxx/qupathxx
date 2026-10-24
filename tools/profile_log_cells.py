@@ -44,7 +44,9 @@ def child(args):
     rgb = np.where(inside[..., None], [30, 40, 60], [255, 255, 255]).astype(np.uint8)
     doc = q.Document(q.Image.from_numpy(rgb))
     obj = doc.add_rectangle(q.Rect(0, 0, size, size))
-    p = q.CellParameters(); p.algorithm = q.CellAlgorithm.LOG_WATERSHED
+    p = q.CellParameters()
+    p.algorithm = (q.CellAlgorithm.LOG_WATERSHED_BODIES if args.cell_algorithm == 'log-bodies'
+                   else q.CellAlgorithm.LOG_WATERSHED)
     p.tile_size = args.tile; p.threshold = .4; p.max_nucleus_pixels = 1024
     p.cell_expansion = 5
     transform = q.StainTransform([[1, 0, 0], [0, 1, 0]])
@@ -88,11 +90,14 @@ def child(args):
 
 
 def main():
+    if not __debug__:
+        raise RuntimeError('profile requires independent output checks enabled')
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--child-size', type=int, choices=[256, 512, 1024])
     parser.add_argument('--tile', type=int, choices=[64, 256], default=64)
     parser.add_argument('--output', type=Path, required=True)
     parser.add_argument('--output-directory', type=Path)
+    parser.add_argument('--cell-algorithm', choices=['log', 'log-bodies'], default='log')
     args = parser.parse_args()
     if args.child_size:
         child(args); return
@@ -106,7 +111,8 @@ def main():
             for tile in ([64, 256] if repetition % 2 == 0 else [256, 64]):
                 path = args.output_directory / f'{size}-{repetition}-{tile}.json'
                 subprocess.run([sys.executable, '-I', str(Path(__file__).resolve()), '--child-size', str(size),
-                                '--tile', str(tile), '--output', str(path.resolve())], check=True, timeout=180)
+                                '--tile', str(tile), '--cell-algorithm', args.cell_algorithm,
+                                '--output', str(path.resolve())], check=True, timeout=180)
                 observation = json.loads(path.read_text(encoding='utf-8'))
                 if repetition:
                     samples.append(observation)
@@ -119,7 +125,8 @@ def main():
                 ['capture_ms', 'detection_wall_ms', 'worker_ms', 'process_peak_after_detection_bytes']}
         cases.append(dict(size=size, cells=samples[0]['cells'], summary=summaries, samples=samples))
     assert len({s['native_sha256'] for c in cases for s in c['samples']}) == 1
-    report = dict(schema='qpx.log-cells-profile/1', performance_accepted=False, cases=cases,
+    report = dict(schema='qpx.log-cells-profile/1', performance_accepted=False,
+        cell_algorithm=args.cell_algorithm, cases=cases,
         protocol='Fresh child per observation; one excluded pair followed by three retained pairs per size, alternating tile order. Timers exclude image setup and independent output checks. Native synchronous production detector.',
         limitations=['Synthetic isolated disks only; this does not establish biological throughput.',
             'Whole-process peak RSS includes Python, NumPy, input generation, imports and native allocations; it is not the native work estimate.',
