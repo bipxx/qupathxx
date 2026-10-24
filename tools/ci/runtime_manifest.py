@@ -21,7 +21,7 @@ spec = importlib.util.spec_from_file_location('qpx_pe_dependencies', Path(__file
 pe = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(pe)
 
-SCHEMA = 'qpx.windows-wheel-manifest/1'
+SCHEMA = 'qpx.windows-package-manifest/1'
 OS_DLLS = frozenset(('advapi32 bcrypt cabinet cfgmgr32 comctl32 comdlg32 crypt32 d3d11 dbghelp dnsapi dwmapi dxgi '
                     'gdi32 imm32 iphlpapi kernel32 mpr msimg32 ncrypt netapi32 normaliz ntdll ole32 oleaut32 '
                     'opengl32 powrprof propsys psapi rpcrt4 secur32 setupapi shell32 shlwapi user32 userenv '
@@ -68,7 +68,7 @@ def file_hash(stream):
 
 
 def external_kind(name, python_dll):
-    if name == python_dll:
+    if re.fullmatch(r'python[0-9]+(?:_d)?\.dll', name):
         return 'cpython-host-runtime'
     if name in MSVC_DLLS:
         return 'msvc-runtime'
@@ -79,14 +79,18 @@ def external_kind(name, python_dll):
     return None
 
 
-def inspect_wheel(path, gui=False, max_file_bytes=256*1024*1024, max_total_bytes=512*1024*1024, max_files=10000, max_dependency_edges=100000):
+def inspect_archive(path, gui=False, max_file_bytes=256*1024*1024, max_total_bytes=512*1024*1024, max_files=10000, max_dependency_edges=100000, native_archive=False):
     path = Path(path)
     require(1 <= max_file_bytes <= 256*1024*1024 and 1 <= max_total_bytes <= 1024*1024*1024 and
             1 <= max_files <= 10000 and 1 <= max_dependency_edges <= 100000, 'invalid manifest budgets')
-    tags = re.fullmatch(r'qupathxx-[A-Za-z0-9_.+]+(?:-[A-Za-z0-9_.]+)?-(cp3[0-9]+)-\1-win_amd64\.whl', path.name)
-    require(tags is not None, 'require qupathxx CPython Windows x64 wheel filename')
-    python_tag = tags.group(1)
-    python_dll = 'python'+python_tag[2:]+'.dll'
+    python_tag = python_dll = None
+    if native_archive:
+        require(path.name == 'qupathxx-windows-x64-candidate.zip', 'require named Windows native candidate archive')
+    else:
+        tags = re.fullmatch(r'qupathxx-[A-Za-z0-9_.+]+(?:-[A-Za-z0-9_.]+)?-(cp3[0-9]+)-\1-win_amd64\.whl', path.name)
+        require(tags is not None, 'require qupathxx CPython Windows x64 wheel filename')
+        python_tag = tags.group(1)
+        python_dll = 'python'+python_tag[2:]+'.dll'
     files, binaries, names, directories = [], {}, set(), set()
     total = 0
     dependency_count = 0
@@ -125,8 +129,10 @@ def inspect_wheel(path, gui=False, max_file_bytes=256*1024*1024, max_total_bytes
                 total += len(data)
                 files.append(dict(path=name, bytes=len(data), sha256=hashlib.sha256(data).hexdigest()))
                 suffix = PurePosixPath(name).suffix.lower()
+                require(not native_archive or suffix != '.pyd', 'Python extension in native archive')
                 require(suffix not in ('.so', '.dylib'), 'non-Windows native binary in Windows wheel')
                 if data.startswith(b'MZ') or suffix in ('.pyd', '.dll', '.exe'):
+                    require(external_kind(PurePosixPath(name).name.lower(), python_dll) != 'cpython-host-runtime', 'bundled CPython runtime is unsupported')
                     binary = pe.inspect_pe(data)
                     if suffix in ('.pyd', '.dll'):
                         require(binary['kind'] == 'dll', 'DLL filename contains an executable image')
@@ -147,12 +153,14 @@ def inspect_wheel(path, gui=False, max_file_bytes=256*1024*1024, max_total_bytes
         for parent in PurePosixPath(directory).parents:
             if str(parent) != '.':
                 require(str(parent).casefold() not in by_case, 'archive directory parent is also a file')
-    native = f'qupathxx/_native.{python_tag}-win_amd64.pyd'
-    roots = [native, 'qupathxx/qupathxx_batch.exe', 'qupathxx/qupathxx_region.exe']
+    prefix = '' if native_archive else 'qupathxx/'
+    roots = [prefix+'qupathxx_batch.exe', prefix+'qupathxx_region.exe']
+    if not native_archive:
+        roots.insert(0, prefix+f'_native.{python_tag}-win_amd64.pyd')
     if gui:
-        roots.append('qupathxx/qupathxx_app.exe')
+        roots.append(prefix+'qupathxx_app.exe')
     else:
-        require('qupathxx/qupathxx_app.exe' not in binaries, 'GUI app in headless wheel')
+        require(prefix+'qupathxx_app.exe' not in binaries, 'GUI app in headless package')
     require(all(name in binaries for name in roots), 'required native entry point is missing')
     edges, externals = [], set()
     for name, binary in sorted(binaries.items()):
@@ -167,6 +175,8 @@ def inspect_wheel(path, gui=False, max_file_bytes=256*1024*1024, max_total_bytes
                 else:
                     category = external_kind(dependency, python_dll)
                     require(category is not None, 'unresolved native dependency: '+name+' -> '+dependency)
+                    if category == 'cpython-host-runtime':
+                        require(not native_archive and dependency == python_dll, 'unexpected CPython runtime dependency')
                     externals.add((dependency, category))
                     edge = dict(source=name, dependency=dependency, mechanism=kind, resolution=category, target=None)
                 edges.append(edge)
@@ -191,7 +201,7 @@ def inspect_wheel(path, gui=False, max_file_bytes=256*1024*1024, max_total_bytes
             require((python_dll, 'cpython-host-runtime') in requirements, 'native extension lacks expected CPython runtime')
         closures.append(dict(entry_point=root, bundled_images=sorted(visited),
                              external_requirements=[dict(name=name, kind=kind) for name, kind in sorted(requirements)]))
-    return dict(schema=SCHEMA, archive=path.name, archive_sha256=archive_hash, mode='gui' if gui else 'headless',
+    return dict(schema=SCHEMA, archive=path.name, archive_sha256=archive_hash, archive_kind='native-zip' if native_archive else 'wheel', mode='gui' if gui else 'headless',
                 platform='win_amd64', python_tag=python_tag, files=files, total_bytes=total,
                 binaries=[dict(path=name, **binary) for name, binary in sorted(binaries.items())],
                 dependency_edges=edges, entry_points=closures,
@@ -200,6 +210,10 @@ def inspect_wheel(path, gui=False, max_file_bytes=256*1024*1024, max_total_bytes
                 dynamic_loading_exhaustively_verified=False, external_runtime_availability_verified=False,
                 signing_verified=False, release_ready=False,
                 scope='Complete archive file hashes and static PE32+ x64 import, delay-import and export-forwarder graph. Bundled DLLs must be siblings. External prerequisites are declarations, not availability checks. No binaries are extracted or loaded. This does not accept dynamic loader behavior, runtime probes, ABI semantics, signing, licensing, other binary formats or a supported release.')
+
+
+def inspect_wheel(path, gui=False, **budgets):
+    return inspect_archive(path, gui=gui, **budgets)
 
 
 def canonical_json(data):
@@ -236,20 +250,23 @@ def publish_new(path, data):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--wheel', type=Path, required=True)
+    archive = parser.add_mutually_exclusive_group(required=True)
+    archive.add_argument('--wheel', type=Path)
+    archive.add_argument('--native-archive', type=Path)
     parser.add_argument('--gui', action='store_true')
     destination = parser.add_mutually_exclusive_group(required=True)
     destination.add_argument('--output', type=Path)
     destination.add_argument('--verify', type=Path)
     args = parser.parse_args()
     try:
-        result = inspect_wheel(args.wheel, gui=args.gui)
+        input_path = args.wheel or args.native_archive
+        result = inspect_archive(input_path, gui=args.gui, native_archive=bool(args.native_archive))
         if args.verify:
             require(args.verify.stat().st_size <= 64*1024*1024, 'input manifest exceeds byte budget')
             expected = json.loads(args.verify.read_text(encoding='utf-8'), object_pairs_hook=unique_object)
             require(canonical_json(expected) == canonical_json(result), 'runtime manifest does not match archive, policy or static dependency graph')
         else:
-            require(args.output.resolve() != args.wheel.resolve(), 'manifest output aliases the wheel')
+            require(args.output.resolve() != input_path.resolve(), 'manifest output aliases the wheel')
             args.output.parent.mkdir(parents=True, exist_ok=True)
             # Never replace an earlier manifest or package artifact.
             publish_new(args.output, canonical_json(result))

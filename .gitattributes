@@ -97,3 +97,12 @@ tools/profile_tma_file_inputs.py text eol=lf
 # Cohort profiling and source-bound JSON evidence use explicit LF.
 tools/profile_tma_cohorts.py text eol=lf
 docs/benchmarks/tma-cohort-*.json text eol=lf
+
+# Deterministic package inventories and exact-source tooling evidence.
+tools/ci/pe_dependencies.py text eol=lf
+tools/ci/runtime_manifest.py text eol=lf
+tools/ci/runtime_manifest_evidence.py text eol=lf
+tools/ci/probe_pe_forwarders.py text eol=lf
+tests/test_runtime_manifest.py text eol=lf
+docs/benchmarks/windows-runtime-*.json text eol=lf
+tools/ci/run.py text eol=lf

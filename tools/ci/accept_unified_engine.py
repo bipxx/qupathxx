@@ -33,8 +33,10 @@ parser.add_argument('--small-frontier',action='store_true',help='Require 1344 na
 parser.add_argument('--tma-cases',action='store_true',help='Require exact case aggregation, numeric regression and desktop export cohorts; implies small frontier')
 parser.add_argument('--tma-file-export',action='store_true',help='Require shared atomic file exporter and standalone TMA case CLI; implies tma cases')
 parser.add_argument('--tma-cohorts',action='store_true',help='Require captured multi-grid case pooling, atomic file/CLI and desktop cohorts; implies file export')
+parser.add_argument('--windows-runtime-manifest',action='store_true',help='Require source-bound Windows wheel/native archive inventories and owned forwarder probe; implies TMA cohorts')
 parser.add_argument('--linux-only',action='store_true',help='Audit only the three successful Linux jobs; never accepts the full matrix')
 args=parser.parse_args();RUN=args.run;COMMIT=args.commit
+args.tma_cohorts=args.tma_cohorts or args.windows_runtime_manifest
 args.tma_file_export=args.tma_file_export or args.tma_cohorts
 args.tma_cases=args.tma_cases or args.tma_file_export
 args.small_frontier=args.small_frontier or args.tma_cases
@@ -47,6 +49,10 @@ if args.small_frontier:
 if args.tma_cases:
     spec=importlib.util.spec_from_file_location('qpx_tma_case_evidence',Path(__file__).with_name('tma_case_evidence.py'))
     tma_cases=importlib.util.module_from_spec(spec);spec.loader.exec_module(tma_cases)
+
+if args.windows_runtime_manifest:
+    spec=importlib.util.spec_from_file_location('qpx_runtime_evidence',Path(__file__).with_name('runtime_manifest_evidence.py'))
+    runtime_evidence=importlib.util.module_from_spec(spec);spec.loader.exec_module(runtime_evidence)
 
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -211,6 +217,8 @@ for job in run['jobs']:
         entry['artifact']=json.loads((folder/'result.json').read_text(encoding='utf8'))
         wheel=folder/'wheels'/entry['artifact']['wheel']
         assert sha(wheel)==entry['artifact']['wheel_sha256']
+        if args.windows_runtime_manifest and job['name'].startswith('Windows '):
+            entry['windows_runtime_manifest']=runtime_evidence.audit(folder,wheel,ROOT,COMMIT,gui='GUI' in job['name'])
         with zipfile.ZipFile(wheel) as source:
             native=next(n for n in source.namelist() if Path(n).name.startswith('_native.') and Path(n).suffix in ['.pyd','.so'])
             assert hashlib.sha256(source.read(native)).hexdigest()==workflow['native_sha256']
@@ -736,6 +744,7 @@ report['tma_cohorts_required']=args.tma_cohorts
 report['tma_file_export_required']=args.tma_file_export
 report['tma_cases_required']=args.tma_cases
 if args.tma_cases:report['tma_case_helper_sha256']=sha(Path(__file__).with_name('tma_case_evidence.py'))
+report['windows_runtime_manifest_required']=args.windows_runtime_manifest
 report['performance_accepted']=False
 report['macos_accepted']=False
 report['release_ready']=False

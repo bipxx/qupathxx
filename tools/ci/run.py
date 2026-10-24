@@ -158,6 +158,16 @@ def main():
     if args.mode not in ['headless', 'gui']:
         return
     wheel = next((work/'wheels').glob('qupathxx-*.whl'))
+    if os.name == 'nt':
+        manifest = work/'windows-wheel-runtime-manifest.json'
+        inspect = [sys.executable, '-I', ROOT/'tools/ci/runtime_manifest.py', '--wheel', wheel]
+        if args.mode == 'gui':
+            inspect += ['--gui']
+        run(inspect+['--output', manifest], work/'windows-wheel-runtime-manifest.log', env, 120)
+        run(inspect+['--verify', manifest], work/'windows-wheel-runtime-verify.log', env, 120)
+        run([sys.executable, '-I', ROOT/'tools/ci/probe_pe_forwarders.py', '--work', work/'native-forwarder-probe',
+             '--output', work/'pe-forwarder-native.json'], work/'pe-forwarder-native.log', env, 180)
+
     install = work/'install'
     run([sys.executable, '-m', 'venv', install], work/'venv.log')
     python = install/('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
@@ -275,6 +285,11 @@ def main():
         raise RuntimeError('negative typing fixture must reject all seven intended mistakes')
     if os.name == 'nt' and args.mode == 'gui':
         stage = archive_windows(wheel, work)
+        inspect = [sys.executable, '-I', ROOT/'tools/ci/runtime_manifest.py', '--native-archive',
+                   work/'qupathxx-windows-x64-candidate.zip', '--gui']
+        run(inspect+['--output', work/'windows-native-runtime-manifest.json'], work/'windows-native-runtime-manifest.log', env, 120)
+        run(inspect+['--verify', work/'windows-native-runtime-manifest.json'], work/'windows-native-runtime-verify.log', env, 120)
+
         native_test = work/'standalone-test'
         shutil.copytree(stage, native_test)
         for name in ['opengl32.dll', 'libgallium_wgl.dll']:

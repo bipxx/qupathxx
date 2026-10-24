@@ -212,3 +212,39 @@ def test_manifest_publication_failure_leaves_no_partial_artifact(tmp_path, monke
     monkeypatch.setattr(runtime.os, 'link', refuse_link)
     with pytest.raises(OSError): runtime.publish_new(target, b'complete JSON')
     assert not list(tmp_path.iterdir())
+
+
+def native_zip(tmp_path, **changes):
+    source = wheel(tmp_path)
+    destination = tmp_path/'qupathxx-windows-x64-candidate.zip'
+    with zipfile.ZipFile(source) as original, zipfile.ZipFile(destination, 'w', compression=zipfile.ZIP_DEFLATED) as archive:
+        content = {name.removeprefix('qupathxx/'): original.read(name) for name in original.namelist() if not name.endswith('.pyd')}
+        content.update(changes)
+        for name, data in content.items(): archive.writestr(name, data)
+    return destination
+
+
+def test_native_archive_inventory_has_no_interpreter_entrypoint(tmp_path):
+    path = native_zip(tmp_path)
+    result = runtime.inspect_archive(path, native_archive=True)
+    assert result['archive_kind'] == 'native-zip' and result['python_tag'] is None
+    assert len(result['files']) == 4 and len(result['binaries']) == 3
+    assert {entry['entry_point'] for entry in result['entry_points']} == {'qupathxx_batch.exe', 'qupathxx_region.exe'}
+    assert all(item['kind'] != 'cpython-host-runtime' for item in result['external_requirements'])
+    command = [sys.executable, '-I', str(ROOT/'tools/ci/runtime_manifest.py'), '--native-archive', str(path)]
+    target = tmp_path/'native-manifest.json'
+    assert subprocess.run(command+['--output', str(target)], capture_output=True).returncode == 0
+    assert subprocess.run(command+['--verify', str(target)], capture_output=True).returncode == 0
+
+
+@pytest.mark.parametrize('failure', ['extension', 'runtime', 'transitive', 'missing_cli', 'gui', 'wrong_name'])
+def test_native_archive_rejects_python_and_wrong_layout(tmp_path, failure):
+    changes = {}
+    if failure == 'extension': changes['_native.cp312-win_amd64.pyd'] = image(['python312.dll'])
+    elif failure == 'runtime': changes['python312.dll'] = image()
+    elif failure == 'transitive': changes['bridge.dll'] = image(['python312.dll'])
+    elif failure == 'missing_cli': changes['qupathxx_batch.exe'] = b'missing'
+    path = native_zip(tmp_path, **changes)
+    if failure == 'wrong_name':
+        other = tmp_path/'renamed.zip';path.rename(other);path = other
+    with pytest.raises(ValueError): runtime.inspect_archive(path, native_archive=True, gui=failure == 'gui')
