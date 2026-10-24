@@ -655,6 +655,33 @@ for job in run['jobs']:
                     assert mask['foreground_iou']==1 and mask['unmatched_reference']==mask['unmatched_native']==0
                     assert all(match['iou']==1 and match['centroid_error_px']==0 for match in mask['matches'])
             accepted.update(passed=53-len(skipped),desktop_skipped=len(skipped),comparison_sha256=sha(folder/'qupath-cells-sampled-comparison.json'))
+            if args.ndpi_readers:
+                baseline_path='docs/benchmarks/sampled-shape-ndpi-windows.json'
+                assert (ROOT/baseline_path).read_bytes()==subprocess.check_output(['git','-C',str(ROOT),'show',COMMIT+':'+baseline_path])
+                baseline=json.loads((ROOT/baseline_path).read_text())
+                contexts=[]
+                for padding in [0,32]:
+                    path=folder/f'qupath-ndpi-sampled-context{padding}.json'
+                    real=json.loads(path.read_text())
+                    assert real['build_git_revision']==COMMIT
+                    assert real['native_sha256']==entry['workflow']['native_sha256']
+                    assert real['source_tree_sha256']==entry['workflow']['source_tree_sha256']
+                    assert real['tool_sha256']==sha(ROOT/'tools/compare_qupath_ndpi_cells.py')
+                    assert real['source_pixels_equal'] and real['source_rgb_sha256']==real['qupath_rgb_sha256']
+                    assert real['reference_count']==506 and not real['segmentation_parity_accepted']
+                    assert not real['biological_validation'] and not real['performance_accepted']
+                    selected=[r for r in real['runs'] if r['mode']=='log-sampled']
+                    assert len(selected)==1 and selected[0]['context_padding']==padding
+                    sampled=selected[0]
+                    assert sampled['tile_invariant'] and sampled['independent_rgb_features_passed']
+                    assert [r['tile_size'] for r in sampled['results']]==[16,64,256]
+                    frozen=next(r for r in baseline['reports'] if r['context_padding']==padding)
+                    wanted=next(r for r in frozen['results'] if r['mode']=='sampled_shape')
+                    assert all(r['cells']==wanted['native_count'] and r['labels_sha256']['nucleus']==wanted['labels_sha256']
+                               for r in sampled['results'])
+                    contexts.append(dict(context_padding=padding,cells=wanted['native_count'],
+                                         nucleus_labels_sha256=wanted['labels_sha256'],comparison_sha256=sha(path)))
+                accepted['real_ndpi_contexts']=contexts
         entry['sampled_cells']=accepted
     report['jobs'].append(entry)
 report['fixture_retraining']=dict(local_and_audited_hosted_models_identical=True,

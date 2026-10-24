@@ -46,8 +46,11 @@ Its kernel-only source `4a07b0e` passes the audited Windows/Linux matrix and bot
 Mac native architectures. The later explicit [sampled cell recipe](sampled-cell-recipes.md)
 adds QCL4/QCA4, Python/CLI/batch/ImGui integration, historical-domain replay and
 clipped-component measurements. It passes 47 local native suites and 145 focused
-Python cases. Full local regression, production-recipe hosted validation and
-performance acceptance remain open; prior kernel gates do not cover the new recipe.
+Python cases. The full installed GUI regression now passes 2,362 tests with 13
+optional skips and three retained legacy scientific xfails. Production-recipe
+hosted validation and performance acceptance remain open; prior kernel gates do
+not cover the new recipe. The full workflow profile retains every observation
+and does not show a speed improvement on the isolated-disk fixture.
 
 The [real-slide cell comparison](qupath-ndpi-cell-comparisons.md) now retains
 an immutable QuPath NDPI capture and exact source pixels. Native LoG modes

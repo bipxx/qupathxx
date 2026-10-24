@@ -175,12 +175,15 @@ def compare_case(folder, contract, case, cell_algorithm="distance"):
         for key, value in contract['native'].items():
             setattr(params, key, value)
         params.tile_size = tile
-        if cell_algorithm not in ['distance', 'log', 'log-bodies']:
+        if cell_algorithm not in ['distance', 'log', 'log-bodies', 'log-sampled']:
             raise ValueError('unknown cell algorithm')
         if cell_algorithm == 'log':
             params.algorithm = q.CellAlgorithm.LOG_WATERSHED
         elif cell_algorithm == 'log-bodies':
             params.algorithm = q.CellAlgorithm.LOG_WATERSHED_BODIES
+        elif cell_algorithm == 'log-sampled':
+            params.algorithm = q.CellAlgorithm.SAMPLED_LOG_WATERSHED_BODIES
+            params.min_peak_radius = params.min_seed_distance = 0
         started = time.perf_counter()
         result = q.detect_cells(q.CellRequest(doc, target, transform, params))
         timings.append(dict(tile_size=tile, elapsed_ms=(time.perf_counter()-started)*1000,
@@ -284,7 +287,7 @@ def main():
     parser.add_argument('--capture', type=Path, help='New output directory; runs hash-verified upstream runtime')
     parser.add_argument('--reference', type=Path, default=FIXTURES/'capture')
     parser.add_argument('--report', type=Path, required=True)
-    parser.add_argument('--cell-algorithm', choices=['distance','log','log-bodies'], default='distance')
+    parser.add_argument('--cell-algorithm', choices=['distance','log','log-bodies','log-sampled'], default='distance')
     args = parser.parse_args()
     folder = args.capture or args.reference
     if args.capture:

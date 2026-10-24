@@ -190,6 +190,16 @@ def main():
          f'--junitxml={work}/python-tests.xml'], work/'python-tests.log', env, 2400)
     run([test_python, '-I', ROOT/'tools/compare_qupath_cells.py', '--cell-algorithm', 'log-bodies',
          '--report', work/'qupath-cells-body-comparison.json'], work/'qupath-cells-body-comparison.log', env, 120)
+    run([test_python, '-I', ROOT/'tools/compare_qupath_cells.py', '--cell-algorithm', 'log-sampled',
+         '--report', work/'qupath-cells-sampled-comparison.json'], work/'qupath-cells-sampled-comparison.log', env, 120)
+    if args.extended_readers:
+        for padding in [0,32]:
+            run([test_python, '-I', ROOT/'tools/compare_qupath_ndpi_cells.py',
+                 '--image', env['QUPATHXX_HAMAMATSU_FIXTURE'],
+                 '--reference', ROOT/'tests/fixtures/qupath-ndpi-cells-0.7.0/capture',
+                 '--include-sampled', '--context-padding', str(padding),
+                 '--report', work/f'qupath-ndpi-sampled-context{padding}.json'],
+                 work/f'qupath-ndpi-sampled-context{padding}.log', env, 120)
     if args.extended_readers:
         run([test_python, '-I', ROOT/'tools/benchmark_vendor_reader.py',
              '--slide', env['QUPATHXX_APERIO_MULTILEVEL_FIXTURE'], '--output', work/'vendor-reader-benchmark.json'],

@@ -4562,8 +4562,25 @@ had no in-ROI maxima: marker-derived feature capacity omitted their labels.
 Storage now follows the retained nucleus labels, with a textured native crop
 regression and exact archived label reconstruction. An alpha-domain replay test
 also now uses the same captured request for detection and verification, as the
-existing request identity contract requires. Full typed-wheel regression and
-source-bound production-recipe hosted validation remain in progress.
+existing request identity contract requires. The [typed-wheel validation](benchmarks/sampled-cells-validation-windows.json)
+now passes 2,362 full GUI Python tests, 13 optional skips and the same three
+strict legacy scientific xfails. Installation, generated stubs and positive/
+negative typing pass. All 254 raw compiler inputs match the built fingerprint
+and committed source `0445321`; the rendered three-cell workspace is inspected.
+After adding sampled comparison reporting, 105 focused checks pass with three
+desktop skips and the same three scientific xfails. Source-bound hosted
+production-recipe validation remains open.
+
+The [full workflow profile](benchmarks/sampled-cells-workflow-profile-windows.json)
+retains 24 fresh-process observations, including six excluded warmups, with
+independent compartment arithmetic, strict expansion, identical cross-recipe
+masks and exact saved replay. At 1,024 pixels, sampled detection median is
+259.3 ms versus 254.4 ms for the existing LoG body recipe; peak process working
+sets are 161.7 versus 163.9 MiB. Sampled reopen validation is 177.4 versus
+153.9 ms. This uncontrolled fixture does not establish a performance win.
+The [production synthetic corpus](benchmarks/sampled-cells-synthetic-windows.json)
+and [both real-slide contexts](benchmarks/sampled-cells-ndpi-windows.json)
+retain the remaining segmentation differences without accepting broader biology.
 
 The prior internal shape source `4a07b0e` has now passed its
 [five-job Windows/Linux audit](benchmarks/sampled-shape-windows-linux.json) and
