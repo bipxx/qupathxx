@@ -1,0 +1,121 @@
+{
+  "schema": "qpx.vendor-reader-benchmark/1",
+  "fixture_sha256": "00a3d54482cd707abf254fe69dccc8d06b8ff757a1663f1290c23418c480eb30",
+  "fixture_filename": "CMU-1.svs",
+  "vendor": "aperio",
+  "dimensions": [
+    [
+      46000,
+      32914
+    ],
+    [
+      11500,
+      8228
+    ],
+    [
+      2875,
+      2057
+    ]
+  ],
+  "build_git_revision": "f5ca246e10cc85fd308c9657e386e85542125815",
+  "tool_sha256": "38ad9e0d15546a9774587af3afaabfa01e4821ac30836d054aa48232b12697f0",
+  "performance_accepted": false,
+  "source_open_ms": 9.711800026707351,
+  "protocol": "File SHA and size verification precede timers and may warm OS cache. First read on one freshly opened handle followed by nine same-region reads per natural level. No OS cache flush; this is not a cold-storage experiment.",
+  "native_sha256": "21139fb782483c30fc01b8be716062082a664a56dd767c5121d26993fd367d96",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "source_tree_sha256": "fd790eda7259976d8b98f210562c124244e2d3f30c968be973c3a858f0bfbf3d",
+  "openslide_version": "4.0.1",
+  "region_shape": [
+    193,
+    257,
+    4
+  ],
+  "warm_iterations": 9,
+  "regions": [
+    {
+      "level": 0,
+      "first_read_ms": 1.4118999242782593,
+      "warm_median_ms": 0.8448000298812985,
+      "warm_max_ms": 1.0283999145030975,
+      "warm_ms": [
+        0.8837999776005745,
+        0.8672999683767557,
+        0.8394999895244837,
+        0.8423000108450651,
+        0.8344999514520168,
+        0.8282000198960304,
+        0.8674999698996544,
+        0.8448000298812985,
+        1.0283999145030975
+      ],
+      "rgba_sha256": "07f91ce5567f7fe760421e885cc06f9eaadeb28ce462197f6dbb0cec45363389"
+    },
+    {
+      "level": 1,
+      "first_read_ms": 3.5345000214874744,
+      "warm_median_ms": 2.4682999355718493,
+      "warm_max_ms": 2.5652000913396478,
+      "warm_ms": [
+        2.4913999950513244,
+        2.4680999340489507,
+        2.4437999818474054,
+        2.5652000913396478,
+        2.498099929653108,
+        2.4719000793993473,
+        2.4682999355718493,
+        2.4488000199198723,
+        2.4516999255865812
+      ],
+      "rgba_sha256": "b1e3255812afaf606e401f6ef330fc1f56cf028acdd92d29bbbbe452b69cc44c"
+    },
+    {
+      "level": 2,
+      "first_read_ms": 3.687500022351742,
+      "warm_median_ms": 2.5240000104531646,
+      "warm_max_ms": 2.695400035008788,
+      "warm_ms": [
+        2.5240000104531646,
+        2.5302000576630235,
+        2.695400035008788,
+        2.521199989132583,
+        2.5722000282257795,
+        2.5511999847367406,
+        2.5070999981835485,
+        2.4996999418362975,
+        2.506399992853403
+      ],
+      "rgba_sha256": "11663160c79effab55df626fc60aad8c634cdb2974c9d05bb505c8ae02c5f13f"
+    }
+  ],
+  "scheduler_first_ms": 3.02389997523278,
+  "scheduler_cache_median_ms": 0.006300047971308231,
+  "scheduler_cache_ms": [
+    0.008599949069321156,
+    0.00700005330145359,
+    0.006299931555986404,
+    0.006300047971308231,
+    0.005900044925510883,
+    0.0077999429777264595,
+    0.0065999338403344154,
+    0.005700043402612209,
+    0.005800044164061546
+  ],
+  "scheduler_reads": 1,
+  "scheduler_cache_hits": 9,
+  "scheduler_cache_bytes": 198404,
+  "scheduler_cache_limit": 8388608,
+  "overview_ms": 159.33179995045066,
+  "overview_source_pixels": 5913875,
+  "overview_rgba_sha256": "b3bb322d8603b670963922cc2aa495642840959604f1acff76bd9c5d4db6142e",
+  "scope": "Pinned brightfield RGB regions only on shared workstation; first read may use OS/backend cache. Exact repeated bytes and one scheduler backend region read with nine scheduler hits. No universal speedup, RSS, hardware or frame acceptance.",
+  "hardware_snapshot": {
+    "cpu": "12th Gen Intel Core i7-12700K",
+    "physical_cores": 12,
+    "logical_processors": 20,
+    "total_physical_memory_bytes": 137167814656,
+    "scope": "Snapshot around this experiment on a shared workstation; not an isolated hardware acceptance target."
+  },
+  "raw_observation_sha256": "27ec63317fc8079bc8987af13bdf9a844bcf3066b86acdcd24a975753298d340"
+}

@@ -39,3 +39,24 @@ newer project-link fix on a GUI build. Rebuilt source-specific hosted desktop,
 Windows/Linux, portable and macOS qualification remain pending. This one NDPI
 brightfield scan does not cover VMS/VMU, multiple focal planes, fluorescence,
 ICC/color accuracy, broader damage, biological accuracy or hardware budgets.
+
+
+## Repeated region observations
+
+The shared `tools/benchmark_vendor_reader.py` now handles both pinned full
+Aperio and NDPI fixtures. Its Aperio coordinates and acceptance fields remain
+compatible with prior engineering audits. Input SHA/size verification precedes
+timing and can warm the filesystem cache. Each natural level has one first
+handle read and nine repeated reads; all raw warm durations and pixel digests
+are retained. A separate scheduler observation verifies one backend region read
+and nine cache hits within the configured eight-MiB cache budget. It measures
+backend-region calls rather than JPEG decompression counts.
+
+[NDPI observations](benchmarks/vendor-reader-ndpi-windows.json) and the
+[Aperio comparison workload](benchmarks/vendor-reader-aperio-windows.json)
+record the compiled source, native binary, executed tool and nearby hardware
+snapshot. They are distinct inputs, so their timings do not estimate a vendor
+speedup. No OS cache flush, cold-storage, RSS, frame or hardware acceptance is
+claimed. The standard extended CI driver now collects an NDPI observation on
+future dispatches; the already dispatched source1b checks predate this tool
+update. Its actual reader corpus remains independently gated.

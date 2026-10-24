@@ -4135,3 +4135,29 @@ accept the newer attachment fix on GUI. Source-specific hosted Windows/Linux,
 portable and macOS checks remain pending. The inherited plan requires both Mac
 architectures before promotion; main is unchanged. Broader vendors, biology,
 body/resampling parity, hardware, license and supported release remain open.
+
+
+## Packet126: real vendor repeated-region observations
+
+The native reader probe now accepts both pinned full vendor fixtures. It retains
+all nine same-handle warm durations per natural level (nine NDPI levels, three
+Aperio levels), exact repeated byte digests, one scheduler backend region read
+and nine cache hits, overview source budgets, compiled/native/tool identities
+and hardware context. Fixture hashing precedes timing, so first-handle reads
+are not cold-storage measurements. Both local workloads pass their assertions.
+The [NDPI](benchmarks/vendor-reader-ndpi-windows.json) and
+[Aperio](benchmarks/vendor-reader-aperio-windows.json) receipts remain observations
+with performance acceptance false. The extended CI driver collects this on future
+runs; current source1b pipelines predate the tool change. The updated auditor
+still accepts the previous fully qualified engine and requires the new reader
+corpus only when explicitly requested. No C++ or package API changes in this packet.
+
+
+Packet123 Linux artifact acceptance passes at exact source
+`1b900756a1a8ee7e8b6f453aada7755a4caa6955`, run 40061443079. The
+[Linux-only receipt](benchmarks/ndpi-native-link-linux.json) requires all 24 NDPI
+cases (23 pass and one explicit desktop skip), both default-link regression
+cases, the native project stdout marker proving real NDPI save/replay, all new
+LoG/parser/cache cohorts and inherited full workflows/runtime/typing gates.
+Minimal and sanitizer also pass 45 native suites. Windows jobs, overall matrix,
+Mac124 and the newer-source portable125 run remain independent pending checks.

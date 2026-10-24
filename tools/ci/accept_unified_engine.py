@@ -522,6 +522,18 @@ for job in run['jobs']:
         native_project=[t for t in native_cases if t.get('name')=='project']
         assert len(native_project)==1 and 'Native NDPI inferred link, LoG archive replay and calibration passed' in native_project[0].findtext('system-out','')
         fixture=next(e for e in json.loads((ROOT/'tests/fixtures/manifest.json').read_text(encoding='utf-8'))['downloads'] if e['filename']=='CMU-1.ndpi')
+        benchmark_path=folder/'ndpi-reader-benchmark.json'
+        if benchmark_path.exists():
+            observation=json.loads(benchmark_path.read_text(encoding='utf-8'))
+            assert observation['native_sha256']==workflow['native_sha256'] and observation['source_tree_sha256']==workflow['source_tree_sha256']
+            assert observation['build_git_revision']==COMMIT and observation['fixture_sha256']==fixture['sha256']
+            assert observation['vendor']=='hamamatsu' and observation['dimensions']==fixture['dimensions']
+            assert observation['region_shape']==[193,257,4] and [r['level'] for r in observation['regions']]==list(range(9))
+            assert observation['warm_iterations']==9 and all(len(r['warm_ms'])==9 for r in observation['regions'])
+            assert observation['scheduler_reads']==1 and observation['scheduler_cache_hits']==9
+            assert observation['scheduler_cache_bytes']<=observation['scheduler_cache_limit']==8*1024*1024
+            assert observation['overview_source_pixels']==400*298 and observation['performance_accepted'] is False
+            entry['ndpi_reader_observation']=observation
         entry['ndpi_readers']=dict(passed=24-len(skipped),desktop_skipped=len(skipped),fixture_sha256=fixture['sha256'],
             fixture_bytes=fixture['bytes'],dimensions=fixture['dimensions'],pixel_size_um=fixture['pixel_size_um'],
             native_project_save_replay_exercised=True,cases=[dict(name=t.get('name'),skipped=t.find('skipped') is not None) for t in ndpi],
