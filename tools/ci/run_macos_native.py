@@ -54,7 +54,9 @@ def main():
         QUPATHXX_OPENCV_NOTICES=str(opencv/'share/licenses/opencv'))
     build=work/'native-build'
     run(['cmake','-S',ROOT,'-B',build,*['-D'+key+'='+value for key,value in flags.items()]],'configure')
-    run(['cmake','--build',build,'--config','Release','--parallel','2'],'build')
+    # Continue independent Ninja compilation after an error so one hosted run
+    # exposes all portability diagnostics rather than only the first file.
+    run(['cmake','--build',build,'--config','Release','--parallel','2','--','-k','0'],'build')
     run(['ctest','--test-dir',build,'-C','Release','--output-on-failure','--parallel','1',
          '--output-junit',work/'native-tests.xml'],'native-tests',1200)
     cases=list(ET.parse(work/'native-tests.xml').getroot().iter('testcase'))
