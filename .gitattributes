@@ -61,3 +61,4 @@ docs/benchmarks/cell-expansion-*.json -text whitespace=cr-at-eol
 tools/compare_cell_expansion.py text eol=lf
 docs/benchmarks/watershed-bodies-*.json -text whitespace=cr-at-eol
 docs/benchmarks/qupath-cells-watershed-bodies-*.json -text whitespace=cr-at-eol
+docs/benchmarks/portable-body-*.json -text whitespace=cr-at-eol

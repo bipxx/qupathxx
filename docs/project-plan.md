@@ -4419,3 +4419,25 @@ and Mac run40073489057 are independent gates. The new explicit source-auditor
 mode requires the extra native suite,42 body workflow cases and bound nine-case
 comparison; an older accepted engine rejects under that mode. Full local/hosted,
 portable, Mac, performance, license and supported-release/M0–M7 gates stay open.
+
+
+## Packet134: portable watershed-body qualification
+
+The same native/typed source2afd is dispatched for CPython3.11/3.12 manylinux
+builders and fresh Debian consumers in run40073724906, branch
+`validation/portable-bodies-134`. The portable auditor's explicit
+`--watershed-bodies` flag requires the native expansion suite in each builder
+and the exact42-case production body cohort in all four Python environments,
+with39 passes and only the three named desktop skips. This covers exact pinned
+maps, independent measurements, mixed three-mode archive/classifier replay,
+batch/CLI, pyramid admission, alpha domains, stale authority and cancellation.
+It also requires the inherited unified-engine cohort; `--ndpi-readers` retains
+its separate large-fixture builder/default-link consumer scope.
+
+All25 portable auditor unit checks pass, including missing/renamed cases,
+failed consumer results, skipped archive checks, expected-failing desktop cases
+and absent/skipped native suite rejection. An older fully qualified NDPI portable
+engine rejects under the new expansion requirement. This tests the auditor;
+portable source2afd workflow/ABI acceptance still requires its four hosted jobs
+and complete artifact audit. Native source, project release, hardware and every
+remaining M0–M7 requirement are unchanged by this validation tooling packet.
