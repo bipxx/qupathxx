@@ -232,6 +232,6 @@ reader is rejected before changing the project. In-memory dense RGB images
 remain embedded; caller-supplied source paths retain their existing validation.
 
 The Hamamatsu NDPI validation packet exercises this path with real nine-level
-pixels, anisotropic calibration and a saved/replayed LoG run. Qualification of
-the new default attachment behavior is in progress; older source receipts do
-not cover it. No database schema or existing archive encoding changes.
+pixels, anisotropic calibration and a saved/replayed LoG run. The new default attachment behavior passes local native and Python/full
+Windows headless checks; source-specific hosted qualification is in progress.
+Older source receipts do not cover it. No database schema or existing archive encoding changes.

@@ -22,6 +22,7 @@ parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('run');parser.add_argument('commit')
 parser.add_argument('--artifacts',type=Path,default=ROOT/'build/ci/unified121-hosted')
 parser.add_argument('--output',type=Path,default=ROOT/'build/unified-ci-windows-linux.json')
+parser.add_argument('--ndpi-readers',action='store_true',help='Also require real nine-level NDPI and default native project-link regressions')
 parser.add_argument('--linux-only',action='store_true',help='Audit only the three successful Linux jobs; never accepts the full matrix')
 args=parser.parse_args();RUN=args.run;COMMIT=args.commit
 def sha(path):
@@ -134,7 +135,7 @@ for job in run['jobs']:
             entry['gui_pixel_contour_benchmark']=contour_gui
 
 
-        for suffix,count in [('test_pixel_archives',51),('test_pixel_archive_portable',4),('test_pixel_prediction_windows',22),('test_pixel_stream',24),('test_pixel_stream_file',38),('test_pixel_stream_file_portable',2),('test_pixel_stream_export_job',14),('test_pixel_stream_read_job',21),('test_pixel_stream_cli',46),('test_pixel_stream_records',34),('test_pixel_input_digest',25),('test_project_pixel_batch',25),('test_tma',23),('test_tiff_reader',63),('test_tiff_project',6),('test_tiff_cli',10),('test_raw_analysis',21),('test_raw_records',12),('test_raw_tables',3),('test_raw_batch',4)]:
+        for suffix,count in [('test_pixel_archives',51),('test_pixel_archive_portable',4),('test_pixel_prediction_windows',22),('test_pixel_stream',24),('test_pixel_stream_file',38),('test_pixel_stream_file_portable',2),('test_pixel_stream_export_job',14),('test_pixel_stream_read_job',21),('test_pixel_stream_cli',46),('test_pixel_stream_records',34),('test_pixel_input_digest',25),('test_project_pixel_batch',25),('test_tma',23),('test_tiff_reader',63),('test_tiff_project',7 if args.ndpi_readers else 6),('test_tiff_cli',10),('test_raw_analysis',21),('test_raw_records',12),('test_raw_tables',3),('test_raw_batch',4)]:
             cases=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith(suffix)]
             assert len(cases)==count and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in cases), (job['name'], suffix, count, len(cases), [(t.get('name'),[k for k in ['skipped','failure','error'] if t.find(k) is not None]) for t in cases if any(t.find(k) is not None for k in ['skipped','failure','error'])])
             entry[suffix+'_cases']=[t.get('name') for t in cases]
@@ -501,6 +502,30 @@ for job in run['jobs']:
             assert 'class CellAlgorithm(' in stubs and 'LOG_WATERSHED' in stubs and 'def log_prominence(' in stubs and 'def context_padding(' in stubs
         if job['name'].startswith('Linux '):
             assert workflow['source_tree_sha256']==expected_source
+    if args.ndpi_readers and (folder/'python-tests.xml').exists():
+        cases=list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase'))
+        ndpi=[t for t in cases if t.get('classname','').endswith('test_ndpi_reader')]
+        expected={'test_ndpi_metadata_and_anisotropic_calibration','test_ndpi_complete_overview_and_source_budget',
+            'test_ndpi_scheduler_cache_and_pending_close','test_ndpi_log_detection_tile_invariance_and_saved_replay',
+            'test_ndpi_truncated_container_rejects','test_ndpi_desktop_pyramid_settles'}
+        expected.update(f'test_ndpi_all_levels_padding_and_owned_pixels[{i}]' for i in range(9))
+        expected.update(f'test_ndpi_installed_region_cli[{i}]' for i in range(9))
+        assert len(ndpi)==24 and {t.get('name') for t in ndpi}==expected
+        assert not any(t.find('failure') is not None or t.find('error') is not None for t in ndpi)
+        skipped=[t for t in ndpi if t.find('skipped') is not None]
+        assert {t.get('name') for t in skipped}==(set() if 'GUI' in job['name'] else {'test_ndpi_desktop_pyramid_settles'})
+        assert all(t.find('skipped').get('type')!='pytest.xfail' for t in skipped)
+        attachments=[t for t in cases if t.get('name') in {
+            'test_opened_slide_document_defaults_to_its_native_link',
+            'test_opened_tiff_document_defaults_to_native_link_and_current_view'}]
+        assert len(attachments)==2 and all(not any(t.find(k) is not None for k in ['failure','error','skipped']) for t in attachments)
+        native_project=[t for t in native_cases if t.get('name')=='project']
+        assert len(native_project)==1 and 'Native NDPI inferred link, LoG archive replay and calibration passed' in native_project[0].findtext('system-out','')
+        fixture=next(e for e in json.loads((ROOT/'tests/fixtures/manifest.json').read_text(encoding='utf-8'))['downloads'] if e['filename']=='CMU-1.ndpi')
+        entry['ndpi_readers']=dict(passed=24-len(skipped),desktop_skipped=len(skipped),fixture_sha256=fixture['sha256'],
+            fixture_bytes=fixture['bytes'],dimensions=fixture['dimensions'],pixel_size_um=fixture['pixel_size_um'],
+            native_project_save_replay_exercised=True,cases=[dict(name=t.get('name'),skipped=t.find('skipped') is not None) for t in ndpi],
+            default_attachment_cases=[t.get('name') for t in attachments])
     report['jobs'].append(entry)
 report['fixture_retraining']=dict(local_and_audited_hosted_models_identical=True,
     model_sha256=local['model_sha256'],training_sha256=local['training_sha256'],
@@ -508,6 +533,7 @@ report['fixture_retraining']=dict(local_and_audited_hosted_models_identical=True
 report['auditor']=dict(path='tools/ci/accept_unified_engine.py',sha256=sha(Path(__file__)))
 report['windows_linux_engineering_scope_accepted']=not args.linux_only
 report['linux_engineering_scope_accepted']=True
+report['ndpi_readers_required']=args.ndpi_readers
 report['performance_accepted']=False
 report['macos_accepted']=False
 report['release_ready']=False

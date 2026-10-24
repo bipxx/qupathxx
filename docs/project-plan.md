@@ -4106,3 +4106,32 @@ all 50 LoG cases. The partial receipt explicitly leaves Windows/Linux overall
 acceptance false. Wrong-source, optimized-assertion and injected-skipped-LoG
 negative probes reject. Windows jobs, full-matrix acceptance, macOS, portable
 consumers, scientific/hardware gates and main promotion remain pending.
+
+
+## Packet123: real NDPI workflow and native document attachment
+
+The pinned CC0 Hamamatsu CMU-1.ndpi adds a real nine-level, 51,200 × 38,144
+scan with anisotropic calibration. The 24-case corpus checks exact pixels at
+all levels, padding/lifetime, nine CLI reads, complete overview averaging,
+source admission, scheduling/cache/close, truncation and a tile-invariant
+saved/replayed LoG workflow. Extended fixture retrieval and CI now include it.
+See [contract](ndpi-reader-validation.md).
+
+This exposed an API gap: omitted-source `Project.add_document` tried dense
+embedding for an already opened native slide. Native source `f5ca246` now
+captures its OpenSlide/TIFF locator and reader, retaining the TIFF view; a
+conflicting reader rejects atomically. Dense in-memory embedding and explicit
+source validation remain available. The obsolete dense-only error text is fixed.
+Native project tests execute real NDPI LoG save/replay and native raw TIFF tests
+cover inferred links. No schema, archive encoding or binding signature changes.
+
+The [source-bound local receipt](benchmarks/ndpi-native-link-windows.json)
+records all 248 build inputs, 45 native suites, 134 focused Python passes, the
+1,812-pass full Windows headless regression (405 optional skips and the same
+three legacy scientific xfails), installed/stub/typing gates and 23 headless
+NDPI cases plus one desktop skip. The [renderer frame](images/ndpi-overview-baseline-windows.png)
+is separately validated and visually inspected at earlier source8160; it cannot
+accept the newer attachment fix on GUI. Source-specific hosted Windows/Linux,
+portable and macOS checks remain pending. The inherited plan requires both Mac
+architectures before promotion; main is unchanged. Broader vendors, biology,
+body/resampling parity, hardware, license and supported release remain open.

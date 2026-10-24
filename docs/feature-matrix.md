@@ -173,3 +173,12 @@ sanitizer pass 45 suites. All 12 new OME and nine cache cases pass. The
 accept either Windows or the overall matrix. Native Windows headless also
 passes 45 suites separately. Unified hosted Windows, portable consumers, macOS,
 research/hardware and release acceptance remain open; workflow states stay Partial.
+
+
+Packet123 adds a [real nine-level NDPI corpus](ndpi-reader-validation.md) and
+fixes omitted-source attachment of native OpenSlide/TIFF documents. Local Windows
+headless passes 45 native suites, 134 focused cases and 1,812 full regressions;
+all 23 headless NDPI cases pass and one desktop case skips. A separate source8160
+renderer frame is inspected. These observations do not qualify the newer fix on
+GUI or other platforms. Hosted/macOS, broader vendor and research/hardware/release
+gates remain open. Main promotion awaits the required Mac architecture gates.
