@@ -37,3 +37,6 @@ tools/compare_roi_sampling_engines.py text eol=lf
 tools/profile_roi_sampling_cold.py text eol=lf
 
 docs/benchmarks/unified-native-*.json -text whitespace=cr-at-eol
+
+tools/ci/accept_unified_engine.py text eol=lf
+docs/benchmarks/unified-engine-*.json -text whitespace=cr-at-eol

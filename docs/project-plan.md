@@ -4082,3 +4082,27 @@ jobs and overall hosted acceptance are still pending. The separately published
 `validation/unified-121` branch combines parser, Darwin width and boundary-cache
 changes with LoG and passes 45 full-feature native Windows headless suites;
 its run 40058156407 is separately pending. Main promotion remains withheld.
+
+
+Packet121's Linux headless, minimal and ASan/UBSan jobs in run 40058156407 pass
+at exact dispatched source `8160ec2312c80a4fb6f0a5ceeef28557ab39d82c`.
+Headless passes 1,787 Python cases and 45 native suites; minimal/sanitizer each
+pass 45. The [Linux-only receipt](benchmarks/unified-engine-linux.json) audits
+47 LoG passes plus three explicit desktop skips, all 12 OME decimal cases, all
+nine cache cases, inherited sampling/calibration/reader/classifier/archive/batch
+gates, source/native/wheel identities, runtime relocation and stubs/typing.
+The independently computed Git-LF source fingerprint matches the compiled engine.
+The three strict legacy-detector scientific xfails remain unchanged.
+
+The public auditor supports an explicitly partial observation:
+
+```powershell
+python -I tools/ci/accept_unified_engine.py 40058156407 8160ec2312c80a4fb6f0a5ceeef28557ab39d82c --artifacts build/ci/unified121-hosted --linux-only
+```
+
+Omit `--linux-only` for full acceptance: it requires all five jobs to finish
+successfully and audits both Windows cohorts, desktop/standalone payloads and
+all 50 LoG cases. The partial receipt explicitly leaves Windows/Linux overall
+acceptance false. Wrong-source, optimized-assertion and injected-skipped-LoG
+negative probes reject. Windows jobs, full-matrix acceptance, macOS, portable
+consumers, scientific/hardware gates and main promotion remain pending.

@@ -163,3 +163,13 @@ source projection, test evidence and the inspected desktop capture. Hosted
 Linux headless passes 1,766 Python/44 native (47 LoG cases plus three desktop
 skips), and minimal/sanitizer pass 44. Overall hosted, unified-source platform,
 biology and supported release gates remain open. Cell detection stays Partial.
+
+
+The unified packet121 source combines LoG, decimal parsing, Darwin width types
+and the conservative winding cache. Its audited Linux headless result is
+1,787 Python/45 native, with 47 LoG passes and three desktop skips; minimal and
+sanitizer pass 45 suites. All 12 new OME and nine cache cases pass. The
+[Linux-only receipt](benchmarks/unified-engine-linux.json) deliberately does not
+accept either Windows or the overall matrix. Native Windows headless also
+passes 45 suites separately. Unified hosted Windows, portable consumers, macOS,
+research/hardware and release acceptance remain open; workflow states stay Partial.
