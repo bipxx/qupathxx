@@ -1,6 +1,7 @@
 #pragma once
 #include "qupathxx/core.hpp"
 #include <utility>
+#include <functional>
 
 namespace qpx {
 namespace detail {struct BatchCheckpoint;}
@@ -57,6 +58,11 @@ public:
     static std::vector<RecoveryInfo> find_recoveries(const std::string& base_path="",std::size_t limit=64);
     void restore_recovery(const std::string& path,const std::string& base_path="");
     void save(const std::string& path);
+    // Snapshot and atomically publish a new project; never overwrite a target.
+    // Native publication_guard runs after staging and before commit, on owner.
+    void save_new(const std::string& path,std::size_t snapshot_bytes=512ull*1024*1024,
+        std::uint64_t file_bytes=1024ull*1024*1024,const std::atomic<bool>* cancelled=nullptr,
+        const std::function<void()>& publication_guard={});
     std::uint64_t add_image(const std::string& path,std::string reader="auto",std::string name="");
     std::uint64_t add_tiff_image(const std::string& path,const TiffOpenOptions&,std::string name="");
     std::uint64_t add_tiff_source(std::shared_ptr<ImageServer>,std::string name="");
@@ -112,7 +118,7 @@ private:
     static RecoveryRetentionStats prune_recoveries_impl(const std::string& path,const RecoveryRetention&,
         const std::atomic<bool>* cancelled,RetentionProgress* progress);
     std::unique_ptr<Project> snapshot_for_save(std::size_t budget,std::size_t& bytes,const std::set<std::uint64_t>* selected=nullptr) const;
-    void save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled=nullptr,const RecoveryInfo* recovery=nullptr,const detail::BatchCheckpoint* batch=nullptr);
+    void save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled=nullptr,const RecoveryInfo* recovery=nullptr,const detail::BatchCheckpoint* batch=nullptr,std::uint64_t file_bytes=0);
     void save_recovery(const std::string& path,const std::string& link_directory,const RecoveryInfo& info,const std::atomic<bool>* cancelled=nullptr);
     // Only native factories can assert that the shared_ptr control block and
     // its deleter contain no Python references. External documents default off.

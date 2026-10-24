@@ -1,5 +1,6 @@
 #include "qupathxx/tma.hpp"
 #include "qupathxx/qptma.hpp"
+#include "qupathxx/project.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/map.h>
 #include <nanobind/stl/optional.h>
@@ -19,6 +20,9 @@ std::string qptma_python_text(const nb::str& text,std::size_t limit) {
 
 void bind_tma(nb::module_& m) {
     using namespace qpx;
+    nb::borrow<nb::class_<Project>>(m.attr("Project")).def("save_new",[](Project& project,const std::string& path,std::size_t snapshot_bytes,std::uint64_t file_bytes) {
+        project.save_new(path,snapshot_bytes,file_bytes);
+    },"path"_a,"snapshot_bytes"_a=512ull*1024*1024,"file_bytes"_a=1024ull*1024*1024);
     nb::class_<QptmaCore>(m,"QptmaCore").def(nb::init<>())
         .def_rw("name",&QptmaCore::name).def_rw("case_id",&QptmaCore::case_id)
         .def_rw("bounds",&QptmaCore::bounds).def_rw("missing",&QptmaCore::missing).def("validate",&QptmaCore::validate);

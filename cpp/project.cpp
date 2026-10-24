@@ -1,3 +1,5 @@
+#include "reader_file_guard.hpp"
+#include "atomic_export.hpp"
 #include "tma_internal.hpp"
 #include "qupathxx/raw_image.hpp"
 #include "raw_analysis_internal.hpp"
@@ -15,6 +17,8 @@
 #include "pixel_stream_record.hpp"
 #include "project_schema.hpp"
 #include <algorithm>
+#include <array>
+#include <fstream>
 #include <array>
 #include <charconv>
 #include <cctype>
@@ -335,7 +339,8 @@ std::string sqlite_version() {
 }
 #ifndef QUPATHXX_HAS_PROJECT
 void Project::save(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
-void Project::save_impl(const std::string&,const std::string&,const std::atomic<bool>*,const RecoveryInfo*,const detail::BatchCheckpoint*) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
+void Project::save_new(const std::string&,std::size_t,std::uint64_t,const std::atomic<bool>*,const std::function<void()>&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
+void Project::save_impl(const std::string&,const std::string&,const std::atomic<bool>*,const RecoveryInfo*,const detail::BatchCheckpoint*,std::uint64_t) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
 void Project::save_recovery(const std::string&,const std::string&,const RecoveryInfo&,const std::atomic<bool>*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::shared_ptr<Project> Project::open(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::shared_ptr<Project> Project::open_impl(const std::string&,bool,const std::string&,LoadProgress*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
@@ -503,14 +508,57 @@ Roi decode(Statement& s,int column) {
 void Project::save(const std::string& path) {
     save_impl(path,"");
 }
-void Project::save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled,const RecoveryInfo* recovery,const detail::BatchCheckpoint* batch) {
+void Project::save_new(const std::string& path,std::size_t budget,std::uint64_t file_bytes,const std::atomic<bool>* cancelled,const std::function<void()>& guard) {
+    detail::export_checkpoint(cancelled);
+    if(!budget || budget>4ull*1024*1024*1024 || !file_bytes || file_bytes>4ull*1024*1024*1024)
+        throw std::invalid_argument("new project snapshot/file budgets must be 1 byte..4 GiB");
+    auto destination=absolute(path);const auto target=fs::u8path(destination);std::error_code status_error;
+    const auto status=fs::symlink_status(target,status_error);
+    if(status_error && status_error!=std::errc::no_such_file_or_directory)throw fs::filesystem_error("cannot inspect new project target",target,status_error);
+    if(status.type()!=fs::file_type::not_found)throw std::invalid_argument("new project destination already exists");
+    const auto source_path=path_;const auto source_generation=generation_,source_revision=revision_;
+    std::map<std::uint64_t,std::uint64_t> revisions;for(const auto& [id,e]:entries_)revisions.emplace(id,e.document->revision());
+    const auto protected_images=images();
+    auto protect=[&] {if(!source_path.empty())detail::guard_file_output(source_path,"",destination);
+        for(const auto& image:protected_images)if(!image.embedded && !image.source_path.empty())detail::guard_file_output(image.source_path,"",destination);};
+    protect();std::size_t captured=0;auto snapshot=snapshot_for_save(budget,captured);
+    struct Stage {
+        fs::path directory,file;
+        explicit Stage(const fs::path& parent) {
+            std::random_device random;constexpr char hex[]="0123456789abcdef";
+            for(int attempt=0;attempt<16;++attempt) {
+                std::string suffix=".qpx-save-new-";for(int i=0;i<32;++i)suffix+=hex[random()&15];
+                auto candidate=parent/fs::u8path(suffix);std::error_code error;
+                if(fs::create_directory(candidate,error)){directory=std::move(candidate);file=directory/"project.qpxproj";return;}
+                if(error && error!=std::errc::file_exists)throw fs::filesystem_error("cannot create new project staging directory",candidate,error);
+            }
+            throw std::runtime_error("cannot allocate new project staging directory");
+        }
+        ~Stage() {std::error_code error;for(const char* suffix:{"","-journal","-wal","-shm"}) {auto path=file;path+=suffix;fs::remove(path,error);}fs::remove(directory,error);}
+    } stage(target.parent_path());
+    detail::export_checkpoint(cancelled);
+    snapshot->save_impl(stage.file.u8string(),target.parent_path().u8string(),cancelled,nullptr,nullptr,file_bytes);
+    const auto size=fs::file_size(stage.file);if(size>file_bytes || size>std::numeric_limits<std::size_t>::max())throw std::length_error("new project exceeds file budget");
+    std::ifstream input(stage.file,std::ios::binary);if(!input)throw std::runtime_error("cannot read staged project");
+    detail::AtomicExportFile output(destination,static_cast<std::size_t>(file_bytes),cancelled);std::array<char,65536> bytes;
+    while(input) {detail::export_checkpoint(cancelled);input.read(bytes.data(),bytes.size());const auto count=static_cast<std::size_t>(input.gcount());output.write(bytes.data(),count);}
+    if(!input.eof() || input.bad() || output.bytes()!=size)throw std::runtime_error("staged project copy differs");
+    if(guard)guard();protect();
+    if(path_!=source_path || generation_!=source_generation || revision_!=source_revision || entries_.size()!=revisions.size())throw std::runtime_error("project changed during new-file save");
+    for(const auto& [id,revision]:revisions)if(entry(id).document->revision()!=revision)throw std::runtime_error("document changed during new-file save");
+    detail::export_checkpoint(cancelled);output.commit(false);
+    path_.swap(destination);generation_=snapshot->generation_;saved_revision_=snapshot->saved_revision_;saved_revisions_.swap(snapshot->saved_revisions_);
+}
+
+void Project::save_impl(const std::string& path,const std::string& link_directory,const std::atomic<bool>* cancelled,const RecoveryInfo* recovery,const detail::BatchCheckpoint* batch,std::uint64_t file_bytes) {
     auto destination=absolute(path);
     std::map<std::uint64_t,std::uint64_t> revisions;
     for(const auto& [id,e]:entries_) revisions.emplace(id,e.document->revision());
     Database db(destination,true);
     db.cancellation(cancelled);
     db.exec("PRAGMA foreign_keys=ON; PRAGMA synchronous=FULL;");
-    if(batch) {const auto pages=batch->max_file_bytes/static_cast<std::uint64_t>(scalar(db,"PRAGMA page_size"));if(!pages) throw std::length_error("batch checkpoint byte limit is too small");db.exec(("PRAGMA max_page_count="+std::to_string(pages)).c_str());}
+    const auto maximum= batch && file_bytes?std::min(batch->max_file_bytes,file_bytes):batch?batch->max_file_bytes:file_bytes;
+    if(maximum) {const auto pages=maximum/static_cast<std::uint64_t>(scalar(db,"PRAGMA page_size"));if(!pages) throw std::length_error("batch checkpoint byte limit is too small");db.exec(("PRAGMA max_page_count="+std::to_string(pages)).c_str());}
     Transaction transaction(db,true);
     const bool fresh=scalar(db,"PRAGMA application_id")==0 && scalar(db,"PRAGMA user_version")==0 &&
         scalar(db,"SELECT count(*) FROM sqlite_schema WHERE name NOT LIKE 'sqlite_%'")==0;

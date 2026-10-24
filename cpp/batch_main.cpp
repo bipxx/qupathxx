@@ -3,6 +3,7 @@
 #include "pixel_stream_cli.hpp"
 #include "cell_table_cli.hpp"
 #include "tma_case_cli.hpp"
+#include "qptma_project_cli.hpp"
 #include <charconv>
 #include <cmath>
 #include <csignal>
@@ -58,6 +59,8 @@ int execute(const std::vector<std::string>& args) {
             "--snapshot-bytes N  --materialize-bytes N  --result-bytes N\n"
             "--csv-bytes N  --checkpoint-bytes N\n"
             "Default model: H&E basis (0.65,0.70,0.29), (0.07,0.99,0.11).\n"
+            "--import-qptma PROJECT GRID.qptma OUTPUT.qpxproj --image ID [--qptma-bytes N --snapshot-bytes N --project-bytes N]\n"
+            "--export-qptma PROJECT OUTPUT.qptma --image ID [--qptma-bytes N]\n"
             "JSONL stdout; exit 0 success, 1 failure/partial, 2 arguments, 130 cancelled.\n";
         return args.size()==1?2:0;
     }
@@ -65,6 +68,7 @@ int execute(const std::vector<std::string>& args) {
         if(const auto result=detail::pixel_stream_cli(args,cancelled)) return *result;
         if(const auto result=detail::cell_table_cli(args,cancelled)) return *result;
         if(const auto result=detail::tma_case_cli(args,cancelled)) return *result;
+        if(const auto result=detail::qptma_project_cli(args,cancelled)) return *result;
         if(args.size()==4 && args[1]=="--export-csv") {save_batch_checkpoint_csv(args[2],args[3]);return 0;}
         if(args.size()<3 || args[1].rfind("--",0)==0) throw std::invalid_argument("expected PROJECT and OUTPUT_DIRECTORY; see --help");
         ProjectBatchOptions options;std::vector<ProjectBatchSelection> selection;std::vector<std::uint64_t> objects;
