@@ -274,7 +274,10 @@ struct CellKernel {
             if(phase) phase->store(3);cell_detail::distance(distance,width,height,true,nullptr,cancelled);
             if(phase) phase->store(4);nuclei=watershed(mask,distance,width,height,p,result->markers_,result->raw_peaks_,cancelled);
         }
-        std::size_t count=0;for(auto& marker:result->markers_) {marker.center={(grid.x+marker.pixel_index%width+.5)*scale,(grid.y+marker.pixel_index/width+.5)*scale};count=std::max<std::size_t>(count,marker.result_label);}
+        // ROI clipping can retain a component whose shape maximum lies outside
+        // the ROI. Size measurement arrays from the retained labels themselves.
+        std::size_t count=0;for(auto label:nuclei) count=std::max<std::size_t>(count,label);
+        for(auto& marker:result->markers_) marker.center={(grid.x+marker.pixel_index%width+.5)*scale,(grid.y+marker.pixel_index/width+.5)*scale};
         std::vector<std::uint8_t>().swap(mask);std::vector<std::uint32_t> bodies(n);
         if(phase) phase->store(5);
         if(count && p.cell_expansion>0 && (p.algorithm==CellAlgorithm::LogWatershedBodies || p.algorithm==CellAlgorithm::SampledLogWatershedBodies)) {

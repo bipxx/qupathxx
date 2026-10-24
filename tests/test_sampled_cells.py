@@ -212,8 +212,8 @@ def test_sampled_expansion_respects_transparent_source_domain(tmp_path):
         project.save(str(saved))
         restored = q.Project.open(str(saved)).document(image)
         assert restored.cell_record(record).result.cells.labels == result.cells.labels
-        assert restored.verify_cells(record, q.CellRequest.replay(restored, record),
-                                     q.detect_cells(q.CellRequest.replay(restored, record)))
+        replay = q.CellRequest.replay(restored, record)
+        assert restored.verify_cells(record, replay, q.detect_cells(replay))
 
 
 @pytest.mark.parametrize('level', [0, 1, 2])

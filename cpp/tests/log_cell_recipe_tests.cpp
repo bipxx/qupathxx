@@ -69,6 +69,27 @@ int main() {
         for(auto version:{1,2,3,5}) {auto bad=sampled_bytes;bad[3]=static_cast<std::uint8_t>(version);sign(bad,sampled_request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),sampled_request.roi(),doc.metadata());});}
         for(auto algorithm:{0,1,2}) {auto bad=sampled_bytes;bad[4]=static_cast<std::uint8_t>(algorithm);sign(bad,sampled_request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),sampled_request.roi(),doc.metadata());});}
         {auto bad=sampled_bytes;const auto domain_bytes=(sampled_result->nuclei()->labels().size()+7)/8;bad[bad.size()-64-domain_bytes]^=1;sign(bad,sampled_request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),sampled_request.roi(),doc.metadata());});}
+        {
+            // A textured crop retains nuclei whose maxima lie in contextual
+            // pixels outside the ROI. These labels still need feature storage.
+            std::vector<std::uint8_t> texture(768*576*3);
+            for(int y=0;y<576;++y) for(int x=0;x<768;++x) {
+                const auto i=(y*768+x)*3;texture[i]=(x*7+y*3)%256;texture[i+1]=(x*2+y*11)%256;texture[i+2]=(x*5+y*7)%256;
+            }
+            Document textured(Image(768,576,std::move(texture)));const auto crop=textured.add_rectangle({90,90,120,90});
+            StainTransform stains({{.65,.7,.29},{.07,.99,.11}});auto recipe=sampled;recipe.cell_expansion=5;recipe.tile_size=64;
+            const CellRequest cropped_request(textured,crop,stains,recipe);const auto cropped=detect_cells(cropped_request);
+            const auto& labels=cropped->nuclei()->labels();const auto count=*std::max_element(labels.begin(),labels.end());
+            require(count>0 && count==cropped->features().size());
+            std::vector<bool> represented(count+1);for(const auto& marker:cropped->markers()) represented[marker.result_label]=true;
+            require(std::find(represented.begin()+1,represented.end(),false)!=represented.end());
+            std::vector<std::uint64_t> counts(count+1);for(auto label:labels) ++counts[label];
+            for(const auto& feature:cropped->features()) require(feature.nucleus_pixels==counts[feature.label] && feature.cell_pixels>=feature.nucleus_pixels);
+            const auto payload=CellArchiveCodec::encode(*cropped);
+            const auto reopened=CellArchiveCodec::decode(payload.data(),payload.size(),cropped_request.roi(),textured.metadata());
+            require(reopened->features().size()==count && reopened->nuclei()->labels()==labels && reopened->cells()->labels()==cropped->cells()->labels());
+            std::cout<<"Sampled clipped components without in-ROI markers retain measurements and replay labels\n";
+        }
         Document blank_doc(Image(5,5,std::vector<std::uint8_t>(75,255)));const auto blank_object=blank_doc.add_rectangle({0,0,5,5});auto blank_parameters=sampled;blank_parameters.context_padding=0;
         const CellRequest blank_request(blank_doc,blank_object,transform,blank_parameters);const auto blank_result=detect_cells(blank_request);require(blank_result->features().empty());
         const auto blank_bytes=CellArchiveCodec::encode(*blank_result);require(CellArchiveCodec::encode(*CellArchiveCodec::decode(blank_bytes.data(),blank_bytes.size(),blank_request.roi(),blank_doc.metadata()))==blank_bytes);
