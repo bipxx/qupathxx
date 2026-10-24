@@ -4028,3 +4028,24 @@ RSS-budget, biological or full-platform acceptance is claimed. This candidate
 still needs integration with separately validated parser, Darwin-width and
 boundary-cache changes before unified qualification and main promotion.
 See [detector contract](log-watershed.md). All other unfinished M0–M7 gates remain.
+## Packet115: native Mac compiler portability (validation pending)
+
+The Intel job in run 39996248392 failed before tests because Apple libc++ in
+Xcode 16.4 deletes the floating-point `from_chars` overload used for OME
+calibration. The TIFF source is unchanged in the accepted winding engine.
+The replacement uses an immutable explicit C numeric locale, rejects signs,
+whitespace, hexadecimal values, trailing junk and nonpositive/nonfinite results,
+and retains representable positive subnormals. It never changes the caller's
+locale. A standalone native contract test covers syntax, range, concurrent first
+use, a custom C++ decimal separator and an installed comma C locale when present.
+Windows exercised that installed locale and passed. Twelve literal OME XML
+calibration cases also pass against the accepted baseline, demonstrating that
+the replacement's tested contract preserves existing reader behavior; they must
+still run against the new native engine in the full platform matrix.
+
+Project-save lambdas now capture ordinary local variables instead of structured
+bindings, avoiding the C++20 extension warning in the C++17 Mac build. The Mac
+auditor requires the new decimal suite alongside the engine suites. Both Mac
+architectures and the Windows/Linux matrix must pass before promotion. These
+changes do not qualify a Mac wheel, GUI, OpenSlide, relocated installer, signing,
+biology or a supported release. All other unfinished M0-M7 requirements remain.

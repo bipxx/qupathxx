@@ -109,6 +109,25 @@ def test_ome_plane_orders_and_calibration(tmp_path,order):
             np.testing.assert_array_equal(s.read_raw(request(11,7,c=2,z=z,t=t)).numpy(),expected)
 
 
+@pytest.mark.parametrize('text,expected', [
+    ('.125e+1', 1.25), ('001.25', 1.25), ('1.', 1.), ('1e-308', 1e-308),
+    ('+1', None), (' 1', None), ('1 ', None), ('0x1p0', None),
+    ('1,25', None), ('nan', None), ('1e309', None), ('1e-9999', None),
+])
+def test_ome_decimal_quantity_contract(tmp_path, text, expected):
+    # Preserve the literal spelling rather than passing through tifffile's floats.
+    xml = f'''<OME><Image ID="Image:0"><Pixels ID="Pixels:0" DimensionOrder="XYZCT"
+        Type="uint8" SizeX="4" SizeY="4" SizeZ="1" SizeC="1" SizeT="1"
+        PhysicalSizeX="{text}" PhysicalSizeXUnit="um">
+        <Channel ID="Channel:0:0" SamplesPerPixel="1"/><TiffData IFD="0" PlaneCount="1"/>
+        </Pixels></Image></OME>'''
+    path = tmp_path/'quantity.ome.tif'
+    tifffile.imwrite(path, np.zeros((4,4),dtype='uint8'), description=xml,
+                     metadata=None, photometric='minisblack')
+    server = q.open_tiff(str(path))
+    assert server.raw_metadata.pixel_width_um == expected
+
+
 def test_subifd_integer_pyramid_and_plain_pages(tmp_path):
     path=tmp_path/'pyramid.tif';base=np.arange(32*48,dtype='uint16').reshape(32,48)
     with tifffile.TiffWriter(path,bigtiff=True) as writer:

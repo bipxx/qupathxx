@@ -58,10 +58,10 @@ def main():
     run(['ctest','--test-dir',build,'-C','Release','--output-on-failure','--parallel','1',
          '--output-junit',work/'native-tests.xml'],'native-tests',1200)
     cases=list(ET.parse(work/'native-tests.xml').getroot().iter('testcase'))
-    if len(cases)<41 or any(any(t.find(k) is not None for k in ['failure','error','skipped']) for t in cases):
+    if len(cases)<43 or any(any(t.find(k) is not None for k in ['failure','error','skipped']) for t in cases):
         raise RuntimeError('full native test evidence is incomplete')
     names={t.get('name') for t in cases}
-    required={'masked_gaussian','cells','geometry','project','classifier','pixel_features'}
+    required={'decimal_quantities','masked_gaussian','cells','geometry','project','classifier','pixel_features'}
     if not required.issubset(names):
         raise RuntimeError('native test evidence omits required engine modules: '+str(required-names))
     binary=build/'qupathxx_batch'
