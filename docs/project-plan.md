@@ -4617,6 +4617,10 @@ acceptance follows from these observations.
 The prior production source `ddd3bb9` has passed its
 [both-architecture Mac native audit](benchmarks/sampled-cells-macos.json),
 including QCL4/clipped-component regressions and all 26 frozen shape cases.
-Its Windows/Linux and portable runs remain active at their original handles;
-these results do not validate this optimization candidate. Main remains at
+Its [Windows/Linux artifact audit](benchmarks/sampled-cells-windows-linux.json)
+also passes all five jobs: GUI 2,364 Python/47 native, Windows headless 1,964/46,
+Linux headless 1,962/46, and minimal/sanitizer 46 native each. All 53 sampled
+workflows and both source-pixel-verified NDPI contexts are covered. The portable
+builders pass and their original fresh-consumer jobs remain queued. These
+results do not validate this optimization candidate. Main remains at
 `2afdcb9`, and the full M0–M7 objective remains active.

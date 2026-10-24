@@ -80,3 +80,19 @@ and [separate kernel timing series](benchmarks/expansion-frontier-kernel-windows
 remain available alongside the [pinned expansion comparison](benchmarks/expansion-frontier-qupath-windows.json).
 No raw series or slower trial is discarded. Broader detection, platform,
 full desktop regression and controlled hardware gates remain separate.
+
+## Platform audit requirements
+
+The Windows/Linux, portable-wheel and Mac native auditors accept
+`--small-frontier`, which implies their sampled-production gates. They require
+the native 64-key/1,344-comparison marker. Each Python builder, consumer or
+desktop job must additionally pass the eight exact source-bound unit-radius
+workflow names, without skips or expected failures. Mac native remains a
+native-only gate. The contract is
+`tests/fixtures/imagej-shape-1.54p/expansion-frontier-workflows.json`.
+
+The shared verifier accepts the actual local native/Python evidence and rejects
+missing, duplicate, skipped, failed and older native cases. The full
+Windows/Linux and Mac command-line gates reject the otherwise-valid earlier
+sampled candidate when the frontier flag is requested. These are engineering
+checks; the flag does not assert a timing improvement or hardware acceptance.
