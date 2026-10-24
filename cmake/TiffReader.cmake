@@ -11,6 +11,11 @@ FetchContent_Declare(qpx_zlib URL
   URL_HASH SHA256=bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16)
 FetchContent_MakeAvailable(qpx_zlib)
 set_target_properties(zlibstatic PROPERTIES POSITION_INDEPENDENT_CODE ON)
+# zlib's Z_PREFIX renames its public API but leaves this internal exported
+# data table unprefixed. Apple's linker rejects it beside OpenCV's static zlib.
+# Scope the rename to our private target; do not alter fetched source files or
+# propagate the internal identifier into TIFF/public consumer compilation.
+target_compile_definitions(zlibstatic PRIVATE z_errmsg=qpx_tiff_z_errmsg)
 if(TARGET ZLIB::ZLIB)
   message(FATAL_ERROR "TIFF requires its pinned, prefixed zlib target; an unrelated ZLIB::ZLIB already exists")
 endif()
