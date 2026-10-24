@@ -1,0 +1,12 @@
+qpx-synthetic-tma-interop
+Native fractional interchange probe
+
+TMA grid width: 3
+TMA grid height: 2
+Core name	X	Y	Width	Height	Present	Case ID
+A-1	12.75	18.5	17.25	23.75	true	case-one
+A-2	77.0	18.75	17.75	24.0	false	case-one
+A-3	141.25	19.0	18.25	24.25	true	
+B-1	13.25	90.75	18.75	24.5	true	patient α
+B-2	77.5	91.0	19.25	24.75	false	comma, value
+B-3	141.75	91.25	19.75	25.0	true	quoted "case"

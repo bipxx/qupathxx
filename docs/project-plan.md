@@ -4989,3 +4989,15 @@ evidence](benchmarks/macos-relocation-runtime-macos.json) at `b0d12245`, with
 46 native suites per architecture and relocated region/batch/CSV/GEOS probes.
 The subsequent artifact-audit candidate remains under exact-source hosted
 qualification. Neither closes M7 or the full M0–M7 goal.
+
+
+## Direct QuPath TMA interchange reference (candidate 155)
+
+An actual pinned QuPath 0.7.0 public-API capture now records six synthetic TMA
+cores through `.qptma` export/import and a fractional wire import. It preserves
+missing flags, duplicate/empty case IDs and the tested text fields. The writer's
+integer origin/rounded-size conversion is explicit; fractional imports retain
+the original values. The [interchange contract](qupath-tma-interchange.md) binds
+fixtures, runtime identity and the complete native/Python/project/CLI/ImGui
+implementation sequence. Reference preparation does not implement the native
+codec or accept automatic dearraying, biology, hardware, releases or M0–M7.

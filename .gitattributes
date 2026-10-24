@@ -137,3 +137,8 @@ tools/ci/linux_runtime_manifest_evidence.py text eol=lf
 tools/ci/run_manylinux.py text eol=lf
 tests/test_linux_runtime_manifest.py text eol=lf
 .github/workflows/ci.yml text eol=lf
+
+# QuPath TMA fixtures retain actual captured text/log bytes.
+tools/upstream/qupath_tma_reference.groovy text eol=lf
+tests/fixtures/qupath-tma-0.7.0/** -text
+tests/test_qptma_reference.py text eol=lf
