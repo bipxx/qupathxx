@@ -1,9 +1,10 @@
 # Native LoG cell detector integration
 
-The native nucleus kernel is implemented and validated as a standalone engine
-component. It is not yet exposed as a production `CellParameters` mode. The
-installed distance-watershed detector and its three strict scientific expected
-failures remain unchanged.
+The discrete LoG detector is available as an explicit native production mode,
+with a thin Python interface, desktop controls and batch CLI options. The
+distance-watershed mode remains the default and retains its three strict
+scientific expected failures. The LoG candidate passes the isolated-nucleus
+gates in the pinned synthetic corpus; broader segmentation parity is open.
 
 ## Implemented kernel
 
@@ -46,11 +47,22 @@ IoU about 0.893 and centroid error 0.488 pixels. The deliberately different
 resampled reference remains about 0.939 foreground IoU. All cases are retained.
 Process timings include startup and file I/O and do not accept performance.
 
-## Pending production integration contract
+## Production integration
 
-The next implementation must complete these surfaces together:
+Native source `6b2cde1` adds the following surfaces together. The initial full
+Windows wheel passes 45 native suites. Expanded installed checks pass 50 LoG
+cases, including all nine pinned cases at three tile sizes, independent
+compartment counts and means, context admission and automatic level selection,
+transparency, natural pyramids, cancellation, stale results, saved recipes,
+classifier sources, batch/CLI and managed viewer capture. The rebuilt generated-stub Windows wheel passes the same 45 native suites and
+50 focused cases, installed runtime workflows, matching public stubs, three
+strict positive typing files and all seven intended negative typing errors.
+Broad regression and repeated performance checks are still running; these
+observations do not accept a supported release.
 
-| Surface | Required behavior |
+The implemented contract is:
+
+| Surface | Implemented behavior |
 | --- | --- |
 | Native parameters | Explicit distance/LoG algorithm choice; preserve legacy defaults and reject invalid or inactive nondefault options. Capture prominence and bounded context padding. |
 | Working grid | Expand the natural ROI grid by captured padding, clipped to the selected image level. Include every read pixel in the input digest. Retain feature values outside the ROI for segmentation context, while published labels remain clipped to valid ROI samples. |
@@ -67,5 +79,31 @@ The next implementation must complete these surfaces together:
 
 Arbitrary resampling, exact ROI-edge refinement, broad biology, RSS/frame budgets
 and supported release qualification remain separate unfinished requirements.
-Kernel observations cannot accept the public detector before those production
-paths exist and have been exercised.
+The production comparison retains every case: seven nucleus masks are exact;
+ROI-edge/hole and deliberately resampled-reference differences remain. Cell-body
+foreground IoU ranges about 0.871 to 0.930 for nonblank cases because the native
+body expansion differs. The public detector is not accepted as full QuPath
+segmentation parity.
+
+```python
+import qupathxx as q
+p = q.CellParameters()
+p.algorithm = q.CellAlgorithm.LOG_WATERSHED
+p.log_prominence = 0.5
+p.context_padding = 32
+result = q.detect_cells(q.CellRequest(document, object_id, stains, p))
+```
+
+Prominence and context padding use selected-level sample coordinates. Padding
+is captured as part of the recipe and input digest; it is clipped to the image
+level. It is not arbitrary resampling or a promise of full-image context.
+`QCL2` archives and `QCA2` classifier sources preserve the detector, prominence
+and padding. Distance-only archives keep their existing encodings. Cell CSV
+schemas `/3` and `/4` add `detector_mode`, `log_peak_prominence` and
+`context_padding_sample_px`; `/4` also retains captured calibration.
+
+The batch executable accepts `--cell-algorithm log`,
+`--cell-log-prominence 0.5` and `--cell-context-padding 32`. Its progress and
+summary output is JSON lines. Desktop cell and batch panels expose the same
+detector choice and applicable parameters. Nondefault LoG-only options reject
+when the distance detector is selected.

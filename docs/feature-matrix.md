@@ -145,3 +145,14 @@ headless 1,686/42, and minimal/sanitizer each pass 42 native suites. The complet
 desktop frame is visually inspected. The engineering scope is accepted for main
 promotion. Four scientific expected failures remain per Python cohort; broader
 commands/adapters, biology, hardware, portable/Mac and release gates remain open.
+
+
+Packet120 adds the [explicit production LoG detector](log-watershed.md), with
+context-aware native admission/digests and shared Python/CLI/desktop/viewer,
+archive, classifier-source and table surfaces. Its initial Windows wheel passes
+45 native suites and 50 focused installed cases. The unchanged isolated-nucleus
+count/IoU/centroid gates pass for this mode, while the legacy detector keeps its
+strict expected failures. Seven pinned nucleus cases are exact; ROI edges,
+resampling and body expansion remain different. The rebuilt typed wheel, broad
+regression, repeated memory/timing profile, unified-source platform qualification,
+biology and supported release gates remain open. Cell detection stays Partial.

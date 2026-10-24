@@ -3994,3 +3994,37 @@ expansion, features, archive/replay, batch/CLI, ImGui/viewer controls and typed
 production-mode integration remain to implement and verify. Existing distance
 watershed and its three strict scientific expected failures are unchanged.
 No biology, hardware/RSS/frame, platform release or full M0-M7 completion is claimed.
+
+
+## Packet120: installed LoG detector integration candidate
+
+Native source `6b2cde1` integrates the explicit LoG mode through native requests,
+immutable worker captures, results/body expansion/features, QCL2 saved recipes,
+QCA2 classifier sources, versioned CSV tables, Python, CLI, ImGui and managed
+viewer commands. Expanded context contributes to admission, automatic level
+selection and input digests; outputs stay clipped to the captured ROI and opaque
+samples. Legacy defaults and encodings remain available.
+
+The initial full Windows wheel passes 45 native suites and 50 focused installed
+checks. These cover nine pinned cases at three tile sizes; independent RGB/
+channel compartment counts and means; context pixel hashes; natural pyramids;
+transparency; physical areas; automatic level admission; cancellation/staleness;
+candidate-limit recovery; saved/replayed and mixed-detector classifier sources;
+batch resume and CLI; desktop detection, batch and managed-viewer commands.
+The batch frame is visually inspected: LoG controls and saved status are readable,
+with zero UI overflow. The three isolated-nucleus acceptance gates pass unchanged
+for the explicit LoG mode. The comparison retains all 42 shared-geometry winding
+measurement checks and every nucleus/body difference. Seven nucleus cases are
+exact; ROI-edge and resampled differences remain. Nonblank body foreground IoU
+is about 0.871–0.930, so full segmentation parity remains open.
+
+Generated public stubs are frozen at source `7f47a963e0d0a3f51a9c35681eb4ad8116e11a41`;
+the rebuilt wheel passes 45 native suites, 50 focused cases, installed workflows,
+matching stubs and strict positive/negative typing. Full regression remains
+running. `tools/profile_log_cells.py` adds isolated-process scaling, process
+peak-memory observations and tile-invariant label/feature checks; smoke runs at
+256 and 1024 pixels pass, while the repeated profile remains pending. No hardware,
+RSS-budget, biological or full-platform acceptance is claimed. This candidate
+still needs integration with separately validated parser, Darwin-width and
+boundary-cache changes before unified qualification and main promotion.
+See [detector contract](log-watershed.md). All other unfinished M0–M7 gates remain.

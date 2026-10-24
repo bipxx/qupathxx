@@ -72,6 +72,25 @@ def test_log_installed_nucleus_reference(case,tile):
     assert request.total_tiles==math.ceil(g.width/tile)*math.ceil(g.height/tile)
     assert result.nuclei.foreground_pixels<=result.nuclei.threshold_pixels<=result.nuclei.samples
     assert all(f.cell_pixels>=f.nucleus_pixels>=parameters().min_nucleus_pixels for f in result.features)
+    assert result.retained_bytes<=request.estimated_work_bytes<=request.parameters.work_bytes
+    rgb=phantoms.pixels(CONTRACT,case)[y:y+result.nuclei.height,x:x+result.nuclei.width]
+    vectors=np.asarray(CONTRACT['vectors'],dtype=float)
+    vectors/=np.linalg.norm(vectors,axis=1)[:,None]
+    od=np.maximum(0,np.log10(np.asarray(CONTRACT['white'])/np.maximum(rgb.astype(float),1)))
+    if len(vectors)==2:
+        residual=np.cross(*vectors);vectors=np.vstack([vectors,residual/np.linalg.norm(residual)])
+    channels=(od if request.parameters.feature==q.TissueFeature.OPTICAL_DENSITY_SUM else np.linalg.solve(vectors.T,od.reshape(-1,3).T).T.reshape(rgb.shape)).astype(np.float32).astype(float)
+    nuclei,bodies=result.nuclei.labels_numpy(),result.cells.labels_numpy()
+    for f in result.features:
+        masks=[nuclei==f.label,bodies==f.label,(bodies==f.label)&(nuclei!=f.label)]
+        assert f.nucleus_pixels==int(masks[0].sum()) and f.cell_pixels==int(masks[1].sum())
+        for compartment,mask in zip(['nucleus','cell','cytoplasm'],masks):
+            if mask.any():
+                np.testing.assert_allclose(getattr(f,compartment+'_rgb'),rgb[mask].mean(axis=0),atol=1e-12)
+                np.testing.assert_allclose(getattr(f,compartment+'_channels'),channels[mask].mean(axis=0),atol=1e-6)
+            else:
+                assert getattr(f,compartment+'_rgb') is None and getattr(f,compartment+'_channels') is None
+
 
 
 def test_detector_parameters_are_captured_and_inactive_options_reject():
@@ -222,3 +241,90 @@ def test_log_managed_viewer_captures_detector_recipe(tmp_path):
     run(session,producer)
     r=q.Project.open(str(destination)).document(image).latest_cells(obj).result
     assert r.algorithm=='qpx.log-watershed/1' and r.parameters.context_padding==32
+
+
+@pytest.mark.parametrize('change',['selection','rename','close','authority','cancel'])
+def test_log_jobs_reject_stale_results_and_cancel(change):
+    doc,obj,t=scene();job=q.CellJob();assert job.request(q.CellRequest(doc,obj,t,parameters()))
+    selected=obj
+    if change=='selection':selected=0
+    elif change=='rename':doc.rename_annotation(obj,'changed');doc.undo()
+    elif change=='close':doc.server.close()
+    elif change=='authority':doc=q.Document(doc.server);assert doc.add_rectangle(q.Rect(0,0,256,192))==obj
+    else:job.cancel()
+    assert job.wait(doc,selected).state==('cancelled' if change=='cancel' else 'stale')
+    assert job.result is None
+    with pytest.raises(RuntimeError,match='no current'):job.keep_result(doc,selected)
+
+
+def test_log_candidate_failure_is_atomic_and_worker_reusable():
+    doc,obj,t=scene();p=parameters();p.max_cells=1;job=q.CellJob();revision=doc.revision
+    assert job.request(q.CellRequest(doc,obj,t,p))
+    report=job.wait(doc,obj)
+    assert report.state=='failed' and 'limit' in report.error
+    assert job.result is None and doc.revision==revision and doc.object_count==1
+    assert job.request(q.CellRequest(doc,obj,t,parameters()))
+    assert job.wait(doc,obj).state=='ready' and job.result.cell_count==3
+
+
+@pytest.mark.parametrize('chosen',[0,1,2])
+def test_log_auto_level_uses_expanded_context_budget(pyramid_levels,chosen):
+    server,_=pyramid_levels;doc=q.Document(server);obj=doc.add_rectangle(q.Rect(90,90,120,90))
+    t=q.StainTransform(CONTRACT['vectors']);p=parameters();p.context_padding=64
+    estimates=[]
+    for level in range(3):
+        p.level=level;estimates.append(q.CellRequest(doc,obj,t,p).estimated_work_bytes)
+    assert estimates[0]>estimates[1]>estimates[2]
+    p.level=-1;p.work_bytes=estimates[chosen]
+    request=q.CellRequest(doc,obj,t,p)
+    assert request.level==chosen and request.parameters.level==-1 and request.estimated_work_bytes==estimates[chosen]
+    result=q.detect_cells(request)
+    assert result.nuclei.level==chosen and result.retained_bytes<=request.estimated_work_bytes
+    if chosen:
+        p.level=chosen-1
+        with pytest.raises((ValueError,RuntimeError),match='budget'):q.CellRequest(doc,obj,t,p)
+    p.level=-1;p.work_bytes=estimates[2]-1
+    with pytest.raises((ValueError,RuntimeError),match='budget'):q.CellRequest(doc,obj,t,p)
+
+
+@pytest.mark.skipif(not q.has_geos or not q.has_project,reason='mixed saved cell sources')
+def test_mixed_detector_tables_and_classifier_sources_roundtrip(tmp_path):
+    doc,obj,t=scene();records=[];ids=[];modes={}
+    for mode in [q.CellAlgorithm.LOG_WATERSHED,q.CellAlgorithm.DISTANCE_WATERSHED]:
+        p=parameters();p.algorithm=mode
+        if mode==q.CellAlgorithm.LOG_WATERSHED:p.log_prominence=.75;p.context_padding=48
+        request=q.CellRequest(doc,obj,t,p);result=q.detect_cells(request);record=doc.keep_cells(request,result)
+        records.append(record);published=doc.publish_cell_record(record);ids+=published
+        for identity in published:modes[identity]=mode
+    rows=parse(q.cell_measurements_csv(q.CellTableRequest(doc,records)))
+    assert rows and all(r['table_schema']=='qpx.cell-table/3' for r in rows)
+    assert {r['detector_mode'] for r in rows}=={'distance','log'}
+    assert all(r['log_peak_prominence']=='' and r['context_padding_sample_px']=='' for r in rows if r['detector_mode']=='distance')
+    from test_object_classifier_archives import predicted
+    options=q.ObjectFeatureOptions();options.cell_rgb=True
+    _,job=predicted(doc,ids,options);job.apply(doc)
+    project=q.Project();image=project.add_document(doc);path=tmp_path/'mixed.qpxproj';project.save(str(path))
+    loaded=q.Project.open(str(path)).document(image);table=loaded.classifier_records[0].archive.table
+    for row,identity in enumerate(ids):
+        origin=table.cell_origin(row);mode=modes[identity]
+        assert origin.source.parameters.algorithm==mode
+        assert origin.source.algorithm==('qpx.log-watershed/1' if mode==q.CellAlgorithm.LOG_WATERSHED else 'qpx.distance-watershed/1')
+        assert origin.source.parameters.context_padding==(48 if mode==q.CellAlgorithm.LOG_WATERSHED else 32)
+        assert origin.source.parameters.log_prominence==(.75 if mode==q.CellAlgorithm.LOG_WATERSHED else .5)
+
+
+@pytest.mark.skipif(not q.has_gui or not q.has_project or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='desktop batch LoG recipe')
+def test_log_gui_batch_captures_recipe_and_checkpoint(tmp_path):
+    doc,obj,t=scene();project=q.Project();image=project.add_document(doc)
+    preset=q.ProjectBatchOptions();preset.kind=q.ProjectBatchKind.CELLS;preset.cells=parameters()
+    # The inspector uses the identity basis for an OD-sum workflow.
+    expected=q.ProjectBatchRequest(project,q.StainTransform([[1,0,0],[0,1,0]],CONTRACT['white']),options=preset)
+    options=q.GuiOptions();options.batch_options=preset;options.batch_output_directory=str(tmp_path/'batch')
+    options.analysis_vectors=[value for row in CONTRACT['vectors'] for value in row];options.analysis_white=CONTRACT['white']
+    options.inputs=[event(4,q.GuiInputKind.RUN_BATCH_KEY),event(8,q.GuiInputKind.MOVE,wait=q.GuiInputWait.BATCH_FINISHED)]
+    report=q.show(project,frame_limit=35,capture_path=str(tmp_path/'log-batch.ppm'),options=options)
+    assert report.batch_state=='succeeded' and not report.batch_error
+    assert report.batch_result.parameters_sha256==expected.parameters_sha256
+    saved=q.Project.open(report.batch_result.images[0].path).document(image).latest_cells(obj).result
+    assert saved.algorithm=='qpx.log-watershed/1' and saved.parameters.context_padding==32 and saved.cell_count==3
+    assert report.ui_overflow_items==0
