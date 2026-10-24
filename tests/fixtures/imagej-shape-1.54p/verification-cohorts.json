@@ -1,0 +1,63 @@
+{
+  "test_imagej_shape_reference": [
+    "test_native_fixture_rejects_changed_bytes[index.txt]",
+    "test_native_fixture_rejects_changed_bytes[large_disks.maxima.u8]",
+    "test_native_fixture_rejects_changed_bytes[ndpi_context0.input.u8]",
+    "test_native_fixture_rejects_changed_bytes[ndpi_context32.mask.u8]",
+    "test_shape_capture_and_native_derivatives_are_exact",
+    "test_shape_capture_rejects_changed_bytes[contract.json]",
+    "test_shape_capture_rejects_changed_bytes[ndpi_context0/mask.u8.gz]",
+    "test_shape_capture_rejects_changed_bytes[ndpi_context32/maxima.u8.gz]",
+    "test_shape_capture_rejects_changed_bytes[reference.json]",
+    "test_shape_capture_rejects_changed_bytes[runtime.log]",
+    "test_shape_capture_rejects_wrong_identity[generator_sha256]",
+    "test_shape_capture_rejects_wrong_identity[input_generator_sha256]",
+    "test_shape_capture_rejects_wrong_identity[upstream]"
+  ],
+  "test_label_comparison": [
+    "test_contingency_metrics_match_direct_pixel_pair_oracle[0]",
+    "test_contingency_metrics_match_direct_pixel_pair_oracle[10]",
+    "test_contingency_metrics_match_direct_pixel_pair_oracle[11]",
+    "test_contingency_metrics_match_direct_pixel_pair_oracle[1]",
+    "test_contingency_metrics_match_direct_pixel_pair_oracle[2]",
+    "test_contingency_metrics_match_direct_pixel_pair_oracle[3]",
+    "test_contingency_metrics_match_direct_pixel_pair_oracle[4]",
+    "test_contingency_metrics_match_direct_pixel_pair_oracle[5]",
+    "test_contingency_metrics_match_direct_pixel_pair_oracle[6]",
+    "test_contingency_metrics_match_direct_pixel_pair_oracle[7]",
+    "test_contingency_metrics_match_direct_pixel_pair_oracle[8]",
+    "test_contingency_metrics_match_direct_pixel_pair_oracle[9]",
+    "test_matching_rejects_invalid_label_canvases[bad0]",
+    "test_matching_rejects_invalid_label_canvases[bad1]",
+    "test_matching_rejects_invalid_label_canvases[bad2]",
+    "test_matching_rejects_unbounded_dense_pair_scratch"
+  ],
+  "test_qupath_cell_debug": [
+    "test_debug_capture_rejects_changed_bytes[debug-stack.json]",
+    "test_debug_capture_rejects_changed_bytes[debug-stack.tif]",
+    "test_debug_capture_rejects_changed_bytes[driver.log]",
+    "test_debug_capture_rejects_generator_identity_change",
+    "test_debug_capture_reproduces_all_506_ordinary_nuclei"
+  ],
+  "test_qupath_ndpi_cells_reference": [
+    "test_pinned_real_slide_capture_and_independent_label_ledger",
+    "test_real_slide_characterization_preserves_pixels_tiles_and_independent_features",
+    "test_reference_crop_allocates_only_roi_with_context_offset",
+    "test_reference_rejects_changed_capture_bytes[body.u32le.gz]",
+    "test_reference_rejects_changed_capture_bytes[cells.geojson]",
+    "test_reference_rejects_changed_capture_bytes[contract.json]",
+    "test_reference_rejects_changed_capture_bytes[input.png]",
+    "test_reference_rejects_changed_capture_bytes[nucleus.u32le.gz]",
+    "test_reference_rejects_changed_capture_bytes[qupath.log]",
+    "test_reference_rejects_changed_capture_bytes[reference.json]",
+    "test_reference_rejects_changed_manifest_identity[contract_sha256]",
+    "test_reference_rejects_changed_manifest_identity[fixture]",
+    "test_reference_rejects_changed_manifest_identity[generator_sha256]",
+    "test_reference_rejects_changed_manifest_identity[upstream]",
+    "test_reference_rejects_inconsistent_labels[collision]",
+    "test_reference_rejects_inconsistent_labels[long_canvas]",
+    "test_reference_rejects_inconsistent_labels[short_canvas]",
+    "test_reference_rejects_inconsistent_labels[wrong_count]",
+    "test_reference_rejects_inconsistent_labels[wrong_ledger]"
+  ]
+}

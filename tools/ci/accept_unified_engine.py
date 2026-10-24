@@ -26,8 +26,10 @@ parser.add_argument('--ndpi-readers',action='store_true',help='Also require real
 parser.add_argument('--rendered-loop',action='store_true',help='Require ordinary, startup and bounded long-session rendered-loop timing cases')
 parser.add_argument('--gui-stack',action='store_true',help='Require repeated native project startup on the default Windows executable stack')
 parser.add_argument('--watershed-bodies',action='store_true',help='Require strict-radius production body recipes, native expansion and pinned comparison')
+parser.add_argument('--sampled-shape',action='store_true',help='Also require all 26 frozen native masks/maxima and 53 capture/cohort checks; implies watershed bodies')
 parser.add_argument('--linux-only',action='store_true',help='Audit only the three successful Linux jobs; never accepts the full matrix')
 args=parser.parse_args();RUN=args.run;COMMIT=args.commit
+args.watershed_bodies=args.watershed_bodies or args.sampled_shape
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 def junit(path):
@@ -80,6 +82,23 @@ for job in run['jobs']:
     entry=dict(name=job['name'],url=job['url'],status=job['status'],conclusion=job['conclusion'],native=junit(folder/'native-tests.xml'))
     assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)
     native_cases=list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase'))
+    if args.sampled_shape:
+        selected=[t for t in native_cases if t.get('name')=='log_watershed']
+        assert len(selected)==1 and 'Sampled shape 26 frozen masks and maxima passed' in selected[0].findtext('system-out',''), 'missing frozen sampled-shape native conformance'
+        fixture='tests/fixtures/imagej-shape-1.54p/capture/manifest.json'
+        assert (ROOT/fixture).read_bytes()==subprocess.check_output(['git','-C',str(ROOT),'show',COMMIT+':'+fixture]), 'shape reference differs from dispatched source'
+        entry['sampled_shape']=dict(native_frozen_masks_and_maxima=26,capture_manifest_sha256=sha(ROOT/fixture),production_integrated=False)
+        if (folder/'python-tests.xml').exists():
+            expected=json.loads((ROOT/'tests/fixtures/imagej-shape-1.54p/verification-cohorts.json').read_text())
+            all_cases=list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase'))
+            counts={}
+            for classname,names in expected.items():
+                cases=[t for t in all_cases if t.get('classname','').rsplit('.',1)[-1]==classname]
+                assert len(cases)==len(names) and sorted(t.get('name') for t in cases)==names, 'sampled-shape verification cohort differs: '+classname
+                assert all(all(t.find(k) is None for k in ['failure','error','skipped']) for t in cases), 'sampled-shape verification case did not pass'
+                counts[classname]=len(cases)
+            assert sum(counts.values())==53
+            entry['sampled_shape']['python_cohorts']=counts
     assert {'masked_gaussian','log_watershed','log_cell_recipe','decimal_quantities','cells','geometry'} <= {t.get('name') for t in native_cases}
     assert entry['native']['skipped']==0
     if (folder/'python-tests.xml').exists():
@@ -609,6 +628,7 @@ report['linux_engineering_scope_accepted']=True
 report['ndpi_readers_required']=args.ndpi_readers
 report['gui_stack_required']=args.gui_stack
 report['watershed_bodies_required']=args.watershed_bodies
+report['sampled_shape_required']=args.sampled_shape
 report['performance_accepted']=False
 report['macos_accepted']=False
 report['release_ready']=False
