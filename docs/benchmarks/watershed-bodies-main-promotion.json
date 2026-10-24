@@ -1,0 +1,20 @@
+{
+  "schema": "qpx.engine-main-promotion/1",
+  "candidate": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+  "main_before": "857c6597698e97e0096374b18a09a397538bd4aa",
+  "main_after": null,
+  "main_promoted": false,
+  "engineering_gate_accepted": true,
+  "receipts": {
+    "watershed-bodies-windows-linux.json": "8d5c86d1ebf8d8ee3172ab2774f819e81544cbcc8776f0da32c748972a06d438",
+    "portable-body-windows-linux.json": "fceddf6ec4351f6cc7d62779ad9ff35d69cb1651ac438c65b7edf51f3d7a137f",
+    "watershed-bodies-macos.json": "3f30609adb2c132c5c50662919ea39a9b04ab5c9e32bdea236cbc439d2f617ec"
+  },
+  "native_macos_architectures": [
+    "arm64",
+    "x86_64"
+  ],
+  "scope": "Exact validated source only. Later internal topology/sampled-shape candidates are excluded. This is source-branch promotion; it does not publish a supported package or accept outstanding M0-M7 science/hardware/license/release requirements.",
+  "release_ready": false,
+  "overall_project_complete": false
+}
