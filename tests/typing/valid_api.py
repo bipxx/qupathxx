@@ -482,3 +482,13 @@ def watershed_body_recipe() -> q.CellParameters:
 
 def sampled_watershed_recipe() -> q.CellParameters:
     return q.CellParameters(algorithm=q.CellAlgorithm.SAMPLED_LOG_WATERSHED_BODIES)
+
+
+def case_summary(snapshot: q.TmaGrid, table: str) -> str:
+    options = q.GuiOptions()
+    options.tma_case_summary = True
+    options.tma_measurements_path = 'measurements.csv'
+    options.tma_value_column = 'mean_red'
+    options.tma_weight_column = 'pixels'
+    options.tma_allow_unversioned = False
+    return q.tma_case_summary_csv(snapshot, table, 'mean_red', 'pixels')

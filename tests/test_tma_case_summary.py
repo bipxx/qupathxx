@@ -112,3 +112,20 @@ def test_selectors_malformed_csv_and_byte_limits():
     for kwargs in [dict(value_column='value'), dict(weight_column='weight'), dict(table=table)]:
         with pytest.raises(ValueError):
             q.tma_case_summary_csv(snapshot, **kwargs)
+
+
+def test_signed_cancellation_keeps_small_replicate_contribution():
+    doc, ids = scene()
+    snapshot = doc.tma_grid()
+    table = measurement_table(snapshot, [(ids[0], '1e16', 1), (ids[0], 1, 1), (ids[0], '-1e16', 1)])
+    result = next(r for r in rows(q.tma_case_summary_csv(snapshot, table, 'value', 'weight')) if r['measurement_rows'] == '3')
+    assert float(result['value_sum']) == float(result['weighted_sum']) == 1
+    assert float(result['mean']) == pytest.approx(1/3)
+
+
+def test_mean_underflow_cannot_silently_become_zero():
+    doc, ids = scene()
+    snapshot = doc.tma_grid()
+    table = measurement_table(snapshot, [(ids[0], '1e-323', 1), *[(ids[0], 0, 1)]*4])
+    with pytest.raises((RuntimeError, OverflowError)):
+        q.tma_case_summary_csv(snapshot, table, 'value', 'weight')

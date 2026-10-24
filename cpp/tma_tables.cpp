@@ -79,10 +79,16 @@ std::string tma_case_summary_csv(const TmaGrid& grid,const std::string& table,co
     struct Sum {
         double value=0,correction=0;
         void add(double v) {
-            const auto adjusted=v-correction,next=value+adjusted;
-            if(!std::isfinite(adjusted) || !std::isfinite(next)) throw std::overflow_error("TMA case sum exceeds numeric range");
-            correction=(next-value)-adjusted;value=next;
+            const auto next=value+v;
+            if(!std::isfinite(next)) throw std::overflow_error("TMA case sum exceeds numeric range");
+            // Neumaier compensation retains a small contribution even when
+            // a later, larger term cancels the running sum.
+            const auto delta=std::abs(value)>=std::abs(v)?(value-next)+v:(v-next)+value;
+            const auto corrected=correction+delta;
+            if(!std::isfinite(corrected)) throw std::overflow_error("TMA case compensation exceeds numeric range");
+            correction=corrected;value=next;
         }
+        double total() const {const auto result=value+correction;if(!std::isfinite(result)) throw std::overflow_error("TMA case sum exceeds numeric range");return result;}
     };
     struct Stats {
         std::uint64_t cores=0,present=0,missing=0,measured=0,rows=0,ignored=0;
@@ -152,9 +158,15 @@ std::string tma_case_summary_csv(const TmaGrid& grid,const std::string& table,co
             std::to_string(st.rows)+','+std::to_string(st.ignored)+','+quote(value_column)+','+quote(weight_column)+','+quote(digest)+','+
             quote(st.rows?(versioned?"verified":"unversioned"):"no_measurements")+',';
         if(st.rows) {
-            const auto mean=st.values.value/double(st.rows);
-            line+=real(st.values.value)+','+real(st.weights.value)+','+real(st.weighted.value)+','+real(mean)+','+
-                (st.weights.value>0?real(st.weighted.value/st.weights.value):"")+','+real(st.minimum)+','+real(st.maximum);
+            const auto values=st.values.total(),weights=st.weights.total(),weighted=st.weighted.total();
+            auto divide=[](double numerator,double denominator) {
+                const auto result=numerator/denominator;
+                if(!std::isfinite(result)) throw std::overflow_error("TMA case mean exceeds numeric range");
+                if(numerator!=0 && result==0) throw std::underflow_error("TMA case mean is below numeric range");
+                return result;
+            };
+            line+=real(values)+','+real(weights)+','+real(weighted)+','+real(divide(values,double(st.rows)))+','+
+                (weights>0?real(divide(weighted,weights)):"")+','+real(st.minimum)+','+real(st.maximum);
         } else line+=",,,,,,";
         line+="\r\n";csv.append(line);
     }
