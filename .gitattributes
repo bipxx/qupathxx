@@ -81,3 +81,4 @@ tools/compare_native_shape.py text eol=lf
 tools/upstream/imagej_shape_reference.groovy text eol=lf
 tests/fixtures/imagej-shape-1.54p/** -text whitespace=cr-at-eol,-blank-at-eol
 tests/fixtures/imagej-shape-1.54p/native/*.u8 -diff
+tools/profile_sampled_log.py text eol=lf
