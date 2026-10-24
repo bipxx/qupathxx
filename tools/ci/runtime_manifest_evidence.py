@@ -59,6 +59,9 @@ def audit(folder, wheel, root, commit, gui=False):
         actual = runtime.inspect_archive(candidate, gui=True, native_archive=True)
         runtime.require(runtime.canonical_json(read(native_manifest)) == runtime.canonical_json(actual),
                         'standalone runtime manifest differs from actual archive')
+        wheel_files = {item['path']: item['sha256'] for item in observed['files']}
+        runtime.require(all(item['path'] == 'README.txt' or wheel_files.get('qupathxx/'+item['path']) == item['sha256']
+                            for item in actual['files']), 'standalone archive is not derived from the audited wheel')
         result.update(native_manifest_sha256=digest(native_manifest), native_files=len(actual['files']),
                       native_binaries=len(actual['binaries']), native_dependency_edges=len(actual['dependency_edges']))
     else:
