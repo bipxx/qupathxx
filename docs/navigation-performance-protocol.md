@@ -7,7 +7,7 @@ this hardware; large-object, large-pyramid, reader, analysis and long-batch
 budgets remain separate requirements in the project plan.
 
 Use the exact Windows GUI wheel from native source
-`75758a2bcb1f6455d9116900a7de65a433ab54dc`, after its source-specific installed
+`2afdcb99555bf142211cdfa836a4671a6f54bbf1`, after its source-specific installed
 Windows/Linux artifact audit passes. The trial record must retain the wheel,
 native and benchmark script hashes, compiled Git revision and source fingerprint.
 Use a fresh installation without software OpenGL DLLs. Require the actual
@@ -63,7 +63,7 @@ The driver rejects earlier/partial engine audits before opening a window. It
 checks the installed binary against the audited GUI artifact, retains all raw
 trials, phase traces, logs, load readings and failures, and reports only the
 named navigation target's acceptance. Use the existing source auditor with
-`--ndpi-readers --rendered-loop --gui-stack` to prepare the required full engine audit.
+`--ndpi-readers --rendered-loop --gui-stack --watershed-bodies` to prepare the required full engine audit.
 
 The earlier source459 was not qualified: its GUI matrix failed a standalone
 project-startup case with a native stack-overflow status. Source794 moves large
@@ -74,3 +74,11 @@ full matrix before any qualification trial. Workload, hardware, tolerances,
 The combined source757 also separates the four remaining mixed-type Darwin
 declarations found by complete native compilation; it includes the source794
 GUI stack change and its repeated-launch regression.
+
+The qualification engine is now source2afd, adding the explicit watershed-body
+recipe and private TIFF-zlib symbol isolation. Its full source-specific installed
+matrix must pass all four audit modes, including all 42 production body cases,
+before a hardware trial starts. Fixture, renderer, driver, load limit, camera,
+frame counts, viewer-script bytes and 33 ms target remain frozen. The earlier
+source757 trial set remains retained and unaccepted because two trials exceeded
+the declared CPU-load limit; it cannot qualify this changed engine.

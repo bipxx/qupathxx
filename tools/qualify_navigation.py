@@ -12,7 +12,7 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ENGINE = "75758a2bcb1f6455d9116900a7de65a433ab54dc"
+ENGINE = "2afdcb99555bf142211cdfa836a4671a6f54bbf1"
 TOOL_SHA = "acb0f034fcc818519cefc20f3bc7222c6b470b30169d76a49a07b0dc235a3bc2"
 FIXTURE_SHA = "edf4a1ccf395c7000ae93ad3b44c07d97043810e00be0c1d167dd09bbe436e46"
 RENDERER = "NVIDIA GeForce RTX 4090/PCIe/SSE2"
@@ -140,6 +140,9 @@ def main():
                 "audited GUI timing contracts are missing")
         require(audit.get("gui_stack_required") is True and gui[0].get("gui_stack", {}).get("passed") == 1,
                 "audited default-stack native startup regression is missing")
+        require(audit.get("watershed_bodies_required") is True and
+                gui[0].get("watershed_bodies", {}).get("passed") == 42,
+                "audited production watershed-body workflows are missing")
         import qupathxx as q
         from qupathxx import _native
         native = Path(_native.__file__).resolve()
