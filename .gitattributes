@@ -137,3 +137,6 @@ tools/ci/linux_runtime_manifest_evidence.py text eol=lf
 tools/ci/run_manylinux.py text eol=lf
 tests/test_linux_runtime_manifest.py text eol=lf
 .github/workflows/ci.yml text eol=lf
+
+# Accepted resampling receipts use stable LF bytes.
+docs/benchmarks/region-resampling-*.json text eol=lf

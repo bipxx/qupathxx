@@ -1,0 +1,664 @@
+{
+  "schema": "qpx.macos-native-audit/1",
+  "source": "f2e8c2ff5b044fd530c959c6d9c3b874d37a31b6",
+  "run": "https://github.com/bipxx/qupathxx/actions/runs/40127765520",
+  "jobs": [
+    {
+      "architecture": "arm64",
+      "native_passed": 47,
+      "frozen_shape_masks_and_maxima": 26,
+      "sampled_production_native": true,
+      "evidence_sha256": {
+        "batch-runtime-links.log": "4afc2e4a4a2cd6c7b7c850b6e7eda2ac5c686404e65e27a0d9664e0d35f65fe1",
+        "binary-architecture.log": "ace2cebdca953c0e043c2b1b7acb18d24e37032627e7740c2a39caa70a73b49f",
+        "build.log": "b50493d5069a186af1c91e090663f099602d0dac9e0d1b4e029f4546a39eb75e",
+        "configure.log": "68f578824be082f5b8209fdca1780988dc8bcf8a8a1d8138cc270adcae2c963d",
+        "geos-build.log": "6a2f9020bd6e48bae3eb97e7c048a34be97c768e5b7c198a0798dfca56619dfa",
+        "macho-otool-0000.log": "4afc2e4a4a2cd6c7b7c850b6e7eda2ac5c686404e65e27a0d9664e0d35f65fe1",
+        "macho-otool-0001.log": "fc2ae976b449fb32410bd4752b3df0020c3e28f4151b58fec6a7bd78e61aadf2",
+        "macho-otool-0002.log": "64c3fcd4dd4ca81e484cbbb08730f89b4f1203d80f9f843740e330eb249e8dc0",
+        "macho-otool-0003.log": "2244b29a10b194415bd2bf35931c136a5cb1f8b690183a7d92988458ab1c048c",
+        "macho-otool-0004.log": "c24bfd2181b4a231ea1e97b99ce7d19b35a069d4471cf815d8f553e8f66e42c8",
+        "macho-otool-0005.log": "7be1e4b394270da54b33594320d4662b5c4009847c65c853da0b7faa6dc1d11a",
+        "macho-otool-0006.log": "e2bb4b23857081d2ade58449026dbfc809e6f67666bf306acb0cca109c9d61f0",
+        "macos-native-file-inventory.json": "ebd047c9f8ef70cdd3d9a76b50d1bd5da64cb00066f643810cd05ab571413c51",
+        "macos-native-files.zip": "abd8ae90e04bc77bee74ac6953ed75cf40526b6ea68b90f35b1af4e980740080",
+        "macos-native-inventory.log": "12db2a04a5feb14742a03f9551fdec3995f7b3f21ce12b857e93dc07aec6dd60",
+        "macos-native-relocation.log": "fdcd06f3553f91f3cc0a14d8a4bfa2668c8cddb6a3c833009eadc9b204896005",
+        "macos-otool-probe.json": "217b94f61fae94f0094428036e097041724eafe8bdbddf5cc6d7d83838d705a5",
+        "macos-relocated-runtime.json": "3fc52f489ccc4a6fd0f3df129376c037a2596adede2de3a5e0568762eb3e2280",
+        "macos-relocated-runtime.log": "705da87c3c983540a572c90f6bab3b46245925be8d388f36792d25c6205d3c27",
+        "macos-relocation-source-roots.json": "b8d21e6e2a11b8b442cc8ec5058f123088ef9ae9b8cce327f2b84e3d8453569d",
+        "native-tests.log": "8ac68f9bf2bb6f14c1a14181be5d6b6a3b76180c041ab2997a18ae6cb9396269",
+        "native-tests.xml": "fd6b30896f67e706ece219e4d2d9fabb70c1f4320767e46102271a91f6613227",
+        "opencv-build.log": "434f85b2b31a8782639f4f06fd9437471fb80fc2d24c8c6a5e2e754d78f34ae1",
+        "region-cli.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "result.json": "0c4d74fec16f8d3e703d919718ffb27bc2b73404e4776ea7dceea70624f02694"
+      },
+      "ci_result": {
+        "schema": "qpx.macos-native-validation/1",
+        "commit": "f2e8c2ff5b044fd530c959c6d9c3b874d37a31b6",
+        "platform": "macOS-15.7.9-arm64-arm-64bit",
+        "architecture": "arm64",
+        "python": "3.12.10 (v3.12.10:0cc81280367, Apr  8 2025, 08:46:59) [Clang 13.0.0 (clang-1300.0.29.30)]",
+        "python_executable": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python",
+        "compiler": "Apple clang version 17.0.0 (clang-1700.0.13.5)",
+        "cmake": "cmake version 4.4.4",
+        "ninja": "1.13.0.git.kitware.jobserver-pipe-1",
+        "runner_image": {
+          "os": "macos15",
+          "version": "20260907.0337.1"
+        },
+        "flags": {
+          "CMAKE_BUILD_TYPE": "Release",
+          "CMAKE_OSX_ARCHITECTURES": "arm64",
+          "QUPATHXX_BUILD_TESTS": "ON",
+          "QUPATHXX_BUILD_PYTHON": "OFF",
+          "QUPATHXX_BUILD_GUI": "OFF",
+          "QUPATHXX_BUILD_GEOS": "ON",
+          "QUPATHXX_BUNDLE_GEOS": "OFF",
+          "GEOS_ROOT": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk",
+          "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+          "QUPATHXX_BUNDLE_OPENSLIDE": "OFF",
+          "QUPATHXX_BUILD_TIFF": "ON",
+          "QUPATHXX_BUILD_PROJECT": "ON",
+          "QUPATHXX_BUILD_INTERCHANGE": "ON",
+          "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "ON",
+          "OpenCV_DIR": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/cmake/opencv4",
+          "QUPATHXX_OPENCV_NOTICES": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/licenses/opencv"
+        },
+        "tests": {
+          "passed": 47,
+          "names": [
+            "analysis",
+            "cell_calibration",
+            "cell_expansion",
+            "cell_records",
+            "cell_tables",
+            "cells",
+            "classes",
+            "classifier",
+            "classifier_io",
+            "core",
+            "decimal_quantities",
+            "document_edits",
+            "file_fingerprint",
+            "geometry",
+            "geometry_edits",
+            "gui_replay",
+            "image_server",
+            "interchange",
+            "log_cell_recipe",
+            "log_watershed",
+            "masked_gaussian",
+            "measurement_tables",
+            "object_classifier",
+            "object_snapshots",
+            "pixel_features",
+            "pixel_workflows",
+            "project",
+            "project_batch",
+            "project_save",
+            "provenance",
+            "raw_image",
+            "recovery",
+            "resampling",
+            "selection",
+            "sha256",
+            "source_identity",
+            "spatial",
+            "stain_estimation",
+            "stains",
+            "thumbnail",
+            "tile_scheduler",
+            "tissue",
+            "tissue_contours",
+            "tissue_records",
+            "tma",
+            "view_tiles",
+            "viewer_session"
+          ],
+          "junit_sha256": "fd6b30896f67e706ece219e4d2d9fabb70c1f4320767e46102271a91f6613227"
+        },
+        "dependencies": {
+          "geos": {
+            "lib/libgeos.3.15.0.dylib": "ca9fcf9cb6c44142fe04fa8a017952486db72199b5c189c6d19093b0b63b8368",
+            "lib/libgeos.dylib": "ca9fcf9cb6c44142fe04fa8a017952486db72199b5c189c6d19093b0b63b8368",
+            "lib/libgeos_c.1.21.0.dylib": "a847347ca183d79bc2268166ad9b13fd6adeb4233137dd8c3ed4faa1c2725223",
+            "lib/libgeos_c.1.dylib": "a847347ca183d79bc2268166ad9b13fd6adeb4233137dd8c3ed4faa1c2725223",
+            "lib/libgeos_c.dylib": "a847347ca183d79bc2268166ad9b13fd6adeb4233137dd8c3ed4faa1c2725223",
+            "share/licenses/geos/COPYING": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+          },
+          "opencv": {
+            "lib/libopencv_core.a": "d55d76164d0f15b1e709d7b53ab8e9ebf9cd55f8bc40280ba3aa9b0151d833cd",
+            "lib/libopencv_ml.a": "2751f72357b5b77c7cb2d983c298887838f6fc6aba9ec8ebaa4ebaf97436bfdd",
+            "lib/opencv4/3rdparty/libtegra_hal.a": "baa5c2be7d6e2ea0d736f5459748a6e921b34fdeb25794644e009bae7935ea18",
+            "lib/opencv4/3rdparty/libzlib.a": "b97318e79077fdf82984bebbed41b79ec1ee5124a7a4bb0d218d9f80e5558341",
+            "share/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "share/licenses/opencv/SOURCE-NOTICES.txt": "3d02753ef4679f163387971bf7c7cab9d308fbb73668eadf8a1fea6b61851d64",
+            "share/licenses/opencv/softfloat-notice.txt": "27adefc3d001216b8be5af628e3583575fedc22ea6f41917e3008c8ed8cb8ce2",
+            "share/licenses/opencv/zlib-notice.txt": "4506def87bbb9339b9884dd15b5790478915210571a6547b633a569a2c78cad5",
+            "share/licenses/opencv4/SoftFloat-COPYING.txt": "0c5b08365136da52639d777f1ebfc03988b0169d80655c90c59f1b3fa3e526a2",
+            "share/licenses/opencv4/zlib-LICENSE": "845efc77857d485d91fb3e0b884aaa929368c717ae8186b66fe1ed2495753243"
+          }
+        },
+        "native_batch_sha256": "f97be8bb4e9cb320e407c1d85aa3a2abaa42c1f7f1a50ba1a01fb7823f438a4f",
+        "native_region_sha256": "006f3d7954908a06f39179bb8bd2af75b27676a140d63cfb08d3be62502b4bb0",
+        "region_cli_exact": true,
+        "loader_overrides_used": false,
+        "python_gui_openslide_validated": false,
+        "release_ready": false,
+        "scope": "Native engine plus original build-host snapshot, relocated native archive and synthetic region/batch/GEOS runtime probes. Original snapshot may embed SDK paths; relocated copies use direct package paths. No macOS wheel, OpenSlide, GUI, installer, publisher signing, older-OS or supported release acceptance."
+      },
+      "resampling_native": {
+        "passed": 1,
+        "independent_oracle_shapes": 2205
+      },
+      "resampling_sources": {
+        "CMakeLists.txt": {
+          "git_blob_sha256": "6adc2e2eda4b94913be06447ad897630974c9a1a82c63bb80fdcfe64d12db454",
+          "checked_out_sha256": "979e6a42787a51f34f24c66667edbd57084be9bcdcd88aebfe29f6074acd3f64",
+          "crlf_normalized": true
+        },
+        "cpp/resampling.cpp": {
+          "git_blob_sha256": "cb08260ee2c441dd9ac32744dc12b89f5ac5a731ffc8d99fff5e072523be6a71",
+          "checked_out_sha256": "cb08260ee2c441dd9ac32744dc12b89f5ac5a731ffc8d99fff5e072523be6a71",
+          "crlf_normalized": false
+        },
+        "cpp/include/qupathxx/resampling.hpp": {
+          "git_blob_sha256": "5e00606f0d1df1a60a160db7fb2d323c02672159c64bda10747b2071790713b8",
+          "checked_out_sha256": "f5436e240bc35d1de60f9386d5ac26247e78ba16726899de7085a2a3d1cbde75",
+          "crlf_normalized": true
+        },
+        "cpp/thumbnail.cpp": {
+          "git_blob_sha256": "71ff501a57e119f7032c980fe12ffb9504027363521707cfb2d8b7119b5e7301",
+          "checked_out_sha256": "47da8089c0f42fde103d26e70558898e6a5ca430ccb58445ffa1862bd6f3878e",
+          "crlf_normalized": true
+        },
+        "cpp/region_main.cpp": {
+          "git_blob_sha256": "17b8d3ec56d22ec98ab40a42e31cd7372e5fd49ff54a1a2ca610409149a2dd5e",
+          "checked_out_sha256": "b0e5d46c283a9194ac4460fb3fa0dec47cd3b043bb3d8e3ece1afbf9c82f025d",
+          "crlf_normalized": true
+        },
+        "cpp/bindings.cpp": {
+          "git_blob_sha256": "1a4d2c5e2a45efc15db5a3559d862f1b6831bc0f342923e87f003c0acf22735e",
+          "checked_out_sha256": "52e8c619493e547bbc922e403fd6c6c6ea3f2bb97b53ffb0f357a1320e855dd2",
+          "crlf_normalized": true
+        },
+        "cpp/tests/resampling_tests.cpp": {
+          "git_blob_sha256": "63a9bd37873d2b4df71167fe1ec1f7bb9d82e88b77bc0c865f53b47edb80c82a",
+          "checked_out_sha256": "e6ec764148d9a7a29dd4abc787ebf42c68d26851427d981bf0a42740cfa7b59c",
+          "crlf_normalized": true
+        },
+        "src/qupathxx/__init__.py": {
+          "git_blob_sha256": "1a3f5e6636744189536280a858ceb7a39b729f834207c56ed6697d03932bca14",
+          "checked_out_sha256": "21a703c845f3c6335c25744f6209a7c0f8db2c58e2bbd11959b961e0023de78f",
+          "crlf_normalized": true
+        },
+        "src/qupathxx/__init__.pyi": {
+          "git_blob_sha256": "a5190f9540f2e31438d1565d4a1f9213b1244d986e3a263bf3848d89be93c973",
+          "checked_out_sha256": "c555e945ecd097a363852ec080bf4d04f0ebd1a29e54a00ddda74695420c84e7",
+          "crlf_normalized": true
+        },
+        "src/qupathxx/_native.pyi": {
+          "git_blob_sha256": "361e1527b8dca067b3879fbd0307c89b107ff45df0ec5e6fb03f093b9f05ddf0",
+          "checked_out_sha256": "e3695838c7c3950db99a18fb703277252a2bfba2bb42385c2b13652a6afa5f2c",
+          "crlf_normalized": true
+        },
+        "tests/test_resampling.py": {
+          "git_blob_sha256": "a1861c7d0264b81c26626dc111a97fe463af7937b0b2aec0b6d1e9c67ab1ac1c",
+          "checked_out_sha256": "66e0f73d0a65ff102acc4b1e26d6a02e1454126ab14f1cb43a5249ae3eb0cba2",
+          "crlf_normalized": true
+        },
+        "tests/test_resampling_evidence.py": {
+          "git_blob_sha256": "cb38ba72036e97520dbe223a3057dd8c350c607a4c40d5ddca10a25f91708ed4",
+          "checked_out_sha256": "cb38ba72036e97520dbe223a3057dd8c350c607a4c40d5ddca10a25f91708ed4",
+          "crlf_normalized": false
+        },
+        "tools/ci/resampling_evidence.py": {
+          "git_blob_sha256": "8195ba6f2c69d726564495e8dc8cf160494360130abb154f275c363e5a1caa8c",
+          "checked_out_sha256": "8195ba6f2c69d726564495e8dc8cf160494360130abb154f275c363e5a1caa8c",
+          "crlf_normalized": false
+        },
+        "tools/ci/accept_unified_engine.py": {
+          "git_blob_sha256": "35c73f79444b6a9333bdcba900e1cd31f449d132886b6e3756345f081c0c3599",
+          "checked_out_sha256": "35c73f79444b6a9333bdcba900e1cd31f449d132886b6e3756345f081c0c3599",
+          "crlf_normalized": false
+        },
+        "tools/ci/accept_manylinux.py": {
+          "git_blob_sha256": "aaf4d27b3eb262d0d02fc4b1864477a2f74b06d2edd704d6708654855e783626",
+          "checked_out_sha256": "aaf4d27b3eb262d0d02fc4b1864477a2f74b06d2edd704d6708654855e783626",
+          "crlf_normalized": false
+        },
+        "tools/ci/accept_macos_native.py": {
+          "git_blob_sha256": "06766113064255e61d380c8a640ec34ab5e8a0283c9770d547a80dcb1b13160f",
+          "checked_out_sha256": "06766113064255e61d380c8a640ec34ab5e8a0283c9770d547a80dcb1b13160f",
+          "crlf_normalized": false
+        }
+      },
+      "small_frontier": {
+        "priority_keys": 64,
+        "heap_equivalence_cases": 1344,
+        "historical_domain_grid_checked": true
+      },
+      "tma_cases": {
+        "case_aggregation_checked": true,
+        "compensated_signed_sums_checked": true,
+        "mean_underflow_checked": true,
+        "cancellation_checked": true,
+        "signed_decimal_locale_checked": true,
+        "atomic_file_export_checked": true,
+        "input_size_checked": true,
+        "cohort_raw_pooling_checked": true,
+        "cohort_atomic_file_checked": true,
+        "oversized_read_transfer_bytes": null
+      },
+      "macho_inventory": {
+        "source": "f2e8c2ff5b044fd530c959c6d9c3b874d37a31b6",
+        "architecture": "arm64",
+        "tooling_sha256": {
+          "tools/ci/macos_native_inventory.py": "f565de3a2f555aafabd7312ff05dc04cc1712d4d0f41b5bd626d6a19a57dc74a",
+          "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+          "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+          "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+          "tools/ci/run_macos_native.py": "8ebee070c9e4f686d27eceb07798186823f5070ed703cd36d7b4b4afd2bc7b28",
+          "tools/ci/macos_inventory_evidence.py": "667dc35fe680175c55991a823389420421c644181d8697b1c104fbd827948c12",
+          ".github/workflows/ci.yml": "29b305afa5cdefb6ac7828b43891228e3a4934eaf1fbe2f5de0643e54be2a885"
+        },
+        "files": 14,
+        "binaries": 7,
+        "archive_sha256": "abd8ae90e04bc77bee74ac6953ed75cf40526b6ea68b90f35b1af4e980740080",
+        "manifest_sha256": "ebd047c9f8ef70cdd3d9a76b50d1bd5da64cb00066f643810cd05ab571413c51",
+        "otool_probe_sha256": "217b94f61fae94f0094428036e097041724eafe8bdbddf5cc6d7d83838d705a5",
+        "native_snapshot_accepted": true,
+        "sdk_paths_may_be_embedded": true,
+        "runtime_resolution_complete": false,
+        "relocated_package_validated": false,
+        "external_runtime_availability_verified": false,
+        "signing_verified": false,
+        "release_ready": false,
+        "scope": "Uploaded native CLI and selected SDK runtime/notice bytes reinspected at exact source; independent otool names/versions agree. Static SDK archives remain build-input ledger only. No install-name resolution, relocation, Python/GUI/OpenSlide, ABI, signing or supported release."
+      },
+      "macos_relocation": {
+        "source": "f2e8c2ff5b044fd530c959c6d9c3b874d37a31b6",
+        "architecture": "arm64",
+        "tooling_sha256": {
+          "tools/ci/macos_relocation_evidence.py": "9defffa07530738b2ab3ac68c6499de400eaefa3057adb6447e9261e6f930776",
+          "tools/ci/check_macos_relocated_runtime.py": "0f196503974c842bdd90ccad009b4261ce70cb3adc254764c60038070d2c6289",
+          "tools/ci/macos_relocate.py": "00cf7580e74d3b5140fdd76d4750dcea49a9dc4df852d6fdc2778322851a5180",
+          "tools/ci/macos_relocation_plan.py": "160f259e9a70634fcd1d9f45313681193019b8f1c08911c03f62a672a1329f80",
+          "tools/ci/macos_native_inventory.py": "f565de3a2f555aafabd7312ff05dc04cc1712d4d0f41b5bd626d6a19a57dc74a",
+          "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+          "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+          "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+          "tools/ci/run_macos_native.py": "8ebee070c9e4f686d27eceb07798186823f5070ed703cd36d7b4b4afd2bc7b28",
+          ".github/workflows/ci.yml": "29b305afa5cdefb6ac7828b43891228e3a4934eaf1fbe2f5de0643e54be2a885",
+          "tests/fixtures/project-v1.qpxproj": "bb79fc7a8e47896bc8793e10ed99efed9e9ffb7887a1b8a110cbdd003547a82b"
+        },
+        "source_archive_sha256": "abd8ae90e04bc77bee74ac6953ed75cf40526b6ea68b90f35b1af4e980740080",
+        "relocated_archive_sha256": "1620f4fe57277a0662b1ffe1d4a46b4b55738ec552b6f44fe80828b20337705a",
+        "plan_sha256": "0f20e76db0322280109ebd0558adbd7de60006994d4689cefb5cd08ae5a7f42a",
+        "files": 11,
+        "binaries": 4,
+        "execution": {
+          "commands": 11,
+          "execution_sha256": "f8831d25d86f7c7ca22e6cf50d651ecdc3f21fe37c81db83a33d503b9904fa82",
+          "ad_hoc_integrity_verified_on_builder": true,
+          "publisher_signature_verified": false
+        },
+        "runtime": {
+          "native_region_exact": true,
+          "native_batch_checkpoint": true,
+          "native_batch_csv": true,
+          "geos_union_area": 150,
+          "package_image_mappings_verified": true,
+          "loader_search_overrides_used": false,
+          "fixture_preserved": true
+        },
+        "relocated_native_host_engineering_accepted": true,
+        "publisher_signature_verified": false,
+        "older_os_compatibility_verified": false,
+        "python_gui_openslide_validated": false,
+        "arbitrary_abi_verified": false,
+        "release_ready": false,
+        "scope": "Exact-source original/relocated archive, Apple command/log and native region/batch/CSV/GEOS runtime proofs on builder. Fresh path with spaces and actual package image mappings; no search overrides. No older-OS, arbitrary ABI, macOS Python/GUI/OpenSlide, publisher signing or supported-release acceptance."
+      }
+    },
+    {
+      "architecture": "x86_64",
+      "native_passed": 47,
+      "frozen_shape_masks_and_maxima": 26,
+      "sampled_production_native": true,
+      "evidence_sha256": {
+        "batch-runtime-links.log": "4afc2e4a4a2cd6c7b7c850b6e7eda2ac5c686404e65e27a0d9664e0d35f65fe1",
+        "binary-architecture.log": "54ade753244e0ad7770febf1e587ffdc259f1875a14f0cc7b17857be21b50190",
+        "build.log": "458440b9538c52929bb98a32d925990a77b8056f6690f76f4dca7b1f5d72ecce",
+        "configure.log": "5c22f2d78fc892bba5ed1b500648ea86bbef9b32cb31a52bb84f85ca5bd69c70",
+        "geos-build.log": "80bc18047da7bda828abbd905792dce3c1792e0ea853ed2e94ee20b03e75847f",
+        "macho-otool-0000.log": "4afc2e4a4a2cd6c7b7c850b6e7eda2ac5c686404e65e27a0d9664e0d35f65fe1",
+        "macho-otool-0001.log": "fc2ae976b449fb32410bd4752b3df0020c3e28f4151b58fec6a7bd78e61aadf2",
+        "macho-otool-0002.log": "64c3fcd4dd4ca81e484cbbb08730f89b4f1203d80f9f843740e330eb249e8dc0",
+        "macho-otool-0003.log": "2244b29a10b194415bd2bf35931c136a5cb1f8b690183a7d92988458ab1c048c",
+        "macho-otool-0004.log": "c24bfd2181b4a231ea1e97b99ce7d19b35a069d4471cf815d8f553e8f66e42c8",
+        "macho-otool-0005.log": "7be1e4b394270da54b33594320d4662b5c4009847c65c853da0b7faa6dc1d11a",
+        "macho-otool-0006.log": "e2bb4b23857081d2ade58449026dbfc809e6f67666bf306acb0cca109c9d61f0",
+        "macos-native-file-inventory.json": "84518755bf4bdc65f677044fa9125f2a96c6d9424ff8615390f3f3860de88499",
+        "macos-native-files.zip": "5c8bc91a582b8227836b1188720430b158e149e49506b33461da4ca576a123e2",
+        "macos-native-inventory.log": "12db2a04a5feb14742a03f9551fdec3995f7b3f21ce12b857e93dc07aec6dd60",
+        "macos-native-relocation.log": "aee1d48426624b5944b5d1b8f37d2f2b002111b867a6b37fd097c665f3288ec2",
+        "macos-otool-probe.json": "d3fa9f16583f1b726000f11803e3c4883e5a21e662e46d2c4b8d810ec2051840",
+        "macos-relocated-runtime.json": "a4afe214461fe3e9d753249f591796c9c3861588390040c904765301f07f983e",
+        "macos-relocated-runtime.log": "063867685f90e8f188a03ce57f90c7ab493794417bf7ea02c8af008fcc6d2b8c",
+        "macos-relocation-source-roots.json": "b8d21e6e2a11b8b442cc8ec5058f123088ef9ae9b8cce327f2b84e3d8453569d",
+        "native-tests.log": "826f1d511622505ed5e3c0801287bb77d42f58db5700a0ac982a5c9f6b855a51",
+        "native-tests.xml": "d04ca3bf3c018ebc0c09549af173b0ba7b8f66f12235cf8e93398fd87f041ffa",
+        "opencv-build.log": "51c1f0c8d3239c549d308427d848697aa0309de15161c52766c0c00287f0d1fd",
+        "region-cli.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "result.json": "9488d780d73cd3972a791b6a20be328d7e141902d1ba89d1ab083a23017b42e8"
+      },
+      "ci_result": {
+        "schema": "qpx.macos-native-validation/1",
+        "commit": "f2e8c2ff5b044fd530c959c6d9c3b874d37a31b6",
+        "platform": "macOS-15.7.9-x86_64-i386-64bit",
+        "architecture": "x86_64",
+        "python": "3.12.10 (v3.12.10:0cc81280367, Apr  8 2025, 08:47:00) [Clang 13.0.0 (clang-1300.0.29.30)]",
+        "python_executable": "/Library/Frameworks/Python.framework/Versions/3.12/bin/python",
+        "compiler": "Apple clang version 17.0.0 (clang-1700.0.13.5)",
+        "cmake": "cmake version 4.4.4",
+        "ninja": "1.13.0.git.kitware.jobserver-pipe-1",
+        "runner_image": {
+          "os": "macos15",
+          "version": "20260824.0482.1"
+        },
+        "flags": {
+          "CMAKE_BUILD_TYPE": "Release",
+          "CMAKE_OSX_ARCHITECTURES": "x86_64",
+          "QUPATHXX_BUILD_TESTS": "ON",
+          "QUPATHXX_BUILD_PYTHON": "OFF",
+          "QUPATHXX_BUILD_GUI": "OFF",
+          "QUPATHXX_BUILD_GEOS": "ON",
+          "QUPATHXX_BUNDLE_GEOS": "OFF",
+          "GEOS_ROOT": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk",
+          "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+          "QUPATHXX_BUNDLE_OPENSLIDE": "OFF",
+          "QUPATHXX_BUILD_TIFF": "ON",
+          "QUPATHXX_BUILD_PROJECT": "ON",
+          "QUPATHXX_BUILD_INTERCHANGE": "ON",
+          "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "ON",
+          "OpenCV_DIR": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/cmake/opencv4",
+          "QUPATHXX_OPENCV_NOTICES": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/licenses/opencv"
+        },
+        "tests": {
+          "passed": 47,
+          "names": [
+            "analysis",
+            "cell_calibration",
+            "cell_expansion",
+            "cell_records",
+            "cell_tables",
+            "cells",
+            "classes",
+            "classifier",
+            "classifier_io",
+            "core",
+            "decimal_quantities",
+            "document_edits",
+            "file_fingerprint",
+            "geometry",
+            "geometry_edits",
+            "gui_replay",
+            "image_server",
+            "interchange",
+            "log_cell_recipe",
+            "log_watershed",
+            "masked_gaussian",
+            "measurement_tables",
+            "object_classifier",
+            "object_snapshots",
+            "pixel_features",
+            "pixel_workflows",
+            "project",
+            "project_batch",
+            "project_save",
+            "provenance",
+            "raw_image",
+            "recovery",
+            "resampling",
+            "selection",
+            "sha256",
+            "source_identity",
+            "spatial",
+            "stain_estimation",
+            "stains",
+            "thumbnail",
+            "tile_scheduler",
+            "tissue",
+            "tissue_contours",
+            "tissue_records",
+            "tma",
+            "view_tiles",
+            "viewer_session"
+          ],
+          "junit_sha256": "d04ca3bf3c018ebc0c09549af173b0ba7b8f66f12235cf8e93398fd87f041ffa"
+        },
+        "dependencies": {
+          "geos": {
+            "lib/libgeos.3.15.0.dylib": "74ac496cf73535c8f7d78398abcc2279b2ca2698752e79c1abff5ba25f118fd5",
+            "lib/libgeos.dylib": "74ac496cf73535c8f7d78398abcc2279b2ca2698752e79c1abff5ba25f118fd5",
+            "lib/libgeos_c.1.21.0.dylib": "6b0d93e2e5c4f1aadc3f0e976eced7f95703565e8558f4e919c480ae7e2fab33",
+            "lib/libgeos_c.1.dylib": "6b0d93e2e5c4f1aadc3f0e976eced7f95703565e8558f4e919c480ae7e2fab33",
+            "lib/libgeos_c.dylib": "6b0d93e2e5c4f1aadc3f0e976eced7f95703565e8558f4e919c480ae7e2fab33",
+            "share/licenses/geos/COPYING": "dc626520dcd53a22f727af3ee42c770e56c97a64fe3adb063799d8ab032fe551"
+          },
+          "opencv": {
+            "lib/libopencv_core.a": "b13a4f4fc96c80b5f2b4e2caf085138a695d6cf6b8bd0262b05db22553d05fea",
+            "lib/libopencv_ml.a": "3e7c3d64173497c0384b02c018884480a349d35696a9c83fa36388f0665040b6",
+            "lib/opencv4/3rdparty/libzlib.a": "0528511921bb27e56aaba4f66295f7216b816da1c3c8a0b1b9f98a81dee026bf",
+            "share/licenses/opencv/LICENSE": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30",
+            "share/licenses/opencv/SOURCE-NOTICES.txt": "3d02753ef4679f163387971bf7c7cab9d308fbb73668eadf8a1fea6b61851d64",
+            "share/licenses/opencv/softfloat-notice.txt": "27adefc3d001216b8be5af628e3583575fedc22ea6f41917e3008c8ed8cb8ce2",
+            "share/licenses/opencv/zlib-notice.txt": "4506def87bbb9339b9884dd15b5790478915210571a6547b633a569a2c78cad5",
+            "share/licenses/opencv4/SoftFloat-COPYING.txt": "0c5b08365136da52639d777f1ebfc03988b0169d80655c90c59f1b3fa3e526a2",
+            "share/licenses/opencv4/zlib-LICENSE": "845efc77857d485d91fb3e0b884aaa929368c717ae8186b66fe1ed2495753243"
+          }
+        },
+        "native_batch_sha256": "cba62495ce9b7a1c22b08ddefa2fba0c7df233fed09b175912697ba5b07c3990",
+        "native_region_sha256": "553915019d253c9dfe635a6a7f875e1f7802183182e8a507728ac1f5cdb16e52",
+        "region_cli_exact": true,
+        "loader_overrides_used": false,
+        "python_gui_openslide_validated": false,
+        "release_ready": false,
+        "scope": "Native engine plus original build-host snapshot, relocated native archive and synthetic region/batch/GEOS runtime probes. Original snapshot may embed SDK paths; relocated copies use direct package paths. No macOS wheel, OpenSlide, GUI, installer, publisher signing, older-OS or supported release acceptance."
+      },
+      "resampling_native": {
+        "passed": 1,
+        "independent_oracle_shapes": 2205
+      },
+      "resampling_sources": {
+        "CMakeLists.txt": {
+          "git_blob_sha256": "6adc2e2eda4b94913be06447ad897630974c9a1a82c63bb80fdcfe64d12db454",
+          "checked_out_sha256": "979e6a42787a51f34f24c66667edbd57084be9bcdcd88aebfe29f6074acd3f64",
+          "crlf_normalized": true
+        },
+        "cpp/resampling.cpp": {
+          "git_blob_sha256": "cb08260ee2c441dd9ac32744dc12b89f5ac5a731ffc8d99fff5e072523be6a71",
+          "checked_out_sha256": "cb08260ee2c441dd9ac32744dc12b89f5ac5a731ffc8d99fff5e072523be6a71",
+          "crlf_normalized": false
+        },
+        "cpp/include/qupathxx/resampling.hpp": {
+          "git_blob_sha256": "5e00606f0d1df1a60a160db7fb2d323c02672159c64bda10747b2071790713b8",
+          "checked_out_sha256": "f5436e240bc35d1de60f9386d5ac26247e78ba16726899de7085a2a3d1cbde75",
+          "crlf_normalized": true
+        },
+        "cpp/thumbnail.cpp": {
+          "git_blob_sha256": "71ff501a57e119f7032c980fe12ffb9504027363521707cfb2d8b7119b5e7301",
+          "checked_out_sha256": "47da8089c0f42fde103d26e70558898e6a5ca430ccb58445ffa1862bd6f3878e",
+          "crlf_normalized": true
+        },
+        "cpp/region_main.cpp": {
+          "git_blob_sha256": "17b8d3ec56d22ec98ab40a42e31cd7372e5fd49ff54a1a2ca610409149a2dd5e",
+          "checked_out_sha256": "b0e5d46c283a9194ac4460fb3fa0dec47cd3b043bb3d8e3ece1afbf9c82f025d",
+          "crlf_normalized": true
+        },
+        "cpp/bindings.cpp": {
+          "git_blob_sha256": "1a4d2c5e2a45efc15db5a3559d862f1b6831bc0f342923e87f003c0acf22735e",
+          "checked_out_sha256": "52e8c619493e547bbc922e403fd6c6c6ea3f2bb97b53ffb0f357a1320e855dd2",
+          "crlf_normalized": true
+        },
+        "cpp/tests/resampling_tests.cpp": {
+          "git_blob_sha256": "63a9bd37873d2b4df71167fe1ec1f7bb9d82e88b77bc0c865f53b47edb80c82a",
+          "checked_out_sha256": "e6ec764148d9a7a29dd4abc787ebf42c68d26851427d981bf0a42740cfa7b59c",
+          "crlf_normalized": true
+        },
+        "src/qupathxx/__init__.py": {
+          "git_blob_sha256": "1a3f5e6636744189536280a858ceb7a39b729f834207c56ed6697d03932bca14",
+          "checked_out_sha256": "21a703c845f3c6335c25744f6209a7c0f8db2c58e2bbd11959b961e0023de78f",
+          "crlf_normalized": true
+        },
+        "src/qupathxx/__init__.pyi": {
+          "git_blob_sha256": "a5190f9540f2e31438d1565d4a1f9213b1244d986e3a263bf3848d89be93c973",
+          "checked_out_sha256": "c555e945ecd097a363852ec080bf4d04f0ebd1a29e54a00ddda74695420c84e7",
+          "crlf_normalized": true
+        },
+        "src/qupathxx/_native.pyi": {
+          "git_blob_sha256": "361e1527b8dca067b3879fbd0307c89b107ff45df0ec5e6fb03f093b9f05ddf0",
+          "checked_out_sha256": "e3695838c7c3950db99a18fb703277252a2bfba2bb42385c2b13652a6afa5f2c",
+          "crlf_normalized": true
+        },
+        "tests/test_resampling.py": {
+          "git_blob_sha256": "a1861c7d0264b81c26626dc111a97fe463af7937b0b2aec0b6d1e9c67ab1ac1c",
+          "checked_out_sha256": "66e0f73d0a65ff102acc4b1e26d6a02e1454126ab14f1cb43a5249ae3eb0cba2",
+          "crlf_normalized": true
+        },
+        "tests/test_resampling_evidence.py": {
+          "git_blob_sha256": "cb38ba72036e97520dbe223a3057dd8c350c607a4c40d5ddca10a25f91708ed4",
+          "checked_out_sha256": "cb38ba72036e97520dbe223a3057dd8c350c607a4c40d5ddca10a25f91708ed4",
+          "crlf_normalized": false
+        },
+        "tools/ci/resampling_evidence.py": {
+          "git_blob_sha256": "8195ba6f2c69d726564495e8dc8cf160494360130abb154f275c363e5a1caa8c",
+          "checked_out_sha256": "8195ba6f2c69d726564495e8dc8cf160494360130abb154f275c363e5a1caa8c",
+          "crlf_normalized": false
+        },
+        "tools/ci/accept_unified_engine.py": {
+          "git_blob_sha256": "35c73f79444b6a9333bdcba900e1cd31f449d132886b6e3756345f081c0c3599",
+          "checked_out_sha256": "35c73f79444b6a9333bdcba900e1cd31f449d132886b6e3756345f081c0c3599",
+          "crlf_normalized": false
+        },
+        "tools/ci/accept_manylinux.py": {
+          "git_blob_sha256": "aaf4d27b3eb262d0d02fc4b1864477a2f74b06d2edd704d6708654855e783626",
+          "checked_out_sha256": "aaf4d27b3eb262d0d02fc4b1864477a2f74b06d2edd704d6708654855e783626",
+          "crlf_normalized": false
+        },
+        "tools/ci/accept_macos_native.py": {
+          "git_blob_sha256": "06766113064255e61d380c8a640ec34ab5e8a0283c9770d547a80dcb1b13160f",
+          "checked_out_sha256": "06766113064255e61d380c8a640ec34ab5e8a0283c9770d547a80dcb1b13160f",
+          "crlf_normalized": false
+        }
+      },
+      "small_frontier": {
+        "priority_keys": 64,
+        "heap_equivalence_cases": 1344,
+        "historical_domain_grid_checked": true
+      },
+      "tma_cases": {
+        "case_aggregation_checked": true,
+        "compensated_signed_sums_checked": true,
+        "mean_underflow_checked": true,
+        "cancellation_checked": true,
+        "signed_decimal_locale_checked": true,
+        "atomic_file_export_checked": true,
+        "input_size_checked": true,
+        "cohort_raw_pooling_checked": true,
+        "cohort_atomic_file_checked": true,
+        "oversized_read_transfer_bytes": null
+      },
+      "macho_inventory": {
+        "source": "f2e8c2ff5b044fd530c959c6d9c3b874d37a31b6",
+        "architecture": "x86_64",
+        "tooling_sha256": {
+          "tools/ci/macos_native_inventory.py": "f565de3a2f555aafabd7312ff05dc04cc1712d4d0f41b5bd626d6a19a57dc74a",
+          "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+          "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+          "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+          "tools/ci/run_macos_native.py": "8ebee070c9e4f686d27eceb07798186823f5070ed703cd36d7b4b4afd2bc7b28",
+          "tools/ci/macos_inventory_evidence.py": "667dc35fe680175c55991a823389420421c644181d8697b1c104fbd827948c12",
+          ".github/workflows/ci.yml": "29b305afa5cdefb6ac7828b43891228e3a4934eaf1fbe2f5de0643e54be2a885"
+        },
+        "files": 14,
+        "binaries": 7,
+        "archive_sha256": "5c8bc91a582b8227836b1188720430b158e149e49506b33461da4ca576a123e2",
+        "manifest_sha256": "84518755bf4bdc65f677044fa9125f2a96c6d9424ff8615390f3f3860de88499",
+        "otool_probe_sha256": "d3fa9f16583f1b726000f11803e3c4883e5a21e662e46d2c4b8d810ec2051840",
+        "native_snapshot_accepted": true,
+        "sdk_paths_may_be_embedded": true,
+        "runtime_resolution_complete": false,
+        "relocated_package_validated": false,
+        "external_runtime_availability_verified": false,
+        "signing_verified": false,
+        "release_ready": false,
+        "scope": "Uploaded native CLI and selected SDK runtime/notice bytes reinspected at exact source; independent otool names/versions agree. Static SDK archives remain build-input ledger only. No install-name resolution, relocation, Python/GUI/OpenSlide, ABI, signing or supported release."
+      },
+      "macos_relocation": {
+        "source": "f2e8c2ff5b044fd530c959c6d9c3b874d37a31b6",
+        "architecture": "x86_64",
+        "tooling_sha256": {
+          "tools/ci/macos_relocation_evidence.py": "9defffa07530738b2ab3ac68c6499de400eaefa3057adb6447e9261e6f930776",
+          "tools/ci/check_macos_relocated_runtime.py": "0f196503974c842bdd90ccad009b4261ce70cb3adc254764c60038070d2c6289",
+          "tools/ci/macos_relocate.py": "00cf7580e74d3b5140fdd76d4750dcea49a9dc4df852d6fdc2778322851a5180",
+          "tools/ci/macos_relocation_plan.py": "160f259e9a70634fcd1d9f45313681193019b8f1c08911c03f62a672a1329f80",
+          "tools/ci/macos_native_inventory.py": "f565de3a2f555aafabd7312ff05dc04cc1712d4d0f41b5bd626d6a19a57dc74a",
+          "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+          "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+          "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+          "tools/ci/run_macos_native.py": "8ebee070c9e4f686d27eceb07798186823f5070ed703cd36d7b4b4afd2bc7b28",
+          ".github/workflows/ci.yml": "29b305afa5cdefb6ac7828b43891228e3a4934eaf1fbe2f5de0643e54be2a885",
+          "tests/fixtures/project-v1.qpxproj": "bb79fc7a8e47896bc8793e10ed99efed9e9ffb7887a1b8a110cbdd003547a82b"
+        },
+        "source_archive_sha256": "5c8bc91a582b8227836b1188720430b158e149e49506b33461da4ca576a123e2",
+        "relocated_archive_sha256": "5b71fc299de052ccde61b93117eb1f89f42304fc0739b1bc7172d782c9118f9a",
+        "plan_sha256": "54a6e083a10bd60acf62832bced0873f197d04956163e81b54cb1aa66c89e295",
+        "files": 11,
+        "binaries": 4,
+        "execution": {
+          "commands": 11,
+          "execution_sha256": "2923c5b9fb060545a274bd0b45038b96175489d71a0768e69eba870922387e08",
+          "ad_hoc_integrity_verified_on_builder": true,
+          "publisher_signature_verified": false
+        },
+        "runtime": {
+          "native_region_exact": true,
+          "native_batch_checkpoint": true,
+          "native_batch_csv": true,
+          "geos_union_area": 150,
+          "package_image_mappings_verified": true,
+          "loader_search_overrides_used": false,
+          "fixture_preserved": true
+        },
+        "relocated_native_host_engineering_accepted": true,
+        "publisher_signature_verified": false,
+        "older_os_compatibility_verified": false,
+        "python_gui_openslide_validated": false,
+        "arbitrary_abi_verified": false,
+        "release_ready": false,
+        "scope": "Exact-source original/relocated archive, Apple command/log and native region/batch/CSV/GEOS runtime proofs on builder. Fresh path with spaces and actual package image mappings; no search overrides. No older-OS, arbitrary ABI, macOS Python/GUI/OpenSlide, publisher signing or supported-release acceptance."
+      }
+    }
+  ],
+  "auditor_sha256": "06766113064255e61d380c8a640ec34ab5e8a0283c9770d547a80dcb1b13160f",
+  "native_engineering_accepted": true,
+  "production_sampled_native_required": true,
+  "python_gui_openslide_validated": false,
+  "small_frontier_required": true,
+  "frontier_helper_sha256": "8795538c16e0a7eb1551030d2c3fcf347ec59b1a5d2f07b33de0d910b2d04419",
+  "tma_cohorts_required": true,
+  "tma_file_export_required": true,
+  "tma_cases_required": true,
+  "tma_case_helper_sha256": "868ea8cc8777d8b94ab7ce43f8f0963cdb67656f51c4cb33d2f1be6022a6ccf2",
+  "macho_native_inventory_required": true,
+  "macos_relocation_required": true,
+  "portable_package_validated": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "scope": "Exact-source CI native tests, frozen shape conformance, architecture and region CLI records. Original/relocated native archive bytes, Apple command logs and fresh native region/batch/GEOS probes are audited. No macOS Python wheel, OpenSlide, GUI, publisher signing, older-OS, biological or supported-release acceptance."
+}

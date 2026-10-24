@@ -1,0 +1,82 @@
+{
+  "schema": "qpx.source-promotion/1",
+  "before": "82e159f5232aa755b1f8f0472ff05dd32938cbb4",
+  "after": "f2e8c2ff5b044fd530c959c6d9c3b874d37a31b6",
+  "state": "promoted",
+  "fast_forward": true,
+  "local_root_head_preserved": "c86d3237f6f679f5651948d95c17e2d617684c46",
+  "receipts": {
+    "engine": {
+      "raw_sha256": "5428997b77a973c3d614d37e1ae50d487e5f52e3217700771161b8f0b5e2c3c2",
+      "published_file": "region-resampling-engine.json",
+      "published_lf_sha256": "5428997b77a973c3d614d37e1ae50d487e5f52e3217700771161b8f0b5e2c3c2"
+    },
+    "macos": {
+      "raw_sha256": "29e02f8202ea153e3cc3172205a958ee0761d329882eda34723796815d519a35",
+      "published_file": "region-resampling-macos.json",
+      "published_lf_sha256": "29e02f8202ea153e3cc3172205a958ee0761d329882eda34723796815d519a35"
+    },
+    "portable": {
+      "raw_sha256": "ad392dc77fc5a9d41393732e1e70641fbd2aec8330afa56c8bca1ee6ecad36c6",
+      "published_file": "region-resampling-portable.json",
+      "published_lf_sha256": "798c975ab877a600b7074ece2ed3f92067c66102d9dd35f375dcbae752b66c41"
+    }
+  },
+  "installed_python_cohorts": [
+    {
+      "path": "build\\ci\\resampling154-hosted-final\\Linux-headless-py3.12\\python-tests.xml",
+      "inventory_passed": 389,
+      "resampling_passed": 13,
+      "auditor_controls_passed": 18,
+      "junit_sha256": "73df54c48a47e4f89a69963a31ada52a81c95ff5aa8d46bc2f582b051658844c"
+    },
+    {
+      "path": "build\\ci\\resampling154-hosted-final\\Windows-gui-py3.12\\python-tests.xml",
+      "inventory_passed": 389,
+      "resampling_passed": 13,
+      "auditor_controls_passed": 18,
+      "junit_sha256": "55a742809820a426e2b658e4a107a8c6d34c9266a087bc0722042f61f8bc9e99"
+    },
+    {
+      "path": "build\\ci\\resampling154-hosted-final\\Windows-headless-py3.11\\python-tests.xml",
+      "inventory_passed": 389,
+      "resampling_passed": 13,
+      "auditor_controls_passed": 18,
+      "junit_sha256": "64e9528e24332a131ff5924fc1aa2e8d871e7b2386aab3db42e57593602ab65f"
+    },
+    {
+      "path": "build\\ci\\resampling154-portable-hosted\\manylinux-3.11\\python-tests.xml",
+      "inventory_passed": 389,
+      "resampling_passed": 13,
+      "auditor_controls_passed": 18,
+      "junit_sha256": "a53d5a096330af629cf106757616385861ddd10dc9b261db3b987369c904c799"
+    },
+    {
+      "path": "build\\ci\\resampling154-portable-hosted\\manylinux-3.12\\python-tests.xml",
+      "inventory_passed": 389,
+      "resampling_passed": 13,
+      "auditor_controls_passed": 18,
+      "junit_sha256": "c4fe2b0c15b974bcd71081ae717fb724dcffccf23c3e00f431671e6878763a6b"
+    },
+    {
+      "path": "build\\ci\\resampling154-portable-hosted\\manylinux-consumer-3.11\\consumer-tests.xml",
+      "inventory_passed": 389,
+      "resampling_passed": 13,
+      "auditor_controls_passed": 18,
+      "junit_sha256": "401c32b268457ad67e8c41b21f4ab4cd0b2b8e5c8a02e0d485564f796a668dc4"
+    },
+    {
+      "path": "build\\ci\\resampling154-portable-hosted\\manylinux-consumer-3.12\\consumer-tests.xml",
+      "inventory_passed": 389,
+      "resampling_passed": 13,
+      "auditor_controls_passed": 18,
+      "junit_sha256": "181ff4c6efda6bbc0f2e02b2d1b1a24531c3874373867328f95be123dc3611e2"
+    }
+  ],
+  "cohort_passed_per_job": 420,
+  "identity_implementation_matches_profiled_source": "4a1afe089162c7407accda81b4709799d9e2db51",
+  "resampling_cpp_git_blob_sha256": "cb08260ee2c441dd9ac32744dc12b89f5ac5a731ffc8d99fff5e072523be6a71",
+  "release_ready": false,
+  "full_plan_complete": false,
+  "scope": "Exact-source native/installed resampling, inherited Windows/Linux manifests, both Mac relocated host workflows, and portable builder/consumer engineering acceptance. Local identity-filter timings remain component-only; hardware, biology, supported releases and remaining M0-M7 requirements stay open."
+}

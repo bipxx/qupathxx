@@ -98,5 +98,15 @@ with `python -I tools/profile_region_resampling.py --label NAME --output FILE`.
 These measurements cover the native filter call only; decoder, UI, process
 memory, hardware budgets and end-to-end performance remain unaccepted.
 
-Native cross-platform, real vendor resampling, scientific recipe integration
-and hardware acceptance remain open. The full M0–M7 goal is still partial.
+Exact-source [Windows/Linux](benchmarks/region-resampling-engine.json),
+[Mac native](benchmarks/region-resampling-macos.json) and
+[portable builder/consumer](benchmarks/region-resampling-portable.json)
+engineering audits pass at `f2e8c2f`. The [promotion receipt](benchmarks/region-resampling-main-promotion.json)
+records publication to `main`. All seven installed Python cohorts pass the 13
+named resampling cases and 18 auditor controls, alongside the 389 inherited
+runtime-inventory cases. Native suites pass on all configurations, including
+both Mac architectures and sanitizer builds. Mac relocated package probes pass.
+
+Real vendor resampling, scientific recipe integration, physical OS/hardware
+budgets, broader biology and supported releases remain open. The full M0–M7
+goal is still partial.

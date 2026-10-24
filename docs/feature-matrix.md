@@ -33,30 +33,26 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 
 ## Current packet and remaining decisions
 
-The accepted engineering source on public `main` is `82e159f`, including the
-captured multi-grid TMA workflow and Windows/Linux runtime manifests.
-Exact-source [Windows/Linux](benchmarks/linux-runtime-manifest-engine.json),
-[Mac native](benchmarks/linux-runtime-manifest-macos.json) and
-[portable builder/consumer](benchmarks/linux-runtime-manifest-portable.json)
-audits pass. [Promotion evidence](benchmarks/linux-runtime-manifest-main-promotion.json)
-records the fast-forward while preserving the divergent local root branch.
-The hosted Windows GUI suite passes 2,653 Python tests and 47 native suites;
-Windows/Linux headless suites pass 2,243/2,241 Python tests and 46 native suites.
-These are engineering cohorts, with the existing scientific exclusions retained.
+The accepted engineering source on public `main` is `f2e8c2f`, adding explicit
+alpha-aware arbitrary-size region resampling in C++, Python and the standalone
+region CLI. Exact-source [Windows/Linux](benchmarks/region-resampling-engine.json),
+[both Mac native architectures](benchmarks/region-resampling-macos.json) and
+[portable builder/consumer](benchmarks/region-resampling-portable.json) audits
+pass. [Promotion evidence](benchmarks/region-resampling-main-promotion.json)
+records the fast-forward from `82e159f` while preserving the divergent local root
+branch. The Windows GUI suite passes 2,893 Python tests and 48 native suites;
+Windows/Linux headless suites pass 2,483/2,481 Python tests and 47 native suites.
+All seven installed Python cohorts pass 389 runtime-inventory cases, all 13
+resampling cases and 18 resampling auditor controls. Existing scientific
+exclusions remain explicit.
 
-The separate [Mac snapshot candidate](benchmarks/macos-native-inventory-macos.json)
-has accepted Intel/arm64 native inventory evidence. Relocation and fresh-package
-runtime qualification for source `b0d12245` now has accepted
-[Intel/arm64 native evidence](benchmarks/macos-relocation-runtime-macos.json):
-46 native suites per architecture and region/batch/CSV/GEOS package-mapping
-probes pass. This acceptance uses the earlier audit version.
-A subsequent [offline artifact-audit candidate](benchmarks/macos-runtime-artifact-audit-local-windows.json)
-passes 389 focused local tests, including complete synthetic runtime evidence
-and altered-artifact rejection. That synthetic evidence does not establish
-native Mac execution or qualify this later candidate for promotion. Its
-stronger input/PAM checks require separate exact-source qualification in
-[40126673903](https://github.com/bipxx/qupathxx/actions/runs/40126673903).
-M0–M7 science, hardware, license and supported-release requirements remain open.
+The accepted Mac source includes original/relocated archive checks and fresh
+region/batch/CSV/GEOS workflows, exact PPM/PAM layout checks and package image
+mapping verification without loader search overrides. This is native host
+engineering acceptance; Mac Python/GUI/OpenSlide packages and supported-release
+requirements remain open. The [local identity-filter pilot](benchmarks/region-resampling-identity-local-windows.json)
+retains its component-only scope. M0–M7 science, hardware, license and supported
+release requirements remain open.
 
 The input loader rejects an observed oversized measurement file
 before data reads and reserves admitted input storage. Its native quota test,

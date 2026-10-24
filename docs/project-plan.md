@@ -4989,3 +4989,17 @@ evidence](benchmarks/macos-relocation-runtime-macos.json) at `b0d12245`, with
 46 native suites per architecture and relocated region/batch/CSV/GEOS probes.
 The subsequent artifact-audit candidate remains under exact-source hosted
 qualification. Neither closes M7 or the full M0–M7 goal.
+
+
+Candidate 154 now has complete exact-source engineering acceptance at
+`f2e8c2ff5b044fd530c959c6d9c3b874d37a31b6`: Windows GUI/headless, Linux
+headless/minimal/sanitizer, both native Mac architectures and portable
+builders/fresh consumers pass. The GUI job passes 2,893 Python cases/48 native
+suites; headless Windows/Linux pass 2,483/2,481 Python cases and 47 native suites.
+All seven installed cohorts pass 389 inherited runtime-inventory cases, 13
+resampling cases and 18 auditor controls. Mac native packages pass fresh region,
+batch, CSV and GEOS probes with verified package mappings. The
+[promotion receipt](benchmarks/region-resampling-main-promotion.json) records a
+fast-forward from `82e159f` to this source while preserving local root `c86d323`.
+The identity profile remains a local filter-call pilot; no global hardware or
+scientific performance acceptance follows. Full M0–M7 remains partial.
