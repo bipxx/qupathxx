@@ -35,6 +35,7 @@ std::uint64_t edge(double coordinate,double scale,std::int64_t limit) {
 }
 }
 std::vector<std::uint8_t> TissueArchiveCodec::encode(const TissueResult& r,const std::atomic<bool>* cancelled) {
+    if(!r.input_format_override_.empty()) throw std::invalid_argument("cell detector masks require their versioned cell archive");
     stopped(cancelled);Writer w;const auto& p=r.parameters_;
     p.validate();
     if(p.sampling_policy==RoiSamplingPolicy::PolygonWinding) {w.bytes[3]=2;w.u64(1);}

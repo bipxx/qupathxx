@@ -1,5 +1,6 @@
 #include "qupathxx/input_digest.hpp"
 #include "sha256.hpp"
+#include "cell_recipe.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
@@ -8,9 +9,9 @@
 namespace qpx {
 struct InputDigestKernel {
     static std::int64_t origin(std::int64_t index,double scale) {const auto n=std::round(static_cast<long double>(index)*scale);if(!std::isfinite(n) || n<0 || n>=static_cast<long double>(std::numeric_limits<std::int64_t>::max())) throw std::invalid_argument("input digest origin overflow");return static_cast<std::int64_t>(n);}
-    static std::string run(const AnalysisRequest& source,std::int32_t level,double scale,std::int64_t x0,std::int64_t y0,std::int64_t x1,std::int64_t y1,const std::atomic<bool>* cancelled) {
+    static std::string run(const AnalysisRequest& source,std::int32_t level,double scale,std::int64_t x0,std::int64_t y0,std::int64_t x1,std::int64_t y1,const std::atomic<bool>* cancelled,const char* format_override=nullptr) {
         auto check=[&]{if(cancelled && cancelled->load(std::memory_order_relaxed)) throw std::runtime_error("input digest cancelled");};check();
-        const auto& m=source.source_->metadata();Sha256 digest;const std::string format=analysis_input_format(source.sampling_policy(),level!=0);digest.update(format.data(),format.size());digest.integer(m.width);digest.integer(m.height);
+        const auto& m=source.source_->metadata();Sha256 digest;const std::string format=format_override?format_override:analysis_input_format(source.sampling_policy(),level!=0);digest.update(format.data(),format.size());digest.integer(m.width);digest.integer(m.height);
         if(level) {std::uint64_t bits;static_assert(sizeof(bits)==sizeof(scale));std::memcpy(&bits,&scale,8);digest.integer(level);digest.integer(m.levels[level].width);digest.integer(m.levels[level].height);digest.integer(bits);}
         for(auto n:{x0,y0,x1,y1}) digest.integer(n);digest.integer(source.tile_size());
         for(auto y=y0;y<y1;) {const auto h=std::min<std::int64_t>(source.tile_size(),y1-y);
@@ -22,7 +23,10 @@ struct InputDigestKernel {
     }
     static std::string run(const AnalysisRequest& r,const std::atomic<bool>* c) {return run(r,0,1,r.x0_,r.y0_,r.x1_,r.y1_,c);}
     static std::string run(const TissueRequest& r,const std::atomic<bool>* c) {return run(r.source_,r.level_,r.downsample_,r.x0_,r.y0_,r.x1_,r.y1_,c);}
-    static std::string run(const CellRequest& r,const std::atomic<bool>* c) {return run(r.source_,c);}
+    static std::string run(const CellRequest& r,const std::atomic<bool>* c) {
+        const auto grid=r.level_bounds();const auto x=static_cast<std::int64_t>(grid.x),y=static_cast<std::int64_t>(grid.y);
+        return run(r.source_.source_,r.level(),r.downsample(),x,y,x+static_cast<std::int64_t>(grid.width),y+static_cast<std::int64_t>(grid.height),c,cell_detail::input_format(r.parameters().algorithm,r.level()!=0));
+    }
 };
 std::string input_sha256(const AnalysisRequest& r,const std::atomic<bool>* c) {return InputDigestKernel::run(r,c);}
 std::string input_sha256(const TissueRequest& r,const std::atomic<bool>* c) {return InputDigestKernel::run(r,c);}

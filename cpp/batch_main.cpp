@@ -39,6 +39,7 @@ int execute(const std::vector<std::string>& args) {
             "Raw options: --raw-level N --raw-channel N --raw-channels N (zero-based axes)\n"
             "             --raw-z N --raw-time N --raw-explicit-axes --raw-max-pixels N\n"
             "--kind od|stains|tissue|cells|pixels|raw  --image ID (repeatable)\n"
+            "Cells: --cell-algorithm distance|log --cell-log-prominence N --cell-context-padding N\n"
             "--object ID (repeatable, requires one --image)\n"
             "Pixel batches: --pixel-model MODEL --block-size N --pixel-work-bytes N\n"
             "               --pixel-file-bytes N --pixel-total-bytes N --min-vote NUMBER\n"
@@ -94,6 +95,9 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--stains") {const auto v=numbers(value());if(v.size()!=6 && v.size()!=9) throw std::invalid_argument("stains require six or nine components");stains.clear();for(std::size_t n=0;n<v.size();n+=3) stains.push_back({v[n],v[n+1],v[n+2]});}
             else if(flag=="--normalized") normalized=true;
             else if(flag=="--threshold") options.cells.threshold=options.tissue.threshold=real(value());
+            else if(flag=="--cell-algorithm") {const auto v=value();if(v=="distance") options.cells.algorithm=CellAlgorithm::DistanceWatershed;else if(v=="log") options.cells.algorithm=CellAlgorithm::LogWatershed;else throw std::invalid_argument("cell algorithm must be distance or log");}
+            else if(flag=="--cell-log-prominence") options.cells.log_prominence=real(value());
+            else if(flag=="--cell-context-padding") {const auto n=integer(value());if(n>4096) throw std::invalid_argument("cell context padding exceeds 4096");options.cells.context_padding=static_cast<std::uint32_t>(n);}
             else if(flag=="--cell-min-area-um2") options.cell_min_nucleus_area_um2=real(value());
             else if(flag=="--cell-max-area-um2") options.cell_max_nucleus_area_um2=real(value());
             else if(flag=="--level") {const auto& v=value();if(v=="-1") options.cells.level=options.tissue.level=-1;else {auto n=integer(v);if(n>INT32_MAX) throw std::invalid_argument("level exceeds int32");options.cells.level=options.tissue.level=static_cast<std::int32_t>(n);}}

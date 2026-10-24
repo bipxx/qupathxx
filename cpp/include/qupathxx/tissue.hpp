@@ -63,7 +63,7 @@ public:
     std::int64_t height() const {return static_cast<std::int64_t>(level_bounds_.height);}
     std::int32_t level() const {return level_;}
     double downsample() const {return downsample_;}
-    const char* input_format() const {return analysis_input_format(parameters_.sampling_policy,level_!=0);}
+    const char* input_format() const {return input_format_override_.empty()?analysis_input_format(parameters_.sampling_policy,level_!=0):input_format_override_.c_str();}
     const Roi& roi() const {return roi_;}
     Rect image_bounds() const {return image_bounds_;}
     const std::vector<std::uint32_t>& labels() const {return labels_;}
@@ -84,7 +84,7 @@ public:
     std::uint64_t raw_components() const {return raw_components_;}
     double elapsed_ms() const {return elapsed_ms_;}
     std::size_t estimated_work_bytes() const {return estimated_work_bytes_;}
-    std::size_t retained_bytes() const {return sizeof(TissueResult)+(provenance_?provenance_->payload_bytes():0)+labels_.capacity()*sizeof(std::uint32_t)+components_.capacity()*sizeof(TissueComponent);}
+    std::size_t retained_bytes() const {return sizeof(TissueResult)+(provenance_?provenance_->payload_bytes():0)+labels_.capacity()*sizeof(std::uint32_t)+components_.capacity()*sizeof(TissueComponent)+(input_format_override_.empty()?0:input_format_override_.capacity());}
 private:
     friend struct TissueKernel;
     friend class Document;
@@ -94,7 +94,7 @@ private:
     friend struct CellArchiveCodec;
     std::shared_ptr<const char> ticket_;
     TissueResult()=default;
-    std::string algorithm_="qpx.threshold-components/1",input_sha256_;
+    std::string algorithm_="qpx.threshold-components/1",input_sha256_,input_format_override_;
     std::shared_ptr<const AnalysisProvenance> provenance_;
     Rect bounds_,level_bounds_;
     Roi roi_;

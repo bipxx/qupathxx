@@ -1794,6 +1794,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ui::SeparatorText("Watershed cells");
             ImGui::PushItemWidth(118);
             ui::SetNextItemWidth(132);bool cell_changed=ui::Combo("Cell feature",&cell_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0");
+            cell_changed=detail::cell_detector_controls(cell_parameters) || cell_changed;
             cell_changed=ui::InputDouble("Cell threshold",&cell_parameters.threshold,0,0,"%.5g") || cell_changed;
             cell_changed=ui::InputDouble("Blur sigma",&cell_parameters.sigma,0,0,"%.3g") || cell_changed;
             cell_changed=ui::InputDouble("Peak radius >=",&cell_parameters.min_peak_radius,0,0,"%.3g") || cell_changed;

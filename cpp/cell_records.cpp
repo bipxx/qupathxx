@@ -6,7 +6,7 @@
 namespace qpx {
 namespace {
 void advance(std::uint64_t r) {if(r==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("document revision exhausted");}
-auto parameters(const CellParameters& p) {return std::make_tuple(p.feature,p.threshold,p.sigma,p.min_peak_radius,p.min_seed_distance,p.cell_expansion,p.min_nucleus_pixels,p.max_nucleus_pixels,
+auto parameters(const CellParameters& p) {return std::make_tuple(p.algorithm,p.log_prominence,p.context_padding,p.feature,p.threshold,p.sigma,p.min_peak_radius,p.min_seed_distance,p.cell_expansion,p.min_nucleus_pixels,p.max_nucleus_pixels,
     p.connectivity,p.level,p.tile_size,p.max_cells,p.work_bytes,p.contours.clip_to_roi,p.contours.max_components,p.contours.max_edges,p.contours.max_vertices,p.contours.work_bytes);}
 auto feature(const CellFeature& f) {return std::tie(f.label,f.nucleus_pixels,f.cell_pixels,f.nucleus_rgb,f.cell_rgb,f.nucleus_channels,f.cell_channels,f.cytoplasm_rgb,f.cytoplasm_channels);}
 auto marker(const CellMarker& m) {return std::tie(m.label,m.result_label,m.pixel_index,m.center.x,m.center.y,m.radius);}

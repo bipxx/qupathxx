@@ -7,6 +7,16 @@
 #include <stdexcept>
 
 namespace qpx::detail {
+inline void reset_cell_detector(CellParameters& p) {p.algorithm=CellAlgorithm::DistanceWatershed;p.log_prominence=.5;p.context_padding=32;}
+inline bool cell_detector_controls(CellParameters& p) {
+    int algorithm=static_cast<int>(p.algorithm);bool changed=ui::Combo("Cell detector",&algorithm,"Distance watershed\0LoG watershed\0");
+    if(changed) {p.algorithm=static_cast<CellAlgorithm>(algorithm);if(p.algorithm==CellAlgorithm::DistanceWatershed) reset_cell_detector(p);}
+    if(p.algorithm==CellAlgorithm::LogWatershed) {
+        changed=ui::InputDouble("Peak prominence",&p.log_prominence,0,0,"%.3g") || changed;
+        changed=ui::InputScalar("Context (sample px)",ImGuiDataType_U32,&p.context_padding) || changed;
+    }
+    return changed;
+}
 inline bool cell_area_controls(std::optional<double>& minimum,std::optional<double>& maximum) {
     bool changed=false;
     if(ImGui::CollapsingHeader("Physical nucleus area",(minimum || maximum)?ImGuiTreeNodeFlags_DefaultOpen:0)) {
@@ -81,6 +91,7 @@ public:
             ImGui::BeginDisabled(use_image_settings_ && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw);
             if(options_.kind!=ProjectBatchKind::Roi) options_.roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
             if(options_.kind!=ProjectBatchKind::Tissue) options_.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;
+            if(options_.kind!=ProjectBatchKind::Cells) reset_cell_detector(options_.cells);
             if(options_.kind!=ProjectBatchKind::Cells) options_.publish_cells=false;
             if(options_.kind!=ProjectBatchKind::Cells) {options_.cell_min_nucleus_area_um2.reset();options_.cell_max_nucleus_area_um2.reset();}
             if(options_.kind==ProjectBatchKind::Cells || options_.kind==ProjectBatchKind::Pixels) options_.nucleus=false;
@@ -117,6 +128,7 @@ public:
                 ui::InputDouble("Threshold >=",&threshold,0,0,"%.5g");
                 auto& level=options_.kind==ProjectBatchKind::Tissue?options_.tissue.level:options_.cells.level;
                 ui::InputInt("Level (-1=auto)",&level);
+                if(options_.kind==ProjectBatchKind::Cells) cell_detector_controls(options_.cells);
                 if(options_.kind==ProjectBatchKind::Cells)
                     cell_area_controls(options_.cell_min_nucleus_area_um2,options_.cell_max_nucleus_area_um2);
 
@@ -170,6 +182,7 @@ public:
                 }
                 if(run_options.kind!=ProjectBatchKind::Roi) run_options.roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
                 if(run_options.kind!=ProjectBatchKind::Tissue) run_options.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;
+                if(run_options.kind!=ProjectBatchKind::Cells) reset_cell_detector(run_options.cells);
                 const bool stains=run_options.kind!=ProjectBatchKind::Raw && run_options.kind!=ProjectBatchKind::Pixels && (run_options.kind==ProjectBatchKind::Roi?run_options.roi_kind==AnalysisKind::StainMeans:
                     (run_options.kind==ProjectBatchKind::Tissue?run_options.tissue.feature:run_options.cells.feature)!=TissueFeature::OpticalDensitySum);
                 ProjectBatchRequest request(*project,transform(stains),chosen,run_options);

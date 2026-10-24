@@ -22,8 +22,8 @@ struct LogParameters {
             throw std::invalid_argument("invalid LoG watershed parameters");
     }
 };
-struct LogPeak {std::uint32_t index=0,label=0;double radius=0;};
-struct LogResult {std::vector<std::uint32_t> labels;std::vector<LogPeak> peaks;std::size_t count=0;};
+struct LogPeak {std::uint32_t index=0,label=0;double radius=0;bool selected=false;};
+struct LogResult {std::vector<std::uint32_t> labels;std::vector<LogPeak> peaks;std::size_t count=0;std::uint64_t candidate_pixels=0;};
 
 template<class F> inline void log_neighbors(std::size_t i,std::size_t width,std::size_t height,bool diagonal,F f) {
     const auto x=i%width,y=i/width;
@@ -174,17 +174,20 @@ inline std::vector<std::uint8_t> log_h_maxima(const std::vector<double>& distanc
 }
 
 inline LogResult log_watershed(const std::vector<float>& score,const std::vector<std::uint8_t>& domain,
-                               std::size_t width,std::size_t height,const LogParameters& p={},const std::atomic<bool>* cancelled=nullptr) {
+                               std::size_t width,std::size_t height,const LogParameters& p={},const std::atomic<bool>* cancelled=nullptr,std::atomic<int>* phase=nullptr) {
     p.validate();checkpoint(cancelled);
     if(!width || !height || width>std::numeric_limits<std::uint32_t>::max()/height || width*height!=score.size() || domain.size()!=score.size())
         throw std::invalid_argument("invalid LoG raster dimensions");
     const auto n=score.size();if(n>p.work_bytes/128) throw std::length_error("LoG raster exceeds work budget");
     for(auto v:score) if(!std::isfinite(v)) throw std::invalid_argument("nonfinite LoG feature");
     auto mask=log_regions(score,width,height,p,cancelled);
+    if(phase) phase->store(3);
     std::vector<double> distance(n);for(std::size_t i=0;i<n;++i) distance[i]=mask[i]?infinity:0;
     cell_detail::distance(distance,width,height,true,nullptr,cancelled);for(auto& value:distance) value=std::sqrt(value);
+    if(phase) phase->store(4);
     auto maxima=log_h_maxima(distance,mask,width,height,p.prominence,cancelled);
     std::vector<std::uint32_t> markers(n),queue;queue.reserve(n);LogResult result;
+    for(std::size_t i=0;i<n;++i) result.candidate_pixels+=mask[i] && domain[i];
     for(std::size_t i=0;i<n;++i) {
         if((i&4095)==0) checkpoint(cancelled);if(!maxima[i] || markers[i]) continue;
         if(result.peaks.size()>=p.maximum_cells) throw std::length_error("LoG maximum candidate limit exceeded");
@@ -212,7 +215,7 @@ inline LogResult log_watershed(const std::vector<float>& score,const std::vector
                 if(xx*xx+yy*yy<p.minimum_spacing*p.minimum_spacing) {close=true;break;}
             }
         }
-        if(!close) {retained[peak.label]=1;if(p.minimum_spacing>0) bins[{gx,gy}].push_back(index);}
+        if(!close) {retained[peak.label]=1;result.peaks[index].selected=true;if(p.minimum_spacing>0) bins[{gx,gy}].push_back(index);}
     }
     }
     struct Node {double cost;std::uint64_t age;std::uint32_t index,label;};

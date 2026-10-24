@@ -1,0 +1,46 @@
+#include "qupathxx/cells.hpp"
+#include "qupathxx/input_digest.hpp"
+#include "../cell_archive.hpp"
+#include "../sha256.hpp"
+#include <iostream>
+using namespace qpx;
+namespace {
+void require(bool value) {if(!value) throw std::runtime_error("LoG cell recipe contract failed");}
+template<class F> void rejects(F f) {try {f();} catch(const std::invalid_argument&) {return;}throw std::runtime_error("missing recipe rejection");}
+void sign(std::vector<std::uint8_t>& bytes,const Roi& roi) {
+    Sha256 digest;const auto text=roi.wkt();digest.integer(text.size());digest.update(text.data(),text.size());digest.update(bytes.data(),bytes.size()-64);
+    const auto hex=digest.finish();std::copy(hex.begin(),hex.end(),bytes.end()-64);
+}
+}
+int main() {
+    try {
+        std::vector<std::uint8_t> rgb(96*96*3,255);
+        for(int y=0;y<96;++y) for(int x=0;x<96;++x) if((x-32)*(x-32)+(y-32)*(y-32)<=64 || (x-64)*(x-64)+(y-64)*(y-64)<=100)
+            for(int c=0;c<3;++c) rgb[(y*96+x)*3+c]=32;
+        Document doc(Image(96,96,rgb));const auto object=doc.add_rectangle({34.5,24.5,45,55});
+        CellParameters p;p.algorithm=CellAlgorithm::LogWatershed;p.threshold=.4;p.min_nucleus_pixels=16;p.max_nucleus_pixels=512;p.tile_size=16;
+        StainTransform transform({{1,0,0},{0,1,0}});CellRequest request(doc,object,transform,p);
+        require(request.level_bounds().x==2 && request.level_bounds().width==94 && request.total_tiles()==36);
+        const auto result=detect_cells(request);require(std::string(result->algorithm())=="qpx.log-watershed/1");
+        require(result->features().size()==2 && result->nuclei()->samples()==45*55);
+        require(result->nuclei()->input_format()==std::string("qpx.log-rgba-tiles/1"));
+        require(input_sha256(request)==result->nuclei()->input_sha256());
+        bool clipped_seed=false;
+        for(const auto& marker:result->markers()) if(marker.result_label && !result->nuclei()->labels()[marker.pixel_index]) clipped_seed=true;
+        require(clipped_seed);
+        const auto bytes=CellArchiveCodec::encode(*result);require(bytes[3]==2);
+        const auto restored=CellArchiveCodec::decode(bytes.data(),bytes.size(),request.roi(),doc.metadata());
+        require(restored->parameters().algorithm==p.algorithm && restored->parameters().context_padding==32);
+        require(restored->nuclei()->labels()==result->nuclei()->labels() && restored->cells()->labels()==result->cells()->labels());
+        const auto record=doc.keep_cells(request,result);const auto replay=CellRequest::replay(doc,record);
+        const auto repeated=detect_cells(replay);require(doc.verify_cells(record,replay,*repeated));
+        for(auto version:{0,3}) {auto bad=bytes;bad[3]=static_cast<std::uint8_t>(version);sign(bad,request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),request.roi(),doc.metadata());});}
+        for(auto algorithm:{0,2}) {auto bad=bytes;bad[4]=static_cast<std::uint8_t>(algorithm);sign(bad,request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),request.roi(),doc.metadata());});}
+        auto different=p;different.log_prominence=.75;CellRequest altered(doc,object,transform,different);
+        rejects([&]{doc.verify_cells(record,altered,*detect_cells(altered));});
+        CellParameters inactive;inactive.context_padding=33;rejects([&]{inactive.validate();});
+        CellParameters invalid;invalid.algorithm=static_cast<CellAlgorithm>(9);rejects([&]{invalid.validate();});
+        const auto legacy=detect_cells(CellRequest(doc,object,transform,{}));require(CellArchiveCodec::encode(*legacy)[3]==1);
+        std::cout<<"Captured LoG context, fractional ROI clipping, digests, QCL2, replay and legacy QCL1 passed\n";
+    } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
+}

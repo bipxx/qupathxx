@@ -41,7 +41,7 @@ struct CellTableRequest::Data {
     struct Entry {std::shared_ptr<const CellRecord> record;std::string status;std::size_t image=0;};
     struct Block {std::shared_ptr<const Document::ObjectBlock> value;std::size_t image=0;};
     std::vector<Entry> entries;std::vector<Image> images;std::vector<Block> blocks;CellTableOptions options;
-    std::string identity;bool project=false;std::uint64_t revision=0,generation=0,rows=0;std::size_t bytes=0;double capture_ms=0;
+    std::string identity;bool project=false,detector_parameters=false;std::uint64_t revision=0,generation=0,rows=0;std::size_t bytes=0;double capture_ms=0;
     void charge(std::size_t value) {if(value>options.snapshot_budget-bytes) throw std::length_error("cell table snapshot exceeds memory budget");bytes+=value;}
     void append(const Document& doc,std::uint64_t id,std::string name,const std::vector<std::uint64_t>& record_ids={}) {
         if(options.published_objects) {append_objects(doc,id,std::move(name),record_ids);return;}
@@ -117,6 +117,7 @@ struct CellTableRequest::Data {
 #endif
     }
     void finish(std::chrono::steady_clock::time_point start) {
+        for(const auto& entry:entries) detector_parameters=detector_parameters || entry.record->result->parameters().algorithm==CellAlgorithm::LogWatershed;
         charge((entries.capacity()-entries.size())*sizeof(Entry)+(images.capacity()-images.size())*sizeof(Image)+(blocks.capacity()-blocks.size())*sizeof(Block));
         capture_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
     }
@@ -155,9 +156,16 @@ std::uint64_t CellTableRequest::project_revision() const {return data_->project?
 CellTableOptions CellTableRequest::options() const {return data_->options;}
 struct CellTableWriter {
     static std::string schema(const CellTableRequest& request) {
-        const bool calibrated=request.data_->options.include_capture_calibration;
-        if(request.data_->options.published_objects) return request.data_->project?(calibrated?"qpx.project-cell-object-table/2":"qpx.project-cell-object-table/1"):(calibrated?"qpx.cell-object-table/2":"qpx.cell-object-table/1");
-        return request.data_->project?(calibrated?"qpx.project-cell-table/2":"qpx.project-cell-table/1"):(calibrated?"qpx.cell-table/2":"qpx.cell-table/1");
+        const auto version=std::to_string((request.data_->options.include_capture_calibration?2:1)+(request.data_->detector_parameters?2:0));
+        if(request.data_->options.published_objects) return std::string(request.data_->project?"qpx.project-cell-object-table/":"qpx.cell-object-table/")+version;
+        return std::string(request.data_->project?"qpx.project-cell-table/":"qpx.cell-table/")+version;
+    }
+    static void detector(Row& row,const CellTableRequest& request,const CellResult* result) {
+        if(!request.data_->detector_parameters) return;
+        if(!result) {row.separator();row.separator();row.separator();return;}
+        const auto& p=result->parameters();row.string(p.algorithm==CellAlgorithm::LogWatershed?"log":"distance");
+        if(p.algorithm==CellAlgorithm::LogWatershed) {row.real(p.log_prominence);row.integer(p.context_padding);}
+        else {row.separator();row.separator();}
     }
     static void context(Row& row,const CellTableRequest& request,const CellTableRequest::Data::Image& image) {
         if(request.data_->project) {row.string(request.data_->identity);row.integer(request.data_->generation);row.integer(request.data_->revision);row.integer(image.id);row.string(image.name);}
@@ -219,6 +227,7 @@ struct CellTableWriter {
             columns.resize(columns.size()-2);
             columns+=",object_id,object_revision,object_name,object_parent_id,object_class,object_class_color,object_status_at_capture,object_min_x_px,object_min_y_px,object_width_px,object_height_px,object_area_px2,object_length_px,object_nucleus_area_px2,object_nucleus_length_px,export_pixel_width_um,export_pixel_height_um,object_area_um2,object_length_um,object_nucleus_area_um2,object_nucleus_length_um\r\n";
         }
+        if(request.data_->detector_parameters) {columns.resize(columns.size()-2);columns+=",detector_mode,log_peak_prominence,context_padding_sample_px\r\n";}
         sink(columns);std::uint64_t done=0;
         if(request.data_->options.published_objects) {
             const auto missing=std::numeric_limits<std::size_t>::max();std::size_t cached=missing;Row saved_prefix;
@@ -251,7 +260,7 @@ struct CellTableWriter {
                         }
                         if(request.data_->options.include_capture_calibration) for(int column=0;column<9;++column) row.separator();
                     }
-                    object(row,a,status,image);sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
+                    object(row,a,status,image);detector(row,request,a.cell_feature_link && entry!=missing?request.data_->entries[entry].record->result.get():nullptr);sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
                 }
             }
         } else for(const auto& entry:request.data_->entries) {
@@ -259,7 +268,7 @@ struct CellTableWriter {
             const auto saved_prefix=prefix(request,entry);
             for(const auto& f:entry.record->result->features()) {
                 export_checkpoint(cancelled);Row row;row.text=saved_prefix.text;row.first=false;feature(row,*entry.record->result,f.label,request.data_->options.include_capture_calibration);
-                sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
+                detector(row,request,entry.record->result.get());sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
             }
         }
         if(done!=request.row_count()) throw std::logic_error("cell table row count mismatch");

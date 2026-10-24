@@ -1,7 +1,11 @@
 #pragma once
 #include "qupathxx/tissue.hpp"
 namespace qpx {
+enum class CellAlgorithm { DistanceWatershed=0, LogWatershed=1 };
 struct CellParameters {
+    CellAlgorithm algorithm=CellAlgorithm::DistanceWatershed;
+    double log_prominence=.5;
+    std::uint32_t context_padding=32;
     TissueFeature feature=TissueFeature::OpticalDensitySum;
     double threshold=1,sigma=1,min_peak_radius=1,min_seed_distance=4,cell_expansion=5;
     std::uint64_t min_nucleus_pixels=5,max_nucleus_pixels=0;
@@ -21,10 +25,10 @@ public:
     std::uint64_t object_id() const {return source_.object_id();}
     std::int32_t level() const {return source_.level();}
     double downsample() const {return source_.downsample();}
-    Rect bounds() const {return source_.bounds();}
-    Rect level_bounds() const {return source_.level_bounds();}
+    Rect bounds() const {const auto b=level_bounds();return {b.x*downsample(),b.y*downsample(),b.width*downsample(),b.height*downsample()};}
+    Rect level_bounds() const {return processing_grid_;}
     const Roi& roi() const {return source_.roi();}
-    std::uint64_t total_tiles() const {return source_.total_tiles();}
+    std::uint64_t total_tiles() const {return ((std::uint64_t(processing_grid_.width)+parameters_.tile_size-1)/parameters_.tile_size)*((std::uint64_t(processing_grid_.height)+parameters_.tile_size-1)/parameters_.tile_size);}
     std::size_t estimated_work_bytes() const {return work_;}
     static CellRequest replay(const Document&,std::uint64_t record_id);
     // Resolve inclusive physical area bounds on the selected natural grid.
@@ -44,6 +48,7 @@ private:
     std::uint64_t object_revision_,document_revision_;
     std::optional<std::uint64_t> physical_calibration_revision_;
     std::size_t work_=0;
+    Rect processing_grid_;
 };
 struct CellMarker {
     std::uint32_t label=0,result_label=0,pixel_index=0;
