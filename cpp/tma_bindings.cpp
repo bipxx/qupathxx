@@ -6,6 +6,7 @@
 #include <nanobind/stl/shared_ptr.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
+#include <stdexcept>
 namespace nb=nanobind;using namespace nb::literals;
 namespace {
 std::string qptma_python_text(const nb::str& text,std::size_t limit) {
@@ -40,9 +41,9 @@ void bind_tma(nb::module_& m) {
         "text"_a,"byte_limit"_a=8*1024*1024);
     m.def("qptma_text",[](const QptmaData& value,std::size_t limit) {value.validate();auto data=value;nb::gil_scoped_release release;return qptma_text(data,limit);},
         "data"_a,"byte_limit"_a=8*1024*1024);
-    m.def("load_qptma",[](const std::string& path,std::size_t limit) {nb::gil_scoped_release release;return load_qptma(path,limit);},
+    m.def("load_qptma",[](const nb::str& path,std::size_t limit) {auto input=qptma_python_text(path,32768);nb::gil_scoped_release release;return load_qptma(input,limit);},
         "path"_a,"byte_limit"_a=8*1024*1024);
-    m.def("save_qptma",[](const QptmaData& value,const std::string& path,std::size_t limit) {value.validate();auto data=value;nb::gil_scoped_release release;return save_qptma(data,path,limit);},
+    m.def("save_qptma",[](const QptmaData& value,const nb::str& path,std::size_t limit) {value.validate();auto output=qptma_python_text(path,32768);auto data=value;nb::gil_scoped_release release;return save_qptma(data,output,limit);},
         "data"_a,"path"_a,"byte_limit"_a=8*1024*1024);
     m.def("qptma_from_grid",&qptma_from_grid,"snapshot"_a,"source_hint"_a="","image_name"_a="",nb::call_guard<nb::gil_scoped_release>());
     m.def("qptma_grid_edits",[](const QptmaData& value,const std::string& name,const std::vector<std::string>& rows,const std::vector<std::string>& columns) {

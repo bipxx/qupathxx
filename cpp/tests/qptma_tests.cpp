@@ -41,5 +41,7 @@ int main(int argc,char** argv){try {
     rejects([&]{auto bad=text;bad[0]='\0';parse_qptma(bad);});rejects([&]{auto bad=data;bad.cores.pop_back();qptma_text(bad);});
     QptmaData large;large.rows=100;large.columns=100;large.cores.assign(10000,data.cores[0]);check(parse_qptma(qptma_text(large)).cores.size()==10000);
     std::cout<<"QPTMA native fixture, fractional/quoted wire, atomic history, quotas and 10000-core round trips passed\n";
+    const auto quoted_output=(root/"native-literal-text.qptma").u8string();save_qptma(quoted,quoted_output);
+    std::cout<<"NATIVE_QPTMA_LITERAL_OUTPUT="<<quoted_output<<'\n';
     std::cout<<"NATIVE_QPTMA_OUTPUT="<<output<<'\n';
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}
