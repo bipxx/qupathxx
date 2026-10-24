@@ -46,7 +46,7 @@ std::uint32_t read_integer(std::istream& stream) {
 void write_integer(std::ostream& stream,std::uint32_t value) {
     for(unsigned i=0;i<4;++i) stream.put(static_cast<char>((value>>(i*8))&255));
 }
-void probe(const char* input,const char* output,bool response_basins=false,bool regions_only=false) {
+void probe(const char* input,const char* output,bool response_basins=false,bool regions_only=false,bool dual_background=false) {
     std::ifstream stream(input,std::ios::binary);char magic[4];stream.read(magic,4);
     require(stream.good() && std::memcmp(magic,"QLP1",4)==0);
     const auto width=read_integer(stream),height=read_integer(stream);
@@ -56,6 +56,7 @@ void probe(const char* input,const char* output,bool response_basins=false,bool 
     require(bool(stream.read(reinterpret_cast<char*>(domain.data()),static_cast<std::streamsize>(n))));
     require(stream.peek()==std::char_traits<char>::eof());
     qpx::cell_detail::LogParameters parameters;parameters.response_basins=response_basins;
+    parameters.eight_connected_background=dual_background;
     qpx::cell_detail::LogResult result;
     if(regions_only) {
         const auto mask=response_basins?qpx::cell_detail::log_basin_regions(score,width,height,parameters,nullptr):qpx::cell_detail::log_regions(score,width,height,parameters,nullptr);
@@ -77,9 +78,14 @@ int main(int argc,char** argv) {
         if(argc==4 && std::string(argv[1])=="--response-basins") {probe(argv[2],argv[3],true);return 0;}
         if(argc==4 && std::string(argv[1])=="--regions") {probe(argv[2],argv[3],false,true);return 0;}
         if(argc==4 && std::string(argv[1])=="--response-regions") {probe(argv[2],argv[3],true,true);return 0;}
+        if(argc==4 && std::string(argv[1])=="--dual-background") {probe(argv[2],argv[3],false,false,true);return 0;}
+        if(argc==4 && std::string(argv[1])=="--dual-regions") {probe(argv[2],argv[3],false,true,true);return 0;}
         require(argc==1);
         using namespace qpx::cell_detail;
         reconstruction_oracle();
+        std::vector<std::uint8_t> leak4={0,1,1,1,0,1,1,1,1},leak8=leak4;
+        log_fill_holes(leak4,3,3,nullptr);log_fill_holes(leak8,3,3,nullptr,true);
+        require(leak4[4]==1 && leak8[4]==0);
         require(log_response_basins({0,3,2,1,2,3,0},7,1,20,nullptr)==std::vector<std::uint32_t>({0,1,1,0,2,2,0}));
         require(log_response_basins({0,3,3,2,1,0},6,1,20,nullptr)==std::vector<std::uint32_t>({0,1,1,1,1,0}));
         require(log_response_basins({0,.0005f,0},3,1,20,nullptr)==std::vector<std::uint32_t>({0,0,0}));

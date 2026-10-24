@@ -75,7 +75,7 @@ inline std::vector<std::uint8_t> log_basin_regions(const std::vector<float>& sco
         for(auto y=top;y<=bottom;++y) {add(y*width+left);add(y*width+right);}
         for(std::size_t at=0;at<queue.size();++at) {
             if((at&4095)==0) checkpoint(cancelled);
-            log_neighbors(queue[at],width,height,false,[&](std::size_t j) {if(j%width>=left && j%width<=right && j/width>=top && j/width<=bottom) add(j);});
+            log_neighbors(queue[at],width,height,p.eight_connected_background,[&](std::size_t j) {if(j%width>=left && j%width<=right && j/width>=top && j/width<=bottom) add(j);});
         }
         double sum=0;std::size_t count=0;
         for(auto y=top;y<=bottom;++y) {checkpoint(cancelled);for(auto x=left;x<=right;++x) if(state[y*width+x]!=1) {sum+=score[y*width+x];++count;}}
@@ -86,5 +86,5 @@ inline std::vector<std::uint8_t> log_basin_regions(const std::vector<float>& sco
         if((i&4095)==0) checkpoint(cancelled);if(!positive[i]) continue;
         bool near=mask[i]!=0;log_neighbors(i,width,height,true,[&](std::size_t j) {near=near || mask[j];});expanded[i]=near;
     }
-    log_fill_holes(expanded,width,height,cancelled);return expanded;
+    log_fill_holes(expanded,width,height,cancelled,p.eight_connected_background);return expanded;
 }

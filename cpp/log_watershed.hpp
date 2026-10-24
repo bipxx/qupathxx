@@ -12,6 +12,7 @@ struct LogParameters {
     std::uint64_t minimum_area=16, maximum_area=512;
     int peak_connectivity=8;
     bool response_basins=false; // Internal candidate; production/archive recipes remain unchanged.
+    bool eight_connected_background=false;
     std::size_t maximum_cells=10000, work_bytes=256*1024*1024;
     void validate() const {
         if(!std::isfinite(sigma) || sigma<0 || sigma>16 || !std::isfinite(threshold) ||
@@ -82,14 +83,14 @@ inline std::vector<std::uint8_t> log_positive(const std::vector<float>& score,st
     return positive;
 }
 
-inline void log_fill_holes(std::vector<std::uint8_t>& mask,std::size_t width,std::size_t height,const std::atomic<bool>* cancelled) {
+inline void log_fill_holes(std::vector<std::uint8_t>& mask,std::size_t width,std::size_t height,const std::atomic<bool>* cancelled,bool diagonal=false) {
     std::vector<std::uint8_t> exterior(mask.size());std::vector<std::uint32_t> queue;queue.reserve(mask.size());
     auto add=[&](std::size_t i) {if(!mask[i] && !exterior[i]) {exterior[i]=1;queue.push_back(static_cast<std::uint32_t>(i));}};
     for(std::size_t x=0;x<width;++x) {add(x);add((height-1)*width+x);}
     for(std::size_t y=0;y<height;++y) {add(y*width);add(y*width+width-1);}
     for(std::size_t at=0;at<queue.size();++at) {
         if((at&4095)==0) checkpoint(cancelled);
-        log_neighbors(queue[at],width,height,false,add);
+        log_neighbors(queue[at],width,height,diagonal,add);
     }
     for(std::size_t i=0;i<mask.size();++i) {if((i&4095)==0) checkpoint(cancelled);mask[i]=mask[i] || !exterior[i];}
 }
@@ -122,7 +123,7 @@ inline std::vector<std::uint8_t> log_regions(const std::vector<float>& score,std
         for(auto y=top;y<=bottom;++y) {add(y*width+left);add(y*width+right);}
         for(std::size_t at=0;at<queue.size();++at) {
             if((at&4095)==0) checkpoint(cancelled);
-            log_neighbors(queue[at],width,height,false,[&](std::size_t j) {
+            log_neighbors(queue[at],width,height,p.eight_connected_background,[&](std::size_t j) {
                 if(j%width>=left && j%width<=right && j/width>=top && j/width<=bottom) add(j);
             });
         }
@@ -137,7 +138,7 @@ inline std::vector<std::uint8_t> log_regions(const std::vector<float>& score,std
         if(!positive[i]) continue;
         bool near=mask[i]!=0;log_neighbors(i,width,height,true,[&](std::size_t j) {near=near || mask[j];});expanded[i]=near;
     }
-    log_fill_holes(expanded,width,height,cancelled);return expanded;
+    log_fill_holes(expanded,width,height,cancelled,p.eight_connected_background);return expanded;
 }
 
 #include "log_response_regions.hpp"
