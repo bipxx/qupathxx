@@ -56,10 +56,36 @@
     ]
   },
   "explicit_winding_compartments": 42,
-  "full_gui_accepted": false,
+  "full_gui_accepted": true,
   "hosted_matrix_accepted": false,
   "macos_accepted": false,
   "performance_accepted": false,
   "release_ready": false,
-  "scope": "Local typed GUI wheel/native/focused/installed validation and nine-case pinned characterization. Full local GUI is running. ROI-hole nuclei and unmatched resampling remain different; no broad segmentation, biological, hardware or M0-M7 acceptance."
+  "scope": "Completed local Windows typed-wheel/native/installed/stub/typing/focused and full GUI validation at source2afd, plus inspected source-bound native GUI capture. ROI-hole nuclei and unmatched resampling remain different; hosted, portable, Mac, hardware, broader biology and M0-M7/release acceptance remain separate.",
+  "full_gui": {
+    "passed": 2248,
+    "total": 2264,
+    "optional_skips": 13,
+    "strict_legacy_scientific_xfails": 3,
+    "junit_sha256": "3c841dd6123f957bc7be7dcbcb98b7ff2ae4bfc7330fea9ea22f35dd21441a55",
+    "log_sha256": "2e29c762ee061be06ada3488929fc54b4ca8ecb112b1b453f5b8f516988f01b9"
+  },
+  "desktop_capture": {
+    "source": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+    "source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+    "native_sha256": "60350633ea0066cccc951934cd2629198acd82a99a925fbb42344bc3192c2e3a",
+    "frame_sha256": "b5ae90b489afbfe3c39cf26a1f92bf738698ee38dcd44e4511ef0f24a242a819",
+    "png_sha256": "26d9a2b163bbb107ca12173c1d5db6e6db03f1e1a219092c326c8c4546b45830",
+    "framebuffer": [
+      1600,
+      1000
+    ],
+    "renderer": "llvmpipe (LLVM 23.1.2, 256 bits)",
+    "algorithm": "qpx.log-watershed-bodies/1",
+    "cell_count": 3,
+    "published_cells": 3,
+    "ui_overflow_items": 0,
+    "exact_native_gui_labels": true,
+    "visually_inspected": true
+  }
 }

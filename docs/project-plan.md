@@ -4441,3 +4441,22 @@ engine rejects under the new expansion requirement. This tests the auditor;
 portable source2afd workflow/ABI acceptance still requires its four hosted jobs
 and complete artifact audit. Native source, project release, hardware and every
 remaining M0–M7 requirement are unchanged by this validation tooling packet.
+
+
+Packet133's complete local GUI regression now passes 2,248 Python cases,
+13 optional skips and the same three strict legacy scientific xfails. The
+[updated source-bound receipt](benchmarks/watershed-bodies-windows-local.json)
+retains 47 native suites, 92 focused cases, installed/stub/typing gates and the
+full regression. The [inspected workspace](images/watershed-bodies-windows.png)
+shows three published cells with exact native/GUI labels, 1600 × 1000 framebuffer
+and no reported UI overflow. Source2afd hosted/portable/Mac gates remain independent.
+
+The [two-mode profile](benchmarks/watershed-bodies-scaling-windows.json)
+retains all 48 fresh-process observations and 12 excluded warmups. All counts,
+compartment RGB checks, per-mode output invariants and matching cross-mode nucleus
+maps pass. At 1,024 square pixels / 256 cells, new-mode detection medians are
+307–318 ms with about 107 MiB process peak after detection. Existing LoG medians
+are 308–327 ms. Both after-detection and after-output-check process peaks are
+retained. The uncontrolled sequential run does not establish a speedup or accept
+hardware targets, biology or the full plan. No cache/worker memory contract or
+scientific tolerance is relaxed.

@@ -200,5 +200,7 @@ Python/CLI/batches/ImGui and managed viewer captures. Local source2afd passes
 47 native and92 focused cases plus installed/stub/typing gates. Its independent
 production corpus has seven exact nucleus maps and eight exact body maps;
 ROI-edge nuclei and unmatched-grid resampling retain measured differences.
-The full GUI and hosted platform gates are pending. Cell detection remains
-Partial; expansion/kernel comparisons do not establish broader biology or M5.
+The full local GUI regression passes 2,248 cases with 13 optional skips and
+the same three legacy scientific xfails. Hosted platform gates remain pending.
+Cell detection remains Partial; expansion/kernel comparisons do not establish
+broader biology or M5.

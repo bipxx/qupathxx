@@ -80,9 +80,30 @@ All 42 explicit-winding shared-geometry measurements retain their original
 tolerances and pass, and all detector labels/features are tile-invariant.
 The comparison retains segmentation parity and biological validation as false.
 
-The full local GUI regression and source-specific Windows/Linux/Mac runs are
-pending. Use the source auditor with `--watershed-bodies --ndpi-readers
+The full local GUI regression passes 2,248 cases, with 13 optional skips and
+the same three strict legacy scientific xfails. The inspected
+[native workspace capture](images/watershed-bodies-windows.png) shows three
+published cells at 1600 × 1000, exact native/GUI labels and no reported overflow.
+Source-specific Windows/Linux/Mac runs remain pending.
+Use the source auditor with `--watershed-bodies --ndpi-readers
 --rendered-loop --gui-stack` to require the new native suite, all 42 production
 body cases (three desktop-only) and source/native/tool-bound comparison output.
 It accepts the old engine under the old gates and rejects it under the new mode.
 Portable consumers, broad science, hardware and supported release remain open.
+
+## Runtime and memory observations
+
+The [paired production profiles](benchmarks/watershed-bodies-scaling-windows.json)
+retain all 48 fresh-process records, including 12 excluded warmups, at 256,
+512 and 1024 square pixels and tile sizes 64/256. Every count, compartment RGB
+mean and per-mode label/feature invariant check passes. Nucleus maps match
+between the two modes; their body differences are retained.
+
+At 1024 square pixels and 256 cells, the new mode records detection medians
+of 307–318 ms and about 107 MiB process peak after detection. Existing LoG
+records 308–327 ms on this sequential comparison. Process peaks after the
+independent output checks are also retained. Timers exclude input generation
+and those checks; memory includes Python, NumPy, imports, generated inputs and
+native allocations. This shared workstation is uncontrolled, so these data
+accept neither a speedup nor a hardware/performance budget. The named decoder,
+GUI navigation, biology and release gates remain separate requirements.
