@@ -4378,3 +4378,25 @@ Python, ImGui, CLI/batches, input identities, versioned archives and classifier
 sources, preserving older recipe replay. Full detector features, scientific and
 platform/performance gates remain necessary. No M5 milestone or complete
 QuPath/research parity is claimed from the standalone kernel.
+
+
+## Packet133: versioned production watershed bodies
+
+The explicit `LogWatershedBodies` detector mode now captures the strict-radius
+kernel with the existing contextual LoG nucleus stage. Default distance and
+existing LoG recipes retain their previous body semantics. Distinct algorithm,
+mask and input-digest identities prevent cross-mode verification. QCL3 stores
+new-mode cell records; QCA3 stores classifier cohorts containing the new mode,
+including mixed legacy/new sources. Older archive versions remain canonical.
+Batch CLI `--cell-algorithm log-bodies`, resume manifests, parameter-aware CSV,
+thin nanobind exports, shared ImGui inspector/batch controls and managed viewer
+captures carry the same mode. See [integration contract](cell-expansion.md).
+
+The first production GUI wheel is building. New tests cover all nine scenes at
+three tile sizes, seven exact natural-grid nucleus/body comparisons, independent
+RGB compartment means, mixed three-mode archives/classifier sources, distinct
+batch checkpoint resume, CLI, natural pyramid identity/admission, stale authority,
+cancellation, direct GUI, managed viewer and desktop batch recipes. Existing LoG
+and distance tests remain in place. Production, typed-wheel, full native/GUI,
+hosted, portable, Mac, scientific and performance gates remain pending; the
+standalone expansion receipt does not qualify these changed production inputs.

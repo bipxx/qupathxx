@@ -38,3 +38,33 @@ batch-manifest updates, Python types and ImGui controls. Existing saved recipes
 must retain their current inclusive nearest-label behavior. The new mode must
 then pass full detector/feature, archive, native/Python/CLI/GUI and platform gates
 without weakening the pinned tolerances.
+
+## Production integration under validation
+
+`CellAlgorithm::LogWatershedBodies` / Python `LOG_WATERSHED_BODIES` is the
+explicit production recipe for the kernel. It shares the existing LoG nucleus
+detector and contextual input grid, with strict-radius watershed body expansion.
+The default `DistanceWatershed` and existing `LogWatershed` keep their inclusive
+nearest-label expansion. Selecting the new mode does not change the nucleus
+radius, spacing, area-filter or ROI policies.
+
+The result identity is `qpx.log-watershed-bodies/1`. Input digest domains are
+`qpx.log-bodies-rgba-tiles/1` and `qpx.log-bodies-rgba-level-tiles/1` so requests
+cannot verify against older detector records just because the source pixels
+match. New cell archives use QCL3; QCL1 and QCL2 remain the encodings of the
+existing modes. Classifier archives use QCA3 if any source row references the
+new mode and preserve mixed distance/LoG/body recipes. Existing QCA1/QCA2
+archives remain readable and keep their canonical encodings.
+
+The native batch CLI accepts `--cell-algorithm log-bodies`; its manifest records
+algorithm value 2 separately from LoG value 1, preventing checkpoint reuse across
+those modes. CSV uses `detector_mode=log-bodies` within the existing parameter-
+aware table schemas. Shared ImGui cell and batch controls expose “LoG with
+watershed bodies”; managed viewer commands capture the same native parameters.
+LoG prominence/context options apply to both LoG variants.
+
+The first production wheel is building. New workflow checks cover the pinned
+corpus, independent compartment RGB means, tile invariance, all three saved
+recipe modes and classifier sources, CLI/batch resume, pyramid work admission,
+stale-result/cancellation behavior and direct/batch/managed desktop capture.
+Passing expansion-only checks above does not accept this production integration.
