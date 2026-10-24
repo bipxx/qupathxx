@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import platform
 import time
@@ -21,6 +22,8 @@ def main():
     parser.add_argument("--ui-scale", type=float, default=1)
     parser.add_argument("--scale-cycle", action="store_true", help="Replay live UI multipliers 1.5, 1, 1.25 at frames 60, 90, 120")
     parser.add_argument("--output", type=Path, default=Path("build/viewer-benchmark.json"))
+    parser.add_argument("--profile-directory", type=Path,
+                        help="Retain native per-phase frame profiles for both views")
     args = parser.parse_args()
     if args.frames < 30:
         parser.error("at least 30 frames required")
@@ -54,8 +57,16 @@ def main():
             events.append(event)
         options.inputs = events
     runs = []
+    previous_profile = os.environ.get("QUPATHXX_GUI_PROFILE")
+    if args.profile_directory is not None:
+        args.profile_directory = args.profile_directory.resolve()
+        args.profile_directory.mkdir(parents=True, exist_ok=True)
     try:
         for label in ["first-view", "repeat-view"]:
+            profile_path = None
+            if args.profile_directory is not None:
+                profile_path = args.profile_directory / (label + ".json")
+                os.environ["QUPATHXX_GUI_PROFILE"] = str(profile_path)
             start = time.perf_counter()
             report = q.show(document, frame_limit=args.frames, options=options)
             runs.append({
@@ -78,8 +89,26 @@ def main():
                 "ui_overflow_items": report.ui_overflow_items, "ui_max_overflow": report.ui_max_overflow,
                 "ui_overflow_label": report.ui_overflow_label,
             })
+            if profile_path is not None:
+                profile_bytes = profile_path.read_bytes()
+                profile = json.loads(profile_bytes)
+                if (profile.get("schema") != "qpx.gui-profile/1" or
+                        profile.get("source_tree_sha256") != q.build_environment().source_tree_sha256 or
+                        len(profile.get("frames", [])) != min(report.frames, 4096)):
+                    raise RuntimeError("native frame profile does not match the measured view")
+                runs[-1]["native_phase_profile"] = {
+                    "path": str(profile_path),
+                    "sha256": hashlib.sha256(profile_bytes).hexdigest(),
+                    "samples": len(profile["frames"]),
+                    "scope": "CPU phases before swap/capture; bounded first 4096 frames, including warmup",
+                }
     finally:
         server.close()
+        if args.profile_directory is not None:
+            if previous_profile is None:
+                os.environ.pop("QUPATHXX_GUI_PROFILE", None)
+            else:
+                os.environ["QUPATHXX_GUI_PROFILE"] = previous_profile
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.image.open("rb") as file:
         digest = hashlib.file_digest(file, "sha256").hexdigest()
