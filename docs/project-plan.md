@@ -4460,3 +4460,27 @@ are 308–327 ms. Both after-detection and after-output-check process peaks are
 retained. The uncontrolled sequential run does not establish a speedup or accept
 hardware targets, biology or the full plan. No cache/worker memory contract or
 scientific tolerance is relaxed.
+
+
+## Packet136: real-slide detector characterization
+
+The [pinned real-tissue comparison](qupath-ndpi-cell-comparisons.md) adds a
+verified QuPath 0.7.0 capture from CMU-1.ndpi, with exact source RGB, global
+GeoJSON, nucleus/body masks, plugin measurements and byte provenance. All35
+focused checks pass, including immutable capture/identity/label ledgers, bounded
+ROI cropping and fast-matcher equivalence. Installed source2afd results are
+tile invariant and independently RGB/count verified, but detect299 cells versus
+QuPath506 with nucleus foreground IoU0.506. This major scientific gap is retained.
+Eight fixed one-factor diagnostics do not establish parity or change defaults.
+An omitted LoG-response basin separation before intensity filtering is a
+candidate structural cause; isolated native stage work remains necessary.
+
+The combined source2afd Windows/Linux run40073408498 now passes its full
+artifact audit, including42 production body workflows, native expansion,
+timing/default-stack startup, real NDPI readers and inherited workflows.
+The [receipt](benchmarks/watershed-bodies-windows-linux.json) records GUI2250
+Python/47 native; Windows headless1853/46; Linux headless1851/46; and46 native
+each on minimal and ASan/UBSan. Portable run40073724906 has two successful
+builders and two queued consumers. Mac run40073489057 remains queued;
+private-zlib run40072054364 has successful Intel/45 native and queued Arm.
+Main promotion and M0–M7 completion remain withheld.

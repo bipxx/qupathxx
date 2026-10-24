@@ -33,6 +33,14 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 
 ## Current packet and remaining decisions
 
+The [real-slide cell comparison](qupath-ndpi-cell-comparisons.md) now retains
+an immutable QuPath NDPI capture and exact source pixels. Native LoG modes
+detect299 cells versus506 upstream, with nucleus foreground IoU0.506.
+Tile invariance and independent native RGB/count checks pass; real-tissue
+segmentation parity remains unresolved. The source2afd Windows/Linux artifact
+audit passes all five jobs and the42 body workflows. Mac and portable consumer
+gates remain pending, and main promotion remains withheld.
+
 The independent [QuPath cell-plugin corpus](qupath-cell-comparisons.md) now
 characterizes nine synthetic workflows, including IoU/counts, split/merge
 relations and feature differences. Tile invariance and 36 shared-ROI compartment
