@@ -99,11 +99,12 @@ def compare(folder,image):
     from qupathxx import _native
     contract,reference=verify_capture(folder)
     identify_image(image,contract)
-    metrics=module('qpx_real_ndpi_metrics',ROOT/'tools/compare_qupath_cells.py')
+    metrics=module('qpx_real_ndpi_metrics',ROOT/'tools/label_comparison.py')
     roi=contract['roi'];x,y,width,height=roi
     report=dict(schema='qpx.qupath-ndpi-cells-comparison/1',state='characterized-partial',
         build_git_revision=q.build_environment().git_revision,source_tree_sha256=q.build_environment().source_tree_sha256,
         native_sha256=sha(Path(_native.__file__)),tool_sha256=sha(Path(__file__)),
+        metrics_tool_sha256=sha(ROOT/'tools/label_comparison.py'),
         capture_manifest_sha256=sha(folder/'capture-manifest.json'),contract_sha256=sha(CONTRACT),
         fixture_sha256=contract['fixture']['sha256'],source_pixels_equal=False,
         segmentation_parity_accepted=False,biological_validation=False,performance_accepted=False,runs=[])
@@ -141,7 +142,7 @@ def compare(folder,image):
                         if len(selected)!=getattr(feature,compartment+'_pixels'):
                             raise RuntimeError('real-slide compartment count differs from its label map')
                         np.testing.assert_allclose(selected.mean(axis=0),getattr(feature,compartment+'_rgb'),rtol=0,atol=1e-10)
-                results.append(dict(tile_size=tile,cells=result.cell_count,algorithm=result.algorithm,
+                results.append(dict(tile_size=tile,cells=result.cell_count,raw_peaks=result.raw_peaks,algorithm=result.algorithm,
                     labels_sha256=identity,input_sha256=result.nuclei.input_sha256,
                     estimated_work_bytes=request.estimated_work_bytes,retained_bytes=result.retained_bytes,
                     segmentation={name:metrics.metrics(refs[name],mask,contract['comparison']) for name,mask in masks.items()}))
