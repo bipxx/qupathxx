@@ -65,6 +65,13 @@ are not measured by that platform test. Complete Windows/Linux and portable
 builder/consumer engineering acceptance is now recorded above; wall-time,
 hardware, biological and supported-release acceptance remain separate.
 
+A separate [multi-grid cohort candidate](tma-cohorts.md) now implements captured
+raw-row pooling, image/core namespaces, canonical source manifests, native/Python
+file APIs, explicit project CLI selection and an ImGui project-pooling control.
+Its first Windows SDK build passes 47 native suites and 111 TMA API/CLI cases.
+One of 17 desktop cases exposes an owner-thread status defect; a fix awaits
+rebuild. Full installed, desktop and platform acceptance remains open.
+
 The accepted TMA case-summary engine adds native/Python/ImGui single-grid replicate
 pooling, explicit weighting, missing-core exclusion, unassigned-core isolation,
 revision checks and bounded cancellable CSV export. The

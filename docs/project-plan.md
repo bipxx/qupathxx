@@ -4747,3 +4747,28 @@ Windows headless passes 2,017/46, Linux headless 2,015/46, and minimal/sanitizer
 jobs pass all 46 native suites. [Promotion](benchmarks/tma-case-input-main-promotion.json)
 fast-forwards `main` from `083da0c` to exact audited source `132288c`. Performance,
 hardware, biological, licensing and supported-release requirements remain open.
+
+
+## Captured multi-grid TMA pooling (candidate 144)
+
+The native cohort engine namespaces core selectors by image, pools raw rows for
+shared case IDs, retains separate unassigned cores and binds captured metadata
+with a canonical source manifest. Thin GIL-released Python APIs and the shared
+bounded atomic file exporter expose those captures. An explicit native project
+CLI selects repeated image IDs or all TMA images. ImGui captures all project
+grids on the owner thread and exports on its native worker.
+
+The first installed Windows build passes 47 native suites and 111 TMA API/CLI
+cases, including 46 new cohort cases. Desktop replay passes 16 of 17 cases and
+finds an idle status after an owner-thread preflight failure. The fix requires
+rebuilding and rerunning that regression; it is not marked as an expected
+failure. Twelve altered-evidence controls also reject old, missing, duplicate,
+failed and skipped cohort evidence, including this actual desktop failure.
+
+The initial scale probe independently checks 24 retained observations through
+one million rows across four grids and 3,996 cores. All 108 inherited
+single-grid paired samples retain identical CSV hashes; timings are mixed and
+do not establish a general speedup. See the [cohort contract](tma-cohorts.md).
+Final installed stubs/typing, positive fixed desktop replay, full regression,
+platform audits, peak memory and hardware acceptance remain open. M0-M7 remain
+partial; no license or supported-release acceptance is implied.

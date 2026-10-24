@@ -93,3 +93,7 @@ docs/benchmarks/tma-case-*.json -text whitespace=cr-at-eol
 docs/benchmarks/expansion-frontier-*.json -text whitespace=cr-at-eol
 
 tools/profile_tma_file_inputs.py text eol=lf
+
+# Cohort profiling and source-bound JSON evidence use explicit LF.
+tools/profile_tma_cohorts.py text eol=lf
+docs/benchmarks/tma-cohort-*.json text eol=lf

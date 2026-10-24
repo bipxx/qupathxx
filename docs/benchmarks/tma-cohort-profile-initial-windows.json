@@ -194,5 +194,7 @@
   },
   "performance_accepted": false,
   "release_ready": false,
-  "scope": "Captured multi-grid raw-row pooling with colliding local IDs, shared cases, isolated unassigned cores, missing cores, vacancies and zero weights. Native CSV parsing, statistics, manifest creation, hashing and formatting are timed; Python fixture/oracle work is excluded. All observations include explicit warmups. No peak-memory, hardware-wide speedup, QuPath or biological acceptance."
+  "scope": "Captured multi-grid raw-row pooling with colliding local IDs, shared cases, isolated unassigned cores, missing cores, vacancies and zero weights. Native CSV parsing, statistics, manifest creation, hashing and formatting are timed; Python fixture/oracle work is excluded. All observations include explicit warmups. No peak-memory, hardware-wide speedup, QuPath or biological acceptance.",
+  "source_tool_normalized_lf_sha256": "9a2a25ce7a1e8801b65b541762a0db0025303dd0a6da200a666b3e899928a751",
+  "original_tool_retained": "build/cohort144-initial-profile-tool.py"
 }
