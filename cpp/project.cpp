@@ -599,7 +599,9 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         for(const auto& [object_id,a]:doc.objects_) write_object(a);
         for(const auto& block:doc.object_snapshot_) for(const auto& a:block->values) write_object(a);
     }
-    for(const auto& [image_id,e]:entries_) {
+    for(const auto& image_entry:entries_) {
+      const auto image_id=image_entry.first;
+      const auto& e=image_entry.second;
       auto write_analysis=[&](const AnalysisRecord& record) {
         write_provenance(image_id,record.id,record.result.provenance);
         if(cancelled && cancelled->load()) throw std::runtime_error("project save cancelled");

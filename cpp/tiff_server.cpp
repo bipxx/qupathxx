@@ -3,6 +3,7 @@
 #include "reader_provenance.hpp"
 #include "atomic_export.hpp"
 #include "utf8_text.hpp"
+#include "decimal_quantity.hpp"
 #include <algorithm>
 #include <array>
 #include <charconv>
@@ -73,8 +74,7 @@ std::uint32_t integer(const tinyxml2::XMLElement* e,const char* key,std::optiona
     if(result.ec!=std::errc{} || result.ptr!=end) throw std::invalid_argument(std::string("invalid OME integer ")+key);return n;
 }
 std::optional<double> quantity(const tinyxml2::XMLElement* e,const char* key,const char* unit_key,bool time=false) {
-    const auto* text=e->Attribute(key);if(!text) return {};double n=0;const auto* end=text+std::strlen(text);const auto parsed=std::from_chars(text,end,n);
-    if(parsed.ec!=std::errc{} || parsed.ptr!=end || !std::isfinite(n) || n<=0) return {};
+    const auto parsed=detail::positive_decimal_quantity(e->Attribute(key));if(!parsed) return {};const double n=*parsed;
     const auto* attr=e->Attribute(unit_key);const std::string unit=attr?attr:(time?"s":u8"\u00b5m");double scale=0;
     if(time) {if(unit=="s") scale=1;else if(unit=="ms") scale=.001;else if(unit==u8"\u00b5s") scale=.000001;else if(unit=="min") scale=60;else if(unit=="h") scale=3600;}
     else {if(unit==u8"\u00b5m" || unit=="um") scale=1;else if(unit=="nm") scale=.001;else if(unit=="mm") scale=1000;else if(unit=="cm") scale=10000;else if(unit=="m") scale=1000000;else if(unit==u8"\u00c5") scale=.0001;}
