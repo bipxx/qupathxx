@@ -4161,3 +4161,16 @@ cases, the native project stdout marker proving real NDPI save/replay, all new
 LoG/parser/cache cohorts and inherited full workflows/runtime/typing gates.
 Minimal and sanitizer also pass 45 native suites. Windows jobs, overall matrix,
 Mac124 and the newer-source portable125 run remain independent pending checks.
+
+
+## Packet127: bounded rendered-loop wall timing
+
+A 2560 × 1440 NDPI zoom/overview/UI-scale replay on the qualified source8160
+completes with zero pending tiles/UI overflow and under64MiB GPU payload. Its
+CPU-work p95 is about8.7–10.2ms, but that excludes swap/capture. The new
+[wall-timing contract](frame-timing.md) adds native bounded rendered-loop wall
+percentile, maximum and retained sample count, preserving CPU metric semantics.
+Startup and ordinary GUI checks exercise their respective warmup/sample rules;
+benchmark and typed exports expose both measurements. Source-specific GUI/native,
+stub/typing, regression and performance validation are pending. No33ms wall or
+hardware acceptance follows from the earlier CPU observation alone.

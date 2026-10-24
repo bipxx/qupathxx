@@ -62,6 +62,9 @@ def main():
                 "name": label, "elapsed_seconds": time.perf_counter() - start,
                 "frames": report.frames, "cpu_frame_p95_ms": report.cpu_frame_p95_ms,
                 "max_cpu_frame_ms": report.max_cpu_frame_ms,
+                "rendered_frame_wall_p95_ms": report.rendered_frame_wall_p95_ms,
+                "max_rendered_frame_wall_ms": report.max_rendered_frame_wall_ms,
+                "rendered_frame_wall_samples": report.rendered_frame_wall_samples,
                 "uploaded_tiles": report.uploaded_tiles, "peak_gpu_payload_bytes": report.peak_gpu_bytes,
                 "pending_tiles_at_exit": report.pending_tiles,
                 "framebuffer_size": [report.framebuffer_width, report.framebuffer_height],
@@ -89,7 +92,7 @@ def main():
         "window_logical_size": [args.width, args.height], "ui_multiplier": args.ui_scale,
         "scale_cycle": args.scale_cycle, "runs": runs,
         "scope": ("ImGui zoom/overview replay" if args.navigate else "Static fit view") +
-                 ". CPU timing excludes explicit swap/vsync and capture; includes planning/upload/draw submission. Driver calls may block. No GPU completion latency claim.",
+                 ". CPU timing excludes explicit swap/vsync and capture; includes planning/upload/draw submission. Driver calls may block. Rendered-loop wall metrics include swap/capture/post-paint startup dispatch; suspended iterations and final shutdown are excluded. Retains at most 4096 recent samples, excluding the first ten frames unless startup instrumentation is requested. No GPU completion or photon-latency claim.",
     }
     args.output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf8")
     print(json.dumps(result, indent=2))

@@ -409,7 +409,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             !ImGui::IsWindowAppearing() && !(ImGui::GetItemFlags()&ImGuiItemFlags_Disabled)?frames:-2;
     };
     std::size_t visible_count=0;
-    std::vector<double> frame_times;
+    std::vector<double> frame_times,frame_wall_times;
     TilePlan plan;
     GuiThumbnail overview(options.overview_source_pixel_limit);
     ImVec2 overview_more_offset{},overview_more_size{},overview_less_offset{},overview_less_size{};
@@ -2353,7 +2353,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         rendered_window_width=static_cast<int>(io.DisplaySize.x);rendered_window_height=static_cast<int>(io.DisplaySize.y);
         auto cpu_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-frame_start).count();
         profile.total_ms=cpu_ms;profiler.add(profile);
-        if (frames>=10 || startup_requested) {
+        const bool sampled_frame=frames>=10 || startup_requested;
+        if (sampled_frame) {
             if (frame_times.size()==4096) frame_times.erase(frame_times.begin(),frame_times.begin()+2048);
             frame_times.push_back(cpu_ms);
         }
@@ -2390,6 +2391,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 });
             }
         }
+        if(sampled_frame) {
+            const auto wall_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-frame_start).count();
+            if(frame_wall_times.size()==4096) frame_wall_times.erase(frame_wall_times.begin(),frame_wall_times.begin()+2048);
+            frame_wall_times.push_back(wall_ms);
+        }
         if(final_frame) break;
     }
     // Finite embedded runs also return a durable save result and reconcile the
@@ -2412,6 +2418,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if(retired_workspace.valid()) max_retirement_ms=std::max(max_retirement_ms,retired_workspace.get());
     profiler.save();
     std::sort(frame_times.begin(),frame_times.end());
+    std::sort(frame_wall_times.begin(),frame_wall_times.end());
     auto p95=frame_times.empty()?0:frame_times[static_cast<std::size_t>((frame_times.size()-1)*.95)];
     const bool empty=options.project && !active_image;
     const auto analysis_status=analysis.poll(*active_document,selection->primary());
@@ -2463,7 +2470,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         final_fingerprint.state,final_fingerprint.error.empty()?fingerprint_error:final_fingerprint.error,fingerprint_job.result(),final_fingerprint.bytes,final_fingerprint.elapsed_ms,
         final_measurement.state,measurement_error.empty()?final_measurement.error:measurement_error,final_measurement.rows,final_measurement.capture_ms,final_measurement.write_ms,fingerprint_job.association(),final_estimate.state,stain_estimate_error.empty()?final_estimate.error:stain_estimate_error,estimate_result,stain_estimate_applied,batch.stats().state,batch.error(),batch.result(),suspended_iterations,suspended_work_ms,suspended_wait_ms,bool(glfwGetWindowAttrib(session.window,GLFW_ICONIFIED)),overview.state(),overview.error(),overview.result(),overview.bytes(),overview.peak_bytes(),workspace.enabled(),workspace.loaded(),layout_saved,workspace.error(),workspace.browser,workspace.display,workspace.measurements,workspace.canvas,canvas_visible,ui_scale.monitor,ui_scale.framebuffer,ui_scale.logical,font_rebuilds,ui::layout_stats.stacked_fields,ui::layout_stats.wrapped_buttons,ui::layout_stats.overflow_items,ui::layout_stats.max_overflow,ui::layout_stats.first_overflow,classifier.stats().state,classifier.error(),classifier.io_state(),classifier.io_error(),classifier.model(),classifier.result(),classifier.changed(),classifier.capture_ms(),classifier.record_id(),pixel_classifier.training_stats().state,pixel_classifier.prediction_stats().state,pixel_classifier.error(),pixel_classifier.io_state(),pixel_classifier.io_error(),pixel_classifier.model(),pixel_classifier.table(),pixel_classifier.result(),pixel_classifier.preview_ready(),canvas_visible && pixel_classifier.overlay_visible(),pixel_classifier.preview().bytes(),pixel_classifier.preview().peak_bytes(),pixel_classifier.preview().completed_tiles(),pixel_classifier.preview().generation(),pixel_classifier.capture_ms(),pixel_classifier.catalog_inspected(),pixel_classifier.catalog_max_step(),pixel_classifier.catalog_complete(),Rect{previous_canvas.x,previous_canvas.y,previous_canvas_size.x,previous_canvas_size.y},pixel_classifier.contour_state(),pixel_classifier.traced(),pixel_classifier.published_ids(),pixel_classifier.contours_published(),pixel_classifier.archives().state(),pixel_classifier.archives().kept(),pixel_classifier.archives().selected(),pixel_classifier.historical_result(),pixel_classifier.archives().max_step(),pixel_classifier.archives().complete(),ignored_physical_wheels,std::make_shared<const PixelStreamExportStats>(pixel_classifier.stream_stats()),std::make_shared<const PixelStreamReadStats>(pixel_classifier.browser().stats()),pixel_classifier.browser().preview().bytes(),pixel_classifier.browser().preview().peak_bytes(),pixel_classifier.browser().preview().ready(),pixel_classifier.browser().preview_bounds(),pixel_classifier.browser().kept(),pixel_classifier.browser().selected(),pixel_classifier.browser().catalog_max_step(),pixel_classifier.browser().catalog_complete()};
     report.tma_error=tma.error();report.tma_export_state=tma.export_state();report.tma_created_ids=tma.created();report.tma_cores=active_document->tma_core_count();report.tma_missing_cores=report.tma_cores-active_document->tma_core_ids().size();report.tma_catalog_max_step=tma.catalog_max_step();report.tma_metadata_bytes=tma.metadata_bytes();
-    report.tiff_state=raw.state();report.raw_task_state=raw.task_state();report.raw_error=raw.error();report.raw_statistics=raw.statistics();report.tiff_view_changes=raw.changes();report.raw_export_bytes=raw.export_bytes();report.raw_catalog_max_step=raw.catalog_max_step();report.raw_analysis_result=raw.analysis_result();report.raw_analysis_state=raw.analysis_state();report.raw_csv_state=raw.csv_state();report.raw_csv_rows=raw.csv_rows();report.raw_csv_bytes=raw.csv_bytes();report.raw_record_id=raw.record_id();report.raw_records=active_document?active_document->raw_analysis_record_count():0;report.raw_record_status=active_document?raw.record_status(*active_document):std::string{};report.overview_source_pixel_limit=overview.source_pixel_limit();return report;
+    report.tiff_state=raw.state();report.raw_task_state=raw.task_state();report.raw_error=raw.error();report.raw_statistics=raw.statistics();report.tiff_view_changes=raw.changes();report.raw_export_bytes=raw.export_bytes();report.raw_catalog_max_step=raw.catalog_max_step();report.raw_analysis_result=raw.analysis_result();report.raw_analysis_state=raw.analysis_state();report.raw_csv_state=raw.csv_state();report.raw_csv_rows=raw.csv_rows();report.raw_csv_bytes=raw.csv_bytes();report.raw_record_id=raw.record_id();report.raw_records=active_document?active_document->raw_analysis_record_count():0;report.raw_record_status=active_document?raw.record_status(*active_document):std::string{};report.overview_source_pixel_limit=overview.source_pixel_limit();
+    report.rendered_frame_wall_samples=frame_wall_times.size();
+    report.rendered_frame_wall_p95_ms=frame_wall_times.empty()?0:frame_wall_times[static_cast<std::size_t>((frame_wall_times.size()-1)*.95)];
+    report.max_rendered_frame_wall_ms=frame_wall_times.empty()?0:frame_wall_times.back();
+    return report;
 }
 GuiReport run_project_gui(std::shared_ptr<Project> project,int frame_limit,const std::string& capture_path,const GuiOptions& options) {
     if(!project) throw std::invalid_argument("GUI requires a project");

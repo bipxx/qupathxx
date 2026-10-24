@@ -49,6 +49,10 @@ def test_startup_validates_then_adopts_and_selects_image(tmp_path, kind):
     report = q.show(target, frame_limit=30, options=options)
     assert report.startup_succeeded and not report.startup_cancelled and not report.project_error
     assert report.startup_frames >= 1 and report.frames >= 30+report.startup_frames
+    assert report.rendered_frame_wall_samples == report.frames
+    assert report.rendered_frame_wall_p95_ms >= report.cpu_frame_p95_ms > 0
+    assert report.max_rendered_frame_wall_ms >= report.max_cpu_frame_ms
+
     assert report.startup_images == 2 and report.startup_objects == 1 and report.startup_ms > 0
     assert report.project_replacements == 1 and report.active_image == target.active_image == image
     assert target.identity == original.identity and report.uploaded_tiles > 0

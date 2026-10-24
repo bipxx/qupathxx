@@ -467,3 +467,8 @@ def log_cell_recipe() -> q.CellParameters:
     parameters.log_prominence = .5
     parameters.context_padding = 32
     return parameters
+
+
+def rendered_loop_metrics(report: q.GuiReport) -> tuple[float, float, int]:
+    return (report.rendered_frame_wall_p95_ms, report.max_rendered_frame_wall_ms,
+            report.rendered_frame_wall_samples)

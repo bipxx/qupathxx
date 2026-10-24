@@ -21,6 +21,11 @@ def test_real_tiled_render_and_cleanup(tmp_path):
     assert report.uploaded_tiles == 4
     assert report.pending_tiles == 0
     assert report.peak_gpu_bytes == 512 * 512 * 4
+    assert report.rendered_frame_wall_samples == report.frames - 10
+    assert report.rendered_frame_wall_p95_ms >= report.cpu_frame_p95_ms > 0
+    assert report.max_rendered_frame_wall_ms >= report.max_cpu_frame_ms
+    assert report.max_rendered_frame_wall_ms >= report.rendered_frame_wall_p95_ms
+
     with Image.open(capture) as frame:
         width, height = frame.size
         assert frame.getpixel((int(width * 0.65), height // 2)) == (30, 120, 210)
