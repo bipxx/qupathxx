@@ -2,6 +2,7 @@
 #include "cell_contours.hpp"
 #include "cell_numeric.hpp"
 #include "cell_recipe.hpp"
+#include "cell_expansion.hpp"
 #include "sha256.hpp"
 #include <cstring>
 #include <limits>
@@ -73,6 +74,10 @@ std::vector<std::uint8_t> CellArchiveCodec::encode(const CellResult& r,const std
         if(f.cytoplasm_rgb) {for(auto v:*f.cytoplasm_rgb) w.real(v);for(auto v:*f.cytoplasm_channels) w.real(v);}
     }
     w.labels(n.labels(),cancelled);w.labels(r.cells()->labels(),cancelled);
+    if(p.algorithm==CellAlgorithm::SampledLogWatershedBodies) {
+        if(r.domain_bits_.size()!=(n.labels().size()+7)/8) throw std::invalid_argument("missing sampled cell domain");
+        w.u64(r.domain_bits_.size());w.bytes.insert(w.bytes.end(),r.domain_bits_.begin(),r.domain_bits_.end());
+    }
     const auto digest=checksum(w.bytes.data(),w.bytes.size(),n.roi(),cancelled);w.bytes.insert(w.bytes.end(),digest.begin(),digest.end());
     if(w.bytes.size()>256u*1024u*1024u) throw std::length_error("encoded cell archive exceeds 256 MiB");return w.bytes;
 }
@@ -109,21 +114,21 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* d
     const auto count=static_cast<std::size_t>(width*height);ColorVector white;std::array<ColorVector,3> stains;
     for(auto& v:white) v=d.real();for(auto& vector:stains) for(auto& v:vector) v=d.real();StainTransform::validate_normalized(stains,white);
     const auto samples=d.limited(count),threshold=d.limited(samples);result->raw_peaks_=static_cast<std::size_t>(d.limited(p.max_cells));
-    const auto markers=static_cast<std::size_t>(d.limited(result->raw_peaks_)),components=static_cast<std::size_t>(d.limited(markers));
+    const auto markers=static_cast<std::size_t>(d.limited(result->raw_peaks_)),components=static_cast<std::size_t>(d.limited(version==4?p.max_cells:markers));
     result->elapsed_ms_=d.real();const auto work=static_cast<std::size_t>(d.limited(p.work_bytes));
     const auto base=cell_detail::work_base(expected_grid,p);
-    const auto decoded=20ull*count+components*(sizeof(CellFeature)+2*sizeof(TissueComponent)+64ull)+markers*sizeof(CellMarker)+40ull*std::max(width,height)+2*roi.payload_bytes()+4096;
+    const auto decoded=(version==4?56ull:20ull)*count+components*(sizeof(CellFeature)+2*sizeof(TissueComponent)+64ull)+markers*sizeof(CellMarker)+40ull*std::max(width,height)+2*roi.payload_bytes()+4096;
     if(!samples || result->elapsed_ms_<0 || (work!=base && work!=base+2ull*p.contours.work_bytes) || decoded>256u*1024u*1024u)
         throw std::invalid_argument("cell archive exceeds decoded budget or has invalid statistics");
     std::string input;for(int i=0;i<64;++i) input.push_back(static_cast<char>(d.byte()));if(!hex(input)) throw std::invalid_argument("invalid cell input digest");
     result->markers_.reserve(markers);std::uint32_t dense=0,previous=0;
     for(std::size_t i=0;i<markers;++i) {
         checkpoint(cancelled);CellMarker m;m.label=d.u32();m.result_label=d.u32();m.pixel_index=d.u32();m.radius=d.real();
-        if(m.label!=i+1 || m.result_label>components || (m.result_label && m.result_label!=++dense) || m.pixel_index>=count || (i && m.pixel_index<=previous) ||
+        if(m.label!=i+1 || m.result_label>components || (version<4 && m.result_label && m.result_label!=++dense) || m.pixel_index>=count || (i && m.pixel_index<=previous) ||
            m.radius<p.min_peak_radius || m.radius>std::hypot(double(width),double(height))) throw std::invalid_argument("invalid cell archive marker");
         m.center={(double(x)+m.pixel_index%width+.5)*scale,(double(y)+m.pixel_index/width+.5)*scale};previous=m.pixel_index;result->markers_.push_back(m);
     }
-    if(dense!=components) throw std::invalid_argument("cell marker mapping is not dense");
+    if(version<4 && dense!=components) throw std::invalid_argument("cell marker mapping is not dense");
     result->features_.resize(components);
     for(std::size_t i=0;i<components;++i) {
         checkpoint(cancelled);auto& f=result->features_[i];f.label=static_cast<std::uint32_t>(i+1);f.nucleus_pixels=d.limited(samples);f.cell_pixels=d.limited(samples);
@@ -144,6 +149,19 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* d
         }
     }
     auto nucleus_labels=d.labels(count,components,cancelled),body_labels=d.labels(count,components,cancelled);
+    std::vector<std::uint8_t> historical_domain;
+    if(version==4) {
+        const auto bytes=(count+7)/8;if(d.limited(bytes)!=bytes) throw std::invalid_argument("sampled cell domain length differs");
+        result->domain_bits_.resize(bytes);for(std::size_t i=0;i<bytes;++i) {if((i&4095)==0) checkpoint(cancelled);result->domain_bits_[i]=d.byte();}
+        if(count%8 && (result->domain_bits_.back()>>(count%8))) throw std::invalid_argument("noncanonical sampled cell domain padding");
+        historical_domain.resize(count);std::uint64_t opaque=0;
+        for(std::size_t i=0;i<count;++i) {
+            if((i&4095)==0) checkpoint(cancelled);const bool inside=(result->domain_bits_[i/8]>>(i%8))&1u;historical_domain[i]=inside;opaque+=inside;
+            if(inside && !roi.contains({(double(x)+i%width+.5)*scale,(double(y)+i/width+.5)*scale})) throw std::invalid_argument("sampled cell domain exceeds its ROI");
+            if(!inside && (nucleus_labels[i] || body_labels[i])) throw std::invalid_argument("sampled cell label exceeds its domain");
+        }
+        if(opaque!=samples) throw std::invalid_argument("sampled cell domain sample count differs");
+    }
     if(d.left) throw std::invalid_argument("trailing cell archive payload");
     auto raster=[&](std::vector<std::uint32_t> labels,bool body) {
         auto r=std::shared_ptr<TissueResult>(new TissueResult());r->algorithm_=body?"qpx.cell-bodies/1":"qpx.cell-nuclei/1";r->input_sha256_=input;r->roi_=roi;
@@ -172,13 +190,19 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* d
     const auto& nuclei=result->nuclei_->labels();const auto& bodies=result->cells_->labels();
     for(const auto& marker:result->markers_) if(marker.result_label && nuclei[marker.pixel_index]!=marker.result_label &&
        (p.algorithm==CellAlgorithm::DistanceWatershed || nuclei[marker.pixel_index])) throw std::invalid_argument("cell marker does not lie in its nucleus or clipped context");
+    if(version==4) {
+        if(components && p.cell_expansion>0) {
+            const auto expected=cell_detail::expand_cells_watershed(nuclei,historical_domain,width,height,p.cell_expansion,p.work_bytes,cancelled);
+            if(expected.labels!=bodies) throw std::invalid_argument("sampled cell body differs from its historical watershed recipe");
+        } else if(nuclei!=bodies) throw std::invalid_argument("sampled cell body violates its empty/zero-radius recipe");
+    }
     std::vector<double> distance;std::vector<std::uint32_t> nearest;
-    if(components && p.cell_expansion>0) {distance.resize(count);for(std::size_t i=0;i<count;++i) distance[i]=nuclei[i]?0:cell_detail::infinity;cell_detail::distance(distance,width,height,false,&nearest,cancelled);}
+    if(version<4 && components && p.cell_expansion>0) {distance.resize(count);for(std::size_t i=0;i<count;++i) distance[i]=nuclei[i]?0:cell_detail::infinity;cell_detail::distance(distance,width,height,false,&nearest,cancelled);}
     for(std::size_t i=0;i<count;++i) {
         if((i&4095)==0) checkpoint(cancelled);
         if(nuclei[i] && nuclei[i]!=bodies[i]) throw std::invalid_argument("cell body does not contain its nucleus");
         if(p.cell_expansion==0 && nuclei[i]!=bodies[i]) throw std::invalid_argument("cell expansion violates zero radius");
-        if(bodies[i] && p.cell_expansion>0 && (distance[i]>p.cell_expansion*p.cell_expansion || nearest[i]==std::numeric_limits<std::uint32_t>::max() || bodies[i]!=nuclei[nearest[i]])) throw std::invalid_argument("cell body violates nearest nucleus assignment");
+        if(version<4 && bodies[i] && p.cell_expansion>0 && (distance[i]>p.cell_expansion*p.cell_expansion || nearest[i]==std::numeric_limits<std::uint32_t>::max() || bodies[i]!=nuclei[nearest[i]])) throw std::invalid_argument("cell body violates nearest nucleus assignment");
     }
     // Geometry is derived from the validated historical labels, never from
     // today's pixels. Preserve readable numeric-only runs if their original

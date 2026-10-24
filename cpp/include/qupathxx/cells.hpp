@@ -98,6 +98,7 @@ private:
     std::shared_ptr<const TissueContours> nucleus_contours_,cell_contours_;
     std::vector<CellFeature> features_;
     std::vector<CellMarker> markers_;
+    std::vector<std::uint8_t> domain_bits_; // QCL4 historical opaque ROI samples, packed least-significant bit first.
     std::size_t raw_peaks_=0;
     double elapsed_ms_=0;
 };

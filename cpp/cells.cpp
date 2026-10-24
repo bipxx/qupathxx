@@ -170,7 +170,7 @@ CalibratedCellFeature CellResult::calibrated_feature(std::uint32_t label) const 
     value.cell_centroid_um=Point{product({b.x,x}),product({b.y,y})};
     return value;
 }
-std::size_t CellResult::retained_bytes() const {return sizeof(CellResult)+markers_.capacity()*sizeof(CellMarker)+features_.capacity()*sizeof(CellFeature)+(nuclei_?nuclei_->retained_bytes():0)+(cells_?cells_->retained_bytes():0)+(nucleus_contours_?nucleus_contours_->retained_bytes():0)+(cell_contours_?cell_contours_->retained_bytes():0);}
+std::size_t CellResult::retained_bytes() const {return sizeof(CellResult)+markers_.capacity()*sizeof(CellMarker)+features_.capacity()*sizeof(CellFeature)+domain_bits_.capacity()+(nuclei_?nuclei_->retained_bytes():0)+(cells_?cells_->retained_bytes():0)+(nucleus_contours_?nucleus_contours_->retained_bytes():0)+(cell_contours_?cell_contours_->retained_bytes():0);}
 struct CellKernel {
     static std::shared_ptr<const TissueResult> raster(const CellRequest& request,std::vector<std::uint32_t> labels,std::size_t count,const std::string& digest,std::uint64_t samples,std::uint64_t threshold,bool body,const std::atomic<bool>* cancelled) {
         auto r=std::shared_ptr<TissueResult>(new TissueResult());r->provenance_=request.source_.provenance();r->algorithm_=body?"qpx.cell-bodies/1":"qpx.cell-nuclei/1";r->input_sha256_=digest;
@@ -299,6 +299,10 @@ struct CellKernel {
             if(cyto) {f.cytoplasm_rgb=ColorVector{};f.cytoplasm_channels=ColorVector{};}
             for(int c=0;c<3;++c) {f.nucleus_rgb[c]=nrgb[i][c]/double(f.nucleus_pixels);f.cell_rgb[c]=brgb[i][c]/double(f.cell_pixels);f.nucleus_channels[c]=nch[i][c]/double(f.nucleus_pixels);f.cell_channels[c]=bch[i][c]/double(f.cell_pixels);
                 if(cyto) {(*f.cytoplasm_rgb)[c]=(brgb[i][c]-nrgb[i][c])/double(cyto);(*f.cytoplasm_channels)[c]=cytoch[i][c]/double(cyto);}}
+        }
+        if(p.algorithm==CellAlgorithm::SampledLogWatershedBodies) {
+            result->domain_bits_.resize((n+7)/8);
+            for(std::size_t i=0;i<n;++i) {if((i&4095)==0) checkpoint(cancelled);if(domain[i]) result->domain_bits_[i/8]|=static_cast<std::uint8_t>(1u<<(i%8));}
         }
         std::vector<float>().swap(channels);std::vector<std::uint8_t>().swap(rgb);std::vector<std::uint8_t>().swap(domain);
         result->nuclei_=raster(request,std::move(nuclei),count,sha,samples,threshold,false,cancelled);
