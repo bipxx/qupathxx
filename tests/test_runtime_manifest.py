@@ -248,3 +248,27 @@ def test_native_archive_rejects_python_and_wrong_layout(tmp_path, failure):
     if failure == 'wrong_name':
         other = tmp_path/'renamed.zip';path.rename(other);path = other
     with pytest.raises(ValueError): runtime.inspect_archive(path, native_archive=True, gui=failure == 'gui')
+
+
+def test_dependency_walk_is_linear_in_source_edge_inspections():
+    count = 512
+    touches = [0]
+    class Edge(dict):
+        def __getitem__(self, key):
+            if key == 'source':
+                touches[0] += 1
+                assert touches[0] <= 2*(count+4), 'dependency traversal rescans the global edge table'
+            return super().__getitem__(key)
+    roots = ['batch.exe', 'region.exe']
+    names = [f'module-{i:04}.dll' for i in range(count)]
+    edges = [Edge(source=root, dependency=names[0], target=names[0], resolution='bundled-sibling') for root in roots]
+    edges += [Edge(source=name, dependency=names[(i+1) % count], target=names[(i+1) % count], resolution='bundled-sibling') for i, name in enumerate(names)]
+    edges += [Edge(source=names[-1], dependency='kernel32.dll', target=None, resolution='windows-system'),
+              Edge(source=names[0], dependency='vcruntime140.dll', target=None, resolution='msvc-runtime')]
+    before = [dict(edge) for edge in edges]
+    result = runtime._dependency_closures(roots, edges, None)
+    assert touches[0] <= 2*len(edges)
+    assert [dict(edge) for edge in edges] == before
+    for row, root in zip(result, roots):
+        assert row == dict(entry_point=root, bundled_images=sorted([root, *names]), external_requirements=[
+            dict(name='kernel32.dll', kind='windows-system'), dict(name='vcruntime140.dll', kind='msvc-runtime')])

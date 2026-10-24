@@ -79,6 +79,34 @@ def external_kind(name, python_dll):
     return None
 
 
+def _dependency_closures(roots, edges, python_dll):
+    # Build once, then visit only the outgoing edges of each reached image.
+    # Preserve original edge order so the manifest bytes remain unchanged.
+    by_source = {}
+    for edge in edges:
+        by_source.setdefault(edge['source'], []).append(edge)
+    closures = []
+    for root in roots:
+        visited, pending, requirements = set(), [root], set()
+        while pending:
+            current = pending.pop()
+            if current in visited:
+                continue
+            visited.add(current)
+            for edge in by_source.get(current, ()):
+                if edge['target']:
+                    pending.append(edge['target'])
+                else:
+                    requirements.add((edge['dependency'], edge['resolution']))
+        if root.endswith('.exe'):
+            require(not any(category == 'cpython-host-runtime' for _, category in requirements), 'native executable transitively depends on Python')
+        else:
+            require((python_dll, 'cpython-host-runtime') in requirements, 'native extension lacks expected CPython runtime')
+        closures.append(dict(entry_point=root, bundled_images=sorted(visited),
+                             external_requirements=[dict(name=name, kind=kind) for name, kind in sorted(requirements)]))
+    return closures
+
+
 def inspect_archive(path, gui=False, max_file_bytes=256*1024*1024, max_total_bytes=512*1024*1024, max_files=10000, max_dependency_edges=100000, native_archive=False):
     path = Path(path)
     require(1 <= max_file_bytes <= 256*1024*1024 and 1 <= max_total_bytes <= 1024*1024*1024 and
@@ -180,27 +208,7 @@ def inspect_archive(path, gui=False, max_file_bytes=256*1024*1024, max_total_byt
                     externals.add((dependency, category))
                     edge = dict(source=name, dependency=dependency, mechanism=kind, resolution=category, target=None)
                 edges.append(edge)
-    closures = []
-    for root in roots:
-        visited, pending, requirements = set(), [root], set()
-        while pending:
-            current = pending.pop()
-            if current in visited:
-                continue
-            visited.add(current)
-            for edge in edges:
-                if edge['source'] != current:
-                    continue
-                if edge['target']:
-                    pending.append(edge['target'])
-                else:
-                    requirements.add((edge['dependency'], edge['resolution']))
-        if root.endswith('.exe'):
-            require(not any(category == 'cpython-host-runtime' for _, category in requirements), 'native executable transitively depends on Python')
-        else:
-            require((python_dll, 'cpython-host-runtime') in requirements, 'native extension lacks expected CPython runtime')
-        closures.append(dict(entry_point=root, bundled_images=sorted(visited),
-                             external_requirements=[dict(name=name, kind=kind) for name, kind in sorted(requirements)]))
+    closures = _dependency_closures(roots, edges, python_dll)
     return dict(schema=SCHEMA, archive=path.name, archive_sha256=archive_hash, archive_kind='native-zip' if native_archive else 'wheel', mode='gui' if gui else 'headless',
                 platform='win_amd64', python_tag=python_tag, files=files, total_bytes=total,
                 binaries=[dict(path=name, **binary) for name, binary in sorted(binaries.items())],
