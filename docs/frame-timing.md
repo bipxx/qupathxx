@@ -37,3 +37,18 @@ checks, generated-stub consistency, three positive typing inputs and all seven
 intended negative typing cases. A separate 4,200-frame GUI run passes the
 bounded recent-sample contract. The full GUI regression and hosted source-specific
 Windows/Linux run remain pending; these checks do not accept performance.
+
+The [Linux artifact audit](benchmarks/rendered-loop-linux.json) accepts run
+40064597282 at exact source `551a7b4afc1b8c7c2cf9c194428b68024643ad3d`:
+1,812 Python cases and 45 native suites pass headless; minimal and ASan/UBSan
+also pass 45 suites each. The auditor requires all four timing contract cases
+to be explicitly skipped on headless Linux. GUI execution remains a Windows
+gate, and the Linux-only receipt leaves full-matrix acceptance false.
+
+For diagnosis, `tools/benchmark_viewer.py --profile-directory <directory>`
+retains separate first-view and repeat-view native phase traces. Their source
+fingerprints, sample counts and SHA-256 hashes are checked and recorded in the
+benchmark receipt. Phase traces include warmup and stop at 4,096 samples; their
+CPU phases end before swap/capture. The report's wall percentile keeps its own
+recent-sample policy described above. Software and system-driver trials must
+use separate installations; retain the actual reported renderer for each.
