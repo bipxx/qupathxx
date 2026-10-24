@@ -160,3 +160,24 @@ fixture; their skips do not establish full-pyramid vendor coverage. GUI/macOS,
 project license, biological accuracy, hardware budgets and supported releases
 remain open; `release_ready` stays false. The winding-sampling work is newer
 and is not qualified by this receipt.
+
+
+## Corrected polygon-sampling engine
+
+Run [40042880153](https://github.com/bipxx/qupathxx/actions/runs/40042880153)
+qualifies exact source `14788f23325d74dcb2ff016d82d994786eecd999`, including
+explicit winding and robust diagonal classification. The
+[artifact audit](benchmarks/manylinux114-build-consumer-acceptance.json) accepts
+CPython 3.11 and 3.12 `manylinux_2_28_x86_64` wheels and both pinned fresh Debian
+consumers. Each builder passes 42 native suites and 1,719 Python cases; each
+consumer passes 1,703 Python cases. Three isolated-cell scientific expected
+failures remain in every Python cohort, with optional skips recorded separately.
+
+The audit binds wheel/native/runtime hashes, unchanged runtime payloads, pinned
+assets/notices, ELF policy/tags, relocation, stubs, strict typing and fresh
+reader/project/analysis/CSV/batch workflows. Consumers use the pinned small
+Aperio fixture; their skips do not establish full-pyramid vendor coverage.
+This qualifies the corrected accepted engine; the separate boundary-grid
+optimization prototype is newer and is not qualified by this receipt. GUI/Mac,
+biology, hardware/RSS/frame, project license and supported releases remain open;
+`release_ready` stays false.
