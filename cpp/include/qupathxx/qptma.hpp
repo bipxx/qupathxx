@@ -4,6 +4,7 @@ namespace qpx {
 struct QptmaCore {
     std::string name,case_id;
     Rect bounds{0,0,1,1};bool missing=false;
+    void validate() const;
 };
 struct QptmaData {
     std::string source_hint,image_name;

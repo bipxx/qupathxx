@@ -39,52 +39,34 @@ std::size_t dimension(std::string_view text,std::string_view prefix) {
     return value;
 }
 std::vector<std::string> fields(std::string_view line) {
+    // QuPath's qptma TSV reader preserves quotes literally; this is not CSV.
     std::vector<std::string> result;std::size_t at=0;
     while(true) {
-        if(result.size()==7) throw std::invalid_argument("too many qptma fields");
-        std::string value;
-        if(at<line.size() && line[at]=='"') {
-            ++at;bool closed=false;
-            while(at<line.size()) {
-                const auto c=line[at++];
-                if(c!='"') {value+=c;continue;}
-                if(at<line.size() && line[at]=='"') {value+='"';++at;continue;}
-                closed=true;break;
-            }
-            if(!closed || (at<line.size() && line[at]!='\t')) throw std::invalid_argument("ambiguous qptma quoted field");
-        } else {
-            const auto end=line.find('\t',at);value=std::string(line.substr(at,(end==std::string_view::npos?line.size():end)-at));
-            at=end==std::string_view::npos?line.size():end;
-        }
-        result.push_back(std::move(value));
-        if(at==line.size()) break;
-        ++at;
+        if(result.size()==7)throw std::invalid_argument("too many qptma fields");
+        const auto end=line.find('\t',at);
+        result.emplace_back(line.substr(at,(end==std::string_view::npos?line.size():end)-at));
+        if(end==std::string_view::npos)break;at=end+1;
     }
-    if(result.size()!=7) throw std::invalid_argument("qptma row must have seven fields");
-    return result;
+    if(result.size()!=7)throw std::invalid_argument("qptma row must have seven fields");return result;
 }
 double number(const std::string& value) {
     const auto result=detail::finite_decimal_number(value);
     if(!result) throw std::invalid_argument("invalid finite qptma coordinate");return *result;
 }
-std::string quoted(const std::string& value) {
-    if(value.find('"')==std::string::npos && (value.empty() || (value.front()!=' ' && value.back()!=' ')))return value;
-    std::string out="\"";for(const auto c:value) {out+=c;if(c=='"')out+='"';}out+='"';return out;
-}
 std::string decimal(double value) {
     std::ostringstream out;out.imbue(std::locale::classic());out<<std::setprecision(std::numeric_limits<double>::max_digits10)<<value;return out.str();
 }
 }
+void QptmaCore::validate() const {
+    field(name,4096);field(case_id,256);const auto& b=bounds;
+    if(!std::isfinite(b.x) || !std::isfinite(b.y) || !std::isfinite(b.width) || !std::isfinite(b.height) ||
+       b.width<=0 || b.height<=0 || b.width>1e12 || b.height>1e12 || std::abs(b.x)+b.width>1e15 || std::abs(b.y)+b.height>1e15)
+        throw std::invalid_argument("invalid qptma core bounds");
+}
 void QptmaData::validate() const {
     if(!rows || !columns || rows>512 || columns>512 || rows>10000/columns || cores.size()!=rows*columns)
         throw std::invalid_argument("qptma requires a complete 1..10000 core grid with at most 512 rows/columns");
-    field(source_hint,32768);field(image_name,32768);
-    for(const auto& core:cores) {
-        field(core.name,4096);field(core.case_id,256);const auto& b=core.bounds;
-        if(!std::isfinite(b.x) || !std::isfinite(b.y) || !std::isfinite(b.width) || !std::isfinite(b.height) ||
-           b.width<=0 || b.height<=0 || b.width>1e12 || b.height>1e12 || std::abs(b.x)+b.width>1e15 || std::abs(b.y)+b.height>1e15)
-            throw std::invalid_argument("invalid qptma core bounds");
-    }
+    field(source_hint,32768);field(image_name,32768);for(const auto& core:cores)core.validate();
 }
 QptmaData parse_qptma(const std::string& text,std::size_t limit,const std::atomic<bool>* cancel) {
     detail::export_checkpoint(cancel);quota(limit);detail::bounded_utf8(text,limit);Lines lines{text};
@@ -111,7 +93,7 @@ std::string qptma_text(const QptmaData& data,std::size_t limit,const std::atomic
     append(data.source_hint+"\n"+data.image_name+"\n\nTMA grid width: "+std::to_string(data.columns)+"\nTMA grid height: "+std::to_string(data.rows)+"\nCore name\tX\tY\tWidth\tHeight\tPresent\tCase ID\n");
     for(const auto& core:data.cores) {
         detail::export_checkpoint(cancel);const auto& b=core.bounds;
-        append(quoted(core.name)+"\t"+decimal(b.x)+"\t"+decimal(b.y)+"\t"+decimal(b.width)+"\t"+decimal(b.height)+"\t"+(core.missing?"false":"true")+"\t"+quoted(core.case_id)+"\n");
+        append(core.name+"\t"+decimal(b.x)+"\t"+decimal(b.y)+"\t"+decimal(b.width)+"\t"+decimal(b.height)+"\t"+(core.missing?"false":"true")+"\t"+core.case_id+"\n");
     }
     return out;
 }
@@ -130,7 +112,7 @@ std::vector<std::uint64_t> import_qptma(Document& doc,const QptmaData& data,std:
     return doc.execute(qptma_grid_edits(data,std::move(name),rows,columns),"Import QuPath TMA grid");
 }
 QptmaExport qptma_from_grid(const TmaGrid& grid,std::string hint,std::string name) {
-    QptmaExport out;out.data.source_hint=std::move(hint);out.data.image_name=std::move(name);
+    field(hint,32768);field(name,32768);QptmaExport out;out.data.source_hint=std::move(hint);out.data.image_name=std::move(name);
     out.data.rows=grid.info()->rows();out.data.columns=grid.info()->columns();const auto count=out.data.rows*out.data.columns;
     std::vector<const Annotation*> slots(count,nullptr);bool classes=false,parents=false;
     for(const auto& a:grid.cores()) {

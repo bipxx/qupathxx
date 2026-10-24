@@ -512,3 +512,9 @@ def resize_region(server: q.ImageServer) -> q.PixelBuffer:
     request = q.RegionRequest(10, 20, 0, 300, 200)
     result = q.read_resampled_region(server, request, 120, 80)
     return q.resample_area(result, 60, 40)
+
+
+def imported_tma_grid(document: q.Document, text: str) -> list[int]:
+    data = q.parse_qptma(text)
+    canonical: str = q.qptma_text(data)
+    return q.import_qptma(document, q.parse_qptma(canonical), grid_name="Imported study")

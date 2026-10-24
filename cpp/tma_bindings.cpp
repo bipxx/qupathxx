@@ -7,30 +7,46 @@
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
 namespace nb=nanobind;using namespace nb::literals;
+namespace {
+std::string qptma_python_text(const nb::str& text,std::size_t limit) {
+    if(nb::len(text)>limit)throw std::length_error("qptma text exceeds byte limit");
+    Py_ssize_t bytes=0;const auto raw=PyUnicode_AsUTF8AndSize(text.ptr(),&bytes);if(!raw)throw nb::python_error();
+    if(static_cast<std::size_t>(bytes)>limit)throw std::length_error("qptma text exceeds byte limit");
+    return {raw,static_cast<std::size_t>(bytes)};
+}
+}
+
 void bind_tma(nb::module_& m) {
     using namespace qpx;
     nb::class_<QptmaCore>(m,"QptmaCore").def(nb::init<>())
         .def_rw("name",&QptmaCore::name).def_rw("case_id",&QptmaCore::case_id)
-        .def_rw("bounds",&QptmaCore::bounds).def_rw("missing",&QptmaCore::missing);
+        .def_rw("bounds",&QptmaCore::bounds).def_rw("missing",&QptmaCore::missing).def("validate",&QptmaCore::validate);
     nb::class_<QptmaData>(m,"QptmaData").def(nb::init<>())
         .def_rw("source_hint",&QptmaData::source_hint).def_rw("image_name",&QptmaData::image_name)
         .def_rw("rows",&QptmaData::rows).def_rw("columns",&QptmaData::columns)
-        .def_prop_rw("cores",[](const QptmaData& data){return data.cores;},[](QptmaData& data,std::vector<QptmaCore> cores){data.cores=std::move(cores);},nb::rv_policy::copy)
+        .def_prop_rw("cores",[](const QptmaData& data){return data.cores;},[](QptmaData& data,const nb::list& values){
+            if(nb::len(values)>10000)throw std::length_error("qptma core limit exceeded");
+            std::vector<QptmaCore> cores;cores.reserve(nb::len(values));
+            for(auto value:values) {const auto& core=nb::cast<const QptmaCore&>(value);core.validate();cores.push_back(core);}data.cores=std::move(cores);
+        },nb::rv_policy::copy)
         .def("validate",&QptmaData::validate);
     nb::class_<QptmaExport>(m,"QptmaExport")
         .def_prop_ro("data",[](const QptmaExport& report){return report.data;})
         .def_prop_ro("omitted_metadata",[](const QptmaExport& report){return report.omitted_metadata;});
-    m.def("parse_qptma",[](const std::string& text,std::size_t limit) {nb::gil_scoped_release release;return parse_qptma(text,limit);},
+    m.def("parse_qptma",[](const nb::str& text,std::size_t limit) {
+        if(!limit || limit>64*1024*1024)throw std::invalid_argument("qptma byte limit must be 1..64 MiB");
+        auto input=qptma_python_text(text,limit);nb::gil_scoped_release release;return parse_qptma(input,limit);
+    },
         "text"_a,"byte_limit"_a=8*1024*1024);
-    m.def("qptma_text",[](const QptmaData& value,std::size_t limit) {auto data=value;nb::gil_scoped_release release;return qptma_text(data,limit);},
+    m.def("qptma_text",[](const QptmaData& value,std::size_t limit) {value.validate();auto data=value;nb::gil_scoped_release release;return qptma_text(data,limit);},
         "data"_a,"byte_limit"_a=8*1024*1024);
     m.def("load_qptma",[](const std::string& path,std::size_t limit) {nb::gil_scoped_release release;return load_qptma(path,limit);},
         "path"_a,"byte_limit"_a=8*1024*1024);
-    m.def("save_qptma",[](const QptmaData& value,const std::string& path,std::size_t limit) {auto data=value;nb::gil_scoped_release release;return save_qptma(data,path,limit);},
+    m.def("save_qptma",[](const QptmaData& value,const std::string& path,std::size_t limit) {value.validate();auto data=value;nb::gil_scoped_release release;return save_qptma(data,path,limit);},
         "data"_a,"path"_a,"byte_limit"_a=8*1024*1024);
     m.def("qptma_from_grid",&qptma_from_grid,"snapshot"_a,"source_hint"_a="","image_name"_a="",nb::call_guard<nb::gil_scoped_release>());
     m.def("qptma_grid_edits",[](const QptmaData& value,const std::string& name,const std::vector<std::string>& rows,const std::vector<std::string>& columns) {
-        auto data=value;nb::gil_scoped_release release;return qptma_grid_edits(data,name,rows,columns);
+        value.validate();auto data=value;nb::gil_scoped_release release;return qptma_grid_edits(data,name,rows,columns);
     },"data"_a,"grid_name"_a="Imported TMA","row_labels"_a=std::vector<std::string>{},"column_labels"_a=std::vector<std::string>{});
     m.def("import_qptma",&import_qptma,"document"_a,"data"_a,"grid_name"_a="Imported TMA",
         "row_labels"_a=std::vector<std::string>{},"column_labels"_a=std::vector<std::string>{});
