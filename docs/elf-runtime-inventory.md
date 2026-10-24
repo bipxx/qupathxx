@@ -40,8 +40,9 @@ Neither implementation loads those binaries. The
 hashes, parser identity and the complete observations. Input packages come from
 accepted cohort source `15ee0e8`; this is not a new engine compilation.
 
-Candidate 147 supplies the binary reader. Complete Linux archive file manifests,
-bundled/external resolution, atomic publication/verification, source-bound CI
-gates and new hosted validation are still required. Mach-O inventories, dynamic
+Candidate 147 supplies the binary reader. Candidate 148 adds
+[Linux wheel file manifests](linux-runtime-manifests.md), direct origin RUNPATH
+resolution, bounded atomic publication/verification and source-bound CI gates.
+Its new hosted validation remains pending. Mach-O inventories, dynamic
 loading, installed prerequisites, signing, licensing and supported release also
 remain open. The full M0-M7 project remains partial.

@@ -4846,3 +4846,26 @@ wheels, including complete required-version records. See the
 archive manifests, resolution/publication, source-bound CI integration and
 hosted validation are next; this binary-reader packet does not close M7 or the
 full project goal.
+
+## Linux wheel file and static runtime manifests (candidate 148)
+
+Linux wheel manifests hash every file, retain executable mode metadata, inventory
+all ELF binaries and resolve bundled dependencies through explicit direct
+origin-relative RUNPATHs. External runtime and symbol-version requirements stay
+unverified declarations; native CLIs remain transitively Python independent.
+Atomic new-file publication and exact JSON verification reuse the existing
+manifest primitives. Linux engine/qualified portable builders and fresh consumers
+now generate/verify records; source-bound auditors require all 180 exact manifest
+and ELF cases and matching portable builder/consumer records.
+
+Local validation passes 55 Windows manifest, 75 ELF and 50 Linux manifest cases.
+All 28 altered-evidence controls reject bad records, source identities or Python
+cohorts. Three accepted input wheels each inventory 46 files/six binaries, agree
+with the independent ELF oracle and pass source-bound helper/CLI verification.
+See the [Linux manifest contract](linux-runtime-manifests.md),
+[local receipt](benchmarks/linux-runtime-manifest-local-windows.json) and
+[controls](benchmarks/linux-runtime-manifest-controls.json). Native engine inputs
+are unchanged; new hosted qualification and promotion are pending. Dynamic
+loader/runtime availability, ELF version-export validity, Mach-O, supported
+installers/signing, licensing, hardware and biology remain open; full M0-M7
+completion is not claimed.

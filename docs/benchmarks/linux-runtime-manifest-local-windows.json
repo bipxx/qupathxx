@@ -1,0 +1,129 @@
+{
+  "schema": "qpx.linux-manifest-local-validation/1",
+  "tooling_source": "8701ae4c291cfc3752843a9ff2ba53b3ea2fcbba",
+  "native_engine_inputs_unchanged_from": "d943e9cd505252300e94c8d7e11e5623b43735a6",
+  "input_packages_source": "15ee0e83e0c377b526fecefeff88733db79a9585",
+  "new_engine_compilation": false,
+  "unit_passed": 180,
+  "classes": [
+    {
+      "classname": "test_runtime_manifest",
+      "passed": 55
+    },
+    {
+      "classname": "test_elf_dependencies",
+      "passed": 75
+    },
+    {
+      "classname": "test_linux_runtime_manifest",
+      "passed": 50
+    }
+  ],
+  "unit_junit_sha256": "5de3074f6f88c3a1c6524f4f6eb0ddbbde989f4a2611cb3376594dccb83bed18",
+  "controls_rejected": 28,
+  "positive": [
+    {
+      "label": "linux",
+      "source_package": "15ee0e83e0c377b526fecefeff88733db79a9585",
+      "elf_oracle_equal": true,
+      "cli_verified": true,
+      "audit": {
+        "source": "8701ae4c291cfc3752843a9ff2ba53b3ea2fcbba",
+        "tooling_sha256": {
+          "tools/ci/run.py": "e697bce25c2a94c1e97d465d29ded036908a3ca0344a74cef30700e098460799",
+          "tools/ci/run_manylinux.py": "106ad317de843dd989515a8ecbf28d3639c9bfa58cd007ed5fc7d1498887b167",
+          "tools/ci/linux_runtime_manifest.py": "89a5be0e6e241bc3f8fc5ed2a2e290ff0aac49c1c8f87998a58a84f9e2fb60e3",
+          "tools/ci/elf_dependencies.py": "196ec3cc942e323700d3b06521fde2a24470a679d8d14f72085bdde3bed47852",
+          "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+          "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+          "tools/ci/linux_runtime_manifest_evidence.py": "ea1bd446aeaf21592c9c1d64d118daeee9880e3f213910f2117f840cb51d3cf4",
+          ".github/workflows/ci.yml": "7750b1079c8d149623a6e1a47f36a9d0aaed9349a5131e3a13eeba68b9fb3fb5",
+          "tools/ci/linux-runtime-manifest-cases.json": "f3420f4737d3644b575abbc42d33df56f160d5e9198a39efa0a81093e16943ca"
+        },
+        "archive_sha256": "b39b05f07d4ad7f18f56f85b82bb9cd4bd604b8fb6d7404a8a8a51e94fd28e3a",
+        "manifest_sha256": "5752c1bf49c27ced428a9a111b7804dc4f1b903b117ebde2debb950fa418201a",
+        "files": 46,
+        "binaries": 6,
+        "dependency_edges": 42,
+        "static_linux_manifest_accepted": true,
+        "symbol_version_availability_verified": false,
+        "external_runtime_availability_verified": false,
+        "dynamic_loading_exhaustively_verified": false,
+        "release_ready": false,
+        "scope": "Exact-source wheel bytes reinspected under explicit direct origin RUNPATH packaging policy. This does not accept installed prerequisites, symbol versions/ABI, arbitrary loading or a supported release."
+      }
+    },
+    {
+      "label": "manylinux311",
+      "source_package": "15ee0e83e0c377b526fecefeff88733db79a9585",
+      "elf_oracle_equal": true,
+      "cli_verified": true,
+      "audit": {
+        "source": "8701ae4c291cfc3752843a9ff2ba53b3ea2fcbba",
+        "tooling_sha256": {
+          "tools/ci/run.py": "e697bce25c2a94c1e97d465d29ded036908a3ca0344a74cef30700e098460799",
+          "tools/ci/run_manylinux.py": "106ad317de843dd989515a8ecbf28d3639c9bfa58cd007ed5fc7d1498887b167",
+          "tools/ci/linux_runtime_manifest.py": "89a5be0e6e241bc3f8fc5ed2a2e290ff0aac49c1c8f87998a58a84f9e2fb60e3",
+          "tools/ci/elf_dependencies.py": "196ec3cc942e323700d3b06521fde2a24470a679d8d14f72085bdde3bed47852",
+          "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+          "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+          "tools/ci/linux_runtime_manifest_evidence.py": "ea1bd446aeaf21592c9c1d64d118daeee9880e3f213910f2117f840cb51d3cf4",
+          ".github/workflows/ci.yml": "7750b1079c8d149623a6e1a47f36a9d0aaed9349a5131e3a13eeba68b9fb3fb5",
+          "tools/ci/linux-runtime-manifest-cases.json": "f3420f4737d3644b575abbc42d33df56f160d5e9198a39efa0a81093e16943ca"
+        },
+        "archive_sha256": "28ae3172c86e01ff5d68b67f4a709bf784f56abebb9049159d77292de3dd06b5",
+        "manifest_sha256": "082587e67e7ca7f1c22405c02bd17bdac82ad1fc4f8cf7aea6a3fff4c85755a3",
+        "files": 46,
+        "binaries": 6,
+        "dependency_edges": 51,
+        "static_linux_manifest_accepted": true,
+        "symbol_version_availability_verified": false,
+        "external_runtime_availability_verified": false,
+        "dynamic_loading_exhaustively_verified": false,
+        "release_ready": false,
+        "scope": "Exact-source wheel bytes reinspected under explicit direct origin RUNPATH packaging policy. This does not accept installed prerequisites, symbol versions/ABI, arbitrary loading or a supported release."
+      }
+    },
+    {
+      "label": "manylinux312",
+      "source_package": "15ee0e83e0c377b526fecefeff88733db79a9585",
+      "elf_oracle_equal": true,
+      "cli_verified": true,
+      "audit": {
+        "source": "8701ae4c291cfc3752843a9ff2ba53b3ea2fcbba",
+        "tooling_sha256": {
+          "tools/ci/run.py": "e697bce25c2a94c1e97d465d29ded036908a3ca0344a74cef30700e098460799",
+          "tools/ci/run_manylinux.py": "106ad317de843dd989515a8ecbf28d3639c9bfa58cd007ed5fc7d1498887b167",
+          "tools/ci/linux_runtime_manifest.py": "89a5be0e6e241bc3f8fc5ed2a2e290ff0aac49c1c8f87998a58a84f9e2fb60e3",
+          "tools/ci/elf_dependencies.py": "196ec3cc942e323700d3b06521fde2a24470a679d8d14f72085bdde3bed47852",
+          "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+          "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+          "tools/ci/linux_runtime_manifest_evidence.py": "ea1bd446aeaf21592c9c1d64d118daeee9880e3f213910f2117f840cb51d3cf4",
+          ".github/workflows/ci.yml": "7750b1079c8d149623a6e1a47f36a9d0aaed9349a5131e3a13eeba68b9fb3fb5",
+          "tools/ci/linux-runtime-manifest-cases.json": "f3420f4737d3644b575abbc42d33df56f160d5e9198a39efa0a81093e16943ca"
+        },
+        "archive_sha256": "3b9663c89f36d805dd26c0f599993cf5952af5a58ba389f2a54d88f7c039240e",
+        "manifest_sha256": "c3bcc1cdd1d292002250d4aa81db9546208943f8a6787719e2a01f83c4d8e691",
+        "files": 46,
+        "binaries": 6,
+        "dependency_edges": 51,
+        "static_linux_manifest_accepted": true,
+        "symbol_version_availability_verified": false,
+        "external_runtime_availability_verified": false,
+        "dynamic_loading_exhaustively_verified": false,
+        "release_ready": false,
+        "scope": "Exact-source wheel bytes reinspected under explicit direct origin RUNPATH packaging policy. This does not accept installed prerequisites, symbol versions/ABI, arbitrary loading or a supported release."
+      }
+    }
+  ],
+  "hosted_validation": "pending",
+  "release_ready": false,
+  "full_plan_complete": false,
+  "retained_prior_observations": [
+    "Initial Linux contract suite: 50 passed before duplicate control was removed.",
+    "Integrated 49 Linux/75 ELF/55 Windows cases: 179 passed.",
+    "Added distinct disguised system SONAME regression: final 180 passed.",
+    "Initial20 manifest-only controls at068cead and178f3df retained separately; final28 also verify exact Python cohorts and stale tooling."
+  ],
+  "scope": "Complete local file/static ELF manifest verification on accepted older packages. No new engine compilation, hosted qualification, runtime availability, arbitrary loader/ABI, hardware or supported-release acceptance."
+}
