@@ -13,6 +13,7 @@ parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--executable',type=Path,required=True)
 parser.add_argument('--output-directory',type=Path,required=True)
 parser.add_argument('--output',type=Path,required=True)
+parser.add_argument('--response-basins',action='store_true',help='Exercise the internal response-basin candidate, not a production recipe')
 args=parser.parse_args()
 sys.path.insert(0,str(source/'tools'))
 import qupath_cells_fixture as fixture
@@ -41,7 +42,7 @@ for recipe in ['numpy-od-sum','native-channel-od-sum']:
    x,y,bw,bh=case['hole'];domain&=~((xx>=x)&(xx<x+bw)&(yy>=y)&(yy<y+bh))
   prefix=out/(recipe+'-'+case['name']);input=prefix.with_suffix('.qlp');output=prefix.with_suffix('.qlr')
   input.write_bytes(b'QLP1'+struct.pack('<II',w,h)+score.tobytes()+domain.tobytes())
-  began=time.perf_counter();subprocess.run([str(exe),str(input),str(output)],check=True);elapsed=(time.perf_counter()-began)*1000
+  began=time.perf_counter();subprocess.run([str(exe)]+(['--response-basins'] if args.response_basins else [])+[str(input),str(output)],check=True);elapsed=(time.perf_counter()-began)*1000
   result=output.read_bytes();assert result[:4]==b'QLR1';rw,rh,count=struct.unpack_from('<III',result,4);assert (rw,rh)==(w,h)
   labels=np.frombuffer(result,dtype='<u4',offset=16).reshape(h,w);assert set(np.unique(labels))==set(range(count+1))
   ref=np.frombuffer(gzip.decompress((comparison.FIXTURES/'capture'/case['name']/'nucleus.u32le.gz').read_bytes()),dtype='<u4').reshape(h,w)
@@ -49,4 +50,5 @@ for recipe in ['numpy-od-sum','native-channel-od-sum']:
   reports.append(dict(recipe=recipe,case=case['name'],native_count=count,metrics=metrics,input_sha256=hashlib.sha256(input.read_bytes()).hexdigest(),output_sha256=hashlib.sha256(result).hexdigest(),process_ms=elapsed))
   print(recipe,case['name'],count,metrics['foreground_iou'],[(m['iou'],m['centroid_error_px']) for m in metrics['matches']],flush=True)
 r=dict(schema='qpx.native-log-watershed-comparison/1',production_integrated=False,scientific_accepted=False,native_environment=environment,feature_producer_git_revision=q.build_environment().git_revision,feature_producer_source_tree_sha256=q.build_environment().source_tree_sha256,native_executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),kernel_sha256=hashlib.sha256((source/'cpp/log_watershed.hpp').read_bytes()).hexdigest(),script_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),cases=reports,scope='Native LoG/shape-watershed from feature raster to ROI-clipped nucleus labels on all nine frozen cases with two feature recipes. No production detector/API integration, body expansion, feature/archive/batch/UI, arbitrary-resampling or biology/performance acceptance. Process times include startup and file I/O.')
+r['response_basins']=args.response_basins
 args.output.write_bytes((json.dumps(r,indent=2)+'\n').encode('utf-8'))
