@@ -31,3 +31,7 @@ tools/compare_native_log_watershed.py text eol=lf
 
 tools/profile_log_cells.py text eol=lf
 docs/benchmarks/log-cell-*.json -text whitespace=cr-at-eol
+# Paired performance evidence hashes the executed benchmark bytes.
+tools/profile_roi_sampling.py text eol=lf
+tools/compare_roi_sampling_engines.py text eol=lf
+tools/profile_roi_sampling_cold.py text eol=lf
