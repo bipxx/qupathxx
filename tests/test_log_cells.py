@@ -1,6 +1,8 @@
 """Installed native LoG workflow; frozen references and immutable saved recipes."""
 import csv
 import gzip
+import hashlib
+import struct
 import importlib.util
 import io
 import json
@@ -14,6 +16,7 @@ import pytest
 import qupathxx as q
 from test_qupath_cells_reference import comparison, CONTRACT, CAPTURE
 from test_gui_replay import event
+from test_tissue_levels import pyramid_levels
 
 ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('log_phantoms',ROOT/'tools/qupath_cells_fixture.py')
@@ -126,6 +129,11 @@ def test_log_batch_resume_and_cli_recipe(tmp_path):
     exe=Path(_native.__file__).with_name('qupathxx_batch.exe' if os.name=='nt' else 'qupathxx_batch')
     done=subprocess.run([str(exe),str(path),str(tmp_path/'cli'),'--kind','cells','--cell-algorithm','log','--threshold','.4','--cell-context-padding','48'],capture_output=True,text=True)
     assert done.returncode==0,done.stdout+done.stderr
+    reports=[json.loads(line) for line in done.stdout.splitlines()]
+    assert len(reports)==2 and reports[0]["schema"]=="qpx.batch-image/1"
+    report=reports[-1]
+    cli_rows=parse(q.batch_checkpoint_csv(report['images'][0]['path']))
+    assert cli_rows and all(r['detector_mode']=='log' and r['context_padding_sample_px']=='48' for r in cli_rows)
     o.kind=q.ProjectBatchKind.ROI
     with pytest.raises(ValueError,match='LoG'):o.validate()
 
@@ -141,3 +149,76 @@ def test_log_gui_and_copied_recipe(tmp_path):
     assert report.cell_result.algorithm==expected.algorithm
     assert report.cell_result.nuclei.labels==expected.nuclei.labels and report.cells_published
     assert report.cell_annotations_added==3 and report.ui_overflow_items==0
+
+
+
+def test_context_pixels_change_only_the_contextual_digest():
+    a=np.full((192,192,3),255,dtype=np.uint8);b=a.copy();b[64,96]=0
+    def digest(rgb,p):
+        doc=q.Document(q.Image.from_numpy(rgb));obj=doc.add_rectangle(q.Rect(80,80,32,32))
+        return q.input_sha256(q.CellRequest(doc,obj,q.StainTransform(CONTRACT['vectors']),p))
+    assert digest(a,parameters())!=digest(b,parameters())
+    assert digest(a,q.CellParameters())==digest(b,q.CellParameters())
+
+
+def test_context_budget_is_admitted_before_launch():
+    doc=q.Document(q.Image(2048,2048,[255]*(2048*2048*3)));obj=doc.add_rectangle(q.Rect(1000,1000,16,16))
+    p=parameters();p.work_bytes=128*1024*1024
+    assert q.CellRequest(doc,obj,q.StainTransform(CONTRACT['vectors']),p).estimated_work_bytes<=p.work_bytes
+    p.context_padding=512
+    with pytest.raises((ValueError,RuntimeError),match='budget'):
+        q.CellRequest(doc,obj,q.StainTransform(CONTRACT['vectors']),p)
+
+
+def test_log_physical_area_limits_and_stale_calibration():
+    doc,obj,t=scene();p=parameters()
+    request=q.CellRequest.with_nucleus_area_limits(doc,obj,t,40.,80.,p)
+    result=q.detect_cells(request)
+    assert result.parameters.algorithm==p.algorithm and result.parameters.min_nucleus_pixels==160 and result.parameters.max_nucleus_pixels==320
+    assert result.cell_count==1 and result.calibrated_feature(1).nucleus_sample_area_um2==64
+    doc.set_calibration(.75,.5);assert not request.matches(doc,obj)
+
+
+@pytest.mark.skipif(not q.has_tiff,reason='native RGBA TIFF')
+def test_log_transparent_pixels_never_become_labels(tmp_path):
+    import tifffile
+    rgb=phantoms.pixels(CONTRACT,next(c for c in CONTRACT['cases'] if c['name']=='isolated_three'))
+    rgba=np.concatenate([rgb,np.full((*rgb.shape[:2],1),255,dtype=np.uint8)],axis=2)
+    rgba[55:65,43:53,3]=0;rgba[95:100,110:115,3]=128
+    path=tmp_path/'alpha.tif';tifffile.imwrite(path,rgba,photometric='rgb',extrasamples='unassalpha',metadata=None)
+    doc=q.Document(q.open_tiff(str(path)));obj=doc.add_rectangle(q.Rect(0,0,256,192));r=q.detect_cells(q.CellRequest(doc,obj,q.StainTransform(CONTRACT['vectors']),parameters()))
+    opaque=rgba[...,3]==255
+    assert r.nuclei.samples==int(opaque.sum())
+    assert not r.nuclei.labels_numpy()[~opaque].any() and not r.cells.labels_numpy()[~opaque].any()
+
+
+@pytest.mark.parametrize('tile',[16,64])
+def test_log_natural_pyramid_context_hash(pyramid_levels,tile):
+    server,_=pyramid_levels;doc=q.Document(server);obj=doc.add_rectangle(q.Rect(90,90,120,90));p=parameters(tile);p.level=1
+    request=q.CellRequest(doc,obj,q.StainTransform(CONTRACT['vectors']),p);r=q.detect_cells(request);g=request.level_bounds
+    assert r.nuclei.downsample==1.5 and r.nuclei.samples==80*60
+    assert r.nuclei.input_format=='qpx.log-rgba-level-tiles/1'
+    digest=hashlib.sha256(b'qpx.log-rgba-level-tiles/1')
+    def integers(*values):digest.update(struct.pack('<'+'Q'*len(values),*values))
+    level=server.metadata.levels[1];integers(server.metadata.width,server.metadata.height,1,level.width,level.height)
+    digest.update(struct.pack('<d',1.5));x0,y0,x1,y1=int(g.x),int(g.y),int(g.x+g.width),int(g.y+g.height);integers(x0,y0,x1,y1,tile)
+    for y in range(y0,y1,tile):
+        for x in range(x0,x1,tile):
+            w,h=min(tile,x1-x),min(tile,y1-y);rx,ry=math.floor(x*1.5+.5),math.floor(y*1.5+.5)
+            pixels=server.read_region(q.RegionRequest(rx,ry,1,w,h));integers(x,y,rx,ry,w,h);digest.update(pixels.data)
+    assert digest.hexdigest()==r.nuclei.input_sha256==q.input_sha256(request)
+
+
+@pytest.mark.skipif(not q.has_gui or not q.has_project or os.environ.get('QUPATHXX_TEST_GUI')!='1',reason='managed desktop')
+def test_log_managed_viewer_captures_detector_recipe(tmp_path):
+    from test_viewer_session import completed,run
+    doc,obj,t=scene();project=q.Project();image=project.add_document(doc);source=tmp_path/'source.qpxproj';project.save(str(source))
+    session=q.ViewerSession(str(source));destination=tmp_path/'saved.qpxproj'
+    def producer():
+        p=parameters();ticket=session.cells(image,obj,t,p,retain_result=True);p.context_padding=48;p.log_prominence=2
+        result=completed(session,ticket);assert result.committed and result.cells.cell_count==3
+        assert result.cells.parameters.algorithm==q.CellAlgorithm.LOG_WATERSHED and result.cells.parameters.context_padding==32 and result.cells.parameters.log_prominence==.5
+        completed(session,session.save(str(destination)));completed(session,session.close(True))
+    run(session,producer)
+    r=q.Project.open(str(destination)).document(image).latest_cells(obj).result
+    assert r.algorithm=='qpx.log-watershed/1' and r.parameters.context_padding==32

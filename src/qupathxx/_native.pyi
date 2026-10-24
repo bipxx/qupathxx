@@ -4011,8 +4011,31 @@ class TissueJob:
 
     def verify_result(self, document: Document, record_id: int) -> bool: ...
 
+class CellAlgorithm(enum.Enum):
+    DISTANCE_WATERSHED = 0
+
+    LOG_WATERSHED = 1
+
 class CellParameters:
     def __init__(self) -> None: ...
+
+    @property
+    def algorithm(self) -> CellAlgorithm: ...
+
+    @algorithm.setter
+    def algorithm(self, arg: CellAlgorithm, /) -> None: ...
+
+    @property
+    def log_prominence(self) -> float: ...
+
+    @log_prominence.setter
+    def log_prominence(self, arg: float, /) -> None: ...
+
+    @property
+    def context_padding(self) -> int: ...
+
+    @context_padding.setter
+    def context_padding(self, arg: int, /) -> None: ...
 
     @property
     def feature(self) -> TissueFeature: ...

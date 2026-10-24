@@ -459,3 +459,11 @@ def polygon_sampling(document: q.Document, object_id: int, transform: q.StainTra
     batch.roi_sampling_policy = policy
     assert isinstance(member, bool)
     return result.sampling_policy
+
+
+def log_cell_recipe() -> q.CellParameters:
+    parameters = q.CellParameters()
+    parameters.algorithm = q.CellAlgorithm.LOG_WATERSHED
+    parameters.log_prominence = .5
+    parameters.context_padding = 32
+    return parameters

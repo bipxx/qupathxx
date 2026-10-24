@@ -176,6 +176,7 @@ from ._native import (
     save_cell_measurements_csv as save_cell_measurements_csv,
     CellFeatureLink as CellFeatureLink,
     CellRecord as CellRecord,
+    CellAlgorithm as CellAlgorithm,
     CellParameters as CellParameters,
     CellRequest as CellRequest,
     CellMarker as CellMarker,
