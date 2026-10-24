@@ -7,6 +7,38 @@
 
 namespace {
 void require(bool condition) {if(!condition) throw std::runtime_error("LoG watershed contract failed");}
+void reconstruction_oracle() {
+    // Independent simultaneous fixed-point dilation, without a priority queue
+    // or the production neighbor traversal. Quarter-valued inputs are exact.
+    for(auto shape:{std::pair<std::size_t,std::size_t>{1,9},{9,1},{5,7},{13,11}})
+    for(double prominence:{.125,.5,2.}) {
+        const auto width=shape.first,height=shape.second,n=width*height;
+        std::vector<double> d(n),previous(n);std::vector<std::uint8_t> mask(n),expected(n);
+        for(std::size_t i=0;i<n;++i) {
+            mask[i]=i%7!=3;d[i]=mask[i]?double((i*37)%13+1)/4:0;
+            previous[i]=mask[i]?std::max(0.,d[i]-prominence):0;
+        }
+        bool settled=false;
+        for(std::size_t step=0;step<=n;++step) {
+            auto next=previous;
+            for(std::size_t y=0;y<height;++y) for(std::size_t x=0;x<width;++x) {
+                const auto i=y*width+x;if(!mask[i]) continue;double value=previous[i];
+                for(int dy=-1;dy<=1;++dy) for(int dx=-1;dx<=1;++dx) {
+                    const auto xx=static_cast<std::int64_t>(x)+dx,yy=static_cast<std::int64_t>(y)+dy;
+                    if(xx>=0 && yy>=0 && xx<static_cast<std::int64_t>(width) && yy<static_cast<std::int64_t>(height)) {
+                        const auto j=static_cast<std::size_t>(yy)*width+static_cast<std::size_t>(xx);
+                        if(mask[j]) value=std::max(value,previous[j]);
+                    }
+                }
+                next[i]=std::min(d[i],value);
+            }
+            if(next==previous) {settled=true;break;}previous=std::move(next);
+        }
+        require(settled);
+        for(std::size_t i=0;i<n;++i) expected[i]=mask[i] && d[i]-previous[i]>=prominence;
+        require(qpx::cell_detail::log_h_maxima(d,mask,width,height,prominence,nullptr)==expected);
+    }
+}
 std::uint32_t read_integer(std::istream& stream) {
     unsigned char bytes[4];if(!stream.read(reinterpret_cast<char*>(bytes),4)) throw std::runtime_error("truncated LoG input");
     return std::uint32_t(bytes[0])|(std::uint32_t(bytes[1])<<8)|(std::uint32_t(bytes[2])<<16)|(std::uint32_t(bytes[3])<<24);
@@ -39,6 +71,7 @@ int main(int argc,char** argv) {
         if(argc==3) {probe(argv[1],argv[2]);return 0;}
         require(argc==1);
         using namespace qpx::cell_detail;
+        reconstruction_oracle();
         const std::vector<double> distance={0,1,2,1.8,2.1,1,0};
         const std::vector<std::uint8_t> mask={0,1,1,1,1,1,0};
         require(log_h_maxima(distance,mask,7,1,.5,nullptr)==std::vector<std::uint8_t>({0,0,0,0,1,0,0}));

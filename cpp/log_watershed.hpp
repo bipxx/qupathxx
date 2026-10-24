@@ -10,13 +10,15 @@ namespace qpx::cell_detail {
 struct LogParameters {
     double sigma=1, threshold=.4, prominence=.5, minimum_radius=1, minimum_spacing=4;
     std::uint64_t minimum_area=16, maximum_area=512;
+    int peak_connectivity=8;
     std::size_t maximum_cells=10000, work_bytes=256*1024*1024;
     void validate() const {
         if(!std::isfinite(sigma) || sigma<0 || sigma>16 || !std::isfinite(threshold) ||
            !std::isfinite(prominence) || prominence<=0 || prominence>1000000 ||
            !std::isfinite(minimum_radius) || minimum_radius<0 || minimum_radius>1000000 ||
            !std::isfinite(minimum_spacing) || minimum_spacing<0 || minimum_spacing>1000000 ||
-           !minimum_area || (maximum_area && maximum_area<minimum_area) || !maximum_cells)
+           !minimum_area || (maximum_area && maximum_area<minimum_area) || !maximum_cells ||
+           (peak_connectivity!=4 && peak_connectivity!=8))
             throw std::invalid_argument("invalid LoG watershed parameters");
     }
 };
@@ -189,7 +191,7 @@ inline LogResult log_watershed(const std::vector<float>& score,const std::vector
         const auto id=static_cast<std::uint32_t>(result.peaks.size()+1);queue.clear();queue.push_back(static_cast<std::uint32_t>(i));markers[i]=id;double radius=0;
         for(std::size_t at=0;at<queue.size();++at) {
             if((at&4095)==0) checkpoint(cancelled);const auto j=queue[at];radius=std::max(radius,distance[j]);
-            log_neighbors(j,width,height,true,[&](std::size_t k) {if(maxima[k] && !markers[k]) {markers[k]=id;queue.push_back(static_cast<std::uint32_t>(k));}});
+            log_neighbors(j,width,height,p.peak_connectivity==8,[&](std::size_t k) {if(maxima[k] && !markers[k]) {markers[k]=id;queue.push_back(static_cast<std::uint32_t>(k));}});
         }
         result.peaks.push_back({static_cast<std::uint32_t>(i),id,radius});
     }
