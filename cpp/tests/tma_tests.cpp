@@ -8,6 +8,12 @@
 #include <fstream>
 #include <iostream>
 #include <random>
+#ifdef _WIN32
+#ifndef NOMINMAX
+#define NOMINMAX
+#endif
+#include <windows.h>
+#endif
 
 using namespace qpx;
 void check(bool b) {if(!b) throw std::runtime_error("TMA check failed");}
@@ -95,6 +101,20 @@ int main() {
             rejects([&]{save_tma_case_summary_csv(*snapshot,(root/"limited.csv").u8string(),input.u8string(),"Value","",1);});check(!fs::exists(root/"limited.csv"));
             check(save_tma_case_summary_csv(*snapshot,inventory.u8string())==tma_case_summary_csv(*snapshot).size());
             check(read(inventory)==tma_case_summary_csv(*snapshot));
+            const auto oversized=root/"oversized.csv",rejected=root/"oversized-output.csv";
+            {std::ofstream stream(oversized,std::ios::binary);const std::string bytes(2*1024*1024,'x');stream.write(bytes.data(),bytes.size());check(bool(stream));}
+#ifdef _WIN32
+            IO_COUNTERS before{},after{};check(GetProcessIoCounters(GetCurrentProcess(),&before)!=0);
+#endif
+            rejects([&]{save_tma_case_summary_csv(*snapshot,rejected.u8string(),oversized.u8string(),"Value","",1024*1024);});
+#ifdef _WIN32
+            check(GetProcessIoCounters(GetCurrentProcess(),&after)!=0);
+            const auto read_bytes=after.ReadTransferCount-before.ReadTransferCount;
+            std::cout<<"Oversized CSV read-transfer bytes: "<<read_bytes<<'\n'<<std::flush;
+            check(read_bytes==0);
+#endif
+            check(!fs::exists(rejected) && fs::file_size(oversized)==2*1024*1024);
+            std::cout<<"Oversized CSV file budget and output protection passed\n";
             for(const auto& entry:fs::directory_iterator(root)) check(entry.path().filename().u8string().find(".qpx-tmp-")==std::string::npos);
             std::cout<<"TMA case file exports preserve captured CSV bytes and existing files\n";
         }
