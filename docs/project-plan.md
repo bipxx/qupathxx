@@ -4673,7 +4673,9 @@ the full Windows validation at source `e6bb0fc`. The initial Mac TMA candidate
 failed to compile at floating `from_chars`; a strict signed-decimal parser using
 the existing immutable C locale now passes 47 native suites, 48 focused cases
 and 2,390 installed Windows tests at source `914b7e2`, plus 46 native arm64 Mac
-suites. Intel Mac and complete hosted source-bound TMA audits remain open. See the
+suites. The complete source-bound Windows/Linux, both Mac native and portable
+builder/consumer audits are now accepted, and `914b7e2` is promoted to `main`.
+This does not close the separate file/CLI packet or the release gates. See the
 [TMA contract](tissue-microarrays.md) and
 [initial receipt](benchmarks/tma-case-initial-validation-windows.json).
 

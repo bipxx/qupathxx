@@ -35,5 +35,5 @@
   "performance_accepted": false,
   "release_ready": false,
   "overall_project_complete": false,
-  "scope": "Initial installed Windows GUI wheel/native/API/CLI/desktop checks. Full 2,417-case regression and source-bound hosted audits remain pending. The independent minimal native CLI probe used source 88d9c24; the installed wheel and focused tests used 4b52d23."
+  "scope": "Initial installed Windows GUI wheel/native/API/CLI/desktop checks. Full installed regression and source-bound hosted audits remain pending. The independent minimal native CLI probe used source 88d9c24; the installed wheel and focused tests used 4b52d23."
 }

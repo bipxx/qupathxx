@@ -33,13 +33,15 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 
 ## Current packet and remaining decisions
 
-The sampled frontier/domain source `691c0f3` is on `main` after audited
-[Windows/Linux](benchmarks/expansion-frontier-windows-linux.json),
-[macOS native](benchmarks/expansion-frontier-macos.json) and
-[portable builder/consumer](benchmarks/expansion-frontier-portable.json) gates.
-[Promotion evidence](benchmarks/expansion-frontier-main-promotion.json) records
-the fast-forward from `ddd3bb9` and preserves the divergent local root branch.
-It includes corrected historical-domain replay checks and a bounded expansion
+The single-grid case-summary source `914b7e2` is now on `main`, including
+weighted pooling, explicit missing/unassigned core behavior, native/Python/ImGui
+export and portable signed-decimal parsing. Its exact-source
+[Windows/Linux audit](benchmarks/tma-case-windows-linux.json),
+[both macOS native architectures](benchmarks/tma-case-macos.json) and
+[portable builders/fresh consumers](benchmarks/tma-case-portable.json) are accepted.
+[Promotion evidence](benchmarks/tma-case-main-promotion.json) records the
+fast-forward from `691c0f3` while preserving the divergent local root branch.
+That parent already contains the domain replay corrections and bounded expansion
 queue. Mixed timing observations do not establish a general speedup. M0-M7
 science, hardware, license and supported-package requirements remain open.
 
@@ -59,16 +61,12 @@ optional skips and three strict legacy science xfails. Persistent input/output
 path labels also pass the desktop checks and visual review. Source-bound CI
 cohort guards reject missing, duplicate, failed, skipped and stale evidence.
 
-The initial macOS TMA candidate failed to compile because its C++17 library
-lacks floating `from_chars`. A strict signed-decimal parser using the existing
-immutable C locale replaces it; [native checks and guard controls](benchmarks/tma-case-portable-parser-controls.json)
-pass locally. The portable-parser installed Windows wheel also passes all
-2,390 tests, and [macOS arm64 native observation](benchmarks/tma-case-parser-arm64.json)
-passes 46 suites. Intel macOS and the complete Windows/Linux/portable artifact
-audits remain pending.
-Cross-grid case pooling, biological/QuPath equivalence and hardware acceptance
-remain open. The latest navigation qualification met frame timing but failed
-the frozen ambient CPU eligibility limit in one trial.
+The initial Mac compiler failure at floating `from_chars` is resolved by the
+immutable C-locale parser. All 46 native suites pass on both Mac architectures;
+this is native-engine acceptance, with Python/GUI/OpenSlide packages outside
+that Mac scope. Cross-grid case pooling, biological/QuPath equivalence and
+hardware acceptance remain open. The latest navigation qualification met frame
+timing but failed the frozen ambient CPU eligibility limit in one trial.
 
 The [real-slide cell comparison](qupath-ndpi-cell-comparisons.md) now retains
 an immutable QuPath NDPI capture and exact source pixels. The legacy natural-grid LoG modes
