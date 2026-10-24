@@ -478,3 +478,7 @@ def watershed_body_recipe() -> q.CellParameters:
     parameters = q.CellParameters()
     parameters.algorithm = q.CellAlgorithm.LOG_WATERSHED_BODIES
     return parameters
+
+
+def sampled_watershed_recipe() -> q.CellParameters:
+    return q.CellParameters(algorithm=q.CellAlgorithm.SAMPLED_LOG_WATERSHED_BODIES)

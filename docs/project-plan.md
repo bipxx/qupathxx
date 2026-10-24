@@ -4547,3 +4547,31 @@ satisfies its main-promotion gate. The exact validated source is fast-forwarded
 from `857c659` to `2afdcb9` on `main`; the [verified promotion receipt](benchmarks/watershed-bodies-main-promotion.json)
 excludes subsequent internal candidates. No supported package is published and
 no overall M0–M7 completion, biological or hardware acceptance is claimed.
+
+## Packet139: integrate the explicit sampled cell recipe
+
+The [sampled recipe](sampled-cell-recipes.md) now has a native enum and constructor
+preset, nanobind and generated type declarations, direct/batch ImGui selection,
+CLI `log-sampled`, distinct batch resume identity, QCL4 historical-domain storage
+and QCA4 mixed classifier origins. Existing recipe defaults and archive encodings
+remain covered. All 47 local native suites and 145 focused installed Python cases
+pass, including 53 sampled cases and two pinned real-slide contexts.
+
+The first workflow run exposed a heap overwrite when clipped retained nuclei
+had no in-ROI maxima: marker-derived feature capacity omitted their labels.
+Storage now follows the retained nucleus labels, with a textured native crop
+regression and exact archived label reconstruction. An alpha-domain replay test
+also now uses the same captured request for detection and verification, as the
+existing request identity contract requires. Full typed-wheel regression and
+source-bound production-recipe hosted validation remain in progress.
+
+The prior internal shape source `4a07b0e` has now passed its
+[five-job Windows/Linux audit](benchmarks/sampled-shape-windows-linux.json) and
+[both Mac native architecture audits](benchmarks/sampled-shape-macos.json).
+The former includes 47 native/2,311 Python GUI checks, 46 native/1,914 Python
+Windows headless checks and 46 native/1,912 Python Linux headless checks; minimal
+and sanitizer jobs each pass 46 native suites. Both Mac architectures pass 46
+native suites and all 26 frozen shape masks/maxima. These gates exclude this
+packet's production integration and the later attribution-install delta.
+Main remains at validated `2afdcb9`. Scientific, performance, broader platform
+and supported-release requirements remain open across the full M0–M7 plan.
