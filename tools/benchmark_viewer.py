@@ -72,6 +72,12 @@ def main():
             runs.append({
                 "name": label, "elapsed_seconds": time.perf_counter() - start,
                 "frames": report.frames, "cpu_frame_p95_ms": report.cpu_frame_p95_ms,
+                "replay_complete": report.replay_complete,
+                "replay_frame": report.replay_frame,
+                "replay_wait_frames": report.replay_wait_frames,
+                "tiles_settled": report.tiles_settled,
+                "final_zoom": report.final_zoom,
+                "final_center": [report.final_center.x, report.final_center.y],
                 "max_cpu_frame_ms": report.max_cpu_frame_ms,
                 "rendered_frame_wall_p95_ms": report.rendered_frame_wall_p95_ms,
                 "max_rendered_frame_wall_ms": report.max_rendered_frame_wall_ms,

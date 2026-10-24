@@ -1,0 +1,17 @@
+{
+  "schema": "qpx.overlay-replay-failed-observation/1",
+  "validation_passed": false,
+  "performance_accepted": false,
+  "compiled_commit": "2c6ce765de0badc1ca0ccd96313925eb8351105e",
+  "native_sha256": "fa5a2ea3179fbb6ad1728139c9eee17b284ba9cce4be85669dab00838b398512",
+  "tool_commit": "c0e8fe8",
+  "state": "Initial hardware benchmark failed its full-selection assertion; inspected capture shows Selected: 0. No timing result accepted.",
+  "log_sha256": "0ea4f42592b78fb8d81c37f833aa8fea64a016eaea8fb02c36750367dac6ff3b",
+  "framebuffer_sha256": "58368eb41e143cc7bf31a64c05740f9345f0e7e1a77652f8211b83d17aff604e",
+  "diagnostics": {
+    "hardware_log_sha256": "c25038df826bd7eef181c2e567ddde31e03fb9d115e360c046f2a37893f02028",
+    "software_log_sha256": "b8c7e7872d344830e66e718fcd4a044b27ce50e3c7a6d5dac3a9dd5e58da7f19",
+    "result": "Both hosts select 20 and 100000 objects correctly in independent short diagnostic windows. This does not establish the cause of the intermittent first failure."
+  },
+  "followup": "Benchmark now establishes the canvas keyboard target before Ctrl+A, retains pre-check diagnostics, and still requires all objects selected, unchanged document revision, cache budgets and identical immediate/cached pixels. Both full-view and zoomed source-bound reruns passed. An initial setup attempt at logical frame 1 was rejected by the existing native replay argument guard before rendering; it was corrected to start at frame 2."
+}
