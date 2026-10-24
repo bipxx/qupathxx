@@ -1,0 +1,9 @@
+{
+  "schema": "qpx.roi-grid-source-projection/1",
+  "source_commit": "ada3e66a1b9796629ae556142b45ed75710f26d7",
+  "input_files": 242,
+  "actual_windows_sha256": "c4cac9017efebdd0c0dd4c4371624787ed1d7b487674dedb0db527333373245d",
+  "committed_lf_sha256": "a24011725784c182f23fb7bac1e9115d5317afdd773b175630e3d7be1e5c3766",
+  "all_inputs_equal_after_crlf_normalization": true,
+  "crlf_different_files": 242
+}

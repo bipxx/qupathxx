@@ -106,3 +106,55 @@ To reproduce with two matching installed environments and a new output path:
 ```powershell
 python -I tools/compare_roi_sampling_engines.py --baseline-python BASELINE_PYTHON --candidate-python CANDIDATE_PYTHON --output-directory build/roi-engine-comparison
 ```
+
+
+## Deferred boundary-cache initialization (packet116)
+
+Source `ada3e66a1b9796629ae556142b45ed75710f26d7` defers allocation and grid
+construction until an exact GEOS query intersects the polygon. Exterior queries
+retain the normal GEOS preparation behavior and never create this grid. The
+existing mutex protects the transition; coverage/picking is unchanged. No
+rounded origin-plus-extent shortcut is used to decide membership.
+
+The [cold-query receipt](benchmarks/roi-sampling-grid-cold-windows.json) retains
+before/after native identities and all sixteen child records. Each implementation
+period has four engine pairs with balanced engine order; each child uses fresh
+geometry, two excluded observations and eight retained observations per case.
+Construction, first query, second query and their sum are retained. GEOS lazy
+preparation can move work between queries; first-call timings alone are
+insufficient to characterize total initialization. The cold tool bytes are
+identical before/after and retained in Git. Separately owned compilation was
+observed on this shared workstation, and the two implementation periods are
+sequential. These are bounded observations, not hardware acceptance.
+
+For the 16,384-vertex polygon, the median of per-process median first-query
+times outside its envelope changes from 0.16605 ms to 0.007575 ms. The
+outside-corner query changes from 0.21175 ms to 0.043875 ms; its repeated query
+still incurs about 1 ms of GEOS preparation. Interior initialization remains
+about 0.2 ms in these observations. These changes do not establish a universal
+speedup or measure process RSS.
+
+The [repeated warm comparison](benchmarks/roi-sampling-grid-deferred-interleaved-windows.json)
+retains all 108 fresh-process observations with exact outputs and balanced
+engine/policy order. Median paired candidate-minus-baseline winding changes:
+
+| Workload | Size | ROI change ms | Tissue change ms |
+|---|---:|---:|---:|
+| square-hole | 256 | -0.1028 | -0.2379 |
+| square-hole | 1024 | -3.3657 | -5.0619 |
+| complex | 256 | -0.6233 | -0.6854 |
+| complex | 1024 | -9.7659 | -11.4576 |
+| dense-triangle | 1024 | -0.1249 | 1.0301 |
+| edge-strip | 1024 | -0.0023 | 0.0011 |
+
+The complex 1024 workload retains roughly 10–11 ms lower winding time. Dense
+triangle tissue remains about 1 ms slower; boundary-strip changes remain below
+0.003 ms. Coverage controls, timing ranges and per-engine overheads are retained.
+The [local validation receipt](benchmarks/roi-sampling-grid-windows-local.json)
+binds the installed/profiled native bytes to 43 native and 402 focused passing
+cases, plus installed workflows, stubs and typing. Three scientific expected
+failures remain. The [source projection](benchmarks/roi-sampling-grid-source-projection.json)
+records this prototype's actual build-input count and committed LF identity;
+this prototype does not yet contain packet115's parser files. Full current-source
+Windows/Linux, sanitizer, portable/Mac, RSS/real-slide/frame and biological
+acceptance remain open. Main is unchanged.

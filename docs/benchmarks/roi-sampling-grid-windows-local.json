@@ -1,0 +1,33 @@
+{
+  "schema": "qpx.roi-grid-windows-local/1",
+  "source_commit": "ada3e66a1b9796629ae556142b45ed75710f26d7",
+  "native": {
+    "tests": 43,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 43,
+    "sha256": "79eaedab6b81f93eec857069c27def96d7b1bdc1348b53ff105f50782e6bbf27"
+  },
+  "focused": {
+    "tests": 405,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 3,
+    "passed": 402,
+    "sha256": "0fc09eeb6b786cb1fb1d9c27129bb96c9e02f148bb261ad29cdf03fc323acd3a"
+  },
+  "strict_scientific_expected_failures": 3,
+  "installed_receipt_sha256": "d583d9ce627e0e2f95bdc001b940138cdcd72288e6a3b85057fc7ee740be0433",
+  "native_sha256": "069fd391aafcefeebd546c6f80c57a3ef1b2e8263c103363eb3c08897eda624a",
+  "wheel_sha256": "9fcc391997be448c290e8be572e424225dab45eb87248a3fa01b914221dc7320",
+  "wheel_native_equals_installed": true,
+  "source_projection_sha256": "4246446868a278cd5637e216aef30532186ef8ab68aecc7d51d0f8a3d8655f4e",
+  "warm_comparison_sha256": "a5e9789b4390b7e69353bbe690d44e7f245ee40e255cbac5dd6cdea0432a8b17",
+  "cold_comparison_sha256": "cb4cac42ec8d2a2b7704433e74bf3ee336038afe555805186d30052f22364738",
+  "full_regression_accepted": false,
+  "hosted_matrix_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "scope": "Local 43 native/402 focused cases, installed workflows, stubs and strict typing pass. All nine independent/concurrent/extreme-aspect cache cases pass. Same native binary is measured by the warm/cold observations. Full new-source platform, scientific, RSS, slide/GPU and supported-release gates remain open."
+}

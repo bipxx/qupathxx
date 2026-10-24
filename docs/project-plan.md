@@ -3959,3 +3959,26 @@ committed UTF-8 LF bytes. The defined engineering scope is accepted for main
 promotion. Three isolated-cell segmentation gates, winding overhead optimization,
 biological/hardware/RSS/frame, current-source portable/Mac, license and supported
 release requirements remain open. The full M0-M7 goal stays active.
+
+
+## Packet116: defer the polygon grid until an intersecting query
+
+The boundary-grid prototype now avoids grid allocation/construction for exterior
+winding queries, retaining exact GEOS membership and context-mutex ownership.
+Source ada3e66a1b9796629ae556142b45ed75710f26d7 passes 43 native suites and
+402 focused Python/desktop cases, installed workflows, stubs and strict typing.
+All nine rational-reference/concurrent/extreme-aspect cache cases pass; three
+scientific expected failures remain unchanged. The same installed native bytes
+are bound to the [source projection and correctness receipt](benchmarks/roi-sampling-grid-windows-local.json).
+
+The [warm/cold observations](roi-sampling-performance.md) retain 108 repeated
+warm-workload children and sixteen before/after cold children, exact warm outputs,
+script/native/source identities and timing ranges. The 16,384-vertex exterior
+first query changes from about 0.166 to 0.0076 ms; first and second GEOS query
+costs remain separate and combined in the raw record. The larger complex warm
+workload retains roughly 10–11 ms lower winding time than the accepted engine.
+Dense triangle tissue is about 1 ms slower. Shared workstation activity and
+sequential implementation periods preclude uniform/hardware performance
+acceptance. Full current-source platform/sanitizer/portable/Mac, real-slide/RSS/
+frame, scientific and release gates remain open. This prototype does not yet
+contain packet115's independent parser changes, and main remains unchanged.
