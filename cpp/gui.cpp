@@ -5,6 +5,7 @@
 #include "qupathxx/interchange.hpp"
 #include "qupathxx/analysis.hpp"
 #include "gui_profile.hpp"
+#include "gui_text_buffers.hpp"
 #include "gui_tiles.hpp"
 #include "gui_thumbnail.hpp"
 #include "gui_workspace.hpp"
@@ -142,10 +143,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     {ThumbnailOptions overview_options;overview_options.source_pixel_limit=options.overview_source_pixel_limit;overview_options.validate();}
     GuiReplay replay(options.inputs,options.replay_timeout_seconds);
     detail::GuiProfiler profiler;
-    detail::GuiBatch batch(options);
-    detail::GuiTma tma(options);
-    detail::GuiRaw raw(options);
-    detail::GuiObjectClassifier classifier(options);
+    auto batch_owner=std::make_unique<detail::GuiBatch>(options);auto& batch=*batch_owner;
+    auto tma_owner=std::make_unique<detail::GuiTma>(options);auto& tma=*tma_owner;
+    auto raw_owner=std::make_unique<detail::GuiRaw>(options);auto& raw=*raw_owner;
+    auto classifier_owner=std::make_unique<detail::GuiObjectClassifier>(options);auto& classifier=*classifier_owner;
     GuiReplayDeadline settlement(options.replay_timeout_seconds);
     GuiReplayDeadline minimized_startup(options.replay_timeout_seconds);
     options.display.validate();
@@ -203,7 +204,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     FileFingerprintOptions fingerprint_options;fingerprint_options.byte_limit=options.file_fingerprint_byte_limit;fingerprint_options.buffer_bytes=options.file_fingerprint_buffer_bytes;fingerprint_options.validate();
     bool fingerprint_associate=options.file_fingerprint_associate_source;
     FileFingerprintJob fingerprint_job;std::string fingerprint_error;
-    char fingerprint_path[32769]={},fingerprint_output[32769]={};
+    auto text_buffers=std::make_unique<detail::GuiTextBuffers>();
+    auto& fingerprint_path=text_buffers->fingerprint_path;
+    auto& fingerprint_output=text_buffers->fingerprint_output;
     std::copy(options.file_fingerprint_path.begin(),options.file_fingerprint_path.end(),fingerprint_path);
     std::copy(options.file_fingerprint_output.begin(),options.file_fingerprint_output.end(),fingerprint_output);
     detail::validate_cell_area_limits(options.cell_min_nucleus_area_um2,options.cell_max_nucleus_area_um2);
@@ -223,7 +226,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
     if(options.docked_workspace) ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     GuiWorkspace workspace(options);
-    detail::GuiPixelClassifier pixel_classifier(options);
+    auto pixel_classifier_owner=std::make_unique<detail::GuiPixelClassifier>(options);auto& pixel_classifier=*pixel_classifier_owner;
     ImGui::StyleColorsDark();
     auto& style = ImGui::GetStyle(); style.FrameRounding = 4; style.WindowRounding = 0;
     style.Colors[ImGuiCol_WindowBg] = ImVec4(.075f, .085f, .105f, 1);
@@ -259,9 +262,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     measurement_options.byte_limit=options.measurement_table_byte_limit;measurement_options.snapshot_budget=options.measurement_table_snapshot_budget;measurement_options.validate();
     MeasurementTableExportJob measurement_job;std::string measurement_error;
     int measurement_kind=options.measurement_table_kind;
-    char measurement_path[32769]={};std::copy(options.measurement_table_path.begin(),options.measurement_table_path.end(),measurement_path);
+    auto& measurement_path=text_buffers->measurement_path;std::copy(options.measurement_table_path.begin(),options.measurement_table_path.end(),measurement_path);
     CellTableExportJob cell_table_job;std::string cell_table_error;
-    char cell_table_path[32769]={};std::copy(options.cell_table_path.begin(),options.cell_table_path.end(),cell_table_path);
+    auto& cell_table_path=text_buffers->cell_table_path;std::copy(options.cell_table_path.begin(),options.cell_table_path.end(),cell_table_path);
     OverlayCache overlay_cache;std::optional<DisplaySettings> overlay_display;
     CellParameters cell_parameters=options.cell_parameters?*options.cell_parameters:CellParameters{};cell_parameters.validate();
     auto cell_min_area=options.cell_min_nucleus_area_um2,cell_max_area=options.cell_max_nucleus_area_um2;
@@ -296,7 +299,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     Point marquee_anchor;
     std::string batch_class;
     std::string error;
-    char project_path[32769]={};
+    auto& project_path=text_buffers->project_path;
     std::string project_error;
     ProjectAutosave autosave(options.autosave_snapshot_budget);
     RecoveryRetention retention;
@@ -307,7 +310,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     AutosaveStats autosave_stats;
     double autosave_interval=options.autosave_interval_seconds;
     auto next_autosave=std::chrono::steady_clock::now()+std::chrono::duration<double>(autosave_interval);
-    char autosave_path[32769]={},recovery_path[32769]={},recovery_base_path[32769]={};
+    auto& autosave_path=text_buffers->autosave_path;
+    auto& recovery_path=text_buffers->recovery_path;
+    auto& recovery_base_path=text_buffers->recovery_base_path;
     auto copy_recovery_path=[](char* buffer,const std::string& path) {
         if(path.size()>32768 || path.find('\0')!=std::string::npos) throw std::invalid_argument("invalid recovery path");
         std::memcpy(buffer,path.c_str(),path.size()+1);
@@ -345,7 +350,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t project_replacements=0;
     double project_load_ms=0;
     double recovery_load_ms=0;
-    char project_open_path[32769]={};
+    auto& project_open_path=text_buffers->project_open_path;
     copy_recovery_path(project_open_path,options.project_open_path);
     ImVec2 cancel_load_offset{},cancel_load_size{};
     struct MaintenanceResult {std::optional<RecoveryInfo> reviewed; std::string deleted,error;};
@@ -363,7 +368,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     int close_action=0; // 1 saved, 2 keep recovery, 3 discard.
     ImVec2 discard_recovery_offset{},discard_recovery_size{},keep_close_offset{},keep_close_size{},cancel_close_offset{},cancel_close_size{},discard_close_offset{},discard_close_size{};
     ImVec2 save_close_offset{},save_close_size{},save_recovery_offset{},save_recovery_size{},cancel_recovery_offset{},cancel_recovery_size{};
-    char project_image_path[32769]={},project_image_name[4097]={},project_filter[257]={};
+    auto& project_image_path=text_buffers->project_image_path;
+    auto& project_image_name=text_buffers->project_image_name;
+    auto& project_filter=text_buffers->project_filter;
     const char* reader_names[]={"auto","ppm","openslide","tiff"};int image_reader=0;
     for(int i=0;i<4;++i) if(options.image_reader==reader_names[i]) image_reader=i;
     if(options.project_image_path.size()>32768 || options.project_image_path.find('\0')!=std::string::npos)
@@ -379,15 +386,16 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         if(path.size()>32768) throw std::invalid_argument("project path too long");
         std::memcpy(project_path,path.c_str(),path.size()+1);
     }
-    char interchange_path[32769]={};
+    auto& interchange_path=text_buffers->interchange_path;
     if(options.interchange_path.size()>32768 || options.interchange_path.find('\0')!=std::string::npos) throw std::invalid_argument("invalid interchange path");
     std::memcpy(interchange_path,options.interchange_path.c_str(),options.interchange_path.size()+1);
     bool interchange_pixels=options.interchange_assume_pixels,interchange_losses=options.interchange_allow_losses,interchange_selected=false,csv_intensity=false;
     bool qupath_ellipse_precision=options.qupath_ellipse_precision;
     std::string interchange_status;
     std::uint64_t editor_id=0,editor_revision=0;
-    char draft_name[4097]={},draft_class[4097]={};
-    char class_name[4097]={};
+    auto& draft_name=text_buffers->draft_name;
+    auto& draft_class=text_buffers->draft_class;
+    auto& class_name=text_buffers->class_name;
     std::string class_key;
     float class_color[3]={65/255.f,225/255.f,190/255.f};
     Rect draft_roi;
