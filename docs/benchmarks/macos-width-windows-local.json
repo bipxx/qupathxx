@@ -1,0 +1,34 @@
+{
+  "schema": "qpx.macos-width-windows-local/1",
+  "source_commit": "ac91ac074deed3bf88492cba4fbeea30edc9b4bd",
+  "environment": {
+    "git_revision": "ac91ac074deed3bf88492cba4fbeea30edc9b4bd",
+    "source_tree_sha256": "a83f20f87c63675339d686ca40fa14320fea88421573ff8fc6282a170f29d69c"
+  },
+  "native": {
+    "tests": 43,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 43,
+    "sha256": "ebb1d374517433e7395488dd41fb5ed51b1532577762ae537d6a114f1ee07df6"
+  },
+  "focused": {
+    "tests": 255,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 7,
+    "passed": 248,
+    "sha256": "615a035a6f65dd9a56e36d522e5fb282a2707f47833e0dbdfc4a55a3f3cf0efb"
+  },
+  "scientific_expected_failures": 3,
+  "optional_focused_skips": 4,
+  "installed_receipt_sha256": "0989929fca97e471032df778d9ee3b4e773b1777b91bff824ee63676093d07ae",
+  "installed_native_sha256": "5f1edf93050e203813c249429a68a49d850b1e7ba538e4deb34806e8d67687f5",
+  "wheel_sha256": "c6f8e013e62f1ae1e50e0be34d24952cd252aa4fee627ec329babb5d1aa35dcd",
+  "wheel_native_equals_installed": true,
+  "full_python_pending": true,
+  "macos_accepted": false,
+  "release_ready": false,
+  "scope": "Local headless Windows native, installed package, pixel-feature/window/classifier, TIFF/raw/project/save/sampling and reference checks for the Darwin deduction correction. No Mac or full current-source release acceptance."
+}

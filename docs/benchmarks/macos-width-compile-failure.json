@@ -1,0 +1,43 @@
+{
+  "schema": "qpx.macos-width-compile-failure/1",
+  "run": "https://github.com/bipxx/qupathxx/actions/runs/40046316839",
+  "source_commit": "4fe2e1a2521abb8675e1c39697b11b1855305f79",
+  "status": "completed",
+  "conclusion": "failure",
+  "architectures": [
+    {
+      "architecture": "arm64",
+      "stage": "native-build",
+      "file": "cpp/pixel_features.cpp",
+      "line": 31,
+      "error": "One auto declaration deduces uint64_t as unsigned long long and size_t as unsigned long.",
+      "tiff_source_compiled": true,
+      "native_tests_started": false,
+      "logs_sha256": {
+        "build.log": "a69e7e43577aafaee8b6672f012c8728bf0761b281064011be0f12faaf55043b",
+        "configure.log": "9ccd5321632e6ef3d075cb6aa2d3bb49a9059867fa0568166193d4b69e70188d",
+        "geos-build.log": "c99dbf721360dc83dfcb230b5514ffa8c1371e335bda8bf5eef3af5cbbbb39f2",
+        "opencv-build.log": "775b914cbab84e21f4435dc70f132ba93a63d62c0407fff55ea1961cc8c70489"
+      }
+    },
+    {
+      "architecture": "x86_64",
+      "stage": "native-build",
+      "file": "cpp/pixel_features.cpp",
+      "line": 31,
+      "error": "One auto declaration deduces uint64_t as unsigned long long and size_t as unsigned long.",
+      "tiff_source_compiled": true,
+      "native_tests_started": false,
+      "logs_sha256": {
+        "build.log": "9fd0f6654c998c1248fb89a5eea4dade827f640bcf2598662afb8e166bde7127",
+        "configure.log": "18b608e51321fe34109c0fbe40aedae9ff4f0e4de90a34724ed8b31204e26f83",
+        "geos-build.log": "69bfca78ec275ae8e85e4faf8f72f7283af192812e4cb7b57b8f00a37a29e07c",
+        "opencv-build.log": "af8de909b5e067b6a81c615ed0a1b08149ed6909920a971cefb9859cb5f073e1"
+      }
+    }
+  ],
+  "correction_commit": "ac91ac074deed3bf88492cba4fbeea30edc9b4bd",
+  "correction": "Separate the width/height declaration from the feature-stride declaration; retain every expression and its deduced type.",
+  "macos_accepted": false,
+  "release_ready": false
+}

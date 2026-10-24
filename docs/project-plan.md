@@ -4047,3 +4047,20 @@ Windows/Linux engineering scope is accepted. Both Mac jobs in run 40046316839
 remain pending; current-source manylinux qualification, biology, hardware/RSS/
 frame, license and supported release requirements remain open. Main promotion
 is still withheld and the complete M0-M7 goal stays active.
+
+
+## Packet119: Darwin width/stride deduction correction
+
+Both Mac jobs in run 40046316839 complete with the same next compilation error:
+`uint64_t` and `size_t` are different types in a single `auto` declaration in
+`pixel_features.cpp`. The TIFF parser now compiles on both architectures; native
+Mac tests have not started. [Failure evidence](benchmarks/macos-width-compile-failure.json)
+retains all eight build/configuration/SDK log identities. Correction
+ac91ac074deed3bf88492cba4fbeea30edc9b4bd separates the width/height declaration
+from stride, retaining the expressions and inferred types. Its installed
+Windows headless wheel passes 43 native suites, installed workflows and 248
+focused pixel/TIFF/raw/project/sampling cases, with four optional skips and
+three scientific expected failures. [Local evidence](benchmarks/macos-width-windows-local.json)
+records native/wheel/source identities. Full current-source and Mac qualification
+remain pending. The preceding source's Windows/Linux acceptance remains valid
+for that source; main promotion and the full M0-M7 goal are still open.
