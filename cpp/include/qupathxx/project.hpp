@@ -47,6 +47,8 @@ class Project {
 public:
     Project();
     static std::shared_ptr<Project> open(const std::string& path);
+    // Read the current committed state without writing a hot-journal repair.
+    static std::shared_ptr<Project> open_without_journal_recovery(const std::string& path);
     static RecoveryInfo inspect_recovery(const std::string& path);
     static RecoveryInfo review_recovery(const std::string& path);
     static void discard_recovery_checked(const RecoveryInfo& reviewed);
@@ -104,7 +106,7 @@ private:
         std::atomic<int> phase{1};
         std::atomic<std::size_t> images{0},objects{0},total_images{0},total_objects{0};
     };
-    static std::shared_ptr<Project> open_impl(const std::string& path,bool recovery,const std::string& base_path="",LoadProgress* progress=nullptr);
+    static std::shared_ptr<Project> open_impl(const std::string& path,bool recovery,const std::string& base_path="",LoadProgress* progress=nullptr,bool repair_journal=true);
     static std::pair<std::string,std::uint64_t> read_save_identity(const std::string& path);
     static RecoveryInfo inspect_recovery_header(const std::string& path,const std::atomic<bool>* cancelled=nullptr);
     static std::optional<RecoveryInfo> inspect_recovery_work(const std::string& path,const std::atomic<bool>* cancelled);

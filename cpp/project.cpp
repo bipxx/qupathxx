@@ -343,7 +343,8 @@ void Project::save_new(const std::string&,std::size_t,std::uint64_t,const std::a
 void Project::save_impl(const std::string&,const std::string&,const std::atomic<bool>*,const RecoveryInfo*,const detail::BatchCheckpoint*,std::uint64_t) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
 void Project::save_recovery(const std::string&,const std::string&,const RecoveryInfo&,const std::atomic<bool>*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::shared_ptr<Project> Project::open(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
-std::shared_ptr<Project> Project::open_impl(const std::string&,bool,const std::string&,LoadProgress*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
+std::shared_ptr<Project> Project::open_without_journal_recovery(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
+std::shared_ptr<Project> Project::open_impl(const std::string&,bool,const std::string&,LoadProgress*,bool) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::shared_ptr<Project> Project::recover(const std::string&,const std::string&) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::pair<std::string,std::uint64_t> Project::read_save_identity(const std::string&) { throw std::runtime_error("project storage requires QUPATHXX_BUILD_PROJECT=ON"); }
 std::optional<RecoveryInfo> Project::inspect_recovery_work(const std::string&,const std::atomic<bool>*) { throw std::runtime_error("project recovery requires QUPATHXX_BUILD_PROJECT=ON"); }
@@ -355,7 +356,7 @@ constexpr int application_id=1364219992;
 constexpr int recovery_application_id=1364218456; // QPRX, distinct from ordinary QPXX projects.
 struct Database {
     sqlite3* db=nullptr;
-    Database(const std::string& path,bool write,const std::atomic<bool>* cancelled=nullptr) {
+    Database(const std::string& path,bool write,const std::atomic<bool>* cancelled=nullptr,bool repair_journal=true) {
         auto connect=[&](int flags) {
             auto code=sqlite3_open_v2(path.c_str(),&db,flags|SQLITE_OPEN_NOMUTEX,nullptr);
             if(code!=SQLITE_OK) throw std::runtime_error(std::string("SQLite open: ")+(db?sqlite3_errmsg(db):"out of memory"));
@@ -381,6 +382,7 @@ struct Database {
                 // recovery-required condition, without creating a new file.
                 auto code=sqlite3_exec(db,"PRAGMA user_version",nullptr,nullptr,nullptr);
                 if(code!=SQLITE_OK && sqlite3_extended_errcode(db)==SQLITE_READONLY_ROLLBACK) {
+                    if(!repair_journal)throw std::runtime_error("project requires rollback recovery; open it explicitly before source-preserving interchange");
                     sqlite3_close(db); db=nullptr;
                     connect(SQLITE_OPEN_READWRITE);
                     if(sqlite3_exec(db,"PRAGMA user_version",nullptr,nullptr,nullptr)!=SQLITE_OK)
@@ -729,11 +731,12 @@ void Project::save_impl(const std::string& path,const std::string& link_director
 std::shared_ptr<Project> Project::open(const std::string& path) {
     return open_impl(path,false);
 }
+std::shared_ptr<Project> Project::open_without_journal_recovery(const std::string& path) {return open_impl(path,false,"",nullptr,false);}
 std::shared_ptr<Project> Project::recover(const std::string& path,const std::string& base) { return open_impl(path,true,base); }
-std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recovery,const std::string& base_path,LoadProgress* progress) {
+std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recovery,const std::string& base_path,LoadProgress* progress,bool repair_journal) {
     auto stopped=[&] {if(progress && progress->cancellation()->load()) throw std::runtime_error("project opening cancelled");};
     stopped();
-    auto source=absolute(path); Database db(source,false,progress?progress->cancellation():nullptr);
+    auto source=absolute(path); Database db(source,false,progress?progress->cancellation():nullptr,repair_journal);
     db.cancellation(progress?progress->cancellation():nullptr); Transaction transaction(db,false);
     if(recovery_table(db)!=recovery) throw std::invalid_argument(recovery?"not a recovery snapshot":"use Project.recover for recovery snapshots");
     auto version=schema(db,recovery);

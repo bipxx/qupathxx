@@ -46,6 +46,7 @@ int main(int argc,char** argv){try {
     result=detail::qptma_project_cli({"batch","--import-qptma",source,wire,source,"--image",std::to_string(b)},cancelled);check(result && *result==1 && bytes(source)==original);
     rejects([&]{detail::qptma_project_cli({"batch","--export-qptma",output,exported},cancelled);});
     auto journal=fs::u8path(source);journal+="-journal";{std::ofstream out(journal);out<<"journal preflight marker";}
+    check(Project::open_without_journal_recovery(source)->images().size()==2);
     result=detail::qptma_project_cli({"batch","--export-qptma",source,(root/"journal.qptma").u8string(),"--image",std::to_string(b)},cancelled);check(result && *result==1 && bytes(journal)=="journal preflight marker" && !fs::exists(root/"journal.qptma") && bytes(source)==original);
     std::cout<<"QPTMA project atomic new-file publication, budgets, guards, races, persistence and explicit-image CLI passed\n";
 #endif

@@ -31,12 +31,8 @@ std::optional<int> qptma_project_cli(const std::vector<std::string>& args,const 
     try {
         export_checkpoint(&cancelled);
         const auto source=export_path(args[2]),output=export_path(args[importing?4:3]);
-        // Project::open can repair a hot rollback journal. This read-only CLI
-        // rejects journal-bearing inputs before opening rather than repairing.
-        auto journal=std::filesystem::u8path(source);journal+="-journal";
-        if(std::filesystem::exists(journal))throw std::invalid_argument("project has a rollback journal; reopen/recover it before QPTMA interchange");
         ReaderFileGuard observed(source);guard_file_output(source,observed.version()->identity,output);
-        const auto project=Project::open(source);const auto images=project->images();
+        const auto project=Project::open_without_journal_recovery(source);const auto images=project->images();
         const ProjectImage* selected=nullptr;for(const auto& image:images)if(image.id==image_id)selected=&image;
         if(!selected)throw std::invalid_argument("selected QPTMA image does not exist");
         auto protect=[&] {guard_file_output(source,observed.version()->identity,output);
