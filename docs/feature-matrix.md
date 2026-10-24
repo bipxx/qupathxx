@@ -45,8 +45,8 @@ skips and three strict legacy scientific xfails. M0-M7 science, hardware,
 license and supported-release requirements remain open.
 
 An input-loading candidate now rejects an observed oversized measurement file
-before data reads and reserves admitted input storage. Its native quota test
-and 29 installed file/CLI cases pass. The
+before data reads and reserves admitted input storage. Its native quota test,
+47 native suites and 77 installed TMA cases (29 file/CLI cases) pass. The
 [paired pilot](benchmarks/tma-case-input-pilot-windows.json) retains all 32
 observations: CSV hashes and independent statistics agree, and the largest
 24 MB input's median process peak working set falls from 41.8 MB to 31.1 MB.

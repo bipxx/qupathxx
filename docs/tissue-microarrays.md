@@ -217,5 +217,7 @@ performance or hardware evidence.
 Windows accounting comes from [GetProcessIoCounters](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getprocessiocounters)
 and its [IO_COUNTERS](https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-io_counters)
 read-transfer field. These are process-wide bytes read, including cached I/O;
-they do not measure physical storage traffic. Installed-package and hosted
-acceptance of this input-loading change remain open.
+they do not measure physical storage traffic. The [initial installed checks](benchmarks/tma-case-input-initial-windows.json)
+pass 47 native suites, 77 focused cases including 29 file/CLI cases, packaged
+stubs and typing checks. Twelve altered-evidence controls are rejected. Full
+installed regression and hosted acceptance remain open.

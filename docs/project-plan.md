@@ -4716,7 +4716,10 @@ storage for an admitted input. Per-chunk limits and file-change checks remain
 in place. A native Windows regression changed from 1,114,112 read-transfer bytes
 to zero for an oversized input. Two installed boundary cases retain inclusive
 admission at the exact limit and rejection one byte below the input size.
-All 29 file/API/CLI cases pass initially.
+All 29 file/API/CLI cases and 77 combined TMA cases pass initially, alongside
+47 native suites, packaged stubs and typing checks. Twelve source-bound
+altered-evidence controls reject missing, duplicated, failed, skipped and
+nonzero-read observations.
 
 The paired pilot retains 32 fresh-process observations, with eight declared
 warmups. Output hashes and independently checked statistics are unchanged.
