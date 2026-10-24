@@ -319,7 +319,9 @@ def main():
     parser.add_argument('--tma-cases',action='store_true',help='Require exact native and Python TMA case aggregation in both builders/consumers; implies small frontier')
     parser.add_argument('--tma-file-export',action='store_true',help='Require atomic case-file and standalone CLI cohorts in builders/consumers; implies tma cases')
     parser.add_argument('--tma-cohorts',action='store_true',help='Require captured multi-grid native and installed cohort cases; implies file export')
+    parser.add_argument('--linux-runtime-manifest',action='store_true',help='Require exact-source qualified builder and fresh-consumer static ELF manifests; implies TMA cohorts')
     args=parser.parse_args()
+    args.tma_cohorts=args.tma_cohorts or args.linux_runtime_manifest
     args.tma_file_export=args.tma_file_export or args.tma_cohorts
     args.tma_cases=args.tma_cases or args.tma_file_export
     args.small_frontier=args.small_frontier or args.tma_cases
@@ -363,6 +365,20 @@ def main():
                 report['tma_case_cohorts'].append(dict(python=version,cohort=cohort,native=native,**result))
     report['tma_cohorts_required']=args.tma_cohorts
     report['tma_file_export_required']=args.tma_file_export
+    report['linux_runtime_manifest_required']=args.linux_runtime_manifest
+    if args.linux_runtime_manifest:
+        spec=importlib.util.spec_from_file_location('qpx_linux_manifest_evidence',Path(__file__).with_name('linux_runtime_manifest_evidence.py'))
+        manifests=importlib.util.module_from_spec(spec);spec.loader.exec_module(manifests)
+        root=Path(__file__).resolve().parents[2]
+        report['linux_runtime_manifests']=[]
+        for version in ['3.11','3.12']:
+            folder=args.artifacts/('manylinux-'+version)
+            wheels=list((folder/'qualified').glob('*.whl'))
+            require(len(wheels)==1,'qualified manifest requires one exact wheel')
+            builder=manifests.audit(folder,wheels[0],root,args.commit,'qualified-linux-runtime-manifest.json')
+            consumer=manifests.audit(args.artifacts/('manylinux-consumer-'+version),wheels[0],root,args.commit,'consumer-linux-runtime-manifest.json')
+            require(builder['manifest_sha256']==consumer['manifest_sha256'],'builder/consumer static manifests differ')
+            report['linux_runtime_manifests'].append(dict(python=version,builder=builder,consumer=consumer))
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(state=report['state'],commit=report['commit'],release_ready=False)))

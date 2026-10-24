@@ -259,6 +259,8 @@ jobs:
         run: |
           unset LD_LIBRARY_PATH LD_PRELOAD
           test ! -d build/deps/geos-sdk
+          build/ci/consumer/bin/python -I tools/ci/linux_runtime_manifest.py --wheel build/ci/candidate/qualified/*.whl --verify build/ci/candidate/qualified-linux-runtime-manifest.json
+          build/ci/consumer/bin/python -I tools/ci/linux_runtime_manifest.py --wheel build/ci/candidate/qualified/*.whl --output build/ci/consumer-linux-runtime-manifest.json > build/ci/consumer-linux-runtime-manifest.log
           build/ci/consumer/bin/python -I tools/ci/check_manylinux_consumer.py --wheel build/ci/candidate/qualified/*.whl --qualification build/ci/candidate/qualification.json --slide build/fixtures/CMU-1-Small-Region.svs --output build/ci/consumer-probe.json
           QUPATHXX_TEST_GUI=0 QUPATHXX_APERIO_FIXTURE="$PWD/build/fixtures/CMU-1-Small-Region.svs" build/ci/consumer/bin/python -I -m pytest tests -q -o faulthandler_timeout=60 --junitxml=build/ci/consumer-tests.xml > build/ci/consumer-tests.log 2>&1
       - name: Consumer evidence
@@ -272,3 +274,5 @@ jobs:
             build/ci/consumer-probe.json
             build/ci/consumer-tests.xml
             build/ci/consumer-tests.log
+            build/ci/consumer-linux-runtime-manifest.json
+            build/ci/consumer-linux-runtime-manifest.log

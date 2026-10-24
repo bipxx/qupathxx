@@ -174,6 +174,9 @@ def main():
     run([python, '-m', 'pip', 'install', '-r', ROOT/'tools/ci/requirements.txt', wheel], work/'install.log', env)
     test_python = python
     if os.name != 'nt':
+        inspect = [sys.executable, '-I', ROOT/'tools/ci/linux_runtime_manifest.py', '--wheel', wheel]
+        run(inspect+['--output', work/'linux-wheel-runtime-manifest.json'], work/'linux-wheel-runtime-manifest.log', env, 120)
+        run(inspect+['--verify', work/'linux-wheel-runtime-manifest.json'], work/'linux-wheel-runtime-verify.log', env, 120)
         env.pop('LD_LIBRARY_PATH', None)
         run([python, '-I', ROOT/'tools/ci/check_linux_runtime.py', '--wheel', wheel,
              '--geos-sdk', geos, '--openslide-sdk', openslide, '--output', work/'linux-runtime.json'],
