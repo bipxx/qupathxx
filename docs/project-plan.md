@@ -4311,6 +4311,22 @@ viewer script and33ms target are unchanged. Both Mac/core source459 jobs remain
 independent validation work. Every unfinished M0–M7 requirement remains active.
 
 
+Packet129's [partial local receipt](benchmarks/gui-stack-windows-local.json)
+accepts 46 native suites, installed/stub/typing checks and35 focused startup/
+overlay cases, including all eight fresh native project launches on the unchanged
+1MiB executable stack. Exact immediate/cached framebuffer comparisons pass.
+The full GUI regression is still running; no crash-resolution, complete matrix
+or hardware acceptance follows from this focused observation.
+
+
+Packet129's local full GUI regression now passes2,206 cases,13 optional skips
+and the same three scientific xfails. Its [updated receipt](benchmarks/gui-stack-windows-local.json)
+retains46 native,35 focused, installed/stub/typing and complete regression
+identities. The default-stack startup test passes in both focused and full runs,
+verifying16 fresh standalone launches total. Source794's local evidence does not
+accept the newer combined source757, either Mac architecture or hardware targets.
+
+
 ## Packet130: complete Darwin declaration diagnostics
 
 Both architectures in run40065293769 fail to compile four independent mixed-
