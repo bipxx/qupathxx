@@ -27,6 +27,23 @@ relocation=importlib.util.module_from_spec(spec);spec.loader.exec_module(relocat
 common=relocation.common
 require=relocation.require
 OD_TOLERANCE=2e-7
+REGION_INPUT=b'P6\n2 1\n255\n'+bytes([40,80,160,80,120,200])
+
+
+def region_contract(data):
+    require(len(data)<=4096 and data.count(b'ENDHDR\n')==1,'relocated PAM header missing/ambiguous')
+    header,pixels=data.split(b'ENDHDR\n')
+    lines=header.decode('ascii').splitlines()
+    require(lines and lines[0]=='P7','relocated region is not PAM')
+    fields={}
+    for line in lines[1:]:
+        parts=line.split(' ',1)
+        require(len(parts)==2 and parts[0] not in fields,'relocated PAM header fields malformed/duplicate')
+        fields[parts[0]]=parts[1]
+    require(fields==dict(WIDTH='1',HEIGHT='1',DEPTH='4',MAXVAL='255',TUPLTYPE='RGB_ALPHA'),
+            'relocated PAM dimensions/layout differ')
+    require(pixels==bytes([60,100,180,255]),'relocated native region pixels differ')
+    return [60,100,180,255]
 
 
 def sha(path):
@@ -191,10 +208,10 @@ def probe(archive,plan,project_fixture,work,output):
             loaded=loaded_from_diagnostics(done.stderr.decode('utf-8'),alias_names(plan))
             require(loaded==sorted(expected),'relocated native CLI mapped SDK libraries outside package or omitted mapping evidence: '+label)
         return done
-    source=work/'input.ppm';source.write_bytes(b'P6\n2 1\n255\n'+bytes([40,80,160,80,120,200]))
+    source=work/'input.ppm';source.write_bytes(REGION_INPUT)
     pam=work/'output.pam'
     run('region',[package/'bin/qupathxx_region','--thumbnail',source,'1','1',pam,'--source-pixels','2'])
-    require(pam.read_bytes().split(b'ENDHDR\n',1)[1]==bytes([60,100,180,255]),'relocated native region pixels differ')
+    region_contract(pam.read_bytes())
     fixture=fixture_contract(project_fixture);original_fixture_sha=fixture['sha256']
     project=work/'input.qpxproj'
     with project_fixture.open('rb') as stream:data=stream.read(1024*1024+1)

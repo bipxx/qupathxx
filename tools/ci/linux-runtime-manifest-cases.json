@@ -359,7 +359,14 @@
       "test_full_runtime_orchestration_with_labelled_simulated_commands",
       "test_graph_closure_is_cycle_safe_and_keeps_only_libraries",
       "test_independent_log10_roi_calibration_and_finite_tolerance",
-      "test_non_mac_guards_before_loading_or_extraction"
+      "test_non_mac_guards_before_loading_or_extraction",
+      "test_pam_pixel_bytes_require_correct_unambiguous_layout[depth]",
+      "test_pam_pixel_bytes_require_correct_unambiguous_layout[duplicate]",
+      "test_pam_pixel_bytes_require_correct_unambiguous_layout[magic]",
+      "test_pam_pixel_bytes_require_correct_unambiguous_layout[pixels]",
+      "test_pam_pixel_bytes_require_correct_unambiguous_layout[terminator]",
+      "test_pam_pixel_bytes_require_correct_unambiguous_layout[tuple]",
+      "test_pam_pixel_bytes_require_correct_unambiguous_layout[width]"
     ],
     "test_macos_relocation_evidence": [
       "test_changed_command_identity_scope_status_or_raw_evidence_rejects[archive]",
@@ -376,6 +383,32 @@
       "test_changed_command_identity_scope_status_or_raw_evidence_rejects[release]",
       "test_changed_command_identity_scope_status_or_raw_evidence_rejects[source]",
       "test_offline_command_audit_accepts_exact_simulated_cohort"
+    ],
+    "test_macos_runtime_artifact_audit": [
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[archive]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[arguments]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[batch]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[boolean_exit]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[checkpoint]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[csv]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[fixture]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[fresh_path]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[geometry_area]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[geometry_hash]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[geometry_path]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[geometry_stdout]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[input_pixels]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[input_project]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[missing_command]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[missing_mapping]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[outside_mapping]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[pam_header]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[pam_pixels]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[plan]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[raw_log]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[release]",
+      "test_changed_artifacts_and_coordinated_runtime_claims_reject[search_override]",
+      "test_complete_off_host_runtime_auditor_accepts_synthetic_protocol"
     ]
   }
 }

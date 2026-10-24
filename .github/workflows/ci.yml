@@ -166,6 +166,7 @@ jobs:
             build/ci/macos-native/relocated-runtime/*.json
             build/ci/macos-native/relocated-runtime/*.log
             build/ci/macos-native/relocated-runtime/*.pam
+            build/ci/macos-native/relocated-runtime/*.ppm
             build/ci/macos-native/relocated-runtime/*.csv
             build/ci/macos-native/relocated-runtime/*.qpxproj
             build/ci/macos-native/relocated-runtime/batch/**/*.qpxproj

@@ -36,6 +36,19 @@ def test_independent_log10_roi_calibration_and_finite_tolerance():
     assert runtime.csv_contract(csv_text(mean_channel_1=str(math.log10(8.5)+1e-7)))['rows']==1
 
 
+@pytest.mark.parametrize('failure',['magic','width','depth','tuple','duplicate','terminator','pixels'])
+def test_pam_pixel_bytes_require_correct_unambiguous_layout(failure):
+    data=b'P7\nWIDTH 1\nHEIGHT 1\nDEPTH 4\nMAXVAL 255\nTUPLTYPE RGB_ALPHA\nENDHDR\n'+bytes([60,100,180,255])
+    if failure=='magic':data=data.replace(b'P7',b'P6')
+    elif failure=='width':data=data.replace(b'WIDTH 1',b'WIDTH 2')
+    elif failure=='depth':data=data.replace(b'DEPTH 4',b'DEPTH 3')
+    elif failure=='tuple':data=data.replace(b'RGB_ALPHA',b'RGB')
+    elif failure=='duplicate':data=data.replace(b'WIDTH 1',b'WIDTH 1\nWIDTH 1')
+    elif failure=='terminator':data=data.replace(b'ENDHDR\n',b'')
+    elif failure=='pixels':data=data[:-1]
+    with pytest.raises(ValueError):runtime.region_contract(data)
+
+
 @pytest.mark.parametrize('changes',[dict(samples='5'),dict(roi_area_um2='4'),dict(roi_length_um='8'),
     dict(captured_pixel_height_um='0.5'),dict(status_at_capture='stale'),dict(batch_image_id='2'),
     dict(source_object_id='2'),dict(channel_space='stains'),dict(table_schema='other'),
@@ -148,7 +161,7 @@ def test_full_runtime_orchestration_with_labelled_simulated_commands(tmp_path,mo
         stderr=json.dumps(mappings).encode('utf-8')
         assert options['env']['DYLD_PRINT_LIBRARIES']=='1'
         if '--thumbnail' in arguments:
-            Path(arguments[5]).write_bytes(b'P7\nENDHDR\n'+bytes([60,100,180,255]))
+            Path(arguments[5]).write_bytes(b'P7\nWIDTH 1\nHEIGHT 1\nDEPTH 4\nMAXVAL 255\nTUPLTYPE RGB_ALPHA\nENDHDR\n'+bytes([60,100,180,255]))
             return subprocess.CompletedProcess(arguments,0,b'',stderr)
         if '--export-csv' in arguments:
             Path(arguments[-1]).write_text(csv_text(),encoding='utf-8')

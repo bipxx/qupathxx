@@ -71,6 +71,7 @@ def audit_runtime(folder,plan,manifest,report,logical_work,python_executable,rep
         require(report[key] is True,'Mac runtime proof missing: '+key)
     require(report['loader_search_overrides_used'] is False and report['release_ready'] is False,'Mac runtime search/release scope differs')
     require(report['fresh_package']==str(package),'Mac runtime fresh package path differs')
+    require((folder/'input.ppm').read_bytes()==runtime.REGION_INPUT,'Mac region input differs from fixed pixel fixture')
     require(report['fixture_sha256']==fixture['sha256'] and runtime.sha(folder/'input.qpxproj')==fixture['sha256'],'Mac runtime fixture input differs')
     capis=[item['target'] for item in plan['edits'] if PurePosixPath(item['target']).name.startswith('libgeos_c.')]
     require(len(capis)==1,'Mac runtime C API cohort differs')
@@ -100,8 +101,7 @@ def audit_runtime(folder,plan,manifest,report,logical_work,python_executable,rep
     require(batch['source_identity']==fixture['identity'],'Mac batch fixture identity differs')
     equal(report['batch'],batch,'Mac runtime batch summary differs')
     equal(report['csv'],runtime.csv_contract((folder/'measurements.csv').read_text(encoding='utf-8')),'Mac runtime CSV values differ')
-    require((folder/'output.pam').read_bytes().split(b'ENDHDR\n',1)[1]==bytes([60,100,180,255]) and
-            report['region_rgba']==[60,100,180,255],'Mac native region pixels differ')
+    equal(report['region_rgba'],runtime.region_contract((folder/'output.pam').read_bytes()),'Mac native region pixels/header differ')
     with sqlite3.connect(checkpoints[0].resolve().as_uri()+'?mode=ro',uri=True) as database:
         require(database.execute('SELECT count(*) FROM analysis_records').fetchone()[0]==1,'Mac checkpoint retained analysis differs')
     geometry=read(folder/'geometry-child.json')
