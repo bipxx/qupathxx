@@ -33,6 +33,9 @@ std::size_t save_tma_case_summary_file(const TmaGrid& snapshot,const std::string
     if(!input.empty()) {
         observed=std::make_unique<ReaderFileGuard>(input);
         guard_file_output(input,observed->version()->identity,output);
+        const auto input_bytes=observed->version()->bytes;
+        if(input_bytes>limit) throw std::length_error("TMA measurement CSV exceeds byte limit");
+        table.reserve(static_cast<std::size_t>(input_bytes));
         std::ifstream stream(std::filesystem::u8path(input),std::ios::binary);
         if(!stream) throw std::runtime_error("cannot open TMA measurement CSV");
         std::array<char,65536> chunk;
