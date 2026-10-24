@@ -16,6 +16,7 @@ struct Comma : std::numpunct<char> {
 };
 void check() {
     using qpx::detail::positive_decimal_quantity;
+    using qpx::detail::finite_decimal_number;
     for (auto text : {"1.25", "001.25", "1.25e0", "125e-2", ".125e+1", "1.25000"})
         require(positive_decimal_quantity(text) == 1.25);
     require(positive_decimal_quantity("1.") == 1.);
@@ -26,6 +27,15 @@ void check() {
                       "1e", "1e+", "nan", "inf", "Infinity", "0x1", "0X1p0", "1e309", "1e-9999"})
         require(!positive_decimal_quantity(text));
     require(!positive_decimal_quantity(nullptr));
+    for(auto text:{"1.25","001.25","1.25e0","125e-2",".125e+1"}) require(finite_decimal_number(text)==1.25);
+    for(auto text:{"-1.25","-125e-2","-.125e+1"}) require(finite_decimal_number(text)==-1.25);
+    require(finite_decimal_number("0")==0. && finite_decimal_number("-0")==0.);
+    require(std::signbit(*finite_decimal_number("-0")));
+    require(finite_decimal_number("0e-9999")==0. && finite_decimal_number("1.")==1.);
+    require(finite_decimal_number("4.9406564584124654e-324").value_or(0)>0);
+    require(finite_decimal_number("-4.9406564584124654e-324").value_or(0)<0);
+    for(auto text:{"",".","-","+1"," 1","1 ","1,25","1e","1e+","nan","inf","-Infinity","0x1","-0x1p0","1e309","-1e-9999"}) require(!finite_decimal_number(text));
+    require(!finite_decimal_number(std::string("1\0x",3)));
 }
 }
 int main() {
@@ -58,5 +68,6 @@ int main() {
         require(std::setlocale(LC_NUMERIC,before.c_str())!=nullptr);
         std::cout << "installed comma C locale exercised: " << comma_locale << '\n';
         std::cout << "decimal quantities: strict syntax, range, concurrency and locale checks passed\n";
+        std::cout << "signed decimal fields: grammar, representable subnormals and locale independence passed\n";
     } catch (const std::exception& e) { std::cerr << e.what() << '\n'; return 1; }
 }

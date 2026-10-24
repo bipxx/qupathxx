@@ -1,6 +1,7 @@
 #include "qupathxx/tma.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
+#include "decimal_quantity.hpp"
 #include <algorithm>
 #include <charconv>
 #include <cmath>
@@ -109,11 +110,10 @@ std::string tma_case_summary_csv(const TmaGrid& grid,const std::string& table,co
     std::size_t columns=0,id=absent,revision=absent,value=absent,weight=absent;
     bool first=true,versioned=false;
     auto numeric=[&](const auto& span) {
-        const auto text=decode(table,span,128);double result=0;
-        const auto parsed=std::from_chars(text.data(),text.data()+text.size(),result,std::chars_format::general);
-        if(text.empty() || parsed.ec!=std::errc{} || parsed.ptr!=text.data()+text.size() || !std::isfinite(result))
+        const auto text=decode(table,span,128);const auto result=detail::finite_decimal_number(text);
+        if(!result)
             throw std::invalid_argument("TMA case measurement must be a finite decimal number");
-        return result;
+        return *result;
     };
     if(!table.empty()) records(table,[&](std::size_t,std::size_t,const auto& fields) {
         checkpoint();

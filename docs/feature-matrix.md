@@ -33,31 +33,32 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 
 ## Current packet and remaining decisions
 
-The sampled production recipe source `ddd3bb9` is on `main` after audited
-Windows/Linux, portable CPython 3.11/3.12 fresh-consumer and both macOS native
-architecture gates. [Promotion evidence](benchmarks/sampled-cells-main-promotion.json)
-records the exact fast-forward source. M0–M7 science, hardware, license and
-supported-package requirements remain open.
-
-The frontier/domain candidate `691c0f3` fixes historical sampled-domain replay
-checks and adds a bounded queue for small-radius expansion. Its
-[Linux engineering audit](benchmarks/expansion-frontier-linux-only.json),
-[macOS native audit](benchmarks/expansion-frontier-macos.json) and
-[portable builder/consumer audit](benchmarks/expansion-frontier-portable.json)
-pass. Windows GUI completion and the combined Windows/Linux artifact audit
-remain pending. Timing observations are mixed; no general speedup or hardware
-acceptance is claimed. The latest navigation qualification met frame timing but
-failed the frozen ambient CPU eligibility limit in one trial.
+The sampled frontier/domain source `691c0f3` is on `main` after audited
+[Windows/Linux](benchmarks/expansion-frontier-windows-linux.json),
+[macOS native](benchmarks/expansion-frontier-macos.json) and
+[portable builder/consumer](benchmarks/expansion-frontier-portable.json) gates.
+[Promotion evidence](benchmarks/expansion-frontier-main-promotion.json) records
+the fast-forward from `ddd3bb9` and preserves the divergent local root branch.
+It includes corrected historical-domain replay checks and a bounded expansion
+queue. Mixed timing observations do not establish a general speedup. M0-M7
+science, hardware, license and supported-package requirements remain open.
 
 The TMA case-summary candidate adds native/Python/ImGui single-grid replicate
 pooling, explicit weighting, missing-core exclusion, unassigned-core isolation,
 revision checks and bounded cancellable CSV export. The
-[initial installed validation](benchmarks/tma-case-initial-validation-windows.json)
-passed 47 native suites, 48 focused cases and 2,390 full Python cases, with 13
-optional skips and three retained strict legacy science xfails. A final panel
-label refinement is undergoing validation. Source-bound CI cohort guards reject
-missing, duplicate, failed, skipped and stale evidence. Cross-platform TMA
-candidate acceptance and broader biological/QuPath comparisons remain open.
+[Windows installed validation](benchmarks/tma-case-validation-windows.json)
+passes 47 native suites, 48 focused cases and 2,390 full Python tests, with 13
+optional skips and three strict legacy science xfails. Persistent input/output
+path labels also pass the desktop checks and visual review. Source-bound CI
+cohort guards reject missing, duplicate, failed, skipped and stale evidence.
+
+The initial macOS TMA candidate failed to compile because its C++17 library
+lacks floating `from_chars`. A strict signed-decimal parser using the existing
+immutable C locale replaces it; [native checks and guard controls](benchmarks/tma-case-portable-parser-controls.json)
+pass locally. Fresh installed/platform validation of that parser is pending.
+Cross-grid case pooling, biological/QuPath equivalence and hardware acceptance
+remain open. The latest navigation qualification met frame timing but failed
+the frozen ambient CPU eligibility limit in one trial.
 
 The [real-slide cell comparison](qupath-ndpi-cell-comparisons.md) now retains
 an immutable QuPath NDPI capture and exact source pixels. The legacy natural-grid LoG modes

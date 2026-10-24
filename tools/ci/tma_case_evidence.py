@@ -20,8 +20,13 @@ def native(cases):
             'missing native TMA case aggregation or numerical regression cohort')
     require(all(selected[0].find(k) is None for k in ['failure', 'error', 'skipped']),
             'native TMA case aggregation failed or skipped')
+    decimals = [t for t in cases if t.get('name') == 'decimal_quantities']
+    require(len(decimals) == 1 and
+            'signed decimal fields: grammar, representable subnormals and locale independence passed' in decimals[0].findtext('system-out', '') and
+            all(decimals[0].find(k) is None for k in ['failure', 'error', 'skipped']),
+            'missing portable signed-decimal correctness cohort')
     return dict(case_aggregation_checked=True, compensated_signed_sums_checked=True,
-                mean_underflow_checked=True, cancellation_checked=True)
+                mean_underflow_checked=True, cancellation_checked=True, signed_decimal_locale_checked=True)
 
 
 def python(cases, root, commit, gui=False):

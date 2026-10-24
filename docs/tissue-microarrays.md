@@ -158,8 +158,10 @@ input opt-in. A native worker captures the grid and settings, reads at most
 64 MiB, verifies the input file has not changed, and publishes a new output file
 atomically. Cancellation discards unpublished output. Existing files and input
 files are preserved. The [initial local installed validation](benchmarks/tma-case-initial-validation-windows.json)
-passes native, Python and desktop checks. Final panel labels and hosted TMA
-acceptance are still being validated. This does not establish biological or
+passes native, Python and desktop checks. The [final panel-label validation](benchmarks/tma-case-validation-windows.json)
+also passes the full Windows suite. The initial Mac candidate exposed a missing
+C++17 floating parser overload; the [portable signed-decimal replacement](benchmarks/tma-case-portable-parser-controls.json)
+passes local native checks and awaits fresh installed/platform acceptance. This does not establish biological or
 upstream equivalence. The [scale profile](benchmarks/tma-case-profile-windows.json)
 retains every trial and verifies counts and statistics independently through
 100,000 measurement rows; its timings are synthetic observations.
