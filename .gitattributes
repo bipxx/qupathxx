@@ -62,3 +62,9 @@ tools/compare_cell_expansion.py text eol=lf
 docs/benchmarks/watershed-bodies-*.json -text whitespace=cr-at-eol
 docs/benchmarks/qupath-cells-watershed-bodies-*.json -text whitespace=cr-at-eol
 docs/benchmarks/portable-body-*.json -text whitespace=cr-at-eol
+tools/compare_qupath_ndpi_cells.py text eol=lf
+tools/diagnose_qupath_ndpi_peaks.py text eol=lf
+tools/label_comparison.py text eol=lf
+tools/upstream/qupath_ndpi_cells.groovy text eol=lf
+tests/fixtures/qupath-ndpi-cells-0.7.0/*.json text eol=lf
+tests/fixtures/qupath-ndpi-cells-0.7.0/capture/* -text
