@@ -56,10 +56,11 @@ and never extracted or loaded. Their binary bytes are not republished here.
 The [local receipt](benchmarks/macho-runtime-reader-local-windows.json) records
 the inputs, parser/probe identities, observations and scope.
 
-This binary-reader packet does not produce a macOS runtime package. Capturing
-new qupathxx native binaries and SDK runtime files, source-bound archive
-reinspection, actual `otool` comparison, origin/install-name resolution,
-relocation and new hosted validation remain required. The current Mac native
+This binary-reader packet does not produce a macOS runtime package. Candidate
+150 adds [native/SDK evidence snapshots](macos-native-inventory.md), source-bound
+archive reinspection and actual `otool` comparison to the macOS workflow;
+its new hosted validation is pending. Origin/install-name resolution and
+relocation remain required. The current Mac native
 build may embed SDK paths; that existing limitation remains explicit. macOS
 wheel/GUI/OpenSlide support, installers/signing, runtime/ABI availability,
 hardware, biology and licensing remain separate open gates. M0-M7 remain partial.

@@ -4888,3 +4888,25 @@ relocation fixture expectations and their corrections remain recorded. See the
 Mac binary capture/otool comparison, source-bound archive/CI integration,
 install-name resolution/relocation and supported macOS packaging remain open.
 The full M0-M7 goal is still partial.
+
+## Source-bound macOS native/runtime evidence snapshots (candidate 150)
+
+The Mac native workflow now snapshots both tested CLIs, SDK dylibs and notices,
+uploads their actual bytes and compares load names/packed versions with `otool`.
+The archive is validated before new-file publication. Native snapshot modes
+normalize to 0755; SDK aliases become regular byte copies within bounded roots.
+The source-bound Mac auditor regenerates the inventory, checks tested CLI and
+SDK ledger identities, and parses raw oracle records. SDK build paths can remain
+embedded, so runtime resolution and relocation are explicitly unverified.
+
+All 268 focused cases pass, including 22 new snapshot/oracle-format tests.
+The shared frozen installed-Python cohort requires all five inventory classes
+in new engine/portable runs. All 25 altered-record controls reject invalid
+evidence; their local positive uses labelled synthetic binaries/text and makes
+no actual Mac execution claim. See the
+[snapshot contract](macos-native-inventory.md),
+[local receipt](benchmarks/macos-native-inventory-local-windows.json) and
+[controls](benchmarks/macos-native-inventory-controls.json). Real qupathxx Intel/
+arm64 binary capture and `otool` execution require new hosted validation.
+Relocated Mac packages, runtime/ABI checks, signing/installers, license, hardware
+and biological/research acceptance remain open; full M0-M7 remains partial.
