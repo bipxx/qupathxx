@@ -1,4 +1,5 @@
 #include "qupathxx/thumbnail.hpp"
+#include "qupathxx/resampling.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cmath>
@@ -69,33 +70,7 @@ std::shared_ptr<const ThumbnailResult> read_thumbnail(const ImageServer& server,
     const auto start=Clock::now();checkpoint(cancel);const auto plan=plan_thumbnail(server.metadata(),options);checkpoint(cancel);
     auto source=server.read_region({0,0,plan.level,plan.source_width,plan.source_height});checkpoint(cancel);
     if(source.width()!=plan.source_width || source.height()!=plan.source_height || source.bytes().size()!=region_byte_count(plan.source_width,plan.source_height)) throw std::runtime_error("thumbnail reader returned unexpected dimensions or byte count");
-    PixelBuffer output(plan.width,plan.height);const auto& input=source.bytes();auto& pixels=output.writable_bytes();
-    // Integer overlap units avoid floating edge decisions. Per-output total
-    // weight is source_width*source_height; even 255*255*weight fits uint64.
-    const auto total_weight=plan.source_pixels;std::uint64_t visited=0;
-    for(std::int64_t y=0;y<plan.height;++y) {
-        checkpoint(cancel);const auto top=y*plan.source_height,bottom=(y+1)*plan.source_height;
-        const auto first_y=top/plan.height,last_y=(bottom+plan.height-1)/plan.height;
-        for(std::int64_t x=0;x<plan.width;++x) {
-            const auto left=x*plan.source_width,right=(x+1)*plan.source_width;
-            const auto first_x=left/plan.width,last_x=(right+plan.width-1)/plan.width;
-            std::uint64_t alpha=0,channels[3]={0,0,0};
-            for(auto sy=first_y;sy<last_y;++sy) {
-                const auto wy=std::min(bottom,(sy+1)*plan.height)-std::max(top,sy*plan.height);
-                for(auto sx=first_x;sx<last_x;++sx) {
-                    if((++visited&4095)==0) checkpoint(cancel);
-                    const auto wx=std::min(right,(sx+1)*plan.width)-std::max(left,sx*plan.width);
-                    const auto weight=static_cast<std::uint64_t>(wx)*wy;
-                    const auto index=static_cast<std::size_t>((sy*plan.source_width+sx)*4);
-                    const auto weighted_alpha=weight*input[index+3];alpha+=weighted_alpha;
-                    for(unsigned c=0;c<3;++c) channels[c]+=weighted_alpha*input[index+c];
-                }
-            }
-            const auto index=static_cast<std::size_t>((y*plan.width+x)*4);
-            pixels[index+3]=static_cast<std::uint8_t>((alpha+total_weight/2)/total_weight);
-            for(unsigned c=0;c<3;++c) pixels[index+c]=pixels[index+3]?static_cast<std::uint8_t>((channels[c]+alpha/2)/alpha):0;
-        }
-    }
+    auto output=resample_area(source,plan.width,plan.height,cancel);
     checkpoint(cancel);const auto ms=std::chrono::duration<double,std::milli>(Clock::now()-start).count();
     return std::make_shared<const ThumbnailResult>(plan,std::move(output),ms);
 }

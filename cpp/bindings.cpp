@@ -1,6 +1,7 @@
 #include "qupathxx/pixel_stream_file.hpp"
 #include "qupathxx/core.hpp"
 #include "qupathxx/thumbnail.hpp"
+#include "qupathxx/resampling.hpp"
 #include "qupathxx/analysis.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/project_recovery.hpp"
@@ -124,6 +125,11 @@ NB_MODULE(_native, m) {
         .def("read_region", &ImageServer::read_region, "request"_a, nb::call_guard<nb::gil_scoped_release>())
         .def("close", &ImageServer::close, nb::call_guard<nb::gil_scoped_release>())
         .def_prop_ro("closed", &ImageServer::closed);
+    m.def("resample_area", [](const PixelBuffer& pixels,std::int64_t width,std::int64_t height) {return resample_area(pixels,width,height);},
+          "pixels"_a,"width"_a,"height"_a,nb::call_guard<nb::gil_scoped_release>());
+    m.def("read_resampled_region", [](const ImageServer& server,const RegionRequest& request,std::int64_t width,std::int64_t height) {
+        return read_resampled_region(server,request,width,height);
+    },"server"_a,"request"_a,"width"_a,"height"_a,nb::call_guard<nb::gil_scoped_release>());
     m.def("dense_image_server", &dense_image_server);
     m.def("open_slide", &open_slide, "path"_a, nb::call_guard<nb::gil_scoped_release>());
     m.attr("has_openslide") = has_openslide();

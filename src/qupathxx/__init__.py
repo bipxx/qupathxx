@@ -42,7 +42,7 @@ from ._native import (
     ProjectSaveJob, ProjectSaveStats,
     Roi, RoiKind, RoiSamplingPolicy, BooleanOp, PolygonPart, has_geos, geos_version,
     PixelBuffer, PixelLayout, PixelType, Point, Rect, RegionRequest, Viewport,
-    dense_image_server, has_gui, has_openslide, open_slide, show,
+    resample_area, read_resampled_region, dense_image_server, has_gui, has_openslide, open_slide, show,
     SchedulerOptions, SchedulerStats, TileResult, TileScheduler, TileStatus,
     DisplaySettings, DisplayMode, display_pixels, GuiOptions, GuiReport, GuiInput, GuiInputKind, GuiInputTarget, GuiInputWait,
 )
@@ -90,7 +90,7 @@ __all__ = [
     "ProjectSaveJob", "ProjectSaveStats",
     "Roi", "RoiKind", "RoiSamplingPolicy", "BooleanOp", "PolygonPart", "has_geos", "geos_version",
     "PixelBuffer", "PixelLayout", "PixelType", "Point", "Rect", "RegionRequest", "Viewport",
-    "dense_image_server", "has_gui", "has_openslide", "open_slide", "show",
+    "resample_area", "read_resampled_region", "dense_image_server", "has_gui", "has_openslide", "open_slide", "show",
     "SchedulerOptions", "SchedulerStats", "TileResult", "TileScheduler", "TileStatus",
     "DisplaySettings", "DisplayMode", "display_pixels", "GuiOptions", "GuiReport", "GuiInput", "GuiInputKind", "GuiInputTarget", "GuiInputWait",
 ]
