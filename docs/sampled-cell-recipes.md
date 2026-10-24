@@ -46,3 +46,21 @@ biological validation nor general segmentation parity is established.
 
 Full performance qualification, additional scientific comparisons, hosted
 production-recipe validation and the overall M0–M7 plan remain open.
+
+## Full workflow profiling
+
+`tools/profile_sampled_cells.py --python PATH_TO_INSTALLED_PYTHON
+--output-directory NEW_DIRECTORY --report REPORT.json` alternates the existing
+LoG body and sampled recipes in fresh processes at 256, 512 and 1,024 pixels per
+side. It retains all observations and excludes one recorded warmup per
+size/recipe from summaries. The default records three measured trials per pair.
+
+Each child checks dense labels, one nucleus per isolated disk, independent
+strict-radius body expansion, compartment RGB/count arithmetic, exact saved
+labels and verified pixel replay. The parent requires identical masks across
+both recipes and every trial. Detection, capture, keep/save, reopen validation,
+replay and process wall time are separate fields. Windows peak working set
+includes fixture construction, verification and persistence. The profile uses
+an uncontrolled host and does not accept biological accuracy, general nucleus
+boundary parity, GUI performance or a hardware target. Use a new output
+directory so previous raw observations and projects remain intact.
