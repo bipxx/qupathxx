@@ -63,7 +63,8 @@ def main():
         control=q.detect_cells(q.CellRequest(doc,target,transform,p))
         production=comparison.local_labels(control.nuclei,contract['roi'])
         results=[]
-        for mode,options in [('legacy',[]),('response_basins',['--response-basins']),('dual_background',['--dual-background'])]:
+        native_masks={}
+        for mode,options in [('legacy',[]),('response_basins',['--response-basins']),('dual_background',['--dual-background']),('sampled_shape',['--sampled-shape'])]:
             output=args.output_directory/(mode+'.qlr')
             subprocess.run([str(args.executable)]+options+[str(input),str(output)],check=True)
             raw=output.read_bytes()
@@ -73,9 +74,11 @@ def main():
             counts=np.bincount(native.ravel());keep=(counts>=p.min_nucleus_pixels)&(counts<=p.max_nucleus_pixels);keep[0]=False
             dense=np.cumsum(keep,dtype=np.uint32)*keep;native=dense[native]
             if mode=='legacy':np.testing.assert_array_equal(native,production)
-            record=dict(mode=mode,response_basins=mode=='response_basins',eight_connected_background=mode=='dual_background',native_count=int(native.max()),
+            native_masks[mode]=native
+            record=dict(mode=mode,response_basins=mode=='response_basins',eight_connected_background=mode in ['dual_background','sampled_shape'],native_count=int(native.max()),
                 labels_sha256=hashlib.sha256(native.astype('<u4',copy=False).tobytes()).hexdigest(),
                 output_sha256=comparison.sha(output),metrics=metrics.metrics(labels,native,contract['comparison']))
+            if mode=='sampled_shape':record['shape_parameters']=dict(prominence=.5,minimum_radius=0,minimum_spacing=0,edges_are_background=False)
             results.append(record)
             print(json.dumps(dict(mode=mode,native_count=record['native_count'],foreground_iou=record['metrics']['foreground_iou'])),flush=True)
         report=dict(schema='qpx.native-ndpi-log-comparison/1',native_environment=environment,
@@ -113,6 +116,12 @@ def main():
                 log_sha256=comparison.sha(log),native_count=int(local.max()),
                 metrics=metrics.metrics(labels,local,contract['comparison']),
                 runtime_upstream=comparison.read((comparison.CONTRACT.parent/contract['upstream_contract']).resolve())['upstream'])
+            if args.imagej_dual_background:
+                exact=metrics.metrics(local,native_masks['sampled_shape'],contract['comparison'])
+                report['sampled_shape_vs_imagej']=exact
+                if (exact['foreground_iou']!=1 or exact['unmatched_reference'] or exact['unmatched_native'] or
+                        any(m['iou']!=1 or m['centroid_error_px']!=0 for m in exact['matches'])):
+                    raise ValueError('native sampled shape pipeline differs from the pinned ImageJ stage')
             print(json.dumps(dict(stage='imagej_shape',native_count=int(local.max()),foreground_iou=report['imagej_shape_stage']['metrics']['foreground_iou'])),flush=True)
         args.report.parent.mkdir(parents=True,exist_ok=True)
         args.report.write_bytes((json.dumps(report,indent=2,allow_nan=False)+'\n').encode())
