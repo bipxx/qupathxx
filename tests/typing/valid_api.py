@@ -496,3 +496,13 @@ def case_summary(snapshot: q.TmaGrid, table: str) -> str:
 
 def save_case_summary(snapshot: q.TmaGrid, output: str, measurements: str) -> int:
     return q.save_tma_case_summary_csv(snapshot, output, measurements, 'mean_red', 'pixels')
+
+
+def cohort_case_summary(first: q.TmaGrid, second: q.TmaGrid, table: str) -> tuple[str, str, int]:
+    captures = {1: first, 2: second}
+    options = q.GuiOptions()
+    options.tma_case_summary = True
+    options.tma_case_cohort = True
+    return (q.tma_cohort_manifest_csv(captures),
+            q.tma_cohort_case_summary_csv(captures, table, 'value', 'weight'),
+            q.save_tma_cohort_case_summary_csv(captures, 'new.csv', 'inputs.csv', 'value', 'weight'))

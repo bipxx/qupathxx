@@ -318,7 +318,9 @@ def main():
     parser.add_argument('--small-frontier',action='store_true',help='Require native queue equivalence and all eight unit-radius cases in builders and consumers; implies sampled cells')
     parser.add_argument('--tma-cases',action='store_true',help='Require exact native and Python TMA case aggregation in both builders/consumers; implies small frontier')
     parser.add_argument('--tma-file-export',action='store_true',help='Require atomic case-file and standalone CLI cohorts in builders/consumers; implies tma cases')
+    parser.add_argument('--tma-cohorts',action='store_true',help='Require captured multi-grid native and installed cohort cases; implies file export')
     args=parser.parse_args()
+    args.tma_file_export=args.tma_file_export or args.tma_cohorts
     args.tma_cases=args.tma_cases or args.tma_file_export
     args.small_frontier=args.small_frontier or args.tma_cases
     args.sampled_cells=args.sampled_cells or args.small_frontier
@@ -354,11 +356,12 @@ def main():
         root=Path(__file__).resolve().parents[2]
         for version in ['3.11','3.12']:
             folder=args.artifacts/('manylinux-'+version)
-            native=tma.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')),file_export=args.tma_file_export)
+            native=tma.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')),file_export=args.tma_file_export,cohort=args.tma_cohorts)
             for cohort,path in [('builder',folder/'python-tests.xml'),
                                 ('consumer',args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
-                result=tma.python(list(ET.parse(path).getroot().iter('testcase')),root,args.commit,file_export=args.tma_file_export)
+                result=tma.python(list(ET.parse(path).getroot().iter('testcase')),root,args.commit,file_export=args.tma_file_export,cohort=args.tma_cohorts)
                 report['tma_case_cohorts'].append(dict(python=version,cohort=cohort,native=native,**result))
+    report['tma_cohorts_required']=args.tma_cohorts
     report['tma_file_export_required']=args.tma_file_export
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')

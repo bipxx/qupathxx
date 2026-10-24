@@ -1,0 +1,198 @@
+{
+  "schema": "qpx.tma-cohort-profile/1",
+  "grids": 4,
+  "cores": 3996,
+  "cases": 569,
+  "independent_integer_statistics_verified": true,
+  "source_manifest_sha256": "d1a80f17de32c685b9aea7ab2c687d51784d6d5fb17a887c8f21c3212753f5ec",
+  "tool_sha256": "f4350beabc79db698935781987019a731836af3b620c9a8042ef68474783d6f1",
+  "measurements": [
+    {
+      "rows": 1000,
+      "input_bytes": 13528,
+      "input_sha256": "d0ca5f355c4aa81ed5957a0d0ecb63f38164fbd930fcbc1f812b767a93e11f57",
+      "median_ms": 7.416399894282222,
+      "trials": [
+        {
+          "trial": 0,
+          "warmup": true,
+          "milliseconds": 7.823600084520876,
+          "output_sha256": "bef89f530a8c3456b950b6e4a7aa0091f318ac11e3fcececf4acbc0381151fcc"
+        },
+        {
+          "trial": 1,
+          "warmup": false,
+          "milliseconds": 6.785199977457523,
+          "output_sha256": "bef89f530a8c3456b950b6e4a7aa0091f318ac11e3fcececf4acbc0381151fcc"
+        },
+        {
+          "trial": 2,
+          "warmup": false,
+          "milliseconds": 7.547899964265525,
+          "output_sha256": "bef89f530a8c3456b950b6e4a7aa0091f318ac11e3fcececf4acbc0381151fcc"
+        },
+        {
+          "trial": 3,
+          "warmup": false,
+          "milliseconds": 8.821099996566772,
+          "output_sha256": "bef89f530a8c3456b950b6e4a7aa0091f318ac11e3fcececf4acbc0381151fcc"
+        },
+        {
+          "trial": 4,
+          "warmup": false,
+          "milliseconds": 7.416399894282222,
+          "output_sha256": "bef89f530a8c3456b950b6e4a7aa0091f318ac11e3fcececf4acbc0381151fcc"
+        },
+        {
+          "trial": 5,
+          "warmup": false,
+          "milliseconds": 6.490600062534213,
+          "output_sha256": "bef89f530a8c3456b950b6e4a7aa0091f318ac11e3fcececf4acbc0381151fcc"
+        }
+      ]
+    },
+    {
+      "rows": 10000,
+      "input_bytes": 134681,
+      "input_sha256": "68da9330c18f275754965c4aebb956150c45cea58bb78b7100444d78094408e1",
+      "median_ms": 9.802000015042722,
+      "trials": [
+        {
+          "trial": 0,
+          "warmup": true,
+          "milliseconds": 8.866599993780255,
+          "output_sha256": "d8073f3b13abf2318a62ea5a3b4260d56cceb2f7a56b5f936e4eaa6576978afc"
+        },
+        {
+          "trial": 1,
+          "warmup": false,
+          "milliseconds": 8.903200039640069,
+          "output_sha256": "d8073f3b13abf2318a62ea5a3b4260d56cceb2f7a56b5f936e4eaa6576978afc"
+        },
+        {
+          "trial": 2,
+          "warmup": false,
+          "milliseconds": 10.277500026859343,
+          "output_sha256": "d8073f3b13abf2318a62ea5a3b4260d56cceb2f7a56b5f936e4eaa6576978afc"
+        },
+        {
+          "trial": 3,
+          "warmup": false,
+          "milliseconds": 14.153299969621003,
+          "output_sha256": "d8073f3b13abf2318a62ea5a3b4260d56cceb2f7a56b5f936e4eaa6576978afc"
+        },
+        {
+          "trial": 4,
+          "warmup": false,
+          "milliseconds": 9.585499996319413,
+          "output_sha256": "d8073f3b13abf2318a62ea5a3b4260d56cceb2f7a56b5f936e4eaa6576978afc"
+        },
+        {
+          "trial": 5,
+          "warmup": false,
+          "milliseconds": 9.802000015042722,
+          "output_sha256": "d8073f3b13abf2318a62ea5a3b4260d56cceb2f7a56b5f936e4eaa6576978afc"
+        }
+      ]
+    },
+    {
+      "rows": 100000,
+      "input_bytes": 1346298,
+      "input_sha256": "e9bc16b144baa0296055e446f851d8d0bb9de7f7f3def43d78e7a1e481a28e87",
+      "median_ms": 31.573299900628626,
+      "trials": [
+        {
+          "trial": 0,
+          "warmup": true,
+          "milliseconds": 34.21740001067519,
+          "output_sha256": "75086f928662f9cb24ff068511f80c49848efba871e94e53353fcc395b2a4bbc"
+        },
+        {
+          "trial": 1,
+          "warmup": false,
+          "milliseconds": 30.237199971452355,
+          "output_sha256": "75086f928662f9cb24ff068511f80c49848efba871e94e53353fcc395b2a4bbc"
+        },
+        {
+          "trial": 2,
+          "warmup": false,
+          "milliseconds": 28.721999959088862,
+          "output_sha256": "75086f928662f9cb24ff068511f80c49848efba871e94e53353fcc395b2a4bbc"
+        },
+        {
+          "trial": 3,
+          "warmup": false,
+          "milliseconds": 33.5781000321731,
+          "output_sha256": "75086f928662f9cb24ff068511f80c49848efba871e94e53353fcc395b2a4bbc"
+        },
+        {
+          "trial": 4,
+          "warmup": false,
+          "milliseconds": 31.573299900628626,
+          "output_sha256": "75086f928662f9cb24ff068511f80c49848efba871e94e53353fcc395b2a4bbc"
+        },
+        {
+          "trial": 5,
+          "warmup": false,
+          "milliseconds": 32.21560001838952,
+          "output_sha256": "75086f928662f9cb24ff068511f80c49848efba871e94e53353fcc395b2a4bbc"
+        }
+      ]
+    },
+    {
+      "rows": 1000000,
+      "input_bytes": 13463383,
+      "input_sha256": "89f65c3ff0716bc0077d37378c6947cee1ee5e3ef678c3144ce02e5c2759cd43",
+      "median_ms": 236.4399000070989,
+      "trials": [
+        {
+          "trial": 0,
+          "warmup": true,
+          "milliseconds": 267.2221000539139,
+          "output_sha256": "6694f64e4b21ace57d17e0a05620b9ed0959f38b2c038fd5effb3f366a42a0ca"
+        },
+        {
+          "trial": 1,
+          "warmup": false,
+          "milliseconds": 256.6722999326885,
+          "output_sha256": "6694f64e4b21ace57d17e0a05620b9ed0959f38b2c038fd5effb3f366a42a0ca"
+        },
+        {
+          "trial": 2,
+          "warmup": false,
+          "milliseconds": 232.29099996387959,
+          "output_sha256": "6694f64e4b21ace57d17e0a05620b9ed0959f38b2c038fd5effb3f366a42a0ca"
+        },
+        {
+          "trial": 3,
+          "warmup": false,
+          "milliseconds": 234.8342000041157,
+          "output_sha256": "6694f64e4b21ace57d17e0a05620b9ed0959f38b2c038fd5effb3f366a42a0ca"
+        },
+        {
+          "trial": 4,
+          "warmup": false,
+          "milliseconds": 237.52259998582304,
+          "output_sha256": "6694f64e4b21ace57d17e0a05620b9ed0959f38b2c038fd5effb3f366a42a0ca"
+        },
+        {
+          "trial": 5,
+          "warmup": false,
+          "milliseconds": 236.4399000070989,
+          "output_sha256": "6694f64e4b21ace57d17e0a05620b9ed0959f38b2c038fd5effb3f366a42a0ca"
+        }
+      ]
+    }
+  ],
+  "native_sha256": "52bc15c25875a30be8a713cf478579350228f84ff870eefcd32f285a0ab8e629",
+  "environment": {
+    "source_tree_sha256": "73b19a2455f0cc95d73630d545c7ea594209c6129e07982f5542bcc1a2ca2162",
+    "git_revision": "0273e253a66c60d9968c8a60d20c8f23721f3070",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64"
+  },
+  "performance_accepted": false,
+  "release_ready": false,
+  "scope": "Captured multi-grid raw-row pooling with colliding local IDs, shared cases, isolated unassigned cores, missing cores, vacancies and zero weights. Native CSV parsing, statistics, manifest creation, hashing and formatting are timed; Python fixture/oracle work is excluded. All observations include explicit warmups. No peak-memory, hardware-wide speedup, QuPath or biological acceptance."
+}

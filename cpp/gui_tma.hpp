@@ -56,6 +56,7 @@ class GuiTma {
         if(export_.valid() && export_.wait_for(std::chrono::seconds(0))==std::future_status::ready) {try {auto value=export_.get();export_state_=value.state;metadata_bytes_=value.bytes;if(!value.error.empty()) error_=std::move(value.error);}catch(const std::exception& e) {failure(e);export_state_="failed";}}
     }
     void write_metadata(const Document& doc,const Project* project) {
+      try {
         if(export_.valid()) return;if(!grid_) throw std::invalid_argument("there is no TMA grid");if(!path_[0]) throw std::invalid_argument("enter a new CSV file path");
         auto path=export_path(path_.data());
 #ifdef _WIN32
@@ -95,6 +96,7 @@ class GuiTma {
             }catch(const std::exception& e) {result.bytes=0;result.state=cancel_.load()?"cancelled":"failed";try {result.error=e.what();bounded_utf8(result.error,8192);}catch(...) {result.error="TMA CSV export failed";}}
             return result;
         });
+      }catch(...) {metadata_bytes_=0;export_state_="failed";throw;}
     }
 public:
     explicit GuiTma(const GuiOptions& initial):open_(initial.tma_open),explicit_options_(bool(initial.tma_options)),initial_tab_(initial.tma_tab),options_(initial.tma_options?*initial.tma_options:TmaGridOptions{}),initial_case_(initial.tma_case_id),initial_bounds_(initial.tma_core_bounds),delta_(initial.tma_translation) {if(initial_tab_<0 || initial_tab_>2) throw std::invalid_argument("invalid TMA panel tab");options_.validate();copy(name_,options_.name);copy(path_,initial.tma_metadata_path);case_summary_=initial.tma_case_summary;case_cohort_=initial.tma_case_cohort;allow_unversioned_=initial.tma_allow_unversioned;copy(measurements_path_,initial.tma_measurements_path);copy(value_column_,initial.tma_value_column);copy(weight_column_,initial.tma_weight_column);bounded_utf8(initial_case_,256);if(initial_bounds_) initial_bounds_->validate();}

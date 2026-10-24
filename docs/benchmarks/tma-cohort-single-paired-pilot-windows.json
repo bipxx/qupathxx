@@ -1,0 +1,939 @@
+{
+  "schema": "qpx.tma-cohort-single-paired-pilot/1",
+  "tool_sha256": "3f56a1dd9e5c76c4b8d30b79f8746316aecf5e10ecb590a14767ef1098d935c2",
+  "records": [
+    {
+      "mode": "baseline",
+      "repeat": 0,
+      "report": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cohort144-single-paired-2da842263359\\baseline-0.json",
+      "sha256": "64a17c234f99d1d385c3bd98ab97643796f61fe49d29059617930532fcd46a73",
+      "data": {
+        "schema": "qpx.tma-case-profile/1",
+        "cores": 10000,
+        "cases": 3334,
+        "independent_integer_statistics_verified": true,
+        "measurements": [
+          {
+            "rows": 1000,
+            "input_bytes": 11522,
+            "input_sha256": "8629cba01253a260c388c2f0c1e2079f00078ea98cf162ff42d92305e924ad61",
+            "median_ms": 8.239399990998209,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 9.921199991367757,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 8.333700010553002,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 9.1709999833256,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 7.356800022535026,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 8.239399990998209,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 7.6370000606402755,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              }
+            ]
+          },
+          {
+            "rows": 10000,
+            "input_bytes": 124665,
+            "input_sha256": "2bf59efae4bb2973063c6a952f38677078608e940d92f1a2d092ff8ea21b994d",
+            "median_ms": 11.26619998831302,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 10.804400080814958,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 15.187500044703484,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 11.26619998831302,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 10.914799990132451,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 11.242100037634373,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 14.242799952626228,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              }
+            ]
+          },
+          {
+            "rows": 100000,
+            "input_bytes": 1246137,
+            "input_sha256": "9ab2028a8d6bb963bc50a6f83e0928c7008cd0dcb68df198d1834807cd12beb3",
+            "median_ms": 34.27070006728172,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 31.096999999135733,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 30.53450002335012,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 34.483900060877204,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 35.29350005555898,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 34.27070006728172,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 32.03230001963675,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              }
+            ]
+          }
+        ],
+        "native_sha256": "2d2767539b7fcf54277043b2c64a7f6914b787ae3ed399b628d5a434dcdb1b15",
+        "environment": {
+          "source_tree_sha256": "93acc1b054820f4401100165d7edf573845b30c255c13a909bdc8bbee4c08b89",
+          "git_revision": "f3ed0623c8b4ce9849064a8b2f3d51b83363a73f",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Synthetic case pooling only. Includes native CSV parsing, aggregation, hashing and formatting; excludes input creation and Python oracle. One explicit warmup per size. No peak-memory, hardware, QuPath, biological or speedup acceptance."
+      }
+    },
+    {
+      "mode": "candidate",
+      "repeat": 0,
+      "report": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cohort144-single-paired-2da842263359\\candidate-0.json",
+      "sha256": "71a7ecefa85ee156df88eaed325c8acd1a5b4c2521ed69ddaddfb26f7468401b",
+      "data": {
+        "schema": "qpx.tma-case-profile/1",
+        "cores": 10000,
+        "cases": 3334,
+        "independent_integer_statistics_verified": true,
+        "measurements": [
+          {
+            "rows": 1000,
+            "input_bytes": 11522,
+            "input_sha256": "8629cba01253a260c388c2f0c1e2079f00078ea98cf162ff42d92305e924ad61",
+            "median_ms": 7.618600036948919,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 8.699099998921156,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 6.945299915969372,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 8.313399972394109,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 7.7806999906897545,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 7.618600036948919,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 6.944799912162125,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              }
+            ]
+          },
+          {
+            "rows": 10000,
+            "input_bytes": 124665,
+            "input_sha256": "2bf59efae4bb2973063c6a952f38677078608e940d92f1a2d092ff8ea21b994d",
+            "median_ms": 11.103700031526387,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 11.954699992202222,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 11.71350001823157,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 11.103700031526387,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 10.08519995957613,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 12.142700026743114,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 10.35640004556626,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              }
+            ]
+          },
+          {
+            "rows": 100000,
+            "input_bytes": 1246137,
+            "input_sha256": "9ab2028a8d6bb963bc50a6f83e0928c7008cd0dcb68df198d1834807cd12beb3",
+            "median_ms": 29.770400025881827,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 30.887499917298555,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 29.770400025881827,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 29.96980003081262,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 29.54790007788688,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 30.253599979914725,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 29.540799907408655,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              }
+            ]
+          }
+        ],
+        "native_sha256": "52bc15c25875a30be8a713cf478579350228f84ff870eefcd32f285a0ab8e629",
+        "environment": {
+          "source_tree_sha256": "73b19a2455f0cc95d73630d545c7ea594209c6129e07982f5542bcc1a2ca2162",
+          "git_revision": "0273e253a66c60d9968c8a60d20c8f23721f3070",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Synthetic case pooling only. Includes native CSV parsing, aggregation, hashing and formatting; excludes input creation and Python oracle. One explicit warmup per size. No peak-memory, hardware, QuPath, biological or speedup acceptance."
+      }
+    },
+    {
+      "mode": "candidate",
+      "repeat": 1,
+      "report": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cohort144-single-paired-2da842263359\\candidate-1.json",
+      "sha256": "c7f5c06fbbc01fa204d42b6200768a54696cead8a8090902b734872ad9d52390",
+      "data": {
+        "schema": "qpx.tma-case-profile/1",
+        "cores": 10000,
+        "cases": 3334,
+        "independent_integer_statistics_verified": true,
+        "measurements": [
+          {
+            "rows": 1000,
+            "input_bytes": 11522,
+            "input_sha256": "8629cba01253a260c388c2f0c1e2079f00078ea98cf162ff42d92305e924ad61",
+            "median_ms": 7.504399982281029,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 7.191700045950711,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 7.504399982281029,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 8.592199999839067,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 7.140500005334616,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 7.815400022082031,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 7.337599992752075,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              }
+            ]
+          },
+          {
+            "rows": 10000,
+            "input_bytes": 124665,
+            "input_sha256": "2bf59efae4bb2973063c6a952f38677078608e940d92f1a2d092ff8ea21b994d",
+            "median_ms": 10.569000034593046,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 11.621900019235909,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 10.313000064343214,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 10.468600085005164,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 12.306399992667139,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 10.569000034593046,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 10.925899958238006,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              }
+            ]
+          },
+          {
+            "rows": 100000,
+            "input_bytes": 1246137,
+            "input_sha256": "9ab2028a8d6bb963bc50a6f83e0928c7008cd0dcb68df198d1834807cd12beb3",
+            "median_ms": 33.19420001935214,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 34.384300000965595,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 33.19420001935214,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 30.83820000756532,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 32.35829994082451,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 35.08460009470582,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 34.4536000629887,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              }
+            ]
+          }
+        ],
+        "native_sha256": "52bc15c25875a30be8a713cf478579350228f84ff870eefcd32f285a0ab8e629",
+        "environment": {
+          "source_tree_sha256": "73b19a2455f0cc95d73630d545c7ea594209c6129e07982f5542bcc1a2ca2162",
+          "git_revision": "0273e253a66c60d9968c8a60d20c8f23721f3070",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Synthetic case pooling only. Includes native CSV parsing, aggregation, hashing and formatting; excludes input creation and Python oracle. One explicit warmup per size. No peak-memory, hardware, QuPath, biological or speedup acceptance."
+      }
+    },
+    {
+      "mode": "baseline",
+      "repeat": 1,
+      "report": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cohort144-single-paired-2da842263359\\baseline-1.json",
+      "sha256": "f890df4f84fb4855be90dfbce824b994f01db6958dfa83841441fda439aa5a4f",
+      "data": {
+        "schema": "qpx.tma-case-profile/1",
+        "cores": 10000,
+        "cases": 3334,
+        "independent_integer_statistics_verified": true,
+        "measurements": [
+          {
+            "rows": 1000,
+            "input_bytes": 11522,
+            "input_sha256": "8629cba01253a260c388c2f0c1e2079f00078ea98cf162ff42d92305e924ad61",
+            "median_ms": 7.4656999204307795,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 8.024799986742437,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 8.062600041739643,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 7.802000036463141,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 7.4656999204307795,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 7.327100029215217,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 7.1125999093055725,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              }
+            ]
+          },
+          {
+            "rows": 10000,
+            "input_bytes": 124665,
+            "input_sha256": "2bf59efae4bb2973063c6a952f38677078608e940d92f1a2d092ff8ea21b994d",
+            "median_ms": 10.796700022183359,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 11.855600052513182,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 10.796700022183359,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 10.325299925170839,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 11.299700010567904,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 10.565800010226667,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 11.454700026661158,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              }
+            ]
+          },
+          {
+            "rows": 100000,
+            "input_bytes": 1246137,
+            "input_sha256": "9ab2028a8d6bb963bc50a6f83e0928c7008cd0dcb68df198d1834807cd12beb3",
+            "median_ms": 33.49950001575053,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 30.088700004853308,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 31.841000076383352,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 36.151599953882396,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 32.41270000580698,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 33.49950001575053,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 35.33440001774579,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              }
+            ]
+          }
+        ],
+        "native_sha256": "2d2767539b7fcf54277043b2c64a7f6914b787ae3ed399b628d5a434dcdb1b15",
+        "environment": {
+          "source_tree_sha256": "93acc1b054820f4401100165d7edf573845b30c255c13a909bdc8bbee4c08b89",
+          "git_revision": "f3ed0623c8b4ce9849064a8b2f3d51b83363a73f",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Synthetic case pooling only. Includes native CSV parsing, aggregation, hashing and formatting; excludes input creation and Python oracle. One explicit warmup per size. No peak-memory, hardware, QuPath, biological or speedup acceptance."
+      }
+    },
+    {
+      "mode": "baseline",
+      "repeat": 2,
+      "report": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cohort144-single-paired-2da842263359\\baseline-2.json",
+      "sha256": "c394e59fdc9ca1bee89ae8aeaae9d9769bbde7f5f60dc7a3d6a6b6480c5e5a74",
+      "data": {
+        "schema": "qpx.tma-case-profile/1",
+        "cores": 10000,
+        "cases": 3334,
+        "independent_integer_statistics_verified": true,
+        "measurements": [
+          {
+            "rows": 1000,
+            "input_bytes": 11522,
+            "input_sha256": "8629cba01253a260c388c2f0c1e2079f00078ea98cf162ff42d92305e924ad61",
+            "median_ms": 8.13109998125583,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 6.850800011307001,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 7.232500007376075,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 8.804899989627302,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 8.13109998125583,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 8.689699927344918,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 7.538499892689288,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              }
+            ]
+          },
+          {
+            "rows": 10000,
+            "input_bytes": 124665,
+            "input_sha256": "2bf59efae4bb2973063c6a952f38677078608e940d92f1a2d092ff8ea21b994d",
+            "median_ms": 10.943600093014538,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 11.190199991688132,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 10.79660002142191,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 11.956700007431209,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 10.943600093014538,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 10.715899989008904,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 11.231699958443642,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              }
+            ]
+          },
+          {
+            "rows": 100000,
+            "input_bytes": 1246137,
+            "input_sha256": "9ab2028a8d6bb963bc50a6f83e0928c7008cd0dcb68df198d1834807cd12beb3",
+            "median_ms": 31.08560002874583,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 34.12930003833026,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 31.08560002874583,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 30.376799986697733,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 32.41039998829365,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 30.09310003835708,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 35.58100003283471,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              }
+            ]
+          }
+        ],
+        "native_sha256": "2d2767539b7fcf54277043b2c64a7f6914b787ae3ed399b628d5a434dcdb1b15",
+        "environment": {
+          "source_tree_sha256": "93acc1b054820f4401100165d7edf573845b30c255c13a909bdc8bbee4c08b89",
+          "git_revision": "f3ed0623c8b4ce9849064a8b2f3d51b83363a73f",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Synthetic case pooling only. Includes native CSV parsing, aggregation, hashing and formatting; excludes input creation and Python oracle. One explicit warmup per size. No peak-memory, hardware, QuPath, biological or speedup acceptance."
+      }
+    },
+    {
+      "mode": "candidate",
+      "repeat": 2,
+      "report": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cohort144-single-paired-2da842263359\\candidate-2.json",
+      "sha256": "fc770f8e5735bdbbc95c8efa299f5dad771e88964e8cc646fcbf713f2bebd95d",
+      "data": {
+        "schema": "qpx.tma-case-profile/1",
+        "cores": 10000,
+        "cases": 3334,
+        "independent_integer_statistics_verified": true,
+        "measurements": [
+          {
+            "rows": 1000,
+            "input_bytes": 11522,
+            "input_sha256": "8629cba01253a260c388c2f0c1e2079f00078ea98cf162ff42d92305e924ad61",
+            "median_ms": 7.202300010249019,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 7.495100027881563,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 8.849299978464842,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 7.485700072720647,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 7.194099947810173,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 7.202300010249019,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 6.874099955894053,
+                "output_sha256": "6d052490fade51038f521d31cd1c3a632c209304ae1637ca646fc101e4d7bcd2"
+              }
+            ]
+          },
+          {
+            "rows": 10000,
+            "input_bytes": 124665,
+            "input_sha256": "2bf59efae4bb2973063c6a952f38677078608e940d92f1a2d092ff8ea21b994d",
+            "median_ms": 11.41269993968308,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 10.34170005004853,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 10.078700026497245,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 11.41269993968308,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 11.926100007258356,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 11.29129994660616,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 13.66489997599274,
+                "output_sha256": "aac9cea09b7483eccfb486eeb34ada1596a69f5742df2febde77f46c1f1f41cd"
+              }
+            ]
+          },
+          {
+            "rows": 100000,
+            "input_bytes": 1246137,
+            "input_sha256": "9ab2028a8d6bb963bc50a6f83e0928c7008cd0dcb68df198d1834807cd12beb3",
+            "median_ms": 34.1222999850288,
+            "trials": [
+              {
+                "trial": 0,
+                "warmup": true,
+                "milliseconds": 35.134200006723404,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 1,
+                "warmup": false,
+                "milliseconds": 34.1222999850288,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 2,
+                "warmup": false,
+                "milliseconds": 33.1575000891462,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 3,
+                "warmup": false,
+                "milliseconds": 36.808200064115226,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 4,
+                "warmup": false,
+                "milliseconds": 40.28080007992685,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              },
+              {
+                "trial": 5,
+                "warmup": false,
+                "milliseconds": 33.18170004058629,
+                "output_sha256": "e7bb6ba6ad6e9924e95e67be90c568bad2cb0e6bef812bb365d5f7429c67df31"
+              }
+            ]
+          }
+        ],
+        "native_sha256": "52bc15c25875a30be8a713cf478579350228f84ff870eefcd32f285a0ab8e629",
+        "environment": {
+          "source_tree_sha256": "73b19a2455f0cc95d73630d545c7ea594209c6129e07982f5542bcc1a2ca2162",
+          "git_revision": "0273e253a66c60d9968c8a60d20c8f23721f3070",
+          "compiler": "MSVC 19.44.35225.0",
+          "configuration": "Release",
+          "platform": "Windows AMD64"
+        },
+        "scope": "Synthetic case pooling only. Includes native CSV parsing, aggregation, hashing and formatting; excludes input creation and Python oracle. One explicit warmup per size. No peak-memory, hardware, QuPath, biological or speedup acceptance."
+      }
+    }
+  ],
+  "all_output_hashes_identical": true,
+  "performance_accepted": false,
+  "scope": "Six fresh installed-package processes; alternating baseline/candidate order with all 108 in-memory samples retained, including 18 explicit warmups. Each process independently verifies integer statistics at 10000 cores and three row counts. Shared workstation and uncontrolled ambient load; no hardware-wide or release performance acceptance."
+}
