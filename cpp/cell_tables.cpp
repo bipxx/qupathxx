@@ -163,7 +163,7 @@ struct CellTableWriter {
     static void detector(Row& row,const CellTableRequest& request,const CellResult* result) {
         if(!request.data_->detector_parameters) return;
         if(!result) {row.separator();row.separator();row.separator();return;}
-        const auto& p=result->parameters();row.string(p.algorithm==CellAlgorithm::LogWatershedBodies?"log-bodies":(p.algorithm==CellAlgorithm::LogWatershed?"log":"distance"));
+        const auto& p=result->parameters();row.string(p.algorithm==CellAlgorithm::SampledLogWatershedBodies?"log-sampled":(p.algorithm==CellAlgorithm::LogWatershedBodies?"log-bodies":(p.algorithm==CellAlgorithm::LogWatershed?"log":"distance")));
         if(p.algorithm!=CellAlgorithm::DistanceWatershed) {row.real(p.log_prominence);row.integer(p.context_padding);}
         else {row.separator();row.separator();}
     }

@@ -1,7 +1,7 @@
 #pragma once
 #include "qupathxx/tissue.hpp"
 namespace qpx {
-enum class CellAlgorithm { DistanceWatershed=0, LogWatershed=1, LogWatershedBodies=2 };
+enum class CellAlgorithm { DistanceWatershed=0, LogWatershed=1, LogWatershedBodies=2, SampledLogWatershedBodies=3 };
 struct CellParameters {
     CellAlgorithm algorithm=CellAlgorithm::DistanceWatershed;
     double log_prominence=.5;
@@ -14,6 +14,9 @@ struct CellParameters {
     std::size_t tile_size=256,max_cells=10000,work_bytes=256*1024*1024;
     TissueContourOptions contours;
     CellParameters() {contours.work_bytes=32*1024*1024;}
+    explicit CellParameters(CellAlgorithm value):CellParameters() {
+        algorithm=value;if(value==CellAlgorithm::SampledLogWatershedBodies) {min_peak_radius=0;min_seed_distance=0;}
+    }
     void validate() const;
 };
 class CellRequest {

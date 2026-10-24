@@ -96,6 +96,10 @@ std::vector<std::uint32_t> watershed(const std::vector<std::uint8_t>& mask,const
 }
 }
 void CellParameters::validate() const {
+    if(algorithm==CellAlgorithm::SampledLogWatershedBodies && (min_peak_radius!=0 || min_seed_distance!=0))
+        throw std::invalid_argument("sampled LoG requires zero radius and seed spacing filters; use CellParameters(SampledLogWatershedBodies)");
+    if(algorithm==CellAlgorithm::SampledLogWatershedBodies && connectivity!=8)
+        throw std::invalid_argument("sampled LoG requires eight-connected maximum analysis");
     cell_detail::algorithm_id(algorithm);
     if(!std::isfinite(log_prominence) || log_prominence<=0 || log_prominence>1000000 || context_padding>4096)
         throw std::invalid_argument("invalid LoG prominence/context padding");
@@ -249,6 +253,8 @@ struct CellKernel {
             cell_detail::LogParameters log;log.sigma=p.sigma;log.threshold=p.threshold;log.prominence=p.log_prominence;
             log.minimum_radius=p.min_peak_radius;log.minimum_spacing=p.min_seed_distance;log.minimum_area=p.min_nucleus_pixels;log.maximum_area=p.max_nucleus_pixels;
             log.peak_connectivity=p.connectivity;log.maximum_cells=p.max_cells;log.work_bytes=p.work_bytes;
+            log.sampled_shape=p.algorithm==CellAlgorithm::SampledLogWatershedBodies;
+            log.eight_connected_background=log.sampled_shape;
             auto detected=cell_detail::log_watershed(feature,domain,width,height,log,cancelled,phase);threshold=detected.candidate_pixels;
             // Both contextual nuclei and retained ROI fragments obey the area
             // contract. A clipped fragment cannot bypass physical area bounds.
@@ -271,7 +277,7 @@ struct CellKernel {
         std::size_t count=0;for(auto& marker:result->markers_) {marker.center={(grid.x+marker.pixel_index%width+.5)*scale,(grid.y+marker.pixel_index/width+.5)*scale};count=std::max<std::size_t>(count,marker.result_label);}
         std::vector<std::uint8_t>().swap(mask);std::vector<std::uint32_t> bodies(n);
         if(phase) phase->store(5);
-        if(count && p.cell_expansion>0 && p.algorithm==CellAlgorithm::LogWatershedBodies) {
+        if(count && p.cell_expansion>0 && (p.algorithm==CellAlgorithm::LogWatershedBodies || p.algorithm==CellAlgorithm::SampledLogWatershedBodies)) {
             bodies=cell_detail::expand_cells_watershed(nuclei,domain,width,height,p.cell_expansion,p.work_bytes,cancelled).labels;
         } else if(count && p.cell_expansion>0) {
             distance.resize(n);

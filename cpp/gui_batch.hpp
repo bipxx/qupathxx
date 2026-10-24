@@ -9,8 +9,11 @@
 namespace qpx::detail {
 inline void reset_cell_detector(CellParameters& p) {p.algorithm=CellAlgorithm::DistanceWatershed;p.log_prominence=.5;p.context_padding=32;}
 inline bool cell_detector_controls(CellParameters& p) {
-    int algorithm=static_cast<int>(p.algorithm);bool changed=ui::Combo("Cell detector",&algorithm,"Distance watershed\0LoG watershed\0LoG with watershed bodies\0");
-    if(changed) {p.algorithm=static_cast<CellAlgorithm>(algorithm);if(p.algorithm==CellAlgorithm::DistanceWatershed) reset_cell_detector(p);}
+    int algorithm=static_cast<int>(p.algorithm);bool changed=ui::Combo("Cell detector",&algorithm,"Distance watershed\0LoG watershed\0LoG with watershed bodies\0LoG sampled shape\0");
+    if(changed) {
+        p.algorithm=static_cast<CellAlgorithm>(algorithm);if(p.algorithm==CellAlgorithm::DistanceWatershed) reset_cell_detector(p);
+        if(p.algorithm==CellAlgorithm::SampledLogWatershedBodies) {p.min_peak_radius=0;p.min_seed_distance=0;p.connectivity=8;}
+    }
     if(p.algorithm!=CellAlgorithm::DistanceWatershed) {
         changed=ui::InputDouble("Peak prominence",&p.log_prominence,0,0,"%.3g") || changed;
         changed=ui::InputScalar("Context (sample px)",ImGuiDataType_U32,&p.context_padding) || changed;

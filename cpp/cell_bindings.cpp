@@ -10,8 +10,10 @@ void bind_cells(nb::module_& m) {
     using namespace qpx;
     nb::enum_<CellAlgorithm>(m,"CellAlgorithm")
         .value("DISTANCE_WATERSHED",CellAlgorithm::DistanceWatershed).value("LOG_WATERSHED",CellAlgorithm::LogWatershed)
-        .value("LOG_WATERSHED_BODIES",CellAlgorithm::LogWatershedBodies);
+        .value("LOG_WATERSHED_BODIES",CellAlgorithm::LogWatershedBodies)
+        .value("SAMPLED_LOG_WATERSHED_BODIES",CellAlgorithm::SampledLogWatershedBodies);
     nb::class_<CellParameters>(m,"CellParameters").def(nb::init<>())
+        .def(nb::init<CellAlgorithm>(),"algorithm"_a)
         .def_rw("algorithm",&CellParameters::algorithm).def_rw("log_prominence",&CellParameters::log_prominence).def_rw("context_padding",&CellParameters::context_padding)
         .def_rw("feature",&CellParameters::feature).def_rw("threshold",&CellParameters::threshold).def_rw("sigma",&CellParameters::sigma)
         .def_rw("min_peak_radius",&CellParameters::min_peak_radius).def_rw("min_seed_distance",&CellParameters::min_seed_distance).def_rw("cell_expansion",&CellParameters::cell_expansion)

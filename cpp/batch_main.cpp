@@ -39,7 +39,7 @@ int execute(const std::vector<std::string>& args) {
             "Raw options: --raw-level N --raw-channel N --raw-channels N (zero-based axes)\n"
             "             --raw-z N --raw-time N --raw-explicit-axes --raw-max-pixels N\n"
             "--kind od|stains|tissue|cells|pixels|raw  --image ID (repeatable)\n"
-            "Cells: --cell-algorithm distance|log|log-bodies --cell-log-prominence N --cell-context-padding N\n"
+            "Cells: --cell-algorithm distance|log|log-bodies|log-sampled --cell-log-prominence N --cell-context-padding N\n"
             "--object ID (repeatable, requires one --image)\n"
             "Pixel batches: --pixel-model MODEL --block-size N --pixel-work-bytes N\n"
             "               --pixel-file-bytes N --pixel-total-bytes N --min-vote NUMBER\n"
@@ -95,7 +95,7 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--stains") {const auto v=numbers(value());if(v.size()!=6 && v.size()!=9) throw std::invalid_argument("stains require six or nine components");stains.clear();for(std::size_t n=0;n<v.size();n+=3) stains.push_back({v[n],v[n+1],v[n+2]});}
             else if(flag=="--normalized") normalized=true;
             else if(flag=="--threshold") options.cells.threshold=options.tissue.threshold=real(value());
-            else if(flag=="--cell-algorithm") {const auto v=value();if(v=="distance") options.cells.algorithm=CellAlgorithm::DistanceWatershed;else if(v=="log") options.cells.algorithm=CellAlgorithm::LogWatershed;else if(v=="log-bodies") options.cells.algorithm=CellAlgorithm::LogWatershedBodies;else throw std::invalid_argument("cell algorithm must be distance, log or log-bodies");}
+            else if(flag=="--cell-algorithm") {const auto v=value();if(v=="distance") options.cells.algorithm=CellAlgorithm::DistanceWatershed;else if(v=="log") options.cells.algorithm=CellAlgorithm::LogWatershed;else if(v=="log-bodies") options.cells.algorithm=CellAlgorithm::LogWatershedBodies;else if(v=="log-sampled") options.cells.algorithm=CellAlgorithm::SampledLogWatershedBodies;else throw std::invalid_argument("cell algorithm must be distance, log, log-bodies or log-sampled");}
             else if(flag=="--cell-log-prominence") options.cells.log_prominence=real(value());
             else if(flag=="--cell-context-padding") {const auto n=integer(value());if(n>4096) throw std::invalid_argument("cell context padding exceeds 4096");options.cells.context_padding=static_cast<std::uint32_t>(n);}
             else if(flag=="--cell-min-area-um2") options.cell_min_nucleus_area_um2=real(value());
@@ -115,6 +115,7 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--nucleus") options.nucleus=true;
             else throw std::invalid_argument("unknown option: "+flag);
         }
+        if(options.cells.algorithm==CellAlgorithm::SampledLogWatershedBodies) {options.cells.min_peak_radius=0;options.cells.min_seed_distance=0;}
         if(!objects.empty()) {if(selection.size()!=1) throw std::invalid_argument("--object requires exactly one --image");selection[0].object_ids=objects;}
         if(normalized && stains.size()!=3) throw std::invalid_argument("--normalized requires a complete nine-component basis");
         if(requested_tile_size) {if(options.kind==ProjectBatchKind::Pixels) options.pixels.prediction.tile_size=*requested_tile_size;else options.roi_tile_size=options.cells.tile_size=options.tissue.tile_size=*requested_tile_size;}

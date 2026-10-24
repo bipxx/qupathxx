@@ -10,16 +10,19 @@ inline const char* algorithm_id(CellAlgorithm algorithm) {
     case CellAlgorithm::DistanceWatershed:return "qpx.distance-watershed/1";
     case CellAlgorithm::LogWatershed:return "qpx.log-watershed/1";
     case CellAlgorithm::LogWatershedBodies:return "qpx.log-watershed-bodies/1";
+    case CellAlgorithm::SampledLogWatershedBodies:return "qpx.sampled-log-watershed-bodies/1";
     }
     throw std::invalid_argument("unknown cell algorithm");
 }
 inline const char* input_format(CellAlgorithm algorithm,bool pyramid) {
+    if(algorithm==CellAlgorithm::SampledLogWatershedBodies) return pyramid?"qpx.sampled-log-rgba-level-tiles/1":"qpx.sampled-log-rgba-tiles/1";
     if(algorithm==CellAlgorithm::LogWatershedBodies) return pyramid?"qpx.log-bodies-rgba-level-tiles/1":"qpx.log-bodies-rgba-tiles/1";
     if(algorithm==CellAlgorithm::LogWatershed) return pyramid?"qpx.log-rgba-level-tiles/1":"qpx.log-rgba-tiles/1";
     if(algorithm==CellAlgorithm::DistanceWatershed) return pyramid?"qpx.rgba-level-tiles/1":"qpx.rgba-tiles/1";
     throw std::invalid_argument("unknown cell algorithm");
 }
 inline const char* mask_algorithm(CellAlgorithm algorithm,bool body) {
+    if(algorithm==CellAlgorithm::SampledLogWatershedBodies) return body?"qpx.sampled-log-cell-bodies/1":"qpx.sampled-log-cell-nuclei/1";
     if(algorithm==CellAlgorithm::LogWatershedBodies) return body?"qpx.log-watershed-cell-bodies/1":"qpx.log-bodies-cell-nuclei/1";
     if(algorithm==CellAlgorithm::LogWatershed) return body?"qpx.log-cell-bodies/1":"qpx.log-cell-nuclei/1";
     if(algorithm==CellAlgorithm::DistanceWatershed) return body?"qpx.cell-bodies/1":"qpx.cell-nuclei/1";

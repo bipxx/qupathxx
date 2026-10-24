@@ -52,6 +52,23 @@ int main() {
         const auto body_record=doc.keep_cells(body_request,body_result);const auto body_replay=CellRequest::replay(doc,body_record);
         require(doc.verify_cells(body_record,body_replay,*detect_cells(body_replay)));
         for(auto version:{1,2,4}) {auto bad=body_bytes;bad[3]=static_cast<std::uint8_t>(version);sign(bad,body_request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),body_request.roi(),doc.metadata());});}
+        CellParameters sampled(CellAlgorithm::SampledLogWatershedBodies);
+        require(sampled.min_peak_radius==0 && sampled.min_seed_distance==0 && sampled.connectivity==8);
+        sampled.threshold=.4;sampled.min_nucleus_pixels=16;sampled.max_nucleus_pixels=512;sampled.tile_size=16;
+        const CellRequest sampled_request(doc,object,transform,sampled);const auto sampled_result=detect_cells(sampled_request);
+        require(std::string(sampled_result->algorithm())=="qpx.sampled-log-watershed-bodies/1");
+        require(sampled_result->features().size()==2 && sampled_result->nuclei()->input_format()==std::string("qpx.sampled-log-rgba-tiles/1"));
+        require(input_sha256(sampled_request)==sampled_result->nuclei()->input_sha256() && input_sha256(sampled_request)!=input_sha256(body_request));
+        const auto sampled_bytes=CellArchiveCodec::encode(*sampled_result);require(sampled_bytes[3]==4);
+        const auto sampled_restored=CellArchiveCodec::decode(sampled_bytes.data(),sampled_bytes.size(),sampled_request.roi(),doc.metadata());
+        require(sampled_restored->nuclei()->labels()==sampled_result->nuclei()->labels() && sampled_restored->cells()->labels()==sampled_result->cells()->labels());
+        const auto sampled_record=doc.keep_cells(sampled_request,sampled_result);const auto sampled_replay=CellRequest::replay(doc,sampled_record);
+        require(doc.verify_cells(sampled_record,sampled_replay,*detect_cells(sampled_replay)));
+        for(auto version:{1,2,3,5}) {auto bad=sampled_bytes;bad[3]=static_cast<std::uint8_t>(version);sign(bad,sampled_request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),sampled_request.roi(),doc.metadata());});}
+        for(auto algorithm:{0,1,2}) {auto bad=sampled_bytes;bad[4]=static_cast<std::uint8_t>(algorithm);sign(bad,sampled_request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),sampled_request.roi(),doc.metadata());});}
+        auto unsupported=sampled;unsupported.min_seed_distance=4;rejects([&]{unsupported.validate();});unsupported=sampled;unsupported.min_peak_radius=1;rejects([&]{unsupported.validate();});unsupported=sampled;unsupported.connectivity=4;rejects([&]{unsupported.validate();});
+        require(CellArchiveCodec::encode(*restored)==bytes && CellArchiveCodec::encode(*body_restored)==body_bytes && CellArchiveCodec::encode(*sampled_restored)==sampled_bytes);
+        std::cout<<"Sampled LoG QCL4, explicit seed preset, typed recipe identities, replay and QCL1/2/3 preservation passed\n";
         std::cout<<"Captured LoG context, fractional ROI clipping, digests, QCL2, replay and legacy QCL1 passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }
