@@ -110,3 +110,4 @@ tools/profile_runtime_closures.py text eol=lf
 tools/ci/elf_dependencies.py text eol=lf
 tests/test_elf_dependencies.py text eol=lf
 docs/benchmarks/elf-runtime-*.json text eol=lf
+tools/probe_elf_dependencies.py text eol=lf
