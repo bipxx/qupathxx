@@ -7,7 +7,7 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 
 | Workflow | QuPath source area | Native owner | State | Required evidence |
 | --- | --- | --- | --- | --- |
-| Dense image regions | qupath-core | io | Partial | Exact pixels, padding and lifetime pass; reader variety missing |
+| Dense image regions | qupath-core | io | Partial | Exact pixels, padding and lifetime pass; explicit alpha-aware [arbitrary-size resampling](region-resampling.md) implemented with independent overlap tests; vendor/reader variety and scientific grid integration remain |
 | OpenSlide regions | qupath-extension-openslide | io | Partial | Synthetic pyramid and small Aperio comparisons; exact small/partial-tile levels with pinned Windows/Linux readers and relocated Linux runtime checks; opt-in [full three-level Aperio checks](extended-reader-validation.md) add fractional levels, partial alpha, native CLI, scheduling/close and damaged JPEG errors; other vendors and extended hosted acceptance remain |
 | Metadata and calibration | qupath-core, qupath-extension-openslide | core/io | Partial | Unknown and anisotropic calibration; typed single-file OME axes and calibration are implemented; broader formats/ICC remain |
 | Whole-slide navigation | qupath-gui-fx | render/gui | Partial | Real slide rendering, overview, readiness-gated ImGui replay, completed-frame captures, bounded exact-pixel canvas caching, large synthetic navigation and native resize/minimize/restore with overlay/view/owner/save checks pass; monitor-aware font/style scaling, responsive field/button/toolbar layout and live size overrides with cache/camera/input checks are implemented; dynamic dense scenes, physical OS/DPI delivery and vendor stress remain |
@@ -46,12 +46,16 @@ These are engineering cohorts, with the existing scientific exclusions retained.
 
 The separate [Mac snapshot candidate](benchmarks/macos-native-inventory-macos.json)
 has accepted Intel/arm64 native inventory evidence. Relocation and fresh-package
-runtime qualification for source `b0d12245` is running in
-[40125033683](https://github.com/bipxx/qupathxx/actions/runs/40125033683).
+runtime qualification for source `b0d12245` now has accepted
+[Intel/arm64 native evidence](benchmarks/macos-relocation-runtime-macos.json):
+46 native suites per architecture and region/batch/CSV/GEOS package-mapping
+probes pass. This acceptance uses the earlier audit version.
 A subsequent [offline artifact-audit candidate](benchmarks/macos-runtime-artifact-audit-local-windows.json)
 passes 389 focused local tests, including complete synthetic runtime evidence
 and altered-artifact rejection. That synthetic evidence does not establish
-native Mac execution or qualify this later candidate for promotion.
+native Mac execution or qualify this later candidate for promotion. Its
+stronger input/PAM checks require separate exact-source qualification in
+[40126673903](https://github.com/bipxx/qupathxx/actions/runs/40126673903).
 M0–M7 science, hardware, license and supported-release requirements remain open.
 
 The input loader rejects an observed oversized measurement file

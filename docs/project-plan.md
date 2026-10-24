@@ -4963,3 +4963,29 @@ new Mac acceptance. See the [runtime contract](macos-relocated-runtime.md) and
 Intel/arm64 relocation and host runtime qualification remain pending. Older-OS,
 arbitrary ABI, Mac Python/GUI/OpenSlide, installers/signing, licensing, hardware
 and biological/research acceptance remain open; full M0-M7 is still partial.
+
+
+## Explicit arbitrary-size region resampling (candidate 154)
+
+The shared native area filter maps an explicitly requested natural-level region
+to arbitrary output dimensions through C++ and nanobind. Reduction, enlargement,
+fractional ratios and independent axes use exact integer overlaps and
+premultiplied-alpha accumulation. Thumbnail filtering reuses the same code.
+Source/output buffer limits and an exact overlap-work admission check bound
+requests before decoding; native cancellation checks surround decode and filter.
+The [resampling contract](region-resampling.md) records the coordinate, memory,
+alpha and grid boundaries. All 47 local minimal native suites pass, including
+2,205 independent overlap-oracle shapes and existing thumbnail regressions.
+The installed minimal Python wheel passes 125 focused tests with seven optional
+reader/feature skips; all 13 resampling cases, generated stubs and strict typing
+checks pass. The identity fast path reduces local 2048×1024 identity medians
+from about 29 ms to 2.4–2.5 ms with matching digests; fractional timings remain
+8.09/8.33 ms. All 66 profile observations are retained in the linked contract.
+Scientific recipe integration, real
+vendor grids and performance/hardware acceptance remain open.
+
+The earlier Mac runtime candidate now has accepted [Intel/arm64 native runtime
+evidence](benchmarks/macos-relocation-runtime-macos.json) at `b0d12245`, with
+46 native suites per architecture and relocated region/batch/CSV/GEOS probes.
+The subsequent artifact-audit candidate remains under exact-source hosted
+qualification. Neither closes M7 or the full M0–M7 goal.

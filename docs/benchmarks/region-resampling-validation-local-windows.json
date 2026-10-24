@@ -1,0 +1,64 @@
+{
+  "schema": "qpx.region-resampling-local-validation/1",
+  "code_source": "4a1afe089162c7407accda81b4709799d9e2db51",
+  "configuration": "Windows minimal Python wheel; GUI, project/interchange, GEOS and optional readers disabled",
+  "native": {
+    "passed": 47,
+    "skipped": [],
+    "junit_sha256": "f29492dede59472de215cfd3a866aedbf8ccf96756e3a22b1e79ec7ec05a036a"
+  },
+  "installed": {
+    "passed": 125,
+    "skipped": [
+      {
+        "name": "test_real_pyramid_uses_bounded_complete_natural_level",
+        "reason": "requires generated OpenSlide pyramid"
+      },
+      {
+        "name": "test_small_pyramid_selection_and_complete_pixels_against_fraction_oracle[dimensions0]",
+        "reason": "requires OpenSlide"
+      },
+      {
+        "name": "test_small_pyramid_selection_and_complete_pixels_against_fraction_oracle[dimensions1]",
+        "reason": "requires OpenSlide"
+      },
+      {
+        "name": "test_small_pyramid_selection_and_complete_pixels_against_fraction_oracle[dimensions2]",
+        "reason": "requires OpenSlide"
+      },
+      {
+        "name": "test_small_pyramid_selection_and_complete_pixels_against_fraction_oracle[dimensions3]",
+        "reason": "requires OpenSlide"
+      },
+      {
+        "name": "test_image_view_survives_project_relink_and_removal",
+        "reason": "requires projects"
+      },
+      {
+        "name": "test_documented_region_workflow_example",
+        "reason": "requires projects"
+      }
+    ],
+    "junit_sha256": "897a9a34cc13a9db4fe74df29ada50268ffbc98fb283ebbdfd32098a672d70a5"
+  },
+  "source_bound_cohort_files": 16,
+  "mandatory_installed_resampling_cases": 13,
+  "independent_native_oracle_shapes": 2205,
+  "source_binding": "Git text identity with CRLF checkout normalization only; raw checkout and committed blob hashes retained by auditor",
+  "stubs_match_installed_module": true,
+  "strict_typing_valid_files": 3,
+  "strict_typing_negative_errors": 7,
+  "wheel_sha256": "1375cd4bed313603075462097aca20078487509c2b6b989eaa0d0693df641f18",
+  "local_build_git_revision": "4a1afe089162c7407accda81b4709799d9e2db51+dirty",
+  "dirty_scope": "Uncommitted documentation only at optimized build; compiler inputs committed",
+  "retained_initial_failure": {
+    "file": "build/resampling154-installed-initial-tests.xml",
+    "passed": 41,
+    "failed": 1,
+    "skipped": 5,
+    "reason": "Work quota std::length_error maps to ValueError; test expected RuntimeError. Corrected expected exception; final tests pass."
+  },
+  "hosted_qualification": false,
+  "scientific_or_hardware_acceptance": false,
+  "release_ready": false
+}
