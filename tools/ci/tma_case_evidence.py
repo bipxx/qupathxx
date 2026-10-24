@@ -28,10 +28,18 @@ def native(cases, file_export=False):
     if file_export:
         require(all(marker in selected[0].findtext('system-out', '') for marker in [
             'TMA case file cancellation precedes output path access',
-            'TMA case file exports preserve captured CSV bytes and existing files']),
+            'TMA case file exports preserve captured CSV bytes and existing files',
+            'Oversized CSV file budget and output protection passed']),
             'missing native atomic case-file export cohort')
+    transfers = [line for line in selected[0].findtext('system-out', '').splitlines()
+                 if line.startswith('Oversized CSV read-transfer bytes:')]
+    if file_export and transfers:
+        require(transfers == ['Oversized CSV read-transfer bytes: 0'],
+                'oversized case CSV performed unexpected read transfers')
     return dict(case_aggregation_checked=True, compensated_signed_sums_checked=True,
-                mean_underflow_checked=True, cancellation_checked=True, signed_decimal_locale_checked=True, atomic_file_export_checked=file_export)
+                mean_underflow_checked=True, cancellation_checked=True, signed_decimal_locale_checked=True,
+                atomic_file_export_checked=file_export, input_size_checked=file_export,
+                oversized_read_transfer_bytes=0 if file_export and transfers else None)
 
 
 def python(cases, root, commit, gui=False, file_export=False):

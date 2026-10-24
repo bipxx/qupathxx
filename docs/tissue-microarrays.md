@@ -190,3 +190,28 @@ Linux training/minimal/sanitizer results. The [GUI probe](benchmarks/tma-10000-g
 inspected at most eight catalog slots per frame with zero UI overflow in the
 captured 10,000-core scene. Its timing is a workstation observation, not a
 supported hardware guarantee.
+
+
+## Input loading candidate
+
+The input-loading candidate checks the observed regular-file size against the
+CSV budget before opening the data stream, then reserves storage for an admitted
+file. Per-chunk limits and before-publication file-version checks remain active,
+including if the file changes after the initial observation. The table schema,
+statistics and new-file publication contract are unchanged.
+
+A [native regression](benchmarks/tma-case-input-native-windows.json) measured
+1,114,112 read-transfer bytes when rejecting a 2 MiB file under a 1 MiB budget
+before the change, and zero after it. The
+[paired CLI pilot](benchmarks/tma-case-input-pilot-windows.json) retains 32 fresh
+process observations, including eight explicit warmups, at three valid sizes
+and one oversized case. All valid output hashes and independently checked
+statistics agree. The largest 24 MB table's median peak working set fell from
+41.8 MB to 31.1 MB. Timing differences are small and remain unaccepted as general
+performance or hardware evidence.
+
+Windows accounting comes from [GetProcessIoCounters](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getprocessiocounters)
+and its [IO_COUNTERS](https://learn.microsoft.com/en-us/windows/win32/api/winnt/ns-winnt-io_counters)
+read-transfer field. These are process-wide bytes read, including cached I/O;
+they do not measure physical storage traffic. Installed-package and hosted
+acceptance of this input-loading change remain open.

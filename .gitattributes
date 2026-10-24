@@ -91,3 +91,5 @@ tools/profile_tma_cases.py text eol=lf
 docs/benchmarks/sampled-cells-ndpi-windows.json text eol=lf
 docs/benchmarks/tma-case-*.json -text whitespace=cr-at-eol
 docs/benchmarks/expansion-frontier-*.json -text whitespace=cr-at-eol
+
+tools/profile_tma_file_inputs.py text eol=lf

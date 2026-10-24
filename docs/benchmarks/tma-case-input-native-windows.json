@@ -1,0 +1,19 @@
+{
+  "schema": "qpx.tma-case-input-native-regression/1",
+  "baseline_source": "dc3e9a1a91f38ab293e6675f72cae2148c589ece",
+  "candidate_source": "eb12c4c06a2f346a560623b36e9901d70706b8d1",
+  "baseline_native_junit_sha256": "1e829b8fe01975d1778aa5aeb83a2e60604af5fee8f9f3b8c42769fc6ac634ca",
+  "candidate_native_junit_sha256": "f96bcd1c83ee374f5a641ca3d4109e75a22fe292752901cdc1a8f1ebc40c31ab",
+  "baseline_oversize_read_transfer_bytes": 1114112,
+  "candidate_oversize_read_transfer_bytes": 0,
+  "input_file_bytes": 2097152,
+  "input_byte_limit": 1048576,
+  "paired_process_records": 32,
+  "explicit_warmups": 8,
+  "native_cli_compatibility_checks": 8,
+  "valid_output_hashes_identical": true,
+  "independent_numeric_statistics_verified": true,
+  "performance_accepted": false,
+  "release_ready": false,
+  "scope": "Windows native regression and paired headless CLI observations only. Process read-transfer counts are not physical storage traffic. Full installed and platform validation remains pending."
+}
