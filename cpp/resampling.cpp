@@ -22,6 +22,16 @@ void validate(std::int64_t sw,std::int64_t sh,std::int64_t w,std::int64_t h) {
 PixelBuffer resample_area(const PixelBuffer& source,std::int64_t w,std::int64_t h,const std::atomic<bool>* cancel) {
     checkpoint(cancel);const auto sw=source.width(),sh=source.height();validate(sw,sh,w,h);
     if(source.bytes().size()!=region_byte_count(sw,sh)) throw std::runtime_error("resampling reader returned unexpected byte count");
+    if(sw==w && sh==h) {
+        // Identity has unit weights: retain bytes and canonicalize transparent
+        // RGB without per-pixel overlap traversal or integer division.
+        PixelBuffer output(w,h,source.bytes());auto& pixels=output.writable_bytes();
+        for(std::size_t i=0;i<pixels.size();i+=4) {
+            if((i&16383)==0) checkpoint(cancel);
+            if(!pixels[i+3]) pixels[i]=pixels[i+1]=pixels[i+2]=0;
+        }
+        checkpoint(cancel);return output;
+    }
     PixelBuffer output(w,h);const auto& input=source.bytes();auto& pixels=output.writable_bytes();
     // Overlap units have denominators w,h. Per-output weight is sw*sh.
     // 255^2*sw*sh and all coordinate products fit uint64/int64 under admission.
