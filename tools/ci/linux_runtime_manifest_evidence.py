@@ -4,6 +4,7 @@ import importlib.util
 import json
 from pathlib import Path
 import subprocess
+import xml.etree.ElementTree as ET
 
 spec = importlib.util.spec_from_file_location('qpx_linux_runtime_evidence', Path(__file__).with_name('linux_runtime_manifest.py'))
 runtime = importlib.util.module_from_spec(spec)
@@ -11,7 +12,28 @@ spec.loader.exec_module(runtime)
 
 SOURCES = ['tools/ci/run.py', 'tools/ci/run_manylinux.py', 'tools/ci/linux_runtime_manifest.py',
            'tools/ci/elf_dependencies.py', 'tools/ci/runtime_manifest.py', 'tools/ci/pe_dependencies.py',
-           'tools/ci/linux_runtime_manifest_evidence.py', '.github/workflows/ci.yml']
+           'tools/ci/linux_runtime_manifest_evidence.py', '.github/workflows/ci.yml',
+           'tools/ci/linux-runtime-manifest-cases.json']
+
+
+def python_cohort(path, root, commit):
+    root, path = Path(root), Path(path)
+    relative = 'tools/ci/linux-runtime-manifest-cases.json'
+    contract = (root/relative).read_bytes()
+    committed = subprocess.run(['git','-C',str(root),'show',commit+':'+relative], capture_output=True)
+    runtime.require(committed.returncode == 0 and committed.stdout == contract, 'Linux manifest case contract differs from source')
+    expected = json.loads(contract)
+    runtime.require(expected['schema'] == 'qpx.linux-manifest-python-cases/1', 'invalid Linux manifest case schema')
+    cases = list(ET.parse(path).getroot().iter('testcase'))
+    groups = []
+    for classname, names in expected['classes'].items():
+        selected = [case for case in cases if case.get('classname','').rsplit('.',1)[-1] == classname]
+        runtime.require(sorted(case.get('name') for case in selected) == names, 'Linux manifest Python cohort missing/duplicate/changed: '+classname)
+        runtime.require(all(not any(case.find(tag) is not None for tag in ['failure','error','skipped']) for case in selected),
+                        'Linux manifest Python cohort failed or skipped: '+classname)
+        groups.append(dict(classname=classname, passed=len(selected)))
+    return dict(groups=groups, passed=sum(row['passed'] for row in groups),
+                case_contract_sha256=hashlib.sha256(contract).hexdigest(), junit_sha256=hashlib.sha256(path.read_bytes()).hexdigest())
 
 
 def audit(folder, wheel, root, commit, manifest_name='linux-wheel-runtime-manifest.json'):

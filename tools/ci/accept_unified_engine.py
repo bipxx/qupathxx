@@ -225,6 +225,8 @@ for job in run['jobs']:
             entry['windows_runtime_manifest']=runtime_evidence.audit(folder,wheel,ROOT,COMMIT,gui='GUI' in job['name'])
         if args.linux_runtime_manifest and job['name'].startswith('Linux '):
             entry['linux_runtime_manifest']=linux_manifest_evidence.audit(folder,wheel,ROOT,COMMIT)
+        if args.linux_runtime_manifest:
+            entry['manifest_python_cohort']=linux_manifest_evidence.python_cohort(folder/'python-tests.xml',ROOT,COMMIT)
         with zipfile.ZipFile(wheel) as source:
             native=next(n for n in source.namelist() if Path(n).name.startswith('_native.') and Path(n).suffix in ['.pyd','.so'])
             assert hashlib.sha256(source.read(native)).hexdigest()==workflow['native_sha256']

@@ -378,6 +378,8 @@ def main():
             builder=manifests.audit(folder,wheels[0],root,args.commit,'qualified-linux-runtime-manifest.json')
             consumer=manifests.audit(args.artifacts/('manylinux-consumer-'+version),wheels[0],root,args.commit,'consumer-linux-runtime-manifest.json')
             require(builder['manifest_sha256']==consumer['manifest_sha256'],'builder/consumer static manifests differ')
+            builder['python_cohort']=manifests.python_cohort(folder/'python-tests.xml',root,args.commit)
+            consumer['python_cohort']=manifests.python_cohort(args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml',root,args.commit)
             report['linux_runtime_manifests'].append(dict(python=version,builder=builder,consumer=consumer))
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
