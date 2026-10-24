@@ -4023,3 +4023,27 @@ first full-suite command's argument error is retained; it collected no tests,
 and the corrected invocation completed successfully. Hosted Linux headless and
 minimal jobs pass. Both Mac jobs, the remaining hosted matrix and the complete
 artifact audit remain pending. No main promotion or full M0-M7 completion is claimed.
+
+
+Packet115's complete Windows/Linux run 40046320541 passes at exact source
+4fe2e1a2521abb8675e1c39697b11b1855305f79. The deep artifact audit accepts
+Windows desktop 2,121 Python/44 native, Windows headless 1,733/43, Linux headless
+1,731/43 and both minimal/sanitizer 43-native cohorts. It verifies all twelve
+literal OME cases and the decimal native suite, inherited sampling/scientific,
+reader/classifier/archive/batch, installed/standalone/runtime, stubs and typing
+checks. The inherited full Aperio overview is visually inspected. Three strict
+scientific expected failures remain in each Python cohort. The
+[full matrix receipt](benchmarks/decimal-calibration-ci-windows-linux.json)
+retains exact identities and the public artifact auditor hash. The auditor also
+rejects mismatched source commits and optimized Python that disables assertions.
+
+Reproduce after downloading all five named artifacts:
+
+```powershell
+python -I tools/ci/accept_decimal_calibration.py 40046320541 4fe2e1a2521abb8675e1c39697b11b1855305f79 --artifacts build/ci/portability115-hosted
+```
+
+Windows/Linux engineering scope is accepted. Both Mac jobs in run 40046316839
+remain pending; current-source manylinux qualification, biology, hardware/RSS/
+frame, license and supported release requirements remain open. Main promotion
+is still withheld and the complete M0-M7 goal stays active.
