@@ -151,6 +151,8 @@ def inspect_wheel(path, max_file_bytes=256*1024*1024, max_total_bytes=512*1024*1
                 if data.startswith(b'\x7fELF') or native_name:
                     require(external_kind(PurePosixPath(name).name, python_tag) is None, 'bundled system/host runtime requires reviewed policy')
                     binary = elf.inspect_elf(data)
+                    require(binary['soname'] is None or external_kind(binary['soname'], python_tag) is None,
+                            'bundled ELF SONAME shadows system/host runtime')
                     require(binary['kind'] != 'executable' or name in roots[1:], 'unexpected executable in Linux wheel')
                     if name == extension:
                         require(binary['kind'] == 'shared-object', 'Python extension is not shared object')
@@ -173,7 +175,7 @@ def inspect_wheel(path, max_file_bytes=256*1024*1024, max_total_bytes=512*1024*1
     edges, externals = [], set()
     for name, binary in sorted(binaries.items()):
         require(not any(binary[field] for field in ['auxiliary', 'filters', 'audit', 'depaudit']), 'ELF filter/audit dependencies require reviewed policy')
-        directories = search_directories(name, binary)
+        search_paths = search_directories(name, binary)
         versions = {}
         for item in binary['version_requirements']:
             require(item['file'] in binary['needed'], 'ELF version dependency is absent from NEEDED')
@@ -182,7 +184,7 @@ def inspect_wheel(path, max_file_bytes=256*1024*1024, max_total_bytes=512*1024*1
             require(re.fullmatch(r'[A-Za-z0-9_+.-]+', dependency) is not None
                     and dependency not in ('.', '..'), 'require basename Linux dependency')
             target = None
-            for directory in directories:
+            for directory in search_paths:
                 candidate = (directory+'/' if directory else '')+dependency
                 if candidate in file_names:
                     require(candidate in binaries and binaries[candidate]['kind'] == 'shared-object', 'bundled dependency is not ELF shared object')

@@ -90,7 +90,7 @@ def test_required_versions_are_attached_to_exact_needed_edges(tmp_path):
 
 @pytest.mark.parametrize('failure', ['missing_cli', 'missing_extension', 'bad_extension', 'unresolved', 'case',
     'no_runpath', 'rpath_only', 'absolute_search', 'empty_search', 'cwd_search', 'escape_search',
-    'environment_search', 'path_dependency', 'system_bundle', 'python_transitive',
+    'environment_search', 'path_dependency', 'system_bundle', 'system_soname', 'python_transitive',
     'python_abi', 'no_exec_mode', 'cli_shared', 'extra_executable', 'interpreter',
     'auxiliary', 'filter', 'audit', 'depaudit', 'version_without_needed', 'fake_so', 'pe', 'mach'])
 def test_layout_dependency_search_and_runtime_failures(tmp_path, failure):
@@ -110,6 +110,7 @@ def test_layout_dependency_search_and_runtime_failures(tmp_path, failure):
         changes[extension] = image(needed=('bridge.so',), runpath=runpath, rpath='$ORIGIN' if failure == 'rpath_only' else None)
     elif failure == 'system_bundle':
         changes['qupathxx/libc.so.6'] = image(needed=(), soname='libc.so.6')
+    elif failure == 'system_soname': changes['qupathxx/disguised.so'] = image(needed=(), soname='libc.so.6')
     elif failure == 'python_transitive':
         changes['qupathxx/bridge.so'] = image(needed=('libpython3.12.so.1.0',))
     elif failure == 'python_abi': changes[extension] = image(needed=('libpython3.11.so.1.0',))
