@@ -106,3 +106,4 @@ tools/ci/probe_pe_forwarders.py text eol=lf
 tests/test_runtime_manifest.py text eol=lf
 docs/benchmarks/windows-runtime-*.json text eol=lf
 tools/ci/run.py text eol=lf
+tools/profile_runtime_closures.py text eol=lf
