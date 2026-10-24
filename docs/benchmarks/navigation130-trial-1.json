@@ -1,0 +1,116 @@
+{
+  "schema": "qpx.viewer-benchmark/2",
+  "build_git_revision": "75758a2bcb1f6455d9116900a7de65a433ab54dc",
+  "tool_sha256": "acb0f034fcc818519cefc20f3bc7222c6b470b30169d76a49a07b0dc235a3bc2",
+  "performance_accepted": false,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "processor": "Intel64 Family 6 Model 151 Stepping 2, GenuineIntel",
+  "python": "3.12.8",
+  "fixture": "CMU-1.ndpi",
+  "sha256": "edf4a1ccf395c7000ae93ad3b44c07d97043810e00be0c1d167dd09bbe436e46",
+  "source_tree_sha256": "fe164daf043c3b2d77eab441e37a9c0c393393f3cf508971fddf3274a13d0f38",
+  "native_sha256": "3e036c0e91898ecab87c69c4fc3cc426f72fc54e9e68b3213ce1af26b5925e1b",
+  "window_logical_size": [
+    2560,
+    1440
+  ],
+  "ui_multiplier": 1,
+  "scale_cycle": true,
+  "runs": [
+    {
+      "name": "first-view",
+      "elapsed_seconds": 3.4907230000244454,
+      "frames": 180,
+      "cpu_frame_p95_ms": 16.9608,
+      "replay_complete": true,
+      "replay_frame": 180,
+      "replay_wait_frames": 0,
+      "tiles_settled": true,
+      "final_zoom": 5.681747443875566,
+      "final_center": [
+        25579.198625411034,
+        19048.82822789989
+      ],
+      "max_cpu_frame_ms": 17.1445,
+      "rendered_frame_wall_p95_ms": 17.0462,
+      "max_rendered_frame_wall_ms": 17.2626,
+      "rendered_frame_wall_samples": 170,
+      "uploaded_tiles": 43,
+      "peak_gpu_payload_bytes": 10949024,
+      "pending_tiles_at_exit": 0,
+      "framebuffer_size": [
+        2560,
+        1440
+      ],
+      "generations": 25,
+      "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+      "docked_workspace": true,
+      "overview_state": "succeeded",
+      "overview_gpu_payload_bytes": 120600,
+      "gl_version": "3.2.0 NVIDIA 610.88",
+      "monitor_scale": 1.0,
+      "framebuffer_scale": 1.0,
+      "effective_ui_scale": 1.25,
+      "font_rebuilds": 4,
+      "ui_stacked_fields": 0,
+      "ui_wrapped_buttons": 0,
+      "ui_overflow_items": 0,
+      "ui_max_overflow": 0.0,
+      "ui_overflow_label": "",
+      "native_phase_profile": {
+        "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\navigation130-hardware-qualification\\trial-1-phases\\first-view.json",
+        "sha256": "87819a82ab1bdd54cecd7a6db1e6d8c2e9f67b27e02686895ac590a27ce64438",
+        "samples": 180,
+        "scope": "CPU phases before swap/capture; bounded first 4096 frames, including warmup"
+      }
+    },
+    {
+      "name": "repeat-view",
+      "elapsed_seconds": 3.0478312999475747,
+      "frames": 180,
+      "cpu_frame_p95_ms": 1.848,
+      "replay_complete": true,
+      "replay_frame": 180,
+      "replay_wait_frames": 0,
+      "tiles_settled": true,
+      "final_zoom": 5.681747443875566,
+      "final_center": [
+        25579.198625411034,
+        19048.82822789989
+      ],
+      "max_cpu_frame_ms": 16.9361,
+      "rendered_frame_wall_p95_ms": 16.7632,
+      "max_rendered_frame_wall_ms": 31.9816,
+      "rendered_frame_wall_samples": 170,
+      "uploaded_tiles": 127,
+      "peak_gpu_payload_bytes": 33149344,
+      "pending_tiles_at_exit": 0,
+      "framebuffer_size": [
+        2560,
+        1440
+      ],
+      "generations": 25,
+      "gl_renderer": "NVIDIA GeForce RTX 4090/PCIe/SSE2",
+      "docked_workspace": true,
+      "overview_state": "succeeded",
+      "overview_gpu_payload_bytes": 120600,
+      "gl_version": "3.2.0 NVIDIA 610.88",
+      "monitor_scale": 1.0,
+      "framebuffer_scale": 1.0,
+      "effective_ui_scale": 1.25,
+      "font_rebuilds": 4,
+      "ui_stacked_fields": 0,
+      "ui_wrapped_buttons": 0,
+      "ui_overflow_items": 0,
+      "ui_max_overflow": 0.0,
+      "ui_overflow_label": "",
+      "native_phase_profile": {
+        "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\navigation130-hardware-qualification\\trial-1-phases\\repeat-view.json",
+        "sha256": "9472bbd3548af31fb6649aa424347909b48d0423fdb242b3d46e0bcd62782e5c",
+        "samples": 180,
+        "scope": "CPU phases before swap/capture; bounded first 4096 frames, including warmup"
+      }
+    }
+  ],
+  "scope": "ImGui zoom/overview replay. CPU timing excludes explicit swap/vsync and capture; includes planning/upload/draw submission. Driver calls may block. Rendered-loop wall metrics include swap/capture/post-paint startup dispatch; suspended iterations and final shutdown are excluded. Retains at most 4096 recent samples, excluding the first ten frames unless startup instrumentation is requested. No GPU completion or photon-latency claim."
+}

@@ -4356,3 +4356,25 @@ stack audit modes are enabled; the new GUI cases are collected and skipped
 headless. This Linux-only receipt leaves Windows, Mac and overall acceptance
 false. Local source794 full GUI testing and both source757 hosted matrices
 remain independent live validation work.
+
+
+The [full source757 Windows/Linux audit](benchmarks/darwin-declarations-windows-linux.json)
+now accepts run40069615391: Windows GUI2,208 Python/46 native, Windows
+headless1,814/45, Linux headless1,812/45 and minimal/sanitizer45. The explicit
+stack gate requires eight fresh selected-image standalone starts on1MiB stack;
+all timing/NDPI/inherited installed/standalone/runtime/stub/typing gates pass.
+
+The [three-process hardware qualification](benchmarks/navigation130-qualification.json)
+is retained but not accepted. All six views match the prescribed camera,
+renderer, frame counts, source/wheel/tool identities and33ms target, with wall
+p95 ranging16.73–17.13ms. Trial1 meets the load condition (11/24percent before/
+after). Trials2 and3 fail the frozen25percent condition (30/23 and37/42percent).
+No trial is dropped or promoted to acceptance and no threshold is relaxed.
+All six raw view records and native phase traces accompany the qualification.
+A new independent qualification attempt may run only when the protocol's host
+conditions hold; general performance/release and Mac gates remain unaccepted.
+
+Mac130 Arm reaches linking but fails on duplicate `z_errmsg` from TIFF's pinned
+zlib and OpenCV's bundled static zlib. It has compiled past the four declaration
+fixes. A separate source132 change isolates the private error-table symbol;
+full Mac linking/native tests remain necessary before main promotion.

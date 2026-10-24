@@ -1,0 +1,216 @@
+{
+  "schema": "qpx.navigation-qualification/1",
+  "engine_commit": "75758a2bcb1f6455d9116900a7de65a433ab54dc",
+  "started_utc": "2026-10-24T06:54:01.102972+00:00",
+  "navigation_target_accepted": false,
+  "overall_project_complete": false,
+  "overall_performance_accepted": false,
+  "release_ready": false,
+  "trials": [
+    {
+      "number": 1,
+      "before": {
+        "time": "2026-10-24T02:54:02.9172564-04:00",
+        "cpu": [
+          {
+            "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+            "NumberOfCores": 12,
+            "NumberOfLogicalProcessors": 20,
+            "LoadPercentage": 11
+          }
+        ],
+        "memory_bytes": 137167814656,
+        "video": [
+          {
+            "Name": "Intel(R) UHD Graphics 770",
+            "DriverVersion": "32.0.101.7088",
+            "CurrentHorizontalResolution": 1920,
+            "CurrentVerticalResolution": 1080,
+            "CurrentRefreshRate": 60
+          },
+          {
+            "Name": "NVIDIA GeForce RTX 4090",
+            "DriverVersion": "32.0.16.1088",
+            "CurrentHorizontalResolution": 2560,
+            "CurrentVerticalResolution": 1440,
+            "CurrentRefreshRate": 59
+          }
+        ]
+      },
+      "issues": [],
+      "exit_code": 0,
+      "after": {
+        "time": "2026-10-24T02:54:11.3843738-04:00",
+        "cpu": [
+          {
+            "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+            "NumberOfCores": 12,
+            "NumberOfLogicalProcessors": 20,
+            "LoadPercentage": 24
+          }
+        ],
+        "memory_bytes": 137167814656,
+        "video": [
+          {
+            "Name": "Intel(R) UHD Graphics 770",
+            "DriverVersion": "32.0.101.7088",
+            "CurrentHorizontalResolution": 1920,
+            "CurrentVerticalResolution": 1080,
+            "CurrentRefreshRate": 60
+          },
+          {
+            "Name": "NVIDIA GeForce RTX 4090",
+            "DriverVersion": "32.0.16.1088",
+            "CurrentHorizontalResolution": 2560,
+            "CurrentVerticalResolution": 1440,
+            "CurrentRefreshRate": 59
+          }
+        ]
+      },
+      "receipt_sha256": "6510559109af7409aa2b4b9e3d181b69d2abce6d8ff6070b55b031e21100bdc8"
+    },
+    {
+      "number": 2,
+      "before": {
+        "time": "2026-10-24T02:54:12.8443560-04:00",
+        "cpu": [
+          {
+            "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+            "NumberOfCores": 12,
+            "NumberOfLogicalProcessors": 20,
+            "LoadPercentage": 30
+          }
+        ],
+        "memory_bytes": 137167814656,
+        "video": [
+          {
+            "Name": "Intel(R) UHD Graphics 770",
+            "DriverVersion": "32.0.101.7088",
+            "CurrentHorizontalResolution": 1920,
+            "CurrentVerticalResolution": 1080,
+            "CurrentRefreshRate": 60
+          },
+          {
+            "Name": "NVIDIA GeForce RTX 4090",
+            "DriverVersion": "32.0.16.1088",
+            "CurrentHorizontalResolution": 2560,
+            "CurrentVerticalResolution": 1440,
+            "CurrentRefreshRate": 59
+          }
+        ]
+      },
+      "issues": [
+        "before: observed CPU load exceeds 25 percent or is unavailable"
+      ],
+      "exit_code": 0,
+      "after": {
+        "time": "2026-10-24T02:54:21.3303951-04:00",
+        "cpu": [
+          {
+            "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+            "NumberOfCores": 12,
+            "NumberOfLogicalProcessors": 20,
+            "LoadPercentage": 23
+          }
+        ],
+        "memory_bytes": 137167814656,
+        "video": [
+          {
+            "Name": "Intel(R) UHD Graphics 770",
+            "DriverVersion": "32.0.101.7088",
+            "CurrentHorizontalResolution": 1920,
+            "CurrentVerticalResolution": 1080,
+            "CurrentRefreshRate": 60
+          },
+          {
+            "Name": "NVIDIA GeForce RTX 4090",
+            "DriverVersion": "32.0.16.1088",
+            "CurrentHorizontalResolution": 2560,
+            "CurrentVerticalResolution": 1440,
+            "CurrentRefreshRate": 59
+          }
+        ]
+      },
+      "receipt_sha256": "b60ef24086af875987147a44f10b7cdf605ded7f71e8b431f35b8c6afea661db"
+    },
+    {
+      "number": 3,
+      "before": {
+        "time": "2026-10-24T02:54:22.8267999-04:00",
+        "cpu": [
+          {
+            "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+            "NumberOfCores": 12,
+            "NumberOfLogicalProcessors": 20,
+            "LoadPercentage": 37
+          }
+        ],
+        "memory_bytes": 137167814656,
+        "video": [
+          {
+            "Name": "Intel(R) UHD Graphics 770",
+            "DriverVersion": "32.0.101.7088",
+            "CurrentHorizontalResolution": 1920,
+            "CurrentVerticalResolution": 1080,
+            "CurrentRefreshRate": 60
+          },
+          {
+            "Name": "NVIDIA GeForce RTX 4090",
+            "DriverVersion": "32.0.16.1088",
+            "CurrentHorizontalResolution": 2560,
+            "CurrentVerticalResolution": 1440,
+            "CurrentRefreshRate": 59
+          }
+        ]
+      },
+      "issues": [
+        "before: observed CPU load exceeds 25 percent or is unavailable",
+        "after: observed CPU load exceeds 25 percent or is unavailable"
+      ],
+      "exit_code": 0,
+      "after": {
+        "time": "2026-10-24T02:54:31.5158617-04:00",
+        "cpu": [
+          {
+            "Name": "12th Gen Intel(R) Core(TM) i7-12700K",
+            "NumberOfCores": 12,
+            "NumberOfLogicalProcessors": 20,
+            "LoadPercentage": 42
+          }
+        ],
+        "memory_bytes": 137167814656,
+        "video": [
+          {
+            "Name": "Intel(R) UHD Graphics 770",
+            "DriverVersion": "32.0.101.7088",
+            "CurrentHorizontalResolution": 1920,
+            "CurrentVerticalResolution": 1080,
+            "CurrentRefreshRate": 60
+          },
+          {
+            "Name": "NVIDIA GeForce RTX 4090",
+            "DriverVersion": "32.0.16.1088",
+            "CurrentHorizontalResolution": 2560,
+            "CurrentVerticalResolution": 1440,
+            "CurrentRefreshRate": 59
+          }
+        ]
+      },
+      "receipt_sha256": "dc42743704d7aeb85b3947b09ebed1da36083df61db571ae0dc81c6e9be3c6fb"
+    }
+  ],
+  "tool_sha256": "513718d2524f60a27924ed06da7f9a445c92bf5d71bc8e112dc88c4bb3535e32",
+  "protocol_sha256": "88f383a237c9bfdf133dd0066403ce190593a5bd562652b4b9cde03810f9997f",
+  "scope": "Frozen RTX 4090 NDPI navigation workload only; three independent processes and six views.",
+  "engine_audit_sha256": "ee3c8abc64a743ed3ce9879a38d5f738f8fc97d6ff64dd4abef6729aa36d860d",
+  "native_sha256": "3e036c0e91898ecab87c69c4fc3cc426f72fc54e9e68b3213ce1af26b5925e1b",
+  "source_tree_sha256": "fe164daf043c3b2d77eab441e37a9c0c393393f3cf508971fddf3274a13d0f38",
+  "wheel_sha256": "913d3644702ee67cc9ec8056329c7821a958df742e8f034d74718c7f98df4972",
+  "benchmark_tool_sha256": "acb0f034fcc818519cefc20f3bc7222c6b470b30169d76a49a07b0dc235a3bc2",
+  "fixture_sha256": "edf4a1ccf395c7000ae93ad3b44c07d97043810e00be0c1d167dd09bbe436e46",
+  "host": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "python": "3.12.8"
+  },
+  "finished_utc": "2026-10-24T06:54:31.618145+00:00"
+}
