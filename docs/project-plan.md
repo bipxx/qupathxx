@@ -4650,8 +4650,13 @@ Their mixed timings do not establish a general performance guarantee. The
 [source-registered main navigation trial set](benchmarks/sampled-navigation-hardware-windows.json)
 retains all three processes/six views, each around 17 ms rendered-wall p95,
 but remains ineligible because trial 2's before-load reading is 32%, above the
-unchanged 25% ceiling. No trial or threshold is dropped or relaxed. Frontier
-platform CI and the full M0–M7 objective remain open.
+unchanged 25% ceiling. No trial or threshold is dropped or relaxed. The later
+source-bound [Windows/Linux](benchmarks/expansion-frontier-windows-linux.json),
+[Mac native](benchmarks/expansion-frontier-macos.json) and
+[portable](benchmarks/expansion-frontier-portable.json) engineering audits accept
+source `691c0f3`; its [promotion receipt](benchmarks/expansion-frontier-main-promotion.json)
+records the fast-forward to main. Hardware/performance acceptance and the full
+M0–M7 objective remain open.
 
 
 ## Single-grid TMA case summaries (candidate 141)
@@ -4725,4 +4730,56 @@ The paired pilot retains 32 fresh-process observations, with eight declared
 warmups. Output hashes and independently checked statistics are unchanged.
 Median peak working set on the 24 MB valid input changes from 41.8 MB to 31.1 MB.
 These are scoped observations; wall time, hardware and general performance
-acceptance remain open. Full installed and hosted validation is pending.
+acceptance remain open. The [Linux-only source audit](benchmarks/tma-case-input-linux-partial.json)
+now passes 46 native suites in each of the three configurations and 2,015
+installed headless Python cases, including the file-export cohort.
+[Full installed Windows validation](benchmarks/tma-case-input-validation-windows.json)
+now passes 2,419 tests with 13 optional skips and three retained strict science
+xfails. Native suites, focused TMA checks, packaged stubs, positive/negative typing
+and the visually reviewed saved-state ImGui export all pass. The weighted output
+is 3.5 with zero UI overflow. [Both Mac native audits](benchmarks/tma-case-input-macos.json)
+now accept all 46 suites, including the input-size guard; no Windows-style read
+transfer measurement is claimed for Mac. The complete source-bound
+[Windows/Linux](benchmarks/tma-case-input-windows-linux.json) and
+[portable builder/consumer](benchmarks/tma-case-input-portable.json) audits are now
+accepted. The hosted Windows GUI job passes 2,421 Python/47 native tests;
+Windows headless passes 2,017/46, Linux headless 2,015/46, and minimal/sanitizer
+jobs pass all 46 native suites. [Promotion](benchmarks/tma-case-input-main-promotion.json)
+fast-forwards `main` from `083da0c` to exact audited source `132288c`. Performance,
+hardware, biological, licensing and supported-release requirements remain open.
+
+
+## Captured multi-grid TMA pooling (candidate 144)
+
+The native cohort engine namespaces core selectors by image, pools raw rows for
+shared case IDs, retains separate unassigned cores and binds captured metadata
+with a canonical source manifest. Thin GIL-released Python APIs and the shared
+bounded atomic file exporter expose those captures. An explicit native project
+CLI selects repeated image IDs or all TMA images. ImGui captures all project
+grids on the owner thread and exports on its native worker.
+
+The first installed Windows build passes 47 native suites and 111 TMA API/CLI
+cases, including 46 new cohort cases. Desktop replay passes 16 of 17 cases and
+finds an idle status after an owner-thread preflight failure. The fix requires
+rebuilding and rerunning that regression; it is not marked as an expected
+failure. Twelve altered-evidence controls also reject old, missing, duplicate,
+failed and skipped cohort evidence, including this actual desktop failure.
+
+The initial scale probe independently checks 24 retained observations through
+one million rows across four grids and 3,996 cores. All 108 inherited
+single-grid paired samples retain identical CSV hashes; timings are mixed and
+do not establish a general speedup. See the [cohort contract](tma-cohorts.md).
+The [fixed full Windows validation](benchmarks/tma-cohort-validation-windows.json)
+now passes 47 native suites, 128 focused cases and 2,470 Python tests, with 13
+optional skips and three unchanged strict science xfails. Packaged stubs, typing,
+all 17 desktop cases and the visually reviewed saved-state cohort capture pass.
+[Both Mac native audits](benchmarks/tma-cohort-macos.json) also pass all 46 suites
+with the cohort markers required. Complete source-bound
+[Windows/Linux](benchmarks/tma-cohort-windows-linux.json) and corrected
+[portable builder/consumer](benchmarks/tma-cohort-portable.json) audits now pass:
+hosted Windows GUI 2,473 Python/47 native, Windows headless 2,063/46 and Linux
+headless 2,061/46; minimal/sanitizer and both Mac jobs retain all 46 native suites.
+The first portable dispatch omitted extended readers and is retained as rejected;
+the corrected run exercises the required NDPI native replay. [Promotion](benchmarks/tma-cohort-main-promotion.json)
+fast-forwards main from `132288c` to exact audited source `15ee0e8`. M0-M7,
+peak memory, hardware, biological, license and supported-release gates remain open.

@@ -48,6 +48,15 @@ void bind_tma(nb::module_& m) {
     m.def("tma_case_summary_csv",[](const TmaGrid& snapshot,const std::string& table,const std::string& value,const std::string& weight,std::size_t limit,bool unversioned) {
         return tma_case_summary_csv(snapshot,table,value,weight,limit,unversioned);
     },"snapshot"_a,"table"_a="","value_column"_a="","weight_column"_a="","byte_limit"_a=64*1024*1024,"allow_unversioned"_a=false,nb::call_guard<nb::gil_scoped_release>());
+    m.def("tma_cohort_manifest_csv",[](const TmaCohort& snapshots,std::size_t limit) {
+        return tma_cohort_manifest_csv(snapshots,limit);
+    },"snapshots"_a,"byte_limit"_a=64*1024*1024,nb::call_guard<nb::gil_scoped_release>());
+    m.def("tma_cohort_case_summary_csv",[](const TmaCohort& snapshots,const std::string& table,const std::string& value,const std::string& weight,std::size_t limit,bool unversioned) {
+        return tma_cohort_case_summary_csv(snapshots,table,value,weight,limit,unversioned);
+    },"snapshots"_a,"table"_a="","value_column"_a="","weight_column"_a="","byte_limit"_a=64*1024*1024,"allow_unversioned"_a=false,nb::call_guard<nb::gil_scoped_release>());
+    m.def("save_tma_cohort_case_summary_csv",[](const TmaCohort& snapshots,const std::string& output,const std::string& input,const std::string& value,const std::string& weight,std::size_t limit,bool unversioned) {
+        return save_tma_cohort_case_summary_csv(snapshots,output,input,value,weight,limit,unversioned);
+    },"snapshots"_a,"output_path"_a,"input_path"_a="","value_column"_a="","weight_column"_a="","byte_limit"_a=64*1024*1024,"allow_unversioned"_a=false,nb::call_guard<nb::gil_scoped_release>());
     m.def("save_tma_case_summary_csv",[](const TmaGrid& snapshot,const std::string& output,const std::string& input,const std::string& value,const std::string& weight,std::size_t limit,bool unversioned) {
         return save_tma_case_summary_csv(snapshot,output,input,value,weight,limit,unversioned);
     },"snapshot"_a,"output_path"_a,"input_path"_a="","value_column"_a="","weight_column"_a="","byte_limit"_a=64*1024*1024,"allow_unversioned"_a=false,nb::call_guard<nb::gil_scoped_release>());
@@ -55,6 +64,7 @@ void bind_tma(nb::module_& m) {
         .def_rw("tma_open",&GuiOptions::tma_open).def_rw("tma_tab",&GuiOptions::tma_tab)
         .def_prop_rw("tma_options",[](const GuiOptions& o)->std::optional<std::shared_ptr<const TmaGridOptions>> {if(o.tma_options) return o.tma_options;return {};},[](GuiOptions& o,std::optional<std::shared_ptr<const TmaGridOptions>> v){o.tma_options=v?*v:nullptr;})
         .def_rw("tma_case_id",&GuiOptions::tma_case_id).def_rw("tma_metadata_path",&GuiOptions::tma_metadata_path)
+        .def_rw("tma_case_cohort",&GuiOptions::tma_case_cohort)
         .def_rw("tma_case_summary",&GuiOptions::tma_case_summary).def_rw("tma_measurements_path",&GuiOptions::tma_measurements_path)
         .def_rw("tma_value_column",&GuiOptions::tma_value_column).def_rw("tma_weight_column",&GuiOptions::tma_weight_column)
         .def_rw("tma_allow_unversioned",&GuiOptions::tma_allow_unversioned)

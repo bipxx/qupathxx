@@ -17,7 +17,8 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma_cases=False, file_export=False):
+def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma_cases=False, file_export=False, cohort=False):
+    file_export=file_export or cohort
     tma_cases=tma_cases or file_export
     small_frontier=small_frontier or tma_cases
     sampled_cells=sampled_cells or small_frontier
@@ -77,13 +78,13 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
             sampled_production_native=sampled_cells,
             evidence_sha256={p.name:sha(p) for p in sorted(folder.iterdir()) if p.is_file()},ci_result=data))
         if small_frontier:entries[-1]['small_frontier']=frontier.native(cases)
-        if tma_cases:entries[-1]['tma_cases']=tma.native(cases,file_export=file_export)
+        if tma_cases:entries[-1]['tma_cases']=tma.native(cases,file_export=file_export,cohort=cohort)
     return dict(schema='qpx.macos-native-audit/1',source=commit,run=run['url'],jobs=entries,
         auditor_sha256=sha(Path(__file__)),native_engineering_accepted=True,
         production_sampled_native_required=sampled_cells,python_gui_openslide_validated=False,
         small_frontier_required=small_frontier,
         frontier_helper_sha256=sha(Path(__file__).with_name('frontier_evidence.py')) if small_frontier else None,
-        tma_file_export_required=file_export,tma_cases_required=tma_cases,tma_case_helper_sha256=sha(Path(__file__).with_name('tma_case_evidence.py')) if tma_cases else None,
+        tma_cohorts_required=cohort,tma_file_export_required=file_export,tma_cases_required=tma_cases,tma_case_helper_sha256=sha(Path(__file__).with_name('tma_case_evidence.py')) if tma_cases else None,
         portable_package_validated=False,performance_accepted=False,release_ready=False,
         scope='Exact-source CI native tests, frozen shape conformance, architecture and region CLI records. '
               'SDK and executable bytes were not uploaded; dependency and executable digests are CI-generated evidence. '
@@ -100,10 +101,11 @@ def main():
     parser.add_argument('--small-frontier',action='store_true')
     parser.add_argument('--tma-cases',action='store_true')
     parser.add_argument('--tma-file-export',action='store_true')
+    parser.add_argument('--tma-cohorts',action='store_true')
     args=parser.parse_args()
     run=json.loads(subprocess.check_output(['gh','run','view',args.run,'--repo','bipxx/qupathxx',
         '--json','headSha,url,status,conclusion,jobs']))
-    report=audit(args.artifacts,run,args.commit,args.sampled_cells,args.small_frontier,args.tma_cases,args.tma_file_export)
+    report=audit(args.artifacts,run,args.commit,args.sampled_cells,args.small_frontier,args.tma_cases,args.tma_file_export,args.tma_cohorts)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_bytes((json.dumps(report,indent=2)+'\n').encode())
     print(json.dumps(dict(native_engineering_accepted=True,source=args.commit,

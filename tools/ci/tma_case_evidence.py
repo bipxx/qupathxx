@@ -10,7 +10,8 @@ def require(value, message):
         raise ValueError(message)
 
 
-def native(cases, file_export=False):
+def native(cases, file_export=False, cohort=False):
+    file_export = file_export or cohort
     selected = [t for t in cases if t.get('name') == 'tma']
     markers = [
         'TMA case aggregation, weighted arithmetic, missing/unassigned cores, stale revisions and cancellation passed',
@@ -31,6 +32,12 @@ def native(cases, file_export=False):
             'TMA case file exports preserve captured CSV bytes and existing files',
             'Oversized CSV file budget and output protection passed']),
             'missing native atomic case-file export cohort')
+    if cohort:
+        lines = selected[0].findtext('system-out', '').splitlines()
+        require(all(lines.count(marker) == 1 for marker in [
+            'TMA cohort raw-row pooling, image/core namespaces, isolated unassigned cores, source manifests, stale revisions and cancellation passed',
+            'TMA cohort atomic files preserve captured CSV bytes, existing files and input aliases; capture validation and cancellation precede I/O']),
+            'missing or duplicated native TMA cohort regression marker')
     transfers = [line for line in selected[0].findtext('system-out', '').splitlines()
                  if line.startswith('Oversized CSV read-transfer bytes:')]
     if file_export and transfers:
@@ -39,10 +46,12 @@ def native(cases, file_export=False):
     return dict(case_aggregation_checked=True, compensated_signed_sums_checked=True,
                 mean_underflow_checked=True, cancellation_checked=True, signed_decimal_locale_checked=True,
                 atomic_file_export_checked=file_export, input_size_checked=file_export,
+                cohort_raw_pooling_checked=cohort, cohort_atomic_file_checked=cohort,
                 oversized_read_transfer_bytes=0 if file_export and transfers else None)
 
 
-def python(cases, root, commit, gui=False, file_export=False):
+def python(cases, root, commit, gui=False, file_export=False, cohort=False):
+    file_export = file_export or cohort
     relative = 'tests/fixtures/tma-case-summary-workflows.json'
     path = Path(root)/relative
     committed = subprocess.run(['git', '-C', str(root), 'show', commit+':'+relative], capture_output=True)
@@ -55,13 +64,19 @@ def python(cases, root, commit, gui=False, file_export=False):
         groups.append(('test_tma_case_export', 'file_cases', 29))
     if gui:
         groups.append(('test_gui_tma', 'gui_cases', 4))
+    if cohort:
+        groups.append(('test_tma_cohort', 'cohort_cases', 46))
+        if gui:
+            groups.append(('test_gui_tma', 'cohort_gui_cases', 5))
     result = dict(cohort_contract_sha256=hashlib.sha256(path.read_bytes()).hexdigest())
     for classname, field, count in groups:
         expected = contract[field]
         require(len(expected) == len(set(expected)) == count and expected == sorted(expected),
                 'invalid TMA case workflow contract')
+        prefix = {'gui_cases': 'test_case_summary_export[',
+                  'cohort_gui_cases': 'test_project_cohort_export_captures_all_tma_grids['}.get(field)
         selected = [t for t in cases if t.get('classname', '').rsplit('.', 1)[-1] == classname and
-                    (field != 'gui_cases' or t.get('name', '').startswith('test_case_summary_export['))]
+                    (prefix is None or t.get('name', '').startswith(prefix))]
         require(sorted(t.get('name') for t in selected) == expected,
                 'TMA case workflow cases differ')
         require(all(t.find(k) is None for t in selected for k in ['failure', 'error', 'skipped']),

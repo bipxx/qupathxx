@@ -1,0 +1,111 @@
+{
+  "schema": "qpx.tma-cohort-audit-controls/1",
+  "source": "5f5a610ac56f56830cfb2917b3b70412b5028e32",
+  "positive": {
+    "native": {
+      "case_aggregation_checked": true,
+      "compensated_signed_sums_checked": true,
+      "mean_underflow_checked": true,
+      "cancellation_checked": true,
+      "signed_decimal_locale_checked": true,
+      "atomic_file_export_checked": true,
+      "input_size_checked": true,
+      "cohort_raw_pooling_checked": true,
+      "cohort_atomic_file_checked": true,
+      "oversized_read_transfer_bytes": 0
+    },
+    "python": {
+      "cohort_contract_sha256": "5646a6f230c6ab223252b22abfed5091b9e62e1e374fcabeaf641c188f7ed6d8",
+      "cases_passed": 13,
+      "file_cases_passed": 29,
+      "gui_cases_passed": 4,
+      "cohort_cases_passed": 46,
+      "cohort_gui_cases_passed": 5
+    }
+  },
+  "negative_controls_rejected": [
+    {
+      "name": "pre-cohort native evidence",
+      "error": "missing or duplicated native TMA cohort regression marker"
+    },
+    {
+      "name": "missing TMA cohort raw-row pooling, image/core namespaces, isolated unassigned cores, source manifests, stale revisions and cancellation passed",
+      "error": "missing or duplicated native TMA cohort regression marker"
+    },
+    {
+      "name": "duplicate TMA cohort raw-row pooling, image/core namespaces, isolated unassigned cores, source manifests, stale revisions and cancellation passed",
+      "error": "missing or duplicated native TMA cohort regression marker"
+    },
+    {
+      "name": "missing TMA cohort atomic files preserve captured CSV bytes, existing files and input aliases; capture validation and cancellation precede I/O",
+      "error": "missing or duplicated native TMA cohort regression marker"
+    },
+    {
+      "name": "duplicate TMA cohort atomic files preserve captured CSV bytes, existing files and input aliases; capture validation and cancellation precede I/O",
+      "error": "missing or duplicated native TMA cohort regression marker"
+    },
+    {
+      "name": "failure native TMA suite",
+      "error": "native TMA case aggregation failed or skipped"
+    },
+    {
+      "name": "error native TMA suite",
+      "error": "native TMA case aggregation failed or skipped"
+    },
+    {
+      "name": "skipped native TMA suite",
+      "error": "native TMA case aggregation failed or skipped"
+    },
+    {
+      "name": "missing test_tma_cohort",
+      "error": "TMA case workflow cases differ"
+    },
+    {
+      "name": "duplicate test_tma_cohort",
+      "error": "TMA case workflow cases differ"
+    },
+    {
+      "name": "failure test_tma_cohort",
+      "error": "TMA case workflow failed or skipped"
+    },
+    {
+      "name": "error test_tma_cohort",
+      "error": "TMA case workflow failed or skipped"
+    },
+    {
+      "name": "skipped test_tma_cohort",
+      "error": "TMA case workflow failed or skipped"
+    },
+    {
+      "name": "missing test_project_cohort_export_captures_all_tma_grids[",
+      "error": "TMA case workflow cases differ"
+    },
+    {
+      "name": "duplicate test_project_cohort_export_captures_all_tma_grids[",
+      "error": "TMA case workflow cases differ"
+    },
+    {
+      "name": "failure test_project_cohort_export_captures_all_tma_grids[",
+      "error": "TMA case workflow failed or skipped"
+    },
+    {
+      "name": "error test_project_cohort_export_captures_all_tma_grids[",
+      "error": "TMA case workflow failed or skipped"
+    },
+    {
+      "name": "skipped test_project_cohort_export_captures_all_tma_grids[",
+      "error": "TMA case workflow failed or skipped"
+    },
+    {
+      "name": "stale workflow source",
+      "error": "TMA case workflow contract differs from dispatched source"
+    },
+    {
+      "name": "actual initial idle-state regression",
+      "error": "TMA case workflow failed or skipped"
+    }
+  ],
+  "helper_sha256": "341ac5085cc96298a85725227a6693f3ae59e605ba0c3885bcc237d360fb28c3",
+  "scope": "Fixed installed source passes native and exact API/CLI/desktop cohort helper checks. Outer hosted source, binary/runtime and full engineering audits remain separate.",
+  "release_ready": false
+}

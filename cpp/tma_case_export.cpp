@@ -1,4 +1,5 @@
 #include "tma_case_export.hpp"
+#include "tma_internal.hpp"
 #include "atomic_export.hpp"
 #include "reader_file_guard.hpp"
 #include "utf8_text.hpp"
@@ -18,10 +19,9 @@ std::string file_path(const std::string& value) {
 #endif
     return path;
 }
-}
-std::size_t save_tma_case_summary_file(const TmaGrid& snapshot,const std::string& output_path,
+template<class ProduceCsv> std::size_t save_case_file(ProduceCsv&& produce_csv,const std::string& output_path,
     const std::string& input_path,const std::string& value,const std::string& weight,
-    std::size_t limit,bool unversioned,const std::atomic<bool>* cancelled,const ReaderFileGuard* snapshot_source) {
+    std::size_t limit,const std::atomic<bool>* cancelled,const ReaderFileGuard* snapshot_source) {
     export_checkpoint(cancelled);
     if(!limit || limit>256*1024*1024) throw std::invalid_argument("invalid TMA CSV byte limit");
     bounded_utf8(value,128);bounded_utf8(weight,128);
@@ -49,7 +49,7 @@ std::size_t save_tma_case_summary_file(const TmaGrid& snapshot,const std::string
         observed->verify();
         if(table.empty()) throw std::invalid_argument("TMA measurement CSV is empty");
     }
-    const auto csv=tma_case_summary_csv(snapshot,table,value,weight,limit,unversioned,cancelled);
+    const auto csv=produce_csv(table);
     export_checkpoint(cancelled);
     AtomicExportFile destination(output,limit,cancelled);
     destination.write(csv.data(),csv.size());
@@ -59,10 +59,31 @@ std::size_t save_tma_case_summary_file(const TmaGrid& snapshot,const std::string
     return csv.size();
 }
 }
+std::size_t save_tma_case_summary_file(const TmaGrid& snapshot,const std::string& output,
+    const std::string& input,const std::string& value,const std::string& weight,
+    std::size_t limit,bool unversioned,const std::atomic<bool>* cancelled,const ReaderFileGuard* source) {
+    return save_case_file([&](const std::string& table) {
+        return tma_case_summary_csv(snapshot,table,value,weight,limit,unversioned,cancelled);
+    },output,input,value,weight,limit,cancelled,source);
+}
+std::size_t save_tma_cohort_case_summary_file(const TmaCohort& snapshot,const std::string& output,
+    const std::string& input,const std::string& value,const std::string& weight,
+    std::size_t limit,bool unversioned,const std::atomic<bool>* cancelled,const ReaderFileGuard* source) {
+    validate_tma_cohort(snapshot,limit,cancelled);
+    return save_case_file([&](const std::string& table) {
+        return tma_cohort_case_summary_csv(snapshot,table,value,weight,limit,unversioned,cancelled);
+    },output,input,value,weight,limit,cancelled,source);
+}
+}
 namespace qpx {
 std::size_t save_tma_case_summary_csv(const TmaGrid& snapshot,const std::string& output,
     const std::string& input,const std::string& value,const std::string& weight,
     std::size_t limit,bool unversioned,const std::atomic<bool>* cancelled) {
     return detail::save_tma_case_summary_file(snapshot,output,input,value,weight,limit,unversioned,cancelled);
+}
+std::size_t save_tma_cohort_case_summary_csv(const TmaCohort& snapshot,const std::string& output,
+    const std::string& input,const std::string& value,const std::string& weight,
+    std::size_t limit,bool unversioned,const std::atomic<bool>* cancelled) {
+    return detail::save_tma_cohort_case_summary_file(snapshot,output,input,value,weight,limit,unversioned,cancelled);
 }
 }

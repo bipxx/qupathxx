@@ -32,8 +32,10 @@ parser.add_argument('--sampled-cells',action='store_true',help='Require QCL4 pro
 parser.add_argument('--small-frontier',action='store_true',help='Require 1344 native queue comparisons and eight strict unit-radius workflow cases; implies sampled cells')
 parser.add_argument('--tma-cases',action='store_true',help='Require exact case aggregation, numeric regression and desktop export cohorts; implies small frontier')
 parser.add_argument('--tma-file-export',action='store_true',help='Require shared atomic file exporter and standalone TMA case CLI; implies tma cases')
+parser.add_argument('--tma-cohorts',action='store_true',help='Require captured multi-grid case pooling, atomic file/CLI and desktop cohorts; implies file export')
 parser.add_argument('--linux-only',action='store_true',help='Audit only the three successful Linux jobs; never accepts the full matrix')
 args=parser.parse_args();RUN=args.run;COMMIT=args.commit
+args.tma_file_export=args.tma_file_export or args.tma_cohorts
 args.tma_cases=args.tma_cases or args.tma_file_export
 args.small_frontier=args.small_frontier or args.tma_cases
 args.sampled_cells=args.sampled_cells or args.small_frontier
@@ -345,7 +347,7 @@ for job in run['jobs']:
         entry['tma_benchmark']=tma
         if 'GUI' in job['name']:
             cases=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_gui_tma')]
-            assert len(cases)==(12 if args.tma_cases else 8) and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in cases)
+            assert len(cases)==(17 if args.tma_cohorts else 12 if args.tma_cases else 8) and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in cases)
             entry['tma_gui_cases']=[t.get('name') for t in cases]
             b=json.loads((folder/'gui-tma-benchmark.json').read_text(encoding='utf8'))
             assert b['native_sha256']==workflow['native_sha256'] and b['environment']['source_tree_sha256']==workflow['source_tree_sha256'] and b['environment']['git_revision']==COMMIT
@@ -713,9 +715,9 @@ for job in run['jobs']:
                 entry['small_frontier']['real_slide_masks_preserved']=preserved
                 entry['small_frontier']['real_slide_baseline_sha256']=sha(ROOT/baseline_path)
     if args.tma_cases:
-        entry['tma_cases']=tma_cases.native(native_cases,file_export=args.tma_file_export)
+        entry['tma_cases']=tma_cases.native(native_cases,file_export=args.tma_file_export,cohort=args.tma_cohorts)
         if (folder/'python-tests.xml').exists():
-            entry['tma_cases'].update(tma_cases.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),ROOT,COMMIT,gui='GUI' in job['name'],file_export=args.tma_file_export))
+            entry['tma_cases'].update(tma_cases.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),ROOT,COMMIT,gui='GUI' in job['name'],file_export=args.tma_file_export,cohort=args.tma_cohorts))
     report['jobs'].append(entry)
 report['fixture_retraining']=dict(local_and_audited_hosted_models_identical=True,
     model_sha256=local['model_sha256'],training_sha256=local['training_sha256'],
@@ -730,6 +732,7 @@ report['sampled_shape_required']=args.sampled_shape
 report['sampled_cells_required']=args.sampled_cells
 report['small_frontier_required']=args.small_frontier
 if args.small_frontier:report['frontier_helper_sha256']=sha(Path(__file__).with_name('frontier_evidence.py'))
+report['tma_cohorts_required']=args.tma_cohorts
 report['tma_file_export_required']=args.tma_file_export
 report['tma_cases_required']=args.tma_cases
 if args.tma_cases:report['tma_case_helper_sha256']=sha(Path(__file__).with_name('tma_case_evidence.py'))

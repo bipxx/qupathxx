@@ -1,0 +1,31 @@
+{
+  "schema": "qpx.tma-cohort-fixed-initial-windows/1",
+  "compiled_git_revision": "5f5a610ac56f56830cfb2917b3b70412b5028e32",
+  "input_count": 258,
+  "source_tree_sha256": "b049714c6df940554184ff573583a3d606f89231abac81d7a64057882a5ee361",
+  "native_sha256": "b73e65d960a9a21012d6888d40fb990fec59a80a956d1fb1c58867e771ea17f0",
+  "raw_build_fingerprint_matches": true,
+  "all_compiled_inputs_match_committed_source_after_line_ending_normalization": true,
+  "native_passed": 47,
+  "focused_passed": 128,
+  "cohort_api_cli_cases": 46,
+  "cohort_gui_cases": 5,
+  "previous_no_project_status_regression_fixed": true,
+  "packaged_stubs_match": true,
+  "positive_typing_files": 3,
+  "negative_typing_error_lines": [
+    6,
+    7,
+    8,
+    9,
+    11,
+    13,
+    14
+  ],
+  "audit_controls_rejected": 20,
+  "full_installed_suite_complete": false,
+  "hosted_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false
+}

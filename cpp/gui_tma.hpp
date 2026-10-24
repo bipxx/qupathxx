@@ -26,7 +26,7 @@ class GuiTma {
     std::array<char,32769> path_{};
     std::array<char,32769> measurements_path_{};
     std::array<char,129> value_column_{},weight_column_{};
-    bool case_summary_=false,allow_unversioned_=false;
+    bool case_summary_=false,allow_unversioned_=false,case_cohort_=false;
     std::string error_,initial_case_,export_state_="idle";
     std::optional<Rect> initial_bounds_;
     std::weak_ptr<const char> identity_;
@@ -56,6 +56,7 @@ class GuiTma {
         if(export_.valid() && export_.wait_for(std::chrono::seconds(0))==std::future_status::ready) {try {auto value=export_.get();export_state_=value.state;metadata_bytes_=value.bytes;if(!value.error.empty()) error_=std::move(value.error);}catch(const std::exception& e) {failure(e);export_state_="failed";}}
     }
     void write_metadata(const Document& doc,const Project* project) {
+      try {
         if(export_.valid()) return;if(!grid_) throw std::invalid_argument("there is no TMA grid");if(!path_[0]) throw std::invalid_argument("enter a new CSV file path");
         auto path=export_path(path_.data());
 #ifdef _WIN32
@@ -65,13 +66,27 @@ class GuiTma {
         const bool summary=case_summary_,unversioned=allow_unversioned_;
         const std::string input=summary && measurements_path_[0]?export_path(measurements_path_.data()):"",value=value_column_.data(),weight=weight_column_.data();
         if(!input.empty()) sources.push_back(input);
+        const bool pooling=summary && case_cohort_;TmaCohort cohort;
+        if(pooling) {
+            if(!project) throw std::invalid_argument("project case pooling requires an open project");
+            std::size_t payload=0;constexpr std::size_t maximum=64*1024*1024;
+            for(const auto& image:project->images()) {
+                if(!image.embedded && !image.source_path.empty()) sources.push_back(image.source_path);
+                const auto document=project->document(image.id);if(!document->tma_core_count()) continue;
+                if(cohort.size()>=4096) throw std::length_error("TMA cohort exceeds 4096 grids");
+                if(payload>=maximum) throw std::length_error("TMA cohort captures exceed byte limit");
+                const auto captured=document->tma_grid(maximum-payload);payload+=captured->payload_bytes();cohort.emplace(image.id,captured);
+            }
+            if(cohort.empty()) throw std::invalid_argument("project contains no TMA grids");
+        }
         const auto snapshot=grid_;cancel_.store(false);metadata_bytes_=0;export_state_="writing";
-        export_=std::async(std::launch::async,[this,snapshot,path,sources,summary,unversioned,input,value,weight] {
+        export_=std::async(std::launch::async,[this,snapshot,path,sources,summary,unversioned,input,value,weight,pooling,cohort=std::move(cohort)] {
             Export result;try {
                 export_checkpoint(&cancel_);
                 for(const auto& source:sources) guard_file_output(export_path(source),"",path);
                 if(summary) {
-                    result.bytes=save_tma_case_summary_csv(*snapshot,path,input,value,weight,64*1024*1024,unversioned,&cancel_);
+                    result.bytes=pooling?save_tma_cohort_case_summary_csv(cohort,path,input,value,weight,64*1024*1024,unversioned,&cancel_):
+                        save_tma_case_summary_csv(*snapshot,path,input,value,weight,64*1024*1024,unversioned,&cancel_);
                     result.state="saved";return result;
                 }
                 const auto csv=tma_metadata_csv(*snapshot);
@@ -81,9 +96,10 @@ class GuiTma {
             }catch(const std::exception& e) {result.bytes=0;result.state=cancel_.load()?"cancelled":"failed";try {result.error=e.what();bounded_utf8(result.error,8192);}catch(...) {result.error="TMA CSV export failed";}}
             return result;
         });
+      }catch(...) {metadata_bytes_=0;export_state_="failed";throw;}
     }
 public:
-    explicit GuiTma(const GuiOptions& initial):open_(initial.tma_open),explicit_options_(bool(initial.tma_options)),initial_tab_(initial.tma_tab),options_(initial.tma_options?*initial.tma_options:TmaGridOptions{}),initial_case_(initial.tma_case_id),initial_bounds_(initial.tma_core_bounds),delta_(initial.tma_translation) {if(initial_tab_<0 || initial_tab_>2) throw std::invalid_argument("invalid TMA panel tab");options_.validate();copy(name_,options_.name);copy(path_,initial.tma_metadata_path);case_summary_=initial.tma_case_summary;allow_unversioned_=initial.tma_allow_unversioned;copy(measurements_path_,initial.tma_measurements_path);copy(value_column_,initial.tma_value_column);copy(weight_column_,initial.tma_weight_column);bounded_utf8(initial_case_,256);if(initial_bounds_) initial_bounds_->validate();}
+    explicit GuiTma(const GuiOptions& initial):open_(initial.tma_open),explicit_options_(bool(initial.tma_options)),initial_tab_(initial.tma_tab),options_(initial.tma_options?*initial.tma_options:TmaGridOptions{}),initial_case_(initial.tma_case_id),initial_bounds_(initial.tma_core_bounds),delta_(initial.tma_translation) {if(initial_tab_<0 || initial_tab_>2) throw std::invalid_argument("invalid TMA panel tab");options_.validate();copy(name_,options_.name);copy(path_,initial.tma_metadata_path);case_summary_=initial.tma_case_summary;case_cohort_=initial.tma_case_cohort;allow_unversioned_=initial.tma_allow_unversioned;copy(measurements_path_,initial.tma_measurements_path);copy(value_column_,initial.tma_value_column);copy(weight_column_,initial.tma_weight_column);bounded_utf8(initial_case_,256);if(initial_bounds_) initial_bounds_->validate();}
     ~GuiTma() {finish(false);}
     void open() {open_=true;}
     Rect bounds(GuiInputTarget target) const {return targets_.at(index(target));}
@@ -162,6 +178,8 @@ public:
                     ImGui::BeginDisabled(export_.valid());
                     ui::Checkbox("Summarize replicate cores by case",&case_summary_);
                     if(case_summary_) {
+                        ImGui::BeginDisabled(!project);ui::Checkbox("Pool TMA grids across project",&case_cohort_);ImGui::EndDisabled();
+                        if(case_cohort_) ImGui::TextWrapped("Capture every project image with a TMA grid. Measurement rows must include image_id; core IDs are local to each image.");
                         ImGui::TextWrapped("Missing cores contribute no measurements. Cores without a case ID stay separate. Leave the input empty for case inventory only.");
                         ImGui::TextUnformatted("Measurement CSV (optional)");
                         ui::InputTextWithHint("##TMA measurements path","Optional measurement CSV input",measurements_path_.data(),measurements_path_.size());

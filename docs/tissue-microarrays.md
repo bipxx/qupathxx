@@ -196,9 +196,9 @@ captured 10,000-core scene. Its timing is a workstation observation, not a
 supported hardware guarantee.
 
 
-## Input loading candidate
+## Input loading
 
-The input-loading candidate checks the observed regular-file size against the
+The input loader checks the observed regular-file size against the
 CSV budget before opening the data stream, then reserves storage for an admitted
 file. Per-chunk limits and before-publication file-version checks remain active,
 including if the file changes after the initial observation. The table schema,
@@ -219,5 +219,15 @@ and its [IO_COUNTERS](https://learn.microsoft.com/en-us/windows/win32/api/winnt/
 read-transfer field. These are process-wide bytes read, including cached I/O;
 they do not measure physical storage traffic. The [initial installed checks](benchmarks/tma-case-input-initial-windows.json)
 pass 47 native suites, 77 focused cases including 29 file/CLI cases, packaged
-stubs and typing checks. Twelve altered-evidence controls are rejected. Full
-installed regression and hosted acceptance remain open.
+stubs and typing checks. Twelve altered-evidence controls are rejected. The
+[full installed Windows validation](benchmarks/tma-case-input-validation-windows.json)
+passes 2,419 tests, 13 optional skips and three unchanged strict scientific
+xfails. Its visually reviewed ImGui capture reports saved state, weighted mean
+3.5 and zero UI overflow. The [Linux-only audit](benchmarks/tma-case-input-linux-partial.json)
+passes all three Linux configurations. [Both Mac native architectures](benchmarks/tma-case-input-macos.json)
+pass 46 suites and the input-size guard, without claiming process read-transfer
+measurements on Mac. The complete [Windows/Linux](benchmarks/tma-case-input-windows-linux.json)
+and [portable builder/consumer](benchmarks/tma-case-input-portable.json) engineering
+audits now pass at exact source `132288c`, which is [promoted to main](benchmarks/tma-case-input-main-promotion.json).
+These audits do not establish biological equivalence, hardware eligibility,
+general performance improvement or a supported release.

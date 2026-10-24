@@ -186,3 +186,34 @@ def test_managed_grid_and_metadata_commands(tmp_path):
     saved = q.Project.open(str(output)).document(image)
     assert saved.tma_core_count == 4 and len(saved.tma_core_ids()) == 3
     assert saved.tma_grid().core(0, 0).tma_core.case_id == 'queued case'
+
+@pytest.mark.skipif(not q.has_project, reason='project cohort export')
+@pytest.mark.parametrize('mode', ['inventory', 'weighted', 'stale', 'input_alias', 'no_project'])
+def test_project_cohort_export_captures_all_tma_grids(tmp_path, mode):
+    from test_tma_cohort import setup_cohort
+    documents, snapshots, table = setup_cohort((1, 2))
+    project = q.Project()
+    assert [project.add_document(doc, 'grid') for doc in documents] == [1, 2]
+    project.add_document(q.Document(q.Image(16, 16, [0]*16*16*3)), 'plain')
+    source, output = tmp_path/'cohort-input.csv', tmp_path/'cohort-output.csv'
+    source.write_bytes(table.encode('utf-8'))
+    o = options()
+    o.tma_tab, o.tma_case_summary, o.tma_case_cohort = 2, True, True
+    o.tma_metadata_path = str(source if mode == 'input_alias' else output)
+    if mode != 'inventory':
+        o.tma_measurements_path, o.tma_value_column, o.tma_weight_column = str(source), 'value', 'weight'
+    if mode == 'stale':
+        documents[1].set_tma_case_ids({snapshots[2].core(0, 0).id: 'later'})
+    o.inputs = click(4, q.GuiInputTarget.TMA_EXPORT)
+    report = q.show(documents[0] if mode == 'no_project' else project, frame_limit=30, options=o)
+    assert source.read_bytes() == table.encode('utf-8') and report.ui_overflow_items == 0
+    if mode in ('stale', 'input_alias', 'no_project'):
+        assert report.tma_export_state == 'failed' and report.tma_error
+        assert not output.exists()
+    else:
+        assert report.tma_export_state == 'saved' and not report.tma_error
+        expected = q.tma_cohort_case_summary_csv(snapshots, table if mode == 'weighted' else '', 'value' if mode == 'weighted' else '', 'weight' if mode == 'weighted' else '')
+        assert output.read_bytes() == expected.encode('utf-8')
+        pooled = next(row for row in rows(expected) if row['case_id'] == 'P')
+        assert pooled['grids'] == '2' and pooled['weighted_mean'] == ('5' if mode == 'weighted' else '')
+        assert report.tma_metadata_bytes == output.stat().st_size

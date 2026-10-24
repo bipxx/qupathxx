@@ -1,0 +1,32 @@
+{
+  "schema": "qpx.tma-cohort-initial-validation/1",
+  "compiled_source": "0273e253a66c60d9968c8a60d20c8f23721f3070",
+  "native_sha256": "52bc15c25875a30be8a713cf478579350228f84ff870eefcd32f285a0ab8e629",
+  "retained_initial_native": "build/cohort144-initial-native.pyd",
+  "native": {
+    "passed": 47,
+    "failures": [],
+    "skipped": 0,
+    "sha256": "c17ec908941e9548c0d5cd3d10266b9d4d9861d66ebcea1e5796013ea933cbbf"
+  },
+  "api_cli": {
+    "passed": 111,
+    "failures": [],
+    "skipped": 0,
+    "sha256": "25d7f189c12aaffab897bbdda46dae518d6c228de2aaf28a8908c9ba7ab04953"
+  },
+  "new_cohort_api_cli_cases": 46,
+  "gui": {
+    "passed": 16,
+    "failures": [
+      "test_project_cohort_export_captures_all_tma_grids[no_project]"
+    ],
+    "skipped": 0,
+    "sha256": "d822e06f0688352dcab3a22dca3908a7726041a67dc6d66b85aad5d6d2ced708"
+  },
+  "expected_detected_defect": "No-project owner-thread preflight reports an error but leaves CSV export idle; this is a failing regression, not an xfail or an accepted gate.",
+  "generated_stubs_require_rebuilt_wheel": true,
+  "performance_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false
+}

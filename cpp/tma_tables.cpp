@@ -1,4 +1,5 @@
 #include "qupathxx/tma.hpp"
+#include "tma_internal.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
 #include "decimal_quantity.hpp"
@@ -8,6 +9,7 @@
 #include <limits>
 #include <stdexcept>
 #include <string_view>
+#include <tuple>
 
 namespace qpx {
 namespace {
@@ -47,15 +49,19 @@ std::string decode(const std::string& source,const std::pair<std::size_t,std::si
 }
 std::uint64_t number(const std::string& s) {std::uint64_t n=0;const auto r=std::from_chars(s.data(),s.data()+s.size(),n);if(s.empty() || r.ec!=std::errc{} || r.ptr!=s.data()+s.size() || std::to_string(n)!=s) throw std::invalid_argument("invalid TMA CSV object selector");return n;}
 }
-std::string tma_metadata_csv(const TmaGrid& grid,std::size_t maximum) {
+namespace {
+std::string metadata_csv(const TmaGrid& grid,std::size_t maximum,const std::atomic<bool>* cancelled) {
     Csv csv(maximum);csv.append("table_schema,document_revision,grid_name,row_index,column_index,row_label,column_label,slot_state,object_id,object_revision,object_name,case_id,missing,center_x_px,center_y_px,width_px,height_px,area_px2\r\n");
     const auto& info=*grid.info();for(std::size_t row=0;row<info.rows();++row) for(std::size_t column=0;column<info.columns();++column) {
+        if(cancelled && cancelled->load(std::memory_order_relaxed)) throw std::runtime_error("TMA cohort manifest cancelled");
         auto text=quote("qpx.tma-metadata/1")+','+std::to_string(grid.document_revision())+','+quote(info.name())+','+std::to_string(row)+','+std::to_string(column)+','+quote(info.row_labels()[row])+','+quote(info.column_labels()[column])+',';
         const auto a=grid.core(row,column);if(!a) text+="\"vacant\",,,,,,,,,,";
         else {const auto& t=*a->tma_core;const auto b=a->bounds();text+=quote(t.missing()?"missing":"present")+','+std::to_string(a->id)+','+std::to_string(a->revision)+','+quote(a->name)+','+quote(t.case_id())+','+(t.missing()?"1":"0")+','+real(b.x+b.width/2)+','+real(b.y+b.height/2)+','+real(b.width)+','+real(b.height)+','+real(a->geometry.area());}
         text+="\r\n";csv.append(text);
     }return std::move(csv.value);
 }
+}
+std::string tma_metadata_csv(const TmaGrid& grid,std::size_t maximum) {return metadata_csv(grid,maximum,nullptr);}
 std::string tma_context_csv(const TmaGrid& grid,const std::string& table,std::size_t maximum,bool require_revision) {
     limit(maximum);if(table.size()>maximum) throw std::length_error("TMA input table exceeds byte limit");Csv csv(maximum);
     std::map<std::uint64_t,const Annotation*> cores;for(const auto& core:grid.cores()) cores.emplace(core.id,&core);
@@ -69,7 +75,33 @@ std::string tma_context_csv(const TmaGrid& grid,const std::string& table,std::si
     });return std::move(csv.value);
 }
 
-std::string tma_case_summary_csv(const TmaGrid& grid,const std::string& table,const std::string& value_column,
+namespace {
+using Captures=std::vector<std::pair<std::uint64_t,const TmaGrid*>>;
+void checkpoint(const std::atomic<bool>* cancelled) {
+    if(cancelled && cancelled->load(std::memory_order_relaxed)) throw std::runtime_error("TMA cohort cancelled");
+}
+Captures captures(const TmaCohort& cohort,std::size_t maximum,const std::atomic<bool>* cancelled) {
+    detail::validate_tma_cohort(cohort,maximum,cancelled);
+    Captures result;result.reserve(cohort.size());
+    for(const auto& entry:cohort) result.emplace_back(entry.first,entry.second.get());
+    return result;
+}
+std::string hash_text(const std::string& text,const std::atomic<bool>* cancelled) {
+    Sha256 hash;for(std::size_t at=0;at<text.size();) {checkpoint(cancelled);const auto n=std::min<std::size_t>(65536,text.size()-at);hash.update(text.data()+at,n);at+=n;}
+    return hash.finish();
+}
+std::string cohort_manifest(const Captures& sources,std::size_t maximum,const std::atomic<bool>* cancelled) {
+    Csv csv(maximum);csv.append("table_schema,image_id,metadata_document_revision,grid_name,grid_slots,grid_vacant_slots,cores,metadata_csv_sha256\r\n");
+    for(const auto& entry:sources) {
+        checkpoint(cancelled);const auto& grid=*entry.second;const auto slots=grid.info()->rows()*grid.info()->columns();
+        const auto digest=hash_text(metadata_csv(grid,maximum,cancelled),cancelled);
+        csv.append(quote("qpx.tma-cohort-sources/1")+','+std::to_string(entry.first)+','+std::to_string(grid.document_revision())+','+
+            quote(grid.info()->name())+','+std::to_string(slots)+','+std::to_string(slots-grid.cores().size())+','+
+            std::to_string(grid.cores().size())+','+quote(digest)+"\r\n");
+    }
+    return std::move(csv.value);
+}
+std::string case_summary(const Captures& sources,bool cohort,const std::string& table,const std::string& value_column,
                                const std::string& weight_column,std::size_t maximum,bool allow_unversioned,
                                const std::atomic<bool>* cancelled) {
     limit(maximum);if(table.size()>maximum) throw std::length_error("TMA input table exceeds byte limit");
@@ -92,22 +124,28 @@ std::string tma_case_summary_csv(const TmaGrid& grid,const std::string& table,co
         double total() const {const auto result=value+correction;if(!std::isfinite(result)) throw std::overflow_error("TMA case sum exceeds numeric range");return result;}
     };
     struct Stats {
-        std::uint64_t cores=0,present=0,missing=0,measured=0,rows=0,ignored=0;
+        std::uint64_t cores=0,present=0,missing=0,measured=0,rows=0,ignored=0,grids=0,last_image=0;
         Sum values,weights,weighted;
         double minimum=0,maximum=0;
     };
-    using Key=std::pair<std::string,std::uint64_t>;
+    using Key=std::tuple<std::string,std::uint64_t,std::uint64_t>;
     std::map<Key,Stats> groups;
     struct Core {const Annotation* annotation;Stats* stats;bool measured=false;};
-    std::map<std::uint64_t,Core> cores;
-    for(const auto& core:grid.cores()) {
+    std::map<std::pair<std::uint64_t,std::uint64_t>,Core> cores;
+    std::size_t total_slots=0,total_vacancies=0;
+    for(const auto& source:sources) {
+      const auto& grid=*source.second;const auto slots=grid.info()->rows()*grid.info()->columns();
+      total_slots+=slots;total_vacancies+=slots-grid.cores().size();
+      for(const auto& core:grid.cores()) {
         checkpoint();const auto& info=*core.tma_core;
-        auto& stats=groups[{info.case_id(),info.case_id().empty()?core.id:0}];
+        auto& stats=groups[{info.case_id(),info.case_id().empty()?source.first:0,info.case_id().empty()?core.id:0}];
+        if(!stats.grids || stats.last_image!=source.first) {++stats.grids;stats.last_image=source.first;}
         ++stats.cores;if(info.missing()) ++stats.missing;else ++stats.present;
-        cores.emplace(core.id,Core{&core,&stats,false});
+        cores.emplace(std::make_pair(source.first,core.id),Core{&core,&stats,false});
+      }
     }
     const auto absent=std::numeric_limits<std::size_t>::max();
-    std::size_t columns=0,id=absent,revision=absent,value=absent,weight=absent;
+    std::size_t columns=0,id=absent,revision=absent,value=absent,weight=absent,image=absent;
     bool first=true,versioned=false;
     auto numeric=[&](const auto& span) {
         const auto text=decode(table,span,128);const auto result=detail::finite_decimal_number(text);
@@ -121,6 +159,7 @@ std::string tma_case_summary_csv(const TmaGrid& grid,const std::string& table,co
             columns=fields.size();std::map<std::string,std::size_t> headers;
             for(std::size_t i=0;i<columns;++i) {const auto name=decode(table,fields[i],128);if(name.empty() || !headers.emplace(name,i).second) throw std::invalid_argument("empty or duplicate TMA case column");}
             auto find=[&](const std::string& name) {const auto at=headers.find(name);return at==headers.end()?absent:at->second;};
+            if(cohort) {image=find("source_image_id");if(image==absent) image=find("image_id");if(image==absent) throw std::invalid_argument("TMA cohort input lacks image selectors");}
             id=find("source_object_id");revision=find("source_object_revision");
             if(id==absent) {id=find("object_id");if(revision==absent) revision=find("object_revision");}
             value=find(value_column);if(!weight_column.empty()) weight=find(weight_column);
@@ -129,7 +168,9 @@ std::string tma_case_summary_csv(const TmaGrid& grid,const std::string& table,co
             versioned=revision!=absent;first=false;return;
         }
         if(fields.size()!=columns) throw std::invalid_argument("TMA case input row has a different column count");
-        const auto identity=number(decode(table,fields[id],32));const auto at=cores.find(identity);
+        const auto identity=number(decode(table,fields[id],32));
+        const auto image_id=cohort?number(decode(table,fields[image],32)):0;
+        const auto at=cores.find({image_id,identity});
         if(at==cores.end()) throw std::invalid_argument("case table references an object outside the TMA snapshot");
         auto& core=at->second;
         if(versioned && number(decode(table,fields[revision],32))!=core.annotation->revision)
@@ -146,15 +187,23 @@ std::string tma_case_summary_csv(const TmaGrid& grid,const std::string& table,co
         ++stats.rows;if(!core.measured) {++stats.measured;core.measured=true;}
     },cancelled);
     std::string digest;
-    if(!table.empty()) {Sha256 hash;for(std::size_t at=0;at<table.size();) {checkpoint();const auto n=std::min<std::size_t>(65536,table.size()-at);hash.update(table.data()+at,n);at+=n;}digest=hash.finish();}
+    if(!table.empty()) digest=hash_text(table,cancelled);
     Csv csv(maximum);
-    csv.append("table_schema,metadata_document_revision,grid_name,grid_slots,grid_vacant_slots,case_id,unassigned_core_id,cores,present_cores,missing_cores,measured_cores,measurement_rows,ignored_missing_rows,value_column,weight_column,input_table_sha256,measurement_revision_status,value_sum,weight_sum,weighted_sum,mean,weighted_mean,minimum,maximum\r\n");
+    if(cohort) csv.append("table_schema,cohort_grids,cohort_slots,cohort_vacant_slots,source_manifest_sha256,case_id,unassigned_image_id,unassigned_core_id,grids,cores,present_cores,missing_cores,measured_cores,measurement_rows,ignored_missing_rows,value_column,weight_column,input_table_sha256,measurement_revision_status,value_sum,weight_sum,weighted_sum,mean,weighted_mean,minimum,maximum\r\n");
+    else csv.append("table_schema,metadata_document_revision,grid_name,grid_slots,grid_vacant_slots,case_id,unassigned_core_id,cores,present_cores,missing_cores,measured_cores,measurement_rows,ignored_missing_rows,value_column,weight_column,input_table_sha256,measurement_revision_status,value_sum,weight_sum,weighted_sum,mean,weighted_mean,minimum,maximum\r\n");
+    const auto& grid=*sources.front().second;
     const auto slots=grid.info()->rows()*grid.info()->columns();
+    const auto manifest_digest=cohort?hash_text(cohort_manifest(sources,maximum,cancelled),cancelled):"";
     for(const auto& entry:groups) {
         checkpoint();const auto& key=entry.first;const auto& st=entry.second;
-        std::string line=quote("qpx.tma-case-summary/1")+','+std::to_string(grid.document_revision())+','+quote(grid.info()->name())+','+
-            std::to_string(slots)+','+std::to_string(slots-grid.cores().size())+','+quote(key.first)+','+(key.second?std::to_string(key.second):"")+','+
-            std::to_string(st.cores)+','+std::to_string(st.present)+','+std::to_string(st.missing)+','+std::to_string(st.measured)+','+
+        const auto& case_id=std::get<0>(key);const auto unassigned_image=std::get<1>(key),unassigned_core=std::get<2>(key);
+        std::string line;
+        if(cohort) line=quote("qpx.tma-cohort-case-summary/1")+','+std::to_string(sources.size())+','+std::to_string(total_slots)+','+
+            std::to_string(total_vacancies)+','+quote(manifest_digest)+','+quote(case_id)+','+(unassigned_image?std::to_string(unassigned_image):"")+','+
+            (unassigned_core?std::to_string(unassigned_core):"")+','+std::to_string(st.grids)+',';
+        else line=quote("qpx.tma-case-summary/1")+','+std::to_string(grid.document_revision())+','+quote(grid.info()->name())+','+
+            std::to_string(slots)+','+std::to_string(slots-grid.cores().size())+','+quote(case_id)+','+(unassigned_core?std::to_string(unassigned_core):"")+',';
+        line+=std::to_string(st.cores)+','+std::to_string(st.present)+','+std::to_string(st.missing)+','+std::to_string(st.measured)+','+
             std::to_string(st.rows)+','+std::to_string(st.ignored)+','+quote(value_column)+','+quote(weight_column)+','+quote(digest)+','+
             quote(st.rows?(versioned?"verified":"unversioned"):"no_measurements")+',';
         if(st.rows) {
@@ -171,5 +220,29 @@ std::string tma_case_summary_csv(const TmaGrid& grid,const std::string& table,co
         line+="\r\n";csv.append(line);
     }
     return std::move(csv.value);
+}
+
+}
+std::string tma_case_summary_csv(const TmaGrid& grid,const std::string& table,const std::string& value,
+    const std::string& weight,std::size_t maximum,bool unversioned,const std::atomic<bool>* cancelled) {
+    return case_summary({{0,&grid}},false,table,value,weight,maximum,unversioned,cancelled);
+}
+void detail::validate_tma_cohort(const TmaCohort& cohort,std::size_t maximum,const std::atomic<bool>* cancelled) {
+    limit(maximum);checkpoint(cancelled);
+    if(cohort.empty() || cohort.size()>4096) throw std::invalid_argument("TMA cohort requires 1..4096 grids");
+    std::size_t bytes=0;
+    for(const auto& entry:cohort) {
+        checkpoint(cancelled);
+        if(!entry.first || !entry.second) throw std::invalid_argument("TMA cohort requires positive image IDs and nonnull grids");
+        if(entry.second->payload_bytes()>maximum-bytes) throw std::length_error("TMA cohort captures exceed byte limit");
+        bytes+=entry.second->payload_bytes();
+    }
+}
+std::string tma_cohort_manifest_csv(const TmaCohort& cohort,std::size_t maximum,const std::atomic<bool>* cancelled) {
+    return cohort_manifest(captures(cohort,maximum,cancelled),maximum,cancelled);
+}
+std::string tma_cohort_case_summary_csv(const TmaCohort& cohort,const std::string& table,const std::string& value,
+    const std::string& weight,std::size_t maximum,bool unversioned,const std::atomic<bool>* cancelled) {
+    return case_summary(captures(cohort,maximum,cancelled),true,table,value,weight,maximum,unversioned,cancelled);
 }
 }
