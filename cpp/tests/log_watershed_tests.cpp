@@ -46,7 +46,7 @@ std::uint32_t read_integer(std::istream& stream) {
 void write_integer(std::ostream& stream,std::uint32_t value) {
     for(unsigned i=0;i<4;++i) stream.put(static_cast<char>((value>>(i*8))&255));
 }
-void probe(const char* input,const char* output) {
+void probe(const char* input,const char* output,bool response_basins=false) {
     std::ifstream stream(input,std::ios::binary);char magic[4];stream.read(magic,4);
     require(stream.good() && std::memcmp(magic,"QLP1",4)==0);
     const auto width=read_integer(stream),height=read_integer(stream);
@@ -55,7 +55,8 @@ void probe(const char* input,const char* output) {
     for(auto& value:score) {const auto bits=read_integer(stream);std::memcpy(&value,&bits,4);}
     require(bool(stream.read(reinterpret_cast<char*>(domain.data()),static_cast<std::streamsize>(n))));
     require(stream.peek()==std::char_traits<char>::eof());
-    const auto result=qpx::cell_detail::log_watershed(score,domain,width,height);
+    qpx::cell_detail::LogParameters parameters;parameters.response_basins=response_basins;
+    const auto result=qpx::cell_detail::log_watershed(score,domain,width,height,parameters);
     std::ofstream target(output,std::ios::binary|std::ios::trunc);require(bool(target));
     target.write("QLR1",4);write_integer(target,width);write_integer(target,height);write_integer(target,static_cast<std::uint32_t>(result.count));
     for(auto value:result.labels) write_integer(target,value);target.flush();require(bool(target));
@@ -69,9 +70,14 @@ int main(int argc,char** argv) {
                      <<",\"compiler\":"<<std::quoted(qpx::build_info::compiler)<<"}\n";return 0;
         }
         if(argc==3) {probe(argv[1],argv[2]);return 0;}
+        if(argc==4 && std::string(argv[1])=="--response-basins") {probe(argv[2],argv[3],true);return 0;}
         require(argc==1);
         using namespace qpx::cell_detail;
         reconstruction_oracle();
+        require(log_response_basins({0,3,2,1,2,3,0},7,1,20,nullptr)==std::vector<std::uint32_t>({0,1,1,0,2,2,0}));
+        require(log_response_basins({0,3,3,2,1,0},6,1,20,nullptr)==std::vector<std::uint32_t>({0,1,1,1,1,0}));
+        require(log_response_basins({0,.0005f,0},3,1,20,nullptr)==std::vector<std::uint32_t>({0,0,0}));
+        bool basin_limit=false;try {log_response_basins({0,3,1,3,0},5,1,1,nullptr);} catch(const std::length_error&) {basin_limit=true;}require(basin_limit);
         const std::vector<double> distance={0,1,2,1.8,2.1,1,0};
         const std::vector<std::uint8_t> mask={0,1,1,1,1,1,0};
         require(log_h_maxima(distance,mask,7,1,.5,nullptr)==std::vector<std::uint8_t>({0,0,0,0,1,0,0}));

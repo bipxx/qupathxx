@@ -11,6 +11,7 @@ struct LogParameters {
     double sigma=1, threshold=.4, prominence=.5, minimum_radius=1, minimum_spacing=4;
     std::uint64_t minimum_area=16, maximum_area=512;
     int peak_connectivity=8;
+    bool response_basins=false; // Internal candidate; production/archive recipes remain unchanged.
     std::size_t maximum_cells=10000, work_bytes=256*1024*1024;
     void validate() const {
         if(!std::isfinite(sigma) || sigma<0 || sigma>16 || !std::isfinite(threshold) ||
@@ -35,7 +36,7 @@ template<class F> inline void log_neighbors(std::size_t i,std::size_t width,std:
 }
 
 inline std::vector<std::uint8_t> log_positive(const std::vector<float>& score,std::size_t width,std::size_t height,
-                                             double sigma,const std::atomic<bool>* cancelled) {
+                                             double sigma,const std::atomic<bool>* cancelled,std::vector<float>* response=nullptr) {
     auto blurred=score;
     if(sigma>0) {
         const int radius=static_cast<int>(std::ceil(3*sigma));
@@ -67,7 +68,7 @@ inline std::vector<std::uint8_t> log_positive(const std::vector<float>& score,st
             }
         }
     }
-    std::vector<std::uint8_t> positive(score.size());
+    std::vector<std::uint8_t> positive(score.size());if(response) response->resize(score.size());
     for(std::size_t y=0;y<height;++y) {
         checkpoint(cancelled);
         for(std::size_t x=0;x<width;++x) {
@@ -75,6 +76,7 @@ inline std::vector<std::uint8_t> log_positive(const std::vector<float>& score,st
             const double laplacian=4.*blurred[i]-blurred[(y?y-1:y)*width+x]-blurred[(y+1<height?y+1:y)*width+x]
                 -blurred[y*width+(x?x-1:x)]-blurred[y*width+(x+1<width?x+1:x)];
             positive[i]=laplacian>0;
+            if(response) (*response)[i]=static_cast<float>(laplacian);
         }
     }
     return positive;
@@ -138,6 +140,8 @@ inline std::vector<std::uint8_t> log_regions(const std::vector<float>& score,std
     log_fill_holes(expanded,width,height,cancelled);return expanded;
 }
 
+#include "log_response_regions.hpp"
+
 inline std::vector<std::uint8_t> log_h_maxima(const std::vector<double>& distance,const std::vector<std::uint8_t>& mask,
                                             std::size_t width,std::size_t height,double prominence,const std::atomic<bool>* cancelled) {
     // Max-min reconstruction with one indexed heap entry per foreground pixel.
@@ -180,7 +184,7 @@ inline LogResult log_watershed(const std::vector<float>& score,const std::vector
         throw std::invalid_argument("invalid LoG raster dimensions");
     const auto n=score.size();if(n>p.work_bytes/128) throw std::length_error("LoG raster exceeds work budget");
     for(auto v:score) if(!std::isfinite(v)) throw std::invalid_argument("nonfinite LoG feature");
-    auto mask=log_regions(score,width,height,p,cancelled);
+    auto mask=p.response_basins?log_basin_regions(score,width,height,p,cancelled):log_regions(score,width,height,p,cancelled);
     if(phase) phase->store(3);
     std::vector<double> distance(n);for(std::size_t i=0;i<n;++i) distance[i]=mask[i]?infinity:0;
     cell_detail::distance(distance,width,height,true,nullptr,cancelled);for(auto& value:distance) value=std::sqrt(value);
