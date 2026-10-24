@@ -4356,3 +4356,25 @@ stack audit modes are enabled; the new GUI cases are collected and skipped
 headless. This Linux-only receipt leaves Windows, Mac and overall acceptance
 false. Local source794 full GUI testing and both source757 hosted matrices
 remain independent live validation work.
+
+
+## Packet131: strict-radius body expansion foundation
+
+A native expansion kernel addresses the remaining natural-grid cell-body
+mismatch while preserving existing production recipes. It uses strict float-
+distance admission, stable four-connected flooding and collision lines with
+O(n) bounded storage, one frontier entry per nonseed pixel and cancellation.
+The [kernel contract](cell-expansion.md) and [source-bound receipt](benchmarks/cell-expansion-native-windows.json)
+record exact full label equality for all seven equivalent natural-grid QuPath
+body maps, starting from independently captured upstream nuclei. Native unit
+checks pass strict cutoffs, collision/domain behavior, cancellation, invalid
+inputs, work admission and bounded dense frontiers. All251 CMake build inputs
+match the compiled source fingerprint.
+
+This is expansion-only evidence; the production algorithm remains unchanged.
+ROI-hole/context and arbitrary-resampling comparisons remain excluded and
+visible. Integration must capture an explicit expansion mode throughout native,
+Python, ImGui, CLI/batches, input identities, versioned archives and classifier
+sources, preserving older recipe replay. Full detector features, scientific and
+platform/performance gates remain necessary. No M5 milestone or complete
+QuPath/research parity is claimed from the standalone kernel.
