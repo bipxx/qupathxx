@@ -185,3 +185,12 @@ Windows/Linux source within its defined engineering scope. The three legacy
 scientific xfails, body/resampling differences, biology, hardware, portable/Mac,
 license and supported release remain separate gates. The real NDPI attachment
 fix in packet123 is newer and requires its own qualification.
+
+
+The unified engine also passes CPython 3.11/3.12 manylinux builders and both
+pinned fresh Debian consumers at source `8160ec2`, run 40059021154. Builders
+pass 45 native/1,787 Python; consumers pass 1,771 Python. The
+[portable receipt](benchmarks/portable-unified-build-consumer.json) checks the
+runtime and ABI policy plus all new LoG/parser/cache cohorts in every Python run.
+The newer NDPI source-attachment change, macOS, research/hardware and supported
+release remain separate open gates. This does not mark any whole milestone complete.

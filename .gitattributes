@@ -40,3 +40,6 @@ docs/benchmarks/unified-native-*.json -text whitespace=cr-at-eol
 
 tools/ci/accept_unified_engine.py text eol=lf
 docs/benchmarks/unified-engine-*.json -text whitespace=cr-at-eol
+
+tools/ci/manylinux-assets.json text eol=lf
+docs/benchmarks/portable-unified-*.json -text whitespace=cr-at-eol

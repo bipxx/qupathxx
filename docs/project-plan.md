@@ -4122,3 +4122,29 @@ receipt remains available with overall acceptance false. Portable fresh consumer
 macOS, research/hardware and supported release remain separate. A newly reproduced
 native-source default project-attachment issue is being fixed and validated in
 `validation/vendor-reader-123`; that newer source is outside this acceptance.
+
+
+## Packet122: unified manylinux and fresh-consumer acceptance
+
+Run 40059021154 passes all four portable jobs at the same exact source
+`8160ec2312c80a4fb6f0a5ceeef28557ab39d82c` used for packet121. Both CPython
+3.11/3.12 builders pass 45 native suites and 1,787 Python cases; both pinned
+fresh Debian consumers pass 1,771 cases. The
+[receipt](benchmarks/portable-unified-build-consumer.json) verifies policy,
+wheel/runtime/source identities, unchanged bundled runtime payloads, relocation,
+notices, stubs/typing, reader/project/analysis/export/batch workflows and the
+explicit LoG/parser/cache cohorts in all four Python runs. Every cohort passes
+47 LoG cases, with only the three desktop cases skipped, all 12 decimal quantities
+and all nine cache cases. Three strict legacy-detector scientific xfails remain.
+Builders include all twelve full Aperio headless cases; consumers retain their
+smaller fixture scope. The independently computed Git-LF source fingerprint from
+the full Windows/Linux audit equals both portable builder fingerprints.
+
+Use `--unified-engine` with `tools/ci/accept_manylinux.py` to require those new
+cohorts in addition to its existing portable gates. The flag rejects the formerly
+accepted parser-only source; all 17 auditor unit tests pass. Asset JSON bytes now
+use explicit LF checkout attributes so the committed hash is platform-independent.
+This is portable headless CPython qualification at the frozen source. macOS,
+broader biological/body/resampling comparisons, hardware/RSS/frame budgets,
+license and supported release remain open. The newer NDPI attachment fix in
+packet123 is outside this receipt and requires separate qualification.

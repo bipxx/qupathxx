@@ -172,14 +172,45 @@ def audit(folder, run, commit):
         scope='Declared headless CPython ABI and fresh Debian consumer workflows only. Project license, supported release, GUI/macOS, scientific and hardware acceptance remain separate gates.')
 
 
+def unified_cohorts(folder):
+    """Require the LoG/parser/cache cohorts in builders and fresh consumers."""
+    report=[]
+    desktop={'test_log_gui_and_copied_recipe','test_log_managed_viewer_captures_detector_recipe','test_log_gui_batch_captures_recipe_and_checkpoint'}
+    contract=read(Path(__file__).resolve().parents[2]/'tests/fixtures/qupath-cells-0.7.0/contract.json')
+    reference={f"test_log_installed_nucleus_reference[{tile}-{case['name']}]" for tile in contract['tile_sizes'] for case in contract['cases']}
+    for version in ['3.11','3.12']:
+        build=Path(folder)/('manylinux-'+version)
+        native=ET.parse(build/'native-tests.xml').getroot().findall('.//testcase')
+        require({'decimal_quantities','log_watershed','log_cell_recipe','geometry'}<={t.get('name') for t in native},'unified native suites missing')
+        for cohort,path in [('builder',build/'python-tests.xml'),('consumer',Path(folder)/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+            cases=ET.parse(path).getroot().findall('.//testcase')
+            log=[t for t in cases if t.get('classname','').endswith('test_log_cells')]
+            require(len(log)==50,'unified LoG cohort must contain 50 cases')
+            require(reference<={t.get('name') for t in log},'pinned LoG reference/tile cases missing')
+            require(all(t.find('failure') is None and t.find('error') is None for t in log),'LoG case failed')
+            skipped=[t for t in log if t.find('skipped') is not None]
+            require({t.get('name') for t in skipped}==desktop,'unexpected skipped LoG cases')
+            require(all(t.find('skipped').get('type')!='pytest.xfail' for t in skipped),'LoG case expected to fail')
+            cache=[t for t in cases if t.get('classname','').endswith('test_sampling_acceleration')]
+            decimals=[t for t in cases if t.get('classname','').endswith('test_tiff_reader') and t.get('name','').startswith('test_ome_decimal_quantity_contract[')]
+            require(len(cache)==9 and len(decimals)==12,'unified cache/decimal cases missing')
+            require(all(all(t.find(k) is None for k in ['failure','error','skipped']) for t in cache+decimals),'cache/decimal case did not pass')
+            report.append(dict(python=version,cohort=cohort,log_passed=47,log_desktop_skipped=3,
+                log_cases=[t.get('name') for t in log],cache_cases=[t.get('name') for t in cache],decimal_cases=[t.get('name') for t in decimals],junit_sha256=sha(path)))
+    return report
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--artifacts',type=Path,required=True)
     parser.add_argument('--run-json',type=Path,required=True)
     parser.add_argument('--commit',required=True)
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--unified-engine',action='store_true',help='Also require the explicit LoG, decimal parser and cache cohorts in all four Python runs')
     args=parser.parse_args()
     report=audit(args.artifacts,read(args.run_json),args.commit)
+    if args.unified_engine:
+        report['unified_engine_cohorts']=unified_cohorts(args.artifacts)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(state=report['state'],commit=report['commit'],release_ready=False)))
