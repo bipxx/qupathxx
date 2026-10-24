@@ -11,6 +11,7 @@ import qupathxx as q
 
 from test_log_cells import parameters, scene, parse
 from test_qupath_cells_reference import comparison, CONTRACT, CAPTURE
+from test_tissue_levels import pyramid_levels
 
 
 def body_parameters(tile=64):
@@ -133,3 +134,92 @@ def test_body_gui_captured_recipe_and_published_pixels():
     assert report.cell_result.algorithm == expected.algorithm
     assert report.cell_result.cells.labels == expected.cells.labels
     assert report.cell_annotations_added == 3 and report.cells_published
+
+
+@pytest.mark.parametrize('change', ['selection', 'rename', 'close', 'authority', 'cancel'])
+def test_body_worker_rejects_stale_authority_and_cancellation(change):
+    doc, obj, transform = scene()
+    job = q.CellJob()
+    assert job.request(q.CellRequest(doc, obj, transform, body_parameters()))
+    selected = obj
+    if change == 'selection':
+        selected = 0
+    elif change == 'rename':
+        doc.rename_annotation(obj, 'changed')
+        doc.undo()
+    elif change == 'close':
+        doc.server.close()
+    elif change == 'authority':
+        doc = q.Document(doc.server)
+        assert doc.add_rectangle(q.Rect(0, 0, 256, 192)) == obj
+    else:
+        job.cancel()
+    assert job.wait(doc, selected).state == ('cancelled' if change == 'cancel' else 'stale')
+    assert job.result is None
+    with pytest.raises(RuntimeError, match='no current'):
+        job.keep_result(doc, selected)
+
+
+@pytest.mark.parametrize('level', [0, 1, 2])
+def test_body_mode_natural_level_identity_and_work_admission(pyramid_levels, level):
+    server, _ = pyramid_levels
+    doc = q.Document(server)
+    obj = doc.add_rectangle(q.Rect(90, 90, 120, 90))
+    p = body_parameters()
+    p.level = level
+    transform = q.StainTransform(CONTRACT['vectors'])
+    request = q.CellRequest(doc, obj, transform, p)
+    result = q.detect_cells(request)
+    assert result.nuclei.level == level
+    expected_format = 'qpx.log-bodies-rgba-level-tiles/1' if level else 'qpx.log-bodies-rgba-tiles/1'
+    assert result.nuclei.input_format == expected_format
+    assert q.input_sha256(request) == result.nuclei.input_sha256
+    p.work_bytes = request.estimated_work_bytes-1
+    with pytest.raises((ValueError, RuntimeError), match='budget'):
+        q.CellRequest(doc, obj, transform, p)
+
+
+@pytest.mark.skipif(not q.has_gui or not q.has_project or os.environ.get('QUPATHXX_TEST_GUI') != '1', reason='managed desktop')
+def test_body_managed_viewer_copies_recipe_and_reopens_retained_result(tmp_path):
+    from test_viewer_session import completed, run
+    doc, obj, transform = scene()
+    project = q.Project()
+    image = project.add_document(doc)
+    source, destination = tmp_path/'input.qpxproj', tmp_path/'saved.qpxproj'
+    project.save(str(source))
+    session = q.ViewerSession(str(source))
+
+    def producer():
+        p = body_parameters()
+        ticket = session.cells(image, obj, transform, p, retain_result=True)
+        p.algorithm = q.CellAlgorithm.DISTANCE_WATERSHED
+        result = completed(session, ticket)
+        assert result.committed and result.cells.cell_count == 3
+        assert result.cells.parameters.algorithm == q.CellAlgorithm.LOG_WATERSHED_BODIES
+        completed(session, session.save(str(destination)))
+        completed(session, session.close(True))
+
+    run(session, producer)
+    saved = q.Project.open(str(destination)).document(image).latest_cells(obj).result
+    assert saved.algorithm == 'qpx.log-watershed-bodies/1'
+
+
+@pytest.mark.skipif(not q.has_gui or not q.has_project or os.environ.get('QUPATHXX_TEST_GUI') != '1', reason='desktop batch')
+def test_body_gui_batch_keeps_distinct_recipe(tmp_path):
+    from test_gui_replay import event
+    doc, obj, transform = scene()
+    project = q.Project()
+    image = project.add_document(doc)
+    preset = q.ProjectBatchOptions()
+    preset.kind = q.ProjectBatchKind.CELLS
+    preset.cells = body_parameters()
+    options = q.GuiOptions()
+    options.batch_options = preset
+    options.batch_output_directory = str(tmp_path/'batch')
+    options.inputs = [event(4, q.GuiInputKind.RUN_BATCH_KEY),
+                      event(8, q.GuiInputKind.MOVE, wait=q.GuiInputWait.BATCH_FINISHED)]
+    report = q.show(project, frame_limit=35, options=options)
+    assert report.batch_state == 'succeeded' and not report.batch_error
+    saved = q.Project.open(report.batch_result.images[0].path).document(image).latest_cells(obj).result
+    assert saved.algorithm == 'qpx.log-watershed-bodies/1'
+    assert report.ui_overflow_items == 0
