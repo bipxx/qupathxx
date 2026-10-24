@@ -33,7 +33,8 @@ int main() {try {
         check(d.undo() && d.annotation(b).revision==untouched && d.class_count("new")==2);
         d.rename_class("new","renamed");check(d.undo() && d.undo() && d.annotation(a).class_name=="old");
         check(d.redo() && d.redo() && d.annotation(a).class_name=="renamed" && d.undo() && d.annotation(a).class_name=="new");
-        const auto before=d.revision(),bytes=d.history_bytes();
+        const auto before=d.revision();
+        const auto bytes=d.history_bytes();
         rejects([&]{d.apply_classifications({{a,"next"},{999999,"next"}});});
         rejects([&]{d.apply_classifications({{a,"new"},{a,"new"}});});
         rejects([&]{d.apply_classifications({{a,std::string(4097,'x')}});});

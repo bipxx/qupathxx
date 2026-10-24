@@ -91,7 +91,8 @@ std::uint64_t ViewerSession::activate(std::uint64_t image) {if(!image) throw std
 std::uint64_t ViewerSession::read_region(std::uint64_t image,RegionRequest region) {if(region_byte_count(region.width,region.height)>impl_->limits.region_bytes) throw std::length_error("viewer region exceeds byte limit");Command c(Action::Region);c.image=image;c.region=region;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::inspect_raw(std::uint64_t image) {Command c(Action::RawMetadata);c.image=image;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::read_raw(std::uint64_t image,RawRegionRequest r) {
-    const auto unit=std::uint64_t(r.channels)+1,limit=impl_->limits.region_bytes;
+    const auto unit=std::uint64_t(r.channels)+1;
+    const auto limit=impl_->limits.region_bytes;
     if(!r.channels || r.channels>65536 || r.region.width<=0 || r.region.height<=0 || r.region.level<0 || std::uint64_t(r.region.width)>limit/unit || std::uint64_t(r.region.height)>limit/(unit*std::uint64_t(r.region.width))) throw std::length_error("viewer raw region exceeds byte limit");
     Command c(Action::RawRegion);c.image=image;c.raw_region=r;return impl_->submit(std::move(c));
 }
