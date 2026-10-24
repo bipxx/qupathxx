@@ -158,3 +158,11 @@ records this prototype's actual build-input count and committed LF identity;
 this prototype does not yet contain packet115's parser files. Full current-source
 Windows/Linux, sanitizer, portable/Mac, RSS/real-slide/frame and biological
 acceptance remain open. Main is unchanged.
+
+
+The [packet116 hosted audit](benchmarks/roi-sampling-grid-ci-windows-linux.json)
+now accepts Windows/Linux correctness and inherited engineering checks at exact
+source ada3e66. All five jobs pass, including sanitizer and every one of the
+nine cache cases in each installed Python configuration. This does not turn the
+shared-workstation timing observations into hardware, RSS or release acceptance;
+portable/Mac and integration with the parser/width fixes remain open.

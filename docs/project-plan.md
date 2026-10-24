@@ -3982,3 +3982,26 @@ sequential implementation periods preclude uniform/hardware performance
 acceptance. Full current-source platform/sanitizer/portable/Mac, real-slide/RSS/
 frame, scientific and release gates remain open. This prototype does not yet
 contain packet115's independent parser changes, and main remains unchanged.
+
+
+Packet116's full hosted run 40048842838 passes at exact source
+ada3e66a1b9796629ae556142b45ed75710f26d7. The deep artifact audit accepts
+Windows desktop 2,118 Python/43 native, Windows headless 1,730/42, Linux headless
+1,728/42 and minimal/sanitizer 42-native cohorts. All nine cache cases pass
+in each installed Python configuration. Inherited robust diagonal, 35-policy,
+42-compartment, reader/classifier/archive/batch, standalone/runtime, stubs and
+typing gates pass. The full Aperio desktop overview is visually inspected.
+Three isolated-cell scientific expected failures remain per Python cohort.
+The [full matrix receipt](benchmarks/roi-sampling-grid-ci-windows-linux.json)
+binds the public artifact auditor and source/native identities. The auditor
+rejects optimized Python and mismatched source commits. Reproduce with:
+
+```powershell
+python -I tools/ci/accept_sampling_cache.py 40048842838 ada3e66a1b9796629ae556142b45ed75710f26d7 --artifacts build/ci/sampling116-hosted
+```
+
+This accepts the defined Windows/Linux engineering scope. Shared-workstation
+warm/cold timings remain bounded observations, including the mixed dense
+control; no universal performance, RSS/real-slide/frame, Mac/portable, biology
+or supported-release acceptance is claimed. Integration with the independent
+parser/width fixes and main promotion remain open. The full M0-M7 goal stays active.
