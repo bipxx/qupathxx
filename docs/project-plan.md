@@ -4387,3 +4387,17 @@ logs are retained; there are no additional C++ compilation failures in those
 complete build logs. The pending source132 jobs address this shared linker
 condition. Successful Windows/Linux source757 engineering acceptance is
 separate and does not satisfy the Mac promotion gate.
+
+
+Source132 Intel Mac native validation is now complete in run40072054364:
+all 45 suites pass at exact source d1c64f2. The [partial Intel receipt](benchmarks/zlib-isolation-macos-intel.json)
+checks the completed job, report/JUnit source and hashes, full test names,
+required feature flags, Mach-O x86_64 architecture, native region CLI and
+reported dependency/runtime identities. The duplicate private zlib symbol
+no longer prevents Intel linking. The artifact holds CI-generated SDK hashes,
+not the SDK binary payloads, and this receipt makes that limit explicit.
+
+Arm remains queued. Both-architecture acceptance stays false, and this native
+Intel result does not accept macOS OpenSlide, Python, GUI, relocation, signing
+or supported distribution. It also does not qualify the later source2afd body
+mode, which has its own Mac run40073489057. Main promotion remains withheld.
