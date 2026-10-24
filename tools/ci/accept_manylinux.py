@@ -10,6 +10,7 @@ import hashlib
 import json
 from pathlib import Path, PurePosixPath
 import re
+import subprocess
 import xml.etree.ElementTree as ET
 import zipfile
 
@@ -267,6 +268,42 @@ def watershed_body_cohorts(folder):
     return report
 
 
+def sampled_cell_cohorts(folder, commit):
+    root=Path(__file__).resolve().parents[2]
+    contract='tests/fixtures/imagej-shape-1.54p/sampled-cell-workflows.json'
+    require((root/contract).read_bytes()==subprocess.check_output(['git','-C',str(root),'show',commit+':'+contract]),
+            'sampled workflow contract differs from dispatched source')
+    expected=read(root/contract)
+    require(len(expected['cases'])==53 and len(expected['desktop_cases'])==3,'invalid sampled workflow contract')
+    desktop=set(expected['desktop_cases'])
+    real={name for name in expected['cases'] if name.startswith('test_sampled_real_slide_keeps_characterization_and_exact_saved_replay[')}
+    require(len(real)==2,'missing real-slide sampled contexts')
+    report=[]
+    for version in ['3.11','3.12']:
+        build=Path(folder)/('manylinux-'+version)
+        native=list(ET.parse(build/'native-tests.xml').getroot().iter('testcase'))
+        for name,marker in [('log_watershed','Sampled shape 26 frozen masks and maxima passed'),
+                            ('log_cell_recipe','Sampled LoG QCL4, explicit seed preset, typed recipe identities, replay and QCL1/2/3 preservation passed'),
+                            ('log_cell_recipe','Sampled clipped components without in-ROI markers retain measurements and replay labels')]:
+            selected=[t for t in native if t.get('name')==name]
+            require(len(selected)==1 and marker in selected[0].findtext('system-out',''),'sampled native recipe/conformance marker missing')
+        for cohort,path in [('builder',build/'python-tests.xml'),
+                            ('consumer',Path(folder)/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+            cases=[t for t in ET.parse(path).getroot().iter('testcase')
+                   if t.get('classname','').rsplit('.',1)[-1]==expected['classname']]
+            require(sorted(t.get('name') for t in cases)==expected['cases'],'sampled production workflow cohort differs')
+            require(all(t.find('failure') is None and t.find('error') is None for t in cases),'sampled production workflow failed')
+            skipped=[t for t in cases if t.find('skipped') is not None]
+            require({t.get('name') for t in skipped}==(desktop if cohort=='builder' else desktop|real),
+                    'sampled fixture/desktop skip scope differs')
+            require(all(t.find('skipped').get('type')!='pytest.xfail' for t in skipped),'sampled production case expected to fail')
+            report.append(dict(python=version,cohort=cohort,passed=53-len(skipped),
+                               desktop_skipped=3,real_slide_skipped=0 if cohort=='builder' else 2,
+                               cases=[dict(name=t.get('name'),skipped=t.find('skipped') is not None) for t in cases],
+                               cohort_contract_sha256=sha(root/contract),junit_sha256=sha(path)))
+    return report
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--artifacts',type=Path,required=True)
@@ -276,7 +313,10 @@ def main():
     parser.add_argument('--unified-engine',action='store_true',help='Also require the explicit LoG, decimal parser and cache cohorts in all four Python runs')
     parser.add_argument('--ndpi-readers',action='store_true',help='Also require NDPI builder and default native-link cases; consumers retain their small-fixture scope')
     parser.add_argument('--watershed-bodies',action='store_true',help='Also require all production body recipes and native expansion in both builders/consumers')
+    parser.add_argument('--sampled-cells',action='store_true',help='Require frozen shape/QCL4 native and sampled production builder/consumer cohorts; implies earlier engine/body/NDPI gates')
     args=parser.parse_args()
+    if args.sampled_cells:
+        args.unified_engine=args.ndpi_readers=args.watershed_bodies=True
     report=audit(args.artifacts,read(args.run_json),args.commit)
     if args.unified_engine or args.ndpi_readers or args.watershed_bodies:
         report['unified_engine_cohorts']=unified_cohorts(args.artifacts)
@@ -284,6 +324,8 @@ def main():
         report['ndpi_reader_cohorts']=ndpi_cohorts(args.artifacts)
     if args.watershed_bodies:
         report['watershed_body_cohorts']=watershed_body_cohorts(args.artifacts)
+    if args.sampled_cells:
+        report['sampled_cell_cohorts']=sampled_cell_cohorts(args.artifacts,args.commit)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(state=report['state'],commit=report['commit'],release_ready=False)))

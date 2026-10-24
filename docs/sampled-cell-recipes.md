@@ -64,3 +64,23 @@ includes fixture construction, verification and persistence. The profile uses
 an uncontrolled host and does not accept biological accuracy, general nucleus
 boundary parity, GUI performance or a hardware target. Use a new output
 directory so previous raw observations and projects remain intact.
+
+## Hosted evidence gates
+
+`tools/ci/accept_unified_engine.py RUN COMMIT --artifacts DIRECTORY --output REPORT
+--sampled-cells --ndpi-readers --rendered-loop --gui-stack` requires the inherited
+kernel/body gates, all 53 source-bound production workflow names, native QCL4 and
+clipped-component regressions, and the sampled comparison report. GUI jobs must
+pass all 53 cases; headless jobs may skip only the three named desktop cases.
+
+`tools/ci/accept_manylinux.py --artifacts DIRECTORY --run-json RUN.json --commit
+COMMIT --output REPORT --sampled-cells` also requires the earlier engine/body/NDPI
+gates. Both builders must pass 50 sampled cases and skip three desktop cases.
+Each fresh consumer must pass 48 and explicitly skip the same desktop cases plus
+the two NDPI contexts, since its fixture scope excludes the full slide.
+
+`tools/ci/accept_macos_native.py RUN COMMIT --artifacts DIRECTORY --output REPORT
+--sampled-cells` requires both native architectures, all 26 frozen shape cases,
+QCL4 and clipped-component regressions. It does not accept Python, OpenSlide,
+GUI or relocated macOS packaging. All three gates reject earlier kernel-only
+or body-only sources when sampled production coverage is requested.

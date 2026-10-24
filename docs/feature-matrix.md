@@ -42,8 +42,12 @@ or close outstanding M0–M7 science, hardware, license or packaging requirement
 The newer [sampled shape candidate](sampled-shape-watershed.md) remains on its
 validation branch. Its native masks and selected maxima match 26 frozen ImageJ
 cases exactly; real-slide nucleus IoU reaches 0.994 at explicit zero context.
-All 46 local native suites and 53 focused checks pass. Versioned production
-integration and candidate platform/performance acceptance remain open.
+Its kernel-only source `4a07b0e` passes the audited Windows/Linux matrix and both
+Mac native architectures. The later explicit [sampled cell recipe](sampled-cell-recipes.md)
+adds QCL4/QCA4, Python/CLI/batch/ImGui integration, historical-domain replay and
+clipped-component measurements. It passes 47 local native suites and 145 focused
+Python cases. Full local regression, production-recipe hosted validation and
+performance acceptance remain open; prior kernel gates do not cover the new recipe.
 
 The [real-slide cell comparison](qupath-ndpi-cell-comparisons.md) now retains
 an immutable QuPath NDPI capture and exact source pixels. Native LoG modes
