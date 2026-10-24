@@ -4020,8 +4020,10 @@ is about 0.871–0.930, so full segmentation parity remains open.
 
 Generated public stubs are frozen at source `7f47a963e0d0a3f51a9c35681eb4ad8116e11a41`;
 the rebuilt wheel passes 45 native suites, 50 focused cases, installed workflows,
-matching stubs and strict positive/negative typing. Full regression remains
-running. `tools/profile_log_cells.py` adds isolated-process scaling, process
+matching stubs and strict positive/negative typing. Complete Windows regression
+passes 2,157 cases, 13 optional skips and the same three legacy scientific xfails;
+the [receipt](benchmarks/log-cell-windows-local.json) binds all evidence and the
+visually inspected [desktop frame](images/log-cell-batch-windows.png). `tools/profile_log_cells.py` adds isolated-process scaling, process
 peak-memory observations and tile-invariant label/feature checks. The repeated
 [profile](benchmarks/log-cell-scaling-windows.json) now passes 24 fresh-process
 observations (six excluded warmups), with all output hashes invariant across
@@ -4031,6 +4033,7 @@ RSS-budget, biological or full-platform acceptance is claimed. This candidate
 still needs integration with separately validated parser, Darwin-width and
 boundary-cache changes before unified qualification and main promotion.
 See [detector contract](log-watershed.md). All other unfinished M0–M7 gates remain.
+
 ## Packet115: native Mac compiler portability (validation pending)
 
 The Intel job in run 39996248392 failed before tests because Apple libc++ in
@@ -4068,3 +4071,14 @@ remain separate. The macOS wrapper now requires both LoG suite names in addition
 to its existing gates. Unified Python/GUI, hosted platforms, portable consumers,
 macOS, scientific/hardware acceptance and main promotion remain open. Separate
 packet120 scaling observations are retained at their original source identity.
+
+
+Packet120 hosted Linux observation at exact source `16c9ce1`, run 40057641828:
+headless passes 1,766 Python cases and 44 native suites; minimal and sanitizer
+also pass 44 suites. All 47 headless LoG cases pass, with three explicit desktop
+skips; all twelve full Aperio headless checks pass. Stub/typing, wheel/native and
+compiled Git/source fingerprint identities are audited. The remaining Windows
+jobs and overall hosted acceptance are still pending. The separately published
+`validation/unified-121` branch combines parser, Darwin width and boundary-cache
+changes with LoG and passes 45 full-feature native Windows headless suites;
+its run 40058156407 is separately pending. Main promotion remains withheld.
