@@ -1,0 +1,26 @@
+{
+  "schema": "qpx.qupath-cell-debug/1",
+  "capture_manifest_sha256": "3db9318d0e17eb0ce25b608f6b3772461427c64f3b3dd18bff34cafabcce4c26",
+  "base_generator_sha256": "f3b1581182f08ba40544f5f697113bebcdd204cbfb8963783b476651d83139fc",
+  "debug_generator_sha256": "de0cac546e7228d9a554f281c5fa7fc6e4003cd03615594b1ffdbaa0b08ef7b4",
+  "ordinary_capture_outputs_byte_identical": [
+    "input.png",
+    "reference.json",
+    "nucleus.u32le.gz",
+    "body.u32le.gz"
+  ],
+  "files": {
+    "debug-stack.tif": {
+      "bytes": 1436534,
+      "sha256": "ad92307fd92651ca65a63a5eb5e8db020d588a2447834229e65c75c5683892e8"
+    },
+    "debug-stack.json": {
+      "bytes": 169,
+      "sha256": "f0190e372bbdfb7cad518bdcdbbc754d52ed5a3bb068133ff874b2685fedd83a"
+    },
+    "driver.log": {
+      "bytes": 1403,
+      "sha256": "d2a06e498d4949dccfb1ce3d74ce3d1ae2f4bc6c0a5875dbbe3844833f43134d"
+    }
+  }
+}
