@@ -46,3 +46,6 @@ docs/benchmarks/ndpi-*.json -text whitespace=cr-at-eol
 tools/benchmark_vendor_reader.py text eol=lf
 
 docs/benchmarks/vendor-reader-*-windows.json -text whitespace=cr-at-eol
+
+tools/ci/manylinux-assets.json text eol=lf
+docs/benchmarks/portable-ndpi-*.json -text whitespace=cr-at-eol

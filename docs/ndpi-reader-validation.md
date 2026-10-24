@@ -60,3 +60,29 @@ speedup. No OS cache flush, cold-storage, RSS, frame or hardware acceptance is
 claimed. The standard extended CI driver now collects an NDPI observation on
 future dispatches; the already dispatched source1b checks predate this tool
 update. Its actual reader corpus remains independently gated.
+
+
+## Hosted acceptance at the fixed source
+
+The [full Windows/Linux receipt](benchmarks/ndpi-native-link-windows-linux.json)
+accepts exact source `1b900756a1a8ee7e8b6f453aada7755a4caa6955` in run
+40061443079. Windows desktop passes 2,206 Python/46 native, Windows headless
+1,814/45, Linux headless 1,812/45; minimal and sanitizer each pass45. All24
+NDPI cases pass desktop; headless passes23 and explicitly skips the desktop case.
+Both default-link regressions and the native NDPI save/replay marker pass.
+A fresh local replay using the qualified GUI wheel passes all24 cases and its
+[completed frame](images/ndpi-overview-qualified-windows.png) is inspected.
+The earlier renderer-only capture remains as historical evidence.
+
+The [portable receipt](benchmarks/portable-ndpi-build-consumer.json) accepts
+run40061659942 at the same source. Both builders pass45 native/1,812 Python and
+both fresh Debian consumers pass1,773 Python. Builders exercise the real NDPI
+corpus; consumers skip all24 large-fixture cases and independently pass both
+synthetic native-link capture regressions. All four Python cohorts retain the
+47 LoG passes,12 decimal and9 cache checks. The three strict legacy-detector
+scientific xfails remain explicit. The portable auditor's `--ndpi-readers` flag
+also requires the inherited unified-engine cohorts and rejects the previously
+accepted non-NDPI source; its17 existing unit tests pass.
+
+Mac124 remains separately queued. Hardware/true frame budgets, wider formats,
+independent biological comparisons and supported release remain open.
