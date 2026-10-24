@@ -1,4 +1,5 @@
 #include "qupathxx/tma.hpp"
+#include "qupathxx/qptma.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/map.h>
 #include <nanobind/stl/optional.h>
@@ -8,6 +9,31 @@
 namespace nb=nanobind;using namespace nb::literals;
 void bind_tma(nb::module_& m) {
     using namespace qpx;
+    nb::class_<QptmaCore>(m,"QptmaCore").def(nb::init<>())
+        .def_rw("name",&QptmaCore::name).def_rw("case_id",&QptmaCore::case_id)
+        .def_rw("bounds",&QptmaCore::bounds).def_rw("missing",&QptmaCore::missing);
+    nb::class_<QptmaData>(m,"QptmaData").def(nb::init<>())
+        .def_rw("source_hint",&QptmaData::source_hint).def_rw("image_name",&QptmaData::image_name)
+        .def_rw("rows",&QptmaData::rows).def_rw("columns",&QptmaData::columns)
+        .def_prop_rw("cores",[](const QptmaData& data){return data.cores;},[](QptmaData& data,std::vector<QptmaCore> cores){data.cores=std::move(cores);},nb::rv_policy::copy)
+        .def("validate",&QptmaData::validate);
+    nb::class_<QptmaExport>(m,"QptmaExport")
+        .def_prop_ro("data",[](const QptmaExport& report){return report.data;})
+        .def_prop_ro("omitted_metadata",[](const QptmaExport& report){return report.omitted_metadata;});
+    m.def("parse_qptma",[](const std::string& text,std::size_t limit) {nb::gil_scoped_release release;return parse_qptma(text,limit);},
+        "text"_a,"byte_limit"_a=8*1024*1024);
+    m.def("qptma_text",[](const QptmaData& value,std::size_t limit) {auto data=value;nb::gil_scoped_release release;return qptma_text(data,limit);},
+        "data"_a,"byte_limit"_a=8*1024*1024);
+    m.def("load_qptma",[](const std::string& path,std::size_t limit) {nb::gil_scoped_release release;return load_qptma(path,limit);},
+        "path"_a,"byte_limit"_a=8*1024*1024);
+    m.def("save_qptma",[](const QptmaData& value,const std::string& path,std::size_t limit) {auto data=value;nb::gil_scoped_release release;return save_qptma(data,path,limit);},
+        "data"_a,"path"_a,"byte_limit"_a=8*1024*1024);
+    m.def("qptma_from_grid",&qptma_from_grid,"snapshot"_a,"source_hint"_a="","image_name"_a="",nb::call_guard<nb::gil_scoped_release>());
+    m.def("qptma_grid_edits",[](const QptmaData& value,const std::string& name,const std::vector<std::string>& rows,const std::vector<std::string>& columns) {
+        auto data=value;nb::gil_scoped_release release;return qptma_grid_edits(data,name,rows,columns);
+    },"data"_a,"grid_name"_a="Imported TMA","row_labels"_a=std::vector<std::string>{},"column_labels"_a=std::vector<std::string>{});
+    m.def("import_qptma",&import_qptma,"document"_a,"data"_a,"grid_name"_a="Imported TMA",
+        "row_labels"_a=std::vector<std::string>{},"column_labels"_a=std::vector<std::string>{});
     nb::class_<TmaGridOptions>(m,"TmaGridOptions").def(nb::init<>())
         .def_rw("name",&TmaGridOptions::name).def_rw("rows",&TmaGridOptions::rows).def_rw("columns",&TmaGridOptions::columns)
         .def_rw("origin",&TmaGridOptions::origin).def_rw("row_step",&TmaGridOptions::row_step).def_rw("column_step",&TmaGridOptions::column_step)

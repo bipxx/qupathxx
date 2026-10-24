@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    QptmaCore, QptmaData, QptmaExport, parse_qptma, qptma_text, load_qptma, save_qptma, qptma_from_grid, qptma_grid_edits, import_qptma,
     RawTmaContext, RawObjectContext, RawAnalysisRequest, RawAnalysisMetadata, RawAnalysisResult, RawAnalysisRecord, RawInputDigest, RawAnalysisStats, RawAnalysisJob, RawTableRequest, RawTableStats, RawTableJob, analyze_raw, raw_analysis_input_digest, raw_analysis_csv, save_raw_analysis_csv,
     SampleType, RawImageMetadata, RawRegionRequest, RawPixelBuffer, TiffView, TiffOpenOptions, TiffReadStats, RawRegionStatistics, open_tiff, has_tiff, tiff_library_version, raw_region_statistics, save_raw_numpy,
     TmaGridOptions, TmaGridInfo, TmaCoreInfo, TmaGrid, tma_grid_edits, tma_metadata_csv, tma_context_csv, tma_case_summary_csv, save_tma_case_summary_csv, tma_cohort_manifest_csv, tma_cohort_case_summary_csv, save_tma_cohort_case_summary_csv,
@@ -48,6 +49,7 @@ from ._native import (
 )
 
 __all__ = [
+    "QptmaCore", "QptmaData", "QptmaExport", "parse_qptma", "qptma_text", "load_qptma", "save_qptma", "qptma_from_grid", "qptma_grid_edits", "import_qptma",
     'RawTmaContext', 'RawObjectContext', 'RawAnalysisRequest', 'RawAnalysisMetadata', 'RawAnalysisResult', 'RawAnalysisRecord', 'RawInputDigest', 'RawAnalysisStats', 'RawAnalysisJob', 'RawTableRequest', 'RawTableStats', 'RawTableJob', 'analyze_raw', 'raw_analysis_input_digest', 'raw_analysis_csv', 'save_raw_analysis_csv',
     "SampleType", "RawImageMetadata", "RawRegionRequest", "RawPixelBuffer", "TiffView", "TiffOpenOptions", "TiffReadStats", "RawRegionStatistics", "open_tiff", "has_tiff", "tiff_library_version", "raw_region_statistics", "save_raw_numpy",
     "TmaGridOptions", "TmaGridInfo", "TmaCoreInfo", "TmaGrid", "tma_grid_edits", "tma_metadata_csv", "tma_context_csv", "tma_case_summary_csv", "save_tma_case_summary_csv", "tma_cohort_manifest_csv", "tma_cohort_case_summary_csv", "save_tma_cohort_case_summary_csv",
