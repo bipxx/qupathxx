@@ -41,12 +41,15 @@ def audit(folder,root,commit,architecture,ci_result):
         runtime.require(actual==expected,'Mac SDK runtime/notices snapshot differs from build ledger')
     probe_path=folder/'macos-otool-probe.json'
     probe=read(probe_path)
+    runtime.require(set(probe)=={'schema','architecture','archive_sha256','records','release_ready','scope'} and
+                    probe['scope']==runtime.OTOOL_SCOPE,'Mac otool evidence fields/scope differ')
     runtime.require(probe['schema']=='qpx.macos-otool-probe/1' and probe['architecture']==architecture
                     and probe['archive_sha256']==manifest['archive_sha256'] and probe['release_ready'] is False,'Mac otool source/scope differs')
     binaries={item['path']:item for item in manifest['binaries']}
     runtime.require(sorted(item['path'] for item in probe['records'])==sorted(binaries),'Mac otool binary cohort missing or duplicated')
     log_names=set();log_bytes=0
     for item in probe['records']:
+        runtime.require(set(item)=={'path','log','log_sha256','dependencies'},'Mac otool record fields differ')
         log_name=item['log']
         runtime.require(re.fullmatch(r'macho-otool-[0-9]{4}\.log',log_name) is not None and log_name not in log_names,'invalid/duplicate otool log path')
         log_names.add(log_name)

@@ -22,6 +22,7 @@ common=module('qpx_mac_inventory_common','runtime_manifest.py')
 macho=module('qpx_mac_inventory_reader','macho_dependencies.py')
 require=common.require
 SCHEMA='qpx.macos-native-file-inventory/1'
+OTOOL_SCOPE='Captured binary load names and packed dylib versions agree with otool -L; no resolution/relocation/ABI/signing acceptance.'
 MAGICS=(b'\xcf\xfa\xed\xfe',b'\xca\xfe\xba\xbe',b'\xca\xfe\xba\xbf')
 
 
@@ -172,7 +173,7 @@ def otool_probe(manifest, sources, folder, output):
         require(sorted(parsed,key=link_key)==sorted(expected_links(binary),key=link_key),'Mach-O inventory differs from otool')
         records.append(dict(path=key,log=log.name,log_sha256=hashlib.sha256(done.stdout).hexdigest(),dependencies=parsed))
     report=dict(schema='qpx.macos-otool-probe/1',architecture=manifest['architecture'],archive_sha256=manifest['archive_sha256'],
-                records=records,release_ready=False,scope='Captured binary load names and packed dylib versions agree with otool -L; no resolution/relocation/ABI/signing acceptance.')
+                records=records,release_ready=False,scope=OTOOL_SCOPE)
     common.publish_new(Path(output),common.canonical_json(report))
     return report
 
