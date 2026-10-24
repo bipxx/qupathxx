@@ -35,6 +35,20 @@ def test_real_tiled_render_and_cleanup(tmp_path):
     assert repeated.uploaded_tiles == 4 and repeated.pending_tiles == 0
 
 
+def test_rendered_loop_timing_retains_bounded_recent_samples():
+    options = q.GuiOptions()
+    options.width, options.height = 640, 480
+    report = q.show(q.Document(q.Image(16, 16, [30, 120, 210] * 256)),
+                    frame_limit=4200, options=options)
+    assert report.frames == 4200
+    assert 2049 <= report.rendered_frame_wall_samples <= 4096
+    assert report.rendered_frame_wall_samples < report.frames - 10
+    assert report.rendered_frame_wall_p95_ms >= report.cpu_frame_p95_ms > 0
+    assert report.max_rendered_frame_wall_ms >= report.max_cpu_frame_ms
+    assert report.max_rendered_frame_wall_ms >= report.rendered_frame_wall_p95_ms
+    assert report.pending_tiles == 0
+
+
 def test_real_aperio_view(tmp_path):
     path = os.environ.get("QUPATHXX_APERIO_FIXTURE")
     if not path or not q.has_openslide:
