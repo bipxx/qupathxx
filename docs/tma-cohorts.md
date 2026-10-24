@@ -125,3 +125,11 @@ medians are 32.41 ms before and 33.16 ms in the candidate, while smaller sizes
 and individual processes show mixed differences. These observations do not
 establish a general speedup, hardware qualification or peak-memory acceptance.
 They use the first installed source, before the unrelated GUI error-state fix.
+
+The [rebuilt Windows candidate](benchmarks/tma-cohort-fixed-initial-windows.json)
+now passes all 47 native suites and 128 focused TMA cases, including all five
+cohort desktop cases. The no-project failure reports failed state and retains
+its input. Packaged stubs, positive/negative typing and all 258 raw compiler
+inputs match their stated evidence. Twenty [altered-evidence controls](benchmarks/tma-cohort-audit-controls.json)
+reject old, missing, duplicate, failed, skipped and stale evidence. Full
+installed regression, final capture review and platform audits are pending.
