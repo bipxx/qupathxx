@@ -25,6 +25,7 @@ parser.add_argument('--output',type=Path,default=ROOT/'build/unified-ci-windows-
 parser.add_argument('--ndpi-readers',action='store_true',help='Also require real nine-level NDPI and default native project-link regressions')
 parser.add_argument('--rendered-loop',action='store_true',help='Require ordinary, startup and bounded long-session rendered-loop timing cases')
 parser.add_argument('--gui-stack',action='store_true',help='Require repeated native project startup on the default Windows executable stack')
+parser.add_argument('--watershed-bodies',action='store_true',help='Require strict-radius production body recipes, native expansion and pinned comparison')
 parser.add_argument('--linux-only',action='store_true',help='Audit only the three successful Linux jobs; never accepts the full matrix')
 args=parser.parse_args();RUN=args.run;COMMIT=args.commit
 def sha(path):
@@ -77,7 +78,7 @@ local=json.loads((ROOT/'docs/benchmarks/classifier-engine-windows.json').read_te
 for job in run['jobs']:
     folder=args.artifacts/folders[job['name']]
     entry=dict(name=job['name'],url=job['url'],status=job['status'],conclusion=job['conclusion'],native=junit(folder/'native-tests.xml'))
-    assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)
+    assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)
     native_cases=list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase'))
     assert {'masked_gaussian','log_watershed','log_cell_recipe','decimal_quantities','cells','geometry'} <= {t.get('name') for t in native_cases}
     assert entry['native']['skipped']==0
@@ -568,6 +569,36 @@ for job in run['jobs']:
         entry['gui_stack'] = dict(passed=int(desktop), desktop_skipped=int(not desktop),
                                  native_processes=8 if desktop else 0,
                                  default_executable_stack_bytes=1024*1024)
+    if args.watershed_bodies:
+        assert 'cell_expansion' in {t.get('name') for t in native_cases}
+        if (folder/'python-tests.xml').exists():
+            cases=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase')
+                   if t.get('classname','').endswith('test_log_body_cells')]
+            assert len(cases)==42, 'missing production body workflow cases'
+            assert not any(t.find('failure') is not None or t.find('error') is not None for t in cases)
+            desktop={'test_body_gui_captured_recipe_and_published_pixels',
+                     'test_body_managed_viewer_copies_recipe_and_reopens_retained_result',
+                     'test_body_gui_batch_keeps_distinct_recipe'}
+            skipped={t.get('name') for t in cases if t.find('skipped') is not None}
+            assert skipped==(set() if 'GUI' in job['name'] else desktop)
+            observation=json.loads((folder/'qupath-cells-body-comparison.json').read_text(encoding='utf8'))
+            assert observation['cell_algorithm']=='log-bodies' and observation['build_git_revision']==COMMIT
+            assert observation['native_sha256']==entry['workflow']['native_sha256']
+            assert observation['source_tree_sha256']==entry['workflow']['source_tree_sha256']
+            assert observation['comparison_tool_sha256']==sha(ROOT/'tools/compare_qupath_cells.py')
+            assert observation['explicit_winding_sampling_accepted'] and observation['explicit_winding_compartments']==42
+            assert observation['segmentation_parity_accepted'] is False and observation['biological_validation'] is False
+            assert len(observation['cases'])==9
+            exact={'blank','isolated_three','touching_pair','gap_pair','size_filters','gradient_noise','anisotropic_level0'}
+            for case in observation['cases']:
+                assert case['tile_invariant']
+                if case['case_name'] not in exact: continue
+                for mask in case['segmentation'].values():
+                    assert mask['foreground_iou']==1 and mask['unmatched_reference']==mask['unmatched_native']==0
+                    assert all(match['iou']==1 and match['centroid_error_px']==0 for match in mask['matches'])
+            entry['watershed_bodies']=dict(passed=42-len(skipped),desktop_skipped=len(skipped),
+                exact_natural_grid_cases=sorted(exact),comparison_sha256=sha(folder/'qupath-cells-body-comparison.json'),
+                broader_segmentation_parity_accepted=False)
     report['jobs'].append(entry)
 report['fixture_retraining']=dict(local_and_audited_hosted_models_identical=True,
     model_sha256=local['model_sha256'],training_sha256=local['training_sha256'],
@@ -577,6 +608,7 @@ report['windows_linux_engineering_scope_accepted']=not args.linux_only
 report['linux_engineering_scope_accepted']=True
 report['ndpi_readers_required']=args.ndpi_readers
 report['gui_stack_required']=args.gui_stack
+report['watershed_bodies_required']=args.watershed_bodies
 report['performance_accepted']=False
 report['macos_accepted']=False
 report['release_ready']=False

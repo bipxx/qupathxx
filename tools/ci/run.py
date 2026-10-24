@@ -188,6 +188,8 @@ def main():
     run(command, work/'installed-workflow.log', env)
     run([test_python, '-I', '-m', 'pytest', 'tests', '-q', '-o', 'faulthandler_timeout=60',
          f'--junitxml={work}/python-tests.xml'], work/'python-tests.log', env, 2400)
+    run([test_python, '-I', ROOT/'tools/compare_qupath_cells.py', '--cell-algorithm', 'log-bodies',
+         '--report', work/'qupath-cells-body-comparison.json'], work/'qupath-cells-body-comparison.log', env, 120)
     if args.extended_readers:
         run([test_python, '-I', ROOT/'tools/benchmark_vendor_reader.py',
              '--slide', env['QUPATHXX_APERIO_MULTILEVEL_FIXTURE'], '--output', work/'vendor-reader-benchmark.json'],
