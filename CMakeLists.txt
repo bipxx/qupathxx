@@ -16,6 +16,7 @@ if(QUPATHXX_BUNDLE_GEOS AND (NOT QUPATHXX_BUILD_GEOS OR NOT CMAKE_SYSTEM_NAME ST
   message(FATAL_ERROR "QUPATHXX_BUNDLE_GEOS requires GEOS support and a Linux target")
 endif()
 include(ThirdPartyNotices)
+install(FILES third_party/imagej-shape-NOTICE.txt DESTINATION qupathxx/licenses/imagej-shape RENAME NOTICE.txt)
 add_library(qupathxx_core STATIC cpp/core.cpp cpp/tma.cpp cpp/tma_tables.cpp cpp/document_edits.cpp cpp/selection.cpp cpp/geometry.cpp cpp/spatial_index.cpp cpp/image_server.cpp cpp/openslide_server.cpp cpp/tile_scheduler.cpp cpp/view_tiles.cpp cpp/display.cpp cpp/project.cpp cpp/project_recovery.cpp cpp/project_save.cpp cpp/interchange.cpp cpp/stains.cpp cpp/analysis.cpp cpp/sha256.cpp cpp/analysis_records.cpp cpp/tissue.cpp cpp/tissue_contours.cpp cpp/tissue_records.cpp cpp/tissue_archive.cpp cpp/cells.cpp)
 target_sources(qupathxx_core PRIVATE cpp/thumbnail.cpp)
 target_sources(qupathxx_core PRIVATE cpp/raw_image.cpp cpp/tiff_server.cpp cpp/raw_analysis.cpp cpp/raw_analysis_records.cpp cpp/raw_analysis_archive.cpp cpp/raw_tables.cpp)

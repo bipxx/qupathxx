@@ -90,6 +90,7 @@ for job in run['jobs']:
         entry['sampled_shape']=dict(native_frozen_masks_and_maxima=26,capture_manifest_sha256=sha(ROOT/fixture),production_integrated=False)
         if (folder/'python-tests.xml').exists():
             expected=json.loads((ROOT/'tests/fixtures/imagej-shape-1.54p/verification-cohorts.json').read_text())
+            entry['sampled_shape']['cohort_contract_sha256']=sha(ROOT/'tests/fixtures/imagej-shape-1.54p/verification-cohorts.json')
             all_cases=list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase'))
             counts={}
             for classname,names in expected.items():
