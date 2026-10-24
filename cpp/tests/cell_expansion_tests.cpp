@@ -15,16 +15,54 @@ std::uint32_t read(std::istream& in) {
     return std::uint32_t(b[0])|(std::uint32_t(b[1])<<8)|(std::uint32_t(b[2])<<16)|(std::uint32_t(b[3])<<24);
 }
 void write(std::ostream& out,std::uint32_t n) {for(unsigned i=0;i<4;++i) out.put(static_cast<char>((n>>(8*i))&255));}
-void probe(const char* source,const char* destination) {
+void probe(const char* source,const char* destination,bool small=true) {
     std::ifstream in(source,std::ios::binary);char magic[4];require(bool(in.read(magic,4)) && !std::memcmp(magic,"QBE1",4));
     const auto width=read(in),height=read(in);require(width && height && std::uint64_t(width)*height<=1024*1024);
     const auto radius=read(in);const auto n=std::size_t(width)*height;
     std::vector<std::uint32_t> labels(n);std::vector<std::uint8_t> domain(n);
     for(auto& label:labels) label=read(in);
     require(bool(in.read(reinterpret_cast<char*>(domain.data()),static_cast<std::streamsize>(n))));require(in.peek()==std::char_traits<char>::eof());
-    const auto result=qpx::cell_detail::expand_cells_watershed(labels,domain,width,height,radius);
+    const auto result=qpx::cell_detail::expand_cells_watershed(labels,domain,width,height,radius,128u*1024*1024,nullptr,small);
     std::ofstream out(destination,std::ios::binary|std::ios::trunc);out.write("QBR1",4);write(out,width);write(out,height);
     for(auto label:result.labels) write(out,label);out.flush();require(bool(out));
+}
+void queue_equivalence() {
+    using namespace qpx::cell_detail;
+    SmallExpansionFrontier bins(64);
+    float previous=-1;
+    for(unsigned k=0;k<64;++k) {
+        const float priority=std::sqrt(static_cast<float>(k));
+        require(priority>previous && std::lround(priority*priority)==k);previous=priority;
+    }
+    for(unsigned k=64;k--;) bins.push(k,std::sqrt(static_cast<float>(k)));
+    for(unsigned k=0;k<64;++k) require(bins.pop()==k);
+    require(bins.empty() && bins.size()==0);
+    bins.push(0,std::sqrt(63.f));require(bins.pop()==0);
+    bins.push(1,std::sqrt(5.f));bins.push(2,std::sqrt(5.f));bins.push(3,1);
+    require(bins.pop()==3 && bins.pop()==1 && bins.pop()==2 && bins.empty());
+    const double diagonal=std::sqrt(2.f);
+    const std::array<double,14> radii={.01,1.,1.00000001,diagonal,
+        std::nextafter(diagonal,std::numeric_limits<double>::infinity()),2.,std::sqrt(5.f),3.7,5.,
+        std::nextafter(8.,0.),8.,std::nextafter(8.,9.),12.,1000.};
+    std::uint32_t random=0x51a9u;std::size_t comparisons=0;
+    for(auto shape:{std::pair<std::size_t,std::size_t>{1,129},{129,1},{2,2},{5,7},{37,29},{64,64}})
+    for(unsigned trial=0;trial<16;++trial) {
+        const auto width=shape.first,height=shape.second,n=width*height;
+        std::vector<std::uint32_t> labels(n);std::vector<std::uint8_t> domain(n);std::uint32_t label=0;
+        for(std::size_t i=0;i<n;++i) {
+            random=random*1664525u+1013904223u;domain[i]=random%11!=0;
+            if(domain[i] && random%23==0) labels[i]=++label;
+        }
+        domain[0]=1;labels[0]=++label;
+        for(double radius:radii) {
+            const auto fast=expand_cells_watershed(labels,domain,width,height,radius);
+            const auto heap=expand_cells_watershed(labels,domain,width,height,radius,128u*1024*1024,nullptr,false);
+            require(fast.labels==heap.labels && fast.queued_pixels==heap.queued_pixels && fast.peak_queue==heap.peak_queue);
+            ++comparisons;
+        }
+    }
+    require(comparisons==1344);
+    std::cout<<"Small frontier 64 exact priority keys and 1344 full heap-equivalence cases passed\n";
 }
 void contracts() {
     using namespace qpx::cell_detail;
@@ -62,6 +100,7 @@ int main(int argc,char** argv) {
                      <<",\"git_revision\":"<<std::quoted(qpx::build_info::git_revision)<<"}\n";return 0;
         }
         if(argc==3) {probe(argv[1],argv[2]);return 0;}
-        require(argc==1);contracts();std::cout<<"Strict-radius expansion, stable collision lines, domain barriers, work bounds and cancellation passed\n";
+        if(argc==4 && std::string(argv[1])=="--heap") {probe(argv[2],argv[3],false);return 0;}
+        require(argc==1);contracts();queue_equivalence();std::cout<<"Strict-radius expansion, stable collision lines, domain barriers, work bounds and cancellation passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }
