@@ -43,3 +43,16 @@ def test_installed_incomplete_or_false_evidence_rejected(failure):
     elif failure=='name':cases[0].set('name','other')
     else:cases[0].set('classname','other')
     with pytest.raises(ValueError):evidence.python(cases)
+
+
+@pytest.mark.parametrize('data,accepted', [(b'a\nb\n', True), (b'a\r\nb\r\n', True), (b'a\nchanged\n', False)])
+def test_source_contract_only_normalizes_checkout_line_endings(tmp_path, monkeypatch, data, accepted):
+    from types import SimpleNamespace
+    (tmp_path/'source.txt').write_bytes(data)
+    monkeypatch.setattr(evidence, 'SOURCES', ['source.txt'])
+    monkeypatch.setattr(evidence.subprocess, 'run', lambda *a, **kw: SimpleNamespace(returncode=0, stdout=b'a\nb\n'))
+    if accepted:
+        result = evidence.source_contract(tmp_path, 'a'*40)['source.txt']
+        assert result['crlf_normalized'] == (b'\r' in data)
+    else:
+        with pytest.raises(ValueError, match='source differs'): evidence.source_contract(tmp_path, 'a'*40)

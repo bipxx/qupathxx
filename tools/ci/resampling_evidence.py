@@ -26,8 +26,10 @@ def source_contract(root,commit):
     for relative in SOURCES:
         data=(root/relative).read_bytes()
         saved=subprocess.run(['git','-C',str(root),'show',commit+':'+relative],capture_output=True)
-        require(saved.returncode==0 and saved.stdout==data,'resampling source differs: '+relative)
-        hashes[relative]=hashlib.sha256(data).hexdigest()
+        # Git text checkouts may use CRLF on Windows. Preserve every other byte.
+        require(saved.returncode==0 and saved.stdout==data.replace(b'\r\n',b'\n'),'resampling source differs: '+relative)
+        hashes[relative]=dict(git_blob_sha256=hashlib.sha256(saved.stdout).hexdigest(),
+            checked_out_sha256=hashlib.sha256(data).hexdigest(),crlf_normalized=data!=saved.stdout)
     return hashes
 
 
