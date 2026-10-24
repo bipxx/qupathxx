@@ -4517,3 +4517,33 @@ retains three processes/six views at roughly17.1–17.2ms rendered-wall p95.
 Trial2 began at27% CPU load, above the fixed25% ceiling, so the full qualification
 remains false. No trials, timings or hardware requirements are discarded or
 relaxed. Main promotion and full M0–M7 completion remain open.
+
+
+## Packet138: native sampled shape stage and validated main promotion
+
+The [sampled shape kernel](sampled-shape-watershed.md) implements the pinned
+ImageJ 1.54p EDM-specific ridge, prominence, quantization, cleanup and constrained
+growth stages in C++, with attribution, native ownership, cancellation and
+bounded work. All 26 frozen masks and selected maxima match exactly, including
+two real-slide masks. The native test suite requires these cases without Java
+or Python. The composed LoG candidate matches the ImageJ shape control exactly:
+503 nuclei / IoU 0.994 at explicit zero context; 478 / IoU 0.933 at 32-pixel context,
+against 506 upstream. All 18 synthetic label maps remain unchanged.
+
+Local source `8616902` passes 46 native suites and 53 focused Python checks; all 254
+compiler inputs, installed attribution and native region CLI pixels are
+verified. The fixed profile retains 36 observations/six warmups and exact output
+maps. Candidate 1,024 × 1,024 kernel process medians are 217.9 ms versus 212.9 ms for
+legacy, with 25.3 MiB versus 31.6 MiB maximum observed peak working set. This does
+not accept performance or replace the full workflow benchmark. Public recipe,
+archive/classifier, Python/UI/batch integration and remaining scientific gates
+are still required. Candidate hosted runs40079989538/40079991124 are independent
+pending audits at source4a07b0e; the later attribution-install delta is local-only.
+
+Source2afd's [both-architecture Mac audit](benchmarks/watershed-bodies-macos.json)
+now passes 46 native suites each, within its explicit native-only scope. Together
+with the already audited Windows/Linux and portable consumer matrices, this
+satisfies its main-promotion gate. The exact validated source is fast-forwarded
+from `857c659` to `2afdcb9` on `main`; the [verified promotion receipt](benchmarks/watershed-bodies-main-promotion.json)
+excludes subsequent internal candidates. No supported package is published and
+no overall M0–M7 completion, biological or hardware acceptance is claimed.

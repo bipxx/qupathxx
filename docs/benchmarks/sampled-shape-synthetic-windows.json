@@ -1,0 +1,721 @@
+{
+  "schema": "qpx.native-log-watershed-comparison/1",
+  "production_integrated": false,
+  "scientific_accepted": false,
+  "native_environment": {
+    "source_tree_sha256": "219cd592aa045120a3c8d927c7ed05861c16d27266fd7303d3a4262c95233514",
+    "git_revision": "861690250cf881dd514f09f2123f490ab088f507",
+    "compiler": "MSVC 19.44.35225.0"
+  },
+  "feature_producer_git_revision": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+  "feature_producer_source_tree_sha256": "37a328e5504133c4331e0aa94b45208252dd4cb2eca2d9fd074dfe15fd52f90d",
+  "native_executable_sha256": "a5080fd5117fd7245229c938d08f9ac43034988d41e0f99671fbe18d15a882fe",
+  "kernel_sha256": "f18caaae768eea22e705a0567d1d64197910e5df8dd8b6ca70a3026cbf1d50cb",
+  "script_sha256": "f33caeab314c311f6a113f7913923ecf2c290d27c6d5fe4e3aec829459ef4e84",
+  "cases": [
+    {
+      "recipe": "numpy-od-sum",
+      "case": "blank",
+      "native_count": 0,
+      "metrics": {
+        "reference_count": 0,
+        "native_count": 0,
+        "matches": [],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 1.0,
+        "foreground_dice": 1.0
+      },
+      "input_sha256": "2a95a40d8fe6b32400b631b9813d2d934443dc8a97fb2d0018014570064d4a77",
+      "output_sha256": "92622cd424f7980202a291493760efd01a452b0c39a58a111caf4daa515849e9",
+      "process_ms": 24.87620001193136
+    },
+    {
+      "recipe": "numpy-od-sum",
+      "case": "isolated_three",
+      "native_count": 3,
+      "metrics": {
+        "reference_count": 3,
+        "native_count": 3,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 256,
+            "native_pixels": 256
+          },
+          {
+            "reference_label": 2,
+            "native_label": 2,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 156,
+            "native_pixels": 156
+          },
+          {
+            "reference_label": 3,
+            "native_label": 3,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 448,
+            "native_pixels": 448
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 1.0,
+        "foreground_dice": 1.0
+      },
+      "input_sha256": "be4e63145d786fd0bf70e668f39b1fb5d98d4965a37418999feb769453887ddf",
+      "output_sha256": "53b78184204465ca0c7396a992073b37ce52ccfa307105bd6550b8f78ba961bc",
+      "process_ms": 121.91270000766963
+    },
+    {
+      "recipe": "numpy-od-sum",
+      "case": "touching_pair",
+      "native_count": 2,
+      "metrics": {
+        "reference_count": 2,
+        "native_count": 2,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 430,
+            "native_pixels": 430
+          },
+          {
+            "reference_label": 2,
+            "native_label": 2,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 416,
+            "native_pixels": 416
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 1.0,
+        "foreground_dice": 1.0
+      },
+      "input_sha256": "744790af708dae50fcf3e09d3cc04d9aba161be9bdbe3c37251fb01fa7cb0b25",
+      "output_sha256": "2c14df94a9f3e777de6222d7b9b6e632589736d64f2143cd0357f580cbb545e3",
+      "process_ms": 29.089400079101324
+    },
+    {
+      "recipe": "numpy-od-sum",
+      "case": "gap_pair",
+      "native_count": 2,
+      "metrics": {
+        "reference_count": 2,
+        "native_count": 2,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 316,
+            "native_pixels": 316
+          },
+          {
+            "reference_label": 2,
+            "native_label": 2,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 316,
+            "native_pixels": 316
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 1.0,
+        "foreground_dice": 1.0
+      },
+      "input_sha256": "12459dce3f8cd26fd513c2f5d888ff910e5ba170e3f9853eda0963fcb9cecd12",
+      "output_sha256": "6e335e363ab5dde7ef9d44c11f98dc274b1d8a8013a8816c2d38775517aca1ff",
+      "process_ms": 26.431500096805394
+    },
+    {
+      "recipe": "numpy-od-sum",
+      "case": "size_filters",
+      "native_count": 1,
+      "metrics": {
+        "reference_count": 1,
+        "native_count": 1,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 52,
+            "native_pixels": 52
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 1.0,
+        "foreground_dice": 1.0
+      },
+      "input_sha256": "c0464b7cff8725e0d70c14819583d374ecd63a1d5f026c7c7972cb47c39abe31",
+      "output_sha256": "4154fa1d1836f7fc293c2895443243f6b016ee31b760b8d8701555b5d85adfc6",
+      "process_ms": 250.01600000541657
+    },
+    {
+      "recipe": "numpy-od-sum",
+      "case": "roi_cut_hole",
+      "native_count": 3,
+      "metrics": {
+        "reference_count": 3,
+        "native_count": 3,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 0.8928571428571429,
+            "centroid_error_px": 0.48749999999999716,
+            "reference_pixels": 200,
+            "native_pixels": 224
+          },
+          {
+            "reference_label": 2,
+            "native_label": 2,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 316,
+            "native_pixels": 316
+          },
+          {
+            "reference_label": 3,
+            "native_label": 3,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 256,
+            "native_pixels": 256
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 0.9698492462311558,
+        "foreground_dice": 0.9846938775510204
+      },
+      "input_sha256": "c08f7bbb4842f3247943bd063dca4f93b60f5ae1b346924a84bfb0c2cffdf123",
+      "output_sha256": "c58477bea2d1b4c00962799c4e631a6abdaa00d9d116d61f64744f324a109d3d",
+      "process_ms": 30.131799983792007
+    },
+    {
+      "recipe": "numpy-od-sum",
+      "case": "gradient_noise",
+      "native_count": 4,
+      "metrics": {
+        "reference_count": 4,
+        "native_count": 4,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 172,
+            "native_pixels": 172
+          },
+          {
+            "reference_label": 2,
+            "native_label": 2,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 224,
+            "native_pixels": 224
+          },
+          {
+            "reference_label": 3,
+            "native_label": 3,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 304,
+            "native_pixels": 304
+          },
+          {
+            "reference_label": 4,
+            "native_label": 4,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 248,
+            "native_pixels": 248
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 1.0,
+        "foreground_dice": 1.0
+      },
+      "input_sha256": "afea6758018a9fb4f19e1034cef5045ddfcf2630911299defaaa1e97ecb7c89f",
+      "output_sha256": "f9c40c8f26c13fd9d2f8dbd68996f52569068f44df844f539953132eb0b32c9b",
+      "process_ms": 27.33860001899302
+    },
+    {
+      "recipe": "numpy-od-sum",
+      "case": "anisotropic_level0",
+      "native_count": 3,
+      "metrics": {
+        "reference_count": 3,
+        "native_count": 3,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 256,
+            "native_pixels": 256
+          },
+          {
+            "reference_label": 2,
+            "native_label": 2,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 156,
+            "native_pixels": 156
+          },
+          {
+            "reference_label": 3,
+            "native_label": 3,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 448,
+            "native_pixels": 448
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 1.0,
+        "foreground_dice": 1.0
+      },
+      "input_sha256": "be4e63145d786fd0bf70e668f39b1fb5d98d4965a37418999feb769453887ddf",
+      "output_sha256": "53b78184204465ca0c7396a992073b37ce52ccfa307105bd6550b8f78ba961bc",
+      "process_ms": 120.45649997889996
+    },
+    {
+      "recipe": "numpy-od-sum",
+      "case": "resampled_reference",
+      "native_count": 3,
+      "metrics": {
+        "reference_count": 3,
+        "native_count": 3,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 0.9538461538461539,
+            "centroid_error_px": 0.25253813613805554,
+            "reference_pixels": 252,
+            "native_pixels": 256
+          },
+          {
+            "reference_label": 2,
+            "native_label": 2,
+            "iou": 0.8841463414634146,
+            "centroid_error_px": 0.5470904481687684,
+            "reference_pixels": 153,
+            "native_pixels": 156
+          },
+          {
+            "reference_label": 3,
+            "native_label": 3,
+            "iou": 0.9501084598698482,
+            "centroid_error_px": 0.34022654438465016,
+            "reference_pixels": 451,
+            "native_pixels": 448
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 0.9389830508474576,
+        "foreground_dice": 0.9685314685314685
+      },
+      "input_sha256": "be4e63145d786fd0bf70e668f39b1fb5d98d4965a37418999feb769453887ddf",
+      "output_sha256": "53b78184204465ca0c7396a992073b37ce52ccfa307105bd6550b8f78ba961bc",
+      "process_ms": 128.1751999631524
+    },
+    {
+      "recipe": "native-channel-od-sum",
+      "case": "blank",
+      "native_count": 0,
+      "metrics": {
+        "reference_count": 0,
+        "native_count": 0,
+        "matches": [],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 1.0,
+        "foreground_dice": 1.0
+      },
+      "input_sha256": "0f887c2791f0b128216b5c865b1012e96bd99a70a21971c406eb7136d8b7afe6",
+      "output_sha256": "92622cd424f7980202a291493760efd01a452b0c39a58a111caf4daa515849e9",
+      "process_ms": 29.4323000125587
+    },
+    {
+      "recipe": "native-channel-od-sum",
+      "case": "isolated_three",
+      "native_count": 3,
+      "metrics": {
+        "reference_count": 3,
+        "native_count": 3,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 256,
+            "native_pixels": 256
+          },
+          {
+            "reference_label": 2,
+            "native_label": 2,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 156,
+            "native_pixels": 156
+          },
+          {
+            "reference_label": 3,
+            "native_label": 3,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 448,
+            "native_pixels": 448
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 1.0,
+        "foreground_dice": 1.0
+      },
+      "input_sha256": "3c91d282b38b93b849e408837fb9aa3e22164f990b0d9f607a3eda33e9b8425d",
+      "output_sha256": "53b78184204465ca0c7396a992073b37ce52ccfa307105bd6550b8f78ba961bc",
+      "process_ms": 309.3485999852419
+    },
+    {
+      "recipe": "native-channel-od-sum",
+      "case": "touching_pair",
+      "native_count": 2,
+      "metrics": {
+        "reference_count": 2,
+        "native_count": 2,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 430,
+            "native_pixels": 430
+          },
+          {
+            "reference_label": 2,
+            "native_label": 2,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 416,
+            "native_pixels": 416
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 1.0,
+        "foreground_dice": 1.0
+      },
+      "input_sha256": "95b8241b1b205e9cf627f503df025dc7247290fd265d63edc74781e2029a7788",
+      "output_sha256": "2c14df94a9f3e777de6222d7b9b6e632589736d64f2143cd0357f580cbb545e3",
+      "process_ms": 26.114000007510185
+    },
+    {
+      "recipe": "native-channel-od-sum",
+      "case": "gap_pair",
+      "native_count": 2,
+      "metrics": {
+        "reference_count": 2,
+        "native_count": 2,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 316,
+            "native_pixels": 316
+          },
+          {
+            "reference_label": 2,
+            "native_label": 2,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 316,
+            "native_pixels": 316
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 1.0,
+        "foreground_dice": 1.0
+      },
+      "input_sha256": "97f1cbcd4a7783ea8237474e30bcca23501a6c1dd313147b18cd682436d1f022",
+      "output_sha256": "6e335e363ab5dde7ef9d44c11f98dc274b1d8a8013a8816c2d38775517aca1ff",
+      "process_ms": 26.486100046895444
+    },
+    {
+      "recipe": "native-channel-od-sum",
+      "case": "size_filters",
+      "native_count": 1,
+      "metrics": {
+        "reference_count": 1,
+        "native_count": 1,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 52,
+            "native_pixels": 52
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 1.0,
+        "foreground_dice": 1.0
+      },
+      "input_sha256": "209faf7b08226b39168d1642ace544830ee096a9194f1cd31400e0e2b35af17f",
+      "output_sha256": "4154fa1d1836f7fc293c2895443243f6b016ee31b760b8d8701555b5d85adfc6",
+      "process_ms": 270.9518999326974
+    },
+    {
+      "recipe": "native-channel-od-sum",
+      "case": "roi_cut_hole",
+      "native_count": 3,
+      "metrics": {
+        "reference_count": 3,
+        "native_count": 3,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 0.8928571428571429,
+            "centroid_error_px": 0.48749999999999716,
+            "reference_pixels": 200,
+            "native_pixels": 224
+          },
+          {
+            "reference_label": 2,
+            "native_label": 2,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 316,
+            "native_pixels": 316
+          },
+          {
+            "reference_label": 3,
+            "native_label": 3,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 256,
+            "native_pixels": 256
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 0.9698492462311558,
+        "foreground_dice": 0.9846938775510204
+      },
+      "input_sha256": "c8107fb08a0ac962a0bf7df0ea781a1c25395ab4dd36f1d24e98d0d0bb3dff0a",
+      "output_sha256": "c58477bea2d1b4c00962799c4e631a6abdaa00d9d116d61f64744f324a109d3d",
+      "process_ms": 165.83499999251217
+    },
+    {
+      "recipe": "native-channel-od-sum",
+      "case": "gradient_noise",
+      "native_count": 4,
+      "metrics": {
+        "reference_count": 4,
+        "native_count": 4,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 172,
+            "native_pixels": 172
+          },
+          {
+            "reference_label": 2,
+            "native_label": 2,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 224,
+            "native_pixels": 224
+          },
+          {
+            "reference_label": 3,
+            "native_label": 3,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 304,
+            "native_pixels": 304
+          },
+          {
+            "reference_label": 4,
+            "native_label": 4,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 248,
+            "native_pixels": 248
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 1.0,
+        "foreground_dice": 1.0
+      },
+      "input_sha256": "f9b5fd3093d7835f2d809cf7e315c337783a4e246214641476056208939025cb",
+      "output_sha256": "f9c40c8f26c13fd9d2f8dbd68996f52569068f44df844f539953132eb0b32c9b",
+      "process_ms": 27.282499941065907
+    },
+    {
+      "recipe": "native-channel-od-sum",
+      "case": "anisotropic_level0",
+      "native_count": 3,
+      "metrics": {
+        "reference_count": 3,
+        "native_count": 3,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 256,
+            "native_pixels": 256
+          },
+          {
+            "reference_label": 2,
+            "native_label": 2,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 156,
+            "native_pixels": 156
+          },
+          {
+            "reference_label": 3,
+            "native_label": 3,
+            "iou": 1.0,
+            "centroid_error_px": 0.0,
+            "reference_pixels": 448,
+            "native_pixels": 448
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 1.0,
+        "foreground_dice": 1.0
+      },
+      "input_sha256": "3c91d282b38b93b849e408837fb9aa3e22164f990b0d9f607a3eda33e9b8425d",
+      "output_sha256": "53b78184204465ca0c7396a992073b37ce52ccfa307105bd6550b8f78ba961bc",
+      "process_ms": 309.8101000068709
+    },
+    {
+      "recipe": "native-channel-od-sum",
+      "case": "resampled_reference",
+      "native_count": 3,
+      "metrics": {
+        "reference_count": 3,
+        "native_count": 3,
+        "matches": [
+          {
+            "reference_label": 1,
+            "native_label": 1,
+            "iou": 0.9538461538461539,
+            "centroid_error_px": 0.25253813613805554,
+            "reference_pixels": 252,
+            "native_pixels": 256
+          },
+          {
+            "reference_label": 2,
+            "native_label": 2,
+            "iou": 0.8841463414634146,
+            "centroid_error_px": 0.5470904481687684,
+            "reference_pixels": 153,
+            "native_pixels": 156
+          },
+          {
+            "reference_label": 3,
+            "native_label": 3,
+            "iou": 0.9501084598698482,
+            "centroid_error_px": 0.34022654438465016,
+            "reference_pixels": 451,
+            "native_pixels": 448
+          }
+        ],
+        "unmatched_reference": 0,
+        "unmatched_native": 0,
+        "split_reference_labels": [],
+        "merged_native_labels": [],
+        "foreground_iou": 0.9389830508474576,
+        "foreground_dice": 0.9685314685314685
+      },
+      "input_sha256": "3c91d282b38b93b849e408837fb9aa3e22164f990b0d9f607a3eda33e9b8425d",
+      "output_sha256": "53b78184204465ca0c7396a992073b37ce52ccfa307105bd6550b8f78ba961bc",
+      "process_ms": 319.98610007576644
+    }
+  ],
+  "scope": "Native LoG/shape-watershed from feature raster to ROI-clipped nucleus labels on all nine frozen cases with two feature recipes. No production detector/API integration, body expansion, feature/archive/batch/UI, arbitrary-resampling or biology/performance acceptance. Process times include startup and file I/O.",
+  "response_basins": false,
+  "eight_connected_background": true,
+  "sampled_shape": true,
+  "shape_parameters": {
+    "prominence": 0.5,
+    "minimum_radius": 0,
+    "minimum_spacing": 0,
+    "edges_are_background": false
+  }
+}

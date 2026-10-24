@@ -135,3 +135,10 @@ topology candidate. The [synthetic receipt](benchmarks/ndpi-cell-topology-synthe
 retains both ROI-hole and resampled differences. Production integration still
 needs a native shape-stage improvement, versioned replay behavior, complete
 UI/Python/batch/archive checks, platform audits and broader scientific cases.
+
+The [sampled-shape follow-up](sampled-shape-watershed.md) now implements that
+shape stage in C++ and matches all26 frozen masks/maxima exactly. The composed
+candidate matches the ImageJ stage control on this ROI, reaching503 cells and
+IoU0.994 with explicit zero context, or478 cells/IoU0.933 at32-pixel context.
+It is not exposed as a production recipe yet; the original characterization
+and all remaining differences are preserved.

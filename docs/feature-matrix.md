@@ -33,21 +33,32 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 
 ## Current packet and remaining decisions
 
+The fully audited production body-mode engine `2afdcb9` is now on `main` after
+successful Windows/Linux, portable CPython3.11/3.12 fresh-consumer and both Mac
+native architecture gates. [Promotion evidence](benchmarks/watershed-bodies-main-promotion.json)
+records the exact fast-forward source. This does not publish a supported release
+or close outstanding M0–M7 science, hardware, license or packaging requirements.
+
+The newer [sampled shape candidate](sampled-shape-watershed.md) remains on its
+validation branch. Its native masks and selected maxima match 26 frozen ImageJ
+cases exactly; real-slide nucleus IoU reaches 0.994 at explicit zero context.
+All 46 local native suites and 53 focused checks pass. Versioned production
+integration and candidate platform/performance acceptance remain open.
+
 The [real-slide cell comparison](qupath-ndpi-cell-comparisons.md) now retains
 an immutable QuPath NDPI capture and exact source pixels. Native LoG modes
 detect299 cells versus506 upstream, with nucleus foreground IoU0.506.
 Tile invariance and independent native RGB/count checks pass; real-tissue
 segmentation parity remains unresolved. The source2afd Windows/Linux artifact
-audit passes all five jobs and the42 body workflows. Mac and portable consumer
-gates remain pending, and main promotion remains withheld.
+audit passes all five jobs and the42 body workflows; its portable and Mac
+native audits are also complete, as recorded above.
 
 Follow-up [stage controls](qupath-ndpi-cell-comparisons.md#isolated-topology-and-shape-stages)
 identify background connectivity and shape splitting as concrete differences.
 An internal topology candidate improves the real ROI without changing production
 recipes and preserves all18 synthetic output maps. Native46/Python40 focused
-checks pass. Source2afd's portable builders and fresh consumers are now audited;
-its Mac Arm job passes and Intel remains queued. Earlier sourced1c passes both
-Mac native architectures. The latest hardware navigation set remains unaccepted
+checks pass. Source2afd's portable builders, fresh consumers and both Mac native
+architectures are now audited. The latest hardware navigation set remains unaccepted
 because one trial exceeded the fixed ambient CPU-load limit.
 
 The independent [QuPath cell-plugin corpus](qupath-cell-comparisons.md) now
