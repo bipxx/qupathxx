@@ -81,7 +81,9 @@ inline BodyExpansion expand_cells_watershed(const std::vector<std::uint32_t>& nu
         seeded=seeded || nuclei[i]!=0;
     }
     BodyExpansion result;result.labels=nuclei;
-    if(!seeded || radius==0) return result;
+    // Distinct sampled pixel centers are at least one unit apart. The strict
+    // cutoff cannot admit a non-seed pixel at radii up to and including one.
+    if(!seeded || radius<=1) return result;
     std::vector<double> squared(n);
     for(std::size_t i=0;i<n;++i) {
         if((i&4095)==0) checkpoint(cancelled);
