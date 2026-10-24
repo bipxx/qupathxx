@@ -2,8 +2,8 @@
   "schema": "qpx.engine-main-promotion/1",
   "candidate": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
   "main_before": "857c6597698e97e0096374b18a09a397538bd4aa",
-  "main_after": null,
-  "main_promoted": false,
+  "main_after": "2afdcb99555bf142211cdfa836a4671a6f54bbf1",
+  "main_promoted": true,
   "engineering_gate_accepted": true,
   "receipts": {
     "watershed-bodies-windows-linux.json": "8d5c86d1ebf8d8ee3172ab2774f819e81544cbcc8776f0da32c748972a06d438",
