@@ -12,7 +12,7 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ENGINE = "459361c78f5994300f9bb5b7fb6ddd01f47eab3c"
+ENGINE = "794f29f2629112a3b36452b1b259a361576468c7"
 TOOL_SHA = "acb0f034fcc818519cefc20f3bc7222c6b470b30169d76a49a07b0dc235a3bc2"
 FIXTURE_SHA = "edf4a1ccf395c7000ae93ad3b44c07d97043810e00be0c1d167dd09bbe436e46"
 RENDERER = "NVIDIA GeForce RTX 4090/PCIe/SSE2"
@@ -138,6 +138,8 @@ def main():
         gui = [j for j in audit["jobs"] if j["name"] == "Windows GUI Python 3.12 software GL"]
         require(len(gui) == 1 and gui[0].get("rendered_loop_timing", {}).get("passed") == 4,
                 "audited GUI timing contracts are missing")
+        require(audit.get("gui_stack_required") is True and gui[0].get("gui_stack", {}).get("passed") == 1,
+                "audited default-stack native startup regression is missing")
         import qupathxx as q
         from qupathxx import _native
         native = Path(_native.__file__).resolve()

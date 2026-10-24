@@ -4276,3 +4276,36 @@ view datasets, reject both software-renderer datasets, reject an injected wrong
 final camera despite completed replay, and reject the observed overloaded CPU
 context. These probes do not qualify the newer engine or hardware target. The
 positive three-process qualification awaits that source's full installed matrix.
+
+
+## Packet129: native GUI caller stack budget
+
+Source459's Windows GUI job in run40065385261 is a terminal failure: 2,206
+Python cases pass, but the standalone project launcher selecting image2 exits
+with status `0xc00000fd`. The other four jobs pass. This prevents full source459
+engineering and hardware qualification; its Linux-only receipt stays partial.
+The exact failed GUI wheel, JUnit and job log are retained. Twenty local attempts
+with that same native executable and llvmpipe succeed, so the observed crash is
+intermittent and is not claimed reproduced locally.
+
+Binary inspection records the standalone executable's 1,048,576-byte stack
+reservation and the Python host's 2,000,000-byte reservation. MSVC's old
+`run_gui` prologue allocates894,880 bytes before callers and driver calls.
+Native source `794f29f2629112a3b36452b1b259a361576468c7` moves session UI text
+buffers and components into scoped native heap ownership, retaining array types,
+capacities, input validation, construction order and worker publication rules.
+The new prologue allocates362,320 bytes, a532,560-byte reduction. No executable
+stack-size increase, public API or archive change is made. This establishes a
+substantial stack-budget improvement, not proof that the intermittent CI crash
+is resolved.
+
+A new Windows regression checks the packaged executable's unchanged1MiB PE
+stack and launches eight fresh selected-image project smoke processes. The
+source auditor's explicit `--gui-stack` mode requires that case to pass GUI and
+skip headless, in addition to all existing timing/reader/workflow gates. An older
+complete timing matrix correctly rejects under that mode. The replacement wheel
+is building; native, installed/stub/typing, focused and full GUI, source-specific
+hosted and hardware qualification remain pending. The navigation protocol now
+requires this replacement source; its workload, declared hardware, tolerances,
+viewer script and33ms target are unchanged. Both Mac/core source459 jobs remain
+independent validation work. Every unfinished M0–M7 requirement remains active.
