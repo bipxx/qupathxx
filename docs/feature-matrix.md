@@ -53,9 +53,13 @@ observations: CSV hashes and independent statistics agree, and the largest
 Wall-time differences remain unaccepted. The source-bound
 [Linux-only audit](benchmarks/tma-case-input-linux-partial.json) accepts 46 native
 suites in each Linux configuration and 2,015 installed headless Python cases,
-including the exact TMA file-export cohort. Full installed Windows, the complete
-Windows/Linux matrix, both Mac architectures and portable builder/consumer
-acceptance of this optimization remain pending.
+including the exact TMA file-export cohort. The
+[full installed Windows validation](benchmarks/tma-case-input-validation-windows.json)
+passes 2,419 Python tests, 13 optional skips and three retained strict scientific
+xfails, plus the 47 native suites, packaged stubs and typing checks. The saved
+ImGui export capture verifies weighted mean 3.5 with zero UI overflow and has
+been visually reviewed. The complete Windows/Linux matrix, both Mac architectures
+and portable builder/consumer acceptance of this optimization remain pending.
 
 The accepted TMA case-summary engine adds native/Python/ImGui single-grid replicate
 pooling, explicit weighting, missing-core exclusion, unassigned-core isolation,

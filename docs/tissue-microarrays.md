@@ -219,5 +219,9 @@ and its [IO_COUNTERS](https://learn.microsoft.com/en-us/windows/win32/api/winnt/
 read-transfer field. These are process-wide bytes read, including cached I/O;
 they do not measure physical storage traffic. The [initial installed checks](benchmarks/tma-case-input-initial-windows.json)
 pass 47 native suites, 77 focused cases including 29 file/CLI cases, packaged
-stubs and typing checks. Twelve altered-evidence controls are rejected. Full
-installed regression and hosted acceptance remain open.
+stubs and typing checks. Twelve altered-evidence controls are rejected. The
+[full installed Windows validation](benchmarks/tma-case-input-validation-windows.json)
+passes 2,419 tests, 13 optional skips and three unchanged strict scientific
+xfails. Its visually reviewed ImGui capture reports saved state, weighted mean
+3.5 and zero UI overflow. The [Linux-only audit](benchmarks/tma-case-input-linux-partial.json)
+passes all three Linux configurations; complete hosted acceptance remains open.

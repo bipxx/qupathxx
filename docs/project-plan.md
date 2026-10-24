@@ -4732,6 +4732,10 @@ Median peak working set on the 24 MB valid input changes from 41.8 MB to 31.1 MB
 These are scoped observations; wall time, hardware and general performance
 acceptance remain open. The [Linux-only source audit](benchmarks/tma-case-input-linux-partial.json)
 now passes 46 native suites in each of the three configurations and 2,015
-installed headless Python cases, including the file-export cohort. Full Windows
-regression, complete Windows/Linux engineering acceptance, Mac native and
-portable builder/consumer validation remain pending.
+installed headless Python cases, including the file-export cohort.
+[Full installed Windows validation](benchmarks/tma-case-input-validation-windows.json)
+now passes 2,419 tests with 13 optional skips and three retained strict science
+xfails. Native suites, focused TMA checks, packaged stubs, positive/negative typing
+and the visually reviewed saved-state ImGui export all pass. The weighted output
+is 3.5 with zero UI overflow. Complete Windows/Linux engineering acceptance,
+Mac native and portable builder/consumer validation remain pending.
