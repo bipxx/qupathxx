@@ -492,3 +492,7 @@ def case_summary(snapshot: q.TmaGrid, table: str) -> str:
     options.tma_weight_column = 'pixels'
     options.tma_allow_unversioned = False
     return q.tma_case_summary_csv(snapshot, table, 'mean_red', 'pixels')
+
+
+def save_case_summary(snapshot: q.TmaGrid, output: str, measurements: str) -> int:
+    return q.save_tma_case_summary_csv(snapshot, output, measurements, 'mean_red', 'pixels')

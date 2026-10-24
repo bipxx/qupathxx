@@ -13,7 +13,6 @@
 #include <limits>
 #include <functional>
 #include <chrono>
-#include <fstream>
 
 namespace qpx::detail {
 class GuiTma {
@@ -69,25 +68,16 @@ class GuiTma {
         const auto snapshot=grid_;cancel_.store(false);metadata_bytes_=0;export_state_="writing";
         export_=std::async(std::launch::async,[this,snapshot,path,sources,summary,unversioned,input,value,weight] {
             Export result;try {
-                export_checkpoint(&cancel_);std::string table;std::unique_ptr<ReaderFileGuard> input_guard;
+                export_checkpoint(&cancel_);
                 for(const auto& source:sources) guard_file_output(export_path(source),"",path);
-                if(!input.empty()) {
-                    input_guard=std::make_unique<ReaderFileGuard>(input);
-                    std::ifstream stream(std::filesystem::u8path(input),std::ios::binary);
-                    if(!stream) throw std::runtime_error("cannot open TMA measurement CSV");
-                    std::array<char,65536> chunk;
-                    while(stream) {
-                        export_checkpoint(&cancel_);stream.read(chunk.data(),chunk.size());const auto n=static_cast<std::size_t>(stream.gcount());
-                        if(n>64*1024*1024-table.size()) throw std::length_error("TMA measurement CSV exceeds byte limit");table.append(chunk.data(),n);
-                    }
-                    if(!stream.eof() || stream.bad()) throw std::runtime_error("cannot read TMA measurement CSV");
-                    input_guard->verify();
-                    if(table.empty()) throw std::invalid_argument("TMA measurement CSV is empty");
+                if(summary) {
+                    result.bytes=save_tma_case_summary_csv(*snapshot,path,input,value,weight,64*1024*1024,unversioned,&cancel_);
+                    result.state="saved";return result;
                 }
-                const auto csv=summary?tma_case_summary_csv(*snapshot,table,value,weight,64*1024*1024,unversioned,&cancel_):tma_metadata_csv(*snapshot);
+                const auto csv=tma_metadata_csv(*snapshot);
                 export_checkpoint(&cancel_);for(const auto& source:sources) guard_file_output(export_path(source),"",path);
                 AtomicExportFile output(path,64*1024*1024,&cancel_);for(std::size_t at=0;at<csv.size();) {const auto n=std::min<std::size_t>(65536,csv.size()-at);output.write(csv.data()+at,n);at+=n;}
-                for(const auto& source:sources) guard_file_output(export_path(source),"",path);if(input_guard) input_guard->verify();result.state="saved";result.bytes=csv.size();output.commit(false);
+                for(const auto& source:sources) guard_file_output(export_path(source),"",path);result.state="saved";result.bytes=csv.size();output.commit(false);
             }catch(const std::exception& e) {result.bytes=0;result.state=cancel_.load()?"cancelled":"failed";try {result.error=e.what();bounded_utf8(result.error,8192);}catch(...) {result.error="TMA CSV export failed";}}
             return result;
         });

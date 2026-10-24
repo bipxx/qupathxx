@@ -43,6 +43,10 @@ void case_summary_contracts() {
     doc->set_tma_case_ids({{ids[0],"changed"}});const auto current=doc->tma_grid();
     rejects([&]{tma_case_summary_csv(*current,table,"Value","Weight",64*1024*1024,true);});
     std::atomic<bool> stop{true};rejects([&]{tma_case_summary_csv(*snapshot,table,"Value","Weight",64*1024*1024,false,&stop);});
+    bool cancelled_before_io=false;
+    try {save_tma_case_summary_csv(*snapshot,"","","","",64*1024*1024,false,&stop);}
+    catch(const std::exception& e) {cancelled_before_io=std::string(e.what()).find("cancel")!=std::string::npos;}
+    check(cancelled_before_io);
     const auto selectors=std::to_string(ids[0])+','+std::to_string(snapshot->core(0,0)->revision)+',';
     const auto signed_table="object_id,object_revision,Value\n"+selectors+"1e16\n"+selectors+"1\n"+selectors+"-1e16\n";
     check(tma_case_summary_csv(*snapshot,signed_table,"Value").find(",1,3,1,0.33333333333333331,")!=std::string::npos);

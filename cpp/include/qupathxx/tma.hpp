@@ -80,5 +80,10 @@ std::string tma_context_csv(const TmaGrid&,const std::string& table,std::size_t 
 std::string tma_case_summary_csv(const TmaGrid&,const std::string& table="",const std::string& value_column="",
     const std::string& weight_column="",std::size_t byte_limit=64*1024*1024,bool allow_unversioned=false,
     const std::atomic<bool>* cancelled=nullptr);
+// Read an optional bounded measurement file and atomically create a new CSV.
+// Existing destinations are preserved; the input is verified before publication.
+std::size_t save_tma_case_summary_csv(const TmaGrid&,const std::string& output_path,
+    const std::string& input_path="",const std::string& value_column="",const std::string& weight_column="",
+    std::size_t byte_limit=64*1024*1024,bool allow_unversioned=false,const std::atomic<bool>* cancelled=nullptr);
 std::vector<ObjectEdit> tma_grid_edits(const TmaGridOptions&);
 }

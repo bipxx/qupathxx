@@ -2,6 +2,7 @@
 #include "batch_checkpoint.hpp"
 #include "pixel_stream_cli.hpp"
 #include "cell_table_cli.hpp"
+#include "tma_case_cli.hpp"
 #include <charconv>
 #include <cmath>
 #include <csignal>
@@ -31,11 +32,14 @@ int execute(const std::vector<std::string>& args) {
         std::cout<<"Usage: qupathxx_batch PROJECT OUTPUT_DIRECTORY [options]\n"
             "       qupathxx_batch --export-csv CHECKPOINT OUTPUT.csv\n"
             "       qupathxx_batch --export-cell-table PROJECT OUTPUT.csv [--capture-calibration] [--published] [--require-current]\n"
+            "       qupathxx_batch --export-tma-cases PROJECT OUTPUT.csv [--image ID]\n"
             "       qupathxx_batch --export-pixels PROJECT IMAGE_ID OBJECT_ID MODEL OUTPUT.qps [options]\n"
             "       qupathxx_batch --verify-pixels FILE.qps [--file-bytes N]\n"
             "Pixel export: --block-size N --work-bytes N --tile-size N --file-bytes N\n"
             "              --max-pixels N --max-blocks N --min-vote NUMBER\n"
             "              --window X,Y,WIDTH,HEIGHT --replace-existing\n"
+            "TMA case export: --measurements INPUT.csv --value-column NAME\n"
+            "                 --weight-column NAME --allow-unversioned --csv-bytes N\n"
             "Raw options: --raw-level N --raw-channel N --raw-channels N (zero-based axes)\n"
             "             --raw-z N --raw-time N --raw-explicit-axes --raw-max-pixels N\n"
             "--kind od|stains|tissue|cells|pixels|raw  --image ID (repeatable)\n"
@@ -59,6 +63,7 @@ int execute(const std::vector<std::string>& args) {
     try {
         if(const auto result=detail::pixel_stream_cli(args,cancelled)) return *result;
         if(const auto result=detail::cell_table_cli(args,cancelled)) return *result;
+        if(const auto result=detail::tma_case_cli(args,cancelled)) return *result;
         if(args.size()==4 && args[1]=="--export-csv") {save_batch_checkpoint_csv(args[2],args[3]);return 0;}
         if(args.size()<3 || args[1].rfind("--",0)==0) throw std::invalid_argument("expected PROJECT and OUTPUT_DIRECTORY; see --help");
         ProjectBatchOptions options;std::vector<ProjectBatchSelection> selection;std::vector<std::uint64_t> objects;

@@ -130,6 +130,28 @@ values, negative weights and unrepresentable arithmetic are rejected. The exact
 input bytes are identified by SHA-256. Input and output each have a 64 MiB
 default limit, configurable up to 256 MiB through the native/Python API.
 
+`save_tma_case_summary_csv(snapshot, output_path, input_path="", ...)` performs
+bounded binary file reads, revision-checked aggregation and atomic new-file
+publication in C++. It returns the published byte count and releases the GIL.
+The input file is checked for changes before publication. Existing destinations
+are preserved. ImGui uses this same native file exporter on its worker thread.
+
+The native batch executable provides the equivalent single-image workflow:
+
+```console
+qupathxx_batch --export-tma-cases project.qpxproj cases.csv --image 1
+qupathxx_batch --export-tma-cases project.qpxproj cases.csv --image 1 --measurements core-values.csv --value-column mean_red --weight-column pixels
+```
+
+`--image` can be omitted only for a project containing exactly one image.
+`--allow-unversioned` is explicit and never bypasses supplied stale revisions.
+`--csv-bytes` sets the independent input/output limit (default 64 MiB, maximum
+256 MiB). Success emits a `qpx.tma-case-export/1` JSON record with image,
+snapshot revision, output path and published bytes. Exit codes are 0 for saved,
+1 for data/I/O errors, 2 for malformed arguments, and 130 for cancellation.
+The CLI retains and verifies the project file observation through publication.
+These file/CLI additions are undergoing installed-package validation.
+
 The TMA panel's Export tab offers **Summarize replicate cores by case**, an
 optional measurement CSV, value and weight columns, and an explicit unversioned
 input opt-in. A native worker captures the grid and settings, reads at most
