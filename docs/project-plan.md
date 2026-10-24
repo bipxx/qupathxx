@@ -4801,7 +4801,15 @@ Local validation passes 54 malformed-data/layout/dependency/publication cases an
 GUI wheel agree with MSVC dumpbin; the owned forwarding fixture returns 123.
 Actual GUI/headless wheels and the 48-file standalone archive pass inspection.
 Native engine compiler inputs are unchanged. See the
-[manifest contract](windows-runtime-manifests.md). New exact-source CI validation
-and promotion are pending. Dynamic loader coverage, installed runtime
+[manifest contract](windows-runtime-manifests.md). Exact-source
+[Windows/Linux](benchmarks/windows-runtime-manifest-engine.json),
+[Mac](benchmarks/windows-runtime-manifest-macos.json) and
+[portable builder/consumer](benchmarks/windows-runtime-manifest-portable.json)
+audits pass. The 54 new manifest cases pass in all seven installed Python
+cohorts. Hosted Windows GUI passes 2,527 Python/47 native tests, Windows headless
+2,117/46 and Linux headless 2,115/46; minimal/sanitizer and both Mac jobs pass
+46 native suites. [Promotion](benchmarks/windows-runtime-manifest-main-promotion.json)
+fast-forwards main from `15ee0e8` to exact audited source `d943e9c`.
+Dynamic loader coverage, installed runtime
 availability, ELF/Mach-O manifests, signing, license and supported packaging
 remain separate M7 requirements; the full M0-M7 objective remains partial.

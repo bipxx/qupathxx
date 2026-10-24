@@ -81,4 +81,12 @@ stale tooling, JSON changes and a standalone archive paired with a different
 otherwise-valid wheel. Both GUI and headless helper positives pass against
 previously accepted artifacts. Native compiler inputs are unchanged from the
 accepted cohort source. New exact-source CI execution and promotion remain
-pending. This candidate does not close M7 or the broader M0-M7 objective.
+accepted. [Windows/Linux](benchmarks/windows-runtime-manifest-engine.json),
+[both Mac architectures](benchmarks/windows-runtime-manifest-macos.json) and
+[portable builders/fresh consumers](benchmarks/windows-runtime-manifest-portable.json)
+pass the exact-source audits. All 54 new manifest cases pass in each of seven
+installed Python cohorts. Windows GUI passes 2,527 Python/47 native tests,
+Windows headless 2,117/46 and Linux headless 2,115/46; minimal/sanitizer and both
+Mac jobs pass all 46 native suites. [Promotion](benchmarks/windows-runtime-manifest-main-promotion.json)
+fast-forwards `main` from `15ee0e8` to audited source `d943e9c`.
+This engineering acceptance does not close M7 or the broader M0-M7 objective.
