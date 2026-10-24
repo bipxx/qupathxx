@@ -50,7 +50,7 @@ def fetch(entry, destination):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument('--extended', action='store_true', help='Also fetch the pinned full multilevel vendor slide (about 169 MiB)')
+    parser.add_argument('--extended', action='store_true', help='Also fetch the pinned full Aperio and Hamamatsu pyramids (about 358 MiB total)')
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     manifest = json.loads((root / "tests/fixtures/manifest.json").read_text(encoding="utf-8"))

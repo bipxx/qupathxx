@@ -108,6 +108,7 @@ def main():
         env['QUPATHXX_APERIO_FIXTURE'] = str(ROOT/'build/fixtures/CMU-1-Small-Region.svs')
         if args.extended_readers:
             env['QUPATHXX_APERIO_MULTILEVEL_FIXTURE'] = str(ROOT/'build/fixtures/CMU-1.svs')
+            env['QUPATHXX_HAMAMATSU_FIXTURE'] = str(ROOT/'build/fixtures/CMU-1.ndpi')
     geos = ensure_geos(work) if full else None
     opencv = ensure_opencv(work) if full else None
     if geos:

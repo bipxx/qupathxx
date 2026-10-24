@@ -61,6 +61,8 @@ public:
     std::uint64_t add_tiff_image(const std::string& path,const TiffOpenOptions&,std::string name="");
     std::uint64_t add_tiff_source(std::shared_ptr<ImageServer>,std::string name="");
     void set_tiff_view(std::uint64_t id,const TiffView&);
+    // An omitted source embeds dense RGB data, or keeps an opened native
+    // OpenSlide/TIFF document linked to its captured locator and reader.
     std::uint64_t add_document(std::shared_ptr<Document> document,std::string name="",
         std::string source_path="",std::string reader="auto");
     std::shared_ptr<Document> document(std::uint64_t id) const;

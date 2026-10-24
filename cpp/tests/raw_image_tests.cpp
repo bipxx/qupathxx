@@ -64,7 +64,8 @@ int main() {
                     if(has_project()) {
                         const auto project_path=fs::path(path.u8string()+".qpxproj");
                         {
-                            Project project;const auto image=project.add_document(std::make_shared<Document>(document),"Raw archive",path.u8string(),"tiff");project.save(project_path.u8string());
+                            Project project;const auto image=project.add_document(std::make_shared<Document>(document),"Raw archive");
+                            check(!project.images().front().embedded && project.images().front().reader=="tiff");project.save(project_path.u8string());
                             const auto loaded=Project::open(project_path.u8string());const auto restored=loaded->document(image);
                             check(restored->raw_analysis_record_count()==2 && restored->raw_analysis_status(retained)=="unverified");
                             const auto replayed=RawAnalysisRequest::replay(*restored,retained);const auto measured=analyze_raw(replayed);const auto before=restored->revision();

@@ -234,6 +234,14 @@ void Project::set_tiff_view(std::uint64_t id,const TiffView& view) {document(id)
 std::uint64_t Project::add_document(std::shared_ptr<Document> doc,std::string name,std::string source,std::string reader) {
     if(!doc) throw std::invalid_argument("project requires a document");
     for(const auto& [id,e]:entries_) if(e.document.get()==doc.get()) throw std::invalid_argument("document already belongs to this project");
+    if(source.empty()) {
+        const auto native_reader=doc->server()->reader_id();
+        const auto locator=doc->server()->source_locator();
+        if((native_reader=="openslide" || native_reader=="tiff") && !locator.empty()) {
+            if(reader!="auto" && reader!=native_reader) throw std::invalid_argument("reader differs from the attached document's native source");
+            source=locator;reader=native_reader;
+        }
+    }
     advance(next_id_); advance(revision_); validate_metadata(doc->metadata());
     const bool embedded=source.empty();
     if(embedded) {

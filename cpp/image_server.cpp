@@ -90,7 +90,7 @@ std::shared_ptr<ImageServer> ppm_image_server(const std::string& path) {
 }
 const Image& dense_image(const ImageServer& server) {
     auto* dense = dynamic_cast<const DenseImageServer*>(&server);
-    if (!dense) throw std::runtime_error("desktop slide rendering requires the upcoming tiled viewer; use read_region for now");
+    if (!dense) throw std::runtime_error("this operation requires a dense RGB image; use read_region for tiled image servers");
     if (dense->closed()) throw std::runtime_error("image server is closed");
     return dense->image();
 }

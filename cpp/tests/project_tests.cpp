@@ -1,4 +1,6 @@
 #include "qupathxx/project.hpp"
+#include "qupathxx/cells.hpp"
+#include <cstdlib>
 #include "qupathxx/object_classifier_archive.hpp"
 #include "object_forest_fixture.hpp"
 #include <filesystem>
@@ -12,6 +14,24 @@ int main() {
         if(!has_project()) {
             bool rejected=false; try { p.save("disabled.qpxproj"); } catch(const std::runtime_error&) { rejected=true; }
             check(rejected); return 0;
+        }
+        if(const auto fixture=std::getenv("QUPATHXX_HAMAMATSU_FIXTURE");fixture && has_openslide()) {
+            auto slide=std::make_shared<Document>(open_slide(fixture));
+            const auto roi=slide->add_rectangle({11264,17664,256,256});
+            CellParameters parameters;parameters.algorithm=CellAlgorithm::LogWatershed;parameters.threshold=.4;
+            parameters.level=0;parameters.tile_size=64;parameters.min_nucleus_pixels=16;parameters.max_nucleus_pixels=512;
+            CellRequest request(*slide,roi,StainTransform({{.65,.7,.29},{.07,.99,.11}}),parameters);
+            const auto detected=detect_cells(request);check(detected->features().size()>0);
+            const auto retained=slide->keep_cells(request,detected);
+            Project linked;const auto image=linked.add_document(slide);
+            check(!linked.images().front().embedded && linked.images().front().reader=="openslide");
+            const auto path=(std::filesystem::current_path()/(linked.identity()+".ndpi.qpxproj")).u8string();
+            linked.save(path);const auto restored=Project::open(path)->document(image);
+            const auto replay=CellRequest::replay(*restored,retained);
+            check(restored->verify_cells(retained,replay,*detect_cells(replay)));
+            check(restored->pixel_width_um()==slide->pixel_width_um() && restored->pixel_height_um()==slide->pixel_height_um());
+            std::filesystem::remove(std::filesystem::u8path(path));
+            std::cout<<"Native NDPI inferred link, LoG archive replay and calibration passed\n";
         }
         auto doc=std::make_shared<Document>(Image::demo()); auto image=p.add_document(doc,"Embedded");
         auto parent=doc->add_rectangle({0,0,100,100},"Parent");

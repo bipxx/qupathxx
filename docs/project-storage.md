@@ -219,3 +219,19 @@ records 891.3 ms native loading, 16.94 ms CPU frame p95 and 295.17 ms maximum
 frame work, with all one million objects selected, 792 visible and 4096000 bytes
 of GPU tile payload. This extends the measured flat-rectangle loading workload;
 it does not establish complex-shape, memory-pressure or cold/vendor performance.
+
+
+Opened native image documents
+-----------------------------
+
+`Project.add_document(document)` now infers the file link for an opened native
+OpenSlide or quantitative TIFF source. It preserves that source's reader and,
+for TIFF, its current axes/display selection. The project stores metadata and
+analysis records rather than embedding slide pixels. An explicit conflicting
+reader is rejected before changing the project. In-memory dense RGB images
+remain embedded; caller-supplied source paths retain their existing validation.
+
+The Hamamatsu NDPI validation packet exercises this path with real nine-level
+pixels, anisotropic calibration and a saved/replayed LoG run. Qualification of
+the new default attachment behavior is in progress; older source receipts do
+not cover it. No database schema or existing archive encoding changes.

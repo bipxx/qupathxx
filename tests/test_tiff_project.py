@@ -9,6 +9,23 @@ from test_tiff_reader import request
 pytestmark=pytest.mark.skipif(not q.has_tiff or not q.has_project,reason='TIFF project support')
 
 
+def test_opened_tiff_document_defaults_to_native_link_and_current_view(tmp_path):
+    original, image, values = scene(tmp_path)
+    doc = original.document(image)
+    view = doc.server.tiff_view
+    view.z, view.t, view.channels = 2, 1, [1, 0, -1]
+    doc.set_tiff_view(view)
+    project = q.Project()
+    attached = project.add_document(doc)
+    assert not project.images[0].embedded and project.images[0].reader == 'tiff'
+    path = tmp_path/'attached.qpxproj'
+    project.save(str(path))
+    restored = q.Project.open(str(path)).document(attached)
+    assert restored.server.tiff_view.z == 2 and restored.server.tiff_view.t == 1
+    assert restored.server.tiff_view.channels == [1, 0, -1]
+    np.testing.assert_array_equal(restored.server.read_raw(request(24,16,c=2,z=2,t=1)).numpy(), values[1,2].transpose(1,2,0))
+
+
 def scene(tmp_path):
     path=tmp_path/'source.ome.tif'
     values=np.arange(2*3*2*16*24,dtype='uint16').reshape(2,3,2,16,24)

@@ -8,8 +8,30 @@ from pathlib import Path
 import pytest
 
 import qupathxx as q
+from test_tissue_levels import pyramid_levels
 
 pytestmark = pytest.mark.skipif(not q.has_project, reason="requires native project storage")
+
+
+def test_opened_slide_document_defaults_to_its_native_link(pyramid_levels, tmp_path):
+    source, _ = pyramid_levels
+    doc = q.Document(source)
+    project = q.Project()
+    before = project.revision
+    with pytest.raises(ValueError, match='reader differs'):
+        project.add_document(doc, reader='ppm')
+    assert project.revision == before and not project.images
+    image = project.add_document(doc)
+    entry, = project.images
+    assert image == 1 and not entry.embedded and entry.reader == 'openslide'
+    path = tmp_path/'native-link.qpxproj'
+    project.save(str(path))
+    with sqlite3.connect(path) as db:
+        assert db.execute('SELECT rgb IS NULL FROM images').fetchone()[0] == 1
+    restored = q.Project.open(str(path)).document(image)
+    request = q.RegionRequest(17, 19, 1, 31, 23)
+    assert restored.server.read_region(request).data == source.read_region(request).data
+    assert len(restored.metadata.levels) == 3
 
 
 def ppm(path, width=8, height=8):
