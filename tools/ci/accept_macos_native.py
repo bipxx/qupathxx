@@ -17,7 +17,11 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma_cases=False, file_export=False, cohort=False, macho_inventory=False):
+def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma_cases=False, file_export=False, cohort=False, macho_inventory=False, macos_relocation=False):
+    macho_inventory=macho_inventory or macos_relocation
+    if macos_relocation:
+        spec=importlib.util.spec_from_file_location('qpx_mac_relocation_evidence',Path(__file__).with_name('macos_relocation_evidence.py'))
+        relocated=importlib.util.module_from_spec(spec);spec.loader.exec_module(relocated)
     cohort=cohort or macho_inventory
     if macho_inventory:
         spec=importlib.util.spec_from_file_location('qpx_mac_inventory_evidence',Path(__file__).with_name('macos_inventory_evidence.py'))
@@ -84,17 +88,20 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
         if small_frontier:entries[-1]['small_frontier']=frontier.native(cases)
         if tma_cases:entries[-1]['tma_cases']=tma.native(cases,file_export=file_export,cohort=cohort)
         if macho_inventory:entries[-1]['macho_inventory']=mac_inventory.audit(folder,Path(__file__).resolve().parents[2],commit,arch,data)
+        if macos_relocation:entries[-1]['macos_relocation']=relocated.audit(folder,Path(__file__).resolve().parents[2],commit,arch,data)
     return dict(schema='qpx.macos-native-audit/1',source=commit,run=run['url'],jobs=entries,
         auditor_sha256=sha(Path(__file__)),native_engineering_accepted=True,
         production_sampled_native_required=sampled_cells,python_gui_openslide_validated=False,
         small_frontier_required=small_frontier,
         frontier_helper_sha256=sha(Path(__file__).with_name('frontier_evidence.py')) if small_frontier else None,
         tma_cohorts_required=cohort,tma_file_export_required=file_export,tma_cases_required=tma_cases,tma_case_helper_sha256=sha(Path(__file__).with_name('tma_case_evidence.py')) if tma_cases else None,
-        macho_native_inventory_required=macho_inventory,portable_package_validated=False,performance_accepted=False,release_ready=False,
+        macho_native_inventory_required=macho_inventory,macos_relocation_required=macos_relocation,
+        portable_package_validated=False,performance_accepted=False,release_ready=False,
         scope='Exact-source CI native tests, frozen shape conformance, architecture and region CLI records. '+
-              ('Native/selected SDK runtime and notice bytes uploaded and otool-checked; static SDK archive digests remain CI-generated evidence. ' if macho_inventory else
+              ('Original/relocated native archive bytes, Apple command logs and fresh native region/batch/GEOS probes are audited. ' if macos_relocation else
+               'Native/selected SDK runtime and notice bytes uploaded and otool-checked; static SDK archive digests remain CI-generated evidence. ' if macho_inventory else
                'SDK and executable bytes were not uploaded; dependency and executable digests are CI-generated evidence. ')+
-              'No relocated package, Python, OpenSlide, GUI, signing, biological or supported-release acceptance.')
+              'No macOS Python wheel, OpenSlide, GUI, publisher signing, older-OS, biological or supported-release acceptance.')
 
 
 def main():
@@ -109,10 +116,11 @@ def main():
     parser.add_argument('--tma-file-export',action='store_true')
     parser.add_argument('--tma-cohorts',action='store_true')
     parser.add_argument('--macho-inventory',action='store_true',help='Require source-bound uploaded Mac native/runtime/notices bytes and otool; implies TMA cohorts')
+    parser.add_argument('--macos-relocation',action='store_true',help='Require relocated archive, Apple edits and fresh native region/batch/GEOS runtime proofs; implies snapshot and TMA cohorts')
     args=parser.parse_args()
     run=json.loads(subprocess.check_output(['gh','run','view',args.run,'--repo','bipxx/qupathxx',
         '--json','headSha,url,status,conclusion,jobs']))
-    report=audit(args.artifacts,run,args.commit,args.sampled_cells,args.small_frontier,args.tma_cases,args.tma_file_export,args.tma_cohorts,args.macho_inventory)
+    report=audit(args.artifacts,run,args.commit,args.sampled_cells,args.small_frontier,args.tma_cases,args.tma_file_export,args.tma_cohorts,args.macho_inventory,args.macos_relocation)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_bytes((json.dumps(report,indent=2)+'\n').encode())
     print(json.dumps(dict(native_engineering_accepted=True,source=args.commit,

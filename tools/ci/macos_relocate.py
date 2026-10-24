@@ -112,6 +112,18 @@ def clean_environment():
     return {key:value for key,value in os.environ.items() if not key.startswith(('DYLD_','LD_')) and key not in ['PYTHONPATH','PYTHONHOME']}
 
 
+def apple_commands(edit,target):
+    result=[];arguments=['/usr/bin/install_name_tool']
+    if edit['install_id'] is not None and edit['install_id']!=edit['original_metadata']['dylib_id']['name']:
+        arguments+=['-id',edit['install_id']]
+    for old in edit['remove_rpaths']:arguments+=['-delete_rpath',old]
+    for change in edit['changes']:arguments+=['-change',change['old'],change['new']]
+    if len(arguments)>1:result.append(arguments+[target])
+    result.append(['/usr/bin/codesign','--force','--sign','-','--timestamp=none',target])
+    result.append(['/usr/bin/codesign','--verify','--strict',target])
+    return result
+
+
 def relocate(archive,architecture,source_roots,work):
     require(platform.system()=='Darwin' and platform.machine()==architecture,'Apple relocation tools require requested native macOS host')
     archive,work=Path(archive),Path(work)
@@ -148,15 +160,10 @@ def relocate(archive,architecture,source_roots,work):
     ordered=sorted(plan['edits'],key=lambda item:(item['target'].startswith('bin/'),item['target']))
     verified_hashes={}
     for edit in ordered:
-        target=stage/edit['target'];arguments=['/usr/bin/install_name_tool']
-        if edit['install_id'] is not None and edit['install_id']!=edit['original_metadata']['dylib_id']['name']:
-            arguments+=['-id',edit['install_id']]
-        for old in edit['remove_rpaths']:arguments+=['-delete_rpath',old]
-        for change in edit['changes']:arguments+=['-change',change['old'],change['new']]
-        if len(arguments)>1:run(arguments+[target])
-        run(['/usr/bin/codesign','--force','--sign','-','--timestamp=none',target])
+        target=stage/edit['target'];commands=apple_commands(edit,target)
+        for arguments in commands[:-1]:run(arguments)
         before_signature_verification=hashlib.sha256(target.read_bytes()).hexdigest()
-        run(['/usr/bin/codesign','--verify','--strict',target])
+        run(commands[-1])
         data=target.read_bytes();digest=hashlib.sha256(data).hexdigest()
         require(digest==before_signature_verification,'staged binary changed during signature verification')
         verify_binary(edit,data);verified_hashes[edit['target']]=digest

@@ -160,6 +160,15 @@ jobs:
             build/ci/macos-native/*.log
             build/ci/macos-native/*.xml
             build/ci/macos-native/macos-native-files.zip
+            build/ci/macos-native/relocated-native/*.zip
+            build/ci/macos-native/relocated-native/*.json
+            build/ci/macos-native/relocated-native/*.log
+            build/ci/macos-native/relocated-runtime/*.json
+            build/ci/macos-native/relocated-runtime/*.log
+            build/ci/macos-native/relocated-runtime/*.pam
+            build/ci/macos-native/relocated-runtime/*.csv
+            build/ci/macos-native/relocated-runtime/*.qpxproj
+            build/ci/macos-native/relocated-runtime/batch/**/*.qpxproj
 
   manylinux-build:
     if: ${{ inputs.portable_linux }}

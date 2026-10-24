@@ -84,8 +84,18 @@ def main():
          '--geos-sdk',geos_work/'geos-sdk','--opencv-sdk',opencv,'--architecture',args.architecture,
          '--archive',work/'macos-native-files.zip','--output',work/'macos-native-file-inventory.json',
          '--otool-output',work/'macos-otool-probe.json'],'macos-native-inventory',300)
+    roots=dict(native=str(build),geos=str(geos_work/'geos-sdk'),opencv=str(opencv))
+    roots_file=work/'macos-relocation-source-roots.json'
+    roots_file.write_bytes((json.dumps(roots,indent=2)+'\n').encode('utf-8'))
+    relocated=work/'relocated-native'
+    run([sys.executable,'-I',ROOT/'tools/ci/macos_relocate.py','--archive',work/'macos-native-files.zip',
+         '--architecture',args.architecture,'--source-roots',roots_file,'--work',relocated],'macos-native-relocation',600)
+    run([sys.executable,'-I',ROOT/'tools/ci/check_macos_relocated_runtime.py',
+         '--archive',relocated/'macos-relocated-native.zip','--plan',relocated/'relocation-plan.json',
+         '--project-fixture',ROOT/'tests/fixtures/project-v1.qpxproj','--work',work/'relocated-runtime',
+         '--output',work/'macos-relocated-runtime.json'],'macos-relocated-runtime',600)
     report=dict(schema='qpx.macos-native-validation/1',commit=os.environ.get('GITHUB_SHA'),
-        platform=platform.platform(),architecture=args.architecture,python=sys.version,
+        platform=platform.platform(),architecture=args.architecture,python=sys.version,python_executable=sys.executable,
         compiler=subprocess.check_output(['c++','--version'],env=env,text=True).splitlines()[0],
         cmake=subprocess.check_output(['cmake','--version'],env=env,text=True).splitlines()[0],
         ninja=subprocess.check_output(['ninja','--version'],env=env,text=True).strip(),
@@ -93,7 +103,9 @@ def main():
         flags=flags,tests=dict(passed=len(cases),names=sorted(names),junit_sha256=sha(work/'native-tests.xml')),
         dependencies=dependencies,native_batch_sha256=sha(binary),native_region_sha256=sha(build/'qupathxx_region'),region_cli_exact=True,
         loader_overrides_used=False,python_gui_openslide_validated=False,release_ready=False,
-        scope='Native engine/geometry/TIFF/project/interchange/classifier validation and native/selected SDK runtime/notices byte snapshot on the build host. SDK paths may be embedded. No relocated macOS wheel, OpenSlide, GUI, installer, signing or supported release acceptance.')
+        scope='Native engine plus original build-host snapshot, relocated native archive and synthetic region/batch/GEOS runtime probes. '
+              'Original snapshot may embed SDK paths; relocated copies use direct package paths. '
+              'No macOS wheel, OpenSlide, GUI, installer, publisher signing, older-OS or supported release acceptance.')
     (work/'result.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(architecture=args.architecture,passed=len(cases),release_ready=False)))
 
