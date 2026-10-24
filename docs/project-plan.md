@@ -4106,3 +4106,19 @@ all 50 LoG cases. The partial receipt explicitly leaves Windows/Linux overall
 acceptance false. Wrong-source, optimized-assertion and injected-skipped-LoG
 negative probes reject. Windows jobs, full-matrix acceptance, macOS, portable
 consumers, scientific/hardware gates and main promotion remain pending.
+
+
+Packet121 full Windows/Linux acceptance is complete at exact source
+`8160ec2312c80a4fb6f0a5ceeef28557ab39d82c`, run 40058156407. All five
+jobs pass and the [full receipt](benchmarks/unified-engine-windows-linux.json)
+accepts the combined engineering scope. Windows GUI passes 2,180 Python/46 native;
+Windows headless 1,789/45; Linux headless 1,787/45; minimal and ASan/UBSan each 45.
+The auditor checks all 50 LoG cases on desktop (47 plus three desktop skips
+headless), all 12 OME quantities, all nine cache cases, the inherited 42 pinned
+compartment checks and archive/classifier/batch/TIFF/reader/runtime/typing gates.
+The desktop overview frame is visually inspected. All three legacy-detector
+strict scientific xfails remain explicit per Python cohort. The earlier Linux-only
+receipt remains available with overall acceptance false. Portable fresh consumers,
+macOS, research/hardware and supported release remain separate. A newly reproduced
+native-source default project-attachment issue is being fixed and validated in
+`validation/vendor-reader-123`; that newer source is outside this acceptance.

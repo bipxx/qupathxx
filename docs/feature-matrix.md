@@ -173,3 +173,15 @@ sanitizer pass 45 suites. All 12 new OME and nine cache cases pass. The
 accept either Windows or the overall matrix. Native Windows headless also
 passes 45 suites separately. Unified hosted Windows, portable consumers, macOS,
 research/hardware and release acceptance remain open; workflow states stay Partial.
+
+
+Unified packet121 full engineering acceptance is complete: all five hosted jobs
+pass at source `8160ec2`, run 40058156407. Windows GUI passes 2,180 Python/46
+native, Windows headless 1,789/45, Linux headless 1,787/45; minimal/sanitizer each
+pass 45. The [full artifact audit](benchmarks/unified-engine-windows-linux.json)
+checks the LoG/parser/cache cohorts and inherited workflows, runtimes, standalone
+payloads and typing; the desktop frame is inspected. This qualifies the combined
+Windows/Linux source within its defined engineering scope. The three legacy
+scientific xfails, body/resampling differences, biology, hardware, portable/Mac,
+license and supported release remain separate gates. The real NDPI attachment
+fix in packet123 is newer and requires its own qualification.
