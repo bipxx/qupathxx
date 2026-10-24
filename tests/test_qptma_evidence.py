@@ -21,7 +21,7 @@ def python_cases():
 
 def test_complete_native_and_installed_qptma_cohorts():
     assert evidence.native([native_case()])['bounded_grid_cores']==10000
-    assert evidence.python(python_cases())['passed']==56
+    assert evidence.python(python_cases())['passed']==80
 
 
 @pytest.mark.parametrize('failure',['missing','duplicate','failure','error','skipped','marker','duplicate_marker'])
@@ -66,3 +66,22 @@ def test_captured_fixture_bytes_are_never_line_normalized(tmp_path, monkeypatch)
     monkeypatch.setattr(evidence,'SOURCES',[relative])
     monkeypatch.setattr(evidence.subprocess,'run',lambda *a,**kw:SimpleNamespace(returncode=0,stdout=b'a\nb\n'))
     with pytest.raises(ValueError,match='source differs'):evidence.source_contract(tmp_path,'a'*40)
+
+
+@pytest.mark.parametrize('enabled',[True,False])
+def test_project_native_capability_is_explicit(enabled):
+    case=ET.Element('testcase',name='qptma_project')
+    ET.SubElement(case,'system-out').text=evidence.PROJECT_MARKER if enabled else evidence.PROJECT_DISABLED
+    assert evidence.project_native([case],enabled)['project_storage_enabled'] is enabled
+
+
+@pytest.mark.parametrize('failure',['missing','duplicate','failure','error','skipped','disabled_branch','duplicate_marker'])
+def test_project_native_coverage_cannot_be_replaced_by_disabled_or_failed_test(failure):
+    case=ET.Element('testcase',name='qptma_project');out=ET.SubElement(case,'system-out');out.text=evidence.PROJECT_MARKER
+    cases=[case]
+    if failure=='missing':cases=[]
+    elif failure=='duplicate':cases.append(case)
+    elif failure in ['failure','error','skipped']:ET.SubElement(case,failure)
+    elif failure=='disabled_branch':out.text=evidence.PROJECT_DISABLED
+    else:out.text=(evidence.PROJECT_MARKER+'\n')*2
+    with pytest.raises(ValueError):evidence.project_native(cases)

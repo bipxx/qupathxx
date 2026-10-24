@@ -113,10 +113,11 @@ local=json.loads((ROOT/'docs/benchmarks/classifier-engine-windows.json').read_te
 for job in run['jobs']:
     folder=args.artifacts/folders[job['name']]
     entry=dict(name=job['name'],url=job['url'],status=job['status'],conclusion=job['conclusion'],native=junit(folder/'native-tests.xml'))
-    assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)+2
+    assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)+3
     native_cases=list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase'))
     entry['resampling_native']=resampling.native(native_cases)
     entry['qptma_native']=qptma.native(native_cases)
+    entry['qptma_project_native']=qptma.project_native(native_cases,enabled=job['name']!='Linux minimal native')
     entry['qptma_sources']=qptma.source_contract(ROOT,COMMIT)
     entry['resampling_sources']=resampling.source_contract(ROOT,COMMIT)
     if args.sampled_shape:

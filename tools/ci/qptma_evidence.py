@@ -4,7 +4,7 @@ import json
 import re
 from pathlib import Path
 import subprocess
-SOURCES=['CMakeLists.txt','cpp/qptma.cpp','cpp/include/qupathxx/qptma.hpp','cpp/tma_bindings.cpp','cpp/tests/qptma_tests.cpp',
+SOURCES=['cpp/project.cpp','cpp/include/qupathxx/project.hpp','cpp/qptma_project_cli.cpp','cpp/qptma_project_cli.hpp','cpp/batch_main.cpp','cpp/tests/qptma_project_tests.cpp','tests/test_qptma_project.py','CMakeLists.txt','cpp/qptma.cpp','cpp/include/qupathxx/qptma.hpp','cpp/tma_bindings.cpp','cpp/tests/qptma_tests.cpp',
  'src/qupathxx/__init__.py','src/qupathxx/__init__.pyi','src/qupathxx/_native.pyi','tests/test_qptma.py','tests/test_qptma_reference.py','tests/test_qptma_evidence.py',
  'tools/ci/accept_unified_engine.py','tools/ci/accept_manylinux.py','tools/ci/accept_macos_native.py',
  'tools/ci/qptma_evidence.py','tools/ci/qptma-cases.json','tools/ci/run.py','tools/generate_stubs.py','tests/typing/qptma_invalid.py','tests/typing/valid_api.py','tools/upstream/qupath_tma_reference.groovy',
@@ -45,3 +45,16 @@ def typing_errors(path):
     text=Path(path).read_text(encoding='utf-8')
     require(sorted(map(int,re.findall(r'qptma_invalid\.py:(\d+): error:',text)))==[4,5,6], 'QPTMA negative typing errors differ')
     return dict(expected_errors=3,sha256=hashlib.sha256(Path(path).read_bytes()).hexdigest())
+
+
+PROJECT_MARKER='QPTMA project atomic new-file publication, budgets, guards, races, persistence and explicit-image CLI passed'
+PROJECT_DISABLED='QPTMA project storage disabled in this configuration'
+
+def project_native(cases,enabled=True):
+    selected=[case for case in cases if case.get('name')=='qptma_project']
+    require(len(selected)==1,'missing/duplicate QPTMA project suite');case=selected[0]
+    require(all(case.find(tag) is None for tag in ['failure','error','skipped']),'QPTMA project suite did not pass')
+    lines=case.findtext('system-out','').splitlines()
+    require(lines.count(PROJECT_MARKER)==int(enabled) and lines.count(PROJECT_DISABLED)==int(not enabled),
+        'QPTMA project native capability/coverage differs')
+    return dict(passed=1,project_storage_enabled=enabled,atomic_persistence_and_cli_checked=enabled)

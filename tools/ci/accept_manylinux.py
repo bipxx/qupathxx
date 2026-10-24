@@ -342,9 +342,10 @@ def main():
         folder=args.artifacts/('manylinux-'+version)
         native=resampling.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
         qptma_native=qptma.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        qptma_project=qptma.project_native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
         qptma_typing=qptma.typing_errors(folder/'qptma-typing-negative.log')
         for cohort,path in [('builder',folder/'python-tests.xml'),('consumer',args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
-            report['qptma_cohorts'].append(dict(python=version,cohort=cohort,native=qptma_native,builder_typing=qptma_typing,installed=qptma.python(list(ET.parse(path).getroot().iter('testcase')))))
+            report['qptma_cohorts'].append(dict(python=version,cohort=cohort,native=qptma_native,project_native=qptma_project,builder_typing=qptma_typing,installed=qptma.python(list(ET.parse(path).getroot().iter('testcase')))))
             report['resampling_cohorts'].append(dict(python=version,cohort=cohort,native=native,
                 installed=resampling.python(list(ET.parse(path).getroot().iter('testcase')))))
     if args.unified_engine or args.ndpi_readers or args.watershed_bodies:

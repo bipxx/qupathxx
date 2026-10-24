@@ -518,3 +518,9 @@ def imported_tma_grid(document: q.Document, text: str) -> list[int]:
     data = q.parse_qptma(text)
     canonical: str = q.qptma_text(data)
     return q.import_qptma(document, q.parse_qptma(canonical), grid_name="Imported study")
+
+
+def fork_imported_tma(source: str, output: str, image: int, wire: q.QptmaData) -> None:
+    project = q.Project.open_without_journal_recovery(source)
+    q.import_qptma(project.document(image), wire)
+    project.save_new(output, snapshot_bytes=536870912, file_bytes=1073741824)

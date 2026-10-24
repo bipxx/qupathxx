@@ -8,7 +8,8 @@
 #include <iterator>
 #include <stdexcept>
 using namespace qpx;
-void check(bool ok){if(!ok)throw std::runtime_error("qptma project assertion failed");}
+void verify(bool ok,int line){if(!ok)throw std::runtime_error("qptma project assertion failed at line "+std::to_string(line));}
+#define check(ok) verify((ok),__LINE__)
 template<class F>void rejects(F f){try{f();}catch(const std::exception&){return;}throw std::runtime_error("missing qptma project rejection");}
 std::string bytes(const std::filesystem::path& p){std::ifstream f(p,std::ios::binary);return {std::istreambuf_iterator<char>(f),std::istreambuf_iterator<char>()};}
 int main(int argc,char** argv){try {
@@ -23,9 +24,9 @@ int main(int argc,char** argv){try {
     auto second=std::make_shared<Document>(Image(256,192,std::vector<std::uint8_t>(256*192*3,255)));
     Project project;const auto a=project.add_document(first,"untouched"),b=project.add_document(second,"TMA target");project.set_active_image(a);
     ProjectView view;view.center={3,4};view.zoom=.75;project.set_view(a,view);
-    const auto source=(root/"source.qpxproj").u8string();project.save(source);const auto original=bytes(source),identity=project.identity();
+    const auto source=(root/"source.qpxproj").u8string();project.save(source);const auto original=bytes(source),identity=project.identity(),original_path=project.path();
     const auto generation=project.generation(),revision=second->revision();std::atomic<bool> cancelled{false};
-    auto assert_clean=[&]{check(project.path()==source && project.generation()==generation && second->revision()==revision && !project.dirty() && bytes(source)==original);
+    auto assert_clean=[&]{check(project.path()==original_path);check(project.generation()==generation);check(second->revision()==revision);check(!project.dirty());check(bytes(source)==original);
         for(const auto& item:fs::directory_iterator(root))check(item.path().filename().u8string().rfind(".qpx-save-new-",0)!=0 && item.path().filename().u8string().find(".qpx-tmp-")==std::string::npos);};
     rejects([&]{project.save_new(source);});assert_clean();
     rejects([&]{project.save_new((root/"small-snapshot.qpxproj").u8string(),1);});check(!fs::exists(root/"small-snapshot.qpxproj"));assert_clean();
