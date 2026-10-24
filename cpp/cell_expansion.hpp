@@ -69,7 +69,10 @@ inline BodyExpansion expand_cells_watershed(const std::vector<std::uint32_t>& nu
     };
     // Strict cutoff on the float distance field. Initialize every seed before
     // row-major boundary admission; equal priorities then use stable FIFO.
-    for(std::size_t i=0;i<n;++i) visited[i]=!domain[i] || nuclei[i] || !(priorities[i]<radius);
+    for(std::size_t i=0;i<n;++i) {
+        if((i&4095)==0) checkpoint(cancelled);
+        visited[i]=!domain[i] || nuclei[i] || !(priorities[i]<radius);
+    }
     for(std::size_t i=0;i<n;++i) {
         if((i&4095)==0) checkpoint(cancelled);
         if(visited[i]) continue;
