@@ -25,3 +25,6 @@ docs/benchmarks/gaussian-short-kernel-*.json -text whitespace=cr-at-eol
 tools/upstream/qupath_cells_reference.groovy text eol=lf
 tools/compare_qupath_cells.py text eol=lf
 tools/qupath_cells_fixture.py text eol=lf
+
+# Bind native comparison evidence to executed script bytes.
+tools/compare_native_log_watershed.py text eol=lf
