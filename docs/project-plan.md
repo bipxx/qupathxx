@@ -4331,3 +4331,12 @@ qualification tool/protocol now requires source757 after its complete audited
 matrix, including the new stack regression. Workload, hardware conditions,
 script bytes and33ms target are unchanged. The source794 local full GUI run
 remains separate; all unfinished M0–M7 and supported-release gates remain open.
+
+
+Packet130's [Linux artifact audit](benchmarks/darwin-declarations-linux.json)
+passes at exact combined source757 in run40069615391: 1,812 Python /45 native,
+plus45 native each on minimal and ASan/UBSan. Both explicit timing and default-
+stack audit modes are enabled; the new GUI cases are collected and skipped
+headless. This Linux-only receipt leaves Windows, Mac and overall acceptance
+false. Local source794 full GUI testing and both source757 hosted matrices
+remain independent live validation work.
