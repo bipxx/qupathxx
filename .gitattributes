@@ -25,3 +25,7 @@ docs/benchmarks/gaussian-short-kernel-*.json -text whitespace=cr-at-eol
 tools/upstream/qupath_cells_reference.groovy text eol=lf
 tools/compare_qupath_cells.py text eol=lf
 tools/qupath_cells_fixture.py text eol=lf
+
+# Paired performance evidence hashes the executed benchmark bytes.
+tools/profile_roi_sampling.py text eol=lf
+tools/compare_roi_sampling_engines.py text eol=lf

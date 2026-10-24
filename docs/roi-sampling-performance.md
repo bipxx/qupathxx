@@ -56,3 +56,53 @@ Corrected Windows native/focused, installed, stubs/typing and desktop checks pas
 Corrected full Windows regression and the [hosted artifact audit](benchmarks/roi-sampling-ci-windows-linux.json)
 pass at this exact source. Engineering acceptance does not accept performance. Scientific segmentation, hardware and supported-release gates
 remain separate requirements.
+
+
+## Boundary-grid prototype: interleaved Windows observations
+
+Native source `843973cd582b32531b386379c747d743e5815c4f` adds a lazy,
+fixed-size conservative boundary grid under the existing GEOS context mutex.
+Default coverage queries allocate no grid. Unmarked grid cells can avoid the
+second topology predicate; marked cells retain exact GEOS/orientation tests.
+Dense grids retain the original query order. Cache storage is bounded by a
+640-byte compile-time assertion per activated polygon, excluding allocator and
+existing GEOS state. This is not a process RSS measurement.
+
+The [raw paired receipt](benchmarks/roi-sampling-grid-interleaved-windows.json)
+retains all 108 fresh-process observations: six excluded engine warmup pairs
+and 48 retained pairs. Both engine order and policy order are cross-balanced.
+The two engines execute identical profiler bytes. Numeric outputs match exactly
+across engines and policies on all six workloads. Native binary hashes, actual
+checkout source hashes, build Git revisions, all samples and timing ranges are
+retained. Positive changes below mean a slower candidate; values are medians
+of paired candidate-minus-baseline winding times, not differences of medians.
+
+| Workload | Size | ROI change ms | Tissue change ms |
+|---|---:|---:|---:|
+| square-hole | 256 | -0.1399 | -0.0731 |
+| square-hole | 1024 | -2.6990 | -3.5741 |
+| complex | 256 | -0.6265 | -0.7248 |
+| complex | 1024 | -10.8755 | -8.3440 |
+| dense-triangle | 1024 | -0.2725 | 1.3869 |
+| edge-strip | 1024 | 0.0019 | -0.0034 |
+
+The larger complex polygon improves by about 8–11 ms in this run. The dense
+triangle's tissue workflow is 1.39 ms slower, while its ROI result is essentially
+unchanged. The boundary strip differs by under 0.004 ms. Coverage controls and
+per-engine overhead deltas remain in the receipt, including noise between runs.
+The dense fallback control is mixed; these observations do not establish a
+uniform speedup or performance acceptance.
+
+Windows passes 43 native suites and 401 focused Python cases, with three strict
+scientific expected failures; the new independent rational-reference geometry,
+concurrent initialization and extreme-aspect tests pass. Full current-source
+Windows/Linux, sanitizer and portable qualification remain pending for this
+prototype. Cold first-query cost, RSS, real-slide throughput and GPU/frame
+budgets remain open. The prototype is retained on its validation branch;
+main's accepted engine remains unchanged.
+
+To reproduce with two matching installed environments and a new output path:
+
+```powershell
+python -I tools/compare_roi_sampling_engines.py --baseline-python BASELINE_PYTHON --candidate-python CANDIDATE_PYTHON --output-directory build/roi-engine-comparison
+```
