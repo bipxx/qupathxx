@@ -39,8 +39,17 @@
     "result_sha256": "31eabe7039091f56465549f116d318e1a805e6cbc6fdb4213789d0e1148d533b",
     "note": "The CI failure did not reproduce locally in these trials."
   },
-  "full_gui_accepted": false,
+  "full_gui_accepted": true,
   "performance_accepted": false,
   "release_ready": false,
-  "scope": "Local native/installed/stub/typing/focused validation and quantitative stack reduction only. Full GUI regression is still running; CI crash resolution and full-source/platform/performance acceptance remain unproven."
+  "scope": "Completed local Windows GUI/native/installed/stub/typing/focused validation and quantitative stack reduction at source794. Original source459 CI failure did not reproduce locally; newer combined source757 hosted Windows/Mac and performance qualification remain independent gates. No supported release or full M0-M7 acceptance.",
+  "full_gui": {
+    "total": 2222,
+    "passed": 2206,
+    "optional_skips": 13,
+    "legacy_scientific_xfails": 3,
+    "sha256": "d6bcca885da470321511facc485e7e9d1284f1be1469b157e848514fc4643106"
+  },
+  "native_startup_regression_executions": 2,
+  "native_startup_processes_total": 16
 }

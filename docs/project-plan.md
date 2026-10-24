@@ -4317,3 +4317,11 @@ overlay cases, including all eight fresh native project launches on the unchange
 1MiB executable stack. Exact immediate/cached framebuffer comparisons pass.
 The full GUI regression is still running; no crash-resolution, complete matrix
 or hardware acceptance follows from this focused observation.
+
+
+Packet129's local full GUI regression now passes2,206 cases,13 optional skips
+and the same three scientific xfails. Its [updated receipt](benchmarks/gui-stack-windows-local.json)
+retains46 native,35 focused, installed/stub/typing and complete regression
+identities. The default-stack startup test passes in both focused and full runs,
+verifying16 fresh standalone launches total. Source794's local evidence does not
+accept the newer combined source757, either Mac architecture or hardware targets.
