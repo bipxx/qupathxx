@@ -4699,6 +4699,9 @@ cases (including 27 new API/CLI cases), packaged stubs and positive/negative
 typing checks. Eight minimal native CLI probes agree byte-for-byte with the
 previous API and preserve project/input files. Native file-I/O and cancellation
 markers plus exact Python cohorts are required by `--tma-file-export` audits.
-The full installed regression and fresh platform audits remain pending; M0-M7
+The full installed Windows regression now passes 2,417 tests (13 optional
+skips, three unchanged strict legacy scientific xfails), and the saved-state
+ImGui capture verifies the weighted result with zero UI overflow. Fresh
+platform audits remain pending; M0-M7
 and performance, biological, hardware, licensing and supported-release gates
 remain open.

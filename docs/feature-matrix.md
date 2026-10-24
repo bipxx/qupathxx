@@ -49,10 +49,11 @@ A shared native file exporter and standalone `--export-tma-cases` CLI are now
 implemented in candidate 142. The [initial installed checks](benchmarks/tma-case-file-initial-windows.json)
 pass 47 native suites and 75 focused cases, including 27 new file/CLI cases.
 Captured snapshots, protected source versions, byte budgets and atomic new-file
-publication are shared with ImGui. Full installed regression and hosted
-file-export acceptance remain open.
+publication are shared with ImGui. The [full installed Windows suite](benchmarks/tma-case-file-validation-windows.json)
+passes 2,417 tests, with 13 optional skips and three unchanged legacy science
+xfails. Hosted file-export acceptance remains open.
 
-The TMA case-summary candidate adds native/Python/ImGui single-grid replicate
+The accepted TMA case-summary engine adds native/Python/ImGui single-grid replicate
 pooling, explicit weighting, missing-core exclusion, unassigned-core isolation,
 revision checks and bounded cancellable CSV export. The
 [Windows installed validation](benchmarks/tma-case-validation-windows.json)

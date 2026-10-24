@@ -154,8 +154,10 @@ The [initial installed file/CLI validation](benchmarks/tma-case-file-initial-win
 passes 27 new API/CLI cases, 75 combined TMA cases, 47 native suites and
 packaged typing checks. [Eight minimal native CLI probes](benchmarks/tma-case-file-native-cli.json)
 match the previous API bytes and preserve protected files; that executable
-imports no Python or OpenGL runtime. Full installed regression and hosted
-file-export acceptance remain open.
+imports no Python or OpenGL runtime. The [full installed Windows validation](benchmarks/tma-case-file-validation-windows.json)
+passes 2,417 tests (13 optional skips, three unchanged strict legacy scientific
+xfails), and a captured ImGui export saves the expected weighted result without
+UI overflow. Hosted file-export acceptance remains open.
 
 The TMA panel's Export tab offers **Summarize replicate cores by case**, an
 optional measurement CSV, value and weight columns, and an explicit unversioned
