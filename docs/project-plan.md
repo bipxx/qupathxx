@@ -4737,5 +4737,7 @@ installed headless Python cases, including the file-export cohort.
 now passes 2,419 tests with 13 optional skips and three retained strict science
 xfails. Native suites, focused TMA checks, packaged stubs, positive/negative typing
 and the visually reviewed saved-state ImGui export all pass. The weighted output
-is 3.5 with zero UI overflow. Complete Windows/Linux engineering acceptance,
-Mac native and portable builder/consumer validation remain pending.
+is 3.5 with zero UI overflow. [Both Mac native audits](benchmarks/tma-case-input-macos.json)
+now accept all 46 suites, including the input-size guard; no Windows-style read
+transfer measurement is claimed for Mac. Complete Windows/Linux engineering
+acceptance and portable builder/consumer validation remain pending.

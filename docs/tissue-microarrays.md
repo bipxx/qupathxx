@@ -224,4 +224,6 @@ stubs and typing checks. Twelve altered-evidence controls are rejected. The
 passes 2,419 tests, 13 optional skips and three unchanged strict scientific
 xfails. Its visually reviewed ImGui capture reports saved state, weighted mean
 3.5 and zero UI overflow. The [Linux-only audit](benchmarks/tma-case-input-linux-partial.json)
-passes all three Linux configurations; complete hosted acceptance remains open.
+passes all three Linux configurations. [Both Mac native architectures](benchmarks/tma-case-input-macos.json)
+pass 46 suites and the input-size guard, without claiming process read-transfer
+measurements on Mac. Complete Windows/Linux and portable hosted acceptance remain open.

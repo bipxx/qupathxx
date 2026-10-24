@@ -58,8 +58,10 @@ including the exact TMA file-export cohort. The
 passes 2,419 Python tests, 13 optional skips and three retained strict scientific
 xfails, plus the 47 native suites, packaged stubs and typing checks. The saved
 ImGui export capture verifies weighted mean 3.5 with zero UI overflow and has
-been visually reviewed. The complete Windows/Linux matrix, both Mac architectures
-and portable builder/consumer acceptance of this optimization remain pending.
+been visually reviewed. [Both Mac native architectures](benchmarks/tma-case-input-macos.json)
+now pass all 46 suites and the input-size check. Mac process read-transfer counts
+are not measured by that platform test. The complete Windows/Linux matrix and
+portable builder/consumer acceptance of this optimization remain pending.
 
 The accepted TMA case-summary engine adds native/Python/ImGui single-grid replicate
 pooling, explicit weighting, missing-core exclusion, unassigned-core isolation,
