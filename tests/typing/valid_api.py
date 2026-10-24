@@ -472,3 +472,9 @@ def log_cell_recipe() -> q.CellParameters:
 def rendered_loop_metrics(report: q.GuiReport) -> tuple[float, float, int]:
     return (report.rendered_frame_wall_p95_ms, report.max_rendered_frame_wall_ms,
             report.rendered_frame_wall_samples)
+
+
+def watershed_body_recipe() -> q.CellParameters:
+    parameters = q.CellParameters()
+    parameters.algorithm = q.CellAlgorithm.LOG_WATERSHED_BODIES
+    return parameters

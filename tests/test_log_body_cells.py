@@ -58,21 +58,24 @@ def test_production_body_mode_pinned_labels_and_measurements(case, tile):
 @pytest.mark.skipif(not q.has_project or not q.has_geos, reason='project/classifier geometry')
 def test_body_archive_replay_classifier_and_legacy_records(tmp_path):
     doc, obj, transform = scene()
-    records = []
+    records, ids, modes = [], [], {}
     for p in [q.CellParameters(), parameters(), body_parameters()]:
         result = q.detect_cells(q.CellRequest(doc, obj, transform, p))
         request = q.CellRequest(doc, obj, transform, p)
         record = doc.keep_cells(request, result)
         records.append((record, result))
+        published = doc.publish_cell_record(record)
+        ids.extend(published)
+        modes.update({identity: p.algorithm for identity in published})
     body_record, body = records[-1]
-    ids = doc.publish_cell_record(body_record)
     from test_object_classifier_archives import predicted
     options = q.ObjectFeatureOptions()
     options.cell_rgb = True
     _, job = predicted(doc, ids, options)
     job.apply(doc)
-    source = doc.classifier_records[0].archive.table.cell_origin(0).source
-    assert source.parameters.algorithm == q.CellAlgorithm.LOG_WATERSHED_BODIES
+    table = doc.classifier_records[0].archive.table
+    for row, identity in enumerate(table.object_ids):
+        assert table.cell_origin(row).source.parameters.algorithm == modes[identity]
     project = q.Project()
     image = project.add_document(doc)
     path = tmp_path/'bodies.qpxproj'
@@ -84,8 +87,9 @@ def test_body_archive_replay_classifier_and_legacy_records(tmp_path):
         assert saved.cells.labels == original.cells.labels
         replay = q.CellRequest.replay(restored, record)
         assert restored.verify_cells(record, replay, q.detect_cells(replay))
-    source = restored.classifier_records[0].archive.table.cell_origin(0).source
-    assert source.algorithm == body.algorithm and source.parameters.algorithm == body.parameters.algorithm
+    table = restored.classifier_records[0].archive.table
+    for row, identity in enumerate(table.object_ids):
+        assert table.cell_origin(row).source.parameters.algorithm == modes[identity]
     rows = parse(q.cell_measurements_csv(q.CellTableRequest(restored, [body_record])))
     assert rows and all(r['detector_mode'] == 'log-bodies' for r in rows)
 
