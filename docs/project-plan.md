@@ -4075,3 +4075,23 @@ retains these outcomes at source ac91ac0. Fresh Intel/arm64 native validation is
 queued in run 40051686430. Source4fe2e1a's independent manylinux run 40051088451
 has passing 3.11/3.12 builders with fresh-consumer checks still pending. No Mac,
 combined-source, supported release or full M0-M7 completion is claimed.
+
+
+## Packet118: parser manylinux builders and fresh consumers
+
+Run 40051088451 passes both CPython builders and both pinned fresh Debian
+consumers at exact parser source 4fe2e1a2521abb8675e1c39697b11b1855305f79.
+The public manylinux auditor accepts wheel/native/runtime identities, unchanged
+runtime payloads, pinned assets/notices, ELF policy, relocation, stubs/typing and
+fresh consumer workflows. Both builders pass 43 native/1,719 Python cases;
+both consumers pass 1,715 Python cases. All twelve new literal OME calibration
+cases pass in every cohort. Three strict scientific expected failures remain.
+The [receipt](benchmarks/manylinux118-build-consumer-acceptance.json) retains
+committed-LF asset/auditor identities and explicit skip accounting.
+
+This run omitted the opt-in full Aperio builder fixture: twelve additional
+builder skips offset the twelve newly passing OME cases, so the builder pass
+total alone does not describe the coverage change. An exact-source followup
+with extended readers is requested. This accepts the stated builder/fresh-small-
+consumer scope; it does not qualify the later width/cache/LoG sources, Mac,
+biology/hardware or a supported release. The full M0-M7 goal stays active.
