@@ -4309,3 +4309,25 @@ hosted and hardware qualification remain pending. The navigation protocol now
 requires this replacement source; its workload, declared hardware, tolerances,
 viewer script and33ms target are unchanged. Both Mac/core source459 jobs remain
 independent validation work. Every unfinished M0–M7 requirement remains active.
+
+
+## Packet130: complete Darwin declaration diagnostics
+
+Both architectures in run40065293769 fail to compile four independent mixed-
+type declarations. Full uploaded build logs identify archive row/column counts,
+stream class/byte counts, viewer channel/byte limits and object-history test
+revision/byte counts. Console tails omitted the first file; the complete
+artifacts are authoritative. Native source `75758a2bcb1f6455d9116900a7de65a433ab54dc`
+splits all four declarations without coercing their types or changing algorithms,
+limits, archive encodings or public interfaces. It includes packet129's heap-
+owned UI storage and repeated default-stack native startup test.
+
+The [Windows native receipt](benchmarks/darwin-declarations-windows-native.json)
+verifies all249 committed inputs against the compiled source fingerprint and
+accepts all45 native suites. It does not accept GUI, a Python wheel, real-NDPI
+fixtures, Mac or performance scope. Mac run40069145837 and extended Windows/
+Linux run40069615391 validate this exact combined source. The navigation
+qualification tool/protocol now requires source757 after its complete audited
+matrix, including the new stack regression. Workload, hardware conditions,
+script bytes and33ms target are unchanged. The source794 local full GUI run
+remains separate; all unfinished M0–M7 and supported-release gates remain open.

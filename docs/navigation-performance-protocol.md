@@ -7,7 +7,7 @@ this hardware; large-object, large-pyramid, reader, analysis and long-batch
 budgets remain separate requirements in the project plan.
 
 Use the exact Windows GUI wheel from native source
-`794f29f2629112a3b36452b1b259a361576468c7`, after its source-specific installed
+`75758a2bcb1f6455d9116900a7de65a433ab54dc`, after its source-specific installed
 Windows/Linux artifact audit passes. The trial record must retain the wheel,
 native and benchmark script hashes, compiled Git revision and source fingerprint.
 Use a fresh installation without software OpenGL DLLs. Require the actual
@@ -71,3 +71,6 @@ session UI storage off the caller's stack and adds repeated startup on the
 unchanged 1 MiB native executable stack. The replacement source must pass the
 full matrix before any qualification trial. Workload, hardware, tolerances,
 33 ms target and frozen viewer-script bytes remain unchanged.
+The combined source757 also separates the four remaining mixed-type Darwin
+declarations found by complete native compilation; it includes the source794
+GUI stack change and its repeated-launch regression.
