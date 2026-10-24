@@ -36,7 +36,7 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 The sampled production recipe source `ddd3bb9` is on `main` after audited
 Windows/Linux, portable CPython 3.11/3.12 fresh-consumer and both macOS native
 architecture gates. [Promotion evidence](benchmarks/sampled-cells-main-promotion.json)
-records the exact fast-forward source. M0¨CM7 science, hardware, license and
+records the exact fast-forward source. M0â€“M7 science, hardware, license and
 supported-package requirements remain open.
 
 The frontier/domain candidate `691c0f3` fixes historical sampled-domain replay

@@ -4652,3 +4652,27 @@ retains all three processes/six views, each around 17 ms rendered-wall p95,
 but remains ineligible because trial 2's before-load reading is 32%, above the
 unchanged 25% ceiling. No trial or threshold is dropped or relaxed. Frontier
 platform CI and the full M0–M7 objective remain open.
+
+
+## Single-grid TMA case summaries (candidate 141)
+
+Native case aggregation pools revision-checked core measurements by case ID,
+with optional nonnegative weights, compensated signed sums, explicit numeric
+range errors and per-core isolation for blank case IDs. Missing cores retain
+inventory counts but contribute no measurements. Nanobind releases the GIL;
+ImGui captures immutable grid/settings and performs bounded input reads and
+atomic new-file export on a native worker. The schema records the exact input
+hash, revision status, inventory and measured-row counts alongside statistics.
+
+The initial source `9b6772a` passes 47 native suites, 48 focused API/desktop
+cases and 2,390 full Python tests (13 optional skips, three unchanged strict
+legacy scientific xfails). Independent rational/integer oracles cover weighting
+and synthetic sizes through 100,000 rows. Two numerical regressions were found
+and fixed before publication. Final path-field labels are undergoing a second
+validation pass; hosted source-bound TMA audits remain open. See the
+[TMA contract](tissue-microarrays.md) and
+[initial receipt](benchmarks/tma-case-initial-validation-windows.json).
+
+M0-M7 remain partial. This packet does not establish cross-grid pooling,
+biological/QuPath TMA equivalence, general performance improvement, hardware
+acceptance, a project license or a supported release.

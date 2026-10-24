@@ -135,14 +135,18 @@ optional measurement CSV, value and weight columns, and an explicit unversioned
 input opt-in. A native worker captures the grid and settings, reads at most
 64 MiB, verifies the input file has not changed, and publishes a new output file
 atomically. Cancellation discards unpublished output. Existing files and input
-files are preserved. This implementation is undergoing installed-package and
-desktop validation; it does not establish biological or upstream equivalence.
+files are preserved. The [initial local installed validation](benchmarks/tma-case-initial-validation-windows.json)
+passes native, Python and desktop checks. Final panel labels and hosted TMA
+acceptance are still being validated. This does not establish biological or
+upstream equivalence. The [scale profile](benchmarks/tma-case-profile-windows.json)
+retains every trial and verifies counts and statistics independently through
+100,000 measurement rows; its timings are synthetic observations.
 
 Automatic dearraying, rotated ellipse geometry, direct
 QuPath TMA import/export, survival analysis, biological validation and supported
 hardware acceptance remain future work.
 
-The [local validation receipt](benchmarks/tma-local-windows-linux.json) records
+The original grid packet's [local validation receipt](benchmarks/tma-local-windows-linux.json) records
 the installed wheel/source identities, all 1,818 passing Python tests (six
 optional skips), 23 TMA API cases, eight desktop cases, Windows GUI/headless and
 Linux training/minimal/sanitizer results. The [GUI probe](benchmarks/tma-10000-gui-windows.json)
