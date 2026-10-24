@@ -31,8 +31,10 @@ parser.add_argument('--sampled-shape',action='store_true',help='Also require all
 parser.add_argument('--sampled-cells',action='store_true',help='Require QCL4 production recipe, 53 sampled workflow cases and independent comparison; implies sampled shape')
 parser.add_argument('--small-frontier',action='store_true',help='Require 1344 native queue comparisons and eight strict unit-radius workflow cases; implies sampled cells')
 parser.add_argument('--tma-cases',action='store_true',help='Require exact case aggregation, numeric regression and desktop export cohorts; implies small frontier')
+parser.add_argument('--tma-file-export',action='store_true',help='Require shared atomic file exporter and standalone TMA case CLI; implies tma cases')
 parser.add_argument('--linux-only',action='store_true',help='Audit only the three successful Linux jobs; never accepts the full matrix')
 args=parser.parse_args();RUN=args.run;COMMIT=args.commit
+args.tma_cases=args.tma_cases or args.tma_file_export
 args.small_frontier=args.small_frontier or args.tma_cases
 args.sampled_cells=args.sampled_cells or args.small_frontier
 args.sampled_shape=args.sampled_shape or args.sampled_cells
@@ -711,9 +713,9 @@ for job in run['jobs']:
                 entry['small_frontier']['real_slide_masks_preserved']=preserved
                 entry['small_frontier']['real_slide_baseline_sha256']=sha(ROOT/baseline_path)
     if args.tma_cases:
-        entry['tma_cases']=tma_cases.native(native_cases)
+        entry['tma_cases']=tma_cases.native(native_cases,file_export=args.tma_file_export)
         if (folder/'python-tests.xml').exists():
-            entry['tma_cases'].update(tma_cases.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),ROOT,COMMIT,gui='GUI' in job['name']))
+            entry['tma_cases'].update(tma_cases.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),ROOT,COMMIT,gui='GUI' in job['name'],file_export=args.tma_file_export))
     report['jobs'].append(entry)
 report['fixture_retraining']=dict(local_and_audited_hosted_models_identical=True,
     model_sha256=local['model_sha256'],training_sha256=local['training_sha256'],
@@ -728,6 +730,7 @@ report['sampled_shape_required']=args.sampled_shape
 report['sampled_cells_required']=args.sampled_cells
 report['small_frontier_required']=args.small_frontier
 if args.small_frontier:report['frontier_helper_sha256']=sha(Path(__file__).with_name('frontier_evidence.py'))
+report['tma_file_export_required']=args.tma_file_export
 report['tma_cases_required']=args.tma_cases
 if args.tma_cases:report['tma_case_helper_sha256']=sha(Path(__file__).with_name('tma_case_evidence.py'))
 report['performance_accepted']=False

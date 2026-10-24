@@ -81,19 +81,36 @@ int main() {
         {const auto csv=tma_metadata_csv(*doc->tma_grid());std::istringstream input(csv);std::string line;std::size_t lines=0;while(std::getline(input,line)) {check(std::count(line.begin(),line.end(),',')==17);++lines;}check(lines==7 && csv.find("vacant")!=std::string::npos);}
         const auto filled=doc->add_tma_core(0,2,{135,18,30,24},"replacement");check(filled!=ids[2] && doc->tma_grid()->core(0,2)->id==filled);
         const auto snapshot=doc->tma_grid();
+        check(fs::create_directory(root));
+        {
+            const auto a=snapshot->core(0,0);const auto input=root/"case-input.csv",output=root/"cases.csv",inventory=root/"inventory.csv";
+            const auto table="object_id,object_revision,Value,Weight\r\n"+std::to_string(a->id)+','+std::to_string(a->revision)+",2,3\r\n";
+            {std::ofstream stream(input,std::ios::binary);stream.write(table.data(),table.size());check(bool(stream));}
+            auto read=[](const fs::path& path) {std::ifstream stream(path,std::ios::binary);check(bool(stream));return std::string(std::istreambuf_iterator<char>(stream),{});};
+            const auto expected=tma_case_summary_csv(*snapshot,table,"Value","Weight");
+            check(save_tma_case_summary_csv(*snapshot,output.u8string(),input.u8string(),"Value","Weight")==expected.size());
+            check(read(output)==expected && read(input)==table);
+            rejects([&]{save_tma_case_summary_csv(*snapshot,output.u8string());});check(read(output)==expected);
+            rejects([&]{save_tma_case_summary_csv(*snapshot,input.u8string(),input.u8string(),"Value");});check(read(input)==table);
+            rejects([&]{save_tma_case_summary_csv(*snapshot,(root/"limited.csv").u8string(),input.u8string(),"Value","",1);});check(!fs::exists(root/"limited.csv"));
+            check(save_tma_case_summary_csv(*snapshot,inventory.u8string())==tma_case_summary_csv(*snapshot).size());
+            check(read(inventory)==tma_case_summary_csv(*snapshot));
+            for(const auto& entry:fs::directory_iterator(root)) check(entry.path().filename().u8string().find(".qpx-tmp-")==std::string::npos);
+            std::cout<<"TMA case file exports preserve captured CSV bytes and existing files\n";
+        }
         {const auto a=doc->annotation(ids[0]);const auto table="source_object_id,source_object_revision,value\r\n"+std::to_string(a.id)+','+std::to_string(a.revision)+",\"a,b\n\"\"q\"\"\"\r\n";
          const auto joined=tma_context_csv(*snapshot,table);check(joined.find("qpx.tma-context/1")!=std::string::npos && joined.find("patient-1")!=std::string::npos);rejects([&]{tma_context_csv(*snapshot,table,1);});rejects([&]{tma_metadata_csv(*snapshot,1);});
          const auto stale="source_object_id,source_object_revision\r\n"+std::to_string(a.id)+','+std::to_string(a.revision+1)+"\r\n";rejects([&]{tma_context_csv(*snapshot,stale);});}
 
         if(has_project()) {
-            fs::create_directory(root);Project project;const auto image=project.add_document(doc,"TMA image");project.save((root/"source.qpxproj").u8string());
+            Project project;const auto image=project.add_document(doc,"TMA image");project.save((root/"source.qpxproj").u8string());
             const auto opened=Project::open((root/"source.qpxproj").u8string());const auto restored=opened->document(image);check(restored->tma_core_count()==6 && restored->tma_grid()->info()->name()=="Relabeled" && restored->annotation(ids[1]).tma_core->missing() && restored->annotation(filled).tma_core->case_id()=="replacement");
             ProjectBatchOptions batch;batch.tma_only=true;ProjectBatchRequest capture(project,StainTransform({{1,0,0},{0,1,0}}),{},batch);check(capture.object_count()==5);doc->set_tma_missing({ids[0]},true);
             const auto result=run_project_batch(capture,(root/"batch").u8string());if(result.state!="succeeded") throw std::runtime_error(result.error);check(Project::open(result.images[0].path)->document(image)->tma_core_count()==6 && result.images[0].records==5);check(batch_checkpoint_csv(result.images[0].path).find("tma_case_id")!=std::string::npos);check(run_project_batch(capture,(root/"batch").u8string()).reused==1);
-            check(root.parent_path()==fs::current_path());fs::remove_all(root);
         }
         doc->clear_tma_grid();check(!doc->tma_grid() && doc->object_count()>0);check(doc->undo() && doc->tma_core_count()==6);doc->clear_tma_grid(true);check(!doc->tma_core_count() && doc->object_count()==1);check(doc->undo() && doc->tma_core_count()==6);
         doc.reset();check(snapshot->core(0,1)->tma_core->missing() && original->core(1,2)->name=="B-3");
+        check(root.parent_path()==fs::current_path());fs::remove_all(root);
         std::cout<<"TMA grid commands, missing cores, case IDs, snapshots, history and persistence passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }
