@@ -26,6 +26,7 @@ def main():
     parser.add_argument('--report',type=Path,required=True)
     parser.add_argument('--imagej-runtime-cache',type=Path,help='Also isolate shape splitting with verified pinned ImageJ APIs')
     parser.add_argument('--context-padding',type=int,choices=range(257),help='Explicit diagnostic override; default uses the frozen contract')
+    parser.add_argument('--imagej-dual-background',action='store_true',help='Use the dual-background candidate mask for the ImageJ shape probe')
     args=parser.parse_args()
     comparison=load('qpx_native_ndpi_capture','compare_qupath_ndpi_cells.py')
     metrics=load('qpx_native_ndpi_labels','label_comparison.py')
@@ -62,21 +63,21 @@ def main():
         control=q.detect_cells(q.CellRequest(doc,target,transform,p))
         production=comparison.local_labels(control.nuclei,contract['roi'])
         results=[]
-        for candidate in [False,True]:
-            output=args.output_directory/('response-basins.qlr' if candidate else 'connected-regions.qlr')
-            subprocess.run([str(args.executable)]+(['--response-basins'] if candidate else [])+[str(input),str(output)],check=True)
+        for mode,options in [('legacy',[]),('response_basins',['--response-basins']),('dual_background',['--dual-background'])]:
+            output=args.output_directory/(mode+'.qlr')
+            subprocess.run([str(args.executable)]+options+[str(input),str(output)],check=True)
             raw=output.read_bytes()
             if raw[:4]!=b'QLR1' or struct.unpack_from('<II',raw,4)!=(rw,rh):raise ValueError('incorrect native label protocol')
             native=np.frombuffer(raw,dtype='<u4',offset=16).reshape(rh,rw)[padding:padding+height,padding:padding+width]
             # Match the production contract for ROI fragments after contextual filtering.
             counts=np.bincount(native.ravel());keep=(counts>=p.min_nucleus_pixels)&(counts<=p.max_nucleus_pixels);keep[0]=False
             dense=np.cumsum(keep,dtype=np.uint32)*keep;native=dense[native]
-            if not candidate:np.testing.assert_array_equal(native,production)
-            record=dict(response_basins=candidate,native_count=int(native.max()),
+            if mode=='legacy':np.testing.assert_array_equal(native,production)
+            record=dict(mode=mode,response_basins=mode=='response_basins',eight_connected_background=mode=='dual_background',native_count=int(native.max()),
                 labels_sha256=hashlib.sha256(native.astype('<u4',copy=False).tobytes()).hexdigest(),
                 output_sha256=comparison.sha(output),metrics=metrics.metrics(labels,native,contract['comparison']))
             results.append(record)
-            print(json.dumps(dict(response_basins=candidate,native_count=record['native_count'],foreground_iou=record['metrics']['foreground_iou'])),flush=True)
+            print(json.dumps(dict(mode=mode,native_count=record['native_count'],foreground_iou=record['metrics']['foreground_iou'])),flush=True)
         report=dict(schema='qpx.native-ndpi-log-comparison/1',native_environment=environment,
             native_executable_sha256=comparison.sha(args.executable),feature_producer_git_revision=q.build_environment().git_revision,
             feature_producer_source_tree_sha256=q.build_environment().source_tree_sha256,
@@ -88,13 +89,14 @@ def main():
             runtime=load('qpx_native_ndpi_runtime','fetch_qupath.py').fetch(args.imagej_runtime_cache)
             stage=ROOT/'tools/upstream/imagej_edm_probe.groovy'
             region_maps=[]
-            for option in ['--regions','--response-regions']:
+            for option in ['--regions','--response-regions','--dual-regions']:
                 path=args.output_directory/(option[2:]+'.qlr')
                 subprocess.run([str(args.executable),option,str(input),str(path)],check=True)
                 region_maps.append(path)
             report['response_basin_region_mask_equal']=region_maps[0].read_bytes()==region_maps[1].read_bytes()
+            selected=region_maps[2 if args.imagej_dual_background else 0]
             output=args.output_directory/'imagej-edm.qlr'
-            capture=subprocess.run([str(runtime),'script','--args',str(region_maps[0].resolve()),
+            capture=subprocess.run([str(runtime),'script','--args',str(selected.resolve()),
                 '--args',str(output.resolve()),'--args',f'{padding},{padding},{width},{height}',str(stage)],
                 stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=300)
             log=args.output_directory/'imagej-edm.log';log.write_bytes(capture.stdout);capture.check_returncode()
@@ -106,7 +108,7 @@ def main():
             means=np.divide(sums,counts,out=np.zeros_like(sums),where=counts>0)
             keep=(counts>=p.min_nucleus_pixels)&(counts<=p.max_nucleus_pixels)&(means>=p.threshold);keep[0]=False
             dense=np.cumsum(keep,dtype=np.uint32)*keep;local=dense[local]
-            report['imagej_shape_stage']=dict(input_sha256=comparison.sha(region_maps[0]),
+            report['imagej_shape_stage']=dict(input_sha256=comparison.sha(selected),eight_connected_background=args.imagej_dual_background,
                 output_sha256=comparison.sha(output),script_sha256=comparison.sha(stage),
                 log_sha256=comparison.sha(log),native_count=int(local.max()),
                 metrics=metrics.metrics(labels,local,contract['comparison']),
