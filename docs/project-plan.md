@@ -4820,3 +4820,21 @@ See the [complete local receipt](benchmarks/windows-runtime-closure-local-window
 Native compiler inputs are unchanged; exact-source hosted validation and
 promotion are pending. This component improvement does not close whole-package
 throughput, process memory, hardware, release or the full M0-M7 requirements.
+
+## Bounded ELF dependency and version reader (candidate 147)
+
+A section-independent ELF64 x86-64 reader inventories ordered dependencies,
+SONAME, search paths, interpreter, GNU auxiliary/filter/audit declarations and
+required symbol versions without extracting or loading binaries. Bounds cover
+program/dynamic/string/version tables, repeated name expansion, file/virtual
+ranges, chains and record overlap. Load-address lookup uses binary search and
+range validation avoids copying entire segments.
+
+All 75 new ELF cases and 55 inherited package-manifest cases pass. An independent
+isolated pyelftools oracle agrees on all 18 binaries from three accepted Linux
+wheels, including complete required-version records. See the
+[ELF inventory contract](elf-runtime-inventory.md) and
+[local receipt](benchmarks/elf-runtime-reader-local-windows.json). Complete Linux
+archive manifests, resolution/publication, source-bound CI integration and
+hosted validation are next; this binary-reader packet does not close M7 or the
+full project goal.
