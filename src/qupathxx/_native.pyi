@@ -4025,6 +4025,8 @@ class CellAlgorithm(enum.Enum):
 
     LOG_WATERSHED = 1
 
+    LOG_WATERSHED_BODIES = 2
+
 class CellParameters:
     def __init__(self) -> None: ...
 
