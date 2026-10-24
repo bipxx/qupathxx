@@ -38,6 +38,10 @@ Require pinned CC0 CMU-1.ndpi SHA-256
 For every view, require actual framebuffer 2560 × 1440, 180 rendered frames,
 170 retained wall samples, completed replay, settled tiles, zero pending tiles
 and UI overflow, four font rebuilds and GPU payload no greater than 64 MiB.
+Require 25 generations, final zoom 5.681747443875566 (absolute tolerance 1e-9)
+and final level-zero center (25579.198625411034, 19048.82822789989) within .01
+pixels per axis. These baseline pose checks detect replay that was dispatched
+without applying the expected navigation.
 Require finite positive CPU/wall metrics, wall p95 at least CPU p95 and wall
 p95 at most 33 ms. Retain maximum timings without discarding slow frames.
 Phase trace hashes and CPU p95 must agree with the raw reported samples.
@@ -47,3 +51,15 @@ hardware/load conditions. Do not pool percentiles, select a best trial or turn
 an ineligible/failed trial into acceptance. Preserve raw results and the reason
 for any failure. This gate does not accept photon latency, GPU completion,
 software-renderer performance, general QuPath parity or a supported release.
+
+Run the qualification driver from a clean installation of that audited wheel:
+
+```powershell
+python -I tools/qualify_navigation.py --engine-audit <full-engine-audit.json> --image build/fixtures/CMU-1.ndpi --output-directory <fresh-directory>
+```
+
+The driver rejects earlier/partial engine audits before opening a window. It
+checks the installed binary against the audited GUI artifact, retains all raw
+trials, phase traces, logs, load readings and failures, and reports only the
+named navigation target's acceptance. Use the existing source auditor with
+`--ndpi-readers --rendered-loop` to prepare the required full engine audit.
