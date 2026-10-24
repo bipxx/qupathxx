@@ -3998,3 +3998,13 @@ auditor requires the new decimal suite alongside the engine suites. Both Mac
 architectures and the Windows/Linux matrix must pass before promotion. These
 changes do not qualify a Mac wheel, GUI, OpenSlide, relocated installer, signing,
 biology or a supported release. All other unfinished M0-M7 requirements remain.
+
+
+Packet115's Linux headless job in run 40046320541 is complete at exact source
+4fe2e1a2521abb8675e1c39697b11b1855305f79: 43 native suites and 1,731 Python cases
+pass, including the decimal suite and all twelve literal OME calibration cases.
+Three isolated-cell scientific expected failures remain explicit. The
+[partial Linux receipt](benchmarks/decimal-calibration-linux-ci.json) records
+inspected JUnit and installed receipt identities; the other matrix jobs, both
+Mac architectures and the complete artifact audit remain pending. Main promotion
+is withheld. The local integrated Windows wheel is still compiling.

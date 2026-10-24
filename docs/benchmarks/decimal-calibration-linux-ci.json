@@ -1,0 +1,52 @@
+{
+  "schema": "qpx.decimal-calibration-linux-validation/1",
+  "source_commit": "4fe2e1a2521abb8675e1c39697b11b1855305f79",
+  "run": "https://github.com/bipxx/qupathxx/actions/runs/40046320541",
+  "job": "https://github.com/bipxx/qupathxx/actions/runs/40046320541/job/120728761114",
+  "job_status": "completed",
+  "job_conclusion": "success",
+  "overall_status_at_observation": "queued",
+  "native": {
+    "tests": 43,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 43,
+    "sha256": "1d5f552339ab641f216d8f7e067a03e18fb54774c0d1ac0d59cc4f0809816b27"
+  },
+  "python": {
+    "tests": 2135,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 404,
+    "passed": 1731,
+    "sha256": "e9a06b39dd830168727ac68a37b8e8737b404544b75c6f31d8a0133bf65dc89a"
+  },
+  "decimal_native_suite_passed": true,
+  "ome_literal_cases": [
+    "test_ome_decimal_quantity_contract[.125e+1-1.25]",
+    "test_ome_decimal_quantity_contract[001.25-1.25]",
+    "test_ome_decimal_quantity_contract[1.-1.0]",
+    "test_ome_decimal_quantity_contract[1e-308-1e-308]",
+    "test_ome_decimal_quantity_contract[+1-None]",
+    "test_ome_decimal_quantity_contract[ 1-None]",
+    "test_ome_decimal_quantity_contract[1 -None]",
+    "test_ome_decimal_quantity_contract[0x1p0-None]",
+    "test_ome_decimal_quantity_contract[1,25-None]",
+    "test_ome_decimal_quantity_contract[nan-None]",
+    "test_ome_decimal_quantity_contract[1e309-None]",
+    "test_ome_decimal_quantity_contract[1e-9999-None]"
+  ],
+  "scientific_expected_failures": [
+    "test_isolated_cell_upstream_acceptance_gate[baseline_count]",
+    "test_isolated_cell_upstream_acceptance_gate[isolated_nucleus_iou]",
+    "test_isolated_cell_upstream_acceptance_gate[isolated_centroid]"
+  ],
+  "installed_native_sha256": "38fc425f9bd98c8c8794053501d8cef28e94156b8a1be3ec5f8c5c522d811132",
+  "installed_source_tree_sha256": "00370c5a4a3e32ed15f3dd380c53f1253cf7bd77466b21a61f87334fe654886a",
+  "installed_receipt_sha256": "05eedecda6f4bb7cb8c40ea8708520f368bc06029420d05896c31f17403fab93",
+  "full_matrix_accepted": false,
+  "macos_accepted": false,
+  "release_ready": false,
+  "scope": "Completed Linux headless job at exact source. JUnit counters and the new native/OME decimal contracts are inspected. The other matrix and Mac jobs, full artifact identity/runtime audit, local integrated Windows checks, biology and supported-release gates remain pending."
+}
