@@ -138,3 +138,11 @@ inputs match their stated evidence. Twenty [altered-evidence controls](benchmark
 reject old, missing, duplicate, failed, skipped and stale evidence. Full
 installed regression and capture review now pass as recorded above; complete
 Windows/Linux and portable platform acceptance remain pending.
+
+The [first portable workflow](benchmarks/tma-cohort-portable-initial-rejection.json)
+finished successfully but omitted the required extended-reader dispatch input.
+The unchanged audit rejected missing native NDPI project replay in both builders.
+Its cohort helper cases pass, which does not satisfy the complete qualification.
+Original artifacts and the failed audit are retained. One corrected dispatch
+with extended readers enabled is running at the same source; acceptance remains
+pending and no gate is relaxed.
