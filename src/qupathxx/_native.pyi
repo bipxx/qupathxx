@@ -4027,8 +4027,14 @@ class CellAlgorithm(enum.Enum):
 
     LOG_WATERSHED_BODIES = 2
 
+    SAMPLED_LOG_WATERSHED_BODIES = 3
+
 class CellParameters:
+    @overload
     def __init__(self) -> None: ...
+
+    @overload
+    def __init__(self, algorithm: CellAlgorithm) -> None: ...
 
     @property
     def algorithm(self) -> CellAlgorithm: ...

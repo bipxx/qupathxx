@@ -340,7 +340,7 @@ def test_sampled_signed_invalid_historical_domain_is_rejected(tmp_path, change):
         if change == 'padding':data[-65] |= 128
         rewrite_checksum(data, result.nuclei.roi)
         db.execute('UPDATE cell_records SET run=?', (data,))
-    with pytest.raises(ValueError, match='domain'):
+    with pytest.raises(ValueError, match='integer exceeds limit' if change == 'length' else 'domain'):
         q.Project.open(str(path))
 
 
