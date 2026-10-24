@@ -17,6 +17,8 @@ import zipfile
 
 resampling_spec=importlib.util.spec_from_file_location('qpx_resampling_evidence',Path(__file__).with_name('resampling_evidence.py'))
 resampling=importlib.util.module_from_spec(resampling_spec);resampling_spec.loader.exec_module(resampling)
+qptma_spec=importlib.util.spec_from_file_location('qpx_qptma_evidence',Path(__file__).with_name('qptma_evidence.py'))
+qptma=importlib.util.module_from_spec(qptma_spec);qptma_spec.loader.exec_module(qptma)
 
 ASSETS = Path(__file__).with_name('manylinux-assets.json')
 
@@ -333,11 +335,15 @@ def main():
         args.unified_engine=args.ndpi_readers=args.watershed_bodies=True
     report=audit(args.artifacts,read(args.run_json),args.commit)
     report['resampling_sources']=resampling.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['qptma_sources']=qptma.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['qptma_cohorts']=[]
     report['resampling_cohorts']=[]
     for version in ['3.11','3.12']:
         folder=args.artifacts/('manylinux-'+version)
         native=resampling.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        qptma_native=qptma.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
         for cohort,path in [('builder',folder/'python-tests.xml'),('consumer',args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+            report['qptma_cohorts'].append(dict(python=version,cohort=cohort,native=qptma_native,installed=qptma.python(list(ET.parse(path).getroot().iter('testcase')))))
             report['resampling_cohorts'].append(dict(python=version,cohort=cohort,native=native,
                 installed=resampling.python(list(ET.parse(path).getroot().iter('testcase')))))
     if args.unified_engine or args.ndpi_readers or args.watershed_bodies:

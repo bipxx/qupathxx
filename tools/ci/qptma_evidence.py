@@ -1,0 +1,40 @@
+"""Require source-bound native and installed QPTMA correctness cohorts."""
+import hashlib
+import json
+from pathlib import Path
+import subprocess
+SOURCES=['CMakeLists.txt','cpp/qptma.cpp','cpp/include/qupathxx/qptma.hpp','cpp/tma_bindings.cpp','cpp/tests/qptma_tests.cpp',
+ 'src/qupathxx/__init__.py','src/qupathxx/__init__.pyi','src/qupathxx/_native.pyi','tests/test_qptma.py','tests/test_qptma_reference.py','tests/test_qptma_evidence.py',
+ 'tools/ci/accept_unified_engine.py','tools/ci/accept_manylinux.py','tools/ci/accept_macos_native.py',
+ 'tools/ci/qptma_evidence.py','tools/ci/qptma-cases.json','tools/upstream/qupath_tma_reference.groovy',
+ *['tests/fixtures/qupath-tma-0.7.0/'+name for name in ['manifest.json','reference.json','fractional-import.qptma','qupath-export.qptma','capture.log']]]
+CASES=json.loads(Path(__file__).with_name('qptma-cases.json').read_text(encoding='utf-8'))
+MARKER='QPTMA native fixture, fractional/quoted wire, atomic history, quotas and 10000-core round trips passed'
+
+def require(value,message):
+    if not value:raise ValueError(message)
+
+def source_contract(root,commit):
+    root=Path(root);hashes={}
+    for relative in SOURCES:
+        raw=(root/relative).read_bytes();canonical=raw if relative.startswith('tests/fixtures/') else raw.replace(b'\r\n',b'\n')
+        saved=subprocess.run(['git','-C',str(root),'show',commit+':'+relative],capture_output=True)
+        require(saved.returncode==0 and saved.stdout==canonical,'qptma source differs: '+relative)
+        hashes[relative]=dict(git_blob_sha256=hashlib.sha256(saved.stdout).hexdigest(),checked_out_sha256=hashlib.sha256(raw).hexdigest())
+    return hashes
+
+def native(cases):
+    selected=[case for case in cases if case.get('name')=='qptma']
+    require(len(selected)==1,'missing/duplicate native qptma suite');case=selected[0]
+    require(all(case.find(tag) is None for tag in ['failure','error','skipped']),'native qptma did not pass')
+    require(case.findtext('system-out','').splitlines().count(MARKER)==1,'native qptma cohort differs')
+    return dict(passed=1,bounded_grid_cores=10000,atomic_document_and_file_checks=True)
+
+def python(cases):
+    groups=[]
+    for classname,names in CASES.items():
+        selected=[case for case in cases if case.get('classname','').rsplit('.',1)[-1]==classname]
+        require(sorted(case.get('name') for case in selected)==names,'qptma installed cohort missing/duplicate/changed: '+classname)
+        require(all(case.find(tag) is None for case in selected for tag in ['failure','error','skipped']),'qptma installed cohort failed or skipped')
+        groups.append(dict(classname=classname,passed=len(selected)))
+    return dict(passed=sum(group['passed'] for group in groups),groups=groups)
