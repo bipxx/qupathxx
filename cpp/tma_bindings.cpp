@@ -64,6 +64,7 @@ void bind_tma(nb::module_& m) {
         .def_rw("tma_open",&GuiOptions::tma_open).def_rw("tma_tab",&GuiOptions::tma_tab)
         .def_prop_rw("tma_options",[](const GuiOptions& o)->std::optional<std::shared_ptr<const TmaGridOptions>> {if(o.tma_options) return o.tma_options;return {};},[](GuiOptions& o,std::optional<std::shared_ptr<const TmaGridOptions>> v){o.tma_options=v?*v:nullptr;})
         .def_rw("tma_case_id",&GuiOptions::tma_case_id).def_rw("tma_metadata_path",&GuiOptions::tma_metadata_path)
+        .def_rw("tma_case_cohort",&GuiOptions::tma_case_cohort)
         .def_rw("tma_case_summary",&GuiOptions::tma_case_summary).def_rw("tma_measurements_path",&GuiOptions::tma_measurements_path)
         .def_rw("tma_value_column",&GuiOptions::tma_value_column).def_rw("tma_weight_column",&GuiOptions::tma_weight_column)
         .def_rw("tma_allow_unversioned",&GuiOptions::tma_allow_unversioned)

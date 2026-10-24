@@ -12,6 +12,7 @@ namespace qpx::detail {
 std::optional<int> tma_case_cli(const std::vector<std::string>& args,const std::atomic<bool>& cancelled) {
     if(args.size()<2 || (args[1]!="--export-tma-cases" && args[1]!="--export-tma-cohort")) return {};
     const bool cohort=args[1]=="--export-tma-cohort";
+    if(args.size()<4 && cohort) throw std::invalid_argument("usage: --export-tma-cohort PROJECT OUTPUT.csv (--image ID ... | --all-tma-images) [--measurements INPUT.csv --value-column NAME] [--weight-column NAME] [--csv-bytes N]");
     if(args.size()<4) throw std::invalid_argument("usage: --export-tma-cases PROJECT OUTPUT.csv [--image ID] [--measurements INPUT.csv --value-column NAME] [--weight-column NAME] [--allow-unversioned] [--csv-bytes N]");
     std::string input,value,weight;bool unversioned=false,all_tma=false;std::uint64_t image_id=0;std::set<std::uint64_t> image_ids;
     std::size_t limit=64*1024*1024;std::set<std::string> seen;

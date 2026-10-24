@@ -742,7 +742,7 @@ struct GuiOptions {
     int tma_tab=0;
     std::shared_ptr<const TmaGridOptions> tma_options;
     std::string tma_case_id,tma_metadata_path;
-    bool tma_case_summary=false,tma_allow_unversioned=false;
+    bool tma_case_summary=false,tma_allow_unversioned=false,tma_case_cohort=false;
     std::string tma_measurements_path,tma_value_column,tma_weight_column;
     Point tma_translation;
     std::optional<Rect> tma_core_bounds;
