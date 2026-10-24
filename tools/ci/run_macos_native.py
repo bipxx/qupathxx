@@ -61,7 +61,7 @@ def main():
     if len(cases)<43 or any(any(t.find(k) is not None for k in ['failure','error','skipped']) for t in cases):
         raise RuntimeError('full native test evidence is incomplete')
     names={t.get('name') for t in cases}
-    required={'decimal_quantities','masked_gaussian','cells','geometry','project','classifier','pixel_features'}
+    required={'decimal_quantities','masked_gaussian','log_watershed','log_cell_recipe','cells','geometry','project','classifier','pixel_features'}
     if not required.issubset(names):
         raise RuntimeError('native test evidence omits required engine modules: '+str(required-names))
     binary=build/'qupathxx_batch'

@@ -35,3 +35,5 @@ docs/benchmarks/log-cell-*.json -text whitespace=cr-at-eol
 tools/profile_roi_sampling.py text eol=lf
 tools/compare_roi_sampling_engines.py text eol=lf
 tools/profile_roi_sampling_cold.py text eol=lf
+
+docs/benchmarks/unified-native-*.json -text whitespace=cr-at-eol

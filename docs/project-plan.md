@@ -4052,3 +4052,19 @@ auditor requires the new decimal suite alongside the engine suites. Both Mac
 architectures and the Windows/Linux matrix must pass before promotion. These
 changes do not qualify a Mac wheel, GUI, OpenSlide, relocated installer, signing,
 biology or a supported release. All other unfinished M0-M7 requirements remain.
+
+
+## Packet121: unified native candidate
+
+Source `c83872d9250ea68df28c9d81a81bcf47e82b2875` combines the production
+LoG detector with the independently validated OME decimal parser, Darwin
+width/stride type fix and conservative winding boundary cache. The merge retains
+both new LoG targets and the decimal target. A full-feature Windows headless
+native build passes all 45 suites, including both LoG suites, decimal quantities,
+geometry, archives, projects, classifiers and readers. The
+[receipt](benchmarks/unified-native-windows.json) binds the native probe, all
+248 build inputs and executed JUnit results; actual and Git-LF source fingerprints
+remain separate. The macOS wrapper now requires both LoG suite names in addition
+to its existing gates. Unified Python/GUI, hosted platforms, portable consumers,
+macOS, scientific/hardware acceptance and main promotion remain open. Separate
+packet120 scaling observations are retained at their original source identity.
