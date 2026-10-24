@@ -58,8 +58,13 @@ and formatted oracle text; it is not actual macOS or `otool` execution.
 The [local receipt](benchmarks/macos-native-inventory-local-windows.json) retains
 that scope and the initial nine failing snapshot cases caused by Windows
 `fsync` on a read-only descriptor. A writable temporary handle fixes publication;
-all final cases pass. Exact-source hosted validation on actual Intel and arm64
-qupathxx binaries remains pending. Native compiler inputs are unchanged.
+all final cases pass. [Exact-source hosted validation](benchmarks/macos-native-inventory-macos.json)
+on actual Intel and arm64 qupathxx binaries is accepted at `82c20ff`. Each
+architecture passes all 46 native suites and uploads 14 files, including seven
+recorded Mach-O files with SDK aliases. Reinspection, tested binary/SDK ledgers
+and all independent raw `otool` records agree. Native compiler inputs are
+unchanged. This native-only qualification does not claim new installed Python
+engine/portable cohorts or main promotion of candidate 150.
 
 Install-name/origin resolution, relocation without build SDKs, macOS Python/
 GUI/OpenSlide packaging, runtime/ABI availability, installers/signing, licensing,

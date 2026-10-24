@@ -4915,6 +4915,11 @@ no actual Mac execution claim. See the
 [snapshot contract](macos-native-inventory.md),
 [local receipt](benchmarks/macos-native-inventory-local-windows.json) and
 [controls](benchmarks/macos-native-inventory-controls.json). Real qupathxx Intel/
-arm64 binary capture and `otool` execution require new hosted validation.
+arm64 binary capture and `otool` execution now pass the
+[exact-source Mac audit](benchmarks/macos-native-inventory-macos.json) at
+`82c20ff`: each architecture retains all 46 native suites and supplies 14 files/
+seven binary records, with SDK aliases included. Actual archive bytes, native/
+SDK identities and raw oracle records agree. This native-only qualification
+does not claim new installed Python cohorts or main promotion of candidate 150.
 Relocated Mac packages, runtime/ABI checks, signing/installers, license, hardware
 and biological/research acceptance remain open; full M0-M7 remains partial.
