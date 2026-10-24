@@ -84,6 +84,10 @@ def main():
     with args.image.open("rb") as file:
         digest = hashlib.file_digest(file, "sha256").hexdigest()
     result = {
+        "schema": "qpx.viewer-benchmark/2",
+        "build_git_revision": q.build_environment().git_revision,
+        "tool_sha256": hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+        "performance_accepted": False,
         "platform": platform.platform(), "processor": platform.processor(),
         "python": platform.python_version(), "fixture": args.image.name,
         "sha256": digest,
