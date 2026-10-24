@@ -109,6 +109,15 @@ int main() {
             rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),context_request.roi(),contextual.metadata());});
         }
         auto unsupported=sampled;unsupported.min_seed_distance=4;rejects([&]{unsupported.validate();});unsupported=sampled;unsupported.min_peak_radius=1;rejects([&]{unsupported.validate();});unsupported=sampled;unsupported.connectivity=4;rejects([&]{unsupported.validate();});
+        {
+            Document boundary(Image(3,3,std::vector<std::uint8_t>(27,255)));
+            const auto roi=Roi::ellipse({0,0,1.5,3});require(roi.contains({1.5,1.5}));
+            const auto object=boundary.add_roi(roi);const CellRequest captured(boundary,object,transform,sampled);
+            const auto empty=detect_cells(captured);require(empty->features().empty() && empty->nuclei()->samples()==3);
+            auto bad=CellArchiveCodec::encode(*empty);bad[bad.size()-64-2]^=(1u<<3)|(1u<<4);sign(bad,roi);
+            rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),roi,boundary.metadata());});
+            std::cout<<"Sampled historical domain excludes covered geometry outside the sample grid\n";
+        }
         require(CellArchiveCodec::encode(*restored)==bytes && CellArchiveCodec::encode(*body_restored)==body_bytes && CellArchiveCodec::encode(*sampled_restored)==sampled_bytes);
         std::cout<<"Sampled LoG QCL4, explicit seed preset, typed recipe identities, replay and QCL1/2/3 preservation passed\n";
         std::cout<<"Captured LoG context, fractional ROI clipping, digests, QCL2, replay and legacy QCL1 passed\n";

@@ -693,6 +693,17 @@ for job in run['jobs']:
         entry['small_frontier']=frontier.native(native_cases)
         if (folder/'python-tests.xml').exists():
             entry['small_frontier'].update(frontier.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),ROOT,COMMIT))
+            if args.ndpi_readers:
+                baseline_path='docs/benchmarks/sampled-cells-ndpi-windows.json'
+                assert (ROOT/baseline_path).read_bytes()==subprocess.check_output(['git','-C',str(ROOT),'show',COMMIT+':'+baseline_path])
+                baseline=json.loads((ROOT/baseline_path).read_text())['reports']
+                preserved=[]
+                for padding in [0,32]:
+                    original=next(r for r in baseline if all(v['context_padding']==padding for v in r['runs']))
+                    candidate=json.loads((folder/f'qupath-ndpi-sampled-context{padding}.json').read_text())
+                    preserved.append(frontier.unchanged_real_masks(candidate,original,padding))
+                entry['small_frontier']['real_slide_masks_preserved']=preserved
+                entry['small_frontier']['real_slide_baseline_sha256']=sha(ROOT/baseline_path)
     report['jobs'].append(entry)
 report['fixture_retraining']=dict(local_and_audited_hosted_models_identical=True,
     model_sha256=local['model_sha256'],training_sha256=local['training_sha256'],

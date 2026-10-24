@@ -93,7 +93,9 @@ bool Document::verify_cells(std::uint64_t id,const CellRequest& request,const Ce
     auto it=cells_.find(id);if(it==cells_.end()) throw std::out_of_range("cell record does not exist");
     auto& stored=it->second;
     if(!same_request(*stored.value->result,result)) throw std::invalid_argument("verification request does not match saved cell parameters");
-    stored.identity=analysis_identity_.token;stored.source=server_;stored.verified=equivalent(*stored.value->result,result);return stored.verified;
+    stored.identity=analysis_identity_.token;stored.source=server_;
+    stored.verified=stored.value->result->domain_bits_==result.domain_bits_ && equivalent(*stored.value->result,result);
+    return stored.verified;
 }
 std::shared_ptr<const CellRecord> Document::cell_record(std::uint64_t id) const {auto it=cells_.find(id);if(it==cells_.end()) throw std::out_of_range("cell record does not exist");return it->second.value;}
 std::vector<std::shared_ptr<const CellRecord>> Document::cell_records() const {std::vector<std::shared_ptr<const CellRecord>> records;records.reserve(cells_.size());for(const auto& entry:cells_) records.push_back(entry.second.value);return records;}

@@ -34,3 +34,21 @@ def python(cases, root, commit):
     require(all(t.find(k) is None for t in selected for k in ['failure','error','skipped']),
             'frontier workflow case failed or skipped')
     return dict(passed=8,cohort_contract_sha256=hashlib.sha256(path.read_bytes()).hexdigest())
+
+
+def unchanged_real_masks(candidate, baseline, padding):
+    def masks(report):
+        runs=report['runs']
+        require(len(runs)==3 and {r['mode'] for r in runs}=={'log','log-bodies','log-sampled'},
+                'real-slide recipe set differs')
+        output={}
+        for run in runs:
+            require(run['context_padding']==padding and
+                    sorted(r['tile_size'] for r in run['results'])==[16,64,256],
+                    'real-slide context/tile set differs')
+            for result in run['results']:
+                require(set(result['labels_sha256'])=={'nucleus','body'},'real-slide compartments differ')
+                output[run['mode'],result['tile_size']]=result['labels_sha256']
+        return output
+    require(masks(candidate)==masks(baseline),'expansion optimization changed a frozen real-slide label map')
+    return dict(context_padding=padding,recipes=3,tile_sizes=3,unchanged_compartment_maps=18)

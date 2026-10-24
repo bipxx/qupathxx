@@ -157,7 +157,8 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* d
         historical_domain.resize(count);std::uint64_t opaque=0;
         for(std::size_t i=0;i<count;++i) {
             if((i&4095)==0) checkpoint(cancelled);const bool inside=(result->domain_bits_[i/8]>>(i%8))&1u;historical_domain[i]=inside;opaque+=inside;
-            if(inside && !roi.contains({(double(x)+i%width+.5)*scale,(double(y)+i/width+.5)*scale})) throw std::invalid_argument("sampled cell domain exceeds its ROI");
+            if(inside && (x+i%width<left || y+i/width<top || x+i%width>=right || y+i/width>=bottom ||
+                          !roi.contains({(double(x)+i%width+.5)*scale,(double(y)+i/width+.5)*scale}))) throw std::invalid_argument("sampled cell domain exceeds its ROI sample grid");
             if(!inside && (nucleus_labels[i] || body_labels[i])) throw std::invalid_argument("sampled cell label exceeds its domain");
         }
         if(opaque!=samples) throw std::invalid_argument("sampled cell domain sample count differs");
