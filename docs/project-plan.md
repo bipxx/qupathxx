@@ -4379,3 +4379,11 @@ separate `validation/zlib-engine-132` Windows/Linux dispatch must qualify the
 same changed source with NDPI/timing/default-stack audit modes before replacing
 source757 engineering acceptance. No release, platform, performance or complete
 M0–M7 claim follows from the local symbol check. Main promotion remains withheld.
+
+
+Both Mac130 architectures are now terminal failures on the same duplicate
+private zlib error-table symbol. Full build artifacts and both completed job
+logs are retained; there are no additional C++ compilation failures in those
+complete build logs. The pending source132 jobs address this shared linker
+condition. Successful Windows/Linux source757 engineering acceptance is
+separate and does not satisfy the Mac promotion gate.
