@@ -62,10 +62,17 @@ int main() {
         const auto sampled_bytes=CellArchiveCodec::encode(*sampled_result);require(sampled_bytes[3]==4);
         const auto sampled_restored=CellArchiveCodec::decode(sampled_bytes.data(),sampled_bytes.size(),sampled_request.roi(),doc.metadata());
         require(sampled_restored->nuclei()->labels()==sampled_result->nuclei()->labels() && sampled_restored->cells()->labels()==sampled_result->cells()->labels());
+        require(std::any_of(sampled_result->markers().begin(),sampled_result->markers().end(),[](const auto& marker){return marker.result_label==0;}));
         const auto sampled_record=doc.keep_cells(sampled_request,sampled_result);const auto sampled_replay=CellRequest::replay(doc,sampled_record);
         require(doc.verify_cells(sampled_record,sampled_replay,*detect_cells(sampled_replay)));
         for(auto version:{1,2,3,5}) {auto bad=sampled_bytes;bad[3]=static_cast<std::uint8_t>(version);sign(bad,sampled_request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),sampled_request.roi(),doc.metadata());});}
         for(auto algorithm:{0,1,2}) {auto bad=sampled_bytes;bad[4]=static_cast<std::uint8_t>(algorithm);sign(bad,sampled_request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),sampled_request.roi(),doc.metadata());});}
+        {auto bad=sampled_bytes;const auto domain_bytes=(sampled_result->nuclei()->labels().size()+7)/8;bad[bad.size()-64-domain_bytes]^=1;sign(bad,sampled_request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),sampled_request.roi(),doc.metadata());});}
+        Document blank_doc(Image(5,5,std::vector<std::uint8_t>(75,255)));const auto blank_object=blank_doc.add_rectangle({0,0,5,5});auto blank_parameters=sampled;blank_parameters.context_padding=0;
+        const CellRequest blank_request(blank_doc,blank_object,transform,blank_parameters);const auto blank_result=detect_cells(blank_request);require(blank_result->features().empty());
+        const auto blank_bytes=CellArchiveCodec::encode(*blank_result);require(CellArchiveCodec::encode(*CellArchiveCodec::decode(blank_bytes.data(),blank_bytes.size(),blank_request.roi(),blank_doc.metadata()))==blank_bytes);
+        {auto bad=blank_bytes;bad[bad.size()-65]|=128;sign(bad,blank_request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),blank_request.roi(),blank_doc.metadata());});}
+        {auto bad=blank_bytes;bad[bad.size()-64-4-8]^=1;sign(bad,blank_request.roi());rejects([&]{CellArchiveCodec::decode(bad.data(),bad.size(),blank_request.roi(),blank_doc.metadata());});}
         auto unsupported=sampled;unsupported.min_seed_distance=4;rejects([&]{unsupported.validate();});unsupported=sampled;unsupported.min_peak_radius=1;rejects([&]{unsupported.validate();});unsupported=sampled;unsupported.connectivity=4;rejects([&]{unsupported.validate();});
         require(CellArchiveCodec::encode(*restored)==bytes && CellArchiveCodec::encode(*body_restored)==body_bytes && CellArchiveCodec::encode(*sampled_restored)==sampled_bytes);
         std::cout<<"Sampled LoG QCL4, explicit seed preset, typed recipe identities, replay and QCL1/2/3 preservation passed\n";
