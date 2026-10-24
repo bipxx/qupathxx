@@ -1,5 +1,6 @@
 #pragma once
 #include "cell_numeric.hpp"
+#include "shape_watershed.hpp"
 #include <map>
 #include <numeric>
 #include <tuple>
@@ -13,6 +14,7 @@ struct LogParameters {
     int peak_connectivity=8;
     bool response_basins=false; // Internal candidate; production/archive recipes remain unchanged.
     bool eight_connected_background=false;
+    bool sampled_shape=false;
     std::size_t maximum_cells=10000, work_bytes=256*1024*1024;
     void validate() const {
         if(!std::isfinite(sigma) || sigma<0 || sigma>16 || !std::isfinite(threshold) ||
@@ -142,6 +144,7 @@ inline std::vector<std::uint8_t> log_regions(const std::vector<float>& score,std
 }
 
 #include "log_response_regions.hpp"
+#include "log_sampled_nuclei.hpp"
 
 inline std::vector<std::uint8_t> log_h_maxima(const std::vector<double>& distance,const std::vector<std::uint8_t>& mask,
                                             std::size_t width,std::size_t height,double prominence,const std::atomic<bool>* cancelled) {
@@ -186,6 +189,7 @@ inline LogResult log_watershed(const std::vector<float>& score,const std::vector
     const auto n=score.size();if(n>p.work_bytes/128) throw std::length_error("LoG raster exceeds work budget");
     for(auto v:score) if(!std::isfinite(v)) throw std::invalid_argument("nonfinite LoG feature");
     auto mask=p.response_basins?log_basin_regions(score,width,height,p,cancelled):log_regions(score,width,height,p,cancelled);
+    if(p.sampled_shape) return log_sampled_nuclei(score,domain,mask,width,height,p,cancelled,phase);
     if(phase) phase->store(3);
     std::vector<double> distance(n);for(std::size_t i=0;i<n;++i) distance[i]=mask[i]?infinity:0;
     cell_detail::distance(distance,width,height,true,nullptr,cancelled);for(auto& value:distance) value=std::sqrt(value);

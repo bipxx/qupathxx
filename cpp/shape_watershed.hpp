@@ -10,7 +10,7 @@ namespace qpx::cell_detail {
 // (Michael Schmid and Wayne Rasband). ImageJ is public-domain software; see
 // third_party/imagej-shape-NOTICE.txt. No Java runtime is used by this engine.
 // The distance transform is our exact squared-Euclidean implementation.
-struct ShapeSplit {std::vector<std::uint8_t> mask;std::vector<std::uint32_t> maxima;};
+struct ShapeSplit {std::vector<std::uint8_t> mask;std::vector<std::uint32_t> maxima;std::vector<float> maxima_radii;};
 
 class SampledShapeWatershed {
     static constexpr std::uint8_t maximum=1,listed=2,processed=4,area=8,equal=16,point=32,eliminated=64;
@@ -185,7 +185,7 @@ public:
         for(std::size_t i=0;i<size_;++i) {step();ridge_[i]=ridge_height(i);}
         const auto extrema=std::minmax_element(edm_.begin(),edm_.end());find_candidates(*extrema.first,*extrema.second);
         mark_maxima(prominence);quantize(*extrema.second);flatten_suppressed();grow_levels();
-        for(std::size_t i=0;i<size_;++i) {step();output.mask[i]=mask[i] && levels_[i]==255;if(types_[i]&point) output.maxima.push_back(static_cast<std::uint32_t>(i));}
+        for(std::size_t i=0;i<size_;++i) {step();output.mask[i]=mask[i] && levels_[i]==255;if(types_[i]&point) {output.maxima.push_back(static_cast<std::uint32_t>(i));output.maxima_radii.push_back(edm_[i]);}}
         checkpoint(cancelled_);return output;
     }
 };

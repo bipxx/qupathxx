@@ -47,14 +47,16 @@ std::uint32_t read_integer(std::istream& stream) {
 void write_integer(std::ostream& stream,std::uint32_t value) {
     for(unsigned i=0;i<4;++i) stream.put(static_cast<char>((value>>(i*8))&255));
 }
-void shape_probe(const char* input,const char* output) {
+void shape_probe(const char* input,const char* output,bool maxima_only=false) {
     std::ifstream stream(input,std::ios::binary);char magic[4];stream.read(magic,4);require(stream.good() && std::memcmp(magic,"QLR1",4)==0);
     const auto width=read_integer(stream),height=read_integer(stream);read_integer(stream);
     require(width && height && std::uint64_t(width)*height<=1024*1024);std::vector<std::uint8_t> mask(std::size_t(width)*height);
     for(auto& value:mask) value=read_integer(stream)!=0;require(stream.peek()==std::char_traits<char>::eof());
     const auto result=qpx::cell_detail::sampled_shape_watershed(mask,width,height);
     std::ofstream target(output,std::ios::binary|std::ios::trunc);require(bool(target));target.write("QLR1",4);
-    write_integer(target,width);write_integer(target,height);write_integer(target,1);for(auto v:result.mask) write_integer(target,v);target.flush();require(bool(target));
+    write_integer(target,width);write_integer(target,height);write_integer(target,1);
+    if(maxima_only) {std::vector<std::uint8_t> points(mask.size());for(auto i:result.maxima) points[i]=1;for(auto v:points) write_integer(target,v);}
+    else for(auto v:result.mask) write_integer(target,v);target.flush();require(bool(target));
 }
 void shape_contract() {
     using qpx::cell_detail::sampled_shape_watershed;
@@ -67,7 +69,7 @@ void shape_contract() {
     std::vector<std::uint8_t> particles(81);for(std::size_t y=1;y<9;y+=3) for(std::size_t x=1;x<9;x+=3) particles[y*9+x]=1;
     bool limited=false;try {sampled_shape_watershed(particles,9,9,.5,1);} catch(const std::length_error&) {limited=true;}require(limited);
 }
-void probe(const char* input,const char* output,bool response_basins=false,bool regions_only=false,bool dual_background=false) {
+void probe(const char* input,const char* output,bool response_basins=false,bool regions_only=false,bool dual_background=false,bool sampled_shape=false) {
     std::ifstream stream(input,std::ios::binary);char magic[4];stream.read(magic,4);
     require(stream.good() && std::memcmp(magic,"QLP1",4)==0);
     const auto width=read_integer(stream),height=read_integer(stream);
@@ -78,6 +80,7 @@ void probe(const char* input,const char* output,bool response_basins=false,bool 
     require(stream.peek()==std::char_traits<char>::eof());
     qpx::cell_detail::LogParameters parameters;parameters.response_basins=response_basins;
     parameters.eight_connected_background=dual_background;
+    parameters.sampled_shape=sampled_shape;if(sampled_shape) {parameters.minimum_radius=0;parameters.minimum_spacing=0;}
     qpx::cell_detail::LogResult result;
     if(regions_only) {
         const auto mask=response_basins?qpx::cell_detail::log_basin_regions(score,width,height,parameters,nullptr):qpx::cell_detail::log_regions(score,width,height,parameters,nullptr);
@@ -102,6 +105,8 @@ int main(int argc,char** argv) {
         if(argc==4 && std::string(argv[1])=="--dual-background") {probe(argv[2],argv[3],false,false,true);return 0;}
         if(argc==4 && std::string(argv[1])=="--dual-regions") {probe(argv[2],argv[3],false,true,true);return 0;}
         if(argc==4 && std::string(argv[1])=="--shape-split") {shape_probe(argv[2],argv[3]);return 0;}
+        if(argc==4 && std::string(argv[1])=="--shape-maxima") {shape_probe(argv[2],argv[3],true);return 0;}
+        if(argc==4 && std::string(argv[1])=="--sampled-shape") {probe(argv[2],argv[3],false,false,true,true);return 0;}
         require(argc==1);
         using namespace qpx::cell_detail;
         reconstruction_oracle();
