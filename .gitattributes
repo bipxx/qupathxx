@@ -50,4 +50,5 @@ docs/benchmarks/vendor-reader-*-windows.json -text whitespace=cr-at-eol
 tools/ci/manylinux-assets.json text eol=lf
 docs/benchmarks/portable-ndpi-*.json -text whitespace=cr-at-eol
 tools/benchmark_viewer.py text eol=lf
+tools/benchmark_overlays.py text eol=lf
 docs/benchmarks/rendered-loop-*.json -text whitespace=cr-at-eol
