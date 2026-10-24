@@ -4064,3 +4064,14 @@ three scientific expected failures. [Local evidence](benchmarks/macos-width-wind
 records native/wheel/source identities. Full current-source and Mac qualification
 remain pending. The preceding source's Windows/Linux acceptance remains valid
 for that source; main promotion and the full M0-M7 goal are still open.
+
+
+Packet119's exact-source Windows headless wheel now passes the full 1,731-case
+Python regression, with 401 optional skips and the same three strict scientific
+expected failures. Stubs match, three strict typing files pass and negative
+typing produces exactly seven errors. Its prior 43 native/248 focused and
+installed checks pass. The [updated local receipt](benchmarks/macos-width-windows-local.json)
+retains these outcomes at source ac91ac0. Fresh Intel/arm64 native validation is
+queued in run 40051686430. Source4fe2e1a's independent manylinux run 40051088451
+has passing 3.11/3.12 builders with fresh-consumer checks still pending. No Mac,
+combined-source, supported release or full M0-M7 completion is claimed.

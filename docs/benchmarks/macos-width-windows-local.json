@@ -27,8 +27,26 @@
   "installed_native_sha256": "5f1edf93050e203813c249429a68a49d850b1e7ba538e4deb34806e8d67687f5",
   "wheel_sha256": "c6f8e013e62f1ae1e50e0be34d24952cd252aa4fee627ec329babb5d1aa35dcd",
   "wheel_native_equals_installed": true,
-  "full_python_pending": true,
+  "full_python_pending": false,
   "macos_accepted": false,
   "release_ready": false,
-  "scope": "Local headless Windows native, installed package, pixel-feature/window/classifier, TIFF/raw/project/save/sampling and reference checks for the Darwin deduction correction. No Mac or full current-source release acceptance."
+  "scope": "Exact-source headless Windows native, installed-package, focused pixel/TIFF/raw/project/sampling and complete Python regression, stubs and typing for the Darwin declaration correction. No Mac, GUI or supported release acceptance.",
+  "full_python": {
+    "tests": 2135,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 404,
+    "passed": 1731,
+    "expected_failures": [
+      "test_isolated_cell_upstream_acceptance_gate[baseline_count]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_nucleus_iou]",
+      "test_isolated_cell_upstream_acceptance_gate[isolated_centroid]"
+    ],
+    "optional_skips": 401,
+    "sha256": "d1e119b72948a0e0a8faad96c9664c50dba13fbf54f4ec009ff50486ec065746"
+  },
+  "stubs_match": true,
+  "typing_positive_files": 3,
+  "typing_negative_errors": 7,
+  "macos_validation_run": "https://github.com/bipxx/qupathxx/actions/runs/40051686430"
 }
