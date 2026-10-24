@@ -92,6 +92,30 @@ def local_labels(mask,roi):
     return output
 
 
+def reference_labels(folder,contract,reference):
+    """Decode only the contracted canvas and check its independent count ledger."""
+    import numpy as np
+    width,height=contract['roi'][2:]
+    expected=width*height*4
+    output={}
+    if reference['count']<=0 or reference['count']>width*height:
+        raise ValueError('invalid NDPI reference cell count')
+    for name in ['nucleus','body']:
+        with gzip.open(folder/(name+'.u32le.gz'),'rb') as stream:
+            raw=stream.read(expected+1)
+        if len(raw)!=expected:
+            raise ValueError('NDPI reference label canvas has incorrect length')
+        labels=np.frombuffer(raw,dtype='<u4').reshape(height,width)
+        if int(labels.max())!=reference['count']:
+            raise ValueError('NDPI reference label count differs')
+        counts=np.bincount(labels.ravel(),minlength=reference['count']+1)[1:]
+        if (np.any(counts==0) or reference['collisions'][name]!=0 or
+                counts.tolist()!=reference['sampled_pixels'][name]):
+            raise ValueError('NDPI reference label ledger differs')
+        output[name]=labels
+    return output
+
+
 def compare(folder,image):
     import numpy as np
     from PIL import Image
@@ -119,8 +143,7 @@ def compare(folder,image):
         if not report['source_pixels_equal']:
             report['state']='input-pixels-differ'
             return report
-        refs={name:np.frombuffer(gzip.decompress((folder/(name+'.u32le.gz')).read_bytes()),dtype='<u4').reshape(height,width)
-              for name in ['nucleus','body']}
+        refs=reference_labels(folder,contract,reference)
         doc=q.Document(server);target=doc.add_rectangle(q.Rect(*roi))
         transform=q.StainTransform(contract['vectors'],contract['white'])
         for mode,algorithm in [('log',q.CellAlgorithm.LOG_WATERSHED),('log-bodies',q.CellAlgorithm.LOG_WATERSHED_BODIES)]:

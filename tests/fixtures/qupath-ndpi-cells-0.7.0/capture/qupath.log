@@ -1,0 +1,16 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+03:43:38.896 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+03:43:38.899 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+03:43:38.899 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+03:43:38.920 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+03:43:38.929 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+03:43:39.023 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+03:43:46.959 [task-runner-1-1] [INFO ] q.lib.plugins.DetectionPluginTools - 506 nuclei detected (processing time: 0.42 seconds)
+03:43:46.959 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 506 nuclei detected (100%)
+03:43:46.959 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.42 seconds
+03:43:46.960 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_REAL_NDPI_CELLS_OK 506
