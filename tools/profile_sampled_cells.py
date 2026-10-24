@@ -103,6 +103,7 @@ def worker(size, mode, output):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--python', type=Path)
+    parser.add_argument('--baseline-python', type=Path, help='Optionally interleave a second installed build on the identical fixture')
     parser.add_argument('--output-directory', type=Path)
     parser.add_argument('--report', type=Path)
     parser.add_argument('--repetitions', type=int, default=3)
@@ -117,18 +118,25 @@ def main():
         return
     if args.python is None or args.output_directory is None or args.report is None or not 1 <= args.repetitions <= 10:
         parser.error('require python, output-directory, report and 1..10 repetitions')
+    if args.baseline_python and args.baseline_python.resolve()==args.python.resolve():
+        parser.error('baseline and candidate must use different installed environments')
     directory = args.output_directory.resolve()
     directory.mkdir(parents=True, exist_ok=False)
     spec = importlib.util.spec_from_file_location('qpx_kernel_profile', Path(__file__).with_name('profile_sampled_log.py'))
     helper = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(helper)
     records = []
+    builds=[('candidate',args.python)]
+    if args.baseline_python:
+        builds.insert(0,('baseline',args.baseline_python))
     for size in [256, 512, 1024]:
         for trial in range(args.repetitions+1):
-            for mode in (['legacy', 'sampled'] if trial % 2 == 0 else ['sampled', 'legacy']):
-                output = directory/f'{size}-{mode}-{trial}.json'
+            tasks=[(build,python,mode) for build,python in builds for mode in ['legacy','sampled']]
+            if trial%2:tasks.reverse()
+            for build,python,mode in tasks:
+                output = directory/f'{size}-{build}-{mode}-{trial}.json'
                 began = time.perf_counter()
-                child = subprocess.Popen([str(args.python.resolve()), '-I', str(Path(__file__).resolve()),
+                child = subprocess.Popen([str(python.resolve()), '-I', str(Path(__file__).resolve()),
                     '--worker-mode', mode, '--size', str(size), '--output', str(output)],
                     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 try:
@@ -145,28 +153,31 @@ def main():
                     raise RuntimeError('workflow child failed; see '+str(output.with_suffix('.stderr')))
                 record = json.loads(output.read_text())
                 assert '+dirty' not in record['build_git_revision']
-                record.update(trial=trial, warmup=trial == 0, process_wall_ms=elapsed,
+                record.update(build=build,trial=trial, warmup=trial == 0, process_wall_ms=elapsed,
                               process_peak_working_set_bytes=peak)
                 write(output, record)
                 records.append(record)
-                print(json.dumps(dict(size=size, mode=mode, trial=trial, native_detection_ms=record['native_detection_ms'])), flush=True)
+                print(json.dumps(dict(size=size,build=build,mode=mode,trial=trial,native_detection_ms=record['native_detection_ms'])),flush=True)
         selected = [r for r in records if r['size'] == size]
         assert all(r['masks_sha256'] == selected[0]['masks_sha256'] for r in selected)
-    assert len({(r['native_sha256'], r['source_tree_sha256'], r['build_git_revision']) for r in records}) == 1
+    for build,_ in builds:
+        assert len({(r['native_sha256'],r['source_tree_sha256'],r['build_git_revision']) for r in records if r['build']==build})==1
+    if args.baseline_python:assert len({r['native_sha256'] for r in records})==2
     timings = ['capture_ms', 'detection_wall_ms', 'native_detection_ms', 'keep_save_ms',
                'reopen_validate_ms', 'replay_verify_ms', 'process_wall_ms']
     summaries = []
     for size in [256, 512, 1024]:
-        for mode in ['legacy', 'sampled']:
-            rows = [r for r in records if r['size'] == size and r['mode'] == mode and not r['warmup']]
-            summaries.append(dict(size=size, mode=mode, observations=len(rows),
+        for build,mode in [(build,mode) for build,_ in builds for mode in ['legacy','sampled']]:
+            rows = [r for r in records if r['size']==size and r['build']==build and r['mode']==mode and not r['warmup']]
+            summaries.append(dict(size=size,build=build,mode=mode,observations=len(rows),
                 median_ms={key: statistics.median(r[key] for r in rows) for key in timings},
                 max_process_peak_working_set_bytes=max(r['process_peak_working_set_bytes'] for r in rows) if os.name == 'nt' else None))
     args.report.parent.mkdir(parents=True, exist_ok=True)
-    write(args.report, dict(schema='qpx.sampled-cell-workflow-profile/1',
+    write(args.report, dict(schema='qpx.sampled-cell-workflow-profile/2',
+        build_executables={label:str(python.resolve()) for label,python in builds},
         tool_sha256=sha(Path(__file__)), peak_helper_sha256=sha(Path(__file__).with_name('profile_sampled_log.py')),
         records=records, summaries=summaries, platform=platform.platform(), performance_accepted=False,
-        biological_validation=False, scope='Uncontrolled fresh processes with alternating order and one retained/excluded warmup per size/mode. Detection includes native compartment/contour work. Save, load validation and replay are measured separately. All label identities, compartment RGB/counts, strict expansion and saved replay are checked. Nucleus boundaries are compared across recipes, not independently accepted as biological truth. Process peak includes fixture generation, verification and persistence. No GUI or hardware-target acceptance.'))
+        biological_validation=False, scope='Uncontrolled fresh processes alternate build/recipe order, with one retained/excluded warmup per build/size/recipe. Detection includes native compartment/contour work. Save, load validation and replay are measured separately. All label identities, compartment RGB/counts, strict expansion and saved replay are checked across every build and recipe. Nucleus boundaries are compared across recipes, not independently accepted as biological truth. Process peak includes fixture generation, verification and persistence. No GUI or hardware-target acceptance.'))
 
 
 if __name__ == '__main__':
