@@ -4212,3 +4212,11 @@ Windows native build, both Mac architectures in run 40064794386 and a fresh
 extended Windows/Linux matrix are pending. This source includes packet127's
 wall timing and long-session check; earlier engine qualification cannot accept
 this changed source. Main promotion and every remaining M0–M7 gate stay open.
+
+
+Packet128's [local native receipt](benchmarks/darwin-training-size-windows-native.json)
+now verifies all 248 committed inputs against the compiled source fingerprint
+and accepts 45 Windows native suites. Existing pixel-workflow checks cover
+scratch-budget rejection and tile-invariant training samples. This run does
+not supply real-NDPI fixture, GUI, Python-wheel or Mac acceptance. Both exact-source
+hosted matrices remain independent gates.
