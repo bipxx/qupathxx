@@ -80,6 +80,10 @@ def main():
     for label,sdk in [('geos',geos_work/'geos-sdk'),('opencv',opencv)]:
         dependencies[label]={p.relative_to(sdk).as_posix():sha(p) for p in sorted(sdk.rglob('*'))
                              if p.is_file() and (p.suffix in ['.dylib','.a'] or '/licenses/' in p.as_posix())}
+    run([sys.executable,'-I',ROOT/'tools/ci/macos_native_inventory.py','--native-build',build,
+         '--geos-sdk',geos_work/'geos-sdk','--opencv-sdk',opencv,'--architecture',args.architecture,
+         '--archive',work/'macos-native-files.zip','--output',work/'macos-native-file-inventory.json',
+         '--otool-output',work/'macos-otool-probe.json'],'macos-native-inventory',300)
     report=dict(schema='qpx.macos-native-validation/1',commit=os.environ.get('GITHUB_SHA'),
         platform=platform.platform(),architecture=args.architecture,python=sys.version,
         compiler=subprocess.check_output(['c++','--version'],env=env,text=True).splitlines()[0],
@@ -87,9 +91,9 @@ def main():
         ninja=subprocess.check_output(['ninja','--version'],env=env,text=True).strip(),
         runner_image=dict(os=os.environ.get('ImageOS'),version=os.environ.get('ImageVersion')),
         flags=flags,tests=dict(passed=len(cases),names=sorted(names),junit_sha256=sha(work/'native-tests.xml')),
-        dependencies=dependencies,native_batch_sha256=sha(binary),region_cli_exact=True,
+        dependencies=dependencies,native_batch_sha256=sha(binary),native_region_sha256=sha(build/'qupathxx_region'),region_cli_exact=True,
         loader_overrides_used=False,python_gui_openslide_validated=False,release_ready=False,
-        scope='Native engine/geometry/TIFF/project/interchange/classifier validation on the build host. SDK paths may be embedded. No relocated macOS wheel, OpenSlide, GUI, installer, signing or supported release acceptance.')
+        scope='Native engine/geometry/TIFF/project/interchange/classifier validation and native/selected SDK runtime/notices byte snapshot on the build host. SDK paths may be embedded. No relocated macOS wheel, OpenSlide, GUI, installer, signing or supported release acceptance.')
     (work/'result.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(architecture=args.architecture,passed=len(cases),release_ready=False)))
 
