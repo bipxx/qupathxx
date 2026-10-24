@@ -22,7 +22,14 @@ def write(path, data):
     path.write_bytes((json.dumps(data, indent=2, allow_nan=False)+'\n').encode())
 
 
-def worker(size, mode, output):
+def profile_helper():
+    spec=importlib.util.spec_from_file_location('qpx_kernel_profile',Path(__file__).with_name('profile_sampled_log.py'))
+    helper=importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(helper)
+    return helper
+
+
+def worker(size, mode, output, affinity=None):
     import numpy as np
     import qupathxx as q
     from qupathxx import _native
@@ -97,13 +104,14 @@ def worker(size, mode, output):
                       for name, labels in [('nucleus', nuclei), ('body', bodies)]},
         independent_compartment_checks=True, exact_saved_replay=True,
         build_git_revision=environment.git_revision, source_tree_sha256=environment.source_tree_sha256,
-        native_sha256=sha(Path(_native.__file__)), python_version=platform.python_version()))
+        native_sha256=sha(Path(_native.__file__)), python_version=platform.python_version(),cpu_affinity=affinity))
 
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--python', type=Path)
     parser.add_argument('--baseline-python', type=Path, help='Optionally interleave a second installed build on the identical fixture')
+    parser.add_argument('--cpu-affinity-mask',type=lambda text:int(text,0),help='Windows worker mask, e.g. 0x1; verified before NumPy/native imports')
     parser.add_argument('--output-directory', type=Path)
     parser.add_argument('--report', type=Path)
     parser.add_argument('--repetitions', type=int, default=3)
@@ -111,10 +119,13 @@ def main():
     parser.add_argument('--size', type=int, choices=[256, 512, 1024])
     parser.add_argument('--output', type=Path)
     args = parser.parse_args()
+    if args.cpu_affinity_mask is not None and (os.name!='nt' or not 0<args.cpu_affinity_mask<2**64):
+        parser.error('affinity requires Windows and a nonzero 64-bit mask')
     if args.worker_mode:
         if args.size is None or args.output is None:
             parser.error('worker requires size and output')
-        worker(args.size, args.worker_mode, args.output)
+        affinity=profile_helper().set_current_process_affinity(args.cpu_affinity_mask)
+        worker(args.size, args.worker_mode, args.output, affinity)
         return
     if args.python is None or args.output_directory is None or args.report is None or not 1 <= args.repetitions <= 10:
         parser.error('require python, output-directory, report and 1..10 repetitions')
@@ -122,9 +133,7 @@ def main():
         parser.error('baseline and candidate must use different installed environments')
     directory = args.output_directory.resolve()
     directory.mkdir(parents=True, exist_ok=False)
-    spec = importlib.util.spec_from_file_location('qpx_kernel_profile', Path(__file__).with_name('profile_sampled_log.py'))
-    helper = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(helper)
+    helper=profile_helper()
     records = []
     builds=[('candidate',args.python)]
     if args.baseline_python:
@@ -137,7 +146,8 @@ def main():
                 output = directory/f'{size}-{build}-{mode}-{trial}.json'
                 began = time.perf_counter()
                 child = subprocess.Popen([str(python.resolve()), '-I', str(Path(__file__).resolve()),
-                    '--worker-mode', mode, '--size', str(size), '--output', str(output)],
+                    '--worker-mode', mode, '--size', str(size), '--output', str(output)]+
+                    (['--cpu-affinity-mask',hex(args.cpu_affinity_mask)] if args.cpu_affinity_mask is not None else []),
                     stdout=subprocess.PIPE, stderr=subprocess.PIPE)
                 try:
                     stdout, stderr = child.communicate(timeout=180)
@@ -153,6 +163,7 @@ def main():
                     raise RuntimeError('workflow child failed; see '+str(output.with_suffix('.stderr')))
                 record = json.loads(output.read_text())
                 assert '+dirty' not in record['build_git_revision']
+                if args.cpu_affinity_mask is not None:assert record['cpu_affinity']['verified_mask']==hex(args.cpu_affinity_mask)
                 record.update(build=build,trial=trial, warmup=trial == 0, process_wall_ms=elapsed,
                               process_peak_working_set_bytes=peak)
                 write(output, record)
@@ -175,6 +186,7 @@ def main():
     args.report.parent.mkdir(parents=True, exist_ok=True)
     write(args.report, dict(schema='qpx.sampled-cell-workflow-profile/2',
         build_executables={label:str(python.resolve()) for label,python in builds},
+        requested_cpu_affinity_mask=hex(args.cpu_affinity_mask) if args.cpu_affinity_mask is not None else None,
         tool_sha256=sha(Path(__file__)), peak_helper_sha256=sha(Path(__file__).with_name('profile_sampled_log.py')),
         records=records, summaries=summaries, platform=platform.platform(), performance_accepted=False,
         biological_validation=False, scope='Uncontrolled fresh processes alternate build/recipe order, with one retained/excluded warmup per build/size/recipe. Detection includes native compartment/contour work. Save, load validation and replay are measured separately. All label identities, compartment RGB/counts, strict expansion and saved replay are checked across every build and recipe. Nucleus boundaries are compared across recipes, not independently accepted as biological truth. Process peak includes fixture generation, verification and persistence. No GUI or hardware-target acceptance.'))

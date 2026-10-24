@@ -113,3 +113,23 @@ source `ee54cdb`, before these fixes; they are retained as initial evidence.
 The domain-fix build passes 47 native suites and 156 focused Python cases.
 Final clean-source validation and performance measurements must be rerun before
 accepting or publishing the updated candidate.
+
+The [domain-fixed unpinned series](benchmarks/expansion-domain-fixed-workflow-windows.json)
+retains another 60 observations/12 warmups. At 1,024 pixels, sampled detection
+medians are 252.67 ms baseline and 253.20 ms candidate, while legacy detection
+is 259.46 versus 280.69 ms. Sampled reopen validation is 174.60 versus 171.26 ms.
+All output/replay checks pass, but the mixed timings do not support a general
+speedup. These results remain alongside the earlier series.
+
+For a placement-controlled comparison, the workflow profiler accepts
+`--cpu-affinity-mask 0x1` on Windows. Each worker applies and reads back its own
+mask before importing NumPy or the native module; the parent process and other
+applications retain their settings. Requested, original, system and verified
+masks are recorded in every observation. Unsupported/empty masks fail the run.
+The implementation follows Microsoft's
+[SetProcessAffinityMask](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask)
+and [GetProcessAffinityMask](https://learn.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-getprocessaffinitymask)
+contracts. This controls worker placement, not ambient load, and does not
+replace the separately frozen GUI/hardware qualification protocol. The first
+paired pinned run uses the predeclared mask `0x1`, four measured repetitions
+per build/recipe/size and one retained/excluded warmup per combination.

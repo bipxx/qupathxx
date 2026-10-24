@@ -30,6 +30,33 @@ def peak_working_set(process):
     return counters.PeakWorkingSetSize
 
 
+def set_current_process_affinity(mask):
+    """Pin only this profiling worker, before imports and measured native work."""
+    if mask is None:return None
+    if os.name!='nt' or not 0<mask<(1<<(ctypes.sizeof(ctypes.c_size_t)*8)):
+        raise ValueError('affinity requires Windows and a nonzero pointer-sized mask')
+    kernel=ctypes.WinDLL('kernel32',use_last_error=True)
+    current=kernel.GetCurrentProcess;current.argtypes=[];current.restype=wintypes.HANDLE
+    query=kernel.GetProcessAffinityMask
+    query.argtypes=[wintypes.HANDLE,ctypes.POINTER(ctypes.c_size_t),ctypes.POINTER(ctypes.c_size_t)]
+    query.restype=wintypes.BOOL
+    apply=kernel.SetProcessAffinityMask
+    apply.argtypes=[wintypes.HANDLE,ctypes.c_size_t];apply.restype=wintypes.BOOL
+    handle=current();before=ctypes.c_size_t();system=ctypes.c_size_t()
+    if not query(handle,ctypes.byref(before),ctypes.byref(system)):
+        raise ctypes.WinError(ctypes.get_last_error())
+    if not system.value or mask&~system.value:
+        raise ValueError('affinity mask is outside the current processor group/system mask')
+    if not apply(handle,mask):raise ctypes.WinError(ctypes.get_last_error())
+    after=ctypes.c_size_t();verified_system=ctypes.c_size_t()
+    if not query(handle,ctypes.byref(after),ctypes.byref(verified_system)):
+        raise ctypes.WinError(ctypes.get_last_error())
+    if after.value!=mask:raise RuntimeError('worker affinity verification failed')
+    return dict(requested_mask=hex(mask),verified_mask=hex(after.value),
+                original_mask=hex(before.value),system_mask=hex(system.value),
+                verified_system_mask=hex(verified_system.value))
+
+
 def main():
     import numpy as np
     parser=argparse.ArgumentParser(description=__doc__)
