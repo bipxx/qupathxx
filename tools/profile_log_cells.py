@@ -81,6 +81,7 @@ def child(args):
                   detection_wall_ms=wall_ms, worker_ms=result.elapsed_ms, algorithm=result.algorithm,
                   estimated_work_bytes=request.estimated_work_bytes, retained_bytes=result.retained_bytes,
                   process_peak_after_setup_bytes=setup_peak, process_peak_after_detection_bytes=pipeline_peak,
+                  process_peak_after_checks_bytes=peak_rss(),
                   label_and_feature_sha256=hashes, input_sha256=result.nuclei.input_sha256,
                   native_sha256=hashlib.sha256(Path(_native.__file__).read_bytes()).hexdigest(),
                   source_tree_sha256=environment.source_tree_sha256, build_git_revision=environment.git_revision,
@@ -122,7 +123,8 @@ def main():
             arm = [s for s in samples if s['tile_size'] == tile]
             summaries[str(tile)] = {key: dict(median=statistics.median(s[key] for s in arm),
                 minimum=min(s[key] for s in arm), maximum=max(s[key] for s in arm)) for key in
-                ['capture_ms', 'detection_wall_ms', 'worker_ms', 'process_peak_after_detection_bytes']}
+                ['capture_ms', 'detection_wall_ms', 'worker_ms', 'process_peak_after_detection_bytes',
+                 'process_peak_after_checks_bytes']}
         cases.append(dict(size=size, cells=samples[0]['cells'], summary=summaries, samples=samples))
     assert len({s['native_sha256'] for c in cases for s in c['samples']}) == 1
     report = dict(schema='qpx.log-cells-profile/1', performance_accepted=False,
