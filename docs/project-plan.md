@@ -4963,3 +4963,11 @@ new Mac acceptance. See the [runtime contract](macos-relocated-runtime.md) and
 Intel/arm64 relocation and host runtime qualification remain pending. Older-OS,
 arbitrary ABI, Mac Python/GUI/OpenSlide, installers/signing, licensing, hardware
 and biological/research acceptance remain open; full M0-M7 is still partial.
+
+
+Candidate 152 now has accepted [Intel/arm64 native host runtime evidence](benchmarks/macos-relocation-runtime-macos.json)
+from exact source `b0d12245`. Both architectures pass 46 native suites and the
+relocated region/batch/CSV/GEOS probes, including package image mappings.
+This is native builder engineering acceptance; no supported Mac release or
+complete M0–M7 completion follows. The stronger subsequent artifact-audit
+candidate requires its own exact-source qualification.

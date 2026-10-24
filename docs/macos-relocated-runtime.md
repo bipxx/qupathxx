@@ -69,3 +69,16 @@ This scope does not establish an older-macOS support matrix, arbitrary symbol/
 ABI coverage, Python/GUI/OpenSlide Mac packages, installers, distribution signing,
 hardware performance or biological/QuPath equivalence. License and remaining
 M0-M7 requirements stay open; full goal completion is not claimed.
+
+## Accepted native host engineering evidence
+
+Exact-source run [40125033683](https://github.com/bipxx/qupathxx/actions/runs/40125033683)
+at `b0d12245fa89685596a2639daeb7ec8ab0cdcc37` passes both native Mac jobs.
+The [source-bound artifact audit](benchmarks/macos-relocation-runtime-macos.json)
+accepts 46 native suites per architecture, original and relocated archive bytes,
+Apple command/signature logs and fresh-package region, batch checkpoint, CSV and
+GEOS probes. Both package-mapping cohorts pass without search overrides.
+This acceptance applies to the candidate 152 tooling. It does not qualify later
+PAM-layout/input-upload audit changes, Mac Python/GUI/OpenSlide packages, older
+OS availability, publisher signing, biological results or supported releases.
+Full engine/portable qualification of this source is not recorded.
