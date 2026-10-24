@@ -4592,3 +4592,31 @@ native suites and all 26 frozen shape masks/maxima. These gates exclude this
 packet's production integration and the later attribution-install delta.
 Main remains at validated `2afdcb9`. Scientific, performance, broader platform
 and supported-release requirements remain open across the full M0–M7 plan.
+
+## Packet140: optimize expansion without changing recipe output
+
+The [small-radius frontier](cell-expansion-frontier.md) replaces the heap with
+stable distance buckets for radii at most eight and bypasses distance/frontier
+work when a strict radius at most one cannot reach another sampled pixel.
+Larger radii retain the heap, and admission limits remain unchanged. Native
+checks cover all 64 priority keys and 1,344 full heap-equivalence cases, comparing
+labels and queue counts. The seven eligible pinned QuPath expansion maps remain
+exact. QCL4 body statistics reuse previously validated ROI-domain membership;
+an independent malformed-domain case preserves its sample count yet is rejected.
+
+The built candidate `ee54cdb` passes all 47 native suites, 153 focused Python
+checks, install/stub checks and positive/negative typing. Eight new installed
+cases check exact no-growth/unit-boundary labels, measurements and saved replay.
+Full desktop regression is running. The paired workflow series and all earlier
+pilots, controls and raw observations are retained; default-radius sampled
+detection/reopen medians improve modestly on this uncontrolled fixture, while
+some other timings regress. One-pixel expansion avoids unnecessary work and
+shows a larger component-level gain. No general performance or hardware
+acceptance follows from these observations.
+
+The prior production source `ddd3bb9` has passed its
+[both-architecture Mac native audit](benchmarks/sampled-cells-macos.json),
+including QCL4/clipped-component regressions and all 26 frozen shape cases.
+Its Windows/Linux and portable runs remain active at their original handles;
+these results do not validate this optimization candidate. Main remains at
+`2afdcb9`, and the full M0–M7 objective remains active.

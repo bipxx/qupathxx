@@ -56,3 +56,27 @@ recipes. Each build must retain a stable native identity, the builds must have
 distinct native hashes, and all fixture labels must match across every build,
 recipe and trial. This comparison is required before drawing a conclusion
 about production detection, archived-run loading or replay performance.
+
+The [paired workflow series](benchmarks/expansion-workflow-paired-windows.json)
+retains 60 observations with 12 warmups. At 1,024 pixels, sampled detection
+medians are 272.53 ms for the preserved baseline and 263.41 ms for the candidate;
+reopen validation is 178.61 versus 167.63 ms. Some measurements regress: legacy
+replay medians are 258.05 versus 266.14 ms. All labels and saved replay checks
+pass. This uncontrolled series suggests a modest default-radius benefit but
+does not qualify hardware or establish a general performance guarantee.
+
+The [one-pixel series](benchmarks/expansion-radius-one-windows.json) compares
+the preserved pre-fast-path native executable with the candidate: 1,024-pixel
+kernel medians are 21.72 versus 1.26 ms, and maximum child working sets are
+25.23 versus 13.33 MiB. Every output equals the original seed map. The
+[zero-radius control](benchmarks/expansion-radius-zero-control-windows.json)
+retains its already-fast behavior without a measured improvement. Each series
+retains 36 observations/six warmups. Eight installed Python cases independently
+check labels, measurements and archived replay at zero, fractional, unit and
+next-representable-above-unit radii for both body recipes.
+
+The earlier [process-only pilot](benchmarks/expansion-frontier-initial-process-windows.json)
+and [separate kernel timing series](benchmarks/expansion-frontier-kernel-windows.json)
+remain available alongside the [pinned expansion comparison](benchmarks/expansion-frontier-qupath-windows.json).
+No raw series or slower trial is discarded. Broader detection, platform,
+full desktop regression and controlled hardware gates remain separate.
