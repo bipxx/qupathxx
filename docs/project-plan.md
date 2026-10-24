@@ -5001,3 +5001,18 @@ the original values. The [interchange contract](qupath-tma-interchange.md) binds
 fixtures, runtime identity and the complete native/Python/project/CLI/ImGui
 implementation sequence. Reference preparation does not implement the native
 codec or accept automatic dearraying, biology, hardware, releases or M0–M7.
+
+
+Candidate 155 now implements a bounded native `.qptma` value/parser/writer,
+version-guarded input and atomic new-file publication, native metadata-loss
+reporting and compound document import. All 48 local minimal native suites pass.
+Pinned QuPath imports two actual native-produced files with all six cores'
+supported fields exact, including fractional bounds, literal quotes and spaces.
+The initial CSV-quoting mismatch and corrected captures are retained. The
+minimal installed Python wheel passes 189 focused cases with 22 optional skips,
+including all 56 QPTMA cases; stubs and positive/negative typing checks pass.
+See the [native/Python receipt](benchmarks/qupath-tma-native-roundtrip-windows.json).
+This remains an implementation candidate: full project persistence, standalone
+project commands, ImGui preview/import/export and exact-source cross-platform
+acceptance are still required. Automatic dearraying, science, hardware, license
+and the rest of M0–M7 remain open.
