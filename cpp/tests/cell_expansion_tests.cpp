@@ -1,5 +1,6 @@
 #include "../cell_expansion.hpp"
 #include "build_manifest.hpp"
+#include <chrono>
 #include <cstring>
 #include <fstream>
 #include <iomanip>
@@ -15,16 +16,21 @@ std::uint32_t read(std::istream& in) {
     return std::uint32_t(b[0])|(std::uint32_t(b[1])<<8)|(std::uint32_t(b[2])<<16)|(std::uint32_t(b[3])<<24);
 }
 void write(std::ostream& out,std::uint32_t n) {for(unsigned i=0;i<4;++i) out.put(static_cast<char>((n>>(8*i))&255));}
-void probe(const char* source,const char* destination,bool small=true) {
+void probe(const char* source,const char* destination,bool small=true,bool timings=false) {
     std::ifstream in(source,std::ios::binary);char magic[4];require(bool(in.read(magic,4)) && !std::memcmp(magic,"QBE1",4));
     const auto width=read(in),height=read(in);require(width && height && std::uint64_t(width)*height<=1024*1024);
     const auto radius=read(in);const auto n=std::size_t(width)*height;
     std::vector<std::uint32_t> labels(n);std::vector<std::uint8_t> domain(n);
     for(auto& label:labels) label=read(in);
     require(bool(in.read(reinterpret_cast<char*>(domain.data()),static_cast<std::streamsize>(n))));require(in.peek()==std::char_traits<char>::eof());
+    const auto began=std::chrono::steady_clock::now();
     const auto result=qpx::cell_detail::expand_cells_watershed(labels,domain,width,height,radius,128u*1024*1024,nullptr,small);
+    const auto elapsed=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-began).count();
     std::ofstream out(destination,std::ios::binary|std::ios::trunc);out.write("QBR1",4);write(out,width);write(out,height);
     for(auto label:result.labels) write(out,label);out.flush();require(bool(out));
+    if(timings) std::cout<<"{\"kernel_ms\":"<<std::setprecision(17)<<elapsed
+        <<",\"queued_pixels\":"<<result.queued_pixels<<",\"peak_queue\":"<<result.peak_queue
+        <<",\"queue\":"<<std::quoted(small && radius<=8?"buckets":"heap")<<"}\n";
 }
 void queue_equivalence() {
     using namespace qpx::cell_detail;
@@ -101,6 +107,8 @@ int main(int argc,char** argv) {
         }
         if(argc==3) {probe(argv[1],argv[2]);return 0;}
         if(argc==4 && std::string(argv[1])=="--heap") {probe(argv[2],argv[3],false);return 0;}
+        if(argc==4 && std::string(argv[1])=="--timed") {probe(argv[2],argv[3],true,true);return 0;}
+        if(argc==5 && std::string(argv[1])=="--timed" && std::string(argv[2])=="--heap") {probe(argv[3],argv[4],false,true);return 0;}
         require(argc==1);contracts();queue_equivalence();std::cout<<"Strict-radius expansion, stable collision lines, domain barriers, work bounds and cancellation passed\n";
     } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }
