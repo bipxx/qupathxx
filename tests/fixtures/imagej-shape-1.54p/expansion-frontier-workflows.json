@@ -1,0 +1,14 @@
+{
+  "schema": "qpx.expansion-frontier-cohort/1",
+  "classname": "test_cell_expansion_frontier",
+  "cases": [
+    "test_strict_unit_radius_labels_measurements_and_saved_replay[fractional-legacy-bodies]",
+    "test_strict_unit_radius_labels_measurements_and_saved_replay[fractional-sampled-bodies]",
+    "test_strict_unit_radius_labels_measurements_and_saved_replay[just-above-one-legacy-bodies]",
+    "test_strict_unit_radius_labels_measurements_and_saved_replay[just-above-one-sampled-bodies]",
+    "test_strict_unit_radius_labels_measurements_and_saved_replay[one-legacy-bodies]",
+    "test_strict_unit_radius_labels_measurements_and_saved_replay[one-sampled-bodies]",
+    "test_strict_unit_radius_labels_measurements_and_saved_replay[zero-legacy-bodies]",
+    "test_strict_unit_radius_labels_measurements_and_saved_replay[zero-sampled-bodies]"
+  ]
+}

@@ -7,6 +7,7 @@ This audits a trusted CI run's evidence, not signatures or untrusted artifacts.
 import argparse
 from collections import Counter
 import hashlib
+import importlib.util
 import json
 from pathlib import Path, PurePosixPath
 import re
@@ -314,7 +315,9 @@ def main():
     parser.add_argument('--ndpi-readers',action='store_true',help='Also require NDPI builder and default native-link cases; consumers retain their small-fixture scope')
     parser.add_argument('--watershed-bodies',action='store_true',help='Also require all production body recipes and native expansion in both builders/consumers')
     parser.add_argument('--sampled-cells',action='store_true',help='Require frozen shape/QCL4 native and sampled production builder/consumer cohorts; implies earlier engine/body/NDPI gates')
+    parser.add_argument('--small-frontier',action='store_true',help='Require native queue equivalence and all eight unit-radius cases in builders and consumers; implies sampled cells')
     args=parser.parse_args()
+    args.sampled_cells=args.sampled_cells or args.small_frontier
     if args.sampled_cells:
         args.unified_engine=args.ndpi_readers=args.watershed_bodies=True
     report=audit(args.artifacts,read(args.run_json),args.commit)
@@ -326,6 +329,19 @@ def main():
         report['watershed_body_cohorts']=watershed_body_cohorts(args.artifacts)
     if args.sampled_cells:
         report['sampled_cell_cohorts']=sampled_cell_cohorts(args.artifacts,args.commit)
+    if args.small_frontier:
+        spec=importlib.util.spec_from_file_location('qpx_frontier_evidence',Path(__file__).with_name('frontier_evidence.py'))
+        frontier=importlib.util.module_from_spec(spec);spec.loader.exec_module(frontier)
+        report['frontier_helper_sha256']=sha(Path(__file__).with_name('frontier_evidence.py'))
+        report['small_frontier_cohorts']=[]
+        root=Path(__file__).resolve().parents[2]
+        for version in ['3.11','3.12']:
+            folder=args.artifacts/('manylinux-'+version)
+            native=frontier.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+            for cohort,path in [('builder',folder/'python-tests.xml'),
+                                ('consumer',args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+                result=frontier.python(list(ET.parse(path).getroot().iter('testcase')),root,args.commit)
+                report['small_frontier_cohorts'].append(dict(python=version,cohort=cohort,native=native,**result))
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(state=report['state'],commit=report['commit'],release_ready=False)))

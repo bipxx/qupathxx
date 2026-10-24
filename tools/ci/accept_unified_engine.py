@@ -6,6 +6,7 @@ and engineering evidence only; warm/cold timings and release gates are separate.
 import argparse
 from collections import Counter
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
@@ -28,10 +29,15 @@ parser.add_argument('--gui-stack',action='store_true',help='Require repeated nat
 parser.add_argument('--watershed-bodies',action='store_true',help='Require strict-radius production body recipes, native expansion and pinned comparison')
 parser.add_argument('--sampled-shape',action='store_true',help='Also require all 26 frozen native masks/maxima and 53 capture/cohort checks; implies watershed bodies')
 parser.add_argument('--sampled-cells',action='store_true',help='Require QCL4 production recipe, 53 sampled workflow cases and independent comparison; implies sampled shape')
+parser.add_argument('--small-frontier',action='store_true',help='Require 1344 native queue comparisons and eight strict unit-radius workflow cases; implies sampled cells')
 parser.add_argument('--linux-only',action='store_true',help='Audit only the three successful Linux jobs; never accepts the full matrix')
 args=parser.parse_args();RUN=args.run;COMMIT=args.commit
+args.sampled_cells=args.sampled_cells or args.small_frontier
 args.sampled_shape=args.sampled_shape or args.sampled_cells
 args.watershed_bodies=args.watershed_bodies or args.sampled_shape
+if args.small_frontier:
+    spec=importlib.util.spec_from_file_location('qpx_frontier_evidence',Path(__file__).with_name('frontier_evidence.py'))
+    frontier=importlib.util.module_from_spec(spec);spec.loader.exec_module(frontier)
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 def junit(path):
@@ -683,6 +689,10 @@ for job in run['jobs']:
                                          nucleus_labels_sha256=wanted['labels_sha256'],comparison_sha256=sha(path)))
                 accepted['real_ndpi_contexts']=contexts
         entry['sampled_cells']=accepted
+    if args.small_frontier:
+        entry['small_frontier']=frontier.native(native_cases)
+        if (folder/'python-tests.xml').exists():
+            entry['small_frontier'].update(frontier.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),ROOT,COMMIT))
     report['jobs'].append(entry)
 report['fixture_retraining']=dict(local_and_audited_hosted_models_identical=True,
     model_sha256=local['model_sha256'],training_sha256=local['training_sha256'],
@@ -695,6 +705,8 @@ report['gui_stack_required']=args.gui_stack
 report['watershed_bodies_required']=args.watershed_bodies
 report['sampled_shape_required']=args.sampled_shape
 report['sampled_cells_required']=args.sampled_cells
+report['small_frontier_required']=args.small_frontier
+if args.small_frontier:report['frontier_helper_sha256']=sha(Path(__file__).with_name('frontier_evidence.py'))
 report['performance_accepted']=False
 report['macos_accepted']=False
 report['release_ready']=False
