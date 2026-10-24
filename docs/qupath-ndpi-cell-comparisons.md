@@ -62,7 +62,8 @@ Inspection of the [pinned upstream detector](https://github.com/qupath/qupath/bl
 shows that it separates LoG-response basins before testing their intensity,
 then merges admitted regions and performs a shape split. The current native
 kernel instead tests connected positive LoG regions. That structural difference
-is a candidate explanation requiring isolated stage comparisons. Spacing
+was a candidate explanation. The stage experiment below finds no change in
+final nuclei from adding that separation on this ROI. Spacing
 adjustments alone did not close the observed gap. A corrected stage must retain
 archive replay semantics and pass both real and synthetic comparisons before
 production integration.
@@ -90,3 +91,47 @@ rejects oversized dense pair scratch. The [local validation receipt](benchmarks/
 records 35 passing tests, including corruption, identity, decoded-length,
 count/ledger/collision and large-coordinate cropping checks. This packet changes
 comparison tooling and evidence; the native detector remains at source2afd.
+
+## Isolated topology and shape stages
+
+The [stage observations](benchmarks/ndpi-cell-stages-windows.json) retain the
+first unsuccessful basin hypothesis, ROI context tests and background-topology
+candidate, with separate compiled-native and tooling identities. The candidate
+is internal to the standalone C++ probe; production parameter defaults, bindings
+and saved recipe identities remain unchanged.
+
+The current kernel fills background holes using four-neighbor traversal.
+That can close a background path which escapes diagonally. The candidate uses
+eight-neighbor background traversal with four-neighbor foreground regions.
+An explicit 3 × 3 diagonal-escape test distinguishes these topologies.
+Regional maxima, plateau handling, bounded frontier/candidate admission,
+cancellation, invalid raster and work-admission checks also pass.
+
+| Context padding | Current native nuclei / IoU | Eight-connected-background candidate nuclei / IoU | Pinned ImageJ shape split of candidate mask: nuclei / IoU |
+| --- | --- | --- | --- |
+| 32, existing contract | 299 / 0.506401 | 517 / 0.833328 | 478 / 0.932730 |
+| 0, explicit diagnostic | 394 / 0.673465 | 533 / 0.879240 | 503 / 0.993882 |
+
+Every comparison uses the same 506-cell reference. Context affects processing
+before ROI clipping; disabling it is a diagnostic change rather than a chosen
+new default. The ImageJ stage receives the native binary mask and invokes the
+pinned runtime's public EDM and ROI APIs, then applies the declared ROI,
+area and mean checks. Java is used only by comparison tooling. These controls
+show that both topology and shape splitting matter; they do not establish
+production parity or justify substituting an ImageJ call in the native engine.
+
+The public debug listener captures the unmodified QuPath plugin's own five
+stages. Its RGB, ordinary reference JSON and nucleus/body mask files are
+byte-identical to the original capture. The frozen debug stack reproduces all
+506 nucleus masks exactly, after label-independent matching; its input OD sum
+agrees with an independent RGB calculation within 1e-6. The capture and verifier
+live alongside the ordinary reference and run without Java during normal tests.
+
+The [native validation receipt](benchmarks/ndpi-cell-stage-validation-windows.json)
+binds all252 compiler inputs at source655c854, 46 local native suites, 40 focused
+Python passes and the debug/tool hashes. All18 synthetic output maps (nine cases
+and two feature recipes) remain byte-identical to the legacy control under the
+topology candidate. The [synthetic receipt](benchmarks/ndpi-cell-topology-synthetic-windows.json)
+retains both ROI-hole and resampled differences. Production integration still
+needs a native shape-stage improvement, versioned replay behavior, complete
+UI/Python/batch/archive checks, platform audits and broader scientific cases.

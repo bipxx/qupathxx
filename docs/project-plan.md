@@ -4484,3 +4484,36 @@ each on minimal and ASan/UBSan. Portable run40073724906 has two successful
 builders and two queued consumers. Mac run40073489057 remains queued;
 private-zlib run40072054364 has successful Intel/45 native and queued Arm.
 Main promotion and M0–M7 completion remain withheld.
+
+
+## Packet137: isolate real-slide topology and shape splitting
+
+The [stage comparison](qupath-ndpi-cell-comparisons.md#isolated-topology-and-shape-stages)
+rejects the initial basin-separation hypothesis for this ROI: adding the native
+response-basin stage leaves the final nucleus maps unchanged. A diagonal
+background escape test instead identifies a hole-filling topology mismatch.
+The internal eight-connected-background candidate raises nucleus IoU from0.506
+to0.833 at the existing32-pixel context, with517 cells versus506 upstream.
+With explicit zero context, native IoU is0.879; the pinned ImageJ shape stage
+on the candidate mask yields503 cells and IoU0.994. All failed/control runs
+remain in the source-bound receipt. No new production recipe is exposed yet.
+
+The frozen public-debug capture reproduces all506 ordinary QuPath nucleus
+masks exactly. All46 local native suites and40 focused Python checks pass;
+all252 compiler inputs match source655c854, and18 synthetic maps remain
+byte-identical to the legacy control. Native shape splitting and a versioned
+production integration remain necessary; no biological or broad parity claim
+follows from this isolated kernel evidence.
+
+Source2afd's [portable audit](benchmarks/portable-body-windows-linux.json)
+now accepts both CPython3.11/3.12 builders and fresh Debian consumers, including
+all42 body cases in each environment (39 passes/3 named desktop skips).
+The earlier private-zlib sourced1c passes [both Mac architectures](benchmarks/zlib-isolation-macos-both.json),
+45 native suites each, within its native-only scope. Source2afd's Mac Arm job
+has also passed; its Intel job remains queued. These are distinct source gates.
+
+The [current-source hardware trial set](benchmarks/rendered-loop-body133-hardware-windows.json)
+retains three processes/six views at roughly17.1–17.2ms rendered-wall p95.
+Trial2 began at27% CPU load, above the fixed25% ceiling, so the full qualification
+remains false. No trials, timings or hardware requirements are discarded or
+relaxed. Main promotion and full M0–M7 completion remain open.

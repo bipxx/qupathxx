@@ -41,6 +41,15 @@ segmentation parity remains unresolved. The source2afd Windows/Linux artifact
 audit passes all five jobs and the42 body workflows. Mac and portable consumer
 gates remain pending, and main promotion remains withheld.
 
+Follow-up [stage controls](qupath-ndpi-cell-comparisons.md#isolated-topology-and-shape-stages)
+identify background connectivity and shape splitting as concrete differences.
+An internal topology candidate improves the real ROI without changing production
+recipes and preserves all18 synthetic output maps. Native46/Python40 focused
+checks pass. Source2afd's portable builders and fresh consumers are now audited;
+its Mac Arm job passes and Intel remains queued. Earlier sourced1c passes both
+Mac native architectures. The latest hardware navigation set remains unaccepted
+because one trial exceeded the fixed ambient CPU-load limit.
+
 The independent [QuPath cell-plugin corpus](qupath-cell-comparisons.md) now
 characterizes nine synthetic workflows, including IoU/counts, split/merge
 relations and feature differences. Tile invariance and 36 shared-ROI compartment

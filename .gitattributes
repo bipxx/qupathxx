@@ -75,3 +75,4 @@ tools/upstream/imagej_edm_probe.groovy text eol=lf
 tools/upstream/qupath_cell_debug_probe.groovy text eol=lf
 tools/verify_qupath_cell_debug.py text eol=lf
 tests/fixtures/qupath-ndpi-cells-0.7.0/debug/* -text whitespace=cr-at-eol,-blank-at-eol
+docs/benchmarks/zlib-isolation-macos-both.json -text whitespace=cr-at-eol
