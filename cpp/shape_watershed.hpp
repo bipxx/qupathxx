@@ -169,7 +169,7 @@ class SampledShapeWatershed {
 public:
     SampledShapeWatershed(std::size_t width,std::size_t height,std::size_t maximum_cells,const std::atomic<bool>* cancelled):width_(width),height_(height),size_(width*height),limit_(maximum_cells),cancelled_(cancelled) {}
     ShapeSplit run(const std::vector<std::uint8_t>& mask,double prominence,std::size_t work_bytes) {
-        checkpoint(cancelled_);
+        checkpoint(cancelled_);steps_=0;
         if(!width_ || !height_ || width_>std::numeric_limits<std::uint32_t>::max()/height_ || size_!=mask.size() || !limit_ ||
                 !std::isfinite(prominence) || prominence<=0 || prominence>1000000) throw std::invalid_argument("invalid shape watershed input");
         // Includes output, float EDM/ridges, double EDT, types, quantized levels,
@@ -181,7 +181,7 @@ public:
         std::vector<double> squared(size_);for(std::size_t i=0;i<size_;++i) squared[i]=mask[i]?infinity:0;
         cell_detail::distance(squared,width_,height_,false,nullptr,cancelled_);edm_.resize(size_);
         for(std::size_t i=0;i<size_;++i) edm_[i]=static_cast<float>(std::sqrt(squared[i]));std::vector<double>().swap(squared);
-        ridge_.resize(size_);types_.resize(size_);levels_.resize(size_);queue_.reserve(size_);
+        ridge_.resize(size_);types_.assign(size_,0);levels_.resize(size_);queue_.clear();queue_.reserve(size_);peaks_.clear();
         for(std::size_t i=0;i<size_;++i) {step();ridge_[i]=ridge_height(i);}
         const auto extrema=std::minmax_element(edm_.begin(),edm_.end());find_candidates(*extrema.first,*extrema.second);
         mark_maxima(prominence);quantize(*extrema.second);flatten_suppressed();grow_levels();

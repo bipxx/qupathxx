@@ -63,6 +63,8 @@ void shape_contract() {
     const std::vector<std::uint8_t> blank(25),full(25,1),single={0,0,0,0,1,0,0,0,0};
     require(sampled_shape_watershed(blank,5,5).mask==blank);require(sampled_shape_watershed(full,5,5).mask==full);
     require(sampled_shape_watershed(single,3,3).mask==single);
+    qpx::cell_detail::SampledShapeWatershed reusable(3,3,100,nullptr);
+    require(reusable.run(single,.5,100000).mask==single);require(reusable.run(std::vector<std::uint8_t>(9),.5,100000).mask==std::vector<std::uint8_t>(9));require(reusable.run(single,.5,100000).mask==single);
     bool invalid=false;try {sampled_shape_watershed(single,2,3);} catch(const std::invalid_argument&) {invalid=true;}require(invalid);
     bool bounded=false;try {sampled_shape_watershed(single,3,3,.5,100,1);} catch(const std::length_error&) {bounded=true;}require(bounded);
     std::atomic<bool> cancelled{true};bool stopped=false;try {sampled_shape_watershed(single,3,3,.5,100,100000,&cancelled);} catch(const std::runtime_error&) {stopped=true;}require(stopped);
@@ -150,10 +152,15 @@ int main(int argc,char** argv) {
             const auto dx=double(x)-32,dy=double(y)-32;score[y*65+x]=dx*dx+dy*dy<=81?1.f:0.f;
         }
         const auto disk=log_watershed(score,domain,65,65);require(disk.count==1);
+        LogParameters sampled;sampled.sampled_shape=true;sampled.eight_connected_background=true;sampled.minimum_radius=0;sampled.minimum_spacing=0;
+        require(log_watershed(score,domain,65,65,sampled).labels==disk.labels);
+        auto unsupported=sampled;unsupported.minimum_spacing=4;bool explicit_controls=false;
+        try {log_watershed(score,domain,65,65,unsupported);} catch(const std::invalid_argument&) {explicit_controls=true;}require(explicit_controls);
         LogParameters basin_parameters;basin_parameters.response_basins=true;
         require(log_watershed(score,domain,65,65,basin_parameters).labels==disk.labels);
         require(disk.labels[32*65+32]==1 && disk.labels.front()==0);
         std::fill(domain.begin(),domain.end(),0);require(log_watershed(score,domain,65,65).count==0);
+        require(log_watershed(score,domain,65,65,sampled).count==0);
         std::atomic<bool> cancelled{true};bool stopped=false;
         try {log_watershed(score,domain,65,65,{},&cancelled);} catch(const std::runtime_error&) {stopped=true;}
         require(stopped);
