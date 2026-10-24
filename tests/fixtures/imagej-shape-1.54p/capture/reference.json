@@ -1,0 +1,135 @@
+{
+  "imagej_version": "1.54p",
+  "cases": [
+    {
+      "name": "blank",
+      "foreground": 0,
+      "maxima": 0
+    },
+    {
+      "name": "full",
+      "foreground": 63,
+      "maxima": 0
+    },
+    {
+      "name": "single",
+      "foreground": 1,
+      "maxima": 1
+    },
+    {
+      "name": "row",
+      "foreground": 6,
+      "maxima": 3
+    },
+    {
+      "name": "column",
+      "foreground": 6,
+      "maxima": 3
+    },
+    {
+      "name": "plateau",
+      "foreground": 576,
+      "maxima": 1
+    },
+    {
+      "name": "touching_disks",
+      "foreground": 1058,
+      "maxima": 2
+    },
+    {
+      "name": "thin_neck",
+      "foreground": 662,
+      "maxima": 2
+    },
+    {
+      "name": "border",
+      "foreground": 990,
+      "maxima": 2
+    },
+    {
+      "name": "diagonal",
+      "foreground": 2304,
+      "maxima": 1
+    },
+    {
+      "name": "ring",
+      "foreground": 952,
+      "maxima": 1
+    },
+    {
+      "name": "random_0",
+      "foreground": 1399,
+      "maxima": 60
+    },
+    {
+      "name": "random_1",
+      "foreground": 1313,
+      "maxima": 60
+    },
+    {
+      "name": "random_2",
+      "foreground": 1411,
+      "maxima": 51
+    },
+    {
+      "name": "random_3",
+      "foreground": 1430,
+      "maxima": 52
+    },
+    {
+      "name": "random_4",
+      "foreground": 1415,
+      "maxima": 53
+    },
+    {
+      "name": "random_5",
+      "foreground": 1377,
+      "maxima": 50
+    },
+    {
+      "name": "random_6",
+      "foreground": 1436,
+      "maxima": 50
+    },
+    {
+      "name": "random_7",
+      "foreground": 1400,
+      "maxima": 54
+    },
+    {
+      "name": "random_8",
+      "foreground": 1363,
+      "maxima": 49
+    },
+    {
+      "name": "random_9",
+      "foreground": 1417,
+      "maxima": 48
+    },
+    {
+      "name": "random_10",
+      "foreground": 1245,
+      "maxima": 47
+    },
+    {
+      "name": "random_11",
+      "foreground": 1401,
+      "maxima": 50
+    },
+    {
+      "name": "large_disks",
+      "foreground": 12116,
+      "maxima": 2
+    },
+    {
+      "name": "ndpi_context0",
+      "foreground": 35462,
+      "maxima": 699
+    },
+    {
+      "name": "ndpi_context32",
+      "foreground": 56094,
+      "maxima": 1074
+    }
+  ]
+}

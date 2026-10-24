@@ -69,6 +69,22 @@ void shape_contract() {
     std::vector<std::uint8_t> particles(81);for(std::size_t y=1;y<9;y+=3) for(std::size_t x=1;x<9;x+=3) particles[y*9+x]=1;
     bool limited=false;try {sampled_shape_watershed(particles,9,9,.5,1);} catch(const std::length_error&) {limited=true;}require(limited);
 }
+void shape_reference() {
+    const std::string root=QUPATHXX_SHAPE_FIXTURE;std::ifstream index(root+"/index.txt");require(bool(index));
+    auto read=[&](const std::string& file,std::size_t size) {
+        std::ifstream stream(root+"/"+file,std::ios::binary);std::vector<std::uint8_t> bytes(size);
+        require(bool(stream.read(reinterpret_cast<char*>(bytes.data()),static_cast<std::streamsize>(size))));require(stream.peek()==std::char_traits<char>::eof());return bytes;
+    };
+    std::string name;std::size_t width=0,height=0,cases=0;
+    while(index>>name>>width>>height) {
+        require(width && height && width<=1024*1024/height);const auto size=width*height;
+        const auto input=read(name+".input.u8",size),expected=read(name+".mask.u8",size),maxima=read(name+".maxima.u8",size);
+        const auto result=qpx::cell_detail::sampled_shape_watershed(input,width,height);std::vector<std::uint8_t> points(size);for(auto i:result.maxima) points[i]=1;
+        if(result.mask!=expected || points!=maxima) throw std::runtime_error("Sampled shape frozen mask/maxima differ: "+name);
+        ++cases;
+    }
+    require(index.eof() && cases==26);std::cout<<"Sampled shape 26 frozen masks and maxima passed\n";
+}
 void probe(const char* input,const char* output,bool response_basins=false,bool regions_only=false,bool dual_background=false,bool sampled_shape=false) {
     std::ifstream stream(input,std::ios::binary);char magic[4];stream.read(magic,4);
     require(stream.good() && std::memcmp(magic,"QLP1",4)==0);
@@ -111,6 +127,7 @@ int main(int argc,char** argv) {
         using namespace qpx::cell_detail;
         reconstruction_oracle();
         shape_contract();
+        shape_reference();
         std::vector<std::uint8_t> leak4={0,1,1,1,0,1,1,1,1},leak8=leak4;
         log_fill_holes(leak4,3,3,nullptr);log_fill_holes(leak8,3,3,nullptr,true);
         require(leak4[4]==1 && leak8[4]==0);

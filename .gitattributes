@@ -76,3 +76,8 @@ tools/upstream/qupath_cell_debug_probe.groovy text eol=lf
 tools/verify_qupath_cell_debug.py text eol=lf
 tests/fixtures/qupath-ndpi-cells-0.7.0/debug/* -text whitespace=cr-at-eol,-blank-at-eol
 docs/benchmarks/zlib-isolation-macos-both.json -text whitespace=cr-at-eol
+tools/capture_imagej_shape.py text eol=lf
+tools/compare_native_shape.py text eol=lf
+tools/upstream/imagej_shape_reference.groovy text eol=lf
+tests/fixtures/imagej-shape-1.54p/** -text whitespace=cr-at-eol,-blank-at-eol
+tests/fixtures/imagej-shape-1.54p/native/*.u8 -diff
