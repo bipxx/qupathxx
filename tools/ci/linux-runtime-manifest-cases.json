@@ -356,6 +356,7 @@
       "test_checked_in_legacy_project_fixture_and_changed_pixel_control",
       "test_csv_duplicate_columns_and_additional_rows_reject",
       "test_dyld_mapping_parser_preserves_spaces_and_works_off_host",
+      "test_full_runtime_orchestration_with_labelled_simulated_commands",
       "test_graph_closure_is_cycle_safe_and_keeps_only_libraries",
       "test_independent_log10_roi_calibration_and_finite_tolerance",
       "test_non_mac_guards_before_loading_or_extraction"
