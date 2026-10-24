@@ -20,11 +20,12 @@ def name(kind,text,current=0x010203,compatibility=0x010000):
     return command(kind,prefix+text.encode('utf-8')+b'\0')
 
 
-def binary(kind,identity=None,dependencies=(),current=0x010203,flags=0x85,extra=()):
+def binary(kind,identity=None,dependencies=(),current=0x010203,flags=0x85,extra=(),rpaths=('/build/private/SDK',)):
     cmds=([name(0xd,identity,current)] if identity else [])
     cmds += [name(0xc,'/usr/lib/libSystem.B.dylib')]
     cmds += [name(mechanism,path) for mechanism,path in dependencies]
-    cmds += [name(0x8000001c,'/build/private/SDK'),command(0x32,struct.pack('<IIII',1,0x0b0000,0x0f0000,0))]
+    cmds += [name(0x8000001c,path) for path in rpaths]
+    cmds += [command(0x32,struct.pack('<IIII',1,0x0b0000,0x0f0000,0))]
     if kind==2:cmds += [name(0xe,'/usr/lib/dyld')]
     cmds += list(extra)
     return struct.pack('<IIIIIIII',0xfeedfacf,0x0100000c,0,kind,len(cmds),sum(map(len,cmds)),flags,0)+b''.join(cmds)
