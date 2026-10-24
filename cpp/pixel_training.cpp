@@ -94,7 +94,10 @@ struct PixelTrainingKernel {
         for(const auto& [key,rows]:tiles) {
             stop(cancelled);const auto x=key.second*static_cast<std::int64_t>(p.tile_size),y=key.first*static_cast<std::int64_t>(p.tile_size),w=std::min<std::int64_t>(p.tile_size,level.width-x),h=std::min<std::int64_t>(p.tile_size,level.height-y);
             const auto cx=std::max<std::int64_t>(0,x-halo),cy=std::max<std::int64_t>(0,y-halo),right=x+w+std::min(halo,level.width-x-w),bottom=y+h+std::min(halo,level.height-y-h),cw=right-cx,ch=bottom-cy;
-            const auto external=static_cast<std::size_t>(cw)*ch*8+static_cast<std::size_t>(w)*h*12;
+            // Keep both dimensions in the memory-budget type. On Darwin,
+            // int64_t and size_t have distinct ranks even on 64-bit targets.
+            const auto external=static_cast<std::size_t>(cw)*static_cast<std::size_t>(ch)*8+
+                                static_cast<std::size_t>(w)*static_cast<std::size_t>(h)*12;
             if(external>p.work_bytes-fixed-plan_bytes || p.work_bytes-fixed-plan_bytes-external<1024*1024) throw std::length_error("pixel training tile scratch exceeds memory budget");
             auto features_options=p.features;features_options.work_bytes=std::min(features_options.work_bytes,p.work_bytes-fixed-plan_bytes-external);const PixelFeatureWindow window{level.width,level.height,x,y,w,h,cx,cy};
             const auto work=pixel_feature_work_bytes(cw,ch,features_options,window)+external+fixed+plan_bytes;out->work_=std::max(out->work_,work);
