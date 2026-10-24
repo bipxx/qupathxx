@@ -196,9 +196,9 @@ captured 10,000-core scene. Its timing is a workstation observation, not a
 supported hardware guarantee.
 
 
-## Input loading candidate
+## Input loading
 
-The input-loading candidate checks the observed regular-file size against the
+The input loader checks the observed regular-file size against the
 CSV budget before opening the data stream, then reserves storage for an admitted
 file. Per-chunk limits and before-publication file-version checks remain active,
 including if the file changes after the initial observation. The table schema,
@@ -226,4 +226,8 @@ xfails. Its visually reviewed ImGui capture reports saved state, weighted mean
 3.5 and zero UI overflow. The [Linux-only audit](benchmarks/tma-case-input-linux-partial.json)
 passes all three Linux configurations. [Both Mac native architectures](benchmarks/tma-case-input-macos.json)
 pass 46 suites and the input-size guard, without claiming process read-transfer
-measurements on Mac. Complete Windows/Linux and portable hosted acceptance remain open.
+measurements on Mac. The complete [Windows/Linux](benchmarks/tma-case-input-windows-linux.json)
+and [portable builder/consumer](benchmarks/tma-case-input-portable.json) engineering
+audits now pass at exact source `132288c`, which is [promoted to main](benchmarks/tma-case-input-main-promotion.json).
+These audits do not establish biological equivalence, hardware eligibility,
+general performance improvement or a supported release.

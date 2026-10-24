@@ -33,18 +33,19 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 
 ## Current packet and remaining decisions
 
-The shared case-file API and standalone CLI source `083da0c` is now on `main`,
-including thin Python bindings and the ImGui native worker. Exact-source
-[Windows/Linux](benchmarks/tma-case-file-windows-linux.json),
-[both macOS native architectures](benchmarks/tma-case-file-macos.json) and
-[portable builders/fresh consumers](benchmarks/tma-case-file-portable.json)
-are accepted. [Promotion evidence](benchmarks/tma-case-file-main-promotion.json)
-records the fast-forward from `914b7e2` while preserving the divergent local
-root branch. The installed Windows suite passes 2,417 tests with 13 optional
-skips and three strict legacy scientific xfails. M0-M7 science, hardware,
-license and supported-release requirements remain open.
+The input-loading source `132288c` is now on `main`, including the previously
+accepted shared native case-file API, Python binding, standalone CLI and ImGui
+worker. The source-bound [Windows/Linux](benchmarks/tma-case-input-windows-linux.json),
+[both Mac native architectures](benchmarks/tma-case-input-macos.json) and
+[portable builders/fresh consumers](benchmarks/tma-case-input-portable.json)
+audits are accepted. [Promotion evidence](benchmarks/tma-case-input-main-promotion.json)
+records the fast-forward from `083da0c` while preserving the divergent local
+root branch. The installed Windows suite passes 2,419 tests with 13 optional
+skips and three strict legacy scientific xfails; the hosted Windows GUI job
+passes 2,421 tests. M0-M7 science, hardware, license and supported-release
+requirements remain open.
 
-An input-loading candidate now rejects an observed oversized measurement file
+The input loader rejects an observed oversized measurement file
 before data reads and reserves admitted input storage. Its native quota test,
 47 native suites and 77 installed TMA cases (29 file/CLI cases) pass. The
 [paired pilot](benchmarks/tma-case-input-pilot-windows.json) retains all 32
@@ -60,8 +61,9 @@ xfails, plus the 47 native suites, packaged stubs and typing checks. The saved
 ImGui export capture verifies weighted mean 3.5 with zero UI overflow and has
 been visually reviewed. [Both Mac native architectures](benchmarks/tma-case-input-macos.json)
 now pass all 46 suites and the input-size check. Mac process read-transfer counts
-are not measured by that platform test. The complete Windows/Linux matrix and
-portable builder/consumer acceptance of this optimization remain pending.
+are not measured by that platform test. Complete Windows/Linux and portable
+builder/consumer engineering acceptance is now recorded above; wall-time,
+hardware, biological and supported-release acceptance remain separate.
 
 The accepted TMA case-summary engine adds native/Python/ImGui single-grid replicate
 pooling, explicit weighting, missing-core exclusion, unassigned-core isolation,

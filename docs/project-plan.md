@@ -4739,5 +4739,11 @@ xfails. Native suites, focused TMA checks, packaged stubs, positive/negative typ
 and the visually reviewed saved-state ImGui export all pass. The weighted output
 is 3.5 with zero UI overflow. [Both Mac native audits](benchmarks/tma-case-input-macos.json)
 now accept all 46 suites, including the input-size guard; no Windows-style read
-transfer measurement is claimed for Mac. Complete Windows/Linux engineering
-acceptance and portable builder/consumer validation remain pending.
+transfer measurement is claimed for Mac. The complete source-bound
+[Windows/Linux](benchmarks/tma-case-input-windows-linux.json) and
+[portable builder/consumer](benchmarks/tma-case-input-portable.json) audits are now
+accepted. The hosted Windows GUI job passes 2,421 Python/47 native tests;
+Windows headless passes 2,017/46, Linux headless 2,015/46, and minimal/sanitizer
+jobs pass all 46 native suites. [Promotion](benchmarks/tma-case-input-main-promotion.json)
+fast-forwards `main` from `083da0c` to exact audited source `132288c`. Performance,
+hardware, biological, licensing and supported-release requirements remain open.
