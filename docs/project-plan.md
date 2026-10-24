@@ -4668,8 +4668,11 @@ The initial source `9b6772a` passes 47 native suites, 48 focused API/desktop
 cases and 2,390 full Python tests (13 optional skips, three unchanged strict
 legacy scientific xfails). Independent rational/integer oracles cover weighting
 and synthetic sizes through 100,000 rows. Two numerical regressions were found
-and fixed before publication. Final path-field labels are undergoing a second
-validation pass; hosted source-bound TMA audits remain open. See the
+and fixed before publication. Final path-field labels also pass
+the full Windows validation at source `e6bb0fc`. The initial Mac TMA candidate
+failed to compile at floating `from_chars`; a strict signed-decimal parser using
+the existing immutable C locale passes native checks and awaits fresh installed
+and platform acceptance. Hosted source-bound TMA audits remain open. See the
 [TMA contract](tissue-microarrays.md) and
 [initial receipt](benchmarks/tma-case-initial-validation-windows.json).
 

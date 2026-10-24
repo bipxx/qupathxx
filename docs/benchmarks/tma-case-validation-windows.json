@@ -1,19 +1,19 @@
 {
   "schema": "qpx.tma-case-local-validation/1",
-  "compiled_git_revision": "9b6772a69689d1f8be4975c1dd49baf559af8c87",
+  "compiled_git_revision": "e6bb0fcd3ffdfb8067cf3f1e43ea98b3a2f73352",
   "input_count": 254,
-  "source_tree_sha256": "ecf1b9084e3b376184ef4c00188f2019b3c41657bb6d0c2fbe284a46798b1066",
-  "native_sha256": "f96811f3efb2a0c7844f09a0e97038c2b76bceb2f0eee642f618c0de67dd8ee8",
+  "source_tree_sha256": "069f796c0b059176f5cbe79609c1f091644c261a1ff2d8b2672f99c73315535f",
+  "native_sha256": "d91cd1785cb3c36de8b7d1e153ac7e216823d76ad1c785c56a31b53b347d5745",
   "raw_build_fingerprint_matches": true,
   "all_compiled_inputs_match_committed_source_after_line_ending_normalization": true,
-  "wheel_sha256": "dc1f9b8d1192417c76be8ccab7496bb4b96a3e05b4b07889fa067ee3b8e15c91",
+  "wheel_sha256": "c3bccca47038cab8d1c2002c666ed361d0d62ce552777982bc3410eb6a2acab0",
   "installed": {
     "schema": "qpx.installed-workflow/1",
     "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
     "executable": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\software-probe141\\python.exe",
     "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\cases141-windows-python\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
-    "native_sha256": "f96811f3efb2a0c7844f09a0e97038c2b76bceb2f0eee642f618c0de67dd8ee8",
-    "source_tree_sha256": "ecf1b9084e3b376184ef4c00188f2019b3c41657bb6d0c2fbe284a46798b1066",
+    "native_sha256": "d91cd1785cb3c36de8b7d1e153ac7e216823d76ad1c785c56a31b53b347d5745",
+    "source_tree_sha256": "069f796c0b059176f5cbe79609c1f091644c261a1ff2d8b2672f99c73315535f",
     "gui": true,
     "geos": true,
     "openslide": true,
@@ -45,21 +45,21 @@
     "passed": 47,
     "skipped": 0,
     "expected_scientific_failures": 0,
-    "sha256": "3817092e5aa2d1fb6f72e2dae89aaff645246ec032de422b267815cfa153dce8",
+    "sha256": "cb2046df44ef47781d70541eb9404a8921fd685797d14442013b949e9c3477a7",
     "expected_failure_cases": []
   },
   "focused": {
     "passed": 48,
     "skipped": 0,
     "expected_scientific_failures": 0,
-    "sha256": "27f31eb6a6a64a7ac84162b9a4e4929887217a29bbe5e55f86363a2fa0b7431f",
+    "sha256": "783147126b9bb1fb0ca56026a733384d82399726002ecec0e28b30926f39dc7b",
     "expected_failure_cases": []
   },
   "full": {
     "passed": 2390,
     "skipped": 13,
     "expected_scientific_failures": 3,
-    "sha256": "f6aac04afac83aa12362a024e5ba5cea2c4cc8d102d22abf0cb2249e3bd831c1",
+    "sha256": "08b27682283116560d069ac6eaae062325a87c15e4e8f80485fbd2c06c778516",
     "expected_failure_cases": [
       "test_isolated_cell_upstream_acceptance_gate[baseline_count]",
       "test_isolated_cell_upstream_acceptance_gate[isolated_nucleus_iou]",
@@ -76,7 +76,7 @@
     "junit_sha256": "0622321a21533113849a31ee7914808f942ccdfc58b1f1e967c728a2afd71d57",
     "native_sha256": "74d560d38f4a9f179a76c1d730714aa007365a442189427cd14d2011c4c3e7c4"
   },
-  "scale_profile_sha256": "4edb908ab03c24e0512ef4f9935b40bae735770d3a21cdfc2333cb1b81640282",
+  "scale_profile_sha256": "cccf1859de1a0728566a02b91a1b8ae0750ddc1cf68692a67da08ce56cd49f4e",
   "scale_profile_rows": [
     1000,
     10000,
@@ -84,13 +84,13 @@
   ],
   "scale_profile_raw_trials": 18,
   "scale_profile_warmups": 3,
-  "source_bound_audit_controls_sha256": "7fb568b310e08c89784d80e59d62a16b5cff0f8ec314d5d5935102e0ee5541aa",
+  "source_bound_audit_controls_sha256": "298664fc308da7ab1bcea3cd66893d614d42c6c0469871f23827168d5ec7294a",
   "capture": {
     "frames": 10,
     "ui_overflow_items": 0,
     "tma_error": "",
-    "capture": "build/cases141-export-ui.ppm",
-    "sha256": "475a79caa8a72b87eb78f4b32f00d74834120a28ac21115c76654a50608b02f1"
+    "capture": "build/cases141-final2-export-ui.ppm",
+    "sha256": "1b6c6a2208125ed3819bd9fd7d7eb6752d6115b95e96e73b71a23b0c4cb934fd"
   },
   "positive_typing_source_files": 3,
   "negative_typing_error_lines": [

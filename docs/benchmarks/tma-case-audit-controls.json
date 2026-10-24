@@ -35,5 +35,19 @@
     "wrong-source-commit",
     "changed-contract-bytes"
   ],
-  "scope": "Guard self-check using real local JUnit and a separate local contract repository. This is not hosted candidate acceptance."
+  "scope": "Guard self-check using real local JUnit and a separate local contract repository. This is not hosted candidate acceptance. Actual-source contract/native/Python positive checks also passed at the compiled revision.",
+  "actual_source_positive": {
+    "commit": "e6bb0fcd3ffdfb8067cf3f1e43ea98b3a2f73352",
+    "native": {
+      "case_aggregation_checked": true,
+      "compensated_signed_sums_checked": true,
+      "mean_underflow_checked": true,
+      "cancellation_checked": true
+    },
+    "python": {
+      "cohort_contract_sha256": "eb85dd78682626681ae942e8f384bee4b3f04e06677cc6f9c566aac39d653472",
+      "cases_passed": 13,
+      "gui_cases_passed": 4
+    }
+  }
 }
