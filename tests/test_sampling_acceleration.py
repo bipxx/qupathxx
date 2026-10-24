@@ -60,3 +60,20 @@ def test_extreme_aspect_ratio_retains_exact_boundary_rules():
     roi = q.Roi.polygon([q.Point(0,0),q.Point(width,0),q.Point(width,height),q.Point(0,height)])
     assert roi.contains_sample(q.Point(0,height/2),q.RoiSamplingPolicy.POLYGON_WINDING)
     assert not roi.contains_sample(q.Point(width,height/2),q.RoiSamplingPolicy.POLYGON_WINDING)
+
+
+def test_concurrent_exterior_queries_then_first_intersecting_queries():
+    roi = q.Roi.polygon([q.Point(0,0),q.Point(64,0),q.Point(64,64),q.Point(0,64)],
+                        [[q.Point(16,16),q.Point(48,16),q.Point(48,48),q.Point(16,48)]])
+    barrier = threading.Barrier(4)
+    policy = q.RoiSamplingPolicy.POLYGON_WINDING
+    def queries(offset):
+        for _ in range(32):
+            assert not roi.contains_sample(q.Point(80+offset,80),policy)
+            assert not roi.contains_sample(q.Point(32,32),policy)
+        barrier.wait(timeout=10)
+        for point,expected in [((8,8),True),((0,0),True),((64,0),False),
+                               ((16,32),False),((48,32),True),((32,48),True)]:
+            assert roi.contains_sample(q.Point(*point),policy)==expected
+    with ThreadPoolExecutor(max_workers=4) as executor:
+        list(executor.map(queries,range(4)))

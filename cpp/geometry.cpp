@@ -340,15 +340,21 @@ bool Roi::contains_sample(Point p,RoiSamplingPolicy policy) const {
     finite(p);
 #ifdef QUPATHXX_HAS_GEOS
     std::lock_guard<std::mutex> lock(d.backend->mutex);
-    if(!d.backend->boundary_grid) d.backend->boundary_grid=std::make_unique<BoundaryGrid>(d.bounds,d.paths);
+    const bool first=!d.backend->boundary_grid;
+    // An exterior query needs no grid. Retain the exact GEOS predicate here:
+    // reconstructing maxima from bounds origin + extent can lose low bits.
+    if(first) {
+        if(!d.backend->predicate(GEOSPreparedIntersectsXY_r(d.backend->ctx,d.backend->prepared,p.x,p.y))) return false;
+        d.backend->boundary_grid=std::make_unique<BoundaryGrid>(d.bounds,d.paths);
+    }
     const auto& grid=*d.backend->boundary_grid;
     if(grid.sparse) {
-        if(!d.backend->predicate(GEOSPreparedIntersectsXY_r(d.backend->ctx,d.backend->prepared,p.x,p.y))) return false;
+        if(!first && !d.backend->predicate(GEOSPreparedIntersectsXY_r(d.backend->ctx,d.backend->prepared,p.x,p.y))) return false;
         if(!grid.maybe_boundary(p)) return true;
         if(d.backend->predicate(GEOSPreparedContainsXY_r(d.backend->ctx,d.backend->prepared,p.x,p.y))) return true;
     } else {
         if(d.backend->predicate(GEOSPreparedContainsXY_r(d.backend->ctx,d.backend->prepared,p.x,p.y))) return true;
-        if(!d.backend->predicate(GEOSPreparedIntersectsXY_r(d.backend->ctx,d.backend->prepared,p.x,p.y))) return false;
+        if(!first && !d.backend->predicate(GEOSPreparedIntersectsXY_r(d.backend->ctx,d.backend->prepared,p.x,p.y))) return false;
     }
     // Only actual boundary points need the explicit half-open crossing rule.
     auto ring_contains=[&](const Ring& path) {

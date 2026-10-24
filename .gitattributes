@@ -29,3 +29,4 @@ tools/qupath_cells_fixture.py text eol=lf
 # Paired performance evidence hashes the executed benchmark bytes.
 tools/profile_roi_sampling.py text eol=lf
 tools/compare_roi_sampling_engines.py text eol=lf
+tools/profile_roi_sampling_cold.py text eol=lf
