@@ -182,3 +182,13 @@ all 23 headless NDPI cases pass and one desktop case skips. A separate source816
 renderer frame is inspected. These observations do not qualify the newer fix on
 GUI or other platforms. Hosted/macOS, broader vendor and research/hardware/release
 gates remain open. Main promotion awaits the required Mac architecture gates.
+
+
+Packet123 NDPI/native-link engineering acceptance is complete at source1b90075:
+Windows GUI2,206 Python/46 native, Windows headless1,814/45, Linux headless1,812/45,
+minimal/sanitizer45. All reader/link cases and inherited gates are audited;
+its source-matching desktop frame is inspected. Portable125 builders pass45
+native/1,812 Python and fresh consumers1,773 Python, with the large-fixture
+consumer skips preserved in the [receipt](benchmarks/portable-ndpi-build-consumer.json).
+Mac124 and the remaining research/hardware/release gates stay open. One real
+NDPI family narrows the reader gap without accepting the whole M1 inventory.

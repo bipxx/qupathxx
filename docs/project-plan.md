@@ -4161,3 +4161,22 @@ cases, the native project stdout marker proving real NDPI save/replay, all new
 LoG/parser/cache cohorts and inherited full workflows/runtime/typing gates.
 Minimal and sanitizer also pass 45 native suites. Windows jobs, overall matrix,
 Mac124 and the newer-source portable125 run remain independent pending checks.
+
+
+Packet123 full source-specific Windows/Linux acceptance is complete in run
+40061443079 at source1b90075. Windows GUI passes2,206 Python/46 native, Windows
+headless1,814/45, Linux headless1,812/45; minimal/sanitizer45. All24 real NDPI
+cases pass desktop (23+one explicit desktop skip headless), both native-link
+regressions and the C++ NDPI saved-analysis replay marker pass. The
+[full receipt](benchmarks/ndpi-native-link-windows-linux.json) audits new and
+inherited gates, and a source-matching GUI capture is inspected.
+
+Packet125 run40061659942 passes both manylinux builders and both fresh Debian
+consumers at the same source. The [portable receipt](benchmarks/portable-ndpi-build-consumer.json)
+accepts45 native/1,812 Python per builder and1,773 Python per consumer, with
+23 real NDPI builder cases and both link-capture cases in every Python cohort.
+Consumers explicitly skip the24 NDPI cases because they retain the smaller
+fixture scope. All inherited unified-engine cohorts pass; a non-NDPI engine
+fails the new required-reader audit mode. All17 auditor unit tests pass.
+Mac124 is still queued, so the plan's dual-architecture promotion gate remains
+unmet. New wall-timing packet127 and all other open M0–M7 requirements remain.

@@ -172,14 +172,76 @@ def audit(folder, run, commit):
         scope='Declared headless CPython ABI and fresh Debian consumer workflows only. Project license, supported release, GUI/macOS, scientific and hardware acceptance remain separate gates.')
 
 
+def unified_cohorts(folder):
+    """Require the LoG/parser/cache cohorts in builders and fresh consumers."""
+    report=[]
+    desktop={'test_log_gui_and_copied_recipe','test_log_managed_viewer_captures_detector_recipe','test_log_gui_batch_captures_recipe_and_checkpoint'}
+    contract=read(Path(__file__).resolve().parents[2]/'tests/fixtures/qupath-cells-0.7.0/contract.json')
+    reference={f"test_log_installed_nucleus_reference[{tile}-{case['name']}]" for tile in contract['tile_sizes'] for case in contract['cases']}
+    for version in ['3.11','3.12']:
+        build=Path(folder)/('manylinux-'+version)
+        native=ET.parse(build/'native-tests.xml').getroot().findall('.//testcase')
+        require({'decimal_quantities','log_watershed','log_cell_recipe','geometry'}<={t.get('name') for t in native},'unified native suites missing')
+        for cohort,path in [('builder',build/'python-tests.xml'),('consumer',Path(folder)/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+            cases=ET.parse(path).getroot().findall('.//testcase')
+            log=[t for t in cases if t.get('classname','').endswith('test_log_cells')]
+            require(len(log)==50,'unified LoG cohort must contain 50 cases')
+            require(reference<={t.get('name') for t in log},'pinned LoG reference/tile cases missing')
+            require(all(t.find('failure') is None and t.find('error') is None for t in log),'LoG case failed')
+            skipped=[t for t in log if t.find('skipped') is not None]
+            require({t.get('name') for t in skipped}==desktop,'unexpected skipped LoG cases')
+            require(all(t.find('skipped').get('type')!='pytest.xfail' for t in skipped),'LoG case expected to fail')
+            cache=[t for t in cases if t.get('classname','').endswith('test_sampling_acceleration')]
+            decimals=[t for t in cases if t.get('classname','').endswith('test_tiff_reader') and t.get('name','').startswith('test_ome_decimal_quantity_contract[')]
+            require(len(cache)==9 and len(decimals)==12,'unified cache/decimal cases missing')
+            require(all(all(t.find(k) is None for k in ['failure','error','skipped']) for t in cache+decimals),'cache/decimal case did not pass')
+            report.append(dict(python=version,cohort=cohort,log_passed=47,log_desktop_skipped=3,
+                log_cases=[t.get('name') for t in log],cache_cases=[t.get('name') for t in cache],decimal_cases=[t.get('name') for t in decimals],junit_sha256=sha(path)))
+    return report
+
+
+def ndpi_cohorts(folder):
+    """Real NDPI runs in builders; fresh consumers exercise native link capture."""
+    report=[]
+    expected={'test_ndpi_metadata_and_anisotropic_calibration','test_ndpi_complete_overview_and_source_budget',
+        'test_ndpi_scheduler_cache_and_pending_close','test_ndpi_log_detection_tile_invariance_and_saved_replay',
+        'test_ndpi_truncated_container_rejects','test_ndpi_desktop_pyramid_settles'}
+    expected.update(f'test_ndpi_all_levels_padding_and_owned_pixels[{i}]' for i in range(9))
+    expected.update(f'test_ndpi_installed_region_cli[{i}]' for i in range(9))
+    for version in ['3.11','3.12']:
+        build=Path(folder)/('manylinux-'+version)
+        native=ET.parse(build/'native-tests.xml').getroot().findall('.//testcase')
+        project=[t for t in native if t.get('name')=='project']
+        require(len(project)==1 and 'Native NDPI inferred link, LoG archive replay and calibration passed' in project[0].findtext('system-out',''),'native NDPI project replay was not exercised')
+        for cohort,path in [('builder',build/'python-tests.xml'),('consumer',Path(folder)/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+            cases=ET.parse(path).getroot().findall('.//testcase')
+            readers=[t for t in cases if t.get('classname','').endswith('test_ndpi_reader')]
+            require(len(readers)==24 and {t.get('name') for t in readers}==expected,'NDPI cohort differs')
+            require(all(t.find('failure') is None and t.find('error') is None for t in readers),'NDPI case failed')
+            skips=[t for t in readers if t.find('skipped') is not None]
+            require({t.get('name') for t in skips}==({'test_ndpi_desktop_pyramid_settles'} if cohort=='builder' else expected),'NDPI fixture/desktop scope differs')
+            require(all(t.find('skipped').get('type')!='pytest.xfail' for t in skips),'NDPI case expected to fail')
+            links=[t for t in cases if t.get('name') in {'test_opened_slide_document_defaults_to_its_native_link','test_opened_tiff_document_defaults_to_native_link_and_current_view'}]
+            require(len(links)==2 and all(all(t.find(k) is None for k in ['failure','error','skipped']) for t in links),'default native-link regressions missing')
+            report.append(dict(python=version,cohort=cohort,ndpi_passed=24-len(skips),ndpi_skipped=len(skips),
+                default_link_passed=2,ndpi_cases=[dict(name=t.get('name'),skipped=t.find('skipped') is not None) for t in readers],junit_sha256=sha(path)))
+    return report
+
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--artifacts',type=Path,required=True)
     parser.add_argument('--run-json',type=Path,required=True)
     parser.add_argument('--commit',required=True)
     parser.add_argument('--output',type=Path,required=True)
+    parser.add_argument('--unified-engine',action='store_true',help='Also require the explicit LoG, decimal parser and cache cohorts in all four Python runs')
+    parser.add_argument('--ndpi-readers',action='store_true',help='Also require NDPI builder and default native-link cases; consumers retain their small-fixture scope')
     args=parser.parse_args()
     report=audit(args.artifacts,read(args.run_json),args.commit)
+    if args.unified_engine or args.ndpi_readers:
+        report['unified_engine_cohorts']=unified_cohorts(args.artifacts)
+    if args.ndpi_readers:
+        report['ndpi_reader_cohorts']=ndpi_cohorts(args.artifacts)
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(state=report['state'],commit=report['commit'],release_ready=False)))
