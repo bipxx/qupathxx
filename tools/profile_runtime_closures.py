@@ -15,6 +15,7 @@ import random
 import statistics
 import subprocess
 import time
+import tracemalloc
 
 
 def digest(data):
@@ -136,6 +137,20 @@ def main():
                 records.append(dict(images=size, edges=len(edges), roots=len(roots), trial=trial,
                                     warmup=trial == 0, position=position, implementation=name,
                                     elapsed_ns=elapsed, output_sha256=expected_hash))
+    # Separate allocation probes: tracing must not contaminate timed pairs.
+    allocation = []
+    roots, edges = graph(max(args.sizes), 146)
+    for name, implementation in [('baseline', walk), ('indexed', new._dependency_closures)]:
+        tracemalloc.start()
+        try:
+            result = implementation(roots, edges, 'python312.dll')
+            current, peak = tracemalloc.get_traced_memory()
+        finally:
+            tracemalloc.stop()
+        assert result == walk(roots, edges, 'python312.dll')
+        allocation.append(dict(implementation=name, images=max(args.sizes),
+                               retained_python_bytes=current, peak_python_bytes=peak))
+        del result
     medians = []
     for size in args.sizes:
         row = dict(images=size)
@@ -149,12 +164,12 @@ def main():
                   candidate_source_sha256=digest((root/'tools/ci/runtime_manifest.py').read_bytes()),
                   profiler_sha256=digest(Path(__file__).read_bytes()), python=platform.python_version(),
                   platform=platform.platform(), packages=packages, differential=differential,
-                  records=records, medians=medians, release_ready=False,
+                  records=records, medians=medians, allocations=allocation, release_ready=False,
                   scope='Static closure traversal only; synthetic graphs and identical real-package manifests. '
                         'No archive throughput, process memory, hardware, dynamic loader or release acceptance.')
     with args.output.open('xb') as stream:
         stream.write((json.dumps(report, indent=2)+'\n').encode('utf-8'))
-    print(json.dumps(dict(packages=packages, medians=medians, observations=len(records))))
+    print(json.dumps(dict(packages=packages, medians=medians, allocations=allocation, observations=len(records))))
 
 
 if __name__ == '__main__':
