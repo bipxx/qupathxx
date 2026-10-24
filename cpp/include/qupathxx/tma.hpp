@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/core.hpp"
+#include <atomic>
 
 namespace qpx {
 // Level-zero coordinates. The two step vectors permit rotated/skewed lattices;
@@ -72,5 +73,12 @@ private:
 // default; callers may opt out for tables without a revision column.
 std::string tma_metadata_csv(const TmaGrid&,std::size_t byte_limit=64*1024*1024);
 std::string tma_context_csv(const TmaGrid&,const std::string& table,std::size_t byte_limit=64*1024*1024,bool require_revision=true);
+// Replicate cores share a case ID; unassigned cores remain separate rows.
+// Missing cores contribute inventory counts but no measurement values.
+// Existing revision selectors are always checked. Legacy tables lacking one
+// require allow_unversioned; an absent measurement table exports inventory only.
+std::string tma_case_summary_csv(const TmaGrid&,const std::string& table="",const std::string& value_column="",
+    const std::string& weight_column="",std::size_t byte_limit=64*1024*1024,bool allow_unversioned=false,
+    const std::atomic<bool>* cancelled=nullptr);
 std::vector<ObjectEdit> tma_grid_edits(const TmaGridOptions&);
 }

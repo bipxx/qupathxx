@@ -12,9 +12,44 @@
 using namespace qpx;
 void check(bool b) {if(!b) throw std::runtime_error("TMA check failed");}
 template<class F> void rejects(F f) {try {f();}catch(const std::exception&) {return;}throw std::runtime_error("missing TMA rejection");}
+void case_summary_contracts() {
+    auto doc=std::make_shared<Document>(Image(256,192,std::vector<std::uint8_t>(256*192*3,255)));
+    TmaGridOptions o;o.rows=2;o.columns=3;o.origin={30,30};o.row_step={0,60};o.column_step={60,0};o.width=30;o.height=24;
+    const auto ids=doc->create_tma_grid(o);
+    const std::string case_a="case,\"组织\"\nA";
+    doc->set_tma_case_ids({{ids[0],case_a},{ids[1],case_a},{ids[2],"B"},{ids[4],case_a}});
+    doc->set_tma_missing({ids[1]},true);doc->remove_annotation(ids[5]);const auto snapshot=doc->tma_grid();
+    auto row=[&](std::size_t slot,const std::string& value,const std::string& weight) {
+        return std::to_string(ids[slot])+','+std::to_string(doc->annotation(ids[slot]).revision)+','+value+','+weight+"\r\n";
+    };
+    const std::string header="source_object_id,source_object_revision,Value,Weight\r\n";
+    const auto table=header+row(0,"2","1")+row(0,"4","3")+row(4,"8","2")+row(1,"100","20")+row(2,"10","0")+row(3,"12","2");
+    const auto summary=tma_case_summary_csv(*snapshot,table,"Value","Weight");
+    check(summary.find("qpx.tma-case-summary/1")!=std::string::npos && summary.find("case,\"\"组织\"\"\nA")!=std::string::npos);
+    check(summary.find(",6,1,")!=std::string::npos && summary.find(",3,2,1,2,3,1,\"Value\",\"Weight\",")!=std::string::npos);
+    check(summary.find(",14,6,30,")!=std::string::npos && summary.find(",5,2,8\r\n")!=std::string::npos);
+    check(summary.find(",10,0,0,10,,10,10\r\n")!=std::string::npos);
+    check(summary.find("\"\","+std::to_string(ids[3])+",1,1,0,1,1,0,")!=std::string::npos);
+    const auto empty=tma_case_summary_csv(*snapshot,header,"Value","Weight");check(empty.find("no_measurements")!=std::string::npos && empty.find("nan")==std::string::npos);
+    const auto metadata=tma_case_summary_csv(*snapshot);check(metadata.find("no_measurements")!=std::string::npos);
+    rejects([&]{tma_case_summary_csv(*snapshot,table,"missing");});rejects([&]{tma_case_summary_csv(*snapshot,table,"Value","Weight",1);});
+    rejects([&]{tma_case_summary_csv(*snapshot,header+row(0,"nan","1"),"Value","Weight");});
+    rejects([&]{tma_case_summary_csv(*snapshot,header+row(0,"2","-1"),"Value","Weight");});
+    rejects([&]{tma_case_summary_csv(*snapshot,header+row(0,"1e308","1e308"),"Value","Weight");});
+    rejects([&]{tma_case_summary_csv(*snapshot,header+row(0,"1e-300","1e-300"),"Value","Weight");});
+    const auto unversioned="source_object_id,Value\n"+std::to_string(ids[0])+",2\n";
+    rejects([&]{tma_case_summary_csv(*snapshot,unversioned,"Value");});
+    check(tma_case_summary_csv(*snapshot,unversioned,"Value","",64*1024*1024,true).find("unversioned")!=std::string::npos);
+    doc->set_tma_case_ids({{ids[0],"changed"}});const auto current=doc->tma_grid();
+    rejects([&]{tma_case_summary_csv(*current,table,"Value","Weight",64*1024*1024,true);});
+    std::atomic<bool> stop{true};rejects([&]{tma_case_summary_csv(*snapshot,table,"Value","Weight",64*1024*1024,false,&stop);});
+    doc.reset();check(tma_case_summary_csv(*snapshot,table,"Value","Weight")==summary);
+    std::cout<<"TMA case aggregation, weighted arithmetic, missing/unassigned cores, stale revisions and cancellation passed\n";
+}
 int main() {
     namespace fs=std::filesystem;const auto root=fs::current_path()/("tma-test-"+std::to_string(std::random_device{}()));
     try {
+        case_summary_contracts();
         auto doc=std::make_shared<Document>(Image(256,192,std::vector<std::uint8_t>(256*192*3,32)));
         TmaGridOptions options;options.rows=2;options.columns=3;options.origin={30,30};options.row_step={0,60};options.column_step={60,0};options.width=30;options.height=24;
         options.name="Test grid";options.row_labels={"A","B"};const auto ids=doc->create_tma_grid(options);check(ids.size()==6 && doc->tma_core_count()==6 && doc->tma_core_ids().size()==6 && doc->revision()==1);

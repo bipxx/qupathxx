@@ -1,4 +1,6 @@
 #include "qupathxx/tma.hpp"
+#include "sha256.hpp"
+#include "utf8_text.hpp"
 #include <charconv>
 #include <cmath>
 #include <limits>
@@ -21,10 +23,11 @@ std::string context(const TmaGrid& grid,const Annotation& core) {
 }
 // Field spans retain the original encoding, including embedded quoted newlines.
 // One bounded vector is reused for all rows; no per-cell feature copies occur.
-template<class F> void records(const std::string& csv,F&& consume) {
+template<class F> void records(const std::string& csv,F&& consume,const std::atomic<bool>* cancelled=nullptr) {
     std::vector<std::pair<std::size_t,std::size_t>> fields;fields.reserve(128);std::size_t row=0,field=0;bool quoted=false,closed=false,started=false;
     auto add=[&](std::size_t end) {if(fields.size()>=1024) throw std::length_error("TMA context input exceeds column limit");fields.emplace_back(field,end-field);};
     for(std::size_t i=0;i<csv.size();++i) {
+        if((i&65535)==0 && cancelled && cancelled->load(std::memory_order_relaxed)) throw std::runtime_error("TMA case summary cancelled");
         const auto c=csv[i];
         if(quoted) {if(c=='"') {if(i+1<csv.size() && csv[i+1]=='"') ++i;else {quoted=false;closed=true;}}continue;}
         if(c=='"') {if(started || closed) throw std::invalid_argument("invalid CSV quote");quoted=true;started=true;continue;}
@@ -62,5 +65,98 @@ std::string tma_context_csv(const TmaGrid& grid,const std::string& table,std::si
         const auto& core=*found->second;if(require_revision && number(decode(table,fields[revision],32))!=core.revision) throw std::invalid_argument("TMA metadata does not match the recorded core revision");
         csv.append(context(grid,core));csv.append(std::string_view(table.data()+begin,end-begin));
     });return std::move(csv.value);
+}
+
+std::string tma_case_summary_csv(const TmaGrid& grid,const std::string& table,const std::string& value_column,
+                               const std::string& weight_column,std::size_t maximum,bool allow_unversioned,
+                               const std::atomic<bool>* cancelled) {
+    limit(maximum);if(table.size()>maximum) throw std::length_error("TMA input table exceeds byte limit");
+    detail::bounded_utf8(value_column,128);detail::bounded_utf8(weight_column,128);
+    if(table.empty()!=value_column.empty() || (table.empty() && !weight_column.empty()))
+        throw std::invalid_argument("TMA case measurements require both a table and value column");
+    auto checkpoint=[&] {if(cancelled && cancelled->load(std::memory_order_relaxed)) throw std::runtime_error("TMA case summary cancelled");};
+    struct Sum {
+        double value=0,correction=0;
+        void add(double v) {
+            const auto adjusted=v-correction,next=value+adjusted;
+            if(!std::isfinite(adjusted) || !std::isfinite(next)) throw std::overflow_error("TMA case sum exceeds numeric range");
+            correction=(next-value)-adjusted;value=next;
+        }
+    };
+    struct Stats {
+        std::uint64_t cores=0,present=0,missing=0,measured=0,rows=0,ignored=0;
+        Sum values,weights,weighted;
+        double minimum=0,maximum=0;
+    };
+    using Key=std::pair<std::string,std::uint64_t>;
+    std::map<Key,Stats> groups;
+    struct Core {const Annotation* annotation;Stats* stats;bool measured=false;};
+    std::map<std::uint64_t,Core> cores;
+    for(const auto& core:grid.cores()) {
+        checkpoint();const auto& info=*core.tma_core;
+        auto& stats=groups[{info.case_id(),info.case_id().empty()?core.id:0}];
+        ++stats.cores;if(info.missing()) ++stats.missing;else ++stats.present;
+        cores.emplace(core.id,Core{&core,&stats,false});
+    }
+    const auto absent=std::numeric_limits<std::size_t>::max();
+    std::size_t columns=0,id=absent,revision=absent,value=absent,weight=absent;
+    bool first=true,versioned=false;
+    auto numeric=[&](const auto& span) {
+        const auto text=decode(table,span,128);double result=0;
+        const auto parsed=std::from_chars(text.data(),text.data()+text.size(),result,std::chars_format::general);
+        if(text.empty() || parsed.ec!=std::errc{} || parsed.ptr!=text.data()+text.size() || !std::isfinite(result))
+            throw std::invalid_argument("TMA case measurement must be a finite decimal number");
+        return result;
+    };
+    if(!table.empty()) records(table,[&](std::size_t,std::size_t,const auto& fields) {
+        checkpoint();
+        if(first) {
+            columns=fields.size();std::map<std::string,std::size_t> headers;
+            for(std::size_t i=0;i<columns;++i) {const auto name=decode(table,fields[i],128);if(name.empty() || !headers.emplace(name,i).second) throw std::invalid_argument("empty or duplicate TMA case column");}
+            auto find=[&](const std::string& name) {const auto at=headers.find(name);return at==headers.end()?absent:at->second;};
+            id=find("source_object_id");revision=find("source_object_revision");
+            if(id==absent) {id=find("object_id");if(revision==absent) revision=find("object_revision");}
+            value=find(value_column);if(!weight_column.empty()) weight=find(weight_column);
+            if(id==absent || value==absent || (!weight_column.empty() && weight==absent) || (revision==absent && !allow_unversioned))
+                throw std::invalid_argument("TMA case input lacks core revision or measurement columns");
+            versioned=revision!=absent;first=false;return;
+        }
+        if(fields.size()!=columns) throw std::invalid_argument("TMA case input row has a different column count");
+        const auto identity=number(decode(table,fields[id],32));const auto at=cores.find(identity);
+        if(at==cores.end()) throw std::invalid_argument("case table references an object outside the TMA snapshot");
+        auto& core=at->second;
+        if(versioned && number(decode(table,fields[revision],32))!=core.annotation->revision)
+            throw std::invalid_argument("TMA case input does not match the recorded core revision");
+        const auto v=numeric(fields[value]),w=weight==absent?1.:numeric(fields[weight]);
+        if(w<0) throw std::invalid_argument("TMA case weight must be nonnegative");
+        auto& stats=*core.stats;
+        if(core.annotation->tma_core->missing()) {++stats.ignored;return;}
+        const auto product=v*w;
+        if(!std::isfinite(product)) throw std::overflow_error("TMA weighted value exceeds numeric range");
+        if(v!=0 && w!=0 && product==0) throw std::underflow_error("TMA weighted value is below numeric range");
+        stats.values.add(v);stats.weights.add(w);stats.weighted.add(product);
+        if(!stats.rows) stats.minimum=stats.maximum=v;else {stats.minimum=std::min(stats.minimum,v);stats.maximum=std::max(stats.maximum,v);}
+        ++stats.rows;if(!core.measured) {++stats.measured;core.measured=true;}
+    },cancelled);
+    std::string digest;
+    if(!table.empty()) {Sha256 hash;for(std::size_t at=0;at<table.size();) {checkpoint();const auto n=std::min<std::size_t>(65536,table.size()-at);hash.update(table.data()+at,n);at+=n;}digest=hash.finish();}
+    Csv csv(maximum);
+    csv.append("table_schema,metadata_document_revision,grid_name,grid_slots,grid_vacant_slots,case_id,unassigned_core_id,cores,present_cores,missing_cores,measured_cores,measurement_rows,ignored_missing_rows,value_column,weight_column,input_table_sha256,measurement_revision_status,value_sum,weight_sum,weighted_sum,mean,weighted_mean,minimum,maximum\r\n");
+    const auto slots=grid.info()->rows()*grid.info()->columns();
+    for(const auto& entry:groups) {
+        checkpoint();const auto& key=entry.first;const auto& st=entry.second;
+        std::string line=quote("qpx.tma-case-summary/1")+','+std::to_string(grid.document_revision())+','+quote(grid.info()->name())+','+
+            std::to_string(slots)+','+std::to_string(slots-grid.cores().size())+','+quote(key.first)+','+(key.second?std::to_string(key.second):"")+','+
+            std::to_string(st.cores)+','+std::to_string(st.present)+','+std::to_string(st.missing)+','+std::to_string(st.measured)+','+
+            std::to_string(st.rows)+','+std::to_string(st.ignored)+','+quote(value_column)+','+quote(weight_column)+','+quote(digest)+','+
+            quote(st.rows?(versioned?"verified":"unversioned"):"no_measurements")+',';
+        if(st.rows) {
+            const auto mean=st.values.value/double(st.rows);
+            line+=real(st.values.value)+','+real(st.weights.value)+','+real(st.weighted.value)+','+real(mean)+','+
+                (st.weights.value>0?real(st.weighted.value/st.weights.value):"")+','+real(st.minimum)+','+real(st.maximum);
+        } else line+=",,,,,,";
+        line+="\r\n";csv.append(line);
+    }
+    return std::move(csv.value);
 }
 }
