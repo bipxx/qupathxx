@@ -4805,3 +4805,18 @@ Native engine compiler inputs are unchanged. See the
 and promotion are pending. Dynamic loader coverage, installed runtime
 availability, ELF/Mach-O manifests, signing, license and supported packaging
 remain separate M7 requirements; the full M0-M7 objective remains partial.
+
+## Indexed static dependency closure (candidate 146)
+
+The package inspector now builds a source-edge index once, eliminating the
+repeated global-edge scan during traversal. The 55 focused cases pass, including
+a cyclic multiple-root source-inspection regression. Complete canonical
+manifests remain identical on previously accepted GUI/headless wheels and the
+standalone ZIP. Two retained runs each include 36 synthetic timing observations,
+24 seeded differential graphs and matching interpreter-isolation rejections.
+At 4,096 modules the final traversal median changes from 5,930.50 to 13.35 ms,
+with 460,504 additional peak traced Python bytes in a separate allocation probe.
+See the [complete local receipt](benchmarks/windows-runtime-closure-local-windows.json).
+Native compiler inputs are unchanged; exact-source hosted validation and
+promotion are pending. This component improvement does not close whole-package
+throughput, process memory, hardware, release or the full M0-M7 requirements.

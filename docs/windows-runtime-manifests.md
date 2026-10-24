@@ -82,3 +82,32 @@ otherwise-valid wheel. Both GUI and headless helper positives pass against
 previously accepted artifacts. Native compiler inputs are unchanged from the
 accepted cohort source. New exact-source CI execution and promotion remain
 pending. This candidate does not close M7 or the broader M0-M7 objective.
+
+## Indexed dependency traversal (candidate 146)
+
+The closure walker indexes edges by their source image once, then follows only
+outgoing edges of reached images. With R entry points, V images and E edges,
+graph work is O(E + R(V + E)); deterministic output sorting is additional.
+The previous loop scanned all E edges for every visited image. The index adds
+O(E) references and per-source lists. Archive quotas and output semantics remain
+unchanged, including cycles, external prerequisites and native Python isolation.
+
+The focused suite now has 55 passing tests, including a regression that bounds
+source-edge inspections on a cyclic graph with multiple roots. The reproducible
+`tools/profile_runtime_closures.py` comparison extracts the actual baseline loop
+from trusted Git source, retains alternating baseline/candidate order, all
+warmups and measured observations, and checks input immutability and exact
+outputs. It compares 24 seeded cyclic/shortcut graphs and interpreter-rejection
+cases, plus complete canonical manifest bytes for previously accepted GUI and
+headless wheels and the standalone ZIP. Allocation probes run separately from
+timed pairs. These are component measurements; they do not establish package
+throughput, a process-memory cap, hardware performance or release readiness.
+
+The [local comparison receipt](benchmarks/windows-runtime-closure-local-windows.json)
+retains both runs: each has 36 observations (one warmup and five measured pairs
+per size). At 4,096 modules and 12,293 edges, the first run's median changes from
+4,944.70 ms to 7.27 ms; the final run changes from 5,930.50 ms to 13.35 ms.
+Final separate traced peaks are 246,688 baseline bytes and 707,192 indexed
+bytes, an increase of 460,504 bytes. All three package manifest hashes and all
+seeded graph/rejection outcomes agree. Hosted candidate validation and main
+promotion remain pending.
