@@ -4680,3 +4680,23 @@ suites. Intel Mac and complete hosted source-bound TMA audits remain open. See t
 M0-M7 remain partial. This packet does not establish cross-grid pooling,
 biological/QuPath TMA equivalence, general performance improvement, hardware
 acceptance, a project license or a supported release.
+
+
+## Shared case-file export and standalone CLI (candidate 142)
+
+C++ now owns bounded measurement-file reads, source observations, snapshot-based
+case aggregation and atomic new-file publication through one shared exporter.
+Nanobind exposes `save_tma_case_summary_csv` with the GIL released; ImGui uses
+that exporter from its native worker. The standalone batch executable provides
+`--export-tma-cases`, with explicit image selection for multi-image projects,
+value/weight columns, byte limits, revision opt-in, signal cancellation and
+structured success/error records. Existing files are preserved.
+
+The initial installed Windows checks pass 47 native suites, 75 combined TMA
+cases (including 27 new API/CLI cases), packaged stubs and positive/negative
+typing checks. Eight minimal native CLI probes agree byte-for-byte with the
+previous API and preserve project/input files. Native file-I/O and cancellation
+markers plus exact Python cohorts are required by `--tma-file-export` audits.
+The full installed regression and fresh platform audits remain pending; M0-M7
+and performance, biological, hardware, licensing and supported-release gates
+remain open.

@@ -150,7 +150,12 @@ qupathxx_batch --export-tma-cases project.qpxproj cases.csv --image 1 --measurem
 snapshot revision, output path and published bytes. Exit codes are 0 for saved,
 1 for data/I/O errors, 2 for malformed arguments, and 130 for cancellation.
 The CLI retains and verifies the project file observation through publication.
-These file/CLI additions are undergoing installed-package validation.
+The [initial installed file/CLI validation](benchmarks/tma-case-file-initial-windows.json)
+passes 27 new API/CLI cases, 75 combined TMA cases, 47 native suites and
+packaged typing checks. [Eight minimal native CLI probes](benchmarks/tma-case-file-native-cli.json)
+match the previous API bytes and preserve protected files; that executable
+imports no Python or OpenGL runtime. Full installed regression and hosted
+file-export acceptance remain open.
 
 The TMA panel's Export tab offers **Summarize replicate cores by case**, an
 optional measurement CSV, value and weight columns, and an explicit unversioned

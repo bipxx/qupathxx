@@ -1,0 +1,39 @@
+{
+  "schema": "qpx.tma-case-file-initial-validation/1",
+  "compiled_git_revision": "4b52d2393fd001ee3171ca9fcaedb38744ce1a7b",
+  "input_count": 258,
+  "source_tree_sha256": "f875cb5e7f9bf75372aa90be6169c2b553e1ef291552b7593d535fc5a6db3690",
+  "native_sha256": "d6530df8f65ac028e0079d15856656012e6f6edd0c59aa9caa131ecff7f457fb",
+  "raw_build_fingerprint_matches": true,
+  "all_compiled_inputs_match_committed_source_after_line_ending_normalization": true,
+  "native": {
+    "passed": 47,
+    "sha256": "afbd79fec1f9fb4aadbefdeb8b20cd2b907b846e4d8fea9accdf7bffb063a1ca"
+  },
+  "focused": {
+    "passed": 75,
+    "sha256": "68a4c34f1e20ebad2dca8512832e1fc34a45f9ed29e24ddf08fe40f4c21cdf1c"
+  },
+  "wheel_sha256": "8b1a1486a16dbc69754d380eda435fb0c063de7619c0039679710c01de2aa74b",
+  "file_api_cli_cases": 27,
+  "inherited_tma_cases": 48,
+  "native_cli_probe_checks": 8,
+  "positive_typing_source_files": 3,
+  "negative_typing_error_lines": [
+    6,
+    7,
+    8,
+    9,
+    11,
+    13,
+    14
+  ],
+  "wheel_stubs_match_source": true,
+  "audit_control_rejections": 9,
+  "full_installed_regression_completed": false,
+  "hosted_file_export_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "scope": "Initial installed Windows GUI wheel/native/API/CLI/desktop checks. Full 2,417-case regression and source-bound hosted audits remain pending. The independent minimal native CLI probe used source 88d9c24; the installed wheel and focused tests used 4b52d23."
+}

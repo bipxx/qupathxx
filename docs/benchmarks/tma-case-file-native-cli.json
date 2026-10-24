@@ -1,0 +1,90 @@
+{
+  "schema": "qpx.tma-case-native-cli-probe/1",
+  "executable": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\cases142-native\\Release\\qupathxx_batch.exe",
+  "executable_sha256": "84d57db10d5a16477ed809bf4234cb6571e752f1d15ded566726776c766bff6f",
+  "project_sha256": "e98a3f938bb68575eb94c2e422720708bdc12b549a866f1253d37aa0a4d534e1",
+  "measurement_sha256": "4cc274e16d61d91b4aa4937cdc0cb32f02fd938ce84f6ca915fb73bafb7237d3",
+  "weighted_output_sha256": "ab460b417bc7f68fef6d694791ad91c82c3b9f8dc3a2dacb6aff544c0302539d",
+  "records": [
+    {
+      "name": "ambiguous-image",
+      "exit_code": 1,
+      "report": {
+        "schema": "qpx.batch-error/1",
+        "error": "select one TMA image with --image when the project does not contain exactly one image"
+      }
+    },
+    {
+      "name": "weighted",
+      "exit_code": 0,
+      "report": {
+        "schema": "qpx.tma-case-export/1",
+        "state": "saved",
+        "image_id": 1,
+        "document_revision": 2,
+        "bytes": 1165,
+        "output": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cases142-native-cli-inputs\\weighted.csv"
+      }
+    },
+    {
+      "name": "existing-output",
+      "exit_code": 1,
+      "report": {
+        "schema": "qpx.batch-error/1",
+        "error": "export commit failed (destination may already exist)"
+      }
+    },
+    {
+      "name": "project-alias",
+      "exit_code": 1,
+      "report": {
+        "schema": "qpx.batch-error/1",
+        "error": "fingerprint output must not replace its input"
+      }
+    },
+    {
+      "name": "input-alias",
+      "exit_code": 1,
+      "report": {
+        "schema": "qpx.batch-error/1",
+        "error": "fingerprint output must not replace its input"
+      }
+    },
+    {
+      "name": "explicit-second-image",
+      "exit_code": 0,
+      "report": {
+        "schema": "qpx.tma-case-export/1",
+        "state": "saved",
+        "image_id": 2,
+        "document_revision": 2,
+        "bytes": 787,
+        "output": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cases142-native-cli-inputs\\inventory.csv"
+      }
+    },
+    {
+      "name": "malformed-arguments",
+      "exit_code": 2,
+      "report": {
+        "schema": "qpx.batch-error/1",
+        "error": "expected positive unsigned integer"
+      }
+    },
+    {
+      "name": "stale-measurement",
+      "exit_code": 1,
+      "report": {
+        "schema": "qpx.batch-error/1",
+        "error": "TMA case input does not match the recorded core revision"
+      }
+    }
+  ],
+  "api_bytes_match": true,
+  "protected_files_unchanged": true,
+  "unpublished_outputs_absent": true,
+  "scope": "Native headless/project build consumed a project and measurement CSV prepared with the previous installed Python API. This does not validate the new Python file binding or GUI build.",
+  "release_ready": false,
+  "dependency_log_sha256": "9722094d9f62bf6a65db896049b1d0ed997e47316125620baecfdd5cab49d74c",
+  "python_or_opengl_runtime_imported": false,
+  "compiled_git_revision": "88d9c244551c34e6d93fc8e52cacd2c43c0f05c0"
+}
