@@ -1,0 +1,258 @@
+{
+  "schema": "qpx.macho-reader-local-validation/1",
+  "tooling_source": "96062b8524c70e5bd1889be82fd5b8bf7365601f",
+  "unit_passed": 246,
+  "groups": {
+    "test_macho_dependencies": 66,
+    "test_runtime_manifest": 55,
+    "test_elf_dependencies": 75,
+    "test_linux_runtime_manifest": 50
+  },
+  "unit_junit_sha256": "8e43c66bd0e88692973697f1b2864ca3955649c542c43ec48d3d816088363c5c",
+  "oracle": {
+    "schema": "qpx.macho-reader-oracle/1",
+    "input_label": "MarkupSafe 3.0.2 PyPI fixtures; not qupathxx candidate binaries",
+    "parser_sha256": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+    "probe_sha256": "b36fddac4a9a08cc5ef2c3e04221ca1a9f6c97431d4c452d673adf48ef122206",
+    "oracle": "macholib",
+    "oracle_version": "1.16.3",
+    "records": [
+      {
+        "input": "MarkupSafe-3.0.2-cp312-cp312-macosx_10_13_universal2.whl",
+        "sha256": "9778bd8ab0a994ebf6f84c2b949e65736d5575320a17ae8984a77fab08db94cf",
+        "binaries": [
+          {
+            "path": "markupsafe/_speedups.cpython-312-darwin.so",
+            "sha256": "5952a131cfbdb1be148e893e2f9a05cdbf4ae602bdb3d661a2c77e10e3960365",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "Mach-O64",
+              "container": "fat32",
+              "slices": [
+                {
+                  "offset": 4096,
+                  "bytes": 9096,
+                  "sha256": "48ab5c417edcc82ba4765b34e9ef8a3a31f10cfe59d0fb341a1faf9c74eab26c",
+                  "machine": "x86_64",
+                  "cpu_type": 16777223,
+                  "cpu_subtype": 3,
+                  "kind": "bundle",
+                  "flags": 133,
+                  "dependencies": [
+                    {
+                      "mechanism": "load",
+                      "name": "/usr/lib/libSystem.B.dylib",
+                      "timestamp": 2,
+                      "current_version": 88176642,
+                      "compatibility_version": 65536
+                    }
+                  ],
+                  "dylib_id": null,
+                  "minimum_os": [
+                    {
+                      "command": 36,
+                      "platform": "macos",
+                      "minimum": 658688,
+                      "sdk": 918784,
+                      "tools": []
+                    }
+                  ],
+                  "uuid": "5d2bc85ea693361c8066645eca062fe4",
+                  "rpaths": [],
+                  "interpreters": [],
+                  "interpreter_ids": [],
+                  "dyld_environment": [],
+                  "sub_frameworks": [],
+                  "sub_umbrellas": [],
+                  "sub_clients": [],
+                  "sub_libraries": [],
+                  "commands": [
+                    25,
+                    25,
+                    25,
+                    2147483682,
+                    2,
+                    11,
+                    27,
+                    36,
+                    42,
+                    12,
+                    38,
+                    41
+                  ]
+                },
+                {
+                  "offset": 16384,
+                  "bytes": 50608,
+                  "sha256": "f434cbb58940937552b14ae694c0e949c873bfcf09fb6dee22ae1143d2908f52",
+                  "machine": "arm64",
+                  "cpu_type": 16777228,
+                  "cpu_subtype": 0,
+                  "kind": "bundle",
+                  "flags": 133,
+                  "dependencies": [
+                    {
+                      "mechanism": "load",
+                      "name": "/usr/lib/libSystem.B.dylib",
+                      "timestamp": 2,
+                      "current_version": 88176642,
+                      "compatibility_version": 65536
+                    }
+                  ],
+                  "dylib_id": null,
+                  "minimum_os": [
+                    {
+                      "command": 50,
+                      "platform": "macos",
+                      "minimum": 720896,
+                      "sdk": 918784,
+                      "tools": [
+                        {
+                          "tool": 3,
+                          "version": 69012480
+                        }
+                      ]
+                    }
+                  ],
+                  "uuid": "08dfcd0380bd3d0fb0d72ead9ad8ab2c",
+                  "rpaths": [],
+                  "interpreters": [],
+                  "interpreter_ids": [],
+                  "dyld_environment": [],
+                  "sub_frameworks": [],
+                  "sub_umbrellas": [],
+                  "sub_clients": [],
+                  "sub_libraries": [],
+                  "commands": [
+                    25,
+                    25,
+                    25,
+                    25,
+                    2147483682,
+                    2,
+                    11,
+                    27,
+                    50,
+                    42,
+                    12,
+                    38,
+                    41,
+                    29
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "input": "MarkupSafe-3.0.2-cp312-cp312-macosx_11_0_arm64.whl",
+        "sha256": "846ade7b71e3536c4e56b386c2a47adf5741d2d8b94ec9dc3e92e5e1ee1e2225",
+        "binaries": [
+          {
+            "path": "markupsafe/_speedups.cpython-312-darwin.so",
+            "sha256": "2c05fbba5e8f42c7ceff367117adf5792ccde94ecfa0655347f5b0776a466aff",
+            "oracle_equal": true,
+            "inventory": {
+              "format": "Mach-O64",
+              "container": "thin64",
+              "slices": [
+                {
+                  "offset": 0,
+                  "bytes": 50624,
+                  "sha256": "2c05fbba5e8f42c7ceff367117adf5792ccde94ecfa0655347f5b0776a466aff",
+                  "machine": "arm64",
+                  "cpu_type": 16777228,
+                  "cpu_subtype": 0,
+                  "kind": "bundle",
+                  "flags": 133,
+                  "dependencies": [
+                    {
+                      "mechanism": "load",
+                      "name": "/usr/lib/libSystem.B.dylib",
+                      "timestamp": 2,
+                      "current_version": 88176642,
+                      "compatibility_version": 65536
+                    }
+                  ],
+                  "dylib_id": null,
+                  "minimum_os": [
+                    {
+                      "command": 50,
+                      "platform": "macos",
+                      "minimum": 720896,
+                      "sdk": 918784,
+                      "tools": [
+                        {
+                          "tool": 3,
+                          "version": 69012480
+                        }
+                      ]
+                    }
+                  ],
+                  "uuid": "647f0545dba93bbab2343c8da24b3f0a",
+                  "rpaths": [],
+                  "interpreters": [],
+                  "interpreter_ids": [],
+                  "dyld_environment": [],
+                  "sub_frameworks": [],
+                  "sub_umbrellas": [],
+                  "sub_clients": [],
+                  "sub_libraries": [],
+                  "commands": [
+                    25,
+                    25,
+                    25,
+                    25,
+                    2147483682,
+                    2,
+                    11,
+                    27,
+                    50,
+                    42,
+                    12,
+                    38,
+                    41,
+                    29
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ],
+    "extracted": false,
+    "binaries_loaded": false,
+    "release_ready": false,
+    "scope": "Independent comparison of architecture, file identity, slice bounds, dependency mechanisms/names/versions, dylib identity, RPATH/interpreter, minimum macOS/SDK and command IDs. No independent timestamp/tool/UUID/segment-payload, package, dyld, symbol/ABI or signing acceptance."
+  },
+  "inputs": {
+    "project": "MarkupSafe",
+    "version": "3.0.2",
+    "source": "https://pypi.org/pypi/MarkupSafe/3.0.2/json",
+    "artifacts": [
+      {
+        "filename": "MarkupSafe-3.0.2-cp312-cp312-macosx_10_13_universal2.whl",
+        "url": "https://files.pythonhosted.org/packages/22/09/d1f21434c97fc42f09d290cbb6350d44eb12f09cc62c9476effdb33a18aa/MarkupSafe-3.0.2-cp312-cp312-macosx_10_13_universal2.whl",
+        "sha256": "9778bd8ab0a994ebf6f84c2b949e65736d5575320a17ae8984a77fab08db94cf"
+      },
+      {
+        "filename": "MarkupSafe-3.0.2-cp312-cp312-macosx_11_0_arm64.whl",
+        "url": "https://files.pythonhosted.org/packages/6b/b0/18f76bba336fa5aecf79d45dcd6c806c280ec44538b3c13671d49099fdd0/MarkupSafe-3.0.2-cp312-cp312-macosx_11_0_arm64.whl",
+        "sha256": "846ade7b71e3536c4e56b386c2a47adf5741d2d8b94ec9dc3e92e5e1ee1e2225"
+      }
+    ]
+  },
+  "native_engine_inputs_unchanged": true,
+  "own_qupathxx_mac_binaries_validated": false,
+  "retained_initial_result": {
+    "passed": 60,
+    "failed": 2,
+    "reason": "Fixture expectations incorrectly rejected a zero-size relocation range at EOF and a file-backed relocation at offset zero. Corrected out-of-bounds cases and added positive controls; parser unchanged."
+  },
+  "hosted_validation": "pending",
+  "release_ready": false,
+  "full_plan_complete": false,
+  "scope": "Bounded Mach-O reader, independent byte fixtures and external-wheel metadata oracle. No own macOS engine binary/package/otool/relocation, symbol/ABI, dynamic loader, signing or supported-release acceptance."
+}

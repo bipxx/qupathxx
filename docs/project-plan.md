@@ -4869,3 +4869,22 @@ are unchanged; new hosted qualification and promotion are pending. Dynamic
 loader/runtime availability, ELF version-export validity, Mach-O, supported
 installers/signing, licensing, hardware and biology remain open; full M0-M7
 completion is not claimed.
+
+## Bounded Mach-O64 and universal load-name reader (candidate 149)
+
+A native-file reader now inventories Intel/Apple-silicon Mach-O64 dependencies,
+install identities, search/interpreter/environment declarations and minimum
+macOS/SDK versions. FAT32/FAT64 wrappers retain individual architecture/subtype
+identities and hashes. Bounds cover command/name/segment/section/file ranges;
+overlap is rejected before slice parsing and memory views avoid whole-slice
+copies. This is metadata inspection without extraction or loading.
+
+All 66 new Mach-O cases and 180 inherited manifest cases pass. An independent
+macholib comparison agrees on the tested architecture/load declarations in two
+digest-checked external wheels, covering three slices. The initial two incorrect
+relocation fixture expectations and their corrections remain recorded. See the
+[Mach-O inventory contract](macho-runtime-inventory.md) and
+[local receipt](benchmarks/macho-runtime-reader-local-windows.json). Own qupathxx
+Mac binary capture/otool comparison, source-bound archive/CI integration,
+install-name resolution/relocation and supported macOS packaging remain open.
+The full M0-M7 goal is still partial.
