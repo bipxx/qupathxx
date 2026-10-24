@@ -33,7 +33,8 @@ QuPath port or a compatible replacement for Java QuPath.
 - Automated native and installed-wheel checks cover Windows headless/GUI and
   Linux headless/minimal/sanitizer configurations. Development artifacts and
   their limits are described in [CI and distribution](docs/ci-distribution.md).
-  Accepted Gaussian, calibrated-cell and physical-area/viewer sources have audited headless
+  Accepted Gaussian, calibrated-cell, physical-area/viewer and corrected polygon-sampling
+  sources have audited headless
   [manylinux builder and fresh-consumer evidence](docs/manylinux-qualification.md#current-accepted-gaussian-and-calibrated-cell-engine).
 
 - Pinned QuPath runtime references check geometry, sampling, OD/stains and a real

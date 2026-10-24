@@ -3959,3 +3959,19 @@ committed UTF-8 LF bytes. The defined engineering scope is accepted for main
 promotion. Three isolated-cell segmentation gates, winding overhead optimization,
 biological/hardware/RSS/frame, current-source portable/Mac, license and supported
 release requirements remain open. The full M0-M7 goal stays active.
+
+
+## Packet114: corrected winding-engine portable qualification
+
+Hosted run 40042880153 passes both manylinux builders and both pinned fresh
+Debian consumers at exact accepted source 14788f23325d74dcb2ff016d82d994786eecd999.
+The committed artifact auditor accepts CPython 3.11/3.12 manylinux_2_28_x86_64
+wheels, wheel/native/runtime identities, unchanged runtime payloads, assets/
+notices, ELF policy, relocation, stubs/typing and reader/project/analysis/export/
+batch workflows. Each builder passes 42 native suites and 1,719 Python cases;
+each consumer passes 1,703 Python cases, with three isolated-cell scientific
+expected failures per Python cohort. Optional skips and the small consumer
+fixture scope remain explicit in the [receipt](benchmarks/manylinux114-build-consumer-acceptance.json).
+This qualifies the corrected sampling engine. The newer boundary-grid prototype,
+Mac compilation, biology, hardware/RSS/frame, license, supported release and all
+other unfinished M0-M7 requirements remain open.
