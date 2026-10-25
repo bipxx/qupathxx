@@ -1,0 +1,149 @@
+{
+  "schema": "qpx.tma-large-pyramid/1",
+  "synthetic": true,
+  "patient_data": false,
+  "scope": "Synthetic bounded-reader engineering acceptance; not biological, vendor-slide or release acceptance.",
+  "width": 30720,
+  "height": 22528,
+  "downsamples": [
+    1,
+    4,
+    16,
+    64
+  ],
+  "tile_size": 256,
+  "pixel_width_um": 0.25,
+  "pixel_height_um": 0.125,
+  "core_width": 2048,
+  "core_height": 3072,
+  "requested_width_um": 512,
+  "requested_height_um": 384,
+  "rows": 3,
+  "columns": 4,
+  "geometry": "Closed ellipse at each rational level-pixel center, evaluated in level-zero coordinates with integer arithmetic.",
+  "cores": [
+    {
+      "row": 0,
+      "column": 0,
+      "center": [
+        7181,
+        6165
+      ],
+      "present": true
+    },
+    {
+      "row": 0,
+      "column": 1,
+      "center": [
+        11021,
+        6165
+      ],
+      "present": true
+    },
+    {
+      "row": 0,
+      "column": 2,
+      "center": [
+        14861,
+        6165
+      ],
+      "present": true
+    },
+    {
+      "row": 0,
+      "column": 3,
+      "center": [
+        18701,
+        6165
+      ],
+      "present": true
+    },
+    {
+      "row": 1,
+      "column": 0,
+      "center": [
+        7181,
+        10005
+      ],
+      "present": true
+    },
+    {
+      "row": 1,
+      "column": 1,
+      "center": [
+        11021,
+        10005
+      ],
+      "present": true
+    },
+    {
+      "row": 1,
+      "column": 2,
+      "center": [
+        14861,
+        10005
+      ],
+      "present": false
+    },
+    {
+      "row": 1,
+      "column": 3,
+      "center": [
+        18701,
+        10005
+      ],
+      "present": true
+    },
+    {
+      "row": 2,
+      "column": 0,
+      "center": [
+        7181,
+        13845
+      ],
+      "present": true
+    },
+    {
+      "row": 2,
+      "column": 1,
+      "center": [
+        11021,
+        13845
+      ],
+      "present": true
+    },
+    {
+      "row": 2,
+      "column": 2,
+      "center": [
+        14861,
+        13845
+      ],
+      "present": true
+    },
+    {
+      "row": 2,
+      "column": 3,
+      "center": [
+        18701,
+        13845
+      ],
+      "present": true
+    }
+  ],
+  "acceptance": {
+    "level": 3,
+    "source_pixels": 168960,
+    "preview_width": 480,
+    "preview_height": 352,
+    "max_center_error_pixels": 64,
+    "observed_cores": 11,
+    "decoded_blocks": 4,
+    "decoded_bytes": 786432,
+    "cache_bytes": 1048576,
+    "work_bytes": 3145728,
+    "process_peak_bytes": 536870912,
+    "process_peak_scope": "Fresh Windows consumer process, OS peak working set; excludes separate fixture generator.",
+    "missing_flags": "Exact; only slot 6 is missing."
+  }
+}
