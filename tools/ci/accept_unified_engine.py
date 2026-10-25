@@ -22,6 +22,8 @@ qptma_spec=importlib.util.spec_from_file_location('qpx_qptma_evidence',Path(__fi
 qptma=importlib.util.module_from_spec(qptma_spec);qptma_spec.loader.exec_module(qptma)
 hierarchy_spec=importlib.util.spec_from_file_location('qpx_hierarchy_evidence',Path(__file__).with_name('hierarchy_evidence.py'))
 hierarchy=importlib.util.module_from_spec(hierarchy_spec);hierarchy_spec.loader.exec_module(hierarchy)
+scientific_spec=importlib.util.spec_from_file_location('qpx_scientific_grid_evidence',Path(__file__).with_name('scientific_grid_evidence.py'))
+scientific=importlib.util.module_from_spec(scientific_spec);scientific_spec.loader.exec_module(scientific)
 
 ROOT=Path(__file__).resolve().parents[2]
 if not __debug__:
@@ -109,6 +111,7 @@ def canonical_source_fingerprint():
         manifest.append(name+'='+hashlib.sha256(blob).hexdigest()+'\n')
     return hashlib.sha256(''.join(manifest).encode()).hexdigest()
 report['hierarchy_sources']=hierarchy.source_contract(ROOT,COMMIT)
+report['scientific_grid_sources']=scientific.source_contract(ROOT,COMMIT)
 expected_source=canonical_source_fingerprint()
 report['git_lf_source_tree_sha256']=expected_source
 
@@ -119,6 +122,7 @@ for job in run['jobs']:
     assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)+3
     native_cases=list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase'))
     entry['resampling_native']=resampling.native(native_cases)
+    entry['scientific_grid_native']=scientific.native(native_cases,project=job['name']!='Linux minimal native',geos=job['name']!='Linux minimal native')
     entry['qptma_native']=qptma.native(native_cases)
     entry['hierarchy_native']=hierarchy.native(native_cases,enabled=job['name']!='Linux minimal native')
     entry['qptma_project_native']=qptma.project_native(native_cases,enabled=job['name']!='Linux minimal native')
@@ -151,6 +155,8 @@ for job in run['jobs']:
         entry['qptma_typing']=qptma.typing_errors(folder/'qptma-typing-negative.log')
         entry['hierarchy_python']=hierarchy.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),gui='GUI' in job['name'])
         entry['hierarchy_typing']=hierarchy.typing_errors(folder/'hierarchy-typing-negative.log')
+        entry['scientific_grid_python']=scientific.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),gui='GUI' in job['name'])
+        entry['scientific_grid_typing']=scientific.typing(folder)
         if 'GUI' in job['name']:entry['qptma_desktop']=qptma.desktop(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')))
         contours=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_pixel_contours')]
         assert len(contours)==24 and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in contours)
@@ -399,7 +405,7 @@ for job in run['jobs']:
 
         entry['checks']={p.name:sha(p) for p in folder.glob('*.log') if p.name in ['stubs.log','typing.log','typing-negative.log'] or p.name.startswith('standalone')}
         assert 'Public stubs match' in (folder/'stubs.log').read_text(encoding='utf8')
-        assert 'Success: no issues found in 4 source files' in (folder/'typing.log').read_text(encoding='utf8')
+        scientific.positive_typing(folder/'typing.log')
         assert sorted(map(int,re.findall(r'invalid_api.py:(\d+): error:',(folder/'typing-negative.log').read_text(encoding='utf8'))))==[6,7,8,9,11,13,14]
         candidate=folder/'qupathxx-windows-x64-candidate.zip'
         if candidate.exists():

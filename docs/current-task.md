@@ -201,4 +201,18 @@ licensing or supported release requirements. All M0-M7 remain Partial. Next:
 freeze the integrated candidate for complete required platform cohorts, continue
 scientific/pixel-source acceptance and the remaining original workflow.
 
+CI integration168 adds an explicit 106-case scientific-grid installed cohort,
+nine named native suites with capability-specific markers, and shared strict
+typing checks for five positive files plus all three scientific negative fixtures.
+Headless runs declare exactly two desktop skips; GUI runs require both to pass.
+Engine, Mac native and portable builder/consumer auditors bind the scientific
+sources and raw fixture inventory to the dispatched commit. New source checking
+uses one batched Git blob read; synthetic acceptance fixtures advance with the
+runner's five-file typing contract and reject stale three/four-file evidence.
+Local checks pass 185 affected auditor cases and 104 installed headless cases
+with two declared desktop skips. The new auditor also accepts the retained
+106-case installed GUI cohort and the nine native suite markers from frontend167;
+these are explicit reuse checks, not new platform acceptance. A clean frozen
+candidate and actual hosted campaign are the next steps. Full M0-M7 scope remains.
+
 Earlier task narrative is preserved in [history](current-task-history.md).

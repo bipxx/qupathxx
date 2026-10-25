@@ -21,6 +21,8 @@ qptma_spec=importlib.util.spec_from_file_location('qpx_qptma_evidence',Path(__fi
 qptma=importlib.util.module_from_spec(qptma_spec);qptma_spec.loader.exec_module(qptma)
 hierarchy_spec=importlib.util.spec_from_file_location('qpx_hierarchy_evidence',Path(__file__).with_name('hierarchy_evidence.py'))
 hierarchy=importlib.util.module_from_spec(hierarchy_spec);hierarchy_spec.loader.exec_module(hierarchy)
+scientific_spec=importlib.util.spec_from_file_location('qpx_scientific_grid_evidence',Path(__file__).with_name('scientific_grid_evidence.py'))
+scientific=importlib.util.module_from_spec(scientific_spec);scientific_spec.loader.exec_module(scientific)
 
 ASSETS = Path(__file__).with_name('manylinux-assets.json')
 
@@ -153,8 +155,7 @@ def audit_version(folder, version, commit, assets):
     fixture=next(f for f in fixtures['downloads'] if f['filename']=='CMU-1-Small-Region.svs')
     require(probe['slide_sha256']==fixture['sha256'],'consumer fixture hash differs')
     require('Public stubs match' in (build/'stubs.log').read_text(encoding='utf-8'),'stub check missing')
-    require('Success: no issues found in 4 source files' in (build/'typing.log').read_text(encoding='utf-8'),
-            'positive typing check missing')
+    scientific.positive_typing(build/'typing.log')
     negative=(build/'typing-negative.log').read_text(encoding='utf-8')
     require(sorted(map(int,re.findall(r'invalid_api.py:(\d+): error:',negative)))==[6,7,8,9,11,13,14],
             'negative typing checks differ')
@@ -339,6 +340,8 @@ def main():
     report['resampling_sources']=resampling.source_contract(Path(__file__).resolve().parents[2],args.commit)
     report['qptma_sources']=qptma.source_contract(Path(__file__).resolve().parents[2],args.commit)
     report['hierarchy_sources']=hierarchy.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['scientific_grid_sources']=scientific.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['scientific_grid_cohorts']=[]
     report['hierarchy_cohorts']=[]
     report['qptma_cohorts']=[]
     report['resampling_cohorts']=[]
@@ -350,7 +353,10 @@ def main():
         qptma_typing=qptma.typing_errors(folder/'qptma-typing-negative.log')
         hierarchy_native=hierarchy.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
         hierarchy_typing=hierarchy.typing_errors(folder/'hierarchy-typing-negative.log')
+        scientific_native=scientific.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        scientific_typing=scientific.typing(folder)
         for cohort,path in [('builder',folder/'python-tests.xml'),('consumer',args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+            report['scientific_grid_cohorts'].append(dict(python=version,cohort=cohort,native=scientific_native,builder_typing=scientific_typing,installed=scientific.python(list(ET.parse(path).getroot().iter('testcase')))))
             report['hierarchy_cohorts'].append(dict(python=version,cohort=cohort,native=hierarchy_native,builder_typing=hierarchy_typing,installed=hierarchy.python(list(ET.parse(path).getroot().iter('testcase')))))
             report['qptma_cohorts'].append(dict(python=version,cohort=cohort,native=qptma_native,project_native=qptma_project,builder_typing=qptma_typing,installed=qptma.python(list(ET.parse(path).getroot().iter('testcase')))))
             report['resampling_cohorts'].append(dict(python=version,cohort=cohort,native=native,

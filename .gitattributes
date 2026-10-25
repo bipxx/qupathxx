@@ -225,3 +225,6 @@ docs/benchmarks/annotation-migration-qualification-local-windows.json text eol=l
 
 docs/benchmarks/grid-cell-frontends-local/** -text -whitespace
 docs/benchmarks/grid-cell-frontends-local-windows.json text eol=lf
+
+tools/ci/scientific_grid_evidence.py text eol=lf
+tools/ci/scientific-grid-cases.json text eol=lf

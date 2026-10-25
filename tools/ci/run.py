@@ -13,6 +13,7 @@ import zipfile
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import assets
+import scientific_grid_evidence as scientific
 sys.path.insert(0, str(ROOT/'tools'))
 import build_opencv_sdk
 
@@ -280,7 +281,11 @@ def main():
         run([test_python, '-I', ROOT/'tools/benchmark_gui_pixel_archives.py', '--viewport', '--output', work/'gui-pixel-window-benchmark.json'],
             work/'gui-pixel-window-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/generate_stubs.py', '--check'], work/'stubs.log', env)
-    run([test_python, '-I', '-m', 'mypy', '--strict', 'tests/typing/valid_api.py', 'tests/typing/hierarchy_valid.py', 'examples/live_workflow.py', 'examples/region_workflow.py'], work/'typing.log', env)
+    run([test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', *scientific.POSITIVE], work/'typing.log', env)
+    scientific.positive_typing(work/'typing.log')
+    for log,(filename,lines) in scientific.NEGATIVE.items():
+        run([test_python,'-I','-m','mypy','--strict','--no-incremental','tests/typing/'+filename],work/log,env,expected=1)
+        scientific.negative_typing(work/log,filename,lines)
     negative_log = work/'typing-negative.log'
     run([test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/invalid_api.py'], negative_log, env, expected=1)
     lines = re.findall(r'invalid_api\.py:(\d+): error:', negative_log.read_text(encoding='utf8'))
