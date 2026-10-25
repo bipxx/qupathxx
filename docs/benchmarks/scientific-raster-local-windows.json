@@ -1,0 +1,105 @@
+{
+  "schema": "qpx.scientific-raster-local/1",
+  "observed_at_utc": "2026-10-25T08:34:23.096015+00:00",
+  "source": "ff3f0a6e6cd9312be5b562e23116ae1b00bd99de",
+  "compiled_revision": "7ad1ab2a08a836dcfe962a32b061a3b839ee5524+dirty",
+  "source_tree_sha256": "2892d84ff4bf1d0c85da05b410022ae8f3272c1c619eb3b7997d870a56f43c0b",
+  "compiler_inputs": 286,
+  "compiler": "MSVC 19.44.35225.0",
+  "platform": "Windows AMD64",
+  "configuration": {
+    "python": false,
+    "gui": false,
+    "project": false,
+    "interchange": false,
+    "geos": true,
+    "openslide": false,
+    "tiff": false,
+    "tests": true
+  },
+  "native_suites_passed": 49,
+  "independent_contract_tests_passed": 23,
+  "required_semantic_markers": [
+    "Native explicit-grid raster eligibility, per-axis metadata, precision and legacy isolation passed",
+    "GEOS explicit-grid edges, ROI holes and anisotropic areas passed"
+  ],
+  "explicit_grid_raster_native_verified": true,
+  "decoded_snapshot_hash_single_read_verified": true,
+  "geos_explicit_grid_mapping_verified": true,
+  "installed_python_verified": false,
+  "cell_request_recipe_implemented": false,
+  "new_cell_archive_implemented": false,
+  "scientific_detector_accepted": false,
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "scope": "Native shared raster construction, full per-axis metadata, eligible core labels, one-read canonical input identity and GEOS contour mapping. Legacy natural-grid paths and scalar archive guards retain their contract.",
+  "remaining": [
+    "explicit-grid cell request and typed physical parameters",
+    "physical LoG/shape/body detector integration",
+    "QCL5/QCA5 record, reopen and replay",
+    "Python/CLI/ImGui/batch integration",
+    "scientific fixtures/tolerances and all remaining M0-M7 gates"
+  ],
+  "source_proof_note": "Compiled before source commit; configured dirty revision retained verbatim. All compiler inputs match this source commit modulo recorded Git line endings and exactly match the configured raw-byte source fingerprint. No binary rebuilt solely to change its Git label.",
+  "native_artifacts": {
+    "geos.dll": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raster163-native\\Release\\geos.dll",
+      "bytes": 2912768,
+      "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+    },
+    "geos_c.dll": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raster163-native\\Release\\geos_c.dll",
+      "bytes": 590336,
+      "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+    },
+    "qupathxx_tissue_contour_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raster163-native\\Release\\qupathxx_tissue_contour_tests.exe",
+      "bytes": 502784,
+      "sha256": "e126ac08d516c42f7f93933a50c759a5953ba611bdbd033600c933842ce4775d"
+    },
+    "qupathxx_tissue_record_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raster163-native\\Release\\qupathxx_tissue_record_tests.exe",
+      "bytes": 517632,
+      "sha256": "b28c07f85c02ab880b34108869efcb3b065342ab56a2988cc422a5a08616b9e9"
+    },
+    "qupathxx_tissue_tests.exe": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raster163-native\\Release\\qupathxx_tissue_tests.exe",
+      "bytes": 385536,
+      "sha256": "46d5b561a3df86f2f920f6a7c76e1e28836cff0363c7c42a4b525a0578eec693"
+    }
+  },
+  "evidence": {
+    "build_manifest.hpp": {
+      "bytes": 712,
+      "sha256": "0e53eaa91db13af8ff29529f449bf6711d178d8e1719461c2796a85d07ca4437"
+    },
+    "CMakeCache.txt": {
+      "bytes": 17041,
+      "sha256": "534823671d1031e85c5ed1fefc17cbc3131d1742a3a25918790df3e8e3a7f64f"
+    },
+    "compiler-input-proof.json": {
+      "bytes": 79236,
+      "sha256": "c521c3d482b80c6510525945dac722ab0a3be46ef8f3c02eebdcfce755272264"
+    },
+    "raster163-contract-tests.xml": {
+      "bytes": 3604,
+      "sha256": "050788df8a5b637bb49bbe46abb7884861fe59d881e7f99a6cbf8c36080cfaed"
+    },
+    "raster163-qualified-build.log": {
+      "bytes": 7779,
+      "sha256": "1f2e5f7070f8ec2cfddd584e436ea90da0bbe38bfabc21e35ece607ff832b595"
+    },
+    "raster163-qualified-tests.log": {
+      "bytes": 5157,
+      "sha256": "f620ebe54ad42dbae3b9581bffb731286076519b6815a3e482634debbff18006"
+    },
+    "raster163-qualified-tests.xml": {
+      "bytes": 12321,
+      "sha256": "e00a7798cc60e8d8f8c652e7eb8e68c19b056207ed9a6c9c7a8c3151ac95f94b"
+    },
+    "record_evidence.py": {
+      "bytes": 5548,
+      "sha256": "d4084550b9cf2a478b52b7139068e225260ac990af6ce3655b7b2b44900a6199"
+    }
+  }
+}

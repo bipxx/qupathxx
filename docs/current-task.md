@@ -94,8 +94,24 @@ estimator accepts a grid before IO. See the
 [channel-stage receipt](benchmarks/scientific-channels-local-windows.json).
 No per-axis cell raster or new archive is exposed by this transform API.
 
-Next: integrate per-axis result/provenance metadata and connect the float64 path
-and physical kernels to the additive cell request/recipe, archive/replay and
+Shared C++ raster integration now retains the complete explicit grid, separate
+X/Y sample steps, capture-time provenance and exact edge mapping through GEOS
+contours. Native construction rejects labels in context, missing support or
+excluded ROI samples. Scalar-only access and old tissue retention/archive paths
+reject these new masks. Input identity binds the decoded RGBA snapshot during
+its existing read and the grid/ROI/transform/calibration/actual eligibility;
+different source pixels remain distinguishable even when sampled means coincide.
+Source `ff3f0a6` passes 49 GEOS-enabled native suites and 23 independent contract
+tests. All 286 compiler inputs match the configured raw-byte fingerprint
+`2892d84ff4bf1d0c85da05b410022ae8f3272c1c619eb3b7997d870a56f43c0b`.
+See the [native raster receipt](benchmarks/scientific-raster-local-windows.json).
+This layout change has not been rebuilt or qualified in Python/GUI/project
+configurations; the older installed channels engine is not evidence for it.
+
+Next: capture an explicit-grid cell request without forcing a natural-level
+TissueRequest, resolve typed pixel/physical parameters and admit all live work
+before IO. Connect the float64 path and physical kernels to the additive cell
+recipe, then its versioned record/archive/replay and
 required frontends. Continue through the full original workflow;
 retain the failed campaign evidence, and qualify a clean integrated candidate
 after installed workflow checks. Do not transfer the old Mac acceptance to new

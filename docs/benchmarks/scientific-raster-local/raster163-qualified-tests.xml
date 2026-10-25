@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="49"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="8"
+	timestamp="2026-10-25T04:23:53"
+	>
+	<testcase name="pixel_workflows" classname="pixel_workflows" time="0.396624" status="run">
+		<properties/>
+		<system-out>Annotation sampling, overlap/balance, portable resolution, tiled source prediction and stale jobs passed
+</system-out>
+	</testcase>
+	<testcase name="pixel_features" classname="pixel_features" time="0.069892" status="run">
+		<properties/>
+		<system-out>Pixel feature channels, context/tiles, alpha, schema, bounds and cancellation passed
+</system-out>
+	</testcase>
+	<testcase name="classifier_io" classname="classifier_io" time="0.0714973" status="run">
+		<properties/>
+		<system-out>classifier IO checks passed
+</system-out>
+	</testcase>
+	<testcase name="object_classifier" classname="object_classifier" time="0.293201" status="run">
+		<properties/>
+		<system-out>object classifier checks passed
+</system-out>
+	</testcase>
+	<testcase name="classifier" classname="classifier" time="0.0448759" status="run">
+		<properties/>
+		<system-out>classifier checks passed; training=0
+</system-out>
+	</testcase>
+	<testcase name="qptma_project" classname="qptma_project" time="0.0514419" status="run">
+		<properties/>
+		<system-out>QPTMA project storage disabled in this configuration
+</system-out>
+	</testcase>
+	<testcase name="qptma" classname="qptma" time="0.0868713" status="run">
+		<properties/>
+		<system-out>QPTMA native fixture, fractional/quoted wire, atomic history, quotas and 10000-core round trips passed
+NATIVE_QPTMA_LITERAL_OUTPUT=C:/Users/HEQ/Projects/qupathxx/build/ci/raster163-native/qptma-test-artifacts\qptma-956662976030900\native-literal-text.qptma
+NATIVE_QPTMA_OUTPUT=C:/Users/HEQ/Projects/qupathxx/build/ci/raster163-native/qptma-test-artifacts\qptma-956662976030900\native-export.qptma
+</system-out>
+	</testcase>
+	<testcase name="resampling" classname="resampling" time="0.0463904" status="run">
+		<properties/>
+		<system-out>Native scientific grid exact geometry, rounding, context and admission passed
+Native scientific RGB float64 exact means, support, reader and cancellation checks passed
+2205 independent oracle shapes and admission/alpha/reader checks passed
+</system-out>
+	</testcase>
+	<testcase name="thumbnail" classname="thumbnail" time="0.0438739" status="run">
+		<properties/>
+		<system-out>Thumbnail planning, area/alpha oracle, budgets, cancellation and ownership passed
+</system-out>
+	</testcase>
+	<testcase name="viewer_session" classname="viewer_session" time="0.239888" status="run">
+		<properties/>
+		<system-out>Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed
+</system-out>
+	</testcase>
+	<testcase name="tma" classname="tma" time="0.0835247" status="run">
+		<properties/>
+		<system-out>TMA case file cancellation precedes output path access
+TMA compensated signed sums and nonzero mean underflow checks passed
+TMA case aggregation, weighted arithmetic, missing/unassigned cores, stale revisions and cancellation passed
+TMA cohort raw-row pooling, image/core namespaces, isolated unassigned cores, source manifests, stale revisions and cancellation passed
+TMA cohort atomic files preserve captured CSV bytes, existing files and input aliases; capture validation and cancellation precede I/O
+Oversized CSV read-transfer bytes: 0
+Oversized CSV file budget and output protection passed
+TMA case file exports preserve captured CSV bytes and existing files
+TMA grid commands, missing cores, case IDs, snapshots, history and persistence passed
+</system-out>
+	</testcase>
+	<testcase name="raw_image" classname="raw_image" time="0.0447993" status="run">
+		<properties/>
+		<system-out>raw quantitative buffers, TIFF decode/cache, preview and statistics passed
+</system-out>
+	</testcase>
+	<testcase name="project_batch" classname="project_batch" time="0.0566459" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="stain_estimation" classname="stain_estimation" time="0.0651206" status="run">
+		<properties/>
+		<system-out>Native stain estimation, models, budgets, cancellation and stale jobs passed
+</system-out>
+	</testcase>
+	<testcase name="source_identity" classname="source_identity" time="0.069934" status="run">
+		<properties/>
+		<system-out>Reader generations, observations, association, codecs and native jobs passed
+</system-out>
+	</testcase>
+	<testcase name="file_fingerprint" classname="file_fingerprint" time="0.0675634" status="run">
+		<properties/>
+		<system-out>Streaming file digests, identity/stamp observations, limits, aliases and atomic worker files passed
+</system-out>
+	</testcase>
+	<testcase name="provenance" classname="provenance" time="0.0485455" status="run">
+		<properties/>
+		<system-out>Capture-time source/environment provenance, native codec and kernels passed
+</system-out>
+	</testcase>
+	<testcase name="measurement_tables" classname="measurement_tables" time="0.0762755" status="run">
+		<properties/>
+		<system-out>Measurement tables, snapshots, locale, bounds, cancellation and atomic jobs passed
+</system-out>
+	</testcase>
+	<testcase name="cell_tables" classname="cell_tables" time="0.0710055" status="run">
+		<properties/>
+		<system-out>Cell tables, joined objects, locale, budgets, cancellation and atomic files passed
+</system-out>
+	</testcase>
+	<testcase name="cell_records" classname="cell_records" time="0.717608" status="run">
+		<properties/>
+		<system-out>Cell archive exhaustive masks, authority, snapshots, cancellation and limits passed
+</system-out>
+	</testcase>
+	<testcase name="cells" classname="cells" time="0.0549779" status="run">
+		<properties/>
+		<system-out>Cell distance/nearest-site references, touching nuclei and lifecycle passed
+</system-out>
+	</testcase>
+	<testcase name="cell_calibration" classname="cell_calibration" time="0.0644682" status="run">
+		<properties/>
+		<system-out>Captured anisotropic areas/centroids, legacy unknown, detached lifetime and numerical ranges passed
+</system-out>
+	</testcase>
+	<testcase name="masked_gaussian" classname="masked_gaussian" time="0.0971472" status="run">
+		<properties/>
+		<system-out>Direct 2D Gaussian, empty/holey domains, block edges and cancellation passed
+</system-out>
+	</testcase>
+	<testcase name="log_watershed" classname="log_watershed" time="0.105134" status="run">
+		<properties/>
+		<system-out>Sampled shape 26 frozen masks and maxima passed
+LoG regions, prominence reconstruction, native labels, clipping, cancellation and work guard passed
+</system-out>
+	</testcase>
+	<testcase name="cell_expansion" classname="cell_expansion" time="0.183127" status="run">
+		<properties/>
+		<system-out>Small frontier 64 exact priority keys and 1344 full heap-equivalence cases passed
+Strict-radius expansion, stable collision lines, domain barriers, work bounds and cancellation passed
+</system-out>
+	</testcase>
+	<testcase name="log_cell_recipe" classname="log_cell_recipe" time="0.137593" status="run">
+		<properties/>
+		<system-out>Native physical grid metrics, weighted distances, Gaussian support and admission passed
+Sampled clipped components without in-ROI markers retain measurements and replay labels
+Sampled historical domain excludes covered geometry outside the sample grid
+Sampled LoG QCL4, explicit seed preset, typed recipe identities, replay and QCL1/2/3 preservation passed
+Captured LoG context, fractional ROI clipping, digests, QCL2, replay and legacy QCL1 passed
+</system-out>
+	</testcase>
+	<testcase name="decimal_quantities" classname="decimal_quantities" time="0.0315328" status="run">
+		<properties/>
+		<system-out>installed comma C locale exercised: 1
+decimal quantities: strict syntax, range, concurrency and locale checks passed
+signed decimal fields: grammar, representable subnormals and locale independence passed
+</system-out>
+	</testcase>
+	<testcase name="object_snapshots" classname="object_snapshots" time="0.0484898" status="run">
+		<properties/>
+		<system-out>Object snapshots require project storage
+</system-out>
+	</testcase>
+	<testcase name="tissue_records" classname="tissue_records" time="0.101302" status="run">
+		<properties/>
+		<system-out>Tissue archive codec, authority, snapshot isolation and limits passed
+</system-out>
+	</testcase>
+	<testcase name="tissue_contours" classname="tissue_contours" time="0.197181" status="run">
+		<properties/>
+		<system-out>Native explicit-grid raster eligibility, per-axis metadata, precision and legacy isolation passed
+GEOS explicit-grid edges, ROI holes and anisotropic areas passed
+tissue contour topology, publication and lifecycle passed
+</system-out>
+	</testcase>
+	<testcase name="gui_replay" classname="gui_replay" time="0.0402352" status="run">
+		<properties/>
+		<system-out>gui replay passed
+</system-out>
+	</testcase>
+	<testcase name="tissue" classname="tissue" time="0.0632592" status="run">
+		<properties/>
+		<system-out>tissue passed
+</system-out>
+	</testcase>
+	<testcase name="sha256" classname="sha256" time="0.0432462" status="run">
+		<properties/>
+		<system-out>SHA-256 passed
+</system-out>
+	</testcase>
+	<testcase name="analysis" classname="analysis" time="0.0553451" status="run">
+		<properties/>
+		<system-out>analysis passed
+</system-out>
+	</testcase>
+	<testcase name="stains" classname="stains" time="0.0920483" status="run">
+		<properties/>
+		<system-out>Native scientific float64 OD/stains, validity, captured basis and admission passed
+Legacy byte/float32 stain transforms preserve frozen arithmetic across 262144 RGB probes
+stains passed
+</system-out>
+	</testcase>
+	<testcase name="core" classname="core" time="0.0436232" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="image_server" classname="image_server" time="0.0419269" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="tile_scheduler" classname="tile_scheduler" time="0.0406952" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="view_tiles" classname="view_tiles" time="0.0390807" status="run">
+		<properties/>
+		<system-out>Tile selection, DPI, bounds and huge-image request cap passed
+</system-out>
+	</testcase>
+	<testcase name="document_edits" classname="document_edits" time="0.268861" status="run">
+		<properties/>
+		<system-out>Atomic edits, subtree restore, calibration and bounded undo passed
+</system-out>
+	</testcase>
+	<testcase name="geometry" classname="geometry" time="0.0519764" status="run">
+		<properties/>
+		<system-out>Analytic shapes, topology, ownership and shape undo passed; GEOS 3.15.0-CAPI-1.21.0
+</system-out>
+	</testcase>
+	<testcase name="geometry_edits" classname="geometry_edits" time="0.056608" status="run">
+		<properties/>
+		<system-out>Vertex edits, holes, area overlay and journal passed
+</system-out>
+	</testcase>
+	<testcase name="spatial" classname="spatial" time="0.271968" status="run">
+		<properties/>
+		<system-out>Spatial queries, delta updates, picking and undo passed
+</system-out>
+	</testcase>
+	<testcase name="classes" classname="classes" time="0.270644" status="run">
+		<properties/>
+		<system-out>Class registry, counts, atomic edits and history passed
+</system-out>
+	</testcase>
+	<testcase name="selection" classname="selection" time="0.271283" status="run">
+		<properties/>
+		<system-out>Selection, classification and atomic delete passed
+</system-out>
+	</testcase>
+	<testcase name="project" classname="project" time="0.0443476" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="interchange" classname="interchange" time="0.274814" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="recovery" classname="recovery" time="0.049252" status="run">
+		<properties/>
+		<system-out>Native physical path adaptation preserves logical names and UNC/drive policy passed
+</system-out>
+	</testcase>
+	<testcase name="project_save" classname="project_save" time="0.0430815" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+</testsuite>

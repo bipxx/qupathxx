@@ -15,7 +15,12 @@ The [float64 channel stage](benchmarks/scientific-channels-local-windows.json)
 now retains sampled means through OD and signed stain separation in native/Python,
 with grid/white/basis/validity snapshots. Engine `bbf3f61` passes 163 installed
 cases (two project-capability skips), 49 native suites and packaged typing checks.
-Per-axis tissue/cell rasters and the new archive/replay workflow remain pending.
+The shared C++ per-axis raster and GEOS contour path now pass native integration
+checks, including captured provenance and one-read decoded-input identity;
+see the [raster receipt](benchmarks/scientific-raster-local-windows.json).
+The actual explicit-grid cell request/detector, new archive/replay and required
+frontend workflow remain pending. Python/GUI/project builds have not qualified
+this public-layout change. All milestones remain Partial.
 Disabled capabilities are not qualified. Hierarchy candidate `207f008`
 passed its native Mac audit but failed engine and portable campaigns on a stale
 synthetic typing fixture, corrected in `5474c3f`. See [current task](current-task.md); no new main

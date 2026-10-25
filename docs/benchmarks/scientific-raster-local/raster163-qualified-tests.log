@@ -1,0 +1,103 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/raster163-native
+      Start  1: pixel_workflows
+ 1/49 Test  #1: pixel_workflows ..................   Passed    0.40 sec
+      Start  2: pixel_features
+ 2/49 Test  #2: pixel_features ...................   Passed    0.07 sec
+      Start  3: classifier_io
+ 3/49 Test  #3: classifier_io ....................   Passed    0.07 sec
+      Start  4: object_classifier
+ 4/49 Test  #4: object_classifier ................   Passed    0.29 sec
+      Start  5: classifier
+ 5/49 Test  #5: classifier .......................   Passed    0.04 sec
+      Start  6: qptma_project
+ 6/49 Test  #6: qptma_project ....................   Passed    0.05 sec
+      Start  7: qptma
+ 7/49 Test  #7: qptma ............................   Passed    0.09 sec
+      Start  8: resampling
+ 8/49 Test  #8: resampling .......................   Passed    0.05 sec
+      Start  9: thumbnail
+ 9/49 Test  #9: thumbnail ........................   Passed    0.04 sec
+      Start 10: viewer_session
+10/49 Test #10: viewer_session ...................   Passed    0.24 sec
+      Start 11: tma
+11/49 Test #11: tma ..............................   Passed    0.08 sec
+      Start 12: raw_image
+12/49 Test #12: raw_image ........................   Passed    0.04 sec
+      Start 13: project_batch
+13/49 Test #13: project_batch ....................   Passed    0.06 sec
+      Start 14: stain_estimation
+14/49 Test #14: stain_estimation .................   Passed    0.07 sec
+      Start 15: source_identity
+15/49 Test #15: source_identity ..................   Passed    0.07 sec
+      Start 16: file_fingerprint
+16/49 Test #16: file_fingerprint .................   Passed    0.07 sec
+      Start 17: provenance
+17/49 Test #17: provenance .......................   Passed    0.05 sec
+      Start 18: measurement_tables
+18/49 Test #18: measurement_tables ...............   Passed    0.08 sec
+      Start 19: cell_tables
+19/49 Test #19: cell_tables ......................   Passed    0.07 sec
+      Start 20: cell_records
+20/49 Test #20: cell_records .....................   Passed    0.72 sec
+      Start 21: cells
+21/49 Test #21: cells ............................   Passed    0.05 sec
+      Start 22: cell_calibration
+22/49 Test #22: cell_calibration .................   Passed    0.06 sec
+      Start 23: masked_gaussian
+23/49 Test #23: masked_gaussian ..................   Passed    0.10 sec
+      Start 24: log_watershed
+24/49 Test #24: log_watershed ....................   Passed    0.11 sec
+      Start 25: cell_expansion
+25/49 Test #25: cell_expansion ...................   Passed    0.18 sec
+      Start 26: log_cell_recipe
+26/49 Test #26: log_cell_recipe ..................   Passed    0.14 sec
+      Start 27: decimal_quantities
+27/49 Test #27: decimal_quantities ...............   Passed    0.03 sec
+      Start 28: object_snapshots
+28/49 Test #28: object_snapshots .................   Passed    0.05 sec
+      Start 29: tissue_records
+29/49 Test #29: tissue_records ...................   Passed    0.10 sec
+      Start 30: tissue_contours
+30/49 Test #30: tissue_contours ..................   Passed    0.20 sec
+      Start 31: gui_replay
+31/49 Test #31: gui_replay .......................   Passed    0.04 sec
+      Start 32: tissue
+32/49 Test #32: tissue ...........................   Passed    0.06 sec
+      Start 33: sha256
+33/49 Test #33: sha256 ...........................   Passed    0.04 sec
+      Start 34: analysis
+34/49 Test #34: analysis .........................   Passed    0.06 sec
+      Start 35: stains
+35/49 Test #35: stains ...........................   Passed    0.09 sec
+      Start 36: core
+36/49 Test #36: core .............................   Passed    0.04 sec
+      Start 37: image_server
+37/49 Test #37: image_server .....................   Passed    0.04 sec
+      Start 38: tile_scheduler
+38/49 Test #38: tile_scheduler ...................   Passed    0.04 sec
+      Start 39: view_tiles
+39/49 Test #39: view_tiles .......................   Passed    0.04 sec
+      Start 40: document_edits
+40/49 Test #40: document_edits ...................   Passed    0.27 sec
+      Start 41: geometry
+41/49 Test #41: geometry .........................   Passed    0.05 sec
+      Start 42: geometry_edits
+42/49 Test #42: geometry_edits ...................   Passed    0.06 sec
+      Start 43: spatial
+43/49 Test #43: spatial ..........................   Passed    0.27 sec
+      Start 44: classes
+44/49 Test #44: classes ..........................   Passed    0.27 sec
+      Start 45: selection
+45/49 Test #45: selection ........................   Passed    0.27 sec
+      Start 46: project
+46/49 Test #46: project ..........................   Passed    0.04 sec
+      Start 47: interchange
+47/49 Test #47: interchange ......................   Passed    0.27 sec
+      Start 48: recovery
+48/49 Test #48: recovery .........................   Passed    0.05 sec
+      Start 49: project_save
+49/49 Test #49: project_save .....................   Passed    0.04 sec
+
+100% tests passed out of 49
+
+Total Test time (real) =   8.42 sec
