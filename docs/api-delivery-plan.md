@@ -251,3 +251,17 @@ campaign. The Mac profile selects native-only builds. `gh --json` receives
 string-valued maps; semantic values are validated as booleans before encoding.
 Record the source, profile, attempts and exact resulting run IDs before polling.
 Keep under-scoped attempts as evidence and repeat only the affected gate.
+
+
+## Quantitative storage-layout integration after the raw-grid candidate
+
+Reuse `read_scientific_raw` and `RawAnalysisRequest` for quantitative footprints;
+no per-layout frontend or second sampler is needed. The
+[local 30-case integration receipt](benchmarks/raw-grid-tiff-layout-local.json)
+checks supported tiled/striped layouts, SubIFD level-zero authority, OME axes and
+series selection against independent exact means. It extends the next named
+installed scientific contract to 248 cases (243 local headless passes plus five
+declared desktop skips). Existing source745662b campaign evidence stays bound
+to its original contract. Next close the actual remaining large-window/vendor/
+whole-slide and multi-file OME capabilities, preserving explicit limits and
+source identity; these synthetic fixtures do not establish those capabilities.

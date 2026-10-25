@@ -302,3 +302,26 @@ promotion. Independent integration work can extend cross-tile quantitative
 sampling without changing the frozen candidate. Vendors/pyramids/tiled sampling,
 application/hardware budgets, independent biological acceptance and supported
 release work remain open. Every original M0-M7 milestone remains Partial.
+
+
+## Post-freeze quantitative TIFF layout evidence
+
+The [local layout receipt](benchmarks/raw-grid-tiff-layout-local.json) binds
+30 new installed synthetic reader/sampler cases to delivery `23b5c71` and the
+unchanged compiled `326c66c` module. All 311 compiler inputs and the nine-file
+installed package inventory match; a 494-file source proof binds the test source.
+The new 248-case scientific contract passes 243 cases with five declared desktop
+skips locally. Reader/auditor controls pass 216 cases, including omission,
+duplication, failure and skipped-case rejection for the new required cohort.
+
+Exact Python Fraction footprints check compressed strips/tiles, big-endian and
+separate-plane tiles, 64-bit integer rounding/cancellation, nonfinite channels,
+image-edge context, deliberately different SubIFD previews, OME channels/Z/time/
+calibration, nondefault series, zero cache retention and pre-decode admission.
+The first 27 setup failures are retained: ImageServer has no context manager;
+using contextlib.closing corrects the tests without changing the native API.
+
+This is local engineering integration evidence. The frozen745662b campaign
+retains its original 218-case contract; new tests cannot retroactively acquire
+its platform acceptance. No extra builder was dispatched. Vendor/whole-slide/
+multi-file sampling and broader scientific, hardware and release gates remain.

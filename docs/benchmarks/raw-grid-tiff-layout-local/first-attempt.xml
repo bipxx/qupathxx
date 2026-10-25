@@ -1,0 +1,653 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="27" skipped="0" tests="27" time="0.658" timestamp="2026-10-25T14:24:59.821357-04:00" hostname="HEQPC"><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[interior-strips-uint64]" time="0.018"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri0')
+dtype = 'uint64', layout = 'strips', phase = 'interior'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[interior-strips-int64]" time="0.013"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri1')
+dtype = 'int64', layout = 'strips', phase = 'interior'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[interior-strips-float64]" time="0.013"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri2')
+dtype = 'float64', layout = 'strips', phase = 'interior'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[interior-tiles-uint64]" time="0.014"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri3')
+dtype = 'uint64', layout = 'tiles', phase = 'interior'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[interior-tiles-int64]" time="0.016"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri4')
+dtype = 'int64', layout = 'tiles', phase = 'interior'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[interior-tiles-float64]" time="0.013"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri5')
+dtype = 'float64', layout = 'tiles', phase = 'interior'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[interior-tiles-big-endian-uint64]" time="0.014"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri6')
+dtype = 'uint64', layout = 'tiles-big-endian', phase = 'interior'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[interior-tiles-big-endian-int64]" time="0.013"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri7')
+dtype = 'int64', layout = 'tiles-big-endian', phase = 'interior'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[interior-tiles-big-endian-float64]" time="0.014"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri8')
+dtype = 'float64', layout = 'tiles-big-endian', phase = 'interior'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[interior-tiles-separate-uint64]" time="0.012"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri9')
+dtype = 'uint64', layout = 'tiles-separate', phase = 'interior'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[interior-tiles-separate-int64]" time="0.013"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri10')
+dtype = 'int64', layout = 'tiles-separate', phase = 'interior'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[interior-tiles-separate-float64]" time="0.013"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri11')
+dtype = 'float64', layout = 'tiles-separate', phase = 'interior'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[image-edge-strips-uint64]" time="0.007"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri12')
+dtype = 'uint64', layout = 'strips', phase = 'image-edge'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[image-edge-strips-int64]" time="0.006"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri13')
+dtype = 'int64', layout = 'strips', phase = 'image-edge'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[image-edge-strips-float64]" time="0.006"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri14')
+dtype = 'float64', layout = 'strips', phase = 'image-edge'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[image-edge-tiles-uint64]" time="0.007"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri15')
+dtype = 'uint64', layout = 'tiles', phase = 'image-edge'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[image-edge-tiles-int64]" time="0.013"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri16')
+dtype = 'int64', layout = 'tiles', phase = 'image-edge'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[image-edge-tiles-float64]" time="0.007"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri17')
+dtype = 'float64', layout = 'tiles', phase = 'image-edge'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[image-edge-tiles-big-endian-uint64]" time="0.013"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri18')
+dtype = 'uint64', layout = 'tiles-big-endian', phase = 'image-edge'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[image-edge-tiles-big-endian-int64]" time="0.014"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri19')
+dtype = 'int64', layout = 'tiles-big-endian', phase = 'image-edge'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[image-edge-tiles-big-endian-float64]" time="0.014"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri20')
+dtype = 'float64', layout = 'tiles-big-endian', phase = 'image-edge'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[image-edge-tiles-separate-uint64]" time="0.014"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri21')
+dtype = 'uint64', layout = 'tiles-separate', phase = 'image-edge'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[image-edge-tiles-separate-int64]" time="0.013"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri22')
+dtype = 'int64', layout = 'tiles-separate', phase = 'image-edge'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_exact_cross_block_footprints_are_storage_independent[image-edge-tiles-separate-float64]" time="0.013"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_exact_cross_block_footpri23')
+dtype = 'float64', layout = 'tiles-separate', phase = 'image-edge'
+
+    @pytest.mark.parametrize('dtype', ['uint64', 'int64', 'float64'])
+    @pytest.mark.parametrize('layout', ['strips', 'tiles', 'tiles-big-endian', 'tiles-separate'])
+    @pytest.mark.parametrize('phase', ['interior', 'image-edge'])
+    def test_exact_cross_block_footprints_are_storage_independent(tmp_path, dtype, layout, phase):
+        data = values(dtype)
+        axes = ((9, 23, 9, 1), (7, 21, 7, 1)) if phase == 'interior' else ((-2, 43, 7, 1), (30, 9, 4, 1))
+        path = tmp_path/'layout.tif'
+        kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+        if layout == 'strips': kwargs['rowsperstrip'] = 7
+        else: kwargs['tile'] = (16, 16)
+        if layout == 'tiles-big-endian': kwargs['byteorder'] = '&gt;'
+        if layout == 'tiles-separate':
+            kwargs['planarconfig'] = 'separate'
+            stored = np.moveaxis(data, -1, 0)
+        else: stored = data
+        tifffile.imwrite(path, stored, **kwargs)
+        options = q.TiffOpenOptions()
+        options.cache_bytes = 0  # Exercise eviction-independent decoded results.
+&gt;       with q.open_tiff(str(path), options) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:104: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_scientific_footprints_use_level_zero_not_preview_pyramid[tiles]" time="0.013"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_scientific_footprints_use0')
+layout = 'tiles'
+
+    @pytest.mark.parametrize('layout', ['tiles', 'tiles-separate'])
+    def test_scientific_footprints_use_level_zero_not_preview_pyramid(tmp_path, layout):
+        data = values('uint64')
+        source = tmp_path/'pyramid.tif'
+        planar = 'separate' if layout == 'tiles-separate' else 'contig'
+        def stored(a): return np.moveaxis(a, -1, 0) if planar == 'separate' else a
+        with tifffile.TiffWriter(source, bigtiff=True) as writer:
+            writer.write(stored(data), tile=(16,16), compression='deflate', subifds=1,
+                         metadata=None, photometric='rgb', planarconfig=planar)
+            # Deliberately different coarse pixels: an automatic preview-level
+            # substitution cannot accidentally satisfy the exact source oracle.
+            writer.write(stored(np.zeros_like(data[::2, ::2])), tile=(16,16),
+                         compression='deflate', subfiletype=1, metadata=None,
+                         photometric='rgb', planarconfig=planar)
+&gt;       with q.open_tiff(str(source)) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:132: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_scientific_footprints_use_level_zero_not_preview_pyramid[tiles-separate]" time="0.013"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_scientific_footprints_use1')
+layout = 'tiles-separate'
+
+    @pytest.mark.parametrize('layout', ['tiles', 'tiles-separate'])
+    def test_scientific_footprints_use_level_zero_not_preview_pyramid(tmp_path, layout):
+        data = values('uint64')
+        source = tmp_path/'pyramid.tif'
+        planar = 'separate' if layout == 'tiles-separate' else 'contig'
+        def stored(a): return np.moveaxis(a, -1, 0) if planar == 'separate' else a
+        with tifffile.TiffWriter(source, bigtiff=True) as writer:
+            writer.write(stored(data), tile=(16,16), compression='deflate', subifds=1,
+                         metadata=None, photometric='rgb', planarconfig=planar)
+            # Deliberately different coarse pixels: an automatic preview-level
+            # substitution cannot accidentally satisfy the exact source oracle.
+            writer.write(stored(np.zeros_like(data[::2, ::2])), tile=(16,16),
+                         compression='deflate', subfiletype=1, metadata=None,
+                         photometric='rgb', planarconfig=planar)
+&gt;       with q.open_tiff(str(source)) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:132: TypeError</failure></testcase><testcase classname="tests.test_scientific_raw_tiff_layouts" name="test_tiled_sampling_budget_rejects_before_decode_and_source_change_rejects" time="0.007"><failure message="TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4009/test_tiled_sampling_budget_rej0')
+
+    def test_tiled_sampling_budget_rejects_before_decode_and_source_change_rejects(tmp_path):
+        source = tmp_path/'bounded.tif'
+        data = values('uint64')
+        tifffile.imwrite(source, data, metadata=None, photometric='rgb', tile=(16,16), compression='deflate')
+&gt;       with q.open_tiff(str(source)) as server:
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+E       TypeError: 'qupathxx._native.ImageServer' object does not support the context manager protocol
+
+build\ci\scientific-grid-159\tests\test_scientific_raw_tiff_layouts.py:143: TypeError</failure></testcase></testsuite></testsuites>
