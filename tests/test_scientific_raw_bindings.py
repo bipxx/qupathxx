@@ -52,6 +52,7 @@ def test_grid_raw_request_job_retention_project_and_typed_csv(tmp_path):
     project=q.Project();image=project.add_tiff_image(str(source));doc=project.document(image)
     options=q.ScientificRawOptions();request=q.RawAnalysisRequest(doc,grid(),options)
     options.channels=0;assert request.grid_options.channels==1 and request.grid.x.samples==1
+    assert q.analyze_raw(q.RawAnalysisRequest(doc,q.RawRegionRequest())).grid is None
     result=q.analyze_raw(request);descriptor=result.grid
     assert descriptor.derived_sample_type==q.SampleType.FLOAT64 and descriptor.source_metadata.sample_type==q.SampleType.UINT16
     assert descriptor.options.channels==1 and result.statistics.means==[.5]
@@ -72,12 +73,15 @@ def test_grid_raw_request_job_retention_project_and_typed_csv(tmp_path):
 
 @requires_tiff
 def test_nonfinite_channel_does_not_invalidate_finite_neighbor(tmp_path):
-    source=tmp_path/'channels.ome.tif';data=np.ones((2,3,4),dtype='float64');data[1,0,0]=np.nan
-    tifffile.imwrite(source,data,ome=True,photometric='minisblack',metadata={'axes':'CYX'})
-    server=q.open_tiff(str(source));options=q.ScientificRawOptions();options.channels=2
+    source=tmp_path/'channels.ome.tif';data=np.empty((2,2,2,3,4),dtype='float64')
+    for t in range(2):
+        for z in range(2):data[t,z]=10*t+3*z+1
+    data[1,1,1,0,0]=np.nan
+    tifffile.imwrite(source,data,ome=True,photometric='minisblack',metadata={'axes':'TZCYX'})
+    server=q.open_tiff(str(source));options=q.ScientificRawOptions();options.channels=2;options.z=1;options.t=1
     result=q.read_scientific_raw(server,grid(),options)
     assert result.valid_numpy().tolist()==[[[1,0]]] and result.reasons_numpy().tolist()==[[[0,3]]]
-    assert result.numpy().tolist()==[[[1.,0.]]]
+    assert result.numpy().tolist()==[[[14.,0.]]]
     doc=q.Document(server);stats=q.analyze_raw(q.RawAnalysisRequest(doc,grid(),options)).statistics
     assert stats.pixels==stats.valid_pixels==1 and stats.finite_samples==[1,0] and stats.nonfinite_samples==[0,1]
 

@@ -84,3 +84,45 @@ the caller.
 The public `GuiReport` includes typed pixel-worker/controller results and the
 logical `canvas_content_bounds` used for image-to-framebuffer mapping. See the
 [F5 pixel desktop contract](pixel-classifier-ui.md).
+
+
+## Typed quantitative grid sampling
+
+The native Python interface supports bounded raw TIFF sampling independently of
+RGB display conversion. This example reads channel/Z/time zero over a bounded
+level-zero window; grid sample counts may differ from source pixel counts.
+
+```python
+import qupathxx as q
+
+server = q.open_tiff("quantitative.tif")
+metadata = server.raw_metadata
+assert metadata is not None
+grid = q.ScientificGrid(
+    metadata.width, metadata.height,
+    q.ScientificGridAxis(0, min(metadata.width, 256), 32),
+    q.ScientificGridAxis(0, min(metadata.height, 256), 32),
+)
+sampled = q.read_scientific_raw(server, grid)
+values = sampled.numpy()          # readonly HWC float64; retains its native owner
+reasons = sampled.reasons_numpy() # HWC uint8; ScientificRawReason codes
+assert q.digest_scientific_raw(server, grid).input_sha256 == sampled.input_sha256
+
+document = q.Document(server)
+request = q.RawAnalysisRequest(document, grid)
+result = q.analyze_raw(request)
+assert result.grid is not None
+record_id = document.keep_raw_analysis(request, result)
+csv = q.raw_analysis_csv(q.RawTableRequest(document, [record_id], True))
+```
+
+Use `ScientificRawOptions` for explicit channel/Z/T selection and work limits.
+A grid result's descriptor separates original dtype/calibration from derived
+binary64 statistics. Natural results have `grid is None`; natural `region`
+access rejects for grid results. Save/reopen keeps historical QRA2 records;
+`RawAnalysisRequest.replay` plus fresh analysis/verification restores current
+status only after validation. Array views and descriptor snapshots survive
+reader close and parent-variable deletion; writable copies use `copy=True`.
+
+This interface has local Windows isolated-candidate checks. Complete wheel,
+platform and grid CLI/batch/ImGui producer qualification remain pending.

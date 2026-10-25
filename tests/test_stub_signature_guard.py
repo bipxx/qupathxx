@@ -26,3 +26,11 @@ def test_unbound_cpp_signatures_reject(signature):
 ])
 def test_bound_python_signatures_pass(signature):
     generator.validate_native_signatures(signature)
+
+
+def test_numpy_annotations_use_private_module_alias_without_rewriting_imports():
+    text='import numpy\nfrom numpy.typing import NDArray\nclass Buffer:\n    def numpy(self) -> NDArray[numpy.float64]: ...\n    def valid_numpy(self) -> NDArray[numpy.uint8]: ...\n'
+    refined=generator.numpy_annotation_alias(text)
+    assert 'import numpy as _numpy\n' in refined and 'from numpy.typing import NDArray\n' in refined
+    assert 'NDArray[_numpy.float64]' in refined and 'NDArray[_numpy.uint8]' in refined
+    assert generator.numpy_annotation_alias(refined)==refined

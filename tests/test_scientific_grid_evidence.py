@@ -55,7 +55,7 @@ def installed(gui):
 @pytest.mark.parametrize('gui',[True,False])
 def test_installed_exact_cohort_and_scope(gui):
     result=evidence.python(installed(gui),gui)
-    assert result['passed']==(191 if gui else 189)
+    assert result['passed']==sum(map(len,evidence.CASES.values()))-(0 if gui else len(evidence.GUI_CASES))
     assert result['declared_headless_gui_skips']==(0 if gui else 2)
     assert not result['scientific_acceptance']
 
@@ -96,17 +96,20 @@ def test_headless_desktop_declaration_cannot_hide_coverage(failure):
     with pytest.raises(ValueError):evidence.python(cases,False)
 
 
+POSITIVE_COUNT=len(evidence.POSITIVE)
+POSITIVE_SUCCESS=f'Success: no issues found in {POSITIVE_COUNT} source files\n'
 @pytest.mark.parametrize('text,accepted',[
- ('Success: no issues found in 5 source files\n',True),
- ('Success: no issues found in 4 source files\n',False),
- ('Success: no issues found in 3 source files\n',False),
- ('Success: no issues found in 6 source files\n',False),
- ('Success: no issues found in 5 source files\n'*2,False),
- ('Success: no issues found in 4 source files\nSuccess: no issues found in 5 source files\n',False),
- ('other.py:1: error: broken\nSuccess: no issues found in 5 source files\n',False)])
+ (POSITIVE_SUCCESS,True),
+ (f'Success: no issues found in {POSITIVE_COUNT-1} source files\n',False),
+ (f'Success: no issues found in {POSITIVE_COUNT-2} source files\n',False),
+ (f'Success: no issues found in {POSITIVE_COUNT+1} source files\n',False),
+ (POSITIVE_SUCCESS*2,False),
+ (f'Success: no issues found in {POSITIVE_COUNT-1} source files\n'+POSITIVE_SUCCESS,False),
+ ('other.py:1: error: broken\n'+POSITIVE_SUCCESS,False)])
+
 def test_positive_typing_is_current_and_unambiguous(tmp_path,text,accepted):
     path=tmp_path/'typing.log';path.write_text(text,encoding='utf-8')
-    if accepted:assert evidence.positive_typing(path)['files']==5
+    if accepted:assert evidence.positive_typing(path)['files']==POSITIVE_COUNT
     else:
         with pytest.raises(ValueError):evidence.positive_typing(path)
 

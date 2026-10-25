@@ -31,6 +31,9 @@
     "test_normalized_gaussian_preserves_constants_without_publishing_invalid_centers",
     "test_reference_generator_contract_and_native_expectations_are_byte_bound"
   ],
+  "test_public_stubs": [
+    "test_raw_grid_result_descriptor_stub_is_optional"
+  ],
   "test_qupath_grid_cells_reference": [
     "test_comparison_rejects_incompatible_recipe[micrometres]",
     "test_comparison_rejects_incompatible_recipe[unknown]",
@@ -187,6 +190,22 @@
     "test_canonical_input_binds_grid_roi_transform_calibration_and_actual_domain",
     "test_decoded_snapshot_binds_dimensions_bounds_and_actual_rgba",
     "test_independent_vectors_are_exercised_by_the_native_integration_case"
+  ],
+  "test_scientific_raw_bindings": [
+    "test_grid_raw_request_job_retention_project_and_typed_csv",
+    "test_nonfinite_channel_does_not_invalidate_finite_neighbor",
+    "test_owned_readonly_arrays_and_copied_options_survive_close",
+    "test_raw_grid_exports_available_without_tiff",
+    "test_typed_raw_sampling_exact_mean_and_hash_only[float32]",
+    "test_typed_raw_sampling_exact_mean_and_hash_only[float64]",
+    "test_typed_raw_sampling_exact_mean_and_hash_only[int16]",
+    "test_typed_raw_sampling_exact_mean_and_hash_only[int32]",
+    "test_typed_raw_sampling_exact_mean_and_hash_only[int64]",
+    "test_typed_raw_sampling_exact_mean_and_hash_only[int8]",
+    "test_typed_raw_sampling_exact_mean_and_hash_only[uint16]",
+    "test_typed_raw_sampling_exact_mean_and_hash_only[uint32]",
+    "test_typed_raw_sampling_exact_mean_and_hash_only[uint64]",
+    "test_typed_raw_sampling_exact_mean_and_hash_only[uint8]"
   ],
   "test_scientific_sampling": [
     "test_decoded_source_hash_is_owned_string_and_tracks_raw_bytes",

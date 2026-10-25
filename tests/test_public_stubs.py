@@ -34,3 +34,10 @@ def test_packaged_signatures_do_not_expose_unbound_cpp_types():
     from test_stub_signature_guard import generator
     path=Path(_native.__file__).with_name('_native.pyi')
     generator.validate_native_signatures(path.read_text(encoding='utf-8'))
+
+
+def test_raw_grid_result_descriptor_stub_is_optional():
+    tree=ast.parse(Path(_native.__file__).with_name('_native.pyi').read_text(encoding='utf-8'))
+    result=next(n for n in tree.body if isinstance(n,ast.ClassDef) and n.name=='RawAnalysisResult')
+    grid=next(n for n in result.body if isinstance(n,ast.FunctionDef) and n.name=='grid')
+    assert ast.unparse(grid.returns)=='RawAnalysisGrid | None'

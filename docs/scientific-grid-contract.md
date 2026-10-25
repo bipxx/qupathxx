@@ -694,3 +694,28 @@ Grid replay compares finite statistic bits, including zero signs; natural recipe
 retain their existing numeric comparison policy. Native evidence runners retain
 up to 1 MiB of successful-test output so required semantic markers remain in
 JUnit; a green run whose output was truncated is not accepted as marker proof.
+
+
+### Python typed raw interface
+
+`ScientificRawOptions` selects channel range, Z/T and sampling work budget.
+`read_scientific_raw` returns an owned `ScientificRawGrid`; `numpy()`,
+`valid_numpy()` and `reasons_numpy()` expose readonly HWC float64/uint8/uint8
+views retaining the native result. `copy=True` returns independent writable
+arrays. Metadata and options getters return snapshots. `digest_scientific_raw`
+returns the same sampling input/source hashes without sampled output arrays.
+
+The explicit-grid `RawAnalysisRequest` overload, request grid/options, and
+optional result `RawAnalysisGrid` descriptor expose original source metadata,
+derived sample dtype and source/sampling hashes. The descriptor retains its
+parent result. Natural results have `grid is None`; generated annotations retain
+that optionality. Existing synchronous/jobs/retention/replay/CSV APIs share the
+native implementation. Blocking native readers release the GIL using the same
+native ownership path as the existing scientific RGB interface.
+
+Binding registration puts grid/raw-option types before overload defaults.
+Generated NumPy annotations use a private module alias to avoid shadowing by
+methods named `numpy`. Strict positive/negative typing and installed export/
+member guards accompany runtime checks. The current Windows isolated candidate
+has TIFF enabled; a packaged wheel, broader platforms and raw CLI/batch/ImGui
+producer delivery remain separate acceptance gates.

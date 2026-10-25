@@ -18,8 +18,9 @@ NEGATIVE={
  'scientific-grid-typing-negative.log':('scientific_grid_invalid.py',[4,6,7,8,9,10]),
  'scientific-channels-typing-negative.log':('scientific_channels_invalid.py',[4,6,7,8,9]),
  'grid-cells-typing-negative.log':('grid_cells_invalid.py',[3,3,4,5,6,7,8]),
+ 'scientific-raw-typing-negative.log':('raw_grid_invalid.py',[5,6,7]),
 }
-POSITIVE=['tests/typing/valid_api.py','tests/typing/hierarchy_valid.py','tests/typing/grid_cells_valid.py','examples/live_workflow.py','examples/region_workflow.py']
+POSITIVE=['tests/typing/raw_grid_valid.py','tests/typing/valid_api.py','tests/typing/hierarchy_valid.py','tests/typing/grid_cells_valid.py','examples/live_workflow.py','examples/region_workflow.py']
 BASE={
  'resampling':['Native scientific grid exact geometry, rounding, context and admission passed','Native scientific RGB float64 exact means, support, reader and cancellation checks passed','Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed','Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed','Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed','188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed','Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed','QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed'],
  'stains':['Native scientific float64 OD/stains, validity, captured basis and admission passed','Legacy byte/float32 stain transforms preserve frozen arithmetic across 262144 RGB probes'],
