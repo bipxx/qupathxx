@@ -1,4 +1,5 @@
 #include "reader_file_guard.hpp"
+#include "filesystem_access.hpp"
 #include "atomic_export.hpp"
 #include "tma_internal.hpp"
 #include "qupathxx/raw_image.hpp"
@@ -357,8 +358,11 @@ constexpr int recovery_application_id=1364218456; // QPRX, distinct from ordinar
 struct Database {
     sqlite3* db=nullptr;
     Database(const std::string& path,bool write,const std::atomic<bool>* cancelled=nullptr,bool repair_journal=true) {
+        // SQLite's ordinary Windows VFS does not add extended-length prefixes.
+        // Adapt only physical access; source/base paths in metadata stay logical.
+        const auto physical=detail::access_path(fs::u8path(path)).u8string();
         auto connect=[&](int flags) {
-            auto code=sqlite3_open_v2(path.c_str(),&db,flags|SQLITE_OPEN_NOMUTEX,nullptr);
+            auto code=sqlite3_open_v2(physical.c_str(),&db,flags|SQLITE_OPEN_NOMUTEX,nullptr);
             if(code!=SQLITE_OK) throw std::runtime_error(std::string("SQLite open: ")+(db?sqlite3_errmsg(db):"out of memory"));
             sqlite3_extended_result_codes(db,1); sqlite3_busy_timeout(db,1000);
             if(cancelled) {

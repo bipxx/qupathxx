@@ -31,10 +31,11 @@ def target_path(tmp_path):
 def scene(tmp_path):
     project = q.Project()
     image = project.add_document(q.Document(q.Image(8, 8, [42] * 8 * 8 * 3)))
-    obj = project.document(image).add_rectangle(q.Rect(1, 1, 3, 3), 'Captured')
-    primary = tmp_path / 'primary.qpxproj'
-    project.save(str(primary))
+    obj = project.document(image).add_rectangle(q.Rect(1, 1, 3, 3), 'Before save')
     target = target_path(tmp_path)
+    primary = target.parent / 'primary.qpxproj'
+    project.save(str(primary))
+    project.document(image).rename_annotation(obj, 'Captured')
     writer = q.ProjectAutosave()
     assert writer.request(project, str(target))
     result = writer.wait()
