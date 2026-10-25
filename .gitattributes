@@ -267,3 +267,6 @@ cpp/tests/raw_scientific_mean_reference.hpp text eol=lf
 tools/reference_raw_means.py text eol=lf
 tests/test_raw_mean_reference.py text eol=lf
 tests/fixtures/raw-scientific-means-v1/** -text -whitespace
+
+docs/benchmarks/raw-scientific-means-local/** -text -whitespace
+docs/benchmarks/raw-scientific-means-local-windows-linux.json text eol=lf

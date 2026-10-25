@@ -1,0 +1,161 @@
+{
+  "schema": "qpx.raw-scientific-means-local/1",
+  "observed_at_utc": "2026-10-25T13:23:14.125515+00:00",
+  "source": "c9f05b3aee26b1d85e7f7e47b4eb03b6589172bf",
+  "source_contract_files": 468,
+  "compiler_inputs": {
+    "cpp/exact_weighted_mean.hpp": "2873eab57a9161907c86247ad1663cc44919653f7b23a4ea3b10a33c9ce52de7",
+    "cpp/tests/raw_scientific_numeric_tests.cpp": "6753e71009da30acaae8001a4c13b56b20fd8db1489d31e19275749b3641febe",
+    "cpp/tests/raw_scientific_mean_reference.hpp": "3df09af16d2a8759b078f08e1992fd225076b0482a393bbf9a807a1ae7a63bcf"
+  },
+  "reference_vectors": 2891,
+  "source_sample_types": 10,
+  "input_orders": [
+    "forward",
+    "reverse"
+  ],
+  "numerical_configurations": [
+    "MSVC Release W4 WX fp:precise",
+    "GCC O2 Wall Wextra Werror pedantic",
+    "GCC O1 ASan UBSan"
+  ],
+  "executable_hashes": {
+    "msvc": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw173-mean-windows\\Release\\raw_scientific_mean_probe.exe",
+      "bytes": 453632,
+      "sha256": "4a9af5f8f211947a5ac6cf9fe6d040e24ec2e0dddb56369194e1523d73b3faad"
+    },
+    "gcc": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw173-mean-final",
+      "bytes": 507176,
+      "sha256": "370dd4524ceecdcdfa39b5063330f23ec1a600b9c3b8877295d89f3f7bcfcf40"
+    },
+    "gcc_asan_ubsan": {
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw173-mean-sanitize",
+      "bytes": 1662024,
+      "sha256": "5043e34d29291150ac70fc1a1ce2ff5156664383482a687284871f786fd09339"
+    }
+  },
+  "affected_python_passed": 118,
+  "oracle_python_passed_included": 3,
+  "scope": "Private exact finite weighted mean kernel and independent all-dtype oracle; no raw sampler/application workflow acceptance",
+  "checks": [
+    "Bit-exact integer and floating weighted means",
+    "Subnormal/normal ties and negative underflow zero",
+    "Large finite mean without intermediate floating overflow",
+    "Exact cancellation and input order invariance",
+    "INT64_MIN/UInt64 range and atomic invalid-weight/nonfinite rejection",
+    "Independent Fraction regeneration and overwrite protection",
+    "New native marker omission/duplication rejects"
+  ],
+  "integrated_native_resampling_wired": true,
+  "integrated_native_resampling_built": false,
+  "raw_grid_reader_implemented": false,
+  "raw_analysis_workflow_accepted": false,
+  "installed_native_application_accepted": false,
+  "platform_campaign_accepted": false,
+  "scientific_acceptance": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "remaining": [
+    "Bounded typed raw grid reader and per-channel support/finite reasons",
+    "Raw source bit/axis/calibration provenance",
+    "Immutable analysis/jobs/records and save/reopen/replay",
+    "Python CLI batch ImGui adapters",
+    "Full original M0-M7 criteria"
+  ],
+  "evidence": {
+    "auditor-tests.xml": {
+      "bytes": 18385,
+      "sha256": "0a2b38d62d1f06dfd316d5ae72191efec551643e714aed6bec680d69762b0287"
+    },
+    "CMakeCXXCompiler.cmake": {
+      "bytes": 6548,
+      "sha256": "38122f23ed4f895204aceca5c0226affa88cce4253f59e60606d2c824f24a6dd"
+    },
+    "commands.json": {
+      "bytes": 3626,
+      "sha256": "36e048debf3e0031a74d2b7351facfa26b208b8b902d0845e8e33bfae754832b"
+    },
+    "final_raw173_mean.py": {
+      "bytes": 2526,
+      "sha256": "1aa34e85004220aabcf5e99da85ba8d81906f8b3222dfe08622a1e47395fb3fa"
+    },
+    "gcc-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "gcc-test.log": {
+      "bytes": 199,
+      "sha256": "2d44715bc939c4c52e2edd3022edbd4f77aba956d97e793cb55683a27568801d"
+    },
+    "gcc-version.log": {
+      "bytes": 246,
+      "sha256": "59d1cbef41d4ae78d5063d525b7aa13d18dc0493ea00537efc19b2ee398cb5a8"
+    },
+    "initial-dynamic-table-inventory.json": {
+      "bytes": 492,
+      "sha256": "e8b9fa49be52248ea38ed9404a19c331f085006f0586e34fa13f19ee443e8ab5"
+    },
+    "initial-msvc-before-exact_weighted_mean.hpp": {
+      "bytes": 6694,
+      "sha256": "3da9c3bd364e649fed9c2961c1eccc69e9a75af0e140218fd886cd1475b4c6cd"
+    },
+    "initial-msvc-build.log": {
+      "bytes": 941,
+      "sha256": "78670ba172ed4d9017701f53e4ef66d07a9c3128cbaeb7bfb4eb10f748a95c93"
+    },
+    "initial-msvc-commands.json": {
+      "bytes": 828,
+      "sha256": "9ee80ff83f2f1540f2faee64c6ca47b7f3e24c748d488200b412a30026a005f8"
+    },
+    "msvc-build.log": {
+      "bytes": 231,
+      "sha256": "bd32e11298443eb4f183ff54b3112e550c836d7a6ff9eab97529c4b7ce5b43ea"
+    },
+    "msvc-test.log": {
+      "bytes": 235,
+      "sha256": "1b77b30fb687b7d11ae1f6362d9cd78fffb9129e17721fd62caffffef8c8e113"
+    },
+    "msvc-tests.xml": {
+      "bytes": 552,
+      "sha256": "95ff79d3986ce9b93a68610cf1918dac4bbe1a82367532b9673718b2014af691"
+    },
+    "oracle-tests.xml": {
+      "bytes": 665,
+      "sha256": "ceb00e9269b46cac311eee04d63eaf472457d55f9d49164ff43fcdcdf8a26554"
+    },
+    "oracle.log": {
+      "bytes": 100,
+      "sha256": "772dce3dfe623096a871ca609785fee2e0dea9a0566cb044ef0b8cbee1d31ae2"
+    },
+    "record_evidence.py": {
+      "bytes": 5476,
+      "sha256": "d38458091f2e52567a642be92431067427f78edd118b6abd4b1311a92565d9c7"
+    },
+    "sanitize-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "sanitize-test.log": {
+      "bytes": 199,
+      "sha256": "2d44715bc939c4c52e2edd3022edbd4f77aba956d97e793cb55683a27568801d"
+    },
+    "source-proof.json": {
+      "bytes": 113813,
+      "sha256": "7ebfb72b84326ec52ffc4b2f23a91f9e30adfae616b43e5c90cd8290234fc99b"
+    },
+    "standalone-CMakeCache.txt": {
+      "bytes": 13783,
+      "sha256": "bb5d7f9c172f10bfb5301e05f6ffa482660bb0a2e6751a36747a9175004bee73"
+    },
+    "standalone-CMakeLists.txt": {
+      "bytes": 576,
+      "sha256": "b0ae4dcb60a1669053bd72d57b6d7711a2cbbb1a2c3f7e42f3b84cb31102e7d2"
+    },
+    "verify_raw173_mean.py": {
+      "bytes": 1230,
+      "sha256": "ff1f3ace359a2e0ea0f5cb6779ecc0138bb76dcc5b212a3aac0c494f723c8c1f"
+    }
+  }
+}

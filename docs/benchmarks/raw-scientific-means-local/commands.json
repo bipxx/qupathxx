@@ -1,0 +1,126 @@
+{
+  "compiler_input_hashes": {
+    "cpp/exact_weighted_mean.hpp": "2873eab57a9161907c86247ad1663cc44919653f7b23a4ea3b10a33c9ce52de7",
+    "cpp/tests/raw_scientific_numeric_tests.cpp": "6753e71009da30acaae8001a4c13b56b20fd8db1489d31e19275749b3641febe",
+    "cpp/tests/raw_scientific_mean_reference.hpp": "3df09af16d2a8759b078f08e1992fd225076b0482a393bbf9a807a1ae7a63bcf"
+  },
+  "commands": [
+    {
+      "name": "msvc-build",
+      "command": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+        "--build",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw173-mean-windows",
+        "--config",
+        "Release",
+        "--parallel",
+        "2"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 1.3251899000024423
+    },
+    {
+      "name": "msvc-test",
+      "command": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+        "--test-dir",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw173-mean-windows",
+        "-C",
+        "Release",
+        "--output-on-failure",
+        "--no-tests=error",
+        "--output-junit",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw173-mean-final\\msvc-tests.xml"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.2531400000443682
+    },
+    {
+      "name": "gcc-build",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "g++",
+        "-std=c++17",
+        "-O2",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-DQUPATHXX_EXACT_MEAN_STANDALONE",
+        "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/raw_scientific_numeric_tests.cpp",
+        "-o",
+        "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw173-mean-final"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 1.0572479999391362
+    },
+    {
+      "name": "gcc-test",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw173-mean-final"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.1196829000255093
+    },
+    {
+      "name": "sanitize-build",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "g++",
+        "-std=c++17",
+        "-O1",
+        "-g",
+        "-fsanitize=address,undefined",
+        "-fno-omit-frame-pointer",
+        "-Wall",
+        "-Wextra",
+        "-Werror",
+        "-pedantic",
+        "-DQUPATHXX_EXACT_MEAN_STANDALONE",
+        "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/raw_scientific_numeric_tests.cpp",
+        "-o",
+        "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw173-mean-sanitize"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 1.503326400066726
+    },
+    {
+      "name": "sanitize-test",
+      "command": [
+        "wsl.exe",
+        "-d",
+        "Ubuntu",
+        "--",
+        "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw173-mean-sanitize"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 0.1468594999751076
+    },
+    {
+      "name": "oracle",
+      "command": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+        "-I",
+        "-m",
+        "pytest",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_mean_reference.py",
+        "-q",
+        "--override-ini",
+        "addopts=",
+        "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw173-mean-final\\oracle-tests.xml"
+      ],
+      "exit": 0,
+      "elapsed_seconds": 1.004140799981542
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  1>Checking Build System
+  Building Custom Rule C:/Users/HEQ/Projects/qupathxx/build/ci/raw173-mean-source/CMakeLists.txt
+  raw_scientific_numeric_tests.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\exact_weighted_mean.hpp(119,68): error C2220: the following warning is treated as an error [C:\Users\HEQ\Projects\qupathxx\build\ci\raw173-mean-windows\raw_scientific_mean_probe.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/raw_scientific_numeric_tests.cpp')
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\exact_weighted_mean.hpp(119,68): warning C4805: '|': unsafe mix of type 'uint64_t' and type 'bool' in operation [C:\Users\HEQ\Projects\qupathxx\build\ci\raw173-mean-windows\raw_scientific_mean_probe.vcxproj]
+  (compiling source file '../scientific-grid-159/cpp/tests/raw_scientific_numeric_tests.cpp')
+  

@@ -1,0 +1,7 @@
+{
+  "exact_weighted_mean.hpp": "3da9c3bd364e649fed9c2961c1eccc69e9a75af0e140218fd886cd1475b4c6cd",
+  "gcc-probe": "8ae46165233b81ff2e9e09ac2a437668c6c7a8593d51764a5cfd3595a3fd3f36",
+  "raw_scientific_mean_reference.hpp": "00914cedf8dc855ce2dff0bc76fa16de4bae87a4c19237e6897008ae85eae3be",
+  "raw_scientific_numeric_tests.cpp": "67c26ff43977594d68d6191b76dc620efb1d2a360ea9d3daab7a00e6074e1dd5",
+  "reference_raw_means.py": "cc4255d9188d56e73f305a5093d598dd47dbd87382a86bb596dc17abd59a455e"
+}

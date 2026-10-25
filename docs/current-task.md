@@ -134,6 +134,11 @@ freezes exact rounding and per-channel finite/support semantics. The numeric
 checks are wired into native resampling, but the updated integrated native
 configuration has not yet been built. Existing installed wheels remain the
 source169 engines and do not exercise this private new component.
+The [numeric receipt](benchmarks/raw-scientific-means-local-windows-linux.json)
+binds the exact three compiled inputs to the committed kernel, both compiler
+test outputs, sanitizer output, 118 affected Python checks and a 468-file source
+proof. The three oracle checks are included in that Python total. The initial
+MSVC warning failure and its source are retained; compiler warnings stay errors.
 
 Next concrete step: implement the bounded typed raw grid reader using this
 kernel and independent per-footprint Fraction references, then connect the

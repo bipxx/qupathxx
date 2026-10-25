@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-25T09:15:48"
+	>
+	<testcase name="exact_raw_mean" classname="exact_raw_mean" time="0.134542" status="run">
+		<properties/>
+		<system-out>2891 independent exact raw mean vectors across all ten sample types in both orders passed
+Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed
+</system-out>
+	</testcase>
+</testsuite>
