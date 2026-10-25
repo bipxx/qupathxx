@@ -219,3 +219,10 @@ verifier controls pass. OS process peak, cache peak and admitted work are
 recorded separately. No native rebuild was needed; 317 compiler inputs remain
 unchanged. Biological/vendor-slide and other-host resource acceptance remain
 open. This separate check does not change the frozen campaign requirements.
+
+The [large-pyramid admission receipt](benchmarks/tma-large-pyramid-admission-local.json)
+adds four zero-decode refusals: one-pixel source/output deficits, a one-byte
+working-budget deficit and an oversized full-base read. Each same reader then
+recovers at exact source/output/work limits with matching pixels and geometry.
+The combined generator/verifier suite passes 115 controls. Platform and
+representative biological/vendor-slide requirements remain open.

@@ -414,3 +414,7 @@ docs/benchmarks/tma-dearray-202-campaign.json text eol=lf
 # Large synthetic pyramid observations retain original bytes.
 docs/benchmarks/tma-large-pyramid-local/** -text -whitespace
 docs/benchmarks/tma-large-pyramid-local.json text eol=lf
+
+# Exact admission/refusal and same-reader recovery observations.
+docs/benchmarks/tma-large-pyramid-admission-local/** -text -whitespace
+docs/benchmarks/tma-large-pyramid-admission-local.json text eol=lf

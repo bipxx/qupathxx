@@ -1,0 +1,52 @@
+{
+  "schema": "qpx.tma-large-pyramid-admission-local/1",
+  "scope": "Local Windows synthetic large-pyramid predecode refusal and same-reader recovery only; not biological/vendor-slide or complete platform/release acceptance.",
+  "validation_source": "96f13dd36c0cb7b5d9196cd827270a580bcaf860",
+  "admission_spec_commit": "e155940c4c3a6fbef9a20a84f908d993c1f94309",
+  "compiled_engine": {
+    "revision": "4b0e1313fad77d5bc5c4bccf495e9e120df488ac",
+    "fingerprint": "6eb238703a073afce7247f89cd63c324969c990ca6db2a26c15d5fd3f0cc69f6"
+  },
+  "source_files": {
+    "tools/check_tma_large_pyramid.py": "2d2c13b18d2594eb6752933bce7036f4cc304cbcd981eb4710417acf922c9d89",
+    "tools/check_tma_large_pyramid_admission.py": "89afcdd6409ad8f534278ec6136c35e7d3a0e11b4a52729fed8255f14cbb27b2",
+    "tests/test_tma_large_pyramid_admission_evidence.py": "74cfc2840674fb9b0a68d8c1459b06b4f02f7d8b4b887e0a60a06077e2ba9583",
+    "tests/fixtures/tma-large-pyramid-v1/contract.json": "bf9f0c0798e6adda47ccb5d6cdd890b32c1ca61fb020be650d102ad995eb82c3"
+  },
+  "independent_input_commitment": {
+    "source": "docs/benchmarks/tma-large-pyramid-local/current-observation.json",
+    "input_sha256": "9ac8469f10794f7fd797be4f2cdc70bd17b7e3be4803b702e53eea20cac75879"
+  },
+  "results": {
+    "named_refusals": 4,
+    "decoded_blocks_before_refusal": 0,
+    "decoded_bytes_before_refusal": 0,
+    "cache_allocation_before_refusal": 0,
+    "same_reader_recoveries": 4,
+    "exact_work_admission_bytes": 2787328,
+    "decoded_blocks_per_recovery": 4,
+    "decoded_bytes_per_recovery": 786432,
+    "combined_controls_passed": 115,
+    "new_admission_controls_passed": 75
+  },
+  "limitations": [
+    "Fresh Windows process only; Linux/macOS resource trials remain open",
+    "Synthetic analytic ellipses do not establish biological/vendor-slide acceptance",
+    "Frozen 19371 platform campaign remains independent and not yet fully accepted",
+    "No native rebuild; original full M0-M7 scope remains active"
+  ],
+  "payloads": {
+    "docs/benchmarks/tma-large-pyramid-admission-local/first-admission.json": {
+      "bytes": 3501,
+      "sha256": "3cd65e5189285b126a7caa439c5f22e5cd10b10cf1ea6db3e242259b82502b46"
+    },
+    "docs/benchmarks/tma-large-pyramid-admission-local/current-admission.json": {
+      "bytes": 4037,
+      "sha256": "7d1f9a034747552adc31bd2d25fe28199c8bb811b3a202b1887ad7fa8bd51163"
+    },
+    "docs/benchmarks/tma-large-pyramid-admission-local/controls.xml": {
+      "bytes": 17351,
+      "sha256": "ee21251babb46ba0f9dfa572b7dc646053b4e351e70d21bb8b9a012d816df8ae"
+    }
+  }
+}

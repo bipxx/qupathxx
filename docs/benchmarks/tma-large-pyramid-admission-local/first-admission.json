@@ -1,0 +1,105 @@
+{
+  "schema": "qpx.tma-large-pyramid-admission/1",
+  "cases": [
+    {
+      "kind": "source_pixel",
+      "exception_type": "ValueError",
+      "exception_message": "no adequate natural pyramid level fits the thumbnail source pixel limit",
+      "after_refusal": {
+        "decoded_blocks": 0,
+        "decoded_bytes": 0,
+        "cache_bytes": 0,
+        "peak_cache_bytes": 0
+      },
+      "closed_after_refusal": false,
+      "admitted_work_bytes": 2787328,
+      "recovery": {
+        "estimated_work_bytes": 2787328,
+        "decoded_blocks": 4,
+        "decoded_bytes": 786432,
+        "input_sha256": "9ac8469f10794f7fd797be4f2cdc70bd17b7e3be4803b702e53eea20cac75879",
+        "geometry_and_flags_match": true
+      }
+    },
+    {
+      "kind": "output_pixel",
+      "exception_type": "ValueError",
+      "exception_message": "thumbnail exceeds output pixel limit",
+      "after_refusal": {
+        "decoded_blocks": 0,
+        "decoded_bytes": 0,
+        "cache_bytes": 0,
+        "peak_cache_bytes": 0
+      },
+      "closed_after_refusal": false,
+      "admitted_work_bytes": 2787328,
+      "recovery": {
+        "estimated_work_bytes": 2787328,
+        "decoded_blocks": 4,
+        "decoded_bytes": 786432,
+        "input_sha256": "9ac8469f10794f7fd797be4f2cdc70bd17b7e3be4803b702e53eea20cac75879",
+        "geometry_and_flags_match": true
+      }
+    },
+    {
+      "kind": "work_byte",
+      "exception_type": "ValueError",
+      "exception_message": "TMA source and detection exceed working payload budget",
+      "after_refusal": {
+        "decoded_blocks": 0,
+        "decoded_bytes": 0,
+        "cache_bytes": 0,
+        "peak_cache_bytes": 0
+      },
+      "closed_after_refusal": false,
+      "admitted_work_bytes": 2787328,
+      "recovery": {
+        "estimated_work_bytes": 2787328,
+        "decoded_blocks": 4,
+        "decoded_bytes": 786432,
+        "input_sha256": "9ac8469f10794f7fd797be4f2cdc70bd17b7e3be4803b702e53eea20cac75879",
+        "geometry_and_flags_match": true
+      }
+    },
+    {
+      "kind": "full_base_region",
+      "exception_type": "ValueError",
+      "exception_message": "region must have positive dimensions and fit the 256 MiB output limit",
+      "after_refusal": {
+        "decoded_blocks": 0,
+        "decoded_bytes": 0,
+        "cache_bytes": 0,
+        "peak_cache_bytes": 0
+      },
+      "closed_after_refusal": false,
+      "admitted_work_bytes": 2787328,
+      "recovery": {
+        "estimated_work_bytes": 2787328,
+        "decoded_blocks": 4,
+        "decoded_bytes": 786432,
+        "input_sha256": "9ac8469f10794f7fd797be4f2cdc70bd17b7e3be4803b702e53eea20cac75879",
+        "geometry_and_flags_match": true
+      }
+    }
+  ],
+  "baseline_input_sha256": "9ac8469f10794f7fd797be4f2cdc70bd17b7e3be4803b702e53eea20cac75879",
+  "engine": {
+    "revision": "4b0e1313fad77d5bc5c4bccf495e9e120df488ac",
+    "fingerprint": "6eb238703a073afce7247f89cd63c324969c990ca6db2a26c15d5fd3f0cc69f6"
+  },
+  "memory": {
+    "peak_working_set_bytes": 29048832,
+    "working_set_bytes": 26787840,
+    "peak_commit_bytes": 17604608
+  },
+  "fixture_manifest": {
+    "file": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma203-fixtures\\large-tma.ome.tif",
+    "bytes": 2939541,
+    "sha256": "364897c6b105b6f5e630730f9f8fe3ff616b77470827122b77d1a027943c6f7d",
+    "contract_sha256": "ee012c92deed5702af895438f2875f73088910b434571f7cad0b645ebecf8805",
+    "tifffile_version": "2024.9.20",
+    "numpy_version": "2.5.4"
+  },
+  "failures": [],
+  "accepted": true
+}
