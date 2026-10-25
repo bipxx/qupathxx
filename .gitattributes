@@ -324,3 +324,7 @@ docs/benchmarks/raw-grid-frontends-local-windows-linux.json text eol=lf
 
 docs/benchmarks/raw-grid-workspace-local/** -text -whitespace
 docs/benchmarks/raw-grid-workspace-local-windows-linux.json text eol=lf
+
+# Exact-source campaign evidence retains original captured bytes.
+docs/benchmarks/raw-grid-186-qualification/** -text -whitespace
+docs/benchmarks/raw-grid-186-qualification.json text eol=lf

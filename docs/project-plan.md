@@ -342,10 +342,11 @@ requirement to implement them strictly in numbered order. Much of M1–M6 alread
 exists; rebuilding those capabilities would waste effort. Follow the
 [API and workflow delivery paths](api-delivery-plan.md) for remaining work.
 
-1. Finish the current TMA interchange user workflow: verify the final
-   project-enabled installed wheel, then add background load, owner-thread
-   preview/apply and atomic export to ImGui. Test import → edit → save → restart
-   → export, including stale preview, invalid input and source preservation.
+1. Preserve the accepted TMA/annotation/raw-grid vertical workflows and their
+   source-bound evidence. The [current task](current-task.md) records the complete
+   engineering campaign at745662b. Continue the specific unclosed M0-M4 reader,
+   annotation/interchange, fault and hardware requirements instead of rebuilding
+   already delivered TMA controls, commands or persistence.
 2. Resolve research evidence prerequisites in parallel with that integration:
    fixture rights and identities, physical sampling contracts, numerical
    tolerances, benchmark hardware and cache conditions. Keep each unresolved
