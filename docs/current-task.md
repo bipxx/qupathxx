@@ -207,3 +207,15 @@ Neither module/source identity is relabeled. Collect all11source/digest-verified
 archives and run the three complete frozen-source auditors before acceptance.
 Do not mutate the frozen ref or redispatch on an observation timeout. Sourcead4's
 rejected campaign and public main614 remain separate. All M0-M7 remain Partial.
+
+
+## Large synthetic pyramid: local Windows engineering check
+
+The [local receipt](benchmarks/tma-large-pyramid-local.json) records a streamed
+30720-by-22528 synthetic OME pyramid (2.08 GB decoded base RGB). The retained
+physical-unit engine reads only level 3: four tiles and 786432 decoded bytes.
+Geometry and missing flags pass the preregistered contract; 40 generator and
+verifier controls pass. OS process peak, cache peak and admitted work are
+recorded separately. No native rebuild was needed; 317 compiler inputs remain
+unchanged. Biological/vendor-slide and other-host resource acceptance remain
+open. This separate check does not change the frozen campaign requirements.

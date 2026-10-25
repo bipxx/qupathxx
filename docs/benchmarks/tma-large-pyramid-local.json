@@ -1,0 +1,78 @@
+{
+  "schema": "qpx.tma-large-pyramid-local/1",
+  "scope": "Local Windows synthetic bounded TIFF dearray engineering validation only; not biological, vendor-slide, complete platform or release acceptance.",
+  "preregistration_commit": "435fa398100503c325942afd32ef6c962d1e4f4b",
+  "validation_source": "11aafdba8c8593aa7097fe69e67f3aad315bf92d",
+  "compiled_engine": {
+    "revision": "4b0e1313fad77d5bc5c4bccf495e9e120df488ac",
+    "fingerprint": "6eb238703a073afce7247f89cd63c324969c990ca6db2a26c15d5fd3f0cc69f6",
+    "module": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma200-python-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "module_sha256": "277353370a0a6a3984c607c1c5c5ca13b4143cc51fb3128f8078128486da5b86"
+  },
+  "source_files": {
+    "tools/reference_tma_large_pyramid.py": "169f2004602cb2e4c46cb5d53e7c2890bad0a579df9a71b496ebfbddd379d5aa",
+    "tools/check_tma_large_pyramid.py": "9a5de5a61055325a107f32cbd4c5fdba9735c34e6039e4f61ed506a8f5547953",
+    "tests/test_tma_large_pyramid_generator.py": "101c557722305f680fcde1b04147380e05d0f815a874edb682eb80fa46eaadc4",
+    "tests/test_tma_large_pyramid_evidence.py": "ab3cb5debb01b500f2ee1fa2cba3501295420fbdbfb92d004c9257f9730a9e74",
+    "tests/fixtures/tma-large-pyramid-v1/contract.json": "bf9f0c0798e6adda47ccb5d6cdd890b32c1ca61fb020be650d102ad995eb82c3"
+  },
+  "results": {
+    "controls_passed": 40,
+    "base_rgb_bytes": 2076180480,
+    "decoded_blocks": 4,
+    "decoded_bytes": 786432,
+    "peak_cache_bytes": 787456,
+    "estimated_work_bytes": 2787328,
+    "process_peak_working_set_bytes": 33685504,
+    "max_center_error_pixels": 3.5550575304749374,
+    "geometry_tolerance_pixels": 64,
+    "missing_flags": "exact",
+    "observed_cores": 11
+  },
+  "retention": {
+    "fixture": "build/tma203-fixtures/large-tma.ome.tif",
+    "fixture_manifest": "build/tma203-fixtures/large-tma.ome.tif.json",
+    "binaries": "build/tma200-retained-binaries/manifest.json"
+  },
+  "failures_preserved": "Initial generator test incorrectly compared the same single tile with itself after mutation. Scalar pixel checks passed; the independence assertion now requires at least two tiles. Initial failing JUnit is retained; no native rebuild or tolerance change.",
+  "remaining": [
+    "Representative biological/vendor slides",
+    "Linux/macOS process-peak measurements for this workload",
+    "Required platform campaign at frozen 19371 remains independent",
+    "All original M0-M7 requirements remain active"
+  ],
+  "payloads": {
+    "docs/benchmarks/tma-large-pyramid-local/preregistered-contract.json": {
+      "bytes": 2654,
+      "sha256": "bf9f0c0798e6adda47ccb5d6cdd890b32c1ca61fb020be650d102ad995eb82c3"
+    },
+    "docs/benchmarks/tma-large-pyramid-local/fixture-manifest.json": {
+      "bytes": 346,
+      "sha256": "3771c4c09a0bb0e607c12fc37c6d0cd1ca0d945c2615080fad1b8bccaa40bda8"
+    },
+    "docs/benchmarks/tma-large-pyramid-local/first-observation.json": {
+      "bytes": 3576,
+      "sha256": "c8ef0f6ad5b24b596ca0bc9ecd33ccde74cf4d4055b5863b5f0fe19aafa5a481"
+    },
+    "docs/benchmarks/tma-large-pyramid-local/current-observation.json": {
+      "bytes": 3959,
+      "sha256": "80ff118753019f31f0398b27eb5009814c80f85038889b1b085793983dd194c7"
+    },
+    "docs/benchmarks/tma-large-pyramid-local/current-observation.log": {
+      "bytes": 4124,
+      "sha256": "672a0daf861d4995e3f10cde6e02dfdb338091c77495232bfb85956c3c825427"
+    },
+    "docs/benchmarks/tma-large-pyramid-local/generator-initial.xml": {
+      "bytes": 3468,
+      "sha256": "fda1af66433d4e894807811a33a0f9997f222f8de0dd3afb2c7689382ee58b1b"
+    },
+    "docs/benchmarks/tma-large-pyramid-local/generator-current.xml": {
+      "bytes": 848,
+      "sha256": "0971de02d0ea4adffb2222f05ef051094bb784c0608e4d7239193f96f373c081"
+    },
+    "docs/benchmarks/tma-large-pyramid-local/controls.xml": {
+      "bytes": 5457,
+      "sha256": "567192bc4d89cf884196059c5d7b2bbb8c4dc25caf038b86ccfbfbb43eb60711"
+    }
+  }
+}
