@@ -116,3 +116,23 @@ materialized-window limits, raw classifiers and broader tissue/TMA automation,
 independent biology, eligible hardware/memory and supported-release work. All
 original M0-M7 milestones remain Partial; preserve frozen `745662b` and the
 user's divergent local main.
+
+
+## Active TMA structural correction slice
+
+Source `e74e97d` adds atomic native row/column insertion and removal, thin Python
+methods, managed-owner commands and ImGui controls. Retained cores keep IDs,
+case metadata and geometry; nested retained cores survive removal and undo
+restores the hierarchy. See [the workflow contract](tma-axis-editing.md).
+This is under local validation, not engineering/platform acceptance.
+
+Windows and TIFF/project Linux builds use compiler-input fingerprint
+`67c1aa0e475d3b7de926fd1588e6556256e46fdbe4c6f9eb1afb4ecd806b3818`
+(312 inputs). Configured revision includes `+dirty` for noncompiler test/docs
+changes; do not relabel the module as a later delivery commit. Build commands,
+logs, source manifest and original handles are retained under root build paths
+`tma192-windows`, `tma192-linux`, `tma192-evidence` and `tma192-progress.json`.
+Installed Python, UI capture, managed workflow and generated-stub validation
+remain pending. Automatic dearraying and broader M6 scientific scope remain.
+The independent frozen resource campaign191 stays at `61e546e` and cannot
+qualify this later API change. Every original M0-M7 requirement remains active.

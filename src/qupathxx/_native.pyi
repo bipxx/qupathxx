@@ -817,6 +817,14 @@ class Document:
 
     def add_tma_core(self, row: int, column: int, bounds: Rect, case_id: str = ..., missing: bool = ...) -> int: ...
 
+    def insert_tma_row(self, index: int, label: str = ..., bounds: Sequence[Rect] | None = ..., missing: bool = ...) -> list[int]: ...
+
+    def insert_tma_column(self, index: int, label: str = ..., bounds: Sequence[Rect] | None = ..., missing: bool = ...) -> list[int]: ...
+
+    def remove_tma_row(self, index: int) -> None: ...
+
+    def remove_tma_column(self, index: int) -> None: ...
+
     def translate_tma_grid(self, dx: float, dy: float, include_descendants: bool = ...) -> None: ...
 
     def set_tma_missing(self, ids: Sequence[int], missing: bool) -> None: ...
@@ -1759,6 +1767,18 @@ class GuiInputTarget(enum.Enum):
 
     QPTMA_ACKNOWLEDGE_LOSSES = 90
 
+    TMA_INSERT_ROW_BEFORE = 91
+
+    TMA_INSERT_ROW_AFTER = 92
+
+    TMA_INSERT_COLUMN_BEFORE = 93
+
+    TMA_INSERT_COLUMN_AFTER = 94
+
+    TMA_REMOVE_ROW = 95
+
+    TMA_REMOVE_COLUMN = 96
+
 class GuiInputWait(enum.Enum):
     TIFF_READY = 43
 
@@ -2375,6 +2395,24 @@ class GuiOptions:
 
     @tma_options.setter
     def tma_options(self, arg: TmaGridOptions | None, /) -> None: ...
+
+    @property
+    def tma_insert_label(self) -> str: ...
+
+    @tma_insert_label.setter
+    def tma_insert_label(self, arg: str, /) -> None: ...
+
+    @property
+    def tma_insert_cores(self) -> bool: ...
+
+    @tma_insert_cores.setter
+    def tma_insert_cores(self, arg: bool, /) -> None: ...
+
+    @property
+    def tma_insert_missing(self) -> bool: ...
+
+    @tma_insert_missing.setter
+    def tma_insert_missing(self, arg: bool, /) -> None: ...
 
     @property
     def tma_case_id(self) -> str: ...
@@ -8465,6 +8503,14 @@ class ViewerSession:
     def inspect(self, image_id: int, object_id: int = ...) -> int: ...
 
     def execute(self, image_id: int, edits: Sequence[ObjectEdit], label: str = ..., expected_revision: int | None = ...) -> int: ...
+
+    def insert_tma_row(self, image_id: int, index: int, label: str = ..., bounds: Sequence[Rect] | None = ..., missing: bool = ..., expected_revision: int | None = ...) -> int: ...
+
+    def insert_tma_column(self, image_id: int, index: int, label: str = ..., bounds: Sequence[Rect] | None = ..., missing: bool = ..., expected_revision: int | None = ...) -> int: ...
+
+    def remove_tma_row(self, image_id: int, index: int, expected_revision: int | None = ...) -> int: ...
+
+    def remove_tma_column(self, image_id: int, index: int, expected_revision: int | None = ...) -> int: ...
 
     def select(self, image_id: int, object_ids: Sequence[int]) -> int: ...
 

@@ -217,3 +217,73 @@ def test_project_cohort_export_captures_all_tma_grids(tmp_path, mode):
         pooled = next(row for row in rows(expected) if row['case_id'] == 'P')
         assert pooled['grids'] == '2' and pooled['weighted_mean'] == ('5' if mode == 'weighted' else '')
         assert report.tma_metadata_bytes == output.stat().st_size
+
+
+@pytest.mark.parametrize('target,rows,columns', [
+    (q.GuiInputTarget.TMA_INSERT_ROW_AFTER, 3, 3),
+    (q.GuiInputTarget.TMA_INSERT_COLUMN_AFTER, 2, 4),
+    (q.GuiInputTarget.TMA_REMOVE_ROW, 1, 3),
+    (q.GuiInputTarget.TMA_REMOVE_COLUMN, 2, 2),
+])
+def test_structural_axis_controls(target, rows, columns, tmp_path):
+    doc, ids = scene()
+    o = options()
+    o.tma_tab = 1
+    o.tma_insert_label = 'Added'
+    o.tma_insert_missing = True
+    o.inputs = click(4, target)
+    report = q.show(doc, frame_limit=25, options=o)
+    assert not report.tma_error
+    assert (doc.tma_grid().info.rows, doc.tma_grid().info.columns) == (rows, columns)
+    assert report.ui_overflow_items == 0
+    assert doc.undo() and doc.tma_core_count == 6
+    assert doc.redo() and doc.tma_grid().info.rows == rows
+
+
+def test_managed_axis_commands_save_and_restart(tmp_path):
+    doc, ids = scene()
+    project = q.Project()
+    image = project.add_document(doc, 'TMA axes')
+    source, output = tmp_path/'source.qpxproj', tmp_path/'edited.qpxproj'
+    project.save(str(source))
+    endpoint = q.ViewerSession(str(source))
+    def producer():
+        before = completed(endpoint, endpoint.inspect(image, ids[0]))
+        result = completed(endpoint, endpoint.insert_tma_row(image, 1, 'New', missing=True, expected_revision=before.document_revision))
+        assert result.committed and len(result.object_ids) == 3
+        held = completed(endpoint, endpoint.inspect(image, result.object_ids[0]))
+        assert held.object.tma_core.missing and held.object.tma_core.case_id == ''
+        stale = endpoint.remove_tma_row(image, 1, expected_revision=before.document_revision)
+        assert endpoint.wait(stale, 15).state == 'stale'
+        endpoint.take(stale)
+        completed(endpoint, endpoint.remove_tma_column(image, 2))
+        completed(endpoint, endpoint.save(str(output)))
+        completed(endpoint, endpoint.close(True))
+    report = run(endpoint, producer)
+    assert report.frames > 0
+    restored = q.Project.open(str(output)).document(image)
+    assert (restored.tma_grid().info.rows, restored.tma_grid().info.columns) == (3, 2)
+    assert restored.tma_core_count == 6 and restored.tma_grid().core(1, 0).tma_core.missing
+
+
+@pytest.mark.parametrize('limit', ['max_edits', 'command_bytes'])
+def test_managed_axis_budget_rejects_before_mutation(tmp_path, limit):
+    doc, ids = scene()
+    project = q.Project()
+    image = project.add_document(doc, 'bounded axes')
+    source = tmp_path/'source.qpxproj'
+    project.save(str(source))
+    limits = q.ViewerLimits()
+    setattr(limits, limit, 2 if limit == 'max_edits' else 4096)
+    endpoint = q.ViewerSession(str(source), limits)
+    def producer():
+        before = completed(endpoint, endpoint.inspect(image, ids[0]))
+        ticket = endpoint.insert_tma_row(image, 1)
+        result = endpoint.wait(ticket, 15)
+        assert result.state == 'failed' and not result.committed
+        assert ('edit limit' if limit == 'max_edits' else 'command budget') in result.error
+        endpoint.take(ticket)
+        after = completed(endpoint, endpoint.inspect(image, ids[0]))
+        assert after.document_revision == before.document_revision
+        completed(endpoint, endpoint.close(True))
+    run(endpoint, producer)

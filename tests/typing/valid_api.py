@@ -545,3 +545,13 @@ def scientific_channels(source: q.ScientificRgbGrid, transform: q.StainTransform
     valid: NDArray[np.uint8] = result.valid_numpy()
     assert mode == q.ScientificChannelMode.STAINS and valid.size > 0
     return result.numpy()
+
+
+def correct_tma_axes(document: q.Document, session: q.ViewerSession, image: int) -> list[int]:
+    created: list[int] = document.insert_tma_row(1, "Added", missing=True)
+    document.insert_tma_column(0, bounds=[])
+    document.remove_tma_column(0)
+    ticket: int = session.insert_tma_row(image, 1, bounds=[q.Rect(1, 2, 3, 4)], expected_revision=5)
+    ticket = session.remove_tma_row(image, 1, expected_revision=6)
+    assert ticket > 0
+    return created

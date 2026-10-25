@@ -176,9 +176,12 @@ void axis_edit_contracts() {
     const auto explicit_ids=doc->insert_tma_column(3,"explicit",std::vector<Rect>{{300,100,10,12},{310,160,14,16}});
     check(explicit_ids.size()==2 && doc->annotation(explicit_ids[1]).bounds().width==14);check(doc->undo());
     // A core in another row survives even when nested beneath a deleted core.
+    doc->update_roi(ids[0],Roi::ellipse({50,50,200,200}));
+    doc->update_roi(ids[3],Roi::ellipse({100,100,60,60}));
+    doc->update_roi(ids[1],Roi::ellipse({120,120,10,10}));
     doc->reparent_annotation(ids[3],ids[0]);
-    const auto retained_child=doc->add_cell(Roi::ellipse({106,157,2,2}),{},"retained child",ids[3]);
-    const auto removed_child=doc->add_cell(Roi::ellipse({96,97,2,2}),{},"removed child",ids[0]);
+    const auto retained_child=doc->add_cell(Roi::ellipse({110,110,40,40}),{},"retained child",ids[3]);
+    const auto removed_child=doc->add_cell(Roi::ellipse({145,145,2,2}),{},"removed child",ids[0]);
     // A selected core nested inside a protected subtree is still removed.
     doc->reparent_annotation(ids[1],retained_child);
     doc->remove_tma_row(0);
