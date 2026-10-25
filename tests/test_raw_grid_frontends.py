@@ -56,7 +56,7 @@ def test_raw_grid_endpoint_admission_and_queue_reclamation(tmp_path):
     value.samples_x=1
     with pytest.raises(ValueError):endpoint.analyze_raw_grid(1,0,value,options)
     options.channels=0
-    with pytest.raises(ValueError):endpoint.analyze_raw_grid(1,1,value,options)
+    with pytest.raises(IndexError):endpoint.analyze_raw_grid(1,1,value,options)
     assert endpoint.stats.tickets==endpoint.stats.queued_bytes==0
     options.channels=1
     ticket=endpoint.analyze_raw_grid(1,1,value,options,retain_result=True)

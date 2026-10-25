@@ -10,6 +10,7 @@ from ._native import (
     qptma_from_grid as qptma_from_grid,
     qptma_grid_edits as qptma_grid_edits,
     import_qptma as import_qptma,
+    RawGridSampling as RawGridSampling,
     ScientificRawReason as ScientificRawReason,
     ScientificRawOptions as ScientificRawOptions,
     ScientificRawGrid as ScientificRawGrid,
