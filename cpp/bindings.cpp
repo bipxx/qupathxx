@@ -26,6 +26,7 @@ void bind_raw_images(nb::module_&);
 void bind_raw_analysis(nb::module_&);
 void bind_arrays(nb::module_&);
 void bind_thumbnails(nb::module_&);
+void bind_scientific_grid(nb::module_&);
 void bind_classifiers(nb::module_&);
 void bind_viewer_session(nb::module_&);
 void bind_tissue(nb::module_&);
@@ -430,6 +431,7 @@ NB_MODULE(_native, m) {
     bind_project_batch(m);
     bind_arrays(m);
     bind_thumbnails(m);
+    bind_scientific_grid(m);
     bind_classifiers(m);
     m.def("default_workspace_layout_path",&default_workspace_layout_path);
     bind_viewer_session(m);

@@ -1,10 +1,10 @@
 # Scientific sampled-grid contract, proposal 1
 
 This is the preparation contract for queue item 5. It is **proposed**, not a
-shipped detector API or scientific acceptance. A native C++ geometry consumer
-now implements exact grid/overlap bounds and admission; Python bindings, reader
-sampling and the full detector workflow remain pending. All M0–M7 criteria remain
-in scope.
+shipped detector API or scientific acceptance. C++ geometry and a level-zero
+float64 RGB sampler are implemented on the integration branch, with owning
+nanobind values undergoing installed-package validation. The full detector
+workflow remains pending. All M0–M7 criteria remain in scope.
 
 The current cell path selects natural levels in `cells.cpp::choose`, pads a
 natural-index rectangle in `cell_recipe.hpp::processing_grid`, rounds each read
@@ -62,6 +62,21 @@ differs from display RGBA8 resampling and must not pass through `PixelBuffer` by
 rounding. Typed quantitative channels require a distinct dtype-preserving adapter;
 they must never be routed through display RGB or have their validity inferred
 from display alpha. Both adapters share grid geometry, not an implicit data type.
+
+The native `read_scientific_rgb(server, grid)` path reads one bounded, clipped
+level-zero window. Captured image dimensions must match a unit-scale RGBA8 level
+zero. Invalid samples contain canonical zero RGB with validity zero; callers
+must use validity rather than treating zero intensity as missing. Validity alone
+does not encode ROI membership or core-grid eligibility. The output includes
+context at array origin `(-cx,-cy)` and retains its immutable grid.
+
+`ScientificRgbGrid.numpy()` exposes an owning-lifetime, read-only float64 HWC
+view; `valid_numpy()` exposes uint8 HW validity. Explicit `copy=True` creates
+independent mutable arrays outside the sampler's retained-memory budget. The
+sampler does not round to RGBA8 or apply OD/stain transforms itself. The exact
+overlap cap bounds the integer channel numerator to `255 * 2^28`, allowing one
+correctly rounded binary64 division after exact accumulation. Decoder errors,
+wrong-sized/short buffers, closed or mismatched readers and cancellation reject.
 
 Convert exact sample centers to binary64 at the geometry boundary using correctly
 rounded rational values. Avoid platform-dependent `long double` arithmetic and

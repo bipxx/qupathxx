@@ -1,19 +1,19 @@
 {
   "schema": "qpx.scientific-grid-fixtures/1",
-  "status": "Independent mathematical contract; C++ geometry consumer only; no sampler or detector acceptance",
+  "status": "Independent mathematical contract; native geometry and RGB sampler; no detector acceptance",
   "generator": "tools/reference_scientific_grid.py",
-  "generator_sha256": "e55202dcbe8fe60f6ae384c18b657f8fc8b4b62374d4cfbd8dc3dad322961fdf",
+  "generator_sha256": "06a184ba1474eab01ce5aedd8117ef115f0adb52b448e29cd41090d002312b00",
   "contract": "docs/scientific-grid-contract.md",
-  "contract_sha256": "9737e1ef633c31469a6813155a5b5535c4b36ef1dfbf28654d0264de53341181",
+  "contract_sha256": "f7a49b963ea1cdd459f6ee60f9327c409bf0d0a26b5932c450cd17436864bbb1",
   "cases": 14,
   "rounding_probes": 8,
   "files": {
     "reference.json": {
       "bytes": 138782,
-      "sha256": "186c15c00ef9d780468aa555a75ee6a74105d45804d8deaf276c30c4869650b3"
+      "sha256": "108520878b2e8768716aef55e4cd37ba45f003971a94b5fca2046f2908b71f0c"
     }
   },
   "fraction_probes": 521,
   "native_header": "cpp/tests/scientific_grid_reference.hpp",
-  "native_header_sha256": "5f75b520e79460f5f14e5e70ccb1965513928d0c376d219addcb02d7c890a6bb"
+  "native_header_sha256": "89b75603c5a7a6072c18ae754b9aac3f31117ff51625652b7266c517501fdec8"
 }

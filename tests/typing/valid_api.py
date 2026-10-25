@@ -524,3 +524,15 @@ def fork_imported_tma(source: str, output: str, image: int, wire: q.QptmaData) -
     project = q.Project.open_without_journal_recovery(source)
     q.import_qptma(project.document(image), wire)
     project.save_new(output, snapshot_bytes=536870912, file_bytes=1073741824)
+
+
+def scientific_rgb(server: q.ImageServer, width: int, height: int) -> NDArray[np.float64]:
+    axis_x = q.ScientificGridAxis(0, width, 32, context=2)
+    axis_y = q.ScientificGridAxis(0, height, 24, context=2)
+    grid = q.ScientificGrid(width, height, axis_x, axis_y)
+    center: float = float(grid.x.center(0))
+    bounds: q.GridReadBounds = grid.clipped_read_bounds
+    result: q.ScientificRgbGrid = q.read_scientific_rgb(server, grid)
+    valid: NDArray[np.uint8] = result.valid_numpy()
+    assert center >= 0 and bounds.width > 0 and valid.size > 0
+    return result.numpy()

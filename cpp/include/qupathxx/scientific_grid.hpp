@@ -96,11 +96,13 @@ public:
 struct GridReadBounds {std::int64_t x,y,width,height;};
 class ScientificGrid {
     ScientificGridAxis x_,y_;
+    std::int64_t image_width_,image_height_;
     GridReadBounds read_,clipped_;
     std::uint64_t visits_=0,sampling_bytes_=0;
 public:
     ScientificGrid(std::int64_t image_width,std::int64_t image_height,
-        ScientificGridAxis x,ScientificGridAxis y,std::uint64_t work_bytes=256ULL*1024*1024):x_(x),y_(y) {
+        ScientificGridAxis x,ScientificGridAxis y,std::uint64_t work_bytes=256ULL*1024*1024):
+        x_(x),y_(y),image_width_(image_width),image_height_(image_height) {
         if(image_width<1 || image_height<1 || image_width>ScientificGridAxis::coordinate_limit ||
            image_height>ScientificGridAxis::coordinate_limit || !work_bytes || work_bytes>1024ULL*1024*1024)
             throw std::invalid_argument("invalid scientific grid image or sampling budget");
@@ -127,6 +129,10 @@ public:
     }
     const ScientificGridAxis& x() const {return x_;}
     const ScientificGridAxis& y() const {return y_;}
+    std::int64_t image_width() const {return image_width_;}
+    std::int64_t image_height() const {return image_height_;}
+    std::int64_t width() const {return x_.samples()+2*x_.context();}
+    std::int64_t height() const {return y_.samples()+2*y_.context();}
     GridReadBounds read_bounds() const {return read_;}
     GridReadBounds clipped_read_bounds() const {return clipped_;}
     std::uint64_t overlap_visits() const {return visits_;}

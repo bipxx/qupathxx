@@ -140,6 +140,16 @@ def native_header(data):
     lines+=['};','struct Fraction {std::int64_t n,d;std::uint64_t bits;};','inline constexpr Fraction fractions[]={']
     for item in data['fraction_probes']:
         lines.append('{'+str(item['n'])+','+str(item['d'])+',0x'+item['bits']+'ULL},')
+    lines+=['};','struct Alpha {std::size_t case_index;std::int64_t x,y;std::uint8_t alpha;};','inline constexpr Alpha alpha[]={']
+    for ci,case in enumerate(data['cases']):
+        for key,value in case['alpha'].items():
+            lines.append('{'+','.join(map(str,[ci,*map(int,key.split(',')),value]))+'},')
+    lines+=['};','struct Pixel {std::size_t case_index,index;bool valid;std::array<std::uint64_t,3> bits;};','inline constexpr Pixel pixels[]={']
+    for ci,case in enumerate(data['cases']):
+        for index,pixel in enumerate(case['pixels']):
+            channels=pixel['rgb'] or ['0/1']*3
+            values=['0x'+struct.pack('>d',float(F(v))).hex()+'ULL' for v in channels]
+            lines.append('{'+str(ci)+','+str(index)+','+str(pixel['valid_support']).lower()+',{'+','.join(values)+'}},')
     return '\n'.join(lines+['};','}'])+'\n'
 
 
