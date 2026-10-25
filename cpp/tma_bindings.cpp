@@ -22,6 +22,7 @@ std::string qptma_python_text(const nb::str& text,std::size_t limit) {
 void bind_tma(nb::module_& m) {
     using namespace qpx;
     nb::enum_<TmaPolarity>(m,"TmaPolarity").value("DarkOnLight",TmaPolarity::DarkOnLight).value("LightOnDark",TmaPolarity::LightOnDark);
+    nb::enum_<TmaCoreUnits>(m,"TmaCoreUnits").value("Pixels",TmaCoreUnits::Pixels).value("Micrometers",TmaCoreUnits::Micrometers);
     nb::class_<TmaDearrayOptions>(m,"TmaDearrayOptions").def(nb::init<>())
         .def_rw("rows",&TmaDearrayOptions::rows).def_rw("columns",&TmaDearrayOptions::columns)
         .def_rw("core_width",&TmaDearrayOptions::core_width).def_rw("core_height",&TmaDearrayOptions::core_height)
@@ -30,9 +31,15 @@ void bind_tma(nb::module_& m) {
         .def_rw("min_component_area",&TmaDearrayOptions::min_component_area).def_rw("max_component_area",&TmaDearrayOptions::max_component_area)
         .def_rw("min_component_extent",&TmaDearrayOptions::min_component_extent).def_rw("max_fit_error",&TmaDearrayOptions::max_fit_error)
         .def_rw("max_rotation_degrees",&TmaDearrayOptions::max_rotation_degrees).def_rw("polarity",&TmaDearrayOptions::polarity)
+        .def_rw("core_units",&TmaDearrayOptions::core_units).def_rw("pixel_width_um",&TmaDearrayOptions::pixel_width_um).def_rw("pixel_height_um",&TmaDearrayOptions::pixel_height_um)
         .def_rw("thumbnail",&TmaDearrayOptions::thumbnail).def_rw("max_candidates",&TmaDearrayOptions::max_candidates)
         .def_rw("work_bytes",&TmaDearrayOptions::work_bytes).def_rw("pair_checks",&TmaDearrayOptions::pair_checks)
         .def_rw("name",&TmaDearrayOptions::name).def("validate",&TmaDearrayOptions::validate);
+    nb::class_<TmaDearrayCoreSize>(m,"TmaDearrayCoreSize")
+        .def_ro("units",&TmaDearrayCoreSize::units).def_ro("width",&TmaDearrayCoreSize::width).def_ro("height",&TmaDearrayCoreSize::height)
+        .def_ro("width_pixels",&TmaDearrayCoreSize::width_pixels).def_ro("height_pixels",&TmaDearrayCoreSize::height_pixels)
+        .def_ro("pixel_width_um",&TmaDearrayCoreSize::pixel_width_um).def_ro("pixel_height_um",&TmaDearrayCoreSize::pixel_height_um)
+        .def_ro("calibration_from_reader",&TmaDearrayCoreSize::calibration_from_reader);
     nb::class_<TmaDearrayCore>(m,"TmaDearrayCore")
         .def_prop_ro("center",[](const TmaDearrayCore& c){return c.center;})
         .def_ro("tissue_density",&TmaDearrayCore::tissue_density).def_ro("valid_fraction",&TmaDearrayCore::valid_fraction)
@@ -47,6 +54,9 @@ void bind_tma(nb::module_& m) {
         .def_ro("lattice_rmse",&TmaDearrayResult::lattice_rmse).def_ro("threshold",&TmaDearrayResult::threshold)
         .def_ro("input_sha256",&TmaDearrayResult::input_sha256).def_ro("recipe_sha256",&TmaDearrayResult::recipe_sha256)
         .def_prop_ro("thumbnail_plan",[](const TmaDearrayResult& r){return r.thumbnail_plan;});
+    nb::borrow<nb::class_<TmaDearrayResult>>(m.attr("TmaDearrayResult"))
+        .def_prop_ro("core_size",[](const TmaDearrayResult& r){return r.core_size;});
+    m.def("tma_dearray_options_for_document",&tma_dearray_options_for_document,"document"_a,"options"_a=TmaDearrayOptions{});
     m.def("tma_dearray_work_bytes",&tma_dearray_work_bytes,"preview_width"_a,"preview_height"_a,"options"_a);
     m.def("detect_tma_grid",[](const PixelBuffer& pixels,std::int64_t width,std::int64_t height,TmaDearrayOptions options) {
         nb::gil_scoped_release release;return detect_tma_grid(pixels,width,height,std::move(options));

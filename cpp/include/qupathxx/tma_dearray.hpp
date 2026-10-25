@@ -4,8 +4,9 @@
 
 namespace qpx {
 enum class TmaPolarity { DarkOnLight, LightOnDark };
+enum class TmaCoreUnits { Pixels, Micrometers };
 
-// Core sizes use level-zero pixels. Physical calibration is never guessed.
+// Pixel sizes use level-zero coordinates. Physical calibration is never guessed.
 struct TmaDearrayOptions {
     std::size_t rows=3,columns=4;
     double core_width=80,core_height=80,bounds_scale=1.05;
@@ -13,11 +14,21 @@ struct TmaDearrayOptions {
     double min_component_area=.4,max_component_area=2.0,min_component_extent=.45;
     double max_fit_error=.25,max_rotation_degrees=25;
     TmaPolarity polarity=TmaPolarity::DarkOnLight;
+    TmaCoreUnits core_units=TmaCoreUnits::Pixels;
+    // Micrometer requests may capture an explicit complete calibration pair.
+    // Otherwise a server request uses its reader metadata; preview-only calls reject.
+    std::optional<double> pixel_width_um,pixel_height_um;
     ThumbnailOptions thumbnail{1024,1024,4*1024*1024,1024*1024};
     std::size_t max_candidates=10000,work_bytes=64*1024*1024;
     std::uint64_t pair_checks=50000000;
     std::string name="Detected TMA";
     void validate() const;
+};
+struct TmaDearrayCoreSize {
+    TmaCoreUnits units=TmaCoreUnits::Pixels;
+    double width=0,height=0,width_pixels=0,height_pixels=0;
+    std::optional<double> pixel_width_um,pixel_height_um;
+    bool calibration_from_reader=false;
 };
 struct TmaDearrayCore {
     Point center;
@@ -34,8 +45,13 @@ struct TmaDearrayResult {
     std::uint8_t threshold=0;
     std::string input_sha256,recipe_sha256;
     std::optional<ThumbnailPlan> thumbnail_plan;
+    TmaDearrayCoreSize core_size;
     std::size_t payload_bytes() const;
 };
+
+// Owner-thread capture: honor document overrides, reject unknown or contradictory
+// physical calibration, and return owning options. Does not edit the document.
+TmaDearrayOptions tma_dearray_options_for_document(const Document&,TmaDearrayOptions={});
 
 // Conservative admitted payload, including the supplied RGBA preview, masks,
 // component queue, fitting scratch and returned grid. Reader caches/RSS are separate.

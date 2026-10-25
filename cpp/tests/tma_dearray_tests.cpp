@@ -103,6 +103,45 @@ void admission_and_io(const std::filesystem::path& root) {
     server.cancel_on_read=&stop;rejects([&]{detect_tma_grid(server,o,&stop);},"cancelled");
     std::cout<<"TMA_DEARRAY_ADMISSION exact/minus-one budgets, pre-IO geometry, malformed reads, epoch, alpha, polarity, cancellation passed\n";
 }
+void physical_sizes(const std::filesystem::path& root) {
+    const auto image=mask(root/"anisotropic.pgm");auto pixel=options();pixel.core_height=48;
+    auto baseline=detect_tma_grid(image,480,352,pixel);
+    // Captured from the retained a492 module before testing the new implementation.
+    check(baseline->recipe_sha256=="df11f43f560dc664cf69db984bbef2dc68d0a9f3f465aaa2728cf5df9ed3ea81");
+    Server server(image);server.meta.pixel_width_um=.5;server.meta.pixel_height_um=.25;
+    check(detect_tma_grid(server,pixel)->recipe_sha256=="d4ddb80af1dee623a90dfee3f9dfac3e0bbb4673abb7692bba8ef13988edcfe1");server.reads=0;
+    auto physical=options();physical.core_units=TmaCoreUnits::Micrometers;physical.core_width=16;physical.core_height=12;
+    rejects([&]{detect_tma_grid(image,480,352,physical);},"calibration is unknown");
+    auto from_reader=detect_tma_grid(server,physical);check(server.reads==1);server.reads=0;
+    check(from_reader->core_size.units==TmaCoreUnits::Micrometers && from_reader->core_size.width==16 && from_reader->core_size.height==12);
+    check(from_reader->core_size.width_pixels==32 && from_reader->core_size.height_pixels==48 && from_reader->core_size.calibration_from_reader);
+    physical.pixel_width_um=.5;physical.pixel_height_um=.25;auto explicit_size=detect_tma_grid(image,480,352,physical);
+    check(!explicit_size->core_size.calibration_from_reader && explicit_size->core_size.pixel_width_um==.5 && explicit_size->core_size.pixel_height_um==.25);
+    check(explicit_size->input_sha256==baseline->input_sha256 && explicit_size->recipe_sha256!=baseline->recipe_sha256);
+    check(explicit_size->recipe_sha256==detect_tma_grid(image,480,352,physical)->recipe_sha256);
+    for(std::size_t i=0;i<12;++i) {
+        const auto& a=explicit_size->grid.cores[i];const auto& b=baseline->grid.cores[i];
+        check(a.bounds.x==b.bounds.x && a.bounds.y==b.bounds.y && a.bounds.width==b.bounds.width && a.bounds.height==b.bounds.height && a.missing==b.missing);
+        check(from_reader->cores[i].center.x==baseline->cores[i].center.x && from_reader->cores[i].center.y==baseline->cores[i].center.y);
+    }
+    auto changed=physical;changed.core_width=32;changed.core_height=24;changed.pixel_width_um=1;changed.pixel_height_um=.5;
+    auto equivalent=detect_tma_grid(image,480,352,changed);check(equivalent->cores[0].center.x==explicit_size->cores[0].center.x && equivalent->recipe_sha256!=explicit_size->recipe_sha256);
+    for(const auto value:{0.,-1.,std::numeric_limits<double>::quiet_NaN(),std::numeric_limits<double>::infinity(),1e-300,1e300}) {
+        auto bad=physical;bad.pixel_width_um=value;rejects([&]{detect_tma_grid(server,bad);},value>0 && std::isfinite(value)?"core width":"calibration");check(server.reads==0);
+    }
+    auto missing=physical;missing.pixel_height_um.reset();rejects([&]{missing.validate();},"both axes");
+    missing=pixel;missing.pixel_width_um=.5;missing.pixel_height_um=.25;rejects([&]{missing.validate();},"micrometer");
+    missing=physical;missing.core_units=static_cast<TmaCoreUnits>(999);rejects([&]{missing.validate();},"core units");
+    physical.pixel_width_um.reset();physical.pixel_height_um.reset();server.meta.pixel_width_um.reset();
+    rejects([&]{detect_tma_grid(server,physical);},"calibration is unknown");check(server.reads==0);
+    auto reader=std::make_shared<Server>(image);reader->meta.pixel_width_um=.75;reader->meta.pixel_height_um=.5;Document doc(reader);doc.set_calibration(.5,.25);
+    const auto captured=tma_dearray_options_for_document(doc,physical);check(captured.pixel_width_um==.5 && captured.pixel_height_um==.25);
+    const auto result=detect_tma_grid(*doc.server(),captured);check(result->core_size.width_pixels==32 && result->core_size.height_pixels==48 && !result->core_size.calibration_from_reader);
+    auto conflict=captured;conflict.pixel_width_um=.75;rejects([&]{tma_dearray_options_for_document(doc,conflict);},"differs from document");
+    doc.clear_calibration();rejects([&]{tma_dearray_options_for_document(doc,physical);},"document physical calibration is unknown");
+    check(tma_dearray_options_for_document(doc,pixel).core_units==TmaCoreUnits::Pixels);
+    std::cout<<"TMA_DEARRAY_PHYSICAL anisotropic units, captured document overrides, unknown/invalid/overflow refusal, pixel recipe preservation and physical identities passed\n";
+}
 void one_dimensional(const std::filesystem::path& root) {
     const auto original=mask(root/"aligned.pgm");
     for(const auto& shape:std::vector<std::pair<std::size_t,std::size_t>>{{1,4},{3,1},{1,1}}) {
@@ -171,13 +210,29 @@ void owner_and_cli(const std::filesystem::path& fixtures,const std::filesystem::
     ticket=session.detect_tma_grid(image,options());check(session.cancel(ticket));check(session.take(ticket).state=="cancelled");
     o=options();o.work_bytes=1;ticket=session.detect_tma_grid(image,o);check(until(ticket).state=="failed" && doc->tma_core_count()==0);session.take(ticket);
     o=options();o.rows=0;rejects([&]{session.detect_tma_grid(image,o);},"dimensions");check(session.stats().tickets==0 && session.stats().retained_bytes==0);
+    auto physical=options();physical.core_units=TmaCoreUnits::Micrometers;physical.core_width=16;physical.core_height=8;
+    ticket=session.detect_tma_grid(image,physical);check(until(ticket).state=="failed");session.take(ticket);
+    doc->set_calibration(.5,.25);ticket=session.detect_tma_grid(image,physical);event=until(ticket);
+    check(event.state=="succeeded" && event.tma_dearray && event.tma_dearray->core_size.width_pixels==32 && event.tma_dearray->core_size.height_pixels==32);
+    check(event.tma_dearray->core_size.pixel_width_um==.5 && !event.tma_dearray->core_size.calibration_from_reader);session.take(ticket);
+    ticket=session.detect_tma_grid(image,physical);step();doc->set_calibration(.25,.125);check(until(ticket).state=="stale");session.take(ticket);
+    check(session.stats().retained_bytes==0 && doc->tma_core_count()==0);
+    std::cout<<"TMA_DEARRAY_PHYSICAL_OWNER owner calibration capture, unknown refusal and stale calibration delivery passed\n";
     auto snapshot=std::make_shared<Project>();snapshot->add_document(document(mask(fixtures/"interior_missing.pgm")),"Captured image");
+    snapshot->document(1)->set_calibration(.5,.25);
     const auto source=(root/"input.qpxproj").u8string(),output=(root/"detected.qptma").u8string();snapshot->save(source);
     auto bytes=[](const std::string& path) {std::ifstream in(std::filesystem::u8path(path),std::ios::binary);return std::string(std::istreambuf_iterator<char>(in),{});};
     const auto before=bytes(source);std::atomic<bool> cancelled{false};
     std::vector<std::string> args{"batch","--detect-tma",source,output,"--image","1","--rows","3","--columns","4","--core-width","32","--core-height","32"};
     check(detail::tma_dearray_cli(args,cancelled)==0);check(bytes(source)==before && snapshot->document(1)->tma_core_count()==0);
     const auto captured=load_qptma(output);check(captured.rows==3 && captured.columns==4 && captured.cores[5].missing);
+    auto physical_args=args;physical_args[3]=(root/"physical.qptma").u8string();physical_args[11]="16";physical_args[13]="8";physical_args.insert(physical_args.end(),{"--core-units","um"});
+    check(detail::tma_dearray_cli(physical_args,cancelled)==0 && bytes(source)==before);
+    const auto physical_wire=load_qptma(physical_args[3]);check(physical_wire.cores[5].missing && physical_wire.cores[0].bounds.width==captured.cores[0].bounds.width);
+    auto unknown_project=std::make_shared<Project>();unknown_project->add_document(document(mask(fixtures/"interior_missing.pgm")),"Unknown calibration");
+    physical_args[2]=(root/"unknown-calibration.qpxproj").u8string();unknown_project->save(physical_args[2]);const auto unknown_before=bytes(physical_args[2]);physical_args[3]=(root/"unknown-calibration.qptma").u8string();
+    check(detail::tma_dearray_cli(physical_args,cancelled)==1 && !std::filesystem::exists(std::filesystem::u8path(physical_args[3])) && bytes(physical_args[2])==unknown_before);
+    std::cout<<"TMA_DEARRAY_PHYSICAL_CLI explicit units, persisted anisotropic calibration and unknown-calibration refusal passed\n";
     const auto saved=bytes(output);check(detail::tma_dearray_cli(args,cancelled)==1 && bytes(output)==saved);
     auto bad=args;bad[3]=source;check(detail::tma_dearray_cli(bad,cancelled)==1 && bytes(source)==before);
     bad=args;bad[3]=(root/"budget.qptma").u8string();bad.insert(bad.end(),{"--work-bytes","1"});check(detail::tma_dearray_cli(bad,cancelled)==1 && !std::filesystem::exists(std::filesystem::u8path(bad[3])));
@@ -190,5 +245,5 @@ void owner_and_cli(const std::filesystem::path& fixtures,const std::filesystem::
 }
 }
 int main(int argc,char** argv) {try {
-    check(argc==3);const auto root=std::filesystem::u8path(argv[1]);auto retained=fixture_contract(root);admission_and_io(root);one_dimensional(root);publication(*retained);owner_and_cli(root,std::filesystem::u8path(argv[2]));
+    check(argc==3);const auto root=std::filesystem::u8path(argv[1]);auto retained=fixture_contract(root);admission_and_io(root);physical_sizes(root);one_dimensional(root);publication(*retained);owner_and_cli(root,std::filesystem::u8path(argv[2]));
 } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}}

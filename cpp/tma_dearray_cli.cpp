@@ -7,6 +7,7 @@
 #include <charconv>
 #include <cmath>
 #include <iostream>
+#include <iomanip>
 #include <limits>
 #include <locale>
 #include <set>
@@ -26,12 +27,13 @@ double real(const std::string& text) {
 }
 std::optional<int> tma_dearray_cli(const std::vector<std::string>& args,const std::atomic<bool>& cancelled) {
     if(args.size()<2 || args[1]!="--detect-tma")return {};
-    const char* usage="usage: --detect-tma PROJECT OUTPUT.qptma --image ID --rows N --columns N --core-width PX --core-height PX [--polarity dark|light --missing-density N --preview-width N --preview-height N --source-pixels N --output-pixels N --work-bytes N --qptma-bytes N]";
+    const char* usage="usage: --detect-tma PROJECT OUTPUT.qptma --image ID --rows N --columns N --core-width SIZE --core-height SIZE [--core-units px|um --polarity dark|light --missing-density N --preview-width N --preview-height N --source-pixels N --output-pixels N --work-bytes N --qptma-bytes N]";
     if(args.size()<4)throw std::invalid_argument(usage);
     TmaDearrayOptions options;std::uint64_t image_id=0;std::size_t text_limit=8*1024*1024;std::set<std::string> seen;
     for(std::size_t i=4;i<args.size();++i) {
         const auto flag=args[i];if(!seen.insert(flag).second || ++i==args.size())throw std::invalid_argument(usage);const auto& value=args[i];
         if(flag=="--name")options.name=value;
+        else if(flag=="--core-units") {if(value!="px" && value!="um")throw std::invalid_argument("TMA core units must be px or um");options.core_units=value=="px"?TmaCoreUnits::Pixels:TmaCoreUnits::Micrometers;}
         else if(flag=="--polarity") {if(value!="dark" && value!="light")throw std::invalid_argument("TMA polarity must be dark or light");options.polarity=value=="dark"?TmaPolarity::DarkOnLight:TmaPolarity::LightOnDark;}
         else if(flag=="--core-width")options.core_width=real(value);
         else if(flag=="--core-height")options.core_height=real(value);
@@ -71,11 +73,16 @@ std::optional<int> tma_dearray_cli(const std::vector<std::string>& args,const st
         auto protect=[&] {project_file.verify();guard_file_output(source,project_file.version()->identity,output);
             if(selected_file)selected_file->verify();
             for(const auto& image:images)if(!image.embedded && !image.source_path.empty())guard_file_output(export_path(image.source_path),"",output);};
-        protect();const auto document=project->document(image_id);const auto result=detect_tma_grid(*document->server(),options,&cancelled);
-        const auto text=qptma_text(result->grid,text_limit,&cancelled);AtomicExportFile file(output,text_limit,&cancelled);file.write(text.data(),text.size());protect();file.commit(false);
+        protect();const auto document=project->document(image_id);const auto result=detect_tma_grid(*document->server(),tma_dearray_options_for_document(*document,options),&cancelled);
+        const auto text=qptma_text(result->grid,text_limit,&cancelled);
+        const auto& size=result->core_size;std::ostringstream dimensions;dimensions.imbue(std::locale::classic());dimensions<<std::setprecision(17);
+        dimensions<<"{\"units\":\""<<(size.units==TmaCoreUnits::Pixels?"px":"um")<<"\",\"width\":"<<size.width<<",\"height\":"<<size.height<<",\"width_pixels\":"<<size.width_pixels<<",\"height_pixels\":"<<size.height_pixels;
+        if(size.pixel_width_um)dimensions<<",\"pixel_width_um\":"<<*size.pixel_width_um<<",\"pixel_height_um\":"<<*size.pixel_height_um;
+        dimensions<<'}';
+        AtomicExportFile file(output,text_limit,&cancelled);file.write(text.data(),text.size());protect();file.commit(false);
         std::cout<<"{\"schema\":\"qpx.tma-dearray-preview/1\",\"state\":\"saved\",\"image_id\":"<<image_id<<",\"rows\":"<<result->grid.rows<<",\"columns\":"<<result->grid.columns
             <<",\"candidates\":"<<result->candidates<<",\"input_sha256\":"<<batch_json_quote(result->input_sha256)<<",\"recipe_sha256\":"<<batch_json_quote(result->recipe_sha256)
-            <<",\"output\":"<<batch_json_quote(output)<<"}\n";return 0;
+            <<",\"core_size\":"<<dimensions.str()<<",\"output\":"<<batch_json_quote(output)<<"}\n";return 0;
     }catch(const std::exception& error) {std::cerr<<"{\"schema\":\"qpx.batch-error/1\",\"error\":"<<batch_json_quote(error.what())<<"}\n";return cancelled.load()?130:1;}
 }
 }

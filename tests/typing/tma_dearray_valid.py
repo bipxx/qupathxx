@@ -35,3 +35,16 @@ def desktop(options: q.TmaDearrayOptions, report: q.GuiReport) -> q.GuiOptions:
     if held is not None:
         print(held.payload_bytes)
     return gui
+
+
+def physical(document: q.Document, pixels: q.PixelBuffer) -> q.TmaDearrayCoreSize:
+    options = q.TmaDearrayOptions()
+    options.core_units = q.TmaCoreUnits.Micrometers
+    options.core_width, options.core_height = 16, 12
+    captured: q.TmaDearrayOptions = q.tma_dearray_options_for_document(document, options)
+    result = q.detect_tma_grid(pixels, 480, 352, captured)
+    size: q.TmaDearrayCoreSize = result.core_size
+    calibration: float | None = size.pixel_width_um
+    if calibration is not None:
+        print(calibration, size.width_pixels, size.height_pixels)
+    return size

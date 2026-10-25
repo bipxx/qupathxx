@@ -115,3 +115,70 @@ def test_managed_detection_copies_options_and_uses_atomic_owner_apply(tmp_path):
     restored = q.Project.open(str(output)).document(image)
     assert restored.tma_core_count == 12 and restored.tma_grid().core(1, 1).tma_core.missing
     assert retained[0].cores[0].center.x == 112 and session.stats.retained_bytes == 0
+
+
+def physical_scene():
+    doc, detector = scene(CONTRACT['cases'][4])
+    detector.core_units = q.TmaCoreUnits.Micrometers
+    detector.core_width, detector.core_height = 16, 12
+    return doc, detector
+
+
+def test_physical_preview_uses_document_calibration(tmp_path):
+    doc, detector = physical_scene()
+    doc.set_calibration(.5, .25)
+    before = doc.revision
+    o = settings(detector)
+    o.inputs = click(4, q.GuiInputTarget.TMA_DETECT_GRID)
+    report = q.show(doc, frame_limit=40, capture_path=str(tmp_path/'physical-preview.ppm'), options=o)
+    assert report.qptma_state == 'preview ready' and not report.tma_error
+    size = report.tma_dearray_result.core_size
+    assert size.units == q.TmaCoreUnits.Micrometers and size.width == 16 and size.height == 12
+    assert size.width_pixels == 32 and size.height_pixels == 48
+    assert size.pixel_width_um == .5 and size.pixel_height_um == .25 and not size.calibration_from_reader
+    assert doc.revision == before and not doc.tma_core_count and report.qptma_preview_missing == 1
+    assert report.ui_overflow_items == 0
+
+
+def test_physical_unknown_calibration_refuses_without_preview():
+    doc, detector = physical_scene()
+    o = settings(detector)
+    o.inputs = click(4, q.GuiInputTarget.TMA_DETECT_GRID)
+    report = q.show(doc, frame_limit=35, options=o)
+    assert report.qptma_state == 'failed' and 'calibration is unknown' in report.tma_error
+    assert report.tma_dearray_result is None and not report.qptma_preview_cores and not doc.tma_core_count
+    assert report.ui_overflow_items == 0
+
+
+def test_physical_preview_is_stale_after_calibration_undo():
+    doc, detector = physical_scene()
+    doc.set_calibration(.5, .25)
+    o = settings(detector)
+    o.inputs = [*click(4, q.GuiInputTarget.TMA_DETECT_GRID), replay(14, q.GuiInputKind.UNDO_KEY)]
+    report = q.show(doc, frame_limit=40, options=o)
+    assert report.qptma_state == 'stale' and report.tma_dearray_result is None
+    assert not doc.tma_core_count and not report.qptma_preview_cores and doc.pixel_width_um is None
+
+
+def test_managed_physical_detection_and_apply(tmp_path):
+    doc, detector = physical_scene()
+    doc.set_calibration(.5, .25)
+    project = q.Project()
+    image = project.add_document(doc, 'Physical TMA')
+    source, destination = tmp_path/'source.qpxproj', tmp_path/'applied.qpxproj'
+    project.save(str(source))
+    session = q.ViewerSession(str(source))
+    def producer():
+        event = completed(session, session.detect_tma_grid(image, detector))
+        size = event.tma_dearray.core_size
+        assert size.width_pixels == 32 and size.height_pixels == 48
+        assert size.pixel_width_um == .5 and size.pixel_height_um == .25 and not size.calibration_from_reader
+        applied = completed(session, session.execute(image, q.qptma_grid_edits(event.tma_dearray.grid), expected_revision=event.document_revision))
+        assert applied.committed and len(applied.object_ids) == 12
+        assert completed(session, session.save(str(destination))).committed
+        completed(session, session.close(True))
+    run(session, producer)
+    restored = q.Project.open(str(destination)).document(image)
+    bounds = restored.tma_grid().core(0, 0).geometry.bounds
+    assert bounds.width == 32*detector.bounds_scale and bounds.height == 48*detector.bounds_scale
+    assert restored.pixel_width_um == .5 and restored.pixel_height_um == .25

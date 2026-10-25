@@ -8,8 +8,10 @@ from test_tma_dearray import CONTRACT, scene
 pytestmark = pytest.mark.skipif(not q.has_project, reason='requires native project storage')
 
 
-def source_project(tmp_path):
+def source_project(tmp_path, calibration=None):
     doc, _ = scene(CONTRACT['cases'][1])
+    if calibration is not None:
+        doc.set_calibration(*calibration)
     project = q.Project()
     project.add_document(q.Document(q.Image(16, 16, [255]*16*16*3)), 'Untouched')
     image = project.add_document(doc, 'Explicit inactive image')
@@ -67,4 +69,24 @@ def test_cli_preserves_existing_output_and_source_alias(tmp_path):
     output.write_bytes(b'preserve me')
     assert cli(*arguments(source, output, image)).returncode != 0 and output.read_bytes() == b'preserve me'
     assert cli(*arguments(source, source, image)).returncode != 0 and source.read_bytes() == before
+    no_temporaries(tmp_path)
+
+
+@pytest.mark.parametrize('calibration', [(.5, .25), None])
+def test_cli_physical_units_use_persisted_document_calibration(tmp_path, calibration):
+    source, image = source_project(tmp_path, calibration)
+    before = source.read_bytes()
+    output = tmp_path/'physical.qptma'
+    args = arguments(source, output, image)
+    args[args.index('--core-width')+1] = '16'
+    args[args.index('--core-height')+1] = '8'
+    result = cli(*args, '--core-units', 'um')
+    assert source.read_bytes() == before
+    if calibration is None:
+        assert result.returncode == 1 and not output.exists() and 'calibration is unknown' in result.stderr
+    else:
+        assert result.returncode == 0, result.stderr
+        size = json.loads(result.stdout)['core_size']
+        assert size == dict(units='um', width=16, height=8, width_pixels=32, height_pixels=32, pixel_width_um=.5, pixel_height_um=.25)
+        assert q.load_qptma(str(output)).cores[5].missing
     no_temporaries(tmp_path)

@@ -1,6 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
-    TmaPolarity, TmaDearrayOptions, TmaDearrayCore, TmaDearrayResult, tma_dearray_work_bytes, detect_tma_grid,
+    TmaCoreUnits, TmaDearrayCoreSize, tma_dearray_options_for_document, TmaPolarity, TmaDearrayOptions, TmaDearrayCore, TmaDearrayResult, tma_dearray_work_bytes, detect_tma_grid,
     QptmaCore, QptmaData, QptmaExport, parse_qptma, qptma_text, load_qptma, save_qptma, qptma_from_grid, qptma_grid_edits, import_qptma,
     RawGridSampling, ScientificRawReason, ScientificRawOptions, ScientificRawGrid, ScientificRawDigest, RawAnalysisGrid, read_scientific_raw, digest_scientific_raw, scientific_raw_work_bytes,
     RawTmaContext, RawObjectContext, RawAnalysisRequest, RawAnalysisMetadata, RawAnalysisResult, RawAnalysisRecord, RawInputDigest, RawAnalysisStats, RawAnalysisJob, RawTableRequest, RawTableStats, RawTableJob, analyze_raw, raw_analysis_input_digest, raw_analysis_csv, save_raw_analysis_csv,
@@ -53,7 +53,7 @@ from ._native import (
 )
 
 __all__ = [
-    "TmaPolarity", "TmaDearrayOptions", "TmaDearrayCore", "TmaDearrayResult", "tma_dearray_work_bytes", "detect_tma_grid",
+    "TmaCoreUnits", "TmaDearrayCoreSize", "tma_dearray_options_for_document", "TmaPolarity", "TmaDearrayOptions", "TmaDearrayCore", "TmaDearrayResult", "tma_dearray_work_bytes", "detect_tma_grid",
     "QptmaCore", "QptmaData", "QptmaExport", "parse_qptma", "qptma_text", "load_qptma", "save_qptma", "qptma_from_grid", "qptma_grid_edits", "import_qptma",
     'RawGridSampling', 'ScientificRawReason', 'ScientificRawOptions', 'ScientificRawGrid', 'ScientificRawDigest', 'RawAnalysisGrid', 'read_scientific_raw', 'digest_scientific_raw', 'scientific_raw_work_bytes',
     'RawTmaContext', 'RawObjectContext', 'RawAnalysisRequest', 'RawAnalysisMetadata', 'RawAnalysisResult', 'RawAnalysisRecord', 'RawInputDigest', 'RawAnalysisStats', 'RawAnalysisJob', 'RawTableRequest', 'RawTableStats', 'RawTableJob', 'analyze_raw', 'raw_analysis_input_digest', 'raw_analysis_csv', 'save_raw_analysis_csv',

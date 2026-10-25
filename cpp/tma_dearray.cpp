@@ -206,6 +206,34 @@ bool same_metadata(const ImageMetadata& a,const ImageMetadata& b) {
     for(std::size_t i=0;i<a.levels.size();++i) if(a.levels[i].width!=b.levels[i].width || a.levels[i].height!=b.levels[i].height || a.levels[i].downsample!=b.levels[i].downsample) return false;
     return true;
 }
+struct Resolution {TmaDearrayOptions pixels;TmaDearrayCoreSize size;};
+Resolution resolve_size(TmaDearrayOptions options,const ImageMetadata* metadata=nullptr) {
+    options.validate();Resolution resolved;resolved.pixels=options;auto& size=resolved.size;
+    size.units=options.core_units;size.width=options.core_width;size.height=options.core_height;
+    if(options.core_units==TmaCoreUnits::Micrometers) {
+        size.pixel_width_um=options.pixel_width_um;size.pixel_height_um=options.pixel_height_um;
+        if(!size.pixel_width_um && metadata) {
+            size.pixel_width_um=metadata->pixel_width_um;size.pixel_height_um=metadata->pixel_height_um;
+            size.calibration_from_reader=true;
+        }
+        if(!size.pixel_width_um || !size.pixel_height_um)throw std::invalid_argument("TMA physical calibration is unknown; both axes are required");
+        finite_range(*size.pixel_width_um,std::numeric_limits<double>::denorm_min(),std::numeric_limits<double>::max(),"invalid TMA pixel width calibration");
+        finite_range(*size.pixel_height_um,std::numeric_limits<double>::denorm_min(),std::numeric_limits<double>::max(),"invalid TMA pixel height calibration");
+        resolved.pixels.core_width=options.core_width/ *size.pixel_width_um;
+        resolved.pixels.core_height=options.core_height/ *size.pixel_height_um;
+        resolved.pixels.core_units=TmaCoreUnits::Pixels;resolved.pixels.pixel_width_um.reset();resolved.pixels.pixel_height_um.reset();
+        resolved.pixels.validate();
+    }
+    size.width_pixels=resolved.pixels.core_width;size.height_pixels=resolved.pixels.core_height;return resolved;
+}
+void publish_resolution(TmaDearrayResult& result,const Resolution& resolved) {
+    result.core_size=resolved.size;
+    if(resolved.size.units==TmaCoreUnits::Pixels)return; // Preserve the existing pixel recipe domain/bytes.
+    Sha256 hash;const std::string domain="qpx.tma-dearray-physical/1";hash.update(domain.data(),domain.size());
+    hash.update(result.recipe_sha256.data(),result.recipe_sha256.size());const auto& s=resolved.size;
+    for(double value:{s.width,s.height,s.width_pixels,s.height_pixels,*s.pixel_width_um,*s.pixel_height_um})real(hash,value);
+    hash.integer(s.calibration_from_reader);result.recipe_sha256=hash.finish();
+}
 }
 
 void TmaDearrayOptions::validate() const {
@@ -217,11 +245,25 @@ void TmaDearrayOptions::validate() const {
     finite_range(min_component_extent,1e-6,1,"invalid TMA component extent");finite_range(max_fit_error,1e-6,.5,"invalid TMA lattice residual");
     finite_range(max_rotation_degrees,0,40,"invalid TMA rotation limit");
     if(polarity!=TmaPolarity::DarkOnLight && polarity!=TmaPolarity::LightOnDark) throw std::invalid_argument("invalid TMA polarity");
+    if(core_units!=TmaCoreUnits::Pixels && core_units!=TmaCoreUnits::Micrometers)throw std::invalid_argument("invalid TMA core units");
+    if(bool(pixel_width_um)!=bool(pixel_height_um))throw std::invalid_argument("TMA explicit calibration requires both axes");
+    if(pixel_width_um) {
+        if(core_units!=TmaCoreUnits::Micrometers)throw std::invalid_argument("TMA explicit calibration requires micrometer core units");
+        finite_range(*pixel_width_um,std::numeric_limits<double>::denorm_min(),std::numeric_limits<double>::max(),"invalid TMA pixel width calibration");
+        finite_range(*pixel_height_um,std::numeric_limits<double>::denorm_min(),std::numeric_limits<double>::max(),"invalid TMA pixel height calibration");
+    }
     if(!max_candidates || max_candidates>10000 || !work_bytes || work_bytes>512u*1024u*1024u || !pair_checks || pair_checks>50000000)
         throw std::invalid_argument("invalid TMA working/candidate/pair limit");
     const auto n=std::min(max_candidates,rows*columns);
     if(std::uint64_t(n)*(n-1)/2>pair_checks) throw std::length_error("TMA candidate limit exceeds pair-work admission");
     detail::bounded_utf8(name,256);if(name.empty()) throw std::invalid_argument("TMA name must not be empty");thumbnail.validate();
+}
+TmaDearrayOptions tma_dearray_options_for_document(const Document& doc,TmaDearrayOptions options) {
+    options.validate();if(options.core_units==TmaCoreUnits::Pixels)return options;
+    const auto x=doc.pixel_width_um(),y=doc.pixel_height_um();
+    if(!x || !y)throw std::invalid_argument("TMA document physical calibration is unknown; both axes are required");
+    if(options.pixel_width_um && (*options.pixel_width_um!=*x || *options.pixel_height_um!=*y))throw std::invalid_argument("TMA explicit calibration differs from document calibration");
+    options.pixel_width_um=x;options.pixel_height_um=y;options.validate();return options;
 }
 std::size_t TmaDearrayResult::payload_bytes() const {
     std::size_t bytes=sizeof(*this)+grid.cores.capacity()*sizeof(QptmaCore)+cores.capacity()*sizeof(TmaDearrayCore)+
@@ -286,11 +328,12 @@ static std::shared_ptr<TmaDearrayResult> detect_preview(const PixelBuffer& previ
     result->recipe_sha256=recipe(*result,o);checkpoint(stop);return result;
 }
 std::shared_ptr<const TmaDearrayResult> detect_tma_grid(const PixelBuffer& preview,std::int64_t iw,std::int64_t ih,TmaDearrayOptions o,const std::atomic<bool>* stop) {
-    return detect_preview(preview,iw,ih,o,stop);
+    checkpoint(stop);const auto resolved=resolve_size(std::move(o));
+    auto result=detect_preview(preview,iw,ih,resolved.pixels,stop);publish_resolution(*result,resolved);checkpoint(stop);return result;
 }
 std::shared_ptr<const TmaDearrayResult> detect_tma_grid(const ImageServer& server,TmaDearrayOptions o,const std::atomic<bool>* stop) {
     checkpoint(stop);o.validate();if(server.closed()) throw std::runtime_error("TMA source is closed");
-    const auto metadata=server.metadata();const auto plan=plan_thumbnail(metadata,o.thumbnail);
+    const auto metadata=server.metadata();const auto resolved=resolve_size(std::move(o),&metadata);o=resolved.pixels;const auto plan=plan_thumbnail(metadata,o.thumbnail);
     geometry(plan.width,plan.height,metadata.width,metadata.height,o);
     const auto required=tma_dearray_work_bytes(plan.width,plan.height,o)+plan.source_pixels*4;
     if(required>o.work_bytes) throw std::length_error("TMA source and detection exceed working payload budget");
@@ -306,6 +349,7 @@ std::shared_ptr<const TmaDearrayResult> detect_tma_grid(const ImageServer& serve
     }
     auto result=detect_preview(preview,metadata.width,metadata.height,o,stop);
     result->thumbnail_plan=plan;result->estimated_work_bytes=required;result->recipe_sha256=recipe(*result,o);
+    publish_resolution(*result,resolved);
     if(server.closed() || !same_metadata(metadata,server.metadata())) throw std::runtime_error("TMA source metadata changed during dearraying");
     checkpoint(stop);return result;
 }

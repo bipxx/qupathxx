@@ -258,6 +258,7 @@ struct ViewerOwner::Impl {
         if(cmd.action==Action::TmaDearray) {
             if(cmd.revision && *cmd.revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}
             if(doc->tma_core_count())throw std::invalid_argument("Clear the existing TMA grid before detecting another grid");
+            cmd.tma_dearray=tma_dearray_options_for_document(*doc,*cmd.tma_dearray);
             pending->reader=doc->server();pending->tma_identity=doc->analysis_identity_.token;
         }
         else if(cmd.action==Action::Region) {validate_region(doc->metadata(),cmd.region);pending->reader=doc->server();}
