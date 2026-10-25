@@ -1,0 +1,10 @@
+build\raw178-python-isolated\qupathxx\_native.pyi:5520: error: Name "numpy.uint8" is not defined  [name-defined]
+build\raw178-python-isolated\qupathxx\_native.pyi:5750: error: Name "numpy.uint8" is not defined  [name-defined]
+build\raw178-python-isolated\qupathxx\_native.pyi:5787: error: Name "numpy.uint8" is not defined  [name-defined]
+build\raw178-python-isolated\qupathxx\_native.pyi:5877: error: Name "numpy.uint8" is not defined  [name-defined]
+build\raw178-python-isolated\qupathxx\_native.pyi:5879: error: Name "numpy.uint8" is not defined  [name-defined]
+build\raw178-python-isolated\qupathxx\_native.pyi:7335: error: Name "numpy.uint8" is not defined  [name-defined]
+build\raw178-python-isolated\qupathxx\_native.pyi:7605: error: Name "numpy.uint32" is not defined  [name-defined]
+build\raw178-python-isolated\qupathxx\_native.pyi:7607: error: Name "numpy.int64" is not defined  [name-defined]
+build\raw178-python-isolated\qupathxx\_native.pyi:7609: error: Name "numpy.uint64" is not defined  [name-defined]
+Found 9 errors in 1 file (checked 1 source file)

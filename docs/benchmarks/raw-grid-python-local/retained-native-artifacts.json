@@ -1,0 +1,30 @@
+{
+  "Release/_native.cp312-win_amd64.pyd": {
+    "bytes": 6353920,
+    "sha256": "bc286d4d160c59fbccf853173820ed88280ddc4ef28e0ce31cc3553e9c9755d0"
+  },
+  "Release/geos.dll": {
+    "bytes": 2912768,
+    "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+  },
+  "Release/geos_c.dll": {
+    "bytes": 590336,
+    "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+  },
+  "Release/qupathxx_core.lib": {
+    "bytes": 72615892,
+    "sha256": "994895d2ebb5c7ee779b1e6279485e106a005db564c552ff4012d3317620c3d2"
+  },
+  "Release/qupathxx_gui.lib": {
+    "bytes": 15324938,
+    "sha256": "9a88f368834d8c506d15aed98d6ead84362d10fbee85e257ff2668831b7f5f7f"
+  },
+  "CMakeCache.txt": {
+    "bytes": 27455,
+    "sha256": "a1947f1f9bdb494410b7d44c2de5a885b3e9f4a218948d65e8eb4db747cfbbcc"
+  },
+  "generated/build_manifest.hpp": {
+    "bytes": 706,
+    "sha256": "43161f0271198701fb7f1b379c58e7c68b23d7fd15a037579af182bceaa13a33"
+  }
+}

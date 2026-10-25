@@ -1,0 +1,8 @@
+build\ci\scientific-grid-159\tests\typing\grid_cells_invalid.py:3: error: Argument 1 to "for_grid_roi" of "CellRequest" has incompatible type "None"; expected "Document"  [arg-type]
+build\ci\scientific-grid-159\tests\typing\grid_cells_invalid.py:3: error: Argument 3 to "for_grid_roi" of "CellRequest" has incompatible type "None"; expected "StainTransform"  [arg-type]
+build\ci\scientific-grid-159\tests\typing\grid_cells_invalid.py:4: error: Incompatible types in assignment (expression has type "str", variable has type "GridCellUnits")  [assignment]
+build\ci\scientific-grid-159\tests\typing\grid_cells_invalid.py:5: error: Incompatible types in assignment (expression has type "float", variable has type "int")  [assignment]
+build\ci\scientific-grid-159\tests\typing\grid_cells_invalid.py:6: error: Missing positional argument "_native_only" in call to "ResolvedGridCellParameters"  [call-arg]
+build\ci\scientific-grid-159\tests\typing\grid_cells_invalid.py:7: error: Incompatible types in assignment (expression has type "CellParameters", variable has type "GridCellSampling | None")  [assignment]
+build\ci\scientific-grid-159\tests\typing\grid_cells_invalid.py:8: error: Incompatible types in assignment (expression has type "CellParameters", variable has type "GridCellParameters")  [assignment]
+Found 7 errors in 1 file (checked 1 source file)

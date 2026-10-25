@@ -155,10 +155,37 @@ cache reuse; the old source169 module remains unchanged. CTest evidence now
 retains full successful output; the initial truncated passing JUnit is rejected
 as semantic evidence and preserved.
 
-Next: group nanobind ownership/descriptors and generated stubs, add raw CLI/batch
-grid recipes and true hash-only resume, and update ImGui/managed-viewer producers
-and retained-grid presentation. Complete one installed candidate before the full
-required native/platform campaign. No new installed Python/GUI/platform,
-biological or supported-release acceptance is claimed. Broader TIFF dtypes,
-vendors/pyramids/tiled sampling, memory/UI/performance budgets and all remaining
-original M0-M7 requirements remain open. Every milestone remains Partial.
+The [Python binding receipt](benchmarks/raw-grid-python-local-windows.json)
+records a Windows CPython 3.12 isolated candidate. Its module is compiled at
+`fd32e9d`, fingerprint
+`69fd8540468bcb379d6b29b5d94208e49d1fde8effacaa85bb966ce9bdfc9bc6`;
+the delivery/stub/harness source is `1eadf23`. All 309 compiler inputs match the
+compiled commit, so later stub/typing fixes reuse that binary without relabelling
+its revision. A 489-file proof binds the delivery source.
+
+All 137 selected raw/TIFF/record/project/batch/stub runtime cases pass, including
+14 new typed grid cases: actual ten-dtype TIFF means (including exact UInt64/
+Int64 cases), explicit channel/Z/time selection and nonfinite independence,
+readonly HWC arrays surviving reader close/GC, copied options, optional retained
+descriptors, QRA2 project replay and typed CSV. Generated stubs match that module;
+six strict positive files and four exact negative typing cohorts pass. NumPy
+annotations use a private alias and the grid descriptor is optional. The 110
+pure reference/auditor/signature checks pass; a final registry correction reruns
+all 89 auditor cases and matches complete runtime module case lists. Windows
+ImGui library compilation and Linux binding syntax pass; no new GUI behavior or
+Linux Python runtime is accepted. The initial editable-hook redirection, absent
+staged CLI and NumPy-shadow typing diagnostics are retained as rejected evidence.
+
+The candidate package is isolated in a new environment; the ordinary source169
+installed environments remain unchanged. A wheel is not yet packaged/qualified.
+The Windows development cache now has TIFF-enabled core/module and a current
+natural batch executable; other cached executables retain older identities.
+
+Next: add raw CLI/batch grid recipes/count planning and true hash-only resume,
+plus ImGui/managed-viewer grid producers and runtime/visual replay. Saved-grid
+presentation is adapted and compiled, while production controls remain pending.
+Group these before the next complete wheel and required native/platform campaign.
+No complete raw workflow, new full platform, biological or supported-release
+acceptance is claimed. Vendors/pyramids/tiled sampling, complete ROI/context
+workspace and UI/performance budgets, and all remaining original M0-M7 criteria
+remain open. Every milestone remains Partial.

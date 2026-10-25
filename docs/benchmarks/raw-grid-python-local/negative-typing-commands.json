@@ -1,0 +1,54 @@
+[
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw178-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\scientific_grid_invalid.py"
+    ],
+    "exit": 1,
+    "log": "scientific-grid-typing-negative.log"
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw178-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\scientific_channels_invalid.py"
+    ],
+    "exit": 1,
+    "log": "scientific-channels-typing-negative.log"
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw178-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\grid_cells_invalid.py"
+    ],
+    "exit": 1,
+    "log": "grid-cells-typing-negative.log"
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw178-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_grid_invalid.py"
+    ],
+    "exit": 1,
+    "log": "scientific-raw-typing-negative.log"
+  }
+]

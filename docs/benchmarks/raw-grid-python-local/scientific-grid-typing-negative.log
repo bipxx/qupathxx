@@ -1,0 +1,7 @@
+build\ci\scientific-grid-159\tests\typing\scientific_grid_invalid.py:4: error: Property "origin" defined in "ScientificGridAxis" is read-only  [misc]
+build\ci\scientific-grid-159\tests\typing\scientific_grid_invalid.py:6: error: Property "width" defined in "ScientificGrid" is read-only  [misc]
+build\ci\scientific-grid-159\tests\typing\scientific_grid_invalid.py:7: error: Argument 1 to "center" of "ScientificGridAxis" has incompatible type "str"; expected "int"  [arg-type]
+build\ci\scientific-grid-159\tests\typing\scientific_grid_invalid.py:8: error: Argument 1 to "GridFraction" has incompatible type "float"; expected "int"  [arg-type]
+build\ci\scientific-grid-159\tests\typing\scientific_grid_invalid.py:9: error: Missing positional argument "_native_only" in call to "ScientificRgbGrid"  [call-arg]
+build\ci\scientific-grid-159\tests\typing\scientific_grid_invalid.py:10: error: Argument 1 to "read_scientific_rgb" has incompatible type "None"; expected "ImageServer"  [arg-type]
+Found 6 errors in 1 file (checked 1 source file)

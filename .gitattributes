@@ -307,3 +307,6 @@ tests/test_scientific_raw_bindings.py text eol=lf
 
 tests/typing/raw_grid_valid.py text eol=lf
 tests/typing/raw_grid_invalid.py text eol=lf
+
+docs/benchmarks/raw-grid-python-local/** -text -whitespace
+docs/benchmarks/raw-grid-python-local-windows.json text eol=lf
