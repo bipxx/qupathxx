@@ -1,0 +1,92 @@
+[
+  {
+    "role": "engine",
+    "run_id": 40235207517,
+    "status": "queued",
+    "conclusion": "",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40235207517",
+    "jobs": [
+      {
+        "id": 121295189604,
+        "name": "Linux ASan UBSan native",
+        "status": "queued",
+        "conclusion": "",
+        "step": null
+      },
+      {
+        "id": 121295189736,
+        "name": "Windows GUI Python 3.12 software GL",
+        "status": "queued",
+        "conclusion": "",
+        "step": null
+      },
+      {
+        "id": 121295189746,
+        "name": "Windows headless Python 3.11 NumPy 1",
+        "status": "queued",
+        "conclusion": "",
+        "step": null
+      },
+      {
+        "id": 121295189753,
+        "name": "Linux headless Python 3.12 NumPy 2",
+        "status": "queued",
+        "conclusion": "",
+        "step": null
+      },
+      {
+        "id": 121295189811,
+        "name": "Linux minimal native",
+        "status": "queued",
+        "conclusion": "",
+        "step": null
+      }
+    ]
+  },
+  {
+    "role": "macos",
+    "run_id": 40235213038,
+    "status": "queued",
+    "conclusion": "",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40235213038",
+    "jobs": [
+      {
+        "id": 121295206166,
+        "name": "macOS native arm64",
+        "status": "queued",
+        "conclusion": "",
+        "step": null
+      },
+      {
+        "id": 121295206201,
+        "name": "macOS native x86_64",
+        "status": "queued",
+        "conclusion": "",
+        "step": null
+      }
+    ]
+  },
+  {
+    "role": "portable",
+    "run_id": 40235218333,
+    "status": "queued",
+    "conclusion": "",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40235218333",
+    "jobs": [
+      {
+        "id": 121295221594,
+        "name": "Manylinux build Python 3.11",
+        "status": "queued",
+        "conclusion": "",
+        "step": null
+      },
+      {
+        "id": 121295221885,
+        "name": "Manylinux build Python 3.12",
+        "status": "queued",
+        "conclusion": "",
+        "step": null
+      }
+    ]
+  }
+]

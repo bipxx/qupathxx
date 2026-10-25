@@ -1,0 +1,15 @@
+Picked up JAVA_TOOL_OPTIONS: -Djava.awt.headless=true
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+17:00:27.585 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+17:00:27.588 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+17:00:27.588 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+17:00:27.613 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+17:00:27.627 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+17:00:27.731 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+Ensure the grid labels are correct - I can detect at most 2 rows and 4 columns with the current settings (3 and 4 requested).
+Ensure the grid labels are correct - I can detect at most 1 rows and 1 columns with the current settings (3 and 4 requested).
+QPX_TMA_DEARRAY_REFERENCE_OK 7

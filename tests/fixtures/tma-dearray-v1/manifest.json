@@ -1,0 +1,86 @@
+{
+  "schema": "qpx.tma-dearray-characterization/1",
+  "observed_at_utc": "2026-10-25T21:15:38.843175+00:00",
+  "fixture_preregistration_source": "7613660c47c3b850d1a173095b8a38611d900f83",
+  "upstream_revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+  "qupath_version": "0.7.0",
+  "synthetic": true,
+  "patient_data": false,
+  "fixture_generator": "tools/reference_tma_dearray.py",
+  "fixture_generator_sha256": "02bd1c93d0f3deb69bb58d3e0c2a8a78257d09a266053c00bb3018209f30944b",
+  "capture_script": "tools/upstream/qupath_tma_dearray_reference.groovy",
+  "capture_script_sha256": "160a3547447b144ec9636ddf816030f30b3848b5f5188ed39f55e90422adb048",
+  "capture_runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+  "center_tolerance_pixels": 2.0,
+  "full_grid_cases": 5,
+  "upstream_full_grid_cases_within_contract": 4,
+  "required_review_or_refusal_cases": 2,
+  "all_five_full_grid_missing_flags_match": true,
+  "native_detector_implemented": false,
+  "biological_accepted": false,
+  "release_ready": false,
+  "scope": "Independent synthetic binary masks and pinned upstream characterization only. Skewed center error remains above the preregistered tolerance; no tolerance change or biological inference.",
+  "files": {
+    "aligned.pgm": {
+      "bytes": 168975,
+      "sha256": "d84cfbee2cabe43d10f57f0c7adf7cbf9408450bb9f1f33e3471577306b309ca"
+    },
+    "anisotropic.pgm": {
+      "bytes": 168975,
+      "sha256": "8686bda4a2016c5cd6d11dce30609e541747eb6404e34c5b937786960bab519e"
+    },
+    "assessment.json": {
+      "bytes": 2860,
+      "sha256": "9b2215e9fa9a774ddff260bc9d7ae82d951dd4176e3cfbcab8f8bb16f48d4796"
+    },
+    "blank.pgm": {
+      "bytes": 168975,
+      "sha256": "707ca79a15bd41c7dd22c06462e248f950f5b1da02fc6bc3c813686a84a1b808"
+    },
+    "capture-command.json": {
+      "bytes": 1565,
+      "sha256": "eeb9dbe9922875477b5f4076170cbcf3d606fa393e94f0258d4381eb99823120"
+    },
+    "capture.log": {
+      "bytes": 1264,
+      "sha256": "959e2d5d99c7b2bdef74049ebc0cedf31b913cbb45eacb93e1a27ac0bf8dc11f"
+    },
+    "contract.json": {
+      "bytes": 16689,
+      "sha256": "315504c60d059fe85b25b1910e134a73a1521e9a998201e3ec246401dcccc107"
+    },
+    "control-tests.log": {
+      "bytes": 101,
+      "sha256": "5a4dfac28275186b0d007d43647cd764e0e66c8ef55427f045ede471e458eb82"
+    },
+    "control-tests.xml": {
+      "bytes": 2836,
+      "sha256": "c3cdacec9649f4a72d346517ea3b01268bf1701c1a001d101842e4be35373a38"
+    },
+    "interior_missing.pgm": {
+      "bytes": 168975,
+      "sha256": "e5375c67bccbfbb19e2023255ef61a94a48ffd7755416f4ec1af918115cf2612"
+    },
+    "qupath-reference.json": {
+      "bytes": 7318,
+      "sha256": "77b7be462ecc075ad4a0ef9fb2c1c2ef2d71bc5933be82aca7cf1b17cdfae03c"
+    },
+    "rotated_missing.pgm": {
+      "bytes": 168975,
+      "sha256": "c5952af1e000504944c08e45864336f3d359b29397eced8a67cc0b3428c42310"
+    },
+    "skewed_missing.pgm": {
+      "bytes": 168975,
+      "sha256": "3a0e504ef472e793b4360a52a7fdad2fb03416b9338f1f2f75aa4fb89638fb73"
+    },
+    "unobserved_row.pgm": {
+      "bytes": 168975,
+      "sha256": "df96d85a09d7e15893fa4f739bf70a8e0a0a2f36bba195ee8e9115aad81627bd"
+    }
+  },
+  "controls": {
+    "passed": 18,
+    "junit": "control-tests.xml",
+    "log": "control-tests.log"
+  }
+}

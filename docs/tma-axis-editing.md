@@ -48,3 +48,10 @@ duplicates, failures, substituted skip reasons and absent semantic markers
 reject. These controls accept the retained local axis evidence and reject
 older source191 evidence as proof of the later axis API. They do not substitute
 for the required platform campaign or independent biological acceptance.
+
+
+The [required platform campaign](benchmarks/tma-axis-196-campaign.json) is now
+frozen at `ad4aa2c`, over qualified source191, with all 329 preflight controls
+passing. Its engine/Mac/portable runs remain pending. Source961 local artifacts
+retain their original identity; raw checkout hashes differ by line endings.
+Automatic dearraying research preparation is excluded from the frozen source.

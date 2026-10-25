@@ -96,8 +96,36 @@ as the later harness source, and no native rebuild was needed.
 
 Source191 is now accepted by all required engine/Mac/portable auditors and
 promoted on public main as receipt commit `614ab99`. Its qualification does not
-cover these later axis APIs. Freeze this completed axis workflow and run its
-required platform campaign once; the original source191 handles are terminal.
+cover these later axis APIs. The [axis campaign](benchmarks/tma-axis-196-campaign.json)
+is frozen at `ad4aa2c` after 329 clean-checkout controls and 506/35-file
+scientific/axis source proofs. Exactly one full-profile engine, Mac and portable
+run was dispatched; the original source191 handles are terminal.
+
+- [Engine40235207517](https://github.com/bipxx/qupathxx/actions/runs/40235207517)
+- [Mac40235213038](https://github.com/bipxx/qupathxx/actions/runs/40235213038)
+- [Portable40235218333](https://github.com/bipxx/qupathxx/actions/runs/40235218333)
+
+All 11 archives and complete frozen-source auditors remain required before
+promoting these later APIs. Preserve the ref and poll original handles after a
+timeout. The fresh checkout fingerprint `2bf9748f...8ea103e` differs from the
+local source961 module; compiler Git blobs match, and neither identity is
+relabeled. Public main's separate automatic run40233922383 remains in progress.
 Automatic dearraying, biological/upstream acceptance and every remaining M0-M7
 requirement remain active. No platform, hardware or supported-release acceptance
 is inferred from this local slice.
+
+
+## Automatic dearraying reference preparation
+
+The [dearraying contract](tma-dearraying.md) records seven independent synthetic
+masks and an actual pinned QuPath0.7.0 binary-detector capture. The two-pixel
+geometry tolerance was committed before capture. Four of five full-grid cases
+meet it; skewed geometry reaches 2.2361 pixels and remains outside tolerance.
+All five missing-flag sets match. An unobserved row yields 2x4 upstream and a
+blank image yields 1x1, so the native proposal workflow must retain explicit
+review/refusal for unestablished requested dimensions. Eighteen identity and
+false-acceptance controls pass. The native detector and full preview/apply
+workflow remain unimplemented; biological/whole-slide acceptance remains open.
+The completed axis candidate was isolated from `cea83fe`, merged with the
+qualified baseline and frozen at `ad4aa2c`. These dearraying research files and
+any later implementation are outside that active platform campaign.

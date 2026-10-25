@@ -378,3 +378,17 @@ tools/upstream/qupath_tma_dearray_reference.groovy text eol=lf
 # Completed source191 campaign payloads preserve original bytes.
 docs/benchmarks/raw-grid-191-qualification/** -text -whitespace
 docs/benchmarks/raw-grid-191-qualification.json text eol=lf
+
+# Upstream detector observations and capture identity retain original bytes.
+tests/fixtures/tma-dearray-v1/qupath-reference.json -text -whitespace
+tests/fixtures/tma-dearray-v1/capture.log -text -whitespace
+tests/fixtures/tma-dearray-v1/capture-command.json -text -whitespace
+tests/fixtures/tma-dearray-v1/assessment.json -text -whitespace
+tools/assess_tma_dearray_reference.py text eol=lf
+
+# Exact-source TMA campaign dispatch/preflight payloads remain byte-addressed.
+docs/benchmarks/tma-axis-196-campaign/** -text -whitespace
+docs/benchmarks/tma-axis-196-campaign.json text eol=lf
+
+tests/fixtures/tma-dearray-v1/control-tests.xml -text -whitespace
+tests/fixtures/tma-dearray-v1/control-tests.log -text -whitespace
