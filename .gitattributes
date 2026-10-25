@@ -270,3 +270,11 @@ tests/fixtures/raw-scientific-means-v1/** -text -whitespace
 
 docs/benchmarks/raw-scientific-means-local/** -text -whitespace
 docs/benchmarks/raw-scientific-means-local-windows-linux.json text eol=lf
+
+cpp/include/qupathxx/scientific_raw_sampling.hpp text eol=lf
+cpp/scientific_raw_sampling.cpp text eol=lf
+cpp/tests/scientific_raw_sampling_tests.cpp text eol=lf
+cpp/tests/raw_scientific_sampling_reference.hpp text eol=lf
+tools/reference_raw_sampling.py text eol=lf
+tests/test_raw_sampling_reference.py text eol=lf
+tests/fixtures/raw-scientific-sampling-v1/** -text -whitespace

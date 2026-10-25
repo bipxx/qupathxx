@@ -569,3 +569,40 @@ job cancellation/stale delivery, retained versioned records, save/reopen/replay,
 CSV, resumed batch and Python/CLI/ImGui consumers. The exact-mean primitive does
 not complete that workflow or any M0–M7 milestone. Add independent raw/TIFF
 sampling fixtures before qualifying the integrated installed application.
+
+### Native raw grid reader
+
+`read_scientific_raw(server, grid, ScientificRawOptions)` is now implemented in
+the native library; its new native integration checks are pending execution.
+Options capture contiguous channel selection and explicit Z/T indices; the
+server's selected series is retained in raw metadata. `scientific_raw_work_bytes`
+validates matching unit-scale raw level zero, valid series and selections, raw
+buffer limits, output HWC arrays, metadata copies and fixed scratch. The numeric
+quota charges source/channel visits and exact-division passes. The existing
+`ScientificGrid` geometry budget remains a conservative prerequisite; this
+bounded window implementation does not admit arbitrary whole-slide regions.
+
+`ScientificRawGrid` owns its grid, raw metadata snapshot, options, HWC float64
+means, validity and reasons. Validity uses 1 for a valid channel; reason tags are
+0=valid, 1=outside source footprint, 2=invalid source pixel and 3=nonfinite
+channel. Source support is independent of ROI/core eligibility. The result
+survives reader close, and metadata/calibration snapshots do not track later
+reader changes. Reader-owned decode/cache resources remain independently bounded.
+
+`decoded_source_sha256` uses `qpx.raw-level-zero-window/1`, followed by fixed-width
+little-endian uint64 metadata/window/selection fields, selected raw HWC sample
+bits in their original 1/2/4/8-byte little-endian widths, then byte validity.
+Original NaN payloads and signed zero are hashed even if they do not produce a
+valid mean. `input_sha256` uses `qpx.grid-raw-area-exact/1`, length-framed decoded
+hash and reader ID, ten grid fields, dimension order, natural-level metadata,
+channel names and presence-tagged calibration/time values. Work quota is not a
+numerical input. File/Document request authority will be supplied by the existing
+raw analysis capture, not inferred from this sampler's data hash.
+
+The independent sampling oracle uses all-source rational overlap intersections
+and Python hashlib. Its 94 cases specify 3,732 output channel bits/reasons and
+both hashes, across all ten dtypes, selected channels/Z/T, fractional reduction,
+upsampling, context/outside/partial support and nonfinite payloads. Native tests
+also reject malformed reader buffers, bad selections, insufficient work, failed
+decodes and cancellation, and distinguish raw bit changes hidden by equal rounded
+means. The old RGB sampler and old raw analysis recipes remain unchanged.

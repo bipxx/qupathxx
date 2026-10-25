@@ -66,7 +66,7 @@ passes those isolated-cell checks.
 
 The comparison and public ROI debug capture join the named installed
 scientific-grid contract, raising its next-candidate requirement to
-182 GUI / 180 headless passes plus
+185 GUI / 183 headless passes plus
 two declared desktop skips. Source169's accepted 107-case contract remains
 historical evidence for that source. New comparison tools, regression source
 and immutable capture dependencies are bound by the next source contract.
@@ -144,3 +144,17 @@ Next concrete step: implement the bounded typed raw grid reader using this
 kernel and independent per-footprint Fraction references, then connect the
 existing raw analysis/result/record/jobs and frontend workflow above. Do not
 mark raw sampling delivered from the numeric primitive alone.
+
+The bounded native raw reader and owned result are now implemented, with typed
+channel/Z/T selection, per-channel support reasons, raw-bit provenance and
+pre-pixel-IO admission. An independent Fraction/hashlib corpus has 94 cases and
+3,732 channel outputs; three oracle checks and 123 affected Python checks pass.
+The new native reader tests are wired into resampling but have not yet run.
+63 old source169 cache artifacts, including the unchanged installed-module
+counterpart, were retained and hash-verified before the next partial target
+build. The installed Python engines still expose the old source169 API.
+
+Next: execute current native resampling on Windows and Linux, fix any reader
+integration defects, then compose the existing raw analysis/jobs/records and
+Python/CLI/batch/ImGui workflow. Public C++ sampling is a dependency of that
+complete workflow, not its completion.
