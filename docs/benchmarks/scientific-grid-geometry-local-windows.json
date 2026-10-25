@@ -1,0 +1,76 @@
+{
+  "schema": "qpx.scientific-grid-geometry-local/1",
+  "source": "b082af31e86c045b183c4cf3b0eaad3fd8fefbbc",
+  "engine_configured_revision": "5474c3f24590b06c327ffb0188a71f2ea637b0be+dirty",
+  "source_tree_sha256": "54db2e1cea375c82ef722b0fc9b83493e84313763bd226898d43035a75375c5f",
+  "compiler_inputs": 271,
+  "compiler": "MSVC 19.44.35225.0",
+  "platform": "Windows x64",
+  "configuration": {
+    "gui": false,
+    "python": false,
+    "project": false,
+    "interchange": false,
+    "geos": false,
+    "openslide": false,
+    "tiff": false,
+    "classifier_training": false
+  },
+  "native_suites_passed": 49,
+  "python_mathematical_auditor_cases_passed": 149,
+  "grid_cases": 14,
+  "large_origin_probes": 8,
+  "fraction_conversion_probes": 521,
+  "geometry_accepted_locally": true,
+  "native_sampler_implemented": false,
+  "python_grid_bindings_implemented": false,
+  "scientific_detector_accepted": false,
+  "release_ready": false,
+  "hierarchy_campaign": {
+    "source": "207f008efc7e7b3e2633fbae312a9cc24f48a535",
+    "engine_run": 40166860999,
+    "engine_state": "failed: stale three-file synthetic typing fixture; one failure in each installed configuration",
+    "macos_run": 40166866585,
+    "macos_audit_exit": 0,
+    "portable_run": 40166872891,
+    "portable_state": "in_progress at observation; original monitor retained",
+    "main_promotion": false,
+    "fixture_fix": "5474c3f24590b06c327ffb0188a71f2ea637b0be"
+  },
+  "evidence": {
+    "build_manifest.hpp": {
+      "bytes": 712,
+      "sha256": "747cb24adf2cf0a73bd6da3277e59b84b5d9f11d7b90af6912529d59fe185d1d"
+    },
+    "compiler-input-proof.json": {
+      "bytes": 63027,
+      "sha256": "b049cb5d1b5d17078d0704491bd4dfde004b876980c284f4b5e93657cdfea9be"
+    },
+    "hierarchy158-engine-failed.log": {
+      "bytes": 65251,
+      "sha256": "e43f1526eb590c375a7a0c0ad503cf6796ae7d615f32b00f8993e527325fa9d2"
+    },
+    "hierarchy158-macos-acceptance.json": {
+      "bytes": 73450,
+      "sha256": "d2b2a7b360ed1bee761c699c3223c311b43ea2089bb1a9f38a83436399b2d707"
+    },
+    "native-tests.xml": {
+      "bytes": 11767,
+      "sha256": "34e071518483041ecb90f6d3af0d1144391bd4f1d0aa30a635aadd49bfaea6b0"
+    },
+    "python-tests.xml": {
+      "bytes": 21208,
+      "sha256": "8b150caf120054a411238a3abc7535a1524101fcb80168fc0a1bce7d7125b5e2"
+    }
+  },
+  "remaining": [
+    "native float sampler and admission",
+    "nanobind immutable grid values",
+    "additive cell recipe and anisotropic semantics",
+    "digest/archive/replay and Python/CLI/ImGui workflow",
+    "independent scientific tolerances and acceptance",
+    "full inherited M0-M7 scope"
+  ],
+  "observed_at_utc": "2026-10-25T06:25:09.562663+00:00",
+  "native_resampling_executable_sha256": "ee2eb25f7645c17de6db4d0162b618a8e380b84c3dcf675c29ab6813a5df2e7e"
+}

@@ -53,6 +53,8 @@ disabled). Feature-disabled suites do not qualify those capabilities. These are
 geometry checks, not native float sampling
 or scientific detector acceptance. Python bindings, the sampler, new recipe/
 digest/archive/replay and all required frontends remain next in the same workflow.
+The [local geometry receipt](benchmarks/scientific-grid-geometry-local-windows.json)
+retains raw tests, the 271-file compiler-input proof and the failed hosted log.
 
 Next: complete that bounded sampling path using the existing native authority,
 retain the failed campaign evidence, and qualify a clean integrated candidate
