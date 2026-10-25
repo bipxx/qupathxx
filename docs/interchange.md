@@ -97,5 +97,7 @@ with independent Assume image pixels and Allow lossy conversion controls.
 
 The [actual hierarchy/loss migration corpus](annotation-migration.md) now tests
 nested upstream import through native project restart and ImGui, and retains
-raw duplicate-metadata rejection. Native-to-QuPath flat export loses parent links;
-a bidirectional hierarchy route remains an explicit next implementation step.
+raw duplicate-metadata rejection. Native-to-QuPath flat export loses parent links. The additive
+`nested_hierarchy=True` export/file option and ImGui QuPath hierarchy checkbox
+now preserve the tested parent links in actual QuPath imports. The broader
+integration gate retains a Windows recovery-path failure; see the linked receipt.

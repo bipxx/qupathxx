@@ -304,9 +304,9 @@ the same three legacy scientific xfails. Hosted platform gates remain pending.
 Cell detection remains Partial; expansion/kernel comparisons do not establish
 broader biology or M5.
 
-Bounded annotation migration preparation now adds an [actual QuPath hierarchy
-and loss corpus](annotation-migration.md): 12 new reference/persistence cases and
-three real desktop cases pass locally on the accepted main154 full-feature wheel.
-Native project/reimport preserves four parent links; the actual flat return to
-QuPath drops them. Candidate158 binary/platform qualification and a supported
-bidirectional hierarchy export route remain open.
+Nested annotation export is now implemented in native/Python/file/ImGui APIs.
+All 51 hierarchy/interchange checks and 50 native suites pass on the final local
+wheel, with actual QuPath parent/nucleus/point preservation. The broader
+217-case integration has 215 passed, one recovery long-path failure and one
+OpenSlide capability skip; it is not accepted. See the
+[partial receipt](benchmarks/annotation-migration-nested-local-windows.json).

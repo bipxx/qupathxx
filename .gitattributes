@@ -171,3 +171,7 @@ tests/typing/hierarchy_valid.py text eol=lf
 tests/typing/hierarchy_invalid.py text eol=lf
 docs/benchmarks/annotation-migration-nested/** -text whitespace=cr-at-eol
 docs/benchmarks/annotation-migration-nested-local-windows.json text eol=lf
+
+# Preserve the original failure trace, including pytest whitespace.
+docs/benchmarks/annotation-migration-nested/installed.log -whitespace
+docs/benchmarks/annotation-migration-nested/installed.xml -whitespace

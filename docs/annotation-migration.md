@@ -21,10 +21,13 @@ The current migration route uses existing GeoJSON and native project storage:
 3. Review the imported objects, edit, undo/redo, then save a native `.qpxproj`.
    Native project restart preserves the tested parent links, IDs, class/color,
    body/nucleus geometry and anisotropic calibration.
-4. F6 exports native GeoJSON. Reimporting that file into qupathxx retains the
-   tested hierarchy. QuPath ignores native `qupathxx.parentId` extensions and
-   imports the six objects without parent links. Do not treat that route as a
-   hierarchy-preserving return to QuPath or guess parents from containment.
+4. For a return to QuPath, enable **QuPath hierarchy (nested export)** before
+   F6. This writes the existing GeoJSON geometry with nested `childObjects`.
+   Actual pinned QuPath imports retain all six tested objects and four parent
+   links, including the cell nucleus and point coordinates. Python/C++ use the
+   same exporter with `nested_hierarchy=True`. The default remains flat native
+   GeoJSON; QuPath ignores its `qupathxx.parentId` extensions. The UI explains
+   both choices before export. Never guess parents from containment.
 
 | Field | QuPath nested → native → native project/reimport | Native flat GeoJSON → QuPath |
 | --- | --- | --- |
@@ -47,28 +50,47 @@ object-model contract.
 
 ## Evidence and remaining work
 
-Twelve captured-reference/native persistence cases and three real ImGui cases
-pass locally using the accepted main154 full-feature Windows wheel, compiled at
-`f2e8c2ff5b044fd530c959c6d9c3b874d37a31b6`. The interchange implementation/header
-are unchanged in this preparation branch. This is explicit reuse of an accepted
-engine for a new comparison, not an installed candidate158 qualification.
-The [receipt](benchmarks/annotation-migration-local-windows.json) identifies the
-wheel, extension, fixtures, results and captures. Both captures were inspected:
-the six imported objects and nucleus are visible; loss opt-in and the counted
-loss message are readable. The default font displays the alpha in the parent
-label as `?`; Unicode data remains exact. Unicode glyph delivery remains open.
+The nested option is additive; omitting it keeps the previous flat output
+byte-for-byte for the committed corpus. It retains selected objects only. A
+missing selected parent requires `allow_losses=True` and reports
+`parent_not_exported`; the descendant becomes a root, including when a more
+remote ancestor is selected. No implicit ancestor expansion or reparenting occurs.
+Nested output is bounded at one million objects, 32 object levels and 256 MiB.
+The iterative writer avoids recursive subtree copies. The 32-level boundary is
+native-tested; the actual upstream corpus has three levels. Conversion and depth
+errors occur before file publication and preserve an existing destination.
 
-The workflow is still partial. A researcher returning a hierarchy to QuPath
-needs a supported nested export path with clear target/loss semantics. The
-existing export UI does not warn that another application ignores native parent
-extensions. Resolve that user-facing gap before claiming bidirectional migration
-completion. Broader hierarchy edge cases, direct `.qpproj`/`.qpdata`, unsupported
-properties and platform qualification remain tracked by the full project plan.
+The [current local receipt](benchmarks/annotation-migration-nested-local-windows.json)
+identifies the final wheel at compiled source
+`50b44b099e0b67e60ea9e7830e4692017973a7fe`, its extension and input fingerprint.
+All 50 native suites and 51 hierarchy/interchange checks pass, including four
+real ImGui cases, seven new export cases and ten independent comparator controls.
+Generated packaged stubs match; four positive typing files and all 13 expected
+negative errors pass. Two actual QuPath processes verify Python and GUI exports
+separately. The point oracle also rejects an extra point inside unchanged bounds.
+The original [main154 preparation receipt](benchmarks/annotation-migration-local-windows.json)
+remains explicitly bound to its historical source `15f5888`.
+
+The broader installed integration gate remains **partial**: 215 passed, one
+failed and one optional OpenSlide case skipped. The failure is existing default
+recovery staging under a deep Windows path: appending the work token exceeds the
+legacy path limit. The failed XML/log are retained. Do not shorten that test root
+and claim the full integration passed; fix physical recovery path access while
+preserving logical paths, ownership and non-overwriting rescue/maintenance.
+OpenSlide is disabled in this local focus configuration; its required hosted
+coverage remains separate.
+
+The inspected final nested-export capture has readable mode/depth text and
+`Exported 6 objects`, with body/nucleus/points visible. It is byte-identical to the
+inspected initial capture. The default font displays the alpha in the parent
+label as `?`; Unicode data remains exact. Unicode glyph delivery remains open.
+Broader hierarchy/property contracts, direct `.qpproj`/`.qpdata`, full source-bound
+platform cohorts and supported-release requirements remain in the full plan.
 
 Run the installed tests from the repository root:
 
 ```powershell
-python -I -m pytest tests/test_qupath_hierarchy_reference.py -q
+python -I -m pytest tests/test_qupath_hierarchy_reference.py tests/test_geojson_hierarchy_export.py tests/test_hierarchy_comparison.py -q
 $env:QUPATHXX_TEST_GUI = '1'
 python -I -m pytest tests/test_gui_hierarchy_migration.py -q
 ```
@@ -80,3 +102,15 @@ generator path. The generator requires a new output directory. Preserve raw
 logs and compare the declared contract before deliberately replacing fixtures;
 tests never regenerate them implicitly. The comparison is image-object migration,
 not Java serialization compatibility or a supported release claim.
+
+The live checker verifies the complete pinned runtime and never updates fixtures:
+
+```powershell
+python -I tools/compare_qupath_hierarchy.py --output build/hierarchy-roundtrip-new
+python -I tools/compare_qupath_hierarchy.py --output build/hierarchy-gui-new --native-input path/to/gui-export.geojson
+```
+
+Outputs must be new directories. The GUI-input mode records the checker engine;
+its producer identity belongs in the originating capture receipt. The current
+receipt binds both to the same installed module. This comparison qualifies the
+committed object corpus, not arbitrary geometry, research workflows or releases.

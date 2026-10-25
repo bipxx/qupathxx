@@ -1,0 +1,508 @@
+{
+  "schema": "qpx.qupath-hierarchy-reference/1",
+  "qupath_version": "0.7.0",
+  "upstream_revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+  "java_version": "25.0.2",
+  "image_size": [
+    256,
+    192
+  ],
+  "synthetic": true,
+  "created": [
+    {
+      "id": "10000000-0000-0000-0000-000000000001",
+      "name": "Parent α",
+      "kind": "annotation",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        8.0,
+        8.0,
+        180.0,
+        150.0
+      ],
+      "area": 27000.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000002",
+      "parent": "10000000-0000-0000-0000-000000000001",
+      "name": "Region",
+      "kind": "annotation",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        20.0,
+        20.0,
+        80.0,
+        80.0
+      ],
+      "area": 6400.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000003",
+      "parent": "10000000-0000-0000-0000-000000000002",
+      "name": "Cell",
+      "kind": "cell",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        30.0,
+        30.0,
+        20.0,
+        16.0
+      ],
+      "area": 320.0,
+      "nucleus_bounds": [
+        35.0,
+        34.0,
+        5.0,
+        4.0
+      ],
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000004",
+      "parent": "10000000-0000-0000-0000-000000000001",
+      "name": "Detection",
+      "kind": "detection",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        120.0,
+        30.0,
+        8.0,
+        12.0
+      ],
+      "area": 96.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000005",
+      "name": "Sibling",
+      "kind": "annotation",
+      "bounds": [
+        210.0,
+        20.0,
+        25.0,
+        30.0
+      ],
+      "area": 750.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000006",
+      "parent": "10000000-0000-0000-0000-000000000005",
+      "name": "Points",
+      "kind": "annotation",
+      "bounds": [
+        215.0,
+        25.0,
+        5.0,
+        5.0
+      ],
+      "area": 0.0,
+      "point_coordinates": [
+        [
+          215.0,
+          25.0
+        ],
+        [
+          220.0,
+          30.0
+        ]
+      ],
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    }
+  ],
+  "nested_decoded": [
+    {
+      "id": "10000000-0000-0000-0000-000000000001",
+      "name": "Parent α",
+      "kind": "annotation",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        8.0,
+        8.0,
+        180.0,
+        150.0
+      ],
+      "area": 27000.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000002",
+      "parent": "10000000-0000-0000-0000-000000000001",
+      "name": "Region",
+      "kind": "annotation",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        20.0,
+        20.0,
+        80.0,
+        80.0
+      ],
+      "area": 6400.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000003",
+      "parent": "10000000-0000-0000-0000-000000000002",
+      "name": "Cell",
+      "kind": "cell",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        30.0,
+        30.0,
+        20.0,
+        16.0
+      ],
+      "area": 320.0,
+      "nucleus_bounds": [
+        35.0,
+        34.0,
+        5.0,
+        4.0
+      ],
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000004",
+      "parent": "10000000-0000-0000-0000-000000000001",
+      "name": "Detection",
+      "kind": "detection",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        120.0,
+        30.0,
+        8.0,
+        12.0
+      ],
+      "area": 96.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000005",
+      "name": "Sibling",
+      "kind": "annotation",
+      "bounds": [
+        210.0,
+        20.0,
+        25.0,
+        30.0
+      ],
+      "area": 750.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000006",
+      "parent": "10000000-0000-0000-0000-000000000005",
+      "name": "Points",
+      "kind": "annotation",
+      "bounds": [
+        215.0,
+        25.0,
+        5.0,
+        5.0
+      ],
+      "area": 0.0,
+      "point_coordinates": [
+        [
+          215.0,
+          25.0
+        ],
+        [
+          220.0,
+          30.0
+        ]
+      ],
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    }
+  ],
+  "flat_decoded": [
+    {
+      "id": "10000000-0000-0000-0000-000000000001",
+      "name": "Parent α",
+      "kind": "annotation",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        8.0,
+        8.0,
+        180.0,
+        150.0
+      ],
+      "area": 27000.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000002",
+      "name": "Region",
+      "kind": "annotation",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        20.0,
+        20.0,
+        80.0,
+        80.0
+      ],
+      "area": 6400.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000003",
+      "name": "Cell",
+      "kind": "cell",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        30.0,
+        30.0,
+        20.0,
+        16.0
+      ],
+      "area": 320.0,
+      "nucleus_bounds": [
+        35.0,
+        34.0,
+        5.0,
+        4.0
+      ],
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000004",
+      "name": "Detection",
+      "kind": "detection",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        120.0,
+        30.0,
+        8.0,
+        12.0
+      ],
+      "area": 96.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000005",
+      "name": "Sibling",
+      "kind": "annotation",
+      "bounds": [
+        210.0,
+        20.0,
+        25.0,
+        30.0
+      ],
+      "area": 750.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "10000000-0000-0000-0000-000000000006",
+      "name": "Points",
+      "kind": "annotation",
+      "bounds": [
+        215.0,
+        25.0,
+        5.0,
+        5.0
+      ],
+      "area": 0.0,
+      "point_coordinates": [
+        [
+          215.0,
+          25.0
+        ],
+        [
+          220.0,
+          30.0
+        ]
+      ],
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    }
+  ],
+  "losses": [
+    {
+      "id": "20000000-0000-0000-0000-000000000001",
+      "name": "Unsupported properties",
+      "kind": "annotation",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        10.0,
+        10.0,
+        20.0,
+        20.0
+      ],
+      "area": 400.0,
+      "locked": true,
+      "measurement_count": 1,
+      "metadata": {
+        "fixture": "retain raw duplicate members"
+      }
+    }
+  ],
+  "native_decoded": [
+    {
+      "id": "5dfb22cf-9388-41a5-9bf7-5502b0f73eb7",
+      "name": "Parent α",
+      "kind": "annotation",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        8.0,
+        8.0,
+        180.0,
+        150.0
+      ],
+      "area": 27000.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "2baa12cf-c707-4c08-96a1-c0825c139d5c",
+      "parent": "5dfb22cf-9388-41a5-9bf7-5502b0f73eb7",
+      "name": "Region",
+      "kind": "annotation",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        20.0,
+        20.0,
+        80.0,
+        80.0
+      ],
+      "area": 6400.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "a7a3f11c-bd85-4d3c-b779-a241a39296dc",
+      "parent": "2baa12cf-c707-4c08-96a1-c0825c139d5c",
+      "name": "Cell",
+      "kind": "cell",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        30.0,
+        30.0,
+        20.0,
+        16.0
+      ],
+      "area": 320.0,
+      "nucleus_bounds": [
+        35.0,
+        34.0,
+        5.0,
+        4.0
+      ],
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "c76f4cd3-513c-4df5-9adc-90e4ca047c4c",
+      "parent": "5dfb22cf-9388-41a5-9bf7-5502b0f73eb7",
+      "name": "Detection",
+      "kind": "detection",
+      "classification": "Tumor",
+      "class_color": -57296,
+      "bounds": [
+        120.0,
+        30.0,
+        8.0,
+        12.0
+      ],
+      "area": 96.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "65739228-b364-48d7-a680-f73b38198e2f",
+      "name": "Sibling",
+      "kind": "annotation",
+      "bounds": [
+        210.0,
+        20.0,
+        25.0,
+        30.0
+      ],
+      "area": 750.0,
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    },
+    {
+      "id": "b9d43398-77eb-4a9d-b6a2-4c7a9359311d",
+      "parent": "65739228-b364-48d7-a680-f73b38198e2f",
+      "name": "Points",
+      "kind": "annotation",
+      "bounds": [
+        215.0,
+        25.0,
+        5.0,
+        5.0
+      ],
+      "area": 0.0,
+      "point_coordinates": [
+        [
+          215.0,
+          25.0
+        ],
+        [
+          220.0,
+          30.0
+        ]
+      ],
+      "locked": false,
+      "measurement_count": 0,
+      "metadata": {}
+    }
+  ]
+}
