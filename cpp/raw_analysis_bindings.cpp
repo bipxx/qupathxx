@@ -15,6 +15,9 @@ void bind_raw_analysis(nb::module_& module) {
     nb::class_<RawObjectContext>(module,"RawObjectContext")
         .def_ro("name",&RawObjectContext::name).def_ro("class_name",&RawObjectContext::class_name).def_ro("parent_id",&RawObjectContext::parent_id).def_ro("kind",&RawObjectContext::kind).def_ro("tma",&RawObjectContext::tma)
         .def_prop_ro("payload_bytes",&RawObjectContext::payload_bytes).def("same_metadata",&RawObjectContext::same_metadata,"other"_a);
+    nb::class_<RawGridSampling>(module,"RawGridSampling").def(nb::init<>())
+        .def_rw("samples_x",&RawGridSampling::samples_x).def_rw("samples_y",&RawGridSampling::samples_y)
+        .def_rw("context_x",&RawGridSampling::context_x).def_rw("context_y",&RawGridSampling::context_y).def("validate",&RawGridSampling::validate);
     nb::class_<RawAnalysisGrid>(module,"RawAnalysisGrid")
         .def_prop_ro("grid",[](const RawAnalysisGrid& v){return v.grid;})
         .def_prop_ro("options",[](const RawAnalysisGrid& v){return v.options;})
@@ -25,6 +28,7 @@ void bind_raw_analysis(nb::module_& module) {
     nb::class_<RawAnalysisRequest>(module,"RawAnalysisRequest")
         .def(nb::init<const Document&,RawRegionRequest,std::uint64_t,bool,std::size_t,std::uint64_t>(),"document"_a,"request"_a,"object_id"_a=0,"nucleus"_a=false,"tile_size"_a=256,"max_pixels"_a=1000000000)
         .def(nb::init<const Document&,ScientificGrid,ScientificRawOptions,std::uint64_t,bool,std::uint64_t>(),"document"_a,"grid"_a,"options"_a=ScientificRawOptions{},"object_id"_a=0,"nucleus"_a=false,"max_pixels"_a=1000000000)
+        .def_static("for_grid_roi",&RawAnalysisRequest::for_grid_roi,"document"_a,"object_id"_a,"sampling"_a,"options"_a=ScientificRawOptions{},"nucleus"_a=false,"max_pixels"_a=1000000000)
         .def_prop_ro("grid",[](const RawAnalysisRequest& v){return v.grid();})
         .def_prop_ro("grid_options",[](const RawAnalysisRequest& v){return v.grid_options();})
         .def("matches",&RawAnalysisRequest::matches,"document"_a).def_static("replay",&RawAnalysisRequest::replay,"document"_a,"record_id"_a)

@@ -217,6 +217,22 @@ void check_scientific_raw_sampling() {
 void check_scientific_raw_analysis() {
     using namespace qpx;
     require(std::size(raw_grid_statistics_reference::cases)==188);
+    {
+        auto source=std::make_shared<AnalysisReader>();Document doc(source);
+        const auto id=doc.add_rectangle({.2,.3,2.1,1.1},"fractional ROI");
+        RawGridSampling sampling;sampling.samples_x=3;sampling.samples_y=2;sampling.context_x=1;sampling.context_y=2;
+        const auto request=RawAnalysisRequest::for_grid_roi(doc,id,sampling);
+        require(source->reads==0 && source->metadata_reads==0 && request.grid());
+        require(request.grid()->x().origin()==0 && request.grid()->x().extent()==3 && request.grid()->y().origin()==0 && request.grid()->y().extent()==2);
+        const auto result=analyze_raw(request);require(result->statistics().pixels==2 && result->statistics().means[0]==.5);
+        rejects<std::invalid_argument>([&]{RawAnalysisRequest::for_grid_roi(doc,id,sampling,{},true);});
+        sampling.samples_x=0;rejects<std::invalid_argument>([&]{RawAnalysisRequest::for_grid_roi(doc,id,sampling);});
+        const auto outside=doc.add_rectangle({-1,0,2,2});sampling.samples_x=3;
+        const auto outside_result=analyze_raw(RawAnalysisRequest::for_grid_roi(doc,outside,sampling));
+        require(outside_result->statistics().pixels==6 && outside_result->statistics().valid_pixels==2 && outside_result->statistics().means[0]==64.);
+    }
+    std::cout<<"Shared ROI grid raw count/context planning and pre-IO admission passed\n";
+
     RawRegionStatistics positive;positive.pixels=positive.valid_pixels=1;positive.finite_samples={1};positive.nonfinite_samples={0};positive.means={0.};positive.minima={0.};positive.maxima={0.};
     auto negative=positive;negative.means[0]=-0.;require(!same_raw_statistics(positive,negative,true) && same_raw_statistics(positive,negative,false));
     negative=positive;negative.minima[0]=-0.;require(!same_raw_statistics(positive,negative,true));

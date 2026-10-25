@@ -5,6 +5,7 @@
 #include "raw_analysis_internal.hpp"
 #include "scientific_raster.hpp"
 #include "exact_weighted_mean.hpp"
+#include "roi_scientific_grid.hpp"
 #include "geometry_archive.hpp"
 #include "atomic_export.hpp"
 #include <algorithm>
@@ -42,6 +43,18 @@ std::string raw_grid_analysis_hash(const std::string& sampling,std::optional<dou
     number(hash,width);number(hash,height);hash.integer(mask.has_value());
     if(mask) {const auto bytes=GeometryArchiveCodec::encode(*mask);hash.integer(bytes.size());hash.update(bytes.data(),bytes.size());}
     return hash.finish();
+}
+void RawGridSampling::validate() const {
+    if(!samples_x || !samples_y || samples_x>1000000 || samples_y>1000000 || context_x>4096 || context_y>4096)
+        throw std::invalid_argument("raw grid requires 1..1000000 samples and 0..4096 context per axis");
+}
+RawAnalysisRequest RawAnalysisRequest::for_grid_roi(const Document& document,std::uint64_t id,RawGridSampling sampling,ScientificRawOptions options,bool nucleus,std::uint64_t maximum) {
+    sampling.validate();options.validate();
+    const auto object=document.annotation(id);
+    if(nucleus && !object.nucleus) throw std::invalid_argument("selected raw grid object has no nucleus");
+    const auto& roi=nucleus?*object.nucleus:object.geometry;
+    auto grid=detail::roi_scientific_grid(document.metadata(),roi,sampling.samples_x,sampling.samples_y,sampling.context_x,sampling.context_y,options.work_bytes,false);
+    return RawAnalysisRequest(document,std::move(grid),options,id,nucleus,maximum);
 }
 RawAnalysisRequest::RawAnalysisRequest(const Document& doc,RawRegionRequest region,std::uint64_t object,bool nucleus,std::size_t tile,std::uint64_t maximum):
     RawAnalysisRequest(doc,region,object,nucleus,tile,maximum,std::nullopt,{}) {}

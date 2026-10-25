@@ -719,3 +719,28 @@ methods named `numpy`. Strict positive/negative typing and installed export/
 member guards accompany runtime checks. The current Windows isolated candidate
 has TIFF enabled; a packaged wheel, broader platforms and raw CLI/batch/ImGui
 producer delivery remain separate acceptance gates.
+
+
+### Raw ROI grid planning and batch recipe
+
+`RawGridSampling` declares per-axis core sample counts (1..1000000) and context
+(0..4096). `RawAnalysisRequest.for_grid_roi` rounds the selected body/nucleus ROI
+bounds outward to integer level-zero edges and uses the shared count planner.
+Construction does not read pixels or raw metadata. Raw ROI grids may extend
+outside the image: eligible centers remain separate from strict source support.
+Existing cell convenience planning keeps its inside-image policy unchanged.
+
+A raw batch may set `raw_grid` and `raw_grid_work_bytes`; source selection and
+follow-display Z/T reuse the existing raw fields. Natural raw batches keep their
+parameter grammar; grid batches add an explicit raw-grid recipe, count/context/
+work fields and `qpx.raw-grid-statistics-input/1` identity. Compute uses the grid
+request/result/retention path, and resume uses the hash-only digest without mean
+or ROI-containment work. Per-image calibrated inputs, QRA2 records and typed CSV
+remain captured by the existing checkpoint publication path.
+
+The batch CLI selects this recipe with `--raw-grid-samples NX,NY`, optionally
+`--raw-grid-context CX,CY` and `--raw-grid-work-bytes N`. Context/work flags require
+explicit sample counts; grid mode rejects natural level/tile flags. Quantitative
+channel/Z/time flags and Unicode project/checkpoint paths retain their meaning.
+New producer option bindings require the next grouped module/stub candidate;
+older isolated Python artifacts keep their own source identity and API surface.

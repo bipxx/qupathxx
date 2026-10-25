@@ -18,6 +18,7 @@ void bind_project_batch(nb::module_& m) {
         .def_rw("roi_tile_size",&ProjectBatchOptions::roi_tile_size).def_rw("snapshot_budget",&ProjectBatchOptions::snapshot_budget).def_rw("materialize_budget",&ProjectBatchOptions::materialize_budget)
         .def_rw("result_budget",&ProjectBatchOptions::result_budget).def_rw("csv_limit",&ProjectBatchOptions::csv_limit).def_rw("checkpoint_limit",&ProjectBatchOptions::checkpoint_limit)
         .def_rw("pixel_model",&ProjectBatchOptions::pixel_model).def_rw("pixels",&ProjectBatchOptions::pixels).def_rw("pixel_file_limit",&ProjectBatchOptions::pixel_file_limit).def_rw("pixel_total_limit",&ProjectBatchOptions::pixel_total_limit)
+        .def_rw("raw_grid",&ProjectBatchOptions::raw_grid).def_rw("raw_grid_work_bytes",&ProjectBatchOptions::raw_grid_work_bytes)
         .def_rw("raw",&ProjectBatchOptions::raw).def_rw("raw_follow_display",&ProjectBatchOptions::raw_follow_display).def_rw("raw_max_pixels",&ProjectBatchOptions::raw_max_pixels)
         .def_rw("tissue",&ProjectBatchOptions::tissue).def_rw("cells",&ProjectBatchOptions::cells)
         .def_rw("cell_grid",&ProjectBatchOptions::cell_grid).def_rw("grid_cells",&ProjectBatchOptions::grid_cells)

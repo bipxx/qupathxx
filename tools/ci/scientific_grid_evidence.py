@@ -22,7 +22,7 @@ NEGATIVE={
 }
 POSITIVE=['tests/typing/raw_grid_valid.py','tests/typing/valid_api.py','tests/typing/hierarchy_valid.py','tests/typing/grid_cells_valid.py','examples/live_workflow.py','examples/region_workflow.py']
 BASE={
- 'resampling':['Native scientific grid exact geometry, rounding, context and admission passed','Native scientific RGB float64 exact means, support, reader and cancellation checks passed','Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed','Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed','Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed','188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed','Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed','QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed'],
+ 'resampling':['Native scientific grid exact geometry, rounding, context and admission passed','Native scientific RGB float64 exact means, support, reader and cancellation checks passed','Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed','Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed','Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed','188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed','Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed','QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed','Shared ROI grid raw count/context planning and pre-IO admission passed'],
  'stains':['Native scientific float64 OD/stains, validity, captured basis and admission passed','Legacy byte/float32 stain transforms preserve frozen arithmetic across 262144 RGB probes'],
  'log_cell_recipe':['Native physical grid metrics, weighted distances, Gaussian support and admission passed'],
  'tissue_contours':['Native explicit-grid raster eligibility, per-axis metadata, precision and legacy isolation passed'],
@@ -32,6 +32,10 @@ BASE={
  'viewer_session':['Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed'],
 }
 CONDITIONAL=[
+ ('raw_image','tiff','Actual UInt16 TIFF scientific grid analysis, ROI upsampling and hash-only digest passed'),
+ ('raw_image','tiff','Independent deflate TIFF typed grid analysis through prefixed zlib passed'),
+ ('raw_image','raw_project','QRA2 TIFF grid SQLite save/reopen, explicit replay and second save passed'),
+ ('raw_image','raw_project','Raw grid TIFF batch distinct recipe, interrupted checkpoint resume and hash-only typed CSV passed'),
  ('project_batch','project','Grid ROI planning, typed batch recipe, per-image calibration, interrupted resume and QCL5/CSV checkpoints passed'),
  ('project_batch','no_project','Grid ROI count planning and tiny scientific centers passed; batch storage unavailable'),
  ('cell_records','project','QCL5 SQLite save, reopen, provenance attachment, replay and second save passed'),
@@ -70,8 +74,8 @@ def source_contract(root,commit):
     require(offset==len(stream),'scientific source trailing response')
     return hashes
 
-def native(cases,project=True,geos=True):
-    flags=dict(project=project,no_project=not project,geos=geos,no_geos=not geos,both=project and geos)
+def native(cases,project=True,geos=True,tiff=True):
+    flags=dict(project=project,no_project=not project,geos=geos,no_geos=not geos,both=project and geos,tiff=tiff,raw_project=project and tiff)
     contracts={name:[(m,1) for m in markers] for name,markers in BASE.items()}
     for suite,flag,marker in CONDITIONAL: contracts.setdefault(suite,[]).append((marker,int(flags[flag])))
     for suite,markers in contracts.items():
@@ -80,7 +84,7 @@ def native(cases,project=True,geos=True):
         case=selected[0];require(all(case.find(t) is None for t in ('failure','error','skipped')),'scientific native suite nonpassing: '+suite)
         lines=case.findtext('system-out','').splitlines()
         for marker,count in markers: require(lines.count(marker)==count,'scientific native capability/marker differs: '+suite+': '+marker)
-    return dict(suites=len(contracts),project=project,geos=geos,scientific_acceptance=False)
+    return dict(suites=len(contracts),project=project,geos=geos,tiff=tiff,scientific_acceptance=False)
 
 def python(cases,gui=False):
     passed=skipped=0

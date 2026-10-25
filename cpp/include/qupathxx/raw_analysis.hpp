@@ -21,6 +21,10 @@ struct RawObjectContext {
     std::size_t payload_bytes() const;
     bool same_metadata(const RawObjectContext&) const;
 };
+struct RawGridSampling {
+    std::uint32_t samples_x=256,samples_y=256,context_x=0,context_y=0;
+    void validate() const;
+};
 class RawAnalysisRequest {
 public:
     RawAnalysisRequest(const Document&,RawRegionRequest,std::uint64_t object_id=0,
@@ -29,6 +33,8 @@ public:
         bool nucleus=false,std::uint64_t max_pixels=1000000000);
     const std::optional<ScientificGrid>& grid() const {return grid_;}
     const ScientificRawOptions& grid_options() const {return grid_options_;}
+    static RawAnalysisRequest for_grid_roi(const Document&,std::uint64_t object_id,RawGridSampling,
+        ScientificRawOptions={},bool nucleus=false,std::uint64_t max_pixels=1000000000);
     bool matches(const Document&) const;
     const RawRegionRequest& region() const {if(grid_) throw std::logic_error("explicit grid has no natural region descriptor");return region_;}
     std::uint64_t object_id() const {return object_id_;}

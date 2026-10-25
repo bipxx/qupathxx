@@ -122,7 +122,7 @@ for job in run['jobs']:
     assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)+3
     native_cases=list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase'))
     entry['resampling_native']=resampling.native(native_cases)
-    entry['scientific_grid_native']=scientific.native(native_cases,project=job['name']!='Linux minimal native',geos=job['name']!='Linux minimal native')
+    entry['scientific_grid_native']=scientific.native(native_cases,project=job['name']!='Linux minimal native',geos=job['name']!='Linux minimal native',tiff=job['name']!='Linux minimal native')
     entry['qptma_native']=qptma.native(native_cases)
     entry['hierarchy_native']=hierarchy.native(native_cases,enabled=job['name']!='Linux minimal native')
     entry['qptma_project_native']=qptma.project_native(native_cases,enabled=job['name']!='Linux minimal native')

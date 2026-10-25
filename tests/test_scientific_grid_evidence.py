@@ -9,8 +9,8 @@ spec=importlib.util.spec_from_file_location('qpx_grid_test_audit',Path(__file__)
 evidence=importlib.util.module_from_spec(spec);spec.loader.exec_module(evidence)
 
 
-def native_cases(project=True,geos=True):
-    flags=dict(project=project,no_project=not project,geos=geos,no_geos=not geos,both=project and geos)
+def native_cases(project=True,geos=True,tiff=True):
+    flags=dict(project=project,no_project=not project,geos=geos,no_geos=not geos,both=project and geos,tiff=tiff,raw_project=project and tiff)
     messages={k:list(v) for k,v in evidence.BASE.items()}
     for suite,flag,text in evidence.CONDITIONAL:
         messages.setdefault(suite,[])
@@ -29,7 +29,7 @@ def test_native_requires_explicit_capability_branches(project,geos):
     with pytest.raises(ValueError):evidence.native(native_cases(project,not geos),project,geos)
 
 
-@pytest.mark.parametrize('suite',['cells','project_batch'])
+@pytest.mark.parametrize('suite',['cells','project_batch','raw_image'])
 @pytest.mark.parametrize('failure',['missing','duplicate','failure','error','skipped','marker','duplicate_marker'])
 def test_native_incomplete_or_nonpassing_rejects(suite,failure):
     cases=native_cases();case=next(c for c in cases if c.get('name')==suite)
@@ -148,7 +148,7 @@ def test_batched_source_binding_preserves_raw_fixtures(tmp_path,monkeypatch,fixt
 @pytest.mark.parametrize('failure',['missing','duplicate'])
 @pytest.mark.parametrize('marker',[
     'Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed',
-    'Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed','Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed','188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed','Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed','QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed'])
+    'Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed','Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed','188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed','Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed','QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed','Shared ROI grid raw count/context planning and pre-IO admission passed'])
 def test_exact_raw_native_markers_are_required_once(failure,marker):
     cases=native_cases()
     case=next(c for c in cases if c.get('name')=='resampling')
@@ -157,3 +157,9 @@ def test_exact_raw_native_markers_are_required_once(failure,marker):
     else:lines.append(marker)
     case.find('system-out').text='\n'.join(lines)+'\n'
     with pytest.raises(ValueError,match='marker differs'):evidence.native(cases)
+
+
+def test_tiff_scientific_markers_follow_declared_reader_capability():
+    evidence.native(native_cases(tiff=False),tiff=False)
+    with pytest.raises(ValueError):evidence.native(native_cases(tiff=False),tiff=True)
+    with pytest.raises(ValueError):evidence.native(native_cases(tiff=True),tiff=False)

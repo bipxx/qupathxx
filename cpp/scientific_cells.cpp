@@ -1,4 +1,5 @@
 #include "scientific_cells.hpp"
+#include "roi_scientific_grid.hpp"
 #include "scientific_raster.hpp"
 #include "scientific_cell_recipe.hpp"
 #include "qupathxx/scientific_channels.hpp"
@@ -71,13 +72,8 @@ void GridCellSampling::validate() const {
         throw std::invalid_argument("grid cell sampling requires 1..1000000 samples and 0..4096 context per axis");
 }
 CellRequest CellRequest::for_grid_roi(const Document& document,std::uint64_t id,const StainTransform& transform,GridCellSampling sampling,GridCellParameters p) {
-    sampling.validate();p.validate();const auto& roi=document.annotation(id).geometry;const auto b=roi.bounds();const auto& metadata=document.metadata();
-    constexpr auto limit=ScientificGridAxis::coordinate_limit;
-    if(!roi.is_area() || b.x<0 || b.y<0 || b.x+b.width>metadata.width || b.y+b.height>metadata.height || metadata.width>limit || metadata.height>limit)
-        throw std::invalid_argument("grid cell ROI must be an area inside a supported source");
-    const auto x=std::int64_t(std::floor(b.x)),y=std::int64_t(std::floor(b.y));
-    const auto right=std::int64_t(std::ceil(b.x+b.width)),bottom=std::int64_t(std::ceil(b.y+b.height));
-    ScientificGrid grid(metadata.width,metadata.height,{x,right-x,sampling.samples_x,sampling.context_x},{y,bottom-y,sampling.samples_y,sampling.context_y},p.work_bytes);
+    sampling.validate();p.validate();const auto& roi=document.annotation(id).geometry;
+    auto grid=detail::roi_scientific_grid(document.metadata(),roi,sampling.samples_x,sampling.samples_y,sampling.context_x,sampling.context_y,p.work_bytes);
     return CellRequest(document,id,transform,std::move(grid),std::move(p));
 }
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,ScientificGrid grid,GridCellParameters p):

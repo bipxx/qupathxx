@@ -154,7 +154,12 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
     if(o.kind==ProjectBatchKind::Pixels) {const auto& v=o.pixels;
         s<<",\"pixels\":{\"model_sha256\":"<<batch_json_quote(o.pixel_model->sha256())<<",\"block_size\":"<<v.block_size<<",\"tile_size\":"<<v.prediction.tile_size<<",\"work_bytes\":"<<v.prediction.work_bytes<<",\"min_vote_fraction\":"<<v.prediction.min_vote_fraction<<",\"max_pixels\":"<<v.max_pixels<<",\"max_blocks\":"<<v.max_blocks<<",\"file_limit\":"<<o.pixel_file_limit<<",\"total_limit\":"<<o.pixel_total_limit<<'}';
     }
-    if(o.kind==ProjectBatchKind::Raw) s<<",\"raw\":{\"hash\":\"qpx.raw-roi-input/1\",\"level\":"<<o.raw.region.level<<",\"first_channel\":"<<o.raw.first_channel<<",\"channels\":"<<o.raw.channels<<",\"z\":"<<o.raw.z<<",\"time\":"<<o.raw.t<<",\"follow_display\":"<<(o.raw_follow_display?"true":"false")<<",\"max_pixels\":"<<o.raw_max_pixels<<'}';
+    if(o.raw_grid) {
+        const auto& g=*o.raw_grid;
+        s<<",\"raw_grid\":{\"recipe\":\"qpx.raw-grid-statistics/1\",\"input\":\"qpx.raw-grid-statistics-input/1\",\"samples_x\":"<<g.samples_x<<",\"samples_y\":"<<g.samples_y
+            <<",\"context_x\":"<<g.context_x<<",\"context_y\":"<<g.context_y<<",\"work_bytes\":"<<o.raw_grid_work_bytes<<'}';
+    }
+    if(o.kind==ProjectBatchKind::Raw) s<<",\"raw\":{\"hash\":"<<batch_json_quote(o.raw_grid?"qpx.raw-grid-statistics-input/1":"qpx.raw-roi-input/1")<<",\"level\":"<<o.raw.region.level<<",\"first_channel\":"<<o.raw.first_channel<<",\"channels\":"<<o.raw.channels<<",\"z\":"<<o.raw.z<<",\"time\":"<<o.raw.t<<",\"follow_display\":"<<(o.raw_follow_display?"true":"false")<<",\"max_pixels\":"<<o.raw_max_pixels<<'}';
     s<<",\"environment\":{\"app_version\":"<<batch_json_quote(e->app_version)<<",\"source_tree_sha256\":"<<batch_json_quote(e->source_tree_sha256)<<",\"compiler\":"<<batch_json_quote(e->compiler)<<",\"compiler_flags\":"<<batch_json_quote(e->compiler_flags)<<",\"configuration\":"<<batch_json_quote(e->configuration)<<",\"platform\":"<<batch_json_quote(e->platform)<<",\"geos_version\":"<<batch_json_quote(e->geos_version)<<",\"openslide_version\":"<<batch_json_quote(e->openslide_version)<<",\"sqlite_version\":"<<batch_json_quote(e->sqlite_version)<<"}}";
     auto value=s.str();if(value.size()>512*1024) throw std::length_error("batch parameter manifest exceeds limit");return value;
 }
@@ -167,6 +172,11 @@ struct ProjectBatchRequest::Data {
     explicit Data(const StainTransform& t):transform(t) {}
 };
 void ProjectBatchOptions::validate() const {
+    if(raw_grid) {
+        raw_grid->validate();ScientificRawOptions options;options.work_bytes=raw_grid_work_bytes;options.validate();
+        if(kind!=ProjectBatchKind::Raw || raw.region.level!=0 || roi_tile_size!=256)
+            throw std::invalid_argument("raw grid sampling requires a raw batch without natural level/tile overrides");
+    } else if(raw_grid_work_bytes!=256u*1024*1024) throw std::invalid_argument("raw grid work budget requires raw grid sampling");
     if(cell_grid) {
         cell_grid->validate();grid_cells.validate();
         if(kind!=ProjectBatchKind::Cells || cell_min_nucleus_area_um2 || cell_max_nucleus_area_um2)
@@ -281,7 +291,8 @@ struct ProjectBatchKernel {
                             }
                             else if(o.kind==ProjectBatchKind::Raw) {
                                 auto region=o.raw;if(o.raw_follow_display) {const auto view=doc->server()->tiff_view();if(!view) throw std::invalid_argument("raw batch requires quantitative TIFF images");region.z=view->z;region.t=view->t;}
-                                RawAnalysisRequest r(*doc,region,id,o.nucleus,o.roi_tile_size,o.raw_max_pixels);
+                                ScientificRawOptions options;options.first_channel=region.first_channel;options.channels=region.channels;options.z=region.z;options.t=region.t;options.work_bytes=o.raw_grid_work_bytes;
+                                RawAnalysisRequest r=o.raw_grid?RawAnalysisRequest::for_grid_roi(*doc,id,*o.raw_grid,options,o.nucleus,o.raw_max_pixels):RawAnalysisRequest(*doc,region,id,o.nucleus,o.roi_tile_size,o.raw_max_pixels);
                                 if(compute) {auto value=analyze_raw(r,c);digest=value->input_sha256();result.raw_tiles+=value->tiles();record=doc->keep_raw_analysis(r,value);bytes=doc->raw_analysis_record(record)->payload_bytes();}
                                 else {auto value=raw_analysis_input_digest(r,c);digest=value.input_sha256;result.raw_hashed_tiles+=value.tiles;}
                             }

@@ -184,6 +184,33 @@ int main() {
                 check(resumed.reused==1 && resumed.images[0].raw_tiles==0 && resumed.images[0].raw_hashed_tiles==1 && resumed.images[0].path==first.images[0].path);
                 check(output.parent_path()==fs::current_path());fs::remove_all(output);
             }
+            if(has_project()) {
+                Project project;const auto first_image=project.add_tiff_image(path.u8string(),TiffOpenOptions{},"Grid A");
+                const auto second_image=project.add_tiff_image(path.u8string(),TiffOpenOptions{},"Grid B");
+                project.document(first_image)->add_rectangle({0,0,2,2},"whole");project.document(second_image)->add_rectangle({0,0,2,2},"whole");
+                ProjectBatchOptions options;options.kind=ProjectBatchKind::Raw;options.raw_grid=RawGridSampling{};
+                options.raw_grid->samples_x=1;options.raw_grid->samples_y=1;options.raw_grid->context_x=1;
+                const StainTransform ignored({{1,0,0},{0,1,0}});const ProjectBatchRequest captured(project,ignored,{},options);
+                check(captured.parameters_json().find("qpx.raw-grid-statistics-input/1")!=std::string::npos);
+                ProjectBatchOptions natural=options;natural.raw_grid.reset();const ProjectBatchRequest old(project,ignored,{},natural);
+                check(old.parameters_sha256()!=captured.parameters_sha256() && old.parameters_json().find("raw_grid")==std::string::npos);
+                auto invalid=options;invalid.raw.region.level=1;rejects([&]{invalid.validate();});invalid=options;invalid.roi_tile_size=16;rejects([&]{invalid.validate();});
+                const auto folder=fs::path(path.u8string()+".grid-batch");std::atomic<bool> cancelled{false};
+                const auto interrupted=run_project_batch(captured,folder.u8string(),&cancelled,[&](const auto& item){if(item.state=="saved") cancelled.store(true);});
+                check(interrupted.state=="cancelled" && interrupted.saved==1);
+                cancelled.store(false);const auto resumed=run_project_batch(captured,folder.u8string(),&cancelled);
+                if(resumed.state!="succeeded") throw std::runtime_error(resumed.error+(resumed.images.empty()?"":resumed.images[0].error));
+                check(resumed.reused==1 && resumed.saved==1 && resumed.images[0].raw_tiles==0 && resumed.images[0].raw_hashed_tiles==1);
+                const auto repeated=run_project_batch(captured,folder.u8string());check(repeated.reused==2 && repeated.saved==0);
+                for(const auto& image:repeated.images) {
+                    check(image.raw_tiles==0 && image.raw_hashed_tiles==1 && batch_checkpoint_csv(image.path).find("qpx.raw-analysis-csv/2")!=std::string::npos);
+                    const auto loaded=Project::open(image.path);const auto doc=loaded->document(image.image_id);const auto record=doc->raw_analysis_records().back();
+                    check(record->result->grid() && record->result->statistics().means[0]==26448. && record->result->grid()->grid.x().context()==1);
+                }
+                check(project.document(first_image)->raw_analysis_record_count()==0 && project.document(second_image)->raw_analysis_record_count()==0);
+                check(folder.parent_path()==fs::current_path());fs::remove_all(folder);
+                std::cout<<"Raw grid TIFF batch distinct recipe, interrupted checkpoint resume and hash-only typed CSV passed\n";
+            }
             auto alternate=*server->tiff_view();alternate.upper={40000,40000,40000};auto projected=server->with_tiff_view(alternate);
             check(projected->read_region(RegionRequest(0,0,0,2,2)).bytes()[8]==255);
             check(projected->tiff_read_stats()->decoded_blocks==1 && server->tiff_view()->upper[0]==65535);

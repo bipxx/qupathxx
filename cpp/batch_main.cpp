@@ -44,6 +44,7 @@ int execute(const std::vector<std::string>& args) {
             "                 --weight-column NAME --allow-unversioned --csv-bytes N\n"
             "Raw options: --raw-level N --raw-channel N --raw-channels N (zero-based axes)\n"
             "             --raw-z N --raw-time N --raw-explicit-axes --raw-max-pixels N\n"
+            "Raw grids: --raw-grid-samples NX,NY [--raw-grid-context CX,CY --raw-grid-work-bytes N] (no level/tile flags)\n"
             "--kind od|stains|tissue|cells|pixels|raw  --image ID (repeatable)\n"
             "Cells: --cell-algorithm distance|log|log-bodies|log-sampled --cell-log-prominence N --cell-context-padding N\n"
             "Grid cells: --cell-algorithm grid --cell-grid-samples NX,NY --cell-grid-context CX,CY\n"
@@ -78,7 +79,7 @@ int execute(const std::vector<std::string>& args) {
         if(args.size()==4 && args[1]=="--export-csv") {save_batch_checkpoint_csv(args[2],args[3]);return 0;}
         if(args.size()<3 || args[1].rfind("--",0)==0) throw std::invalid_argument("expected PROJECT and OUTPUT_DIRECTORY; see --help");
         ProjectBatchOptions options;std::vector<ProjectBatchSelection> selection;std::vector<std::uint64_t> objects;
-        bool legacy_cell_flags=false,legacy_algorithm=false;
+        bool legacy_cell_flags=false,legacy_algorithm=false,requested_raw_level=false,requested_raw_grid=false,raw_grid_flags=false;
         bool requested_level=false;std::optional<std::size_t> requested_tile_size;std::string pixel_model_path;ColorVector white{255,255,255};std::vector<ColorVector> stains{{.65,.70,.29},{.07,.99,.11}};bool normalized=false;
         for(std::size_t i=3;i<args.size();++i) {
             const auto& flag=args[i];auto value=[&]()->const std::string& {if(++i==args.size()) throw std::invalid_argument("missing value for "+flag);return args[i];};
@@ -91,10 +92,22 @@ int execute(const std::vector<std::string>& args) {
             }
             else if(flag=="--raw-level" || flag=="--raw-channel" || flag=="--raw-channels" || flag=="--raw-z" || flag=="--raw-time") {
                 const auto n=integer(value());if(n>65535 && !(flag=="--raw-channels" && n==65536)) throw std::invalid_argument("raw axis exceeds limit");
-                if(flag=="--raw-level") options.raw.region.level=static_cast<std::int32_t>(n);
+                if(flag=="--raw-level") {requested_raw_level=true;options.raw.region.level=static_cast<std::int32_t>(n);}
                 else if(flag=="--raw-channel") options.raw.first_channel=static_cast<std::uint32_t>(n);
                 else if(flag=="--raw-channels") options.raw.channels=static_cast<std::uint32_t>(n);
                 else {options.raw_follow_display=false;if(flag=="--raw-z") options.raw.z=static_cast<std::uint32_t>(n);else options.raw.t=static_cast<std::uint32_t>(n);}
+            }
+            else if(flag=="--raw-grid-samples" || flag=="--raw-grid-context" || flag=="--raw-grid-work-bytes") {
+                raw_grid_flags=true;if(!options.raw_grid) options.raw_grid=RawGridSampling{};
+                if(flag=="--raw-grid-work-bytes") options.raw_grid_work_bytes=std::size_t(integer(value()));
+                else {
+                    const auto v=value();const auto comma=v.find(',');
+                    if(comma==std::string::npos || v.find(',',comma+1)!=std::string::npos) throw std::invalid_argument("raw grid axes require two comma-separated integers");
+                    const auto x=integer(v.substr(0,comma)),y=integer(v.substr(comma+1));const auto limit=flag=="--raw-grid-samples"?1000000u:4096u;
+                    if(x>limit || y>limit) throw std::invalid_argument("raw grid axes exceed limits");
+                    if(flag=="--raw-grid-samples") {requested_raw_grid=true;options.raw_grid->samples_x=std::uint32_t(x);options.raw_grid->samples_y=std::uint32_t(y);}
+                    else {options.raw_grid->context_x=std::uint32_t(x);options.raw_grid->context_y=std::uint32_t(y);}
+                }
             }
             else if(flag=="--raw-max-pixels") options.raw_max_pixels=integer(value());
             else if(flag=="--raw-explicit-axes") options.raw_follow_display=false;
@@ -148,6 +161,8 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--nucleus") options.nucleus=true;
             else throw std::invalid_argument("unknown option: "+flag);
         }
+        if(raw_grid_flags && !requested_raw_grid) throw std::invalid_argument("raw grid options require --raw-grid-samples NX,NY");
+        if(options.raw_grid && (requested_raw_level || requested_level || requested_tile_size)) throw std::invalid_argument("raw grids do not accept natural level or tile flags");
         if(options.cells.algorithm==CellAlgorithm::SampledLogWatershedBodies) {options.cells.min_peak_radius=0;options.cells.min_seed_distance=0;}
         if(options.cell_grid && (legacy_algorithm || legacy_cell_flags || requested_level || requested_tile_size || options.cell_min_nucleus_area_um2 || options.cell_max_nucleus_area_um2))
             throw std::invalid_argument("grid cells require grid-unit options without legacy algorithm, level, tile or physical-area flags");
