@@ -1,0 +1,98 @@
+[
+  {
+    "case": "uint64",
+    "run": 0,
+    "image": {
+      "schema": "qpx.batch-image/1",
+      "image_id": 1,
+      "image_name": "source.tif",
+      "state": "saved",
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw180-cli-valid\\uint64\\\u7ed3\u679c\\image-1-af6f2e256106a40235ea7202957057aff51332c5b252a77f7d17b5eff3d5f23b\\8b5538243a2b56f87874a3a06d62cb5d489cc2fa01b4592f27fe092ac9ec1b40.qpxproj",
+      "error": "",
+      "input_sha256": "778303e40eabab5a75ed10dd80728b711df76f2b0d3b29c508fd65c3f5c868e1",
+      "pixel_sha256": "8b5538243a2b56f87874a3a06d62cb5d489cc2fa01b4592f27fe092ac9ec1b40",
+      "objects": 1,
+      "records": 1,
+      "inferred_blocks": 0,
+      "hashed_blocks": 0,
+      "verified_blocks": 0,
+      "stream_bytes": 0,
+      "raw_tiles": 1,
+      "raw_hashed_tiles": 0,
+      "elapsed_ms": 31.9891
+    },
+    "expected_mean_hex": "0x1.0000000000003p+53"
+  },
+  {
+    "case": "uint64",
+    "run": 1,
+    "image": {
+      "schema": "qpx.batch-image/1",
+      "image_id": 1,
+      "image_name": "source.tif",
+      "state": "reused",
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw180-cli-valid\\uint64\\\u7ed3\u679c\\image-1-af6f2e256106a40235ea7202957057aff51332c5b252a77f7d17b5eff3d5f23b\\8b5538243a2b56f87874a3a06d62cb5d489cc2fa01b4592f27fe092ac9ec1b40.qpxproj",
+      "error": "",
+      "input_sha256": "778303e40eabab5a75ed10dd80728b711df76f2b0d3b29c508fd65c3f5c868e1",
+      "pixel_sha256": "8b5538243a2b56f87874a3a06d62cb5d489cc2fa01b4592f27fe092ac9ec1b40",
+      "objects": 1,
+      "records": 1,
+      "inferred_blocks": 0,
+      "hashed_blocks": 0,
+      "verified_blocks": 0,
+      "stream_bytes": 0,
+      "raw_tiles": 0,
+      "raw_hashed_tiles": 1,
+      "elapsed_ms": 19.0306
+    },
+    "expected_mean_hex": "0x1.0000000000003p+53"
+  },
+  {
+    "case": "axes",
+    "run": 0,
+    "image": {
+      "schema": "qpx.batch-image/1",
+      "image_id": 1,
+      "image_name": "source.ome.tif",
+      "state": "saved",
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw180-cli-valid\\axes\\\u7ed3\u679c\\image-1-a1dd1e2a6dc633cbe8c8786c4acfc10f5cff0afb44cc3604be7b8666b84bf948\\71c8892daa3ef671c4403259a848227b614f04d32eaefbd81a2347aad02043b1.qpxproj",
+      "error": "",
+      "input_sha256": "17604d5ae14f34d98a607f2a3346d1f7c039518e8ac10354e6bb29e79f44433d",
+      "pixel_sha256": "71c8892daa3ef671c4403259a848227b614f04d32eaefbd81a2347aad02043b1",
+      "objects": 1,
+      "records": 1,
+      "inferred_blocks": 0,
+      "hashed_blocks": 0,
+      "verified_blocks": 0,
+      "stream_bytes": 0,
+      "raw_tiles": 1,
+      "raw_hashed_tiles": 0,
+      "elapsed_ms": 36.113
+    },
+    "expected_mean_hex": "0x1.c800000000000p+4"
+  },
+  {
+    "case": "axes",
+    "run": 1,
+    "image": {
+      "schema": "qpx.batch-image/1",
+      "image_id": 1,
+      "image_name": "source.ome.tif",
+      "state": "reused",
+      "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw180-cli-valid\\axes\\\u7ed3\u679c\\image-1-a1dd1e2a6dc633cbe8c8786c4acfc10f5cff0afb44cc3604be7b8666b84bf948\\71c8892daa3ef671c4403259a848227b614f04d32eaefbd81a2347aad02043b1.qpxproj",
+      "error": "",
+      "input_sha256": "17604d5ae14f34d98a607f2a3346d1f7c039518e8ac10354e6bb29e79f44433d",
+      "pixel_sha256": "71c8892daa3ef671c4403259a848227b614f04d32eaefbd81a2347aad02043b1",
+      "objects": 1,
+      "records": 1,
+      "inferred_blocks": 0,
+      "hashed_blocks": 0,
+      "verified_blocks": 0,
+      "stream_bytes": 0,
+      "raw_tiles": 0,
+      "raw_hashed_tiles": 1,
+      "elapsed_ms": 19.8513
+    },
+    "expected_mean_hex": "0x1.c800000000000p+4"
+  }
+]

@@ -1,0 +1,62 @@
+{
+  "windows/Release/qupathxx_core.lib": {
+    "bytes": 74406288,
+    "sha256": "7f653fb3af4bdde53422b690db0969e6d45f347810b1a4b2f5f0fdd240632ac4"
+  },
+  "windows/Release/qupathxx_batch.exe": {
+    "bytes": 3261440,
+    "sha256": "d05c8e523d8ad4b312f7ffe94e9fbece681bcd332533c99d1f6eca54cb397e47"
+  },
+  "windows/Release/qupathxx_resampling_tests.exe": {
+    "bytes": 2256896,
+    "sha256": "602c942bf4c2de6e8de9e8efff8f62780bb4551c4b0dc84eab8ebd368be3a9ca"
+  },
+  "windows/Release/qupathxx_cell_tests.exe": {
+    "bytes": 1855488,
+    "sha256": "727f7cd1afd40725cf57b299f6757bfd3c5e45aabbde46322888b34446f50108"
+  },
+  "windows/CMakeCache.txt": {
+    "bytes": 41667,
+    "sha256": "70f615ee4b4d1c2bc40650151332ef9071dd90d01c5cb48df2cd3e88e98d0bc0"
+  },
+  "windows/generated/build_manifest.hpp": {
+    "bytes": 706,
+    "sha256": "43161f0271198701fb7f1b379c58e7c68b23d7fd15a037579af182bceaa13a33"
+  },
+  "linux/libqupathxx_core.a": {
+    "bytes": 9602804,
+    "sha256": "b50c9be81a9f7fc72ad3a8b814cec0100488cf5524b633699ed8da370559a5e3"
+  },
+  "linux/qupathxx_resampling_tests": {
+    "bytes": 3203032,
+    "sha256": "037c56d233c172fb6b95b37904b46b5aeda29b2740612ff0467a81543abf79c7"
+  },
+  "linux/CMakeCache.txt": {
+    "bytes": 20473,
+    "sha256": "8b8868ec0ef147d2242d9684729d8a63071b772569073925b727efc2eba245ee"
+  },
+  "linux/generated/build_manifest.hpp": {
+    "bytes": 629,
+    "sha256": "346244aaddec14e3c756c320e9c23b005d84a0b73fb2e8d6c1c54ba07c5ff10c"
+  },
+  "tiff-linux/libqupathxx_core.a": {
+    "bytes": 10202116,
+    "sha256": "98ffaaa8773a2f621c3e2f01c15bf0e1fab92662bc4bfd02bb5d57d4a54a61f9"
+  },
+  "tiff-linux/qupathxx_resampling_tests": {
+    "bytes": 4700440,
+    "sha256": "cd20b56cabe21f327c0129659394f498370d01ab29e03653d9587c243b1b9d89"
+  },
+  "tiff-linux/qupathxx_raw_image_tests": {
+    "bytes": 5909888,
+    "sha256": "e9ddfc8705b78bce0e0c86bdbc1fd8e61c9ae01f25930b626c951ffdb5ba4a68"
+  },
+  "tiff-linux/CMakeCache.txt": {
+    "bytes": 39223,
+    "sha256": "ea2b5d167122d78f7f0eae67e76853ebba324d183725215ad4101056a98310ca"
+  },
+  "tiff-linux/generated/build_manifest.hpp": {
+    "bytes": 629,
+    "sha256": "346244aaddec14e3c756c320e9c23b005d84a0b73fb2e8d6c1c54ba07c5ff10c"
+  }
+}

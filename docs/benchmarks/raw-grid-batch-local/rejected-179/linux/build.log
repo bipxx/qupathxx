@@ -1,0 +1,829 @@
+[  0%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project.cpp.o
+[  2%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/scientific_cells.cpp.o
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/cell_numeric.hpp:2,
+                 from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:2,
+                 from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_recipe.hpp:2,
+                 from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cells.cpp:4:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/masked_gaussian.hpp: In function ‘void qpx::detail::masked_gaussian(std::vector<double>&, const std::vector<unsigned char>&, std::size_t, std::size_t, double, Checkpoint)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/masked_gaussian.hpp:8:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+    8 |     if(sigma==0) return;const auto radius=static_cast<int>(std::ceil(3*sigma));std::vector<double> kernel(2*radius+1);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/masked_gaussian.hpp:8:25: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+    8 |     if(sigma==0) return;const auto radius=static_cast<int>(std::ceil(3*sigma));std::vector<double> kernel(2*radius+1);
+      |                         ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/masked_gaussian.hpp:18:21: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   18 |                     if((x&4095)==0) checkpoint();double sum=0,weight=0;
+      |                     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/masked_gaussian.hpp:18:50: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   18 |                     if((x&4095)==0) checkpoint();double sum=0,weight=0;
+      |                                                  ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/masked_gaussian.hpp:34:17: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   34 |                 if((x&4095)==0) checkpoint();double sum=0,weight=0;
+      |                 ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/masked_gaussian.hpp:34:46: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   34 |                 if((x&4095)==0) checkpoint();double sum=0,weight=0;
+      |                                              ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/cell_numeric.hpp: In member function ‘void qpx::cell_detail::LineTransform::run(std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/cell_numeric.hpp:22:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   22 |             if((q&4095)==0) checkpoint(cancelled);if(input[q]>=infinity) continue;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/cell_numeric.hpp:22:51: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   22 |             if((q&4095)==0) checkpoint(cancelled);if(input[q]>=infinity) continue;
+      |                                                   ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/cell_numeric.hpp:27:17: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   27 |                 if(crossing>breaks[used-1]) break;--used;
+      |                 ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/cell_numeric.hpp:27:51: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   27 |                 if(crossing>breaks[used-1]) break;--used;
+      |                                                   ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp: In function ‘void qpx::cell_detail::physical_distance(std::vector<double>&, std::size_t, std::size_t, const PhysicalGridMetric&, bool, std::vector<unsigned int>*, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:130:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  130 |             if((x&4095)==0) checkpoint(cancelled);const auto i=y*width+x;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:130:51: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  130 |             if((x&4095)==0) checkpoint(cancelled);const auto i=y*width+x;
+      |                                                   ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:131:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  131 |             if(values[i]==0) left=static_cast<std::uint32_t>(i);map[i]=left;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:131:65: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  131 |             if(values[i]==0) left=static_cast<std::uint32_t>(i);map[i]=left;
+      |                                                                 ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:134:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  134 |             if((x&4095)==0) checkpoint(cancelled);const auto i=y*width+x;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:134:51: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  134 |             if((x&4095)==0) checkpoint(cancelled);const auto i=y*width+x;
+      |                                                   ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:146:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  146 |             if((y&4095)==0) checkpoint(cancelled);if(column[y]==absent) continue;std::size_t start=0;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:146:51: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  146 |             if((y&4095)==0) checkpoint(cancelled);if(column[y]==absent) continue;std::size_t start=0;
+      |                                                   ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:157:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  157 |             if(!used) start=0;if(start==height) continue;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:157:31: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  157 |             if(!used) start=0;if(start==height) continue;
+      |                               ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:162:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  162 |             if((y&4095)==0) checkpoint(cancelled);while(at+1<used && starts[at+1]<=y) ++at;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:162:51: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  162 |             if((y&4095)==0) checkpoint(cancelled);while(at+1<used && starts[at+1]<=y) ++at;
+      |                                                   ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp: In function ‘void qpx::cell_detail::physical_gaussian(std::vector<double>&, const std::vector<unsigned char>&, std::size_t, std::size_t, const PhysicalGridMetric&, double, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:216:17: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  216 |                 if((x&4095)==0) checkpoint(cancelled);double sum=0,weight=0;
+      |                 ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_numeric.hpp:216:55: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  216 |                 if((x&4095)==0) checkpoint(cancelled);double sum=0,weight=0;
+      |                                                       ^~~~~~
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:3,
+                 from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_recipe.hpp:3:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/shape_watershed.hpp: In member function ‘void qpx::cell_detail::SampledShapeWatershed::find_candidates(float, float)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/shape_watershed.hpp:55:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   55 |             if(!is_max) continue;types_[i]=maximum;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/shape_watershed.hpp:55:34: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   55 |             if(!is_max) continue;types_[i]=maximum;
+      |                                  ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/shape_watershed.hpp: In member function ‘void qpx::cell_detail::SampledShapeWatershed::grow_levels()’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/shape_watershed.hpp:155:21: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+  155 |                     for(auto i:changed) levels_[i]=255;remaining-=changed.size();if(!changed.empty()) idle=0;++direction;
+      |                     ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/shape_watershed.hpp:155:56: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+  155 |                     for(auto i:changed) levels_[i]=255;remaining-=changed.size();if(!changed.empty()) idle=0;++direction;
+      |                                                        ^~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/shape_watershed.hpp: In member function ‘qpx::cell_detail::ShapeSplit qpx::cell_detail::SampledShapeWatershed::run(const std::vector<unsigned char>&, double, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/shape_watershed.hpp:183:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+  183 |         for(std::size_t i=0;i<size_;++i) edm_[i]=static_cast<float>(std::sqrt(squared[i]));std::vector<double>().swap(squared);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/shape_watershed.hpp:183:92: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+  183 |         for(std::size_t i=0;i<size_;++i) edm_[i]=static_cast<float>(std::sqrt(squared[i]));std::vector<double>().swap(squared);
+      |                                                                                            ^~~
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:151:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp: In function ‘std::vector<unsigned int> qpx::cell_detail::log_response_basins(const std::vector<float>&, std::size_t, std::size_t, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp:13:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   13 |         if((i&4095)==0) checkpoint(cancelled);if(visited[i] || response[i]<.001f) continue;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp:13:47: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   13 |         if((i&4095)==0) checkpoint(cancelled);if(visited[i] || response[i]<.001f) continue;
+      |                                               ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp:27:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   27 |         if((i&4095)==0) checkpoint(cancelled);if(!maxima[i] || seeds[i]) continue;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp:27:47: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   27 |         if((i&4095)==0) checkpoint(cancelled);if(!maxima[i] || seeds[i]) continue;
+      |                                               ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp:46:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   46 |         if(collision) continue;labels[next.index]=next.label;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp:46:32: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   46 |         if(collision) continue;labels[next.index]=next.label;
+      |                                ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp: In lambda function:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp:48:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   48 |             if(queued[j] || response[j]<=0) return;queued[j]=1;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp:48:52: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   48 |             if(queued[j] || response[j]<=0) return;queued[j]=1;
+      |                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp: In function ‘std::vector<unsigned char> qpx::cell_detail::log_basin_regions(const std::vector<float>&, std::size_t, std::size_t, const LogParameters&, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp:63:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   63 |         if((i&4095)==0) checkpoint(cancelled);const auto id=components[i];if(!id || seen[id]) continue;seen[id]=1;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp:63:47: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   63 |         if((i&4095)==0) checkpoint(cancelled);const auto id=components[i];if(!id || seen[id]) continue;seen[id]=1;
+      |                                               ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp:67:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   67 |             if((at&4095)==0) checkpoint(cancelled);const auto j=queue[at];left=std::min(left,j%width);right=std::max(right,j%width);top=std::min(top,j/width);bottom=std::max(bottom,j/width);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp:67:52: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   67 |             if((at&4095)==0) checkpoint(cancelled);const auto j=queue[at];left=std::min(left,j%width);right=std::max(right,j%width);top=std::min(top,j/width);bottom=std::max(bottom,j/width);
+      |                                                    ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp:86:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   86 |         if((i&4095)==0) checkpoint(cancelled);if(!positive[i]) continue;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_response_regions.hpp:86:47: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   86 |         if((i&4095)==0) checkpoint(cancelled);if(!positive[i]) continue;
+      |                                               ^~
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:152:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_sampled_nuclei.hpp: In function ‘qpx::cell_detail::LogResult qpx::cell_detail::log_sampled_nuclei(const std::vector<float>&, const std::vector<unsigned char>&, const std::vector<unsigned char>&, std::size_t, std::size_t, const LogParameters&, const std::atomic<bool>*, std::atomic<int>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_sampled_nuclei.hpp:9:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+    9 |     if(phase) phase->store(3);const auto shaped=sampled_shape_watershed(mask,width,height,p.prominence,p.maximum_cells,p.work_bytes,cancelled);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_sampled_nuclei.hpp:9:31: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+    9 |     if(phase) phase->store(3);const auto shaped=sampled_shape_watershed(mask,width,height,p.prominence,p.maximum_cells,p.work_bytes,cancelled);
+      |                               ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_sampled_nuclei.hpp:10:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   10 |     if(phase) phase->store(4);const auto n=mask.size();LogResult result;result.labels.resize(n);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_sampled_nuclei.hpp:10:31: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   10 |     if(phase) phase->store(4);const auto n=mask.size();LogResult result;result.labels.resize(n);
+      |                               ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_sampled_nuclei.hpp:16:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   16 |         if((i&4095)==0) checkpoint(cancelled);result.candidate_pixels+=mask[i] && domain[i];
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_sampled_nuclei.hpp:16:47: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   16 |         if((i&4095)==0) checkpoint(cancelled);result.candidate_pixels+=mask[i] && domain[i];
+      |                                               ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_sampled_nuclei.hpp:21:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   21 |             if((at&4095)==0) checkpoint(cancelled);const auto j=queue[at];left=std::min(left,j%width);right=std::max(right,j%width);top=std::min(top,j/width);bottom=std::max(bottom,j/width);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_sampled_nuclei.hpp:21:52: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   21 |             if((at&4095)==0) checkpoint(cancelled);const auto j=queue[at];left=std::min(left,j%width);right=std::max(right,j%width);top=std::min(top,j/width);bottom=std::max(bottom,j/width);
+      |                                                    ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_sampled_nuclei.hpp:37:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   37 |             if(result.count>=p.maximum_cells) throw std::length_error("sampled nucleus output limit exceeded");dense[id]=static_cast<std::uint32_t>(++result.count);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_sampled_nuclei.hpp:37:112: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   37 |             if(result.count>=p.maximum_cells) throw std::length_error("sampled nucleus output limit exceeded");dense[id]=static_cast<std::uint32_t>(++result.count);
+      |                                                                                                                ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp: In lambda function:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:168:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  168 |             if(!higher(heap[next],heap[at])) break;exchange(at,next);at=next;}
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:168:52: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  168 |             if(!higher(heap[next],heap[at])) break;exchange(at,next);at=next;}
+      |                                                    ^~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp: In lambda function:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:176:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  176 |             if(position[j]==none) return;const auto proposed=std::min(reconstructed[i],distance[j]);if(proposed<=reconstructed[j]) return;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:176:42: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  176 |             if(position[j]==none) return;const auto proposed=std::min(reconstructed[i],distance[j]);if(proposed<=reconstructed[j]) return;
+      |                                          ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp: In function ‘qpx::cell_detail::LogResult qpx::cell_detail::log_split_regions(const std::vector<Score>&, const std::vector<unsigned char>&, const std::vector<unsigned char>&, const std::vector<double>&, std::size_t, std::size_t, const LogParameters&, const std::atomic<bool>*, std::atomic<int>*, double, double)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:199:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  199 |         if((i&4095)==0) checkpoint(cancelled);if(!maxima[i] || markers[i]) continue;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:199:47: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  199 |         if((i&4095)==0) checkpoint(cancelled);if(!maxima[i] || markers[i]) continue;
+      |                                               ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:203:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  203 |             if((at&4095)==0) checkpoint(cancelled);const auto j=queue[at];radius=std::max(radius,distance[j]);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:203:52: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  203 |             if((at&4095)==0) checkpoint(cancelled);const auto j=queue[at];radius=std::max(radius,distance[j]);
+      |                                                    ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:234:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  234 |         if((processed++&4095)==0) checkpoint(cancelled);std::pop_heap(heap.begin(),heap.end(),later);const auto next=heap.back();heap.pop_back();state[next.index]=2;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:234:57: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  234 |         if((processed++&4095)==0) checkpoint(cancelled);std::pop_heap(heap.begin(),heap.end(),later);const auto next=heap.back();heap.pop_back();state[next.index]=2;
+      |                                                         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:237:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  237 |         if(conflict) continue;result.labels[next.index]=next.label;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:237:31: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  237 |         if(conflict) continue;result.labels[next.index]=next.label;
+      |                               ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp: In lambda function:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:239:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  239 |             if(!mask[j] || state[j]) return;state[j]=1;heap.push_back({std::max(next.cost,-distance[j]),age++,static_cast<std::uint32_t>(j),next.label});std::push_heap(heap.begin(),heap.end(),later);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:239:45: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  239 |             if(!mask[j] || state[j]) return;state[j]=1;heap.push_back({std::max(next.cost,-distance[j]),age++,static_cast<std::uint32_t>(j),next.label});std::push_heap(heap.begin(),heap.end(),later);
+      |                                             ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp: In function ‘qpx::cell_detail::LogResult qpx::cell_detail::log_split_regions(const std::vector<Score>&, const std::vector<unsigned char>&, const std::vector<unsigned char>&, const std::vector<double>&, std::size_t, std::size_t, const LogParameters&, const std::atomic<bool>*, std::atomic<int>*, double, double)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:249:5: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+  249 |     for(auto& peak:result.peaks) peak.label=dense[peak.label];return result;
+      |     ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/log_watershed.hpp:249:63: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+  249 |     for(auto& peak:result.peaks) peak.label=dense[peak.label];return result;
+      |                                                               ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_recipe.hpp: In lambda function:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_recipe.hpp:70:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   70 |         if(visited[i]) return;visited[i]=1;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_recipe.hpp:70:31: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   70 |         if(visited[i]) return;visited[i]=1;
+      |                               ^~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_recipe.hpp: In function ‘qpx::cell_detail::BodyExpansion qpx::cell_detail::expand_grid_cells(const std::vector<unsigned int>&, const std::vector<unsigned char>&, std::size_t, std::size_t, const PhysicalGridMetric&, double, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_recipe.hpp:77:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   77 |         if((i&4095)==0) checkpoint(cancelled);if(visited[i]) continue;bool adjacent=false;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_recipe.hpp:77:47: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   77 |         if((i&4095)==0) checkpoint(cancelled);if(visited[i]) continue;bool adjacent=false;
+      |                                               ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_recipe.hpp:86:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   86 |         if(!owner || collision) continue;result.labels[i]=owner;expansion_neighbors(i,width,height,enqueue);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cell_recipe.hpp:86:42: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   86 |         if(!owner || collision) continue;result.labels[i]=owner;expansion_neighbors(i,width,height,enqueue);
+      |                                          ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cells.cpp: In member function ‘const qpx::CellParameters& qpx::CellRequest::parameters() const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cells.cpp:101:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  101 |     if(scientific_) throw std::logic_error("explicit-grid cells require grid_parameters");return parameters_;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cells.cpp:101:91: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  101 |     if(scientific_) throw std::logic_error("explicit-grid cells require grid_parameters");return parameters_;
+      |                                                                                           ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cells.cpp: In static member function ‘static std::shared_ptr<const qpx::CellResult> qpx::ScientificCellKernel::run(const qpx::CellRequest&, const std::atomic<bool>*, std::atomic<long unsigned int>*, std::atomic<int>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cells.cpp:147:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  147 |         if(peak.radius>=p.min_peak_radius) ++result->raw_peaks_;if(!peak.selected) continue;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cells.cpp:147:65: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  147 |         if(peak.radius>=p.min_peak_radius) ++result->raw_peaks_;if(!peak.selected) continue;
+      |                                                                 ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cells.cpp:158:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  158 |         if((i&4095)==0) checkpoint(cancelled);const auto a=detected.labels[i],b=bodies[i];if(a && a!=b) throw std::logic_error("grid expansion lost a nucleus");
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cells.cpp:158:47: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  158 |         if((i&4095)==0) checkpoint(cancelled);const auto a=detected.labels[i],b=bodies[i];if(a && a!=b) throw std::logic_error("grid expansion lost a nucleus");
+      |                                               ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cells.cpp:159:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  159 |         if(a) ++result->features_[a-1].nucleus_pixels;if(b) ++result->features_[b-1].cell_pixels;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cells.cpp:159:55: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  159 |         if(a) ++result->features_[a-1].nucleus_pixels;if(b) ++result->features_[b-1].cell_pixels;
+      |                                                       ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cells.cpp:182:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  182 |     if(phase) phase->store(6);restore_cell_contours(*result,cancelled);checkpoint(cancelled);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_cells.cpp:182:31: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  182 |     if(phase) phase->store(6);restore_cell_contours(*result,cancelled);checkpoint(cancelled);
+      |                               ^~~~~~~~~~~~~~~~~~~~~
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project.cpp:3:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project.cpp: In member function ‘uint64_t qpx::Project::add_document(std::shared_ptr<qpx::Document>, std::string, std::string, std::string)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project.cpp:262:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  262 |     if(name.empty()) name=embedded?"Image":fs::u8path(source).filename().u8string(); text(name);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project.cpp:262:86: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  262 |     if(name.empty()) name=embedded?"Image":fs::u8path(source).filename().u8string(); text(name);
+      |                                                                                      ^~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project.cpp: In member function ‘void qpx::Project::set_active_image(uint64_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project.cpp:304:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  304 |     if(id) entry(id); if(active_image_==id) return;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project.cpp:304:23: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  304 |     if(id) entry(id); if(active_image_==id) return;
+      |                       ^~
+[  4%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_analysis.cpp.o
+[  7%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_analysis_records.cpp.o
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp:10:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp: In member function ‘void qpx::RawAnalysisRecord::validate(const qpx::ImageMetadata&) const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:125:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  125 |     if(!result->source() || !result->source()->primary || result->source()->reader.rfind("tiff:",0)!=0 || result->source()->scope!="single_file") throw std::invalid_argument("raw analysis requires observed TIFF provenance");result->source()->validate();
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:125:225: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  125 |     if(!result->source() || !result->source()->primary || result->source()->reader.rfind("tiff:",0)!=0 || result->source()->scope!="single_file") throw std::invalid_argument("raw analysis requires observed TIFF provenance");result->source()->validate();
+      |                                                                                                                                                                                                                                 ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp: In member function ‘void qpx::Document::restore_raw_analysis(std::shared_ptr<const qpx::RawAnalysisRecord>)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:129:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  129 |     if(!record || !record->id || record->id>revision_) throw std::invalid_argument("raw analysis record revision mismatch");record->validate(metadata());const auto projection=server_->tiff_view();if(!projection || projection->series!=record->result->metadata().series) throw std::invalid_argument("raw analysis record requires the captured TIFF series");
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:129:125: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  129 |     if(!record || !record->id || record->id>revision_) throw std::invalid_argument("raw analysis record revision mismatch");record->validate(metadata());const auto projection=server_->tiff_view();if(!projection || projection->series!=record->result->metadata().series) throw std::invalid_argument("raw analysis record requires the captured TIFF series");
+      |                                                                                                                             ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp: In member function ‘uint64_t qpx::Document::keep_raw_analysis(const qpx::RawAnalysisRequest&, std::shared_ptr<const qpx::RawAnalysisResult>)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:143:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  143 |     if(!result || !request.matches(*this) || result->capture_!=request.capture_) throw std::invalid_argument("raw analysis result is stale or belongs to another request");advance(revision_);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:143:172: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  143 |     if(!result || !request.matches(*this) || result->capture_!=request.capture_) throw std::invalid_argument("raw analysis result is stale or belongs to another request");advance(revision_);
+      |                                                                                                                                                                            ^~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp: In member function ‘std::vector<std::shared_ptr<const qpx::RawAnalysisRecord> > qpx::Document::raw_analysis_records() const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:163:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  163 |     if(!raw_analysis_snapshot_.empty()) std::sort(result.begin(),result.end(),[](const auto& a,const auto& b){return a->id<b->id;});return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:163:133: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  163 |     if(!raw_analysis_snapshot_.empty()) std::sort(result.begin(),result.end(),[](const auto& a,const auto& b){return a->id<b->id;});return result;
+      |                                                                                                                                     ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp: In member function ‘std::vector<std::shared_ptr<const qpx::RawAnalysisRecord> > qpx::Document::raw_analysis_page(uint64_t, std::size_t) const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:166:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  166 |     if(!limit || limit>512) throw std::invalid_argument("raw analysis page limit must be 1..512");std::vector<std::shared_ptr<const RawAnalysisRecord>> result;result.reserve(std::min(limit,raw_analysis_record_count()));
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:166:99: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  166 |     if(!limit || limit>512) throw std::invalid_argument("raw analysis page limit must be 1..512");std::vector<std::shared_ptr<const RawAnalysisRecord>> result;result.reserve(std::min(limit,raw_analysis_record_count()));
+      |                                                                                                   ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:168:5: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+  168 |     for(auto it=raw_analysis_.upper_bound(after);it!=raw_analysis_.end() && result.size()<limit;++it) result.push_back(it->second.value);return result;
+      |     ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:168:138: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+  168 |     for(auto it=raw_analysis_.upper_bound(after);it!=raw_analysis_.end() && result.size()<limit;++it) result.push_back(it->second.value);return result;
+      |                                                                                                                                          ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp: In member function ‘std::shared_ptr<const qpx::RawAnalysisRecord> qpx::Document::raw_analysis_record(uint64_t) const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:172:5: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+  172 |     for(const auto& block:raw_analysis_snapshot_) for(const auto& record:block->records) if(record && record->id==id) return record;throw std::out_of_range("raw analysis record does not exist");
+      |     ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:172:133: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+  172 |     for(const auto& block:raw_analysis_snapshot_) for(const auto& record:block->records) if(record && record->id==id) return record;throw std::out_of_range("raw analysis record does not exist");
+      |                                                                                                                                     ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp: In member function ‘std::string qpx::Document::raw_analysis_status(uint64_t) const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:185:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  185 |     if(server_->closed()) return "source_closed";const auto view=server_->tiff_view();if(!view || view->series!=result.metadata().series) return "source_changed";
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_records.cpp:185:50: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  185 |     if(server_->closed()) return "source_closed";const auto view=server_->tiff_view();if(!view || view->series!=result.metadata().series) return "source_changed";
+      |                                                  ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp: In constructor ‘qpx::RawAnalysisRequest::RawAnalysisRequest(const qpx::Document&, qpx::RawRegionRequest, uint64_t, bool, std::size_t, uint64_t, std::optional<qpx::ScientificGrid>, qpx::ScientificRawOptions)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp:89:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   89 |             if(!ancestor.parent_id) break;if(++depth>4096) throw std::length_error("raw context hierarchy exceeds 4096 ancestors");ancestor=doc.annotation(ancestor.parent_id);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp:89:43: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   89 |             if(!ancestor.parent_id) break;if(++depth>4096) throw std::length_error("raw context hierarchy exceeds 4096 ancestors");ancestor=doc.annotation(ancestor.parent_id);
+      |                                           ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp: In static member function ‘static bool qpx::RawAnalysisRequest::context_matches(const qpx::Document&, uint64_t, const qpx::RawObjectContext&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp:106:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  106 |     if(!id) return !context.tma;std::size_t depth=0;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp:106:33: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  106 |     if(!id) return !context.tma;std::size_t depth=0;
+      |                                 ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp:112:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  112 |         if(!object.parent_id) return !context.tma;if(++depth>4096) return false;id=object.parent_id;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp:112:51: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  112 |         if(!object.parent_id) return !context.tma;if(++depth>4096) return false;id=object.parent_id;
+      |                                                   ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp: In member function ‘bool qpx::RawAnalysisRequest::matches(const qpx::Document&) const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp:125:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  125 |             if(nucleus_ && !object.nucleus) return false;const auto& roi=nucleus_?*object.nucleus:object.geometry;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp:125:58: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  125 |             if(nucleus_ && !object.nucleus) return false;const auto& roi=nucleus_?*object.nucleus:object.geometry;
+      |                                                          ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp: In member function ‘bool qpx::RawObjectContext::same_metadata(const qpx::RawObjectContext&) const’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp:136:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  136 |     if(!tma) return true;const auto& a=*tma;const auto& b=*other.tma;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis.cpp:136:26: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  136 |     if(!tma) return true;const auto& a=*tma;const auto& b=*other.tma;
+      |                          ^~~~~
+[  7%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_analysis_archive.cpp.o
+[  9%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_tables.cpp.o
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_archive.cpp:4:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_archive.cpp: In static member function ‘static std::vector<unsigned char> qpx::RawAnalysisCodec::encode(const qpx::RawAnalysisRecord&, const qpx::ImageMetadata&, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_archive.cpp:64:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   64 |     if(out.bytes.size()>limit-64) throw std::length_error("raw analysis record exceeds byte limit");Sha256 hash;hash.update(out.bytes.data(),out.bytes.size());const auto sum=hash.finish();out.bytes.insert(out.bytes.end(),sum.begin(),sum.end());detail::export_checkpoint(cancelled);return std::move(out.bytes);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_archive.cpp:64:101: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   64 |     if(out.bytes.size()>limit-64) throw std::length_error("raw analysis record exceeds byte limit");Sha256 hash;hash.update(out.bytes.data(),out.bytes.size());const auto sum=hash.finish();out.bytes.insert(out.bytes.end(),sum.begin(),sum.end());detail::export_checkpoint(cancelled);return std::move(out.bytes);
+      |                                                                                                     ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_archive.cpp: In static member function ‘static std::shared_ptr<const qpx::RawAnalysisRecord> qpx::RawAnalysisCodec::decode(const uint8_t*, std::size_t, const qpx::ImageMetadata&, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_archive.cpp:107:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  107 |     if(in.at!=in.size) throw std::invalid_argument("raw analysis record has trailing bytes");record->validate(image);detail::export_checkpoint(cancelled);return record;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_analysis_archive.cpp:107:94: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  107 |     if(in.at!=in.size) throw std::invalid_argument("raw analysis record has trailing bytes");record->validate(image);detail::export_checkpoint(cancelled);return record;
+      |                                                                                              ^~~~~~
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_tables.cpp:3:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_tables.cpp: In function ‘std::string qpx::{anonymous}::quoted(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_tables.cpp:47:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   47 |     if(value.find_first_of(",\r\n\"")==std::string::npos) return value;std::string out="\"";for(char c:value) {if(c=='\"') out+='\"';out+=c;}return out+'\"';
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_tables.cpp:47:72: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   47 |     if(value.find_first_of(",\r\n\"")==std::string::npos) return value;std::string out="\"";for(char c:value) {if(c=='\"') out+='\"';out+=c;}return out+'\"';
+      |                                                                        ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_tables.cpp: In function ‘std::string qpx::{anonymous}::real(std::optional<double>)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_tables.cpp:50:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   50 |     if(!value) return {};char buffer[64];const auto result=std::to_chars(buffer,buffer+sizeof(buffer),*value,std::chars_format::general,17);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_tables.cpp:50:26: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   50 |     if(!value) return {};char buffer[64];const auto result=std::to_chars(buffer,buffer+sizeof(buffer),*value,std::chars_format::general,17);
+      |                          ^~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_tables.cpp:51:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   51 |     if(result.ec!=std::errc{}) throw std::runtime_error("cannot format raw measurement");return {buffer,result.ptr};
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_tables.cpp:51:90: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   51 |     if(result.ec!=std::errc{}) throw std::runtime_error("cannot format raw measurement");return {buffer,result.ptr};
+      |                                                                                          ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_tables.cpp: In static member function ‘static std::size_t qpx::RawTableKernel::save(const qpx::RawTableRequest&, const std::string&, bool, std::size_t, const std::atomic<bool>*, std::atomic<long unsigned int>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_tables.cpp:92:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   92 |         for(const auto& source:request.data_->protected_sources) detail::guard_file_output(source,"",output);file.commit(replace);return file.bytes();
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_tables.cpp:92:110: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   92 |         for(const auto& source:request.data_->protected_sources) detail::guard_file_output(source,"",output);file.commit(replace);return file.bytes();
+      |                                                                                                              ^~~~
+[  9%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/provenance.cpp.o
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:2:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp: In function ‘std::string qpx::provenance_json(const AnalysisProvenance&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:79:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   79 |     if(j.out.size()>16u*1024u*1024u) throw std::length_error("provenance JSON exceeds 16 MiB");return j.out;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:79:96: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   79 |     if(j.out.size()>16u*1024u*1024u) throw std::length_error("provenance JSON exceeds 16 MiB");return j.out;
+      |                                                                                                ^~~~~~
+[ 11%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/batch_checkpoint.cpp.o
+[ 11%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project_batch.cpp.o
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/batch_checkpoint.cpp:9:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+[ 14%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/viewer_session.cpp.o
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:12:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp: In function ‘void qpx::{anonymous}::publish(const std::filesystem::__cxx11::path&, const std::filesystem::__cxx11::path&, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:113:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  113 |     if(::link(source.c_str(),destination.c_str())!=0) throw std::runtime_error("cannot publish batch checkpoint without replacing an existing file");::unlink(source.c_str());
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:113:150: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  113 |     if(::link(source.c_str(),destination.c_str())!=0) throw std::runtime_error("cannot publish batch checkpoint without replacing an existing file");::unlink(source.c_str());
+      |                                                                                                                                                      ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp: In function ‘std::string qpx::{anonymous}::with_context(const std::string&, const std::string&, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:122:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  122 |     if(quoted || begin!=csv.size()) throw std::logic_error("invalid native CSV rows");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:122:87: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  122 |     if(quoted || begin!=csv.size()) throw std::logic_error("invalid native CSV rows");return result;
+      |                                                                                       ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp: In constructor ‘qpx::ProjectBatchRequest::ProjectBatchRequest(const qpx::Project&, const qpx::StainTransform&, const std::vector<qpx::ProjectBatchSelection>&, qpx::ProjectBatchOptions)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:214:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  214 |         if(!ids.insert(item.image_id).second) throw std::invalid_argument("duplicate batch image selection");const auto& doc=*project.entry(item.image_id).document;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:214:110: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  214 |         if(!ids.insert(item.image_id).second) throw std::invalid_argument("duplicate batch image selection");const auto& doc=*project.entry(item.image_id).document;
+      |                                                                                                              ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:225:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  225 |         if(item.object_ids.size()>100000-d->objects) throw std::length_error("batch exceeds 100000 source objects");d->objects+=item.object_ids.size();charge+=sizeof(ProjectBatchSelection)+item.object_ids.capacity()*sizeof(std::uint64_t);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:225:117: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  225 |         if(item.object_ids.size()>100000-d->objects) throw std::length_error("batch exceeds 100000 source objects");d->objects+=item.object_ids.size();charge+=sizeof(ProjectBatchSelection)+item.object_ids.capacity()*sizeof(std::uint64_t);
+      |                                                                                                                     ^
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:227:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  227 |     if(charge>=options.snapshot_budget) throw std::length_error("batch capture exceeds snapshot budget");std::size_t bytes=0;d->snapshot=project.snapshot_for_save(options.snapshot_budget-charge,bytes,&ids);d->bytes=bytes+charge;d->selections=std::move(chosen);d->capture=std::chrono::duration<double,std::milli>(Clock::now()-start).count();data_=std::move(d);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:227:106: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  227 |     if(charge>=options.snapshot_budget) throw std::length_error("batch capture exceeds snapshot budget");std::size_t bytes=0;d->snapshot=project.snapshot_for_save(options.snapshot_budget-charge,bytes,&ids);d->bytes=bytes+charge;d->selections=std::move(chosen);d->capture=std::chrono::duration<double,std::milli>(Clock::now()-start).count();data_=std::move(d);
+      |                                                                                                          ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp: In static member function ‘static uint64_t qpx::ProjectBatchKernel::cost(const qpx::Document&, bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:239:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+  239 |         for(const auto& item:d.classes_) value+=4ULL*(sizeof(ObjectClass)+128+item.first.size()+item.second.name.size());return value;
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:239:122: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+  239 |         for(const auto& item:d.classes_) value+=4ULL*(sizeof(ObjectClass)+128+item.first.size()+item.second.name.size());return value;
+      |                                                                                                                          ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp: In static member function ‘static std::string qpx::ProjectBatchKernel::pixel_csv(const qpx::Document&, const std::vector<long unsigned int>&, const qpx::ProjectBatchOptions&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:264:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  264 |         if(csv.size()>o.csv_limit) throw std::length_error("pixel batch CSV exceeds byte limit");return csv;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:264:98: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  264 |         if(csv.size()>o.csv_limit) throw std::length_error("pixel batch CSV exceeds byte limit");return csv;
+      |                                                                                                  ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp: In lambda function:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:318:25: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  318 |                         if(names.empty()) return {};std::sort(names.begin(),names.end());return names.front();
+      |                         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/project_batch.cpp:318:53: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  318 |                         if(names.empty()) return {};std::sort(names.begin(),names.end());return names.front();
+      |                                                     ^~~
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:3:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp: In function ‘std::size_t qpx::{anonymous}::payload(const qpx::ViewerEvent&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:43:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   43 |     if(e.tissue) n+=e.tissue->retained_bytes();if(e.cells) n+=e.cells->retained_bytes();if(e.pixels) n+=sizeof(PixelBuffer)+e.pixels->bytes().capacity();
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:43:48: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   43 |     if(e.tissue) n+=e.tissue->retained_bytes();if(e.cells) n+=e.cells->retained_bytes();if(e.pixels) n+=sizeof(PixelBuffer)+e.pixels->bytes().capacity();
+      |                                                ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:45:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   45 |     if(e.raw_pixels) n+=sizeof(RawPixelBuffer)+64+e.raw_pixels->payload_bytes();if(e.raw_metadata) n+=e.raw_metadata->payload_bytes();return n;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:45:81: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   45 |     if(e.raw_pixels) n+=sizeof(RawPixelBuffer)+64+e.raw_pixels->payload_bytes();if(e.raw_metadata) n+=e.raw_metadata->payload_bytes();return n;
+      |                                                                                 ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp: In member function ‘uint64_t qpx::ViewerSession::Impl::submit(qpx::{anonymous}::Command)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:56:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   56 |         if(tickets.size()>=limits.tickets || bytes>limits.queued_bytes-stats.queued_bytes) throw std::length_error("viewer queue is full; consume completed tickets");if(next==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("viewer ticket identity exhausted");
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:56:167: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   56 |         if(tickets.size()>=limits.tickets || bytes>limits.queued_bytes-stats.queued_bytes) throw std::length_error("viewer queue is full; consume completed tickets");if(next==std::numeric_limits<std::uint64_t>::max()) throw std::overflow_error("viewer ticket identity exhausted");
+      |                                                                                                                                                                       ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp: In member function ‘uint64_t qpx::ViewerSession::execute(uint64_t, const std::vector<qpx::ObjectEdit>&, std::string, std::optional<long unsigned int>)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:88:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   88 |     if(!image || edits.empty() || edits.size()>impl_->limits.max_edits) throw std::invalid_argument("invalid viewer edit count or image ID");detail::bounded_utf8(label,4096);Command c(Action::Execute);c.image=image;c.revision=revision;c.edits=edits;c.text=std::move(label);return impl_->submit(std::move(c));
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:88:142: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   88 |     if(!image || edits.empty() || edits.size()>impl_->limits.max_edits) throw std::invalid_argument("invalid viewer edit count or image ID");detail::bounded_utf8(label,4096);Command c(Action::Execute);c.image=image;c.revision=revision;c.edits=edits;c.text=std::move(label);return impl_->submit(std::move(c));
+      |                                                                                                                                              ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp: In member function ‘uint64_t qpx::ViewerSession::verify_raw_analysis(uint64_t, uint64_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:121:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  121 |     if(!record) throw std::invalid_argument("raw verification requires a record ID");Command c(Action::RawVerify);c.image=image;c.after=record;return impl_->submit(std::move(c));
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:121:86: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  121 |     if(!record) throw std::invalid_argument("raw verification requires a record ID");Command c(Action::RawVerify);c.image=image;c.after=record;return impl_->submit(std::move(c));
+      |                                                                                      ^~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp: In member function ‘uint64_t qpx::ViewerSession::export_raw_measurements(uint64_t, const std::string&, bool, const std::vector<long unsigned int>&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:124:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  124 |     if(ids.size()>10000) throw std::invalid_argument("raw selection exceeds 10000 records");Command c(Action::RawTable);c.image=image;c.ids=ids;c.text=detail::export_path(path);c.flag=current;return impl_->submit(std::move(c));
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:124:93: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  124 |     if(ids.size()>10000) throw std::invalid_argument("raw selection exceeds 10000 records");Command c(Action::RawTable);c.image=image;c.ids=ids;c.text=detail::export_path(path);c.flag=current;return impl_->submit(std::move(c));
+      |                                                                                             ^~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp: In member function ‘void qpx::detail::ViewerOwner::Impl::poll(const qpx::detail::ViewerContext&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:156:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  156 |         if(!work) return;auto& w=*work;auto& command=*w.command;const bool stale=w.seed.epoch!=c.epoch+1;
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:156:26: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  156 |         if(!work) return;auto& w=*work;auto& command=*w.command;const bool stale=w.seed.epoch!=c.epoch+1;
+      |                          ^~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:158:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  158 |             if(w.ticket->cancelled.load() && c.cancel_save) c.cancel_save();const auto stats=c.save_stats();
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:158:77: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  158 |             if(w.ticket->cancelled.load() && c.cancel_save) c.cancel_save();const auto stats=c.save_stats();
+      |                                                                             ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:159:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  159 |             if(stats.state=="saving") return;auto e=w.seed;e.path=stats.path;e.committed=stats.state=="saved" || stats.state=="detached";e.state=e.committed?(stats.applied && !stale?"succeeded":"detached"):stats.state=="cancelled"?"cancelled":"failed";e.error=stats.error;e.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-w.started).count();complete(w.ticket,std::move(e));work.reset();return;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:159:46: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  159 |             if(stats.state=="saving") return;auto e=w.seed;e.path=stats.path;e.committed=stats.state=="saved" || stats.state=="detached";e.state=e.committed?(stats.applied && !stale?"succeeded":"detached"):stats.state=="cancelled"?"cancelled":"failed";e.error=stats.error;e.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-w.started).count();complete(w.ticket,std::move(e));work.reset();return;
+      |                                              ^~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:168:13: warning: this ‘else’ clause does not guard... [-Wmisleading-indentation]
+  168 |             else if(!c.blocked && cycle-w.cycle>2) {failure(w.ticket,"image activation failed or was superseded");work.reset();}return;
+      |             ^~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:168:129: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘else’
+  168 |             else if(!c.blocked && cycle-w.cycle>2) {failure(w.ticket,"image activation failed or was superseded");work.reset();}return;
+      |                                                                                                                                 ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:179:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  179 |             if(w.analysis) matches=w.analysis->matches(*doc,e.object_id);if(w.tissue) matches=w.tissue->matches(*doc,e.object_id);if(w.cells) matches=w.cells->matches(*doc,e.object_id);if(w.raw) matches=w.raw->matches(*doc);if(w.reader) matches=doc->server()==w.reader;
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:179:74: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  179 |             if(w.analysis) matches=w.analysis->matches(*doc,e.object_id);if(w.tissue) matches=w.tissue->matches(*doc,e.object_id);if(w.cells) matches=w.cells->matches(*doc,e.object_id);if(w.raw) matches=w.raw->matches(*doc);if(w.reader) matches=doc->server()==w.reader;
+      |                                                                          ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp: In member function ‘void qpx::detail::ViewerOwner::Impl::start(const qpx::detail::ViewerContext&, const std::shared_ptr<qpx::ViewerSession::Impl::Ticket>&, std::unique_ptr<qpx::{anonymous}::Command>)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:224:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  224 |             if(!c.project->path().empty()) paths.push_back(c.project->path());if(!c.project->recovery_source().empty()) paths.push_back(c.project->recovery_source());
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:224:79: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  224 |             if(!c.project->path().empty()) paths.push_back(c.project->path());if(!c.project->recovery_source().empty()) paths.push_back(c.project->recovery_source());
+      |                                                                               ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp: In member function ‘void qpx::detail::ViewerOwner::fail(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:280:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  280 |     if(impl_->ended) return;if(impl_->work) {auto ticket=impl_->work->ticket;ticket->cancelled.store(true);if(impl_->work->future.valid()) impl_->work->future.wait();impl_->failure(ticket,error.empty()?"viewer closed":error,"cancelled");impl_->work.reset();}
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/viewer_session.cpp:280:29: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  280 |     if(impl_->ended) return;if(impl_->work) {auto ticket=impl_->work->ticket;ticket->cancelled.store(true);if(impl_->work->future.valid()) impl_->work->future.wait();impl_->failure(ticket,error.empty()?"viewer closed":error,"cancelled");impl_->work.reset();}
+      |                             ^~
+[ 14%] Linking CXX static library libqupathxx_core.a
+[ 92%] Built target qupathxx_core
+[ 92%] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_raw_sampling_tests.cpp.o
+[ 95%] Linking CXX executable qupathxx_resampling_tests
+[100%] Built target qupathxx_resampling_tests
+[ 97%] Built target qupathxx_core
+[ 97%] Building CXX object CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/cell_tests.cpp.o
+[100%] Building CXX object CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/scientific_cell_tests.cpp.o
+[100%] Linking CXX executable qupathxx_cell_tests
+[100%] Built target qupathxx_cell_tests

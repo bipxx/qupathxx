@@ -181,10 +181,29 @@ installed environments remain unchanged. A wheel is not yet packaged/qualified.
 The Windows development cache now has TIFF-enabled core/module and a current
 natural batch executable; other cached executables retain older identities.
 
-Next: add raw CLI/batch grid recipes/count planning and true hash-only resume,
-plus ImGui/managed-viewer grid producers and runtime/visual replay. Saved-grid
-presentation is adapted and compiled, while production controls remain pending.
-Group these before the next complete wheel and required native/platform campaign.
+The [raw grid batch receipt](benchmarks/raw-grid-batch-local-windows-linux.json)
+accepts selected local native checks at `9c99217`, fingerprint
+`dc46c0c08b9a3ec95061c93e4f3fe3e1ac997232b5942363ba499b45c8ffd129`.
+The shared ROI count/context planner, distinct raw-grid batch recipe and hash-only
+resume pass Windows/minimal Linux resampling and cells, plus TIFF/project Linux
+raw_image and project_batch suites. The latter exercises two-image interruption,
+resume/reuse, QRA2 checkpoints and typed CSV. All 99 evidence-auditor cases pass.
+The native Windows CLI separately passes exact UInt64 ordinary TIFF means, OME
+channel/Z/time selection, Unicode checkpoints, compute/hash-only resume and
+conflicting flag rejection. Its input-project/checkpoint helper uses the older
+accepted Python module; new producer bindings are not yet runtime accepted.
+
+Three failed native observations retain the impossible outside-Document-ROI test
+setup. Corrected tests assert Document rejection and use an explicit grid for
+outside-image sampling. Independent suites are now collected after a test
+failure, with aggregate failure retained. An initial OME uint64 fixture failed
+in the writer before CLI execution; valid dtype/format cases replace that setup.
+The receipt preserves 65 payloads and distinguishes each source/artifact scope.
+
+Next: ImGui/managed-viewer grid producers and runtime/visual replay, followed by
+the grouped producer module/stub candidate. Saved-grid presentation is adapted
+and compiled, while production controls remain pending. Group these before the
+next complete wheel and required native/platform campaign.
 No complete raw workflow, new full platform, biological or supported-release
 acceptance is claimed. Vendors/pyramids/tiled sampling, complete ROI/context
 workspace and UI/performance budgets, and all remaining original M0-M7 criteria
