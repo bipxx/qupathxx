@@ -34,7 +34,7 @@ This does not authorize autonomous worker delegation beyond the existing rules.
 | 2 | TMA desktop workflow: engineering verified | Reuse `GuiTma`, `load_qptma`, `qptma_grid_edits`, `import_qptma`, `qptma_from_grid` and `save_qptma`; retain background IO plus owner-thread preview/apply | Import → preview → apply → edit → undo/redo → project save/restart → export and error/stale/cancel coverage are retained with the accepted desktop evidence |
 | 3 | Integrated TMA source: accepted and promoted to main | Reuse its qualified workflow and inherited gates in subsequent integrated candidates | Matching source/artifacts and required configurations; no supported-release inference |
 | 4 | Annotation/migration: engineering verified at source169 | Shared nested export, physical recovery and source-bound hierarchy contracts pass engine/Mac/portable audits | Combined source169 receipt; broader annotation/interchange and fault campaigns remain in M3/M4 |
-| 5 | Close sampling and scientific analysis gaps | Reuse the implemented explicit-grid RGB pipeline, physical per-axis kernels and QCL5/QCA5 frontend workflow; reuse the pinned production-grid, ROI-stage and resampled-input comparisons; next extend typed raw scientific sampling and its shared analysis workflow, then vendor/pyramid/tiled adapters | Source169 engineering qualification is complete; independent masks/features and split/merge results under predeclared tolerances remain, including anisotropic and unknown calibration |
+| 5 | Close sampling and scientific analysis gaps | Reuse the implemented explicit-grid RGB pipeline, physical per-axis kernels and QCL5/QCA5 frontend workflow; reuse the pinned production-grid, ROI-stage and resampled-input comparisons; typed raw sampling and its shared retention/table/batch/UI workflow now pass source191 engineering gates; next finish vendor/pyramid/tiled adapters and independent scientific acceptance | Source169 engineering qualification is complete; independent masks/features and split/merge results under predeclared tolerances remain, including anisotropic and unknown calibration |
 | 6 | Complete research and batch workflow | Compose existing analysis/classifier jobs and checkpoint batches; build missing coverage/adapters only after native contracts are stable | Same selected workflow in UI/Python/CLI, interrupted-resumed batch correctness and bounded resources |
 | 7 | Close release and remaining inventory requirements | Build on accepted packages; choose support matrix, license/notices policy, installers and clean-machine scripts | Every M0–M7 exit has scope-matched evidence; remaining scope is explicitly scheduled, not silently dropped |
 
@@ -128,13 +128,14 @@ Use independent numeric and biological references and preserve legacy defaults.
 
 General RGBA8 region resampling remains a separate display-oriented operation.
 It does not preserve typed quantitative TIFF values or establish ICC/linear-light
-semantics. Typed raw scientific sampling and vendor/pyramid/tiled cell admission
-remain explicit requirements; reuse existing filters only where their contracts
-match.
+semantics. Bounded typed raw scientific sampling now passes source191
+engineering qualification. Vendor/pyramid/tiled admission and independent
+scientific acceptance remain explicit requirements; reuse filters only where
+their contracts match.
 
-For the next typed raw workflow, start at `RawRegionRequest`/`RawPixelBuffer`
+Preserve the implemented typed raw workflow from `RawRegionRequest`/`RawPixelBuffer`
 and compose through `RawAnalysisRequest`, its job, immutable result and record
-path. Cover all ten exposed `SampleType` values. Freeze strict footprint support
+path. It covers all ten exposed `SampleType` values. Preserve strict footprint support
 and per-channel finite validity before adapting consumers: missing data is not
 a measured zero, and one channel's NaN must not silently erase another channel.
 Use an independent `Fraction`/binary64 oracle for weighted means, including
@@ -142,8 +143,9 @@ UInt64/Int64 extremes, subnormals and cancellation. Do not cast 64-bit integers
 to double before their exact weighted sum or use an overflowing floating
 numerator for a finite mean. Preserve source dtype/bits, series/Z/T/channel
 selection, calibration and request authority in the versioned recipe; retain
-legacy raw behavior. Complete retention/replay, CSV, resumed batch and native
-UI/Python/CLI delivery before scheduling a new integrated qualification.
+legacy raw behavior. Retain the accepted retention/replay, CSV, resumed batch
+and UI/Python/CLI delivery while extending reader/large-slide support. Require
+new source-bound qualification for changed adapters.
 
 ## Implemented TMA desktop pattern to reuse
 

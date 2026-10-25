@@ -17,12 +17,14 @@ shortest implementation route, existing entry points and acceptance per workflow
 The original packet narrative is preserved in [implementation history](project-plan-history.md).
 The [Astra max review](plan-review-astra.md) records the problems and adopted changes.
 
-The qualified application source on public main is `3fc3bcb`, combining
-hierarchy/recovery and the shared explicit-grid scientific RGB-cell workflow.
-The [combined receipt](benchmarks/scientific-grid-169-qualification.json) accepts
-the complete Windows/Linux engine, both-architecture Mac native, and extended
-portable builder/fresh-consumer gates at that exact source. Documentation-only
-receipts follow it. Earlier failed candidates remain preserved and unqualified.
+The qualified application source on public main is `61e546e`, including the
+shared scientific RGB/cell and typed raw-grid workflows, quantitative TIFF
+layout/decoder checks and bounded raw capture/materialization. The
+[combined receipt](benchmarks/raw-grid-191-qualification.json) accepts the
+complete engine, both-architecture Mac native and portable builder/fresh-consumer
+gates at that source. Documentation-only receipts follow it. Later TMA APIs on
+the feature branch require their own campaign. Earlier failed candidates remain
+preserved and unqualified.
 This does not establish biological equivalence, hardware budgets or supported
 release status. Use the [current task](current-task.md), [workflow inventory](feature-matrix.md)
 and [API delivery paths](api-delivery-plan.md) for exact scope and remaining work.
@@ -344,7 +346,7 @@ exists; rebuilding those capabilities would waste effort. Follow the
 
 1. Preserve the accepted TMA/annotation/raw-grid vertical workflows and their
    source-bound evidence. The [current task](current-task.md) records the complete
-   engineering campaign at745662b. Continue the specific unclosed M0-M4 reader,
+   engineering campaign at61e546e. Continue the specific unclosed M0-M4 reader,
    annotation/interchange, fault and hardware requirements instead of rebuilding
    already delivered TMA controls, commands or persistence.
 2. Resolve research evidence prerequisites in parallel with that integration:

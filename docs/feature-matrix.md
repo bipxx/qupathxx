@@ -1,15 +1,15 @@
 # QuPath workflow inventory
 
-The integrated raw-grid application source `745662b` passes the complete required
+The integrated raw-resource application source `61e546e` passes the complete required
 Windows/Linux engine, both Mac native architectures and both portable builders/
-fresh consumers. The [combined receipt](benchmarks/raw-grid-186-qualification.json)
-binds all11archive hashes and the frozen493-file source contract. Mac native
+fresh consumers. The [combined receipt](benchmarks/raw-grid-191-qualification.json)
+binds all11archive hashes and the frozen498-file source contract. Mac native
 scope excludes Python/GUI/OpenSlide. Biological, hardware, rights/licensing and
 supported-release requirements remain; every milestone is Partial.
 
 The [current task](current-task.md) owns current source/count/gate status; older
 receipts and observations below retain their original source-specific scope.
-Newer feature-branch TIFF changes are outside this accepted candidate.
+Later feature-branch TMA structural corrections are outside this accepted candidate.
 
 Baseline: [QuPath v0.7.0](https://github.com/qupath/qupath/tree/v0.7.0), revision
 `04ccfa4fb7d43e9b566393e08e83690b72248d44`. Source areas below refer to modules
@@ -38,13 +38,13 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 | Tissue microarrays | qupath-core, qupath-gui-fx | core/analysis/gui | Partial | Native/Python/ImGui ellipse grids, undoable core/label/geometry edits, missing flags, shared case IDs, vacancies, bounded immutable snapshots, managed viewer commands, schema-11 persistence, present/missing-aware ROI/tissue/cell/pixel batches, metadata/context CSV and single-grid/captured multi-grid case inventory and weighted measurement summaries through native/Python/CLI/ImGui; see [TMA contract](tissue-microarrays.md). Native/Python/project/CLI/UI `.qptma` workflows are accepted at integrated TMA source `a29e4e1`; the later combined candidate awaits its own platform campaign. Automatic dearraying, broader biological/upstream comparisons and hardware acceptance remain |
 | Batch workflows | qupath-core, qupath-gui-fx | jobs | Partial | Native/Python/headless CLI ROI/tissue/cell processing, frozen capture, atomic per-image project/CSV checkpoints, pixel-verified restart, failure policies and cancellation; desktop launcher with progress, scope, presets and terminal reports; standalone single-target pixel-stream export/verification and project-wide captured-model pixel batches with verified hash-only resume are implemented; TMA core scope and CSV context are available; captured [raw-channel batches](raw-analysis-records.md) include immutable records and hash-only checkpoint reuse through native/Python/CLI/ImGui; distributed/portable workers and abandoned-work cleanup remain |
 | Python scripting | New API replacing Groovy workflow surface | bindings | Partial | Shared document/region API and ROI analysis jobs pass; native batch execution is implemented; owned NumPy region/float/label views, strided imports, packaged public stubs and typed workflow checks pass; managed live viewer queues/notifications, owner-only publication and GIL/thread checks pass; broader commands/model adapters and beta compatibility gates remain |
-| Bio-Formats and multiplex data | qupath-extension-bioformats | io | Partial | Optional [quantitative TIFF/OME reader](quantitative-tiff.md), typed arrays/scientific grids, captured axes, QRA2 project/replay/CSV and Python/CLI/batch/ImGui/viewer workflows pass source745662b engineering qualification. See the [current task](current-task.md) for exact scope. Broader vendor/multi-file readers, large-window/whole-slide sampling, raw classifier features, independent biology and complete decoder/process/hardware/release budgets remain |
+| Bio-Formats and multiplex data | qupath-extension-bioformats | io | Partial | Optional [quantitative TIFF/OME reader](quantitative-tiff.md), typed arrays/scientific grids, captured axes, QRA2 project/replay/CSV and Python/CLI/batch/ImGui/viewer workflows pass source61e546e engineering qualification. See the [current task](current-task.md) for exact scope. Broader vendor/multi-file readers, large-window/whole-slide sampling, raw classifier features, independent biology and complete decoder/process/hardware/release budgets remain |
 | External model integrations | Extensions outside the core inventory | bindings/jobs | Deferred | Versioned Cellpose/StarDist results and publication contract |
 | Java extensions and Groovy | qupath-extension-script-editor, qupath-gui-fx | compatibility | Deferred | No Java runtime compatibility promised in first release |
 
 ## Historical execution observations (source-specific)
 
-Public main's qualified application source is now `3fc3bcb`; its following
+At the earlier source `3fc3bcb`, the following
 receipt commit changes documentation/evidence only. Windows GUI passes 50 native
 suites and 3,256 installed cases; Windows/Linux headless pass 49 suites and
 2,831/2,829 installed cases. Both Linux native configurations and both Mac native
