@@ -19,9 +19,9 @@ def settings(input_path=FIXTURE,output_path=''):
 def document():return q.Document(q.Image(256,192,[255]*256*192*3))
 
 
-def test_preview_is_explicit_and_does_not_mutate_document():
+def test_preview_is_explicit_and_does_not_mutate_document(tmp_path):
     doc=document();revision=doc.revision;o=settings();o.inputs=click(4,q.GuiInputTarget.QPTMA_LOAD_PREVIEW)
-    report=q.show(doc,frame_limit=30,options=o)
+    report=q.show(doc,frame_limit=30,capture_path=str(tmp_path/'qptma-preview.ppm'),options=o)
     assert not report.tma_error and report.qptma_state=='preview ready'
     assert report.qptma_preview_cores==6 and report.qptma_preview_missing==2
     assert 0<report.qptma_preview_max_step<=512 and doc.revision==revision and doc.tma_core_count==0

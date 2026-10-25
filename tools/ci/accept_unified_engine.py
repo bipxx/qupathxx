@@ -145,6 +145,7 @@ for job in run['jobs']:
         entry['resampling_python']=resampling.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')))
         entry['qptma_python']=qptma.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')))
         entry['qptma_typing']=qptma.typing_errors(folder/'qptma-typing-negative.log')
+        if 'GUI' in job['name']:entry['qptma_desktop']=qptma.desktop(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')))
         contours=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_pixel_contours')]
         assert len(contours)==24 and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in contours)
         entry['pixel_contour_cases']=[t.get('name') for t in contours]

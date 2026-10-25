@@ -1,0 +1,10 @@
+[
+  "test_export_existing_file_preserves_bytes",
+  "test_export_requires_explicit_loss_acknowledgment",
+  "test_failed_preview_preserves_document[malformed]",
+  "test_failed_preview_preserves_document[outside]",
+  "test_import_edit_history_export_and_project_reopen",
+  "test_preview_becomes_stale_after_owner_document_edit",
+  "test_preview_discard_is_not_an_import",
+  "test_preview_is_explicit_and_does_not_mutate_document"
+]

@@ -1747,6 +1747,18 @@ class GuiInputTarget(enum.Enum):
 
     OVERVIEW_BUDGET_DECREASE = 84
 
+    QPTMA_LOAD_PREVIEW = 85
+
+    QPTMA_APPLY = 86
+
+    QPTMA_EXPORT = 87
+
+    QPTMA_CANCEL = 88
+
+    QPTMA_DISCARD_PREVIEW = 89
+
+    QPTMA_ACKNOWLEDGE_LOSSES = 90
+
 class GuiInputWait(enum.Enum):
     TIFF_READY = 43
 
@@ -2315,6 +2327,18 @@ class GuiOptions:
 
     @file_fingerprint_buffer_bytes.setter
     def file_fingerprint_buffer_bytes(self, arg: int, /) -> None: ...
+
+    @property
+    def qptma_input_path(self) -> str: ...
+
+    @qptma_input_path.setter
+    def qptma_input_path(self, arg: str, /) -> None: ...
+
+    @property
+    def qptma_output_path(self) -> str: ...
+
+    @qptma_output_path.setter
+    def qptma_output_path(self, arg: str, /) -> None: ...
 
     @property
     def tma_open(self) -> bool: ...
@@ -3175,6 +3199,21 @@ class GuiReport:
 
     @property
     def tma_metadata_bytes(self) -> int: ...
+
+    @property
+    def qptma_state(self) -> str: ...
+
+    @property
+    def qptma_preview_cores(self) -> int: ...
+
+    @property
+    def qptma_preview_missing(self) -> int: ...
+
+    @property
+    def qptma_preview_max_step(self) -> int: ...
+
+    @property
+    def qptma_export_bytes(self) -> int: ...
 
     @property
     def tiff_state(self) -> str: ...

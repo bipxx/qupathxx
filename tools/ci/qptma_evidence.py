@@ -7,7 +7,7 @@ import subprocess
 SOURCES=['cpp/project.cpp','cpp/include/qupathxx/project.hpp','cpp/qptma_project_cli.cpp','cpp/qptma_project_cli.hpp','cpp/batch_main.cpp','cpp/tests/qptma_project_tests.cpp','tests/test_qptma_project.py','CMakeLists.txt','cpp/qptma.cpp','cpp/include/qupathxx/qptma.hpp','cpp/tma_bindings.cpp','cpp/tests/qptma_tests.cpp',
  'src/qupathxx/__init__.py','src/qupathxx/__init__.pyi','src/qupathxx/_native.pyi','tests/test_qptma.py','tests/test_qptma_reference.py','tests/test_qptma_evidence.py',
  'tools/ci/accept_unified_engine.py','tools/ci/accept_manylinux.py','tools/ci/accept_macos_native.py',
- 'tools/ci/qptma_evidence.py','tools/ci/qptma-cases.json','tools/ci/run.py','tools/generate_stubs.py','tests/typing/qptma_invalid.py','tests/typing/valid_api.py','tools/upstream/qupath_tma_reference.groovy',
+ 'cpp/gui_tma.hpp','cpp/gui.cpp','cpp/gui_replay.hpp','cpp/include/qupathxx/core.hpp','cpp/bindings.cpp','tests/test_gui_qptma.py','tests/test_qptma_desktop_evidence.py','tools/ci/qptma-gui-cases.json','.github/workflows/ci.yml','tools/ci/qptma_evidence.py','tools/ci/qptma-cases.json','tools/ci/run.py','tools/generate_stubs.py','tests/typing/qptma_invalid.py','tests/typing/valid_api.py','tools/upstream/qupath_tma_reference.groovy',
  *['tests/fixtures/qupath-tma-0.7.0/'+name for name in ['manifest.json','reference.json','fractional-import.qptma','qupath-export.qptma','capture.log']]]
 CASES=json.loads(Path(__file__).with_name('qptma-cases.json').read_text(encoding='utf-8'))
 MARKER='QPTMA native fixture, fractional/quoted wire, atomic history, quotas and 10000-core round trips passed'
@@ -58,3 +58,11 @@ def project_native(cases,enabled=True):
     require(lines.count(PROJECT_MARKER)==int(enabled) and lines.count(PROJECT_DISABLED)==int(not enabled),
         'QPTMA project native capability/coverage differs')
     return dict(passed=1,project_storage_enabled=enabled,atomic_persistence_and_cli_checked=enabled)
+
+
+DESKTOP_CASES=json.loads(Path(__file__).with_name('qptma-gui-cases.json').read_text(encoding='utf-8'))
+def desktop(cases):
+    selected=[case for case in cases if case.get('classname','').rsplit('.',1)[-1]=='test_gui_qptma']
+    require(sorted(case.get('name') for case in selected)==DESKTOP_CASES,'QPTMA desktop cohort missing/duplicate/changed')
+    require(all(case.find(tag) is None for case in selected for tag in ['failure','error','skipped']),'QPTMA desktop case failed or skipped')
+    return dict(passed=len(selected),cases=DESKTOP_CASES)
