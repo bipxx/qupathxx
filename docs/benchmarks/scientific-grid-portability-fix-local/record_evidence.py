@@ -3,7 +3,7 @@ import collections,datetime,hashlib,importlib.util,json,re,shutil,subprocess,xml
 root=Path(r'C:/Users/HEQ/Projects/qupathxx');source=root/'build/ci/scientific-grid-159';build=root/'build/ci/gridfrontends167-package'
 out=source/'docs/benchmarks/scientific-grid-portability-fix-local';out.mkdir(exist_ok=True)
 sha=lambda b:hashlib.sha256(b).hexdigest()
-revision='3fc3bcb'
+revision='3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062'
 subprocess.run(['git','merge-base','--is-ancestor',revision,'HEAD'],cwd=source,check=True)
 inputs=sorted(set([p for pattern in ('cpp/**/*.cpp','cpp/**/*.hpp','cmake/**/*.cmake','cmake/**/*.in','src/**/*.py') for p in source.glob(pattern)]+[source/'CMakeLists.txt',source/'pyproject.toml']),key=lambda p:p.as_posix())
 requests=''.join(f'{revision}:{p.relative_to(source).as_posix()}\n' for p in inputs).encode()
@@ -24,6 +24,7 @@ shutil.copyfile(build/'generated/build_manifest.hpp',out/'build_manifest.hpp');s
 for label in ('before.cpp','after.cpp','before.log','after.log','result.json'):shutil.copyfile(root/'build/gridfix169-portability'/label,out/('darwin-alias-'+label))
 shutil.copyfile(root/'build/gridci168-linux-stubs/stub-difference.patch',out/'linux-stub-difference.patch')
 for src,label in [(root/'build/gridci168-hosted/artifacts/Linux-headless-py3.12/stubs.log','linux-stubs-failure.log'),(root/'build/gridci168-hosted/artifacts/macos-native-x86_64/build.log','macos-x86-build-failure.log')]:shutil.copyfile(src,out/label)
+shutil.copyfile(root/'build/gridci168-hosted/artifacts/macos-native-arm64/build.log',out/'macos-arm-build-failure.log')
 for p in (root/'build/gridci168-hosted/failure-summaries').glob('*.log'):shutil.copyfile(p,out/('failed-'+p.name))
 shutil.copyfile(root/'build/ci/gridfrontends167-retained-native/artifact-inventory.json',out/'previous-native-artifact-inventory.json')
 def cohort(name,count,skipped=0):

@@ -244,6 +244,12 @@ fails before the fix and passes after; it is not full Mac qualification. The
 previous 56 native artifacts were hash-verified and retained before incremental
 cache reuse. Source `3fc3bcb` and its [correction receipt](benchmarks/scientific-grid-portability-fix-local-windows.json)
 record these checks. A corrected frozen candidate still needs complete platform
-gates; the failed source168 evidence remains separate.
+gates; the failed source168 evidence remains separate. Corrected source
+`3fc3bcb` is frozen on `feature/scientific-workflow-169`, with
+[engine 40188586241](https://github.com/bipxx/qupathxx/actions/runs/40188586241),
+[Mac 40188591097](https://github.com/bipxx/qupathxx/actions/runs/40188591097) and
+[portable 40188598144](https://github.com/bipxx/qupathxx/actions/runs/40188598144)
+now running. See the [corrected campaign record](benchmarks/scientific-grid-169-campaign.json).
+Keep both frozen sources unchanged and poll these recorded runs.
 
 Earlier task narrative is preserved in [history](current-task-history.md).

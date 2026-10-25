@@ -234,3 +234,5 @@ docs/benchmarks/scientific-grid-ci-preflight-windows.json text eol=lf
 
 docs/benchmarks/scientific-grid-portability-fix-local/** -text -whitespace
 docs/benchmarks/scientific-grid-portability-fix-local-windows.json text eol=lf
+
+docs/benchmarks/scientific-grid-169-campaign.json text eol=lf

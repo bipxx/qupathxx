@@ -2,7 +2,7 @@
   "schema": "qpx.scientific-grid-portability-fix-local/1",
   "source": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062",
   "failed_source": "5ebdb961e7c9c2bad8c82367ad090eb23ba4ec57",
-  "observed_at_utc": "2026-10-25T11:18:39.761928+00:00",
+  "observed_at_utc": "2026-10-25T11:28:32.948383+00:00",
   "source_tree_sha256": "6bb880c3ed5e487afb08cd8502a102fecb4c01bb932cfec66e80500b4eafebef",
   "compiler_inputs": 298,
   "compiled_revision": "e7ad5dbddbf148f38974da3e8c2964f20a0be267+dirty",
@@ -299,8 +299,8 @@
       "sha256": "a1947f1f9bdb494410b7d44c2de5a885b3e9f4a218948d65e8eb4db747cfbbcc"
     },
     "compiler-input-proof.json": {
-      "bytes": 82625,
-      "sha256": "a0cd9f330936cb4ad01ad2dcc5f0906573644b9f0a0dde3d2681ad513596f619"
+      "bytes": 82658,
+      "sha256": "4c0e474f21759281f612b158944c8d7857639d6ad76dcc0c19b0a941d5d8523a"
     },
     "darwin-alias-after.cpp": {
       "bytes": 730,
@@ -337,6 +337,10 @@
     "failed-portable312.log": {
       "bytes": 629,
       "sha256": "b6c8b50e4a6e39e38cfc4cbc9dde071a6be55309512d0de038adcb3488834689"
+    },
+    "frozen-corrected-source-proof.json": {
+      "bytes": 82963,
+      "sha256": "37581a703f7e1a745615b4521c2e87c9e228aaba3bae84882992a7a3d8c07dc4"
     },
     "gridfix169-after-tests.xml": {
       "bytes": 518,
@@ -398,6 +402,10 @@
       "bytes": 123,
       "sha256": "bfc08375a63aa83d6b1a8d70a5ff5dda2a485907c0d3fa912febad0aed4a9bb6"
     },
+    "macos-arm-build-failure.log": {
+      "bytes": 25170,
+      "sha256": "5d60541f03fdbb3be569efbaf73aa48bf6d7a60b4573f8ddac9f0e39cefec416"
+    },
     "macos-x86-build-failure.log": {
       "bytes": 28319,
       "sha256": "9e68950b209ab749beb47f22faf2d43c8707b5b3c8ccf086aab492a92d278061"
@@ -407,8 +415,8 @@
       "sha256": "b9a90823aa4a4d269a66eebf0609ca59541cc721655de6fe7def32136110ccdf"
     },
     "record_evidence.py": {
-      "bytes": 8176,
-      "sha256": "e327c768ad287f372edaac9758e158d308d9e7112744db3fbbb26733c9cd53ba"
+      "bytes": 8329,
+      "sha256": "de088581fdc94039ae21f86573404b6fab17acde385e05315ec1f0ec6c8087a4"
     },
     "source-proof.json": {
       "bytes": 80058,
