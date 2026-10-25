@@ -124,15 +124,32 @@ workflow cases and inherited recipe/archive checks. All 291 compiler inputs
 match the configured fingerprint
 `9b5a9463e12c0d08821ba4d35f4f1c3ac5b2deb4d92f3455590851f67038fd57`.
 The [cell-stage receipt](benchmarks/grid-cells-local-windows.json) retains both
-development failures and final evidence. Current source has not been rebuilt or
-qualified in Python/GUI/project configurations. Grid-cell retention/old archives
-are guarded; scientific acceptance is still open.
+development failures and final evidence from that native detector stage.
 
-Next: implement QCL5/QCA5 with full grid, typed requested/resolved parameters,
-captured calibration/domain and input identity; connect record matching,
-verification, reopen and replay. Then expose the same native request/result
-through Python/CLI/ImGui and batches, with installed validation and a frozen
-source-bound qualification campaign. Continue through the full original workflow;
+Source `929cbd0` now implements QCL5 cell retention, record matching, publication,
+verification and replay. The complete grid, typed requested/resolved parameters,
+capture-time QPV/calibration, input hash and historical eligibility persist in
+the run. Canonical decoding checks label/feature/domain consistency and reruns
+body expansion against the historical metric. Loading does not reread pixels;
+fresh replay detects changed pixels and rejects changed calibration. Project
+external provenance must exactly match the embedded capture.
+
+All 49 native suites pass with project storage and GEOS enabled; 30 independent
+contract tests pass. Native checks include a Python-packed byte vector,
+re-signed malformed records, a plausible-count but incorrect body mask,
+rectangle/ellipse/hole and winding-policy geometry, real SQLite save/reopen,
+fresh verification and a second save. All 294 compiler inputs match fingerprint
+`3de23796c8f4d55478619dc91259110da2415761bac45891320c0931a5d49c23`.
+See the [QCL5 receipt](benchmarks/grid-cell-archive-local-windows.json).
+Python/GUI/interchange/readers/training remain disabled in this qualification;
+their earlier installed artifacts do not qualify these layouts or this workflow.
+
+Next: extend classifier feature-source provenance (QCA5 is the classifier
+container, not a second cell-run wrapper) and CSV schemas to retain both axes,
+units and requested/resolved parameters. Then expose the same native request/result
+through nanobind, CLI, ImGui and batches; rebuild installed packages after shared
+layouts stabilize and run a frozen source-bound qualification campaign.
+Continue through the full original workflow;
 retain the failed campaign evidence, and qualify a clean integrated candidate
 after installed workflow checks. Do not transfer the old Mac acceptance to new
 compiler inputs. Unicode glyph delivery, broader migration, scientific, licensing

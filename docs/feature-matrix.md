@@ -5,11 +5,11 @@ with exact C++ geometry, float64 RGB sampling and owning Python bindings. Final
 engine `4bdfa98` passes 95 installed cases (two project-capability skips), 49 native
 suites and packaged stub/typing checks; see the
 [sampling receipt](benchmarks/scientific-grid-sampling-local-windows.json).
-A new detector recipe, physical LoG/shape/body integration and archive/replay/
-frontend integration remain. Internal per-axis Gaussian and weighted distance
-kernels now pass their independent mathematical references and native regression;
+The additive native detector and QCL5 archive/replay integration are described
+below; classifier provenance and frontend integration remain. Per-axis Gaussian
+and weighted distance kernels pass their independent references and native regression;
 see the [kernel receipt](benchmarks/physical-grid-kernels-local-windows.json).
-They are not yet called by production cell requests.
+The new native grid-cell request now uses them; existing recipes retain their arithmetic.
 
 The [float64 channel stage](benchmarks/scientific-channels-local-windows.json)
 now retains sampled means through OD and signed stain separation in native/Python,
@@ -22,9 +22,14 @@ The native explicit-grid cell request/detector now connects typed pixel/physical
 scales, complete pre-IO admission, float64 LoG, metric shape/body processing and
 calibrated features to that raster path and the existing CellJob lifecycle.
 See the [native cell-stage receipt](benchmarks/grid-cells-local-windows.json):
-49 native suites and 27 contract tests pass. New archive/replay and required
-frontend workflow remain pending, with old retention paths guarded.
-Python/GUI/project builds have not qualified these public-layout changes.
+49 native suites and 27 contract tests passed at that detector stage. QCL5 now
+adds retention/publication, captured calibration/domain, canonical decoding,
+record matching and fresh replay/verification. The
+[archive receipt](benchmarks/grid-cell-archive-local-windows.json) records 49 native
+suites with project/GEOS enabled and 30 contract tests, including real SQLite
+round trips and an independently packed byte vector. QCA5 classifier provenance,
+CSV schemas and required frontends remain pending. Python/GUI/interchange/readers
+are not qualified for these changes.
 All milestones remain Partial.
 Disabled capabilities are not qualified. Hierarchy candidate `207f008`
 passed its native Mac audit but failed engine and portable campaigns on a stale
