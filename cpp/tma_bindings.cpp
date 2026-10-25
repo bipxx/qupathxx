@@ -108,6 +108,7 @@ void bind_tma(nb::module_& m) {
         return save_tma_case_summary_csv(snapshot,output,input,value,weight,limit,unversioned);
     },"snapshot"_a,"output_path"_a,"input_path"_a="","value_column"_a="","weight_column"_a="","byte_limit"_a=64*1024*1024,"allow_unversioned"_a=false,nb::call_guard<nb::gil_scoped_release>());
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
+        .def_rw("qptma_input_path",&GuiOptions::qptma_input_path).def_rw("qptma_output_path",&GuiOptions::qptma_output_path)
         .def_rw("tma_open",&GuiOptions::tma_open).def_rw("tma_tab",&GuiOptions::tma_tab)
         .def_prop_rw("tma_options",[](const GuiOptions& o)->std::optional<std::shared_ptr<const TmaGridOptions>> {if(o.tma_options) return o.tma_options;return {};},[](GuiOptions& o,std::optional<std::shared_ptr<const TmaGridOptions>> v){o.tma_options=v?*v:nullptr;})
         .def_rw("tma_case_id",&GuiOptions::tma_case_id).def_rw("tma_metadata_path",&GuiOptions::tma_metadata_path)
@@ -120,5 +121,8 @@ void bind_tma(nb::module_& m) {
         .def_ro("tma_error",&GuiReport::tma_error).def_ro("tma_export_state",&GuiReport::tma_export_state)
         .def_ro("tma_created_ids",&GuiReport::tma_created_ids).def_ro("tma_cores",&GuiReport::tma_cores)
         .def_ro("tma_missing_cores",&GuiReport::tma_missing_cores).def_ro("tma_catalog_max_step",&GuiReport::tma_catalog_max_step)
-        .def_ro("tma_metadata_bytes",&GuiReport::tma_metadata_bytes);
+        .def_ro("tma_metadata_bytes",&GuiReport::tma_metadata_bytes)
+        .def_ro("qptma_state",&GuiReport::qptma_state).def_ro("qptma_preview_cores",&GuiReport::qptma_preview_cores)
+        .def_ro("qptma_preview_missing",&GuiReport::qptma_preview_missing).def_ro("qptma_preview_max_step",&GuiReport::qptma_preview_max_step)
+        .def_ro("qptma_export_bytes",&GuiReport::qptma_export_bytes);
 }
