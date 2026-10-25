@@ -229,3 +229,36 @@ numeric kernel tolerance, not a segmentation or biological tolerance. Byte-bound
 JSON and generated C++ expectations retain both references. No physical cell
 request, per-axis result metadata, LoG/shape/expansion integration or new archive
 version is delivered by these kernel checks alone.
+
+## Float64 channel stage
+
+`scientific_optical_densities` and `scientific_deconvolve` consume
+`ScientificRgbGrid` directly. They apply the established white/minimum-intensity
+OD convention to the float64 area mean, followed by signed stain separation in
+float64. Averaging OD first, rounding the RGB mean to bytes, or returning the
+legacy float32 buffer changes the operation and is not this recipe. The existing
+byte/float32 APIs retain their arithmetic order and invalid-NaN policy.
+
+`ScientificChannels` owns float64 HWC values, uint8 validity, the complete grid,
+mode, algorithm identity, white and normalized basis. Invalid output is canonical
+zero with validity zero. Negative stain channels are retained. NumPy views are
+read-only and retain the output independently of its reader/input/transform;
+explicit copies are mutable and independent.
+
+`scientific_channel_work_bytes(grid)` preflights without reading; the RGB-input
+overload returns the same charge. The stage admits input and output arrays
+(`50 * context_sample_count` bytes), the supplied transform's storage and a
+4096-byte fixed allowance, within a caller budget at most 1 GiB. The reader's
+separate peak and all other simultaneously retained buffers must be included in
+the future whole-detector admission. A budget failure or cancellation produces
+no published result.
+
+An independent 60-digit Decimal reference applies logarithms to the rounded
+float64 RGB means and solves the stain matrix by pivoted Gaussian elimination.
+It includes 44 grid/basis cases, custom white, signed residuals, subunit intensity,
+partial/transparent support, context and a mean-before-OD counterexample. The
+declared numeric tolerance is `2e-12 + 2e-12 * abs(reference)`. Native compatibility
+controls also preserve the pre-refactor byte/float32 operation order over 262,144
+RGB probes. These tests do not provide a new cell result/archive or biological
+acceptance. Per-axis `TissueResult` geometry and detector integration remain next;
+the legacy scalar raster contract has not been relabelled as anisotropic.

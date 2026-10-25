@@ -536,3 +536,12 @@ def scientific_rgb(server: q.ImageServer, width: int, height: int) -> NDArray[np
     valid: NDArray[np.uint8] = result.valid_numpy()
     assert center >= 0 and bounds.width > 0 and valid.size > 0
     return result.numpy()
+
+
+def scientific_channels(source: q.ScientificRgbGrid, transform: q.StainTransform) -> NDArray[np.float64]:
+    charge: int = q.scientific_channel_work_bytes(source)
+    result: q.ScientificChannels = q.scientific_deconvolve(source, transform, work_bytes=charge)
+    mode: q.ScientificChannelMode = result.mode
+    valid: NDArray[np.uint8] = result.valid_numpy()
+    assert mode == q.ScientificChannelMode.STAINS and valid.size > 0
+    return result.numpy()

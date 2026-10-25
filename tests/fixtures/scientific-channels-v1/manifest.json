@@ -1,0 +1,17 @@
+{
+  "schema": "qpx.scientific-channel-fixtures/1",
+  "scope": "Float64 channel stage; no detector acceptance",
+  "generator": "tools/reference_scientific_channels.py",
+  "generator_sha256": "2bcf3ef923583a90ad70cc5222517203f3fea3934b3f9f27fcb4f70d412e6978",
+  "contract": "docs/scientific-grid-contract.md",
+  "contract_sha256": "3364edd74ed1b481b8abe8e5e4c32cfffeb433b6adb34407c1939a8ab1723dfe",
+  "native_header": "cpp/tests/scientific_channel_reference.hpp",
+  "native_header_sha256": "f276a63bf902b4b1d8732648d7a427c222b0a6b9f0dce3b318e9641f2a1835ab",
+  "cases": 44,
+  "files": {
+    "reference.json": {
+      "bytes": 117695,
+      "sha256": "b3dcf8d4af47463053657e745d9344bfd30f9bd1a5950a5efdbf9364f63b50d3"
+    }
+  }
+}

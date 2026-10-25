@@ -1,7 +1,8 @@
-#include "qupathxx/scientific_sampling.hpp"
+#include "qupathxx/scientific_channels.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/ndarray.h>
 #include <nanobind/stl/shared_ptr.h>
+#include <nanobind/stl/array.h>
 namespace nb=nanobind;using namespace nb::literals;
 namespace {
 template<class T> nb::object array(const std::vector<T>& values,std::initializer_list<std::size_t> shape,nb::handle owner,bool copy) {
@@ -48,4 +49,25 @@ void bind_scientific_grid(nb::module_& m) {
         if(!server) throw std::invalid_argument("scientific RGB sampling requires a server");
         return read_scientific_rgb(*server,grid);
     },"server"_a,"grid"_a,nb::call_guard<nb::gil_scoped_release>());
+    nb::enum_<ScientificChannelMode>(m,"ScientificChannelMode")
+        .value("OPTICAL_DENSITY",ScientificChannelMode::OpticalDensity).value("STAINS",ScientificChannelMode::Stains);
+    nb::class_<ScientificChannels>(m,"ScientificChannels")
+        .def_prop_ro("grid",[](const ScientificChannels& value){return value.grid();})
+        .def_prop_ro("mode",&ScientificChannels::mode).def_prop_ro("algorithm",&ScientificChannels::algorithm)
+        .def_prop_ro("white",[](const ScientificChannels& value){return value.white();})
+        .def_prop_ro("stains",[](const ScientificChannels& value){return value.stains();})
+        .def_prop_ro("width",&ScientificChannels::width).def_prop_ro("height",&ScientificChannels::height)
+        .def_prop_ro("estimated_work_bytes",&ScientificChannels::estimated_work_bytes)
+        .def("numpy",[](nb::object self,bool copy) {const auto& value=nb::cast<const ScientificChannels&>(self);
+            return array(value.values(),{std::size_t(value.height()),std::size_t(value.width()),3},self,copy);},"copy"_a=false)
+        .def("valid_numpy",[](nb::object self,bool copy) {const auto& value=nb::cast<const ScientificChannels&>(self);
+            return array(value.valid(),{std::size_t(value.height()),std::size_t(value.width())},self,copy);},"copy"_a=false);
+    m.def("scientific_channel_work_bytes",[](const ScientificGrid& grid){return scientific_channel_work_bytes(grid);},"grid"_a);
+    m.def("scientific_channel_work_bytes",[](const ScientificRgbGrid& input){return scientific_channel_work_bytes(input);},"input"_a);
+    m.def("scientific_optical_densities",[](const ScientificRgbGrid& input,const StainTransform& transform,std::size_t work) {
+        return scientific_optical_densities(input,transform,work);
+    },"input"_a,"transform"_a,"work_bytes"_a=256ULL*1024*1024,nb::call_guard<nb::gil_scoped_release>());
+    m.def("scientific_deconvolve",[](const ScientificRgbGrid& input,const StainTransform& transform,std::size_t work) {
+        return scientific_deconvolve(input,transform,work);
+    },"input"_a,"transform"_a,"work_bytes"_a=256ULL*1024*1024,nb::call_guard<nb::gil_scoped_release>());
 }

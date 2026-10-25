@@ -1,0 +1,6096 @@
+{
+  "schema": "qpx.scientific-channel-oracle/1",
+  "scope": "Float64 transform preparation, not detector or biological acceptance",
+  "generator_sha256": "2bcf3ef923583a90ad70cc5222517203f3fea3934b3f9f27fcb4f70d412e6978",
+  "sampler_reference_sha256": "108520878b2e8768716aef55e4cd37ba45f003971a94b5fca2046f2908b71f0c",
+  "absolute_tolerance": 2e-12,
+  "relative_tolerance": 2e-12,
+  "cases": [
+    {
+      "name": "identity-identity",
+      "sampler_case": "identity",
+      "profile": "identity",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        2,
+        3,
+        3,
+        2
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fe8bd00e9f6c742",
+        "3fe2932c20ba5ed2",
+        "3fe8bd00e9f6c742",
+        "3fe41bc319f7812f",
+        "3fe1931bfe301c32",
+        "3fe5929b83a7ab32",
+        "3fe0a43ec154d211",
+        "3fe0a43ec154d211",
+        "3fe2fefdae46c18e",
+        "3fe7cd10a3e77930",
+        "3fde35ee834e1486",
+        "3fe6a46a35bee62d",
+        "3fe36e2deba686f1",
+        "3fdca3d1f4fc70a0",
+        "3fe3e0f484b0f14e",
+        "3fe01c43947ff22f",
+        "3fdb2738f1711a63",
+        "3fe1931bfe301c32"
+      ],
+      "stain_bits": [
+        "3fe8bd00e9f6c742",
+        "3fe2932c20ba5ed2",
+        "3fe8bd00e9f6c742",
+        "3fe41bc319f7812f",
+        "3fe1931bfe301c32",
+        "3fe5929b83a7ab32",
+        "3fe0a43ec154d211",
+        "3fe0a43ec154d211",
+        "3fe2fefdae46c18e",
+        "3fe7cd10a3e77930",
+        "3fde35ee834e1486",
+        "3fe6a46a35bee62d",
+        "3fe36e2deba686f1",
+        "3fdca3d1f4fc70a0",
+        "3fe3e0f484b0f14e",
+        "3fe01c43947ff22f",
+        "3fdb2738f1711a63",
+        "3fe1931bfe301c32"
+      ]
+    },
+    {
+      "name": "identity-two-stain",
+      "sampler_case": "identity",
+      "profile": "two-stain",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        2,
+        3,
+        3,
+        2
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          4,
+          0
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fe8bd00e9f6c742",
+        "3fe2932c20ba5ed2",
+        "3fe8bd00e9f6c742",
+        "3fe41bc319f7812f",
+        "3fe1931bfe301c32",
+        "3fe5929b83a7ab32",
+        "3fe0a43ec154d211",
+        "3fe0a43ec154d211",
+        "3fe2fefdae46c18e",
+        "3fe7cd10a3e77930",
+        "3fde35ee834e1486",
+        "3fe6a46a35bee62d",
+        "3fe36e2deba686f1",
+        "3fdca3d1f4fc70a0",
+        "3fe3e0f484b0f14e",
+        "3fe01c43947ff22f",
+        "3fdb2738f1711a63",
+        "3fe1931bfe301c32"
+      ],
+      "stain_bits": [
+        "3fd59d3fa2d6004b",
+        "3fe737f728e8f686",
+        "3fe8bd00e9f6c742",
+        "3fcbb5b86d4db029",
+        "3fe5f7e2fdbc233e",
+        "3fe5929b83a7ab32",
+        "3fc0a43ec154d212",
+        "3fe4cd4e71aa0695",
+        "3fe2fefdae46c18e",
+        "3fd8f1ae655462fb",
+        "3fe2e1b51210ccd3",
+        "3fe6a46a35bee62d",
+        "3fd1617e5f8fb96b",
+        "3fe1e663391dc664",
+        "3fe3e0f484b0f14e",
+        "3fc7b638e7d62128",
+        "3fe0f88396e6b07e",
+        "3fe1931bfe301c32"
+      ]
+    },
+    {
+      "name": "identity-signed-residual",
+      "sampler_case": "identity",
+      "profile": "signed-residual",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        2,
+        3,
+        3,
+        2
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          4
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0,
+          0.8
+        ],
+        [
+          0,
+          -1,
+          0
+        ]
+      ],
+      "white": [
+        200,
+        240,
+        180
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fe55caa04d75b15",
+        "3fe1bb7c576257a1",
+        "3fe3e5d19b273112",
+        "3fe0bb6c34d81501",
+        "3fe0bb6c34d81501",
+        "3fe0bb6c34d81501",
+        "3fda87cfb86acbc6",
+        "3fdf991deff995c1",
+        "3fdc4f9cbeee56bb",
+        "3fe46cb9bec80d02",
+        "3fdc868ef09e0625",
+        "3fe1cd3ae6ef4ffc",
+        "3fe00dd706871ac3",
+        "3fdaf472624c623f",
+        "3fde138a6bc2b63b",
+        "3fd977d95ec10c02",
+        "3fd977d95ec10c02",
+        "3fd977d95ec10c02"
+      ],
+      "stain_bits": [
+        "3fc9c13341e7d91f",
+        "3fe8df4601f0fd56",
+        "bfe1bb7c576257a1",
+        "3fc0bb6c34d81503",
+        "3fe4ea47420e1a42",
+        "bfe0bb6c34d81501",
+        "3fb53068a4e02aeb",
+        "3fe1b1c1f754f635",
+        "bfdf991deff995c1",
+        "3fcc4b3646524414",
+        "3fe64089a0ab23fb",
+        "bfdc868ef09e0625",
+        "3fc31a0c787859b6",
+        "3fe2cc368359b1e5",
+        "bfdaf472624c623f",
+        "3fb977d95ec10c04",
+        "3fdfd5cfb6714f02",
+        "bfd977d95ec10c02"
+      ]
+    },
+    {
+      "name": "identity-three-stain",
+      "sampler_case": "identity",
+      "profile": "three-stain",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        2,
+        3,
+        3,
+        2
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          3,
+          4,
+          0
+        ],
+        [
+          0,
+          3,
+          4
+        ],
+        [
+          4,
+          0,
+          3
+        ]
+      ],
+      "normalized_stains": [
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0.6,
+          0.8
+        ],
+        [
+          0.8,
+          0,
+          0.6
+        ]
+      ],
+      "white": [
+        255,
+        230,
+        200
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fe8bd00e9f6c742",
+        "3fe12411d48328a2",
+        "3fe55caa04d75b15",
+        "3fe41bc319f7812f",
+        "3fe02401b1f8e603",
+        "3fe232449e883f04",
+        "3fe0a43ec154d211",
+        "3fde6a48ea3b37c4",
+        "3fdf3d4d924eaac1",
+        "3fe7cd10a3e77930",
+        "3fdb57b9eadfa828",
+        "3fe34413509f79ff",
+        "3fe36e2deba686f1",
+        "3fd9c59d5c8e0441",
+        "3fe0809d9f918520",
+        "3fe01c43947ff22f",
+        "3fd849045902ae05",
+        "3fdc658a32216008"
+      ],
+      "stain_bits": [
+        "3fda6f45addda279",
+        "3fd5e3de8738597b",
+        "3fe5028703415c25",
+        "3fd8457d24b60a39",
+        "3fd570b4204af112",
+        "3fe008a4f2b11da6",
+        "3fd6999159ab49de",
+        "3fd48f0d0ed3a51e",
+        "3fd8a76fe01395c4",
+        "3fd62be0c2c0bf34",
+        "3fd0025f83c91952",
+        "3fe56fe083d90fc8",
+        "3fd41cb27342b514",
+        "3fd0231855e915a8",
+        "3fe0bef67b5724c6",
+        "3fd28f594178f4cb",
+        "3fcf75207a1bb748",
+        "3fda5b26022525dd"
+      ]
+    },
+    {
+      "name": "fractional-reduction-identity",
+      "sampler_case": "fractional-reduction",
+      "profile": "identity",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        1,
+        2,
+        7,
+        5
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fea9fd96eb53ca8",
+        "3fe3b43ea91f1334",
+        "3fea4a3ed59a7ce7",
+        "3fe0c0138ca271c3",
+        "3fe1584d68e98c51",
+        "3fe34c74db00cfa9",
+        "3fd6126365a2bf71",
+        "3fdea850cceff16c",
+        "3fdd56895cfedc4d",
+        "3fe82fa603f9f29e",
+        "3fd80aac600f05c0",
+        "3fe540bb2e6ee955",
+        "3fdeff53a06d4461",
+        "3fd53af6356cc6ac",
+        "3fe00a8504f2f9d4",
+        "3fd46338f2d8ed7b",
+        "3fd2ad681c5249f7",
+        "3fd884e566387c2b"
+      ],
+      "stain_bits": [
+        "3fea9fd96eb53ca8",
+        "3fe3b43ea91f1334",
+        "3fea4a3ed59a7ce7",
+        "3fe0c0138ca271c3",
+        "3fe1584d68e98c51",
+        "3fe34c74db00cfa9",
+        "3fd6126365a2bf71",
+        "3fdea850cceff16c",
+        "3fdd56895cfedc4d",
+        "3fe82fa603f9f29e",
+        "3fd80aac600f05c0",
+        "3fe540bb2e6ee955",
+        "3fdeff53a06d4461",
+        "3fd53af6356cc6ac",
+        "3fe00a8504f2f9d4",
+        "3fd46338f2d8ed7b",
+        "3fd2ad681c5249f7",
+        "3fd884e566387c2b"
+      ]
+    },
+    {
+      "name": "fractional-reduction-two-stain",
+      "sampler_case": "fractional-reduction",
+      "profile": "two-stain",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        1,
+        2,
+        7,
+        5
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          4,
+          0
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fea9fd96eb53ca8",
+        "3fe3b43ea91f1334",
+        "3fea4a3ed59a7ce7",
+        "3fe0c0138ca271c3",
+        "3fe1584d68e98c51",
+        "3fe34c74db00cfa9",
+        "3fd6126365a2bf71",
+        "3fdea850cceff16c",
+        "3fdd56895cfedc4d",
+        "3fe82fa603f9f29e",
+        "3fd80aac600f05c0",
+        "3fe540bb2e6ee955",
+        "3fdeff53a06d4461",
+        "3fd53af6356cc6ac",
+        "3fe00a8504f2f9d4",
+        "3fd46338f2d8ed7b",
+        "3fd2ad681c5249f7",
+        "3fd884e566387c2b"
+      ],
+      "stain_bits": [
+        "3fd7b154dfbbdc84",
+        "3fe8a14e5366d800",
+        "3fea4a3ed59a7ce7",
+        "3fbdeecbef9a4438",
+        "3fe5ae60c323ef65",
+        "3fe34c74db00cfa9",
+        "bf8d7b268226b3fa",
+        "3fe329328015f6e3",
+        "3fdd56895cfedc4d",
+        "3fde574abfe8a0ed",
+        "3fde0d577812c72f",
+        "3fe540bb2e6ee955",
+        "3fce2635f0b75ec2",
+        "3fda89b3c2c7f856",
+        "3fe00a8504f2f9d4",
+        "3fb984ab766cd806",
+        "3fd758c22366dc75",
+        "3fd884e566387c2b"
+      ]
+    },
+    {
+      "name": "fractional-reduction-signed-residual",
+      "sampler_case": "fractional-reduction",
+      "profile": "signed-residual",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        1,
+        2,
+        7,
+        5
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          4
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0,
+          0.8
+        ],
+        [
+          0,
+          -1,
+          0
+        ]
+      ],
+      "white": [
+        200,
+        240,
+        180
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fe73f828995d07a",
+        "3fe2dc8edfc70c03",
+        "3fe5730f86cae6b6",
+        "3fdabf794f060b2a",
+        "3fe0809d9f918520",
+        "3fdcea8b186272f0",
+        "3fcea36b36c7ce2a",
+        "3fdcf8f13a3fe30b",
+        "3fd3a82abf5fafeb",
+        "3fe4cf4f1eda8670",
+        "3fd65b4ccd5ef75f",
+        "3fe0698bdf9f5324",
+        "3fd83ea5d62e6c06",
+        "3fd38b96a2bcb84b",
+        "3fd666ab6c46c746",
+        "3fcb451651342a3d",
+        "3fd0fe0889a23b96",
+        "3fcdad0d91329f92"
+      ],
+      "stain_bits": [
+        "3fcca4db91f68dc9",
+        "3feacfd3687da063",
+        "bfe2dc8edfc70c03",
+        "3fb43e43f2f0d3dc",
+        "3fe21296ef3d87d6",
+        "bfe0809d9f918520",
+        "3f8272b17b84649a",
+        "3fd892356f379be6",
+        "bfdcf8f13a3fe30b",
+        "3fd1004c6e46102b",
+        "3fe483eed78727ed",
+        "bfd65b4ccd5ef75f",
+        "3fbdc69513e55a47",
+        "3fdc005647587917",
+        "bfd38b96a2bcb84b",
+        "3fa40d309138ca43",
+        "3fd28c287abfa3bb",
+        "bfd0fe0889a23b96"
+      ]
+    },
+    {
+      "name": "fractional-reduction-three-stain",
+      "sampler_case": "fractional-reduction",
+      "profile": "three-stain",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        1,
+        2,
+        7,
+        5
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          3,
+          4,
+          0
+        ],
+        [
+          0,
+          3,
+          4
+        ],
+        [
+          4,
+          0,
+          3
+        ]
+      ],
+      "normalized_stains": [
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0.6,
+          0.8
+        ],
+        [
+          0.8,
+          0,
+          0.6
+        ]
+      ],
+      "white": [
+        255,
+        230,
+        200
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fea9fd96eb53ca8",
+        "3fe245245ce7dd05",
+        "3fe6e9e7f07b10b9",
+        "3fe0c0138ca271c3",
+        "3fdfd2663964ac43",
+        "3fdfd83bebc2c6f6",
+        "3fd6126365a2bf71",
+        "3fdbca1c3481850e",
+        "3fd695db92c003f1",
+        "3fe82fa603f9f29e",
+        "3fd52c77c7a09962",
+        "3fe1e064494f7d27",
+        "3fdeff53a06d4461",
+        "3fd25cc19cfe5a4e",
+        "3fd9545c3fa71b4c",
+        "3fd46338f2d8ed7b",
+        "3fcf9e6707c7bb33",
+        "3fd1c4379bf9a3cf"
+      ],
+      "stain_bits": [
+        "3fdc3d3c552199aa",
+        "3fd73f7e1982be83",
+        "3fe6b0d92a75f233",
+        "3fd78b86659d4f52",
+        "3fd5a4a1d82b6003",
+        "3fd8378c136020eb",
+        "3fd47418d2a63381",
+        "3fd30b633ea4ee6c",
+        "3fc87fd3421d9159",
+        "3fd2f60d7753d491",
+        "3fc4041605e27318",
+        "3fe71f4a7838ff8f",
+        "3fcd8a62ee3b3a30",
+        "3fc5d201785634c2",
+        "3fdbab436f325fa7",
+        "3fc8882d6faaa68c",
+        "3fc3fd19cd6959ee",
+        "3fd048f625af2a64"
+      ]
+    },
+    {
+      "name": "enlargement-identity",
+      "sampler_case": "enlargement",
+      "profile": "identity",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        2,
+        1,
+        2,
+        3
+      ],
+      "samples": [
+        5,
+        4
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fead3ab2ba2682d",
+        "3fee3669aa986159",
+        "3fee3669aa986159",
+        "3fead3ab2ba2682d",
+        "3fee3669aa986159",
+        "3fee3669aa986159",
+        "3fe7f3f2a2cdf54f",
+        "3fed103793f643f1",
+        "3febcc90295f0830",
+        "3fe5929b83a7ab32",
+        "3fec00807a887100",
+        "3fe9be4d3ccfaf2e",
+        "3fe5929b83a7ab32",
+        "3fec00807a887100",
+        "3fe9be4d3ccfaf2e",
+        "3fea18603acf1990",
+        "3fe92d1151864b2b",
+        "3fec238dc4b4d4c1",
+        "3fea18603acf1990",
+        "3fe92d1151864b2b",
+        "3fec238dc4b4d4c1",
+        "3fe75ae73217210b",
+        "3fe85dc3128f99a4",
+        "3fea09344b4518f0",
+        "3fe51138890725f0",
+        "3fe799dfa4ce8aee",
+        "3fe835b643928cd1",
+        "3fe51138890725f0",
+        "3fe799dfa4ce8aee",
+        "3fe835b643928cd1",
+        "3fe96673a96b107d",
+        "3fe57cb6afe6116f",
+        "3fea55b7bfaede2d",
+        "3fe96673a96b107d",
+        "3fe57cb6afe6116f",
+        "3fea55b7bfaede2d",
+        "3fe6c82bdecd8553",
+        "3fe4dcab17947682",
+        "3fe878b6f735d595",
+        "3fe494600248a45a",
+        "3fe44383899149e0",
+        "3fe6d42ba62ad92d",
+        "3fe494600248a45a",
+        "3fe44383899149e0",
+        "3fe6d42ba62ad92d",
+        "3fe8bd00e9f6c742",
+        "3fe2932c20ba5ed2",
+        "3fe8bd00e9f6c742",
+        "3fe8bd00e9f6c742",
+        "3fe2932c20ba5ed2",
+        "3fe8bd00e9f6c742",
+        "3fe63b409935ef73",
+        "3fe210d66f80f81c",
+        "3fe710c7e4d59890",
+        "3fe41bc319f7812f",
+        "3fe1931bfe301c32",
+        "3fe5929b83a7ab32",
+        "3fe41bc319f7812f",
+        "3fe1931bfe301c32",
+        "3fe5929b83a7ab32"
+      ],
+      "stain_bits": [
+        "3fead3ab2ba2682d",
+        "3fee3669aa986159",
+        "3fee3669aa986159",
+        "3fead3ab2ba2682d",
+        "3fee3669aa986159",
+        "3fee3669aa986159",
+        "3fe7f3f2a2cdf54f",
+        "3fed103793f643f1",
+        "3febcc90295f0830",
+        "3fe5929b83a7ab32",
+        "3fec00807a887100",
+        "3fe9be4d3ccfaf2e",
+        "3fe5929b83a7ab32",
+        "3fec00807a887100",
+        "3fe9be4d3ccfaf2e",
+        "3fea18603acf1990",
+        "3fe92d1151864b2b",
+        "3fec238dc4b4d4c1",
+        "3fea18603acf1990",
+        "3fe92d1151864b2b",
+        "3fec238dc4b4d4c1",
+        "3fe75ae73217210b",
+        "3fe85dc3128f99a4",
+        "3fea09344b4518f0",
+        "3fe51138890725f0",
+        "3fe799dfa4ce8aee",
+        "3fe835b643928cd1",
+        "3fe51138890725f0",
+        "3fe799dfa4ce8aee",
+        "3fe835b643928cd1",
+        "3fe96673a96b107d",
+        "3fe57cb6afe6116f",
+        "3fea55b7bfaede2d",
+        "3fe96673a96b107d",
+        "3fe57cb6afe6116f",
+        "3fea55b7bfaede2d",
+        "3fe6c82bdecd8553",
+        "3fe4dcab17947682",
+        "3fe878b6f735d595",
+        "3fe494600248a45a",
+        "3fe44383899149e0",
+        "3fe6d42ba62ad92d",
+        "3fe494600248a45a",
+        "3fe44383899149e0",
+        "3fe6d42ba62ad92d",
+        "3fe8bd00e9f6c742",
+        "3fe2932c20ba5ed2",
+        "3fe8bd00e9f6c742",
+        "3fe8bd00e9f6c742",
+        "3fe2932c20ba5ed2",
+        "3fe8bd00e9f6c742",
+        "3fe63b409935ef73",
+        "3fe210d66f80f81c",
+        "3fe710c7e4d59890",
+        "3fe41bc319f7812f",
+        "3fe1931bfe301c32",
+        "3fe5929b83a7ab32",
+        "3fe41bc319f7812f",
+        "3fe1931bfe301c32",
+        "3fe5929b83a7ab32"
+      ]
+    },
+    {
+      "name": "enlargement-two-stain",
+      "sampler_case": "enlargement",
+      "profile": "two-stain",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        2,
+        1,
+        2,
+        3
+      ],
+      "samples": [
+        5,
+        4
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          4,
+          0
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fead3ab2ba2682d",
+        "3fee3669aa986159",
+        "3fee3669aa986159",
+        "3fead3ab2ba2682d",
+        "3fee3669aa986159",
+        "3fee3669aa986159",
+        "3fe7f3f2a2cdf54f",
+        "3fed103793f643f1",
+        "3febcc90295f0830",
+        "3fe5929b83a7ab32",
+        "3fec00807a887100",
+        "3fe9be4d3ccfaf2e",
+        "3fe5929b83a7ab32",
+        "3fec00807a887100",
+        "3fe9be4d3ccfaf2e",
+        "3fea18603acf1990",
+        "3fe92d1151864b2b",
+        "3fec238dc4b4d4c1",
+        "3fea18603acf1990",
+        "3fe92d1151864b2b",
+        "3fec238dc4b4d4c1",
+        "3fe75ae73217210b",
+        "3fe85dc3128f99a4",
+        "3fea09344b4518f0",
+        "3fe51138890725f0",
+        "3fe799dfa4ce8aee",
+        "3fe835b643928cd1",
+        "3fe51138890725f0",
+        "3fe799dfa4ce8aee",
+        "3fe835b643928cd1",
+        "3fe96673a96b107d",
+        "3fe57cb6afe6116f",
+        "3fea55b7bfaede2d",
+        "3fe96673a96b107d",
+        "3fe57cb6afe6116f",
+        "3fea55b7bfaede2d",
+        "3fe6c82bdecd8553",
+        "3fe4dcab17947682",
+        "3fe878b6f735d595",
+        "3fe494600248a45a",
+        "3fe44383899149e0",
+        "3fe6d42ba62ad92d",
+        "3fe494600248a45a",
+        "3fe44383899149e0",
+        "3fe6d42ba62ad92d",
+        "3fe8bd00e9f6c742",
+        "3fe2932c20ba5ed2",
+        "3fe8bd00e9f6c742",
+        "3fe8bd00e9f6c742",
+        "3fe2932c20ba5ed2",
+        "3fe8bd00e9f6c742",
+        "3fe63b409935ef73",
+        "3fe210d66f80f81c",
+        "3fe710c7e4d59890",
+        "3fe41bc319f7812f",
+        "3fe1931bfe301c32",
+        "3fe5929b83a7ab32",
+        "3fe41bc319f7812f",
+        "3fe1931bfe301c32",
+        "3fe5929b83a7ab32"
+      ],
+      "stain_bits": [
+        "3fc0ab6faec07cac",
+        "3ff2e2020a9f3cd8",
+        "3fee3669aa986159",
+        "3fc0ab6faec07cac",
+        "3ff2e2020a9f3cd8",
+        "3fee3669aa986159",
+        "3fb13e479eaa12db",
+        "3ff22a22bc79ea76",
+        "3febcc90295f0830",
+        "3f924764f82ace69",
+        "3ff180504c95469f",
+        "3fe9be4d3ccfaf2e",
+        "3f924764f82ace69",
+        "3ff180504c95469f",
+        "3fe9be4d3ccfaf2e",
+        "3fccda4cf6a984c4",
+        "3fef7855a5e7ddf5",
+        "3fec238dc4b4d4c1",
+        "3fccda4cf6a984c4",
+        "3fef7855a5e7ddf5",
+        "3fec238dc4b4d4c1",
+        "3fc4525390adb743",
+        "3fee7533d733800d",
+        "3fea09344b4518f0",
+        "3fbaee866b61edf1",
+        "3fed80578e022da8",
+        "3fe835b643928cd1",
+        "3fbaee866b61edf1",
+        "3fed80578e022da8",
+        "3fe835b643928cd1",
+        "3fd291d54afd06d5",
+        "3feadbe45bdf95ca",
+        "3fea55b7bfaede2d",
+        "3fd291d54afd06d5",
+        "3feadbe45bdf95ca",
+        "3fea55b7bfaede2d",
+        "3fcc8aae3478b1c7",
+        "3fea13d5dd799422",
+        "3fe878b6f735d595",
+        "3fc586f56c6eb3c8",
+        "3fe954646bf59c58",
+        "3fe6d42ba62ad92d",
+        "3fc586f56c6eb3c8",
+        "3fe954646bf59c58",
+        "3fe6d42ba62ad92d",
+        "3fd59d3fa2d6004b",
+        "3fe737f728e8f686",
+        "3fe8bd00e9f6c742",
+        "3fd59d3fa2d6004b",
+        "3fe737f728e8f686",
+        "3fe8bd00e9f6c742",
+        "3fd15d3f8b2a6abd",
+        "3fe6950c0b613622",
+        "3fe710c7e4d59890",
+        "3fcbb5b86d4db029",
+        "3fe5f7e2fdbc233e",
+        "3fe5929b83a7ab32",
+        "3fcbb5b86d4db029",
+        "3fe5f7e2fdbc233e",
+        "3fe5929b83a7ab32"
+      ]
+    },
+    {
+      "name": "enlargement-signed-residual",
+      "sampler_case": "enlargement",
+      "profile": "signed-residual",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        2,
+        1,
+        2,
+        3
+      ],
+      "samples": [
+        5,
+        4
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          4
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0,
+          0.8
+        ],
+        [
+          0,
+          -1,
+          0
+        ]
+      ],
+      "white": [
+        200,
+        240,
+        180
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fe773544682fbff",
+        "3fed5eb9e1405a29",
+        "3fe95f3a5bc8cb28",
+        "3fe773544682fbff",
+        "3fed5eb9e1405a29",
+        "3fe95f3a5bc8cb28",
+        "3fe4939bbdae8921",
+        "3fec3887ca9e3cc0",
+        "3fe6f560da8f71ff",
+        "3fe232449e883f04",
+        "3feb28d0b13069cf",
+        "3fe4e71dee0018fe",
+        "3fe232449e883f04",
+        "3feb28d0b13069cf",
+        "3fe4e71dee0018fe",
+        "3fe6b80955afad63",
+        "3fe85561882e43fa",
+        "3fe74c5e75e53e90",
+        "3fe6b80955afad63",
+        "3fe85561882e43fa",
+        "3fe74c5e75e53e90",
+        "3fe3fa904cf7b4de",
+        "3fe7861349379274",
+        "3fe53204fc7582bf",
+        "3fe1b0e1a3e7b9c2",
+        "3fe6c22fdb7683bd",
+        "3fe35e86f4c2f6a0",
+        "3fe1b0e1a3e7b9c2",
+        "3fe6c22fdb7683bd",
+        "3fe35e86f4c2f6a0",
+        "3fe6061cc44ba44f",
+        "3fe4a506e68e0a3e",
+        "3fe57e8870df47fc",
+        "3fe6061cc44ba44f",
+        "3fe4a506e68e0a3e",
+        "3fe57e8870df47fc",
+        "3fe367d4f9ae1925",
+        "3fe404fb4e3c6f51",
+        "3fe3a187a8663f64",
+        "3fe134091d29382c",
+        "3fe36bd3c03942b0",
+        "3fe1fcfc575b42fc",
+        "3fe134091d29382c",
+        "3fe36bd3c03942b0",
+        "3fe1fcfc575b42fc",
+        "3fe55caa04d75b15",
+        "3fe1bb7c576257a1",
+        "3fe3e5d19b273112",
+        "3fe55caa04d75b15",
+        "3fe1bb7c576257a1",
+        "3fe3e5d19b273112",
+        "3fe2dae9b4168345",
+        "3fe13926a628f0eb",
+        "3fe239989606025f",
+        "3fe0bb6c34d81501",
+        "3fe0bb6c34d81501",
+        "3fe0bb6c34d81501",
+        "3fe0bb6c34d81501",
+        "3fe0bb6c34d81501",
+        "3fe0bb6c34d81501"
+      ],
+      "stain_bits": [
+        "3fc1afa206b18e86",
+        "3fefb708f2bafdf2",
+        "bfed5eb9e1405a29",
+        "3fc1afa206b18e86",
+        "3fefb708f2bafdf2",
+        "bfed5eb9e1405a29",
+        "3fbadc98ce179d14",
+        "3fecb2b911334e7e",
+        "bfec3887ca9e3cc0",
+        "3fb4277160416235",
+        "3fea20e569801f3d",
+        "bfeb28d0b13069cf",
+        "3fb4277160416235",
+        "3fea20e569801f3d",
+        "bfeb28d0b13069cf",
+        "3fc4fb09f50ef9dc",
+        "3fed1f76135e8e33",
+        "bfe85561882e43fa",
+        "3fc4fb09f50ef9dc",
+        "3fed1f76135e8e33",
+        "bfe85561882e43fa",
+        "3fc054323e7e4b3c",
+        "3fea7e863b92e36e",
+        "bfe7861349379274",
+        "3fb94fe362ac0653",
+        "3fe83628b1f3b447",
+        "bfe6c22fdb7683bd",
+        "3fb94fe362ac0653",
+        "3fe83628b1f3b447",
+        "bfe6c22fdb7683bd",
+        "3fc79cd9be90b94a",
+        "3feade2a8d1719fa",
+        "bfe4a506e68e0a3e",
+        "3fc79cd9be90b94a",
+        "3feade2a8d1719fa",
+        "bfe4a506e68e0a3e",
+        "3fc2babced85a66a",
+        "3fe889e9927fcf3c",
+        "bfe404fb4e3c6f51",
+        "3fbdb25edd262f7c",
+        "3fe67c3b6d3213ba",
+        "bfe36bd3c03942b0",
+        "3fbdb25edd262f7c",
+        "3fe67c3b6d3213ba",
+        "bfe36bd3c03942b0",
+        "3fc9c13341e7d91f",
+        "3fe8df4601f0fd56",
+        "bfe1bb7c576257a1",
+        "3fc9c13341e7d91f",
+        "3fe8df4601f0fd56",
+        "bfe1bb7c576257a1",
+        "3fc4bedd0e4805f9",
+        "3fe6c7febb8782f7",
+        "bfe13926a628f0eb",
+        "3fc0bb6c34d81503",
+        "3fe4ea47420e1a42",
+        "bfe0bb6c34d81501",
+        "3fc0bb6c34d81503",
+        "3fe4ea47420e1a42",
+        "bfe0bb6c34d81501"
+      ]
+    },
+    {
+      "name": "enlargement-three-stain",
+      "sampler_case": "enlargement",
+      "profile": "three-stain",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        2,
+        1,
+        2,
+        3
+      ],
+      "samples": [
+        5,
+        4
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          3,
+          4,
+          0
+        ],
+        [
+          0,
+          3,
+          4
+        ],
+        [
+          4,
+          0,
+          3
+        ]
+      ],
+      "normalized_stains": [
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0.6,
+          0.8
+        ],
+        [
+          0.8,
+          0,
+          0.6
+        ]
+      ],
+      "white": [
+        255,
+        230,
+        200
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fead3ab2ba2682d",
+        "3fecc74f5e612b2a",
+        "3fead612c578f52b",
+        "3fead3ab2ba2682d",
+        "3fecc74f5e612b2a",
+        "3fead612c578f52b",
+        "3fe7f3f2a2cdf54f",
+        "3feba11d47bf0dc2",
+        "3fe86c39443f9c02",
+        "3fe5929b83a7ab32",
+        "3fea91662e513ad0",
+        "3fe65df657b04301",
+        "3fe5929b83a7ab32",
+        "3fea91662e513ad0",
+        "3fe65df657b04301",
+        "3fea18603acf1990",
+        "3fe7bdf7054f14fc",
+        "3fe8c336df956893",
+        "3fea18603acf1990",
+        "3fe7bdf7054f14fc",
+        "3fe8c336df956893",
+        "3fe75ae73217210b",
+        "3fe6eea8c6586375",
+        "3fe6a8dd6625acc2",
+        "3fe51138890725f0",
+        "3fe62ac5589754be",
+        "3fe4d55f5e7320a3",
+        "3fe51138890725f0",
+        "3fe62ac5589754be",
+        "3fe4d55f5e7320a3",
+        "3fe96673a96b107d",
+        "3fe40d9c63aedb3f",
+        "3fe6f560da8f71ff",
+        "3fe96673a96b107d",
+        "3fe40d9c63aedb3f",
+        "3fe6f560da8f71ff",
+        "3fe6c82bdecd8553",
+        "3fe36d90cb5d4053",
+        "3fe5186012166967",
+        "3fe494600248a45a",
+        "3fe2d4693d5a13b1",
+        "3fe373d4c10b6cff",
+        "3fe494600248a45a",
+        "3fe2d4693d5a13b1",
+        "3fe373d4c10b6cff",
+        "3fe8bd00e9f6c742",
+        "3fe12411d48328a2",
+        "3fe55caa04d75b15",
+        "3fe8bd00e9f6c742",
+        "3fe12411d48328a2",
+        "3fe55caa04d75b15",
+        "3fe63b409935ef73",
+        "3fe0a1bc2349c1ed",
+        "3fe3b070ffb62c62",
+        "3fe41bc319f7812f",
+        "3fe02401b1f8e603",
+        "3fe232449e883f04",
+        "3fe41bc319f7812f",
+        "3fe02401b1f8e603",
+        "3fe232449e883f04"
+      ],
+      "stain_bits": [
+        "3fe4df23243ca9bf",
+        "3fe422aac2511047",
+        "3fe1e13b9b5d82e9",
+        "3fe4df23243ca9bf",
+        "3fe422aac2511047",
+        "3fe1e13b9b5d82e9",
+        "3fe4080f21e10da9",
+        "3fe3571c9fbd04b7",
+        "3fddd5c7e43150c9",
+        "3fe346da1c504e1f",
+        "3fe293dcd21c4f32",
+        "3fd9043d9eaab6d0",
+        "3fe346da1c504e1f",
+        "3fe293dcd21c4f32",
+        "3fd9043d9eaab6d0",
+        "3fe1730bf39b0186",
+        "3fe04de1195fcb9b",
+        "3fe3882f52ce9ed0",
+        "3fe1730bf39b0186",
+        "3fe04de1195fcb9b",
+        "3fe3882f52ce9ed0",
+        "3fe0c4df9febe7ce",
+        "3fdfb933955c36b6",
+        "3fe09df946abfb74",
+        "3fe02b470d0a070a",
+        "3fdec5d459ddb260",
+        "3fdc6a22c302d449",
+        "3fe02b470d0a070a",
+        "3fdec5d459ddb260",
+        "3fdc6a22c302d449",
+        "3fde1abc7fc1395d",
+        "3fdab4634c9a8e57",
+        "3fe47609e3dd5f19",
+        "3fde1abc7fc1395d",
+        "3fdab4634c9a8e57",
+        "3fe47609e3dd5f19",
+        "3fdcdf703551aaaa",
+        "3fda434d09749d86",
+        "3fe1a66cc28246a7",
+        "3fdbcf1e617ff1ec",
+        "3fd9afe0f52c5469",
+        "3fde97993c95a56f",
+        "3fdbcf1e617ff1ec",
+        "3fd9afe0f52c5469",
+        "3fde97993c95a56f",
+        "3fda6f45addda279",
+        "3fd5e3de8738597b",
+        "3fe5028703415c25",
+        "3fda6f45addda279",
+        "3fd5e3de8738597b",
+        "3fe5028703415c25",
+        "3fd9441a3e0a5066",
+        "3fd5c05022e81b37",
+        "3fe25086e83f8d29",
+        "3fd8457d24b60a39",
+        "3fd570b4204af112",
+        "3fe008a4f2b11da6",
+        "3fd8457d24b60a39",
+        "3fd570b4204af112",
+        "3fe008a4f2b11da6"
+      ]
+    },
+    {
+      "name": "context-phase-identity",
+      "sampler_case": "context-phase",
+      "profile": "identity",
+      "image": [
+        20,
+        20
+      ],
+      "extent": [
+        3,
+        4,
+        7,
+        5
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        1,
+        2
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fee79a45f299dbe",
+        "3fe724bf5e238f62",
+        "3fedf46e29b57b55",
+        "3fe2046d6565a7b2",
+        "3fe405ce4f4dc575",
+        "3fe500ebf29e9409",
+        "3fd7b9b7ecf2a7b0",
+        "3fe19d017644b394",
+        "3fdfbd15856240a1",
+        "3fce72aacea6585f",
+        "3fdf1f02ba44a002",
+        "3fd841cba8e4f3c7",
+        "3fc0b9c88452be72",
+        "3fdb55f70fdc24a7",
+        "3fd209d340c10415",
+        "3feb1bd3312f0236",
+        "3fdaaf869c490fc8",
+        "3fe748c26e95f88b",
+        "3fe08b40308ea694",
+        "3fd76d609aaa6f22",
+        "3fe11bb85efd7e76",
+        "3fd5cc2e417ced26",
+        "3fd4aca5bb8b0989",
+        "3fda2145f8011cfd",
+        "3fcb952150dd2744",
+        "3fd22b77dc42fd08",
+        "3fd3dfa21ff3b124",
+        "3fbcf3007f193bed",
+        "3fcf7840af804281",
+        "3fccf5c61680420b",
+        "3fe897614b581933",
+        "3fd0085d46dc1b18",
+        "3fe31819ceedc562",
+        "3fde9eb68ce64baf",
+        "3fcb8aa8934c38a7",
+        "3fdc8fbdf1156485",
+        "3fd4211faa3d9aed",
+        "3fc79896ada7587b",
+        "3fd5cc2e417ced26",
+        "3fc91004ef1b44ce",
+        "3fc3e97bcdfb2132",
+        "3fd05c9b23bbd74f",
+        "3fb8f2fe5da530e3",
+        "3fc03f849308ae2c",
+        "3fc71ccf04324aaa",
+        "3fe64c11b47078d2",
+        "3fbf2f8fac027dfd",
+        "3fdf48a857b62e2f",
+        "3fdc2c3132e219c1",
+        "3fb863ab2183c298",
+        "3fd781c7632854fe",
+        "3fd26db017185ad1",
+        "3fb259ea2fb01fa3",
+        "3fd1c27ae4e2db4e",
+        "3fc674a618d05c97",
+        "3fa93f9b61f3f4d6",
+        "3fc9ffcb6cb37cb2",
+        "3fb4c5b5c07d31d4",
+        "3fc0c6b6f1fc1647",
+        "3fc1672cd5d6e707",
+        "3fe4787193ce35c6",
+        "3fbe3362f7c6fe2e",
+        "3fda255b57979ee8",
+        "3fda1713282ed68e",
+        "3fce411ecbd11036",
+        "3fd389c6d6ae4564",
+        "3fd0f21b056a7e2a",
+        "3fde20b01af10506",
+        "3fccfb24da3d8a66",
+        "3fc427369c19d7dc",
+        "3fe2481c9d5a6ce0",
+        "3fc470b90f3fdcf5",
+        "3fb10d1c48461dfa",
+        "3fee09228e30951b",
+        "3fb936ed37f0599c"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fee79a45f299dbe",
+        "3fe724bf5e238f62",
+        "3fedf46e29b57b55",
+        "3fe2046d6565a7b2",
+        "3fe405ce4f4dc575",
+        "3fe500ebf29e9409",
+        "3fd7b9b7ecf2a7b0",
+        "3fe19d017644b394",
+        "3fdfbd15856240a1",
+        "3fce72aacea6585f",
+        "3fdf1f02ba44a002",
+        "3fd841cba8e4f3c7",
+        "3fc0b9c88452be72",
+        "3fdb55f70fdc24a7",
+        "3fd209d340c10415",
+        "3feb1bd3312f0236",
+        "3fdaaf869c490fc8",
+        "3fe748c26e95f88b",
+        "3fe08b40308ea694",
+        "3fd76d609aaa6f22",
+        "3fe11bb85efd7e76",
+        "3fd5cc2e417ced26",
+        "3fd4aca5bb8b0989",
+        "3fda2145f8011cfd",
+        "3fcb952150dd2744",
+        "3fd22b77dc42fd08",
+        "3fd3dfa21ff3b124",
+        "3fbcf3007f193bed",
+        "3fcf7840af804281",
+        "3fccf5c61680420b",
+        "3fe897614b581933",
+        "3fd0085d46dc1b18",
+        "3fe31819ceedc562",
+        "3fde9eb68ce64baf",
+        "3fcb8aa8934c38a7",
+        "3fdc8fbdf1156485",
+        "3fd4211faa3d9aed",
+        "3fc79896ada7587b",
+        "3fd5cc2e417ced26",
+        "3fc91004ef1b44ce",
+        "3fc3e97bcdfb2132",
+        "3fd05c9b23bbd74f",
+        "3fb8f2fe5da530e3",
+        "3fc03f849308ae2c",
+        "3fc71ccf04324aaa",
+        "3fe64c11b47078d2",
+        "3fbf2f8fac027dfd",
+        "3fdf48a857b62e2f",
+        "3fdc2c3132e219c1",
+        "3fb863ab2183c298",
+        "3fd781c7632854fe",
+        "3fd26db017185ad1",
+        "3fb259ea2fb01fa3",
+        "3fd1c27ae4e2db4e",
+        "3fc674a618d05c97",
+        "3fa93f9b61f3f4d6",
+        "3fc9ffcb6cb37cb2",
+        "3fb4c5b5c07d31d4",
+        "3fc0c6b6f1fc1647",
+        "3fc1672cd5d6e707",
+        "3fe4787193ce35c6",
+        "3fbe3362f7c6fe2e",
+        "3fda255b57979ee8",
+        "3fda1713282ed68e",
+        "3fce411ecbd11036",
+        "3fd389c6d6ae4564",
+        "3fd0f21b056a7e2a",
+        "3fde20b01af10506",
+        "3fccfb24da3d8a66",
+        "3fc427369c19d7dc",
+        "3fe2481c9d5a6ce0",
+        "3fc470b90f3fdcf5",
+        "3fb10d1c48461dfa",
+        "3fee09228e30951b",
+        "3fb936ed37f0599c"
+      ]
+    },
+    {
+      "name": "context-phase-two-stain",
+      "sampler_case": "context-phase",
+      "profile": "two-stain",
+      "image": [
+        20,
+        20
+      ],
+      "extent": [
+        3,
+        4,
+        7,
+        5
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        1,
+        2
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          4,
+          0
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fee79a45f299dbe",
+        "3fe724bf5e238f62",
+        "3fedf46e29b57b55",
+        "3fe2046d6565a7b2",
+        "3fe405ce4f4dc575",
+        "3fe500ebf29e9409",
+        "3fd7b9b7ecf2a7b0",
+        "3fe19d017644b394",
+        "3fdfbd15856240a1",
+        "3fce72aacea6585f",
+        "3fdf1f02ba44a002",
+        "3fd841cba8e4f3c7",
+        "3fc0b9c88452be72",
+        "3fdb55f70fdc24a7",
+        "3fd209d340c10415",
+        "3feb1bd3312f0236",
+        "3fdaaf869c490fc8",
+        "3fe748c26e95f88b",
+        "3fe08b40308ea694",
+        "3fd76d609aaa6f22",
+        "3fe11bb85efd7e76",
+        "3fd5cc2e417ced26",
+        "3fd4aca5bb8b0989",
+        "3fda2145f8011cfd",
+        "3fcb952150dd2744",
+        "3fd22b77dc42fd08",
+        "3fd3dfa21ff3b124",
+        "3fbcf3007f193bed",
+        "3fcf7840af804281",
+        "3fccf5c61680420b",
+        "3fe897614b581933",
+        "3fd0085d46dc1b18",
+        "3fe31819ceedc562",
+        "3fde9eb68ce64baf",
+        "3fcb8aa8934c38a7",
+        "3fdc8fbdf1156485",
+        "3fd4211faa3d9aed",
+        "3fc79896ada7587b",
+        "3fd5cc2e417ced26",
+        "3fc91004ef1b44ce",
+        "3fc3e97bcdfb2132",
+        "3fd05c9b23bbd74f",
+        "3fb8f2fe5da530e3",
+        "3fc03f849308ae2c",
+        "3fc71ccf04324aaa",
+        "3fe64c11b47078d2",
+        "3fbf2f8fac027dfd",
+        "3fdf48a857b62e2f",
+        "3fdc2c3132e219c1",
+        "3fb863ab2183c298",
+        "3fd781c7632854fe",
+        "3fd26db017185ad1",
+        "3fb259ea2fb01fa3",
+        "3fd1c27ae4e2db4e",
+        "3fc674a618d05c97",
+        "3fa93f9b61f3f4d6",
+        "3fc9ffcb6cb37cb2",
+        "3fb4c5b5c07d31d4",
+        "3fc0c6b6f1fc1647",
+        "3fc1672cd5d6e707",
+        "3fe4787193ce35c6",
+        "3fbe3362f7c6fe2e",
+        "3fda255b57979ee8",
+        "3fda1713282ed68e",
+        "3fce411ecbd11036",
+        "3fd389c6d6ae4564",
+        "3fd0f21b056a7e2a",
+        "3fde20b01af10506",
+        "3fccfb24da3d8a66",
+        "3fc427369c19d7dc",
+        "3fe2481c9d5a6ce0",
+        "3fc470b90f3fdcf5",
+        "3fb10d1c48461dfa",
+        "3fee09228e30951b",
+        "3fb936ed37f0599c"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fda3c29b11de46a",
+        "3fecedef35ac733a",
+        "3fedf46e29b57b55",
+        "3fb800954f5a9cd9",
+        "3fe90741e32136d2",
+        "3fe500ebf29e9409",
+        "bfa58e5223a32d6a",
+        "3fe60441d3d5e079",
+        "3fdfbd15856240a1",
+        "bfc03bd948c097a3",
+        "3fe37361b46ae401",
+        "3fd841cba8e4f3c7",
+        "bfc8472a13777887",
+        "3fe115ba69e996e8",
+        "3fd209d340c10415",
+        "3fe11a00b6939c4b",
+        "3fe0adb421ada9dd",
+        "3fe748c26e95f88b",
+        "3fcf08efda3af39c",
+        "3fdd48b8c1550aeb",
+        "3fe11bb85efd7e76",
+        "3fb92ac7d35297ff",
+        "3fd9d7cf2a6dcbeb",
+        "3fda2145f8011cfd",
+        "3f64fb619e2aee27",
+        "3fd6b655d353bc4a",
+        "3fd3dfa21ff3b124",
+        "bfb24160882727d3",
+        "3fd3ab286db02990",
+        "3fccf5c61680420b",
+        "3fe2943e50c58f0a",
+        "3fd40a74989321de",
+        "3fe31819ceedc562",
+        "3fd44ab755a9b670",
+        "3fd136a95c0fa368",
+        "3fdc8fbdf1156485",
+        "3fc68fce523db37e",
+        "3fcd7ebc59112e99",
+        "3fd5cc2e417ced26",
+        "3fb441d0293dd7d3",
+        "3fc8e3dac179e97e",
+        "3fd05c9b23bbd74f",
+        "3f6276f023057435",
+        "3fc44f65b7cad9b7",
+        "3fc71ccf04324aaa",
+        "3fe35f9c3c503d03",
+        "3fc37db9cb818ebe",
+        "3fdf48a857b62e2f",
+        "3fd799811c996544",
+        "3fbe7c95e9e4b33e",
+        "3fd781c7632854fe",
+        "3fcdf9a85c4ea9c6",
+        "3fb6f064bb9c278b",
+        "3fd1c27ae4e2db4e",
+        "3fc1b8b8f6729eaf",
+        "3faf8f823a70f20b",
+        "3fc9ffcb6cb37cb2",
+        "bf919172a9f3be57",
+        "3fc4f864ae7b1bd8",
+        "3fc1672cd5d6e707",
+        "3fe1a3a04c938df2",
+        "3fc2e01ddadc5edd",
+        "3fda255b57979ee8",
+        "3fcd7d4f3780e0f5",
+        "3fd2e8b33f62aa21",
+        "3fd389c6d6ae4564",
+        "bfb699a43b291669",
+        "3fe2d46e10d6a323",
+        "3fccfb24da3d8a66",
+        "bfd1588f9dfab762",
+        "3fe6da23c4b10818",
+        "3fc470b90f3fdcf5",
+        "bfe46536619bac14",
+        "3ff2c5b598de5d31",
+        "3fb936ed37f0599c"
+      ]
+    },
+    {
+      "name": "context-phase-signed-residual",
+      "sampler_case": "context-phase",
+      "profile": "signed-residual",
+      "image": [
+        20,
+        20
+      ],
+      "extent": [
+        3,
+        4,
+        7,
+        5
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        1,
+        2
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          4
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0,
+          0.8
+        ],
+        [
+          0,
+          -1,
+          0
+        ]
+      ],
+      "white": [
+        200,
+        240,
+        180
+      ],
+      "valid": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3feb194d7a0a3190",
+        "3fe64d0f94cb8832",
+        "3fe91d3edae5e524",
+        "3fdd482d008c7709",
+        "3fe32e1e85f5be44",
+        "3fe029bca3cefdd8",
+        "3fd0f90a22b3cf54",
+        "3fe0c551acecac63",
+        "3fd60eb6e7c3143f",
+        "3fc0f14f3a28a7a7",
+        "3fdd6fa3279491a1",
+        "3fcd26da168b8eca",
+        "3f99c3677ea86dd5",
+        "3fd9a6977d2c1646",
+        "3fc0b6e94643af66",
+        "3fe7bb7c4c0f9608",
+        "3fd9002709990167",
+        "3fe271931fc6625a",
+        "3fda55d296de74cb",
+        "3fd5be0107fa60c1",
+        "3fd88912205bd08a",
+        "3fce1700ee7c2994",
+        "3fd2fd4628dafb28",
+        "3fd072e75a61f09c",
+        "3fbc278b78beed18",
+        "3fd07c184992eea7",
+        "3fc4628704a90983",
+        "3f7f049561dda7d5",
+        "3fcc19818a2025bf",
+        "3fb33211b683d290",
+        "3fe5370a6638ad05",
+        "3fccb1fb6858196e",
+        "3fdc81d5003c5e63",
+        "3fd7de08c2a77353",
+        "3fc82be96dec1be5",
+        "3fd2e15f53763823",
+        "3fcac0e3bffd8522",
+        "3fc439d788473bb9",
+        "3fc83b9f47bb8188",
+        "3fb71d52b53b282d",
+        "3fc08abca89b0470",
+        "3fbab8f21872abb5",
+        "0000000000000000",
+        "3fb9c18adb5122d4",
+        "3f9e008e479f8f2f",
+        "3fe2ebbacf510ca4",
+        "3fb8721161424479",
+        "3fd59a49ba1701cd",
+        "3fd56b8368a34165",
+        "3fb1a62cd6c38915",
+        "3fcba6d18b125139",
+        "3fc75a0499b304eb",
+        "3fa738d7c9dfcc3e",
+        "3fc028388e875dd9",
+        "3fb1e69508a557bf",
+        "3f97893d98e7039c",
+        "3faa8c38c5d48fbb",
+        "0000000000000000",
+        "3fbacfef9937f30a",
+        "0000000000000000",
+        "3fe1181aaeaec998",
+        "3fb775e4ad06c4aa",
+        "3fd076fcb9f87286",
+        "3fd356655deffe32",
+        "3fcae25fa670f374",
+        "3fc3b6d0721e3204",
+        "3fc462da76574b9b",
+        "3fdc71508840f6a5",
+        "3fb33ccf3dfe6345",
+        "3faa976c1e709c91",
+        "3fe1706cd40265b0",
+        "3f813fbd40184312",
+        "0000000000000000",
+        "3fed3172c4d88deb",
+        "0000000000000000"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fd086bcabbb8b6c",
+        "3fef648e919f5e6c",
+        "bfe64d0f94cb8832",
+        "3fb426482b57e915",
+        "3fe4342bccc2bd4e",
+        "bfe32e1e85f5be44",
+        "3f7b803d3860094f",
+        "3fdb9264a1b3d94e",
+        "bfe0c551acecac63",
+        "bfa3af515b000dbf",
+        "3fd238484e17393e",
+        "bfdd6fa3279491a1",
+        "bfb2a18409bb6ba2",
+        "3fc4e4a397d49b3f",
+        "bfd9a6977d2c1646",
+        "3fd3cc9be875988a",
+        "3fe70df7e7b7faf0",
+        "bfd9002709990167",
+        "3fbfbc13fa666190",
+        "3fdeab56a872c4ad",
+        "bfd5be0107fa60c1",
+        "3fa5aa979ba502ad",
+        "3fd48fa130fa6cc2",
+        "bfd2fd4628dafb28",
+        "bf8361f871f50962",
+        "3fc97b28c5d34be4",
+        "bfd07c184992eea7",
+        "bfa8ea87e58a06dc",
+        "3fb7fe962424c733",
+        "bfcc19818a2025bf",
+        "3fd50cb50c441341",
+        "3fe1d1252025bafe",
+        "bfccb1fb6858196e",
+        "3fc36a02881d9271",
+        "3fd799b72853c62c",
+        "bfc82be96dec1be5",
+        "3fb128589461c7f8",
+        "3fce4a8719aa61ea",
+        "bfc439d788473bb9",
+        "3f8894e917293b2a",
+        "3fc0b3974f47ab51",
+        "bfc08abca89b0470",
+        "bf96806ab5b7ab62",
+        "3fa2c058ecc3b97d",
+        "bfb9c18adb5122d4",
+        "3fd5a3be5310d7ef",
+        "3fdb00dc289cc240",
+        "bfb8721161424479",
+        "3fc619e9a8f8c5df",
+        "3fd14842f6eb72c4",
+        "bfb1a62cd6c38915",
+        "3fb677b45d9afd10",
+        "3fc43246b229354f",
+        "bfa738d7c9dfcc3e",
+        "3f9fc7fef9d68764",
+        "3fb097a37ba4d9d4",
+        "bf97893d98e7039c",
+        "0000000000000000",
+        "0000000000000000",
+        "bfbacfef9937f30a",
+        "3fd5d6f7d1e33d4c",
+        "3fd494bbe8768f27",
+        "bfb775e4ad06c4aa",
+        "3fc7e3ae664956e3",
+        "3fc8a4848ea5be84",
+        "bfcae25fa670f374",
+        "3fba58197e2fccc3",
+        "3fb80c030d7dfc16",
+        "bfdc71508840f6a5",
+        "3fa75b78a26c0ffe",
+        "3f858fac901e53d6",
+        "bfe1706cd40265b0",
+        "0000000000000000",
+        "0000000000000000",
+        "bfed3172c4d88deb"
+      ]
+    },
+    {
+      "name": "context-phase-three-stain",
+      "sampler_case": "context-phase",
+      "profile": "three-stain",
+      "image": [
+        20,
+        20
+      ],
+      "extent": [
+        3,
+        4,
+        7,
+        5
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        1,
+        2
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          3,
+          4,
+          0
+        ],
+        [
+          0,
+          3,
+          4
+        ],
+        [
+          4,
+          0,
+          3
+        ]
+      ],
+      "normalized_stains": [
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0.6,
+          0.8
+        ],
+        [
+          0.8,
+          0,
+          0.6
+        ]
+      ],
+      "white": [
+        255,
+        230,
+        200
+      ],
+      "valid": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fee79a45f299dbe",
+        "3fe5b5a511ec5933",
+        "3fea941744960f27",
+        "3fe2046d6565a7b2",
+        "3fe296b403168f46",
+        "3fe1a0950d7f27db",
+        "3fd7b9b7ecf2a7b0",
+        "3fe02de72a0d7d65",
+        "3fd8fc67bb236845",
+        "3fce72aacea6585f",
+        "3fdc40ce21d633a4",
+        "3fd1811ddea61b6b",
+        "3fc0b9c88452be72",
+        "3fd877c2776db849",
+        "3fc6924aed045771",
+        "3feb1bd3312f0236",
+        "3fd7d15203daa36a",
+        "3fe3e86b89768c5d",
+        "3fe08b40308ea694",
+        "3fd48f2c023c02c4",
+        "3fdb76c2f3bc2490",
+        "3fd5cc2e417ced26",
+        "3fd1ce71231c9d2b",
+        "3fd360982dc244a2",
+        "3fcb952150dd2744",
+        "3fce9a8687a92154",
+        "3fca3de8ab69b18f",
+        "3fbcf3007f193bed",
+        "3fc9bbd77ea369c4",
+        "3fbee8d5040522a7",
+        "3fe897614b581933",
+        "3fca54515cdb5d74",
+        "3fdf6f85d39cb269",
+        "3fde9eb68ce64baf",
+        "3fc5ce3f626f5feb",
+        "3fd5cf1026d68c29",
+        "3fd4211faa3d9aed",
+        "3fc1dc2d7cca7fbe",
+        "3fce1700ee7c2994",
+        "3fc91004ef1b44ce",
+        "3fbc5a253a3c90eb",
+        "3fc337dab2f9fde7",
+        "3fb8f2fe5da530e3",
+        "3fb50636c457aae0",
+        "3fb336e6df6933e3",
+        "3fe64c11b47078d2",
+        "3fb3b6bd4a48cc84",
+        "3fd887fa8d7755d3",
+        "3fdc2c3132e219c1",
+        "3fa9d5b17f942240",
+        "3fd0c11998e97ca3",
+        "3fd26db017185ad1",
+        "3f9b845f37d9b8a9",
+        "3fc6039a354805e5",
+        "3fc674a618d05c97",
+        "3f726fb4f4048f22",
+        "3fb8fcdfb06b97f5",
+        "3fb4c5b5c07d31d4",
+        "3fb6149b823e7b15",
+        "3f9f2e8a0ac9b278",
+        "3fe4787193ce35c6",
+        "3fb2ba90960d4cb5",
+        "3fd364ad8d58c68c",
+        "3fda1713282ed68e",
+        "3fc884b59af43779",
+        "3fc9923218deda10",
+        "3fd0f21b056a7e2a",
+        "3fdb427b828298a8",
+        "3fbef3928b7fb35d",
+        "3fc427369c19d7dc",
+        "3fe0d902512336b1",
+        "3fabbd75eb08b0f4",
+        "3fb10d1c48461dfa",
+        "3fec9a0841f95eec",
+        "0000000000000000"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fe0a1952ae9818d",
+        "3fdc03edc94fcfdc",
+        "3fe99edd96c4e404",
+        "3fdb4208b7902140",
+        "3fd99e4c6ae05be9",
+        "3fd8998af3d20a4e",
+        "3fd7b48b3e18b802",
+        "3fd652f38eb6aca2",
+        "3fc7c17af3398f35",
+        "3fd4d32e3701c375",
+        "3fd3526f4462a6cb",
+        "3fab4a40bf35251e",
+        "3fd2345a57b4300d",
+        "3fd081cba7714868",
+        "bfa99933789b6811",
+        "3fd57f4a76525fc9",
+        "3fc610f57bfd2149",
+        "3fe9d30c111bded8",
+        "3fd05401c3ebc485",
+        "3fc8fd38a7a8a7d6",
+        "3fdd1d1f2673cd0d",
+        "3fcb5042800d559b",
+        "3fc6efcb1fa2ef14",
+        "3fd10120e1d72855",
+        "3fc73ddf44bc5bfe",
+        "3fc40461311ebce2",
+        "3fc10c0231872c16",
+        "3fc397461ce731f5",
+        "3fc0c4b457316dab",
+        "3f9b335dce12ffe4",
+        "3fce55d618c23be6",
+        "3f9b7b51235509c6",
+        "3fe90d217989b445",
+        "3fc4b1c34695a874",
+        "3fb1801fe1397e83",
+        "3fde83baf5a7bf6e",
+        "3fbf8a2dbc375ad0",
+        "3fb17b054fae8610",
+        "3fd33f7f0182a0a1",
+        "3fb85e94af7174a2",
+        "3fad859a439b56b3",
+        "3fc6308e69178a45",
+        "3fb226c9c094787d",
+        "3fa5ad4737984d9b",
+        "3fb192a6a49f22be",
+        "3fc46bbe1c995ebd",
+        "bfb5996a25ca5272",
+        "3fe80ae27c2fd543",
+        "3fb6e5149e8a7d7f",
+        "bfa1feb9d2251596",
+        "3fdeec49a1e0a8a8",
+        "3faaf0ae3bc9d5e7",
+        "bf99fa87425a06a6",
+        "3fd4828bc7438578",
+        "3f9afc5466dcd2c6",
+        "bf9c4c8fce248811",
+        "3fc98a27b55fbffa",
+        "3fb88b28ab56676d",
+        "3f904dde7d290cf0",
+        "3f9e3b12c06ec2dd",
+        "3fc72662bccea534",
+        "bfbe84c0fd6638b3",
+        "3fe53f5b755b043d",
+        "3fce7f7de04512ba",
+        "3f5998c0f2cc68d2",
+        "3fd52d08be20a52c",
+        "3fdb3e1034386652",
+        "3fc2381b27c796a8",
+        "3f8802b3f35a1ece",
+        "3fe028d41ac9e1b8",
+        "3fca224ee360b8ca",
+        "bfc749780d3d5753",
+        "3fea32c5d7c90e45",
+        "3fd97a0bf1d1c105",
+        "bfe0fc07f68bd604"
+      ]
+    },
+    {
+      "name": "image-edge-context-identity",
+      "sampler_case": "image-edge-context",
+      "profile": "identity",
+      "image": [
+        5,
+        5
+      ],
+      "extent": [
+        0,
+        0,
+        3,
+        3
+      ],
+      "samples": [
+        2,
+        2
+      ],
+      "context": [
+        2,
+        1
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff952755823ab96",
+        "3ff80e21ca3ff918",
+        "3ffa0de18cfbc098",
+        "3fee0dc09f065251",
+        "3ff3d7e523ab07a8",
+        "3ff175d743cb43b0",
+        "3fe4a8e17c1af829",
+        "3ff0b78d261b9b18",
+        "3fea18603acf1990",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff60e6207843197",
+        "3fec46f45897142c",
+        "3ff388d23787b217",
+        "3fec46f45897142c",
+        "3fe9be4d3ccfaf2e",
+        "3fedbdccc2473e2f",
+        "3fe3ba489f1a102b",
+        "3fe71d071e100957",
+        "3fe71d071e100957",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff362907d52cf78",
+        "3fe2fefdae46c18e",
+        "3fef34a52bf76832",
+        "3fea55b7bfaede2d",
+        "3fe1a39e5d6e6f40",
+        "3fe92d1151864b2b",
+        "3fe2a4eab047572c",
+        "3fe01c43947ff22f",
+        "3fe41bc319f7812f",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff952755823ab96",
+        "3ff80e21ca3ff918",
+        "3ffa0de18cfbc098",
+        "3fee0dc09f065251",
+        "3ff3d7e523ab07a8",
+        "3ff175d743cb43b0",
+        "3fe4a8e17c1af829",
+        "3ff0b78d261b9b18",
+        "3fea18603acf1990",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff60e6207843197",
+        "3fec46f45897142c",
+        "3ff388d23787b217",
+        "3fec46f45897142c",
+        "3fe9be4d3ccfaf2e",
+        "3fedbdccc2473e2f",
+        "3fe3ba489f1a102b",
+        "3fe71d071e100957",
+        "3fe71d071e100957",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff362907d52cf78",
+        "3fe2fefdae46c18e",
+        "3fef34a52bf76832",
+        "3fea55b7bfaede2d",
+        "3fe1a39e5d6e6f40",
+        "3fe92d1151864b2b",
+        "3fe2a4eab047572c",
+        "3fe01c43947ff22f",
+        "3fe41bc319f7812f",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ]
+    },
+    {
+      "name": "image-edge-context-two-stain",
+      "sampler_case": "image-edge-context",
+      "profile": "two-stain",
+      "image": [
+        5,
+        5
+      ],
+      "extent": [
+        0,
+        0,
+        3,
+        3
+      ],
+      "samples": [
+        2,
+        2
+      ],
+      "context": [
+        2,
+        1
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          4,
+          0
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff952755823ab96",
+        "3ff80e21ca3ff918",
+        "3ffa0de18cfbc098",
+        "3fee0dc09f065251",
+        "3ff3d7e523ab07a8",
+        "3ff175d743cb43b0",
+        "3fe4a8e17c1af829",
+        "3ff0b78d261b9b18",
+        "3fea18603acf1990",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff60e6207843197",
+        "3fec46f45897142c",
+        "3ff388d23787b217",
+        "3fec46f45897142c",
+        "3fe9be4d3ccfaf2e",
+        "3fedbdccc2473e2f",
+        "3fe3ba489f1a102b",
+        "3fe71d071e100957",
+        "3fe71d071e100957",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff362907d52cf78",
+        "3fe2fefdae46c18e",
+        "3fef34a52bf76832",
+        "3fea55b7bfaede2d",
+        "3fe1a39e5d6e6f40",
+        "3fe92d1151864b2b",
+        "3fe2a4eab047572c",
+        "3fe01c43947ff22f",
+        "3fe41bc319f7812f",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fdd1f7001cec314",
+        "3ffe11aa3ccff75d",
+        "3ffa0de18cfbc098",
+        "3f827a3a6171b554",
+        "3ff8cdde6c95c992",
+        "3ff175d743cb43b0",
+        "bfc1a9c8f439c1e8",
+        "3ff4e5706fa281dd",
+        "3fea18603acf1990",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fe6e78ccc97140f",
+        "3ff1ac58b75e6c9b",
+        "3ff388d23787b217",
+        "3fd1f074d5f6a193",
+        "3ff016f04601cd7d",
+        "3fedbdccc2473e2f",
+        "3fb3241a44704954",
+        "3fece448e5940bad",
+        "3fe71d071e100957",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fe885e2b7f08dc6",
+        "3fe7bebd19d871f2",
+        "3fef34a52bf76832",
+        "3fda3601f338157a",
+        "3fe60c85f4ca0b10",
+        "3fe92d1151864b2b",
+        "3fca3ee0039d8625",
+        "3fe42354799feeba",
+        "3fe41bc319f7812f",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ]
+    },
+    {
+      "name": "image-edge-context-signed-residual",
+      "sampler_case": "image-edge-context",
+      "profile": "signed-residual",
+      "image": [
+        5,
+        5
+      ],
+      "extent": [
+        0,
+        0,
+        3,
+        3
+      ],
+      "samples": [
+        2,
+        2
+      ],
+      "context": [
+        2,
+        1
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          4
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0,
+          0.8
+        ],
+        [
+          0,
+          -1,
+          0
+        ]
+      ],
+      "white": [
+        200,
+        240,
+        180
+      ],
+      "valid": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff7a249e593f57f",
+        "3ff7a249e593f57f",
+        "3ff7a249e593f57f",
+        "3feaad69b9e6e623",
+        "3ff36c0d3eff0410",
+        "3fee147f38c6f12f",
+        "3fe1488a96fb8bfb",
+        "3ff04bb5416f977f",
+        "3fe54130ebff8360",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff45e3694f47b80",
+        "3feb6f448f3f0cfb",
+        "3ff11d3a901fe6ff",
+        "3fe8e69d7377a7fe",
+        "3fe8e69d7377a7fe",
+        "3fe8e69d7377a7fe",
+        "3fe059f1b9faa3fe",
+        "3fe6455754b80227",
+        "3fe245d7cf407326",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff1b2650ac31961",
+        "3fe2274de4eeba5e",
+        "3fea5d75dd27d201",
+        "3fe6f560da8f71ff",
+        "3fe0cbee94166810",
+        "3fe455e202b6b4fa",
+        "3fde8927964fd5fc",
+        "3fde8927964fd5fd",
+        "3fde8927964fd5fd",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fd7a249e593f581",
+        "3ffd8adc5ef8f2df",
+        "bff7a249e593f57f",
+        "3fc078293d46c500",
+        "3ff2cccf837c56bd",
+        "bff36c0d3eff0410",
+        "3fa57a5e5fbe9738",
+        "3fea917d26ff6437",
+        "bff04bb5416f977f",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fde212aa3723907",
+        "3ff564893427e0be",
+        "bfeb6f448f3f0cfb",
+        "3fc8e69d7377a7ff",
+        "3fef2044d05591fd",
+        "bfe8e69d7377a7fe",
+        "3fb52c7ef4526d09",
+        "3fe6d74dc3108fef",
+        "bfe6455754b80227",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fdf3d635f50aa85",
+        "3ff07a69aa38e340",
+        "bfe2274de4eeba5e",
+        "3fced3dd6219a910",
+        "3fe96b5a83646238",
+        "bfe0cbee94166810",
+        "3fbe8927964fd5fd",
+        "3fe315b8bdf1e5be",
+        "bfde8927964fd5fd",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ]
+    },
+    {
+      "name": "image-edge-context-three-stain",
+      "sampler_case": "image-edge-context",
+      "profile": "three-stain",
+      "image": [
+        5,
+        5
+      ],
+      "extent": [
+        0,
+        0,
+        3,
+        3
+      ],
+      "samples": [
+        2,
+        2
+      ],
+      "context": [
+        2,
+        1
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          3,
+          4,
+          0
+        ],
+        [
+          0,
+          3,
+          4
+        ],
+        [
+          4,
+          0,
+          3
+        ]
+      ],
+      "normalized_stains": [
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0.6,
+          0.8
+        ],
+        [
+          0.8,
+          0,
+          0.6
+        ]
+      ],
+      "white": [
+        255,
+        230,
+        200
+      ],
+      "valid": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0,
+        0,
+        0,
+        1,
+        1,
+        1,
+        0
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff952755823ab96",
+        "3ff75694a4245e00",
+        "3ff85db61a6c0a81",
+        "3fee0dc09f065251",
+        "3ff32057fd8f6c90",
+        "3fef8b57a2771b32",
+        "3fe4a8e17c1af829",
+        "3ff0000000000000",
+        "3fe6b80955afad63",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff60e6207843197",
+        "3fead7da0c5fddfd",
+        "3ff1d8a6c4f7fc00",
+        "3fec46f45897142c",
+        "3fe84f32f09878ff",
+        "3fea5d75dd27d201",
+        "3fe3ba489f1a102b",
+        "3fe5adecd1d8d328",
+        "3fe3bcb038f09d29",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff362907d52cf78",
+        "3fe18fe3620f8b5f",
+        "3febd44e46d7fc04",
+        "3fea55b7bfaede2d",
+        "3fe0348411373911",
+        "3fe5ccba6c66defd",
+        "3fe2a4eab047572c",
+        "3fdd5a5290917800",
+        "3fe0bb6c34d81501",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3ff0f9369125738d",
+        "3ff04404500aad44",
+        "3ff2ec29c1507fd2",
+        "3febb1284480f1ca",
+        "3fead4ef9c877cd4",
+        "3fe0cc529367318d",
+        "3fe75e63b8eb1676",
+        "3fe62cd05ec68cb7",
+        "3fd0989e20e2cab4",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fe5e0ed84ba348d",
+        "3fdf225d71f9ad27",
+        "3ff35da1779f6a48",
+        "3fe1f874083ab73e",
+        "3fe08e0f86052aab",
+        "3fe5de5a6890cfc8",
+        "3fdf9a02a448d5c5",
+        "3fde2111e071a2d4",
+        "3fd99e33928a8819",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fe0431d8fc04787",
+        "3fce594e39bb78ff",
+        "3ff2220986bf6883",
+        "3fd9ca865826bd30",
+        "3fd3a105192f174f",
+        "3fe73f334e8c0ec6",
+        "3fd62dfed6def2c7",
+        "3fd35935d273d9a1",
+        "3fddf9cb978b23d9",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ]
+    },
+    {
+      "name": "partial-alpha-identity",
+      "sampler_case": "partial-alpha",
+      "profile": "identity",
+      "image": [
+        8,
+        8
+      ],
+      "extent": [
+        1,
+        1,
+        3,
+        2
+      ],
+      "samples": [
+        2,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          2,
+          1,
+          37,
+          29,
+          29,
+          128
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fee5f8b0ccef541",
+        "3fe835b643928cd1",
+        "3fee5f8b0ccef541",
+        "3fe646c8e42d0010",
+        "3fe646c8e42d0010",
+        "3fe8a187d11eef8d"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fee5f8b0ccef541",
+        "3fe835b643928cd1",
+        "3fee5f8b0ccef541",
+        "3fe646c8e42d0010",
+        "3fe646c8e42d0010",
+        "3fe8a187d11eef8d"
+      ]
+    },
+    {
+      "name": "partial-alpha-two-stain",
+      "sampler_case": "partial-alpha",
+      "profile": "two-stain",
+      "image": [
+        8,
+        8
+      ],
+      "extent": [
+        1,
+        1,
+        3,
+        2
+      ],
+      "samples": [
+        2,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          2,
+          1,
+          37,
+          29,
+          29,
+          128
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          4,
+          0
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fee5f8b0ccef541",
+        "3fe835b643928cd1",
+        "3fee5f8b0ccef541",
+        "3fe646c8e42d0010",
+        "3fe646c8e42d0010",
+        "3fe8a187d11eef8d"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fd86e84b442174a",
+        "3fee4323d4773005",
+        "3fee5f8b0ccef541",
+        "3fc646c8e42d0012",
+        "3febd87b1d384014",
+        "3fe8a187d11eef8d"
+      ]
+    },
+    {
+      "name": "partial-alpha-signed-residual",
+      "sampler_case": "partial-alpha",
+      "profile": "signed-residual",
+      "image": [
+        8,
+        8
+      ],
+      "extent": [
+        1,
+        1,
+        3,
+        2
+      ],
+      "samples": [
+        2,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          2,
+          1,
+          37,
+          29,
+          29,
+          128
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          4
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0,
+          0.8
+        ],
+        [
+          0,
+          -1,
+          0
+        ]
+      ],
+      "white": [
+        200,
+        240,
+        180
+      ],
+      "valid": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3feaff3427af8913",
+        "3fe75e067a3a85a0",
+        "3fe9885bbdff5f10",
+        "3fe2e671ff0d93e2",
+        "3fe56f191ad4f8e0",
+        "3fe3ca58824f595c"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fcf63bd64c0071e",
+        "3fefea72ad7f36d4",
+        "bfe75e067a3a85a0",
+        "3fc03abe75484375",
+        "3fe8bceea2e32fb3",
+        "bfe56f191ad4f8e0"
+      ]
+    },
+    {
+      "name": "partial-alpha-three-stain",
+      "sampler_case": "partial-alpha",
+      "profile": "three-stain",
+      "image": [
+        8,
+        8
+      ],
+      "extent": [
+        1,
+        1,
+        3,
+        2
+      ],
+      "samples": [
+        2,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          2,
+          1,
+          37,
+          29,
+          29,
+          128
+        ]
+      ],
+      "raw_stains": [
+        [
+          3,
+          4,
+          0
+        ],
+        [
+          0,
+          3,
+          4
+        ],
+        [
+          4,
+          0,
+          3
+        ]
+      ],
+      "normalized_stains": [
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0.6,
+          0.8
+        ],
+        [
+          0.8,
+          0,
+          0.6
+        ]
+      ],
+      "white": [
+        255,
+        230,
+        200
+      ],
+      "valid": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fee5f8b0ccef541",
+        "3fe6c69bf75b56a2",
+        "3feaff3427af8913",
+        "3fe646c8e42d0010",
+        "3fe4d7ae97f5c9e1",
+        "3fe54130ebff835f"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fe13e05821b8461",
+        "3fddf0a3dd91bfc3",
+        "3fe908e9ae6e0f49",
+        "3fdea656b004b026",
+        "3fdc9bd2652d0b66",
+        "3fe05a1a9b367e06"
+      ]
+    },
+    {
+      "name": "transparent-alpha-identity",
+      "sampler_case": "transparent-alpha",
+      "profile": "identity",
+      "image": [
+        8,
+        8
+      ],
+      "extent": [
+        1,
+        1,
+        3,
+        2
+      ],
+      "samples": [
+        2,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          2,
+          1,
+          37,
+          29,
+          29,
+          0
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fee5f8b0ccef541",
+        "3fe835b643928cd1",
+        "3fee5f8b0ccef541",
+        "3fe646c8e42d0010",
+        "3fe646c8e42d0010",
+        "3fe8a187d11eef8d"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fee5f8b0ccef541",
+        "3fe835b643928cd1",
+        "3fee5f8b0ccef541",
+        "3fe646c8e42d0010",
+        "3fe646c8e42d0010",
+        "3fe8a187d11eef8d"
+      ]
+    },
+    {
+      "name": "transparent-alpha-two-stain",
+      "sampler_case": "transparent-alpha",
+      "profile": "two-stain",
+      "image": [
+        8,
+        8
+      ],
+      "extent": [
+        1,
+        1,
+        3,
+        2
+      ],
+      "samples": [
+        2,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          2,
+          1,
+          37,
+          29,
+          29,
+          0
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          4,
+          0
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fee5f8b0ccef541",
+        "3fe835b643928cd1",
+        "3fee5f8b0ccef541",
+        "3fe646c8e42d0010",
+        "3fe646c8e42d0010",
+        "3fe8a187d11eef8d"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fd86e84b442174a",
+        "3fee4323d4773005",
+        "3fee5f8b0ccef541",
+        "3fc646c8e42d0012",
+        "3febd87b1d384014",
+        "3fe8a187d11eef8d"
+      ]
+    },
+    {
+      "name": "transparent-alpha-signed-residual",
+      "sampler_case": "transparent-alpha",
+      "profile": "signed-residual",
+      "image": [
+        8,
+        8
+      ],
+      "extent": [
+        1,
+        1,
+        3,
+        2
+      ],
+      "samples": [
+        2,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          2,
+          1,
+          37,
+          29,
+          29,
+          0
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          4
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0,
+          0.8
+        ],
+        [
+          0,
+          -1,
+          0
+        ]
+      ],
+      "white": [
+        200,
+        240,
+        180
+      ],
+      "valid": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3feaff3427af8913",
+        "3fe75e067a3a85a0",
+        "3fe9885bbdff5f10",
+        "3fe2e671ff0d93e2",
+        "3fe56f191ad4f8e0",
+        "3fe3ca58824f595c"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fcf63bd64c0071e",
+        "3fefea72ad7f36d4",
+        "bfe75e067a3a85a0",
+        "3fc03abe75484375",
+        "3fe8bceea2e32fb3",
+        "bfe56f191ad4f8e0"
+      ]
+    },
+    {
+      "name": "transparent-alpha-three-stain",
+      "sampler_case": "transparent-alpha",
+      "profile": "three-stain",
+      "image": [
+        8,
+        8
+      ],
+      "extent": [
+        1,
+        1,
+        3,
+        2
+      ],
+      "samples": [
+        2,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          2,
+          1,
+          37,
+          29,
+          29,
+          0
+        ]
+      ],
+      "raw_stains": [
+        [
+          3,
+          4,
+          0
+        ],
+        [
+          0,
+          3,
+          4
+        ],
+        [
+          4,
+          0,
+          3
+        ]
+      ],
+      "normalized_stains": [
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0.6,
+          0.8
+        ],
+        [
+          0.8,
+          0,
+          0.6
+        ]
+      ],
+      "white": [
+        255,
+        230,
+        200
+      ],
+      "valid": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fee5f8b0ccef541",
+        "3fe6c69bf75b56a2",
+        "3feaff3427af8913",
+        "3fe646c8e42d0010",
+        "3fe4d7ae97f5c9e1",
+        "3fe54130ebff835f"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000",
+        "3fe13e05821b8461",
+        "3fddf0a3dd91bfc3",
+        "3fe908e9ae6e0f49",
+        "3fdea656b004b026",
+        "3fdc9bd2652d0b66",
+        "3fe05a1a9b367e06"
+      ]
+    },
+    {
+      "name": "anisotropic-calibration-identity",
+      "sampler_case": "anisotropic-calibration",
+      "profile": "identity",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        1,
+        2,
+        7,
+        5
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fea9fd96eb53ca8",
+        "3fe3b43ea91f1334",
+        "3fea4a3ed59a7ce7",
+        "3fe0c0138ca271c3",
+        "3fe1584d68e98c51",
+        "3fe34c74db00cfa9",
+        "3fd6126365a2bf71",
+        "3fdea850cceff16c",
+        "3fdd56895cfedc4d",
+        "3fe82fa603f9f29e",
+        "3fd80aac600f05c0",
+        "3fe540bb2e6ee955",
+        "3fdeff53a06d4461",
+        "3fd53af6356cc6ac",
+        "3fe00a8504f2f9d4",
+        "3fd46338f2d8ed7b",
+        "3fd2ad681c5249f7",
+        "3fd884e566387c2b"
+      ],
+      "stain_bits": [
+        "3fea9fd96eb53ca8",
+        "3fe3b43ea91f1334",
+        "3fea4a3ed59a7ce7",
+        "3fe0c0138ca271c3",
+        "3fe1584d68e98c51",
+        "3fe34c74db00cfa9",
+        "3fd6126365a2bf71",
+        "3fdea850cceff16c",
+        "3fdd56895cfedc4d",
+        "3fe82fa603f9f29e",
+        "3fd80aac600f05c0",
+        "3fe540bb2e6ee955",
+        "3fdeff53a06d4461",
+        "3fd53af6356cc6ac",
+        "3fe00a8504f2f9d4",
+        "3fd46338f2d8ed7b",
+        "3fd2ad681c5249f7",
+        "3fd884e566387c2b"
+      ]
+    },
+    {
+      "name": "anisotropic-calibration-two-stain",
+      "sampler_case": "anisotropic-calibration",
+      "profile": "two-stain",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        1,
+        2,
+        7,
+        5
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          4,
+          0
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fea9fd96eb53ca8",
+        "3fe3b43ea91f1334",
+        "3fea4a3ed59a7ce7",
+        "3fe0c0138ca271c3",
+        "3fe1584d68e98c51",
+        "3fe34c74db00cfa9",
+        "3fd6126365a2bf71",
+        "3fdea850cceff16c",
+        "3fdd56895cfedc4d",
+        "3fe82fa603f9f29e",
+        "3fd80aac600f05c0",
+        "3fe540bb2e6ee955",
+        "3fdeff53a06d4461",
+        "3fd53af6356cc6ac",
+        "3fe00a8504f2f9d4",
+        "3fd46338f2d8ed7b",
+        "3fd2ad681c5249f7",
+        "3fd884e566387c2b"
+      ],
+      "stain_bits": [
+        "3fd7b154dfbbdc84",
+        "3fe8a14e5366d800",
+        "3fea4a3ed59a7ce7",
+        "3fbdeecbef9a4438",
+        "3fe5ae60c323ef65",
+        "3fe34c74db00cfa9",
+        "bf8d7b268226b3fa",
+        "3fe329328015f6e3",
+        "3fdd56895cfedc4d",
+        "3fde574abfe8a0ed",
+        "3fde0d577812c72f",
+        "3fe540bb2e6ee955",
+        "3fce2635f0b75ec2",
+        "3fda89b3c2c7f856",
+        "3fe00a8504f2f9d4",
+        "3fb984ab766cd806",
+        "3fd758c22366dc75",
+        "3fd884e566387c2b"
+      ]
+    },
+    {
+      "name": "anisotropic-calibration-signed-residual",
+      "sampler_case": "anisotropic-calibration",
+      "profile": "signed-residual",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        1,
+        2,
+        7,
+        5
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          4
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0,
+          0.8
+        ],
+        [
+          0,
+          -1,
+          0
+        ]
+      ],
+      "white": [
+        200,
+        240,
+        180
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fe73f828995d07a",
+        "3fe2dc8edfc70c03",
+        "3fe5730f86cae6b6",
+        "3fdabf794f060b2a",
+        "3fe0809d9f918520",
+        "3fdcea8b186272f0",
+        "3fcea36b36c7ce2a",
+        "3fdcf8f13a3fe30b",
+        "3fd3a82abf5fafeb",
+        "3fe4cf4f1eda8670",
+        "3fd65b4ccd5ef75f",
+        "3fe0698bdf9f5324",
+        "3fd83ea5d62e6c06",
+        "3fd38b96a2bcb84b",
+        "3fd666ab6c46c746",
+        "3fcb451651342a3d",
+        "3fd0fe0889a23b96",
+        "3fcdad0d91329f92"
+      ],
+      "stain_bits": [
+        "3fcca4db91f68dc9",
+        "3feacfd3687da063",
+        "bfe2dc8edfc70c03",
+        "3fb43e43f2f0d3dc",
+        "3fe21296ef3d87d6",
+        "bfe0809d9f918520",
+        "3f8272b17b84649a",
+        "3fd892356f379be6",
+        "bfdcf8f13a3fe30b",
+        "3fd1004c6e46102b",
+        "3fe483eed78727ed",
+        "bfd65b4ccd5ef75f",
+        "3fbdc69513e55a47",
+        "3fdc005647587917",
+        "bfd38b96a2bcb84b",
+        "3fa40d309138ca43",
+        "3fd28c287abfa3bb",
+        "bfd0fe0889a23b96"
+      ]
+    },
+    {
+      "name": "anisotropic-calibration-three-stain",
+      "sampler_case": "anisotropic-calibration",
+      "profile": "three-stain",
+      "image": [
+        16,
+        16
+      ],
+      "extent": [
+        1,
+        2,
+        7,
+        5
+      ],
+      "samples": [
+        3,
+        2
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [],
+      "raw_stains": [
+        [
+          3,
+          4,
+          0
+        ],
+        [
+          0,
+          3,
+          4
+        ],
+        [
+          4,
+          0,
+          3
+        ]
+      ],
+      "normalized_stains": [
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0.6,
+          0.8
+        ],
+        [
+          0.8,
+          0,
+          0.6
+        ]
+      ],
+      "white": [
+        255,
+        230,
+        200
+      ],
+      "valid": [
+        1,
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "od_bits": [
+        "3fea9fd96eb53ca8",
+        "3fe245245ce7dd05",
+        "3fe6e9e7f07b10b9",
+        "3fe0c0138ca271c3",
+        "3fdfd2663964ac43",
+        "3fdfd83bebc2c6f6",
+        "3fd6126365a2bf71",
+        "3fdbca1c3481850e",
+        "3fd695db92c003f1",
+        "3fe82fa603f9f29e",
+        "3fd52c77c7a09962",
+        "3fe1e064494f7d27",
+        "3fdeff53a06d4461",
+        "3fd25cc19cfe5a4e",
+        "3fd9545c3fa71b4c",
+        "3fd46338f2d8ed7b",
+        "3fcf9e6707c7bb33",
+        "3fd1c4379bf9a3cf"
+      ],
+      "stain_bits": [
+        "3fdc3d3c552199aa",
+        "3fd73f7e1982be83",
+        "3fe6b0d92a75f233",
+        "3fd78b86659d4f52",
+        "3fd5a4a1d82b6003",
+        "3fd8378c136020eb",
+        "3fd47418d2a63381",
+        "3fd30b633ea4ee6c",
+        "3fc87fd3421d9159",
+        "3fd2f60d7753d491",
+        "3fc4041605e27318",
+        "3fe71f4a7838ff8f",
+        "3fcd8a62ee3b3a30",
+        "3fc5d201785634c2",
+        "3fdbab436f325fa7",
+        "3fc8882d6faaa68c",
+        "3fc3fd19cd6959ee",
+        "3fd048f625af2a64"
+      ]
+    },
+    {
+      "name": "mean-before-od-identity",
+      "sampler_case": "mean-before-od",
+      "profile": "identity",
+      "image": [
+        2,
+        1
+      ],
+      "extent": [
+        0,
+        0,
+        2,
+        1
+      ],
+      "samples": [
+        1,
+        1
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          0,
+          0,
+          0,
+          32,
+          255,
+          255
+        ],
+        [
+          1,
+          0,
+          255,
+          64,
+          0,
+          255
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        1
+      ],
+      "od_bits": [
+        "3fd34413509f79ff",
+        "3fe735a621084a31",
+        "3fd34413509f79ff"
+      ],
+      "stain_bits": [
+        "3fd34413509f79ff",
+        "3fe735a621084a31",
+        "3fd34413509f79ff"
+      ]
+    },
+    {
+      "name": "mean-before-od-two-stain",
+      "sampler_case": "mean-before-od",
+      "profile": "two-stain",
+      "image": [
+        2,
+        1
+      ],
+      "extent": [
+        0,
+        0,
+        2,
+        1
+      ],
+      "samples": [
+        1,
+        1
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          0,
+          0,
+          0,
+          32,
+          255,
+          255
+        ],
+        [
+          1,
+          0,
+          255,
+          64,
+          0,
+          255
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          4,
+          0
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        1
+      ],
+      "od_bits": [
+        "3fd34413509f79ff",
+        "3fe735a621084a31",
+        "3fd34413509f79ff"
+      ],
+      "stain_bits": [
+        "bfcf18cbc1d9ea93",
+        "3fed030fa94a5cbd",
+        "3fd34413509f79ff"
+      ]
+    },
+    {
+      "name": "mean-before-od-signed-residual",
+      "sampler_case": "mean-before-od",
+      "profile": "signed-residual",
+      "image": [
+        2,
+        1
+      ],
+      "extent": [
+        0,
+        0,
+        2,
+        1
+      ],
+      "samples": [
+        1,
+        1
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          0,
+          0,
+          0,
+          32,
+          255,
+          255
+        ],
+        [
+          1,
+          0,
+          255,
+          64,
+          0,
+          255
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          4
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0,
+          0.8
+        ],
+        [
+          0,
+          -1,
+          0
+        ]
+      ],
+      "white": [
+        200,
+        240,
+        180
+      ],
+      "valid": [
+        1
+      ],
+      "od_bits": [
+        "3fc906cb0cc14346",
+        "3fe65df657b04301",
+        "3fc32b6966009b3a"
+      ],
+      "stain_bits": [
+        "3fb54c7800819db6",
+        "3fc7f643bf80c208",
+        "bfe65df657b04301"
+      ]
+    },
+    {
+      "name": "mean-before-od-three-stain",
+      "sampler_case": "mean-before-od",
+      "profile": "three-stain",
+      "image": [
+        2,
+        1
+      ],
+      "extent": [
+        0,
+        0,
+        2,
+        1
+      ],
+      "samples": [
+        1,
+        1
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          0,
+          0,
+          0,
+          32,
+          255,
+          255
+        ],
+        [
+          1,
+          0,
+          255,
+          64,
+          0,
+          255
+        ]
+      ],
+      "raw_stains": [
+        [
+          3,
+          4,
+          0
+        ],
+        [
+          0,
+          3,
+          4
+        ],
+        [
+          4,
+          0,
+          3
+        ]
+      ],
+      "normalized_stains": [
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0.6,
+          0.8
+        ],
+        [
+          0.8,
+          0,
+          0.6
+        ]
+      ],
+      "white": [
+        255,
+        230,
+        200
+      ],
+      "valid": [
+        1
+      ],
+      "od_bits": [
+        "3fd34413509f79ff",
+        "3fe5c68bd4d11402",
+        "3fc906cb0cc14346"
+      ],
+      "stain_bits": [
+        "3fe3c81ab7d31261",
+        "3fd3d58adb30bc59",
+        "bfb65c3fbbd50c48"
+      ]
+    },
+    {
+      "name": "subunit-white-clamp-identity",
+      "sampler_case": "subunit-white-clamp",
+      "profile": "identity",
+      "image": [
+        2,
+        1
+      ],
+      "extent": [
+        0,
+        0,
+        2,
+        1
+      ],
+      "samples": [
+        1,
+        1
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          0,
+          0,
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          1,
+          0,
+          1,
+          2,
+          255,
+          255
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        1
+      ],
+      "od_bits": [
+        "40034098235bca4b",
+        "40034098235bca4b",
+        "0000000000000000"
+      ],
+      "stain_bits": [
+        "40034098235bca4b",
+        "40034098235bca4b",
+        "0000000000000000"
+      ]
+    },
+    {
+      "name": "subunit-white-clamp-two-stain",
+      "sampler_case": "subunit-white-clamp",
+      "profile": "two-stain",
+      "image": [
+        2,
+        1
+      ],
+      "extent": [
+        0,
+        0,
+        2,
+        1
+      ],
+      "samples": [
+        1,
+        1
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          0,
+          0,
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          1,
+          0,
+          1,
+          2,
+          255,
+          255
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          4,
+          0
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        1
+      ],
+      "od_bits": [
+        "40034098235bca4b",
+        "40034098235bca4b",
+        "0000000000000000"
+      ],
+      "stain_bits": [
+        "3fe34098235bca4d",
+        "400810be2c32bcde",
+        "0000000000000000"
+      ]
+    },
+    {
+      "name": "subunit-white-clamp-signed-residual",
+      "sampler_case": "subunit-white-clamp",
+      "profile": "signed-residual",
+      "image": [
+        2,
+        1
+      ],
+      "extent": [
+        0,
+        0,
+        2,
+        1
+      ],
+      "samples": [
+        1,
+        1
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          0,
+          0,
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          1,
+          0,
+          1,
+          2,
+          255,
+          255
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          4
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0,
+          0.8
+        ],
+        [
+          0,
+          -1,
+          0
+        ]
+      ],
+      "white": [
+        200,
+        240,
+        180
+      ],
+      "valid": [
+        1
+      ],
+      "od_bits": [
+        "400268826a13ef40",
+        "40030aac3105c87f",
+        "0000000000000000"
+      ],
+      "stain_bits": [
+        "400268826a13ef40",
+        "0000000000000000",
+        "c0030aac3105c87f"
+      ]
+    },
+    {
+      "name": "subunit-white-clamp-three-stain",
+      "sampler_case": "subunit-white-clamp",
+      "profile": "three-stain",
+      "image": [
+        2,
+        1
+      ],
+      "extent": [
+        0,
+        0,
+        2,
+        1
+      ],
+      "samples": [
+        1,
+        1
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          0,
+          0,
+          0,
+          0,
+          255,
+          255
+        ],
+        [
+          1,
+          0,
+          1,
+          2,
+          255,
+          255
+        ]
+      ],
+      "raw_stains": [
+        [
+          3,
+          4,
+          0
+        ],
+        [
+          0,
+          3,
+          4
+        ],
+        [
+          4,
+          0,
+          3
+        ]
+      ],
+      "normalized_stains": [
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0.6,
+          0.8
+        ],
+        [
+          0.8,
+          0,
+          0.6
+        ]
+      ],
+      "white": [
+        255,
+        230,
+        200
+      ],
+      "valid": [
+        1
+      ],
+      "od_bits": [
+        "40034098235bca4b",
+        "4002e4d1904dfcc0",
+        "0000000000000000"
+      ],
+      "stain_bits": [
+        "400a215d7ca766cd",
+        "bfdace50583f1e99",
+        "3fe1dee03ad4bf11"
+      ]
+    },
+    {
+      "name": "invalid-override-identity",
+      "sampler_case": "invalid-override",
+      "profile": "identity",
+      "image": [
+        2,
+        1
+      ],
+      "extent": [
+        0,
+        0,
+        2,
+        1
+      ],
+      "samples": [
+        1,
+        1
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          0,
+          0,
+          0,
+          32,
+          255,
+          255
+        ],
+        [
+          1,
+          0,
+          255,
+          64,
+          0,
+          128
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0,
+          1,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        0
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ]
+    },
+    {
+      "name": "invalid-override-two-stain",
+      "sampler_case": "invalid-override",
+      "profile": "two-stain",
+      "image": [
+        2,
+        1
+      ],
+      "extent": [
+        0,
+        0,
+        2,
+        1
+      ],
+      "samples": [
+        1,
+        1
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          0,
+          0,
+          0,
+          32,
+          255,
+          255
+        ],
+        [
+          1,
+          0,
+          255,
+          64,
+          0,
+          128
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          4,
+          0
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0,
+          1
+        ]
+      ],
+      "white": [
+        255,
+        255,
+        255
+      ],
+      "valid": [
+        0
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ]
+    },
+    {
+      "name": "invalid-override-signed-residual",
+      "sampler_case": "invalid-override",
+      "profile": "signed-residual",
+      "image": [
+        2,
+        1
+      ],
+      "extent": [
+        0,
+        0,
+        2,
+        1
+      ],
+      "samples": [
+        1,
+        1
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          0,
+          0,
+          0,
+          32,
+          255,
+          255
+        ],
+        [
+          1,
+          0,
+          255,
+          64,
+          0,
+          128
+        ]
+      ],
+      "raw_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          3,
+          0,
+          4
+        ]
+      ],
+      "normalized_stains": [
+        [
+          1,
+          0,
+          0
+        ],
+        [
+          0.6,
+          0,
+          0.8
+        ],
+        [
+          0,
+          -1,
+          0
+        ]
+      ],
+      "white": [
+        200,
+        240,
+        180
+      ],
+      "valid": [
+        0
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ]
+    },
+    {
+      "name": "invalid-override-three-stain",
+      "sampler_case": "invalid-override",
+      "profile": "three-stain",
+      "image": [
+        2,
+        1
+      ],
+      "extent": [
+        0,
+        0,
+        2,
+        1
+      ],
+      "samples": [
+        1,
+        1
+      ],
+      "context": [
+        0,
+        0
+      ],
+      "overrides": [
+        [
+          0,
+          0,
+          0,
+          32,
+          255,
+          255
+        ],
+        [
+          1,
+          0,
+          255,
+          64,
+          0,
+          128
+        ]
+      ],
+      "raw_stains": [
+        [
+          3,
+          4,
+          0
+        ],
+        [
+          0,
+          3,
+          4
+        ],
+        [
+          4,
+          0,
+          3
+        ]
+      ],
+      "normalized_stains": [
+        [
+          0.6,
+          0.8,
+          0
+        ],
+        [
+          0,
+          0.6,
+          0.8
+        ],
+        [
+          0.8,
+          0,
+          0.6
+        ]
+      ],
+      "white": [
+        255,
+        230,
+        200
+      ],
+      "valid": [
+        0
+      ],
+      "od_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ],
+      "stain_bits": [
+        "0000000000000000",
+        "0000000000000000",
+        "0000000000000000"
+      ]
+    }
+  ]
+}

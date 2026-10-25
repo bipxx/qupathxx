@@ -2,6 +2,7 @@
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
+void check_scientific_channels();
 
 void check(bool v) { if(!v) throw std::runtime_error("stain check failed"); }
 template<class F> void invalid(F f) {
@@ -10,6 +11,7 @@ template<class F> void invalid(F f) {
 }
 int main() {
     try {
+        check_scientific_channels();
         qpx::StainTransform identity({{1,0,0},{0,1,0}});
         qpx::PixelBuffer pixels(3,1);
         pixels.writable_bytes()={255,255,255,255,0,10,100,255,10,10,10,0};

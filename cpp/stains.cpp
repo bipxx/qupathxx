@@ -1,4 +1,5 @@
 #include "qupathxx/stains.hpp"
+#include "stain_matrix.hpp"
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -22,12 +23,8 @@ ColorVector normalized(ColorVector v) {
     for(auto& x:v) x/=norm;
     return v;
 }
-ColorVector cross(const ColorVector& a,const ColorVector& b) {
-    return {a[1]*b[2]-a[2]*b[1],a[2]*b[0]-a[0]*b[2],a[0]*b[1]-a[1]*b[0]};
-}
-double dot(const ColorVector& a,const ColorVector& b) {
-    return a[0]*b[0]+a[1]*b[1]+a[2]*b[2];
-}
+using detail::stain_cross;
+using detail::stain_dot;
 void check_cancelled(const std::atomic<bool>* cancelled) {
     if(cancelled && cancelled->load(std::memory_order_relaxed))
         throw std::runtime_error("stain transform cancelled");
@@ -56,13 +53,13 @@ void StainTransform::validate_normalized(const std::array<ColorVector,3>& stains
         for(auto value:vector) if(!std::isfinite(value)) throw std::invalid_argument("nonfinite persisted stain vector");
         if(std::abs(std::hypot(vector[0],vector[1],vector[2])-1)>1e-12) throw std::invalid_argument("persisted stain vectors must be normalized");
     }
-    if(std::abs(dot(stains[0],cross(stains[1],stains[2])))<1e-8) throw std::invalid_argument("persisted stain basis is singular");
+    if(std::abs(stain_dot(stains[0],stain_cross(stains[1],stains[2])))<1e-8) throw std::invalid_argument("persisted stain basis is singular");
 }
 StainTransform::StainTransform(const std::vector<ColorVector>& stains,ColorVector white,bool normalized_input):white_(white) {
     if(stains.size()!=2 && stains.size()!=3) throw std::invalid_argument("provide two or three stain vectors");
     for(auto w:white_) validate_white(w);
     stains_[0]=normalized(stains[0]); stains_[1]=normalized(stains[1]);
-    const auto residual=cross(stains_[0],stains_[1]);
+    const auto residual=stain_cross(stains_[0],stains_[1]);
     if(stains.size()==2 && std::hypot(residual[0],residual[1],residual[2])<1e-8)
         throw std::invalid_argument("stain basis is singular or nearly singular");
     stains_[2]=normalized(stains.size()==3 ? stains[2] : residual);
@@ -73,12 +70,8 @@ StainTransform::StainTransform(const std::vector<ColorVector>& stains,ColorVecto
             stains_[i]=stains[i];
         }
     }
-    const auto r0=cross(stains_[1],stains_[2]);
-    const auto r1=cross(stains_[2],stains_[0]);
-    const auto r2=cross(stains_[0],stains_[1]);
-    const double determinant=dot(stains_[0],r0);
-    if(std::abs(determinant)<1e-8) throw std::invalid_argument("stain basis is singular or nearly singular");
-    const std::array<ColorVector,3> rows={r0,r1,r2};
+    const auto inverse=detail::stain_inverse(stains_);
+    const auto& rows=inverse.cofactors;const auto determinant=inverse.determinant;
     for(std::size_t channel=0;channel<3;++channel) for(std::size_t v=0;v<256;++v) {
         od_[channel][v]=optical_density(static_cast<double>(v),white_[channel]);
         for(std::size_t stain=0;stain<3;++stain)

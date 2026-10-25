@@ -2,6 +2,9 @@
 tests/fixtures/scientific-grid-v1/** -text
 tools/reference_scientific_grid.py text eol=lf
 tools/reference_physical_grid.py text eol=lf
+tools/reference_scientific_channels.py text eol=lf
+tests/fixtures/scientific-channels-v1/** -text
+cpp/tests/scientific_channel_reference.hpp text eol=lf
 tests/fixtures/physical-grid-v1/** -text
 cpp/tests/scientific_cell_reference.hpp text eol=lf
 docs/scientific-grid-contract.md text eol=lf

@@ -30,7 +30,7 @@ def main():
             if current=='QptmaData' and 'def cores(' in line:line=line.replace('arg: list,','arg: list[QptmaCore],')
             if 'def labels_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint32]:')
             if current=='PixelFeatureImage' and 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
-            if current=='ScientificRgbGrid':
+            if current in ('ScientificRgbGrid','ScientificChannels'):
                 if 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float64]:')
                 if 'def valid_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint8]:')
             if current in ('PixelFeatureImage','PixelClassification','PixelPredictionResult') and 'def valid_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint8]:')
