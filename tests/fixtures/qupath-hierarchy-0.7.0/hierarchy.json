@@ -1,0 +1,166 @@
+{
+  "root": {
+    "type": "Feature",
+    "id": "6de917d5-e147-4b33-879f-f6aa58b5a1a1",
+    "geometry": {},
+    "properties": {
+      "objectType": "root",
+      "classification": {
+        "name": "Image",
+        "color": [128, 128, 128]
+      },
+      "isLocked": true,
+      "childObjects": [
+        {
+          "type": "Feature",
+          "id": "10000000-0000-0000-0000-000000000001",
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [8, 8],
+                [8, 158],
+                [188, 158],
+                [188, 8],
+                [8, 8]
+              ]
+            ]
+          },
+          "properties": {
+            "objectType": "annotation",
+            "name": "Parent α",
+            "classification": {
+              "name": "Tumor",
+              "color": [255, 32, 48]
+            },
+            "childObjects": [
+              {
+                "type": "Feature",
+                "id": "10000000-0000-0000-0000-000000000002",
+                "geometry": {
+                  "type": "Polygon",
+                  "coordinates": [
+                    [
+                      [20, 20],
+                      [20, 100],
+                      [100, 100],
+                      [100, 20],
+                      [20, 20]
+                    ]
+                  ]
+                },
+                "properties": {
+                  "objectType": "annotation",
+                  "name": "Region",
+                  "classification": {
+                    "name": "Tumor",
+                    "color": [255, 32, 48]
+                  },
+                  "childObjects": [
+                    {
+                      "type": "Feature",
+                      "id": "10000000-0000-0000-0000-000000000003",
+                      "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                          [
+                            [30, 30],
+                            [30, 46],
+                            [50, 46],
+                            [50, 30],
+                            [30, 30]
+                          ]
+                        ]
+                      },
+                      "nucleusGeometry": {
+                        "type": "Polygon",
+                        "coordinates": [
+                          [
+                            [35, 34],
+                            [35, 38],
+                            [40, 38],
+                            [40, 34],
+                            [35, 34]
+                          ]
+                        ]
+                      },
+                      "properties": {
+                        "objectType": "cell",
+                        "name": "Cell",
+                        "classification": {
+                          "name": "Tumor",
+                          "color": [255, 32, 48]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "Feature",
+                "id": "10000000-0000-0000-0000-000000000004",
+                "geometry": {
+                  "type": "Polygon",
+                  "coordinates": [
+                    [
+                      [120, 30],
+                      [120, 42],
+                      [128, 42],
+                      [128, 30],
+                      [120, 30]
+                    ]
+                  ]
+                },
+                "properties": {
+                  "objectType": "detection",
+                  "name": "Detection",
+                  "classification": {
+                    "name": "Tumor",
+                    "color": [255, 32, 48]
+                  }
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "Feature",
+          "id": "10000000-0000-0000-0000-000000000005",
+          "geometry": {
+            "type": "Polygon",
+            "coordinates": [
+              [
+                [210, 20],
+                [210, 50],
+                [235, 50],
+                [235, 20],
+                [210, 20]
+              ]
+            ]
+          },
+          "properties": {
+            "objectType": "annotation",
+            "name": "Sibling",
+            "childObjects": [
+              {
+                "type": "Feature",
+                "id": "10000000-0000-0000-0000-000000000006",
+                "geometry": {
+                  "type": "MultiPoint",
+                  "coordinates": [
+                    [215, 25],
+                    [220, 30]
+                  ]
+                },
+                "properties": {
+                  "objectType": "annotation",
+                  "name": "Points"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  }
+}

@@ -155,3 +155,11 @@ tests/test_qptma_evidence.py text eol=lf
 docs/benchmarks/qptma-integrated-local/** -text
 docs/benchmarks/qptma-integrated-local-windows.json text eol=lf
 tools/ci/qptma-gui-cases.json text eol=lf
+
+# Actual upstream hierarchy/loss captures retain byte identity.
+tests/fixtures/qupath-hierarchy-0.7.0/** -text whitespace=cr-at-eol
+tools/upstream/qupath_hierarchy_reference.groovy text eol=lf
+docs/benchmarks/annotation-migration-local/** -text
+docs/benchmarks/annotation-migration-local-windows.json text eol=lf
+tests/test_qupath_hierarchy_reference.py text eol=lf
+tests/test_gui_hierarchy_migration.py text eol=lf

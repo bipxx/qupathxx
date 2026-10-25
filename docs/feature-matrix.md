@@ -303,3 +303,10 @@ The full local GUI regression passes 2,248 cases with 13 optional skips and
 the same three legacy scientific xfails. Hosted platform gates remain pending.
 Cell detection remains Partial; expansion/kernel comparisons do not establish
 broader biology or M5.
+
+Bounded annotation migration preparation now adds an [actual QuPath hierarchy
+and loss corpus](annotation-migration.md): 12 new reference/persistence cases and
+three real desktop cases pass locally on the accepted main154 full-feature wheel.
+Native project/reimport preserves four parent links; the actual flat return to
+QuPath drops them. Candidate158 binary/platform qualification and a supported
+bidirectional hierarchy export route remain open.

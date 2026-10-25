@@ -1,0 +1,42 @@
+{
+  "schema": "qpx.qupath-hierarchy-contract/1",
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "image_size": [
+    256,
+    192
+  ],
+  "objects": 6,
+  "root_objects": 2,
+  "parent_edges": 4,
+  "maximum_object_depth": 3,
+  "geometry_absolute_tolerance": 1e-06,
+  "scope": [
+    "actual upstream nested and flat export",
+    "names, UUIDs, flat class/color, body/nucleus geometry",
+    "native atomic import and history",
+    "native project save/reopen",
+    "native flat export preserves native hierarchy extensions but QuPath ignores them",
+    "explicit unsupported property losses and duplicate metadata rejection"
+  ],
+  "unsupported_properties": [
+    "color",
+    "isLocked",
+    "measurements"
+  ],
+  "metadata_policy": "reject duplicate JSON members even with allow_losses",
+  "native_to_qupath_parent_policy": "record hierarchy loss; never infer parent relationships from overlapping geometry",
+  "fixture_policy": "synthetic objects only; QuPath runtime not redistributed"
+}

@@ -1,0 +1,101 @@
+{
+  "schema": "qpx.annotation-migration-local/1",
+  "state": "partial",
+  "date": "2026-10-25",
+  "scope": "Pinned upstream hierarchy/loss preparation and local installed-engine migration; not candidate158 platform qualification",
+  "integration_base": "a29e4e1e49048488dd08dbd30e2efc83df1b8b55",
+  "native_exporter": {
+    "git_revision": "f2e8c2ff5b044fd530c959c6d9c3b874d37a31b6",
+    "wheel_sha256": "1d6ccc12928f2c07913b8b2f071418fbe5ab3c4e5e53781e8a6004fd6618e62c",
+    "native_sha256": "1d1f2fc19d74c8eb4a3496418471b04259253ff912d427930a66d3b5dd586b7f",
+    "scope": "accepted Windows GUI main154 wheel; no candidate158 compiled changes"
+  },
+  "engine_reuse": {
+    "unchanged_sources": [
+      "cpp/interchange.cpp",
+      "cpp/include/qupathxx/interchange.hpp"
+    ],
+    "proof": "Git main154 blobs equal working inputs after CRLF normalization; tests execute the accepted full-feature main154 wheel, not rebuilt candidate158 binaries"
+  },
+  "runtime": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "fixture_manifest": "tests/fixtures/qupath-hierarchy-0.7.0/manifest.json",
+  "fixture_manifest_sha256": "e431835d6e7dfb930fa935cf8cd87270f36a03a3da6b50b74a415337ab75fc5d",
+  "results": {
+    "reference-regression.xml": {
+      "tests": 30,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "desktop.xml": {
+      "tests": 3,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "final-installed.xml": {
+      "tests": 33,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  },
+  "captures": {
+    "inspected": true,
+    "dimensions": [
+      1280,
+      1100
+    ],
+    "observed": [
+      "Six objects including visible cell nucleus and Imported 6 objects status",
+      "Loss checkbox checked and dropped-property count 3 readable",
+      "Parent alpha glyph rendered as question mark; stored Unicode data exact"
+    ]
+  },
+  "files": {
+    "desktop.xml": {
+      "bytes": 690,
+      "sha256": "a40720f25c7896664d3ce72a3e8c41e96a3ad0394af13ec072ef1ca2ac2a70fb"
+    },
+    "final-installed.xml": {
+      "bytes": 5800,
+      "sha256": "a7e255577d520e0e71c382b9ac7ab3fba6bbc9de6aa93fdf22e909b44fba5875"
+    },
+    "hierarchy-import.png": {
+      "bytes": 26629,
+      "sha256": "d37849865899e6329e764f822c420ee362a6f354795eed6f9c55d8ce431f3dfb"
+    },
+    "hierarchy-losses.png": {
+      "bytes": 25317,
+      "sha256": "96f054c1ce1ceee7481192ced61c570b7dc8decadb97c1949f4a69dbcf75ef31"
+    },
+    "reference-regression.xml": {
+      "bytes": 5351,
+      "sha256": "e084382a46de89d992ae9dc7cc5c306e12bc89d199736dd3c2c59237ffd87248"
+    }
+  },
+  "remaining": [
+    "Bidirectional QuPath hierarchy export and explicit target/loss UI",
+    "Broader hierarchy edge cases and native source-bound platform cohorts",
+    "Unicode glyph delivery",
+    "Direct Java project formats and unsupported property contracts",
+    "All M0-M7 scientific, hardware and release requirements remain partial"
+  ],
+  "retained_failed_capture_attempts": [
+    "build/hierarchy158-upstream-failed-syntax.log",
+    "build/hierarchy158-upstream-failed-tree-writer.log"
+  ]
+}

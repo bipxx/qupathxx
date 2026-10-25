@@ -94,3 +94,8 @@ foreign `isEllipse` hints and requires GEOS. Any changed bounds require
 or unrepresentable envelopes reject before publication. Native analytic hints
 remain exact. The GUI exposes the same choice as Match QuPath ellipse bounds,
 with independent Assume image pixels and Allow lossy conversion controls.
+
+The [actual hierarchy/loss migration corpus](annotation-migration.md) now tests
+nested upstream import through native project restart and ImGui, and retains
+raw duplicate-metadata rejection. Native-to-QuPath flat export loses parent links;
+a bidirectional hierarchy route remains an explicit next implementation step.

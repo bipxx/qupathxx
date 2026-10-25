@@ -30,10 +30,10 @@ This does not authorize autonomous worker delegation beyond the existing rules.
 
 | Order | Work item | Reuse and smallest complete step | Exit evidence |
 | --- | --- | --- | --- |
-| 1 | Finish current project-enabled TMA build validation | Install the already-built `qptma156-final-wheels` artifact in its isolated environment; inspect compiled source; run the 80-case QPTMA contract, existing project save/recovery tests, stub regeneration/check and positive/negative typing | No skipped project cohort; actual native project marker; final wheel identity and packaged stubs match; failures retained |
-| 2 | Finish TMA desktop workflow | Reuse `GuiTma`, `load_qptma`, `qptma_grid_edits`, `import_qptma`, `qptma_from_grid` and `save_qptma`; background IO plus owner-thread preview/apply, not a second parser/model | Import → preview → apply → edit → undo/redo → project save/restart → export with error/stale/cancel coverage and visually inspected capture |
-| 3 | Qualify that integrated source | One clean candidate; full engine/Mac/portable evidence with project-enabled QPTMA contract and inherited gates | Matching source/artifacts, all required configurations and concrete workflow outputs; promotion only then |
-| 4 | Close representative annotation/migration workflow | Reuse existing viewers, commands, SQLite and GeoJSON; add missing hierarchy/loss comparisons before new formats | Restarted project preserves intended fields; supported losses shown and tested on pinned reference |
+| 1 | Project-enabled TMA build validation: locally verified | Install the already-built `qptma156-final-wheels` artifact in its isolated environment; inspect compiled source; run the 80-case QPTMA contract, existing project save/recovery tests, stub regeneration/check and positive/negative typing | No skipped project cohort; actual native project marker; final wheel identity and packaged stubs match; failures retained |
+| 2 | TMA desktop workflow: locally verified | Reuse `GuiTma`, `load_qptma`, `qptma_grid_edits`, `import_qptma`, `qptma_from_grid` and `save_qptma`; background IO plus owner-thread preview/apply, not a second parser/model | Import → preview → apply → edit → undo/redo → project save/restart → export with error/stale/cancel coverage and visually inspected capture |
+| 3 | Qualify integrated TMA source: frozen, hosted runs queued | One clean candidate; full engine/Mac/portable evidence with project-enabled QPTMA contract and inherited gates | Matching source/artifacts, all required configurations and concrete workflow outputs; promotion only then |
+| 4 | Close representative annotation/migration workflow | Actual hierarchy/loss captures and 12 reference + 3 desktop checks now pass on the accepted main154 wheel; reuse existing exporter for a hierarchy-preserving return to QuPath, with explicit target/loss semantics | Restarted project preserves intended fields; supported losses shown and tested on pinned reference |
 | 5 | Close sampling and scientific analysis gaps | Specify physical grid semantics first; reuse region filter/requests and archive recipes only when equivalence is proved | Independent masks/features and split/merge results under predeclared tolerances, including anisotropic and unknown calibration |
 | 6 | Complete research and batch workflow | Compose existing analysis/classifier jobs and checkpoint batches; build missing coverage/adapters only after native contracts are stable | Same selected workflow in UI/Python/CLI, interrupted-resumed batch correctness and bounded resources |
 | 7 | Close release and remaining inventory requirements | Build on accepted packages; choose support matrix, license/notices policy, installers and clean-machine scripts | Every M0–M7 exit has scope-matched evidence; remaining scope is explicitly scheduled, not silently dropped |
@@ -62,9 +62,9 @@ That controls intermediate scope without shrinking the overall M0–M7 objective
 For the current TMA slice, the outcome is a researcher importing a QuPath grid,
 reviewing it on the selected image, editing it, saving/reopening the project and
 exporting back with supported fields preserved and losses displayed. Native
-codec, project CLI and GUI should share that one acceptance record. Its next
-blocking evidence is the final installed project-enabled wheel, not a new parser,
-new binary format or another comparison capture of already verified fields.
+codec, project CLI and GUI should share that one acceptance record. Its local installed project-enabled and desktop gates pass. Its next blocking
+evidence is exact-source hosted engine/Mac/portable acceptance; do not start a
+new parser or binary format while those runs remain live.
 
 ## Detailed route for each API family
 
