@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="2"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-25T05:59:44"
+	>
+	<testcase name="viewer_session" classname="viewer_session" time="0.288679" status="run">
+		<properties/>
+		<system-out>Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed
+Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed
+</system-out>
+	</testcase>
+	<testcase name="project_batch" classname="project_batch" time="0.569498" status="run">
+		<properties/>
+		<system-out>Grid ROI planning, typed batch recipe, per-image calibration, interrupted resume and QCL5/CSV checkpoints passed
+Batch workflows, snapshot, restart, invalidation, bounds, CSV and cancellation passed
+</system-out>
+	</testcase>
+</testsuite>

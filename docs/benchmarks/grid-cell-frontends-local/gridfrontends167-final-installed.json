@@ -1,0 +1,12 @@
+{
+  "module": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-python\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+  "module_sha256": "25d4de864252dec29f7122b31f2da3236d5f579f07c59fd5851d36ea9ad77018",
+  "source_tree_sha256": "dbd02bd3e38a4953fc79dca14ad75cbfc0a1529fdbbd57fc564ccd31ca975e02",
+  "has_gui": true,
+  "has_project": true,
+  "has_geos": true,
+  "wheel": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-final-wheels\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+  "wheel_sha256": "22b7aa602691e6fed0ca33cd3e83593fc32bc22ed6344614a5cda2f9b4e54d43",
+  "packaged_sources_and_stubs_match": true,
+  "native_bytes_unchanged_after_stub_packaging": true
+}

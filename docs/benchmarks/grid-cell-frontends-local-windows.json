@@ -1,0 +1,485 @@
+{
+  "schema": "qpx.grid-cell-frontends-local/1",
+  "observed_at_utc": "2026-10-25T10:20:46.724992+00:00",
+  "source": "d31ceb786faaa818d0b8ae1a3467dd96fbb55555",
+  "compiled_revision": "db22dad1e483d2cb2b1032450f047ebe1cc00ff1+dirty",
+  "source_tree_sha256": "dbd02bd3e38a4953fc79dca14ad75cbfc0a1529fdbbd57fc564ccd31ca975e02",
+  "compiler_inputs": 298,
+  "configuration": {
+    "python": true,
+    "gui": true,
+    "project": true,
+    "interchange": false,
+    "geos": true,
+    "openslide": false,
+    "tiff": false,
+    "classifier_training": false,
+    "tests": true
+  },
+  "platform": "Windows AMD64",
+  "compiler": "MSVC 19.44.35225.0",
+  "native_suites_passed": 50,
+  "independent_contract_tests_passed": 33,
+  "installed_regression_passed": 224,
+  "installed_regression_initial_skips": 20,
+  "final_desktop_cohort_passed": 50,
+  "final_additional_desktop_passed": 3,
+  "new_grid_python_workflow_cases": 6,
+  "positive_typing_files": 5,
+  "expected_negative_typing_errors": 31,
+  "required_semantic_markers": [
+    "Grid ROI planning, typed batch recipe, per-image calibration, interrupted resume and QCL5/CSV checkpoints passed",
+    "Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed",
+    "Independent Python QCR1/QCA5 typed grid source bytes decode and canonical re-encode passed",
+    "QCL5 SQLite save, reopen, provenance attachment, replay and second save passed"
+  ],
+  "installed": {
+    "module": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-python\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "module_sha256": "25d4de864252dec29f7122b31f2da3236d5f579f07c59fd5851d36ea9ad77018",
+    "source_tree_sha256": "dbd02bd3e38a4953fc79dca14ad75cbfc0a1529fdbbd57fc564ccd31ca975e02",
+    "has_gui": true,
+    "has_project": true,
+    "has_geos": true,
+    "wheel": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-final-wheels\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "wheel_sha256": "22b7aa602691e6fed0ca33cd3e83593fc32bc22ed6344614a5cda2f9b4e54d43",
+    "packaged_sources_and_stubs_match": true,
+    "native_bytes_unchanged_after_stub_packaging": true
+  },
+  "scientific_detector_accepted": false,
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "scope": "Count-based ROI capture across CLI, batch, managed viewer and ImGui; typed Python metadata ownership, QCL5 retention/replay, classifier-source lifetime, per-axis preview/publication, checkpoint resume and CSV export. Synthetic 6x9 RGB scene; engineering evidence only.",
+  "reuse": "Regression and first integrated cases used the first wheel. Final stub-packaged wheel has exactly the same native module hash and source fingerprint; final sources/stubs match and regenerate from that installed extension. Final desktop/typing cases ran after reinstall.",
+  "source_proof_note": "Compiled before source commit. Dirty compiled revision is retained verbatim; committed compiler inputs agree modulo recorded Git line endings and exactly match the configured raw-byte fingerprint. All package native targets were built after the final compiler-input edit. No rebuild solely for a Git label.",
+  "initial_regression_skips": [
+    {
+      "name": "test_native_pyramid_grid_roi_and_markers_survive[1]",
+      "reason": "requires OpenSlide"
+    },
+    {
+      "name": "test_native_pyramid_grid_roi_and_markers_survive[2]",
+      "reason": "requires OpenSlide"
+    },
+    {
+      "name": "test_coarse_grid_centroids_and_sample_units_are_not_rescaled_counts",
+      "reason": "native pyramids"
+    },
+    {
+      "name": "test_geojson_explicitly_reports_lost_run_links_and_import_cannot_rebind_local_ids",
+      "reason": "GeoJSON"
+    },
+    {
+      "name": "test_desktop_join_export_needs_no_selected_source_and_matches_python[False]",
+      "reason": "desktop cell publication"
+    },
+    {
+      "name": "test_desktop_join_export_needs_no_selected_source_and_matches_python[True]",
+      "reason": "desktop cell publication"
+    },
+    {
+      "name": "test_digest_coarse_grid_independent[1]",
+      "reason": "requires OpenSlide"
+    },
+    {
+      "name": "test_digest_coarse_grid_independent[2]",
+      "reason": "requires OpenSlide"
+    },
+    {
+      "name": "test_checkpoint_opens_in_existing_viewer",
+      "reason": "opt-in GUI"
+    },
+    {
+      "name": "test_live_end_to_end_python_producer_and_native_owner",
+      "reason": "opt-in managed viewer"
+    },
+    {
+      "name": "test_command_error_atomicity_revision_staleness_and_cancel",
+      "reason": "opt-in managed viewer"
+    },
+    {
+      "name": "test_retained_result_budget_and_source_change_discard",
+      "reason": "opt-in managed viewer"
+    },
+    {
+      "name": "test_finite_viewer_shutdown_completes_pending_tickets",
+      "reason": "opt-in managed viewer"
+    },
+    {
+      "name": "test_owned_parameter_options_and_no_external_project_alias",
+      "reason": "opt-in managed viewer"
+    },
+    {
+      "name": "test_main_thread_and_single_window_guards",
+      "reason": "opt-in managed viewer"
+    },
+    {
+      "name": "test_initial_open_failure_wakes_waiting_producer",
+      "reason": "opt-in managed viewer"
+    },
+    {
+      "name": "test_close_can_cancel_initial_opening_before_commands",
+      "reason": "opt-in managed viewer"
+    },
+    {
+      "name": "test_force_close_bypasses_commands_paused_by_dirty_dialog",
+      "reason": "opt-in managed viewer"
+    },
+    {
+      "name": "test_export_can_select_new_record_from_existing_archives",
+      "reason": "opt-in managed viewer"
+    },
+    {
+      "name": "test_training_cohort_identity_and_current_request_authority",
+      "reason": "optional classifier training backend"
+    }
+  ],
+  "remaining": [
+    "Complete frozen exact-source platform cohorts",
+    "Disabled OpenSlide/pyramid, interchange and training configurations",
+    "Scientific labels/tolerances, hardware/performance, rights/licensing and all remaining M0-M7 requirements"
+  ],
+  "initial_skips_executed_in_final_desktop": 13,
+  "remaining_capability_skips": 7,
+  "native_artifacts": {
+    "_native.cp312-win_amd64.pyd": {
+      "bytes": 6353920,
+      "sha256": "25d4de864252dec29f7122b31f2da3236d5f579f07c59fd5851d36ea9ad77018"
+    },
+    "geos.dll": {
+      "bytes": 2912768,
+      "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+    },
+    "geos_c.dll": {
+      "bytes": 590336,
+      "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+    },
+    "qupathxx_analysis_tests.exe": {
+      "bytes": 1426432,
+      "sha256": "01a036833f7fd3cd6ac8900a0b5c9514d9b65dca0eb33143607c542cb3accaea"
+    },
+    "qupathxx_app.exe": {
+      "bytes": 4855296,
+      "sha256": "90d6819d76044839de33cee59696d2a5f2a6fa2a23e1fb79976371dae102eb79"
+    },
+    "qupathxx_batch.exe": {
+      "bytes": 2740736,
+      "sha256": "7a6441c163d1a8b39343da6c11009e07bd7231bebc9355d57d0b03d428349e17"
+    },
+    "qupathxx_cell_calibration_tests.exe": {
+      "bytes": 1656832,
+      "sha256": "a6e8321dbbb7ad9132426232c2283ff6aa67867ebaf56ae7270deffe714bebea"
+    },
+    "qupathxx_cell_expansion_tests.exe": {
+      "bytes": 60416,
+      "sha256": "f18eafc23d280ede33e4e3b202971ea762e235e9df5b24e0b61682a35c3e4651"
+    },
+    "qupathxx_cell_record_tests.exe": {
+      "bytes": 2240512,
+      "sha256": "4a4cc1d539a3edd47731ec952b68f1407683eddea2fe18f82e36bce7066b6b5a"
+    },
+    "qupathxx_cell_table_tests.exe": {
+      "bytes": 2354688,
+      "sha256": "606a20f0cdc573c754ca94c4b4d8e7d30d14a0359440591275a69f484887540b"
+    },
+    "qupathxx_cell_tests.exe": {
+      "bytes": 1855488,
+      "sha256": "48156d07a88c644bff78d0cfbe6a488574e397753b8e9f566a5518dfefeb466a"
+    },
+    "qupathxx_classes_tests.exe": {
+      "bytes": 314368,
+      "sha256": "a93388388b389badca168c48b0ffd940dc783939ccc2e216e10b5c8e4a731ec4"
+    },
+    "qupathxx_classifier_io_tests.exe": {
+      "bytes": 249344,
+      "sha256": "31f41c48c2a9b5e1f2240a75e32fac9282eb9e50b4547e57a3b62491487c5c61"
+    },
+    "qupathxx_classifier_tests.exe": {
+      "bytes": 89088,
+      "sha256": "2da7598f39b3c130e4e0cb75eabe5391cfcc37a16830b6eede2d0ab492d57ffd"
+    },
+    "qupathxx_core_tests.exe": {
+      "bytes": 320512,
+      "sha256": "09d55ad65041e2c429bb3f54b610348e93c892a0fe77ad88c46fa0032bb2a16e"
+    },
+    "qupathxx_decimal_quantity_tests.exe": {
+      "bytes": 35840,
+      "sha256": "1875e2d65f2f22933d8062ddb876459a91d6530ca8e75d69368b54b19e9410f8"
+    },
+    "qupathxx_document_edits_tests.exe": {
+      "bytes": 320000,
+      "sha256": "e469daed83a7d0a9fe08e62bf1b53fd2dcc020a11d01d7501b47a95472b13e25"
+    },
+    "qupathxx_file_fingerprint_tests.exe": {
+      "bytes": 296448,
+      "sha256": "6072b6e58042b738810abe6b03b813ffc12f2340128dd3c76d23168e1a8e14f3"
+    },
+    "qupathxx_geometry_edits_tests.exe": {
+      "bytes": 325120,
+      "sha256": "f5b34073dcd96085ed31ce0ab39e007b4d8eeb69150518a1cfcd2813995ec42c"
+    },
+    "qupathxx_geometry_tests.exe": {
+      "bytes": 320000,
+      "sha256": "6eb7c9f8e4fd41399f7c00526f99ec321d4851900d553394b62af3514f8a68c9"
+    },
+    "qupathxx_gui_replay_tests.exe": {
+      "bytes": 45568,
+      "sha256": "f4d823175ed07be4293160c327ebae853865a5512409e0c4877b5a5c43aa9c4d"
+    },
+    "qupathxx_interchange_tests.exe": {
+      "bytes": 312320,
+      "sha256": "a95cb55550eb6c755f98dfb5b493c7f871851abc131e9595121c954d11b87f03"
+    },
+    "qupathxx_log_cell_recipe_tests.exe": {
+      "bytes": 1759744,
+      "sha256": "edd3e180488b786ea912a7a5fb8d14d2483867f6d17f1dab4ef7ace2c6e4ffbc"
+    },
+    "qupathxx_log_watershed_tests.exe": {
+      "bytes": 148992,
+      "sha256": "5f5551fe82cb0d6a822258770e2c13bb01fb2bc88fe12d9c653c77af8705dda0"
+    },
+    "qupathxx_masked_gaussian_tests.exe": {
+      "bytes": 30720,
+      "sha256": "68fa137cd58c72d83247ac7c842236c7d2670737904ef2b231bfcb59bf092e6a"
+    },
+    "qupathxx_measurement_table_tests.exe": {
+      "bytes": 1553408,
+      "sha256": "9518600f893fa3acf258912e057f886af164f1afa1f8e66226e08584fb1fdd3f"
+    },
+    "qupathxx_object_classifier_tests.exe": {
+      "bytes": 1857024,
+      "sha256": "deda885c3d1be82816cc61601330b3554f7c71e64750a386bd641647e12ed0af"
+    },
+    "qupathxx_object_snapshot_tests.exe": {
+      "bytes": 2153472,
+      "sha256": "5c34d006076b26b1de4d3f6b3dbbe51440053fd0532b683b40912f5022a20aa2"
+    },
+    "qupathxx_overlay_tests.exe": {
+      "bytes": 22016,
+      "sha256": "af59598074f090a7b6c4d072dfd25037e149097c319377405ef13b37435305e0"
+    },
+    "qupathxx_pixel_feature_tests.exe": {
+      "bytes": 1340928,
+      "sha256": "23e30d3655f06abcde0ed3d32003a189b859393267e342dc37eac45106fd5abd"
+    },
+    "qupathxx_pixel_workflow_tests.exe": {
+      "bytes": 1900032,
+      "sha256": "cb192156cabf4a7ee9ccb3154922d5443cb9d5415134b9e335677dfb94cbd937"
+    },
+    "qupathxx_project_batch_tests.exe": {
+      "bytes": 2703872,
+      "sha256": "c65e2f5b7d3a7ec297b5b16064f92388c0b83017006bf9cee994b670d86cd4b7"
+    },
+    "qupathxx_project_tests.exe": {
+      "bytes": 2230272,
+      "sha256": "a5d5ecf27ed8558e055c25a06cf57702e7d65814ec4320b9664a8167a637a703"
+    },
+    "qupathxx_provenance_tests.exe": {
+      "bytes": 1613312,
+      "sha256": "627ed2f8048d476fa17f2714e9fa7c0562299b3e2936ee774de92bbdca056377"
+    },
+    "qupathxx_qptma_project_tests.exe": {
+      "bytes": 2037760,
+      "sha256": "b541943d8f9729b88be318de0b5b3b701012886e1ac9f7dfa546d5fa8a620e54"
+    },
+    "qupathxx_qptma_tests.exe": {
+      "bytes": 396800,
+      "sha256": "82e57ae52ff7021fce1be08acde4f13cc744c3641e0ddb97c29c23872dafb6a4"
+    },
+    "qupathxx_raw_image_tests.exe": {
+      "bytes": 2678272,
+      "sha256": "84565346be85cdc2e90c84d76357680876a2684acb8bd1ace8459b34025743b1"
+    },
+    "qupathxx_recovery_tests.exe": {
+      "bytes": 2132480,
+      "sha256": "30cf4f9756af1d6765cb980429921e515d779628e23f82448fc7227d889c6e98"
+    },
+    "qupathxx_region.exe": {
+      "bytes": 264704,
+      "sha256": "45e5364c7660f5c52beb926520a184223da364217e259147009f85cf12c0ea0e"
+    },
+    "qupathxx_resampling_tests.exe": {
+      "bytes": 257536,
+      "sha256": "1aa9e09647a8ad49e7879fb85f7dafc26cd4080e98d24097a650c603821aab52"
+    },
+    "qupathxx_save_tests.exe": {
+      "bytes": 1994240,
+      "sha256": "95477eac4d49c6d3b265b809e8b51ecbd201a2a6f6f80c07661d56352ecda9b7"
+    },
+    "qupathxx_scheduler_tests.exe": {
+      "bytes": 216064,
+      "sha256": "84e56523d64858b5abc7d6b89173e1c0993f6d4ad9b77f5d01cece96af8931e7"
+    },
+    "qupathxx_selection_tests.exe": {
+      "bytes": 316928,
+      "sha256": "e86d68f9be83a8e11d1d1fc6573b21c6e9bb2eed8f79e6364b7bad29b9eee3a3"
+    },
+    "qupathxx_server_tests.exe": {
+      "bytes": 290816,
+      "sha256": "f14e1bb95f73d5986d3791a72b4dc8d25d9fe9b29251e2b88570d526a6b033b8"
+    },
+    "qupathxx_sha256_tests.exe": {
+      "bytes": 25600,
+      "sha256": "15e1a2b97dea6c8b366bbc9dcf71907d8f320ce56c276a70df3ed2f6c73744ca"
+    },
+    "qupathxx_source_identity_tests.exe": {
+      "bytes": 1474048,
+      "sha256": "b6624f5fc4160e922dd7cbf956e557d38b6988da2a972f7bcf851358587f40f8"
+    },
+    "qupathxx_spatial_tests.exe": {
+      "bytes": 310784,
+      "sha256": "d7d8341a532b24f154b43df8f35ae8ff539e1c60995720ce6fec27184e5d2710"
+    },
+    "qupathxx_stain_estimation_tests.exe": {
+      "bytes": 1478144,
+      "sha256": "3607df60732e91ca5349022f34356d954dca0081e3c9d48f4cb4e27a924ca151"
+    },
+    "qupathxx_stains_tests.exe": {
+      "bytes": 248320,
+      "sha256": "697f4740865ceb84fcb5cca23c54f8f4d93af8a5da3c08c6709cfb8e65551ba3"
+    },
+    "qupathxx_thumbnail_tests.exe": {
+      "bytes": 218112,
+      "sha256": "b8596df30073e09b06cd006df6f5523db135d06a57be869827da6641d86caed5"
+    },
+    "qupathxx_tissue_contour_tests.exe": {
+      "bytes": 1536000,
+      "sha256": "5a8db44732897843dd90bfac361e80c50254af3703a55b0a67be8d4dc2f86675"
+    },
+    "qupathxx_tissue_record_tests.exe": {
+      "bytes": 2051584,
+      "sha256": "9b422143e469814f186e81bc63fd557a4306efb984c5fe63d103c73764498894"
+    },
+    "qupathxx_tissue_tests.exe": {
+      "bytes": 1414144,
+      "sha256": "b870a7112ebca77f392e72c0887a5f546cbb036ef5f8e2cc95750f7a28612531"
+    },
+    "qupathxx_tma_tests.exe": {
+      "bytes": 2706944,
+      "sha256": "b89b72a6eb3dd803b0e80fb2c21023f3f183a54af598f139b305e81b00878b65"
+    },
+    "qupathxx_view_tiles_tests.exe": {
+      "bytes": 157696,
+      "sha256": "7fa7df9ec397f096ce3fd588f3844884b684dc02df4bd61dfae51c2c941af433"
+    },
+    "qupathxx_viewer_session_tests.exe": {
+      "bytes": 2502656,
+      "sha256": "abf69a42dfd93d1d77963a75930a8784acb7a1397b70a6937b4b7175ac01db36"
+    }
+  },
+  "sqlite_dependency": {
+    "sqlite3.c": {
+      "bytes": 9582521,
+      "sha256": "0c657666d819f261cc4007526ad57e1669de9949df7a8ea847aa284a2bf0ee52"
+    },
+    "sqlite3.h": {
+      "bytes": 695729,
+      "sha256": "d6c84557261893439b341d2e6c35187ae3ea24fbfd843ad94616f72d89242b8c"
+    }
+  },
+  "evidence": {
+    "build_final.py": {
+      "bytes": 1581,
+      "sha256": "076d432ae446af427ee0e6dc8990aaca6c15471addc74bca1d482108db7e69fa"
+    },
+    "build_first.py": {
+      "bytes": 1582,
+      "sha256": "82649ac61dad4038d7a4bb977cdfd4068fdaa9f499aad0df8b1947ef393b6f75"
+    },
+    "build_manifest.hpp": {
+      "bytes": 712,
+      "sha256": "fcbcac2f9eca7f55a55f19315efe8083405a1ada4fe5f999b8fbd1245b1715f9"
+    },
+    "cli-commands.json": {
+      "bytes": 11749,
+      "sha256": "d2111e93ba4a22b4cc2d8f415a8387e79caaa7ab42868e41fea7af2bb260d091"
+    },
+    "CMakeCache.txt": {
+      "bytes": 27455,
+      "sha256": "c3953275597466b15e6cd49ab2cd3a840c55e3f3aaeef3793df845f753c1c0ae"
+    },
+    "compiler-input-proof.json": {
+      "bytes": 82657,
+      "sha256": "f0cd8c4cfbb4de7ccefbac659e702f67d8fa13f3e997b7b7b4b64146507421b1"
+    },
+    "gridfrontends167-all-invalid-typing.log": {
+      "bytes": 4528,
+      "sha256": "64a0ce54735fb1afa82e8ea232b6a57f8086d0b27bbee0e7ed1d5b8e0137ea76"
+    },
+    "gridfrontends167-contract-tests.xml": {
+      "bytes": 5029,
+      "sha256": "c9c602be37c9939c7e75e4cc2872d80e14133498d9ed65067fa9f7f03878c39d"
+    },
+    "gridfrontends167-final-desktop-extra-tests.xml": {
+      "bytes": 650,
+      "sha256": "1c898766c41d1f87b1359c2ad2a03616c5d800b2a673bb465d744d6fac2bfe48"
+    },
+    "gridfrontends167-final-desktop-tests.xml": {
+      "bytes": 6615,
+      "sha256": "65c43d07ea4328437a4b95b12647e90d962cf0a535049e547b6340cf45070f94"
+    },
+    "gridfrontends167-final-installed.json": {
+      "bytes": 719,
+      "sha256": "09f2dff07841680db464c0dbc5c711dd60aa40e79b892e41cf51a5f9fc55c236"
+    },
+    "gridfrontends167-final-package.log": {
+      "bytes": 17067,
+      "sha256": "353f3aba42d3a493f5b44de3e7302ee219cded7b57dbf405302426163972e704"
+    },
+    "gridfrontends167-first-installed.json": {
+      "bytes": 397,
+      "sha256": "95b992bf94576984a31304f23d4d1501aee97aa34999fc7ba1a6a8aa2094e377"
+    },
+    "gridfrontends167-first-integrated-tests.xml": {
+      "bytes": 1050,
+      "sha256": "52a24e0d4138ca74840b6f8437603040576443790828b57eb03f7eac36af44dd"
+    },
+    "gridfrontends167-first-package.log": {
+      "bytes": 28679,
+      "sha256": "8a76640d36f50595ce53fb5726dc3636f0596cc1f29e669a5f0a3c9cd9d721bd"
+    },
+    "gridfrontends167-first-regression-tests.xml": {
+      "bytes": 39282,
+      "sha256": "5b190c028ca57fa527bbad4a34804e3f6b00e224845b6a0cd4e5cd2334fb7c28"
+    },
+    "gridfrontends167-first-tests.xml": {
+      "bytes": 760,
+      "sha256": "80e6284ae4b0125f5372741a2e50209460eceefddd3087c249408a7c28115196"
+    },
+    "gridfrontends167-focused-build.log": {
+      "bytes": 8158,
+      "sha256": "2f9d517d1d5a1e60bf8f4c8025f0ac04b51f6a8ca99ef8d59a6ca391977ecfa0"
+    },
+    "gridfrontends167-focused-tests.xml": {
+      "bytes": 893,
+      "sha256": "4d22557bca1a27bb6995fcd5c974b1e7389d0e13eb697679dde39158ecbb1be2"
+    },
+    "gridfrontends167-grid-desktop.png": {
+      "bytes": 36983,
+      "sha256": "a270645aad9ae635be395f0cf0160f4017cec81dce611a7e67dd63fe8129794f"
+    },
+    "gridfrontends167-package-native-tests.log": {
+      "bytes": 5271,
+      "sha256": "0d602d776a3770e27567c82a5a5f0e5e1abfdd0627f16c38ac9fa8e60f1050eb"
+    },
+    "gridfrontends167-package-native-tests.xml": {
+      "bytes": 14876,
+      "sha256": "9ea7e8b0ef3add15d3afc78782de801f0581b2e50cbbd5ea2f17ec5b5a55cb3b"
+    },
+    "gridfrontends167-second-build.log": {
+      "bytes": 7977,
+      "sha256": "6e51d4ce6f4707545495813063d589a1fc86bedfd55176189c13857620302d6e"
+    },
+    "gridfrontends167-valid-typing.log": {
+      "bytes": 44,
+      "sha256": "718df785efbbd4b57e63b5f64aff2c5b5592e433447681f759b307f97a3ec96a"
+    },
+    "record_evidence.py": {
+      "bytes": 9413,
+      "sha256": "eb6f9649e39c4ba9e85c84807357e3501fa6f14260642ac8dab556c4f3310e70"
+    },
+    "verify_cli.py": {
+      "bytes": 2915,
+      "sha256": "45faf8578956f627172616584299dd004088aebd06bf60add7f9aaf90a4840c4"
+    }
+  }
+}
