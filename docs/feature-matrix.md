@@ -1,45 +1,32 @@
 # QuPath workflow inventory
 
-The active branch prepares the shared [scientific grid](scientific-grid-contract.md)
-with exact C++ geometry, float64 RGB sampling and owning Python bindings. Final
-engine `4bdfa98` passes 95 installed cases (two project-capability skips), 49 native
-suites and packaged stub/typing checks; see the
-[sampling receipt](benchmarks/scientific-grid-sampling-local-windows.json).
-The additive native detector and QCL5 archive/replay integration are described
-below; classifier provenance and frontend integration remain. Per-axis Gaussian
-and weighted distance kernels pass their independent references and native regression;
-see the [kernel receipt](benchmarks/physical-grid-kernels-local-windows.json).
-The new native grid-cell request now uses them; existing recipes retain their arithmetic.
+The explicit-grid cell workflow now connects native geometry/sampling, float64
+channels, physical kernels, per-axis rasters, QCL5 retention/replay, QCA5 classifier
+origins and CSV schema 5/6 to Python, CLI, managed viewer, batch and ImGui entry
+points. Use the [workflow guide](grid-cell-workflows.md) and shared
+[scientific-grid contract](scientific-grid-contract.md).
 
-The [float64 channel stage](benchmarks/scientific-channels-local-windows.json)
-now retains sampled means through OD and signed stain separation in native/Python,
-with grid/white/basis/validity snapshots. Engine `bbf3f61` passes 163 installed
-cases (two project-capability skips), 49 native suites and packaged typing checks.
-The shared C++ per-axis raster and GEOS contour path now pass native integration
-checks, including captured provenance and one-read decoded-input identity;
-see the [raster receipt](benchmarks/scientific-raster-local-windows.json).
-The native explicit-grid cell request/detector now connects typed pixel/physical
-scales, complete pre-IO admission, float64 LoG, metric shape/body processing and
-calibrated features to that raster path and the existing CellJob lifecycle.
-See the [native cell-stage receipt](benchmarks/grid-cells-local-windows.json):
-49 native suites and 27 contract tests passed at that detector stage. QCL5 now
-adds retention/publication, captured calibration/domain, canonical decoding,
-record matching and fresh replay/verification. The
-[archive receipt](benchmarks/grid-cell-archive-local-windows.json) records 49 native
-suites with project/GEOS enabled and 30 contract tests, including real SQLite
-round trips and an independently packed byte vector. QCA5 now preserves typed
-grid classifier origins and mixed natural/grid cohorts; CSV schema 5/6 preserves
-per-axis geometry, units and captured calibration across mixed/manual/project
-rows. The [consumer receipt](benchmarks/grid-cell-consumers-local-windows.json)
-records 49 project/GEOS native suites and 33 contract tests, including an independent
-QCA5 vector and classifier/CSV save/reopen. Typed Python and complete GUI/CLI/batch
-entry points remain pending; Python/GUI/interchange/readers are not qualified for
-this workflow.
-All milestones remain Partial.
-Disabled capabilities are not qualified. Hierarchy candidate `207f008`
-passed its native Mac audit but failed engine and portable campaigns on a stale
-synthetic typing fixture, corrected in `5474c3f`. See [current task](current-task.md); no new main
-promotion or scientific/release acceptance follows from these checks.
+Source `d31ceb7` has local Windows Python/GUI/project/GEOS engineering validation:
+50 native suites, 33 independent contract tests, installed regression and serial
+desktop cohorts, and packaged strict typing. See the
+[frontend receipt](benchmarks/grid-cell-frontends-local-windows.json).
+The frozen integrated candidate `5ebdb96` adds explicit source-bound CI cohorts;
+engine, Mac-native and portable campaigns are pending. The
+[preflight receipt](benchmarks/scientific-grid-ci-preflight-windows.json) records
+those exact runs. Disabled capabilities and other platforms are not qualified by
+the local checks. All milestones remain Partial; scientific/release acceptance
+and the full remaining scope are unchanged.
+
+Earlier building-block evidence remains source-specific: [sampling](benchmarks/scientific-grid-sampling-local-windows.json),
+[physical kernels](benchmarks/physical-grid-kernels-local-windows.json),
+[float64 channels](benchmarks/scientific-channels-local-windows.json),
+[rasters](benchmarks/scientific-raster-local-windows.json),
+[cells](benchmarks/grid-cells-local-windows.json),
+[archives](benchmarks/grid-cell-archive-local-windows.json) and
+[classifier/CSV consumers](benchmarks/grid-cell-consumers-local-windows.json).
+Hierarchy candidate `207f008` passed its native Mac audit but failed engine and
+portable campaigns on a stale typing fixture, subsequently corrected. See the
+[current task](current-task.md) for live qualification state.
 
 Baseline: [QuPath v0.7.0](https://github.com/qupath/qupath/tree/v0.7.0), revision
 `04ccfa4fb7d43e9b566393e08e83690b72248d44`. Source areas below refer to modules
@@ -63,9 +50,9 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 | Region measurements | qupath-core, qupath-core-processing | analysis | Partial | ROI-masked RGB mean, bounded revision-keyed shape bundles, anisotropic lengths, shared OD/stain jobs and retained schema-3 ROI records with input digests/rechecks pass; capture-time source/calibration/build provenance passes; full file/binary/runtime manifests, pinned QuPath public-API sampling masks, tiled ROI means and calibrated features pass in the synthetic corpus; [Raw TIFF records](raw-analysis-records.md) add exact input hashes, original object/TMA context, schema-13 persistence, explicit replay and snapshot CSV through native/Python/ImGui; broader feature/plugin and full runtime-manifest comparisons remain |
 | Stain separation | qupath-core, qupath-core-processing | analysis | Partial | Native/Python supplied-vector kernels and C++/Python/GUI body/nucleus jobs with retained parameters/input provenance/rechecks pass; capture-time source/calibration/build provenance passes; bounded pyramid-aware OD-plane estimation, deterministic reservoirs, independent NumPy/known-mixture checks, exact model identities/reload and GUI apply pass; full file/binary/runtime manifests, model registries, pinned QuPath OD/supplied-vector kernel references pass; broader stains, estimation/plugin comparisons and model registry coverage remain |
 | Tissue detection | qupath-core-processing, qupath-extension-processing | analysis | Partial | Bounded OD/stain masks at native pyramid levels, square opening/closing, domain-aware size-bounded hole filling, global 4/8-connected components, level-zero statistics, digests, GUI preview, mask archives/rechecking and atomic contour/annotation publication pass; capture-time source/calibration/build provenance passes; arbitrary resampling/kernels, physical filters, smoothing/median, complete file/binary/runtime manifests and QuPath runtime comparisons remain |
-| Cell detection and features | qupath-core-processing, qupath-extension-processing | analysis | Partial | Native distance-marker watershed, normalized smoothing, nonoverlapping expansion, compartment features, pyramid grids, atomic cell/nucleus publication, ImGui preview and lossless run archives/rechecking and schema-6 published feature links pass independent synthetic references; native document/project-wide archived-run CSV export passes; capture-time source/calibration/build provenance passes; joined live-object metadata/shape tables pass; inclusive [physical nucleus-area filters](cell-area-limits.md) pass the defined Windows/Linux engineering scope; full file/binary/runtime manifests, physical radii, arbitrary resampling, split/merge and QuPath feature tolerances remain |
+| Cell detection and features | qupath-core-processing, qupath-extension-processing | analysis | Partial | Native distance-marker watershed, normalized smoothing, nonoverlapping expansion, compartment features, pyramid grids, atomic cell/nucleus publication, ImGui preview and lossless run archives/rechecking and schema-6 published feature links pass independent synthetic references; native document/project-wide archived-run CSV export passes; capture-time source/calibration/build provenance passes; joined live-object metadata/shape tables pass; inclusive [physical nucleus-area filters](cell-area-limits.md) pass the defined Windows/Linux engineering scope; explicit-grid physical radii and per-axis sampling now pass local native/Python/desktop checks; complete platform/file/runtime qualification, vendor/pyramid/tiled scientific sampling, split/merge and QuPath/biological feature tolerances remain |
 | Pixel and object classifiers | qupath-core-processing, qupath-gui-fx | analysis/gui | Partial | Native/Python forests, geometry/verified-cell snapshots, labelled-ROI pixel training, source label/vote masks, exact undoable contour publication, ImGui controls, saved cohort/mask/model reuse and schema-10 project/recovery/batch persistence implemented. Natural-grid [windowed prediction](pixel-prediction-windows.md) bounds output to the visible or requested region, and the [native/Python block producer](pixel-stream.md) iterates full targets without retaining the full mask. Atomic [QPS1 streamed files](pixel-stream-file.md) provide indexed historical blocks and complete verification. A shared native/Python [background export job](pixel-stream-export.md) also powers cancellable F5 file export without retaining a full mask. The [saved-file inspector](pixel-stream-browser.md) provides asynchronous indexed navigation, verification and a separate block preview. The [standalone CLI](pixel-stream-cli.md) exports one saved project target and verifies files. [Schema-10 external stream links](pixel-stream-records.md) preserve historical file descriptors and provide verified reopen/relink. [Hash-only scans](pixel-input-digests.md) compare feature/request/stream inputs without forest inference. [Project pixel batches](project-pixel-batches.md) provide captured-model exports and hash-only verified resume through native/Python/CLI/ImGui. Stitched contours, unmatched-grid resampling, expanded features, research/QuPath comparisons and hardware/frame budgets remain; see [object](object-classifiers.md) and [pixel](pixel-classifiers.md) workflows |
-| Tissue microarrays | qupath-core, qupath-gui-fx | core/analysis/gui | Partial | Native/Python/ImGui ellipse grids, undoable core/label/geometry edits, missing flags, shared case IDs, vacancies, bounded immutable snapshots, managed viewer commands, schema-11 persistence, present/missing-aware ROI/tissue/cell/pixel batches, metadata/context CSV and single-grid/captured multi-grid case inventory and weighted measurement summaries through native/Python/CLI/ImGui; see [TMA contract](tissue-microarrays.md). Native/Python direct QuPath `.qptma` interchange is implemented in candidate 155 and project CLI in candidate 156; final installed/project/UI/platform acceptance remains. Automatic dearraying, broader biological/upstream comparisons and hardware acceptance remain |
+| Tissue microarrays | qupath-core, qupath-gui-fx | core/analysis/gui | Partial | Native/Python/ImGui ellipse grids, undoable core/label/geometry edits, missing flags, shared case IDs, vacancies, bounded immutable snapshots, managed viewer commands, schema-11 persistence, present/missing-aware ROI/tissue/cell/pixel batches, metadata/context CSV and single-grid/captured multi-grid case inventory and weighted measurement summaries through native/Python/CLI/ImGui; see [TMA contract](tissue-microarrays.md). Native/Python/project/CLI/UI `.qptma` workflows are accepted at integrated TMA source `a29e4e1`; the later combined candidate awaits its own platform campaign. Automatic dearraying, broader biological/upstream comparisons and hardware acceptance remain |
 | Batch workflows | qupath-core, qupath-gui-fx | jobs | Partial | Native/Python/headless CLI ROI/tissue/cell processing, frozen capture, atomic per-image project/CSV checkpoints, pixel-verified restart, failure policies and cancellation; desktop launcher with progress, scope, presets and terminal reports; standalone single-target pixel-stream export/verification and project-wide captured-model pixel batches with verified hash-only resume are implemented; TMA core scope and CSV context are available; captured [raw-channel batches](raw-analysis-records.md) include immutable records and hash-only checkpoint reuse through native/Python/CLI/ImGui; distributed/portable workers and abandoned-work cleanup remain |
 | Python scripting | New API replacing Groovy workflow surface | bindings | Partial | Shared document/region API and ROI analysis jobs pass; native batch execution is implemented; owned NumPy region/float/label views, strided imports, packaged public stubs and typed workflow checks pass; managed live viewer queues/notifications, owner-only publication and GIL/thread checks pass; broader commands/model adapters and beta compatibility gates remain |
 | Bio-Formats and multiplex data | qupath-extension-bioformats | io | Partial | Optional [quantitative TIFF/OME reader](quantitative-tiff.md), typed raw arrays, channel/Z/time selections and display composites, schema-12 views, native worker UI and managed Python commands; schema-13 raw measurement records, explicit replay, historical CSV and raw batches; broader Bio-Formats readers, multi-file OME, raw classifier features and workflow validation remain |
@@ -84,9 +71,10 @@ pass 49 native suites, including project-enabled TMA; portable builders/fresh
 consumers each pass the same QPTMA contract. Runtime inventories and relocation
 remain checked at their declared scope.
 
-The hierarchy/recovery integration branch is the next candidate and is not yet
-platform-qualified. It also fixes the recovery long-path limitation retained by
-this TMA baseline. All M0–M7 milestones remain Partial. Use the [active plan](project-plan.md)
+The next integrated candidate includes hierarchy/recovery, the long-path fix,
+and the explicit-grid scientific cell workflow. It is frozen at `5ebdb96` on
+`feature/scientific-workflow-168`; its three exact-source campaigns remain pending.
+The newer feature-branch documentation does not move that frozen ref. All M0–M7 milestones remain Partial. Use the [active plan](project-plan.md)
 and [API delivery paths](api-delivery-plan.md) for the remaining complete scope.
 
 ## Earlier evidence (source-specific history)
