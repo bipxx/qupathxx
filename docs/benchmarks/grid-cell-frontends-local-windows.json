@@ -1,6 +1,6 @@
 {
   "schema": "qpx.grid-cell-frontends-local/1",
-  "observed_at_utc": "2026-10-25T10:20:46.724992+00:00",
+  "observed_at_utc": "2026-10-25T10:22:03.742649+00:00",
   "source": "d31ceb786faaa818d0b8ae1a3467dd96fbb55555",
   "compiled_revision": "db22dad1e483d2cb2b1032450f047ebe1cc00ff1+dirty",
   "source_tree_sha256": "dbd02bd3e38a4953fc79dca14ad75cbfc0a1529fdbbd57fc564ccd31ca975e02",
@@ -27,6 +27,7 @@
   "new_grid_python_workflow_cases": 6,
   "positive_typing_files": 5,
   "expected_negative_typing_errors": 31,
+  "typing_mode": "mypy --strict --no-incremental",
   "required_semantic_markers": [
     "Grid ROI planning, typed batch recipe, per-image calibration, interrupted resume and QCL5/CSV checkpoints passed",
     "Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed",
@@ -474,8 +475,8 @@
       "sha256": "718df785efbbd4b57e63b5f64aff2c5b5592e433447681f759b307f97a3ec96a"
     },
     "record_evidence.py": {
-      "bytes": 9413,
-      "sha256": "eb6f9649e39c4ba9e85c84807357e3501fa6f14260642ac8dab556c4f3310e70"
+      "bytes": 9511,
+      "sha256": "f994eea76f343dacac38769f0f4019afe88b8cf25cf4372a3741c4aee7ccfab8"
     },
     "verify_cli.py": {
       "bytes": 2915,
