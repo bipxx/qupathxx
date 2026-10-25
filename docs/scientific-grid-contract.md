@@ -157,5 +157,30 @@ The independent Python Fraction oracle generates JSON and the C++ expectations;
 the manifest binds their bytes, generator and this contract. Native checks cover
 14 geometry scenarios, eight large-origin counterexamples, 521 exact conversion
 probes and invalid/budget boundary controls. They run within the existing native
-resampling suite. The oracle's RGB values are future sampler expectations;
-passing geometry checks does not establish that native RGB sampling exists.
+resampling suite. The native RGB suite additionally compares exact float64 means
+and validity against all 14 cases, including partial alpha, missing context and
+large-origin reader windows. It verifies malformed readers and cancellation.
+Installed Python checks cover immutable geometry, exact means and view/copy
+lifetimes; this still does not establish a new detector recipe or biological
+acceptance.
+
+For a bounded selected level-zero extent, the Python path is:
+
+```python
+import qupathxx as q
+
+def sample_extent(server, x, y, width, height, nx, ny, context=0):
+    metadata = server.metadata
+    grid = q.ScientificGrid(
+        metadata.width, metadata.height,
+        q.ScientificGridAxis(x, width, nx, context),
+        q.ScientificGridAxis(y, height, ny, context),
+    )
+    result = q.read_scientific_rgb(server, grid)
+    return result.numpy(), result.valid_numpy()
+```
+
+Planning rejects source/output/work limits before reading; it does not silently
+choose a coarser level for a whole slide. Returned views retain their result
+without retaining a reader. ROI eligibility and physical kernel parameters belong
+to the next detector/request integration step.

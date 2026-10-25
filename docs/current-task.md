@@ -37,9 +37,10 @@ and old source/native artifacts are rejected for the new scope. See the
 Hosted engine `40166860999` failed one synthetic auditor fixture in each installed
 configuration: it emitted a three-file typing log where the checker correctly
 requires four. Mac `40166866585` passed its source-bound audit (49 native suites
-per architecture); portable `40166872891` is still observed through its original
-handle. The frozen checkout stays unchanged. No hierarchy main promotion is
-authorized by this incomplete campaign.
+per architecture); portable `40166872891` failed the same obsolete fixture in
+both builders, so fresh consumers did not run. Both failed logs are retained.
+The frozen checkout stays unchanged. This campaign does not qualify hierarchy
+for main promotion.
 
 Active integration source is now `feature/scientific-grid-159`. Commit `5474c3f`
 corrects the stale typing fixture and adds an explicit rejection control; 89
@@ -50,11 +51,20 @@ Fraction oracle and C++ geometry consumer. A standalone native harness passes
 exact grid, rounding, context and admission checks; all 49 repository native suites
 also pass in the intentional minimal build (GUI/Python/project/interchange/readers
 disabled). Feature-disabled suites do not qualify those capabilities. These are
-geometry checks, not native float sampling
-or scientific detector acceptance. Python bindings, the sampler, new recipe/
-digest/archive/replay and all required frontends remain next in the same workflow.
+geometry checks, not scientific detector acceptance.
 The [local geometry receipt](benchmarks/scientific-grid-geometry-local-windows.json)
 retains raw tests, the 271-file compiler-input proof and the failed hosted log.
+
+Source `7573a94` adds a bounded level-zero RGB sampler and owning nanobind grid/
+result types. Native comparisons pass all 14 exact reference scenarios, including
+fractional means, alpha/missing support and a large-origin reader window; reader
+faults and cancellation reject. The sampler accumulates integer area weights and
+rounds once to float64. Installed wheel, lifetime/NumPy and packaged typing checks
+are in progress. The current compiler-input lock covers 275 files with digest
+`a748067e7301b332e7144c21fd1e393097bf697e3ea70a1d253a8cb985782516`.
+This is an additive sampling utility. The new detector recipe, physical anisotropic
+parameters, digest/archive/replay and required frontends remain next in the same
+workflow; existing cell recipes and archive behavior are unchanged.
 
 Next: complete that bounded sampling path using the existing native authority,
 retain the failed campaign evidence, and qualify a clean integrated candidate
