@@ -1,0 +1,4 @@
+tests\typing\tma_axes_invalid.py:4: error: Argument 1 to "insert_tma_row" of "Document" has incompatible type "str"; expected "int"  [arg-type]
+tests\typing\tma_axes_invalid.py:5: error: List item 0 has incompatible type "Point"; expected "Rect"  [list-item]
+tests\typing\tma_axes_invalid.py:6: error: Argument "expected_revision" to "remove_tma_row" of "ViewerSession" has incompatible type "str"; expected "int | None"  [arg-type]
+Found 3 errors in 1 file (checked 1 source file)

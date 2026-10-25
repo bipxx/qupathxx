@@ -1,7 +1,8 @@
 # TMA row and column corrections
 
-This workflow extends the existing native TMA document. It is under local
-validation; it has not inherited the earlier platform qualification.
+This workflow extends the existing native TMA document. Source `96172f3` passes
+[local native, installed and desktop checks](benchmarks/tma-axis-editing-local.json).
+Platform qualification, automatic dearraying and biological acceptance remain open.
 
 `Document.insert_tma_row(index, label="", bounds=None, missing=False)` and
 `insert_tma_column` insert an axis before the zero-based index. Use the current

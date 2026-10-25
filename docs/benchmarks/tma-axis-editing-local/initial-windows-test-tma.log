@@ -1,0 +1,13 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 11: tma
+1/1 Test #11: tma ..............................***Failed    0.06 sec
+parent ROI must contain its child
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.16 sec
+
+The following tests FAILED:
+	 11 - tma (Failed)
+Errors while running CTest

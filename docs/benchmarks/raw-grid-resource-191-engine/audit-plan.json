@@ -1,0 +1,77 @@
+{
+  "source": "61e546ee59944e07b2b15a16b84054813de8393e",
+  "frozen_checkout": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-grid-workflow-191",
+  "must_verify_before_acceptance": [
+    "All required jobs completed successfully at the same source",
+    "All11artifact archive digests and workflow head identities match",
+    "Complete inherited semantic/installed/runtime/reader/ABI cohorts; no omissions or new skips"
+  ],
+  "roles": {
+    "engine": {
+      "run": 40226794203,
+      "artifacts": [
+        "Windows-gui-py3.12",
+        "Windows-headless-py3.11",
+        "Linux-headless-py3.12",
+        "Linux-minimal-py3.12",
+        "Linux-sanitize-py3.12"
+      ],
+      "command": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-grid-workflow-191\\tools\\ci\\accept_unified_engine.py",
+        "40226794203",
+        "61e546ee59944e07b2b15a16b84054813de8393e",
+        "--artifacts",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridci191-hosted\\artifacts",
+        "--output",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridci191-hosted\\full-engine-audit.json",
+        "--ndpi-readers",
+        "--rendered-loop",
+        "--gui-stack",
+        "--small-frontier",
+        "--windows-runtime-manifest",
+        "--linux-runtime-manifest"
+      ]
+    },
+    "macos": {
+      "run": 40226800465,
+      "artifacts": [
+        "macos-native-arm64",
+        "macos-native-x86_64"
+      ],
+      "command": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-grid-workflow-191\\tools\\ci\\accept_macos_native.py",
+        "40226800465",
+        "61e546ee59944e07b2b15a16b84054813de8393e",
+        "--artifacts",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridci191-hosted\\artifacts",
+        "--output",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridci191-hosted\\macos-native-audit.json",
+        "--macho-inventory",
+        "--macos-relocation",
+        "--small-frontier"
+      ]
+    },
+    "portable": {
+      "run": 40226806311,
+      "artifacts": [
+        "manylinux-3.11",
+        "manylinux-3.12",
+        "manylinux-consumer-3.11",
+        "manylinux-consumer-3.12"
+      ],
+      "command": [
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-grid-workflow-191\\tools\\ci\\accept_manylinux.py",
+        "--artifacts",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridci191-hosted\\artifacts",
+        "--run-json",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridci191-hosted\\portable-run.json",
+        "--commit",
+        "61e546ee59944e07b2b15a16b84054813de8393e",
+        "--output",
+        "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\gridci191-hosted\\portable-audit.json",
+        "--linux-runtime-manifest"
+      ]
+    }
+  },
+  "platform_campaign_accepted": false
+}

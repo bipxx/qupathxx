@@ -1,0 +1,51 @@
+{
+  "source": "e74e97d+dirty",
+  "fingerprint": "67c1aa0e475d3b7de926fd1588e6556256e46fdbe4c6f9eb1afb4ecd806b3818",
+  "files": [
+    {
+      "path": "windows/qupathxx_tma_tests.exe",
+      "bytes": 3295232,
+      "sha256": "af1920f2f5c365422f65448d14ec2adc14d527bfb3e134d42c65c3ab5b94e6c4"
+    },
+    {
+      "path": "windows/qupathxx_viewer_session_tests.exe",
+      "bytes": 3101696,
+      "sha256": "f07f92dfbc2b41e87684f990bec6109208122664a4c81128fb5f385094afc016"
+    },
+    {
+      "path": "windows/qupathxx_qptma_tests.exe",
+      "bytes": 397312,
+      "sha256": "b0e478c56cf70a3483973d326992ea80df8168ca033173a6d0cb26940b8fc77f"
+    },
+    {
+      "path": "windows/qupathxx_qptma_project_tests.exe",
+      "bytes": 2514432,
+      "sha256": "82b246e4885feba039c7e8f2ef206f41e961111a13cdc43e2c31ddc782e4fa61"
+    },
+    {
+      "path": "linux/qupathxx_tma_tests",
+      "bytes": 5981720,
+      "sha256": "1c362dac4f51596ea60eb51035a9d637247fbc42b88d84656eee2b0de684c108"
+    },
+    {
+      "path": "linux/qupathxx_viewer_session_tests",
+      "bytes": 5898040,
+      "sha256": "e5f8d38df20a3392aca40dcc3dba22cffbe1834a2cd0d755a81c449c6db4dcc1"
+    },
+    {
+      "path": "linux/qupathxx_qptma_tests",
+      "bytes": 852432,
+      "sha256": "ed58fc698770e69d1f189efec49044957503cf22c083d34072b4af9a3658face"
+    },
+    {
+      "path": "linux/qupathxx_qptma_project_tests",
+      "bytes": 5370280,
+      "sha256": "20121b5b145c1dcc2e92e4bdb46ab0745e5631459977fd7affcd743cedd61b6c"
+    },
+    {
+      "path": "linux/libqupathxx_core.a",
+      "bytes": 10240362,
+      "sha256": "49986bcc337a12f1934c15c4f080d2e25ac0cd0004ae840a74f9749313bedc2a"
+    }
+  ]
+}

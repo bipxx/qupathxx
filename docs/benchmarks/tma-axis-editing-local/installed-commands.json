@@ -1,0 +1,82 @@
+[
+  {
+    "name": "runtime",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma193-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pytest",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_axes.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_case_summary.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_case_export.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_tma_cohort.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_qptma.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_qptma_project.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_viewer_session.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_public_stubs.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_stub_signature_guard.py",
+      "-q",
+      "--tb=short",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma193-runtime\\runtime.xml",
+      "--basetemp=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma193-runtime\\runtime-tmp"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "seconds": 12.733439599978738
+  },
+  {
+    "name": "desktop",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma193-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pytest",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_tma.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_qptma.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_viewer_session.py",
+      "-q",
+      "--tb=short",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma193-runtime\\desktop.xml",
+      "--basetemp=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tma193-runtime\\desktop-tmp"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "seconds": 21.760762399993837
+  },
+  {
+    "name": "typing-positive",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma193-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/raw_grid_valid.py",
+      "tests/typing/valid_api.py",
+      "tests/typing/hierarchy_valid.py",
+      "tests/typing/grid_cells_valid.py",
+      "examples/live_workflow.py",
+      "examples/region_workflow.py"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "seconds": 4.648030799929984
+  },
+  {
+    "name": "typing-axes-negative",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma193-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/tma_axes_invalid.py"
+    ],
+    "exit": 1,
+    "expected_exit": 1,
+    "seconds": 4.203429499990307
+  }
+]

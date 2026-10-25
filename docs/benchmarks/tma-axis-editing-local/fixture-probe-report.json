@@ -1,0 +1,14 @@
+{
+  "observed_utc": "2026-10-25T20:19:59.860523+00:00",
+  "scope": "Standalone corrected fixture against already built e74 Linux core; not an installed/platform campaign or a relabeled source artifact.",
+  "core_source": "e74e97d64ab89334f17efabac48dd8e538001a0e",
+  "core_compiler_fingerprint": "67c1aa0e475d3b7de926fd1588e6556256e46fdbe4c6f9eb1afb4ecd806b3818",
+  "original_fixture_sha256": "b0382f0c062985aa655888af91fd0e03b9bcd8e9360d69172ce916030314eb47",
+  "corrected_fixture_sha256": "066c1f6192b7de100dd3a8846ca5768fd23ebd1777f3f724e7f7169a9dc7776c",
+  "core_library_sha256": "49986bcc337a12f1934c15c4f080d2e25ac0cd0004ae840a74f9749313bedc2a",
+  "result": "passed",
+  "correction": "Make nested ellipses satisfy the preexisting parent containment invariant; no product code changed.",
+  "commands": "commands.json",
+  "log": "test.log",
+  "pending": "Apply fixture correction after original Windows build terminal, then final source-bound native/installed/GUI checks."
+}

@@ -69,7 +69,7 @@ The feature branch retains [layout evidence](benchmarks/raw-grid-tiff-layout-loc
 [bounded coarse materialization](benchmarks/raw-grid-materialized-streaming-local.json).
 These newer implementations are outside `745662b` platform acceptance.
 
-Latest compiled source is `44394d3`, fingerprint
+The retained raw-materialization local module is `44394d3`, fingerprint
 `7eb7afb7850fa3d35caeefd842dfb2dcb6bfdee5cd9da050f1d3deff80cd8d53`.
 Its 312 compiler inputs and 498-file source contract bind 283 scientific desktop
 passes, 216 runtime passes with five declared desktop skips, 34 selected desktop
@@ -103,7 +103,7 @@ local tested `44394d3`; fresh checkout raw fingerprint `032f9d99...44bdf8` remai
 distinct from the installed module's identity. Track the exact runs:
 
 - [Engine40226794203](https://github.com/bipxx/qupathxx/actions/runs/40226794203):
-  all five required modes, extended readers and live reference enabled.
+  all five required modes accepted by the [engine-only audit](benchmarks/raw-grid-resource-191-engine.json), with extended readers and live reference enabled. Windows GUI passes 50 native/3,499 installed cases; Windows/Linux headless pass 49 native and 3,069/3,067 installed cases. All five archive hashes/source identities pass.
 - [Mac40226800465](https://github.com/bipxx/qupathxx/actions/runs/40226800465):
   ARM64/x86_64 native, inventory and relocation.
 - [Portable40226806311](https://github.com/bipxx/qupathxx/actions/runs/40226806311):
@@ -118,21 +118,27 @@ original M0-M7 milestones remain Partial; preserve frozen `745662b` and the
 user's divergent local main.
 
 
-## Active TMA structural correction slice
+## TMA structural corrections: locally verified
 
-Source `e74e97d` adds atomic native row/column insertion and removal, thin Python
-methods, managed-owner commands and ImGui controls. Retained cores keep IDs,
-case metadata and geometry; nested retained cores survive removal and undo
-restores the hierarchy. See [the workflow contract](tma-axis-editing.md).
-This is under local validation, not engineering/platform acceptance.
+Compiled source `96172f3` provides atomic row/column insertion and removal in
+native C++, Python, managed ViewerSession commands and ImGui. Retained cores
+keep IDs, case metadata and geometry; nested retained cores survive removal,
+and undo restores the hierarchy. See [the contract](tma-axis-editing.md) and
+[local evidence](benchmarks/tma-axis-editing-local.json).
 
-Windows and TIFF/project Linux builds use compiler-input fingerprint
-`67c1aa0e475d3b7de926fd1588e6556256e46fdbe4c6f9eb1afb4ecd806b3818`
-(312 inputs). Configured revision includes `+dirty` for noncompiler test/docs
-changes; do not relabel the module as a later delivery commit. Build commands,
-logs, source manifest and original handles are retained under root build paths
-`tma192-windows`, `tma192-linux`, `tma192-evidence` and `tma192-progress.json`.
-Installed Python, UI capture, managed workflow and generated-stub validation
-remain pending. Automatic dearraying and broader M6 scientific scope remain.
-The independent frozen resource campaign191 stays at `61e546e` and cannot
-qualify this later API change. Every original M0-M7 requirement remains active.
+The clean installed module has fingerprint
+`12de03f213d3084399c8afa7cdcf1090b73c01226e6a8e12065fc0fc06e4fde4`
+for 312 compiler inputs. Four selected native suites pass on Windows and
+TIFF/project Linux. Installed tests pass 187 cases plus 10 declared desktop
+skips; the complete selected desktop run passes 53 without skips. Generated
+stubs match, six strict positive typing files pass and the new negative fixture
+rejects three intended mistakes. The [inspected capture](benchmarks/tma-axis-editing-local/axis-controls.png)
+shows insertion into a 3x3 grid with three missing new cores and no overflow.
+Initial fixture-containment and WSL-launcher failures remain in the receipt.
+
+Register the new axis semantic/typing cohorts before its frozen platform
+campaign. The independent resource campaign191 remains at `61e546e` and cannot
+qualify these later APIs; Mac/portable gates there still precede promotion.
+Automatic dearraying, biological/upstream acceptance and every remaining M0-M7
+requirement remain active. No platform, hardware or supported-release acceptance
+is inferred from this local slice.

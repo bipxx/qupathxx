@@ -3,7 +3,9 @@
 The native document owns one editable TMA grid. Python uses the same C++ model,
 and the ImGui **TMA...** panel (Ctrl+Alt+T) exposes creation, missing flags,
 case IDs, core geometry, labels, translation, per-core batches and metadata CSV.
-This is an initial research workflow, with broader QuPath comparison still open.
+[Row/column corrections](tma-axis-editing.md) reuse the same native model,
+including undo, Python and managed-owner commands. Their local evidence does
+not close broader QuPath/biological comparison or platform qualification.
 
 The [desktop capture](images/tma-workflow.png) shows a synthetic nine-core grid,
 case ID editing and a gray missing core. The separate

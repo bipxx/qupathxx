@@ -356,3 +356,11 @@ docs/benchmarks/raw-grid-materialized-streaming-local.json text eol=lf
 # Frozen raw-resource campaign receipts preserve original bytes.
 docs/benchmarks/raw-grid-resource-191-campaign/** -text -whitespace
 docs/benchmarks/raw-grid-resource-191-campaign.json text eol=lf
+
+# TMA axis-editing captures and logs retain original bytes.
+docs/benchmarks/tma-axis-editing-local/** -text -whitespace
+docs/benchmarks/tma-axis-editing-local.json text eol=lf
+
+# Source191 engine-only audit payloads retain exact bytes.
+docs/benchmarks/raw-grid-resource-191-engine/** -text -whitespace
+docs/benchmarks/raw-grid-resource-191-engine.json text eol=lf
