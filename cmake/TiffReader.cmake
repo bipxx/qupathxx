@@ -5,11 +5,18 @@ set(ZLIB_BUILD_STATIC ON CACHE BOOL "" FORCE)
 set(ZLIB_BUILD_TESTING OFF CACHE BOOL "" FORCE)
 set(ZLIB_INSTALL OFF CACHE BOOL "" FORCE)
 set(ZLIB_PREFIX ON CACHE BOOL "" FORCE)
+# Pinned zlib 1.3.2 assigns this normal variable only when it first writes
+# zconf.h.cmakein; propagate it on every configure, including cached builds.
+set(Z_PREFIX ON)
 FetchContent_Declare(qpx_zlib URL
   https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz
   https://zlib.net/fossils/zlib-1.3.2.tar.gz
   URL_HASH SHA256=bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16)
 FetchContent_MakeAvailable(qpx_zlib)
+file(READ "${qpx_zlib_BINARY_DIR}/zconf.h" qpx_zlib_configured_header)
+if(NOT qpx_zlib_configured_header MATCHES "#define Z_PREFIX 1")
+  message(FATAL_ERROR "Pinned TIFF zlib must retain Z_PREFIX on every configure")
+endif()
 set_target_properties(zlibstatic PROPERTIES POSITION_INDEPENDENT_CODE ON)
 # zlib's Z_PREFIX renames its public API but leaves this internal exported
 # data table unprefixed. Apple's linker rejects it beside OpenCV's static zlib.
