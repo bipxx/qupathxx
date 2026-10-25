@@ -149,3 +149,30 @@ physical blocks. Output channel order, native dtype/bits, edge padding and file
 identity checks are unchanged. Cancellation is checked before decoding and
 between copied rows. This reduces redundant decoding, not the caller's output
 buffer or configured decoder/cache memory requirements.
+
+
+## Coarse quantitative measurements with a smaller work budget
+
+On a quantitative document, use the existing ROI count recipe and work ceiling;
+Python, native batch/CLI and the desktop use the same sampler and record path.
+For example, with a supported image having at least three raw channels:
+
+```python
+sampling = q.RawGridSampling()
+sampling.samples_x, sampling.samples_y = 7, 5
+options = q.ScientificRawOptions()
+options.first_channel, options.channels = 1, 2
+options.work_bytes = 768 * 1024
+request = q.RawAnalysisRequest.for_grid_roi(document, object_id, sampling, options)
+result = q.analyze_raw(request)
+record_id = document.keep_raw_analysis(request, result)
+```
+
+Coarse grids can use bounded chunk capture and verified rereads. Dense grids keep
+the full-window path when chunk work/memory would be worse. Exact values, source
+bits, channel support and archived numerical recipes are preserved. Admission
+includes captured request/context and can reject before decoding when the work
+ceiling does not fit. Reader/cache and process memory remain separate budgets.
+This strategy can perform more reads/hashing; it is not a speedup promise or
+complete whole-slide support. See the [contract](scientific-grid-contract.md#bounded-coarse-grid-materialization)
+and [current evidence](current-task.md).

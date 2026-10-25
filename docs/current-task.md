@@ -58,31 +58,47 @@ in Git history and [current-task history](current-task-history.md).
 
 ## Active integration after the accepted candidate
 
-Public main is receipt commita9856d8 over qualified code745662b. The active feature
-branch additionally retains [TIFF layout evidence](benchmarks/raw-grid-tiff-layout-local.json),
-[interleaved decode reuse](benchmarks/tiff-interleaved-block-reuse-local.json) and
-[bounded hash-only capture](benchmarks/raw-grid-streamed-digest-local.json).
-These newer implementations are excluded from the745662b platform acceptance.
+Public main is receipt commit `a9856d8` over qualified code `745662b`. Its
+[automatic push CI](https://github.com/bipxx/qupathxx/actions/runs/40223275046)
+now succeeds in all five default Windows/Linux modes. That default profile
+remains separate from the full accepted engine/Mac/portable campaign above.
 
-The latest compiled source is0b36086, fingerprint
-`0d9eb6a0a1528d32fccff91816c22044a31c30ae651c012b9844d704a3739df2`.
-Its312compiler inputs and497-file source contract bind265scientific desktop
-passes,200runtime passes with3declared desktop skips,34selected desktop passes,
-109auditor controls, generated-stub equality and five native suites each on
-Windows and TIFF/project Linux. Selective raw/raster ASan/UBSan passes with
-matching unsanitized dependencies; full-engine sanitizer/platform scope remains
-separate. Existing accepted and rejected local modules remain preserved.
+The feature branch retains [layout evidence](benchmarks/raw-grid-tiff-layout-local.json),
+[decode reuse](benchmarks/tiff-interleaved-block-reuse-local.json),
+[hash-only capture](benchmarks/raw-grid-streamed-digest-local.json) and the latest
+[bounded coarse materialization](benchmarks/raw-grid-materialized-streaming-local.json).
+These newer implementations are outside `745662b` platform acceptance.
 
-Large hash-only captures now use bounded decoded chunks plus one validity byte
-per clipped source pixel. Canonical HWC/value-validity digest domains, small
-single-read admission, materialized work limits and QRA1/QRA2 bytes are unchanged.
-Independent hashes and real TIFFs cover row groups/horizontal splits, original
-UInt64 bits and nonfinite Float64 payloads, late failures/cancellation, one
-metadata epoch and project replay. The400x200captured workspace observation drops
-from1,632,592to413,792bytes;10000x3drops from782,592to368,127. These are admission
-ledger values, not process-RSS or hardware/performance acceptance.
+Latest compiled source is `44394d3`, fingerprint
+`7eb7afb7850fa3d35caeefd842dfb2dcb6bfdee5cd9da050f1d3deff80cd8d53`.
+Its 312 compiler inputs and 498-file source contract bind 283 scientific desktop
+passes, 216 runtime passes with five declared desktop skips, 34 selected desktop
+passes, 115 auditor controls, generated-stub equality and five native suites each
+on Windows and TIFF/project Linux. Selective raw/raster ASan/UBSan passes with
+matching unsanitized dependencies; full-engine/platform acceptance stays separate.
+The receipt retains 59 payloads and an [inspected result capture](benchmarks/raw-grid-materialized-streaming-local/raw190-evidence-coarse-result.png).
 
-Continue the remaining vendor/multi-file, large-window/materialized/whole-slide,
-classifier/TMA/tissue, scientific, hardware and supported-release requirements.
-All original M0-M7 milestones remain Partial. Preserve the frozen745662b source;
-finish complete new user workflows before another integrated platform campaign.
+Coarse materialization now retains validity, canonical chunk commitments, one
+bounded chunk and per-channel exact accumulators instead of the whole typed
+window. Reread values/support must match their captured commitments before use.
+A conservative traversal bound and smaller ledger decide the strategy without
+using the caller budget; dense grids keep their existing full-window behavior.
+The 400x200 7x5 observation drops from 1,633,292 to 417,062 admitted bytes; the
+10000x3 observation drops from 783,292 to 370,501. Output bits and both digests
+match the earlier module exactly. Dense 128x128 cases keep their previous budget
+and bits. This deliberately trades repeated IO/hashing for captured memory;
+no process-RSS, latency or hardware acceptance is claimed.
+
+All ten dtypes, context/byte-order/separate planes, exact admission, late
+source-bit/support mutation, cancellation and dense fallback pass. The actual
+low-budget workflow passes project keep/reopen/verify, Python and CLI batches
+with hash-only resume, ImGui measurement/retention/render and managed viewer
+retain/verify/save. Canonical recipe/hash domains and QRA1/QRA2 encodings stay
+unchanged; newly smaller-budget records may require the current admission reader.
+
+Next freeze this complete integrated raw-resource workflow and run its required
+source-bound platform campaign once. Continue vendor/multi-file/whole-slide and
+materialized-window limits, raw classifiers and broader tissue/TMA automation,
+independent biology, eligible hardware/memory and supported-release work. All
+original M0-M7 milestones remain Partial; preserve frozen `745662b` and the
+user's divergent local main.

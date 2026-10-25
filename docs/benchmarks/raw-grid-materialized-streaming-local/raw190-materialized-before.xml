@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="14" skipped="0" tests="14" time="1.299" timestamp="2026-10-25T15:09:37.809553-04:00" hostname="HEQPC"><testcase classname="tests.test_raw_materialized_streaming" name="test_coarse_samples_match_fraction_oracle_under_reduced_budget[uint8]" time="0.152"><failure message="assert 513292 &lt;= (240000 + (4 * 65536))&#10; +  where 513292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138ACB2CFD0&gt;.estimated_work_bytes">build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:95: in test_coarse_samples_match_fraction_oracle_under_reduced_budget
+    run_case(tmp_path,dtype)
+build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:82: in run_case
+    assert result.estimated_work_bytes&lt;=former_source+4*65536
+E   assert 513292 &lt;= (240000 + (4 * 65536))
+E    +  where 513292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138ACB2CFD0&gt;.estimated_work_bytes</failure></testcase><testcase classname="tests.test_raw_materialized_streaming" name="test_coarse_samples_match_fraction_oracle_under_reduced_budget[uint16]" time="0.028"><failure message="assert 673292 &lt;= (400000 + (4 * 65536))&#10; +  where 673292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F5C20&gt;.estimated_work_bytes">build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:95: in test_coarse_samples_match_fraction_oracle_under_reduced_budget
+    run_case(tmp_path,dtype)
+build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:82: in run_case
+    assert result.estimated_work_bytes&lt;=former_source+4*65536
+E   assert 673292 &lt;= (400000 + (4 * 65536))
+E    +  where 673292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F5C20&gt;.estimated_work_bytes</failure></testcase><testcase classname="tests.test_raw_materialized_streaming" name="test_coarse_samples_match_fraction_oracle_under_reduced_budget[int8]" time="0.024"><failure message="assert 513292 &lt;= (240000 + (4 * 65536))&#10; +  where 513292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F5320&gt;.estimated_work_bytes">build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:95: in test_coarse_samples_match_fraction_oracle_under_reduced_budget
+    run_case(tmp_path,dtype)
+build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:82: in run_case
+    assert result.estimated_work_bytes&lt;=former_source+4*65536
+E   assert 513292 &lt;= (240000 + (4 * 65536))
+E    +  where 513292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F5320&gt;.estimated_work_bytes</failure></testcase><testcase classname="tests.test_raw_materialized_streaming" name="test_coarse_samples_match_fraction_oracle_under_reduced_budget[int16]" time="0.029"><failure message="assert 673292 &lt;= (400000 + (4 * 65536))&#10; +  where 673292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F7BA0&gt;.estimated_work_bytes">build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:95: in test_coarse_samples_match_fraction_oracle_under_reduced_budget
+    run_case(tmp_path,dtype)
+build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:82: in run_case
+    assert result.estimated_work_bytes&lt;=former_source+4*65536
+E   assert 673292 &lt;= (400000 + (4 * 65536))
+E    +  where 673292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F7BA0&gt;.estimated_work_bytes</failure></testcase><testcase classname="tests.test_raw_materialized_streaming" name="test_coarse_samples_match_fraction_oracle_under_reduced_budget[uint32]" time="0.032"><failure message="assert 993292 &lt;= (720000 + (4 * 65536))&#10; +  where 993292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F5E60&gt;.estimated_work_bytes">build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:95: in test_coarse_samples_match_fraction_oracle_under_reduced_budget
+    run_case(tmp_path,dtype)
+build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:82: in run_case
+    assert result.estimated_work_bytes&lt;=former_source+4*65536
+E   assert 993292 &lt;= (720000 + (4 * 65536))
+E    +  where 993292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F5E60&gt;.estimated_work_bytes</failure></testcase><testcase classname="tests.test_raw_materialized_streaming" name="test_coarse_samples_match_fraction_oracle_under_reduced_budget[int32]" time="0.036"><failure message="assert 993292 &lt;= (720000 + (4 * 65536))&#10; +  where 993292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F4A20&gt;.estimated_work_bytes">build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:95: in test_coarse_samples_match_fraction_oracle_under_reduced_budget
+    run_case(tmp_path,dtype)
+build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:82: in run_case
+    assert result.estimated_work_bytes&lt;=former_source+4*65536
+E   assert 993292 &lt;= (720000 + (4 * 65536))
+E    +  where 993292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F4A20&gt;.estimated_work_bytes</failure></testcase><testcase classname="tests.test_raw_materialized_streaming" name="test_coarse_samples_match_fraction_oracle_under_reduced_budget[uint64]" time="0.119"><failure message="assert 1633292 &lt;= (1360000 + (4 * 65536))&#10; +  where 1633292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F4EA0&gt;.estimated_work_bytes">build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:95: in test_coarse_samples_match_fraction_oracle_under_reduced_budget
+    run_case(tmp_path,dtype)
+build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:82: in run_case
+    assert result.estimated_work_bytes&lt;=former_source+4*65536
+E   assert 1633292 &lt;= (1360000 + (4 * 65536))
+E    +  where 1633292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F4EA0&gt;.estimated_work_bytes</failure></testcase><testcase classname="tests.test_raw_materialized_streaming" name="test_coarse_samples_match_fraction_oracle_under_reduced_budget[int64]" time="0.118"><failure message="assert 1633292 &lt;= (1360000 + (4 * 65536))&#10; +  where 1633292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F60A0&gt;.estimated_work_bytes">build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:95: in test_coarse_samples_match_fraction_oracle_under_reduced_budget
+    run_case(tmp_path,dtype)
+build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:82: in run_case
+    assert result.estimated_work_bytes&lt;=former_source+4*65536
+E   assert 1633292 &lt;= (1360000 + (4 * 65536))
+E    +  where 1633292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F60A0&gt;.estimated_work_bytes</failure></testcase><testcase classname="tests.test_raw_materialized_streaming" name="test_coarse_samples_match_fraction_oracle_under_reduced_budget[float32]" time="0.033"><failure message="assert 993292 &lt;= (720000 + (4 * 65536))&#10; +  where 993292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F7DE0&gt;.estimated_work_bytes">build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:95: in test_coarse_samples_match_fraction_oracle_under_reduced_budget
+    run_case(tmp_path,dtype)
+build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:82: in run_case
+    assert result.estimated_work_bytes&lt;=former_source+4*65536
+E   assert 993292 &lt;= (720000 + (4 * 65536))
+E    +  where 993292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F7DE0&gt;.estimated_work_bytes</failure></testcase><testcase classname="tests.test_raw_materialized_streaming" name="test_coarse_samples_match_fraction_oracle_under_reduced_budget[float64]" time="0.046"><failure message="assert 1633292 &lt;= (1360000 + (4 * 65536))&#10; +  where 1633292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F6520&gt;.estimated_work_bytes">build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:95: in test_coarse_samples_match_fraction_oracle_under_reduced_budget
+    run_case(tmp_path,dtype)
+build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:82: in run_case
+    assert result.estimated_work_bytes&lt;=former_source+4*65536
+E   assert 1633292 &lt;= (1360000 + (4 * 65536))
+E    +  where 1633292 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F6520&gt;.estimated_work_bytes</failure></testcase><testcase classname="tests.test_raw_materialized_streaming" name="test_streamed_context_and_layouts_keep_exact_support[uint64-10000-3-strips]" time="0.061"><failure message="assert 783852 &lt;= (510000 + (4 * 65536))&#10; +  where 783852 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F4EA0&gt;.estimated_work_bytes">build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:101: in test_streamed_context_and_layouts_keep_exact_support
+    run_case(tmp_path,dtype,width,height,layout,True)
+build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:82: in run_case
+    assert result.estimated_work_bytes&lt;=former_source+4*65536
+E   assert 783852 &lt;= (510000 + (4 * 65536))
+E    +  where 783852 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F4EA0&gt;.estimated_work_bytes</failure></testcase><testcase classname="tests.test_raw_materialized_streaming" name="test_streamed_context_and_layouts_keep_exact_support[float64-400-200-big-endian]" time="0.053"><failure message="assert 1633852 &lt;= (1360000 + (4 * 65536))&#10; +  where 1633852 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F7060&gt;.estimated_work_bytes">build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:101: in test_streamed_context_and_layouts_keep_exact_support
+    run_case(tmp_path,dtype,width,height,layout,True)
+build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:82: in run_case
+    assert result.estimated_work_bytes&lt;=former_source+4*65536
+E   assert 1633852 &lt;= (1360000 + (4 * 65536))
+E    +  where 1633852 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F7060&gt;.estimated_work_bytes</failure></testcase><testcase classname="tests.test_raw_materialized_streaming" name="test_streamed_context_and_layouts_keep_exact_support[int64-400-200-separate]" time="0.087"><failure message="assert 1633852 &lt;= (1360000 + (4 * 65536))&#10; +  where 1633852 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F5E60&gt;.estimated_work_bytes">build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:101: in test_streamed_context_and_layouts_keep_exact_support
+    run_case(tmp_path,dtype,width,height,layout,True)
+build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:82: in run_case
+    assert result.estimated_work_bytes&lt;=former_source+4*65536
+E   assert 1633852 &lt;= (1360000 + (4 * 65536))
+E    +  where 1633852 = &lt;qupathxx._native.ScientificRawGrid object at 0x00000138AF2F5E60&gt;.estimated_work_bytes</failure></testcase><testcase classname="tests.test_raw_materialized_streaming" name="test_reduced_budget_record_preserves_qra2_and_project_replay" time="0.106"><failure message="ValueError: scientific raw grid exceeds work budget">build\ci\scientific-grid-159\tests\test_raw_materialized_streaming.py:112: in test_reduced_budget_record_preserves_qra2_and_project_replay
+    request=q.RawAnalysisRequest(doc,grid,options,object_id);result=q.analyze_raw(request)
+                                                                    ^^^^^^^^^^^^^^^^^^^^^^
+E   ValueError: scientific raw grid exceeds work budget</failure></testcase></testsuite></testsuites>

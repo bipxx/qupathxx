@@ -348,3 +348,7 @@ docs/benchmarks/raw-grid-streamed-digest-local/** -text -whitespace
 docs/benchmarks/raw-grid-streamed-digest-local.json text eol=lf
 
 tests/test_raw_materialized_streaming.py text eol=lf
+
+# Coarse-sampling evidence retains original capture bytes.
+docs/benchmarks/raw-grid-materialized-streaming-local/** -text -whitespace
+docs/benchmarks/raw-grid-materialized-streaming-local.json text eol=lf
