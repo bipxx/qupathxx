@@ -301,3 +301,6 @@ tests/fixtures/raw-grid-archive-v1/** -text -whitespace
 
 docs/benchmarks/raw-grid-retention-local/** -text -whitespace
 docs/benchmarks/raw-grid-retention-local-windows-linux.json text eol=lf
+
+cpp/scientific_raw_bindings.cpp text eol=lf
+tests/test_scientific_raw_bindings.py text eol=lf

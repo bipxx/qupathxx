@@ -141,12 +141,24 @@ class GuiRaw {
         }
         if(csv_pending_) {csv_stats_=csv_job_.poll();if(csv_stats_.state!="running") {csv_pending_=false;if(csv_stats_.state=="failed") error_=csv_stats_.error;}}
     }
+    static ScientificRawOptions selected_axes(const RawAnalysisResult& result) {
+        if(result.grid()) return result.grid()->options;
+        const auto& region=result.region();ScientificRawOptions options;
+        options.first_channel=region.first_channel;options.channels=region.channels;options.z=region.z;options.t=region.t;
+        return options;
+    }
     static void result_table(const RawAnalysisResult& result,float scale,std::size_t& maximum) {
-        const auto& stats=result.statistics();const auto& region=result.region();const auto& context=result.object_context();
+        const auto& stats=result.statistics();const auto region=selected_axes(result);const auto& context=result.object_context();
         ImGui::TextWrapped("Captured Z %u / time %u / channels %u..%u",region.z,region.t,region.first_channel,region.first_channel+region.channels-1);
         if(result.object_id()) ImGui::TextWrapped("ROI: %s (#%llu)",context.name.c_str(),static_cast<unsigned long long>(result.object_id()));
         if(context.tma) ImGui::TextWrapped("Case: %s / core %s",context.tma->case_id.c_str(),context.tma->core_name.c_str());
-        ImGui::Text("Valid pixels: %llu",static_cast<unsigned long long>(stats.valid_pixels));
+        if(result.grid()) {
+            const auto& grid=result.grid()->grid;
+            ImGui::Text("Core grid: %lld x %lld",static_cast<long long>(grid.x().samples()),static_cast<long long>(grid.y().samples()));
+            ImGui::Text("Source: %s / measured samples: float64",sample_name(result.metadata().sample_type).c_str());
+            ImGui::Text("Eligible core samples: %llu",static_cast<unsigned long long>(stats.pixels));
+            ImGui::Text("Fully supported samples: %llu",static_cast<unsigned long long>(stats.valid_pixels));
+        } else ImGui::Text("Valid pixels: %llu",static_cast<unsigned long long>(stats.valid_pixels));
         if(ImGui::BeginTable("raw means",4,ImGuiTableFlags_Borders|ImGuiTableFlags_RowBg|ImGuiTableFlags_ScrollY,{0,150.f*scale})) {
             ImGui::TableSetupColumn("Channel");ImGui::TableSetupColumn("Mean");ImGui::TableSetupColumn("Finite");ImGui::TableSetupColumn("Nonfinite");ImGui::TableHeadersRow();
             ImGuiListClipper clip;clip.Begin(int(stats.means.size()));std::size_t inspected=0;
@@ -277,7 +289,7 @@ public:
                 auto page=doc.raw_analysis_page(cursor_,64);catalog_max_=std::max(catalog_max_,page.size());
                 ImGui::Text("Saved measurements: %llu",static_cast<unsigned long long>(doc.raw_analysis_record_count()));
                 if(ImGui::BeginListBox("##saved raw records",{-1,110.f*scale})) {
-                    for(const auto& record:page) {const auto label="#"+std::to_string(record->id)+"  "+record->result->object_context().name+"  Z "+std::to_string(record->result->region().z)+" / time "+std::to_string(record->result->region().t);
+                    for(const auto& record:page) {const auto axes=selected_axes(*record->result);const auto label="#"+std::to_string(record->id)+"  "+record->result->object_context().name+"  Z "+std::to_string(axes.z)+" / time "+std::to_string(axes.t)+(record->result->grid()?" / grid":"");
                         ImGui::PushID(std::to_string(record->id).c_str());if(ImGui::Selectable(label.c_str(),selected_==record->id)) {selected_=record->id;verified_=false;}ImGui::PopID();}
                     ImGui::EndListBox();
                 }

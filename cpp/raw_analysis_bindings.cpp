@@ -15,8 +15,18 @@ void bind_raw_analysis(nb::module_& module) {
     nb::class_<RawObjectContext>(module,"RawObjectContext")
         .def_ro("name",&RawObjectContext::name).def_ro("class_name",&RawObjectContext::class_name).def_ro("parent_id",&RawObjectContext::parent_id).def_ro("kind",&RawObjectContext::kind).def_ro("tma",&RawObjectContext::tma)
         .def_prop_ro("payload_bytes",&RawObjectContext::payload_bytes).def("same_metadata",&RawObjectContext::same_metadata,"other"_a);
+    nb::class_<RawAnalysisGrid>(module,"RawAnalysisGrid")
+        .def_prop_ro("grid",[](const RawAnalysisGrid& v){return v.grid;})
+        .def_prop_ro("options",[](const RawAnalysisGrid& v){return v.options;})
+        .def_prop_ro("source_metadata",[](const RawAnalysisGrid& v){return v.source_metadata;})
+        .def_ro("reader",&RawAnalysisGrid::reader).def_ro("decoded_source_sha256",&RawAnalysisGrid::decoded_source_sha256)
+        .def_ro("sampling_input_sha256",&RawAnalysisGrid::sampling_input_sha256)
+        .def_prop_ro("derived_sample_type",[](const RawAnalysisGrid&){return SampleType::Float64;});
     nb::class_<RawAnalysisRequest>(module,"RawAnalysisRequest")
         .def(nb::init<const Document&,RawRegionRequest,std::uint64_t,bool,std::size_t,std::uint64_t>(),"document"_a,"request"_a,"object_id"_a=0,"nucleus"_a=false,"tile_size"_a=256,"max_pixels"_a=1000000000)
+        .def(nb::init<const Document&,ScientificGrid,ScientificRawOptions,std::uint64_t,bool,std::uint64_t>(),"document"_a,"grid"_a,"options"_a=ScientificRawOptions{},"object_id"_a=0,"nucleus"_a=false,"max_pixels"_a=1000000000)
+        .def_prop_ro("grid",[](const RawAnalysisRequest& v){return v.grid();})
+        .def_prop_ro("grid_options",[](const RawAnalysisRequest& v){return v.grid_options();})
         .def("matches",&RawAnalysisRequest::matches,"document"_a).def_static("replay",&RawAnalysisRequest::replay,"document"_a,"record_id"_a)
         .def_prop_ro("region",[](const RawAnalysisRequest& request){return request.region();})
         .def_prop_ro("object_id",&RawAnalysisRequest::object_id).def_prop_ro("object_revision",&RawAnalysisRequest::object_revision).def_prop_ro("document_revision",&RawAnalysisRequest::document_revision)
@@ -28,6 +38,7 @@ void bind_raw_analysis(nb::module_& module) {
         .def_ro("sample_type",&RawAnalysisMetadata::sample_type).def_ro("downsample",&RawAnalysisMetadata::downsample).def_ro("channel_names",&RawAnalysisMetadata::channel_names)
         .def_ro("z_spacing_um",&RawAnalysisMetadata::z_spacing_um).def_ro("time_interval_seconds",&RawAnalysisMetadata::time_interval_seconds).def_prop_ro("payload_bytes",&RawAnalysisMetadata::payload_bytes);
     nb::class_<RawAnalysisResult>(module,"RawAnalysisResult")
+        .def_prop_ro("grid",[](const RawAnalysisResult& v)->const RawAnalysisGrid* {return v.grid()?&*v.grid():nullptr;},nb::rv_policy::reference_internal)
         .def_prop_ro("statistics",&RawAnalysisResult::statistics,nb::rv_policy::reference_internal)
         .def_prop_ro("metadata",&RawAnalysisResult::metadata,nb::rv_policy::reference_internal)
         .def_prop_ro("object_context",&RawAnalysisResult::object_context,nb::rv_policy::reference_internal)
