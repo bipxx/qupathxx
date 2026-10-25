@@ -90,3 +90,8 @@ Processing extent is also part of the recipe: a full-image grid with ROI
 eligibility can use different filtering context from a grid cropped to the ROI.
 The pinned public debug capture and explicit reference-ROI comparison retain
 that distinction, including the remaining four-pixel nucleus discrepancy.
+Requested spacing and returned array dimensions are also distinct: QuPath's
+captured 171x128 image uses nominal step 1.5, while a full-extent scientific area
+grid with those counts uses X step 256/171. The captured-input comparison checks
+detector masks/features separately from the original source's resampling;
+matching one does not give the other source request/replay authority.

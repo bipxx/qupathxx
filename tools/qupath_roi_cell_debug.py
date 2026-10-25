@@ -24,10 +24,10 @@ def load(name, path):
     return module
 
 
-def context():
+def context(case_name=CASE):
     comparison = load('qpx_roi_reference', ROOT/'tools/compare_qupath_cells.py')
     contract = comparison.verify_capture(comparison.FIXTURES/'capture')
-    contract['cases'] = [c for c in contract['cases'] if c['name'] == CASE]
+    contract['cases'] = [c for c in contract['cases'] if c['name'] == case_name]
     assert len(contract['cases']) == 1
     upstream = comparison.read((comparison.FIXTURES/contract['upstream_contract']).resolve())['upstream']
     return comparison, contract, upstream
@@ -41,8 +41,8 @@ def debug_generator(comparison):
     return text.replace(needle, 'WatershedCellDetection.setDebugMode(true)')
 
 
-def identity(comparison, upstream):
-    return dict(schema='qpx.qupath-roi-cell-debug/1', upstream=upstream, case=CASE,
+def identity(comparison, upstream, case_name=CASE):
+    return dict(schema='qpx.qupath-roi-cell-debug/1', upstream=upstream, case=case_name,
         capture_manifest_sha256=comparison.sha(comparison.FIXTURES/'capture/capture-manifest.json'),
         base_generator_sha256=comparison.sha(comparison.GENERATOR),
         debug_probe_sha256=comparison.sha(ROOT/'tools/upstream/qupath_cell_debug_probe.groovy'))
@@ -73,32 +73,39 @@ def capture(folder, runtime_cache):
     return verify(folder)
 
 
+def verify_envelope(folder, comparison, contract, expected_identity, files, generator, label='ROI debug'):
+    """Shared byte/recipe checks; domain-specific stage comparators stay separate."""
+    case_name = expected_identity['case']
+    manifest = comparison.read(folder/'manifest.json')
+    if ({k: manifest.get(k) for k in expected_identity} != expected_identity
+            or set(manifest.get('files', {})) != files):
+        raise ValueError(label+' capture identity differs')
+    for name, saved in manifest['files'].items():
+        path = (folder/name).resolve()
+        if (not path.is_relative_to(folder) or path.stat().st_size != saved['bytes']
+                or comparison.sha(path) != saved['sha256']):
+            raise ValueError(label+' capture bytes changed: '+name)
+    if (comparison.read(folder/'contract.json') != contract
+            or (folder/'debug-reference.groovy').read_text(encoding='utf-8') != generator
+            or (folder/'debug-probe.groovy').read_bytes() != (ROOT/'tools/upstream/qupath_cell_debug_probe.groovy').read_bytes()):
+        raise ValueError(label+' capture recipe differs')
+    ordinary = comparison.FIXTURES/'capture'/case_name
+    if ((folder/case_name/'input.png').read_bytes() != (ordinary/'input.png').read_bytes()
+            or comparison.read(folder/case_name/'reference.json') != comparison.read(ordinary/'reference.json')):
+        raise ValueError(label+' ordinary reference differs')
+    for name in ['nucleus', 'body', 'nucleus-decoded', 'body-decoded']:
+        if gzip.decompress((folder/case_name/(name+'.u32le.gz')).read_bytes()) != gzip.decompress((ordinary/(name+'.u32le.gz')).read_bytes()):
+            raise ValueError(label+' ordinary labels differ')
+    return ordinary
+
+
 def verify(folder=FIXTURE):
     import numpy as np
     from PIL import Image
     comparison, contract, upstream = context()
     folder = Path(folder).resolve()
-    manifest = comparison.read(folder/'manifest.json')
-    expected_identity = identity(comparison, upstream)
-    if ({k: manifest.get(k) for k in expected_identity} != expected_identity
-            or set(manifest.get('files', {})) != FILES):
-        raise ValueError('ROI debug capture identity differs')
-    for name, saved in manifest['files'].items():
-        path = (folder/name).resolve()
-        if (not path.is_relative_to(folder) or path.stat().st_size != saved['bytes']
-                or comparison.sha(path) != saved['sha256']):
-            raise ValueError('ROI debug capture bytes changed: '+name)
-    if (comparison.read(folder/'contract.json') != contract
-            or (folder/'debug-reference.groovy').read_text(encoding='utf-8') != debug_generator(comparison)
-            or (folder/'debug-probe.groovy').read_bytes() != (ROOT/'tools/upstream/qupath_cell_debug_probe.groovy').read_bytes()):
-        raise ValueError('ROI debug capture recipe differs')
-    ordinary = comparison.FIXTURES/'capture'/CASE
-    if ((folder/CASE/'input.png').read_bytes() != (ordinary/'input.png').read_bytes()
-            or comparison.read(folder/CASE/'reference.json') != comparison.read(ordinary/'reference.json')):
-        raise ValueError('ROI debug ordinary reference differs')
-    for name in ['nucleus', 'body', 'nucleus-decoded', 'body-decoded']:
-        if gzip.decompress((folder/CASE/(name+'.u32le.gz')).read_bytes()) != gzip.decompress((ordinary/(name+'.u32le.gz')).read_bytes()):
-            raise ValueError('ROI debug ordinary labels differ')
+    ordinary = verify_envelope(folder, comparison, contract, identity(comparison, upstream),
+                               FILES, debug_generator(comparison))
     x, y, w, h = contract['cases'][0]['roi']
     metadata = comparison.read(folder/'debug-stack.json')
     names = ['Input image', 'Laplacian of Gaussian filtered', 'Watershed labels', 'Binary', 'Labeled ROIs']

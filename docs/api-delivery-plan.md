@@ -34,7 +34,7 @@ This does not authorize autonomous worker delegation beyond the existing rules.
 | 2 | TMA desktop workflow: engineering verified | Reuse `GuiTma`, `load_qptma`, `qptma_grid_edits`, `import_qptma`, `qptma_from_grid` and `save_qptma`; retain background IO plus owner-thread preview/apply | Import → preview → apply → edit → undo/redo → project save/restart → export and error/stale/cancel coverage are retained with the accepted desktop evidence |
 | 3 | Integrated TMA source: accepted and promoted to main | Reuse its qualified workflow and inherited gates in subsequent integrated candidates | Matching source/artifacts and required configurations; no supported-release inference |
 | 4 | Annotation/migration: engineering verified at source169 | Shared nested export, physical recovery and source-bound hierarchy contracts pass engine/Mac/portable audits | Combined source169 receipt; broader annotation/interchange and fault campaigns remain in M3/M4 |
-| 5 | Close sampling and scientific analysis gaps | Reuse the implemented explicit-grid RGB pipeline, physical per-axis kernels and QCL5/QCA5 frontend workflow; use the pinned production-grid comparison and public ROI debug stages to characterize remaining requested-grid/arithmetic differences, then complete vendor/typed/tiled adapters | Source169 engineering qualification is complete; independent masks/features and split/merge results under predeclared tolerances remain, including anisotropic and unknown calibration |
+| 5 | Close sampling and scientific analysis gaps | Reuse the implemented explicit-grid RGB pipeline, physical per-axis kernels and QCL5/QCA5 frontend workflow; reuse the pinned production-grid, ROI-stage and resampled-input comparisons; next extend typed raw scientific sampling and its shared analysis workflow, then vendor/pyramid/tiled adapters | Source169 engineering qualification is complete; independent masks/features and split/merge results under predeclared tolerances remain, including anisotropic and unknown calibration |
 | 6 | Complete research and batch workflow | Compose existing analysis/classifier jobs and checkpoint batches; build missing coverage/adapters only after native contracts are stable | Same selected workflow in UI/Python/CLI, interrupted-resumed batch correctness and bounded resources |
 | 7 | Close release and remaining inventory requirements | Build on accepted packages; choose support matrix, license/notices policy, installers and clean-machine scripts | Every M0–M7 exit has scope-matched evidence; remaining scope is explicitly scheduled, not silently dropped |
 
@@ -62,8 +62,9 @@ That controls intermediate scope without shrinking the overall M0–M7 objective
 The TMA and explicit-grid RGB-cell workflows now have exact-source hosted
 engine/Mac-native/portable engineering acceptance. Reuse their shared native,
 Python, CLI, batch and GUI paths for remaining work. The next scientific slice
-must characterize the retained strict failures and close the relevant mask,
-feature and split/merge requirements without weakening acceptance criteria.
+must retain the recipe-specific strict failures and documented input/grid
+differences while extending typed sampling and the relevant mask, feature and
+split/merge requirements without weakening acceptance criteria.
 
 ## Detailed route for each API family
 

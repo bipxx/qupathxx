@@ -212,9 +212,53 @@ python -I tools/qupath_roi_cell_debug.py --report build/roi-debug-verification.j
 python -I tools/qupath_roi_cell_debug.py --capture build/new-roi-debug --runtime-cache build/upstream/qupath --report build/new-roi-debug-verification.json
 ```
 
-The next comparison work must establish the actual requested source/grid mapping
-for the resampled case. Keep the processing-domain/arithmetic discrepancy and
-legacy recipe visible rather than removing difficult cases from the corpus.
+### Requested resampling: pixels and nominal geometry
+
+The [resampled processing fixture](../tests/fixtures/qupath-cells-resampled-debug-0.7.0/manifest.json)
+adds a public `ImageServer.readRegion` request to the existing public debug
+capture. At requested downsample 1.5, QuPath returns a 171x128 RGB image for the
+256x192 source. Its optical densities reproduce the debug input at the unchanged
+1e-6 tolerance. The ordinary reference values, source and decoded label arrays,
+and exported geometry remain identical to the original capture. A second live
+capture reproduces all fourteen non-log payloads byte-for-byte.
+
+The output geometry uses the nominal step **1.5**, not the realized width ratio
+256/171. Inverting that nominal transform puts every exported vertex on the
+integer processing lattice. Independent rectilinear polygon-center rasterization
+reconstructs 379 nucleus and 825 body processing pixels. Exact rational inverse
+mapping to level-zero centers reproduces both ordinary label canvases. The wrong
+realized ratio can happen to reproduce the same coarse nucleus raster here;
+the geometry-lattice and input-pixel controls reject it independently.
+
+A diagnostic center-bilinear model using nominal spacing and half-up byte
+rounding reproduces this captured RGB array exactly. Realized-width spacing
+changes 654 channel components; ties-to-even rounding changes 32. This is a
+model characterization on one synthetic input, not a general Java resize or
+native compatibility implementation. No production sampler changes are made.
+The native float64 area sampler at the same 171x128 shape differs in 951 channel
+components, by up to 48.1328125. Shape agreement does not imply input equivalence.
+
+Running the existing explicit-grid detector on the captured processing RGB,
+with the original distances/areas converted to processing pixels and 0.75-um
+calibration, reproduces all three nucleus/body masks, counts, centroids and
+split/merge relations exactly. Independent captured-geometry RGB/OD means pass
+the original tolerances; sample counts and calibrated sample areas agree.
+This document and result belong to the captured processed image. They do not
+acquire request/replay authority for the original source image. The tool retains
+`sampler_equivalence_accepted: false`, `segmentation_parity_accepted: false` and
+`biological_validation: false` even when this detector comparison is exact.
+
+```powershell
+python -I tools/qupath_resampled_cell_debug.py --compare-native --report build/resampled-processing.json
+python -I -m pytest tests/test_qupath_resampled_cell_debug.py -q
+# Windows: verified runtime, new capture directory
+python -I tools/qupath_resampled_cell_debug.py --capture build/new-resampled-debug --runtime-cache build/upstream/qupath --compare-native --report build/new-resampled-processing.json
+```
+
+These comparisons now identify the processing-domain, pixel recipe and geometry
+differences explicitly. Preserve them and the legacy recipe while extending
+typed quantitative and vendor/pyramid/tiled scientific workflows. Broader
+scientific and biological acceptance remain separate requirements.
 
 From an installed package environment with the CI scientific dependencies:
 

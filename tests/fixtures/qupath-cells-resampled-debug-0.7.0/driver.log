@@ -1,0 +1,17 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+08:40:36.340 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+08:40:36.343 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+08:40:36.343 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+08:40:36.365 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+08:40:36.376 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+08:40:36.468 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+08:40:38.846 [task-runner-1-1] [INFO ] q.lib.plugins.DetectionPluginTools - 3 nuclei detected (processing time: 0.42 seconds)
+08:40:38.846 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 3 nuclei detected (100%)
+08:40:38.847 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - Processing complete in 0.42 seconds
+08:40:38.847 [main] [INFO ] q.l.p.CommandLineTaskRunner$CommandLineProgressMonitor - 
+QPX_CELLS_OK resampled_reference 3
+08:40:40.098 [main] [INFO ] qupath.ScriptCommand - Script result: [{name=resampled_reference, pixel_size_um=[0.5, 0.5], requested_pixel_size_um=0.75, nuclei=[[48.0, 60.0, 9.0, 9.0], [115.0, 100.0, 12.0, 12.0], [192.0, 64.0, 7.0, 7.0]], grid_equivalent=false}]

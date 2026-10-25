@@ -55,7 +55,7 @@ def installed(gui):
 @pytest.mark.parametrize('gui',[True,False])
 def test_installed_exact_cohort_and_scope(gui):
     result=evidence.python(installed(gui),gui)
-    assert result['passed']==(153 if gui else 151)
+    assert result['passed']==(179 if gui else 177)
     assert result['declared_headless_gui_skips']==(0 if gui else 2)
     assert not result['scientific_acceptance']
 
@@ -73,7 +73,7 @@ def test_installed_missing_changed_or_nonpassing_rejects(gui,failure):
 
 
 @pytest.mark.parametrize('failure',['missing','duplicate','failure','skipped'])
-@pytest.mark.parametrize('module,count',[('test_qupath_grid_cells_reference',32),('test_qupath_roi_cell_debug',14)])
+@pytest.mark.parametrize('module,count',[('test_qupath_grid_cells_reference',32),('test_qupath_roi_cell_debug',14),('test_qupath_resampled_cell_debug',26)])
 def test_pinned_grid_comparison_is_required_not_an_optional_science_skip(failure,module,count):
     cases=installed(False)
     selected=[c for c in cases if c.get('classname')=='tests.'+module]

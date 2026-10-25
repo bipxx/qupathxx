@@ -66,7 +66,7 @@ passes those isolated-cell checks.
 
 The comparison and public ROI debug capture join the named installed
 scientific-grid contract, raising its next-candidate requirement to
-153 GUI / 151 headless passes plus
+179 GUI / 177 headless passes plus
 two declared desktop skips. Source169's accepted 107-case contract remains
 historical evidence for that source. New comparison tools, regression source
 and immutable capture dependencies are bound by the next source contract.
@@ -99,8 +99,21 @@ the 298 Windows compiler inputs and installed native hash remain unchanged.
 A 444-file proof binds the new harness and capture. These are local comparison
 checks on retained artifacts, not a full new engine/Mac/portable qualification.
 
-Next: establish the actual requested-grid mapping for the resampled case, and
-retain the documented processing/arithmetic difference when assessing research
-acceptance. Keep broader biological, vendor/typed/tiled, hardware and M0-M7
-requirements above. The legacy distance recipe's expected failures remain
-separate from the newer recipes' successful isolated-cell comparisons.
+The resampled public capture now records the actual 171x128 RGB input and
+nominal 1.5 coordinate step. Geometry-lattice and pixel controls distinguish that
+step from 256/171 despite equal array shapes. Captured-input detector masks and
+features match independently reconstructed processing geometry; the original
+source area sampler remains explicitly different. The 26 new checks reject
+mixed identities, re-sealed metadata/pixel/geometry changes and wrong mapping or
+rounding assumptions. Fourteen non-log capture payloads repeat byte-for-byte.
+No native production sampler, detector or original fixture is changed.
+
+Next implementation: typed raw scientific sampling and its analysis workflow.
+Reuse `ScientificGrid`, `RawRegionRequest`, `RawPixelBuffer` and the existing raw
+analysis/record path; freeze per-channel finite/support policy, Z/T/channel
+capture and exact integer-to-float64 mean semantics, including UInt64/Int64,
+before wiring shared native/Python/CLI/batch/UI consumers. Do not pass typed
+quantitative samples through RGBA8 or introduce a resize solely to fit this
+synthetic RGB capture. Vendor/pyramid/tiled admission and all broader biological,
+hardware and M0-M7 requirements remain. The legacy distance expected failures
+remain separate from the newer recipes' successful isolated-cell comparisons.
