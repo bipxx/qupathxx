@@ -77,7 +77,7 @@ def cohort(folder, version):
         native_region_exact=True,native_batch_checkpoint=True,native_batch_csv=True))
     junit(build/'native-tests.xml',40);junit(build/'python-tests.xml',1500);junit(consumer/'consumer-tests.xml',1500)
     (build/'stubs.log').write_text('Public stubs match',encoding='utf-8')
-    (build/'typing.log').write_text('Success: no issues found in 3 source files',encoding='utf-8')
+    (build/'typing.log').write_text('Success: no issues found in 4 source files',encoding='utf-8')
     (build/'typing-negative.log').write_text('\n'.join(f'invalid_api.py:{i}: error: fixture' for i in [6,7,8,9,11,13,14]),encoding='utf-8')
     return build,consumer
 
@@ -113,6 +113,13 @@ def test_candidate_corruption_and_incomplete_workflows_are_rejected(tmp_path, ch
         path.write_text(path.read_text(encoding='utf-8').replace('<testcase name="case0"/>','<testcase name="case0"><failure/></testcase>'),encoding='utf-8')
     else:(build/'typing.log').unlink()
     with pytest.raises((ValueError,FileNotFoundError)):
+        module.audit_version(tmp_path,'3.11',COMMIT,module.read(module.ASSETS))
+
+
+def test_stale_three_file_positive_typing_evidence_is_rejected(tmp_path):
+    build,_=cohort(tmp_path,'3.11')
+    (build/'typing.log').write_text('Success: no issues found in 3 source files',encoding='utf-8')
+    with pytest.raises(ValueError,match='positive typing check missing'):
         module.audit_version(tmp_path,'3.11',COMMIT,module.read(module.ASSETS))
 
 
