@@ -4,6 +4,7 @@
 #include "qupathxx/measurement_tables.hpp"
 #include "qupathxx/cell_tables.hpp"
 #include "qupathxx/raw_tables.hpp"
+#include "qupathxx/tma_dearray.hpp"
 namespace qpx {
 namespace detail {class ViewerOwner;}
 struct ViewerLimits {
@@ -23,6 +24,7 @@ struct ViewerEvent {
     std::optional<AnalysisResult> analysis;
     std::shared_ptr<const TissueResult> tissue;
     std::shared_ptr<const CellResult> cells;
+    std::shared_ptr<const TmaDearrayResult> tma_dearray;
     std::shared_ptr<const PixelBuffer> pixels;
     std::shared_ptr<const RawAnalysisResult> raw_analysis;
     std::shared_ptr<const RawPixelBuffer> raw_pixels;
@@ -55,6 +57,9 @@ public:
     std::uint64_t insert_tma_column(std::uint64_t image_id,std::size_t index,std::string label="",std::optional<std::vector<Rect>> bounds={},bool missing=false,std::optional<std::uint64_t> expected_revision={});
     std::uint64_t remove_tma_row(std::uint64_t image_id,std::size_t index,std::optional<std::uint64_t> expected_revision={});
     std::uint64_t remove_tma_column(std::uint64_t image_id,std::size_t index,std::optional<std::uint64_t> expected_revision={});
+    // Preview only; use execute(qptma_grid_edits(result.grid), expected_revision)
+    // for a separately authorized, bounded and atomic owner-side apply.
+    std::uint64_t detect_tma_grid(std::uint64_t image_id,TmaDearrayOptions={},std::optional<std::uint64_t> expected_revision={});
     std::uint64_t select(std::uint64_t image_id,const std::vector<std::uint64_t>&);
     std::uint64_t activate(std::uint64_t image_id);
     std::uint64_t read_region(std::uint64_t image_id,RegionRequest);

@@ -34,6 +34,7 @@ struct TmaDearrayResult {
     std::uint8_t threshold=0;
     std::string input_sha256,recipe_sha256;
     std::optional<ThumbnailPlan> thumbnail_plan;
+    std::size_t payload_bytes() const;
 };
 
 // Conservative admitted payload, including the supplied RGBA preview, masks,

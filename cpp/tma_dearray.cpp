@@ -223,6 +223,12 @@ void TmaDearrayOptions::validate() const {
     if(std::uint64_t(n)*(n-1)/2>pair_checks) throw std::length_error("TMA candidate limit exceeds pair-work admission");
     detail::bounded_utf8(name,256);if(name.empty()) throw std::invalid_argument("TMA name must not be empty");thumbnail.validate();
 }
+std::size_t TmaDearrayResult::payload_bytes() const {
+    std::size_t bytes=sizeof(*this)+grid.cores.capacity()*sizeof(QptmaCore)+cores.capacity()*sizeof(TmaDearrayCore)+
+        grid.source_hint.capacity()+grid.image_name.capacity()+input_sha256.capacity()+recipe_sha256.capacity();
+    for(const auto& core:grid.cores) bytes+=core.name.capacity()+core.case_id.capacity();
+    return bytes;
+}
 std::size_t tma_dearray_work_bytes(std::int64_t w,std::int64_t h,const TmaDearrayOptions& o) {
     o.validate();const auto n=pixels(w,h);
     return 65536+n*12+std::min(o.max_candidates,o.rows*o.columns)*512+o.rows*o.columns*1024;

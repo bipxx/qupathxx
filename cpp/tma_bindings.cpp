@@ -43,6 +43,7 @@ void bind_tma(nb::module_& m) {
         .def_ro("image_width",&TmaDearrayResult::image_width).def_ro("image_height",&TmaDearrayResult::image_height)
         .def_ro("preview_width",&TmaDearrayResult::preview_width).def_ro("preview_height",&TmaDearrayResult::preview_height)
         .def_ro("candidates",&TmaDearrayResult::candidates).def_ro("estimated_work_bytes",&TmaDearrayResult::estimated_work_bytes)
+        .def_prop_ro("payload_bytes",&TmaDearrayResult::payload_bytes)
         .def_ro("lattice_rmse",&TmaDearrayResult::lattice_rmse).def_ro("threshold",&TmaDearrayResult::threshold)
         .def_ro("input_sha256",&TmaDearrayResult::input_sha256).def_ro("recipe_sha256",&TmaDearrayResult::recipe_sha256)
         .def_prop_ro("thumbnail_plan",[](const TmaDearrayResult& r){return r.thumbnail_plan;});
@@ -144,6 +145,7 @@ void bind_tma(nb::module_& m) {
         return save_tma_case_summary_csv(snapshot,output,input,value,weight,limit,unversioned);
     },"snapshot"_a,"output_path"_a,"input_path"_a="","value_column"_a="","weight_column"_a="","byte_limit"_a=64*1024*1024,"allow_unversioned"_a=false,nb::call_guard<nb::gil_scoped_release>());
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
+        .def_prop_rw("tma_dearray_options",[](const GuiOptions& o)->std::optional<std::shared_ptr<const TmaDearrayOptions>> {if(o.tma_dearray_options)return o.tma_dearray_options;return {};},[](GuiOptions& o,std::optional<std::shared_ptr<const TmaDearrayOptions>> v){o.tma_dearray_options=v?*v:nullptr;})
         .def_rw("qptma_input_path",&GuiOptions::qptma_input_path).def_rw("qptma_output_path",&GuiOptions::qptma_output_path)
         .def_rw("tma_open",&GuiOptions::tma_open).def_rw("tma_tab",&GuiOptions::tma_tab)
         .def_prop_rw("tma_options",[](const GuiOptions& o)->std::optional<std::shared_ptr<const TmaGridOptions>> {if(o.tma_options) return o.tma_options;return {};},[](GuiOptions& o,std::optional<std::shared_ptr<const TmaGridOptions>> v){o.tma_options=v?*v:nullptr;})
@@ -155,6 +157,7 @@ void bind_tma(nb::module_& m) {
         .def_rw("tma_allow_unversioned",&GuiOptions::tma_allow_unversioned)
         .def_rw("tma_translation",&GuiOptions::tma_translation).def_rw("tma_core_bounds",&GuiOptions::tma_core_bounds);
     nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport"))
+        .def_prop_ro("tma_dearray_result",[](const GuiReport& r)->std::optional<std::shared_ptr<const TmaDearrayResult>> {if(r.tma_dearray_result)return r.tma_dearray_result;return {};})
         .def_ro("tma_error",&GuiReport::tma_error).def_ro("tma_export_state",&GuiReport::tma_export_state)
         .def_ro("tma_created_ids",&GuiReport::tma_created_ids).def_ro("tma_cores",&GuiReport::tma_cores)
         .def_ro("tma_missing_cores",&GuiReport::tma_missing_cores).def_ro("tma_catalog_max_step",&GuiReport::tma_catalog_max_step)

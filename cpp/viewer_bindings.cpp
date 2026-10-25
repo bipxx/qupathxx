@@ -18,6 +18,7 @@ void bind_viewer_session(nb::module_& m) {
         .def_ro("action",&ViewerEvent::action).def_ro("state",&ViewerEvent::state).def_ro("error",&ViewerEvent::error).def_ro("path",&ViewerEvent::path).def_ro("committed",&ViewerEvent::committed).def_ro("verified",&ViewerEvent::verified).def_ro("elapsed_ms",&ViewerEvent::elapsed_ms)
         .def_ro("object_ids",&ViewerEvent::object_ids).def_ro("images",&ViewerEvent::images).def_ro("object",&ViewerEvent::object).def_ro("metadata",&ViewerEvent::metadata)
         .def_ro("analysis",&ViewerEvent::analysis).def_ro("tissue",&ViewerEvent::tissue).def_ro("cells",&ViewerEvent::cells).def_ro("pixels",&ViewerEvent::pixels)
+        .def_prop_ro("tma_dearray",[](const ViewerEvent& e)->std::optional<std::shared_ptr<const TmaDearrayResult>> {if(e.tma_dearray)return e.tma_dearray;return {};})
         .def_ro("raw_analysis",&ViewerEvent::raw_analysis).def_ro("raw_pixels",&ViewerEvent::raw_pixels).def_ro("raw_metadata",&ViewerEvent::raw_metadata)
         .def_prop_ro("tiff_view",[](const ViewerEvent& event){return event.tiff_view;})
         .def_ro("samples",&ViewerEvent::samples).def_ro("components",&ViewerEvent::components).def_ro("rows",&ViewerEvent::rows).def_ro("bytes",&ViewerEvent::bytes);
@@ -34,6 +35,7 @@ void bind_viewer_session(nb::module_& m) {
         .def("insert_tma_column",&ViewerSession::insert_tma_column,"image_id"_a,"index"_a,"label"_a="","bounds"_a=nb::none(),"missing"_a=false,"expected_revision"_a=nb::none())
         .def("remove_tma_row",&ViewerSession::remove_tma_row,"image_id"_a,"index"_a,"expected_revision"_a=nb::none())
         .def("remove_tma_column",&ViewerSession::remove_tma_column,"image_id"_a,"index"_a,"expected_revision"_a=nb::none())
+        .def("detect_tma_grid",&ViewerSession::detect_tma_grid,"image_id"_a,"options"_a=TmaDearrayOptions{},"expected_revision"_a=nb::none())
         .def("select",&ViewerSession::select,"image_id"_a,"object_ids"_a).def("activate",&ViewerSession::activate,"image_id"_a).def("read_region",&ViewerSession::read_region,"image_id"_a,"request"_a)
         .def("inspect_raw",&ViewerSession::inspect_raw,"image_id"_a).def("read_raw",&ViewerSession::read_raw,"image_id"_a,"request"_a)
         .def("set_tiff_view",&ViewerSession::set_tiff_view,"image_id"_a,"view"_a)
