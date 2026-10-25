@@ -153,6 +153,12 @@ grid mismatch and both compartment comparisons. The report states
 `biological_validation: false`. Matching seven synthetic cases does not establish
 general segmentation or biological acceptance. Cross-platform qualification of
 this new comparison harness is still required; source169 qualification predates it.
+The [local source-bound receipt](benchmarks/grid-cell-qupath-comparison-local-windows.json)
+retains both complete reports, installed tests, source proof and ROI diagnostic.
+The latter identifies 24 native-only nucleus pixels at x=32/33, y=69..80,
+immediately inside the ROI's left edge, and no reference-only pixels. A plugin
+stage/processing-boundary comparison is needed to determine the cause. These
+coordinates are a diagnosis, not a clipping rule or an adjusted acceptance limit.
 
 ```powershell
 python -I tools/compare_qupath_grid_cells.py --units pixels --report build/grid-cells-pixels.json

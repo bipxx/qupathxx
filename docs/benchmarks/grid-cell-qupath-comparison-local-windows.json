@@ -1,0 +1,95 @@
+{
+  "schema": "qpx.grid-cell-qupath-comparison-local/1",
+  "observed_at_utc": "2026-10-25T12:20:02.343931+00:00",
+  "harness_source": "77b09f2e35d1c4a33e6112852810bb3284ed6023",
+  "application_source": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062",
+  "native": {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfix169-python\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "sha256": "bc286d4d160c59fbccf853173820ed88280ddc4ef28e0ce31cc3553e9c9755d0",
+    "compiled_revision": "e7ad5dbddbf148f38974da3e8c2964f20a0be267+dirty",
+    "source_tree_sha256": "6bb880c3ed5e487afb08cd8502a102fecb4c01bb932cfec66e80500b4eafebef"
+  },
+  "compiler_inputs_unchanged": 298,
+  "source_contract_files": 426,
+  "environment": {
+    "python": "3.12.8 (main, Dec 19 2024, 14:41:01) [MSC v.1942 64 bit (AMD64)]",
+    "numpy": "2.5.4",
+    "scipy": "1.16.3",
+    "pillow": "13.0.0"
+  },
+  "installed_passed": 252,
+  "declared_desktop_skips": 2,
+  "named_grid_cohort": {
+    "passed": 132,
+    "declared_headless_gui_skips": 2,
+    "gui": false,
+    "scientific_acceptance": false
+  },
+  "new_comparison_passed": 27,
+  "scope": "Pinned synthetic explicit-unit-grid RGB cell masks/features, independent source arithmetic, context 0/32 and equivalent isotropic physical recipes; not general scientific acceptance",
+  "exact_natural_grid_cases": [
+    "blank",
+    "isolated_three",
+    "touching_pair",
+    "gap_pair",
+    "size_filters",
+    "gradient_noise",
+    "anisotropic_level0"
+  ],
+  "remaining_differences": [
+    "Clipped ROI nucleus mask",
+    "Requested-resampling grid is not equivalent",
+    "Anisotropic physical metric differs from averaged-axis QuPath conversion"
+  ],
+  "legacy_distance_expected_failures_unchanged": true,
+  "platform_campaign_accepted": false,
+  "biological_validation": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "evidence": {
+    "diagnose_roi.py": {
+      "bytes": 1024,
+      "sha256": "61d1e8417ca3db7af1f306dbe2a98834434f85f8fa5fec7c47a5c0ad83a4faf9"
+    },
+    "installed.log": {
+      "bytes": 356,
+      "sha256": "d1aeaf79b1f59f40b2699989de46b0cf38c3fe2f33d64ce2952f194bfcdfa8cc"
+    },
+    "micrometres.json": {
+      "bytes": 35878,
+      "sha256": "7820907fec9c3e6b7c5eee9682d42acffac0bca32d26ee29e78ea03a083e023c"
+    },
+    "micrometres.log": {
+      "bytes": 136,
+      "sha256": "84c1aeb749f6f961773938d19ee0b6083d1150e56f6f65e7963b0c0545f8dc3a"
+    },
+    "pixels.json": {
+      "bytes": 40881,
+      "sha256": "7d967d75b3b6725621d5531fccd63fefad0c45408ccb8d6e6e69361db35cc026"
+    },
+    "pixels.log": {
+      "bytes": 131,
+      "sha256": "2ef51aaf8d65a0312bf6552442e948a70d36bbb4a4745cffcf02330628d06105"
+    },
+    "record_evidence.py": {
+      "bytes": 4293,
+      "sha256": "a0f423fa7fe345911d13d33d2767419aa6f4be6b4d597af51666a26c58446bc1"
+    },
+    "roi-diagnostic.json": {
+      "bytes": 1861,
+      "sha256": "37c6bd879a60126bb8b013b7e4b3e8dc856fecd75cf4a64c50ffc96bffa5a801"
+    },
+    "source-proof.json": {
+      "bytes": 102610,
+      "sha256": "6ac3eec960d3ad1e5a0357055d6d1d9a64c751d0cc862ea21e9f36f889eaa2c4"
+    },
+    "tests.xml": {
+      "bytes": 38770,
+      "sha256": "66bae3bfd17d7a47c33a204ab9e45d7ec4b82d5eeb0fe6cffcffa546b7f5a8f4"
+    },
+    "verify_installed.py": {
+      "bytes": 1233,
+      "sha256": "b688946efcaf82a98675988a0f023baeb4054431351385a7a833ddfc85efed94"
+    }
+  }
+}

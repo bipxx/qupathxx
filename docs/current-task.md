@@ -72,6 +72,18 @@ and immutable capture dependencies are bound by the next source contract.
 The dispatch-profile helper also remains a post-source169 feature-branch change.
 Do not transfer source169 platform acceptance to this newer harness.
 
+The [local comparison receipt](benchmarks/grid-cell-qupath-comparison-local-windows.json)
+records 252 passing installed/auditor checks and two declared desktop skips,
+including all 27 new comparison cases. All 298 compiler inputs and the installed
+native binary are unchanged from the retained source169 local artifact; a
+426-file source proof binds the new harness and capture dependencies. No native
+rebuild or duplicate platform campaign was used to establish this local scope.
+
 Next: diagnose the clipped-ROI nucleus difference and establish the actual
 requested-grid mapping before claiming those cases equivalent. Retain the
 broader biological, vendor/typed/tiled, hardware and M0-M7 requirements above.
+The saved ROI diagnostic localizes 24 native-only nucleus pixels to x=32/33,
+y=69..80, just inside the left ROI boundary; there are no reference-only pixels.
+This does not yet identify the upstream filtering/processing boundary cause.
+Use a pinned plugin-stage capture to investigate before changing the detector;
+do not remove edge columns or fit a tolerance to make this case pass.
