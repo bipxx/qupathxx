@@ -33,7 +33,7 @@ std::int64_t coordinate(long double value) {
     return static_cast<std::int64_t>(value);
 }
 }
-detail::ScientificRawReserve raw_grid_analysis_reserve(const ScientificGrid& grid,ScientificRawOptions options,bool collect,const std::optional<Roi>& mask,const RawObjectContext& context,const ReaderSource& source,std::uint32_t series) {
+detail::ScientificRawReserve raw_grid_analysis_reserve(const ScientificGrid& grid,ScientificRawOptions options,bool collect,const std::optional<Roi>& mask,const RawObjectContext& context,const ReaderSource* source,std::uint32_t series) {
     options.validate();
     std::uint64_t fixed=65536+sizeof(RawAnalysisRequest)+sizeof(RawAnalysisResult);
     auto charge=[&](std::uint64_t bytes,std::uint64_t copies=1) {
@@ -41,7 +41,7 @@ detail::ScientificRawReserve raw_grid_analysis_reserve(const ScientificGrid& gri
             throw std::length_error("raw analysis captured workspace exceeds work budget");
         fixed+=bytes*copies;
     };
-    charge(context.payload_bytes(),2);charge(source.payload_bytes(),2);
+    charge(context.payload_bytes(),2);if(source) charge(source->payload_bytes(),2);
     // Geometry hashing materializes polygon parts and a geometrically growing
     // byte vector. This bound includes captured geometry and those temporaries.
     if(mask) charge(mask->payload_bytes(),8);
@@ -166,11 +166,10 @@ struct RawAnalysisKernel {
         const auto start=std::chrono::steady_clock::now();detail::export_checkpoint(cancelled);
         const auto& grid=*request.grid_;validate_scientific_raster_geometry(grid,cancelled);
         auto output=std::shared_ptr<RawAnalysisResult>(new RawAnalysisResult());
-        output->source_=request.source_->reader_source();
-        if(!output->source_ || !output->source_->primary) throw std::invalid_argument("raw analysis source has no observed file identity");
         const auto channels=request.grid_options_.channels;
         const auto options=request.grid_options_;
-        const auto reserve=raw_grid_analysis_reserve(grid,options,collect,request.mask_,request.context_,*output->source_,request.series_);
+        auto reserve=raw_grid_analysis_reserve(grid,options,collect,request.mask_,request.context_,nullptr,request.series_);
+        reserve.observed_source=&output->source_;reserve.source_copies=2;
         const auto bounds=grid.clipped_read_bounds();const std::uint64_t tiles=bounds.width && bounds.height?1:0;
         if(total) total->store(tiles,std::memory_order_relaxed);
         std::optional<ScientificRawGrid> samples;ScientificRawDigest digest;

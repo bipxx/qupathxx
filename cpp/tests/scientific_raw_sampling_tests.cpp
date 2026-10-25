@@ -87,8 +87,9 @@ public:
     bool closed() const override {return is_closed;}
 };
 class AnalysisReader final:public Reader {
-    std::shared_ptr<qpx::ReaderSource> observed;
+    std::shared_ptr<qpx::ReaderSource> observed,cold;
 public:
+    bool lazy_identity=false;
     std::shared_ptr<qpx::TiffView> view=std::make_shared<qpx::TiffView>();
     explicit AnalysisReader(unsigned which=0):Reader(which),observed(std::make_shared<qpx::ReaderSource>()) {
         display.width=5;display.height=4;display.levels={{5,4,1}};
@@ -98,9 +99,10 @@ public:
         file->stamp_scheme="posix.seconds-nanoseconds/1";file->modified_token="1:0";file->change_token="2:0";file->bytes=100;
         observed->generation="raw-analysis-synthetic";observed->reader="tiff:synthetic";observed->locator=file->path;
         observed->scope="single_file";observed->primary=file;observed->validate();
+        cold=std::make_shared<qpx::ReaderSource>(*observed);cold->primary.reset();
     }
     std::string source_locator() const override {return observed->locator;}
-    std::shared_ptr<const qpx::ReaderSource> reader_source() const override {return observed;}
+    std::shared_ptr<const qpx::ReaderSource> reader_source() const override {return lazy_identity && !metadata_reads?cold:observed;}
     std::shared_ptr<const qpx::TiffView> tiff_view() const override {return view;}
 };
 
@@ -239,8 +241,8 @@ void check_scientific_raw_analysis() {
         const auto object=doc.add_rectangle({0,0,5,4},"captured workspace");
         const ScientificGrid grid(5,4,{0,5,16,64},{0,4,12,64});ScientificRawOptions options;
         const auto initial=RawAnalysisRequest(doc,grid,options,object);
-        const auto reserve=raw_grid_analysis_reserve(grid,options,true,initial.mask(),initial.object_context(),*source->reader_source(),1);
-        const auto hash_reserve=raw_grid_analysis_reserve(grid,options,false,initial.mask(),initial.object_context(),*source->reader_source(),1);
+        const auto reserve=raw_grid_analysis_reserve(grid,options,true,initial.mask(),initial.object_context(),source->reader_source().get(),1);
+        const auto hash_reserve=raw_grid_analysis_reserve(grid,options,false,initial.mask(),initial.object_context(),source->reader_source().get(),1);
         const auto required=detail::scientific_raw_reserved_work_bytes(*source->raw,grid,options,true,reserve);
         const auto hash_required=detail::scientific_raw_reserved_work_bytes(*source->raw,grid,options,false,hash_reserve);
         require(required>hash_required && reserve.fixed_bytes>hash_reserve.fixed_bytes);
@@ -255,11 +257,23 @@ void check_scientific_raw_analysis() {
         options.work_bytes=required;const auto before_metadata=source->metadata_reads;
         const auto result=analyze_raw(RawAnalysisRequest(doc,grid,options,object));
         require(source->reads==2 && source->metadata_reads==before_metadata+1 && result->input_sha256()==hashed.input_sha256);
-        const auto base_reserve=raw_grid_analysis_reserve(grid,options,true,{},initial.object_context(),*source->reader_source(),1);
+        const auto base_reserve=raw_grid_analysis_reserve(grid,options,true,{},initial.object_context(),source->reader_source().get(),1);
         require(reserve.fixed_bytes-base_reserve.fixed_bytes==8*initial.mask()->payload_bytes());
         // Changed reader axes reject against this one metadata epoch before IO.
         source->raw->series=0;
         rejects<std::invalid_argument>([&]{analyze_raw(initial);});require(source->reads==2);
+    }
+    {
+        auto source=std::make_shared<AnalysisReader>();source->lazy_identity=true;Document doc(source);
+        const auto object=doc.add_rectangle({0,0,5,4});RawGridSampling sampling;sampling.samples_x=sampling.samples_y=1;
+        const auto request=RawAnalysisRequest::for_grid_roi(doc,object,sampling);
+        require(!source->reader_source()->primary && source->metadata_reads==0 && source->reads==0);
+        const auto result=analyze_raw(request);
+        require(source->metadata_reads==1 && source->reads==1 && result->source()->primary);
+        auto hashed_source=std::make_shared<AnalysisReader>();hashed_source->lazy_identity=true;Document other(hashed_source);
+        const auto id=other.add_rectangle({0,0,5,4});
+        const auto digest=raw_analysis_input_digest(RawAnalysisRequest::for_grid_roi(other,id,sampling));
+        require(hashed_source->metadata_reads==1 && hashed_source->reads==1 && digest.input_sha256==result->input_sha256());
     }
     std::cout<<"Raw grid captured ROI/context workspace, exact budget boundary, hash-only lower admission and single metadata epoch passed\n";
 

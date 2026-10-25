@@ -2,6 +2,7 @@
 #include "exact_weighted_mean.hpp"
 #include "scientific_raw_sampling_internal.hpp"
 #include "sha256.hpp"
+#include "qupathxx/source_identity.hpp"
 #include <array>
 #include <cstring>
 #include <optional>
@@ -92,11 +93,21 @@ RawCapture capture_raw(const ImageServer& server,const ScientificGrid& grid,Scie
     if(server.closed()) throw std::runtime_error("scientific raw reader is closed");
     const auto observed=server.raw_metadata(cancelled);checkpoint(cancelled);
     if(!observed) throw std::invalid_argument("scientific raw sampling requires a quantitative reader");
-    const auto admitted=work_bytes(*observed,grid,o,materialize,reserve);
+    auto admitted_reserve=reserve;
+    if(reserve.observed_source) {
+        auto source=server.reader_source();
+        if(!source || !source->primary) throw std::invalid_argument("raw analysis source has no observed file identity");
+        const auto bytes=source->payload_bytes();
+        if(admitted_reserve.fixed_bytes>o.work_bytes || (bytes && reserve.source_copies>(o.work_bytes-admitted_reserve.fixed_bytes)/bytes))
+            throw std::length_error("raw analysis source workspace exceeds work budget");
+        admitted_reserve.fixed_bytes+=reserve.source_copies*bytes;
+        *reserve.observed_source=std::move(source);
+    }
+    const auto admitted=work_bytes(*observed,grid,o,materialize,admitted_reserve);
     // Snapshot before decoder callbacks; subsequent metadata changes cannot mix epochs.
     RawCapture capture;capture.digest.metadata=*observed;
     const auto* metadata=&capture.digest.metadata;
-    const auto work=std::max(admitted,work_bytes(*metadata,grid,o,materialize,reserve));
+    const auto work=std::max(admitted,work_bytes(*metadata,grid,o,materialize,admitted_reserve));
     auto reader=server.reader_id();
     if(reader.size()>65536 || reader.capacity()>131072) throw std::length_error("scientific raw reader identity exceeds budget");
     const auto b=grid.clipped_read_bounds();const auto source_pixels=std::uint64_t(b.width)*b.height;

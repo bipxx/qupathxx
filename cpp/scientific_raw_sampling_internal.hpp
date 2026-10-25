@@ -6,6 +6,10 @@ namespace qpx::detail {
 struct ScientificRawReserve {
     std::size_t fixed_bytes=0,metadata_copies=0;
     std::optional<std::uint32_t> expected_series;
+    // Synchronous borrowed output: observe provenance after metadata opens the
+    // reader, before decoder IO; no pointer is stored in returned results.
+    std::shared_ptr<const ReaderSource>* observed_source=nullptr;
+    std::size_t source_copies=0;
 };
 std::size_t scientific_raw_reserved_work_bytes(const RawImageMetadata&,const ScientificGrid&,ScientificRawOptions,bool,const ScientificRawReserve&);
 ScientificRawGrid read_scientific_raw_reserved(const ImageServer&,const ScientificGrid&,ScientificRawOptions,const ScientificRawReserve&,const std::atomic<bool>*);
