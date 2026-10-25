@@ -1,6 +1,7 @@
 #include "qupathxx/tissue.hpp"
 #include "qupathxx/pixel_contours.hpp"
 #include "qupathxx/provenance.hpp"
+#include "scientific_raster.hpp"
 #include <algorithm>
 #include <array>
 #include <chrono>
@@ -142,10 +143,14 @@ struct TissueContourKernel {
             checkpoint(cancelled);auto faces=backend.own(GEOSPolygonize_r(backend.ctx,lines.data(),static_cast<unsigned>(lines.size())));
             const auto image=mask.image_bounds();auto clip=backend.own(GEOSGeom_createRectangle_r(backend.ctx,0,0,image.width,image.height));
             if(options.clip_to_roi) {auto roi=backend.read(mask.roi().wkt());clip=backend.own(GEOSIntersection_r(backend.ctx,clip.get(),roi.get()));}
-            struct Mapping {Rect bounds;double scale;const std::atomic<bool>* cancelled;};Mapping mapping{mask.bounds(),mask.downsample(),cancelled};
-            const auto far_x=mapping.bounds.x+(mask.width()-1)*mapping.scale,far_y=mapping.bounds.y+(mask.height()-1)*mapping.scale;
-            if(!std::isfinite(far_x+mapping.scale) || !std::isfinite(far_y+mapping.scale) || mapping.bounds.x+mapping.scale<=mapping.bounds.x || mapping.bounds.y+mapping.scale<=mapping.bounds.y || far_x+mapping.scale<=far_x || far_y+mapping.scale<=far_y)
-                throw std::invalid_argument("tissue contour grid loses coordinate precision");
+            struct Mapping {Rect bounds;double scale;const ScientificGrid* grid;const std::atomic<bool>* cancelled;};
+            const auto grid=mask.scientific_grid();Mapping mapping{mask.bounds(),grid?0.:mask.downsample(),grid,cancelled};
+            if(grid) validate_scientific_raster_geometry(*grid,cancelled);
+            else {
+                const auto far_x=mapping.bounds.x+(mask.width()-1)*mapping.scale,far_y=mapping.bounds.y+(mask.height()-1)*mapping.scale;
+                if(!std::isfinite(far_x+mapping.scale) || !std::isfinite(far_y+mapping.scale) || mapping.bounds.x+mapping.scale<=mapping.bounds.x || mapping.bounds.y+mapping.scale<=mapping.bounds.y || far_x+mapping.scale<=far_x || far_y+mapping.scale<=far_y)
+                    throw std::invalid_argument("tissue contour grid loses coordinate precision");
+            }
             std::vector<std::vector<PolygonPart>> grouped(mask.components().size());std::vector<std::uint64_t> areas(mask.components().size());
             std::size_t extracted=0;const auto count=GEOSGetNumGeometries_r(backend.ctx,faces.get());if(count<0) throw std::runtime_error("invalid tissue contour faces");
             for(int i=0;i<count;++i) {
@@ -158,7 +163,14 @@ struct TissueContourKernel {
                 areas[label-1]+=static_cast<std::uint64_t>(std::llround(area));
                 auto world=backend.own(GEOSGeom_transformXY_r(backend.ctx,face,[](double* xx,double* yy,void* user)->int {
                     const auto& m=*static_cast<Mapping*>(user);if(m.cancelled && m.cancelled->load(std::memory_order_relaxed)) return 0;
-                    *xx=m.bounds.x+*xx*m.scale;*yy=m.bounds.y+*yy*m.scale;return std::isfinite(*xx) && std::isfinite(*yy);
+                    if(m.grid) {
+                        if(!std::isfinite(*xx) || !std::isfinite(*yy) || *xx<0 || *yy<0 || *xx>m.grid->width() || *yy>m.grid->height() || std::trunc(*xx)!=*xx || std::trunc(*yy)!=*yy) return 0;
+                        try {
+                            *xx=m.grid->x().edge(std::int64_t(*xx)+m.grid->x().first_index()).binary64();
+                            *yy=m.grid->y().edge(std::int64_t(*yy)+m.grid->y().first_index()).binary64();
+                        } catch(...) {return 0;}
+                    } else {*xx=m.bounds.x+*xx*m.scale;*yy=m.bounds.y+*yy*m.scale;}
+                    return std::isfinite(*xx) && std::isfinite(*yy);
                 },&mapping));
                 auto clipped=backend.own(GEOSIntersection_r(backend.ctx,world.get(),clip.get()));
                 extract(backend,clipped.get(),grouped[label-1],extracted,options.max_vertices);
@@ -192,6 +204,7 @@ struct PixelRaster {
     auto foreground_pixels() const {return result.classified_pixels();}
     const auto& roi() const {return result.roi();}
     auto bounds() const {return result.bounds();} auto downsample() const {return result.downsample();}
+    const ScientificGrid* scientific_grid() const {return nullptr;}
     Rect image_bounds() const {const auto& s=result.provenance()->source;return {0,0,double(s.width),double(s.height)};}
     const auto& input_sha256() const {return result.sha256();}
     auto object_id() const {return result.object_id();}

@@ -262,3 +262,49 @@ controls also preserve the pre-refactor byte/float32 operation order over 262,14
 RGB probes. These tests do not provide a new cell result/archive or biological
 acceptance. Per-axis `TissueResult` geometry and detector integration remain next;
 the legacy scalar raster contract has not been relabelled as anisotropic.
+
+## Shared explicit-grid raster integration
+
+`TissueResult` now has an optional owning scientific grid, per-axis steps and exact
+integer edge accessors. The internal `ScientificRasterKernel` builds that shared
+result from captured analysis input and immutable sampled RGB, with dense labels,
+core/ROI/support eligibility and component world bounds. Context is retained in
+the array while labelled samples must belong to the eligible core. Bounding-box
+maxima are half-open. Component centroids use float64 interpolation anchored to
+an exact converted sample center; individual edges/centers retain the grid's
+rational conversion rule. The source calibration and transform remain snapshots.
+
+Explicit-grid results reject `downsample()` and `level_bounds()` rather than
+pretending to be natural-level rasters. Natural-level results retain their prior
+accessors and arithmetic. The contour mapper converts integer raster vertices
+through the exact grid edges on each axis; the legacy affine mapper remains the
+path for ordinary tissue and pixel-classifier results. The planner/factory reject
+collapsed edges or centers that have no representable interior world coordinate.
+The planner helper is available before IO; the factory repeats the check before
+constructing a result. New cell-request admission must invoke it up front.
+
+The sampler captures a `qpx.level-zero-rgba-window/1` SHA-256 while its decoded
+window is still owned: format bytes, uint64 little-endian image dimensions and
+clipped `(x,y,width,height)`, then actual contiguous RGBA bytes. No reread is
+needed by downstream input identity. `qpx.grid-opaque-rgb-area/1` then binds the
+snapshot digest, stable reader ID/level zero, image/grid/extent/count/context,
+analysis kind and sampling policy, the existing QRO1 geometry encoding, white,
+normalized basis, optional captured calibration and actual row-major eligibility
+bits (least-significant bit first). Strings/geometry are length-prefixed uint64;
+double values use their binary64 bits in little-endian order. The digest excludes
+IO tile size, object revisions, timestamps and file paths. Its input identity is
+separate from the eventual detector parameters/recipe identity. An optional
+expected digest in the factory specification must match the computed snapshot.
+
+Native integration checks run reader → float64 channels → explicit-grid mask →
+GEOS contours, including anisotropic areas, ROI holes, half-open clipping, large
+origins and canonical hash vectors independently built with Python hashlib/struct.
+Changed decoded pixels with an unchanged sampled mean still change input identity.
+Factory admission covers RGB/mask/component scratch, captured source metadata,
+geometry serialization and a fixed allowance; the full cell request must still
+admit all simultaneous detector buffers before IO.
+
+The internal mask kinds/format identify this new grid family. QTM1/2 encoding and
+ordinary tissue retention reject it; QCL5/QCA5 and the new cell request/recipe are
+not implemented by this raster constructor. These native checks do not establish
+Python/GUI availability, whole-workflow performance or scientific acceptance.

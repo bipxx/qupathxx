@@ -10,6 +10,7 @@ class ScientificRgbGrid {
     ScientificGrid grid_;
     std::vector<double> rgb_;
     std::vector<std::uint8_t> valid_;
+    std::string decoded_source_sha256_;
     explicit ScientificRgbGrid(ScientificGrid grid):grid_(grid),
         rgb_(static_cast<std::size_t>(grid.width()*grid.height())*3,0.),
         valid_(static_cast<std::size_t>(grid.width()*grid.height()),0) {}
@@ -18,6 +19,7 @@ public:
     const ScientificGrid& grid() const {return grid_;}
     const std::vector<double>& values() const {return rgb_;}
     const std::vector<std::uint8_t>& valid() const {return valid_;}
+    const std::string& decoded_source_sha256() const {return decoded_source_sha256_;}
     std::int64_t width() const {return grid_.width();}
     std::int64_t height() const {return grid_.height();}
 };

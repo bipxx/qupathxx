@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/analysis.hpp"
+#include "qupathxx/scientific_grid.hpp"
 namespace qpx {
 enum class TissueFeature { OpticalDensitySum, Stain1, Stain2, Stain3 };
 struct TissueParameters {
@@ -58,11 +59,28 @@ public:
     const std::shared_ptr<const AnalysisProvenance>& provenance() const {return provenance_;}
     const std::string& input_sha256() const {return input_sha256_;}
     Rect bounds() const {return bounds_;}
-    Rect level_bounds() const {return level_bounds_;}
-    std::int64_t width() const {return static_cast<std::int64_t>(level_bounds_.width);}
-    std::int64_t height() const {return static_cast<std::int64_t>(level_bounds_.height);}
+    Rect level_bounds() const {
+        if(scientific_grid_) throw std::logic_error("explicit-grid raster has no natural-level bounds");
+        return level_bounds_;
+    }
+    std::int64_t width() const {return scientific_grid_?scientific_grid_->width():static_cast<std::int64_t>(level_bounds_.width);}
+    std::int64_t height() const {return scientific_grid_?scientific_grid_->height():static_cast<std::int64_t>(level_bounds_.height);}
     std::int32_t level() const {return level_;}
-    double downsample() const {return downsample_;}
+    double downsample() const {
+        if(scientific_grid_) throw std::logic_error("explicit-grid raster requires per-axis sampling geometry");
+        return downsample_;
+    }
+    const ScientificGrid* scientific_grid() const {return scientific_grid_?&*scientific_grid_:nullptr;}
+    double downsample_x() const {return scientific_grid_?GridFraction(scientific_grid_->x().extent(),scientific_grid_->x().samples()).binary64():downsample_;}
+    double downsample_y() const {return scientific_grid_?GridFraction(scientific_grid_->y().extent(),scientific_grid_->y().samples()).binary64():downsample_;}
+    double sample_edge_x(std::int64_t x) const {
+        if(x<0 || x>width()) throw std::out_of_range("raster X edge outside grid");
+        return scientific_grid_?scientific_grid_->x().edge(x+scientific_grid_->x().first_index()).binary64():bounds_.x+double(x)*downsample_;
+    }
+    double sample_edge_y(std::int64_t y) const {
+        if(y<0 || y>height()) throw std::out_of_range("raster Y edge outside grid");
+        return scientific_grid_?scientific_grid_->y().edge(y+scientific_grid_->y().first_index()).binary64():bounds_.y+double(y)*downsample_;
+    }
     const char* input_format() const {return input_format_override_.empty()?analysis_input_format(parameters_.sampling_policy,level_!=0):input_format_override_.c_str();}
     const Roi& roi() const {return roi_;}
     Rect image_bounds() const {return image_bounds_;}
@@ -92,6 +110,7 @@ private:
     friend struct TissueArchiveCodec;
     friend struct CellKernel;
     friend struct CellArchiveCodec;
+    friend struct ScientificRasterKernel;
     std::shared_ptr<const char> ticket_;
     TissueResult()=default;
     std::string algorithm_="qpx.threshold-components/1",input_sha256_,input_format_override_;
@@ -112,6 +131,7 @@ private:
     double cleanup_ms_=0;
     double elapsed_ms_=0;
     std::size_t estimated_work_bytes_=0;
+    std::optional<ScientificGrid> scientific_grid_;
 };
 std::shared_ptr<const TissueResult> detect_tissue(const TissueRequest&,const std::atomic<bool>* cancelled=nullptr);
 struct TissueRecord {

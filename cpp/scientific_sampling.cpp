@@ -1,4 +1,5 @@
 #include "qupathxx/scientific_sampling.hpp"
+#include "sha256.hpp"
 #include <optional>
 #include <stdexcept>
 
@@ -37,7 +38,14 @@ ScientificRgbGrid read_scientific_rgb(const ImageServer& server,const Scientific
            source->bytes().size()!=region_byte_count(bounds.width,bounds.height))
             throw std::runtime_error("scientific RGB reader returned unexpected dimensions or byte count");
     }
-    ScientificRgbGrid output(grid);std::uint64_t visited=0;
+    Sha256 snapshot;constexpr char format[]="qpx.level-zero-rgba-window/1";
+    snapshot.update(format,sizeof(format)-1);snapshot.integer(metadata.width);snapshot.integer(metadata.height);
+    for(auto value:{bounds.x,bounds.y,bounds.width,bounds.height}) snapshot.integer(value);
+    if(source) for(std::size_t at=0;at<source->bytes().size();) {
+        checkpoint(cancelled);const auto count=std::min<std::size_t>(65536,source->bytes().size()-at);
+        snapshot.update(source->bytes().data()+at,count);at+=count;
+    }
+    ScientificRgbGrid output(grid);output.decoded_source_sha256_=snapshot.finish();std::uint64_t visited=0;
     for(auto y=ay.first_index();y<ay.stop_index();++y) {
         checkpoint(cancelled);
         const auto first_y=ay.edge(y).floor(),stop_y=ay.edge(y+1).ceil();

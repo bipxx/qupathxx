@@ -2,10 +2,12 @@
 #include <cmath>
 #include <iostream>
 #include <stdexcept>
+void check_scientific_raster();
 void check(bool value) {if(!value) throw std::runtime_error("tissue contour check failed");}
 template<class Exception,class Action> void rejects(Action action) {try {action();} catch(const Exception&) {return;}throw std::logic_error("missing contour rejection");}
 int main() {
     try {
+        check_scientific_raster();
         using namespace qpx;StainTransform transform({{1,0,0},{0,1,0}});
         if(!has_geos()) {
             Document doc(Image(3,3,std::vector<std::uint8_t>(27,0)));auto obj=doc.add_rectangle({0,0,3,3});
