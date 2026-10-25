@@ -1,0 +1,19 @@
+{
+  "schema": "qpx.scientific-grid-fixtures/1",
+  "status": "Independent mathematical contract; C++ geometry consumer only; no sampler or detector acceptance",
+  "generator": "tools/reference_scientific_grid.py",
+  "generator_sha256": "e55202dcbe8fe60f6ae384c18b657f8fc8b4b62374d4cfbd8dc3dad322961fdf",
+  "contract": "docs/scientific-grid-contract.md",
+  "contract_sha256": "9737e1ef633c31469a6813155a5b5535c4b36ef1dfbf28654d0264de53341181",
+  "cases": 14,
+  "rounding_probes": 8,
+  "files": {
+    "reference.json": {
+      "bytes": 138782,
+      "sha256": "186c15c00ef9d780468aa555a75ee6a74105d45804d8deaf276c30c4869650b3"
+    }
+  },
+  "fraction_probes": 521,
+  "native_header": "cpp/tests/scientific_grid_reference.hpp",
+  "native_header_sha256": "5f75b520e79460f5f14e5e70ccb1965513928d0c376d219addcb02d7c890a6bb"
+}

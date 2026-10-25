@@ -6,6 +6,7 @@
 #include <random>
 #include <stdexcept>
 using namespace qpx;
+void check_scientific_grid_geometry();
 void check(bool ok) {if(!ok) throw std::runtime_error("resampling assertion failed");}
 template<class E,class F> void rejects(F f) {try {f();}catch(const E&){return;}throw std::runtime_error("missing resampling rejection");}
 // Independent all-source floating overlap oracle; production walks intersecting
@@ -33,6 +34,7 @@ struct InvalidReader:ImageServer {
     void close() override{}bool closed() const override{return false;}
 };
 int main(){try {
+    check_scientific_grid_geometry();
     std::mt19937 rng(154);
     for(int sh=1;sh<=5;++sh) for(int sw=1;sw<=7;++sw) {
         PixelBuffer source(sw,sh);for(auto& v:source.writable_bytes())v=static_cast<std::uint8_t>(rng());

@@ -9,7 +9,7 @@ Mac `40161976334` and portable `40161982786`, including artifact audits. It is
 promoted to main; documentation commit `c07e778` publishes all receipts. The
 validation ref is unchanged. No qualification remains live for that candidate.
 
-One integration source: `feature/annotation-migration-158`. Nested GeoJSON export
+Frozen candidate: `feature/annotation-migration-158` at `207f008`. Nested GeoJSON export
 is shared by C++/Python/file/ImGui and actual QuPath preserves the captured six
 objects, four parents, nucleus and point coordinates. Flat defaults are unchanged.
 The recovery path-length failure is now fixed: shared physical-path conversion
@@ -34,9 +34,30 @@ defaults. Positive typing checks require the four actual producer examples.
 Local gate verification now passes 140 cases. All 55 bound source files match,
 and old source/native artifacts are rejected for the new scope. See the
 [qualification receipt](benchmarks/annotation-migration-qualification-local-windows.json).
-Next: freeze this integrated source and run its full engine/Mac/portable
-qualification once; keep the dispatched worktree immutable. Do not claim platform
-acceptance from local Windows tests. Unicode glyph delivery, broader migration,
-sampling/scientific, licensing and supported-release requirements remain open.
+Hosted engine `40166860999` failed one synthetic auditor fixture in each installed
+configuration: it emitted a three-file typing log where the checker correctly
+requires four. Mac `40166866585` passed its source-bound audit (49 native suites
+per architecture); portable `40166872891` is still observed through its original
+handle. The frozen checkout stays unchanged. No hierarchy main promotion is
+authorized by this incomplete campaign.
+
+Active integration source is now `feature/scientific-grid-159`. Commit `5474c3f`
+corrects the stale typing fixture and adds an explicit rejection control; 89
+affected/shared auditor tests pass locally (149 with broader inherited auditor
+and mathematical checks). The shared
+[scientific-grid contract](scientific-grid-contract.md) now has an independent
+Fraction oracle and C++ geometry consumer. A standalone native harness passes
+exact grid, rounding, context and admission checks; all 49 repository native suites
+also pass in the intentional minimal build (GUI/Python/project/interchange/readers
+disabled). Feature-disabled suites do not qualify those capabilities. These are
+geometry checks, not native float sampling
+or scientific detector acceptance. Python bindings, the sampler, new recipe/
+digest/archive/replay and all required frontends remain next in the same workflow.
+
+Next: complete that bounded sampling path using the existing native authority,
+retain the failed campaign evidence, and qualify a clean integrated candidate
+after installed workflow checks. Do not transfer the old Mac acceptance to new
+compiler inputs. Unicode glyph delivery, broader migration, scientific, licensing
+and supported-release requirements remain open.
 
 Earlier task narrative is preserved in [history](current-task-history.md).

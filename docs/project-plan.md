@@ -17,19 +17,15 @@ shortest implementation route, existing entry points and acceptance per workflow
 The original packet narrative is preserved in [implementation history](project-plan-history.md).
 The [Astra max review](plan-review-astra.md) records the problems and adopted changes.
 
-Public `main` is accepted engineering source `f2e8c2f`, with C++/Python/CLI region
-resampling and the inherited annotation, analysis, TMA, batch and runtime work.
-Exact-source Windows/Linux, native Mac and portable audits pass; this does not
-establish biological equivalence, hardware budgets or supported release status.
-Candidate 155 adds tested native/Python `.qptma` exchange. Candidate 156 adds
-project CLI import/export and new-file saving. Its final project-enabled wheel
-passes 111 installed cases with one platform-specific skip, including all 80
-required QPTMA cases, plus packaged stubs and strict typing. Desktop exchange
-now passes an integrated 148-case local suite and all 50 native suites; the GUI
-export round-trips through pinned QuPath and captures are inspected. Full
-exact-source hosted engineering qualification remains pending.
-The user resumed implementation on 2026-10-25; finish this vertical slice before
-starting another. All M0–M7 remain Partial.
+Public `main` is `c07e778`, publishing the accepted integrated TMA source
+`a29e4e1` and its engine/Mac/portable receipts. This does not establish biological
+equivalence, hardware budgets or supported release status. The next hierarchy/
+recovery candidate `207f008` passed its Mac audit, but engine qualification failed
+on a stale synthetic auditor typing fixture. Its frozen source remains unchanged;
+the active integration branch `feature/scientific-grid-159` fixes that fixture
+and prepares the shared [scientific grid](scientific-grid-contract.md). Portable
+qualification is observed through the original run handle. See
+[current task](current-task.md) for evidence and next steps. All M0–M7 remain Partial.
 
 ## Scope and release boundaries
 

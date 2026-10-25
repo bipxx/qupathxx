@@ -1,4 +1,10 @@
 # Captures are byte-addressed by their provenance manifest.
+tests/fixtures/scientific-grid-v1/** -text
+tools/reference_scientific_grid.py text eol=lf
+docs/scientific-grid-contract.md text eol=lf
+cpp/tests/scientific_grid_reference.hpp text eol=lf
+docs/benchmarks/scientific-grid-geometry-local/** -text -whitespace
+docs/benchmarks/scientific-grid-geometry-local-windows.json text eol=lf
 tests/fixtures/qupath-0.7.0/** -text whitespace=cr-at-eol
 docs/benchmarks/qupath-runtime-windows.json -text whitespace=cr-at-eol
 
