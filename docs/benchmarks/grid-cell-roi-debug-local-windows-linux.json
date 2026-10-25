@@ -1,0 +1,200 @@
+{
+  "schema": "qpx.grid-cell-roi-debug-local/1",
+  "observed_at_utc": "2026-10-25T12:39:16.343588+00:00",
+  "harness_source": "0f51b9dbee65fdcd337d610e22f177c32291f8ef",
+  "application_source": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062",
+  "source_contract_files": 444,
+  "compiler_inputs_unchanged": 298,
+  "windows_native": {
+    "sha256": "bc286d4d160c59fbccf853173820ed88280ddc4ef28e0ce31cc3553e9c9755d0",
+    "compiled_revision": "e7ad5dbddbf148f38974da3e8c2964f20a0be267+dirty",
+    "source_tree_sha256": "6bb880c3ed5e487afb08cd8502a102fecb4c01bb932cfec66e80500b4eafebef"
+  },
+  "linux_native": {
+    "native": "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/grid171-linux-python/lib/python3.12/site-packages/qupathxx/_native.cpython-312-x86_64-linux-gnu.so",
+    "sha256": "1468d4283b7747e19fb8e26a682f89f4bec74ebb484c80735c6a57256b4cc13a",
+    "revision": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062",
+    "source_tree_sha256": "a3bdf5e9346d1231a88f78cfa094a2c7d9586bec76e04c73ace5cce40cd145af",
+    "geos": true,
+    "interchange": true
+  },
+  "linux_wheel_sha256": "0ebcbfb63438c6670f64d8f00b6db772ab00537e7a541227bd95b04bc05ba713",
+  "linux_wheel_qualified_run": 40188586241,
+  "installed_passed_per_platform": 275,
+  "declared_desktop_skips_per_platform": 2,
+  "named_grid_cohorts": {
+    "windows": {
+      "passed": 151,
+      "declared_headless_gui_skips": 2,
+      "gui": false,
+      "scientific_acceptance": false
+    },
+    "linux": {
+      "passed": 151,
+      "declared_headless_gui_skips": 2,
+      "gui": false,
+      "scientific_acceptance": false
+    }
+  },
+  "grid_comparison_passed_per_platform": 32,
+  "debug_capture_checks_passed_per_platform": 14,
+  "repeat_capture_non_log_payloads_identical": 12,
+  "ordinary_capture_masks_and_values_exact": true,
+  "processing_bounds": [
+    32,
+    32,
+    192,
+    128
+  ],
+  "full_image_native_only_nucleus_pixels": 24,
+  "matched_crop_reference_only_nucleus_pixels": 4,
+  "cell_body_masks_exact": true,
+  "kernel_probe_scope": "Standalone GCC 13.3 WSL C++ kernel with installed Windows float64 OD input; no production native rebuild or complete new platform campaign",
+  "remaining": [
+    "Requested-resampling source/grid mapping",
+    "Distinct boundary and arithmetic recipes",
+    "Biological validation and wider M0-M7 scope"
+  ],
+  "native_production_and_original_fixtures_unchanged": true,
+  "legacy_distance_expected_failures_unchanged": true,
+  "local_windows_linux_comparison_accepted": true,
+  "platform_campaign_accepted": false,
+  "scientific_acceptance": false,
+  "biological_validation": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "evidence": {
+    "debug-verification.json": {
+      "bytes": 1242,
+      "sha256": "97eaaee4e4d591e46f83ac43641201d5f65ec1a19a8ad7a4d52b9e8a1304d856"
+    },
+    "debug-verification.log": {
+      "bytes": 151,
+      "sha256": "0e45f1d803c8230781575e5d5fbd29e63d6c7653056a30bdb29b0647fe4f1844"
+    },
+    "domain-comparison.json": {
+      "bytes": 1893,
+      "sha256": "69c84869edbbf59062663e5603c0f33c08af936398e526f8f11e74b7f1135f8b"
+    },
+    "export_grid171_native_score.py": {
+      "bytes": 920,
+      "sha256": "f849999065c891d25ca1229fc9dce9ba29f73dfd5c84de06e1007412008c67e6"
+    },
+    "installed.log": {
+      "bytes": 357,
+      "sha256": "a4e7843a3e5c34a073e2463b04b64fb317c1d788fb9e6b2fe97250f17eb77525"
+    },
+    "linux-environment.json": {
+      "bytes": 250,
+      "sha256": "2d0a538fc5c2302a1b67c8037817ecff8f9fbd70acbdb65e4c731b42a6612e4b"
+    },
+    "linux-identity.log": {
+      "bytes": 416,
+      "sha256": "5f36418051c68762e1bc50d7166a2caa247ec904477d79b04d3acf897132573f"
+    },
+    "linux-install.log": {
+      "bytes": 2051,
+      "sha256": "36b8165f796ff34a1b52fb6168eb43a9791f26ac7718c14ab5c16917ee8725c4"
+    },
+    "linux-installed.log": {
+      "bytes": 352,
+      "sha256": "d4bb741af9c680c2b78319e2cc0f97b4ec04753a403bbdb6c9f5d7c1447862c7"
+    },
+    "linux-roi-cropped.json": {
+      "bytes": 41219,
+      "sha256": "3a8a076fe7cfdda80bba13a8dc4f9d2e4acbcb788d507b852acac2ae9de728eb"
+    },
+    "linux-roi-cropped.log": {
+      "bytes": 138,
+      "sha256": "d862cccde9f9d8b3a0931953878d36488e9be3ff4cf65a404e01d7ddd9107317"
+    },
+    "linux-tests.xml": {
+      "bytes": 42313,
+      "sha256": "4dab04e16ae65579eaf0c46a5e8d644fb0eab4f748aec50c218d6318485c610f"
+    },
+    "linux-venv.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "micrometres.json": {
+      "bytes": 36178,
+      "sha256": "53ff08f853f27c0f8ebca28e3dc65ae0635b5c920c05358e1324c3091cb1a8e9"
+    },
+    "micrometres.log": {
+      "bytes": 136,
+      "sha256": "9aeced2bc4011c73af4c91713bc56df43e144e0a13b7ed24702c18b29c32ef53"
+    },
+    "native-input-od-f64le.bin": {
+      "bytes": 196608,
+      "sha256": "750853193410a21208ded63204377493c3cd3ec7882b4612b66c88d802038e1e"
+    },
+    "native-kernel-compiler.log": {
+      "bytes": 246,
+      "sha256": "59d1cbef41d4ae78d5063d525b7aa13d18dc0493ea00537efc19b2ee398cb5a8"
+    },
+    "native-kernel-probe.cpp": {
+      "bytes": 1202,
+      "sha256": "0bf7eaccd3180f4b1d2052f99dcd4d17413212733e68fe4e28ea579ed3e95f7b"
+    },
+    "native-kernel-probe.json": {
+      "bytes": 214,
+      "sha256": "efd48b9f8eec7b9638abdd4e3a3a9ad71fa39b8794e4adc8941e918505461735"
+    },
+    "pixels.json": {
+      "bytes": 41218,
+      "sha256": "9cfe226bc3a7ecfe29a23ed6f693e81326df11d29024dfea5231263bd8c5b2bc"
+    },
+    "pixels.log": {
+      "bytes": 131,
+      "sha256": "a8e2c5f18794159995b2f2e9d977ed785dbcc6259431133516fad6284552f232"
+    },
+    "probe_grid171_domains.py": {
+      "bytes": 1422,
+      "sha256": "411b20b9711d9071411359b3e524ba97a618084faade9282c2d3e42489b1c4e3"
+    },
+    "record_evidence.py": {
+      "bytes": 6491,
+      "sha256": "d2fcf911d8b72602f107a898f202d54d8a509c0d61975aafe077107e1f21d5b4"
+    },
+    "repeat-capture.json": {
+      "bytes": 3189,
+      "sha256": "2e6aeff43bc8a0769f3a9757f4d52500dd4ff6197b341ceb4af6cfdcae5c28d1"
+    },
+    "repeat-debug-stack.tif": {
+      "bytes": 493587,
+      "sha256": "4d724067342a0bdedeb26384b8fb66d46d12d343e4b12687bf659f40ce743778"
+    },
+    "repeat-driver.log": {
+      "bytes": 1692,
+      "sha256": "ad53f85f48fa0921d07962f74b91c1b473d013e94be13be79721ef13a87e8d20"
+    },
+    "repeat-manifest.json": {
+      "bytes": 2957,
+      "sha256": "a4788cafb0de88c3ede1ee09ae31b02b3df49a8f2ebf833ce00072159e39deb7"
+    },
+    "roi-cropped.json": {
+      "bytes": 41219,
+      "sha256": "b07383ef64973ac1692137f3efb5cc5c7a827be0dbf1d111b0677ec4a3d03128"
+    },
+    "roi-cropped.log": {
+      "bytes": 136,
+      "sha256": "233905a91c5831deb59f34382861eeafcaaeb5473626282f2177857813686b7c"
+    },
+    "source-proof.json": {
+      "bytes": 107391,
+      "sha256": "dfbeec468d9984d25de1ef20be25c4cbd1b4d6b4b7f8ce74120ab47b3db7202e"
+    },
+    "tests.xml": {
+      "bytes": 42285,
+      "sha256": "e1a3b4a6b70734859c6099439884138ebd9bc206accf80788cccd4c1373ae30e"
+    },
+    "verify_grid171.py": {
+      "bytes": 1516,
+      "sha256": "f62f0966dc5df39884ec1835ad0fc2e2502eb7fb5823a7d67b52a7c199c642c3"
+    },
+    "verify_grid171_linux.py": {
+      "bytes": 2240,
+      "sha256": "c2249e5512a9889321e5e66ca2b83de0de698979ba286ab5016e48cdef746349"
+    }
+  }
+}

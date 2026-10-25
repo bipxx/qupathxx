@@ -196,6 +196,14 @@ not a new platform qualification. The grid recipe's validity-normalized
 float64 Gaussian and zero-flux Laplacian are distinct from the plugin's captured
 processing. No epsilon, column trimming or new acceptance tolerance is introduced
 to force agreement. Broader arithmetic equivalence remains unproved.
+The [Windows/Linux stage and domain receipt](benchmarks/grid-cell-roi-debug-local-windows-linux.json)
+retains 275 passing checks per platform, two declared desktop skips per platform,
+both domain reports, the repeated debug payload, native numerical probe and
+source/artifact identities. The new 32 comparison and 14 capture checks all run
+without skips. The Linux native bytes match the qualified source169 wheel;
+the application compiler inputs are unchanged. This local extension of the
+comparison evidence does not transfer source169's full hosted qualification to
+the newer harness or establish biological accuracy.
 
 ```powershell
 python -I tools/compare_qupath_grid_cells.py --grid-scope reference-roi --context 0 --report build/grid-cells-cropped.json

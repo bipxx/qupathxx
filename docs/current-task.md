@@ -90,6 +90,15 @@ The new capture verifier rejects byte changes, recipe/identity changes and
 re-sealed semantic corruption. Production arithmetic and old fixtures are
 unchanged; no tolerance is fitted to accept this discrepancy.
 
+The [ROI stage/domain receipt](benchmarks/grid-cell-roi-debug-local-windows-linux.json)
+records 275 passing installed/auditor cases on Windows and on a fresh WSL Linux
+environment, each with two declared desktop skips. Both execute all 32 grid
+comparison and 14 debug-capture checks, and pass the 151-case headless named
+cohort. The Linux wheel/native hashes match qualified engine run 40188586241;
+the 298 Windows compiler inputs and installed native hash remain unchanged.
+A 444-file proof binds the new harness and capture. These are local comparison
+checks on retained artifacts, not a full new engine/Mac/portable qualification.
+
 Next: establish the actual requested-grid mapping for the resampled case, and
 retain the documented processing/arithmetic difference when assessing research
 acceptance. Keep broader biological, vendor/typed/tiled, hardware and M0-M7
