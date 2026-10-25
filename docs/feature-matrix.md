@@ -5,8 +5,12 @@ with exact C++ geometry, float64 RGB sampling and owning Python bindings. Final
 engine `4bdfa98` passes 95 installed cases (two project-capability skips), 49 native
 suites and packaged stub/typing checks; see the
 [sampling receipt](benchmarks/scientific-grid-sampling-local-windows.json).
-A new detector recipe, physical kernels and archive/replay/frontend integration
-remain. Disabled capabilities are not qualified. Hierarchy candidate `207f008`
+A new detector recipe, physical LoG/shape/body integration and archive/replay/
+frontend integration remain. Internal per-axis Gaussian and weighted distance
+kernels now pass their independent mathematical references and native regression;
+see the [kernel receipt](benchmarks/physical-grid-kernels-local-windows.json).
+They are not yet called by production cell requests. Disabled capabilities are
+not qualified. Hierarchy candidate `207f008`
 passed its native Mac audit but failed engine and portable campaigns on a stale
 synthetic typing fixture, corrected in `5474c3f`. See [current task](current-task.md); no new main
 promotion or scientific/release acceptance follows from these checks.

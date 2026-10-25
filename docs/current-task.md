@@ -72,7 +72,20 @@ for exact wheel/module/source identities and raw evidence. GUI, project,
 interchange, GEOS and file readers were disabled in this local build; their
 feature-disabled tests are not coverage for those capabilities.
 
-Next: complete that bounded sampling path using the existing native authority,
+Internal physical-kernel preparation now resolves per-axis calibration/sigma,
+weighted squared distances and validity-normalized anisotropic Gaussian filtering.
+An extreme-aspect reference exposed a nearest-owner error in the initial floating
+intersection method; exact portable comparisons now preserve the owner even when
+rounded total distances coincide. The regression is retained. Local verification
+passes 36 exact distance scenarios, 517 wide-product comparisons, 1,024 exhaustive
+native site scans, nine Decimal Gaussian references and 16 oracle/provenance tests.
+All 49 minimal native suites pass, including old recipe/archive checks. These
+kernels are not yet called by a new detector request or exposed as Python APIs.
+See the [physical-kernel receipt](benchmarks/physical-grid-kernels-local-windows.json).
+
+Next: integrate per-axis result/provenance metadata and the float64 OD/stain path,
+then connect the new kernels to the additive cell request/recipe, archive/replay
+and required frontends. Continue through the full original workflow;
 retain the failed campaign evidence, and qualify a clean integrated candidate
 after installed workflow checks. Do not transfer the old Mac acceptance to new
 compiler inputs. Unicode glyph delivery, broader migration, scientific, licensing
