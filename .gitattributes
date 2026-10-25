@@ -402,3 +402,7 @@ docs/benchmarks/tma-dearray-frontends-local/** -text -whitespace
 docs/benchmarks/tma-dearray-frontends-local.json text eol=lf
 docs/benchmarks/tma-axis-196-audit-rejection/** -text -whitespace
 docs/benchmarks/tma-axis-196-audit-rejection.json text eol=lf
+
+# Physical-unit and named dearray qualification evidence retains original bytes.
+docs/benchmarks/tma-dearray-physical-local/** -text -whitespace
+docs/benchmarks/tma-dearray-physical-local.json text eol=lf

@@ -1,8 +1,8 @@
 # Automatic TMA dearraying
 
 Native detection, Python, ImGui preview/apply, managed-viewer detection and CLI
-proposal export now pass local engineering checks. Physical-unit conversion,
-real-slide/biological validation and full supported-host/package qualification
+proposal export, including explicit physical sizes, now pass local engineering
+checks. Real-slide/biological validation and full supported-host/package qualification
 remain open. These local checks do not qualify a distributable wheel.
 Seven independent synthetic masks and a pinned upstream capture define the
 workflow's geometry, missing-core behavior and refusal cases. The
@@ -60,7 +60,8 @@ refusal cases. Native engineering checks are separate from this upstream assessm
 proposals, `tma_dearray_work_bytes` and two `detect_tma_grid` overloads. One
 accepts an owning RGBA preview with explicit level-zero dimensions; the other
 plans one natural pyramid read and applies the existing exact area filter.
-Core width/height are level-zero pixels. Physical-unit conversion remains open.
+Core width/height default to level-zero pixels. `TmaCoreUnits.Micrometers`
+requests use separate calibration axes, as described below.
 
 Opaque pixels contribute integer luminance to an Otsu threshold with explicit
 dark-on-light or light-on-dark polarity. Eight-connected components are admitted
@@ -155,8 +156,8 @@ qupathxx_batch --import-qptma source.qpxproj proposal.qptma applied.qpxproj --im
 ```
 
 `--help` lists polarity, density, component/fit, preview/source pixel, memory,
-candidate/pair-work and output-text bounds. Core sizes currently use pixels;
-the CLI does not infer physical calibration. JSON output records input and
+candidate/pair-work and output-text bounds. `--core-units px|um` selects size units (default pixels).
+Micrometer requests require the selected document's calibration; it is never inferred. JSON output records input and
 recipe digests. The original project remains a separate file.
 
 At compiled source `a492ea5`, five selected native suites pass on Windows and
@@ -198,3 +199,67 @@ Those artifacts do not qualify these newer dearraying APIs.
    then biological/upstream, large-slide, anisotropic physical calibration and
    reproducible workflow/provenance acceptance. All original M0-M7 requirements
    remain active; this reference packet does not complete M6.
+
+
+## Physical sizes and required qualification cohorts
+
+`TmaDearrayOptions.core_units` defaults to `TmaCoreUnits.Pixels`; existing
+pixel request recipe bytes are preserved against the retained `a492ea5`
+module. For `Micrometers`, width and height resolve independently as requested
+size divided by micrometers per level-zero pixel. Unknown, partial, nonpositive,
+nonfinite or unrepresentable calibration rejects before the detector reads pixels.
+
+For a standalone server request, omitted `pixel_width_um`/`pixel_height_um`
+options use the reader's complete metadata pair. A preview-only request requires
+an explicit complete pair. The owner-side `tma_dearray_options_for_document`
+helper captures the document's actual calibration, including overrides, and
+rejects an explicit pair that contradicts it. It returns owning options and
+never changes the document. ImGui, managed requests and CLI use this same helper.
+Managed capture occurs when the owner starts the command; the existing revision
+and identity guards reject calibration changes before publication or apply.
+
+`result.core_size` records requested units/dimensions, resolved level-zero pixel
+sizes, actual calibration and whether it came directly from the reader.
+Micrometer recipes use `qpx.tma-dearray-physical/1` over the effective pixel
+recipe, requested/resolved sizes, calibration and its reader/captured origin.
+Equivalent pixel geometry with different physical context therefore has a
+separate identity. Fit residuals and rotation bounds retain the existing
+core-normalized coordinate policy. Conversion does not alter the fitting kernel.
+
+```python
+options = q.TmaDearrayOptions()
+options.core_units = q.TmaCoreUnits.Micrometers
+options.core_width, options.core_height = 16, 12
+captured = q.tma_dearray_options_for_document(document, options)
+proposal = q.detect_tma_grid(document.server, captured)
+```
+
+```text
+qupathxx_batch --detect-tma calibrated.qpxproj proposal.qptma --image 2 --rows 3 --columns 4 --core-width 16 --core-height 12 --core-units um
+```
+
+The ImGui selector labels both dimensions in the selected units and displays
+the document calibration. Preview limits expose source/output pixel admission
+as well as working memory; component/fit limits expose native bounds and work
+limits. Changing a parameter clears the old preview. Cancel and state remain
+above the preview list. The [inspected physical capture](benchmarks/tma-dearray-physical-local/installed/physical-preview.png)
+shows 16 x 12 um with 0.5 x 0.25 um/pixel document calibration.
+
+Compiled source `4b0e131` passes five selected suites on each Windows/Linux host.
+The isolated Windows package passes 281 selected installed cases with 23 declared
+desktop skips, 13 dearray desktop cases and 53 inherited desktop cases, positive
+typing and six intended negative typing errors. A real generated OME-TIFF
+pyramid selects level 1 while 16 x 12 um resolves to 64 x 96 **level-zero** pixels
+at 0.25 x 0.125 um/pixel. This is synthetic reader/calibration integration,
+not vendor, biological or whole-slide acceptance. See the
+[physical-size receipt](benchmarks/tma-dearray-physical-local.json).
+
+The producer and engine/Mac-native/portable auditors now require named dearray
+coverage: independent geometry/missing flags, admission/cancellation/history,
+physical sizes, explicit enabled/disabled project semantics, 51 installed cases,
+13 GUI cases or their exact declared headless skips, one dedicated positive
+typing file and two negative typing files (six errors). All 373 inherited/new
+auditor controls pass, including independent source collection and wiring
+checks. Actual local native/Python/GUI/typing evidence passes the new helper;
+older pixel-only native and installed evidence rejects. These required gates
+still need a complete fresh-candidate campaign before platform acceptance.

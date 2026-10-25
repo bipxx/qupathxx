@@ -1,0 +1,15 @@
+{
+  "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma200-python-env\\Lib\\site-packages\\qupathxx",
+  "files": {
+    "geos.dll": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e",
+    "geos_c.dll": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6",
+    "py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "qupathxx_batch.exe": "3289ab3e9a1d8ad45c00d9852afbad3abee60a1fda815e27edff9f54c7525015",
+    "qupathxx_region.exe": "64817fda229b1e488af346d148e114ca8662a55a1df39416a1c9df221d89ff76",
+    "_native.cp312-win_amd64.pyd": "277353370a0a6a3984c607c1c5c5ca13b4143cc51fb3128f8078128486da5b86",
+    "_native.pyi": "5be355c7a9a144401c2bd41fefbc07778df8c80294a9929f86c42ac36e8ee888",
+    "__init__.py": "f42748352cd5ca2c9e542848953bc7818650322b0b8436a787d7b6264ee27fc9",
+    "__init__.pyi": "1538d834fb68d9a762ad4d2c98423deb39515e005edb4fffaa8e31fa2cd3ddd6",
+    "__main__.py": "91d7eca53fc7a88257ef05e28bd31efacbf521bd789c165839fb42fdca4f8e41"
+  }
+}

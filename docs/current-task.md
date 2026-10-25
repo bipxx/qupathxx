@@ -56,10 +56,11 @@ preview/atomic apply, the managed viewer and standalone CLI. See the
 [frontend receipt](benchmarks/tma-dearray-frontends-local.json). The source191
 baseline remains the accepted public main; no later platform acceptance is implied.
 
-Next register the new dearray native/installed/desktop/typing cohorts and their
-negative controls, retain the independent collection preflight, and close
-physical-unit and representative real-slide/biological gaps before the next
-completed-workflow candidate is frozen for its required campaign. The original
+The dearray cohorts are now registered in all auditors and the producer, with
+373 local controls and independent collection/wiring checks. Explicit physical
+units pass native, Python, ImGui, managed and CLI checks. Next freeze the
+completed engineering workflow for its required campaign and continue the
+representative real-slide/biological and large-slide requirements. The original
 axis campaign completed but was [rejected by strict engine/portable audits](benchmarks/tma-axis-196-audit-rejection.json);
 do not promote it or dispatch another axis-only campaign to replace its records.
 
@@ -162,6 +163,27 @@ edits with the captured revision. The CLI writes a new proposal for one explicit
 image and composes with existing project import. Inspected captures show the
 controls and the saved/reopened skewed 12-core grid with gray missing B-2.
 
-Remaining dearray-specific work is named platform evidence, physical-unit
-conversion, biological/upstream and large-slide qualification. All other
+Remaining dearray-specific work is full platform, biological/upstream and
+large-slide qualification. Physical conversion is now locally verified as below. All other
 original requirements remain in the plan and inventory; all milestones are Partial.
+
+
+## Physical dearraying and platform gates: locally verified
+
+Compiled source `4b0e131` uses 317 compiler inputs at fingerprint
+`6eb238703a073afce7247f89cd63c324969c990ca6db2a26c15d5fd3f0cc69f6`.
+Pixel recipe identities remain unchanged. Micrometer requests bind the requested
+sizes, separate calibration axes and resolved pixel dimensions; document-owned
+workflows capture overrides and refuse unknown or contradictory calibration.
+A generated calibrated OME-TIFF pyramid proves natural-level reading with
+level-zero size/coordinate semantics. See the
+[physical receipt](benchmarks/tma-dearray-physical-local.json).
+
+Five selected suites pass on each Windows/Linux host. The isolated Windows
+module passes 281 selected installed cases plus 23 declared desktop skips,
+13 dearray and 53 inherited desktop cases, generated-stub equality, positive
+typing and six intended negative errors. The producer and all three auditors
+require the new named cohorts; all 373 inherited/new controls pass and actual
+current evidence is accepted by the domain helper while older evidence rejects.
+This is not a distributable-wheel or full-platform qualification. Preserve
+original sourcead4's rejected campaign and the qualified main baseline.

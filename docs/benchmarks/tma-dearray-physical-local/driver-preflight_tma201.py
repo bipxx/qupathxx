@@ -1,0 +1,7 @@
+from pathlib import Path
+import hashlib,json,os,subprocess,time,xml.etree.ElementTree as ET
+r=Path(__file__).resolve().parents[2];s=r/'build/ci/scientific-grid-159';out=r/'build/tma201-auditors';out.mkdir(exist_ok=False);names=json.loads((r/'build/tma194-auditors/complete-preflight-command.json').read_text(encoding='utf-8'))['test_sources'];names=[*names,'test_tma_dearray_evidence.py'];command=[str(r/'build/ci/tma200-python-env/Scripts/python.exe'),'-I','-m','pytest',*[str(s/'tests'/name) for name in names],'-q','--tb=short','--junitxml='+str(out/'tests.xml')];env=os.environ.copy();env['PYTHONUTF8']='1';env['PYTHONIOENCODING']='utf-8';start=time.perf_counter()
+with (out/'tests.log').open('wb') as log:p=subprocess.run(command,cwd=s,env=env,stdout=log,stderr=subprocess.STDOUT,timeout=240)
+(out/'command.json').write_text(json.dumps(dict(command=command,exit=p.returncode,seconds=time.perf_counter()-start,test_sources=list(names)),indent=2)+'\n',encoding='utf-8');print((out/'tests.log').read_text(encoding='utf-8',errors='replace')[-10000:]);assert p.returncode==0
+cases=list(ET.parse(out/'tests.xml').getroot().iter('testcase'));assert len(cases)==373 and all(c.find(t) is None for c in cases for t in ['failure','error','skipped']);print('Complete auditor preflight',len(cases),'passed')
+state=json.loads((r/'build/tma200-progress.json').read_text(encoding='utf-8'));assert all(hashlib.sha256((s/name).read_bytes()).hexdigest()==digest for name,digest in state['compiler_inputs'].items());print('All317native compiler inputs remain frozen')

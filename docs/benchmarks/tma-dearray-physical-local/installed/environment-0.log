@@ -1,0 +1,3 @@
+Using CPython 3.12.8 interpreter at: build\ci\tma198-python-env\Scripts\python.exe
+Creating virtual environment at: build\ci\tma200-python-env
+Activate with: build\ci\tma200-python-env\Scripts\activate

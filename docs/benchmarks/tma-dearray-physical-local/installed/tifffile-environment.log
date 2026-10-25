@@ -1,0 +1,4 @@
+Using Python 3.12.8 environment at: build\ci\tma200-python-env
+Resolved 2 packages in 22ms
+Installed 1 package in 248ms
+ + tifffile==2024.9.20

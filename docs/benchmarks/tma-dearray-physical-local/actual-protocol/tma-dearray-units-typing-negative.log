@@ -1,0 +1,4 @@
+tests\typing\tma_dearray_units_invalid.py:4: error: Incompatible types in assignment (expression has type "str", variable has type "TmaCoreUnits")  [assignment]
+tests\typing\tma_dearray_units_invalid.py:5: error: Incompatible types in assignment (expression has type "str", variable has type "float | None")  [assignment]
+tests\typing\tma_dearray_units_invalid.py:6: error: Property "width_pixels" defined in "TmaDearrayCoreSize" is read-only  [misc]
+Found 3 errors in 1 file (checked 1 source file)

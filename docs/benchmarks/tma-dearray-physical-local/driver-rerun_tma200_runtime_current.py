@@ -1,0 +1,6 @@
+from pathlib import Path
+import json,os,subprocess,xml.etree.ElementTree as ET
+r=Path(__file__).resolve().parents[2];s=r/'build/ci/scientific-grid-159';out=r/'build/tma200-evidence';records=json.loads((out/'commands.json').read_text(encoding='utf-8'));original=next(x['command'] for x in records if x['name']=='runtime');cmd=[arg.replace('runtime.xml','runtime-current.xml').replace('runtime-tmp','runtime-current-tmp') for arg in original];env=os.environ.copy();env.pop('QUPATHXX_TEST_GUI',None);env['PYTHONUTF8']='1';env['PYTHONIOENCODING']='utf-8'
+with (out/'runtime-current.log').open('xb') as f:p=subprocess.run(cmd,cwd=s,env=env,stdout=f,stderr=subprocess.STDOUT,timeout=600)
+(out/'runtime-current-command.json').write_text(json.dumps(dict(command=cmd,exit=p.returncode,reason='Rerun after adding the calibrated real TIFF natural-pyramid integration test; native inputs and installed package unchanged'),indent=2)+'\n',encoding='utf-8');print((out/'runtime-current.log').read_text(encoding='utf-8',errors='replace')[-2500:]);assert p.returncode==0
+cases=list(ET.parse(out/'runtime-current.xml').getroot().iter('testcase'));print('cases',len(cases),'skips',sum(c.find('skipped') is not None for c in cases));assert len(cases)==304 and sum(c.find('skipped') is not None for c in cases)==23
