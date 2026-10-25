@@ -18,9 +18,14 @@ cases (two project-capability skips), 49 native suites and packaged typing check
 The shared C++ per-axis raster and GEOS contour path now pass native integration
 checks, including captured provenance and one-read decoded-input identity;
 see the [raster receipt](benchmarks/scientific-raster-local-windows.json).
-The actual explicit-grid cell request/detector, new archive/replay and required
-frontend workflow remain pending. Python/GUI/project builds have not qualified
-this public-layout change. All milestones remain Partial.
+The native explicit-grid cell request/detector now connects typed pixel/physical
+scales, complete pre-IO admission, float64 LoG, metric shape/body processing and
+calibrated features to that raster path and the existing CellJob lifecycle.
+See the [native cell-stage receipt](benchmarks/grid-cells-local-windows.json):
+49 native suites and 27 contract tests pass. New archive/replay and required
+frontend workflow remain pending, with old retention paths guarded.
+Python/GUI/project builds have not qualified these public-layout changes.
+All milestones remain Partial.
 Disabled capabilities are not qualified. Hierarchy candidate `207f008`
 passed its native Mac audit but failed engine and portable campaigns on a stale
 synthetic typing fixture, corrected in `5474c3f`. See [current task](current-task.md); no new main

@@ -108,11 +108,31 @@ See the [native raster receipt](benchmarks/scientific-raster-local-windows.json)
 This layout change has not been rebuilt or qualified in Python/GUI/project
 configurations; the older installed channels engine is not evidence for it.
 
-Next: capture an explicit-grid cell request without forcing a natural-level
-TissueRequest, resolve typed pixel/physical parameters and admit all live work
-before IO. Connect the float64 path and physical kernels to the additive cell
-recipe, then its versioned record/archive/replay and
-required frontends. Continue through the full original workflow;
+The native grid cell recipe is now connected in source `956bd18`. A typed C++
+request captures the scientific grid directly, including source snapshots without
+natural-center/sample-count admission. Pixel or micrometre scales resolve per
+axis; inclusive nucleus-area limits reuse calibrated product rules. The pre-IO
+ledger includes float64 input/channels, kernels/heaps, masks/features, decoded
+source and both contour budgets. Detection reads once, uses metric LoG/shape/body
+operations and returns per-axis masks, compartment features and GEOS contours
+through the existing CellJob lifecycle. Tiny ROIs and a bounded grid on a
+10^12-by-10^12 source pass without full native raster allocation.
+
+All 49 GEOS-enabled native suites and 27 contract tests pass, including 32 exact
+LoG signs, 128 rational-distance expansion references, hand-calculated native
+workflow cases and inherited recipe/archive checks. All 291 compiler inputs
+match the configured fingerprint
+`9b5a9463e12c0d08821ba4d35f4f1c3ac5b2deb4d92f3455590851f67038fd57`.
+The [cell-stage receipt](benchmarks/grid-cells-local-windows.json) retains both
+development failures and final evidence. Current source has not been rebuilt or
+qualified in Python/GUI/project configurations. Grid-cell retention/old archives
+are guarded; scientific acceptance is still open.
+
+Next: implement QCL5/QCA5 with full grid, typed requested/resolved parameters,
+captured calibration/domain and input identity; connect record matching,
+verification, reopen and replay. Then expose the same native request/result
+through Python/CLI/ImGui and batches, with installed validation and a frozen
+source-bound qualification campaign. Continue through the full original workflow;
 retain the failed campaign evidence, and qualify a clean integrated candidate
 after installed workflow checks. Do not transfer the old Mac acceptance to new
 compiler inputs. Unicode glyph delivery, broader migration, scientific, licensing
