@@ -58,9 +58,10 @@ baseline remains the accepted public main; no later platform acceptance is impli
 
 The dearray cohorts are now registered in all auditors and the producer, with
 373 local controls and independent collection/wiring checks. Explicit physical
-units pass native, Python, ImGui, managed and CLI checks. Next freeze the
-completed engineering workflow for its required campaign and continue the
-representative real-slide/biological and large-slide requirements. The original
+units pass native, Python, ImGui, managed and CLI checks. The completed
+engineering workflow is now [frozen for its required campaign](benchmarks/tma-dearray-202-campaign.json).
+Follow the original handles while continuing representative real-slide/biological
+and large-slide requirements. The original
 axis campaign completed but was [rejected by strict engine/portable audits](benchmarks/tma-axis-196-audit-rejection.json);
 do not promote it or dispatch another axis-only campaign to replace its records.
 
@@ -187,3 +188,22 @@ require the new named cohorts; all 373 inherited/new controls pass and actual
 current evidence is accepted by the domain helper while older evidence rejects.
 This is not a distributable-wheel or full-platform qualification. Preserve
 original sourcead4's rejected campaign and the qualified main baseline.
+
+
+## Frozen integrated dearraying campaign: in progress
+
+Source `19371b7` is frozen on `feature/tma-dearray-workflow-202` after 373
+clean-checkout controls and 512/35/60 scientific/axis/dearray source proofs.
+Exactly one complete profile was dispatched per role:
+
+- Engine [40245160107](https://github.com/bipxx/qupathxx/actions/runs/40245160107).
+- Mac-native [40245165671](https://github.com/bipxx/qupathxx/actions/runs/40245165671).
+- Portable [40245171698](https://github.com/bipxx/qupathxx/actions/runs/40245171698).
+
+The [dispatch record](benchmarks/tma-dearray-202-campaign.json) preserves original
+handles and attempts. Fresh checkout bytes have fingerprint `68af206c...dc36b7a`;
+canonical compiler Git blobs match the local4b0 module's `6eb23870...f0cc69f6`.
+Neither module/source identity is relabeled. Collect all11source/digest-verified
+archives and run the three complete frozen-source auditors before acceptance.
+Do not mutate the frozen ref or redispatch on an observation timeout. Sourcead4's
+rejected campaign and public main614 remain separate. All M0-M7 remain Partial.

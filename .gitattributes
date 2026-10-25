@@ -406,3 +406,7 @@ docs/benchmarks/tma-axis-196-audit-rejection.json text eol=lf
 # Physical-unit and named dearray qualification evidence retains original bytes.
 docs/benchmarks/tma-dearray-physical-local/** -text -whitespace
 docs/benchmarks/tma-dearray-physical-local.json text eol=lf
+
+# Frozen dearray campaign dispatch/preflight records remain byte-addressed.
+docs/benchmarks/tma-dearray-202-campaign/** -text -whitespace
+docs/benchmarks/tma-dearray-202-campaign.json text eol=lf

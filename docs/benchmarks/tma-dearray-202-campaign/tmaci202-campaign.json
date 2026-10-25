@@ -1,0 +1,197 @@
+{
+  "schema": "qpx.scientific-grid-campaign/2",
+  "source": "19371b74e0fabb3a91bd77ffe67ded04f46a5220",
+  "ref": "feature/tma-dearray-workflow-202",
+  "frozen_checkout": "build/ci/tma-dearray-workflow-202",
+  "profiles_sha256": "b0f907cfdcb706cf0301150577f27db7084a86ad8ea1ff0c2fb88a8fe3c8c4d1",
+  "preflight": "build/tma202-preflight/report.json",
+  "attempts": [
+    {
+      "role": "engine",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": false,
+        "live_reference": true,
+        "extended_readers": true
+      },
+      "wire_inputs": {
+        "macos_native": "false",
+        "portable_linux": "false",
+        "live_reference": "true",
+        "extended_readers": "true"
+      },
+      "attempted_at_utc": "2026-10-25T23:31:29.898735+00:00",
+      "state": "run_identified",
+      "known_runs_before": [],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-25T23:31:31Z",
+        "databaseId": 40245160107,
+        "headSha": "19371b74e0fabb3a91bd77ffe67ded04f46a5220",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40245160107"
+      },
+      "last_observation": {
+        "role": "engine",
+        "run_id": 40245160107,
+        "status": "in_progress",
+        "conclusion": "",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40245160107",
+        "jobs": [
+          {
+            "id": 121325068190,
+            "name": "Windows GUI Python 3.12 software GL",
+            "status": "in_progress",
+            "conclusion": "",
+            "step": "Build and verify"
+          },
+          {
+            "id": 121325068252,
+            "name": "Linux ASan UBSan native",
+            "status": "in_progress",
+            "conclusion": "",
+            "step": "Build and verify"
+          },
+          {
+            "id": 121325068294,
+            "name": "Windows headless Python 3.11 NumPy 1",
+            "status": "in_progress",
+            "conclusion": "",
+            "step": "Build and verify"
+          },
+          {
+            "id": 121325068302,
+            "name": "Linux minimal native",
+            "status": "in_progress",
+            "conclusion": "",
+            "step": "Build and verify"
+          },
+          {
+            "id": 121325068316,
+            "name": "Linux headless Python 3.12 NumPy 2",
+            "status": "in_progress",
+            "conclusion": "",
+            "step": "Build and verify"
+          }
+        ]
+      }
+    },
+    {
+      "role": "macos",
+      "semantic_inputs": {
+        "macos_native": true,
+        "portable_linux": false,
+        "live_reference": false,
+        "extended_readers": false
+      },
+      "wire_inputs": {
+        "macos_native": "true",
+        "portable_linux": "false",
+        "live_reference": "false",
+        "extended_readers": "false"
+      },
+      "attempted_at_utc": "2026-10-25T23:31:34.592447+00:00",
+      "state": "run_identified",
+      "known_runs_before": [
+        40245160107
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-25T23:31:36Z",
+        "databaseId": 40245165671,
+        "headSha": "19371b74e0fabb3a91bd77ffe67ded04f46a5220",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40245165671"
+      },
+      "last_observation": {
+        "role": "macos",
+        "run_id": 40245165671,
+        "status": "in_progress",
+        "conclusion": "",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40245165671",
+        "jobs": [
+          {
+            "id": 121325085167,
+            "name": "macOS native x86_64",
+            "status": "in_progress",
+            "conclusion": "",
+            "step": "Build and validate native engine"
+          },
+          {
+            "id": 121325085332,
+            "name": "macOS native arm64",
+            "status": "in_progress",
+            "conclusion": "",
+            "step": "Build and validate native engine"
+          }
+        ]
+      }
+    },
+    {
+      "role": "portable",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": true,
+        "live_reference": false,
+        "extended_readers": true
+      },
+      "wire_inputs": {
+        "macos_native": "false",
+        "portable_linux": "true",
+        "live_reference": "false",
+        "extended_readers": "true"
+      },
+      "attempted_at_utc": "2026-10-25T23:31:39.726972+00:00",
+      "state": "run_identified",
+      "known_runs_before": [
+        40245160107,
+        40245165671
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-25T23:31:41Z",
+        "databaseId": 40245171698,
+        "headSha": "19371b74e0fabb3a91bd77ffe67ded04f46a5220",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40245171698"
+      },
+      "last_observation": {
+        "role": "portable",
+        "run_id": 40245171698,
+        "status": "queued",
+        "conclusion": "",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40245171698",
+        "jobs": [
+          {
+            "id": 121325102847,
+            "name": "Manylinux build Python 3.11",
+            "status": "queued",
+            "conclusion": "",
+            "step": null
+          },
+          {
+            "id": 121325102965,
+            "name": "Manylinux build Python 3.12",
+            "status": "in_progress",
+            "conclusion": "",
+            "step": "Build qualify and recheck"
+          }
+        ]
+      }
+    }
+  ],
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "last_polled_at_utc": "2026-10-25T23:33:12.824583+00:00",
+  "all_terminal": false
+}
