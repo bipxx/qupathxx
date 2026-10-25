@@ -20,12 +20,14 @@ namespace qpx::detail {
 class GuiTma {
     static constexpr auto first=GuiInputTarget::CreateTmaGrid,last=GuiInputTarget::ApplyTmaLabels;
     static constexpr std::size_t old_count=static_cast<std::size_t>(last)-static_cast<std::size_t>(first)+1;
-    static constexpr std::size_t count=old_count+static_cast<std::size_t>(GuiInputTarget::AcknowledgeQptmaLosses)-static_cast<std::size_t>(GuiInputTarget::LoadQptmaPreview)+1;
+    static constexpr std::size_t exchange_count=static_cast<std::size_t>(GuiInputTarget::AcknowledgeQptmaLosses)-static_cast<std::size_t>(GuiInputTarget::LoadQptmaPreview)+1;
+    static constexpr std::size_t count=old_count+exchange_count+6;
     std::array<Rect,count> targets_{};std::array<bool,count> enabled_{};
     bool open_=false,explicit_options_=false,rename_names_=false,activate_tab_=true;int initial_tab_=0;
     TmaGridOptions options_;
     std::array<char,257> name_{},case_{};
-    std::array<char,129> row_label_{},column_label_{};
+    std::array<char,129> row_label_{},column_label_{},insert_label_{};
+    bool insert_cores_=true,insert_missing_=false;
     std::array<char,32769> path_{};
     std::array<char,32769> measurements_path_{};
     std::array<char,129> value_column_{},weight_column_{};
@@ -44,6 +46,7 @@ class GuiTma {
     struct Export {std::string state,error;std::size_t bytes=0;};
     std::future<Export> export_;std::atomic<bool> cancel_{false};
     static std::size_t index(GuiInputTarget t) {
+        if(t>=GuiInputTarget::TmaInsertRowBefore) return old_count+exchange_count+static_cast<std::size_t>(t)-static_cast<std::size_t>(GuiInputTarget::TmaInsertRowBefore);
         return t>=GuiInputTarget::LoadQptmaPreview?old_count+static_cast<std::size_t>(t)-static_cast<std::size_t>(GuiInputTarget::LoadQptmaPreview):static_cast<std::size_t>(t)-static_cast<std::size_t>(first);
     }
     std::array<char,32769> qptma_input_{},qptma_output_{};
@@ -183,10 +186,10 @@ class GuiTma {
       }catch(...) {metadata_bytes_=0;export_state_="failed";throw;}
     }
 public:
-    explicit GuiTma(const GuiOptions& initial):open_(initial.tma_open),explicit_options_(bool(initial.tma_options)),initial_tab_(initial.tma_tab),options_(initial.tma_options?*initial.tma_options:TmaGridOptions{}),initial_case_(initial.tma_case_id),initial_bounds_(initial.tma_core_bounds),delta_(initial.tma_translation) {if(initial_tab_<0 || initial_tab_>2) throw std::invalid_argument("invalid TMA panel tab");options_.validate();copy(qptma_input_,initial.qptma_input_path);copy(qptma_output_,initial.qptma_output_path);exchange_open_=qptma_input_[0] || qptma_output_[0];copy(name_,options_.name);copy(path_,initial.tma_metadata_path);case_summary_=initial.tma_case_summary;case_cohort_=initial.tma_case_cohort;allow_unversioned_=initial.tma_allow_unversioned;copy(measurements_path_,initial.tma_measurements_path);copy(value_column_,initial.tma_value_column);copy(weight_column_,initial.tma_weight_column);bounded_utf8(initial_case_,256);if(initial_bounds_) initial_bounds_->validate();}
+    explicit GuiTma(const GuiOptions& initial):open_(initial.tma_open),explicit_options_(bool(initial.tma_options)),initial_tab_(initial.tma_tab),options_(initial.tma_options?*initial.tma_options:TmaGridOptions{}),initial_case_(initial.tma_case_id),initial_bounds_(initial.tma_core_bounds),delta_(initial.tma_translation) {if(initial_tab_<0 || initial_tab_>2) throw std::invalid_argument("invalid TMA panel tab");options_.validate();copy(insert_label_,initial.tma_insert_label);insert_cores_=initial.tma_insert_cores;insert_missing_=initial.tma_insert_missing;copy(qptma_input_,initial.qptma_input_path);copy(qptma_output_,initial.qptma_output_path);exchange_open_=qptma_input_[0] || qptma_output_[0];copy(name_,options_.name);copy(path_,initial.tma_metadata_path);case_summary_=initial.tma_case_summary;case_cohort_=initial.tma_case_cohort;allow_unversioned_=initial.tma_allow_unversioned;copy(measurements_path_,initial.tma_measurements_path);copy(value_column_,initial.tma_value_column);copy(weight_column_,initial.tma_weight_column);bounded_utf8(initial_case_,256);if(initial_bounds_) initial_bounds_->validate();}
     ~GuiTma() {finish(false);}
     void open() {open_=true;}
-    static bool handles(GuiInputTarget target) {return (target>=first && target<=last) || (target>=GuiInputTarget::LoadQptmaPreview && target<=GuiInputTarget::AcknowledgeQptmaLosses);}
+    static bool handles(GuiInputTarget target) {return (target>=first && target<=last) || (target>=GuiInputTarget::LoadQptmaPreview && target<=GuiInputTarget::AcknowledgeQptmaLosses) || (target>=GuiInputTarget::TmaInsertRowBefore && target<=GuiInputTarget::TmaRemoveColumn);}
     const std::string& qptma_state() const {return exchange_state_;}
     std::size_t qptma_cores() const {return preview_?preview_->cores.size():0;}
     std::size_t qptma_missing() const {return preview_?preview_missing_:0;}
@@ -312,6 +315,26 @@ public:
                 if(tab("Grid edits",1,GuiInputTarget::TmaGridTab)) {
                     ImGui::BeginDisabled(disabled);ui::InputText("Grid name",name_.data(),name_.size());ui::InputText("Row label",row_label_.data(),row_label_.size());ui::InputText("Column label",column_label_.data(),column_label_.size());ui::Checkbox("Update core names from labels",&rename_names_);ImGui::EndDisabled();
                     if(button("Apply labels",GuiInputTarget::ApplyTmaLabels,disabled)) perform([&]{auto rows=info.row_labels(),columns=info.column_labels();rows[row]=row_label_.data();columns[column]=column_label_.data();doc.set_tma_labels(name_.data(),rows,columns,rename_names_);});
+                    if(ImGui::CollapsingHeader("Rows and columns",ImGuiTreeNodeFlags_DefaultOpen)) {
+                        ImGui::BeginDisabled(disabled);
+                        ui::InputText("New axis label (optional)",insert_label_.data(),insert_label_.size());
+                        ui::Checkbox("Fill inserted slots with cores",&insert_cores_);
+                        ImGui::BeginDisabled(!insert_cores_);ui::Checkbox("Mark new cores missing",&insert_missing_);ImGui::EndDisabled();ImGui::EndDisabled();
+                        ImGui::TextWrapped("Existing cores stay in place. New positions use neighboring cores; leave slots vacant when spacing cannot be inferred.");
+                        auto insert=[&](bool column_axis,std::size_t at) {
+                            const auto bounds=insert_cores_?std::optional<std::vector<Rect>>{}:std::optional<std::vector<Rect>>(std::vector<Rect>{});
+                            created_=column_axis?doc.insert_tma_column(at,insert_label_.data(),bounds,insert_missing_):doc.insert_tma_row(at,insert_label_.data(),bounds,insert_missing_);
+                            losses_acknowledged_=false;field_slot_=std::numeric_limits<std::size_t>::max();
+                            if(!created_.empty()) selection.replace({created_.front()},created_.front());
+                        };
+                        if(button("Add row above",GuiInputTarget::TmaInsertRowBefore,disabled)) perform([&]{insert(false,row);});ImGui::SameLine();
+                        if(button("Add row below",GuiInputTarget::TmaInsertRowAfter,disabled)) perform([&]{insert(false,row+1);});
+                        if(button("Add column left",GuiInputTarget::TmaInsertColumnBefore,disabled)) perform([&]{insert(true,column);});ImGui::SameLine();
+                        if(button("Add column right",GuiInputTarget::TmaInsertColumnAfter,disabled)) perform([&]{insert(true,column+1);});
+                        ImGui::TextWrapped("Removing an axis deletes its cores and their child objects. Cores belonging to other axes are retained.");
+                        if(button("Remove row",GuiInputTarget::TmaRemoveRow,disabled)) perform([&]{doc.remove_tma_row(row);losses_acknowledged_=false;});ImGui::SameLine();
+                        if(button("Remove column",GuiInputTarget::TmaRemoveColumn,disabled)) perform([&]{doc.remove_tma_column(column);losses_acknowledged_=false;});
+                    }
                     ImGui::BeginDisabled(disabled);ui::InputDouble("Move X (px)",&delta_.x);ui::InputDouble("Move Y (px)",&delta_.y);ImGui::EndDisabled();
                     if(button("Move grid and child objects",GuiInputTarget::TranslateTmaGrid,disabled)) perform([&]{doc.translate_tma_grid(delta_.x,delta_.y);});
                     if(button("Dissolve grid (keep objects)",GuiInputTarget::ClearTmaGrid,disabled)) perform([&]{doc.clear_tma_grid();});

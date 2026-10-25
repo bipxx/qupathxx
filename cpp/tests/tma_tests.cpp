@@ -16,7 +16,8 @@
 #endif
 
 using namespace qpx;
-void check(bool b) {if(!b) throw std::runtime_error("TMA check failed");}
+void checked(bool b,int line) {if(!b) throw std::runtime_error("TMA check failed at line "+std::to_string(line));}
+#define check(...) checked((__VA_ARGS__),__LINE__)
 template<class F> void rejects(F f) {try {f();}catch(const std::exception&) {return;}throw std::runtime_error("missing TMA rejection");}
 void case_summary_contracts() {
     auto doc=std::make_shared<Document>(Image(256,192,std::vector<std::uint8_t>(256*192*3,255)));
@@ -143,9 +144,60 @@ void cohort_file_contracts(const std::filesystem::path& root) {
     for(const auto& entry:fs::directory_iterator(root)) check(entry.path().filename().u8string().find(".qpx-tmp-")==std::string::npos);
     std::cout<<"TMA cohort atomic files preserve captured CSV bytes, existing files and input aliases; capture validation and cancellation precede I/O\n";
 }
+
+void axis_edit_contracts() {
+    auto make=[] {
+        auto doc=std::make_shared<Document>(Image(512,512,std::vector<std::uint8_t>(512*512*3,255)));
+        TmaGridOptions o;o.rows=2;o.columns=3;o.origin={100,100};o.row_step={10,60};o.column_step={50,5};o.width=20;o.height=16;
+        doc->create_tma_grid(o);return doc;
+    };
+    auto doc=make();const auto ids=doc->tma_core_ids(true);
+    doc->set_tma_case_ids({{ids[0],"patient"}});doc->set_tma_missing({ids[0]},true);doc->rename_annotation(ids[0],"retained name");
+    const auto before=doc->tma_grid();const auto bounds=doc->annotation(ids[3]).bounds();
+    const auto added=doc->insert_tma_row(1,"interior",{},true);
+    check(added.size()==3 && doc->tma_grid()->info()->rows()==3 && before->info()->rows()==2);
+    check(doc->annotation(ids[3]).tma_core->row()==2 && doc->annotation(ids[3]).bounds().x==bounds.x && doc->annotation(ids[3]).bounds().y==bounds.y);
+    check(doc->annotation(ids[0]).name=="retained name" && doc->annotation(ids[0]).tma_core->case_id()=="patient" && doc->annotation(ids[0]).tma_core->missing());
+    check(doc->annotation(added[0]).bounds().x==95 && doc->annotation(added[0]).bounds().y==122);
+    for(auto id:added) check(doc->annotation(id).tma_core->missing() && doc->annotation(id).tma_core->case_id().empty());
+    check(doc->undo() && doc->tma_core_count()==6 && doc->tma_grid()->info()->rows()==2);
+    check(doc->redo() && doc->tma_grid()->core(1,0)->id==added[0]);
+    doc->remove_tma_row(1);check(doc->tma_grid()->info()->rows()==2 && doc->annotation(ids[3]).tma_core->row()==1);
+    auto extrapolated=doc->insert_tma_column(0);
+    check(extrapolated.size()==2 && doc->annotation(extrapolated[0]).bounds().x==40 && doc->annotation(extrapolated[0]).bounds().y==87);
+    check(doc->undo());
+    const auto revision=doc->revision();
+    rejects([&]{doc->insert_tma_row(3);});rejects([&]{doc->insert_tma_column(1,"1");});
+    rejects([&]{doc->insert_tma_row(1,"",std::vector<Rect>{{1,1,2,2}});});
+    rejects([&]{doc->insert_tma_row(1,"",std::vector<Rect>{{1,1,2,2},{2,2,2,2},{3,3,-1,2}});});
+    check(doc->revision()==revision && doc->tma_core_count()==6);
+    check(doc->insert_tma_row(1,"vacant",std::vector<Rect>{}).empty());
+    check(doc->tma_grid()->info()->rows()==3 && !doc->tma_grid()->core(1,0));doc->remove_tma_row(1);
+    const auto explicit_ids=doc->insert_tma_column(3,"explicit",std::vector<Rect>{{300,100,10,12},{310,160,14,16}});
+    check(explicit_ids.size()==2 && doc->annotation(explicit_ids[1]).bounds().width==14);check(doc->undo());
+    // A core in another row survives even when nested beneath a deleted core.
+    doc->reparent_annotation(ids[3],ids[0]);
+    const auto retained_child=doc->add_cell(Roi::ellipse({106,157,2,2}),{},"retained child",ids[3]);
+    const auto removed_child=doc->add_cell(Roi::ellipse({96,97,2,2}),{},"removed child",ids[0]);
+    // A selected core nested inside a protected subtree is still removed.
+    doc->reparent_annotation(ids[1],retained_child);
+    doc->remove_tma_row(0);
+    check(doc->tma_core_count()==3 && doc->annotation(ids[3]).parent_id==0 && doc->annotation(retained_child).parent_id==ids[3]);
+    rejects([&]{doc->annotation(ids[0]);});rejects([&]{doc->annotation(ids[1]);});rejects([&]{doc->annotation(removed_child);});
+    check(doc->undo() && doc->annotation(ids[3]).parent_id==ids[0] && doc->annotation(ids[1]).parent_id==retained_child && doc->annotation(removed_child).parent_id==ids[0]);
+    check(doc->redo());doc->remove_tma_row(0);check(!doc->tma_grid() && doc->tma_core_count()==0);
+    auto singleton=std::make_shared<Document>(Image(128,128,std::vector<std::uint8_t>(128*128*3,255)));
+    TmaGridOptions o;o.rows=1;o.columns=1;o.origin={50,50};o.width=10;o.height=10;singleton->create_tma_grid(o);
+    const auto single_revision=singleton->revision();rejects([&]{singleton->insert_tma_row(0);});
+    check(singleton->revision()==single_revision && singleton->tma_core_count()==1);
+    check(singleton->insert_tma_row(0,"",std::vector<Rect>{{45,25,10,10}}).size()==1);
+    std::cout<<"TMA axis insertion/removal: skewed geometry, vacant/explicit slots, metadata, nested protection, atomic history and rejection passed\n";
+}
+
 int main() {
     namespace fs=std::filesystem;const auto root=fs::current_path()/("tma-test-"+std::to_string(std::random_device{}()));
     try {
+        axis_edit_contracts();
         case_summary_contracts();
         cohort_summary_contracts();
         auto doc=std::make_shared<Document>(Image(256,192,std::vector<std::uint8_t>(256*192*3,32)));
@@ -205,6 +257,13 @@ int main() {
          const auto stale="source_object_id,source_object_revision\r\n"+std::to_string(a.id)+','+std::to_string(a.revision+1)+"\r\n";rejects([&]{tma_context_csv(*snapshot,stale);});}
 
         if(has_project()) {
+            auto axis_doc=std::make_shared<Document>(Image(256,192,std::vector<std::uint8_t>(256*192*3,255)));
+            axis_doc->create_tma_grid(options);const auto inserted=axis_doc->insert_tma_row(1,"inserted");
+            axis_doc->set_tma_case_ids({{inserted[0],"inserted case"}});axis_doc->remove_tma_column(2);
+            Project axis_project;const auto axis_image=axis_project.add_document(axis_doc,"edited axes");
+            axis_project.save((root/"axes.qpxproj").u8string());const auto axis_open=Project::open((root/"axes.qpxproj").u8string())->document(axis_image);
+            check(axis_open->tma_grid()->info()->rows()==3 && axis_open->tma_grid()->info()->columns()==2 && axis_open->tma_core_count()==6);
+            check(axis_open->tma_grid()->core(1,0)->id==inserted[0] && axis_open->annotation(inserted[0]).tma_core->case_id()=="inserted case");
             Project project;const auto image=project.add_document(doc,"TMA image");project.save((root/"source.qpxproj").u8string());
             const auto opened=Project::open((root/"source.qpxproj").u8string());const auto restored=opened->document(image);check(restored->tma_core_count()==6 && restored->tma_grid()->info()->name()=="Relabeled" && restored->annotation(ids[1]).tma_core->missing() && restored->annotation(filled).tma_core->case_id()=="replacement");
             ProjectBatchOptions batch;batch.tma_only=true;ProjectBatchRequest capture(project,StainTransform({{1,0,0},{0,1,0}}),{},batch);check(capture.object_count()==5);doc->set_tma_missing({ids[0]},true);

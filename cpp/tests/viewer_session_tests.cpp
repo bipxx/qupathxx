@@ -1,5 +1,6 @@
 #include "../viewer_bridge.hpp"
 #include "qupathxx/source_identity.hpp"
+#include "qupathxx/tma.hpp"
 #include <chrono>
 #include <filesystem>
 #include <iostream>
@@ -21,10 +22,31 @@ struct Harness {
     void step(detail::ViewerOwner& owner) {++context.frame;context.active_image=project->active_image();owner.pump(context);}
     ViewerEvent until(detail::ViewerOwner& owner,ViewerSession& session,std::uint64_t ticket) {const auto end=std::chrono::steady_clock::now()+std::chrono::seconds(20);for(;;) {step(owner);const auto event=session.poll(ticket);if(event.state!="queued" && event.state!="running") return event;if(std::chrono::steady_clock::now()>end) throw std::runtime_error("viewer test timeout");std::this_thread::sleep_for(std::chrono::milliseconds(1));}}
 };
+
+void axis_session_contracts(const std::filesystem::path& root) {
+    Harness h;auto doc=h.project->document(1);TmaGridOptions o;o.rows=2;o.columns=2;o.origin={8,7};o.row_step={0,8};o.column_step={9,0};o.width=4;o.height=4;doc->create_tma_grid(o);
+    ViewerSession session((root/"axis").u8string());detail::ViewerOwner owner(session);
+    std::vector<Rect> bounds{{4,5,4,4},{13,5,4,4}};
+    auto ticket=session.insert_tma_row(1,1,"inserted",bounds,true,doc->revision());bounds[0].x=25;
+    auto event=h.until(owner,session,ticket);check(event.state=="succeeded" && event.committed && event.object_ids.size()==2);
+    check(doc->annotation(event.object_ids[0]).bounds().x==4 && doc->annotation(event.object_ids[0]).tma_core->missing());session.take(ticket);
+    const auto revision=doc->revision();ticket=session.remove_tma_row(1,1,revision-1);
+    check(h.until(owner,session,ticket).state=="stale" && doc->revision()==revision);session.take(ticket);
+    ticket=session.remove_tma_column(1,0);check(session.cancel(ticket));check(session.take(ticket).state=="cancelled" && doc->revision()==revision);
+    ticket=session.remove_tma_row(1,1,revision);event=h.until(owner,session,ticket);
+    check(event.state=="succeeded" && event.committed && event.object_ids.empty() && doc->tma_core_count()==4);session.take(ticket);
+    ticket=session.insert_tma_column(1,1,"vacant",std::vector<Rect>{});check(h.until(owner,session,ticket).state=="succeeded" && doc->tma_grid()->info()->columns()==3);session.take(ticket);
+    owner.finish(h.context);
+    ViewerLimits limits;limits.max_edits=2;ViewerSession bounded((root/"axis-bounded").u8string(),limits);detail::ViewerOwner controller(bounded);
+    const auto before=doc->revision();ticket=bounded.remove_tma_column(1,0);
+    check(h.until(controller,bounded,ticket).state=="failed" && doc->revision()==before);bounded.take(ticket);controller.finish(h.context);
+    std::cout<<"TMA viewer axis commands: copied bounds, revision, cancellation, atomic result and edit admission passed\n";
+}
+
 int main() {
     namespace fs=std::filesystem;const auto root=fs::current_path()/("viewer-test-"+std::to_string(std::random_device{}()));
     try {
-        fs::create_directory(root);ViewerLimits limits;limits.validate();limits.tickets=0;rejects([&]{limits.validate();});
+        fs::create_directory(root);axis_session_contracts(root);ViewerLimits limits;limits.validate();limits.tickets=0;rejects([&]{limits.validate();});
         Harness h;ViewerSession session((root/"source.qpxproj").u8string());detail::ViewerOwner owner(session);rejects([&]{detail::ViewerOwner second(session);});
         auto id=session.catalog();auto e=h.until(owner,session,id);check(e.state=="succeeded" && e.images.size()==2);session.take(id);rejects([&]{session.poll(id);});
         id=session.inspect(1,1);e=h.until(owner,session,id);check(e.object && e.metadata && e.metadata->width==32);const auto revision=e.document_revision;session.take(id);

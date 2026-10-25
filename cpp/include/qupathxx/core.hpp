@@ -147,6 +147,17 @@ public:
     std::uint64_t tma_revision() const {return tma_revision_;}
     std::vector<std::uint64_t> create_tma_grid(const TmaGridOptions&);
     std::uint64_t add_tma_core(std::size_t row,std::size_t column,Rect bounds,std::string case_id="",bool missing=false);
+    // No bounds: infer positions. Empty bounds: insert vacant slots. Otherwise
+    // supply one rectangle per cross-axis slot. Existing geometry/IDs stay put.
+    // Atomic structural corrections; retained cores keep geometry, IDs and case data.
+    // Absent bounds infer neighboring centers. Empty bounds insert vacant slots;
+    // otherwise provide one ellipse bound per cross-axis slot. Ambiguous spacing
+    // rejects without mutation. Removal deletes selected cores and descendants,
+    // protecting/reparenting cores in other axes and their descendant subtrees.
+    std::vector<std::uint64_t> insert_tma_row(std::size_t index,std::string label="",std::optional<std::vector<Rect>> bounds={},bool missing=false);
+    std::vector<std::uint64_t> insert_tma_column(std::size_t index,std::string label="",std::optional<std::vector<Rect>> bounds={},bool missing=false);
+    void remove_tma_row(std::size_t index);
+    void remove_tma_column(std::size_t index);
     void translate_tma_grid(double dx,double dy,bool include_descendants=true);
     void set_tma_missing(const std::vector<std::uint64_t>&,bool);
     void set_tma_case_ids(const std::map<std::uint64_t,std::string>&);
@@ -426,6 +437,8 @@ private:
     void commit(Staging&, Calibration);
     void save_edit(Staging&, Calibration, std::string label);
     void trim_history();
+    std::vector<ObjectEdit> tma_insert_axis_edits(bool column,std::size_t index,std::string label,const std::optional<std::vector<Rect>>& bounds,bool missing,std::size_t edit_limit=100000) const;
+    std::vector<ObjectEdit> tma_remove_axis_edits(bool column,std::size_t index,std::size_t edit_limit=100000) const;
     void refresh_spatial() const;
     std::shared_ptr<ImageServer> server_;
     std::map<std::uint64_t,Annotation> objects_;
@@ -670,7 +683,7 @@ struct GuiReport {
 
 };
 enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey, TraceTissueKey, KeepTissueContoursKey, KeepTissueKey, RecheckTissueKey, DetectCellsKey, KeepCellsKey, CancelCellsKey, KeepCellRunKey, RecheckCellRunKey, ExportCellTableKey, CancelCellTableKey, FingerprintFileKey, CancelFingerprintFileKey, ExportMeasurementTableKey, CancelMeasurementTableKey, EstimateStainsKey, ApplyStainEstimateKey, CancelStainEstimateKey, RunBatchKey, CancelBatchKey, ResizeWindow, MinimizeWindow, RestoreWindow, SetUiScale, ObjectClassifierKey, PixelClassifierKey, TmaKey, RawChannelsKey };
-enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord, TrainPixelClassifier, PredictPixelClasses, CancelPixelClassifier, SavePixelModel, LoadPixelModel, TogglePixelOverlay, TracePixelContours, PublishPixelContours, KeepPixelTraining, KeepPixelPrediction, UsePixelRecordModel, PreviewPixelRecord, RemovePixelRecord, ExportPixelStream, OpenPixelStreamBrowser, OpenPixelStreamFile, ReadPixelStreamBlock, PreviousPixelStreamBlock, NextPixelStreamBlock, VerifyPixelStreamFile, CancelPixelStreamRead, ClosePixelStreamFile, KeepPixelStreamLink, OpenPixelStreamRecord, RelinkPixelStreamRecord, RemovePixelStreamRecord, CreateTmaGrid, ToggleTmaMissing, SelectTmaPresent, ApplyTmaCase, ApplyTmaGeometry, TranslateTmaGrid, ClearTmaGrid, OpenTmaBatch, ExportTmaMetadata, CancelTmaMetadata, TmaCoreTab, TmaGridTab, TmaExportTab, ApplyTmaLabels, ApplyTiffView, AddTiffSeries, MeasureRawRegion, ExportRawRegion, CancelRawTask, RawDisplayTab, RawDataTab, RawResultsTab, KeepRawAnalysis, VerifyRawAnalysisRecord, RemoveRawAnalysisRecord, ExportRawMeasurements, CancelRawMeasurements, RawRecordsTab, OverviewBudgetIncrease, OverviewBudgetDecrease, LoadQptmaPreview, ApplyQptmaPreview, ExportQptma, CancelQptma, DiscardQptmaPreview, AcknowledgeQptmaLosses };
+enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord, TrainPixelClassifier, PredictPixelClasses, CancelPixelClassifier, SavePixelModel, LoadPixelModel, TogglePixelOverlay, TracePixelContours, PublishPixelContours, KeepPixelTraining, KeepPixelPrediction, UsePixelRecordModel, PreviewPixelRecord, RemovePixelRecord, ExportPixelStream, OpenPixelStreamBrowser, OpenPixelStreamFile, ReadPixelStreamBlock, PreviousPixelStreamBlock, NextPixelStreamBlock, VerifyPixelStreamFile, CancelPixelStreamRead, ClosePixelStreamFile, KeepPixelStreamLink, OpenPixelStreamRecord, RelinkPixelStreamRecord, RemovePixelStreamRecord, CreateTmaGrid, ToggleTmaMissing, SelectTmaPresent, ApplyTmaCase, ApplyTmaGeometry, TranslateTmaGrid, ClearTmaGrid, OpenTmaBatch, ExportTmaMetadata, CancelTmaMetadata, TmaCoreTab, TmaGridTab, TmaExportTab, ApplyTmaLabels, ApplyTiffView, AddTiffSeries, MeasureRawRegion, ExportRawRegion, CancelRawTask, RawDisplayTab, RawDataTab, RawResultsTab, KeepRawAnalysis, VerifyRawAnalysisRecord, RemoveRawAnalysisRecord, ExportRawMeasurements, CancelRawMeasurements, RawRecordsTab, OverviewBudgetIncrease, OverviewBudgetDecrease, LoadQptmaPreview, ApplyQptmaPreview, ExportQptma, CancelQptma, DiscardQptmaPreview, AcknowledgeQptmaLosses, TmaInsertRowBefore, TmaInsertRowAfter, TmaInsertColumnBefore, TmaInsertColumnAfter, TmaRemoveRow, TmaRemoveColumn };
 enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified, CellsReady, CellsPublished, CellsArchived, CellsVerified, CellTableSaved, FileFingerprintReady, MeasurementTableSaved, StainsEstimated, StainsApplied, BatchFinished, WindowReady, ObjectClassifierTrained, ObjectClassifierPredicted, ObjectClassifierApplied, ClassifierModelSaved, ClassifierModelLoaded, ClassifierTrainingRetained, ClassifierRecordLoaded, PixelClassifierTrained, PixelClassifierPredicted, PixelPreviewReady, PixelModelSaved, PixelModelLoaded, PixelContoursReady, PixelContoursPublished, PixelRecordKept, PixelRecordModelLoaded, PixelHistoricalPreviewReady, PixelStreamFinished, PixelStreamReadReady, PixelStreamReadFinished, PixelStreamVerified, PixelStreamLinked , TmaGridReady, TmaMetadataSaved, TiffReady, TiffViewApplied, RawTaskFinished, RawNumpySaved, RawAnalysisKept, RawAnalysisVerified, RawMeasurementsSaved };
 struct GuiInput {
     int frame = 0;
@@ -751,6 +764,7 @@ struct GuiOptions {
     std::shared_ptr<const TmaGridOptions> tma_options;
     std::string tma_case_id,tma_metadata_path,qptma_input_path,qptma_output_path;
     bool tma_case_summary=false,tma_allow_unversioned=false,tma_case_cohort=false;
+    std::string tma_insert_label;bool tma_insert_cores=true,tma_insert_missing=false;
     std::string tma_measurements_path,tma_value_column,tma_weight_column;
     Point tma_translation;
     std::optional<Rect> tma_core_bounds;

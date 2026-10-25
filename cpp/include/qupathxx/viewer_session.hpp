@@ -51,6 +51,10 @@ public:
     std::uint64_t catalog(std::uint64_t after_id=0,std::size_t limit=64);
     std::uint64_t inspect(std::uint64_t image_id,std::uint64_t object_id=0);
     std::uint64_t execute(std::uint64_t image_id,const std::vector<ObjectEdit>&,std::string label="Python edits",std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t insert_tma_row(std::uint64_t image_id,std::size_t index,std::string label="",std::optional<std::vector<Rect>> bounds={},bool missing=false,std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t insert_tma_column(std::uint64_t image_id,std::size_t index,std::string label="",std::optional<std::vector<Rect>> bounds={},bool missing=false,std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t remove_tma_row(std::uint64_t image_id,std::size_t index,std::optional<std::uint64_t> expected_revision={});
+    std::uint64_t remove_tma_column(std::uint64_t image_id,std::size_t index,std::optional<std::uint64_t> expected_revision={});
     std::uint64_t select(std::uint64_t image_id,const std::vector<std::uint64_t>&);
     std::uint64_t activate(std::uint64_t image_id);
     std::uint64_t read_region(std::uint64_t image_id,RegionRequest);

@@ -15,15 +15,16 @@
 namespace qpx {
 namespace {
 using Clock=std::chrono::steady_clock;
-enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close,RawMetadata,RawRegion,TiffView,RawAnalyze,RawVerify,RawTable};
-const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close","raw_metadata","raw_region","tiff_view","raw_analyze","raw_verify","raw_table"};return values[static_cast<int>(a)];}
+enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close,RawMetadata,RawRegion,TiffView,RawAnalyze,RawVerify,RawTable,TmaAxis};
+const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close","raw_metadata","raw_region","tiff_view","raw_analyze","raw_verify","raw_table","tma_axis"};return values[static_cast<int>(a)];}
 bool terminal(const std::string& state) {return state!="queued" && state!="running";}
 std::string error_text(const std::exception& e) {std::string text=e.what();try {detail::bounded_utf8(text,8192);}catch(...) {return "viewer operation failed (invalid or oversized error text)";}return text;}
+struct TmaAxisCommand {bool column=false,remove=false,missing=false;std::size_t index=0;std::optional<std::vector<Rect>> bounds;};
 struct Command {
     Action action;std::uint64_t image=0,object=0,after=0;std::optional<std::uint64_t> revision;std::size_t limit=64;
     bool flag=false,nucleus=false;std::string text;std::vector<ObjectEdit> edits;std::vector<std::uint64_t> ids;
     RegionRequest region{0,0,0,1,1};std::shared_ptr<const StainTransform> transform;
-    RawRegionRequest raw_region;TiffView tiff_view;
+    RawRegionRequest raw_region;TiffView tiff_view;std::optional<TmaAxisCommand> tma_axis;
     std::optional<RawGridSampling> raw_grid;ScientificRawOptions raw_grid_options;
     RoiSamplingPolicy sampling_policy=RoiSamplingPolicy::GeometryCoverage;
     AnalysisKind analysis=AnalysisKind::OpticalDensityMeans;MeasurementTableKind table=MeasurementTableKind::Roi;
@@ -31,6 +32,7 @@ struct Command {
     std::optional<GridCellSampling> cell_grid;GridCellParameters grid_cells;
     explicit Command(Action a):action(a) {}
     std::size_t bytes() const {std::size_t n=sizeof(Command)+text.capacity()+edits.capacity()*sizeof(ObjectEdit)+ids.capacity()*8+(transform?sizeof(StainTransform)+128:0);
+        if(tma_axis && tma_axis->bounds) n+=tma_axis->bounds->capacity()*sizeof(Rect);
         std::set<const TmaGridInfo*> grids;
         for(const auto& e:edits) {n+=e.value.name.capacity()+e.value.class_name.capacity();if(e.kind==ObjectEditKind::Create || e.kind==ObjectEditKind::Replace) n+=e.value.geometry.payload_bytes()+(e.value.nucleus?e.value.nucleus->payload_bytes():0);if(e.value.tma_core) {n+=e.value.tma_core->payload_bytes();if(grids.insert(e.value.tma_core->grid_info().get()).second) n+=e.value.tma_core->grid_info()->payload_bytes();}}return n;}
 };
@@ -88,6 +90,17 @@ std::uint64_t ViewerSession::inspect(std::uint64_t image,std::uint64_t object) {
 std::uint64_t ViewerSession::execute(std::uint64_t image,const std::vector<ObjectEdit>& edits,std::string label,std::optional<std::uint64_t> revision) {
     if(!image || edits.empty() || edits.size()>impl_->limits.max_edits) throw std::invalid_argument("invalid viewer edit count or image ID");detail::bounded_utf8(label,4096);Command c(Action::Execute);c.image=image;c.revision=revision;c.edits=edits;c.text=std::move(label);return impl_->submit(std::move(c));
 }
+namespace {
+Command axis_command(std::uint64_t image,std::size_t index,bool column,bool remove,std::string label,std::optional<std::vector<Rect>> bounds,bool missing,std::optional<std::uint64_t> revision) {
+    if(!image || index>512) throw std::invalid_argument("invalid TMA axis image or index");detail::bounded_utf8(label,128);
+    if(bounds) {if(bounds->size()>512) throw std::length_error("TMA bounds exceed 512 slots");for(const auto& value:*bounds) Roi::ellipse(value);}
+    Command c(Action::TmaAxis);c.image=image;c.revision=revision;c.text=std::move(label);c.tma_axis=TmaAxisCommand{column,remove,missing,index,std::move(bounds)};return c;
+}
+}
+std::uint64_t ViewerSession::insert_tma_row(std::uint64_t image,std::size_t index,std::string label,std::optional<std::vector<Rect>> bounds,bool missing,std::optional<std::uint64_t> revision) {return impl_->submit(axis_command(image,index,false,false,std::move(label),std::move(bounds),missing,revision));}
+std::uint64_t ViewerSession::insert_tma_column(std::uint64_t image,std::size_t index,std::string label,std::optional<std::vector<Rect>> bounds,bool missing,std::optional<std::uint64_t> revision) {return impl_->submit(axis_command(image,index,true,false,std::move(label),std::move(bounds),missing,revision));}
+std::uint64_t ViewerSession::remove_tma_row(std::uint64_t image,std::size_t index,std::optional<std::uint64_t> revision) {return impl_->submit(axis_command(image,index,false,true,"",{},false,revision));}
+std::uint64_t ViewerSession::remove_tma_column(std::uint64_t image,std::size_t index,std::optional<std::uint64_t> revision) {return impl_->submit(axis_command(image,index,true,true,"",{},false,revision));}
 std::uint64_t ViewerSession::select(std::uint64_t image,const std::vector<std::uint64_t>& ids) {if(!image || ids.size()>impl_->limits.max_edits) throw std::invalid_argument("invalid viewer selection");Command c(Action::Select);c.image=image;c.ids=ids;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::activate(std::uint64_t image) {if(!image) throw std::invalid_argument("viewer activation requires an image ID");Command c(Action::Activate);c.image=image;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::read_region(std::uint64_t image,RegionRequest region) {if(region_byte_count(region.width,region.height)>impl_->limits.region_bytes) throw std::length_error("viewer region exceeds byte limit");Command c(Action::Region);c.image=image;c.region=region;return impl_->submit(std::move(c));}
@@ -213,6 +226,19 @@ struct ViewerOwner::Impl {
         if(command->action==Action::Execute) {
             if(command->revision && *command->revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}
             e.object_ids.reserve(command->edits.size());reserve(ticket,e);const auto ids=doc->execute(command->edits,command->text);e.object_ids.assign(ids.begin(),ids.end());e.committed=true;done();return;
+        }
+        if(command->action==Action::TmaAxis) {
+            if(command->revision && *command->revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}
+            const auto& axis=*command->tma_axis;
+            auto edits=axis.remove?doc->tma_remove_axis_edits(axis.column,axis.index,state->limits.max_edits):
+                doc->tma_insert_axis_edits(axis.column,axis.index,command->text,axis.bounds,axis.missing,state->limits.max_edits);
+            Command captured(Action::Execute);captured.edits=std::move(edits);
+            if(captured.bytes()>state->limits.command_bytes) throw std::length_error("TMA axis edits exceed viewer command budget");
+            const auto created=std::count_if(captured.edits.begin(),captured.edits.end(),[](const auto& edit){return edit.kind==ObjectEditKind::Create;});
+            e.object_ids.reserve(std::size_t(created));reserve(ticket,e);
+            if(ticket->cancelled.load()) {failure(ticket,"viewer command cancelled","cancelled");return;}
+            const auto ids=doc->execute(captured.edits,axis.remove?(axis.column?"Remove TMA column":"Remove TMA row"):(axis.column?"Insert TMA column":"Insert TMA row"));
+            e.object_ids.assign(ids.begin(),ids.end());e.committed=true;done();return;
         }
         if(command->action==Action::Select) {if(e.image_id!=c.active_image) throw std::invalid_argument("activate the target image before selecting objects");c.select(command->ids);done();return;}
         if(work) throw std::runtime_error("a viewer script job is already running; wait for its ticket");

@@ -5,6 +5,7 @@
 #include <cmath>
 #include <cstring>
 #include <limits>
+#include <tuple>
 #include <stdexcept>
 
 namespace qpx {
@@ -131,6 +132,120 @@ std::uint64_t Document::add_tma_core(std::size_t row,std::size_t column,Rect bou
     if(tma_index_->slots.count(position(*info))) throw std::invalid_argument("TMA grid position is occupied");
     auto edit=ObjectEdit::create_geometry(Roi::ellipse(bounds),info->row_label()+"-"+info->column_label());edit.value.tma_core=info;return execute({edit},"Add TMA core").at(0);
 }
+namespace {
+struct CorePlacement {std::size_t row,column;Rect bounds;};
+Point center(Rect r) {return {r.x+r.width/2,r.y+r.height/2};}
+std::optional<Point> grid_step(const std::vector<CorePlacement>& cores,bool column) {
+    std::map<std::size_t,const CorePlacement*> previous;double x=0,y=0;std::size_t count=0;
+    auto ordered=cores;
+    std::sort(ordered.begin(),ordered.end(),[&](const auto& a,const auto& b) {
+        return column?std::tie(a.row,a.column)<std::tie(b.row,b.column):std::tie(a.column,a.row)<std::tie(b.column,b.row);
+    });
+    for(const auto& core:ordered) {
+        const auto cross=column?core.row:core.column,along=column?core.column:core.row;
+        const auto found=previous.find(cross);
+        if(found!=previous.end()) {
+            const auto& old=*found->second;const auto gap=along-(column?old.column:old.row);
+            const auto a=center(old.bounds),b=center(core.bounds);
+            x+=(b.x-a.x)/double(gap);y+=(b.y-a.y)/double(gap);++count;
+        }
+        previous[cross]=&core;
+    }
+    if(!count || !std::isfinite(x) || !std::isfinite(y) || !std::hypot(x,y)) return {};
+    return Point{x/count,y/count};
+}
+std::vector<Rect> insertion_bounds(const std::vector<CorePlacement>& cores,bool column,std::size_t at,std::size_t length,std::size_t cross_count) {
+    const double position=at==0?-1.:at==length?double(length):double(at)-.5;
+    const auto row_step=grid_step(cores,false),column_step=grid_step(cores,true);
+    std::vector<Rect> bounds;bounds.reserve(cross_count);
+    for(std::size_t cross=0;cross<cross_count;++cross) {
+        std::vector<const CorePlacement*> line;
+        for(const auto& core:cores) if((column?core.row:core.column)==cross) line.push_back(&core);
+        std::sort(line.begin(),line.end(),[&](const auto* a,const auto* b){return (column?a->column:a->row)<(column?b->column:b->row);});
+        const CorePlacement* anchor=nullptr;Point value{};
+        if(line.size()>=2) {
+            auto right=std::lower_bound(line.begin(),line.end(),position,[&](const auto* core,double p){return double(column?core->column:core->row)<p;});
+            if(right==line.begin()) ++right;else if(right==line.end()) --right;
+            const auto* a=*(right-1);const auto* b=*right;
+            const auto ia=column?a->column:a->row,ib=column?b->column:b->row;
+            const auto first=center(a->bounds),second=center(b->bounds);const auto t=(position-double(ia))/double(ib-ia);
+            value={first.x+t*(second.x-first.x),first.y+t*(second.y-first.y)};
+            anchor=std::abs(position-double(ia))<=std::abs(position-double(ib))?a:b;
+        } else {
+            if(!line.empty()) anchor=line.front();
+            else for(const auto& core:cores) {
+                if(!anchor || std::abs(double(column?core.column:core.row)-position)+std::abs(double(column?core.row:core.column)-double(cross))<
+                              std::abs(double(column?anchor->column:anchor->row)-position)+std::abs(double(column?anchor->row:anchor->column)-double(cross))) anchor=&core;
+            }
+            if(!anchor) throw std::invalid_argument("TMA grid has no geometry to infer new cores");
+            value=center(anchor->bounds);
+            const double dr=(column?double(cross):position)-double(anchor->row),dc=(column?position:double(cross))-double(anchor->column);
+            if((dr && !row_step) || (dc && !column_step))
+                throw std::invalid_argument("TMA spacing is ambiguous; supply explicit bounds or insert vacant slots");
+            if(dr) {value.x+=dr*row_step->x;value.y+=dr*row_step->y;}
+            if(dc) {value.x+=dc*column_step->x;value.y+=dc*column_step->y;}
+        }
+        bounds.push_back({value.x-anchor->bounds.width/2,value.y-anchor->bounds.height/2,anchor->bounds.width,anchor->bounds.height});
+    }
+    return bounds;
+}
+}
+std::vector<ObjectEdit> Document::tma_insert_axis_edits(bool column,std::size_t at,std::string name,const std::optional<std::vector<Rect>>& supplied,bool missing,std::size_t limit) const {
+    if(!tma_index_) throw std::invalid_argument("document has no TMA grid");const auto& old=*tma_index_->info;
+    const auto length=column?old.columns():old.rows(),cross=column?old.rows():old.columns();
+    if(at>length) throw std::out_of_range("TMA insertion index is outside the axis");
+    if(length>=512 || length+1>10000/cross) throw std::length_error("TMA insertion exceeds grid dimensions");
+    if(supplied && !supplied->empty() && supplied->size()!=cross) throw std::invalid_argument("TMA insertion requires one bound per cross-axis slot");
+    const bool fill=!supplied || !supplied->empty();
+    if(tma_core_count()>limit || (fill && cross>limit-tma_core_count())) throw std::length_error("TMA insertion exceeds edit limit");
+    TmaGridOptions options;options.name=old.name();options.rows=old.rows()+!column;options.columns=old.columns()+column;
+    options.row_labels=old.row_labels();options.column_labels=old.column_labels();auto& labels=column?options.column_labels:options.row_labels;
+    if(name.empty()) for(std::size_t number=1;;++number) {name=std::string(column?"Column ":"Row ")+std::to_string(number);if(std::find(labels.begin(),labels.end(),name)==labels.end()) break;}
+    labels.insert(labels.begin()+at,std::move(name));const auto info=TmaCodec::grid(options);
+    std::vector<CorePlacement> placements;if(fill && !supplied) {placements.reserve(tma_core_count());for(const auto& entry:tma_index_->slots) {const auto& a=find(entry.second);placements.push_back({a.tma_core->row(),a.tma_core->column(),a.geometry.bounds()});}}
+    std::vector<Rect> bounds;if(fill) bounds=supplied?*supplied:insertion_bounds(placements,column,at,length,cross);
+    std::vector<ObjectEdit> edits;edits.reserve(tma_core_count()+(fill?cross:0));
+    for(const auto& entry:tma_index_->slots) {
+        const auto& a=find(entry.second);const auto& core=*a.tma_core;
+        const auto r=core.row()+(!column && core.row()>=at),c=core.column()+(column && core.column()>=at);
+        edits.push_back(ObjectEdit::tma_metadata(a.id,TmaCodec::core(info,r,c,core.missing(),core.case_id())));
+    }
+    if(fill) for(std::size_t i=0;i<cross;++i) {
+        const auto r=column?i:at,c=column?at:i;auto edit=ObjectEdit::create_geometry(Roi::ellipse(bounds[i]),info->row_labels()[r]+"-"+info->column_labels()[c]);
+        edit.value.tma_core=TmaCodec::core(info,r,c,missing,"");edits.push_back(std::move(edit));
+    }
+    return edits;
+}
+std::vector<ObjectEdit> Document::tma_remove_axis_edits(bool column,std::size_t at,std::size_t limit) const {
+    if(!tma_index_) throw std::invalid_argument("document has no TMA grid");const auto& old=*tma_index_->info;
+    const auto length=column?old.columns():old.rows();if(at>=length) throw std::out_of_range("TMA removal index is outside the axis");
+    if(tma_core_count()>limit) throw std::length_error("TMA removal exceeds edit limit");
+    std::set<std::uint64_t> removed,retained;
+    for(const auto& entry:tma_index_->slots) {const auto& a=find(entry.second);((column?a.tma_core->column():a.tma_core->row())==at?removed:retained).insert(a.id);}
+    // A retained core and its descendants survive even when a manually nested
+    // core is below a removed row/column. Detach protected roots first.
+    std::set<std::uint64_t> deleted;std::vector<std::uint64_t> pending(removed.begin(),removed.end());
+    for(std::size_t i=0;i<pending.size();++i) if(deleted.insert(pending[i]).second)
+        for(auto child:children(pending[i])) if(!retained.count(child)) pending.push_back(child);
+    std::shared_ptr<const TmaGridInfo> info;
+    if(!retained.empty()) {
+        TmaGridOptions options;options.name=old.name();options.rows=old.rows()-!column;options.columns=old.columns()-column;
+        options.row_labels=old.row_labels();options.column_labels=old.column_labels();auto& labels=column?options.column_labels:options.row_labels;labels.erase(labels.begin()+at);info=TmaCodec::grid(options);
+    }
+    std::vector<ObjectEdit> edits;edits.reserve(retained.size()+removed.size());
+    for(auto id:retained) {
+        const auto& a=find(id);const auto& core=*a.tma_core;auto parent=a.parent_id;while(parent && deleted.count(parent)) parent=find(parent).parent_id;
+        auto metadata=TmaCodec::core(info,core.row()-(!column && core.row()>at),core.column()-(column && core.column()>at),core.missing(),core.case_id());
+        if(parent!=a.parent_id) {auto edit=ObjectEdit::replace_geometry(id,a.geometry,a.name,parent,a.class_name,a.kind,a.nucleus);edit.value.tma_core=std::move(metadata);edits.push_back(std::move(edit));}
+        else edits.push_back(ObjectEdit::tma_metadata(id,std::move(metadata)));
+    }
+    for(auto id:removed) if(!deleted.count(find(id).parent_id)) edits.push_back(ObjectEdit::remove(id));
+    return edits;
+}
+std::vector<std::uint64_t> Document::insert_tma_row(std::size_t at,std::string label,std::optional<std::vector<Rect>> bounds,bool missing) {return execute(tma_insert_axis_edits(false,at,std::move(label),bounds,missing),"Insert TMA row");}
+std::vector<std::uint64_t> Document::insert_tma_column(std::size_t at,std::string label,std::optional<std::vector<Rect>> bounds,bool missing) {return execute(tma_insert_axis_edits(true,at,std::move(label),bounds,missing),"Insert TMA column");}
+void Document::remove_tma_row(std::size_t at) {execute(tma_remove_axis_edits(false,at),"Remove TMA row");}
+void Document::remove_tma_column(std::size_t at) {execute(tma_remove_axis_edits(true,at),"Remove TMA column");}
 void Document::translate_tma_grid(double dx,double dy,bool descendants) {
     if(!std::isfinite(dx) || !std::isfinite(dy)) throw std::invalid_argument("invalid TMA translation");if(!tma_index_) throw std::invalid_argument("document has no TMA grid");
     auto ids=tma_core_ids(true);std::set<std::uint64_t> seen(ids.begin(),ids.end());

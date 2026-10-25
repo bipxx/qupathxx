@@ -411,7 +411,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t list_revision=std::numeric_limits<std::uint64_t>::max();
     int frames = 0;
     std::uint64_t settle_frames=0;
-    std::array<int,static_cast<std::size_t>(GuiInputTarget::AcknowledgeQptmaLosses)+1> target_seen;
+    std::array<int,static_cast<std::size_t>(GuiInputTarget::TmaRemoveColumn)+1> target_seen;
     std::optional<ImVec2> replay_mouse; // Hold synthetic pointer state between replay events.
     std::set<unsigned int> replay_wheels;std::uint64_t ignored_physical_wheels=0;
     target_seen.fill(-2);
