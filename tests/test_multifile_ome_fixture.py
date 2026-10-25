@@ -31,6 +31,9 @@ def test_every_stored_plane_and_subifd_matches_scalar_coordinate_equation(corpus
             assert source.byteorder==('<' if info['byteorder']=='little' else '>')
             root=ET.fromstring(source.ome_metadata)
             assert root.attrib['UUID']==info['uuid']
+            pixels=root.find('.//{*}Pixels')
+            assert pixels.attrib['PhysicalSizeXUnit']==pixels.attrib['PhysicalSizeYUnit']=='\u00b5m'
+            assert float(pixels.attrib['PhysicalSizeX'])==.25 and float(pixels.attrib['PhysicalSizeY'])==.5
             for plane in info['planes']:
                 positions.append((plane['t'],plane['z'],plane['c']))
                 pages=[source.pages[plane['ifd']],source.pages[plane['ifd']].pages[0]]

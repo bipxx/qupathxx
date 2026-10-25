@@ -34,7 +34,7 @@ def metadata(file_index):
     image=ET.SubElement(root,tag('Image'),ID='Image:0',Name='Independent synthetic multi-file axes')
     pixels=ET.SubElement(image,tag('Pixels'),ID='Pixels:0',DimensionOrder='XYZCT',
         Type='uint16',SizeX='19',SizeY='17',SizeC='2',SizeZ='2',SizeT='2',
-        PhysicalSizeX='0.25',PhysicalSizeY='0.5',PhysicalSizeXUnit='um',PhysicalSizeYUnit='um')
+        PhysicalSizeX='0.25',PhysicalSizeY='0.5',PhysicalSizeXUnit='\u00b5m',PhysicalSizeYUnit='\u00b5m')
     for c in range(2):
         ET.SubElement(pixels,tag('Channel'),ID=f'Channel:0:{c}',Name=f'Raw {c}',SamplesPerPixel='1')
     for other,planes in enumerate(PLANES):
