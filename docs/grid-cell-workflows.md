@@ -86,3 +86,7 @@ independent source features, context invariance and isotropic physical conversio
 It preserves the clipped-ROI nucleus and requested-grid differences. The legacy
 distance recipe's strict expected failures remain separate from these results;
 neither synthetic agreement nor engineering CI establishes biological acceptance.
+Processing extent is also part of the recipe: a full-image grid with ROI
+eligibility can use different filtering context from a grid cropped to the ROI.
+The pinned public debug capture and explicit reference-ROI comparison retain
+that distinction, including the remaining four-pixel nucleus discrepancy.

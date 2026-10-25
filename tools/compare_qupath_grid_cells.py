@@ -23,32 +23,40 @@ def comparison_tool():
     return module
 
 
-def unit_canvas(raster, width, height):
-    """Crop context only after proving this is the declared unit image grid."""
+def unit_canvas(raster, width, height, core_bounds=None):
+    """Project a declared unit core; reject shifted grids and hidden labels."""
     import numpy as np
+    x, y, w, h = core_bounds if core_bounds is not None else (0, 0, width, height)
+    if (any(type(v) is not int for v in (x, y, w, h)) or min(x, y) < 0
+            or min(w, h) <= 0 or x+w > width or y+h > height):
+        raise ValueError('invalid comparison core bounds')
     grid = raster.scientific_grid
     if (grid is None or (grid.image_width, grid.image_height) != (width, height)
-            or (grid.x.origin, grid.y.origin) != (0, 0)
-            or (grid.x.extent, grid.y.extent) != (width, height)
-            or (grid.x.samples, grid.y.samples) != (width, height)):
-        raise ValueError('comparison requires the full-image unit grid')
+            or (grid.x.origin, grid.y.origin) != (x, y)
+            or (grid.x.extent, grid.y.extent) != (w, h)
+            or (grid.x.samples, grid.y.samples) != (w, h)):
+        raise ValueError('comparison requires the declared unit grid')
     labels = raster.labels_numpy()
     cx, cy = grid.x.context, grid.y.context
-    if labels.shape != (height + 2 * cy, width + 2 * cx):
+    if labels.shape != (h + 2 * cy, w + 2 * cx):
         raise ValueError('unit-grid raster shape differs')
     retained = labels.copy()
-    retained[cy:cy + height, cx:cx + width] = 0
+    retained[cy:cy + h, cx:cx + w] = 0
     if np.any(retained):
         raise ValueError('cell labels escaped the grid core')
-    return labels[cy:cy + height, cx:cx + width].copy()
+    canvas = np.zeros((height, width), dtype=np.uint32)
+    canvas[y:y+h, x:x+w] = labels[cy:cy+h, cx:cx+w]
+    return canvas
 
 
-def compare_case(folder, contract, case, context=32, units='pixels'):
+def compare_case(folder, contract, case, context=32, units='pixels', grid_scope='full-image'):
     import numpy as np
     from PIL import Image
     import qupathxx as q
     if units not in ('pixels', 'micrometres'):
         raise ValueError('unknown comparison units')
+    if grid_scope not in ('full-image', 'reference-roi'):
+        raise ValueError('unknown comparison grid scope')
     # Equal physical conversion is possible only on an isotropic unit grid.
     # Do not replace the native per-axis metric with QuPath's averaged axis.
     px, py = case['pixel_size_um']
@@ -71,9 +79,13 @@ def compare_case(folder, contract, case, context=32, units='pixels'):
     else:
         target = doc.add_rectangle(q.Rect(*bounds))
     transform = q.StainTransform(contract['vectors'], contract['white'])
+    core = bounds if grid_scope == 'reference-roi' else [0, 0, width, height]
+    if any(type(v) is not int for v in core):
+        raise ValueError('reference ROI unit-grid comparison requires integer bounds')
+    x, y, w, h = core
     grid = q.ScientificGrid(width, height,
-        q.ScientificGridAxis(0, width, width, context),
-        q.ScientificGridAxis(0, height, height, context))
+        q.ScientificGridAxis(x, w, w, context),
+        q.ScientificGridAxis(y, h, h, context))
     native = contract['native']
     parameters = q.GridCellParameters()
     parameters.units = q.GridCellUnits.LEVEL_ZERO_PIXELS if units == 'pixels' else q.GridCellUnits.MICROMETRES
@@ -92,7 +104,7 @@ def compare_case(folder, contract, case, context=32, units='pixels'):
     reference = comparison.read(path / 'reference.json')
     if reference['qupath_version'] != '0.7.0' or (reference['width'], reference['height']) != (width, height):
         raise ValueError('unexpected reference runtime/dimensions')
-    masks = {name: unit_canvas(getattr(result, attr), width, height)
+    masks = {name: unit_canvas(getattr(result, attr), width, height, core)
              for name, attr in [('nucleus', 'nuclei'), ('body', 'cells')]}
     expected = {name: np.frombuffer(gzip.decompress((path / (name+'.u32le.gz')).read_bytes()),
                     dtype='<u4').reshape(height, width) for name in masks}
@@ -137,7 +149,8 @@ def compare_case(folder, contract, case, context=32, units='pixels'):
         gates['isolated_nucleus_iou'] = len(matches) == 3 and all(m['iou'] >= tolerance['isolated_nucleus_iou_min'] for m in matches)
         gates['isolated_centroid'] = len(matches) == 3 and all(m['centroid_error_px'] <= tolerance['isolated_centroid_error_max_px'] for m in matches)
     return dict(case_name=case['name'], algorithm=result.algorithm, units=units,
-        grid=dict(origin=[0, 0], extent=[width, height], samples=[width, height], context=[context, context]),
+        grid_scope=grid_scope,
+        grid=dict(origin=[x, y], extent=[w, h], samples=[w, h], context=[context, context]),
         parameters=dict(threshold=parameters.threshold, sigma=parameters.sigma,
             log_prominence=parameters.log_prominence, min_peak_radius=parameters.min_peak_radius,
             min_seed_distance=parameters.min_seed_distance, cell_expansion=parameters.cell_expansion,
@@ -153,16 +166,16 @@ def compare_case(folder, contract, case, context=32, units='pixels'):
         elapsed_ms=elapsed)
 
 
-def compare(folder, context=32, units='pixels'):
+def compare(folder, context=32, units='pixels', grid_scope='full-image'):
     import qupathxx as q
     import qupathxx._native as native
     comparison = comparison_tool()
     contract = comparison.verify_capture(folder)
     selected = [case for case in contract['cases']
                 if units == 'pixels' or case['pixel_size_um'][0] == case['pixel_size_um'][1]]
-    cases = [compare_case(folder, contract, case, context, units) for case in selected]
+    cases = [compare_case(folder, contract, case, context, units, grid_scope) for case in selected]
     return dict(schema='qpx.qupath-grid-cells-comparison/1', state='characterized-partial',
-        algorithm='qpx.grid-log-watershed-bodies/1', units=units,
+        algorithm='qpx.grid-log-watershed-bodies/1', units=units, grid_scope=grid_scope,
         build_git_revision=q.build_environment().git_revision,
         source_tree_sha256=q.build_environment().source_tree_sha256,
         native_sha256=comparison.sha(native.__file__),
@@ -179,9 +192,10 @@ def main():
     parser.add_argument('--reference', type=Path, default=FIXTURES/'capture')
     parser.add_argument('--context', type=int, default=32)
     parser.add_argument('--units', choices=['pixels', 'micrometres'], default='pixels')
+    parser.add_argument('--grid-scope', choices=['full-image', 'reference-roi'], default='full-image')
     parser.add_argument('--report', type=Path, required=True)
     args = parser.parse_args()
-    report = compare(args.reference, args.context, args.units)
+    report = compare(args.reference, args.context, args.units, args.grid_scope)
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_bytes((json.dumps(report, indent=2, allow_nan=False)+'\n').encode('utf-8'))
     print(json.dumps(dict(state=report['state'], cases=len(report['cases']), report=str(args.report))))

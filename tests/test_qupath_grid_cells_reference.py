@@ -100,5 +100,29 @@ def test_unit_projection_rejects_incompatible_grid_or_hidden_labels(failure):
     if failure == 'shape': labels = labels[:-1]
     if failure == 'escaped': labels[0, 0] = 1
     raster = SimpleNamespace(scientific_grid=grid, labels_numpy=lambda: labels)
-    with pytest.raises(ValueError, match='full-image unit grid|raster shape|escaped'):
+    with pytest.raises(ValueError, match='declared unit grid|raster shape|escaped'):
         comparison.unit_canvas(raster, 4, 3)
+
+
+def test_reference_roi_processing_extent_and_context_are_explicit(reports):
+    case = next(c for c in CONTRACT['cases'] if c['name'] == 'roi_cut_hole')
+    comparison.comparison_tool().verify_capture(CAPTURE)
+    cropped = comparison.compare_case(CAPTURE, CONTRACT, case, 0, grid_scope='reference-roi')
+    padded = comparison.compare_case(CAPTURE, CONTRACT, case, 32, grid_scope='reference-roi')
+    full = next(c for c in reports[32]['cases'] if c['case_name'] == case['name'])
+    assert cropped['grid'] == dict(origin=[32, 32], extent=[192, 128], samples=[192, 128], context=[0, 0])
+    assert cropped['grid_scope'] == padded['grid_scope'] == 'reference-roi'
+    assert cropped['independent_source_features_accepted']
+    assert cropped['segmentation']['body']['foreground_iou'] == 1
+    assert cropped['segmentation']['nucleus']['foreground_iou'] < 1
+    # Matching the processing crop changes the discrepancy; it does not make
+    # the distinct Gaussian boundary/arithmetic recipes equivalent.
+    assert cropped['label_sha256']['nucleus'] != padded['label_sha256']['nucleus']
+    assert padded['label_sha256'] == full['label_sha256']
+    assert len({c['input_sha256'] for c in [cropped, padded, full]}) == 3
+
+
+@pytest.mark.parametrize('bounds', [[-1, 0, 4, 3], [0, 0, 0, 3], [0, 0, 5, 3], [0., 0, 4, 3]])
+def test_unit_projection_rejects_invalid_declared_core(bounds):
+    with pytest.raises(ValueError, match='invalid comparison core bounds'):
+        comparison.unit_canvas(None, 4, 3, bounds)

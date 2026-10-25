@@ -64,8 +64,9 @@ reference fixture changes are involved. The older distance recipe's three
 strict expected failures remain unchanged; the existing LoG recipe already
 passes those isolated-cell checks.
 
-The new 27-case comparison joins the named installed scientific-grid contract,
-raising its next-candidate requirement to 134 GUI / 132 headless passes plus
+The comparison and public ROI debug capture join the named installed
+scientific-grid contract, raising its next-candidate requirement to
+153 GUI / 151 headless passes plus
 two declared desktop skips. Source169's accepted 107-case contract remains
 historical evidence for that source. New comparison tools, regression source
 and immutable capture dependencies are bound by the next source contract.
@@ -79,11 +80,18 @@ native binary are unchanged from the retained source169 local artifact; a
 426-file source proof binds the new harness and capture dependencies. No native
 rebuild or duplicate platform campaign was used to establish this local scope.
 
-Next: diagnose the clipped-ROI nucleus difference and establish the actual
-requested-grid mapping before claiming those cases equivalent. Retain the
-broader biological, vendor/typed/tiled, hardware and M0-M7 requirements above.
-The saved ROI diagnostic localizes 24 native-only nucleus pixels to x=32/33,
-y=69..80, just inside the left ROI boundary; there are no reference-only pixels.
-This does not yet identify the upstream filtering/processing boundary cause.
-Use a pinned plugin-stage capture to investigate before changing the detector;
-do not remove edge columns or fit a tolerance to make this case pass.
+The pinned public ROI debug capture now reproduces the ordinary output exactly
+and shows a 192x128 cropped processing image. A second capture reproduces all
+twelve non-log payloads byte-for-byte. The explicit reference-ROI/no-context
+comparison removes the 24 native-only pixels but retains four reference-only
+pixels. Their small positive upstream LoG responses differ from zero/negative
+responses in the unchanged native C++ numerical probe. Bodies match exactly.
+The new capture verifier rejects byte changes, recipe/identity changes and
+re-sealed semantic corruption. Production arithmetic and old fixtures are
+unchanged; no tolerance is fitted to accept this discrepancy.
+
+Next: establish the actual requested-grid mapping for the resampled case, and
+retain the documented processing/arithmetic difference when assessing research
+acceptance. Keep broader biological, vendor/typed/tiled, hardware and M0-M7
+requirements above. The legacy distance recipe's expected failures remain
+separate from the newer recipes' successful isolated-cell comparisons.

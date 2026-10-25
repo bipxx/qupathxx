@@ -51,6 +51,7 @@
     "test_grid_context_does_not_change_full_image_labels[size_filters]",
     "test_grid_context_does_not_change_full_image_labels[touching_pair]",
     "test_isotropic_physical_recipe_matches_pixel_recipe",
+    "test_reference_roi_processing_extent_and_context_are_explicit",
     "test_roi_and_resampling_differences_remain_visible",
     "test_unit_projection_rejects_incompatible_grid_or_hidden_labels[escaped]",
     "test_unit_projection_rejects_incompatible_grid_or_hidden_labels[extent]",
@@ -58,7 +59,27 @@
     "test_unit_projection_rejects_incompatible_grid_or_hidden_labels[none]",
     "test_unit_projection_rejects_incompatible_grid_or_hidden_labels[origin]",
     "test_unit_projection_rejects_incompatible_grid_or_hidden_labels[samples]",
-    "test_unit_projection_rejects_incompatible_grid_or_hidden_labels[shape]"
+    "test_unit_projection_rejects_incompatible_grid_or_hidden_labels[shape]",
+    "test_unit_projection_rejects_invalid_declared_core[bounds0]",
+    "test_unit_projection_rejects_invalid_declared_core[bounds1]",
+    "test_unit_projection_rejects_invalid_declared_core[bounds2]",
+    "test_unit_projection_rejects_invalid_declared_core[bounds3]"
+  ],
+  "test_qupath_roi_cell_debug": [
+    "test_debug_capture_rejects_changed_bytes[debug-reference.groovy]",
+    "test_debug_capture_rejects_changed_bytes[debug-stack.json]",
+    "test_debug_capture_rejects_changed_bytes[debug-stack.tif]",
+    "test_debug_capture_rejects_changed_bytes[driver.log]",
+    "test_debug_capture_rejects_changed_bytes[roi_cut_hole/nucleus.u32le.gz]",
+    "test_debug_capture_rejects_changed_identity[case]",
+    "test_debug_capture_rejects_changed_identity[files]",
+    "test_debug_capture_rejects_changed_identity[generator]",
+    "test_debug_capture_rejects_changed_identity[upstream]",
+    "test_debug_capture_rejects_resealed_semantic_changes[contract]",
+    "test_debug_capture_rejects_resealed_semantic_changes[labels]",
+    "test_debug_capture_rejects_resealed_semantic_changes[metadata]",
+    "test_debug_capture_rejects_resealed_semantic_changes[script]",
+    "test_public_debug_stages_reproduce_ordinary_roi_capture"
   ],
   "test_scientific_channel_reference": [
     "test_capture_never_overwrites_an_existing_output",

@@ -1,0 +1,75 @@
+{
+  "schema": "qpx.qupath-roi-cell-debug/1",
+  "upstream": {
+    "tag": "v0.7.0",
+    "revision": "04ccfa4fb7d43e9b566393e08e83690b72248d44",
+    "version": "0.7.0",
+    "bundle_url": "https://github.com/qupath/qupath/releases/download/v0.7.0/QuPath-v0.7.0-Windows.zip",
+    "bundle_filename": "QuPath-v0.7.0-Windows.zip",
+    "bundle_bytes": 282594398,
+    "bundle_sha256": "5839743281d11eca1ac55c87ddcf92c89a30cba7ba2060f162036b0514b1e30c",
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "executable": "QuPath-0.7.0 (console).exe",
+    "license": "GPL-3.0-or-later",
+    "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
+  },
+  "case": "roi_cut_hole",
+  "capture_manifest_sha256": "0a36fa01faf55b13bd0112b39d75371c0a7ecfee795f43a5775b43a46571ac1c",
+  "base_generator_sha256": "4385490772ef21208c9de941718c2f1365547e713e6db9e43db930ced2f15e43",
+  "debug_probe_sha256": "de0cac546e7228d9a554f281c5fa7fc6e4003cd03615594b1ffdbaa0b08ef7b4",
+  "files": {
+    "contract.json": {
+      "bytes": 1720,
+      "sha256": "555116d31c678c635d53ce2f447bcd6d2e269698bd38ba13431a4f40647e7eaa"
+    },
+    "debug-probe.groovy": {
+      "bytes": 1184,
+      "sha256": "de0cac546e7228d9a554f281c5fa7fc6e4003cd03615594b1ffdbaa0b08ef7b4"
+    },
+    "debug-reference.groovy": {
+      "bytes": 7572,
+      "sha256": "e8c492e8b464bd171699326f2c18a8665c68a79429117f8ca11d2d82ed47ae73"
+    },
+    "debug-stack.json": {
+      "bytes": 169,
+      "sha256": "6dc8d914077a0ed3b7c6cf21caf34c2726d919595bef7bcb3aaf936631f46056"
+    },
+    "debug-stack.tif": {
+      "bytes": 493587,
+      "sha256": "4d724067342a0bdedeb26384b8fb66d46d12d343e4b12687bf659f40ce743778"
+    },
+    "driver.log": {
+      "bytes": 1692,
+      "sha256": "4293f04c56bad40792b615be4e1a3e6ccc7f78c3e42ed48a8c9bee50377cf190"
+    },
+    "roi_cut_hole/body-decoded.u32le.gz": {
+      "bytes": 483,
+      "sha256": "f57cde54a6b7a87536858b88b7944a531c326de82cafa4d8dab9e1c5c473d9a8"
+    },
+    "roi_cut_hole/body.u32le.gz": {
+      "bytes": 483,
+      "sha256": "f57cde54a6b7a87536858b88b7944a531c326de82cafa4d8dab9e1c5c473d9a8"
+    },
+    "roi_cut_hole/cells.geojson": {
+      "bytes": 7979,
+      "sha256": "e704acdb97497820dd32b33b8462f95edca6aa774244727b3e92971ebe1f8d55"
+    },
+    "roi_cut_hole/input.png": {
+      "bytes": 1264,
+      "sha256": "989709b333d97602dc0064136c0b23e6592c7154553ff208c8f68b4818146a66"
+    },
+    "roi_cut_hole/nucleus-decoded.u32le.gz": {
+      "bytes": 407,
+      "sha256": "cec010bb33e1ac8a74c6c6781400af0f7b4ba7c84aa0a5347840931a33086080"
+    },
+    "roi_cut_hole/nucleus.u32le.gz": {
+      "bytes": 407,
+      "sha256": "cec010bb33e1ac8a74c6c6781400af0f7b4ba7c84aa0a5347840931a33086080"
+    },
+    "roi_cut_hole/reference.json": {
+      "bytes": 12843,
+      "sha256": "a07fbdc7ce90b7eebb26ba6281019c307ce0203281e1065ef59669f103ba34ff"
+    }
+  }
+}

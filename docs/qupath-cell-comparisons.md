@@ -166,8 +166,46 @@ python -I tools/compare_qupath_grid_cells.py --units micrometres --report build/
 python -I -m pytest tests/test_qupath_grid_cells_reference.py -q
 ```
 
+### Clipped processing domain and public debug stages
+
+The [ROI debug fixture](../tests/fixtures/qupath-cells-roi-debug-0.7.0/manifest.json)
+captures the pinned plugin's public five-slice debug stack for `roi_cut_hole`.
+Its 192×128 extent equals the ROI bounding box, rather than the 256×192 full
+image used by the initial native comparison. Debug mode reproduces all ordinary
+nucleus/body and decoded label arrays, reference measurements and source input.
+Its final debug labels independently reproduce all 772 ordinary nucleus pixels.
+Two live captures have identical bytes for all twelve non-log payloads; the
+timestamped runtime logs remain separate. The manifest binds the original
+capture, pinned runtime, selected recipe and both public-API scripts. The only
+ordinary-generator change enables its debug flag. No upstream kernel is copied.
+
+The grid comparison now accepts `--grid-scope reference-roi --context 0` to use
+that processing rectangle explicitly. Projection verifies the declared origin,
+extent, unit spacing, dimensions and empty context labels before constructing
+the full comparison canvas. This is a comparison choice, not a change to the
+production detector or its default context. On this crop, the nucleus difference
+changes from 24 native-only pixels to four reference-only pixels; bodies remain
+exact. Padding this ROI by 32 samples reproduces the original full-image masks.
+
+The four missing pixels are (32,68), (33,68), (32,81), (33,81). The captured
+QuPath LoG responses there are approximately 2.74e-6 and 1.17e-5, both positive.
+A standalone GCC probe of the unchanged native C++ kernel, fed float64 OD values
+exported by the installed native sampler, gives zero or -2.22e-16 and a false
+positive-mask bit at those points. This probe is scoped numerical evidence,
+not a new platform qualification. The grid recipe's validity-normalized
+float64 Gaussian and zero-flux Laplacian are distinct from the plugin's captured
+processing. No epsilon, column trimming or new acceptance tolerance is introduced
+to force agreement. Broader arithmetic equivalence remains unproved.
+
+```powershell
+python -I tools/compare_qupath_grid_cells.py --grid-scope reference-roi --context 0 --report build/grid-cells-cropped.json
+python -I tools/qupath_roi_cell_debug.py --report build/roi-debug-verification.json
+# Windows: new directory required; verifies the existing pinned runtime cache
+python -I tools/qupath_roi_cell_debug.py --capture build/new-roi-debug --runtime-cache build/upstream/qupath --report build/new-roi-debug-verification.json
+```
+
 The next comparison work must establish the actual requested source/grid mapping
-and diagnose the clipped ROI nucleus difference. Keep those outputs and the
+for the resampled case. Keep the processing-domain/arithmetic discrepancy and
 legacy recipe visible rather than removing difficult cases from the corpus.
 
 From an installed package environment with the CI scientific dependencies:

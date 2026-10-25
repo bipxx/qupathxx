@@ -246,3 +246,7 @@ tests/test_qupath_grid_cells_reference.py text eol=lf
 
 docs/benchmarks/grid-cell-qupath-comparison-local/** -text -whitespace
 docs/benchmarks/grid-cell-qupath-comparison-local-windows.json text eol=lf
+
+tests/fixtures/qupath-cells-roi-debug-0.7.0/** -text -whitespace
+tools/qupath_roi_cell_debug.py text eol=lf
+tests/test_qupath_roi_cell_debug.py text eol=lf
