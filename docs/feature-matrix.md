@@ -304,9 +304,11 @@ the same three legacy scientific xfails. Hosted platform gates remain pending.
 Cell detection remains Partial; expansion/kernel comparisons do not establish
 broader biology or M5.
 
-Nested annotation export is now implemented in native/Python/file/ImGui APIs.
-All 51 hierarchy/interchange checks and 50 native suites pass on the final local
-wheel, with actual QuPath parent/nucleus/point preservation. The broader
-217-case integration has 215 passed, one recovery long-path failure and one
-OpenSlide capability skip; it is not accepted. See the
-[partial receipt](benchmarks/annotation-migration-nested-local-windows.json).
+Nested annotation export is implemented in native/Python/file/ImGui APIs and
+actual QuPath imports preserve the captured parents, nucleus and points.
+The Windows recovery path failure is fixed through shared physical access while
+logical paths, ownership, rescue and maintenance semantics remain unchanged.
+The installed engine passes 50 native suites and 305 installed cases; three
+host-capability skips are declared. Source-bound platform qualification remains
+open for this integrated source. See the
+[current receipt](benchmarks/annotation-migration-recovery-local-windows.json).

@@ -1,0 +1,254 @@
+{
+  "schema": "qpx.annotation-migration-recovery-local/1",
+  "state": "partial",
+  "local_engineering_gates": "passed",
+  "date": "2026-10-25",
+  "compiled_source": "df0733c3782f99518e89d7e2f40787dbb2be3094",
+  "test_contract_source": "ad339deb6a777d1405031dcf31c3298b3c3d4d24",
+  "engine": {
+    "git_revision": "df0733c3782f99518e89d7e2f40787dbb2be3094",
+    "source_tree_sha256": "be6b490d5f946da268ee2f37bc8ec8627bade964a4933788140fc7e4a28185b3",
+    "module": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\hierarchy158-python\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "module_sha256": "af4f633dd5a8d3ff69d12ddc12de8df61de9e5703188df6ef36994c7c6ad4079",
+    "gui": true,
+    "geos": true,
+    "interchange": true,
+    "project": true
+  },
+  "wheel": {
+    "filename": "qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "sha256": "533db259f9c707b6e2313e6424cbdb65faebbdde4f99dc515ba3b7a273a86f5c"
+  },
+  "compiler_inputs": {
+    "count": 268,
+    "sha256": "be6b490d5f946da268ee2f37bc8ec8627bade964a4933788140fc7e4a28185b3",
+    "git_processes": 1,
+    "all_compiler_inputs_unchanged_to_test_contract_source": true
+  },
+  "results": {
+    "native": {
+      "tests": 50,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "installed": {
+      "tests": 308,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 3
+    },
+    "installed_passed": 305,
+    "long_path_final": {
+      "tests": 10,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "previous_wheel_red": {
+      "tests": 5,
+      "failures": 5,
+      "errors": 0,
+      "skipped": 0
+    },
+    "positive_typing_files": 4,
+    "expected_negative_typing_errors": 13,
+    "generated_packaged_stubs": "match"
+  },
+  "test_layout": {
+    "original_failed_root": "build/ci/hierarchy158-final-integration-captures",
+    "passing_root": "build/ci/hierarchy158-final-integration-retry002",
+    "both_absolute_root_characters": 79,
+    "original_failure_case_passed": true,
+    "portable_layout_delta": "After the full gate, add directory padding only on short temp roots so derived filenames stay below NAME_MAX; rerun all ten affected tests. Windows final path lengths remain fixed at 230/270."
+  },
+  "allowed_optional_skips": [
+    {
+      "classname": "tests.test_gui_startup",
+      "name": "test_startup_opens_aperio_source_on_worker_when_fixture_available",
+      "reason": "requires OpenSlide Aperio fixture"
+    },
+    {
+      "classname": "tests.test_recovery_work_cleanup",
+      "name": "test_links_are_not_followed[snapshot]",
+      "reason": "file symlink creation unavailable"
+    },
+    {
+      "classname": "tests.test_recovery_work_cleanup",
+      "name": "test_links_are_not_followed[owner]",
+      "reason": "file symlink creation unavailable"
+    }
+  ],
+  "scope": [
+    "230/270-character public checkpoints and longer private work/snapshot paths",
+    "unchanged public logical paths, project identity and image bases",
+    "abandoned-work rescue without replacement; unknown inventory preserved",
+    "long checkpoint discovery and SQLite reopening",
+    "review/checked deletion plus changed-since-review rejection",
+    "live-session retention protection and cleanup after owner release",
+    "native drive/UNC physical-path conversion policy; no real network-share qualification"
+  ],
+  "actual_upstream": {
+    "python": {
+      "objects": 6,
+      "parent_links": 4,
+      "geometry_absolute_tolerance": 1e-06
+    },
+    "gui": {
+      "objects": 6,
+      "parent_links": 4,
+      "geometry_absolute_tolerance": 1e-06
+    },
+    "gui_producer_module_sha256": "af4f633dd5a8d3ff69d12ddc12de8df61de9e5703188df6ef36994c7c6ad4079",
+    "runtime_files_verified": 496
+  },
+  "capture": {
+    "inspected": true,
+    "byte_identical_to_previous_inspected_nested_export": true,
+    "dimensions": [
+      1280,
+      1100
+    ],
+    "unicode_glyph_gap_retained": true
+  },
+  "supersedes_local_failure": "docs/benchmarks/annotation-migration-nested-local-windows.json (retained unchanged)",
+  "remaining": [
+    "Source-bound hierarchy/recovery platform auditor cohorts",
+    "Required source-matched engine/Mac/portable qualification for this new integration source",
+    "Real UNC shares, broader filesystem/platform and Unicode delivery",
+    "All remaining M0-M7 scientific, hardware, licensing and release criteria"
+  ],
+  "retained_development_attempts_not_acceptance": [
+    "build/hierarchy158-recovery-red-tests.xml (initial clean-project fixture)",
+    "build/hierarchy158-recovery-green-tests.xml (initial clean-project fixture)",
+    "build/hierarchy158-recovery-green2-tests.xml (rescue SQLite failure plus discovery fixture location)",
+    "build/hierarchy158-recovery-lifecycle-red.xml (long publication stats and review failures)",
+    "build/hierarchy158-recovery-green4-tests.xml (retention fixture controller/SQLite-handle mistakes)"
+  ],
+  "files": {
+    "compiler-input-proof.json": {
+      "bytes": 52043,
+      "sha256": "d131312c6c5724f2c0a4e38e521e050e63501942e3443ccaae9cf5459bae4420"
+    },
+    "gui-roundtrip/native-nested.geojson": {
+      "bytes": 1775,
+      "sha256": "bf2bb67cb9405ce0fd962a19fe43684c683d94e8e127f0da1595ef33d2d26847"
+    },
+    "gui-roundtrip/qupath/flat.geojson": {
+      "bytes": 3031,
+      "sha256": "3b45d047443b445e62604cf2063ff943cac25fcfbd0d2c81f04c8a5716ae23b2"
+    },
+    "gui-roundtrip/qupath/hierarchy.json": {
+      "bytes": 4819,
+      "sha256": "0182dbc8d2756fe90c8cdc0c7c1cd76d596d4757d5e1018b17f51a0ced9b352c"
+    },
+    "gui-roundtrip/qupath/losses.geojson": {
+      "bytes": 705,
+      "sha256": "8d76ad7bbefb78149dfb71d46ece02108d987d10e05f1402cb3f4cdad12da409"
+    },
+    "gui-roundtrip/qupath/metadata-raw.geojson": {
+      "bytes": 875,
+      "sha256": "28a30c0375e97727e44e6156d4426f50ed6fbba487912ba21350e884f82bf170"
+    },
+    "gui-roundtrip/qupath/nested.geojson": {
+      "bytes": 6158,
+      "sha256": "d27d27a031759b821ee790760ddc2f2405ca3d68548bf3f8f751aebb90bb85c1"
+    },
+    "gui-roundtrip/qupath/reference.json": {
+      "bytes": 10413,
+      "sha256": "cae615f78e39a12b7e4ae122bafee9d8b465a380e7fc9d8be86b11a358c18685"
+    },
+    "gui-roundtrip/qupath.log": {
+      "bytes": 954,
+      "sha256": "ffd37ce6daf33b0d4f6eb9e93687ef2c702144f492dbcab153716acf41ec55be"
+    },
+    "gui-roundtrip/report.json": {
+      "bytes": 2620,
+      "sha256": "239dfba03f399e562919868d79ce6d6e8c57080a191babf48ba0ca93ae1b04cf"
+    },
+    "hierarchy-typing-negative.log": {
+      "bytes": 501,
+      "sha256": "8d7b129bf74a9379d82d646f1455f03ae3259c026c20897d9fd2d4eeb4009b9e"
+    },
+    "installed.log": {
+      "bytes": 449,
+      "sha256": "f5ff050a472b80f0cc64eab76efcc1b637b4c73121342cc5e9aa127ebdb01866"
+    },
+    "installed.xml": {
+      "bytes": 43150,
+      "sha256": "a39a7892f29a7ff956d34f89f52210a4a58eefc2230ba9aefdfe9904c254b2ba"
+    },
+    "legacy-typing-negative.log": {
+      "bytes": 1043,
+      "sha256": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+    },
+    "long-path-final.xml": {
+      "bytes": 1735,
+      "sha256": "2c4f499a1371a4ba8a8c966d2099ab8495d69fe52d820e82f92a6d6983abad68"
+    },
+    "native.xml": {
+      "bytes": 13366,
+      "sha256": "7e97d087fff975aee8ca4f35c5e5c6f5d7b0dedce20f07a4d09abc7276fa2a88"
+    },
+    "nested-export.png": {
+      "bytes": 26662,
+      "sha256": "c0b769fa35dba3af74a3a0009a5706fc8e28068f9796f1ef3a0f6116ed41e7f8"
+    },
+    "previous-wheel-red.log": {
+      "bytes": 10661,
+      "sha256": "a8d9d014cb7ab3b6501b53390795802b4d34d20aef971bfd3e765ac0d383be25"
+    },
+    "previous-wheel-red.xml": {
+      "bytes": 12545,
+      "sha256": "d19fd6c2d1efd2bfb7bd5b09caf67a2338216911291506654e2779b90691be50"
+    },
+    "python-roundtrip/native-nested.geojson": {
+      "bytes": 1775,
+      "sha256": "bf2bb67cb9405ce0fd962a19fe43684c683d94e8e127f0da1595ef33d2d26847"
+    },
+    "python-roundtrip/qupath/flat.geojson": {
+      "bytes": 3031,
+      "sha256": "3b45d047443b445e62604cf2063ff943cac25fcfbd0d2c81f04c8a5716ae23b2"
+    },
+    "python-roundtrip/qupath/hierarchy.json": {
+      "bytes": 4819,
+      "sha256": "ab244b4a0f8de578ef34cf5cd90720ccb78f11669a03d934573a7bfb4321c897"
+    },
+    "python-roundtrip/qupath/losses.geojson": {
+      "bytes": 705,
+      "sha256": "8d76ad7bbefb78149dfb71d46ece02108d987d10e05f1402cb3f4cdad12da409"
+    },
+    "python-roundtrip/qupath/metadata-raw.geojson": {
+      "bytes": 875,
+      "sha256": "28a30c0375e97727e44e6156d4426f50ed6fbba487912ba21350e884f82bf170"
+    },
+    "python-roundtrip/qupath/nested.geojson": {
+      "bytes": 6158,
+      "sha256": "d27d27a031759b821ee790760ddc2f2405ca3d68548bf3f8f751aebb90bb85c1"
+    },
+    "python-roundtrip/qupath/reference.json": {
+      "bytes": 10413,
+      "sha256": "342be7ea53c13e8e41e7c039fee189f61bd814c0e9b612d701fc89d900b84784"
+    },
+    "python-roundtrip/qupath.log": {
+      "bytes": 954,
+      "sha256": "64fdf9e4d2af1b229e1e6722ed1f66e9a4c132c7082e6acaea46940c37521c3e"
+    },
+    "python-roundtrip/report.json": {
+      "bytes": 2571,
+      "sha256": "032a871a3909c98d3d98dbf9ff27197d9407d82ad2b14c97fc8c90e7184dc168"
+    },
+    "qptma-typing-negative.log": {
+      "bytes": 426,
+      "sha256": "33a82566b1a0503969d660a671bb03b6f801ab9f54a80cae7a3241810b62ef5e"
+    },
+    "stubs.log": {
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    "typing.log": {
+      "bytes": 44,
+      "sha256": "d9a5631f7d87a741fbecc3236286d1792d22d349ff13846d71cdc9217307bb76"
+    }
+  }
+}

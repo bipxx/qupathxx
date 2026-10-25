@@ -60,32 +60,42 @@ The iterative writer avoids recursive subtree copies. The 32-level boundary is
 native-tested; the actual upstream corpus has three levels. Conversion and depth
 errors occur before file publication and preserve an existing destination.
 
-The [current local receipt](benchmarks/annotation-migration-nested-local-windows.json)
-identifies the final wheel at compiled source
-`50b44b099e0b67e60ea9e7830e4692017973a7fe`, its extension and input fingerprint.
-All 50 native suites and 51 hierarchy/interchange checks pass, including four
-real ImGui cases, seven new export cases and ten independent comparator controls.
-Generated packaged stubs match; four positive typing files and all 13 expected
-negative errors pass. Two actual QuPath processes verify Python and GUI exports
-separately. The point oracle also rejects an extra point inside unchanged bounds.
-The original [main154 preparation receipt](benchmarks/annotation-migration-local-windows.json)
-remains explicitly bound to its historical source `15f5888`.
+The [current local receipt](benchmarks/annotation-migration-recovery-local-windows.json)
+identifies the installed engine at compiled source
+`df0733c3782f99518e89d7e2f40787dbb2be3094`, wheel/module hashes and all 268
+compiler inputs. Fifty native suites and 305 installed cases pass. Three host
+capability skips remain explicit: one OpenSlide fixture case and two file-symlink
+cases unavailable on this Windows host. The existing hierarchy/interchange cases,
+four desktop migration cases, project save/recovery and additional recovery
+maintenance/retention/UI checks are included. Ten long-path cases also pass after
+adding portable filename-limit assertions. Packaged stubs, four positive typing
+files and all 13 expected negative errors pass. Two actual pinned QuPath processes
+verify Python and GUI exports separately, including point coordinates and parents.
 
-The broader installed integration gate remains **partial**: 215 passed, one
-failed and one optional OpenSlide case skipped. The failure is existing default
-recovery staging under a deep Windows path: appending the work token exceeds the
-legacy path limit. The failed XML/log are retained. Do not shorten that test root
-and claim the full integration passed; fix physical recovery path access while
-preserving logical paths, ownership and non-overwriting rescue/maintenance.
-OpenSlide is disabled in this local focus configuration; its required hosted
-coverage remains separate.
+The earlier [partial integration receipt](benchmarks/annotation-migration-nested-local-windows.json)
+retains the Windows recovery staging failure. The fix reuses the batch engine's
+physical-path policy through `cpp/filesystem_access.hpp`. Physical work paths,
+SQLite connections and recovery filesystem operations use extended Windows paths;
+public project/base/image paths and recovery listings stay logical. Owned work
+names/markers, writer leases, inventory checks, non-overwriting rescue and checked
+deletion policy are unchanged. Tests cover 230/270-character checkpoint paths,
+longer derived work/snapshot/rescue paths, reopening and discovery, changed-since-
+review rejection, and live-session retention followed by release. Drive/UNC
+conversion is native-tested; a real network share is not qualified by that test.
+
+The old wheel fails all five original long-path reproductions. The corrected
+engine passes the broader gate at the same 79-character absolute root length;
+it does not hide the failure by shortening the test directory. Raw failures and
+successful XML/logs are retained separately. The original
+[main154 preparation receipt](benchmarks/annotation-migration-local-windows.json)
+is still bound to its historical source `15f5888`.
 
 The inspected final nested-export capture has readable mode/depth text and
 `Exported 6 objects`, with body/nucleus/points visible. It is byte-identical to the
 inspected initial capture. The default font displays the alpha in the parent
 label as `?`; Unicode data remains exact. Unicode glyph delivery remains open.
-Broader hierarchy/property contracts, direct `.qpproj`/`.qpdata`, full source-bound
-platform cohorts and supported-release requirements remain in the full plan.
+Source-bound hierarchy/recovery qualification cohorts, broader hierarchy/property
+contracts, direct `.qpproj`/`.qpdata`, full platform gates and supported-release requirements remain in the full plan.
 
 Run the installed tests from the repository root:
 
