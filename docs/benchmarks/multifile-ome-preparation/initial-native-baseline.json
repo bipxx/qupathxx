@@ -1,0 +1,19 @@
+{
+  "scope": "Unsupported baseline, not native multi-file acceptance",
+  "engine": {
+    "revision": "4b0e1313fad77d5bc5c4bccf495e9e120df488ac",
+    "fingerprint": "6eb238703a073afce7247f89cd63c324969c990ca6db2a26c15d5fd3f0cc69f6"
+  },
+  "cases": [
+    {
+      "file": "primary.ome.tif",
+      "exception_type": "ValueError",
+      "message": "multi-file OME references are unsupported"
+    },
+    {
+      "file": "companions/planes-\u03b2.ome.tif",
+      "exception_type": "ValueError",
+      "message": "multi-file OME references are unsupported"
+    }
+  ]
+}

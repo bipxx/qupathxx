@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="4" time="0.375" timestamp="2026-10-25T19:54:57.587028-04:00" hostname="HEQPC"><testcase classname="tests.test_multifile_ome_fixture" name="test_every_stored_plane_and_subifd_matches_scalar_coordinate_equation" time="0.035" /><testcase classname="tests.test_multifile_ome_fixture" name="test_independent_ome_reader_resolves_whole_fileset_from_either_member[primary.ome.tif]" time="0.020"><failure message="assert [(2, 2, 2, 17, 19)] == [(2, 2, 2, 17... 2, 2, 9, 10)]&#10;  &#10;  Right contains one more item: (2, 2, 2, 9, 10)&#10;  Use -v to get more diff">corpus = (WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4050/test_independent_ome_reader_re0/corpus'), {'sc...e, 'specification': 'https://ome-model.readthedocs.io/en/stable/ome-tiff/specification.html#multi-file-ome-tiff', ...})
+entry = 'primary.ome.tif'
+
+    @pytest.mark.parametrize('entry',fixture.FILES)
+    def test_independent_ome_reader_resolves_whole_fileset_from_either_member(corpus,entry):
+        directory,_=corpus
+        with tifffile.TiffFile(directory/entry) as source:
+            series=source.series[0]
+            assert series.axes=='TCZYX'
+&gt;           assert [level.shape for level in series.levels]==[(2,2,2,17,19),(2,2,2,9,10)]
+E           assert [(2, 2, 2, 17, 19)] == [(2, 2, 2, 17... 2, 2, 9, 10)]
+E             
+E             Right contains one more item: (2, 2, 2, 9, 10)
+E             Use -v to get more diff
+
+tests\test_multifile_ome_fixture.py:53: AssertionError</failure></testcase><testcase classname="tests.test_multifile_ome_fixture" name="test_independent_ome_reader_resolves_whole_fileset_from_either_member[companions/planes-\u03b2.ome.tif]" time="0.022"><failure message="assert [(2, 2, 2, 17, 19)] == [(2, 2, 2, 17... 2, 2, 9, 10)]&#10;  &#10;  Right contains one more item: (2, 2, 2, 9, 10)&#10;  Use -v to get more diff">corpus = (WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4050/test_independent_ome_reader_re1/corpus'), {'sc...e, 'specification': 'https://ome-model.readthedocs.io/en/stable/ome-tiff/specification.html#multi-file-ome-tiff', ...})
+entry = 'companions/planes-β.ome.tif'
+
+    @pytest.mark.parametrize('entry',fixture.FILES)
+    def test_independent_ome_reader_resolves_whole_fileset_from_either_member(corpus,entry):
+        directory,_=corpus
+        with tifffile.TiffFile(directory/entry) as source:
+            series=source.series[0]
+            assert series.axes=='TCZYX'
+&gt;           assert [level.shape for level in series.levels]==[(2,2,2,17,19),(2,2,2,9,10)]
+E           assert [(2, 2, 2, 17, 19)] == [(2, 2, 2, 17... 2, 2, 9, 10)]
+E             
+E             Right contains one more item: (2, 2, 2, 9, 10)
+E             Use -v to get more diff
+
+tests\test_multifile_ome_fixture.py:53: AssertionError</failure></testcase><testcase classname="tests.test_multifile_ome_fixture" name="test_metadata_refs_have_matching_uuid_and_relative_paths" time="0.038" /></testsuite></testsuites>

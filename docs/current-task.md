@@ -226,3 +226,20 @@ working-budget deficit and an oversized full-base read. Each same reader then
 recovers at exact source/output/work limits with matching pixels and geometry.
 The combined generator/verifier suite passes 115 controls. Platform and
 representative biological/vendor-slide requirements remain open.
+
+
+## Next implementation slice: multi-file OME
+
+The [independent corpus](benchmarks/multifile-ome-preparation.json) now fixes
+shuffled C/Z/T plane placement, mixed byte orders, relative Unicode companion
+paths and per-plane subresolutions. Four fixture checks pass. Both native entry
+points still reject multi-file references. Implement compound source observations
+and codec compatibility first, then the complete reader/project/frontend
+workflow in the [slice contract](multifile-ome-tiff.md). This is preparation,
+not native multi-file acceptance. All original M0-M7 requirements remain active.
+
+The frozen TMA candidate now has [strict Mac-native acceptance](benchmarks/tma-dearray-202-macos-native.json)
+for ARM64 and x86_64, 50 suites each. Linux-only strict acceptance is retained
+locally; Windows GUI and fresh portable consumers remain in progress. Follow
+the original campaign handles; no full campaign acceptance or main promotion
+is implied by these partial results.

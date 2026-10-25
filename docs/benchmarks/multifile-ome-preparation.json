@@ -1,0 +1,61 @@
+{
+  "schema": "qpx.multifile-ome-preparation/1",
+  "validation_source": "ad0b057b45134c4aa3815e2c2a0f1d5f2ea7f35b",
+  "source_files": {
+    "tools/reference_multifile_ome.py": "e7364c14bacb6ddbe5a6c491a4e080993fccf8296dbeda153004bc3402e8bc41",
+    "tests/test_multifile_ome_fixture.py": "edb12ed4837ceabdeacd367b3daad3b0250e8d61d5c554bdfcb3fe33b606e042",
+    "docs/multifile-ome-tiff.md": "38bfa49ac18d76188d0dfa68435ae93f06d6c1c01fd8444bfe9a21826d772b5b"
+  },
+  "scope": "Independent synthetic fixture preparation and unsupported native baseline. Multi-file native support is not implemented or accepted.",
+  "fixture_checks_passed": 4,
+  "native_multifile_support": false,
+  "independent_checks": "Tifffile base C/Z/T assembly from either member; scalar checks of all base and SubIFD samples; UUID/path and file/sample digest checks.",
+  "limitations": [
+    "tifffile2024.9.20 explicitly cannot assemble multi-file pyramid series; individual SubIFDs are independently checked",
+    "Initial checks wrongly expected that upstream assembly capability; failing JUnit retained",
+    "Final corpus uses canonical OME micrometer units; initial corpus and manifest retained separately",
+    "Compound source dependency provenance and complete native/frontend workflow remain to implement"
+  ],
+  "payloads": {
+    "docs/benchmarks/multifile-ome-preparation/fixture/primary.ome.tif": {
+      "bytes": 6889,
+      "sha256": "3e7c39331a538b5c90c87d5effc0b1d7e6b1288199f8a37ed2cf4f4187f22b4b"
+    },
+    "docs/benchmarks/multifile-ome-preparation/fixture/companions/planes-\u03b2.ome.tif": {
+      "bytes": 14080,
+      "sha256": "2dc1a4609378c9de24b76f3552ad0a58899a77e0e1e87a3a724ccda49662cd3e"
+    },
+    "docs/benchmarks/multifile-ome-preparation/fixture/manifest.json": {
+      "bytes": 5585,
+      "sha256": "9129d9cd1529b43ff15b85c3560ad870b0f77d16a8c585d80df07431c8ab042c"
+    },
+    "docs/benchmarks/multifile-ome-preparation/initial-checks.xml": {
+      "bytes": 3126,
+      "sha256": "d977a0ba1bf63cf62c4a9fa06fd0a59ae7e8d61e6a41720445e9a4ab96c5fb5e"
+    },
+    "docs/benchmarks/multifile-ome-preparation/scoped-checks.xml": {
+      "bytes": 865,
+      "sha256": "1c8d0f0e843aa75434715d23212d93a9935a912adae57760a71e24f8ff8fc7af"
+    },
+    "docs/benchmarks/multifile-ome-preparation/final-checks.xml": {
+      "bytes": 865,
+      "sha256": "91eaf9b388f3d60829884df62f6b18944b0a44f02c3ecb0cae208ebbe15440f7"
+    },
+    "docs/benchmarks/multifile-ome-preparation/initial-native-baseline.json": {
+      "bytes": 561,
+      "sha256": "1f6fd24c5f4ec31e231ec9ca875ee50fa1a1e3cad0637667dd6a4e90f8a86249"
+    },
+    "docs/benchmarks/multifile-ome-preparation/current-native-baseline.json": {
+      "bytes": 561,
+      "sha256": "1f6fd24c5f4ec31e231ec9ca875ee50fa1a1e3cad0637667dd6a4e90f8a86249"
+    },
+    "docs/benchmarks/multifile-ome-preparation/initial-fixture-manifest.json": {
+      "bytes": 5585,
+      "sha256": "d520d1ea225b463b370b0c54335c2d60a2ce4af2d51904c41b6be5b3d129525d"
+    },
+    "docs/benchmarks/multifile-ome-preparation/baseline-probe.py": {
+      "bytes": 1047,
+      "sha256": "7cd0728327c369c406f233016a94f6adca7625ac915b61932198147ec133e597"
+    }
+  }
+}

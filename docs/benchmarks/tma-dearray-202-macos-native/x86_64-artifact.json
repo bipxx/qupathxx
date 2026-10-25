@@ -1,0 +1,19 @@
+{
+  "id": 12618399388,
+  "name": "macos-native-x86_64",
+  "size_in_bytes": 11505195,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12618399388",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12618399388/zip",
+  "expired": false,
+  "created_at": "2026-10-25T23:51:26Z",
+  "expires_at": "2026-11-08T23:51:24Z",
+  "updated_at": "2026-10-25T23:51:26Z",
+  "digest": "sha256:0a66326192937afa625bad8756c82284221c1ff661fa43d8ae268709357d50ec",
+  "workflow_run": {
+    "id": 40245165671,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/tma-dearray-workflow-202",
+    "head_sha": "19371b74e0fabb3a91bd77ffe67ded04f46a5220"
+  }
+}

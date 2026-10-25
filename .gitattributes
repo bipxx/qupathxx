@@ -418,3 +418,9 @@ docs/benchmarks/tma-large-pyramid-local.json text eol=lf
 # Exact admission/refusal and same-reader recovery observations.
 docs/benchmarks/tma-large-pyramid-admission-local/** -text -whitespace
 docs/benchmarks/tma-large-pyramid-admission-local.json text eol=lf
+
+# Multi-file corpus and strict Mac-native qualification evidence.
+docs/benchmarks/multifile-ome-preparation/** -text -whitespace
+docs/benchmarks/multifile-ome-preparation.json text eol=lf
+docs/benchmarks/tma-dearray-202-macos-native/** -text -whitespace
+docs/benchmarks/tma-dearray-202-macos-native.json text eol=lf
