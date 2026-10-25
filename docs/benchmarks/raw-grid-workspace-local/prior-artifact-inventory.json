@@ -1,0 +1,58 @@
+{
+  "compiled_source": "8ece80e52f1b93bd62e19f0c4cc5215d6357fd68",
+  "copied": [
+    {
+      "path": "CMakeCache.txt",
+      "bytes": 41667,
+      "sha256": "70f615ee4b4d1c2bc40650151332ef9071dd90d01c5cb48df2cd3e88e98d0bc0"
+    },
+    {
+      "path": "generated/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "d24b1c31ff95e82aa89d97983632163a9ad9329432f8384818836775469e6094"
+    },
+    {
+      "path": "Release/qupathxx_core.lib",
+      "bytes": 74460710,
+      "sha256": "01e3cf479aace367bf0537a91bc3f54b9b9fa9abccc5e36fd99cf781e7588320"
+    },
+    {
+      "path": "Release/qupathxx_gui.lib",
+      "bytes": 15364344,
+      "sha256": "a80dc914d7bc4209c38cd390f8dda6cc05b9d16165f61982122e217384247460"
+    },
+    {
+      "path": "Release/qupathxx_batch.exe",
+      "bytes": 3265024,
+      "sha256": "3a535cb86327b733657b512c81869ac00b05740814c80e6dbccacd0c4e9785f8"
+    },
+    {
+      "path": "Release/qupathxx_resampling_tests.exe",
+      "bytes": 2262016,
+      "sha256": "374f452ed9ce75a93be6d0589cdaa9a22effafcbe731c79199afa98ce3077de9"
+    },
+    {
+      "path": "Release/qupathxx_cell_tests.exe",
+      "bytes": 1855488,
+      "sha256": "64272febfa423c35f6cbc71b05fd91a77c65270230226d1c3735e4ec6229eaec"
+    },
+    {
+      "path": "Release/qupathxx_raw_image_tests.exe",
+      "bytes": 3217920,
+      "sha256": "f95c73394169b2583b14c5815f6fe059e49479cc97e63cc924cd8191b3a406de"
+    },
+    {
+      "path": "Release/qupathxx_viewer_session_tests.exe",
+      "bytes": 3032576,
+      "sha256": "9fdf6562f9d1db9e45a083f776a1673cec584d7a3f9d5ced3813e0b0f6c13977"
+    },
+    {
+      "path": "Release/qupathxx_project_batch_tests.exe",
+      "bytes": 3227136,
+      "sha256": "3f4c0c156aeb85daaa030543815d1892b578333b8a7e76b00f00e77b1034e1ea"
+    }
+  ],
+  "retained_module": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw181-python-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+  "retained_module_sha256": "6253cd6a1b16434432e48e75210bec11d5199f7bbb1e95bf299f930d9ca37e1e",
+  "retained_bundle_inventory": "docs/benchmarks/raw-grid-frontends-local-windows-linux.json#candidate_inventory"
+}

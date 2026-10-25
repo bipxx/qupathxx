@@ -1,0 +1,21 @@
+[
+  {
+    "name": "generate",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw183-python-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\generate_stubs.py"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "check",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw183-python-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\generate_stubs.py",
+      "--check"
+    ],
+    "exit": 0
+  }
+]

@@ -1,0 +1,15 @@
+Internal ctest changing into directory: /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native
+Test project /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native
+    Start 12: raw_image
+1/1 Test #12: raw_image ........................***Failed    0.10 sec
+Independent deflate TIFF typed grid analysis through prefixed zlib passed
+raw analysis source has no observed file identity
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.14 sec
+
+The following tests FAILED:
+	 12 - raw_image (Failed)
+Errors while running CTest

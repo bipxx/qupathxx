@@ -1,0 +1,116 @@
+{
+  "schema": "qpx.raw-owner-observation/1",
+  "compiled_source": "326c66c15d13631d8f46104c7f41f2c8cb13f951",
+  "fingerprint": "6b3c4fb14e290508947e7c8ec71394221a9eb1952ea1b12861f719d70b660261",
+  "scope": "Local observation on shared unreserved workstation; no hardware/UI budget acceptance",
+  "rows": [
+    {
+      "samples": [
+        64,
+        64
+      ],
+      "analysis_ns": 3049000,
+      "keep_ns": [
+        40500,
+        7300,
+        5200,
+        4600,
+        4900,
+        4400,
+        4300
+      ],
+      "verify_ns": [
+        2300,
+        700,
+        500,
+        400,
+        500,
+        400,
+        400
+      ],
+      "median_keep_ns": 4900,
+      "median_verify_ns": 500
+    },
+    {
+      "samples": [
+        256,
+        256
+      ],
+      "analysis_ns": 47398200,
+      "keep_ns": [
+        45500,
+        6000,
+        4900,
+        4400,
+        4800,
+        4300,
+        4400
+      ],
+      "verify_ns": [
+        3000,
+        500,
+        400,
+        400,
+        500,
+        400,
+        400
+      ],
+      "median_keep_ns": 4800,
+      "median_verify_ns": 400
+    },
+    {
+      "samples": [
+        512,
+        512
+      ],
+      "analysis_ns": 194647200,
+      "keep_ns": [
+        59200,
+        9600,
+        8900,
+        7000,
+        6500,
+        8000,
+        7000
+      ],
+      "verify_ns": [
+        2800,
+        900,
+        1100,
+        700,
+        700,
+        700,
+        600
+      ],
+      "median_keep_ns": 8000,
+      "median_verify_ns": 700
+    },
+    {
+      "samples": [
+        65536,
+        1
+      ],
+      "analysis_ns": 66481700,
+      "keep_ns": [
+        56900,
+        9400,
+        7900,
+        7400,
+        7900,
+        7500,
+        6900
+      ],
+      "verify_ns": [
+        3200,
+        900,
+        700,
+        700,
+        600,
+        700,
+        700
+      ],
+      "median_keep_ns": 7900,
+      "median_verify_ns": 700
+    }
+  ]
+}

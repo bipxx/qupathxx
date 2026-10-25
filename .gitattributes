@@ -321,3 +321,6 @@ tests/test_raw_grid_frontends.py text eol=lf
 
 docs/benchmarks/raw-grid-frontends-local/** -text -whitespace
 docs/benchmarks/raw-grid-frontends-local-windows-linux.json text eol=lf
+
+docs/benchmarks/raw-grid-workspace-local/** -text -whitespace
+docs/benchmarks/raw-grid-workspace-local-windows-linux.json text eol=lf

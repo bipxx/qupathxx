@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="2"
+	timestamp="2026-10-25T13:12:28"
+	>
+	<testcase name="resampling" classname="resampling" time="2.70526" status="run">
+		<properties/>
+		<system-out>Scientific raster precision admission agrees with exhaustive binary64 sample checks
+Native scientific grid exact geometry, rounding, context and admission passed
+Native scientific RGB float64 exact means, support, reader and cancellation checks passed
+2891 independent exact raw mean vectors across all ten sample types in both orders passed
+Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed
+Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed
+94 independent typed raw grid references, 3732 channel results and canonical source/input hashes passed
+Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed
+Typed raw sampling engine identity f785430ed75642b1abc0122e5952bea8720b6cee53da38524117082a12665c01 c770baaf6197efc530e697c4cac33a9c6db5f4e7
+Shared ROI grid raw count/context planning and pre-IO admission passed
+Raw grid captured ROI/context workspace, exact budget boundary, hash-only lower admission and single metadata epoch passed
+Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed
+QRA2 private eligible-count authority, changed-mask rejection, checksum-valid count corruption and historical budget compatibility passed
+QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed
+188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed
+2205 independent oracle shapes and admission/alpha/reader checks passed
+</system-out>
+	</testcase>
+</testsuite>

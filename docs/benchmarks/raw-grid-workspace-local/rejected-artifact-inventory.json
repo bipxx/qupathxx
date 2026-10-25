@@ -1,0 +1,21 @@
+{
+  "source": "c770baaf6197efc530e697c4cac33a9c6db5f4e7",
+  "status": "Rejected: fresh TIFF provenance was requested before lazy metadata open",
+  "files": [
+    {
+      "path": "_native.cp312-win_amd64.pyd",
+      "bytes": 6916096,
+      "sha256": "73ae4efff6a500669d1d98f3c1232a5910c72f5f18c5c36cf942019dc9ffa966"
+    },
+    {
+      "path": "qupathxx_core.lib",
+      "bytes": 74551256,
+      "sha256": "c4026c4faa7f8a8912f3ebab5fc70c0c88c2a3579c03d59b873b9c57c3e8b7c6"
+    },
+    {
+      "path": "qupathxx_raw_image_tests.exe",
+      "bytes": 3220480,
+      "sha256": "d1f850e07ea5d0c74b47a4c01942cf6924eb71311c4944903563776009ea8009"
+    }
+  ]
+}

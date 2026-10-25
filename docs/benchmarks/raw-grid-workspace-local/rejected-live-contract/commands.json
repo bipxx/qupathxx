@@ -1,0 +1,32 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw183-python-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_grid_cell_archive_reference.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_grid_cell_consumer_reference.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_grid_cell_frontends.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_grid_cell_reference.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_physical_grid_reference.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_public_stubs.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_qupath_grid_cells_reference.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_qupath_resampled_cell_debug.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_qupath_roi_cell_debug.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_grid_archive_reference.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_grid_frontends.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_grid_statistics_reference.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_mean_reference.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_sampling_reference.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_scientific_channel_reference.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_scientific_channels.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_scientific_grid_reference.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_scientific_raster_contract.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_scientific_raw_bindings.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_scientific_sampling.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw184-scientific\\scientific-tests.xml",
+    "--basetemp=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw184-scientific\\tmp"
+  ],
+  "exit": 1
+}

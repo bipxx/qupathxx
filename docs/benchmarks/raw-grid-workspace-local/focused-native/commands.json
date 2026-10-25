@@ -1,0 +1,71 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "-S",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+      "-B",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 8.256887000054121
+  },
+  {
+    "name": "build",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--build",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "--config",
+      "Release",
+      "--target",
+      "qupathxx_resampling_tests",
+      "qupathxx_raw_image_tests",
+      "--parallel",
+      "2"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 18.72190259990748
+  },
+  {
+    "name": "tests",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^resampling$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw184-windows-focus\\native-tests.xml"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 2.780654100002721
+  },
+  {
+    "name": "tests-raw-image",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^raw_image$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw184-windows-focus\\raw-image-tests.xml"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 0.3158157999860123
+  }
+]

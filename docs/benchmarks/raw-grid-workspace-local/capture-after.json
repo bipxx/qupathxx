@@ -1,0 +1,87 @@
+{
+  "compiled_source": "326c66c15d13631d8f46104c7f41f2c8cb13f951",
+  "fingerprint": "6b3c4fb14e290508947e7c8ec71394221a9eb1952ea1b12861f719d70b660261",
+  "scope": "Shared unreserved workstation observation; no hardware/UI budget acceptance",
+  "rows": [
+    {
+      "samples": [
+        64,
+        64
+      ],
+      "capture_ns": [
+        21300,
+        3000,
+        2000,
+        1400,
+        1400,
+        1200,
+        1100
+      ],
+      "median_capture_ns": 1400
+    },
+    {
+      "samples": [
+        256,
+        256
+      ],
+      "capture_ns": [
+        1400,
+        1200,
+        1100,
+        1100,
+        1200,
+        1100,
+        1200
+      ],
+      "median_capture_ns": 1200
+    },
+    {
+      "samples": [
+        512,
+        512
+      ],
+      "capture_ns": [
+        1300,
+        1100,
+        1200,
+        1100,
+        1200,
+        1100,
+        1100
+      ],
+      "median_capture_ns": 1100
+    },
+    {
+      "samples": [
+        65536,
+        1
+      ],
+      "capture_ns": [
+        1400,
+        1200,
+        1100,
+        1100,
+        1100,
+        1100,
+        1200
+      ],
+      "median_capture_ns": 1100
+    },
+    {
+      "samples": [
+        1000000,
+        1
+      ],
+      "capture_ns": [
+        1300,
+        1300,
+        1200,
+        1200,
+        1200,
+        1200,
+        1200
+      ],
+      "median_capture_ns": 1200
+    }
+  ]
+}

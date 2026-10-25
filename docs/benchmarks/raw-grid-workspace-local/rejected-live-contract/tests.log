@@ -1,0 +1,91 @@
+F..F........F...F....................................................... [ 33%]
+..............................................F......................... [ 66%]
+............F........................................................... [ 99%]
+.                                                                        [100%]
+================================== FAILURES ===================================
+____ test_independent_packet_metadata_and_native_consumer_are_reproducible ____
+
+    def test_independent_packet_metadata_and_native_consumer_are_reproducible():
+        packet,metadata=oracle.reference();folder=ROOT/'tests/fixtures/grid-cell-archive-v1'
+        manifest=json.loads((folder/'manifest.json').read_text(encoding='utf-8'))
+        for key in ('generator','contract','native_header'):
+>           assert hashlib.sha256((ROOT/manifest[key]).read_bytes()).hexdigest()==manifest[key+'_sha256']
+E           AssertionError: assert '31afb6ce7422...7a86f1a77cd77' == 'd74f202495ca...97e2f49e77bbd'
+E             
+E             - d74f202495ca3bd6df88fe543dce5c597778c65ece006326d3097e2f49e77bbd
+E             + 31afb6ce742254a0cf71008e121050cbc7c403c01ea2b8a8fcd7a86f1a77cd77
+
+build\ci\scientific-grid-159\tests\test_grid_cell_archive_reference.py:17: AssertionError
+________ test_independent_qca5_and_native_header_are_byte_reproducible ________
+
+    def test_independent_qca5_and_native_header_are_byte_reproducible():
+        folder=ROOT/'tests/fixtures/grid-cell-consumers-v1';packet,metadata=oracle.reference()
+        assert packet==(folder/'synthetic-classifier.qcr').read_bytes()
+        assert metadata==json.loads((folder/'synthetic-classifier.json').read_text(encoding='utf-8'))
+        assert metadata['features']==11 and metadata['source_steps']==[.5,.25]
+        assert (ROOT/'cpp/tests/grid_classifier_archive_reference.hpp').read_bytes()==oracle.native_header(packet).encode()
+        manifest=json.loads((folder/'manifest.json').read_text(encoding='utf-8'))
+        for key in ('generator','source_generator','contract','native_header'):
+>           assert hashlib.sha256((ROOT/manifest[key]).read_bytes()).hexdigest()==manifest[key+'_sha256']
+E           AssertionError: assert '31afb6ce7422...7a86f1a77cd77' == 'd74f202495ca...97e2f49e77bbd'
+E             
+E             - d74f202495ca3bd6df88fe543dce5c597778c65ece006326d3097e2f49e77bbd
+E             + 31afb6ce742254a0cf71008e121050cbc7c403c01ea2b8a8fcd7a86f1a77cd77
+
+build\ci\scientific-grid-159\tests\test_grid_cell_consumer_reference.py:21: AssertionError
+______ test_frozen_exact_reference_and_native_consumer_are_reproducible _______
+
+    def test_frozen_exact_reference_and_native_consumer_are_reproducible():
+        manifest=json.loads((ROOT/'tests/fixtures/grid-cells-v1/manifest.json').read_text(encoding='utf-8'))
+        for key in ('generator','contract','native_header'):
+>           assert hashlib.sha256((ROOT/manifest[key]).read_bytes()).hexdigest()==manifest[key+'_sha256']
+E           AssertionError: assert '31afb6ce7422...7a86f1a77cd77' == 'd74f202495ca...97e2f49e77bbd'
+E             
+E             - d74f202495ca3bd6df88fe543dce5c597778c65ece006326d3097e2f49e77bbd
+E             + 31afb6ce742254a0cf71008e121050cbc7c403c01ea2b8a8fcd7a86f1a77cd77
+
+build\ci\scientific-grid-159\tests\test_grid_cell_reference.py:17: AssertionError
+__ test_reference_generator_contract_and_native_expectations_are_byte_bound ___
+
+    def test_reference_generator_contract_and_native_expectations_are_byte_bound():
+        manifest=json.loads((FOLDER/'manifest.json').read_text(encoding='utf-8'))
+        for key in ['generator','contract','native_header']:
+>           assert hashlib.sha256((ROOT/manifest[key]).read_bytes()).hexdigest()==manifest[key+'_sha256']
+E           AssertionError: assert '31afb6ce7422...7a86f1a77cd77' == 'd74f202495ca...97e2f49e77bbd'
+E             
+E             - d74f202495ca3bd6df88fe543dce5c597778c65ece006326d3097e2f49e77bbd
+E             + 31afb6ce742254a0cf71008e121050cbc7c403c01ea2b8a8fcd7a86f1a77cd77
+
+build\ci\scientific-grid-159\tests\test_physical_grid_reference.py:25: AssertionError
+_____ test_generator_sampler_contract_and_cpp_expectations_are_byte_bound _____
+
+    def test_generator_sampler_contract_and_cpp_expectations_are_byte_bound():
+        manifest=json.loads((FOLDER/'manifest.json').read_text(encoding='utf-8'))
+        for key in ['generator','contract','native_header']:
+>           assert hashlib.sha256((ROOT/manifest[key]).read_bytes()).hexdigest()==manifest[key+'_sha256']
+E           AssertionError: assert '31afb6ce7422...7a86f1a77cd77' == 'd74f202495ca...97e2f49e77bbd'
+E             
+E             - d74f202495ca3bd6df88fe543dce5c597778c65ece006326d3097e2f49e77bbd
+E             + 31afb6ce742254a0cf71008e121050cbc7c403c01ea2b8a8fcd7a86f1a77cd77
+
+build\ci\scientific-grid-159\tests\test_scientific_channel_reference.py:25: AssertionError
+__________ test_reference_contract_generator_and_data_are_byte_bound __________
+
+    def test_reference_contract_generator_and_data_are_byte_bound():
+        manifest=json.loads((FOLDER/'manifest.json').read_text(encoding='utf-8'))
+        for key in ['generator','contract']:
+>           assert hashlib.sha256((ROOT/manifest[key]).read_bytes()).hexdigest()==manifest[key+'_sha256']
+E           AssertionError: assert '31afb6ce7422...7a86f1a77cd77' == 'd74f202495ca...97e2f49e77bbd'
+E             
+E             - d74f202495ca3bd6df88fe543dce5c597778c65ece006326d3097e2f49e77bbd
+E             + 31afb6ce742254a0cf71008e121050cbc7c403c01ea2b8a8fcd7a86f1a77cd77
+
+build\ci\scientific-grid-159\tests\test_scientific_grid_reference.py:24: AssertionError
+=========================== short test summary info ===========================
+FAILED build\ci\scientific-grid-159\tests\test_grid_cell_archive_reference.py::test_independent_packet_metadata_and_native_consumer_are_reproducible
+FAILED build\ci\scientific-grid-159\tests\test_grid_cell_consumer_reference.py::test_independent_qca5_and_native_header_are_byte_reproducible
+FAILED build\ci\scientific-grid-159\tests\test_grid_cell_reference.py::test_frozen_exact_reference_and_native_consumer_are_reproducible
+FAILED build\ci\scientific-grid-159\tests\test_physical_grid_reference.py::test_reference_generator_contract_and_native_expectations_are_byte_bound
+FAILED build\ci\scientific-grid-159\tests\test_scientific_channel_reference.py::test_generator_sampler_contract_and_cpp_expectations_are_byte_bound
+FAILED build\ci\scientific-grid-159\tests\test_scientific_grid_reference.py::test_reference_contract_generator_and_data_are_byte_bound
+6 failed, 211 passed in 21.37s

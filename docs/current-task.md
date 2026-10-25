@@ -224,12 +224,54 @@ new test expected ValueError for an established IndexError channel-range error.
 Correcting that assertion required no native rebuild. The grouped Windows build
 command took about 696.63 seconds; this is not a controlled compiler benchmark.
 
-Next: complete the captured ROI/context workspace ledger and measure/remove
-repeated owner-thread grid record validation work before accepting UI/memory
-budgets. Then freeze the integrated wheel and required native/platform candidate.
-The new producers have local runtime/visual evidence, not a complete wheel or
-cross-platform campaign. Vendors/pyramids/tiled sampling, independent biological
-acceptance and every remaining original M0-M7 criterion remain required.
+The [raw-grid workspace receipt](benchmarks/raw-grid-workspace-local-windows-linux.json)
+accepts the conservative captured-payload ledger and repeated-scan correction at
+compiled `326c66c`, fingerprint
+`6b3c4fb14e290508947e7c8ec71394221a9eb1952ea1b12861f719d70b660261`.
+Delivery `5e3c65b` keeps all 311 compiler inputs equal, freezes the byte-identical
+source169 fixture contract, and adds a public captured-context budget test. The
+delivery proof covers 493 files; the receipt retains 118 payloads and the
+nine-file isolated package inventory.
+
+Raw-grid execution reserves request/result objects, captured ROI/context/source,
+metadata copies, geometry-hash temporaries and full-context eligibility/statistic
+arrays before pixel IO, using one metadata observation. Source identity is
+captured after lazy TIFF metadata initialization and before decoder reads. The
+first sourcec770baa failed actual TIFF checks because it queried identity too
+early; both rejected observations and binaries are retained. Full archive decode
+still validates semantic counts. An immutable private eligible-count authority
+avoids repeating the worker's ROI scan on keep/restore; the hash still binds the
+mask/grid/calibration. Changed masks and checksum-valid false counts reject.
+QRA1/QRA2 golden bytes remain unchanged, and historical lower-work snapshots stay
+readable. New executions must satisfy the complete workspace admission.
+
+A conservative rounding-gap proof avoids linear precision scans for safely
+separated coordinates; boundary cases retain the exact scan. A pointwise oracle
+checks 1,092 grids. Five selected native suites pass on Windows and TIFF/project
+Linux. Installed runtime passes 143 cases plus three declared raw desktop skips;
+the full desktop-enabled scientific cohort passes all 218 cases, and 33 selected
+desktop regressions pass. Six positive/four negative typing cohorts, regenerated
+stub equality, 120 pure checks and selective raw/raster ASan/UBSan pass. The
+selective sanitizer links matching unsanitized core/TIFF/project dependencies;
+it is not a full sanitizer campaign.
+
+Seven-sample local observations on an unreserved workstation show 512x512 keep
+median about57.77ms ->0.008ms and one-million-by-one capture about326.04ms ->0.0012ms.
+All raw observations are retained. These are not controlled speedup or full UI/
+hardware-budget acceptance. Reader decode/cache, allocator/runtime overhead,
+process RSS and separately held results retain separate budget requirements.
+
+The wider run exposed six stale manifests hashing the expanding live contract.
+Their original source169 contract hash is preserved at an immutable fixture path;
+no expected numeric data or native-header hash was replaced. The corrected cohort
+passes 218 cases; the 211pass/6fail observation is retained.
+
+Next: freeze one integrated wheel/platform candidate and run the complete
+required engine/Mac/portable matrix, installed reader cohorts and dependency/ABI
+closure. Promote only scope-matched, same-source accepted evidence. Local checks
+do not replace that campaign or the remaining original M0-M7 requirements:
+vendors/pyramids/tiled sampling, application/hardware budgets, independent
+biological acceptance and supported-release work remain open.
 No complete raw workflow, new full platform, biological or supported-release
 acceptance is claimed. Vendors/pyramids/tiled sampling, complete ROI/context
 workspace and UI/performance budgets, and all remaining original M0-M7 criteria

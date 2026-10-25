@@ -1,0 +1,8 @@
+Internal ctest changing into directory: /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native
+Test project /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native
+    Start 13: project_batch
+1/1 Test #13: project_batch ....................   Passed    2.45 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =   2.49 sec
