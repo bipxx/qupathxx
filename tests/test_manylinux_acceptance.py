@@ -11,6 +11,7 @@ ROOT=Path(__file__).resolve().parents[1]
 spec=importlib.util.spec_from_file_location('qpx_manylinux_acceptance',ROOT/'tools/ci/accept_manylinux.py')
 module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
 COMMIT='a'*40
+POSITIVE_COUNT=len(module.scientific.POSITIVE)
 
 
 def run():
@@ -77,7 +78,7 @@ def cohort(folder, version):
         native_region_exact=True,native_batch_checkpoint=True,native_batch_csv=True))
     junit(build/'native-tests.xml',40);junit(build/'python-tests.xml',1500);junit(consumer/'consumer-tests.xml',1500)
     (build/'stubs.log').write_text('Public stubs match',encoding='utf-8')
-    (build/'typing.log').write_text('Success: no issues found in 5 source files',encoding='utf-8')
+    (build/'typing.log').write_text(f'Success: no issues found in {POSITIVE_COUNT} source files',encoding='utf-8')
     (build/'typing-negative.log').write_text('\n'.join(f'invalid_api.py:{i}: error: fixture' for i in [6,7,8,9,11,13,14]),encoding='utf-8')
     return build,consumer
 
@@ -116,7 +117,7 @@ def test_candidate_corruption_and_incomplete_workflows_are_rejected(tmp_path, ch
         module.audit_version(tmp_path,'3.11',COMMIT,module.read(module.ASSETS))
 
 
-@pytest.mark.parametrize('count',[3,4,6])
+@pytest.mark.parametrize('count',[POSITIVE_COUNT-2,POSITIVE_COUNT-1,POSITIVE_COUNT+1])
 def test_stale_positive_typing_evidence_is_rejected(tmp_path,count):
     build,_=cohort(tmp_path,'3.11')
     (build/'typing.log').write_text(f'Success: no issues found in {count} source files',encoding='utf-8')
