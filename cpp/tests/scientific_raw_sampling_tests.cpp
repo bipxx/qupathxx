@@ -72,6 +72,7 @@ public:
         if(mode==4) support.clear();
         if(mode==6) support[0]=2;
         if(mode==9) out.writable_storage()=std::vector<std::uint8_t>(out.width()*out.height()*out.channels());
+        if(mode==10) raw->pixel_width_um=7.;
         if(cancel_on_read) cancel_on_read->store(true);
         return out;
     }
@@ -88,6 +89,13 @@ void check_scientific_raw_sampling() {
         ScientificRawOptions options;options.first_channel=c.first;options.channels=c.channels;options.z=c.z;options.t=c.t;
         const auto expected_work=scientific_raw_work_bytes(*reader.raw,grid,options);
         auto result=read_scientific_raw(reader,grid,options);
+        const auto reads_before_digest=reader.reads;
+        auto digest=digest_scientific_raw(reader,grid,options);
+        require(digest.decoded_source_sha256==c.decoded && digest.input_sha256==c.input && digest.reader==result.reader());
+        require(digest.metadata.sample_type==result.metadata().sample_type && digest.metadata.pixel_width_um==.5);
+        require(digest.estimated_work_bytes<expected_work);
+        require(reader.reads==2*reads_before_digest);
+        reader.reads=reads_before_digest;
         require(result.estimated_work_bytes()==expected_work && expected_work<=options.work_bytes);
         const auto b=grid.clipped_read_bounds();
         require(reader.display_reads==0 && reader.reads==unsigned(b.width!=0 && b.height!=0));
@@ -118,8 +126,13 @@ void check_scientific_raw_sampling() {
     reader.cancel_on_read=nullptr;cancelled.store(false);
     for(int mode=1;mode<=9;++mode) {
         reader.mode=mode;
-        if(mode==8) rejects<std::length_error>([&]{read_scientific_raw(reader,grid);});
-        else rejects<std::runtime_error>([&]{read_scientific_raw(reader,grid);});
+        if(mode==8) {
+            rejects<std::length_error>([&]{read_scientific_raw(reader,grid);});
+            rejects<std::length_error>([&]{digest_scientific_raw(reader,grid);});
+        } else {
+            rejects<std::runtime_error>([&]{read_scientific_raw(reader,grid);});
+            rejects<std::runtime_error>([&]{digest_scientific_raw(reader,grid);});
+        }
     }
     reader.mode=0;const auto previous=reader.reads;
     options.channels=0;rejects<std::out_of_range>([&]{read_scientific_raw(reader,grid,options);});
@@ -145,6 +158,30 @@ void check_scientific_raw_sampling() {
     values.flip_index=std::numeric_limits<unsigned>::max();values.raw->pixel_width_um=1.;auto c=read_scientific_raw(values,pair_grid);
     require(a.decoded_source_sha256()==c.decoded_source_sha256() && a.input_sha256()!=c.input_sha256() && a.metadata().pixel_width_um==.5);
     values.raw->pixel_width_um.reset();auto unknown=read_scientific_raw(values,pair_grid);require(!unknown.metadata().pixel_width_um);
+    // A decoder changing its exposed metadata cannot alter the captured epoch.
+    Reader epoch;const ScientificGrid epoch_grid(5,4,{0,5,3},{0,4,3});
+    const auto epoch_expected=digest_scientific_raw(epoch,epoch_grid);
+    epoch.mode=10;auto epoch_result=read_scientific_raw(epoch,epoch_grid);
+    require(epoch.raw->pixel_width_um==7. && epoch_result.metadata().pixel_width_um==.5 && epoch_result.input_sha256()==epoch_expected.input_sha256);
+    epoch.raw->pixel_width_um=.5;
+    auto epoch_digest=digest_scientific_raw(epoch,epoch_grid);
+    require(epoch_digest.metadata.pixel_width_um==.5 && epoch_digest.input_sha256==epoch_expected.input_sha256);
+    epoch.mode=0;epoch.raw->pixel_width_um=.5;
+    ScientificRawOptions tight;tight.work_bytes=epoch_expected.estimated_work_bytes;
+    require(digest_scientific_raw(epoch,epoch_grid,tight).input_sha256==epoch_expected.input_sha256);
+    const auto before_reject=epoch.reads;
+    rejects<std::length_error>([&]{read_scientific_raw(epoch,epoch_grid,tight);});
+    require(epoch.reads==before_reject);
+    --tight.work_bytes;rejects<std::length_error>([&]{digest_scientific_raw(epoch,epoch_grid,tight);});
+    require(epoch.reads==before_reject);
+    cancelled.store(true);const auto metadata_before=epoch.metadata_reads;
+    rejects<std::runtime_error>([&]{digest_scientific_raw(epoch,epoch_grid,{},&cancelled);});
+    require(epoch.reads==before_reject && epoch.metadata_reads==metadata_before);
+    cancelled.store(false);epoch.cancel_on_read=&cancelled;
+    rejects<std::runtime_error>([&]{digest_scientific_raw(epoch,epoch_grid,{},&cancelled);});
+    epoch.cancel_on_read=nullptr;epoch.close();
+    rejects<std::runtime_error>([&]{digest_scientific_raw(epoch,epoch_grid);});
+    std::cout<<"Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed\n";
     std::cout<<"94 independent typed raw grid references, 3732 channel results and canonical source/input hashes passed\n";
     std::cout<<"Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed\n";
     const auto environment=build_environment();

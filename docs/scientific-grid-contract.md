@@ -614,3 +614,16 @@ analysis workflow. The new sampler/tests and mean tests also pass selective
 ASan/UBSan instrumentation linked to inherited unsanitized core. The installed
 module remains the retained source169 engine until the new request/record and
 frontend changes are integrated and packaged.
+
+
+### Raw hash-only capture
+
+`digest_scientific_raw` shares selection validation, bounded raw capture and
+canonical hashing with `read_scientific_raw`. It reads and validates the selected
+source window but allocates no output HWC values/validity/reasons and performs
+no area means. It retains the same numeric geometry admission limits so a digest
+does not imply admission of an otherwise unsupported analysis request. Its work
+estimate excludes the output arrays; budget is not part of input identity.
+Metadata is copied before pixel IO in both paths. Hashes describe that captured
+epoch even if a reader callback subsequently changes its exposed metadata.
+The digest is input evidence, not document publication or replay authority.

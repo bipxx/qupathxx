@@ -145,7 +145,7 @@ def test_batched_source_binding_preserves_raw_fixtures(tmp_path,monkeypatch,fixt
 @pytest.mark.parametrize('failure',['missing','duplicate'])
 @pytest.mark.parametrize('marker',[
     'Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed',
-    'Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed'])
+    'Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed','Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed'])
 def test_exact_raw_native_markers_are_required_once(failure,marker):
     cases=native_cases()
     case=next(c for c in cases if c.get('name')=='resampling')

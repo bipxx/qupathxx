@@ -42,6 +42,14 @@ public:
 // Validates level-zero geometry, dtype, channel/Z/T selection and traversal
 // limits before any pixel IO. Does not call a display reader.
 std::size_t scientific_raw_work_bytes(const RawImageMetadata&,const ScientificGrid&,ScientificRawOptions={});
+// Hash-only capture owns its metadata snapshot and allocates no sampled outputs.
+struct ScientificRawDigest {
+    RawImageMetadata metadata;
+    std::string reader,decoded_source_sha256,input_sha256;
+    std::size_t estimated_work_bytes=0;
+};
+ScientificRawDigest digest_scientific_raw(const ImageServer&,const ScientificGrid&,ScientificRawOptions={},
+    const std::atomic<bool>* cancelled=nullptr);
 ScientificRawGrid read_scientific_raw(const ImageServer&,const ScientificGrid&,ScientificRawOptions={},
     const std::atomic<bool>* cancelled=nullptr);
 }

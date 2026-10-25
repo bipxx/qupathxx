@@ -21,7 +21,7 @@ NEGATIVE={
 }
 POSITIVE=['tests/typing/valid_api.py','tests/typing/hierarchy_valid.py','tests/typing/grid_cells_valid.py','examples/live_workflow.py','examples/region_workflow.py']
 BASE={
- 'resampling':['Native scientific grid exact geometry, rounding, context and admission passed','Native scientific RGB float64 exact means, support, reader and cancellation checks passed','Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed','Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed'],
+ 'resampling':['Native scientific grid exact geometry, rounding, context and admission passed','Native scientific RGB float64 exact means, support, reader and cancellation checks passed','Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed','Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed','Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed'],
  'stains':['Native scientific float64 OD/stains, validity, captured basis and admission passed','Legacy byte/float32 stain transforms preserve frozen arithmetic across 262144 RGB probes'],
  'log_cell_recipe':['Native physical grid metrics, weighted distances, Gaussian support and admission passed'],
  'tissue_contours':['Native explicit-grid raster eligibility, per-axis metadata, precision and legacy isolation passed'],
