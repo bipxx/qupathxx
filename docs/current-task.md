@@ -144,11 +144,29 @@ See the [QCL5 receipt](benchmarks/grid-cell-archive-local-windows.json).
 Python/GUI/interchange/readers/training remain disabled in this qualification;
 their earlier installed artifacts do not qualify these layouts or this workflow.
 
-Next: extend classifier feature-source provenance (QCA5 is the classifier
-container, not a second cell-run wrapper) and CSV schemas to retain both axes,
-units and requested/resolved parameters. Then expose the same native request/result
-through nanobind, CLI, ImGui and batches; rebuild installed packages after shared
-layouts stabilize and run a frozen source-bound qualification campaign.
+Source `f8fbc98` connects grid-cell measurements to native classifier provenance
+and CSV export. QCA5 carries typed grid manifests alongside tagged natural-grid
+sources, validates resolved/calibration metadata and uses core sample limits for
+upsampled results. CSV schema 5/6 preserves both axes, all grid fields, requested
+and resolved units and captured calibration; grid rows leave scalar-only legacy
+fields blank. Mixed natural/grid, quoted manual/unresolved and project rows use
+the shared immutable/atomic export path. No-grid requests retain prior formats.
+
+All 49 project/GEOS-enabled native suites and 33 contract tests pass, including
+an independently packed QCR1/QCA5 vector, backend-free prediction snapshots,
+mixed/upsampled sources, malformed descriptors, row/column checks and classifier/
+CSV project save/reopen. The shared parameter serializer still reproduces the
+independent QCL5 vector exactly. All 297 compiler inputs match fingerprint
+`e3fdcb3991c06a83821e19e8930c3f945ac5f5ebf77b544a7f3c36d4e2c54598`.
+See the [consumer receipt](benchmarks/grid-cell-consumers-local-windows.json).
+Python scalar guards were edited but not compiled in this native configuration;
+typed metadata exposure and installed validation remain unfinished.
+
+Next: wire typed grid request/result/source bindings and the managed viewer,
+CLI, ImGui and batch adapters around these native contracts. Keep API/header
+changes for that workflow together before the expensive installed-wheel build;
+then generate/package stubs and validate the final installed artifact, followed
+by a frozen complete source-bound qualification campaign.
 Continue through the full original workflow;
 retain the failed campaign evidence, and qualify a clean integrated candidate
 after installed workflow checks. Do not transfer the old Mac acceptance to new

@@ -27,9 +27,14 @@ adds retention/publication, captured calibration/domain, canonical decoding,
 record matching and fresh replay/verification. The
 [archive receipt](benchmarks/grid-cell-archive-local-windows.json) records 49 native
 suites with project/GEOS enabled and 30 contract tests, including real SQLite
-round trips and an independently packed byte vector. QCA5 classifier provenance,
-CSV schemas and required frontends remain pending. Python/GUI/interchange/readers
-are not qualified for these changes.
+round trips and an independently packed byte vector. QCA5 now preserves typed
+grid classifier origins and mixed natural/grid cohorts; CSV schema 5/6 preserves
+per-axis geometry, units and captured calibration across mixed/manual/project
+rows. The [consumer receipt](benchmarks/grid-cell-consumers-local-windows.json)
+records 49 project/GEOS native suites and 33 contract tests, including an independent
+QCA5 vector and classifier/CSV save/reopen. Typed Python and complete GUI/CLI/batch
+entry points remain pending; Python/GUI/interchange/readers are not qualified for
+this workflow.
 All milestones remain Partial.
 Disabled capabilities are not qualified. Hierarchy candidate `207f008`
 passed its native Mac audit but failed engine and portable campaigns on a stale
