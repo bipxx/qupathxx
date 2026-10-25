@@ -79,3 +79,10 @@ Native callers use the corresponding `qpx::GridCellSampling`,
 `GridCellParameters`, `CellRequest::for_grid_roi` and `ViewerSession::grid_cells`
 APIs. Legacy natural-level cell requests remain separate and retain their units
 and serialization formats.
+
+The [pinned cell comparison](qupath-cell-comparisons.md#explicit-grid-production-recipe)
+now covers this production recipe on the existing synthetic corpus, including
+independent source features, context invariance and isotropic physical conversion.
+It preserves the clipped-ROI nucleus and requested-grid differences. The legacy
+distance recipe's strict expected failures remain separate from these results;
+neither synthetic agreement nor engineering CI establishes biological acceptance.

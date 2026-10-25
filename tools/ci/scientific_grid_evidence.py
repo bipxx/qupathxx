@@ -43,8 +43,11 @@ CONDITIONAL=[
 ]
 # Bind the committed file inventory, including every reference vector/header and
 # consumer. Fixture bytes remain raw; code permits only checkout CRLF changes.
-FIXTURES=tuple('tests/fixtures/'+name+'/' for name in ('scientific-grid-v1','physical-grid-v1','scientific-channels-v1','grid-cells-v1','grid-cell-archive-v1','grid-cell-consumers-v1','scientific-raster-v1'))
+FIXTURES=tuple('tests/fixtures/'+name+'/' for name in ('scientific-grid-v1','physical-grid-v1','scientific-channels-v1','grid-cells-v1','grid-cell-archive-v1','grid-cell-consumers-v1','scientific-raster-v1','qupath-cells-0.7.0'))
 EXTRA=('docs/scientific-grid-contract.md','tools/ci/run.py','tools/ci/run_manylinux.py','tools/ci/requirements.txt','tools/ci/scientific_grid_evidence.py','tools/ci/scientific-grid-cases.json','tools/ci/accept_unified_engine.py','tools/ci/accept_manylinux.py','tools/ci/accept_macos_native.py','.github/workflows/ci.yml','tools/generate_stubs.py','tests/test_scientific_grid_evidence.py','tests/test_stub_signature_guard.py','tests/test_public_stubs.py',*POSITIVE,*('tests/typing/'+v[0] for v in NEGATIVE.values()))
+EXTRA+=('tools/compare_qupath_grid_cells.py','tools/compare_qupath_cells.py',
+        'tools/qupath_cells_fixture.py','tools/upstream/qupath_cells_reference.groovy',
+        'tests/fixtures/qupath-0.7.0/contract.json')
 
 def source_contract(root,commit):
     root=Path(root)
@@ -57,7 +60,7 @@ def source_contract(root,commit):
         end=stream.find(b'\n',offset);require(end>=offset,'scientific source response truncated')
         header=stream[offset:end].split();require(len(header)==3 and header[1]==b'blob','scientific source missing: '+name)
         size=int(header[2]);blob=stream[end+1:end+1+size];require(len(blob)==size and stream[end+1+size:end+2+size]==b'\n','scientific source response truncated')
-        offset=end+2+size;raw=(root/name).read_bytes();canonical=raw if name.startswith(FIXTURES) else raw.replace(b'\r\n',b'\n')
+        offset=end+2+size;raw=(root/name).read_bytes();canonical=raw if name.startswith('tests/fixtures/') else raw.replace(b'\r\n',b'\n')
         require(canonical==blob,'scientific source differs: '+name)
         hashes[name]=dict(git_blob_sha256=hashlib.sha256(blob).hexdigest(),checked_out_sha256=hashlib.sha256(raw).hexdigest())
     require(offset==len(stream),'scientific source trailing response')

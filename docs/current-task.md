@@ -51,3 +51,27 @@ readiness. Continue through M0-M7 rather than closing them from green CI.
 
 Earlier source-specific narrative remains in Git history and
 [current-task history](current-task-history.md).
+
+## Active comparison integration after source169
+
+The feature branch adds an independent pinned comparison for the existing
+explicit-grid production detector. Seven natural-grid cases require exact
+nucleus/body masks and matched features at the frozen tolerances. All nine
+retain independent feature arithmetic and context checks; eight isotropic
+cases compare equivalent pixel and micrometre recipes. The clipped ROI nucleus
+and requested-resampling differences remain visible. No native detector or
+reference fixture changes are involved. The older distance recipe's three
+strict expected failures remain unchanged; the existing LoG recipe already
+passes those isolated-cell checks.
+
+The new 27-case comparison joins the named installed scientific-grid contract,
+raising its next-candidate requirement to 134 GUI / 132 headless passes plus
+two declared desktop skips. Source169's accepted 107-case contract remains
+historical evidence for that source. New comparison tools, regression source
+and immutable capture dependencies are bound by the next source contract.
+The dispatch-profile helper also remains a post-source169 feature-branch change.
+Do not transfer source169 platform acceptance to this newer harness.
+
+Next: diagnose the clipped-ROI nucleus difference and establish the actual
+requested-grid mapping before claiming those cases equivalent. Retain the
+broader biological, vendor/typed/tiled, hardware and M0-M7 requirements above.

@@ -240,3 +240,6 @@ docs/benchmarks/scientific-grid-169-qualification.json text eol=lf
 # Intermediate scope-specific observations retained on the integration branch.
 docs/benchmarks/scientific-grid-169-progress/** -text -whitespace
 docs/benchmarks/scientific-grid-169-progress.json text eol=lf
+
+tools/compare_qupath_grid_cells.py text eol=lf
+tests/test_qupath_grid_cells_reference.py text eol=lf

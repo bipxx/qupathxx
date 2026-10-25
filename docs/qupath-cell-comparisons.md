@@ -121,6 +121,49 @@ retains every case and both sampling policies.
 
 ## Reproduction and limits
 
+### Explicit-grid production recipe
+
+`tools/compare_qupath_grid_cells.py` compares the existing explicit-grid RGB
+detector with the same immutable QuPath capture. It uses a full-image unit
+grid, captured threshold/sigma/expansion/area limits, and the grid recipe's
+existing zero peak-radius/spacing defaults. It never substitutes the legacy
+distance-watershed recipe or changes its three strict expected failures.
+Those failures describe that older recipe; existing LoG tests already pass the
+isolated-cell thresholds. They are not evidence that every detector mode fails.
+
+The new installed regression requires exact nucleus/body masks, counts,
+centroids and split/merge relations on the seven natural-grid cases without a
+clipped ROI. Matched RGB/OD features use the original 1e-6 absolute/relative
+tolerances. Independent source-pixel arithmetic checks the actual native
+feature counts and means on all nine cases, including differing masks. Context
+0 and 32 must yield identical core masks and features, while their captured
+input identities remain distinct. Invalid grid projections and labels outside
+the core reject, so cropping cannot hide output differences.
+
+Isotropic micrometre parameters are derived from the captured calibration and
+must reproduce the pixel recipe. The anisotropic case is explicitly excluded
+from that conversion comparison: QuPath's averaged calibration and the native
+per-axis physical metric describe different recipes. Its pixel-unit comparison
+remains included. This does not exclude anisotropic physical work from M5.
+
+The clipped ROI retains a nucleus-mask difference; no fitted tolerance is added
+to call it equivalent. The requested 0.75-micrometre case retains its existing
+grid mismatch and both compartment comparisons. The report states
+`characterized-partial`, `segmentation_parity_accepted: false` and
+`biological_validation: false`. Matching seven synthetic cases does not establish
+general segmentation or biological acceptance. Cross-platform qualification of
+this new comparison harness is still required; source169 qualification predates it.
+
+```powershell
+python -I tools/compare_qupath_grid_cells.py --units pixels --report build/grid-cells-pixels.json
+python -I tools/compare_qupath_grid_cells.py --units micrometres --report build/grid-cells-um.json
+python -I -m pytest tests/test_qupath_grid_cells_reference.py -q
+```
+
+The next comparison work must establish the actual requested source/grid mapping
+and diagnose the clipped ROI nucleus difference. Keep those outputs and the
+legacy recipe visible rather than removing difficult cases from the corpus.
+
 From an installed package environment with the CI scientific dependencies:
 
 ```powershell
