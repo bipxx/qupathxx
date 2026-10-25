@@ -825,3 +825,23 @@ that source and original path. The live document adds later recipes and budgets.
 Future additions must not silently rewrite an old fixture's frozen contract or
 weaken its generator/native-header/data checks. A changed numerical contract
 requires explicit fixture versioning and renewed native/reference evidence.
+
+
+## Quantitative TIFF storage-layout integration
+
+The installed `test_scientific_raw_tiff_layouts` cohort adds 30 required synthetic
+reader/sampler cases. An independent Python Fraction overlap and weighted-mean
+oracle compares every binary64 output bit, reason and channel-validity byte.
+It covers compressed strips, tiles, big-endian tiles and separate-plane tiles;
+UInt64 values above 2^63, signed cancellation and Float64 nonfinite channels;
+fractional footprints crossing blocks and outside-image context. Equivalent
+storage layouts retain decoded/input digests while file provenance stays separate.
+
+Deliberately different coarse SubIFD pixels verify explicit scientific sampling
+uses level zero. Tiled one-file OME cases exercise selected channels/Z/time and
+anisotropic calibration; another case selects a nondefault plain-TIFF series.
+Zero decoder-cache retention must preserve results. Exact workspace admission
+rejects one byte below the requirement before block decoding; changed sources
+reject digest replay. These checks do not establish vendor-format support,
+multi-file OME, arbitrary pyramid policies, whole-slide streaming, biological
+acceptance, decoder/process RSS limits or UI/hardware performance.
