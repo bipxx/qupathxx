@@ -184,3 +184,48 @@ Planning rejects source/output/work limits before reading; it does not silently
 choose a coarser level for a whole slide. Returned views retain their result
 without retaining a reader. ROI eligibility and physical kernel parameters belong
 to the next detector/request integration step.
+
+## Internal physical kernel preparation
+
+`scientific_cell_numeric.hpp` prepares the additive recipe; existing cell recipes
+do not call it. `PhysicalGridMetric::capture` requires both finite positive
+calibration axes and resolves each exact grid step to binary64 before multiplying
+by that axis calibration. Those resolved spacings must be captured by the future
+request/recipe. Sigma in micrometres resolves separately as `sigma_um / spacing`.
+Unrepresentable results reject rather than becoming zero or an averaged spacing.
+
+The weighted squared-distance transform uses `dx^2 * sx^2 + dy^2 * sy^2`, in
+square micrometres, with geometric distances to zero-valued sites and positive
+infinity for absent sites. Nearest sites are compared exactly using the captured binary64 squared axis
+weights; ties prefer lower row then column. Returned squared distances use
+ordinary binary64 products and sums. A portable pair of uint64 limbs compares
+weighted integer differences without long double or compiler-specific integer
+extensions. Integer first-winning boundaries use bounded binary searches, with
+a conservative O(N log(height)) traversal preflight.
+Optional outside background lies one sample beyond the outermost sample centers;
+that scalar-radius mode does not return nearest-site indices. This is a Euclidean
+metric, not a path distance through ROI obstacles. The existing isotropic shape
+watershed's unit-step ridge corrections have not been generalized by this change.
+
+The new Gaussian is a finite, validity-normalized convolution, X then Y, with
+float64 intermediates and radius `ceil(3 * sigma_axis)` on each axis. Support is
+clipped at the array edge; invalid input values do not contribute, and invalid
+output centers remain canonical zero. This differs from the old LoG nearest-edge
+and float32 policy and must receive its own recipe identity. Kernel radius is at
+most 4096 and total nonempty convolution visits at most `2^28`; stage admission
+includes the value/validity arrays, temporary arrays and coefficients. The whole
+detector must separately admit all simultaneously live buffers and contours.
+Nonfinite valid inputs, arithmetic overflow and cancellation reject.
+
+An independent oracle uses exhaustive Fraction distances (36 scenarios) and
+direct 2D Decimal Gaussian sums at 60 digits (nine scenarios). Distance fixtures
+use exactly representable binary axis spacings and require exact results and
+nearest-site ties, including extreme aspect ratios where rounded total costs
+are indistinguishable. Another 517 exact integer-product comparisons validate
+the portable arithmetic, and 1,024 native exhaustive-site trials exercise small
+binary metrics. Gaussian agreement requires absolute plus relative error
+`2e-12 + 2e-12 * abs(reference)`, declared before native comparison. This is a
+numeric kernel tolerance, not a segmentation or biological tolerance. Byte-bound
+JSON and generated C++ expectations retain both references. No physical cell
+request, per-axis result metadata, LoG/shape/expansion integration or new archive
+version is delivered by these kernel checks alone.

@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <iostream>
 using namespace qpx;
+void check_scientific_cell_numeric();
 namespace {
 void require(bool value) {if(!value) throw std::runtime_error("LoG cell recipe contract failed");}
 template<class F> void rejects(F f) {try {f();} catch(const std::invalid_argument&) {return;}throw std::runtime_error("missing recipe rejection");}
@@ -15,6 +16,7 @@ void sign(std::vector<std::uint8_t>& bytes,const Roi& roi) {
 }
 int main() {
     try {
+        check_scientific_cell_numeric();
         std::vector<std::uint8_t> rgb(96*96*3,255);
         for(int y=0;y<96;++y) for(int x=0;x<96;++x) if((x-32)*(x-32)+(y-32)*(y-32)<=64 || (x-64)*(x-64)+(y-64)*(y-64)<=100)
             for(int c=0;c<3;++c) rgb[(y*96+x)*3+c]=32;
