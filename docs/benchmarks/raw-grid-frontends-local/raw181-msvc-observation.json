@@ -1,0 +1,197 @@
+{
+  "observed_utc": "2026-10-25T16:37:47.4437321Z",
+  "processes": [
+    {
+      "pid": 19816,
+      "parent": 85188,
+      "name": "python3.13.exe",
+      "cpu_seconds": 0.0625,
+      "working_set_bytes": 25509888,
+      "peak_working_set_bytes": 26152960
+    },
+    {
+      "pid": 1856,
+      "parent": 19816,
+      "name": "cmake.exe",
+      "cpu_seconds": 0.0625,
+      "working_set_bytes": 16429056,
+      "peak_working_set_bytes": 16482304
+    },
+    {
+      "pid": 24692,
+      "parent": 1856,
+      "name": "MSBuild.exe",
+      "cpu_seconds": 1.359375,
+      "working_set_bytes": 92499968,
+      "peak_working_set_bytes": 92520448
+    },
+    {
+      "pid": 105608,
+      "parent": 24692,
+      "name": "Tracker.exe",
+      "cpu_seconds": 0.015625,
+      "working_set_bytes": 4349952,
+      "peak_working_set_bytes": 4349952
+    },
+    {
+      "pid": 79252,
+      "parent": 105608,
+      "name": "conhost.exe",
+      "cpu_seconds": 0.015625,
+      "working_set_bytes": 7831552,
+      "peak_working_set_bytes": 7831552
+    },
+    {
+      "pid": 104472,
+      "parent": 105608,
+      "name": "cl.exe",
+      "cpu_seconds": 0.640625,
+      "working_set_bytes": 10956800,
+      "peak_working_set_bytes": 11816960
+    },
+    {
+      "pid": 72860,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 2.359375,
+      "working_set_bytes": 168124416,
+      "peak_working_set_bytes": 168808448
+    },
+    {
+      "pid": 127320,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 3.78125,
+      "working_set_bytes": 94199808,
+      "peak_working_set_bytes": 127074304
+    },
+    {
+      "pid": 118368,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 2.328125,
+      "working_set_bytes": 169050112,
+      "peak_working_set_bytes": 169050112
+    },
+    {
+      "pid": 79616,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 3.953125,
+      "working_set_bytes": 103616512,
+      "peak_working_set_bytes": 143413248
+    },
+    {
+      "pid": 128004,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 2.796875,
+      "working_set_bytes": 77099008,
+      "peak_working_set_bytes": 123351040
+    },
+    {
+      "pid": 128012,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 3.3125,
+      "working_set_bytes": 83668992,
+      "peak_working_set_bytes": 144674816
+    },
+    {
+      "pid": 128020,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 2.328125,
+      "working_set_bytes": 162250752,
+      "peak_working_set_bytes": 165449728
+    },
+    {
+      "pid": 128040,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 2.546875,
+      "working_set_bytes": 48312320,
+      "peak_working_set_bytes": 142983168
+    },
+    {
+      "pid": 128120,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 3.015625,
+      "working_set_bytes": 56094720,
+      "peak_working_set_bytes": 130035712
+    },
+    {
+      "pid": 128128,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 2.5,
+      "working_set_bytes": 175685632,
+      "peak_working_set_bytes": 175685632
+    },
+    {
+      "pid": 128136,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 2.46875,
+      "working_set_bytes": 176467968,
+      "peak_working_set_bytes": 177344512
+    },
+    {
+      "pid": 128144,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 3.421875,
+      "working_set_bytes": 85164032,
+      "peak_working_set_bytes": 127807488
+    },
+    {
+      "pid": 128152,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 2.921875,
+      "working_set_bytes": 53886976,
+      "peak_working_set_bytes": 138170368
+    },
+    {
+      "pid": 128160,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 2.484375,
+      "working_set_bytes": 165658624,
+      "peak_working_set_bytes": 165658624
+    },
+    {
+      "pid": 128168,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 2.53125,
+      "working_set_bytes": 172793856,
+      "peak_working_set_bytes": 172793856
+    },
+    {
+      "pid": 128184,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 2.484375,
+      "working_set_bytes": 56999936,
+      "peak_working_set_bytes": 170102784
+    },
+    {
+      "pid": 128200,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 2.65625,
+      "working_set_bytes": 192212992,
+      "peak_working_set_bytes": 192212992
+    },
+    {
+      "pid": 128208,
+      "parent": 104472,
+      "name": "cl.exe",
+      "cpu_seconds": 2.515625,
+      "working_set_bytes": 184053760,
+      "peak_working_set_bytes": 184053760
+    }
+  ]
+}

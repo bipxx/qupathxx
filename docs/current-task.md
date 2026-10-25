@@ -200,10 +200,36 @@ failure, with aggregate failure retained. An initial OME uint64 fixture failed
 in the writer before CLI execution; valid dtype/format cases replace that setup.
 The receipt preserves 65 payloads and distinguishes each source/artifact scope.
 
-Next: ImGui/managed-viewer grid producers and runtime/visual replay, followed by
-the grouped producer module/stub candidate. Saved-grid presentation is adapted
-and compiled, while production controls remain pending. Group these before the
-next complete wheel and required native/platform campaign.
+The [raw grid frontend receipt](benchmarks/raw-grid-frontends-local-windows-linux.json)
+now accepts the local grouped producer candidate. Compiled source `8ece80e`
+has fingerprint
+`5297728aecff15fb76489a9dc9ab450eeb98d1378b37b36e4281979cabf2f951`;
+delivery source `283a197` adds generated stubs and corrects a Python exception
+expectation. All 311 compiler inputs remain equal to the tested module source;
+a 492-file proof binds each source. The isolated package inventory includes its
+module, companion CLI, DLLs, facade and generated stubs.
+
+All five selected native suites pass on Windows and TIFF/project Linux:
+resampling, cells, raw_image, viewer_session and project_batch. Installed Windows
+runtime passes 142 cases with exactly three declared raw desktop skips; a separate
+desktop-enabled cohort passes all 33 cases. Eight new producer cases include
+copied GUI options, queue admission/reclamation, ROI factory/Python batch resume,
+two CLI dtype/axis cases, ImGui measure/keep/typed CSV, managed retain/verify/save,
+and desktop batch resume. Native viewer checks additionally cover owner-time
+calibration and stale/cancelled publication. Six positive typing files, four exact
+negative diagnostic cohorts, generated-stub equality and 120 pure checks pass.
+Data controls and retained-grid result layouts were visually inspected without
+overflow. The first runtime/desktop runs are retained as rejected evidence: a
+new test expected ValueError for an established IndexError channel-range error.
+Correcting that assertion required no native rebuild. The grouped Windows build
+command took about 696.63 seconds; this is not a controlled compiler benchmark.
+
+Next: complete the captured ROI/context workspace ledger and measure/remove
+repeated owner-thread grid record validation work before accepting UI/memory
+budgets. Then freeze the integrated wheel and required native/platform candidate.
+The new producers have local runtime/visual evidence, not a complete wheel or
+cross-platform campaign. Vendors/pyramids/tiled sampling, independent biological
+acceptance and every remaining original M0-M7 criterion remain required.
 No complete raw workflow, new full platform, biological or supported-release
 acceptance is claimed. Vendors/pyramids/tiled sampling, complete ROI/context
 workspace and UI/performance budgets, and all remaining original M0-M7 criteria

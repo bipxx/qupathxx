@@ -768,7 +768,9 @@ endpoint result accounting, while returned immutable results may remain owned
 by the caller. These controls do not constitute acceptance of a full ROI/context
 workspace ledger or owner-thread performance budget.
 
-The grouped producer candidate requires installed runtime, regenerated stubs,
-strict typing and desktop interaction/rendering checks. Earlier local native and
-Python receipts retain their exact source scope and do not accept these new
-producer entry points.
+The [local frontend receipt](benchmarks/raw-grid-frontends-local-windows-linux.json)
+records Windows installed runtime, regenerated stubs, strict typing and desktop
+interaction/rendering checks at compiled8ece80e/delivery283a197. Selected Windows
+and TIFF/project Linux native checks pass. Complete workspace/owner-thread budgets,
+wheels and full platform qualification remain separate requirements. Earlier
+receipts retain their exact source scope.
