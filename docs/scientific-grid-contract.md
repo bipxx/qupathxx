@@ -845,3 +845,25 @@ rejects one byte below the requirement before block decoding; changed sources
 reject digest replay. These checks do not establish vendor-format support,
 multi-file OME, arbitrary pyramid policies, whole-slide streaming, biological
 acceptance, decoder/process RSS limits or UI/hardware performance.
+
+
+## Bounded hash-only raw capture
+
+`digest_scientific_raw` keeps the existing canonical HWC sample bytes followed
+by window validity bytes, with unchanged source/input recipe domains. Large
+hash-only captures retain one validity byte per clipped source pixel and one
+bounded decoded chunk, rather than the complete typed source window. The
+chunk target is 64 KiB including validity; one complete selected HWC pixel is
+the minimum if its channels exceed that target. Full-width row groups or
+horizontal one-row splits preserve row-major order without a second IO pass.
+Small captures retain their existing single-read path and admission values.
+
+Admission includes chunk and retained validity payloads, metadata/captured
+context and the existing fixed scratch allowance before decoding. Every chunk
+checks shape/type/storage/capacity and support bits; cancellation and later
+reader failures reject the entire digest. One initial metadata epoch supplies
+all hash metadata. Decoder/cache allocations, process RSS and caller-held results
+remain separate budgets. Materialized sampling, legacy digest bytes, QRA1/QRA2,
+recipe identities and statistics stay unchanged. ScientificGrid's existing
+geometry/source/traversal limits still apply; this does not complete whole-slide
+streaming or vendor/multi-file reader support.

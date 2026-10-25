@@ -13,9 +13,28 @@ namespace {
 void checkpoint(const std::atomic<bool>* c) {
     if(c && c->load(std::memory_order_relaxed)) throw std::runtime_error("scientific raw sampling cancelled");
 }
-RawRegionRequest request_for(const ScientificGrid& grid,const ScientificRawOptions& o) {
+// Keep canonical HWC order while bounding a hash-only decoded chunk. The
+// validity suffix needs one byte per captured pixel to preserve the existing
+// values-then-validity digest grammar without a second decoder pass.
+constexpr std::uint64_t digest_chunk_bytes=65536;
+struct RawWindowPlan {
+    std::int64_t width=0,height=0;
+    std::uint64_t bytes=0;
+    bool streamed=false;
+};
+RawWindowPlan window_plan(const RawImageMetadata& metadata,const ScientificGrid& grid,const ScientificRawOptions& o,bool materialize) {
     const auto b=grid.clipped_read_bounds();
-    return {{b.x,b.y,0,std::max<std::int64_t>(1,b.width),std::max<std::int64_t>(1,b.height)},o.first_channel,o.channels,o.z,o.t};
+    const auto pixel=std::uint64_t(o.channels)*sample_bytes(metadata.sample_type)+1;
+    const auto source=std::uint64_t(b.width)*b.height*pixel;
+    if(materialize || source<=digest_chunk_bytes) return {b.width,b.height,source,false};
+    const auto capacity=std::max<std::uint64_t>(1,digest_chunk_bytes/pixel);
+    const auto width=std::min<std::uint64_t>(b.width,capacity);
+    const auto height=std::min<std::uint64_t>(b.height,std::max<std::uint64_t>(1,capacity/width));
+    return {std::int64_t(width),std::int64_t(height),width*height*pixel+std::uint64_t(b.width)*b.height,true};
+}
+RawRegionRequest request_for(const ScientificGrid& grid,const ScientificRawOptions& o,const RawWindowPlan& plan) {
+    const auto b=grid.clipped_read_bounds();
+    return {{b.x,b.y,0,std::max<std::int64_t>(1,plan.width),std::max<std::int64_t>(1,plan.height)},o.first_channel,o.channels,o.z,o.t};
 }
 void text(Sha256& hash,const std::string& value) {hash.integer(value.size());hash.update(value.data(),value.size());}
 void real(Sha256& hash,double value) {std::uint64_t raw;std::memcpy(&raw,&value,8);hash.integer(raw);}
@@ -56,8 +75,8 @@ std::size_t work_bytes(const RawImageMetadata& m,const ScientificGrid& grid,Scie
        m.levels[0].width!=m.width || m.levels[0].height!=m.height || m.levels[0].downsample!=1)
         throw std::invalid_argument("scientific raw grid requires matching unit-scale raw level zero");
     if(!m.series_count || m.series>=m.series_count) throw std::invalid_argument("scientific raw source has invalid series metadata");
-    const auto b=grid.clipped_read_bounds();
-    auto request=request_for(grid,o);request.validate(m);
+    const auto plan=window_plan(m,grid,o,materialize);
+    auto request=request_for(grid,o,plan);request.validate(m);
     const auto elements=std::uint64_t(grid.width())*grid.height()*o.channels;
     constexpr std::uint64_t visits=1ULL<<28;
     // Account for a per-channel exact-division pass as well as source visits.
@@ -67,7 +86,7 @@ std::size_t work_bytes(const RawImageMetadata& m,const ScientificGrid& grid,Scie
         throw std::length_error("scientific raw footprint exceeds exact weight bound");
     const auto metadata=m.payload_bytes();
     if(metadata>o.work_bytes/4) throw std::length_error("scientific raw metadata exceeds work budget");
-    const auto source=std::uint64_t(b.width)*b.height*(std::uint64_t(o.channels)*sample_bytes(m.sample_type)+1);
+    const auto source=plan.bytes;
     if(reserve.fixed_bytes>o.work_bytes || (metadata && reserve.metadata_copies>(o.work_bytes-reserve.fixed_bytes)/metadata))
         throw std::length_error("raw analysis captured workspace exceeds work budget");
     const auto captured=reserve.fixed_bytes+reserve.metadata_copies*metadata;
@@ -88,6 +107,39 @@ struct RawCapture {
     ScientificRawDigest digest;
     std::optional<RawPixelBuffer> source;
 };
+void validate_buffer(const RawPixelBuffer& source,const RawRegionRequest& request,SampleType type,const std::atomic<bool>* cancelled) {
+    const auto pixels=std::uint64_t(request.region.width)*request.region.height;
+    if(source.width()!=request.region.width || source.height()!=request.region.height || source.channels()!=request.channels ||
+       source.sample_type()!=type || source.storage().index()!=std::size_t(type) || source.valid().size()!=pixels ||
+       std::visit([](const auto& values){return values.size();},source.storage())!=pixels*request.channels)
+        throw std::runtime_error("scientific raw reader returned unexpected shape/type/storage");
+    if(source.payload_bytes()>pixels*(std::uint64_t(request.channels)*sample_bytes(type)+1))
+        throw std::length_error("scientific raw reader returned excess buffer capacity");
+    for(std::size_t i=0;i<source.valid().size();++i) {
+        if((i&4095)==0) checkpoint(cancelled);
+        if(source.valid()[i]>1) throw std::runtime_error("scientific raw reader returned invalid support bits");
+    }
+}
+void hash_values(Sha256& hash,const RawPixelBuffer& source,const std::atomic<bool>* cancelled) {
+    std::visit([&](const auto& values) {
+        std::array<std::uint8_t,65536> bytes{};std::size_t used=0;
+        for(std::size_t i=0;i<values.size();++i) {
+            if((i&4095)==0) checkpoint(cancelled);
+            const auto bits=raw_bits(values[i]);
+            for(unsigned j=0;j<sizeof(values[i]);++j) {
+                bytes[used++]=std::uint8_t(bits>>(8*j));
+                if(used==bytes.size()) {hash.update(bytes.data(),used);used=0;}
+            }
+        }
+        if(used) hash.update(bytes.data(),used);
+    },source.storage());
+}
+void hash_validity(Sha256& hash,const std::vector<std::uint8_t>& validity,const std::atomic<bool>* cancelled) {
+    for(std::size_t at=0;at<validity.size();) {
+        checkpoint(cancelled);const auto count=std::min<std::size_t>(65536,validity.size()-at);
+        hash.update(validity.data()+at,count);at+=count;
+    }
+}
 RawCapture capture_raw(const ImageServer& server,const ScientificGrid& grid,ScientificRawOptions o,const std::atomic<bool>* cancelled,bool materialize,const detail::ScientificRawReserve& reserve={}) {
     checkpoint(cancelled);o.validate();
     if(server.closed()) throw std::runtime_error("scientific raw reader is closed");
@@ -110,45 +162,37 @@ RawCapture capture_raw(const ImageServer& server,const ScientificGrid& grid,Scie
     const auto work=std::max(admitted,work_bytes(*metadata,grid,o,materialize,admitted_reserve));
     auto reader=server.reader_id();
     if(reader.size()>65536 || reader.capacity()>131072) throw std::length_error("scientific raw reader identity exceeds budget");
-    const auto b=grid.clipped_read_bounds();const auto source_pixels=std::uint64_t(b.width)*b.height;
-    auto& source=capture.source;
-    checkpoint(cancelled);
-    if(b.width && b.height) {
-        source.emplace(server.read_raw(request_for(grid,o),cancelled));checkpoint(cancelled);
-        if(source->width()!=b.width || source->height()!=b.height || source->channels()!=o.channels ||
-           source->sample_type()!=metadata->sample_type || source->storage().index()!=std::size_t(metadata->sample_type) ||
-           source->valid().size()!=source_pixels ||
-           std::visit([](const auto& values){return values.size();},source->storage())!=source_pixels*o.channels)
-            throw std::runtime_error("scientific raw reader returned unexpected shape/type/storage");
-        if(source->payload_bytes()>source_pixels*(std::uint64_t(o.channels)*sample_bytes(metadata->sample_type)+1))
-            throw std::length_error("scientific raw reader returned excess buffer capacity");
-        for(std::size_t i=0;i<source->valid().size();++i) {
-            if((i&4095)==0) checkpoint(cancelled);
-            if(source->valid()[i]>1) throw std::runtime_error("scientific raw reader returned invalid support bits");
-        }
-    }
+    const auto b=grid.clipped_read_bounds();
+    const auto plan=window_plan(*metadata,grid,o,materialize);
     auto& out=capture.digest;out.reader=std::move(reader);out.estimated_work_bytes=work;
     Sha256 decoded;constexpr char format[]="qpx.raw-level-zero-window/1";decoded.update(format,sizeof(format)-1);
     for(auto v:{metadata->width,metadata->height,std::int64_t(metadata->channels),std::int64_t(metadata->z_planes),
                 std::int64_t(metadata->timepoints),std::int64_t(metadata->series),std::int64_t(metadata->series_count),std::int64_t(metadata->sample_type),
                 b.x,b.y,b.width,b.height,std::int64_t(o.first_channel),std::int64_t(o.channels),std::int64_t(o.z),std::int64_t(o.t)}) decoded.integer(v);
-    if(source) {
-        std::visit([&](const auto& values) {
-            std::array<std::uint8_t,65536> bytes{};std::size_t used=0;
-            for(std::size_t i=0;i<values.size();++i) {
-                if((i&4095)==0) checkpoint(cancelled);
-                const auto bits=raw_bits(values[i]);
-                for(unsigned j=0;j<sizeof(values[i]);++j) {
-                    bytes[used++]=std::uint8_t(bits>>(8*j));
-                    if(used==bytes.size()) {decoded.update(bytes.data(),used);used=0;}
-                }
-            }
-            if(used) decoded.update(bytes.data(),used);
-        },source->storage());
-        for(std::size_t at=0;at<source->valid().size();) {
-            checkpoint(cancelled);const auto count=std::min<std::size_t>(65536,source->valid().size()-at);
-            decoded.update(source->valid().data()+at,count);at+=count;
+    if(plan.streamed) {
+        checkpoint(cancelled);
+        std::vector<std::uint8_t> validity(std::size_t(b.width)*b.height);
+        if(validity.capacity()>validity.size()) throw std::length_error("scientific raw validity exceeds work budget");
+        // Full-width row groups, or one row split horizontally: each chunk is
+        // a contiguous range in the original logical HWC window.
+        for(auto y=b.y;y<b.y+b.height;y+=plan.height) for(auto x=b.x;x<b.x+b.width;x+=plan.width) {
+            checkpoint(cancelled);
+            auto request=request_for(grid,o,plan);request.region.x=x;request.region.y=y;
+            request.region.width=std::min(plan.width,b.x+b.width-x);
+            request.region.height=std::min(plan.height,b.y+b.height-y);
+            auto chunk=server.read_raw(request,cancelled);checkpoint(cancelled);
+            validate_buffer(chunk,request,metadata->sample_type,cancelled);
+            hash_values(decoded,chunk,cancelled);
+            const auto offset=std::size_t((y-b.y)*b.width+x-b.x);
+            std::copy(chunk.valid().begin(),chunk.valid().end(),validity.begin()+offset);
         }
+        hash_validity(decoded,validity,cancelled);
+    } else if(b.width && b.height) {
+        checkpoint(cancelled);const auto request=request_for(grid,o,plan);
+        capture.source.emplace(server.read_raw(request,cancelled));checkpoint(cancelled);
+        validate_buffer(*capture.source,request,metadata->sample_type,cancelled);
+        hash_values(decoded,*capture.source,cancelled);
+        hash_validity(decoded,capture.source->valid(),cancelled);
     }
     out.decoded_source_sha256=decoded.finish();
     out.input_sha256=detail::scientific_raw_input_sha256(*metadata,grid,out.reader,out.decoded_source_sha256,cancelled);checkpoint(cancelled);

@@ -122,6 +122,10 @@ source dtype and derived sample type, and blanks for natural scalar coordinates.
 See the [typed contract](scientific-grid-contract.md#qra2-grid-records-and-typed-raw-csv)
 and [local native evidence](benchmarks/raw-grid-retention-local-windows-linux.json).
 
-This grid path is currently native: new Python/stub, CLI/batch and ImGui/managed
-viewer delivery and full installed/platform qualification remain pending. The
-existing natural-level frontend workflow described above remains separate.
+The grid path is exposed through Python/stubs, CLI/batch and ImGui/managed
+viewer workflows; see the [workflow guide](grid-cell-workflows.md) and
+[current task](current-task.md) for exact source and qualification scope.
+Large hash-only source verification now uses bounded decoded chunks plus the
+canonical validity suffix, retaining the same digest and archive bytes. Full
+materialized sampling still has its own admission and source-window limits.
+Biological, hardware and supported-release acceptance remain separate.

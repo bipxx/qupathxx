@@ -8,6 +8,7 @@
 #include "../sha256.hpp"
 #include "qupathxx/raw_tables.hpp"
 #include "raw_scientific_sampling_reference.hpp"
+#include "raw_streaming_reference.hpp"
 #include <cstring>
 #include <iostream>
 #include <iterator>
@@ -106,9 +107,81 @@ public:
     std::shared_ptr<const qpx::TiffView> tiff_view() const override {return view;}
 };
 
+class StreamingReader:public qpx::ImageServer {
+public:
+    std::shared_ptr<qpx::RawImageMetadata> raw=std::make_shared<qpx::RawImageMetadata>();
+    qpx::ImageMetadata display;
+    mutable unsigned reads=0,metadata_reads=0;
+    mutable std::size_t peak_payload=0;
+    int fault=0;bool mutate_epoch=false;
+    std::atomic<bool>* cancel_on_second=nullptr;
+    StreamingReader(std::int64_t w,std::int64_t h) {
+        raw->width=w;raw->height=h;raw->channels=3;raw->sample_type=qpx::SampleType::UInt64;
+        raw->levels={{w,h,1}};raw->channel_names={"c0","c1","c2"};raw->dimension_order="XYC";
+        raw->pixel_width_um=.5;raw->pixel_height_um=.25;
+        display.width=w;display.height=h;display.levels={{w,h,1}};
+    }
+    const qpx::ImageMetadata& metadata() const override {return display;}
+    std::string reader_id() const override {return "stream-reference";}
+    qpx::PixelBuffer read_region(const qpx::RegionRequest&) const override {throw std::runtime_error("display IO forbidden");}
+    std::shared_ptr<const qpx::RawImageMetadata> raw_metadata(const std::atomic<bool>*) const override {++metadata_reads;return raw;}
+    qpx::RawPixelBuffer read_raw(const qpx::RawRegionRequest& r,const std::atomic<bool>*) const override {
+        ++reads;const auto& b=r.region;require(b.level==0 && b.x>=0 && b.y>=0 && b.x+b.width<=raw->width && b.y+b.height<=raw->height);
+        if(reads==2 && fault==1) throw std::runtime_error("later decoder failure");
+        if(reads==2 && fault==4) return {b.width+1,b.height,r.channels,qpx::SampleType::UInt64};
+        qpx::RawPixelBuffer out(b.width,b.height,r.channels,qpx::SampleType::UInt64);
+        auto& data=std::get<std::vector<std::uint64_t>>(out.writable_storage());
+        for(std::int64_t y=0;y<b.height;++y) for(std::int64_t x=0;x<b.width;++x) {
+            const auto sx=b.x+x,sy=b.y+y,pixel=y*b.width+x;
+            out.writable_valid()[std::size_t(pixel)]=std::uint8_t((sx+sy)%19!=0);
+            for(std::uint32_t c=0;c<r.channels;++c)
+                data[std::size_t(pixel)*r.channels+c]=(1ULL<<63)+std::uint64_t((sy*raw->width+sx)*3+r.first_channel+c)*7+1;
+        }
+        peak_payload=std::max(peak_payload,out.payload_bytes());
+        if(reads==2 && fault==2) out.writable_valid()[0]=2;
+        if(reads==2 && fault==3) data.reserve(data.size()+1024);
+        if(reads==2 && fault==5) out.writable_storage()=std::vector<std::uint8_t>(data.size());
+        if(reads==2 && cancel_on_second) cancel_on_second->store(true);
+        if(mutate_epoch) raw->pixel_width_um=7.;
+        return out;
+    }
+    void close() override {}bool closed() const override {return false;}
+};
+void check_raw_streaming() {
+    using namespace qpx;
+    for(const auto& reference:raw_streaming_reference::cases) {
+        const ScientificGrid grid(reference.width,reference.height,{0,reference.width,7},{0,reference.height,5});
+        ScientificRawOptions options;options.first_channel=1;options.channels=2;
+        StreamingReader reader(reference.width,reference.height);reader.mutate_epoch=true;
+        const auto digest=digest_scientific_raw(reader,grid,options);
+        require(reader.reads>1 && reader.metadata_reads==1 && reader.peak_payload<=65536);
+        require(digest.decoded_source_sha256==reference.decoded && digest.input_sha256==reference.input);
+        require(digest.metadata.pixel_width_um==.5 && reader.raw->pixel_width_um==7.);
+        StreamingReader full(reference.width,reference.height);
+        const auto sampled=read_scientific_raw(full,grid,options);
+        require(full.reads==1 && sampled.input_sha256()==digest.input_sha256 && sampled.decoded_source_sha256()==digest.decoded_source_sha256);
+        require(digest.estimated_work_bytes<sampled.estimated_work_bytes());
+        options.work_bytes=digest.estimated_work_bytes;
+        StreamingReader exact(reference.width,reference.height);
+        require(digest_scientific_raw(exact,grid,options).input_sha256==digest.input_sha256);
+        StreamingReader rejected(reference.width,reference.height);
+        --options.work_bytes;rejects<std::length_error>([&]{digest_scientific_raw(rejected,grid,options);});require(rejected.reads==0);
+        ++options.work_bytes;rejects<std::length_error>([&]{read_scientific_raw(rejected,grid,options);});require(rejected.reads==0);
+        options.work_bytes=256*1024*1024;
+        for(int fault=1;fault<=5;++fault) {
+            StreamingReader broken(reference.width,reference.height);broken.fault=fault;
+            rejects<std::exception>([&]{digest_scientific_raw(broken,grid,options);});require(broken.reads==2);
+        }
+        StreamingReader cancelled(reference.width,reference.height);std::atomic<bool> stop{false};cancelled.cancel_on_second=&stop;
+        rejects<std::runtime_error>([&]{digest_scientific_raw(cancelled,grid,options,&stop);});require(cancelled.reads==2);
+    }
+    std::cout<<"Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed\n";
+}
+
 }
 void check_scientific_raw_sampling() {
     using namespace qpx;
+    check_raw_streaming();
     require(std::size(raw_sampling_reference::cases)==94);
     unsigned which=0;std::size_t checked=0;
     for(const auto& c:raw_sampling_reference::cases) {
