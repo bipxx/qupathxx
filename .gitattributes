@@ -16,6 +16,11 @@ tools/reference_grid_cell_archive.py text eol=lf
 cpp/tests/grid_cell_archive_reference.hpp text eol=lf
 docs/benchmarks/grid-cell-archive-local/** -text -whitespace
 docs/benchmarks/grid-cell-archive-local-windows.json text eol=lf
+tests/fixtures/grid-cell-consumers-v1/** -text
+tools/reference_grid_classifier_archive.py text eol=lf
+cpp/tests/grid_classifier_archive_reference.hpp text eol=lf
+docs/benchmarks/grid-cell-consumers-local/** -text -whitespace
+docs/benchmarks/grid-cell-consumers-local-windows.json text eol=lf
 docs/benchmarks/grid-cells-local/** -text -whitespace
 docs/benchmarks/grid-cells-local-windows.json text eol=lf
 tests/fixtures/physical-grid-v1/** -text

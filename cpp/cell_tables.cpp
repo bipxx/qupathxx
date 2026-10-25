@@ -3,6 +3,7 @@
 #include "atomic_export.hpp"
 #include "object_snapshot.hpp"
 #include "cell_object_status.hpp"
+#include "qupathxx/provenance.hpp"
 #include <charconv>
 #include <chrono>
 #include <cmath>
@@ -41,7 +42,7 @@ struct CellTableRequest::Data {
     struct Entry {std::shared_ptr<const CellRecord> record;std::string status;std::size_t image=0;};
     struct Block {std::shared_ptr<const Document::ObjectBlock> value;std::size_t image=0;};
     std::vector<Entry> entries;std::vector<Image> images;std::vector<Block> blocks;CellTableOptions options;
-    std::string identity;bool project=false,detector_parameters=false;std::uint64_t revision=0,generation=0,rows=0;std::size_t bytes=0;double capture_ms=0;
+    std::string identity;bool project=false,detector_parameters=false,grid_parameters=false;std::uint64_t revision=0,generation=0,rows=0;std::size_t bytes=0;double capture_ms=0;
     void charge(std::size_t value) {if(value>options.snapshot_budget-bytes) throw std::length_error("cell table snapshot exceeds memory budget");bytes+=value;}
     void append(const Document& doc,std::uint64_t id,std::string name,const std::vector<std::uint64_t>& record_ids={}) {
         if(options.published_objects) {append_objects(doc,id,std::move(name),record_ids);return;}
@@ -117,7 +118,10 @@ struct CellTableRequest::Data {
 #endif
     }
     void finish(std::chrono::steady_clock::time_point start) {
-        for(const auto& entry:entries) detector_parameters=detector_parameters || entry.record->result->parameters().algorithm!=CellAlgorithm::DistanceWatershed;
+        for(const auto& entry:entries) {
+            const bool grid=entry.record->result->grid_parameters()!=nullptr;grid_parameters=grid_parameters || grid;
+            detector_parameters=detector_parameters || grid || entry.record->result->parameters().algorithm!=CellAlgorithm::DistanceWatershed;
+        }
         charge((entries.capacity()-entries.size())*sizeof(Entry)+(images.capacity()-images.size())*sizeof(Image)+(blocks.capacity()-blocks.size())*sizeof(Block));
         capture_ms=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();
     }
@@ -156,13 +160,15 @@ std::uint64_t CellTableRequest::project_revision() const {return data_->project?
 CellTableOptions CellTableRequest::options() const {return data_->options;}
 struct CellTableWriter {
     static std::string schema(const CellTableRequest& request) {
-        const auto version=std::to_string((request.data_->options.include_capture_calibration?2:1)+(request.data_->detector_parameters?2:0));
+        const auto version=std::to_string(request.data_->grid_parameters?(request.data_->options.include_capture_calibration?6:5):
+            (request.data_->options.include_capture_calibration?2:1)+(request.data_->detector_parameters?2:0));
         if(request.data_->options.published_objects) return std::string(request.data_->project?"qpx.project-cell-object-table/":"qpx.cell-object-table/")+version;
         return std::string(request.data_->project?"qpx.project-cell-table/":"qpx.cell-table/")+version;
     }
     static void detector(Row& row,const CellTableRequest& request,const CellResult* result) {
         if(!request.data_->detector_parameters) return;
         if(!result) {row.separator();row.separator();row.separator();return;}
+        if(result->grid_parameters()) {row.string("grid-log-bodies");row.separator();row.separator();return;}
         const auto& p=result->parameters();row.string(p.algorithm==CellAlgorithm::SampledLogWatershedBodies?"log-sampled":(p.algorithm==CellAlgorithm::LogWatershedBodies?"log-bodies":(p.algorithm==CellAlgorithm::LogWatershed?"log":"distance")));
         if(p.algorithm!=CellAlgorithm::DistanceWatershed) {row.real(p.log_prominence);row.integer(p.context_padding);}
         else {row.separator();row.separator();}
@@ -172,16 +178,48 @@ struct CellTableWriter {
     }
     static Row prefix(const CellTableRequest& request,const CellTableRequest::Data::Entry& entry) {
         const auto& image=request.data_->images.at(entry.image);
-        const auto& record=*entry.record;const auto& result=*record.result;const auto& n=*result.nuclei();const auto& p=result.parameters();
+        const auto& record=*entry.record;const auto& result=*record.result;const auto& n=*result.nuclei();
         Row row;context(row,request,image);
         row.string(schema(request));row.integer(record.id);row.integer(n.object_id());row.integer(n.object_revision());row.integer(n.document_revision());row.integer(image.revision);
-        row.string(entry.status);row.string(record.producer);row.string(result.algorithm());row.string(n.input_sha256());row.integer(image.width);row.integer(image.height);row.integer(n.level());row.real(n.downsample());
+        row.string(entry.status);row.string(record.producer);row.string(result.algorithm());row.string(n.input_sha256());row.integer(image.width);row.integer(image.height);row.integer(n.level());
+        if(result.grid_parameters()) {
+            const auto& p=*result.grid_parameters();const auto& q=*result.resolved_grid_parameters();row.separator();
+            row.string(feature_name(p.feature));row.string(p.feature==TissueFeature::OpticalDensitySum?"optical_density_rgb":"stain_concentrations");row.real(p.threshold);
+            for(unsigned i=0;i<4;++i) row.separator(); // Legacy sampled distance fields have no grid-unit meaning.
+            row.integer(q.min_nucleus_samples);row.integer(q.max_nucleus_samples);
+            for(unsigned i=0;i<3;++i) row.separator(); // Legacy connectivity/requested native level/tile size.
+            for(auto v:{std::uint64_t(p.max_cells),std::uint64_t(p.work_bytes),std::uint64_t(p.contours.clip_to_roi),std::uint64_t(p.contours.max_components),std::uint64_t(p.contours.max_edges),std::uint64_t(p.contours.max_vertices),std::uint64_t(p.contours.work_bytes)}) row.integer(v);
+            row.vector(n.white());for(const auto& v:n.stains()) row.vector(v);return row;
+        }
+        const auto& p=result.parameters();row.real(n.downsample());
         row.string(feature_name(p.feature));row.string(p.feature==TissueFeature::OpticalDensitySum?"optical_density_rgb":"stain_concentrations");
         for(auto v:{p.threshold,p.sigma,p.min_peak_radius,p.min_seed_distance,p.cell_expansion}) row.real(v);
         row.integer(p.min_nucleus_pixels);row.integer(p.max_nucleus_pixels);row.integer(p.connectivity);
         row.separator();row.text+=std::to_string(p.level);
         for(auto v:{std::uint64_t(p.tile_size),std::uint64_t(p.max_cells),std::uint64_t(p.work_bytes),std::uint64_t(p.contours.clip_to_roi),std::uint64_t(p.contours.max_components),std::uint64_t(p.contours.max_edges),std::uint64_t(p.contours.max_vertices),std::uint64_t(p.contours.work_bytes)}) row.integer(v);
         row.vector(n.white());for(const auto& v:n.stains()) row.vector(v);return row;
+    }
+    static const std::vector<const char*>& grid_columns() {
+        static const std::vector<const char*> names={"sampling_grid","sample_step_x_px","sample_step_y_px","grid_image_width_px","grid_image_height_px",
+            "grid_origin_x_px","grid_origin_y_px","grid_extent_width_px","grid_extent_height_px","grid_samples_x","grid_samples_y","grid_context_x","grid_context_y",
+            "grid_parameter_units","grid_sigma","grid_peak_prominence","grid_min_peak_radius","grid_min_seed_distance","grid_cell_expansion","grid_min_nucleus_area","grid_max_nucleus_area",
+            "grid_resolved_step_x","grid_resolved_step_y","grid_sigma_x_samples","grid_sigma_y_samples","grid_sampling_policy","grid_capture_pixel_width_um","grid_capture_pixel_height_um","grid_input_format"};
+        return names;
+    }
+    static void grid(Row& row,const CellTableRequest& request,const CellResult* result) {
+        if(!request.data_->grid_parameters) return;
+        if(!result) {for(std::size_t i=0;i<grid_columns().size();++i) row.separator();return;}
+        const auto& n=*result->nuclei();row.string(result->grid_parameters()?"explicit":"natural");row.real(n.downsample_x());row.real(n.downsample_y());
+        if(!result->grid_parameters()) {for(std::size_t i=3;i<grid_columns().size();++i) row.separator();return;}
+        const auto& g=*n.scientific_grid();const auto& p=*result->grid_parameters();const auto& q=*result->resolved_grid_parameters();
+        auto signed_integer=[&](std::int64_t value){row.separator();row.text+=std::to_string(value);};
+        for(auto v:{g.image_width(),g.image_height(),g.x().origin(),g.y().origin(),g.x().extent(),g.y().extent(),g.x().samples(),g.y().samples(),g.x().context(),g.y().context()}) signed_integer(v);
+        row.string(p.units==GridCellUnits::Micrometres?"um":"level_zero_px");
+        for(auto v:{p.sigma,p.log_prominence,p.min_peak_radius,p.min_seed_distance,p.cell_expansion,p.min_nucleus_area}) row.real(v);
+        optional(row,p.max_nucleus_area);for(auto v:{q.step_x,q.step_y,q.sigma_x,q.sigma_y}) row.real(v);
+        row.string(p.sampling_policy==RoiSamplingPolicy::GeometryCoverage?"geometry_coverage":"polygon_winding");
+        const auto& provenance=n.provenance();optional(row,provenance?provenance->effective_pixel_width_um:std::optional<double>{});optional(row,provenance?provenance->effective_pixel_height_um:std::optional<double>{});
+        row.string(n.input_format());
     }
     static void feature(Row& row,const CellResult& result,std::uint32_t label,bool calibrated) {
         const auto& f=result.features().at(label-1);const auto& a=result.nuclei()->components().at(label-1);const auto& b=result.cells()->components().at(label-1);
@@ -228,6 +266,7 @@ struct CellTableWriter {
             columns+=",object_id,object_revision,object_name,object_parent_id,object_class,object_class_color,object_status_at_capture,object_min_x_px,object_min_y_px,object_width_px,object_height_px,object_area_px2,object_length_px,object_nucleus_area_px2,object_nucleus_length_px,export_pixel_width_um,export_pixel_height_um,object_area_um2,object_length_um,object_nucleus_area_um2,object_nucleus_length_um\r\n";
         }
         if(request.data_->detector_parameters) {columns.resize(columns.size()-2);columns+=",detector_mode,log_peak_prominence,context_padding_sample_px\r\n";}
+        if(request.data_->grid_parameters) {columns.resize(columns.size()-2);for(const auto* name:grid_columns()) {columns+=',';columns+=name;}columns+="\r\n";}
         sink(columns);std::uint64_t done=0;
         if(request.data_->options.published_objects) {
             const auto missing=std::numeric_limits<std::size_t>::max();std::size_t cached=missing;Row saved_prefix;
@@ -260,7 +299,8 @@ struct CellTableWriter {
                         }
                         if(request.data_->options.include_capture_calibration) for(int column=0;column<9;++column) row.separator();
                     }
-                    object(row,a,status,image);detector(row,request,a.cell_feature_link && entry!=missing?request.data_->entries[entry].record->result.get():nullptr);sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
+                    const auto result=a.cell_feature_link && entry!=missing?request.data_->entries[entry].record->result.get():nullptr;
+                    object(row,a,status,image);detector(row,request,result);grid(row,request,result);sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
                 }
             }
         } else for(const auto& entry:request.data_->entries) {
@@ -268,7 +308,7 @@ struct CellTableWriter {
             const auto saved_prefix=prefix(request,entry);
             for(const auto& f:entry.record->result->features()) {
                 export_checkpoint(cancelled);Row row;row.text=saved_prefix.text;row.first=false;feature(row,*entry.record->result,f.label,request.data_->options.include_capture_calibration);
-                detector(row,request,entry.record->result.get());sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
+                detector(row,request,entry.record->result.get());grid(row,request,entry.record->result.get());sink(row.finish());++done;if(rows) rows->store(done,std::memory_order_relaxed);
             }
         }
         if(done!=request.row_count()) throw std::logic_error("cell table row count mismatch");

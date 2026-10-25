@@ -12,8 +12,9 @@ void bind_object_classifier_archives(nb::module_& m) {
         .def_ro("record_id",&ObjectCellFeatureSource::record_id).def_ro("object_id",&ObjectCellFeatureSource::object_id)
         .def_ro("object_revision",&ObjectCellFeatureSource::object_revision).def_ro("document_revision",&ObjectCellFeatureSource::document_revision).def_ro("cell_count",&ObjectCellFeatureSource::cell_count)
         .def_ro("producer",&ObjectCellFeatureSource::producer).def_ro("algorithm",&ObjectCellFeatureSource::algorithm).def_ro("input_sha256",&ObjectCellFeatureSource::input_sha256)
-        .def_prop_ro("parameters",[](const ObjectCellFeatureSource& s){return s.parameters;})
-        .def_ro("roi",&ObjectCellFeatureSource::roi).def_ro("level",&ObjectCellFeatureSource::level).def_ro("downsample",&ObjectCellFeatureSource::downsample)
+        .def_prop_ro("parameters",[](const ObjectCellFeatureSource& s){if(s.scientific_grid) throw std::logic_error("grid classifier sources require their typed grid parameters");return s.parameters;})
+        .def_ro("roi",&ObjectCellFeatureSource::roi).def_ro("level",&ObjectCellFeatureSource::level)
+        .def_prop_ro("downsample",[](const ObjectCellFeatureSource& s){if(s.scientific_grid) throw std::logic_error("grid classifier sources have separate axes");return s.downsample;})
         .def_ro("white",&ObjectCellFeatureSource::white).def_ro("stains",&ObjectCellFeatureSource::stains).def_ro("provenance",&ObjectCellFeatureSource::provenance);
     nb::class_<ObjectFeatureCellOrigin>(m,"ObjectFeatureCellOrigin")
         .def_ro("record_id",&ObjectFeatureCellOrigin::record_id).def_ro("label",&ObjectFeatureCellOrigin::label).def_ro("source",&ObjectFeatureCellOrigin::source);

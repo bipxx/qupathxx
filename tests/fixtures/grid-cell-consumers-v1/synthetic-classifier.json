@@ -1,0 +1,16 @@
+{
+  "schema": "qpx.qca5-independent-vector/1",
+  "scope": "Synthetic historical prediction protocol; hand-authored forest and placeholder input hash, not research/model acceptance",
+  "bytes": 2959,
+  "sha256": "0cf585876ee67d5861f6fd0787e890895113dc3a0b107a002809476699dba9bb",
+  "artifact_sha256": "322d31f8702eef003a2750876c1b91e84df9dca85697b05d37966218ff55f3a2",
+  "table_sha256": "69938ba3a1bf91047da5d1d4bd37c1d431e72a5ab59e51a51aeb5af17410e896",
+  "source_qcl5_sha256": "e65cbafb2f5a0a94c6593168d535b3bf645121af719438ebae65d03df3421f74",
+  "source_units": "micrometres",
+  "source_steps": [
+    0.5,
+    0.25
+  ],
+  "rows": 1,
+  "features": 11
+}

@@ -4,7 +4,7 @@
   "generator": "tools/reference_scientific_channels.py",
   "generator_sha256": "2bcf3ef923583a90ad70cc5222517203f3fea3934b3f9f27fcb4f70d412e6978",
   "contract": "docs/scientific-grid-contract.md",
-  "contract_sha256": "b90518b75c0d6ac8d3c3f6c1c40f9920355bf6dda1da54752382509e36f8d2f1",
+  "contract_sha256": "d74f202495ca3bd6df88fe543dce5c597778c65ece006326d3097e2f49e77bbd",
   "native_header": "cpp/tests/scientific_channel_reference.hpp",
   "native_header_sha256": "f276a63bf902b4b1d8732648d7a427c222b0a6b9f0dce3b318e9641f2a1835ab",
   "cases": 44,

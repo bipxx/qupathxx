@@ -1,0 +1,21 @@
+{
+  "schema": "qpx.grid-cell-consumer-reference-manifest/1",
+  "generator": "tools/reference_grid_classifier_archive.py",
+  "source_generator": "tools/reference_grid_cell_archive.py",
+  "contract": "docs/scientific-grid-contract.md",
+  "native_header": "cpp/tests/grid_classifier_archive_reference.hpp",
+  "generator_sha256": "31cb3a344dbe3bf98579a4780c3d004610203fa8cd3b854a8fcce6fe5b790e3b",
+  "source_generator_sha256": "0e477875df721be0e03b0a587cd49e62c9cad5bb40fb5ef14898542935183559",
+  "contract_sha256": "d74f202495ca3bd6df88fe543dce5c597778c65ece006326d3097e2f49e77bbd",
+  "native_header_sha256": "de8882d469b3c00e253220387e9fb07a1c71c0e21ec62daf98a03385cad6f0e4",
+  "files": {
+    "synthetic-classifier.qcr": {
+      "bytes": 2959,
+      "sha256": "0cf585876ee67d5861f6fd0787e890895113dc3a0b107a002809476699dba9bb"
+    },
+    "synthetic-classifier.json": {
+      "bytes": 654,
+      "sha256": "14c6a0559b637b106c1709819107366251cef61870ea15f950b12fd3dd0fadec"
+    }
+  }
+}

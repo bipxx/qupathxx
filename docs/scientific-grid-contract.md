@@ -3,8 +3,9 @@
 This is the preparation contract for queue item 5. Native geometry, level-zero
 float64 RGB/channel sampling, a new C++ explicit-grid cell request/detector and
 QCL5 project retention/replay are implemented on the integration branch.
-Classifier-source archives, required frontends and scientific acceptance remain
-pending. Installed nanobind validation
+QCA5 classifier-source archives and CSV schema 5/6 are also implemented in native
+code. Required frontend exposure and scientific acceptance remain pending.
+Installed nanobind validation
 of the earlier sampler/channel stage does not qualify subsequent public-layout
 changes. All M0–M7 criteria remain in scope.
 
@@ -119,12 +120,12 @@ formula against the oracle's enumerated rational intersections, including halo.
 
 The new native detector is additive (`GridLogWatershedBodies`, appended enum value;
 `qpx.grid-log-watershed-bodies/1`), with explicit new input-digest and archive
-versions. QCL5 is implemented; QCA5 classifier provenance remains a proposal.
+versions. QCL5 cell runs and QCA5 classifier provenance are implemented.
 The new digest captures grid,
 context, ROI/membership, transform/calibration, validity, source-level/reader
 identity and decoded input in a canonical order independent of IO tile size.
 Old input formats intentionally include tile size and must remain replayable.
-QCL5 and the proposed QCA5 classifier container are additive to QCL1–4/QCA1–4.
+QCL5 and the QCA5 classifier container are additive to QCL1–4/QCA1–4.
 Unknown versions reject; no silent conversion of old provenance or historical masks.
 
 ## Implementation and exit evidence
@@ -372,8 +373,8 @@ historical eligibility. It does not reuse QCL1–4/QCA1–4 encodings. Scalar-on
 request/result parameter and grid accessors reject rather than return misleading
 sampled parameters. The existing `CellJob` executes and reconciles this request;
 record retention/publication and replay use its existing owner-authority checks.
-QCA5 classifier-source provenance, CSV schema, Python/CLI/ImGui exposure and batch
-integration remain unfinished. Existing recipe IDs, sampled defaults and archive formats retain
+Python/CLI/ImGui detector exposure and batch integration remain unfinished.
+Existing recipe IDs, sampled defaults and archive formats retain
 their original behavior.
 
 The new [exact reference](../tests/fixtures/grid-cells-v1/reference.json) uses
@@ -451,4 +452,61 @@ canonical re-encoding. It is an explicitly synthetic historical snapshot with a
 placeholder input hash, not an image/segmentation reference. Native project checks
 cover save, reopen, provenance attachment, fresh replay/verification, second save,
 authority rejection, calibration changes and re-signed malformed records. Python
-bindings, GUI, classifier and complete scientific/platform acceptance remain open.
+bindings, GUI and complete scientific/platform acceptance remain open.
+
+## QCA5 classifier sources and CSV schema 5/6
+
+Object feature capture still requires current verified published measurements.
+For a grid-cell origin it retains an immutable `ObjectCellFeatureSource` with the
+full grid, typed requested/resolved parameters, white/basis, ROI, input SHA and
+capture-time QPV. It does not duplicate the complete run masks. The legacy
+`parameters` and `downsample` fields only describe natural grids; grid sources
+set the algorithm discriminator and a NaN scalar sentinel. Native callers use
+the typed optionals. Python scalar properties reject grid sources; binding the
+typed fields and installed validation remain part of frontend integration.
+
+The QCR1 record envelope is unchanged. Its nested artifact uses QCA5 when any
+source is an explicit grid. Each source manifest has a uint64 kind tag: 0 holds
+the existing extended natural-grid manifest, 1 holds common identity/producer/
+algorithm/input-hash/ROI fields followed by the QCL5 requested-parameter prefix,
+ten grid fields, QPV blob, white/basis and resolved fields. Mixed source cohorts
+retain both representations. No-grid cohorts retain their existing QCA1–4
+selection and bytes. QCA5 with no grid source is noncanonical and rejects.
+
+Decode validates source identity, calibration and resolved values with the same
+native request planner, checks selected nucleus areas and core-grid sample
+limits, and preserves canonical re-encoding. Upsampled cell sample counts can
+exceed the native image pixel count; they are bounded by the captured grid,
+not by a fabricated scalar level. The existing forest/model/table checks and
+snapshot/artifact quotas remain in force. Reopening recomputes model predictions
+from the captured table, not from today's images or cell records.
+
+CSV output containing a grid run uses schema 5, or 6 when capture-calibrated
+feature columns are requested. The same versions apply to document/project and
+published-object tables. Existing no-grid requests retain schema 1–4 and their
+existing columns. A mixed export upgrades the whole table and identifies each
+row's sampling mode. New grid rows leave legacy scalar downsample, sampled
+sigma/radius/spacing/expansion, native requested level/tile and single context
+fields blank; threshold, resolved area-count cutoffs and common contour limits
+remain populated. The detector mode is `grid-log-bodies`.
+
+The additional columns carry sampling mode, separate level-zero sample steps,
+all ten grid fields, selected parameter units (`um` or `level_zero_px`), requested
+sigma/prominence/radius/spacing/expansion/area bounds, resolved metric steps and
+sample sigmas, ROI policy, captured calibration and input format. The maximum
+area is blank when unbounded and zero when explicitly zero. Grid calibration is
+retained even when optional capture-calibrated feature output is disabled.
+Natural rows retain their scalar legacy fields and both equal sample-step values;
+their grid-only columns are blank. Manual or unresolved published rows leave the
+entire descriptor blank. Current object/export calibration and historical source
+calibration keep their distinct columns. Captures remain immutable across edits,
+and existing atomic/cancellable file/job export paths use the same row writer.
+
+The [independent QCA5 vector](../tests/fixtures/grid-cell-consumers-v1/synthetic-classifier.json)
+uses Python struct/hashlib, the independent QCL5 descriptor and a hand-authored
+portable forest. Native code must decode and reproduce the complete QCR1/QCA5
+bytes. It is protocol evidence, not a trained-model or research acceptance claim.
+Native workflow checks cover mixed natural/grid/upsampled origins, malformed
+typed manifests, quoted manual rows, schema/column alignment, captured units and
+calibration, and classifier/CSV project save/reopen. GUI, installed Python,
+complete CLI/batch integration and all wider M0–M7 criteria remain open.

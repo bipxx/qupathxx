@@ -7,6 +7,7 @@
 #include "cell_contours.hpp"
 #include "qupathxx/provenance.hpp"
 #include "sha256.hpp"
+#include "grid_cell_descriptor.hpp"
 #include <cstring>
 
 namespace qpx {
@@ -64,18 +65,10 @@ std::string checksum(const std::uint8_t* data,std::size_t size,const Roi& roi,co
     for(std::size_t at=0;at<size;) {checkpoint(cancelled);const auto n=std::min<std::size_t>(65536,size-at);hash.update(data+at,n);at+=n;}return hash.finish();
 }
 void parameters(Writer& w,const GridCellParameters& p) {
-    w.integer(4);w.integer(std::uint64_t(p.units));w.integer(std::uint64_t(p.feature));w.integer(std::uint64_t(p.sampling_policy));
-    for(auto v:{p.threshold,p.sigma,p.log_prominence,p.min_peak_radius,p.min_seed_distance,p.cell_expansion,p.min_nucleus_area}) w.real(v);
-    w.integer(bool(p.max_nucleus_area));if(p.max_nucleus_area) w.real(*p.max_nucleus_area);
-    for(auto v:{p.max_cells,p.work_bytes,std::size_t(p.contours.clip_to_roi),p.contours.max_components,p.contours.max_edges,p.contours.max_vertices,p.contours.work_bytes}) w.integer(v);
+    cell_detail::grid_parameters_write(w,p);
 }
 GridCellParameters parameters(Reader& d) {
-    if(d.integer()!=4) throw std::invalid_argument("invalid QCL5 algorithm");GridCellParameters p;
-    p.units=GridCellUnits(d.integer(1));p.feature=TissueFeature(d.integer(3));p.sampling_policy=RoiSamplingPolicy(d.integer(1));
-    p.threshold=d.real();p.sigma=d.real();p.log_prominence=d.real();p.min_peak_radius=d.real();p.min_seed_distance=d.real();p.cell_expansion=d.real();p.min_nucleus_area=d.real();
-    if(d.integer(1)) p.max_nucleus_area=d.real();p.max_cells=std::size_t(d.integer(1000000));p.work_bytes=std::size_t(d.integer(512ULL*1024*1024));
-    p.contours.clip_to_roi=d.integer(1)!=0;p.contours.max_components=std::size_t(d.integer(1000000));p.contours.max_edges=std::size_t(d.integer(10000000));
-    p.contours.max_vertices=std::size_t(d.integer(10000000));p.contours.work_bytes=std::size_t(d.integer(512ULL*1024*1024));p.validate();return p;
+    return cell_detail::grid_parameters_read(d);
 }
 auto resolved(const ResolvedGridCellParameters& r) {return std::make_tuple(r.step_x,r.step_y,r.sigma_x,r.sigma_y,r.min_nucleus_samples,r.max_nucleus_samples);}
 bool source_support(const ScientificGrid& grid,std::size_t i) {

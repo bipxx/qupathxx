@@ -7,12 +7,14 @@
 #include <random>
 #include <stdexcept>
 using namespace qpx;
+void check_grid_cell_consumers();
 void check(bool v) {if(!v) throw std::runtime_error("cell table check failed");}
 template<class E,class F> void rejects(F f) {try {f();} catch(const E&) {return;}throw std::logic_error("missing cell table rejection");}
 std::string read(const std::filesystem::path& path) {std::ifstream file(path,std::ios::binary);return {std::istreambuf_iterator<char>(file),{}};}
 struct Comma:std::numpunct<char> {char do_decimal_point() const override {return ',';}};
 int main() {
  try {
+    check_grid_cell_consumers();
     std::vector<std::uint8_t> rgb(64*64*3,255);
     for(int y=0;y<64;++y) for(int x=0;x<64;++x) if((x-25)*(x-25)+(y-32)*(y-32)<=100 || (x-39)*(x-39)+(y-32)*(y-32)<=100) for(int c=0;c<3;++c) rgb[(y*64+x)*3+c]=0;
     Document doc(Image(64,64,rgb));const auto obj=doc.add_rectangle({0,0,64,64});CellParameters p;p.sigma=0;
