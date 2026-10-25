@@ -15,12 +15,13 @@ MARKER='QPTMA native fixture, fractional/quoted wire, atomic history, quotas and
 def require(value,message):
     if not value:raise ValueError(message)
 
-def source_contract(root,commit):
+def source_contract(root,commit,sources=None,label="qptma",raw_prefixes=("tests/fixtures/",)):
+    sources=SOURCES if sources is None else sources
     root=Path(root);hashes={}
-    for relative in SOURCES:
-        raw=(root/relative).read_bytes();canonical=raw if relative.startswith('tests/fixtures/') else raw.replace(b'\r\n',b'\n')
+    for relative in sources:
+        raw=(root/relative).read_bytes();canonical=raw if relative.startswith(raw_prefixes) else raw.replace(b'\r\n',b'\n')
         saved=subprocess.run(['git','-C',str(root),'show',commit+':'+relative],capture_output=True)
-        require(saved.returncode==0 and saved.stdout==canonical,'qptma source differs: '+relative)
+        require(saved.returncode==0 and saved.stdout==canonical,label+' source differs: '+relative)
         hashes[relative]=dict(git_blob_sha256=hashlib.sha256(saved.stdout).hexdigest(),checked_out_sha256=hashlib.sha256(raw).hexdigest())
     return hashes
 
@@ -31,12 +32,13 @@ def native(cases):
     require(case.findtext('system-out','').splitlines().count(MARKER)==1,'native qptma cohort differs')
     return dict(passed=1,bounded_grid_cores=10000,atomic_document_and_file_checks=True)
 
-def python(cases):
+def python(cases,contract=None,label="qptma installed cohort"):
+    contract=CASES if contract is None else contract
     groups=[]
-    for classname,names in CASES.items():
+    for classname,names in contract.items():
         selected=[case for case in cases if case.get('classname','').rsplit('.',1)[-1]==classname]
-        require(sorted(case.get('name') for case in selected)==names,'qptma installed cohort missing/duplicate/changed: '+classname)
-        require(all(case.find(tag) is None for case in selected for tag in ['failure','error','skipped']),'qptma installed cohort failed or skipped')
+        require(sorted(case.get('name') for case in selected)==names,label+' missing/duplicate/changed: '+classname)
+        require(all(case.find(tag) is None for case in selected for tag in ['failure','error','skipped']),label+' failed or skipped')
         groups.append(dict(classname=classname,passed=len(selected)))
     return dict(passed=sum(group['passed'] for group in groups),groups=groups)
 

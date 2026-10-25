@@ -11,6 +11,8 @@ resampling_spec=importlib.util.spec_from_file_location('qpx_resampling_evidence'
 resampling=importlib.util.module_from_spec(resampling_spec);resampling_spec.loader.exec_module(resampling)
 qptma_spec=importlib.util.spec_from_file_location('qpx_qptma_evidence',Path(__file__).with_name('qptma_evidence.py'))
 qptma=importlib.util.module_from_spec(qptma_spec);qptma_spec.loader.exec_module(qptma)
+hierarchy_spec=importlib.util.spec_from_file_location('qpx_hierarchy_evidence',Path(__file__).with_name('hierarchy_evidence.py'))
+hierarchy=importlib.util.module_from_spec(hierarchy_spec);hierarchy_spec.loader.exec_module(hierarchy)
 
 
 def require(value, message):
@@ -92,6 +94,7 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
             evidence_sha256={p.name:sha(p) for p in sorted(folder.iterdir()) if p.is_file()},ci_result=data))
         entries[-1]['resampling_native']=resampling.native(cases)
         entries[-1]['qptma_native']=qptma.native(cases)
+        entries[-1]['hierarchy_native']=hierarchy.native(cases)
         entries[-1]['qptma_project_native']=qptma.project_native(cases)
         entries[-1]['qptma_sources']=qptma.source_contract(Path(__file__).resolve().parents[2],commit)
         entries[-1]['resampling_sources']=resampling.source_contract(Path(__file__).resolve().parents[2],commit)
@@ -99,7 +102,7 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
         if tma_cases:entries[-1]['tma_cases']=tma.native(cases,file_export=file_export,cohort=cohort)
         if macho_inventory:entries[-1]['macho_inventory']=mac_inventory.audit(folder,Path(__file__).resolve().parents[2],commit,arch,data)
         if macos_relocation:entries[-1]['macos_relocation']=relocated.audit(folder,Path(__file__).resolve().parents[2],commit,arch,data)
-    return dict(schema='qpx.macos-native-audit/1',source=commit,run=run['url'],jobs=entries,
+    return dict(hierarchy_sources=hierarchy.source_contract(Path(__file__).resolve().parents[2],commit),schema='qpx.macos-native-audit/1',source=commit,run=run['url'],jobs=entries,
         auditor_sha256=sha(Path(__file__)),native_engineering_accepted=True,
         production_sampled_native_required=sampled_cells,python_gui_openslide_validated=False,
         small_frontier_required=small_frontier,

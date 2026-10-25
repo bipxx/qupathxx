@@ -19,6 +19,8 @@ resampling_spec=importlib.util.spec_from_file_location('qpx_resampling_evidence'
 resampling=importlib.util.module_from_spec(resampling_spec);resampling_spec.loader.exec_module(resampling)
 qptma_spec=importlib.util.spec_from_file_location('qpx_qptma_evidence',Path(__file__).with_name('qptma_evidence.py'))
 qptma=importlib.util.module_from_spec(qptma_spec);qptma_spec.loader.exec_module(qptma)
+hierarchy_spec=importlib.util.spec_from_file_location('qpx_hierarchy_evidence',Path(__file__).with_name('hierarchy_evidence.py'))
+hierarchy=importlib.util.module_from_spec(hierarchy_spec);hierarchy_spec.loader.exec_module(hierarchy)
 
 ASSETS = Path(__file__).with_name('manylinux-assets.json')
 
@@ -151,7 +153,7 @@ def audit_version(folder, version, commit, assets):
     fixture=next(f for f in fixtures['downloads'] if f['filename']=='CMU-1-Small-Region.svs')
     require(probe['slide_sha256']==fixture['sha256'],'consumer fixture hash differs')
     require('Public stubs match' in (build/'stubs.log').read_text(encoding='utf-8'),'stub check missing')
-    require('Success: no issues found in 3 source files' in (build/'typing.log').read_text(encoding='utf-8'),
+    require('Success: no issues found in 4 source files' in (build/'typing.log').read_text(encoding='utf-8'),
             'positive typing check missing')
     negative=(build/'typing-negative.log').read_text(encoding='utf-8')
     require(sorted(map(int,re.findall(r'invalid_api.py:(\d+): error:',negative)))==[6,7,8,9,11,13,14],
@@ -336,6 +338,8 @@ def main():
     report=audit(args.artifacts,read(args.run_json),args.commit)
     report['resampling_sources']=resampling.source_contract(Path(__file__).resolve().parents[2],args.commit)
     report['qptma_sources']=qptma.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['hierarchy_sources']=hierarchy.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['hierarchy_cohorts']=[]
     report['qptma_cohorts']=[]
     report['resampling_cohorts']=[]
     for version in ['3.11','3.12']:
@@ -344,7 +348,10 @@ def main():
         qptma_native=qptma.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
         qptma_project=qptma.project_native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
         qptma_typing=qptma.typing_errors(folder/'qptma-typing-negative.log')
+        hierarchy_native=hierarchy.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        hierarchy_typing=hierarchy.typing_errors(folder/'hierarchy-typing-negative.log')
         for cohort,path in [('builder',folder/'python-tests.xml'),('consumer',args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+            report['hierarchy_cohorts'].append(dict(python=version,cohort=cohort,native=hierarchy_native,builder_typing=hierarchy_typing,installed=hierarchy.python(list(ET.parse(path).getroot().iter('testcase')))))
             report['qptma_cohorts'].append(dict(python=version,cohort=cohort,native=qptma_native,project_native=qptma_project,builder_typing=qptma_typing,installed=qptma.python(list(ET.parse(path).getroot().iter('testcase')))))
             report['resampling_cohorts'].append(dict(python=version,cohort=cohort,native=native,
                 installed=resampling.python(list(ET.parse(path).getroot().iter('testcase')))))

@@ -1,5 +1,7 @@
 """Additive nested export uses the same native geometry, loss and file path."""
 import json
+import hashlib
+from pathlib import Path
 
 import pytest
 import qupathxx as q
@@ -43,6 +45,18 @@ def test_nested_export_preserves_forest_and_does_not_change_flat_default():
     assert not imported.issues
     assert_objects(target, imported.imported_ids)
     assert nested.text == q.export_geojson(doc, [6, 3, 1, 5, 2, 4, 1], nested_hierarchy=True).text
+
+
+def test_rebuilt_export_matches_wire_actually_imported_by_pinned_qupath():
+    root = Path(__file__).resolve().parents[1]
+    folder = root / 'docs/benchmarks/annotation-migration-recovery-local/python-roundtrip'
+    report = json.loads((folder / 'report.json').read_text(encoding='utf-8'))
+    assert report['state'] == 'passed' and report['comparison']['parent_links'] == 4
+    for name in ['native-nested.geojson', 'qupath/reference.json', 'qupath.log']:
+        data = (folder / name).read_bytes()
+        assert len(data) == report['files'][name]['bytes']
+        assert hashlib.sha256(data).hexdigest() == report['files'][name]['sha256']
+    assert q.export_geojson(scene(), nested_hierarchy=True).text.encode('utf-8') == (folder / 'native-nested.geojson').read_bytes()
 
 
 def test_subset_parent_loss_is_explicit_and_selected_children_become_roots():
