@@ -166,3 +166,40 @@ is not yet connected to batch resume. Complete native save/reopen/replay and CSV
 before grouping new bindings/stubs, CLI, batch and GUI changes into one installed
 candidate. Actual TIFF-backed sampling, vendor/pyramid/tiled, biological,
 hardware, licensing and the full M0-M7 scope remain open.
+
+
+### Native raw grid analysis requests and jobs
+
+Source `e7aee35` adds an explicit-grid `RawAnalysisRequest` overload and typed
+result descriptor to the existing native analysis/job path. The natural recipe
+remains unchanged. The separate `qpx.raw-grid-statistics/1` recipe distinguishes
+source dtype from derived binary64 area samples, counts eligible core centers
+separately from source support, and reduces finite derived samples exactly.
+Context contributes no statistics. The analysis digest includes the sampling
+identity, canonical ROI geometry and effective document calibration without
+computing ROI containment or statistics.
+
+Committed Windows/Linux native resampling passes 188 independent Fraction-derived
+statistics cases (all ten source dtypes, with/without ROI), alongside the inherited
+94 sampling/hash cases, 3,732 HWC results and exact numeric/area references. Native
+jobs pass ready/cancel/stale checks; display changes preserve identity while
+object/calibration changes invalidate delivery or alter the input hash. All
+90 focused Python oracle/auditor checks pass. A 479-file source proof and all
+306 compiler inputs match fingerprint
+`1a79ef0b563b51826f5cbc6dc680f9415cf79c97042da5f9ec9c9ca817aaa7e5`.
+Selective ASan/UBSan covers the new sampling/analysis code and its tests; the
+remaining linked core is unsanitized at the same source.
+
+Grid record retention/QRA2, project save/reopen/replay, CSV and Python/CLI/batch/
+ImGui integration remain pending. The next record change must preserve QRA1
+bytes. Project storage already uses opaque record blobs; no database schema
+migration is implied by the additive codec version. The full M0-M7 scope remains
+Partial, and this native producer is not a supported research workflow release.
+
+
+The first fresh TIFF/project build linked TIFF against unprefixed zlib declarations
+from upstream `zconf.h`, while the pinned zlib archive exports prefixed symbols.
+Source `25cd377` prioritizes the paired configured headers for the TIFF target.
+A fixed independent deflate TIFF fixture now exercises the codec through grid
+analysis. The initial failed build/logs are retained; acceptance requires the
+corrected build and actual tests, not the earlier successful fake-reader target.
