@@ -374,3 +374,7 @@ tests/fixtures/tma-dearray-v1/*.pgm -text -whitespace
 tests/fixtures/tma-dearray-v1/*.json text eol=lf
 tools/reference_tma_dearray.py text eol=lf
 tools/upstream/qupath_tma_dearray_reference.groovy text eol=lf
+
+# Completed source191 campaign payloads preserve original bytes.
+docs/benchmarks/raw-grid-191-qualification/** -text -whitespace
+docs/benchmarks/raw-grid-191-qualification.json text eol=lf

@@ -1,121 +1,70 @@
 # Current implementation task
 
 The full updated M0-M7 goal remains active. Every milestone remains Partial.
-The qualified application source is `745662b`; this following commit publishes
-documentation/evidence only. The user's divergent local main remains preserved.
+The qualified application source is `61e546e`; the promotion receipt changes
+documentation/evidence only. Preserve the user's divergent local main.
 See the [full plan](project-plan.md), [inventory](feature-matrix.md) and
-[API delivery paths](api-delivery-plan.md) for all remaining requirements.
+[API delivery paths](api-delivery-plan.md) for the complete remaining scope.
 
-## Accepted integrated raw-grid engineering campaign
+## Accepted integrated raw-resource engineering campaign
 
-The [combined receipt](benchmarks/raw-grid-186-qualification.json) verifies all
-11 archive digests, the 493-file frozen source contract and complete inherited
-semantic, runtime, reader, installed, desktop and typing cohorts at one source.
-
-- [Engine40218705420](https://github.com/bipxx/qupathxx/actions/runs/40218705420):
-  five required jobs accepted. Windows GUI passes 50 native suites and 3,418
-  installed cases; Windows/Linux headless pass 49 suites and 2,990/2,988 cases.
-  Minimal and ASan/UBSan pass 49 suites each. Extended readers, live pinned QuPath
-  reference, required GUI workflow and both runtime manifests remain enabled.
-- [Mac40218710979](https://github.com/bipxx/qupathxx/actions/runs/40218710979):
-  ARM64 and x86_64 each pass 49 native suites, uploaded binary/notice inventory,
-  relocation and fresh native probes. Mac Python, GUI and OpenSlide are excluded.
-- [Portable40218716355](https://github.com/bipxx/qupathxx/actions/runs/40218716355):
-  CPython3.11/3.12 builders and fresh Debian consumers accepted. Each builder
-  passes 49 native/2,988 installed cases; each consumer passes 2,946. Extended
-  readers, static runtime/ABI inventories and inherited scientific cohorts pass.
-
-The named scientific cohort requires 218 passes in GUI, or 213 headless passes
-plus exactly five declared desktop skips. The three strict legacy isolated-cell
-scientific xfails remain explicit. Synthetic correctness and platform engineering
-do not establish biological equivalence, hardware acceptance or release readiness.
-
-This candidate includes typed raw scientific sampling with exact integer/float64
-weighted means, channel validity/reasons and canonical digests; QRA2 retention,
-project replay/CSV, Python owned arrays/stubs, shared ROI count/context planning,
-CLI/batch hash-only resume and ImGui/managed-viewer producers. Captured workspace
-admission and private validated-count authority avoid repeated ROI scans while
-preserving full archive validation. Independent comparison and fixture contracts
-remain versioned, with earlier rejected attempts retained in linked receipts.
-
-## Remaining implementation and acceptance
-
-Continue vendor/pyramid/large-window/tiled and multi-file quantitative adapters,
-raw classifier features and broader tissue/cell/classifier/TMA automation.
-Complete independent masks/features and split/merge evidence, annotation and
-interchange/fault campaigns, ICC/fluorescence, eligible OS/DPI/GPU/RSS/reader and
-long-run performance campaigns. Rights/labels/tolerances, supported OS/ABI matrix,
-Mac Python/GUI/OpenSlide, clean machines, license/notices and installers/signing
-remain explicit requirements. Java/Groovy/JavaFX compatibility retains only its
-existing first-release deferral; no other M0-M7 requirement is dropped.
-
-Newer TIFF layout, decoder-reuse and chunked-digest changes in the active feature
-branch require their own source-bound evidence. They are not included in745662b
-or promoted by this receipt. Continue integration there while preserving this
-accepted frozen source and the user's local main. Earlier task narratives remain
-in Git history and [current-task history](current-task-history.md).
-
-
-## Active integration after the accepted candidate
-
-Public main is receipt commit `a9856d8` over qualified code `745662b`. Its
-[automatic push CI](https://github.com/bipxx/qupathxx/actions/runs/40223275046)
-now succeeds in all five default Windows/Linux modes. That default profile
-remains separate from the full accepted engine/Mac/portable campaign above.
-
-The feature branch retains [layout evidence](benchmarks/raw-grid-tiff-layout-local.json),
-[decode reuse](benchmarks/tiff-interleaved-block-reuse-local.json),
-[hash-only capture](benchmarks/raw-grid-streamed-digest-local.json) and the latest
-[bounded coarse materialization](benchmarks/raw-grid-materialized-streaming-local.json).
-These newer implementations are outside `745662b` platform acceptance.
-
-The retained raw-materialization local module is `44394d3`, fingerprint
-`7eb7afb7850fa3d35caeefd842dfb2dcb6bfdee5cd9da050f1d3deff80cd8d53`.
-Its 312 compiler inputs and 498-file source contract bind 283 scientific desktop
-passes, 216 runtime passes with five declared desktop skips, 34 selected desktop
-passes, 115 auditor controls, generated-stub equality and five native suites each
-on Windows and TIFF/project Linux. Selective raw/raster ASan/UBSan passes with
-matching unsanitized dependencies; full-engine/platform acceptance stays separate.
-The receipt retains 59 payloads and an [inspected result capture](benchmarks/raw-grid-materialized-streaming-local/raw190-evidence-coarse-result.png).
-
-Coarse materialization now retains validity, canonical chunk commitments, one
-bounded chunk and per-channel exact accumulators instead of the whole typed
-window. Reread values/support must match their captured commitments before use.
-A conservative traversal bound and smaller ledger decide the strategy without
-using the caller budget; dense grids keep their existing full-window behavior.
-The 400x200 7x5 observation drops from 1,633,292 to 417,062 admitted bytes; the
-10000x3 observation drops from 783,292 to 370,501. Output bits and both digests
-match the earlier module exactly. Dense 128x128 cases keep their previous budget
-and bits. This deliberately trades repeated IO/hashing for captured memory;
-no process-RSS, latency or hardware acceptance is claimed.
-
-All ten dtypes, context/byte-order/separate planes, exact admission, late
-source-bit/support mutation, cancellation and dense fallback pass. The actual
-low-budget workflow passes project keep/reopen/verify, Python and CLI batches
-with hash-only resume, ImGui measurement/retention/render and managed viewer
-retain/verify/save. Canonical recipe/hash domains and QRA1/QRA2 encodings stay
-unchanged; newly smaller-budget records may require the current admission reader.
-
-The [integrated qualification campaign](benchmarks/raw-grid-resource-191-campaign.json)
-is frozen at `61e546e` on `feature/raw-grid-workflow-191`, after 280 auditor
-preflight controls and a 498-file source proof passed. Compiler Git blobs match
-local tested `44394d3`; fresh checkout raw fingerprint `032f9d99...44bdf8` remains
-distinct from the installed module's identity. Track the exact runs:
+The [combined receipt](benchmarks/raw-grid-191-qualification.json) verifies all
+11 archive sizes/digests and the frozen 498-file source contract. Complete
+inherited native semantic, installed, runtime, reader, analysis/archive,
+classifier, batch, desktop and typing cohorts pass at one frozen source.
 
 - [Engine40226794203](https://github.com/bipxx/qupathxx/actions/runs/40226794203):
-  all five required modes accepted by the [engine-only audit](benchmarks/raw-grid-resource-191-engine.json), with extended readers and live reference enabled. Windows GUI passes 50 native/3,499 installed cases; Windows/Linux headless pass 49 native and 3,069/3,067 installed cases. All five archive hashes/source identities pass.
+  all five required modes accepted. Windows GUI passes 50 native suites and
+  3,499 installed cases. Windows/Linux headless pass 49 suites and 3,069/3,067
+  installed cases; minimal and ASan/UBSan each pass 49 suites. Extended readers,
+  live pinned QuPath reference and required runtime manifests remain enabled.
 - [Mac40226800465](https://github.com/bipxx/qupathxx/actions/runs/40226800465):
-  ARM64/x86_64 native, inventory and relocation.
+  ARM64 and x86_64 each pass 49 native suites, binary/notice inventory,
+  relocation and fresh native probes. Mac Python, GUI and OpenSlide remain open.
 - [Portable40226806311](https://github.com/bipxx/qupathxx/actions/runs/40226806311):
-  CPython3.11/3.12 builders and fresh consumers, extended readers enabled.
+  both CPython3.11/3.12 builders pass 49 native and 3,067 installed cases; both
+  fresh Debian consumers pass 3,025. Extended readers and ABI/runtime checks pass.
+  The original queued CPython3.11 consumer completed without redispatch.
 
-All 11 archives and complete inherited frozen-source auditors remain required
-before promotion. Preserve the frozen ref and poll these handles after a timeout;
-do not redispatch because a runner is queued. Continue vendor/multi-file/whole-slide and
-materialized-window limits, raw classifiers and broader tissue/TMA automation,
-independent biology, eligible hardware/memory and supported-release work. All
-original M0-M7 milestones remain Partial; preserve frozen `745662b` and the
-user's divergent local main.
+The named scientific cohort passes 283 GUI cases, or 276 headless cases plus
+exactly seven declared desktop skips. The three strict legacy scientific
+xfails remain explicit. These engineering results do not establish independent
+biological equivalence, hardware/process-memory acceptance or release readiness.
+
+## Raw-grid workflow preserved by this qualification
+
+Typed raw sampling, QRA2 retention/replay, CSV, interrupted/resumed batches,
+Python, native CLI, ImGui and managed-viewer workflows use the same native
+contracts. TIFF layout conformance and interleaved decoder-block reuse preserve
+source bits and axes. Hash-only capture uses canonical chunks plus validity;
+coarse materialization pins chunk commitments and rereads only bounded chunks.
+Changed raw bits/support reject before use. Dense grids keep their original
+full-window policy. Canonical recipe/hash domains and QRA1/QRA2 encodings remain
+unchanged; newly smaller-budget recipes require a compatible admission reader.
+
+The [local materialization receipt](benchmarks/raw-grid-materialized-streaming-local.json)
+retains independent ten-dtype references, exact admission and source-mutation
+controls, dense fallback and the inspected result capture. Its source443 module
+keeps its own fingerprint; it is not relabeled as source61. Admitted payloads
+are not process RSS or latency measurements.
+
+## Next work and remaining scope
+
+Later TMA row/column APIs and their named auditor controls are on the
+[active feature branch](https://github.com/bipxx/qupathxx/tree/feature/scientific-grid-159).
+Their local evidence does not inherit source191 platform acceptance. Freeze
+that completed workflow and run its full required platform campaign once.
+Automatic dearraying, independent biological/upstream fixtures and TMA automation
+remain separate work.
+
+Continue vendor/multi-file/whole-slide and pyramid/tiled sampling, raw classifier
+features, broader annotation/interchange and fault campaigns, independent
+masks/features/split-merge tolerances, eligible hardware/RSS/GPU/OS evidence and
+all supported-release requirements. Fixture rights/labels, project license,
+notices, signing, older-OS/ABI and clean-machine decisions remain open. The
+existing Java/Groovy/JavaFX first-release deferral is unchanged. No other M0-M7
+requirement is dropped. Preserve frozen candidates, raw failures and the user's
+local main; do not substitute this qualification for completing the full plan.
 
 
 ## TMA structural corrections: locally verified
@@ -145,11 +94,10 @@ relaxing raw fixture bytes or missing/truncated-response rejection. All 312
 compiler inputs still match the installed `96172f3` module; it is not relabeled
 as the later harness source, and no native rebuild was needed.
 
-The independent resource campaign191 remains at `61e546e` and cannot qualify
-these later APIs. Engine and both native Mac artifacts pass their frozen-source
-auditors. Both portable builders and the CPython3.12 fresh consumer are green;
-the original CPython3.11 consumer remains queued. Complete that campaign and
-promotion before freezing the new TMA candidate; retain original run handles.
+Source191 is now accepted by all required engine/Mac/portable auditors and
+promoted on public main as receipt commit `614ab99`. Its qualification does not
+cover these later axis APIs. Freeze this completed axis workflow and run its
+required platform campaign once; the original source191 handles are terminal.
 Automatic dearraying, biological/upstream acceptance and every remaining M0-M7
 requirement remain active. No platform, hardware or supported-release acceptance
 is inferred from this local slice.
