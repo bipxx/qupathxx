@@ -1,25 +1,26 @@
 # Current implementation task
 
-The user resumed implementation of the updated plan on 2026-10-25. The active
-workflow is direct QuPath TMA exchange through project, Python, CLI and ImGui.
+Integrated TMA source `a29e4e1e49048488dd08dbd30e2efc83df1b8b55` is now promoted
+to public main after exact-source engine, Mac and portable artifact acceptance.
+See the [combined local/hosted receipt](benchmarks/qptma-integrated-local-windows.json).
+The frozen validation ref remains unchanged.
 
-Use the [workflow inventory](feature-matrix.md#current-execution-state-2026-10-25)
-for current source/capability status, [project plan](project-plan.md) for the full
-M0–M7 scope and [API delivery paths](api-delivery-plan.md) for the next workflow.
-These files separate code availability, engineering/scientific evidence and
-supported-release requirements. All milestones remain Partial.
+The accepted runs are engine `40161970725`, Mac `40161976334` and portable
+`40161982786`. Engine includes 80 required QPTMA cases in each installed cohort
+and nine desktop cases. Mac covers 49 native suites on arm64 and x86_64;
+portable covers both Python builders and fresh consumers. These are engineering
+acceptance claims; all M0–M7 milestones remain Partial.
 
-The final project-enabled wheel gate passed. The integrated TMA desktop suite
-now passes 148 installed cases without skips (80 required QPTMA cases, nine new
-and 17 existing TMA GUI cases, project/save/recovery, stubs and native-stack
-checks), plus all 50 native suites and strict typing. Actual pinned QuPath
-imports the GUI-produced file with all supported fields exact. Captures have
-been inspected. See the [local receipt](benchmarks/qptma-integrated-local-windows.json).
+Implementation continues on the public
+[annotation/migration branch](https://github.com/bipxx/qupathxx/tree/feature/annotation-migration-158).
+It contains nested QuPath hierarchy export and a Windows recovery long-path fix,
+with passing local integration, typing and actual QuPath round trips. Those
+changes are not included in this TMA main promotion; main retains the known
+recovery long-path limitation until the next candidate is qualified. The next
+step is source-bound hierarchy/recovery auditor cohorts and one complete
+engine/Mac/portable qualification of that integrated source.
 
-The next step is one frozen exact-source engine/Mac/portable qualification,
-using the now mode-aware CI concurrency key. Do not mutate its source or restart
-a live run after an observation timeout. Qualification does not close scientific,
-hardware, licensing or supported-release gates.
-
-The old current-task narrative is preserved in [history](current-task-history.md).
-It is not the current backlog or a source for present completion claims.
+Use the [full project plan](project-plan.md), [workflow inventory](feature-matrix.md)
+and [API delivery paths](api-delivery-plan.md) for remaining scope. Scientific,
+hardware, fixture rights, licensing and supported-release gates remain open.
+The old task narrative is preserved in [history](current-task-history.md).
