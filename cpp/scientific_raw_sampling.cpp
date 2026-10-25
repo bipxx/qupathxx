@@ -1,5 +1,6 @@
 #include "qupathxx/scientific_raw_sampling.hpp"
 #include "exact_weighted_mean.hpp"
+#include "scientific_raw_sampling_internal.hpp"
 #include "sha256.hpp"
 #include <array>
 #include <cstring>
@@ -28,6 +29,18 @@ template<class T> bool finite(const T& value) {
     else if constexpr(std::is_same_v<T,double>) return ((raw_bits(value)>>52)&2047)!=2047;
     else return true;
 }
+}
+std::string detail::scientific_raw_input_sha256(const RawImageMetadata& metadata,const ScientificGrid& grid,const std::string& reader,const std::string& decoded,const std::atomic<bool>* cancelled) {
+    Sha256 input;constexpr char recipe[]="qpx.grid-raw-area-exact/1";input.update(recipe,sizeof(recipe)-1);
+    text(input,decoded);text(input,reader);
+    for(auto v:{grid.image_width(),grid.image_height(),grid.x().origin(),grid.y().origin(),grid.x().extent(),grid.y().extent(),
+                grid.x().samples(),grid.y().samples(),grid.x().context(),grid.y().context()}) input.integer(v);
+    text(input,metadata.dimension_order);input.integer(metadata.levels.size());
+    for(const auto& level:metadata.levels) {checkpoint(cancelled);input.integer(level.width);input.integer(level.height);real(input,level.downsample);}
+    input.integer(metadata.channel_names.size());for(const auto& name:metadata.channel_names) {checkpoint(cancelled);text(input,name);}
+    optional(input,metadata.pixel_width_um);optional(input,metadata.pixel_height_um);
+    optional(input,metadata.z_spacing_um);optional(input,metadata.time_interval_seconds);
+    return input.finish();
 }
 void ScientificRawOptions::validate() const {
     if(!channels || channels>65536 || first_channel>=65536 || channels>65536-first_channel || z>=65536 || t>=65536)
@@ -122,16 +135,7 @@ RawCapture capture_raw(const ImageServer& server,const ScientificGrid& grid,Scie
         }
     }
     out.decoded_source_sha256=decoded.finish();
-    Sha256 input;constexpr char recipe[]="qpx.grid-raw-area-exact/1";input.update(recipe,sizeof(recipe)-1);
-    text(input,out.decoded_source_sha256);text(input,out.reader);
-    for(auto v:{grid.image_width(),grid.image_height(),grid.x().origin(),grid.y().origin(),grid.x().extent(),grid.y().extent(),
-                grid.x().samples(),grid.y().samples(),grid.x().context(),grid.y().context()}) input.integer(v);
-    text(input,metadata->dimension_order);input.integer(metadata->levels.size());
-    for(const auto& level:metadata->levels) {checkpoint(cancelled);input.integer(level.width);input.integer(level.height);real(input,level.downsample);}
-    input.integer(metadata->channel_names.size());for(const auto& name:metadata->channel_names) {checkpoint(cancelled);text(input,name);}
-    optional(input,metadata->pixel_width_um);optional(input,metadata->pixel_height_um);
-    optional(input,metadata->z_spacing_um);optional(input,metadata->time_interval_seconds);
-    out.input_sha256=input.finish();checkpoint(cancelled);
+    out.input_sha256=detail::scientific_raw_input_sha256(*metadata,grid,out.reader,out.decoded_source_sha256,cancelled);checkpoint(cancelled);
     return capture;
 }
 }

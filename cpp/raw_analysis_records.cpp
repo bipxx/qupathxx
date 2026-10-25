@@ -1,6 +1,9 @@
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "raw_statistics_internal.hpp"
+#include "raw_analysis_internal.hpp"
+#include "scientific_raster.hpp"
+#include "scientific_raw_sampling_internal.hpp"
 #include "utf8_text.hpp"
 #include <algorithm>
 #include <cmath>
@@ -21,11 +24,23 @@ bool same_mask(const std::optional<Roi>& a,const std::optional<Roi>& b) {return 
 void advance(std::uint64_t value) {if(value==UINT64_MAX) throw std::overflow_error("document revision exhausted");}
 void calibration(std::optional<double> value) {if(value && (!std::isfinite(*value) || *value<=0)) throw std::invalid_argument("invalid raw analysis calibration");}
 }
+bool same_raw_grid(const std::optional<RawAnalysisGrid>& captured,const std::optional<ScientificGrid>& requested,const ScientificRawOptions& options) {
+    if(captured.has_value()!=requested.has_value()) return false;
+    if(!captured) return true;
+    const auto& a=captured->grid;const auto& b=*requested;
+    if(a.image_width()!=b.image_width() || a.image_height()!=b.image_height()) return false;
+    for(const auto& pair:{std::make_pair(&a.x(),&b.x()),std::make_pair(&a.y(),&b.y())}) {
+        if(pair.first->origin()!=pair.second->origin() || pair.first->extent()!=pair.second->extent() ||
+           pair.first->samples()!=pair.second->samples() || pair.first->context()!=pair.second->context()) return false;
+    }
+    const auto& o=captured->options;
+    return o.first_channel==options.first_channel && o.channels==options.channels && o.z==options.z && o.t==options.t && o.work_bytes==options.work_bytes;
+}
 std::size_t RawAnalysisRecord::payload_bytes() const {return sizeof(*this)+(result?result->payload_bytes():0)+(mask?mask->payload_bytes():0)+256;}
 void RawAnalysisRecord::validate(const ImageMetadata& image) const {
-    if(!id || !result || result->algorithm()!="qpx.raw-roi-statistics/1" || result->document_revision()>=id || result->object_revision()>result->document_revision() ||
+    if(!id || !result || result->algorithm()!=(result->grid()?"qpx.raw-grid-statistics/1":"qpx.raw-roi-statistics/1") || result->document_revision()>=id || result->object_revision()>result->document_revision() ||
        (!result->object_id() && (result->object_revision() || result->nucleus() || mask)) || (result->object_id() && (!mask || !mask->is_area())) ||
-       requested_tile_size<16 || requested_tile_size>1024 || result->tile_size()<16 || result->tile_size()>requested_tile_size || !max_pixels || max_pixels>1000000000000ULL ||
+       (result->grid()?(requested_tile_size!=0 || result->tile_size()!=0):(requested_tile_size<16 || requested_tile_size>1024 || result->tile_size()<16 || result->tile_size()>requested_tile_size)) || !max_pixels || max_pixels>1000000000000ULL ||
        !std::isfinite(result->elapsed_ms()) || result->elapsed_ms()<0) throw std::invalid_argument("invalid raw analysis record metadata");
     const auto& context=result->object_context();detail::bounded_utf8(context.name,4096);detail::bounded_utf8(context.class_name,4096);
     if(int(context.kind)<0 || int(context.kind)>2 || (result->object_id() && context.parent_id==result->object_id()) || (!result->object_id() && (!context.name.empty() || !context.class_name.empty() || context.parent_id || context.tma || context.kind!=ObjectKind::Annotation))) throw std::invalid_argument("invalid raw object context");
@@ -34,9 +49,45 @@ void RawAnalysisRecord::validate(const ImageMetadata& image) const {
         detail::bounded_utf8(t.grid_name,256);detail::bounded_utf8(t.row_label,128);detail::bounded_utf8(t.column_label,128);detail::bounded_utf8(t.core_name,4096);detail::bounded_utf8(t.case_id,4096);
         if(t.grid_name.empty() || t.row_label.empty() || t.column_label.empty()) throw std::invalid_argument("invalid captured raw TMA labels");
     }
-    const auto& metadata=result->metadata();const auto& region=result->region();const auto& stats=result->statistics();
+    const auto& metadata=result->metadata();const auto& stats=result->statistics();
+    const auto region=result->grid()?RawRegionRequest{{0,0,0,1,1},result->grid()->options.first_channel,result->grid()->options.channels,result->grid()->options.z,result->grid()->options.t}:result->region();
     if(metadata.width!=image.width || metadata.height!=image.height || metadata.channels<1 || metadata.channels>65536 || !metadata.z_planes || metadata.z_planes>65536 ||
        !metadata.timepoints || metadata.timepoints>65536 || metadata.series>=65536 || std::uint64_t(metadata.channels)*metadata.z_planes*metadata.timepoints>1048576 || metadata.channel_names.size()!=region.channels || region.region.level<0 || std::size_t(region.region.level)>=image.levels.size()) throw std::invalid_argument("raw analysis record axes mismatch");
+    if(result->grid()) {
+        const auto& captured=*result->grid();const auto& g=captured.grid;const auto& raw=captured.source_metadata;
+        scientific_raw_work_bytes(raw,g,raw_grid_analysis_sampling_options(raw,g,captured.options,true));validate_scientific_raster_geometry(g);
+        if(g.image_width()!=image.width || g.image_height()!=image.height || metadata.width!=raw.width || metadata.height!=raw.height ||
+           metadata.level_width!=g.width() || metadata.level_height!=g.height() || !std::isnan(metadata.downsample) ||
+           metadata.channels!=raw.channels || metadata.z_planes!=raw.z_planes || metadata.timepoints!=raw.timepoints || metadata.series!=raw.series ||
+           metadata.sample_type!=raw.sample_type || metadata.z_spacing_um!=raw.z_spacing_um || metadata.time_interval_seconds!=raw.time_interval_seconds ||
+           raw.channel_names.size()!=raw.channels || std::uint64_t(g.width())>max_pixels/std::uint64_t(g.height()))
+            throw std::invalid_argument("raw grid record metadata mismatch");
+        std::size_t labels=0;
+        for(const auto& name:raw.channel_names) {detail::bounded_utf8(name,4096);labels+=name.size();}
+        if(labels>4u*1024*1024 || raw.levels.size()>65536) throw std::length_error("raw grid source metadata exceeds limit");
+        for(std::size_t i=0;i<metadata.channel_names.size();++i)
+            if(metadata.channel_names[i]!=raw.channel_names[captured.options.first_channel+i]) throw std::invalid_argument("raw grid selected channel name mismatch");
+        calibration(raw.pixel_width_um);calibration(raw.pixel_height_um);calibration(raw.z_spacing_um);calibration(raw.time_interval_seconds);
+        detail::bounded_utf8(raw.dimension_order,65536);detail::bounded_utf8(captured.reader,65536);
+        if(captured.reader.empty()) throw std::invalid_argument("raw grid reader identity is empty");
+        for(const auto* hash:{&captured.decoded_source_sha256,&captured.sampling_input_sha256})
+            if(hash->size()!=64 || hash->find_first_not_of("0123456789abcdef")!=std::string::npos) throw std::invalid_argument("invalid raw grid provenance digest");
+        if(detail::scientific_raw_input_sha256(raw,g,captured.reader,captured.decoded_source_sha256)!=captured.sampling_input_sha256)
+            throw std::invalid_argument("raw grid sampling digest differs from metadata");
+        for(const auto& level:raw.levels)
+            if(level.width<1 || level.height<1 || !std::isfinite(level.downsample) || level.downsample<1) throw std::invalid_argument("invalid raw grid source level metadata");
+        if(raw_grid_analysis_hash(captured.sampling_input_sha256,result->pixel_width_um(),result->pixel_height_um(),mask)!=result->input_sha256())
+            throw std::invalid_argument("raw grid analysis digest differs from capture");
+        std::uint64_t eligible=0;
+        if(!mask) eligible=std::uint64_t(g.x().samples())*g.y().samples();
+        else for(std::int64_t y=0;y<g.height();++y) for(std::int64_t x=0;x<g.width();++x)
+            if(scientific_core_roi_contains(*mask,g,RoiSamplingPolicy::GeometryCoverage,std::size_t(x),std::size_t(y))) ++eligible;
+        const auto b=g.clipped_read_bounds();
+        if(stats.pixels!=eligible || stats.valid_pixels>stats.pixels || result->tiles()!=std::uint64_t(bool(b.width && b.height)))
+            throw std::invalid_argument("invalid raw grid support counts");
+        if(stats.finite_samples.size()!=region.channels || stats.nonfinite_samples.size()!=region.channels || stats.means.size()!=region.channels ||
+           stats.minima.size()!=region.channels || stats.maxima.size()!=region.channels) throw std::invalid_argument("raw grid statistic channel counts differ");
+    } else {
     const auto& level=image.levels[region.region.level];if(!std::isfinite(metadata.downsample) || metadata.downsample<1 || metadata.downsample!=std::floor(metadata.downsample) || level.width!=metadata.level_width || level.height!=metadata.level_height || level.downsample!=metadata.downsample) throw std::invalid_argument("raw analysis record pyramid mismatch");
     RawImageMetadata raw;raw.width=metadata.width;raw.height=metadata.height;raw.channels=metadata.channels;raw.z_planes=metadata.z_planes;raw.timepoints=metadata.timepoints;raw.levels=image.levels;
     RawStatisticsKernel::validate_coordinates(raw,region);const auto unit=std::uint64_t(region.channels)*sample_bytes(metadata.sample_type)+1;
@@ -46,6 +97,7 @@ void RawAnalysisRecord::validate(const ImageMetadata& image) const {
         throw std::invalid_argument("invalid raw analysis sample counts");
     const auto nx=(std::uint64_t(region.region.width)+result->tile_size()-1)/result->tile_size(),ny=(std::uint64_t(region.region.height)+result->tile_size()-1)/result->tile_size();
     if(result->tiles()!=nx*ny) throw std::invalid_argument("invalid raw analysis tile count");
+    }
     std::size_t text_bytes=0;
     for(std::size_t i=0;i<region.channels;++i) {
         const auto n=stats.finite_samples[i];if(n>stats.valid_pixels || stats.nonfinite_samples[i]!=stats.valid_pixels-n) throw std::invalid_argument("raw analysis finite/nonfinite counts differ");
@@ -83,7 +135,7 @@ bool Document::verify_raw_analysis(std::uint64_t id,const RawAnalysisRequest& re
     if(!result || !request.matches(*this) || result->capture_!=request.capture_) throw std::invalid_argument("raw verification result is stale or belongs to another request");
     auto found=raw_analysis_.find(id);if(found==raw_analysis_.end()) throw std::out_of_range("raw analysis record does not exist");auto& stored=found->second;const auto& record=*stored.value;const auto& before=*record.result;
     if(before.object_id()!=request.object_id_ || before.object_revision()!=request.object_revision_ || before.nucleus()!=request.nucleus_ ||
-       !same_region(before.region(),request.region_) || !same_mask(record.mask,request.mask_) || record.requested_tile_size!=request.tile_size_ || record.max_pixels!=request.max_pixels_ ||
+       !same_raw_grid(before.grid(),request.grid_,request.grid_options_) || (!request.grid_ && !same_region(before.region(),request.region_)) || !same_mask(record.mask,request.mask_) || record.requested_tile_size!=request.tile_size_ || record.max_pixels!=request.max_pixels_ ||
        before.pixel_width_um()!=result->pixel_width_um() || before.pixel_height_um()!=result->pixel_height_um() || before.metadata().series!=result->metadata().series || !before.object_context().same_metadata(request.context_))
         throw std::invalid_argument("raw verification parameters differ from the archived capture");
     const auto& a=before.statistics();const auto& b=result->statistics();stored.identity=analysis_identity_.token;stored.observed_source=result->source();
@@ -133,8 +185,9 @@ bool Document::remove_raw_analysis(std::uint64_t id) {
 RawAnalysisRequest RawAnalysisRequest::replay(const Document& document,std::uint64_t id) {
     const auto record=document.raw_analysis_record(id);const auto& result=*record->result;
     const auto view=document.server()->tiff_view();if(!view || view->series!=result.metadata().series) throw std::invalid_argument("raw replay requires the captured TIFF series");
-    RawAnalysisRequest request(document,result.region(),result.object_id(),result.nucleus(),record->requested_tile_size,record->max_pixels);
-    if(!same_region(request.region_,result.region()) || !same_mask(request.mask_,record->mask) || request.object_revision_!=result.object_revision() || request.pixel_width_um_!=result.pixel_width_um() || request.pixel_height_um_!=result.pixel_height_um() || !request.context_.same_metadata(result.object_context())) throw std::invalid_argument("raw replay object/calibration no longer matches capture");
+    RawAnalysisRequest request=result.grid()?RawAnalysisRequest(document,result.grid()->grid,result.grid()->options,result.object_id(),result.nucleus(),record->max_pixels):
+        RawAnalysisRequest(document,result.region(),result.object_id(),result.nucleus(),record->requested_tile_size,record->max_pixels);
+    if(!same_raw_grid(result.grid(),request.grid_,request.grid_options_) || (!request.grid_ && !same_region(request.region_,result.region())) || !same_mask(request.mask_,record->mask) || request.object_revision_!=result.object_revision() || request.pixel_width_um_!=result.pixel_width_um() || request.pixel_height_um_!=result.pixel_height_um() || !request.context_.same_metadata(result.object_context())) throw std::invalid_argument("raw replay object/calibration no longer matches capture");
     return request;
 }
 }

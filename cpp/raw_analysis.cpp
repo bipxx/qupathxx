@@ -2,6 +2,7 @@
 #include "qupathxx/source_identity.hpp"
 #include "qupathxx/tma.hpp"
 #include "raw_statistics_internal.hpp"
+#include "raw_analysis_internal.hpp"
 #include "scientific_raster.hpp"
 #include "exact_weighted_mean.hpp"
 #include "geometry_archive.hpp"
@@ -30,6 +31,17 @@ std::int64_t coordinate(long double value) {
     if(!std::isfinite(value) || value<0 || value>=static_cast<long double>(std::numeric_limits<std::int64_t>::max())) throw std::invalid_argument("raw ROI coordinate overflow");
     return static_cast<std::int64_t>(value);
 }
+}
+ScientificRawOptions raw_grid_analysis_sampling_options(const RawImageMetadata& metadata,const ScientificGrid& grid,ScientificRawOptions options,bool collect) {
+    const auto extra=8192ULL+2*metadata.payload_bytes()+64ULL*options.channels+(collect?std::uint64_t(grid.width())*grid.height():0);
+    if(extra>=options.work_bytes) throw std::length_error("raw grid statistics exceed work budget");
+    options.work_bytes-=std::size_t(extra);return options;
+}
+std::string raw_grid_analysis_hash(const std::string& sampling,std::optional<double> width,std::optional<double> height,const std::optional<Roi>& mask) {
+    Sha256 hash;text(hash,"qpx.raw-grid-statistics-input/1");text(hash,sampling);
+    number(hash,width);number(hash,height);hash.integer(mask.has_value());
+    if(mask) {const auto bytes=GeometryArchiveCodec::encode(*mask);hash.integer(bytes.size());hash.update(bytes.data(),bytes.size());}
+    return hash.finish();
 }
 RawAnalysisRequest::RawAnalysisRequest(const Document& doc,RawRegionRequest region,std::uint64_t object,bool nucleus,std::size_t tile,std::uint64_t maximum):
     RawAnalysisRequest(doc,region,object,nucleus,tile,maximum,std::nullopt,{}) {}
@@ -116,7 +128,7 @@ std::size_t RawAnalysisMetadata::payload_bytes() const {
     auto bytes=sizeof(*this)+channel_names.capacity()*sizeof(std::string);for(const auto& name:channel_names) bytes+=name.capacity()+1;return bytes;
 }
 std::size_t RawAnalysisResult::payload_bytes() const {
-    return (grid_?grid_->source_metadata.payload_bytes()+grid_->decoded_source_sha256.capacity()+grid_->sampling_input_sha256.capacity():0)+sizeof(*this)+metadata_.payload_bytes()+context_.payload_bytes()+statistics_.finite_samples.capacity()*sizeof(std::uint64_t)+statistics_.nonfinite_samples.capacity()*sizeof(std::uint64_t)+
+    return (grid_?grid_->source_metadata.payload_bytes()+grid_->decoded_source_sha256.capacity()+grid_->sampling_input_sha256.capacity()+grid_->reader.capacity():0)+sizeof(*this)+metadata_.payload_bytes()+context_.payload_bytes()+statistics_.finite_samples.capacity()*sizeof(std::uint64_t)+statistics_.nonfinite_samples.capacity()*sizeof(std::uint64_t)+
         (statistics_.means.capacity()+statistics_.minima.capacity()+statistics_.maxima.capacity())*sizeof(std::optional<double>)+input_sha256_.capacity()+algorithm_.capacity()+(source_?source_->payload_bytes():0)+256;
 }
 struct RawAnalysisKernel {
@@ -130,10 +142,7 @@ struct RawAnalysisKernel {
         output->source_=request.source_->reader_source();
         if(!output->source_ || !output->source_->primary) throw std::invalid_argument("raw analysis source has no observed file identity");
         const auto channels=request.grid_options_.channels;
-        const auto extra=8192ULL+2*observed->payload_bytes()+64ULL*channels+(collect?std::uint64_t(grid.width())*grid.height():0);
-        auto options=request.grid_options_;
-        if(extra>=options.work_bytes) throw std::length_error("raw grid statistics exceed work budget");
-        options.work_bytes-=std::size_t(extra);
+        const auto options=raw_grid_analysis_sampling_options(*observed,grid,request.grid_options_,collect);
         const auto bounds=grid.clipped_read_bounds();const std::uint64_t tiles=bounds.width && bounds.height?1:0;
         if(total) total->store(tiles,std::memory_order_relaxed);
         std::optional<ScientificRawGrid> samples;ScientificRawDigest digest;
@@ -146,7 +155,7 @@ struct RawAnalysisKernel {
         if(completed) completed->store(tiles,std::memory_order_relaxed);
         const auto& metadata=digest.metadata;
         if(metadata.channel_names.size()!=metadata.channels) throw std::invalid_argument("raw analysis channel metadata is incomplete");
-        output->grid_.emplace(RawAnalysisGrid{grid,request.grid_options_,metadata,digest.decoded_source_sha256,digest.input_sha256});
+        output->grid_.emplace(RawAnalysisGrid{grid,request.grid_options_,metadata,digest.decoded_source_sha256,digest.input_sha256,digest.reader});
         output->capture_=request.capture_;output->object_id_=request.object_id_;output->object_revision_=request.object_revision_;
         output->document_revision_=request.document_revision_;output->nucleus_=request.nucleus_;output->context_=request.context_;
         output->pixel_width_um_=request.pixel_width_um_;output->pixel_height_um_=request.pixel_height_um_;
@@ -155,12 +164,7 @@ struct RawAnalysisKernel {
         m.channels=metadata.channels;m.z_planes=metadata.z_planes;m.timepoints=metadata.timepoints;m.series=metadata.series;m.sample_type=metadata.sample_type;
         m.downsample=std::numeric_limits<double>::quiet_NaN();m.z_spacing_um=metadata.z_spacing_um;m.time_interval_seconds=metadata.time_interval_seconds;
         m.channel_names.assign(metadata.channel_names.begin()+options.first_channel,metadata.channel_names.begin()+options.first_channel+channels);
-        Sha256 hash;text(hash,"qpx.raw-grid-statistics-input/1");text(hash,digest.input_sha256);
-        number(hash,request.pixel_width_um_);number(hash,request.pixel_height_um_);
-        hash.integer(request.mask_.has_value());
-        if(request.mask_) {const auto bytes=GeometryArchiveCodec::encode(*request.mask_);hash.integer(bytes.size());hash.update(bytes.data(),bytes.size());}
-        // Fixed core-center geometry coverage; missing source support is not a zero or NaN.
-        output->input_sha256_=hash.finish();
+        output->input_sha256_=raw_grid_analysis_hash(digest.input_sha256,request.pixel_width_um_,request.pixel_height_um_,request.mask_);
         if(collect) {
             std::vector<std::uint8_t> eligible(std::size_t(grid.width()*grid.height()),0);
             auto& stats=output->statistics_;stats.finite_samples.resize(channels);stats.nonfinite_samples.resize(channels);
@@ -178,7 +182,8 @@ struct RawAnalysisKernel {
             for(std::uint32_t c=0;c<channels;++c) {
                 detail::ExactWeightedMean mean;
                 for(std::size_t pixel=0;pixel<eligible.size();++pixel) {
-                    if((pixel&4095)==0) detail::export_checkpoint(cancelled);if(!eligible[pixel]) continue;
+                    if((pixel&4095)==0) detail::export_checkpoint(cancelled);
+                    if(!eligible[pixel]) continue;
                     const auto at=pixel*channels+c;const auto reason=ScientificRawReason(samples->reasons()[at]);
                     if(reason==ScientificRawReason::NonfiniteChannel) {++stats.nonfinite_samples[c];continue;}
                     if(reason!=ScientificRawReason::Valid) continue;

@@ -109,6 +109,11 @@
     "test_debug_capture_rejects_resealed_semantic_changes[script]",
     "test_public_debug_stages_reproduce_ordinary_roi_capture"
   ],
+  "test_raw_grid_archive_reference": [
+    "test_archive_generation_refuses_existing_outputs",
+    "test_independent_qra1_qra2_and_native_table_regenerate",
+    "test_reference_versions_checksums_and_distinct_input_identities"
+  ],
   "test_raw_grid_statistics_reference": [
     "test_fraction_statistics_and_native_table_regenerate",
     "test_generation_refuses_existing_outputs",

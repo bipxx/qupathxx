@@ -22,7 +22,7 @@ struct Writer {
 struct Reader {
     const std::uint8_t* data;std::size_t size,at=4;
     Reader(const std::uint8_t* input,std::size_t count):data(input),size(count) {
-        if(!input || count<68 || count>limit || std::memcmp(input,"QRA\1",4)) throw std::invalid_argument("invalid raw analysis record encoding");
+        if(!input || count<68 || count>limit || (std::memcmp(input,"QRA",3) || (input[3]!=1 && input[3]!=2))) throw std::invalid_argument("invalid raw analysis record encoding");
         Sha256 hash;hash.update(input,count-64);if(hash.finish()!=std::string(reinterpret_cast<const char*>(input+count-64),64)) throw std::invalid_argument("raw analysis record checksum mismatch");size-=64;
     }
     std::uint64_t integer() {if(at>size || size-at<8) throw std::invalid_argument("truncated raw analysis record");std::uint64_t value=0;for(int i=0;i<8;++i) value|=std::uint64_t(data[at++])<<(8*i);return value;}
@@ -36,13 +36,23 @@ struct Reader {
 }
 std::vector<std::uint8_t> RawAnalysisCodec::encode(const RawAnalysisRecord& record,const ImageMetadata& image,const std::atomic<bool>* cancelled) {
     detail::export_checkpoint(cancelled);record.validate(image);const auto& result=*record.result;const auto& region=result.region_;const auto& metadata=result.metadata_;const auto& stats=result.statistics_;Writer out;
+    if(result.grid_) {
+        out.bytes[3]=2;const auto& captured=*result.grid_;const auto& g=captured.grid;const auto& raw=captured.source_metadata;
+        for(auto n:{g.image_width(),g.image_height(),g.x().origin(),g.y().origin(),g.x().extent(),g.y().extent(),g.x().samples(),g.y().samples(),g.x().context(),g.y().context()}) out.integer(n);
+        out.integer(captured.options.work_bytes);out.text(captured.reader);out.text(captured.decoded_source_sha256);out.text(captured.sampling_input_sha256);
+        for(auto n:{raw.width,raw.height,std::int64_t(raw.channels),std::int64_t(raw.z_planes),std::int64_t(raw.timepoints),std::int64_t(raw.series),std::int64_t(raw.series_count),std::int64_t(raw.sample_type)}) out.integer(n);
+        out.text(raw.dimension_order);out.integer(raw.levels.size());
+        for(const auto& level:raw.levels) {detail::export_checkpoint(cancelled);out.integer(level.width);out.integer(level.height);out.real(level.downsample);}
+        out.integer(raw.channel_names.size());for(const auto& name:raw.channel_names) {detail::export_checkpoint(cancelled);out.text(name);}
+        out.optional(raw.pixel_width_um);out.optional(raw.pixel_height_um);out.optional(raw.z_spacing_um);out.optional(raw.time_interval_seconds);
+    }
     for(auto n:{record.id,std::uint64_t(record.requested_tile_size),record.max_pixels,result.object_id_,result.object_revision_,result.document_revision_,std::uint64_t(result.nucleus_),std::uint64_t(result.tile_size_),result.tiles_}) out.integer(n);
     const auto& context=result.context_;out.text(context.name);out.text(context.class_name);out.integer(context.parent_id);out.integer(std::uint64_t(context.kind));out.integer(context.tma.has_value());
     if(context.tma) {const auto& t=*context.tma;for(auto n:{t.core_id,t.core_revision,std::uint64_t(t.row),std::uint64_t(t.column),std::uint64_t(t.missing)}) out.integer(n);for(const auto* text:{&t.grid_name,&t.row_label,&t.column_label,&t.core_name,&t.case_id}) out.text(*text);}
     out.real(result.elapsed_ms_);out.text(result.algorithm_);out.text(result.input_sha256_);out.optional(result.pixel_width_um_);out.optional(result.pixel_height_um_);
     for(auto n:{std::uint64_t(region.region.x),std::uint64_t(region.region.y),std::uint64_t(region.region.width),std::uint64_t(region.region.height),std::uint64_t(region.region.level),std::uint64_t(region.first_channel),std::uint64_t(region.channels),std::uint64_t(region.z),std::uint64_t(region.t),
         std::uint64_t(metadata.width),std::uint64_t(metadata.height),std::uint64_t(metadata.level_width),std::uint64_t(metadata.level_height),std::uint64_t(metadata.channels),std::uint64_t(metadata.z_planes),std::uint64_t(metadata.timepoints),std::uint64_t(metadata.series),std::uint64_t(metadata.sample_type)}) out.integer(n);
-    out.real(metadata.downsample);out.optional(metadata.z_spacing_um);out.optional(metadata.time_interval_seconds);
+    if(result.grid_) out.integer(0x7ff8000000000000ULL);else out.real(metadata.downsample);out.optional(metadata.z_spacing_um);out.optional(metadata.time_interval_seconds);
     out.integer(stats.pixels);out.integer(stats.valid_pixels);
     for(std::size_t i=0;i<region.channels;++i) {if(i%64==0) detail::export_checkpoint(cancelled);out.text(metadata.channel_names[i]);out.integer(stats.finite_samples[i]);out.integer(stats.nonfinite_samples[i]);out.optional(stats.means[i]);out.optional(stats.minima[i]);out.optional(stats.maxima[i]);}
     out.integer(record.mask.has_value());if(record.mask) {const auto bytes=GeometryArchiveCodec::encode(*record.mask);out.blob(bytes.data(),bytes.size());}
@@ -55,6 +65,22 @@ std::vector<std::uint8_t> RawAnalysisCodec::encode(const RawAnalysisRecord& reco
 }
 std::shared_ptr<const RawAnalysisRecord> RawAnalysisCodec::decode(const std::uint8_t* data,std::size_t size,const ImageMetadata& image,const std::atomic<bool>* cancelled) {
     detail::export_checkpoint(cancelled);Reader in(data,size);auto record=std::make_shared<RawAnalysisRecord>();auto result=std::shared_ptr<RawAnalysisResult>(new RawAnalysisResult());record->result=result;
+    if(data[3]==2) {
+        // Read in explicit sequence: function argument evaluation order is not
+        // a portable stream order in C++17.
+        const auto iw=in.signed_integer(),ih=in.signed_integer(),x=in.signed_integer(),y=in.signed_integer();
+        const auto w=in.signed_integer(),h=in.signed_integer(),nx=in.signed_integer(),ny=in.signed_integer(),cx=in.signed_integer(),cy=in.signed_integer();
+        ScientificRawOptions options;options.work_bytes=std::size_t(in.bounded(1024ULL*1024*1024));
+        const auto reader=in.text(65536),decoded=in.text(64),input=in.text(64);
+        RawImageMetadata raw;raw.width=in.signed_integer();raw.height=in.signed_integer();raw.channels=std::uint32_t(in.bounded(65536));
+        raw.z_planes=std::uint32_t(in.bounded(65536));raw.timepoints=std::uint32_t(in.bounded(65536));raw.series=std::uint32_t(in.bounded(65535));raw.series_count=std::uint32_t(in.bounded(65536));raw.sample_type=SampleType(in.bounded(9));
+        raw.dimension_order=in.text(65536);const auto levels=in.bounded(65536);raw.levels.reserve(std::size_t(levels));
+        for(std::uint64_t i=0;i<levels;++i) {detail::export_checkpoint(cancelled);const auto lw=in.signed_integer(),lh=in.signed_integer();const auto downsample=in.real();raw.levels.push_back({lw,lh,downsample});}
+        const auto channels=in.bounded(65536);raw.channel_names.reserve(std::size_t(channels));std::size_t label_bytes=0;
+        for(std::uint64_t i=0;i<channels;++i) {detail::export_checkpoint(cancelled);auto name=in.text(4096);label_bytes+=name.size();if(label_bytes>4u*1024*1024) throw std::length_error("raw grid source labels exceed limit");raw.channel_names.push_back(std::move(name));}
+        raw.pixel_width_um=in.optional();raw.pixel_height_um=in.optional();raw.z_spacing_um=in.optional();raw.time_interval_seconds=in.optional();
+        result->grid_.emplace(RawAnalysisGrid{ScientificGrid(iw,ih,{x,w,nx,cx},{y,h,ny,cy},1024ULL*1024*1024),options,std::move(raw),decoded,input,reader});
+    }
     record->id=in.integer();record->requested_tile_size=std::size_t(in.bounded(1024));record->max_pixels=in.integer();result->object_id_=in.integer();result->object_revision_=in.integer();result->document_revision_=in.integer();result->nucleus_=in.bounded(1)!=0;result->tile_size_=std::size_t(in.bounded(1024));result->tiles_=in.integer();
     auto& context=result->context_;context.name=in.text(4096);context.class_name=in.text(4096);context.parent_id=in.integer();context.kind=static_cast<ObjectKind>(in.bounded(2));
     if(in.bounded(1)) {RawTmaContext t;t.core_id=in.integer();t.core_revision=in.integer();t.row=std::uint32_t(in.bounded(9999));t.column=std::uint32_t(in.bounded(9999));t.missing=in.bounded(1)!=0;t.grid_name=in.text(256);t.row_label=in.text(128);t.column_label=in.text(128);t.core_name=in.text(4096);t.case_id=in.text(4096);context.tma=std::move(t);}
@@ -70,6 +96,14 @@ std::shared_ptr<const RawAnalysisRecord> RawAnalysisCodec::decode(const std::uin
     if(in.bounded(1)) {const auto bytes=in.blob(limit);record->mask=GeometryArchiveCodec::decode(bytes.first,bytes.second);}
     auto source=std::make_shared<ReaderSource>();auto file=std::make_shared<FileVersion>();source->generation=in.text(128);source->reader=in.text(256);source->locator=in.text(32768);source->scope=in.text(32);
     file->path=in.text(32768);file->identity_scheme=in.text(128);file->identity=in.text(256);file->stamp_scheme=in.text(128);file->modified_token=in.text(256);file->change_token=in.text(256);file->bytes=in.integer();file->observed_unix_ms=in.integer();source->primary=file;result->source_=source;
+    if(result->grid_) {
+        auto& options=result->grid_->options;options.first_channel=region.first_channel;options.channels=region.channels;options.z=region.z;options.t=region.t;
+        if(region.region.x!=0 || region.region.y!=0 || region.region.width!=1 || region.region.height!=1 || region.region.level!=0)
+            throw std::invalid_argument("noncanonical raw grid internal selection");
+        // QRA2 uses one canonical sentinel; reject alternate NaN payloads.
+        std::uint64_t actual;std::memcpy(&actual,&metadata.downsample,8);
+        if(actual!=0x7ff8000000000000ULL) throw std::invalid_argument("noncanonical raw grid scale sentinel");
+    }
     if(in.at!=in.size) throw std::invalid_argument("raw analysis record has trailing bytes");record->validate(image);detail::export_checkpoint(cancelled);return record;
 }
 }

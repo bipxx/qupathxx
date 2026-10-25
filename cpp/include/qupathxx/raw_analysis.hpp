@@ -77,7 +77,7 @@ struct RawAnalysisGrid {
     ScientificGrid grid;
     ScientificRawOptions options;
     RawImageMetadata source_metadata;
-    std::string decoded_source_sha256,sampling_input_sha256;
+    std::string decoded_source_sha256,sampling_input_sha256,reader;
 };
 class RawAnalysisResult : public std::enable_shared_from_this<RawAnalysisResult> {
 public:

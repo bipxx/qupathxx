@@ -3,6 +3,10 @@
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "raw_grid_statistics_reference.hpp"
+#include "raw_grid_archive_reference.hpp"
+#include "../raw_analysis_internal.hpp"
+#include "../sha256.hpp"
+#include "qupathxx/raw_tables.hpp"
 #include "raw_scientific_sampling_reference.hpp"
 #include <cstring>
 #include <iostream>
@@ -237,9 +241,46 @@ void check_scientific_raw_analysis() {
         const auto digest=raw_analysis_input_digest(request);const auto b=grid.clipped_read_bounds();
         require(digest.input_sha256==result->input_sha256() && digest.tiles==result->tiles() && digest.raw_bytes==std::uint64_t(b.width)*b.height*(std::uint64_t(c.channels)*sample_bytes(SampleType(c.type))+1));
         require(reader->display_reads==0);
+        const auto retained=document.keep_raw_analysis(request,result);
+        require(document.raw_analysis_status(retained)=="current");
+        const auto record=document.raw_analysis_record(retained);
+        const auto bytes=RawAnalysisCodec::encode(*record,document.metadata());require(bytes[3]==2);
+        const auto decoded=RawAnalysisCodec::decode(bytes.data(),bytes.size(),document.metadata());
+        require(decoded->result->grid() && decoded->result->grid()->reader=="raw-reference" && decoded->result->input_sha256()==result->input_sha256());
+        require(RawAnalysisCodec::encode(*decoded,document.metadata())==bytes);
+        auto damaged=bytes;damaged.back()^=1;rejects<std::invalid_argument>([&]{RawAnalysisCodec::decode(damaged.data(),damaged.size(),document.metadata());});
+        damaged=bytes;damaged[4]^=1;Sha256 rehash;rehash.update(damaged.data(),damaged.size()-64);const auto checksum=rehash.finish();std::copy(checksum.begin(),checksum.end(),damaged.end()-64);
+        rejects<std::exception>([&]{RawAnalysisCodec::decode(damaged.data(),damaged.size(),document.metadata());});
+        const auto replay=RawAnalysisRequest::replay(document,retained);
+        require(document.verify_raw_analysis(retained,replay,analyze_raw(replay)));
+        Document copy=document;require(copy.raw_analysis_status(retained)=="unverified");
+        RawTableRequest table(document,{retained},true);const auto csv=raw_analysis_csv(table);
+        require(table.rows()==c.channels && csv.find("qpx.raw-analysis-csv/2")!=std::string::npos && csv.find("explicit_grid,float64")!=std::string::npos && csv.find(",nan,")==std::string::npos);
+
         rejects<std::logic_error>([&]{result->region();});
         if(object) require(result->object_context().name=="captured ROI" && result->object_id()==object);
     }
+    {
+        auto source=std::make_shared<AnalysisReader>();Document doc(source);
+        for(const auto& fixture:{std::make_pair(raw_grid_archive_reference::legacy,sizeof(raw_grid_archive_reference::legacy)),std::make_pair(raw_grid_archive_reference::grid,sizeof(raw_grid_archive_reference::grid))}) {
+            const auto decoded=RawAnalysisCodec::decode(fixture.first,fixture.second,doc.metadata());
+            const auto encoded=RawAnalysisCodec::encode(*decoded,doc.metadata());
+            require(encoded.size()==fixture.second && std::equal(encoded.begin(),encoded.end(),fixture.first));
+            RawAnalysisRequest captured=decoded->result->grid()?RawAnalysisRequest(doc,decoded->result->grid()->grid,decoded->result->grid()->options):RawAnalysisRequest(doc,decoded->result->region(),0,false,16);
+            require(analyze_raw(captured)->input_sha256()==decoded->result->input_sha256());
+        }
+        const RawRegionRequest region{{0,0,0,5,4},0,3,0,0};RawAnalysisRequest natural(doc,region,0,false,16);
+        const auto natural_id=doc.keep_raw_analysis(natural,analyze_raw(natural));
+        const auto old_csv=raw_analysis_csv(RawTableRequest(doc,{natural_id},true));
+        require(old_csv.find("qpx.raw-analysis-csv/1")!=std::string::npos && old_csv.find("sampling_kind")==std::string::npos);
+        ScientificRawOptions options;options.channels=3;RawAnalysisRequest grid_request(doc,ScientificGrid(5,4,{0,5,5},{0,4,4}),options);
+        const auto grid_id=doc.keep_raw_analysis(grid_request,analyze_raw(grid_request));
+        const auto mixed=raw_analysis_csv(RawTableRequest(doc,{natural_id,grid_id},true));
+        require(mixed.find("qpx.raw-analysis-csv/1")==std::string::npos && mixed.find("natural_level,float64")!=std::string::npos && mixed.find("explicit_grid,float64")!=std::string::npos);
+        RawAnalysisJob job;const auto replay=RawAnalysisRequest::replay(doc,grid_id);
+        require(job.request(replay) && job.wait(doc).state=="ready" && job.verify_result(doc,grid_id));
+    }
+    std::cout<<"Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed\n";
     auto reader=std::make_shared<AnalysisReader>();Document document(reader);
     const auto object=document.add_rectangle({1,1,3,2},"object");
     const ScientificGrid grid(5,4,{0,5,3,1},{0,4,3,1});
@@ -261,5 +302,6 @@ void check_scientific_raw_analysis() {
     std::atomic<bool> cancelled{true};rejects<std::runtime_error>([&]{analyze_raw(current,&cancelled);});
     require(reader->reads==reads);
     reader->close();require(!current.matches(document));rejects<std::runtime_error>([&]{analyze_raw(current);});
+    std::cout<<"QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed\n";
     std::cout<<"188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed\n";
 }

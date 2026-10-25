@@ -58,6 +58,22 @@ int main() {
                 const ScientificGrid fine(2,2,{0,2,4,1},{0,2,4,1});
                 const auto fine_result=analyze_raw(RawAnalysisRequest(grid_document,fine,{},object));
                 check(fine_result->statistics().pixels==8 && fine_result->statistics().valid_pixels==8 && fine_result->statistics().means[0]==20000.5);
+                const auto retained=grid_document.keep_raw_analysis(captured,result);
+                RawAnalysisRequest fine_request(grid_document,fine,{},object);
+                const auto second=grid_document.keep_raw_analysis(fine_request,analyze_raw(fine_request));
+                check(raw_analysis_csv(RawTableRequest(grid_document,{retained,second},true)).find("qpx.raw-analysis-csv/2")!=std::string::npos);
+                if(has_project()) {
+                    const auto saved=fs::path(path.u8string()+".grid.qpxproj");
+                    Project project;const auto image=project.add_document(std::make_shared<Document>(grid_document),"Grid raw records");project.save(saved.u8string());
+                    const auto loaded=Project::open(saved.u8string());const auto reopened=loaded->document(image);
+                    check(reopened->raw_analysis_record_count()==2 && reopened->raw_analysis_status(retained)=="unverified");
+                    const auto replay=RawAnalysisRequest::replay(*reopened,retained);
+                    check(reopened->verify_raw_analysis(retained,replay,analyze_raw(replay)) && reopened->raw_analysis_status(retained)=="current");
+                    loaded->save(saved.u8string());const auto again=Project::open(saved.u8string())->document(image);
+                    check(again->raw_analysis_record_count()==2 && again->raw_analysis_record(second)->result->grid());
+                    fs::remove(saved);
+                    std::cout<<"QRA2 TIFF grid SQLite save/reopen, explicit replay and second save passed\n";
+                }
                 std::cout<<"Actual UInt16 TIFF scientific grid analysis, ROI upsampling and hash-only digest passed\n";
             }
             const auto display=server->read_region(request.region);check(display.bytes()[0]==0 && display.bytes()[4]==1 && display.bytes()[8]==156 && display.bytes()[12]==255);

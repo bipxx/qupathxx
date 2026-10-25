@@ -654,3 +654,38 @@ that hash but performs no ROI containment or statistics. Numeric geometry and
 work admission precede pixel IO. Jobs reuse cancellation, owner-thread polling
 and stale-delivery checks. Grid record retention, QRA2, project replay and CSV
 remain pending; the native analysis result does not imply those consumers work.
+
+
+### QRA2 grid records and typed raw CSV
+
+Grid analysis records use QRA2; natural records keep QRA1 unchanged. QRA2 prefixes
+the legacy common record body with ten signed grid integers (image dimensions,
+origins, extents, sample counts, contexts), work budget, reader identity, decoded
+and sampling hashes, original raw dimensions/axes/series-count/dtype, dimension
+order, all source levels and channel names, and original calibration/spacing.
+Integers are uint64 little endian (signed values use two's complement), strings
+are uint64 byte-length framed UTF-8, and optional doubles use a uint64 presence
+flag followed by binary64 bits. The common body remains in QRA1 field order;
+grid-only internal region coordinates are canonical 0,0,1,1 at level zero, with
+selection from the captured options. They have no public natural-region meaning.
+The grid scale sentinel is canonical binary64 0x7ff8000000000000. Both versions
+end with the ASCII lowercase SHA-256 of the preceding bytes and retain the
+16 MiB encoding limit. Unknown versions, alternate grid sentinels and trailing
+bytes reject. Independent Python struct/hashlib vectors pin both versions.
+
+Validation checks source/derived metadata, geometry and full-analysis admission,
+selected channel names, both provenance hash relationships, ROI-eligible core
+counts and per-channel support partitions. Historical records retain no request
+publication ticket. Explicit replay captures a new request and verifies current
+object/context/calibration/series and recomputed pixels before restoring current
+status; save/reopen alone leaves records unverified. Existing project blob
+storage carries either version without a SQL schema migration.
+
+Natural-only CSV stays schema 1 byte compatible. Grid or mixed tables use schema
+2 with sampling kind, derived sample type, explicit core origin/extent/counts,
+contexts and decoded/sampling hashes. Grid rows leave natural level, scalar
+scale and natural region origin fields blank. Output dimensions include context;
+statistics count eligible core centers only. Source dtype remains separate from
+derived binary64 statistics. Native retention/replay/CSV are additional delivery
+steps; Python, CLI/batch, ImGui and complete installed/platform validation remain
+required before declaring the whole workflow accepted.

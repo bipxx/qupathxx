@@ -292,3 +292,9 @@ tests/fixtures/raw-grid-statistics-v1/** -text -whitespace
 
 docs/benchmarks/raw-grid-analysis-local/** -text -whitespace
 docs/benchmarks/raw-grid-analysis-local-windows-linux.json text eol=lf
+
+cpp/scientific_raw_sampling_internal.hpp text eol=lf
+cpp/tests/raw_grid_archive_reference.hpp text eol=lf
+tools/reference_raw_grid_archive.py text eol=lf
+tests/test_raw_grid_archive_reference.py text eol=lf
+tests/fixtures/raw-grid-archive-v1/** -text -whitespace
