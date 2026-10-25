@@ -47,9 +47,7 @@ def process_memory():
                 working_set_bytes=counters.WorkingSetSize,peak_commit_bytes=counters.PeakPagefileUsage)
 
 
-def observe(path,c):
-    import qupathxx as q
-    import qupathxx._native as native
+def detection_options(q,c):
     options=q.TmaDearrayOptions()
     options.rows,options.columns=c['rows'],c['columns']
     options.core_units=q.TmaCoreUnits.Micrometers
@@ -58,6 +56,14 @@ def observe(path,c):
     options.thumbnail.max_width,options.thumbnail.max_height=limits['preview_width'],limits['preview_height']
     options.thumbnail.source_pixel_limit=options.thumbnail.output_pixel_limit=limits['source_pixels']
     options.work_bytes=limits['work_bytes']
+    return options
+
+
+def observe(path,c):
+    import qupathxx as q
+    import qupathxx._native as native
+    options=detection_options(q,c)
+    limits=c['acceptance']
     reader=q.TiffOpenOptions();reader.cache_bytes=limits['cache_bytes']
     fields=('decoded_blocks','decoded_bytes','cache_hits','directory_switches','cache_bytes','peak_cache_bytes')
     server=q.open_tiff(str(path),reader)
