@@ -352,3 +352,7 @@ tests/test_raw_materialized_streaming.py text eol=lf
 # Coarse-sampling evidence retains original capture bytes.
 docs/benchmarks/raw-grid-materialized-streaming-local/** -text -whitespace
 docs/benchmarks/raw-grid-materialized-streaming-local.json text eol=lf
+
+# Frozen raw-resource campaign receipts preserve original bytes.
+docs/benchmarks/raw-grid-resource-191-campaign/** -text -whitespace
+docs/benchmarks/raw-grid-resource-191-campaign.json text eol=lf

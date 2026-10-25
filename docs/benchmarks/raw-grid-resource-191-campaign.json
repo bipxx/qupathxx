@@ -1,0 +1,104 @@
+{
+  "schema": "qpx.integrated-raw-resource-dispatch/1",
+  "observed_at_utc": "2026-10-25T19:40:38.614698+00:00",
+  "source": "61e546ee59944e07b2b15a16b84054813de8393e",
+  "frozen_ref": "feature/raw-grid-workflow-191",
+  "preflight_passed": 280,
+  "source_contract_files": 498,
+  "compiler_input_files": 312,
+  "local_compiled_source": "44394d3db15b37659e06b10677498ec168041e4d",
+  "local_compiled_fingerprint": "7eb7afb7850fa3d35caeefd842dfb2dcb6bfdee5cd9da050f1d3deff80cd8d53",
+  "frozen_checkout_raw_fingerprint": "032f9d99d2dd21e6fdbe2ac4d7f9542212358372083f71ed96c511d67344bdf8",
+  "identity_scope": "Compiler Git blobs match tested443; checkout raw identities differ. The installed module is not relabelled61e546e.",
+  "runs": [
+    {
+      "role": "engine",
+      "run": 40226794203,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40226794203",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": false,
+        "live_reference": true,
+        "extended_readers": true
+      }
+    },
+    {
+      "role": "macos",
+      "run": 40226800465,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40226800465",
+      "semantic_inputs": {
+        "macos_native": true,
+        "portable_linux": false,
+        "live_reference": false,
+        "extended_readers": false
+      }
+    },
+    {
+      "role": "portable",
+      "run": 40226806311,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40226806311",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": true,
+        "live_reference": false,
+        "extended_readers": true
+      }
+    }
+  ],
+  "scope": "Dispatch/preflight only for the complete post745 raw-resource workflow. All11artifacts and complete inherited frozen-source auditors remain required. Mac scope is native only, not Python/GUI/OpenSlide.",
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "milestones": {
+    "M0": "Partial",
+    "M1": "Partial",
+    "M2": "Partial",
+    "M3": "Partial",
+    "M4": "Partial",
+    "M5": "Partial",
+    "M6": "Partial",
+    "M7": "Partial"
+  },
+  "evidence": {
+    "audit-plan.json": {
+      "bytes": 2783,
+      "sha256": "2781f80c0b8d4881c535383f8d7c8673b5c854c96f3632a5d6455dce9157e0fc"
+    },
+    "campaign-attempts.json": {
+      "bytes": 5724,
+      "sha256": "74626805cb96a4c78d05b5e166537e8f5f2455d68a49ce96befe96a36b502177"
+    },
+    "dispatch.py": {
+      "bytes": 3369,
+      "sha256": "709b6b6afb8a3d92fbc05707b56b6832abebdc8a99a248d72c6cd0b993c96900"
+    },
+    "frozen-compiler-inputs.json": {
+      "bytes": 32638,
+      "sha256": "228820b2434e2af9c66e8274123fd0d3402d7014a05f87297b5964095f15e021"
+    },
+    "initial-observation.json": {
+      "bytes": 2110,
+      "sha256": "45a4b62540ce28f25157a34769b02c02654df77f6121542f6a2629f2a8c8ffa2"
+    },
+    "poll.py": {
+      "bytes": 1508,
+      "sha256": "95830e58ed17357711bf82b52e599ea5debd3e031fc9a6e76b498980d2159cf8"
+    },
+    "preflight-report.json": {
+      "bytes": 3165,
+      "sha256": "ea09363a141c12d3c53ae6a7cbade50ee30bcfd91baa1d6678f9b1e456e2a6fb"
+    },
+    "preflight.py": {
+      "bytes": 3199,
+      "sha256": "3b71bb31c4eb74328dcd01b9674c6f7697f62d52c42d5c16a4d73b1e8bb59099"
+    },
+    "preflight.xml": {
+      "bytes": 42985,
+      "sha256": "97defb8cfc1d694a5dd84e6f547ec491e0f14c9d9673216148cfccef889c93c0"
+    },
+    "source-proof.json": {
+      "bytes": 121103,
+      "sha256": "ac49ba9cfbf188247772765adff48c4d1b048dfd9acbd126be6513db749f43dd"
+    }
+  }
+}

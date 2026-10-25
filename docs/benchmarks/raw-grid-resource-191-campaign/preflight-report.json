@@ -1,0 +1,43 @@
+{
+  "source": "61e546ee59944e07b2b15a16b84054813de8393e",
+  "observed_at_utc": "2026-10-25T19:34:14.136205+00:00",
+  "passed": 280,
+  "scientific_source_contract_files": 498,
+  "compiler_inputs": 312,
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw190-python-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-grid-workflow-191\\tests\\test_campaign_inputs.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-grid-workflow-191\\tests\\test_scientific_grid_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-grid-workflow-191\\tests\\test_hierarchy_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-grid-workflow-191\\tests\\test_resampling_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-grid-workflow-191\\tests\\test_qptma_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-grid-workflow-191\\tests\\test_qptma_desktop_evidence.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-grid-workflow-191\\tests\\test_manylinux_acceptance.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-grid-workflow-191\\tests\\test_manylinux_body_acceptance.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-grid-workflow-191\\tests\\test_manylinux_qualification.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-grid-workflow-191\\tests\\test_macos_relocation_evidence.py",
+    "-q",
+    "--tb=short",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw191-preflight\\tests.xml"
+  ],
+  "test_sources": {
+    "test_campaign_inputs.py": "d3e06fa6d02ae7ee4161cd0ef4d84aa908378328bafb2f9f1fd880e7b6e7f107",
+    "test_scientific_grid_evidence.py": "323ff6eaa14626ac6d75115d2d5006ae97dc2fd0c9bdb7a1f5f5fc67c083eab9",
+    "test_hierarchy_evidence.py": "e63e8f411a60d905430e0ffe138891c2950070133b6bad423cb3fee7bd37f383",
+    "test_resampling_evidence.py": "7027236bc181a21665281ab88c137fc1a9c96da0f18214013cc894a2b45f6a37",
+    "test_qptma_evidence.py": "b10ca0916758e010cb425e5df8364c8a33d0033c743dd2a2a27287e89b53dcff",
+    "test_qptma_desktop_evidence.py": "85a65b668ff21fd7ec6ad1b1016879426b2738bd8a669b405d78c67fc13f6dd8",
+    "test_manylinux_acceptance.py": "351a4e6933cad8b688768c347ac9149daeebd71df708a142d4459043045e6431",
+    "test_manylinux_body_acceptance.py": "b9d62c79b8cb185da74f0e64bd2e7fd6af9607fc1075ccb95825180091dbb226",
+    "test_manylinux_qualification.py": "2b9f09c660069b96f36bea33be9668b55badb5a1ade7fa0b688bd5abba6bd028",
+    "test_macos_relocation_evidence.py": "f528150b7ce3a0c0cd2cb132174e6ac6893d0ac28af2aa5f9830185608f6231f"
+  },
+  "local_module_compiled_source": "44394d3db15b37659e06b10677498ec168041e4d",
+  "local_module_fingerprint": "7eb7afb7850fa3d35caeefd842dfb2dcb6bfdee5cd9da050f1d3deff80cd8d53",
+  "frozen_checkout_raw_fingerprint": "032f9d99d2dd21e6fdbe2ac4d7f9542212358372083f71ed96c511d67344bdf8",
+  "scope": "Frozen-source auditor preflight and byte proof only; not platform campaign acceptance. Compiler Git blobs match tested443; checkout line endings have distinct raw identities.",
+  "release_ready": false
+}

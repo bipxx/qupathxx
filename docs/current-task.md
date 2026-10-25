@@ -96,8 +96,22 @@ with hash-only resume, ImGui measurement/retention/render and managed viewer
 retain/verify/save. Canonical recipe/hash domains and QRA1/QRA2 encodings stay
 unchanged; newly smaller-budget records may require the current admission reader.
 
-Next freeze this complete integrated raw-resource workflow and run its required
-source-bound platform campaign once. Continue vendor/multi-file/whole-slide and
+The [integrated qualification campaign](benchmarks/raw-grid-resource-191-campaign.json)
+is frozen at `61e546e` on `feature/raw-grid-workflow-191`, after 280 auditor
+preflight controls and a 498-file source proof passed. Compiler Git blobs match
+local tested `44394d3`; fresh checkout raw fingerprint `032f9d99...44bdf8` remains
+distinct from the installed module's identity. Track the exact runs:
+
+- [Engine40226794203](https://github.com/bipxx/qupathxx/actions/runs/40226794203):
+  all five required modes, extended readers and live reference enabled.
+- [Mac40226800465](https://github.com/bipxx/qupathxx/actions/runs/40226800465):
+  ARM64/x86_64 native, inventory and relocation.
+- [Portable40226806311](https://github.com/bipxx/qupathxx/actions/runs/40226806311):
+  CPython3.11/3.12 builders and fresh consumers, extended readers enabled.
+
+All 11 archives and complete inherited frozen-source auditors remain required
+before promotion. Preserve the frozen ref and poll these handles after a timeout;
+do not redispatch because a runner is queued. Continue vendor/multi-file/whole-slide and
 materialized-window limits, raw classifiers and broader tissue/TMA automation,
 independent biology, eligible hardware/memory and supported-release work. All
 original M0-M7 milestones remain Partial; preserve frozen `745662b` and the
