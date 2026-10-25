@@ -62,7 +62,7 @@ class GuiTma {
         if(exchange_.valid() && exchange_.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
             try {
                 auto result=exchange_.get();exchange_bytes_=result.bytes;
-                if(exchange_cancel_.load()) {clear_preview();exchange_state_="cancelled";return;}
+                if(exchange_cancel_.load() && result.state!="saved") {clear_preview();exchange_state_="cancelled";return;}
                 if(result.preview && (preview_identity_.lock()!=doc.analysis_identity_.token || preview_revision_!=doc.revision() || doc.tma_core_count())) {
                     clear_preview();exchange_state_="stale";error_="The target image changed. Load a new grid preview.";return;
                 }
@@ -218,7 +218,7 @@ public:
         enabled_.fill(false);
         poll();if(!ImGui::GetIO().WantTextInput && ImGui::GetIO().KeyCtrl && ImGui::GetIO().KeyAlt && ImGui::IsKeyPressed(ImGuiKey_T,false)) open_=!open_;
         try {refresh(doc);poll_exchange(doc);}catch(const std::exception& e) {failure(e);}
-        if(!open_) return false;
+        if(!open_) {if(exchange_.valid() || preview_)cancel_exchange();return false;}
         const auto* viewport=ImGui::GetMainViewport();const auto scale=ImGui::GetFontSize()/13.f;
         ImGui::SetNextWindowSize({std::min(530.f*scale,viewport->WorkSize.x*.9f),std::min(780.f*scale,viewport->WorkSize.y*.9f)},ImGuiCond_Appearing);
         ImGui::SetNextWindowPos({viewport->WorkPos.x+viewport->WorkSize.x*.5f,viewport->WorkPos.y+viewport->WorkSize.y*.5f},ImGuiCond_Appearing,{.5f,.5f});

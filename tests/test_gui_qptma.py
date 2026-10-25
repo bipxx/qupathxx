@@ -89,3 +89,12 @@ def test_export_requires_explicit_loss_acknowledgment(tmp_path):
     doc=document();q.import_qptma(doc,q.load_qptma(str(FIXTURE)));output=tmp_path/'unacknowledged.qptma'
     o=settings(output_path=output);report=q.show(doc,frame_limit=20,options=o)
     assert report.qptma_state=='idle' and not output.exists() and doc.tma_core_count==6
+
+
+def test_closing_panel_cancels_unapplied_import_and_releases_preview():
+    from test_gui_tiles import replay
+    doc=document();revision=doc.revision;o=settings()
+    o.inputs=[*click(4,q.GuiInputTarget.QPTMA_LOAD_PREVIEW),replay(14,q.GuiInputKind.TMA_KEY)]
+    report=q.show(doc,frame_limit=30,options=o)
+    assert report.qptma_state=='cancelled' and report.qptma_preview_cores==0
+    assert not report.tma_error and doc.revision==revision and doc.tma_core_count==0

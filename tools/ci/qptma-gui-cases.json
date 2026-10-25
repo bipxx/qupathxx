@@ -1,4 +1,5 @@
 [
+  "test_closing_panel_cancels_unapplied_import_and_releases_preview",
   "test_export_existing_file_preserves_bytes",
   "test_export_requires_explicit_loss_acknowledgment",
   "test_failed_preview_preserves_document[malformed]",

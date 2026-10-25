@@ -8,7 +8,7 @@ evidence=importlib.util.module_from_spec(spec);spec.loader.exec_module(evidence)
 
 def cases():return [ET.Element('testcase',name=name,classname='tests.test_gui_qptma') for name in evidence.DESKTOP_CASES]
 
-def test_complete_desktop_cohort_accepted():assert evidence.desktop(cases())['passed']==8
+def test_complete_desktop_cohort_accepted():assert evidence.desktop(cases())['passed']==9
 
 @pytest.mark.parametrize('change',['missing','duplicate','failure','error','skipped','renamed'])
 def test_incomplete_or_nonpassing_desktop_cohort_rejected(change):
