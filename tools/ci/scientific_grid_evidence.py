@@ -21,7 +21,7 @@ NEGATIVE={
 }
 POSITIVE=['tests/typing/valid_api.py','tests/typing/hierarchy_valid.py','tests/typing/grid_cells_valid.py','examples/live_workflow.py','examples/region_workflow.py']
 BASE={
- 'resampling':['Native scientific grid exact geometry, rounding, context and admission passed','Native scientific RGB float64 exact means, support, reader and cancellation checks passed'],
+ 'resampling':['Native scientific grid exact geometry, rounding, context and admission passed','Native scientific RGB float64 exact means, support, reader and cancellation checks passed','Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed'],
  'stains':['Native scientific float64 OD/stains, validity, captured basis and admission passed','Legacy byte/float32 stain transforms preserve frozen arithmetic across 262144 RGB probes'],
  'log_cell_recipe':['Native physical grid metrics, weighted distances, Gaussian support and admission passed'],
  'tissue_contours':['Native explicit-grid raster eligibility, per-axis metadata, precision and legacy isolation passed'],
@@ -43,7 +43,7 @@ CONDITIONAL=[
 ]
 # Bind the committed file inventory, including every reference vector/header and
 # consumer. Fixture bytes remain raw; code permits only checkout CRLF changes.
-FIXTURES=tuple('tests/fixtures/'+name+'/' for name in ('scientific-grid-v1','physical-grid-v1','scientific-channels-v1','grid-cells-v1','grid-cell-archive-v1','grid-cell-consumers-v1','scientific-raster-v1','qupath-cells-0.7.0','qupath-cells-roi-debug-0.7.0','qupath-cells-resampled-debug-0.7.0'))
+FIXTURES=tuple('tests/fixtures/'+name+'/' for name in ('scientific-grid-v1','physical-grid-v1','scientific-channels-v1','grid-cells-v1','grid-cell-archive-v1','grid-cell-consumers-v1','scientific-raster-v1','qupath-cells-0.7.0','qupath-cells-roi-debug-0.7.0','qupath-cells-resampled-debug-0.7.0','raw-scientific-means-v1'))
 EXTRA=('docs/scientific-grid-contract.md','tools/ci/run.py','tools/ci/run_manylinux.py','tools/ci/requirements.txt','tools/ci/scientific_grid_evidence.py','tools/ci/scientific-grid-cases.json','tools/ci/accept_unified_engine.py','tools/ci/accept_manylinux.py','tools/ci/accept_macos_native.py','.github/workflows/ci.yml','tools/generate_stubs.py','tests/test_scientific_grid_evidence.py','tests/test_stub_signature_guard.py','tests/test_public_stubs.py',*POSITIVE,*('tests/typing/'+v[0] for v in NEGATIVE.values()))
 EXTRA+=('tools/compare_qupath_grid_cells.py','tools/compare_qupath_cells.py',
         'tools/qupath_cells_fixture.py','tools/upstream/qupath_cells_reference.groovy',

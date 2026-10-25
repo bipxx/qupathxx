@@ -510,3 +510,62 @@ Native workflow checks cover mixed natural/grid/upsampled origins, malformed
 typed manifests, quoted manual rows, schema/column alignment, captured units and
 calibration, and classifier/CSV project save/reopen. GUI, installed Python,
 complete CLI/batch integration and all wider M0–M7 criteria remain open.
+
+## Typed raw sampling: active contract and exact means
+
+The next workflow consumes `RawRegionRequest`/`RawPixelBuffer` directly through
+the existing raw analysis ownership boundary. Display RGB and TIFF display
+channel/range mapping are not quantitative input. Preserve all ten exposed
+sample types, selected series/Z/T/channel indices and names, source calibration
+(including unknown values), raw bits and validity. The first reader adapter uses
+the existing explicit level-zero grid and one bounded clipped raw window;
+vendor/natural-level/tiled admission remains required subsequent work.
+
+Footprint support is strict. A footprint touching outside the source is invalid;
+an invalid source pixel invalidates that footprint in all channels. Otherwise,
+NaN/Inf invalidates only its own channel. Do not omit a nonfinite value and
+average the remaining values. Invalid outputs are canonical zero with explicit
+per-channel validity/reason information, so they remain distinct from measured
+zeros. Reason precedence is outside support, invalid source pixel, then
+nonfinite channel. ROI/core eligibility is a separate captured center predicate.
+
+Every valid channel mean is the exact weighted sum divided by the exact total
+integer area weight, rounded once to nearest-even IEEE binary64. Never cast
+UInt64/Int64 samples to double before accumulation. Avoid intermediate floating
+overflow when the mathematical mean is finite. Exact cancellation is canonical
++0; a nonzero negative result that underflows to zero retains its sign. Float32
+source values convert exactly to binary64, while all integer bits and binary64
+exponents participate in the exact sum. Source bits, including signed zero and
+nonfinite payloads, remain part of the source identity independently of output.
+
+The private `ExactWeightedMean` dependency is implemented. Separate positive
+and negative 2176-bit accumulators use portable uint32 limbs; under the current
+total-weight bound 2^28, even the largest finite double needs at most 2126 bits.
+Integer sources enter at the correct binary position without floating conversion.
+Integer division plus guard/sticky/remainder tests performs the single final
+rounding. Empty means, nonpositive/over-budget weights and nonfinite inputs
+reject; rejected additions leave an existing accumulator unchanged. This is
+not a new public sampler or a change to legacy raw statistics.
+
+The [independent Fraction oracle](../tests/fixtures/raw-scientific-means-v1/reference.json)
+contains 2,891 cases across all ten dtypes, including 64-bit extrema, normal and
+subnormal ties, cancellation and overflow-resistant finite means. Native tests
+check every result bit in forward and reverse order. Flat constant C++ tables
+retain the oracle values without thousands of dynamic vector initializers.
+The numeric checks are wired into the existing native resampling suite; a new
+full project build is still required to accept that integrated configuration.
+Standalone MSVC/GCC and sanitizer results establish only the numeric dependency.
+
+Before pixel IO, the raw adapter must validate channel/plane/series selection,
+source/grid dimensions, complete source/output/metadata scratch budgets and
+traversal cost. The RGB planner's fixed three-channel/RGBA byte allowance is
+insufficient for arbitrary raw dtype/channel counts. Hash original raw window
+bits and validity, not merely rounded means. Bind grid, selected axes, source
+dtype/names, calibration and the finite/support policy into a new recipe.
+Keep `qpx.raw-roi-statistics/1` and existing records/replay behavior unchanged.
+
+Completion requires the raw-grid reader, immutable analysis request/result,
+job cancellation/stale delivery, retained versioned records, save/reopen/replay,
+CSV, resumed batch and Python/CLI/ImGui consumers. The exact-mean primitive does
+not complete that workflow or any M0–M7 milestone. Add independent raw/TIFF
+sampling fixtures before qualifying the integrated installed application.

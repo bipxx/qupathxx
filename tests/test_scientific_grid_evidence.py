@@ -55,7 +55,7 @@ def installed(gui):
 @pytest.mark.parametrize('gui',[True,False])
 def test_installed_exact_cohort_and_scope(gui):
     result=evidence.python(installed(gui),gui)
-    assert result['passed']==(179 if gui else 177)
+    assert result['passed']==(182 if gui else 180)
     assert result['declared_headless_gui_skips']==(0 if gui else 2)
     assert not result['scientific_acceptance']
 
@@ -140,3 +140,15 @@ def test_batched_source_binding_preserves_raw_fixtures(tmp_path,monkeypatch,fixt
     else:
         with pytest.raises(ValueError,match='source differs'):evidence.source_contract(tmp_path,'b'*40)
     assert len(calls)==1 and calls[0][1]['input']==('b'*40+':'+name+'\n').encode()
+
+
+@pytest.mark.parametrize('failure',['missing','duplicate'])
+def test_exact_raw_mean_marker_is_required_once(failure):
+    cases=native_cases()
+    case=next(c for c in cases if c.get('name')=='resampling')
+    marker='Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed'
+    lines=case.findtext('system-out').splitlines()
+    if failure=='missing':lines.remove(marker)
+    else:lines.append(marker)
+    case.find('system-out').text='\n'.join(lines)+'\n'
+    with pytest.raises(ValueError,match='marker differs'):evidence.native(cases)

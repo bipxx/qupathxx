@@ -66,7 +66,7 @@ passes those isolated-cell checks.
 
 The comparison and public ROI debug capture join the named installed
 scientific-grid contract, raising its next-candidate requirement to
-179 GUI / 177 headless passes plus
+182 GUI / 180 headless passes plus
 two declared desktop skips. Source169's accepted 107-case contract remains
 historical evidence for that source. New comparison tools, regression source
 and immutable capture dependencies are bound by the next source contract.
@@ -125,3 +125,17 @@ quantitative samples through RGBA8 or introduce a resize solely to fit this
 synthetic RGB capture. Vendor/pyramid/tiled admission and all broader biological,
 hardware and M0-M7 requirements remain. The legacy distance expected failures
 remain separate from the newer recipes' successful isolated-cell comparisons.
+
+The private exact-mean dependency is now implemented for all ten raw dtypes.
+An independent Fraction oracle provides 2,891 vectors, checked in both input
+orders by standalone MSVC and GCC, with ASan/UBSan and atomic rejection checks.
+The [typed raw contract](scientific-grid-contract.md#typed-raw-sampling-active-contract-and-exact-means)
+freezes exact rounding and per-channel finite/support semantics. The numeric
+checks are wired into native resampling, but the updated integrated native
+configuration has not yet been built. Existing installed wheels remain the
+source169 engines and do not exercise this private new component.
+
+Next concrete step: implement the bounded typed raw grid reader using this
+kernel and independent per-footprint Fraction references, then connect the
+existing raw analysis/result/record/jobs and frontend workflow above. Do not
+mark raw sampling delivered from the numeric primitive alone.

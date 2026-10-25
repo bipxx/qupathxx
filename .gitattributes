@@ -260,3 +260,10 @@ tests/test_qupath_resampled_cell_debug.py text eol=lf
 
 docs/benchmarks/grid-cell-resampled-processing-local/** -text -whitespace
 docs/benchmarks/grid-cell-resampled-processing-local-windows-linux.json text eol=lf
+
+cpp/exact_weighted_mean.hpp text eol=lf
+cpp/tests/raw_scientific_numeric_tests.cpp text eol=lf
+cpp/tests/raw_scientific_mean_reference.hpp text eol=lf
+tools/reference_raw_means.py text eol=lf
+tests/test_raw_mean_reference.py text eol=lf
+tests/fixtures/raw-scientific-means-v1/** -text -whitespace
