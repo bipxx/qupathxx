@@ -14,8 +14,11 @@ probe=importlib.util.module_from_spec(spec);spec.loader.exec_module(probe)
 KINDS=('source_pixel','output_pixel','work_byte','full_base_region')
 
 
-def assess(data,c):
+def assess(data,c,expected_input):
     failures=[]
+    if data['baseline_input_sha256']!=expected_input: failures.append('independent input identity')
+    if not 0<data['memory']['peak_working_set_bytes']<=c['acceptance']['process_peak_bytes']:
+        failures.append('process peak working set')
     if [case['kind'] for case in data['cases']]!=list(KINDS):
         failures.append('named refusal cohort')
     for case in data['cases']:
@@ -32,6 +35,13 @@ def assess(data,c):
             failures.append(kind+': reader poisoned')
         if case['admitted_work_bytes']!=case['recovery']['estimated_work_bytes']:
             failures.append(kind+': exact work admission')
+        if not 0<case['admitted_work_bytes']<=c['acceptance']['work_bytes']:
+            failures.append(kind+': work bound')
+        pixels=c['acceptance']['source_pixels']
+        expected_request=dict(source_pixel_limit=pixels-(kind=='source_pixel'),
+            output_pixel_limit=pixels-(kind=='output_pixel'),work_bytes=case['admitted_work_bytes']-(kind=='work_byte'))
+        if case['request']!=expected_request:
+            failures.append(kind+': boundary request')
         if (case['recovery']['decoded_blocks'],case['recovery']['decoded_bytes'])!=(c['acceptance']['decoded_blocks'],c['acceptance']['decoded_bytes']):
             failures.append(kind+': recovery IO')
         if case['recovery']['input_sha256']!=data['baseline_input_sha256']:
@@ -54,6 +64,8 @@ def observe(path,c):
         elif kind=='output_pixel': options.thumbnail.output_pixel_limit=pixels-1
         elif kind=='work_byte': options.work_bytes=admitted-1
         reader=q.TiffOpenOptions();reader.cache_bytes=c['acceptance']['cache_bytes']
+        request=dict(source_pixel_limit=options.thumbnail.source_pixel_limit,
+            output_pixel_limit=options.thumbnail.output_pixel_limit,work_bytes=options.work_bytes)
         server=q.open_tiff(str(path),reader)
         try:
             exception_type=exception_message=''
@@ -78,7 +90,7 @@ def observe(path,c):
                 for core,wire,expected in zip(recovery.cores,recovery.grid.cores,c['cores'],strict=True))
             stats=server.tiff_read_stats
             cases.append(dict(kind=kind,exception_type=exception_type,exception_message=exception_message,
-                after_refusal=after,closed_after_refusal=closed,admitted_work_bytes=admitted,
+                after_refusal=after,closed_after_refusal=closed,admitted_work_bytes=admitted,request=request,
                 recovery=dict(estimated_work_bytes=recovery.estimated_work_bytes,decoded_blocks=stats.decoded_blocks,
                     decoded_bytes=stats.decoded_bytes,input_sha256=recovery.input_sha256,geometry_and_flags_match=matches)))
         finally:
@@ -92,12 +104,13 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('fixture',type=Path);parser.add_argument('output',type=Path)
     parser.add_argument('--revision',required=True);parser.add_argument('--fingerprint',required=True)
+    parser.add_argument('--input-sha256',required=True,help='Independent retained large-pyramid input commitment')
     args=parser.parse_args()
     if args.output.exists(): raise FileExistsError(args.output)
     c=json.loads(probe.CONTRACT.read_text(encoding='utf-8'))
     fixture=probe.fixture_identity(args.fixture,c)
     data=observe(args.fixture,c);data['fixture_manifest']=fixture
-    data['failures']=assess(data,c)
+    data['failures']=assess(data,c,args.input_sha256)
     if data['engine']!=dict(revision=args.revision,fingerprint=args.fingerprint):data['failures'].append('engine identity')
     data['accepted']=not data['failures']
     args.output.parent.mkdir(parents=True,exist_ok=True)
