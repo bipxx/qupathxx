@@ -91,6 +91,7 @@
     "test_independent_vectors_are_exercised_by_the_native_integration_case"
   ],
   "test_scientific_sampling": [
+    "test_decoded_source_hash_is_owned_string_and_tracks_raw_bytes",
     "test_exact_fraction_conversion_includes_large_and_negative_near_zero_values",
     "test_explicit_array_copies_are_mutable_and_do_not_modify_native_result",
     "test_invalid_axis_rejects_before_reader_work[args0]",

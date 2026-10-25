@@ -11,7 +11,9 @@ Source `d31ceb7` has local Windows Python/GUI/project/GEOS engineering validatio
 desktop cohorts, and packaged strict typing. See the
 [frontend receipt](benchmarks/grid-cell-frontends-local-windows.json).
 The frozen integrated candidate `5ebdb96` adds explicit source-bound CI cohorts;
-engine, Mac-native and portable campaigns are pending. The
+engine, Mac-native and portable campaigns exposed binding caster and Darwin
+type-deduction defects. The candidate is unqualified; a corrected integration
+passes local regression checks and awaits fresh complete platform qualification. The
 [preflight receipt](benchmarks/scientific-grid-ci-preflight-windows.json) records
 those exact runs. Disabled capabilities and other platforms are not qualified by
 the local checks. All milestones remain Partial; scientific/release acceptance
@@ -73,7 +75,9 @@ remain checked at their declared scope.
 
 The next integrated candidate includes hierarchy/recovery, the long-path fix,
 and the explicit-grid scientific cell workflow. It is frozen at `5ebdb96` on
-`feature/scientific-workflow-168`; its three exact-source campaigns remain pending.
+`feature/scientific-workflow-168`; its exact-source campaign is unqualified after
+binding-caster and Darwin compilation failures. The correction remains a later
+candidate requiring its own complete gates.
 The newer feature-branch documentation does not move that frozen ref. All M0–M7 milestones remain Partial. Use the [active plan](project-plan.md)
 and [API delivery paths](api-delivery-plan.md) for the remaining complete scope.
 

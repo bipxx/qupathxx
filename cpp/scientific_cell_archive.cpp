@@ -128,7 +128,8 @@ std::shared_ptr<const CellResult> CellArchiveCodec::decode_grid(const std::uint8
     ResolvedGridCellParameters q;q.step_x=d.real();q.step_y=d.real();q.sigma_x=d.real();q.sigma_y=d.real();q.min_nucleus_samples=d.integer();q.max_nucleus_samples=d.integer();
     if(resolved(q)!=resolved(resolve_grid_cell_parameters(grid,p,*provenance))) throw std::invalid_argument("grid cell archive resolved units or area differ");
     grid_cell_work_bytes(grid,p,q,roi,*provenance,provenance->source,cancelled);
-    const auto n=std::size_t(grid.width()*grid.height()),samples=d.integer(n),threshold=d.integer(samples),raw=d.integer(std::min(p.max_cells,n)),markers=d.integer(raw),count=d.integer(std::min(markers,samples));
+    const auto n=std::size_t(grid.width()*grid.height());
+    const auto samples=d.integer(n),threshold=d.integer(samples),raw=d.integer(std::min(p.max_cells,n)),markers=d.integer(raw),count=d.integer(std::min(markers,samples));
     if(!samples || archive_work(n,std::size_t(count),std::size_t(markers),provenance->payload_bytes(),roi.payload_bytes(),p.contours.work_bytes,size)>work_limit)
         throw std::invalid_argument("grid cell archive exceeds decoded budget");
     auto result=std::shared_ptr<CellResult>(new CellResult());result->algorithm_="qpx.grid-log-watershed-bodies/1";result->grid_parameters_=p;result->resolved_grid_parameters_=q;

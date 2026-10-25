@@ -55,7 +55,7 @@ def installed(gui):
 @pytest.mark.parametrize('gui',[True,False])
 def test_installed_exact_cohort_and_scope(gui):
     result=evidence.python(installed(gui),gui)
-    assert result['passed']==(106 if gui else 104)
+    assert result['passed']==(107 if gui else 105)
     assert result['declared_headless_gui_skips']==(0 if gui else 2)
     assert not result['scientific_acceptance']
 

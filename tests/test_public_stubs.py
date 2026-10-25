@@ -28,3 +28,9 @@ def test_native_stub_covers_public_classes_members_functions_and_constants():
             members.update(t.id for n in node.body if isinstance(n,ast.Assign) for t in n.targets if isinstance(t,ast.Name))
             for member in vars(value):
                 if not member.startswith('_'):assert member in members,(name,member)
+
+
+def test_packaged_signatures_do_not_expose_unbound_cpp_types():
+    from test_stub_signature_guard import generator
+    path=Path(_native.__file__).with_name('_native.pyi')
+    generator.validate_native_signatures(path.read_text(encoding='utf-8'))

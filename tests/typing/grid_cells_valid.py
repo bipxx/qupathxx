@@ -26,3 +26,11 @@ def grid_workflow(doc: q.Document, object_id: int, transform: q.StainTransform,
     ticket: int = session.grid_cells(image_id, object_id, transform, sampling, parameters, retain_result=True)
     assert ticket > 0
     return result
+
+
+def decoded_digest(value: q.ScientificRgbGrid) -> str:
+    return value.decoded_source_sha256
+
+
+def nucleus_grid(value: q.CellResult) -> q.ScientificGrid | None:
+    return value.nuclei.scientific_grid

@@ -225,4 +225,23 @@ poll these exact IDs rather than dispatching replacements. See the
 source hashes, auditor/installed checks and recorded dispatch attempts. Full
 M0-M7 scope remains open.
 
+Qualification168 has exposed concrete defects and cannot be accepted:
+Linux headless and both portable builders report platform-dependent generated
+stubs, while Mac x86_64 fails a mixed `auto` declaration in QCL5 decoding.
+Windows headless and the two Linux native jobs pass at that source; remaining
+old jobs are retained for evidence, not restarted or relabelled.
+
+Correction169 adds the missing string and optional nanobind casters and splits
+the size/count declarations without changing archive bytes or numeric recipes.
+The old wheel fails two new runtime boundary tests; the corrected Windows wheel
+passes them. Public signatures now expose `str` and `ScientificGrid | None`.
+Stub generation rejects unbound C++ annotations, and packaged/strict typing
+checks exercise these fields. The installed scientific cohort now has 107 cases.
+Local checks pass 50 native suites, 108 installed checks with two declared desktop
+skips, 50 desktop cases, and 193 auditor/signature-guard cases. A compile probe
+using the actual archive declaration with distinct Darwin-like unsigned aliases
+fails before the fix and passes after; it is not full Mac qualification. The
+previous 56 native artifacts were hash-verified and retained before incremental
+cache reuse. A corrected frozen candidate still needs complete platform gates.
+
 Earlier task narrative is preserved in [history](current-task-history.md).

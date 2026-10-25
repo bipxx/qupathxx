@@ -36,6 +36,9 @@ def test_grid_request_metadata_is_owned_and_legacy_scalar_is_guarded():
     result = q.detect_cells(request)
     assert result.algorithm == 'qpx.grid-log-watershed-bodies/1'
     assert result.scientific_grid.x.samples == 3
+    assert result.nuclei.scientific_grid.x.samples == 3
+    natural=q.detect_tissue(q.TissueRequest(doc,obj,transform))
+    assert natural.scientific_grid is None
     assert result.grid_parameters.min_nucleus_area == .75
     assert result.resolved_grid_parameters.step_x == 1
     assert result.resolved_grid_parameters.step_y == .75
@@ -48,7 +51,7 @@ def test_grid_request_metadata_is_owned_and_legacy_scalar_is_guarded():
     for value, attribute in [(request, 'parameters'), (result, 'parameters'), (result.nuclei, 'downsample')]:
         with pytest.raises(RuntimeError):
             getattr(value, attribute)
-    descriptor = result.scientific_grid
+    descriptor = result.nuclei.scientific_grid
     resolved = result.resolved_grid_parameters
     del request, result, doc
     gc.collect()

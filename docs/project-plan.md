@@ -17,18 +17,17 @@ shortest implementation route, existing entry points and acceptance per workflow
 The original packet narrative is preserved in [implementation history](project-plan-history.md).
 The [Astra max review](plan-review-astra.md) records the problems and adopted changes.
 
-Public `main` is `c07e778`, publishing the accepted integrated TMA source
+Public `main` is `c07e778`, publishing accepted integrated TMA source
 `a29e4e1` and its engine/Mac/portable receipts. This does not establish biological
-equivalence, hardware budgets or supported release status. The next hierarchy/
-recovery candidate `207f008` passed its Mac audit, but engine qualification failed
-on a stale synthetic auditor typing fixture. Its frozen source remains unchanged;
-the active integration branch `feature/scientific-grid-159` fixes that fixture
-and implements the shared [scientific grid](scientific-grid-contract.md) geometry
-and float64 RGB sampler with owning Python bindings. Portable qualification also
-failed on that stale fixture; both failures remain unqualified. Local installed
-sampler evidence is recorded separately from the still-pending scientific recipe
-and complete workflow. See
-[current task](current-task.md) for evidence and next steps. All M0–M7 remain Partial.
+equivalence, hardware budgets or supported release status. Hierarchy/recovery
+and the explicit-grid scientific cell workflow now have local native, installed
+Python/CLI/batch/viewer/ImGui and persistence evidence. Their integrated frozen
+candidate `5ebdb96` is unqualified: its campaign exposed missing binding casters
+and a Darwin type-deduction defect. Corrections and regression coverage are in
+progress on `feature/scientific-grid-159`; the failed source remains frozen.
+Use the [current task](current-task.md), [workflow inventory](feature-matrix.md)
+and [API delivery paths](api-delivery-plan.md) for exact evidence and remaining
+work. All M0-M7 remain Partial.
 
 ## Scope and release boundaries
 

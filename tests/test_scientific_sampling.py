@@ -95,3 +95,23 @@ def test_mismatched_or_closed_reader_and_null_server_reject():
 @pytest.mark.parametrize('args',[(0,0,1,0),(0,1,0,0),(0,1,1,-1),(0,1,1,4097),(10**12,1,1,0)])
 def test_invalid_axis_rejects_before_reader_work(args):
     with pytest.raises(ValueError):q.ScientificGridAxis(*args)
+
+
+def test_decoded_source_hash_is_owned_string_and_tracks_raw_bytes():
+    import hashlib
+    grid=q.ScientificGrid(2,2,q.ScientificGridAxis(0,2,1),q.ScientificGridAxis(0,2,1))
+    def read(rgb):
+        return q.read_scientific_rgb(q.dense_image_server(q.Image.from_numpy(rgb)),grid)
+    original=np.full((2,2,3),42,dtype=np.uint8)
+    result=read(original)
+    rgba=np.concatenate((original,np.full((2,2,1),255,dtype=np.uint8)),axis=2)
+    expected=hashlib.sha256(b'qpx.level-zero-rgba-window/1'+struct.pack('<6Q',2,2,0,0,2,2)+rgba.tobytes()).hexdigest()
+    digest=result.decoded_source_sha256
+    assert isinstance(digest,str) and digest==expected
+    changed=original.copy();changed[0,0]=41;changed[0,1]=43
+    other=read(changed)
+    np.testing.assert_array_equal(result.numpy(),other.numpy())
+    assert other.decoded_source_sha256!=digest
+    with pytest.raises(AttributeError):result.decoded_source_sha256='0'*64
+    del result,other;gc.collect()
+    assert digest==expected
