@@ -1,7 +1,27 @@
 #pragma once
 #include "qupathxx/tissue.hpp"
 namespace qpx {
-enum class CellAlgorithm { DistanceWatershed=0, LogWatershed=1, LogWatershedBodies=2, SampledLogWatershedBodies=3 };
+enum class CellAlgorithm { DistanceWatershed=0, LogWatershed=1, LogWatershedBodies=2, SampledLogWatershedBodies=3, GridLogWatershedBodies=4 };
+enum class GridCellUnits { LevelZeroPixels, Micrometres };
+// Distances and areas are in the selected units and their square, respectively;
+// never in sampled-array pixels. Context belongs to the explicit grid.
+struct GridCellParameters {
+    GridCellUnits units=GridCellUnits::LevelZeroPixels;
+    TissueFeature feature=TissueFeature::OpticalDensitySum;
+    double threshold=1,sigma=1,log_prominence=.5,min_peak_radius=0,min_seed_distance=0,cell_expansion=5;
+    double min_nucleus_area=5;
+    std::optional<double> max_nucleus_area;
+    RoiSamplingPolicy sampling_policy=RoiSamplingPolicy::GeometryCoverage;
+    std::size_t max_cells=10000,work_bytes=256*1024*1024;
+    TissueContourOptions contours;
+    GridCellParameters() {contours.work_bytes=32*1024*1024;}
+    void validate() const;
+};
+struct ResolvedGridCellParameters {
+    double step_x=0,step_y=0,sigma_x=0,sigma_y=0;
+    std::uint64_t min_nucleus_samples=0,max_nucleus_samples=0;
+};
+struct ScientificCellContext;
 struct CellParameters {
     CellAlgorithm algorithm=CellAlgorithm::DistanceWatershed;
     double log_prominence=.5;
@@ -22,16 +42,19 @@ struct CellParameters {
 class CellRequest {
 public:
     CellRequest(const Document&,std::uint64_t,const StainTransform&,CellParameters={});
-    bool matches(const Document& d,std::uint64_t id) const {return source_.matches(d,id) &&
-        (!physical_calibration_revision_ || *physical_calibration_revision_==d.calibration_revision());}
-    const CellParameters& parameters() const {return parameters_;}
-    std::uint64_t object_id() const {return source_.object_id();}
-    std::int32_t level() const {return source_.level();}
-    double downsample() const {return source_.downsample();}
-    Rect bounds() const {const auto b=level_bounds();return {b.x*downsample(),b.y*downsample(),b.width*downsample(),b.height*downsample()};}
-    Rect level_bounds() const {return processing_grid_;}
-    const Roi& roi() const {return source_.roi();}
-    std::uint64_t total_tiles() const {return ((std::uint64_t(processing_grid_.width)+parameters_.tile_size-1)/parameters_.tile_size)*((std::uint64_t(processing_grid_.height)+parameters_.tile_size-1)/parameters_.tile_size);}
+    CellRequest(const Document&,std::uint64_t,const StainTransform&,ScientificGrid,GridCellParameters={});
+    bool matches(const Document&,std::uint64_t) const;
+    const CellParameters& parameters() const;
+    const ScientificGrid* scientific_grid() const;
+    const GridCellParameters* grid_parameters() const;
+    const ResolvedGridCellParameters* resolved_grid_parameters() const;
+    std::uint64_t object_id() const;
+    std::int32_t level() const;
+    double downsample() const;
+    Rect bounds() const;
+    Rect level_bounds() const;
+    const Roi& roi() const;
+    std::uint64_t total_tiles() const;
     std::size_t estimated_work_bytes() const {return work_;}
     static CellRequest replay(const Document&,std::uint64_t record_id);
     // Resolve inclusive physical area bounds on the selected natural grid.
@@ -41,10 +64,12 @@ public:
         std::optional<double> minimum_um2={},std::optional<double> maximum_um2={},CellParameters={});
 private:
     friend struct CellKernel;
+    friend struct ScientificCellKernel;
     friend struct InputDigestKernel;
     friend class Document;
     std::shared_ptr<const char> ticket_=std::make_shared<const char>();
-    TissueRequest source_;
+    std::shared_ptr<const TissueRequest> source_;
+    std::shared_ptr<const ScientificCellContext> scientific_;
     CellParameters parameters_;
     std::shared_ptr<ImageServer> reader_;
     StainTransform transform_;
@@ -74,7 +99,12 @@ class CellResult : public std::enable_shared_from_this<CellResult> {
 public:
     CellResult(const CellResult&)=delete;
     const char* algorithm() const {return algorithm_.c_str();}
-    const CellParameters& parameters() const {return parameters_;}
+    const CellParameters& parameters() const {
+        if(grid_parameters_) throw std::logic_error("explicit-grid cells require grid_parameters");
+        return parameters_;
+    }
+    const GridCellParameters* grid_parameters() const {return grid_parameters_?&*grid_parameters_:nullptr;}
+    const ResolvedGridCellParameters* resolved_grid_parameters() const {return grid_parameters_?&resolved_grid_parameters_:nullptr;}
     const std::shared_ptr<const TissueResult>& nuclei() const {return nuclei_;}
     const std::shared_ptr<const TissueResult>& cells() const {return cells_;}
     const std::shared_ptr<const TissueContours>& nucleus_contours() const {return nucleus_contours_;}
@@ -88,12 +118,15 @@ public:
     std::size_t retained_bytes() const;
 private:
     friend struct CellKernel;
+    friend struct ScientificCellKernel;
     friend struct CellArchiveCodec;
     friend class Document;
     std::shared_ptr<const char> ticket_;
     std::string algorithm_="qpx.distance-watershed/1";
     CellResult()=default;
     CellParameters parameters_;
+    std::optional<GridCellParameters> grid_parameters_;
+    ResolvedGridCellParameters resolved_grid_parameters_;
     std::shared_ptr<const TissueResult> nuclei_,cells_;
     std::shared_ptr<const TissueContours> nucleus_contours_,cell_contours_;
     std::vector<CellFeature> features_;

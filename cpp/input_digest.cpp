@@ -1,6 +1,8 @@
 #include "qupathxx/input_digest.hpp"
 #include "sha256.hpp"
 #include "cell_recipe.hpp"
+#include "scientific_cells.hpp"
+#include "scientific_raster.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
@@ -21,11 +23,18 @@ struct InputDigestKernel {
             }y+=h;
         }check();return digest.finish();
     }
-    static std::string run(const AnalysisRequest& r,const std::atomic<bool>* c) {return run(r,0,1,r.x0_,r.y0_,r.x1_,r.y1_,c);}
+    static std::string run(const AnalysisRequest& r,const std::atomic<bool>* c) {
+        if(r.snapshot_only_) throw std::logic_error("scientific source snapshot requires its explicit-grid input identity");
+        return run(r,0,1,r.x0_,r.y0_,r.x1_,r.y1_,c);
+    }
     static std::string run(const TissueRequest& r,const std::atomic<bool>* c) {return run(r.source_,r.level_,r.downsample_,r.x0_,r.y0_,r.x1_,r.y1_,c);}
     static std::string run(const CellRequest& r,const std::atomic<bool>* c) {
+        if(r.scientific_) {
+            const auto input=read_scientific_rgb(*r.reader_,r.scientific_->grid,c);
+            return scientific_raster_input_sha256(r.scientific_->source,input,c);
+        }
         const auto grid=r.level_bounds();const auto x=static_cast<std::int64_t>(grid.x),y=static_cast<std::int64_t>(grid.y);
-        return run(r.source_.source_,r.level(),r.downsample(),x,y,x+static_cast<std::int64_t>(grid.width),y+static_cast<std::int64_t>(grid.height),c,cell_detail::input_format(r.parameters().algorithm,r.level()!=0));
+        return run(r.source_->source_,r.level(),r.downsample(),x,y,x+static_cast<std::int64_t>(grid.width),y+static_cast<std::int64_t>(grid.height),c,cell_detail::input_format(r.parameters().algorithm,r.level()!=0));
     }
 };
 std::string input_sha256(const AnalysisRequest& r,const std::atomic<bool>* c) {return InputDigestKernel::run(r,c);}

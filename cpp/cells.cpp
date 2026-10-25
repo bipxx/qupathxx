@@ -5,6 +5,7 @@
 #include "cell_recipe.hpp"
 #include "log_watershed.hpp"
 #include "cell_expansion.hpp"
+#include "scientific_cells.hpp"
 #include "sha256.hpp"
 #include <chrono>
 #include <cstring>
@@ -96,6 +97,7 @@ std::vector<std::uint32_t> watershed(const std::vector<std::uint8_t>& mask,const
 }
 }
 void CellParameters::validate() const {
+    if(algorithm==CellAlgorithm::GridLogWatershedBodies) throw std::invalid_argument("explicit-grid cells require GridCellParameters and ScientificGrid");
     if(algorithm==CellAlgorithm::SampledLogWatershedBodies && (min_peak_radius!=0 || min_seed_distance!=0))
         throw std::invalid_argument("sampled LoG requires zero radius and seed spacing filters; use CellParameters(SampledLogWatershedBodies)");
     if(algorithm==CellAlgorithm::SampledLogWatershedBodies && connectivity!=8)
@@ -113,8 +115,8 @@ void CellParameters::validate() const {
     contours.validate();if(!contours.clip_to_roi) throw std::invalid_argument("cell contours must clip to their source ROI");
 }
 CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransform& transform,CellParameters p):
-    source_(choose(doc,id,transform,p)),parameters_(p),reader_(doc.server()),transform_(transform),object_revision_(doc.annotation(id).revision),document_revision_(doc.revision()) {
-    processing_grid_=cell_detail::processing_grid(source_.level_bounds(),reader_->metadata().levels.at(level()),p);work_=estimate(source_,p);
+    source_(std::make_shared<TissueRequest>(choose(doc,id,transform,p))),parameters_(p),reader_(doc.server()),transform_(transform),object_revision_(doc.annotation(id).revision),document_revision_(doc.revision()) {
+    processing_grid_=cell_detail::processing_grid(source_->level_bounds(),reader_->metadata().levels.at(level()),p);work_=estimate(*source_,p);
 }
 CellRequest CellRequest::with_nucleus_area_limits(const Document& doc,std::uint64_t id,const StainTransform& transform,
     std::optional<double> minimum,std::optional<double> maximum,CellParameters p) {
@@ -122,7 +124,7 @@ CellRequest CellRequest::with_nucleus_area_limits(const Document& doc,std::uint6
     CellRequest request(doc,id,transform,p);
     if(!minimum && !maximum) return request;
     request.physical_calibration_revision_=doc.calibration_revision();
-    const auto& provenance=request.source_.provenance();
+    const auto& provenance=request.source_->provenance();
     if(!provenance || !provenance->effective_pixel_width_um || !provenance->effective_pixel_height_um)
         throw std::invalid_argument("physical nucleus area limits require both pixel calibration axes");
     const auto x=*provenance->effective_pixel_width_um,y=*provenance->effective_pixel_height_um,scale=request.downsample();
@@ -160,11 +162,11 @@ CalibratedCellFeature CellResult::calibrated_feature(std::uint32_t label) const 
     value.pixel_height_um=provenance->effective_pixel_height_um;
     if(!value.pixel_width_um || !value.pixel_height_um) return value;
     auto product=[](std::initializer_list<double> factors) {return detail::calibrated_cell_product(factors);};
-    const auto& feature=features_[label-1];const auto scale=nuclei_->downsample();
+    const auto& feature=features_[label-1];const auto sx=nuclei_->downsample_x(),sy=nuclei_->downsample_y();
     const auto x=*value.pixel_width_um,y=*value.pixel_height_um;
-    value.nucleus_sample_area_um2=product({double(feature.nucleus_pixels),scale,scale,x,y});
-    value.cell_sample_area_um2=product({double(feature.cell_pixels),scale,scale,x,y});
-    value.cytoplasm_sample_area_um2=product({double(feature.cell_pixels-feature.nucleus_pixels),scale,scale,x,y});
+    value.nucleus_sample_area_um2=product({double(feature.nucleus_pixels),sx,sy,x,y});
+    value.cell_sample_area_um2=product({double(feature.cell_pixels),sx,sy,x,y});
+    value.cytoplasm_sample_area_um2=product({double(feature.cell_pixels-feature.nucleus_pixels),sx,sy,x,y});
     const auto a=nuclei_->components().at(label-1).centroid,b=cells_->components().at(label-1).centroid;
     value.nucleus_centroid_um=Point{product({a.x,x}),product({a.y,y})};
     value.cell_centroid_um=Point{product({b.x,x}),product({b.y,y})};
@@ -173,10 +175,10 @@ CalibratedCellFeature CellResult::calibrated_feature(std::uint32_t label) const 
 std::size_t CellResult::retained_bytes() const {return sizeof(CellResult)+markers_.capacity()*sizeof(CellMarker)+features_.capacity()*sizeof(CellFeature)+domain_bits_.capacity()+(nuclei_?nuclei_->retained_bytes():0)+(cells_?cells_->retained_bytes():0)+(nucleus_contours_?nucleus_contours_->retained_bytes():0)+(cell_contours_?cell_contours_->retained_bytes():0);}
 struct CellKernel {
     static std::shared_ptr<const TissueResult> raster(const CellRequest& request,std::vector<std::uint32_t> labels,std::size_t count,const std::string& digest,std::uint64_t samples,std::uint64_t threshold,bool body,const std::atomic<bool>* cancelled) {
-        auto r=std::shared_ptr<TissueResult>(new TissueResult());r->provenance_=request.source_.provenance();r->algorithm_=body?"qpx.cell-bodies/1":"qpx.cell-nuclei/1";r->input_sha256_=digest;
+        auto r=std::shared_ptr<TissueResult>(new TissueResult());r->provenance_=request.source_->provenance();r->algorithm_=body?"qpx.cell-bodies/1":"qpx.cell-nuclei/1";r->input_sha256_=digest;
         if(request.parameters_.algorithm!=CellAlgorithm::DistanceWatershed) {r->algorithm_=cell_detail::mask_algorithm(request.parameters_.algorithm,body);r->input_format_override_=cell_detail::input_format(request.parameters_.algorithm,request.level()!=0);}
         r->bounds_=request.bounds();r->level_bounds_=request.level_bounds();r->level_=request.level();r->downsample_=request.downsample();r->roi_=request.roi();
-        r->image_bounds_={0,0,double(request.reader_->metadata().width),double(request.reader_->metadata().height)};r->parameters_=request.source_.parameters();
+        r->image_bounds_={0,0,double(request.reader_->metadata().width),double(request.reader_->metadata().height)};r->parameters_=request.source_->parameters();
         r->white_=request.transform_.white();r->stains_=request.transform_.stains();r->object_id_=request.object_id();r->object_revision_=request.object_revision_;r->document_revision_=request.document_revision_;
         r->samples_=samples;r->threshold_pixels_=threshold;r->cleaned_pixels_=threshold;r->raw_components_=count;r->estimated_work_bytes_=request.work_;r->labels_=std::move(labels);
         struct Bounds {std::uint64_t n=0,x=0,y=0;std::size_t x0=std::numeric_limits<std::size_t>::max(),y0=std::numeric_limits<std::size_t>::max(),x1=0,y1=0;};
@@ -215,6 +217,7 @@ struct CellKernel {
         }
     }
     static std::shared_ptr<const CellResult> run(const CellRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr,std::atomic<int>* phase=nullptr) {
+        if(request.scientific_) return ScientificCellKernel::run(request,cancelled,completed,phase);
         checkpoint(cancelled);const auto began=std::chrono::steady_clock::now();const auto& p=request.parameters_;const auto grid=request.level_bounds();
         const auto width=static_cast<std::size_t>(grid.width),height=static_cast<std::size_t>(grid.height),n=width*height;const auto scale=request.downsample();
         auto result=std::shared_ptr<CellResult>(new CellResult());result->parameters_=p;result->ticket_=request.ticket_;result->algorithm_=cell_detail::algorithm_id(p.algorithm);
@@ -225,7 +228,7 @@ struct CellKernel {
         const auto x0=static_cast<std::int64_t>(grid.x),y0=static_cast<std::int64_t>(grid.y),x1=x0+static_cast<std::int64_t>(width),y1=y0+static_cast<std::int64_t>(height);
         for(auto v:{x0,y0,x1,y1}) digest.integer(v);digest.integer(p.tile_size);std::uint64_t tiles=0,samples=0,threshold=0;
         if(phase) phase->store(1);
-        const auto roi_grid=request.source_.level_bounds();
+        const auto roi_grid=request.source_->level_bounds();
         for(auto y=y0;y<y1;) {const auto h=std::min<std::int64_t>(p.tile_size,y1-y);
             for(auto x=x0;x<x1;) {checkpoint(cancelled);const auto w=std::min<std::int64_t>(p.tile_size,x1-x);
                 const auto rx=static_cast<std::int64_t>(std::round(static_cast<long double>(x)*scale)),ry=static_cast<std::int64_t>(std::round(static_cast<long double>(y)*scale));

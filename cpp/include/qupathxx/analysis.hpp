@@ -31,14 +31,16 @@ private:
     friend class StainEstimateRequest;
     friend class Document;
     friend class TissueRequest;
+    friend class CellRequest;
     friend struct TissueKernel;
-    AnalysisRequest(const Document&,std::uint64_t,const StainTransform&,AnalysisKind,bool,std::size_t,bool allow_empty_grid,RoiSamplingPolicy=RoiSamplingPolicy::GeometryCoverage);
+    AnalysisRequest(const Document&,std::uint64_t,const StainTransform&,AnalysisKind,bool,std::size_t,bool allow_empty_grid,RoiSamplingPolicy=RoiSamplingPolicy::GeometryCoverage,bool snapshot_only=false);
     std::shared_ptr<const char> identity_;
     std::shared_ptr<ImageServer> source_;
     std::uint64_t object_id_,object_revision_,document_revision_,total_tiles_;
     AnalysisKind kind_;
     RoiSamplingPolicy sampling_policy_=RoiSamplingPolicy::GeometryCoverage;
     bool nucleus_;
+    bool snapshot_only_=false;
     std::size_t tile_size_;
     Roi roi_;
     std::shared_ptr<const AnalysisProvenance> provenance_;

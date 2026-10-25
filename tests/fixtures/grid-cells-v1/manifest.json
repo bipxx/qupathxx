@@ -1,0 +1,17 @@
+{
+  "schema": "qpx.grid-cell-reference-manifest/1",
+  "curvature_cases": 32,
+  "expansion_cases": 128,
+  "generator": "tools/reference_grid_cells.py",
+  "contract": "docs/scientific-grid-contract.md",
+  "native_header": "cpp/tests/grid_cell_reference.hpp",
+  "generator_sha256": "c9c48aa4a5387d2c40de45cf6bad9260e28e8516390687465d6e2d0b1427b4df",
+  "contract_sha256": "73c808e943ed1e78ab6a2221c38b33185e977e68f8ea189cd66ec3ba6fdc1674",
+  "native_header_sha256": "9fa5f5947995c04ca995a3508765ad31b4c090d2938abad840b47cb45a16e609",
+  "files": {
+    "reference.json": {
+      "bytes": 105260,
+      "sha256": "e06220c5e0355f3c0c407c378182e43563e1a56ad71f7d5703a3b5cbe34f12ca"
+    }
+  }
+}

@@ -8,6 +8,9 @@ cpp/tests/scientific_channel_reference.hpp text eol=lf
 tests/fixtures/scientific-raster-v1/** -text
 docs/benchmarks/scientific-raster-local/** -text -whitespace
 docs/benchmarks/scientific-raster-local-windows.json text eol=lf
+tests/fixtures/grid-cells-v1/** -text
+docs/benchmarks/grid-cells-local/** -text -whitespace
+docs/benchmarks/grid-cells-local-windows.json text eol=lf
 tests/fixtures/physical-grid-v1/** -text
 cpp/tests/scientific_cell_reference.hpp text eol=lf
 docs/scientific-grid-contract.md text eol=lf

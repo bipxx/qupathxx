@@ -30,6 +30,7 @@ std::size_t CellRecord::payload_bytes() const {
     return sizeof(CellRecord)+512+producer.capacity()+result->retained_bytes()+2*result->nuclei()->roi().payload_bytes();
 }
 void Document::restore_cells(std::shared_ptr<const CellRecord> record) {
+    if(record && record->result && record->result->grid_parameters()) throw std::invalid_argument("explicit-grid cells require their versioned cell archive");
     if(!record || !record->result || !record->result->nuclei() || !record->result->cells() || !record->id || record->id>revision_ || record->result->nuclei()->document_revision()>=record->id ||
        !record->result->nuclei()->object_id() || record->result->nuclei()->object_id()>=next_id_ || record->producer.empty() || record->producer.size()>256 || record->producer.find('\0')!=std::string::npos)
         throw std::invalid_argument("invalid cell archive record");
@@ -42,6 +43,7 @@ void Document::restore_cells(std::shared_ptr<const CellRecord> record) {
     cells_bytes_+=bytes;
 }
 std::uint64_t Document::keep_cells(const CellRequest& request,std::shared_ptr<const CellResult> result) {
+    if(result && result->grid_parameters()) throw std::invalid_argument("explicit-grid cells require their versioned cell archive");
     if(!result || !request.matches(*this,request.object_id()) || request.ticket_!=result->ticket_) throw std::invalid_argument("cell result does not match its current request");
     advance(revision_);auto record=std::make_shared<CellRecord>();record->id=revision_+1;record->result=std::move(result);
     ++revision_;try {restore_cells(record);} catch(...) {--revision_;throw;}

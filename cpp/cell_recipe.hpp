@@ -11,6 +11,7 @@ inline const char* algorithm_id(CellAlgorithm algorithm) {
     case CellAlgorithm::LogWatershed:return "qpx.log-watershed/1";
     case CellAlgorithm::LogWatershedBodies:return "qpx.log-watershed-bodies/1";
     case CellAlgorithm::SampledLogWatershedBodies:return "qpx.sampled-log-watershed-bodies/1";
+    case CellAlgorithm::GridLogWatershedBodies:return "qpx.grid-log-watershed-bodies/1";
     }
     throw std::invalid_argument("unknown cell algorithm");
 }

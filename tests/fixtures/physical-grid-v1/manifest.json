@@ -4,7 +4,7 @@
   "generator": "tools/reference_physical_grid.py",
   "generator_sha256": "c8be4733dd7c00b4c52fc252d6ac5992d5c6c9b8e33fe94729a1060494c2e949",
   "contract": "docs/scientific-grid-contract.md",
-  "contract_sha256": "83ff2dda1381b42e0f827b951b634a6e77ae3367e0a7d98216d6841519ebbedf",
+  "contract_sha256": "73c808e943ed1e78ab6a2221c38b33185e977e68f8ea189cd66ec3ba6fdc1674",
   "native_header": "cpp/tests/scientific_cell_reference.hpp",
   "native_header_sha256": "0ca525289848119a4a29f59ca7a73f6a23831d23bc431bc97109f63cee4885a8",
   "distance_cases": 36,

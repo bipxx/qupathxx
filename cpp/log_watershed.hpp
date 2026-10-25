@@ -97,9 +97,10 @@ inline void log_fill_holes(std::vector<std::uint8_t>& mask,std::size_t width,std
     for(std::size_t i=0;i<mask.size();++i) {if((i&4095)==0) checkpoint(cancelled);mask[i]=mask[i] || !exterior[i];}
 }
 
-inline std::vector<std::uint8_t> log_regions(const std::vector<float>& score,std::size_t width,std::size_t height,
-                                            const LogParameters& p,const std::atomic<bool>* cancelled) {
-    const auto n=score.size();const auto positive=log_positive(score,width,height,p.sigma,cancelled);
+template<class Score>
+inline std::vector<std::uint8_t> log_regions_from_positive(const std::vector<Score>& score,const std::vector<std::uint8_t>& positive,
+    std::size_t width,std::size_t height,const LogParameters& p,const std::atomic<bool>* cancelled) {
+    const auto n=score.size();
     std::vector<std::uint8_t> mask(n),state(n);std::vector<std::uint32_t> components(n),queue;queue.reserve(n);
     std::uint32_t id=0;std::uint64_t box_work=0;
     for(std::size_t i=0;i<n;++i) {
@@ -142,12 +143,16 @@ inline std::vector<std::uint8_t> log_regions(const std::vector<float>& score,std
     }
     log_fill_holes(expanded,width,height,cancelled,p.eight_connected_background);return expanded;
 }
+inline std::vector<std::uint8_t> log_regions(const std::vector<float>& score,std::size_t width,std::size_t height,
+    const LogParameters& p,const std::atomic<bool>* cancelled) {
+    return log_regions_from_positive(score,log_positive(score,width,height,p.sigma,cancelled),width,height,p,cancelled);
+}
 
 #include "log_response_regions.hpp"
 #include "log_sampled_nuclei.hpp"
 
 inline std::vector<std::uint8_t> log_h_maxima(const std::vector<double>& distance,const std::vector<std::uint8_t>& mask,
-                                            std::size_t width,std::size_t height,double prominence,const std::atomic<bool>* cancelled) {
+    std::size_t width,std::size_t height,double prominence,const std::atomic<bool>* cancelled,double comparison_scale=1) {
     // Max-min reconstruction with one indexed heap entry per foreground pixel.
     // Raising a tentative value sifts it up; finalized values cannot be raised
     // by any later (lower) maximum. Heap storage is O(n), without stale entries.
@@ -175,26 +180,19 @@ inline std::vector<std::uint8_t> log_h_maxima(const std::vector<double>& distanc
     }
     std::vector<std::uint8_t> maxima(n);
     for(std::size_t i=0;i<n;++i) {if((i&4095)==0) checkpoint(cancelled);
-        const auto tolerance=8*std::numeric_limits<double>::epsilon()*std::max(1.,distance[i]);
+        const auto tolerance=8*std::numeric_limits<double>::epsilon()*std::max(comparison_scale,distance[i]);
         maxima[i]=mask[i] && distance[i]-reconstructed[i]>=prominence-tolerance;
     }
     return maxima;
 }
 
-inline LogResult log_watershed(const std::vector<float>& score,const std::vector<std::uint8_t>& domain,
-                               std::size_t width,std::size_t height,const LogParameters& p={},const std::atomic<bool>* cancelled=nullptr,std::atomic<int>* phase=nullptr) {
-    p.validate();checkpoint(cancelled);
-    if(!width || !height || width>std::numeric_limits<std::uint32_t>::max()/height || width*height!=score.size() || domain.size()!=score.size())
-        throw std::invalid_argument("invalid LoG raster dimensions");
-    const auto n=score.size();if(n>p.work_bytes/128) throw std::length_error("LoG raster exceeds work budget");
-    for(auto v:score) if(!std::isfinite(v)) throw std::invalid_argument("nonfinite LoG feature");
-    auto mask=p.response_basins?log_basin_regions(score,width,height,p,cancelled):log_regions(score,width,height,p,cancelled);
-    if(p.sampled_shape) return log_sampled_nuclei(score,domain,mask,width,height,p,cancelled,phase);
-    if(phase) phase->store(3);
-    std::vector<double> distance(n);for(std::size_t i=0;i<n;++i) distance[i]=mask[i]?infinity:0;
-    cell_detail::distance(distance,width,height,true,nullptr,cancelled);for(auto& value:distance) value=std::sqrt(value);
+template<class Score>
+inline LogResult log_split_regions(const std::vector<Score>& score,const std::vector<std::uint8_t>& domain,
+    const std::vector<std::uint8_t>& mask,const std::vector<double>& distance,std::size_t width,std::size_t height,
+    const LogParameters& p,const std::atomic<bool>* cancelled,std::atomic<int>* phase,double step_x=1,double step_y=1) {
+    const auto n=score.size();
     if(phase) phase->store(4);
-    auto maxima=log_h_maxima(distance,mask,width,height,p.prominence,cancelled);
+    auto maxima=log_h_maxima(distance,mask,width,height,p.prominence,cancelled,std::min(step_x,step_y));
     std::vector<std::uint32_t> markers(n),queue;queue.reserve(n);LogResult result;
     for(std::size_t i=0;i<n;++i) result.candidate_pixels+=mask[i] && domain[i];
     for(std::size_t i=0;i<n;++i) {
@@ -212,15 +210,15 @@ inline LogResult log_watershed(const std::vector<float>& score,const std::vector
     std::vector<std::uint8_t> retained(result.peaks.size()+1);
     {
     std::map<std::pair<std::int64_t,std::int64_t>,std::vector<std::uint32_t>> bins;
-    const auto spacing=std::max(1.,p.minimum_spacing);
+    const auto spacing_x=std::max(1.,p.minimum_spacing/step_x),spacing_y=std::max(1.,p.minimum_spacing/step_y);
     for(auto index:order) {
         checkpoint(cancelled);const auto& peak=result.peaks[index];if(peak.radius<p.minimum_radius) continue;bool close=false;
         const auto x=double(peak.index%width),y=double(peak.index/width);
-        const auto gx=static_cast<std::int64_t>(std::floor(x/spacing)),gy=static_cast<std::int64_t>(std::floor(y/spacing));
+        const auto gx=static_cast<std::int64_t>(std::floor(x/spacing_x)),gy=static_cast<std::int64_t>(std::floor(y/spacing_y));
         if(p.minimum_spacing>0) for(int dy=-1;dy<=1;++dy) for(int dx=-1;dx<=1;++dx) {
             const auto found=bins.find({gx+dx,gy+dy});if(found==bins.end()) continue;
             for(auto old:found->second) {
-                const auto j=result.peaks[old].index;const auto xx=x-double(j%width),yy=y-double(j/width);
+                const auto j=result.peaks[old].index;const auto xx=(x-double(j%width))*step_x,yy=(y-double(j/width))*step_y;
                 if(xx*xx+yy*yy<p.minimum_spacing*p.minimum_spacing) {close=true;break;}
             }
         }
@@ -249,5 +247,19 @@ inline LogResult log_watershed(const std::vector<float>& score,const std::vector
     for(auto& id:dense) if(id) id=static_cast<std::uint32_t>(++result.count);
     for(std::size_t i=0;i<n;++i) {if((i&4095)==0) checkpoint(cancelled);result.labels[i]=domain[i]?dense[result.labels[i]]:0;}
     for(auto& peak:result.peaks) peak.label=dense[peak.label];return result;
+}
+inline LogResult log_watershed(const std::vector<float>& score,const std::vector<std::uint8_t>& domain,
+    std::size_t width,std::size_t height,const LogParameters& p={},const std::atomic<bool>* cancelled=nullptr,std::atomic<int>* phase=nullptr) {
+    p.validate();checkpoint(cancelled);
+    if(!width || !height || width>std::numeric_limits<std::uint32_t>::max()/height || width*height!=score.size() || domain.size()!=score.size())
+        throw std::invalid_argument("invalid LoG raster dimensions");
+    const auto n=score.size();if(n>p.work_bytes/128) throw std::length_error("LoG raster exceeds work budget");
+    for(auto v:score) if(!std::isfinite(v)) throw std::invalid_argument("nonfinite LoG feature");
+    auto mask=p.response_basins?log_basin_regions(score,width,height,p,cancelled):log_regions(score,width,height,p,cancelled);
+    if(p.sampled_shape) return log_sampled_nuclei(score,domain,mask,width,height,p,cancelled,phase);
+    if(phase) phase->store(3);
+    std::vector<double> distance(n);for(std::size_t i=0;i<n;++i) distance[i]=mask[i]?infinity:0;
+    cell_detail::distance(distance,width,height,true,nullptr,cancelled);for(auto& value:distance) value=std::sqrt(value);
+    return log_split_regions(score,domain,mask,distance,width,height,p,cancelled,phase);
 }
 }

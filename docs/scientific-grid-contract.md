@@ -1,10 +1,11 @@
 # Scientific sampled-grid contract, proposal 1
 
-This is the preparation contract for queue item 5. It is **proposed**, not a
-shipped detector API or scientific acceptance. C++ geometry and a level-zero
-float64 RGB sampler are implemented on the integration branch, with owning
-nanobind values undergoing installed-package validation. The full detector
-workflow remains pending. All M0–M7 criteria remain in scope.
+This is the preparation contract for queue item 5. Native geometry, level-zero
+float64 RGB/channel sampling and a new C++ explicit-grid cell request/detector
+are implemented on the integration branch. The cell archive/replay, required
+frontends and scientific acceptance remain pending. Installed nanobind validation
+of the earlier sampler/channel stage does not qualify subsequent public-layout
+changes. All M0–M7 criteria remain in scope.
 
 The current cell path selects natural levels in `cells.cpp::choose`, pads a
 natural-index rectangle in `cell_recipe.hpp::processing_grid`, rounds each read
@@ -115,9 +116,9 @@ For an unpadded extent this reduces to `extent + samples - gcd(extent,samples)`.
 The 2D count is the product of the two axis counts. Validate a native efficient
 formula against the oracle's enumerated rational intersections, including halo.
 
-The proposed detector is additive (`GridLogWatershedBodies`, appended enum value;
+The new native detector is additive (`GridLogWatershedBodies`, appended enum value;
 `qpx.grid-log-watershed-bodies/1`), with explicit new input-digest and archive
-versions. Names are proposals until implemented. The new digest captures grid,
+versions. The archive versions remain proposals. The new digest captures grid,
 context, ROI/membership, transform/calibration, validity, source-level/reader
 identity and decoded input in a canonical order independent of IO tile size.
 Old input formats intentionally include tile size and must remain replayable.
@@ -301,10 +302,83 @@ GEOS contours, including anisotropic areas, ROI holes, half-open clipping, large
 origins and canonical hash vectors independently built with Python hashlib/struct.
 Changed decoded pixels with an unchanged sampled mean still change input identity.
 Factory admission covers RGB/mask/component scratch, captured source metadata,
-geometry serialization and a fixed allowance; the full cell request must still
-admit all simultaneous detector buffers before IO.
+geometry serialization and a fixed allowance; the full cell request separately
+admits simultaneous detector buffers before IO.
 
 The internal mask kinds/format identify this new grid family. QTM1/2 encoding and
 ordinary tissue retention reject it; QCL5/QCA5 and the new cell request/recipe are
 not implemented by this raster constructor. These native checks do not establish
 Python/GUI availability, whole-workflow performance or scientific acceptance.
+
+## Native explicit-grid cell recipe
+
+The C++ `CellRequest(document, object_id, transform, grid, GridCellParameters)`
+constructor captures the original area ROI, owner/source identities, transform,
+calibration and grid directly. It does not allocate or preflight the full natural
+ROI raster. Its internal source snapshot cannot be passed to the ordinary
+natural-grid analysis/digest consumer. A scientific center in a subpixel ROI is
+valid even if the ROI contains no native pixel center. Changes to either captured
+calibration axis invalidate the request, including pixel-unit requests whose
+features retain physical calibration.
+
+`GridCellUnits::LevelZeroPixels` resolves each metric step from the exact grid
+extent/count. `Micrometres` multiplies each by its captured calibration axis;
+both axes must be known, positive and finite. Sigma, prominence, minimum radius,
+seed spacing and body expansion use the selected distance unit. Nucleus area
+bounds use its square; zero minimum is allowed and an optional maximum is
+inclusive. Invalid ranges reject. Sample-count cutoffs use a monotone search of
+the calibrated multi-factor product, retaining the existing inclusive area
+contract instead of rounding a combined sample area first. Both contextual
+nuclei and their clipped core/ROI fragments must pass the area bounds.
+
+The new recipe reads one bounded decoded source window, computes float64 channel
+values, then uses the following fixed operations:
+
+1. Validity-normalized Gaussian smoothing, X then Y, with float64 intermediates
+   and per-axis sigma/support. Context supplies filter input outside the ROI.
+2. Negative discrete Laplacian: independent X and Y second differences divided
+   by their metric step squared. Missing neighbours use the current center;
+   invalid centers cannot be positive. No float32 conversion occurs.
+3. Four-connected positive-response components, raw-channel mean thresholding
+   and bounded component/hole filling. Filled samples are restricted to valid
+   source support before shape processing. Background filling is eight-connected.
+4. Weighted Euclidean distance to background, including outside-array
+   background, followed by h-maxima and the shared deterministic shape flood.
+   Peak radii, seed-spacing suppression and h-maxima comparison tolerance use
+   the captured metric; a fixed one-unit tolerance floor would break small-unit
+   requests. Context
+   labels are clipped to the actual eligible core/ROI domain and re-filtered.
+5. Body expansion uses weighted squared distance to nuclei, a strict radius
+   cutoff, float64 priorities and stable FIFO ties. Four-neighbour collisions
+   retain watershed boundaries. Source/ROI holes cannot be crossed by the flood.
+   Sampled-integer buckets and the old one-sampled-pixel shortcut are not used.
+6. Compartment features use the original float64 RGB means and channel values,
+   with compensated sums. Cytoplasm is accumulated directly. Shared per-axis
+   raster construction and exact GEOS edge mapping produce the final masks and
+   contours; calibrated area uses both sample steps and captured calibration.
+
+The request checks reader metadata, representable world centers/edges and metric,
+Gaussian support/visits, EDT traversal limits and its complete conservative byte
+ledger before IO. That ledger charges 256 bytes per context sample, 1,024 per
+possible peak (bounded by sample count and max cells), line/kernel workspace,
+the decoded RGBA window, both contour budgets, captured provenance/ROI storage
+and fixed overhead. Runtime component/edge/vertex limits and cancellation still
+reject; admission cannot predict the biological foreground or contour complexity.
+
+This native stage is deliberately guarded from QCL1–4/QCA1–4 persistence and
+ordinary cell record retention until QCL5/QCA5 can encode the full grid, units,
+resolved parameters, calibration and historical eligibility. Scalar-only
+request/result parameter and grid accessors reject rather than return misleading
+sampled parameters. The existing `CellJob` executes and reconciles this request;
+record publication, replay, Python/CLI/ImGui exposure and batch integration remain
+unfinished. Existing recipe IDs, sampled defaults and archive formats retain
+their original behavior.
+
+The new [exact reference](../tests/fixtures/grid-cells-v1/reference.json) uses
+Fraction arithmetic for 32 zero-sigma metric LoG signs and exhaustive nearest-site
+distances for 128 expansion cases. Hand-calculated native workflow checks include
+anisotropic impulse masks, units/areas, seed spacing, fractional means, captured
+calibration, context/ROI clipping, tiny ROIs, large source dimensions, budget
+boundaries, cancellation and one-read detection. These are engineering checks;
+independent biological labels, split/merge tolerances, upstream comparisons and
+the full scientific/platform/release acceptance remain required.

@@ -32,7 +32,7 @@ AnalysisRequest::AnalysisRequest(const Document& document,std::uint64_t id,const
 AnalysisRequest::AnalysisRequest(const Document& document,std::uint64_t id,const StainTransform& transform,
     AnalysisKind kind,bool nucleus,std::size_t tile_size,RoiSamplingPolicy policy):AnalysisRequest(document,id,transform,kind,nucleus,tile_size,false,policy) {}
 AnalysisRequest::AnalysisRequest(const Document& document,std::uint64_t id,const StainTransform& transform,
-    AnalysisKind kind,bool nucleus,std::size_t tile_size,bool allow_empty_grid,RoiSamplingPolicy policy):identity_(document.analysis_identity_.token),source_(document.server()),
+    AnalysisKind kind,bool nucleus,std::size_t tile_size,bool allow_empty_grid,RoiSamplingPolicy policy,bool snapshot_only):identity_(document.analysis_identity_.token),source_(document.server()),
     object_id_(id),object_revision_(0),document_revision_(document.revision()),total_tiles_(0),kind_(kind),nucleus_(nucleus),
     tile_size_(tile_size),transform_(transform) {
     validate_sampling_policy(policy);sampling_policy_=policy;
@@ -49,6 +49,7 @@ AnalysisRequest::AnalysisRequest(const Document& document,std::uint64_t id,const
        static_cast<long double>(b.x+b.width)>metadata.width || static_cast<long double>(b.y+b.height)>metadata.height)
         throw std::invalid_argument("analysis ROI must lie inside the image");
     provenance_=capture_provenance(*source_,id,object_revision_,document_revision_,nucleus_,document.pixel_width_um(),document.pixel_height_um());
+    if(snapshot_only) {snapshot_only_=true;x0_=y0_=x1_=y1_=0;return;}
     x0_=static_cast<std::int64_t>(std::ceil(b.x-.5)); y0_=static_cast<std::int64_t>(std::ceil(b.y-.5));
     x1_=static_cast<std::int64_t>(std::ceil(b.x+b.width-.5)); y1_=static_cast<std::int64_t>(std::ceil(b.y+b.height-.5));
     if(x0_>=x1_ || y0_>=y1_) {
@@ -66,6 +67,7 @@ bool AnalysisRequest::matches(const Document& document,std::uint64_t selected_id
 }
 struct AnalysisKernel {
     static AnalysisResult run(const AnalysisRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr) {
+        if(request.snapshot_only_) throw std::logic_error("scientific source snapshot requires its explicit-grid consumer");
         const auto started=std::chrono::steady_clock::now(); check_cancelled(cancelled);
         AnalysisResult result;result.provenance=request.provenance_;result.algorithm=roi_analysis_algorithm(request.sampling_policy_);
         result.object_id=request.object_id_; result.object_revision=request.object_revision_; result.document_revision=request.document_revision_;
