@@ -1,0 +1,4 @@
+2026-10-25T10:57:10.9967499Z stubs differ: /__w/qupathxx/qupathxx/src/qupathxx/_native.pyi; regenerate against the current installed wheel
+2026-10-25T10:57:10.9971723Z     raise RuntimeError(f'command failed ({result.returncode}); log: {log}')
+2026-10-25T10:57:10.9972837Z RuntimeError: command failed (1); log: /__w/qupathxx/qupathxx/build/ci/portable/stubs.log
+2026-10-25T10:57:11.0113652Z subprocess.CalledProcessError: Command '['/opt/python/cp312-cp312/bin/python', '-I', '/__w/qupathxx/qupathxx/tools/ci/run.py', '--mode', 'headless', '--work', '/__w/qupathxx/qupathxx/build/ci/portable']' returned non-zero exit status 1.

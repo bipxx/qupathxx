@@ -1,0 +1,211 @@
+[
+  {
+    "id": 12598051590,
+    "name": "Windows-gui-py3.12",
+    "size_in_bytes": 25300139,
+    "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12598051590",
+    "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12598051590/zip",
+    "expired": false,
+    "created_at": "2026-10-25T11:57:06Z",
+    "expires_at": "2026-11-08T11:57:04Z",
+    "updated_at": "2026-10-25T11:57:06Z",
+    "digest": "sha256:8d72ff8d8c19ead89a4c6278eb78f5b2f042ddb26ab1bdfeb06bf3e165382d52",
+    "workflow_run": {
+      "id": 40188586241,
+      "repository_id": 1427753981,
+      "head_repository_id": 1427753981,
+      "head_branch": "feature/scientific-workflow-169",
+      "head_sha": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062"
+    }
+  },
+  {
+    "id": 12597104607,
+    "name": "Windows-headless-py3.11",
+    "size_in_bytes": 10708268,
+    "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12597104607",
+    "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12597104607/zip",
+    "expired": false,
+    "created_at": "2026-10-25T11:38:36Z",
+    "expires_at": "2026-11-08T11:38:35Z",
+    "updated_at": "2026-10-25T11:38:36Z",
+    "digest": "sha256:ebaead21c72ae7382edfa7ad442b9ad1ed336370e4b2bbfe30d92ad637250916",
+    "workflow_run": {
+      "id": 40188586241,
+      "repository_id": 1427753981,
+      "head_repository_id": 1427753981,
+      "head_branch": "feature/scientific-workflow-169",
+      "head_sha": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062"
+    }
+  },
+  {
+    "id": 12597463177,
+    "name": "Linux-headless-py3.12",
+    "size_in_bytes": 13147093,
+    "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12597463177",
+    "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12597463177/zip",
+    "expired": false,
+    "created_at": "2026-10-25T11:31:56Z",
+    "expires_at": "2026-11-08T11:31:55Z",
+    "updated_at": "2026-10-25T11:31:56Z",
+    "digest": "sha256:7482f50e9d64a7ac792a4fe67893d4caeea72b545c8db6855aa2d63a8b77b14f",
+    "workflow_run": {
+      "id": 40188586241,
+      "repository_id": 1427753981,
+      "head_repository_id": 1427753981,
+      "head_branch": "feature/scientific-workflow-169",
+      "head_sha": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062"
+    }
+  },
+  {
+    "id": 12596712186,
+    "name": "Linux-minimal-py3.12",
+    "size_in_bytes": 34086,
+    "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12596712186",
+    "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12596712186/zip",
+    "expired": false,
+    "created_at": "2026-10-25T11:24:35Z",
+    "expires_at": "2026-11-08T11:24:34Z",
+    "updated_at": "2026-10-25T11:24:35Z",
+    "digest": "sha256:87778c0f009658c4ee611d93efcb55a42e9d8301bc0045cd889aeb3c1210c08c",
+    "workflow_run": {
+      "id": 40188586241,
+      "repository_id": 1427753981,
+      "head_repository_id": 1427753981,
+      "head_branch": "feature/scientific-workflow-169",
+      "head_sha": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062"
+    }
+  },
+  {
+    "id": 12597502465,
+    "name": "Linux-sanitize-py3.12",
+    "size_in_bytes": 39208,
+    "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12597502465",
+    "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12597502465/zip",
+    "expired": false,
+    "created_at": "2026-10-25T11:27:01Z",
+    "expires_at": "2026-11-08T11:27:00Z",
+    "updated_at": "2026-10-25T11:27:01Z",
+    "digest": "sha256:3299ac5d65ed98d2dd7d2300b42477bf3451755ec32c82c58be8249826f47f1f",
+    "workflow_run": {
+      "id": 40188586241,
+      "repository_id": 1427753981,
+      "head_repository_id": 1427753981,
+      "head_branch": "feature/scientific-workflow-169",
+      "head_sha": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062"
+    }
+  },
+  {
+    "id": 12597228317,
+    "name": "macos-native-arm64",
+    "size_in_bytes": 10348426,
+    "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12597228317",
+    "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12597228317/zip",
+    "expired": false,
+    "created_at": "2026-10-25T11:29:50Z",
+    "expires_at": "2026-11-08T11:29:50Z",
+    "updated_at": "2026-10-25T11:29:50Z",
+    "digest": "sha256:e4d442512dc89ecb7659cfcacf755eda8ecfd5c2b360af93fcf61b8623839f8d",
+    "workflow_run": {
+      "id": 40188591097,
+      "repository_id": 1427753981,
+      "head_repository_id": 1427753981,
+      "head_branch": "feature/scientific-workflow-169",
+      "head_sha": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062"
+    }
+  },
+  {
+    "id": 12597149127,
+    "name": "macos-native-x86_64",
+    "size_in_bytes": 11209325,
+    "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12597149127",
+    "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12597149127/zip",
+    "expired": false,
+    "created_at": "2026-10-25T11:35:22Z",
+    "expires_at": "2026-11-08T11:35:19Z",
+    "updated_at": "2026-10-25T11:35:22Z",
+    "digest": "sha256:c50fc0c37fc66fbe7c402a86be28eac4f55f31e8525ab048b913f705072f1953",
+    "workflow_run": {
+      "id": 40188591097,
+      "repository_id": 1427753981,
+      "head_repository_id": 1427753981,
+      "head_branch": "feature/scientific-workflow-169",
+      "head_sha": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062"
+    }
+  },
+  {
+    "id": 12597731733,
+    "name": "manylinux-3.11",
+    "size_in_bytes": 13478793,
+    "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12597731733",
+    "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12597731733/zip",
+    "expired": false,
+    "created_at": "2026-10-25T11:53:30Z",
+    "expires_at": "2026-11-08T11:53:29Z",
+    "updated_at": "2026-10-25T11:53:30Z",
+    "digest": "sha256:2e1eca7d9014623571f5ea8bcec94327e18d3886ffd1bcfa8ee92467f20f9279",
+    "workflow_run": {
+      "id": 40190126665,
+      "repository_id": 1427753981,
+      "head_repository_id": 1427753981,
+      "head_branch": "feature/scientific-workflow-169",
+      "head_sha": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062"
+    }
+  },
+  {
+    "id": 12598275392,
+    "name": "manylinux-3.12",
+    "size_in_bytes": 13475414,
+    "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12598275392",
+    "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12598275392/zip",
+    "expired": false,
+    "created_at": "2026-10-25T11:54:32Z",
+    "expires_at": "2026-11-08T11:54:31Z",
+    "updated_at": "2026-10-25T11:54:32Z",
+    "digest": "sha256:1bfa6841955d771e8bd80b9f22ed7c5453b8644b96b3992c323431c05bbd0b73",
+    "workflow_run": {
+      "id": 40190126665,
+      "repository_id": 1427753981,
+      "head_repository_id": 1427753981,
+      "head_branch": "feature/scientific-workflow-169",
+      "head_sha": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062"
+    }
+  },
+  {
+    "id": 12597876788,
+    "name": "manylinux-consumer-3.11",
+    "size_in_bytes": 64354,
+    "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12597876788",
+    "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12597876788/zip",
+    "expired": false,
+    "created_at": "2026-10-25T11:56:39Z",
+    "expires_at": "2026-11-08T11:56:38Z",
+    "updated_at": "2026-10-25T11:56:39Z",
+    "digest": "sha256:add6fe9e20f60200509ec631fe648b55933e11b067eb95f9f5ab0a5b5629e1a8",
+    "workflow_run": {
+      "id": 40190126665,
+      "repository_id": 1427753981,
+      "head_repository_id": 1427753981,
+      "head_branch": "feature/scientific-workflow-169",
+      "head_sha": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062"
+    }
+  },
+  {
+    "id": 12598001555,
+    "name": "manylinux-consumer-3.12",
+    "size_in_bytes": 64527,
+    "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12598001555",
+    "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12598001555/zip",
+    "expired": false,
+    "created_at": "2026-10-25T11:56:38Z",
+    "expires_at": "2026-11-08T11:56:37Z",
+    "updated_at": "2026-10-25T11:56:38Z",
+    "digest": "sha256:ce569fb946baef9ad8cfbf242fce9b395d4913571f6eb31e31d85b536ecdeb3e",
+    "workflow_run": {
+      "id": 40190126665,
+      "repository_id": 1427753981,
+      "head_repository_id": 1427753981,
+      "head_branch": "feature/scientific-workflow-169",
+      "head_sha": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062"
+    }
+  }
+]

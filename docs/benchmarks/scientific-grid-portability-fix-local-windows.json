@@ -1,0 +1,426 @@
+{
+  "schema": "qpx.scientific-grid-portability-fix-local/1",
+  "source": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062",
+  "failed_source": "5ebdb961e7c9c2bad8c82367ad090eb23ba4ec57",
+  "observed_at_utc": "2026-10-25T11:28:32.948383+00:00",
+  "source_tree_sha256": "6bb880c3ed5e487afb08cd8502a102fecb4c01bb932cfec66e80500b4eafebef",
+  "compiler_inputs": 298,
+  "compiled_revision": "e7ad5dbddbf148f38974da3e8c2964f20a0be267+dirty",
+  "native_passed": 50,
+  "installed_headless_passed": 108,
+  "declared_desktop_skips": 2,
+  "desktop_cohort_passed": 50,
+  "auditor_and_stub_guard_passed": 193,
+  "regressions_failed_before": 2,
+  "regressions_passed_after": 2,
+  "checks": {
+    "native": {
+      "suites": 9,
+      "project": true,
+      "geos": true,
+      "scientific_acceptance": false
+    },
+    "headless": {
+      "passed": 105,
+      "declared_headless_gui_skips": 2,
+      "gui": false,
+      "scientific_acceptance": false
+    },
+    "installed_gui": {
+      "passed": 107,
+      "declared_headless_gui_skips": 0,
+      "gui": true,
+      "scientific_acceptance": false
+    },
+    "positive_typing": {
+      "files": 5,
+      "sha256": "718df785efbbd4b57e63b5f64aff2c5b5592e433447681f759b307f97a3ec96a"
+    }
+  },
+  "installed": {
+    "module": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfix169-python\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "module_sha256": "bc286d4d160c59fbccf853173820ed88280ddc4ef28e0ce31cc3553e9c9755d0",
+    "source_tree_sha256": "6bb880c3ed5e487afb08cd8502a102fecb4c01bb932cfec66e80500b4eafebef",
+    "git_revision": "e7ad5dbddbf148f38974da3e8c2964f20a0be267+dirty",
+    "wheel": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfix169-final-wheels\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+    "wheel_sha256": "cadec03978fec6d7d2a586da1a77caf09cfe821723cb752e7de392c7b71e8c1e",
+    "packaged_sources_and_stubs_match": true,
+    "native_bytes_unchanged_after_stub_packaging": true
+  },
+  "fixes": [
+    "Register the nanobind string caster for ScientificRgbGrid.decoded_source_sha256",
+    "Register the optional caster for TissueResult.scientific_grid",
+    "Separate size_t and uint64_t auto declarations in QCL5 decoding for Darwin"
+  ],
+  "scope": "Local Windows installed binding/metadata and archive regression checks. A WSL probe using the retained Linux wheel reproduced the stub difference; a distinct-unsigned-alias compile probe isolates the Darwin declaration failure. Neither is a corrected Linux/macOS platform qualification.",
+  "previous_artifacts": "All 56 previous runnable artifacts were hash-verified and copied to build/ci/gridfrontends167-retained-native before reusing the active incremental CMake cache. Old installed environments, wheels, raw logs and frozen failed source remain intact.",
+  "source_proof_note": "Native compilation preceded the source commit. The dirty compiled revision is preserved verbatim; all compiler inputs match the source commit modulo recorded Git line endings and exactly match the configured raw-byte fingerprint.",
+  "platform_campaign_accepted": false,
+  "scientific_detector_accepted": false,
+  "release_ready": false,
+  "remaining": [
+    "Freeze corrected candidate and rerun complete engine/macOS-native/portable cohorts",
+    "Retain all failed source168 artifacts; do not transfer its passing job observations as source169 qualification",
+    "All remaining M0-M7 scientific, typed/vendor/pyramid/tiled, hardware, rights/licensing and supported-release requirements"
+  ],
+  "native_artifacts": {
+    "_native.cp312-win_amd64.pyd": {
+      "bytes": 6353920,
+      "sha256": "bc286d4d160c59fbccf853173820ed88280ddc4ef28e0ce31cc3553e9c9755d0"
+    },
+    "geos.dll": {
+      "bytes": 2912768,
+      "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e"
+    },
+    "geos_c.dll": {
+      "bytes": 590336,
+      "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6"
+    },
+    "qupathxx_analysis_tests.exe": {
+      "bytes": 1426432,
+      "sha256": "c133d00af1b61c291fc9efa68d8b87a84cfec118cad9f99d7d885d9588744852"
+    },
+    "qupathxx_app.exe": {
+      "bytes": 4855296,
+      "sha256": "329cc1e21cbc94d9995340c417a11d1dca239ab7921f4dee76363c189cd3eada"
+    },
+    "qupathxx_batch.exe": {
+      "bytes": 2740736,
+      "sha256": "f565746698826838486d2d1d69850b6245dc4f0867a7f02cc72c2bfb77df46d2"
+    },
+    "qupathxx_cell_calibration_tests.exe": {
+      "bytes": 1656832,
+      "sha256": "32e63a5375685fb2a7da7956ccc18d7f78d35cc218357c6eaab948b18ad35875"
+    },
+    "qupathxx_cell_expansion_tests.exe": {
+      "bytes": 60416,
+      "sha256": "7ce77268aeae634ebebd539a9dfc6d0ffdecdff8bd255670fde61864fae3da3c"
+    },
+    "qupathxx_cell_record_tests.exe": {
+      "bytes": 2240512,
+      "sha256": "ef9455e1ac2eacf50f63fcb2bdfbb8b9702b5370b08de6137501425e6b8b40e4"
+    },
+    "qupathxx_cell_table_tests.exe": {
+      "bytes": 2354688,
+      "sha256": "82351892e47007d8f8b029b3714a554617f197268dd648885109aeedc5d8df0e"
+    },
+    "qupathxx_cell_tests.exe": {
+      "bytes": 1855488,
+      "sha256": "727f7cd1afd40725cf57b299f6757bfd3c5e45aabbde46322888b34446f50108"
+    },
+    "qupathxx_classes_tests.exe": {
+      "bytes": 314368,
+      "sha256": "d75e6e05d3d6a3622ab7c24d22fdbd6794753f01c3a8b047387b2a533f38b7d2"
+    },
+    "qupathxx_classifier_io_tests.exe": {
+      "bytes": 249344,
+      "sha256": "4e8bb8c03277ef1ec11b59edecbc7da3e95ec89eacfbeeb12fbaf32ef6f2f428"
+    },
+    "qupathxx_classifier_tests.exe": {
+      "bytes": 89088,
+      "sha256": "22cc3707d4b3d7fbd73f765d31cd71ec1b42581ee47f8a55581da878e24c8a6e"
+    },
+    "qupathxx_core_tests.exe": {
+      "bytes": 320512,
+      "sha256": "8dd747d7da9cd34d4176a770b4603926e60a6bef86de8145415cb550b8f5feb5"
+    },
+    "qupathxx_decimal_quantity_tests.exe": {
+      "bytes": 35840,
+      "sha256": "1875e2d65f2f22933d8062ddb876459a91d6530ca8e75d69368b54b19e9410f8"
+    },
+    "qupathxx_document_edits_tests.exe": {
+      "bytes": 320000,
+      "sha256": "00db8e6a501dd979623b81832c5b4f2d012ec0e528767403bb6e3d35dba5f996"
+    },
+    "qupathxx_file_fingerprint_tests.exe": {
+      "bytes": 296448,
+      "sha256": "d8922d466cbc74b48ff29468614359b5c4bff500f2f0fd903f59f6f153047bac"
+    },
+    "qupathxx_geometry_edits_tests.exe": {
+      "bytes": 325120,
+      "sha256": "6364a649a127958ba59369a2699191cc90ca61198e6890c4ee4808f8e150a9ca"
+    },
+    "qupathxx_geometry_tests.exe": {
+      "bytes": 320000,
+      "sha256": "e95f463d938e179986422fd62714d080f71915e5bae9a3908c86aefff425f559"
+    },
+    "qupathxx_gui_replay_tests.exe": {
+      "bytes": 45568,
+      "sha256": "e102d5031e2704d70f0b12f9c6531b0ef09aff34c18074db204dff4794f6ef29"
+    },
+    "qupathxx_interchange_tests.exe": {
+      "bytes": 312320,
+      "sha256": "9e50c6f61ce1658449882b860f36bfff5c8c25c1a861bbc85e68bd3a1aca1588"
+    },
+    "qupathxx_log_cell_recipe_tests.exe": {
+      "bytes": 1759744,
+      "sha256": "ab6bfdf9bb19597f49461c0126287612f81a57fa18174d6ee3338341ea6df529"
+    },
+    "qupathxx_log_watershed_tests.exe": {
+      "bytes": 148992,
+      "sha256": "f5ae068d003c9053c9cd9880bee0dd01a22d329331835fb907d6db391b7663fd"
+    },
+    "qupathxx_masked_gaussian_tests.exe": {
+      "bytes": 30720,
+      "sha256": "68fa137cd58c72d83247ac7c842236c7d2670737904ef2b231bfcb59bf092e6a"
+    },
+    "qupathxx_measurement_table_tests.exe": {
+      "bytes": 1553408,
+      "sha256": "3a13bbb15f8e7bbfefe4933086dd70ad6c0286f25b09f43319c61b41af71c743"
+    },
+    "qupathxx_object_classifier_tests.exe": {
+      "bytes": 1857024,
+      "sha256": "99aafafc06115efbeb37ed3c8c85a7dbcab07f852cfdcbe52454c1254be557a9"
+    },
+    "qupathxx_object_snapshot_tests.exe": {
+      "bytes": 2153472,
+      "sha256": "9a68123b0f847d422b776e8ae74f28c1da680f32fc29c2a8820dc51d3818c20c"
+    },
+    "qupathxx_overlay_tests.exe": {
+      "bytes": 22016,
+      "sha256": "7f32cb4de4b6b48c35d7f5393ff4a9505dc454751f234126c692d71b9b8061fd"
+    },
+    "qupathxx_pixel_feature_tests.exe": {
+      "bytes": 1340928,
+      "sha256": "c8475872d269fa89441ef4071b6c8d7c324e628834212037c53a0d223bf9492f"
+    },
+    "qupathxx_pixel_workflow_tests.exe": {
+      "bytes": 1900032,
+      "sha256": "1b4c93c8f72af6b4d9e01c1e76612b7d6fdf631755523c322a4ef2043cbaddd7"
+    },
+    "qupathxx_project_batch_tests.exe": {
+      "bytes": 2703872,
+      "sha256": "a710094650991ab618f27370df9330bcbb645481fded7b70e2448c286e9716a4"
+    },
+    "qupathxx_project_tests.exe": {
+      "bytes": 2230272,
+      "sha256": "07d3a349a6a9f5f7f38108cf886f25f5194a930ea3b920e5fcd76fa5a3e0d1e2"
+    },
+    "qupathxx_provenance_tests.exe": {
+      "bytes": 1613312,
+      "sha256": "9675f2f0e2e59bedaec9bb01dd4ba32def10bff5b07bf2ead80849644bd969b3"
+    },
+    "qupathxx_qptma_project_tests.exe": {
+      "bytes": 2037760,
+      "sha256": "67d5a47d0065dcc223dbac1d8492d50ee19cd9e6dd1a7b071e5f4b180d466d32"
+    },
+    "qupathxx_qptma_tests.exe": {
+      "bytes": 396800,
+      "sha256": "60bfe6a1f485c4e2b4997ef0e1615528bc557489e832574e3572886df705891a"
+    },
+    "qupathxx_raw_image_tests.exe": {
+      "bytes": 2678272,
+      "sha256": "3d67998b727431034eb15bcbe3b7d1b96a951f81f00831cd0d96c414d3e23e09"
+    },
+    "qupathxx_recovery_tests.exe": {
+      "bytes": 2132480,
+      "sha256": "2214f48fc481e55233b51672b315318f468471d35e4eb8d9ad2e3a244550430b"
+    },
+    "qupathxx_region.exe": {
+      "bytes": 264704,
+      "sha256": "191f30773ccf278e14401b5f7a8f8582d09cb9d638006c54636f298acb6e77f9"
+    },
+    "qupathxx_resampling_tests.exe": {
+      "bytes": 257536,
+      "sha256": "bf07f85833810085bbdaa783c94a36757ee4088f4fdbe0f53300fb096a68f795"
+    },
+    "qupathxx_save_tests.exe": {
+      "bytes": 1994240,
+      "sha256": "ca5c881c0903c50d649c11b01d7752ae91150ac2c9ba4f9e1dbfde370afd7657"
+    },
+    "qupathxx_scheduler_tests.exe": {
+      "bytes": 216064,
+      "sha256": "f1c1b89d66ff0a238c07f941cbf114779c9d086f596c3dcb2d33936b80468634"
+    },
+    "qupathxx_selection_tests.exe": {
+      "bytes": 316928,
+      "sha256": "ef444861c495f3e8aaa9050ad49f6f761fa3252791a73dfaf2a4d6a66e4b31e8"
+    },
+    "qupathxx_server_tests.exe": {
+      "bytes": 290816,
+      "sha256": "7fca22518d1b6c72d334c537294bcc748abf09a563fe18b32c7fa59d8663aaa8"
+    },
+    "qupathxx_sha256_tests.exe": {
+      "bytes": 25600,
+      "sha256": "7746d40f5904dfe14c5e56d995150f9ba6cfc0c0a80c2bf98bba316f597a8e14"
+    },
+    "qupathxx_source_identity_tests.exe": {
+      "bytes": 1474048,
+      "sha256": "f752112c974a8ad3cd17d5f67ea8866dec58602ea7109404b3316d6374fff46f"
+    },
+    "qupathxx_spatial_tests.exe": {
+      "bytes": 310784,
+      "sha256": "e9278fb295b9353e96e8716f9400e963a070b0f3d699461c26f5f6f3baa9fa7f"
+    },
+    "qupathxx_stain_estimation_tests.exe": {
+      "bytes": 1478144,
+      "sha256": "6497f0eb8860c176050b520a8e7c5bdba86b32c457ae67a7b30d4d52c15b692d"
+    },
+    "qupathxx_stains_tests.exe": {
+      "bytes": 248320,
+      "sha256": "9e01f5431b819c3b8d6b350ab16727897a189dbf980aff4f111089f2a7f5f6cc"
+    },
+    "qupathxx_thumbnail_tests.exe": {
+      "bytes": 218112,
+      "sha256": "6d3a481197f27ea47168cd328b7c0f97317c4cd623a36ecc200ddde810829f8b"
+    },
+    "qupathxx_tissue_contour_tests.exe": {
+      "bytes": 1536000,
+      "sha256": "d5fe7f6e1428d6e971aa1c956dd21857c0cd9cf52bb9afed5a95a49407874f75"
+    },
+    "qupathxx_tissue_record_tests.exe": {
+      "bytes": 2051584,
+      "sha256": "a71593a5edf6b33950251878197e51abe63d24f894e7c9e90191fee69ca6dab0"
+    },
+    "qupathxx_tissue_tests.exe": {
+      "bytes": 1414144,
+      "sha256": "73f7f5198ad737cbc63d9ab70e5c7964a663b8733454660e1aa24aca8755094f"
+    },
+    "qupathxx_tma_tests.exe": {
+      "bytes": 2706944,
+      "sha256": "e1c46d0b7dd5b94968dcd801cf50b503b735ca6f072b796620039a79c183f003"
+    },
+    "qupathxx_view_tiles_tests.exe": {
+      "bytes": 157696,
+      "sha256": "a9e0314253e8d3910750befc002278ebe4a4ee504c347cdc6e845bce065a4fa1"
+    },
+    "qupathxx_viewer_session_tests.exe": {
+      "bytes": 2502656,
+      "sha256": "145f36cdaf0c0794a988cc637177e93b13c885cf00b14c82ffd7e28a97f6e1d4"
+    }
+  },
+  "evidence": {
+    "build_manifest.hpp": {
+      "bytes": 712,
+      "sha256": "8d8300a775906e6c96bfd86159fb2fd7843c7e94843d018aec963c3416daa6ec"
+    },
+    "CMakeCache.txt": {
+      "bytes": 27455,
+      "sha256": "a1947f1f9bdb494410b7d44c2de5a885b3e9f4a218948d65e8eb4db747cfbbcc"
+    },
+    "compiler-input-proof.json": {
+      "bytes": 82658,
+      "sha256": "4c0e474f21759281f612b158944c8d7857639d6ad76dcc0c19b0a941d5d8523a"
+    },
+    "darwin-alias-after.cpp": {
+      "bytes": 730,
+      "sha256": "5371781de7b76a9a8dbc938999e811166eef3a3131e9fb062e70192a716f1c12"
+    },
+    "darwin-alias-after.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "darwin-alias-before.cpp": {
+      "bytes": 714,
+      "sha256": "a07628e18bd0d70bb3f4f25c3a67a4df5c08fa0150788cf7f4d68d89fd7f105e"
+    },
+    "darwin-alias-before.log": {
+      "bytes": 544,
+      "sha256": "f9c86e060911531c13f008d0334a681b32aa2398c12d8b7e8cb1e3e97732cac1"
+    },
+    "darwin-alias-result.json": {
+      "bytes": 287,
+      "sha256": "1cfaf6e7b25989e8343078702487eacac64cd77019a9b1a5e804d4e3219f3ec1"
+    },
+    "failed-linux-headless.log": {
+      "bytes": 384,
+      "sha256": "ca518c7ecb006c3599c14fc5664dcdedd29d528659745e6daf44cd25fb0420df"
+    },
+    "failed-macos-x86.log": {
+      "bytes": 124,
+      "sha256": "54f71d476cd08d0875eb0f922ffd157748e20b0d0032bce4ac887d7f26bb6578"
+    },
+    "failed-portable311.log": {
+      "bytes": 629,
+      "sha256": "4571fbec61db8f0fbaccddc6455be055bd9cb4d4aae1151f8f492a60d978e486"
+    },
+    "failed-portable312.log": {
+      "bytes": 629,
+      "sha256": "b6c8b50e4a6e39e38cfc4cbc9dde071a6be55309512d0de038adcb3488834689"
+    },
+    "frozen-corrected-source-proof.json": {
+      "bytes": 82963,
+      "sha256": "37581a703f7e1a745615b4521c2e87c9e228aaba3bae84882992a7a3d8c07dc4"
+    },
+    "gridfix169-after-tests.xml": {
+      "bytes": 518,
+      "sha256": "fab4c930ec998a202b6046e40c4110f8ba48452e2dda1e2d57333ae6ff534e9c"
+    },
+    "gridfix169-all-invalid-typing.log": {
+      "bytes": 4528,
+      "sha256": "64a0ce54735fb1afa82e8ea232b6a57f8086d0b27bbee0e7ed1d5b8e0137ea76"
+    },
+    "gridfix169-auditor-tests.xml": {
+      "bytes": 27945,
+      "sha256": "b8d8eb822001caf5c8812239848965d2b5a7866c3ac0200464cf4ad8d15d4558"
+    },
+    "gridfix169-before-tests.xml": {
+      "bytes": 2699,
+      "sha256": "3de837ee5f215c4aa72b2fd4c7067400f918d8e0861143ae9db0ff8a56708598"
+    },
+    "gridfix169-desktop-tests.xml": {
+      "bytes": 6615,
+      "sha256": "b6f158489f856f4adfc77daf222e28b8015937dc148600a0f6ba15d272d3cb65"
+    },
+    "gridfix169-final-installed.json": {
+      "bytes": 711,
+      "sha256": "1ecd89b5368cc7cb1cdb778f5b363daa41c2e97393d2cd5f00d1357141641306"
+    },
+    "gridfix169-final-package.log": {
+      "bytes": 11284,
+      "sha256": "51f2500bd5bca93beaaa53acd2fe4d6b6fe1d5ce15d68b3e59b9a4b7076969ae"
+    },
+    "gridfix169-first-installed.json": {
+      "bytes": 395,
+      "sha256": "7793c27f21e8b4137b29f5fd09122e374a98c6a17f0c4cdb5411e6134ba59e82"
+    },
+    "gridfix169-first-package.log": {
+      "bytes": 11609,
+      "sha256": "5d91f121f7b527252f112179f433fc8697c18d6ceddf0c86ff163aadb48b440e"
+    },
+    "gridfix169-installed-headless-tests.xml": {
+      "bytes": 17416,
+      "sha256": "14c1b77b1069d5f930039213d5953664bf28228dfdc33cb31d1af962051e956d"
+    },
+    "gridfix169-native-tests.log": {
+      "bytes": 5271,
+      "sha256": "0aa2325622e5e2dd7749ff26f12e7cd688694aaa16da80f253a64ab1bc36f3c2"
+    },
+    "gridfix169-native-tests.xml": {
+      "bytes": 14882,
+      "sha256": "bf4fbe81c403aa83dee001c508faab94d7acd4e0e836111645e62202fac6ed7e"
+    },
+    "gridfix169-valid-typing.log": {
+      "bytes": 44,
+      "sha256": "718df785efbbd4b57e63b5f64aff2c5b5592e433447681f759b307f97a3ec96a"
+    },
+    "linux-stub-difference.patch": {
+      "bytes": 474,
+      "sha256": "2d7b712ee6e7f2dc299622b0b4ec7af32b0d81b52bfd6d1a40bf6a1d6539cf3a"
+    },
+    "linux-stubs-failure.log": {
+      "bytes": 123,
+      "sha256": "bfc08375a63aa83d6b1a8d70a5ff5dda2a485907c0d3fa912febad0aed4a9bb6"
+    },
+    "macos-arm-build-failure.log": {
+      "bytes": 25170,
+      "sha256": "5d60541f03fdbb3be569efbaf73aa48bf6d7a60b4573f8ddac9f0e39cefec416"
+    },
+    "macos-x86-build-failure.log": {
+      "bytes": 28319,
+      "sha256": "9e68950b209ab749beb47f22faf2d43c8707b5b3c8ccf086aab492a92d278061"
+    },
+    "previous-native-artifact-inventory.json": {
+      "bytes": 8273,
+      "sha256": "b9a90823aa4a4d269a66eebf0609ca59541cc721655de6fe7def32136110ccdf"
+    },
+    "record_evidence.py": {
+      "bytes": 8329,
+      "sha256": "de088581fdc94039ae21f86573404b6fab17acde385e05315ec1f0ec6c8087a4"
+    },
+    "source-proof.json": {
+      "bytes": 80058,
+      "sha256": "1086547b2559f8e591633c65d7f66cee40ff639aa6999f101e75fa543cccc12f"
+    }
+  }
+}
