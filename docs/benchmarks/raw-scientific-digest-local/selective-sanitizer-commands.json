@@ -1,0 +1,45 @@
+[
+  {
+    "name": "build",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--",
+      "g++",
+      "-std=c++17",
+      "-O1",
+      "-g",
+      "-fsanitize=address,undefined",
+      "-fno-omit-frame-pointer",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-I",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/scientific_raw_sampling.cpp",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/scientific_raw_sampling_tests.cpp",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/raw_scientific_numeric_tests.cpp",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw174-sanitize-driver.cpp",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw174-linux-native/libqupathxx_core.a",
+      "-pthread",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw175-sanitized-reader"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 18.528120700037107
+  },
+  {
+    "name": "tests",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw175-sanitized-reader"
+    ],
+    "exit": 0,
+    "elapsed_seconds": 0.2103301000315696
+  }
+]

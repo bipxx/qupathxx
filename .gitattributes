@@ -281,3 +281,6 @@ tests/fixtures/raw-scientific-sampling-v1/** -text -whitespace
 
 docs/benchmarks/raw-scientific-sampling-local/** -text -whitespace
 docs/benchmarks/raw-scientific-sampling-local-windows-linux.json text eol=lf
+
+docs/benchmarks/raw-scientific-digest-local/** -text -whitespace
+docs/benchmarks/raw-scientific-digest-local-windows-linux.json text eol=lf

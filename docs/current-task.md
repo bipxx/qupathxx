@@ -147,9 +147,22 @@ The bounded native reader does not finish actual TIFF-backed scientific
 sampling, raw analysis/retention/replay, Python/CLI/batch/ImGui delivery or any
 M0-M7 milestone. Full native/installed/platform qualifications remain required.
 
+The shared raw capture and `digest_scientific_raw` are now implemented at
+`b247880`. The [digest receipt](benchmarks/raw-scientific-digest-local-windows-linux.json)
+records passing Windows/Linux native resampling, all 94 independent hash pairs
+in both full and hash-only paths, 3,732 retained sample results, and 85 Python
+oracle/auditor checks. Both native engines report fingerprint
+`478d81adf4f57c6f884967847eb3a60f7770c8ef130d06617fd79e99fc765fcd`;
+a 475-file proof binds the source. Hash-only allocates no output HWC arrays and
+computes no means. Metadata is snapshotted before pixel IO; decoder mutation
+checks prevent mixed metadata epochs. Lower output-free budget admission,
+malformed reads, close and cancellation are covered. Selective ASan/UBSan passes
+for new sources/tests linked with the older unsanitized core, whose reported
+identity is retained rather than relabelled.
+
 Next: compose the existing immutable `RawAnalysisRequest`/result/job path with
-the grid reader, add a shared hash-only capture for resumed batches without mean
-work, and version retained records while preserving QRA1. Complete native
-save/reopen/replay and CSV before grouping the new bindings/stubs, CLI, batch and
-GUI changes into one installed candidate. Retain vendor/pyramid/tiled, biological,
-hardware, licensing and full M0-M7 scope above.
+the grid reader and version retained records while preserving QRA1. The digest
+is not yet connected to batch resume. Complete native save/reopen/replay and CSV
+before grouping new bindings/stubs, CLI, batch and GUI changes into one installed
+candidate. Actual TIFF-backed sampling, vendor/pyramid/tiled, biological,
+hardware, licensing and the full M0-M7 scope remain open.
