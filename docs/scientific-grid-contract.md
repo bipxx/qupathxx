@@ -863,7 +863,36 @@ context and the existing fixed scratch allowance before decoding. Every chunk
 checks shape/type/storage/capacity and support bits; cancellation and later
 reader failures reject the entire digest. One initial metadata epoch supplies
 all hash metadata. Decoder/cache allocations, process RSS and caller-held results
-remain separate budgets. Materialized sampling, legacy digest bytes, QRA1/QRA2,
-recipe identities and statistics stay unchanged. ScientificGrid's existing
+remain separate budgets. Materialized numeric results, legacy digest bytes, QRA1/QRA2 encoding,
+recipe identities and statistics stay unchanged; the bounded materialization
+policy below extends resource admission separately. ScientificGrid's existing
 geometry/source/traversal limits still apply; this does not complete whole-slide
 streaming or vendor/multi-file reader support.
+
+
+## Bounded coarse-grid materialization
+
+Large coarse typed grids can materialize output without retaining the full raw
+source window. Planning is independent of the caller's budget: it selects this
+path only when the chunk/mask/commitment/accumulator ledger is smaller and the
+conservative source/chunk traversal bound fits. Otherwise the existing full
+window remains selected, preserving dense-grid admission and avoiding excessive
+chunk rereads. Small windows retain their original path. Querying work bytes and
+executing with exactly that budget agree; one byte below rejects before IO.
+
+The first pass preserves the canonical decoded/input hashes and pins the exact
+value bits, validity, location, dtype and axes of every chunk. Coarse output
+footprints reread only intersecting canonical chunks and verify those commitments
+before using values. Per-channel exact weighted accumulators round once, with
+outside/invalid/nonfinite precedence unchanged. Cancellation or a changed chunk
+rejects the whole result. No partial samples are published. The ledger includes
+retained validity, chunk commitments, per-channel accumulators/flags and output
+arrays plus existing captured payloads and scratch. All output, keep/replay,
+CLI/batch and ImGui/viewer paths share this native authority.
+
+QRA1/QRA2 layouts and golden encodings are unchanged. Old records remain readable;
+new lower-budget recipes may require a reader implementing the new resource
+admission policy. This is not a change to numerical sampling or recipe identity.
+The strategy deliberately trades bounded repeated IO/hashing for lower captured
+memory. It does not promise a speedup, constant memory, decoder/process RSS,
+whole-slide coverage or removal of existing geometry/traversal limits.

@@ -65,11 +65,10 @@ def test_streamed_tiff_hash_preserves_every_bit_and_uses_bounded_workspace(tmp_p
         digest=q.digest_scientific_raw(server,grid,options)
         assert sample.decoded_source_sha256==digest.decoded_source_sha256==decoded_sha(data)
         assert sample.input_sha256==digest.input_sha256
-        # Subtract the documented full-window materialization/output payload;
-        # a streamed digest retains only validity and at most one 64KiB chunk.
+        # This independent cap still rejects the former full typed source
+        # capture, without assuming materialized sampling uses that path.
         pixels=width*height
-        fixed=sample.estimated_work_bytes-pixels*17-10*7*5*2
-        assert digest.estimated_work_bytes<=fixed+pixels+65536
+        assert digest.estimated_work_bytes<512*1024+pixels
         options.work_bytes=digest.estimated_work_bytes
         assert q.digest_scientific_raw(server,grid,options).input_sha256==sample.input_sha256
         before=server.tiff_read_stats.decoded_blocks

@@ -113,7 +113,8 @@ public:
     qpx::ImageMetadata display;
     mutable unsigned reads=0,metadata_reads=0;
     mutable std::size_t peak_payload=0;
-    int fault=0;bool mutate_epoch=false;
+    int fault=0;bool mutate_epoch=false,patterned_support=true;
+    unsigned change_after=0;bool change_support=false,change_values=true;std::atomic<bool>* cancel_after_capture=nullptr;
     std::atomic<bool>* cancel_on_second=nullptr;
     StreamingReader(std::int64_t w,std::int64_t h) {
         raw->width=w;raw->height=h;raw->channels=3;raw->sample_type=qpx::SampleType::UInt64;
@@ -133,10 +134,14 @@ public:
         auto& data=std::get<std::vector<std::uint64_t>>(out.writable_storage());
         for(std::int64_t y=0;y<b.height;++y) for(std::int64_t x=0;x<b.width;++x) {
             const auto sx=b.x+x,sy=b.y+y,pixel=y*b.width+x;
-            out.writable_valid()[std::size_t(pixel)]=std::uint8_t((sx+sy)%19!=0);
+            out.writable_valid()[std::size_t(pixel)]=std::uint8_t(!patterned_support || (sx+sy)%19!=0);
             for(std::uint32_t c=0;c<r.channels;++c)
                 data[std::size_t(pixel)*r.channels+c]=(1ULL<<63)+std::uint64_t((sy*raw->width+sx)*3+r.first_channel+c)*7+1;
         }
+        if(change_values && change_after && reads>change_after) {
+            if(change_support) out.writable_valid()[0]^=1;else data[0]^=1;
+        }
+        if(cancel_after_capture && reads>change_after) cancel_after_capture->store(true);
         peak_payload=std::max(peak_payload,out.payload_bytes());
         if(reads==2 && fault==2) out.writable_valid()[0]=2;
         if(reads==2 && fault==3) data.reserve(data.size()+1024);
@@ -159,7 +164,7 @@ void check_raw_streaming() {
         require(digest.metadata.pixel_width_um==.5 && reader.raw->pixel_width_um==7.);
         StreamingReader full(reference.width,reference.height);
         const auto sampled=read_scientific_raw(full,grid,options);
-        require(full.reads==1 && sampled.input_sha256()==digest.input_sha256 && sampled.decoded_source_sha256()==digest.decoded_source_sha256);
+        require(full.reads>1 && full.peak_payload<=65536 && sampled.input_sha256()==digest.input_sha256 && sampled.decoded_source_sha256()==digest.decoded_source_sha256);
         require(digest.estimated_work_bytes<sampled.estimated_work_bytes());
         options.work_bytes=digest.estimated_work_bytes;
         StreamingReader exact(reference.width,reference.height);
@@ -175,6 +180,36 @@ void check_raw_streaming() {
         StreamingReader cancelled(reference.width,reference.height);std::atomic<bool> stop{false};cancelled.cancel_on_second=&stop;
         rejects<std::runtime_error>([&]{digest_scientific_raw(cancelled,grid,options,&stop);});require(cancelled.reads==2);
     }
+    for(const auto& reference:raw_streaming_reference::cases) {
+        const ScientificGrid grid(reference.width,reference.height,{0,reference.width,7},{0,reference.height,5});
+        ScientificRawOptions options;options.first_channel=1;options.channels=2;
+        StreamingReader reader(reference.width,reference.height);reader.patterned_support=false;
+        const auto result=read_scientific_raw(reader,grid,options);
+        require(reader.metadata_reads==1 && reader.peak_payload<=65536);
+        require(result.input_sha256()==reference.valid_input && result.decoded_source_sha256()==reference.valid_decoded);
+        require(result.values().size()==70);
+        for(std::size_t i=0;i<70;++i) require(bits(result.values()[i])==reference.means[i] && result.valid()[i]==1 && result.reasons()[i]==0);
+        StreamingReader baseline(reference.width,reference.height);baseline.patterned_support=false;
+        const auto digest=digest_scientific_raw(baseline,grid,options);require(reader.reads>baseline.reads);
+        options.work_bytes=result.estimated_work_bytes();StreamingReader exact(reference.width,reference.height);exact.patterned_support=false;
+        require(read_scientific_raw(exact,grid,options).input_sha256()==result.input_sha256());
+        --options.work_bytes;StreamingReader refused(reference.width,reference.height);
+        rejects<std::length_error>([&]{read_scientific_raw(refused,grid,options);});require(refused.reads==0);
+        options.work_bytes=256*1024*1024;
+        for(bool support:{false,true}) {
+            StreamingReader changing(reference.width,reference.height);changing.patterned_support=false;changing.change_after=baseline.reads;changing.change_support=support;
+            rejects<std::runtime_error>([&]{read_scientific_raw(changing,grid,options);});require(changing.reads==baseline.reads+1);
+        }
+        StreamingReader cancelled(reference.width,reference.height);cancelled.patterned_support=false;cancelled.change_after=baseline.reads;cancelled.change_values=false;
+        std::atomic<bool> stop{false};cancelled.cancel_after_capture=&stop;
+        rejects<std::runtime_error>([&]{read_scientific_raw(cancelled,grid,options,&stop);});require(cancelled.reads==baseline.reads+1);
+        const ScientificGrid dense(reference.width,reference.height,{0,reference.width,128},{0,reference.height,128});
+        StreamingReader compatible(reference.width,reference.height);compatible.patterned_support=false;
+        const auto dense_result=read_scientific_raw(compatible,dense,options);
+        require(compatible.reads==1 && bits(dense_result.values()[0])==reference.dense_first);
+        require(dense_result.decoded_source_sha256()==reference.valid_decoded);
+    }
+    std::cout<<"Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed\n";
     std::cout<<"Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed\n";
 }
 

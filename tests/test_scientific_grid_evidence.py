@@ -73,7 +73,7 @@ def test_installed_missing_changed_or_nonpassing_rejects(gui,failure):
 
 
 @pytest.mark.parametrize('failure',['missing','duplicate','failure','skipped'])
-@pytest.mark.parametrize('module,count',[('test_qupath_grid_cells_reference',32),('test_qupath_roi_cell_debug',14),('test_qupath_resampled_cell_debug',26),('test_scientific_raw_tiff_layouts',36),('test_raw_streaming',11)])
+@pytest.mark.parametrize('module,count',[('test_qupath_grid_cells_reference',32),('test_qupath_roi_cell_debug',14),('test_qupath_resampled_cell_debug',26),('test_scientific_raw_tiff_layouts',36),('test_raw_streaming',11),('test_raw_materialized_streaming',18)])
 def test_required_scientific_cohort_is_not_an_optional_science_skip(failure,module,count):
     cases=installed(False)
     selected=[c for c in cases if c.get('classname')=='tests.'+module]
@@ -147,6 +147,7 @@ def test_batched_source_binding_preserves_raw_fixtures(tmp_path,monkeypatch,fixt
 
 @pytest.mark.parametrize('failure',['missing','duplicate'])
 @pytest.mark.parametrize('marker',[
+    'Streamed raw materialization exact means, pinned chunk bits/support, cancellation, admission and dense fallback passed',
     'Streamed raw digest canonical HWC/validity hashes, bounded chunks, metadata epoch, late faults and admission passed',
     'Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed',
     'Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed','Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed','188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed','Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed','QRA2 raw grid retention, canonical re-encoding, semantic corruption and fresh replay passed','Shared ROI grid raw count/context planning and pre-IO admission passed'])

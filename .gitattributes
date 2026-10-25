@@ -346,3 +346,5 @@ docs/benchmarks/raw-grid-186-qualification.json text eol=lf
 # Streamed digest evidence is byte-addressed, including original CRLF logs.
 docs/benchmarks/raw-grid-streamed-digest-local/** -text -whitespace
 docs/benchmarks/raw-grid-streamed-digest-local.json text eol=lf
+
+tests/test_raw_materialized_streaming.py text eol=lf

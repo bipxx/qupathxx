@@ -136,6 +136,26 @@
     "test_generation_refuses_existing_outputs",
     "test_support_and_nonfinite_channels_are_distinct"
   ],
+  "test_raw_materialized_streaming": [
+    "test_coarse_samples_match_fraction_oracle_under_reduced_budget[float32]",
+    "test_coarse_samples_match_fraction_oracle_under_reduced_budget[float64]",
+    "test_coarse_samples_match_fraction_oracle_under_reduced_budget[int16]",
+    "test_coarse_samples_match_fraction_oracle_under_reduced_budget[int32]",
+    "test_coarse_samples_match_fraction_oracle_under_reduced_budget[int64]",
+    "test_coarse_samples_match_fraction_oracle_under_reduced_budget[int8]",
+    "test_coarse_samples_match_fraction_oracle_under_reduced_budget[uint16]",
+    "test_coarse_samples_match_fraction_oracle_under_reduced_budget[uint32]",
+    "test_coarse_samples_match_fraction_oracle_under_reduced_budget[uint64]",
+    "test_coarse_samples_match_fraction_oracle_under_reduced_budget[uint8]",
+    "test_reduced_budget_imgui_measure_keep_and_render",
+    "test_reduced_budget_managed_viewer_retains_verifies_and_saves",
+    "test_reduced_budget_native_cli_and_resume",
+    "test_reduced_budget_python_batch_and_hash_only_resume",
+    "test_reduced_budget_record_preserves_qra2_and_project_replay",
+    "test_streamed_context_and_layouts_keep_exact_support[float64-400-200-big-endian]",
+    "test_streamed_context_and_layouts_keep_exact_support[int64-400-200-separate]",
+    "test_streamed_context_and_layouts_keep_exact_support[uint64-10000-3-strips]"
+  ],
   "test_raw_mean_reference": [
     "test_fraction_oracle_and_flat_native_vectors_regenerate_exactly",
     "test_oracle_catches_early_integer_conversion_and_double_sum_overflow",
