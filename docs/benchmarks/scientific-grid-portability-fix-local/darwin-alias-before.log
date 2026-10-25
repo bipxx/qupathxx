@@ -1,0 +1,4 @@
+/mnt/c/Users/HEQ/Projects/qupathxx/build/gridfix169-portability/before.cpp: In function ‘void check()’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/gridfix169-portability/before.cpp:9:7: error: inconsistent deduction for ‘auto’: ‘const long unsigned int’ and then ‘const long long unsigned int’
+    9 | const auto n=std::size_t(grid.width()*grid.height()),samples=d.integer(n),threshold=d.integer(samples),raw=d.integer(std::min(p.max_cells,n)),markers=d.integer(raw),count=d.integer(std::min(markers,samples));
+      |       ^~~~

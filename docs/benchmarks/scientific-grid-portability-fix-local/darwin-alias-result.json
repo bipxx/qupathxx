@@ -1,0 +1,9 @@
+{
+  "before": {
+    "exit": 1
+  },
+  "after": {
+    "exit": 0
+  },
+  "scope": "Compile probe uses the actual declaration with a decoder returning unsigned long long while size_t is unsigned long, matching the Darwin type distinction. This is not full macOS compilation or acceptance."
+}
