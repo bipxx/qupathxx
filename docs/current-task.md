@@ -203,3 +203,25 @@ Source `25cd377` prioritizes the paired configured headers for the TIFF target.
 A fixed independent deflate TIFF fixture now exercises the codec through grid
 analysis. The initial failed build/logs are retained; acceptance requires the
 corrected build and actual tests, not the earlier successful fake-reader target.
+
+
+The corrected [native raw grid analysis receipt](benchmarks/raw-grid-analysis-local-windows-linux.json)
+is accepted locally at source `5562c23`, fingerprint
+`6ebd5bebf82660e4cd34f4bc7e84a6878b5b32cba4ee4879620a571dc14b981a`.
+Windows and minimal Linux resampling pass; a fresh TIFF/project-enabled Linux
+configuration passes resampling and the complete existing `raw_image` suite.
+Actual uncompressed and independently deflated UInt16 TIFF pixels exercise the
+grid analysis and hash-only path, including ROI upsampling. Two consecutive
+configurations preserve Z_PREFIX; retained header dependency and object-symbol
+proofs show the configured header pair and prefixed TIFF imports. The initial
+link failure, reconfigure prefix loss and failed WSL regex transport are retained
+as rejected observations. These are not additional passing runs.
+
+All 306 compiler inputs and the 479-file source contract match the accepted
+source. The 90 Python checks and 188 independent statistics cases remain intact.
+Selective sampler/analysis sanitizers are bound separately to `e7aee35`; their
+source files are unchanged, while the later TIFF CMake and native TIFF fixture
+changes are outside that selective instrumentation. No new installed Python,
+GUI, full platform campaign or biological acceptance is claimed. Next: QRA2
+retention, independent archive bytes, project reopen/replay and typed CSV, then
+the grouped bindings and CLI/batch/ImGui delivery.

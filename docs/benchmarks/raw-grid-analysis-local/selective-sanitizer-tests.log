@@ -1,0 +1,7 @@
+2891 independent exact raw mean vectors across all ten sample types in both orders passed
+Native exact typed weighted means, subnormal/cancellation, atomic rejection and nearest-even rounding passed
+Typed raw hash-only identity, lower memory admission and pre-decoder metadata epoch passed
+94 independent typed raw grid references, 3732 channel results and canonical source/input hashes passed
+Native typed scientific raw sampling, per-channel finite/support, source-bit provenance and pre-IO admission passed
+Typed raw sampling engine identity 1a79ef0b563b51826f5cbc6dc680f9415cf79c97042da5f9ec9c9ca817aaa7e5 e7aee351e92d114cd3e77adbd3222058421c9d36
+188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed

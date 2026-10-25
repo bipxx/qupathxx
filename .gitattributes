@@ -289,3 +289,6 @@ tools/reference_raw_grid_statistics.py text eol=lf
 tests/test_raw_grid_statistics_reference.py text eol=lf
 cpp/tests/raw_grid_statistics_reference.hpp text eol=lf
 tests/fixtures/raw-grid-statistics-v1/** -text -whitespace
+
+docs/benchmarks/raw-grid-analysis-local/** -text -whitespace
+docs/benchmarks/raw-grid-analysis-local-windows-linux.json text eol=lf
