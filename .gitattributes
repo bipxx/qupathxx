@@ -298,3 +298,6 @@ cpp/tests/raw_grid_archive_reference.hpp text eol=lf
 tools/reference_raw_grid_archive.py text eol=lf
 tests/test_raw_grid_archive_reference.py text eol=lf
 tests/fixtures/raw-grid-archive-v1/** -text -whitespace
+
+docs/benchmarks/raw-grid-retention-local/** -text -whitespace
+docs/benchmarks/raw-grid-retention-local-windows-linux.json text eol=lf

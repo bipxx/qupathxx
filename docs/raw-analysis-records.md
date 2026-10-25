@@ -101,3 +101,27 @@ distinct results for one child ROI nested under a parent and TMA core; it checks
 rows and reopens the saved records. [Cross-platform evidence](benchmarks/raw-records-cross-platform.json)
 compares native Windows/Linux input hashes, statistics, original case context and
 archive interchange. Timing observations apply to the measured machine.
+
+
+## Explicit-grid native records
+
+The additive `RawAnalysisRequest(document, ScientificGrid, ScientificRawOptions,
+object_id, nucleus, max_pixels)` path uses `qpx.raw-grid-statistics/1`. It captures
+original dtype/axes/calibration separately from effective document calibration
+and derived binary64 samples. Grid results expose `grid()` and reject natural
+`region()` access. Core-center eligibility is separate from full footprint
+support; missing source support is neither a finite zero nor a nonfinite sample.
+
+QRA2 stores the explicit grid and original source metadata; QRA1 stays unchanged
+for natural results. Both have independent struct/hashlib byte references.
+Retained/reopened records are historical until a fresh explicit replay verifies
+the source, object/context, calibration, hashes and statistic bits. Existing
+project blob storage supports both versions. Natural-only CSV remains schema 1;
+grid/mixed CSV uses schema 2 with explicit core geometry, contexts, sampling kind,
+source dtype and derived sample type, and blanks for natural scalar coordinates.
+See the [typed contract](scientific-grid-contract.md#qra2-grid-records-and-typed-raw-csv)
+and [local native evidence](benchmarks/raw-grid-retention-local-windows-linux.json).
+
+This grid path is currently native: new Python/stub, CLI/batch and ImGui/managed
+viewer delivery and full installed/platform qualification remain pending. The
+existing natural-level frontend workflow described above remains separate.

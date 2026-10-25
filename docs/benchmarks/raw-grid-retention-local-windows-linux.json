@@ -1,0 +1,472 @@
+{
+  "schema": "qpx.raw-grid-retention-native-local/1",
+  "observed_at_utc": "2026-10-25T15:09:49.194527+00:00",
+  "source": "ab206a7bbdf41e967dd74d0fde0dda6cc35f6309",
+  "source_tree_sha256": "faefc9ed27165c4de9d587d6c40139425c63e6b8a794853ea00b52de04ed4f63",
+  "compiler_inputs": 308,
+  "source_contract_files": 485,
+  "platforms": {
+    "windows": {
+      "identity": "Typed raw sampling engine identity faefc9ed27165c4de9d587d6c40139425c63e6b8a794853ea00b52de04ed4f63 ab206a7bbdf41e967dd74d0fde0dda6cc35f6309",
+      "selected_suites": [
+        "resampling"
+      ],
+      "resampling_executable_sha256": "602c942bf4c2de6e8de9e8efff8f62780bb4551c4b0dc84eab8ebd368be3a9ca",
+      "commands": [
+        {
+          "name": "configure",
+          "command": [
+            "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+            "-S",
+            "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+            "-B",
+            "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 6.044800599920563
+        },
+        {
+          "name": "build",
+          "command": [
+            "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+            "--build",
+            "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+            "--config",
+            "Release",
+            "--target",
+            "qupathxx_resampling_tests",
+            "--parallel",
+            "2"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 14.847721099969931
+        },
+        {
+          "name": "tests",
+          "command": [
+            "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+            "--test-dir",
+            "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+            "-C",
+            "Release",
+            "-R",
+            "^resampling$",
+            "--output-on-failure",
+            "--test-output-size-passed",
+            "1048576",
+            "--no-tests=error",
+            "--output-junit",
+            "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw177-final-windows\\native-tests.xml"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 0.24569810007233173
+        }
+      ]
+    },
+    "linux": {
+      "identity": "Typed raw sampling engine identity faefc9ed27165c4de9d587d6c40139425c63e6b8a794853ea00b52de04ed4f63 ab206a7bbdf41e967dd74d0fde0dda6cc35f6309",
+      "selected_suites": [
+        "resampling"
+      ],
+      "resampling_executable_sha256": "037c56d233c172fb6b95b37904b46b5aeda29b2740612ff0467a81543abf79c7",
+      "commands": [
+        {
+          "name": "configure",
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--",
+            "env",
+            "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+            "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+            "GIT_CONFIG_COUNT=1",
+            "GIT_CONFIG_KEY_0=core.autocrlf",
+            "GIT_CONFIG_VALUE_0=true",
+            "cmake",
+            "-S",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+            "-B",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw174-linux-native",
+            "-DCMAKE_BUILD_TYPE=Release",
+            "-DQUPATHXX_BUILD_PYTHON=OFF",
+            "-DQUPATHXX_BUILD_GUI=OFF",
+            "-DQUPATHXX_BUILD_TESTS=ON",
+            "-DQUPATHXX_BUILD_PROJECT=OFF",
+            "-DQUPATHXX_BUILD_GEOS=OFF",
+            "-DQUPATHXX_BUILD_TIFF=OFF",
+            "-DQUPATHXX_BUILD_OPENSLIDE=OFF",
+            "-DQUPATHXX_BUILD_CLASSIFIER_TRAINING=OFF"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 25.33862389996648
+        },
+        {
+          "name": "build",
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--",
+            "env",
+            "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+            "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+            "GIT_CONFIG_COUNT=1",
+            "GIT_CONFIG_KEY_0=core.autocrlf",
+            "GIT_CONFIG_VALUE_0=true",
+            "cmake",
+            "--build",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw174-linux-native",
+            "--target",
+            "qupathxx_resampling_tests",
+            "--parallel",
+            "2"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 38.68219840002712
+        },
+        {
+          "name": "tests",
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--",
+            "env",
+            "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+            "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+            "GIT_CONFIG_COUNT=1",
+            "GIT_CONFIG_KEY_0=core.autocrlf",
+            "GIT_CONFIG_VALUE_0=true",
+            "ctest",
+            "--test-dir",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw174-linux-native",
+            "-R",
+            "^resampling$",
+            "--output-on-failure",
+            "--test-output-size-passed",
+            "1048576",
+            "--no-tests=error",
+            "--output-junit",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw177-final-linux/native-tests.xml"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 0.21062290004920214
+        }
+      ]
+    },
+    "tiff-linux": {
+      "identity": "Typed raw sampling engine identity faefc9ed27165c4de9d587d6c40139425c63e6b8a794853ea00b52de04ed4f63 ab206a7bbdf41e967dd74d0fde0dda6cc35f6309",
+      "selected_suites": [
+        "resampling",
+        "raw_image"
+      ],
+      "resampling_executable_sha256": "cd20b56cabe21f327c0129659394f498370d01ab29e03653d9587c243b1b9d89",
+      "commands": [
+        {
+          "name": "configure",
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--",
+            "env",
+            "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+            "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+            "GIT_CONFIG_COUNT=1",
+            "GIT_CONFIG_KEY_0=core.autocrlf",
+            "GIT_CONFIG_VALUE_0=true",
+            "cmake",
+            "-S",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+            "-B",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+            "-DCMAKE_BUILD_TYPE=Release",
+            "-DQUPATHXX_BUILD_PYTHON=OFF",
+            "-DQUPATHXX_BUILD_GUI=OFF",
+            "-DQUPATHXX_BUILD_TESTS=ON",
+            "-DQUPATHXX_BUILD_PROJECT=ON",
+            "-DQUPATHXX_BUILD_GEOS=OFF",
+            "-DQUPATHXX_BUILD_TIFF=ON",
+            "-DQUPATHXX_BUILD_OPENSLIDE=OFF",
+            "-DQUPATHXX_BUILD_CLASSIFIER_TRAINING=OFF"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 29.960031900089234
+        },
+        {
+          "name": "build",
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--",
+            "env",
+            "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+            "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+            "GIT_CONFIG_COUNT=1",
+            "GIT_CONFIG_KEY_0=core.autocrlf",
+            "GIT_CONFIG_VALUE_0=true",
+            "cmake",
+            "--build",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+            "--target",
+            "qupathxx_resampling_tests",
+            "qupathxx_raw_image_tests",
+            "--parallel",
+            "2"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 72.90313750004862
+        },
+        {
+          "name": "tests-resampling",
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--",
+            "env",
+            "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+            "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+            "GIT_CONFIG_COUNT=1",
+            "GIT_CONFIG_KEY_0=core.autocrlf",
+            "GIT_CONFIG_VALUE_0=true",
+            "ctest",
+            "--test-dir",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+            "-R",
+            "^resampling$",
+            "--output-on-failure",
+            "--test-output-size-passed",
+            "1048576",
+            "--no-tests=error",
+            "--output-junit",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw177-final-tiff-linux/native-tests.xml"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 0.34511510003358126
+        },
+        {
+          "name": "tests-raw-image",
+          "command": [
+            "wsl.exe",
+            "-d",
+            "Ubuntu",
+            "--",
+            "env",
+            "GIT_DIR=/mnt/c/Users/HEQ/Projects/qupathxx/.git/worktrees/scientific-grid-159",
+            "GIT_WORK_TREE=/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+            "GIT_CONFIG_COUNT=1",
+            "GIT_CONFIG_KEY_0=core.autocrlf",
+            "GIT_CONFIG_VALUE_0=true",
+            "ctest",
+            "--test-dir",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+            "-R",
+            "^raw_image$",
+            "--output-on-failure",
+            "--test-output-size-passed",
+            "1048576",
+            "--no-tests=error",
+            "--output-junit",
+            "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw177-final-tiff-linux/raw-image-tests.xml"
+          ],
+          "exit": 0,
+          "elapsed_seconds": 0.8156689000315964
+        }
+      ],
+      "raw_image_executable_sha256": "e9ddfc8705b78bce0e0c86bdbc1fd8e61c9ae01f25930b626c951ffdb5ba4a68"
+    }
+  },
+  "sample_types": 10,
+  "sampling_reference_cases": 94,
+  "channel_results": 3732,
+  "statistics_retention_replay_cases": 188,
+  "independent_archive_vectors": 2,
+  "independent_archive_versions": [
+    "QRA1",
+    "QRA2"
+  ],
+  "affected_python_passed": 97,
+  "oracle_python_passed_included": 12,
+  "scope": "Native typed grid result retention, canonical QRA2 and legacy QRA1 bytes, hash/metadata/support validation, immutable snapshots, fresh replay and schema-2 grid/mixed CSV; actual UInt16 TIFF project save/reopen/replay and second save",
+  "sanitizer_scope": "New sampling, analysis, record, archive and CSV translation units plus fake-reader/mean/retention tests instrumented with ASan/UBSan at this source. Remaining linked minimal core is unsanitized; no TIFF/project codec instrumentation or full sanitizer campaign.",
+  "selective_sanitizer_executable_sha256": "911e5fbf631c7fbee169204e66acbc6747b4fc234898c3b7a6bc2119c75f34cb",
+  "native_grid_retention_replay_csv_implemented": true,
+  "local_native_retention_accepted": true,
+  "legacy_qra1_reference_preserved": true,
+  "actual_uint16_tiff_project_replay_accepted": true,
+  "baseline_module_unchanged": true,
+  "baseline_module_sha256": "bc286d4d160c59fbccf853173820ed88280ddc4ef28e0ce31cc3553e9c9755d0",
+  "prior_native_artifacts_retained": 13,
+  "full_native_suite_accepted": false,
+  "complete_raw_analysis_workflow_accepted": false,
+  "installed_python_api_accepted": false,
+  "cli_batch_grid_delivery_accepted": false,
+  "gui_accepted": false,
+  "platform_campaign_accepted": false,
+  "scientific_acceptance": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "rejected_observations": [
+    "The initial df21113 native tests passed execution, but default CTest output truncation removed required markers; retained JUnit is unaccepted as full semantic evidence. Final ab206a7 runs retain complete output."
+  ],
+  "remaining": [
+    "Nanobind ownership and typed grid descriptors; generated stubs and installed validation",
+    "Raw CLI/batch grid options, typed checkpoint identity and hash-only resume",
+    "ImGui and managed viewer producer/retained-grid presentation",
+    "Broader TIFF dtypes/vendors/pyramids and performance budgets",
+    "Complete installed/native/platform campaign and all remaining M0-M7 criteria"
+  ],
+  "evidence": {
+    "build_raw177_final_linux.py": {
+      "bytes": 1703,
+      "sha256": "960f65da82901dab60d9964700c7f462c1572aed97e52dbc8c2c03812f00142b"
+    },
+    "build_raw177_final_tiff_linux.py": {
+      "bytes": 1976,
+      "sha256": "10a0c7a0470596fb4a4ff658882e804d955e7151f06a26154262af263838af12"
+    },
+    "build_raw177_final_windows.py": {
+      "bytes": 1370,
+      "sha256": "b266ac968c235c54a1675b5f5435dde6ade8b53ce79ae782a4a00d14249269fa"
+    },
+    "compiler-input-proof.json": {
+      "bytes": 32230,
+      "sha256": "359705734f793480432192abacbe5b0b4d508c8dbeff657066cc51a192b109d7"
+    },
+    "linux-build.log": {
+      "bytes": 34114,
+      "sha256": "138fcbab45962bf36674b40bb7d326d0155cfa8a5dbd95f451f1d1915aeebb6f"
+    },
+    "linux-build_manifest.hpp": {
+      "bytes": 629,
+      "sha256": "346244aaddec14e3c756c320e9c23b005d84a0b73fb2e8d6c1c54ba07c5ff10c"
+    },
+    "linux-CMakeCache.txt": {
+      "bytes": 20473,
+      "sha256": "8b8868ec0ef147d2242d9684729d8a63071b772569073925b727efc2eba245ee"
+    },
+    "linux-commands.json": {
+      "bytes": 2444,
+      "sha256": "5235b2ea03228215eac9a5800794a4a6ac7f9dc72747bab291efaa39cb66e1ec"
+    },
+    "linux-configure.log": {
+      "bytes": 279,
+      "sha256": "eb5de4ded0b7915933c9f7ab97c077efdd448b63208434ae9e8fb267cbcc115a"
+    },
+    "linux-native-tests.xml": {
+      "bytes": 1519,
+      "sha256": "8f05eec6afe2031d044533e218bd009a1e57643a3e03309f901a21bfbd8bd1c2"
+    },
+    "linux-tests.log": {
+      "bytes": 355,
+      "sha256": "4472a8138d1d754a17d6623f18cf8bc99b7e5c213bc32fe9f20cb43051505526"
+    },
+    "python-tests.xml": {
+      "bytes": 16371,
+      "sha256": "1a8698df682ec904675a852d5d48fd1b3bd1a05599a29a7e8e5ceff6346b3c32"
+    },
+    "record_raw177.py": {
+      "bytes": 7314,
+      "sha256": "316afab276d6e15b05aff1d46a4c1afdef135c54935793a12ae594bfae9bd7b6"
+    },
+    "rejected-truncated-native-tests.xml": {
+      "bytes": 1472,
+      "sha256": "c46dcdf67c504e4373184b0a55fb4a9fb5feda7beb5c586fc18917651500192e"
+    },
+    "retained-source176-artifacts.json": {
+      "bytes": 3582,
+      "sha256": "0e8f51c0a290e6d9f11d798b897e14b1926f58be43f4ce6af4868bced4ad6f36"
+    },
+    "sanitize_raw177.py": {
+      "bytes": 1561,
+      "sha256": "a9dfc6d2152aecc9f19ff58568d7aa9e1fb524addc58e26d4ae51d456caf38b2"
+    },
+    "selective-sanitizer-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "selective-sanitizer-commands.json": {
+      "bytes": 1750,
+      "sha256": "ebfeab1a1db370e2171813375e33da7c775378e6cd70be6eb77f3522b03cf1f7"
+    },
+    "selective-sanitizer-driver.cpp": {
+      "bytes": 221,
+      "sha256": "c7ba182211f8e4b218f619c47d8b82ac855fc3220aeb493ac83963e73108b6e8"
+    },
+    "selective-sanitizer-tests.log": {
+      "bytes": 950,
+      "sha256": "a29fc8cf64d7972fb224583253dc9efb3d100dbd67f74a18befc0768e3ff1aed"
+    },
+    "source-proof.json": {
+      "bytes": 117998,
+      "sha256": "8123b1d745b65006ef6754870b9b9168e95f2bb954dfeaa27e9a6afc4263f3ae"
+    },
+    "tiff-linux-build.log": {
+      "bytes": 40200,
+      "sha256": "90fef61404109e89cbd09ab8a2f01b0757d3f7d06041594ba41af262fb9e7494"
+    },
+    "tiff-linux-build_manifest.hpp": {
+      "bytes": 629,
+      "sha256": "346244aaddec14e3c756c320e9c23b005d84a0b73fb2e8d6c1c54ba07c5ff10c"
+    },
+    "tiff-linux-CMakeCache.txt": {
+      "bytes": 39223,
+      "sha256": "ea2b5d167122d78f7f0eae67e76853ebba324d183725215ad4101056a98310ca"
+    },
+    "tiff-linux-commands.json": {
+      "bytes": 3344,
+      "sha256": "d564c81bdc20c03ad9c630dd18e7d574f17b42bac778848ad4f9cee03bf53e57"
+    },
+    "tiff-linux-configure.log": {
+      "bytes": 3354,
+      "sha256": "5563aed703674191a41f9e92b4c227b649efa613cee1d95ea28522a2fdf19f0f"
+    },
+    "tiff-linux-native-tests.xml": {
+      "bytes": 1519,
+      "sha256": "b83639b2628cd5bbc592eeda425e1dd7dd708119993f5f133d0ccacb74034794"
+    },
+    "tiff-linux-raw-image-tests.xml": {
+      "bytes": 636,
+      "sha256": "28845aa0f057b2ccd0ad11dc4889b05bad7025e645f22f7113febeb9b58342d2"
+    },
+    "tiff-linux-tests-raw-image.log": {
+      "bytes": 366,
+      "sha256": "c19181e060d3ee6c9bc28c7fc10bef614faa433b78af706f88056025fc6a9e54"
+    },
+    "tiff-linux-tests-resampling.log": {
+      "bytes": 365,
+      "sha256": "11ef8d8606c32ea4c1741fe1102e621acfead71a8134f796dc88b19a47f9e9b4"
+    },
+    "windows-build.log": {
+      "bytes": 633,
+      "sha256": "894fcbc1650f65db4105fa5472313bd885bdd583e7454a4f4e602190d31938e7"
+    },
+    "windows-build_manifest.hpp": {
+      "bytes": 706,
+      "sha256": "3c95982287443bcc98b8ea3c18cf5e4115621f09e730b491065dbd87a11dfa73"
+    },
+    "windows-CMakeCache.txt": {
+      "bytes": 27455,
+      "sha256": "a1947f1f9bdb494410b7d44c2de5a885b3e9f4a218948d65e8eb4db747cfbbcc"
+    },
+    "windows-commands.json": {
+      "bytes": 1421,
+      "sha256": "db3f633984585bbd30dc8bf1b2416b20f5678915d578b0ba6bf5c2f15738b99f"
+    },
+    "windows-configure.log": {
+      "bytes": 258,
+      "sha256": "b9512dfd417017f874f88eebf249be0f89f463d8523c298169b43cad1acea714"
+    },
+    "windows-native-tests.xml": {
+      "bytes": 1545,
+      "sha256": "a6de448f0888d399be4e4b2365c6f3b1f26ba5fc3608023182b73e7d54048cf8"
+    },
+    "windows-tests.log": {
+      "bytes": 236,
+      "sha256": "424e92afd43a2b8f35c154c78eae94e81ff2c6740ab1a592bc8e25b415f98c03"
+    }
+  }
+}

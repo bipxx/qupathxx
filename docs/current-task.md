@@ -118,110 +118,47 @@ platform campaign remains distinct from this newer local comparison scope.
 
 ## Active typed raw integration
 
-The private exact-mean dependency supports all ten raw dtypes. Its independent
-Fraction oracle supplies 2,891 vectors, checked in both input orders. The
-[numeric receipt](benchmarks/raw-scientific-means-local-windows-linux.json)
-retains standalone MSVC/GCC/ASan/UBSan results and the initial strict MSVC warning
-failure. The existing raw statistics recipe remains unchanged.
+Current native retention source: `ab206a7`, fingerprint
+`faefc9ed27165c4de9d587d6c40139425c63e6b8a794853ea00b52de04ed4f63`.
+The [QRA2 retention receipt](benchmarks/raw-grid-retention-local-windows-linux.json)
+binds 308 compiler inputs and 485 source files. Windows and minimal Linux
+resampling pass; TIFF/project-enabled Linux passes resampling and `raw_image`.
+All 97 focused Python oracle/auditor checks pass, including twelve oracle checks.
 
-`read_scientific_raw` and its owned result are now implemented and pass native
-resampling on Windows and Linux. The [reader receipt](benchmarks/raw-scientific-sampling-local-windows-linux.json)
-records 94 independent sampling/hash cases, 3,732 per-channel results, canonical
-raw-bit/source hashes, selected channels/Z/T, invalid/nonfinite precedence,
-pre-pixel-IO admission, malformed-reader and cancellation checks. The same target
-also executes the exact-mean and legacy RGB/area references. New reader/tests
-pass selective ASan/UBSan instrumentation; inherited linked core code is not a
-full sanitizer campaign. The 123 affected Python checks include six oracle checks.
+Implemented dependencies include all-ten-dtype exact means and typed grid reads,
+immutable metadata before pixel IO, source-bit hashes, per-channel support/
+nonfinite reasons, a true hash-only scan, and explicit-grid raw requests/results/
+jobs. Earlier evidence remains in the [mean](benchmarks/raw-scientific-means-local-windows-linux.json),
+[reader](benchmarks/raw-scientific-sampling-local-windows-linux.json),
+[digest](benchmarks/raw-scientific-digest-local-windows-linux.json) and
+[analysis/TIFF](benchmarks/raw-grid-analysis-local-windows-linux.json) receipts.
+The TIFF dependency fix preserves configured prefixed zlib across repeated
+configuration; earlier rejected linker/header/WSL observations are retained.
 
-Both native targets report source `c4a9a21` and compiler fingerprint
-`976fe2deceb8d117c92f93f50f60cce6696499e32eea22808e0754ce22e98605`.
-All 305 compiler inputs match a 475-file source proof. Windows reused the active
-cache after retaining/hash-verifying 63 older artifacts; the updated core and
-resampling executable coexist with older cached executables/module. The latter
-are not relabelled, and installed Python remains the source169 API.
+QRA2 now retains grid geometry/options and original raw metadata without
+changing natural QRA1 encoding. Independent Python struct/hashlib vectors pin
+both versions and their actual native input hashes. All 188 derived-statistics
+cases across ten dtypes (with/without ROI) keep records, canonically re-encode,
+reject corrupt inputs and replay through fresh requests. Grid verification
+compares statistic bits, including zero signs. Historical snapshots/reopened
+projects remain unverified until explicit replay succeeds. Actual UInt16 TIFF
+records pass SQLite save/reopen/replay and second save. The existing legacy raw
+archive/project/batch cases remain in that native suite.
 
-The [typed contract](scientific-grid-contract.md#typed-raw-sampling-active-contract-and-exact-means)
-keeps strict footprint support and per-channel finite reasons. Data snapshots
-carry original dtype/axes/calibration and remain independent of display RGB.
-The bounded native reader does not finish actual TIFF-backed scientific
-sampling, raw analysis/retention/replay, Python/CLI/batch/ImGui delivery or any
-M0-M7 milestone. Full native/installed/platform qualifications remain required.
+Natural-only CSV stays schema 1; grid/mixed tables use typed schema 2 with explicit
+core origins/extents/counts/context and separate source/derived dtypes. Natural
+scalar level/scale/origin fields remain blank for grid rows. Selective ASan/UBSan
+instruments new sampling, analysis, record, archive and CSV units and their tests;
+the remaining linked minimal core is unsanitized. This is not a full sanitizer
+campaign. Thirteen prior native artifacts were retained/hash-verified before
+cache reuse; the old source169 module remains unchanged. CTest evidence now
+retains full successful output; the initial truncated passing JUnit is rejected
+as semantic evidence and preserved.
 
-The shared raw capture and `digest_scientific_raw` are now implemented at
-`b247880`. The [digest receipt](benchmarks/raw-scientific-digest-local-windows-linux.json)
-records passing Windows/Linux native resampling, all 94 independent hash pairs
-in both full and hash-only paths, 3,732 retained sample results, and 85 Python
-oracle/auditor checks. Both native engines report fingerprint
-`478d81adf4f57c6f884967847eb3a60f7770c8ef130d06617fd79e99fc765fcd`;
-a 475-file proof binds the source. Hash-only allocates no output HWC arrays and
-computes no means. Metadata is snapshotted before pixel IO; decoder mutation
-checks prevent mixed metadata epochs. Lower output-free budget admission,
-malformed reads, close and cancellation are covered. Selective ASan/UBSan passes
-for new sources/tests linked with the older unsanitized core, whose reported
-identity is retained rather than relabelled.
-
-Next: compose the existing immutable `RawAnalysisRequest`/result/job path with
-the grid reader and version retained records while preserving QRA1. The digest
-is not yet connected to batch resume. Complete native save/reopen/replay and CSV
-before grouping new bindings/stubs, CLI, batch and GUI changes into one installed
-candidate. Actual TIFF-backed sampling, vendor/pyramid/tiled, biological,
-hardware, licensing and the full M0-M7 scope remain open.
-
-
-### Native raw grid analysis requests and jobs
-
-Source `e7aee35` adds an explicit-grid `RawAnalysisRequest` overload and typed
-result descriptor to the existing native analysis/job path. The natural recipe
-remains unchanged. The separate `qpx.raw-grid-statistics/1` recipe distinguishes
-source dtype from derived binary64 area samples, counts eligible core centers
-separately from source support, and reduces finite derived samples exactly.
-Context contributes no statistics. The analysis digest includes the sampling
-identity, canonical ROI geometry and effective document calibration without
-computing ROI containment or statistics.
-
-Committed Windows/Linux native resampling passes 188 independent Fraction-derived
-statistics cases (all ten source dtypes, with/without ROI), alongside the inherited
-94 sampling/hash cases, 3,732 HWC results and exact numeric/area references. Native
-jobs pass ready/cancel/stale checks; display changes preserve identity while
-object/calibration changes invalidate delivery or alter the input hash. All
-90 focused Python oracle/auditor checks pass. A 479-file source proof and all
-306 compiler inputs match fingerprint
-`1a79ef0b563b51826f5cbc6dc680f9415cf79c97042da5f9ec9c9ca817aaa7e5`.
-Selective ASan/UBSan covers the new sampling/analysis code and its tests; the
-remaining linked core is unsanitized at the same source.
-
-Grid record retention/QRA2, project save/reopen/replay, CSV and Python/CLI/batch/
-ImGui integration remain pending. The next record change must preserve QRA1
-bytes. Project storage already uses opaque record blobs; no database schema
-migration is implied by the additive codec version. The full M0-M7 scope remains
-Partial, and this native producer is not a supported research workflow release.
-
-
-The first fresh TIFF/project build linked TIFF against unprefixed zlib declarations
-from upstream `zconf.h`, while the pinned zlib archive exports prefixed symbols.
-Source `25cd377` prioritizes the paired configured headers for the TIFF target.
-A fixed independent deflate TIFF fixture now exercises the codec through grid
-analysis. The initial failed build/logs are retained; acceptance requires the
-corrected build and actual tests, not the earlier successful fake-reader target.
-
-
-The corrected [native raw grid analysis receipt](benchmarks/raw-grid-analysis-local-windows-linux.json)
-is accepted locally at source `5562c23`, fingerprint
-`6ebd5bebf82660e4cd34f4bc7e84a6878b5b32cba4ee4879620a571dc14b981a`.
-Windows and minimal Linux resampling pass; a fresh TIFF/project-enabled Linux
-configuration passes resampling and the complete existing `raw_image` suite.
-Actual uncompressed and independently deflated UInt16 TIFF pixels exercise the
-grid analysis and hash-only path, including ROI upsampling. Two consecutive
-configurations preserve Z_PREFIX; retained header dependency and object-symbol
-proofs show the configured header pair and prefixed TIFF imports. The initial
-link failure, reconfigure prefix loss and failed WSL regex transport are retained
-as rejected observations. These are not additional passing runs.
-
-All 306 compiler inputs and the 479-file source contract match the accepted
-source. The 90 Python checks and 188 independent statistics cases remain intact.
-Selective sampler/analysis sanitizers are bound separately to `e7aee35`; their
-source files are unchanged, while the later TIFF CMake and native TIFF fixture
-changes are outside that selective instrumentation. No new installed Python,
-GUI, full platform campaign or biological acceptance is claimed. Next: QRA2
-retention, independent archive bytes, project reopen/replay and typed CSV, then
-the grouped bindings and CLI/batch/ImGui delivery.
+Next: group nanobind ownership/descriptors and generated stubs, add raw CLI/batch
+grid recipes and true hash-only resume, and update ImGui/managed-viewer producers
+and retained-grid presentation. Complete one installed candidate before the full
+required native/platform campaign. No new installed Python/GUI/platform,
+biological or supported-release acceptance is claimed. Broader TIFF dtypes,
+vendors/pyramids/tiled sampling, memory/UI/performance budgets and all remaining
+original M0-M7 requirements remain open. Every milestone remains Partial.

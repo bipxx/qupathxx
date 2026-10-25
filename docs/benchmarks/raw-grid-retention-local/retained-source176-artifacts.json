@@ -1,0 +1,70 @@
+{
+  "compiled_source": "5562c230a3f8cf368b401cf42142ef98a37d73da",
+  "files": {
+    "windows/Release/qupathxx_core.lib": {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\qupathxx_core.lib",
+      "bytes": 72448382,
+      "sha256": "c7b849a7f55f13cef02bb2c2d597075cd4f704b3f1f11248653eed368e00467d"
+    },
+    "windows/Release/qupathxx_resampling_tests.exe": {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\qupathxx_resampling_tests.exe",
+      "bytes": 2120192,
+      "sha256": "2a115943355437cfe43709464b63e8fd494c21bac0a745081f616af6f3fedea1"
+    },
+    "windows/generated/build_manifest.hpp": {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\generated\\build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "38535960c9e112ca6758341086ca9c99c2902242ead4ed4f12e854c2615c9680"
+    },
+    "windows/CMakeCache.txt": {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\CMakeCache.txt",
+      "bytes": 27455,
+      "sha256": "a1947f1f9bdb494410b7d44c2de5a885b3e9f4a218948d65e8eb4db747cfbbcc"
+    },
+    "linux/libqupathxx_core.a": {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw174-linux-native\\libqupathxx_core.a",
+      "bytes": 9560046,
+      "sha256": "616190188898d55dc038928de5782f2386544dd71c4f1ae6b0a0730df0989d13"
+    },
+    "linux/qupathxx_resampling_tests": {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw174-linux-native\\qupathxx_resampling_tests",
+      "bytes": 3021856,
+      "sha256": "7d4f3e13a70fa15c2e41f5c8c5eaa7e4c51b7b89443d3cb3ebd5bb16f29dd689"
+    },
+    "linux/generated/build_manifest.hpp": {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw174-linux-native\\generated\\build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "c38f19d59f3f787c632dc4f668c29bb26bd462b63d8fac7b6b072e325d3c3887"
+    },
+    "linux/CMakeCache.txt": {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw174-linux-native\\CMakeCache.txt",
+      "bytes": 20473,
+      "sha256": "8b8868ec0ef147d2242d9684729d8a63071b772569073925b727efc2eba245ee"
+    },
+    "tiff-linux/libqupathxx_core.a": {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw176-tiff-linux-native\\libqupathxx_core.a",
+      "bytes": 10159360,
+      "sha256": "591067f4b584df0043f8bcbd93886a4918e9b0bf61f6aaa0e448b6123c766735"
+    },
+    "tiff-linux/qupathxx_resampling_tests": {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw176-tiff-linux-native\\qupathxx_resampling_tests",
+      "bytes": 4519272,
+      "sha256": "e5618e2e929f891ff1d633aa54882c527cf20dc98c6ecb5847edd2cea0b2e24f"
+    },
+    "tiff-linux/qupathxx_raw_image_tests": {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw176-tiff-linux-native\\qupathxx_raw_image_tests",
+      "bytes": 5895240,
+      "sha256": "8ce94ee507b5ebc6f2d7efebb0eeea4ab7ab0af9ba73e6c06f54cbc7a8eb5e2f"
+    },
+    "tiff-linux/generated/build_manifest.hpp": {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw176-tiff-linux-native\\generated\\build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "c38f19d59f3f787c632dc4f668c29bb26bd462b63d8fac7b6b072e325d3c3887"
+    },
+    "tiff-linux/CMakeCache.txt": {
+      "source": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw176-tiff-linux-native\\CMakeCache.txt",
+      "bytes": 39223,
+      "sha256": "ea2b5d167122d78f7f0eae67e76853ebba324d183725215ad4101056a98310ca"
+    }
+  }
+}
