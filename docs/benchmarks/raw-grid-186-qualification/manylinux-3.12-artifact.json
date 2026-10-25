@@ -1,0 +1,19 @@
+{
+  "id": 12608672998,
+  "name": "manylinux-3.12",
+  "size_in_bytes": 13736583,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12608672998",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12608672998/zip",
+  "expired": false,
+  "created_at": "2026-10-25T18:10:25Z",
+  "expires_at": "2026-11-08T18:10:24Z",
+  "updated_at": "2026-10-25T18:10:25Z",
+  "digest": "sha256:f01d11ce9eb95364d2fd646ff9d643928f98c61e4406e9c5e87e06b4cffdd0a8",
+  "workflow_run": {
+    "id": 40218716355,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/raw-grid-workflow-186",
+    "head_sha": "745662be8144ce6b81fe72f4ffba1f73bae9ad33"
+  }
+}

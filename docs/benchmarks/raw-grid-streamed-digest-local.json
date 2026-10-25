@@ -1,0 +1,329 @@
+{
+  "schema": "qpx.raw-grid-streamed-digest-local/1",
+  "observed_at_utc": "2026-10-25T18:54:19.601396+00:00",
+  "compiled_source": "0b360863cb3d276e77324d76146adaef071a4a7f",
+  "source_tree_sha256": "0d9eb6a0a1528d32fccff91816c22044a31c30ae651c012b9844d704a3739df2",
+  "compiler_input_files": 312,
+  "source_contract_files": 497,
+  "chunk_target_bytes": 65536,
+  "minimum_chunk": "one complete selected HWC pixel",
+  "retained_support": "One validity byte per clipped source pixel, preserving canonical values-then-validity order without another decoder pass.",
+  "hash_domains_unchanged": [
+    "qpx.raw-level-zero-window/1",
+    "qpx.grid-raw-area-exact/1"
+  ],
+  "new_installed_cases_passed": 11,
+  "before_bound_controls_failed": 8,
+  "scientific_gui_passed": 265,
+  "runtime_passed": 200,
+  "runtime_declared_desktop_skips": 3,
+  "desktop_passed": 34,
+  "auditor_preflight_passed": 109,
+  "windows_native_selected_suites": 5,
+  "linux_tiff_project_native_selected_suites": 5,
+  "generated_stubs_unchanged": true,
+  "workspace_observations": {
+    "before": {
+      "source": "046ac3471f6cc3242bbf2b99fe287166e2fe76cc",
+      "fingerprint": "cc3100f8486087129a8d9c0e848b7f35c010a55ea1084874786abd57daab99fb",
+      "observations": [
+        {
+          "width": 400,
+          "height": 200,
+          "materialized_work_bytes": 1633292,
+          "digest_work_bytes": 1632592,
+          "input_sha256": "4b58b2be0510a031e7c1eccae0846230a66ea4b36310d295df86ab28c88e199f",
+          "decoded_source_sha256": "95811b56c398d1f42397ab296a8370618e68bf0fe7ec46c5ab620883b4aaed79"
+        },
+        {
+          "width": 10000,
+          "height": 3,
+          "materialized_work_bytes": 783292,
+          "digest_work_bytes": 782592,
+          "input_sha256": "eb889dd21cd9d63ca90bff37d452a438bac94e36cc42aeec99e14bbdddd81ed3",
+          "decoded_source_sha256": "bfce42ad577fcd57b127b9efd9c2efc42214044758aed26ec382d9aa35b62e22"
+        }
+      ]
+    },
+    "after": {
+      "source": "0b360863cb3d276e77324d76146adaef071a4a7f",
+      "fingerprint": "0d9eb6a0a1528d32fccff91816c22044a31c30ae651c012b9844d704a3739df2",
+      "observations": [
+        {
+          "width": 400,
+          "height": 200,
+          "materialized_work_bytes": 1633292,
+          "digest_work_bytes": 413792,
+          "input_sha256": "4b58b2be0510a031e7c1eccae0846230a66ea4b36310d295df86ab28c88e199f",
+          "decoded_source_sha256": "95811b56c398d1f42397ab296a8370618e68bf0fe7ec46c5ab620883b4aaed79"
+        },
+        {
+          "width": 10000,
+          "height": 3,
+          "materialized_work_bytes": 783292,
+          "digest_work_bytes": 368127,
+          "input_sha256": "eb889dd21cd9d63ca90bff37d452a438bac94e36cc42aeec99e14bbdddd81ed3",
+          "decoded_source_sha256": "bfce42ad577fcd57b127b9efd9c2efc42214044758aed26ec382d9aa35b62e22"
+        }
+      ]
+    }
+  },
+  "archive_compatibility": "QRA1/QRA2 and existing input/decoded digests remain byte-compatible. Small windows keep single-read admission; materialized sampling admission is unchanged.",
+  "controls": "Independent struct/hashlib vectors; UInt64 low bits, Float64 NaN payload/signed-zero/infinity; row groups and horizontal splits; per-chunk shape/type/storage/capacity/support; single metadata epoch; later decoder fault and cancellation; exact pre-IO budget boundary; saved project replay/verification.",
+  "selective_sanitizer": {
+    "address": true,
+    "undefined": true,
+    "leak_detection": true,
+    "scope": "Instrumented raw sampler/analysis/record/archive/CSV/raster plus native test units, linked to matching unsanitized core/TIFF/project dependencies; not a full-engine campaign."
+  },
+  "qualified_main": {
+    "commit": "a9856d8bdb96c37615a1a9aee953a59e7fad5a15",
+    "source": "745662be8144ce6b81fe72f4ffba1f73bae9ad33",
+    "new_streaming_source_included": false
+  },
+  "remaining": "Grid geometry/source/traversal limits, validity-window storage, materialized source-window limits, vendor/multi-file and whole-slide sampling, decoder/process RSS, hardware, biology and full original M0-M7 scope remain.",
+  "platform_campaign_accepted": false,
+  "performance_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "milestones": {
+    "M0": "Partial",
+    "M1": "Partial",
+    "M2": "Partial",
+    "M3": "Partial",
+    "M4": "Partial",
+    "M5": "Partial",
+    "M6": "Partial",
+    "M7": "Partial"
+  },
+  "evidence": {
+    "build_raw189_tiff_linux.py": {
+      "bytes": 2859,
+      "sha256": "69cecc2d724fedcc56ca78de4f5984596fd1561efc8f2631370a76640e3c3dbe"
+    },
+    "build_raw189_windows.py": {
+      "bytes": 1742,
+      "sha256": "51edb2c59e7f6b20fd3d925097a9da51e1e3e599dff341e63adfa8974e989264"
+    },
+    "raw189-auditor-preflight.xml": {
+      "bytes": 18812,
+      "sha256": "0ddd2dda937bec02f01b480a620606a8f6429d1d174e919819c86b5dbbf88218"
+    },
+    "raw189-desktop-commands.json": {
+      "bytes": 761,
+      "sha256": "8714655fce4da84eb8286fb1804d2b46bd999841f8368585113df6b87a446f58"
+    },
+    "raw189-desktop-desktop-tests.xml": {
+      "bytes": 4504,
+      "sha256": "c9de5610487ae45734992809e66399d1fcdfbfd464deeca5aec150d16621a265"
+    },
+    "raw189-desktop-tests.log": {
+      "bytes": 101,
+      "sha256": "ff712215a90d2ea904347a854179b2886218afe86f89a0196853b30fb534be36"
+    },
+    "raw189-evidence-source-proof.json": {
+      "bytes": 120858,
+      "sha256": "d5b424abc46b6985b6398533e1739652e0df3726ef1d75a048f2f84b0c9bb23c"
+    },
+    "raw189-evidence-workspace-observations.json": {
+      "bytes": 1723,
+      "sha256": "b1c98b112336bb6daaaee6436708414c3c1e4303b995017955ec3fcebdae0ac6"
+    },
+    "raw189-native-build.log": {
+      "bytes": 8689,
+      "sha256": "85eb4417576ebfdbdc2ec9d2191b56e313d91e2cd655d3caf9f186803ee39c48"
+    },
+    "raw189-native-cells.xml": {
+      "bytes": 605,
+      "sha256": "454472b8c9a83bbaa617f67278f46181d95be7ba990b4f7575b879ef408ec167"
+    },
+    "raw189-native-commands.json": {
+      "bytes": 4052,
+      "sha256": "7124757006d4f72f50414a6a59425280483d66cc72fe288434ba72f566d2a3ad"
+    },
+    "raw189-native-configure.log": {
+      "bytes": 3579,
+      "sha256": "65ceb0e4dee0e657bf914487bbf9742e8ebdcfec8e4a5ff973cfab2c5e23d090"
+    },
+    "raw189-native-project_batch.xml": {
+      "bytes": 550,
+      "sha256": "6651e0e5c3bca26a0d1f14708c869a97ebf4cb8b678e3a75eb49b04b00b6b069"
+    },
+    "raw189-native-raw_image.xml": {
+      "bytes": 848,
+      "sha256": "09aec070367e92381e718f6f189e73a2e152335a9a18c7d3495e535aca94b9c6"
+    },
+    "raw189-native-resampling.xml": {
+      "bytes": 2081,
+      "sha256": "6f1112a71e94a9c47f86e943cd2daac3906653254005dc2de2b086895d569e9e"
+    },
+    "raw189-native-test-cells.log": {
+      "bytes": 233,
+      "sha256": "ea1ef6348bd51c7291dbc0cf0a30316d1ebd0dae7f9f9b92bb45ac0d2ebec489"
+    },
+    "raw189-native-test-project_batch.log": {
+      "bytes": 241,
+      "sha256": "e12cedd889a84d5153d4ccda7cb06def493d4f2e86972bca15ef5d8b251964ac"
+    },
+    "raw189-native-test-raw_image.log": {
+      "bytes": 237,
+      "sha256": "733bb1c1546737399b15d36e03e92f606cb1128d9581e1a150ccfe0929c45fdb"
+    },
+    "raw189-native-test-resampling.log": {
+      "bytes": 236,
+      "sha256": "711913a1720b0ff9dd99de5e6266fcf71877161d249aaedb0ede80dc5178269e"
+    },
+    "raw189-native-test-viewer_session.log": {
+      "bytes": 242,
+      "sha256": "38d93090650b071eb96847f49292049f25db74f3c58b7d1c7c92115693f7ffb7"
+    },
+    "raw189-native-viewer_session.xml": {
+      "bytes": 659,
+      "sha256": "c8acda715c43b92259493d2ffe0854974f81e5421b4dbdef271a9a2678dcb1f7"
+    },
+    "raw189-python-isolated-candidate-inventory.json": {
+      "bytes": 1282,
+      "sha256": "bf69c266b1849c7856f04eba4f1cf7366a748cf775935cd45b7f8eb226d3bdca"
+    },
+    "raw189-python-isolated-compiler-inputs.json": {
+      "bytes": 32625,
+      "sha256": "b28479c35c2ff101bbbbef84f64e15f18e4766dd70281ec96c8431834283cdc5"
+    },
+    "raw189-python-isolated-identity.log": {
+      "bytes": 334,
+      "sha256": "1f93be956f37ccdd1cac5e9cc54764a6e14ee8527ea6aa90544515861fe97f88"
+    },
+    "raw189-python-isolated-stub-check.log": {
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    "raw189-runtime-after-commands.json": {
+      "bytes": 1728,
+      "sha256": "208e6bda5d282a5936b127609215d80177004a43049ab25ca868d77cbf612f33"
+    },
+    "raw189-runtime-after-python-tests.xml": {
+      "bytes": 28295,
+      "sha256": "26a9c23ccba6695d8574d1a39b070678f5e5317febf8e7148b90602af3aaa742"
+    },
+    "raw189-runtime-after-tests.log": {
+      "bytes": 275,
+      "sha256": "3904f12d65cd5c6c83f6126883bbd764be777cfc779df92ed8454c1fe02a7141"
+    },
+    "raw189-sanitize-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw189-sanitize-commands.json": {
+      "bytes": 2672,
+      "sha256": "a46547083dfde6adcc65aabaeb42d504a4dc73eaa51ce09444b054fe52a38f61"
+    },
+    "raw189-sanitize-driver.cpp": {
+      "bytes": 293,
+      "sha256": "10173431ffd4e5425dc5855753d0e333e0263fa37c379eb398d99b426080b057"
+    },
+    "raw189-sanitize-tests.log": {
+      "bytes": 1560,
+      "sha256": "4a3bda27bba59dc188583c93a729fdaa1d192e97ef41db5bedcfe499e1c9727d"
+    },
+    "raw189-scientific-commands.json": {
+      "bytes": 2862,
+      "sha256": "e353877df097e6ad403577f2cb9c67aa8abf27b9c59f47d52f07aa0e643bdf3c"
+    },
+    "raw189-scientific-tests.log": {
+      "bytes": 346,
+      "sha256": "ea4d742f0427754d629305c2a30574dda24af86662ad57877858792786cd7076"
+    },
+    "raw189-scientific-tests.xml": {
+      "bytes": 40021,
+      "sha256": "269749eba7c5a6fdacd850fc63a02c93a934dc687ff92e17d1eef3d8e12f3228"
+    },
+    "raw189-stream-after.xml": {
+      "bytes": 1948,
+      "sha256": "56cf24ce88687446b79d86e7584b76859aa9d3c3c2e8b9024e4bb6ddfddd0416"
+    },
+    "raw189-stream-before.xml": {
+      "bytes": 6173,
+      "sha256": "16341111681b698ed49697115b2b74b38620384f8fe4c0c5dfdec37e19640659"
+    },
+    "raw189-tiff-linux-build.log": {
+      "bytes": 6260,
+      "sha256": "917d5522ae255b82ddcc1b51e645081117747b84489f9b11340980914fbdaf43"
+    },
+    "raw189-tiff-linux-cells-tests.xml": {
+      "bytes": 588,
+      "sha256": "6b6f7c43d37ca49163a21b65b29f9b3aac9184760815c27a816ca28d19b999c3"
+    },
+    "raw189-tiff-linux-commands.json": {
+      "bytes": 5942,
+      "sha256": "5f72cd00f864c0356f93d1041620002e87992169b55662fc4f9a81dde2b5ba66"
+    },
+    "raw189-tiff-linux-configure.log": {
+      "bytes": 3354,
+      "sha256": "37ceb2dde526f920f8b7e4619af870e85755e9d2d5eb29d29786f2e4b85f98a9"
+    },
+    "raw189-tiff-linux-native-tests.xml": {
+      "bytes": 2049,
+      "sha256": "5334ef73c74e7a5914de9e91c7bb6cdb0dd4674b5620dc6defaad20d3cd6db82"
+    },
+    "raw189-tiff-linux-project-batch-tests.xml": {
+      "bytes": 532,
+      "sha256": "5cc9c5a0cc144d76288cdd8db208282940e8775c7087f1d0c99f79f211e2cc9d"
+    },
+    "raw189-tiff-linux-raw-image-tests.xml": {
+      "bytes": 826,
+      "sha256": "c72eed74238230b654941434c645512159e71c29267f996cbd6324a48d19629f"
+    },
+    "raw189-tiff-linux-tests-cells.log": {
+      "bytes": 362,
+      "sha256": "6675fd0cb9a493fb37ebd45925a9f01c024be8dc500337df6d689ec0419c4be9"
+    },
+    "raw189-tiff-linux-tests-project-batch.log": {
+      "bytes": 370,
+      "sha256": "66b5f9db11f0903333c4f35bd43da40887fddfd2dccff0e41b06578d9f6fd981"
+    },
+    "raw189-tiff-linux-tests-raw-image.log": {
+      "bytes": 366,
+      "sha256": "9de1a434e9c4c0ad974120daa4f06364d3ed092e83bf98ff3d24c9a0e1d5a5f8"
+    },
+    "raw189-tiff-linux-tests-resampling.log": {
+      "bytes": 365,
+      "sha256": "78e2888959335eb8d215b41981b547e0d193d952ca6fd72b90678da9278ce6db"
+    },
+    "raw189-tiff-linux-tests-viewer-session.log": {
+      "bytes": 371,
+      "sha256": "df7706472656d49ad7cf122c7b3f361267ac3cbe6dc877b783908e8be74b475f"
+    },
+    "raw189-tiff-linux-viewer-session-tests.xml": {
+      "bytes": 640,
+      "sha256": "64e02dd485ae3ec2bafa55d0de99a62c96ee2d10e396e7bd01e67b42c929a37c"
+    },
+    "sanitize_raw189.py": {
+      "bytes": 2070,
+      "sha256": "78321b93172479dc0ead171bd5ae922d6b487836b48a97b86c7fe025684b88b4"
+    },
+    "shared-input-10000-3.tif": {
+      "bytes": 140738,
+      "sha256": "e1690f78b72f327778e11e865e68d5ed5de20cd027d3e39d83812935c8d477cb"
+    },
+    "shared-input-400-200.tif": {
+      "bytes": 375147,
+      "sha256": "d422a6f131ff46f7538647a95a14af396841aece154edf56f9ae03cedf2957b3"
+    },
+    "stage_raw189_python.py": {
+      "bytes": 3367,
+      "sha256": "d7d5d61f21fa6d9fda953201e27422686eab98f3bc38b948437bf86684da58ac"
+    },
+    "test_raw189_desktop.py": {
+      "bytes": 946,
+      "sha256": "12ce47ce8fce462a43edad0a7abbe6ce8d3556d9a35e90035bc5acfb81ef0704"
+    },
+    "test_raw189_runtime_after.py": {
+      "bytes": 1180,
+      "sha256": "1b79884c3cc4d1769ac03c92a3b62e1840fc58de0fb4ff0c251c4d899c406b9d"
+    },
+    "test_raw189_scientific.py": {
+      "bytes": 918,
+      "sha256": "6c119734217dc732a150873f6fc95b0dc8b72a8389db6073686bcdfa920c09c9"
+    }
+  }
+}

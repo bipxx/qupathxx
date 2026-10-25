@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-25T14:47:58"
+	>
+	<testcase name="cells" classname="cells" time="0.115223" status="run">
+		<properties/>
+		<system-out>Native grid cell request, float64 LoG, metric shape/body, calibrated features and one-read detection passed
+32 exact metric LoG signs and 128 rational-distance body expansion references passed
+Cell distance/nearest-site references, touching nuclei and lifecycle passed
+</system-out>
+	</testcase>
+</testsuite>
