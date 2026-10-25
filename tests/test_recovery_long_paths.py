@@ -2,6 +2,7 @@
 import os
 from pathlib import Path
 import shutil
+import sqlite3
 
 import pytest
 import qupathxx as q
@@ -16,23 +17,23 @@ def access(path):
     return Path(text)
 
 
-def target_path(tmp_path):
+def target_path(tmp_path, length=230):
     directory = tmp_path / 'nested'
     directory.mkdir()
     suffix = '.qpxrecover'
-    leaf_length = 230 - len(str(directory.resolve())) - 1 - len(suffix)
+    leaf_length = length - len(str(directory.resolve())) - 1 - len(suffix)
     assert 1 <= leaf_length < 240, 'test root must leave room for the public checkpoint name'
     target = directory / ('r' * leaf_length + suffix)
-    assert len(str(target.resolve())) == 230
+    assert len(str(target.resolve())) == length
     assert len(str(target.resolve()) + '.work-' + 'c' * 32) > 260
     return target
 
 
-def scene(tmp_path):
+def scene(tmp_path, length=230):
     project = q.Project()
     image = project.add_document(q.Document(q.Image(8, 8, [42] * 8 * 8 * 3)))
     obj = project.document(image).add_rectangle(q.Rect(1, 1, 3, 3), 'Before save')
-    target = target_path(tmp_path)
+    target = target_path(tmp_path, length)
     primary = target.parent / 'primary.qpxproj'
     project.save(str(primary))
     project.document(image).rename_annotation(obj, 'Captured')
@@ -53,8 +54,9 @@ def stage(target, info, valid_snapshot=True):
     return work
 
 
-def test_public_checkpoint_survives_long_private_work_and_snapshot_paths(tmp_path):
-    project, image, obj, primary, target = scene(tmp_path)
+@pytest.mark.parametrize('length', [230, 270])
+def test_public_checkpoint_survives_long_private_work_and_snapshot_paths(tmp_path, length):
+    project, image, obj, primary, target = scene(tmp_path, length)
     primary_bytes = primary.read_bytes()
     info = q.Project.inspect_recovery(str(target))
     assert info.path == str(target.resolve()) and info.base_path == str(primary.resolve())
@@ -74,6 +76,28 @@ def test_long_abandoned_work_rescues_committed_snapshot_without_overwrite(tmp_pa
     assert not work.exists() and access(target).read_bytes() == before
     assert q.Project.recover(str(rescue)).document(image).annotation(obj).name == 'Captured'
     assert str(rescue.resolve()) in [i.path for i in q.Project.find_recoveries(str(primary))]
+
+
+@pytest.mark.parametrize('changed', [False, True])
+def test_long_rescue_review_and_checked_discard_preserve_primary(tmp_path, changed):
+    project, image, obj, primary, target = scene(tmp_path)
+    stage(target, q.Project.inspect_recovery(str(target)))
+    assert q.Project.cleanup_recovery_work(str(target)) == 1
+    rescue = target.parent / (target.name + '.rescued-' + 'c' * 32 + '.qpxrecover')
+    before = primary.read_bytes(), access(target).read_bytes()
+    reviewed = q.Project.review_recovery(str(rescue))
+    assert reviewed.path == str(rescue.resolve()) and reviewed.fingerprint
+    if changed:
+        with sqlite3.connect(str(access(rescue))) as db:
+            db.execute('UPDATE objects SET name=? WHERE id=?', ('Changed after review', obj))
+        with pytest.raises(RuntimeError, match='changed since review'):
+            q.Project.discard_recovery_checked(reviewed)
+        assert access(rescue).exists()
+        assert (primary.read_bytes(), access(target).read_bytes()) == before
+        return
+    q.Project.discard_recovery_checked(reviewed)
+    assert not access(rescue).exists()
+    assert (primary.read_bytes(), access(target).read_bytes()) == before
 
 
 @pytest.mark.parametrize('kind', ['collision', 'extra_file', 'wrong_owner'])
