@@ -77,7 +77,7 @@ def test_source_binding_normalizes_code_only(tmp_path,monkeypatch,fixture,data,a
     relative='docs/benchmarks/annotation-migration-recovery-local/capture.log' if fixture else 'cpp/source.cpp'
     path=tmp_path/relative;path.parent.mkdir(parents=True);path.write_bytes(data)
     monkeypatch.setattr(evidence,'SOURCES',[relative])
-    monkeypatch.setattr(evidence.common.subprocess,'run',lambda *a,**kw:SimpleNamespace(returncode=0,stdout=b'a\nb\n'))
+    monkeypatch.setattr(evidence.common.subprocess,'run',lambda *a,**kw:SimpleNamespace(returncode=0,stdout=b'1111111111111111111111111111111111111111 blob 4\na\nb\n\n'))
     if accepted:assert len(evidence.source_contract(tmp_path,'a'*40))==1
     else:
         with pytest.raises(ValueError,match='source differs'):evidence.source_contract(tmp_path,'a'*40)

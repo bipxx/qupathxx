@@ -23,6 +23,8 @@ hierarchy_spec=importlib.util.spec_from_file_location('qpx_hierarchy_evidence',P
 hierarchy=importlib.util.module_from_spec(hierarchy_spec);hierarchy_spec.loader.exec_module(hierarchy)
 scientific_spec=importlib.util.spec_from_file_location('qpx_scientific_grid_evidence',Path(__file__).with_name('scientific_grid_evidence.py'))
 scientific=importlib.util.module_from_spec(scientific_spec);scientific_spec.loader.exec_module(scientific)
+axis_spec=importlib.util.spec_from_file_location('qpx_tma_axis_evidence',Path(__file__).with_name('tma_axis_evidence.py'))
+axis=importlib.util.module_from_spec(axis_spec);axis_spec.loader.exec_module(axis)
 
 ASSETS = Path(__file__).with_name('manylinux-assets.json')
 
@@ -337,6 +339,8 @@ def main():
     if args.sampled_cells:
         args.unified_engine=args.ndpi_readers=args.watershed_bodies=True
     report=audit(args.artifacts,read(args.run_json),args.commit)
+    report['tma_axis_sources']=axis.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['tma_axis_cohorts']=[]
     report['resampling_sources']=resampling.source_contract(Path(__file__).resolve().parents[2],args.commit)
     report['qptma_sources']=qptma.source_contract(Path(__file__).resolve().parents[2],args.commit)
     report['hierarchy_sources']=hierarchy.source_contract(Path(__file__).resolve().parents[2],args.commit)
@@ -355,7 +359,11 @@ def main():
         hierarchy_typing=hierarchy.typing_errors(folder/'hierarchy-typing-negative.log')
         scientific_native=scientific.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
         scientific_typing=scientific.typing(folder)
+        axis_native=axis.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        axis_typing=axis.typing(folder/axis.TYPING_LOG)
         for cohort,path in [('builder',folder/'python-tests.xml'),('consumer',args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
+            axis_cases=list(ET.parse(path).getroot().iter('testcase'))
+            report['tma_axis_cohorts'].append(dict(python=version,cohort=cohort,native=axis_native,builder_typing=axis_typing,installed=axis.python(axis_cases),desktop=axis.desktop(axis_cases)))
             report['scientific_grid_cohorts'].append(dict(python=version,cohort=cohort,native=scientific_native,builder_typing=scientific_typing,installed=scientific.python(list(ET.parse(path).getroot().iter('testcase')))))
             report['hierarchy_cohorts'].append(dict(python=version,cohort=cohort,native=hierarchy_native,builder_typing=hierarchy_typing,installed=hierarchy.python(list(ET.parse(path).getroot().iter('testcase')))))
             report['qptma_cohorts'].append(dict(python=version,cohort=cohort,native=qptma_native,project_native=qptma_project,builder_typing=qptma_typing,installed=qptma.python(list(ET.parse(path).getroot().iter('testcase')))))

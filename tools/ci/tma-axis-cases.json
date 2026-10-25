@@ -1,0 +1,57 @@
+{
+  "installed": {
+    "test_tma_axes": [
+      "test_dimensions_and_total_slot_limits_reject_before_mutation",
+      "test_edited_grid_project_and_qptma_roundtrip",
+      "test_explicit_and_vacant_insertions[column]",
+      "test_explicit_and_vacant_insertions[row]",
+      "test_insert_preserves_old_cores_and_atomic_history[column]",
+      "test_insert_preserves_old_cores_and_atomic_history[row]",
+      "test_rejection_is_atomic[<lambda>0]",
+      "test_rejection_is_atomic[<lambda>1]",
+      "test_rejection_is_atomic[<lambda>2]",
+      "test_rejection_is_atomic[<lambda>3]",
+      "test_rejection_is_atomic[<lambda>4]",
+      "test_rejection_is_atomic[<lambda>5]",
+      "test_retained_nested_core_survives_axis_removal_and_undo",
+      "test_singleton_requires_explicit_spacing",
+      "test_sparse_cross_axis_uses_observed_spacing"
+    ]
+  },
+  "desktop": {
+    "test_gui_tma": [
+      "test_case_geometry_and_grid_translation",
+      "test_case_summary_export[input_alias]",
+      "test_case_summary_export[inventory]",
+      "test_case_summary_export[stale]",
+      "test_case_summary_export[weighted]",
+      "test_create_grid_and_missing_flag",
+      "test_fill_vacancy_and_dissolve_keep_objects",
+      "test_managed_axis_budget_rejects_before_mutation[command_bytes]",
+      "test_managed_axis_budget_rejects_before_mutation[max_edits]",
+      "test_managed_axis_commands_save_and_restart",
+      "test_managed_grid_and_metadata_commands",
+      "test_metadata_export_is_captured_and_new_file_only[False]",
+      "test_metadata_export_is_captured_and_new_file_only[True]",
+      "test_per_core_batch_launcher_excludes_missing",
+      "test_project_cohort_export_captures_all_tma_grids[input_alias]",
+      "test_project_cohort_export_captures_all_tma_grids[inventory]",
+      "test_project_cohort_export_captures_all_tma_grids[no_project]",
+      "test_project_cohort_export_captures_all_tma_grids[stale]",
+      "test_project_cohort_export_captures_all_tma_grids[weighted]",
+      "test_structural_axis_controls[GuiInputTarget.TMA_INSERT_COLUMN_AFTER-2-4]",
+      "test_structural_axis_controls[GuiInputTarget.TMA_INSERT_ROW_AFTER-3-3]",
+      "test_structural_axis_controls[GuiInputTarget.TMA_REMOVE_COLUMN-2-2]",
+      "test_structural_axis_controls[GuiInputTarget.TMA_REMOVE_ROW-1-3]",
+      "test_tma_shortcut_preserves_the_active_annotation_tool"
+    ]
+  },
+  "native": {
+    "tma": [
+      "TMA axis insertion/removal: skewed geometry, vacant/explicit slots, metadata, nested protection, atomic history and rejection passed"
+    ],
+    "viewer_session": [
+      "TMA viewer axis commands: copied bounds, revision, cancellation, atomic result and edit admission passed"
+    ]
+  }
+}

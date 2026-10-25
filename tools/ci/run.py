@@ -14,6 +14,7 @@ ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import assets
 import scientific_grid_evidence as scientific
+import tma_axis_evidence as axis
 sys.path.insert(0, str(ROOT/'tools'))
 import build_opencv_sdk
 
@@ -286,6 +287,8 @@ def main():
     for log,(filename,lines) in scientific.NEGATIVE.items():
         run([test_python,'-I','-m','mypy','--strict','--no-incremental','tests/typing/'+filename],work/log,env,expected=1)
         scientific.negative_typing(work/log,filename,lines)
+    run([test_python,'-I','-m','mypy','--strict','--no-incremental','tests/typing/tma_axes_invalid.py'],work/axis.TYPING_LOG,env,expected=1)
+    axis.typing(work/axis.TYPING_LOG)
     negative_log = work/'typing-negative.log'
     run([test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/invalid_api.py'], negative_log, env, expected=1)
     lines = re.findall(r'invalid_api\.py:(\d+): error:', negative_log.read_text(encoding='utf8'))

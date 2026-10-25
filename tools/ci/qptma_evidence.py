@@ -17,13 +17,24 @@ def require(value,message):
 
 def source_contract(root,commit,sources=None,label="qptma",raw_prefixes=("tests/fixtures/",)):
     sources=SOURCES if sources is None else sources
-    root=Path(root);hashes={}
+    root=Path(root);sources=list(sources);hashes={}
+    require(all('\n' not in name and '\r' not in name for name in sources),label+' invalid source path')
+    request=''.join(commit+':'+name+'\n' for name in sources).encode('utf-8')
+    saved=subprocess.run(['git','-C',str(root),'cat-file','--batch'],input=request,capture_output=True)
+    require(saved.returncode==0,label+' source read failed')
+    stream=saved.stdout;offset=0
     for relative in sources:
-        raw=(root/relative).read_bytes();canonical=raw if relative.startswith(raw_prefixes) else raw.replace(b'\r\n',b'\n')
-        saved=subprocess.run(['git','-C',str(root),'show',commit+':'+relative],capture_output=True)
-        require(saved.returncode==0 and saved.stdout==canonical,label+' source differs: '+relative)
-        hashes[relative]=dict(git_blob_sha256=hashlib.sha256(saved.stdout).hexdigest(),checked_out_sha256=hashlib.sha256(raw).hexdigest())
+        end=stream.find(b'\n',offset);require(end>=offset,label+' source response truncated')
+        header=stream[offset:end].split();require(len(header)==3 and header[1]==b'blob',label+' source missing: '+relative)
+        size=int(header[2]);require(size>=0,label+' invalid source length')
+        blob=stream[end+1:end+1+size]
+        require(len(blob)==size and stream[end+1+size:end+2+size]==b'\n',label+' source response truncated')
+        offset=end+2+size;raw=(root/relative).read_bytes();canonical=raw if relative.startswith(raw_prefixes) else raw.replace(b'\r\n',b'\n')
+        require(canonical==blob,label+' source differs: '+relative)
+        hashes[relative]=dict(git_blob_sha256=hashlib.sha256(blob).hexdigest(),checked_out_sha256=hashlib.sha256(raw).hexdigest())
+    require(offset==len(stream),label+' source trailing response')
     return hashes
+
 
 def native(cases):
     selected=[case for case in cases if case.get('name')=='qptma']

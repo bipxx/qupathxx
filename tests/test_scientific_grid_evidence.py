@@ -137,7 +137,7 @@ def test_batched_source_binding_preserves_raw_fixtures(tmp_path,monkeypatch,fixt
     blob=b'a\nb\n';response=b'a'*40+b' blob '+str(len(blob)).encode()+b'\n'+blob+b'\n'
     calls=[]
     def read(*args,**kwargs):
-        calls.append((args,kwargs));return SimpleNamespace(stdout=response)
+        calls.append((args,kwargs));return SimpleNamespace(returncode=0,stdout=response)
     monkeypatch.setattr(evidence.subprocess,'run',read)
     if accepted:assert len(evidence.source_contract(tmp_path,'b'*40))==1
     else:

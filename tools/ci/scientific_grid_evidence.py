@@ -64,22 +64,14 @@ EXTRA+=('tools/qupath_roi_cell_debug.py','tools/fetch_qupath.py',
         'tools/upstream/qupath_cell_debug_probe.groovy')
 EXTRA+=('tools/qupath_resampled_cell_debug.py','tools/ci/run_macos_native.py')
 
+EXTRA+=('tools/ci/tma_axis_evidence.py','tools/ci/tma-axis-cases.json','tests/test_tma_axis_evidence.py','tests/test_tma_axes.py','tests/test_gui_tma.py','tests/typing/tma_axes_invalid.py','tools/ci/qptma_evidence.py','tests/test_qptma_evidence.py')
+
 def source_contract(root,commit):
     root=Path(root)
     tree=[name.decode('utf-8') for name in subprocess.check_output(['git','-C',str(root),'ls-tree','-rz','--name-only',commit]).split(b'\0') if name]
     names=sorted(set(EXTRA)|{n for n in tree if n.startswith(('cpp/','cmake/','src/qupathxx/',*FIXTURES)) or n in ('CMakeLists.txt','pyproject.toml') or n in ('tests/'+v+'.py' for v in CASES) or (n.startswith('tools/reference_') and n.endswith('.py'))})
-    request=''.join(commit+':'+n+'\n' for n in names).encode()
-    stream=subprocess.run(['git','-C',str(root),'cat-file','--batch'],input=request,stdout=subprocess.PIPE,check=True).stdout
-    offset=0;hashes={}
-    for name in names:
-        end=stream.find(b'\n',offset);require(end>=offset,'scientific source response truncated')
-        header=stream[offset:end].split();require(len(header)==3 and header[1]==b'blob','scientific source missing: '+name)
-        size=int(header[2]);blob=stream[end+1:end+1+size];require(len(blob)==size and stream[end+1+size:end+2+size]==b'\n','scientific source response truncated')
-        offset=end+2+size;raw=(root/name).read_bytes();canonical=raw if name.startswith('tests/fixtures/') else raw.replace(b'\r\n',b'\n')
-        require(canonical==blob,'scientific source differs: '+name)
-        hashes[name]=dict(git_blob_sha256=hashlib.sha256(blob).hexdigest(),checked_out_sha256=hashlib.sha256(raw).hexdigest())
-    require(offset==len(stream),'scientific source trailing response')
-    return hashes
+    return common.source_contract(root,commit,names,label='scientific')
+
 
 def native(cases,project=True,geos=True,tiff=True):
     flags=dict(project=project,no_project=not project,geos=geos,no_geos=not geos,both=project and geos,tiff=tiff,raw_project=project and tiff)

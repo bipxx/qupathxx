@@ -24,6 +24,8 @@ hierarchy_spec=importlib.util.spec_from_file_location('qpx_hierarchy_evidence',P
 hierarchy=importlib.util.module_from_spec(hierarchy_spec);hierarchy_spec.loader.exec_module(hierarchy)
 scientific_spec=importlib.util.spec_from_file_location('qpx_scientific_grid_evidence',Path(__file__).with_name('scientific_grid_evidence.py'))
 scientific=importlib.util.module_from_spec(scientific_spec);scientific_spec.loader.exec_module(scientific)
+axis_spec=importlib.util.spec_from_file_location('qpx_tma_axis_evidence',Path(__file__).with_name('tma_axis_evidence.py'))
+axis=importlib.util.module_from_spec(axis_spec);axis_spec.loader.exec_module(axis)
 
 ROOT=Path(__file__).resolve().parents[2]
 if not __debug__:
@@ -110,6 +112,7 @@ def canonical_source_fingerprint():
         size=int(header[2]);blob=stream[end+1:end+size+1];offset=end+size+2
         manifest.append(name+'='+hashlib.sha256(blob).hexdigest()+'\n')
     return hashlib.sha256(''.join(manifest).encode()).hexdigest()
+report['tma_axis_sources']=axis.source_contract(ROOT,COMMIT)
 report['hierarchy_sources']=hierarchy.source_contract(ROOT,COMMIT)
 report['scientific_grid_sources']=scientific.source_contract(ROOT,COMMIT)
 expected_source=canonical_source_fingerprint()
@@ -123,6 +126,7 @@ for job in run['jobs']:
     native_cases=list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase'))
     entry['resampling_native']=resampling.native(native_cases)
     entry['scientific_grid_native']=scientific.native(native_cases,project=job['name']!='Linux minimal native',geos=job['name']!='Linux minimal native',tiff=job['name']!='Linux minimal native')
+    entry['tma_axis_native']=axis.native(native_cases)
     entry['qptma_native']=qptma.native(native_cases)
     entry['hierarchy_native']=hierarchy.native(native_cases,enabled=job['name']!='Linux minimal native')
     entry['qptma_project_native']=qptma.project_native(native_cases,enabled=job['name']!='Linux minimal native')
@@ -153,6 +157,10 @@ for job in run['jobs']:
         entry['resampling_python']=resampling.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')))
         entry['qptma_python']=qptma.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')))
         entry['qptma_typing']=qptma.typing_errors(folder/'qptma-typing-negative.log')
+        axis_cases=list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase'))
+        entry['tma_axis_python']=axis.python(axis_cases)
+        entry['tma_axis_desktop']=axis.desktop(axis_cases,gui='GUI' in job['name'])
+        entry['tma_axis_typing']=axis.typing(folder/axis.TYPING_LOG)
         entry['hierarchy_python']=hierarchy.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),gui='GUI' in job['name'])
         entry['hierarchy_typing']=hierarchy.typing_errors(folder/'hierarchy-typing-negative.log')
         entry['scientific_grid_python']=scientific.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),gui='GUI' in job['name'])

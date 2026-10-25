@@ -51,7 +51,7 @@ def test_source_contract_only_normalizes_checkout_line_endings(tmp_path, monkeyp
     from types import SimpleNamespace
     (tmp_path/'source.txt').write_bytes(data)
     monkeypatch.setattr(evidence, 'SOURCES', ['source.txt'])
-    monkeypatch.setattr(evidence.subprocess, 'run', lambda *a, **kw: SimpleNamespace(returncode=0, stdout=b'a\nb\n'))
+    monkeypatch.setattr(evidence.subprocess, 'run', lambda *a, **kw: SimpleNamespace(returncode=0, stdout=b'1111111111111111111111111111111111111111 blob 4\na\nb\n\n'))
     if accepted:
         result = evidence.source_contract(tmp_path, 'a'*40)['source.txt']
         assert len(result['git_blob_sha256'])==64 and len(result['checked_out_sha256'])==64
@@ -64,7 +64,7 @@ def test_captured_fixture_bytes_are_never_line_normalized(tmp_path, monkeypatch)
     relative='tests/fixtures/captured.qptma';path=tmp_path/relative;path.parent.mkdir(parents=True)
     path.write_bytes(b'a\r\nb\r\n')
     monkeypatch.setattr(evidence,'SOURCES',[relative])
-    monkeypatch.setattr(evidence.subprocess,'run',lambda *a,**kw:SimpleNamespace(returncode=0,stdout=b'a\nb\n'))
+    monkeypatch.setattr(evidence.subprocess,'run',lambda *a,**kw:SimpleNamespace(returncode=0,stdout=b'1111111111111111111111111111111111111111 blob 4\na\nb\n\n'))
     with pytest.raises(ValueError,match='source differs'):evidence.source_contract(tmp_path,'a'*40)
 
 
@@ -85,3 +85,26 @@ def test_project_native_coverage_cannot_be_replaced_by_disabled_or_failed_test(f
     elif failure=='disabled_branch':out.text=evidence.PROJECT_DISABLED
     else:out.text=(evidence.PROJECT_MARKER+'\n')*2
     with pytest.raises(ValueError):evidence.project_native(cases)
+
+
+@pytest.mark.parametrize('output', [b'', b'not-found missing\n', b'abc tree 4\na\nb\n\n',
+    b'abc blob 4\na\n', b'abc blob 4\na\nb\nx', b'abc blob 4\na\nb\n\ntrailing'])
+def test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing(tmp_path, monkeypatch, output):
+    from types import SimpleNamespace
+    (tmp_path/'source.txt').write_bytes(b'a\nb\n')
+    monkeypatch.setattr(evidence.subprocess,'run',lambda *a,**kw:SimpleNamespace(returncode=0,stdout=output))
+    with pytest.raises(ValueError):evidence.source_contract(tmp_path,'a'*40,['source.txt'])
+
+
+def test_source_batch_reads_multiple_blobs_in_one_process(tmp_path, monkeypatch):
+    from types import SimpleNamespace
+    (tmp_path/'a.txt').write_bytes(b'a\r\n');(tmp_path/'b.txt').write_bytes(b'')
+    calls=[]
+    def run(command,**kwargs):
+        calls.append((command,kwargs))
+        return SimpleNamespace(returncode=0,stdout=b'abc blob 2\na\n\ndef blob 0\n\n')
+    monkeypatch.setattr(evidence.subprocess,'run',run)
+    result=evidence.source_contract(tmp_path,'a'*40,['a.txt','b.txt'])
+    assert list(result)==['a.txt','b.txt'] and len(calls)==1
+    assert calls[0][0][-2:]==['cat-file','--batch']
+    assert calls[0][1]['input']==(('a'*40+':a.txt\n')+('a'*40+':b.txt\n')).encode()
