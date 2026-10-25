@@ -280,18 +280,25 @@ this changes no native inputs. The earlier 262pass/2fail observation is retained
   CPython3.11/3.12 manylinux builders and fresh Debian consumers; extended readers
   explicitly enabled for builder NDPI coverage.
 
-Linux minimal and ASan/UBSan native jobs have each passed49suites, with uploaded
-archive digest, exact source/engine identity and semantic/capability audit verified.
-This is partial evidence only. The full engine, both Mac architectures and all
-portable builder/consumer artifacts must complete and pass their frozen-source
-auditors before promotion. Track the exact recorded run IDs; do not redispatch
-on an observation timeout. Keep the frozen checkout unchanged.
+The complete frozen-source engine auditor now accepts all five jobs: Windows
+GUI passes 50 native suites and 3,418 installed cases; Windows/Linux headless
+pass 49 native suites and 2,990/2,988 installed cases. Minimal and ASan/UBSan
+pass 49 suites each. Required readers, runtime manifests, scientific cohorts,
+typing, rendered workflows and inherited semantic gates remain enabled.
 
-Next: collect and audit each completed artifact, then combine the scope-matched
-same-source receipts. The remaining original M0-M7 requirements stay open:
-vendors/pyramids/tiled sampling, application/hardware budgets, independent
-biological acceptance and supported-release work.
-No complete raw workflow, new full platform, biological or supported-release
-acceptance is claimed. Vendors/pyramids/tiled sampling, complete ROI/context
-workspace and UI/performance budgets, and all remaining original M0-M7 criteria
-remain open. Every milestone remains Partial.
+Both portable CPython 3.11/3.12 builders and fresh Debian consumers are accepted:
+49 native/2,988 installed cases per builder, 2,946 installed per consumer, with
+213 scientific passes and five declared desktop skips in each of four cohorts.
+The three strict legacy scientific xfails remain unresolved.
+
+Mac Intel passes 49 native suites, uploaded binary/notice inventory and fresh
+relocation probes. This is a single-architecture partial audit. Original ARM64
+job121245381654 is still queued; retain that handle and the frozen source rather
+than redispatching. Complete two-architecture Mac acceptance and the combined
+campaign remain pending. Mac Python/GUI/OpenSlide remain outside this gate.
+
+Next: collect and audit ARM64, then combine the same-source receipts before
+promotion. Independent integration work can extend cross-tile quantitative
+sampling without changing the frozen candidate. Vendors/pyramids/tiled sampling,
+application/hardware budgets, independent biological acceptance and supported
+release work remain open. Every original M0-M7 milestone remains Partial.

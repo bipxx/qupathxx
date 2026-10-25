@@ -1,0 +1,126 @@
+{
+  "schema": "qpx.raw-grid-macos-intel-partial/1",
+  "source": "745662be8144ce6b81fe72f4ffba1f73bae9ad33",
+  "run": "https://github.com/bipxx/qupathxx/actions/runs/40218710979",
+  "job_id": 121245381454,
+  "artifact_id": 12608423093,
+  "artifact_digest": "sha256:4d69dfc99a21a2483bb6ba79f4a626f2a1b11ccca2e292789e9dc9dc0c992e24",
+  "native_passed": 49,
+  "science": {
+    "suites": 10,
+    "project": true,
+    "geos": true,
+    "tiff": true,
+    "scientific_acceptance": false
+  },
+  "resampling": {
+    "passed": 1,
+    "independent_oracle_shapes": 2205
+  },
+  "hierarchy": {
+    "hierarchy_enabled": true,
+    "hierarchy_qualified": 1,
+    "physical_path_policy": true,
+    "recovery_storage_qualified": true
+  },
+  "qptma": {
+    "passed": 1,
+    "bounded_grid_cores": 10000,
+    "atomic_document_and_file_checks": true
+  },
+  "qptma_project": {
+    "passed": 1,
+    "project_storage_enabled": true,
+    "atomic_persistence_and_cli_checked": true
+  },
+  "frontier": {
+    "priority_keys": 64,
+    "heap_equivalence_cases": 1344,
+    "historical_domain_grid_checked": true
+  },
+  "tma": {
+    "case_aggregation_checked": true,
+    "compensated_signed_sums_checked": true,
+    "mean_underflow_checked": true,
+    "cancellation_checked": true,
+    "signed_decimal_locale_checked": true,
+    "atomic_file_export_checked": true,
+    "input_size_checked": true,
+    "cohort_raw_pooling_checked": true,
+    "cohort_atomic_file_checked": true,
+    "oversized_read_transfer_bytes": null
+  },
+  "inventory": {
+    "source": "745662be8144ce6b81fe72f4ffba1f73bae9ad33",
+    "architecture": "x86_64",
+    "tooling_sha256": {
+      "tools/ci/macos_native_inventory.py": "f565de3a2f555aafabd7312ff05dc04cc1712d4d0f41b5bd626d6a19a57dc74a",
+      "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+      "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+      "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+      "tools/ci/run_macos_native.py": "8a23d05c585e3037b85f0ea4272f21be4fdc083a38110435525dd449691f3ecc",
+      "tools/ci/macos_inventory_evidence.py": "667dc35fe680175c55991a823389420421c644181d8697b1c104fbd827948c12",
+      ".github/workflows/ci.yml": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e"
+    },
+    "files": 14,
+    "binaries": 7,
+    "archive_sha256": "2fe63662fde229c3495a447d479067134bb2828680bd05f3755a56bdbcae8232",
+    "manifest_sha256": "2cb1d26ebf4d3f74c1e12c6890854d694f1e9b6fa05cc2537621b7e4094d52ec",
+    "otool_probe_sha256": "9e6f2562d39204b35e562a8bac8f8c4a59985c98aab18eda146dfacc57292808",
+    "native_snapshot_accepted": true,
+    "sdk_paths_may_be_embedded": true,
+    "runtime_resolution_complete": false,
+    "relocated_package_validated": false,
+    "external_runtime_availability_verified": false,
+    "signing_verified": false,
+    "release_ready": false,
+    "scope": "Uploaded native CLI and selected SDK runtime/notice bytes reinspected at exact source; independent otool names/versions agree. Static SDK archives remain build-input ledger only. No install-name resolution, relocation, Python/GUI/OpenSlide, ABI, signing or supported release."
+  },
+  "relocation": {
+    "source": "745662be8144ce6b81fe72f4ffba1f73bae9ad33",
+    "architecture": "x86_64",
+    "tooling_sha256": {
+      "tools/ci/macos_relocation_evidence.py": "9defffa07530738b2ab3ac68c6499de400eaefa3057adb6447e9261e6f930776",
+      "tools/ci/check_macos_relocated_runtime.py": "0f196503974c842bdd90ccad009b4261ce70cb3adc254764c60038070d2c6289",
+      "tools/ci/macos_relocate.py": "00cf7580e74d3b5140fdd76d4750dcea49a9dc4df852d6fdc2778322851a5180",
+      "tools/ci/macos_relocation_plan.py": "160f259e9a70634fcd1d9f45313681193019b8f1c08911c03f62a672a1329f80",
+      "tools/ci/macos_native_inventory.py": "f565de3a2f555aafabd7312ff05dc04cc1712d4d0f41b5bd626d6a19a57dc74a",
+      "tools/ci/macho_dependencies.py": "0b675070250682afae9e71f0c348ea719232471b060b8f6fe982fd7f625a45c3",
+      "tools/ci/runtime_manifest.py": "2013ad073943f4c200e6a44f8db2de13b094d05aa35d691c0e367d80a4734c28",
+      "tools/ci/pe_dependencies.py": "164689ef5c582628170500ae6d145026b546b2c1c41553b54afe1b95cd0e5efb",
+      "tools/ci/run_macos_native.py": "8a23d05c585e3037b85f0ea4272f21be4fdc083a38110435525dd449691f3ecc",
+      ".github/workflows/ci.yml": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e",
+      "tests/fixtures/project-v1.qpxproj": "bb79fc7a8e47896bc8793e10ed99efed9e9ffb7887a1b8a110cbdd003547a82b"
+    },
+    "source_archive_sha256": "2fe63662fde229c3495a447d479067134bb2828680bd05f3755a56bdbcae8232",
+    "relocated_archive_sha256": "4d024213dcf4a6917df8ea1191f962c19f8e1b4d73e5d3d69bf3a94eca1145b6",
+    "plan_sha256": "1c2f18288761f62030c1c66e4ee35cc6f0e5d73fbc82c05f0975787fabf6a086",
+    "files": 11,
+    "binaries": 4,
+    "execution": {
+      "commands": 11,
+      "execution_sha256": "b2b83ab0b90825469463305ba3ec36ed26ada05e8e919268aec5db09a1a9a112",
+      "ad_hoc_integrity_verified_on_builder": true,
+      "publisher_signature_verified": false
+    },
+    "runtime": {
+      "native_region_exact": true,
+      "native_batch_checkpoint": true,
+      "native_batch_csv": true,
+      "geos_union_area": 150,
+      "package_image_mappings_verified": true,
+      "loader_search_overrides_used": false,
+      "fixture_preserved": true
+    },
+    "relocated_native_host_engineering_accepted": true,
+    "publisher_signature_verified": false,
+    "older_os_compatibility_verified": false,
+    "python_gui_openslide_validated": false,
+    "arbitrary_abi_verified": false,
+    "release_ready": false,
+    "scope": "Exact-source original/relocated archive, Apple command/log and native region/batch/CSV/GEOS runtime proofs on builder. Fresh path with spaces and actual package image mappings; no search overrides. No older-OS, arbitrary ABI, macOS Python/GUI/OpenSlide, publisher signing or supported-release acceptance."
+  },
+  "scope": "Single completed x86_64 native job only. ARM64 and complete Mac acceptance remain pending. No Mac Python/GUI/OpenSlide or release acceptance.",
+  "platform_campaign_accepted": false,
+  "release_ready": false
+}

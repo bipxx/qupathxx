@@ -1,6 +1,6 @@
 {
   "schema": "qpx.integrated-qualification-dispatch/1",
-  "observed_at_utc": "2026-10-25T18:03:25.073499+00:00",
+  "observed_at_utc": "2026-10-25T18:23:37.031389+00:00",
   "source": "745662be8144ce6b81fe72f4ffba1f73bae9ad33",
   "frozen_ref": "feature/raw-grid-workflow-186",
   "preflight_passed": 264,
@@ -52,7 +52,7 @@
       "passed": 49
     }
   ],
-  "scope": "Dispatch/preflight and two completed Linux native artifacts only; Windows/Mac/native/portable full qualification pending. Mac scope is native only, not Python/GUI/OpenSlide.",
+  "scope": "Complete five-job Windows/Linux engine and both portable builders/fresh consumers accepted at the frozen source. Mac Intel native inventory/relocation accepted as a single-architecture subset; ARM64 and complete Mac gate pending. No biological, hardware or supported-release acceptance.",
   "platform_campaign_accepted": false,
   "release_ready": false,
   "overall_project_complete": false,
@@ -67,13 +67,97 @@
     "M7": "Partial"
   },
   "evidence": {
-    "preflight-before.xml": {
-      "bytes": 42161,
-      "sha256": "8cc21aa69a753682127cd222eca2191dbd3eaa81eb88919fb3c13b65a0649eef"
+    "audit-plan.json": {
+      "bytes": 2783,
+      "sha256": "24fe50dd952964079cfbf26b6b6e980d93e9d9ae2fb797d57eca6ac05addf84a"
+    },
+    "campaign-attempts.json": {
+      "bytes": 5889,
+      "sha256": "d12855c925eada9acbd60bdd787e17b066efedc8467bac1b4286450cc6be508b"
+    },
+    "dispatch.py": {
+      "bytes": 3178,
+      "sha256": "8d5a3b7027d5a5c171ec7e30811a168c4b336d1bc1175144af76a8f29b118aa7"
+    },
+    "engine-run.json": {
+      "bytes": 16529,
+      "sha256": "8f66596a82e3a13819006314dcda739212d0e1bf85df5351e777ef0c2b507e92"
+    },
+    "full-engine-audit.json": {
+      "bytes": 651942,
+      "sha256": "35bedc6d3e790a67a25d66d4b79507856e6106c5a4eb2b31ad618dc7ea4bb177"
+    },
+    "Linux-headless-py3.12-artifact.json": {
+      "bytes": 738,
+      "sha256": "6f0d406b6de1ace3c5010a7e48d997424fded0e666a5dc60aa072658b6f0bd72"
+    },
+    "Linux-minimal-py3.12-artifact.json": {
+      "bytes": 734,
+      "sha256": "b89ed71603beb78368a16c16bd2c4249789bde82c8b05b917655d363023f067a"
+    },
+    "Linux-minimal-py3.12.zip": {
+      "bytes": 34690,
+      "sha256": "08b8f221f030fa85a2181e7e8da8fe0157af2ea9eb9fcedafd7830e10d62178d"
+    },
+    "Linux-sanitize-py3.12-artifact.json": {
+      "bytes": 735,
+      "sha256": "e2c81ad33045c5c9d18991d73699cf7b8c2074e5e2b71116e46cd38c2df278ba"
+    },
+    "Linux-sanitize-py3.12.zip": {
+      "bytes": 39948,
+      "sha256": "6cd8f3dd605ec197d93cd1b9de62c5f73f3c7985f5e3895a4e51ea9247351e27"
+    },
+    "macos-intel-partial-audit.json": {
+      "bytes": 6235,
+      "sha256": "c5b91906fe07dc72ea8d661b592dcb01d6542ad82e387299110200b6fcf69025"
+    },
+    "macos-native-x86_64-artifact.json": {
+      "bytes": 736,
+      "sha256": "54d78f50662eeba79f7ab724e3b21ba745c2e4e0339cd43739b50327f5ccf84a"
+    },
+    "macos-run.json": {
+      "bytes": 3234,
+      "sha256": "478831d2450ceef613035b069f05e5d2a671d36d3ba0283b8c3491be439c3b5f"
+    },
+    "manylinux-3.11-artifact.json": {
+      "bytes": 731,
+      "sha256": "3526ad33b2765b9815509454b71774425ac8dc47265650497bd5cf2f94292a3a"
+    },
+    "manylinux-3.12-artifact.json": {
+      "bytes": 731,
+      "sha256": "317cba40704a73157768f732a3f5d45ac77c823fc8d180dd5e2d531ced8c7ec3"
+    },
+    "manylinux-consumer-3.11-artifact.json": {
+      "bytes": 737,
+      "sha256": "636dbcf2eb5feb872ea3e97b13f5e138696f328e7a0af48ce43664954e8aa062"
+    },
+    "manylinux-consumer-3.12-artifact.json": {
+      "bytes": 737,
+      "sha256": "2d2377b0c81876c6b8ed8ffe1ba48f787c73c85b63f905daca88b1b85bedc585"
+    },
+    "native-partial-audit.json": {
+      "bytes": 2315,
+      "sha256": "b765152d84391cc093dbb33221fddaed165f3a206758c855015aaeb3ede51aad"
+    },
+    "poll.py": {
+      "bytes": 1508,
+      "sha256": "4a3beb982edf0d74a07d01b437805d748ded54836995f33d541ccc47c65ab77c"
+    },
+    "portable-audit.json": {
+      "bytes": 304695,
+      "sha256": "b2f873c2fba23cdf43352e6515007297c80b6f8d1453644d0a3e37ead1a217b9"
+    },
+    "portable-run.json": {
+      "bytes": 10688,
+      "sha256": "fb774f4ee4a1cfb4bb023b4e05edee08a8b7a090ddfc2cb9c39e6990533855ec"
     },
     "preflight-after.xml": {
       "bytes": 39808,
       "sha256": "1bc9efb9fe4fdd506b4908b12e6d6ee19e367364ac647970db073e42534e295e"
+    },
+    "preflight-before.xml": {
+      "bytes": 42161,
+      "sha256": "8cc21aa69a753682127cd222eca2191dbd3eaa81eb88919fb3c13b65a0649eef"
     },
     "preflight-report.json": {
       "bytes": 1500,
@@ -83,41 +167,51 @@
       "bytes": 119901,
       "sha256": "4662637cfa49144b2fbf11d52ea8480495278317427d81fea9c33fe3cd18ad17"
     },
-    "campaign-attempts.json": {
-      "bytes": 5889,
-      "sha256": "d12855c925eada9acbd60bdd787e17b066efedc8467bac1b4286450cc6be508b"
-    },
-    "native-partial-audit.json": {
-      "bytes": 2315,
-      "sha256": "b765152d84391cc093dbb33221fddaed165f3a206758c855015aaeb3ede51aad"
-    },
-    "audit-plan.json": {
-      "bytes": 2783,
-      "sha256": "24fe50dd952964079cfbf26b6b6e980d93e9d9ae2fb797d57eca6ac05addf84a"
-    },
-    "dispatch.py": {
-      "bytes": 3178,
-      "sha256": "8d5a3b7027d5a5c171ec7e30811a168c4b336d1bc1175144af76a8f29b118aa7"
-    },
-    "poll.py": {
-      "bytes": 1508,
-      "sha256": "4a3beb982edf0d74a07d01b437805d748ded54836995f33d541ccc47c65ab77c"
-    },
-    "Linux-minimal-py3.12.zip": {
-      "bytes": 34690,
-      "sha256": "08b8f221f030fa85a2181e7e8da8fe0157af2ea9eb9fcedafd7830e10d62178d"
-    },
-    "Linux-minimal-py3.12-artifact.json": {
-      "bytes": 734,
-      "sha256": "b89ed71603beb78368a16c16bd2c4249789bde82c8b05b917655d363023f067a"
-    },
-    "Linux-sanitize-py3.12.zip": {
-      "bytes": 39948,
-      "sha256": "6cd8f3dd605ec197d93cd1b9de62c5f73f3c7985f5e3895a4e51ea9247351e27"
-    },
-    "Linux-sanitize-py3.12-artifact.json": {
+    "Windows-gui-py3.12-artifact.json": {
       "bytes": 735,
-      "sha256": "e2c81ad33045c5c9d18991d73699cf7b8c2074e5e2b71116e46cd38c2df278ba"
+      "sha256": "abf3330ec0ab2f17f80b9dea0fbaef9350f840846a753c024ec3ca1aec401113"
+    },
+    "Windows-headless-py3.11-artifact.json": {
+      "bytes": 740,
+      "sha256": "1191847d6fc06934583952b53a81cd7a434b392859d22c90436d150d2475da73"
+    }
+  },
+  "engine_accepted": true,
+  "portable_accepted": true,
+  "macos_native_accepted": false,
+  "macos_intel_partial_accepted": true,
+  "remaining_campaign_gate": "Original ARM64 job121245381654 is queued; collect and audit its artifact, then run the complete two-architecture Mac auditor.",
+  "accepted_engine_counts": {
+    "Windows GUI": {
+      "native": 50,
+      "installed": 3418
+    },
+    "Windows headless": {
+      "native": 49,
+      "installed": 2990
+    },
+    "Linux headless": {
+      "native": 49,
+      "installed": 2988
+    },
+    "Linux minimal": {
+      "native": 49
+    },
+    "Linux ASan UBSan": {
+      "native": 49
+    }
+  },
+  "accepted_portable_counts": {
+    "abis": [
+      "3.11",
+      "3.12"
+    ],
+    "builder_native": 49,
+    "builder_installed": 2988,
+    "fresh_consumer_installed": 2946,
+    "scientific_per_cohort": {
+      "passed": 213,
+      "declared_desktop_skips": 5
     }
   }
 }
