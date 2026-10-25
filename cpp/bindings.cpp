@@ -201,9 +201,9 @@ NB_MODULE(_native, m) {
         .def_ro("issues",&InterchangeReport::issues).def_ro("imported_ids",&InterchangeReport::imported_ids)
         .def_ro("source_ids",&InterchangeReport::source_ids).def_ro("features",&InterchangeReport::features);
     m.attr("has_interchange")=has_interchange();
-    m.def("export_geojson",&export_geojson,"document"_a,"ids"_a=std::vector<std::uint64_t>{},"allow_losses"_a=false);
+    m.def("export_geojson",&export_geojson,"document"_a,"ids"_a=std::vector<std::uint64_t>{},"allow_losses"_a=false,"nested_hierarchy"_a=false);
     m.def("import_geojson",&import_geojson,"document"_a,"text"_a,"assume_pixels"_a=false,"allow_losses"_a=false,"qupath_ellipse_precision"_a=false);
-    m.def("save_geojson",&save_geojson,"document"_a,"path"_a,"ids"_a=std::vector<std::uint64_t>{},"allow_losses"_a=false);
+    m.def("save_geojson",&save_geojson,"document"_a,"path"_a,"ids"_a=std::vector<std::uint64_t>{},"allow_losses"_a=false,"nested_hierarchy"_a=false);
     m.def("load_geojson",&load_geojson,"document"_a,"path"_a,"assume_pixels"_a=false,"allow_losses"_a=false,"qupath_ellipse_precision"_a=false);
     m.def("measurements_csv",&measurements_csv,"document"_a,"ids"_a=std::vector<std::uint64_t>{},"include_intensity"_a=false);
     m.def("save_measurements_csv",&save_measurements_csv,"document"_a,"path"_a,"ids"_a=std::vector<std::uint64_t>{},"include_intensity"_a=false);
@@ -352,7 +352,7 @@ NB_MODULE(_native, m) {
     nb::class_<GuiOptions>(m,"GuiOptions").def(nb::init<>())
         .def_rw("ui_scale",&GuiOptions::ui_scale).def_rw("docked_workspace",&GuiOptions::docked_workspace).def_rw("layout_path",&GuiOptions::layout_path).def_rw("reset_layout",&GuiOptions::reset_layout).def_rw("width",&GuiOptions::width).def_rw("height",&GuiOptions::height)
         .def_rw("replay_timeout_seconds",&GuiOptions::replay_timeout_seconds).def_rw("settle_tiles",&GuiOptions::settle_tiles).def_rw("overview_source_pixel_limit",&GuiOptions::overview_source_pixel_limit)
-        .def_rw("interchange_assume_pixels",&GuiOptions::interchange_assume_pixels).def_rw("interchange_allow_losses",&GuiOptions::interchange_allow_losses).def_rw("qupath_ellipse_precision",&GuiOptions::qupath_ellipse_precision)
+        .def_rw("interchange_assume_pixels",&GuiOptions::interchange_assume_pixels).def_rw("interchange_allow_losses",&GuiOptions::interchange_allow_losses).def_rw("interchange_nested_hierarchy",&GuiOptions::interchange_nested_hierarchy).def_rw("qupath_ellipse_precision",&GuiOptions::qupath_ellipse_precision)
         .def_rw("overlay_cache_budget",&GuiOptions::overlay_cache_budget)
         .def_rw("display",&GuiOptions::display).def_rw("inputs",&GuiOptions::inputs).def_rw("start_view",&GuiOptions::start_view).def_rw("project",&GuiOptions::project).def_rw("interchange_path",&GuiOptions::interchange_path).def_rw("project_image_path",&GuiOptions::project_image_path)
         .def_rw("autosave_path",&GuiOptions::autosave_path).def_rw("recovery_path",&GuiOptions::recovery_path).def_rw("recovery_base_path",&GuiOptions::recovery_base_path).def_rw("project_open_path",&GuiOptions::project_open_path).def_rw("autosave_interval_seconds",&GuiOptions::autosave_interval_seconds).def_rw("autosave_snapshot_budget",&GuiOptions::autosave_snapshot_budget).def_rw("save_snapshot_budget",&GuiOptions::save_snapshot_budget)

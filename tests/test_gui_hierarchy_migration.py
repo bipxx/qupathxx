@@ -1,5 +1,6 @@
 """Real ImGui migration using the pinned upstream hierarchy and loss fixtures."""
 import os
+import json
 
 import pytest
 import qupathxx as q
@@ -74,3 +75,19 @@ def test_upstream_duplicate_metadata_rejects_on_desktop_even_with_loss_opt_in():
     baseline = doc.revision
     q.show(doc, frame_limit=20, options=options(FIXTURE / 'metadata-raw.geojson', True))
     assert doc.object_count == 0 and doc.revision == baseline and not doc.classes
+
+
+def test_desktop_nested_export_preserves_parent_links_for_qupath(tmp_path):
+    doc = document()
+    q.load_geojson(doc, str(FIXTURE / 'nested.geojson'), assume_pixels=True)
+    output = tmp_path / 'qupath-nested-export.geojson'
+    o = options(output)
+    o.interchange_nested_hierarchy = True
+    o.inputs = [replay(4, q.GuiInputKind.EXPORT_KEY)]
+    capture = tmp_path / 'hierarchy-nested-export.ppm'
+    report = q.show(doc, frame_limit=24, capture_path=str(capture), options=o)
+    assert report.ui_overflow_items == 0 and capture.is_file()
+    assert len(json.loads(output.read_text(encoding='utf-8'))['features']) == 2
+    target = document()
+    result = q.load_geojson(target, str(output))
+    assert_objects(target, result.imported_ids)

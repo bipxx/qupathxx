@@ -14,9 +14,9 @@ struct InterchangeReport {
     std::size_t features=0;
 };
 bool has_interchange();
-InterchangeReport export_geojson(const Document&,const std::vector<std::uint64_t>& ids={},bool allow_losses=false);
+InterchangeReport export_geojson(const Document&,const std::vector<std::uint64_t>& ids={},bool allow_losses=false,bool nested_hierarchy=false);
 InterchangeReport import_geojson(Document&,const std::string& json,bool assume_pixels=false,bool allow_losses=false,bool qupath_ellipse_precision=false);
-InterchangeReport save_geojson(const Document&,const std::string& path,const std::vector<std::uint64_t>& ids={},bool allow_losses=false);
+InterchangeReport save_geojson(const Document&,const std::string& path,const std::vector<std::uint64_t>& ids={},bool allow_losses=false,bool nested_hierarchy=false);
 InterchangeReport load_geojson(Document&,const std::string& path,bool assume_pixels=false,bool allow_losses=false,bool qupath_ellipse_precision=false);
 std::string measurements_csv(const Document&,const std::vector<std::uint64_t>& ids={},bool include_intensity=false);
 void save_measurements_csv(const Document&,const std::string& path,const std::vector<std::uint64_t>& ids={},bool include_intensity=false);

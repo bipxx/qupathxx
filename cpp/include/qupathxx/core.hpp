@@ -748,6 +748,7 @@ struct GuiOptions {
     Point tma_translation;
     std::optional<Rect> tma_core_bounds;
     bool interchange_assume_pixels=false,interchange_allow_losses=false,qupath_ellipse_precision=false;
+    bool interchange_nested_hierarchy=false;
     detail::ViewerOwner* viewer_owner=nullptr;
     bool docked_workspace=false,reset_layout=false;
     std::string layout_path;

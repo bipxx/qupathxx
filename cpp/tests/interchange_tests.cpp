@@ -39,6 +39,22 @@ int main() {
         check(target.undo() && target.objects().size()==1);
         bool rejected=false; try { import_geojson(target,"{bad}"); } catch(const std::invalid_argument&) { rejected=true; }
         check(rejected && target.redo() && target.objects().size()==3);
+        auto nested=export_geojson(source,{},false,true);
+        check(nested.features==2 && nested.issues.empty());
+        check(nested.text.find("childObjects")!=std::string::npos);
+        Document nested_target(Image::demo());
+        auto nested_import=import_geojson(nested_target,nested.text);
+        check(nested_import.features==2 && nested_import.issues.empty());
+        check(nested_target.annotation(2).parent_id==1 && nested_target.annotation(2).nucleus->area()==9);
+        check(export_geojson(source,{},false,false).text==exported.text);
+        Document deep(Image::demo()); std::uint64_t previous=0;
+        for(int i=0;i<32;++i) previous=deep.add_detection(Roi::rectangle({0,0,100,100}),"Level",previous);
+        Document restored(Image::demo());
+        check(import_geojson(restored,export_geojson(deep,{},false,true).text).features==32);
+        deep.add_detection(Roi::rectangle({0,0,100,100}),"Too deep",previous);
+        rejected=false;try {export_geojson(deep,{},false,true);} catch(const std::length_error&) {rejected=true;}
+        check(rejected && export_geojson(deep).features==33);
+        std::cout<<"Native nested GeoJSON hierarchy, nucleus, flat compatibility and depth bounds passed\n";
         std::cout<<"Native interchange atomicity and exact rectangle round trip passed\n";
     } catch(const std::exception& e) { std::cerr<<e.what()<<'\n'; return 1; }
 }

@@ -390,6 +390,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if(options.interchange_path.size()>32768 || options.interchange_path.find('\0')!=std::string::npos) throw std::invalid_argument("invalid interchange path");
     std::memcpy(interchange_path,options.interchange_path.c_str(),options.interchange_path.size()+1);
     bool interchange_pixels=options.interchange_assume_pixels,interchange_losses=options.interchange_allow_losses,interchange_selected=false,csv_intensity=false;
+    bool interchange_nested=options.interchange_nested_hierarchy;
     bool qupath_ellipse_precision=options.qupath_ellipse_precision;
     std::string interchange_status;
     std::uint64_t editor_id=0,editor_revision=0;
@@ -1343,6 +1344,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ui::Checkbox("Match QuPath ellipse bounds",&qupath_ellipse_precision);
             ImGui::EndDisabled();
             if(qupath_ellipse_precision) ImGui::TextWrapped("Coordinate changes require Allow lossy conversion. Native analytic hints remain exact.");
+            ui::Checkbox("QuPath hierarchy (nested export)",&interchange_nested);
+            ImGui::TextWrapped(interchange_nested?"Parent links use nested child objects. Maximum 32 object levels.":"Flat parent links are native extensions. QuPath imports these objects without parents.");
             ui::Checkbox("Selected objects only",&interchange_selected);
             auto export_ids=[&]() {
                 auto ids=interchange_selected?selection->ids():std::vector<std::uint64_t>{};
@@ -1354,7 +1357,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 for(const auto& issue:report.issues) interchange_status+="\n"+issue.message+" ("+std::to_string(issue.count)+")";
             };
             if(ui::Button("Export GeoJSON (F6)") || (!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F6))) {
-                try { status(save_geojson(document,interchange_path,export_ids(),interchange_losses),"Exported"); }
+                try { status(save_geojson(document,interchange_path,export_ids(),interchange_losses,interchange_nested),"Exported"); }
                 catch(const std::exception& e) { interchange_status=e.what(); }
             }
             if(ui::Button("Import GeoJSON (F7)") || (!io.WantTextInput && !editing_blocked && ImGui::IsKeyPressed(ImGuiKey_F7))) {

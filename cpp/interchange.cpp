@@ -76,12 +76,12 @@ std::string measurements_csv(const Document& doc,const std::vector<std::uint64_t
     return out.str();
 }
 void save_measurements_csv(const Document& doc,const std::string& path,const std::vector<std::uint64_t>& ids,bool intensity) { atomic_write(path,measurements_csv(doc,ids,intensity)); }
-InterchangeReport save_geojson(const Document& doc,const std::string& path,const std::vector<std::uint64_t>& ids,bool losses) {
-    auto report=export_geojson(doc,ids,losses); atomic_write(path,report.text); return report;
+InterchangeReport save_geojson(const Document& doc,const std::string& path,const std::vector<std::uint64_t>& ids,bool losses,bool nested) {
+    auto report=export_geojson(doc,ids,losses,nested); atomic_write(path,report.text); return report;
 }
 InterchangeReport load_geojson(Document& doc,const std::string& path,bool pixels,bool losses,bool qupath_precision) { return import_geojson(doc,read_file(path),pixels,losses,qupath_precision); }
 #ifndef QUPATHXX_HAS_INTERCHANGE
-InterchangeReport export_geojson(const Document&,const std::vector<std::uint64_t>&,bool) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
+InterchangeReport export_geojson(const Document&,const std::vector<std::uint64_t>&,bool,bool) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
 InterchangeReport import_geojson(Document&,const std::string&,bool,bool,bool) { throw std::runtime_error("GeoJSON requires QUPATHXX_BUILD_INTERCHANGE=ON"); }
 #else
 namespace {
@@ -300,23 +300,74 @@ struct Reader {
     }
 };
 }
-InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint64_t>& ids,bool losses) {
+InterchangeReport export_geojson(const Document& doc,const std::vector<std::uint64_t>& ids,bool losses,bool nested) {
     auto objects=selected(doc,ids); std::set<std::uint64_t> exported(objects.begin(),objects.end()); Notices notices{losses,{}};
     Json metadata={{"version",1},{"coordinateSpace","image-pixels"},{"origin","top-left"},{"imageWidth",doc.metadata().width},{"imageHeight",doc.metadata().height},{"classes",Json::array()}};
     std::set<std::string> used; for(auto id:objects) used.insert(doc.objects().at(id).class_name);
     for(const auto& [name,c]:doc.classes()) if(ids.empty() || used.count(name)) metadata["classes"].push_back({{"name",name},{"color",c.color}});
     std::ostringstream out; out.imbue(std::locale::classic()); out<<"{\"type\":\"FeatureCollection\",\"qupathxx\":"<<metadata.dump()<<",\"features\":[";
-    bool first=true;
-    for(auto id:objects) {
+    // Bound JSON depth before rendering any nested output. Each object adds a
+    // feature, properties object and child array; 32 levels remain below the
+    // importer's 128-container limit even with polygon/nucleus coordinates.
+    std::map<std::uint64_t,std::vector<std::uint64_t>> children;
+    std::vector<std::uint64_t> roots;
+    if(nested) {
+        if(objects.size()>1000000) throw std::length_error("nested GeoJSON exceeds one million objects");
+        for(auto id:objects) {
+            auto parent=doc.objects().at(id).parent_id;
+            if(parent && exported.count(parent)) children[parent].push_back(id);
+            else roots.push_back(id);
+        }
+        std::vector<std::pair<std::uint64_t,std::size_t>> pending;
+        for(auto id:roots) pending.emplace_back(id,1);
+        std::size_t visited=0;
+        while(!pending.empty()) {
+            auto [id,depth]=pending.back(); pending.pop_back();
+            if(depth>32) throw std::length_error("nested GeoJSON hierarchy exceeds 32 object levels");
+            ++visited;
+            if(auto found=children.find(id);found!=children.end())
+                for(auto child:found->second) pending.emplace_back(child,depth+1);
+        }
+        if(visited!=objects.size()) throw std::invalid_argument("invalid export hierarchy");
+    }
+    auto feature_for=[&](std::uint64_t id) {
         const auto& a=doc.objects().at(id); Json properties={{"name",a.name},{"objectType",object_kind(a.kind)}};
         if(!a.class_name.empty()) { auto c=doc.object_class(a.class_name).color; properties["classification"]={{"name",a.class_name},{"color",Json::array({(c>>16)&255,(c>>8)&255,c&255})}}; }
         if(a.tma_core) notices.add("tma_metadata_omitted","TMA grid, missing flags and case metadata are omitted; cores become ordinary annotations",true);
         if(a.cell_feature_link) notices.add("cell_features_dropped","Cell feature links and run archives are not represented in GeoJSON",true);
         auto parent=a.parent_id; if(parent && !exported.count(parent)) { notices.add("parent_not_exported","Parent omitted because it is not in the exported subset",true); parent=0; }
-        properties["qupathxx"]={{"parentId",std::to_string(parent)}};
+        if(!nested) properties["qupathxx"]={{"parentId",std::to_string(parent)}};
         Json feature={{"type","Feature"},{"id",std::to_string(id)},{"geometry",geometry(a.geometry,notices)},{"properties",std::move(properties)}};
         if(a.nucleus) feature["nucleusGeometry"]=geometry(*a.nucleus,notices);
-        if(!first) out<<','; first=false; out<<feature.dump(); bounded(out);
+        return feature;
+    };
+    if(!nested) {
+        bool first=true;
+        for(auto id:objects) {
+            if(!first) out<<','; first=false; out<<feature_for(id).dump(); bounded(out);
+        }
+    } else {
+        // Stream a bounded-depth forest instead of recursively copying JSON
+        // subtrees. Each object is serialized once, and sibling order is ID order.
+        struct Frame { const std::vector<std::uint64_t>* ids; std::size_t next=0; };
+        std::vector<Frame> stack{{&roots}};
+        const std::vector<std::uint64_t> empty;
+        while(!stack.empty()) {
+            auto& frame=stack.back();
+            if(frame.next==frame.ids->size()) {
+                stack.pop_back(); if(!stack.empty()) out<<"]}}";
+            } else {
+                if(frame.next) out<<',';
+                auto id=(*frame.ids)[frame.next++];
+                auto feature=feature_for(id);
+                auto properties=feature["properties"].dump(); properties.pop_back();
+                feature.erase("properties"); auto prefix=feature.dump(); prefix.pop_back();
+                out<<prefix<<",\"properties\":"<<properties<<",\"childObjects\":[";
+                auto found=children.find(id);
+                stack.push_back({found==children.end()?&empty:&found->second});
+            }
+            bounded(out);
+        }
     }
     out<<"]}\n"; bounded(out); InterchangeReport report; report.text=out.str(); report.features=objects.size(); report.issues=notices.finish(); return report;
 }
