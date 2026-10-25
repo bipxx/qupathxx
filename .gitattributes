@@ -333,3 +333,8 @@ docs/benchmarks/raw-grid-tiff-layout-local/** -text -whitespace
 docs/benchmarks/raw-grid-tiff-layout-local.json text eol=lf
 docs/benchmarks/tiff-interleaved-block-reuse-local/** -text -whitespace
 docs/benchmarks/tiff-interleaved-block-reuse-local.json text eol=lf
+
+# Generated hash references and their consumers have stable source bytes.
+cpp/tests/raw_streaming_reference.hpp text eol=lf
+tools/reference_raw_streaming.py text eol=lf
+tests/test_raw_streaming.py text eol=lf

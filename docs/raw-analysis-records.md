@@ -123,7 +123,7 @@ See the [typed contract](scientific-grid-contract.md#qra2-grid-records-and-typed
 and [local native evidence](benchmarks/raw-grid-retention-local-windows-linux.json).
 
 The grid path is exposed through Python/stubs, CLI/batch and ImGui/managed
-viewer workflows; see the [workflow guide](grid-cell-workflows.md) and
+viewer workflows; see the [quantitative workflow guide](quantitative-tiff.md) and
 [current task](current-task.md) for exact source and qualification scope.
 Large hash-only source verification now uses bounded decoded chunks plus the
 canonical validity suffix, retaining the same digest and archive bytes. Full
