@@ -253,3 +253,17 @@ now running. See the [corrected campaign record](benchmarks/scientific-grid-169-
 Keep both frozen sources unchanged and poll these recorded runs.
 
 Earlier task narrative is preserved in [history](current-task-history.md).
+
+The source169 Mac-native gate now passes its full both-architecture audit,
+including source-bound binary inventories and relocated runtime probes. Its
+scope excludes Mac Python/GUI/OpenSlide. The Linux-only engine audit also passes,
+including 2,829 installed cases and the 107-case scientific-grid cohort (105
+passes, two declared desktop skips). Full engine acceptance still awaits the
+Windows GUI job. The original portable request omitted `extended_readers`:
+its four green jobs do not meet required NDPI native/builder coverage and remain
+under-scoped. Only that gate is being repeated, at the same `3fc3bcb` source, as
+[portable extended 40190126665](https://github.com/bipxx/qupathxx/actions/runs/40190126665).
+Use that run for the complete portable audit. The previous portable run stays
+in the attempt history. Checked campaign input generation now rejects this
+omission before dispatch; no native implementation change or matrix restart is
+needed for the corrected request.

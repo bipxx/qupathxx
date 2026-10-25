@@ -216,3 +216,23 @@ Review this queue after each accepted workflow. Preserve M0–M7 criteria and
 reference histories, update statuses at the defined fixture scope, and identify
 the next blocking dependency. Do not claim full completion until the complete
 requirement-to-evidence audit passes.
+
+## Complete qualification campaign inputs
+
+Use the frozen ref for every gate. Generate checked CLI input maps before
+sending a workflow request; the helper performs no network action:
+
+```text
+python tools/ci/campaign_inputs.py engine | gh workflow run ci.yml --repo bipxx/qupathxx --ref FROZEN_REF --json
+python tools/ci/campaign_inputs.py macos | gh workflow run ci.yml --repo bipxx/qupathxx --ref FROZEN_REF --json
+python tools/ci/campaign_inputs.py portable | gh workflow run ci.yml --repo bipxx/qupathxx --ref FROZEN_REF --json
+```
+
+The complete engine profile enables live reference and extended readers. The
+portable profile also enables extended readers: its native NDPI replay and
+builder reader cohorts are required by the inherited auditor. A green portable
+build without that input covers a smaller scope and cannot qualify the full
+campaign. The Mac profile selects native-only builds. `gh --json` receives
+string-valued maps; semantic values are validated as booleans before encoding.
+Record the source, profile, attempts and exact resulting run IDs before polling.
+Keep under-scoped attempts as evidence and repeat only the affected gate.

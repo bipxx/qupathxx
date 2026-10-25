@@ -236,3 +236,6 @@ docs/benchmarks/scientific-grid-portability-fix-local/** -text -whitespace
 docs/benchmarks/scientific-grid-portability-fix-local-windows.json text eol=lf
 
 docs/benchmarks/scientific-grid-169-campaign.json text eol=lf
+
+tools/ci/campaign_inputs.py text eol=lf
+tests/test_campaign_inputs.py text eol=lf
