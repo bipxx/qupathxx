@@ -294,6 +294,7 @@ static void sample_streamed(const ImageServer& server,ScientificRawGrid& out,con
                                 const auto wx=std::min(ax.origin()*ax.samples()+(x+1)*ax.extent(),(sx+1)*ax.samples())-std::max(ax.origin()*ax.samples()+x*ax.extent(),sx*ax.samples());
                                 const auto wy=std::min(ay.origin()*ay.samples()+(y+1)*ay.extent(),(sy+1)*ay.samples())-std::max(ay.origin()*ay.samples()+y*ay.extent(),sy*ay.samples());
                                 for(std::uint32_t c=0;c<o.channels;++c) if(finite_channels[c]) {
+                                    if((c&4095)==0) checkpoint(cancelled);
                                     if(!finite(values[index+c])) finite_channels[c]=0;
                                     else means[c].add(values[index+c],std::uint32_t(wx*wy));
                                 }
