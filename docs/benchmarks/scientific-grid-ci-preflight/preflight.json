@@ -1,0 +1,16 @@
+{
+  "source": "5ebdb961e7c9c2bad8c82367ad090eb23ba4ec57",
+  "source_files_verified": 352,
+  "source_blob_read_processes": 1,
+  "source_inventory_processes": 1,
+  "headless": {
+    "passed": 104,
+    "declared_headless_gui_skips": 2,
+    "gui": false,
+    "scientific_acceptance": false
+  },
+  "compiler_inputs_unchanged": 298,
+  "compiler_fingerprint": "dbd02bd3e38a4953fc79dca14ad75cbfc0a1529fdbbd57fc564ccd31ca975e02",
+  "platform_campaign_accepted": false,
+  "release_ready": false
+}

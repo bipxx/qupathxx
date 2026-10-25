@@ -212,7 +212,17 @@ runner's five-file typing contract and reject stale three/four-file evidence.
 Local checks pass 185 affected auditor cases and 104 installed headless cases
 with two declared desktop skips. The new auditor also accepts the retained
 106-case installed GUI cohort and the nine native suite markers from frontend167;
-these are explicit reuse checks, not new platform acceptance. A clean frozen
-candidate and actual hosted campaign are the next steps. Full M0-M7 scope remains.
+these are explicit reuse checks, not new platform acceptance. The frozen
+candidate is `feature/scientific-workflow-168` at `5ebdb96`; its separate checkout
+must remain unchanged. The complete campaign is dispatched as
+[engine 40185494002](https://github.com/bipxx/qupathxx/actions/runs/40185494002),
+[Mac 40185498517](https://github.com/bipxx/qupathxx/actions/runs/40185498517), and
+[portable 40185503588](https://github.com/bipxx/qupathxx/actions/runs/40185503588).
+Engine requests live reference and extended readers. Independent gate-mode
+concurrency keys preserve all three runs. Their acceptance remains pending;
+poll these exact IDs rather than dispatching replacements. See the
+[preflight receipt](benchmarks/scientific-grid-ci-preflight-windows.json) for
+source hashes, auditor/installed checks and recorded dispatch attempts. Full
+M0-M7 scope remains open.
 
 Earlier task narrative is preserved in [history](current-task-history.md).

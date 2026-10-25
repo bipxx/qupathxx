@@ -228,3 +228,6 @@ docs/benchmarks/grid-cell-frontends-local-windows.json text eol=lf
 
 tools/ci/scientific_grid_evidence.py text eol=lf
 tools/ci/scientific-grid-cases.json text eol=lf
+
+docs/benchmarks/scientific-grid-ci-preflight/** -text -whitespace
+docs/benchmarks/scientific-grid-ci-preflight-windows.json text eol=lf

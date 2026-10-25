@@ -1,0 +1,34 @@
+{
+  "native": {
+    "suites": 9,
+    "project": true,
+    "geos": true,
+    "scientific_acceptance": false
+  },
+  "installed_gui": {
+    "passed": 106,
+    "declared_headless_gui_skips": 0,
+    "gui": true,
+    "scientific_acceptance": false
+  },
+  "typing": {
+    "positive": {
+      "files": 5,
+      "sha256": "718df785efbbd4b57e63b5f64aff2c5b5592e433447681f759b307f97a3ec96a"
+    },
+    "negative": {
+      "scientific-grid-typing-negative.log": {
+        "expected_errors": 6,
+        "sha256": "ca156230f56d67bfdf26d2c276b6750630ea10644cb7adfff861abad6cc82ca0"
+      },
+      "scientific-channels-typing-negative.log": {
+        "expected_errors": 5,
+        "sha256": "06afd6329e8766f28af34b41e03274ddf278425bbb936867cbf578d1b7bf9550"
+      },
+      "grid-cells-typing-negative.log": {
+        "expected_errors": 7,
+        "sha256": "df439b5f564630337d1b1a49f492e072d8c79971c2bf8e6e1f1d6cb810dd9ea2"
+      }
+    }
+  }
+}
