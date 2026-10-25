@@ -23,8 +23,11 @@ equivalence, hardware budgets or supported release status. The next hierarchy/
 recovery candidate `207f008` passed its Mac audit, but engine qualification failed
 on a stale synthetic auditor typing fixture. Its frozen source remains unchanged;
 the active integration branch `feature/scientific-grid-159` fixes that fixture
-and prepares the shared [scientific grid](scientific-grid-contract.md). Portable
-qualification is observed through the original run handle. See
+and implements the shared [scientific grid](scientific-grid-contract.md) geometry
+and float64 RGB sampler with owning Python bindings. Portable qualification also
+failed on that stale fixture; both failures remain unqualified. Local installed
+sampler evidence is recorded separately from the still-pending scientific recipe
+and complete workflow. See
 [current task](current-task.md) for evidence and next steps. All M0–M7 remain Partial.
 
 ## Scope and release boundaries

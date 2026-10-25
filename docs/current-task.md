@@ -59,12 +59,18 @@ Source `7573a94` adds a bounded level-zero RGB sampler and owning nanobind grid/
 result types. Native comparisons pass all 14 exact reference scenarios, including
 fractional means, alpha/missing support and a large-origin reader window; reader
 faults and cancellation reject. The sampler accumulates integer area weights and
-rounds once to float64. Installed wheel, lifetime/NumPy and packaged typing checks
-are in progress. The current compiler-input lock covers 275 files with digest
+rounds once to float64. Final installed engine `4bdfa98` passes 95 installed cases
+with two explicit project-capability skips, all 49 native suites, packaged stub
+checks, four positive typing examples and 19 expected negative errors (six new
+grid, 13 inherited). The compiler-input lock covers 275 files with digest
 `a748067e7301b332e7144c21fd1e393097bf697e3ea70a1d253a8cb985782516`.
 This is an additive sampling utility. The new detector recipe, physical anisotropic
 parameters, digest/archive/replay and required frontends remain next in the same
 workflow; existing cell recipes and archive behavior are unchanged.
+See the [sampling receipt](benchmarks/scientific-grid-sampling-local-windows.json)
+for exact wheel/module/source identities and raw evidence. GUI, project,
+interchange, GEOS and file readers were disabled in this local build; their
+feature-disabled tests are not coverage for those capabilities.
 
 Next: complete that bounded sampling path using the existing native authority,
 retain the failed campaign evidence, and qualify a clean integrated candidate

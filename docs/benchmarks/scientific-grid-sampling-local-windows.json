@@ -1,0 +1,172 @@
+{
+  "schema": "qpx.scientific-grid-sampling-local/1",
+  "observed_at_utc": "2026-10-25T06:46:07.017690+00:00",
+  "source": "4bdfa986265c35a756c4114f49a862750f2bda8f",
+  "identity": {
+    "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific160-python\\Lib\\site-packages\\qupathxx\\__init__.py",
+    "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific160-python\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "native_sha256": "da9626a44168c4445122637217811eca435ce524be12b56a87d5e69c0b770191",
+    "source_tree_sha256": "a748067e7301b332e7144c21fd1e393097bf697e3ea70a1d253a8cb985782516",
+    "git_revision": "4bdfa986265c35a756c4114f49a862750f2bda8f",
+    "gui": false,
+    "python": true,
+    "interchange": false,
+    "project": false,
+    "geos": false,
+    "openslide": false,
+    "tiff": false,
+    "wheel_sha256": "f1ade4c16381d414d74781c4862ec001b83a7587817581072552acf378c15144",
+    "wheel": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific160-final-wheels\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  },
+  "compiler_inputs": 275,
+  "configuration": "Windows x64 CPython 3.12 minimal; GUI/project/interchange/GEOS/readers/training disabled",
+  "native_suites_passed": 49,
+  "installed_cases": 97,
+  "installed_passed": 95,
+  "installed_skips": [
+    {
+      "name": "test_image_view_survives_project_relink_and_removal",
+      "message": "requires projects"
+    },
+    {
+      "name": "test_documented_region_workflow_example",
+      "message": "requires projects"
+    }
+  ],
+  "installed_cohorts": {
+    "tests.test_scientific_sampling": 33,
+    "tests.test_scientific_grid_reference": 10,
+    "tests.test_arrays": 39,
+    "tests.test_resampling": 13,
+    "tests.test_public_stubs": 2
+  },
+  "positive_typing_source_files": 4,
+  "negative_typing_errors": {
+    "scientific_grid": 6,
+    "inherited": 13
+  },
+  "packaged_stub_sha256": {
+    "_native.pyi": "e459e9741e5291a28c1bba919fd6149039063f9adfc4b01925e5218d5930af4a",
+    "__init__.pyi": "2d3aba7ff71c2c107594a9c4cecf5b2096bc349e062428e28d22ae4ab764d901",
+    "py.typed": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "oracle": {
+    "cases": 14,
+    "large_origin_probes": 8,
+    "fraction_probes": 521,
+    "manifest_sha256": "e539adac76a6014b17bec11629482cba771aac6c260555971f8bfcf21b05287a"
+  },
+  "local_geometry_and_rgb_sampler_accepted": true,
+  "scientific_detector_accepted": false,
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "hierarchy158": {
+    "source": "207f008efc7e7b3e2633fbae312a9cc24f48a535",
+    "engine_run": 40166860999,
+    "engine_state": "failed stale synthetic typing fixture",
+    "portable_run": 40166872891,
+    "portable_state": "failed same fixture in both builders; fresh consumers skipped",
+    "macos_run": 40166866585,
+    "macos_audit_exit": 0,
+    "main_promotion": false
+  },
+  "harness_correction": "Initial identity probe called boolean capability exports; corrected harness only, original error retained.",
+  "remaining": [
+    "physical anisotropic kernels and captured calibration",
+    "additive cell recipe and input identity",
+    "archive/reopen/replay and Python/CLI/ImGui workflow",
+    "large-slide/pyramid and typed raw adapters",
+    "independent scientific tolerances, fixtures and acceptance",
+    "full inherited M0-M7 and supported-release gates"
+  ],
+  "evidence": {
+    "build_manifest.hpp": {
+      "bytes": 706,
+      "sha256": "745a48c659c4ee8b5896629030546dbd02011552f6d0b16f86b3242fe79b62ac"
+    },
+    "build_scientific160.py": {
+      "bytes": 1310,
+      "sha256": "3babd2b427031037eb39d66abe488ad06126edd6a533fe28b0fd96fc89a48477"
+    },
+    "commands.json": {
+      "bytes": 4560,
+      "sha256": "3eb79bff6442ea536e0de1485d12b360ef2db177612f853a30b8e7ee2d8ce920"
+    },
+    "hierarchy158-portable-failed.log": {
+      "bytes": 41192,
+      "sha256": "9f17d8299b5e9e808a75fe87133e928c2440ea78e9738e87ca3074bec1f0e8aa"
+    },
+    "identity.json": {
+      "bytes": 879,
+      "sha256": "66a7defddd1281058fe61bf1179936e0d77fdb23303ad079927884aa1df05e33"
+    },
+    "identity.log": {
+      "bytes": 622,
+      "sha256": "26c5427bcddf305437f39311c9d687454bbda0628dc71372e7ef681b8da2919f"
+    },
+    "install.log": {
+      "bytes": 351,
+      "sha256": "38b43aed3cc58edc8f9fbcdf9529fbf2393c43ae57a9be3306f368943a82a22e"
+    },
+    "installed-tests.log": {
+      "bytes": 193,
+      "sha256": "e355be36ea2e8bc5c163ed8501120c0fef86af88865516e6641f49b39958d66b"
+    },
+    "native-tests.xml": {
+      "bytes": 11861,
+      "sha256": "33fe4eb0aeb32170c4b74af2e943067fcb514373d8170081db3579751d4bbe0f"
+    },
+    "native.log": {
+      "bytes": 5052,
+      "sha256": "402fb2948acbd8dc647e714bc8c223c7e9eb72b572529ec4c7454af370202d30"
+    },
+    "python-tests.xml": {
+      "bytes": 13781,
+      "sha256": "eb9a43af326e5ec4fd2d85839c0ee18083756d709ca6535fe92ea3a463aca1e6"
+    },
+    "scientific160-final-build.log": {
+      "bytes": 8773,
+      "sha256": "fca14a3bae4a732e189ec4ad32bb64d37d52dad989bfda0bb0a6c4f2346c8b47"
+    },
+    "scientific160-first-build.log": {
+      "bytes": 15258,
+      "sha256": "bb9977568d1d35c833b1117cece3739054d61048c981eb445264664253422135"
+    },
+    "scientific160-first-probe-error.log": {
+      "bytes": 118,
+      "sha256": "9a377368a0d13e5fbc93ecc7214f9266bdaa3172f564841c697136e805064883"
+    },
+    "source-proof.json": {
+      "bytes": 67398,
+      "sha256": "2d507ac5353514f5607a161febee5ac25addbaaae9e1802e661468880257478c"
+    },
+    "stubs.log": {
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    "typing-hierarchy_invalid.log": {
+      "bytes": 501,
+      "sha256": "8d7b129bf74a9379d82d646f1455f03ae3259c026c20897d9fd2d4eeb4009b9e"
+    },
+    "typing-invalid_api.log": {
+      "bytes": 1043,
+      "sha256": "6609cfbbd23b6440ab6384c6fb424e7b6e35e5555efe992a91d6225ee16e8ead"
+    },
+    "typing-qptma_invalid.log": {
+      "bytes": 426,
+      "sha256": "33a82566b1a0503969d660a671bb03b6f801ab9f54a80cae7a3241810b62ef5e"
+    },
+    "typing-scientific_grid_invalid.log": {
+      "bytes": 871,
+      "sha256": "ca156230f56d67bfdf26d2c276b6750630ea10644cb7adfff861abad6cc82ca0"
+    },
+    "typing.log": {
+      "bytes": 44,
+      "sha256": "d9a5631f7d87a741fbecc3236286d1792d22d349ff13846d71cdc9217307bb76"
+    },
+    "verify_scientific160.py": {
+      "bytes": 3477,
+      "sha256": "1585e295e7b1912afc79e930b043810234179d9315f28ee5fb3ef16b37ce2032"
+    }
+  }
+}

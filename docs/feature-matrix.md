@@ -1,12 +1,14 @@
 # QuPath workflow inventory
 
 The active branch prepares the shared [scientific grid](scientific-grid-contract.md)
-with exact C++ geometry and independent rational expectations. It does not yet
-provide native float sampling, Python grid bindings or a new detector recipe.
-All 49 minimal native suites and 149 mathematical/auditor tests pass locally;
-disabled capabilities are not qualified. Hierarchy candidate `207f008` passed
-its native Mac audit but failed its engine campaign on a stale synthetic typing
-fixture, corrected in `5474c3f`. See [current task](current-task.md); no new main
+with exact C++ geometry, float64 RGB sampling and owning Python bindings. Final
+engine `4bdfa98` passes 95 installed cases (two project-capability skips), 49 native
+suites and packaged stub/typing checks; see the
+[sampling receipt](benchmarks/scientific-grid-sampling-local-windows.json).
+A new detector recipe, physical kernels and archive/replay/frontend integration
+remain. Disabled capabilities are not qualified. Hierarchy candidate `207f008`
+passed its native Mac audit but failed engine and portable campaigns on a stale
+synthetic typing fixture, corrected in `5474c3f`. See [current task](current-task.md); no new main
 promotion or scientific/release acceptance follows from these checks.
 
 Baseline: [QuPath v0.7.0](https://github.com/qupath/qupath/tree/v0.7.0), revision
