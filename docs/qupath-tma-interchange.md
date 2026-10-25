@@ -3,8 +3,12 @@
 This work targets direct grid exchange using QuPath 0.7.0 `.qptma` text files,
 through the native model, Python, standalone project commands and the ImGui TMA
 panel. The bounded native codec, protected file IO and atomic document import
-are implemented and the focused installed Python checks pass. Project CLI and
-ImGui flows are pending. Automatic TMA finding, biological validation and full M0–M7
+are implemented and the focused installed Python checks pass. Candidate 156
+implements project CLI import/export and atomic new-project saving.
+Fifteen installed project tests pass, including source preservation and SQLite
+hot-journal behavior; the final rebuilt wheel still needs installed/stub/typing
+validation. ImGui flows and exact-source integrated qualification are pending.
+Automatic TMA finding, biological validation and full M0–M7
 completion remain separate work.
 
 ## Frozen upstream behavior
@@ -88,6 +92,7 @@ passes 189 focused cases with 22 optional project/reader/feature skips. All 56
 QPTMA functional, reference and auditor-control cases pass. Generated stubs match
 the installed module; strict typing passes three workflows and rejects all three
 dedicated invalid QPTMA calls. Hosted auditors require these named cohorts and
-the native marker. Full persistence, project CLI and desktop acceptance remain
-pending. No supported
+the native marker. Candidate 156 adds project persistence/CLI tests and commands. Their final
+installed-wheel validation and desktop/integrated platform acceptance remain
+pending; see the [current delivery order](api-delivery-plan.md). No supported
 release, biological or hardware acceptance follows from this native fixture scope.

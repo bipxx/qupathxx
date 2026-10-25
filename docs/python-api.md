@@ -21,6 +21,13 @@ read-only property, the wrong request type submitted to a job and direct
 construction of a native result object. Live endpoint checks additionally reject
 a Project passed in place of a filename and an Image submitted as an edit.
 
+## Delivery map
+
+See [API/workflow delivery paths](api-delivery-plan.md) for existing entry points,
+reuse-first implementation routes, remaining requirements and acceptance per
+API family. These routes preserve the native authority and typed binding
+boundary described here; proposed workflows are not new released API promises.
+
 ## Regeneration
 
 Build and install the current wheel into the interpreter used below, with NumPy,

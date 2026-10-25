@@ -24,39 +24,47 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 | Tissue detection | qupath-core-processing, qupath-extension-processing | analysis | Partial | Bounded OD/stain masks at native pyramid levels, square opening/closing, domain-aware size-bounded hole filling, global 4/8-connected components, level-zero statistics, digests, GUI preview, mask archives/rechecking and atomic contour/annotation publication pass; capture-time source/calibration/build provenance passes; arbitrary resampling/kernels, physical filters, smoothing/median, complete file/binary/runtime manifests and QuPath runtime comparisons remain |
 | Cell detection and features | qupath-core-processing, qupath-extension-processing | analysis | Partial | Native distance-marker watershed, normalized smoothing, nonoverlapping expansion, compartment features, pyramid grids, atomic cell/nucleus publication, ImGui preview and lossless run archives/rechecking and schema-6 published feature links pass independent synthetic references; native document/project-wide archived-run CSV export passes; capture-time source/calibration/build provenance passes; joined live-object metadata/shape tables pass; inclusive [physical nucleus-area filters](cell-area-limits.md) pass the defined Windows/Linux engineering scope; full file/binary/runtime manifests, physical radii, arbitrary resampling, split/merge and QuPath feature tolerances remain |
 | Pixel and object classifiers | qupath-core-processing, qupath-gui-fx | analysis/gui | Partial | Native/Python forests, geometry/verified-cell snapshots, labelled-ROI pixel training, source label/vote masks, exact undoable contour publication, ImGui controls, saved cohort/mask/model reuse and schema-10 project/recovery/batch persistence implemented. Natural-grid [windowed prediction](pixel-prediction-windows.md) bounds output to the visible or requested region, and the [native/Python block producer](pixel-stream.md) iterates full targets without retaining the full mask. Atomic [QPS1 streamed files](pixel-stream-file.md) provide indexed historical blocks and complete verification. A shared native/Python [background export job](pixel-stream-export.md) also powers cancellable F5 file export without retaining a full mask. The [saved-file inspector](pixel-stream-browser.md) provides asynchronous indexed navigation, verification and a separate block preview. The [standalone CLI](pixel-stream-cli.md) exports one saved project target and verifies files. [Schema-10 external stream links](pixel-stream-records.md) preserve historical file descriptors and provide verified reopen/relink. [Hash-only scans](pixel-input-digests.md) compare feature/request/stream inputs without forest inference. [Project pixel batches](project-pixel-batches.md) provide captured-model exports and hash-only verified resume through native/Python/CLI/ImGui. Stitched contours, unmatched-grid resampling, expanded features, research/QuPath comparisons and hardware/frame budgets remain; see [object](object-classifiers.md) and [pixel](pixel-classifiers.md) workflows |
-| Tissue microarrays | qupath-core, qupath-gui-fx | core/analysis/gui | Partial | Native/Python/ImGui ellipse grids, undoable core/label/geometry edits, missing flags, shared case IDs, vacancies, bounded immutable snapshots, managed viewer commands, schema-11 persistence, present/missing-aware ROI/tissue/cell/pixel batches, metadata/context CSV and single-grid/captured multi-grid case inventory and weighted measurement summaries through native/Python/CLI/ImGui; see [TMA contract](tissue-microarrays.md). Automatic dearraying, direct QuPath TMA interchange, biological/upstream comparisons and hardware acceptance remain |
+| Tissue microarrays | qupath-core, qupath-gui-fx | core/analysis/gui | Partial | Native/Python/ImGui ellipse grids, undoable core/label/geometry edits, missing flags, shared case IDs, vacancies, bounded immutable snapshots, managed viewer commands, schema-11 persistence, present/missing-aware ROI/tissue/cell/pixel batches, metadata/context CSV and single-grid/captured multi-grid case inventory and weighted measurement summaries through native/Python/CLI/ImGui; see [TMA contract](tissue-microarrays.md). Native/Python direct QuPath `.qptma` interchange is implemented in candidate 155 and project CLI in candidate 156; final installed/project/UI/platform acceptance remains. Automatic dearraying, broader biological/upstream comparisons and hardware acceptance remain |
 | Batch workflows | qupath-core, qupath-gui-fx | jobs | Partial | Native/Python/headless CLI ROI/tissue/cell processing, frozen capture, atomic per-image project/CSV checkpoints, pixel-verified restart, failure policies and cancellation; desktop launcher with progress, scope, presets and terminal reports; standalone single-target pixel-stream export/verification and project-wide captured-model pixel batches with verified hash-only resume are implemented; TMA core scope and CSV context are available; captured [raw-channel batches](raw-analysis-records.md) include immutable records and hash-only checkpoint reuse through native/Python/CLI/ImGui; distributed/portable workers and abandoned-work cleanup remain |
 | Python scripting | New API replacing Groovy workflow surface | bindings | Partial | Shared document/region API and ROI analysis jobs pass; native batch execution is implemented; owned NumPy region/float/label views, strided imports, packaged public stubs and typed workflow checks pass; managed live viewer queues/notifications, owner-only publication and GIL/thread checks pass; broader commands/model adapters and beta compatibility gates remain |
 | Bio-Formats and multiplex data | qupath-extension-bioformats | io | Partial | Optional [quantitative TIFF/OME reader](quantitative-tiff.md), typed raw arrays, channel/Z/time selections and display composites, schema-12 views, native worker UI and managed Python commands; schema-13 raw measurement records, explicit replay, historical CSV and raw batches; broader Bio-Formats readers, multi-file OME, raw classifier features and workflow validation remain |
 | External model integrations | Extensions outside the core inventory | bindings/jobs | Deferred | Versioned Cellpose/StarDist results and publication contract |
 | Java extensions and Groovy | qupath-extension-script-editor, qupath-gui-fx | compatibility | Deferred | No Java runtime compatibility promised in first release |
 
-## Current packet and remaining decisions
+## Current execution state (2026-10-25)
 
-The accepted engineering source on public `main` is `82e159f`, including the
-captured multi-grid TMA workflow and Windows/Linux runtime manifests.
-Exact-source [Windows/Linux](benchmarks/linux-runtime-manifest-engine.json),
-[Mac native](benchmarks/linux-runtime-manifest-macos.json) and
-[portable builder/consumer](benchmarks/linux-runtime-manifest-portable.json)
-audits pass. [Promotion evidence](benchmarks/linux-runtime-manifest-main-promotion.json)
-records the fast-forward while preserving the divergent local root branch.
-The hosted Windows GUI suite passes 2,653 Python tests and 47 native suites;
-Windows/Linux headless suites pass 2,243/2,241 Python tests and 46 native suites.
-These are engineering cohorts, with the existing scientific exclusions retained.
+Use the [active plan](project-plan.md) and [API delivery paths](api-delivery-plan.md)
+for the next actions. Public `main` is accepted engineering source `f2e8c2f`;
+the deliberately divergent local root branch remains `c86d323`. Exact-source
+[engine](https://github.com/bipxx/qupathxx/blob/45495d4/docs/benchmarks/region-resampling-engine.json),
+[Mac native](https://github.com/bipxx/qupathxx/blob/45495d4/docs/benchmarks/region-resampling-macos.json),
+[portable](https://github.com/bipxx/qupathxx/blob/45495d4/docs/benchmarks/region-resampling-portable.json)
+and [promotion](https://github.com/bipxx/qupathxx/blob/45495d4/docs/benchmarks/region-resampling-main-promotion.json)
+evidence includes region resampling, runtime inventories and relocated Mac
+region/batch/CSV/GEOS host probes. Windows GUI passes 2,893 Python/48 native;
+Windows/Linux headless pass 2,483/2,481 Python and 47 native suites. Those counts
+are engineering observations, not milestone or scientific completion criteria.
 
-The separate [Mac snapshot candidate](benchmarks/macos-native-inventory-macos.json)
-has accepted Intel/arm64 native inventory evidence. Relocation and fresh-package
-runtime qualification for source `b0d12245` now has accepted
-[Intel/arm64 native evidence](benchmarks/macos-relocation-runtime-macos.json):
-46 native suites per architecture and region/batch/CSV/GEOS package-mapping
-probes pass. This acceptance uses the earlier audit version.
-A subsequent [offline artifact-audit candidate](benchmarks/macos-runtime-artifact-audit-local-windows.json)
-passes 389 focused local tests, including complete synthetic runtime evidence
-and altered-artifact rejection. That synthetic evidence does not establish
-native Mac execution or qualify this later candidate for promotion. Its
-stronger input/PAM checks require separate exact-source qualification in
-[40126673903](https://github.com/bipxx/qupathxx/actions/runs/40126673903).
-M0–M7 science, hardware, license and supported-release requirements remain open.
+Candidate 155 implements native/Python `.qptma` values, file IO and atomic
+document edits; actual pinned QuPath imports preserve tested fields. Candidate
+156 adds project import/export CLI, `save_new` and opening without journal
+repair. Fifteen installed project tests pass, including hot-journal/source
+preservation; the final rebuilt wheel still needs installation, packaged-stub,
+typing and affected regression checks. Its native project test now requires
+runtime-enabled coverage; earlier disabled-branch results are not evidence of
+project behavior. No project/UI/full-platform acceptance is claimed from those
+local results. ImGui `.qptma` preview/import/export remains pending.
+
+All M0–M7 remain Partial. Distinguish **implemented**, **engineering verified at
+a named source/configuration**, **scientifically accepted on a defined corpus**
+and **supported release**; these states cannot substitute for one another.
+Fixture rights, scientific tolerance/coverage, hardware, licensing and remaining
+platform/release requirements stay open. Implementation is currently paused.
+
+## Earlier evidence (source-specific history)
+
+The observations below describe their named earlier sources. They do not replace
+the current execution state or establish acceptance for later changed code.
 
 The input loader rejects an observed oversized measurement file
 before data reads and reserves admitted input storage. Its native quota test,
