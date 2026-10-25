@@ -552,9 +552,9 @@ contains 2,891 cases across all ten dtypes, including 64-bit extrema, normal and
 subnormal ties, cancellation and overflow-resistant finite means. Native tests
 check every result bit in forward and reverse order. Flat constant C++ tables
 retain the oracle values without thousands of dynamic vector initializers.
-The numeric checks are wired into the existing native resampling suite; a new
-full project build is still required to accept that integrated configuration.
-Standalone MSVC/GCC and sanitizer results establish only the numeric dependency.
+The numeric checks now run inside the Windows and Linux native resampling
+targets described below. The standalone compiler/sanitizer results establish
+the numeric dependency; full application/installed qualification remains open.
 
 Before pixel IO, the raw adapter must validate channel/plane/series selection,
 source/grid dimensions, complete source/output/metadata scratch budgets and
@@ -573,7 +573,8 @@ sampling fixtures before qualifying the integrated installed application.
 ### Native raw grid reader
 
 `read_scientific_raw(server, grid, ScientificRawOptions)` is now implemented in
-the native library; its new native integration checks are pending execution.
+the native library. Its [Windows/Linux native resampling checks](benchmarks/raw-scientific-sampling-local-windows-linux.json)
+pass at source `c4a9a21`, including the independent cases below.
 Options capture contiguous channel selection and explicit Z/T indices; the
 server's selected series is retained in raw metadata. `scientific_raw_work_bytes`
 validates matching unit-scale raw level zero, valid series and selections, raw
@@ -606,3 +607,10 @@ upsampling, context/outside/partial support and nonfinite payloads. Native tests
 also reject malformed reader buffers, bad selections, insufficient work, failed
 decodes and cancellation, and distinguish raw bit changes hidden by equal rounded
 means. The old RGB sampler and old raw analysis recipes remain unchanged.
+
+These are selected native-target checks with fake quantitative readers, not a
+new full native/installed/platform campaign or an actual TIFF-backed scientific
+analysis workflow. The new sampler/tests and mean tests also pass selective
+ASan/UBSan instrumentation linked to inherited unsanitized core. The installed
+module remains the retained source169 engine until the new request/record and
+frontend changes are integrated and packaged.

@@ -116,45 +116,40 @@ checks and the 177-case headless named grid cohort run on each platform. The
 both installed native module identities remain unchanged. The source169 full
 platform campaign remains distinct from this newer local comparison scope.
 
-Next implementation: typed raw scientific sampling and its analysis workflow.
-Reuse `ScientificGrid`, `RawRegionRequest`, `RawPixelBuffer` and the existing raw
-analysis/record path; freeze per-channel finite/support policy, Z/T/channel
-capture and exact integer-to-float64 mean semantics, including UInt64/Int64,
-before wiring shared native/Python/CLI/batch/UI consumers. Do not pass typed
-quantitative samples through RGBA8 or introduce a resize solely to fit this
-synthetic RGB capture. Vendor/pyramid/tiled admission and all broader biological,
-hardware and M0-M7 requirements remain. The legacy distance expected failures
-remain separate from the newer recipes' successful isolated-cell comparisons.
+## Active typed raw integration
 
-The private exact-mean dependency is now implemented for all ten raw dtypes.
-An independent Fraction oracle provides 2,891 vectors, checked in both input
-orders by standalone MSVC and GCC, with ASan/UBSan and atomic rejection checks.
-The [typed raw contract](scientific-grid-contract.md#typed-raw-sampling-active-contract-and-exact-means)
-freezes exact rounding and per-channel finite/support semantics. The numeric
-checks are wired into native resampling, but the updated integrated native
-configuration has not yet been built. Existing installed wheels remain the
-source169 engines and do not exercise this private new component.
-The [numeric receipt](benchmarks/raw-scientific-means-local-windows-linux.json)
-binds the exact three compiled inputs to the committed kernel, both compiler
-test outputs, sanitizer output, 118 affected Python checks and a 468-file source
-proof. The three oracle checks are included in that Python total. The initial
-MSVC warning failure and its source are retained; compiler warnings stay errors.
+The private exact-mean dependency supports all ten raw dtypes. Its independent
+Fraction oracle supplies 2,891 vectors, checked in both input orders. The
+[numeric receipt](benchmarks/raw-scientific-means-local-windows-linux.json)
+retains standalone MSVC/GCC/ASan/UBSan results and the initial strict MSVC warning
+failure. The existing raw statistics recipe remains unchanged.
 
-Next concrete step: implement the bounded typed raw grid reader using this
-kernel and independent per-footprint Fraction references, then connect the
-existing raw analysis/result/record/jobs and frontend workflow above. Do not
-mark raw sampling delivered from the numeric primitive alone.
+`read_scientific_raw` and its owned result are now implemented and pass native
+resampling on Windows and Linux. The [reader receipt](benchmarks/raw-scientific-sampling-local-windows-linux.json)
+records 94 independent sampling/hash cases, 3,732 per-channel results, canonical
+raw-bit/source hashes, selected channels/Z/T, invalid/nonfinite precedence,
+pre-pixel-IO admission, malformed-reader and cancellation checks. The same target
+also executes the exact-mean and legacy RGB/area references. New reader/tests
+pass selective ASan/UBSan instrumentation; inherited linked core code is not a
+full sanitizer campaign. The 123 affected Python checks include six oracle checks.
 
-The bounded native raw reader and owned result are now implemented, with typed
-channel/Z/T selection, per-channel support reasons, raw-bit provenance and
-pre-pixel-IO admission. An independent Fraction/hashlib corpus has 94 cases and
-3,732 channel outputs; three oracle checks and 123 affected Python checks pass.
-The new native reader tests are wired into resampling but have not yet run.
-63 old source169 cache artifacts, including the unchanged installed-module
-counterpart, were retained and hash-verified before the next partial target
-build. The installed Python engines still expose the old source169 API.
+Both native targets report source `c4a9a21` and compiler fingerprint
+`976fe2deceb8d117c92f93f50f60cce6696499e32eea22808e0754ce22e98605`.
+All 305 compiler inputs match a 475-file source proof. Windows reused the active
+cache after retaining/hash-verifying 63 older artifacts; the updated core and
+resampling executable coexist with older cached executables/module. The latter
+are not relabelled, and installed Python remains the source169 API.
 
-Next: execute current native resampling on Windows and Linux, fix any reader
-integration defects, then compose the existing raw analysis/jobs/records and
-Python/CLI/batch/ImGui workflow. Public C++ sampling is a dependency of that
-complete workflow, not its completion.
+The [typed contract](scientific-grid-contract.md#typed-raw-sampling-active-contract-and-exact-means)
+keeps strict footprint support and per-channel finite reasons. Data snapshots
+carry original dtype/axes/calibration and remain independent of display RGB.
+The bounded native reader does not finish actual TIFF-backed scientific
+sampling, raw analysis/retention/replay, Python/CLI/batch/ImGui delivery or any
+M0-M7 milestone. Full native/installed/platform qualifications remain required.
+
+Next: compose the existing immutable `RawAnalysisRequest`/result/job path with
+the grid reader, add a shared hash-only capture for resumed batches without mean
+work, and version retained records while preserving QRA1. Complete native
+save/reopen/replay and CSV before grouping the new bindings/stubs, CLI, batch and
+GUI changes into one installed candidate. Retain vendor/pyramid/tiled, biological,
+hardware, licensing and full M0-M7 scope above.
