@@ -3,7 +3,7 @@
   "status": "Independent mathematical contract; native geometry and RGB sampler; no detector acceptance",
   "generator": "tools/reference_scientific_grid.py",
   "generator_sha256": "06a184ba1474eab01ce5aedd8117ef115f0adb52b448e29cd41090d002312b00",
-  "contract": "docs/scientific-grid-contract.md",
+  "contract": "tests/fixtures/scientific-grid-v1/contract.md",
   "contract_sha256": "d74f202495ca3bd6df88fe543dce5c597778c65ece006326d3097e2f49e77bbd",
   "cases": 14,
   "rounding_probes": 8,
@@ -15,5 +15,7 @@
   },
   "fraction_probes": 521,
   "native_header": "cpp/tests/scientific_grid_reference.hpp",
-  "native_header_sha256": "89b75603c5a7a6072c18ae754b9aac3f31117ff51625652b7266c517501fdec8"
+  "native_header_sha256": "89b75603c5a7a6072c18ae754b9aac3f31117ff51625652b7266c517501fdec8",
+  "contract_source": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062",
+  "contract_original_path": "docs/scientific-grid-contract.md"
 }

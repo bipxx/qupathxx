@@ -90,6 +90,34 @@ def test_raw_grid_roi_factory_and_python_batch_resume(tmp_path):
 
 
 @pytest.mark.skipif(not q.has_tiff or not q.has_project,reason='requires quantitative TIFF project')
+def test_raw_grid_captured_context_budget(tmp_path):
+    _,_,doc,obj,expected=scene(tmp_path)
+    grid=q.ScientificGrid(2,2,q.ScientificGridAxis(0,2,1),q.ScientificGridAxis(0,1,1))
+    options=q.ScientificRawOptions()
+    def measure(work):
+        options.work_bytes=work
+        return q.analyze_raw(q.RawAnalysisRequest(doc,grid,options,obj))
+    low,high=1,1048576
+    baseline=measure(high)
+    while low<high:
+        middle=(low+high)//2
+        try:measure(middle)
+        except (ValueError,RuntimeError) as error:
+            assert 'work budget' in str(error)
+            low=middle+1
+        else:high=middle
+    baseline=measure(low)
+    doc.rename_annotation(obj,'x'*4096)
+    # The pixel window and sample counts stay fixed; captured labels now need
+    # more workspace. A sampler-only budget would miss this admission failure.
+    with pytest.raises((ValueError,RuntimeError),match='work budget'):measure(low+2048)
+    larger=measure(low+65536)
+    assert larger.statistics.means[0].hex()==expected.hex()
+    assert larger.input_sha256==baseline.input_sha256
+    assert larger.object_context.name=='x'*4096
+
+
+@pytest.mark.skipif(not q.has_tiff or not q.has_project,reason='requires quantitative TIFF project')
 @pytest.mark.parametrize('axes',[False,True])
 def test_raw_grid_cli_exact_source_axes_unicode_and_resume(tmp_path,axes):
     project,image,_,_,expected=scene(tmp_path,axes)

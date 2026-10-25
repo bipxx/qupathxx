@@ -812,3 +812,16 @@ rounding. Ambiguous cases retain the original per-sample validation. The test
 oracle checks the actual binary64 center/edge ordering over 1,092 signed,
 large-coordinate, context and precision-boundary grids. These changes do not
 accept full application RSS, hardware latency or the remaining M0-M7 budgets.
+
+
+### Frozen fixture contract provenance
+
+The six RGB/scientific geometry, channel, physical-kernel, cell and cell-archive
+fixture manifests bind the exact qualified source169 contract snapshot at
+`tests/fixtures/scientific-grid-v1/contract.md`, SHA-256
+`d74f202495ca3bd6df88fe543dce5c597778c65ece006326d3097e2f49e77bbd`.
+It is byte-identical to `3fc3bcb:docs/scientific-grid-contract.md`; manifests retain
+that source and original path. The live document adds later recipes and budgets.
+Future additions must not silently rewrite an old fixture's frozen contract or
+weaken its generator/native-header/data checks. A changed numerical contract
+requires explicit fixture versioning and renewed native/reference evidence.

@@ -2,7 +2,7 @@
   "schema": "qpx.grid-cell-consumer-reference-manifest/1",
   "generator": "tools/reference_grid_classifier_archive.py",
   "source_generator": "tools/reference_grid_cell_archive.py",
-  "contract": "docs/scientific-grid-contract.md",
+  "contract": "tests/fixtures/scientific-grid-v1/contract.md",
   "native_header": "cpp/tests/grid_classifier_archive_reference.hpp",
   "generator_sha256": "31cb3a344dbe3bf98579a4780c3d004610203fa8cd3b854a8fcce6fe5b790e3b",
   "source_generator_sha256": "0e477875df721be0e03b0a587cd49e62c9cad5bb40fb5ef14898542935183559",
@@ -17,5 +17,7 @@
       "bytes": 654,
       "sha256": "14c6a0559b637b106c1709819107366251cef61870ea15f950b12fd3dd0fadec"
     }
-  }
+  },
+  "contract_source": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062",
+  "contract_original_path": "docs/scientific-grid-contract.md"
 }

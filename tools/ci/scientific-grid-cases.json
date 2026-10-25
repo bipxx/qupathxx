@@ -121,6 +121,7 @@
     "test_reference_versions_checksums_and_distinct_input_identities"
   ],
   "test_raw_grid_frontends": [
+    "test_raw_grid_captured_context_budget",
     "test_raw_grid_cli_exact_source_axes_unicode_and_resume[False]",
     "test_raw_grid_cli_exact_source_axes_unicode_and_resume[True]",
     "test_raw_grid_desktop_batch_matches_native_recipe_and_resume",

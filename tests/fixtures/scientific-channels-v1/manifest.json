@@ -3,7 +3,7 @@
   "scope": "Float64 channel stage; no detector acceptance",
   "generator": "tools/reference_scientific_channels.py",
   "generator_sha256": "2bcf3ef923583a90ad70cc5222517203f3fea3934b3f9f27fcb4f70d412e6978",
-  "contract": "docs/scientific-grid-contract.md",
+  "contract": "tests/fixtures/scientific-grid-v1/contract.md",
   "contract_sha256": "d74f202495ca3bd6df88fe543dce5c597778c65ece006326d3097e2f49e77bbd",
   "native_header": "cpp/tests/scientific_channel_reference.hpp",
   "native_header_sha256": "f276a63bf902b4b1d8732648d7a427c222b0a6b9f0dce3b318e9641f2a1835ab",
@@ -13,5 +13,7 @@
       "bytes": 117695,
       "sha256": "b3dcf8d4af47463053657e745d9344bfd30f9bd1a5950a5efdbf9364f63b50d3"
     }
-  }
+  },
+  "contract_source": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062",
+  "contract_original_path": "docs/scientific-grid-contract.md"
 }
