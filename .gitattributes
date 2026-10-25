@@ -234,11 +234,9 @@ docs/benchmarks/scientific-grid-ci-preflight-windows.json text eol=lf
 
 docs/benchmarks/scientific-grid-portability-fix-local/** -text -whitespace
 docs/benchmarks/scientific-grid-portability-fix-local-windows.json text eol=lf
+docs/benchmarks/scientific-grid-169-qualification/** -text -whitespace
+docs/benchmarks/scientific-grid-169-qualification.json text eol=lf
 
-docs/benchmarks/scientific-grid-169-campaign.json text eol=lf
-
-tools/ci/campaign_inputs.py text eol=lf
-tests/test_campaign_inputs.py text eol=lf
-
+# Intermediate scope-specific observations retained on the integration branch.
 docs/benchmarks/scientific-grid-169-progress/** -text -whitespace
 docs/benchmarks/scientific-grid-169-progress.json text eol=lf

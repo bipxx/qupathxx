@@ -11,7 +11,7 @@ canonical signatures remain the public headers and generated Python stubs.
 | Observed inefficiency | Evidence | Replacement |
 | --- | --- | --- |
 | Historical packet log obscures the next action and contradicts current status | The previous active plan mixed thousands of lines of earlier packets with a strict M0→M7 order; inventory still named old main `82e159f` after public main reached `f2e8c2f` | Keep packet history in a separate file; one active queue and an updated workflow inventory |
-| Horizontal implementation produces repeated “candidate complete” reports without finishing a researcher task | TMA progressed through reference, codec and project commands while desktop import/export remains missing | Accept complete vertical workflows; substeps remain visible but do not substitute for UI/Python/CLI/persistence completion |
+| Horizontal implementation produces repeated “candidate complete” reports without finishing a researcher task | Earlier TMA stages progressed through reference, codec and project commands before desktop import/export was delivered | Accept complete vertical workflows; substeps remain visible but do not substitute for UI/Python/CLI/persistence completion |
 | Repeated full qualifications and wheel rebuilds consume time before interfaces stabilize | Sources 152–154 used successive Mac candidates plus engine/portable qualifications; stubs required additional packaging passes | Local affected tests first; one installed integration pass; freeze a completed candidate and run the required full matrix once unless code changes/failures require another run |
 | Passing suite counts can conceal missing behavior | QPTMA project native test initially followed a disabled compile-flag branch in a project-enabled build | Require runtime capability and semantic markers, exact relevant cases and fault outcomes; counts are supplementary |
 | Repeated hand-written artifact checks create inconsistent rules and fragile suite counts | Separate engine/Mac/portable scripts embed suite counts and domain-specific imports; QPTMA/resampling each add source/cohort helpers | Share small evidence primitives incrementally and retain domain-specific contracts; test omission, disabled capability and mixed-source rejection |
@@ -30,15 +30,15 @@ This does not authorize autonomous worker delegation beyond the existing rules.
 
 | Order | Work item | Reuse and smallest complete step | Exit evidence |
 | --- | --- | --- | --- |
-| 1 | Project-enabled TMA build validation: locally verified | Install the already-built `qptma156-final-wheels` artifact in its isolated environment; inspect compiled source; run the 80-case QPTMA contract, existing project save/recovery tests, stub regeneration/check and positive/negative typing | No skipped project cohort; actual native project marker; final wheel identity and packaged stubs match; failures retained |
-| 2 | TMA desktop workflow: locally verified | Reuse `GuiTma`, `load_qptma`, `qptma_grid_edits`, `import_qptma`, `qptma_from_grid` and `save_qptma`; background IO plus owner-thread preview/apply, not a second parser/model | Import → preview → apply → edit → undo/redo → project save/restart → export with error/stale/cancel coverage and visually inspected capture |
-| 3 | Integrated TMA source: accepted and promoted to main | One clean candidate; full engine/Mac/portable evidence with project-enabled QPTMA contract and inherited gates | Matching source/artifacts, all required configurations and concrete workflow outputs; promotion only then |
-| 4 | Annotation/migration: local engineering gates pass | Shared nested export and Windows physical recovery paths pass 50 native suites, 305 installed cases, typing and actual QuPath parent/nucleus/point comparisons; three local host-capability skips remain declared | Source-bound 101-case headless / 105-case GUI contracts and 43 auditor controls now pass locally; freeze this integration and require engine/Mac/portable acceptance |
-| 5 | Close sampling and scientific analysis gaps | Specify physical grid semantics first; reuse region filter/requests and archive recipes only when equivalence is proved | Independent masks/features and split/merge results under predeclared tolerances, including anisotropic and unknown calibration |
+| 1 | Project-enabled TMA build validation: engineering verified | Reuse the qualified installed artifacts and existing project contract; do not reinstall historical wheels merely to repeat completed checks | Source-bound engine/Mac/portable acceptance is recorded in the combined source169 receipt; biological and supported-release scope remain separate |
+| 2 | TMA desktop workflow: engineering verified | Reuse `GuiTma`, `load_qptma`, `qptma_grid_edits`, `import_qptma`, `qptma_from_grid` and `save_qptma`; retain background IO plus owner-thread preview/apply | Import → preview → apply → edit → undo/redo → project save/restart → export and error/stale/cancel coverage are retained with the accepted desktop evidence |
+| 3 | Integrated TMA source: accepted and promoted to main | Reuse its qualified workflow and inherited gates in subsequent integrated candidates | Matching source/artifacts and required configurations; no supported-release inference |
+| 4 | Annotation/migration: engineering verified at source169 | Shared nested export, physical recovery and source-bound hierarchy contracts pass engine/Mac/portable audits | Combined source169 receipt; broader annotation/interchange and fault campaigns remain in M3/M4 |
+| 5 | Close sampling and scientific analysis gaps | Reuse the implemented explicit-grid RGB pipeline, physical per-axis kernels and QCL5/QCA5 frontend workflow; next characterize the three unresolved scientific gates and remaining vendor/typed/tiled adapters | Source169 engineering qualification is complete; independent masks/features and split/merge results under predeclared tolerances remain, including anisotropic and unknown calibration |
 | 6 | Complete research and batch workflow | Compose existing analysis/classifier jobs and checkpoint batches; build missing coverage/adapters only after native contracts are stable | Same selected workflow in UI/Python/CLI, interrupted-resumed batch correctness and bounded resources |
 | 7 | Close release and remaining inventory requirements | Build on accepted packages; choose support matrix, license/notices policy, installers and clean-machine scripts | Every M0–M7 exit has scope-matched evidence; remaining scope is explicitly scheduled, not silently dropped |
 
-Steps 4–7 do not prohibit fixing a concrete defect found in an earlier step.
+Steps 5–7 do not prohibit fixing a concrete defect found in an earlier step.
 A blocker in one lane is not permission to replace the original goal with a
 smaller deliverable. Keep the original M0–M7 requirements and deferred boundaries.
 
@@ -59,12 +59,11 @@ Stop expanding a slice when its agreed complete user outcome is met, then run
 its final gate; additional breadth returns to the original backlog with an owner.
 That controls intermediate scope without shrinking the overall M0–M7 objective.
 
-For the current TMA slice, the outcome is a researcher importing a QuPath grid,
-reviewing it on the selected image, editing it, saving/reopening the project and
-exporting back with supported fields preserved and losses displayed. Native
-codec, project CLI and GUI should share that one acceptance record. Its local installed project-enabled and desktop gates pass. Its next blocking
-evidence is exact-source hosted engine/Mac/portable acceptance; do not start a
-new parser or binary format while those runs remain live.
+The TMA and explicit-grid RGB-cell workflows now have exact-source hosted
+engine/Mac-native/portable engineering acceptance. Reuse their shared native,
+Python, CLI, batch and GUI paths for remaining work. The next scientific slice
+must characterize the retained strict failures and close the relevant mask,
+feature and split/merge requirements without weakening acceptance criteria.
 
 ## Detailed route for each API family
 
@@ -78,7 +77,7 @@ full parity or release acceptance.
 | Image open/metadata: `open_slide`, `open_tiff`, `ImageServer.metadata`, `read_region`, `RegionRequest` | Extend the reader adapter/capability declarations for an identified format; retain RAII, normalized metadata and shared region validation. Reuse pinned OpenSlide/quantitative TIFF paths before introducing a new decoder | Add vendor/axis/damage/calibration cases to the reader corpus; verify actual pixels and independent metadata, pending-close behavior and bounded reads. Broader Bio-Formats/multifile OME stays tracked |
 | Resampling/overview: `read_resampled_region`, `resample_area`, `plan_thumbnail`, `ThumbnailJob` | Use the accepted integer area filter and natural-level planner. Choose grids explicitly; do not implement another resize in Python or ImGui | Real-vendor grids and downstream scientific recipe integration; identity/alpha/padding and quota behavior must hold. Device-space filtering does not supply ICC/linear-light semantics |
 | Raw quantitative data: `RawRegionRequest`, `RawPixelBuffer`, `TiffView`, `RawAnalysisRequest`, `RawAnalysisJob` | Keep typed raw data separate from display RGB; never route quantitative channels through the RGBA8 resampler. Adapt the existing TIFF/raw request and immutable record path for missing workflows | Validate multichannel/Z/time, axes, dtype and calibration; extend raw classifier features and file formats with independent numeric fixtures and persisted provenance |
-| Scientific RGB/channels: `ScientificGridAxis`, `ScientificGrid`, `ScientificRgbGrid`, `read_scientific_rgb`, `ScientificChannels` | Reuse the exact grid, bounded level-zero float64 RGB sampler and OD/signed-stain transforms. Shared rasters/GEOS contours preserve both axes and one-read input identity. Reuse the [contract](scientific-grid-contract.md); keep typed raw channels separate | Native, installed Python and desktop cell integration pass locally through QCL5/QCA5/CSV, including captured calibration and metadata lifetime. The [frozen platform campaign](current-task.md) remains pending. Pyramid/tiled sampling, typed quantitative sources and biological masks/features remain; a bounded source window does not complete large-slide sampling |
+| Scientific RGB/channels: `ScientificGridAxis`, `ScientificGrid`, `ScientificRgbGrid`, `read_scientific_rgb`, `ScientificChannels` | Reuse the exact grid, bounded level-zero float64 RGB sampler and OD/signed-stain transforms. Shared rasters/GEOS contours preserve both axes and one-read input identity. Reuse the [contract](scientific-grid-contract.md); keep typed raw channels separate | Native, installed Python and desktop cell integration pass locally through QCL5/QCA5/CSV, including captured calibration and metadata lifetime. The [integrated platform campaign](current-task.md) is accepted at source `3fc3bcb` within its declared scope. Pyramid/tiled sampling, typed quantitative sources and biological masks/features remain; a bounded source window does not complete large-slide sampling |
 | Scheduling/cache: `TileScheduler`, `SchedulerOptions`, job `request/poll/cancel` | Add missing request classes/priority policy to existing scheduler and immutable completion paths. Reuse generation rejection and native handle ownership | Vendor stress, concurrent close/cancel, in-flight/decoder memory accounting, latency and long-session bounds. No new general scheduler unless a measured limitation requires it |
 | Viewer/display: `show`, `GuiOptions`, `DisplaySettings`, `Viewport` | Reuse tiled renderer, cached overlays and owner/context-thread rules. Add ICC as a separately specified display stage with a candidate dependency/notice review | Physical monitor/DPI and GPU/OS matrix; advanced fluorescence, color-managed comparisons, dense visible scenes and eligible completed-frame timing. Raw measurements must stay unchanged |
 | Objects/geometry/history: `Document`, `Roi`, `ObjectEdit`, `ObjectSelection`, `Document.execute` | Implement missing gestures as compound existing commands; extend GEOS adapter and revision caches only where fixtures expose a gap | Hierarchy/interchange edge cases, multipart/holes and calibrated features, selection/edit interaction, rollback and undo/redo. Verify stable IDs and child/nucleus policy |
@@ -90,11 +89,11 @@ full parity or release acceptance.
 | ROI/shape/OD measurements: `AnalysisRequest`, `AnalysisJob`, `analyze`, `RoiMeasurements` | Reuse immutable ROI/calibration capture, native kernels, revision caches and retained analysis records. Add a feature descriptor only for an identified missing quantity | Independent feature tolerances, edge/hole/alpha sampling and calibrated behavior; publish/replay/export must retain exact input/recipe identity. No per-frame recomputation |
 | Stains: `StainTransform`, `optical_density`, `StainEstimateRequest`, `StainEstimateJob` | Reuse supplied-vector kernels and bounded estimation reservoir; add registry/persistence UI around existing stable model hashes | Additional stain/estimation reference workflows and accepted biological tolerances; freeze white reference/vector normalization before running comparisons |
 | Tissue detection: `TissueRequest`, `TissueParameters`, `TissueJob`, `detect_tissue`, `trace_tissue` | Reuse threshold/morphology/components/contours and record publication. Add physical filters or smoothing only with an explicit sampling definition | Halo/edge connectivity, arbitrary grid recipe, physical filters and independent QuPath/biological masks; identical captured inputs across UI/Python/CLI and cancellation/stale tests |
-| Cell detection/compartments: `CellRequest`, `GridCellSampling`, `GridCellParameters`, `CellParameters`, `CellJob`, `detect_cells` | For count-based explicit grids, use `CellRequest.for_grid_roi`; for exact origins/extents, pass `ScientificGrid` to the constructor. Choose typed pixel/micrometre units, preserve the ROI and reuse QCL5 retention/replay. Legacy recipes keep their existing parameter path. See the [workflow guide](grid-cell-workflows.md) | Physical sigma/radii/expansion, per-axis kernels, calibrated features and native/Python/CLI/batch/GUI integration now pass local engineering checks. Complete platform qualification and predeclared biological/QuPath mask, feature and split/merge tolerances remain. Unknown micrometre calibration rejects explicitly |
+| Cell detection/compartments: `CellRequest`, `GridCellSampling`, `GridCellParameters`, `CellParameters`, `CellJob`, `detect_cells` | For count-based explicit grids, use `CellRequest.for_grid_roi`; for exact origins/extents, pass `ScientificGrid` to the constructor. Choose typed pixel/micrometre units, preserve the ROI and reuse QCL5 retention/replay. Legacy recipes keep their existing parameter path. See the [workflow guide](grid-cell-workflows.md) | Physical sigma/radii/expansion, per-axis kernels, calibrated features and native/Python/CLI/batch/GUI integration now pass source169 engine/Mac-native/portable engineering qualification. Predeclared biological/QuPath mask, feature and split/merge tolerances remain. Unknown micrometre calibration rejects explicitly |
 | Tables/provenance: `MeasurementTableRequest`, `CellTableRequest`, raw tables, export jobs, `build_environment` | Compose existing immutable table requests and incremental export jobs; extend the schema in one native table layer, bind it thinly | Historical/live metadata joins, revision selectors, reproducible schema/units, cancellation and row/byte budgets. Reuse evidence hashes; avoid new ad-hoc CSV format for each UI |
 | Object classifiers: `ObjectFeatureRequest`, `extract_object_features`, forest training/classification and archives | Reuse frozen feature schema, training snapshot and portable model archive; expose missing workflow actions through existing jobs | Expanded feature schema/versioning and independent research/model comparison. Verify source links, absent labels, deterministic predictions and applying classes as an undoable command |
 | Pixel classifiers/streaming: `PixelTrainingRequest`, `PixelPredictionRequest`, `PixelPredictionStream`, file/export/read jobs | Use windowed and block streaming paths to bound large slides; compose masks/contours and captured model identity. Preserve hash-only resume | Stitched contours and unmatched-grid feature semantics; test seams against independent full-image references, IO cancellation, model/provenance persistence and research acceptance |
-| Headless batches: `ProjectBatchRequest`, `ProjectBatchJob`, checkpoint APIs, `qupathxx_batch` | Adapt existing request/result/archive paths into the shared batch engine. For grid cells set `kind=CELLS`, `cell_grid` and `grid_cells`; each image resolves its own calibration. CLI and UI use the same native factory and options | Grid interruption/resume, per-image calibration, typed CSV and QCL5 checkpoints pass locally. Complete platform/scientific coverage, partial failure, source/model replacement, abandoned-work cleanup and stable memory remain. Distributed workers require a later contract |
+| Headless batches: `ProjectBatchRequest`, `ProjectBatchJob`, checkpoint APIs, `qupathxx_batch` | Adapt existing request/result/archive paths into the shared batch engine. For grid cells set `kind=CELLS`, `cell_grid` and `grid_cells`; each image resolves its own calibration. CLI and UI use the same native factory and options | Grid interruption/resume, per-image calibration, typed CSV and QCL5 checkpoints pass source169 engineering qualification. Remaining scientific/platform scope, partial failure, source/model replacement, abandoned-work cleanup and stable memory remain. Distributed workers require a later contract |
 | Spatial analysis: `Roi`, existing native spatial index and ROI/measurement queries | Build bounded neighborhood/distance/density queries on the current index and calibrated measurements; expose immutable tables through the established jobs/export layer | Specify units, metric, point/area semantics and anisotropic behavior, then independent nearest-neighbor/overlap/density fixtures and large-scene query/memory evidence. No full point-cloud copy per frame |
 | Recorded workflow automation: native commands, parameterized requests and retained records | Compose a versioned ordered workflow manifest from existing request/command identities; reuse batch execution and per-stage archive/restart checks | Define dependency/data references, error/cancel policy and reproducible replay before promising general pipeline automation; validate one multi-stage workflow across script, CLI and UI |
 | Managed Python viewer: `ViewerSession.execute`, `grid_cells`, notifications and analysis endpoints | Submit `grid_cells` while the native owner pumps; submission copies the recipe and owner-stage capture resolves calibration. Reuse poll/wait/take, cancellation and retention; edits/publication stay on the owner | Grid producer/owner retention, export/save and stale/calibration delivery pass native/installed desktop checks locally. Broader lifecycle/backpressure/shutdown and platform qualification remain. Add endpoints only for missing real workflows; no Python callbacks owning native workers |
@@ -118,7 +117,7 @@ level-zero RGB cells through one request/result/archive workflow. Reuse
 `CellRequest.for_grid_roi` or the explicit `ScientificGrid` constructor, typed
 `GridCellParameters`, per-axis raster edges and captured provenance. The native
 request, archive/classifier/CSV consumers and Python/CLI/viewer/batch/ImGui paths
-pass local engineering checks; the integrated platform campaign is pending.
+pass local engineering checks; the integrated platform campaign passes at source `3fc3bcb` within its declared scope.
 
 For remaining tissue/classifier/raw workflows, extend this contract with an
 explicit source dtype, natural-level/tiled sampling policy and channel semantics
@@ -132,7 +131,10 @@ semantics. Typed raw scientific sampling and vendor/pyramid/tiled cell admission
 remain explicit requirements; reuse existing filters only where their contracts
 match.
 
-## TMA desktop implementation recipe
+## Implemented TMA desktop pattern to reuse
+
+This pattern already powers the accepted TMA workflow. Reuse it for new imports;
+do not schedule its existing controls/parser/model as unfinished implementation.
 
 1. Add UI controls adjacent to the existing TMA panel; preserve numeric values
    of existing replay targets by appending new targets. Use one bounded path
@@ -186,13 +188,12 @@ multiple status files. Source identity must distinguish code, fixture, harness,
 compiled engine and documentation when they differ.
 
 A normal gate is a locally completed workflow, then one frozen full-matrix
-qualification. The current workflow concurrency key groups only by Git ref, so
-engine/Mac/portable dispatches on the same ref cancel one another. Until a
-separately reviewed workflow change keys concurrency by mode and candidate, use
-mode-specific immutable refs, all pinned to the same source SHA. Plan that small
-CI correction before attempting to collapse those refs. The resumed implementation now
-includes that mode-aware concurrency-key change; its integrated qualification
-is pending. Stop and inspect a live run after uncertainty; don't redispatch
+qualification. Mode-aware concurrency keys now let engine/Mac/portable runs
+share one frozen ref without cancelling one another; all three source169 modes
+passed their full required audits. Portable qualification must enable extended
+readers, as recorded by the corrected accepted run and retained under-scoped
+attempt in the [combined receipt](benchmarks/scientific-grid-169-qualification.json).
+Stop and inspect a live run after uncertainty; don't redispatch
 or modify its source. New compiler/behavior changes invalidate affected evidence;
 prove which configurations are unaffected rather than assuming. Never substitute
 a future run's tools when auditing older artifacts. Publication of candidate

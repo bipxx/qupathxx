@@ -1,23 +1,14 @@
 # QuPath workflow inventory
 
-The explicit-grid cell workflow now connects native geometry/sampling, float64
-channels, physical kernels, per-axis rasters, QCL5 retention/replay, QCA5 classifier
-origins and CSV schema 5/6 to Python, CLI, managed viewer, batch and ImGui entry
-points. Use the [workflow guide](grid-cell-workflows.md) and shared
-[scientific-grid contract](scientific-grid-contract.md).
-
-Source `d31ceb7` has local Windows Python/GUI/project/GEOS engineering validation:
-50 native suites, 33 independent contract tests, installed regression and serial
-desktop cohorts, and packaged strict typing. See the
-[frontend receipt](benchmarks/grid-cell-frontends-local-windows.json).
-The frozen integrated candidate `5ebdb96` adds explicit source-bound CI cohorts;
-engine, Mac-native and portable campaigns exposed binding caster and Darwin
-type-deduction defects. The candidate is unqualified; a corrected integration
-passes local regression checks and awaits fresh complete platform qualification. The
-[preflight receipt](benchmarks/scientific-grid-ci-preflight-windows.json) records
-those exact runs. Disabled capabilities and other platforms are not qualified by
-the local checks. All milestones remain Partial; scientific/release acceptance
-and the full remaining scope are unchanged.
+The shared explicit-grid RGB-cell workflow connects native geometry/sampling,
+float64 channels, physical kernels, per-axis rasters, QCL5/QCA5/CSV and typed
+Python/CLI/batch/viewer/ImGui paths. Integrated hierarchy/recovery and grid source
+`3fc3bcb` passes complete source-bound engine, Mac-native and extended portable
+qualification; see the [combined receipt](benchmarks/scientific-grid-169-qualification.json)
+and [workflow guide](grid-cell-workflows.md). Mac scope excludes Python/GUI/OpenSlide.
+Scientific, hardware, rights/licensing and supported-release requirements remain.
+All milestones are Partial. Candidate168 binding/Darwin failures and the first
+under-scoped portable request remain retained rather than relabelled.
 
 Earlier building-block evidence remains source-specific: [sampling](benchmarks/scientific-grid-sampling-local-windows.json),
 [physical kernels](benchmarks/physical-grid-kernels-local-windows.json),
@@ -63,23 +54,16 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 
 ## Current execution state (2026-10-25)
 
-Public main now contains integrated TMA source `a29e4e1`, accepted by the exact
-engine/Mac/portable runs. The [combined receipt](benchmarks/qptma-integrated-local-windows.json)
-retains local evidence and all three hosted audits. Engine passes 2,989 installed
-GUI cases and 50 native suites; Windows/Linux headless pass 2,570/2,568 installed
-cases and 49 native suites. All three installed engine cohorts require the 80-case
-QPTMA contract and GUI requires its nine desktop cases. Mac arm64/x86_64 each
-pass 49 native suites, including project-enabled TMA; portable builders/fresh
-consumers each pass the same QPTMA contract. Runtime inventories and relocation
-remain checked at their declared scope.
-
-The next integrated candidate includes hierarchy/recovery, the long-path fix,
-and the explicit-grid scientific cell workflow. It is frozen at `5ebdb96` on
-`feature/scientific-workflow-168`; its exact-source campaign is unqualified after
-binding-caster and Darwin compilation failures. The correction remains a later
-candidate requiring its own complete gates.
-The newer feature-branch documentation does not move that frozen ref. All M0–M7 milestones remain Partial. Use the [active plan](project-plan.md)
-and [API delivery paths](api-delivery-plan.md) for the remaining complete scope.
+Public main's qualified application source is now `3fc3bcb`; its following
+receipt commit changes documentation/evidence only. Windows GUI passes 50 native
+suites and 3,256 installed cases; Windows/Linux headless pass 49 suites and
+2,831/2,829 installed cases. Both Linux native configurations and both Mac native
+architectures pass 49 suites each. All required engine, runtime, hierarchy,
+scientific-grid, TMA, reader, archive and portable/fresh-consumer cohorts are
+audited at that exact source. See the [qualification receipt](benchmarks/scientific-grid-169-qualification.json).
+These results do not close scientific tolerances, hardware or release gates.
+All M0-M7 remain Partial; the [active plan](project-plan.md) and
+[API delivery paths](api-delivery-plan.md) retain the full remaining scope.
 
 ## Earlier evidence (source-specific history)
 

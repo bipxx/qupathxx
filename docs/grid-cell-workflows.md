@@ -1,9 +1,10 @@
 # Explicit-grid cell workflows
 
-Local Windows checks cover native batch/viewer and CLI workflows, the installed
-Python bindings and packaged declarations, and serial desktop replay. This is
-engineering validation, not scientific acceptance or supported-release
-qualification. See the [frontend receipt](benchmarks/grid-cell-frontends-local-windows.json).
+Integrated source `3fc3bcb` passes the complete Windows/Linux engine and portable
+builder/fresh-consumer workflow gates, plus both-architecture Mac native checks.
+See the [qualification receipt](benchmarks/scientific-grid-169-qualification.json).
+Mac Python/GUI/OpenSlide, scientific/hardware acceptance and supported release
+remain separate requirements.
 
 Use `CellRequest.for_grid_roi` for an ordinary area annotation. It encloses the
 ROI bounds in an integer level-zero rectangle, uses the requested sample counts
