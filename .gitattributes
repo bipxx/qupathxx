@@ -239,3 +239,6 @@ docs/benchmarks/scientific-grid-169-campaign.json text eol=lf
 
 tools/ci/campaign_inputs.py text eol=lf
 tests/test_campaign_inputs.py text eol=lf
+
+docs/benchmarks/scientific-grid-169-progress/** -text -whitespace
+docs/benchmarks/scientific-grid-169-progress.json text eol=lf

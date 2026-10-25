@@ -267,3 +267,9 @@ Use that run for the complete portable audit. The previous portable run stays
 in the attempt history. Checked campaign input generation now rejects this
 omission before dispatch; no native implementation change or matrix restart is
 needed for the corrected request.
+
+The [source169 progress receipt](benchmarks/scientific-grid-169-progress.json)
+publishes the scoped Mac-native and Linux-only audits, the under-scoped
+portable observation, and checked dispatch-profile evidence. Overall platform
+acceptance remains false until the complete engine and extended portable gates
+are audited.
