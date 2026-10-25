@@ -36,6 +36,10 @@ set(zlib ON CACHE BOOL "" FORCE)
 FetchContent_Declare(qpx_tiff URL https://download.osgeo.org/libtiff/tiff-4.7.1.tar.xz
   URL_HASH SHA256=b92017489bdc1db3a4c97191aa4b75366673cb746de0dce5d7a749d5954681ba)
 FetchContent_MakeAvailable(qpx_tiff)
+# ZLIB::ZLIB is our alias, so FindZLIB may not attach ZLIB_INCLUDE_DIR.
+# Prefer the paired copied zlib.h/configured zconf.h over upstream source
+# zconf.h, whose unprefixed declarations cannot link our prefixed archive.
+target_include_directories(tiff BEFORE PRIVATE "${qpx_zlib_BINARY_DIR}/qpx-include")
 set_target_properties(tiff PROPERTIES POSITION_INDEPENDENT_CODE ON)
 FetchContent_Declare(qpx_xml URL https://codeload.github.com/leethomason/tinyxml2/tar.gz/refs/tags/11.0.0
   URL_HASH SHA256=5556deb5081fb246ee92afae73efd943c889cef0cafea92b0b82422d6a18f289

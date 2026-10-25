@@ -29,6 +29,24 @@ int main() {
             tag(256,4,2);tag(257,4,2);tag(258,3,16);tag(259,3,1);tag(262,3,1);tag(273,4,134);tag(277,3,1);tag(278,4,2);tag(279,4,8);tag(339,3,1);u32(0);
             for(auto value:{1,256,40000,65535}) u16(static_cast<std::uint16_t>(value));
             std::ofstream file(path,std::ios::binary);file.write(reinterpret_cast<const char*>(bytes.data()),bytes.size());file.close();
+            {
+                // Fixed RFC1950 stream independently produced from the eight
+                // little-endian source bytes, not libtiff's own encoder.
+                auto compressed=bytes;compressed.resize(134);
+                const unsigned char stream[]={0x78,0x9c,0x63,0x64,0x60,0x60,0x74,0x98,0xf3,0xff,0x3f,0x00,0x05,0xe6,0x02,0xdd};
+                for(std::size_t at=10;at<130;at+=12) {
+                    const auto id=unsigned(compressed[at])+(unsigned(compressed[at+1])<<8);
+                    if(id==259 || id==279) {const auto value=id==259?8u:unsigned(sizeof(stream));for(unsigned i=0;i<4;++i) compressed[at+8+i]=std::uint8_t(value>>(8*i));}
+                }
+                compressed.insert(compressed.end(),std::begin(stream),std::end(stream));
+                const auto compressed_path=fs::path(path.u8string()+".deflate.tif");
+                std::ofstream compressed_file(compressed_path,std::ios::binary);compressed_file.write(reinterpret_cast<const char*>(compressed.data()),compressed.size());compressed_file.close();
+                auto decoded=open_tiff(compressed_path.u8string());Document doc(decoded);
+                const auto result=analyze_raw(RawAnalysisRequest(doc,ScientificGrid(2,2,{0,2,1},{0,2,1})));
+                check(result->statistics().means[0]==26448. && result->statistics().valid_pixels==1);
+                decoded->close();fs::remove(compressed_path);
+                std::cout<<"Independent deflate TIFF typed grid analysis through prefixed zlib passed\n";
+            }
             auto server=open_tiff(path.u8string());const auto metadata=server->raw_metadata();check(metadata && metadata->sample_type==SampleType::UInt16 && metadata->channels==1);
             RawRegionRequest request;request.region=RegionRequest(0,0,0,2,2);const auto raw=server->read_raw(request);check(std::get<std::vector<std::uint16_t>>(raw.storage())==std::vector<std::uint16_t>({1,256,40000,65535}));
             {
