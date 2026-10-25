@@ -368,3 +368,9 @@ docs/benchmarks/raw-grid-resource-191-engine.json text eol=lf
 # TMA gate controls preserve exact JUnit, logs and source proofs.
 docs/benchmarks/tma-axis-auditor-controls/** -text -whitespace
 docs/benchmarks/tma-axis-auditor-controls.json text eol=lf
+
+# Synthetic dearray masks are byte-exact independent fixtures.
+tests/fixtures/tma-dearray-v1/*.pgm -text -whitespace
+tests/fixtures/tma-dearray-v1/*.json text eol=lf
+tools/reference_tma_dearray.py text eol=lf
+tools/upstream/qupath_tma_dearray_reference.groovy text eol=lf
