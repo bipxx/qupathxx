@@ -1,0 +1,23 @@
+{
+  "schema": "qpx.hierarchy-qualification-local/1",
+  "state": "local-gates-passed-platform-pending",
+  "cohort_source": "f506a5a8b60a181521fbbda19ed6198f042b5a45",
+  "required_headless": 101,
+  "required_gui": 105,
+  "auditor_controls": 43,
+  "local_cases_passed": 140,
+  "source_files_verified": 55,
+  "stale_source_and_old_accepted_native_artifact_rejected": true,
+  "compiled_source": "df0733c3782f99518e89d7e2f40787dbb2be3094",
+  "scope": "Shared source/cohort primitives retain inherited QPTMA behavior; all three auditors require hierarchy/recovery semantic markers, exact installed cohorts and three negative typing errors. Positive typing now matches four producer examples. Captured accepted nested QuPath wire is byte-bound and rebuilt exports must match it. No hosted acceptance for this new source yet.",
+  "files": {
+    "cohorts.xml": {
+      "bytes": 20313,
+      "sha256": "281e5cc3d251b0de739d38742b664acd49fc9c8ece94b57074d96e7413217e0a"
+    },
+    "source-audit.json": {
+      "bytes": 617,
+      "sha256": "91bd95ee5afafc0148d5cba4e3582f64d961e65644ac2f3e175387a3097b433b"
+    }
+  }
+}

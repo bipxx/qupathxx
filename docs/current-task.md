@@ -31,8 +31,11 @@ The source-bound hierarchy/recovery gates are now wired into all three artifact
 auditors, with 101 headless and 105 GUI required cases including 43 negative/
 positive evidence controls. The shared QPTMA primitive retains its original
 defaults. Positive typing checks require the four actual producer examples.
-Next: finish source-bound local gate verification, freeze the integrated source
-and run its full engine/Mac/portable qualification once. Do not claim platform
+Local gate verification now passes 140 cases. All 55 bound source files match,
+and old source/native artifacts are rejected for the new scope. See the
+[qualification receipt](benchmarks/annotation-migration-qualification-local-windows.json).
+Next: freeze this integrated source and run its full engine/Mac/portable
+qualification once; keep the dispatched worktree immutable. Do not claim platform
 acceptance from local Windows tests. Unicode glyph delivery, broader migration,
 sampling/scientific, licensing and supported-release requirements remain open.
 

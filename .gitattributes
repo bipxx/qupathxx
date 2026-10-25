@@ -183,3 +183,6 @@ docs/benchmarks/annotation-migration-recovery-local-windows.json text eol=lf
 tools/ci/hierarchy-cases.json text eol=lf
 tools/ci/hierarchy_evidence.py text eol=lf
 tests/test_hierarchy_evidence.py text eol=lf
+
+docs/benchmarks/annotation-migration-qualification-local/** -text -whitespace
+docs/benchmarks/annotation-migration-qualification-local-windows.json text eol=lf
