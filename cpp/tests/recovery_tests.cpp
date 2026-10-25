@@ -1,4 +1,5 @@
 #include "qupathxx/project_recovery.hpp"
+#include "../filesystem_access.hpp"
 #include <filesystem>
 #include <iostream>
 #include <fstream>
@@ -7,6 +8,16 @@ using namespace qpx;
 void check(bool value) { if(!value) throw std::runtime_error("recovery check failed"); }
 int main() {
     try {
+#ifdef _WIN32
+        check(detail::access_path(std::filesystem::path(L"C:\\data\\folder\\..\\\u03b1"),true).native()==L"\\\\?\\C:\\data\\\u03b1");
+        check(detail::access_path(std::filesystem::path(L"\\\\server\\share\\\u03b1"),true).native()==L"\\\\?\\UNC\\server\\share\\\u03b1");
+        const auto physical=std::filesystem::path(L"\\\\?\\C:\\data\\\u03b1");
+        check(detail::access_path(physical,true)==physical);
+#else
+        const auto relative=std::filesystem::path("folder")/".."/"name";
+        check(detail::access_path(relative,true)==relative);
+#endif
+        std::cout<<"Native physical path adaptation preserves logical names and UNC/drive policy passed\n";
         Project p; ProjectAutosave autosave;
         if(!has_project()) {
             bool rejected=false; try { autosave.request(p,"disabled.qpxrecover"); } catch(const std::runtime_error&) { rejected=true; }

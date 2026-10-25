@@ -1,4 +1,5 @@
 #include "qupathxx/project_recovery.hpp"
+#include "filesystem_access.hpp"
 #include <algorithm>
 #include <chrono>
 #include <cctype>
@@ -35,6 +36,7 @@
 namespace qpx {
 namespace {
 namespace fs=std::filesystem;
+using detail::access_path;
 std::string token() {
     std::random_device random; std::string result; constexpr char hex[]="0123456789abcdef";
     for(int i=0;i<32;++i) result.push_back(hex[random()&15]); return result;
@@ -85,7 +87,7 @@ public:
     explicit FileLock(const fs::path& path,bool create=true) {
         auto lock=path; lock+=fs::u8path(".lock");
 #ifdef _WIN32
-        if(_wsopen_s(&fd_,lock.c_str(),(create?_O_CREAT:0)|_O_RDWR|_O_BINARY|_O_NOINHERIT,_SH_DENYRW,_S_IREAD|_S_IWRITE)!=0) fd_=-1;
+        if(_wsopen_s(&fd_,access_path(lock,true).c_str(),(create?_O_CREAT:0)|_O_RDWR|_O_BINARY|_O_NOINHERIT,_SH_DENYRW,_S_IREAD|_S_IWRITE)!=0) fd_=-1;
 #else
         fd_=::open(lock.c_str(),(create?O_CREAT:0)|O_RDWR|O_CLOEXEC,0600);
         if(fd_>=0 && ::flock(fd_,LOCK_EX|LOCK_NB)!=0) { ::close(fd_); fd_=-1; }
@@ -109,7 +111,7 @@ bool publish(const fs::path& source,const fs::path& destination,const std::atomi
     auto deadline=std::chrono::steady_clock::now()+std::chrono::milliseconds(250);
     for(;;) {
         if(cancelled.load()) return false;
-        if(MoveFileExW(source.c_str(),destination.c_str(),MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)) break;
+        if(MoveFileExW(access_path(source,true).c_str(),access_path(destination,true).c_str(),MOVEFILE_REPLACE_EXISTING|MOVEFILE_WRITE_THROUGH)) break;
         auto error=GetLastError();
         if((error!=ERROR_SHARING_VIOLATION && error!=ERROR_LOCK_VIOLATION) || std::chrono::steady_clock::now()>=deadline)
             throw std::runtime_error("recovery atomic replacement failed");
@@ -129,7 +131,10 @@ struct WorkDirectory {
     fs::path path,file,marker;
     explicit WorkDirectory(const fs::path& destination,const RecoveryInfo& info) {
         const auto id=token();
-        path=destination; path+=fs::u8path(".work-"+id);
+        // The derived work/snapshot/sidecar paths may exceed MAX_PATH even
+        // when the public checkpoint path itself is short enough. Keep this
+        // prefix private; info.path and the logical image base stay unchanged.
+        path=access_path(destination,true); path+=fs::u8path(".work-"+id);
         if(!fs::create_directory(path)) throw std::runtime_error("cannot create owned recovery work directory");
         file=path/"snapshot.qpxproj";
         marker=path/"owner";
@@ -156,7 +161,7 @@ struct WorkDirectory {
 };
 bool plain_entry(const fs::path& path,bool directory) {
 #ifdef _WIN32
-    const auto attributes=GetFileAttributesW(path.c_str());
+    const auto attributes=GetFileAttributesW(access_path(path).c_str());
     if(attributes==INVALID_FILE_ATTRIBUTES || (attributes&(FILE_ATTRIBUTE_REPARSE_POINT|FILE_ATTRIBUTE_DEVICE))) return false;
     return static_cast<bool>(attributes&FILE_ATTRIBUTE_DIRECTORY)==directory;
 #else
@@ -297,7 +302,7 @@ bool same_scope(const RecoveryInfo& a,const RecoveryInfo& b) {
 void rescue_work(const fs::path& source,const fs::path& destination) {
     // No replacement: a preexisting rescue (including a link) always wins.
 #ifdef _WIN32
-    if(!MoveFileExW(source.c_str(),destination.c_str(),MOVEFILE_WRITE_THROUGH))
+    if(!MoveFileExW(access_path(source,true).c_str(),access_path(destination,true).c_str(),MOVEFILE_WRITE_THROUGH))
         throw std::runtime_error("cannot publish rescued recovery without replacing an existing file");
 #else
     if(::link(source.c_str(),destination.c_str())!=0)
@@ -564,7 +569,7 @@ std::size_t Project::cleanup_recovery_work_impl(const std::string& path,std::siz
     const auto destination=location(path);
     const auto prefix=destination.filename().u8string()+".work-";
     std::size_t cleaned=0;
-    for(const auto& item:fs::directory_iterator(destination.parent_path())) {
+    for(const auto& item:fs::directory_iterator(access_path(destination.parent_path(),true))) {
         if((limit && cleaned>=limit) || (cancelled && cancelled->load())) break;
         const auto name=item.path().filename().u8string();
         const auto split=name.rfind(".work-");

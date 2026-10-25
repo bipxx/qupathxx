@@ -12,6 +12,7 @@
 #include "atomic_export.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
+#include "filesystem_access.hpp"
 #include <algorithm>
 #include <chrono>
 #include <filesystem>
@@ -32,18 +33,7 @@ std::string hash(const std::string& s) {Sha256 h;h.update(s.data(),s.size());ret
 std::string real(double n) {std::ostringstream s;s.imbue(std::locale::classic());s<<std::setprecision(17)<<n;return s.str();}
 std::string vector(const ColorVector& v) {return '['+real(v[0])+','+real(v[1])+','+real(v[2])+']';}
 std::string error_text(const std::exception& e) {std::string s=e.what();try {detail::bounded_utf8(s,32768);} catch(...) {return "batch operation failed (error text is not bounded UTF-8)";}return s;}
-fs::path access_path(const fs::path& path,bool extended=false) {
-#ifdef _WIN32
-    auto value=fs::absolute(path).lexically_normal().native();
-    if((extended || value.size()>240) && value.rfind(L"\\\\?\\",0)!=0) {
-        if(value.rfind(L"\\\\",0)==0) value=L"\\\\?\\UNC\\"+value.substr(2);
-        else value=L"\\\\?\\"+value;
-    }
-    return fs::path(value);
-#else
-    (void)extended;return path;
-#endif
-}
+using detail::access_path;
 bool plain(const fs::path& path,bool directory) {
 #ifdef _WIN32
     const auto flags=GetFileAttributesW(access_path(path).c_str());return flags!=INVALID_FILE_ATTRIBUTES && !(flags&FILE_ATTRIBUTE_REPARSE_POINT) && bool(flags&FILE_ATTRIBUTE_DIRECTORY)==directory;
