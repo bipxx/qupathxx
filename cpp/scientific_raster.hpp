@@ -18,6 +18,9 @@ struct ScientificRasterSpec {
 // edges. The request planner can call this before any IO or raster allocation.
 void validate_scientific_raster_geometry(const ScientificGrid&,const std::atomic<bool>* cancelled=nullptr);
 bool scientific_sample_eligible(const AnalysisRequest&,const ScientificRgbGrid&,std::size_t x,std::size_t y);
+bool scientific_core_roi_contains(const Roi&,const ScientificGrid&,RoiSamplingPolicy,std::size_t x,std::size_t y);
+std::vector<TissueComponent> scientific_raster_components(const ScientificGrid&,const std::vector<std::uint32_t>&,std::uint32_t count,const std::atomic<bool>* cancelled=nullptr);
+std::uint64_t scientific_raster_work_bytes(const ScientificGrid&,std::uint32_t count,const Roi&,const AnalysisProvenance&);
 std::string scientific_raster_input_sha256(const AnalysisRequest&,const ScientificRgbGrid&,const std::atomic<bool>* cancelled=nullptr);
 struct ScientificRasterKernel {
     static std::shared_ptr<const TissueResult> make(const AnalysisRequest&,const ScientificRgbGrid&,

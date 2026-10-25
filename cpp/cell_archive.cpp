@@ -56,6 +56,7 @@ std::uint64_t edge(double coordinate,double scale,std::int64_t limit) {
 }
 }
 std::vector<std::uint8_t> CellArchiveCodec::encode(const CellResult& r,const std::atomic<bool>* cancelled) {
+    if(r.grid_parameters()) return encode_grid(r,cancelled);
     checkpoint(cancelled);r.parameters().validate();if(std::string(r.algorithm())!=cell_detail::algorithm_id(r.parameters().algorithm)) throw std::invalid_argument("unsupported cell archive algorithm");
     Writer w;const auto& n=*r.nuclei();const auto& p=r.parameters();
     if(p.algorithm!=CellAlgorithm::DistanceWatershed) {w.bytes[3]=p.algorithm==CellAlgorithm::SampledLogWatershedBodies?4:(p.algorithm==CellAlgorithm::LogWatershedBodies?3:2);w.u64(static_cast<std::uint64_t>(p.algorithm));w.real(p.log_prominence);w.u64(p.context_padding);}
@@ -82,6 +83,7 @@ std::vector<std::uint8_t> CellArchiveCodec::encode(const CellResult& r,const std
     if(w.bytes.size()>256u*1024u*1024u) throw std::length_error("encoded cell archive exceeds 256 MiB");return w.bytes;
 }
 std::shared_ptr<const CellResult> CellArchiveCodec::decode(const std::uint8_t* data,std::size_t size,Roi roi,const ImageMetadata& metadata,const std::atomic<bool>* cancelled) {
+    if(data && size>=4 && !std::memcmp(data,"QCL\5",4)) return decode_grid(data,size,std::move(roi),metadata,cancelled);
     checkpoint(cancelled);if(!data || size<128 || size>256u*1024u*1024u) throw std::invalid_argument("invalid cell archive size");
     const std::string digest(reinterpret_cast<const char*>(data+size-64),64);
     if(!hex(digest) || checksum(data,size-64,roi,cancelled)!=digest) throw std::invalid_argument("cell archive checksum mismatch");

@@ -4,7 +4,7 @@
   "generator": "tools/reference_scientific_grid.py",
   "generator_sha256": "06a184ba1474eab01ce5aedd8117ef115f0adb52b448e29cd41090d002312b00",
   "contract": "docs/scientific-grid-contract.md",
-  "contract_sha256": "73c808e943ed1e78ab6a2221c38b33185e977e68f8ea189cd66ec3ba6fdc1674",
+  "contract_sha256": "b90518b75c0d6ac8d3c3f6c1c40f9920355bf6dda1da54752382509e36f8d2f1",
   "cases": 14,
   "rounding_probes": 8,
   "files": {

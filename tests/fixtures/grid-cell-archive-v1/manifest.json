@@ -1,0 +1,19 @@
+{
+  "schema": "qpx.grid-cell-archive-reference-manifest/1",
+  "generator": "tools/reference_grid_cell_archive.py",
+  "contract": "docs/scientific-grid-contract.md",
+  "native_header": "cpp/tests/grid_cell_archive_reference.hpp",
+  "generator_sha256": "0e477875df721be0e03b0a587cd49e62c9cad5bb40fb5ef14898542935183559",
+  "contract_sha256": "b90518b75c0d6ac8d3c3f6c1c40f9920355bf6dda1da54752382509e36f8d2f1",
+  "native_header_sha256": "b152bcdd68c02e82f055d989383cfec494b25342d42fa6b36d00eabe871a83c8",
+  "files": {
+    "synthetic-single-cell.qcl": {
+      "bytes": 1253,
+      "sha256": "e65cbafb2f5a0a94c6593168d535b3bf645121af719438ebae65d03df3421f74"
+    },
+    "synthetic-single-cell.json": {
+      "bytes": 738,
+      "sha256": "add2b9d3cd29dd56a7986362a5c04c24046a6c1e53df85bff7c3e69738552dab"
+    }
+  }
+}

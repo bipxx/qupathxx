@@ -7,20 +7,19 @@
 #include <chrono>
 
 namespace qpx {
-namespace {
 using cell_detail::checkpoint;
-ResolvedGridCellParameters resolve(const ScientificGrid& grid,const GridCellParameters& p,const AnalysisRequest& source) {
+ResolvedGridCellParameters resolve_grid_cell_parameters(const ScientificGrid& grid,const GridCellParameters& p,const AnalysisProvenance& source) {
     const auto sx=GridFraction(grid.x().extent(),grid.x().samples()).binary64();
     const auto sy=GridFraction(grid.y().extent(),grid.y().samples()).binary64();
     const auto metric=p.units==GridCellUnits::Micrometres?
-        cell_detail::PhysicalGridMetric::capture(grid,source.provenance()->effective_pixel_width_um,source.provenance()->effective_pixel_height_um):
+        cell_detail::PhysicalGridMetric::capture(grid,source.effective_pixel_width_um,source.effective_pixel_height_um):
         cell_detail::PhysicalGridMetric(sx,sy);
     const auto sigmas=metric.sigma_pixels(p.sigma);const auto n=std::uint64_t(grid.width())*grid.height();
     // Match inclusive calibrated area admission: binary search the actual
     // multi-factor product, without first rounding one combined sample area.
     auto area=[&](std::uint64_t count) {
         if(p.units==GridCellUnits::Micrometres) return detail::calibrated_cell_product({double(count),sx,sy,
-            *source.provenance()->effective_pixel_width_um,*source.provenance()->effective_pixel_height_um},true);
+            *source.effective_pixel_width_um,*source.effective_pixel_height_um},true);
         return detail::calibrated_cell_product({double(count),sx,sy},true);
     };
     auto first=[&](auto predicate) {std::uint64_t lo=1,hi=n+1;while(lo<hi) {const auto mid=lo+(hi-lo)/2;if(predicate(area(mid))) hi=mid;else lo=mid+1;}return lo;};
@@ -28,12 +27,12 @@ ResolvedGridCellParameters resolve(const ScientificGrid& grid,const GridCellPara
     const auto maximum=p.max_nucleus_area?(*p.max_nucleus_area==0?0:first([&](double a){return a>*p.max_nucleus_area;})-1):n;
     return {metric.x_um(),metric.y_um(),sigmas.first,sigmas.second,minimum>maximum?n+1:minimum,minimum>maximum?0:maximum};
 }
-std::size_t admit(const ScientificCellContext& context,const ImageServer& reader) {
-    const auto& grid=context.grid;const auto& p=context.parameters;const auto& r=context.resolved;const auto& m=reader.metadata();
-    if(reader.closed() || m.width!=grid.image_width() || m.height!=grid.image_height() || m.levels.empty() ||
+std::size_t grid_cell_work_bytes(const ScientificGrid& grid,const GridCellParameters& p,const ResolvedGridCellParameters& r,
+    const Roi& roi,const AnalysisProvenance& source,const ImageMetadata& m,const std::atomic<bool>* cancelled) {
+    if(m.width!=grid.image_width() || m.height!=grid.image_height() || m.levels.empty() ||
        m.levels[0].width!=m.width || m.levels[0].height!=m.height || m.levels[0].downsample!=1 || m.pixel_type!=PixelType::UInt8 || m.layout!=PixelLayout::RGBA)
         throw std::invalid_argument("grid cells require an open matching unit-scale RGBA8 level zero");
-    validate_scientific_raster_geometry(grid);
+    validate_scientific_raster_geometry(grid,cancelled);
     const auto width=std::size_t(grid.width()),height=std::size_t(grid.height());const auto n=cell_detail::scientific_cell_pixels(width,height);
     const auto rx=cell_detail::scientific_gaussian_radius(r.sigma_x),ry=cell_detail::scientific_gaussian_radius(r.sigma_y);
     if(cell_detail::physical_gaussian_visits(width,height,rx,ry)>(1ULL<<28) || n>(1ULL<<28)/(8+2*cell_detail::physical_bit_width(height)))
@@ -46,14 +45,13 @@ std::size_t admit(const ScientificCellContext& context,const ImageServer& reader
     // retained masks, compensated feature accumulators and peak/bin metadata.
     // Charge the reader window too even though it is released before kernels.
     const auto b=grid.clipped_read_bounds();
-    if(p.contours.work_bytes<65536ULL+2ULL*context.source.roi().payload_bytes())
+    if(p.contours.work_bytes<65536ULL+2ULL*roi.payload_bytes())
         throw std::length_error("grid cell contours cannot fit their base geometry budget");
     const auto bytes=256*n+1024*std::min<std::uint64_t>(n,p.max_cells)+40ULL*std::max(width,height)+
         8ULL*(2*rx+2*ry+2)+4ULL*b.width*b.height+2ULL*p.contours.work_bytes+
-        context.source.provenance()->payload_bytes()+4ULL*context.source.roi().payload_bytes()+sizeof(CellResult)+65536;
+        source.payload_bytes()+4ULL*roi.payload_bytes()+sizeof(CellResult)+65536;
     cell_detail::scientific_cell_budget(bytes,p.work_bytes);
     return std::size_t(bytes);
-}
 }
 void GridCellParameters::validate() const {
     if(units!=GridCellUnits::LevelZeroPixels && units!=GridCellUnits::Micrometres) throw std::invalid_argument("unknown grid cell units");
@@ -75,9 +73,11 @@ CellRequest::CellRequest(const Document& doc,std::uint64_t id,const StainTransfo
     // can still contain eligible centers. Capture retains normal owner checks.
     AnalysisRequest source(doc,id,transform,p.feature==TissueFeature::OpticalDensitySum?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans,
         false,256,true,p.sampling_policy,true);
-    auto resolved=resolve(grid,p,source);
+    auto resolved=resolve_grid_cell_parameters(grid,p,*source.provenance());
     auto context=std::make_shared<ScientificCellContext>(ScientificCellContext{std::move(source),grid,p,resolved});
-    work_=admit(*context,*reader_);scientific_=std::move(context);physical_calibration_revision_=doc.calibration_revision();
+    if(reader_->closed()) throw std::invalid_argument("grid cells require an open source");
+    work_=grid_cell_work_bytes(grid,p,resolved,context->source.roi(),*context->source.provenance(),reader_->metadata());
+    scientific_=std::move(context);physical_calibration_revision_=doc.calibration_revision();
     // Internal common contour budget only; legacy sampled parameters are not
     // exposed as a false representation of the typed grid recipe.
     parameters_.algorithm=CellAlgorithm::GridLogWatershedBodies;parameters_.contours=p.contours;

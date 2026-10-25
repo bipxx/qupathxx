@@ -6,7 +6,7 @@
   "contract": "docs/scientific-grid-contract.md",
   "native_header": "cpp/tests/grid_cell_reference.hpp",
   "generator_sha256": "c9c48aa4a5387d2c40de45cf6bad9260e28e8516390687465d6e2d0b1427b4df",
-  "contract_sha256": "73c808e943ed1e78ab6a2221c38b33185e977e68f8ea189cd66ec3ba6fdc1674",
+  "contract_sha256": "b90518b75c0d6ac8d3c3f6c1c40f9920355bf6dda1da54752382509e36f8d2f1",
   "native_header_sha256": "9fa5f5947995c04ca995a3508765ad31b4c090d2938abad840b47cb45a16e609",
   "files": {
     "reference.json": {

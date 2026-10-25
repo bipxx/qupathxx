@@ -5,10 +5,12 @@
 #include <limits>
 #include <stdexcept>
 using namespace qpx;
+void check_scientific_cell_archive();
 void check(bool v) {if(!v) throw std::runtime_error("cell archive check failed");}
 template<class E,class F> void rejects(F f) {try {f();} catch(const E&) {return;}throw std::logic_error("missing cell archive rejection");}
 int main() {
  try {
+    check_scientific_cell_archive();
     rejects<std::invalid_argument>([]{CellRecord{}.payload_bytes();});
     StainTransform transform({{1,0,0},{0,1,0}});CellParameters p;p.sigma=0;p.min_nucleus_pixels=1;p.min_seed_distance=0;p.cell_expansion=1;
     for(unsigned bits=0;bits<512;++bits) for(auto connectivity:{4,8}) {

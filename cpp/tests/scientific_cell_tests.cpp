@@ -81,8 +81,11 @@ void check_scientific_cells() {
     require(calibrated.nucleus_centroid_um->x==1.5 && calibrated.nucleus_centroid_um->y==1.125);
     require(result->nuclei()->input_sha256()==result->cells()->input_sha256());
     const auto hash=input_sha256(request);require(hash==result->nuclei()->input_sha256() && reader->reads==2);
-    rejects<std::logic_error>([&]{CellArchiveCodec::encode(*result);});
-    const auto revision=doc.revision();rejects<std::invalid_argument>([&]{doc.keep_cells(request,result);});require(doc.revision()==revision);
+    const auto encoded=CellArchiveCodec::encode(*result);require(encoded[3]==5);
+    const auto decoded=CellArchiveCodec::decode(encoded.data(),encoded.size(),request.roi(),doc.metadata());
+    require(decoded->cells()->labels()==result->cells()->labels() && decoded->calibrated_feature(1).cell_sample_area_um2==3.75);
+    require(reader->reads==2);const auto saved=doc.keep_cells(request,result);require(doc.cell_status(saved)=="current");
+    const auto revision=doc.revision();rejects<std::invalid_argument>([&]{doc.keep_cells(request,decoded);});require(doc.revision()==revision);
     // The complete ledger is checked at capture, before any image read.
     auto limited=p;limited.work_bytes=request.estimated_work_bytes();CellRequest exact(doc,id,transform,grid,limited);
     --limited.work_bytes;rejects<std::length_error>([&]{CellRequest denied(doc,id,transform,grid,limited);});require(reader->reads==2);
@@ -111,6 +114,10 @@ void check_scientific_cells() {
     require(fractional->features().size()==1 && fractional->features()[0].nucleus_rgb[0]==32+1./6);
     require(near(fractional->features()[0].nucleus_channels[0],optical_density(32+1./6)));
     require(fractional->nuclei()->input_sha256()!=result->nuclei()->input_sha256());
+    reader->red_offset=1;const CellRequest changed_pixels(doc,id,transform,grid,p);
+    require(!doc.verify_cells(saved,changed_pixels,*detect_cells(changed_pixels)) && doc.cell_status(saved)=="verification_failed");
+    reader->red_offset=0;const CellRequest original_pixels(doc,id,transform,grid,p);
+    require(doc.verify_cells(saved,original_pixels,*detect_cells(original_pixels)) && doc.cell_status(saved)=="current");
     {
         std::vector<std::uint8_t> pixels(10*9*3,255);
         for(int y=3;y<6;++y) for(int x:{2,3,6,7}) for(int channel=0;channel<3;++channel) pixels[(y*10+x)*3+channel]=32;
@@ -123,6 +130,7 @@ void check_scientific_cells() {
         spaced.min_peak_radius=std::nextafter(2.,3.);require(detect_cells(CellRequest(pair,object,transform,pair_grid,spaced))->features().empty());
     }
     doc.set_calibration(1,1);require(!request.matches(doc,id) && !physical_request.matches(doc,id));require(result->calibrated_feature(1).nucleus_sample_area_um2==.75);
+    require(doc.cell_status(saved)=="calibration_changed");rejects<std::invalid_argument>([&]{CellRequest::replay(doc,saved);});
     if(has_geos()) {
         require(result->nucleus_contours()->components().size()==1 && near(result->nucleus_contours()->components()[0].geometry.area(),6));
         require(result->cell_contours()->components().size()==1 && near(result->cell_contours()->components()[0].geometry.area(),30));

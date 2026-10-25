@@ -1,9 +1,10 @@
 # Scientific sampled-grid contract, proposal 1
 
 This is the preparation contract for queue item 5. Native geometry, level-zero
-float64 RGB/channel sampling and a new C++ explicit-grid cell request/detector
-are implemented on the integration branch. The cell archive/replay, required
-frontends and scientific acceptance remain pending. Installed nanobind validation
+float64 RGB/channel sampling, a new C++ explicit-grid cell request/detector and
+QCL5 project retention/replay are implemented on the integration branch.
+Classifier-source archives, required frontends and scientific acceptance remain
+pending. Installed nanobind validation
 of the earlier sampler/channel stage does not qualify subsequent public-layout
 changes. All M0–M7 criteria remain in scope.
 
@@ -118,11 +119,12 @@ formula against the oracle's enumerated rational intersections, including halo.
 
 The new native detector is additive (`GridLogWatershedBodies`, appended enum value;
 `qpx.grid-log-watershed-bodies/1`), with explicit new input-digest and archive
-versions. The archive versions remain proposals. The new digest captures grid,
+versions. QCL5 is implemented; QCA5 classifier provenance remains a proposal.
+The new digest captures grid,
 context, ROI/membership, transform/calibration, validity, source-level/reader
 identity and decoded input in a canonical order independent of IO tile size.
 Old input formats intentionally include tile size and must remain replayable.
-QCL5/QCA5 are proposed containers for the new recipe, not changes to QCL1–4/QCA1–4.
+QCL5 and the proposed QCA5 classifier container are additive to QCL1–4/QCA1–4.
 Unknown versions reject; no silent conversion of old provenance or historical masks.
 
 ## Implementation and exit evidence
@@ -306,8 +308,8 @@ geometry serialization and a fixed allowance; the full cell request separately
 admits simultaneous detector buffers before IO.
 
 The internal mask kinds/format identify this new grid family. QTM1/2 encoding and
-ordinary tissue retention reject it; QCL5/QCA5 and the new cell request/recipe are
-not implemented by this raster constructor. These native checks do not establish
+ordinary tissue retention reject it; cell archives and the cell request/recipe
+are separate integrations described below. These native raster checks do not establish
 Python/GUI availability, whole-workflow performance or scientific acceptance.
 
 ## Native explicit-grid cell recipe
@@ -365,13 +367,13 @@ the decoded RGBA window, both contour budgets, captured provenance/ROI storage
 and fixed overhead. Runtime component/edge/vertex limits and cancellation still
 reject; admission cannot predict the biological foreground or contour complexity.
 
-This native stage is deliberately guarded from QCL1–4/QCA1–4 persistence and
-ordinary cell record retention until QCL5/QCA5 can encode the full grid, units,
-resolved parameters, calibration and historical eligibility. Scalar-only
+QCL5 now retains the full grid, units, resolved parameters, calibration and
+historical eligibility. It does not reuse QCL1–4/QCA1–4 encodings. Scalar-only
 request/result parameter and grid accessors reject rather than return misleading
 sampled parameters. The existing `CellJob` executes and reconciles this request;
-record publication, replay, Python/CLI/ImGui exposure and batch integration remain
-unfinished. Existing recipe IDs, sampled defaults and archive formats retain
+record retention/publication and replay use its existing owner-authority checks.
+QCA5 classifier-source provenance, CSV schema, Python/CLI/ImGui exposure and batch
+integration remain unfinished. Existing recipe IDs, sampled defaults and archive formats retain
 their original behavior.
 
 The new [exact reference](../tests/fixtures/grid-cells-v1/reference.json) uses
@@ -382,3 +384,71 @@ calibration, context/ROI clipping, tiny ROIs, large source dimensions, budget
 boundaries, cancellation and one-read detection. These are engineering checks;
 independent biological labels, split/merge tolerances, upstream comparisons and
 the full scientific/platform/release acceptance remain required.
+
+## QCL5 cell records and replay
+
+`CellArchiveCodec` dispatches explicit-grid results to `QCL\x05`. QCL1–4 bytes and
+their scalar contracts are unchanged. QCL5 is a cell-run format; QCA stores
+classifier feature provenance and needs a separate version for these sources.
+
+All integers are little-endian uint64 unless stated otherwise. Signed grid
+origins use their two's-complement bits; finite binary64 numbers use their IEEE
+bits. The order is fixed:
+
+1. Magic, algorithm enum 4, units, feature and ROI sampling policy; threshold,
+   sigma, prominence, radius, spacing, expansion and minimum area; optional
+   maximum-area flag/value; max cells, detector work limit and contour options.
+2. Image dimensions, X/Y origins, extents, sample counts and context counts.
+3. A length-prefixed, complete QPV2 capture, then white/basis values, resolved
+   X/Y steps and sigmas, and inclusive minimum/maximum sample cutoffs.
+4. Eligible samples, threshold pixels, raw peaks, marker count, feature count,
+   elapsed time and the 64-byte lowercase input SHA256. Each marker is three
+   uint32 values (label, retained label, local pixel index) and a double radius.
+5. Per-label nucleus/body counts and RGB/channel means, plus cytoplasm means
+   exactly when its sample count is positive. Each label raster uses either raw
+   uint32 labels or uint32 run-length/label pairs, preceded by encoding/entry
+   counts. RLE is canonical only when strictly smaller than raw encoding.
+6. A length-prefixed eligibility bitstream, full-context row-major and least
+   significant bit first, with zero padding. Finally, 64 lowercase SHA256 bytes
+   cover `u64(length(QRO1 ROI)) || QRO1 ROI || preceding QCL5 bytes`.
+
+The embedded capture is authoritative for historical calibration and source
+identity. Its QPV checksum, identity, dimensions and unit-scale level zero must
+validate. Requested units/areas must reproduce the serialized resolved values.
+Project storage also writes its existing external provenance row; attaching it
+requires exact agreement with the embedded capture, including calibration and
+environment. It cannot silently replace that capture with today's metadata.
+
+Decode requires matching external image dimensions and a valid source ROI, but
+never reads image pixels. It bounds peaks by the full grid and components by
+markers and eligible samples before allocation; validates label density,
+compartment counts/means, source-supported core/ROI eligibility and padding;
+and reconstructs bodies from the historical nuclei/domain using the captured
+metric recipe. A mask with plausible counts but different watershed geometry
+rejects. Exact canonical re-encoding rejects alternate field/RLE encodings.
+Checksums establish integrity, not authorship or proof that an input SHA belongs
+to actual pixels. Replay verification supplies that fresh input comparison.
+
+Encoded records are limited to 256 MiB. Archive work has a separate fixed 512 MiB
+cap, charging 128 bytes per context sample, 1,024 per retained component, marker
+storage, duplicate provenance/geometry, both contour budgets and four encoded
+buffer allowances for checksum/canonicalization. Encoding applies a conservative
+raw-size bound before allocation; decoding applies the actual encoded size.
+The captured detector work limit still admits the metric/expansion kernels.
+Document record retention separately remains limited to 10,000 records/256 MiB.
+
+Loaded numeric records have no live request ticket and start unverified.
+`CellRequest::replay` recaptures the saved grid and typed parameters, requires the
+same object revision/ROI and calibration, and rechecks resolved geometry before
+IO. A fresh detector result can verify the saved masks, domain, features, markers
+and input hash. Changed source pixels fail verification; changed calibration
+reports `calibration_changed` for a live verified record and rejects replay.
+Publication reuses the existing atomic cell/nucleus commands and feature links.
+
+The [independent QCL5 vector](../tests/fixtures/grid-cell-archive-v1/synthetic-single-cell.json)
+is packed solely with Python struct/hashlib and consumed by native decoding and
+canonical re-encoding. It is an explicitly synthetic historical snapshot with a
+placeholder input hash, not an image/segmentation reference. Native project checks
+cover save, reopen, provenance attachment, fresh replay/verification, second save,
+authority rejection, calibration changes and re-signed malformed records. Python
+bindings, GUI, classifier and complete scientific/platform acceptance remain open.
