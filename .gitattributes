@@ -324,3 +324,6 @@ docs/benchmarks/raw-grid-frontends-local-windows-linux.json text eol=lf
 
 docs/benchmarks/raw-grid-workspace-local/** -text -whitespace
 docs/benchmarks/raw-grid-workspace-local-windows-linux.json text eol=lf
+
+docs/benchmarks/raw-grid-186-campaign/** -text -whitespace
+docs/benchmarks/raw-grid-186-campaign.json text eol=lf

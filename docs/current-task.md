@@ -266,12 +266,31 @@ Their original source169 contract hash is preserved at an immutable fixture path
 no expected numeric data or native-header hash was replaced. The corrected cohort
 passes 218 cases; the 211pass/6fail observation is retained.
 
-Next: freeze one integrated wheel/platform candidate and run the complete
-required engine/Mac/portable matrix, installed reader cohorts and dependency/ABI
-closure. Promote only scope-matched, same-source accepted evidence. Local checks
-do not replace that campaign or the remaining original M0-M7 requirements:
+The [qualification campaign](benchmarks/raw-grid-186-campaign.json) is now
+frozen at `745662b` on `feature/raw-grid-workflow-186`. Its 493-file source proof
+and 264 preflight controls pass. Preflight found two stale synthetic manylinux
+typing assumptions, corrected to derive their counts from the shared manifest;
+this changes no native inputs. The earlier 262pass/2fail observation is retained.
+
+- [Engine40218705420](https://github.com/bipxx/qupathxx/actions/runs/40218705420):
+  five Windows/Linux modes, extended readers and live QuPath reference enabled.
+- [Mac40218710979](https://github.com/bipxx/qupathxx/actions/runs/40218710979):
+  ARM64/x86_64 native, inventory and relocation; no Mac Python/GUI/OpenSlide claim.
+- [Portable40218716355](https://github.com/bipxx/qupathxx/actions/runs/40218716355):
+  CPython3.11/3.12 manylinux builders and fresh Debian consumers; extended readers
+  explicitly enabled for builder NDPI coverage.
+
+Linux minimal and ASan/UBSan native jobs have each passed49suites, with uploaded
+archive digest, exact source/engine identity and semantic/capability audit verified.
+This is partial evidence only. The full engine, both Mac architectures and all
+portable builder/consumer artifacts must complete and pass their frozen-source
+auditors before promotion. Track the exact recorded run IDs; do not redispatch
+on an observation timeout. Keep the frozen checkout unchanged.
+
+Next: collect and audit each completed artifact, then combine the scope-matched
+same-source receipts. The remaining original M0-M7 requirements stay open:
 vendors/pyramids/tiled sampling, application/hardware budgets, independent
-biological acceptance and supported-release work remain open.
+biological acceptance and supported-release work.
 No complete raw workflow, new full platform, biological or supported-release
 acceptance is claimed. Vendors/pyramids/tiled sampling, complete ROI/context
 workspace and UI/performance budgets, and all remaining original M0-M7 criteria

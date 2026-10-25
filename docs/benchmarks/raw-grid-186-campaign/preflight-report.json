@@ -1,0 +1,22 @@
+{
+  "source": "745662be8144ce6b81fe72f4ffba1f73bae9ad33",
+  "passed": 264,
+  "scientific_source_contract_files": 493,
+  "test_sources": {
+    "test_campaign_inputs.py": "d3e06fa6d02ae7ee4161cd0ef4d84aa908378328bafb2f9f1fd880e7b6e7f107",
+    "test_scientific_grid_evidence.py": "0f2c6830ef164ee481e462f736eefba46524d2b904fc5781f47ef0dfa2e418f8",
+    "test_hierarchy_evidence.py": "e63e8f411a60d905430e0ffe138891c2950070133b6bad423cb3fee7bd37f383",
+    "test_resampling_evidence.py": "7027236bc181a21665281ab88c137fc1a9c96da0f18214013cc894a2b45f6a37",
+    "test_qptma_evidence.py": "b10ca0916758e010cb425e5df8364c8a33d0033c743dd2a2a27287e89b53dcff",
+    "test_qptma_desktop_evidence.py": "85a65b668ff21fd7ec6ad1b1016879426b2738bd8a669b405d78c67fc13f6dd8",
+    "test_manylinux_acceptance.py": "351a4e6933cad8b688768c347ac9149daeebd71df708a142d4459043045e6431",
+    "test_manylinux_body_acceptance.py": "b9d62c79b8cb185da74f0e64bd2e7fd6af9607fc1075ccb95825180091dbb226",
+    "test_manylinux_qualification.py": "2b9f09c660069b96f36bea33be9668b55badb5a1ade7fa0b688bd5abba6bd028",
+    "test_macos_relocation_evidence.py": "f528150b7ce3a0c0cd2cb132174e6ac6893d0ac28af2aa5f9830185608f6231f"
+  },
+  "rejected_before": "build/raw186-campaign-preflight.xml",
+  "rejected_before_passed": 262,
+  "rejected_before_failed": 2,
+  "reason": "Outdated five-file positive typing synthetic fixture and negative case now matching the valid six-file cohort; corrected to shared manifest count.",
+  "release_ready": false
+}
