@@ -25,8 +25,8 @@ Preserve accepted receipts, raw captures, negative controls and failed attempts.
 ## Dependency lanes and immediate queue
 
 There is one implementation queue. Independent decisions/reference preparation
-can proceed alongside it; do not infer authorization to start autonomous workers
-or resume the paused implementation goal.
+can proceed alongside it; implementation was explicitly resumed on 2026-10-25.
+This does not authorize autonomous worker delegation beyond the existing rules.
 
 | Order | Work item | Reuse and smallest complete step | Exit evidence |
 | --- | --- | --- | --- |
@@ -183,8 +183,9 @@ qualification. The current workflow concurrency key groups only by Git ref, so
 engine/Mac/portable dispatches on the same ref cancel one another. Until a
 separately reviewed workflow change keys concurrency by mode and candidate, use
 mode-specific immutable refs, all pinned to the same source SHA. Plan that small
-CI correction before attempting to collapse those refs; no workflow YAML is
-changed by this documentation update. Stop and inspect a live run after uncertainty; don't redispatch
+CI correction before attempting to collapse those refs. The resumed implementation now
+includes that mode-aware concurrency-key change; its integrated qualification
+is pending. Stop and inspect a live run after uncertainty; don't redispatch
 or modify its source. New compiler/behavior changes invalidate affected evidence;
 prove which configurations are unaffected rather than assuming. Never substitute
 a future run's tools when auditing older artifacts. Publication of candidate

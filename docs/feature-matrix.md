@@ -48,18 +48,21 @@ are engineering observations, not milestone or scientific completion criteria.
 Candidate 155 implements native/Python `.qptma` values, file IO and atomic
 document edits; actual pinned QuPath imports preserve tested fields. Candidate
 156 adds project import/export CLI, `save_new` and opening without journal
-repair. Fifteen installed project tests pass, including hot-journal/source
-preservation; the final rebuilt wheel still needs installation, packaged-stub,
-typing and affected regression checks. Its native project test now requires
+repair. The final project-enabled wheel gate passes. Integrated local validation
+passes 148 installed cases without skips and all 50 native suites, including
+project preservation, nine new desktop cases, inspected captures and actual
+QuPath import of the GUI export. Its native project test now requires
 runtime-enabled coverage; earlier disabled-branch results are not evidence of
 project behavior. No project/UI/full-platform acceptance is claimed from those
-local results. ImGui `.qptma` preview/import/export remains pending.
+local results. ImGui `.qptma` preview/import/export is locally verified; see the
+[local integration receipt](benchmarks/qptma-integrated-local-windows.json).
+Exact-source integrated hosted acceptance is pending.
 
 All M0–M7 remain Partial. Distinguish **implemented**, **engineering verified at
 a named source/configuration**, **scientifically accepted on a defined corpus**
 and **supported release**; these states cannot substitute for one another.
 Fixture rights, scientific tolerance/coverage, hardware, licensing and remaining
-platform/release requirements stay open. Implementation is currently paused.
+platform/release requirements stay open. Implementation of the updated plan resumed on 2026-10-25.
 
 ## Earlier evidence (source-specific history)
 

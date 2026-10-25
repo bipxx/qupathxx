@@ -5,11 +5,13 @@ through the native model, Python, standalone project commands and the ImGui TMA
 panel. The bounded native codec, protected file IO and atomic document import
 are implemented and the focused installed Python checks pass. Candidate 156
 implements project CLI import/export and atomic new-project saving.
-Fifteen installed project tests pass, including source preservation and SQLite
-hot-journal behavior; the final rebuilt wheel still needs installed/stub/typing
-validation. ImGui flows and exact-source integrated qualification are pending.
-Automatic TMA finding, biological validation and full M0–M7
-completion remain separate work.
+The final project-enabled wheel passed all 80 QPTMA cases, packaged-stub and
+typing checks. The integrated desktop path now passes all nine new GUI cases
+and 17 existing TMA GUI cases. Its combined local suite passes 148 installed
+cases with no skips, and all 50 native suites pass. See the
+[local integration receipt](benchmarks/qptma-integrated-local-windows.json).
+Exact-source hosted qualification is next; no supported release or biological
+acceptance is inferred. Automatic TMA finding remains separate work.
 
 ## Frozen upstream behavior
 
@@ -92,7 +94,38 @@ passes 189 focused cases with 22 optional project/reader/feature skips. All 56
 QPTMA functional, reference and auditor-control cases pass. Generated stubs match
 the installed module; strict typing passes three workflows and rejects all three
 dedicated invalid QPTMA calls. Hosted auditors require these named cohorts and
-the native marker. Candidate 156 adds project persistence/CLI tests and commands. Their final
-installed-wheel validation and desktop/integrated platform acceptance remain
-pending; see the [current delivery order](api-delivery-plan.md). No supported
+the native marker. Candidate 156 adds project persistence/CLI tests and commands. Final local installed-wheel and desktop validation is recorded above.
+Integrated platform acceptance remains pending; see the [current delivery order](api-delivery-plan.md). No supported
 release, biological or hardware acceptance follows from this native fixture scope.
+
+## Desktop workflow
+
+Open **TMA...** (Ctrl+Alt+T), expand **QuPath grid exchange**, enter a `.qptma`
+path and click **Load grid preview**. File reads/parsing run on a worker.
+The selected image remains unchanged. Review rows/columns, present/missing
+counts and the clipped core list; blue/gray outlines show present/missing cores
+on the image. A native spatial index culls outlines; at most 512 are drawn per
+frame, with a zoom-in notice when the visible set exceeds that limit.
+
+Click **Apply imported grid** to create one undoable native command. Existing
+grids require explicit clearing first. An edited or switched target invalidates
+the preview; changing the input path clears it. **Discard grid preview** or
+closing the panel drops unapplied values. Cancellation does not undo a file
+whose atomic commit already succeeded, and such an export remains reported saved.
+
+For export, review the omitted metadata, acknowledge it, choose a new output
+path and click **Export QuPath grid**. The worker writes an immutable grid
+capture. Existing files and protected project/image inputs are preserved.
+Saving and reopening the project retains imported core metadata and later edits.
+The local captured GUI export was imported by pinned QuPath with all six cores'
+names, fractional bounds, missing flags and case IDs exact. Both
+[preview](benchmarks/qptma-integrated-local/qptma-preview.png) and
+[export](benchmarks/qptma-integrated-local/qptma-workflow.png) captures were inspected.
+
+The integration uses the same codec and commands as Python and
+`qupathxx_batch --import-qptma PROJECT GRID.qptma OUTPUT.qpxproj --image ID` /
+`--export-qptma PROJECT OUTPUT.qptma --image ID`. Project imports create a new
+project atomically; `Project.save_new` enforces snapshot/file limits and guards
+source continuity. The CLI opens sources without repairing hot rollback journals;
+explicit normal project opening remains the recovery path. Dormant journal
+headers remain readable. Source hints in `.qptma` never select an image.

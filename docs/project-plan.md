@@ -22,10 +22,14 @@ resampling and the inherited annotation, analysis, TMA, batch and runtime work.
 Exact-source Windows/Linux, native Mac and portable audits pass; this does not
 establish biological equivalence, hardware budgets or supported release status.
 Candidate 155 adds tested native/Python `.qptma` exchange. Candidate 156 adds
-project CLI import/export and new-file saving: 15 installed project cases pass,
-but its final rebuilt wheel has not yet been validated; ImGui exchange remains
-unimplemented. Development remains paused until the user resumes it. This request
-updates the plan only. All M0–M7 remain Partial.
+project CLI import/export and new-file saving. Its final project-enabled wheel
+passes 111 installed cases with one platform-specific skip, including all 80
+required QPTMA cases, plus packaged stubs and strict typing. Desktop exchange
+now passes an integrated 148-case local suite and all 50 native suites; the GUI
+export round-trips through pinned QuPath and captures are inspected. Full
+exact-source hosted engineering qualification remains pending.
+The user resumed implementation on 2026-10-25; finish this vertical slice before
+starting another. All M0–M7 remain Partial.
 
 ## Scope and release boundaries
 

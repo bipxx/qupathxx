@@ -150,3 +150,8 @@ tools/ci/qptma-cases.json text eol=lf
 tools/ci/qptma_evidence.py text eol=lf
 tests/test_qptma.py text eol=lf
 tests/test_qptma_evidence.py text eol=lf
+
+# Integrated QPTMA captures and local engineering receipt retain exact bytes.
+docs/benchmarks/qptma-integrated-local/** -text
+docs/benchmarks/qptma-integrated-local-windows.json text eol=lf
+tools/ci/qptma-gui-cases.json text eol=lf

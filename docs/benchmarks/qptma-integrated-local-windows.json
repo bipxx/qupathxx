@@ -1,0 +1,124 @@
+{
+  "schema": "qpx.qptma-integrated-local/1",
+  "code_and_tooling_source": "e4d6fd60141d97d624270c869895a6dd09d9446b",
+  "build": {
+    "git_revision": "e4d6fd60141d97d624270c869895a6dd09d9446b+dirty",
+    "source_tree_sha256": "12acd1df7d13c29fad394bf21e29677ff77fe13806d28d9568bcc36f33b721b7",
+    "compiler": "MSVC 19.44.35225.0",
+    "configuration": "Release",
+    "platform": "Windows AMD64",
+    "gui": true,
+    "project": true,
+    "native_sha256": "7037e66508be3f5767f763718172676b089d5bf361d4bf38a13c74d4200bae8c"
+  },
+  "compiler_input_proof": {
+    "source": "e4d6fd60141d97d624270c869895a6dd09d9446b",
+    "input_files": 267,
+    "actual_checked_out_source_sha256": "12acd1df7d13c29fad394bf21e29677ff77fe13806d28d9568bcc36f33b721b7",
+    "compiled_source_sha256": "12acd1df7d13c29fad394bf21e29677ff77fe13806d28d9568bcc36f33b721b7",
+    "all_compiler_inputs_match": true,
+    "uncommitted_paths": [
+      "docs/api-delivery-plan.md",
+      "docs/current-task.md",
+      "docs/project-plan.md"
+    ]
+  },
+  "configuration": "Windows Release GUI/Python/project enabled; GEOS, TIFF, OpenSlide and OpenCV training disabled",
+  "native_passed": 50,
+  "native_qptma": {
+    "passed": 1,
+    "bounded_grid_cores": 10000,
+    "atomic_document_and_file_checks": true
+  },
+  "native_project": {
+    "passed": 1,
+    "project_storage_enabled": true,
+    "atomic_persistence_and_cli_checked": true
+  },
+  "installed_passed": 148,
+  "installed_skipped": 0,
+  "qptma_cohort": {
+    "passed": 80,
+    "groups": [
+      {
+        "classname": "test_qptma",
+        "passed": 23
+      },
+      {
+        "classname": "test_qptma_reference",
+        "passed": 14
+      },
+      {
+        "classname": "test_qptma_evidence",
+        "passed": 28
+      },
+      {
+        "classname": "test_qptma_project",
+        "passed": 15
+      }
+    ]
+  },
+  "qptma_desktop": {
+    "passed": 9,
+    "cases": [
+      "test_closing_panel_cancels_unapplied_import_and_releases_preview",
+      "test_export_existing_file_preserves_bytes",
+      "test_export_requires_explicit_loss_acknowledgment",
+      "test_failed_preview_preserves_document[malformed]",
+      "test_failed_preview_preserves_document[outside]",
+      "test_import_edit_history_export_and_project_reopen",
+      "test_preview_becomes_stale_after_owner_document_edit",
+      "test_preview_discard_is_not_an_import",
+      "test_preview_is_explicit_and_does_not_mutate_document"
+    ]
+  },
+  "other_tma_desktop_passed": 17,
+  "junit_sha256": {
+    "native": "2813f9eeed3f18a2de5120bfccbba587a6209d83113a56cce3112b4ae7c741c5",
+    "installed": "70c4463e098751e54a74c06b2c1d43a2a4213394afedee7057f25aa6849f15ab"
+  },
+  "generated_stubs_match": true,
+  "strict_typing_positive_files": 3,
+  "qptma_negative_typing": {
+    "expected_errors": 3,
+    "sha256": "33a82566b1a0503969d660a671bb03b6f801ab9f54a80cae7a3241810b62ef5e"
+  },
+  "legacy_negative_typing_errors": 7,
+  "wheel_sha256": "1238ad3308772ed1d76d1e9117edc53394eb06cbe65b2ad716053f92d0f5e8f7",
+  "gui_capture_visually_reviewed": true,
+  "preview_native_spatial_index": true,
+  "preview_max_drawn": 512,
+  "actual_gui_export_imported_by_qupath": {
+    "actual_pinned_qupath_import": true,
+    "export_source": "Installed ImGui workflow, selected project image2",
+    "cores": 6,
+    "all_supported_fields_exact": true,
+    "runtime_tree_sha256": "117c0cb3074c7e3d2f4814d731bf0703d38373051d5580462a90d94036314788",
+    "runtime_files": 496,
+    "files": {
+      "gui-export.qptma": "43b63476d5629c9aee99233eb9b28c74a8a42d43eb558afd48744d9436ef86a1",
+      "qptma-preview.png": "5e3b8fa32b5c189c0dc3af1c436750ec4c87602a6421069d26998e6b18dfc6e3",
+      "qptma-workflow.png": "d9c05143f62049659707fa127eb536c20fae017dd7b3578fc4d172593ddb762f",
+      "qupath-import.json": "fb1cd4f686c760ca6ff7e1e403c412d4609d15c4ac670517c9a371399d8cb577",
+      "qupath-import.log": "a1a6e0142b7ee17707fb28bb85e9ba8bc837b6ffcff6268f508c5bd4c5df489b"
+    }
+  },
+  "workflow_checks": [
+    "explicit nonmutating preview",
+    "owner-thread atomic apply",
+    "undo/redo",
+    "project save/reopen",
+    "edited case IDs persist",
+    "explicit export loss acknowledgment",
+    "protected existing output",
+    "malformed/out-of-image input rejected",
+    "stale preview rejected",
+    "closing panel cancels unapplied preview",
+    "native executable default stack startup"
+  ],
+  "ci_concurrency_mode_isolation_implemented": true,
+  "full_hosted_qualification": false,
+  "hardware_performance_or_biological_acceptance": false,
+  "release_ready": false,
+  "full_goal_complete": false
+}
