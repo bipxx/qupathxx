@@ -97,5 +97,7 @@
   "retained_failed_capture_attempts": [
     "build/hierarchy158-upstream-failed-syntax.log",
     "build/hierarchy158-upstream-failed-tree-writer.log"
-  ]
+  ],
+  "fixture_manifest_source": "15f58884f461271ed5b07c7b69f023f3db636d06",
+  "historical_scope": "This receipt binds the baseline at 15f5888; later point-coordinate oracle extensions are separate evidence."
 }

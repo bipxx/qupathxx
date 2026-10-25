@@ -15,7 +15,7 @@
     "license_source": "https://github.com/qupath/qupath/blob/04ccfa4fb7d43e9b566393e08e83690b72248d44/LICENSE"
   },
   "generator": "tools/upstream/qupath_hierarchy_reference.groovy",
-  "generator_sha256": "23dd5a9d605d81fb579fe0c986b5081df227c3df562bfd3b511b24f7b88be4c3",
+  "generator_sha256": "bcb42f025438857739d38380c86bf33d1e9492b5e4fbc73274374bf549da70df",
   "contract": "tests/fixtures/qupath-hierarchy-0.7.0/contract.json",
   "contract_sha256": "02f15c7b54d2afc12ba43da2b7cc2966bf14ec5614220a7efb9dec2fcb44dced",
   "native_exporter": {
@@ -27,7 +27,7 @@
   "files": {
     "capture.log": {
       "bytes": 954,
-      "sha256": "e16410e0a8624471eac6757b7f1f07c67b24dd28fd8b3eed1b90444201ad7f5a"
+      "sha256": "4f55ff39d5036e50efe2bffdd6b9415af0f4fd81ff1de821242042f044ffeb29"
     },
     "flat.geojson": {
       "bytes": 3031,
@@ -35,7 +35,7 @@
     },
     "hierarchy.json": {
       "bytes": 4819,
-      "sha256": "9c9778426b45f706559c4faf545a04a7d827fbae020c152bb84ca48ad09fae94"
+      "sha256": "f7915158c432bd9c87e523d6eb99b451faf7517e1d0b543dc419b4e9da5b6869"
     },
     "losses.geojson": {
       "bytes": 705,
@@ -50,20 +50,20 @@
       "sha256": "463c53e05e12b8a6d18313ba3bb6e1e0f10e91f99bcb94cf48a7a27bd879690b"
     },
     "native-roundtrip.json": {
-      "bytes": 9617,
-      "sha256": "acd4960fe98d8b76adae291ba786fac15d842db750194fc0fad52d260a7132bd"
+      "bytes": 10189,
+      "sha256": "24756804d60aa07bbc15029d4af2c706b34c8246eaca6f9eb0f3a19a096f9207"
     },
     "native-roundtrip.log": {
       "bytes": 954,
-      "sha256": "7d0961e592862d4b8645aa49b84343bca605b0bedec31df97013057aca4e51e5"
+      "sha256": "ce55bd3f898e206171ee08109025ab5935018f028c40b5926d4cb952f4686a01"
     },
     "nested.geojson": {
       "bytes": 6158,
       "sha256": "d27d27a031759b821ee790760ddc2f2405ca3d68548bf3f8f751aebb90bb85c1"
     },
     "reference.json": {
-      "bytes": 7493,
-      "sha256": "9792032962b55176d9cd7181872875fdc82b8f300cac0b7e415a8619cc2959a4"
+      "bytes": 7922,
+      "sha256": "310950d9d2702016f9c4d71445c7e9411bc249c255a856e1b908116e6c185b1c"
     }
   }
 }

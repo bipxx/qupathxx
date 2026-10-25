@@ -163,3 +163,11 @@ docs/benchmarks/annotation-migration-local/** -text
 docs/benchmarks/annotation-migration-local-windows.json text eol=lf
 tests/test_qupath_hierarchy_reference.py text eol=lf
 tests/test_gui_hierarchy_migration.py text eol=lf
+
+tools/compare_qupath_hierarchy.py text eol=lf
+tests/test_geojson_hierarchy_export.py text eol=lf
+tests/test_hierarchy_comparison.py text eol=lf
+tests/typing/hierarchy_valid.py text eol=lf
+tests/typing/hierarchy_invalid.py text eol=lf
+docs/benchmarks/annotation-migration-nested/** -text whitespace=cr-at-eol
+docs/benchmarks/annotation-migration-nested-local-windows.json text eol=lf

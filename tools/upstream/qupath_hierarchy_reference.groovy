@@ -53,7 +53,7 @@ snapshot = { items ->
     def visit
     visit = { o,p ->
         def r=o.getROI(); def n=o.isCell()?o.getNucleusROI():null
-        result.add([id:o.getID().toString(),parent:p,name:o.getName(),kind:o.isCell()?'cell':o.isDetection()?'detection':'annotation',classification:o.getPathClass()?.toString(),class_color:o.getPathClass()?.getColor(),bounds:[r.getBoundsX(),r.getBoundsY(),r.getBoundsWidth(),r.getBoundsHeight()],area:r.getArea(),nucleus_bounds:n ? [n.getBoundsX(),n.getBoundsY(),n.getBoundsWidth(),n.getBoundsHeight()] : null,locked:o.isLocked(),measurement_count:o.getMeasurementList().size(),metadata:o.getMetadata()])
+        result.add([id:o.getID().toString(),parent:p,name:o.getName(),kind:o.isCell()?'cell':o.isDetection()?'detection':'annotation',classification:o.getPathClass()?.toString(),class_color:o.getPathClass()?.getColor(),bounds:[r.getBoundsX(),r.getBoundsY(),r.getBoundsWidth(),r.getBoundsHeight()],area:r.getArea(),point_coordinates:r.isPoint() ? r.getAllPoints().collect { [it.getX(),it.getY()] } : null,nucleus_bounds:n ? [n.getBoundsX(),n.getBoundsY(),n.getBoundsWidth(),n.getBoundsHeight()] : null,locked:o.isLocked(),measurement_count:o.getMeasurementList().size(),metadata:o.getMetadata()])
         o.getChildObjects().each { visit(it,o.getID().toString()) }
     }
     items.each { visit(it,null) }

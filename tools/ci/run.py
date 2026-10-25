@@ -280,7 +280,7 @@ def main():
         run([test_python, '-I', ROOT/'tools/benchmark_gui_pixel_archives.py', '--viewport', '--output', work/'gui-pixel-window-benchmark.json'],
             work/'gui-pixel-window-benchmark.log', env, 120)
     run([test_python, '-I', ROOT/'tools/generate_stubs.py', '--check'], work/'stubs.log', env)
-    run([test_python, '-I', '-m', 'mypy', '--strict', 'tests/typing/valid_api.py', 'examples/live_workflow.py', 'examples/region_workflow.py'], work/'typing.log', env)
+    run([test_python, '-I', '-m', 'mypy', '--strict', 'tests/typing/valid_api.py', 'tests/typing/hierarchy_valid.py', 'examples/live_workflow.py', 'examples/region_workflow.py'], work/'typing.log', env)
     negative_log = work/'typing-negative.log'
     run([test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/invalid_api.py'], negative_log, env, expected=1)
     lines = re.findall(r'invalid_api\.py:(\d+): error:', negative_log.read_text(encoding='utf8'))
@@ -290,6 +290,10 @@ def main():
     run([test_python,'-I','-m','mypy','--strict','--no-incremental','tests/typing/qptma_invalid.py'],qptma_negative_log,env,expected=1)
     if sorted(map(int,re.findall(r'qptma_invalid\.py:(\d+): error:',qptma_negative_log.read_text(encoding='utf-8')))) != [4,5,6]:
         raise RuntimeError('QPTMA typing fixture must reject all three intended mistakes')
+    hierarchy_negative_log=work/'hierarchy-typing-negative.log'
+    run([test_python,'-I','-m','mypy','--strict','--no-incremental','tests/typing/hierarchy_invalid.py'],hierarchy_negative_log,env,expected=1)
+    if sorted(map(int,re.findall(r'hierarchy_invalid\.py:(\d+): error:',hierarchy_negative_log.read_text(encoding='utf-8')))) != [4,5,7]:
+        raise RuntimeError('hierarchy typing fixture must reject all three intended mistakes')
     if os.name == 'nt' and args.mode == 'gui':
         stage = archive_windows(wheel, work)
         inspect = [sys.executable, '-I', ROOT/'tools/ci/runtime_manifest.py', '--native-archive',

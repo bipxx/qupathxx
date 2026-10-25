@@ -59,6 +59,25 @@ def test_subset_parent_loss_is_explicit_and_selected_children_become_roots():
     assert target.annotation(imported.imported_ids[1]).parent_id == imported.imported_ids[0]
 
 
+def test_omitted_intermediate_parent_never_reparents_to_selected_ancestor():
+    result = q.export_geojson(scene(), [1, 3], allow_losses=True, nested_hierarchy=True)
+    assert [(i.code, i.count) for i in result.issues] == [('parent_not_exported', 1)]
+    assert [(obj['id'], parent) for obj, parent in flatten(json.loads(result.text))] == [('1', None), ('3', None)]
+
+
+def test_parent_created_after_child_exports_once_and_remaps_in_tree_order():
+    doc = document()
+    child = doc.add_rectangle(q.Rect(10, 10, 5, 5), 'child')
+    parent = doc.add_rectangle(q.Rect(0, 0, 100, 100), 'parent')
+    doc.reparent_annotation(child, parent)
+    result = q.export_geojson(doc, nested_hierarchy=True)
+    assert [(obj['id'], owner) for obj, owner in flatten(json.loads(result.text))] == [(str(parent), None), (str(child), str(parent))]
+    target = document()
+    imported = q.import_geojson(target, result.text)
+    assert imported.source_ids == [str(parent), str(child)]
+    assert target.annotation(imported.imported_ids[1]).parent_id == imported.imported_ids[0]
+
+
 def chain(levels):
     doc = document()
     previous = 0

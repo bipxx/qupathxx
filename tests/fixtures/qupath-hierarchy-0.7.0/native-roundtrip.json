@@ -113,6 +113,16 @@
         5.0
       ],
       "area": 0.0,
+      "point_coordinates": [
+        [
+          215.0,
+          25.0
+        ],
+        [
+          220.0,
+          30.0
+        ]
+      ],
       "locked": false,
       "measurement_count": 0,
       "metadata": {}
@@ -223,6 +233,16 @@
         5.0
       ],
       "area": 0.0,
+      "point_coordinates": [
+        [
+          215.0,
+          25.0
+        ],
+        [
+          220.0,
+          30.0
+        ]
+      ],
       "locked": false,
       "measurement_count": 0,
       "metadata": {}
@@ -329,6 +349,16 @@
         5.0
       ],
       "area": 0.0,
+      "point_coordinates": [
+        [
+          215.0,
+          25.0
+        ],
+        [
+          220.0,
+          30.0
+        ]
+      ],
       "locked": false,
       "measurement_count": 0,
       "metadata": {}
@@ -357,7 +387,7 @@
   ],
   "native_decoded": [
     {
-      "id": "8c8c44ed-bf33-418a-8b4d-90b427cd1acb",
+      "id": "4988bbf3-ac22-480e-b475-c0c85c8c2eb5",
       "name": "Parent α",
       "kind": "annotation",
       "classification": "Tumor",
@@ -374,7 +404,7 @@
       "metadata": {}
     },
     {
-      "id": "16f44181-6c51-4a68-93fe-61eb43b6036b",
+      "id": "86e225bd-4e26-4898-862f-3eb856c50919",
       "name": "Region",
       "kind": "annotation",
       "classification": "Tumor",
@@ -391,7 +421,7 @@
       "metadata": {}
     },
     {
-      "id": "4935c7a5-c299-4f54-ab22-428e6fa04690",
+      "id": "92660898-ebdd-45e4-bbe8-4243774b2add",
       "name": "Cell",
       "kind": "cell",
       "classification": "Tumor",
@@ -414,7 +444,7 @@
       "metadata": {}
     },
     {
-      "id": "acd1c1a7-a84a-436f-b808-5924f4a38bd7",
+      "id": "cf341766-f8ef-499b-a889-290ba6a0e0a8",
       "name": "Detection",
       "kind": "detection",
       "classification": "Tumor",
@@ -431,7 +461,7 @@
       "metadata": {}
     },
     {
-      "id": "25962317-ccc5-4fa1-af82-2b6c1b23c2a8",
+      "id": "4406ed13-d6f0-4428-87be-f3b9031ba207",
       "name": "Sibling",
       "kind": "annotation",
       "bounds": [
@@ -446,7 +476,7 @@
       "metadata": {}
     },
     {
-      "id": "28d245b6-0c7a-4291-a506-c2bfbe321e84",
+      "id": "0ea96e56-2593-49a9-9ae4-1fb5b28d2e62",
       "name": "Points",
       "kind": "annotation",
       "bounds": [
@@ -456,6 +486,16 @@
         5.0
       ],
       "area": 0.0,
+      "point_coordinates": [
+        [
+          215.0,
+          25.0
+        ],
+        [
+          220.0,
+          30.0
+        ]
+      ],
       "locked": false,
       "measurement_count": 0,
       "metadata": {}

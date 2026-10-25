@@ -113,6 +113,16 @@
         5.0
       ],
       "area": 0.0,
+      "point_coordinates": [
+        [
+          215.0,
+          25.0
+        ],
+        [
+          220.0,
+          30.0
+        ]
+      ],
       "locked": false,
       "measurement_count": 0,
       "metadata": {}
@@ -223,6 +233,16 @@
         5.0
       ],
       "area": 0.0,
+      "point_coordinates": [
+        [
+          215.0,
+          25.0
+        ],
+        [
+          220.0,
+          30.0
+        ]
+      ],
       "locked": false,
       "measurement_count": 0,
       "metadata": {}
@@ -329,6 +349,16 @@
         5.0
       ],
       "area": 0.0,
+      "point_coordinates": [
+        [
+          215.0,
+          25.0
+        ],
+        [
+          220.0,
+          30.0
+        ]
+      ],
       "locked": false,
       "measurement_count": 0,
       "metadata": {}
