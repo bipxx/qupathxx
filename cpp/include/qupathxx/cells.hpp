@@ -3,6 +3,12 @@
 namespace qpx {
 enum class CellAlgorithm { DistanceWatershed=0, LogWatershed=1, LogWatershedBodies=2, SampledLogWatershedBodies=3, GridLogWatershedBodies=4 };
 enum class GridCellUnits { LevelZeroPixels, Micrometres };
+// Count-based frontend planning: enclose the original ROI bounds in an integer
+// level-zero extent, retain the ROI itself, and resolve the actual axis steps.
+struct GridCellSampling {
+    std::uint32_t samples_x=512,samples_y=512,context_x=32,context_y=32;
+    void validate() const;
+};
 // Distances and areas are in the selected units and their square, respectively;
 // never in sampled-array pixels. Context belongs to the explicit grid.
 struct GridCellParameters {
@@ -57,6 +63,7 @@ public:
     std::uint64_t total_tiles() const;
     std::size_t estimated_work_bytes() const {return work_;}
     static CellRequest replay(const Document&,std::uint64_t record_id);
+    static CellRequest for_grid_roi(const Document&,std::uint64_t,const StainTransform&,GridCellSampling={},GridCellParameters={});
     // Resolve inclusive physical area bounds on the selected natural grid.
     // Returned parameters contain the frozen sampled-pixel cutoffs used by the
     // ordinary detector/archive/replay path; invocation arguments are not kept.

@@ -15,6 +15,9 @@ void bind_object_classifier_archives(nb::module_& m) {
         .def_prop_ro("parameters",[](const ObjectCellFeatureSource& s){if(s.scientific_grid) throw std::logic_error("grid classifier sources require their typed grid parameters");return s.parameters;})
         .def_ro("roi",&ObjectCellFeatureSource::roi).def_ro("level",&ObjectCellFeatureSource::level)
         .def_prop_ro("downsample",[](const ObjectCellFeatureSource& s){if(s.scientific_grid) throw std::logic_error("grid classifier sources have separate axes");return s.downsample;})
+        .def_prop_ro("scientific_grid",[](const ObjectCellFeatureSource& s){return s.scientific_grid;})
+        .def_prop_ro("grid_parameters",[](const ObjectCellFeatureSource& s){return s.grid_parameters;})
+        .def_prop_ro("resolved_grid_parameters",[](const ObjectCellFeatureSource& s){return s.scientific_grid?std::optional<ResolvedGridCellParameters>(s.resolved_grid_parameters):std::nullopt;})
         .def_ro("white",&ObjectCellFeatureSource::white).def_ro("stains",&ObjectCellFeatureSource::stains).def_ro("provenance",&ObjectCellFeatureSource::provenance);
     nb::class_<ObjectFeatureCellOrigin>(m,"ObjectFeatureCellOrigin")
         .def_ro("record_id",&ObjectFeatureCellOrigin::record_id).def_ro("label",&ObjectFeatureCellOrigin::label).def_ro("source",&ObjectFeatureCellOrigin::source);

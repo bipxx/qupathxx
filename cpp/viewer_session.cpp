@@ -27,6 +27,7 @@ struct Command {
     RoiSamplingPolicy sampling_policy=RoiSamplingPolicy::GeometryCoverage;
     AnalysisKind analysis=AnalysisKind::OpticalDensityMeans;MeasurementTableKind table=MeasurementTableKind::Roi;
     TissueParameters tissue;CellParameters cells;std::optional<double> cell_min_area,cell_max_area;
+    std::optional<GridCellSampling> cell_grid;GridCellParameters grid_cells;
     explicit Command(Action a):action(a) {}
     std::size_t bytes() const {std::size_t n=sizeof(Command)+text.capacity()+edits.capacity()*sizeof(ObjectEdit)+ids.capacity()*8+(transform?sizeof(StainTransform)+128:0);
         std::set<const TmaGridInfo*> grids;
@@ -101,6 +102,10 @@ std::uint64_t ViewerSession::analyze(std::uint64_t image,std::uint64_t object,co
 std::uint64_t ViewerSession::analyze_with_sampling_policy(std::uint64_t image,std::uint64_t object,const StainTransform& transform,RoiSamplingPolicy policy,AnalysisKind kind,bool nucleus) {validate_sampling_policy(policy);Command c(Action::Analyze);c.sampling_policy=policy;c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.analysis=kind;c.flag=nucleus;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::tissue(std::uint64_t image,std::uint64_t object,const StainTransform& transform,TissueParameters p,bool retain) {p.validate();Command c(Action::Tissue);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);c.tissue=p;c.flag=retain;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::cells(std::uint64_t image,std::uint64_t object,const StainTransform& transform,CellParameters p,bool retain) {return cells_with_nucleus_area_limits(image,object,transform,{},{},p,retain);}
+std::uint64_t ViewerSession::grid_cells(std::uint64_t image,std::uint64_t object,const StainTransform& transform,GridCellSampling sampling,GridCellParameters p,bool retain) {
+    sampling.validate();p.validate();Command c(Action::Cells);c.image=image;c.object=object;c.transform=std::make_shared<const StainTransform>(transform);
+    c.cell_grid=sampling;c.grid_cells=p;c.flag=retain;return impl_->submit(std::move(c));
+}
 std::uint64_t ViewerSession::cells_with_nucleus_area_limits(std::uint64_t image,std::uint64_t object,const StainTransform& transform,
     std::optional<double> minimum,std::optional<double> maximum,CellParameters p,bool retain) {
     p.validate();detail::validate_cell_area_limits(minimum,maximum);
@@ -221,7 +226,8 @@ struct ViewerOwner::Impl {
         }
         else if(cmd.action==Action::Analyze) pending->analysis.emplace(*doc,e.object_id,*cmd.transform,cmd.analysis,cmd.flag,256,cmd.sampling_policy);
         else if(cmd.action==Action::Tissue) pending->tissue.emplace(*doc,e.object_id,*cmd.transform,cmd.tissue);
-        else if(cmd.action==Action::Cells) pending->cells.emplace(CellRequest::with_nucleus_area_limits(*doc,e.object_id,*cmd.transform,cmd.cell_min_area,cmd.cell_max_area,cmd.cells));
+        else if(cmd.action==Action::Cells) pending->cells.emplace(cmd.cell_grid?CellRequest::for_grid_roi(*doc,e.object_id,*cmd.transform,*cmd.cell_grid,cmd.grid_cells):
+            CellRequest::with_nucleus_area_limits(*doc,e.object_id,*cmd.transform,cmd.cell_min_area,cmd.cell_max_area,cmd.cells));
         else if(cmd.action==Action::Measurements) {MeasurementTableOptions o;o.byte_limit=state->limits.result_bytes;o.snapshot_budget=state->limits.snapshot_bytes;o.require_current=cmd.flag;if(doc) pending->table.emplace(*doc,cmd.table,cmd.ids,o);else pending->table.emplace(*c.project,cmd.table,std::vector<std::uint64_t>{},o);}
         else if(cmd.action==Action::CellTable) {CellTableOptions o;o.byte_limit=state->limits.result_bytes;o.snapshot_budget=state->limits.snapshot_bytes;o.require_current=cmd.flag;if(doc) pending->cell_table.emplace(*doc,cmd.ids,o);else pending->cell_table.emplace(*c.project,std::vector<std::uint64_t>{},o);}
         if(pending->raw) pending->seed.object_id=pending->raw->object_id();

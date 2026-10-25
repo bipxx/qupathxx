@@ -37,7 +37,7 @@ public:
         if(!owner_ || !show || ready() || failed_) return;
         try {
             const auto width=owner_->width(),height=owner_->height(),columns=(width+255)/256;
-            const auto origin=owner_->bounds();const auto scale=owner_->downsample();std::vector<std::uint8_t> rgba;
+            const auto origin=owner_->bounds();const auto scale=owner_->scientific_grid()?0.:owner_->downsample();std::vector<std::uint8_t> rgba;
             for(unsigned budget=0;budget<4 && cursor_<total_;++budget,++cursor_) {
                 const auto x=static_cast<std::int64_t>(cursor_%columns)*256,y=static_cast<std::int64_t>(cursor_/columns)*256;
                 const auto w=std::min<std::int64_t>(256,width-x),h=std::min<std::int64_t>(256,height-y);
@@ -54,7 +54,10 @@ public:
                 glTexImage2D(GL_TEXTURE_2D,0,GL_RGBA,static_cast<GLsizei>(w),static_cast<GLsizei>(h),0,GL_RGBA,GL_UNSIGNED_BYTE,rgba.data());
                 if(!texture || glGetError()!=GL_NO_ERROR) {if(texture) glDeleteTextures(1,&texture);throw std::runtime_error("tissue preview upload failed");}
                 // Capacity was reserved before GPU allocation; this cannot allocate.
-                tiles_.push_back({texture,{origin.x+x*scale,origin.y+y*scale,double(w)*scale,double(h)*scale}});bytes_+=rgba.size();peak_=std::max(peak_,bytes_);
+                Rect bounds{origin.x+x*scale,origin.y+y*scale,double(w)*scale,double(h)*scale};
+                if(owner_->scientific_grid()) {const auto left=owner_->sample_edge_x(x),top=owner_->sample_edge_y(y);
+                    bounds={left,top,owner_->sample_edge_x(x+w)-left,owner_->sample_edge_y(y+h)-top};}
+                tiles_.push_back({texture,bounds});bytes_+=rgba.size();peak_=std::max(peak_,bytes_);
             }
             glBindTexture(GL_TEXTURE_2D,0);
         } catch(const std::exception& e) {failed_=true;error_=e.what();}

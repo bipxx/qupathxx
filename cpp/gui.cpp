@@ -267,6 +267,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     auto& cell_table_path=text_buffers->cell_table_path;std::copy(options.cell_table_path.begin(),options.cell_table_path.end(),cell_table_path);
     OverlayCache overlay_cache;std::optional<DisplaySettings> overlay_display;
     CellParameters cell_parameters=options.cell_parameters?*options.cell_parameters:CellParameters{};cell_parameters.validate();
+    std::optional<GridCellSampling> cell_grid=options.cell_grid?std::optional<GridCellSampling>(*options.cell_grid):std::nullopt;
+    GridCellParameters grid_cells=options.grid_cell_parameters?*options.grid_cell_parameters:GridCellParameters{};
+    if(cell_grid) {cell_grid->validate();grid_cells.validate();if(options.cell_min_nucleus_area_um2 || options.cell_max_nucleus_area_um2) throw std::invalid_argument("grid cells use grid-unit area limits");}
     auto cell_min_area=options.cell_min_nucleus_area_um2,cell_max_area=options.cell_max_nucleus_area_um2;
     int cell_feature=static_cast<int>(cell_parameters.feature),cell_connectivity=cell_parameters.connectivity==8?1:0,cell_preview_body=0;
     bool show_cells=true;std::size_t cell_annotations_added=0;
@@ -1804,7 +1807,11 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(!tissue_preview.error().empty()) ImGui::TextWrapped("Mask: %s",tissue_preview.error().c_str());
             ui::SeparatorText("Watershed cells");
             ImGui::PushItemWidth(118);
-            ui::SetNextItemWidth(132);bool cell_changed=ui::Combo("Cell feature",&cell_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0");
+            bool grid_enabled=bool(cell_grid);bool cell_changed=ui::Checkbox("Explicit cell grid",&grid_enabled);
+            if(cell_changed) cell_grid=grid_enabled?std::optional<GridCellSampling>(GridCellSampling{}):std::nullopt;
+            if(cell_grid) cell_changed=detail::grid_cell_controls(*cell_grid,grid_cells) || cell_changed;
+            else {
+            ui::SetNextItemWidth(132);cell_changed=ui::Combo("Cell feature",&cell_feature,"OD sum\0Stain 1\0Stain 2\0Stain 3\0") || cell_changed;
             cell_changed=detail::cell_detector_controls(cell_parameters) || cell_changed;
             const bool sampled_shape=cell_parameters.algorithm==CellAlgorithm::SampledLogWatershedBodies;
             if(sampled_shape) cell_connectivity=1;
@@ -1828,6 +1835,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 ui::EndCombo();
             }
             ImGui::TextWrapped("Radii and nucleus count limits use sampled pixels.");
+            }
             if(cell_changed) cell_job.cancel();
             const auto cell_status=cell_job.poll(document,selected);
             const bool cell_key=!io.WantTextInput && !editing_blocked && io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_G,false);
@@ -1836,7 +1844,8 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::EndDisabled();
             if(detect_cells_clicked && !cell_job.busy()) {try {
                 cell_parameters.feature=static_cast<TissueFeature>(cell_feature);cell_parameters.connectivity=cell_connectivity?8:4;
-                cell_job.request(CellRequest::with_nucleus_area_limits(document,selected,make_transform(cell_feature!=0),cell_min_area,cell_max_area,cell_parameters));cell_annotations_added=0;error.clear();
+                cell_job.request(cell_grid?CellRequest::for_grid_roi(document,selected,make_transform(grid_cells.feature!=TissueFeature::OpticalDensitySum),*cell_grid,grid_cells):
+                    CellRequest::with_nucleus_area_limits(document,selected,make_transform(cell_feature!=0),cell_min_area,cell_max_area,cell_parameters));cell_annotations_added=0;error.clear();
             } catch(const std::exception& e) {error=e.what();}}
             if(cell_job.busy()) {ui::TextDisabled("Cells: %s",cell_status.phase.c_str());if(ui::Button("Cancel cells (Ctrl+Alt+G)")) cell_job.cancel();}
             if(cell_key && io.KeyAlt) cell_job.cancel();
@@ -1844,7 +1853,10 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             ImGui::PopItemWidth();
             if(const auto result=cell_job.result()) {
                 ImGui::Text("Detected cells: %zu",result->features().size());ImGui::Text("Markers: %zu / %.3f ms",result->markers().size(),result->elapsed_ms());
-                ImGui::Text("Cell level: %d / %.5gx",result->nuclei()->level(),result->nuclei()->downsample());
+                if(const auto* grid=result->nuclei()->scientific_grid()) {
+                    ImGui::Text("Cell grid: %lld x %lld",static_cast<long long>(grid->x().samples()),static_cast<long long>(grid->y().samples()));
+                    ImGui::Text("Sample steps: %.5g x %.5g px",result->nuclei()->downsample_x(),result->nuclei()->downsample_y());
+                } else ImGui::Text("Cell level: %d / %.5gx",result->nuclei()->level(),result->nuclei()->downsample());
             }
             const bool can_add_cells=has_geos() && !cell_job.busy() && bool(cell_job.result()) && !cell_job.result()->features().empty() && !cell_job.published();
             ImGui::BeginDisabled(!can_add_cells);const bool add_cells=ui::Button("Add cells (Ctrl+Shift+G)") || (cell_key && io.KeyShift && !io.KeyAlt);ImGui::EndDisabled();
@@ -1860,10 +1872,15 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 provenance_info(saved->result->nuclei()->provenance());
                 const auto state=document.cell_status(saved->id);ImGui::Text("Saved cell run: %llu",static_cast<unsigned long long>(saved->id));
                 ImGui::Text("Saved cells: %zu",saved->result->features().size());ImGui::Text("Cell record: %s",state.c_str());
-                const auto& frozen=saved->result->parameters();
-                if(frozen.max_nucleus_pixels) ImGui::TextWrapped("Saved nucleus samples: %llu to %llu",
-                    static_cast<unsigned long long>(frozen.min_nucleus_pixels),static_cast<unsigned long long>(frozen.max_nucleus_pixels));
-                else ImGui::TextWrapped("Saved nucleus samples: at least %llu",static_cast<unsigned long long>(frozen.min_nucleus_pixels));
+                if(saved->result->grid_parameters()) {
+                    const auto& frozen=*saved->result->resolved_grid_parameters();
+                    ImGui::TextWrapped("Saved grid nucleus samples: %llu to %llu",static_cast<unsigned long long>(frozen.min_nucleus_samples),static_cast<unsigned long long>(frozen.max_nucleus_samples));
+                } else {
+                    const auto& frozen=saved->result->parameters();
+                    if(frozen.max_nucleus_pixels) ImGui::TextWrapped("Saved nucleus samples: %llu to %llu",
+                        static_cast<unsigned long long>(frozen.min_nucleus_pixels),static_cast<unsigned long long>(frozen.max_nucleus_pixels));
+                    else ImGui::TextWrapped("Saved nucleus samples: at least %llu",static_cast<unsigned long long>(frozen.min_nucleus_pixels));
+                }
                 ImGui::BeginDisabled(cell_job.busy() || state=="object_changed" || state=="source_closed");
                 const bool recheck=ui::Button("Recheck cells (Ctrl+Alt+C)") || (cell_record_key && io.KeyAlt && !io.KeyShift);
                 ImGui::EndDisabled();
@@ -2358,7 +2375,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             mean.invalidate();previous_uploads+=tiles->uploads();previous_generations+=tiles->generations();previous_peak_bytes=std::max(previous_peak_bytes,tiles->peak_bytes());
             tiles=std::make_unique<GuiTiles>(document.server());overlay_cache.clear();overlay_display.reset();plan={};overview.reset();plan_inputs.reset();overview_center.reset();published_view_inputs.reset();
         }
-        batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,cell_parameters,cell_min_area,cell_max_area,static_cast<AnalysisKind>(analysis_kind),roi_sampling_policy,analysis_nucleus,pixel_classifier.model(),make_transform);
+        batch.draw(options.project.get(),active_image,selection.get(),editing_blocked,tissue_parameters,cell_parameters,cell_min_area,cell_max_area,cell_grid,grid_cells,static_cast<AnalysisKind>(analysis_kind),roi_sampling_policy,analysis_nucleus,pixel_classifier.model(),make_transform);
         classifier.draw(document,*selection,editing_blocked,has_image,mark_target);
         const auto pixel_top_left=viewport.screen_to_image({0,0}),pixel_bottom_right=viewport.screen_to_image({previous_canvas_size.x,previous_canvas_size.y});
         pixel_classifier.draw(document,*selection,editing_blocked,has_image,mark_target,make_transform,{pixel_top_left.x,pixel_top_left.y,pixel_bottom_right.x-pixel_top_left.x,pixel_bottom_right.y-pixel_top_left.y});

@@ -39,6 +39,7 @@ void bind_scientific_grid(nb::module_& m) {
         .def_prop_ro("read_bounds",&ScientificGrid::read_bounds).def_prop_ro("clipped_read_bounds",&ScientificGrid::clipped_read_bounds)
         .def_prop_ro("overlap_visits",&ScientificGrid::overlap_visits).def_prop_ro("sampling_buffer_bytes",&ScientificGrid::sampling_buffer_bytes);
     nb::class_<ScientificRgbGrid>(m,"ScientificRgbGrid")
+        .def_prop_ro("decoded_source_sha256",&ScientificRgbGrid::decoded_source_sha256)
         .def_prop_ro("grid",[](const ScientificRgbGrid& value){return value.grid();})
         .def_prop_ro("width",&ScientificRgbGrid::width).def_prop_ro("height",&ScientificRgbGrid::height)
         .def("numpy",[](nb::object self,bool copy) {const auto& value=nb::cast<const ScientificRgbGrid&>(self);

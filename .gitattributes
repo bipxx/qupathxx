@@ -222,3 +222,6 @@ tests/test_hierarchy_evidence.py text eol=lf
 
 docs/benchmarks/annotation-migration-qualification-local/** -text -whitespace
 docs/benchmarks/annotation-migration-qualification-local-windows.json text eol=lf
+
+docs/benchmarks/grid-cell-frontends-local/** -text -whitespace
+docs/benchmarks/grid-cell-frontends-local-windows.json text eol=lf

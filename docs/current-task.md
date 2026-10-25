@@ -1,6 +1,6 @@
 # Current implementation task
 
-The full updated M0–M7 implementation goal remains active. All milestones remain
+The full updated M0–7 implementation goal remains active. All milestones remain
 Partial. See the [workflow inventory](feature-matrix.md#current-execution-state-2026-10-25)
 and [API delivery paths](api-delivery-plan.md) for the complete remaining scope.
 
@@ -162,15 +162,43 @@ See the [consumer receipt](benchmarks/grid-cell-consumers-local-windows.json).
 Python scalar guards were edited but not compiled in this native configuration;
 typed metadata exposure and installed validation remain unfinished.
 
-Next: wire typed grid request/result/source bindings and the managed viewer,
-CLI, ImGui and batch adapters around these native contracts. Keep API/header
-changes for that workflow together before the expensive installed-wheel build;
-then generate/package stubs and validate the final installed artifact, followed
-by a frozen complete source-bound qualification campaign.
+The frontend integration below adds the typed request/result/source bindings
+and managed viewer, CLI, ImGui and batch adapters. Finish current installed
+workflow checks, generate/package stubs, and validate the final installed
+artifact before the frozen complete source-bound qualification campaign.
 Continue through the full original workflow;
 retain the failed campaign evidence, and qualify a clean integrated candidate
 after installed workflow checks. Do not transfer the old Mac acceptance to new
 compiler inputs. Unicode glyph delivery, broader migration, scientific, licensing
 and supported-release requirements remain open.
+
+Frontend167 adds count-based ROI capture for native batch, managed viewer,
+CLI and ImGui workflows; see the [API/workflow guide](grid-cell-workflows.md).
+Typed nanobind request/result/classifier-source metadata and per-axis raster
+accessors are installed and verified. ImGui grid controls and initial options
+use the shared factory; preview geometry uses exact per-axis edges. Legacy
+option conflicts reject before CLI project IO. Batch resume and QCL5/CSV
+checkpoints preserve per-image calibration and the typed recipe.
+
+The local Python/GUI/project/GEOS build passes all 50 native suites and the
+33 independent contract tests. Six new installed integration tests cover metadata
+ownership, batch replay/resume, classifier-source lifetime, actual grid preview/
+publication and a managed Python producer retaining/exporting/saving a run.
+The final installed wheel passes 50 serial desktop tests plus three additional
+desktop checkpoint/table tests. Regression checks pass 224 tests with 20 initial
+skips: 13 opt-in desktop cases are subsequently executed, while seven require
+disabled OpenSlide/pyramid, interchange or classifier-training capabilities.
+Five positive typing files pass; six negative files produce exactly the expected
+31 errors. Packaged sources/stubs match and regenerate from the installed module.
+
+The final stub-packaging pass preserves native module bytes exactly; both wheels
+share compiler fingerprint
+`dbd02bd3e38a4953fc79dca14ad75cbfc0a1529fdbbd57fc564ccd31ca975e02`.
+See the [frontend receipt](benchmarks/grid-cell-frontends-local-windows.json).
+These local checks do not qualify disabled readers/interchange/training, other
+platforms, scientific segmentation tolerances, hardware/performance, rights,
+licensing or supported release requirements. All M0-M7 remain Partial. Next:
+freeze the integrated candidate for complete required platform cohorts, continue
+scientific/pixel-source acceptance and the remaining original workflow.
 
 Earlier task narrative is preserved in [history](current-task-history.md).

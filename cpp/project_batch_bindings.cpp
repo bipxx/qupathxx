@@ -20,6 +20,7 @@ void bind_project_batch(nb::module_& m) {
         .def_rw("pixel_model",&ProjectBatchOptions::pixel_model).def_rw("pixels",&ProjectBatchOptions::pixels).def_rw("pixel_file_limit",&ProjectBatchOptions::pixel_file_limit).def_rw("pixel_total_limit",&ProjectBatchOptions::pixel_total_limit)
         .def_rw("raw",&ProjectBatchOptions::raw).def_rw("raw_follow_display",&ProjectBatchOptions::raw_follow_display).def_rw("raw_max_pixels",&ProjectBatchOptions::raw_max_pixels)
         .def_rw("tissue",&ProjectBatchOptions::tissue).def_rw("cells",&ProjectBatchOptions::cells)
+        .def_rw("cell_grid",&ProjectBatchOptions::cell_grid).def_rw("grid_cells",&ProjectBatchOptions::grid_cells)
         .def_rw("cell_min_nucleus_area_um2",&ProjectBatchOptions::cell_min_nucleus_area_um2)
         .def_rw("cell_max_nucleus_area_um2",&ProjectBatchOptions::cell_max_nucleus_area_um2).def("validate",&ProjectBatchOptions::validate);
     nb::class_<ProjectBatchSelection>(m,"ProjectBatchSelection").def(nb::init<>()).def_rw("image_id",&ProjectBatchSelection::image_id).def_rw("object_ids",&ProjectBatchSelection::object_ids);

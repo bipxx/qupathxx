@@ -61,6 +61,7 @@ public:
     std::uint64_t analyze(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,AnalysisKind=AnalysisKind::OpticalDensityMeans,bool nucleus=false);
     std::uint64_t tissue(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,TissueParameters={},bool retain_result=false);
     std::uint64_t cells(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,CellParameters={},bool retain_result=false);
+    std::uint64_t grid_cells(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,GridCellSampling={},GridCellParameters={},bool retain_result=false);
     // Bounds and parameters are copied at submission. The owner resolves units
     // against the live image/ROI when this queued command begins execution.
     std::uint64_t cells_with_nucleus_area_limits(std::uint64_t image_id,std::uint64_t object_id,const StainTransform&,

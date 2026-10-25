@@ -108,6 +108,36 @@ int main() {
             controller.finish(test.context);doc->server()->close();
             check(retained_cells->calibrated_feature(1).nucleus_sample_area_um2==11.25);
         }
+        {
+            Harness test;std::vector<std::uint8_t> rgb(6*9*3,255);
+            for(int y=3;y<6;++y) for(int x=2;x<4;++x) for(int c=0;c<3;++c) rgb[(y*6+x)*3+c]=32;
+            auto doc=std::make_shared<Document>(Image(6,9,std::move(rgb)));doc->set_calibration(.5,.25);
+            const auto object=doc->add_rectangle({0,0,6,9}),image=test.project->add_document(doc,"grid cells");
+            ViewerSession endpoint((root/"grid.qpxproj").u8string());detail::ViewerOwner controller(endpoint);
+            GridCellSampling sampling{3,3,1,1};GridCellParameters p;p.units=GridCellUnits::Micrometres;
+            p.sigma=0;p.log_prominence=.2;p.min_nucleus_area=.75;p.cell_expansion=.9;p.contours.work_bytes=1024*1024;
+            auto invalid=sampling;invalid.samples_x=0;rejects([&]{endpoint.grid_cells(image,object,transform,invalid,p,true);});
+            check(endpoint.stats().tickets==0 && endpoint.stats().queued_bytes==0);
+            auto ticket=endpoint.grid_cells(image,object,transform,sampling,p,true);
+            sampling.samples_x=1;p.min_nucleus_area=10000;
+            auto result=test.until(controller,endpoint,ticket);
+            check(result.state=="succeeded" && result.committed && result.record_id && result.cells && result.cells->features().size()==1);
+            check(result.cells->nuclei()->scientific_grid()->x().samples()==3 && result.cells->features()[0].cell_pixels==3);
+            check(result.cells->resolved_grid_parameters()->step_x==1. && result.cells->resolved_grid_parameters()->step_y==.75);
+            const auto retained_cells=result.cells;endpoint.take(ticket);check(endpoint.stats().retained_bytes==0);
+            sampling.samples_x=3;p.min_nucleus_area=.75;
+            ticket=endpoint.grid_cells(image,object,transform,sampling,p,true);doc->set_calibration(1,1);
+            result=test.until(controller,endpoint,ticket);
+            check(result.state=="succeeded" && result.cells && result.cells->features()[0].cell_pixels==1);
+            check(result.cells->resolved_grid_parameters()->step_x==2. && result.cells->resolved_grid_parameters()->step_y==3.);endpoint.take(ticket);
+            const auto records=doc->cell_record_count();ticket=endpoint.grid_cells(image,object,transform,sampling,p,true);
+            test.step(controller);doc->set_calibration(.5,.25);
+            check(test.until(controller,endpoint,ticket).state=="stale" && doc->cell_record_count()==records);endpoint.take(ticket);
+            ticket=endpoint.grid_cells(image,object,transform,sampling,p,true);check(endpoint.cancel(ticket));
+            check(endpoint.take(ticket).state=="cancelled" && doc->cell_record_count()==records);
+            controller.finish(test.context);doc->server()->close();check(retained_cells->calibrated_feature(1).cell_sample_area_um2==2.25);
+            std::cout<<"Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed\n";
+        }
         if(has_tiff()) {
             // Independent little-endian TIFF fixture; no reader encoder shares its implementation.
             const auto input=root/"quantitative.tif";std::vector<unsigned char> bytes={'I','I',42,0,8,0,0,0};

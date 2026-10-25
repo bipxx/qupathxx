@@ -46,6 +46,12 @@ int execute(const std::vector<std::string>& args) {
             "             --raw-z N --raw-time N --raw-explicit-axes --raw-max-pixels N\n"
             "--kind od|stains|tissue|cells|pixels|raw  --image ID (repeatable)\n"
             "Cells: --cell-algorithm distance|log|log-bodies|log-sampled --cell-log-prominence N --cell-context-padding N\n"
+            "Grid cells: --cell-algorithm grid --cell-grid-samples NX,NY --cell-grid-context CX,CY\n"
+            "            --grid-units px|um --grid-feature od|stain1|stain2|stain3\n"
+            "            --grid-sigma N --grid-prominence N --grid-min-radius N --grid-seed-spacing N\n"
+            "            --grid-expansion N --grid-min-area N --grid-max-area N\n"
+            "            --grid-work-bytes N --grid-max-cells N --grid-contour-bytes N\n"
+            "            --grid-sampling coverage|winding (distances/areas use grid units)\n"
             "--object ID (repeatable, requires one --image)\n"
             "Pixel batches: --pixel-model MODEL --block-size N --pixel-work-bytes N\n"
             "               --pixel-file-bytes N --pixel-total-bytes N --min-vote NUMBER\n"
@@ -72,7 +78,8 @@ int execute(const std::vector<std::string>& args) {
         if(args.size()==4 && args[1]=="--export-csv") {save_batch_checkpoint_csv(args[2],args[3]);return 0;}
         if(args.size()<3 || args[1].rfind("--",0)==0) throw std::invalid_argument("expected PROJECT and OUTPUT_DIRECTORY; see --help");
         ProjectBatchOptions options;std::vector<ProjectBatchSelection> selection;std::vector<std::uint64_t> objects;
-        std::optional<std::size_t> requested_tile_size;std::string pixel_model_path;ColorVector white{255,255,255};std::vector<ColorVector> stains{{.65,.70,.29},{.07,.99,.11}};bool normalized=false;
+        bool legacy_cell_flags=false,legacy_algorithm=false;
+        bool requested_level=false;std::optional<std::size_t> requested_tile_size;std::string pixel_model_path;ColorVector white{255,255,255};std::vector<ColorVector> stains{{.65,.70,.29},{.07,.99,.11}};bool normalized=false;
         for(std::size_t i=3;i<args.size();++i) {
             const auto& flag=args[i];auto value=[&]()->const std::string& {if(++i==args.size()) throw std::invalid_argument("missing value for "+flag);return args[i];};
             if(flag=="--kind") {const auto& v=value();if(v=="od" || v=="stains") {options.kind=ProjectBatchKind::Roi;options.roi_kind=v=="od"?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans;}else if(v=="tissue") options.kind=ProjectBatchKind::Tissue;else if(v=="cells") options.kind=ProjectBatchKind::Cells;else if(v=="pixels") options.kind=ProjectBatchKind::Pixels;else if(v=="raw") options.kind=ProjectBatchKind::Raw;else throw std::invalid_argument("unknown batch kind");}
@@ -104,13 +111,29 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--white") {const auto v=numbers(value());if(v.size()!=3) throw std::invalid_argument("white requires three components");std::copy(v.begin(),v.end(),white.begin());}
             else if(flag=="--stains") {const auto v=numbers(value());if(v.size()!=6 && v.size()!=9) throw std::invalid_argument("stains require six or nine components");stains.clear();for(std::size_t n=0;n<v.size();n+=3) stains.push_back({v[n],v[n+1],v[n+2]});}
             else if(flag=="--normalized") normalized=true;
-            else if(flag=="--threshold") options.cells.threshold=options.tissue.threshold=real(value());
-            else if(flag=="--cell-algorithm") {const auto v=value();if(v=="distance") options.cells.algorithm=CellAlgorithm::DistanceWatershed;else if(v=="log") options.cells.algorithm=CellAlgorithm::LogWatershed;else if(v=="log-bodies") options.cells.algorithm=CellAlgorithm::LogWatershedBodies;else if(v=="log-sampled") options.cells.algorithm=CellAlgorithm::SampledLogWatershedBodies;else throw std::invalid_argument("cell algorithm must be distance, log, log-bodies or log-sampled");}
-            else if(flag=="--cell-log-prominence") options.cells.log_prominence=real(value());
-            else if(flag=="--cell-context-padding") {const auto n=integer(value());if(n>4096) throw std::invalid_argument("cell context padding exceeds 4096");options.cells.context_padding=static_cast<std::uint32_t>(n);}
+            else if(flag=="--threshold") options.grid_cells.threshold=options.cells.threshold=options.tissue.threshold=real(value());
+            else if(flag=="--cell-algorithm") {const auto v=value();if(v=="grid") {if(!options.cell_grid) options.cell_grid=GridCellSampling{};}else {legacy_algorithm=true;if(v=="distance") options.cells.algorithm=CellAlgorithm::DistanceWatershed;else if(v=="log") options.cells.algorithm=CellAlgorithm::LogWatershed;else if(v=="log-bodies") options.cells.algorithm=CellAlgorithm::LogWatershedBodies;else if(v=="log-sampled") options.cells.algorithm=CellAlgorithm::SampledLogWatershedBodies;else throw std::invalid_argument("unknown cell algorithm");}}
+            else if(flag=="--cell-grid-samples" || flag=="--cell-grid-context" || flag.rfind("--grid-",0)==0) {
+                if(!options.cell_grid) options.cell_grid=GridCellSampling{};auto& g=*options.cell_grid;auto& p=options.grid_cells;
+                if(flag=="--cell-grid-samples" || flag=="--cell-grid-context") {
+                    const auto v=value();const auto comma=v.find(',');if(comma==std::string::npos || v.find(',',comma+1)!=std::string::npos) throw std::invalid_argument("grid axes require two comma-separated integers");
+                    const auto x=integer(v.substr(0,comma)),y=integer(v.substr(comma+1));const auto limit=flag=="--cell-grid-samples"?1000000u:4096u;
+                    if(x>limit || y>limit) throw std::invalid_argument("grid axes exceed their count/context limits");
+                    if(flag=="--cell-grid-samples") {g.samples_x=std::uint32_t(x);g.samples_y=std::uint32_t(y);}else {g.context_x=std::uint32_t(x);g.context_y=std::uint32_t(y);}
+                } else if(flag=="--grid-units") {const auto v=value();if(v=="px") p.units=GridCellUnits::LevelZeroPixels;else if(v=="um") p.units=GridCellUnits::Micrometres;else throw std::invalid_argument("grid units must be px or um");}
+                else if(flag=="--grid-feature") {const auto v=value();if(v=="od") p.feature=TissueFeature::OpticalDensitySum;else if(v=="stain1") p.feature=TissueFeature::Stain1;else if(v=="stain2") p.feature=TissueFeature::Stain2;else if(v=="stain3") p.feature=TissueFeature::Stain3;else throw std::invalid_argument("unknown grid cell feature");}
+                else if(flag=="--grid-sampling") {const auto v=value();if(v=="coverage") p.sampling_policy=RoiSamplingPolicy::GeometryCoverage;else if(v=="winding") p.sampling_policy=RoiSamplingPolicy::PolygonWinding;else throw std::invalid_argument("grid sampling must be coverage or winding");}
+                else if(flag=="--grid-sigma") p.sigma=real(value());else if(flag=="--grid-prominence") p.log_prominence=real(value());
+                else if(flag=="--grid-min-radius") p.min_peak_radius=real(value());else if(flag=="--grid-seed-spacing") p.min_seed_distance=real(value());
+                else if(flag=="--grid-expansion") p.cell_expansion=real(value());else if(flag=="--grid-min-area") p.min_nucleus_area=real(value());else if(flag=="--grid-max-area") p.max_nucleus_area=real(value());
+                else if(flag=="--grid-work-bytes") p.work_bytes=std::size_t(integer(value()));else if(flag=="--grid-max-cells") p.max_cells=std::size_t(integer(value()));
+                else if(flag=="--grid-contour-bytes") p.contours.work_bytes=std::size_t(integer(value()));else throw std::invalid_argument("unknown grid option: "+flag);
+            }
+            else if(flag=="--cell-log-prominence") {legacy_cell_flags=true;options.cells.log_prominence=real(value());}
+            else if(flag=="--cell-context-padding") {legacy_cell_flags=true;const auto n=integer(value());if(n>4096) throw std::invalid_argument("cell context padding exceeds 4096");options.cells.context_padding=static_cast<std::uint32_t>(n);}
             else if(flag=="--cell-min-area-um2") options.cell_min_nucleus_area_um2=real(value());
             else if(flag=="--cell-max-area-um2") options.cell_max_nucleus_area_um2=real(value());
-            else if(flag=="--level") {const auto& v=value();if(v=="-1") options.cells.level=options.tissue.level=-1;else {auto n=integer(v);if(n>INT32_MAX) throw std::invalid_argument("level exceeds int32");options.cells.level=options.tissue.level=static_cast<std::int32_t>(n);}}
+            else if(flag=="--level") {requested_level=true;const auto& v=value();if(v=="-1") options.cells.level=options.tissue.level=-1;else {auto n=integer(v);if(n>INT32_MAX) throw std::invalid_argument("level exceeds int32");options.cells.level=options.tissue.level=static_cast<std::int32_t>(n);}}
             else if(flag=="--tile-size") requested_tile_size=static_cast<std::size_t>(integer(value()));
             else if(flag=="--snapshot-bytes") options.snapshot_budget=static_cast<std::size_t>(integer(value()));
             else if(flag=="--materialize-bytes") options.materialize_budget=static_cast<std::size_t>(integer(value()));
@@ -126,6 +149,8 @@ int execute(const std::vector<std::string>& args) {
             else throw std::invalid_argument("unknown option: "+flag);
         }
         if(options.cells.algorithm==CellAlgorithm::SampledLogWatershedBodies) {options.cells.min_peak_radius=0;options.cells.min_seed_distance=0;}
+        if(options.cell_grid && (legacy_algorithm || legacy_cell_flags || requested_level || requested_tile_size || options.cell_min_nucleus_area_um2 || options.cell_max_nucleus_area_um2))
+            throw std::invalid_argument("grid cells require grid-unit options without legacy algorithm, level, tile or physical-area flags");
         if(!objects.empty()) {if(selection.size()!=1) throw std::invalid_argument("--object requires exactly one --image");selection[0].object_ids=objects;}
         if(normalized && stains.size()!=3) throw std::invalid_argument("--normalized requires a complete nine-component basis");
         if(requested_tile_size) {if(options.kind==ProjectBatchKind::Pixels) options.pixels.prediction.tile_size=*requested_tile_size;else options.roi_tile_size=options.cells.tile_size=options.tissue.tile_size=*requested_tile_size;}
