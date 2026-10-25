@@ -247,6 +247,12 @@ This document and result belong to the captured processed image. They do not
 acquire request/replay authority for the original source image. The tool retains
 `sampler_equivalence_accepted: false`, `segmentation_parity_accepted: false` and
 `biological_validation: false` even when this detector comparison is exact.
+The [Windows/Linux resampled processing receipt](benchmarks/grid-cell-resampled-processing-local-windows-linux.json)
+records 305 passing checks and two declared desktop skips on each platform,
+including all 26 new resampled checks. Both report the same exact masks/features
+and distinct original-source sampler inputs. Its 462-file proof and retained
+native hashes bind this local scope; no production native rebuild or new full
+platform campaign was required.
 
 ```powershell
 python -I tools/qupath_resampled_cell_debug.py --compare-native --report build/resampled-processing.json

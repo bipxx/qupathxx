@@ -1,0 +1,194 @@
+{
+  "schema": "qpx.grid-cell-resampled-processing-local/1",
+  "observed_at_utc": "2026-10-25T13:00:47.567732+00:00",
+  "harness_source": "98f22893e68e891369b8b8e99bc250c155a1a5d0",
+  "application_source": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062",
+  "compiler_inputs_unchanged": 298,
+  "source_contract_files": 462,
+  "windows_native": {
+    "sha256": "bc286d4d160c59fbccf853173820ed88280ddc4ef28e0ce31cc3553e9c9755d0",
+    "compiled_revision": "e7ad5dbddbf148f38974da3e8c2964f20a0be267+dirty",
+    "source_tree_sha256": "6bb880c3ed5e487afb08cd8502a102fecb4c01bb932cfec66e80500b4eafebef"
+  },
+  "linux_native": {
+    "native": "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/grid171-linux-python/lib/python3.12/site-packages/qupathxx/_native.cpython-312-x86_64-linux-gnu.so",
+    "sha256": "1468d4283b7747e19fb8e26a682f89f4bec74ebb484c80735c6a57256b4cc13a",
+    "revision": "3fc3bcb460ce590d9f1a0c48d97ca8a6dc400062",
+    "source_tree_sha256": "a3bdf5e9346d1231a88f78cfa094a2c7d9586bec76e04c73ace5cce40cd145af",
+    "geos": true,
+    "interchange": true
+  },
+  "linux_wheel_sha256": "0ebcbfb63438c6670f64d8f00b6db772ab00537e7a541227bd95b04bc05ba713",
+  "linux_wheel_qualified_run": 40188586241,
+  "installed_passed_per_platform": 305,
+  "declared_desktop_skips_per_platform": 2,
+  "named_grid_cohorts": {
+    "windows": {
+      "passed": 177,
+      "declared_headless_gui_skips": 2,
+      "gui": false,
+      "scientific_acceptance": false
+    },
+    "linux": {
+      "passed": 177,
+      "declared_headless_gui_skips": 2,
+      "gui": false,
+      "scientific_acceptance": false
+    }
+  },
+  "resampled_capture_checks_passed_per_platform": 26,
+  "repeat_non_log_payloads_identical": 14,
+  "processing_dimensions": [
+    171,
+    128
+  ],
+  "nominal_step": [
+    3,
+    2
+  ],
+  "realized_x_step": [
+    256,
+    171
+  ],
+  "captured_processing_detector_masks_and_features_exact": true,
+  "original_source_area_input_different_components": 951,
+  "original_source_area_input_max_absolute_difference": 48.1328125,
+  "pixel_model_scope": "Nominal center-bilinear half-up matches this one captured synthetic input; no generalized Java/native compatibility claim",
+  "local_windows_linux_comparison_accepted": true,
+  "native_production_and_original_fixtures_unchanged": true,
+  "legacy_distance_expected_failures_unchanged": true,
+  "original_source_replay_authority": false,
+  "sampler_equivalence_accepted": false,
+  "segmentation_parity_accepted": false,
+  "platform_campaign_accepted": false,
+  "biological_validation": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "next": "Typed raw scientific sampling and shared analysis workflow, preserving all sample types, source/axis/finite semantics and original M0-M7 scope",
+  "evidence": {
+    "debug-verification.json": {
+      "bytes": 1242,
+      "sha256": "97eaaee4e4d591e46f83ac43641201d5f65ec1a19a8ad7a4d52b9e8a1304d856"
+    },
+    "debug-verification.log": {
+      "bytes": 151,
+      "sha256": "d3f2cc64c5651c3ac1dd9138058dd71dec259d8c7db93ebbbd7b1362f61f866f"
+    },
+    "installed.log": {
+      "bytes": 438,
+      "sha256": "d73c95224e237b4431763ed95e9ddf02edc04f2307a9bc870b507f076b779d4c"
+    },
+    "linux-identity.log": {
+      "bytes": 416,
+      "sha256": "5f36418051c68762e1bc50d7166a2caa247ec904477d79b04d3acf897132573f"
+    },
+    "linux-installed.log": {
+      "bytes": 442,
+      "sha256": "84852b8c1b904d26c75e541003b55993bc430f0020750ff265e119fbd83076f4"
+    },
+    "linux-resampled-native.json": {
+      "bytes": 4865,
+      "sha256": "93fc12d4df5799e533607b9fc06de0dfd1c1545ff8e6d88153e61252f5d2f664"
+    },
+    "linux-resampled-native.log": {
+      "bytes": 134,
+      "sha256": "921279c9342be8e49498749a3b5c53b18b186bf1e1df0a9fad532fb6c628610d"
+    },
+    "linux-roi-cropped.json": {
+      "bytes": 41217,
+      "sha256": "be9f05d70c2403ae881b09408d84d468119f61da8228f3a92280c13687323fc1"
+    },
+    "linux-roi-cropped.log": {
+      "bytes": 138,
+      "sha256": "849029a5b56243002fe85ac992e6b4aab8ae08cdb7cc4e2356e010dbe3072076"
+    },
+    "linux-tests.xml": {
+      "bytes": 47005,
+      "sha256": "04db2a79f121c9b0a4ab322d0f8e77b325d8e0a4c7c88e62d46c07ed4771b28f"
+    },
+    "micrometres.json": {
+      "bytes": 36178,
+      "sha256": "b8f6dd1201b59c2cbba3eb669ceb16b78afbd793c055dee6e7f6e1535fef6977"
+    },
+    "micrometres.log": {
+      "bytes": 136,
+      "sha256": "0888d6e5987bec25578c3739ae934c8c87f8646ad541098572ae782e1a6ad91f"
+    },
+    "pixels.json": {
+      "bytes": 41216,
+      "sha256": "34ed96b7a834180e9b567478ab5aa7016c9e6019fb5c708c268d5b7866ce8bcd"
+    },
+    "pixels.log": {
+      "bytes": 131,
+      "sha256": "3a2cfde2d513266d0e4ff696d9305b582c9a4eb7c8d16548d07f5a6ac855acdf"
+    },
+    "probe_grid172_bilinear.py": {
+      "bytes": 1191,
+      "sha256": "c5e99e404d5b19859f52cbc116d36db140397e78ca47abc2c1cd2a38afe2028e"
+    },
+    "probe_grid172_geometry.py": {
+      "bytes": 1796,
+      "sha256": "19e60b422f1a304cc655cbc7772bbb310a54707528267ebe36b11fdff75bb85e"
+    },
+    "probe_grid172_mapping.py": {
+      "bytes": 2240,
+      "sha256": "2a2cfbf7bd6c9c5a006c2c020ef2b3c2d2b7222ae58d279c8bc15885d24f60ea"
+    },
+    "probe_grid172_pixels.py": {
+      "bytes": 1067,
+      "sha256": "3f4d16506c3348497c4a5b3280e36e01025f611e5936c0e223298b3d34711408"
+    },
+    "record_evidence.py": {
+      "bytes": 7091,
+      "sha256": "662267456d93d100f05285471188ca981c002ca3f0fa972750e99901fc86ebb1"
+    },
+    "repeat-debug-stack.tif": {
+      "bytes": 439675,
+      "sha256": "e3287422c1d674bbb2abd65a06b8450dfe39cc36235ce4b3c00291fe63d78c56"
+    },
+    "repeat-driver.log": {
+      "bytes": 1668,
+      "sha256": "4b07cf03e60a9495a6a35fc070707d169a898cf899f00baf2c65f28dfbd20ec3"
+    },
+    "repeat-identities.json": {
+      "bytes": 3744,
+      "sha256": "7c07b43fecb67967505a2778c63e1af726dfce6c5adc7bcdf90774d84ceff210"
+    },
+    "repeat-manifest.json": {
+      "bytes": 3339,
+      "sha256": "4d5dc76c48912106e02b0d523bceeced1ea3e6df541ccc0dfebcaf40ed300189"
+    },
+    "resampled-native.json": {
+      "bytes": 4871,
+      "sha256": "5c57f10e24f7dc1e0039b281b71ba0019967a637d58529ae28fe01e30ef6b0bc"
+    },
+    "resampled-native.log": {
+      "bytes": 132,
+      "sha256": "2576f7a8c1144a05a4f7545c69849e072e70ee87f3cc7bcd42149909139be071"
+    },
+    "roi-cropped.json": {
+      "bytes": 41219,
+      "sha256": "54b2d1efe49c25a0eb9b1f74bd63553c5c945e29082f05ff44309e279337dcc5"
+    },
+    "roi-cropped.log": {
+      "bytes": 136,
+      "sha256": "2c27303a94944c0f066c4977d46e78b69ba92dac933e0c2f1e322a1ad72d8fb3"
+    },
+    "source-proof.json": {
+      "bytes": 112358,
+      "sha256": "e5670c1722ad0c0c133fdb34987264fa4da65a8a66fb23013edb4ee9ebaaa82b"
+    },
+    "tests.xml": {
+      "bytes": 46977,
+      "sha256": "32dcb45a048a937ff8e0b9ceaf142d4b7676ef875b6aa92e6e44d6c99dbdc03b"
+    },
+    "verify_grid172.py": {
+      "bytes": 1675,
+      "sha256": "e730efd77aa92e94862bbf3977abbd691bd4c20404f6fa171df4e7a4a7584a30"
+    },
+    "verify_grid172_linux.py": {
+      "bytes": 2144,
+      "sha256": "6a991b6473a8559c11ec114fa532961ffd3d844e9d87d28d692e9c312f6f02a4"
+    }
+  }
+}

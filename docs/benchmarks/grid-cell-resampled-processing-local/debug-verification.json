@@ -1,0 +1,63 @@
+{
+  "schema": "qpx.qupath-roi-cell-debug-verification/1",
+  "processing_bounds": [
+    32,
+    32,
+    192,
+    128
+  ],
+  "optical_density_max_absolute_error": 1.1788197307183168e-08,
+  "ordinary_labels_exact": true,
+  "debug_nucleus_masks_exact": true,
+  "nuclei": 3,
+  "boundary_probes": [
+    {
+      "x": 32,
+      "y": 68,
+      "log_response": 2.7418136596679688e-06,
+      "label": 1
+    },
+    {
+      "x": 33,
+      "y": 68,
+      "log_response": 1.1682510375976562e-05,
+      "label": 1
+    },
+    {
+      "x": 32,
+      "y": 81,
+      "log_response": 2.7418136596679688e-06,
+      "label": 1
+    },
+    {
+      "x": 33,
+      "y": 81,
+      "log_response": 1.1682510375976562e-05,
+      "label": 1
+    }
+  ],
+  "stages": [
+    {
+      "name": "Input image",
+      "positive_pixels": 24576
+    },
+    {
+      "name": "Laplacian of Gaussian filtered",
+      "positive_pixels": 2828
+    },
+    {
+      "name": "Watershed labels",
+      "positive_pixels": 1111
+    },
+    {
+      "name": "Binary",
+      "positive_pixels": 772
+    },
+    {
+      "name": "Labeled ROIs",
+      "positive_pixels": 772
+    }
+  ],
+  "manifest_sha256": "4bab1cde52de1cde6e086c676fdd119cab7b300374af5c2ed740cb4263f8cb89",
+  "biological_validation": false
+}

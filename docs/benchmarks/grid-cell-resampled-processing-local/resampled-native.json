@@ -1,0 +1,179 @@
+{
+  "schema": "qpx.qupath-resampled-cell-debug-verification/1",
+  "source_dimensions": [
+    256,
+    192
+  ],
+  "processing_dimensions": [
+    171,
+    128
+  ],
+  "nominal_step": [
+    3,
+    2
+  ],
+  "realized_x_step": [
+    256,
+    171
+  ],
+  "optical_density_max_absolute_error": 3.844026918997656e-08,
+  "ordinary_labels_and_geometry_exact": true,
+  "processing_nucleus_pixels": 379,
+  "processing_body_pixels": 825,
+  "nominal_bilinear_half_up_different_components": 0,
+  "realized_width_bilinear_different_components": 654,
+  "ties_even_bilinear_different_components": 32,
+  "model_generalized": false,
+  "sampler_equivalence_accepted": false,
+  "manifest_sha256": "1d9936c2c6eb2c53420917265557f46e76ba8ce38696856f66d4a3b8c27bf140",
+  "biological_validation": false,
+  "native_sha256": "bc286d4d160c59fbccf853173820ed88280ddc4ef28e0ce31cc3553e9c9755d0",
+  "build_git_revision": "e7ad5dbddbf148f38974da3e8c2964f20a0be267+dirty",
+  "source_tree_sha256": "6bb880c3ed5e487afb08cd8502a102fecb4c01bb932cfec66e80500b4eafebef",
+  "algorithm": "qpx.grid-log-watershed-bodies/1",
+  "native_processing_parameters": {
+    "units": "processing_pixels",
+    "calibration_um": [
+      0.75,
+      0.75
+    ],
+    "threshold": 0.4,
+    "sigma": 0.6666666666666666,
+    "cell_expansion": 3.3333333333333335,
+    "min_nucleus_area": 7.111111111111111,
+    "max_nucleus_area": 227.55555555555554,
+    "log_prominence": 0.5,
+    "min_peak_radius": 0.0,
+    "min_seed_distance": 0.0
+  },
+  "segmentation": {
+    "nucleus": {
+      "reference_count": 3,
+      "native_count": 3,
+      "matches": [
+        {
+          "reference_label": 1,
+          "native_label": 1,
+          "iou": 1.0,
+          "centroid_error_px": 0.0,
+          "reference_pixels": 112,
+          "native_pixels": 112
+        },
+        {
+          "reference_label": 2,
+          "native_label": 2,
+          "iou": 1.0,
+          "centroid_error_px": 0.0,
+          "reference_pixels": 70,
+          "native_pixels": 70
+        },
+        {
+          "reference_label": 3,
+          "native_label": 3,
+          "iou": 1.0,
+          "centroid_error_px": 0.0,
+          "reference_pixels": 197,
+          "native_pixels": 197
+        }
+      ],
+      "unmatched_reference": 0,
+      "unmatched_native": 0,
+      "split_reference_labels": [],
+      "merged_native_labels": [],
+      "foreground_iou": 1.0,
+      "foreground_dice": 1.0
+    },
+    "body": {
+      "reference_count": 3,
+      "native_count": 3,
+      "matches": [
+        {
+          "reference_label": 1,
+          "native_label": 1,
+          "iou": 1.0,
+          "centroid_error_px": 0.0,
+          "reference_pixels": 256,
+          "native_pixels": 256
+        },
+        {
+          "reference_label": 2,
+          "native_label": 2,
+          "iou": 1.0,
+          "centroid_error_px": 0.0,
+          "reference_pixels": 190,
+          "native_pixels": 190
+        },
+        {
+          "reference_label": 3,
+          "native_label": 3,
+          "iou": 1.0,
+          "centroid_error_px": 0.0,
+          "reference_pixels": 379,
+          "native_pixels": 379
+        }
+      ],
+      "unmatched_reference": 0,
+      "unmatched_native": 0,
+      "split_reference_labels": [],
+      "merged_native_labels": [],
+      "foreground_iou": 1.0,
+      "foreground_dice": 1.0
+    }
+  },
+  "feature_checks": [
+    {
+      "label": 1,
+      "compartment": "nucleus",
+      "sample_count_exact": true,
+      "physical_area_exact": true,
+      "rgb_accepted": true,
+      "od_accepted": true
+    },
+    {
+      "label": 1,
+      "compartment": "body",
+      "sample_count_exact": true,
+      "physical_area_exact": true,
+      "rgb_accepted": true,
+      "od_accepted": true
+    },
+    {
+      "label": 2,
+      "compartment": "nucleus",
+      "sample_count_exact": true,
+      "physical_area_exact": true,
+      "rgb_accepted": true,
+      "od_accepted": true
+    },
+    {
+      "label": 2,
+      "compartment": "body",
+      "sample_count_exact": true,
+      "physical_area_exact": true,
+      "rgb_accepted": true,
+      "od_accepted": true
+    },
+    {
+      "label": 3,
+      "compartment": "nucleus",
+      "sample_count_exact": true,
+      "physical_area_exact": true,
+      "rgb_accepted": true,
+      "od_accepted": true
+    },
+    {
+      "label": 3,
+      "compartment": "body",
+      "sample_count_exact": true,
+      "physical_area_exact": true,
+      "rgb_accepted": true,
+      "od_accepted": true
+    }
+  ],
+  "input_sha256": "e03b19757e1051313fb3e09aea936e47cfc337e33f9693465357dfeeb402a848",
+  "original_source_area_max_absolute_rgb_difference": 48.1328125,
+  "original_source_area_different_components": 951,
+  "original_source_replay_authority": false,
+  "segmentation_parity_accepted": false,
+  "scope": "Detector/feature comparison on independently captured processed RGB, not native original-source sampling equivalence"
+}

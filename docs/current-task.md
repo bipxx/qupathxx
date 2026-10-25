@@ -108,6 +108,14 @@ mixed identities, re-sealed metadata/pixel/geometry changes and wrong mapping or
 rounding assumptions. Fourteen non-log capture payloads repeat byte-for-byte.
 No native production sampler, detector or original fixture is changed.
 
+The [resampled processing receipt](benchmarks/grid-cell-resampled-processing-local-windows-linux.json)
+records 305 passing installed/auditor cases on Windows and on the retained
+source169 Linux wheel, each with two declared desktop skips. All 26 resampled
+checks and the 177-case headless named grid cohort run on each platform. The
+462-file source proof binds the new fixture/tools; all 298 compiler inputs and
+both installed native module identities remain unchanged. The source169 full
+platform campaign remains distinct from this newer local comparison scope.
+
 Next implementation: typed raw scientific sampling and its analysis workflow.
 Reuse `ScientificGrid`, `RawRegionRequest`, `RawPixelBuffer` and the existing raw
 analysis/record path; freeze per-channel finite/support policy, Z/T/channel

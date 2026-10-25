@@ -257,3 +257,6 @@ docs/benchmarks/grid-cell-roi-debug-local-windows-linux.json text eol=lf
 tests/fixtures/qupath-cells-resampled-debug-0.7.0/** -text -whitespace
 tools/qupath_resampled_cell_debug.py text eol=lf
 tests/test_qupath_resampled_cell_debug.py text eol=lf
+
+docs/benchmarks/grid-cell-resampled-processing-local/** -text -whitespace
+docs/benchmarks/grid-cell-resampled-processing-local-windows-linux.json text eol=lf

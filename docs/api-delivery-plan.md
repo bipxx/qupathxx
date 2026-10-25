@@ -132,6 +132,19 @@ semantics. Typed raw scientific sampling and vendor/pyramid/tiled cell admission
 remain explicit requirements; reuse existing filters only where their contracts
 match.
 
+For the next typed raw workflow, start at `RawRegionRequest`/`RawPixelBuffer`
+and compose through `RawAnalysisRequest`, its job, immutable result and record
+path. Cover all ten exposed `SampleType` values. Freeze strict footprint support
+and per-channel finite validity before adapting consumers: missing data is not
+a measured zero, and one channel's NaN must not silently erase another channel.
+Use an independent `Fraction`/binary64 oracle for weighted means, including
+UInt64/Int64 extremes, subnormals and cancellation. Do not cast 64-bit integers
+to double before their exact weighted sum or use an overflowing floating
+numerator for a finite mean. Preserve source dtype/bits, series/Z/T/channel
+selection, calibration and request authority in the versioned recipe; retain
+legacy raw behavior. Complete retention/replay, CSV, resumed batch and native
+UI/Python/CLI delivery before scheduling a new integrated qualification.
+
 ## Implemented TMA desktop pattern to reuse
 
 This pattern already powers the accepted TMA workflow. Reuse it for new imports;
