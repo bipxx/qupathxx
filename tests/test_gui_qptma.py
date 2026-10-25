@@ -74,3 +74,18 @@ def test_export_existing_file_preserves_bytes(tmp_path):
     report=q.show(doc,frame_limit=30,options=o)
     assert report.qptma_state=='failed' and report.tma_error and output.read_bytes()==b'preserve this file'
     assert doc.tma_core_count==6 and report.ui_overflow_items==0
+
+
+def test_preview_becomes_stale_after_owner_document_edit():
+    from test_gui_tiles import replay
+    doc=document();doc.add_rectangle(q.Rect(1,1,2,2),'earlier edit')
+    o=settings();o.inputs=[*click(4,q.GuiInputTarget.QPTMA_LOAD_PREVIEW),replay(14,q.GuiInputKind.UNDO_KEY)]
+    report=q.show(doc,frame_limit=35,options=o)
+    assert report.qptma_state=='stale' and report.qptma_preview_cores==0
+    assert report.tma_error and doc.tma_core_count==0 and doc.object_count==0
+
+
+def test_export_requires_explicit_loss_acknowledgment(tmp_path):
+    doc=document();q.import_qptma(doc,q.load_qptma(str(FIXTURE)));output=tmp_path/'unacknowledged.qptma'
+    o=settings(output_path=output);report=q.show(doc,frame_limit=20,options=o)
+    assert report.qptma_state=='idle' and not output.exists() and doc.tma_core_count==6

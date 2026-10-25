@@ -29,7 +29,8 @@ permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.workflow }}-${{ github.ref }}
+  # Independent engine, Mac and portable gates must not cancel one another.
+  group: ci-${{ github.workflow }}-${{ github.ref }}-${{ inputs.macos_native && 'macos' || inputs.portable_linux && 'portable' || 'engine' }}
   cancel-in-progress: true
 
 jobs:

@@ -1,6 +1,7 @@
 #pragma once
 #include "qupathxx/tma.hpp"
 #include "qupathxx/qptma.hpp"
+#include "qupathxx/spatial_index.hpp"
 #include "qupathxx/project.hpp"
 #include "atomic_export.hpp"
 #include "reader_file_guard.hpp"
@@ -46,29 +47,31 @@ class GuiTma {
         return t>=GuiInputTarget::LoadQptmaPreview?old_count+static_cast<std::size_t>(t)-static_cast<std::size_t>(GuiInputTarget::LoadQptmaPreview):static_cast<std::size_t>(t)-static_cast<std::size_t>(first);
     }
     std::array<char,32769> qptma_input_{},qptma_output_{};
-    struct Exchange {std::optional<QptmaData> preview;std::string state,error;std::size_t bytes=0,missing=0;};
+    struct Exchange {std::optional<QptmaData> preview;std::unique_ptr<SpatialIndex> index;std::string state,error;std::size_t bytes=0,missing=0;};
     std::future<Exchange> exchange_;std::atomic<bool> exchange_cancel_{false};
-    std::optional<QptmaData> preview_;
+    std::optional<QptmaData> preview_;std::unique_ptr<SpatialIndex> preview_index_;
+    bool preview_truncated_=false;
     std::weak_ptr<const char> preview_identity_;std::uint64_t preview_revision_=0;
     std::string exchange_state_="idle";std::size_t preview_missing_=0,preview_max_step_=0,exchange_bytes_=0;
     bool exchange_open_=false,losses_acknowledged_=false,exchange_exporting_=false;
+    void clear_preview() {preview_.reset();preview_index_.reset();preview_truncated_=false;}
     void cancel_exchange() {
-        exchange_cancel_.store(true);preview_.reset();preview_missing_=0;exchange_state_="cancelled";
+        exchange_cancel_.store(true);clear_preview();preview_missing_=0;exchange_state_="cancelled";
     }
     void poll_exchange(Document& doc) {
         if(exchange_.valid() && exchange_.wait_for(std::chrono::seconds(0))==std::future_status::ready) {
             try {
                 auto result=exchange_.get();exchange_bytes_=result.bytes;
-                if(exchange_cancel_.load()) {preview_.reset();exchange_state_="cancelled";return;}
+                if(exchange_cancel_.load()) {clear_preview();exchange_state_="cancelled";return;}
                 if(result.preview && (preview_identity_.lock()!=doc.analysis_identity_.token || preview_revision_!=doc.revision() || doc.tma_core_count())) {
-                    preview_.reset();exchange_state_="stale";error_="The target image changed. Load a new grid preview.";return;
+                    clear_preview();exchange_state_="stale";error_="The target image changed. Load a new grid preview.";return;
                 }
-                preview_=std::move(result.preview);preview_missing_=result.missing;exchange_state_=std::move(result.state);
+                preview_=std::move(result.preview);preview_index_=std::move(result.index);preview_missing_=result.missing;exchange_state_=std::move(result.state);
                 if(!result.error.empty())error_=std::move(result.error);
             }catch(const std::exception& e){failure(e);exchange_state_="failed";}
         }
         if(preview_ && (preview_identity_.lock()!=doc.analysis_identity_.token || preview_revision_!=doc.revision() || doc.tma_core_count())) {
-            preview_.reset();preview_missing_=0;exchange_state_="stale";error_="The target image changed. Load a new grid preview.";
+            clear_preview();preview_missing_=0;exchange_state_="stale";error_="The target image changed. Load a new grid preview.";
         }
     }
     void load_preview(Document& doc) {
@@ -78,17 +81,19 @@ class GuiTma {
         if(path.empty())throw std::invalid_argument("Enter a QuPath .qptma input path.");
         const auto width=doc.metadata().width,height=doc.metadata().height;
         preview_identity_=doc.analysis_identity_.token;preview_revision_=doc.revision();
-        preview_.reset();preview_missing_=0;exchange_bytes_=0;exchange_cancel_.store(false);exchange_state_="loading";exchange_exporting_=false;
+        clear_preview();preview_missing_=0;exchange_bytes_=0;exchange_cancel_.store(false);exchange_state_="loading";exchange_exporting_=false;
         exchange_=std::async(std::launch::async,[this,path,width,height] {
             Exchange result;
             try {
                 auto data=load_qptma(path,8*1024*1024,&exchange_cancel_);
+                std::vector<SpatialEntry> entries;entries.reserve(data.cores.size());std::uint64_t id=0;
                 for(const auto& core:data.cores) {
                     export_checkpoint(&exchange_cancel_);const auto b=core.bounds;
                     if(b.x<0 || b.y<0 || b.x+b.width>static_cast<double>(width) || b.y+b.height>static_cast<double>(height))
                         throw std::invalid_argument("An imported core lies outside the selected image.");
-                    result.missing+=core.missing;
+                    result.missing+=core.missing;entries.push_back({id++,b});
                 }
+                result.index=std::make_unique<SpatialIndex>(std::move(entries));export_checkpoint(&exchange_cancel_);
                 result.preview=std::move(data);result.state="preview ready";
             }catch(const std::exception& e){result.state=exchange_cancel_.load()?"cancelled":"failed";try{result.error=e.what();bounded_utf8(result.error,8192);}catch(...){result.error="QuPath grid load failed";}}
             return result;
@@ -187,6 +192,20 @@ public:
     std::size_t qptma_missing() const {return preview_?preview_missing_:0;}
     std::size_t qptma_max_step() const {return preview_max_step_;}
     std::size_t qptma_bytes() const {return exchange_bytes_;}
+    void draw_qptma_preview(const Document& doc,ImDrawList* draw,const Viewport& viewport,ImVec2 offset,ImVec2 size) {
+        preview_truncated_=false;
+        if(!open_ || !preview_ || !preview_index_ || preview_identity_.lock()!=doc.analysis_identity_.token || preview_revision_!=doc.revision())return;
+        const auto a=viewport.screen_to_image({0,0}),b=viewport.screen_to_image({size.x,size.y});
+        const auto ids=preview_index_->query({std::min(a.x,b.x),std::min(a.y,b.y),std::abs(b.x-a.x),std::abs(b.y-a.y)});
+        preview_truncated_=ids.size()>512;std::size_t drawn=0;
+        for(const auto id:ids) {
+            if(drawn++==512)break;const auto& core=preview_->cores.at(static_cast<std::size_t>(id));const auto r=core.bounds;
+            const auto lo=viewport.image_to_screen({r.x,r.y}),hi=viewport.image_to_screen({r.x+r.width,r.y+r.height});
+            const ImVec2 center{offset.x+static_cast<float>((lo.x+hi.x)/2),offset.y+static_cast<float>((lo.y+hi.y)/2)};
+            const ImVec2 radii{static_cast<float>((hi.x-lo.x)/2),static_cast<float>((hi.y-lo.y)/2)};
+            draw->AddEllipse(center,radii,core.missing?IM_COL32(160,160,160,230):IM_COL32(100,180,255,255),0,0,2);
+        }
+    }
     Rect bounds(GuiInputTarget target) const {return targets_.at(index(target));}
     bool enabled(GuiInputTarget target) const {return enabled_.at(index(target));}
     const std::string& error() const {return error_;}
@@ -194,7 +213,7 @@ public:
     const std::vector<std::uint64_t>& created() const {return created_;}
     std::size_t catalog_max_step() const {return catalog_max_;}
     std::size_t metadata_bytes() const {return metadata_bytes_;}
-    void finish(bool finite) {if(exchange_.valid()) {if(!finite || !exchange_exporting_)exchange_cancel_.store(true);exchange_.wait();try{auto result=exchange_.get();if(result.state=="saved"){exchange_state_="saved";exchange_bytes_=result.bytes;}else exchange_state_="cancelled";}catch(...) {exchange_state_="failed";}preview_.reset();}if(export_.valid()) {if(!finite) cancel_.store(true);export_.wait();poll();}}
+    void finish(bool finite) {if(exchange_.valid()) {if(!finite || !exchange_exporting_)exchange_cancel_.store(true);exchange_.wait();try{auto result=exchange_.get();if(result.state=="saved"){exchange_state_="saved";exchange_bytes_=result.bytes;}else {exchange_state_=exchange_cancel_.load()?"cancelled":result.state;if(!result.error.empty())error_=std::move(result.error);}}catch(...) {exchange_state_="failed";}clear_preview();}if(export_.valid()) {if(!finite) cancel_.store(true);export_.wait();poll();}}
     bool draw(Document& doc,ObjectSelection& selection,const Project* project,bool blocked,bool has_image,const std::function<void(GuiInputTarget)>& mark) {
         enabled_.fill(false);
         poll();if(!ImGui::GetIO().WantTextInput && ImGui::GetIO().KeyCtrl && ImGui::GetIO().KeyAlt && ImGui::IsKeyPressed(ImGuiKey_T,false)) open_=!open_;
@@ -212,12 +231,14 @@ public:
         if(ImGui::CollapsingHeader("QuPath grid exchange",exchange_open_?ImGuiTreeNodeFlags_DefaultOpen:0)) {
             ImGui::TextWrapped("Import into the selected image as one undoable edit. Image paths in the file are informational only.");
             ImGui::BeginDisabled(disabled || exchange_.valid());
-            ui::InputTextWithHint("##QPTMA input","QuPath .qptma input",qptma_input_.data(),qptma_input_.size());ImGui::EndDisabled();
+            if(ui::InputTextWithHint("##QPTMA input","QuPath .qptma input",qptma_input_.data(),qptma_input_.size())) {clear_preview();preview_missing_=0;exchange_state_="idle";}ImGui::EndDisabled();
             if(button("Load grid preview",GuiInputTarget::LoadQptmaPreview,disabled || exchange_.valid() || bool(grid_) || !qptma_input_[0]))perform([&]{load_preview(doc);});
             if(preview_) {
                 ImGui::TextWrapped("Target: %lld x %lld pixels. Grid: %zu rows x %zu columns, %zu cores (%zu present / %zu missing).",
                     static_cast<long long>(doc.metadata().width),static_cast<long long>(doc.metadata().height),preview_->rows,preview_->columns,preview_->cores.size(),preview_->cores.size()-preview_missing_,preview_missing_);
                 ImGui::TextWrapped("%s",preview_->image_name.c_str());
+                ImGui::TextWrapped("Blue outlines preview present cores; gray outlines preview missing cores. No objects are created until Apply.");
+                if(preview_truncated_)ImGui::TextWrapped("More than 512 cores are visible. Zoom in to review their outlines; the full grid remains available in the list.");
                 if(ImGui::BeginChild("qptma core preview",{0,100.f*scale},ImGuiChildFlags_Borders)) {
                     ImGuiListClipper clip;clip.Begin(static_cast<int>(preview_->cores.size()));std::size_t inspected=0;
                     while(clip.Step())for(int i=clip.DisplayStart;i<clip.DisplayEnd && inspected<512;++i) {
@@ -231,10 +252,10 @@ public:
             }
             if(button("Apply imported grid",GuiInputTarget::ApplyQptmaPreview,disabled || exchange_.valid() || !preview_ || bool(grid_)))perform([&]{
                 if(preview_identity_.lock()!=doc.analysis_identity_.token || preview_revision_!=doc.revision())throw std::invalid_argument("Grid preview is stale. Load it again.");
-                created_=import_qptma(doc,*preview_);preview_.reset();preview_missing_=0;exchange_state_="imported";losses_acknowledged_=false;
+                created_=import_qptma(doc,*preview_);clear_preview();preview_missing_=0;exchange_state_="imported";losses_acknowledged_=false;
                 if(!created_.empty())selection.replace({created_.front()},created_.front());
             });
-            if(button("Discard grid preview",GuiInputTarget::DiscardQptmaPreview,!preview_)) {preview_.reset();preview_missing_=0;exchange_state_="idle";}
+            if(button("Discard grid preview",GuiInputTarget::DiscardQptmaPreview,!preview_)) {clear_preview();preview_missing_=0;exchange_state_="idle";}
             if(grid_) {
                 ImGui::TextWrapped("Export retains core names, bounds, missing flags and case IDs. Native IDs, grid name and axis labels are omitted; class assignments and parent links, when present, are also omitted. Vacant slots cannot be exported.");
                 ImGui::BeginDisabled(disabled || exchange_.valid());

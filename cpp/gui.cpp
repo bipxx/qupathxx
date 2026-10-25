@@ -2196,6 +2196,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         profile.geometry_ms=profile_lap();
         overlay_cache.capture(draw);
         }
+        tma.draw_qptma_preview(document,draw,viewport,offset,size);
         if(tool==6 && vertex_id) {
             for(std::size_t path=0;path<vertex_paths.size();++path) {
                 const auto& ring=vertex_paths[path];
