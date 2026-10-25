@@ -175,3 +175,7 @@ docs/benchmarks/annotation-migration-nested-local-windows.json text eol=lf
 # Preserve the original failure trace, including pytest whitespace.
 docs/benchmarks/annotation-migration-nested/installed.log -whitespace
 docs/benchmarks/annotation-migration-nested/installed.xml -whitespace
+
+tests/test_recovery_long_paths.py text eol=lf
+docs/benchmarks/annotation-migration-recovery-local/** -text -whitespace
+docs/benchmarks/annotation-migration-recovery-local-windows.json text eol=lf
