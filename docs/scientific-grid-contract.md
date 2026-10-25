@@ -627,3 +627,30 @@ estimate excludes the output arrays; budget is not part of input identity.
 Metadata is copied before pixel IO in both paths. Hashes describe that captured
 epoch even if a reader callback subsequently changes its exposed metadata.
 The digest is input evidence, not document publication or replay authority.
+
+
+### Explicit-grid raw analysis (native integration)
+
+`RawAnalysisRequest(document, grid, options, object_id, nucleus, max_pixels)`
+captures the existing object/nucleus/TMA context, effective document calibration,
+reader and publication ticket without decoding pixels. The natural-level
+constructor and `qpx.raw-roi-statistics/1` remain unchanged. Grid requests/results
+expose a typed grid descriptor; their natural `region()` accessor rejects.
+Grid metadata retains source dtype and axes, with no scalar downsample (NaN in
+the legacy metadata field); derived samples are binary64.
+
+`qpx.raw-grid-statistics/1` counts eligible core centers in `pixels`, independently
+of source support. Context samples never contribute to statistics. With an ROI,
+core centers use geometry coverage and the existing half-open bounds test.
+`valid_pixels` counts full source support, including nonfinite channel values.
+Each channel partitions supported samples into finite/nonfinite counts; missing
+or outside support contributes to neither. Finite statistics summarize rounded
+binary64 area samples: their mean uses an exact reduction with one final rounding.
+This two-stage mean is not a pooled mean of all original source pixels.
+
+The analysis input hash frames the sampling input identity, effective document
+pixel calibration and optional canonical ROI geometry. Digest scanning shares
+that hash but performs no ROI containment or statistics. Numeric geometry and
+work admission precede pixel IO. Jobs reuse cancellation, owner-thread polling
+and stale-delivery checks. Grid record retention, QRA2, project replay and CSV
+remain pending; the native analysis result does not imply those consumers work.

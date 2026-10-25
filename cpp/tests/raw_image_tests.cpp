@@ -31,6 +31,17 @@ int main() {
             std::ofstream file(path,std::ios::binary);file.write(reinterpret_cast<const char*>(bytes.data()),bytes.size());file.close();
             auto server=open_tiff(path.u8string());const auto metadata=server->raw_metadata();check(metadata && metadata->sample_type==SampleType::UInt16 && metadata->channels==1);
             RawRegionRequest request;request.region=RegionRequest(0,0,0,2,2);const auto raw=server->read_raw(request);check(std::get<std::vector<std::uint16_t>>(raw.storage())==std::vector<std::uint16_t>({1,256,40000,65535}));
+            {
+                Document grid_document(server);const ScientificGrid grid(2,2,{0,2,1},{0,2,1});
+                RawAnalysisRequest captured(grid_document,grid);const auto result=analyze_raw(captured);
+                check(result->grid() && result->statistics().pixels==1 && result->statistics().valid_pixels==1 && result->statistics().means[0]==26448.);
+                check(result->grid()->source_metadata.sample_type==SampleType::UInt16 && raw_analysis_input_digest(captured).input_sha256==result->input_sha256());
+                const auto object=grid_document.add_rectangle({0,0,1,2},"left");
+                const ScientificGrid fine(2,2,{0,2,4,1},{0,2,4,1});
+                const auto fine_result=analyze_raw(RawAnalysisRequest(grid_document,fine,{},object));
+                check(fine_result->statistics().pixels==8 && fine_result->statistics().valid_pixels==8 && fine_result->statistics().means[0]==20000.5);
+                std::cout<<"Actual UInt16 TIFF scientific grid analysis, ROI upsampling and hash-only digest passed\n";
+            }
             const auto display=server->read_region(request.region);check(display.bytes()[0]==0 && display.bytes()[4]==1 && display.bytes()[8]==156 && display.bytes()[12]==255);
             const auto statistics=raw_region_statistics(*server,request);check(statistics.valid_pixels==4 && statistics.finite_samples[0]==4 && statistics.means[0]==26448.);
             request.region=RegionRequest(-1,-1,0,4,4);const auto padded=server->read_raw(request);check(std::count(padded.valid().begin(),padded.valid().end(),1)==4);

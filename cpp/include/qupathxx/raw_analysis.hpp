@@ -1,6 +1,7 @@
 #pragma once
 #include "qupathxx/core.hpp"
 #include "qupathxx/raw_image.hpp"
+#include "qupathxx/scientific_raw_sampling.hpp"
 
 namespace qpx {
 // Captured on the document owner; constructing a request never opens a decoder.
@@ -24,8 +25,12 @@ class RawAnalysisRequest {
 public:
     RawAnalysisRequest(const Document&,RawRegionRequest,std::uint64_t object_id=0,
         bool nucleus=false,std::size_t tile_size=256,std::uint64_t max_pixels=1000000000);
+    RawAnalysisRequest(const Document&,ScientificGrid,ScientificRawOptions={},std::uint64_t object_id=0,
+        bool nucleus=false,std::uint64_t max_pixels=1000000000);
+    const std::optional<ScientificGrid>& grid() const {return grid_;}
+    const ScientificRawOptions& grid_options() const {return grid_options_;}
     bool matches(const Document&) const;
-    const RawRegionRequest& region() const {return region_;}
+    const RawRegionRequest& region() const {if(grid_) throw std::logic_error("explicit grid has no natural region descriptor");return region_;}
     std::uint64_t object_id() const {return object_id_;}
     std::uint64_t object_revision() const {return object_revision_;}
     std::uint64_t document_revision() const {return document_revision_;}
@@ -39,6 +44,10 @@ private:
     friend struct RawAnalysisKernel;
     friend class RawAnalysisJob;
     friend class Document;
+    RawAnalysisRequest(const Document&,RawRegionRequest,std::uint64_t,bool,std::size_t,std::uint64_t,
+        std::optional<ScientificGrid>,ScientificRawOptions);
+    std::optional<ScientificGrid> grid_;
+    ScientificRawOptions grid_options_;
     static bool context_matches(const Document&,std::uint64_t,const RawObjectContext&);
     std::shared_ptr<const char> identity_,capture_=std::make_shared<const char>();
     std::shared_ptr<ImageServer> source_;
@@ -57,17 +66,27 @@ struct RawAnalysisMetadata {
     std::int64_t width=0,height=0,level_width=0,level_height=0;
     std::uint32_t channels=0,z_planes=0,timepoints=0,series=0;
     SampleType sample_type=SampleType::UInt8;
+    // Natural recipes only; NaN for explicit grids, which use RawAnalysisGrid.
     double downsample=1;
     // Names of the selected channels only, in output order.
     std::vector<std::string> channel_names;
     std::optional<double> z_spacing_um,time_interval_seconds;
     std::size_t payload_bytes() const;
 };
+struct RawAnalysisGrid {
+    ScientificGrid grid;
+    ScientificRawOptions options;
+    RawImageMetadata source_metadata;
+    std::string decoded_source_sha256,sampling_input_sha256;
+};
 class RawAnalysisResult : public std::enable_shared_from_this<RawAnalysisResult> {
 public:
     const RawRegionStatistics& statistics() const {return statistics_;}
     const RawAnalysisMetadata& metadata() const {return metadata_;}
-    const RawRegionRequest& region() const {return region_;}
+    // Present only for explicit-grid results; source dtype is distinct from
+    // the derived binary64 samples summarized in statistics().
+    const std::optional<RawAnalysisGrid>& grid() const {return grid_;}
+    const RawRegionRequest& region() const {if(grid_) throw std::logic_error("explicit grid has no natural region descriptor");return region_;}
     std::uint64_t object_id() const {return object_id_;}
     std::uint64_t object_revision() const {return object_revision_;}
     std::uint64_t document_revision() const {return document_revision_;}
@@ -87,6 +106,7 @@ private:
     friend struct RawAnalysisCodec;
     friend class Document;
     RawAnalysisResult()=default;
+    std::optional<RawAnalysisGrid> grid_;
     RawRegionStatistics statistics_;
     RawAnalysisMetadata metadata_;
     RawObjectContext context_;

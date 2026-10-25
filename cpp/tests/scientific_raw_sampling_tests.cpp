@@ -1,5 +1,8 @@
 #include "qupathxx/scientific_raw_sampling.hpp"
 #include "qupathxx/provenance.hpp"
+#include "qupathxx/raw_analysis.hpp"
+#include "qupathxx/source_identity.hpp"
+#include "raw_grid_statistics_reference.hpp"
 #include "raw_scientific_sampling_reference.hpp"
 #include <cstring>
 #include <iostream>
@@ -21,7 +24,7 @@ template<class T> T source_value(std::uint64_t raw) {
     return value;
 }
 std::uint64_t bits(double value) {std::uint64_t out;std::memcpy(&out,&value,8);return out;}
-class Reader final:public qpx::ImageServer {
+class Reader:public qpx::ImageServer {
 public:
     std::shared_ptr<qpx::RawImageMetadata> raw=std::make_shared<qpx::RawImageMetadata>();
     qpx::ImageMetadata display;
@@ -79,6 +82,24 @@ public:
     void close() override {is_closed=true;}
     bool closed() const override {return is_closed;}
 };
+class AnalysisReader final:public Reader {
+    std::shared_ptr<qpx::ReaderSource> observed;
+public:
+    std::shared_ptr<qpx::TiffView> view=std::make_shared<qpx::TiffView>();
+    explicit AnalysisReader(unsigned which=0):Reader(which),observed(std::make_shared<qpx::ReaderSource>()) {
+        display.width=5;display.height=4;display.levels={{5,4,1}};
+        display.pixel_width_um=.5;display.pixel_height_um=.25;view->series=1;
+        auto file=std::make_shared<qpx::FileVersion>();file->path="/raw-analysis-synthetic.tif";
+        file->identity_scheme="posix.device-inode/1";file->identity="1:2";
+        file->stamp_scheme="posix.seconds-nanoseconds/1";file->modified_token="1:0";file->change_token="2:0";file->bytes=100;
+        observed->generation="raw-analysis-synthetic";observed->reader="tiff:synthetic";observed->locator=file->path;
+        observed->scope="single_file";observed->primary=file;observed->validate();
+    }
+    std::string source_locator() const override {return observed->locator;}
+    std::shared_ptr<const qpx::ReaderSource> reader_source() const override {return observed;}
+    std::shared_ptr<const qpx::TiffView> tiff_view() const override {return view;}
+};
+
 }
 void check_scientific_raw_sampling() {
     using namespace qpx;
@@ -187,4 +208,58 @@ void check_scientific_raw_sampling() {
     const auto environment=build_environment();
     require(environment && environment->source_tree_sha256.size()==64 && !environment->git_revision.empty());
     std::cout<<"Typed raw sampling engine identity "<<environment->source_tree_sha256<<" "<<environment->git_revision<<"\n";
+}
+
+void check_scientific_raw_analysis() {
+    using namespace qpx;
+    require(std::size(raw_grid_statistics_reference::cases)==188);
+    for(const auto& reference:raw_grid_statistics_reference::cases) {
+        const auto& c=raw_sampling_reference::cases[reference.source];
+        auto reader=std::make_shared<AnalysisReader>(reference.source);Document document(reader);
+        const auto object=reference.roi?document.add_rectangle({1,1,3,2},"captured ROI"):0;
+        const ScientificGrid grid(5,4,{c.x,c.w,c.nx,c.cx},{c.y,c.h,c.ny,c.cy});
+        ScientificRawOptions options;options.first_channel=c.first;options.channels=c.channels;options.z=c.z;options.t=c.t;
+        RawAnalysisRequest request(document,grid,options,object);
+        require(reader->metadata_reads==0 && reader->reads==0 && request.matches(document));
+        rejects<std::logic_error>([&]{request.region();});
+        const auto result=analyze_raw(request);const auto& stats=result->statistics();
+        require(result->grid() && result->grid()->source_metadata.sample_type==SampleType(c.type));
+        require(result->grid()->sampling_input_sha256==c.input && result->grid()->decoded_source_sha256==c.decoded);
+        require(result->algorithm()=="qpx.raw-grid-statistics/1" && std::isnan(result->metadata().downsample));
+        require(stats.pixels==reference.pixels && stats.valid_pixels==reference.valid && stats.means.size()==c.channels);
+        for(unsigned channel=0;channel<c.channels;++channel) {
+            const auto& expected=raw_grid_statistics_reference::channels[reference.offset+channel];
+            if(stats.finite_samples[channel]!=expected.finite || stats.nonfinite_samples[channel]!=expected.nonfinite)
+                throw std::runtime_error(std::string(c.name)+": derived statistics counts differ");
+            require(stats.means[channel].has_value()==expected.present && stats.minima[channel].has_value()==expected.present && stats.maxima[channel].has_value()==expected.present);
+            if(expected.present) require(bits(*stats.means[channel])==expected.mean && bits(*stats.minima[channel])==expected.minimum && bits(*stats.maxima[channel])==expected.maximum);
+        }
+        const auto digest=raw_analysis_input_digest(request);const auto b=grid.clipped_read_bounds();
+        require(digest.input_sha256==result->input_sha256() && digest.tiles==result->tiles() && digest.raw_bytes==std::uint64_t(b.width)*b.height*(std::uint64_t(c.channels)*sample_bytes(SampleType(c.type))+1));
+        require(reader->display_reads==0);
+        rejects<std::logic_error>([&]{result->region();});
+        if(object) require(result->object_context().name=="captured ROI" && result->object_id()==object);
+    }
+    auto reader=std::make_shared<AnalysisReader>();Document document(reader);
+    const auto object=document.add_rectangle({1,1,3,2},"object");
+    const ScientificGrid grid(5,4,{0,5,3,1},{0,4,3,1});
+    RawAnalysisRequest request(document,grid,{},object);
+    const auto original=analyze_raw(request);reader->view->upper={9,9,9};
+    require(request.matches(document) && analyze_raw(request)->input_sha256()==original->input_sha256());
+    Document copied=document;require(!request.matches(copied));
+    RawAnalysisJob job;require(job.request(request));require(job.wait(document).state=="ready" && job.result()->input_sha256()==original->input_sha256());
+    require(job.request(request));job.cancel();require(job.wait(document).state=="cancelled" && !job.result());
+    require(job.request(request));document.rename_annotation(object,"changed");require(job.wait(document).state=="stale" && !job.result());
+    require(!request.matches(document));
+    RawAnalysisRequest current(document,grid,{},object);document.set_calibration(1,2);require(!current.matches(document));
+    auto recalibrated=analyze_raw(RawAnalysisRequest(document,grid,{},object));
+    require(recalibrated->input_sha256()!=original->input_sha256() && recalibrated->grid()->sampling_input_sha256==original->grid()->sampling_input_sha256);
+    const auto reads=reader->reads;
+    rejects<std::length_error>([&]{RawAnalysisRequest too_many(document,grid,{},object,false,1);});
+    ScientificRawOptions tiny;tiny.work_bytes=1;RawAnalysisRequest budget(document,grid,tiny,object);
+    rejects<std::length_error>([&]{analyze_raw(budget);});rejects<std::length_error>([&]{raw_analysis_input_digest(budget);});
+    std::atomic<bool> cancelled{true};rejects<std::runtime_error>([&]{analyze_raw(current,&cancelled);});
+    require(reader->reads==reads);
+    reader->close();require(!current.matches(document));rejects<std::runtime_error>([&]{analyze_raw(current);});
+    std::cout<<"188 independent derived raw grid statistics references, ROI/core support, hash-only digest and native jobs passed\n";
 }

@@ -109,6 +109,11 @@
     "test_debug_capture_rejects_resealed_semantic_changes[script]",
     "test_public_debug_stages_reproduce_ordinary_roi_capture"
   ],
+  "test_raw_grid_statistics_reference": [
+    "test_fraction_statistics_and_native_table_regenerate",
+    "test_generation_refuses_existing_outputs",
+    "test_support_and_nonfinite_channels_are_distinct"
+  ],
   "test_raw_mean_reference": [
     "test_fraction_oracle_and_flat_native_vectors_regenerate_exactly",
     "test_oracle_catches_early_integer_conversion_and_double_sum_overflow",
