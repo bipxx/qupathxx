@@ -1,0 +1,17 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma-axis-workflow-196\\tools\\ci\\accept_manylinux.py",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tmaci196-hosted\\artifacts",
+    "--run-json",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tmaci196-hosted\\portable-run.json",
+    "--commit",
+    "ad4aa2c8cfeaad652e4dd920f81ba8787eed0384",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tmaci196-hosted\\portable-audit.json",
+    "--linux-runtime-manifest"
+  ],
+  "exit": 1,
+  "seconds": 6.152964300010353
+}

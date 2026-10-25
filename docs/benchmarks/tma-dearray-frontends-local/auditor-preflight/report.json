@@ -1,0 +1,15 @@
+{
+  "controls_passed": 330,
+  "actual_collection_guard_passed": true,
+  "qptma_declared_cases": 88,
+  "earlier_source_ad4_additional_actual_controls": 7,
+  "harness_files": {
+    "tests/test_qptma_evidence.py": "9f52fcf3fba835ccfa737a3ec0b30a46bb8491384c277c395cac5e9f5ec6d3f8",
+    "tools/ci/qptma-cases.json": "b9edd9de650ac9ba05c312eec6fa2635225a92a2e8e58dc45981b140c7debd32",
+    "tests/test_tma_dearray_cli.py": "ec2bcfe466a72b87c3811f3c9dcaff6f841ecb4c07ba24e776dd5eb2e7973956"
+  },
+  "native_source_unchanged": "a492ea5a6f7cea2f069fcc5899b6f4a20cd9554e",
+  "compiler_input_count": 317,
+  "compiler_fingerprint": "2e217fbd3e36b7cfe58a99adff1615cd22d6e0141a256a3a89bf680f282e20ff",
+  "scope": "Local corrected cohort and independent source-collection preflight only; original sourcead4 platform acceptance remains false."
+}

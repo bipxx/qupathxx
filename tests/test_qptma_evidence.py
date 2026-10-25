@@ -21,7 +21,7 @@ def python_cases():
 
 def test_complete_native_and_installed_qptma_cohorts():
     assert evidence.native([native_case()])['bounded_grid_cores']==10000
-    assert evidence.python(python_cases())['passed']==80
+    assert evidence.python(python_cases())['passed']==sum(map(len,evidence.CASES.values()))
 
 
 @pytest.mark.parametrize('failure',['missing','duplicate','failure','error','skipped','marker','duplicate_marker'])
@@ -108,3 +108,35 @@ def test_source_batch_reads_multiple_blobs_in_one_process(tmp_path, monkeypatch)
     assert list(result)==['a.txt','b.txt'] and len(calls)==1
     assert calls[0][0][-2:]==['cat-file','--batch']
     assert calls[0][1]['input']==(('a'*40+':a.txt\n')+('a'*40+':b.txt\n')).encode()
+
+
+def test_named_cohort_manifest_matches_independent_pytest_collection():
+    # Fixtures built from CASES cannot expose a stale CASES list. Collect the
+    # actual source independently, including parameter IDs, before qualification.
+    import os
+    import subprocess
+    import sys
+    root = Path(__file__).resolve().parents[1]
+    contract = evidence.CASES
+    env = os.environ.copy()
+    env.pop('PYTEST_ADDOPTS', None)
+    env['PYTEST_DISABLE_PLUGIN_AUTOLOAD'] = '1'
+    env['PYTHONUTF8'] = '1'
+    env['PYTHONIOENCODING'] = 'utf-8'
+    command = [sys.executable, '-I', '-m', 'pytest',
+               *[str(root/'tests'/(module+'.py')) for module in contract],
+               '--collect-only', '-q', '--noconftest', '--color=no', '-o', 'addopts=']
+    result = subprocess.run(command, cwd=root, env=env, capture_output=True,
+                            text=True, encoding='utf-8', timeout=60)
+    assert result.returncode == 0, result.stdout + result.stderr
+    actual = {module: [] for module in contract}
+    for line in result.stdout.splitlines():
+        if '::' not in line:
+            continue
+        filename, name = line.split('::', 1)
+        module = Path(filename).stem
+        assert module in actual, line
+        actual[module].append(name)
+    for module, names in actual.items():
+        assert names and len(names) == len(set(names)), module
+        assert sorted(names) == contract[module], module

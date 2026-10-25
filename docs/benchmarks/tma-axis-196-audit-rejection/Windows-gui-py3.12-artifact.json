@@ -1,0 +1,19 @@
+{
+  "id": 12615448456,
+  "name": "Windows-gui-py3.12",
+  "size_in_bytes": 25674518,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12615448456",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12615448456/zip",
+  "expired": false,
+  "created_at": "2026-10-25T21:58:41Z",
+  "expires_at": "2026-11-08T21:58:40Z",
+  "updated_at": "2026-10-25T21:58:41Z",
+  "digest": "sha256:8c004ffa3db2bc388c2779af00e5fac0cf0eda6a52347a4367469ac99fe61f12",
+  "workflow_run": {
+    "id": 40235207517,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/tma-axis-workflow-196",
+    "head_sha": "ad4aa2c8cfeaad652e4dd920f81ba8787eed0384"
+  }
+}

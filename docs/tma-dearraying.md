@@ -1,8 +1,9 @@
 # Automatic TMA dearraying
 
-The first native dearraying kernel and thin Python adapters pass local Windows,
-Linux and isolated installed-module checks. UI, managed-owner and CLI integration
-remain in progress; a distributable wheel is not qualified by these local checks.
+Native detection, Python, ImGui preview/apply, managed-viewer detection and CLI
+proposal export now pass local engineering checks. Physical-unit conversion,
+real-slide/biological validation and full supported-host/package qualification
+remain open. These local checks do not qualify a distributable wheel.
 Seven independent synthetic masks and a pinned upstream capture define the
 workflow's geometry, missing-core behavior and refusal cases. The
 [fixture manifest](../tests/fixtures/tma-dearray-v1/manifest.json) binds the raw
@@ -100,6 +101,79 @@ Python mirrors the two native overloads and options. Result grid/center values
 are returned as copies so Python callers cannot mutate a retained proposal.
 `tests/test_tma_dearray.py` exercises the independent contract, retained results,
 preview/server identities, byte admission and atomic publication.
+
+## Completed frontend route
+
+Open the **Tissue microarray** panel and expand **Grid detection and QuPath
+exchange / Detect cores in this image**. Supply rows, columns and approximate
+core dimensions in level-zero image pixels, choose polarity and missing-tissue
+fraction, then select **Detect grid preview**. Preview limits bound dimensions
+and working memory. The same native `TmaDearrayOptions` can be supplied through
+`GuiOptions.tma_dearray_options`, including its additional admission/fit limits.
+
+Detection runs in the existing exchange worker. Its owning result and grid
+share immutable storage; the preview controller does not copy the core grid or
+run another detector. The panel displays candidate count, lattice residual and
+inferred slots, with existing blue/gray overlays and a bounded core list.
+**Apply grid preview** performs one atomic QPTMA import, followed by normal
+undo/redo and project persistence. Discard or panel close clears an unapplied
+proposal. Image identity, reader identity and document revision guard delivery
+and apply. `GuiReport.tma_dearray_result` retains a completed preview; controller
+apply/discard/cancel/stale handling releases that preview reference.
+
+The managed viewer exposes `session.detect_tma_grid(image_id, options,
+expected_revision=None)`. It copies parameters into the existing typed queue,
+resolves the live native reader on its owner and returns `event.tma_dearray`
+without editing the document. Publication checks the captured document identity,
+revision, reader and workspace epoch. Result payloads count toward
+`ViewerLimits.result_bytes`. A producer explicitly applies the proposal through
+the existing queue:
+
+```python
+event = session.wait(session.detect_tma_grid(image_id, options))
+if event.state == "succeeded" and event.tma_dearray is not None:
+    apply_ticket = session.execute(
+        image_id, q.qptma_grid_edits(event.tma_dearray.grid),
+        expected_revision=event.document_revision,
+    )
+```
+
+The viewer must still run on the Python main thread; the producer uses the
+thread-safe endpoint. Consume completed tickets as described in the
+[live-viewer contract](live-viewer.md). Apply uses the existing edit-count,
+command and result limits. An existing grid must be cleared explicitly before another import.
+
+The standalone batch executable exports a proposal from one explicitly selected
+project image. It opens the project without journal recovery, protects project
+and linked-image inputs and atomically creates a new file. Existing output,
+invalid/duplicate options, missing image selection, cancellation and exhausted
+budgets leave the source and destination unchanged. Applying remains explicit:
+
+```text
+qupathxx_batch --detect-tma source.qpxproj proposal.qptma --image 2 --rows 3 --columns 4 --core-width 32 --core-height 32
+qupathxx_batch --import-qptma source.qpxproj proposal.qptma applied.qpxproj --image 2
+```
+
+`--help` lists polarity, density, component/fit, preview/source pixel, memory,
+candidate/pair-work and output-text bounds. Core sizes currently use pixels;
+the CLI does not infer physical calibration. JSON output records input and
+recipe digests. The original project remains a separate file.
+
+At compiled source `a492ea5`, five selected native suites pass on Windows and
+Linux, including owner and standalone-command semantics. The isolated Windows
+module passes 222 installed cases with 19 declared desktop skips, nine new
+dearray desktop cases, all 53 inherited desktop cases, seven positive typing
+files and three intended negative typing errors. Generated stubs match the
+module. The first CLI fixture incorrectly used a C++ setter name instead of
+Python's `active_image` property; its failure and corrected run are retained,
+with all 317 compiler inputs unchanged. See the
+[frontend receipt and inspected captures](benchmarks/tma-dearray-frontends-local.json).
+
+The earlier axis candidate's original jobs all completed, but its strict engine
+and portable audits rejected a stale QPTMA control-case manifest. The independent
+collection guard and corrected manifest pass 330 auditor controls locally. See
+the [unaccepted campaign record](benchmarks/tma-axis-196-audit-rejection.json).
+Those artifacts do not qualify these newer dearraying APIs.
 
 ## Native delivery route
 

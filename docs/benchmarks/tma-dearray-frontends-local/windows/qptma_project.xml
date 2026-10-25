@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-25T18:23:21"
+	>
+	<testcase name="qptma_project" classname="qptma_project" time="0.198451" status="run">
+		<properties/>
+		<system-out>{"schema":"qpx.qptma-project-import/1","state":"saved","image_id":2,"cores":6,"rows":2,"columns":3,"output":"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\qptma-project-test-artifacts\\project-1007029295224200\\imported.qpxproj"}
+{"schema":"qpx.qptma-project-export/1","state":"saved","image_id":2,"cores":6,"bytes":334,"omitted_metadata":["native_object_ids","native_grid_name","axis_labels"],"output":"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\qptma-project-test-artifacts\\project-1007029295224200\\exported.qptma"}
+{"schema":"qpx.batch-error/1","error":"export commit failed (destination may already exist)"}
+{"schema":"qpx.batch-error/1","error":"fingerprint output must not replace its input"}
+{"schema":"qpx.batch-error/1","error":"selected image has no TMA grid"}
+QPTMA project atomic new-file publication, budgets, guards, races, persistence and explicit-image CLI passed
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,0 +1,14 @@
+{
+  "captures": {
+    "build/tma198-retained-captures/detected-preview.ppm": {
+      "bytes": 4224017,
+      "sha256": "1569f0e9e0d253037b7a8a6e8f46b817044bd13a418378d1bbf43680abc5a8ac"
+    },
+    "build/tma198-retained-captures/applied-grid.ppm": {
+      "bytes": 3456016,
+      "sha256": "de1db351be4ea51922b4845ca442e9fa8d3ef09ba24276e9f625754638aec4ad"
+    }
+  },
+  "png_conversion": "P6 RGB bytes mapped to PNG color type2/8-bit with filter0 and lossless zlib; compression roundtrip verified",
+  "visual_inspection": "Preview controls legible; reopened applied skewed grid shows all12ellipses with gray missing B-2 and11present cores."
+}

@@ -50,12 +50,18 @@ are not process RSS or latency measurements.
 
 ## Next work and remaining scope
 
-Later TMA row/column APIs and their named auditor controls are on the
-[active feature branch](https://github.com/bipxx/qupathxx/tree/feature/scientific-grid-159).
-Their local evidence does not inherit source191 platform acceptance. Freeze
-that completed workflow and run its full required platform campaign once.
-Automatic dearraying, independent biological/upstream fixtures and TMA automation
-remain separate work.
+The [active feature branch](https://github.com/bipxx/qupathxx/tree/feature/scientific-grid-159)
+now contains locally verified TMA dearraying through native C++, Python, ImGui
+preview/atomic apply, the managed viewer and standalone CLI. See the
+[frontend receipt](benchmarks/tma-dearray-frontends-local.json). The source191
+baseline remains the accepted public main; no later platform acceptance is implied.
+
+Next register the new dearray native/installed/desktop/typing cohorts and their
+negative controls, retain the independent collection preflight, and close
+physical-unit and representative real-slide/biological gaps before the next
+completed-workflow candidate is frozen for its required campaign. The original
+axis campaign completed but was [rejected by strict engine/portable audits](benchmarks/tma-axis-196-audit-rejection.json);
+do not promote it or dispatch another axis-only campaign to replace its records.
 
 Continue vendor/multi-file/whole-slide and pyramid/tiled sampling, raw classifier
 features, broader annotation/interchange and fault campaigns, independent
@@ -105,14 +111,20 @@ run was dispatched; the original source191 handles are terminal.
 - [Mac40235213038](https://github.com/bipxx/qupathxx/actions/runs/40235213038)
 - [Portable40235218333](https://github.com/bipxx/qupathxx/actions/runs/40235218333)
 
-All 11 archives and complete frozen-source auditors remain required before
-promoting these later APIs. Preserve the ref and poll original handles after a
-timeout. The fresh checkout fingerprint `2bf9748f...8ea103e` differs from the
-local source961 module; compiler Git blobs match, and neither identity is
-relabeled. Public main's separate automatic run40233922383 remains in progress.
-Automatic dearraying, biological/upstream acceptance and every remaining M0-M7
-requirement remain active. No platform, hardware or supported-release acceptance
-is inferred from this local slice.
+All 11 archives now pass size/digest/source verification. Both Mac-native
+architectures pass their strict audit. Engine and portable audits reject seven
+actual batch-source verifier controls absent from the frozen QPTMA case manifest;
+the jobs being green does not override that failure. Preserve the
+[unaccepted campaign and raw failures](benchmarks/tma-axis-196-audit-rejection.json).
+Integration corrects the manifest and independently collects actual source node
+IDs; all 330 auditor preflight controls pass locally. This correction does not
+retrospectively qualify the old campaign. Public main's separate automatic
+run40233922383 completed successfully at `614ab99`.
+
+The original fresh-checkout fingerprint `2bf9748f...8ea103e`, compiled source961
+identity and frozen sourcead4 remain distinct and unchanged. The newer dearray
+implementation changes compiler inputs and requires its own named/full platform
+evidence. Every remaining M0-M7 requirement stays active.
 
 
 ## Automatic dearraying reference preparation
@@ -124,8 +136,32 @@ meet it; skewed geometry reaches 2.2361 pixels and remains outside tolerance.
 All five missing-flag sets match. An unobserved row yields 2x4 upstream and a
 blank image yields 1x1, so the native proposal workflow must retain explicit
 review/refusal for unestablished requested dimensions. Eighteen identity and
-false-acceptance controls pass. The native detector and full preview/apply
-workflow remain unimplemented; biological/whole-slide acceptance remains open.
+false-acceptance controls pass. The first native detector and preview/apply workflow now have local engineering
+evidence; biological/whole-slide acceptance remains open.
 The completed axis candidate was isolated from `cea83fe`, merged with the
 qualified baseline and frozen at `ad4aa2c`. These dearraying research files and
-any later implementation are outside that active platform campaign.
+any later implementation are outside that completed, unaccepted campaign.
+
+
+## Automatic dearraying frontends: locally verified
+
+Compiled source `a492ea5` and fingerprint
+`2e217fbd3e36b7cfe58a99adff1615cd22d6e0141a256a3a89bf680f282e20ff`
+identify 317 frozen compiler inputs. Five selected native suites pass on each
+Windows/Linux host. The isolated installed Windows package passes 222 cases
+with 19 declared desktop skips, nine new dearray desktop cases, all 53 inherited
+desktop cases, generated-stub equality, seven positive typing files and three
+intended negative typing errors. This is a locally assembled package, not a
+qualified wheel. The initial CLI fixture setter error and corrected run remain
+in the [frontend receipt](benchmarks/tma-dearray-frontends-local.json).
+
+The controller reuses immutable native results, its existing bounded preview,
+identity/revision checks and one atomic QPTMA import. The managed viewer queues
+copied options, returns an owning proposal and applies through ordinary bounded
+edits with the captured revision. The CLI writes a new proposal for one explicit
+image and composes with existing project import. Inspected captures show the
+controls and the saved/reopened skewed 12-core grid with gray missing B-2.
+
+Remaining dearray-specific work is named platform evidence, physical-unit
+conversion, biological/upstream and large-slide qualification. All other
+original requirements remain in the plan and inventory; all milestones are Partial.

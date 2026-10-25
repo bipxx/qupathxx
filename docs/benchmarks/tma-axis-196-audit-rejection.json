@@ -1,0 +1,113 @@
+{
+  "schema": "qpx.tma-axis-campaign-rejection/1",
+  "source": "ad4aa2c8cfeaad652e4dd920f81ba8787eed0384",
+  "run_ids": {
+    "engine": 40235207517,
+    "macos": 40235213038,
+    "portable": 40235218333
+  },
+  "all_original_required_jobs_succeeded": true,
+  "archives_verified": 11,
+  "strict_engine_audit": "rejected",
+  "strict_portable_audit": "rejected",
+  "macos_native_engineering_accepted": true,
+  "reason": "Actual QPTMA installed XML includes seven new batch-source verifier controls absent from the frozen expected-case manifest; strict case identity matching rejects. No missing declared case or duplicate in the three engine installed logs.",
+  "repair": "Integration corrects the manifest and adds independent actual pytest collection;330local auditor controls pass. This does not retrospectively qualify the original campaign. The newer dearraying workflow has different compiler inputs and needs its own full required campaign.",
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "payloads": {
+    "docs/benchmarks/tma-axis-196-audit-rejection/cohort-rejection-analysis.json": {
+      "sha256": "104cb101bb160ce989ac76fb0bb1f0b7c04e48e002ec87057550ad629cb687ea",
+      "bytes": 2578
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/engine-auditor-command.json": {
+      "sha256": "56890610ce69a224296aa84a9752626d2603887675b906236b520d0ddb76b047",
+      "bytes": 749
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/engine-auditor.log": {
+      "sha256": "1eec9337b614cf34353695b4a5badc1b92913122bab166074bed830e13c6edf6",
+      "bytes": 1023
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/engine-run.json": {
+      "sha256": "2a2eec78de6311cdf206af5d6e11a151029ee0fa0e674b1d1d0cc75ac3f4432f",
+      "bytes": 16529
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/Linux-headless-py3.12-artifact.json": {
+      "sha256": "563cdcc94e452d6e370f6204a7e2cf87a8b6ca69d0e3386f752930cb3b1fcdf3",
+      "bytes": 738
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/Linux-minimal-py3.12-artifact.json": {
+      "sha256": "d4f12972738a03d6c363cf7dfe63c966ba41281f88da3968e00aef2df62668b7",
+      "bytes": 734
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/Linux-sanitize-py3.12-artifact.json": {
+      "sha256": "62d03232d20cf559d547715ee3eef93efb4a8554bfd24995a902e33d953b0f39",
+      "bytes": 735
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/macos-auditor.log": {
+      "sha256": "5b857c44ffc2112ebd38f2aecb98e03a1e7531b1be7ae1c2972753b1450d51a4",
+      "bytes": 161
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/macos-native-arm64-artifact.json": {
+      "sha256": "7c77520bcc789b5051f441bd4992f53b2e9760c82eacae1723352e977d38a147",
+      "bytes": 735
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/macos-native-audit.json": {
+      "sha256": "7d2afe9ff9507cdaef0b7e38a83408bd272fa940ac64dfe5743d2d60ccae925f",
+      "bytes": 204967
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/macos-native-x86_64-artifact.json": {
+      "sha256": "fb9355f1eb9ba47cdc399a531a0cf1e42a68742e9b86c830b49dc58029df1b08",
+      "bytes": 736
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/macos-run.json": {
+      "sha256": "a6cb217ed04f4a231d46cf84e0361b666c36d061807013874004d9633e0c9e10",
+      "bytes": 4859
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/manylinux-3.11-artifact.json": {
+      "sha256": "b03ec9b4e473727a7eab280473ae6dd15fda66ea6339ef02664cff757ff721dd",
+      "bytes": 731
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/manylinux-3.12-artifact.json": {
+      "sha256": "0f6424414c382338af9093eaefb12af4f8674aad35d9b9eb08c5727c339ae289",
+      "bytes": 731
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/manylinux-consumer-3.11-artifact.json": {
+      "sha256": "739584598328d74c02ef15f9b5275846d3c4d880a3bda88db3055f2dc53ded83",
+      "bytes": 737
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/manylinux-consumer-3.12-artifact.json": {
+      "sha256": "bd7ebe91085c00f7de4ebc67b419293b14b9b51d08b16c66eb40d3efec8e0cfb",
+      "bytes": 737
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/portable-auditor-command.json": {
+      "sha256": "bb5b4ba9a8415bb7ff79b89d38173fd285e09200a10e38b4e212093c19d6f785",
+      "bytes": 716
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/portable-auditor.log": {
+      "sha256": "fe2e27e78d7c99a48dd7f163fcd2786191ad69f2a0da1c3413706f5914475cb0",
+      "bytes": 1382
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/portable-run.json": {
+      "sha256": "ad1e751b2b9efc03ef63077608c3656cef55e86776294e4cbbd6218c007fb403",
+      "bytes": 10688
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/tmaci196-audit-plan.json": {
+      "sha256": "82d618c080c69137d7f2973973c7d0eb34369dc8d73f91ffb5b882da3b5bd16f",
+      "bytes": 2898
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/tmaci196-campaign.json": {
+      "sha256": "0f3de84d33df431992be5f19c0154424082163884a03730e1a61e247dbdf3740",
+      "bytes": 6234
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/Windows-gui-py3.12-artifact.json": {
+      "sha256": "4ec6e66813ab633fbeeb69e8b001d9e5639fe852aa999bd750f0fc19e1ac4e76",
+      "bytes": 735
+    },
+    "docs/benchmarks/tma-axis-196-audit-rejection/Windows-headless-py3.11-artifact.json": {
+      "sha256": "3dd47c01a9450a067d1430ac5a48522137babbfe28bbfbda8f3d6cefb5d485a5",
+      "bytes": 740
+    }
+  }
+}

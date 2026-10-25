@@ -13,7 +13,7 @@ def source_project(tmp_path):
     project = q.Project()
     project.add_document(q.Document(q.Image(16, 16, [255]*16*16*3)), 'Untouched')
     image = project.add_document(doc, 'Explicit inactive image')
-    project.set_active_image(1)
+    project.active_image = 1
     source = tmp_path/'source.qpxproj'
     project.save(str(source))
     return source, image

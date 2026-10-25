@@ -1779,6 +1779,8 @@ class GuiInputTarget(enum.Enum):
 
     TMA_REMOVE_COLUMN = 96
 
+    TMA_DETECT_GRID = 97
+
 class GuiInputWait(enum.Enum):
     TIFF_READY = 43
 
@@ -2365,6 +2367,12 @@ class GuiOptions:
 
     @file_fingerprint_buffer_bytes.setter
     def file_fingerprint_buffer_bytes(self, arg: int, /) -> None: ...
+
+    @property
+    def tma_dearray_options(self) -> TmaDearrayOptions | None: ...
+
+    @tma_dearray_options.setter
+    def tma_dearray_options(self, arg: TmaDearrayOptions | None, /) -> None: ...
 
     @property
     def qptma_input_path(self) -> str: ...
@@ -3246,6 +3254,9 @@ class GuiReport:
 
     @property
     def file_fingerprint_ms(self) -> float: ...
+
+    @property
+    def tma_dearray_result(self) -> TmaDearrayResult | None: ...
 
     @property
     def tma_error(self) -> str: ...
@@ -5364,6 +5375,9 @@ class TmaDearrayResult:
 
     @property
     def estimated_work_bytes(self) -> int: ...
+
+    @property
+    def payload_bytes(self) -> int: ...
 
     @property
     def lattice_rmse(self) -> float: ...
@@ -8592,6 +8606,9 @@ class ViewerEvent:
     def pixels(self) -> PixelBuffer: ...
 
     @property
+    def tma_dearray(self) -> TmaDearrayResult | None: ...
+
+    @property
     def raw_analysis(self) -> RawAnalysisResult: ...
 
     @property
@@ -8695,6 +8712,8 @@ class ViewerSession:
     def remove_tma_row(self, image_id: int, index: int, expected_revision: int | None = ...) -> int: ...
 
     def remove_tma_column(self, image_id: int, index: int, expected_revision: int | None = ...) -> int: ...
+
+    def detect_tma_grid(self, image_id: int, options: TmaDearrayOptions = ..., expected_revision: int | None = ...) -> int: ...
 
     def select(self, image_id: int, object_ids: Sequence[int]) -> int: ...
 

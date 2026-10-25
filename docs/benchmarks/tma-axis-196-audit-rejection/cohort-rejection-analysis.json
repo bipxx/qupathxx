@@ -1,0 +1,47 @@
+{
+  "Windows-gui-py3.12": {
+    "test_qptma_evidence": {
+      "missing_from_actual": [],
+      "additional_actual": [
+        "test_source_batch_reads_multiple_blobs_in_one_process",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[abc blob 4\\na\\n]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[abc blob 4\\na\\nb\\n\\ntrailing]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[abc blob 4\\na\\nb\\nx]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[abc tree 4\\na\\nb\\n\\n]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[not-found missing\\n]"
+      ],
+      "duplicate_actual": false
+    }
+  },
+  "Windows-headless-py3.11": {
+    "test_qptma_evidence": {
+      "missing_from_actual": [],
+      "additional_actual": [
+        "test_source_batch_reads_multiple_blobs_in_one_process",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[abc blob 4\\na\\n]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[abc blob 4\\na\\nb\\n\\ntrailing]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[abc blob 4\\na\\nb\\nx]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[abc tree 4\\na\\nb\\n\\n]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[not-found missing\\n]"
+      ],
+      "duplicate_actual": false
+    }
+  },
+  "Linux-headless-py3.12": {
+    "test_qptma_evidence": {
+      "missing_from_actual": [],
+      "additional_actual": [
+        "test_source_batch_reads_multiple_blobs_in_one_process",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[abc blob 4\\na\\n]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[abc blob 4\\na\\nb\\n\\ntrailing]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[abc blob 4\\na\\nb\\nx]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[abc tree 4\\na\\nb\\n\\n]",
+        "test_source_batch_rejects_missing_wrong_kind_truncation_and_trailing[not-found missing\\n]"
+      ],
+      "duplicate_actual": false
+    }
+  }
+}

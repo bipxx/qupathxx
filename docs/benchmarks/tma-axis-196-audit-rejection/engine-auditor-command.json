@@ -1,0 +1,20 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\tma-axis-workflow-196\\tools\\ci\\accept_unified_engine.py",
+    "40235207517",
+    "ad4aa2c8cfeaad652e4dd920f81ba8787eed0384",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tmaci196-hosted\\artifacts",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\tmaci196-hosted\\full-engine-audit.json",
+    "--ndpi-readers",
+    "--rendered-loop",
+    "--gui-stack",
+    "--small-frontier",
+    "--windows-runtime-manifest",
+    "--linux-runtime-manifest"
+  ],
+  "exit": 1,
+  "seconds": 6.401151199941523
+}
