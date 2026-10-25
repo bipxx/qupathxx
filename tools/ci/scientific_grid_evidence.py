@@ -50,7 +50,7 @@ EXTRA+=('tools/compare_qupath_grid_cells.py','tools/compare_qupath_cells.py',
         'tests/fixtures/qupath-0.7.0/contract.json')
 EXTRA+=('tools/qupath_roi_cell_debug.py','tools/fetch_qupath.py',
         'tools/upstream/qupath_cell_debug_probe.groovy')
-EXTRA+=('tools/qupath_resampled_cell_debug.py',)
+EXTRA+=('tools/qupath_resampled_cell_debug.py','tools/ci/run_macos_native.py')
 
 def source_contract(root,commit):
     root=Path(root)

@@ -154,7 +154,7 @@ def main():
         command += [f'-D{name}={value}' for name, value in flags.items()]
         run(command, work/'configure.log', env)
         run(['cmake', '--build', build, '--config', 'Debug' if args.mode == 'sanitize' else 'Release', '--parallel', '2'], work/'build.log', env)
-    run(['ctest', '--test-dir', build, '-C', 'Debug' if args.mode == 'sanitize' else 'Release', '--output-on-failure',
+    run(['ctest', '--test-dir', build, '-C', 'Debug' if args.mode == 'sanitize' else 'Release', '--output-on-failure', '--test-output-size-passed', '1048576',
          '--output-junit', work/'native-tests.xml'], work/'native-tests.log', env, 900)
     if args.mode not in ['headless', 'gui']:
         return

@@ -217,6 +217,11 @@ void check_scientific_raw_sampling() {
 void check_scientific_raw_analysis() {
     using namespace qpx;
     require(std::size(raw_grid_statistics_reference::cases)==188);
+    RawRegionStatistics positive;positive.pixels=positive.valid_pixels=1;positive.finite_samples={1};positive.nonfinite_samples={0};positive.means={0.};positive.minima={0.};positive.maxima={0.};
+    auto negative=positive;negative.means[0]=-0.;require(!same_raw_statistics(positive,negative,true) && same_raw_statistics(positive,negative,false));
+    negative=positive;negative.minima[0]=-0.;require(!same_raw_statistics(positive,negative,true));
+    negative=positive;negative.maxima[0]=-0.;require(!same_raw_statistics(positive,negative,true));
+
     for(const auto& reference:raw_grid_statistics_reference::cases) {
         const auto& c=raw_sampling_reference::cases[reference.source];
         auto reader=std::make_shared<AnalysisReader>(reference.source);Document document(reader);

@@ -7,6 +7,7 @@
 #include "utf8_text.hpp"
 #include <algorithm>
 #include <cmath>
+#include <cstring>
 #include <limits>
 #include <stdexcept>
 
@@ -23,6 +24,19 @@ bool same_region(const RawRegionRequest& a,const RawRegionRequest& b) {
 bool same_mask(const std::optional<Roi>& a,const std::optional<Roi>& b) {return a.has_value()==b.has_value() && (!a || a->equals(*b));}
 void advance(std::uint64_t value) {if(value==UINT64_MAX) throw std::overflow_error("document revision exhausted");}
 void calibration(std::optional<double> value) {if(value && (!std::isfinite(*value) || *value<=0)) throw std::invalid_argument("invalid raw analysis calibration");}
+}
+bool same_raw_statistics(const RawRegionStatistics& a,const RawRegionStatistics& b,bool bitwise) {
+    if(a.pixels!=b.pixels || a.valid_pixels!=b.valid_pixels || a.finite_samples!=b.finite_samples || a.nonfinite_samples!=b.nonfinite_samples) return false;
+    if(!bitwise) return a.means==b.means && a.minima==b.minima && a.maxima==b.maxima;
+    for(const auto& pair:{std::make_pair(&a.means,&b.means),std::make_pair(&a.minima,&b.minima),std::make_pair(&a.maxima,&b.maxima)}) {
+        if(pair.first->size()!=pair.second->size()) return false;
+        for(std::size_t i=0;i<pair.first->size();++i) {
+            const auto& x=(*pair.first)[i];const auto& y=(*pair.second)[i];
+            if(x.has_value()!=y.has_value()) return false;
+            if(x) {std::uint64_t xb,yb;std::memcpy(&xb,&*x,8);std::memcpy(&yb,&*y,8);if(xb!=yb) return false;}
+        }
+    }
+    return true;
 }
 bool same_raw_grid(const std::optional<RawAnalysisGrid>& captured,const std::optional<ScientificGrid>& requested,const ScientificRawOptions& options) {
     if(captured.has_value()!=requested.has_value()) return false;
@@ -140,7 +154,7 @@ bool Document::verify_raw_analysis(std::uint64_t id,const RawAnalysisRequest& re
         throw std::invalid_argument("raw verification parameters differ from the archived capture");
     const auto& a=before.statistics();const auto& b=result->statistics();stored.identity=analysis_identity_.token;stored.observed_source=result->source();
     stored.verified=before.algorithm()==result->algorithm() && before.input_sha256()==result->input_sha256() && before.tile_size()==result->tile_size() && before.tiles()==result->tiles() &&
-        a.pixels==b.pixels && a.valid_pixels==b.valid_pixels && a.finite_samples==b.finite_samples && a.nonfinite_samples==b.nonfinite_samples && a.means==b.means && a.minima==b.minima && a.maxima==b.maxima;
+        same_raw_statistics(a,b,before.grid().has_value());
     return stored.verified;
 }
 std::vector<std::shared_ptr<const RawAnalysisRecord>> Document::raw_analysis_records() const {

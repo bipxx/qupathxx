@@ -689,3 +689,8 @@ statistics count eligible core centers only. Source dtype remains separate from
 derived binary64 statistics. Native retention/replay/CSV are additional delivery
 steps; Python, CLI/batch, ImGui and complete installed/platform validation remain
 required before declaring the whole workflow accepted.
+
+Grid replay compares finite statistic bits, including zero signs; natural recipes
+retain their existing numeric comparison policy. Native evidence runners retain
+up to 1 MiB of successful-test output so required semantic markers remain in
+JUnit; a green run whose output was truncated is not accepted as marker proof.
