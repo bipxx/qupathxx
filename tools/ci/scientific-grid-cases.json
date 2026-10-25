@@ -120,6 +120,16 @@
     "test_independent_qra1_qra2_and_native_table_regenerate",
     "test_reference_versions_checksums_and_distinct_input_identities"
   ],
+  "test_raw_grid_frontends": [
+    "test_raw_grid_cli_exact_source_axes_unicode_and_resume[False]",
+    "test_raw_grid_cli_exact_source_axes_unicode_and_resume[True]",
+    "test_raw_grid_desktop_batch_matches_native_recipe_and_resume",
+    "test_raw_grid_desktop_measure_keep_csv_and_render",
+    "test_raw_grid_endpoint_admission_and_queue_reclamation",
+    "test_raw_grid_gui_options_copy_and_validate",
+    "test_raw_grid_managed_producer_retains_verifies_and_saves",
+    "test_raw_grid_roi_factory_and_python_batch_resume"
+  ],
   "test_raw_grid_statistics_reference": [
     "test_fraction_statistics_and_native_table_regenerate",
     "test_generation_refuses_existing_outputs",

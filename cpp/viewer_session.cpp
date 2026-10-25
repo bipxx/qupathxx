@@ -24,6 +24,7 @@ struct Command {
     bool flag=false,nucleus=false;std::string text;std::vector<ObjectEdit> edits;std::vector<std::uint64_t> ids;
     RegionRequest region{0,0,0,1,1};std::shared_ptr<const StainTransform> transform;
     RawRegionRequest raw_region;TiffView tiff_view;
+    std::optional<RawGridSampling> raw_grid;ScientificRawOptions raw_grid_options;
     RoiSamplingPolicy sampling_policy=RoiSamplingPolicy::GeometryCoverage;
     AnalysisKind analysis=AnalysisKind::OpticalDensityMeans;MeasurementTableKind table=MeasurementTableKind::Roi;
     TissueParameters tissue;CellParameters cells;std::optional<double> cell_min_area,cell_max_area;
@@ -116,6 +117,12 @@ std::uint64_t ViewerSession::export_measurements(std::uint64_t image,Measurement
 std::uint64_t ViewerSession::export_cells(std::uint64_t image,const std::string& path,bool current,const std::vector<std::uint64_t>& ids) {if(ids.size()>100000 || (!image && !ids.empty())) throw std::invalid_argument("record selection requires one image and at most 100000 records");Command c(Action::CellTable);c.ids=ids;c.image=image;c.text=detail::export_path(path);c.flag=current;return impl_->submit(std::move(c));}
 std::uint64_t ViewerSession::analyze_raw(std::uint64_t image,RawRegionRequest region,std::uint64_t object,bool nucleus,bool retain) {
     Command c(Action::RawAnalyze);c.image=image;c.object=object;c.raw_region=region;c.nucleus=nucleus;c.flag=retain;return impl_->submit(std::move(c));
+}
+std::uint64_t ViewerSession::analyze_raw_grid(std::uint64_t image,std::uint64_t object,RawGridSampling sampling,ScientificRawOptions options,bool nucleus,bool retain) {
+    sampling.validate();options.validate();
+    if(!object) throw std::invalid_argument("raw grid measurement requires an area object ID");
+    Command c(Action::RawAnalyze);c.image=image;c.object=object;c.raw_grid=sampling;c.raw_grid_options=options;c.nucleus=nucleus;c.flag=retain;
+    return impl_->submit(std::move(c));
 }
 std::uint64_t ViewerSession::verify_raw_analysis(std::uint64_t image,std::uint64_t record) {
     if(!record) throw std::invalid_argument("raw verification requires a record ID");Command c(Action::RawVerify);c.image=image;c.after=record;return impl_->submit(std::move(c));
@@ -217,7 +224,9 @@ struct ViewerOwner::Impl {
             pending->reader=doc->server();pending->region_limit=state->limits.region_bytes;
             if(cmd.action==Action::TiffView) {const auto previous=pending->reader->tiff_view();if(!previous || previous->series!=cmd.tiff_view.series) throw std::invalid_argument("viewer TIFF changes require the same series; open other series as separate images");}
         }
-        else if(cmd.action==Action::RawAnalyze) pending->raw.emplace(*doc,cmd.raw_region,cmd.object,cmd.nucleus);
+        else if(cmd.action==Action::RawAnalyze) pending->raw.emplace(cmd.raw_grid?
+            RawAnalysisRequest::for_grid_roi(*doc,cmd.object,*cmd.raw_grid,cmd.raw_grid_options,cmd.nucleus):
+            RawAnalysisRequest(*doc,cmd.raw_region,cmd.object,cmd.nucleus));
         else if(cmd.action==Action::RawVerify) pending->raw.emplace(RawAnalysisRequest::replay(*doc,cmd.after));
         else if(cmd.action==Action::RawTable) {
             pending->region_limit=state->limits.result_bytes;std::vector<std::string> paths{state->path};

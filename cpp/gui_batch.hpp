@@ -1,6 +1,7 @@
 #pragma once
 #include "qupathxx/project_batch.hpp"
 #include "gui_layout.hpp"
+#include "gui_raw_grid_controls.hpp"
 #include <imgui.h>
 #include <algorithm>
 #include <array>
@@ -121,6 +122,7 @@ public:
             if(options_.kind!=ProjectBatchKind::Roi) options_.roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
             if(options_.kind!=ProjectBatchKind::Tissue) options_.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;
             if(options_.kind!=ProjectBatchKind::Cells) reset_cell_detector(options_.cells);
+            if(options_.kind!=ProjectBatchKind::Raw) {options_.raw_grid.reset();options_.raw_grid_work_bytes=256u*1024*1024;}
             if(options_.kind!=ProjectBatchKind::Cells) options_.publish_cells=false;
             if(options_.kind!=ProjectBatchKind::Cells) {options_.cell_min_nucleus_area_um2.reset();options_.cell_max_nucleus_area_um2.reset();}
             if(options_.kind==ProjectBatchKind::Cells || options_.kind==ProjectBatchKind::Pixels) options_.nucleus=false;
@@ -136,7 +138,15 @@ public:
             } else if(options_.kind==ProjectBatchKind::Raw) {
                 ui::Checkbox("Use each image's displayed Z/time",&options_.raw_follow_display);
                 auto axis=[&](const char* label,std::uint32_t& value,int minimum=0) {int n=static_cast<int>(value);if(ui::InputInt(label,&n)) value=static_cast<std::uint32_t>(std::clamp(n,minimum,minimum?65536:65535));};
-                ui::InputInt("Raw pyramid level",&options_.raw.region.level);axis("First channel (zero-based)",options_.raw.first_channel);axis("Channel count",options_.raw.channels,1);
+                bool grid=bool(options_.raw_grid);
+                if(ui::Checkbox("Explicit raw grid",&grid)) {
+                    options_.raw_grid=grid?std::optional<RawGridSampling>(RawGridSampling{}):std::nullopt;
+                    options_.raw_grid_work_bytes=256u*1024*1024;
+                    if(grid) {options_.raw.region.level=0;options_.roi_tile_size=256;}
+                }
+                if(options_.raw_grid) raw_grid_controls(*options_.raw_grid,options_.raw_grid_work_bytes);
+                else ui::InputInt("Raw pyramid level",&options_.raw.region.level);
+                axis("First channel (zero-based)",options_.raw.first_channel);axis("Channel count",options_.raw.channels,1);
                 if(!options_.raw_follow_display) {axis("Z (zero-based)",options_.raw.z);axis("Time (zero-based)",options_.raw.t);}
                 if(!options_.tma_only) ui::Checkbox("Use nucleus",&options_.nucleus);
             } else if(options_.kind==ProjectBatchKind::Roi) {
@@ -221,6 +231,7 @@ public:
                         run_options.cell_min_nucleus_area_um2=cell_grid?std::nullopt:cell_min_area;run_options.cell_max_nucleus_area_um2=cell_grid?std::nullopt:cell_max_area;
                     }
                 }
+                if(run_options.kind!=ProjectBatchKind::Raw) {run_options.raw_grid.reset();run_options.raw_grid_work_bytes=256u*1024*1024;}
                 if(run_options.kind!=ProjectBatchKind::Roi) run_options.roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
                 if(run_options.kind!=ProjectBatchKind::Tissue) run_options.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;
                 if(run_options.kind!=ProjectBatchKind::Cells) {reset_cell_detector(run_options.cells);run_options.cell_grid.reset();}

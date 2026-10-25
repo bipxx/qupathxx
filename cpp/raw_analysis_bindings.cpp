@@ -25,6 +25,10 @@ void bind_raw_analysis(nb::module_& module) {
         .def_ro("reader",&RawAnalysisGrid::reader).def_ro("decoded_source_sha256",&RawAnalysisGrid::decoded_source_sha256)
         .def_ro("sampling_input_sha256",&RawAnalysisGrid::sampling_input_sha256)
         .def_prop_ro("derived_sample_type",[](const RawAnalysisGrid&){return SampleType::Float64;});
+    nb::borrow<nb::class_<GuiOptions>>(module.attr("GuiOptions"))
+        .def_prop_rw("raw_grid",[](const GuiOptions& o){return o.raw_grid?std::optional<RawGridSampling>(*o.raw_grid):std::nullopt;},
+            [](GuiOptions& o,std::optional<RawGridSampling> value){if(value) value->validate();o.raw_grid=value?std::make_shared<const RawGridSampling>(*value):nullptr;})
+        .def_rw("raw_grid_work_bytes",&GuiOptions::raw_grid_work_bytes);
     nb::class_<RawAnalysisRequest>(module,"RawAnalysisRequest")
         .def(nb::init<const Document&,RawRegionRequest,std::uint64_t,bool,std::size_t,std::uint64_t>(),"document"_a,"request"_a,"object_id"_a=0,"nucleus"_a=false,"tile_size"_a=256,"max_pixels"_a=1000000000)
         .def(nb::init<const Document&,ScientificGrid,ScientificRawOptions,std::uint64_t,bool,std::uint64_t>(),"document"_a,"grid"_a,"options"_a=ScientificRawOptions{},"object_id"_a=0,"nucleus"_a=false,"max_pixels"_a=1000000000)

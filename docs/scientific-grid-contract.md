@@ -745,3 +745,30 @@ explicit sample counts; grid mode rejects natural level/tile flags. Quantitative
 channel/Z/time flags and Unicode project/checkpoint paths retain their meaning.
 New producer option bindings require the next grouped module/stub candidate;
 older isolated Python artifacts keep their own source identity and API surface.
+
+
+### Raw grid desktop and managed producers
+
+The quantitative channels Data tab offers explicit raw-grid sampling for a
+selected area ROI. Core counts and per-axis context use the same ROI planner as
+batch/Python requests. Channel selection and explicit/follow-display Z/time use
+the existing controls. Measurement uses `RawAnalysisJob`; Results keep the
+immutable QRA2 record and Records replay/export it. Original-sample NumPy export
+remains in natural sampling mode. The project batch launcher exposes the same
+grid counts/context/work recipe and preserves hash-only checkpoint reuse.
+
+`GuiOptions.raw_grid` is an optional copied `RawGridSampling` value;
+`raw_grid_work_bytes` bounds sampler work. `ViewerSession.analyze_raw_grid`
+copies counts and `ScientificRawOptions` when queued. The owner resolves the
+current ROI/calibration/source when it starts, then uses the existing worker and
+publication checks. `retain_result=True` publishes through Document retention;
+`verify_raw_analysis` replays grid records through the retained descriptor.
+Cancelled or stale tickets do not publish records. Taking a ticket releases its
+endpoint result accounting, while returned immutable results may remain owned
+by the caller. These controls do not constitute acceptance of a full ROI/context
+workspace ledger or owner-thread performance budget.
+
+The grouped producer candidate requires installed runtime, regenerated stubs,
+strict typing and desktop interaction/rendering checks. Earlier local native and
+Python receipts retain their exact source scope and do not accept these new
+producer entry points.

@@ -48,6 +48,7 @@ class ObjectFeatureRequest;
 struct ObjectClassifierRecord;
 struct CellParameters;
 struct GridCellSampling;
+struct RawGridSampling;
 struct GridCellParameters;
 struct ProjectBatchOptions;
 struct ProjectBatchReport;
@@ -744,6 +745,8 @@ struct GuiOptions {
     bool raw_require_current=false;
     std::shared_ptr<const TiffOpenOptions> tiff_options;
     std::shared_ptr<const RawRegionRequest> raw_request;
+    std::shared_ptr<const RawGridSampling> raw_grid;
+    std::size_t raw_grid_work_bytes=256u*1024*1024;
     int tma_tab=0;
     std::shared_ptr<const TmaGridOptions> tma_options;
     std::string tma_case_id,tma_metadata_path,qptma_input_path,qptma_output_path;

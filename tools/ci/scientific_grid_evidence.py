@@ -11,6 +11,9 @@ common=importlib.util.module_from_spec(spec);spec.loader.exec_module(common)
 require=common.require
 CASES=json.loads(Path(__file__).with_name('scientific-grid-cases.json').read_text(encoding='utf-8'))
 GUI_CASES={
+ 'test_raw_grid_desktop_measure_keep_csv_and_render':('requires quantitative project desktop','opt-in raw grid desktop'),
+ 'test_raw_grid_managed_producer_retains_verifies_and_saves':('requires quantitative project desktop','opt-in raw grid desktop'),
+ 'test_raw_grid_desktop_batch_matches_native_recipe_and_resume':('requires quantitative project desktop','opt-in raw grid desktop'),
  'test_grid_gui_detects_renders_and_publishes_with_axis_geometry':('requires geometry desktop','opt-in desktop replay'),
  'test_grid_python_producer_retains_exports_and_saves':('requires managed project desktop','opt-in managed desktop'),
 }
@@ -32,6 +35,7 @@ BASE={
  'viewer_session':['Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed'],
 }
 CONDITIONAL=[
+ ('viewer_session','tiff','Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed'),
  ('raw_image','tiff','Actual UInt16 TIFF scientific grid analysis, ROI upsampling and hash-only digest passed'),
  ('raw_image','tiff','Independent deflate TIFF typed grid analysis through prefixed zlib passed'),
  ('raw_image','raw_project','QRA2 TIFF grid SQLite save/reopen, explicit replay and second save passed'),
@@ -94,7 +98,7 @@ def python(cases,gui=False):
         for c in selected:
             require(all(c.find(t) is None for t in ('failure','error')),'scientific installed case nonpassing')
             skip=c.find('skipped');name=c.get('name')
-            if module=='test_grid_cell_frontends' and name in GUI_CASES and not gui:
+            if name in GUI_CASES and not gui:
                 require(skip is not None and skip.get('type')=='pytest.skip' and skip.get('message') in GUI_CASES[name],'scientific headless GUI declaration differs')
                 skipped+=1
             else:

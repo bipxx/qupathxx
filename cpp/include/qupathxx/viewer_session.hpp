@@ -69,6 +69,7 @@ public:
     std::uint64_t export_measurements(std::uint64_t image_id,MeasurementTableKind,const std::string&,bool require_current=false,const std::vector<std::uint64_t>& record_ids={});
     std::uint64_t export_cells(std::uint64_t image_id,const std::string&,bool require_current=false,const std::vector<std::uint64_t>& record_ids={});
     std::uint64_t analyze_raw(std::uint64_t image_id,RawRegionRequest,std::uint64_t object_id=0,bool nucleus=false,bool retain_result=false);
+    std::uint64_t analyze_raw_grid(std::uint64_t image_id,std::uint64_t object_id,RawGridSampling={},ScientificRawOptions={},bool nucleus=false,bool retain_result=false);
     std::uint64_t verify_raw_analysis(std::uint64_t image_id,std::uint64_t record_id);
     std::uint64_t export_raw_measurements(std::uint64_t image_id,const std::string&,bool require_current=false,const std::vector<std::uint64_t>& record_ids={});
     std::uint64_t save(const std::string&);

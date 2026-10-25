@@ -315,3 +315,6 @@ cpp/roi_scientific_grid.hpp text eol=lf
 
 docs/benchmarks/raw-grid-batch-local/** -text -whitespace
 docs/benchmarks/raw-grid-batch-local-windows-linux.json text eol=lf
+
+cpp/gui_raw_grid_controls.hpp text eol=lf
+tests/test_raw_grid_frontends.py text eol=lf

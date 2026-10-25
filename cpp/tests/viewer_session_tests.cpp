@@ -167,6 +167,35 @@ int main() {
             check(test.until(controller,endpoint,ticket).state=="stale" && doc->raw_analysis_record_count()==1);endpoint.take(ticket);
             ticket=endpoint.verify_raw_analysis(image,record);check(test.until(controller,endpoint,ticket).state=="failed");endpoint.take(ticket);
             ticket=endpoint.export_raw_measurements(image,(root/"stale.csv").u8string(),true);check(test.until(controller,endpoint,ticket).state=="failed" && !fs::exists(root/"stale.csv"));endpoint.take(ticket);
+            {
+                RawGridSampling sampling{1,1,1,1};ScientificRawOptions options;
+                const auto previous_records=doc->raw_analysis_record_count();
+                auto invalid=sampling;invalid.samples_x=0;
+                rejects([&]{endpoint.analyze_raw_grid(image,object,invalid,options);});
+                rejects([&]{endpoint.analyze_raw_grid(image,0,sampling,options);});
+                check(endpoint.stats().tickets==0 && endpoint.stats().queued_bytes==0);
+                ticket=endpoint.analyze_raw_grid(image,object,sampling,options,false,true);
+                sampling.samples_x=2;options.channels=0;doc->set_calibration(2.,3.);
+                result=test.until(controller,endpoint,ticket);
+                check(result.state=="succeeded" && result.committed && result.record_id && result.raw_analysis && result.samples==1);
+                check(result.raw_analysis->grid() && result.raw_analysis->grid()->grid.x().samples()==1);
+                check(result.raw_analysis->grid()->grid.x().context()==1 && result.raw_analysis->statistics().means[0]==26448.);
+                check(result.raw_analysis->pixel_width_um()==2. && result.raw_analysis->pixel_height_um()==3.);
+                const auto grid_record=result.record_id;auto retained_grid=result.raw_analysis;endpoint.take(ticket);
+                check(endpoint.stats().retained_bytes==0 && doc->raw_analysis_record_count()==previous_records+1);
+                ticket=endpoint.verify_raw_analysis(image,grid_record);result=test.until(controller,endpoint,ticket);
+                check(result.state=="succeeded" && result.verified && !result.committed);endpoint.take(ticket);
+                sampling.samples_x=1;options.channels=1;
+                ticket=endpoint.analyze_raw_grid(image,object,sampling,options,false,true);test.step(controller);
+                doc->set_calibration(3.,4.);
+                check(test.until(controller,endpoint,ticket).state=="stale" && doc->raw_analysis_record_count()==previous_records+1);endpoint.take(ticket);
+                ticket=endpoint.analyze_raw_grid(image,object,sampling,options,false,true);test.step(controller);check(endpoint.cancel(ticket));
+                check(test.until(controller,endpoint,ticket).state=="cancelled" && doc->raw_analysis_record_count()==previous_records+1);endpoint.take(ticket);
+                options.work_bytes=1;ticket=endpoint.analyze_raw_grid(image,object,sampling,options,false,true);
+                check(test.until(controller,endpoint,ticket).state=="failed" && doc->raw_analysis_record_count()==previous_records+1);endpoint.take(ticket);
+                check(endpoint.stats().retained_bytes==0 && retained_grid->statistics().means[0]==26448.);
+                std::cout<<"Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed\n";
+            }
             doc->server()->close();fs::remove(input);
             ticket=endpoint.export_raw_measurements(image,(root/"historical.csv").u8string());result=test.until(controller,endpoint,ticket);check(result.state=="succeeded" && result.committed);endpoint.take(ticket);
             check(retained_raw->statistics().means[0]==26448. && retained_raw->source()->primary);

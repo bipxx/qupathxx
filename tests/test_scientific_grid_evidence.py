@@ -46,7 +46,7 @@ def installed(gui):
     for module,names in evidence.CASES.items():
         for name in names:
             c=ET.Element('testcase',classname='tests.'+module,name=name)
-            if module=='test_grid_cell_frontends' and name in evidence.GUI_CASES and not gui:
+            if name in evidence.GUI_CASES and not gui:
                 ET.SubElement(c,'skipped',type='pytest.skip',message=evidence.GUI_CASES[name][0])
             cases.append(c)
     return cases
@@ -56,7 +56,7 @@ def installed(gui):
 def test_installed_exact_cohort_and_scope(gui):
     result=evidence.python(installed(gui),gui)
     assert result['passed']==sum(map(len,evidence.CASES.values()))-(0 if gui else len(evidence.GUI_CASES))
-    assert result['declared_headless_gui_skips']==(0 if gui else 2)
+    assert result['declared_headless_gui_skips']==(0 if gui else len(evidence.GUI_CASES))
     assert not result['scientific_acceptance']
 
 

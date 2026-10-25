@@ -34,6 +34,7 @@ void bind_viewer_session(nb::module_& m) {
         .def("inspect_raw",&ViewerSession::inspect_raw,"image_id"_a).def("read_raw",&ViewerSession::read_raw,"image_id"_a,"request"_a)
         .def("set_tiff_view",&ViewerSession::set_tiff_view,"image_id"_a,"view"_a)
         .def("analyze_raw",&ViewerSession::analyze_raw,"image_id"_a,"request"_a,"object_id"_a=0,"nucleus"_a=false,"retain_result"_a=false)
+        .def("analyze_raw_grid",&ViewerSession::analyze_raw_grid,"image_id"_a,"object_id"_a,"sampling"_a=RawGridSampling{},"options"_a=ScientificRawOptions{},"nucleus"_a=false,"retain_result"_a=false)
         .def("verify_raw_analysis",&ViewerSession::verify_raw_analysis,"image_id"_a,"record_id"_a)
         .def("export_raw_measurements",&ViewerSession::export_raw_measurements,"image_id"_a,"path"_a,"require_current"_a=false,"record_ids"_a=std::vector<std::uint64_t>{})
         .def("analyze_with_sampling_policy",&ViewerSession::analyze_with_sampling_policy,"image_id"_a,"object_id"_a,"transform"_a,"sampling_policy"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
