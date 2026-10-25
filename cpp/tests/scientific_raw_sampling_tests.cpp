@@ -227,8 +227,9 @@ void check_scientific_raw_analysis() {
         const auto result=analyze_raw(request);require(result->statistics().pixels==2 && result->statistics().means[0]==.5);
         rejects<std::invalid_argument>([&]{RawAnalysisRequest::for_grid_roi(doc,id,sampling,{},true);});
         sampling.samples_x=0;rejects<std::invalid_argument>([&]{RawAnalysisRequest::for_grid_roi(doc,id,sampling);});
-        const auto outside=doc.add_rectangle({-1,0,2,2});sampling.samples_x=3;
-        const auto outside_result=analyze_raw(RawAnalysisRequest::for_grid_roi(doc,outside,sampling));
+        rejects<std::invalid_argument>([&]{doc.add_rectangle({-1,0,2,2});});
+        const auto outside_result=analyze_raw(RawAnalysisRequest(doc,
+            ScientificGrid(5,4,{-1,2,3,1},{0,2,2,2})));
         require(outside_result->statistics().pixels==6 && outside_result->statistics().valid_pixels==2 && outside_result->statistics().means[0]==64.);
     }
     std::cout<<"Shared ROI grid raw count/context planning and pre-IO admission passed\n";

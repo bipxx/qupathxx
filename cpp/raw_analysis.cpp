@@ -53,7 +53,7 @@ RawAnalysisRequest RawAnalysisRequest::for_grid_roi(const Document& document,std
     const auto object=document.annotation(id);
     if(nucleus && !object.nucleus) throw std::invalid_argument("selected raw grid object has no nucleus");
     const auto& roi=nucleus?*object.nucleus:object.geometry;
-    auto grid=detail::roi_scientific_grid(document.metadata(),roi,sampling.samples_x,sampling.samples_y,sampling.context_x,sampling.context_y,options.work_bytes,false);
+    auto grid=detail::roi_scientific_grid(document.metadata(),roi,sampling.samples_x,sampling.samples_y,sampling.context_x,sampling.context_y,options.work_bytes);
     return RawAnalysisRequest(document,std::move(grid),options,id,nucleus,maximum);
 }
 RawAnalysisRequest::RawAnalysisRequest(const Document& doc,RawRegionRequest region,std::uint64_t object,bool nucleus,std::size_t tile,std::uint64_t maximum):

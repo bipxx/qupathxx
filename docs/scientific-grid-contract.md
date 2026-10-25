@@ -726,9 +726,10 @@ producer delivery remain separate acceptance gates.
 `RawGridSampling` declares per-axis core sample counts (1..1000000) and context
 (0..4096). `RawAnalysisRequest.for_grid_roi` rounds the selected body/nucleus ROI
 bounds outward to integer level-zero edges and uses the shared count planner.
-Construction does not read pixels or raw metadata. Raw ROI grids may extend
-outside the image: eligible centers remain separate from strict source support.
-Existing cell convenience planning keeps its inside-image policy unchanged.
+Construction does not read pixels or raw metadata. Document annotations and both
+cell/raw convenience planners require ROI bounds inside the image. Context may
+extend outside the image; explicit-grid requests also support outside core
+bounds. Eligible centers remain separate from strict source support.
 
 A raw batch may set `raw_grid` and `raw_grid_work_bytes`; source selection and
 follow-display Z/T reuse the existing raw fields. Natural raw batches keep their
