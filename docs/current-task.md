@@ -83,9 +83,20 @@ All 49 minimal native suites pass, including old recipe/archive checks. These
 kernels are not yet called by a new detector request or exposed as Python APIs.
 See the [physical-kernel receipt](benchmarks/physical-grid-kernels-local-windows.json).
 
-Next: integrate per-axis result/provenance metadata and the float64 OD/stain path,
-then connect the new kernels to the additive cell request/recipe, archive/replay
-and required frontends. Continue through the full original workflow;
+The float64 OD/stain path is now implemented through native/Python
+`ScientificChannels`, retaining the grid, validity, mode, white and normalized
+basis. It transforms the sampled RGB mean directly and keeps signed stain values.
+Engine `bbf3f61` passes 163 installed cases with two declared project-capability
+skips, all 49 native suites, packaged stub checks, four positive typing examples
+and 24 expected negative errors. Native comparisons cover 44 independent Decimal
+cases and 262,144 pre-refactor byte/float32 compatibility probes. The O(1) work
+estimator accepts a grid before IO. See the
+[channel-stage receipt](benchmarks/scientific-channels-local-windows.json).
+No per-axis cell raster or new archive is exposed by this transform API.
+
+Next: integrate per-axis result/provenance metadata and connect the float64 path
+and physical kernels to the additive cell request/recipe, archive/replay and
+required frontends. Continue through the full original workflow;
 retain the failed campaign evidence, and qualify a clean integrated candidate
 after installed workflow checks. Do not transfer the old Mac acceptance to new
 compiler inputs. Unicode glyph delivery, broader migration, scientific, licensing

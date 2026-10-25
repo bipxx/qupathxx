@@ -1,0 +1,4 @@
+tests\typing\qptma_invalid.py:4: error: List item 0 has incompatible type "Image"; expected "QptmaCore"  [list-item]
+tests\typing\qptma_invalid.py:5: error: Argument 1 to "parse_qptma" has incompatible type "int"; expected "str"  [arg-type]
+tests\typing\qptma_invalid.py:6: error: Argument 1 to "import_qptma" has incompatible type "Image"; expected "Document"  [arg-type]
+Found 3 errors in 1 file (checked 1 source file)

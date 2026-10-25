@@ -1,0 +1,8 @@
+tests\typing\invalid_api.py:6: error: Argument 1 to "from_numpy" of "Image" has incompatible type "ndarray[tuple[Any, ...], dtype[floating[_32Bit]]]"; expected "ndarray[tuple[Any, ...], dtype[unsignedinteger[_8Bit]]]"  [arg-type]
+tests\typing\invalid_api.py:7: error: Argument 1 to "document" of "Project" has incompatible type "str"; expected "int"  [arg-type]
+tests\typing\invalid_api.py:8: error: Property "width" defined in "Image" is read-only  [misc]
+tests\typing\invalid_api.py:9: error: Argument 1 to "request" of "ProjectBatchJob" has incompatible type "Image"; expected "ProjectBatchRequest"  [arg-type]
+tests\typing\invalid_api.py:11: error: Missing positional argument "_native_only" in call to "ProjectBatchReport"  [call-arg]
+tests\typing\invalid_api.py:13: error: Argument 1 to "ViewerSession" has incompatible type "Project"; expected "str"  [arg-type]
+tests\typing\invalid_api.py:14: error: List item 0 has incompatible type "Image"; expected "ObjectEdit"  [list-item]
+Found 7 errors in 1 file (checked 1 source file)

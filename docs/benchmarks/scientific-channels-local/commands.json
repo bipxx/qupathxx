@@ -1,0 +1,180 @@
+[
+  {
+    "name": "install",
+    "args": [
+      "C:/Users/HEQ/.local/bin/uv.exe",
+      "pip",
+      "install",
+      "--python",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\channels162-python\\Scripts\\python.exe",
+      "--force-reinstall",
+      "--no-deps",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\channels162-final-wheels\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+    ],
+    "exit_code": 0,
+    "expected_exit_code": 0
+  },
+  {
+    "name": "identity",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\channels162-python\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-c",
+      "import qupathxx as q;from qupathxx import _native;from pathlib import Path;import hashlib,json; e=q.build_environment(); print(json.dumps(dict(package=q.__file__,native=_native.__file__,native_sha256=hashlib.sha256(Path(_native.__file__).read_bytes()).hexdigest(),source_tree_sha256=e.source_tree_sha256,git_revision=e.git_revision,gui=e.gui,python=e.python,interchange=e.interchange,project=bool(q.has_project),geos=bool(q.has_geos),openslide=bool(q.has_openslide),tiff=bool(q.has_tiff))))"
+    ],
+    "exit_code": 0,
+    "expected_exit_code": 0
+  },
+  {
+    "name": "installed-tests",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\channels162-python\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "pytest",
+      "tests/test_scientific_channels.py",
+      "tests/test_scientific_channel_reference.py",
+      "tests/test_stains.py",
+      "tests/test_physical_grid_reference.py",
+      "tests/test_scientific_sampling.py",
+      "tests/test_scientific_grid_reference.py",
+      "tests/test_arrays.py",
+      "tests/test_resampling.py",
+      "tests/test_public_stubs.py",
+      "-q",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\channels162-final-checks\\python-tests.xml"
+    ],
+    "exit_code": 0,
+    "expected_exit_code": 0
+  },
+  {
+    "name": "stubs",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\channels162-python\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "tools/generate_stubs.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "expected_exit_code": 0
+  },
+  {
+    "name": "typing",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\channels162-python\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "tests/typing/valid_api.py",
+      "tests/typing/hierarchy_valid.py",
+      "examples/live_workflow.py",
+      "examples/region_workflow.py"
+    ],
+    "exit_code": 0,
+    "expected_exit_code": 0
+  },
+  {
+    "name": "typing-invalid_api",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\channels162-python\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/invalid_api.py"
+    ],
+    "exit_code": 1,
+    "expected_exit_code": 1
+  },
+  {
+    "name": "typing-qptma_invalid",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\channels162-python\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/qptma_invalid.py"
+    ],
+    "exit_code": 1,
+    "expected_exit_code": 1
+  },
+  {
+    "name": "typing-hierarchy_invalid",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\channels162-python\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/hierarchy_invalid.py"
+    ],
+    "exit_code": 1,
+    "expected_exit_code": 1
+  },
+  {
+    "name": "typing-scientific_grid_invalid",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\channels162-python\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/scientific_grid_invalid.py"
+    ],
+    "exit_code": 1,
+    "expected_exit_code": 1
+  },
+  {
+    "name": "typing-scientific_channels_invalid",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\channels162-python\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/scientific_channels_invalid.py"
+    ],
+    "exit_code": 1,
+    "expected_exit_code": 1
+  },
+  {
+    "name": "native",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\grid159-native",
+      "-C",
+      "Release",
+      "--output-on-failure",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\channels162-final-checks\\native-tests.xml"
+    ],
+    "exit_code": 0,
+    "expected_exit_code": 0
+  }
+]
