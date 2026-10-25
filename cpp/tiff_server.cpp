@@ -206,15 +206,32 @@ class TiffData final {
         if(x0<x1 && y0<y1) {
             for(auto y=y0;y<y1;++y) std::fill_n(output.writable_valid().data()+std::size_t((y-origin_y)*request.width+x0-origin_x),std::size_t(x1-x0),std::uint8_t(1));
             std::visit([&](auto& values) {using T=typename std::decay_t<decltype(values)>::value_type;
-                for(std::uint32_t c=0;c<r.channels;++c) {const auto m=mapping_[(std::size_t(r.t)*raw_->z_planes+r.z)*raw_->channels+r.first_channel+c];const auto& d=roots_[m.ifd].levels[request.level];
+                const auto first=(std::size_t(r.t)*raw_->z_planes+r.z)*raw_->channels+r.first_channel;
+                for(std::uint32_t begin=0;begin<r.channels;) {
+                    const auto m=mapping_[first+begin];const auto& d=roots_[m.ifd].levels[request.level];
+                    auto end=begin+1;
+                    // Interleaved channels in one IFD share physical blocks.
+                    // Retain one decoded block locally even when the LRU is off
+                    // or too small; separate planes still need separate reads.
+                    if(d.planar==PLANARCONFIG_CONTIG)
+                        while(end<r.channels && mapping_[first+end].ifd==m.ifd) ++end;
+                    const auto samples=d.planar==PLANARCONFIG_SEPARATE?1:d.samples;
                     for(auto by=(y0/d.block_height)*d.block_height;by<y1;by+=d.block_height) for(auto bx=(x0/d.block_width)*d.block_width;bx<x1;bx+=d.block_width) {
                         detail::export_checkpoint(cancelled);
-                        const auto decoded=block(d,std::uint32_t(bx),std::uint32_t(by),m.sample);const auto samples=d.planar==PLANARCONFIG_SEPARATE?1:d.samples;const auto selected=d.planar==PLANARCONFIG_SEPARATE?0:m.sample;
-                        for(auto y=std::max(y0,by);y<std::min(y1,by+d.block_height);++y) for(auto x=std::max(x0,bx);x<std::min(x1,bx+d.block_width);++x) {
-                            const auto source=(std::size_t(y-by)*d.block_width+std::size_t(x-bx))*samples+selected;const auto target=(std::size_t(y-origin_y)*std::size_t(request.width)+std::size_t(x-origin_x))*r.channels+c;
-                            std::memcpy(&values[target],decoded->bytes.data()+source*sizeof(T),sizeof(T));
+                        const auto decoded=block(d,std::uint32_t(bx),std::uint32_t(by),m.sample);
+                        for(auto y=std::max(y0,by);y<std::min(y1,by+d.block_height);++y) {
+                            detail::export_checkpoint(cancelled);
+                            for(auto x=std::max(x0,bx);x<std::min(x1,bx+d.block_width);++x) {
+                                const auto source=(std::size_t(y-by)*d.block_width+std::size_t(x-bx))*samples;
+                                const auto target=(std::size_t(y-origin_y)*std::size_t(request.width)+std::size_t(x-origin_x))*r.channels;
+                                for(auto c=begin;c<end;++c) {
+                                    const auto selected=d.planar==PLANARCONFIG_SEPARATE?0:mapping_[first+c].sample;
+                                    std::memcpy(&values[target+c],decoded->bytes.data()+(source+selected)*sizeof(T),sizeof(T));
+                                }
+                            }
                         }
                     }
+                    begin=end;
                 }
             },output.writable_storage());
         }guard.verify();return output;

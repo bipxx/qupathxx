@@ -35,6 +35,7 @@ BASE={
  'viewer_session':['Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed'],
 }
 CONDITIONAL=[
+ ('raw_image','tiff','TIFF interleaved block reuse without LRU, separate-plane selection and padded values passed'),
  ('viewer_session','tiff','Raw grid viewer copied counts/options, owner calibration, retention/replay, cancellation and stale delivery passed'),
  ('raw_image','tiff','Actual UInt16 TIFF scientific grid analysis, ROI upsampling and hash-only digest passed'),
  ('raw_image','tiff','Independent deflate TIFF typed grid analysis through prefixed zlib passed'),

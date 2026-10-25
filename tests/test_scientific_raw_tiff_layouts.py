@@ -200,3 +200,32 @@ def test_tiled_nondefault_series_uses_selected_pixels_and_binds_identity(tmp_pat
         other = assert_samples(server, np.zeros_like(data), ((9,23,9,1),(7,21,7,1)))
         assert other.metadata.series == 0
         assert other.input_sha256 != sample.input_sha256
+
+
+@pytest.mark.parametrize('cache_bytes', [0, 1024])
+@pytest.mark.parametrize('layout', ['tiles', 'strips', 'separate-tiles'])
+def test_selected_channels_decode_each_physical_block_once(tmp_path, cache_bytes, layout):
+    data = np.arange(35*39*3, dtype=np.uint16).reshape(35,39,3)
+    path = tmp_path/'shared-blocks.tif'
+    kwargs = dict(metadata=None, photometric='rgb', compression='deflate')
+    if layout == 'strips': kwargs['rowsperstrip'] = 7
+    else: kwargs['tile'] = (16,16)
+    if layout == 'separate-tiles':
+        kwargs['planarconfig'] = 'separate'
+        stored = np.moveaxis(data, -1, 0)
+    else: stored = data
+    tifffile.imwrite(path, stored, **kwargs)
+    options = q.TiffOpenOptions()
+    options.cache_bytes = cache_bytes
+    with closing(q.open_tiff(str(path), options)) as server:
+        request = q.RawRegionRequest()
+        request.region = q.RegionRequest(14,14,0,19,18)
+        request.first_channel, request.channels = 1, 2
+        raw = server.read_raw(request)
+        np.testing.assert_array_equal(raw.numpy(), data[14:32,14:33,1:3])
+        assert raw.valid_numpy().all()
+        # x14..32 spans three tile columns; y14..31 spans two tile rows
+        # or three strips. Separate planes necessarily decode distinct blocks.
+        expected = 3 if layout == 'strips' else 6*(2 if layout == 'separate-tiles' else 1)
+        assert server.tiff_read_stats.decoded_blocks == expected
+        assert server.tiff_read_stats.peak_cache_bytes <= cache_bytes

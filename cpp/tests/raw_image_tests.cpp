@@ -14,6 +14,34 @@
 using namespace qpx;
 void check(bool value) {if(!value) throw std::runtime_error("raw image check failed");}
 template<class F> void rejects(F&& f) {try {f();}catch(const std::exception&) {return;}throw std::runtime_error("missing raw rejection");}
+// Independent TIFF strips, including explicit planar channel storage. This
+// exercises physical decode reuse without depending on an encoder or the LRU.
+void multichannel_block_reuse(const std::filesystem::path& path) {
+    for(bool separate:{false,true}) for(std::size_t cache:{std::size_t(0),std::size_t(1)}) {
+        std::vector<unsigned char> bytes={'I','I',42,0,8,0,0,0};
+        auto u16=[&](std::uint16_t n){bytes.push_back(n&255);bytes.push_back(n>>8);};
+        auto u32=[&](std::uint32_t n){for(unsigned i=0;i<4;++i) bytes.push_back(std::uint8_t(n>>(8*i)));};
+        auto tag=[&](std::uint16_t id,std::uint16_t type,std::uint32_t count,std::uint32_t value){u16(id);u16(type);u32(count);u32(value);};
+        const auto strips=separate?6u:2u,block_bytes=separate?4u:12u,pixels=140u+8u*strips;
+        u16(10);tag(256,4,1,2);tag(257,4,1,2);tag(258,3,3,134);tag(259,3,1,1);tag(262,3,1,2);
+        tag(273,4,strips,140);tag(277,3,1,3);tag(278,4,1,1);tag(279,4,strips,140+4*strips);tag(284,3,1,separate?2:1);u32(0);
+        check(bytes.size()==134);u16(16);u16(16);u16(16);
+        for(unsigned i=0;i<strips;++i) u32(pixels+i*block_bytes);
+        for(unsigned i=0;i<strips;++i) u32(block_bytes);
+        if(separate) {for(unsigned c=0;c<3;++c) for(unsigned y=0;y<2;++y) for(unsigned x=0;x<2;++x) u16(std::uint16_t(100*c+2*y+x+1));}
+        else {for(unsigned y=0;y<2;++y) for(unsigned x=0;x<2;++x) for(unsigned c=0;c<3;++c) u16(std::uint16_t(100*c+2*y+x+1));}
+        std::ofstream file(path,std::ios::binary);file.write(reinterpret_cast<const char*>(bytes.data()),bytes.size());file.close();
+        TiffOpenOptions options;options.cache_bytes=cache;auto server=open_tiff(path.u8string(),options);
+        RawRegionRequest request;request.region={-1,-1,0,4,4};request.first_channel=1;request.channels=2;
+        const auto raw=server->read_raw(request);const auto& values=std::get<std::vector<std::uint16_t>>(raw.storage());
+        for(unsigned y=0;y<4;++y) for(unsigned x=0;x<4;++x) {
+            const bool inside=x>=1 && x<=2 && y>=1 && y<=2;check(raw.valid()[y*4+x]==inside);
+            for(unsigned c=0;c<2;++c) check(values[(y*4+x)*2+c]==(inside?100*(c+1)+2*(y-1)+(x-1)+1:0));
+        }
+        check(server->tiff_read_stats()->decoded_blocks==(separate?4u:2u));
+        check(server->tiff_read_stats()->peak_cache_bytes<=cache);server->close();std::filesystem::remove(path);
+    }
+}
 int main() {
     namespace fs=std::filesystem;const auto path=fs::current_path()/("raw-test-"+std::to_string(std::random_device{}())+".tif");
     try {
@@ -22,6 +50,8 @@ int main() {
         TiffView view;view.channels={0,0,0};view.lower={0,0,0};view.upper={65535,65535,65535};check(tiff_view_decode(tiff_view_encode(view)).upper==view.upper);
         auto corrupt=tiff_view_encode(view);corrupt.back()^=1;rejects([&]{tiff_view_decode(corrupt);});
         if(has_tiff()) {
+            multichannel_block_reuse(path);
+            std::cout<<"TIFF interleaved block reuse without LRU, separate-plane selection and padded values passed\n";
             // Independent minimal TIFF byte fixture: no libtiff encoder involved.
             std::vector<unsigned char> bytes={'I','I',42,0,8,0,0,0};
             auto u16=[&](std::uint16_t n){bytes.push_back(n&255);bytes.push_back(n>>8);};auto u32=[&](std::uint32_t n){for(int i=0;i<4;++i) bytes.push_back((n>>(8*i))&255);};

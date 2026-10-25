@@ -138,3 +138,14 @@ exports, alpha regression, launcher checks and remaining limits.
 per-channel statistics, exact input digests, original object/TMA context,
 explicit replay verification, CSV snapshots and captured project batches.
 The Data, Results and Records tabs share native workers with Python commands.
+
+
+## Interleaved block reuse
+
+Adjacent requested channels stored in the same interleaved TIFF IFD share each
+decoded strip/tile during a raw read, including when the LRU is disabled or the
+block exceeds its capacity. Separate-plane samples still decode their distinct
+physical blocks. Output channel order, native dtype/bits, edge padding and file
+identity checks are unchanged. Cancellation is checked before decoding and
+between copied rows. This reduces redundant decoding, not the caller's output
+buffer or configured decoder/cache memory requirements.

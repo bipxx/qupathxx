@@ -73,7 +73,7 @@ def test_installed_missing_changed_or_nonpassing_rejects(gui,failure):
 
 
 @pytest.mark.parametrize('failure',['missing','duplicate','failure','skipped'])
-@pytest.mark.parametrize('module,count',[('test_qupath_grid_cells_reference',32),('test_qupath_roi_cell_debug',14),('test_qupath_resampled_cell_debug',26),('test_scientific_raw_tiff_layouts',30)])
+@pytest.mark.parametrize('module,count',[('test_qupath_grid_cells_reference',32),('test_qupath_roi_cell_debug',14),('test_qupath_resampled_cell_debug',26),('test_scientific_raw_tiff_layouts',36)])
 def test_required_scientific_cohort_is_not_an_optional_science_skip(failure,module,count):
     cases=installed(False)
     selected=[c for c in cases if c.get('classname')=='tests.'+module]
