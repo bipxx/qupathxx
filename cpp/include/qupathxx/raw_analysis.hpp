@@ -110,9 +110,13 @@ public:
 private:
     friend struct RawAnalysisKernel;
     friend struct RawAnalysisCodec;
+    friend struct RawAnalysisRecord;
     friend class Document;
     RawAnalysisResult()=default;
     std::optional<RawAnalysisGrid> grid_;
+    // Trusted worker count, or a fully validated decode; never serialized.
+    // Record validation still binds mask/grid/calibration through input_sha256_.
+    std::optional<std::uint64_t> validated_grid_eligible_;
     RawRegionStatistics statistics_;
     RawAnalysisMetadata metadata_;
     RawObjectContext context_;
@@ -142,7 +146,7 @@ struct RawAnalysisRecord {
     std::uint64_t max_pixels=1000000000;
     std::size_t requested_tile_size=256;
     std::size_t payload_bytes() const;
-    void validate(const ImageMetadata&) const;
+    void validate(const ImageMetadata&,const std::atomic<bool>* cancelled=nullptr) const;
 };
 struct RawAnalysisStats {
     std::string state="idle",error;

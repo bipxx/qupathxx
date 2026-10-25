@@ -44,6 +44,7 @@ inline constexpr unsigned char legacy[]={
 54,53,55,48,57,49,98,51,57,56,50,101,53,50,50,101,102,101,99,56,50,52,97,102,
 53,57,101,56,100,56,52,100,49,56,56,48,101,102,100,50,101,53,97,97,101,102,49,
 };
+inline constexpr unsigned long long legacy_pixels_offset=444;
 inline constexpr unsigned char grid[]={
 81,82,65,2,5,0,0,0,0,0,0,0,4,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,4,0,0,0,
@@ -108,4 +109,5 @@ inline constexpr unsigned char grid[]={
 50,52,54,57,52,55,48,51,52,54,51,48,97,57,102,97,102,57,57,99,48,99,52,49,
 97,55,51,55,98,51,101,98,
 };
+inline constexpr unsigned long long grid_pixels_offset=909;
 }

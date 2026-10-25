@@ -48,7 +48,8 @@ void ScientificRawOptions::validate() const {
     if(!work_bytes || work_bytes>1024ULL*1024*1024) throw std::invalid_argument("invalid scientific raw work budget");
 }
 namespace {
-std::size_t work_bytes(const RawImageMetadata& m,const ScientificGrid& grid,ScientificRawOptions o,bool materialize) {
+std::size_t work_bytes(const RawImageMetadata& m,const ScientificGrid& grid,ScientificRawOptions o,bool materialize,const detail::ScientificRawReserve& reserve={}) {
+    if(reserve.expected_series && m.series!=*reserve.expected_series) throw std::invalid_argument("raw grid source series changed");
     o.validate();sample_bytes(m.sample_type);
     if(m.width!=grid.image_width() || m.height!=grid.image_height() || m.levels.empty() ||
        m.levels[0].width!=m.width || m.levels[0].height!=m.height || m.levels[0].downsample!=1)
@@ -66,7 +67,10 @@ std::size_t work_bytes(const RawImageMetadata& m,const ScientificGrid& grid,Scie
     const auto metadata=m.payload_bytes();
     if(metadata>o.work_bytes/4) throw std::length_error("scientific raw metadata exceeds work budget");
     const auto source=std::uint64_t(b.width)*b.height*(std::uint64_t(o.channels)*sample_bytes(m.sample_type)+1);
-    const auto bytes=source+(materialize?10*elements:0)+4*metadata+4*65536+8192+sizeof(ScientificRawGrid);
+    if(reserve.fixed_bytes>o.work_bytes || (metadata && reserve.metadata_copies>(o.work_bytes-reserve.fixed_bytes)/metadata))
+        throw std::length_error("raw analysis captured workspace exceeds work budget");
+    const auto captured=reserve.fixed_bytes+reserve.metadata_copies*metadata;
+    const auto bytes=source+(materialize?10*elements:0)+4*metadata+4*65536+8192+sizeof(ScientificRawGrid)+captured;
     if(bytes>o.work_bytes) throw std::length_error("scientific raw grid exceeds work budget");
     return std::size_t(bytes);
 }
@@ -83,15 +87,16 @@ struct RawCapture {
     ScientificRawDigest digest;
     std::optional<RawPixelBuffer> source;
 };
-RawCapture capture_raw(const ImageServer& server,const ScientificGrid& grid,ScientificRawOptions o,const std::atomic<bool>* cancelled,bool materialize) {
+RawCapture capture_raw(const ImageServer& server,const ScientificGrid& grid,ScientificRawOptions o,const std::atomic<bool>* cancelled,bool materialize,const detail::ScientificRawReserve& reserve={}) {
     checkpoint(cancelled);o.validate();
     if(server.closed()) throw std::runtime_error("scientific raw reader is closed");
     const auto observed=server.raw_metadata(cancelled);checkpoint(cancelled);
     if(!observed) throw std::invalid_argument("scientific raw sampling requires a quantitative reader");
-    const auto work=work_bytes(*observed,grid,o,materialize);
+    const auto admitted=work_bytes(*observed,grid,o,materialize,reserve);
     // Snapshot before decoder callbacks; subsequent metadata changes cannot mix epochs.
     RawCapture capture;capture.digest.metadata=*observed;
     const auto* metadata=&capture.digest.metadata;
+    const auto work=std::max(admitted,work_bytes(*metadata,grid,o,materialize,reserve));
     auto reader=server.reader_id();
     if(reader.size()>65536 || reader.capacity()>131072) throw std::length_error("scientific raw reader identity exceeds budget");
     const auto b=grid.clipped_read_bounds();const auto source_pixels=std::uint64_t(b.width)*b.height;
@@ -142,8 +147,9 @@ RawCapture capture_raw(const ImageServer& server,const ScientificGrid& grid,Scie
 ScientificRawDigest digest_scientific_raw(const ImageServer& server,const ScientificGrid& grid,ScientificRawOptions o,const std::atomic<bool>* cancelled) {
     return capture_raw(server,grid,o,cancelled,false).digest;
 }
-ScientificRawGrid read_scientific_raw(const ImageServer& server,const ScientificGrid& grid,ScientificRawOptions o,const std::atomic<bool>* cancelled) {
-    auto capture=capture_raw(server,grid,o,cancelled,true);
+struct ScientificRawKernel {
+static ScientificRawGrid read(const ImageServer& server,const ScientificGrid& grid,ScientificRawOptions o,const std::atomic<bool>* cancelled,const detail::ScientificRawReserve& reserve) {
+    auto capture=capture_raw(server,grid,o,cancelled,true,reserve);
     const auto& metadata=capture.digest.metadata;
     ScientificRawGrid out(grid,metadata,o,capture.digest.estimated_work_bytes);
     out.reader_=std::move(capture.digest.reader);
@@ -192,5 +198,18 @@ ScientificRawGrid read_scientific_raw(const ImageServer& server,const Scientific
         }
     },source->storage());
     checkpoint(cancelled);return out;
+}
+};
+ScientificRawGrid read_scientific_raw(const ImageServer& server,const ScientificGrid& grid,ScientificRawOptions o,const std::atomic<bool>* cancelled) {
+    return ScientificRawKernel::read(server,grid,o,cancelled,{});
+}
+ScientificRawGrid detail::read_scientific_raw_reserved(const ImageServer& server,const ScientificGrid& grid,ScientificRawOptions o,const ScientificRawReserve& reserve,const std::atomic<bool>* cancelled) {
+    return ScientificRawKernel::read(server,grid,o,cancelled,reserve);
+}
+ScientificRawDigest detail::digest_scientific_raw_reserved(const ImageServer& server,const ScientificGrid& grid,ScientificRawOptions o,const ScientificRawReserve& reserve,const std::atomic<bool>* cancelled) {
+    return capture_raw(server,grid,o,cancelled,false,reserve).digest;
+}
+std::size_t detail::scientific_raw_reserved_work_bytes(const RawImageMetadata& metadata,const ScientificGrid& grid,ScientificRawOptions o,bool materialize,const ScientificRawReserve& reserve) {
+    return work_bytes(metadata,grid,o,materialize,reserve);
 }
 }

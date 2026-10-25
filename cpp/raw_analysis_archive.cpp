@@ -35,7 +35,7 @@ struct Reader {
 };
 }
 std::vector<std::uint8_t> RawAnalysisCodec::encode(const RawAnalysisRecord& record,const ImageMetadata& image,const std::atomic<bool>* cancelled) {
-    detail::export_checkpoint(cancelled);record.validate(image);const auto& result=*record.result;const auto& region=result.region_;const auto& metadata=result.metadata_;const auto& stats=result.statistics_;Writer out;
+    detail::export_checkpoint(cancelled);record.validate(image,cancelled);const auto& result=*record.result;const auto& region=result.region_;const auto& metadata=result.metadata_;const auto& stats=result.statistics_;Writer out;
     if(result.grid_) {
         out.bytes[3]=2;const auto& captured=*result.grid_;const auto& g=captured.grid;const auto& raw=captured.source_metadata;
         for(auto n:{g.image_width(),g.image_height(),g.x().origin(),g.y().origin(),g.x().extent(),g.y().extent(),g.x().samples(),g.y().samples(),g.x().context(),g.y().context()}) out.integer(n);
@@ -104,6 +104,9 @@ std::shared_ptr<const RawAnalysisRecord> RawAnalysisCodec::decode(const std::uin
         std::uint64_t actual;std::memcpy(&actual,&metadata.downsample,8);
         if(actual!=0x7ff8000000000000ULL) throw std::invalid_argument("noncanonical raw grid scale sentinel");
     }
-    if(in.at!=in.size) throw std::invalid_argument("raw analysis record has trailing bytes");record->validate(image);detail::export_checkpoint(cancelled);return record;
+    if(in.at!=in.size) throw std::invalid_argument("raw analysis record has trailing bytes");record->validate(image,cancelled);detail::export_checkpoint(cancelled);
+    // Only a complete semantic decode may establish this private authority.
+    if(result->grid_) result->validated_grid_eligible_=result->statistics_.pixels;
+    return record;
 }
 }

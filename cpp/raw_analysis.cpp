@@ -33,6 +33,22 @@ std::int64_t coordinate(long double value) {
     return static_cast<std::int64_t>(value);
 }
 }
+detail::ScientificRawReserve raw_grid_analysis_reserve(const ScientificGrid& grid,ScientificRawOptions options,bool collect,const std::optional<Roi>& mask,const RawObjectContext& context,const ReaderSource& source,std::uint32_t series) {
+    options.validate();
+    std::uint64_t fixed=65536+sizeof(RawAnalysisRequest)+sizeof(RawAnalysisResult);
+    auto charge=[&](std::uint64_t bytes,std::uint64_t copies=1) {
+        if(fixed>options.work_bytes || bytes>(options.work_bytes-fixed)/copies)
+            throw std::length_error("raw analysis captured workspace exceeds work budget");
+        fixed+=bytes*copies;
+    };
+    charge(context.payload_bytes(),2);charge(source.payload_bytes(),2);
+    // Geometry hashing materializes polygon parts and a geometrically growing
+    // byte vector. This bound includes captured geometry and those temporaries.
+    if(mask) charge(mask->payload_bytes(),8);
+    if(collect) {charge(std::uint64_t(grid.width())*grid.height());charge(options.channels,64);}
+    return {std::size_t(fixed),3,series};
+}
+// Compatibility check for retained QRA2 recipes, not the new execution ledger.
 ScientificRawOptions raw_grid_analysis_sampling_options(const RawImageMetadata& metadata,const ScientificGrid& grid,ScientificRawOptions options,bool collect) {
     const auto extra=8192ULL+2*metadata.payload_bytes()+64ULL*options.channels+(collect?std::uint64_t(grid.width())*grid.height():0);
     if(extra>=options.work_bytes) throw std::length_error("raw grid statistics exceed work budget");
@@ -149,21 +165,20 @@ struct RawAnalysisKernel {
         std::atomic<std::uint64_t>* completed,std::atomic<std::uint64_t>* total,bool collect) {
         const auto start=std::chrono::steady_clock::now();detail::export_checkpoint(cancelled);
         const auto& grid=*request.grid_;validate_scientific_raster_geometry(grid,cancelled);
-        const auto observed=request.source_->raw_metadata(cancelled);
-        if(!observed || observed->series!=request.series_) throw std::invalid_argument("raw grid source axes changed");
         auto output=std::shared_ptr<RawAnalysisResult>(new RawAnalysisResult());
         output->source_=request.source_->reader_source();
         if(!output->source_ || !output->source_->primary) throw std::invalid_argument("raw analysis source has no observed file identity");
         const auto channels=request.grid_options_.channels;
-        const auto options=raw_grid_analysis_sampling_options(*observed,grid,request.grid_options_,collect);
+        const auto options=request.grid_options_;
+        const auto reserve=raw_grid_analysis_reserve(grid,options,collect,request.mask_,request.context_,*output->source_,request.series_);
         const auto bounds=grid.clipped_read_bounds();const std::uint64_t tiles=bounds.width && bounds.height?1:0;
         if(total) total->store(tiles,std::memory_order_relaxed);
         std::optional<ScientificRawGrid> samples;ScientificRawDigest digest;
         if(collect) {
-            samples.emplace(read_scientific_raw(*request.source_,grid,options,cancelled));
+            samples.emplace(detail::read_scientific_raw_reserved(*request.source_,grid,options,reserve,cancelled));
             digest.metadata=samples->metadata();digest.reader=samples->reader();
             digest.decoded_source_sha256=samples->decoded_source_sha256();digest.input_sha256=samples->input_sha256();
-        } else digest=digest_scientific_raw(*request.source_,grid,options,cancelled);
+        } else digest=detail::digest_scientific_raw_reserved(*request.source_,grid,options,reserve,cancelled);
         if(digest.metadata.series!=request.series_) throw std::invalid_argument("raw grid source series changed");
         if(completed) completed->store(tiles,std::memory_order_relaxed);
         const auto& metadata=digest.metadata;
@@ -208,6 +223,7 @@ struct RawAnalysisKernel {
             }
         }
         detail::export_checkpoint(cancelled);
+        if(collect) output->validated_grid_eligible_=output->statistics_.pixels;
         output->elapsed_ms_=std::chrono::duration<double,std::milli>(std::chrono::steady_clock::now()-start).count();return output;
     }
     static std::shared_ptr<const RawAnalysisResult> run(const RawAnalysisRequest& request,const std::atomic<bool>* cancelled,

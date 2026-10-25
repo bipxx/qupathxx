@@ -21,6 +21,7 @@ class ScientificRawGrid {
     std::string reader_,decoded_source_sha256_,input_sha256_;
     std::size_t work_bytes_;
     ScientificRawGrid(ScientificGrid,RawImageMetadata,ScientificRawOptions,std::size_t);
+    friend struct ScientificRawKernel;
     friend ScientificRawGrid read_scientific_raw(const ImageServer&,const ScientificGrid&,ScientificRawOptions,const std::atomic<bool>*);
 public:
     const ScientificGrid& grid() const {return grid_;}

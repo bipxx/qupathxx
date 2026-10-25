@@ -38,13 +38,14 @@ def reference():
         data+=text('qpx.raw-grid-statistics/1' if grid else 'qpx.raw-roi-statistics/1')+text(grid_hash if grid else natural_hash)+optional(.5)+optional(.25)
         data+=b''.join(integer(v) for v in [0,0,1 if grid else 5,1 if grid else 4,0,0,3,0,0,5,4,5,4,3,2,2,1,0])
         data+=(integer(0x7ff8000000000000) if grid else real(1.))+optional(1.5)+optional(2.)
+        pixels_offset=len(data)
         data+=integer(stats['pixels'])+integer(stats['valid_pixels'])
         for i,c in enumerate(stats['channels']):
             data+=text('c'+str(i))+integer(c['finite'])+integer(c['nonfinite'])
             for key in ['mean','minimum','maximum']:data+=integer(c[key] is not None)+(bytes.fromhex(c[key])[::-1] if c[key] is not None else b'')
         data+=integer(0)+b''.join(text(v) for v in source_text)+integer(100)+integer(0)
         data+=hashlib.sha256(data).hexdigest().encode('ascii')
-        result.append(dict(name='grid' if grid else 'legacy',bytes_hex=data.hex(),sha256=hashlib.sha256(data).hexdigest(),input_sha256=grid_hash if grid else natural_hash))
+        result.append(dict(name='grid' if grid else 'legacy',pixels_offset=pixels_offset,bytes_hex=data.hex(),sha256=hashlib.sha256(data).hexdigest(),input_sha256=grid_hash if grid else natural_hash))
     return dict(schema='qpx.raw-grid-archive-reference/1',scope='Synthetic byte contracts; not observed files or scientific acceptance',cases=result)
 def native_header(data):
     lines=['#pragma once','namespace raw_grid_archive_reference {']
@@ -52,6 +53,7 @@ def native_header(data):
         raw=bytes.fromhex(case['bytes_hex']);lines.append('inline constexpr unsigned char '+case['name']+'[]={')
         for at in range(0,len(raw),24):lines.append(','.join(str(v) for v in raw[at:at+24])+',')
         lines.append('};')
+        lines.append('inline constexpr unsigned long long '+case['name']+'_pixels_offset='+str(case['pixels_offset'])+';')
     return '\n'.join(lines+['}',''])
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--output',type=Path,required=True);p.add_argument('--native-header',type=Path,required=True);a=p.parse_args()

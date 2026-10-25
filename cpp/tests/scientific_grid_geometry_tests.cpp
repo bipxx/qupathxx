@@ -1,5 +1,6 @@
 #include "qupathxx/scientific_grid.hpp"
 #include "scientific_grid_reference.hpp"
+#include "../scientific_raster.hpp"
 #include <array>
 #include <cstring>
 #include <iostream>
@@ -79,5 +80,18 @@ void check_scientific_grid_geometry() {
     rejects<std::length_error>([]{ScientificGrid grid(1000000000000LL,1,{0,1000000000000LL,1},{0,1,1});});
     rejects<std::length_error>([]{ScientificGrid grid(10000,10000,{0,10000,1},{0,10000,1},1ULL<<30);});
     rejects<std::length_error>([]{ScientificGrid grid(1,1,{0,1,11000},{0,1,1000});});
+    stage="precision admission exhaustive oracle";
+    for(const auto origin:{0LL,1LL,-1LL,549755813888LL,-549755813888LL,999999999743LL,-999999999999LL})
+    for(const auto extent:{1,3,17,257}) for(const auto samples:{1,2,3,7,31,127,4095,4096,4097,8191,8192,8193,65536}) for(const auto context:{0,1,2}) {
+        ScientificGrid test(1,1,{origin,extent,samples,context},{0,1,1});const auto& ax=test.x();
+        bool expected=true;auto previous=ax.edge(ax.first_index()).binary64();
+        for(auto i=ax.first_index();i<ax.stop_index();++i) {
+            const auto center=ax.center(i).binary64(),next=ax.edge(i+1).binary64();
+            if(!(previous<center && center<next)) {expected=false;break;}previous=next;
+        }
+        bool accepted=true;try {qpx::validate_scientific_raster_geometry(test);}catch(const std::invalid_argument&) {accepted=false;}
+        require(accepted==expected);
+    }
+    std::cout<<"Scientific raster precision admission agrees with exhaustive binary64 sample checks\n";
     std::cout<<"Native scientific grid exact geometry, rounding, context and admission passed\n";
 }

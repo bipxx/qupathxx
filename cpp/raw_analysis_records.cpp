@@ -5,6 +5,7 @@
 #include "scientific_raster.hpp"
 #include "scientific_raw_sampling_internal.hpp"
 #include "utf8_text.hpp"
+#include "atomic_export.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
@@ -51,7 +52,8 @@ bool same_raw_grid(const std::optional<RawAnalysisGrid>& captured,const std::opt
     return o.first_channel==options.first_channel && o.channels==options.channels && o.z==options.z && o.t==options.t && o.work_bytes==options.work_bytes;
 }
 std::size_t RawAnalysisRecord::payload_bytes() const {return sizeof(*this)+(result?result->payload_bytes():0)+(mask?mask->payload_bytes():0)+256;}
-void RawAnalysisRecord::validate(const ImageMetadata& image) const {
+void RawAnalysisRecord::validate(const ImageMetadata& image,const std::atomic<bool>* cancelled) const {
+    detail::export_checkpoint(cancelled);
     if(!id || !result || result->algorithm()!=(result->grid()?"qpx.raw-grid-statistics/1":"qpx.raw-roi-statistics/1") || result->document_revision()>=id || result->object_revision()>result->document_revision() ||
        (!result->object_id() && (result->object_revision() || result->nucleus() || mask)) || (result->object_id() && (!mask || !mask->is_area())) ||
        (result->grid()?(requested_tile_size!=0 || result->tile_size()!=0):(requested_tile_size<16 || requested_tile_size>1024 || result->tile_size()<16 || result->tile_size()>requested_tile_size)) || !max_pixels || max_pixels>1000000000000ULL ||
@@ -69,7 +71,10 @@ void RawAnalysisRecord::validate(const ImageMetadata& image) const {
        !metadata.timepoints || metadata.timepoints>65536 || metadata.series>=65536 || std::uint64_t(metadata.channels)*metadata.z_planes*metadata.timepoints>1048576 || metadata.channel_names.size()!=region.channels || region.region.level<0 || std::size_t(region.region.level)>=image.levels.size()) throw std::invalid_argument("raw analysis record axes mismatch");
     if(result->grid()) {
         const auto& captured=*result->grid();const auto& g=captured.grid;const auto& raw=captured.source_metadata;
-        scientific_raw_work_bytes(raw,g,raw_grid_analysis_sampling_options(raw,g,captured.options,true));validate_scientific_raster_geometry(g);
+        // Retained recipes keep their original admission contract. New executions
+        // additionally reserve captured ROI/context workspace before decoder IO.
+        scientific_raw_work_bytes(raw,g,raw_grid_analysis_sampling_options(raw,g,captured.options,true));
+        if(!result->validated_grid_eligible_) validate_scientific_raster_geometry(g,cancelled);
         if(g.image_width()!=image.width || g.image_height()!=image.height || metadata.width!=raw.width || metadata.height!=raw.height ||
            metadata.level_width!=g.width() || metadata.level_height!=g.height() || !std::isnan(metadata.downsample) ||
            metadata.channels!=raw.channels || metadata.z_planes!=raw.z_planes || metadata.timepoints!=raw.timepoints || metadata.series!=raw.series ||
@@ -93,9 +98,12 @@ void RawAnalysisRecord::validate(const ImageMetadata& image) const {
         if(raw_grid_analysis_hash(captured.sampling_input_sha256,result->pixel_width_um(),result->pixel_height_um(),mask)!=result->input_sha256())
             throw std::invalid_argument("raw grid analysis digest differs from capture");
         std::uint64_t eligible=0;
-        if(!mask) eligible=std::uint64_t(g.x().samples())*g.y().samples();
-        else for(std::int64_t y=0;y<g.height();++y) for(std::int64_t x=0;x<g.width();++x)
+        if(result->validated_grid_eligible_) eligible=*result->validated_grid_eligible_;
+        else if(!mask) eligible=std::uint64_t(g.x().samples())*g.y().samples();
+        else for(std::int64_t y=0;y<g.height();++y) for(std::int64_t x=0;x<g.width();++x) {
+            if((std::uint64_t(y)*g.width()+x)%4096==0) detail::export_checkpoint(cancelled);
             if(scientific_core_roi_contains(*mask,g,RoiSamplingPolicy::GeometryCoverage,std::size_t(x),std::size_t(y))) ++eligible;
+        }
         const auto b=g.clipped_read_bounds();
         if(stats.pixels!=eligible || stats.valid_pixels>stats.pixels || result->tiles()!=std::uint64_t(bool(b.width && b.height)))
             throw std::invalid_argument("invalid raw grid support counts");

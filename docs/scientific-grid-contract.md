@@ -774,3 +774,41 @@ interaction/rendering checks at compiled8ece80e/delivery283a197. Selected Window
 and TIFF/project Linux native checks pass. Complete workspace/owner-thread budgets,
 wheels and full platform qualification remain separate requirements. Earlier
 receipts retain their exact source scope.
+
+
+### Raw-grid captured workspace and validation authority
+
+New raw-grid executions admit the captured request/result payload together with
+the sampler before decoder IO. The sampler's single metadata snapshot supplies
+both the sampling calculation and the analysis reservation, including an expected
+series check. Beyond the sampler's existing source/output/metadata/hash scratch,
+the reservation includes 64 KiB fixed slack, request/result objects, two copies
+of captured object/TMA context and ReaderSource payload, eight ROI payloads for
+captured geometry and geometry-encoding temporaries, and three additional raw
+metadata payloads. Materialized statistics also reserve one eligibility byte per
+full grid sample (including context) and 64 bytes per selected channel. Hash-only
+capture omits sampled outputs, eligibility and statistics arrays. These are
+conservative payload bounds; reader decode/cache, allocator/runtime overhead and
+separately retained caller results require their own budgets.
+
+The worker records its already-computed eligible count in a private immutable
+result field. A full archive decode establishes that field only after semantic
+validation. Repeated record validation still checks metadata, source, numeric
+statistics and the input hash binding the exact grid/calibration/mask, but reuses
+this count and geometry precision authority. A changed public record mask cannot
+reuse the proof, and recomputing an envelope checksum cannot bypass the initial
+semantic count check. The authority is never encoded into QRA1/QRA2 bytes.
+Cancellation is checked during an uncached eligibility validation scan.
+
+Retained QRA2 uses its original work-admission grammar so a formerly valid low
+budget does not make historical data unreadable. A new execution/replay must
+satisfy the complete captured-workspace admission; an insufficient historical
+budget may require a new capture with a larger budget. Natural QRA1 behavior,
+canonical archive bytes and original input hashes remain unchanged.
+
+Geometry precision admission uses a conservative representable-gap bound when
+half a sample step must remain distinct from either edge after nearest-even
+rounding. Ambiguous cases retain the original per-sample validation. The test
+oracle checks the actual binary64 center/edge ordering over 1,092 signed,
+large-coordinate, context and precision-boundary grids. These changes do not
+accept full application RSS, hardware latency or the remaining M0-M7 budgets.

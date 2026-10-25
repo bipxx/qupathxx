@@ -25,7 +25,16 @@ struct Stats {
 void validate_scientific_raster_geometry(const ScientificGrid& grid,const std::atomic<bool>* cancelled) {
     checkpoint(cancelled);
     for(const auto* axis:{&grid.x(),&grid.y()}) {
-        auto previous=axis->edge(axis->first_index()).binary64();
+        const auto first=axis->edge(axis->first_index()).binary64(),last=axis->edge(axis->stop_index()).binary64();
+        // Bound the largest representable gap over the whole axis. Each center
+        // is half a step from either edge. If that exact distance exceeds the
+        // gap bound, nearest-even rounding cannot collapse either pair.
+        const auto magnitude=std::nextafter(std::max(std::abs(first),std::abs(last)),std::numeric_limits<double>::infinity());
+        const auto gap=std::nextafter(magnitude,std::numeric_limits<double>::infinity())-magnitude;
+        const auto lower_step=std::nextafter(GridFraction(axis->extent(),axis->samples()).binary64(),0.);
+        if(std::isfinite(magnitude) && lower_step>2*gap) continue;
+        // Near representability boundaries retain the exact per-sample test.
+        auto previous=first;
         for(auto i=axis->first_index();i<axis->stop_index();++i) {
             if((i&4095)==0) checkpoint(cancelled);
             const auto next=axis->edge(i+1).binary64(),center=axis->center(i).binary64();

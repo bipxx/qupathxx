@@ -234,6 +234,35 @@ void check_scientific_raw_analysis() {
     }
     std::cout<<"Shared ROI grid raw count/context planning and pre-IO admission passed\n";
 
+    {
+        auto source=std::make_shared<AnalysisReader>();Document doc(source);
+        const auto object=doc.add_rectangle({0,0,5,4},"captured workspace");
+        const ScientificGrid grid(5,4,{0,5,16,64},{0,4,12,64});ScientificRawOptions options;
+        const auto initial=RawAnalysisRequest(doc,grid,options,object);
+        const auto reserve=raw_grid_analysis_reserve(grid,options,true,initial.mask(),initial.object_context(),*source->reader_source(),1);
+        const auto hash_reserve=raw_grid_analysis_reserve(grid,options,false,initial.mask(),initial.object_context(),*source->reader_source(),1);
+        const auto required=detail::scientific_raw_reserved_work_bytes(*source->raw,grid,options,true,reserve);
+        const auto hash_required=detail::scientific_raw_reserved_work_bytes(*source->raw,grid,options,false,hash_reserve);
+        require(required>hash_required && reserve.fixed_bytes>hash_reserve.fixed_bytes);
+        // The hash budget must not silently allocate sampled outputs or means.
+        options.work_bytes=hash_required;
+        rejects<std::length_error>([&]{analyze_raw(RawAnalysisRequest(doc,grid,options,object));});
+        require(source->reads==0);
+        const auto hashed=raw_analysis_input_digest(RawAnalysisRequest(doc,grid,options,object));
+        require(source->reads==1 && source->metadata_reads==2);
+        options.work_bytes=required-1;
+        rejects<std::length_error>([&]{analyze_raw(RawAnalysisRequest(doc,grid,options,object));});require(source->reads==1);
+        options.work_bytes=required;const auto before_metadata=source->metadata_reads;
+        const auto result=analyze_raw(RawAnalysisRequest(doc,grid,options,object));
+        require(source->reads==2 && source->metadata_reads==before_metadata+1 && result->input_sha256()==hashed.input_sha256);
+        const auto base_reserve=raw_grid_analysis_reserve(grid,options,true,{},initial.object_context(),*source->reader_source(),1);
+        require(reserve.fixed_bytes-base_reserve.fixed_bytes==8*initial.mask()->payload_bytes());
+        // Changed reader axes reject against this one metadata epoch before IO.
+        source->raw->series=0;
+        rejects<std::invalid_argument>([&]{analyze_raw(initial);});require(source->reads==2);
+    }
+    std::cout<<"Raw grid captured ROI/context workspace, exact budget boundary, hash-only lower admission and single metadata epoch passed\n";
+
     RawRegionStatistics positive;positive.pixels=positive.valid_pixels=1;positive.finite_samples={1};positive.nonfinite_samples={0};positive.means={0.};positive.minima={0.};positive.maxima={0.};
     auto negative=positive;negative.means[0]=-0.;require(!same_raw_statistics(positive,negative,true) && same_raw_statistics(positive,negative,false));
     negative=positive;negative.minima[0]=-0.;require(!same_raw_statistics(positive,negative,true));
@@ -270,6 +299,15 @@ void check_scientific_raw_analysis() {
         const auto decoded=RawAnalysisCodec::decode(bytes.data(),bytes.size(),document.metadata());
         require(decoded->result->grid() && decoded->result->grid()->reader=="raw-reference" && decoded->result->input_sha256()==result->input_sha256());
         require(RawAnalysisCodec::encode(*decoded,document.metadata())==bytes);
+        if(object) {
+            // A trusted result cannot authenticate a changed public record mask.
+            auto changed=*record;changed.mask=record->mask->translated(.1,0);
+            rejects<std::invalid_argument>([&]{changed.validate(document.metadata());});
+            changed=*decoded;changed.mask=decoded->mask->translated(.1,0);
+            rejects<std::invalid_argument>([&]{changed.validate(document.metadata());});
+        }
+        std::atomic<bool> cancel_validation{true};
+        rejects<std::runtime_error>([&]{record->validate(document.metadata(),&cancel_validation);});
         auto damaged=bytes;damaged.back()^=1;rejects<std::invalid_argument>([&]{RawAnalysisCodec::decode(damaged.data(),damaged.size(),document.metadata());});
         damaged=bytes;damaged[4]^=1;Sha256 rehash;rehash.update(damaged.data(),damaged.size()-64);const auto checksum=rehash.finish();std::copy(checksum.begin(),checksum.end(),damaged.end()-64);
         rejects<std::exception>([&]{RawAnalysisCodec::decode(damaged.data(),damaged.size(),document.metadata());});
@@ -290,6 +328,24 @@ void check_scientific_raw_analysis() {
             require(encoded.size()==fixture.second && std::equal(encoded.begin(),encoded.end(),fixture.first));
             RawAnalysisRequest captured=decoded->result->grid()?RawAnalysisRequest(doc,decoded->result->grid()->grid,decoded->result->grid()->options):RawAnalysisRequest(doc,decoded->result->region(),0,false,16);
             require(analyze_raw(captured)->input_sha256()==decoded->result->input_sha256());
+            // A recomputed envelope checksum cannot authenticate false counts.
+            const auto offset=decoded->result->grid()?raw_grid_archive_reference::grid_pixels_offset:raw_grid_archive_reference::legacy_pixels_offset;
+            auto damaged=encoded;damaged.at(offset)^=1;Sha256 checksum;checksum.update(damaged.data(),damaged.size()-64);
+            const auto hash=checksum.finish();std::copy(hash.begin(),hash.end(),damaged.end()-64);
+            rejects<std::invalid_argument>([&]{RawAnalysisCodec::decode(damaged.data(),damaged.size(),doc.metadata());});
+            if(decoded->result->grid()) {
+                const auto& descriptor=*decoded->result->grid();
+                const auto old_options=raw_grid_analysis_sampling_options(descriptor.source_metadata,descriptor.grid,descriptor.options,true);
+                const auto legacy_required=scientific_raw_work_bytes(descriptor.source_metadata,descriptor.grid,old_options)+descriptor.options.work_bytes-old_options.work_bytes;
+                auto historical=encoded;constexpr std::size_t work_offset=4+10*8;
+                for(unsigned i=0;i<8;++i) historical[work_offset+i]=std::uint8_t(std::uint64_t(legacy_required)>>(8*i));
+                Sha256 envelope;envelope.update(historical.data(),historical.size()-64);const auto checked=envelope.finish();std::copy(checked.begin(),checked.end(),historical.end()-64);
+                const auto restored=RawAnalysisCodec::decode(historical.data(),historical.size(),doc.metadata());
+                require(RawAnalysisCodec::encode(*restored,doc.metadata())==historical);
+                const auto reads=source->reads;
+                rejects<std::length_error>([&]{analyze_raw(RawAnalysisRequest(doc,descriptor.grid,restored->result->grid()->options));});
+                require(source->reads==reads); // old history survives; new IO must meet the full ledger
+            }
         }
         const RawRegionRequest region{{0,0,0,5,4},0,3,0,0};RawAnalysisRequest natural(doc,region,0,false,16);
         const auto natural_id=doc.keep_raw_analysis(natural,analyze_raw(natural));
@@ -303,6 +359,7 @@ void check_scientific_raw_analysis() {
         require(job.request(replay) && job.wait(doc).state=="ready" && job.verify_result(doc,grid_id));
     }
     std::cout<<"Independent Python struct/hashlib QRA1 and QRA2 bytes, mixed typed CSV and job replay passed\n";
+    std::cout<<"QRA2 private eligible-count authority, changed-mask rejection, checksum-valid count corruption and historical budget compatibility passed\n";
     auto reader=std::make_shared<AnalysisReader>();Document document(reader);
     const auto object=document.add_rectangle({1,1,3,2},"object");
     const ScientificGrid grid(5,4,{0,5,3,1},{0,4,3,1});
