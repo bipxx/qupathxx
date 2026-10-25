@@ -34,7 +34,7 @@ This does not authorize autonomous worker delegation beyond the existing rules.
 | 2 | TMA desktop workflow: engineering verified | Reuse `GuiTma`, `load_qptma`, `qptma_grid_edits`, `import_qptma`, `qptma_from_grid` and `save_qptma`; retain background IO plus owner-thread preview/apply | Import → preview → apply → edit → undo/redo → project save/restart → export and error/stale/cancel coverage are retained with the accepted desktop evidence |
 | 3 | Integrated TMA source: accepted and promoted to main | Reuse its qualified workflow and inherited gates in subsequent integrated candidates | Matching source/artifacts and required configurations; no supported-release inference |
 | 4 | Annotation/migration: engineering verified at source169 | Shared nested export, physical recovery and source-bound hierarchy contracts pass engine/Mac/portable audits | Combined source169 receipt; broader annotation/interchange and fault campaigns remain in M3/M4 |
-| 5 | Close sampling and scientific analysis gaps | Reuse the implemented explicit-grid RGB pipeline, physical per-axis kernels and QCL5/QCA5 frontend workflow; reuse the pinned production-grid, ROI-stage and resampled-input comparisons; next extend typed raw scientific sampling and its shared analysis workflow, then vendor/pyramid/tiled adapters | Source169 engineering qualification is complete; independent masks/features and split/merge results under predeclared tolerances remain, including anisotropic and unknown calibration |
+| 5 | Close sampling and scientific analysis gaps | Reuse the implemented explicit-grid RGB pipeline, physical per-axis kernels and QCL5/QCA5 frontend workflow; reuse the pinned production-grid, ROI-stage and resampled-input comparisons; typed raw sampling and its shared retention/table/batch/UI workflow now pass source191 engineering gates; next finish vendor/pyramid/tiled adapters and independent scientific acceptance | Source169 engineering qualification is complete; independent masks/features and split/merge results under predeclared tolerances remain, including anisotropic and unknown calibration |
 | 6 | Complete research and batch workflow | Compose existing analysis/classifier jobs and checkpoint batches; build missing coverage/adapters only after native contracts are stable | Same selected workflow in UI/Python/CLI, interrupted-resumed batch correctness and bounded resources |
 | 7 | Close release and remaining inventory requirements | Build on accepted packages; choose support matrix, license/notices policy, installers and clean-machine scripts | Every M0–M7 exit has scope-matched evidence; remaining scope is explicitly scheduled, not silently dropped |
 
@@ -86,7 +86,7 @@ full parity or release acceptance.
 | Annotation interchange: `import_geojson`, `export_geojson`, file wrappers and `InterchangeReport` | Use the shared GeoJSON route and additive `nested_hierarchy=True` option for QuPath parent links; native file/Python/ImGui paths already share it. Extend the bounded loss/geometry corpus rather than starting direct Java serialization | The committed six-object nested corpus passes actual upstream parent/nucleus/point round trips. The recovery-path failure is fixed and the expanded local integration passes; require source-bound platform cohorts and broader edge/property contracts; direct `.qpproj`/`.qpdata` still need distinct contracts |
 | QPTMA wire: `QptmaData`, `load_qptma`, `parse_qptma`, `qptma_text`, `save_qptma` | Keep the bounded native literal-TSV codec; Python passes owning values. Use actual pinned QuPath captures and native-output imports as the oracle | Finish file/UI lifecycle, byte/slot limits and malformed text cases across supported hosts. Preserve fractional importer behavior and expose upstream exporter quantization; never interpret the source hint as a file to open |
 | QPTMA project/UI: `qptma_grid_edits`, `import_qptma`, `qptma_from_grid`, batch `--import-qptma`/`--export-qptma` | Use one atomic edit and new-project publication; CLI requires explicit image. Add the preview UI around these functions and preserve current project/view/image state | Final wheel + project save/restart, no source overwrite, stale/cancel preview, loss acknowledgement, owner-thread import and GUI replay. Do not create a second UI grid model |
-| TMA management/case pooling: `TmaGridOptions`, `Document.create_tma_grid`, `TmaGrid`, `tma_case_summary_csv`, cohort APIs | Reuse the [locally verified row/column commands](tma-axis-editing.md), immutable snapshots and weighted raw-row pooling; keep present/missing/vacant semantics distinct | Axis platform qualification, automatic dearraying and biological/upstream coverage remain. Axis semantic/typing cohorts and their negative controls are now [registered](benchmarks/tma-axis-auditor-controls.json); the frozen campaign remains next after source191 completion. First detector slice: supplied dimensions/core-size bounds → bounded low-resolution candidate detection → fitted grid with missing confidence → reviewed preview → same native edits, plus independent fit fixtures |
+| TMA management/case pooling: `TmaGridOptions`, `Document.create_tma_grid`, `TmaGrid`, `tma_case_summary_csv`, cohort APIs | Reuse the [locally verified row/column commands](tma-axis-editing.md), immutable snapshots and weighted raw-row pooling; keep present/missing/vacant semantics distinct | Axis platform qualification, automatic dearraying and biological/upstream coverage remain. Axis semantic/typing cohorts and their negative controls are now [registered](benchmarks/tma-axis-auditor-controls.json); source191 is now qualified and the later axis frozen campaign is next. First detector slice: supplied dimensions/core-size bounds → bounded low-resolution candidate detection → fitted grid with missing confidence → reviewed preview → same native edits, plus independent fit fixtures |
 | ROI/shape/OD measurements: `AnalysisRequest`, `AnalysisJob`, `analyze`, `RoiMeasurements` | Reuse immutable ROI/calibration capture, native kernels, revision caches and retained analysis records. Add a feature descriptor only for an identified missing quantity | Independent feature tolerances, edge/hole/alpha sampling and calibrated behavior; publish/replay/export must retain exact input/recipe identity. No per-frame recomputation |
 | Stains: `StainTransform`, `optical_density`, `StainEstimateRequest`, `StainEstimateJob` | Reuse supplied-vector kernels and bounded estimation reservoir; add registry/persistence UI around existing stable model hashes | Additional stain/estimation reference workflows and accepted biological tolerances; freeze white reference/vector normalization before running comparisons |
 | Tissue detection: `TissueRequest`, `TissueParameters`, `TissueJob`, `detect_tissue`, `trace_tissue` | Reuse threshold/morphology/components/contours and record publication. Add physical filters or smoothing only with an explicit sampling definition | Halo/edge connectivity, arbitrary grid recipe, physical filters and independent QuPath/biological masks; identical captured inputs across UI/Python/CLI and cancellation/stale tests |
@@ -128,13 +128,14 @@ Use independent numeric and biological references and preserve legacy defaults.
 
 General RGBA8 region resampling remains a separate display-oriented operation.
 It does not preserve typed quantitative TIFF values or establish ICC/linear-light
-semantics. Typed raw scientific sampling and vendor/pyramid/tiled cell admission
-remain explicit requirements; reuse existing filters only where their contracts
-match.
+semantics. Bounded typed raw scientific sampling now passes source191
+engineering qualification. Vendor/pyramid/tiled admission and independent
+scientific acceptance remain explicit requirements; reuse filters only where
+their contracts match.
 
-For the next typed raw workflow, start at `RawRegionRequest`/`RawPixelBuffer`
+Preserve the implemented typed raw workflow from `RawRegionRequest`/`RawPixelBuffer`
 and compose through `RawAnalysisRequest`, its job, immutable result and record
-path. Cover all ten exposed `SampleType` values. Freeze strict footprint support
+path. It covers all ten exposed `SampleType` values. Preserve strict footprint support
 and per-channel finite validity before adapting consumers: missing data is not
 a measured zero, and one channel's NaN must not silently erase another channel.
 Use an independent `Fraction`/binary64 oracle for weighted means, including
@@ -142,8 +143,9 @@ UInt64/Int64 extremes, subnormals and cancellation. Do not cast 64-bit integers
 to double before their exact weighted sum or use an overflowing floating
 numerator for a finite mean. Preserve source dtype/bits, series/Z/T/channel
 selection, calibration and request authority in the versioned recipe; retain
-legacy raw behavior. Complete retention/replay, CSV, resumed batch and native
-UI/Python/CLI delivery before scheduling a new integrated qualification.
+legacy raw behavior. Retain the accepted retention/replay, CSV, resumed batch
+and UI/Python/CLI delivery while extending reader/large-slide support. Require
+new source-bound qualification for changed adapters.
 
 ## Implemented TMA desktop pattern to reuse
 

@@ -368,3 +368,7 @@ docs/benchmarks/raw-grid-resource-191-engine.json text eol=lf
 # TMA gate controls preserve exact JUnit, logs and source proofs.
 docs/benchmarks/tma-axis-auditor-controls/** -text -whitespace
 docs/benchmarks/tma-axis-auditor-controls.json text eol=lf
+
+# Completed source191 campaign payloads preserve original bytes.
+docs/benchmarks/raw-grid-191-qualification/** -text -whitespace
+docs/benchmarks/raw-grid-191-qualification.json text eol=lf
