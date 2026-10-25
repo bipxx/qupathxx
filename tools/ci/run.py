@@ -15,6 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import assets
 import scientific_grid_evidence as scientific
 import tma_axis_evidence as axis
+import tma_dearray_evidence as dearray
 sys.path.insert(0, str(ROOT/'tools'))
 import build_opencv_sdk
 
@@ -289,6 +290,10 @@ def main():
         scientific.negative_typing(work/log,filename,lines)
     run([test_python,'-I','-m','mypy','--strict','--no-incremental','tests/typing/tma_axes_invalid.py'],work/axis.TYPING_LOG,env,expected=1)
     axis.typing(work/axis.TYPING_LOG)
+    run([test_python,"-I","-m","mypy","--strict","--no-incremental","tests/typing/tma_dearray_valid.py"],work/dearray.CONTRACT["typing_positive_log"],env)
+    for filename,contract in dearray.CONTRACT["typing_negative"].items():
+        run([test_python,"-I","-m","mypy","--strict","--no-incremental","tests/typing/"+filename],work/contract["log"],env,expected=1)
+    dearray.typing(work)
     negative_log = work/'typing-negative.log'
     run([test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/invalid_api.py'], negative_log, env, expected=1)
     lines = re.findall(r'invalid_api\.py:(\d+): error:', negative_log.read_text(encoding='utf8'))

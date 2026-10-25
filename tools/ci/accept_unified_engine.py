@@ -26,6 +26,8 @@ scientific_spec=importlib.util.spec_from_file_location('qpx_scientific_grid_evid
 scientific=importlib.util.module_from_spec(scientific_spec);scientific_spec.loader.exec_module(scientific)
 axis_spec=importlib.util.spec_from_file_location('qpx_tma_axis_evidence',Path(__file__).with_name('tma_axis_evidence.py'))
 axis=importlib.util.module_from_spec(axis_spec);axis_spec.loader.exec_module(axis)
+dearray_spec=importlib.util.spec_from_file_location("qpx_tma_dearray_evidence",Path(__file__).with_name("tma_dearray_evidence.py"))
+dearray=importlib.util.module_from_spec(dearray_spec);dearray_spec.loader.exec_module(dearray)
 
 ROOT=Path(__file__).resolve().parents[2]
 if not __debug__:
@@ -113,6 +115,7 @@ def canonical_source_fingerprint():
         manifest.append(name+'='+hashlib.sha256(blob).hexdigest()+'\n')
     return hashlib.sha256(''.join(manifest).encode()).hexdigest()
 report['tma_axis_sources']=axis.source_contract(ROOT,COMMIT)
+report['tma_dearray_sources']=dearray.source_contract(ROOT,COMMIT)
 report['hierarchy_sources']=hierarchy.source_contract(ROOT,COMMIT)
 report['scientific_grid_sources']=scientific.source_contract(ROOT,COMMIT)
 expected_source=canonical_source_fingerprint()
@@ -122,11 +125,12 @@ local=json.loads((ROOT/'docs/benchmarks/classifier-engine-windows.json').read_te
 for job in run['jobs']:
     folder=args.artifacts/folders[job['name']]
     entry=dict(name=job['name'],url=job['url'],status=job['status'],conclusion=job['conclusion'],native=junit(folder/'native-tests.xml'))
-    assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)+3
+    assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)+4
     native_cases=list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase'))
     entry['resampling_native']=resampling.native(native_cases)
     entry['scientific_grid_native']=scientific.native(native_cases,project=job['name']!='Linux minimal native',geos=job['name']!='Linux minimal native',tiff=job['name']!='Linux minimal native')
     entry['tma_axis_native']=axis.native(native_cases)
+    entry['tma_dearray_native']=dearray.native(native_cases,project=job['name']!='Linux minimal native')
     entry['qptma_native']=qptma.native(native_cases)
     entry['hierarchy_native']=hierarchy.native(native_cases,enabled=job['name']!='Linux minimal native')
     entry['qptma_project_native']=qptma.project_native(native_cases,enabled=job['name']!='Linux minimal native')
@@ -161,6 +165,9 @@ for job in run['jobs']:
         entry['tma_axis_python']=axis.python(axis_cases)
         entry['tma_axis_desktop']=axis.desktop(axis_cases,gui='GUI' in job['name'])
         entry['tma_axis_typing']=axis.typing(folder/axis.TYPING_LOG)
+        entry['tma_dearray_python']=dearray.python(axis_cases)
+        entry['tma_dearray_desktop']=dearray.desktop(axis_cases,gui='GUI' in job['name'])
+        entry['tma_dearray_typing']=dearray.typing(folder)
         entry['hierarchy_python']=hierarchy.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),gui='GUI' in job['name'])
         entry['hierarchy_typing']=hierarchy.typing_errors(folder/'hierarchy-typing-negative.log')
         entry['scientific_grid_python']=scientific.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),gui='GUI' in job['name'])

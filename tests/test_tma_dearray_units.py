@@ -88,3 +88,26 @@ def test_physical_recipe_binds_units_requested_size_and_calibration():
     assert equivalent.core_size.width_pixels == original.core_size.width_pixels
     assert equivalent.core_size.height_pixels == original.core_size.height_pixels
     assert equivalent.input_sha256 == original.input_sha256 and equivalent.recipe_sha256 != original.recipe_sha256
+
+
+@pytest.mark.skipif(not q.has_tiff, reason='requires native TIFF reader')
+def test_reader_calibration_and_natural_pyramid_use_level_zero_units(tmp_path):
+    import tifffile
+    case, doc, options = physical_scene()
+    level = doc.server.read_region(q.RegionRequest(0, 0, 0, 480, 352)).numpy()[..., :3].copy()
+    base = np.repeat(np.repeat(level, 2, axis=0), 2, axis=1)
+    path = tmp_path/'calibrated-pyramid.ome.tif'
+    with tifffile.TiffWriter(path, ome=True) as writer:
+        writer.write(base, photometric='rgb', subifds=1, metadata={'axes':'YXS', 'PhysicalSizeX':.25, 'PhysicalSizeY':.125, 'PhysicalSizeXUnit':'\u00b5m', 'PhysicalSizeYUnit':'\u00b5m'})
+        writer.write(level, photometric='rgb', subfiletype=1)
+    server = q.open_tiff(str(path))
+    options.thumbnail.max_width, options.thumbnail.max_height = 480, 352
+    result = q.detect_tma_grid(server, options)
+    assert result.thumbnail_plan.level == 1 and result.thumbnail_plan.source_pixels == 480*352
+    assert result.core_size.width_pixels == 64 and result.core_size.height_pixels == 96
+    assert result.core_size.pixel_width_um == .25 and result.core_size.pixel_height_um == .125
+    assert result.core_size.calibration_from_reader
+    for actual, wire, expected in zip(result.cores, result.grid.cores, case['cores'], strict=True):
+        assert np.hypot(actual.center.x-2*expected['center'][0], actual.center.y-2*expected['center'][1]) <= 2
+        assert wire.missing != expected['present']
+    server.close()

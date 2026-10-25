@@ -1,0 +1,128 @@
+{
+  "schema": "qpx.tma-dearray-evidence/1",
+  "native": {
+    "suite": "tma_dearray",
+    "fixtures": [
+      "aligned",
+      "interior_missing",
+      "rotated_missing",
+      "skewed_missing",
+      "anisotropic"
+    ],
+    "center_tolerance_pixels": 2.0,
+    "markers": [
+      "TMA_DEARRAY_ADMISSION exact/minus-one budgets, pre-IO geometry, malformed reads, epoch, alpha, polarity, cancellation passed",
+      "TMA_DEARRAY_PHYSICAL anisotropic units, captured document overrides, unknown/invalid/overflow refusal, pixel recipe preservation and physical identities passed",
+      "TMA_DEARRAY_AXES singleton/row/column, invalid missing-slot support and natural-level coordinates passed",
+      "TMA_DEARRAY_PUBLICATION retained proposal, atomic import/undo/redo, failed import rollback and QPTMA round trip passed"
+    ],
+    "project_markers": [
+      "TMA_DEARRAY_PHYSICAL_OWNER owner calibration capture, unknown refusal and stale calibration delivery passed",
+      "TMA_DEARRAY_PHYSICAL_CLI explicit units, persisted anisotropic calibration and unknown-calibration refusal passed",
+      "TMA_DEARRAY_OWNER copied parameters, immutable retention, atomic apply/history, stale revision, cancellation and budgets passed",
+      "TMA_DEARRAY_CLI explicit image/options, read-only project, atomic new-file preview, source guards, cancellation and limits passed"
+    ],
+    "project_disabled_marker": "TMA_DEARRAY_OWNER project storage disabled"
+  },
+  "installed": {
+    "test_tma_dearray": [
+      "test_preregistered_geometry_and_refusal[aligned]",
+      "test_preregistered_geometry_and_refusal[anisotropic]",
+      "test_preregistered_geometry_and_refusal[blank]",
+      "test_preregistered_geometry_and_refusal[interior_missing]",
+      "test_preregistered_geometry_and_refusal[rotated_missing]",
+      "test_preregistered_geometry_and_refusal[skewed_missing]",
+      "test_preregistered_geometry_and_refusal[unobserved_row]",
+      "test_preview_and_server_equivalence_and_immutable_retained_result",
+      "test_working_budget_admission_and_atomic_publication"
+    ],
+    "test_tma_dearray_units": [
+      "test_document_calibration_is_authoritative_and_never_guessed",
+      "test_existing_pixel_recipe_bytes_remain_unchanged",
+      "test_physical_capture_uses_document_override_and_owns_values",
+      "test_physical_recipe_binds_units_requested_size_and_calibration",
+      "test_reader_calibration_and_natural_pyramid_use_level_zero_units",
+      "test_unknown_invalid_or_unrepresentable_calibration_refuses[pair0]",
+      "test_unknown_invalid_or_unrepresentable_calibration_refuses[pair1]",
+      "test_unknown_invalid_or_unrepresentable_calibration_refuses[pair2]",
+      "test_unknown_invalid_or_unrepresentable_calibration_refuses[pair3]",
+      "test_unknown_invalid_or_unrepresentable_calibration_refuses[pair4]",
+      "test_unknown_invalid_or_unrepresentable_calibration_refuses[pair5]",
+      "test_unknown_invalid_or_unrepresentable_calibration_refuses[pair6]",
+      "test_unknown_invalid_or_unrepresentable_calibration_refuses[pair7]",
+      "test_unknown_invalid_or_unrepresentable_calibration_refuses[pair8]"
+    ],
+    "test_tma_dearray_cli": [
+      "test_cli_physical_units_use_persisted_document_calibration[None]",
+      "test_cli_physical_units_use_persisted_document_calibration[calibration0]",
+      "test_cli_preserves_existing_output_and_source_alias",
+      "test_cli_preview_then_explicit_project_import",
+      "test_cli_rejects_bad_or_duplicate_options_without_output[flags0]",
+      "test_cli_rejects_bad_or_duplicate_options_without_output[flags1]",
+      "test_cli_rejects_bad_or_duplicate_options_without_output[flags2]",
+      "test_cli_rejects_bad_or_duplicate_options_without_output[flags3]",
+      "test_cli_rejects_bad_or_duplicate_options_without_output[flags4]",
+      "test_cli_rejects_bad_or_duplicate_options_without_output[flags5]"
+    ],
+    "test_tma_dearray_reference": [
+      "test_captured_geometry_does_not_relax_preregistered_tolerance",
+      "test_changed_preregistered_inputs_or_capture_identity_rejected[boolean_exit]",
+      "test_changed_preregistered_inputs_or_capture_identity_rejected[capture_failure]",
+      "test_changed_preregistered_inputs_or_capture_identity_rejected[contract]",
+      "test_changed_preregistered_inputs_or_capture_identity_rejected[mask]",
+      "test_changed_preregistered_inputs_or_capture_identity_rejected[runtime]",
+      "test_malformed_or_mixed_reference_evidence_rejected[boolean_dimensions]",
+      "test_malformed_or_mixed_reference_evidence_rejected[count]",
+      "test_malformed_or_mixed_reference_evidence_rejected[duplicate]",
+      "test_malformed_or_mixed_reference_evidence_rejected[mask]",
+      "test_malformed_or_mixed_reference_evidence_rejected[missing]",
+      "test_malformed_or_mixed_reference_evidence_rejected[nan_center]",
+      "test_malformed_or_mixed_reference_evidence_rejected[nan_density]",
+      "test_malformed_or_mixed_reference_evidence_rejected[renamed]",
+      "test_malformed_or_mixed_reference_evidence_rejected[revision]",
+      "test_malformed_or_mixed_reference_evidence_rejected[version]",
+      "test_valid_but_wrong_geometry_or_missing_flags_cannot_be_accepted[center]",
+      "test_valid_but_wrong_geometry_or_missing_flags_cannot_be_accepted[density]"
+    ]
+  },
+  "desktop": {
+    "test_gui_tma_dearray": [
+      "test_detect_apply_undo_redo_and_project_reopen",
+      "test_detect_preview_is_immutable_and_explicit",
+      "test_managed_detection_copies_options_and_uses_atomic_owner_apply",
+      "test_managed_physical_detection_and_apply",
+      "test_physical_preview_is_stale_after_calibration_undo",
+      "test_physical_preview_uses_document_calibration",
+      "test_physical_unknown_calibration_refuses_without_preview",
+      "test_preview_lifecycle_never_implicitly_applies[close-cancelled]",
+      "test_preview_lifecycle_never_implicitly_applies[discard-idle]",
+      "test_preview_lifecycle_never_implicitly_applies[edit-stale]",
+      "test_unobservable_preview_refuses_without_edit[blank]",
+      "test_unobservable_preview_refuses_without_edit[unobserved_row]",
+      "test_working_budget_failure_does_not_publish"
+    ]
+  },
+  "headless_skip": {
+    "type": "pytest.skip",
+    "message": "opt-in TMA dearray desktop"
+  },
+  "typing_positive_log": "tma-dearray-typing-positive.log",
+  "typing_negative": {
+    "tma_dearray_invalid.py": {
+      "log": "tma-dearray-typing-negative.log",
+      "lines": [
+        4,
+        5,
+        6
+      ]
+    },
+    "tma_dearray_units_invalid.py": {
+      "log": "tma-dearray-units-typing-negative.log",
+      "lines": [
+        4,
+        5,
+        6
+      ]
+    }
+  }
+}
