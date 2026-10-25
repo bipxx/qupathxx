@@ -136,9 +136,20 @@ rejects three intended mistakes. The [inspected capture](benchmarks/tma-axis-edi
 shows insertion into a 3x3 grid with three missing new cores and no overflow.
 Initial fixture-containment and WSL-launcher failures remain in the receipt.
 
-Register the new axis semantic/typing cohorts before its frozen platform
-campaign. The independent resource campaign191 remains at `61e546e` and cannot
-qualify these later APIs; Mac/portable gates there still precede promotion.
+The axis semantic/typing cohorts are now registered in the producer and all
+three auditors at `b61f7ba`; [329 preflight controls](benchmarks/tma-axis-auditor-controls.json)
+pass. Required evidence is two native semantic markers, 15 installed cases,
+24 TMA desktop cases (or their exact declared headless skips) and three negative
+typing errors. The shared source verifier now uses batched Git reads without
+relaxing raw fixture bytes or missing/truncated-response rejection. All 312
+compiler inputs still match the installed `96172f3` module; it is not relabeled
+as the later harness source, and no native rebuild was needed.
+
+The independent resource campaign191 remains at `61e546e` and cannot qualify
+these later APIs. Engine and both native Mac artifacts pass their frozen-source
+auditors. Both portable builders and the CPython3.12 fresh consumer are green;
+the original CPython3.11 consumer remains queued. Complete that campaign and
+promotion before freezing the new TMA candidate; retain original run handles.
 Automatic dearraying, biological/upstream acceptance and every remaining M0-M7
 requirement remain active. No platform, hardware or supported-release acceptance
 is inferred from this local slice.

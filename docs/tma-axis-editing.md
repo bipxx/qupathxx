@@ -40,3 +40,11 @@ the existing cancellation, command/edit limits and result retention. Consume
 the ticket through `wait`/`take`; direct document mutation remains owner-only.
 Project saves and QPTMA exports use the existing native persistence/codec paths.
 Automatic dearraying and biological acceptance remain separate requirements.
+
+
+The [qualification controls](benchmarks/tma-axis-auditor-controls.json) require
+named native, installed, GUI/headless and typing outcomes. Missing cases,
+duplicates, failures, substituted skip reasons and absent semantic markers
+reject. These controls accept the retained local axis evidence and reject
+older source191 evidence as proof of the later axis API. They do not substitute
+for the required platform campaign or independent biological acceptance.

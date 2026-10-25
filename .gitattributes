@@ -364,3 +364,7 @@ docs/benchmarks/tma-axis-editing-local.json text eol=lf
 # Source191 engine-only audit payloads retain exact bytes.
 docs/benchmarks/raw-grid-resource-191-engine/** -text -whitespace
 docs/benchmarks/raw-grid-resource-191-engine.json text eol=lf
+
+# TMA gate controls preserve exact JUnit, logs and source proofs.
+docs/benchmarks/tma-axis-auditor-controls/** -text -whitespace
+docs/benchmarks/tma-axis-auditor-controls.json text eol=lf
