@@ -327,3 +327,9 @@ docs/benchmarks/raw-grid-workspace-local-windows-linux.json text eol=lf
 
 docs/benchmarks/raw-grid-186-campaign/** -text -whitespace
 docs/benchmarks/raw-grid-186-campaign.json text eol=lf
+
+# TIFF integration receipts retain original captured bytes, including CRLF.
+docs/benchmarks/raw-grid-tiff-layout-local/** -text -whitespace
+docs/benchmarks/raw-grid-tiff-layout-local.json text eol=lf
+docs/benchmarks/tiff-interleaved-block-reuse-local/** -text -whitespace
+docs/benchmarks/tiff-interleaved-block-reuse-local.json text eol=lf
