@@ -1,7 +1,8 @@
-# Automatic TMA dearraying: reference preparation
+# Automatic TMA dearraying
 
-Automatic dearraying remains unimplemented in qupathxx. Seven independent
-synthetic masks and a pinned upstream capture now define the first native
+The first native dearraying kernel is implemented with thin Python adapters;
+installed-package, UI, managed-owner and CLI integration remain in progress.
+Seven independent synthetic masks and a pinned upstream capture define the
 workflow's geometry, missing-core behavior and refusal cases. The
 [fixture manifest](../tests/fixtures/tma-dearray-v1/manifest.json) binds the raw
 masks, preregistered contract, capture command/log and observations. These are
@@ -49,7 +50,49 @@ The assessor pins the runtime/capture identity and mask hashes, rejects missing,
 duplicate and malformed cases, and records geometric discrepancies explicitly.
 Its process can complete successfully while reporting a scientific discrepancy.
 The 18 controls cover altered inputs, identity, coordinates, densities and
-refusal cases. The native detector still needs implementation and verification.
+refusal cases. Native engineering checks are separate from this upstream assessment.
+
+## Native contract and current evidence
+
+`tma_dearray.hpp` exposes `TmaDearrayOptions`, immutable `TmaDearrayResult`
+proposals, `tma_dearray_work_bytes` and two `detect_tma_grid` overloads. One
+accepts an owning RGBA preview with explicit level-zero dimensions; the other
+plans one natural pyramid read and applies the existing exact area filter.
+Core width/height are level-zero pixels. Physical-unit conversion remains open.
+
+Opaque pixels contribute integer luminance to an Otsu threshold with explicit
+dark-on-light or light-on-dark polarity. Eight-connected components are admitted
+by supplied size, extent and shape limits; components touching invalid support
+or the image boundary are excluded. Projection groups and a least-squares
+affine lattice establish every requested row and column. A completely absent
+axis rejects rather than inventing geometry. Observed centers remain measured;
+only absent slots use fitted centers. Elliptical tissue density sets missing
+flags, with separate valid-support checks. This is an independent algorithm,
+not a port of QuPath's ImageJ preprocessing or detector.
+
+Preview dimensions, candidate count, pair work and conservative payload bytes
+are bounded. Server admission precedes decoding; malformed buffers, changed
+metadata and closed sources reject. Cancellation is checked through the CPU
+stages and after synchronous IO. Reader caches and process RSS are outside the
+payload ledger. SHA-256 input and versioned recipe identities accompany each
+proposal; detection itself never mutates a document.
+
+The focused Linux native probe passes all five preregistered full-grid cases
+within the unchanged two-pixel tolerance (maximum observed error approximately
+2.85e-14 pixels), with exact missing flags. It rejects blank and unobserved-row
+inputs and checks singleton/one-axis grids, exact/minus-one byte admission,
+polarity, invalid support, malformed readers, source changes, cancellation,
+natural-level coordinates and retained proposals. Existing QPTMA import gives
+one atomic undoable edit and wire round trips. An initial expanded test used
+an invalid pyramid level-zero fixture; that fixture was corrected without
+changing the detector. This focused probe links the new kernel against a
+retained native core; complete configured builds and installed Python checks
+are still required. It establishes neither biological nor release acceptance.
+
+Python mirrors the two native overloads and options. Result grid/center values
+are returned as copies so Python callers cannot mutate a retained proposal.
+`tests/test_tma_dearray.py` exercises the independent contract, retained results,
+preview/server identities, byte admission and atomic publication.
 
 ## Native delivery route
 
