@@ -33,36 +33,20 @@ claim of upstream parity. Acceptance applies only to the listed fixture scope.
 
 ## Current execution state (2026-10-25)
 
-Use the [active plan](project-plan.md) and [API delivery paths](api-delivery-plan.md)
-for the next actions. Public `main` is accepted engineering source `f2e8c2f`;
-the deliberately divergent local root branch remains `c86d323`. Exact-source
-[engine](https://github.com/bipxx/qupathxx/blob/45495d4/docs/benchmarks/region-resampling-engine.json),
-[Mac native](https://github.com/bipxx/qupathxx/blob/45495d4/docs/benchmarks/region-resampling-macos.json),
-[portable](https://github.com/bipxx/qupathxx/blob/45495d4/docs/benchmarks/region-resampling-portable.json)
-and [promotion](https://github.com/bipxx/qupathxx/blob/45495d4/docs/benchmarks/region-resampling-main-promotion.json)
-evidence includes region resampling, runtime inventories and relocated Mac
-region/batch/CSV/GEOS host probes. Windows GUI passes 2,893 Python/48 native;
-Windows/Linux headless pass 2,483/2,481 Python and 47 native suites. Those counts
-are engineering observations, not milestone or scientific completion criteria.
+Public main now contains integrated TMA source `a29e4e1`, accepted by the exact
+engine/Mac/portable runs. The [combined receipt](benchmarks/qptma-integrated-local-windows.json)
+retains local evidence and all three hosted audits. Engine passes 2,989 installed
+GUI cases and 50 native suites; Windows/Linux headless pass 2,570/2,568 installed
+cases and 49 native suites. All three installed engine cohorts require the 80-case
+QPTMA contract and GUI requires its nine desktop cases. Mac arm64/x86_64 each
+pass 49 native suites, including project-enabled TMA; portable builders/fresh
+consumers each pass the same QPTMA contract. Runtime inventories and relocation
+remain checked at their declared scope.
 
-Candidate 155 implements native/Python `.qptma` values, file IO and atomic
-document edits; actual pinned QuPath imports preserve tested fields. Candidate
-156 adds project import/export CLI, `save_new` and opening without journal
-repair. The final project-enabled wheel gate passes. Integrated local validation
-passes 148 installed cases without skips and all 50 native suites, including
-project preservation, nine new desktop cases, inspected captures and actual
-QuPath import of the GUI export. Its native project test now requires
-runtime-enabled coverage; earlier disabled-branch results are not evidence of
-project behavior. No project/UI/full-platform acceptance is claimed from those
-local results. ImGui `.qptma` preview/import/export is locally verified; see the
-[local integration receipt](benchmarks/qptma-integrated-local-windows.json).
-Exact-source integrated hosted acceptance is pending.
-
-All M0–M7 remain Partial. Distinguish **implemented**, **engineering verified at
-a named source/configuration**, **scientifically accepted on a defined corpus**
-and **supported release**; these states cannot substitute for one another.
-Fixture rights, scientific tolerance/coverage, hardware, licensing and remaining
-platform/release requirements stay open. Implementation of the updated plan resumed on 2026-10-25.
+The hierarchy/recovery integration branch is the next candidate and is not yet
+platform-qualified. It also fixes the recovery long-path limitation retained by
+this TMA baseline. All M0–M7 milestones remain Partial. Use the [active plan](project-plan.md)
+and [API delivery paths](api-delivery-plan.md) for the remaining complete scope.
 
 ## Earlier evidence (source-specific history)
 

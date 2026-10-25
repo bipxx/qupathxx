@@ -4,13 +4,10 @@ The full updated M0–M7 implementation goal remains active. All milestones rema
 Partial. See the [workflow inventory](feature-matrix.md#current-execution-state-2026-10-25)
 and [API delivery paths](api-delivery-plan.md) for the complete remaining scope.
 
-One frozen candidate: integrated TMA source
-`a29e4e1e49048488dd08dbd30e2efc83df1b8b55`, public ref
-`validation/qptma-integrated-156`. Engine `40161970725` and Mac `40161976334`
-completed successfully and their exact-source artifact audits passed. Portable
-`40161982786` remains queued. The existing monitor is live; retain its exact
-handles. Do not mutate that source or dispatch replacements after an observation
-timeout. Promotion still awaits portable acceptance and all source-matched gates.
+The previous integrated TMA candidate `a29e4e1` passed engine `40161970725`,
+Mac `40161976334` and portable `40161982786`, including artifact audits. It is
+promoted to main; documentation commit `c07e778` publishes all receipts. The
+validation ref is unchanged. No qualification remains live for that candidate.
 
 One integration source: `feature/annotation-migration-158`. Nested GeoJSON export
 is shared by C++/Python/file/ImGui and actual QuPath preserves the captured six
@@ -30,11 +27,12 @@ fingerprint, verified with one batched Git process. See the
 and [migration contract](annotation-migration.md). The old failure receipt is
 retained; no failed run is relabelled as passing.
 
-Next: require source-bound hierarchy/recovery cohorts in the engine/Mac/portable
-artifact auditors, with missing/duplicate/skipped/mixed-source and disabled-
-capability negative controls. Reuse small existing evidence primitives; preserve
-all inherited scientific and runtime gates. Then freeze/qualify the integrated
-source when the one-frozen-candidate slot is available. Do not claim platform
+The source-bound hierarchy/recovery gates are now wired into all three artifact
+auditors, with 101 headless and 105 GUI required cases including 43 negative/
+positive evidence controls. The shared QPTMA primitive retains its original
+defaults. Positive typing checks require the four actual producer examples.
+Next: finish source-bound local gate verification, freeze the integrated source
+and run its full engine/Mac/portable qualification once. Do not claim platform
 acceptance from local Windows tests. Unicode glyph delivery, broader migration,
 sampling/scientific, licensing and supported-release requirements remain open.
 
