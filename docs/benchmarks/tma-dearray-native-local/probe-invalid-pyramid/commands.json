@@ -1,0 +1,90 @@
+[
+  {
+    "name": "compile-tma_dearray",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--cd",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "--exec",
+      "/usr/bin/c++",
+      "-std=c++17",
+      "-O2",
+      "-DNDEBUG",
+      "-Wall",
+      "-Wextra",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include",
+      "-c",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_dearray.cpp",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma197-native-probe-final/tma_dearray.o"
+    ],
+    "exit": 0,
+    "seconds": 3.2939850999973714
+  },
+  {
+    "name": "compile-tests-tma_dearray_tests",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--cd",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "--exec",
+      "/usr/bin/c++",
+      "-std=c++17",
+      "-O2",
+      "-DNDEBUG",
+      "-Wall",
+      "-Wextra",
+      "-I/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/include",
+      "-c",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tests/tma_dearray_tests.cpp",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma197-native-probe-final/tma_dearray_tests.o"
+    ],
+    "exit": 0,
+    "seconds": 4.137240699958056
+  },
+  {
+    "name": "link",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--cd",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "--exec",
+      "/usr/bin/c++",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma197-native-probe-final/tma_dearray.o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma197-native-probe-final/tma_dearray_tests.o",
+      "-o",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma197-native-probe-final/tma_dearray_tests",
+      "libqupathxx_core.a",
+      "_deps/qpx_tiff-build/libtiff/libtiff.a",
+      "_deps/qpx_zlib-build/libz.a",
+      "/usr/lib/x86_64-linux-gnu/libm.so",
+      "libqupathxx_tiff_xml.a",
+      "libqupathxx_sqlite.a",
+      "-ldl"
+    ],
+    "exit": 0,
+    "seconds": 2.3312276999931782
+  },
+  {
+    "name": "test",
+    "command": [
+      "wsl.exe",
+      "-d",
+      "Ubuntu",
+      "--cd",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native",
+      "--exec",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/tma197-native-probe-final/tma_dearray_tests",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/tests/fixtures/tma-dearray-v1"
+    ],
+    "exit": 1,
+    "seconds": 0.3674244999419898
+  }
+]

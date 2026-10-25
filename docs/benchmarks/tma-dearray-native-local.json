@@ -1,0 +1,304 @@
+{
+  "schema": "qpx.tma-dearray-native-local/1",
+  "compiled_source": "ecbf83172ac3b44553d530e140e7109434426ee5",
+  "source_fingerprint": "8049f863d07cb7997fc00e1675adacefba2638ce6aa9a4b2b8190b6fb7a12958",
+  "compiler_inputs": 315,
+  "native_suites": {
+    "windows": 5,
+    "linux": 5
+  },
+  "independent_full_grid_cases": 5,
+  "center_tolerance_pixels": 2.0,
+  "missing_flags_match": true,
+  "blank_and_unobserved_row_reject": true,
+  "installed": {
+    "passed": 214,
+    "declared_opt_in_desktop_skips": 10,
+    "new_dearray_cases": 9,
+    "package_kind": "isolated locally assembled native package, not a qualified wheel"
+  },
+  "inherited_desktop_passed": 53,
+  "automatic_dearray_desktop_implemented": false,
+  "typing": {
+    "positive_files": 7,
+    "intended_negative_errors": [
+      4,
+      5,
+      6
+    ],
+    "generated_stubs_match": true
+  },
+  "failed_attempts_retained": [
+    "invalid natural-pyramid test fixture rejected by planner; corrected fixture only",
+    "initial finalizer fingerprint failed because Windows Path ordering differs from CMake case-sensitive sorting; no binary rebuild needed"
+  ],
+  "payloads": {
+    "docs/benchmarks/tma-dearray-native-local/driver-build_tma197_linux.py": {
+      "sha256": "dd75d9bd3d134cfd1d0d9c27b5d5f845abaaba96bcbabe1e0a899885b2f4dc25",
+      "bytes": 1961
+    },
+    "docs/benchmarks/tma-dearray-native-local/driver-build_tma197_windows.py": {
+      "sha256": "14127af4b7eb85fc4cf416c2fd436dbb9bb13433737b3a62e6df467b7e32b4c7",
+      "bytes": 1753
+    },
+    "docs/benchmarks/tma-dearray-native-local/driver-finalize_tma197.py": {
+      "sha256": "b277efb4be4e3cea5b176157665a29a29c76d23cd37ce73e35fb23c86c11642c",
+      "bytes": 4738
+    },
+    "docs/benchmarks/tma-dearray-native-local/driver-install_tma197.py": {
+      "sha256": "d6bd162559ecdaf6ae6b9cd783d3a4a24aa8623714717629ab4f4a16e16b1e35",
+      "bytes": 2195
+    },
+    "docs/benchmarks/tma-dearray-native-local/driver-probe_tma197.py": {
+      "sha256": "cf527c2fe3440876c072ec719ac5f29dd26bc3ce92f9104da7ea70e9bf8cd92d",
+      "bytes": 2272
+    },
+    "docs/benchmarks/tma-dearray-native-local/driver-probe_tma197_corrected.py": {
+      "sha256": "cf291aa2037a2e17bb0ab61f8ab1feeba0a3b99f22a85d9f64780990c89c2d3c",
+      "bytes": 2292
+    },
+    "docs/benchmarks/tma-dearray-native-local/driver-probe_tma197_final.py": {
+      "sha256": "4835e219b5f0fae5a9e13233521d95d640ecabf058d62309f34c511bb82f5092",
+      "bytes": 2284
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/check-stubs.log": {
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130",
+      "bytes": 48
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/commands.json": {
+      "sha256": "8cb8afb734eddff114dbfeaea036e52d5c2a9bdf6f6478c09dfd336d6d6cf96f",
+      "bytes": 4294
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/compiler-git-proof.json": {
+      "sha256": "022114c86fa3b8ee5cbfeb6c323e2b9d256d202d0c1491293156c6f7431db48e",
+      "bytes": 72158
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/compiler-inputs.json": {
+      "sha256": "ebb11110aac6878a67db1504f50835ed0ed0c3deae31faf4cdbde084c27beeda",
+      "bytes": 33260
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/dearray-python.xml": {
+      "sha256": "f43cebf9e071340675f2ef1401d40640ad1ca4fc9d20c60ba5047d93520b0293",
+      "bytes": 1339
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/desktop.log": {
+      "sha256": "68b0a765686102560771319a7bf89b68b392de47ea33888607a6d063b6078357",
+      "bytes": 102
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/desktop.xml": {
+      "sha256": "870ea96b7587791a8007bb14e5bebab449fb43beee9c5e892f270bbfb87a5c28",
+      "bytes": 6381
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/environment-0.log": {
+      "sha256": "91eeed54ad1755885edc99df7ee5394fcff401128454b810e238f809d135a7ea",
+      "bytes": 202
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/environment-1.log": {
+      "sha256": "cbbecc7f0a0003bf5b1a255b136ca2f79078e908979847b1c1bb628b7729b1ab",
+      "bytes": 401
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/generate-stubs.log": {
+      "sha256": "9467e1fcbcc3b7a214a8ae55510ca2aecbb94ba8190b3fd4a02ba2c8446eefdf",
+      "bytes": 24
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/initial-finalizer-failure.json": {
+      "sha256": "d53a86b1c7402baa38315161e25ab400cd337a81cb68bddb1cba271aec68eb51",
+      "bytes": 270
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/initial-finalizer.py": {
+      "sha256": "15ff5b5a331a6ab637602751b4c294b616a8f601bb9b654b5444e08e028b4028",
+      "bytes": 4689
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/installed-files-before-stubs.json": {
+      "sha256": "af7acdd2857637bdf85de1dd61691dfc11853387ad70366fa1b703eac280a1dc",
+      "bytes": 1041
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/installed-files.json": {
+      "sha256": "1515b3a5c629b389ba79a66fc3b94b696b8efd9f1277cd36ba5df5ccbe38704f",
+      "bytes": 1041
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/installed-probe.log": {
+      "sha256": "e6b1d6c9f0cb8ccffdc92fbe6501e1b95544a6432a7f5eb1fcfb3b611fb1f584",
+      "bytes": 334
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/runtime.log": {
+      "sha256": "b97ef3adc8c2a162efa0a597d2415436d0b913fda6fcaab667d5fb6a04b047ca",
+      "bytes": 357
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/runtime.xml": {
+      "sha256": "44e33446ce53b943fecfcfccdaac7a52e4adb139a7f546dc3e8ae30b325dc448",
+      "bytes": 30679
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/typing-dearray-negative.log": {
+      "sha256": "ece74685259d5a400f9bb834bd5d521a25ff265c61a5568c6cff65c90642dd39",
+      "bytes": 441
+    },
+    "docs/benchmarks/tma-dearray-native-local/installed/typing-positive.log": {
+      "sha256": "e2702f9afc4c0f80ff1e8624f77af7a7d2689ca184512114aae5967a76229ba8",
+      "bytes": 44
+    },
+    "docs/benchmarks/tma-dearray-native-local/linux/build.log": {
+      "sha256": "a9b0598eeb198ddfbd28f60ab4770678567c955a3dbf5aa28b469eec7af30ab7",
+      "bytes": 6229
+    },
+    "docs/benchmarks/tma-dearray-native-local/linux/build_manifest.hpp": {
+      "sha256": "799236ccdfca58310d18932c461242e9fa9e91ac38ce32e5dfb7eab34f4c2ff0",
+      "bytes": 629
+    },
+    "docs/benchmarks/tma-dearray-native-local/linux/commands.json": {
+      "sha256": "843ccf1c08834c393d51a7d446e08ffaa5c97e20e3292fadcb3e00217e18ef74",
+      "bytes": 2632
+    },
+    "docs/benchmarks/tma-dearray-native-local/linux/configure.log": {
+      "sha256": "0e809d24c2ba0e96c66cd219ed7bc958bf12278224cee93320154e237f1d95f9",
+      "bytes": 3355
+    },
+    "docs/benchmarks/tma-dearray-native-local/linux/tests.log": {
+      "sha256": "85ed9847a66d25ef60dbfc95e793ff82b12f72d5907737caf533fc088b8bf2a0",
+      "bytes": 743
+    },
+    "docs/benchmarks/tma-dearray-native-local/linux/tests.xml": {
+      "sha256": "7350a45569f31d196740fc22b28d575f8f272b1b46c6e758ae7a495fd93b09f0",
+      "bytes": 4222
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-corrected/commands.json": {
+      "sha256": "3b2215bb5778d7dd26cea16dad871b74809afff0e9b7c659c6c28fb3d9df5d0e",
+      "bytes": 2732
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-corrected/compile-tests-tma_dearray_tests.log": {
+      "sha256": "6a1d0eb10861b9b9a236e75d4a1a6688f1cb7e74032ed6a8e262b9daaaf269b7",
+      "bytes": 887
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-corrected/compile-tma_dearray.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-corrected/inputs.json": {
+      "sha256": "097514216f881929b47290cead5a7846aa464ef8c205026faa99bfd67a712569",
+      "bytes": 507
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-corrected/link.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-corrected/test.log": {
+      "sha256": "2020be4310c67769a502c8d25528c3aebc4a8bb0f0146be059aeaaf7113784d5",
+      "bytes": 757
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-initial/commands.json": {
+      "sha256": "ac1476cff6c5eaad3310f22b12d351a9e1c5a932ccbb98080303c7e0bee79b74",
+      "bytes": 2672
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-initial/compile-tests-tma_dearray_tests.log": {
+      "sha256": "ee909158bea9543ee4f9093de649e597f4fb6cef52feb80747ee01c67d010011",
+      "bytes": 1643
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-initial/compile-tma_dearray.log": {
+      "sha256": "7b08e52f7d39286ad53e2bae6623aeb0ed8621dedd1d07b639b270a44dc81cf2",
+      "bytes": 3984
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-initial/inputs.json": {
+      "sha256": "42536535848210acc665028e05ba915b8169803f373d2036c279e39f9283481b",
+      "bytes": 507
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-initial/link.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-initial/test.log": {
+      "sha256": "1735adaaff8187651197b23cafd2fea17d1ab36bd73c944b99b2e29799ad3766",
+      "bytes": 652
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-invalid-pyramid/commands.json": {
+      "sha256": "1f8b899e0c2f3f30fd1adc8a1f83aee23806f55d02f17011b373549d9b730243",
+      "bytes": 2709
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-invalid-pyramid/compile-tests-tma_dearray_tests.log": {
+      "sha256": "6a1d0eb10861b9b9a236e75d4a1a6688f1cb7e74032ed6a8e262b9daaaf269b7",
+      "bytes": 887
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-invalid-pyramid/compile-tma_dearray.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-invalid-pyramid/inputs.json": {
+      "sha256": "c4d299e44e7f653e10fac51dfd6350e7e0600b97a4793934610d06c986202559",
+      "bytes": 507
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-invalid-pyramid/link.log": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "docs/benchmarks/tma-dearray-native-local/probe-invalid-pyramid/test.log": {
+      "sha256": "00994743f8798fff39a1620b7c4b3221c6003ecab423dec340a5b362fde18285",
+      "bytes": 600
+    },
+    "docs/benchmarks/tma-dearray-native-local/windows/build.log": {
+      "sha256": "00bab2b031705c48034f34f97a4efb1ad8ac0c2a963962095f0d25430a9179e1",
+      "bytes": 8677
+    },
+    "docs/benchmarks/tma-dearray-native-local/windows/build_manifest.hpp": {
+      "sha256": "6c6ad9ac57b213b69cfcf22ac82bc5c02e048980fa4f17632829d03909efffa0",
+      "bytes": 706
+    },
+    "docs/benchmarks/tma-dearray-native-local/windows/commands.json": {
+      "sha256": "e2a806854c574c1d492731c41972de88bac6146b654018595db3a32e25e0fee7",
+      "bytes": 4038
+    },
+    "docs/benchmarks/tma-dearray-native-local/windows/configure.log": {
+      "sha256": "9283dbea4ff0292bef7065642895aa6ce696b825fe891fc869265ad97b213965",
+      "bytes": 3579
+    },
+    "docs/benchmarks/tma-dearray-native-local/windows/qptma.xml": {
+      "sha256": "aa87dd5e0b39f23bf792222d61e2a6cf03b9715979c311038895874197190eab",
+      "bytes": 751
+    },
+    "docs/benchmarks/tma-dearray-native-local/windows/qptma_project.xml": {
+      "sha256": "1bf9d42d0ef385ec1e3d24fce62580038611e0dd9ac82c70d94b4180cd348cb7",
+      "bytes": 1294
+    },
+    "docs/benchmarks/tma-dearray-native-local/windows/test-qptma.log": {
+      "sha256": "5f48beaf2ba4dd09cc85b07abab8dd88fcc3d948ec8a390cb54b8361276a54e1",
+      "bytes": 231
+    },
+    "docs/benchmarks/tma-dearray-native-local/windows/test-qptma_project.log": {
+      "sha256": "0d3af053355673b8fb7fc7e68277f56cb97677d988d9517fdbcb298880d80803",
+      "bytes": 239
+    },
+    "docs/benchmarks/tma-dearray-native-local/windows/test-tma.log": {
+      "sha256": "8265811d3489aef4102984601edc58568c5a601739620484db0e61098b8f1ec5",
+      "bytes": 231
+    },
+    "docs/benchmarks/tma-dearray-native-local/windows/test-tma_dearray.log": {
+      "sha256": "12c5afdcc5ed7a47b3f7ee948cb4091cb50eb782719f13027b6626390fdb9ed1",
+      "bytes": 239
+    },
+    "docs/benchmarks/tma-dearray-native-local/windows/test-viewer_session.log": {
+      "sha256": "f9b7008406b5e8b310a6b337fbaa6885355ccc121039c55f78e5f5ef1f306d99",
+      "bytes": 242
+    },
+    "docs/benchmarks/tma-dearray-native-local/windows/tma.xml": {
+      "sha256": "bf37eaa21d427c2bd57621ab032c7cbe34b4ca8d09194836037a233b15bbbf84",
+      "bytes": 1223
+    },
+    "docs/benchmarks/tma-dearray-native-local/windows/tma_dearray.xml": {
+      "sha256": "446ffb2c592290c912e6fe3a705cfbf77fb67bab75756f396c3e27a539d10417",
+      "bytes": 1110
+    },
+    "docs/benchmarks/tma-dearray-native-local/windows/viewer_session.xml": {
+      "sha256": "8b6fd763d7513aca16964462c15448aea2372f12c48476632c53c77f6f332799",
+      "bytes": 765
+    }
+  },
+  "remaining": [
+    "ImGui proposal preview/apply",
+    "managed owner/revision adapter",
+    "CLI preview/export and project composition",
+    "physical-unit calibration API",
+    "real-slide and biological acceptance",
+    "complete supported-host/package qualification with new required cohorts"
+  ],
+  "local_native_python_engineering_accepted": true,
+  "release_ready": false,
+  "overall_project_complete": false
+}

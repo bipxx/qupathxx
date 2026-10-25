@@ -1,7 +1,8 @@
 # Automatic TMA dearraying
 
-The first native dearraying kernel is implemented with thin Python adapters;
-installed-package, UI, managed-owner and CLI integration remain in progress.
+The first native dearraying kernel and thin Python adapters pass local Windows,
+Linux and isolated installed-module checks. UI, managed-owner and CLI integration
+remain in progress; a distributable wheel is not qualified by these local checks.
 Seven independent synthetic masks and a pinned upstream capture define the
 workflow's geometry, missing-core behavior and refusal cases. The
 [fixture manifest](../tests/fixtures/tma-dearray-v1/manifest.json) binds the raw
@@ -86,8 +87,14 @@ natural-level coordinates and retained proposals. Existing QPTMA import gives
 one atomic undoable edit and wire round trips. An initial expanded test used
 an invalid pyramid level-zero fixture; that fixture was corrected without
 changing the detector. This focused probe links the new kernel against a
-retained native core; complete configured builds and installed Python checks
-are still required. It establishes neither biological nor release acceptance.
+retained native core. Subsequent configured Windows and Linux builds each pass
+five selected native suites. The isolated Windows module passes 214 installed
+cases with ten declared opt-in desktop skips, all 53 inherited desktop cases,
+seven strict positive typing files and three intended negative typing errors.
+Generated stubs match the installed extension. See the
+[local receipt](benchmarks/tma-dearray-native-local.json). The desktop cases
+exercise existing TMA/QPTMA/viewer behavior, not an automatic dearraying UI.
+These checks establish neither biological nor release acceptance.
 
 Python mirrors the two native overloads and options. Result grid/center values
 are returned as copies so Python callers cannot mutate a retained proposal.

@@ -1,0 +1,7 @@
+TMA_DEARRAY_FIXTURE aligned max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE interior_missing max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE rotated_missing max_center_error_pixels=2.84217e-14 missing_flags=match
+TMA_DEARRAY_FIXTURE skewed_missing max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_FIXTURE anisotropic max_center_error_pixels=0 missing_flags=match
+TMA_DEARRAY_ADMISSION exact/minus-one budgets, pre-IO geometry, malformed reads, epoch, alpha, polarity, cancellation passed
+TMA_DEARRAY_PUBLICATION retained proposal, atomic import/undo/redo, failed import rollback and QPTMA round trip passed

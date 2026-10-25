@@ -392,3 +392,7 @@ docs/benchmarks/tma-axis-196-campaign.json text eol=lf
 
 tests/fixtures/tma-dearray-v1/control-tests.xml -text -whitespace
 tests/fixtures/tma-dearray-v1/control-tests.log -text -whitespace
+
+# Native dearraying engineering records retain captured bytes.
+docs/benchmarks/tma-dearray-native-local/** -text -whitespace
+docs/benchmarks/tma-dearray-native-local.json text eol=lf

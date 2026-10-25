@@ -1,0 +1,7 @@
+{
+  "cpp/tma_dearray.cpp": "d648ccd23c63246c0183a1f6161dc9757f58798ef8fec8b8bdb9db5e90724054",
+  "cpp/include/qupathxx/tma_dearray.hpp": "0c9a55e6a8961e49ae98416e873587f0c979b32270eb1b1969bf7a64ed5fb8cd",
+  "cpp/tests/tma_dearray_tests.cpp": "e14e6ef7101feb9e1231c269a8d979beb780f53347d765a8d3de8766493f1ab3",
+  "CMakeLists.txt": "771455c16787efacd0ef6c531a5fc539766f16be7009f919f30faab33b54b7cb",
+  "retained_libqupathxx_core.a": "b45f72fcfd2d9fcdb05bc0c20e05b709d99f161d6bf9137db57bcdfc52040ab4"
+}
