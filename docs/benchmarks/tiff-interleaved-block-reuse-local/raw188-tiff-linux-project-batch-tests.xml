@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="3"
+	timestamp="2026-10-25T14:33:53"
+	>
+	<testcase name="project_batch" classname="project_batch" time="3.32853" status="run">
+		<properties/>
+		<system-out>Grid ROI planning, typed batch recipe, per-image calibration, interrupted resume and QCL5/CSV checkpoints passed
+Batch workflows, snapshot, restart, invalidation, bounds, CSV and cancellation passed
+</system-out>
+	</testcase>
+</testsuite>

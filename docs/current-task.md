@@ -293,7 +293,7 @@ The three strict legacy scientific xfails remain unresolved.
 
 Mac Intel passes 49 native suites, uploaded binary/notice inventory and fresh
 relocation probes. This is a single-architecture partial audit. Original ARM64
-job121245381654 is still queued; retain that handle and the frozen source rather
+job121245381654 is now building; retain that handle and the frozen source rather
 than redispatching. Complete two-architecture Mac acceptance and the combined
 campaign remain pending. Mac Python/GUI/OpenSlide remain outside this gate.
 
@@ -325,3 +325,32 @@ This is local engineering integration evidence. The frozen745662b campaign
 retains its original 218-case contract; new tests cannot retroactively acquire
 its platform acceptance. No extra builder was dispatched. Vendor/whole-slide/
 multi-file sampling and broader scientific, hardware and release gates remain.
+
+
+## Interleaved quantitative TIFF block reuse
+
+The [local reuse receipt](benchmarks/tiff-interleaved-block-reuse-local.json)
+binds compiled `046ac34`, fingerprint
+`cc3100f8486087129a8d9c0e848b7f35c010a55ea1084874786abd57daab99fb`,
+311 compiler inputs, a 494-file source proof and 60 retained evidence payloads.
+Adjacent selected channels in an interleaved IFD now share one decoded block
+regardless of LRU admission; separate-plane blocks remain distinct. The copy
+checks cancellation between rows and keeps original channel order/bits/padding.
+
+Before/after fixtures at zero and 1,024-byte caches observe 12 -> 6 interleaved
+tile decodes and 6 -> 3 strip decodes; separate tiles remain 12. These are work
+counts, not wall-clock speedups. Four before failures and two passing separate
+controls are retained. Windows and TIFF/project Linux each pass five selected
+native suites, including an independent byte-written multichannel TIFF fixture.
+The isolated Windows candidate passes all 254 required scientific desktop cases,
+189 runtime cases with three declared desktop skips, 34 selected desktop cases,
+103 auditor controls and generated-stub equality. Selective TIFF-reader/test
+ASan/UBSan passes with matching unsanitized dependencies; it is not a full-engine
+sanitizer run. The first broader runtime setup omitted the region executable;
+its ten failures are retained, and the current-source CLI is now included.
+
+The frozen745662b campaign is separate: engine and portable are accepted, and
+original Mac ARM64 job121245381654 has started building. Collect that exact job
+and finish the two-architecture Mac audit before promotion. New046ac34 binaries
+do not inherit the earlier campaign's exact-source acceptance. Full original
+M0-M7 scope remains active, with all milestones Partial.

@@ -1,0 +1,24 @@
+{
+  "source": "046ac3471f6cc3242bbf2b99fe287166e2fe76cc",
+  "source_contract_files": 494,
+  "scientific": {
+    "passed": 254,
+    "declared_headless_gui_skips": 0,
+    "gui": true,
+    "scientific_acceptance": false
+  },
+  "platforms": [
+    {
+      "platform": "Windows",
+      "selected_native_suites": 5,
+      "tiff_block_marker_verified": true
+    },
+    {
+      "platform": "Linux",
+      "selected_native_suites": 5,
+      "tiff_block_marker_verified": true
+    }
+  ],
+  "scope": "Selected native suites only; not complete platform campaign acceptance.",
+  "platform_campaign_accepted": false
+}
