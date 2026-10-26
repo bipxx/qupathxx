@@ -1,5 +1,6 @@
 #include "qupathxx/core.hpp"
 #include "qupathxx/raw_pixel_file_jobs.hpp"
+#include "qupathxx/raw_pixel_stream_contours.hpp"
 #include "raw_pixel_binding_utils.hpp"
 #include <type_traits>
 namespace nb=nanobind;using namespace nb::literals;
@@ -99,4 +100,33 @@ void bind_raw_pixel_files(nb::module_& m) {
         .def_prop_ro("raw_pixel_stream_records",&Document::raw_pixel_stream_records).def_prop_ro("raw_pixel_stream_record_count",&Document::raw_pixel_stream_record_count)
         .def("raw_pixel_stream_record",&Document::raw_pixel_stream_record,"id"_a).def("keep_raw_pixel_stream",&Document::keep_raw_pixel_stream,"link"_a,"name"_a="Raw pixel stream")
         .def("remove_raw_pixel_stream_record",&Document::remove_raw_pixel_stream_record,"id"_a).def("relink_raw_pixel_stream_record",&Document::relink_raw_pixel_stream_record,"id"_a,"link"_a);
+    nb::class_<RawPixelStreamContourOptions>(m,"RawPixelStreamContourOptions").def(nb::init<>())
+        .def_rw("contours",&RawPixelStreamContourOptions::contours)
+        .def_rw("max_boundary_runs",&RawPixelStreamContourOptions::max_boundary_runs)
+        .def_rw("boundary_work_bytes",&RawPixelStreamContourOptions::boundary_work_bytes)
+        .def_rw("work_bytes",&RawPixelStreamContourOptions::work_bytes).def("validate",&RawPixelStreamContourOptions::validate);
+    nb::class_<RawPixelStreamContours>(m,"RawPixelStreamContours")
+        .def_prop_ro("contours",&RawPixelStreamContours::contours)
+        .def_prop_ro("request_sha256",&RawPixelStreamContours::request_sha256)
+        .def_prop_ro("input_sha256",&RawPixelStreamContours::input_sha256)
+        .def_prop_ro("prediction_sha256",&RawPixelStreamContours::prediction_sha256)
+        .def_prop_ro("lattice",[](const RawPixelStreamContours& v){return v.lattice();})
+        .def_prop_ro("region",[](const RawPixelStreamContours& v){return v.region();})
+        .def_prop_ro("class_counts",[](const RawPixelStreamContours& v){return v.class_counts();})
+        .def_prop_ro("completed_windows",&RawPixelStreamContours::completed_windows)
+        .def_prop_ro("completed_samples",&RawPixelStreamContours::completed_samples)
+        .def_prop_ro("valid_samples",&RawPixelStreamContours::valid_samples)
+        .def_prop_ro("estimated_work_bytes",&RawPixelStreamContours::estimated_work_bytes)
+        .def_prop_ro("payload_bytes",&RawPixelStreamContours::payload_bytes);
+    nb::class_<PythonJob<RawPixelStreamContourJob>>(m,"RawPixelStreamContourJob").def(nb::init<>())
+        .def("request",qpx::bindings::job_method<&RawPixelStreamContourJob::request>(),"request"_a,"options"_a=RawPixelStreamContourOptions{})
+        .def_prop_ro("busy",qpx::bindings::job_method<&RawPixelStreamContourJob::busy>())
+        .def("cancel",qpx::bindings::job_method<&RawPixelStreamContourJob::cancel>())
+        .def("await_completion",qpx::bindings::job_method<&RawPixelStreamContourJob::await_completion>(),nb::call_guard<nb::gil_scoped_release>())
+        .def("poll",qpx::bindings::job_method<&RawPixelStreamContourJob::poll>(),"document"_a)
+        .def("wait",[](PythonJob<RawPixelStreamContourJob>& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a)
+        .def_prop_ro("result",qpx::bindings::job_method<&RawPixelStreamContourJob::result>());
+    m.def("trace_raw_pixel_stream",[](const RawPixelTiledPredictionRequest& r,RawPixelStreamContourOptions o){return trace_raw_pixel_stream(r,o);},"request"_a,"options"_a=RawPixelStreamContourOptions{},nb::call_guard<nb::gil_scoped_release>());
+    m.def("publish_raw_pixel_stream_contours",&publish_raw_pixel_stream_contours,"document"_a,"request"_a,"contours"_a,"name_prefix"_a="Raw pixel","work_bytes"_a=64u*1024*1024);
+
 }
