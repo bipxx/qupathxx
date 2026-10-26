@@ -1,6 +1,7 @@
 #include "qupathxx/project_batch.hpp"
 #include "batch_checkpoint.hpp"
 #include "pixel_stream_cli.hpp"
+#include "raw_pixel_cli.hpp"
 #include "cell_table_cli.hpp"
 #include "tma_case_cli.hpp"
 #include "qptma_project_cli.hpp"
@@ -74,10 +75,22 @@ int execute(const std::vector<std::string>& args) {
             "             --preview-width N --preview-height N --source-pixels N --output-pixels N --work-bytes N\n"
             "             --min-component-area N --max-component-area N --min-component-extent N\n"
             "             --max-fit-error N --max-rotation N --max-candidates N --pair-checks N --qptma-bytes N --name TEXT\n"
+            "       qupathxx_batch --train-raw-pixels PROJECT IMAGE_ID MODEL --checkpoint FILE --archive FILE [raw options]\n"
+            "       qupathxx_batch --export-raw-pixels PROJECT IMAGE_ID MODEL OUTPUT [raw options]\n"
+            "       qupathxx_batch --verify-raw-pixels FILE [--file-bytes N --work-bytes N]\n"
+            "Raw options: --x-axis O,E,N,C --y-axis O,E,N,C (default unit level-zero lattice)\n"
+            "             --tile-width N --tile-height N --work-bytes N --max-windows N --object ID\n"
+            "             --resume FILE --max-new-windows N --replace-existing --output-project NEW_FILE\n"
+            "Raw training: --channels N --first-channel N --z N --time N --offsets LIST --scales LIST\n"
+            "              --sigmas X,Y,... --gradient --laplacian --physical-sigmas --max-samples N\n"
+            "              --samples-per-class N --max-scanned-samples N --unbalanced --seed N\n"
+            "              --trees N --max-depth N --min-samples N --active-features N --forest-work-bytes N --checkpoint-bytes N\n"
+            "Raw prediction: --region X,Y,W,H (sample indices) --min-vote N --max-samples N --file-bytes N\n"
             "JSONL stdout; exit 0 success, 1 failure/partial, 2 arguments, 130 cancelled.\n";
         return args.size()==1?2:0;
     }
     try {
+        if(const auto result=detail::raw_pixel_cli(args,cancelled)) return *result;
         if(const auto result=detail::pixel_stream_cli(args,cancelled)) return *result;
         if(const auto result=detail::cell_table_cli(args,cancelled)) return *result;
         if(const auto result=detail::tma_case_cli(args,cancelled)) return *result;
