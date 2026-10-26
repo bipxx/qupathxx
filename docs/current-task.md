@@ -20,6 +20,8 @@
   Windows/Linux host, 200 installed cases and 15 desktop regressions pass.
   Next implement real TIFF FileName/UUID dispatch, file-aware cache keys and
   shared all-file guards/budgets, then complete the installed multi-file workflow.
+  Follow the [A-E delivery checkpoints](multifile-ome-tiff.md#delivery-checkpoints):
+  A is locally verified; B-E remain planned, starting with private TIFF indexing.
   E3/E4 attach to their next affected edits; MFO1 remains incomplete.
 - The [efficiency review](reviews/compilexx-efficiency-review.md) records seven
   evidence-backed improvements. Earlier sections below retain workflow history;
@@ -79,16 +81,17 @@ are not process RSS or latency measurements.
 ## Next work and remaining scope
 
 The [active feature branch](https://github.com/bipxx/qupathxx/tree/feature/scientific-grid-159)
-now contains locally verified TMA dearraying through native C++, Python, ImGui
+now contains engineering-accepted TMA dearraying through native C++, Python, ImGui
 preview/atomic apply, the managed viewer and standalone CLI. See the
 [frontend receipt](benchmarks/tma-dearray-frontends-local.json). The source191
-baseline remains the accepted public main; no later platform acceptance is implied.
+baseline remains the accepted public main. The separate `19371b7` TMA campaign
+is accepted by the combined receipt above; it has not been promoted to main.
 
 The dearray cohorts are now registered in all auditors and the producer, with
 373 local controls and independent collection/wiring checks. Explicit physical
 units pass native, Python, ImGui, managed and CLI checks. The completed
-engineering workflow is now [frozen for its required campaign](benchmarks/tma-dearray-202-campaign.json).
-Follow the original handles while continuing representative real-slide/biological
+engineering workflow's [frozen campaign](benchmarks/tma-dearray-202-campaign.json)
+has completed and passed its successor audits. Continue representative real-slide/biological
 and large-slide requirements. The original
 axis campaign completed but was [rejected by strict engine/portable audits](benchmarks/tma-axis-196-audit-rejection.json);
 do not promote it or dispatch another axis-only campaign to replace its records.

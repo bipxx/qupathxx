@@ -41,8 +41,8 @@ alongside the corrected, scoped checks.
 ## Shortest complete implementation route
 
 1. Extend the existing source identity with a bounded, owning dependency set.
-   `ReaderSource` currently retains only `primary`; its JSON and binary
-   provenance codecs cannot describe companion observations. Preserve existing
+   This foundation is implemented: `ReaderSource.companions` and versioned
+   JSON/QPV/QRA retain dependency observations. Preserve existing
    single-file encodings. Use an explicitly versioned encoding for compound
    sources and reject attempts to serialize one through an older encoding.
    An individual primary-file fingerprint must not claim to hash the fileset.
@@ -69,6 +69,49 @@ alongside the corrected, scoped checks.
    Persist the reader selection and complete captured source observations.
    Project relocation and an explicit relink must resolve the fileset again;
    no frontend-specific OME parser or alternate analysis implementation.
+
+## Delivery checkpoints
+
+These checkpoints detail MFO1 in the single ordered API queue; they are not
+separate release milestones. The integration owner implements them in order.
+Only the foundation is verified today; the dispatch design below is planned.
+
+| Checkpoint | Smallest implementation path | Exit / dependency |
+| --- | --- | --- |
+| A: source foundation | Reuse the implemented owning companion list, QPV3/QRA3/QRA4, stale-source comparison and typed bindings | Locally verified at native `4d59c46`, binding/stub follow-up `916d2fc`; retain the existing receipt and legacy byte fixtures |
+| B: file dispatch and indexing | Keep changes private to `cpp/tiff_server.cpp`. Catalog each resolved file with its UUID and file-local IFD range; add file ordinal to private IFDs and map logical planes to the catalog | Both synthetic entry points resolve the same C/Z/T pixels and SubIFDs; reject missing/wrong UUID, duplicate physical files, conflicting metadata, incomplete/duplicate slots and invalid IFD bounds |
+| C: resources and operation guards | Key the existing shared LRU by file ordinal, directory offset and block number. Use one active bounded libtiff decoder, switching files under the existing reader lock. Guard all dependencies once per complete raw/display operation, including cached and out-of-bounds reads | Colliding offsets return correct pixels; companion-only changes reject before publication; cancellation/close/lifetime behavior remains correct. No multiplied per-file decoder/cache allowance |
+| D: installed workflow closure | Reuse `open_tiff`, `TiffView`, raw requests, project save/reopen and existing frontend controllers. Preserve compound observations when deriving logical views | Installed Python exercises nonempty companion ownership; project restart/relink, QRA capture/replay, CLI, batch, ImGui and managed viewer use the real two-file corpus, with legacy single-file regressions |
+| E: coherent qualification | After B-D pass focused checks, freeze compiler inputs and register exact new cohorts in producer and auditors together; use the existing required platform campaign | Source-bound native/installed/frontend/platform receipts retain failures, skips, identities and raw evidence. Local foundation results do not qualify the completed reader |
+
+For B, resolve each explicit filename relative to the containing TIFF, normalize
+the absolute path and reuse an exact existing catalog entry. Legitimate `..`
+references must work from the companion entry point. Validate the referenced
+root UUID and selected-series dimensions, type, dimension order, channel groups,
+calibration and pyramid geometry semantically; XML formatting and per-file UUIDs
+need not be identical. A UUID without a filename may name an already cataloged
+file; otherwise refuse explicitly. Directory scanning and partial/BinaryOnly
+metadata remain unsupported until separately implemented and verified.
+
+For C, retain the source descriptor's existing limit of 63 companions plus the
+primary. Apply directory limits across the complete fileset: at most 65,536
+primary IFDs and 131,072 total IFD/SubIFD entries. Keep the existing 1 MiB XML
+limit per file and add a proposed 4 MiB aggregate XML limit. These are admission
+limits to implement and test, not measured RSS or latency guarantees. Hold
+opening guards through indexing and operation guards through final publication;
+do not reopen every companion for each inner display-conversion chunk. Preserve
+the compound scope and companions when creating another `TiffView` descriptor.
+
+Avoid retaining vector-element references while companion discovery grows the
+catalog. Use stable file records and integer directory indices. Copy TIFF-owned
+XML before switching the sole decoder handle. These private changes reuse the
+public source foundation instead of expanding public headers for dispatch.
+
+Run focused semantic checks after coherent edits, then freeze once for native
+builds. Compare the independent scalar equation and stored sample commitments,
+not only agreement between two qupathxx frontends. Reuse unchanged foundation
+and legacy evidence with explicit applicability; rebuild when compiler inputs
+change. Do not restart a live build on an observation timeout.
 
 ## Required acceptance
 

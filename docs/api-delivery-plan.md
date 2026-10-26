@@ -48,6 +48,10 @@ no additional agent delegation is implied by this table.
 
 E1/E2 shared a coherent successor tooling freeze and are now implemented.
 MFO1 is the next implementation item; no extra campaign is needed per helper.
+Use its [A-E delivery checkpoints](multifile-ome-tiff.md#delivery-checkpoints):
+A (source/codecs) is locally verified; B (file dispatch), C (resources/guards),
+D (installed project/frontends) and E (platform qualification) remain planned.
+B/C stay private to the existing TIFF implementation; D reuses public APIs.
 E1 is not permission to edit the frozen artifact source or waive its other
 checks. Keep the original audit failure and explicitly distinguish original
 producer, artifact source, successor auditor and re-audit result. Rebuild only

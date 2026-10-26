@@ -44,7 +44,10 @@ E3/E4 remain bounded improvements at the next affected owner, not a framework. T
 native/installed/desktop evidence. Real multi-file TIFF dispatch and complete
 project/frontend acceptance remain the next MFO1 work; no full reader support
 is inferred from the descriptor/codecs. The
-[seven-document review](reviews/compilexx-efficiency-review.md) supplies the
+[A-E delivery checkpoints](multifile-ome-tiff.md#delivery-checkpoints) specify
+the private reader implementation, bounded resources, installed workflow closure
+and final coherent qualification. Only checkpoint A is locally verified.
+The [seven-document review](reviews/compilexx-efficiency-review.md) supplies the
 failure evidence and distinguishes recommendations from applied product fixes.
 
 
