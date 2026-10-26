@@ -9,12 +9,25 @@
 #include <sstream>
 #include <stdexcept>
 
+namespace qpx {
+void RawPixelFeatureOptions::validate(std::uint32_t channels) const {
+    if(!channels || channels>128 || offsets.size()!=channels || scales.size()!=channels) throw std::invalid_argument("raw features require one explicit offset and scale per channel");
+    for(std::size_t c=0;c<channels;++c) if(!std::isfinite(offsets[c]) || (offsets[c]==0 && std::signbit(offsets[c])) || !std::isfinite(scales[c]) || scales[c]<=0) throw std::invalid_argument("invalid raw feature normalization");
+    if(sigmas.empty() || sigmas.size()>8 || channels*sigmas.size()*(1+std::size_t(gradient_magnitude)+std::size_t(laplacian))>128) throw std::invalid_argument("raw feature schema exceeds scale/column limits");
+    double previous_x=-1,previous_y=-1;
+    for(const auto s:sigmas) {
+        if(!std::isfinite(s.x) || !std::isfinite(s.y) || s.x<0 || s.y<0 || std::signbit(s.x) || std::signbit(s.y) || s.x>16 || s.y>16 || s.x<previous_x || s.y<previous_y || (s.x==previous_x && s.y==previous_y)) throw std::invalid_argument("raw feature scale pairs must increase componentwise within 0..16");
+        previous_x=s.x;previous_y=s.y;
+    }
+    if(work_bytes<1024*1024 || work_bytes>1024ULL*1024*1024) throw std::invalid_argument("raw feature work budget must be 1..1024 MiB");
+}
+}
+
 namespace qpx::detail {
 namespace {
 void stopped(const std::atomic<bool>* c) {if(c && c->load(std::memory_order_relaxed)) throw std::runtime_error("raw pixel feature extraction cancelled");}
 std::string number(double v) {std::ostringstream out;out.imbue(std::locale::classic());out<<std::setprecision(17)<<v;return out.str();}
 void text(Sha256& hash,const std::string& value) {hash.integer(value.size());hash.update(value.data(),value.size());}
-bool canonical_nonnegative(double v) {return std::isfinite(v) && v>=0 && !std::signbit(v);}
 std::size_t columns(std::uint32_t channels,const RawFeatureOptions& o) {return channels*o.sigmas.size()*(1+std::size_t(o.gradient_magnitude)+std::size_t(o.laplacian));}
 // Unnormalized numerator/support are convolved along both axes, then divided
 // once. A direct 2-D independently weighted reference is used by the tests.
@@ -44,17 +57,6 @@ void smooth(std::vector<double>& values,const std::vector<std::uint8_t>& valid,s
     for(std::size_t i=0;i<values.size();++i) {if((i&4095)==0) stopped(cancelled);values[i]=weights[i]>0?values[i]/weights[i]:0;}
 }
 }
-void RawFeatureOptions::validate(std::uint32_t channels) const {
-    if(!channels || channels>128 || offsets.size()!=channels || scales.size()!=channels) throw std::invalid_argument("raw features require one explicit offset and scale per channel");
-    for(std::size_t c=0;c<channels;++c) if(!std::isfinite(offsets[c]) || (offsets[c]==0 && std::signbit(offsets[c])) || !std::isfinite(scales[c]) || scales[c]<=0) throw std::invalid_argument("invalid raw feature normalization");
-    if(sigmas.empty() || sigmas.size()>8 || columns(channels,*this)>128) throw std::invalid_argument("raw feature schema exceeds scale/column limits");
-    double previous_x=-1,previous_y=-1;
-    for(const auto s:sigmas) {
-        if(!canonical_nonnegative(s.x) || !canonical_nonnegative(s.y) || s.x>16 || s.y>16 || s.x<previous_x || s.y<previous_y || (s.x==previous_x && s.y==previous_y)) throw std::invalid_argument("raw feature scale pairs must increase componentwise within 0..16");
-        previous_x=s.x;previous_y=s.y;
-    }
-    if(work_bytes<1024*1024 || work_bytes>1024ULL*1024*1024) throw std::invalid_argument("raw feature work budget must be 1..1024 MiB");
-}
 std::size_t raw_feature_work_bytes(const RawImageMetadata& metadata,const ScientificGrid& grid,const ScientificRawOptions& raw,const RawFeatureOptions& options) {
     options.validate(raw.channels);const auto channels=raw.channels;
     const auto width=std::uint64_t(grid.width()),height=std::uint64_t(grid.height());
@@ -81,10 +83,11 @@ std::size_t raw_feature_work_bytes(const RawImageMetadata& metadata,const Scient
     if(grid.x().context()<std::ceil(3*last.x)+derivative || grid.y().context()<std::ceil(3*last.y)+derivative) throw std::invalid_argument("raw feature grid lacks required per-axis halo");
     return bytes+fixed;
 }
-std::vector<ClassifierFeature> raw_feature_schema(const ScientificRawGrid& input,const RawFeatureOptions& options) {
-    options.validate(input.channels());std::vector<ClassifierFeature> result;result.reserve(columns(input.channels(),options));
-    for(std::uint32_t c=0;c<input.channels();++c) for(const auto s:options.sigmas) {
-        const auto prefix="raw-pixel-v1."+sample_name(input.metadata().sample_type)+".c="+std::to_string(input.options().first_channel+c)+".offset="+number(options.offsets[c])+".scale="+number(options.scales[c])+".sigma-x="+number(s.x)+".sigma-y="+number(s.y);
+std::vector<ClassifierFeature> raw_feature_schema(const ScientificRawGrid& input,const RawFeatureOptions& options) {return raw_feature_schema(input.metadata(),input.options(),options);}
+std::vector<ClassifierFeature> raw_feature_schema(const RawImageMetadata& metadata,const ScientificRawOptions& raw,const RawFeatureOptions& options) {
+    options.validate(raw.channels);std::vector<ClassifierFeature> result;result.reserve(columns(raw.channels,options));
+    for(std::uint32_t c=0;c<raw.channels;++c) for(const auto s:options.sigmas) {
+        const auto prefix="raw-pixel-v1."+sample_name(metadata.sample_type)+".c="+std::to_string(raw.first_channel+c)+".offset="+number(options.offsets[c])+".scale="+number(options.scales[c])+".sigma-x="+number(s.x)+".sigma-y="+number(s.y);
         result.emplace_back(prefix+".gaussian","normalized-raw");
         if(options.gradient_magnitude) result.emplace_back(prefix+".gradient-magnitude","normalized-raw/grid-px");
         if(options.laplacian) result.emplace_back(prefix+".laplacian","normalized-raw/grid-px2");

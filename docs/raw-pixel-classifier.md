@@ -95,3 +95,53 @@ A1 numeric/reference preparation and A2 native checks do not complete SCI1-A:
 A3-A6 still require training/prediction, codecs/resume, installed frontends and
 the full frozen qualification. Biological labels, model comparisons and real
 hardware acceptance retain their separate prerequisites.
+
+
+## Native raw model and captured-grid prediction (QPR1)
+
+`RawPixelRecipe` captures dtype, series, selected channel indices/names and Z/T,
+explicit affine normalization, both rational sampled-grid spacings and feature
+operations. `physical_sigmas=true` interprets the requested sigma pair in
+micrometres, requires known positive calibration on both axes and resolves it
+to per-axis grid units. The kernel limit applies after that conversion; a
+100-micrometre request on 100-micrometre sampled pixels is a one-pixel kernel.
+A physical model matches exactly equal binary64 sampled physical spacing on
+each axis. A grid-unit model matches exactly equal reduced rational spacing.
+No biological tolerance or automatic approximate resolution match is implied.
+
+The reusable model has no training image dimensions, ROI/origin, filename or
+content hash. Changed dtype, channel labels/order/selection, series or Z/T
+reject; inference can use a new image or subwindow with matching sampling
+semantics. `RawPixelClassifier` validates the recipe against the existing
+`ForestModel` schema and reuses its bounded votes. `classify_raw_pixels` takes
+an immutable captured `ScientificRawGrid`; it retains both grid axes, owning
+labels, validity, vote fractions, class counts and model/feature/input hashes.
+An invalid row remains unclassified. A low-confidence valid row has label zero
+and retains its vote fraction. This is not calibrated probability.
+
+QPR1 is distinct from the unchanged RGB QPC1/QPC2 format. Its binary header is
+`Q P R 0x01`; integers and binary64 bits are little-endian uint64. Fields in
+order are dtype, series, first channel, channel count, Z, T, sampler work budget;
+X numerator/denominator then Y numerator/denominator; physical flag and optional
+sampled X/Y micrometre spacing; one uint64-length UTF-8 name per channel; one
+(offset, scale) binary64 pair per channel; scale count followed by X/Y sigma
+pairs; gradient/laplacian bits 0/1 and feature work budget; forest byte count
+and the existing forest bytes. The final 64 ASCII bytes are SHA-256 of the
+preceding bytes. Reject unsupported versions, noncanonical/repeated scales,
+negative zero/nonfinite parameters, invalid selections, oversized text/arrays,
+truncated/trailing data, checksum/schema mismatch and noncanonical re-encoding.
+The model is bounded by 64 MiB plus 128 KiB; names total at most 64 KiB.
+
+Loading uses the established regular-file guard and verifies stable source
+bytes. Saving uses the existing atomic exporter. New-file mode refuses an
+existing destination; replacement first validates an existing QPR model and
+never overwrites an unrelated file. Pre-cancellation preserves destinations.
+The native feature suite contains a separately authored QPR framing oracle,
+exact forest vote cases, physical calibration mismatch/unknown controls,
+streamed/full-grid checks and exact allocation admission tests.
+
+These model and captured-grid APIs precede owner-captured annotation training
+and prediction jobs. They do not yet supply Document publication, retained
+analysis archives/checkpoints, Python bindings, batch or desktop actions.
+Those remaining A3-A6 integrations must preserve the same raw authority rather
+than routing quantitative values through the scalar-downsample RGB result.
