@@ -1,10 +1,10 @@
 # Quantitative pixel classifier numeric contract
 
-Status: native features, model/recipe files and captured-grid prediction have
-[local Windows/Linux evidence](benchmarks/raw-pixel-classifier-local.json) at
-`ed2bf40`. Public C++ types are present; owner-captured training/jobs,
-project/result archives, Python and UI integration remain open. RGB `pixel-v1`
-and QPC1/QPC2 stay unchanged.
+Status: native features/models and bounded owner-captured sampling/prediction
+jobs have [local Windows/Linux evidence](benchmarks/raw-pixel-workflows-local.json)
+at `7beb80b`. C++ types and controllers are present. Backend-enabled forest
+training, retained project results/apply, archives, rational-window streaming,
+Python and UI integration remain open. RGB `pixel-v1` and QPC1/QPC2 stay unchanged.
 
 The existing path is `PixelTrainingRequest` → `extract_pixel_features` →
 float32 training rows → `ForestModel` → `PixelPredictionRequest` /
@@ -142,8 +142,8 @@ The native feature suite contains a separately authored QPR framing oracle,
 exact forest vote cases, physical calibration mismatch/unknown controls,
 streamed/full-grid checks and exact allocation admission tests.
 
-These model and captured-grid APIs precede owner-captured annotation training
-and prediction jobs. They do not yet supply Document publication, retained
+These model and captured-grid APIs now compose through the owner-captured
+controllers below. They do not yet supply Document retention/apply, retained
 analysis archives/checkpoints, Python bindings, batch or desktop actions.
 Those remaining A3-A6 integrations must preserve the same raw authority rather
 than routing quantitative values through the scalar-downsample RGB result.

@@ -2,20 +2,23 @@
 
 ## Current execution card (2026-10-26)
 
-- Integration: `feature/scientific-grid-159`. Native source `ed2bf40` adds
-  `RawPixelRecipe`, `RawPixelClassifier`, QPR1 model files and captured-grid
-  prediction using the existing forest and quantitative feature kernel. The
-  [local receipt](benchmarks/raw-pixel-classifier-local.json) binds identical
-  325-input fingerprint `afa72c42...7683fd` on Windows/Linux. Six selected suites
-  pass per host, including RGB workflow compatibility, the previous 12,600
-  reference feature slots, independent QPR1 framing, forest vote/confidence,
-  channel/grid/physical mismatch, atomic file and resource/cancellation controls.
-- Next product action: owner-captured raw annotation training/prediction and
-  jobs, reusing existing raw-source/ROI and object snapshot authorities.
-  Preserve both axes, finite support and stale/cancel publication behavior.
-  Project result archives, stream/checkpoint resume, real backend-enabled
-  training, Python/CLI/batch/ImGui/managed viewer and integrated qualification
-  remain required. See the [contract](raw-pixel-classifier.md) and
+- Integration: `feature/scientific-grid-159`. Native source `7beb80b` adds
+  owner-captured raw annotation sampling and prediction jobs, sharing current
+  raw-analysis/object authorities, spatial indexing, reservoir and model kernels.
+  The [local receipt](benchmarks/raw-pixel-workflows-local.json) binds identical
+  330-input fingerprint `700f1a10...e1677c` on Windows/Linux. Six selected suites
+  pass per host: numeric/model/RGB regressions plus labelled overlaps, non-unit
+  rational axes, document calibration overrides, pre-IO refusal, cancellation,
+  metadata/compound-file staleness, retry and owner-thread result delivery.
+  Initial test-helper include failures and the corrected development pass remain
+  separate. Partitioned-index ownership now chooses the minimum annotation ID.
+- Next product action: owner-stage retention/apply and versioned training/result
+  archives, followed by rational-window tiled execution/checkpoint resume and
+  Python/CLI/batch/ImGui/managed viewer. Local training is configured OFF;
+  sampling/prediction run and unsupported training refuses before pixel IO.
+  Actual backend-enabled training and integrated platform/research/resource
+  qualification remain required. Whole-grid admission does not complete streaming.
+  See the [contract](raw-pixel-classifier.md) and
   [A1-A6 route](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
 - MFO1 fault campaign213 is now [engineering accepted](benchmarks/multifile-fault-213-qualification.json)
   at frozen `bfa416e`. All 11 archive sizes/digests/sources and strict full engine,

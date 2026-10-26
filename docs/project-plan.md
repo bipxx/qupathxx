@@ -39,11 +39,13 @@ later E3/E4 tooling keep their own implementation/local evidence and are include
 in that source. Preserve the earlier partial observation and every source identity.
 
 The next product workflow is [typed raw pixel classification](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
-Native features, QPR1 reusable model files and captured-grid prediction now have
-[local evidence at `ed2bf40`](benchmarks/raw-pixel-classifier-local.json). Next
-integrate owner-captured labelled annotation training/prediction and jobs, then
-project result archives/checkpoints and the existing frontends. Both grid axes
-and explicit physical/channel/normalization semantics must survive that path.
+Native features, QPR1 reusable models and bounded owner-captured annotation
+sampling/prediction jobs now have [local evidence at `7beb80b`](benchmarks/raw-pixel-workflows-local.json).
+Next integrate owner-stage retention/apply, result/table archives and
+phase-preserving tiled/checkpoint execution, then the existing frontends.
+Positive backend-enabled forest training is still required; local caches have
+training OFF. Both axes and captured document calibration, channel and
+normalization semantics must survive that complete workflow.
 RGB models remain compatible. The new classifier source is not covered by the
 older multi-file campaign. Scientific/model and eligible hardware evidence
 continue alongside implementation with explicit consumer dependencies.

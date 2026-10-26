@@ -338,3 +338,24 @@ now accepts all 11 verified archives and full engine/Mac-native/portable audits
 at `bfa416e`. Preserve the earlier partial receipt and source identities. The
 newer classifier source is not covered, and no new qualification was dispatched
 for its individual checkpoints. All broader milestone requirements remain.
+
+
+## Owner workflow execution delta (2026-10-26)
+
+[Native workflow evidence](../benchmarks/raw-pixel-workflows-local.json) at
+`7beb80b` verifies bounded raw annotation sampling/prediction jobs on both
+Windows/Linux hosts. Six selected suites pass per host. Source/ROI and object
+snapshot authorities, deterministic RGB reservoir and spatial index are reused;
+no second document authority or worker-side document mutation is introduced.
+Document calibration and raw file metadata remain separate captured epochs.
+Fresh primary/companion guards run at completed-result delivery, rather than on
+every progress poll. Actual backend-enabled training, retention/apply, archives,
+phase-preserving streaming/resume and all installed frontends remain open.
+
+The initial test-helper reuse missed explicit core/RGB includes; the core built,
+but both test consumers failed. Fix the owning helper imports, preserve the raw
+failure and avoid reliance on including translation-unit order. Review also
+found that spatial queries do not promise ID order: use an explicit minimum ID
+for same-class overlap ownership. A partitioned-index regression distinguishes
+that case. Final 330-input source proof, raw logs and selected binaries are
+retained. No wheel/stub rebuild or per-checkpoint hosted campaign was performed.

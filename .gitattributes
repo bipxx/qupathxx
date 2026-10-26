@@ -475,3 +475,7 @@ docs/benchmarks/raw-pixel-classifier-local/** -text -whitespace
 docs/benchmarks/raw-pixel-classifier-local.json -text -whitespace
 docs/benchmarks/multifile-fault-213-qualification/** -text -whitespace
 docs/benchmarks/multifile-fault-213-qualification.json -text -whitespace
+
+# Owner-captured raw workflow native evidence.
+docs/benchmarks/raw-pixel-workflows-local/** -text -whitespace
+docs/benchmarks/raw-pixel-workflows-local.json -text -whitespace

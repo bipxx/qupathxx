@@ -1,0 +1,340 @@
+{
+  "schema": "qpx.raw-pixel-workflows-local/1",
+  "observed_at_utc": "2026-10-26T05:38:49.373228+00:00",
+  "source": "7beb80bd0d8368249afcc1a6610b5d1a77c1b4b0",
+  "compiled_fingerprint": "700f1a1033155cfe23ba5f2a0bce29eac3a61977e3accd8663428a36e5e1677c",
+  "compiler_inputs": 330,
+  "status": "owner_captured_native_sampling_and_prediction_jobs_locally_verified",
+  "scope": "C++ owner-captured annotation sampling, physical recipe and bounded-grid prediction jobs; positive backend training, retained project records/archives, streamed resume, Python/CLI/UI and platform qualification remain open",
+  "native": {
+    "windows_suites": 6,
+    "linux_suites": 6,
+    "required_markers": [
+      "Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed",
+      "Typed raw pixel features: 12 independent dtype/extreme references, per-channel support, anisotropic scales, stream seams, admission and cancellation passed",
+      "Raw classifier QPR1 independent framing, channel/grid/physical contracts, forest votes, streams, exact budgets and atomic model files passed"
+    ]
+  },
+  "independent_reference": {
+    "feature_cases": 12,
+    "feature_slots": 12600,
+    "feature_baseline": "docs/benchmarks/raw-pixel-features-local.json",
+    "qpr1": "separately authored native framing and forest split/vote fixtures"
+  },
+  "physical_matching": "exact binary64 sampled spacing per axis; grid-unit recipes use exact reduced rational spacing",
+  "remaining": [
+    "Backend-enabled real forest training qualification; local caches configure training OFF",
+    "Document retention, owner-stage apply/undo and full project/result archives",
+    "Phase-preserving tiled windows and stream/checkpoint resume with both grid axes",
+    "Python/NumPy, CLI/batch, managed viewer and ImGui integration",
+    "Source-bound named cohorts, integrated platform and biological/model/hardware acceptance"
+  ],
+  "training_backend_configuration": {
+    "windows": "OFF",
+    "linux": "OFF"
+  },
+  "backend_enabled_training_accepted": false,
+  "initial_compile_failure_source": "7a853dcf356601ef591f8ec00df8a46dd347b959",
+  "corrected_development_source": "3c2a269f303fd939722003a18c4c1b366f04a6cd",
+  "overlap_tie_break": "minimum annotation ID independent of unsorted spatial-index traversal; partitioned-index regression",
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/build.log",
+      "bytes": 6445,
+      "sha256": "ea9335410826b1f18108e7021d45a5adddc25711ef911643c147101722970e98"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "61fb5a2f2dbf4118831e3139b713daa2d07aadd4db57c157efe95bb8cd417e5d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/classifier.xml",
+      "bytes": 382,
+      "sha256": "b65c3731f3a290561504163b7f0c119328ddb3e17c7ecd89e450ef880ceedf1f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/classifier_io.xml",
+      "bytes": 379,
+      "sha256": "e67ad06ade357eb20b5cbdb18165299d7b0b788f012ebc9233eca9bc4f75969b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/commands.json",
+      "bytes": 4653,
+      "sha256": "874803c08cc5a016ef84de4cf9b1b34d4fb1439e99320bce938a0f9654a6ba55"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/compiler-inputs.json",
+      "bytes": 34592,
+      "sha256": "3fa9642c5232ba852551b8ef4d148d406c748bd59c5472b99263b5fcc579c59a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/configure.log",
+      "bytes": 3579,
+      "sha256": "1210396a4884ebd70696cdb851eb673e06864b8d453da49dca9dce3ffa2292d1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/pixel_features.xml",
+      "bytes": 737,
+      "sha256": "d2908c1d307f99b1e365a5fd627fdafb4f134f0543c3e1746c6ff0949563f985"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/pixel_workflows.xml",
+      "bytes": 643,
+      "sha256": "33695bc995427703f6e6edd7de771c7d9794f6316245c0bf735c2ec4848baacd"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/resampling.xml",
+      "bytes": 2308,
+      "sha256": "ab9d85fb14330cb00732abeaebf1bbf4a781ce0688df00026f1823f04d09ed4a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/source_identity.xml",
+      "bytes": 537,
+      "sha256": "918be3b294db6389f6ce9e276f652d3975c06f8589c6b5f92ccf53106e44ad80"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/test-classifier.log",
+      "bytes": 236,
+      "sha256": "b713ccd00e5cf7641261efa4bbfaed449dbaf99ab4fcbdb375e8b4703f9f9e4f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/test-classifier_io.log",
+      "bytes": 239,
+      "sha256": "4e79ff921f64f9d99fdf14d874f2369a97bb18f54c43b2110558856051f662ed"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/test-pixel_features.log",
+      "bytes": 240,
+      "sha256": "83f7eec7c2608ffed34cd70bfdd195c67027ee14931d0157cdfa1cabb2c28716"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/test-pixel_workflows.log",
+      "bytes": 241,
+      "sha256": "8abff10577e79e1738e0baaf89ed93e4a1a6f5ff44d1636055d4492c38f9f4e8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/test-resampling.log",
+      "bytes": 236,
+      "sha256": "f44097e8371fd6e1e8554c9cb44e615881e7e65c8e9dff36ed774b4789ea591a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/test-source_identity.log",
+      "bytes": 243,
+      "sha256": "3f29058b6f59b66e5cbcbbb4b1631fa89d06988bea6a7c35e4616087416973a9"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/linux/build.log",
+      "bytes": 17320,
+      "sha256": "17979c7106f0a5283ecb6d04499ca78c9ae2044d809b3fda29d98605c9382ae5"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/linux/build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "5abb57ccb92bb3e53eed83c0af6544ad994b3e0d4ec3ea1760723b3a62f8b4b4"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/linux/commands.json",
+      "bytes": 2433,
+      "sha256": "b5df082ef5b8c6b54de5d43a041823ca82b1baf9c65129981f7693319dab2b8d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/linux/compiler-inputs.json",
+      "bytes": 34592,
+      "sha256": "3fa9642c5232ba852551b8ef4d148d406c748bd59c5472b99263b5fcc579c59a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/linux/configure.log",
+      "bytes": 3354,
+      "sha256": "8fa9437024b92918979190a93d3ec82585f39c34f20afc5bd7aa2489ded8c298"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/linux/tests.log",
+      "bytes": 859,
+      "sha256": "0eaee5f86f2f3e82432794c923d1b1d3747e6b44eac596fc470edc5dc736b90f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/linux/tests.xml",
+      "bytes": 3924,
+      "sha256": "1616429686749d94829b56fd4982318504d624de2d5a77c483772be751547266"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/retained-binaries.json",
+      "bytes": 3051,
+      "sha256": "85563a8dc3a93ad96256f949cf94ecffd0f1caa4454b7375c7f1285ecb40e898"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/compiler-git-proof.json",
+      "bytes": 114587,
+      "sha256": "c2ba0fe57d05aba8fe78219e3a0373c43c53d920d22864bfa65fabb96b25af9e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/build-driver.py",
+      "bytes": 3820,
+      "sha256": "c5ae5202ccb851c0c5237a396e30f4dc1110e668856c96bcd261e734fa4e9373"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216-windows/build.log",
+      "bytes": 83483,
+      "sha256": "c8cf43cfd27836eb3e06f32c3a68458c86e908c770aa9c86af6eb21bf67856e3"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216-windows/commands.json",
+      "bytes": 1032,
+      "sha256": "1f8607fdff94b8e3d87b950cc094d7c8e3453471aaffe822ab9e30d389111b92"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216-windows/compiler-inputs.json",
+      "bytes": 34592,
+      "sha256": "54d8aec26d31d4503cb652af527aa8147d2373273cff7aaf0d8a91411e0985b2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216-windows/configure.log",
+      "bytes": 3579,
+      "sha256": "55550932c532b344e3aed2e682e5b65fbbdcb000e3b44ffc94a16b03cb4b3e6b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216-linux/build.log",
+      "bytes": 43418,
+      "sha256": "7a4557f2832f563fb195f0a7c8e71c0ea4d23b4b863bf5e695acf9bd12840894"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216-linux/commands.json",
+      "bytes": 1551,
+      "sha256": "828a8233637949d55720e79a800b7450749c7635063f08974d073dea2ce7c2e2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216-linux/compiler-inputs.json",
+      "bytes": 34592,
+      "sha256": "54d8aec26d31d4503cb652af527aa8147d2373273cff7aaf0d8a91411e0985b2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216-linux/configure.log",
+      "bytes": 3354,
+      "sha256": "3a2da08b8877f3d5efa4149b6803ca7246af90062d5b0acc3d0912a56a66ed53"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/build.log",
+      "bytes": 6742,
+      "sha256": "f666a39ca81cad70e587ebfeabddda4db6ee70dc6da02a73710d4e05516a5f45"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/classifier.xml",
+      "bytes": 382,
+      "sha256": "ea3e78ee6a522ae23e2faf2619bc7d5d30ace9dd5d9601198f651e7f6fd1fbe2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/classifier_io.xml",
+      "bytes": 379,
+      "sha256": "1d4eda63a1fa64ddcbf2406ce3ddc3b3d66b88e220d170a6830df052e60ebe2f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/commands.json",
+      "bytes": 4655,
+      "sha256": "4c494eafc8962b2750ae6052160a442de49b86f654beba9a2e6b74d563cba933"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/compiler-inputs.json",
+      "bytes": 34592,
+      "sha256": "b6f90da23c2056d75a8026560b1877c277cf0d7ec02dcb589477496506ecac33"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/configure.log",
+      "bytes": 3579,
+      "sha256": "0ad9857c71cde33c49e927afd93591427727f38a5f3939a47eea8585f03bb271"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/pixel_features.xml",
+      "bytes": 737,
+      "sha256": "f8a676625c767b0cc720884fc40e70f65dfd087964f7cba4323417a866b5e4a2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/pixel_workflows.xml",
+      "bytes": 643,
+      "sha256": "bb092a2131c9fc1abff3594418d1dc6c35247094c26dc0f2558b3da91cdb0e0c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/resampling.xml",
+      "bytes": 2308,
+      "sha256": "6b845fea791b379c56f610861c0995f99ed88f00844c78be42915165643ebb5d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/source_identity.xml",
+      "bytes": 537,
+      "sha256": "6970be64fe9770e4622f1647de63f27767194a9378853394dd74b063187ded1e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/test-classifier.log",
+      "bytes": 236,
+      "sha256": "219ca3e3dec05fd0ff96d105560bbd88d441f248e80c092ebbebb3266c2fca5e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/test-classifier_io.log",
+      "bytes": 239,
+      "sha256": "2003edfe97a87b54612f127721a252cf32a0a9068824242c4559b5104d5cbd06"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/test-pixel_features.log",
+      "bytes": 240,
+      "sha256": "4b4104717e587f2b5f151762c2e1ba2fe62b9622b39fee85caf99fee5c27d8f3"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/test-pixel_workflows.log",
+      "bytes": 241,
+      "sha256": "1712d430a4d32dbbc2535c44d94d5ebcd7f31b639afa47c3836ebe0682871a15"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/test-resampling.log",
+      "bytes": 236,
+      "sha256": "d548576e0c43236e35d25443baae57849cf6ba85707889825ffb731fab6e027b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-windows/test-source_identity.log",
+      "bytes": 243,
+      "sha256": "c1636ddf8769b7a07c5a2e5885b4f697aec5bac82736e8673384406f6eb4bde5"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-linux/build.log",
+      "bytes": 6568,
+      "sha256": "a0c038c3aefd623f18fa610d2547f6744da5700c39bef2a784df3cc10f23499f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-linux/commands.json",
+      "bytes": 2433,
+      "sha256": "12627e404485d4d880ce876a41d8404292d6f9f36baa2c8f6e8d154950e6167d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-linux/compiler-inputs.json",
+      "bytes": 34592,
+      "sha256": "b6f90da23c2056d75a8026560b1877c277cf0d7ec02dcb589477496506ecac33"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-linux/configure.log",
+      "bytes": 3354,
+      "sha256": "ae22e0d5b2af60ff081027f4e99d8f8b2253e47b4e2624bd987a37d64d184d43"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-linux/tests.log",
+      "bytes": 859,
+      "sha256": "a3d638290b9de8a1695807c28d09b305303d2e45fa0f7de92d724936c51f76c3"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/development/rawjobs216b-linux/tests.xml",
+      "bytes": 3921,
+      "sha256": "3e7e9d919cfd5af0a7986ec32b88ffe01aaaf9fea38dc27b889698fcc617245a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/windows/configuration.json",
+      "bytes": 452,
+      "sha256": "59525ad96ae4e31677e06a03bc6db3c288f2cfaef9d700d4266df700662e4ad6"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-workflows-local/linux/configuration.json",
+      "bytes": 454,
+      "sha256": "e2a6aa24c625be4c4711adda27ac42157773282339a1f6f536cb33e3a2549600"
+    }
+  ],
+  "retained_binaries": "build/rawjobs216c-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial"
+}
