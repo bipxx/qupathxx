@@ -56,13 +56,13 @@ ScientificGrid grid(Reader& r) {
     return {width,height,{x,extent_x,samples_x,context_x},{y,extent_y,samples_y,context_y},1024ULL*1024*1024};
 }
 void source(Writer& w,const RawPixelSourceSnapshot& s) {
-    if(!s.provenance) throw std::invalid_argument("raw pixel archive has no provenance");w.blob(ProvenanceCodec::encode(*s.provenance));const auto& m=s.metadata;
+    if(!s.provenance) throw std::invalid_argument("raw pixel archive has no provenance");w.blob(ProvenanceCodec::encode(*s.provenance,true));const auto& m=s.metadata;
     w.signed_integer(m.width);w.signed_integer(m.height);for(auto v:{m.channels,m.z_planes,m.timepoints,m.series,m.series_count,std::uint32_t(m.sample_type)}) w.integer(v);
     w.integer(m.levels.size());for(const auto& level:m.levels) {w.signed_integer(level.width);w.signed_integer(level.height);w.real(level.downsample);}
     w.integer(m.channel_names.size());std::size_t names=0;for(const auto& name:m.channel_names) {detail::bounded_utf8(name,65536);names+=name.size();if(names>1024*1024) throw std::length_error("raw pixel metadata labels exceed limit");w.text(name);}detail::bounded_utf8(m.dimension_order,64);w.text(m.dimension_order);w.optional(m.pixel_width_um);w.optional(m.pixel_height_um);w.optional(m.z_spacing_um);w.optional(m.time_interval_seconds);w.text(s.epoch);
 }
 RawPixelSourceSnapshot source(Reader& r,const ScientificGrid& g) {
-    RawPixelSourceSnapshot s;const auto p=r.view(16u*1024*1024);s.provenance=ProvenanceCodec::decode(p.first,p.second);auto& m=s.metadata;m.width=r.signed_integer();m.height=r.signed_integer();m.channels=std::uint32_t(r.integer(65536));m.z_planes=std::uint32_t(r.integer(65536));m.timepoints=std::uint32_t(r.integer(65536));m.series=std::uint32_t(r.integer(UINT32_MAX));m.series_count=std::uint32_t(r.integer(UINT32_MAX));m.sample_type=SampleType(r.integer(9));
+    RawPixelSourceSnapshot s;const auto p=r.view(16u*1024*1024);s.provenance=ProvenanceCodec::decode(p.first,p.second,true);auto& m=s.metadata;m.width=r.signed_integer();m.height=r.signed_integer();m.channels=std::uint32_t(r.integer(65536));m.z_planes=std::uint32_t(r.integer(65536));m.timepoints=std::uint32_t(r.integer(65536));m.series=std::uint32_t(r.integer(UINT32_MAX));m.series_count=std::uint32_t(r.integer(UINT32_MAX));m.sample_type=SampleType(r.integer(9));
     const auto levels=r.integer(1024);for(std::uint64_t i=0;i<levels;++i) {const auto width=r.signed_integer(),height=r.signed_integer();const auto scale=r.real();if(width<=0 || height<=0 || scale<1) throw std::invalid_argument("invalid raw pixel source level");m.levels.push_back({width,height,scale});}
     const auto channels=r.integer(65536);std::size_t bytes=0;for(std::uint64_t i=0;i<channels;++i) {auto name=r.text(65536);bytes+=name.size();if(bytes>1024*1024) throw std::length_error("raw pixel metadata labels exceed limit");m.channel_names.push_back(std::move(name));}
     m.dimension_order=r.text(64);m.pixel_width_um=r.optional();m.pixel_height_um=r.optional();m.z_spacing_um=r.optional();m.time_interval_seconds=r.optional();s.epoch=r.text(64);hash_check(s.epoch);

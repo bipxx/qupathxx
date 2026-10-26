@@ -23,8 +23,8 @@ struct Reader {
     FileVersion file() {FileVersion v;for(auto* text:{&v.path,&v.identity_scheme,&v.identity,&v.stamp_scheme,&v.modified_token,&v.change_token}) *text=string();v.bytes=integer(std::numeric_limits<std::int64_t>::max());v.observed_unix_ms=integer(std::numeric_limits<std::int64_t>::max());return v;}
 };
 }
-std::vector<std::uint8_t> ProvenanceCodec::encode(const AnalysisProvenance& p) {
-    p.validate();Writer w;for(auto v:{p.object_id,p.object_revision,p.document_revision,p.captured_unix_ms,std::uint64_t(p.nucleus),std::uint64_t(p.source.width),std::uint64_t(p.source.height)}) w.integer(v);
+std::vector<std::uint8_t> ProvenanceCodec::encode(const AnalysisProvenance& p,bool allow_source_only) {
+    p.validate();if(p.source_only && !allow_source_only) throw std::invalid_argument("source provenance requires an explicit source consumer");Writer w;if(p.source_only) w.data[3]=4;for(auto v:{p.object_id,p.object_revision,p.document_revision,p.captured_unix_ms,std::uint64_t(p.nucleus),std::uint64_t(p.source.width),std::uint64_t(p.source.height)}) w.integer(v);
     w.string(p.reader);w.string(p.locator);w.string(p.source.vendor);for(auto v:{p.source.pixel_width_um,p.source.pixel_height_um,p.effective_pixel_width_um,p.effective_pixel_height_um}) w.optional(v);
     w.integer(p.source.levels.size());for(const auto& l:p.source.levels) {w.integer(l.width);w.integer(l.height);w.real(l.downsample);}
     const auto& e=*p.environment;for(const auto* s:{&e.app_version,&e.source_tree_sha256,&e.git_revision,&e.compiler,&e.compiler_flags,&e.configuration,&e.platform,&e.cmake_version,&e.geos_version,&e.openslide_version,&e.sqlite_version}) w.string(*s);
@@ -32,15 +32,15 @@ std::vector<std::uint8_t> ProvenanceCodec::encode(const AnalysisProvenance& p) {
     w.integer(bool(p.reader_source));if(p.reader_source) {
         const auto& source=*p.reader_source;for(const auto* text:{&source.generation,&source.reader,&source.locator,&source.scope}) w.string(*text);
         w.integer(bool(source.primary));if(source.primary) w.file(*source.primary);
-        if(!source.companions.empty()) {w.data[3]=3;w.integer(source.companions.size());for(const auto& file:source.companions) w.file(file);}
+        if(p.source_only || !source.companions.empty()) {if(!p.source_only) w.data[3]=3;w.integer(source.companions.size());for(const auto& file:source.companions) w.file(file);}
     }
     Sha256 digest;digest.update(w.data.data(),w.data.size());const auto hex=digest.finish();w.data.insert(w.data.end(),hex.begin(),hex.end());
     if(w.data.size()>4u*1024u*1024u) throw std::length_error("encoded provenance exceeds 4 MiB");return w.data;
 }
-std::shared_ptr<const AnalysisProvenance> ProvenanceCodec::decode(const std::uint8_t* data,std::size_t size) {
-    if(!data || size<68 || size>4u*1024u*1024u || std::memcmp(data,"QPV",3) || data[3]<1 || data[3]>3) throw std::invalid_argument("invalid provenance encoding");
+std::shared_ptr<const AnalysisProvenance> ProvenanceCodec::decode(const std::uint8_t* data,std::size_t size,bool allow_source_only) {
+    if(!data || size<68 || size>4u*1024u*1024u || std::memcmp(data,"QPV",3) || data[3]<1 || data[3]>4 || (data[3]==4 && !allow_source_only)) throw std::invalid_argument("invalid provenance encoding");
     Sha256 digest;digest.update(data,size-64);if(digest.finish()!=std::string(reinterpret_cast<const char*>(data+size-64),64)) throw std::invalid_argument("provenance checksum mismatch");
-    Reader r{data+4,size-68};auto p=std::make_shared<AnalysisProvenance>();p->object_id=r.integer();p->object_revision=r.integer();p->document_revision=r.integer();p->captured_unix_ms=r.integer(std::numeric_limits<std::int64_t>::max());p->nucleus=r.integer(1)!=0;
+    Reader r{data+4,size-68};auto p=std::make_shared<AnalysisProvenance>();p->source_only=data[3]==4;p->object_id=r.integer();p->object_revision=r.integer();p->document_revision=r.integer();p->captured_unix_ms=r.integer(std::numeric_limits<std::int64_t>::max());p->nucleus=r.integer(1)!=0;
     p->source.width=static_cast<std::int64_t>(r.integer(std::numeric_limits<std::int64_t>::max()));p->source.height=static_cast<std::int64_t>(r.integer(std::numeric_limits<std::int64_t>::max()));
     p->reader=r.string();p->locator=r.string();p->source.vendor=r.string();p->source.pixel_width_um=r.optional();p->source.pixel_height_um=r.optional();p->effective_pixel_width_um=r.optional();p->effective_pixel_height_um=r.optional();
     const auto n=r.integer(65536);if(n>r.left/24) throw std::invalid_argument("truncated provenance levels");p->source.levels.reserve(static_cast<std::size_t>(n));
@@ -50,7 +50,7 @@ std::shared_ptr<const AnalysisProvenance> ProvenanceCodec::decode(const std::uin
     if(data[3]>=2 && r.integer(1)) {
         auto source=std::make_shared<ReaderSource>();for(auto* text:{&source->generation,&source->reader,&source->locator,&source->scope}) *text=r.string();
         if(r.integer(1)) source->primary=std::make_shared<const FileVersion>(r.file());
-        if(data[3]==3) {const auto count=r.integer(63);if(!count) throw std::invalid_argument("empty compound provenance source");source->companions.reserve(std::size_t(count));for(std::uint64_t i=0;i<count;++i) source->companions.push_back(r.file());}
+        if(data[3]>=3) {const auto count=r.integer(63);if(data[3]==3 && !count) throw std::invalid_argument("empty compound provenance source");source->companions.reserve(std::size_t(count));for(std::uint64_t i=0;i<count;++i) source->companions.push_back(r.file());}
         source->validate();p->reader_source=std::move(source);
     }
     if(data[3]==3 && !p->reader_source) throw std::invalid_argument("compound provenance requires a source");

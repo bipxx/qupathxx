@@ -5,6 +5,7 @@
 #include "qupathxx/project_save.hpp"
 #include "qupathxx/project_recovery.hpp"
 #include "../raw_pixel_archive.hpp"
+#include "../provenance_codec.hpp"
 namespace raw_archive_checks {
 using raw_feature_checks::check;
 using raw_feature_checks::rejects;
@@ -18,7 +19,7 @@ inline void run() {
     using namespace qpx;
     auto source=std::make_shared<raw_workflow_checks::Reader>();Document doc(source);const auto a=doc.add_detection(Roi::rectangle({0,0,3,5}),"A",0,"A"),b=doc.add_detection(Roi::rectangle({4,0,3,5}),"B",0,"B");
     const ScientificGrid grid(7,5,{0,6,4},{0,5,2});ScientificRawOptions selection;selection.channels=2;RawPixelFeatureOptions features;features.offsets={0,0};features.scales={1,1};RawPixelTrainingOptions options;options.max_samples=20;options.max_samples_per_class=10;
-    const RawPixelTrainingRequest request(doc,{a,b},grid,selection,features,options);const auto table=sample_raw_pixel_training(request);const auto archive=archive_raw_pixel_training(table);const auto decoded=RawPixelArchive::from_bytes(archive->bytes());check(decoded->bytes()==archive->bytes() && decoded->sha256()==archive->sha256() && decoded->purpose()=="sampling" && !decoded->model());check(decoded->table()->values()==table->values() && decoded->table()->sha256()==table->sha256() && decoded->table()->coordinates()==table->coordinates());
+    const RawPixelTrainingRequest request(doc,{a,b},grid,selection,features,options);const auto table=sample_raw_pixel_training(request);const auto archive=archive_raw_pixel_training(table);const auto decoded=RawPixelArchive::from_bytes(archive->bytes());check(decoded->bytes()==archive->bytes() && decoded->sha256()==archive->sha256() && decoded->purpose()=="sampling" && !decoded->model());check(archive->provenance()->source_only && archive->provenance()->object_id==0);const auto source_proof=ProvenanceCodec::encode(*archive->provenance(),true);check(source_proof[3]==4 && ProvenanceCodec::decode(source_proof.data(),source_proof.size(),true)->source_only);rejects<std::invalid_argument>([&]{ProvenanceCodec::decode(source_proof.data(),source_proof.size());});rejects<std::invalid_argument>([&]{ProvenanceCodec::encode(*archive->provenance());});check(decoded->table()->values()==table->values() && decoded->table()->sha256()==table->sha256() && decoded->table()->coordinates()==table->coordinates());
     const auto initial=doc.revision();rejects<std::invalid_argument>([&]{doc.keep_raw_pixel_training(request,decoded);});check(doc.revision()==initial && doc.raw_pixel_record_count()==0);
     const auto retained=doc.keep_raw_pixel_training(request,archive,"Raw samples");check(doc.raw_pixel_record_count()==1 && doc.raw_pixel_record(retained)->archive->sha256()==archive->sha256());
     rejects<std::invalid_argument>([&]{doc.keep_raw_pixel_training(request,archive);});check(doc.raw_pixel_record_count()==1);
