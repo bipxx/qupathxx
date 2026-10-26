@@ -2,6 +2,13 @@
 
 ## Current execution card (2026-10-26)
 
+- The [internal face-cell class lookup](benchmarks/raw-stream-boundaries-local/face-lookup-241/receipt.json)
+  at `e6341d4` passes the three affected Windows native suites. Its offline edge
+  sweep matches authored labels across all sixteen layouts and global crops;
+  query ordering/duplicates, malformed/incomplete/overlapping inputs, budget and
+  cancellation controls pass. A sparse lookup in the two-million-sample network
+  has two active runs under its 128-KiB work budget. No raster is allocated by
+  the lookup. GEOS integration, result authority and consumers remain open.
 - [Diagnostic240](benchmarks/raw-replay-macos-240/receipt.json) is frozen at
   `4a72fd8`, run `40384720525`, with 720 authenticated inputs. It distinguishes
   historical from foreign capture refusal and reports dynamic exception types;

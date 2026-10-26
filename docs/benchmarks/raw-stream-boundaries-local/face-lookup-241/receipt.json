@@ -1,0 +1,69 @@
+{
+  "schema": "qpx.local-component-observation/1",
+  "source": "e6341d4a07b2da9a547f1d569d23832da604ece8",
+  "scope": "Internal streamed contour face-cell class lookup; not GEOS integration or complete frontend workflow",
+  "native_passed": [
+    "pixel_workflows",
+    "tissue_contours",
+    "viewer_session"
+  ],
+  "failed": 0,
+  "skipped": 0,
+  "witnesses": [
+    "Authored labels for every cell across four patterns and sixteen layouts",
+    "Nonzero global crop and anisotropic lattice retained",
+    "Reverse and duplicate queries preserve output order and labels",
+    "Malformed/incomplete/overlapping/outside networks or queries reject",
+    "Work admission and cancellation reject",
+    "Two-million-sample uniform network: six sparse queries, two active vertical runs, lookup work estimate below 128 KiB"
+  ],
+  "accounting": "Conservative owned lookup event/index/output/map storage. Borrowed boundary network, producer scratch, GEOS and process RSS excluded. No speedup or whole-slide memory acceptance claimed.",
+  "remaining": [
+    "GEOS polygonized-face queries and both-axis world mapping/clipping",
+    "Immutable streamed result, native jobs and fresh atomic apply authority",
+    "Installed Python/CLI/batch/desktop and retained-file workflows",
+    "Scope-matched platform/scientific/resource/release gates"
+  ],
+  "payloads": [
+    {
+      "path": "compiler-inputs.json",
+      "sha256": "1775096047e372d54acf76e353e10e90e22c5e5e78f973ca017cb04472c2a164",
+      "bytes": 41950
+    },
+    {
+      "path": "commands.json",
+      "sha256": "7acd5266c39d9913e36ba059ebc772eb75bc2b6157c852862b71ad3f036d204f",
+      "bytes": 1589
+    },
+    {
+      "path": "products.json",
+      "sha256": "11adeebb3631c695b16163ae8c3df59269dcd9a25aa3d292c86b9b066752a1d4",
+      "bytes": 641
+    },
+    {
+      "path": "configure.log",
+      "sha256": "a50095de9ad53709951ad36b4f6ecae428adadaeaa67897917ce86efd22e5e8f",
+      "bytes": 3867
+    },
+    {
+      "path": "build.log",
+      "sha256": "9629a8e4398e88f757c137f005c70c278d651526e94343b47f6632828488d352",
+      "bytes": 3897
+    },
+    {
+      "path": "native-tests.log",
+      "sha256": "521646294bd59bd2e87e7e4692cc6f9e418209dbbcd724291dfa34284458123a",
+      "bytes": 442
+    },
+    {
+      "path": "native-tests.xml",
+      "sha256": "4d7930da5b74682052a593e27d35d94a92ed6bf6ef58cb9c5e9102fc694aeb48",
+      "bytes": 7257
+    },
+    {
+      "path": "build_raw_face_lookup_241.py",
+      "sha256": "2ebdb8998a0e957dee27c73748507b37e747bb99640eb41e8c518c5b2c468d7b",
+      "bytes": 3269
+    }
+  ]
+}

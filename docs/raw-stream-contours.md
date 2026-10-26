@@ -70,8 +70,19 @@ Twelve Python reference checks pass against the older installed `0dc916c`
 runtime, separately from the new native executable evidence. No new public
 API, wheel, full-platform or scientific acceptance is inferred.
 
-Next implement face classification and geometry (step 2), then result/authority
-and consumer delivery. Keep the existing full-grid API working.
+The [face-cell lookup](benchmarks/raw-stream-boundaries-local/face-lookup-241/receipt.json)
+is locally verified at `e6341d4`: the same three affected Windows native suites
+pass. An offline sweep of tagged vertical runs matches every authored cell in
+all sixteen layouts, including global crops, reversed and duplicate queries.
+Malformed/incomplete/overlapping input, cancellation and work limits reject.
+Six sparse queries on the two-million-sample network need two active runs and
+less than the 128-KiB lookup budget. The lookup charges its owned event/index/
+output/map storage, separately from the borrowed network, GEOS and producer.
+This is an internal class lookup, not connected polygon geometry yet.
+
+Next feed GEOS face interiors into this lookup and reuse the existing world
+mapping/clipping/extraction (step 2), then result/authority and consumer delivery.
+Keep the existing full-grid API working.
 
 ## Smallest native path
 
