@@ -11,7 +11,7 @@ import posixpath
 import re
 
 spec=importlib.util.spec_from_file_location('qpx_mac_plan_inventory',Path(__file__).with_name('macos_native_inventory.py'))
-inventory=importlib.util.module_from_spec(spec);spec.loader.exec_module(inventory)
+inventory=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),inventory.__dict__)
 require=inventory.require
 SYSTEM=frozenset([
     '/usr/lib/libSystem.B.dylib','/usr/lib/libc++.1.dylib','/usr/lib/libobjc.A.dylib',

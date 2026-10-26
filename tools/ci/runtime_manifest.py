@@ -19,7 +19,7 @@ import zlib
 
 spec = importlib.util.spec_from_file_location('qpx_pe_dependencies', Path(__file__).with_name('pe_dependencies.py'))
 pe = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(pe)
+exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),pe.__dict__)
 
 SCHEMA = 'qpx.windows-package-manifest/1'
 OS_DLLS = frozenset(('advapi32 bcrypt cabinet cfgmgr32 comctl32 comdlg32 crypt32 d3d11 dbghelp dnsapi dwmapi dxgi '

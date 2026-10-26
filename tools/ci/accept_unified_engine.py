@@ -3,6 +3,9 @@
 Download all five named artifacts into --artifacts. This accepts correctness
 and engineering evidence only; warm/cold timings and release gates are separate.
 """
+if not __debug__:
+    raise RuntimeError('artifact audit requires Python assertions enabled')
+
 import argparse
 from collections import Counter
 import hashlib
@@ -17,23 +20,23 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 resampling_spec=importlib.util.spec_from_file_location('qpx_resampling_evidence',Path(__file__).with_name('resampling_evidence.py'))
-resampling=importlib.util.module_from_spec(resampling_spec);resampling_spec.loader.exec_module(resampling)
+resampling=importlib.util.module_from_spec(resampling_spec);exec(compile(Path(resampling_spec.origin).read_bytes(),resampling_spec.origin,"exec",dont_inherit=True),resampling.__dict__)
 qptma_spec=importlib.util.spec_from_file_location('qpx_qptma_evidence',Path(__file__).with_name('qptma_evidence.py'))
-qptma=importlib.util.module_from_spec(qptma_spec);qptma_spec.loader.exec_module(qptma)
+qptma=importlib.util.module_from_spec(qptma_spec);exec(compile(Path(qptma_spec.origin).read_bytes(),qptma_spec.origin,"exec",dont_inherit=True),qptma.__dict__)
 hierarchy_spec=importlib.util.spec_from_file_location('qpx_hierarchy_evidence',Path(__file__).with_name('hierarchy_evidence.py'))
-hierarchy=importlib.util.module_from_spec(hierarchy_spec);hierarchy_spec.loader.exec_module(hierarchy)
+hierarchy=importlib.util.module_from_spec(hierarchy_spec);exec(compile(Path(hierarchy_spec.origin).read_bytes(),hierarchy_spec.origin,"exec",dont_inherit=True),hierarchy.__dict__)
 scientific_spec=importlib.util.spec_from_file_location('qpx_scientific_grid_evidence',Path(__file__).with_name('scientific_grid_evidence.py'))
-scientific=importlib.util.module_from_spec(scientific_spec);scientific_spec.loader.exec_module(scientific)
+scientific=importlib.util.module_from_spec(scientific_spec);exec(compile(Path(scientific_spec.origin).read_bytes(),scientific_spec.origin,"exec",dont_inherit=True),scientific.__dict__)
 axis_spec=importlib.util.spec_from_file_location('qpx_tma_axis_evidence',Path(__file__).with_name('tma_axis_evidence.py'))
-axis=importlib.util.module_from_spec(axis_spec);axis_spec.loader.exec_module(axis)
+axis=importlib.util.module_from_spec(axis_spec);exec(compile(Path(axis_spec.origin).read_bytes(),axis_spec.origin,"exec",dont_inherit=True),axis.__dict__)
 dearray_spec=importlib.util.spec_from_file_location("qpx_tma_dearray_evidence",Path(__file__).with_name("tma_dearray_evidence.py"))
-dearray=importlib.util.module_from_spec(dearray_spec);dearray_spec.loader.exec_module(dearray)
+dearray=importlib.util.module_from_spec(dearray_spec);exec(compile(Path(dearray_spec.origin).read_bytes(),dearray_spec.origin,"exec",dont_inherit=True),dearray.__dict__)
 
-ROOT=Path(__file__).resolve().parents[2]
-if not __debug__:
-    raise RuntimeError('artifact audit requires Python assertions enabled')
+AUDITOR_ROOT=Path(__file__).resolve().parents[2]
+ROOT=AUDITOR_ROOT
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('run');parser.add_argument('commit')
+parser.add_argument('--source-root',type=Path,help='Original artifact-source checkout for a separately identified successor audit; must be clean at commit')
 parser.add_argument('--artifacts',type=Path,default=ROOT/'build/ci/unified121-hosted')
 parser.add_argument('--output',type=Path,default=ROOT/'build/unified-ci-windows-linux.json')
 parser.add_argument('--ndpi-readers',action='store_true',help='Also require real nine-level NDPI and default native project-link regressions')
@@ -50,6 +53,11 @@ parser.add_argument('--windows-runtime-manifest',action='store_true',help='Requi
 parser.add_argument('--linux-runtime-manifest',action='store_true',help='Require source-bound Linux wheel file/static ELF manifests; implies TMA cohorts')
 parser.add_argument('--linux-only',action='store_true',help='Audit only the three successful Linux jobs; never accepts the full matrix')
 args=parser.parse_args();RUN=args.run;COMMIT=args.commit
+if args.source_root is not None:
+    ROOT=args.source_root.resolve()
+    source_head=subprocess.check_output(['git','-C',str(ROOT),'rev-parse','HEAD'],text=True).strip()
+    if source_head!=COMMIT or subprocess.check_output(['git','-C',str(ROOT),'status','--porcelain'],text=True).strip():
+        raise ValueError('successor audit requires a clean original source checkout at the artifact commit')
 args.tma_cohorts=args.tma_cohorts or args.windows_runtime_manifest or args.linux_runtime_manifest
 args.tma_file_export=args.tma_file_export or args.tma_cohorts
 args.tma_cases=args.tma_cases or args.tma_file_export
@@ -59,17 +67,17 @@ args.sampled_shape=args.sampled_shape or args.sampled_cells
 args.watershed_bodies=args.watershed_bodies or args.sampled_shape
 if args.small_frontier:
     spec=importlib.util.spec_from_file_location('qpx_frontier_evidence',Path(__file__).with_name('frontier_evidence.py'))
-    frontier=importlib.util.module_from_spec(spec);spec.loader.exec_module(frontier)
+    frontier=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),frontier.__dict__)
 if args.tma_cases:
     spec=importlib.util.spec_from_file_location('qpx_tma_case_evidence',Path(__file__).with_name('tma_case_evidence.py'))
-    tma_cases=importlib.util.module_from_spec(spec);spec.loader.exec_module(tma_cases)
+    tma_cases=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),tma_cases.__dict__)
 
 if args.windows_runtime_manifest:
     spec=importlib.util.spec_from_file_location('qpx_runtime_evidence',Path(__file__).with_name('runtime_manifest_evidence.py'))
-    runtime_evidence=importlib.util.module_from_spec(spec);spec.loader.exec_module(runtime_evidence)
+    runtime_evidence=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),runtime_evidence.__dict__)
 if args.linux_runtime_manifest:
     spec=importlib.util.spec_from_file_location('qpx_linux_manifest_evidence',Path(__file__).with_name('linux_runtime_manifest_evidence.py'))
-    linux_manifest_evidence=importlib.util.module_from_spec(spec);spec.loader.exec_module(linux_manifest_evidence)
+    linux_manifest_evidence=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),linux_manifest_evidence.__dict__)
 
 def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
@@ -82,7 +90,8 @@ def junit(path):
     result['sha256']=sha(path)
     skips=Counter(n.get('message','') for n in root.iter('skipped'))
     if skips:result['skip_reasons']=dict(sorted(skips.items()))
-    assert result['failures']==result['errors']==0
+    if result['failures'] or result['errors']:
+        raise ValueError('JUnit failures or errors: '+str(path))
     return result
 run=json.loads(subprocess.check_output(['gh','run','view',RUN,'--repo','bipxx/qupathxx','--json','headSha,url,jobs,status,conclusion,createdAt,updatedAt']))
 assert run['headSha']==COMMIT
@@ -100,6 +109,15 @@ folders={'Linux minimal native':'Linux-minimal-py3.12','Linux ASan UBSan native'
 report=dict(schema='qpx.ci-validation/1',commit=COMMIT,engine_commit=COMMIT,run=run['url'],
     started_utc=run['createdAt'],observed_updated_utc=run['updatedAt'],overall_status=run['status'],overall_conclusion=run['conclusion'],
     scope='Combined native LoG production mode, C++17 decimal calibration parser, Darwin type fix and lazy conservative polygon boundary cache. Full installed regressions and inherited reader/analysis/archive/classifier/batch/runtime/desktop gates are audited at the exact dispatched source. Fifty LoG cases cover pinned nuclei, independent compartment measurements, context and automatic-level admission, transparency, physical limits, archive/classifier-source replay, CLI/batches, cancellation and desktop/viewer capture. Legacy strict scientific failures remain explicit. A Linux-only observation does not accept Windows or the overall matrix. Performance/hardware, resampling/body parity, broader biology, macOS, portable ABI/consumers, license and supported release remain separate gates.',jobs=[])
+report['auditor']=dict(
+    source_root=str(AUDITOR_ROOT),
+    commit=subprocess.check_output(['git','-C',str(AUDITOR_ROOT),'rev-parse','HEAD'],text=True).strip(),
+    dirty=bool(subprocess.check_output(['git','-C',str(AUDITOR_ROOT),'status','--porcelain'],text=True).strip()),
+    script_sha256=sha(Path(__file__)),
+    helper_sources={p.relative_to(AUDITOR_ROOT).as_posix():sha(p)
+        for p in sorted(Path(__file__).parent.iterdir()) if p.is_file() and p.suffix in ('.py','.json')},
+    original_source_root=str(ROOT),
+    successor_audit=args.source_root is not None)
 
 def canonical_source_fingerprint():
     names=subprocess.check_output(['git','-C',str(ROOT),'ls-tree','-r','--name-only',COMMIT]).decode().splitlines()
@@ -404,7 +422,7 @@ for job in run['jobs']:
         entry['tma_benchmark']=tma
         if 'GUI' in job['name']:
             cases=[t for t in ET.parse(folder/'python-tests.xml').getroot().iter('testcase') if t.get('classname','').endswith('test_gui_tma')]
-            assert len(cases)==(17 if args.tma_cohorts else 12 if args.tma_cases else 8) and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in cases)
+            assert sorted(t.get('name') for t in cases)==axis.CONTRACT['desktop']['test_gui_tma'] and all(not any(t.find(k) is not None for k in ['skipped','failure','error']) for t in cases)
             entry['tma_gui_cases']=[t.get('name') for t in cases]
             b=json.loads((folder/'gui-tma-benchmark.json').read_text(encoding='utf8'))
             assert b['native_sha256']==workflow['native_sha256'] and b['environment']['source_tree_sha256']==workflow['source_tree_sha256'] and b['environment']['git_revision']==COMMIT

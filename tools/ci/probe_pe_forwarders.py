@@ -14,7 +14,7 @@ import subprocess
 
 spec = importlib.util.spec_from_file_location('qpx_runtime_manifest', Path(__file__).with_name('runtime_manifest.py'))
 runtime = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(runtime)
+exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),runtime.__dict__)
 
 
 def patch_owned_exports(path, blob_name, alias, forwarded=None):

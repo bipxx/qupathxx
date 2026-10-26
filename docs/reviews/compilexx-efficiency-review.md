@@ -52,7 +52,12 @@ assertions. The isolated exact `junit` function rejects a failing XML normally
 but returns a result containing `failures: 1` when compiled with optimization.
 See [witnesses](compilexx-206-evidence/witnesses.json) and the retained
 [probe source](compilexx-206-evidence/probe.py). This tests that validation
-function, not a claim that the complete CLI accepted a bad campaign.
+function, not a claim that the complete CLI accepted a bad campaign. Follow-up
+source inspection found an existing `not __debug__` guard after dynamic helper
+imports: the CLI already rejected optimization before its network/audit work.
+The remaining change is to move that guard before helper imports and make the
+standalone JUnit validator reject explicitly. This narrows the original finding;
+no historical CLI acceptance under optimization is asserted.
 
 Cross-project lesson: scikit-imagexx explicitly identifies inherited
 `PYTHONOPTIMIZE` removing controller assertions (`:611-619`); ImageJ requires

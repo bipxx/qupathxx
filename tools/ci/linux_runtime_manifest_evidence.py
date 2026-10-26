@@ -8,7 +8,7 @@ import xml.etree.ElementTree as ET
 
 spec = importlib.util.spec_from_file_location('qpx_linux_runtime_evidence', Path(__file__).with_name('linux_runtime_manifest.py'))
 runtime = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(runtime)
+exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),runtime.__dict__)
 
 SOURCES = ['tools/ci/run.py', 'tools/ci/run_manylinux.py', 'tools/ci/linux_runtime_manifest.py',
            'tools/ci/elf_dependencies.py', 'tools/ci/runtime_manifest.py', 'tools/ci/pe_dependencies.py',

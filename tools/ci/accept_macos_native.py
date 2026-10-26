@@ -8,17 +8,17 @@ import subprocess
 import xml.etree.ElementTree as ET
 
 resampling_spec=importlib.util.spec_from_file_location('qpx_resampling_evidence',Path(__file__).with_name('resampling_evidence.py'))
-resampling=importlib.util.module_from_spec(resampling_spec);resampling_spec.loader.exec_module(resampling)
+resampling=importlib.util.module_from_spec(resampling_spec);exec(compile(Path(resampling_spec.origin).read_bytes(),resampling_spec.origin,"exec",dont_inherit=True),resampling.__dict__)
 qptma_spec=importlib.util.spec_from_file_location('qpx_qptma_evidence',Path(__file__).with_name('qptma_evidence.py'))
-qptma=importlib.util.module_from_spec(qptma_spec);qptma_spec.loader.exec_module(qptma)
+qptma=importlib.util.module_from_spec(qptma_spec);exec(compile(Path(qptma_spec.origin).read_bytes(),qptma_spec.origin,"exec",dont_inherit=True),qptma.__dict__)
 hierarchy_spec=importlib.util.spec_from_file_location('qpx_hierarchy_evidence',Path(__file__).with_name('hierarchy_evidence.py'))
-hierarchy=importlib.util.module_from_spec(hierarchy_spec);hierarchy_spec.loader.exec_module(hierarchy)
+hierarchy=importlib.util.module_from_spec(hierarchy_spec);exec(compile(Path(hierarchy_spec.origin).read_bytes(),hierarchy_spec.origin,"exec",dont_inherit=True),hierarchy.__dict__)
 scientific_spec=importlib.util.spec_from_file_location('qpx_scientific_grid_evidence',Path(__file__).with_name('scientific_grid_evidence.py'))
-scientific=importlib.util.module_from_spec(scientific_spec);scientific_spec.loader.exec_module(scientific)
+scientific=importlib.util.module_from_spec(scientific_spec);exec(compile(Path(scientific_spec.origin).read_bytes(),scientific_spec.origin,"exec",dont_inherit=True),scientific.__dict__)
 axis_spec=importlib.util.spec_from_file_location('qpx_tma_axis_evidence',Path(__file__).with_name('tma_axis_evidence.py'))
-axis=importlib.util.module_from_spec(axis_spec);axis_spec.loader.exec_module(axis)
+axis=importlib.util.module_from_spec(axis_spec);exec(compile(Path(axis_spec.origin).read_bytes(),axis_spec.origin,"exec",dont_inherit=True),axis.__dict__)
 dearray_spec=importlib.util.spec_from_file_location("qpx_tma_dearray_evidence",Path(__file__).with_name("tma_dearray_evidence.py"))
-dearray=importlib.util.module_from_spec(dearray_spec);dearray_spec.loader.exec_module(dearray)
+dearray=importlib.util.module_from_spec(dearray_spec);exec(compile(Path(dearray_spec.origin).read_bytes(),dearray_spec.origin,"exec",dont_inherit=True),dearray.__dict__)
 
 
 def require(value, message):
@@ -34,21 +34,21 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
     macho_inventory=macho_inventory or macos_relocation
     if macos_relocation:
         spec=importlib.util.spec_from_file_location('qpx_mac_relocation_evidence',Path(__file__).with_name('macos_relocation_evidence.py'))
-        relocated=importlib.util.module_from_spec(spec);spec.loader.exec_module(relocated)
+        relocated=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),relocated.__dict__)
     cohort=cohort or macho_inventory
     if macho_inventory:
         spec=importlib.util.spec_from_file_location('qpx_mac_inventory_evidence',Path(__file__).with_name('macos_inventory_evidence.py'))
-        mac_inventory=importlib.util.module_from_spec(spec);spec.loader.exec_module(mac_inventory)
+        mac_inventory=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),mac_inventory.__dict__)
     file_export=file_export or cohort
     tma_cases=tma_cases or file_export
     small_frontier=small_frontier or tma_cases
     sampled_cells=sampled_cells or small_frontier
     if small_frontier:
         spec=importlib.util.spec_from_file_location('qpx_frontier_evidence',Path(__file__).with_name('frontier_evidence.py'))
-        frontier=importlib.util.module_from_spec(spec);spec.loader.exec_module(frontier)
+        frontier=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),frontier.__dict__)
     if tma_cases:
         spec=importlib.util.spec_from_file_location('qpx_tma_case_evidence',Path(__file__).with_name('tma_case_evidence.py'))
-        tma=importlib.util.module_from_spec(spec);spec.loader.exec_module(tma)
+        tma=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),tma.__dict__)
     require(run['headSha']==commit and run['status']=='completed' and run['conclusion']=='success',
             'run source or completion status differs')
     jobs=[j for j in run['jobs'] if j['conclusion']!='skipped']

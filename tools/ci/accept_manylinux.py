@@ -16,17 +16,17 @@ import xml.etree.ElementTree as ET
 import zipfile
 
 resampling_spec=importlib.util.spec_from_file_location('qpx_resampling_evidence',Path(__file__).with_name('resampling_evidence.py'))
-resampling=importlib.util.module_from_spec(resampling_spec);resampling_spec.loader.exec_module(resampling)
+resampling=importlib.util.module_from_spec(resampling_spec);exec(compile(Path(resampling_spec.origin).read_bytes(),resampling_spec.origin,"exec",dont_inherit=True),resampling.__dict__)
 qptma_spec=importlib.util.spec_from_file_location('qpx_qptma_evidence',Path(__file__).with_name('qptma_evidence.py'))
-qptma=importlib.util.module_from_spec(qptma_spec);qptma_spec.loader.exec_module(qptma)
+qptma=importlib.util.module_from_spec(qptma_spec);exec(compile(Path(qptma_spec.origin).read_bytes(),qptma_spec.origin,"exec",dont_inherit=True),qptma.__dict__)
 hierarchy_spec=importlib.util.spec_from_file_location('qpx_hierarchy_evidence',Path(__file__).with_name('hierarchy_evidence.py'))
-hierarchy=importlib.util.module_from_spec(hierarchy_spec);hierarchy_spec.loader.exec_module(hierarchy)
+hierarchy=importlib.util.module_from_spec(hierarchy_spec);exec(compile(Path(hierarchy_spec.origin).read_bytes(),hierarchy_spec.origin,"exec",dont_inherit=True),hierarchy.__dict__)
 scientific_spec=importlib.util.spec_from_file_location('qpx_scientific_grid_evidence',Path(__file__).with_name('scientific_grid_evidence.py'))
-scientific=importlib.util.module_from_spec(scientific_spec);scientific_spec.loader.exec_module(scientific)
+scientific=importlib.util.module_from_spec(scientific_spec);exec(compile(Path(scientific_spec.origin).read_bytes(),scientific_spec.origin,"exec",dont_inherit=True),scientific.__dict__)
 axis_spec=importlib.util.spec_from_file_location('qpx_tma_axis_evidence',Path(__file__).with_name('tma_axis_evidence.py'))
-axis=importlib.util.module_from_spec(axis_spec);axis_spec.loader.exec_module(axis)
+axis=importlib.util.module_from_spec(axis_spec);exec(compile(Path(axis_spec.origin).read_bytes(),axis_spec.origin,"exec",dont_inherit=True),axis.__dict__)
 dearray_spec=importlib.util.spec_from_file_location("qpx_tma_dearray_evidence",Path(__file__).with_name("tma_dearray_evidence.py"))
-dearray=importlib.util.module_from_spec(dearray_spec);dearray_spec.loader.exec_module(dearray)
+dearray=importlib.util.module_from_spec(dearray_spec);exec(compile(Path(dearray_spec.origin).read_bytes(),dearray_spec.origin,"exec",dont_inherit=True),dearray.__dict__)
 
 ASSETS = Path(__file__).with_name('manylinux-assets.json')
 
@@ -386,7 +386,7 @@ def main():
         report['sampled_cell_cohorts']=sampled_cell_cohorts(args.artifacts,args.commit)
     if args.small_frontier:
         spec=importlib.util.spec_from_file_location('qpx_frontier_evidence',Path(__file__).with_name('frontier_evidence.py'))
-        frontier=importlib.util.module_from_spec(spec);spec.loader.exec_module(frontier)
+        frontier=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),frontier.__dict__)
         report['frontier_helper_sha256']=sha(Path(__file__).with_name('frontier_evidence.py'))
         report['small_frontier_cohorts']=[]
         root=Path(__file__).resolve().parents[2]
@@ -399,7 +399,7 @@ def main():
                 report['small_frontier_cohorts'].append(dict(python=version,cohort=cohort,native=native,**result))
     if args.tma_cases:
         spec=importlib.util.spec_from_file_location('qpx_tma_case_evidence',Path(__file__).with_name('tma_case_evidence.py'))
-        tma=importlib.util.module_from_spec(spec);spec.loader.exec_module(tma)
+        tma=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),tma.__dict__)
         report['tma_case_helper_sha256']=sha(Path(__file__).with_name('tma_case_evidence.py'))
         report['tma_case_cohorts']=[]
         root=Path(__file__).resolve().parents[2]
@@ -415,7 +415,7 @@ def main():
     report['linux_runtime_manifest_required']=args.linux_runtime_manifest
     if args.linux_runtime_manifest:
         spec=importlib.util.spec_from_file_location('qpx_linux_manifest_evidence',Path(__file__).with_name('linux_runtime_manifest_evidence.py'))
-        manifests=importlib.util.module_from_spec(spec);spec.loader.exec_module(manifests)
+        manifests=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),manifests.__dict__)
         root=Path(__file__).resolve().parents[2]
         report['linux_runtime_manifests']=[]
         for version in ['3.11','3.12']:

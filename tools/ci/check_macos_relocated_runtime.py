@@ -23,7 +23,7 @@ import sys
 import zipfile
 
 spec=importlib.util.spec_from_file_location('qpx_mac_runtime_relocation',Path(__file__).with_name('macos_relocate.py'))
-relocation=importlib.util.module_from_spec(spec);spec.loader.exec_module(relocation)
+relocation=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),relocation.__dict__)
 common=relocation.common
 require=relocation.require
 OD_TOLERANCE=2e-7

@@ -7,7 +7,7 @@ from pathlib import Path
 import re
 
 spec=importlib.util.spec_from_file_location('qpx_dearray_common',Path(__file__).with_name('qptma_evidence.py'))
-common=importlib.util.module_from_spec(spec);spec.loader.exec_module(common)
+common=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),common.__dict__)
 require=common.require
 CONTRACT=json.loads(Path(__file__).with_name('tma-dearray-cases.json').read_text(encoding='utf-8'))
 ROOT=Path(__file__).resolve().parents[2]

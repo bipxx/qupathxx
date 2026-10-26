@@ -7,7 +7,7 @@ import re
 import subprocess
 
 spec=importlib.util.spec_from_file_location('qpx_mac_snapshot_evidence',Path(__file__).with_name('macos_native_inventory.py'))
-runtime=importlib.util.module_from_spec(spec);spec.loader.exec_module(runtime)
+runtime=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),runtime.__dict__)
 
 SOURCES=['tools/ci/macos_native_inventory.py','tools/ci/macho_dependencies.py','tools/ci/runtime_manifest.py',
          'tools/ci/pe_dependencies.py','tools/ci/run_macos_native.py','tools/ci/macos_inventory_evidence.py',

@@ -7,7 +7,7 @@ import re
 import subprocess
 
 spec=importlib.util.spec_from_file_location('qpx_grid_common',Path(__file__).with_name('qptma_evidence.py'))
-common=importlib.util.module_from_spec(spec);spec.loader.exec_module(common)
+common=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),common.__dict__)
 require=common.require
 CASES=json.loads(Path(__file__).with_name('scientific-grid-cases.json').read_text(encoding='utf-8'))
 GUI_CASES={

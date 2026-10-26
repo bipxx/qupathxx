@@ -20,6 +20,14 @@ sys.path.insert(0, str(ROOT/'tools'))
 import build_opencv_sdk
 
 
+def qualification_environment(environ):
+    """Admit pytest's own settings before building; Python -I does not bind them."""
+    for name in ('PYTEST_ADDOPTS','PYTEST_PLUGINS'):
+        if environ.get(name,'').strip():
+            raise ValueError('qualification rejects inherited '+name)
+    return dict(environ)
+
+
 def run(args, log, env=None, timeout=2400, expected=0):
     print('+ '+' '.join(map(str, args)), flush=True)
     with Path(log).open('w', encoding='utf8') as stream:
@@ -95,9 +103,15 @@ def main():
     parser.add_argument('--live-reference', action='store_true')
     parser.add_argument('--extended-readers', action='store_true')
     args = parser.parse_args()
+    env = qualification_environment(os.environ)
     work = args.work.resolve()
     work.mkdir(parents=True, exist_ok=False)
-    env = os.environ.copy()
+    (work/'pytest-environment.json').write_text(json.dumps({
+        'schema':'qpx.pytest-environment/1',
+        'PYTEST_ADDOPTS':env.get('PYTEST_ADDOPTS',''),
+        'PYTEST_PLUGINS':env.get('PYTEST_PLUGINS',''),
+        'PYTEST_DISABLE_PLUGIN_AUTOLOAD':env.get('PYTEST_DISABLE_PLUGIN_AUTOLOAD'),
+    },indent=2)+'\n',encoding='utf-8')
     env.pop('PYTHONHOME', None)
     env.pop('PYTHONPATH', None)
     env['CMAKE_BUILD_PARALLEL_LEVEL'] = '2'

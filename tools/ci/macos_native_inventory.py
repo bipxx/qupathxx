@@ -14,7 +14,7 @@ import zipfile
 
 def module(name, filename):
     spec=importlib.util.spec_from_file_location(name,Path(__file__).with_name(filename))
-    result=importlib.util.module_from_spec(spec);spec.loader.exec_module(result)
+    result=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),result.__dict__)
     return result
 
 

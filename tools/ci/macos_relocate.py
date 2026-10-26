@@ -17,7 +17,7 @@ import tempfile
 import zipfile
 
 spec=importlib.util.spec_from_file_location('qpx_mac_relocate_plan',Path(__file__).with_name('macos_relocation_plan.py'))
-planner=importlib.util.module_from_spec(spec);spec.loader.exec_module(planner)
+planner=importlib.util.module_from_spec(spec);exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),planner.__dict__)
 inventory=planner.inventory
 common=inventory.common
 require=inventory.require
