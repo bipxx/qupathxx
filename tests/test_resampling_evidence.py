@@ -50,7 +50,7 @@ def test_source_contract_only_normalizes_checkout_line_endings(tmp_path, monkeyp
     from types import SimpleNamespace
     (tmp_path/'source.txt').write_bytes(data)
     monkeypatch.setattr(evidence, 'SOURCES', ['source.txt'])
-    monkeypatch.setattr(evidence.subprocess, 'run', lambda *a, **kw: SimpleNamespace(returncode=0, stdout=b'a\nb\n'))
+    monkeypatch.setattr(evidence.common.subprocess, 'run', lambda *a, **kw: SimpleNamespace(returncode=0, stdout=b'1111111111111111111111111111111111111111 blob 4\na\nb\n\n'))
     if accepted:
         result = evidence.source_contract(tmp_path, 'a'*40)['source.txt']
         assert result['crlf_normalized'] == (b'\r' in data)

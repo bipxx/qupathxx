@@ -36,6 +36,26 @@ def source_contract(root,commit,sources=None,label="qptma",raw_prefixes=("tests/
     return hashes
 
 
+def verify_source_snapshot(root,*proofs):
+    """Recheck exact checkout bytes once before publishing a reused proof.
+
+    This is invocation-local validation, not a saved PASS cache. Overlapping
+    domain declarations must agree on both Git and checked-out identities.
+    """
+    root=Path(root);expected={}
+    for proof in proofs:
+        for relative,observation in proof.items():
+            path=Path(relative)
+            require(not path.is_absolute() and '..' not in path.parts and '\n' not in relative and '\r' not in relative,'source snapshot invalid path')
+            identity=tuple(observation.get(key) for key in ('git_blob_sha256','checked_out_sha256'))
+            require(all(isinstance(value,str) and re.fullmatch(r'[0-9a-f]{64}',value) for value in identity),'source snapshot invalid identity: '+relative)
+            require(relative not in expected or expected[relative]==identity,'source snapshot conflicting declarations: '+relative)
+            expected[relative]=identity
+    for relative,identity in expected.items():
+        require(hashlib.sha256((root/relative).read_bytes()).hexdigest()==identity[1],'source snapshot changed before publication: '+relative)
+    return len(expected)
+
+
 def native(cases):
     selected=[case for case in cases if case.get('name')=='qptma']
     require(len(selected)==1,'missing/duplicate native qptma suite');case=selected[0]

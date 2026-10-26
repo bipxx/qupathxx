@@ -1,13 +1,17 @@
 """Require exact-source native and installed arbitrary-grid resampling cohorts."""
-import hashlib
+import importlib.util
 from pathlib import Path
-import subprocess
+
+spec=importlib.util.spec_from_file_location('qpx_resampling_common',Path(__file__).with_name('qptma_evidence.py'))
+common=importlib.util.module_from_spec(spec)
+exec(compile(Path(spec.origin).read_bytes(),spec.origin,"exec",dont_inherit=True),common.__dict__)
 
 SOURCES=['CMakeLists.txt','cpp/resampling.cpp','cpp/include/qupathxx/resampling.hpp',
          'cpp/thumbnail.cpp','cpp/region_main.cpp','cpp/bindings.cpp','cpp/tests/resampling_tests.cpp',
          'src/qupathxx/__init__.py','src/qupathxx/__init__.pyi','src/qupathxx/_native.pyi',
          'tests/test_resampling.py','tests/test_resampling_evidence.py','tools/ci/resampling_evidence.py',
-         'tools/ci/accept_unified_engine.py','tools/ci/accept_manylinux.py','tools/ci/accept_macos_native.py']
+         'tools/ci/accept_unified_engine.py','tools/ci/accept_manylinux.py','tools/ci/accept_macos_native.py',
+         'tools/ci/qptma_evidence.py']
 PYTHON_NAMES=sorted([
     *[f'test_fractional_downsample_enlargement_anisotropic_and_identity[source_shape{i}-output{i}]' for i in range(5)],
     'test_padded_region_and_buffer_outlives_closed_server',
@@ -22,14 +26,10 @@ def require(value,message):
 
 
 def source_contract(root,commit):
-    root=Path(root);hashes={}
-    for relative in SOURCES:
-        data=(root/relative).read_bytes()
-        saved=subprocess.run(['git','-C',str(root),'show',commit+':'+relative],capture_output=True)
-        # Git text checkouts may use CRLF on Windows. Preserve every other byte.
-        require(saved.returncode==0 and saved.stdout==data.replace(b'\r\n',b'\n'),'resampling source differs: '+relative)
-        hashes[relative]=dict(git_blob_sha256=hashlib.sha256(saved.stdout).hexdigest(),
-            checked_out_sha256=hashlib.sha256(data).hexdigest(),crlf_normalized=data!=saved.stdout)
+    hashes=common.source_contract(root,commit,SOURCES,label='resampling')
+    # Preserve the existing receipt shape while sharing strict framed reads.
+    for observation in hashes.values():
+        observation['crlf_normalized']=observation['git_blob_sha256']!=observation['checked_out_sha256']
     return hashes
 
 

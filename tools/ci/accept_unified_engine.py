@@ -143,6 +143,8 @@ report['scientific_grid_sources']=scientific.source_contract(ROOT,COMMIT)
 expected_source=canonical_source_fingerprint()
 report['git_lf_source_tree_sha256']=expected_source
 
+qptma_sources=qptma.source_contract(ROOT,COMMIT)
+resampling_sources=resampling.source_contract(ROOT,COMMIT)
 local=json.loads((ROOT/'docs/benchmarks/classifier-engine-windows.json').read_text(encoding='utf8'))
 for job in run['jobs']:
     folder=args.artifacts/folders[job['name']]
@@ -157,8 +159,8 @@ for job in run['jobs']:
     entry['qptma_native']=qptma.native(native_cases)
     entry['hierarchy_native']=hierarchy.native(native_cases,enabled=job['name']!='Linux minimal native')
     entry['qptma_project_native']=qptma.project_native(native_cases,enabled=job['name']!='Linux minimal native')
-    entry['qptma_sources']=qptma.source_contract(ROOT,COMMIT)
-    entry['resampling_sources']=resampling.source_contract(ROOT,COMMIT)
+    entry['qptma_sources']={name:dict(observation) for name,observation in qptma_sources.items()}
+    entry['resampling_sources']={name:dict(observation) for name,observation in resampling_sources.items()}
     if args.sampled_shape:
         selected=[t for t in native_cases if t.get('name')=='log_watershed']
         assert len(selected)==1 and 'Sampled shape 26 frozen masks and maxima passed' in selected[0].findtext('system-out',''), 'missing frozen sampled-shape native conformance'
@@ -825,6 +827,7 @@ report['performance_accepted']=False
 report['macos_accepted']=False
 report['release_ready']=False
 report['overall_project_complete']=False
+qptma.verify_source_snapshot(ROOT,qptma_sources,resampling_sources)
 args.output.parent.mkdir(parents=True,exist_ok=True)
 args.output.write_bytes((json.dumps(report,indent=2)+'\n').encode('utf-8'))
 print(json.dumps([dict(name=j['name'],native=j['native']['passed'],python=j.get('python',{}).get('passed')) for j in report['jobs']],indent=2))

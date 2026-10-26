@@ -58,6 +58,9 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
     require({j['name'] for j in jobs}=={'macOS native arm64','macOS native x86_64'} and len(jobs)==2,
             'both native architectures are required')
     require(all(j['status']=='completed' and j['conclusion']=='success' for j in jobs),'native job failed')
+    root=Path(__file__).resolve().parents[2]
+    qptma_sources=qptma.source_contract(root,commit)
+    resampling_sources=resampling.source_contract(root,commit)
     entries=[]
     for arch in ['arm64','x86_64']:
         folder=Path(artifacts)/('macos-native-'+arch)
@@ -109,13 +112,13 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
         entries[-1]['hierarchy_native']=hierarchy.native(cases)
         entries[-1]['scientific_grid_native']=scientific.native(cases)
         entries[-1]['qptma_project_native']=qptma.project_native(cases)
-        entries[-1]['qptma_sources']=qptma.source_contract(Path(__file__).resolve().parents[2],commit)
-        entries[-1]['resampling_sources']=resampling.source_contract(Path(__file__).resolve().parents[2],commit)
+        entries[-1]['qptma_sources']={name:dict(observation) for name,observation in qptma_sources.items()}
+        entries[-1]['resampling_sources']={name:dict(observation) for name,observation in resampling_sources.items()}
         if small_frontier:entries[-1]['small_frontier']=frontier.native(cases)
         if tma_cases:entries[-1]['tma_cases']=tma.native(cases,file_export=file_export,cohort=cohort)
         if macho_inventory:entries[-1]['macho_inventory']=mac_inventory.audit(folder,Path(__file__).resolve().parents[2],commit,arch,data)
         if macos_relocation:entries[-1]['macos_relocation']=relocated.audit(folder,Path(__file__).resolve().parents[2],commit,arch,data)
-    return dict(multifile_ome_sources=multifile.source_contract(Path(__file__).resolve().parents[2],commit),tma_dearray_sources=dearray.source_contract(Path(__file__).resolve().parents[2],commit),tma_axis_sources=axis.source_contract(Path(__file__).resolve().parents[2],commit),scientific_grid_sources=scientific.source_contract(Path(__file__).resolve().parents[2],commit),hierarchy_sources=hierarchy.source_contract(Path(__file__).resolve().parents[2],commit),schema='qpx.macos-native-audit/1',source=commit,run=run['url'],jobs=entries,
+    report=dict(multifile_ome_sources=multifile.source_contract(Path(__file__).resolve().parents[2],commit),tma_dearray_sources=dearray.source_contract(Path(__file__).resolve().parents[2],commit),tma_axis_sources=axis.source_contract(Path(__file__).resolve().parents[2],commit),scientific_grid_sources=scientific.source_contract(Path(__file__).resolve().parents[2],commit),hierarchy_sources=hierarchy.source_contract(Path(__file__).resolve().parents[2],commit),schema='qpx.macos-native-audit/1',source=commit,run=run['url'],jobs=entries,
         auditor_sha256=sha(Path(__file__)),native_engineering_accepted=True,
         production_sampled_native_required=sampled_cells,python_gui_openslide_validated=False,
         small_frontier_required=small_frontier,
@@ -128,6 +131,8 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
                'Native/selected SDK runtime and notice bytes uploaded and otool-checked; static SDK archive digests remain CI-generated evidence. ' if macho_inventory else
                'SDK and executable bytes were not uploaded; dependency and executable digests are CI-generated evidence. ')+
               'No macOS Python wheel, OpenSlide, GUI, publisher signing, older-OS, biological or supported-release acceptance.')
+    qptma.verify_source_snapshot(root,qptma_sources,resampling_sources)
+    return report
 
 
 def main():

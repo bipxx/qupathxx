@@ -436,6 +436,7 @@ def main():
             builder['python_cohort']=manifests.python_cohort(folder/'python-tests.xml',root,args.commit)
             consumer['python_cohort']=manifests.python_cohort(args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml',root,args.commit)
             report['linux_runtime_manifests'].append(dict(python=version,builder=builder,consumer=consumer))
+    qptma.verify_source_snapshot(Path(__file__).resolve().parents[2],report['qptma_sources'],report['resampling_sources'])
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(state=report['state'],commit=report['commit'],release_ready=False)))
