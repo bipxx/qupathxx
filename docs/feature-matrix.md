@@ -1,5 +1,9 @@
 # QuPath workflow inventory
 
+Reader scope follows the [open-source-only policy](reader-license-policy.md):
+closed reader/codec SDKs are excluded; vendor formats remain eligible through
+open-source implementations. This restriction applies to every row below.
+
 The integrated raw-resource application source `61e546e` passes the complete required
 Windows/Linux engine, both Mac native architectures and both portable builders/
 fresh consumers. The [combined receipt](benchmarks/raw-grid-191-qualification.json)

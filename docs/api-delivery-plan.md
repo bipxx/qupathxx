@@ -22,6 +22,13 @@ canonical signatures remain the public headers and generated Python stubs.
 These are process findings, not a claim that earlier evidence was worthless.
 Preserve accepted receipts, raw captures, negative controls and failed attempts.
 
+## Reader eligibility
+
+Apply the [open-source reader policy](reader-license-policy.md) to every reader
+API and workflow below. Exclude closed SDKs and their dependent adapters from
+required parity; retain vendor-format work supported by eligible open-source
+implementations. Copyleft readers remain eligible subject to distribution terms.
+
 ## Dependency lanes and immediate queue
 
 There is one implementation queue. Independent decisions/reference preparation

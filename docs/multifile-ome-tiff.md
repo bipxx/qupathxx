@@ -10,6 +10,10 @@ filename provides a direct lookup; each referenced file has its own root UUID.
 The implementation must verify that mapping rather than concatenate files in
 directory or filename order.
 
+Implementation uses the existing open-source libtiff/zlib/tinyxml2 stack under
+the [reader licensing policy](reader-license-policy.md). Closed SDK adapters
+are excluded from this slice and from required reader parity.
+
 ## Independent corpus
 
 Run `tools/reference_multifile_ome.py OUTPUT_DIRECTORY` with the existing

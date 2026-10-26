@@ -31,6 +31,9 @@ minima and maxima. In particular, statistics do not promise exact uint64 integer
 arithmetic. Optional ROI masks select pixel centers; `.npy` exports contain the
 whole requested rectangle and do not serialize the separate validity mask.
 
+The [reader licensing policy](reader-license-policy.md) retains this open-source
+libtiff/zlib/tinyxml2 stack and excludes proprietary decoder dependencies.
+
 ## Supported inputs
 
 | Property | Contract |

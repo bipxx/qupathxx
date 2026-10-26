@@ -32,6 +32,12 @@ All M0-M7 remain Partial.
 
 ## Scope and release boundaries
 
+Reader scope is limited to open-source-licensed implementations and decoder
+dependencies under the [reader licensing policy](reader-license-policy.md).
+Proprietary SDK readers are excluded from required parity. Vendor formats
+remain eligible through open-source readers.
+
+
 Target Windows x64 first, while keeping portable C++17 and CMake targets.
 Add supported Linux and macOS packages after the Windows workflow is stable.
 Keep GUI and Python optional so the native analysis engine runs without either.

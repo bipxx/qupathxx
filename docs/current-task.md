@@ -1,6 +1,9 @@
 # Current implementation task
 
 The full updated M0-M7 goal remains active. Every milestone remains Partial.
+Reader implementation scope now follows the [open-source-only policy](reader-license-policy.md).
+Exclude proprietary reader/codec SDKs from required parity; retain eligible
+OpenSlide/TIFF workflows and multi-file OME work.
 The qualified application source is `61e546e`; the promotion receipt changes
 documentation/evidence only. Preserve the user's divergent local main.
 See the [full plan](project-plan.md), [inventory](feature-matrix.md) and
