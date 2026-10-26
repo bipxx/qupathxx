@@ -58,11 +58,21 @@ The [preflight](benchmarks/raw-classifier-preflight-local.json) at `fb3dfe6` pas
 source contracts agree across 718 unique files. Existing local binaries retain
 their original source identities and do not qualify the hosted candidate.
 
-After T5 engineering acceptance, follow the
-[SCI1-B next-workflow route](api-delivery-plan.md#sci1-b-next-workflow-route):
-first test existing contour seam behavior, then implement the missing streamed
-path through shared native APIs and existing consumers. Scientific/model,
-resource/hardware, clean-machine and release gates remain separate and open.
+The [SCI1-B boundary assembler](benchmarks/raw-stream-boundaries-local.json) is
+locally verified at `a3be74b`: all three affected Windows native suites pass.
+The two-million-sample uniform case uses seven peak boundary runs; this is a
+builder storage witness, not a process-memory or whole-slide performance claim.
+The independent seam reference and actual filtered block producer agree.
+Streamed polygon geometry, immutable results and user-facing delivery remain open.
+
+Diagnostic238 now reproduces the arm64 failure at stage `historical and foreign
+capture refusal`; its first authenticated archive is retained locally. x86_64
+was still running at the latest observation. The label locates a stage, not a
+root cause. Inspect those refusal calls and preserve their required checks.
+Then follow the [SCI1-B route](api-delivery-plan.md#sci1-b-next-workflow-route)
+through bounded GEOS face classification, fresh atomic publication and existing
+consumers. Keep the frozen diagnostic immutable. Scientific/model, resource/
+hardware, clean-machine and release gates remain separate and open.
 
 The following source-bound baseline notes are historical. Their next-step
 wording is superseded by the single API queue and current execution card.

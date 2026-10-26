@@ -1,7 +1,8 @@
 # Streamed raw contours: reference and implementation route
 
 This is the next SCI1-B workflow, after the active T5 qualification. Streamed
-contour extraction and publication are not implemented yet. The existing
+polygon geometry and publication are not implemented yet. Internal boundary
+assembly is locally verified as described below. The existing
 bounded full-grid tracer and prediction block producer are working baselines.
 Keep the [numeric contract](raw-pixel-classifier.md), owner/source guards and
 [open-source reader policy](reader-license-policy.md).
@@ -50,6 +51,27 @@ The [local receipt](benchmarks/raw-contour-seams-local.json) binds the reference
 test source, prior installed `0dc916c` runtime and exact wheel member separately.
 All ten new cases and 91 affected regressions pass; two OpenSlide cases skip.
 Initial fixture failures remain captured. No native rebuild was needed.
+
+## Boundary assembler: locally verified component
+
+Source `a3be74b` factors the existing raster boundary sweep and adds an internal
+`RawStreamBoundaryBuilder`. It retains global sample indices and adjacent class
+tags, reconciles seams, coalesces runs and releases each borrowed block. It
+requires the existing producer's ordered complete windows and fails closed on
+missing/duplicate/mismatched blocks, invalid labels, cancellation and quotas.
+
+The [local receipt](benchmarks/raw-stream-boundaries-local.json) records three
+passing Windows Release native suites. The independent four-pattern oracle
+matches all sixteen tilings; actual filtered/context-bearing streams match the
+one-block network. Two million uniform samples use seven peak runs under a
+16-run/128-KiB builder limit. Conservative node/vector accounting excludes
+producer scratch, GEOS and process RSS; it does not close those budgets.
+Twelve Python reference checks pass against the older installed `0dc916c`
+runtime, separately from the new native executable evidence. No new public
+API, wheel, full-platform or scientific acceptance is inferred.
+
+Next implement face classification and geometry (step 2), then result/authority
+and consumer delivery. Keep the existing full-grid API working.
 
 ## Smallest native path
 

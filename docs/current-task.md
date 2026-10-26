@@ -35,6 +35,19 @@
   packaging gates pass. The Git-only development fixture is explicitly skipped
   in the actual Git-free consumers. Full engine acceptance and the separate
   arm64 failure are recorded above; full T5 and release gates remain open.
+- Internal boundary assembly is [locally verified](benchmarks/raw-stream-boundaries-local.json)
+  at `a3be74b`: Windows Release `pixel_workflows`, `tissue_contours` and
+  `viewer_session` pass with GEOS/training/TIFF/project enabled. Four independent
+  seam patterns across sixteen layouts and actual filtered raw blocks agree.
+  Two million uniform samples require seven peak runs under the configured
+  builder budget. Twelve reference/existing-path Python cases pass using the
+  prior installed `0dc916c` runtime; they do not test the new native builder.
+  Geometry, result authority and frontend delivery remain open.
+- Diagnostic238's arm64 job `121765228756` failed at `historical and foreign
+  capture refusal`. Its 6,290,154-byte archive authenticates; local collection
+  is `build/raw-replay-macos-238/hosted/20261026T190546Z`. x86_64 remains running
+  at that observation. Inspect the exact refusal calls next; no root cause or
+  repair is established. Keep the original handle and frozen source.
 - The next streamed-contour workflow has a [four-pattern exact reference](raw-stream-contours.md)
   at `9edfbc1`. [Local existing-path evidence](benchmarks/raw-contour-seams-local.json)
   records 101 Python passes, including all ten new cases; two OpenSlide cases

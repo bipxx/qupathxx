@@ -568,3 +568,7 @@ cpp/tests/raw_contour_seam_reference.hpp text eol=lf
 
 docs/benchmarks/raw-contour-seams-local/** -text -whitespace
 docs/benchmarks/raw-contour-seams-local.json -text -whitespace
+
+# Local native boundary assembler evidence, exact captured bytes.
+docs/benchmarks/raw-stream-boundaries-local/** -text -whitespace
+docs/benchmarks/raw-stream-boundaries-local.json -text -whitespace
