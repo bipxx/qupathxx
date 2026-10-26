@@ -1,291 +1,31 @@
-name: Build and installed workflows
-
+name: Retained arm64 exception diagnosis
 on:
-  push:
-    branches: [main]
-    paths-ignore: ['docs/**', 'README.md']
-  pull_request:
-    paths-ignore: ['docs/**', 'README.md']
   workflow_dispatch:
-    inputs:
-      macos_native:
-        description: Validate native engine and pinned geometry/training SDKs on Intel and Apple silicon
-        type: boolean
-        default: false
-      portable_linux:
-        description: Build and qualify CPython 3.11/3.12 manylinux wheels and test fresh Debian consumers
-        type: boolean
-        default: false
-      live_reference:
-        description: Also run the downloaded QuPath reference on Windows
-        type: boolean
-        default: false
-      extended_readers:
-        description: Also validate the full pinned multilevel Aperio slide (169 MiB)
-        type: boolean
-        default: false
-
 permissions:
   contents: read
-
-concurrency:
-  # Independent engine, Mac and portable gates must not cancel one another.
-  group: ci-${{ github.workflow }}-${{ github.ref }}-${{ inputs.macos_native && 'macos' || inputs.portable_linux && 'portable' || 'engine' }}
-  cancel-in-progress: true
-
+  actions: read
 jobs:
-  validate:
-    if: ${{ !inputs.portable_linux && !inputs.macos_native }}
-    name: ${{ matrix.name }}
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 60
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - name: Windows headless Python 3.11 NumPy 1
-            os: windows-2022
-            python: '3.11'
-            mode: headless
-          - name: Linux headless Python 3.12 NumPy 2
-            os: ubuntu-24.04
-            python: '3.12'
-            mode: headless
-          - name: Windows GUI Python 3.12 software GL
-            os: windows-2022
-            python: '3.12'
-            mode: gui
-          - name: Linux minimal native
-            os: ubuntu-24.04
-            python: '3.12'
-            mode: minimal
-          - name: Linux ASan UBSan native
-            os: ubuntu-24.04
-            python: '3.12'
-            mode: sanitize
+  retained-arm64:
+    runs-on: macos-15
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          persist-credentials: false
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
-        with:
-          python-version: ${{ matrix.python }}
-      - name: Linux build tools
-        if: runner.os == 'Linux'
-        timeout-minutes: 3
-        run: |
-          if ! command -v ninja >/dev/null 2>&1; then
-            python -m pip install --only-binary=:all: --timeout 30 --retries 2 ninja==1.13.0
-          fi
-          ninja --version
-      - name: Build and test dependencies
-        run: python -m pip install -r tools/ci/requirements.txt
-      - name: Desktop replay display
-        if: runner.os == 'Windows' && matrix.mode == 'gui'
-        shell: powershell
-        run: |
-          Set-DisplayResolution -Width 1920 -Height 1080 -Force
-          Get-DisplayResolution
-      - name: Verified GEOS SDK cache
-        if: matrix.mode != 'minimal'
-        uses: actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0 # v5.0.0
-        with:
-          path: build/deps/geos-sdk
-          key: geos-3.15.0-${{ matrix.os }}-${{ runner.arch }}-${{ hashFiles('tools/build_geos_sdk.py') }}
-      - name: Verified OpenCV SDK cache
-        if: matrix.mode != 'minimal'
-        uses: actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0 # v5.0.0
-        with:
-          path: build/deps/opencv-sdk
-          key: opencv-4.11.0-${{ matrix.os }}-${{ runner.arch }}-${{ hashFiles('tools/build_opencv_sdk.py') }}
-      - name: Verified reader fixture cache
-        if: matrix.mode == 'headless' || matrix.mode == 'gui'
-        uses: actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0 # v5.0.0
-        with:
-          path: build/fixtures
-          key: reader-fixtures-${{ hashFiles('tests/fixtures/manifest.json') }}
-      - name: Build and verify
-        shell: bash
+      - name: Replay authenticated original test and trace exceptions
         env:
-          LIVE_REFERENCE: ${{ inputs.live_reference && runner.os == 'Windows' && matrix.mode == 'gui' && '--live-reference' || '' }}
-          EXTENDED_READERS: ${{ inputs.extended_readers && (matrix.mode == 'headless' || matrix.mode == 'gui') && '--extended-readers' || '' }}
-        run: python -I tools/ci/run.py --mode '${{ matrix.mode }}' --work build/ci/job $LIVE_REFERENCE $EXTENDED_READERS
-      - name: Reports and candidate artifacts
+          GH_TOKEN: ${{ github.token }}
+        run: python3 -I tools/ci/replay_retained_arm64.py --out build/retained-arm64-249
+      - name: Preserve original inputs and diagnostic observations
         if: always()
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
         with:
-          name: ${{ runner.os }}-${{ matrix.mode }}-py${{ matrix.python }}
-          if-no-files-found: warn
+          name: retained-arm64-249
           retention-days: 14
+          if-no-files-found: error
+          compression-level: 0
           path: |
-            build/ci/job/*.log
-            build/ci/job/*.json
-            build/ci/job/*.xml
-            build/ci/job/gui-overview.png
-            build/ci/job/wheels/*.whl
-            build/ci/job/qupathxx-windows-x64-candidate.zip
-
-  macos-native:
-    if: ${{ inputs.macos_native && !inputs.portable_linux }}
-    name: macOS native ${{ matrix.architecture }}
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 90
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: macos-15-intel
-            architecture: x86_64
-          - os: macos-15
-            architecture: arm64
-    steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          persist-credentials: false
-      - uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
-        with:
-          python-version: '3.12'
-      - name: Pinned build frontend
-        run: 'python -m pip install --require-hashes --only-binary=:all: -r tools/ci/requirements-macos-native.txt'
-      - name: Build and validate native engine
-        run: python -I tools/ci/run_macos_native.py --work build/ci/macos-native --architecture '${{ matrix.architecture }}'
-      - name: Native evidence
-        if: always()
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
-        with:
-          name: macos-native-${{ matrix.architecture }}
-          retention-days: 14
-          if-no-files-found: warn
-          path: |
-            build/ci/macos-native/*.json
-            build/ci/macos-native/*.log
-            build/ci/macos-native/*.xml
-            build/ci/macos-native/macos-native-files.zip
-            build/ci/macos-native/qupathxx_pixel_workflow_tests
-            build/ci/macos-native/relocated-native/*.zip
-            build/ci/macos-native/relocated-native/*.json
-            build/ci/macos-native/relocated-native/*.log
-            build/ci/macos-native/relocated-runtime/*.json
-            build/ci/macos-native/relocated-runtime/*.log
-            build/ci/macos-native/relocated-runtime/*.pam
-            build/ci/macos-native/relocated-runtime/*.ppm
-            build/ci/macos-native/relocated-runtime/*.csv
-            build/ci/macos-native/relocated-runtime/*.qpxproj
-            build/ci/macos-native/relocated-runtime/batch/**/*.qpxproj
-
-  manylinux-build:
-    if: ${{ inputs.portable_linux }}
-    name: Manylinux build Python ${{ matrix.python }}
-    runs-on: ubuntu-24.04
-    timeout-minutes: 90
-    container:
-      image: quay.io/pypa/manylinux_2_28_x86_64@sha256:076b19ef6e698f28649fa817c49d14443201e01da85240e8e52f93e8daa49bff
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - python: '3.11'
-            abi: cp311-cp311
-          - python: '3.12'
-            abi: cp312-cp312
-    env:
-      PYBIN: /opt/python/${{ matrix.abi }}/bin
-    steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          persist-credentials: false
-      - name: Qualification dependencies
-        shell: bash
-        run: '"$PYBIN/python" -m pip install --only-binary=:all: -r tools/ci/requirements-manylinux.txt'
-      - name: Baseline GEOS SDK cache
-        uses: actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0
-        with:
-          path: build/deps/geos-sdk
-          key: manylinux228-geos-${{ hashFiles('tools/ci/manylinux-assets.json', 'tools/build_geos_sdk.py') }}
-      - name: Baseline OpenCV SDK cache
-        uses: actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0
-        with:
-          path: build/deps/opencv-sdk
-          key: manylinux228-opencv-${{ hashFiles('tools/ci/manylinux-assets.json', 'tools/build_opencv_sdk.py') }}
-      - name: Reader fixture cache
-        uses: actions/cache@a7833574556fa59680c1b7cb190c1735db73ebf0
-        with:
-          path: build/fixtures
-          key: reader-fixtures-${{ hashFiles('tests/fixtures/manifest.json') }}
-      - name: Build qualify and recheck
-        shell: bash
-        env:
-          EXTENDED_READERS: ${{ inputs.extended_readers && '--extended-readers' || '' }}
-        run: |
-          export PATH="$PYBIN:$PATH"
-          "$PYBIN/python" -I tools/ci/run_manylinux.py --work build/ci/portable $EXTENDED_READERS
-      - name: Qualified wheel and audit evidence
-        if: always()
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
-        with:
-          name: manylinux-${{ matrix.python }}
-          retention-days: 14
-          if-no-files-found: warn
-          path: |
-            build/ci/portable/qualified/*.whl
-            build/ci/portable/*.json
-            build/ci/portable/*.xml
-            build/ci/portable/*.log
-
-  manylinux-consumer:
-    if: ${{ inputs.portable_linux }}
-    name: Debian consumer Python ${{ matrix.python }}
-    needs: manylinux-build
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    container:
-      image: ${{ matrix.image }}
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - python: '3.11'
-            image: library/python@sha256:8fb0b110b022c70cbe09d3ff1fb313654f31f9c814abb0d48180af56d906a199
-          - python: '3.12'
-            image: library/python@sha256:57d96f71de145a98e7ceca18ee4ade77bba4103a33a72dfaea026b23625c6bf0
-    steps:
-      - name: System C++ runtime
-        shell: bash
-        run: |
-          apt-get -o Acquire::Retries=3 update
-          apt-get -o Acquire::Retries=3 install -y --no-install-recommends libstdc++6 libgcc-s1
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
-        with:
-          persist-credentials: false
-      - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
-        with:
-          name: manylinux-${{ matrix.python }}
-          path: build/ci/candidate
-      - name: Install qualified candidate
-        shell: bash
-        run: |
-          python -m venv build/ci/consumer
-          build/ci/consumer/bin/python -m pip install --only-binary=:all: -r tools/ci/requirements.txt build/ci/candidate/qualified/*.whl
-          build/ci/consumer/bin/python -I tools/fetch_reader_fixtures.py
-      - name: Fresh consumer workflows
-        shell: bash
-        run: |
-          unset LD_LIBRARY_PATH LD_PRELOAD
-          test ! -d build/deps/geos-sdk
-          build/ci/consumer/bin/python -I tools/ci/linux_runtime_manifest.py --wheel build/ci/candidate/qualified/*.whl --verify build/ci/candidate/qualified-linux-runtime-manifest.json
-          build/ci/consumer/bin/python -I tools/ci/linux_runtime_manifest.py --wheel build/ci/candidate/qualified/*.whl --output build/ci/consumer-linux-runtime-manifest.json > build/ci/consumer-linux-runtime-manifest.log
-          build/ci/consumer/bin/python -I tools/ci/check_manylinux_consumer.py --wheel build/ci/candidate/qualified/*.whl --qualification build/ci/candidate/qualification.json --slide build/fixtures/CMU-1-Small-Region.svs --output build/ci/consumer-probe.json
-          QUPATHXX_TEST_GUI=0 QUPATHXX_APERIO_FIXTURE="$PWD/build/fixtures/CMU-1-Small-Region.svs" build/ci/consumer/bin/python -I -m pytest tests -q -o faulthandler_timeout=60 --junitxml=build/ci/consumer-tests.xml > build/ci/consumer-tests.log 2>&1
-      - name: Consumer evidence
-        if: always()
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
-        with:
-          name: manylinux-consumer-${{ matrix.python }}
-          retention-days: 14
-          if-no-files-found: warn
-          path: |
-            build/ci/consumer-probe.json
-            build/ci/consumer-tests.xml
-            build/ci/consumer-tests.log
-            build/ci/consumer-linux-runtime-manifest.json
-            build/ci/consumer-linux-runtime-manifest.log
+            build/retained-arm64-249/*.json
+            build/retained-arm64-249/*.jsonl
+            build/retained-arm64-249/*.log
+            build/retained-arm64-249/*.lldb
+            build/retained-arm64-249/exception-probe.cpp
+            build/retained-arm64-249/source-artifact.zip
