@@ -12,6 +12,7 @@ struct Writer {
     void real(double v) {std::uint64_t bits;std::memcpy(&bits,&v,8);integer(bits);}
     void string(const std::string& s) {integer(s.size());data.insert(data.end(),s.begin(),s.end());}
     void optional(std::optional<double> v) {integer(bool(v));if(v) real(*v);}
+    void file(const FileVersion& v) {for(const auto* text:{&v.path,&v.identity_scheme,&v.identity,&v.stamp_scheme,&v.modified_token,&v.change_token}) string(*text);integer(v.bytes);integer(v.observed_unix_ms);}
 };
 struct Reader {
     const std::uint8_t* p;std::size_t left;
@@ -19,6 +20,7 @@ struct Reader {
     double real() {const auto bits=integer();double v;std::memcpy(&v,&bits,8);return v;}
     std::string string() {const auto n=integer(32768);if(n>left) throw std::invalid_argument("truncated provenance text");std::string s(reinterpret_cast<const char*>(p),static_cast<std::size_t>(n));p+=n;left-=n;return s;}
     std::optional<double> optional() {if(!integer(1)) return {};return real();}
+    FileVersion file() {FileVersion v;for(auto* text:{&v.path,&v.identity_scheme,&v.identity,&v.stamp_scheme,&v.modified_token,&v.change_token}) *text=string();v.bytes=integer(std::numeric_limits<std::int64_t>::max());v.observed_unix_ms=integer(std::numeric_limits<std::int64_t>::max());return v;}
 };
 }
 std::vector<std::uint8_t> ProvenanceCodec::encode(const AnalysisProvenance& p) {
@@ -29,13 +31,14 @@ std::vector<std::uint8_t> ProvenanceCodec::encode(const AnalysisProvenance& p) {
     w.integer(e.gui);w.integer(e.python);w.integer(e.interchange);
     w.integer(bool(p.reader_source));if(p.reader_source) {
         const auto& source=*p.reader_source;for(const auto* text:{&source.generation,&source.reader,&source.locator,&source.scope}) w.string(*text);
-        w.integer(bool(source.primary));if(source.primary) {const auto& v=*source.primary;for(const auto* text:{&v.path,&v.identity_scheme,&v.identity,&v.stamp_scheme,&v.modified_token,&v.change_token}) w.string(*text);w.integer(v.bytes);w.integer(v.observed_unix_ms);}
+        w.integer(bool(source.primary));if(source.primary) w.file(*source.primary);
+        if(!source.companions.empty()) {w.data[3]=3;w.integer(source.companions.size());for(const auto& file:source.companions) w.file(file);}
     }
     Sha256 digest;digest.update(w.data.data(),w.data.size());const auto hex=digest.finish();w.data.insert(w.data.end(),hex.begin(),hex.end());
     if(w.data.size()>4u*1024u*1024u) throw std::length_error("encoded provenance exceeds 4 MiB");return w.data;
 }
 std::shared_ptr<const AnalysisProvenance> ProvenanceCodec::decode(const std::uint8_t* data,std::size_t size) {
-    if(!data || size<68 || size>4u*1024u*1024u || (std::memcmp(data,"QPV",3) || (data[3]!=1 && data[3]!=2))) throw std::invalid_argument("invalid provenance encoding");
+    if(!data || size<68 || size>4u*1024u*1024u || std::memcmp(data,"QPV",3) || data[3]<1 || data[3]>3) throw std::invalid_argument("invalid provenance encoding");
     Sha256 digest;digest.update(data,size-64);if(digest.finish()!=std::string(reinterpret_cast<const char*>(data+size-64),64)) throw std::invalid_argument("provenance checksum mismatch");
     Reader r{data+4,size-68};auto p=std::make_shared<AnalysisProvenance>();p->object_id=r.integer();p->object_revision=r.integer();p->document_revision=r.integer();p->captured_unix_ms=r.integer(std::numeric_limits<std::int64_t>::max());p->nucleus=r.integer(1)!=0;
     p->source.width=static_cast<std::int64_t>(r.integer(std::numeric_limits<std::int64_t>::max()));p->source.height=static_cast<std::int64_t>(r.integer(std::numeric_limits<std::int64_t>::max()));
@@ -44,11 +47,13 @@ std::shared_ptr<const AnalysisProvenance> ProvenanceCodec::decode(const std::uin
     for(std::uint64_t i=0;i<n;++i) {const auto w=r.integer(std::numeric_limits<std::int64_t>::max()),h=r.integer(std::numeric_limits<std::int64_t>::max());p->source.levels.push_back({static_cast<std::int64_t>(w),static_cast<std::int64_t>(h),r.real()});}
     auto e=std::make_shared<BuildEnvironment>();for(auto* s:{&e->app_version,&e->source_tree_sha256,&e->git_revision,&e->compiler,&e->compiler_flags,&e->configuration,&e->platform,&e->cmake_version,&e->geos_version,&e->openslide_version,&e->sqlite_version}) *s=r.string();
     e->gui=r.integer(1)!=0;e->python=r.integer(1)!=0;e->interchange=r.integer(1)!=0;
-    if(data[3]==2 && r.integer(1)) {
+    if(data[3]>=2 && r.integer(1)) {
         auto source=std::make_shared<ReaderSource>();for(auto* text:{&source->generation,&source->reader,&source->locator,&source->scope}) *text=r.string();
-        if(r.integer(1)) {auto v=std::make_shared<FileVersion>();for(auto* text:{&v->path,&v->identity_scheme,&v->identity,&v->stamp_scheme,&v->modified_token,&v->change_token}) *text=r.string();v->bytes=r.integer(std::numeric_limits<std::int64_t>::max());v->observed_unix_ms=r.integer(std::numeric_limits<std::int64_t>::max());source->primary=std::move(v);}
+        if(r.integer(1)) source->primary=std::make_shared<const FileVersion>(r.file());
+        if(data[3]==3) {const auto count=r.integer(63);if(!count) throw std::invalid_argument("empty compound provenance source");source->companions.reserve(std::size_t(count));for(std::uint64_t i=0;i<count;++i) source->companions.push_back(r.file());}
         source->validate();p->reader_source=std::move(source);
     }
+    if(data[3]==3 && !p->reader_source) throw std::invalid_argument("compound provenance requires a source");
     if(r.left) throw std::invalid_argument("trailing provenance bytes");p->environment=std::move(e);p->validate();return p;
 }
 void ProvenanceCodec::attach(const std::shared_ptr<const TissueResult>& result,std::shared_ptr<const AnalysisProvenance> p) {

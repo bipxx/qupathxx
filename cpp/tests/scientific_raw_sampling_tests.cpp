@@ -105,6 +105,11 @@ public:
     std::string source_locator() const override {return observed->locator;}
     std::shared_ptr<const qpx::ReaderSource> reader_source() const override {return lazy_identity && !metadata_reads?cold:observed;}
     std::shared_ptr<const qpx::TiffView> tiff_view() const override {return view;}
+    void set_companion_stamp(unsigned stamp=1) {
+        auto next=std::make_shared<qpx::ReaderSource>(*observed);auto companion=*observed->primary;
+        companion.path="/raw-analysis-companion.tif";companion.identity="1:3";companion.modified_token=std::to_string(stamp)+":0";
+        next->scope="compound_files";next->companions={std::move(companion)};next->validate();observed=std::move(next);
+    }
 };
 
 class StreamingReader:public qpx::ImageServer {
@@ -327,6 +332,28 @@ void check_scientific_raw_sampling() {
 void check_scientific_raw_analysis() {
     using namespace qpx;
     require(std::size(raw_grid_statistics_reference::cases)==188);
+    for(bool explicit_grid:{false,true}) {
+        auto source=std::make_shared<AnalysisReader>();source->set_companion_stamp();Document doc(source);
+        RawRegionRequest region;region.region=RegionRequest(0,0,0,5,4);region.channels=2;
+        ScientificRawOptions options;options.channels=2;
+        RawAnalysisRequest request=explicit_grid?RawAnalysisRequest(doc,ScientificGrid(5,4,{0,5,3,0},{0,4,2,0}),options):RawAnalysisRequest(doc,region,0,false,16);
+        const auto result=analyze_raw(request);const auto id=doc.keep_raw_analysis(request,result);
+        require(result->source()->companions.size()==1 && doc.raw_analysis_status(id)=="current");
+        const auto bytes=RawAnalysisCodec::encode(*doc.raw_analysis_record(id),doc.metadata());require(bytes[3]==(explicit_grid?4:3));
+        const auto decoded=RawAnalysisCodec::decode(bytes.data(),bytes.size(),doc.metadata());
+        require(reader_source_json(*decoded->result->source())==reader_source_json(*result->source()));
+        require(RawAnalysisCodec::encode(*decoded,doc.metadata())==bytes);
+        auto legacy=bytes;legacy[3]=explicit_grid?2:1;Sha256 checksum;checksum.update(legacy.data(),legacy.size()-64);const auto hash=checksum.finish();std::copy(hash.begin(),hash.end(),legacy.end()-64);
+        rejects<std::invalid_argument>([&]{RawAnalysisCodec::decode(legacy.data(),legacy.size(),doc.metadata());});
+        const auto& file=result->source()->companions[0];std::size_t suffix=8+16;
+        for(const auto* text:{&file.path,&file.identity_scheme,&file.identity,&file.stamp_scheme,&file.modified_token,&file.change_token}) suffix+=8+text->size();
+        for(auto count:{0,64}) {auto damaged=bytes;damaged[damaged.size()-64-suffix]=std::uint8_t(count);Sha256 digest;digest.update(damaged.data(),damaged.size()-64);const auto sum=digest.finish();std::copy(sum.begin(),sum.end(),damaged.end()-64);rejects<std::invalid_argument>([&]{RawAnalysisCodec::decode(damaged.data(),damaged.size(),doc.metadata());});}
+        source->set_companion_stamp(7);require(doc.raw_analysis_status(id)=="source_changed");
+        require(result->source()->companions[0].modified_token=="1:0");
+        auto replay=RawAnalysisRequest::replay(doc,id);const auto repeated=analyze_raw(replay);
+        require(doc.verify_raw_analysis(id,replay,repeated) && doc.raw_analysis_status(id)=="current");
+    }
+    std::cout<<"Compound TIFF observations, QRA3/QRA4 retention, downgrade refusal and companion-only stale status passed\n";
     {
         auto source=std::make_shared<AnalysisReader>();Document doc(source);
         const auto id=doc.add_rectangle({.2,.3,2.1,1.1},"fractional ROI");

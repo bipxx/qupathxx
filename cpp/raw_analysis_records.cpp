@@ -6,6 +6,7 @@
 #include "scientific_raw_sampling_internal.hpp"
 #include "utf8_text.hpp"
 #include "atomic_export.hpp"
+#include "reader_file_guard.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
@@ -15,9 +16,6 @@
 namespace qpx {
 namespace {
 constexpr std::size_t budget=64u*1024*1024;
-bool same_file(const FileVersion& a,const FileVersion& b) {
-    return a.identity_scheme==b.identity_scheme && a.identity==b.identity && a.bytes==b.bytes && a.stamp_scheme==b.stamp_scheme && a.modified_token==b.modified_token && a.change_token==b.change_token;
-}
 bool same_region(const RawRegionRequest& a,const RawRegionRequest& b) {
     return a.region.x==b.region.x && a.region.y==b.region.y && a.region.width==b.region.width && a.region.height==b.region.height && a.region.level==b.region.level &&
         a.first_channel==b.first_channel && a.channels==b.channels && a.z==b.z && a.t==b.t;
@@ -130,7 +128,7 @@ void RawAnalysisRecord::validate(const ImageMetadata& image,const std::atomic<bo
     if(text_bytes>4u*1024*1024) throw std::length_error("raw analysis channel labels exceed limit");
     calibration(result->pixel_width_um());calibration(result->pixel_height_um());calibration(metadata.z_spacing_um);calibration(metadata.time_interval_seconds);
     const auto& hash=result->input_sha256();if(hash.size()!=64 || hash.find_first_not_of("0123456789abcdef")!=std::string::npos) throw std::invalid_argument("invalid raw input digest");
-    if(!result->source() || !result->source()->primary || result->source()->reader.rfind("tiff:",0)!=0 || result->source()->scope!="single_file") throw std::invalid_argument("raw analysis requires observed TIFF provenance");result->source()->validate();
+    if(!result->source() || !result->source()->primary || result->source()->reader.rfind("tiff:",0)!=0 || (result->source()->scope!="single_file" && result->source()->scope!="compound_files")) throw std::invalid_argument("raw analysis requires observed TIFF provenance");result->source()->validate();
     if(payload_bytes()>16u*1024*1024) throw std::length_error("raw analysis record exceeds 16 MiB limit");
 }
 void Document::restore_raw_analysis(std::shared_ptr<const RawAnalysisRecord> record) {
@@ -193,7 +191,7 @@ std::string Document::raw_analysis_status(std::uint64_t id) const {
     if(server_->closed()) return "source_closed";const auto view=server_->tiff_view();if(!view || view->series!=result.metadata().series) return "source_changed";
     const auto source=server_->reader_source(),proof=stored.observed_source;
     if(!source || !proof || !source->primary || !proof->primary) return "unverified";
-    if(source->locator!=proof->locator || !same_file(*source->primary,*proof->primary)) return "source_changed";
+    if(!detail::same_reader_files(*source,*proof)) return "source_changed";
     return stored.verified?"current":"verification_failed";
 }
 bool Document::remove_raw_analysis(std::uint64_t id) {

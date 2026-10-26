@@ -181,6 +181,7 @@ std::shared_ptr<const FileFingerprint> FileFingerprintJob::result() const {retur
 std::shared_ptr<const SourceFileAssociation> FileFingerprintJob::association() const {return impl_->association;}
 bool FileFingerprintJob::request_source(const ReaderSource& source,const std::string& output_path,FileFingerprintOptions options) {
     poll();if(busy()) return false;source.validate();if(source.locator.empty()) throw std::invalid_argument("reader has no file locator");
+    if(!output_path.empty()) {const auto destination=normalized(output_path);for(const auto& file:source.companions) detail::guard_file_output(file.path,file.identity,destination);}
     return request_impl(source.locator,output_path,options,std::make_shared<const ReaderSource>(source));
 }
 bool FileFingerprintJob::request(const std::string& path,const std::string& output_path,FileFingerprintOptions options) {return request_impl(path,output_path,options,{});}

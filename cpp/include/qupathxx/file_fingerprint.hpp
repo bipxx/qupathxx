@@ -31,6 +31,7 @@ public:
     bool request(const std::string& path,const std::string& output_path="",FileFingerprintOptions={});
     FileFingerprintStats poll();FileFingerprintStats wait();void cancel();bool busy() const;
     std::shared_ptr<const FileFingerprint> result() const;
+    // Hashes the primary file only; compound associations report matching_primary_metadata.
     bool request_source(const ReaderSource&,const std::string& output_path="",FileFingerprintOptions={});
     std::shared_ptr<const SourceFileAssociation> association() const;
 private:

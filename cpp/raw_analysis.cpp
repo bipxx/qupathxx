@@ -1,5 +1,6 @@
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/source_identity.hpp"
+#include "reader_file_guard.hpp"
 #include "qupathxx/tma.hpp"
 #include "raw_statistics_internal.hpp"
 #include "raw_analysis_internal.hpp"
@@ -20,10 +21,6 @@
 
 namespace qpx {
 namespace {
-bool same_file(const FileVersion& a,const FileVersion& b) {
-    return a.identity_scheme==b.identity_scheme && a.identity==b.identity && a.bytes==b.bytes &&
-        a.stamp_scheme==b.stamp_scheme && a.modified_token==b.modified_token && a.change_token==b.change_token;
-}
 void text(Sha256& hash,const std::string& value) {hash.integer(value.size());hash.update(value.data(),value.size());}
 void number(Sha256& hash,std::optional<double> value) {
     hash.integer(value.has_value());if(value) {std::uint64_t bits;static_assert(sizeof(bits)==sizeof(*value));std::memcpy(&bits,&*value,sizeof(bits));hash.integer(bits);}
@@ -134,7 +131,7 @@ bool RawAnalysisRequest::matches(const Document& doc) const {
     if(!view || view->series!=series_ || current->source_locator()!=(source_?source_->source_locator():observed_?observed_->locator:std::string{})) return false;
     if(current!=source_) {
         const auto before=observed_?observed_:source_?source_->reader_source():nullptr,after=current->reader_source();
-        if(!before || !after || !before->primary || !after->primary || !same_file(*before->primary,*after->primary)) return false;
+        if(!before || !after || !detail::same_reader_files(*before,*after)) return false;
     }
     if(object_id_) {
         try {const auto object=doc.annotation(object_id_);if(object.revision!=object_revision_) return false;
