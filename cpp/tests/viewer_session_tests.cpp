@@ -55,7 +55,7 @@ void raw_pixel_session_contracts(const std::filesystem::path& root) {
     ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(owner);check(session.poll(ticket).state=="running");check(session.cancel(ticket));check(h.until(owner,session,ticket).state=="cancelled");check(!session.take(ticket).raw_pixel_prediction && session.stats().retained_bytes==0);
     ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);check(h.until(owner,session,ticket).state=="succeeded");session.take(ticket);
     {
-        ViewerSession closing((root/"raw-closing.qpxproj").u8string());detail::ViewerOwner closing_owner(closing);
+        ViewerSession closing((root/"raw-closing.qpxproj").u8string());detail::ViewerOwner closing_owner(closing);h.step(closing_owner); // adopt the current workspace epoch before submitting
         const auto pending=closing.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(closing_owner);check(closing.poll(pending).state=="running");
         closing_owner.finish(h.context);const auto cancelled=closing.take(pending);check(cancelled.state=="cancelled" && !cancelled.raw_pixel_prediction && closing.stats().retained_bytes==0);
         check(!retained->labels().empty());
