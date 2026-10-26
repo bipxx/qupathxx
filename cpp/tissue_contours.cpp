@@ -258,7 +258,7 @@ std::shared_ptr<const RawPixelContours> trace_raw_pixel_prediction(const RawPixe
 }
 std::vector<std::uint64_t> publish_raw_pixel_contours(Document& document,const RawPixelPredictionRequest& request,const RawPixelContours& traced,std::string prefix) {
     detail::bounded_utf8(prefix,256);if(prefix.empty()) throw std::invalid_argument("raw contour name prefix is empty");
-    if(!RawPixelContourKernel::current(document,request,traced.prediction_)) throw std::invalid_argument("raw pixel contours are stale");
+    if(document.revision()!=traced.snapshot_->source.provenance->document_revision || !RawPixelContourKernel::current(document,request,traced.prediction_)) throw std::invalid_argument("raw pixel contours are stale");
     std::vector<ObjectEdit> edits;edits.reserve(traced.contours_->components().size());const auto parent=traced.contours_->options().clip_to_roi?traced.snapshot_->source.provenance->object_id:0;
     for(const auto& component:traced.contours_->components()) {const auto& name=traced.snapshot_->model.forest().classes().at(component.label-1);edits.push_back(ObjectEdit::create_geometry(component.geometry,prefix+" "+name,parent,name));}
     return document.execute(edits,"Add raw pixel classifier annotations");
