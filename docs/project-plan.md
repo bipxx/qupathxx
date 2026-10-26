@@ -54,8 +54,11 @@ rational-grid contour apply/undo/redo; it does not qualify Linux GEOS-positive
 or Mac paths. Sample-index raw windows and shared numeric features now have
 [local evidence](benchmarks/raw-lattice-windows-local.json) at `ae0ba29`, including
 large dense/irreducible lattices, exact wide weights and tiled/full feature bits.
-Next integrate window-aware classifier requests/results and tiled execution,
-then stream/checkpoint resume and frontends. Cross-tile contours, integrated
+Window-aware recipe/model matching, classification and owner prediction now have
+[local evidence](benchmarks/raw-window-classifier-local.json) at `642f728`, with
+eight suites each Windows/Linux plus three Windows training suites. Next add
+owner training over windows and tiled execution, then versioned stream/checkpoint
+resume and frontends. Cross-tile contours, integrated
 platform training and research/hardware acceptance remain open.
 New raw models use QRM1; explicit pre-release QPR1 compatibility preserves
 original bytes and hashes.

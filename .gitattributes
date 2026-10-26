@@ -496,3 +496,7 @@ docs/benchmarks/raw-pixel-replay-apply-local.json -text -whitespace
 docs/benchmarks/raw-lattice-windows-local/** -text -whitespace
 docs/benchmarks/raw-lattice-windows-local.json -text -whitespace
 docs/benchmarks/raw-window-fraction-reference.json -text -whitespace
+
+# Raw window model/owner evidence retains exact bytes.
+docs/benchmarks/raw-window-classifier-local/** -text -whitespace
+docs/benchmarks/raw-window-classifier-local.json -text -whitespace

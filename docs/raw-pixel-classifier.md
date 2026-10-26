@@ -313,8 +313,8 @@ retain their own gates.
 
 Source `ae0ba29` has [local native evidence](benchmarks/raw-lattice-windows-local.json)
 for five selected suites each Windows/Linux and two Windows training regression
-suites. This is the numeric window primitive; classifier request/result, stream,
-checkpoint and frontend integration remain required.
+suites. The window model/owner path below has its own later local evidence.
+Window training, streams, checkpoints and frontend integration remain required.
 
 `ScientificRawWindow` takes image dimensions, the original two
 `ScientificGridAxis` descriptors, and a bounded first-X/first-Y/core-width/
@@ -360,4 +360,58 @@ seams. Independently generated [Fraction references](benchmarks/raw-window-fract
 check thirteen wide means and twenty large irreducible-lattice uint64 capture
 slots. Hash-only equality, bounded chunk reread mutation, outside support,
 cancellation and exact budget refusal also pass. Training-enabled regression
-checks cover the existing whole-grid workflow, not window-aware training yet.
+checks cover the existing whole-grid workflow; window-aware training remains open.
+
+
+## Window-aware model matching and owner prediction
+
+Source `642f728` has [local native acceptance](benchmarks/raw-window-classifier-local.json)
+for eight selected suites each Windows/Linux and three Windows training suites.
+The same `RawPixelRecipe` captures or matches a ScientificRawWindow using global
+extent/sample ratios and the existing channel, dtype, series, Z/T, normalization
+and physical-spacing rules. Core size and first index are not model properties.
+Equivalent full-grid/window recipes and models have identical QXS1/QRM1 bytes;
+existing legacy raw QPR1 compatibility and RGB formats remain unchanged.
+
+`classify_raw_pixel_window(ScientificRawWindowData, model, ...)` returns a distinct
+owning `RawPixelWindowClassification`: window geometry, core labels, per-row
+validity, vote fractions, class counts, model/feature/input/result commitments and
+work estimate. It reuses the full-grid feature planner and bounded forest vote
+batching. Invalid rows remain unclassified with NaN fractions and a canonical
+invalid commitment encoding; low-confidence supported rows retain their votes
+with label zero. Its result
+domain is `qpx.raw-pixel-window-classification/1`, not the full-grid domain.
+
+`RawPixelWindowPredictionRequest(document, model, window, object_id, ...)`
+captures immutable raw metadata, effective document calibration, an optional area
+ROI, model and window, plus document identity/revision. It admits source copies,
+output and feature/vote work before pixel IO. Window authority becomes stale on
+any document revision or identity change. Global centers use first-core index
+plus local output index, preserving fractional phase even on huge lattices.
+`predict_raw_pixel_window` is the synchronous native computation; its owner result
+uses `qpx.raw-pixel-window-region/1` and binds mask/calibration and global geometry.
+
+`RawPixelWindowPredictionJob` owns the request/source until its worker is joined;
+workers borrow the reader and hold only immutable native snapshots. Controller
+methods run on the owner thread; cancellation is thread-safe. Poll/wait refuses
+cancelled, edited, copied-document, changed-metadata or changed-file results
+before ready delivery, including changes after worker completion. Fresh primary
+and companion file guards run at delivery, rather than each ordinary progress
+poll. Worker errors permit retry and leave the document and earlier owned output
+unchanged. Physical matching uses captured document overrides separately from
+the actual file metadata epoch.
+
+Source metadata payload is admitted before capture copies it. The sampler's
+actual quota is capped by the remaining owner work budget and its expected series
+is checked before decoder IO. These protections also apply to the existing
+full-grid training/prediction workers, preserving their result/hash/codec meaning.
+The local controls grow metadata or change series after capture and prove refusal
+before reading pixels, rather than detecting it only after an oversized read.
+
+Evidence includes 42 exact full/window support-label-vote comparisons, real TIFF
+fractional-window ROI prediction and late source refusal, and an independently
+positioned ROI on a synthetic million-by-million lattice. The inherited wide
+Fraction and feature-seam controls still pass. One window is not a tiled stream:
+global reservoir training, tiled orchestration, versioned window/stream records,
+interrupted/resumed execution, contours/frontends and full platform/research
+acceptance retain their own implementation and qualification gates.

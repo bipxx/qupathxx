@@ -48,10 +48,19 @@
   admits bounded windows without constructing a whole-raster ScientificGrid.
   The shared exact sampler/feature algorithms preserve global phase and halos;
   distinct owning window data cannot silently enter legacy full-grid consumers.
-- Next product action: integrate the new windows into raw recipe/model matching,
-  classifier outputs and owner-captured tiled training/prediction jobs; then add
-  versioned stream/checkpoint resume and nanobind/Python/CLI/batch/ImGui/managed
-  viewer workflows. The window primitive is not a completed prediction stream.
+- Window-aware models and owner prediction now have [local evidence](benchmarks/raw-window-classifier-local.json)
+  at `642f728`: eight selected suites each Windows/Linux plus three Windows
+  training suites pass, with 345 matching inputs and nineteen retained binaries.
+  Portable QXS1/QRM1 bytes remain identical for equivalent full/window recipes.
+  Forty-two full/window prediction cores match support, labels and vote bits;
+  real TIFF and synthetic million-by-million global ROI prediction pass. Jobs
+  enforce owner delivery, cancellation, document identity/revision, calibration,
+  actual source metadata and fresh primary/companion-file guards. Metadata copies
+  and sampler quotas/series now reject before IO for window and full-grid jobs.
+- Next product action: owner-captured training over indexed windows, then bounded
+  tiled training/prediction with versioned stream/checkpoint resume. Continue
+  nanobind/Python/CLI/batch/ImGui/managed viewer integration afterward. Current
+  window prediction is one bounded window, not a completed prediction stream.
   Cross-tile contour stitching is separate.
   Linux/Mac GEOS-positive/backend-enabled and integrated platform training remain
   unqualified. See the
