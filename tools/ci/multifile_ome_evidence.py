@@ -38,7 +38,8 @@ def source_contract(root,commit):
 
 
 def native(cases,tiff=True):
-    expected={**CONTRACT['native'],CONTRACT['tiff_suite']:[CONTRACT['tiff_marker'] if tiff else CONTRACT['tiff_disabled_marker']]}
+    tiff_markers=[CONTRACT['tiff_marker'],*CONTRACT['tiff_additional_markers']] if tiff else [CONTRACT['tiff_disabled_marker']]
+    expected={**CONTRACT['native'],CONTRACT['tiff_suite']:tiff_markers}
     for suite,markers in expected.items():
         selected=[case for case in cases if case.get('name')==suite]
         require(len(selected)==1,'multi-file OME missing/duplicate native suite: '+suite)
@@ -49,6 +50,7 @@ def native(cases,tiff=True):
         if suite==CONTRACT['tiff_suite']:
             opposite=CONTRACT['tiff_disabled_marker'] if tiff else CONTRACT['tiff_marker']
             require(opposite not in lines,'multi-file OME native capability contradicts configuration')
+            if not tiff:require(all(marker not in lines for marker in CONTRACT['tiff_additional_markers']),'multi-file OME disabled configuration claims enabled cancellation checks')
     return dict(suites=len(expected),tiff_enabled=tiff,compound_provenance_codecs=True)
 
 

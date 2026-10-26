@@ -8,6 +8,8 @@
 #include "../raw_analysis_internal.hpp"
 #include "qupathxx/core.hpp"
 #include <algorithm>
+#include <atomic>
+#include <iterator>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
@@ -45,6 +47,32 @@ void multichannel_block_reuse(const std::filesystem::path& path) {
 }
 // Two independent hand-encoded TIFFs deliberately share IFD and strip numbers.
 // Distinct channel values expose a cache key that forgets the physical file.
+void multifile_cancel_checks(const std::shared_ptr<ImageServer>& server,const std::filesystem::path& entry,RawRegionRequest request) {
+    const auto retained=server->read_raw(request);const auto before=*server->tiff_read_stats();
+    std::atomic<bool> cancelled{true};
+    const auto refuses_cancel=[&](auto&& action) {
+        try {action();}catch(const std::runtime_error& error) {check(std::string(error.what()).find("cancelled")!=std::string::npos);return;}
+        throw std::runtime_error("missing compound TIFF cancellation refusal");
+    };
+    refuses_cancel([&]{open_tiff(entry.u8string()+".missing",{},&cancelled);});
+    refuses_cancel([&]{open_tiff(entry.u8string(),{},&cancelled);});
+    refuses_cancel([&]{server->read_raw(request,&cancelled);});
+    auto outside=request;outside.region={-100,-100,0,2,2};
+    refuses_cancel([&]{server->read_raw(outside,&cancelled);});
+    refuses_cancel([&]{server->with_tiff_view(*server->tiff_view(),&cancelled);});
+    Document doc(server);RawAnalysisRequest captured(doc,request,0,false,16);
+    refuses_cancel([&]{analyze_raw(captured,&cancelled);});
+    const auto after=*server->tiff_read_stats();
+    check(after.decoded_blocks==before.decoded_blocks && after.cache_hits==before.cache_hits && after.cache_bytes==before.cache_bytes);
+    const auto output=entry.u8string()+".cancel.npy";
+    {std::ofstream file(std::filesystem::u8path(output),std::ios::binary);file<<"preserved";}
+    refuses_cancel([&]{save_raw_numpy(retained,output,true,&cancelled);});
+    {std::ifstream file(std::filesystem::u8path(output),std::ios::binary);const std::string bytes{std::istreambuf_iterator<char>(file),std::istreambuf_iterator<char>()};check(bytes=="preserved");}
+    cancelled.store(false);save_raw_numpy(retained,output,true,&cancelled);
+    {std::ifstream file(std::filesystem::u8path(output),std::ios::binary);std::array<char,6> magic{};file.read(magic.data(),magic.size());check(std::string(magic.data()+1,5)=="NUMPY");}
+    std::filesystem::remove(std::filesystem::u8path(output));
+    check(std::get<std::vector<std::uint16_t>>(server->read_raw(request,&cancelled).storage())[1]==101);
+}
 void multifile_dispatch(const std::filesystem::path& path) {
     namespace fs=std::filesystem;auto companion=path;companion += ".other.tif";
     const auto write=[&](const fs::path& target,bool other) {
@@ -66,6 +94,7 @@ void multifile_dispatch(const std::filesystem::path& path) {
         RawRegionRequest request;request.region={0,0,0,2,2};request.channels=2;
         for(unsigned repeat=0;repeat<2;++repeat) {const auto raw=server->read_raw(request);const auto& values=std::get<std::vector<std::uint16_t>>(raw.storage());for(unsigned i=0;i<4;++i) {check(values[2*i]==i+1 && values[2*i+1]==i+101);check(raw.valid()[i]);}}
         check(server->tiff_read_stats()->decoded_blocks==2 && server->tiff_read_stats()->cache_hits==2);
+        multifile_cancel_checks(server,entry,request);
         auto view=server->with_tiff_view(*server->tiff_view());check(view->reader_source()->companions.size()==1);server->close();check(view->read_raw(request).valid()[0]);view->close();
     }
     auto server=open_tiff(path.u8string(),{});RawRegionRequest request;request.region={0,0,0,2,2};request.channels=2;auto retained=server->read_raw(request);
@@ -86,6 +115,7 @@ int main() {
         if(has_tiff()) {
             multifile_dispatch(path);
             std::cout<<"TIFF multi-file UUID dispatch, colliding cache keys, view ownership and companion mutation guards passed\n";
+            std::cout<<"TIFF compound pre-cancel open/raw/view/analysis, unchanged decode/cache, atomic export preservation and retry passed\n";
             multichannel_block_reuse(path);
             std::cout<<"TIFF interleaved block reuse without LRU, separate-plane selection and padded values passed\n";
             // Independent minimal TIFF byte fixture: no libtiff encoder involved.

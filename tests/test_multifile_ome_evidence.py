@@ -22,7 +22,7 @@ def native_cases(tiff=True):
     for suite,markers in evidence.CONTRACT['native'].items():
         case=ET.Element('testcase',name=suite);ET.SubElement(case,'system-out').text='\n'.join(markers);result.append(case)
     case=ET.Element('testcase',name=evidence.CONTRACT['tiff_suite'])
-    ET.SubElement(case,'system-out').text=evidence.CONTRACT['tiff_marker' if tiff else 'tiff_disabled_marker']
+    ET.SubElement(case,'system-out').text='\n'.join([evidence.CONTRACT['tiff_marker'],*evidence.CONTRACT['tiff_additional_markers']] if tiff else [evidence.CONTRACT['tiff_disabled_marker']])
     return result+[case]
 
 
@@ -62,7 +62,7 @@ def test_native_false_acceptance_controls(suite,change):
 
 @pytest.mark.parametrize('gui',[False,True])
 def test_complete_installed_desktop_and_typing_evidence(gui,tmp_path):
-    cases=python_cases(gui);assert evidence.python(cases)['passed']==44
+    cases=python_cases(gui);assert evidence.python(cases)['passed']==54
     assert evidence.desktop(cases,gui=gui)==dict(passed=2 if gui else 0,declared_desktop_skips=0 if gui else 2)
     typing_logs(tmp_path);assert evidence.typing(tmp_path)['intended_negative_errors']==3
 
@@ -170,3 +170,11 @@ def test_actual_native_auditor_assignment_rejects_missing_semantics(filename,val
     if valid: exec(code,scope)
     else:
         with pytest.raises(ValueError): exec(code,scope)
+
+
+@pytest.mark.parametrize('change',['missing','duplicate','disabled_leak'])
+def test_real_compound_cancellation_marker_cannot_be_omitted_or_claimed_when_disabled(change):
+    cases=native_cases(change!='disabled_leak');out=cases[-1].find('system-out');marker=evidence.CONTRACT['tiff_additional_markers'][0]
+    if change=='missing':out.text='\n'.join(line for line in out.text.splitlines() if line!=marker)
+    else:out.text+='\n'+marker
+    with pytest.raises(ValueError):evidence.native(cases,tiff=change!='disabled_leak')

@@ -61,6 +61,18 @@
       "test_companion_list_is_a_copy_and_descriptor_is_read_only",
       "test_legacy_single_file_json_and_primary_association_stay_version_one",
       "test_memory_descriptor_has_no_primary_or_companion_files"
+    ],
+    "test_multifile_tiff_failures": [
+      "test_companion_large_tile_decode_budget_refuses_without_poisoning_shared_cache",
+      "test_compound_scientific_workspace_exact_and_minus_one_admission[companions/planes-\\u03b2.ome.tif]",
+      "test_compound_scientific_workspace_exact_and_minus_one_admission[primary.ome.tif]",
+      "test_corrupt_companion_decode_is_atomic_and_other_channel_remains_readable[0-companions/planes-\\u03b2.ome.tif]",
+      "test_corrupt_companion_decode_is_atomic_and_other_channel_remains_readable[0-primary.ome.tif]",
+      "test_corrupt_companion_decode_is_atomic_and_other_channel_remains_readable[1-companions/planes-\\u03b2.ome.tif]",
+      "test_corrupt_companion_decode_is_atomic_and_other_channel_remains_readable[1-primary.ome.tif]",
+      "test_failed_companion_job_never_replaces_existing_record",
+      "test_real_compound_job_cancellation_is_bounded_and_reusable[completed_unpublished]",
+      "test_real_compound_job_cancellation_is_bounded_and_reusable[partial]"
     ]
   },
   "desktop": {
@@ -83,5 +95,8 @@
         6
       ]
     }
-  }
+  },
+  "tiff_additional_markers": [
+    "TIFF compound pre-cancel open/raw/view/analysis, unchanged decode/cache, atomic export preservation and retry passed"
+  ]
 }
