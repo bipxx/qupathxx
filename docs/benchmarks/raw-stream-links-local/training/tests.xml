@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="2"
+	timestamp="2026-10-26T07:52:47"
+	>
+	<testcase name="pixel_workflows" classname="pixel_workflows" time="1.97451" status="run">
+		<properties/>
+		<system-out>Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+Raw training work admission: live=268356146 historical=268430565; recorded-parameter replay preserves model bytes and fresh admission preserves votes
+Raw pixel backend training: real TIFF deterministic direct/job training, historical retraining, trained archives/model files and portable prediction votes passed
+Raw pixel replay: real TIFF reopened training/prediction records verify through fresh owner jobs without promoting historical authority passed
+Raw pixel archives: real TIFF retention, project save/reopen, snapshot save, stale-file refusal and historical-only decode passed
+Raw pixel archives: sampling/prediction semantic round trips, rational axes, authority refusal, tamper/cancel and atomic replacement passed
+Raw pixel contours: GEOS-unavailable direct/job refusal passed
+Raw pixel replay: pre-IO capture, source-bit comparison, historical/cross-document refusal, recipe/calibration/annotation checks and owner-job verification passed
+Raw window classifier: real TIFF fractional-window owner prediction, global ROI mask and late-file refusal passed
+Raw window classifier: portable recipe/model identity, 42 full/window label-vote seams, huge indexed ROI, physical calibration, pre-IO quotas/series, cancellation/stale/copy/thread and compound-source checks passed
+Raw tiled training: actual backend full/tiled matrix, portable model bytes and prediction votes passed
+Raw tiled training: real TIFF fractional sampling, optional backend prediction and late-file refusal passed
+Raw tiled training: full/tiled global reservoir rows, filtered seams, sparse trillion-cell lattice, quotas, owner lifecycle, calibration and compound-source controls passed
+Raw prediction stream: real TIFF fractional full/stream votes, optional trained model and pending late-file refusal passed
+Raw prediction stream: fractional filtered full-context seams, unique/cropped global cores, bounded trillion-cell traversal, owned blocks, one-slot backpressure, digests, quotas, cancel/stale/retry and owner delivery passed
+Raw stream file: absent-destination concurrent-writer refusal preserves competing output passed
+Raw stream file: actual trained TIFF model survives save/reopen and hash-only resume with exact prediction commitments passed
+Raw stream file: real TIFF close/reopen hash-only prefix resume, full-result equivalence and changed-file/input-output refusal passed
+Raw stream file: QWS1 independent framing, historical blocks, exact interrupted/resumed bytes, hash-only prefix validation, model/source/ROI/calibration refusal, atomic cancellation, tamper and resource/alias controls passed
+Raw tiled archive: actual backend sampled/trained QTT1 round trips and recorded-parameter historical model replay passed
+Raw tiled archive: real TIFF sampling/training retention, mixed project/snapshot/recovery readback, fresh replay and historical/stale-file refusal passed
+Raw tiled archive: independent QTT1 geometry/rows, balanced/unbalanced and huge-lattice round trips, semantic tamper, all-selected record bounds, authority/replay and atomic files passed
+Raw training checkpoint: actual backend uninterrupted/resumed table and model bytes passed
+Raw training checkpoint: actual backend uninterrupted/resumed table and model bytes passed
+Raw training checkpoint: real TIFF project close/reopen, fresh replay, optional trained model, calibration/file and source-alias refusal passed
+Raw training checkpoint: independent QTC1 bounds, balanced/unbalanced multistage replay, exact rows/hashes/bytes, input tamper, limits, cancellation and concurrent-writer refusal passed
+Raw file jobs: real TIFF owner checkpoint retention/project readback, optional trained prediction export, verified historical blocks and late-source refusal passed
+Raw file jobs: owner export/checkpoint transfer, one-slot historical reads, cancellation/staleness/output guards, annotation resume refusal, thread/lifetime and retry controls passed
+Raw stream links: real TIFF optional trained export retention, mixed raw/RGB/project records, missing-file metadata reopen, save-as/snapshot/recovery and verified relocation passed
+Raw stream links: verified prefix/complete retention, independent QWL1 bounds, global geometry, historical authority refusal, exact-content relink and external lifetime controls passed
+Annotation sampling, overlap/balance, portable resolution, tiled source prediction and stale jobs passed
+</system-out>
+	</testcase>
+</testsuite>

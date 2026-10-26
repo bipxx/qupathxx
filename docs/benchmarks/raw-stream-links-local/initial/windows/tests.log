@@ -1,0 +1,48 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start  1: pixel_workflows
+1/8 Test  #1: pixel_workflows ..................***Failed    1.38 sec
+Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+Raw pixel replay: real TIFF reopened training/prediction records verify through fresh owner jobs without promoting historical authority passed
+Raw pixel archives: real TIFF retention, project save/reopen, snapshot save, stale-file refusal and historical-only decode passed
+Raw pixel archives: sampling/prediction semantic round trips, rational axes, authority refusal, tamper/cancel and atomic replacement passed
+Raw pixel contours: rational axes/context, raster membership/area, bounded conversion, cancel, atomic apply/undo/redo and stale authority passed
+Raw pixel replay: pre-IO capture, source-bit comparison, historical/cross-document refusal, recipe/calibration/annotation checks and owner-job verification passed
+Raw window classifier: real TIFF fractional-window owner prediction, global ROI mask and late-file refusal passed
+Raw window classifier: portable recipe/model identity, 42 full/window label-vote seams, huge indexed ROI, physical calibration, pre-IO quotas/series, cancellation/stale/copy/thread and compound-source checks passed
+Raw tiled training: real TIFF fractional sampling, optional backend prediction and late-file refusal passed
+Raw tiled training: full/tiled global reservoir rows, filtered seams, sparse trillion-cell lattice, quotas, owner lifecycle, calibration and compound-source controls passed
+Raw prediction stream: real TIFF fractional full/stream votes, optional trained model and pending late-file refusal passed
+Raw prediction stream: fractional filtered full-context seams, unique/cropped global cores, bounded trillion-cell traversal, owned blocks, one-slot backpressure, digests, quotas, cancel/stale/retry and owner delivery passed
+Raw stream file: absent-destination concurrent-writer refusal preserves competing output passed
+Raw stream file: real TIFF close/reopen hash-only prefix resume, full-result equivalence and changed-file/input-output refusal passed
+Raw stream file: QWS1 independent framing, historical blocks, exact interrupted/resumed bytes, hash-only prefix validation, model/source/ROI/calibration refusal, atomic cancellation, tamper and resource/alias controls passed
+Raw tiled archive: real TIFF sampling/training retention, mixed project/snapshot/recovery readback, fresh replay and historical/stale-file refusal passed
+Raw tiled archive: independent QTT1 geometry/rows, balanced/unbalanced and huge-lattice round trips, semantic tamper, all-selected record bounds, authority/replay and atomic files passed
+Raw training checkpoint: real TIFF project close/reopen, fresh replay, optional trained model, calibration/file and source-alias refusal passed
+Raw training checkpoint: independent QTC1 bounds, balanced/unbalanced multistage replay, exact rows/hashes/bytes, input tamper, limits, cancellation and concurrent-writer refusal passed
+Raw file jobs: real TIFF owner checkpoint retention/project readback, optional trained prediction export, verified historical blocks and late-source refusal passed
+Raw file jobs: owner export/checkpoint transfer, one-slot historical reads, cancellation/staleness/output guards, annotation resume refusal, thread/lifetime and retry controls passed
+pixel classifier has no source sampling resolution
+
+    Start  2: pixel_features
+2/8 Test  #2: pixel_features ...................   Passed    0.12 sec
+    Start  8: resampling
+3/8 Test  #8: resampling .......................   Passed    2.94 sec
+    Start 13: raw_image
+4/8 Test #13: raw_image ........................   Passed    0.37 sec
+    Start 16: source_identity
+5/8 Test #16: source_identity ..................   Passed    0.07 sec
+    Start 18: provenance
+6/8 Test #18: provenance .......................   Passed    0.05 sec
+    Start 48: project
+7/8 Test #48: project ..........................   Passed    0.15 sec
+    Start 51: project_save
+8/8 Test #51: project_save .....................   Passed    0.14 sec
+
+88% tests passed, 1 tests failed out of 8
+
+Total Test time (real) =   5.53 sec
+
+The following tests FAILED:
+	  1 - pixel_workflows (Failed)
+Errors while running CTest

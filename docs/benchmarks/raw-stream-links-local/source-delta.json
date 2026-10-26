@@ -1,0 +1,10 @@
+{
+  "initial_source": "d42fad4c7678b6d4de51986a4f6779043b77901e",
+  "final_source": "a608a530c7c0e6edd8c637d38ce2345f0deacb97",
+  "changed_inputs": [
+    "cpp/tests/raw_pixel_stream_link_checks.hpp"
+  ],
+  "reason": "RGB coexistence fixture omitted required sampling resolution and correctly refused; add explicit level-zero PixelResolution without changing source or record validation",
+  "initial_workflow_suites_failed": 3,
+  "unchanged_regressions_passed": 16
+}

@@ -6,7 +6,7 @@ E1-E4 and multi-file campaign213 have the accepted baselines listed in the
 Current remaining classifier work is the T1-T5 route in that plan. Its new
 efficiency decisions are sparse ROI tile-union planning, one global reservoir,
 per-window admission and one complete frontend integration/qualification path.
-Sparse tiled training (`1273c3e`) and bounded prediction streams (`8d544eb`) now have local acceptance; prediction files/hash-only resume are locally verified at `c843dfa`; QTT1 training archives/retention/replay are locally verified at `cc6fab4`; QTC1 training prefix replay is locally verified at `fb7ab73`; native owner file jobs are locally verified at `404f506`; retained external raw prediction references and installed frontends are next. No new cross-project or Astra audit
+Sparse tiled training (`1273c3e`) and bounded prediction streams (`8d544eb`) now have local acceptance; prediction files/hash-only resume are locally verified at `c843dfa`; QTT1 training archives/retention/replay are locally verified at `cc6fab4`; QTC1 training prefix replay is locally verified at `fb7ab73`; native owner file jobs are locally verified at `404f506`; QWL1 external raw stream links are locally verified at `a608a53`; installed frontends are next. No new cross-project or Astra audit
 is claimed by this reconciliation.
 
 Reviewed 2026-10-25 at qupathxx source `682ba00`. This is an implementation

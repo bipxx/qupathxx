@@ -704,7 +704,9 @@ there is no constant-IO/time claim. A completed table can train through
 `train_raw_pixel_tiled_classifier` with explicit effective parameters; QTC1 does
 not resume interrupted forest fitting. Worker callers must join before releasing
 the borrowed reader and use existing owner verification to publish their table.
-Automatic cadence, abrupt-process/power-loss acceptance, retained stream-file references and installed frontends remain open.
+Retained stream-file references now have the separate QWL1 acceptance below.
+Automatic cadence, abrupt-process/power-loss acceptance and installed frontends
+remain open.
 
 
 ## Native file job delivery
@@ -743,7 +745,50 @@ Cancellation, owner edits or file changes suppress pending results. An atomic
 file commit that already succeeded remains historical output; late owner
 staleness/cancellation does not delete it or restore an older file. This differs
 from cancellation detected before commit, which preserves the prior checkpoint.
-External raw stream link/record retention, asynchronous relinking, installed
-frontends, automatic maintenance and abrupt-process/power-loss acceptance remain
+External raw stream link/record retention and asynchronous relinking now have
+the separate QWL1 acceptance below. Installed frontends, automatic maintenance and abrupt-process/power-loss acceptance remain
 open. Reuse the existing RGB external-link lifetime/path model with a distinct
 raw metadata representation rather than embedding whole streams in project blobs.
+
+
+## Retained external raw stream links
+
+`RawPixelStreamFile.link()` and `prepare_raw_pixel_stream_link` require complete
+prefix verification and a fresh file identity/stamp check. They produce small
+immutable historical metadata: original global lattice, region/options, source
+object/revision history, model/request/header hashes and exact prefix summary.
+No full model, feature planes or prediction raster is retained in the link.
+QWS1's shared file-size arithmetic checks expected bytes/coverage; an empty
+prefix can describe a trillion-cell lattice without reading source pixels.
+
+QWL1 encodes a record ID/name, rebased external path, ten geometry scalars,
+region/options, source history/header length, identity hashes, prefix summary
+and checksum. It is distinct from RGB QSL1 and uses the existing stream-record
+table in SQL schema 13. Metadata decode does not open external files or restore
+the transient file-verification observation. Full raw QXR1 and RGB record formats
+retain their original meanings. Project snapshots charge bounded link metadata.
+
+`Document.keep_raw_pixel_stream` requires verified, unchanged output and source
+dimensions compatible with the document. The record is a historical reference,
+not a live result or apply capability. `raw_pixel_stream_records`/record/count
+expose it. `remove_raw_pixel_stream_record` removes metadata only and never
+deletes external output. Save/save-as, background snapshots and recovery rebase
+paths without copying file bytes; absent output does not prevent metadata reopen.
+These project files therefore do not promise self-contained stream bundles.
+
+`RawPixelStreamSaveJob.take_link(document)` is an alternative to taking the save
+summary. Historical `RawPixelStreamFileReadJob.take_link()` transfers a verified
+link after open. `open_link(link)` verifies the external prefix in the worker
+and compares all saved identities, geometry, options and totals before delivery.
+`Document.relink_raw_pixel_stream_record` accepts only fully verified matching
+content at its new path, preserving ID/name and incrementing one revision. A
+different valid prefix/model/policy refuses without mutation. Decoded metadata
+cannot be kept/relinked until external verification supplies a current token.
+
+Growing a checkpoint in place changes its prefix identity: an old partial link
+does not silently become a completed result. Prepare a new link/record for the
+new prefix. Missing, moved, changed and tampered files remain historical metadata
+until explicitly resolved; verification restores file trust, never live document
+authority. Installed Python/CLI/batch/viewer/ImGui consumers and integrated,
+abrupt-process/power-loss, scientific/resource/hardware/release acceptance remain
+open.

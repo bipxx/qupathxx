@@ -524,3 +524,7 @@ docs/benchmarks/raw-training-checkpoint-local.json -text -whitespace
 # Owner file-job evidence retains exact source-bound bytes.
 docs/benchmarks/raw-pixel-file-jobs-local/** -text -whitespace
 docs/benchmarks/raw-pixel-file-jobs-local.json -text -whitespace
+
+# External raw stream link evidence retains exact source-bound bytes.
+docs/benchmarks/raw-stream-links-local/** -text -whitespace
+docs/benchmarks/raw-stream-links-local.json -text -whitespace

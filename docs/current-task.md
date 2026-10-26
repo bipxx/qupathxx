@@ -2,29 +2,37 @@
 
 ## Current execution card (2026-10-26)
 
-- Latest native delivery: owner prediction save/resume, training checkpoint and
-  historical prediction-file/block jobs at `404f506` have
-  [local acceptance](benchmarks/raw-pixel-file-jobs-local.json). Three affected
-  workflow suites pass; sixteen regressions retain `447d3ae`. Both snapshots bind
-  367 inputs. All 19 initial passes and 22 original/final binaries are preserved;
-  the successor adds full saved-prefix verification inside the export worker.
-- One worker/result slot, owner-only poll/take, cross-thread cancellation and
-  join-before-release protect captured readers. Fresh document/source/output
-  checks reject stale, copied-owner, late-cancel and changed-file delivery.
-  Completed atomic output remains historical if owner state changes afterward.
-- Historical open verifies the saved prefix in a worker; each explicit read
-  returns one owning block with no decode-ahead or restored live authority.
-  Real TIFF owner checkpoint tables retain through existing QTT1/project paths;
-  actual backend models, prediction export and late source-file controls pass.
-- Next: external raw prediction-file links/records, using the existing RGB
-  link/record lifetime, path rebasing and verified relinking pattern with a
-  distinct raw representation. Then T4 installed nanobind/Python/CLI/batch/ImGui/
-  viewer paths and one T5 integrated freeze. T3 and all M0-M7 remain Partial.
-  Automatic maintenance, abrupt-process/power-loss and independent scientific/
-  resource/hardware/release acceptance remain open. Reader/codecs remain
-  open-source-only; public main and the divergent root branch are unchanged.
+- Latest native delivery: verified external raw prediction links/records at
+  `a608a53` have [local acceptance](benchmarks/raw-stream-links-local.json).
+  Three affected workflows pass; sixteen regressions retain `d42fad4`. Both
+  snapshots bind 370 compiler inputs, with 22 original/final binaries retained.
+  The original three workflows correctly rejected an RGB coexistence fixture
+  without sampling resolution; the successor changes only that fixture.
+- QWL1 records preserve global lattice/region/policy, source history, model/header/
+  request identity and exact prefix commitments in the existing stream table.
+  SQL schema 13 and RGB QSL1/raw QXR1 remain unchanged. New keep/relink requires
+  current file verification; decoded metadata restores no such observation or
+  live authority. Removing records leaves their external files intact.
+- Real TIFF optional trained export, mixed RGB/raw links and QTT1 records,
+  missing-output metadata reopen, background save-as/recovery path rebasing and
+  verified exact-content relocation pass. Whole trillion-cell lattice metadata
+  stays bounded and requires no pixel IO for an empty prefix.
+- T1-T3 native paths now have local engineering evidence. Next T4: expose the
+  stable raw recipe/model/window/tiled/stream/checkpoint/link/job APIs through
+  thin nanobind bindings and owning arrays, then one installed Python/CLI/batch/
+  ImGui/viewer train/predict/save/reopen/resume workflow. T5 freezes that complete
+  integration once. Installed/platform, automatic maintenance, abrupt-process/
+  power-loss and scientific/resource/hardware/release acceptance remain open.
+  All M0-M7 stay Partial. Readers/codecs remain open-source-only.
 
 ## Preserved local baselines
+
+- Owner prediction save/resume, training checkpoint and historical file/block
+  jobs at `404f506` have [local acceptance](benchmarks/raw-pixel-file-jobs-local.json):
+  three affected workflows, sixteen regressions at `447d3ae`, 367 matching inputs
+  and 22 retained binaries. All 19 initial suites passed before export-worker
+  full-prefix verification hardening. One-slot delivery, fresh owner/output
+  checks and join-before-release remain the native integration baseline.
 
 - QTC1 synchronous training prefix checkpoint/resume at `fb7ab73` has
   [local acceptance](benchmarks/raw-training-checkpoint-local.json): eight Windows,
