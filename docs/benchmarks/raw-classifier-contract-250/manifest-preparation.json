@@ -1,0 +1,25 @@
+{
+  "source": "51befa6",
+  "modules": {
+    "test_raw_pixel_python": 12,
+    "test_raw_pixel_cli": 15,
+    "test_raw_pixel_batch": 14,
+    "test_gui_raw_pixel": 17,
+    "test_raw_stream_contour_python": 7,
+    "test_raw_contour_seams": 12,
+    "test_gui_raw_stream_contours": 6,
+    "test_raw_stream_contour_cli": 18,
+    "test_raw_stream_contour_batch": 16,
+    "test_raw_file_contours": 26
+  },
+  "gui_only": {
+    "test_gui_raw_pixel": 17,
+    "test_gui_raw_stream_contours": 6,
+    "test_raw_stream_contour_batch": 1,
+    "test_raw_file_contours": 7
+  },
+  "input_xml": [
+    "raw-stream-history-248/final/python-tests.xml",
+    "raw-stream-history-248/final/replay-refusals.xml"
+  ]
+}

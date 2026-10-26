@@ -1,0 +1,9 @@
+tests\typing\raw_stream_contour_invalid.py:3: error: Missing positional argument "_native_only" in call to "RawPixelStreamContours"  [call-arg]
+tests\typing\raw_stream_contour_invalid.py:5: error: Item "None" of "RawPixelStreamContours | None" has no attribute "completed_samples"  [union-attr]
+tests\typing\raw_stream_contour_invalid.py:8: error: Argument 3 to "publish_raw_pixel_stream_contours" has incompatible type "RawPixelContours"; expected "RawPixelStreamContours"  [arg-type]
+tests\typing\raw_stream_contour_invalid.py:12: error: Item "None" of "RawPixelStreamContours | None" has no attribute "completed_samples"  [union-attr]
+tests\typing\raw_stream_contour_invalid.py:13: error: Item "None" of "RawPixelStreamContours | None" has no attribute "completed_samples"  [union-attr]
+tests\typing\raw_stream_contour_invalid.py:16: error: Missing positional argument "_native_only" in call to "RawPixelFileContours"  [call-arg]
+tests\typing\raw_stream_contour_invalid.py:18: error: Item "None" of "RawPixelFileContours | None" has no attribute "completed_samples"  [union-attr]
+tests\typing\raw_stream_contour_invalid.py:22: error: Argument 3 to "publish_raw_pixel_stream_contours" has incompatible type "RawPixelFileContours"; expected "RawPixelStreamContours"  [arg-type]
+Found 8 errors in 1 file (checked 1 source file)

@@ -43,11 +43,17 @@ qualification remains at `61e546e`.
   sixteen local controls and offline authentication pass. Its native exception
   probe must pass before target traces can support a cause. Observe this handle;
   no product repair or T5 acceptance is established.
-- **Before integrated qualification:** bind streamed native/installed semantic
-  cases and compiler-input closure into maintained engine/Mac/portable producer
-  and auditor contracts. Include explicit subprocess child sources, per-case
-  GUI skip declarations and actual maintained-mypy observations. This contract
-  work is ready while the existing diagnostic waits. Demonstrate the Mac repair, then freeze one candidate
+- **Contract admission locally verified:** [contract250](benchmarks/raw-classifier-contract-250/receipt.json)
+  at `20e0b07` binds 143 installed identities, 31 GUI-only case declarations,
+  streamed native semantics and 486 source paths, including subprocess children
+  and seam references. All 183 controls pass; actual unchanged3039f0c installed
+  GUI/headless cohorts admit at 142 passes/one skip and 111 passes/32 skips.
+  Pinned mypy2.4.0 passes five positive files and reports exactly 20 intended
+  errors in four negatives. All 33 installed wheel members still match.
+  Retained Windows full/Clang minimal native outputs admit; the first real
+  minimal rejection exposed eight common markers grouped as full-only. That
+  rejection and corrected grouping remain explicit; no native rebuild occurred.
+- **Before integrated qualification:** demonstrate the Mac repair, then freeze one candidate
   for required roles. Keep original failed sources/runs immutable.
 - **Separate open gates:** biological/model/upstream comparisons, dataset rights/
   labels/tolerances, process-memory and eligible hardware measurements, remaining
@@ -59,7 +65,8 @@ The [API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) remai
 the sole scheduling authority. Baselines below retain their named source/date
 applicability; historical next-step wording does not override the queue.
 The [B6 checklist](api-delivery-plan.md#b6-execution-checklist) records exact
-dependencies and exit evidence; contract admission is planned, not completed.
+dependencies and exit evidence. Local domain admission does not replace the
+complete frozen-candidate producer/auditor gates or establish a Mac repair.
 
 ## Preserved local baselines
 

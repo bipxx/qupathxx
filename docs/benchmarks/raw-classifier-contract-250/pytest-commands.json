@@ -1,0 +1,62 @@
+[
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pytest",
+      "tests/test_raw_classifier_evidence.py",
+      "-q",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-contract-250\\controls.xml"
+    ],
+    "gui": false,
+    "returncode": 0,
+    "log": "controls.log"
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pytest",
+      "tests/test_raw_pixel_python.py",
+      "tests/test_raw_pixel_cli.py",
+      "tests/test_raw_pixel_batch.py",
+      "tests/test_gui_raw_pixel.py",
+      "tests/test_raw_stream_contour_python.py",
+      "tests/test_raw_contour_seams.py",
+      "tests/test_gui_raw_stream_contours.py",
+      "tests/test_raw_stream_contour_cli.py",
+      "tests/test_raw_stream_contour_batch.py",
+      "tests/test_raw_file_contours.py",
+      "-q",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-contract-250\\headless.xml"
+    ],
+    "gui": false,
+    "returncode": 0,
+    "log": "headless.log"
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pytest",
+      "tests/test_raw_pixel_python.py",
+      "tests/test_raw_pixel_cli.py",
+      "tests/test_raw_pixel_batch.py",
+      "tests/test_gui_raw_pixel.py",
+      "tests/test_raw_stream_contour_python.py",
+      "tests/test_raw_contour_seams.py",
+      "tests/test_gui_raw_stream_contours.py",
+      "tests/test_raw_stream_contour_cli.py",
+      "tests/test_raw_stream_contour_batch.py",
+      "tests/test_raw_file_contours.py",
+      "-q",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-contract-250\\gui.xml"
+    ],
+    "gui": true,
+    "returncode": 0,
+    "log": "gui.log"
+  }
+]

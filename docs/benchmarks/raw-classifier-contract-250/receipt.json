@@ -1,0 +1,284 @@
+{
+  "schema": "qpx.raw-classifier-contract-local/1",
+  "contract_source": "20e0b079ab58409af510b7725db11b5f98045236",
+  "runtime_source": "3039f0c23b274a8b0f121e48df0d290447ecf2e3",
+  "source_paths": 486,
+  "scope": "Local producer/auditor domain admission using unchanged history248 installed package and retained Windows/Clang native outputs; not integrated qualification or Mac repair.",
+  "headless": {
+    "passed": 111,
+    "declared_skips": 32,
+    "groups": [
+      {
+        "module": "test_raw_pixel_python",
+        "passed": 12,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_pixel_cli",
+        "passed": 14,
+        "declared_skips": 1
+      },
+      {
+        "module": "test_raw_pixel_batch",
+        "passed": 14,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_gui_raw_pixel",
+        "passed": 0,
+        "declared_skips": 17
+      },
+      {
+        "module": "test_raw_stream_contour_python",
+        "passed": 7,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_contour_seams",
+        "passed": 12,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_gui_raw_stream_contours",
+        "passed": 0,
+        "declared_skips": 6
+      },
+      {
+        "module": "test_raw_stream_contour_cli",
+        "passed": 18,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_stream_contour_batch",
+        "passed": 15,
+        "declared_skips": 1
+      },
+      {
+        "module": "test_raw_file_contours",
+        "passed": 19,
+        "declared_skips": 7
+      }
+    ]
+  },
+  "gui": {
+    "passed": 142,
+    "declared_skips": 1,
+    "groups": [
+      {
+        "module": "test_raw_pixel_python",
+        "passed": 12,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_pixel_cli",
+        "passed": 14,
+        "declared_skips": 1
+      },
+      {
+        "module": "test_raw_pixel_batch",
+        "passed": 14,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_gui_raw_pixel",
+        "passed": 17,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_stream_contour_python",
+        "passed": 7,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_contour_seams",
+        "passed": 12,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_gui_raw_stream_contours",
+        "passed": 6,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_stream_contour_cli",
+        "passed": 18,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_stream_contour_batch",
+        "passed": 16,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_file_contours",
+        "passed": 26,
+        "declared_skips": 0
+      }
+    ]
+  },
+  "typing": {
+    "positive_files": 5,
+    "negative_files": 4,
+    "expected_errors": 20,
+    "hashes": {
+      "raw-classifier-typing.log": "e317872697c2cbfdefa321527a6efe73290dff3a390b0fa8723b87092eccba6a",
+      "raw-classifier-raw_pixel_invalid.log": "b41de3957ac5abbbfec9db4fa08aa1499e87d9052fbbc6351790f8fe5839e3b4",
+      "raw-classifier-raw_batch_invalid.log": "5d993ec947fd4b7ebe741e5769a3a386d9a4c7876fddcf934268737921d72e9d",
+      "raw-classifier-raw_frontend_invalid.log": "8414080afcf45e10e618152a66086ed24dc4c34942a39ca49df985438e2f5ef3",
+      "raw-classifier-raw_stream_contour_invalid.log": "3dc69c8fbf56090114358913c7054e8ef0cf1fcd69f377c86eb83c234cc28458"
+    }
+  },
+  "windows": {
+    "full": true,
+    "portable_owner_jobs": true,
+    "raw_file_training_contour_consumers": true
+  },
+  "clang_minimal": {
+    "full": false,
+    "portable_owner_jobs": true,
+    "raw_file_training_contour_consumers": false
+  },
+  "installed_members_verified": 33,
+  "wheel_sha256": "7870d2dd8bf44f764bcbd5d17ed134ba187d02e525c461c29125af49d345a94f",
+  "native_rebuild": false,
+  "controls": {
+    "passed": 183,
+    "initial_controls_passed": 169,
+    "real_minimal_admission_initially_rejected": true,
+    "rejection_preserved": "initial-native-admission-failure.json"
+  },
+  "limitations": [
+    "No hosted qualification dispatched",
+    "Mac observer run40411025705 queued at last observation; root cause/repair unproven",
+    "Native outputs retain original3039f0c source and flags",
+    "Windows installed tests share existing test dependencies; not a clean-machine release",
+    "No scientific, process-memory/hardware or release acceptance"
+  ],
+  "evidence": [
+    {
+      "path": "clang_minimal-native-tests.xml",
+      "bytes": 6260,
+      "sha256": "bfa15c9269c3e3501c5182abe9c4481f192664d4f80da42477231a970837d2ac"
+    },
+    {
+      "path": "controls.log",
+      "bytes": 264,
+      "sha256": "e7dfe0f22ae310567aaee8678ef7a040cc3361e1d3ba951f12fcb53943be7c33"
+    },
+    {
+      "path": "controls.xml",
+      "bytes": 34578,
+      "sha256": "571c2d2c2bceb7cd4b7c041a4df0c855bccc2a30cef96e35f98eee29b25f787b"
+    },
+    {
+      "path": "final-controls-command.json",
+      "bytes": 461,
+      "sha256": "821f8bbc320314db36995091755712c6ae8c568792c5ab5d20e3f06895f2928c"
+    },
+    {
+      "path": "gui.log",
+      "bytes": 195,
+      "sha256": "7b696fab722178c19e018eedd88b44774b334a1f8217b8431d458aa5606b1082"
+    },
+    {
+      "path": "gui.xml",
+      "bytes": 20226,
+      "sha256": "abda67cd7ac66652520bc54d25485898d4e22b6ba5c56e5a384c5a36f085d4a1"
+    },
+    {
+      "path": "headless.log",
+      "bytes": 196,
+      "sha256": "e2f60fa9e6cca85bc420a66511d9404139b7cd01794fa5d006c9d8db82055b5e"
+    },
+    {
+      "path": "headless.xml",
+      "bytes": 27582,
+      "sha256": "cd0c1e6fe724ba84a415b40c304badceedace74c9f7ebd3061dfd8f874364a34"
+    },
+    {
+      "path": "initial-controls.log",
+      "bytes": 264,
+      "sha256": "a6055bedf0cf8a671fce867ff32173c045c77d4af0310352a9e44b51f3f54576"
+    },
+    {
+      "path": "initial-controls.xml",
+      "bytes": 29899,
+      "sha256": "133e0712008b13e9f9166d41d3d36fb833bf122142144fd2d65d488920ca7a87"
+    },
+    {
+      "path": "initial-native-admission-failure.json",
+      "bytes": 2216,
+      "sha256": "129d99d1943e37daa6c0a851d42327c8b8a06a4acaae0361c8cef92f82eef4d4"
+    },
+    {
+      "path": "initial-source-contract.json",
+      "bytes": 112205,
+      "sha256": "510db4de04f6a4116297e006a6a7227ab919757f5388d5f1d52a3ec52d869e22"
+    },
+    {
+      "path": "manifest-preparation.json",
+      "bytes": 715,
+      "sha256": "f960f2ffe72740dd8a8847c2840ac7134296707ada9bffd8f897836160e70796"
+    },
+    {
+      "path": "notebook-prefix-proof.json",
+      "bytes": 277,
+      "sha256": "273204bf0394a8a3fae6756db29a83d023f585aeb248fc6cd0cbe5e7820b3d7f"
+    },
+    {
+      "path": "pytest-commands.json",
+      "bytes": 2010,
+      "sha256": "1ef0018762749c6fa2b2ed8fe5dcee8ff7b971734ecf3ef552d7029829aa03a7"
+    },
+    {
+      "path": "raw-classifier-raw_batch_invalid.log",
+      "bytes": 592,
+      "sha256": "5d993ec947fd4b7ebe741e5769a3a386d9a4c7876fddcf934268737921d72e9d"
+    },
+    {
+      "path": "raw-classifier-raw_frontend_invalid.log",
+      "bytes": 959,
+      "sha256": "8414080afcf45e10e618152a66086ed24dc4c34942a39ca49df985438e2f5ef3"
+    },
+    {
+      "path": "raw-classifier-raw_pixel_invalid.log",
+      "bytes": 872,
+      "sha256": "b41de3957ac5abbbfec9db4fa08aa1499e87d9052fbbc6351790f8fe5839e3b4"
+    },
+    {
+      "path": "raw-classifier-raw_stream_contour_invalid.log",
+      "bytes": 1328,
+      "sha256": "3dc69c8fbf56090114358913c7054e8ef0cf1fcd69f377c86eb83c234cc28458"
+    },
+    {
+      "path": "raw-classifier-typing.log",
+      "bytes": 43,
+      "sha256": "e317872697c2cbfdefa321527a6efe73290dff3a390b0fa8723b87092eccba6a"
+    },
+    {
+      "path": "record.py",
+      "bytes": 3569,
+      "sha256": "6c844877132f13bbd7e7789757a6db994dd1dd55b6919226f59a2fb052c08589"
+    },
+    {
+      "path": "source-contract.json",
+      "bytes": 112205,
+      "sha256": "6167b7db27396385147f06651d8b69e23c7c12ea9980c5d3a900b2d160dea1be"
+    },
+    {
+      "path": "typing-commands.json",
+      "bytes": 2055,
+      "sha256": "7599eea4945e31a61def6f493412074c1d254d109090c552295d11400626367f"
+    },
+    {
+      "path": "unchanged-installed-proof.json",
+      "bytes": 9484,
+      "sha256": "3492145896f8500951a863d1c562ea8ed52bb80b8aeb2971599f95b5d3e04497"
+    },
+    {
+      "path": "windows-native-tests.xml",
+      "bytes": 12138,
+      "sha256": "77254f9975489298201a0e0ec772a2219804f60256d244310662c3999ec1c619"
+    }
+  ]
+}

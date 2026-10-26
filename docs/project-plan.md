@@ -46,6 +46,10 @@ repair, integrated freeze and full audit. Existing diagnostic run40411025705 is
 queued when checked 2026-10-26; no repair is inferred. Prepare contracts while it
 waits, then gate candidate freeze on both prerequisites rather than repeating
 already delivered consumers or launching another broad campaign early.
+The [contract250 receipt](benchmarks/raw-classifier-contract-250/receipt.json)
+now closes local domain admission at `20e0b07`: 183 controls, exact actual
+GUI/headless cohorts, pinned mypy and retained native ON/OFF outputs pass.
+Mac repair and the complete frozen-candidate qualification remain open.
 
 Scientific/model comparisons, fixture rights/labels, measured resource/hardware
 budgets, clean-machine support and release decisions remain independent open

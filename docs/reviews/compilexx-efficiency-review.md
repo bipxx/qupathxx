@@ -39,8 +39,17 @@ route. Historical findings below retain their original applicability.
   native rebuild. Candidate freeze still waits for both contract admission and a
   demonstrated repair; the required platform roles then share one frozen source.
 
-These are bounded plan changes, not completed CI repairs or another independent
-Astra review. Reuse existing producer/auditor paths, keep original failures and
+The [contract250 implementation](../benchmarks/raw-classifier-contract-250/receipt.json)
+at `20e0b07` now locally verifies the explicit sources, mixed-module case skips
+and pinned mypy contract. All 183 controls, real installed GUI/headless cohorts
+and retained ON/OFF native outputs admit. The first real minimal audit rejected
+eight shared markers mislabeled as full-only despite the initial 169 synthetic
+controls passing. Preserve that rejection; requiring the shared markers in both
+profiles fixes the contract without a product rebuild. Real-shaped evidence is
+necessary alongside generated fixtures. Mac repair/full qualification remain open.
+
+These changes are not another independent Astra review.
+Reuse existing producer/auditor paths, keep original failures and
 eligible open-source readers/codecs, and preserve all open M0-M7 requirements.
 
 Reviewed 2026-10-25 at qupathxx source `682ba00`. This is an implementation

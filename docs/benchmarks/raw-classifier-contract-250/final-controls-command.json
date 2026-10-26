@@ -1,0 +1,17 @@
+{
+  "source": "20e0b079ab58409af510b7725db11b5f98045236",
+  "command": [
+    "../raw-stream-history-248-final-env/Scripts/python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "tests/test_raw_classifier_evidence.py",
+    "-q",
+    "--junitxml=../../raw-contract-250/controls.xml"
+  ],
+  "cwd": "build/ci/scientific-grid-159",
+  "stdout_stderr": "controls.log",
+  "returncode": 0,
+  "passed": 183,
+  "initial_observation": "initial-controls.log"
+}
