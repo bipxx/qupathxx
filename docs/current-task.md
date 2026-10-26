@@ -37,10 +37,17 @@ qualification remains at `61e546e`.
   frozen `4a72fd8`, run `40384720525`. Both archives authenticate; x86_64 passes
   50 suites/relocation and arm64 49/50. Both contour refusals/replay complete,
   then source-series validation fails. Root cause and repair remain unproven.
-  Use a targeted reproduction/debugger before another candidate build.
+  Retained-binary observer tooling `7650055` is dispatched as
+  [run40411025705](https://github.com/bipxx/qupathxx/actions/runs/40411025705),
+  queued when checked 2026-10-26. It reuses original `4a72fd8` product/SDK bytes;
+  sixteen local controls and offline authentication pass. Its native exception
+  probe must pass before target traces can support a cause. Observe this handle;
+  no product repair or T5 acceptance is established.
 - **Before integrated qualification:** bind streamed native/installed semantic
   cases and compiler-input closure into maintained engine/Mac/portable producer
-  and auditor contracts. Demonstrate the Mac repair, then freeze one candidate
+  and auditor contracts. Include explicit subprocess child sources, per-case
+  GUI skip declarations and actual maintained-mypy observations. This contract
+  work is ready while the existing diagnostic waits. Demonstrate the Mac repair, then freeze one candidate
   for required roles. Keep original failed sources/runs immutable.
 - **Separate open gates:** biological/model/upstream comparisons, dataset rights/
   labels/tolerances, process-memory and eligible hardware measurements, remaining
@@ -51,6 +58,8 @@ qualification remains at `61e546e`.
 The [API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) remains
 the sole scheduling authority. Baselines below retain their named source/date
 applicability; historical next-step wording does not override the queue.
+The [B6 checklist](api-delivery-plan.md#b6-execution-checklist) records exact
+dependencies and exit evidence; contract admission is planned, not completed.
 
 ## Preserved local baselines
 

@@ -1,21 +1,47 @@
 # Compilexx lessons applied to qupathxx
 
-Current disposition (2026-10-26): the source-bound findings below are historical.
-E1-E4 and multi-file campaign213 have the accepted baselines listed in the
-[single queue](../api-delivery-plan.md#dependency-lanes-and-immediate-queue).
-Current remaining classifier work is the T1-T5 route in that plan. Its new
-efficiency decisions are sparse ROI tile-union planning, one global reservoir,
-per-window admission and one complete frontend integration/qualification path.
-Sparse tiled training (`1273c3e`) and bounded prediction streams (`8d544eb`) now have local acceptance; prediction files/hash-only resume are locally verified at `c843dfa`; QTT1 training archives/retention/replay are locally verified at `cc6fab4`; QTC1 training prefix replay is locally verified at `fb7ab73`; native owner file jobs are locally verified at `404f506`; QWL1 external raw stream links are locally verified at `a608a53`; Windows cp312 bindings/wheel/example are locally verified at `202b41a`; official raw CLI is locally verified at `f463110` and raw project batches at `c2c0fa0`; desktop/managed consumers and bounded contour apply now have installed local
-Windows acceptance at `0dc916c` ([receipt](../benchmarks/raw-frontend-local.json)):
-195 Python passes, seven native suites, geometry/training-OFF controls, generated
-stubs/typing and explicit active contour shutdown. Reserve conservative retained
-results before owner mutation; share native prediction/tracing/undo and keep
-historical geometry separate from live authority. T5 preflight is complete and
-corrected campaign236 is active at `530c6bb`; next is
-[original-run artifact closeout](../api-delivery-plan.md#t5-closeout-sequence).
-Broader scientific/resource/hardware/release requirements remain open. No new
-cross-project or Astra audit is claimed by this reconciliation.
+Current disposition (2026-10-26): E1-E4 and multi-file campaign213 have
+accepted source-bound baselines in the [single queue](../api-delivery-plan.md#dependency-lanes-and-immediate-queue).
+Campaign236 is terminal: engine/portable accepted at `530c6bb`, Mac arm64
+unaccepted. Diagnostic240 retains the actual failing binary at `4a72fd8`;
+existing [observer run40411025705](https://github.com/bipxx/qupathxx/actions/runs/40411025705)
+is queued when checked. A cause or repair is not yet established.
+
+Streamed Python, desktop/managed, CLI, batch and history consumers now have local
+verification through runtime `3039f0c`, with three supplementary history refusal
+checks: 301 passes/three declared skips across 304 unique Python identities.
+These do not supply integrated platform, scientific, hardware or release acceptance.
+The [B6 checklist](../api-delivery-plan.md#b6-execution-checklist) is the current
+route. Historical findings below retain their original applicability.
+
+## Additional planning improvements (2026-10-26)
+
+- **Remove stale active-state claims.** This summary still called campaign236
+  active and pointed toward already completed consumer work. Keep current state
+  here brief; use the API queue for scheduling and source-bound receipts for
+  acceptance. Historical packet wording must not restart completed work.
+- **Use retained binaries before rebuilding a platform matrix.** Diagnostic249
+  reuses the authenticated arm64 product and SDK from240. Validate the debugger
+  with its native throw/catch probe before interpreting traces. Local mocked
+  controls cannot establish Apple ABI behavior; a queued run is not a failure.
+- **Close subprocess source coverage explicitly.** The existing raw classifier
+  source walker follows AST imports, which cannot discover child scripts launched
+  by filename. Register both streamed/history shutdown children in the existing
+  contract rather than introducing a general dependency scanner.
+- **Admit mixed-capability modules per case.** The current classifier checker
+  recognizes one wholly desktop module. New batch/history modules mix headless
+  and GUI cases. Explicit GUI case identities and exact skip attributes avoid
+  both rejecting legitimate headless runs and accepting missing GUI behavior.
+- **Keep checker-specific typing observations.** Local Pyright results do not
+  establish maintained mypy diagnostics. Observe the pinned checker and analyzed
+  filenames before declaring its negative line contract.
+- **Prepare ready contracts while a diagnostic is queued.** This work needs no
+  native rebuild. Candidate freeze still waits for both contract admission and a
+  demonstrated repair; the required platform roles then share one frozen source.
+
+These are bounded plan changes, not completed CI repairs or another independent
+Astra review. Reuse existing producer/auditor paths, keep original failures and
+eligible open-source readers/codecs, and preserve all open M0-M7 requirements.
 
 Reviewed 2026-10-25 at qupathxx source `682ba00`. This is an implementation
 efficiency review, not another Astra review or a new scientific/release gate.

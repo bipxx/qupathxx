@@ -40,6 +40,12 @@ producer/auditor contracts, then freeze one integrated candidate for required
 engine/Mac/portable audits. Native, Python, CLI, batch, desktop, managed and
 historical-file consumers have local engineering evidence. The API queue's B6
 entry owns qualification prerequisites and the targeted diagnostic route.
+Its [B6 checklist](api-delivery-plan.md#b6-execution-checklist) now separates
+retained-binary observation, exact consumer/source/typing admission, demonstrated
+repair, integrated freeze and full audit. Existing diagnostic run40411025705 is
+queued when checked 2026-10-26; no repair is inferred. Prepare contracts while it
+waits, then gate candidate freeze on both prerequisites rather than repeating
+already delivered consumers or launching another broad campaign early.
 
 Scientific/model comparisons, fixture rights/labels, measured resource/hardware
 budgets, clean-machine support and release decisions remain independent open
