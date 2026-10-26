@@ -225,3 +225,28 @@ def test_cli_training_backend_off_refuses_before_output(source, tmp_path):
     done = run(*arguments(source, tmp_path))
     assert final(done, 1)["state"] == "failed"
     assert "OpenCV" in done.stdout and not (tmp_path / "采样.qtc").exists()
+
+
+def test_cli_prediction_refuses_aliases_and_changed_resume_request(source, tmp_path):
+    require_training()
+    path, image, _, _, pixels = source
+    final(run(*arguments(source, tmp_path)))
+    model = tmp_path / "模型.qrm"
+    source_bytes, model_bytes, pixel_bytes = path.read_bytes(), model.read_bytes(), pixels.read_bytes()
+    base = ["--export-raw-pixels", path, image, model]
+    options = ["--x-axis", "0,8,7,2", "--y-axis", "0,6,5,2",
+               "--tile-width", 2, "--tile-height", 2]
+    for dest in (path, model, pixels):
+        done = run(*base, dest, *options, "--replace-existing")
+        assert done.returncode == 2, done.stdout + done.stderr
+    assert path.read_bytes() == source_bytes and model.read_bytes() == model_bytes and pixels.read_bytes() == pixel_bytes
+    output = tmp_path / "prefix.qws"
+    final(run(*base, output, *options, "--max-new-windows", 1), 1)
+    before = output.read_bytes()
+    refused = final(run(*base, output, *options, "--resume", output,
+                        "--replace-existing", "--min-vote", ".75"), 1)
+    assert refused["state"] == "failed" and output.read_bytes() == before
+    # A conflicting new-project destination is refused before replacing a prefix.
+    done = run(*base, output, *options, "--resume", output,
+               "--replace-existing", "--output-project", path)
+    assert done.returncode == 2 and output.read_bytes() == before

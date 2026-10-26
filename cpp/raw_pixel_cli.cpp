@@ -49,7 +49,7 @@ Options parse(const std::vector<std::string>& args,std::size_t first,bool train,
     for(std::size_t i=first;i<args.size();++i) {
         const auto& f=args[i];if(f!="--object" && !seen.insert(f).second) throw std::invalid_argument("duplicate option: "+f);
         auto value=[&]()->const std::string& {if(++i==args.size()) throw std::invalid_argument("missing value for "+f);return args[i];};
-        if(f=="--work-bytes") {auto n=integer<std::size_t>(value());o.selection.work_bytes=o.features.work_bytes=o.sampling.work_bytes=o.stream.work_bytes=n;}
+        if(f=="--work-bytes") {auto n=integer<std::size_t>(value());o.selection.work_bytes=o.features.work_bytes=o.sampling.work_bytes=o.stream.work_bytes=n;if(verify) o.save.limits.work_bytes=n;}
         else if(f=="--file-work-bytes" && !train) o.save.limits.work_bytes=integer<std::size_t>(value());
         else if(f=="--file-bytes") {if(train) throw std::invalid_argument("--file-bytes applies to prediction files");o.save.limits.max_bytes=integer<std::uint64_t>(value());}
         else if(verify) throw std::invalid_argument("unknown raw verification option: "+f);
@@ -133,7 +133,7 @@ template<class Job,class Poll> RawPixelFileJobStats collect(Job& job,Poll poll,c
     if(cancelled.load()) job.cancel();return poll();
 }
 int verify(const std::vector<std::string>& args,const std::atomic<bool>& cancelled) {
-    if(args.size()<3) throw std::invalid_argument("usage: --verify-raw-pixels FILE [--file-bytes N --work-bytes N]");
+    if(args.size()<3) throw std::invalid_argument("usage: --verify-raw-pixels FILE [--file-bytes N --file-work-bytes N]");
     const auto o=parse(args,3,false,true);RawPixelStreamFileReadJob job;job.open(args[2],o.save.limits);
     auto stats=collect(job,[&] {return job.poll();},cancelled);const auto file=job.take_file();
     line("verify",file?"verified":stats.state,args[2],stats,file?",\"summary\":"+summary_json(file->declared_summary()):"");
