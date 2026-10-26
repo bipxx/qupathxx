@@ -42,14 +42,21 @@ historical-file consumers have local engineering evidence. The API queue's B6
 entry owns qualification prerequisites and the targeted diagnostic route.
 Its [B6 checklist](api-delivery-plan.md#b6-execution-checklist) now separates
 retained-binary observation, exact consumer/source/typing admission, demonstrated
-repair, integrated freeze and full audit. Existing diagnostic run40411025705 is
-queued when checked 2026-10-26; no repair is inferred. Prepare contracts while it
+repair, integrated freeze and full audit. Observer249 failed before product
+execution because its shallow checkout lacked the comparison commit; authenticated
+inputs and the original run are preserved. Observer-only successor run40414202237
+fetches that exact commit and is queued when checked; no repair is inferred. Prepare contracts while it
 waits, then gate candidate freeze on both prerequisites rather than repeating
 already delivered consumers or launching another broad campaign early.
 The [contract250 receipt](benchmarks/raw-classifier-contract-250/receipt.json)
 now closes local domain admission at `20e0b07`: 183 controls, exact actual
 GUI/headless cohorts, pinned mypy and retained native ON/OFF outputs pass.
 Mac repair and the complete frozen-candidate qualification remain open.
+The [broader local regression](benchmarks/raw-integration-regression-251/receipt.json)
+adds a 4,420-identity installed observation. Its one GUI cancellation fixture
+failure is corrected against the unchanged package, with two affected cases
+passing; combined scope is 4,293 passes, 124 skips and three unresolved strict
+scientific xfails. Original failures and source identities remain explicit.
 
 Scientific/model comparisons, fixture rights/labels, measured resource/hardware
 budgets, clean-machine support and release decisions remain independent open

@@ -1,0 +1,26 @@
+{
+  "schema": "qpx.retained-arm64-dispatch/1",
+  "diagnostic_source": "71d4105176c717f16a38b3fde0ea932cb3745aa7",
+  "runtime_source": "4a72fd84b7726927285bf58120d288513c65eb4e",
+  "ref": "feature/raw-replay-arm64-observer-252",
+  "original_run": 40384720525,
+  "predecessor_observer_run": 40411025705,
+  "predecessor_state": "terminal failure before product execution: missing comparison object in shallow checkout",
+  "local_controls": 17,
+  "production_and_fixture_diff_empty": true,
+  "state": "run_identified",
+  "attempted_at_utc": "2026-10-26T22:40:11.376090+00:00",
+  "product_repair_established": false,
+  "T5_accepted": false,
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "",
+  "run": {
+    "conclusion": "",
+    "databaseId": 40414202237,
+    "headSha": "71d4105176c717f16a38b3fde0ea932cb3745aa7",
+    "status": "queued",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40414202237"
+  },
+  "first_run_list_observation": "Successful dispatch initially returned no listed run; re-polled same branch/source to identify40414202237, without redispatch."
+}

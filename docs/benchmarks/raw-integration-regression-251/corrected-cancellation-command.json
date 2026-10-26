@@ -1,0 +1,15 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "tests/test_gui_batch.py::test_gui_batch_cancellation_and_finite_exit_release_worker",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-integration-regression-251\\corrected-cancellation.xml"
+  ],
+  "returncode": 0,
+  "seconds": 2.440590800018981,
+  "runtime_source": "3039f0c23b274a8b0f121e48df0d290447ecf2e3",
+  "native_rebuild": false
+}

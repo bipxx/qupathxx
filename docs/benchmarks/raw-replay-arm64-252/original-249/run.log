@@ -1,0 +1,204 @@
+retained-arm64	Set up job	﻿2026-10-26T22:37:14.2579510Z Current runner version: '2.338.0'
+retained-arm64	Set up job	2026-10-26T22:37:14.2596680Z ##[group]Runner Image Provisioner
+retained-arm64	Set up job	2026-10-26T22:37:14.2597410Z Hosted Compute Agent
+retained-arm64	Set up job	2026-10-26T22:37:14.2597800Z Version: 20260828.587
+retained-arm64	Set up job	2026-10-26T22:37:14.2598270Z Commit: abac92662cab4cc7352de4f9f9d2e2419aad9c29
+retained-arm64	Set up job	2026-10-26T22:37:14.2598870Z Build Date: 2026-08-28T16:44:25Z
+retained-arm64	Set up job	2026-10-26T22:37:14.2599330Z Worker ID: {86227e1a-4edb-4016-bcae-645b2c26824c}
+retained-arm64	Set up job	2026-10-26T22:37:14.2599810Z Azure Region: westus
+retained-arm64	Set up job	2026-10-26T22:37:14.2601540Z ##[endgroup]
+retained-arm64	Set up job	2026-10-26T22:37:14.2603480Z ##[group]Operating System
+retained-arm64	Set up job	2026-10-26T22:37:14.2603910Z macOS
+retained-arm64	Set up job	2026-10-26T22:37:14.2604380Z 15.7.9
+retained-arm64	Set up job	2026-10-26T22:37:14.2604750Z 24G830
+retained-arm64	Set up job	2026-10-26T22:37:14.2605160Z ##[endgroup]
+retained-arm64	Set up job	2026-10-26T22:37:14.2605520Z ##[group]Runner Image
+retained-arm64	Set up job	2026-10-26T22:37:14.2605920Z Image: macos-15-arm64
+retained-arm64	Set up job	2026-10-26T22:37:14.2607400Z Version: 20260907.0337.1
+retained-arm64	Set up job	2026-10-26T22:37:14.2608300Z Included Software: https://github.com/actions/runner-images/blob/macos-15-arm64/20260907.0337/images/macos/macos-15-arm64-Readme.md
+retained-arm64	Set up job	2026-10-26T22:37:14.2609980Z Image Release: https://github.com/actions/runner-images/releases/tag/macos-15-arm64%2F20260907.0337
+retained-arm64	Set up job	2026-10-26T22:37:14.2611530Z ##[endgroup]
+retained-arm64	Set up job	2026-10-26T22:37:14.2613940Z ##[group]GITHUB_TOKEN Permissions
+retained-arm64	Set up job	2026-10-26T22:37:14.2617510Z Actions: read
+retained-arm64	Set up job	2026-10-26T22:37:14.2617920Z Contents: read
+retained-arm64	Set up job	2026-10-26T22:37:14.2618340Z Metadata: read
+retained-arm64	Set up job	2026-10-26T22:37:14.2618720Z ##[endgroup]
+retained-arm64	Set up job	2026-10-26T22:37:14.2620680Z Secret source: Actions
+retained-arm64	Set up job	2026-10-26T22:37:14.2621300Z Cache mode: write
+retained-arm64	Set up job	2026-10-26T22:37:14.2621810Z Prepare workflow directory
+retained-arm64	Set up job	2026-10-26T22:37:14.3263230Z Prepare all required actions
+retained-arm64	Set up job	2026-10-26T22:37:14.3314660Z Getting action download info
+retained-arm64	Set up job	2026-10-26T22:37:14.6452710Z Download action repository 'actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8' (SHA:08c6903cd8c0fde910a37f88322edcfb5dd907a8)
+retained-arm64	Set up job	2026-10-26T22:37:15.0197590Z Download action repository 'actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4' (SHA:330a01c490aca151604b8cf639adc76d48f6c5d4)
+retained-arm64	Set up job	2026-10-26T22:37:15.2967180Z Complete job name: retained-arm64
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	﻿2026-10-26T22:37:15.3754580Z ##[group]Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3755400Z with:
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3755740Z   repository: bipxx/qupathxx
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3758590Z   token: ***
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3758920Z   ssh-strict: true
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3759250Z   ssh-user: git
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3759590Z   persist-credentials: true
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3759950Z   clean: true
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3760300Z   sparse-checkout-cone-mode: true
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3760680Z   fetch-depth: 1
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3761010Z   fetch-tags: false
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3761340Z   show-progress: true
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3761680Z   lfs: false
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3762000Z   submodules: false
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3762340Z   set-safe-directory: true
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:15.3762880Z ##[endgroup]
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.0131440Z Syncing repository: bipxx/qupathxx
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.0133930Z ##[group]Getting Git version info
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.0134770Z Working directory is '/Users/runner/work/qupathxx/qupathxx'
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.0135830Z [command]/opt/homebrew/bin/git version
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.0743540Z git version 2.55.0
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.0793050Z ##[endgroup]
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.0802120Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/6430422d-4431-4ce5-be1e-c56ce5d038bd/.gitconfig'
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.0806820Z Temporarily overriding HOME='/Users/runner/work/_temp/6430422d-4431-4ce5-be1e-c56ce5d038bd' before making global git config changes
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.0808320Z Adding repository directory to the temporary git global config as a safe directory
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.0809650Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/qupathxx/qupathxx
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.0941550Z Deleting the contents of '/Users/runner/work/qupathxx/qupathxx'
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.0946210Z ##[group]Initializing the repository
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.0950150Z [command]/opt/homebrew/bin/git init /Users/runner/work/qupathxx/qupathxx
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1455680Z hint: Using 'master' as the name for the initial branch. This default branch name
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1558600Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1649890Z hint: to use in all of your new repositories, which will suppress this warning,
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1756730Z hint: call:
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1761510Z hint:
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1766820Z hint: 	git config --global init.defaultBranch <name>
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1772200Z hint:
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1774410Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1775370Z hint: 'development'. The just-created branch can be renamed via this command:
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1776160Z hint:
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1776750Z hint: 	git branch -m <name>
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1777440Z hint:
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1778250Z hint: Disable this message with "git config set advice.defaultBranchName false"
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1780360Z Initialized empty Git repository in /Users/runner/work/qupathxx/qupathxx/.git/
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1782430Z [command]/opt/homebrew/bin/git remote add origin https://github.com/bipxx/qupathxx
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1784770Z ##[endgroup]
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1785830Z ##[group]Disabling automatic garbage collection
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1786560Z [command]/opt/homebrew/bin/git config --local gc.auto 0
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1788410Z ##[endgroup]
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1812200Z ##[group]Setting up auth
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1815420Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.1861540Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.3372550Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.3522600Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.4838660Z [command]/opt/homebrew/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.5044380Z ##[endgroup]
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.5050480Z ##[group]Fetching the repository
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:16.5053100Z [command]/opt/homebrew/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +7650055f7669779c7f6a4e69e4a37e7583edd0ee:refs/remotes/origin/feature/raw-replay-arm64-debugger-249
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:18.3501230Z From https://github.com/bipxx/qupathxx
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:18.3506750Z  * [new ref]         7650055f7669779c7f6a4e69e4a37e7583edd0ee -> origin/feature/raw-replay-arm64-debugger-249
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:18.3515770Z ##[endgroup]
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:18.3516810Z ##[group]Determining the checkout info
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:18.3518020Z ##[endgroup]
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:18.3522320Z [command]/opt/homebrew/bin/git sparse-checkout disable
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:18.3695240Z [command]/opt/homebrew/bin/git config --local --unset-all extensions.worktreeConfig
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:18.3832000Z ##[group]Checking out the ref
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:18.3837000Z [command]/opt/homebrew/bin/git checkout --progress --force -B feature/raw-replay-arm64-debugger-249 refs/remotes/origin/feature/raw-replay-arm64-debugger-249
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.4962990Z Updating files:  67% (3509/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.5664210Z Updating files:  68% (3513/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.5839990Z Updating files:  69% (3564/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.6011010Z Updating files:  70% (3616/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.6121340Z Updating files:  71% (3668/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.6243080Z Updating files:  72% (3719/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.6293290Z Updating files:  73% (3771/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.6493590Z Updating files:  74% (3823/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.6666750Z Updating files:  75% (3874/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.6791270Z Updating files:  76% (3926/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.6880700Z Updating files:  77% (3978/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.6997970Z Updating files:  78% (4029/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.7074570Z Updating files:  79% (4081/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.7202610Z Updating files:  80% (4132/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.7335700Z Updating files:  81% (4184/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.7575800Z Updating files:  82% (4236/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.7734590Z Updating files:  83% (4287/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.7877840Z Updating files:  84% (4339/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.7923690Z Updating files:  85% (4391/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.8081180Z Updating files:  86% (4442/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.8239470Z Updating files:  87% (4494/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.8384600Z Updating files:  88% (4546/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.8573060Z Updating files:  89% (4597/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.8977070Z Updating files:  90% (4649/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.9147150Z Updating files:  91% (4701/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.9299950Z Updating files:  92% (4752/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.9362620Z Updating files:  93% (4804/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.9463680Z Updating files:  94% (4856/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.9569090Z Updating files:  95% (4907/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.9650700Z Updating files:  96% (4959/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.9769120Z Updating files:  97% (5011/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:19.9859370Z Updating files:  98% (5062/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:20.0240550Z Updating files:  99% (5114/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:20.0241050Z Updating files: 100% (5165/5165)
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:20.0241790Z Updating files: 100% (5165/5165), done.
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:20.0371980Z Switched to a new branch 'feature/raw-replay-arm64-debugger-249'
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:20.0376070Z branch 'feature/raw-replay-arm64-debugger-249' set up to track 'origin/feature/raw-replay-arm64-debugger-249'.
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:20.0436120Z ##[endgroup]
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:20.0611600Z [command]/opt/homebrew/bin/git log -1 --format=%H
+retained-arm64	Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:20.0782290Z 7650055f7669779c7f6a4e69e4a37e7583edd0ee
+retained-arm64	Replay authenticated original test and trace exceptions	﻿2026-10-26T22:37:20.1159070Z ##[group]Run python3 -I tools/ci/replay_retained_arm64.py --out build/retained-arm64-249
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:20.1159690Z [36;1mpython3 -I tools/ci/replay_retained_arm64.py --out build/retained-arm64-249[0m
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:20.1255820Z shell: /bin/bash -e {0}
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:20.1256460Z env:
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:20.1308920Z   GH_TOKEN: ***
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:20.1309370Z ##[endgroup]
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:22.9745280Z fatal: bad object 4a72fd84b7726927285bf58120d288513c65eb4e
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:22.9863680Z Traceback (most recent call last):
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:22.9867800Z   File "/Users/runner/work/qupathxx/qupathxx/tools/ci/replay_retained_arm64.py", line 104, in <module>
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:22.9868920Z     if __name__=='__main__':raise SystemExit(main())
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:22.9870290Z                                              ~~~~^^
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:22.9871860Z   File "/Users/runner/work/qupathxx/qupathxx/tools/ci/replay_retained_arm64.py", line 88, in main
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:22.9872670Z     root=Path(__file__).resolve().parents[2];subprocess.run(['git','-C',root,'diff','--exit-code',COMMIT,'--','cpp','src','cmake','CMakeLists.txt','pyproject.toml','tests'],check=True)
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:22.9874150Z                                              ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:22.9874910Z   File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 578, in run
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:22.9875440Z     raise CalledProcessError(retcode, process.args,
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:22.9875830Z                              output=stdout, stderr=stderr)
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:22.9876740Z subprocess.CalledProcessError: Command '['git', '-C', PosixPath('/Users/runner/work/qupathxx/qupathxx'), 'diff', '--exit-code', '4a72fd84b7726927285bf58120d288513c65eb4e', '--', 'cpp', 'src', 'cmake', 'CMakeLists.txt', 'pyproject.toml', 'tests']' returned non-zero exit status 128.
+retained-arm64	Replay authenticated original test and trace exceptions	2026-10-26T22:37:23.0031740Z ##[error]Process completed with exit code 1.
+retained-arm64	Preserve original inputs and diagnostic observations	﻿2026-10-26T22:37:23.0215420Z ##[group]Run actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.0215870Z with:
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.0216150Z   name: retained-arm64-249
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.0216340Z   retention-days: 14
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.0216520Z   if-no-files-found: error
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.0216690Z   compression-level: 0
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.0217380Z   path: build/retained-arm64-249/*.json
+retained-arm64	Preserve original inputs and diagnostic observations	build/retained-arm64-249/*.jsonl
+retained-arm64	Preserve original inputs and diagnostic observations	build/retained-arm64-249/*.log
+retained-arm64	Preserve original inputs and diagnostic observations	build/retained-arm64-249/*.lldb
+retained-arm64	Preserve original inputs and diagnostic observations	build/retained-arm64-249/exception-probe.cpp
+retained-arm64	Preserve original inputs and diagnostic observations	build/retained-arm64-249/source-artifact.zip
+retained-arm64	Preserve original inputs and diagnostic observations	
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.0218170Z   overwrite: false
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.0218320Z   include-hidden-files: false
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.0218680Z ##[endgroup]
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.3068960Z (node:1094) [DEP0040] DeprecationWarning: The `punycode` module is deprecated. Please use a userland alternative instead.
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.3071080Z (Use `node --trace-deprecation ...` to show where the warning was created)
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.3192580Z With the provided path, there will be 3 files uploaded
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.3195930Z Artifact name is valid!
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.3196550Z Root directory input is valid!
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.7660330Z Beginning upload of artifact content to blob storage
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:23.7897830Z (node:1094) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:24.2709680Z Uploaded bytes 8388608
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:24.3703830Z Uploaded bytes 9784994
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:24.4177420Z Finished uploading artifact content to blob storage!
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:24.4250110Z SHA256 digest of uploaded artifact zip is 85654ed9f4001bf47661b49a892aa7867c6b9433c368b6df449af0aabe4f2ed4
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:24.4310180Z Finalizing artifact upload
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:24.8898470Z Artifact retained-arm64-249.zip successfully finalized. Artifact ID 12695095434
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:24.8902890Z Artifact retained-arm64-249 has been successfully uploaded! Final size is 9784994 bytes. Artifact ID is 12695095434
+retained-arm64	Preserve original inputs and diagnostic observations	2026-10-26T22:37:24.8914970Z Artifact download URL: https://github.com/bipxx/qupathxx/actions/runs/40411025705/artifacts/12695095434
+retained-arm64	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	﻿2026-10-26T22:37:24.9161500Z Post job cleanup.
+retained-arm64	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:25.0462600Z [command]/opt/homebrew/bin/git version
+retained-arm64	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:25.0531460Z git version 2.55.0
+retained-arm64	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:25.0555950Z Copying '/Users/runner/.gitconfig' to '/Users/runner/work/_temp/79d9f5b0-212b-45f1-a73b-217095041e23/.gitconfig'
+retained-arm64	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:25.0568990Z Temporarily overriding HOME='/Users/runner/work/_temp/79d9f5b0-212b-45f1-a73b-217095041e23' before making global git config changes
+retained-arm64	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:25.0569830Z Adding repository directory to the temporary git global config as a safe directory
+retained-arm64	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:25.0578440Z [command]/opt/homebrew/bin/git config --global --add safe.directory /Users/runner/work/qupathxx/qupathxx
+retained-arm64	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:25.0654770Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp core\.sshCommand
+retained-arm64	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:25.0806340Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+retained-arm64	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:25.1727360Z [command]/opt/homebrew/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+retained-arm64	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:25.1821550Z http.https://github.com/.extraheader
+retained-arm64	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:25.1828760Z [command]/opt/homebrew/bin/git config --local --unset-all http.https://github.com/.extraheader
+retained-arm64	Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8	2026-10-26T22:37:25.1897730Z [command]/opt/homebrew/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+retained-arm64	Complete job	﻿2026-10-26T22:37:25.2898610Z Cleaning up orphan processes
+retained-arm64	Complete job	2026-10-26T22:37:25.3351050Z ##[warning]Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

@@ -37,11 +37,14 @@ qualification remains at `61e546e`.
   frozen `4a72fd8`, run `40384720525`. Both archives authenticate; x86_64 passes
   50 suites/relocation and arm64 49/50. Both contour refusals/replay complete,
   then source-series validation fails. Root cause and repair remain unproven.
-  Retained-binary observer tooling `7650055` is dispatched as
-  [run40411025705](https://github.com/bipxx/qupathxx/actions/runs/40411025705),
-  queued when checked 2026-10-26. It reuses original `4a72fd8` product/SDK bytes;
-  sixteen local controls and offline authentication pass. Its native exception
-  probe must pass before target traces can support a cause. Observe this handle;
+  [Observer249](benchmarks/raw-replay-arm64-252/receipt.json) authenticated its
+  inputs but failed before product execution: shallow checkout lacked the original
+  comparison commit. Its terminal run40411025705 and archive are preserved.
+  Successor tooling `71d4105` explicitly fetches that exact commit; 17 controls,
+  including a real shallow-clone/mutation witness, pass. One successor
+  [run40414202237](https://github.com/bipxx/qupathxx/actions/runs/40414202237)
+  is queued when checked, reusing original `4a72fd8` product/SDK bytes. Observe
+  this handle. Its native probe must pass before interpreting target traces;
   no product repair or T5 acceptance is established.
 - **Contract admission locally verified:** [contract250](benchmarks/raw-classifier-contract-250/receipt.json)
   at `20e0b07` binds 143 installed identities, 31 GUI-only case declarations,
@@ -53,6 +56,15 @@ qualification remains at `61e546e`.
   Retained Windows full/Clang minimal native outputs admit; the first real
   minimal rejection exposed eight common markers grouped as full-only. That
   rejection and corrected grouping remain explicit; no native rebuild occurred.
+- **Broader installed regression:** [regression251](benchmarks/raw-integration-regression-251/receipt.json)
+  runs all 4,420 collected cases against unchanged3039f0c. Original outcome:
+  4,292 passes, one failure, 124 skips and three strict scientific xfails.
+  The GUI cancellation test wrongly required a file when cancellation preceded
+  output-directory creation. Test-only376a528 verifies the exact saved report
+  or the specific early-cancel error with no filesystem output; both affected
+  cases pass. Combined unique scope: 4,293 passes/124 skips/three xfails, retaining
+  the original failure. This is not a second full green run or OpenSlide/clean-
+  machine/platform acceptance; all 33 installed wheel members remain unchanged.
 - **Before integrated qualification:** demonstrate the Mac repair, then freeze one candidate
   for required roles. Keep original failed sources/runs immutable.
 - **Separate open gates:** biological/model/upstream comparisons, dataset rights/

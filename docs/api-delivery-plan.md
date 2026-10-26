@@ -510,7 +510,7 @@ freeze depends on both a demonstrated repair and completed contract admission.
 
 | Step / state | Smallest next action and files | Exit evidence |
 | --- | --- | --- |
-| B6.1 retained-binary diagnosis / dispatched, queued when checked 2026-10-26 | Observe existing [run40411025705](https://github.com/bipxx/qupathxx/actions/runs/40411025705), tooling `7650055`, original runtime `4a72fd8`. Reuse the authenticated executable and SDK; compile only the tiny observer probe. Do not redispatch on a queue or observation timeout | Preserve plain execution before LLDB. Admit the observer only after its native probe distinguishes both exception types/messages and matches throw/catch objects. Keep original hashes, logs, stacks and observer errors. Sixteen local controls and offline archive authentication establish preparation, not native observer validity or a product repair |
+| B6.1 retained-binary diagnosis / observer-only successor queued | [Observer252 receipt](benchmarks/raw-replay-arm64-252/receipt.json) preserves terminal249: authenticated inputs, but no product execution because shallow checkout lacked the comparison commit. Successor `71d4105` fetches the exact commit and passes 17 controls, including a real shallow clone. Observe one successor [run40414202237](https://github.com/bipxx/qupathxx/actions/runs/40414202237), still using original runtime `4a72fd8` | Preserve plain execution before LLDB. Admit the observer only after its native probe distinguishes exception types/messages and matches throw/catch objects. Local controls do not establish native observer validity or a repair. Do not redispatch on a queue or observation timeout |
 | B6.2 consumer and source admission / locally verified at `20e0b07` | [Contract250 receipt](benchmarks/raw-classifier-contract-250/receipt.json): existing producer/auditor helper now requires 143 exact installed identities and 31 per-case GUI declarations; both subprocess children and seam-reference inputs join the 486-path source proof. New streamed/history/batch native markers are required. Eight capability-independent existing markers now belong to both native profiles | 183 controls pass. Actual unchanged installed3039f0c runs admit GUI 142 passes/one declared skip and headless 111 passes/32 declared skips. Retained Windows full/Clang minimal native outputs admit. Preserve the initial real-minimal contract rejection; full candidate producer/auditor execution still belongs to B6.4-B6.5 |
 | B6.2 typing admission / locally verified at `20e0b07` | Same receipt: `raw_stream_contour_valid.py` and `raw_stream_contour_invalid.py` join the maintained cohort. Actual pinned mypy2.4.0 runs against installed3039f0c, with recorded commands/logs; local Pyright remains separate evidence | Five positive files pass; four negative files produce exactly 20 intended diagnostics at declared file/line identities. All 33 installed wheel members and original wheel hash still match; no native rebuild or supported-release claim |
 | B6.3 demonstrated repair / depends on B6.1 | Locate the first escaping exception using authenticated stacks and the source-series refusal callers. Change the smallest demonstrated faulty product or test boundary; preserve required pre-IO and stale-source refusals. If the probe fails, repair the observer before interpreting target traces | Before/after affected-arm64 reproduction, expected exception type/catch behavior and relevant negative controls. Record original and repaired source/configuration separately. Windows/Clang success cannot establish a Darwin repair |
@@ -521,6 +521,15 @@ Cost controls: do not rebuild SDKs for observer/documentation changes, introduce
 a new runner or persistent PASS cache, or start another public API while this
 qualification closure is ready. Retain failed attempts and source-bound reference
 products; temporary build cleanup must preserve those inputs and live job files.
+
+[Broader local regression251](benchmarks/raw-integration-regression-251/receipt.json)
+has now exercised all 4,420 installed test identities at runtime3039f0c.
+The original 4,292-pass/one-failure run exposes a GUI test assuming every cancelled
+batch writes a file. Kernel cancellation can precede output-directory creation;
+test-only376a528 requires either an exact saved report or that specific early
+cancellation with no output. Two affected reruns pass; combined unique scope is
+4,293 passes/124 declared skips/three strict scientific xfails. Preserve both
+observations and do not call this a second full green run or candidate qualification.
 
 Preserve previous executables and their known identities before cache reuse.
 Package once per completed consumer slice; regenerate stubs only if the public

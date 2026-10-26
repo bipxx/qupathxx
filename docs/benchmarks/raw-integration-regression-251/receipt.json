@@ -1,0 +1,1186 @@
+{
+  "schema": "qpx.installed-regression-local/1",
+  "initial_test_source": "2646fb599f503c5e27d492844dcf084a8b437063",
+  "corrected_test_source": "376a528eeab04dbc39ccc6a49e14d1b2a85276b1",
+  "runtime_source": "3039f0c23b274a8b0f121e48df0d290447ecf2e3",
+  "runtime_fingerprint": "1b72fac80fd681c59a4316eba7cece56ed274e2abb61ef7f0f3dbf9f68eda87f",
+  "installed_members_verified": 33,
+  "native_rebuild": false,
+  "initial": {
+    "unique_cases": 4420,
+    "passed": 4292,
+    "failed": 1,
+    "declared_skips": 124,
+    "strict_scientific_xfails": 3,
+    "returncode": 1
+  },
+  "corrected_cancellation": {
+    "passed": 2,
+    "changed_product": false
+  },
+  "combined_unique": {
+    "cases": 4420,
+    "passed": 4293,
+    "declared_skips": 124,
+    "strict_scientific_xfails": 3,
+    "unresolved_failures": 0
+  },
+  "raw_classifier_cohort": {
+    "passed": 142,
+    "declared_skips": 1,
+    "groups": [
+      {
+        "module": "test_raw_pixel_python",
+        "passed": 12,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_pixel_cli",
+        "passed": 14,
+        "declared_skips": 1
+      },
+      {
+        "module": "test_raw_pixel_batch",
+        "passed": 14,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_gui_raw_pixel",
+        "passed": 17,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_stream_contour_python",
+        "passed": 7,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_contour_seams",
+        "passed": 12,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_gui_raw_stream_contours",
+        "passed": 6,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_stream_contour_cli",
+        "passed": 18,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_stream_contour_batch",
+        "passed": 16,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_file_contours",
+        "passed": 26,
+        "declared_skips": 0
+      }
+    ]
+  },
+  "failure": {
+    "case": "tests.test_gui_batch::test_gui_batch_cancellation_and_finite_exit_release_worker[True]",
+    "actual": "Cancellation succeeded at the first checkpoint before the output directory existed; terminal report_path was empty.",
+    "repair": "Test verifies exact persisted report if present; otherwise requires export cancelled, no images and absent output directory. Existing kernel checks before creating output.",
+    "initial_hypothesis_rejected": "The final traceback ruled out the provisional missed-start hypothesis: state was cancelled, not idle."
+  },
+  "skips": [
+    {
+      "classname": "tests.test_cell_area_limits",
+      "name": "test_fractional_and_coarse_native_levels_match_independent_sample_counts[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_cell_area_limits",
+      "name": "test_fractional_and_coarse_native_levels_match_independent_sample_counts[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_cell_calibration",
+      "name": "test_native_pyramid_grid_uses_sample_area_and_level_zero_centroids[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_cell_calibration",
+      "name": "test_native_pyramid_grid_uses_sample_area_and_level_zero_centroids[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_cell_calibration",
+      "name": "test_fractional_pyramid_area_preserves_subnormal_intermediates",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_cell_records",
+      "name": "test_native_pyramid_grid_roi_and_markers_survive[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_cell_records",
+      "name": "test_native_pyramid_grid_roi_and_markers_survive[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_cell_tables",
+      "name": "test_coarse_grid_centroids_and_sample_units_are_not_rescaled_counts",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "native pyramids"
+      }
+    },
+    {
+      "classname": "tests.test_cells",
+      "name": "test_cells_decode_native_pyramid_pixels_and_world_coordinates[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_cells",
+      "name": "test_cells_decode_native_pyramid_pixels_and_world_coordinates[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_ci_runtime_assets",
+      "name": "test_linux_sdk_rechecks_link_targets",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "Linux SDK symlink semantics"
+      }
+    },
+    {
+      "classname": "tests.test_geos_runtime_bundle",
+      "name": "test_bundled_geos_c_api_resolves_its_cpp_runtime_after_relocation",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires opt-in Linux GEOS SDK"
+      }
+    },
+    {
+      "classname": "tests.test_geos_runtime_bundle",
+      "name": "test_bundle_rejects_c_api_without_origin_runtime_path",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires opt-in Linux GEOS SDK"
+      }
+    },
+    {
+      "classname": "tests.test_geos_runtime_bundle",
+      "name": "test_bundle_requires_matching_sdk_license",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires opt-in Linux GEOS SDK"
+      }
+    },
+    {
+      "classname": "tests.test_geos_runtime_bundle",
+      "name": "test_bundle_rejects_static_targets",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires opt-in Linux GEOS SDK"
+      }
+    },
+    {
+      "classname": "tests.test_gui_retirement",
+      "name": "test_native_reader_factories_retire_without_mutating_source[openslide]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide Aperio fixture"
+      }
+    },
+    {
+      "classname": "tests.test_gui_startup",
+      "name": "test_startup_opens_aperio_source_on_worker_when_fixture_available",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide Aperio fixture"
+      }
+    },
+    {
+      "classname": "tests.test_gui_tiles",
+      "name": "test_real_aperio_view",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires identified Aperio fixture and OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_gui_tiles",
+      "name": "test_large_pyramid_navigation_and_payload",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "generate large fixture with tools/generate_large_fixture.py"
+      }
+    },
+    {
+      "classname": "tests.test_headless_gui_api",
+      "name": "test_all_show_overloads_raise_gui_unavailable_without_starting_work",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "headless wheel contract"
+      }
+    },
+    {
+      "classname": "tests.test_log_body_cells",
+      "name": "test_body_mode_natural_level_identity_and_work_admission[0]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_log_body_cells",
+      "name": "test_body_mode_natural_level_identity_and_work_admission[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_log_body_cells",
+      "name": "test_body_mode_natural_level_identity_and_work_admission[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_log_cells",
+      "name": "test_log_natural_pyramid_context_hash[16]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_log_cells",
+      "name": "test_log_natural_pyramid_context_hash[64]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_log_cells",
+      "name": "test_log_auto_level_uses_expanded_context_budget[0]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_log_cells",
+      "name": "test_log_auto_level_uses_expanded_context_budget[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_log_cells",
+      "name": "test_log_auto_level_uses_expanded_context_budget[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_measurement_tables",
+      "name": "test_tissue_sample_area_and_level_zero_bounds",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "native pyramids"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_metadata_and_anisotropic_calibration",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_all_levels_padding_and_owned_pixels[0]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_all_levels_padding_and_owned_pixels[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_all_levels_padding_and_owned_pixels[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_all_levels_padding_and_owned_pixels[3]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_all_levels_padding_and_owned_pixels[4]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_all_levels_padding_and_owned_pixels[5]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_all_levels_padding_and_owned_pixels[6]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_all_levels_padding_and_owned_pixels[7]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_all_levels_padding_and_owned_pixels[8]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_installed_region_cli[0]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_installed_region_cli[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_installed_region_cli[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_installed_region_cli[3]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_installed_region_cli[4]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_installed_region_cli[5]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_installed_region_cli[6]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_installed_region_cli[7]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_installed_region_cli[8]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_complete_overview_and_source_budget",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_scheduler_cache_and_pending_close",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_log_detection_tile_invariance_and_saved_replay",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_truncated_container_rejects",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_ndpi_reader",
+      "name": "test_ndpi_desktop_pyramid_settles",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_openslide",
+      "name": "test_synthetic_pyramid_against_exact_pixels",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "OpenSlide build disabled"
+      }
+    },
+    {
+      "classname": "tests.test_openslide",
+      "name": "test_openslide_invalid_request_does_not_poison_handle",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "OpenSlide build disabled"
+      }
+    },
+    {
+      "classname": "tests.test_openslide",
+      "name": "test_unrecognized_input",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "OpenSlide build disabled"
+      }
+    },
+    {
+      "classname": "tests.test_openslide",
+      "name": "test_vendor_slide_against_independent_binding",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "OpenSlide build disabled"
+      }
+    },
+    {
+      "classname": "tests.test_openslide_extended",
+      "name": "test_real_metadata_and_calibrated_measurement",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in full Aperio pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_openslide_extended",
+      "name": "test_real_pyramid_regions_padding_and_owned_buffers[0]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in full Aperio pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_openslide_extended",
+      "name": "test_real_pyramid_regions_padding_and_owned_buffers[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in full Aperio pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_openslide_extended",
+      "name": "test_real_pyramid_regions_padding_and_owned_buffers[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in full Aperio pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_openslide_extended",
+      "name": "test_installed_region_cli_on_real_pyramid[0]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in full Aperio pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_openslide_extended",
+      "name": "test_installed_region_cli_on_real_pyramid[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in full Aperio pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_openslide_extended",
+      "name": "test_installed_region_cli_on_real_pyramid[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in full Aperio pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_openslide_extended",
+      "name": "test_real_scheduler_cache_generation_and_pending_close",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in full Aperio pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_openslide_extended",
+      "name": "test_complete_real_overview_against_independent_global_area_mean",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in full Aperio pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_openslide_extended",
+      "name": "test_truncated_vendor_container_is_rejected",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in full Aperio pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_openslide_extended",
+      "name": "test_damaged_jpeg_tile_reports_latched_error_and_other_handle_survives",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in full Aperio pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_openslide_extended",
+      "name": "test_real_vendor_desktop_zoom_settles_with_bounded_unavailable_overview",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in full Aperio pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_openslide_extended",
+      "name": "test_real_vendor_thumbnail_cli_explicit_source_budget",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in full Aperio pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_openslide_extended",
+      "name": "test_real_vendor_desktop_explicit_overview_budget",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in full Aperio pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_pixel_prediction_windows",
+      "name": "test_aperio_window_uses_source_context_and_matches_full_target_crop",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires identified Aperio fixture"
+      }
+    },
+    {
+      "classname": "tests.test_pixel_workflows",
+      "name": "test_real_aperio_sampling_and_tiled_source_prediction_match_direct_context",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "optional reader/training backend"
+      }
+    },
+    {
+      "classname": "tests.test_project",
+      "name": "test_opened_slide_document_defaults_to_its_native_link",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_project",
+      "name": "test_slide_link_keeps_explicit_unknown_calibration_and_pixels",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires identified OpenSlide fixture"
+      }
+    },
+    {
+      "classname": "tests.test_project",
+      "name": "test_large_pyramid_is_a_small_project_link",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires generated large pyramid fixture"
+      }
+    },
+    {
+      "classname": "tests.test_project_batch",
+      "name": "test_digest_coarse_grid_independent[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_project_batch",
+      "name": "test_digest_coarse_grid_independent[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_provenance",
+      "name": "test_openslide_capture_keeps_native_locator_and_all_pyramid_levels",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_qupath_cells_reference",
+      "name": "test_isolated_cell_upstream_acceptance_gate[baseline_count]",
+      "attributes": {
+        "type": "pytest.xfail",
+        "message": "Frozen isolated-cell QuPath acceptance gates remain unresolved"
+      }
+    },
+    {
+      "classname": "tests.test_qupath_cells_reference",
+      "name": "test_isolated_cell_upstream_acceptance_gate[isolated_nucleus_iou]",
+      "attributes": {
+        "type": "pytest.xfail",
+        "message": "Frozen isolated-cell QuPath acceptance gates remain unresolved"
+      }
+    },
+    {
+      "classname": "tests.test_qupath_cells_reference",
+      "name": "test_isolated_cell_upstream_acceptance_gate[isolated_centroid]",
+      "attributes": {
+        "type": "pytest.xfail",
+        "message": "Frozen isolated-cell QuPath acceptance gates remain unresolved"
+      }
+    },
+    {
+      "classname": "tests.test_qupath_ndpi_cells_reference",
+      "name": "test_real_slide_characterization_preserves_pixels_tiles_and_independent_features",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_qupath_precision",
+      "name": "test_precision_matching_rejects_without_geometry_backend",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "GEOS-disabled configuration"
+      }
+    },
+    {
+      "classname": "tests.test_qupath_reference",
+      "name": "test_live_pinned_runtime_regenerates_an_independent_roundtrip",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Windows QuPath runtime"
+      }
+    },
+    {
+      "classname": "tests.test_raw_pixel_cli",
+      "name": "test_cli_training_backend_off_refuses_before_output",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "backend-OFF profile only"
+      }
+    },
+    {
+      "classname": "tests.test_recovery_work_cleanup",
+      "name": "test_links_are_not_followed[snapshot]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "file symlink creation unavailable"
+      }
+    },
+    {
+      "classname": "tests.test_recovery_work_cleanup",
+      "name": "test_links_are_not_followed[owner]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "file symlink creation unavailable"
+      }
+    },
+    {
+      "classname": "tests.test_sampled_cells",
+      "name": "test_sampled_mode_natural_level_identity_and_work_admission[0]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_sampled_cells",
+      "name": "test_sampled_mode_natural_level_identity_and_work_admission[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_sampled_cells",
+      "name": "test_sampled_mode_natural_level_identity_and_work_admission[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_sampled_cells",
+      "name": "test_sampled_real_slide_keeps_characterization_and_exact_saved_replay[0]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_sampled_cells",
+      "name": "test_sampled_real_slide_keeps_characterization_and_exact_saved_replay[32]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in pinned Hamamatsu NDPI fixture"
+      }
+    },
+    {
+      "classname": "tests.test_sampling_policy",
+      "name": "test_winding_pyramid_and_cleanup_archives_replay[False-1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_sampling_policy",
+      "name": "test_winding_pyramid_and_cleanup_archives_replay[False-2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_sampling_policy",
+      "name": "test_winding_pyramid_and_cleanup_archives_replay[True-1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_sampling_policy",
+      "name": "test_winding_pyramid_and_cleanup_archives_replay[True-2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_source_identity",
+      "name": "test_openslide_primary_file_is_observed_without_claiming_complete_dependencies",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "native pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_stain_estimation",
+      "name": "test_auto_level_bounds_read_work_and_uses_real_coarse_pixels",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "native pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_thumbnail",
+      "name": "test_real_pyramid_uses_bounded_complete_natural_level",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires generated OpenSlide pyramid"
+      }
+    },
+    {
+      "classname": "tests.test_thumbnail",
+      "name": "test_small_pyramid_selection_and_complete_pixels_against_fraction_oracle[dimensions0]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_thumbnail",
+      "name": "test_small_pyramid_selection_and_complete_pixels_against_fraction_oracle[dimensions1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_thumbnail",
+      "name": "test_small_pyramid_selection_and_complete_pixels_against_fraction_oracle[dimensions2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_thumbnail",
+      "name": "test_small_pyramid_selection_and_complete_pixels_against_fraction_oracle[dimensions3]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_cleanup",
+      "name": "test_coarse_nucleus_cleanup_uses_sampled_radii_and_scaled_components[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_cleanup",
+      "name": "test_coarse_nucleus_cleanup_uses_sampled_radii_and_scaled_components[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_cleanup",
+      "name": "test_auto_resolution_accounts_for_cleanup_domain_memory",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_contours",
+      "name": "test_pyramid_contours_use_level_zero_edges_and_optional_roi_clip[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_contours",
+      "name": "test_pyramid_contours_use_level_zero_edges_and_optional_roi_clip[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_pyramid_pixels_geometry_and_digest[False-16-1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_pyramid_pixels_geometry_and_digest[False-16-2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_pyramid_pixels_geometry_and_digest[False-31-1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_pyramid_pixels_geometry_and_digest[False-31-2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_pyramid_pixels_geometry_and_digest[False-256-1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_pyramid_pixels_geometry_and_digest[False-256-2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_pyramid_pixels_geometry_and_digest[True-16-1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_pyramid_pixels_geometry_and_digest[True-16-2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_pyramid_pixels_geometry_and_digest[True-31-1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_pyramid_pixels_geometry_and_digest[True-31-2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_pyramid_pixels_geometry_and_digest[True-256-1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_pyramid_pixels_geometry_and_digest[True-256-2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_auto_selects_finest_budget_fit_and_explicit_level_is_strict",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_missing_levels_empty_grids_and_tiny_coarse_sample",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_coarse_nucleus_holes_and_stale_result",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_levels",
+      "name": "test_gui_coarse_mask_uses_level_zero_geometry",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_records",
+      "name": "test_native_pyramid_mask_and_clipped_geometry_roundtrip[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "classname": "tests.test_tissue_records",
+      "name": "test_native_pyramid_mask_and_clipped_geometry_roundtrip[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    }
+  ],
+  "limitations": [
+    "Combined scope uses original full run plus two affected reruns, not a second full green run",
+    "OpenSlide OFF; skipped reader/vendor cases do not supply acceptance",
+    "Shared test dependencies and local Windows runtime; not clean-machine or hosted qualification",
+    "Three strict scientific xfails remain unresolved",
+    "No Mac repair or measured hardware/resource acceptance"
+  ],
+  "evidence": [
+    {
+      "path": "collection-command.json",
+      "bytes": 240,
+      "sha256": "e65b33d6afe5dbb2e2362292f219e4e161d5345ab87f6e20b3b949ba89aa9d90"
+    },
+    {
+      "path": "collection.log",
+      "bytes": 452755,
+      "sha256": "ad9aed3deb1d1bea035a9bcee7d1a23fe5ccd96ae4d442ade92f0136f5b50c9d"
+    },
+    {
+      "path": "command.json",
+      "bytes": 739,
+      "sha256": "99fd994c909f1fc096596d40badcced2ee542f7904a3b8c57ae3b1cdeebecbcb"
+    },
+    {
+      "path": "corrected-cancellation-command.json",
+      "bytes": 542,
+      "sha256": "b4c1a9f2df9aa3075f8951687615ae1e8befca7a3e9241b574a463d3a656e361"
+    },
+    {
+      "path": "corrected-cancellation.log",
+      "bytes": 100,
+      "sha256": "57e55ba7946b79998a00e12255822d36726c93e3392d769205bfb0af43877ef5"
+    },
+    {
+      "path": "corrected-cancellation.xml",
+      "bytes": 502,
+      "sha256": "e035f4f76413dbfed714f6d62b692f13c89aea97a639143cc20585bf9cc4f7a8"
+    },
+    {
+      "path": "original-cancellation-fixtures/test_gui_batch_cancellation_an0/cancel/.qupathxx-batch.lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "original-cancellation-fixtures/test_gui_batch_cancellation_an0/cancel/run-8e63804c63ca81167af00ef55e69544a.json",
+      "bytes": 545,
+      "sha256": "3dd8003ffd35197fc0fd92ffe9323b65aa0a6d7c638ac1bfe56a35fe9c0de27b"
+    },
+    {
+      "path": "original-cancellation-fixtures.json",
+      "bytes": 717,
+      "sha256": "69931e9988916280d08d07810351b9681b40f4f251d44c2291e60797158eb641"
+    },
+    {
+      "path": "original-python-tests.log",
+      "bytes": 12451,
+      "sha256": "36c27f8be66b8cee5533e3f6c7c86d974e0886309b5a0a32567e53bc93b43672"
+    },
+    {
+      "path": "original-python-tests.xml",
+      "bytes": 653549,
+      "sha256": "76e1d98b33d62580b8ab31d69035a8f7c157a3de819ede42c9b0934744d0dda8"
+    },
+    {
+      "path": "test_gui_batch.original.py",
+      "bytes": 9261,
+      "sha256": "3dcc1a1614d36450f3b948440231ab52d5271442691c1e0e22d082a21d3e8b32"
+    },
+    {
+      "path": "notebook-prefix-proof.json",
+      "bytes": 277,
+      "sha256": "e668134c73f86da78c81e114566a716b4741565ab3b6dfe703dcb852b35a1936"
+    }
+  ],
+  "local_output_aliases": {
+    "python-tests.xml": "original-python-tests.xml",
+    "python-tests.log": "original-python-tests.log"
+  }
+}

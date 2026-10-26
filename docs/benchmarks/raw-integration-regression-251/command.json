@@ -1,0 +1,22 @@
+{
+  "source": "2646fb599f503c5e27d492844dcf084a8b437063",
+  "runtime_source": "3039f0c23b274a8b0f121e48df0d290447ecf2e3",
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "tests",
+    "-q",
+    "-o",
+    "faulthandler_timeout=60",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-integration-regression-251\\python-tests.xml"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+  "gui_opt_in": true,
+  "openslide": false,
+  "test_dependencies": "shared existing .venv dependencies",
+  "status": "terminal",
+  "returncode": 1,
+  "seconds": 727.4400461998302
+}

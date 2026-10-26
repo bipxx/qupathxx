@@ -1,0 +1,23 @@
+[
+  {
+    "directory": "C:\\Users\\HEQ\\AppData\\Local\\Temp\\pytest-of-HEQ\\pytest-4226\\test_gui_batch_cancellation_an0",
+    "exists": true,
+    "files": [
+      {
+        "path": "cancel/.qupathxx-batch.lock",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "cancel/run-8e63804c63ca81167af00ef55e69544a.json",
+        "bytes": 545,
+        "sha256": "3dd8003ffd35197fc0fd92ffe9323b65aa0a6d7c638ac1bfe56a35fe9c0de27b"
+      }
+    ]
+  },
+  {
+    "directory": "C:\\Users\\HEQ\\AppData\\Local\\Temp\\pytest-of-HEQ\\pytest-4226\\test_gui_batch_cancellation_an1",
+    "exists": true,
+    "files": []
+  }
+]

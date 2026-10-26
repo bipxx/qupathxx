@@ -4,8 +4,10 @@ Current disposition (2026-10-26): E1-E4 and multi-file campaign213 have
 accepted source-bound baselines in the [single queue](../api-delivery-plan.md#dependency-lanes-and-immediate-queue).
 Campaign236 is terminal: engine/portable accepted at `530c6bb`, Mac arm64
 unaccepted. Diagnostic240 retains the actual failing binary at `4a72fd8`;
-existing [observer run40411025705](https://github.com/bipxx/qupathxx/actions/runs/40411025705)
-is queued when checked. A cause or repair is not yet established.
+[observer249](../benchmarks/raw-replay-arm64-252/receipt.json) failed before
+product execution because its shallow checkout lacked the comparison commit.
+One observer-only successor run40414202237 fetches that exact commit and is
+queued when checked. A product cause or repair is not yet established.
 
 Streamed Python, desktop/managed, CLI, batch and history consumers now have local
 verification through runtime `3039f0c`, with three supplementary history refusal
@@ -51,6 +53,13 @@ necessary alongside generated fixtures. Mac repair/full qualification remain ope
 These changes are not another independent Astra review.
 Reuse existing producer/auditor paths, keep original failures and
 eligible open-source readers/codecs, and preserve all open M0-M7 requirements.
+
+Broader regression251 adds another concrete boundary lesson: cancellation may
+finish before the worker creates an output directory. Its in-memory report is
+valid without a disk path. Verify the exact early-cancel error and absent output,
+or verify the complete saved report once a directory exists. Preserve the full
+run's one failure and rerun only the affected cases on unchanged binaries; do not
+force extra IO after early cancellation to satisfy a faulty fixture assumption.
 
 Reviewed 2026-10-25 at qupathxx source `682ba00`. This is an implementation
 efficiency review, not another Astra review or a new scientific/release gate.

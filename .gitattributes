@@ -576,3 +576,5 @@ docs/benchmarks/raw-stream-boundaries-local.json -text -whitespace
 # Exact terminal Mac diagnostic and isolated successor evidence.
 docs/benchmarks/raw-replay-macos-240/** -text -whitespace
 docs/benchmarks/raw-classifier-contract-250/** -text -whitespace
+docs/benchmarks/raw-integration-regression-251/** -text -whitespace
+docs/benchmarks/raw-replay-arm64-252/** -text -whitespace
