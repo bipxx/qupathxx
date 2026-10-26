@@ -36,12 +36,14 @@ class GuiRawPixel {
             }contour_ready_=true;
         }catch(const std::exception& e) {decltype(contour_paths_){}.swap(contour_paths_);contour_bytes_=0;contour_error_=e.what();}
     }
-    void draw_contours(const Document& doc) const {
+    void draw_contours(const Document& doc,const std::shared_ptr<const RawPixelClassifier>& model) const {
         if(!contour_ready_) {if(!contour_error_.empty()) ImGui::TextWrapped("%s",contour_error_.c_str());return;}
+        const auto colors=palette(doc,std::vector<std::uint64_t>(model?model->forest().classes().size():0),model);
+        if(ImGui::CollapsingHeader("Contour classes")) {for(std::size_t i=0;i<std::min<std::size_t>(contour_paths_.size(),16);++i) {const auto label=contour_paths_[i].first;if(!label || !model || label>colors.size()) continue;const auto color=colors[label-1];ImGui::PushStyleColor(ImGuiCol_Text,ImVec4((color&255)/255.f,((color>>8)&255)/255.f,((color>>16)&255)/255.f,1));ImGui::TextWrapped("%s",model->forest().classes()[label-1].c_str());ImGui::PopStyleColor();}if(contour_paths_.size()>16) ImGui::Text("%zu further classes",contour_paths_.size()-16);}
         const ImVec2 a=ImGui::GetCursorScreenPos(),size{std::max(1.f,ImGui::GetContentRegionAvail().x),180};auto* draw=ImGui::GetWindowDrawList();
         draw->AddRectFilled(a,{a.x+size.x,a.y+size.y},IM_COL32(24,24,24,255));draw->PushClipRect(a,{a.x+size.x,a.y+size.y},true);
         const auto scale=std::min(double(size.x)/doc.metadata().width,double(size.y)/doc.metadata().height);
-        for(const auto& [label,paths]:contour_paths_) for(const auto& ring:paths) {for(const auto& p:ring) draw->PathLineTo({a.x+float(p.x*scale),a.y+float(p.y*scale)});draw->PathStroke(label%2?IM_COL32(255,128,64,255):IM_COL32(64,192,255,255),ImDrawFlags_Closed,1.5f);}
+        for(const auto& [label,paths]:contour_paths_) for(const auto& ring:paths) {for(const auto& p:ring) draw->PathLineTo({a.x+float(p.x*scale),a.y+float(p.y*scale)});draw->PathStroke(label && label<=colors.size()?colors[label-1]|0xff000000:IM_COL32(192,192,192,255),ImDrawFlags_Closed,1.5f);}
         draw->PopClipRect();ImGui::Dummy(size);
     }
     std::string error_;std::int64_t px_=0,py_=0,pw_=256,ph_=256;std::uint64_t record_=0,index_=0;
@@ -130,10 +132,10 @@ public:
                 auto limit=[&](const char* label,std::size_t& value,std::uint64_t maximum) {std::uint64_t n=value;if(ui::InputScalar(label,ImGuiDataType_U64,&n)) {value=std::size_t(std::clamp<std::uint64_t>(n,1,maximum));changed=true;}};
                 limit("Contour class limit",options_.contours.max_components,1000000);limit("Contour edge limit",options_.contours.max_edges,1000000);limit("Contour vertex limit",options_.contours.max_vertices,1000000);
                 limit("Inference work bytes",options_.contour_work_bytes,1024ULL*1024*1024);limit("Contour work bytes",options_.contours.work_bytes,512ULL*1024*1024);
-                changed|=ui::InputText("Annotation prefix",contour_prefix_.data(),contour_prefix_.size());ImGui::EndDisabled();if(changed) {jobs_.discard_contours();update_contours({});}
+                ui::InputText("Annotation prefix",contour_prefix_.data(),contour_prefix_.size());ImGui::EndDisabled();if(changed) {jobs_.discard_contours();update_contours({});}
                 if(button("Trace raw contours",GuiInputTarget::RawPixelTrace,disabled || !current.model || !has_geos())) run([&] {const auto grid=lattice(doc);jobs_.trace(doc,*current.model,ScientificGrid(grid.image_width(),grid.image_height(),grid.x(),grid.y(),options_.contour_work_bytes),options_.contours,options_.object_id?options_.object_id:selection.primary(),options_.stream.min_vote_fraction,options_.contour_work_bytes);});
                 const auto contours=jobs_.report();if(button("Apply raw contours",GuiInputTarget::RawPixelApply,disabled || !contours.contours || contours.contours_published || !contour_ready_)) run([&] {jobs_.publish(doc,contour_prefix_.data());});
-                if(contours.contours) {const auto& c=*contours.contours->contours();ImGui::Text("%zu classes, %zu vertices",c.components().size(),c.vertex_count());draw_contours(doc);}if(contours.contours_published) ImGui::Text("Applied %zu annotations",contours.published_ids.size());ImGui::EndTabItem();
+                if(contours.contours) {const auto& c=*contours.contours->contours();ImGui::Text("%zu classes, %zu vertices",c.components().size(),c.vertex_count());draw_contours(doc,current.model);}if(contours.contours_published) ImGui::Text("Applied %zu annotations",contours.published_ids.size());ImGui::EndTabItem();
             }
             ImGui::EndTabBar();
         }ImGui::End();

@@ -437,3 +437,30 @@ def test_managed_raw_contour_preview_fresh_apply_and_persistence(tmp_path):
         assert result.document(image).children(root) == held["ids"]
     finally:
         result.document(image).server.close()
+
+
+@pytest.mark.skipif(not q.has_geos, reason="contour geometry backend")
+def test_desktop_historical_file_does_not_enable_live_contour_apply(tmp_path):
+    p, _, doc, ids, root, settings = scene(tmp_path)
+    try:
+        model = model_for(doc, ids, settings)
+        output = tmp_path / "historical-only.qws"
+        q.save_raw_pixel_stream(q.RawPixelTiledPredictionRequest(doc, model, settings.lattice, object_id=root), str(output))
+        o = options(settings, root, tmp_path)
+        raw = o.raw_pixel
+        raw.stream_path = str(output)
+        o.raw_pixel = raw
+        revision = doc.revision
+        o.inputs = [*click(4, q.GuiInputTarget.RAW_PIXEL_FILES_TAB), *click(8, q.GuiInputTarget.RAW_PIXEL_OPEN_FILE),
+            ready(12, q.GuiInputWait.RAW_PIXEL_FILE_READ), *click(16, q.GuiInputTarget.RAW_PIXEL_CONTOURS_TAB),
+            event(20, q.GuiInputKind.LEFT_DOWN, q.GuiInputTarget.RAW_PIXEL_TRACE),
+            event(21, q.GuiInputKind.LEFT_UP, q.GuiInputTarget.RAW_PIXEL_TRACE),
+            event(24, q.GuiInputKind.LEFT_DOWN, q.GuiInputTarget.RAW_PIXEL_APPLY),
+            event(25, q.GuiInputKind.LEFT_UP, q.GuiInputTarget.RAW_PIXEL_APPLY)]
+        report = q.show(p, frame_limit=45, options=o)
+        assert report.replay_complete and not report.raw_pixel.error and report.raw_pixel.state == "read"
+        assert report.raw_pixel.historical_model and report.raw_pixel.model is None
+        assert report.raw_pixel.contours is None and not report.raw_pixel.contours_published
+        assert doc.revision == revision and doc.object_count == 3
+    finally:
+        doc.server.close()

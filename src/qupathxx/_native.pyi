@@ -1817,6 +1817,44 @@ class GuiInputTarget(enum.Enum):
 
     TMA_DETECT_GRID = 97
 
+    RAW_PIXEL_TRAIN = 98
+
+    RAW_PIXEL_PREDICT = 99
+
+    RAW_PIXEL_CANCEL = 100
+
+    RAW_PIXEL_KEEP_TRAINING = 101
+
+    RAW_PIXEL_SAVE_MODEL = 102
+
+    RAW_PIXEL_LOAD_MODEL = 103
+
+    RAW_PIXEL_EXPORT = 104
+
+    RAW_PIXEL_OPEN_FILE = 105
+
+    RAW_PIXEL_KEEP_LINK = 106
+
+    RAW_PIXEL_OPEN_RECORD = 107
+
+    RAW_PIXEL_REMOVE_RECORD = 108
+
+    RAW_PIXEL_TOGGLE_OVERLAY = 109
+
+    RAW_PIXEL_HIDE = 110
+
+    RAW_PIXEL_TRAINING_TAB = 111
+
+    RAW_PIXEL_FILES_TAB = 112
+
+    RAW_PIXEL_RECORDS_TAB = 113
+
+    RAW_PIXEL_TRACE = 114
+
+    RAW_PIXEL_APPLY = 115
+
+    RAW_PIXEL_CONTOURS_TAB = 116
+
 class GuiInputWait(enum.Enum):
     TIFF_READY = 43
 
@@ -1831,6 +1869,28 @@ class GuiInputWait(enum.Enum):
     RAW_ANALYSIS_VERIFIED = 48
 
     RAW_MEASUREMENTS_SAVED = 49
+
+    RAW_PIXEL_FINISHED = 50
+
+    RAW_PIXEL_TRAINED = 51
+
+    RAW_PIXEL_PREDICTED = 52
+
+    RAW_PIXEL_PREVIEW_READY = 53
+
+    RAW_PIXEL_KEPT = 54
+
+    RAW_PIXEL_FILE_SAVED = 55
+
+    RAW_PIXEL_FILE_READ = 56
+
+    RAW_PIXEL_MODEL_SAVED = 57
+
+    RAW_PIXEL_MODEL_LOADED = 58
+
+    RAW_PIXEL_CONTOURS_READY = 59
+
+    RAW_PIXEL_CONTOURS_PUBLISHED = 60
 
     TMA_GRID_READY = 41
 
@@ -2788,6 +2848,12 @@ class GuiOptions:
     @pixel_model.setter
     def pixel_model(self, arg: PixelClassifier | None, /) -> None: ...
 
+    @property
+    def raw_pixel(self) -> GuiRawPixelOptions | None: ...
+
+    @raw_pixel.setter
+    def raw_pixel(self, arg: GuiRawPixelOptions | None, /) -> None: ...
+
 class GuiReport:
     def __init__(self, _native_only: Never) -> None: ...
     @property
@@ -3497,6 +3563,9 @@ class GuiReport:
 
     @property
     def canvas_content_bounds(self) -> Rect: ...
+
+    @property
+    def raw_pixel(self) -> GuiRawPixelReport | None: ...
 
 class AnalysisKind(enum.Enum):
     OPTICAL_DENSITY_MEANS = 0
@@ -9282,6 +9351,8 @@ class RawPixelTiledTrainingJob:
 
     def verify_result(self, document: Document, record_id: int) -> bool: ...
 
+    def train_table(self, request: RawPixelTiledTrainingRequest, table: RawPixelTiledTrainingTable, parameters: ForestParameters = ...) -> bool: ...
+
 class RawPixelPredictionJob:
     def __init__(self) -> None: ...
 
@@ -9345,6 +9416,9 @@ class RawPixelContours:
 
     @property
     def prediction_sha256(self) -> str: ...
+
+    @property
+    def payload_bytes(self) -> int: ...
 
 class RawPixelContourJob:
     def __init__(self) -> None: ...
@@ -9985,6 +10059,241 @@ class RawPixelStreamFileReadJob:
 
     def take_block(self) -> RawPixelWindowClassification | None: ...
 
+class RawPixelTrainingSettings:
+    def __init__(self) -> None: ...
+
+    @property
+    def lattice(self) -> ScientificRawLattice | None: ...
+
+    @lattice.setter
+    def lattice(self, arg: ScientificRawLattice | None, /) -> None: ...
+
+    @property
+    def selection(self) -> ScientificRawOptions: ...
+
+    @selection.setter
+    def selection(self, arg: ScientificRawOptions, /) -> None: ...
+
+    @property
+    def features(self) -> RawPixelFeatureOptions: ...
+
+    @features.setter
+    def features(self, arg: RawPixelFeatureOptions, /) -> None: ...
+
+    @property
+    def sampling(self) -> RawPixelTrainingOptions: ...
+
+    @sampling.setter
+    def sampling(self, arg: RawPixelTrainingOptions, /) -> None: ...
+
+    @property
+    def tiles(self) -> RawPixelTileOptions: ...
+
+    @tiles.setter
+    def tiles(self, arg: RawPixelTileOptions, /) -> None: ...
+
+    @property
+    def forest(self) -> ForestParameters: ...
+
+    @forest.setter
+    def forest(self, arg: ForestParameters, /) -> None: ...
+
+    @property
+    def physical_sigmas(self) -> bool: ...
+
+    @physical_sigmas.setter
+    def physical_sigmas(self, arg: bool, /) -> None: ...
+
+    @property
+    def checkpoint_path(self) -> str: ...
+
+    @checkpoint_path.setter
+    def checkpoint_path(self, arg: str, /) -> None: ...
+
+    @property
+    def checkpoint(self) -> RawPixelTrainingCheckpointOptions: ...
+
+    @checkpoint.setter
+    def checkpoint(self, arg: RawPixelTrainingCheckpointOptions, /) -> None: ...
+
+    def validate(self) -> None: ...
+
+class GuiRawPixelOptions:
+    def __init__(self) -> None: ...
+
+    @property
+    def open(self) -> bool: ...
+
+    @open.setter
+    def open(self, arg: bool, /) -> None: ...
+
+    @property
+    def selected_only(self) -> bool: ...
+
+    @selected_only.setter
+    def selected_only(self, arg: bool, /) -> None: ...
+
+    @property
+    def show_overlay(self) -> bool: ...
+
+    @show_overlay.setter
+    def show_overlay(self, arg: bool, /) -> None: ...
+
+    @property
+    def replace_model(self) -> bool: ...
+
+    @replace_model.setter
+    def replace_model(self, arg: bool, /) -> None: ...
+
+    @property
+    def object_id(self) -> int: ...
+
+    @object_id.setter
+    def object_id(self, arg: int, /) -> None: ...
+
+    @property
+    def record_id(self) -> int: ...
+
+    @record_id.setter
+    def record_id(self, arg: int, /) -> None: ...
+
+    @property
+    def read_index(self) -> int: ...
+
+    @read_index.setter
+    def read_index(self, arg: int, /) -> None: ...
+
+    @property
+    def preview_budget(self) -> int: ...
+
+    @preview_budget.setter
+    def preview_budget(self, arg: int, /) -> None: ...
+
+    @property
+    def training(self) -> RawPixelTrainingSettings: ...
+
+    @training.setter
+    def training(self, arg: RawPixelTrainingSettings, /) -> None: ...
+
+    @property
+    def model(self) -> RawPixelClassifier | None: ...
+
+    @model.setter
+    def model(self, arg: RawPixelClassifier | None, /) -> None: ...
+
+    @property
+    def preview(self) -> ScientificRawWindow | None: ...
+
+    @preview.setter
+    def preview(self, arg: ScientificRawWindow | None, /) -> None: ...
+
+    @property
+    def stream(self) -> RawPixelStreamOptions: ...
+
+    @stream.setter
+    def stream(self, arg: RawPixelStreamOptions, /) -> None: ...
+
+    @property
+    def save(self) -> RawPixelStreamSaveOptions: ...
+
+    @save.setter
+    def save(self, arg: RawPixelStreamSaveOptions, /) -> None: ...
+
+    @property
+    def read_limits(self) -> RawPixelStreamFileLimits: ...
+
+    @read_limits.setter
+    def read_limits(self, arg: RawPixelStreamFileLimits, /) -> None: ...
+
+    @property
+    def contours(self) -> TissueContourOptions: ...
+
+    @contours.setter
+    def contours(self, arg: TissueContourOptions, /) -> None: ...
+
+    @property
+    def contour_work_bytes(self) -> int: ...
+
+    @contour_work_bytes.setter
+    def contour_work_bytes(self, arg: int, /) -> None: ...
+
+    @property
+    def contour_name_prefix(self) -> str: ...
+
+    @contour_name_prefix.setter
+    def contour_name_prefix(self, arg: str, /) -> None: ...
+
+    @property
+    def model_path(self) -> str: ...
+
+    @model_path.setter
+    def model_path(self, arg: str, /) -> None: ...
+
+    @property
+    def stream_path(self) -> str: ...
+
+    @stream_path.setter
+    def stream_path(self, arg: str, /) -> None: ...
+
+class GuiRawPixelReport:
+    def __init__(self, _native_only: Never) -> None: ...
+    @property
+    def state(self) -> str: ...
+
+    @property
+    def error(self) -> str: ...
+
+    @property
+    def model(self) -> RawPixelClassifier | None: ...
+
+    @property
+    def historical_model(self) -> RawPixelClassifier | None: ...
+
+    @property
+    def training(self) -> RawPixelArchive | None: ...
+
+    @property
+    def checkpoint(self) -> RawPixelTrainingCheckpoint | None: ...
+
+    @property
+    def prediction(self) -> RawPixelWindowClassification | None: ...
+
+    @property
+    def historical(self) -> RawPixelWindowClassification | None: ...
+
+    @property
+    def link(self) -> RawPixelStreamLink | None: ...
+
+    @property
+    def training_record(self) -> int: ...
+
+    @property
+    def stream_record(self) -> int: ...
+
+    @property
+    def contours(self) -> RawPixelContours | None: ...
+
+    @property
+    def published_ids(self) -> list[int]: ...
+
+    @property
+    def contours_published(self) -> bool: ...
+
+    @property
+    def contour_work_bytes(self) -> int: ...
+
+    @property
+    def contour_preview_bytes(self) -> int: ...
+
+    @property
+    def contour_preview_ready(self) -> bool: ...
+
+    @property
+    def preview_bytes(self) -> int: ...
+
+    @property
+    def preview_ready(self) -> bool: ...
+
 def default_workspace_layout_path() -> str: ...
 
 class ViewerLimits:
@@ -10112,6 +10421,21 @@ class ViewerEvent:
     def raw_metadata(self) -> RawImageMetadata: ...
 
     @property
+    def raw_pixel_training(self) -> RawPixelArchive | None: ...
+
+    @property
+    def raw_pixel_checkpoint(self) -> RawPixelTrainingCheckpoint | None: ...
+
+    @property
+    def raw_pixel_prediction(self) -> RawPixelWindowClassification | None: ...
+
+    @property
+    def raw_pixel_link(self) -> RawPixelStreamLink | None: ...
+
+    @property
+    def raw_pixel_contours(self) -> RawPixelContours | None: ...
+
+    @property
     def tiff_view(self) -> TiffView | None: ...
 
     @property
@@ -10228,6 +10552,16 @@ class ViewerSession:
     def verify_raw_analysis(self, image_id: int, record_id: int) -> int: ...
 
     def export_raw_measurements(self, image_id: int, path: str, require_current: bool = ..., record_ids: Sequence[int] = ...) -> int: ...
+
+    def train_raw_pixels(self, image_id: int, annotation_ids: Sequence[int], settings: RawPixelTrainingSettings = ..., retain_result: bool = ...) -> int: ...
+
+    def predict_raw_pixels(self, image_id: int, model: RawPixelClassifier, window: ScientificRawWindow, object_id: int = ..., min_vote_fraction: float = ..., work_bytes: int = ...) -> int: ...
+
+    def export_raw_pixels(self, image_id: int, model: RawPixelClassifier, lattice: ScientificRawLattice, path: str, options: RawPixelStreamOptions = ..., save_options: RawPixelStreamSaveOptions = ..., object_id: int = ..., retain_result: bool = ...) -> int: ...
+
+    def contour_raw_pixels(self, image_id: int, model: RawPixelClassifier, grid: ScientificGrid, options: TissueContourOptions = ..., object_id: int = ..., apply: bool = ..., min_vote_fraction: float = ..., work_bytes: int = ..., name_prefix: str = ..., expected_revision: int | None = ...) -> int: ...
+
+    def read_raw_pixel_stream(self, image_id: int, path: str, index: int = ..., limits: RawPixelStreamFileLimits = ..., record_id: int = ..., retain_result: bool = ...) -> int: ...
 
     def analyze_with_sampling_policy(self, image_id: int, object_id: int, transform: StainTransform, sampling_policy: RoiSamplingPolicy, kind: AnalysisKind = AnalysisKind.OPTICAL_DENSITY_MEANS, nucleus: bool = ...) -> int: ...
 
