@@ -5,12 +5,18 @@ import numpy as np
 import pytest
 import qupathxx as q
 from test_raw_pixel_python import tiff
-from test_gui_pixel_classifier import event, click, ready, ppm, sample_world
+from test_gui_pixel_classifier import event, click as button_click, ready, ppm, sample_world
 from test_viewer_session import completed, run
 
 pytestmark = pytest.mark.skipif(not q.has_gui or not q.has_tiff or not q.has_project or
     not q.has_classifier_training or os.environ.get("QUPATHXX_TEST_GUI") != "1",
     reason="opt-in GUI, TIFF/project and actual classifier training")
+
+
+def click(frame, target):
+    # ImGui overlap-enabled tabs need the pointer over the item in the prior
+    # frame. Move first, then exercise the real mouse press/release path.
+    return [event(frame - 1, q.GuiInputKind.MOVE, target), *button_click(frame, target)]
 
 
 def scene(tmp_path):
@@ -217,3 +223,83 @@ def test_managed_raw_training_prediction_resume_read_and_saved_project(tmp_path)
         assert result.document(image).raw_pixel_record_count == result.document(image).raw_pixel_stream_record_count == 1
     finally:
         result.document(image).server.close()
+
+
+def test_desktop_prediction_prefix_resume_preserves_committed_bytes(tmp_path):
+    p, _, doc, ids, root, settings = scene(tmp_path)
+    try:
+        model = model_for(doc, ids, settings)
+        o = options(settings, root, tmp_path)
+        raw = o.raw_pixel
+        raw.model = model
+        save = raw.save
+        save.max_new_windows = 1
+        raw.save = save
+        o.raw_pixel = raw
+        o.inputs = [*click(4, q.GuiInputTarget.RAW_PIXEL_FILES_TAB),
+            *click(8, q.GuiInputTarget.RAW_PIXEL_EXPORT), ready(12, q.GuiInputWait.RAW_PIXEL_FILE_SAVED)]
+        first = q.show(p, frame_limit=35, options=o).raw_pixel
+        output = Path(raw.stream_path)
+        prefix = output.read_bytes()
+        assert first.state == "partial" and not first.error and first.link.summary.completed_windows == 1
+        assert not first.link.summary.complete
+        save.resume_path, save.replace_existing, save.max_new_windows = str(output), True, 2**64 - 1
+        raw.save = save
+        o.raw_pixel = raw
+        second = q.show(p, frame_limit=40, options=o).raw_pixel
+        assert not second.error and second.link.summary.complete
+        # QWS1 replaces the terminal summary; its header and committed blocks
+        # must survive byte-for-byte (footer grammar: 292 + 8 per class).
+        footer_bytes = 292 + 8 * len(first.link.summary.class_counts)
+        assert output.read_bytes().startswith(prefix[:-footer_bytes])
+        file = q.RawPixelStreamFile(str(output))
+        file.verify()
+        assert file.link().same_content(second.link)
+        assert doc.raw_pixel_stream_record_count == 0
+    finally:
+        doc.server.close()
+
+
+def test_desktop_invalid_model_preserves_current_model_and_can_predict(tmp_path):
+    p, _, doc, ids, root, settings = scene(tmp_path)
+    try:
+        model = model_for(doc, ids, settings)
+        o = options(settings, root, tmp_path)
+        raw = o.raw_pixel
+        raw.model = model
+        Path(raw.model_path).write_bytes(b"invalid model")
+        o.raw_pixel = raw
+        o.inputs = [*click(4, q.GuiInputTarget.RAW_PIXEL_FILES_TAB),
+            *click(8, q.GuiInputTarget.RAW_PIXEL_LOAD_MODEL), ready(12, q.GuiInputWait.RAW_PIXEL_FINISHED)]
+        failed = q.show(p, frame_limit=35, options=o).raw_pixel
+        assert failed.state == "failed" and failed.error and failed.model.sha256 == model.sha256
+        assert Path(raw.model_path).read_bytes() == b"invalid model"
+        o.inputs = [*click(4, q.GuiInputTarget.RAW_PIXEL_FILES_TAB),
+            *click(8, q.GuiInputTarget.RAW_PIXEL_LOAD_MODEL), ready(12, q.GuiInputWait.RAW_PIXEL_FINISHED),
+            *click(16, q.GuiInputTarget.RAW_PIXEL_PREDICT), ready(20, q.GuiInputWait.RAW_PIXEL_PREVIEW_READY)]
+        retried = q.show(p, frame_limit=45, options=o).raw_pixel
+        assert not retried.error and retried.preview_ready and retried.model.sha256 == model.sha256
+        assert retried.prediction.labels_numpy().shape == (5, 7)
+    finally:
+        doc.server.close()
+
+
+def test_desktop_image_switch_retires_raw_prediction_and_gpu_preview(tmp_path):
+    p, image, doc, ids, root, settings = scene(tmp_path)
+    other = q.Document(q.Image(8, 6, [0] * 8 * 6 * 3))
+    p.add_document(other, "Other")
+    p.active_image = image
+    try:
+        o = options(settings, root, tmp_path)
+        raw = o.raw_pixel
+        raw.model = model_for(doc, ids, settings)
+        o.raw_pixel = raw
+        o.inputs = [*click(4, q.GuiInputTarget.RAW_PIXEL_FILES_TAB),
+            *click(8, q.GuiInputTarget.RAW_PIXEL_PREDICT), ready(12, q.GuiInputWait.RAW_PIXEL_PREVIEW_READY),
+            event(20, q.GuiInputKind.NEXT_IMAGE_KEY)]
+        report = q.show(p, frame_limit=45, options=o)
+        assert report.replay_complete and report.image_switches == 1
+        assert report.raw_pixel.prediction is None and not report.raw_pixel.preview_ready
+        assert report.raw_pixel.preview_bytes == 0
+    finally:
+        doc.server.close()
