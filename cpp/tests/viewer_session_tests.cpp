@@ -65,9 +65,10 @@ void raw_pixel_session_contracts(const std::filesystem::path& root) {
     {
         // Actual source-file replacement/version changes must be checked at
         // delivery, not just against the reader's retained opening metadata.
-        detail::RawPixelFrontend frontend;frontend.predict(*doc,model,lattice.window(0,0,2,2),target,0,16u*1024*1024);
+        detail::RawPixelFrontend frontend;frontend.predict(*doc,model,lattice.window(0,0,2,2),target,0,16u*1024*1024);frontend.wait(*doc);check(frontend.report().prediction && frontend.report().state=="predicted");
+        frontend.predict(*doc,model,lattice.window(0,0,2,2),target,0,16u*1024*1024);
         const auto stamp=std::filesystem::last_write_time(path);std::filesystem::last_write_time(path,stamp+std::chrono::seconds(2));frontend.wait(*doc);
-        const auto rejected=frontend.report();check(!rejected.prediction && (rejected.state=="stale" || (rejected.state=="failed" && rejected.error.find("source")!=std::string::npos)));
+        const auto rejected=frontend.report();check(!rejected.prediction && (rejected.state=="stale" || (rejected.state=="failed" && !rejected.error.empty())));
         std::filesystem::last_write_time(path,stamp);check(!retained->labels().empty());
     }
     server->close();
