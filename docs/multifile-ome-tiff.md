@@ -91,7 +91,7 @@ alongside the corrected, scoped checks.
 
 Implementation owner: active integration worktree, MFO1 in the
 [single ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue).
-E1/E2 close the ready audit and execution-boundary repairs first. The first
+E1/E2 have completed their engineering/local checks. The first
 MFO1 code change is the compound source descriptor and codec compatibility,
 before external-file dispatch. Enumerate existing provenance/raw-archive/project
 consumers together so no older codec silently drops companions. The fixture is

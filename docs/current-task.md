@@ -6,14 +6,18 @@
   not implemented. Open-source-only reader scope remains in force.
 - Frozen TMA candidate: `19371b7`, unchanged. All original engine/Mac/portable
   jobs completed successfully; all 11 archives are size/hash/source verified.
-- Acceptance: Mac-native and portable strict audits pass. The full engine audit
-  rejects the old 17-case GUI count; the exact named contract and actual XML
-  contain 24 passing cases. Overall campaign acceptance is false; main unchanged.
-- Next action: E1/E2 in the [single ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue):
-  repair/re-audit the GUI cohort consumer and close optimized execution, stale
-  helper-bytecode and pytest-environment gaps. Reuse unchanged native products.
-  Then MFO1 completes compound source observations/codecs and the multi-file
-  workflow. E3/E4 apply only at the next affected source-proof/producer edit.
+- Acceptance: the [combined receipt](benchmarks/tma-dearray-202-qualification.json)
+  accepts engine, both Mac-native architectures and both portable builders/fresh
+  consumers at `19371b7`. The successor auditor `cc2f524` preserves the original
+  source identity and the rejected stale-count audit. Main remains unchanged.
+- E1/E2: named GUI audit repaired; early optimization refusal, source-byte helper
+  execution and pytest-environment admission implemented. All 438 local auditor
+  controls and 48 Linux stdlib boundary witnesses pass. This is tooling/local
+  verification, not a new hosted product build at the auditor revision.
+- Next action: MFO1 in the [single ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue):
+  implement bounded companion-source observations and versioned provenance/raw
+  codecs, then the complete installed multi-file OME workflow. E3/E4 attach to
+  the next affected source-proof/producer edit rather than blocking this work.
 - The [efficiency review](reviews/compilexx-efficiency-review.md) records seven
   evidence-backed improvements. Earlier sections below retain workflow history;
   use this card for current scheduling. All M0-M7 remain Partial.
@@ -262,6 +266,7 @@ not native multi-file acceptance. All original M0-M7 requirements remain active.
 The frozen TMA candidate now has [strict Mac-native acceptance](benchmarks/tma-dearray-202-macos-native.json)
 for ARM64 and x86_64, 50 suites each. Linux-only strict acceptance is retained
 locally. All original jobs and both fresh portable consumers have now completed
-successfully; the strict full engine audit rejects a stale GUI case-count check.
-See the current execution card above; no full campaign acceptance or main
-promotion is implied by these partial results.
+successfully. The original strict engine audit rejected its stale GUI count;
+the [separately identified successor audit](benchmarks/tma-dearray-202-qualification.json)
+now passes every inherited gate. The complete campaign is engineering accepted
+at `19371b7`; this does not promote main or establish biological/release support.

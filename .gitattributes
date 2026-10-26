@@ -427,3 +427,7 @@ docs/benchmarks/tma-dearray-202-macos-native.json text eol=lf
 
 # Bounded cross-project efficiency review witnesses keep their original bytes.
 docs/reviews/compilexx-206-evidence/** -text -whitespace
+
+# Integrated TMA qualification preserves all original artifact/auditor bytes.
+docs/benchmarks/tma-dearray-202-qualification/** -text -whitespace
+docs/benchmarks/tma-dearray-202-qualification.json text eol=lf

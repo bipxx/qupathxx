@@ -30,15 +30,16 @@ release status. Use the [current task](current-task.md), [workflow inventory](fe
 and [API delivery paths](api-delivery-plan.md) for exact scope and remaining work.
 All M0-M7 remain Partial.
 
-The current TMA candidate `19371b7` has terminal successful hosted jobs and
-11 verified archives; Mac-native and portable strict audits pass, but the full
-engine audit rejects a stale 17-case GUI count against the actual named 24-case
-cohort. Overall campaign acceptance remains false. Follow E1/E2 in the
-[ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue):
-repair the existing auditor, explicitly re-audit retained artifacts and close
-execution-boundary gaps before the next expensive campaign. Then complete MFO1's
-compound-source/multi-file OME workflow. E3/E4 are bounded improvements at the
-next affected owner, not a prerequisite framework. The
+The current TMA candidate `19371b7` is now engineering accepted in the
+[combined receipt](benchmarks/tma-dearray-202-qualification.json): all 11 verified
+archives pass engine, Mac-native and portable audits. Successor auditor
+`cc2f524` replaces the stale GUI aggregate count with the exact named cohort,
+retaining original artifact/source identities and the rejected predecessor.
+E1/E2 are implemented with 438 local auditor controls and 48 Linux stdlib
+boundary witnesses. Main's qualified application source remains `61e546e`.
+Continue MFO1's compound-source/multi-file OME workflow in the
+[ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue).
+E3/E4 remain bounded improvements at the next affected owner, not a framework. The
 [seven-document review](reviews/compilexx-efficiency-review.md) supplies the
 failure evidence and distinguishes recommendations from applied product fixes.
 
@@ -359,8 +360,7 @@ workflow parity.
 ## Execution order from the present state
 
 The [API delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
-is the sole detailed scheduling authority. Start with E1's saved-artifact audit
-repair and E2's small execution-boundary changes, then MFO1's complete multi-file
+is the sole detailed scheduling authority. E1/E2 now have engineering/local evidence; continue MFO1's complete multi-file
 OME workflow. Continue SCI1 and REL1 through every remaining M0-M7 criterion.
 The current task card records observed status, not another ordered backlog.
 

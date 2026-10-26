@@ -1,0 +1,19 @@
+{
+  "id": 12618523850,
+  "name": "Windows-headless-py3.11",
+  "size_in_bytes": 10925256,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12618523850",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12618523850/zip",
+  "expired": false,
+  "created_at": "2026-10-25T23:51:44Z",
+  "expires_at": "2026-11-08T23:51:42Z",
+  "updated_at": "2026-10-25T23:51:44Z",
+  "digest": "sha256:9fdf330ff32e2366356cf675a8eaa8b123fc4ed1bf80e141540ad8606425fa7e",
+  "workflow_run": {
+    "id": 40245160107,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/tma-dearray-workflow-202",
+    "head_sha": "19371b74e0fabb3a91bd77ffe67ded04f46a5220"
+  }
+}
