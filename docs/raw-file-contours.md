@@ -114,3 +114,10 @@ UI overflow. SDK/source/installed identities match. The earlier complete
 `ef23a5d` observation and screenshots remain preserved before the UI correction.
 Shared test dependencies remain; full platform, biological/resource/hardware and
 clean-machine/release acceptance are open.
+
+Three supplementary refusal cases reuse the unchanged final wheel: changed TIFF
+pixels, a genuinely retrained model and a post-ready document edit all refuse
+live replay/publication while historical geometry remains inspectable. Combined
+evidence covers 304 unique Python identities: 301 pass/three declared skips,
+including 26 new history cases. The receipt preserves original and supplementary
+observations separately; no rebuild follows a test-only addition.

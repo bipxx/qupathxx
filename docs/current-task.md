@@ -12,6 +12,9 @@ qualification remains at `61e546e`.
   new cases execute, including file/retained-record desktop and managed actions,
   source-free inspection, cropped axes, guarded replay/apply/save/reopen, quotas,
   corruption, late-file refusal and four isolated active shutdown probes.
+  Three supplementary checks on the unchanged wheel explicitly refuse changed
+  source pixels/model and a post-ready edit: combined scope is 301 passes/three
+  skips across 304 unique Python identities, including 26 new history cases.
   Five positive typing files and 20 intended errors in four negative files
   verify distinct historical/live result types and optional delivery. Source,
   packaged members/notices, dependency origins and both complete SDK trees match.

@@ -568,6 +568,35 @@
     "development/observer-sources/tests/typing/raw_stream_contour_valid.py": {
       "bytes": 1983,
       "sha256": "bd85c9f64e423ffa1cbaf0ae726ee017f84e341da75101d87cf372d8eb2d7b1a"
+    },
+    "final/replay-refusals.xml": {
+      "bytes": 644,
+      "sha256": "00b45288c4886796f9faf90d7e4414b4879d053605a6276c927a5901d4d37c55"
+    },
+    "final/replay-refusals.log": {
+      "bytes": 100,
+      "sha256": "979da8277b0a780652ca6c73d60c9fe471a054091a84e8e0956809abe8960a85"
+    },
+    "final/replay-refusals-command.json": {
+      "bytes": 1006,
+      "sha256": "b9526e6d782c863ee9cb2acfce0a365b5759c35054936c7734babb2f041994b7"
+    },
+    "final/supplementary-refusal-test-source.py": {
+      "bytes": 19978,
+      "sha256": "4f205dd79ca1c8f2674a6a456e876fdde9128dfa1a448cfe8e7f21b73496a299"
     }
+  },
+  "supplementary_refusal_controls": {
+    "passed": 3,
+    "runtime_source": "3039f0c23b274a8b0f121e48df0d290447ecf2e3",
+    "cases": [
+      "test_replay_changed_source_pixels_refuse_but_historical_geometry_remains",
+      "test_replay_changed_model_is_refused_before_job_start",
+      "test_replay_ready_result_rejects_later_document_revision"
+    ],
+    "python_unique_combined": 304,
+    "python_passed_combined": 301,
+    "new_history_cases_combined": 26,
+    "scope": "Changed TIFF pixel samples, genuinely retrained seven-tree model and post-ready document revision all refuse live replay/publication. Historical geometry remains unchanged and inspectable. Exact added tests run on the unchanged verified3039f0c wheel; no compiler-input or binary change. Original301-case cohort remains separate."
   }
 }

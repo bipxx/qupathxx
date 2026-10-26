@@ -208,3 +208,39 @@ def test_historical_and_replay_active_shutdown_in_child(case,tmp_path,mode):
     assert done.returncode==0,done.stdout+done.stderr
     result=json.loads(receipt.read_text());assert result["observed_busy"] and result["observed_state"]=="running" and result["shutdown_completed"]
     pixels.rename(tmp_path/"source-released.tif");file.rename(tmp_path/"history-released.qws")
+
+
+def test_replay_changed_source_pixels_refuse_but_historical_geometry_remains(case,tmp_path):
+    project,image,doc,_,_,_,_,limits,options=case;path,_=save(case,tmp_path);file=q.RawPixelStreamFile(str(path),limits);historical=q.trace_raw_pixel_stream_file(file,options)
+    before=[c.geometry.wkt for c in historical.contours.components];source=tmp_path/"source.qpx";project.save(str(source));pixels=Path(doc.server.source_locator);doc.server.close();original=pixels.read_bytes();changed=bytearray(original);changed[160]^=64;pixels.write_bytes(changed)
+    current=None
+    try:
+        current=q.Project.open(str(source));live_doc=current.document(image)
+        with pytest.raises((ValueError,RuntimeError)):
+            request=q.capture_raw_pixel_stream_replay(live_doc,file);result=q.trace_raw_pixel_stream_replay(request,file,options);q.publish_raw_pixel_stream_contours(live_doc,request,result)
+        assert live_doc.object_count==3
+        again=q.trace_raw_pixel_stream_file(file,options);assert [c.geometry.wkt for c in again.contours.components]==before
+    finally:
+        if current is not None:current.document(image).server.close()
+        pixels.write_bytes(original)
+
+
+def test_replay_changed_model_is_refused_before_job_start(case,tmp_path):
+    _,_,doc,root,lattice,model,stream,limits,options=case;path,_=save(case,tmp_path);file=q.RawPixelStreamFile(str(path),limits);file.verify()
+    ids=[a.id for a in doc.annotations if a.class_name in ("A","B")];selection=q.ScientificRawOptions();selection.channels=2;features=q.RawPixelFeatureOptions();features.offsets=[0,0];features.scales=[1,1]
+    table=q.sample_raw_pixel_tiled_training(q.RawPixelTiledTrainingRequest(doc,ids,lattice,selection,features));parameters=q.ForestParameters();parameters.trees=7;parameters.max_depth=3;parameters.work_bytes=2*1024**2
+    alternate=q.train_raw_pixel_tiled_classifier(table,parameters);assert alternate.sha256!=model.sha256
+    request=q.RawPixelTiledPredictionRequest(doc,alternate,lattice,stream,file.region,root)
+    with pytest.raises(ValueError):q.trace_raw_pixel_stream_replay(request,file,options)
+    job=q.RawPixelStreamContourJob()
+    with pytest.raises(ValueError):job.request_replay(request,file,options)
+    assert not job.busy and job.result is None and doc.object_count==3 and file.verified
+
+
+def test_replay_ready_result_rejects_later_document_revision(case,tmp_path):
+    _,_,doc,root,_,_,_,limits,options=case;path,_=save(case,tmp_path);file=q.RawPixelStreamFile(str(path),limits);file.verify();request=q.capture_raw_pixel_stream_replay(doc,file)
+    job=q.RawPixelStreamContourJob();assert job.request_replay(request,file,options) and job.wait(doc).state=="ready";retained=job.result;assert retained is not None
+    doc.rename_annotation(root,"edited after replay")
+    assert job.poll(doc).state=="stale" and job.result is None
+    with pytest.raises((ValueError,RuntimeError)):q.publish_raw_pixel_stream_contours(doc,request,retained)
+    assert doc.object_count==3 and doc.annotation(root).name=="edited after replay"
