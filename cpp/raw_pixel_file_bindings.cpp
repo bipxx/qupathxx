@@ -86,7 +86,7 @@ void bind_raw_pixel_files(nb::module_& m) {
     m.def("save_raw_pixel_training_checkpoint",[](const RawPixelTiledTrainingRequest& r,const std::string& p,RawPixelTrainingCheckpointOptions o){return save_raw_pixel_training_checkpoint(r,p,std::move(o));},"request"_a,"path"_a,"options"_a=RawPixelTrainingCheckpointOptions{},nb::call_guard<nb::gil_scoped_release>());
     nb::class_<RawPixelFileJobStats>(m,"RawPixelFileJobStats").def_ro("state",&RawPixelFileJobStats::state).def_ro("phase",&RawPixelFileJobStats::phase).def_ro("error",&RawPixelFileJobStats::error)
         .def_ro("generation",&RawPixelFileJobStats::generation).def_ro("total_windows",&RawPixelFileJobStats::total_windows).def_ro("completed_windows",&RawPixelFileJobStats::completed_windows).def_ro("elapsed_ms",&RawPixelFileJobStats::elapsed_ms);
-    owner_job<RawPixelStreamSaveJob>(m,"RawPixelStreamSaveJob").def("take_link",&RawPixelStreamSaveJob::take_link,"document"_a);
+    owner_job<RawPixelStreamSaveJob>(m,"RawPixelStreamSaveJob").def("take_link",qpx::bindings::job_method<&RawPixelStreamSaveJob::take_link>(),"document"_a);
     owner_job<RawPixelTrainingCheckpointJob>(m,"RawPixelTrainingCheckpointJob");
     nb::class_<PythonJob<RawPixelStreamFileReadJob>>(m,"RawPixelStreamFileReadJob").def(nb::init<>())
         .def("open",qpx::bindings::job_method<&RawPixelStreamFileReadJob::open>(),"path"_a,"limits"_a=RawPixelStreamFileLimits{})
