@@ -8,7 +8,7 @@ import numpy as np
 import pytest
 import qupathxx as q
 from qupathxx import _native
-from tests.test_raw_pixel_python import tiff
+from test_raw_pixel_python import tiff
 
 pytestmark = pytest.mark.skipif(not q.has_tiff or not q.has_project,
                                 reason="quantitative TIFF and project backends")
