@@ -661,7 +661,48 @@ parameters. Real TIFF retains mixed records, saves/reopens/recovers them and
 verifies through fresh owner jobs; stale files and historical authority reject.
 
 This is a completed sampled/trained table representation, not a training
-checkpoint. Training reservoir interruption/resume still needs all unbalanced
-candidates and counters, or deterministic admitted-prefix replay. Owner prediction
+checkpoint. Training reservoir interruption/resume now uses deterministic admitted-prefix
+replay as described below; serialized reservoir-state restore remains deferred. Owner prediction
 file adapters, installed frontends, automatic checkpoint maintenance, cross-tile
 contours and integrated/research/resource/hardware/release acceptance stay open.
+
+
+## Tiled training prefix checkpoints
+
+`raw_pixel_training_checkpoint.hpp` adds QTC1 alongside completed QTT1 archives.
+`save_raw_pixel_training_checkpoint(request, path, options, cancel)` executes at
+most `max_new_windows` beyond an optional `resume_path`. It returns historical
+checkpoint metadata, replayed-window count, and a live captured table only when
+coverage is complete. `max_new_windows=0` creates an empty checkpoint with no
+pixel IO; resuming a completed checkpoint still replays and verifies every core.
+Use `RawPixelTrainingCheckpoint.from_bytes` or `load_raw_pixel_training_checkpoint`
+for bounded historical readback; these restore no Document authority or table.
+
+QTC1 stores the original ten-scalar global geometry, existing raw source/provenance
+encoding, total/completed windows, request hash and cumulative prefix hash,
+followed by the existing SHA-256 checksum framing. Request identity binds the
+original training input header, explicit work policy, source reader/metadata
+epoch and effective calibration. The hashed training input header includes recipe, tile/sampling
+policy and ordered annotation IDs/revisions/kinds/classes/geometry. The domain
+is `qpx.raw-tiled-training-checkpoint-request/1`; each window extends
+`qpx.raw-tiled-training-prefix/1` with the previous commitment, ordered index and
+window geometry/feature-input/label/owner digest.
+
+Fresh owner capture must match the saved request and source observations before
+pixel IO. Replay uses the same global reservoir and original table input-hash
+accumulator, verifies the completed-prefix boundary, then processes new windows.
+All candidates and eligible/ambiguous counters are reconstructed before final
+balancing. Original table/hash grammars are unchanged. Source publication guards
+check actual primary/companion files again before atomic commit; source paths
+and hardlink aliases refuse output. A previous destination must be a valid QTC1
+file and remain unchanged. A destination observed absent uses no-replace commit,
+even when replacement was allowed. Cancellation/errors preserve prior commits.
+
+File metadata has independent explicit byte/work limits; replay retains ordinary
+per-window live work admission. Resume repeats prefix decoding and features:
+there is no constant-IO/time claim. A completed table can train through
+`train_raw_pixel_tiled_classifier` with explicit effective parameters; QTC1 does
+not resume interrupted forest fitting. Worker callers must join before releasing
+the borrowed reader and use existing owner verification to publish their table.
+Automatic cadence, abrupt-process/power-loss acceptance, owner file controllers,
+retained stream-file references and installed frontends remain open.

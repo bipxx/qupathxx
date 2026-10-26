@@ -40,7 +40,7 @@ no additional agent delegation is implied by this table.
 
 | Order / ID | State and owner | Easiest implementation path | Required exit evidence |
 | --- | --- | --- | --- |
-| 1 / SCI1-A: typed raw pixel classification | Owner-captured sampling/prediction accepted locally at `7beb80b`; archives/retention accepted locally at `440f610`; positive Windows training/trained archives accepted locally at `e7e4b66`; replay/bounded contour apply accepted locally at `92edba8`; sample-index windows/features accepted locally at `ae0ba29`; window models/owner prediction accepted locally at `642f728`; sparse tiled training accepted locally at `1273c3e`; bounded prediction stream/owner delivery accepted locally at `8d544eb`; prediction prefix files/hash-only resume accepted locally at `c843dfa`; sparse training archives/retention/replay accepted locally at `cc6fab4`; root owns training checkpoints and owner integration | Follow the bounded A1-A6 route below and the [numeric contract](raw-pixel-classifier.md). Reuse the feature kernel, `RawPixelRecipe`/`RawPixelClassifier`, typed sampler and existing forest/owner/source/job authorities; use `RawPixelTrainingRequest`/`RawPixelPredictionRequest` and their controllers. Next preserve/replay complete global reservoir state for training checkpoints; reuse locally verified QTT1 training archives/records and QWS1 prediction files through existing owner/frontend adapters. Preserve locally verified training, archives, live verification and bounded contour apply. Preserve both grid axes and captured document calibration. Deliver train → predict → save/reopen → resume through existing entry points | Independent feature oracle, streamed/full-window seam checks, source/model mutation and cancellation controls, persistence/legacy compatibility, installed typing and real desktop/CLI/batch outcomes at one frozen source |
+| 1 / SCI1-A: typed raw pixel classification | Owner-captured sampling/prediction accepted locally at `7beb80b`; archives/retention accepted locally at `440f610`; positive Windows training/trained archives accepted locally at `e7e4b66`; replay/bounded contour apply accepted locally at `92edba8`; sample-index windows/features accepted locally at `ae0ba29`; window models/owner prediction accepted locally at `642f728`; sparse tiled training accepted locally at `1273c3e`; bounded prediction stream/owner delivery accepted locally at `8d544eb`; prediction prefix files/hash-only resume accepted locally at `c843dfa`; sparse training archives/retention/replay accepted locally at `cc6fab4`; training prefix checkpoints/resume accepted locally at `fb7ab73`; root owns owner/frontend integration | Follow the bounded A1-A6 route below and the [numeric contract](raw-pixel-classifier.md). Reuse the feature kernel, `RawPixelRecipe`/`RawPixelClassifier`, typed sampler and existing forest/owner/source/job authorities; use `RawPixelTrainingRequest`/`RawPixelPredictionRequest` and their controllers. Reuse locally verified replay-based QTC1 training checkpoints, QTT1 training records and QWS1 prediction files through existing owner jobs and frontend adapters. Preserve locally verified training, archives, live verification and bounded contour apply. Preserve both grid axes and captured document calibration. Deliver train → predict → save/reopen → resume through existing entry points | Independent feature oracle, streamed/full-window seam checks, source/model mutation and cancellation controls, persistence/legacy compatibility, installed typing and real desktop/CLI/batch outcomes at one frozen source |
 | 2 / SCI1-B: remaining research workflows | Open; retain every M0-M7 requirement | After SCI1-A, choose the next complete workflow by dependency readiness: stitched contours; eligible vendor/whole-slide/partial-OME support; annotation/interchange; spatial queries and recorded/distributed automation. Prepare only the reference/decision inputs needed by that workflow | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
 | Alongside / DEC1: scientific and resource prerequisites | Open; user/research lead supplies decisions, root records applicability | Use the existing decision table below for dataset rights/labels, tolerances and eligible hardware. Synthetic arithmetic/engineering work proceeds; affected biological or hardware acceptance waits for its real prerequisites | Record corpus/version/rights, labels, metric/tolerance before comparison, and eligible hardware/configuration. Do not infer acceptance from synthetic tests or suite totals |
 | After applicable gates / REL1: supported release | Open; repository owner plus packaging owner | Reuse qualified artifacts; resolve project license, distribution obligations, support matrix, installers, notices, signing and clean-machine walkthroughs | Every claimed platform/workflow has scope-matched acceptance. Mac-native does not qualify Mac Python/GUI/OpenSlide. No release/PyPI/signing authorization is implied |
@@ -147,7 +147,8 @@ model file replay and atomic replacement. That receipt covers the original
 pre-release QPR1 raw model format. Candidate `220304d` now writes QRM1 and reads
 legacy raw QPR1 explicitly while retaining original bytes/hash; RGB record QPR1
 is a separate unchanged format. Project archives/retention now have the separate source440f610 local receipt;
-stream checkpoints remain open.
+stream prediction/training checkpoints have the separate local receipts below;
+owner file consumers and installed workflows remain open.
 
 The additive native `RawPixelRecipe`, `RawPixelClassifier` and
 `RawPixelClassification` reuse `ForestModel` and the quantitative kernel while
@@ -213,7 +214,7 @@ training suites with 345 matching inputs and nineteen retained executables.
 `RawPixelWindowPredictionRequest`/`Job` capture one bounded window, use original
 global centers for ROI membership and enforce source/owner publication checks.
 Metadata copy quotas and actual sampler workspace/series checks precede IO.
-Sparse owner-captured tiled training now has [local acceptance](benchmarks/raw-tiled-training-local.json) at `1273c3e`: the affected workflow suite passes on Windows GEOS-ON, Linux GEOS-OFF and Windows training-ON. Sixteen passing regressions retain source `fb7ddb0`; the final source changes only the metadata-quota test fixture. Both sources authenticate 348 compiler inputs; 22 original/final executables are retained. Bounded prediction streams now have [local acceptance](benchmarks/raw-pixel-stream-local.json) at `8d544eb`: eight selected suites each Windows/Linux and three Windows training suites pass with 352 matching inputs and nineteen retained binaries. Prediction prefix files and hash-only resume now have [local acceptance](benchmarks/raw-stream-file-local.json) at `c843dfa`: three affected workflow suites pass; sixteen regressions retain source `125afbb`. Both sources authenticate 356 inputs and 22 original/final executables are retained. QTT1 sparse training archives, project retention and fresh owner replay now have [local acceptance](benchmarks/raw-tiled-archives-local.json) at `cc6fab4`: three affected workflows pass, sixteen regressions retain `30d0659`, both sources authenticate 360 inputs and 22 binaries are retained. Training checkpoint/resume and owner/frontend integration remain open. The following
+Sparse owner-captured tiled training now has [local acceptance](benchmarks/raw-tiled-training-local.json) at `1273c3e`: the affected workflow suite passes on Windows GEOS-ON, Linux GEOS-OFF and Windows training-ON. Sixteen passing regressions retain source `fb7ddb0`; the final source changes only the metadata-quota test fixture. Both sources authenticate 348 compiler inputs; 22 original/final executables are retained. Bounded prediction streams now have [local acceptance](benchmarks/raw-pixel-stream-local.json) at `8d544eb`: eight selected suites each Windows/Linux and three Windows training suites pass with 352 matching inputs and nineteen retained binaries. Prediction prefix files and hash-only resume now have [local acceptance](benchmarks/raw-stream-file-local.json) at `c843dfa`: three affected workflow suites pass; sixteen regressions retain source `125afbb`. Both sources authenticate 356 inputs and 22 original/final executables are retained. QTT1 sparse training archives, project retention and fresh owner replay now have [local acceptance](benchmarks/raw-tiled-archives-local.json) at `cc6fab4`: three affected workflows pass, sixteen regressions retain `30d0659`, both sources authenticate 360 inputs and 22 binaries are retained. Training prefix checkpoint/resume now has [local acceptance](benchmarks/raw-training-checkpoint-local.json) at `fb7ab73`: eight Windows and eight Linux suites plus three Windows training suites pass with 363 matching inputs and 19 retained binaries. Owner/frontend integration remains open. The following
 packets refine A3-A6; they are dependencies within SCI1-A, not separate release
 milestones or hosted campaigns. Root owns implementation and integration.
 
@@ -221,13 +222,13 @@ milestones or hosted campaigns. Root owns implementation and integration.
 | --- | --- | --- |
 | T1 / locally verified owner-captured tiled training: `ScientificRawLattice`, `RawPixelTiledTrainingRequest`, table and job | Describe global dimensions/axes directly, then create bounded `ScientificRawWindow` cores. Reuse `ObjectFeatureRequest`'s immutable annotation snapshot, source guards, native spatial index, one shared deterministic reservoir and `train_forest`. Plan only tiles intersecting selected annotation bounds. Keep the new table distinct from full-grid QXT1 | Exact values, global coordinates, annotation IDs, eligible/ambiguous counts and retained rows match full-grid training for equal coverage; repeat with different tile shapes. Actual backend training/model votes agree with fixed effective parameters. Sparse large-lattice, overlap, quotas, cancellation, stale source/document, retry and backend-OFF-before-IO controls pass |
 | T2 / locally verified `RawPixelTiledPredictionRequest`, `RawPixelPredictionStream` and owner job | Compose existing window prediction/feature kernels over an explicitly bounded region or declared whole-slide traversal. Keep only a bounded number of windows and output blocks live; use global sample indices and existing owner delivery/cancellation rules. Avoid assembling a whole-slide result vector | Labels, support and votes match full-context references at fractional seams, edges, anisotropic spacing and ROI boundaries. Traversal covers each requested core once. Decode calls, peak live buffers and maximum in-flight work remain bounded as slide size grows; actual process-memory acceptance remains a separate measured gate |
-| T3 / partial: QWS1 prediction files/resume and QTT1 training records locally verified; training checkpoints open | Use existing atomic block writers and checkpoint controllers with a distinct versioned tiled-table/stream representation. Bind lattice, coverage/tile policy, feature/model identity, selected annotations, effective training parameters and source/window commitments. Restore the global reservoir state exactly or deterministically replay admitted inputs | Uninterrupted and interrupted/resumed rows and prediction blocks agree; save/reopen/replay works on real TIFF. Truncation, tampering, source/model/selection/calibration changes and cancellation reject safely. Existing RGB and full-grid QXS1/QXT1/QXP1/QXR1 meanings remain unchanged |
+| T3 / partial: QWS1 prediction files/resume, QTT1 training records and QTC1 training prefix replay locally verified; owner file jobs/references open | Use existing atomic block writers and checkpoint controllers with a distinct versioned tiled-table/stream representation. Bind lattice, coverage/tile policy, feature/model identity, selected annotations, effective training parameters and source/window commitments. Restore the global reservoir state exactly or deterministically replay admitted inputs | Uninterrupted and interrupted/resumed rows and prediction blocks agree; save/reopen/replay works on real TIFF. Truncation, tampering, source/model/selection/calibration changes and cancellation reject safely. Existing RGB and full-grid QXS1/QXT1/QXP1/QXR1 meanings remain unchanged |
 | T4 / nanobind, Python, CLI/batch, ImGui and managed viewer | Bind the stable native request/result/job once, with owning array views. Reuse current train/predict/retain/export/apply actions and batch checkpoint adapters. Generate stubs from the installed module after the interfaces settle | One real-TIFF workflow trains, predicts, saves/reopens and resumes from Python and headless paths. Desktop preview and supported apply are undoable and refuse stale output; typing, array lifetime, cancellation and shutdown pass. Cross-tile contour apply must wait for its separate stitching acceptance |
 | T5 / integrated engineering qualification | Preflight producer, fixture, manifest and auditor closure, freeze one complete T1-T4 source, then use the required platform profile. Preserve all inherited named cohorts and receipt rules | Scope-matched native/installed/desktop/persistence gates pass at the frozen source; platform/backend omissions stay explicit. Independent biological/model, hardware and release gates keep their own acceptance |
 
 ### T1 implementation decisions
 
-The lattice, sparse request/table/job and shared full/tiled reservoir are native APIs at `1273c3e`, with the local receipt above. They have no installed Python/frontend acceptance yet; tiled-table archives gained separate local acceptance at `cc6fab4`. T1/T2 pass their local native exit checks; T3 prediction persistence/resume is locally verified, with training checkpoints next. The initial three workflow failures came from a fixture retaining oversized string capacity after text restoration; restoring the original vector allocation corrected that test. Original failures, source identities and passing regressions remain separate evidence.
+The lattice, sparse request/table/job and shared full/tiled reservoir are native APIs at `1273c3e`, with the local receipt above. They have no installed Python/frontend acceptance yet; tiled-table archives gained separate local acceptance at `cc6fab4`. T1/T2 pass their local native exit checks; T3 prediction persistence/resume is locally verified, with replay-based training checkpoints now locally verified and owner file consumers next. The initial three workflow failures came from a fixture retaining oversized string capacity after text restoration; restoring the original vector allocation corrected that test. Original failures, source identities and passing regressions remain separate evidence.
 
 - **Sparse planning:** find global sample-center ranges intersecting each selected
   ROI's bounds using monotone binary search on the original rational axes. Union
@@ -316,47 +317,55 @@ Project save/open, background snapshots and recovery preserve bytes. Every
 selected annotation ID must fit a record's captured bounds, even when it supplied
 no retained rows; both full and tiled consumers now use that shared check.
 
-Next implement training interruption/resume. Preserve the complete per-class
-reservoir and eligible/ambiguous counters exactly, or deterministically replay
-admitted prefix inputs. A completed balanced QTT1 table cannot reconstruct
+Training interruption/resume is locally verified through prefix replay below.
+The alternative state-restoration route would preserve the complete per-class
+reservoir and eligible/ambiguous counters exactly. A completed balanced QTT1 table cannot reconstruct
 candidates discarded by balancing and must not be used as checkpoint state.
 Keep original input/hash semantics and current source/model/annotation authority.
 Then add native owner prediction-file export/read/retain adapters and T4 installed
 frontends before the T5 integrated freeze. Automatic checkpoint maintenance and
 broader crash/power-loss acceptance remain separate work.
 
-### Next implementation packet: replay-based training checkpoints
+### T3 training checkpoint acceptance and next consumer packet
 
-Start with deterministic prefix replay through the existing tiled sampler and
+The [QTC1 receipt](benchmarks/raw-training-checkpoint-local.json) accepts `fb7ab73`.
+The implementation uses deterministic prefix replay through the existing tiled sampler and
 shared reservoir. This is the simplest compatible route: it preserves the
 current selection and input-hash grammar without serializing platform hash
 state. Resume repeats prefix decoding and feature extraction; it is bounded in
 memory, not constant in IO or elapsed time. Defer fast reservoir-state restore
 until measured replay cost justifies its additional format and validation work.
 
-1. **Native checkpoint contract:** add a distinct versioned training checkpoint
-   beside QTT1, using existing bounded codecs and atomic file commits. Capture
+1. **Native checkpoint contract (locally verified):**
+   `RawPixelTrainingCheckpoint.from_bytes` and
+   `load_raw_pixel_training_checkpoint` read distinct QTC1 historical metadata.
+   `save_raw_pixel_training_checkpoint` reuses bounded codecs and atomic commits. Capture
    recipe/lattice, ordered sparse coverage, tile and sampling options, immutable
    annotation identities/geometry, source observations and completed-window
-   prefix commitments. Record effective forest parameters when training is part
-   of the requested workflow. Do not freeze new public names before tracing the
-   existing request/job and file consumers.
-2. **Resume execution:** recapture the request on the document owner; reject
+   prefix commitments. Checkpoint execution returns a table only at complete coverage; the caller
+   supplies explicit forest parameters to the existing training function afterward.
+   Interrupted forest fitting is not saved by QTC1.
+2. **Resume execution (locally verified):** recapture the request on the document owner; reject
    changed selection, geometry, options or source observations before pixel IO.
    Replay completed windows into the same global reservoir and hash accumulator,
-   validate their commitments, then continue the suffix. Recheck actual files and
-   owner state before publishing. Apply normal per-window work admission during
+   validate their commitments, then continue the suffix. Recheck actual files before committing. Owner controllers must additionally
+   check the current document before exposing a returned table. Apply normal per-window work admission during
    replay; cancellation or errors preserve the previous committed checkpoint.
-3. **Decisive local checks:** compare uninterrupted and multi-stage resumed
+3. **Decisive local checks (passed across the three configurations):** compare uninterrupted and multi-stage resumed
    tables bit-for-bit, including coordinates, owners, counts and input/result
    hashes. Cover balanced/unbalanced sampling and an actual trained backend with
    identical effective parameters. Use real TIFF close/reopen, changed decoded
-   input/annotations/calibration, malformed or truncated prefixes, cancellation,
+   input/sampling-seed/calibration, malformed or truncated prefixes, cancellation,
    output aliases and concurrent destination changes. Preserve original failures;
    run only affected suites on the existing three configurations.
-4. **Consumer handoff:** once that contract passes, add native owner file jobs
+4. **Next consumer handoff:** add native owner checkpoint/export/read jobs
    and retained prediction-file references with explicit external-file lifetime
-   rules. Bind stable APIs once via nanobind, then reuse them in Python, CLI/batch
+   rules. Keep worker results private until fresh owner/document/file checks pass;
+   cancel and join before releasing borrowed readers, and preserve the prior
+   committed checkpoint on failure. Reuse one-slot delivery and existing QWS1
+   verification instead of decoding an entire stream on the UI thread. Resolve
+   whether project save copies or references external output before adding record
+   persistence; test missing/moved/tampered files and snapshot/recovery behavior. Bind stable APIs once via nanobind, then reuse them in Python, CLI/batch
    and ImGui/viewer actions. Exercise one installed train/predict/save/reopen/resume
    workflow before freezing the integrated qualification source. Keep stitched
    contour apply behind its separate acceptance gate.

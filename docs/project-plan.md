@@ -40,6 +40,16 @@ and portable builders/fresh consumers on the original handles. E1/E2 and the
 later E3/E4 tooling keep their own implementation/local evidence and are included
 in that source. Preserve the earlier partial observation and every source identity.
 
+The latest native classifier packet is [QTC1 training prefix checkpoint/replay](benchmarks/raw-training-checkpoint-local.json)
+at `fb7ab73`: eight suites each Windows/Linux and three Windows training suites
+pass, with 363 matching compiler inputs and nineteen retained binaries.
+Balanced/unbalanced resumed tables/hashes and fixed-parameter backend models
+match uninterrupted execution; real TIFF resumes after close/reopen. Prefix
+replay repeats IO/features. Next deliver native owner file jobs/references and
+installed frontend workflows, then freeze one integrated qualification source.
+Forest-fitting interruption, automatic maintenance and broader crash acceptance
+remain open. This is local engineering evidence, not milestone completion.
+
 The next product workflow is [typed raw pixel classification](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
 Native features, reusable models and bounded owner-captured annotation
 sampling/prediction jobs have [local acceptance at `7beb80b`](benchmarks/raw-pixel-workflows-local.json).
@@ -78,8 +88,8 @@ sampled/trained QTT1 archives, retention and fresh replay now have [local eviden
 at `cc6fab4`: three affected workflows, sixteen regressions at `30d0659`, 360
 matching inputs and 22 retained original/final binaries. Mixed full/tiled project,
 snapshot/recovery readback, historical-authority refusal and all-selected ID bounds
-pass through the existing QXR1 wrapper/schema 13. Next finish training checkpoints,
-native owner file adapters and installed frontends. Automatic checkpoint maintenance and broader
+pass through the existing QXR1 wrapper/schema 13. Training prefix checkpoints now have the later acceptance above; next finish
+native owner file/checkpoint adapters and installed frontends. Automatic checkpoint maintenance and broader
 crash/power-loss acceptance remain open. The
 API plan's T1-T5 table defines shared implementations, resource limits and evidence.
 Cross-tile contours, integrated

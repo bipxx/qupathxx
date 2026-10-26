@@ -1,0 +1,176 @@
+{
+  "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+  "binaries": [
+    {
+      "host": "windows",
+      "suite": "pixel_features",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/windows/qupathxx_pixel_feature_tests.exe",
+      "bytes": 1650176,
+      "sha256": "864ca22283fc2db902e22c4c476ad9accaa28ac0c7200b84ebbe978f6ab8d2ef"
+    },
+    {
+      "host": "windows",
+      "suite": "pixel_workflows",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 3990528,
+      "sha256": "4532cb8f89c7b48621d83c31964529577484a2b1ff4dcc58699f05ee8f54e3fc"
+    },
+    {
+      "host": "windows",
+      "suite": "project",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/windows/qupathxx_project_tests.exe",
+      "bytes": 2866176,
+      "sha256": "7360f063dce80b624d0e318f7d99599983e21ac190cf5e8a749e719a0353830a"
+    },
+    {
+      "host": "windows",
+      "suite": "project_save",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/windows/qupathxx_save_tests.exe",
+      "bytes": 2631680,
+      "sha256": "50bae9c240cb5299a445a7482ea9cf3d528e74b1ab08a1fbb11629034612d771"
+    },
+    {
+      "host": "windows",
+      "suite": "provenance",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/windows/qupathxx_provenance_tests.exe",
+      "bytes": 1623040,
+      "sha256": "e799ba103a6807ec248e208f8287a3ba66da950d4bb6db4303ad1c283d33a852"
+    },
+    {
+      "host": "windows",
+      "suite": "raw_image",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/windows/qupathxx_raw_image_tests.exe",
+      "bytes": 3429376,
+      "sha256": "293c520af7e6e8932331a4455702e4abe21a5972de0d7e376425d4bb1489fdb6"
+    },
+    {
+      "host": "windows",
+      "suite": "resampling",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/windows/qupathxx_resampling_tests.exe",
+      "bytes": 2338816,
+      "sha256": "817a5f19ba046f44b673548ced502511983cedcdd1f6ad617a247c6d229fd6bf"
+    },
+    {
+      "host": "windows",
+      "suite": "source_identity",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/windows/qupathxx_source_identity_tests.exe",
+      "bytes": 1511936,
+      "sha256": "4dd9d1259bb60a8d6d60e7061d25c5ea021b00a7effd572db948851daf891add"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_features",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/linux/qupathxx_pixel_feature_tests",
+      "bytes": 2842368,
+      "sha256": "0b3438f6dc7579569ad0e9b578e261b456c70de9552e4d9a6232e39a38ad2ad1"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_workflows",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 7609904,
+      "sha256": "017aa830c6ed00dc0bf5b25a2dbc9e95524754f646ae77b922027e6e0a155834"
+    },
+    {
+      "host": "linux",
+      "suite": "project",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/linux/qupathxx_project_tests",
+      "bytes": 6057976,
+      "sha256": "60f99482d21a062bfc778d12988154318aa352ec4826b62ea66b41cfb9d287c1"
+    },
+    {
+      "host": "linux",
+      "suite": "project_save",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/linux/qupathxx_save_tests",
+      "bytes": 6083512,
+      "sha256": "421681bf079824d791efb37a1631d7704572e4202997248527bdd786117446b9"
+    },
+    {
+      "host": "linux",
+      "suite": "provenance",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/linux/qupathxx_provenance_tests",
+      "bytes": 4552776,
+      "sha256": "a0b5e538483247d9858c60199b563b8836e954797b663fb51e6270ba5fa6d285"
+    },
+    {
+      "host": "linux",
+      "suite": "raw_image",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/linux/qupathxx_raw_image_tests",
+      "bytes": 6738424,
+      "sha256": "78901532458b92b6a735d33beca02935c8d03ba3e7fd8416e64af7e55230d9ce"
+    },
+    {
+      "host": "linux",
+      "suite": "resampling",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/linux/qupathxx_resampling_tests",
+      "bytes": 5507176,
+      "sha256": "ef704c48893c9063370e4ec5f75900724c016f454296ef50546e3bcd56e76dd7"
+    },
+    {
+      "host": "linux",
+      "suite": "source_identity",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/linux/qupathxx_source_identity_tests",
+      "bytes": 2567480,
+      "sha256": "8e4875888a8e8ced07c81f0b9669920268ed685f257505ecc3ddaa5d26a4f8ce"
+    },
+    {
+      "host": "training",
+      "suite": "classifier",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/training/qupathxx_classifier_tests.exe",
+      "bytes": 1389568,
+      "sha256": "394aac5abacd8f78a067095a5776928de73861f631c8fc3339ff060564629581"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_features",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/training/qupathxx_pixel_feature_tests.exe",
+      "bytes": 2475520,
+      "sha256": "352745e85b7ecfc82a9fb4c4dd07bf4502e0db1cf06e0519ca225c7ef3d46b0a"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_workflows",
+      "source": "fb7ab73a8d08fab31f4c0517ad6618c44316de85",
+      "fingerprint": "00a97e4db9fb8eea0d85f46191890699f73fb95cf9dc01129c4bb0fa16e98043",
+      "path": "build/trainingcheckpoint226-retained-binaries/training/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 5191168,
+      "sha256": "8f893eac23d729346439ae071bff641a986c87f0f586b4539fe63c6deda9c71f"
+    }
+  ]
+}

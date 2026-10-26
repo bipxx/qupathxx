@@ -2,30 +2,34 @@
 
 ## Current execution card (2026-10-26)
 
-- Latest native delivery: QTT1 sparse training/trained archives and retention
-  at `cc6fab4` have [local acceptance](benchmarks/raw-tiled-archives-local.json).
-  The affected workflow passes on Windows GEOS-ON, Linux GEOS-OFF and Windows
-  training-ON; 360 compiler inputs match across all three. Sixteen regressions
-  retain `30d0659`; original three workflow failures and 22 original/final binaries
-  are preserved. The fixture placed an unused ROI outside the image; the successor
-  changes only that fixture to a valid in-image region containing no sample centers.
-- Native QTT1 tables preserve original global coordinates, classes, annotation
-  revisions/kinds/geometry, counts, recipe/source/model identities and row bits.
-  Historical decode restores no capture. Fresh owner replay and verification,
-  trained-model reload, mixed full/tiled project saves, snapshots/recovery and
-  stale-file refusal pass. All selected IDs are checked against record bounds,
-  including annotations with no sampled rows; source/alias outputs also refuse.
-  Legacy QXT1/QXP1/QXR1 and SQL schema 13 retain their grammars.
-- Next: training checkpoints via deterministic bounded prefix replay (extra
-  decoding/features on resume), then native owner prediction-file
-  export/read/retain adapters and T4 installed Python/CLI/batch/ImGui/viewer paths.
-  T3 remains Partial; a balanced final table is not a resumable reservoir snapshot.
-  T5 integrated qualification follows the [single queue](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
-  Automatic checkpoint maintenance, broader crash/power-loss, independent research/
-  resource/hardware/release acceptance remain open. All M0-M7 remain Partial;
-  public main and the user's divergent root branch are unchanged.
+- Latest native delivery: QTC1 training prefix checkpoint/resume at `fb7ab73` has
+  [local acceptance](benchmarks/raw-training-checkpoint-local.json). Eight selected
+  suites each Windows GEOS-ON/Linux GEOS-OFF and three Windows training-ON suites
+  pass; 363 compiler inputs match across all three, with 19 retained binaries.
+- Resume replays completed cores through the existing sampler/features/global
+  reservoir and original input hash, checks the saved commitment, then advances.
+  Balanced/unbalanced rows, owners, counts, hashes and final checkpoint bytes
+  match uninterrupted execution. Real TIFF closes/reopens into a fresh capture;
+  actual backend models agree with identical explicit effective parameters.
+  Partial checkpoints publish no table and historical decode restores no authority.
+- Resume repeats prefix IO/features under normal window admission. The synchronous
+  native API supplies successful explicit commit points; forest fitting itself,
+  automatic maintenance and abrupt-process/power-loss acceptance remain open.
+- Next: native owner prediction-file export/read/retain adapters and training
+  checkpoint jobs, then T4 installed nanobind/Python/CLI/batch/ImGui/viewer paths.
+  T3 remains Partial until those consumers are delivered; T5 integrated
+  qualification follows the [single queue](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
+  All M0-M7 remain Partial. Independent scientific/resource/hardware/release gates
+  and open-source-only reader/codec admission are unchanged.
 
 ## Preserved local baselines
+
+- QTT1 sparse training/trained archives and retention at `cc6fab4` have
+  [local acceptance](benchmarks/raw-tiled-archives-local.json): three affected
+  workflows, sixteen regressions at `30d0659`, 360 matching inputs and 22 retained
+  original/final binaries. Mixed full/tiled project/snapshot/recovery readback,
+  historical-authority refusal, all-selected record bounds and fresh owner
+  replay remain source-bound baselines. Original fixture failures are preserved.
 
 - QWS1 prediction files/hash-only prefix resume at `c843dfa` have
   [local acceptance](benchmarks/raw-stream-file-local.json): three affected

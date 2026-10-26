@@ -516,3 +516,7 @@ docs/benchmarks/raw-stream-file-local.json -text -whitespace
 # Sparse raw tiled archive evidence retains exact source-bound bytes.
 docs/benchmarks/raw-tiled-archives-local/** -text -whitespace
 docs/benchmarks/raw-tiled-archives-local.json -text -whitespace
+
+# Training checkpoint evidence preserves exact source-bound bytes.
+docs/benchmarks/raw-training-checkpoint-local/** -text -whitespace
+docs/benchmarks/raw-training-checkpoint-local.json -text -whitespace
