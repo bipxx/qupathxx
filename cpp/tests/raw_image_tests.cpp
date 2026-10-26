@@ -1,4 +1,5 @@
 #include "qupathxx/raw_image.hpp"
+#include "qupathxx/source_identity.hpp"
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/project_batch.hpp"

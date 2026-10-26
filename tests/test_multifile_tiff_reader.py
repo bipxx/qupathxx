@@ -122,3 +122,64 @@ def test_invalid_fileset_is_refused(corpus,failure):
         tifffile.tiffcomment(path,xml)
     with pytest.raises((RuntimeError,ValueError,IndexError)):
         q.open_tiff(str(primary))
+
+
+@pytest.mark.skipif(not q.has_project,reason='project support')
+@pytest.mark.parametrize('grid',[False,True])
+def test_project_restart_retains_compound_raw_archive_and_explicit_replay(corpus,tmp_path,grid):
+    import sqlite3
+    directory,_=corpus;project=q.Project();image=project.add_tiff_image(str(directory/fixture.FILES[0]))
+    doc=project.document(image);obj=doc.add_rectangle(q.Rect(0,0,19,17),'Independent compound ROI')
+    view=doc.server.tiff_view;view.z=view.t=1;view.channels=[1,0,-1];doc.set_tiff_view(view)
+    if grid:
+        sampling=q.RawGridSampling();sampling.samples_x=19;sampling.samples_y=17
+        options=q.ScientificRawOptions();options.channels=2;options.z=1;options.t=1
+        capture=q.RawAnalysisRequest.for_grid_roi(doc,obj,sampling,options)
+    else: capture=q.RawAnalysisRequest(doc,request(19,17,z=1,t=1),obj,tile_size=16)
+    result=q.analyze_raw(capture);record=doc.keep_raw_analysis(capture,result)
+    assert result.source.scope=='compound_files' and len(result.source.companions)==1
+    np.testing.assert_allclose(result.statistics.means,[fixture.values(1,1,c).mean() for c in range(2)],rtol=0,atol=1e-10)
+    path=tmp_path/'compound.qpxproj';project.save(str(path))
+    with sqlite3.connect(path) as db:
+        original=db.execute('SELECT payload FROM raw_analysis_records').fetchone()[0]
+        assert original[:4]==(b'QRA\x04' if grid else b'QRA\x03')
+    restored=q.Project.open(str(path));current=restored.document(image)
+    assert current.server.reader_source.scope=='unopened'
+    assert current.server.raw_metadata.channels==2
+    assert current.server.reader_source.scope=='compound_files'
+    assert current.server.tiff_view.channels==[1,0,-1] and current.server.tiff_view.z==1
+    assert current.raw_analysis_status(record)=='unverified'
+    replay=q.RawAnalysisRequest.replay(current,record);proof=q.analyze_raw(replay)
+    assert proof.input_sha256==result.input_sha256 and current.verify_raw_analysis(record,replay,proof)
+    assert current.raw_analysis_status(record)=='current'
+    restored.save(str(path))
+    with sqlite3.connect(path) as db: assert db.execute('SELECT payload FROM raw_analysis_records').fetchone()[0]==original
+
+
+@pytest.mark.skipif(not q.has_project,reason='project support')
+def test_project_relocation_and_explicit_relink_resolve_companions_again(corpus,tmp_path):
+    import shutil
+    directory,_=corpus;project=q.Project();image=project.add_tiff_image(str(directory/fixture.FILES[0]))
+    view=project.document(image).server.tiff_view;view.z=view.t=1;project.set_tiff_view(image,view)
+    path=tmp_path/'linked.qpxproj';project.save(str(path));project.document(image).server.close()
+    moved=tmp_path/'moved';shutil.move(str(directory),moved)
+    restored=q.Project.open(str(path));restored.relink(image,str(moved/fixture.FILES[0]))
+    server=restored.document(image).server
+    assert server.raw_metadata.channels==2
+    assert len(server.reader_source.companions)==1 and Path(server.reader_source.companions[0].path).is_relative_to(moved)
+    np.testing.assert_array_equal(server.read_raw(request(19,17,z=1,t=1)).numpy()[...,1],fixture.values(1,1,1))
+
+
+@pytest.mark.skipif(not q.has_project,reason='project support')
+def test_compound_batch_checkpoint_and_resume(corpus,tmp_path):
+    directory,_=corpus;project=q.Project();image=project.add_tiff_image(str(directory/fixture.FILES[0]))
+    doc=project.document(image);doc.add_rectangle(q.Rect(0,0,19,17),'Compound batch ROI')
+    view=doc.server.tiff_view;view.z=view.t=1;doc.set_tiff_view(view)
+    options=q.ProjectBatchOptions();options.kind=q.ProjectBatchKind.RAW;options.raw.channels=2;options.roi_tile_size=16
+    capture=q.ProjectBatchRequest(project,q.StainTransform([[1,0,0],[0,1,0]]),options=options)
+    output=str(tmp_path/'batch')
+    first=q.run_project_batch(capture,output);assert first.state=='succeeded',first.error
+    kept=q.Project.open(first.images[0].path).document(image).raw_analysis_records[0].result
+    assert kept.source.scope=='compound_files' and len(kept.source.companions)==1
+    np.testing.assert_allclose(kept.statistics.means,[fixture.values(1,1,c).mean() for c in range(2)],rtol=0,atol=1e-10)
+    again=q.run_project_batch(capture,output);assert again.state=='succeeded' and again.reused==1
