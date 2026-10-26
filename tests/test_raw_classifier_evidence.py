@@ -182,7 +182,7 @@ else:raise SystemExit('false acceptance')
     assert done.returncode==0 and done.stdout.strip()=='rejected',done.stderr
 
 
-@pytest.mark.parametrize('full,suite,marker',[(full,suite,marker) for full in [False,True] for suite,markers in evidence.CONTRACT['native_full' if full else 'native_disabled'].items() for marker in markers])
+@pytest.mark.parametrize('full,suite,marker',[(full,suite,marker) for full in [False,True] for group in ['native_base','native_full' if full else 'native_disabled'] for suite,markers in evidence.CONTRACT[group].items() for marker in markers])
 def test_each_native_semantic_marker_is_required(full,suite,marker):
     cases=native_cases(full)
     case=next(c for c in cases if c.get('name')==suite)
