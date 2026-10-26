@@ -70,9 +70,9 @@ def main():
                 if 'def valid_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint8]:')
                 if 'def vote_fractions_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
             raw_nullable={
-                'GuiRawPixelReport':['RawPixelClassifier','RawPixelArchive','RawPixelTrainingCheckpoint','RawPixelWindowClassification','RawPixelStreamLink','RawPixelContours'],
+                'GuiRawPixelReport':['RawPixelStreamContours','RawPixelClassifier','RawPixelArchive','RawPixelTrainingCheckpoint','RawPixelWindowClassification','RawPixelStreamLink','RawPixelContours'],
                 'GuiReport':['GuiRawPixelReport'],
-                'ViewerEvent':['RawPixelArchive','RawPixelTrainingCheckpoint','RawPixelWindowClassification','RawPixelStreamLink','RawPixelContours'],
+                'ViewerEvent':['RawPixelStreamContours','RawPixelArchive','RawPixelTrainingCheckpoint','RawPixelWindowClassification','RawPixelStreamLink','RawPixelContours'],
                 'RawPixelTrainingJob':['RawPixelTrainingTable','RawPixelClassifier'],
                 'RawPixelTiledTrainingJob':['RawPixelTiledTrainingTable','RawPixelClassifier'],
                 'RawPixelPredictionJob':['RawPixelClassification'],

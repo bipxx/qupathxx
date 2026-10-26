@@ -16,8 +16,8 @@
 namespace qpx {
 namespace {
 using Clock=std::chrono::steady_clock;
-enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close,RawMetadata,RawRegion,TiffView,RawAnalyze,RawVerify,RawTable,TmaAxis,TmaDearray,RawPixelTrain,RawPixelPredict,RawPixelExport,RawPixelRead,RawPixelContours};
-const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close","raw_metadata","raw_region","tiff_view","raw_analyze","raw_verify","raw_table","tma_axis","tma_dearray","raw_pixel_train","raw_pixel_predict","raw_pixel_export","raw_pixel_read","raw_pixel_contours"};return values[static_cast<int>(a)];}
+enum class Action {Catalog,Inspect,Execute,Select,Activate,Region,Analyze,Tissue,Cells,Measurements,CellTable,Save,Close,RawMetadata,RawRegion,TiffView,RawAnalyze,RawVerify,RawTable,TmaAxis,TmaDearray,RawPixelTrain,RawPixelPredict,RawPixelExport,RawPixelRead,RawPixelContours,RawPixelStreamContours};
+const char* name(Action a) {static const char* values[]={"catalog","inspect","execute","select","activate","region","analyze","tissue","cells","measurements","cell_table","save","close","raw_metadata","raw_region","tiff_view","raw_analyze","raw_verify","raw_table","tma_axis","tma_dearray","raw_pixel_train","raw_pixel_predict","raw_pixel_export","raw_pixel_read","raw_pixel_contours","raw_pixel_stream_contours"};return values[static_cast<int>(a)];}
 bool terminal(const std::string& state) {return state!="queued" && state!="running";}
 std::string error_text(const std::exception& e) {std::string text=e.what();try {detail::bounded_utf8(text,8192);}catch(...) {return "viewer operation failed (invalid or oversized error text)";}return text;}
 struct TmaAxisCommand {bool column=false,remove=false,missing=false;std::size_t index=0;std::optional<std::vector<Rect>> bounds;};
@@ -33,6 +33,7 @@ struct Command {
     std::optional<ScientificRawLattice> raw_pixel_lattice;
     std::optional<ScientificRawWindow> raw_pixel_window;
     std::optional<ScientificGrid> raw_pixel_grid;TissueContourOptions raw_pixel_contours;
+    RawPixelStreamContourOptions raw_stream_contours;std::optional<RawPixelStreamRegion> raw_contour_region;
     RawPixelStreamOptions raw_pixel_stream;RawPixelStreamSaveOptions raw_pixel_save;
     RawPixelStreamFileLimits raw_pixel_limits;double raw_pixel_vote=0;std::size_t raw_pixel_work=16u*1024*1024;std::uint64_t raw_pixel_index=0;
     RoiSamplingPolicy sampling_policy=RoiSamplingPolicy::GeometryCoverage;
@@ -62,6 +63,7 @@ std::size_t payload(const ViewerEvent& e) {
     if(e.raw_pixel_prediction) n+=sizeof(RawPixelWindowClassification)+e.raw_pixel_prediction->labels().capacity()*4+e.raw_pixel_prediction->vote_fractions().capacity()*4+e.raw_pixel_prediction->valid().capacity()+e.raw_pixel_prediction->class_counts().capacity()*8+512;
     if(e.raw_pixel_link) n+=e.raw_pixel_link->payload_bytes();
     if(e.raw_pixel_contours) n+=e.raw_pixel_contours->payload_bytes();
+    if(e.raw_pixel_stream_contours) n+=e.raw_pixel_stream_contours->payload_bytes();
     if(e.raw_analysis) n+=e.raw_analysis->payload_bytes();
     if(e.tma_dearray)n+=e.tma_dearray->payload_bytes();
     if(e.raw_pixels) n+=sizeof(RawPixelBuffer)+64+e.raw_pixels->payload_bytes();if(e.raw_metadata) n+=e.raw_metadata->payload_bytes();return n;
@@ -182,6 +184,10 @@ std::uint64_t ViewerSession::contour_raw_pixels(std::uint64_t image,const RawPix
     options.validate();detail::bounded_utf8(prefix,256);if(prefix.empty() || !std::isfinite(vote) || vote<0 || vote>1 || work<1024*1024 || work>1024ULL*1024*1024) throw std::invalid_argument("invalid raw contour options");
     Command c(Action::RawPixelContours);c.image=image;c.object=object;c.raw_pixel_model=model;c.raw_pixel_grid=std::move(grid);c.raw_pixel_contours=options;c.flag=apply;c.raw_pixel_vote=vote;c.raw_pixel_work=work;c.text=prefix;c.revision=revision;return impl_->submit(std::move(c));
 }
+std::uint64_t ViewerSession::contour_raw_pixel_stream(std::uint64_t image,const RawPixelClassifier& model,ScientificRawLattice lattice,RawPixelStreamOptions stream,RawPixelStreamContourOptions options,std::optional<RawPixelStreamRegion> region,std::uint64_t object,bool apply,const std::string& prefix,std::optional<std::uint64_t> revision) {
+    stream.validate();options.validate();detail::bounded_utf8(prefix,256);if(prefix.empty()) throw std::invalid_argument("raw streamed contour prefix is empty");
+    Command c(Action::RawPixelStreamContours);c.image=image;c.object=object;c.raw_pixel_model=model;c.raw_pixel_lattice=std::move(lattice);c.raw_pixel_stream=stream;c.raw_stream_contours=options;c.raw_contour_region=region;c.flag=apply;c.text=prefix;c.revision=revision;return impl_->submit(std::move(c));
+}
 std::uint64_t ViewerSession::read_raw_pixel_stream(std::uint64_t image,const std::string& path,std::uint64_t index,RawPixelStreamFileLimits limits,std::uint64_t record,bool retain) {
     limits.validate();if(record && !path.empty()) throw std::invalid_argument("Choose a raw file path or retained record, not both");if(!record && path.empty()) throw std::invalid_argument("raw stream path or record is required");
     Command c(Action::RawPixelRead);c.image=image;c.text=path.empty()?path:detail::export_path(path);c.after=record;c.raw_pixel_index=index;c.raw_pixel_limits=limits;c.flag=retain;return impl_->submit(std::move(c));
@@ -244,14 +250,15 @@ struct ViewerOwner::Impl {
                 if(report.state=="failed" || report.state=="cancelled" || report.state=="stale") {e.state=report.state;complete(w.ticket,std::move(e));work.reset();return;}
                 if(command.action==Action::RawPixelTrain) {e.raw_pixel_training=report.training;e.raw_pixel_checkpoint=report.checkpoint;e.rows=report.training?report.training->tiled_table()->row_count():0;e.path=command.raw_pixel_settings->checkpoint_path;e.committed=bool(report.checkpoint);}
                 else if(command.action==Action::RawPixelPredict) e.raw_pixel_prediction=report.prediction;
-                else if(command.action==Action::RawPixelContours) {
-                    if(!report.contours) throw std::runtime_error("Raw contours completed without geometry");
-                    e.path.clear();e.raw_pixel_contours=report.contours;e.components=report.contours->contours()->components().size();
+                else if(command.action==Action::RawPixelContours || command.action==Action::RawPixelStreamContours) {
+                    const auto geometry=command.action==Action::RawPixelStreamContours?(report.stream_contours?report.stream_contours->contours():nullptr):(report.contours?report.contours->contours():nullptr);
+                    if(!geometry) throw std::runtime_error("Raw contours completed without geometry");
+                    e.path.clear();e.raw_pixel_contours=report.contours;e.raw_pixel_stream_contours=report.stream_contours;e.components=geometry->components().size();
                     if(command.flag) {if(e.components>state->limits.max_edits) throw std::length_error("raw contour apply exceeds viewer edit limit");e.object_ids.resize(e.components);}
                 }
                 else {e.raw_pixel_link=report.link;e.raw_pixel_prediction=report.historical;e.verified=bool(report.link);e.committed=command.action==Action::RawPixelExport && bool(report.link);}
                 e.state=report.state=="partial"?"partial":"succeeded";reserve(w.ticket,e);
-                if(command.action==Action::RawPixelContours && command.flag) {const auto& ids=w.raw_pixel->publish(*doc,command.text);std::copy(ids.begin(),ids.end(),e.object_ids.begin());e.committed=true;}
+                if((command.action==Action::RawPixelContours || command.action==Action::RawPixelStreamContours) && command.flag) {const auto& ids=w.raw_pixel->publish(*doc,command.text);std::copy(ids.begin(),ids.end(),e.object_ids.begin());e.committed=true;}
                 else if(command.flag) {if(command.action==Action::RawPixelTrain && report.training) e.record_id=w.raw_pixel->keep_training(*doc);else if(report.link) e.record_id=w.raw_pixel->keep_link(*doc);}
                 e.committed=e.committed || bool(e.record_id);e.document_revision=doc->revision();e.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-w.started).count();complete(w.ticket,std::move(e));
             }catch(const std::exception& error) {failure(w.ticket,error_text(error));}work.reset();return;
@@ -314,10 +321,11 @@ struct ViewerOwner::Impl {
         auto pending=std::make_unique<Work>();pending->ticket=ticket;pending->command=std::move(command);pending->seed=e;pending->started=started;pending->cycle=cycle;auto& cmd=*pending->command;
         if(cmd.action==Action::Save) {if(!c.save(cmd.text)) throw std::runtime_error("a GUI save is already running");work=std::move(pending);return;}
         if(cmd.action==Action::Activate) {c.activate(e.image_id);work=std::move(pending);return;}
-        if(cmd.action==Action::RawPixelTrain || cmd.action==Action::RawPixelPredict || cmd.action==Action::RawPixelExport || cmd.action==Action::RawPixelRead || cmd.action==Action::RawPixelContours) {
+        if(cmd.action==Action::RawPixelTrain || cmd.action==Action::RawPixelPredict || cmd.action==Action::RawPixelExport || cmd.action==Action::RawPixelRead || cmd.action==Action::RawPixelContours || cmd.action==Action::RawPixelStreamContours) {
             if(cmd.revision && *cmd.revision!=doc->revision()) {failure(ticket,"document revision changed","stale");return;}
             pending->raw_pixel=std::make_unique<RawPixelFrontend>();pending->raw_pixel_document=doc;
             if(cmd.action==Action::RawPixelTrain) {if(!cmd.raw_pixel_settings->checkpoint_path.empty()) guard_raw_pixel_frontend_output(c.project.get(),cmd.raw_pixel_settings->checkpoint_path);pending->raw_pixel->train(*doc,cmd.ids,*cmd.raw_pixel_settings);}
+            else if(cmd.action==Action::RawPixelStreamContours) pending->raw_pixel->trace_stream(*doc,*cmd.raw_pixel_model,*cmd.raw_pixel_lattice,cmd.raw_pixel_stream,cmd.raw_stream_contours,cmd.raw_contour_region,cmd.object);
             else if(cmd.action==Action::RawPixelContours) pending->raw_pixel->trace(*doc,*cmd.raw_pixel_model,*cmd.raw_pixel_grid,cmd.raw_pixel_contours,cmd.object,cmd.raw_pixel_vote,cmd.raw_pixel_work);
             else if(cmd.action==Action::RawPixelPredict) pending->raw_pixel->predict(*doc,*cmd.raw_pixel_model,*cmd.raw_pixel_window,cmd.object,cmd.raw_pixel_vote,cmd.raw_pixel_work);
             else if(cmd.action==Action::RawPixelExport) {guard_raw_pixel_frontend_output(c.project.get(),cmd.text);pending->raw_pixel->save(*doc,*cmd.raw_pixel_model,*cmd.raw_pixel_lattice,cmd.text,cmd.raw_pixel_stream,cmd.raw_pixel_save,cmd.object);}

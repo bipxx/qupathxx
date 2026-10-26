@@ -2,6 +2,7 @@
 #include "qupathxx/raw_pixel_file_jobs.hpp"
 #include "qupathxx/raw_pixel_archive.hpp"
 #include "qupathxx/raw_pixel_contours.hpp"
+#include "qupathxx/raw_pixel_stream_contours.hpp"
 namespace qpx {
 // Data-only settings copied by frontend submission; no live document or reader.
 struct RawPixelTrainingSettings {
@@ -28,6 +29,8 @@ struct GuiRawPixelOptions {
     RawPixelStreamSaveOptions save;
     RawPixelStreamFileLimits read_limits;
     std::string model_path,stream_path;
+    bool stream_contours=false;
+    RawPixelStreamContourOptions stream_contour_options;
     TissueContourOptions contours;
     std::size_t contour_work_bytes=16u*1024*1024;
     std::string contour_name_prefix="Raw pixel";
@@ -43,6 +46,7 @@ struct GuiRawPixelReport {
     std::size_t preview_bytes=0;
     bool preview_ready=false;
     std::shared_ptr<const RawPixelContours> contours;
+    std::shared_ptr<const RawPixelStreamContours> stream_contours;
     std::vector<std::uint64_t> published_ids;
     bool contours_published=false;
     std::size_t contour_work_bytes=0,contour_preview_bytes=0;

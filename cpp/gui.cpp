@@ -812,7 +812,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(event.wait_for==GuiInputWait::RawPixelFileSaved) return bool(raw_pixel.report().link);
             if(event.wait_for==GuiInputWait::RawPixelFileRead) return bool(raw_pixel.report().historical) || raw_pixel.report().state=="verified";
             if(event.wait_for==GuiInputWait::RawPixelModelSaved) return raw_pixel.report().state=="saved";
-            if(event.wait_for==GuiInputWait::RawPixelContoursReady) {const auto r=raw_pixel.report();return bool(r.contours) && r.contour_preview_ready;}
+            if(event.wait_for==GuiInputWait::RawPixelContoursReady) {const auto r=raw_pixel.report();return bool(r.contours || r.stream_contours) && r.contour_preview_ready;}
             if(event.wait_for==GuiInputWait::RawPixelContoursPublished) return raw_pixel.report().contours_published;
             if(event.wait_for==GuiInputWait::RawPixelModelLoaded) return raw_pixel.report().state=="loaded";
             if(event.wait_for==GuiInputWait::PixelClassifierTrained) return pixel_classifier.trained();

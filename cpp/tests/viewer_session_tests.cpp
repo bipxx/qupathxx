@@ -63,6 +63,31 @@ void raw_pixel_session_contracts(const std::filesystem::path& root) {
         }else {check(result.state=="failed" && !result.committed && doc->object_count()==original);session.take(preview);}
         std::cout<<"Raw managed contours: historical preview, fresh revision-guarded apply, atomic undo/redo, active cancellation and pre-commit result admission passed; GEOS="<<has_geos()<<'\n';
     }
+    {
+        const auto original=doc->object_count();RawPixelStreamOptions stream;stream.tile_width=stream.tile_height=2;stream.work_bytes=16u*1024*1024;
+        RawPixelStreamContourOptions options;options.boundary_work_bytes=2u*1024*1024;options.contours.work_bytes=2u*1024*1024;options.work_bytes=32u*1024*1024;
+        detail::RawPixelFrontend frontend;
+        if(has_geos()) {
+            frontend.trace_stream(*doc,model,lattice,stream,options,RawPixelStreamRegion{1,1,3,2},target);frontend.wait(*doc);
+            const auto report=frontend.report();check(report.state=="contours_ready" && report.stream_contours && !report.contours && report.stream_contours->completed_samples()==6);
+            const auto reference=trace_raw_pixel_stream(RawPixelTiledPredictionRequest(*doc,model,lattice,stream,RawPixelStreamRegion{1,1,3,2},target),options);
+            check(report.stream_contours->prediction_sha256()==reference->prediction_sha256());
+            const auto ids=frontend.publish(*doc);check(!ids.empty() && doc->object_count()==original+ids.size() && frontend.report().contours_published);rejects([&]{frontend.publish(*doc);});check(doc->undo() && doc->object_count()==original && doc->redo() && doc->undo());
+            frontend.trace_stream(*doc,model,lattice,stream,options,{},target);frontend.wait(*doc);doc->rename_annotation(target,"retire streamed preview");frontend.poll(*doc);check(!frontend.report().stream_contours);rejects([&]{frontend.publish(*doc);});
+            frontend.trace_stream(*doc,model,lattice,stream,options,{},target);frontend.cancel();frontend.wait(*doc);check(frontend.report().state=="cancelled" && !frontend.report().stream_contours);
+        } else rejects([&]{frontend.trace_stream(*doc,model,lattice,stream,options,{},target);});
+        auto preview=session.contour_raw_pixel_stream(image,model,lattice,stream,options,RawPixelStreamRegion{1,1,3,2},target);auto event=h.until(owner,session,preview);
+        if(has_geos()) {
+            check(event.state=="succeeded" && event.raw_pixel_stream_contours && !event.raw_pixel_contours && !event.committed && event.object_ids.empty() && event.bytes>=event.raw_pixel_stream_contours->payload_bytes());
+            const auto retained=event.raw_pixel_stream_contours;const auto revision=doc->revision();session.take(preview);check(!session.stats().retained_bytes);
+            doc->rename_annotation(target,"edit after streamed preview");auto apply=session.contour_raw_pixel_stream(image,model,lattice,stream,options,{},target,true,"Streamed",revision);check(h.until(owner,session,apply).state=="stale");session.take(apply);check(doc->object_count()==original);
+            apply=session.contour_raw_pixel_stream(image,model,lattice,stream,options,RawPixelStreamRegion{1,1,3,2},target,true);event=h.until(owner,session,apply);check(event.state=="succeeded" && event.committed && event.raw_pixel_stream_contours && !event.object_ids.empty() && doc->object_count()==original+event.object_ids.size());session.take(apply);check(doc->undo() && doc->object_count()==original && doc->redo() && doc->undo());check(retained->completed_samples()==6);
+            auto cancelled=session.contour_raw_pixel_stream(image,model,lattice,stream,options,{},target,true);h.step(owner);check(session.poll(cancelled).state=="running" && session.cancel(cancelled));check(h.until(owner,session,cancelled).state=="cancelled");session.take(cancelled);check(doc->object_count()==original);
+            ViewerLimits limits;limits.result_bytes=65536;ViewerSession limited((root/"streamed-contour-quota.qpxproj").u8string(),limits);detail::ViewerOwner limited_owner(limited);h.step(limited_owner);
+            const auto refused=limited.contour_raw_pixel_stream(image,model,lattice,stream,options,{},target,true);const auto refusal=h.until(limited_owner,limited,refused);check(refusal.state=="failed" && refusal.error.find("result budget")!=std::string::npos && !refusal.committed && doc->object_count()==original);limited.take(refused);limited_owner.finish(h.context);
+        } else {check(event.state=="failed" && !event.committed);session.take(preview);}
+        std::cout<<"Raw streamed frontend/viewer: cropped direct parity, preview, fresh revision/apply, retained payload/ID admission, atomic undo/redo and stale/cancel/refusal passed; GEOS="<<has_geos()<<'\n';
+    }
     auto ticket=session.predict_raw_pixels(image,model,lattice.window(1,1,2,2),target);auto result=h.until(owner,session,ticket);
     auto expected=predict_raw_pixel_window(RawPixelWindowPredictionRequest(*doc,model,lattice.window(1,1,2,2),target));check(result.state=="succeeded" && result.raw_pixel_prediction && result.raw_pixel_prediction->labels()==expected->labels() && result.raw_pixel_prediction->vote_fractions()==expected->vote_fractions() && !result.committed);session.take(ticket);check(session.stats().retained_bytes==0);
     ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(owner);doc->rename_annotation(target,"edited during preview");check(h.until(owner,session,ticket).state=="stale");session.take(ticket);

@@ -21,7 +21,7 @@ void bind_viewer_session(nb::module_& m) {
         .def_prop_ro("tma_dearray",[](const ViewerEvent& e)->std::optional<std::shared_ptr<const TmaDearrayResult>> {if(e.tma_dearray)return e.tma_dearray;return {};})
         .def_ro("raw_analysis",&ViewerEvent::raw_analysis).def_ro("raw_pixels",&ViewerEvent::raw_pixels).def_ro("raw_metadata",&ViewerEvent::raw_metadata)
         .def_ro("raw_pixel_training",&ViewerEvent::raw_pixel_training).def_ro("raw_pixel_checkpoint",&ViewerEvent::raw_pixel_checkpoint)
-        .def_ro("raw_pixel_prediction",&ViewerEvent::raw_pixel_prediction).def_ro("raw_pixel_link",&ViewerEvent::raw_pixel_link).def_ro("raw_pixel_contours",&ViewerEvent::raw_pixel_contours)
+        .def_ro("raw_pixel_prediction",&ViewerEvent::raw_pixel_prediction).def_ro("raw_pixel_link",&ViewerEvent::raw_pixel_link).def_ro("raw_pixel_contours",&ViewerEvent::raw_pixel_contours).def_ro("raw_pixel_stream_contours",&ViewerEvent::raw_pixel_stream_contours)
         .def_prop_ro("tiff_view",[](const ViewerEvent& event){return event.tiff_view;})
         .def_ro("samples",&ViewerEvent::samples).def_ro("components",&ViewerEvent::components).def_ro("rows",&ViewerEvent::rows).def_ro("bytes",&ViewerEvent::bytes);
     nb::class_<ViewerStats>(m,"ViewerStats")
@@ -49,6 +49,7 @@ void bind_viewer_session(nb::module_& m) {
         .def("predict_raw_pixels",&ViewerSession::predict_raw_pixels,"image_id"_a,"model"_a,"window"_a,"object_id"_a=0,"min_vote_fraction"_a=0.,"work_bytes"_a=16u*1024*1024)
         .def("export_raw_pixels",&ViewerSession::export_raw_pixels,"image_id"_a,"model"_a,"lattice"_a,"path"_a,"options"_a=RawPixelStreamOptions{},"save_options"_a=RawPixelStreamSaveOptions{},"object_id"_a=0,"retain_result"_a=true)
         .def("contour_raw_pixels",&ViewerSession::contour_raw_pixels,"image_id"_a,"model"_a,"grid"_a,"options"_a=TissueContourOptions{},"object_id"_a=0,"apply"_a=false,"min_vote_fraction"_a=0,"work_bytes"_a=16u*1024*1024,"name_prefix"_a="Raw pixel","expected_revision"_a=nb::none())
+        .def("contour_raw_pixel_stream",&ViewerSession::contour_raw_pixel_stream,"image_id"_a,"model"_a,"lattice"_a,"stream"_a=RawPixelStreamOptions{},"options"_a=RawPixelStreamContourOptions{},"region"_a=nb::none(),"object_id"_a=0,"apply"_a=false,"name_prefix"_a="Raw pixel","expected_revision"_a=nb::none())
         .def("read_raw_pixel_stream",&ViewerSession::read_raw_pixel_stream,"image_id"_a,"path"_a,"index"_a=0,"limits"_a=RawPixelStreamFileLimits{},"record_id"_a=0,"retain_result"_a=false)
         .def("analyze_with_sampling_policy",&ViewerSession::analyze_with_sampling_policy,"image_id"_a,"object_id"_a,"transform"_a,"sampling_policy"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
         .def("analyze",&ViewerSession::analyze,"image_id"_a,"object_id"_a,"transform"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
