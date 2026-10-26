@@ -2,7 +2,8 @@
 
 This is the next SCI1-B workflow, after the active T5 qualification. Streamed
 polygon geometry is locally verified as an internal component. The immutable
-streamed workflow, owner jobs and publication remain open. The existing
+streamed result, owner jobs and atomic publication are locally verified in C++;
+Python/CLI/batch/desktop and retained-file delivery remain open. The existing
 bounded full-grid tracer and prediction block producer are working baselines.
 Keep the [numeric contract](raw-pixel-classifier.md), owner/source guards and
 [open-source reader policy](reader-license-policy.md).
@@ -96,10 +97,38 @@ The original WSL shell invocation failed before CTest; direct `--exec` tests pas
 on unchanged binaries without recompilation. Both attempts remain captured.
 
 `trace_raw_boundary_geometry` is internal. Its result has empty input identity
-and object ID zero, giving no live apply authority. Next deliver the distinct
-immutable streamed result, existing job pattern and fresh atomic publication
-(step 4–5), followed by shared consumers. The existing full-grid API remains.
+and object ID zero, giving no live apply authority. The captured C++ workflow
+below supplies its own distinct result and exact capture checks. The existing
+full-grid API remains.
 
+
+## Captured C++ workflow: locally verified
+
+The [native workflow receipt](benchmarks/raw-stream-boundaries-local/workflow-243/receipt.json)
+binds `1fb2624`. Four Windows backend-ON suites pass, including real TIFF cropped
+direct/job parity, apply/undo/redo and late-file refusal. The same four Clang
+backend-OFF suites pass explicit unavailable direct/job refusal before IO.
+This is C++ delivery; Python and application consumers remain open.
+
+| API | Existing path reused and current behavior |
+| --- | --- |
+| `RawPixelStreamContourOptions` | Existing contour limits plus boundary-run/work limits and an overall work budget. Admit captured producer work plus the larger boundary/geometry phase and bookkeeping before IO |
+| `trace_raw_pixel_stream(request, options)` | Existing `RawPixelTiledPredictionRequest` and `RawPixelPredictionStream`; release each block after boundary append, require complete producer commitments/census, then shared GEOS conversion |
+| `RawPixelStreamContours` | Distinct immutable geometry, global lattice/region, complete input/result/request commitments and counts. Retains its exact native capture, with conservative payload accounting; contains no complete raster |
+| `RawPixelStreamContourJob` | Existing owner/future/cancel/stale pattern, one whole-stream worker/result slot. Progress reports produced windows; partial/cancelled/failed geometry is never exposed for apply |
+| `publish_raw_pixel_stream_contours` | Exact matching live capture and fresh owner/source/model/image/revision checks. Admit the entire retained result, edit/object copies and anticipated IDs before the existing atomic document command |
+
+A newly captured request with identical public commitments cannot authorize a
+result from another capture. Historical QWS1 blocks grant no live authority.
+Publication preserves parent/class names, atomic failure, undo/redo and stale
+republish refusal. No Document mutation occurs during prediction/tracing.
+
+Next bind these stable native types thinly using the existing `JobHolder`,
+wait/GIL and immutable result patterns in `raw_pixel_workflow_bindings.cpp`.
+Then extend the shared raw frontend for CLI, project batches, ImGui and managed
+viewer, keeping complete-result/ID reservation before the command. Add retained
+file reopen/replay through fresh requests and scope-matched installed checks;
+freeze the broad platform candidate after the full consumer slice settles.
 
 ## Smallest native path
 

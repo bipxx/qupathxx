@@ -1,0 +1,141 @@
+{
+  "schema": "qpx.local-native-workflow-observation/1",
+  "source": "1fb2624f521867779eb730c4467e7b8eda2a8000",
+  "scope": "C++ captured streamed contour result, direct and native owner-job execution, admitted atomic publication. Python/CLI/batch/ImGui and retained-file workflows are not delivered by this source.",
+  "profiles": {
+    "windows-geos": {
+      "passed": [
+        "pixel_workflows",
+        "resampling",
+        "viewer_session",
+        "tissue_contours"
+      ],
+      "failures": 0,
+      "skips": 0,
+      "capabilities": "GEOS/training/TIFF/project/GUI enabled; actual real TIFF workflow marker required"
+    },
+    "clang-minimal": {
+      "passed": [
+        "pixel_workflows",
+        "resampling",
+        "viewer_session",
+        "tissue_contours"
+      ],
+      "failures": 0,
+      "skips": 0,
+      "capabilities": "All optional backends OFF; actual direct/job GEOS-unavailable pre-IO refusal required"
+    }
+  },
+  "outcomes": [
+    "Completed input/result commitments and census equal the existing prediction producer",
+    "Full-grid and streamed class geometries equal; cropped region preserves original rational denominator and phase",
+    "Direct/job parity and owner progress; retained result survives job cancellation/replacement",
+    "Producer plus max boundary/geometry phase admitted before IO; complete retained result/edit/ID publication budget rejects before mutation",
+    "Cancellation during blocked read, completed-unpublished cancellation, decoder failure/retry, metadata/annotation staleness, copied document and cross-thread access refuse",
+    "Exact live capture required even for a fresh identical request; wrong capture/name/budget refuse atomically",
+    "Real TIFF cropped direct/job parity, atomic apply/undo/redo and late file-change refusal"
+  ],
+  "remaining": [
+    "Thin nanobind interface and installed typing/consumer verification",
+    "Shared CLI/project batch/ImGui/managed viewer and retained-file save/reopen workflows",
+    "Frozen scope-matched qualification; separate scientific/hardware/release gates"
+  ],
+  "complete_campaign_accepted": false,
+  "payloads": [
+    {
+      "path": "windows-geos/compiler-inputs.json",
+      "bytes": 42303,
+      "sha256": "a0885920892cedadfc308e39a2f2897333b8c61d14136d5a62c28ae41f9ddab3"
+    },
+    {
+      "path": "windows-geos/commands.json",
+      "bytes": 1643,
+      "sha256": "bcaae1f71023094e4b9c89062e7bf62a804b0f67d40a53597babf6f610d3cd83"
+    },
+    {
+      "path": "windows-geos/products.json",
+      "bytes": 849,
+      "sha256": "b26f85970c9aef5e0435d164da29693da489506853a6addb20901484885a0023"
+    },
+    {
+      "path": "windows-geos/previous-products.json",
+      "bytes": 849,
+      "sha256": "924f6bd6cedd59309498ae2d84977d6ed64355be7c55412193ca69ae45e7cb9b"
+    },
+    {
+      "path": "windows-geos/configure.log",
+      "bytes": 3867,
+      "sha256": "3a8429157a0d4ec03523fb8aa0b9d1f4941cf1d1a292197545f36b237804a71d"
+    },
+    {
+      "path": "windows-geos/build.log",
+      "bytes": 7069,
+      "sha256": "5849bd25bd6c9a07000b8aac1019d93eb584f9c518596dc7a002b4fe338a2ec1"
+    },
+    {
+      "path": "windows-geos/native-tests.log",
+      "bytes": 537,
+      "sha256": "1462449e5c9be7253700d611204c2f0d1f6552b6c635d876a207eb1773668b71"
+    },
+    {
+      "path": "windows-geos/native-tests.xml",
+      "bytes": 9923,
+      "sha256": "d48042a736a6c47efc9afefce34ada731e308a41c9826cd1331f2131c379d465"
+    },
+    {
+      "path": "clang-minimal/compiler-inputs.json",
+      "bytes": 42342,
+      "sha256": "092f6528c42800ac99ea930e8000944c1ac6dfd0172cb1d84b23ac1e2aa2786b"
+    },
+    {
+      "path": "clang-minimal/commands.json",
+      "bytes": 1511,
+      "sha256": "eac84f2d865f44dd8de8871ef8f3986be8e650f00789a05b01c5ecf1ec45178d"
+    },
+    {
+      "path": "clang-minimal/products.json",
+      "bytes": 833,
+      "sha256": "1d9442e5d99756eb5f580e68d6987bef36cd1fa33b2054a6648d28fc0cad15d6"
+    },
+    {
+      "path": "clang-minimal/previous-products.json",
+      "bytes": 833,
+      "sha256": "27f2a88fe3704d4dc3a1a35d93dbf49d424e8a30f87b408324fff2afae63cc42"
+    },
+    {
+      "path": "clang-minimal/configure.log",
+      "bytes": 166,
+      "sha256": "37426aeaf2ef3ec08851f48c0b9ce56482e0e100d25bd497a14032dd2b50b10f"
+    },
+    {
+      "path": "clang-minimal/build.log",
+      "bytes": 2568,
+      "sha256": "eaf325f1da490909cdaad90b94863e87211a91504f13164d28ddad6a723922df"
+    },
+    {
+      "path": "clang-minimal/native-tests.log",
+      "bytes": 680,
+      "sha256": "f3c0699e222567b5af1f3e7257bdd4fc2507bb70b95d8221dd7eb7575877f1a3"
+    },
+    {
+      "path": "clang-minimal/native-tests.xml",
+      "bytes": 5972,
+      "sha256": "20ae8083a687c8bd472750b7406c8dff67ad3c051dc0b04f90facce07683f5fe"
+    },
+    {
+      "path": "clang-minimal/cmake-cache.txt",
+      "bytes": 15749,
+      "sha256": "22b02fb0fd820ce9a18a5f6a8d1d8293b665711f8375adcf148561204eabdbdc"
+    },
+    {
+      "path": "build_raw_stream_contour_workflow_243.py",
+      "bytes": 3602,
+      "sha256": "b8c54456f4c3d7d395aada55c643b97eaad50f302931ac9f6dbc0c63c57fdbed"
+    },
+    {
+      "path": "build_raw_stream_contour_workflow_243_minimal.py",
+      "bytes": 3382,
+      "sha256": "d9e6fc4a90f61fb9a2b3e2d9679c0e521087112846101f0e63fc4562bdbc6d8e"
+    }
+  ]
+}

@@ -66,8 +66,11 @@ The independent seam reference and actual filtered block producer agree.
 [Streamed geometry](benchmarks/raw-stream-boundaries-local/geometry-242/receipt.json)
 is now locally verified at `abeb20f`: four Windows ON and four Clang minimal OFF
 native suites pass. Sixteen independent layouts match exact geometry, topology,
-counts and both-axis crop phase. Immutable captured results, native jobs, fresh
-atomic publication and user-facing delivery remain open.
+counts and both-axis crop phase. [Captured results/native jobs/atomic apply](benchmarks/raw-stream-boundaries-local/workflow-243/receipt.json)
+are now locally verified in C++ at `1fb2624`, including real TIFF, cancellation,
+wrong/stale capture and full result/edit/ID admission. Four Windows ON and four
+Clang minimal OFF suites pass. Thin Python bindings, CLI/batch/ImGui/managed
+consumers and retained-file reopen remain open.
 
 Diagnostic238 is terminal: arm64 fails at `historical and foreign capture
 refusal`; x86_64 passes. Both archives authenticate. Its CLI/SDK inventory did

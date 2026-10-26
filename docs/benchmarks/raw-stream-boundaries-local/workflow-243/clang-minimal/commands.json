@@ -1,0 +1,61 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--exec",
+      "cmake",
+      "-S",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159",
+      "-B",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw-stream-geometry-242-minimal"
+    ],
+    "exit": 0,
+    "seconds": 9.97530520008877
+  },
+  {
+    "name": "build",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--exec",
+      "cmake",
+      "--build",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw-stream-geometry-242-minimal",
+      "--target",
+      "qupathxx_pixel_workflow_tests",
+      "qupathxx_tissue_contour_tests",
+      "qupathxx_resampling_tests",
+      "qupathxx_viewer_session_tests",
+      "--parallel",
+      "2"
+    ],
+    "exit": 0,
+    "seconds": 44.69522730004974
+  },
+  {
+    "name": "native-tests",
+    "command": [
+      "wsl",
+      "-d",
+      "Ubuntu",
+      "--exec",
+      "ctest",
+      "--test-dir",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw-stream-geometry-242-minimal",
+      "-R",
+      "^(pixel_workflows|tissue_contours|resampling|viewer_session)$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw-stream-contour-workflow-243/clang-minimal/native-tests.xml"
+    ],
+    "exit": 0,
+    "seconds": 2.8543128999881446
+  }
+]

@@ -2,6 +2,16 @@
 
 ## Current execution card (2026-10-26)
 
+- [Captured C++ streamed contours](benchmarks/raw-stream-boundaries-local/workflow-243/receipt.json)
+  at `1fb2624` pass four Windows ON and four Clang minimal OFF native suites.
+  The result has complete producer commitments/counts and an exact capture;
+  direct/job and full/stream geometry parity, rational crop, cancellation,
+  failure/retry, stale/copy/thread and pre-IO/output admission controls pass.
+  Real TIFF cropped geometry supports atomic apply/undo/redo and refuses late
+  file changes. Historical or fresh identical captures cannot authorize it.
+  Next deliver thin nanobind/installed typing and the shared CLI/batch/ImGui/
+  managed-viewer plus retained-file reopen workflow; full platform/science/
+  resource/release acceptance remains open.
 - [Internal streamed geometry](benchmarks/raw-stream-boundaries-local/geometry-242/receipt.json)
   at `abeb20f` passes four Windows GEOS/training/TIFF/project-ON suites and four
   Clang all-optional-OFF suites. Exact independent edges/areas/perimeters/parts/
