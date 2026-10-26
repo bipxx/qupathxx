@@ -1,4 +1,5 @@
 #include "pixel_workflow_snapshot.hpp"
+#include "pixel_training_reservoir.hpp"
 #include "sha256.hpp"
 #include "utf8_text.hpp"
 #include <algorithm>
@@ -24,9 +25,7 @@ void metadata_check(const ImageMetadata& m) {
 }
 std::int64_t edge(double x,double scale,std::int64_t limit) {const auto v=std::ceil(static_cast<long double>(x)/scale-.5L);if(v<=0) return 0;if(v>=limit) return limit;return static_cast<std::int64_t>(v);}
 std::int64_t origin(std::int64_t x,double scale) {const auto v=std::round(static_cast<long double>(x)*scale);if(!std::isfinite(v) || v<0 || v>=static_cast<long double>(std::numeric_limits<std::int64_t>::max())) throw std::invalid_argument("pixel training read origin overflow");return static_cast<std::int64_t>(v);}
-std::uint64_t mix(std::uint64_t x) {x+=0x9e3779b97f4a7c15ULL;x=(x^(x>>30))*0xbf58476d1ce4e5b9ULL;x=(x^(x>>27))*0x94d049bb133111ebULL;return x^(x>>31);}
-struct Sample {std::uint64_t priority,id;std::int64_t x,y;std::vector<float> values;};
-bool less_sample(const Sample& a,const Sample& b) {if(a.priority!=b.priority) return a.priority<b.priority;if(a.y!=b.y) return a.y<b.y;return a.x<b.x;}
+using Sample=detail::PixelTrainingSample;
 bool close(double a,double b) {return std::isfinite(a) && std::isfinite(b) && std::abs(a-b)<=1e-9*std::max(std::abs(a),std::abs(b));}
 }
 ForestParameters pixel_forest_parameters() {ForestParameters p;p.trees=32;p.max_depth=8;return p;}
@@ -110,20 +109,20 @@ struct PixelTrainingKernel {
                 const Point point{(static_cast<double>(x+xx)+.5)*level.downsample,(static_cast<double>(y+yy)+.5)*level.downsample};
                 for(auto row:rows) {const auto& a=d.rows[row];if(!a.roi.contains(point)) continue;if(mask[index] && mask[index]!=a.label+1) {mask[index]=std::numeric_limits<std::uint32_t>::max();owners[index]=0;break;}mask[index]=a.label+1;if(!owners[index]) owners[index]=a.id;}
                 if(mask[index]==std::numeric_limits<std::uint32_t>::max()) {++out->ambiguous_;continue;}if(!mask[index]) continue;
-                const auto label=mask[index]-1;++out->eligible_[label];const Sample candidate{mix(p.seed^mix(x+xx)^mix(std::uint64_t(y+yy)^0x6a09e667f3bcc909ULL)),owners[index],x+xx,y+yy,{}};const auto& heap=reservoirs[label];if(heap.size()<capacity || less_sample(candidate,heap.front())) needed=true;
+                const auto label=mask[index]-1;++out->eligible_[label];const Sample candidate{detail::pixel_training_mix(p.seed^detail::pixel_training_mix(x+xx)^detail::pixel_training_mix(std::uint64_t(y+yy)^0x6a09e667f3bcc909ULL)),owners[index],x+xx,y+yy,{}};const auto& heap=reservoirs[label];if(heap.size()<capacity || detail::pixel_training_sample_less(candidate,heap.front())) needed=true;
             }}
             for(std::size_t i=0;i<count;++i) {if((i&4095)==0) stop(cancelled);input.integer(mask[i]);input.integer(owners[i]);}
             if(needed) {
                 const auto features=extract_pixel_features(pixels,d.transform,features_options,window,cancelled);
-                for(std::int64_t yy=0;yy<h;++yy) {stop(cancelled);for(std::int64_t xx=0;xx<w;++xx) {const auto index=static_cast<std::size_t>(yy*w+xx);if(!mask[index] || mask[index]==std::numeric_limits<std::uint32_t>::max()) continue;const auto label=mask[index]-1;auto& heap=reservoirs[label];Sample candidate{mix(p.seed^mix(x+xx)^mix(std::uint64_t(y+yy)^0x6a09e667f3bcc909ULL)),owners[index],x+xx,y+yy,{}};if(heap.size()==capacity && !less_sample(candidate,heap.front())) continue;
-                    candidate.values.assign(features->values().begin()+index*columns,features->values().begin()+(index+1)*columns);if(heap.size()==capacity) {std::pop_heap(heap.begin(),heap.end(),less_sample);heap.back()=std::move(candidate);std::push_heap(heap.begin(),heap.end(),less_sample);}else {heap.push_back(std::move(candidate));std::push_heap(heap.begin(),heap.end(),less_sample);}
+                for(std::int64_t yy=0;yy<h;++yy) {stop(cancelled);for(std::int64_t xx=0;xx<w;++xx) {const auto index=static_cast<std::size_t>(yy*w+xx);if(!mask[index] || mask[index]==std::numeric_limits<std::uint32_t>::max()) continue;const auto label=mask[index]-1;auto& heap=reservoirs[label];Sample candidate{detail::pixel_training_mix(p.seed^detail::pixel_training_mix(x+xx)^detail::pixel_training_mix(std::uint64_t(y+yy)^0x6a09e667f3bcc909ULL)),owners[index],x+xx,y+yy,{}};if(heap.size()==capacity && !detail::pixel_training_sample_less(candidate,heap.front())) continue;
+                    candidate.values.assign(features->values().begin()+index*columns,features->values().begin()+(index+1)*columns);if(heap.size()==capacity) {std::pop_heap(heap.begin(),heap.end(),detail::pixel_training_sample_less);heap.back()=std::move(candidate);std::push_heap(heap.begin(),heap.end(),detail::pixel_training_sample_less);}else {heap.push_back(std::move(candidate));std::push_heap(heap.begin(),heap.end(),detail::pixel_training_sample_less);}
                 }}
             }
             if(completed) completed->store(++done);
         }
         std::size_t minimum=capacity;for(const auto& heap:reservoirs) {if(heap.size()<2) throw std::invalid_argument("each pixel class requires two unambiguous opaque pixel centers");minimum=std::min(minimum,heap.size());}
         std::size_t rows=0;for(const auto& heap:reservoirs) rows+=p.balanced?minimum:heap.size();out->values_.reserve(rows*columns);out->labels_.reserve(rows);out->coordinates_.reserve(rows*2);out->ids_.reserve(rows);
-        for(std::size_t label=0;label<classes;++label) {auto& heap=reservoirs[label];std::sort(heap.begin(),heap.end(),less_sample);const auto count=p.balanced?minimum:heap.size();out->counts_[label]=count;
+        for(std::size_t label=0;label<classes;++label) {auto& heap=reservoirs[label];std::sort(heap.begin(),heap.end(),detail::pixel_training_sample_less);const auto count=p.balanced?minimum:heap.size();out->counts_[label]=count;
             for(std::size_t i=0;i<count;++i) {stop(cancelled);const auto& sample=heap[i];out->values_.insert(out->values_.end(),sample.values.begin(),sample.values.end());out->labels_.push_back(static_cast<std::uint32_t>(label));out->coordinates_.push_back(sample.x);out->coordinates_.push_back(sample.y);out->ids_.push_back(sample.id);}
         }
         out->input_sha_=input.finish();Sha256 digest;const std::string domain="qpx.annotation-pixel-sampling/1";digest.update(domain.data(),domain.size());resolution_hash(digest,d.resolution);digest.integer(rows);for(const auto& f:out->features_) {text(digest,f.name);text(digest,f.unit);}for(const auto& name:d.classes) text(digest,name);

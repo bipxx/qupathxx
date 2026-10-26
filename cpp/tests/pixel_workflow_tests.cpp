@@ -1,3 +1,4 @@
+#include "raw_pixel_workflow_checks.hpp"
 #include "qupathxx/pixel_contours.hpp"
 #include "qupathxx/input_digest.hpp"
 #include "qupathxx/pixel_classifier_archive.hpp"
@@ -36,6 +37,7 @@ PixelClassifier fixture(const PixelFeatureOptions& options,const StainTransform&
     std::vector<std::pair<std::string,std::string>> schema;for(const auto& f:pixel_feature_schema(options,transform)) schema.emplace_back(f.name,f.unit);return PixelClassifier(ForestModel::from_bytes(qpx_test::object_forest_fixture(schema)),options,transform,resolution);
 }
 int main() {try {
+    raw_workflow_checks::run();
     const StainTransform transform({{1,0,0},{0,1,0}});auto source=std::make_shared<Pyramid>();Document doc(source);doc.set_calibration(.5,.25);
     const auto a=doc.add_detection(Roi::rectangle({0,0,32,48}),"A",0,"A"),b=doc.add_detection(Roi::rectangle({32,0,32,48}),"B",0,"B"),duplicate=doc.add_detection(Roi::rectangle({1,1,10,10}),"A duplicate",0,"A");
     PixelTrainingOptions options;options.features.sigmas={0,1};options.tile_size=16;options.max_samples=200;options.max_samples_per_class=60;

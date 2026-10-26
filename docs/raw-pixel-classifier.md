@@ -147,3 +147,51 @@ and prediction jobs. They do not yet supply Document publication, retained
 analysis archives/checkpoints, Python bindings, batch or desktop actions.
 Those remaining A3-A6 integrations must preserve the same raw authority rather
 than routing quantitative values through the scalar-downsample RGB result.
+
+
+## Owner-captured native workflow contract
+
+`RawPixelTrainingRequest` captures sorted labelled area IDs, immutable ROI/class
+snapshots, one explicit scientific grid, raw selection, normalization and the
+model recipe on the owner. Existing `ObjectFeatureRequest` and
+`RawAnalysisRequest` remain the document/source authorities. Row coordinates
+are sampled-grid indices; label membership uses each rational axis center
+rounded once to binary64 and the native ROI containment rule. Same-class
+overlap counts once with the lowest selected annotation ID; different-class
+overlap is ambiguous and excluded. All feature columns must be supported.
+Deterministic bounded per-class reservoirs reuse the RGB priority/comparison
+implementation, then optionally balance classes. Return owning immutable rows,
+labels, coordinates, annotation IDs, counts and input/result commitments.
+
+`RawPixelPredictionRequest` captures the model, full explicit grid and optional
+area ROI through the raw-analysis authority. Native workers read raw data only,
+apply the shared classifier and clear validity/labels outside the captured ROI.
+The result retains both axes, model identity and an ROI/calibration-bound input
+commitment. A model/result is never published to Document by a worker.
+
+The captured Document calibration governs physical sigma resolution, including
+explicit overrides of file metadata. Unknown physical calibration rejects.
+The actual source metadata epoch is separately captured and compared after
+sampling; overrides cannot conceal source metadata changes. Physical model
+matching still requires exactly equal sampled spacing on each axis.
+
+Preflight charges the capture, source metadata/observations, sampler/feature
+workspace, reservoir/final rows, prediction copy and vote scratch before pixel
+IO. The current implementation admits one bounded explicit grid. It does not
+claim a phase-preserving streamed-window implementation for arbitrarily large
+sample arrays; that remains required for the large-slide/checkpoint workflow.
+Do not approximate fractional grid origins by natural scalar-downsample tiles.
+
+`RawPixelTrainingJob.sample` delivers a table without requiring a forest backend.
+`train` checks backend capability before starting IO, then calls the existing
+native forest trainer. `RawPixelPredictionJob` uses the same native prediction
+kernel. Controllers enforce owner-thread operations; cancellation alone is
+thread-safe. Busy reflects a running worker, while `await_completion` joins
+without delivering a result. Poll/wait validates owner/source state before
+making completed results available; cancellation and edits before delivery
+produce no table/model/result. File-backed publication checks fresh primary and
+companion versions with the existing file guards, including changes after the
+worker has finished. Worker exceptions deliver failure, allow retry and never
+modify the document or an earlier owned result. Retained project records,
+undo/apply, model/table archives, streamed resume and all frontends still need
+their explicit owner-stage integration and qualification.

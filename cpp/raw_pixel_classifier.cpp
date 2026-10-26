@@ -1,4 +1,5 @@
 #include "qupathxx/raw_pixel_classifier.hpp"
+#include "raw_pixel_classifier_internal.hpp"
 #include "raw_pixel_features.hpp"
 #include "atomic_export.hpp"
 #include "reader_file_guard.hpp"
@@ -135,15 +136,21 @@ RawPixelClassifier RawPixelClassifier::from_bytes(const std::vector<std::uint8_t
     if(size!=r.left) throw std::invalid_argument("raw classifier forest size mismatch");const auto forest=ForestModel::from_bytes(std::vector<std::uint8_t>(r.data,r.data+r.left));RawPixelClassifier model(forest,recipe);
     if(model.bytes()!=bytes) throw std::invalid_argument("noncanonical raw classifier model encoding");return model;
 }
-std::shared_ptr<const RawPixelClassification> classify_raw_pixels(const ScientificRawGrid& input,const RawPixelClassifier& model,double minimum,std::size_t budget,const std::atomic<bool>* cancelled) {
-    stopped(cancelled);if(!std::isfinite(minimum) || minimum<0 || minimum>1) throw std::invalid_argument("raw classifier minimum vote fraction must be 0..1");if(minimum==0) minimum=0;
-    if(!model.recipe().matches(input.metadata(),input.grid(),input.options())) throw std::invalid_argument("raw classifier channel, dtype, selection or sampling recipe mismatch");
+RawPixelClassificationPlan RawPixelClassifierKernel::plan(const RawImageMetadata& source,const ScientificGrid& grid,const ScientificRawOptions& selection,const RawPixelClassifier& model,std::size_t budget,std::optional<RawClassifierCalibration> calibration) {
+    auto metadata=source;if(calibration) {metadata.pixel_width_um=calibration->x;metadata.pixel_height_um=calibration->y;}
+    if(!model.recipe().matches(metadata,grid,selection)) throw std::invalid_argument("raw classifier channel, dtype, selection or sampling recipe mismatch");
     auto options=model.recipe().features();if(!budget) budget=options.work_bytes;if(budget<1024*1024 || budget>1024ULL*1024*1024) throw std::invalid_argument("raw classifier budget must be 1..1024 MiB");
-    const auto count=std::size_t(input.grid().x().samples())*std::size_t(input.grid().y().samples()),columns=model.forest().features().size(),classes=model.forest().classes().size();
+    const auto count=std::size_t(grid.x().samples())*std::size_t(grid.y().samples()),columns=model.forest().features().size(),classes=model.forest().classes().size();
     const auto batch=std::min<std::size_t>(512,count);const auto fixed=262144+2*model.bytes().size()+batch*(sizeof(ClassifierPrediction)+sizeof(std::size_t)+4*(columns+classes));
     if(fixed>=budget || count>(budget-fixed)/9) throw std::length_error("raw classifier output/votes exceed work budget");const auto retained=fixed+9*count;
     if(budget-retained<1024*1024) throw std::length_error("raw classifier feature budget is too small");options.work_bytes=std::min(options.work_bytes,budget-retained);
-    const auto work=detail::raw_feature_work_bytes(input.metadata(),input.grid(),input.options(),options)+retained;
+    return {options,detail::raw_feature_work_bytes(metadata,grid,selection,options)+retained};
+}
+std::shared_ptr<const RawPixelClassification> classify_raw_pixels(const ScientificRawGrid& input,const RawPixelClassifier& model,double minimum,std::size_t budget,const std::atomic<bool>* cancelled) {return RawPixelClassifierKernel::run(input,model,minimum,budget,cancelled);}
+std::shared_ptr<const RawPixelClassification> RawPixelClassifierKernel::run(const ScientificRawGrid& input,const RawPixelClassifier& model,double minimum,std::size_t budget,const std::atomic<bool>* cancelled,std::optional<RawClassifierCalibration> calibration) {
+    stopped(cancelled);if(!std::isfinite(minimum) || minimum<0 || minimum>1) throw std::invalid_argument("raw classifier minimum vote fraction must be 0..1");if(minimum==0) minimum=0;
+    const auto admitted=plan(input.metadata(),input.grid(),input.options(),model,budget,calibration);const auto& options=admitted.features;const auto work=admitted.work;
+    const auto count=std::size_t(input.grid().x().samples())*std::size_t(input.grid().y().samples()),columns=model.forest().features().size(),classes=model.forest().classes().size(),batch=std::min<std::size_t>(512,count);
     const auto features=detail::extract_raw_pixel_features(input,options,cancelled);auto output=std::shared_ptr<RawPixelClassification>(new RawPixelClassification(input.grid()));output->work_=work;output->valid_=features->rows_valid;output->labels_.assign(count,0);output->fractions_.assign(count,std::numeric_limits<float>::quiet_NaN());output->counts_.resize(classes);output->model_sha_=model.sha256();output->feature_sha_=features->sha256;output->input_sha_=features->input_sha256;
     std::vector<std::size_t> indices;std::vector<float> matrix;indices.reserve(batch);matrix.reserve(batch*columns);
     auto flush=[&] {if(indices.empty()) return;stopped(cancelled);const auto predictions=model.forest().predict(matrix,model.forest().features());for(std::size_t i=0;i<indices.size();++i) {const auto row=indices[i];const auto& prediction=predictions[i];output->fractions_[row]=static_cast<float>(prediction.vote_fraction);if(prediction.vote_fraction>=minimum) {output->labels_[row]=prediction.class_index+1;++output->counts_[prediction.class_index];}}indices.clear();matrix.clear();};

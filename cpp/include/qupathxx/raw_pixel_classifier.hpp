@@ -62,6 +62,8 @@ private:
     std::vector<std::uint64_t> counts_;
     std::string model_sha_,feature_sha_,input_sha_,sha_;
     std::size_t work_=0;
+    friend struct RawPixelClassifierKernel;
+    friend struct RawPixelPredictionKernel;
     friend std::shared_ptr<const RawPixelClassification> classify_raw_pixels(
         const ScientificRawGrid&,const RawPixelClassifier&,double,std::size_t,const std::atomic<bool>*);
 };
