@@ -30,6 +30,19 @@ release status. Use the [current task](current-task.md), [workflow inventory](fe
 and [API delivery paths](api-delivery-plan.md) for exact scope and remaining work.
 All M0-M7 remain Partial.
 
+The current TMA candidate `19371b7` has terminal successful hosted jobs and
+11 verified archives; Mac-native and portable strict audits pass, but the full
+engine audit rejects a stale 17-case GUI count against the actual named 24-case
+cohort. Overall campaign acceptance remains false. Follow E1/E2 in the
+[ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue):
+repair the existing auditor, explicitly re-audit retained artifacts and close
+execution-boundary gaps before the next expensive campaign. Then complete MFO1's
+compound-source/multi-file OME workflow. E3/E4 are bounded improvements at the
+next affected owner, not a prerequisite framework. The
+[seven-document review](reviews/compilexx-efficiency-review.md) supplies the
+failure evidence and distinguishes recommendations from applied product fixes.
+
+
 ## Scope and release boundaries
 
 Reader scope is limited to open-source-licensed implementations and decoder
@@ -345,39 +358,23 @@ workflow parity.
 
 ## Execution order from the present state
 
-M0–M7 remain the complete scope above. They are acceptance categories, not a
-requirement to implement them strictly in numbered order. Much of M1–M6 already
-exists; rebuilding those capabilities would waste effort. Follow the
-[API and workflow delivery paths](api-delivery-plan.md) for remaining work.
+The [API delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
+is the sole detailed scheduling authority. Start with E1's saved-artifact audit
+repair and E2's small execution-boundary changes, then MFO1's complete multi-file
+OME workflow. Continue SCI1 and REL1 through every remaining M0-M7 criterion.
+The current task card records observed status, not another ordered backlog.
 
-1. Preserve the accepted TMA/annotation/raw-grid vertical workflows and their
-   source-bound evidence. The [current task](current-task.md) records the complete
-   engineering campaign at61e546e. Continue the specific unclosed M0-M4 reader,
-   annotation/interchange, fault and hardware requirements instead of rebuilding
-   already delivered TMA controls, commands or persistence.
-2. Resolve research evidence prerequisites in parallel with that integration:
-   fixture rights and identities, physical sampling contracts, numerical
-   tolerances, benchmark hardware and cache conditions. Keep each unresolved
-   decision explicitly assigned; do not fill the queue with packaging work while
-   scientific requirements have no path to acceptance.
-3. Close a representative annotated-slide workflow across UI, Python and CLI,
-   then tissue/cell analysis and classifier/batch workflows, using the same
-   native commands and records. Independent QuPath/biological comparisons and
-   physical-grid changes follow the risk order in the API delivery plan.
-4. Qualify supported configurations after a complete workflow is locally
-   integrated. Keep installed/package tests running throughout; run the full
-   release matrix at the final source before promotion. Finish installers,
-   clean-machine walkthroughs, documentation, notices and signing after the
-   support matrix and licensing decisions are explicit.
-5. Continue every open M0–M7 requirement and the named longer-term backlog.
-   A chosen order does not defer or delete an accepted requirement. Existing
-   Java/Groovy and external-model deferrals remain the explicit scope above.
+Retain the accepted `61e546e` baseline and original failed candidates. Reuse
+unchanged native products for observer/package-only changes with explicit
+identity/applicability proof; a changed source label alone does not require a
+compiler run. Independent dataset, scientific, hardware and release decisions
+keep their own dependencies and do not become substitutes for implementation.
 
-Do not carry forward the original 4–7 engineer-month estimate: it described a
-starting scope before the current implementation and remaining research gaps
-were measured. Estimate remaining work per accepted workflow after identifying
-its code, fixture, scientific, hardware and decision dependencies. Report ranges
-and assumptions, not a percentage derived from test or API counts.
+Estimate remaining work per complete user workflow after identifying its actual
+code, fixture, scientific, hardware and decision dependencies. The historical
+4-7 engineer-month estimate and percentages derived from test counts are not
+current estimates. No workflow is complete from a preparatory parser, fixture
+or green job count alone.
 
 ## Planning and validation discipline
 
@@ -400,8 +397,11 @@ Validation has three scopes:
   when numerical or interchange behavior changes. Verify enabled capability
   markers; a passing disabled branch proves only feature-disabled behavior.
 - After the slice works, install the wheel in an isolated environment, regenerate
-  stubs once, check typing and relevant desktop/persistence regressions. Commit
-  the final artifacts, rebuild cleanly and inspect compiled source identity.
+  stubs once, check typing and relevant desktop/persistence regressions. Inspect
+  installed compiled-source and package identities. Rebuild native code only
+  when its consumed inputs/configuration change or the required qualification
+  needs a fresh build; package/stub/observer-only changes reuse proved native
+  products and qualify the changed layer.
 - Freeze a candidate for full cross-platform engine, Mac and portable audits.
   Keep one dispatch per source/mode. Observe its exact run through completion;
   a polling timeout is not a build failure. No promotion until required audits

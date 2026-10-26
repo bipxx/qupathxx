@@ -31,23 +31,42 @@ implementations. Copyleft readers remain eligible subject to distribution terms.
 
 ## Dependency lanes and immediate queue
 
-There is one implementation queue. Independent decisions/reference preparation
-can proceed alongside it; implementation was explicitly resumed on 2026-10-25.
-This does not authorize autonomous worker delegation beyond the existing rules.
+This is the single ordered implementation queue. The [current task](current-task.md)
+records observed state; the [efficiency review](reviews/compilexx-efficiency-review.md)
+records evidence and rationale. Earlier TMA/annotation/raw-grid deliveries are
+accepted baselines, not new tasks to repeat. All M0-M7 remain Partial, with
+[open-source-only reader scope](reader-license-policy.md). Root owns integration;
+no additional agent delegation is implied by this table.
 
-| Order | Work item | Reuse and smallest complete step | Exit evidence |
+| Order / ID | State and owner | Easiest implementation path | Required exit evidence |
 | --- | --- | --- | --- |
-| 1 | Project-enabled TMA build validation: engineering verified | Reuse the qualified installed artifacts and existing project contract; do not reinstall historical wheels merely to repeat completed checks | Source-bound engine/Mac/portable acceptance is recorded in the combined source169 receipt; biological and supported-release scope remain separate |
-| 2 | TMA desktop workflow: engineering verified | Reuse `GuiTma`, `load_qptma`, `qptma_grid_edits`, `import_qptma`, `qptma_from_grid` and `save_qptma`; retain background IO plus owner-thread preview/apply | Import → preview → apply → edit → undo/redo → project save/restart → export and error/stale/cancel coverage are retained with the accepted desktop evidence |
-| 3 | Integrated TMA source: accepted and promoted to main | Reuse its qualified workflow and inherited gates in subsequent integrated candidates | Matching source/artifacts and required configurations; no supported-release inference |
-| 4 | Annotation/migration: engineering verified at source169 | Shared nested export, physical recovery and source-bound hierarchy contracts pass engine/Mac/portable audits | Combined source169 receipt; broader annotation/interchange and fault campaigns remain in M3/M4 |
-| 5 | Close sampling and scientific analysis gaps | Reuse the implemented explicit-grid RGB pipeline, physical per-axis kernels and QCL5/QCA5 frontend workflow; reuse the pinned production-grid, ROI-stage and resampled-input comparisons; typed raw sampling and its shared retention/table/batch/UI workflow now pass source191 engineering gates; next finish vendor/pyramid/tiled adapters and independent scientific acceptance | Source169 engineering qualification is complete; independent masks/features and split/merge results under predeclared tolerances remain, including anisotropic and unknown calibration |
-| 6 | Complete research and batch workflow | Compose existing analysis/classifier jobs and checkpoint batches; build missing coverage/adapters only after native contracts are stable | Same selected workflow in UI/Python/CLI, interrupted-resumed batch correctness and bounded resources |
-| 7 | Close release and remaining inventory requirements | Build on accepted packages; choose support matrix, license/notices policy, installers and clean-machine scripts | Every M0–M7 exit has scope-matched evidence; remaining scope is explicitly scheduled, not silently dropped |
+| 1 / E1: close the TMA audit | Ready; existing engine-auditor owner | Replace the stale legacy 17-case GUI check with the existing exact named 24-case axis cohort. Search sibling GUI/count consumers once. Test the complete affected auditor path before another dispatch. Preserve frozen `19371b7` and its failed audit | Missing, duplicate, same-count substituted, failed and skipped GUI cases reject; the actual 24-case artifact passes. Explicit successor audit binds original artifact/source and new auditor identities separately; all inherited engine gates remain required. Reuse all 11 verified archives, with no native rebuild for this observer-only correction |
+| 2 / E2: repair execution boundaries | Ready; auditor/producer owners, one coherent tooling change | Reject optimized auditor execution before imports/network. Execute authenticated dynamic helper source bytes rather than stale eligible pyc. Validate inherited pytest options/plugins at the existing producer entry before dependency/build work | Real child controls reject `-O`, a distinguishing stale timestamp cache, and conflicting `PYTEST_ADDOPTS`/`PYTEST_PLUGINS`; intended normal loading/pytest profile still works. Keep original scientific comparisons and exact cohort gates. No new runner, environment or validator framework |
+| 3 / MFO1: complete multi-file OME workflow | Fixture prepared; active integration owner | Implement bounded companion-source observations and versioned codecs first, then add external-file/UUID dispatch to the existing libtiff stack. Reuse native requests, project persistence, bindings, CLI/batch, ImGui and managed-viewer paths in the [slice contract](multifile-ome-tiff.md) | Exact C/Z/T and both-level pixels from either member, shared resource budgets, companion mutation/missing/UUID/cache-collision refusal, compatible old single-file records, complete dependency provenance and installed project restart/frontends. Freeze the complete slice once for its required platform qualification |
+| 4 / SCI1: remaining research workflows | Open; analysis/reader workflow owners | Continue eligible vendor/pyramid/whole-slide adapters, raw classifier features, broader annotation/interchange and fault coverage, then compose existing native jobs into the missing UI/Python/CLI/batch outcomes | Independent masks/features/split-merge and upstream comparisons under unchanged predeclared tolerances, including anisotropic/unknown calibration; interrupted-resumed batches and explicit resource evidence. Existing strict scientific xfails remain visible |
+| 5 / REL1: supported release | Open; repository owner plus packaging owner | Build on qualified artifacts; settle project license, distribution obligations, support matrix, installers, notices, signing and clean-machine walkthroughs | Every claimed platform/workflow has scope-matched acceptance. Mac-native does not imply Mac Python/GUI/OpenSlide support. No implied release/PyPI/signing authorization |
 
-Steps 5–7 do not prohibit fixing a concrete defect found in an earlier step.
-A blocker in one lane is not permission to replace the original goal with a
-smaller deliverable. Keep the original M0–M7 requirements and deferred boundaries.
+E1 and E2 may share a coherent successor tooling freeze where their changes
+intersect; they do not require a separate campaign for every helper repair.
+E1 is not permission to edit the frozen artifact source or waive its other
+checks. Keep the original audit failure and explicitly distinguish original
+producer, artifact source, successor auditor and re-audit result. Rebuild only
+if compiler inputs or actual product requirements change, or original evidence
+cannot support the required check.
+
+Two smaller efficiency tasks attach to their existing owners rather than block
+MFO1 behind another infrastructure wave:
+
+| ID / trigger | Action | Completion proof |
+| --- | --- | --- |
+| E3 / next source-proof edit | Hoist checkout-only QPTMA/resampling proofs outside the job loop. Reuse exact immutable source reads within one invocation where appropriate; keep artifact/job checks per job | Every expected source identity still checked; conflicting declarations, changed bytes and mutation-boundary drift reject. Summarize existing phase cost before claiming savings; no persistent PASS cache |
+| E4 / next producer-stage edit | Keep dependency/build/install preparation fail-fast. After a verified installation, collect eligible independent diagnostics and mark dependent stages not-run with their prerequisite | Fake child-stage success/failure/timeout controls preserve finite deadlines, logs and overall failure without rerunning independent preludes. Declare stage prerequisites before changing execution order |
+
+Resolve fixture rights/labels, scientific decisions and hardware eligibility
+alongside the implementation that consumes them. A blocker affects its actual
+consumers; it neither deletes scope nor stalls independent ready work. Preserve
+all original milestone requirements except the user's explicit proprietary-reader
+exclusion and the already documented release deferrals.
 
 ## Definition of done and work limits
 

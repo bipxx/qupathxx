@@ -9,9 +9,11 @@
 - Acceptance: Mac-native and portable strict audits pass. The full engine audit
   rejects the old 17-case GUI count; the exact named contract and actual XML
   contain 24 passing cases. Overall campaign acceptance is false; main unchanged.
-- Next action: repair the existing auditor consumer, add distinguishing controls
-  and explicitly re-audit retained artifacts. No native rebuild for that repair.
-  Then continue compound source observations/codecs and the multi-file workflow.
+- Next action: E1/E2 in the [single ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue):
+  repair/re-audit the GUI cohort consumer and close optimized execution, stale
+  helper-bytecode and pytest-environment gaps. Reuse unchanged native products.
+  Then MFO1 completes compound source observations/codecs and the multi-file
+  workflow. E3/E4 apply only at the next affected source-proof/producer edit.
 - The [efficiency review](reviews/compilexx-efficiency-review.md) records seven
   evidence-backed improvements. Earlier sections below retain workflow history;
   use this card for current scheduling. All M0-M7 remain Partial.

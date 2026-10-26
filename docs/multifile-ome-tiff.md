@@ -87,8 +87,12 @@ alongside the corrected, scoped checks.
 - Installed Python/CLI/batch and desktop/managed smoke workflows use the same
   native source and retain exact resource/source proofs. Run focused checks
   during development, then freeze the complete slice for the required platform
-  qualification. Preserve the independently running TMA candidate unchanged.
+  qualification. Preserve the original frozen TMA candidate and failed auditor evidence unchanged.
 
-Implementation owner: active integration worktree. Next action: implement the
-compound source descriptor and its codec compatibility before external-file
-dispatch. The fixture is preparation, not proof of native support.
+Implementation owner: active integration worktree, MFO1 in the
+[single ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue).
+E1/E2 close the ready audit and execution-boundary repairs first. The first
+MFO1 code change is the compound source descriptor and codec compatibility,
+before external-file dispatch. Enumerate existing provenance/raw-archive/project
+consumers together so no older codec silently drops companions. The fixture is
+preparation, not proof of native support.
