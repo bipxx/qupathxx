@@ -1,6 +1,8 @@
 #include "raw_pixel_cli.hpp"
 #include "qupathxx/raw_pixel_file_jobs.hpp"
 #include "qupathxx/raw_pixel_archive.hpp"
+#include "qupathxx/raw_pixel_stream_contours.hpp"
+#include "utf8_text.hpp"
 #include "qupathxx/project.hpp"
 #include "batch_checkpoint.hpp"
 #include "atomic_export.hpp"
@@ -42,14 +44,32 @@ struct Options {
     std::vector<std::uint64_t> ids;std::uint64_t object=0;
     std::optional<RawPixelStreamRegion> region;
     std::string checkpoint_path,archive_path,output_project;
+    RawPixelStreamContourOptions contours;std::string prefix="Raw pixel";
+    std::size_t publication_bytes=64u*1024*1024,snapshot_bytes=512u*1024*1024;std::uint64_t project_bytes=1024ull*1024*1024;
     bool physical=false;
 };
-Options parse(const std::vector<std::string>& args,std::size_t first,bool train,bool verify) {
+Options parse(const std::vector<std::string>& args,std::size_t first,bool train,bool verify,bool contours=false) {
     Options o;std::set<std::string> seen;
     for(std::size_t i=first;i<args.size();++i) {
         const auto& f=args[i];if(f!="--object" && !seen.insert(f).second) throw std::invalid_argument("duplicate option: "+f);
+        if(contours) {
+            static const std::set<std::string> allowed={"--work-bytes","--x-axis","--y-axis","--tile-width","--tile-height","--max-windows","--object","--min-vote","--max-samples","--region","--contour-work-bytes","--boundary-work-bytes","--max-boundary-runs","--max-components","--max-edges","--max-vertices","--total-work-bytes","--publication-work-bytes","--name-prefix","--no-clip","--snapshot-bytes","--project-bytes"};
+            if(!allowed.count(f)) throw std::invalid_argument("unknown raw contour option: "+f);
+        }
         auto value=[&]()->const std::string& {if(++i==args.size()) throw std::invalid_argument("missing value for "+f);return args[i];};
-        if(f=="--work-bytes") {auto n=integer<std::size_t>(value());o.selection.work_bytes=o.features.work_bytes=o.sampling.work_bytes=o.stream.work_bytes=n;if(verify) o.save.limits.work_bytes=n;}
+        if(contours && f=="--contour-work-bytes") o.contours.contours.work_bytes=integer<std::size_t>(value());
+        else if(contours && f=="--boundary-work-bytes") o.contours.boundary_work_bytes=integer<std::size_t>(value());
+        else if(contours && f=="--max-boundary-runs") o.contours.max_boundary_runs=integer<std::size_t>(value());
+        else if(contours && f=="--max-components") o.contours.contours.max_components=integer<std::size_t>(value());
+        else if(contours && f=="--max-edges") o.contours.contours.max_edges=integer<std::size_t>(value());
+        else if(contours && f=="--max-vertices") o.contours.contours.max_vertices=integer<std::size_t>(value());
+        else if(contours && f=="--total-work-bytes") o.contours.work_bytes=integer<std::size_t>(value());
+        else if(contours && f=="--publication-work-bytes") o.publication_bytes=integer<std::size_t>(value());
+        else if(contours && f=="--snapshot-bytes") o.snapshot_bytes=integer<std::size_t>(value());
+        else if(contours && f=="--project-bytes") o.project_bytes=integer<std::uint64_t>(value());
+        else if(contours && f=="--name-prefix") o.prefix=value();
+        else if(contours && f=="--no-clip") o.contours.contours.clip_to_roi=false;
+        else if(f=="--work-bytes") {auto n=integer<std::size_t>(value());o.selection.work_bytes=o.features.work_bytes=o.sampling.work_bytes=o.stream.work_bytes=n;if(verify) o.save.limits.work_bytes=n;}
         else if(f=="--file-work-bytes" && !train) o.save.limits.work_bytes=integer<std::size_t>(value());
         else if(f=="--file-bytes") {if(train) throw std::invalid_argument("--file-bytes applies to prediction files");o.save.limits.max_bytes=integer<std::uint64_t>(value());}
         else if(verify) throw std::invalid_argument("unknown raw verification option: "+f);
@@ -100,6 +120,11 @@ Options parse(const std::vector<std::string>& args,std::size_t first,bool train,
     if(bool(o.x)!=bool(o.y)) throw std::invalid_argument("provide both --x-axis and --y-axis");
     if(train) {o.selection.validate();if(o.features.offsets.empty()) o.features.offsets.assign(o.selection.channels,0);if(o.features.scales.empty()) o.features.scales.assign(o.selection.channels,1);o.features.validate(o.selection.channels);o.sampling.validate();o.tiles.validate();o.forest.validate();o.checkpoint.limits.validate();}
     else {o.save.limits.validate();if(!verify) o.stream.validate();}
+    if(contours) {
+        o.contours.validate();bounded_utf8(o.prefix,256);
+        if(o.prefix.empty() || !o.publication_bytes || o.publication_bytes>512u*1024*1024 || !o.snapshot_bytes || o.snapshot_bytes>4ull*1024*1024*1024 || !o.project_bytes || o.project_bytes>4ull*1024*1024*1024)
+            throw std::invalid_argument("invalid raw contour publication/project limits");
+    }
     return o;
 }
 ScientificRawLattice lattice(const Document& doc,const Options& o) {
@@ -128,7 +153,7 @@ std::string summary_json(const RawPixelStreamFileSummary& s) {
 void line(const std::string& verb,const std::string& state,const std::string& path,const RawPixelFileJobStats& stats,const std::string& fields="") {
     std::cout<<"{\"schema\":\"qpx.raw-pixel-"<<verb<<"/1\",\"state\":"<<batch_json_quote(state)<<",\"path\":"<<batch_json_quote(path)<<",\"error\":"<<batch_json_quote(stats.error)<<",\"source_tree_sha256\":"<<batch_json_quote(build_environment()->source_tree_sha256)<<",\"total_windows\":"<<stats.total_windows<<",\"completed_windows\":"<<stats.completed_windows<<fields<<"}\n"<<std::flush;
 }
-template<class Job,class Poll> RawPixelFileJobStats collect(Job& job,Poll poll,const std::atomic<bool>& cancelled) {
+template<class Job,class Poll> auto collect(Job& job,Poll poll,const std::atomic<bool>& cancelled) {
     while(job.busy()) {if(cancelled.load()) job.cancel();poll();if(job.busy()) std::this_thread::sleep_for(std::chrono::milliseconds(5));}
     if(cancelled.load()) job.cancel();return poll();
 }
@@ -156,6 +181,43 @@ int predict(const std::vector<std::string>& args,const std::atomic<bool>& cancel
     line("export",state,args[5],stats,",\"model_sha256\":"+batch_json_quote(model.sha256())+(summary?",\"summary\":"+summary_json(*summary):""));
     return summary?(summary->complete?0:1):stats.state=="cancelled"?130:1;
 }
+std::shared_ptr<const ReaderSource> observe_cli_file(const std::string& path) {
+    ReaderFileGuard guard(export_path(path));guard.verify();const auto version=guard.version();
+    return make_reader_source("qpx.raw-contour-cli",version->path,"single_file",version);
+}
+void verify_cli_source(const ReaderSource& observed) {
+    if(!observed.primary) return;auto current=observed;std::vector<std::unique_ptr<ReaderFileGuard>> guards;
+    guards.emplace_back(std::make_unique<ReaderFileGuard>(observed.primary->path));current.primary=guards.back()->version();
+    for(auto& file:current.companions) {guards.emplace_back(std::make_unique<ReaderFileGuard>(file.path));file=*guards.back()->version();}
+    for(const auto& guard:guards) guard->verify();
+    if(!same_reader_files(observed,current)) throw std::runtime_error("raw contour input changed before project publication");
+}
+RawPixelFileJobStats contour_stats(const RawPixelStreamJobStats& s) {
+    RawPixelFileJobStats result;result.state=s.state;result.phase=s.phase;result.error=s.error;result.total_windows=s.total_windows;result.completed_windows=s.produced_windows;return result;
+}
+int contour(const std::vector<std::string>& args,const std::atomic<bool>& cancelled) {
+    if(args.size()<6) throw std::invalid_argument("usage: --contour-raw-pixels PROJECT IMAGE_ID MODEL NEW_PROJECT [contour options]");
+    const auto id=integer<std::uint64_t>(args[3]);if(!id) throw std::invalid_argument("image ID must be positive");const auto o=parse(args,6,false,false,true);
+    const auto destination=export_path(args[5]);std::error_code error;const auto status=std::filesystem::symlink_status(std::filesystem::u8path(destination),error);
+    if((error && error!=std::errc::no_such_file_or_directory) || status.type()!=std::filesystem::file_type::not_found)
+        throw std::invalid_argument("output project must be a new file");
+    export_checkpoint(&cancelled);if(!has_geos()) throw std::runtime_error("raw streamed contours require QUPATHXX_BUILD_GEOS=ON");
+    const auto observed_model=observe_cli_file(args[4]);const auto model=load_raw_pixel_classifier(args[4],&cancelled);
+    auto project=Project::open(args[2]);auto doc=project->document(id);const auto observed_project=observe_cli_file(args[2]);const auto observed_source=doc->server()->reader_source();
+    auto guard=[&] {export_checkpoint(&cancelled);guard_outputs(*project,{destination},{args[4]});verify_cli_source(*observed_model);verify_cli_source(*observed_project);if(observed_source) verify_cli_source(*observed_source);};
+    guard();RawPixelTiledPredictionRequest request(*doc,model,lattice(*doc,o),o.stream,o.region,o.object);
+    RawPixelStreamContourJob job;job.request(request,o.contours);
+    const auto fields=",\"model_sha256\":"+batch_json_quote(model.sha256());
+    line("contours","running",destination,contour_stats(job.poll(*doc)),fields);
+    const auto stats=collect(job,[&]{return job.poll(*doc);},cancelled);const auto result=job.result();
+    if(!result) {line("contours",stats.state,destination,contour_stats(stats),fields);return stats.state=="cancelled"?130:1;}
+    guard();const auto ids=publish_raw_pixel_stream_contours(*doc,request,*result,o.prefix,o.publication_bytes);
+    export_checkpoint(&cancelled);project->save_new(destination,o.snapshot_bytes,o.project_bytes,&cancelled,guard);
+    std::string summary=fields+",\"request_sha256\":"+batch_json_quote(result->request_sha256())+",\"input_sha256\":"+batch_json_quote(result->input_sha256())+",\"prediction_sha256\":"+batch_json_quote(result->prediction_sha256())+",\"samples\":"+std::to_string(result->completed_samples())+",\"valid_samples\":"+std::to_string(result->valid_samples())+",\"vertices\":"+std::to_string(result->contours()->vertex_count())+",\"components\":"+std::to_string(result->contours()->components().size())+",\"class_counts\":[";
+    for(std::size_t i=0;i<result->class_counts().size();++i) {if(i) summary+=',';summary+=std::to_string(result->class_counts()[i]);}summary+="],\"object_ids\":[";
+    for(std::size_t i=0;i<ids.size();++i) {if(i) summary+=',';summary+=std::to_string(ids[i]);}summary+=']';
+    line("contours","saved",destination,contour_stats(stats),summary);return 0;
+}
 int train(const std::vector<std::string>& args,const std::atomic<bool>& cancelled) {
     if(args.size()<5) throw std::invalid_argument("usage: --train-raw-pixels PROJECT IMAGE_ID MODEL --checkpoint FILE --archive FILE [options]");
     const auto id=integer<std::uint64_t>(args[3]);if(!id) throw std::invalid_argument("image ID must be positive");auto o=parse(args,5,true,false);
@@ -181,15 +243,16 @@ int train(const std::vector<std::string>& args,const std::atomic<bool>& cancelle
 ScientificGridAxis raw_pixel_cli_axis(const std::string& value) {return axis(value);}
 std::optional<int> raw_pixel_cli(const std::vector<std::string>& args,const std::atomic<bool>& cancelled) {
     if(args.size()<2) return {};
-    const auto& mode=args[1];if(mode!="--train-raw-pixels" && mode!="--export-raw-pixels" && mode!="--verify-raw-pixels") return {};
+    const auto& mode=args[1];if(mode!="--train-raw-pixels" && mode!="--export-raw-pixels" && mode!="--verify-raw-pixels" && mode!="--contour-raw-pixels") return {};
     try {
         if(mode=="--train-raw-pixels") return train(args,cancelled);
         if(mode=="--export-raw-pixels") return predict(args,cancelled);
+        if(mode=="--contour-raw-pixels") return contour(args,cancelled);
         return verify(args,cancelled);
     } catch(const std::invalid_argument&) {throw;}
     catch(const std::exception& e) {
         RawPixelFileJobStats stats;stats.error=e.what();const auto state=cancelled.load()?"cancelled":"failed";
-        line(mode=="--train-raw-pixels"?"train":mode=="--export-raw-pixels"?"export":"verify",state,"",stats);return cancelled.load()?130:1;
+        line(mode=="--train-raw-pixels"?"train":mode=="--export-raw-pixels"?"export":mode=="--contour-raw-pixels"?"contours":"verify",state,"",stats);return cancelled.load()?130:1;
     }
 }
 }
