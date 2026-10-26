@@ -1,0 +1,13 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 10: viewer_session
+1/1 Test #10: viewer_session ...................***Failed    0.31 sec
+viewer session check failed at line 70
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.37 sec
+
+The following tests FAILED:
+	 10 - viewer_session (Failed)
+Errors while running CTest

@@ -1,0 +1,42 @@
+[
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development-b\\products\\_native.cp312-win_amd64.pyd",
+    "sha256": "bc133ba4eea673a2eb1fe5665cd9913b2fc7bc95879205e314787eab41354416"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development-b\\products\\qupathxx_viewer_session_tests.exe",
+    "sha256": "25954ce4ffddbc3ce5c258bbcf3e9ebd38841563beda5df9a8e83823c1193c54"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development-b\\products\\qupathxx_project_batch_tests.exe",
+    "sha256": "b67de23b628cf192dfa951716df92a034226bd1dec8f718ab525e2ec01452a06"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development-b\\products\\qupathxx_pixel_workflow_tests.exe",
+    "sha256": "10c4b4b58f4222b54fb10afe75f98664f34be91c4cbf5fe3dfe3da93d3ac1e90"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development-b\\products\\qupathxx_pixel_feature_tests.exe",
+    "sha256": "372002a728f06ca902b6ee81f7028d1e7513982a708496a19b4682bee9c0e10c"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development-b\\products\\qupathxx_classifier_tests.exe",
+    "sha256": "369afac7669a8f6762233ad3daa8e06d8a1374a64fdafeebc08727118bf9beaf"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development-b\\products\\qupathxx_gui_replay_tests.exe",
+    "sha256": "1ae2c890d3575256a24f09a8b26915e44c33d09a4cdef084cf54edef92630964"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development-b\\products\\qupathxx_overlay_tests.exe",
+    "sha256": "85538e9462888d7953268cc250154e8b5fbe8ba7d52138daa37e2c09c269ba97"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development-b\\products\\qupathxx_region.exe",
+    "sha256": "59dce80028a516d72f1b1bb281bbd178d3c3b331aa8fcd9fe3ed956be109af49"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development-b\\products\\qupathxx_batch.exe",
+    "sha256": "4ca679581c67aa4e6881fa3dbf80f310ab75b6b24be65ba2e5a01686736ccba2"
+  }
+]

@@ -1,0 +1,1 @@
+{"schema":"qpx.raw-pixel-train/1","state":"failed","path":"","error":"raw training requires the optional OpenCV backend","source_tree_sha256":"718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c","total_windows":0,"completed_windows":0}

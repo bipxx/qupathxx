@@ -2,37 +2,34 @@
 
 ## Current execution card (2026-10-26)
 
-- Active implementation: T4.3 desktop/managed-viewer raw classification has
-  passing development checks. At `10f44cc`, 48 selected frontend/managed-viewer
-  Python cases and seven native suites pass. At `a8e7eaf`, the affected viewer
-  native suite adds active cancellation/retry and active shutdown/join; all eight
-  raw frontend cases pass again. Runtime source/fingerprint match the development
-  build. These are copied development packages, not accepted installed wheels.
-- The three original desktop timeouts are resolved: ImGui overlap-enabled tabs
-  require a prior hover frame. Replay now moves before real down/up events;
-  temporary tracing is removed. Additional desktop cases prove committed QWS
-  header/block preservation on resume, invalid-load model preservation with
-  continued prediction, and image-switch preview/GPU retirement. Native checks
-  retain stale/workspace/image-removal and historical-authority controls.
-- Later T4.3 controls at `6a1bb0e` pass: all nine raw frontend cases,
-  including desktop deletion retiring a ready result/GPU preview, plus the native
-  unchanged-source/actual-file-version refusal pair. Rejection may occur during
-  read or at publication; require no delivered prediction. Keep the original
-  initial source-mutation fixture failure and its executable at `2f78c4a`.
-- T4.4 is now in progress. At `58f1241`, the shared native frontend adapter
-  performs fresh bounded full-grid prediction, contour tracing and guarded
-  atomic apply. The affected native viewer suite and nine raw Python regressions
-  pass with GUI/GEOS/training/TIFF/project ON. A separate native viewer suite
-  passes with GUI/GEOS OFF and training/TIFF/project ON, including contour
-  backend refusal. Both bind the same 383 compiler inputs. Geometry matches the existing
-  rational-grid tracer; apply/undo/redo, duplicate/stale apply, cancellation,
-  work-budget and pre-IO oversize refusal are covered. This is development
-  evidence; desktop buttons and managed commands are not wired yet.
-- Next: connect contour preview/apply to ImGui and managed-viewer owner commands
-  using that adapter, with real interaction, result-budget and lifetime controls.
-  Then regenerate stubs and package settled contracts at T4.5. No final frontend
-  receipt, wheel, typing or integrated qualification yet. All original failures
-  and diagnostic products retain their separate source identities.
+- Latest frontend delivery: desktop/managed raw classification and bounded
+  contour apply at `0dc916c` have [installed local acceptance](benchmarks/raw-frontend-local.json).
+  Windows cp312 GUI/GEOS/training/TIFF/project ON, OpenSlide OFF: 195 Python
+  passes, including all 17 raw frontend cases, and seven native suites. Three
+  named skips cover OpenSlide and the separate backend-OFF profile.
+- Real actions train/checkpoint-resume, preview exact indexed windows, recover
+  from invalid model loads, save/export/resume, retain/reopen and browse history.
+  A class-colored bounded contour preview leads to one atomic apply/undo/redo.
+  Historical files grant no live apply authority; edits/image switches retire
+  previews. Managed apply captures fresh authority, checks optional revision and
+  reserves the full conservative result payload plus IDs before mutation.
+- The geometry-OFF/training-ON native suite passes. Two training-OFF native
+  suites and CLI training refusal pass at the same 383-input fingerprint; its
+  CLI saves/reuses an actual ON-trained model and matches all 27 numeric blocks.
+  Separate installed active-contour cancel/close probes both observe running
+  tickets, prevent mutation, reclaim results and release borrowed readers.
+- Wheel contents/source/capabilities, loaded GEOS DLL paths, notices and both
+  SDK manifests authenticate. Stubs match; four valid typing files pass and
+  twelve errors in three invalid files reject. The receipt binds 199 raw payloads
+  and 26 retained final/development products, with original failures preserved.
+  Dependencies are reused, so this is not clean-machine or release acceptance.
+- Next: T5 producer/auditor and named-cohort preflight, then one integrated
+  platform qualification at a frozen candidate. Preserve these T4.3-T4.5 local
+  exits; do not rebuild consumer features or repeat full campaigns without a
+  changed input/failure. Stream stitching, sparse ROI prediction traversal,
+  automatic maintenance, abrupt-process/power-loss and independent scientific,
+  resource/hardware/release gates remain open. All M0-M7 remain Partial; only
+  open-source readers and required codecs are eligible.
 - Latest accepted delivery: raw-classifier project batches at `c2c0fa0` have
   [installed local acceptance](benchmarks/raw-pixel-batch-local.json). Windows
   cp312, training/TIFF/project ON, GUI/GEOS/OpenSlide OFF: 136 Python passes,
@@ -49,13 +46,10 @@
   retained separately; its source/log/XML remain. Generated stubs match; three
   valid typing files pass and seven errors in two invalid files reject.
   Test dependencies are reused, so no clean-machine/release claim is made.
-- Ordered remaining work: finish [T4.3](api-delivery-plan.md#t43-development-state-and-repair-order),
-  finish T4.4 bounded contour consumers, then T4.5 installed frontend integration
-  and one T5 freeze. Settle frontend contracts before regenerating stubs and
-  building the acceptance wheel. T4 remains Partial.
-  Sparse ROI prediction traversal, automatic maintenance, abrupt-process/power-
-  loss, stitched contours and scientific/resource/hardware/release gates remain
-  open. All M0-M7 stay Partial; only open-source readers/codecs are eligible.
+- Ordered remaining work: [T5 preflight and integrated qualification](api-delivery-plan.md#t4-execution-tasks-finish-consumers-before-another-qualification),
+  then the remaining SCI1-B workflows and applicable decision/release lanes.
+  T4's named Windows consumers now have local scope-matched evidence; broader
+  platforms and every unfinished M0-M7 requirement remain open.
 - Earlier [raw CLI](benchmarks/raw-pixel-cli-local.json) at `f463110` and
   [Python API/example](benchmarks/raw-python-bindings-local.json) at `202b41a`
   retain their source-bound baselines. New batch output is per completed image;

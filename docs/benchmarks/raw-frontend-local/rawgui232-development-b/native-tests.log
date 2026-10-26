@@ -1,0 +1,19 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start  1: pixel_workflows
+1/7 Test  #1: pixel_workflows ..................   Passed    1.84 sec
+    Start  2: pixel_features
+2/7 Test  #2: pixel_features ...................   Passed    0.13 sec
+    Start  5: classifier
+3/7 Test  #5: classifier .......................   Passed    0.05 sec
+    Start 10: viewer_session
+4/7 Test #10: viewer_session ...................   Passed    0.72 sec
+    Start 14: project_batch
+5/7 Test #14: project_batch ....................   Passed    0.91 sec
+    Start 22: overlay_surface
+6/7 Test #22: overlay_surface ..................   Passed    0.03 sec
+    Start 33: gui_replay
+7/7 Test #33: gui_replay .......................   Passed    0.04 sec
+
+100% tests passed out of 7
+
+Total Test time (real) =   3.97 sec

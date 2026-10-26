@@ -1,0 +1,5 @@
+{
+  "state": "failed",
+  "error": "raw feature scratch exceeds memory budget",
+  "committed": false
+}

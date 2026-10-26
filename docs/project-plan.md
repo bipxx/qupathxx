@@ -32,20 +32,19 @@ release status. Use the [current task](current-task.md), [workflow inventory](fe
 and [API delivery paths](api-delivery-plan.md) for exact scope and remaining work.
 All M0-M7 remain Partial.
 
-The next executable work is the remaining [T4.3-T4.5 consumer sequence](api-delivery-plan.md#t4-execution-tasks-finish-consumers-before-another-qualification):
-Finish the implemented but unqualified ImGui/managed-viewer slice, then bounded
-contour apply and installed frontend integration, following the locally verified
-CLI and native project-batch steps. The desktop replay now hovers before the
-real click, resolving the tab-selection timeouts; temporary tracing is removed.
-See the [T4.3 development state and exit order](api-delivery-plan.md#t43-development-state-and-repair-order).
-At `10f44cc`, 48 selected Python cases and seven native suites pass. At `a8e7eaf`,
-eight raw frontend cases and the affected viewer native suite pass, including
-active cancellation/retry and shutdown/join. At `6a1bb0e`, nine raw frontend cases and the native source-version controls pass.
-At `58f1241`, the shared bounded contour adapter passes native trace/atomic apply/
-undo/redo and refusal controls, with nine raw regressions. Its desktop/managed
-controls, final stubs/wheel and integrated qualification remain open. Each task names existing APIs,
-compatibility rules and decisive evidence. Follow that single queue; the native
-packet baselines below are preserved evidence, not additional work to repeat.
+The next executable work is [T5 preflight and integrated qualification](api-delivery-plan.md#t43-t45-installed-acceptance-and-next-qualification).
+The [raw frontend receipt](benchmarks/raw-frontend-local.json) locally accepts
+`0dc916c`: 195 installed Windows Python passes (all 17 raw frontend cases), seven
+native suites, separate geometry/training-OFF controls, actual trained-model
+portable inference and active contour cancellation/shutdown. The wheel binds
+383 inputs; stubs, typing, loaded DLLs/notices and SDKs authenticate. Desktop and
+managed consumers now cover train/preview/save/reopen/resume plus bounded atomic
+contour apply/undo/redo. Historical output grants no live apply authority.
+
+Preflight producers, auditors and named case sets before one frozen integrated
+campaign. These local Windows results do not qualify other platforms, clean
+machines, biology, hardware budgets or release support. Follow the single API
+queue; older native packet baselines remain preserved evidence.
 
 TMA `19371b7`, normal multi-file OME `9e7d0be` and the expanded multi-file
 fault campaign `bfa416e` have separate engineering acceptance. The
@@ -55,7 +54,7 @@ and portable builders/fresh consumers on the original handles. E1/E2 and the
 later E3/E4 tooling keep their own implementation/local evidence and are included
 in that source. Preserve the earlier partial observation and every source identity.
 
-The latest accepted classifier packet is [raw-classifier project batches](benchmarks/raw-pixel-batch-local.json)
+The earlier accepted classifier batch packet is [raw-classifier project batches](benchmarks/raw-pixel-batch-local.json)
 at `c2c0fa0`: 136 installed Python passes (all 14 new batch cases), four native
 suites and a separate backend-OFF suite/CLI trained-model save/reuse. It binds
 377 inputs; typing/stubs, exact lattice matching, current-input hash reuse,

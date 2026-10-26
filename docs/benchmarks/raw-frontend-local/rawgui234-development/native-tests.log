@@ -1,0 +1,9 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 10: viewer_session
+1/2 Test #10: viewer_session ...................   Passed    0.97 sec
+    Start 33: gui_replay
+2/2 Test #33: gui_replay .......................   Passed    0.04 sec
+
+100% tests passed out of 2
+
+Total Test time (real) =   1.11 sec

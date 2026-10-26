@@ -540,3 +540,7 @@ docs/benchmarks/raw-pixel-cli-local.json -text -whitespace
 # Installed raw project-batch evidence retains exact source-bound bytes.
 docs/benchmarks/raw-pixel-batch-local/** -text -whitespace
 docs/benchmarks/raw-pixel-batch-local.json -text -whitespace
+
+# Installed raw desktop/managed contour evidence retains exact source-bound bytes.
+docs/benchmarks/raw-frontend-local/** -text -whitespace
+docs/benchmarks/raw-frontend-local.json -text -whitespace

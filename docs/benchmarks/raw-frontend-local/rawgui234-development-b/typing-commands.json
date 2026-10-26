@@ -1,0 +1,50 @@
+[
+  {
+    "kind": "valid",
+    "command": [
+      "uv",
+      "tool",
+      "run",
+      "--from",
+      "pyright==1.1.407",
+      "pyright",
+      "--project",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui234-development-b\\pyright-valid.json",
+      "--pythonpath",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawgui234-dev-b312-env\\Scripts\\python.exe",
+      "--outputjson"
+    ],
+    "exit": 0,
+    "summary": {
+      "filesAnalyzed": 4,
+      "errorCount": 0,
+      "warningCount": 0,
+      "informationCount": 0,
+      "timeInSec": 0.899
+    }
+  },
+  {
+    "kind": "invalid",
+    "command": [
+      "uv",
+      "tool",
+      "run",
+      "--from",
+      "pyright==1.1.407",
+      "pyright",
+      "--project",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui234-development-b\\pyright-invalid.json",
+      "--pythonpath",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawgui234-dev-b312-env\\Scripts\\python.exe",
+      "--outputjson"
+    ],
+    "exit": 1,
+    "summary": {
+      "filesAnalyzed": 3,
+      "errorCount": 12,
+      "warningCount": 0,
+      "informationCount": 0,
+      "timeInSec": 0.397
+    }
+  }
+]

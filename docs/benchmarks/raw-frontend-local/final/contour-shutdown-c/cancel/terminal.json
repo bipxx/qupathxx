@@ -1,0 +1,5 @@
+{
+  "state": "cancelled",
+  "error": "raw operation cancelled; committed files may remain",
+  "committed": false
+}

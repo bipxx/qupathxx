@@ -1,0 +1,26 @@
+[
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development\\products\\qupathxx_viewer_session_tests.exe",
+    "sha256": "45b94107a6c9d4fbea5b5503b1c6d314ec5e83a7f141d7b691cf3393bcd76c36"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development\\products\\qupathxx_project_batch_tests.exe",
+    "sha256": "d7ec18ee67d091142a8b5f80ef59b3ea0c07ace2c03539247fe6d1acd6e38c80"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development\\products\\qupathxx_pixel_workflow_tests.exe",
+    "sha256": "530637adb298e7efaa9e44398bf5de844bbf53cf918eedbdf39ddbf588773984"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development\\products\\qupathxx_pixel_feature_tests.exe",
+    "sha256": "a89d242822d40c185fc3802be818b0f3745ddbc6853e2a051dde4033b8f1b262"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development\\products\\qupathxx_classifier_tests.exe",
+    "sha256": "9766322862b2b7cdd652fe7421d38c43b10c9483ee97b54d3b1ebe65fdf107a0"
+  },
+  {
+    "path": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui232-development\\products\\qupathxx_gui_replay_tests.exe",
+    "sha256": "a30fc02ff9052099b0bb44c22efe74a5cde2c7021a0b12bbeae54e6d08e8f5cf"
+  }
+]

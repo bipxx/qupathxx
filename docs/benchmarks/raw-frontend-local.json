@@ -1,0 +1,1156 @@
+{
+  "schema": "qpx.raw-frontend-local/1",
+  "observed_at_utc": "2026-10-26T15:56:47.750188+00:00",
+  "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+  "compiled_fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+  "compiler_inputs": 383,
+  "status": "windows_cp312_installed_raw_desktop_managed_contours_locally_verified",
+  "installed_python_passes": 195,
+  "installed_skips": [
+    {
+      "classname": "tests.test_project_batch",
+      "name": "test_digest_coarse_grid_independent[1]",
+      "reason": "requires OpenSlide"
+    },
+    {
+      "classname": "tests.test_project_batch",
+      "name": "test_digest_coarse_grid_independent[2]",
+      "reason": "requires OpenSlide"
+    },
+    {
+      "classname": "tests.test_raw_pixel_cli",
+      "name": "test_cli_training_backend_off_refuses_before_output",
+      "reason": "backend-OFF profile only"
+    }
+  ],
+  "cohorts": {
+    "tests.test_raw_pixel_batch": 14,
+    "tests.test_project_batch": 22,
+    "tests.test_raw_pixel_cli": 15,
+    "tests.test_raw_pixel_python": 10,
+    "tests.test_pixel_stream_cli": 46,
+    "tests.test_project_pixel_batch": 25,
+    "tests.test_raw_batch": 4,
+    "tests.test_public_stubs": 5,
+    "tests.test_gui_raw_pixel": 17,
+    "tests.test_gui_pixel_classifier": 20,
+    "tests.test_viewer_session": 20
+  },
+  "new_raw_frontend_cases": [
+    "test_desktop_train_keep_preview_save_and_export_retained_file",
+    "test_desktop_checkpoint_resume_without_duplicate_sampling",
+    "test_desktop_historical_open_keep_remove_preserves_external_file",
+    "test_raw_overlay_toggle_invalidates_cached_canvas_at_fractional_edges",
+    "test_managed_raw_training_prediction_resume_read_and_saved_project",
+    "test_desktop_prediction_prefix_resume_preserves_committed_bytes",
+    "test_desktop_invalid_model_preserves_current_model_and_can_predict",
+    "test_desktop_image_switch_retires_raw_prediction_and_gpu_preview",
+    "test_desktop_edit_retires_ready_raw_prediction_and_gpu_preview",
+    "test_desktop_raw_contour_preview_apply_is_one_undoable_edit[False-False]",
+    "test_desktop_raw_contour_preview_apply_is_one_undoable_edit[True-False]",
+    "test_desktop_raw_contour_preview_apply_is_one_undoable_edit[True-True]",
+    "test_desktop_contour_edit_discards_geometry_preview",
+    "test_desktop_contour_limits_preserve_document[work]",
+    "test_desktop_contour_limits_preserve_document[preview]",
+    "test_managed_raw_contour_preview_fresh_apply_and_persistence",
+    "test_desktop_historical_file_does_not_enable_live_contour_apply"
+  ],
+  "native_training_on_suites": 7,
+  "native_training_off_suites": 2,
+  "native_geometry_off_training_on_suites": 1,
+  "portable_backend_off": {
+    "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+    "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+    "flags": {
+      "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "OFF",
+      "QUPATHXX_BUILD_GEOS": "OFF",
+      "QUPATHXX_BUILD_GUI": "OFF",
+      "QUPATHXX_BUILD_INTERCHANGE": "ON",
+      "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+      "QUPATHXX_BUILD_PROJECT": "ON",
+      "QUPATHXX_BUILD_PYTHON": "ON",
+      "QUPATHXX_BUILD_TESTS": "ON",
+      "QUPATHXX_BUILD_TIFF": "ON"
+    },
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows\\Release\\qupathxx_batch.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui234-backend-off\\fixture\\input.qpx",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui234-backend-off\\fixture\\out",
+      "--kind",
+      "raw-pixels",
+      "--raw-pixel-model",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawgui234-backend-off\\fixture\\model.qrm",
+      "--raw-pixel-tile-width",
+      "2",
+      "--raw-pixel-tile-height",
+      "2",
+      "--raw-pixel-work-bytes",
+      "16777216"
+    ],
+    "saved": 2,
+    "reused": 2,
+    "verified_numeric_blocks": 27,
+    "model_sha256": "9aaa1a31f9adf5c6f00a09f2331a7c9ae2a8b806d7a3ac3501636b6004521724",
+    "source_project_unchanged": true,
+    "executable_sha256": "9d6c4df8a910ce53f2a0492bebc46b1da72e0cdab2b9db96a0193ef64ffb6fe4"
+  },
+  "managed_active_contour_shutdown": {
+    "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+    "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+    "cases": [
+      {
+        "action": "cancel",
+        "observed_running": true,
+        "state": "cancelled",
+        "committed": false,
+        "objects": 3,
+        "source_project_unchanged": true,
+        "reader_released": true,
+        "frames": 4
+      },
+      {
+        "action": "close",
+        "observed_running": true,
+        "state": "cancelled",
+        "committed": false,
+        "objects": 3,
+        "source_project_unchanged": true,
+        "reader_released": true,
+        "frames": 4
+      }
+    ]
+  },
+  "positive_typing_files": 4,
+  "negative_typing_files": 3,
+  "negative_typing_errors": 12,
+  "wheel": {
+    "bytes": 10634289,
+    "sha256": "1835e8e44c9eb95b289d0330361f2f319ed3a5c1a83d1d1e2d63f54f2413ea12",
+    "members": 33
+  },
+  "scope": [
+    "Desktop and managed raw train/checkpoint resume, owned bounded window preview, model IO, QWS1 export/resume and QTT1/QWL1 retention reuse native owner jobs and codecs",
+    "Historical model/file browsing does not restore live contour apply authority; real disabled controls, mixed records and external-file preservation are exercised",
+    "Bounded full-grid contour preview and atomic apply preserve rational axes/context, use fresh owner prediction and existing undo commands, and refuse stale/cancelled/oversized/budget-exceeding work without mutation",
+    "Managed contour results reserve conservative snapshot/model/prediction/geometry payload plus anticipated edit IDs before owner mutation; a quota refusal leaves the document unchanged",
+    "Real desktop apply/undo/redo, class-colored geometry preview, image/edit retirement, invalid model recovery and installed managed saved-project reopen pass",
+    "Two independent installed active-contour cancel/close probes observe running tickets, reject mutation, release retained results and permit source-reader rename after shutdown",
+    "Training-OFF native and CLI checks refuse training before outputs and save/reuse an ON-trained model with all 27 numeric blocks matching the installed ON consumer",
+    "All imported wheel members, source/fingerprint/capabilities, loaded GEOS DLL paths, required notices, 195 OpenCV SDK files and 559 GEOS SDK files authenticate; generated declarations and nonempty exact typing counts match"
+  ],
+  "development": [
+    "Initial native/GUI compile fixture and replay failures remain at their original Git sources with input manifests/logs/XML and product manifests where available",
+    "ImGui overlap-enabled tabs required a prior hover frame in replay; actual move/down/up fixed the interaction without forcing selection",
+    "Initial partial-file comparison incorrectly included the replaceable QWS1 footer; corrected checks preserve exact header/committed block bytes and verify the complete file",
+    "A fresh shutdown fixture initially used an old workspace epoch and correctly refused; corrected owner setup adopted the current epoch",
+    "The first additional contour shutdown probes exceeded feature scratch admission before cancellation; the corrected probe pre-admits a valid grid and exercises active cancellation and close"
+  ],
+  "limitations": [
+    "Local Windows CPython 3.12 GUI/GEOS/training/TIFF/project ON and OpenSlide OFF; separate native OFF profiles are not OFF wheels or cross-platform qualification",
+    "The fresh installed package reuses workspace test dependencies through .pth; no clean-machine or supported-release claim",
+    "Bounded full-grid contour apply is distinct from indexed-window preview and stitched streamed contours; large whole-slide apply, sparse ROI prediction traversal and process RSS/performance acceptance remain open",
+    "Source/data/lifetime controls are engineering evidence, not independent biological/model or hardware acceptance",
+    "Historical rawgui232 observations retain their original manifests and products; no old executable is relabeled as the final candidate. The passing 6a1bb0e native executable was not separately retained before cache reuse",
+    "T5 integrated producer/auditor/platform qualification, automatic maintenance, abrupt-process/power-loss, wider reader support, scientific/resource/hardware and release requirements remain open"
+  ],
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/compiler-inputs.json",
+      "bytes": 40880,
+      "sha256": "6a936052b850769729d5298811b557ba7c0d5fc3ada7d6d6c579e0e92eab0441"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/geos-sdk-files.json",
+      "bytes": 65762,
+      "sha256": "f79947043d949bc3ef73047c1e5bf4aa73815ecf4a10d6954f05a9cde3d9ede1"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/install-wheel.log",
+      "bytes": 335,
+      "sha256": "83642a4aedb70d9f6cf902d0edbdee4cada76eab5bbbd034bdd07ca005191457"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/installed-proof.json",
+      "bytes": 9431,
+      "sha256": "f2ff73b0aa63695534157b5c8128b91ec5c2f660b77e5283c931be28c1154a0a"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/installed-proof.log",
+      "bytes": 86,
+      "sha256": "f54eef54eecba7355f7ef0f87f5e5776a36e667c77740bb630a070eaf170e11c"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/native-tests.log",
+      "bytes": 829,
+      "sha256": "87b0a751cfc526a22e2f907a8554af9c547b4c29d460898df7e01690e09c68e7"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/native-tests.xml",
+      "bytes": 7885,
+      "sha256": "d13921ff9ab1c580684782fd5448c1e3ee5a8a4836d81c94ba3639c25078dc89"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/pyright-invalid.json",
+      "bytes": 400,
+      "sha256": "c6e31c0f9c6f14c059520b066526a1a3fdb89bbf97fe28308bca5ec2f61808f9"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/pyright-valid.json",
+      "bytes": 463,
+      "sha256": "169a5297248b5f6370f8d624d6492a6e0b3fb51b320c476754c706aac1839b45"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/python-tests.log",
+      "bytes": 276,
+      "sha256": "789555950c4ec1715a72f3f1d5caf6ec3f2b5ff1d2fa412092f2545e02814387"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/python-tests.xml",
+      "bytes": 26674,
+      "sha256": "947966aba65b86383d16fbf406ba3ce98bf1ec77f5508d9d1724208607351a83"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/stubs-check.log",
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/typing-invalid.log",
+      "bytes": 9786,
+      "sha256": "675eb40d9bd1dd0033c070a8a3f3fcd1079c1dfe3e72e797b045a174b33d685d"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/typing-valid.log",
+      "bytes": 250,
+      "sha256": "633020aad60edc2ca939e4d3417e30399d20d3a20e6a9464c5f9788d9e93fb6a"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/verification-commands.json",
+      "bytes": 4572,
+      "sha256": "59a9d168c57e4b0902da0dac610333924c7cdf6b1a727ff03bac203601256d27"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/wheel-build.log",
+      "bytes": 27189,
+      "sha256": "a7f7c6cbe98465183fac889d4251ed683a8aa9b6cf95a4daeecc84ec42979e2e"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/wheel-command.json",
+      "bytes": 231,
+      "sha256": "aceef054fb907b5923548ef3cf9cb7d19c4858a0dbcb0b6a61d8de5c812846e3"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/backend-off/build.log",
+      "bytes": 24807,
+      "sha256": "dd419605db57e5e858df88fffe0e2b0ee31eb285fb96c7f7ad2151fb94cecd2c"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/backend-off/commands.json",
+      "bytes": 1283,
+      "sha256": "a832f2ada7c2edf4a0eb98784c7b44869dc3bb4bfe3dc5166a5cdd4cd1b104f6"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/backend-off/compiler-inputs.json",
+      "bytes": 40491,
+      "sha256": "5d1d9452baaa42b353c04eeca2e9078ff41ad68aa539f0883ba1bbdcb69f98e5"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/backend-off/configure.log",
+      "bytes": 3711,
+      "sha256": "47070c9a6b8255f36b1486df2ac70a891aa500ea3c3a66d23056929f765f7b08"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/backend-off/fresh.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/backend-off/fresh.stdout",
+      "bytes": 3159,
+      "sha256": "98d2ef87a0ff2edc0d3c803c75dbe2021142d38dd0b7faee16320e78704c6f7b"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/backend-off/native-tests.log",
+      "bytes": 338,
+      "sha256": "db361b6b2c5fd756d5e99c4e9906c315d2942fdfaa3b22974b0823b60a6f0b51"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/backend-off/native-tests.xml",
+      "bytes": 1759,
+      "sha256": "7ad641c4de3dcf621bc5b1e079033677924cbad8eebae30881f634c92078cccf"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/backend-off/portable-backend-off-proof.json",
+      "bytes": 1346,
+      "sha256": "a1283b40bd1bd131847d5ee54978aa6dd562bdf3924580bf2b84239c35802f82"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/backend-off/reuse.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/backend-off/reuse.stdout",
+      "bytes": 3150,
+      "sha256": "fb7f79f70bc8de10384799d987b3616551eda30fb2b2db6a1ce04830a93a01b1"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/backend-off/training-refusal-proof.json",
+      "bytes": 1141,
+      "sha256": "71c25742e9e370041213293bdc5ee0e6bbbab79a150c6caaf5381e56a292b64e"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/backend-off/training-refusal.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/backend-off/training-refusal.stdout",
+      "bytes": 251,
+      "sha256": "eda95139e6f31132b46dcdf1a6b11ec00acf2a4f9cd50a03f9bd7aabd6ccd6df"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/geometry-off/build.log",
+      "bytes": 9117,
+      "sha256": "f1494f9d41ff7b3a53c2a286de0d40914193433c729407d0e6b076f4bef2741a"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/geometry-off/commands.json",
+      "bytes": 1151,
+      "sha256": "b018535948720ba096ed0da91916997e3c78398bfd28dc74ac504c8dc8777b38"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/geometry-off/compiler-inputs.json",
+      "bytes": 40491,
+      "sha256": "5d1d9452baaa42b353c04eeca2e9078ff41ad68aa539f0883ba1bbdcb69f98e5"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/geometry-off/configure.log",
+      "bytes": 3754,
+      "sha256": "226e9309a982f74fced5546b178a3e3c0c7c28166b70467bf4174a6d36e296bc"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/geometry-off/native-tests.log",
+      "bytes": 240,
+      "sha256": "82e9827af8c9a82f88963dc4bfd966637b2568817ca52f7559202847ec5bd676"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/geometry-off/native-tests.xml",
+      "bytes": 1300,
+      "sha256": "348ba55bec0951b0ce28128891ef8fc0d513006e791ddde83b6d061d230cb557"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/geometry-off/products.json",
+      "bytes": 113,
+      "sha256": "e980cdd4b35a8d2a3cb8b9e100f6291984e651a097ca0093024b6505c835040d"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/geometry-off/verification-commands.json",
+      "bytes": 555,
+      "sha256": "811134e9ff8c1973fa678efd301962959f6151ea90683b0df4294a649ccef9a0"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development/build.log",
+      "bytes": 18360,
+      "sha256": "5a757ea692970bb8d79f9a3a42394e1f20039e24e7dc30ecb5291bbd6b7b9349"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development/commands.json",
+      "bytes": 1439,
+      "sha256": "ca63ecd206a3b802070ffd8b8e76e89468268a69080ac237573649036c0e7064"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development/compiler-inputs.json",
+      "bytes": 40491,
+      "sha256": "0bb766244bb297480e4bc88db45759e8397eec21f7f12c8c63106ad29f213fa6"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development/configure.log",
+      "bytes": 4062,
+      "sha256": "ce32dd5448b9fca8b8d01226134b92d93512ec6f22b3cab4a05189c0a3ccfab0"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development/native-tests.log",
+      "bytes": 729,
+      "sha256": "4721fd81ba2924341230e73f7d24b2bdfa9f343453c276685c15ebdb75fb54be"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development/native-tests.xml",
+      "bytes": 7293,
+      "sha256": "e073070461b6bfa1cba4a6c7310556a478a5b443f06baa856bf825a72d01d9cb"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development/products.json",
+      "bytes": 1283,
+      "sha256": "a213a4b076666acd377afde7aa72693057e9ebfa830cf7541835594ce3d40040"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-b/build.log",
+      "bytes": 10712,
+      "sha256": "d8cbc6aa86837e1c02f68f48ba6c96549ffc523f819c0c8e23cafd1acec176c5"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-b/commands.json",
+      "bytes": 1438,
+      "sha256": "360f6f5a451fd650ece847e59e13b1ccaa28db95e36b6ce3201cdda2c92a3a24"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-b/compiler-inputs.json",
+      "bytes": 40491,
+      "sha256": "3615cdcc4dde12c56ffbece48a2b1dfdce97c3763c8c745aca4f9bf99d93a81d"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-b/configure.log",
+      "bytes": 3742,
+      "sha256": "c3f1c891c751931d9da6a7e2caf5e94695c0f94e843ff2884b8cc4568a7bb083"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-b/gui-tests.log",
+      "bytes": 5252,
+      "sha256": "9cb4bd64587d8b022944ad76c02f7aa430855c4b256ee3edf454072674018bad"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-b/gui-tests.xml",
+      "bytes": 5573,
+      "sha256": "a8185b54fa3844fb2060089a1f2868a8ea735ec9507e3fe7db2169fc9e783492"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-b/native-tests.log",
+      "bytes": 829,
+      "sha256": "b450f657584bc52269e84422432500324d77258b6171d0b4a38a691a315737d9"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-b/native-tests.xml",
+      "bytes": 7520,
+      "sha256": "a15793d18bf5116b4f6701b17d19db8b0a6093c759b099e442ab78cf786977f3"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-b/products.json",
+      "bytes": 2121,
+      "sha256": "29d4d07eff6b23ad4ccb70db913b55b7e680dd54cda72786c501a35e57dc5637"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-b/runtime-proof.log",
+      "bytes": 182,
+      "sha256": "09a21a48e72887887c9dccb152de627a5a311b44b2095233b4353924d3c83872"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-b/verification-commands.json",
+      "bytes": 1508,
+      "sha256": "e82ffc3a7a87188e51b01299e7653a9b40aa62284d6ca52dcd81b17b1c011f2e"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-c/build.log",
+      "bytes": 1424,
+      "sha256": "177d315238f452d48e82c5be01c3bb5921dfea793677e8a133d4737232f6db50"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-c/commands.json",
+      "bytes": 1133,
+      "sha256": "2879c025bb62c7853ac744b91aca70fe03cc12589928934e79c35e004c8496f0"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-c/compiler-inputs.json",
+      "bytes": 40491,
+      "sha256": "1874f79c47c530e2e7dcb1f52906d3ff674ef74ac2f4daf5c1665dafbb5b33b8"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-c/configure.log",
+      "bytes": 3742,
+      "sha256": "760827d319e3578ab3e281a20cfe81e15ae26a4c80a021c2895864cc3c78b795"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-c/gui-expanded-corrected-tests.log",
+      "bytes": 101,
+      "sha256": "a6fe80aeb61a31302362aea769dc050e61214f1bdff581f7395ed9f0ddaad308"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-c/gui-expanded-corrected-tests.xml",
+      "bytes": 1312,
+      "sha256": "2670214b114df9d15e391f6c18f8428893408bdc99899207ea2fd43c65cc6374"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-c/gui-expanded-tests.log",
+      "bytes": 10293,
+      "sha256": "34e25f0b60cbdb177808081c9b0f37f14faf0430d48ada8aa7701179f27b466a"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-c/gui-expanded-tests.xml",
+      "bytes": 5169,
+      "sha256": "211e6b09d1ac20dddf6d63c406abf323f87172c03def6da3a93046ce3a5b0ef4"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-c/gui-hover-tests.log",
+      "bytes": 100,
+      "sha256": "c522b073c4c973479a0cd1c0a4c1c3546ad2d15f4f064fa716617c3d5798db76"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-c/gui-hover-tests.xml",
+      "bytes": 908,
+      "sha256": "22b808578e88c9332a6a83a99ff8b7a8ea8a405a539fd93eb10b4a274c94909b"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-c/products.json",
+      "bytes": 107,
+      "sha256": "77963ebcd4db924080b579b590c6df8e165141b4a348a4248213bd8cce462aec"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-c/tabs-trace.log",
+      "bytes": 3548,
+      "sha256": "a5026dc7710debd5859ab83307f967de700850879883d84cddda5198759514b0"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-d/build.log",
+      "bytes": 1424,
+      "sha256": "177d315238f452d48e82c5be01c3bb5921dfea793677e8a133d4737232f6db50"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-d/commands.json",
+      "bytes": 1134,
+      "sha256": "0900b0f67e4025fa4d1e4e8ea1952765aee5349be3df1b1d9e5c8d597f24e283"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-d/compiler-inputs.json",
+      "bytes": 40491,
+      "sha256": "50ef9f3a565c3b186158ac6bd2d482e2acf3dca65a85626b000ee248ac072777"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-d/configure.log",
+      "bytes": 3742,
+      "sha256": "31f8833213d2fb26bd6372cec98be427812c98290f8115882d6b4852a9976baa"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-d/gui-tests.log",
+      "bytes": 102,
+      "sha256": "fa7145ff16c2c9a6ae6eab78c23d534f1d56a4132cca55b912406181e9a74d65"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-d/gui-tests.xml",
+      "bytes": 6385,
+      "sha256": "c3942385542342627955476e7224c4e42956914731ab443a97aab70510da312a"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-d/native-tests.log",
+      "bytes": 829,
+      "sha256": "23f871873010e2b97c861ace9070a39c1ec425de77832e7972e6fc8b6d5d8a98"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-d/native-tests.xml",
+      "bytes": 7521,
+      "sha256": "4a184d58bfebb7c25f8637738572e4626fcc6758273c38b38f5fe4a44a1b22fe"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-d/products.json",
+      "bytes": 107,
+      "sha256": "943bebd4c62cb41df93d0b9ab4b1931b33f1a562663858824147aa1ec76472d7"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-d/runtime-proof.log",
+      "bytes": 182,
+      "sha256": "8d3dc6607ad7352c04ffcc590367a65c6ba8089e7bb4af0a1ea9e1f02e535fe2"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-d/verification-commands.json",
+      "bytes": 1732,
+      "sha256": "faed1cb6b4a52f3825fb81585f318b1d4d8e307f1920b3ec6decfabfe62296d2"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-e/build.log",
+      "bytes": 2297,
+      "sha256": "01399f730552e754f031b7d64b60ccf5e351c040cbd897200d95bb7709cb7e18"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-e/commands.json",
+      "bytes": 1172,
+      "sha256": "173db281387330505d655fc220d632fb13ea31ef32923820620b91242d8e6548"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-e/compiler-inputs.json",
+      "bytes": 40491,
+      "sha256": "e16a30cd1c424fa35f87c91d59b4562be3ebefddb7743cd7722c4d0d800aed04"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-e/configure.log",
+      "bytes": 3742,
+      "sha256": "fe7904602b3000e1f3c451f3aee1138dd1ed15876d853526fe0dca165492fb7d"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-e/native-tests.log",
+      "bytes": 383,
+      "sha256": "66c3c2377e09d6ee4d86008518e5d92d58da4f044d0712d05a7f9321fdfd14bb"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-e/native-tests.xml",
+      "bytes": 422,
+      "sha256": "bef8f1fd2c805f3706f6eb031298e2dd32a74ed63abb9714f0c543f04a91fa2e"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-e/products.json",
+      "bytes": 215,
+      "sha256": "518de4d918861284a5729272abc51311a53a832adc4c99fce6376ceae2643465"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-e/verification-commands.json",
+      "bytes": 570,
+      "sha256": "9e05bd6b81fc3439439f383b4a4383f0c0ba7c306d9e10673a1d804355937209"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-f/build.log",
+      "bytes": 2297,
+      "sha256": "aa31bf653be1b731a3dd3cdac2baf840c608fb4418e9c96d4569c45bb8b4f528"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-f/commands.json",
+      "bytes": 1171,
+      "sha256": "4211f9642a6d82bce34b2a5ad9bdf63f4ade3cec90fbaa835d5ccbb1a118f063"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-f/compiler-inputs.json",
+      "bytes": 40491,
+      "sha256": "d2b0371079ed271f8d2f4a2134ea70237ff02fd72f889bb6809cef9e6aeed255"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-f/configure.log",
+      "bytes": 3742,
+      "sha256": "a0f3bb36154170fafca1c2b7f4cb0478f93b151d9342753fd1a57c063269ca2f"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-f/gui-edit-tests.log",
+      "bytes": 114,
+      "sha256": "ffe723ad96858ff0d8df25b687162e35b6598d205e89093ec4bc1f5cf1aec851"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-f/gui-edit-tests.xml",
+      "bytes": 373,
+      "sha256": "8d13ee65606693a939a602320e9c71836708db8b4e479773152f3111799f13d0"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-f/gui-tests.log",
+      "bytes": 101,
+      "sha256": "b5d4cb90b5c0e50f78fa926e299d30d1c0dd1b0e9d5a4b0f4a506225a08c478e"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-f/gui-tests.xml",
+      "bytes": 1312,
+      "sha256": "288cd3c896863e6c516760eb5d334bcfc5a90db00a5c7debd2a9fd2aee0dd178"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-f/native-tests.log",
+      "bytes": 242,
+      "sha256": "dec4658acffe885ad45ed90914b107188fac3cfa208a1e58eb38de38bedb741a"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-f/native-tests.xml",
+      "bytes": 975,
+      "sha256": "cefa857b2a750e6687b74fd1da41beebd2ac894b799016e2e11e157bce301cfe"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-f/products.json",
+      "bytes": 215,
+      "sha256": "c16a47e937d7b556c6d5ce078f9f993434a5b4ac07d20e00aadb1eb2dad6f1dd"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-f/runtime-proof.log",
+      "bytes": 182,
+      "sha256": "74e730270abfc9e9914a12a14afd9fe082dcfbbbad084a0d04abe4fe153f1637"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-f/verification-commands.json",
+      "bytes": 1631,
+      "sha256": "eb236ebfad2a609844364eb379e52943d73e9f040d3af0a9baa1d90e3731618c"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-g/build.log",
+      "bytes": 2297,
+      "sha256": "aa31bf653be1b731a3dd3cdac2baf840c608fb4418e9c96d4569c45bb8b4f528"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-g/commands.json",
+      "bytes": 1172,
+      "sha256": "e9f3c24dee7285d67a9d20ee98527d672b0f74224f5ab8e1058f9fdd77293afc"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-g/compiler-inputs.json",
+      "bytes": 40491,
+      "sha256": "7bcddc50a58a824e372fc4e9ce7eab4d20c5f70f73f01c9c9136bebe84f419ca"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-g/configure.log",
+      "bytes": 3742,
+      "sha256": "36280911e905e1de3ab05bb0ecbb57bb67e8fb0a95ef6c4a2046f560096a69e5"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-g/native-tests.log",
+      "bytes": 383,
+      "sha256": "4b035a935ab19ca93538f222988655e33cb33674de41d013a2c581dd2a8a8357"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-g/native-tests.xml",
+      "bytes": 423,
+      "sha256": "db8e31d4bf889da79bb57d591468e345fbca6417a8ad23582d05659035b4deb0"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-g/products.json",
+      "bytes": 215,
+      "sha256": "5792d346ed05180e4ccadd5bafb2f2f9649fa814d615d2b05522eb9a5bff31a9"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-g/verification-commands.json",
+      "bytes": 570,
+      "sha256": "5b301f68100291e593e7455ac32e42a191dd957bfdc6c7b685ea7d3ee14622f9"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-h/build.log",
+      "bytes": 2297,
+      "sha256": "aa31bf653be1b731a3dd3cdac2baf840c608fb4418e9c96d4569c45bb8b4f528"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-h/commands.json",
+      "bytes": 1172,
+      "sha256": "1c9b0d8451d573663cf9a85109573565be8eb2dac389465b35ed510ce41a98ff"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-h/compiler-inputs.json",
+      "bytes": 40491,
+      "sha256": "89def066450d3dba97b1535159e873af01bd866d45f81ca12d54df634950b471"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-h/configure.log",
+      "bytes": 3742,
+      "sha256": "586c4a26dd25accf1a7d05527db387623419e39a2f8cc6ff14a87a55dcb89061"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-h/gui-tests.log",
+      "bytes": 101,
+      "sha256": "250ea9c027c280ec9cefe2ba9fc0d034fb1b1488233cfe23ca2422aa33d4c646"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-h/gui-tests.xml",
+      "bytes": 1444,
+      "sha256": "542697e12c8319957522715a0078bfe701418891bc0c21b5ca56b0bc32552eed"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-h/native-tests.log",
+      "bytes": 242,
+      "sha256": "a666dc87a0a2832d3953f73e839f6e8e7f57d94d2af3d71e08e1c3847e53e624"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-h/native-tests.xml",
+      "bytes": 1008,
+      "sha256": "48fe9f102fbe0153566249cb9bf039dee8884fb3483ae9d2b6ed92b7cae57b54"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-h/products.json",
+      "bytes": 107,
+      "sha256": "090f8847d0c05c14cc9abe37528b7efba3d15f5199aefc00745438e5aba7b0d8"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-h/runtime-proof.log",
+      "bytes": 182,
+      "sha256": "26ee499cb2615e3851d0bf7c2a705bffefea443ca2b26981d377bb9ff06a2acf"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui232-development-h/verification-commands.json",
+      "bytes": 1631,
+      "sha256": "907e75b817aabfc2b671f59d7693051db4e3c149906869f3747a14344f844b5e"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-development/build.log",
+      "bytes": 2436,
+      "sha256": "1c341ee7a0dc44569cc34ce7f805b7b349cad9781fab91ede3dd460456fde438"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-development/commands.json",
+      "bytes": 1170,
+      "sha256": "fc2f1376815c0753ff6fea164c9c680ffc101c415a0593c9c4e9e5e6a38231d1"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-development/compiler-inputs.json",
+      "bytes": 40491,
+      "sha256": "c2eef01da4f2a1a9ae37490a98474af138afc380417f6b6ef34b164251fb1b64"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-development/configure.log",
+      "bytes": 3742,
+      "sha256": "d4e19966292ed0473cb266b0f50aa3ede0e795b7580eebb164782dacd4c966a4"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-development/gui-tests.log",
+      "bytes": 101,
+      "sha256": "1b21418902a45d16085ae01e98042048490bdb65d2d15c5585373e00691fe201"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-development/gui-tests.xml",
+      "bytes": 1444,
+      "sha256": "a6d61e7703d301bf39eede5f9aa4b0f51fa6e43c6b70373529939e393cc44173"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-development/native-tests.log",
+      "bytes": 242,
+      "sha256": "bb09d4811cdbe7963af79bc0897f3bb6fb3442f93ed4b11b4bf71d85dbd7ac61"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-development/native-tests.xml",
+      "bytes": 1141,
+      "sha256": "cb38d3f9e5e1a3a1afd652445ffc773787190ba8e66e83d0f956998581eba800"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-development/products.json",
+      "bytes": 215,
+      "sha256": "1ff84a20edb096bad2c9cab1f8902f1f45b535bfb6516aecb7f2fdcd09c07b62"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-development/runtime-proof.log",
+      "bytes": 182,
+      "sha256": "a4ce432bb7d52c3eb53ba730c576547d1b96af60041e0fc7f78920dbb671ee16"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-development/verification-commands.json",
+      "bytes": 1623,
+      "sha256": "6b02f3c2634075e37ea655a7be2feae190003985a0bde360b954fe1438018605"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-geos-off/build.log",
+      "bytes": 9567,
+      "sha256": "b28f3382c06e614a5bff2acd9c85946ada12a2fc3411fbd264e2d4a3d6da979b"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-geos-off/commands.json",
+      "bytes": 1151,
+      "sha256": "d60bea4c774422c9f5c5280d2347ce51afe53cf13ae480ed83cea96a7e215099"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-geos-off/compiler-inputs.json",
+      "bytes": 40491,
+      "sha256": "c2eef01da4f2a1a9ae37490a98474af138afc380417f6b6ef34b164251fb1b64"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-geos-off/configure.log",
+      "bytes": 3938,
+      "sha256": "35fa20b38265fb6ff39a1fe97a42b046aa56ffbaec476a197e581d7bf0ba9ad5"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-geos-off/native-tests.log",
+      "bytes": 240,
+      "sha256": "e3419bebceb86eb7d3b3704ac1882c97c137800ecff59c8333dd75ca342ffea4"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-geos-off/native-tests.xml",
+      "bytes": 1141,
+      "sha256": "1665adab109ac1d796eb2ff8e38f1340965c448e4b729e9ac3cb250535e5051a"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-geos-off/products.json",
+      "bytes": 113,
+      "sha256": "cdf43f6b3628ae17225da51ae2acd88215bfc79cd3c7ea1bbcad3edceb79fd2a"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui233-geos-off/verification-commands.json",
+      "bytes": 555,
+      "sha256": "95fb0612052436f34cbe6c4dd76379b512b1495701819bfeba3d8de736760d0c"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development/build.log",
+      "bytes": 12278,
+      "sha256": "a0a27610f046ec6cdc2556f470bef7f80878e33710c50f259abe9336fb457b5e"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development/commands.json",
+      "bytes": 1205,
+      "sha256": "9cecd25e99f74c9d7af1aca4cebc1a3d84e60f626c7430a56af070e3b3a2ccbf"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development/compiler-inputs.json",
+      "bytes": 40491,
+      "sha256": "e7ebe84acb7cde5a0c2c79fddfc48c0ee3b72b6ab76a03df6b3ed0332b82480c"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development/configure.log",
+      "bytes": 3742,
+      "sha256": "ed0cb47dd891f797f2f6710928c048bde151d67942e802b02bdc0ba5961723e5"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development/geos-sdk-files.json",
+      "bytes": 66971,
+      "sha256": "2451a07504a459bc87e9cb6829bb8cde06ac20883e120faba31b28ae7c4a74a0"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development/gui-tests.log",
+      "bytes": 102,
+      "sha256": "ffc6a91325c8b017c97644a85d6df29c02a0df21ebcc2cf5736ee0ef37315482"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development/gui-tests.xml",
+      "bytes": 7436,
+      "sha256": "ac74c8472310809cc4d2a70098e5a186200978f4b4a0d6539e71a69b01ea4a7b"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development/native-tests.log",
+      "bytes": 337,
+      "sha256": "0fc9d141892820b06bcb9e4336455ab18f96e36ce212f815d60a06129e9631df"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development/native-tests.xml",
+      "bytes": 1463,
+      "sha256": "fd270aed2e49d2883b772095f016cb0c0b4dfb2e3dd7b7e06e68b74a9ce29dcf"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development/products.json",
+      "bytes": 319,
+      "sha256": "edba87e5d67c318b4206a459d4592e38401027ebebe0c04d0ffaaefce803671f"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development/runtime-proof.log",
+      "bytes": 182,
+      "sha256": "753c52385b20ecc4f9e9d3ab0c6f499ed05a9117571e373b2e5f795210ca4867"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development/verification-commands.json",
+      "bytes": 1889,
+      "sha256": "3147c206a1e84407727f15a948601f3a1312d02ddc873597fc37c76ee97430f3"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/build.log",
+      "bytes": 3128,
+      "sha256": "97ba5e245bf14032544796a664faf91689bb6de0b228f5725ecb664ba5cb258f"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/commands.json",
+      "bytes": 1207,
+      "sha256": "165a2137594853c64d4e21d0e301a8e7ccb06fe5b74ecd59d1e6245294aa87b1"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/compiler-inputs.json",
+      "bytes": 40491,
+      "sha256": "5d1d9452baaa42b353c04eeca2e9078ff41ad68aa539f0883ba1bbdcb69f98e5"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/configure.log",
+      "bytes": 3742,
+      "sha256": "b786fa61fba81606a5a982eece0445cfe463be839e29fbfd43f87510a238582e"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/gui-tests.log",
+      "bytes": 102,
+      "sha256": "192b9c4f112da244541dc91dc803dfdcca132d82b79622a458658f856e44e613"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/gui-tests.xml",
+      "bytes": 7569,
+      "sha256": "c69f1f06d946d50af53d77bf1f07d1b9c4848fac02d34121af8bf3a12e4605e0"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/native-tests.log",
+      "bytes": 337,
+      "sha256": "9bb3d5cf4952cf57ef899468c1c2892d031a700ab954b837815750b770ed1f75"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/native-tests.xml",
+      "bytes": 1462,
+      "sha256": "64757a3424165cda09ac26dea79aca0e11711f32f4ea91127e449adb15de7c24"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/products.json",
+      "bytes": 319,
+      "sha256": "756c9ccb00e71985fa2072a1d7b71b594f38d43f958500a42ac9d1e2b08b8ab3"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/pyright-invalid.json",
+      "bytes": 412,
+      "sha256": "47110f84e0d6d19c49ce322ac0580ba33570b80fd737fd6b0ba3c97dd74ee10e"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/pyright-valid.json",
+      "bytes": 476,
+      "sha256": "eb7ddab276eec4f97f02a13f995ac3c7c9d819ffe08fe96de73a8cf6773147b3"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/runtime-proof.log",
+      "bytes": 182,
+      "sha256": "51423263ad50423dd8373c9e92c7a4a4f3de0b16536cb0350205a35d50d142fc"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/typing-commands.json",
+      "bytes": 1210,
+      "sha256": "c84d634a157da31b3a55bbbd5c4776f626ce0103e23035e022a51ace24426110"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/typing-invalid.log",
+      "bytes": 9786,
+      "sha256": "731a09adf12e525679a8e4df5a9ac9ea1ba49c342423cf111d4aa9503a643b7f"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/typing-valid.log",
+      "bytes": 251,
+      "sha256": "c88ce98db55bf9bb74f2cb2a6179bc1a78884c443bf5118326596a0a6b71b549"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/rawgui234-development-b/verification-commands.json",
+      "bytes": 1897,
+      "sha256": "c2e3249a8490f3f2994515a6e9f948962a33eab9a203f45bb933f2e4864873f8"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/contour-shutdown-b/cancel/terminal.json",
+      "bytes": 105,
+      "sha256": "30ae5a8e00ff2afc38933fdc33e4c58b6c4e65670fc9ab5908786283cb0bf597"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/contour-shutdown-c/proof.json",
+      "bytes": 654,
+      "sha256": "5c5ee1130e70081554fe6a4a163610b6354a31f691453352278db2db619508e0"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/contour-shutdown-c/cancel/terminal.json",
+      "bytes": 118,
+      "sha256": "d756fa37549755fd98080e0c890c847403697af8779b9bbb55e7ddd4a8a3d3fd"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/final/contour-shutdown-c/close/terminal.json",
+      "bytes": 98,
+      "sha256": "acdb7cf2d75dc29084f96698fe9ca7437ecf286150082e6de7291521511dff62"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/visual/panel.png",
+      "bytes": 26575,
+      "sha256": "17a7038ff76501ecc90fea560a97d489250d11d40b54d0cca70c0e1f4b941f74"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/visual/report.json",
+      "bytes": 136,
+      "sha256": "27f6b4870e37542e914f57b65512cf0bed61922c56a17c100ade87f314c8f36d"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/training-on/configuration.json",
+      "bytes": 450,
+      "sha256": "b98a54afb17d7f414f39ec857357b50b7985441c5148f328cb38290ba761a9cb"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/training-off/configuration.json",
+      "bytes": 453,
+      "sha256": "678a95b76bb4d71804ef58bbd1a1a5d45abc0696fb3160b34dddb774b3acacdc"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/geometry-off/configuration.json",
+      "bytes": 452,
+      "sha256": "7a7037bfc83ab6ecdf089b718c201b6ce972a33aeb015b70c3e61a452bd2b832"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/training-on/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "79c42313842e72f1428083f9fabda27e490f4684893ef6bac1de74dde5ddb4d9"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/training-off/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "e144fa8096ead4c8d514f941a78ff567563ee75234617d7ae2e144a5a6b625e5"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/opencv-sdk-manifest.json",
+      "bytes": 24157,
+      "sha256": "81963b86ef1233d5c71508d06f0a96a35c5ae8211838294f47b376f8c9800615"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/public-exports.json",
+      "bytes": 2211,
+      "sha256": "7db40357683554caa4a6dffba390889fd3cfac42d4f15e775933d7d258826534"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/source-proof.json",
+      "bytes": 144603,
+      "sha256": "bb9b5b6a43077c648ce05117993e5328922e559896bae18a7d8b04b55f03cd74"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/retained-products.json",
+      "bytes": 10031,
+      "sha256": "203643468ca6374978ff760c1bcfbab505a5d636b36ad8801cbfb57c909f3d46"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/receipt_rawgui234.py",
+      "bytes": 14934,
+      "sha256": "64da1f0bd5aba0a471448e75b534a3eb726b595963e5352f04a87784f52bba0b"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/build_rawgui234.py",
+      "bytes": 2662,
+      "sha256": "1c779d47ffed71925ce7329f42430081d6e1a0e679aba5b590492ac85005e78e"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/build_rawgui234_b.py",
+      "bytes": 2664,
+      "sha256": "ef3bbc6fe434e20f12f77e6b9105e3c766471dad71989b85a0379f91869133e7"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/verify_rawgui234_development.py",
+      "bytes": 2676,
+      "sha256": "073911059184c3b8dcb70606d66d986f944c0a2f6d1944042560e06a31a31cbf"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/verify_rawgui234_development_b.py",
+      "bytes": 2680,
+      "sha256": "62eb229107c0ecfacc0e869bef29196e952c72c91b64f9122a35388ca7479cb5"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/preview_rawgui234.py",
+      "bytes": 1136,
+      "sha256": "9474747e7d002c402dfc96328ed59d89ded42e013445a20c67b1a3b623426612"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/preview_rawgui234_b.py",
+      "bytes": 1138,
+      "sha256": "675c95a00ced5320a863fe1188f3e619f22831d2d50b6913f68a54664249b36c"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/build_rawgui234_wheel.py",
+      "bytes": 2735,
+      "sha256": "4c45d694ec216303521bb4d8a3be38f87cdcdd575d44dbbecc0c85bf348e2c59"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/rawgui234_backend.py",
+      "bytes": 1187,
+      "sha256": "96abba87ba76b91e8374b02e955865847bce8df956ea6d0c66165495e46edb31"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/verify_rawgui234_final.py",
+      "bytes": 4740,
+      "sha256": "da94228f1ae63e6757f20ffb6a9584328bf1b029be390dc62f230a1418ad5781"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/rawgui234_installed_proof.py",
+      "bytes": 3810,
+      "sha256": "9d9eaaa89c3bbccbf6c2435a9f89c6b4f7b4f5c4e8c54cc8d2e41f25ed727cb2"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/build_rawgui234_off.py",
+      "bytes": 2619,
+      "sha256": "64c42521ff447412b712912cff3492a04f6102e903a7b6d79e008c2c2b6c3d9a"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/build_rawgui234_backend_off.py",
+      "bytes": 2726,
+      "sha256": "e3939c2b8baa1dff3ef49731475b988778ba93430422a10a081e0a50a699fa6a"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/rawgui234_backend_off_proof.py",
+      "bytes": 5574,
+      "sha256": "db422905714d28b6d84a90d23db3fa823916ca89d389bcee46f632bc9dd60692"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/rawgui234_contour_shutdown_probe.py",
+      "bytes": 2258,
+      "sha256": "1391e9593a5d7ce3322c4c3a0e2c2523400c21c8c2911cce5fbb35278074c97b"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/rawgui234_contour_shutdown_probe_b.py",
+      "bytes": 2448,
+      "sha256": "a4f0e7bca33bb5cbda2475fc4491d7e2291eeaa14d3f87aabbb1d3fb2c07c254"
+    },
+    {
+      "path": "docs/benchmarks/raw-frontend-local/producers/rawgui234_contour_shutdown_probe_c.py",
+      "bytes": 2632,
+      "sha256": "6ba56823365aeb05f05462e6d9434e01ba00c1f71020cb223cfbc5348d591c24"
+    }
+  ],
+  "retained_artifacts": "build/rawgui234-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial"
+}

@@ -844,3 +844,55 @@ input project or imply biological accuracy. Windows cp312 training-enabled local
 acceptance covers that example and the declared tests; official CLI/batch,
 desktop/managed viewer, other installed profiles and integrated qualification
 remain open.
+
+
+## Desktop and managed bounded contours
+
+[Installed local Windows evidence](benchmarks/raw-frontend-local.json) at
+`0dc916c` covers the raw classifier panel and managed viewer with GUI, GEOS,
+training, TIFF and project support enabled; OpenSlide is disabled in that profile.
+This is local engineering acceptance, with broader platform/scientific/resource
+and release gates remaining in the project plan.
+
+Open **Raw pixel classifier** in the desktop toolbar. Training uses labelled
+areas, explicit channels and exact axes; empty axes select unit level-zero
+spacing. **Preview and files** owns a bounded indexed window, model IO and QWS
+export/resume. **Retained files** verifies/browses external files; deleting a
+record leaves its file intact. Historical file/model legends do not enable live
+contour application.
+
+In **Contours**, set inference/geometry limits, trace a fresh bounded full grid,
+review its class-colored geometry, and apply one undoable annotation edit.
+Changing axes or geometry parameters retires the trace. The annotation name
+prefix can change without retracing. Oversized or stale work refuses without
+editing the document. This uses a bounded full grid, not stitched streamed
+contours; indexed-window previews have a separate purpose and budget.
+
+Python may initialize the panel with `GuiRawPixelOptions` through
+`GuiOptions.raw_pixel`. The getter returns a settings copy; assign it back after
+changing nested fields. `GuiRawPixelReport` exposes the live/historical results,
+contour preview state, applied IDs and errors.
+
+Managed producers submit copied settings while `show(session)` runs on the
+owner/main thread, following the existing ViewerSession lifecycle:
+
+```python
+preview_ticket = session.contour_raw_pixels(image_id, model, grid, object_id=roi_id)
+preview = session.wait(preview_ticket)
+if preview.state != "succeeded":
+    raise RuntimeError(preview.error or preview.state)
+# Consume the completed ticket after inspecting its state.
+session.take(preview_ticket)
+apply_ticket = session.contour_raw_pixels(
+    image_id, model, grid, object_id=roi_id, apply=True,
+    expected_revision=preview.document_revision,
+)
+```
+
+A preview returns immutable historical geometry. Apply recomputes a fresh owner
+capture; the optional revision check rejects intervening edits before capture.
+Later document/source changes reject live delivery. The viewer reserves the
+conservative retained snapshot/model/prediction/geometry payload and anticipated
+IDs before mutation. This admission value is not a process-memory measurement.
+Cancel tickets or close the viewer to cancel/join active work before readers
+release. See the public headers and generated stubs for the complete signatures.

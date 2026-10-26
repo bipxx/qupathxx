@@ -1,0 +1,192 @@
+{
+  "products": [
+    {
+      "path": "build/rawgui234-retained-binaries/final-on/_native.cp312-win_amd64.pyd",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 9586176,
+      "sha256": "d85205d4825d5db22806c4e4222db9cc8c2d641cc87d34a0704da4651bc2857a"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-on/qupathxx_region.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 775680,
+      "sha256": "ccc35bb4d5f40f3973ac5ccf157e424c591bb5f1fd92c26bbf10f726d476f087"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-on/qupathxx_batch.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 5132288,
+      "sha256": "71e96379f31d3a9f4a5fad7970d247ff870a5c0ee8f816ffda22133f02e2bd23"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-on/qupathxx_project_batch_tests.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 4879360,
+      "sha256": "67c4ccf1d40cacc431e2c5fb321e896d464324be234b4e319b7d5715f7f943ee"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-on/qupathxx_pixel_workflow_tests.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 5451776,
+      "sha256": "4b7be7433a35d9f6d586705ba52f3adc00aedc103783510226e8fa17c118d43a"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-on/qupathxx_pixel_feature_tests.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 2475520,
+      "sha256": "af1f0b9f4108a28752879beacceb7b202cbb4a18aa30bc06b370e5c10377420b"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-on/qupathxx_classifier_tests.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 1389568,
+      "sha256": "ffd7a76c4ed38c74432d98419473cef1c9b3a20ca610982491c1f9d75ee7582a"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-on/qupathxx_viewer_session_tests.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 5102592,
+      "sha256": "77b83326806f19e72a8574b9df2b3df11cf9af327423f53226b70ac4209b1c1a"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-on/qupathxx_gui_replay_tests.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 45568,
+      "sha256": "cd56cd618d8f78b49ee534304f9fe34da50ca02fcac41e37f633d077a20b2386"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-on/qupathxx_overlay_tests.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 22528,
+      "sha256": "a71e6b46d5cd1e3c06cd08c545bc3626610dc2edb18943f26584f42bef9b5c5a"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-on/geos.dll",
+      "bytes": 2912768,
+      "sha256": "9bff21e1082b57e9914909a156ad121d508d2203a8c6ab4d8d41eb74cc19fa0e",
+      "artifact_role": "pinned_sdk_runtime_dependency",
+      "consumer_source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "consumer_fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "sdk_manifest": "docs/benchmarks/raw-frontend-local/final/geos-sdk-files.json",
+      "sdk_member": "bin/geos.dll"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-on/geos_c.dll",
+      "bytes": 590336,
+      "sha256": "64c8a686deccd9e3d5ae66f96ba1276c23faf6ab00564feee421ae91f552b7d6",
+      "artifact_role": "pinned_sdk_runtime_dependency",
+      "consumer_source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "consumer_fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "sdk_manifest": "docs/benchmarks/raw-frontend-local/final/geos-sdk-files.json",
+      "sdk_member": "bin/geos_c.dll"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-on/qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 10634289,
+      "sha256": "1835e8e44c9eb95b289d0330361f2f319ed3a5c1a83d1d1e2d63f54f2413ea12"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-training-off/qupathxx_viewer_session_tests.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 3796480,
+      "sha256": "81bbf4568479ef66e15acfd6967ff0659c65d3751f0b1b2a573d1198804a2ec2"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-training-off/qupathxx_batch.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 3839488,
+      "sha256": "9d6c4df8a910ce53f2a0492bebc46b1da72e0cdab2b9db96a0193ef64ffb6fe4"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/final-training-off/qupathxx_project_batch_tests.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 3586048,
+      "sha256": "b093bfd911706243f83840bfc9313be2b4dfb5750510541bf044e77db9a5a9db"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/development-initial/qupathxx_gui_replay_tests.exe",
+      "source": "61ae7926153d4fbf97b7e737db009ab7bdf6ee94",
+      "fingerprint": "0d76812bbee0ad75274e5fa3e503c62f3d909d28512836cd740512824344cbd2",
+      "bytes": 45568,
+      "sha256": "2bfc782ab37c6c9775dd8e84eb16a0b890b91a628043ed026599982d6bb58718"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/development-initial/qupathxx_viewer_session_tests.exe",
+      "source": "61ae7926153d4fbf97b7e737db009ab7bdf6ee94",
+      "fingerprint": "0d76812bbee0ad75274e5fa3e503c62f3d909d28512836cd740512824344cbd2",
+      "bytes": 5102592,
+      "sha256": "df5a2cf2158d70ef58a9b57b3eb3dbeb878c0a8a2dce4031b71a8cadc0e5ae0b"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/development-initial/_native.cp312-win_amd64.pyd",
+      "source": "61ae7926153d4fbf97b7e737db009ab7bdf6ee94",
+      "fingerprint": "0d76812bbee0ad75274e5fa3e503c62f3d909d28512836cd740512824344cbd2",
+      "bytes": 9418240,
+      "sha256": "21d3cf761ff10daf5d6b2a75423b48da606afbb7624d392d823ac1f58a11cecd"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/development-refined/qupathxx_gui_replay_tests.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 45568,
+      "sha256": "b5492a2461d9b33e7fe91599134d07ee2c2521bfd307a085cc966679c13f50df"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/development-refined/qupathxx_viewer_session_tests.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 5102592,
+      "sha256": "f9fec3f4847cd00741682b89e973456eb5da4ab805d3825c0b5a5da4c1c1ff7b"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/development-refined/_native.cp312-win_amd64.pyd",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 9418752,
+      "sha256": "83c939601d7f339500f38233b6faf23d40467d223734b2012bd8f67f2006a8dc"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/geometry-off/qupathxx_viewer_session_tests.exe",
+      "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+      "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+      "bytes": 5055488,
+      "sha256": "343ac13100e697e1ba9204d40f25b014539e898cc7d8ef904da8392d63be3f85"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/shared-adapter-on/qupathxx_viewer_session_tests.exe",
+      "source": "58f124112dd08fceca34b286463ff2d656ef64d5",
+      "fingerprint": "ca2b211c5cd60224909d599d9f4919db1cbd0e27540603cb06ce919618c3aa8c",
+      "bytes": 5095936,
+      "sha256": "8f066e34166b3c7df3e9a8e4133f2bc167da036335d6b8150c15b0270dfa467f"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/shared-adapter-on/_native.cp312-win_amd64.pyd",
+      "source": "58f124112dd08fceca34b286463ff2d656ef64d5",
+      "fingerprint": "ca2b211c5cd60224909d599d9f4919db1cbd0e27540603cb06ce919618c3aa8c",
+      "bytes": 9397248,
+      "sha256": "0e1581905faf3589e88e9b7d8b645ac4a4ab878936cbf665b771ecec63c1a2e5"
+    },
+    {
+      "path": "build/rawgui234-retained-binaries/shared-adapter-off/qupathxx_viewer_session_tests.exe",
+      "source": "58f124112dd08fceca34b286463ff2d656ef64d5",
+      "fingerprint": "ca2b211c5cd60224909d599d9f4919db1cbd0e27540603cb06ce919618c3aa8c",
+      "bytes": 5047808,
+      "sha256": "cd97d66e760d9e44c65c053e50e2a1b5106e4d2c4dd360aa5729570896bc207d"
+    }
+  ]
+}

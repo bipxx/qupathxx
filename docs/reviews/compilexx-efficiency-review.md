@@ -6,17 +6,14 @@ E1-E4 and multi-file campaign213 have the accepted baselines listed in the
 Current remaining classifier work is the T1-T5 route in that plan. Its new
 efficiency decisions are sparse ROI tile-union planning, one global reservoir,
 per-window admission and one complete frontend integration/qualification path.
-Sparse tiled training (`1273c3e`) and bounded prediction streams (`8d544eb`) now have local acceptance; prediction files/hash-only resume are locally verified at `c843dfa`; QTT1 training archives/retention/replay are locally verified at `cc6fab4`; QTC1 training prefix replay is locally verified at `fb7ab73`; native owner file jobs are locally verified at `404f506`; QWL1 external raw stream links are locally verified at `a608a53`; Windows cp312 bindings/wheel/example are locally verified at `202b41a`; official raw CLI is locally verified at `f463110` and raw project batches at `c2c0fa0`; desktop adapters now have passing development checks (48 selected Python cases
-and seven native suites at `10f44cc`; eight raw cases and the active-cancel/
-shutdown native suite at `a8e7eaf`). A prior-frame replay hover resolves the
-original tab timeouts without forcing selection or bypassing ImGui. No installed
-frontend acceptance is claimed. Follow the
-[T4.3 remaining order](../api-delivery-plan.md#t43-development-state-and-repair-order)
-through bounded apply, installed integration and T5. The shared contour adapter
-at `58f1241` now passes native trace/atomic apply/undo/redo and refusal checks on
-Windows GEOS ON/OFF with matching 383 compiler inputs; nine raw development
-frontend cases pass. Actual contour buttons/managed commands and installed
-acceptance remain open. No new cross-project or Astra audit
+Sparse tiled training (`1273c3e`) and bounded prediction streams (`8d544eb`) now have local acceptance; prediction files/hash-only resume are locally verified at `c843dfa`; QTT1 training archives/retention/replay are locally verified at `cc6fab4`; QTC1 training prefix replay is locally verified at `fb7ab73`; native owner file jobs are locally verified at `404f506`; QWL1 external raw stream links are locally verified at `a608a53`; Windows cp312 bindings/wheel/example are locally verified at `202b41a`; official raw CLI is locally verified at `f463110` and raw project batches at `c2c0fa0`; desktop/managed consumers and bounded contour apply now have installed local
+Windows acceptance at `0dc916c` ([receipt](../benchmarks/raw-frontend-local.json)):
+195 Python passes, seven native suites, geometry/training-OFF controls, generated
+stubs/typing and explicit active contour shutdown. Reserve conservative retained
+results before owner mutation; share native prediction/tracing/undo and keep
+historical geometry separate from live authority. The next step is T5 producer/
+auditor preflight and one integrated campaign, with broader scientific/resource/
+hardware/release requirements still open. No new cross-project or Astra audit
 is claimed by this reconciliation.
 
 Reviewed 2026-10-25 at qupathxx source `682ba00`. This is an implementation
