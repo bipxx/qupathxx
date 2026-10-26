@@ -6639,6 +6639,8 @@ class ProjectBatchKind(enum.Enum):
 
     RAW = 4
 
+    RAW_PIXELS = 5
+
 class ProjectBatchFailure(enum.Enum):
     STOP = 0
 
@@ -6766,6 +6768,36 @@ class ProjectBatchOptions:
 
     @pixel_total_limit.setter
     def pixel_total_limit(self, arg: int, /) -> None: ...
+
+    @property
+    def raw_pixel_model(self) -> RawPixelClassifier | None: ...
+
+    @raw_pixel_model.setter
+    def raw_pixel_model(self, arg: RawPixelClassifier | None, /) -> None: ...
+
+    @property
+    def raw_pixels(self) -> RawPixelStreamOptions: ...
+
+    @raw_pixels.setter
+    def raw_pixels(self, arg: RawPixelStreamOptions, /) -> None: ...
+
+    @property
+    def raw_pixel_x(self) -> ScientificGridAxis | None: ...
+
+    @raw_pixel_x.setter
+    def raw_pixel_x(self, arg: ScientificGridAxis | None, /) -> None: ...
+
+    @property
+    def raw_pixel_y(self) -> ScientificGridAxis | None: ...
+
+    @raw_pixel_y.setter
+    def raw_pixel_y(self, arg: ScientificGridAxis | None, /) -> None: ...
+
+    @property
+    def raw_pixel_file_work_bytes(self) -> int: ...
+
+    @raw_pixel_file_work_bytes.setter
+    def raw_pixel_file_work_bytes(self, arg: int, /) -> None: ...
 
     @property
     def raw_grid(self) -> RawGridSampling | None: ...
