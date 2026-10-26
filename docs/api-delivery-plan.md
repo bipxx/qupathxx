@@ -213,29 +213,66 @@ training suites with 345 matching inputs and nineteen retained executables.
 `RawPixelWindowPredictionRequest`/`Job` capture one bounded window, use original
 global centers for ROI membership and enforce source/owner publication checks.
 Metadata copy quotas and actual sampler workspace/series checks precede IO.
-Window training, tiled/stream archives and resume remain open. Continue in order:
+Window training, tiled/stream archives and resume remain open. The following
+packets refine A3-A6; they are dependencies within SCI1-A, not separate release
+milestones or hosted campaigns. Root owns implementation and integration.
 
-1. Add owner-captured window training by sharing the existing annotation snapshot,
-   spatial-index overlap policy, reservoir priority and forest trainer. Store
-   global source dimensions and axis descriptors directly for a tiled request.
-   Process each eligible core once; halo cells do not add training rows. Use
-   global sample indices for priority, coordinates and ROI centers, maintain one
-   per-class reservoir over all contributing windows, and balance only after
-   global selection. Preserve pre-IO scan/snapshot/work limits and backend-OFF
-   refusal. Verify deterministic rows against the bounded full-grid authority
-   and actual backend train/predict linkage before publishing a new table codec.
-2. Compose those windows into bounded tiled jobs and versioned stream/checkpoint
-   files through existing atomic writers, block jobs and restart machinery.
-   Bind global lattice, tile policy, source/model/feature identities and window
-   input commitments; interrupted/resumed execution must reject changed sources,
-   models, selection or geometry. Compare actual predictions/support/votes with
-   independent full-context references at fractional seams before frontend work.
-3. Bind stable native APIs once with nanobind and owning NumPy views; compose
-   Python, CLI/batch, managed viewer and ImGui actions through those contracts.
-   Generate stubs from the final installed module and verify real outcomes.
-4. Preflight the complete producer/manifest/fixture/auditor closure, freeze one
-   integrated source and run the required platform profile once. Independent
-   biological/model, hardware and release acceptance retain their own gates.
+| Order / proposed API or workflow | Easiest path and bounded scope | Exit evidence before advancing |
+| --- | --- | --- |
+| T1 / owner-captured tiled training: proposed `ScientificRawLattice`, `RawPixelTiledTrainingRequest`, table and job | Describe global dimensions/axes directly, then create bounded `ScientificRawWindow` cores. Reuse `ObjectFeatureRequest`'s immutable annotation snapshot, source guards, native spatial index, one shared deterministic reservoir and `train_forest`. Plan only tiles intersecting selected annotation bounds. Keep the new table distinct from full-grid QXT1 | Exact values, global coordinates, annotation IDs, eligible/ambiguous counts and retained rows match full-grid training for equal coverage; repeat with different tile shapes. Actual backend training/model votes agree with fixed effective parameters. Sparse large-lattice, overlap, quotas, cancellation, stale source/document, retry and backend-OFF-before-IO controls pass |
+| T2 / tiled prediction job and output sink | Compose existing window prediction/feature kernels over an explicitly bounded region or declared whole-slide traversal. Keep only a bounded number of windows and output blocks live; use global sample indices and existing owner delivery/cancellation rules. Avoid assembling a whole-slide result vector | Labels, support and votes match full-context references at fractional seams, edges, anisotropic spacing and ROI boundaries. Traversal covers each requested core once. Decode calls, peak live buffers and maximum in-flight work remain bounded as slide size grows; actual process-memory acceptance remains a separate measured gate |
+| T3 / typed persistence and interrupted resume | Use existing atomic block writers and checkpoint controllers with a distinct versioned tiled-table/stream representation. Bind lattice, coverage/tile policy, feature/model identity, selected annotations, effective training parameters and source/window commitments. Restore the global reservoir state exactly or deterministically replay admitted inputs | Uninterrupted and interrupted/resumed rows and prediction blocks agree; save/reopen/replay works on real TIFF. Truncation, tampering, source/model/selection/calibration changes and cancellation reject safely. Existing RGB and full-grid QXS1/QXT1/QXP1/QXR1 meanings remain unchanged |
+| T4 / nanobind, Python, CLI/batch, ImGui and managed viewer | Bind the stable native request/result/job once, with owning array views. Reuse current train/predict/retain/export/apply actions and batch checkpoint adapters. Generate stubs from the installed module after the interfaces settle | One real-TIFF workflow trains, predicts, saves/reopens and resumes from Python and headless paths. Desktop preview and supported apply are undoable and refuse stale output; typing, array lifetime, cancellation and shutdown pass. Cross-tile contour apply must wait for its separate stitching acceptance |
+| T5 / integrated engineering qualification | Preflight producer, fixture, manifest and auditor closure, freeze one complete T1-T4 source, then use the required platform profile. Preserve all inherited named cohorts and receipt rules | Scope-matched native/installed/desktop/persistence gates pass at the frozen source; platform/backend omissions stay explicit. Independent biological/model, hardware and release gates keep their own acceptance |
+
+### T1 implementation decisions
+
+The lattice and source-capture helpers currently have uncommitted edits in the
+integration worktree based on `2357dac`. They are **draft, unbuilt and unverified**;
+the accepted window implementation remains source `642f728`. Proposed names
+above are not a claim of an installed public API.
+
+- **Sparse planning:** find global sample-center ranges intersecting each selected
+  ROI's bounds using monotone binary search on the original rational axes. Union
+  the resulting tile ranges before allocation or decoding; an interval sweep is
+  sufficient. Reject scan/window-count limits from the union, rather than scan
+  every global cell or materialize duplicate tile lists per annotation. Bounds
+  choose candidate tiles; the existing exact ROI membership rule chooses rows.
+- **Selection semantics:** visit each planned core cell once, exclude halo cells
+  from training, and resolve same-class overlap by minimum annotation ID. Exclude
+  conflicting-class cells. Use global indices for centers, reservoir priorities
+  and stored coordinates. Maintain one reservoir per class across all windows;
+  balance only after global selection. Share this policy with full-grid raw
+  training so partitioning cannot create a second sampling algorithm.
+- **Admission:** charge source/annotation snapshots, classes, spatial index,
+  union plan, reservoirs and retained rows before allocating them. Check each
+  window's actual sampler/feature workspace before that window's decoder IO;
+  reserve fixed owner state from the same work budget. Do not imply every later
+  tile was admitted before the first read. A failure returns no partial table or
+  document publication. Backend-OFF training rejects before pixel IO.
+- **Ownership and identity:** capture document identity/revision, calibration,
+  source metadata and immutable annotations on the owner. Workers borrow the
+  retained reader and access immutable captures; join before releasing it. Check
+  actual primary/companion files at delivery. Global geometry and core shape
+  remain separate, preserving QXS1/QRM1 bytes for equivalent recipes.
+- **Training proof:** use explicit identical effective forest parameters when
+  comparing models. A changed admitted work budget can change model identity
+  even when selected rows and votes agree; preserve this recorded behavior.
+
+### Execution cost controls
+
+Use affected local native suites on the existing Windows/Linux caches and the
+pinned Windows backend-enabled configuration. Add actual backend-positive cases
+as well as backend-OFF refusal; an OFF build cannot prove training. Keep failed
+attempts with their source/configuration and freeze compiler inputs until all
+live builds finish. Derive every JUnit path from its unique run directory and
+preflight it before execution to prevent overwriting earlier evidence.
+
+Advance after the packet's decisive checks pass; do not repeat healthy tests to
+recreate logs or rebuild wheels for each numeric substep. Prepare the next
+consumer contract while its producer is implemented, then perform one installed
+vertical-workflow pass at T4 and one frozen integrated campaign at T5. Reopen a
+passed check only for changed inputs, failure or a specific unresolved concern.
 
 Bounded whole-grid admission does not complete large-slide execution. Preserve
 global rational phase; do not round fractional origins into scalar tiles.

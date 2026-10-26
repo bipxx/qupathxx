@@ -2,6 +2,19 @@
 
 ## Current execution card (2026-10-26)
 
+- Planning handoff: accepted window model/owner prediction source is `642f728`;
+  the published planning/evidence head entering this update is `2357dac`.
+  Seven source files have draft lattice/source-capture edits; no build or test
+  result covers those edits. They are preserved for T1, not counted as delivered.
+  Next: sparse owner-captured tiled training, then tiled prediction, typed
+  persistence/resume, complete frontend integration and one integrated campaign.
+  The [T1-T5 delivery table](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints)
+  defines implementation choices and exit evidence. This update is planning only.
+- Efficiency changes: union ROI-covered tile ranges before scanning; use one
+  global reservoir per class and balance afterward; share existing native
+  authorities; admit actual per-window workspace before its IO. Verify the
+  complete installed workflow after native contracts settle. Preserve source-bound
+  receipts and failed attempts; no new hosted campaign follows from this edit.
 - Integration: `feature/scientific-grid-159`. Native source `7beb80b` adds
   owner-captured raw annotation sampling and prediction jobs, sharing current
   raw-analysis/object authorities, spatial indexing, reservoir and model kernels.

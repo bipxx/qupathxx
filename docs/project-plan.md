@@ -22,8 +22,10 @@ shared scientific RGB/cell and typed raw-grid workflows, quantitative TIFF
 layout/decoder checks and bounded raw capture/materialization. The
 [combined receipt](benchmarks/raw-grid-191-qualification.json) accepts the
 complete engine, both-architecture Mac native and portable builder/fresh-consumer
-gates at that source. Documentation-only receipts follow it. Later TMA APIs on
-the feature branch require their own campaign. Earlier failed candidates remain
+gates at that source. Documentation-only receipts follow it. Later feature
+work has the separate TMA and multi-file acceptance listed below. Newer raw
+classifier work has local receipts and still needs integrated qualification.
+Earlier failed candidates remain
 preserved and unqualified.
 This does not establish biological equivalence, hardware budgets or supported
 release status. Use the [current task](current-task.md), [workflow inventory](feature-matrix.md)
@@ -57,8 +59,11 @@ large dense/irreducible lattices, exact wide weights and tiled/full feature bits
 Window-aware recipe/model matching, classification and owner prediction now have
 [local evidence](benchmarks/raw-window-classifier-local.json) at `642f728`, with
 eight suites each Windows/Linux plus three Windows training suites. Next add
-owner training over windows and tiled execution, then versioned stream/checkpoint
-resume and frontends. Cross-tile contours, integrated
+owner training over sparse ROI-covered windows, tiled prediction, then versioned
+stream/checkpoint resume and frontends. The API plan's T1-T5 table defines the
+shared implementations, resource limits and decisive evidence for this route.
+Draft lattice helpers in the integration worktree have not been built or verified.
+Cross-tile contours, integrated
 platform training and research/hardware acceptance remain open.
 New raw models use QRM1; explicit pre-release QPR1 compatibility preserves
 original bytes and hashes.

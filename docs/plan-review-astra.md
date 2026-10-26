@@ -1,5 +1,11 @@
 # Plan review and adopted changes
 
+Historical review: its paused-state wording and execution order describe the
+2026-10-25 review, not current scheduling. Implementation subsequently resumed.
+Use the [current execution card](current-task.md) and the single ordered
+[API/workflow queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue).
+The T1-T5 refinement is a planning reconciliation, not a new Astra review.
+
 Reviewed on 2026-10-25 using **GPT-6 Astra, maximum reasoning effort**, explicitly
 requested by the user. The independent reviewer read source/docs and local test
 artifacts without editing files or starting builds. Its initial code baseline
