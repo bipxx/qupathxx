@@ -1,0 +1,96 @@
+{
+  "schema": "qpx.raw-contour-seams-local/1",
+  "test_source": "9edfbc11d8d83933925e990828b4d95a57f69fc9",
+  "runtime_source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+  "runtime_fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c",
+  "runtime_native_sha256": "d85205d4825d5db22806c4e4222db9cc8c2d641cc87d34a0704da4651bc2857a",
+  "wheel_sha256": "1835e8e44c9eb95b289d0330361f2f319ed3a5c1a83d1d1e2d63f54f2413ea12",
+  "wheel_native_member_matches": true,
+  "python_passed": 101,
+  "new_reference_cases_passed": 10,
+  "skips": [
+    {
+      "module": "tests.test_tissue_contours",
+      "name": "test_pyramid_contours_use_level_zero_edges_and_optional_roi_clip[1]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    },
+    {
+      "module": "tests.test_tissue_contours",
+      "name": "test_pyramid_contours_use_level_zero_edges_and_optional_roi_clip[2]",
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "requires OpenSlide"
+      }
+    }
+  ],
+  "synthetic_patterns": 4,
+  "actual_stream_layouts": 16,
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawgui234-wheel312-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "tests/test_raw_contour_seams.py",
+    "tests/test_raw_pixel_python.py",
+    "tests/test_raw_pixel_batch.py",
+    "tests/test_pixel_contours.py",
+    "tests/test_tissue_contours.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-contour-seams-237\\final.xml"
+  ],
+  "source_bytes": {
+    "tools/reference_raw_contour_seams.py": "d8a5cf865c0d516f24e1250c264396ff7a222481f5211de6de260466e3926caa",
+    "tests/test_raw_contour_seams.py": "06a3ee78ecbee0c7f7b741815f22a485e3d14444fc5a154c6591b19b82a1fa52",
+    "tests/fixtures/raw-contour-seams-v1/reference.json": "2689015fcd99c0bac307b3407c7f4632ae9e38498227a887e63de97ebba542fe"
+  },
+  "development_failure": "Five initial test failures: four cases used a completed/complete state spelling mismatch or nonfinite fractional source halo; the diagonal reference correctly has no shared edges to cancel. Exact initial test/generator/reference and logs are retained.",
+  "scope": "Existing installed Windows source0dc916c full-grid tracer and raw block producer match the independent reference. Dependencies reused. No native streamed-contour implementation, new wheel, platform, clean-machine, performance or scientific acceptance.",
+  "raw_payloads": {
+    "initial.log": {
+      "bytes": 20089,
+      "sha256": "ba5eaf131e94f09c29a28d9585655fa1ac34594ef226b45d4e6614fe9df9da70"
+    },
+    "initial.xml": {
+      "bytes": 22874,
+      "sha256": "3ac63d8e182588184be1071b76476759323319c8bcd8337fb47bc170b5d88111"
+    },
+    "initial-test.py": {
+      "bytes": 7658,
+      "sha256": "9b9af61aaf9ab9e035264921b5b2552b7499ef18a5cfa3f4f4aaf751e16c1529"
+    },
+    "reference-generator.py": {
+      "bytes": 5458,
+      "sha256": "c364cbf09051e7c847cbbe291b600d5c591e4cd3eda2dd0da5f3cf020d029943"
+    },
+    "reference-initial.json": {
+      "bytes": 18608,
+      "sha256": "570deaab13aaaa83913eb0d7aa8b084e40605ab409a07a883089729296b37ab7"
+    },
+    "corrected.log": {
+      "bytes": 100,
+      "sha256": "3fbe583e2d972c6d11904dc92e766994a516b70471b87b826d55cf0c3f52c3f0"
+    },
+    "corrected.xml": {
+      "bytes": 1704,
+      "sha256": "425fbe935014f0170c35b788cd2661de912cfb9d8ed2349cdeb4224fea3eb010"
+    },
+    "final.log": {
+      "bytes": 194,
+      "sha256": "ef47d532b64fa16ce6bb3aa5ee5b9ef00cb11022b3f9a8e58becf07b415cf1d6"
+    },
+    "final.xml": {
+      "bytes": 14710,
+      "sha256": "32e2566474031f92af33c2a10c6a2a773fbe3b3d68ea91f8dbb1b0cdb4827095"
+    },
+    "runtime.json": {
+      "bytes": 698,
+      "sha256": "b01bf513a3c8d2dc811320cde488d885c461a56bc2d6a11cc98a7bbe4b3e5285"
+    }
+  },
+  "compiler_inputs_changed_by_reference_packet": false,
+  "compiler_input_comparison_base": "e8e9e42",
+  "runtime_is_prior_source": true
+}

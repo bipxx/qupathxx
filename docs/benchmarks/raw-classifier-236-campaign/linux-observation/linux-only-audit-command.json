@@ -1,0 +1,24 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-classifier-236\\tools\\ci\\accept_unified_engine.py",
+    "40368263565",
+    "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawt5-236\\hosted",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawt5-236\\hosted\\linux-only-audit.json",
+    "--linux-only",
+    "--ndpi-readers",
+    "--rendered-loop",
+    "--gui-stack",
+    "--small-frontier",
+    "--windows-runtime-manifest",
+    "--linux-runtime-manifest"
+  ],
+  "exit": 0,
+  "seconds": 4.481242399895564
+}

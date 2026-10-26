@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="5" skipped="0" tests="9" time="0.800" timestamp="2026-10-26T13:36:58.728758-04:00" hostname="HEQPC"><testcase classname="tests.test_raw_contour_seams" name="test_reference_is_byte_reproducible_and_existing_capture_is_preserved" time="0.321" /><testcase classname="tests.test_raw_contour_seams" name="test_reference_matches_hand_counted_geometry_and_exposes_false_seams[nested_holes-expected0]" time="0.003" /><testcase classname="tests.test_raw_contour_seams" name="test_reference_matches_hand_counted_geometry_and_exposes_false_seams[diagonal_contacts-expected1]" time="0.003"><failure message="assert False&#10; +  where False = any(&lt;generator object test_reference_matches_hand_counted_geometry_and_exposes_false_seams.&lt;locals&gt;.&lt;genexpr&gt; at 0x000001F94FD1AA80&gt;)">name = 'diagonal_contacts', expected = [(1, 4, 4, 4, 16)]
+
+    @pytest.mark.parametrize('name,expected',[
+        ('nested_holes',[(1,16,1,16,32),(2,8,1,8,16)]),
+        ('diagonal_contacts',[(1,4,4,4,16)]),
+        ('three_class_junction',[(1,5,1,5,10),(2,7,1,7,16),(3,4,1,4,10)]),
+        ('cropped_anisotropic',[(1,12,1,105,72),(2,4,1,35,24)]),
+    ])
+    def test_reference_matches_hand_counted_geometry_and_exposes_false_seams(name,expected):
+        case=next(c for c in reference.reference()['cases'] if c['name']==name)
+        assert [(c['label'],c['pixels'],c['parts'],Fraction(c['area']),Fraction(c['perimeter']))
+                for c in case['classes']]==expected
+        boundary=reference.edges(case['rows'],case['first'])
+        for tiling in case['tilings']:
+            blocks=reference.tile_edges(case,tiling['width'],tiling['height'])
+            assert reference.cancel_seams(blocks)==boundary
+            assert reference.cancel_seams(reversed(blocks))==boundary
+        # Joining is observable: concatenating individually closed tiles invents edges.
+&gt;       assert any(t['naive_edges']&gt;t['joined_edges'] for t in case['tilings'])
+E       assert False
+E        +  where False = any(&lt;generator object test_reference_matches_hand_counted_geometry_and_exposes_false_seams.&lt;locals&gt;.&lt;genexpr&gt; at 0x000001F94FD1AA80&gt;)
+
+tests\test_raw_contour_seams.py:48: AssertionError</failure></testcase><testcase classname="tests.test_raw_contour_seams" name="test_reference_matches_hand_counted_geometry_and_exposes_false_seams[three_class_junction-expected2]" time="0.003" /><testcase classname="tests.test_raw_contour_seams" name="test_reference_matches_hand_counted_geometry_and_exposes_false_seams[cropped_anisotropic-expected3]" time="0.002" /><testcase classname="tests.test_raw_contour_seams" name="test_existing_full_tracer_and_stream_match_independent_seam_oracle[nested_holes]" time="0.157"><failure message="AssertionError: assert (np.True_ and 'complete' == 'completed'&#10; +  where np.True_ = &lt;function all at 0x000001F929152AF0&gt;(array([[1, 1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1, 1]], dtype=uint8) == 1)&#10; +    where &lt;function all at 0x000001F929152AF0&gt; = np.all&#10;  &#10;  - completed&#10;  ?         -&#10;  + complete)">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4156/test_existing_full_tracer_and_0')
+case = {'name': 'nested_holes', 'rows': ['0000000', '0111110', '0122210', '0120210', '0122210', '0111110', ...], 'origin': [0, 0], 'extent': [7, 7], ...}
+
+    @pytest.mark.skipif(not (q.has_tiff and q.has_geos and q.has_classifier_training),
+                        reason='quantitative TIFF, GEOS and actual forest training')
+    @pytest.mark.parametrize('case',reference.reference()['cases'],ids=lambda case:case['name'])
+    def test_existing_full_tracer_and_stream_match_independent_seam_oracle(tmp_path,case):
+        source=tmp_path/'source.tif';write_float_tiff(source,case);server=q.open_tiff(str(source))
+        try:
+            doc=q.Document(server);width,height=case['image_size']
+            axes=[q.ScientificGridAxis(o,e,n) for o,e,n in zip(case['origin'],case['extent'],case['samples'])]
+            grid=q.ScientificGrid(width,height,*axes);lattice=q.ScientificRawLattice(grid)
+            selection=q.ScientificRawOptions();selection.channels=2
+            features=q.RawPixelFeatureOptions();features.offsets=[0,0];features.scales=[1,1]
+            recipe=q.RawPixelRecipe(server.raw_metadata,grid,selection,features)
+            samples=np.repeat(np.array([[0,0],[100,100],[200,200]],np.float32),32,axis=0)
+            labels=np.repeat(np.arange(3,dtype=np.uint32),32)
+            parameters=q.ForestParameters();parameters.trees=5;parameters.max_depth=4;parameters.seed=1729
+            forest=q.train_forest(samples,labels,recipe.feature_schema,['A','B','C'],parameters)
+            model=q.RawPixelClassifier(forest,recipe)
+            sx,sy=[Fraction(e,n) for e,n in zip(case['extent'],case['samples'])]
+            fx,fy=case['first'];rows=case['rows'];w,h=len(rows[0]),len(rows)
+            roi=doc.add_roi(q.Roi.rectangle(q.Rect(float(case['origin'][0]+fx*sx),
+                float(case['origin'][1]+fy*sy),float(w*sx),float(h*sy))))
+            request=q.RawPixelPredictionRequest(doc,model,grid,roi)
+            prediction=q.predict_raw_pixel_region(request)
+            expected=np.array([[int(label) for label in row] for row in rows],np.uint32)
+            complete=np.zeros((case['samples'][1],case['samples'][0]),np.uint32)
+            complete[fy:fy+h,fx:fx+w]=expected
+            np.testing.assert_array_equal(prediction.labels_numpy(),complete)
+            traced=q.trace_raw_pixel_prediction(request,prediction)
+            by_label={c.label:c for c in traced.contours.components}
+            assert set(by_label)=={c['label'] for c in case['classes']}
+            for c in case['classes']:
+                native=by_label[c['label']];geometry=native.geometry
+                assert native.pixels==c['pixels']
+                assert geometry.area==pytest.approx(float(Fraction(c['area'])),abs=1e-11)
+                assert geometry.perimeter==pytest.approx(float(Fraction(c['perimeter'])),abs=1e-11)
+                assert len(geometry.polygon_parts)==c['parts']
+                target=sorted(tuple(sorted(((x0,y0),(x1,y1)))) for x0,y0,x1,y1 in c['edges'])
+                assert geometry_edges(geometry,case)==target
+            for t in case['tilings']:
+                options=q.RawPixelStreamOptions();options.tile_width=t['width'];options.tile_height=t['height']
+                region=q.RawPixelStreamRegion();region.first_x=fx;region.first_y=fy;region.width=w;region.height=h
+                stream=q.RawPixelPredictionStream(q.RawPixelTiledPredictionRequest(doc,model,lattice,options,region,roi))
+                visited=np.zeros((h,w),np.uint8)
+                while (block:=stream.next()) is not None:
+                    x=block.window.x.first_core_index-fx;y=block.window.y.first_core_index-fy
+                    bh,bw=block.labels_numpy().shape
+                    np.testing.assert_array_equal(block.labels_numpy(),expected[y:y+bh,x:x+bw])
+                    visited[y:y+bh,x:x+bw]+=1
+&gt;               assert np.all(visited==1) and stream.state=='completed'
+E               AssertionError: assert (np.True_ and 'complete' == 'completed'
+E                +  where np.True_ = &lt;function all at 0x000001F929152AF0&gt;(array([[1, 1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1, 1]], dtype=uint8) == 1)
+E                +    where &lt;function all at 0x000001F929152AF0&gt; = np.all
+E                 
+E                 - completed
+E                 ?         -
+E                 + complete)
+
+tests\test_raw_contour_seams.py:141: AssertionError</failure></testcase><testcase classname="tests.test_raw_contour_seams" name="test_existing_full_tracer_and_stream_match_independent_seam_oracle[diagonal_contacts]" time="0.017"><failure message="AssertionError: assert (np.True_ and 'complete' == 'completed'&#10; +  where np.True_ = &lt;function all at 0x000001F929152AF0&gt;(array([[1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1]], dtype=uint8) == 1)&#10; +    where &lt;function all at 0x000001F929152AF0&gt; = np.all&#10;  &#10;  - completed&#10;  ?         -&#10;  + complete)">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4156/test_existing_full_tracer_and_1')
+case = {'name': 'diagonal_contacts', 'rows': ['000000', '010000', '001000', '000100', '000010', '000000'], 'origin': [0, 0], 'extent': [6, 6], ...}
+
+    @pytest.mark.skipif(not (q.has_tiff and q.has_geos and q.has_classifier_training),
+                        reason='quantitative TIFF, GEOS and actual forest training')
+    @pytest.mark.parametrize('case',reference.reference()['cases'],ids=lambda case:case['name'])
+    def test_existing_full_tracer_and_stream_match_independent_seam_oracle(tmp_path,case):
+        source=tmp_path/'source.tif';write_float_tiff(source,case);server=q.open_tiff(str(source))
+        try:
+            doc=q.Document(server);width,height=case['image_size']
+            axes=[q.ScientificGridAxis(o,e,n) for o,e,n in zip(case['origin'],case['extent'],case['samples'])]
+            grid=q.ScientificGrid(width,height,*axes);lattice=q.ScientificRawLattice(grid)
+            selection=q.ScientificRawOptions();selection.channels=2
+            features=q.RawPixelFeatureOptions();features.offsets=[0,0];features.scales=[1,1]
+            recipe=q.RawPixelRecipe(server.raw_metadata,grid,selection,features)
+            samples=np.repeat(np.array([[0,0],[100,100],[200,200]],np.float32),32,axis=0)
+            labels=np.repeat(np.arange(3,dtype=np.uint32),32)
+            parameters=q.ForestParameters();parameters.trees=5;parameters.max_depth=4;parameters.seed=1729
+            forest=q.train_forest(samples,labels,recipe.feature_schema,['A','B','C'],parameters)
+            model=q.RawPixelClassifier(forest,recipe)
+            sx,sy=[Fraction(e,n) for e,n in zip(case['extent'],case['samples'])]
+            fx,fy=case['first'];rows=case['rows'];w,h=len(rows[0]),len(rows)
+            roi=doc.add_roi(q.Roi.rectangle(q.Rect(float(case['origin'][0]+fx*sx),
+                float(case['origin'][1]+fy*sy),float(w*sx),float(h*sy))))
+            request=q.RawPixelPredictionRequest(doc,model,grid,roi)
+            prediction=q.predict_raw_pixel_region(request)
+            expected=np.array([[int(label) for label in row] for row in rows],np.uint32)
+            complete=np.zeros((case['samples'][1],case['samples'][0]),np.uint32)
+            complete[fy:fy+h,fx:fx+w]=expected
+            np.testing.assert_array_equal(prediction.labels_numpy(),complete)
+            traced=q.trace_raw_pixel_prediction(request,prediction)
+            by_label={c.label:c for c in traced.contours.components}
+            assert set(by_label)=={c['label'] for c in case['classes']}
+            for c in case['classes']:
+                native=by_label[c['label']];geometry=native.geometry
+                assert native.pixels==c['pixels']
+                assert geometry.area==pytest.approx(float(Fraction(c['area'])),abs=1e-11)
+                assert geometry.perimeter==pytest.approx(float(Fraction(c['perimeter'])),abs=1e-11)
+                assert len(geometry.polygon_parts)==c['parts']
+                target=sorted(tuple(sorted(((x0,y0),(x1,y1)))) for x0,y0,x1,y1 in c['edges'])
+                assert geometry_edges(geometry,case)==target
+            for t in case['tilings']:
+                options=q.RawPixelStreamOptions();options.tile_width=t['width'];options.tile_height=t['height']
+                region=q.RawPixelStreamRegion();region.first_x=fx;region.first_y=fy;region.width=w;region.height=h
+                stream=q.RawPixelPredictionStream(q.RawPixelTiledPredictionRequest(doc,model,lattice,options,region,roi))
+                visited=np.zeros((h,w),np.uint8)
+                while (block:=stream.next()) is not None:
+                    x=block.window.x.first_core_index-fx;y=block.window.y.first_core_index-fy
+                    bh,bw=block.labels_numpy().shape
+                    np.testing.assert_array_equal(block.labels_numpy(),expected[y:y+bh,x:x+bw])
+                    visited[y:y+bh,x:x+bw]+=1
+&gt;               assert np.all(visited==1) and stream.state=='completed'
+E               AssertionError: assert (np.True_ and 'complete' == 'completed'
+E                +  where np.True_ = &lt;function all at 0x000001F929152AF0&gt;(array([[1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1],\n       [1, 1, 1, 1, 1, 1]], dtype=uint8) == 1)
+E                +    where &lt;function all at 0x000001F929152AF0&gt; = np.all
+E                 
+E                 - completed
+E                 ?         -
+E                 + complete)
+
+tests\test_raw_contour_seams.py:141: AssertionError</failure></testcase><testcase classname="tests.test_raw_contour_seams" name="test_existing_full_tracer_and_stream_match_independent_seam_oracle[three_class_junction]" time="0.015"><failure message="AssertionError: assert (np.True_ and 'complete' == 'completed'&#10; +  where np.True_ = &lt;function all at 0x000001F929152AF0&gt;(array([[1, 1, 1, 1],\n       [1, 1, 1, 1],\n       [1, 1, 1, 1],\n       [1, 1, 1, 1]], dtype=uint8) == 1)&#10; +    where &lt;function all at 0x000001F929152AF0&gt; = np.all&#10;  &#10;  - completed&#10;  ?         -&#10;  + complete)">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4156/test_existing_full_tracer_and_2')
+case = {'name': 'three_class_junction', 'rows': ['1112', '1132', '3332', '2222'], 'origin': [0, 0], 'extent': [4, 4], ...}
+
+    @pytest.mark.skipif(not (q.has_tiff and q.has_geos and q.has_classifier_training),
+                        reason='quantitative TIFF, GEOS and actual forest training')
+    @pytest.mark.parametrize('case',reference.reference()['cases'],ids=lambda case:case['name'])
+    def test_existing_full_tracer_and_stream_match_independent_seam_oracle(tmp_path,case):
+        source=tmp_path/'source.tif';write_float_tiff(source,case);server=q.open_tiff(str(source))
+        try:
+            doc=q.Document(server);width,height=case['image_size']
+            axes=[q.ScientificGridAxis(o,e,n) for o,e,n in zip(case['origin'],case['extent'],case['samples'])]
+            grid=q.ScientificGrid(width,height,*axes);lattice=q.ScientificRawLattice(grid)
+            selection=q.ScientificRawOptions();selection.channels=2
+            features=q.RawPixelFeatureOptions();features.offsets=[0,0];features.scales=[1,1]
+            recipe=q.RawPixelRecipe(server.raw_metadata,grid,selection,features)
+            samples=np.repeat(np.array([[0,0],[100,100],[200,200]],np.float32),32,axis=0)
+            labels=np.repeat(np.arange(3,dtype=np.uint32),32)
+            parameters=q.ForestParameters();parameters.trees=5;parameters.max_depth=4;parameters.seed=1729
+            forest=q.train_forest(samples,labels,recipe.feature_schema,['A','B','C'],parameters)
+            model=q.RawPixelClassifier(forest,recipe)
+            sx,sy=[Fraction(e,n) for e,n in zip(case['extent'],case['samples'])]
+            fx,fy=case['first'];rows=case['rows'];w,h=len(rows[0]),len(rows)
+            roi=doc.add_roi(q.Roi.rectangle(q.Rect(float(case['origin'][0]+fx*sx),
+                float(case['origin'][1]+fy*sy),float(w*sx),float(h*sy))))
+            request=q.RawPixelPredictionRequest(doc,model,grid,roi)
+            prediction=q.predict_raw_pixel_region(request)
+            expected=np.array([[int(label) for label in row] for row in rows],np.uint32)
+            complete=np.zeros((case['samples'][1],case['samples'][0]),np.uint32)
+            complete[fy:fy+h,fx:fx+w]=expected
+            np.testing.assert_array_equal(prediction.labels_numpy(),complete)
+            traced=q.trace_raw_pixel_prediction(request,prediction)
+            by_label={c.label:c for c in traced.contours.components}
+            assert set(by_label)=={c['label'] for c in case['classes']}
+            for c in case['classes']:
+                native=by_label[c['label']];geometry=native.geometry
+                assert native.pixels==c['pixels']
+                assert geometry.area==pytest.approx(float(Fraction(c['area'])),abs=1e-11)
+                assert geometry.perimeter==pytest.approx(float(Fraction(c['perimeter'])),abs=1e-11)
+                assert len(geometry.polygon_parts)==c['parts']
+                target=sorted(tuple(sorted(((x0,y0),(x1,y1)))) for x0,y0,x1,y1 in c['edges'])
+                assert geometry_edges(geometry,case)==target
+            for t in case['tilings']:
+                options=q.RawPixelStreamOptions();options.tile_width=t['width'];options.tile_height=t['height']
+                region=q.RawPixelStreamRegion();region.first_x=fx;region.first_y=fy;region.width=w;region.height=h
+                stream=q.RawPixelPredictionStream(q.RawPixelTiledPredictionRequest(doc,model,lattice,options,region,roi))
+                visited=np.zeros((h,w),np.uint8)
+                while (block:=stream.next()) is not None:
+                    x=block.window.x.first_core_index-fx;y=block.window.y.first_core_index-fy
+                    bh,bw=block.labels_numpy().shape
+                    np.testing.assert_array_equal(block.labels_numpy(),expected[y:y+bh,x:x+bw])
+                    visited[y:y+bh,x:x+bw]+=1
+&gt;               assert np.all(visited==1) and stream.state=='completed'
+E               AssertionError: assert (np.True_ and 'complete' == 'completed'
+E                +  where np.True_ = &lt;function all at 0x000001F929152AF0&gt;(array([[1, 1, 1, 1],\n       [1, 1, 1, 1],\n       [1, 1, 1, 1],\n       [1, 1, 1, 1]], dtype=uint8) == 1)
+E                +    where &lt;function all at 0x000001F929152AF0&gt; = np.all
+E                 
+E                 - completed
+E                 ?         -
+E                 + complete)
+
+tests\test_raw_contour_seams.py:141: AssertionError</failure></testcase><testcase classname="tests.test_raw_contour_seams" name="test_existing_full_tracer_and_stream_match_independent_seam_oracle[cropped_anisotropic]" time="0.014"><failure message="AssertionError: &#10;Arrays are not equal&#10;&#10;Mismatched elements: 7 / 216 (3.24%)&#10;First 5 mismatches are at indices:&#10; [3, 6]: 0 (ACTUAL), 1 (DESIRED)&#10; [4, 6]: 0 (ACTUAL), 1 (DESIRED)&#10; [5, 6]: 0 (ACTUAL), 1 (DESIRED)&#10; [6, 3]: 0 (ACTUAL), 1 (DESIRED)&#10; [6, 4]: 0 (ACTUAL), 1 (DESIRED)&#10;Max absolute difference among violations: 1&#10;Max relative difference among violations: 1.&#10; ACTUAL: array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],&#10;       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],&#10;       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],...&#10; DESIRED: array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],&#10;       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],&#10;       [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],...">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4156/test_existing_full_tracer_and_3')
+case = {'name': 'cropped_anisotropic', 'rows': ['1111', '1221', '1221', '1111'], 'origin': [1, 2], 'extent': [30, 63], ...}
+
+    @pytest.mark.skipif(not (q.has_tiff and q.has_geos and q.has_classifier_training),
+                        reason='quantitative TIFF, GEOS and actual forest training')
+    @pytest.mark.parametrize('case',reference.reference()['cases'],ids=lambda case:case['name'])
+    def test_existing_full_tracer_and_stream_match_independent_seam_oracle(tmp_path,case):
+        source=tmp_path/'source.tif';write_float_tiff(source,case);server=q.open_tiff(str(source))
+        try:
+            doc=q.Document(server);width,height=case['image_size']
+            axes=[q.ScientificGridAxis(o,e,n) for o,e,n in zip(case['origin'],case['extent'],case['samples'])]
+            grid=q.ScientificGrid(width,height,*axes);lattice=q.ScientificRawLattice(grid)
+            selection=q.ScientificRawOptions();selection.channels=2
+            features=q.RawPixelFeatureOptions();features.offsets=[0,0];features.scales=[1,1]
+            recipe=q.RawPixelRecipe(server.raw_metadata,grid,selection,features)
+            samples=np.repeat(np.array([[0,0],[100,100],[200,200]],np.float32),32,axis=0)
+            labels=np.repeat(np.arange(3,dtype=np.uint32),32)
+            parameters=q.ForestParameters();parameters.trees=5;parameters.max_depth=4;parameters.seed=1729
+            forest=q.train_forest(samples,labels,recipe.feature_schema,['A','B','C'],parameters)
+            model=q.RawPixelClassifier(forest,recipe)
+            sx,sy=[Fraction(e,n) for e,n in zip(case['extent'],case['samples'])]
+            fx,fy=case['first'];rows=case['rows'];w,h=len(rows[0]),len(rows)
+            roi=doc.add_roi(q.Roi.rectangle(q.Rect(float(case['origin'][0]+fx*sx),
+                float(case['origin'][1]+fy*sy),float(w*sx),float(h*sy))))
+            request=q.RawPixelPredictionRequest(doc,model,grid,roi)
+            prediction=q.predict_raw_pixel_region(request)
+            expected=np.array([[int(label) for label in row] for row in rows],np.uint32)
+            complete=np.zeros((case['samples'][1],case['samples'][0]),np.uint32)
+            complete[fy:fy+h,fx:fx+w]=expected
+&gt;           np.testing.assert_array_equal(prediction.labels_numpy(),complete)
+E           AssertionError: 
+E           Arrays are not equal
+E           
+E           Mismatched elements: 7 / 216 (3.24%)
+E           First 5 mismatches are at indices:
+E            [3, 6]: 0 (ACTUAL), 1 (DESIRED)
+E            [4, 6]: 0 (ACTUAL), 1 (DESIRED)
+E            [5, 6]: 0 (ACTUAL), 1 (DESIRED)
+E            [6, 3]: 0 (ACTUAL), 1 (DESIRED)
+E            [6, 4]: 0 (ACTUAL), 1 (DESIRED)
+E           Max absolute difference among violations: 1
+E           Max relative difference among violations: 1.
+E            ACTUAL: array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+E                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+E                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],...
+E            DESIRED: array([[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+E                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+E                  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],...
+
+tests\test_raw_contour_seams.py:119: AssertionError</failure></testcase></testsuite></testsuites>

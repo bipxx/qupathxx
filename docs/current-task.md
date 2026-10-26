@@ -8,7 +8,21 @@
   dispatched once with the complete required inputs. The 718 frozen Git inputs
   match the 807-control preflight exactly. Poll these original new handles;
   authenticate every archive and audit from `build/ci/raw-classifier-236`.
-  No corrected-source platform acceptance yet; keep this checkout unchanged.
+  Linux-only acceptance is recorded below; full corrected-source acceptance
+  remains pending. Keep this checkout unchanged.
+- Corrected-source [Linux-only audit](benchmarks/raw-classifier-236-campaign/linux-observation/receipt.json)
+  passes all three profiles at `530c6bb`: 50 native suites each and 3747
+  headless Python passes. Native semantics, installed cohorts/typing, inherited
+  runtime/reader gates and final source checks pass. Windows, Mac and portable
+  builder/consumer acceptance remain separate pending gates.
+- The next streamed-contour workflow has a [four-pattern exact reference](raw-stream-contours.md)
+  at `9edfbc1`. [Local existing-path evidence](benchmarks/raw-contour-seams-local.json)
+  records 101 Python passes, including all ten new cases; two OpenSlide cases
+  skip. All sixteen actual raw stream layouts preserve labels and global crop
+  indices. Existing full-grid geometry matches every edge, part, hole, count,
+  area and perimeter exactly, using the retained installed `0dc916c` module.
+  Initial fixture failures are preserved. This is next-workflow preparation,
+  not native streaming contour implementation or a new wheel qualification.
 - Original campaign235 [full engine successor audit](benchmarks/raw-classifier-235-failure/reconciliation/final-engine/receipt.json)
   accepts all five engine profiles at runtime source `176ec42`, with observer
   `530c6bb` explicitly separate. Native suites: 51 GUI and 50 each other profile;

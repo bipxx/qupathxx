@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Linux headless Python 3.12 NumPy 2",
+    "native": 50,
+    "python": 3747
+  },
+  {
+    "name": "Linux ASan UBSan native",
+    "native": 50,
+    "python": null
+  },
+  {
+    "name": "Linux minimal native",
+    "native": 50,
+    "python": null
+  }
+]

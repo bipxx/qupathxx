@@ -46,6 +46,11 @@ This establishes synthetic geometry and existing-producer behavior only. It
 does not establish biological equivalence, native streaming contours, bounded
 whole-slide memory, platform support or apply authority.
 
+The [local receipt](benchmarks/raw-contour-seams-local.json) binds the reference
+test source, prior installed `0dc916c` runtime and exact wheel member separately.
+All ten new cases and 91 affected regressions pass; two OpenSlide cases skip.
+Initial fixture failures remain captured. No native rebuild was needed.
+
 ## Smallest native path
 
 1. Reuse `RawPixelTiledPredictionRequest` and `RawPixelPredictionStream`. Extract

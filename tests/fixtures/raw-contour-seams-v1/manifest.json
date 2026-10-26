@@ -1,0 +1,11 @@
+{
+  "schema": "qpx.raw-contour-seams-manifest/1",
+  "source": "9edfbc11d8d83933925e990828b4d95a57f69fc9",
+  "generator": "tools/reference_raw_contour_seams.py",
+  "generator_sha256": "d8a5cf865c0d516f24e1250c264396ff7a222481f5211de6de260466e3926caa",
+  "reference_sha256": "2689015fcd99c0bac307b3407c7f4632ae9e38498227a887e63de97ebba542fe",
+  "cases": 4,
+  "tile_layouts": 16,
+  "rights": "Authored synthetic labels and arithmetic; no external dataset. Repository license decision remains open.",
+  "scope": "Exact synthetic boundary/axis oracle and existing bounded tracer/producer only; streamed native contour extraction, resources, science and release remain open."
+}
