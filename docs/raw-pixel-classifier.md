@@ -6,8 +6,10 @@ at `7beb80b`. Archive/retention source `440f610` now has a separate
 [local receipt](benchmarks/raw-pixel-archives-local.json): the affected suite
 passes on both Windows/Linux hosts; ten unchanged regression suites retain
 their source220304d results. Failed development rounds remain in the receipt.
-Backend-enabled forest training, live replay verification, apply/undo,
-rational-window streaming, Python and UI integration remain open. RGB `pixel-v1` and QPC1/QPC2 stay unchanged.
+Positive backend training/trained archives have [local Windows evidence](benchmarks/raw-pixel-training-local.json)
+at `e7e4b66` (three backend-ON suites and one backend-OFF workflow suite).
+Live replay verification, apply/undo, rational-window streaming, Python/UI and
+integrated platform backend training remain open. RGB `pixel-v1` and QPC1/QPC2 stay unchanged.
 
 The existing path is `PixelTrainingRequest` → `extract_pixel_features` →
 float32 training rows → `ForestModel` → `PixelPredictionRequest` /
@@ -189,7 +191,15 @@ Do not approximate fractional grid origins by natural scalar-downsample tiles.
 
 `RawPixelTrainingJob.sample` delivers a table without requiring a forest backend.
 `train` checks backend capability before starting IO, then calls the existing
-native forest trainer. `RawPixelPredictionJob` uses the same native prediction
+native forest trainer. Backend-enabled source `e7e4b66` now verifies this path
+on real two-channel uint16 TIFF data through direct and owner-job training,
+portable row votes, trained archive/model files and retained project snapshots.
+The forest records its effective admitted `work_bytes` in model identity.
+Historical tables retain fewer live capture resources, so fresh admission may
+choose a larger cap and yield a different model hash with identical votes.
+For byte-identical retraining, use the retained model's `forest().parameters()`;
+the local check proves both recorded-parameter equality and fresh-admission
+training-matrix/vote equality. This is engineering, not biological acceptance. `RawPixelPredictionJob` uses the same native prediction
 kernel. Controllers enforce owner-thread operations; cancellation alone is
 thread-safe. Busy reflects a running worker, while `await_completion` joins
 without delivering a result. Poll/wait validates owner/source state before

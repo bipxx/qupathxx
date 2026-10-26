@@ -1,0 +1,69 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "-S",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+      "-B",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows",
+      "-G",
+      "Visual Studio 17 2022",
+      "-A",
+      "x64",
+      "-DQUPATHXX_BUILD_PYTHON=OFF",
+      "-DQUPATHXX_BUILD_GUI=OFF",
+      "-DQUPATHXX_BUILD_TESTS=ON",
+      "-DQUPATHXX_BUILD_TIFF=ON",
+      "-DQUPATHXX_BUILD_PROJECT=ON",
+      "-DQUPATHXX_BUILD_CLASSIFIER_TRAINING=ON",
+      "-DOpenCV_DIR=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\deps\\opencv-sdk",
+      "-DQUPATHXX_OPENCV_NOTICES=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\deps\\opencv-sdk\\share\\licenses\\opencv",
+      "-DFETCHCONTENT_SOURCE_DIR_SQLITE=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\deps\\sqlite-amalgamation-3540100",
+      "-DFETCHCONTENT_SOURCE_DIR_QPX_ZLIB=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\_deps\\qpx_zlib-src",
+      "-DFETCHCONTENT_SOURCE_DIR_QPX_TIFF=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\_deps\\qpx_tiff-src",
+      "-DFETCHCONTENT_SOURCE_DIR_QPX_XML=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\_deps\\qpx_xml-src",
+      "-DFETCHCONTENT_SOURCE_DIR_JSON=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\cp312-cp312-win_amd64\\_deps\\json-src"
+    ],
+    "exit": 0,
+    "seconds": 5.0376250999979675
+  },
+  {
+    "name": "build",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--build",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows",
+      "--config",
+      "Release",
+      "--target",
+      "qupathxx_pixel_workflow_tests",
+      "qupathxx_classifier_tests",
+      "qupathxx_classifier_io_tests",
+      "--parallel",
+      "2"
+    ],
+    "exit": 0,
+    "seconds": 13.62422990007326
+  },
+  {
+    "name": "tests",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows",
+      "-C",
+      "Release",
+      "-R",
+      "^(pixel_workflows|classifier|classifier_io)$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawtraining218d-on\\tests.xml"
+    ],
+    "exit": 0,
+    "seconds": 0.729391900007613
+  }
+]

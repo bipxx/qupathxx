@@ -40,7 +40,7 @@ no additional agent delegation is implied by this table.
 
 | Order / ID | State and owner | Easiest implementation path | Required exit evidence |
 | --- | --- | --- | --- |
-| 1 / SCI1-A: typed raw pixel classification | Owner-captured sampling/prediction accepted locally at `7beb80b`; archives/retention accepted locally at `440f610`; root owns positive backend training, replay/apply and streamed resume | Follow the bounded A1-A6 route below and the [numeric contract](raw-pixel-classifier.md). Reuse the feature kernel, `RawPixelRecipe`/`RawPixelClassifier`, typed sampler and existing forest/owner/source/job authorities; use `RawPixelTrainingRequest`/`RawPixelPredictionRequest` and their controllers. Next exercise real forest training and trained-archive linkage; then reuse existing record/command authorities for live replay and atomic apply/undo. Preserve both grid axes and captured document calibration. Deliver train → predict → save/reopen → resume through existing entry points | Independent feature oracle, streamed/full-window seam checks, source/model mutation and cancellation controls, persistence/legacy compatibility, installed typing and real desktop/CLI/batch outcomes at one frozen source |
+| 1 / SCI1-A: typed raw pixel classification | Owner-captured sampling/prediction accepted locally at `7beb80b`; archives/retention accepted locally at `440f610`; positive Windows training/trained archives accepted locally at `e7e4b66`; root owns replay/apply and streamed resume | Follow the bounded A1-A6 route below and the [numeric contract](raw-pixel-classifier.md). Reuse the feature kernel, `RawPixelRecipe`/`RawPixelClassifier`, typed sampler and existing forest/owner/source/job authorities; use `RawPixelTrainingRequest`/`RawPixelPredictionRequest` and their controllers. Next reuse existing record/command authorities for live replay and atomic apply/undo, preserving the locally verified real training/trained-archive path. Preserve both grid axes and captured document calibration. Deliver train → predict → save/reopen → resume through existing entry points | Independent feature oracle, streamed/full-window seam checks, source/model mutation and cancellation controls, persistence/legacy compatibility, installed typing and real desktop/CLI/batch outcomes at one frozen source |
 | 2 / SCI1-B: remaining research workflows | Open; retain every M0-M7 requirement | After SCI1-A, choose the next complete workflow by dependency readiness: stitched contours; eligible vendor/whole-slide/partial-OME support; annotation/interchange; spatial queries and recorded/distributed automation. Prepare only the reference/decision inputs needed by that workflow | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
 | Alongside / DEC1: scientific and resource prerequisites | Open; user/research lead supplies decisions, root records applicability | Use the existing decision table below for dataset rights/labels, tolerances and eligible hardware. Synthetic arithmetic/engineering work proceeds; affected biological or hardware acceptance waits for its real prerequisites | Record corpus/version/rights, labels, metric/tolerance before comparison, and eligible hardware/configuration. Do not infer acceptance from synthetic tests or suite totals |
 | After applicable gates / REL1: supported release | Open; repository owner plus packaging owner | Reuse qualified artifacts; resolve project license, distribution obligations, support matrix, installers, notices, signing and clean-machine walkthroughs | Every claimed platform/workflow has scope-matched acceptance. Mac-native does not qualify Mac Python/GUI/OpenSlide. No release/PyPI/signing authorization is implied |
@@ -159,9 +159,15 @@ and the RGB deterministic reservoir. Captured Document calibration overrides
 file calibration for physical features. Cancellation, edits, metadata/compound
 file changes and owner-thread delivery have distinguishing controls.
 
-The local caches configure forest training OFF: sampling and prediction run,
-and backend-unavailable training refuses before pixel IO. Positive real forest
-training remains a required gate. Candidate `220304d` adds QXS1 recipes,
+The earlier caches configure training OFF and prove backend-unavailable refusal
+before pixel IO. A separate OpenCV 4.11.0 configuration now has [positive local
+Windows evidence](benchmarks/raw-pixel-training-local.json) at `e7e4b66`: three
+backend-ON suites and one backend-OFF workflow suite pass. Real TIFF direct/job
+training, trained archives/model files and portable votes agree. Archived model
+parameters include the effective admitted work budget; reuse those recorded
+parameters for byte-identical historical retraining. Fresh table readmission
+can admit a different budget while preserving training matrix/votes. Linux/Mac
+and integrated platform backend training remain open. Candidate `220304d` adds QXS1 recipes,
 QXT1 sampled/trained tables, QXP1 predictions and QXR1 retained records. Existing
 SQL schema 13 stores the tagged raw record variant without another migration.
 Decoded historical data has no live capture authority. Source-only provenance
@@ -175,22 +181,17 @@ All five failed development rounds remain raw evidence. Recovery's deliberate
 lock/session sidecars are removed only by the joined, fixture-owned cleanup;
 product recovery deletion remains unchanged. Use this order within SCI1-A:
 
-1. Exercise the actual optional forest backend on captured rows, including
-   archive/model linkage and deterministic train/predict/save/reopen outcomes.
-   Do this before expanding streaming or frontend work to expose backend and
-   trained-archive contract gaps early. Sampling plus backend-unavailable refusal
-   cannot substitute for this check.
-2. Add explicit live archive replay verification and atomic owner-stage apply/
+1. Add explicit live archive replay verification and atomic owner-stage apply/
    undo using existing source guards, record identities and edit commands.
    Reopening historical bytes alone must never confer publication authority.
-3. Add a sample-index window over the original rational axes; reuse raw sampling
+2. Add a sample-index window over the original rational axes; reuse raw sampling
    and the feature kernel with per-axis halo. Compare tiled/full results at
    fractional origins, edges and missing-support seams. Extend the existing
    stream/checkpoint machinery for cancellation and source/model-safe resume.
-4. Bind stable native APIs once with nanobind and owning NumPy views; compose
+3. Bind stable native APIs once with nanobind and owning NumPy views; compose
    Python, CLI/batch, managed viewer and ImGui actions through those contracts.
    Generate stubs from the final installed module and verify real outcomes.
-5. Preflight the complete producer/manifest/fixture/auditor closure, freeze one
+4. Preflight the complete producer/manifest/fixture/auditor closure, freeze one
    integrated source and run the required platform profile once. Independent
    biological/model, hardware and release acceptance retain their own gates.
 

@@ -45,12 +45,15 @@ Archive/retention source `440f610` has [local acceptance](benchmarks/raw-pixel-a
 for the affected workflow suite on both Windows/Linux hosts, including native
 retention and project/snapshot/recovery readback. The original ten unchanged
 regression results retain source220304d; failed development rounds are preserved.
-Next verify backend-enabled training/trained archives, then live replay,
-owner-stage apply/undo, phase-preserving streams/checkpoints and frontends.
+Positive backend training/trained archives now have [local Windows evidence](benchmarks/raw-pixel-training-local.json)
+at `e7e4b66`: three backend-ON suites and one backend-OFF workflow suite pass.
+Next complete live replay, owner-stage apply/undo, phase-preserving streams/
+checkpoints and frontends; integrated platform training remains open.
 New raw models use QRM1; explicit pre-release QPR1 compatibility preserves
 original bytes and hashes.
-Positive backend-enabled forest training is still required; local caches have
-training OFF. Both axes and captured document calibration, channel and
+The separate pinned OpenCV configuration supplies positive local training;
+the retained earlier caches still have training OFF. Neither config supplies
+the missing integrated platform or biological/model acceptance. Both axes and captured document calibration, channel and
 normalization semantics must survive that complete workflow.
 RGB models remain compatible. The new classifier source is not covered by the
 older multi-file campaign. Scientific/model and eligible hardware evidence

@@ -19,11 +19,18 @@
   receipt preserves all five failed development rounds. It covers sampled and
   predicted archives, real-TIFF Document retention, project/snapshot/recovery
   readback, historical-authority refusal, stale-source and archive tamper controls.
-- Next product action: verify positive backend-enabled raw forest training and
-  trained-archive linkage using the pinned OpenCV SDK. Then complete live replay
-  verification, atomic apply/undo, phase-preserving windows/streamed checkpoints,
-  and nanobind/Python/CLI/batch/ImGui/managed-viewer integration. Training-OFF
-  sampling/prediction evidence does not qualify real forest training. See the
+- Positive backend training now has [local Windows evidence](benchmarks/raw-pixel-training-local.json)
+  at `e7e4b66`: three backend-ON suites and the backend-OFF workflow suite pass.
+  The pinned OpenCV 4.11.0 SDK verifies 195 manifest files. Real TIFF direct/job
+  training, model/trained-archive files, retained project/recovery workflows and
+  portable prediction votes pass. Exact historical retraining uses recorded
+  effective forest parameters; fresh admission can change the work-budget field
+  in model identity while preserving rows/votes. Earlier failed diagnostics and
+  the deliberately stopped wrong-cache run remain separate evidence.
+- Next product action: explicit live source/model replay verification and atomic
+  owner-stage apply/undo, followed by phase-preserving windows/streamed checkpoints
+  and nanobind/Python/CLI/batch/ImGui/managed-viewer integration. Linux/Mac and
+  integrated platform backend training remain unqualified. See the
   [contract](raw-pixel-classifier.md) and
   [ordered route](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
 - MFO1 fault campaign213 is now [engineering accepted](benchmarks/multifile-fault-213-qualification.json)
