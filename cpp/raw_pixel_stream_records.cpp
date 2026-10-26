@@ -14,7 +14,7 @@ RawPixelStreamOptions stream_options(Reader& r) {RawPixelStreamOptions o;o.tile_
 }
 std::size_t RawPixelStreamLink::payload_bytes() const {
     std::size_t n=sizeof(*this)+path_.capacity()+model_.capacity()+request_.capacity()+header_.capacity()+summary_.class_counts.capacity()*sizeof(std::uint64_t)+summary_.input_sha256.capacity()+summary_.sha256.capacity()+summary_.content_sha256.capacity();
-    if(version_) n+=sizeof(FileVersion)+version_->identity_scheme.capacity()+version_->identity.capacity()+version_->stamp_scheme.capacity()+version_->modified_token.capacity()+version_->change_token.capacity();return n;
+    if(version_) n+=sizeof(FileVersion)+version_->path.capacity()+version_->identity_scheme.capacity()+version_->identity.capacity()+version_->stamp_scheme.capacity()+version_->modified_token.capacity()+version_->change_token.capacity();return n;
 }
 void RawPixelStreamLink::validate() const {
     detail::bounded_utf8(path_,32768);if(path_.empty() || !std::filesystem::u8path(path_).is_absolute() || (object_ && !revision_)) throw std::invalid_argument("invalid raw stream link path/source history");
