@@ -89,7 +89,7 @@ inline void run() {
         const RawPixelPredictionRequest captured(*live,real_model,real_grid,left);const auto ready=archive_raw_pixel_prediction(captured,predict_raw_pixel_region(captured));const auto ready_contours=has_geos()?trace_raw_pixel_prediction(captured,ready->result()):nullptr;
         {std::ofstream changed(image,std::ios::binary|std::ios::app);changed<<"changed";}const auto rev=live->revision();rejects<std::invalid_argument>([&]{live->keep_raw_pixel_prediction(captured,ready);});if(ready_contours) rejects<std::invalid_argument>([&]{publish_raw_pixel_contours(*live,captured,*ready_contours);});rejects<std::invalid_argument>([&]{historical->verify_raw_pixel_prediction(prediction_id,replay_prediction,replay_job.result());});check(live->revision()==rev && live->raw_pixel_record_count()==2);
         // Close readers before removing test-owned files on Windows.
-        again.reset();opened.reset();project.reset();live->server()->close();std::filesystem::remove(project_path);std::filesystem::remove(image);
+        again.reset();opened.reset();project.reset();historical->server()->close();live->server()->close();std::filesystem::remove(project_path);std::filesystem::remove(image);
         // Recovery deliberately preserves its lock and unmanaged-session marker.
         // The autosave owner has joined above; remove only these fixture-owned
         // sidecars rather than weakening recovery deletion or deleting a tree.

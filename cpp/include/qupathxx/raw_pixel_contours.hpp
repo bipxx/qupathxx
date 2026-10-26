@@ -8,6 +8,7 @@ public:
     const std::shared_ptr<const TissueContours>& contours() const {return contours_;}
     const std::string& prediction_sha256() const {return prediction_->sha256();}
 private:
+    RawPixelContours()=default;
     std::shared_ptr<const RawPixelPredictionRequest::Data> snapshot_;
     std::shared_ptr<const RawPixelClassification> prediction_;
     std::shared_ptr<const TissueContours> contours_;

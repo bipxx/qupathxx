@@ -1,7 +1,9 @@
 #pragma once
 #include "raw_pixel_archive_checks.hpp"
 #include "qupathxx/raw_pixel_contours.hpp"
+#include <type_traits>
 namespace raw_replay_checks {
+static_assert(!std::is_default_constructible_v<qpx::RawPixelContours>);
 inline void require(bool value,const char* text) {if(!value) throw std::runtime_error(std::string("Raw replay/apply: ")+text);}
 inline void run() {
     using namespace qpx;using raw_feature_checks::rejects;
@@ -24,6 +26,8 @@ inline void run() {
     // Model/threshold changes are parameter errors, even when the raster happens
     // to have equal labels. A different capture cannot authorize old results.
     const RawPixelPredictionRequest threshold(doc,model,grid,roi,.9);rejects<std::invalid_argument>([&]{doc.verify_raw_pixel_prediction(prediction_id,threshold,predict_raw_pixel_region(threshold));});
+    auto changed_features=features;changed_features.scales={2,2};const RawPixelRecipe changed_recipe(*source->raw,grid,selection,changed_features);const RawPixelClassifier changed_model(raw_classifier_checks::forest(changed_recipe),changed_recipe);const RawPixelPredictionRequest changed_prediction(doc,changed_model,grid,roi);
+    rejects<std::invalid_argument>([&]{doc.verify_raw_pixel_prediction(prediction_id,changed_prediction,predict_raw_pixel_region(changed_prediction));});
     Document copied=doc;rejects<std::invalid_argument>([&]{copied.verify_raw_pixel_prediction(prediction_id,replay,fresh);});
     job.cancel();rejects<std::runtime_error>([&]{job.verify_result(doc,prediction_id);});
     auto owner_error=std::async(std::launch::async,[&]{try {samples.verify_result(doc,training_id);return false;}catch(const std::runtime_error&) {return true;}});require(owner_error.get(),"cross-thread verification accepted");

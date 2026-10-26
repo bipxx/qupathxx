@@ -231,17 +231,17 @@ std::vector<std::uint64_t> publish_pixel_contours(Document& document,const Pixel
 namespace {
 struct RawPixelRaster {
     const RawPixelClassification& result;const RawPixelPredictionRequest::Data& snapshot;
-    ScientificGrid core;Roi mask;
+    ScientificGrid core;Roi image_mask;
     struct Component {std::uint32_t label;std::uint64_t pixels;};std::vector<Component> classes;
     RawPixelRaster(const RawPixelClassification& r,const RawPixelPredictionRequest::Data& s):result(r),snapshot(s),
         core(r.grid().image_width(),r.grid().image_height(),{r.grid().x().origin(),r.grid().x().extent(),r.grid().x().samples()},{r.grid().y().origin(),r.grid().y().extent(),r.grid().y().samples()},1024ULL*1024*1024),
-        mask(s.mask?*s.mask:Roi::rectangle({0,0,double(core.image_width()),double(core.image_height())})) {
+        image_mask(Roi::rectangle({0,0,double(core.image_width()),double(core.image_height())})) {
         for(std::size_t i=0;i<r.class_counts().size();++i) classes.push_back({std::uint32_t(i+1),r.class_counts()[i]});
     }
     const auto& components() const {return classes;}const auto& labels() const {return result.labels();}
     auto width() const {return core.width();}auto height() const {return core.height();}
     std::uint64_t foreground_pixels() const {std::uint64_t n=0;for(const auto& c:classes) n+=c.pixels;return n;}
-    const Roi& roi() const {return mask;}Rect bounds() const {return {double(core.x().origin()),double(core.y().origin()),double(core.x().extent()),double(core.y().extent())};}
+    const Roi& roi() const {return snapshot.mask?*snapshot.mask:image_mask;}Rect bounds() const {return {double(core.x().origin()),double(core.y().origin()),double(core.x().extent()),double(core.y().extent())};}
     double downsample() const {throw std::logic_error("raw contours require both grid axes");}
     const ScientificGrid* scientific_grid() const {return &core;}
     Rect image_bounds() const {return {0,0,double(core.image_width()),double(core.image_height())};}
@@ -251,7 +251,7 @@ struct RawPixelRaster {
 std::shared_ptr<const RawPixelContours> RawPixelContourKernel::run(std::shared_ptr<const RawPixelPredictionRequest::Data> snapshot,std::shared_ptr<const RawPixelClassification> prediction,TissueContourOptions options,const std::atomic<bool>* cancelled) {
     if(!snapshot || !prediction || !prediction->capture_ || prediction->capture_!=snapshot->capture) throw std::invalid_argument("raw contour capture mismatch");
     auto contours=TissueContourKernel::run(RawPixelRaster(*prediction,*snapshot),options,cancelled);
-    auto out=std::make_shared<RawPixelContours>();out->snapshot_=std::move(snapshot);out->prediction_=std::move(prediction);out->contours_=std::move(contours);return out;
+    auto out=std::shared_ptr<RawPixelContours>(new RawPixelContours());out->snapshot_=std::move(snapshot);out->prediction_=std::move(prediction);out->contours_=std::move(contours);return out;
 }
 std::shared_ptr<const RawPixelContours> trace_raw_pixel_prediction(const RawPixelPredictionRequest& request,std::shared_ptr<const RawPixelClassification> prediction,TissueContourOptions options,const std::atomic<bool>* cancelled) {
     auto snapshot=RawPixelContourKernel::capture(request,prediction);return RawPixelContourKernel::run(std::move(snapshot),std::move(prediction),options,cancelled);
