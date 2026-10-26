@@ -3,7 +3,8 @@
 This is the next SCI1-B workflow, after the active T5 qualification. Streamed
 polygon geometry is locally verified as an internal component. The immutable
 streamed result, owner jobs and atomic publication are locally verified in C++;
-Python/CLI/batch/desktop and retained-file delivery remain open. The existing
+Python is locally verified; shared CLI/batch/desktop and retained-file delivery
+remain open. The existing
 bounded full-grid tracer and prediction block producer are working baselines.
 Keep the [numeric contract](raw-pixel-classifier.md), owner/source guards and
 [open-source reader policy](reader-license-policy.md).
@@ -108,7 +109,8 @@ The [native workflow receipt](benchmarks/raw-stream-boundaries-local/workflow-24
 binds `1fb2624`. Four Windows backend-ON suites pass, including real TIFF cropped
 direct/job parity, apply/undo/redo and late-file refusal. The same four Clang
 backend-OFF suites pass explicit unavailable direct/job refusal before IO.
-This is C++ delivery; Python and application consumers remain open.
+The installed Python delivery below extends this C++ checkpoint; new application
+consumers remain open.
 
 | API | Existing path reused and current behavior |
 | --- | --- |
@@ -123,12 +125,33 @@ result from another capture. Historical QWS1 blocks grant no live authority.
 Publication preserves parent/class names, atomic failure, undo/redo and stale
 republish refusal. No Document mutation occurs during prediction/tracing.
 
-Next bind these stable native types thinly using the existing `JobHolder`,
-wait/GIL and immutable result patterns in `raw_pixel_workflow_bindings.cpp`.
-Then extend the shared raw frontend for CLI, project batches, ImGui and managed
-viewer, keeping complete-result/ID reservation before the command. Add retained
-file reopen/replay through fresh requests and scope-matched installed checks;
-freeze the broad platform candidate after the full consumer slice settles.
+## Installed Python: locally verified
+
+The [installed receipt](benchmarks/raw-stream-boundaries-local/python-244/receipt.json)
+binds the final Windows cp312 wheel/runtime at `54147fd`, binding implementation
+`b6bb50e` and later test-only observer `47ae2cb`. All 391 compiler inputs and the
+source fingerprint agree; observers do not relabel compiled products. The thin
+bindings in `raw_pixel_file_bindings.cpp` reuse `JobHolder` and existing GIL/wait
+handling. Native results have no Python constructor, job results are optional,
+and lattice/region/count accessors return immutable values or detached copies.
+
+Nine native suites pass. Installed consumers cover seven new trained-TIFF cases
+and both genuinely active cancel/close child processes. Across the retained
+non-GUI and explicit GUI observations, 216 unique Python cases pass with three
+declared skips; all 48 GUI compatibility cases actually run. The earlier skipped
+GUI observation remains separate. Five positive typing files pass; four negative
+files reject 15 intended errors, including forged construction, unguarded optional
+result access and passing a full-grid result to streamed publication. An initial
+zero-file Pyright run is retained as invalid evidence, followed by actual relative-
+path collection. Stubs match the installed runtime. All final wheel members,
+executables, capabilities, source identities, loaded GEOS DLLs and notices verify.
+Dependencies are reused; clean-machine and supported-release gates remain open.
+
+Next extend the shared raw frontend for CLI, project batches, ImGui and managed
+viewer. The GUI cases above preserve earlier features; they do not deliver new
+streamed actions. Keep complete-result/ID reservation before the command, add
+retained-file reopen/replay through fresh requests, then freeze the broad platform
+candidate after the complete consumer slice settles.
 
 ## Smallest native path
 

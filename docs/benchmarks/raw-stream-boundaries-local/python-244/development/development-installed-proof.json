@@ -1,0 +1,9 @@
+{
+  "source": "b6bb50e5c0481c440975ee76be9f5102330d7b38",
+  "fingerprint": "e1ceb989d99ffb5f0f736b4fb4dc43ee20b7ba52044e8cb7702a59f7fc27bd3e",
+  "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-contour-244-env\\Lib\\site-packages\\qupathxx",
+  "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-contour-244-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+  "native_sha256": "ba33cae08c35e2f5ed1d033a3c46914bf1663e3c2219c33873ba22d4b47be52b",
+  "wheel_sha256": "da221a6a81379f9393825ac8ae1dd4803b44a43b39e729badeb301f84c8d3705",
+  "scope": "Development binding consumer; final generated stubs and all installed executable identities still pending."
+}

@@ -1,0 +1,18 @@
+Ignoring path "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tests\typing\raw_pixel_valid.py" in "include" array because it is not relative.
+Ignoring path "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tests\typing\raw_batch_valid.py" in "include" array because it is not relative.
+Ignoring path "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tests\typing\raw_frontend_valid.py" in "include" array because it is not relative.
+Ignoring path "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\examples\raw_classifier_workflow.py" in "include" array because it is not relative.
+Ignoring path "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tests\typing\raw_stream_contour_valid.py" in "include" array because it is not relative.
+{
+    "version": "1.1.407",
+    "time": "1793044537735",
+    "generalDiagnostics": [],
+    "summary": {
+        "filesAnalyzed": 0,
+        "errorCount": 0,
+        "warningCount": 0,
+        "informationCount": 0,
+        "timeInSec": 0
+    }
+}
+

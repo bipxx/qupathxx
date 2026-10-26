@@ -2,6 +2,18 @@
 
 ## Current execution card (2026-10-26)
 
+- [Installed streamed contour Python](benchmarks/raw-stream-boundaries-local/python-244/receipt.json)
+  is locally verified at runtime `54147fd`, bindings `b6bb50e` and test-only
+  observer `47ae2cb`. Nine native suites and 216 unique Python cases pass;
+  three named skips remain. Seven new cases include trained TIFF, immutable
+  snapshots, optional job delivery, exact capture, budgets, undo/redo, stale
+  files and two actually running cancel/close probes. All 48 inherited GUI
+  compatibility cases run. Five positive typing files pass; 15 intended errors
+  in four negative files reject; generated stubs match. The initial missing GUI
+  opt-in and zero-file Pyright attempts are retained and excluded from their
+  acceptance scopes. All installed wheel members/source/capabilities/notices
+  and loaded GEOS identity verify. New streamed CLI/batch/ImGui/viewer actions,
+  retained-file reopen and full platform/science/hardware/release remain open.
 - [Captured C++ streamed contours](benchmarks/raw-stream-boundaries-local/workflow-243/receipt.json)
   at `1fb2624` pass four Windows ON and four Clang minimal OFF native suites.
   The result has complete producer commitments/counts and an exact capture;

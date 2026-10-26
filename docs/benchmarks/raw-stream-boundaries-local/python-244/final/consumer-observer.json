@@ -1,0 +1,12 @@
+{
+  "source": "47ae2cbfdb1bb095f478f53721ea2a31bdc5fb1f",
+  "files": {
+    "tests/test_raw_stream_contour_python.py": "a3057a5a6d9c8885d1793c1633b20a815fe426188cf76c5d71e69733b9ca22e4",
+    "tests/raw_stream_contour_shutdown_child.py": "d4ca24c567608aee04352e36379f0676a8cde8f1376a51f5be6621a3308e4dc9",
+    "tests/typing/raw_stream_contour_valid.py": "7b4bfc420576d55d5d8a2b0b89f3ef7614660f8f43ec8c55a991f4ffead3ebc2",
+    "tests/typing/raw_stream_contour_invalid.py": "449cb8c1698a55ad2769920b2d200b1f860fd96b8382afeec6265fc5de08a055",
+    "tools/generate_stubs.py": "b2827940d16bb9f8989fa9b811af5bc6ec1c4d1c3d39c18346e496a0d246f6f5"
+  },
+  "compiled_runtime_source": "54147fd2ff89901b5cab07a69a59344a4df38738",
+  "compiler_inputs_unchanged": true
+}

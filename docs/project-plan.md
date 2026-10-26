@@ -69,8 +69,11 @@ native suites pass. Sixteen independent layouts match exact geometry, topology,
 counts and both-axis crop phase. [Captured results/native jobs/atomic apply](benchmarks/raw-stream-boundaries-local/workflow-243/receipt.json)
 are now locally verified in C++ at `1fb2624`, including real TIFF, cancellation,
 wrong/stale capture and full result/edit/ID admission. Four Windows ON and four
-Clang minimal OFF suites pass. Thin Python bindings, CLI/batch/ImGui/managed
-consumers and retained-file reopen remain open.
+Clang minimal OFF suites pass. [Installed Python](benchmarks/raw-stream-boundaries-local/python-244/receipt.json)
+now verifies runtime `54147fd`: nine native and 216 unique Python passes,
+including seven new cases and 48 inherited GUI compatibility cases. Stubs,
+typing and active cancellation/close verify. Shared streamed CLI/batch/ImGui/
+managed consumers and retained-file reopen remain open.
 
 Diagnostic238 is terminal: arm64 fails at `historical and foreign capture
 refusal`; x86_64 passes. Both archives authenticate. Its CLI/SDK inventory did
