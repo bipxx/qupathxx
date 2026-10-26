@@ -1,10 +1,15 @@
 """Installed native streamed contours: real typed TIFF and actual trained forest."""
 from concurrent.futures import ThreadPoolExecutor
 import gc
+import json
+import os
+from pathlib import Path
+import subprocess
+import sys
 
 import pytest
 import qupathxx as q
-from test_raw_pixel_python import raw, trained
+from test_raw_pixel_python import raw, trained, tiff
 
 pytestmark=pytest.mark.skipif(not q.has_tiff or not q.has_geos,reason="typed TIFF and GEOS")
 
@@ -106,3 +111,22 @@ def test_admission_and_document_stale_refusal(raw):
     job.await_completion()
     doc.add_roi(q.Roi.rectangle(q.Rect(0,0,1,1)))
     assert job.poll(doc).state=="stale" and job.result is None
+
+
+@pytest.mark.parametrize('mode',['cancel','close'])
+def test_active_worker_shutdown_releases_gil_and_reader(raw,tmp_path,mode):
+    _,_,_,model,_,_=setup(raw)
+    image=tmp_path/'large.tif';tiff(image,width=1024,height=768)
+    model_path=tmp_path/'model.qrm';q.save_raw_pixel_classifier(model,str(model_path))
+    command=[sys.executable,'-I',str(Path(__file__).with_name('raw_stream_contour_shutdown_child.py')),mode,str(image),str(model_path)]
+    result=subprocess.run(command,capture_output=True,text=True,encoding='utf-8',timeout=45)
+    output=os.environ.get('QUPATHXX_STREAM_CONTOUR_EVIDENCE_DIR')
+    if output:
+        dest=Path(output);dest.mkdir(parents=True,exist_ok=True)
+        (dest/(mode+'-stdout.log')).write_text(result.stdout,encoding='utf-8')
+        (dest/(mode+'-stderr.log')).write_text(result.stderr,encoding='utf-8')
+        (dest/(mode+'-command.json')).write_text(json.dumps({'command':command,'exit':result.returncode},indent=2)+'\n',encoding='utf-8')
+    assert result.returncode==0,result.stderr
+    record=json.loads(result.stdout)
+    assert record['observed_busy'] and record['observed_state']=='running' and record['shutdown_completed']
+    assert record['mode']==mode and record['total_windows']>1000
