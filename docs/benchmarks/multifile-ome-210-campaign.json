@@ -1,0 +1,158 @@
+{
+  "schema": "qpx.multifile-ome-campaign/1",
+  "observed_at_utc": "2026-10-26T03:08:36.746812+00:00",
+  "source": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+  "ref": "feature/multifile-ome-workflow-210",
+  "frozen_checkout": "build/ci/multifile-ome-workflow-210",
+  "preflight": {
+    "source": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+    "observed_at_utc": "2026-10-26T03:05:50.253173+00:00",
+    "passed": 562,
+    "source_contract_files": {
+      "multifile": 55,
+      "scientific": 514,
+      "axis": 35,
+      "dearray": 60,
+      "qptma": 42,
+      "resampling": 16,
+      "hierarchy": 55
+    },
+    "compiler_inputs": 317,
+    "fresh_checkout_fingerprint": "5b6e52eb06999a2150d2619dee6c21c6c08c6f27f1b3d0fe9ebfa500a2831dcf",
+    "scope": "Frozen clean-checkout exact-cohort admission controls and source proofs; not platform acceptance",
+    "release_ready": false
+  },
+  "runs": {
+    "engine": {
+      "id": 40262416972,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40262416972",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": false,
+        "live_reference": true,
+        "extended_readers": true
+      }
+    },
+    "macos": {
+      "id": 40262423808,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40262423808",
+      "semantic_inputs": {
+        "macos_native": true,
+        "portable_linux": false,
+        "live_reference": false,
+        "extended_readers": false
+      }
+    },
+    "portable": {
+      "id": 40262431017,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40262431017",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": true,
+        "live_reference": false,
+        "extended_readers": true
+      }
+    }
+  },
+  "contract": {
+    "installed_cases": 44,
+    "desktop_cases": 2,
+    "headless_skips": 2,
+    "native_suites": 3,
+    "typing_positive_files": 1,
+    "typing_negative_errors": 3,
+    "capability": "TIFF-enabled configurations require real multi-file marker; minimal configuration requires disabled/open-refused marker; compound codecs remain required in both"
+  },
+  "local_compiled_workflow_receipt": "docs/benchmarks/multifile-ome-local.json",
+  "status": "dispatched_not_yet_qualified",
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "scope": "Exact-source producer/auditor registration, 562 passing clean-checkout admission controls and one full-profile dispatch per role. Live jobs are not acceptance. Preserve original handles and require complete artifacts plus strict audits.",
+  "files": {
+    "docs/benchmarks/multifile-ome-210-campaign/local-controls/command.json": {
+      "bytes": 1705,
+      "sha256": "67b22d3c6558d8f36e556f91ae91f23454dd4c1cc067ce94335f2f9b1648f6b7"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/local-controls/controls.log": {
+      "bytes": 669,
+      "sha256": "09f6c8c88da44e109745b96f4ec737a2effc6100a9cb35aad40e9c40ad74f0aa"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/local-controls/controls.xml": {
+      "bytes": 84974,
+      "sha256": "f4ab73ae9cfa7dd2c0085dd5d191c0f1a64a2d52f6941f69d7ab2908ffc28397"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/local-controls/multifile-ome-typing-negative.log": {
+      "bytes": 450,
+      "sha256": "b7747b66d39f4d1e42237354a4cbefdb5f57e555fa8713ff15dd6644933e9ce3"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/local-controls/multifile-ome-typing-positive.log": {
+      "bytes": 43,
+      "sha256": "8e63ae22e8213e327a5e9cbd584067681681bd8ef7f25c869877887ccdcfc4ff"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/local-controls/retained-evidence-admission.json": {
+      "bytes": 892,
+      "sha256": "262648359b1c74d0c5856fabac0403f28f71dc996fb844cf95452c1f383b5d84"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/local-controls/typing-commands.json": {
+      "bytes": 727,
+      "sha256": "6c5485da76b687e1783fcc17157a86ab61344ab1cc8089cbf097866f00f01037"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/frozen-preflight/axis-source-proof.json": {
+      "bytes": 8243,
+      "sha256": "4006f81d9814e91cf0bef878fa62da5202c1e01b6bef246707590cca8b0d213b"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/frozen-preflight/command.json": {
+      "bytes": 2247,
+      "sha256": "19b72357da0bf279b50265cf14638253b2c7db1eb0781ee7f078a944470281e8"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/frozen-preflight/compiler-inputs.json": {
+      "bytes": 33460,
+      "sha256": "bcac7b0099d39e288cb6090d2496ebc21a1e6e03d5bdd57ef935b58c54ed1707"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/frozen-preflight/dearray-source-proof.json": {
+      "bytes": 14447,
+      "sha256": "7b7fa98292727a66f9df19eb5323c1d29969cb624554175bd0f9d53bd10c529f"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/frozen-preflight/hierarchy-source-proof.json": {
+      "bytes": 13681,
+      "sha256": "577d9e1876ee500a25529cb3dccc435278d2b87863961059567cca6fb10ad473"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/frozen-preflight/multifile-source-proof.json": {
+      "bytes": 13175,
+      "sha256": "137cfecca36c34cf4c5afd03ea7baf0fd32956513cd75ceac80ac41551850e7b"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/frozen-preflight/qptma-source-proof.json": {
+      "bytes": 10003,
+      "sha256": "095fe6622007ea69f91373c7800cc4b9f9858a896992cfc891b436705c37ac10"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/frozen-preflight/report.json": {
+      "bytes": 586,
+      "sha256": "1eda2c14b6f3a7016cbe9df23f583f0b316fd0d9cfcb8d9e5c189c31d8e46818"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/frozen-preflight/resampling-source-proof.json": {
+      "bytes": 4341,
+      "sha256": "7995ea538d40079947f197140c727f1c581778845c225ccbe0677d75db3bf8f5"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/frozen-preflight/scientific-source-proof.json": {
+      "bytes": 126891,
+      "sha256": "e759d0d2c451f296a07a6b413123c277960965fd114742b5528c9bc1108226b7"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/frozen-preflight/tests.log": {
+      "bytes": 669,
+      "sha256": "d9ea645b28df1ee61dc7af77ceab10b87cfd0b6834a1c98c924df5f727ea0ea5"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/frozen-preflight/tests.xml": {
+      "bytes": 84974,
+      "sha256": "b09c9bcd3ba403512ba740c084701cec7e7a2977a8a97485972475e306ae5c43"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/dispatch-state.json": {
+      "bytes": 5929,
+      "sha256": "fdf5792da8b224403412f85aed5485c321767010c42f6d598220689cd1633ed7"
+    },
+    "docs/benchmarks/multifile-ome-210-campaign/first-live-observation.json": {
+      "bytes": 2299,
+      "sha256": "7c7d76b9801e6d76a678f4847b191b5e998b00935f98533e7035e7cf583f632f"
+    }
+  }
+}

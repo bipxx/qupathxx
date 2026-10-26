@@ -45,7 +45,9 @@ explicit UUID/file dispatch, file-aware caching, shared budgets and all-file
 operation guards at native source `1c62165`. Local installed project/archive,
 Python, CLI, batch, ImGui and managed workflows pass the synthetic corpus.
 The [A-E checkpoints](multifile-ome-tiff.md#delivery-checkpoints) distinguish this
-local A-D evidence from E's remaining cohort registration and platform campaign.
+local A-D evidence from E's [live, unaccepted platform campaign](benchmarks/multifile-ome-210-campaign.json).
+Exact cohorts are registered; 562 clean-checkout admission controls pass at
+frozen source `9e7d0be`. Follow the original engine/Mac/portable handles.
 Broader reader/scientific/resource and release requirements remain open.
 The [seven-document review](reviews/compilexx-efficiency-review.md) supplies the
 failure evidence and distinguishes recommendations from applied product fixes.

@@ -22,12 +22,19 @@
   passes all 39 cases, including both entry points, C/Z/T/SubIFD samples,
   cache/file/XML limits, project/QRA3/QRA4 replay, relocation/relink, CLI/batch
   resume, ImGui and managed viewer. Counts overlap; do not add them together.
-- Next action: register the exact MFO1 cohorts in the existing producer and
-  relevant auditors together, then freeze one coherent platform campaign.
-  [A-D checkpoints](multifile-ome-tiff.md#delivery-checkpoints) have local evidence
-  within the declared synthetic scope; E is open. Broader fault/cancellation,
-  whole-slide, scientific, hardware and release requirements remain open.
-  E3/E4 attach to their next affected edits; MFO1 remains incomplete.
+- MFO1 qualification: exact native/installed/desktop/typing cohorts are registered
+  in the existing producer and all three auditors. Frozen source `9e7d0be`
+  passes 562 clean-checkout admission controls and seven source-contract proofs.
+  The [campaign receipt](benchmarks/multifile-ome-210-campaign.json) records one
+  full-profile dispatch per role: [engine40262416972](https://github.com/bipxx/qupathxx/actions/runs/40262416972),
+  [Mac40262423808](https://github.com/bipxx/qupathxx/actions/runs/40262423808),
+  [portable40262431017](https://github.com/bipxx/qupathxx/actions/runs/40262431017).
+  Next follow those original handles, verify all required archives and run the
+  strict exact-source audits. Do not redispatch because an observation expires.
+  [A-D checkpoints](multifile-ome-tiff.md#delivery-checkpoints) have local evidence;
+  E is in progress and unaccepted. Broader fault/cancellation, whole-slide,
+  scientific, hardware and release requirements remain open. E3/E4 attach to
+  their next affected edits; MFO1 remains incomplete.
 - The [efficiency review](reviews/compilexx-efficiency-review.md) records seven
   evidence-backed improvements. Earlier sections below retain workflow history;
   use this card for current scheduling. All M0-M7 remain Partial.
@@ -273,8 +280,8 @@ companion observations, QPV3/QRA3/QRA4, source-set stale comparisons and typed
 Python descriptors. Legacy QRA1/QRA2 fixtures retain byte-exact round trips.
 The [native workflow follow-up](benchmarks/multifile-ome-local.json) now opens
 both corpus members and verifies private dispatch/shared budgets/guards,
-project restart and Python/CLI/batch/ImGui/managed paths locally. Complete
-cohort registration and full platform qualification are next in the
+project restart and Python/CLI/batch/ImGui/managed paths locally. Cohort registration is complete; follow the original frozen campaign for
+full platform qualification in the
 [slice contract](multifile-ome-tiff.md). All original M0-M7 requirements remain.
 
 The frozen TMA candidate now has [strict Mac-native acceptance](benchmarks/tma-dearray-202-macos-native.json)

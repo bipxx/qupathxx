@@ -2,7 +2,8 @@
 
 Status: native multi-file opening and the synthetic installed workflow are
 locally verified in the [workflow receipt](benchmarks/multifile-ome-local.json).
-Required cohort registration/platform qualification remains open. This slice
+Exact cohort registration is complete; the [frozen platform campaign](benchmarks/multifile-ome-210-campaign.json)
+is live and unaccepted. This slice
 is part of M1/M6 and does not replace broader vendor, scientific, resource or
 supported-release requirements.
 
@@ -76,7 +77,7 @@ alongside the corrected, scoped checks.
 
 These checkpoints detail MFO1 in the single ordered API queue; they are not
 separate release milestones. The integration owner implements them in order.
-A-D now have local evidence within the receipt's synthetic scope; E remains open.
+A-D now have local evidence within the receipt's synthetic scope; E is in progress.
 
 | Checkpoint | Smallest implementation path | Exit / dependency |
 | --- | --- | --- |
@@ -150,7 +151,10 @@ cases with 14 declared skips. A 17-case desktop follow-up covers the 12 desktop
 skips, leaving two OpenSlide capability gaps. The final real multi-file cohort
 passes 39 cases including project restart/QRA3/QRA4, relocation/relink and
 Python/CLI/batch/ImGui/managed paths. These cohorts overlap.
-Next register the exact new cohorts in producer/auditors together and freeze
-one coherent required platform campaign. Keep broader cancellation/fault stress,
+Exact native, 44 installed, two desktop and typing cohorts are now registered
+in the producer and all three auditors. Frozen source `9e7d0be` passes 562
+clean-checkout admission controls. Follow the [original engine/Mac/portable
+campaign handles](benchmarks/multifile-ome-210-campaign.json); verify required
+archives and strict audits before accepting E. Keep broader cancellation/fault stress,
 whole-slide/scientific/resource and supported-release acceptance open. The
 original foundation receipt remains unchanged and retains its narrower scope.

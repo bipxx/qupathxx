@@ -1,0 +1,36 @@
+{
+  "typing": {
+    "positive_files": 1,
+    "intended_negative_errors": 3,
+    "log_sha256": {
+      "multifile-ome-typing-positive.log": "8e63ae22e8213e327a5e9cbd584067681681bd8ef7f25c869877887ccdcfc4ff",
+      "multifile-ome-typing-negative.log": "b7747b66d39f4d1e42237354a4cbefdb5f57e555fa8713ff15dd6644933e9ce3"
+    }
+  },
+  "retained_native_enabled": {
+    "suites": 3,
+    "tiff_enabled": true,
+    "compound_provenance_codecs": true
+  },
+  "retained_installed": {
+    "passed": 44,
+    "groups": [
+      {
+        "classname": "test_multifile_tiff_reader",
+        "passed": 37
+      },
+      {
+        "classname": "test_multifile_ome_fixture",
+        "passed": 4
+      },
+      {
+        "classname": "test_source_companions",
+        "passed": 3
+      }
+    ]
+  },
+  "retained_desktop": {
+    "passed": 2,
+    "declared_desktop_skips": 0
+  }
+}

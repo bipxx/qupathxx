@@ -439,3 +439,7 @@ docs/benchmarks/compound-source-local.json text eol=lf
 # Multi-file TIFF raw local evidence keeps exact payload bytes.
 docs/benchmarks/multifile-ome-local/** -text -whitespace
 docs/benchmarks/multifile-ome-local.json text eol=lf
+
+# Frozen multi-file OME campaign preflight evidence.
+docs/benchmarks/multifile-ome-210-campaign/** -text -whitespace
+docs/benchmarks/multifile-ome-210-campaign.json text eol=lf
