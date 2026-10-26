@@ -2,20 +2,24 @@
 
 ## Current execution card (2026-10-26)
 
-- Active implementation: T4.3 desktop/managed-viewer raw classification at
-  `b5df7e1`, corrected at `a01b6bc`; diagnostic-only head `c8331a4` is
-  unqualified and not published. Shared owner-job adapters, training/checkpoint
-  resume, bounded prediction/overlay, model IO, stream export/read and retained
-  browsing are implemented. Seven native suites pass at `a01b6bc`. Development
-  frontend tests: two pass (desktop training checkpoint/resume and managed
-  train/predict/export/resume/read/save), three fail. This is not installed-wheel
-  acceptance; temporary tab tracing remains in source.
-- Immediate next action: repair real ImGui tab activation, remove diagnostic
-  tracing and rerun the three failing interactions plus affected regressions.
-  A detected click currently leaves Training selected, preventing preview/file
-  actions. Do not bypass the interaction or weaken replay readiness. Then close
-  desktop export-prefix resume, invalid-model preservation, stale/image/workspace
-  switching, cancel/retry and shutdown coverage before declaring T4.3 verified.
+- Active implementation: T4.3 desktop/managed-viewer raw classification has
+  passing development checks. At `10f44cc`, 48 selected frontend/managed-viewer
+  Python cases and seven native suites pass. At `a8e7eaf`, the affected viewer
+  native suite adds active cancellation/retry and active shutdown/join; all eight
+  raw frontend cases pass again. Runtime source/fingerprint match the development
+  build. These are copied development packages, not accepted installed wheels.
+- The three original desktop timeouts are resolved: ImGui overlap-enabled tabs
+  require a prior hover frame. Replay now moves before real down/up events;
+  temporary tracing is removed. Additional desktop cases prove committed QWS
+  header/block preservation on resume, invalid-load model preservation with
+  continued prediction, and image-switch preview/GPU retirement. Native checks
+  retain stale/workspace/image-removal and historical-authority controls.
+- Next: finish remaining frontend mutation/source/lifetime coverage, then T4.4
+  bounded contour apply. Regenerate stubs and package settled contracts at T4.5;
+  no final frontend receipt, wheel, typing or integrated qualification yet.
+  Original failures and diagnostic products remain separate. The shutdown
+  fixture's initial stale-epoch rejection is preserved with its executable;
+  the corrected fixture adopts the current workspace before submission.
 - Latest accepted delivery: raw-classifier project batches at `c2c0fa0` have
   [installed local acceptance](benchmarks/raw-pixel-batch-local.json). Windows
   cp312, training/TIFF/project ON, GUI/GEOS/OpenSlide OFF: 136 Python passes,

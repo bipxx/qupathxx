@@ -446,12 +446,12 @@ Planning reconciliation at feature source `de0686d` (2026-10-26). The tasks
 below refine SCI1-A; they do not create additional milestones. Root owns the sequence, with no current implementation blocker. T4.1 now has
 [local installed Windows acceptance](benchmarks/raw-pixel-cli-local.json) at
 `f463110`; T4.2 has [installed local evidence](benchmarks/raw-pixel-batch-local.json) at `c2c0fa0`.
-T4.3 is implemented in development but has failing desktop interactions; T4.4
+T4.3 has passing development checks but no final installed acceptance; T4.4
 and T4.5 remain planned. See the development state below. `202b41a` retains its
 earlier Python profile.
 This is not a new Astra review or integrated platform qualification.
 
-T4.1/T4.2 are locally verified; finish T4.3 repairs and coverage, then T4.4 in order. T4.5 then closes T4 and admits T5. Keep one
+T4.1/T4.2 are locally verified; finish T4.3 coverage, then T4.4 in order. T4.5 then closes T4 and admits T5. Keep one
 implementation task active. Each task has a complete observable outcome; reuse
 its healthy evidence until a consumed input changes.
 
@@ -459,24 +459,33 @@ its healthy evidence until a consumed input changes.
 | --- | --- | --- |
 | T4.1 / locally verified official headless train, predict/export and verify at `f463110`; [commands](raw-pixel-cli.md) | Reuse the delivered small raw adapter to `cpp/batch_main.cpp`, following `pixel_stream_cli` dispatch, JSONL and cancellation. Reuse `RawPixelTiledTrainingRequest`, `RawPixelTrainingCheckpointJob`, `train_raw_pixel_tiled_classifier`, model/archive writers, `RawPixelStreamSaveJob` and `RawPixelStreamFileReadJob`. Keep `qupathxx_region --raw` as quantitative region extraction | Installed native executable trains on a labelled TIFF project, resumes QTC1, writes QRM1/QTT1, exports/resumes QWS1 and verifies it. Compare rows, fixed-parameter model bytes, blocks and commitments with the installed Python workflow. Exercise Unicode paths, invalid arguments, backend OFF, cancellation and destination/source aliases |
 | T4.2 / locally verified raw classification across project images at `c2c0fa0`; [guide](project-raw-pixel-batches.md) | Reuse the extension of existing `ProjectBatchKind`, `ProjectBatchOptions`, `ProjectBatchRequest` and kernel with an additive raw-classifier kind and typed model/lattice policy. Reuse selection snapshots, directory lock, owned bundle publication, checkpoint seal and Stop/Continue/resume reports. Add typed QWL1 extraction alongside RGB checkpoint records | A mixed project records success and incompatible-image failure correctly; Stop/Continue, exact reuse, changed inputs/model/policy and moved output are covered. Verify every reused stream, retain raw links in output projects and reopen them. Original project bytes and existing RGB/raw-measurement behavior remain intact |
-| T4.3 / implemented in development; desktop interactions failing, acceptance pending | Finish the shared `RawPixelFrontend`, ImGui panel and managed-viewer ticket commands over existing owner jobs; repair tab activation before expanding the surface. Capture actions on the owner thread; poll bounded status; use an owning, bounded window preview and historical file/block browsing | Real interactions train, preview, cancel/retry, export/resume, retain and reopen. Edits, source changes, image switches and workspace replacement refuse stale delivery. Shutdown joins workers before readers release; installed GUI and managed viewer both exercise the path |
+| T4.3 / development checks passing; final installed acceptance pending | Finish remaining controls through the shared `RawPixelFrontend`, ImGui panel and managed-viewer ticket commands over existing owner jobs. Capture actions on the owner thread; poll bounded status; use an owning, bounded window preview and historical file/block browsing | Real interactions train, preview, cancel/retry, export/resume, retain and reopen. Edits, source changes, image switches and workspace replacement refuse stale delivery. Shutdown joins workers before readers release; installed GUI and managed viewer both exercise the path |
 | T4.4 / supported bounded contour apply | Reuse `RawPixelPredictionRequest`, `RawPixelContourJob` and existing document commands for admitted full-grid results. Recompute a fresh owner-bound prediction when starting from historical output | Preview/apply/undo/redo is one atomic edit with rational axes preserved; stale capture, cancellation and oversized requests refuse without mutation. Label the supported bounds explicitly; a QWS1 stream does not provide stitched-contour authority |
 | T4.5 / installed frontend integration | Freeze frontend contracts, regenerate stubs if public APIs changed, package once and run a named TIFF train/predict/save/reopen/resume cohort through Python, native CLI, batch and desktop. Reuse the pinned SDK and maintained producer/auditor profiles | Record exact installed origin, ABI, capabilities, source fingerprint, executed case names and packaged notices. Include backend-positive behavior and OFF refusal, legacy RGB/persistence regressions, typing, array lifetime and shutdown. Claim only profiles actually exercised; then admit one T5 integrated engineering campaign |
 
 #### T4.3 development state and repair order
 
-Observed at implementation `b5df7e1`, correction `a01b6bc` and temporary trace
-`c8331a4` (2026-10-26). These commits have no accepted frontend receipt or final
-wheel. Seven native suites pass at `a01b6bc`; the development frontend cohort has
-two passes and three failures. The later trace build is diagnostic evidence only.
-Windows development configuration enables GUI, GEOS, TIFF, project and training;
-OpenSlide is OFF. Do not transfer the earlier headless batch profile's acceptance
-to this configuration.
+Implementation began at `b5df7e1`, with correction `a01b6bc` and temporary trace
+`c8331a4` (2026-10-26). Three original desktop timeouts came from a replay click
+without prior hover; ImGui overlap-enabled tabs require that hover. Normal
+mouse movement followed by down/up resolves the interactions; tracing is removed.
+At `10f44cc`, the rebuilt module passes 48 selected frontend/managed-viewer Python
+cases and seven native suites. At `a8e7eaf`, all eight raw frontend cases and the
+affected native viewer suite pass, adding active cancellation/retry and active
+shutdown/join. Preserve the original partial-file-footer comparison and
+stale-epoch shutdown-fixture failures at their own sources; they did not require
+product-format or epoch-authority changes.
+
+These are development consumers, with runtime source/fingerprint checks, not
+installed-wheel or clean-machine acceptance. Windows enables GUI, GEOS, TIFF,
+project and training; OpenSlide is OFF. Do not transfer the earlier headless
+batch profile's acceptance to this configuration. Final stubs/wheel and T5
+qualification remain pending.
 
 | Order | Current evidence / gap | Easiest next action and exit |
 | --- | --- | --- |
-| 1 / actual desktop interaction | Tab clicks are detected but Training remains selected; three desktop tests time out before completing preview/file outcomes | Diagnose ImGui tab selection and input handling using the small replay. Fix normal interaction, remove `RAWTAB` tracing, and pass the failed train/retain/export, historical browse and overlay-toggle tests. Keep original failures and source identities |
-| 2 / finish T4.3 behavior | Shared owner adapter and managed commands exist; desktop checkpoint/resume and the managed end-to-end workflow pass in development | Reuse the same jobs for desktop QWS prefix resume, invalid-model load preserving the current model, stale edits/source changes, image/workspace switches, cancel/retry and shutdown. Add only missing distinguishing cases; require bounded preview/read/result budgets and join-before-reader-release |
+| 1 / desktop replay repair: development verified | Prior-frame hover resolves tab selection; original train/retain/export, historical browse and framebuffer-overlay cases pass; tracing removed | Preserve actual hover/down/up interaction and original failure evidence. Reuse these passing controls unless consumed inputs change |
+| 2 / finish T4.3 behavior | Desktop QTC/QWS resume, invalid-load preservation/retry, image-switch retirement, managed end-to-end and native stale/epoch/removal/active-cancel/shutdown checks pass in development | Close remaining frontend mutation/source/lifetime controls through the same jobs. Add only missing distinguishing cases; preserve bounded preview/read/result budgets and join-before-reader-release. Final installed consumer proof belongs to the combined T4.5 gate |
 | 3 / T4.4 bounded apply | Frontend contour application is still planned | Reuse fresh owner-bound prediction, `RawPixelContourJob` and document undo commands. Demonstrate preview/apply/undo/redo and refusal of stale, cancelled or oversized work. Historical file reads confer no live apply authority; stitched stream contours remain separate |
 | 4 / T4.5 installed consumer | No final wheel or regenerated declarations for these new frontend APIs | After contracts settle, regenerate/check stubs, build one source-bound wheel with pinned SDK/notices and run the named installed frontend cohort. Include capability/origin checks, actual training, OFF refusal, typing, legacy regressions and lifetime/shutdown. Separate development passes from installed acceptance |
 | 5 / T5 integrated freeze | Not admitted yet | Freeze the complete T1-T4 source only after the prior exits; use the existing required producer/auditor matrix once. Preserve all platform omissions and independent scientific/resource/release gates |
@@ -484,8 +493,8 @@ to this configuration.
 Keep one implementation slice active. Reuse the existing configured cache and
 pinned SDK; retain products before cache reuse. Never edit compiler inputs during
 a live build or restart a healthy compiler because its log is quiet. Bind each
-result to its actual source/configuration. The temporary diagnostic head must not
-be published as accepted functionality. No fresh Astra or cross-project audit is
+result to its actual source/configuration. Diagnostic builds remain unqualified historical evidence; publish acceptance only
+with its scope-matched receipt. No fresh Astra or cross-project audit is
 claimed here. Only open-source readers and required codecs are eligible, including
 copyleft implementations under their distribution terms.
 
@@ -599,8 +608,8 @@ separate from completed-image batch reuse.
 
 T4.3 now has an unqualified development implementation through a shared owner
 adapter, ImGui panel and managed-viewer commands. Follow the
-[repair order](#t43-development-state-and-repair-order): fix actual tab selection,
-finish interaction/lifetime coverage and preserve the accepted batch baseline.
+[remaining order](#t43-development-state-and-repair-order): preserve passing real
+interactions, finish mutation/source/lifetime coverage and retain the accepted batch baseline.
 Keep historical browsing separate from fresh prediction/apply authority.
 Then finish bounded apply and installed integration before T5. No new reader,
 license, biological or supported-platform claim follows from this local result.

@@ -35,12 +35,13 @@ All M0-M7 remain Partial.
 The next executable work is the remaining [T4.3-T4.5 consumer sequence](api-delivery-plan.md#t4-execution-tasks-finish-consumers-before-another-qualification):
 Finish the implemented but unqualified ImGui/managed-viewer slice, then bounded
 contour apply and installed frontend integration, following the locally verified
-CLI and native project-batch steps. The desktop tab-selection defect is the
-immediate repair; see the [T4.3 development state and exit order](api-delivery-plan.md#t43-development-state-and-repair-order).
-Seven native suites pass at `a01b6bc`; the five-case development frontend cohort
-has two passes and three failures. Temporary trace head `c8331a4` is not an
-accepted delivery. No final frontend wheel, typing or integrated qualification
-is claimed. Each task names existing APIs,
+CLI and native project-batch steps. The desktop replay now hovers before the
+real click, resolving the tab-selection timeouts; temporary tracing is removed.
+See the [T4.3 development state and exit order](api-delivery-plan.md#t43-development-state-and-repair-order).
+At `10f44cc`, 48 selected Python cases and seven native suites pass. At `a8e7eaf`,
+eight raw frontend cases and the affected viewer native suite pass, including
+active cancellation/retry and shutdown/join. Remaining frontend controls,
+bounded apply, final stubs/wheel and integrated qualification are still open. Each task names existing APIs,
 compatibility rules and decisive evidence. Follow that single queue; the native
 packet baselines below are preserved evidence, not additional work to repeat.
 
