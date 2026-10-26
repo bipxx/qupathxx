@@ -60,6 +60,11 @@ def main():
     # Continue independent Ninja compilation after an error so one hosted run
     # exposes all portability diagnostics rather than only the first file.
     run(['cmake','--build',build,'--config','Release','--parallel','2','--','-k','0'],'build')
+    # Retain the original compiled executables and SDK identities even if CTest fails.
+    run([sys.executable,'-I',ROOT/'tools/ci/macos_native_inventory.py','--native-build',build,
+         '--geos-sdk',geos_work/'geos-sdk','--opencv-sdk',opencv,'--architecture',args.architecture,
+         '--archive',work/'macos-native-files.zip','--output',work/'macos-native-file-inventory.json',
+         '--otool-output',work/'macos-otool-probe.json'],'macos-native-inventory',300)
     run(['ctest','--test-dir',build,'-C','Release','--output-on-failure', '--test-output-size-passed', '1048576','--parallel','1',
          '--output-junit',work/'native-tests.xml'],'native-tests',1200)
     cases=list(ET.parse(work/'native-tests.xml').getroot().iter('testcase'))
@@ -84,10 +89,6 @@ def main():
     for label,sdk in [('geos',geos_work/'geos-sdk'),('opencv',opencv)]:
         dependencies[label]={p.relative_to(sdk).as_posix():sha(p) for p in sorted(sdk.rglob('*'))
                              if p.is_file() and (p.suffix in ['.dylib','.a'] or '/licenses/' in p.as_posix())}
-    run([sys.executable,'-I',ROOT/'tools/ci/macos_native_inventory.py','--native-build',build,
-         '--geos-sdk',geos_work/'geos-sdk','--opencv-sdk',opencv,'--architecture',args.architecture,
-         '--archive',work/'macos-native-files.zip','--output',work/'macos-native-file-inventory.json',
-         '--otool-output',work/'macos-otool-probe.json'],'macos-native-inventory',300)
     roots=dict(native=str(build),geos=str(geos_work/'geos-sdk'),opencv=str(opencv))
     roots_file=work/'macos-relocation-source-roots.json'
     roots_file.write_bytes((json.dumps(roots,indent=2)+'\n').encode('utf-8'))
