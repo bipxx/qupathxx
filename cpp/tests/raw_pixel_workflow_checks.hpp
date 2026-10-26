@@ -52,6 +52,11 @@ inline void run() {
     Document copied=doc;check(!request.matches(copied));auto bad=options;bad.max_scanned_samples=1;const auto before=source->reads.load();rejects<std::length_error>([&]{RawPixelTrainingRequest too_many(doc,{a,b},grid,selection,features,bad);});
     bad=options;bad.work_bytes=1024*1024;rejects<std::length_error>([&]{RawPixelTrainingRequest budget(doc,{a,b},grid,selection,features,bad);});rejects<std::invalid_argument>([&]{RawPixelTrainingRequest ids(doc,{a,a,b},grid,selection,features,options);});check(source->reads.load()==before);
     std::atomic<bool> cancelled{true};rejects<std::runtime_error>([&]{sample_raw_pixel_training(request,&cancelled);});check(source->reads.load()==before);
+    // More than one index leaf: traversal order is not annotation-ID order.
+    // Every original A sample must still belong to the lowest selected ID.
+    std::vector<std::uint64_t> many_ids{a,b},extra_ids;for(unsigned i=0;i<12;++i) {const auto id=doc.add_detection(Roi::rectangle({0,0,3.1+.05*i,5}),"A overlap",0,"A");many_ids.push_back(id);extra_ids.push_back(id);}
+    auto many_options=options;many_options.max_samples=100;many_options.max_samples_per_class=50;many_options.balanced=false;const auto many=sample_raw_pixel_training(RawPixelTrainingRequest(doc,many_ids,grid,selection,features,many_options));
+    std::size_t original_a=0;for(std::size_t row=0;row<many->row_count();++row) if(many->coordinates()[2*row]<3) {check(many->annotation_ids()[row]==a);++original_a;}check(original_a==15);for(auto id:extra_ids) doc.remove_annotation(id);
     const auto conflict=doc.add_detection(Roi::rectangle({2,0,3,5}),"B conflict",0,"B");const auto conflicts=sample_raw_pixel_training(RawPixelTrainingRequest(doc,{a,b,conflict},grid,selection,features,options));check(conflicts->ambiguous_samples()==5 && conflicts->eligible_class_samples()[0]==10);doc.remove_annotation(conflict);
     // Independent non-unit rational QPR axes, including byte field order.
     const ScientificGrid fractional(7,5,{0,6,4},{0,5,2});const RawPixelTrainingRequest fractional_request(doc,{a,b},fractional,selection,features,options);const auto fractional_table=sample_raw_pixel_training(fractional_request);check(fractional_table->eligible_class_samples()==std::vector<std::uint64_t>({4,2}));

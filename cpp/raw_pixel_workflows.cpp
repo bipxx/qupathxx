@@ -129,7 +129,7 @@ struct RawPixelTrainingKernel {
         for(std::size_t y=0;y<height;++y) {stopped(cancelled);for(std::size_t x=0;x<width;++x) {
             if((x&4095)==0) stopped(cancelled);const auto index=y*width+x;std::uint32_t label=0;std::uint64_t owner=0;
             if(features->rows_valid[index]) {const Point point{d.grid.x().center(std::int64_t(x)).binary64(),d.grid.y().center(std::int64_t(y)).binary64()};
-                for(const auto candidate:d.index->query({point.x,point.y,0,0})) {const auto& row=d.rows[candidate-1];if(row.roi.contains(point)) {if(label && label!=row.label+1) {label=UINT32_MAX;owner=0;break;}label=row.label+1;if(!owner) owner=row.id;}}
+                for(const auto candidate:d.index->query({point.x,point.y,0,0})) {const auto& row=d.rows[candidate-1];if(row.roi.contains(point)) {if(label && label!=row.label+1) {label=UINT32_MAX;owner=0;break;}label=row.label+1;if(!owner || row.id<owner) owner=row.id;}}
             }
             input_hash.integer(label);input_hash.integer(owner);
             if(label==UINT32_MAX) ++out->ambiguous_;else if(label) {
