@@ -298,6 +298,7 @@ private:
     friend class AnalysisRequest;
     friend class RawAnalysisRequest;
     friend class RawPixelWindowPredictionRequest;
+    friend class RawPixelTiledTrainingRequest;
     // Copies/assignments are independent live authorities, including when a
     // copied document happens to share its immutable image source and IDs.
     struct AnalysisIdentity {

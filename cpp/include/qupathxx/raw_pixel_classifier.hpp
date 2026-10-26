@@ -11,6 +11,8 @@ public:
         RawPixelFeatureOptions,bool physical_sigmas=false);
     RawPixelRecipe(const RawImageMetadata&,const ScientificRawWindow&,ScientificRawOptions,
         RawPixelFeatureOptions,bool physical_sigmas=false);
+    RawPixelRecipe(const RawImageMetadata&,const ScientificRawLattice&,ScientificRawOptions,
+        RawPixelFeatureOptions,bool physical_sigmas=false);
     const RawPixelFeatureOptions& requested_features() const;
     const RawPixelFeatureOptions& features() const; // Resolved sampled-grid units.
     const ScientificRawOptions& selection() const;
@@ -25,6 +27,7 @@ public:
     std::vector<ClassifierFeature> feature_schema() const;
     bool matches(const RawImageMetadata&,const ScientificGrid&,const ScientificRawOptions&) const;
     bool matches(const RawImageMetadata&,const ScientificRawWindow&,const ScientificRawOptions&) const;
+    bool matches(const RawImageMetadata&,const ScientificRawLattice&,const ScientificRawOptions&) const;
     std::vector<std::uint8_t> bytes() const;
     static RawPixelRecipe from_bytes(const std::vector<std::uint8_t>&);
 private:

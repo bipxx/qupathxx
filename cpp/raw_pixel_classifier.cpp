@@ -74,6 +74,7 @@ template<class Geometry> std::shared_ptr<const RawPixelRecipe::Data> RawPixelRec
 }
 RawPixelRecipe::RawPixelRecipe(const RawImageMetadata& m,const ScientificGrid& g,ScientificRawOptions s,RawPixelFeatureOptions f,bool physical):data_(capture(m,g,s,std::move(f),physical)) {}
 RawPixelRecipe::RawPixelRecipe(const RawImageMetadata& m,const ScientificRawWindow& g,ScientificRawOptions s,RawPixelFeatureOptions f,bool physical):data_(capture(m,g,s,std::move(f),physical)) {}
+RawPixelRecipe::RawPixelRecipe(const RawImageMetadata& m,const ScientificRawLattice& g,ScientificRawOptions s,RawPixelFeatureOptions f,bool physical):data_(capture(m,g,s,std::move(f),physical)) {}
 RawPixelRecipe::RawPixelRecipe(std::shared_ptr<const Data> data):data_(std::move(data)) {}
 const RawPixelFeatureOptions& RawPixelRecipe::requested_features() const {return data_->requested;}
 const RawPixelFeatureOptions& RawPixelRecipe::features() const {return data_->resolved;}
@@ -96,6 +97,7 @@ template<class Geometry> bool RawPixelRecipe::matches_geometry(const RawImageMet
 }
 bool RawPixelRecipe::matches(const RawImageMetadata& m,const ScientificGrid& g,const ScientificRawOptions& s) const {return matches_geometry(m,g,s);}
 bool RawPixelRecipe::matches(const RawImageMetadata& m,const ScientificRawWindow& g,const ScientificRawOptions& s) const {return matches_geometry(m,g,s);}
+bool RawPixelRecipe::matches(const RawImageMetadata& m,const ScientificRawLattice& g,const ScientificRawOptions& s) const {return matches_geometry(m,g,s);}
 struct RawPixelModelCodec {
     static void write(Writer& w,const RawPixelRecipe& recipe) {
         const auto& d=*recipe.data_;const auto& o=d.requested;const auto& s=d.selection;

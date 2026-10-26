@@ -68,6 +68,9 @@ bool raw_pixel_source_matches(const ImageServer& source,const RawPixelSourceSnap
 bool raw_pixel_publication_window_source_matches(const ImageServer& source,const RawPixelSourceSnapshot& snapshot,const ScientificRawWindow& window) {return publication_source_matches(source,snapshot,window);}
 void raw_pixel_verify_window_sample(const ImageServer& source,const RawPixelSourceSnapshot& snapshot,const ScientificRawWindowData& input) {if(!source_matches(source,snapshot) || input.reader()!=snapshot.reader || metadata_epoch(input.metadata(),input.window())!=snapshot.epoch) throw std::runtime_error("raw window source/metadata changed after capture");}
 std::size_t raw_pixel_source_snapshot_bytes(const RawPixelSourceSnapshot& source) {return source_bytes(source);}
+RawPixelSourceSnapshot raw_pixel_capture_lattice_source(const Document& doc,const ScientificRawLattice& lattice,std::size_t budget) {return capture_source(doc,lattice,0,budget);}
+bool raw_pixel_publication_lattice_source_matches(const ImageServer& source,const RawPixelSourceSnapshot& snapshot,const ScientificRawLattice& lattice) {return publication_source_matches(source,snapshot,lattice);}
+void raw_pixel_verify_lattice_sample(const ImageServer& source,const RawPixelSourceSnapshot& snapshot,const ScientificRawLattice& lattice,const ScientificRawWindowData& input) {if(!source_matches(source,snapshot) || input.reader()!=snapshot.reader || metadata_epoch(input.metadata(),lattice)!=snapshot.epoch) throw std::runtime_error("raw training lattice source/metadata changed");}
 std::string raw_pixel_training_sha256(const RawPixelTrainingTable& table,const std::atomic<bool>* cancelled) {
     Sha256 hash;text(hash,"qpx.raw-annotation-pixel-sampling/1");text(hash,table.input_sha256());for(const auto& f:table.recipe().feature_schema()) {text(hash,f.name);text(hash,f.unit);}for(const auto& name:table.classes()) text(hash,name);hash.integer(table.row_count());const auto columns=table.recipe().feature_schema().size();
     for(std::size_t row=0;row<table.row_count();++row) {stopped(cancelled);hash.integer(table.labels()[row]);hash.integer(table.annotation_ids()[row]);hash.integer(table.coordinates()[2*row]);hash.integer(table.coordinates()[2*row+1]);for(std::size_t c=0;c<columns;++c) floating(hash,table.values()[row*columns+c]);}return hash.finish();
@@ -125,7 +128,7 @@ struct RawPixelTrainingKernel {
         if(phase) phase->store(1);auto selection=d.recipe.selection();selection.work_bytes=std::min(selection.work_bytes,d.options.work_bytes-d.fixed);detail::ScientificRawReserve reserve;reserve.expected_series=d.recipe.series();const auto input=detail::read_scientific_raw_reserved(*request.source_,d.grid,selection,reserve,cancelled);verify_sample(*request.source_,d.source,input);
         if(phase) phase->store(2);const auto features=detail::extract_raw_pixel_features(input,d.feature_options,cancelled);
         auto out=std::shared_ptr<RawPixelTrainingTable>(new RawPixelTrainingTable());out->snapshot_=request.data_;out->eligible_.resize(d.classes.size());out->counts_.resize(d.classes.size());
-        using Sample=detail::PixelTrainingSample;std::vector<std::vector<Sample>> reservoirs(d.classes.size());for(auto& heap:reservoirs) heap.reserve(d.capacity);
+        detail::PixelTrainingReservoir reservoir(d.classes.size(),d.capacity,d.recipe.feature_schema().size(),d.options.seed);
         const auto width=std::size_t(d.grid.x().samples()),height=std::size_t(d.grid.y().samples()),columns=features->features.size();Sha256 input_hash;text(input_hash,"qpx.raw-annotation-pixel-input/1");text(input_hash,raw_grid_analysis_hash(features->input_sha256,d.source.calibration.x,d.source.calibration.y,std::nullopt));
         for(const auto& row:d.rows) {input_hash.integer(row.id);input_hash.integer(row.label);const auto bytes=GeometryArchiveCodec::encode(row.roi);input_hash.integer(bytes.size());input_hash.update(bytes.data(),bytes.size());}
         for(std::size_t y=0;y<height;++y) {stopped(cancelled);for(std::size_t x=0;x<width;++x) {
@@ -134,17 +137,12 @@ struct RawPixelTrainingKernel {
                 for(const auto candidate:d.index->query({point.x,point.y,0,0})) {const auto& row=d.rows[candidate-1];if(row.roi.contains(point)) {if(label && label!=row.label+1) {label=UINT32_MAX;owner=0;break;}label=row.label+1;if(!owner || row.id<owner) owner=row.id;}}
             }
             input_hash.integer(label);input_hash.integer(owner);
-            if(label==UINT32_MAX) ++out->ambiguous_;else if(label) {
-                auto& heap=reservoirs[label-1];++out->eligible_[label-1];Sample sample{detail::pixel_training_mix(d.options.seed^detail::pixel_training_mix(x)^detail::pixel_training_mix(std::uint64_t(y)^0x6a09e667f3bcc909ULL)),owner,std::int64_t(x),std::int64_t(y),{}};
-                if(heap.size()<d.capacity || detail::pixel_training_sample_less(sample,heap.front())) {sample.values.assign(features->values.begin()+index*columns,features->values.begin()+(index+1)*columns);
-                    if(heap.size()==d.capacity) {std::pop_heap(heap.begin(),heap.end(),detail::pixel_training_sample_less);heap.back()=std::move(sample);std::push_heap(heap.begin(),heap.end(),detail::pixel_training_sample_less);}else {heap.push_back(std::move(sample));std::push_heap(heap.begin(),heap.end(),detail::pixel_training_sample_less);}}
-            }
+            reservoir.observe(label,owner,std::int64_t(x),std::int64_t(y),features->values.data()+index*columns);
             if(completed) completed->store(index+1,std::memory_order_relaxed);
         }}
-        std::size_t minimum=d.capacity;for(const auto& heap:reservoirs) {if(heap.size()<2) throw std::invalid_argument("each raw pixel class requires two valid unambiguous sample centers");minimum=std::min(minimum,heap.size());}
-        std::size_t total_rows=0;for(const auto& heap:reservoirs) total_rows+=d.options.balanced?minimum:heap.size();out->values_.reserve(total_rows*columns);out->labels_.reserve(total_rows);out->ids_.reserve(total_rows);out->coordinates_.reserve(total_rows*2);
-        for(std::size_t label=0;label<reservoirs.size();++label) {auto& heap=reservoirs[label];std::sort(heap.begin(),heap.end(),detail::pixel_training_sample_less);const auto count=d.options.balanced?minimum:heap.size();out->counts_[label]=count;
-            for(std::size_t i=0;i<count;++i) {stopped(cancelled);const auto& row=heap[i];out->values_.insert(out->values_.end(),row.values.begin(),row.values.end());out->labels_.push_back(std::uint32_t(label));out->ids_.push_back(row.id);out->coordinates_.push_back(row.x);out->coordinates_.push_back(row.y);}}
+        auto selected=reservoir.finish(d.options.balanced,cancelled);
+        out->values_=std::move(selected.values);out->labels_=std::move(selected.labels);out->coordinates_=std::move(selected.coordinates);out->ids_=std::move(selected.ids);
+        out->eligible_=std::move(selected.eligible);out->counts_=std::move(selected.counts);out->ambiguous_=selected.ambiguous;
         out->input_sha_=input_hash.finish();out->sha_=raw_pixel_training_sha256(*out,cancelled);verify_sample(*request.source_,d.source,input);stopped(cancelled);return out;
     }
 };

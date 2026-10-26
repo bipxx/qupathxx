@@ -37,6 +37,7 @@ private:
     friend class ObjectFeatureTable;
     friend class Document;
     friend struct ObjectClassifierArchiveCodec;
+    friend class RawPixelTiledTrainingRequest;
 };
 class ObjectFeatureTable : public std::enable_shared_from_this<ObjectFeatureTable> {
 public:

@@ -1,6 +1,20 @@
 #pragma once
 #include "qupathxx/scientific_grid.hpp"
 namespace qpx {
+class ScientificRawWindow;
+// Global geometry without whole-raster traversal/allocation admission.
+class ScientificRawLattice {
+    std::int64_t width_,height_;ScientificGridAxis x_,y_;
+public:
+    ScientificRawLattice(std::int64_t width,std::int64_t height,ScientificGridAxis x,ScientificGridAxis y):width_(width),height_(height),x_(x),y_(y) {
+        if(width<1 || height<1 || width>ScientificGridAxis::coordinate_limit || height>ScientificGridAxis::coordinate_limit) throw std::invalid_argument("invalid raw lattice source dimensions");
+    }
+    explicit ScientificRawLattice(const ScientificGrid& g):ScientificRawLattice(g.image_width(),g.image_height(),g.x(),g.y()) {}
+    auto image_width() const {return width_;}auto image_height() const {return height_;}
+    const ScientificGridAxis& x() const {return x_;}const ScientificGridAxis& y() const {return y_;}
+    std::uint64_t core_samples() const {return std::uint64_t(x_.samples())*std::uint64_t(y_.samples());}
+    ScientificRawWindow window(std::int64_t first_x,std::int64_t first_y,std::int64_t width,std::int64_t height) const;
+};
 // A sample-index view of the original lattice. samples()/extent()/origin()
 // retain their global meanings; no fractional origin is rounded or rebased.
 class ScientificRawWindowAxis {
@@ -56,4 +70,5 @@ public:
     GridReadBounds read_bounds() const {return read_;}GridReadBounds clipped_read_bounds() const {return clipped_;}
     auto overlap_visits() const {return visits_;}
 };
+inline ScientificRawWindow ScientificRawLattice::window(std::int64_t first_x,std::int64_t first_y,std::int64_t width,std::int64_t height) const {return ScientificRawWindow(width_,height_,x_,y_,first_x,first_y,width,height);}
 }

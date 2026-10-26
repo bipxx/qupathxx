@@ -38,6 +38,9 @@ bool raw_pixel_source_matches(const ImageServer&,const RawPixelSourceSnapshot&);
 bool raw_pixel_publication_window_source_matches(const ImageServer&,const RawPixelSourceSnapshot&,const ScientificRawWindow&);
 void raw_pixel_verify_window_sample(const ImageServer&,const RawPixelSourceSnapshot&,const ScientificRawWindowData&);
 std::size_t raw_pixel_source_snapshot_bytes(const RawPixelSourceSnapshot&);
+RawPixelSourceSnapshot raw_pixel_capture_lattice_source(const Document&,const ScientificRawLattice&,std::size_t budget);
+bool raw_pixel_publication_lattice_source_matches(const ImageServer&,const RawPixelSourceSnapshot&,const ScientificRawLattice&);
+void raw_pixel_verify_lattice_sample(const ImageServer&,const RawPixelSourceSnapshot&,const ScientificRawLattice&,const ScientificRawWindowData&);
 struct RawPixelContourKernel {
     static std::shared_ptr<const RawPixelPredictionRequest::Data> capture(const RawPixelPredictionRequest&,const std::shared_ptr<const RawPixelClassification>&);
     static bool current(const Document&,const RawPixelPredictionRequest&,const std::shared_ptr<const RawPixelClassification>&);

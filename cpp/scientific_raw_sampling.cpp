@@ -97,7 +97,7 @@ template<class T> bool finite(const T& value) {
 }
 namespace {
 template<class Grid> std::string raw_input_sha256(const RawImageMetadata& metadata,const Grid& grid,const std::string& reader,const std::string& decoded,const std::atomic<bool>* cancelled) {
-    Sha256 input;const char* recipe=std::is_same_v<Grid,ScientificGrid>?"qpx.grid-raw-area-exact/1":"qpx.window-raw-area-exact/1";input.update(recipe,std::strlen(recipe));
+    Sha256 input;const char* recipe=std::is_same_v<Grid,ScientificGrid>?"qpx.grid-raw-area-exact/1":std::is_same_v<Grid,ScientificRawWindow>?"qpx.window-raw-area-exact/1":"qpx.raw-lattice-metadata/1";input.update(recipe,std::strlen(recipe));
     text(input,decoded);text(input,reader);
     for(auto v:{grid.image_width(),grid.image_height(),grid.x().origin(),grid.y().origin(),grid.x().extent(),grid.y().extent(),
                 grid.x().samples(),grid.y().samples(),grid.x().context(),grid.y().context()}) input.integer(v);
@@ -112,6 +112,7 @@ template<class Grid> std::string raw_input_sha256(const RawImageMetadata& metada
 }
 std::string detail::scientific_raw_input_sha256(const RawImageMetadata& metadata,const ScientificGrid& grid,const std::string& reader,const std::string& decoded,const std::atomic<bool>* cancelled) {return raw_input_sha256(metadata,grid,reader,decoded,cancelled);}
 std::string detail::scientific_raw_input_sha256(const RawImageMetadata& metadata,const ScientificRawWindow& grid,const std::string& reader,const std::string& decoded,const std::atomic<bool>* cancelled) {return raw_input_sha256(metadata,grid,reader,decoded,cancelled);}
+std::string detail::scientific_raw_input_sha256(const RawImageMetadata& metadata,const ScientificRawLattice& grid,const std::string& reader,const std::string& decoded,const std::atomic<bool>* cancelled) {return raw_input_sha256(metadata,grid,reader,decoded,cancelled);}
 void ScientificRawOptions::validate() const {
     if(!channels || channels>65536 || first_channel>=65536 || channels>65536-first_channel || z>=65536 || t>=65536)
         throw std::out_of_range("scientific raw channel/Z/time selection exceeds limits");
