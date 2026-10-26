@@ -76,6 +76,10 @@ def main():
                     line=line.replace('-> '+name+':','-> '+name+' | None:').replace('arg: '+name+',','arg: '+name+' | None,')
             if current=='RawAnalysisResult' and 'def grid(' in line:
                 line=line.replace('-> RawAnalysisGrid:', '-> RawAnalysisGrid | None:')
+            if current=='ReaderSource' and 'def primary(' in line:
+                line=line.replace('-> FileVersion:', '-> FileVersion | None:')
+            if current in ('ImageServer','AnalysisProvenance') and 'def reader_source(' in line:
+                line=line.replace('-> ReaderSource:', '-> ReaderSource | None:')
             if current in ('GuiOptions','GuiReport') and 'def classifier_' in line:
                 for name in ['ForestModel','ObjectFeatureOptions','ForestParameters','ObjectClassificationResult']:
                     line=line.replace('-> '+name+':','-> '+name+' | None:').replace('arg: '+name+',','arg: '+name+' | None,')
