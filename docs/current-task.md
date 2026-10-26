@@ -2,33 +2,30 @@
 
 ## Current execution card (2026-10-26)
 
-- Latest delivery: 71 raw-classifier Python exports and installed project-to-
-  project example at `202b41a` have [local acceptance](benchmarks/raw-python-bindings-local.json).
-  Windows CPython 3.12, training/TIFF/project ON, GUI/GEOS/OpenSlide OFF: 67 selected
-  Python tests pass, including all 10 new workflows; one optional legacy Aperio
-  case skips. Three native suites pass. The wheel/imported members, runtime source
-  and 374-input fingerprint agree; seven final binary/wheel products are retained.
-- Read-only owning NumPy views and mutable copies preserve dtypes/shape/lifetime.
-  Actual backend full/tiled model bytes, Fraction row values, window seams,
-  archives/replay, checkpoint/file resume, retained links and stale/cancel/thread
-  controls pass. The standalone example retains a new project and verifies its
-  external output after reopen.
-- Owner waits keep document checks under the GIL and release it for joining;
-  Python job destruction releases it during native cancel/join. Foreign-thread
-  last-reference shutdown with Python-owned file captures passes. Generated PEP
-  561 surfaces/dtypes/nullable results match runtime: two valid typing files pass
-  and four invalid cases reject. Development build/environment failures remain
-  separate; test dependencies are reused, so no clean-machine claim is made.
-- T1-T3 have local native evidence; T4 now has one installed Python profile.
-  Next: [T4.1-T4.5](api-delivery-plan.md#t4-execution-tasks-finish-consumers-before-another-qualification):
-  official CLI train/export/verify, existing-engine project batch integration,
-  ImGui/managed-viewer actions, bounded contour apply, then installed frontend
-  integration and one T5 freeze. These tasks are planned; no new code acceptance
-  is claimed. Preserve exact lattice/model compatibility and distinguish raw
-  classification from the existing raw-measurement batch kind.
-  Automatic maintenance, abrupt-process/power-loss, cross-tile contours and
-  scientific/resource/hardware/release acceptance remain open. All M0-M7 stay
-  Partial; eligible readers/codecs remain open-source-only.
+- Latest delivery: official native raw train/export/verify commands at `f463110`
+  have [installed local acceptance](benchmarks/raw-pixel-cli-local.json). Windows
+  CPython 3.12 with training/TIFF/project ON, GUI/GEOS/OpenSlide OFF: 104 Python
+  cases pass, including 14 new CLI cases; one OFF-only case skips. Three native
+  suites pass. A separate OFF native executable refuses training without output.
+- The wheel, imported members/runtime and 376-input fingerprint agree; eight
+  products are retained. Actual TIFF training/prediction/checkpoint resume,
+  Python model/row/block agreement, project/link reopen, aliases, tampering,
+  changed requests and process cancellation pass. Consumer test dependencies are
+  reused, so no clean-machine/platform/release claim is made.
+- [Command reference](raw-pixel-cli.md): independent producer/checkpoint/file/
+  forest budgets; exact rational lattice/model matching; committed prefixes stay
+  byte-exact across resume. Fresh process provenance can differ while numeric
+  blocks and input/result chains agree. Failed attempts remain in the receipt.
+- Next: [T4.2-T4.5](api-delivery-plan.md#t4-execution-tasks-finish-consumers-before-another-qualification):
+  raw classification in the existing project batch engine, ImGui/managed viewer,
+  bounded contour apply, then installed frontend integration and one T5 freeze.
+  Existing `--kind raw` keeps its measurement meaning. T4 remains Partial.
+  Automatic maintenance, abrupt-process/power-loss, stitched contours and
+  scientific/resource/hardware/release gates remain open. All M0-M7 stay Partial;
+  only open-source readers and required codecs are eligible.
+- Earlier Python API acceptance at `202b41a` remains
+  [source-bound](benchmarks/raw-python-bindings-local.json): 71 new exports,
+  owning arrays, GIL-safe owner wait/destruction and installed example/typing.
 
 ## Preserved local baselines
 

@@ -532,3 +532,7 @@ docs/benchmarks/raw-stream-links-local.json -text -whitespace
 # Installed raw Python evidence retains exact source-bound bytes.
 docs/benchmarks/raw-python-bindings-local/** -text -whitespace
 docs/benchmarks/raw-python-bindings-local.json -text -whitespace
+
+# Installed raw CLI evidence retains exact source-bound bytes.
+docs/benchmarks/raw-pixel-cli-local/** -text -whitespace
+docs/benchmarks/raw-pixel-cli-local.json -text -whitespace

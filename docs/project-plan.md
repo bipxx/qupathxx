@@ -32,9 +32,9 @@ release status. Use the [current task](current-task.md), [workflow inventory](fe
 and [API delivery paths](api-delivery-plan.md) for exact scope and remaining work.
 All M0-M7 remain Partial.
 
-The next executable work is the [T4.1-T4.5 consumer sequence](api-delivery-plan.md#t4-execution-tasks-finish-consumers-before-another-qualification):
-CLI train/export/verify, native project batches, ImGui/managed viewer, bounded
-contour apply and installed frontend integration. Each task names existing APIs,
+The next executable work is the remaining [T4.2-T4.5 consumer sequence](api-delivery-plan.md#t4-execution-tasks-finish-consumers-before-another-qualification):
+Native project batches, ImGui/managed viewer, bounded contour apply and installed
+frontend integration follow the locally verified CLI train/export/verify step. Each task names existing APIs,
 compatibility rules and decisive evidence. Follow that single queue; the native
 packet baselines below are preserved evidence, not additional work to repeat.
 
@@ -46,12 +46,20 @@ and portable builders/fresh consumers on the original handles. E1/E2 and the
 later E3/E4 tooling keep their own implementation/local evidence and are included
 in that source. Preserve the earlier partial observation and every source identity.
 
-The latest classifier packet is [installed raw Python bindings and example](benchmarks/raw-python-bindings-local.json)
+The latest classifier packet is [official native raw CLI](benchmarks/raw-pixel-cli-local.json)
+at `f463110`: 104 installed Python cases (14 new CLI cases), three native suites
+and a separate backend-OFF refusal witness. The Windows cp312 wheel binds 376
+inputs; training/TIFF/project are ON and GUI/GEOS/OpenSlide are OFF. Commands
+train, checkpoint/resume, predict/export, verify and retain outputs in new
+projects. Next is raw classification in the existing project batch engine,
+then desktop/bounded apply and T4.5/T5 integration. All milestones stay Partial.
+
+The earlier Python packet is [installed raw Python bindings and example](benchmarks/raw-python-bindings-local.json)
 at `202b41a`: Windows CPython 3.12 with training/TIFF/project enabled, GUI/GEOS/
 OpenSlide disabled. All 10 new workflows plus 57 selected Python regressions and
 three native suites pass; one optional legacy Aperio case skips. Wheel/imported
 members and the runtime source bind 374 inputs, with generated typing and
-cross-thread shutdown checks. T4 remains Partial: next official raw CLI/batch,
+cross-thread shutdown checks. T4 remains Partial: the CLI has the later acceptance above; next raw classifier batches,
 ImGui/managed-viewer integration and other installed profiles, then one T5 freeze.
 Test dependencies are reused, so this is not clean-machine or release acceptance.
 
@@ -61,8 +69,8 @@ with 370 matching inputs and 22 original/final binaries. QWL1 uses the existing
 stream table/schema 13 and preserves RGB QSL1. Verified metadata-only links
 support missing-file reopen, mixed records, save-as/snapshot/recovery and exact
 relocation without copying/deleting external output. T1-T3 native paths have
-local evidence; T4 now has the later Windows Python acceptance above; next deliver official
-CLI/batch/desktop frontends and one T5 integrated freeze. All project milestones and broader acceptance gates remain Partial.
+local evidence; T4 now has the later Windows Python/CLI acceptance above; next deliver
+batch/desktop frontends and one T5 integrated freeze. All project milestones and broader acceptance gates remain Partial.
 
 The native file-job baseline is [owner file jobs](benchmarks/raw-pixel-file-jobs-local.json)
 at `404f506`: prediction save/resume, training checkpoint delivery and verified

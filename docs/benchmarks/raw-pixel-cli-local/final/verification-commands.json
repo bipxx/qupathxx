@@ -1,0 +1,83 @@
+[
+  {
+    "name": "install-wheel",
+    "command": [
+      "uv",
+      "pip",
+      "install",
+      "--python",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawcli230-wheel312-env\\Scripts\\python.exe",
+      "--target",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawcli230-wheel312-env\\Lib\\site-packages",
+      "--no-deps",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawcli230-final\\wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 0.6065627001225948
+  },
+  {
+    "name": "installed-proof",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawcli230-wheel312-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawcli230_installed_proof.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 0.5392595999874175
+  },
+  {
+    "name": "native-tests",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows",
+      "-C",
+      "Release",
+      "-R",
+      "^(pixel_features|pixel_workflows|classifier)$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawcli230-final\\native-tests.xml"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 2.7489266998600215
+  },
+  {
+    "name": "python-tests",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawcli230-wheel312-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "pytest",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_pixel_cli.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_pixel_python.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_pixel_stream_cli.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_project_pixel_batch.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_batch.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_public_stubs.py",
+      "-q",
+      "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawcli230-final\\python-tests.xml"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 13.821203600149602
+  },
+  {
+    "name": "stubs-check",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawcli230-wheel312-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\generate_stubs.py",
+      "--check"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 0.36539779999293387
+  }
+]

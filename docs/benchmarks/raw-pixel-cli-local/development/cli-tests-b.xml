@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="1" tests="14" time="0.915" timestamp="2026-10-26T09:03:49.894790-04:00" hostname="HEQPC"><testcase classname="tests.test_raw_pixel_cli" name="test_cli_train_resume_predict_retain_and_verify" time="0.085"><failure message="AssertionError: {&quot;schema&quot;:&quot;qpx.batch-error/1&quot;,&quot;error&quot;:&quot;invalid raw training checkpoint byte/work limits&quot;}&#10;  &#10;assert 2 == 1&#10; +  where 2 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows\\Release\\qupathxx_batch...ode=2, stdout='', stderr='{&quot;schema&quot;:&quot;qpx.batch-error/1&quot;,&quot;error&quot;:&quot;invalid raw training checkpoint byte/work limits&quot;}\n').returncode">source = (WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4103/test_cli_train_resume_predict_0/项目.qpx'), 1, &lt;...1, 2], WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4103/test_cli_train_resume_predict_0/输入.tif'))
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4103/test_cli_train_resume_predict_0')
+
+    def test_cli_train_resume_predict_retain_and_verify(source, tmp_path):
+        require_training()
+        path, image, doc, ids, _ = source
+        before = path.read_bytes()
+        args = arguments(source, tmp_path)
+&gt;       partial = final(run(*args, "--max-new-windows", 1), 1)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_raw_pixel_cli.py:64: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+done = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows\\Release\\qupathxx_batch...ode=2, stdout='', stderr='{"schema":"qpx.batch-error/1","error":"invalid raw training checkpoint byte/work limits"}\n')
+code = 1
+
+    def final(done, code=0):
+&gt;       assert done.returncode == code, done.stdout + done.stderr
+E       AssertionError: {"schema":"qpx.batch-error/1","error":"invalid raw training checkpoint byte/work limits"}
+E         
+E       assert 2 == 1
+E        +  where 2 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows\\Release\\qupathxx_batch...ode=2, stdout='', stderr='{"schema":"qpx.batch-error/1","error":"invalid raw training checkpoint byte/work limits"}\n').returncode
+
+tests\test_raw_pixel_cli.py:25: AssertionError</failure></testcase><testcase classname="tests.test_raw_pixel_cli" name="test_cli_arguments_reject_before_output[extra0]" time="0.030" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_arguments_reject_before_output[extra1]" time="0.028" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_arguments_reject_before_output[extra2]" time="0.032" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_arguments_reject_before_output[extra3]" time="0.030" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_arguments_reject_before_output[extra4]" time="0.030" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_arguments_reject_before_output[extra5]" time="0.030" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_training_refuses_source_and_product_aliases[project]" time="0.028" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_training_refuses_source_and_product_aliases[pixels]" time="0.029" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_training_refuses_source_and_product_aliases[hardlink]" time="0.032" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_training_refuses_source_and_product_aliases[same-products]" time="0.029" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_model_lattice_mismatch_refuses_prediction_output" time="0.031"><failure message="AssertionError: {&quot;schema&quot;:&quot;qpx.batch-error/1&quot;,&quot;error&quot;:&quot;invalid raw training checkpoint byte/work limits&quot;}&#10;  &#10;assert 2 == 0&#10; +  where 2 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows\\Release\\qupathxx_batch...ode=2, stdout='', stderr='{&quot;schema&quot;:&quot;qpx.batch-error/1&quot;,&quot;error&quot;:&quot;invalid raw training checkpoint byte/work limits&quot;}\n').returncode">source = (WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4103/test_cli_model_lattice_mismatc0/项目.qpx'), 1, &lt;...1, 2], WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4103/test_cli_model_lattice_mismatc0/输入.tif'))
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4103/test_cli_model_lattice_mismatc0')
+
+    def test_cli_model_lattice_mismatch_refuses_prediction_output(source, tmp_path):
+        require_training()
+        path, image, *_ = source
+&gt;       final(run(*arguments(source, tmp_path)))
+
+tests\test_raw_pixel_cli.py:169: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+done = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows\\Release\\qupathxx_batch...ode=2, stdout='', stderr='{"schema":"qpx.batch-error/1","error":"invalid raw training checkpoint byte/work limits"}\n')
+code = 0
+
+    def final(done, code=0):
+&gt;       assert done.returncode == code, done.stdout + done.stderr
+E       AssertionError: {"schema":"qpx.batch-error/1","error":"invalid raw training checkpoint byte/work limits"}
+E         
+E       assert 2 == 0
+E        +  where 2 = CompletedProcess(args=['C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawtraining218-windows\\Release\\qupathxx_batch...ode=2, stdout='', stderr='{"schema":"qpx.batch-error/1","error":"invalid raw training checkpoint byte/work limits"}\n').returncode
+
+tests\test_raw_pixel_cli.py:25: AssertionError</failure></testcase><testcase classname="tests.test_raw_pixel_cli" name="test_cli_cancellation_joins_before_reader_release" time="0.237" /><testcase classname="tests.test_raw_pixel_cli" name="test_cli_training_backend_off_refuses_before_output" time="0.016"><skipped type="pytest.skip" message="backend-OFF profile only">C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\tests\test_raw_pixel_cli.py:212: backend-OFF profile only</skipped></testcase></testsuite></testsuites>

@@ -1,0 +1,38 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\qupathxx_batch.exe",
+    "--train-raw-pixels",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawcli230-backend-off\\fixture\\input.qpx",
+    "1",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawcli230-backend-off\\fixture\\model.qrm",
+    "--checkpoint",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawcli230-backend-off\\fixture\\training.qtc",
+    "--archive",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawcli230-backend-off\\fixture\\rows.qtt"
+  ],
+  "exit": 1,
+  "result": {
+    "schema": "qpx.raw-pixel-train/1",
+    "state": "failed",
+    "path": "",
+    "error": "raw training requires the optional OpenCV backend",
+    "source_tree_sha256": "6543badb58a42c6cb04bbb16f85345cb2d69c9df9d8312b1fcde260bd282a8bd",
+    "total_windows": 0,
+    "completed_windows": 0
+  },
+  "flags": {
+    "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "OFF",
+    "QUPATHXX_BUILD_GEOS": "ON",
+    "QUPATHXX_BUILD_GUI": "ON",
+    "QUPATHXX_BUILD_INTERCHANGE": "OFF",
+    "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+    "QUPATHXX_BUILD_PROJECT": "ON",
+    "QUPATHXX_BUILD_PYTHON": "ON",
+    "QUPATHXX_BUILD_TESTS": "ON",
+    "QUPATHXX_BUILD_TIFF": "ON"
+  },
+  "source_project_unchanged": true,
+  "no_outputs": true,
+  "executable_sha256": "7de5559fc7d2fe3b8a27b9f5c4afbabe9693ff3b51698ddb5874fe872f211ae0",
+  "consumer": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawcli230-wheel312-env\\Scripts\\python.exe"
+}

@@ -1,6 +1,13 @@
 # Quantitative pixel classifier numeric contract
 
-Status: native features/models and bounded owner-captured sampling/prediction
+Current consumer status: native T1-T3 and the Windows installed Python workflow
+have local receipts in the [delivery plan](api-delivery-plan.md). Official
+[raw CLI commands](raw-pixel-cli.md) now have [installed local evidence](benchmarks/raw-pixel-cli-local.json)
+at `f463110`. Multi-image classifier batches, ImGui/managed viewer, other
+installed profiles and integrated qualification remain open. Cross-tile contour
+stitching and scientific/resource/release acceptance remain separate gates.
+
+Earlier source-bound numeric baseline: native features/models and bounded owner-captured sampling/prediction
 jobs have [local Windows/Linux evidence](benchmarks/raw-pixel-workflows-local.json)
 at `7beb80b`. Archive/retention source `440f610` now has a separate
 [local receipt](benchmarks/raw-pixel-archives-local.json): the affected suite
@@ -10,8 +17,9 @@ Positive backend training/trained archives have [local Windows evidence](benchma
 at `e7e4b66` (three backend-ON suites and one backend-OFF workflow suite).
 Native live replay and bounded contour apply/undo have [local evidence](benchmarks/raw-pixel-replay-apply-local.json)
 at `92edba8`: four Windows GEOS-ON and four Linux GEOS-OFF suites plus three
-Windows training-ON suites. Rational-window streaming, Python/UI, cross-tile
-contours and integrated platform/backend training remain open. RGB `pixel-v1` and QPC1/QPC2 stay unchanged.
+Windows training-ON suites. Later rational-window streaming and installed
+Python/CLI receipts are recorded above; UI, cross-tile contours and integrated
+platform/backend training remain open. RGB `pixel-v1` and QPC1/QPC2 stay unchanged.
 
 The existing path is `PixelTrainingRequest` → `extract_pixel_features` →
 float32 training rows → `ForestModel` → `PixelPredictionRequest` /

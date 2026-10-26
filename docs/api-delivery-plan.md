@@ -40,7 +40,7 @@ no additional agent delegation is implied by this table.
 
 | Order / ID | State and owner | Easiest implementation path | Required exit evidence |
 | --- | --- | --- | --- |
-| 1 / SCI1-A: typed raw pixel classification | Owner-captured sampling/prediction accepted locally at `7beb80b`; archives/retention accepted locally at `440f610`; positive Windows training/trained archives accepted locally at `e7e4b66`; replay/bounded contour apply accepted locally at `92edba8`; sample-index windows/features accepted locally at `ae0ba29`; window models/owner prediction accepted locally at `642f728`; sparse tiled training accepted locally at `1273c3e`; bounded prediction stream/owner delivery accepted locally at `8d544eb`; prediction prefix files/hash-only resume accepted locally at `c843dfa`; sparse training archives/retention/replay accepted locally at `cc6fab4`; training prefix checkpoints/resume accepted locally at `fb7ab73`; native owner file jobs accepted locally at `404f506`; external raw stream links accepted locally at `a608a53`; Windows CPython 3.12 raw bindings/wheel/example accepted locally at `202b41a`; root owns CLI/batch/desktop integration | Follow the bounded A1-A6 route below and the [numeric contract](raw-pixel-classifier.md). Reuse the feature kernel, `RawPixelRecipe`/`RawPixelClassifier`, typed sampler and existing forest/owner/source/job authorities; use `RawPixelTrainingRequest`/`RawPixelPredictionRequest` and their controllers. Reuse locally verified replay-based QTC1 training checkpoints, QTT1 training records and QWS1 prediction files through existing owner jobs and frontend adapters. Preserve locally verified training, archives, live verification and bounded contour apply. Preserve both grid axes and captured document calibration. Deliver train → predict → save/reopen → resume through existing entry points | Independent feature oracle, streamed/full-window seam checks, source/model mutation and cancellation controls, persistence/legacy compatibility, installed typing and real desktop/CLI/batch outcomes at one frozen source |
+| 1 / SCI1-A: typed raw pixel classification | Owner-captured sampling/prediction accepted locally at `7beb80b`; archives/retention accepted locally at `440f610`; positive Windows training/trained archives accepted locally at `e7e4b66`; replay/bounded contour apply accepted locally at `92edba8`; sample-index windows/features accepted locally at `ae0ba29`; window models/owner prediction accepted locally at `642f728`; sparse tiled training accepted locally at `1273c3e`; bounded prediction stream/owner delivery accepted locally at `8d544eb`; prediction prefix files/hash-only resume accepted locally at `c843dfa`; sparse training archives/retention/replay accepted locally at `cc6fab4`; training prefix checkpoints/resume accepted locally at `fb7ab73`; native owner file jobs accepted locally at `404f506`; external raw stream links accepted locally at `a608a53`; Windows CPython 3.12 raw bindings/wheel/example accepted locally at `202b41a`; official Windows raw CLI locally verified at `f463110`; root owns remaining batch/desktop integration | Follow the bounded A1-A6 route below and the [numeric contract](raw-pixel-classifier.md). Reuse the feature kernel, `RawPixelRecipe`/`RawPixelClassifier`, typed sampler and existing forest/owner/source/job authorities; use `RawPixelTrainingRequest`/`RawPixelPredictionRequest` and their controllers. Reuse locally verified replay-based QTC1 training checkpoints, QTT1 training records and QWS1 prediction files through existing owner jobs and frontend adapters. Preserve locally verified training, archives, live verification and bounded contour apply. Preserve both grid axes and captured document calibration. Deliver train → predict → save/reopen → resume through existing entry points | Independent feature oracle, streamed/full-window seam checks, source/model mutation and cancellation controls, persistence/legacy compatibility, installed typing and real desktop/CLI/batch outcomes at one frozen source |
 | 2 / SCI1-B: remaining research workflows | Open; retain every M0-M7 requirement | After SCI1-A, choose the next complete workflow by dependency readiness: stitched contours; eligible vendor/whole-slide/partial-OME support; annotation/interchange; spatial queries and recorded/distributed automation. Prepare only the reference/decision inputs needed by that workflow | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
 | Alongside / DEC1: scientific and resource prerequisites | Open; user/research lead supplies decisions, root records applicability | Use the existing decision table below for dataset rights/labels, tolerances and eligible hardware. Synthetic arithmetic/engineering work proceeds; affected biological or hardware acceptance waits for its real prerequisites | Record corpus/version/rights, labels, metric/tolerance before comparison, and eligible hardware/configuration. Do not infer acceptance from synthetic tests or suite totals |
 | After applicable gates / REL1: supported release | Open; repository owner plus packaging owner | Reuse qualified artifacts; resolve project license, distribution obligations, support matrix, installers, notices, signing and clean-machine walkthroughs | Every claimed platform/workflow has scope-matched acceptance. Mac-native does not qualify Mac Python/GUI/OpenSlide. No release/PyPI/signing authorization is implied |
@@ -223,12 +223,12 @@ milestones or hosted campaigns. Root owns implementation and integration.
 | T1 / locally verified owner-captured tiled training: `ScientificRawLattice`, `RawPixelTiledTrainingRequest`, table and job | Describe global dimensions/axes directly, then create bounded `ScientificRawWindow` cores. Reuse `ObjectFeatureRequest`'s immutable annotation snapshot, source guards, native spatial index, one shared deterministic reservoir and `train_forest`. Plan only tiles intersecting selected annotation bounds. Keep the new table distinct from full-grid QXT1 | Exact values, global coordinates, annotation IDs, eligible/ambiguous counts and retained rows match full-grid training for equal coverage; repeat with different tile shapes. Actual backend training/model votes agree with fixed effective parameters. Sparse large-lattice, overlap, quotas, cancellation, stale source/document, retry and backend-OFF-before-IO controls pass |
 | T2 / locally verified `RawPixelTiledPredictionRequest`, `RawPixelPredictionStream` and owner job | Compose existing window prediction/feature kernels over an explicitly bounded region or declared whole-slide traversal. Keep only a bounded number of windows and output blocks live; use global sample indices and existing owner delivery/cancellation rules. Avoid assembling a whole-slide result vector | Labels, support and votes match full-context references at fractional seams, edges, anisotropic spacing and ROI boundaries. Traversal covers each requested core once. Decode calls, peak live buffers and maximum in-flight work remain bounded as slide size grows; actual process-memory acceptance remains a separate measured gate |
 | T3 / native persistence paths locally verified: QWS1 prediction files/resume, QTT1 training records, QTC1 training replay, owner file jobs and QWL1 external links; installed/integrated acceptance follows at T4-T5 | Use existing atomic block writers and checkpoint controllers with a distinct versioned tiled-table/stream representation. Bind lattice, coverage/tile policy, feature/model identity, selected annotations, effective training parameters and source/window commitments. Restore the global reservoir state exactly or deterministically replay admitted inputs | Uninterrupted and interrupted/resumed rows and prediction blocks agree; save/reopen/replay works on real TIFF. Truncation, tampering, source/model/selection/calibration changes and cancellation reject safely. Existing RGB and full-grid QXS1/QXT1/QXP1/QXR1 meanings remain unchanged |
-| T4 / partial: Windows cp312 bindings/wheel/example locally verified; official CLI/batch, ImGui/managed viewer and other installed profiles open | Reuse the installed native API, array ownership and job delivery below. Add shared raw recipe/model/prefix arguments to existing CLI/batch dispatch, then owner UI train/predict/retain/export/resume actions. Keep historical links separate from live apply authority; generate stubs from the installed module | One real-TIFF workflow trains, predicts, saves/reopens and resumes from Python and headless paths. Desktop preview and supported apply are undoable and refuse stale output; typing, array lifetime, cancellation and shutdown pass. Cross-tile contour apply must wait for its separate stitching acceptance |
+| T4 / partial: Windows cp312 bindings/wheel/example locally verified; official CLI locally verified; multi-image classifier batch, ImGui/managed viewer and other installed profiles open | Reuse the installed native API, array ownership and job delivery below. Add shared raw recipe/model/prefix arguments to existing CLI/batch dispatch, then owner UI train/predict/retain/export/resume actions. Keep historical links separate from live apply authority; generate stubs from the installed module | One real-TIFF workflow trains, predicts, saves/reopens and resumes from Python and headless paths. Desktop preview and supported apply are undoable and refuse stale output; typing, array lifetime, cancellation and shutdown pass. Cross-tile contour apply must wait for its separate stitching acceptance |
 | T5 / integrated engineering qualification | Preflight producer, fixture, manifest and auditor closure, freeze one complete T1-T4 source, then use the required platform profile. Preserve all inherited named cohorts and receipt rules | Scope-matched native/installed/desktop/persistence gates pass at the frozen source; platform/backend omissions stay explicit. Independent biological/model, hardware and release gates keep their own acceptance |
 
 ### T1 implementation decisions
 
-The lattice, sparse request/table/job and shared full/tiled reservoir are native APIs at `1273c3e`, with the local receipt above. They now have the separate Windows installed Python acceptance below; official CLI/batch/desktop and other installed profiles remain open. Tiled-table archives gained separate local acceptance at `cc6fab4`. T1/T2 pass their local native exit checks; T3 prediction persistence/resume is locally verified, with replay-based training checkpoints now locally verified and native external raw stream links now locally verified; installed frontends next. The initial three workflow failures came from a fixture retaining oversized string capacity after text restoration; restoring the original vector allocation corrected that test. Original failures, source identities and passing regressions remain separate evidence.
+The lattice, sparse request/table/job and shared full/tiled reservoir are native APIs at `1273c3e`, with the local receipt above. They now have the separate Windows installed Python acceptance below; official CLI now has the later Windows acceptance below; multi-image classifier batch/desktop and other installed profiles remain open. Tiled-table archives gained separate local acceptance at `cc6fab4`. T1/T2 pass their local native exit checks; T3 prediction persistence/resume is locally verified, with replay-based training checkpoints now locally verified and native external raw stream links now locally verified; installed frontends next. The initial three workflow failures came from a fixture retaining oversized string capacity after text restoration; restoring the original vector allocation corrected that test. Original failures, source identities and passing regressions remain separate evidence.
 
 - **Sparse planning:** find global sample-center ranges intersecting each selected
   ROI's bounds using monotone binary search on the original rational axes. Union
@@ -427,8 +427,9 @@ training/prediction checkpoints and resume, model/table retention, verified
 external links and new-project reopen. Its identity-normalized intensity recipe
 is an explicit example, not a biological comparison or stitched apply gate.
 
-Next extend official CLI/batch argument/recipe parsing and result reporting over
-these APIs, sharing channel/normalization/lattice/model/prefix validation. Reuse
+The official CLI now has the later acceptance below. Next extend multi-image
+classifier batch and desktop consumers, sharing channel/normalization/lattice/
+model/prefix validation. Reuse
 existing project batch snapshots, file jobs and checkpoint admission; fail
 unsupported reader/backend recipes before work. Then extend ImGui and managed
 viewer owner actions, owning previews and retained-file browsing. Cancel/join
@@ -442,18 +443,18 @@ gates.
 ### T4 execution tasks: finish consumers before another qualification
 
 Planning reconciliation at feature source `de0686d` (2026-10-26). The tasks
-below refine SCI1-A; they do not create additional milestones. All are planned,
-owned by root, with no current implementation blocker. `202b41a` remains the
-latest locally verified compiler source. No new implementation, Astra review or
-platform qualification is claimed by this update.
+below refine SCI1-A; they do not create additional milestones. Root owns the sequence, with no current implementation blocker. T4.1 now has
+[local installed Windows acceptance](benchmarks/raw-pixel-cli-local.json) at
+`f463110`; T4.2-T4.5 remain planned. `202b41a` retains its earlier Python profile.
+This is not a new Astra review or integrated platform qualification.
 
-Run T4.1 through T4.4 in order. T4.5 then closes T4 and admits T5. Keep one
+T4.1 is locally verified; next run T4.2 through T4.4 in order. T4.5 then closes T4 and admits T5. Keep one
 implementation task active. Each task has a complete observable outcome; reuse
 its healthy evidence until a consumed input changes.
 
 | Task / outcome | Existing authority and easiest path | Required exit evidence |
 | --- | --- | --- |
-| T4.1 / official headless train, predict/export and verify | Add a small raw adapter to `cpp/batch_main.cpp`, following `pixel_stream_cli` dispatch, JSONL and cancellation. Reuse `RawPixelTiledTrainingRequest`, `RawPixelTrainingCheckpointJob`, `train_raw_pixel_tiled_classifier`, model/archive writers, `RawPixelStreamSaveJob` and `RawPixelStreamFileReadJob`. Keep `qupathxx_region --raw` as quantitative region extraction | Installed native executable trains on a labelled TIFF project, resumes QTC1, writes QRM1/QTT1, exports/resumes QWS1 and verifies it. Compare rows, fixed-parameter model bytes, blocks and commitments with the installed Python workflow. Exercise Unicode paths, invalid arguments, backend OFF, cancellation and destination/source aliases |
+| T4.1 / locally verified official headless train, predict/export and verify at `f463110`; [commands](raw-pixel-cli.md) | Reuse the delivered small raw adapter to `cpp/batch_main.cpp`, following `pixel_stream_cli` dispatch, JSONL and cancellation. Reuse `RawPixelTiledTrainingRequest`, `RawPixelTrainingCheckpointJob`, `train_raw_pixel_tiled_classifier`, model/archive writers, `RawPixelStreamSaveJob` and `RawPixelStreamFileReadJob`. Keep `qupathxx_region --raw` as quantitative region extraction | Installed native executable trains on a labelled TIFF project, resumes QTC1, writes QRM1/QTT1, exports/resumes QWS1 and verifies it. Compare rows, fixed-parameter model bytes, blocks and commitments with the installed Python workflow. Exercise Unicode paths, invalid arguments, backend OFF, cancellation and destination/source aliases |
 | T4.2 / raw classification across project images | Extend existing `ProjectBatchKind`, `ProjectBatchOptions`, `ProjectBatchRequest` and kernel with an additive raw-classifier kind and typed model/lattice policy. Reuse selection snapshots, directory lock, owned bundle publication, checkpoint seal and Stop/Continue/resume reports. Add typed QWL1 extraction alongside RGB checkpoint records | A mixed project records success and incompatible-image failure correctly; Stop/Continue, exact reuse, changed inputs/model/policy and moved output are covered. Verify every reused stream, retain raw links in output projects and reopen them. Original project bytes and existing RGB/raw-measurement behavior remain intact |
 | T4.3 / interactive train, preview, export/resume and retain | Extend existing ImGui classifier and batch panels and managed viewer options over the same native jobs. Capture actions on the owner thread; poll bounded status; use an owning, bounded window preview and historical file/block browsing | Real interactions train, preview, cancel/retry, export/resume, retain and reopen. Edits, source changes, image switches and workspace replacement refuse stale delivery. Shutdown joins workers before readers release; installed GUI and managed viewer both exercise the path |
 | T4.4 / supported bounded contour apply | Reuse `RawPixelPredictionRequest`, `RawPixelContourJob` and existing document commands for admitted full-grid results. Recompute a fresh owner-bound prediction when starting from historical output | Preview/apply/undo/redo is one atomic edit with rational axes preserved; stale capture, cancellation and oversized requests refuse without mutation. Label the supported bounds explicitly; a QWS1 stream does not provide stitched-contour authority |
@@ -461,9 +462,9 @@ its healthy evidence until a consumed input changes.
 
 #### Shared input contract: settle in T4.1 and reuse in T4.2-T4.4
 
-- **Command surface.** Proposed native batch verbs are `--train-raw-pixels`,
-  `--export-raw-pixels` and `--verify-raw-pixels`; proposed project kind is
-  `raw-pixels`. These are planned names, not available commands. Keep current
+- **Command surface.** Native batch verbs `--train-raw-pixels`,
+  `--export-raw-pixels` and `--verify-raw-pixels` are locally verified in the
+  installed Windows profile. Proposed project kind `raw-pixels` remains planned. Keep current
   `--kind raw` measurement semantics and RGB `--kind pixels` unchanged. Use the
   existing exit convention: 0 success, 1 failure/partial, 2 arguments and 130
   cancellation. JSONL must distinguish durable partial output from completion.
@@ -502,7 +503,7 @@ its healthy evidence until a consumed input changes.
 
 #### Build and acceptance budget
 
-Do not compile for this documentation update. For implementation, admit the
+For the next implementation, admit the
 actual interpreter ABI, CMake capabilities, SDK manifest and pytest environment
 before building; use the explicit CPython 3.12 environment for the current
 Windows wheel. Retain the existing caches and build only affected targets first.
@@ -520,6 +521,32 @@ Remaining automatic maintenance, abrupt-process/power-loss behavior, streamed
 contour stitching, independent scientific comparisons, hardware/resource budgets
 and release support stay in their existing queues. This ordering does not remove
 any M0-M7 requirement or select a project license.
+
+### T4.1 installed CLI acceptance and next batch task
+
+The [CLI receipt](benchmarks/raw-pixel-cli-local.json) binds `f463110`, 376
+compiler inputs and eight retained binary/wheel products. The installed Windows
+cp312 training/TIFF/project-enabled, GUI/GEOS/OpenSlide-disabled wheel passes
+104 Python cases, including 14 new CLI cases, plus three native suites. The one
+backend-OFF-only Python case skips in that ON package; a separate OFF native
+executable refuses training before output and preserves its valid input project.
+Source/runtime/wheel membership and the 195-file SDK manifest authenticate.
+
+The initial budget coupling rejected valid small producer requests; keep producer,
+checkpoint metadata, prediction-file metadata and forest limits independent.
+Original collection, fixture and comparison failures remain source-bound evidence.
+Resume preserves exact committed header/block bytes. Fresh process provenance
+includes clocks/generations, so compare independent numeric blocks and input/result
+chains rather than pretending independently captured whole files are identical.
+Optional prediction project retention currently re-verifies the file; this extra
+bounded IO is explicit and is not a speedup claim.
+
+Next implement T4.2 over the existing project batch kernel, not another CLI loop.
+Preserve raw measurement and RGB kinds, exact per-image model/lattice admission,
+checkpoint seals, owned bundle publication and Stop/Continue semantics. Add typed
+QWL1 reuse/readback and changed/missing-output controls. Then deliver desktop and
+bounded apply before the installed integration/T5 freeze. Broader platforms,
+clean-machine, scientific/resource/hardware and release gates remain open.
 
 ### Execution cost controls
 
