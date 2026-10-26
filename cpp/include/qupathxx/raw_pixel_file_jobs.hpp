@@ -1,4 +1,5 @@
 #pragma once
+#include "qupathxx/raw_pixel_stream_contours.hpp"
 #include "qupathxx/raw_pixel_stream_file.hpp"
 #include "qupathxx/raw_pixel_training_checkpoint.hpp"
 
@@ -48,11 +49,13 @@ public:
     bool open(const std::string&,RawPixelStreamFileLimits={});
     bool open_link(std::shared_ptr<const RawPixelStreamLink>,RawPixelStreamFileLimits={});
     bool read(std::shared_ptr<const RawPixelStreamFile>,std::uint64_t index);
+    bool trace(std::shared_ptr<const RawPixelStreamFile>,RawPixelStreamContourOptions={});
     bool busy() const;void cancel();void await_completion();
     RawPixelFileJobStats poll(),wait();
     std::shared_ptr<const RawPixelStreamFile> take_file();
     std::shared_ptr<const RawPixelStreamLink> take_link();
     std::shared_ptr<const RawPixelWindowClassification> take_block();
+    std::shared_ptr<const RawPixelFileContours> take_contours();
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
 };

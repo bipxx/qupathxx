@@ -2,8 +2,11 @@
 #include "raw_pixel_replay_checks.hpp"
 #include "qupathxx/raw_pixel_stream_contours.hpp"
 #include <type_traits>
+#include "qupathxx/raw_pixel_file_jobs.hpp"
 namespace raw_stream_contour_checks {
 static_assert(!std::is_default_constructible_v<qpx::RawPixelStreamContours>);
+static_assert(!std::is_default_constructible_v<qpx::RawPixelFileContours>);
+static_assert(!std::is_convertible_v<qpx::RawPixelFileContours,qpx::RawPixelStreamContours>);
 inline void require(bool value,const char* message) {if(!value) throw std::runtime_error(std::string("Raw streamed contour workflow: ")+message);}
 inline void run() {
     using namespace qpx;using raw_feature_checks::rejects;
@@ -59,6 +62,29 @@ inline void run() {
         const RawPixelTiledPredictionRequest real(*live,real_model,real_lattice,stream_options,RawPixelStreamRegion{1,0,2,2},target);
         const auto direct=trace_raw_pixel_stream(real,options);require(job.request(real,options) && job.wait(*live).state=="ready" && job.result()->prediction_sha256()==direct->prediction_sha256(),"real TIFF job/direct parity");
         const auto live_ids=publish_raw_pixel_stream_contours(*live,real,*direct);require(!live_ids.empty() && live->undo() && live->redo(),"real TIFF atomic apply/undo/redo");
+        // A saved file is historical geometry; replay must infer a fresh capture.
+        const auto saved_path=directory/"saved.qws";const RawPixelTiledPredictionRequest saved_request(*live,real_model,real_lattice,stream_options,RawPixelStreamRegion{1,0,2,2},target);
+        RawPixelStreamSaveOptions save_options;save_options.limits.work_bytes=1024*1024;save_raw_pixel_stream(saved_request,saved_path.u8string(),save_options);
+        auto history=std::make_shared<const RawPixelStreamFile>(saved_path.u8string(),save_options.limits);
+        rejects<std::invalid_argument>([&]{capture_raw_pixel_stream_replay(*live,*history);});
+        const auto historical=trace_raw_pixel_stream_file(*history,options);const auto fresh=trace_raw_pixel_stream(saved_request,options);
+        require(history->verified() && historical->link()->summary().complete && historical->completed_samples()==fresh->completed_samples(),"historical verified coverage");
+        require(historical->contours()->object_id()==0 && historical->contours()->input_sha256().empty(),"historical geometry acquired authority");
+        require(historical->contours()->components().size()==fresh->contours()->components().size(),"historical component count");
+        for(std::size_t i=0;i<fresh->contours()->components().size();++i) require(historical->contours()->components()[i].geometry.equals(fresh->contours()->components()[i].geometry),"historical geometry differs");
+        RawPixelStreamFileReadJob reader;require(reader.trace(history,options) && reader.wait().state=="ready" && !reader.take_block() && reader.take_contours(),"historical reader job delivery");
+        const auto replay_capture=capture_raw_pixel_stream_replay(*live,*history);const auto replay=trace_raw_pixel_stream_replay(replay_capture,history,options);
+        require(replay->prediction_sha256()==history->declared_summary().sha256 && replay->input_sha256()==history->declared_summary().input_sha256,"fresh replay commitments differ");
+        const auto replay_ids=publish_raw_pixel_stream_contours(*live,replay_capture,*replay,"Replay");require(!replay_ids.empty(),"fresh replay apply");live->undo();
+        const auto next_capture=capture_raw_pixel_stream_replay(*live,*history);require(job.request_replay(next_capture,history,options) && job.wait(*live).state=="ready","replay job");
+        const auto retained_replay=job.result();{std::ofstream corrupt(saved_path,std::ios::binary|std::ios::app);corrupt<<"changed";}
+        require(job.poll(*live).state=="failed" && !job.result(),"late history mutation delivered ready result");
+        rejects<std::runtime_error>([&]{publish_raw_pixel_stream_contours(*live,next_capture,*retained_replay);});
+        require(historical->contours()->components().size()==fresh->contours()->components().size(),"historical snapshot mutated");
+        const auto partial_path=directory/"partial.qws";save_options.max_new_windows=1;save_raw_pixel_stream(saved_request,partial_path.u8string(),save_options);RawPixelStreamFile partial(partial_path.u8string(),save_options.limits);
+        rejects<std::invalid_argument>([&]{trace_raw_pixel_stream_file(partial,options);});
+        std::filesystem::remove(saved_path);std::filesystem::remove(partial_path);
+        std::cout<<"Raw historical contour workflow: verified one-pass geometry, typed authority separation, fresh replay/apply/undo, late file refusal and partial-prefix rejection passed\n";
         const RawPixelTiledPredictionRequest again(*live,real_model,real_lattice,stream_options,RawPixelStreamRegion{1,0,2,2},target);const auto guarded=trace_raw_pixel_stream(again,options);require(job.request(again,options),"late file dispatch");job.await_completion();{std::ofstream append(path,std::ios::binary|std::ios::app);append<<"changed";}
         const auto before_objects=live->object_count();const auto before_revision=live->revision();require(job.poll(*live).state=="stale" && !job.result(),"late file delivered");rejects<std::invalid_argument>([&]{publish_raw_pixel_stream_contours(*live,again,*guarded);});require(live->object_count()==before_objects && live->revision()==before_revision,"late file refusal mutated document");
         live->server()->close();project.reset();std::filesystem::remove(path);std::filesystem::remove(directory);

@@ -36,6 +36,8 @@ public:
     const ScientificRawLattice& lattice() const;
     const RawPixelStreamRegion& region() const;
     const RawPixelStreamOptions& options() const;
+    const RawPixelStreamFileLimits& limits() const;
+    std::size_t payload_bytes() const;
     const std::shared_ptr<const AnalysisProvenance>& provenance() const;
     std::shared_ptr<const RawPixelWindowClassification> read_block(std::uint64_t,const std::atomic<bool>* cancelled=nullptr) const;
     void verify(const std::atomic<bool>* cancelled=nullptr) const;
@@ -46,7 +48,7 @@ public:
     void cancel();bool verified() const;
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
-    friend struct RawPixelStreamFileCodec;
+    friend struct RawPixelStreamFileCodec;friend struct RawPixelFileContourKernel;
 };
 // Explicit durable prefix checkpoints: max_new_windows bounds this save call.
 // Resume verifies every retained source input without inference, then computes

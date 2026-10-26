@@ -17,7 +17,7 @@ struct CheckpointOutput {
     }
 };
 struct StreamOutput {RawPixelStreamFileSummary summary;std::shared_ptr<const RawPixelStreamFile> file;};
-struct ReadOutput {std::shared_ptr<const RawPixelStreamFile> file;std::shared_ptr<const RawPixelWindowClassification> block;};
+struct ReadOutput {std::shared_ptr<const RawPixelStreamFile> file;std::shared_ptr<const RawPixelWindowClassification> block;std::shared_ptr<const RawPixelFileContours> contours;};
 }
 struct RawPixelStreamSaveJob::Impl {
     std::optional<RawPixelTiledPredictionRequest> capture;
@@ -69,7 +69,7 @@ std::optional<RawPixelTrainingCheckpointResult> RawPixelTrainingCheckpointJob::t
     if(poll(doc).state!="ready") return {};auto out=impl_->state.take();if(!out) return {};impl_->capture.reset();return std::move(out->result);
 }
 struct RawPixelStreamFileReadJob::Impl {
-    bool opening=false;detail::RawPixelFileJobState<ReadOutput> state;
+    bool opening=false,tracing=false;detail::RawPixelFileJobState<ReadOutput> state;
 };
 RawPixelStreamFileReadJob::RawPixelStreamFileReadJob():impl_(std::make_unique<Impl>()) {}
 RawPixelStreamFileReadJob::~RawPixelStreamFileReadJob()=default;
@@ -78,19 +78,26 @@ void RawPixelStreamFileReadJob::cancel() {impl_->state.cancelled.store(true);}
 void RawPixelStreamFileReadJob::await_completion() {impl_->state.join();}
 bool RawPixelStreamFileReadJob::open(const std::string& input,RawPixelStreamFileLimits limits) {
     auto& s=*impl_;s.state.on_owner();if(s.state.future.valid() || s.state.pending) return false;limits.validate();const auto path=detail::export_path(input);
-    if(!s.state.start([path,limits](const std::atomic<bool>* c) {detail::export_checkpoint(c);auto file=std::make_shared<const RawPixelStreamFile>(path,limits);file->verify(c);detail::export_checkpoint(c);return ReadOutput{std::move(file),{}};},"verifying prediction file")) return false;s.opening=true;return true;
+    if(!s.state.start([path,limits](const std::atomic<bool>* c) {detail::export_checkpoint(c);auto file=std::make_shared<const RawPixelStreamFile>(path,limits);file->verify(c);detail::export_checkpoint(c);return ReadOutput{std::move(file),{}};},"verifying prediction file")) return false;s.opening=true;s.tracing=false;return true;
 }
 bool RawPixelStreamFileReadJob::open_link(std::shared_ptr<const RawPixelStreamLink> link,RawPixelStreamFileLimits limits) {
     auto& s=*impl_;s.state.on_owner();if(s.state.future.valid() || s.state.pending) return false;if(!link) throw std::invalid_argument("raw stream link is required");limits.validate();
-    if(!s.state.start([link=std::move(link),limits](const std::atomic<bool>* c) {detail::export_checkpoint(c);auto file=std::make_shared<const RawPixelStreamFile>(link->path(),limits);file->verify(c);if(!link->same_content(*file->link())) throw std::invalid_argument("raw stream file does not match saved link");detail::export_checkpoint(c);return ReadOutput{std::move(file),{}};},"verifying linked prediction file")) return false;s.opening=true;return true;
+    if(!s.state.start([link=std::move(link),limits](const std::atomic<bool>* c) {detail::export_checkpoint(c);auto file=std::make_shared<const RawPixelStreamFile>(link->path(),limits);file->verify(c);if(!link->same_content(*file->link())) throw std::invalid_argument("raw stream file does not match saved link");detail::export_checkpoint(c);return ReadOutput{std::move(file),{}};},"verifying linked prediction file")) return false;s.opening=true;s.tracing=false;return true;
 }
 bool RawPixelStreamFileReadJob::read(std::shared_ptr<const RawPixelStreamFile> file,std::uint64_t index) {
     auto& s=*impl_;s.state.on_owner();if(s.state.future.valid() || s.state.pending) return false;if(!file || index>=file->declared_summary().completed_windows) throw std::invalid_argument("raw historical block request requires an existing prefix block");
-    if(!s.state.start([file=std::move(file),index](const std::atomic<bool>* c) {auto block=file->read_block(index,c);detail::export_checkpoint(c);return ReadOutput{file,std::move(block)};},"reading prediction block",1)) return false;s.opening=false;return true;
+    if(!s.state.start([file=std::move(file),index](const std::atomic<bool>* c) {auto block=file->read_block(index,c);detail::export_checkpoint(c);return ReadOutput{file,std::move(block)};},"reading prediction block",1)) return false;s.opening=false;s.tracing=false;return true;
+}
+bool RawPixelStreamFileReadJob::trace(std::shared_ptr<const RawPixelStreamFile> file,RawPixelStreamContourOptions options) {
+    auto& s=*impl_;s.state.on_owner();if(s.state.future.valid() || s.state.pending) return false;
+    if(!file) throw std::invalid_argument("historical contours require a file");options.validate();
+    const auto windows=file->declared_summary().total_windows;
+    if(!s.state.start([file=std::move(file),options](const std::atomic<bool>* c) {ReadOutput out;out.file=file;out.contours=trace_raw_pixel_stream_file(*file,options,c);return out;},"tracing verified historical contours",windows)) return false;
+    s.opening=false;s.tracing=true;return true;
 }
 RawPixelFileJobStats RawPixelStreamFileReadJob::poll() {
     auto& s=*impl_;s.state.poll([] {return true;},[](const ReadOutput& out) {out.file->check_unchanged();return true;});
-    if(s.state.pending) {s.state.stats.total_windows=s.opening?s.state.pending->file->declared_summary().total_windows:1;s.state.stats.completed_windows=s.opening?s.state.pending->file->declared_summary().completed_windows:1;}return s.state.stats;
+    if(s.state.pending) {s.state.stats.total_windows=(s.opening || s.tracing)?s.state.pending->file->declared_summary().total_windows:1;s.state.stats.completed_windows=(s.opening || s.tracing)?s.state.pending->file->declared_summary().completed_windows:1;}return s.state.stats;
 }
 RawPixelFileJobStats RawPixelStreamFileReadJob::wait() {poll();await_completion();return poll();}
 std::shared_ptr<const RawPixelStreamFile> RawPixelStreamFileReadJob::take_file() {
@@ -99,7 +106,10 @@ std::shared_ptr<const RawPixelStreamFile> RawPixelStreamFileReadJob::take_file()
 std::shared_ptr<const RawPixelStreamLink> RawPixelStreamFileReadJob::take_link() {
     if(poll().state!="ready" || !impl_->opening) return {};auto& s=impl_->state;auto link=s.pending->file->link();auto out=s.take();return out?std::move(link):nullptr;
 }
+std::shared_ptr<const RawPixelFileContours> RawPixelStreamFileReadJob::take_contours() {
+    if(poll().state!="ready" || !impl_->tracing) return {};auto out=impl_->state.take();return out?std::move(out->contours):nullptr;
+}
 std::shared_ptr<const RawPixelWindowClassification> RawPixelStreamFileReadJob::take_block() {
-    if(poll().state!="ready" || impl_->opening) return {};auto out=impl_->state.take();return out?std::move(out->block):nullptr;
+    if(poll().state!="ready" || impl_->opening || impl_->tracing) return {};auto out=impl_->state.take();return out?std::move(out->block):nullptr;
 }
 }

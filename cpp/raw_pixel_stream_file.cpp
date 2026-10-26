@@ -1,5 +1,7 @@
 #include "qupathxx/raw_pixel_stream_file.hpp"
 #include "raw_pixel_stream_internal.hpp"
+#include "qupathxx/raw_pixel_stream_contours.hpp"
+#include "raw_stream_boundaries.hpp"
 #include "raw_pixel_stream_record.hpp"
 #include "atomic_export.hpp"
 #include "geometry_archive.hpp"
@@ -8,6 +10,7 @@
 #include "sha256.hpp"
 #include "utf8_text.hpp"
 #include <array>
+#include <algorithm>
 #include <cmath>
 #include <cstring>
 #include <fstream>
@@ -108,6 +111,11 @@ struct RawPixelStreamFileCodec {
     static void framing(const RawPixelStreamFile::Impl& s,std::istream& file) {
         file.seekg(0);if(read(file,12)!=Bytes(s.header.begin(),s.header.begin()+12)) throw std::runtime_error("raw stream framing changed");file.seekg(std::streamoff(s.header.size()-64));if(read_text(file,64)!=s.header_hash) throw std::runtime_error("raw stream header changed");file.seekg(std::streamoff(s.summary.bytes-s.tail.size()));if(read(file,s.tail.size())!=s.tail) throw std::runtime_error("raw stream completion changed");
     }
+    template<class Visitor> static void verified_blocks(RawPixelStreamFile::Impl& s,std::istream& file,Visitor&& visitor,const std::atomic<bool>* c) {
+        framing(s,file);auto sum=initial(*s.descriptor,s.header_hash);
+        for(std::uint64_t i=0;i<s.summary.completed_windows;++i) {const auto item=block(s,file,i,c);accumulate(sum,*item.first,item.second);visitor(*item.first);}
+        totals(sum,s.summary);
+    }
     static void validate(const Descriptor& d,const RawPixelWindowClassification& b,const std::atomic<bool>* c) {
         hash_check(b.feature_sha256());hash_check(b.input_sha256());hash_check(b.sha256());if(b.model_sha256()!=d.model.sha256()) throw std::invalid_argument("raw stream block model mismatch");const auto& w=b.window();const auto n=std::size_t(w.core_width()*w.core_height());
         if(b.labels().size()!=n || b.valid().size()!=n || b.vote_fractions().size()!=n || !b.estimated_work_bytes() || b.estimated_work_bytes()>d.options.work_bytes) throw std::invalid_argument("raw stream block dimensions/work mismatch");std::vector<std::uint64_t> counts(d.model.forest().classes().size());const auto trees=double(d.model.forest().tree_count());
@@ -146,12 +154,18 @@ const RawPixelClassifier& RawPixelStreamFile::model() const {return impl_->descr
 const ScientificRawLattice& RawPixelStreamFile::lattice() const {return impl_->descriptor->lattice;}
 const RawPixelStreamRegion& RawPixelStreamFile::region() const {return impl_->descriptor->region;}
 const RawPixelStreamOptions& RawPixelStreamFile::options() const {return impl_->descriptor->options;}
+const RawPixelStreamFileLimits& RawPixelStreamFile::limits() const {return impl_->limits;}
+std::size_t RawPixelStreamFile::payload_bytes() const {
+    const auto& s=*impl_;const auto& d=*s.descriptor;
+    return sizeof(*this)+sizeof(Impl)+sizeof(Descriptor)+s.header.capacity()+s.tail.capacity()+s.path.capacity()+s.header_hash.capacity()+
+        4ull*d.model.bytes().size()+64ull*d.model.forest().node_count()+d.provenance->payload_bytes()+(d.mask?d.mask->payload_bytes():0)+65536;
+}
 const std::shared_ptr<const AnalysisProvenance>& RawPixelStreamFile::provenance() const {return impl_->descriptor->provenance;}
 std::shared_ptr<const RawPixelWindowClassification> RawPixelStreamFile::read_block(std::uint64_t index,const std::atomic<bool>* c) const {
     auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);try {stop(c);stop(&s.cancelled);detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);RawPixelStreamFileCodec::framing(s,file);auto out=RawPixelStreamFileCodec::block(s,file,index,c).first;guard.verify();return out;}catch(...) {s.verified.store(false);throw;}
 }
 void RawPixelStreamFile::verify(const std::atomic<bool>* c) const {
-    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);s.verified.store(false);stop(c);stop(&s.cancelled);detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);RawPixelStreamFileCodec::framing(s,file);auto sum=initial(*s.descriptor,s.header_hash);for(std::uint64_t i=0;i<s.summary.completed_windows;++i) {const auto item=RawPixelStreamFileCodec::block(s,file,i,c);accumulate(sum,*item.first,item.second);}totals(sum,s.summary);stop(c);stop(&s.cancelled);guard.verify();s.verified.store(true);
+    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);s.verified.store(false);stop(c);stop(&s.cancelled);detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);RawPixelStreamFileCodec::verified_blocks(s,file,[](const RawPixelWindowClassification&) {},c);stop(c);stop(&s.cancelled);guard.verify();s.verified.store(true);
 }
 void RawPixelStreamFile::cancel() {impl_->cancelled.store(true,std::memory_order_relaxed);impl_->verified.store(false);}
 bool RawPixelStreamFile::verified() const {return impl_->verified.load() && !impl_->cancelled.load();}
@@ -164,6 +178,40 @@ std::shared_ptr<const RawPixelStreamLink> RawPixelStreamFile::link() const {
         detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());guard.verify();const auto& d=*s.descriptor;
         auto out=std::shared_ptr<RawPixelStreamLink>(new RawPixelStreamLink(d.lattice,d.region,d.options));out->path_=s.path;out->model_=d.model.sha256();out->request_=d.request_sha;out->header_=s.header_hash;out->header_bytes_=s.header.size();out->summary_=s.summary;out->summary_.reused_windows=0;out->object_=d.provenance->object_id;out->revision_=d.provenance->document_revision;out->version_=s.version;out->validate();stop(&s.cancelled);return out;
     }catch(...) {s.verified.store(false);throw;}
+}
+std::size_t RawPixelFileContours::payload_bytes() const {
+    std::size_t bytes=sizeof(*this)+contours_->retained_bytes()+link_->payload_bytes()+classes_.capacity()*sizeof(std::string)+65536;
+    for(const auto& name:classes_) bytes+=name.capacity();return bytes;
+}
+struct RawPixelFileContourKernel {
+    static std::shared_ptr<const RawPixelFileContours> run(const RawPixelStreamFile& input,RawPixelStreamContourOptions options,const std::atomic<bool>* c) {
+        stop(c);options.validate();if(!has_geos()) throw std::runtime_error("raw historical contours require QUPATHXX_BUILD_GEOS=ON");
+        auto& s=*input.impl_;const auto work=131072ull+s.limits.work_bytes+std::max(options.boundary_work_bytes,options.contours.work_bytes);
+        if(work>options.work_bytes) throw std::length_error("historical file/boundary/geometry work budget exceeded");
+        if(!s.summary.complete) throw std::invalid_argument("historical contours require a complete QWS1 stream");
+        auto out=std::shared_ptr<RawPixelFileContours>(new RawPixelFileContours());
+        try {
+            {
+                std::lock_guard<std::mutex> lock(s.reader);s.verified.store(false);stop(&s.cancelled);
+                detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());std::ifstream file(std::filesystem::u8path(s.path),std::ios::binary);
+                const auto& d=*s.descriptor;detail::RawStreamBoundaryBuilder builder(d,d.model.forest().classes().size(),{options.max_boundary_runs,options.boundary_work_bytes});
+                RawPixelStreamFileCodec::verified_blocks(s,file,[&](const RawPixelWindowClassification& block) {builder.append(block.window(),block.labels(),c);},c);
+                auto network=builder.finish(c);
+                if(network.completed_windows!=s.summary.completed_windows || network.completed_samples!=d.samples || network.class_counts!=s.summary.class_counts) throw std::invalid_argument("historical contour census differs from verified file");
+                out->contours_=detail::trace_raw_boundary_geometry(network,options.contours,d.mask?&*d.mask:nullptr,c);
+                out->classes_=d.model.forest().classes();out->options_=options;out->samples_=network.completed_samples;out->work_=static_cast<std::size_t>(work);
+                stop(c);stop(&s.cancelled);guard.verify();s.verified.store(true);
+            }
+            out->link_=input.link();stop(c);input.check_unchanged();return out;
+        }catch(...) {s.verified.store(false);throw;}
+    }
+};
+std::shared_ptr<const RawPixelFileContours> trace_raw_pixel_stream_file(const RawPixelStreamFile& file,RawPixelStreamContourOptions options,const std::atomic<bool>* c) {return RawPixelFileContourKernel::run(file,options,c);}
+RawPixelTiledPredictionRequest capture_raw_pixel_stream_replay(const Document& doc,const RawPixelStreamFile& file) {
+    if(!file.verified() || !file.declared_summary().complete) throw std::invalid_argument("replay requires a complete verified QWS1 file");
+    const auto link=file.link();RawPixelTiledPredictionRequest request(doc,file.model(),file.lattice(),file.options(),file.region(),file.provenance()->object_id);
+    if(request.sha256()!=link->request_sha256()) throw std::invalid_argument("current raw replay request differs from saved source/model/ROI/lattice");
+    file.check_unchanged();return request;
 }
 std::shared_ptr<const RawPixelStreamLink> prepare_raw_pixel_stream_link(const std::string& path,RawPixelStreamFileLimits limits,const std::atomic<bool>* c) {stop(c);RawPixelStreamFile file(path,limits);file.verify(c);stop(c);auto out=file.link();stop(c);return out;}
 RawPixelStreamFileSummary RawPixelStreamFileCodec::save(const RawPixelTiledPredictionRequest& request,const std::string& input,RawPixelStreamSaveOptions options,const std::atomic<bool>* c) {
