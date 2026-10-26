@@ -125,7 +125,7 @@ def main():
     for path,value in [(package/'_native.pyi',native),(package/'__init__.pyi',public),(package/'py.typed','')]:
         if args.check:
             if not path.exists() or path.read_text(encoding='utf8')!=value:raise SystemExit(f'stubs differ: {path}; regenerate against the current installed wheel')
-        else:path.write_text(value,encoding='utf8')
+        else:path.write_text(value,encoding='utf8',newline='\n')
     print('Public stubs match the installed native module' if args.check else 'Generated public stubs')
 
 
