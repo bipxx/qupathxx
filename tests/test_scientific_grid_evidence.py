@@ -60,6 +60,38 @@ def test_installed_exact_cohort_and_scope(gui):
     assert not result['scientific_acceptance']
 
 
+def test_public_stub_manifest_matches_independent_pytest_collection():
+    # Manifest-derived fixtures cannot detect a new real test omitted from CASES.
+    import os
+    import subprocess
+    import sys
+    root=Path(__file__).resolve().parents[1]
+    env=os.environ.copy()
+    env.pop('PYTEST_ADDOPTS',None)
+    env['PYTEST_DISABLE_PLUGIN_AUTOLOAD']='1'
+    command=[sys.executable,'-I','-m','pytest',str(root/'tests/test_public_stubs.py'),
+             '--collect-only','-q','--noconftest','--color=no','-o','addopts=']
+    result=subprocess.run(command,cwd=root,env=env,capture_output=True,
+                          text=True,encoding='utf-8',timeout=60)
+    assert result.returncode==0,result.stdout+result.stderr
+    names=[line.split('::',1)[1] for line in result.stdout.splitlines()
+           if 'test_public_stubs.py::' in line]
+    assert names and len(names)==len(set(names))
+    assert sorted(names)==evidence.CASES['test_public_stubs']
+
+
+@pytest.mark.parametrize('failure',['missing','duplicate','failure','skipped'])
+def test_raw_partial_result_stub_case_is_required(failure):
+    cases=installed(False)
+    case=next(c for c in cases if c.get('name')==
+              'test_raw_pixel_partial_results_are_optional_but_predictions_are_not')
+    if failure=='missing':cases.remove(case)
+    elif failure=='duplicate':cases.append(case)
+    else:ET.SubElement(case,failure)
+    with pytest.raises(ValueError,match='scientific installed'):
+        evidence.python(cases,False)
+
+
 @pytest.mark.parametrize('gui',[True,False])
 @pytest.mark.parametrize('failure',['missing','duplicate','failure','error','skipped','name','class'])
 def test_installed_missing_changed_or_nonpassing_rejects(gui,failure):

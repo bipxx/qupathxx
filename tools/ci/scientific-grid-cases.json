@@ -35,7 +35,8 @@
     "test_native_stub_covers_public_classes_members_functions_and_constants",
     "test_packaged_marker_and_public_exports_match_runtime",
     "test_packaged_signatures_do_not_expose_unbound_cpp_types",
-    "test_raw_grid_result_descriptor_stub_is_optional"
+    "test_raw_grid_result_descriptor_stub_is_optional",
+    "test_raw_pixel_partial_results_are_optional_but_predictions_are_not"
   ],
   "test_qupath_grid_cells_reference": [
     "test_comparison_rejects_incompatible_recipe[micrometres]",
