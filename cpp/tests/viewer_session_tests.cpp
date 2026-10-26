@@ -50,8 +50,18 @@ void raw_pixel_session_contracts(const std::filesystem::path& root) {
         settings.checkpoint.resume_path=settings.checkpoint_path;settings.checkpoint.replace_existing=true;settings.checkpoint.max_new_windows=UINT64_MAX;ticket=session.train_raw_pixels(image,{a,b},settings,true);result=h.until(owner,session,ticket);check(result.state=="succeeded" && result.raw_pixel_training && result.raw_pixel_training->model() && result.record_id && result.committed);session.take(ticket);
     } else {ticket=session.train_raw_pixels(image,{a,b},settings);check(h.until(owner,session,ticket).state=="failed");session.take(ticket);}
     ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);check(session.cancel(ticket) && session.take(ticket).state=="cancelled");
+    // Cancel after owner dispatch, even when the worker completed before the
+    // next pump: no ready result or record may escape cancellation.
+    ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(owner);check(session.poll(ticket).state=="running");check(session.cancel(ticket));check(h.until(owner,session,ticket).state=="cancelled");check(!session.take(ticket).raw_pixel_prediction && session.stats().retained_bytes==0);
+    ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);check(h.until(owner,session,ticket).state=="succeeded");session.take(ticket);
+    {
+        ViewerSession closing((root/"raw-closing.qpxproj").u8string());detail::ViewerOwner closing_owner(closing);
+        const auto pending=closing.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(closing_owner);check(closing.poll(pending).state=="running");
+        closing_owner.finish(h.context);const auto cancelled=closing.take(pending);check(cancelled.state=="cancelled" && !cancelled.raw_pixel_prediction && closing.stats().retained_bytes==0);
+        check(!retained->labels().empty());
+    }
     ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(owner);h.project->remove_image(image);check(h.until(owner,session,ticket).state=="stale");session.take(ticket);owner.finish(h.context);check(!retained->labels().empty());server->close();
-    std::cout<<"Raw pixel viewer: owner training/checkpoint resume, bounded prediction, verified file retention, historical isolation, stale/cancel/removal and join passed; training="<<has_classifier_training()<<'\n';
+    std::cout<<"Raw pixel viewer: owner training/checkpoint resume, bounded prediction, verified file retention, historical isolation, stale/queued-and-running-cancel/retry/removal and active shutdown join passed; training="<<has_classifier_training()<<'\n';
 }
 
 void axis_session_contracts(const std::filesystem::path& root) {
