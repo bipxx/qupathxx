@@ -133,7 +133,7 @@ void RawAnalysisRecord::validate(const ImageMetadata& image,const std::atomic<bo
 }
 void Document::restore_raw_analysis(std::shared_ptr<const RawAnalysisRecord> record) {
     if(!record || !record->id || record->id>revision_) throw std::invalid_argument("raw analysis record revision mismatch");record->validate(metadata());const auto projection=server_->tiff_view();if(!projection || projection->series!=record->result->metadata().series) throw std::invalid_argument("raw analysis record requires the captured TIFF series");
-    const auto id=record->id;if(raw_analysis_.count(id) || analysis_.count(id) || tissue_.count(id) || cells_.count(id) || classifiers_.count(id) || pixels_.count(id) || streams_.count(id)) throw std::invalid_argument("duplicate raw analysis record ID");
+    const auto id=record->id;if(raw_analysis_.count(id) || raw_pixels_.count(id) || analysis_.count(id) || tissue_.count(id) || cells_.count(id) || classifiers_.count(id) || pixels_.count(id) || streams_.count(id)) throw std::invalid_argument("duplicate raw analysis record ID");
     const auto bytes=record->payload_bytes();if(raw_analysis_.size()>=10000 || bytes>budget-raw_analysis_bytes_) throw std::length_error("raw analysis records exceed 10000-record/64 MiB limit");
     const auto slot=raw_analysis_free_slots_.empty()?raw_analysis_next_slot_:raw_analysis_free_slots_.back(),block_index=slot/256;
     auto& blocks=raw_analysis_blocks_.values;const bool added=block_index==blocks.size();std::shared_ptr<RawAnalysisBlock> block;

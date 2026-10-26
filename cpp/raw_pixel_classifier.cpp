@@ -33,7 +33,7 @@ double spacing(std::optional<double> calibration,GridFraction step) {
     const auto value=*calibration*step.binary64();if(!std::isfinite(value) || value<=0) throw std::invalid_argument("raw classifier sampled physical spacing is invalid");return value;
 }
 struct Writer {
-    std::vector<std::uint8_t> bytes{'Q','P','R',1};
+    std::vector<std::uint8_t> bytes{'Q','R','M',1};
     void integer(std::uint64_t value) {for(int i=0;i<8;++i) bytes.push_back(static_cast<std::uint8_t>(value>>(8*i)));}
     void real(double value) {std::uint64_t bits;std::memcpy(&bits,&value,8);integer(bits);}
     void string(const std::string& value) {integer(value.size());bytes.insert(bytes.end(),value.begin(),value.end());}
@@ -119,6 +119,13 @@ struct RawPixelClassifier::Data {
     ForestModel forest;RawPixelRecipe recipe;std::vector<std::uint8_t> bytes;std::string sha;
     Data(const ForestModel& f,const RawPixelRecipe& r):forest(f),recipe(r) {}
 };
+std::vector<std::uint8_t> RawPixelRecipe::bytes() const {
+    Writer w;w.bytes={'Q','X','S',1};RawPixelModelCodec::write(w,*this);const auto hash=digest(w.bytes.data(),w.bytes.size());w.bytes.insert(w.bytes.end(),hash.begin(),hash.end());if(w.bytes.size()>128*1024) throw std::length_error("raw pixel recipe exceeds 128 KiB");return std::move(w.bytes);
+}
+RawPixelRecipe RawPixelRecipe::from_bytes(const std::vector<std::uint8_t>& bytes) {
+    if(bytes.size()<68 || bytes.size()>128*1024 || std::memcmp(bytes.data(),"QXS\1",4) || digest(bytes.data(),bytes.size()-64)!=std::string(reinterpret_cast<const char*>(bytes.data()+bytes.size()-64),64)) throw std::invalid_argument("invalid raw pixel recipe encoding");
+    Reader r{bytes.data()+4,bytes.size()-68};auto recipe=RawPixelModelCodec::read(r);if(r.left || recipe.bytes()!=bytes) throw std::invalid_argument("noncanonical raw pixel recipe encoding");return recipe;
+}
 RawPixelClassifier::RawPixelClassifier(const ForestModel& forest,const RawPixelRecipe& recipe) {
     const auto expected=recipe.feature_schema();const auto& actual=forest.features();if(expected.size()!=actual.size()) throw std::invalid_argument("raw classifier forest schema mismatch");
     for(std::size_t i=0;i<expected.size();++i) if(expected[i].name!=actual[i].name || expected[i].unit!=actual[i].unit) throw std::invalid_argument("raw classifier forest schema mismatch");
@@ -130,11 +137,17 @@ const RawPixelRecipe& RawPixelClassifier::recipe() const {return data_->recipe;}
 const std::vector<std::uint8_t>& RawPixelClassifier::bytes() const {return data_->bytes;}
 const std::string& RawPixelClassifier::sha256() const {return data_->sha;}
 RawPixelClassifier RawPixelClassifier::from_bytes(const std::vector<std::uint8_t>& bytes) {
-    if(bytes.size()<68 || bytes.size()>model_limit || std::memcmp(bytes.data(),"QPR\1",4)) throw std::invalid_argument("unsupported raw classifier model encoding");
+    if(bytes.size()<68 || bytes.size()>model_limit || (std::memcmp(bytes.data(),"QRM\1",4) && std::memcmp(bytes.data(),"QPR\1",4))) throw std::invalid_argument("unsupported raw classifier model encoding");
     if(digest(bytes.data(),bytes.size()-64)!=std::string(reinterpret_cast<const char*>(bytes.data()+bytes.size()-64),64)) throw std::invalid_argument("raw classifier checksum mismatch");
     Reader r{bytes.data()+4,bytes.size()-68};const auto recipe=RawPixelModelCodec::read(r);const auto size=r.integer(64u*1024*1024);
     if(size!=r.left) throw std::invalid_argument("raw classifier forest size mismatch");const auto forest=ForestModel::from_bytes(std::vector<std::uint8_t>(r.data,r.data+r.left));RawPixelClassifier model(forest,recipe);
-    if(model.bytes()!=bytes) throw std::invalid_argument("noncanonical raw classifier model encoding");return model;
+    if(bytes[1]=='P') {
+        // Explicit compatibility with the pre-release raw QPR1 model. RGB
+        // pixel records also use QPR1; never infer the type from that header.
+        auto legacy=model.bytes();legacy[1]='P';legacy[2]='R';legacy.resize(legacy.size()-64);const auto checksum=digest(legacy.data(),legacy.size());legacy.insert(legacy.end(),checksum.begin(),checksum.end());
+        if(legacy!=bytes) throw std::invalid_argument("noncanonical legacy raw classifier model encoding");
+        auto data=std::make_shared<Data>(forest,recipe);data->bytes=bytes;data->sha=digest(bytes.data(),bytes.size());model.data_=std::move(data);
+    }else if(model.bytes()!=bytes) throw std::invalid_argument("noncanonical raw classifier model encoding");return model;
 }
 RawPixelClassificationPlan RawPixelClassifierKernel::plan(const RawImageMetadata& source,const ScientificGrid& grid,const ScientificRawOptions& selection,const RawPixelClassifier& model,std::size_t budget,std::optional<RawClassifierCalibration> calibration) {
     auto metadata=source;if(calibration) {metadata.pixel_width_um=calibration->x;metadata.pixel_height_um=calibration->y;}

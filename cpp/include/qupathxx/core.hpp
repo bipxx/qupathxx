@@ -34,6 +34,7 @@ class PixelTrainingRequest;
 class PixelPredictionRequest;
 class PixelClassifierArchive;
 struct PixelClassifierRecord;
+class RawPixelArchive;struct RawPixelRecord;class RawPixelTrainingRequest;class RawPixelPredictionRequest;
 class PixelContours;
 struct TissueContourOptions;
 struct PixelTrainingOptions;
@@ -263,6 +264,12 @@ public:
     std::uint64_t keep_pixel_training(const PixelTrainingRequest&,std::shared_ptr<const PixelClassifierArchive>,std::string name="Pixel classifier training");
     std::uint64_t keep_pixel_prediction(const PixelPredictionRequest&,std::shared_ptr<const PixelClassifierArchive>,std::string name="Pixel classifier prediction");
     bool remove_pixel_classifier_record(std::uint64_t id);
+    std::vector<std::shared_ptr<const RawPixelRecord>> raw_pixel_records() const;
+    std::shared_ptr<const RawPixelRecord> raw_pixel_record(std::uint64_t) const;
+    std::size_t raw_pixel_record_count() const {return raw_pixels_.size()+raw_pixels_snapshot_.size();}
+    std::uint64_t keep_raw_pixel_training(const RawPixelTrainingRequest&,std::shared_ptr<const RawPixelArchive>,std::string name="Raw pixel training");
+    std::uint64_t keep_raw_pixel_prediction(const RawPixelPredictionRequest&,std::shared_ptr<const RawPixelArchive>,std::string name="Raw pixel prediction");
+    bool remove_raw_pixel_record(std::uint64_t);
     std::vector<std::shared_ptr<const PixelStreamRecord>> pixel_stream_records() const;
     std::shared_ptr<const PixelStreamRecord> pixel_stream_record(std::uint64_t id) const;
     std::size_t pixel_stream_record_count() const {return streams_.size()+streams_snapshot_.size();}
@@ -397,6 +404,10 @@ private:
     std::vector<std::shared_ptr<const PixelClassifierRecord>> pixels_snapshot_;
     std::size_t pixels_bytes_=0;
     void restore_pixel_classifier(std::shared_ptr<const PixelClassifierRecord>);
+    std::map<std::uint64_t,std::shared_ptr<const RawPixelRecord>> raw_pixels_;
+    std::vector<std::shared_ptr<const RawPixelRecord>> raw_pixels_snapshot_;
+    std::size_t raw_pixels_bytes_=0;
+    void restore_raw_pixel(std::shared_ptr<const RawPixelRecord>);
     std::map<std::uint64_t,std::shared_ptr<const PixelStreamRecord>> streams_;
     std::vector<std::shared_ptr<const PixelStreamRecord>> streams_snapshot_;
     std::size_t streams_bytes_=0;

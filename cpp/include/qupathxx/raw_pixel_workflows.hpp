@@ -30,6 +30,8 @@ private:
     bool publication_matches(const Document&) const;
     friend struct RawPixelTrainingKernel;
     friend class RawPixelTrainingJob;
+    friend struct RawPixelArchiveCodec;
+    friend class Document;
 };
 class RawPixelTrainingTable {
 public:
@@ -59,6 +61,8 @@ private:
     std::uint64_t ambiguous_=0;
     std::string input_sha_,sha_;
     friend struct RawPixelTrainingKernel;
+    friend struct RawPixelArchiveCodec;
+    friend class RawPixelArchive;
 };
 std::shared_ptr<const RawPixelTrainingTable> sample_raw_pixel_training(const RawPixelTrainingRequest&,const std::atomic<bool>* cancelled=nullptr);
 RawPixelClassifier train_raw_pixel_classifier(const RawPixelTrainingTable&,ForestParameters={},const std::atomic<bool>* cancelled=nullptr);
@@ -79,6 +83,8 @@ private:
     bool publication_matches(const Document&) const;
     friend struct RawPixelPredictionKernel;
     friend class RawPixelPredictionJob;
+    friend struct RawPixelArchiveCodec;
+    friend class Document;
 };
 std::shared_ptr<const RawPixelClassification> predict_raw_pixel_region(const RawPixelPredictionRequest&,const std::atomic<bool>* cancelled=nullptr);
 struct RawPixelJobStats {

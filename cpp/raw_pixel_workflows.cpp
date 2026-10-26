@@ -1,4 +1,4 @@
-#include "qupathxx/raw_pixel_workflows.hpp"
+#include "raw_pixel_workflow_snapshot.hpp"
 #include "qupathxx/raw_analysis.hpp"
 #include "qupathxx/object_classifier.hpp"
 #include "raw_pixel_classifier_internal.hpp"
@@ -28,28 +28,22 @@ std::string metadata_epoch(const RawImageMetadata& m,const ScientificGrid& grid)
     Sha256 hash;text(hash,"qpx.raw-pixel-source-metadata/1");text(hash,detail::scientific_raw_input_sha256(m,grid,"metadata","",nullptr));
     for(auto value:{std::uint64_t(m.width),std::uint64_t(m.height),std::uint64_t(m.channels),std::uint64_t(m.z_planes),std::uint64_t(m.timepoints),std::uint64_t(m.series),std::uint64_t(m.series_count),std::uint64_t(m.sample_type)}) hash.integer(value);return hash.finish();
 }
-struct SourceSnapshot {
-    RawImageMetadata metadata;
-    std::shared_ptr<const ReaderSource> observed;
-    std::string epoch,reader;
-    RawClassifierCalibration calibration;
-};
-SourceSnapshot capture_source(const Document& doc,const ScientificGrid& grid) {
+RawPixelSourceSnapshot capture_source(const Document& doc,const ScientificGrid& grid,std::uint64_t object=0) {
     const auto source=doc.server();if(!source || source->closed()) throw std::invalid_argument("raw pixel workflow requires an open quantitative source");
     const auto metadata=source->raw_metadata();if(!metadata) throw std::invalid_argument("raw pixel workflow requires quantitative source metadata");
-    SourceSnapshot snapshot;snapshot.metadata=*metadata;snapshot.epoch=metadata_epoch(snapshot.metadata,grid);snapshot.reader=source->reader_id();detail::bounded_utf8(snapshot.reader,65536);snapshot.calibration={doc.pixel_width_um(),doc.pixel_height_um()};
+    RawPixelSourceSnapshot snapshot;snapshot.metadata=*metadata;snapshot.epoch=metadata_epoch(snapshot.metadata,grid);snapshot.reader=source->reader_id();detail::bounded_utf8(snapshot.reader,65536);snapshot.calibration={doc.pixel_width_um(),doc.pixel_height_um()};snapshot.provenance=capture_provenance(*source,object,object?doc.annotation(object).revision:0,doc.revision(),false,snapshot.calibration.x,snapshot.calibration.y);
     if(const auto observed=source->reader_source()) {observed->validate();auto copy=std::make_shared<ReaderSource>(*observed);if(copy->primary) copy->primary=std::make_shared<const FileVersion>(*copy->primary);snapshot.observed=std::move(copy);}return snapshot;
 }
-bool source_matches(const ImageServer& source,const SourceSnapshot& snapshot) {
+bool source_matches(const ImageServer& source,const RawPixelSourceSnapshot& snapshot) {
     if(source.closed() || source.reader_id()!=snapshot.reader) return false;const auto current=source.reader_source();
     if(bool(current)!=bool(snapshot.observed)) return false;if(!current) return true;
     if(current->primary || snapshot.observed->primary) return detail::same_reader_files(*current,*snapshot.observed);
     return current->generation==snapshot.observed->generation && current->scope==snapshot.observed->scope && current->reader==snapshot.observed->reader && current->locator==snapshot.observed->locator;
 }
-void verify_sample(const ImageServer& source,const SourceSnapshot& snapshot,const ScientificRawGrid& input) {
+void verify_sample(const ImageServer& source,const RawPixelSourceSnapshot& snapshot,const ScientificRawGrid& input) {
     if(!source_matches(source,snapshot) || input.reader()!=snapshot.reader || metadata_epoch(input.metadata(),input.grid())!=snapshot.epoch) throw std::runtime_error("raw pixel source/metadata changed after owner capture");
 }
-bool publication_source_matches(const ImageServer& source,const SourceSnapshot& snapshot,const ScientificGrid& grid) {
+bool publication_source_matches(const ImageServer& source,const RawPixelSourceSnapshot& snapshot,const ScientificGrid& grid) {
     // Publication is a new trust boundary: recheck actual file versions, not
     // just a decoder's retained opening observation. Keep every file guarded
     // while comparing a compound set. Ordinary progress polls do no file IO.
@@ -62,22 +56,23 @@ bool publication_source_matches(const ImageServer& source,const SourceSnapshot& 
         for(const auto& guard:guards) guard->verify();return detail::same_reader_files(current,*snapshot.observed);
     }catch(const std::runtime_error&) {return false;}catch(const std::invalid_argument&) {return false;}
 }
-RawImageMetadata calibrated_metadata(const SourceSnapshot& source) {auto metadata=source.metadata;metadata.pixel_width_um=source.calibration.x;metadata.pixel_height_um=source.calibration.y;return metadata;}
-std::size_t source_bytes(const SourceSnapshot& source) {return 2*source.metadata.payload_bytes()+source.reader.capacity()+source.epoch.capacity()+(source.observed?2*source.observed->payload_bytes():0);}
+RawImageMetadata calibrated_metadata(const RawPixelSourceSnapshot& source) {auto metadata=source.metadata;metadata.pixel_width_um=source.calibration.x;metadata.pixel_height_um=source.calibration.y;return metadata;}
+std::size_t source_bytes(const RawPixelSourceSnapshot& source) {return 2*source.metadata.payload_bytes()+source.reader.capacity()+source.epoch.capacity()+(source.provenance?source.provenance->payload_bytes():0)+(source.observed?2*source.observed->payload_bytes():0);}
 std::size_t remaining(std::size_t budget,std::size_t fixed) {if(fixed>=budget || budget-fixed<1024*1024) throw std::length_error("raw pixel workflow snapshot/output leaves insufficient feature workspace");return budget-fixed;}
+}
+std::string raw_pixel_source_metadata_epoch(const RawImageMetadata& metadata,const ScientificGrid& grid) {return metadata_epoch(metadata,grid);}
+std::string raw_pixel_training_sha256(const RawPixelTrainingTable& table,const std::atomic<bool>* cancelled) {
+    Sha256 hash;text(hash,"qpx.raw-annotation-pixel-sampling/1");text(hash,table.input_sha256());for(const auto& f:table.recipe().feature_schema()) {text(hash,f.name);text(hash,f.unit);}for(const auto& name:table.classes()) text(hash,name);hash.integer(table.row_count());const auto columns=table.recipe().feature_schema().size();
+    for(std::size_t row=0;row<table.row_count();++row) {stopped(cancelled);hash.integer(table.labels()[row]);hash.integer(table.annotation_ids()[row]);hash.integer(table.coordinates()[2*row]);hash.integer(table.coordinates()[2*row+1]);for(std::size_t c=0;c<columns;++c) floating(hash,table.values()[row*columns+c]);}return hash.finish();
+}
+std::string raw_pixel_prediction_sha256(const RawPixelClassification& result,double minimum,const std::atomic<bool>* cancelled) {
+    Sha256 hash;text(hash,"qpx.raw-pixel-region/2");text(hash,result.model_sha256());text(hash,result.feature_sha256());text(hash,result.input_sha256());std::uint64_t bits;std::memcpy(&bits,&minimum,8);hash.integer(bits);
+    const auto& g=result.grid();for(auto v:{g.image_width(),g.image_height(),g.x().origin(),g.x().extent(),g.x().samples(),g.x().context(),g.y().origin(),g.y().extent(),g.y().samples(),g.y().context()}) hash.integer(v);
+    for(std::size_t row=0;row<result.labels().size();++row) {if((row&4095)==0) stopped(cancelled);hash.integer(result.valid()[row]);hash.integer(result.labels()[row]);if(result.valid()[row]) floating(hash,result.vote_fractions()[row]);else hash.integer(std::uint32_t(0x7fc00000));}return hash.finish();
 }
 void RawPixelTrainingOptions::validate() const {
     if(max_samples<4 || max_samples>100000 || max_samples_per_class<2 || max_samples_per_class>50000 || !seed || !max_scanned_samples || max_scanned_samples>100000000 || work_bytes<1024*1024 || work_bytes>1024ULL*1024*1024) throw std::invalid_argument("invalid raw pixel annotation training options");
 }
-struct RawPixelTrainingRequest::Data {
-    struct Row {std::uint64_t id;Roi roi;std::uint32_t label;};
-    ScientificGrid grid;RawPixelRecipe recipe;RawPixelTrainingOptions options;SourceSnapshot source;
-    std::vector<Row> rows;std::vector<std::string> classes;
-    std::shared_ptr<const SpatialIndex> index;
-    std::size_t snapshot=0,fixed=0,work=0,capacity=0;
-    RawPixelFeatureOptions feature_options;
-    Data(ScientificGrid g,RawPixelRecipe r,RawPixelTrainingOptions o,SourceSnapshot s):grid(std::move(g)),recipe(std::move(r)),options(o),source(std::move(s)) {}
-};
 struct RawPixelTrainingRequest::Authority {
     ObjectFeatureRequest objects;RawAnalysisRequest raw;
     Authority(const Document& doc,const std::vector<std::uint64_t>& ids,const ScientificGrid& grid,ScientificRawOptions selection,std::size_t budget):
@@ -94,7 +89,7 @@ RawPixelTrainingRequest::RawPixelTrainingRequest(const Document& doc,const std::
     auto charge=[&](std::size_t bytes) {if(data->snapshot>snapshot_limit || bytes>snapshot_limit-data->snapshot) throw std::length_error("raw pixel annotation snapshot exceeds work budget");data->snapshot+=bytes;};charge(0);
     std::set<std::string> classes;data->rows.reserve(selected.size());
     for(auto id:selected) {auto annotation=doc.annotation(id);detail::bounded_utf8(annotation.class_name,256);if(!annotation.geometry.is_area() || annotation.class_name.empty()) throw std::invalid_argument("raw pixel training requires labelled area geometry");
-        charge(annotation.geometry.payload_bytes()+annotation.class_name.size()+sizeof(std::string));classes.insert(annotation.class_name);if(classes.size()>256) throw std::invalid_argument("raw pixel training exceeds 256 classes");data->rows.push_back({id,std::move(annotation.geometry),0});}
+        charge(annotation.geometry.payload_bytes()+annotation.class_name.size()+sizeof(std::string));classes.insert(annotation.class_name);if(classes.size()>256) throw std::invalid_argument("raw pixel training exceeds 256 classes");data->rows.push_back({id,std::move(annotation.geometry),0,annotation.revision,annotation.kind});}
     if(classes.size()<2 || options.max_samples/classes.size()<2) throw std::invalid_argument("raw pixel training requires at least two classes and two samples per class");data->classes.assign(classes.begin(),classes.end());
     for(auto& row:data->rows) {const auto name=doc.annotation(row.id).class_name;row.label=std::uint32_t(std::lower_bound(data->classes.begin(),data->classes.end(),name)-data->classes.begin());}
     charge(data->rows.size()*1024);std::vector<SpatialEntry> entries;entries.reserve(data->rows.size());for(std::size_t i=0;i<data->rows.size();++i) entries.push_back({i+1,data->rows[i].roi.bounds()});data->index=std::make_shared<const SpatialIndex>(std::move(entries));
@@ -143,9 +138,7 @@ struct RawPixelTrainingKernel {
         std::size_t total_rows=0;for(const auto& heap:reservoirs) total_rows+=d.options.balanced?minimum:heap.size();out->values_.reserve(total_rows*columns);out->labels_.reserve(total_rows);out->ids_.reserve(total_rows);out->coordinates_.reserve(total_rows*2);
         for(std::size_t label=0;label<reservoirs.size();++label) {auto& heap=reservoirs[label];std::sort(heap.begin(),heap.end(),detail::pixel_training_sample_less);const auto count=d.options.balanced?minimum:heap.size();out->counts_[label]=count;
             for(std::size_t i=0;i<count;++i) {stopped(cancelled);const auto& row=heap[i];out->values_.insert(out->values_.end(),row.values.begin(),row.values.end());out->labels_.push_back(std::uint32_t(label));out->ids_.push_back(row.id);out->coordinates_.push_back(row.x);out->coordinates_.push_back(row.y);}}
-        out->input_sha_=input_hash.finish();Sha256 hash;text(hash,"qpx.raw-annotation-pixel-sampling/1");text(hash,out->input_sha_);for(const auto& f:features->features) {text(hash,f.name);text(hash,f.unit);}for(const auto& name:d.classes) text(hash,name);hash.integer(out->row_count());
-        for(std::size_t row=0;row<out->row_count();++row) {stopped(cancelled);hash.integer(out->labels_[row]);hash.integer(out->ids_[row]);hash.integer(out->coordinates_[2*row]);hash.integer(out->coordinates_[2*row+1]);for(std::size_t c=0;c<columns;++c) floating(hash,out->values_[row*columns+c]);}
-        out->sha_=hash.finish();verify_sample(*request.source_,d.source,input);stopped(cancelled);return out;
+        out->input_sha_=input_hash.finish();out->sha_=raw_pixel_training_sha256(*out,cancelled);verify_sample(*request.source_,d.source,input);stopped(cancelled);return out;
     }
 };
 std::shared_ptr<const RawPixelTrainingTable> sample_raw_pixel_training(const RawPixelTrainingRequest& request,const std::atomic<bool>* cancelled) {return RawPixelTrainingKernel::run(request,cancelled);}
@@ -153,16 +146,11 @@ RawPixelClassifier train_raw_pixel_classifier(const RawPixelTrainingTable& table
     stopped(cancelled);parameters.work_bytes=std::min<std::uint64_t>(parameters.work_bytes,remaining(table.options().work_bytes,table.retained_bytes()));
     auto forest=train_forest(table.values(),table.labels(),table.recipe().feature_schema(),table.classes(),parameters);stopped(cancelled);return RawPixelClassifier(forest,table.recipe());
 }
-struct RawPixelPredictionRequest::Data {
-    ScientificGrid grid;RawPixelClassifier model;SourceSnapshot source;std::optional<Roi> mask;
-    double minimum=0;std::size_t budget=0,fixed=0,work=0;
-    Data(ScientificGrid g,const RawPixelClassifier& m,SourceSnapshot s):grid(std::move(g)),model(m),source(std::move(s)) {}
-};
 struct RawPixelPredictionRequest::Authority {RawAnalysisRequest raw;Authority(const Document& doc,const ScientificGrid& grid,ScientificRawOptions selection,std::uint64_t object):raw(doc,grid,selection,object) {}};
 RawPixelPredictionRequest::RawPixelPredictionRequest(const Document& doc,const RawPixelClassifier& model,ScientificGrid grid,std::uint64_t object,double minimum,std::size_t budget):source_(doc.server()) {
     if(!std::isfinite(minimum) || minimum<0 || minimum>1) throw std::invalid_argument("raw prediction minimum vote fraction must be 0..1");if(minimum==0) minimum=0;
     if(!budget) budget=model.recipe().features().work_bytes;if(budget<1024*1024 || budget>1024ULL*1024*1024) throw std::invalid_argument("raw prediction budget must be 1..1024 MiB");
-    auto source=capture_source(doc,grid);auto authority=std::make_shared<Authority>(doc,grid,model.recipe().selection(),object);auto data=std::make_shared<Data>(std::move(grid),model,std::move(source));data->mask=authority->raw.mask();data->minimum=minimum;data->budget=budget;
+    auto source=capture_source(doc,grid,object);auto authority=std::make_shared<Authority>(doc,grid,model.recipe().selection(),object);auto data=std::make_shared<Data>(std::move(grid),model,std::move(source));data->mask=authority->raw.mask();data->minimum=minimum;data->budget=budget;
     data->fixed=sizeof(Data)+source_bytes(data->source)+2*authority->raw.object_context().payload_bytes()+2*(data->mask?data->mask->payload_bytes():0)+9*sample_count(data->grid)+262144;
     data->work=data->fixed+RawPixelClassifierKernel::plan(data->source.metadata,data->grid,model.recipe().selection(),model,remaining(budget,data->fixed),data->source.calibration).work;
     authority_=std::move(authority);data_=std::move(data);if(!matches(doc)) throw std::runtime_error("document changed during raw pixel prediction capture");
@@ -177,11 +165,11 @@ struct RawPixelPredictionKernel {
         stopped(cancelled);const auto& d=*request.data_;if(!source_matches(*request.source_,d.source)) throw std::runtime_error("raw pixel source changed before prediction");if(phase) phase->store(1);
         const auto input=read_scientific_raw(*request.source_,d.grid,d.model.recipe().selection(),cancelled);verify_sample(*request.source_,d.source,input);if(phase) phase->store(2);
         const auto classified=RawPixelClassifierKernel::run(input,d.model,d.minimum,d.budget-d.fixed,cancelled,d.source.calibration);auto output=std::make_shared<RawPixelClassification>(*classified);output->work_=d.work;std::fill(output->counts_.begin(),output->counts_.end(),0);
-        Sha256 mask_hash;text(mask_hash,"qpx.raw-pixel-prediction-mask/1");const auto width=std::size_t(d.grid.x().samples()),height=std::size_t(d.grid.y().samples());
-        for(std::size_t y=0;y<height;++y) {stopped(cancelled);for(std::size_t x=0;x<width;++x) {if((x&4095)==0) stopped(cancelled);const auto i=y*width+x;const bool inside=!d.mask || d.mask->contains({d.grid.x().center(std::int64_t(x)).binary64(),d.grid.y().center(std::int64_t(y)).binary64()});mask_hash.integer(inside);
+        const auto width=std::size_t(d.grid.x().samples()),height=std::size_t(d.grid.y().samples());
+        for(std::size_t y=0;y<height;++y) {stopped(cancelled);for(std::size_t x=0;x<width;++x) {if((x&4095)==0) stopped(cancelled);const auto i=y*width+x;const bool inside=!d.mask || d.mask->contains({d.grid.x().center(std::int64_t(x)).binary64(),d.grid.y().center(std::int64_t(y)).binary64()});
             if(!inside) {output->valid_[i]=0;output->labels_[i]=0;output->fractions_[i]=std::numeric_limits<float>::quiet_NaN();}if(output->labels_[i]) ++output->counts_[output->labels_[i]-1];if(completed) completed->store(i+1,std::memory_order_relaxed);
         }}
-        output->input_sha_=raw_grid_analysis_hash(classified->input_sha256(),d.source.calibration.x,d.source.calibration.y,d.mask);Sha256 hash;text(hash,"qpx.raw-pixel-region/1");text(hash,classified->sha256());text(hash,output->input_sha_);text(hash,mask_hash.finish());output->sha_=hash.finish();verify_sample(*request.source_,d.source,input);stopped(cancelled);return output;
+        output->input_sha_=raw_grid_analysis_hash(classified->input_sha256(),d.source.calibration.x,d.source.calibration.y,d.mask);output->sha_=raw_pixel_prediction_sha256(*output,d.minimum,cancelled);output->capture_=d.capture;verify_sample(*request.source_,d.source,input);stopped(cancelled);return output;
     }
 };
 std::shared_ptr<const RawPixelClassification> predict_raw_pixel_region(const RawPixelPredictionRequest& request,const std::atomic<bool>* cancelled) {return RawPixelPredictionKernel::run(request,cancelled);}

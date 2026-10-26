@@ -53,7 +53,7 @@ std::shared_ptr<const PixelStreamRecord> PixelStreamRecordCodec::decode(const st
 void Document::restore_pixel_stream(std::shared_ptr<const PixelStreamRecord> record) {
     if(!record || !record->id || record->id>revision_ || !record->link || record->link->source_width()!=metadata().width || record->link->source_height()!=metadata().height) throw std::invalid_argument("pixel stream record source/revision mismatch");
     detail::bounded_utf8(record->name,256);if(record->name.empty()) throw std::invalid_argument("pixel stream record name is empty");
-    if(streams_.count(record->id) || pixels_.count(record->id) || classifiers_.count(record->id) || cells_.count(record->id) || tissue_.count(record->id) || analysis_.count(record->id)) throw std::invalid_argument("duplicate pixel stream record ID");
+    if(streams_.count(record->id) || raw_pixels_.count(record->id) || pixels_.count(record->id) || classifiers_.count(record->id) || cells_.count(record->id) || tissue_.count(record->id) || analysis_.count(record->id)) throw std::invalid_argument("duplicate pixel stream record ID");
     const auto bytes=record->payload_bytes();if(streams_.size()>=10000 || bytes>64u*1024*1024-streams_bytes_) throw std::length_error("pixel stream records exceed 10000-record/64 MiB limit");streams_.emplace(record->id,std::move(record));streams_bytes_+=bytes;
 }
 std::vector<std::shared_ptr<const PixelStreamRecord>> Document::pixel_stream_records() const {std::vector<std::shared_ptr<const PixelStreamRecord>> out;out.reserve(streams_.size());for(const auto& [id,r]:streams_) out.push_back(r);return out;}

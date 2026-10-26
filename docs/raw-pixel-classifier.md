@@ -195,3 +195,40 @@ worker has finished. Worker exceptions deliver failure, allow retry and never
 modify the document or an earlier owned result. Retained project records,
 undo/apply, model/table archives, streamed resume and all frontends still need
 their explicit owner-stage integration and qualification.
+
+
+## Retained archives and project record protocol
+
+New raw models use `QRM1`. The pre-release raw `QPR1` reader remains explicit,
+strict and byte preserving; loading it retains the old model hash. Constructing
+a new model from its forest/recipe emits QRM1. The existing RGB pixel-record
+wrapper also uses QPR1 and remains unchanged; its magic alone must never be
+used to identify an old raw model. `QXS1` is the bounded canonical recipe frame.
+
+`QXT1` archives capture sampled training tables with an optional actually
+matching trained model. Sampling without the optional native training backend
+is an explicit archive purpose. Attaching a model requires exact recipe,
+classes, row count and native forest training-matrix hash agreement. `QXP1`
+archives capture a model, exact scientific grid, ROI, document calibration,
+raw source metadata/provenance and prediction arrays. Owner prediction hashes
+use `qpx.raw-pixel-region/2`, which can be recomputed from retained fields.
+Training hashes retain their existing numeric domain. All frames have bounded
+lengths, little-endian scalar/array fields and SHA-256 checksums; invalid float,
+count, geometry, class/schema, vote/threshold and semantic-hash data rejects.
+Archive bytes are limited to 128 MiB and retained payload to 256 MiB.
+
+Decoded tables/results are historical immutable data. They contain no live
+capture token. Document keep methods require the original matching capture
+and a fresh owner/source check; a decoded archive cannot manufacture that
+authority. Standalone archive writes use existing regular-file guards and
+atomic export, refuse accidental overwrite and validate an existing archive
+before explicit replacement.
+
+`RawPixelRecord` stores source-bound archives in the native Document catalog.
+The existing SQL `pixel_classifier_records` table dispatches RGB QPR1 versus raw
+QXR1 wrappers explicitly; SQL schema 13 and older-project migration behavior
+remain unchanged. Snapshot saves and recovery snapshots carry the immutable
+raw records. New raw payloads fail explicitly in older readers that do not
+understand QXR1. Historical reads do not mark results current or verified and
+do not open a decoder. Source/model replay verification, owner-stage contour
+apply/undo, phase-preserving streams/checkpoints and frontends remain required.

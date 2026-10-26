@@ -22,6 +22,8 @@ public:
     std::optional<double> sampled_pixel_height_um() const;
     std::vector<ClassifierFeature> feature_schema() const;
     bool matches(const RawImageMetadata&,const ScientificGrid&,const ScientificRawOptions&) const;
+    std::vector<std::uint8_t> bytes() const;
+    static RawPixelRecipe from_bytes(const std::vector<std::uint8_t>&);
 private:
     std::shared_ptr<const Data> data_;
     explicit RawPixelRecipe(std::shared_ptr<const Data>);
@@ -64,6 +66,8 @@ private:
     std::size_t work_=0;
     friend struct RawPixelClassifierKernel;
     friend struct RawPixelPredictionKernel;
+    friend struct RawPixelArchiveCodec;
+    std::shared_ptr<const char> capture_;
     friend std::shared_ptr<const RawPixelClassification> classify_raw_pixels(
         const ScientificRawGrid&,const RawPixelClassifier&,double,std::size_t,const std::atomic<bool>*);
 };

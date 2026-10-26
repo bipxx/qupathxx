@@ -17,8 +17,8 @@ inline qpx::ForestModel forest(const qpx::RawPixelRecipe& recipe) {
 }
 inline std::vector<std::uint8_t> checksum(std::vector<std::uint8_t> bytes) {qpx::Sha256 hash;hash.update(bytes.data(),bytes.size());const auto value=hash.finish();bytes.insert(bytes.end(),value.begin(),value.end());return bytes;}
 // Independently authored QPR1 framing for the simple two-channel recipe below.
-inline std::vector<std::uint8_t> encoded(const qpx::ForestModel& forest) {
-    std::vector<std::uint8_t> bytes{'Q','P','R',1};
+inline std::vector<std::uint8_t> encoded(const qpx::ForestModel& forest,bool legacy=false) {
+    std::vector<std::uint8_t> bytes{'Q',std::uint8_t(legacy?'P':'R'),std::uint8_t(legacy?'R':'M'),1};
     auto integer=[&](std::uint64_t value) {for(int i=0;i<8;++i) bytes.push_back(std::uint8_t(value>>(i*8)));};
     auto real=[&](double value) {std::uint64_t bits;std::memcpy(&bits,&value,8);integer(bits);};
     for(auto value:{0ULL,0ULL,0ULL,2ULL,0ULL,0ULL,256ULL*1024*1024,1ULL,1ULL,1ULL,1ULL,0ULL}) integer(value);
@@ -33,6 +33,7 @@ inline void run() {
     const ScientificGrid grid(7,5,{0,7,7},{0,5,5});const auto input=read_scientific_raw(reader,grid,selection);
     const RawPixelRecipe recipe(input.metadata(),grid,selection,options);const auto trees=forest(recipe);const RawPixelClassifier model(trees,recipe);
     check(model.bytes()==encoded(trees));check(RawPixelClassifier::from_bytes(model.bytes()).bytes()==model.bytes());
+    const auto legacy=RawPixelClassifier::from_bytes(encoded(trees,true));check(legacy.bytes()==encoded(trees,true) && legacy.sha256()!=model.sha256());check(RawPixelClassifier(legacy.forest(),legacy.recipe()).bytes()==model.bytes());check(RawPixelRecipe::from_bytes(recipe.bytes()).bytes()==recipe.bytes());
     const auto result=classify_raw_pixels(input,model);check(result->grid().x().extent()==7 && result->grid().y().extent()==5 && result->labels().size()==35);
     std::vector<std::uint64_t> counts(2);
     for(std::size_t i=0;i<35;++i) {
