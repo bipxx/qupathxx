@@ -2,7 +2,21 @@
 
 ## Current execution card (2026-10-26)
 
-- Latest delivery: raw-classifier project batches at `c2c0fa0` have
+- Active implementation: T4.3 desktop/managed-viewer raw classification at
+  `b5df7e1`, corrected at `a01b6bc`; diagnostic-only head `c8331a4` is
+  unqualified and not published. Shared owner-job adapters, training/checkpoint
+  resume, bounded prediction/overlay, model IO, stream export/read and retained
+  browsing are implemented. Seven native suites pass at `a01b6bc`. Development
+  frontend tests: two pass (desktop training checkpoint/resume and managed
+  train/predict/export/resume/read/save), three fail. This is not installed-wheel
+  acceptance; temporary tab tracing remains in source.
+- Immediate next action: repair real ImGui tab activation, remove diagnostic
+  tracing and rerun the three failing interactions plus affected regressions.
+  A detected click currently leaves Training selected, preventing preview/file
+  actions. Do not bypass the interaction or weaken replay readiness. Then close
+  desktop export-prefix resume, invalid-model preservation, stale/image/workspace
+  switching, cancel/retry and shutdown coverage before declaring T4.3 verified.
+- Latest accepted delivery: raw-classifier project batches at `c2c0fa0` have
   [installed local acceptance](benchmarks/raw-pixel-batch-local.json). Windows
   cp312, training/TIFF/project ON, GUI/GEOS/OpenSlide OFF: 136 Python passes,
   including all 14 new raw-batch cases; five named profile skips. Four native
@@ -18,9 +32,10 @@
   retained separately; its source/log/XML remain. Generated stubs match; three
   valid typing files pass and seven errors in two invalid files reject.
   Test dependencies are reused, so no clean-machine/release claim is made.
-- Next: [T4.3-T4.5](api-delivery-plan.md#t4-execution-tasks-finish-consumers-before-another-qualification):
-  ImGui/managed-viewer raw actions and retained browsing, bounded contour apply,
-  then installed frontend integration and one T5 freeze. T4 remains Partial.
+- Ordered remaining work: finish [T4.3](api-delivery-plan.md#t43-development-state-and-repair-order),
+  implement T4.4 bounded contour apply, then T4.5 installed frontend integration
+  and one T5 freeze. Settle frontend contracts before regenerating stubs and
+  building the acceptance wheel. T4 remains Partial.
   Sparse ROI prediction traversal, automatic maintenance, abrupt-process/power-
   loss, stitched contours and scientific/resource/hardware/release gates remain
   open. All M0-M7 stay Partial; only open-source readers/codecs are eligible.
