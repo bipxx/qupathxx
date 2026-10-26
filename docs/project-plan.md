@@ -30,30 +30,23 @@ release status. Use the [current task](current-task.md), [workflow inventory](fe
 and [API delivery paths](api-delivery-plan.md) for exact scope and remaining work.
 All M0-M7 remain Partial.
 
-The current TMA candidate `19371b7` is now engineering accepted in the
-[combined receipt](benchmarks/tma-dearray-202-qualification.json): all 11 verified
-archives pass engine, Mac-native and portable audits. Successor auditor
-`cc2f524` replaces the stale GUI aggregate count with the exact named cohort,
-retaining original artifact/source identities and the rejected predecessor.
-E1/E2 are implemented with 438 local auditor controls and 48 Linux stdlib
-boundary witnesses. Main's qualified application source remains `61e546e`.
-Continue MFO1's compound-source/multi-file OME workflow in the
-[ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue).
-E3 [source-proof reuse](benchmarks/source-proof-reuse-local.json) and E4
-[independent diagnostics](benchmarks/installed-diagnostics-local.json) now have
-local tooling evidence. The [combined multi-file engineering campaign](benchmarks/multifile-ome-210-qualification.json)
-accepts all 11 verified archives at frozen source `9e7d0be`, including inherited
-engine, both Mac-native architectures and portable builder/fresh-consumer gates.
-Later observer/producer changes retain their own identities and do not relabel
-those binaries. Main's accepted application source remains `61e546e`.
-MFO1 companion EOF/Deflate, cancellation/publication, decoder/work-budget and
-native pre-cancel/export controls now have [local evidence](benchmarks/multifile-faults-local.json).
-Follow the [expanded frozen campaign](benchmarks/multifile-fault-213-campaign.json)
-at `bfa416e`; it is live and unaccepted and also exercises the later E3/E4 tooling.
-Keep the accepted normal workflow at `9e7d0be` distinct. Continue SCI1/REL1 and
-all remaining stress/scientific/resource requirements; all M0-M7 remain Partial.
-The [seven-document review](reviews/compilexx-efficiency-review.md) supplies the
-failure evidence and distinguishes recommendations from applied product fixes.
+TMA `19371b7` and the declared normal multi-file OME workflow `9e7d0be`
+have separate engineering acceptance. The expanded multi-file fault controls at
+`bfa416e` have local evidence; their original campaign213 awaits strict artifact
+acceptance. E1/E2 are implemented; E3/E4 have local tooling evidence and are
+included in that expanded campaign. Use the [current task](current-task.md)
+for source-bound observations and the [ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
+for scheduling; completed mechanisms are baseline references rather than work
+to repeat.
+
+The next product workflow is [typed raw pixel classification](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints):
+settle numeric/schema semantics, implement and independently verify features,
+compose training/prediction, migrate persistence/checkpoints, finish the existing
+frontends, then qualify one integrated source. Existing RGB classifier semantics
+remain compatible. Scientific decisions and eligible hardware preparation
+proceed alongside implementation with explicit consumer dependencies.
+The [compilexx review](reviews/compilexx-efficiency-review.md) records adopted
+process changes. No milestone or supported-release gap is closed by this plan.
 
 
 ## Scope and release boundaries
@@ -372,8 +365,9 @@ workflow parity.
 ## Execution order from the present state
 
 The [API delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
-is the sole detailed scheduling authority. E1/E2 now have engineering/local evidence; continue MFO1's complete multi-file
-OME workflow. Continue SCI1 and REL1 through every remaining M0-M7 criterion.
+is the sole detailed scheduling authority. Finish the existing MFO1 artifact
+acceptance while implementing SCI1-A in the active integration checkout. Continue
+SCI1-B, the decision lane and REL1 through every remaining M0-M7 criterion.
 The current task card records observed status, not another ordered backlog.
 
 Retain the accepted `61e546e` baseline and original failed candidates. Reuse

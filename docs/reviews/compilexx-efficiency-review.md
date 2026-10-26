@@ -268,3 +268,32 @@ interpreter; the producer prefix itself was unchanged. Initial failure evidence
 is retained. This later producer is not retrospectively executed by campaign210;
 all 317 native compiler blobs are unchanged. The original campaign's separate
 combined engineering acceptance does not close biological/resource/release gaps.
+
+
+## Planning reconciliation (2026-10-26)
+
+This update applies the recorded lessons to the current queue at `d19d403`;
+it is documentation work, not a new independent Astra review or product audit.
+The original findings and receipts above retain their reviewed-source meaning.
+
+| Current finding / confidence | Verbatim evidence at the reviewed integration source | Improvement adopted and validation |
+| --- | --- | --- |
+| Completed work still occupies the active queue / high | API plan: `1 / E1: close the TMA audit` and `2 / E2: repair execution boundaries`, followed by `E1/E2 shared a coherent successor tooling freeze and are now implemented.` | Move E1/E2/E3/E4 to a completed-mechanism baseline table. Keep pending MFO1 acceptance as an observation/artifact join and SCI1-A as the next product implementation. No redispatch or repeated native build follows from a plan edit |
+| SCI1 combines unrelated delivery dependencies / high | API plan: `4 / SCI1: remaining research workflows`, including `raw classifier features` in the same row as vendor readers and annotation work | Split the next complete classifier workflow into A1-A6 checkpoints with inputs and exit evidence. Retain readers, contours, interchange, spatial and automation breadth in SCI1-B; retain DEC1 and REL1. No scope reduction or inferred research completion |
+| Typed reader availability can conceal classifier conversion debt / high | `pixel_features.hpp`: `std::vector<float> values_;` and `extract_pixel_features(const PixelBuffer&`; `pixel_classifier.hpp`: `classify_pixels(const PixelBuffer&` | Specify raw dtype/channel/grid/support/conversion semantics before public-header, binding or UI changes. Require independent extremes/rounding and streamed seam controls; preserve RGB defaults and archive compatibility. This is a planned remedy, not a claim that typed classification is implemented |
+
+Cross-project lessons remain attributed rather than assumed local failures:
+`napachan-plan-inefficiencies.md` sections on isolated test journeys and
+clean-checkout dependencies support affected-cohort input closure before
+expensive qualification. `imagejxx-plan-inefficiencies.md`'s latest review
+supports tracing producer-to-consumer ownership and testing distinguishing
+native SDK domains. `naparixx-plan-inefficiencies.md`'s latest executable review
+supports recording effective build configuration and keeping current cards
+separate from historical receipts. Existing qupathxx mechanisms already cover
+immutable source pins, exact cohorts and saved-artifact reuse; no general runner
+or new evidence framework is proposed.
+
+Validation for this update is editorial: local links, queue/checkpoint coverage,
+reader policy, preserved milestone scope and whitespace checks. Runtime and
+scientific evidence are unchanged. Campaign213 remains pending acceptance until
+its existing artifact join says otherwise; this update does not poll or promote it.

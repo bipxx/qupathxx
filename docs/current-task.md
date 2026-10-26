@@ -40,7 +40,7 @@
   cover pre-cancel open/raw/outside/view/analysis and atomic export replacement.
   Counts overlap; the local OpenSlide-disabled configuration retains two
   capability skips after the desktop follow-up.
-- Next action: follow the [expanded fault campaign](benchmarks/multifile-fault-213-campaign.json)
+- Qualification action: follow the [expanded fault campaign](benchmarks/multifile-fault-213-campaign.json)
   at frozen `bfa416e`: [engine40268520155](https://github.com/bipxx/qupathxx/actions/runs/40268520155),
   [Mac40268527953](https://github.com/bipxx/qupathxx/actions/runs/40268527953),
   [portable40268533643](https://github.com/bipxx/qupathxx/actions/runs/40268533643).
@@ -56,9 +56,21 @@
   58 legacy command sites. All 317 canonical compiler blobs match `9e7d0be`.
   That original hosted campaign does not execute the later producer; its
   artifacts and source are not relabeled. All M0-M7 remain Partial.
+- Next product deliverable: SCI1-A typed raw pixel classification. Follow the
+  [A1-A6 checkpoints](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints):
+  numeric/schema contract, native features, training/prediction, archive/resume,
+  existing frontends and one integrated qualification. Begin with independent
+  numeric fixtures; no new public API is claimed by this planning update.
+  Work in the integration checkout while the frozen campaign remains immutable.
 - The [efficiency review](reviews/compilexx-efficiency-review.md) records seven
   evidence-backed improvements. Earlier sections below retain workflow history;
   use this card for current scheduling. All M0-M7 remain Partial.
+
+## Historical task snapshots
+
+The sections below retain earlier source-bound observations. Use the current
+execution card above and the API delivery queue for scheduling. Older next-action
+statements do not reopen completed work.
 
 The full updated M0-M7 goal remains active. Every milestone remains Partial.
 Reader implementation scope now follows the [open-source-only policy](reader-license-policy.md).
