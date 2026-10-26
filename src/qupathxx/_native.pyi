@@ -6710,6 +6710,8 @@ class ProjectBatchKind(enum.Enum):
 
     RAW_PIXELS = 5
 
+    RAW_PIXEL_CONTOURS = 6
+
 class ProjectBatchFailure(enum.Enum):
     STOP = 0
 
@@ -6867,6 +6869,24 @@ class ProjectBatchOptions:
 
     @raw_pixel_file_work_bytes.setter
     def raw_pixel_file_work_bytes(self, arg: int, /) -> None: ...
+
+    @property
+    def raw_contours(self) -> RawPixelStreamContourOptions: ...
+
+    @raw_contours.setter
+    def raw_contours(self, arg: RawPixelStreamContourOptions, /) -> None: ...
+
+    @property
+    def raw_contour_prefix(self) -> str: ...
+
+    @raw_contour_prefix.setter
+    def raw_contour_prefix(self, arg: str, /) -> None: ...
+
+    @property
+    def raw_contour_publication_bytes(self) -> int: ...
+
+    @raw_contour_publication_bytes.setter
+    def raw_contour_publication_bytes(self, arg: int, /) -> None: ...
 
     @property
     def raw_grid(self) -> RawGridSampling | None: ...

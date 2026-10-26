@@ -7,6 +7,7 @@ from pathlib import Path
 import sqlite3
 import subprocess
 import time
+import signal
 import pytest
 import qupathxx as q
 from qupathxx import _native
@@ -82,6 +83,7 @@ def test_batch_contour_modified_checkpoint_refuses_reuse(tmp_path):
     try:
         capture=request(p,model,options(model));first=success(q.run_project_batch(capture,str(tmp_path/"out")))
         with sqlite3.connect(first.images[0].path) as db:db.execute("UPDATE objects SET name='tampered' WHERE id=(SELECT MAX(id) FROM objects)")
+        db.close()
         report=q.run_project_batch(capture,str(tmp_path/"out"))
         assert report.state=="failed" and report.reused==report.saved==0 and "checksum" in report.images[0].error
     finally:close(p)
@@ -158,3 +160,26 @@ def test_batch_contour_source_change_recomputes_and_settings_change_separates_ou
         third=success(q.run_project_batch(request(current,model,altered),str(tmp_path/"out")))
         assert third.saved==1 and third.reused==0 and third.images[0].path!=second.images[0].path
     finally:close(current)
+
+
+def test_batch_contour_cli_interrupt_preserves_committed_image_then_resumes(tmp_path):
+    from test_raw_pixel_python import tiff
+    p,docs,model=scene(tmp_path,(8,));pixels=tmp_path/"large-second.tif";tiff(pixels,1024,768)
+    image=p.add_image(str(pixels),"tiff");p.document(image).add_roi(q.Roi.rectangle(q.Rect(0,0,1024,768)))
+    source=tmp_path/"input.qpx";p.save(str(source));original=source.read_bytes();model_path=tmp_path/"model.qrm";q.save_raw_pixel_classifier(model,str(model_path))
+    args=[str(CLI),str(source),str(tmp_path/"out"),"--kind","raw-contours","--raw-pixel-model",str(model_path),"--raw-pixel-tile-width","16","--raw-pixel-tile-height","16","--raw-pixel-work-bytes",str(16*1024**2)]
+    extra={"creationflags":subprocess.CREATE_NEW_PROCESS_GROUP} if os.name=="nt" else {}
+    child=subprocess.Popen(args,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True,encoding="utf-8",**extra)
+    try:
+        first=json.loads(child.stdout.readline());assert first["state"]=="saved" and first["image_id"]==docs[0][0] and child.poll() is None
+        committed=Path(first["path"]).read_bytes()
+        child.send_signal(signal.CTRL_BREAK_EVENT if os.name=="nt" else signal.SIGINT)
+        stdout,stderr=child.communicate(timeout=40);assert child.returncode==130,stdout+stderr
+        report=json.loads(stdout.splitlines()[-1]);assert report["state"]=="cancelled" and report["saved"]==1
+        assert Path(first["path"]).read_bytes()==committed and source.read_bytes()==original
+        resumed=subprocess.run(args,capture_output=True,text=True,encoding="utf-8",timeout=60);assert resumed.returncode==0,resumed.stdout+resumed.stderr
+        final=json.loads(resumed.stdout.splitlines()[-1]);assert final["saved"]==final["reused"]==1
+        assert Path(first["path"]).read_bytes()==committed and source.read_bytes()==original
+    finally:
+        if child.poll() is None:child.kill();child.communicate(timeout=20)
+        close(p)

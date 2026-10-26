@@ -114,3 +114,50 @@ the ON installed consumer. Typing analyzes three valid files and rejects seven
 errors in two invalid files. This is local engineering evidence; broader
 installed platforms, desktop, T5 and scientific/resource/release gates stay open.
 Readers and required codecs must satisfy the open-source admission policy.
+
+
+## Streamed contour projects
+
+Set `ProjectBatchOptions.kind = ProjectBatchKind.RAW_PIXEL_CONTOURS` to save
+annotations instead of external QWS1 prediction files. Supply the same
+`raw_pixel_model`, optional paired `raw_pixel_x`/`raw_pixel_y` and `raw_pixels`
+producer settings. `raw_contours` holds the streamed boundary/geometry limits;
+`raw_contour_prefix` defaults to `Raw pixel` and
+`raw_contour_publication_bytes` defaults to 64 MiB. GEOS is required. Both axes
+retain exact global phase and must match the trained model recipe.
+
+Each selected area is traced with the shared native stream job kernel and
+published into an independent per-image document. All selected areas must
+finish before the output project is committed. The displayed/input project
+is unchanged. Result `objects` counts selected source areas; `records` counts
+generated annotations and may be zero. CSV rows identify each output annotation,
+its source parent, class/name and level-zero area/perimeter. `inferred_blocks`
+counts predicted windows; hash-only reuse increments `hashed_blocks` without
+re-running the forest. No QWS1 files or new historical apply authority are made.
+
+```text
+qupathxx_batch input.qpx output-directory --kind raw-contours --raw-pixel-model model.qrm --raw-pixel-x-axis 0,80000,4000,4 --raw-pixel-y-axis 0,60000,3000,4 --raw-contour-prefix Tissue
+```
+
+Prediction settings use the existing `--raw-pixel-*` flags. Contour settings
+use `--raw-contour-work-bytes`, `--raw-contour-total-work-bytes`,
+`--raw-contour-boundary-work-bytes`, `--raw-contour-max-boundary-runs`,
+`--raw-contour-max-components`, `--raw-contour-max-edges`,
+`--raw-contour-max-vertices`, `--raw-contour-publication-bytes`,
+`--raw-contour-prefix` and `--raw-contour-no-clip`. Common result/materialization/
+CSV/checkpoint budgets also apply. Limits are conservative admission estimates,
+not measured process RSS. Stop/Continue and `--no-resume` retain their existing
+meaning. Cancellation preserves previously committed images and discards the
+unfinished image; rerunning verifies and reuses completed checkpoints.
+
+The ImGui batch Workflow selector includes **Raw streamed contours** and
+**Raw prediction files**. Load a pinned QRM model, enter both axes or leave both
+empty for unit sampling, select image/area scope and run through the existing
+batch controls. Advanced memory controls are under **Raw batch limits**.
+The Python `GuiOptions.batch_options` preset uses exactly the same native options.
+
+Reuse checks the current model/parameters, source input commitments and the
+existing sealed project-data checksum, including geometry and CSV. Changed
+inputs recompute; changed settings select a distinct checkpoint scope. Modified
+checkpoint data rejects. File versions are checked again before final output
+publication. A checkpoint is historical output, not a live document capture.

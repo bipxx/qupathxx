@@ -141,6 +141,16 @@ public:
                 ui::InputScalar("Raw tile width",ImGuiDataType_S64,&options_.raw_pixels.tile_width);
                 ui::InputScalar("Raw tile height",ImGuiDataType_S64,&options_.raw_pixels.tile_height);
                 ui::InputDouble("Raw minimum vote",&options_.raw_pixels.min_vote_fraction,0,0,"%.5g");
+                if(ImGui::CollapsingHeader("Raw batch limits")) {
+                    auto memory=[](const char* label,std::size_t& value,int maximum) {int mib=static_cast<int>(value/(1024*1024));if(ui::InputInt(label,&mib)) value=static_cast<std::size_t>(std::clamp(mib,1,maximum))*1024*1024;};
+                    memory("Producer memory (MiB)",options_.raw_pixels.work_bytes,1024);
+                    if(options_.kind==ProjectBatchKind::RawPixelContours) {
+                        memory("Boundary memory (MiB)",options_.raw_contours.boundary_work_bytes,512);
+                        memory("Geometry memory (MiB)",options_.raw_contours.contours.work_bytes,512);
+                        memory("Total contour memory (MiB)",options_.raw_contours.work_bytes,1024);
+                        memory("Publication memory (MiB)",options_.raw_contour_publication_bytes,512);
+                    }
+                }
                 if(options_.kind==ProjectBatchKind::RawPixelContours) {
                     ui::Checkbox("Clip contours to source area",&options_.raw_contours.contours.clip_to_roi);
                     ui::InputScalar("Contour components limit",ImGuiDataType_U64,&options_.raw_contours.contours.max_components);
@@ -206,7 +216,7 @@ public:
             int failure=static_cast<int>(options_.failure);
             if(ui::Combo("On image error",&failure,"Stop\0Continue\0")) options_.failure=static_cast<ProjectBatchFailure>(failure);
             ui::Checkbox("Reuse matching checkpoints",&options_.resume);
-            ImGui::TextWrapped(options_.kind==ProjectBatchKind::Raw?"Measures original TIFF samples at the selected axes. Each ROI retains its input hash and original labels in an independent checkpoint.":options_.kind==ProjectBatchKind::Pixels?"Uses the pinned pixel model. Each target produces a verified QPS file; only complete image bundles are reused. The open project is unchanged.":"Uses the current white/stain vectors. Results go to independent checkpoints; the open project is unchanged.");
+            ImGui::TextWrapped(raw_classifier?"Uses the pinned raw model and exact sampling axes. Complete per-image projects are sealed before checkpoint reuse.":options_.kind==ProjectBatchKind::Raw?"Measures original TIFF samples at the selected axes. Each ROI retains its input hash and original labels in an independent checkpoint.":options_.kind==ProjectBatchKind::Pixels?"Uses the pinned pixel model. Each target produces a verified QPS file; only complete image bundles are reused. The open project is unchanged.":"Uses the current white/stain vectors. Results go to independent checkpoints; the open project is unchanged.");
             ImGui::BeginDisabled(!project || !project->active_image());
             start=ui::Button("Run batch (Ctrl+Alt+B)") || start;
             ImGui::EndDisabled();ImGui::EndDisabled();
