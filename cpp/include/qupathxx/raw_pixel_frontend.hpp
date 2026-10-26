@@ -1,6 +1,7 @@
 #pragma once
 #include "qupathxx/raw_pixel_file_jobs.hpp"
 #include "qupathxx/raw_pixel_archive.hpp"
+#include "qupathxx/raw_pixel_contours.hpp"
 namespace qpx {
 // Data-only settings copied by frontend submission; no live document or reader.
 struct RawPixelTrainingSettings {
@@ -38,5 +39,9 @@ struct GuiRawPixelReport {
     std::uint64_t training_record=0,stream_record=0;
     std::size_t preview_bytes=0;
     bool preview_ready=false;
+    std::shared_ptr<const RawPixelContours> contours;
+    std::vector<std::uint64_t> published_ids;
+    bool contours_published=false;
+    std::size_t contour_work_bytes=0;
 };
 }

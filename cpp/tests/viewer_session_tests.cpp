@@ -34,6 +34,22 @@ void raw_pixel_session_contracts(const std::filesystem::path& root) {
     ScientificRawLattice lattice(8,6,{0,8,7,2},{0,6,5,2});ScientificRawOptions selection;selection.channels=2;RawPixelFeatureOptions features;features.offsets={0,0};features.scales={1,1};
     RawPixelRecipe recipe(*server->raw_metadata(),lattice,selection,features);std::vector<std::pair<std::string,std::string>> schema;for(const auto& f:recipe.feature_schema()) schema.emplace_back(f.name,f.unit);
     const RawPixelClassifier model(ForestModel::from_bytes(qpx_test::object_forest_fixture(schema)),recipe);ViewerSession session((root/"raw-owner.qpxproj").u8string());detail::ViewerOwner owner(session);
+    {
+        detail::RawPixelFrontend frontend;const ScientificGrid grid(8,6,lattice.x(),lattice.y(),16u*1024*1024);const auto original=doc->object_count();
+        if(has_geos()) {
+            frontend.trace(*doc,model,grid,{},target);frontend.wait(*doc);auto traced=frontend.report();check(traced.state=="contours_ready" && traced.contours && !traced.contours_published);
+            RawPixelPredictionRequest reference(*doc,model,grid,target,0,16u*1024*1024);const auto expected=trace_raw_pixel_prediction(reference,predict_raw_pixel_region(reference));
+            const auto& components=traced.contours->contours()->components();check(!components.empty() && components.size()==expected->contours()->components().size());
+            for(std::size_t i=0;i<components.size();++i) check(components[i].geometry.equals(expected->contours()->components()[i].geometry));
+            doc->clear_history();const auto ids=frontend.publish(*doc);check(!ids.empty() && doc->object_count()==original+ids.size() && frontend.report().contours_published);rejects([&]{frontend.publish(*doc);});
+            check(doc->undo() && doc->object_count()==original);check(doc->redo() && doc->object_count()==original+ids.size());check(doc->undo() && doc->object_count()==original);
+            frontend.trace(*doc,model,grid,{},target);frontend.wait(*doc);doc->rename_annotation(target,"edited before contour apply");frontend.poll(*doc);check(!frontend.report().contours);rejects([&]{frontend.publish(*doc);});check(doc->object_count()==original);
+            frontend.trace(*doc,model,grid,{},target);frontend.cancel();frontend.wait(*doc);check(!frontend.report().contours && frontend.report().state=="cancelled");check(doc->object_count()==original);
+            TissueContourOptions tiny;tiny.work_bytes=1;frontend.trace(*doc,model,grid,tiny,target);frontend.wait(*doc);check(frontend.report().state=="failed" && !frontend.report().contours && doc->object_count()==original);
+        }else rejects([&]{frontend.trace(*doc,model,grid,{},target);});
+        const auto before=*server->tiff_read_stats();rejects([&]{frontend.trace(*doc,model,ScientificGrid(8,6,{0,8,1000000},{0,6,1000000},16u*1024*1024),{},target);});const auto after=*server->tiff_read_stats();check(before.decoded_blocks==after.decoded_blocks && before.cache_hits==after.cache_hits);
+        std::cout<<"Raw contour frontend: fresh bounded rational-grid trace, atomic apply/undo/redo, stale/cancel/budget/oversize refusal passed; GEOS="<<has_geos()<<'\n';
+    }
     auto ticket=session.predict_raw_pixels(image,model,lattice.window(1,1,2,2),target);auto result=h.until(owner,session,ticket);
     auto expected=predict_raw_pixel_window(RawPixelWindowPredictionRequest(*doc,model,lattice.window(1,1,2,2),target));check(result.state=="succeeded" && result.raw_pixel_prediction && result.raw_pixel_prediction->labels()==expected->labels() && result.raw_pixel_prediction->vote_fractions()==expected->vote_fractions() && !result.committed);session.take(ticket);check(session.stats().retained_bytes==0);
     ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(owner);doc->rename_annotation(target,"edited during preview");check(h.until(owner,session,ticket).state=="stale");session.take(ticket);

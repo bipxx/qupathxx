@@ -23,26 +23,29 @@ void guard_raw_pixel_frontend_output(const Project* project,const std::string& v
     }
 }
 struct RawPixelFrontend::Impl {
-    enum class Stage {Idle,Training,Checkpoint,Archive,Prediction,Save,Open,Read,LoadModel,SaveModel};
+    enum class Stage {Idle,Training,Checkpoint,Archive,Prediction,Save,Open,Read,LoadModel,SaveModel,ContourPrediction,Contours};
     struct Io {std::shared_ptr<const RawPixelArchive> archive;std::shared_ptr<const RawPixelClassifier> model;};
     Stage stage=Stage::Idle;RawPixelTrainingSettings settings;
     std::optional<RawPixelTiledTrainingRequest> training_request;
     RawPixelTiledTrainingJob training;RawPixelTrainingCheckpointJob checkpoint;
+    std::optional<RawPixelPredictionRequest> contour_request;TissueContourOptions contour_options;
+    RawPixelPredictionJob contour_prediction;RawPixelContourJob contours;
+    void clear_contours() {contour_prediction.cancel();contours.cancel();contour_request.reset();report.contours.reset();report.published_ids.clear();report.contours_published=false;report.contour_work_bytes=0;}
     RawPixelWindowPredictionJob prediction;RawPixelStreamSaveJob save;RawPixelStreamFileReadJob reader;
     std::shared_ptr<const RawPixelStreamFile> file;std::uint64_t index=0;
     std::future<Io> io;std::atomic<bool> cancelled{false};GuiRawPixelReport report;
-    void start(Stage s) {if(stage!=Stage::Idle) throw std::logic_error("Wait for or cancel the current raw classifier operation");cancelled.store(false);stage=s;report.state="running";report.error.clear();}
+    void start(Stage s) {if(stage!=Stage::Idle) throw std::logic_error("Wait for or cancel the current raw classifier operation");cancelled.store(false);clear_contours();stage=s;report.state="running";report.error.clear();}
     void fail(const std::string& state,const std::string& error) {stage=Stage::Idle;report.state=state;report.error=error;}
 };
 RawPixelFrontend::RawPixelFrontend():impl_(std::make_unique<Impl>()) {}
-RawPixelFrontend::~RawPixelFrontend() {cancel();auto& s=*impl_;s.training.await_completion();s.checkpoint.await_completion();s.prediction.await_completion();s.save.await_completion();s.reader.await_completion();if(s.io.valid()) s.io.wait();}
+RawPixelFrontend::~RawPixelFrontend() {cancel();auto& s=*impl_;s.training.await_completion();s.checkpoint.await_completion();s.contour_prediction.await_completion();s.contours.await_completion();s.prediction.await_completion();s.save.await_completion();s.reader.await_completion();if(s.io.valid()) s.io.wait();}
 bool RawPixelFrontend::busy() const {return impl_->stage!=Impl::Stage::Idle;}
-void RawPixelFrontend::cancel() {auto& s=*impl_;s.cancelled.store(true);s.training.cancel();s.checkpoint.cancel();s.prediction.cancel();s.save.cancel();s.reader.cancel();}
+void RawPixelFrontend::cancel() {auto& s=*impl_;s.cancelled.store(true);s.training.cancel();s.checkpoint.cancel();s.contour_prediction.cancel();s.contours.cancel();s.prediction.cancel();s.save.cancel();s.reader.cancel();}
 void RawPixelFrontend::wait(const Document& doc) {while(busy()) {poll(doc);if(busy()) std::this_thread::sleep_for(std::chrono::milliseconds(2));}}
 bool RawPixelFrontend::can_keep_training(const Document& doc) const {return impl_->training_request && impl_->report.training && impl_->training_request->matches(doc);}
-void RawPixelFrontend::reset_records() {impl_->report.training_record=0;impl_->report.stream_record=0;}
+void RawPixelFrontend::reset_records() {impl_->report.training_record=0;impl_->report.stream_record=0;impl_->clear_contours();}
 GuiRawPixelReport RawPixelFrontend::report() const {return impl_->report;}
-void RawPixelFrontend::adopt(RawPixelClassifier model) {if(busy()) throw std::logic_error("raw classifier operation is busy");auto& s=*impl_;s.prediction.cancel();s.report.prediction.reset();s.training_request.reset();s.report.training.reset();s.report.model=std::make_shared<const RawPixelClassifier>(std::move(model));s.report.state="loaded";s.report.error.clear();}
+void RawPixelFrontend::adopt(RawPixelClassifier model) {if(busy()) throw std::logic_error("raw classifier operation is busy");auto& s=*impl_;s.clear_contours();s.prediction.cancel();s.report.prediction.reset();s.training_request.reset();s.report.training.reset();s.report.model=std::make_shared<const RawPixelClassifier>(std::move(model));s.report.state="loaded";s.report.error.clear();}
 void RawPixelFrontend::train(const Document& doc,const std::vector<std::uint64_t>& ids,RawPixelTrainingSettings settings) {
     settings.validate();if(!has_classifier_training()) throw std::runtime_error("Raw training requires the optional OpenCV backend");if(busy()) throw std::logic_error("raw classifier operation is busy");
     auto features=settings.features;if(features.offsets.empty()) features.offsets.assign(settings.selection.channels,0);if(features.scales.empty()) features.scales.assign(settings.selection.channels,1);
@@ -53,6 +56,17 @@ void RawPixelFrontend::train(const Document& doc,const std::vector<std::uint64_t
 }
 void RawPixelFrontend::predict(const Document& doc,const RawPixelClassifier& model,ScientificRawWindow window,std::uint64_t object,double vote,std::size_t work) {
     RawPixelWindowPredictionRequest request(doc,model,std::move(window),object,vote,work);auto& s=*impl_;s.start(Impl::Stage::Prediction);s.report.prediction.reset();try {s.prediction.request(request);}catch(...) {s.fail("failed","Raw operation could not start");throw;}
+}
+void RawPixelFrontend::trace(const Document& doc,const RawPixelClassifier& model,ScientificGrid grid,TissueContourOptions options,std::uint64_t object,double vote,std::size_t work) {
+    options.validate();if(!has_geos()) throw std::runtime_error("Raw contours require QUPATHXX_BUILD_GEOS=ON");
+    RawPixelPredictionRequest request(doc,model,std::move(grid),object,vote,work);auto& s=*impl_;s.start(Impl::Stage::ContourPrediction);
+    s.contour_request=request;s.contour_options=options;s.report.contour_work_bytes=request.estimated_work_bytes();
+    try {s.contour_prediction.request(request);}catch(...) {s.fail("failed","Raw contour prediction could not start");throw;}
+}
+std::vector<std::uint64_t> RawPixelFrontend::publish(Document& doc,const std::string& prefix) {
+    auto& s=*impl_;if(busy() || s.report.contours_published || !s.contour_request || s.contours.poll(doc).state!="ready" || !s.report.contours) throw std::logic_error("Trace fresh raw contours before applying");
+    auto ids=publish_raw_pixel_contours(doc,*s.contour_request,*s.report.contours,prefix);
+    s.report.published_ids=std::move(ids);s.report.contours_published=true;s.report.state="applied";s.report.error.clear();s.contours.cancel();return s.report.published_ids;
 }
 void RawPixelFrontend::save(const Document& doc,const RawPixelClassifier& model,ScientificRawLattice lattice,const std::string& path,RawPixelStreamOptions options,RawPixelStreamSaveOptions save,std::uint64_t object) {
     RawPixelTiledPredictionRequest request(doc,model,std::move(lattice),options,{},object);auto& s=*impl_;s.start(Impl::Stage::Save);s.report.link.reset();s.report.historical.reset();s.report.historical_model.reset();s.file.reset();s.report.stream_record=0;try {s.save.request(request,path,save);}catch(...) {s.fail("failed","Raw operation could not start");throw;}
@@ -75,7 +89,19 @@ void RawPixelFrontend::poll(const Document& doc) {
         // held while a workspace dialog temporarily blocks owner publication.
         const auto predicted=s.prediction.poll(doc);
         if(s.report.prediction && predicted.state!="ready") {s.report.prediction.reset();if(s.stage==Stage::Idle) s.fail(predicted.state,predicted.error);}
+        s.contour_prediction.poll(doc);
+        const auto traced=s.contours.poll(doc);
+        if(s.report.contours && !s.report.contours_published && traced.state!="ready") {s.report.contours.reset();if(s.stage==Stage::Idle) s.fail(traced.state,traced.error);}
         if(s.stage==Stage::Idle) return;
+        if(s.stage==Stage::ContourPrediction) {
+            const auto status=s.contour_prediction.poll(doc);if(s.contour_prediction.busy()) return;
+            const auto prediction=s.contour_prediction.result();if(!prediction) {s.fail(status.state,status.error);return;}
+            s.contours.request(*s.contour_request,prediction,s.contour_options);s.stage=Stage::Contours;
+        }
+        if(s.stage==Stage::Contours) {
+            const auto status=s.contours.poll(doc);if(s.contours.busy()) return;s.report.contours=s.contours.result();
+            s.fail(s.report.contours?"contours_ready":status.state,status.error);return;
+        }
         if(s.stage==Stage::Checkpoint) {
             auto status=s.checkpoint.poll(doc);if(s.checkpoint.busy()) return;auto value=s.checkpoint.take(doc);if(!value) {status=s.checkpoint.poll(doc);s.fail(status.state,status.error);return;}
             s.report.checkpoint=value->checkpoint;if(!value->table) {s.fail("partial","");return;}

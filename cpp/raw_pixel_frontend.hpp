@@ -15,6 +15,9 @@ public:
     void open(const std::string&,RawPixelStreamFileLimits,std::uint64_t,std::shared_ptr<const RawPixelStreamLink> link={});
     void load_model(const std::string&);void save_model(const std::string&,bool);
     void adopt(RawPixelClassifier);
+    // Fresh bounded full-grid inference is required even after historical reads.
+    void trace(const Document&,const RawPixelClassifier&,ScientificGrid,TissueContourOptions={},std::uint64_t object_id=0,double min_vote=0,std::size_t work_bytes=16u*1024*1024);
+    std::vector<std::uint64_t> publish(Document&,const std::string& name_prefix="Raw pixel");
     std::uint64_t keep_training(Document&);std::uint64_t keep_link(Document&);
     bool can_keep_training(const Document&) const;void reset_records();
     GuiRawPixelReport report() const;

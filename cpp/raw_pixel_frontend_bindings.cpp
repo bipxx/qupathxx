@@ -4,6 +4,7 @@
 #include <nanobind/stl/optional.h>
 #include <nanobind/stl/shared_ptr.h>
 #include <nanobind/stl/string.h>
+#include <nanobind/stl/vector.h>
 namespace nb=nanobind;using namespace nb::literals;
 void bind_raw_pixel_frontends(nb::module_& m) {
     using namespace qpx;
@@ -26,6 +27,8 @@ void bind_raw_pixel_frontends(nb::module_& m) {
         .def_ro("training",&GuiRawPixelReport::training).def_ro("checkpoint",&GuiRawPixelReport::checkpoint)
         .def_ro("prediction",&GuiRawPixelReport::prediction).def_ro("historical",&GuiRawPixelReport::historical).def_ro("link",&GuiRawPixelReport::link)
         .def_ro("training_record",&GuiRawPixelReport::training_record).def_ro("stream_record",&GuiRawPixelReport::stream_record)
+        .def_ro("contours",&GuiRawPixelReport::contours).def_ro("published_ids",&GuiRawPixelReport::published_ids)
+        .def_ro("contours_published",&GuiRawPixelReport::contours_published).def_ro("contour_work_bytes",&GuiRawPixelReport::contour_work_bytes)
         .def_ro("preview_bytes",&GuiRawPixelReport::preview_bytes).def_ro("preview_ready",&GuiRawPixelReport::preview_ready);
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions")).def_prop_rw("raw_pixel",[](const GuiOptions& o)->std::optional<GuiRawPixelOptions> {if(o.raw_pixel) return *o.raw_pixel;return {};},[](GuiOptions& o,std::optional<GuiRawPixelOptions> value) {o.raw_pixel=value?std::make_shared<const GuiRawPixelOptions>(*value):nullptr;});
     nb::borrow<nb::class_<GuiReport>>(m.attr("GuiReport")).def_ro("raw_pixel",&GuiReport::raw_pixel);
