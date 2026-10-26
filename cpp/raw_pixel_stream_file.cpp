@@ -174,7 +174,7 @@ RawPixelStreamFileSummary RawPixelStreamFileCodec::save(const RawPixelTiledPredi
     if(summary.complete && (producer.sha256()!=summary.sha256 || producer.input_sha256()!=summary.input_sha256)) throw std::logic_error("raw stream resumed producer commitment mismatch");
     write(output,footer(summary,header_hash));summary.bytes=output.bytes();summary.reused_windows=retained;if(summary.bytes!=expected) throw std::logic_error("raw stream output size accounting mismatch");stop(c);
     if(!raw_pixel_publication_window_source_matches(*data.source,capture,data.prototype->window)) throw std::runtime_error("raw stream source changed before atomic publication");
-    if(old) {old->verify();old.reset();}output.commit(options.replace_existing);return summary;
+    const bool replacing=bool(old);if(old) {old->verify();old.reset();}output.commit(replacing);return summary;
 }
 RawPixelStreamFileSummary save_raw_pixel_stream(const RawPixelTiledPredictionRequest& request,const std::string& path,RawPixelStreamSaveOptions options,const std::atomic<bool>* c) {return RawPixelStreamFileCodec::save(request,path,std::move(options),c);}
 }
