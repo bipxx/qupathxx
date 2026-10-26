@@ -465,8 +465,10 @@ compiler-input checks, without another native build or hosted matrix.
 ### SCI1-B next-workflow route
 
 Proposed next implementation after T5: streamed contours, beginning with a small
-independent seam witness. This is planning, not delivered API or scientific
-acceptance. Reuse `RawPixelPredictionStream`, QWS1 indexed blocks, the existing
+independent seam witness. The [reference and existing-path checks](raw-stream-contours.md)
+now cover four patterns and sixteen tile layouts with exact geometry, holes,
+global crop phase and anisotropic axes. Native streaming contours remain open;
+this is not delivered API or scientific acceptance. Reuse `RawPixelPredictionStream`, QWS1 indexed blocks, the existing
 contour tracer and document publication command; preserve both rational axes.
 
 1. Compare the current full-grid tracer with independent tiny expected geometry

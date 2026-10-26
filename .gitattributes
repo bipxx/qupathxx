@@ -560,3 +560,7 @@ docs/benchmarks/raw-classifier-235-failure.json -text -whitespace
 # Corrected frozen classifier campaign and original dispatch observations.
 docs/benchmarks/raw-classifier-236-campaign/** -text -whitespace
 docs/benchmarks/raw-classifier-236-campaign.json -text -whitespace
+
+# Exact synthetic cell-edge oracle for the next streamed contour workflow.
+tests/fixtures/raw-contour-seams-v1/** -text
+tools/reference_raw_contour_seams.py text eol=lf
