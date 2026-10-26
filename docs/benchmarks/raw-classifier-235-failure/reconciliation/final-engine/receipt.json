@@ -1,0 +1,48 @@
+{
+  "schema": "qpx.raw-classifier-original-engine/1",
+  "engine_source": "176ec42b274bb12429cef603b59ce704e12c6e96",
+  "observer_source": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+  "compatible_observer": "Scientific cohort adds the already-executed passing raw partial-result public-stub test; all inherited requirements and original source bindings remain.",
+  "engine_scope_accepted": true,
+  "complete_campaign_accepted": false,
+  "release_ready": false,
+  "scope": "All five original Windows/Linux engine profiles accepted; original Mac builds and portable consumers failed and remain unaccepted. This is not corrected-source qualification.",
+  "raw_payloads": {
+    "engine-successor-audit.json": {
+      "bytes": 838966,
+      "sha256": "0652082e6221edb1054df1cae40fb9413637238230f7c3fc2d0f343993404562"
+    },
+    "engine-successor-audit.log": {
+      "bytes": 488,
+      "sha256": "1ba768ba41f1047229e7abf25233661ca004b453e961e5b7a37dcb208000d75a"
+    },
+    "engine-successor-audit-command.json": {
+      "bytes": 1079,
+      "sha256": "0262b1c2b3bb14bc2c0f8498a886a7939e2fa8490cd0382e1596447408703b53"
+    },
+    "Windows-gui-py3.12/native-tests.xml": {
+      "bytes": 26600,
+      "sha256": "334ef56a649204122acc20feb387a05177bf8f7c9221d892ba5522675a372995"
+    },
+    "Windows-gui-py3.12/python-tests.xml": {
+      "bytes": 592397,
+      "sha256": "e17c9e25fab25f57827b64da815aad0b917dfc6617eedf443078b30e41c3a5f3"
+    },
+    "Windows-gui-py3.12/raw-classifier-typing.log": {
+      "bytes": 44,
+      "sha256": "d9a5631f7d87a741fbecc3236286d1792d22d349ff13846d71cdc9217307bb76"
+    },
+    "Windows-gui-py3.12/raw-classifier-raw_pixel_invalid.log": {
+      "bytes": 877,
+      "sha256": "e9960b8ed511cb8c9083ce9a6e70eb8fc142b8c0c2df724ca118473e7a37c1e0"
+    },
+    "Windows-gui-py3.12/raw-classifier-raw_batch_invalid.log": {
+      "bytes": 596,
+      "sha256": "da950fdbbefbee1f98cee2f0d60916220db34d03a889262e1fb8120a7b7a7462"
+    },
+    "Windows-gui-py3.12/raw-classifier-raw_frontend_invalid.log": {
+      "bytes": 965,
+      "sha256": "f1ab11810303c3c246ef16afa6b03da3d2e07ab98a642498b3be942e22e25a1f"
+    }
+  }
+}

@@ -556,3 +556,7 @@ docs/benchmarks/raw-classifier-235-campaign.json -text -whitespace
 # Preserve the original Mac failure and source-bound correction observations.
 docs/benchmarks/raw-classifier-235-failure/** -text -whitespace
 docs/benchmarks/raw-classifier-235-failure.json -text -whitespace
+
+# Corrected frozen classifier campaign and original dispatch observations.
+docs/benchmarks/raw-classifier-236-campaign/** -text -whitespace
+docs/benchmarks/raw-classifier-236-campaign.json -text -whitespace

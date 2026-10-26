@@ -2,6 +2,19 @@
 
 ## Current execution card (2026-10-26)
 
+- Corrected [campaign236](benchmarks/raw-classifier-236-campaign.json) is live at
+  frozen source `530c6bb` on `feature/raw-classifier-qualification-236`: engine
+  `40368263565`, Mac-native `40368276721`, portable `40368289302`. Each was
+  dispatched once with the complete required inputs. The 718 frozen Git inputs
+  match the 807-control preflight exactly. Poll these original new handles;
+  authenticate every archive and audit from `build/ci/raw-classifier-236`.
+  No corrected-source platform acceptance yet; keep this checkout unchanged.
+- Original campaign235 [full engine successor audit](benchmarks/raw-classifier-235-failure/reconciliation/final-engine/receipt.json)
+  accepts all five engine profiles at runtime source `176ec42`, with observer
+  `530c6bb` explicitly separate. Native suites: 51 GUI and 50 each other profile;
+  Python passes: Windows GUI 4212, Windows headless 3743, Linux headless 3741.
+  All eleven original archives authenticate. Original Mac/portable failures stay
+  unaccepted; this engine receipt cannot qualify the corrected C++ candidate.
 - Campaign235 cannot achieve full acceptance: Mac arm64 job `121713805694`
   failed compilation at two mixed `size_t`/`uint64_t` `auto` declarations.
   [Original evidence and correction](benchmarks/raw-classifier-235-failure.json)
@@ -30,8 +43,8 @@
 - Original [campaign235](benchmarks/raw-classifier-235-campaign.json) stays frozen
   at `176ec42`: engine `40363168207`, Mac `40363189978`, portable `40363203596`.
   All three runs are terminal: engine success, Mac and portable failure.
-  Authenticate the final GUI archive and audit the eligible engine gate with
-  explicit observer identity, then qualify one corrected integrated successor.
+  The final engine audit and archives are preserved above; corrected campaign236
+  is the active successor, rather than another campaign235 attempt.
 - Pre-dispatch inherited checks add 286 passes to the 515 selected controls
   (801 total); all eight domain source contracts agree across 718 unique files.
 - T5 preflight is implemented at `fb3dfe6`: the shared raw classifier contract
@@ -66,8 +79,8 @@
   twelve errors in three invalid files reject. The receipt binds 199 raw payloads
   and 26 retained final/development products, with original failures preserved.
   Dependencies are reused, so this is not clean-machine or release acceptance.
-- Next: audit the original complete engine gate with both source/tool identities
-  explicit, then freeze and qualify the corrected integrated source. Preserve these T4.3-T4.5 local
+- Next: observe the three original236runs through terminal state, authenticate
+  their archives, and run the maintained frozen-source audits. Preserve these T4.3-T4.5 local
   exits; do not rebuild consumer features or repeat full campaigns without a
   changed input/failure. Stream stitching, sparse ROI prediction traversal,
   automatic maintenance, abrupt-process/power-loss and independent scientific,

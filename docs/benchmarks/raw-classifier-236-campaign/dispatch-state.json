@@ -1,0 +1,107 @@
+{
+  "schema": "qpx.scientific-grid-campaign/2",
+  "source": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+  "ref": "feature/raw-classifier-qualification-236",
+  "frozen_checkout": "build/ci/raw-classifier-236",
+  "profiles_sha256": "b0f907cfdcb706cf0301150577f27db7084a86ad8ea1ff0c2fb88a8fe3c8c4d1",
+  "preflight": "docs/benchmarks/raw-classifier-235-failure/reconciliation/receipt.json",
+  "preflight_controls": 807,
+  "frozen_source_proofs_sha256": "4c44c151a5c6e38e396b5e29d60a076094f1c82417bb97689e7511cf6301994c",
+  "attempts": [
+    {
+      "role": "engine",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": false,
+        "live_reference": true,
+        "extended_readers": true
+      },
+      "wire_inputs": {
+        "macos_native": "false",
+        "portable_linux": "false",
+        "live_reference": "true",
+        "extended_readers": "true"
+      },
+      "attempted_at_utc": "2026-10-26T17:24:05.629842+00:00",
+      "state": "run_identified",
+      "known_runs_before": [],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-26T17:24:08Z",
+        "databaseId": 40368263565,
+        "headSha": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40368263565"
+      }
+    },
+    {
+      "role": "macos",
+      "semantic_inputs": {
+        "macos_native": true,
+        "portable_linux": false,
+        "live_reference": false,
+        "extended_readers": false
+      },
+      "wire_inputs": {
+        "macos_native": "true",
+        "portable_linux": "false",
+        "live_reference": "false",
+        "extended_readers": "false"
+      },
+      "attempted_at_utc": "2026-10-26T17:24:11.375089+00:00",
+      "state": "run_identified",
+      "known_runs_before": [
+        40368263565
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-26T17:24:13Z",
+        "databaseId": 40368276721,
+        "headSha": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40368276721"
+      }
+    },
+    {
+      "role": "portable",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": true,
+        "live_reference": false,
+        "extended_readers": true
+      },
+      "wire_inputs": {
+        "macos_native": "false",
+        "portable_linux": "true",
+        "live_reference": "false",
+        "extended_readers": "true"
+      },
+      "attempted_at_utc": "2026-10-26T17:24:16.257310+00:00",
+      "state": "run_identified",
+      "known_runs_before": [
+        40368263565,
+        40368276721
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-26T17:24:18Z",
+        "databaseId": 40368289302,
+        "headSha": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40368289302"
+      }
+    }
+  ],
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false
+}

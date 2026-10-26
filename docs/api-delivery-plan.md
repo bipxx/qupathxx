@@ -40,7 +40,7 @@ no additional agent delegation is implied by this table.
 
 | Order / ID | State and owner | Easiest implementation path | Required exit evidence |
 | --- | --- | --- | --- |
-| 1 / SCI1-A: typed raw pixel classification | Owner-captured sampling/prediction accepted locally at `7beb80b`; archives/retention accepted locally at `440f610`; positive Windows training/trained archives accepted locally at `e7e4b66`; replay/bounded contour apply accepted locally at `92edba8`; sample-index windows/features accepted locally at `ae0ba29`; window models/owner prediction accepted locally at `642f728`; sparse tiled training accepted locally at `1273c3e`; bounded prediction stream/owner delivery accepted locally at `8d544eb`; prediction prefix files/hash-only resume accepted locally at `c843dfa`; sparse training archives/retention/replay accepted locally at `cc6fab4`; training prefix checkpoints/resume accepted locally at `fb7ab73`; native owner file jobs accepted locally at `404f506`; external raw stream links accepted locally at `a608a53`; Windows CPython 3.12 raw bindings/wheel/example accepted locally at `202b41a`; official Windows raw CLI locally verified at `f463110`; raw classifier project batches locally verified at `c2c0fa0`; desktop/managed/contour consumers locally verified at `0dc916c`; root owns closeout of the already-running T5 campaign235 | Follow the bounded A1-A6 route below and the [numeric contract](raw-pixel-classifier.md). Reuse the feature kernel, `RawPixelRecipe`/`RawPixelClassifier`, typed sampler and existing forest/owner/source/job authorities; use `RawPixelTrainingRequest`/`RawPixelPredictionRequest` and their controllers. Reuse locally verified replay-based QTC1 training checkpoints, QTT1 training records and QWS1 prediction files through existing owner jobs and frontend adapters. Preserve locally verified training, archives, live verification and bounded contour apply. Preserve both grid axes and captured document calibration. Deliver train → predict → save/reopen → resume through existing entry points | Independent feature oracle, streamed/full-window seam checks, source/model mutation and cancellation controls, persistence/legacy compatibility, installed typing and real desktop/CLI/batch outcomes at one frozen source |
+| 1 / SCI1-A: typed raw pixel classification | Owner-captured sampling/prediction accepted locally at `7beb80b`; archives/retention accepted locally at `440f610`; positive Windows training/trained archives accepted locally at `e7e4b66`; replay/bounded contour apply accepted locally at `92edba8`; sample-index windows/features accepted locally at `ae0ba29`; window models/owner prediction accepted locally at `642f728`; sparse tiled training accepted locally at `1273c3e`; bounded prediction stream/owner delivery accepted locally at `8d544eb`; prediction prefix files/hash-only resume accepted locally at `c843dfa`; sparse training archives/retention/replay accepted locally at `cc6fab4`; training prefix checkpoints/resume accepted locally at `fb7ab73`; native owner file jobs accepted locally at `404f506`; external raw stream links accepted locally at `a608a53`; Windows CPython 3.12 raw bindings/wheel/example accepted locally at `202b41a`; official Windows raw CLI locally verified at `f463110`; raw classifier project batches locally verified at `c2c0fa0`; desktop/managed/contour consumers locally verified at `0dc916c`; root owns closeout of the already-running corrected T5 campaign236 | Follow the bounded A1-A6 route below and the [numeric contract](raw-pixel-classifier.md). Reuse the feature kernel, `RawPixelRecipe`/`RawPixelClassifier`, typed sampler and existing forest/owner/source/job authorities; use `RawPixelTrainingRequest`/`RawPixelPredictionRequest` and their controllers. Reuse locally verified replay-based QTC1 training checkpoints, QTT1 training records and QWS1 prediction files through existing owner jobs and frontend adapters. Preserve locally verified training, archives, live verification and bounded contour apply. Preserve both grid axes and captured document calibration. Deliver train → predict → save/reopen → resume through existing entry points | Independent feature oracle, streamed/full-window seam checks, source/model mutation and cancellation controls, persistence/legacy compatibility, installed typing and real desktop/CLI/batch outcomes at one frozen source |
 | 2 / SCI1-B: remaining research workflows | Open; retain every M0-M7 requirement | After SCI1-A, choose the next complete workflow by dependency readiness: stitched contours; eligible vendor/whole-slide/partial-OME support; annotation/interchange; spatial queries and recorded/distributed automation. Prepare only the reference/decision inputs needed by that workflow | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
 | Alongside / DEC1: scientific and resource prerequisites | Open; user/research lead supplies decisions, root records applicability | Use the existing decision table below for dataset rights/labels, tolerances and eligible hardware. Synthetic arithmetic/engineering work proceeds; affected biological or hardware acceptance waits for its real prerequisites | Record corpus/version/rights, labels, metric/tolerance before comparison, and eligible hardware/configuration. Do not infer acceptance from synthetic tests or suite totals |
 | After applicable gates / REL1: supported release | Open; repository owner plus packaging owner | Reuse qualified artifacts; resolve project license, distribution obligations, support matrix, installers, notices, signing and clean-machine walkthroughs | Every claimed platform/workflow has scope-matched acceptance. Mac-native does not qualify Mac Python/GUI/OpenSlide. No release/PyPI/signing authorization is implied |
@@ -442,10 +442,12 @@ gates.
 
 ### T5 closeout sequence
 
-Root owns this active work. Keep the qualification source and delivered T4
-interfaces frozen. Use the original engine `40363168207`, Mac-native
-`40363189978` and portable `40363203596` runs, all at
-`176ec42b274bb12429cef603b59ce704e12c6e96`.
+Root owns this active work. Keep the corrected qualification source and
+T4 interfaces frozen. Use [campaign236](benchmarks/raw-classifier-236-campaign.json):
+engine `40368263565`, Mac-native `40368276721`, portable `40368289302`, all at
+`530c6bb1fd01176c7aecbcae75c065ca004f6236`. Original campaign235 is terminal; preserve its
+separate engine acceptance and Mac/consumer failures. The 807-control preflight
+and all 718 source inputs agree with the corrected frozen candidate.
 
 | Step | Easiest path / existing owner | Exit or recovery |
 | --- | --- | --- |
@@ -504,7 +506,7 @@ T5 integrated qualification remain open. See the development state below. `202b4
 earlier Python profile.
 This is not a new Astra review or integrated platform qualification.
 
-T4.1-T4.5 have named local Windows exits. T5 preflight is complete and campaign235
+T4.1-T4.5 have named local Windows exits. T5 preflight is complete and corrected campaign236
 is running; finish its original runs and artifact audits. Keep one
 implementation task active. Each task has a complete observable outcome; reuse
 its healthy evidence until a consumed input changes.
@@ -548,36 +550,13 @@ SDK files and 559 GEOS SDK files authenticate. The fresh package reuses workspac
 test dependencies, so no clean-machine, other-platform or release claim follows.
 This closes the named local T4 consumer outcomes, not T5 or the full milestones.
 
-**Current execution:** [campaign235](benchmarks/raw-classifier-235-campaign.json)
-is running at frozen source `176ec42` on its dedicated qualification branch.
-Original runs: engine `40363168207`, Mac-native `40363189978`, portable
-`40363203596`. Each was dispatched once with full inputs. Observe these IDs,
-retain original failures/attempts, authenticate every archive and audit from the
-clean frozen checkout. Linux minimal and sanitizer jobs have succeeded; these
-job outcomes do not accept the complete matrix.
-The additional inherited preflight passes 286 controls (801 selected total), and
-all eight source contracts recheck 718 unique inputs. The frozen source stays
-unchanged while those runs are live.
-
-Mac arm64 has since failed compilation at two mixed-type `auto` declarations.
-The [failure receipt](benchmarks/raw-classifier-235-failure.json) preserves the
-original archive/logs and correction at `b8a465e`. Two affected Windows native
-suites pass; syntax probes reproduce the old rejection and corrected success
-for both Darwin targets. Full Mac acceptance remains open. Continue the other
-original jobs; the frozen candidate cannot pass the full matrix, so a corrected
-successor must receive scope-matched qualification after diagnosis.
-
-The [reconciliation receipt](benchmarks/raw-classifier-235-failure/reconciliation/receipt.json)
-records both Mac failures and both fresh-consumer failures at the Git-backed
-source-proof fixture. Integration `8e09571` declares that development-only
-fixture unavailable when Git is absent, preserving all application cohorts.
-Observer `c24f011` repairs the inherited scientific manifest's omitted passing
-stub test and accepts the original three Linux profiles through the explicit
-successor-audit path. All 807 selected controls pass; eight source contracts
-agree on 718 inputs. All original runs are terminal and all eleven archives
-authenticate; finish eligible engine auditing before the corrected integrated
-freeze. No full T5 acceptance follows.
-
+**Current execution:** corrected [campaign236](benchmarks/raw-classifier-236-campaign.json)
+is live at `530c6bb` with original engine/Mac/portable IDs listed in the closeout
+sequence above. All 718 frozen source inputs match the 807-control preflight.
+Original campaign235 has eleven authenticated archives and separate full engine acceptance;
+its Mac and consumer failures remain unaccepted. Observe the new original IDs,
+retain failures/attempts, authenticate every archive and audit the unchanged
+corrected checkout. No integrated T5 acceptance yet.
 
 The
 [preflight at `fb3dfe6`](benchmarks/raw-classifier-preflight-local.json) makes the

@@ -32,16 +32,22 @@ release status. Use the [current task](current-task.md), [workflow inventory](fe
 and [API delivery paths](api-delivery-plan.md) for exact scope and remaining work.
 All M0-M7 remain Partial.
 
-The immediate work is to finish [T5 campaign235](benchmarks/raw-classifier-235-campaign.json)
-at frozen source `176ec42`, already dispatched once on its dedicated branch.
-Original runs: engine `40363168207`, Mac-native `40363189978`, portable
-`40363203596`. Linux minimal and sanitizer jobs have succeeded; all three runs
-remain active. Mac arm64 compilation has since failed; the candidate cannot
-achieve full acceptance. [Original evidence](benchmarks/raw-classifier-235-failure.json)
-and the source-bound declaration correction are preserved. Follow the
-[T5 closeout sequence](api-delivery-plan.md#t5-closeout-sequence); keep the frozen
-checkout unchanged, finish observing the healthy jobs, then qualify a corrected
-successor. Do not dispatch again to refresh documentation.
+The immediate work is [corrected T5 campaign236](benchmarks/raw-classifier-236-campaign.json)
+at frozen source `530c6bb`: engine `40368263565`, Mac-native `40368276721`,
+portable `40368289302`. Each was dispatched once with complete inputs after all
+original campaign235 runs became terminal. The frozen source's 718 inputs match the
+passing 807-control preflight. Follow the
+[T5 closeout sequence](api-delivery-plan.md#t5-closeout-sequence), preserve each
+attempt, and keep the frozen checkout unchanged. No corrected-source integrated
+acceptance yet.
+
+All eleven original campaign235 archives authenticate. The
+[full engine successor audit](benchmarks/raw-classifier-235-failure/reconciliation/final-engine/receipt.json)
+accepts the original Windows/Linux source `176ec42` with observer `530c6bb`
+separately recorded. Both Mac builds failed two mixed-type declarations; both
+fresh consumers failed the Git-only development fixture. The corrected candidate
+includes those repairs and the scientific manifest's omitted genuine stub case.
+Original engine acceptance does not transfer to its changed C++ source.
 
 The [raw frontend receipt](benchmarks/raw-frontend-local.json) locally accepts
 `0dc916c`: 195 installed Windows Python passes, including all 17 frontend cases,
