@@ -90,3 +90,19 @@ def test_junit_failure_refusal_survives_optimized_function_compilation(tmp_path)
     exec(compile(ast.Module(body=[node],type_ignores=[]),str(AUDITOR),'exec',optimize=1),scope)
     with pytest.raises(ValueError,match='JUnit failures'):
         scope['junit'](path)
+
+
+def test_final_receipt_preserves_successor_and_original_source_identities():
+    body=statements()
+    assignments=[n for n in body if isinstance(n,ast.Assign) and
+                 any(ast.unparse(t)=="report['auditor']" for t in n.targets)]
+    assert len(assignments)==1, 'later receipt writer must not replace successor provenance'
+    updates=[n for n in body if isinstance(n,ast.Expr) and isinstance(n.value,ast.Call)
+             and ast.unparse(n.value.func)=="report['auditor'].update"]
+    assert len(updates)==1
+    auditor=dict(commit='new_auditor',original_source_root='original_checkout',
+                 successor_audit=True,helper_sources={'helper.py':'digest'},dirty=False)
+    scope=dict(report={'auditor':auditor.copy()},sha=lambda _: 'script_digest',
+               Path=Path,__file__=str(AUDITOR))
+    exec(compile(ast.Module(body=updates,type_ignores=[]),str(AUDITOR),'exec'),scope)
+    assert scope['report']['auditor']==dict(auditor,path='tools/ci/accept_unified_engine.py',sha256='script_digest')

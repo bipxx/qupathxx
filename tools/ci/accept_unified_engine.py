@@ -797,7 +797,7 @@ for job in run['jobs']:
 report['fixture_retraining']=dict(local_and_audited_hosted_models_identical=True,
     model_sha256=local['model_sha256'],training_sha256=local['training_sha256'],
     caveat='Evidence for this seeded numeric fixture only; cross-platform retraining identity and biological accuracy are not general guarantees. Hosted hardware differs from local hardware.')
-report['auditor']=dict(path='tools/ci/accept_unified_engine.py',sha256=sha(Path(__file__)))
+report['auditor'].update(path='tools/ci/accept_unified_engine.py',sha256=sha(Path(__file__)))
 report['windows_linux_engineering_scope_accepted']=not args.linux_only
 report['linux_engineering_scope_accepted']=True
 report['ndpi_readers_required']=args.ndpi_readers
