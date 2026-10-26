@@ -33,7 +33,8 @@ def run(input_project: Path, output: Path, image_id: int, channels: int = 1) -> 
         save.max_new_windows = 1
         if not sampling.request(request, str(checkpoint), save) or sampling.wait(doc).state != "ready":
             raise RuntimeError("initial training checkpoint failed: " + sampling.poll(doc).error)
-        assert sampling.take(doc) is not None
+        if sampling.take(doc) is None:
+            raise RuntimeError("initial training checkpoint was not delivered: " + sampling.poll(doc).error)
         save.resume_path, save.replace_existing, save.max_new_windows = str(checkpoint), True, 2**64 - 1
         if not sampling.request(request, str(checkpoint), save) or sampling.wait(doc).state != "ready":
             raise RuntimeError("training checkpoint resume failed: " + sampling.poll(doc).error)
@@ -54,7 +55,8 @@ def run(input_project: Path, output: Path, image_id: int, channels: int = 1) -> 
         stream_options.max_new_windows = 1
         if not stream.request(prediction, str(path), stream_options) or stream.wait(doc).state != "ready":
             raise RuntimeError("initial prediction checkpoint failed: " + stream.poll(doc).error)
-        assert stream.take(doc) is not None
+        if stream.take(doc) is None:
+            raise RuntimeError("initial prediction checkpoint was not delivered: " + stream.poll(doc).error)
         stream_options.resume_path, stream_options.replace_existing, stream_options.max_new_windows = str(path), True, 2**64 - 1
         if not stream.request(prediction, str(path), stream_options) or stream.wait(doc).state != "ready":
             raise RuntimeError("prediction resume failed: " + stream.poll(doc).error)

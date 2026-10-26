@@ -383,3 +383,38 @@ def test_installed_project_to_project_example(raw, tmp_path):
         assert verified is not None and verified.summary.sha256 == summary["stream_sha256"]
     finally:
         output.server.close()
+
+
+@pytest.mark.skipif(not q.has_project or not q.has_classifier_training, reason="example needs project/training")
+@pytest.mark.parametrize("optimized", [False, True], ids=["normal", "optimized"])
+def test_raw_classifier_example_resumes_and_retains(optimized, tmp_path):
+    pixels = tmp_path / "example-input.tif"
+    tiff(pixels)
+    project = q.Project()
+    image = project.add_image(str(pixels), "tiff")
+    doc = project.document(image)
+    doc.add_detection(q.Roi.rectangle(q.Rect(0, 0, 3, 6)), class_name="A")
+    doc.add_detection(q.Roi.rectangle(q.Rect(4, 0, 4, 6)), class_name="B")
+    source = tmp_path / "source.qpx"
+    project.save(str(source))
+    doc.server.close()
+    before = source.read_bytes()
+    output = tmp_path / "analysis"
+    example = Path(__file__).resolve().parents[1] / "examples/raw_classifier_workflow.py"
+    command = [sys.executable, "-I", *(["-O"] if optimized else []), str(example), str(source), str(output), "--image-id", str(image), "--channels", "2"]
+    done = subprocess.run(command, capture_output=True, text=True, encoding="utf-8", timeout=60)
+    assert done.returncode == 0, done.stdout + done.stderr
+    report = json.loads(done.stdout)
+    assert report["rows"] > 0 and report["windows"] > 1 and source.read_bytes() == before
+    assert q.load_raw_pixel_training_checkpoint(str(output / "training.qtc")).complete
+    assert q.load_raw_pixel_classifier(str(output / "model.qrm")).sha256 == report["model_sha256"]
+    again = q.Project.open(report["project"])
+    try:
+        restored = again.document(image)
+        assert restored.raw_pixel_record_count == restored.raw_pixel_stream_record_count == 1
+        record, = restored.raw_pixel_stream_records
+        file = q.RawPixelStreamFile(record.link.path)
+        file.verify()
+        assert file.link().same_content(record.link) and file.declared_summary.complete
+    finally:
+        again.document(image).server.close()

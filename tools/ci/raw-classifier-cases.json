@@ -8,6 +8,8 @@
       "test_installed_project_to_project_example",
       "test_job_shutdown_releases_python_owned_files_on_other_threads",
       "test_native_stream_releases_gil_and_accepts_cross_thread_cancel",
+      "test_raw_classifier_example_resumes_and_retains[normal]",
+      "test_raw_classifier_example_resumes_and_retains[optimized]",
       "test_stream_files_resume_and_verified_external_link_jobs",
       "test_stream_owner_backpressure_and_cross_thread_refusal",
       "test_tables_preserve_numeric_rows_dtype_and_array_ownership",

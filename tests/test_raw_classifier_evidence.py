@@ -65,7 +65,7 @@ def test_native_false_acceptance_controls(suite,change):
 @pytest.mark.parametrize('gui',[False,True])
 def test_exact_installed_contract_has_explicit_skips(gui):
     report=evidence.python(python_cases(gui),gui=gui)
-    assert report['passed']==(55 if gui else 38)
+    assert report['passed']==(57 if gui else 40)
     assert report['declared_skips']==(1 if gui else 18)
 
 
