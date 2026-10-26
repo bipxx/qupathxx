@@ -211,11 +211,15 @@ void RawPixelTiledTrainingJob::cancel() {impl_->cancelled.store(true,std::memory
 void RawPixelTiledTrainingJob::await_completion() {owner(impl_->owner);if(impl_->future.valid()) impl_->future.wait();}
 bool RawPixelTiledTrainingJob::sample(const RawPixelTiledTrainingRequest& request) {return start(request,std::nullopt);}
 bool RawPixelTiledTrainingJob::train(const RawPixelTiledTrainingRequest& request,ForestParameters parameters) {owner(impl_->owner);parameters.validate();if(!has_classifier_training()) throw std::runtime_error("raw tiled training requires the optional OpenCV backend");return start(request,parameters);}
-bool RawPixelTiledTrainingJob::start(const RawPixelTiledTrainingRequest& request,std::optional<ForestParameters> parameters) {
+bool RawPixelTiledTrainingJob::train_table(const RawPixelTiledTrainingRequest& request,std::shared_ptr<const RawPixelTiledTrainingTable> table,ForestParameters parameters) {
+    owner(impl_->owner);parameters.validate();if(!has_classifier_training()) throw std::runtime_error("raw tiled training requires the optional OpenCV backend");
+    if(!table || table->snapshot_!=request.data_) throw std::invalid_argument("training table does not belong to this live request");return start(request,parameters,std::move(table));
+}
+bool RawPixelTiledTrainingJob::start(const RawPixelTiledTrainingRequest& request,std::optional<ForestParameters> parameters,std::shared_ptr<const RawPixelTiledTrainingTable> table) {
     owner(impl_->owner);auto& s=*impl_;if(busy()) return false;if(s.stats.generation==UINT64_MAX) throw std::overflow_error("raw tiled training generation exhausted");
     auto captured=request;const auto old_cancel=s.cancelled.load();const auto old_completed=s.completed.load();const auto old_phase=s.phase.load();s.cancelled.store(false);s.completed.store(0);s.phase.store(0);
     std::future<Impl::Completion> future;
-    try {future=std::async(std::launch::async,[state=&s,data=captured.data_,source=captured.source_.get(),parameters] {Impl::Completion out;out.table=RawPixelTiledTrainingKernel::run(data,*source,&state->cancelled,&state->completed,&state->phase);if(parameters) {state->phase.store(3);out.model=std::make_shared<const RawPixelClassifier>(train_raw_pixel_tiled_classifier(*out.table,*parameters,&state->cancelled));}return out;});}
+    try {future=std::async(std::launch::async,[state=&s,data=captured.data_,source=captured.source_.get(),parameters,table=std::move(table)] {Impl::Completion out;out.table=table?table:RawPixelTiledTrainingKernel::run(data,*source,&state->cancelled,&state->completed,&state->phase);if(table) state->completed.store(data->scanned);if(parameters) {state->phase.store(3);out.model=std::make_shared<const RawPixelClassifier>(train_raw_pixel_tiled_classifier(*out.table,*parameters,&state->cancelled));}return out;});}
     catch(...) {s.cancelled.store(old_cancel);s.completed.store(old_completed);s.phase.store(old_phase);throw;}
     s.future=std::move(future);s.request=std::move(captured);s.table.reset();s.model.reset();s.stale=false;s.started=std::chrono::steady_clock::now();const auto generation=s.stats.generation+1;s.stats={};s.stats.generation=generation;s.stats.state="running";s.stats.total_samples=request.scanned_samples();return true;
 }

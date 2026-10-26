@@ -20,6 +20,8 @@ void bind_viewer_session(nb::module_& m) {
         .def_ro("analysis",&ViewerEvent::analysis).def_ro("tissue",&ViewerEvent::tissue).def_ro("cells",&ViewerEvent::cells).def_ro("pixels",&ViewerEvent::pixels)
         .def_prop_ro("tma_dearray",[](const ViewerEvent& e)->std::optional<std::shared_ptr<const TmaDearrayResult>> {if(e.tma_dearray)return e.tma_dearray;return {};})
         .def_ro("raw_analysis",&ViewerEvent::raw_analysis).def_ro("raw_pixels",&ViewerEvent::raw_pixels).def_ro("raw_metadata",&ViewerEvent::raw_metadata)
+        .def_ro("raw_pixel_training",&ViewerEvent::raw_pixel_training).def_ro("raw_pixel_checkpoint",&ViewerEvent::raw_pixel_checkpoint)
+        .def_ro("raw_pixel_prediction",&ViewerEvent::raw_pixel_prediction).def_ro("raw_pixel_link",&ViewerEvent::raw_pixel_link)
         .def_prop_ro("tiff_view",[](const ViewerEvent& event){return event.tiff_view;})
         .def_ro("samples",&ViewerEvent::samples).def_ro("components",&ViewerEvent::components).def_ro("rows",&ViewerEvent::rows).def_ro("bytes",&ViewerEvent::bytes);
     nb::class_<ViewerStats>(m,"ViewerStats")
@@ -43,6 +45,10 @@ void bind_viewer_session(nb::module_& m) {
         .def("analyze_raw_grid",&ViewerSession::analyze_raw_grid,"image_id"_a,"object_id"_a,"sampling"_a=RawGridSampling{},"options"_a=ScientificRawOptions{},"nucleus"_a=false,"retain_result"_a=false)
         .def("verify_raw_analysis",&ViewerSession::verify_raw_analysis,"image_id"_a,"record_id"_a)
         .def("export_raw_measurements",&ViewerSession::export_raw_measurements,"image_id"_a,"path"_a,"require_current"_a=false,"record_ids"_a=std::vector<std::uint64_t>{})
+        .def("train_raw_pixels",&ViewerSession::train_raw_pixels,"image_id"_a,"annotation_ids"_a,"settings"_a=RawPixelTrainingSettings{},"retain_result"_a=true)
+        .def("predict_raw_pixels",&ViewerSession::predict_raw_pixels,"image_id"_a,"model"_a,"window"_a,"object_id"_a=0,"min_vote_fraction"_a=0.,"work_bytes"_a=16u*1024*1024)
+        .def("export_raw_pixels",&ViewerSession::export_raw_pixels,"image_id"_a,"model"_a,"lattice"_a,"path"_a,"options"_a=RawPixelStreamOptions{},"save_options"_a=RawPixelStreamSaveOptions{},"object_id"_a=0,"retain_result"_a=true)
+        .def("read_raw_pixel_stream",&ViewerSession::read_raw_pixel_stream,"image_id"_a,"path"_a,"index"_a=0,"limits"_a=RawPixelStreamFileLimits{},"record_id"_a=0,"retain_result"_a=false)
         .def("analyze_with_sampling_policy",&ViewerSession::analyze_with_sampling_policy,"image_id"_a,"object_id"_a,"transform"_a,"sampling_policy"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
         .def("analyze",&ViewerSession::analyze,"image_id"_a,"object_id"_a,"transform"_a,"kind"_a=AnalysisKind::OpticalDensityMeans,"nucleus"_a=false)
         .def("tissue",&ViewerSession::tissue,"image_id"_a,"object_id"_a,"transform"_a,"parameters"_a=TissueParameters{},"retain_result"_a=false)
@@ -63,6 +69,7 @@ void bind_viewer_session(nb::module_& m) {
         if(options.grid_cell_parameters) options.grid_cell_parameters=std::make_shared<const GridCellParameters>(*options.grid_cell_parameters);
         if(options.stain_estimate_parameters) options.stain_estimate_parameters=std::make_shared<const StainEstimateParameters>(*options.stain_estimate_parameters);
         if(options.batch_options) options.batch_options=std::make_shared<const ProjectBatchOptions>(*options.batch_options);
+        if(options.raw_pixel) options.raw_pixel=std::make_shared<const GuiRawPixelOptions>(*options.raw_pixel);
         GuiReport report;{nb::gil_scoped_release release;report=run_viewer_session(session,frames,capture,options);}return report;
     },"session"_a,"frame_limit"_a=0,"capture_path"_a="","options"_a=GuiOptions{});
 #else

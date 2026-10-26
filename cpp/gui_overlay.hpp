@@ -38,8 +38,9 @@ struct OverlayKey {
     std::uint64_t uploads,generation,tissue_generation,cell_generation;std::size_t image_bytes;const void* tissue;const void* cells;
     bool show_tissue,show_cells,tissue_ready,cells_ready;int cell_layer;
     std::uint64_t pixel_generation=0;bool show_pixels=false,pixels_ready=false;
+    std::uint64_t raw_pixel_generation=0;bool show_raw_pixels=false,raw_pixels_ready=false;
     auto values() const {return std::tie(document,selection,revision,selection_revision,primary,zoom,x,y,ox,oy,sx,sy,cx,cy,cz,cw,font,font_size,texture,flags,uvx,uvy,curve,circle,
-        uploads,generation,tissue_generation,cell_generation,image_bytes,tissue,cells,show_tissue,show_cells,tissue_ready,cells_ready,cell_layer,pixel_generation,show_pixels,pixels_ready);}
+        uploads,generation,tissue_generation,cell_generation,image_bytes,tissue,cells,show_tissue,show_cells,tissue_ready,cells_ready,cell_layer,pixel_generation,show_pixels,pixels_ready,raw_pixel_generation,show_raw_pixels,raw_pixels_ready);}
     bool operator==(const OverlayKey& other) const {return values()==other.values();}
 };
 // Copy the opaque base canvas immediately after its draw commands execute.

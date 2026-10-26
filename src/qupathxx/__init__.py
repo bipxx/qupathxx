@@ -1,5 +1,6 @@
 """Python access to the authoritative C++ document model."""
 from ._native import (
+    RawPixelTrainingSettings, GuiRawPixelOptions, GuiRawPixelReport,
     ScientificRawLattice, ScientificRawWindowAxis, ScientificRawWindow, ScientificRawWindowData,
     scientific_raw_window_work_bytes, read_scientific_raw_window, digest_scientific_raw_window, RawPixelFeatureScale,
     RawPixelFeatureOptions, RawPixelRecipe, RawPixelClassifier, load_raw_pixel_classifier,
@@ -71,6 +72,7 @@ from ._native import (
 )
 
 __all__ = [
+    "RawPixelTrainingSettings", "GuiRawPixelOptions", "GuiRawPixelReport",
     'ScientificRawLattice', 'ScientificRawWindowAxis', 'ScientificRawWindow', 'ScientificRawWindowData',
     'scientific_raw_window_work_bytes', 'read_scientific_raw_window', 'digest_scientific_raw_window', 'RawPixelFeatureScale',
     'RawPixelFeatureOptions', 'RawPixelRecipe', 'RawPixelClassifier', 'load_raw_pixel_classifier',

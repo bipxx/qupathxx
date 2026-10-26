@@ -1,6 +1,9 @@
 #include "../viewer_bridge.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "qupathxx/tma.hpp"
+#include "qupathxx/raw_pixel_frontend.hpp"
+#include "quantitative_tiff_fixture.hpp"
+#include "object_forest_fixture.hpp"
 #include <chrono>
 #include <filesystem>
 #include <iostream>
@@ -22,6 +25,34 @@ struct Harness {
     void step(detail::ViewerOwner& owner) {++context.frame;context.active_image=project->active_image();owner.pump(context);}
     ViewerEvent until(detail::ViewerOwner& owner,ViewerSession& session,std::uint64_t ticket) {const auto end=std::chrono::steady_clock::now()+std::chrono::seconds(20);for(;;) {step(owner);const auto event=session.poll(ticket);if(event.state!="queued" && event.state!="running") return event;if(std::chrono::steady_clock::now()>end) throw std::runtime_error("viewer test timeout");std::this_thread::sleep_for(std::chrono::milliseconds(1));}}
 };
+
+void raw_pixel_session_contracts(const std::filesystem::path& root) {
+    if(!has_project() || !has_tiff()) {std::cout<<"Raw pixel viewer unavailable: TIFF/project OFF\n";return;}
+    Harness h;const auto path=root/"raw-viewer.tif";qpx_test::raw_pixel_tiff_fixture(path);auto server=open_tiff(path.u8string());auto doc=std::make_shared<Document>(server);
+    const auto a=doc->add_detection(Roi::rectangle({0,0,3,6}),"A",0,"A"),b=doc->add_detection(Roi::rectangle({4,0,4,6}),"B",0,"B");const auto target=doc->add_rectangle({0,0,8,6});const auto image=h.project->add_document(doc);h.images=h.project->images();
+    ScientificRawLattice lattice(8,6,{0,8,7,2},{0,6,5,2});ScientificRawOptions selection;selection.channels=2;RawPixelFeatureOptions features;features.offsets={0,0};features.scales={1,1};
+    RawPixelRecipe recipe(*server->raw_metadata(),lattice,selection,features);std::vector<std::pair<std::string,std::string>> schema;for(const auto& f:recipe.feature_schema()) schema.emplace_back(f.name,f.unit);
+    const RawPixelClassifier model(ForestModel::from_bytes(qpx_test::object_forest_fixture(schema)),recipe);ViewerSession session((root/"raw-owner.qpxproj").u8string());detail::ViewerOwner owner(session);
+    auto ticket=session.predict_raw_pixels(image,model,lattice.window(1,1,2,2),target);auto result=h.until(owner,session,ticket);
+    auto expected=predict_raw_pixel_window(RawPixelWindowPredictionRequest(*doc,model,lattice.window(1,1,2,2),target));check(result.state=="succeeded" && result.raw_pixel_prediction && result.raw_pixel_prediction->labels()==expected->labels() && result.raw_pixel_prediction->vote_fractions()==expected->vote_fractions() && !result.committed);session.take(ticket);check(session.stats().retained_bytes==0);
+    ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(owner);doc->rename_annotation(target,"edited during preview");check(h.until(owner,session,ticket).state=="stale");session.take(ticket);
+    RawPixelStreamOptions stream;stream.tile_width=stream.tile_height=2;stream.work_bytes=16u*1024*1024;RawPixelStreamSaveOptions save;save.max_new_windows=1;const auto output=root/"viewer-prediction.qws";
+    ticket=session.export_raw_pixels(image,model,lattice,output.u8string(),stream,save,target,false);result=h.until(owner,session,ticket);check(result.state=="partial" && result.committed && result.raw_pixel_link && !result.raw_pixel_link->summary().complete);session.take(ticket);
+    save.resume_path=output.u8string();save.replace_existing=true;save.max_new_windows=UINT64_MAX;ticket=session.export_raw_pixels(image,model,lattice,output.u8string(),stream,save,target,true);result=h.until(owner,session,ticket);check(result.state=="succeeded" && result.committed && result.record_id && result.raw_pixel_link->summary().complete);const auto record=result.record_id;session.take(ticket);
+    const auto revision=doc->revision();ticket=session.read_raw_pixel_stream(image,"",0,{},record);result=h.until(owner,session,ticket);check(result.state=="succeeded" && result.verified && result.raw_pixel_prediction && doc->revision()==revision && !result.committed);const auto retained=result.raw_pixel_prediction;session.take(ticket);
+    ticket=session.read_raw_pixel_stream(image,"",0,{},record);h.step(owner);++h.context.epoch;check(h.until(owner,session,ticket).state=="stale");session.take(ticket);
+    RawPixelTrainingSettings settings;settings.lattice=lattice;settings.selection=selection;settings.features=features;settings.tiles.width=settings.tiles.height=2;settings.forest.trees=5;settings.forest.max_depth=3;settings.forest.work_bytes=2u*1024*1024;
+    if(has_classifier_training()) {
+        // The table API reuses a real live capture without another TIFF read.
+        RawPixelTiledTrainingRequest capture(*doc,{a,b},lattice,selection,features,settings.sampling,settings.tiles);auto table=sample_raw_pixel_tiled_training(capture);const auto before=*server->tiff_read_stats();RawPixelTiledTrainingJob fit;check(fit.train_table(capture,table,settings.forest) && fit.wait(*doc).state=="ready" && fit.table()==table);const auto after=*server->tiff_read_stats();check(before.decoded_blocks==after.decoded_blocks && before.cache_hits==after.cache_hits);
+        const auto archive=archive_raw_pixel_tiled_training(table);const auto historical=RawPixelArchive::from_bytes(archive->bytes());rejects([&]{fit.train_table(capture,historical->tiled_table(),settings.forest);});RawPixelTiledTrainingRequest other(*doc,{a,b},lattice,selection,features,settings.sampling,settings.tiles);rejects([&]{fit.train_table(other,table,settings.forest);});
+        settings.checkpoint_path=(root/"viewer-training.qtc").u8string();settings.checkpoint.max_new_windows=1;ticket=session.train_raw_pixels(image,{a,b},settings,true);result=h.until(owner,session,ticket);check(result.state=="partial" && result.raw_pixel_checkpoint && !result.raw_pixel_training && !result.record_id);session.take(ticket);
+        settings.checkpoint.resume_path=settings.checkpoint_path;settings.checkpoint.replace_existing=true;settings.checkpoint.max_new_windows=UINT64_MAX;ticket=session.train_raw_pixels(image,{a,b},settings,true);result=h.until(owner,session,ticket);check(result.state=="succeeded" && result.raw_pixel_training && result.raw_pixel_training->model() && result.record_id && result.committed);session.take(ticket);
+    } else {ticket=session.train_raw_pixels(image,{a,b},settings);check(h.until(owner,session,ticket).state=="failed");session.take(ticket);}
+    ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);check(session.cancel(ticket) && session.take(ticket).state=="cancelled");
+    ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(owner);h.project->remove_image(image);check(h.until(owner,session,ticket).state=="stale");session.take(ticket);owner.finish(h.context);check(!retained->labels().empty());server->close();
+    std::cout<<"Raw pixel viewer: owner training/checkpoint resume, bounded prediction, verified file retention, historical isolation, stale/cancel/removal and join passed; training="<<has_classifier_training()<<'\n';
+}
 
 void axis_session_contracts(const std::filesystem::path& root) {
     Harness h;auto doc=h.project->document(1);TmaGridOptions o;o.rows=2;o.columns=2;o.origin={8,7};o.row_step={0,8};o.column_step={9,0};o.width=4;o.height=4;doc->create_tma_grid(o);
@@ -46,7 +77,7 @@ void axis_session_contracts(const std::filesystem::path& root) {
 int main() {
     namespace fs=std::filesystem;const auto root=fs::current_path()/("viewer-test-"+std::to_string(std::random_device{}()));
     try {
-        fs::create_directory(root);axis_session_contracts(root);ViewerLimits limits;limits.validate();limits.tickets=0;rejects([&]{limits.validate();});
+        fs::create_directory(root);raw_pixel_session_contracts(root);axis_session_contracts(root);ViewerLimits limits;limits.validate();limits.tickets=0;rejects([&]{limits.validate();});
         Harness h;ViewerSession session((root/"source.qpxproj").u8string());detail::ViewerOwner owner(session);rejects([&]{detail::ViewerOwner second(session);});
         auto id=session.catalog();auto e=h.until(owner,session,id);check(e.state=="succeeded" && e.images.size()==2);session.take(id);rejects([&]{session.poll(id);});
         id=session.inspect(1,1);e=h.until(owner,session,id);check(e.object && e.metadata && e.metadata->width==32);const auto revision=e.document_revision;session.take(id);

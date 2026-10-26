@@ -74,6 +74,7 @@ private:
     friend struct RawPixelTiledTrainingKernel;
     friend struct RawPixelArchiveCodec;
     friend class RawPixelArchive;
+    friend class RawPixelTiledTrainingJob;
     friend class RawPixelTiledTrainingRequest;
     friend class Document;
 };
@@ -85,6 +86,9 @@ public:
     RawPixelTiledTrainingJob(const RawPixelTiledTrainingJob&)=delete;
     bool sample(const RawPixelTiledTrainingRequest&);
     bool train(const RawPixelTiledTrainingRequest&,ForestParameters={});
+    // Fit an owner-captured table (including a completed checkpoint) without
+    // sampling twice. Historical/other-request tables cannot restore authority.
+    bool train_table(const RawPixelTiledTrainingRequest&,std::shared_ptr<const RawPixelTiledTrainingTable>,ForestParameters={});
     bool busy() const;void cancel();void await_completion();
     RawPixelJobStats poll(const Document&);RawPixelJobStats wait(const Document&);
     std::shared_ptr<const RawPixelTiledTrainingTable> table() const;
@@ -92,6 +96,6 @@ public:
     bool verify_result(const Document&,std::uint64_t record_id);
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
-    bool start(const RawPixelTiledTrainingRequest&,std::optional<ForestParameters>);
+    bool start(const RawPixelTiledTrainingRequest&,std::optional<ForestParameters>,std::shared_ptr<const RawPixelTiledTrainingTable> table={});
 };
 }

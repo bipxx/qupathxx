@@ -13,13 +13,14 @@
 #include "qupathxx/analysis_types.hpp"
 
 namespace qpx {
-namespace detail {struct ClassificationEdit;class GuiPixelClassifier;class GuiTma;class GuiRaw;class ViewerOwner;struct TmaIndex;}
+namespace detail {struct ClassificationEdit;class GuiPixelClassifier;class GuiTma;class GuiRaw;class GuiRawPixel;class ViewerOwner;struct TmaIndex;}
 class RawAnalysisRequest;class RawAnalysisResult;struct RawAnalysisRecord;
 struct TmaGridOptions;
 struct TmaDearrayOptions;struct TmaDearrayResult;
 class TmaGrid;
 class TmaCoreInfo;
 class Project;
+struct GuiRawPixelOptions;struct GuiRawPixelReport;
 struct FileFingerprint;
 struct SourceFileAssociation;
 struct StainEstimateResult;
@@ -133,6 +134,7 @@ class Document {
     friend class detail::GuiPixelClassifier;
     friend class detail::GuiTma;
     friend class detail::GuiRaw;
+    friend class detail::GuiRawPixel;
     friend class detail::ViewerOwner;
 public:
     explicit Document(Image image);
@@ -713,11 +715,12 @@ struct GuiReport {
     // suspended iterations and final shutdown are outside this measurement.
     double rendered_frame_wall_p95_ms=0,max_rendered_frame_wall_ms=0;
     std::size_t rendered_frame_wall_samples=0;
+    std::shared_ptr<const GuiRawPixelReport> raw_pixel;
 
 };
 enum class GuiInputKind { Move, LeftDown, LeftUp, RightDown, RightUp, Wheel, RectangleKey, UndoKey, RedoKey, DeleteKey, EllipseKey, PolygonKey, PolylineKey, PointsKey, FinishKey, SelectAllKey, EscapeKey, VertexKey, HoleKey, InsertKey, BooleanKey, SaveKey, ExportKey, ImportKey, NextImageKey, PreviousImageKey, AddImageKey, RelinkImageKey, AutosaveKey, RecoverKey, CloseWindow, OpenProjectKey, NewProjectKey, RemoveImageKey, ReviewRecoveryKey, FindRecoveriesKey, StopRecoveryMaintenanceKey, AnalyzeKey, CancelAnalysisKey, KeepAnalysisKey, RecheckAnalysisKey, DetectTissueKey, CancelTissueKey, TraceTissueKey, KeepTissueContoursKey, KeepTissueKey, RecheckTissueKey, DetectCellsKey, KeepCellsKey, CancelCellsKey, KeepCellRunKey, RecheckCellRunKey, ExportCellTableKey, CancelCellTableKey, FingerprintFileKey, CancelFingerprintFileKey, ExportMeasurementTableKey, CancelMeasurementTableKey, EstimateStainsKey, ApplyStainEstimateKey, CancelStainEstimateKey, RunBatchKey, CancelBatchKey, ResizeWindow, MinimizeWindow, RestoreWindow, SetUiScale, ObjectClassifierKey, PixelClassifierKey, TmaKey, RawChannelsKey };
-enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord, TrainPixelClassifier, PredictPixelClasses, CancelPixelClassifier, SavePixelModel, LoadPixelModel, TogglePixelOverlay, TracePixelContours, PublishPixelContours, KeepPixelTraining, KeepPixelPrediction, UsePixelRecordModel, PreviewPixelRecord, RemovePixelRecord, ExportPixelStream, OpenPixelStreamBrowser, OpenPixelStreamFile, ReadPixelStreamBlock, PreviousPixelStreamBlock, NextPixelStreamBlock, VerifyPixelStreamFile, CancelPixelStreamRead, ClosePixelStreamFile, KeepPixelStreamLink, OpenPixelStreamRecord, RelinkPixelStreamRecord, RemovePixelStreamRecord, CreateTmaGrid, ToggleTmaMissing, SelectTmaPresent, ApplyTmaCase, ApplyTmaGeometry, TranslateTmaGrid, ClearTmaGrid, OpenTmaBatch, ExportTmaMetadata, CancelTmaMetadata, TmaCoreTab, TmaGridTab, TmaExportTab, ApplyTmaLabels, ApplyTiffView, AddTiffSeries, MeasureRawRegion, ExportRawRegion, CancelRawTask, RawDisplayTab, RawDataTab, RawResultsTab, KeepRawAnalysis, VerifyRawAnalysisRecord, RemoveRawAnalysisRecord, ExportRawMeasurements, CancelRawMeasurements, RawRecordsTab, OverviewBudgetIncrease, OverviewBudgetDecrease, LoadQptmaPreview, ApplyQptmaPreview, ExportQptma, CancelQptma, DiscardQptmaPreview, AcknowledgeQptmaLosses, TmaInsertRowBefore, TmaInsertRowAfter, TmaInsertColumnBefore, TmaInsertColumnAfter, TmaRemoveRow, TmaRemoveColumn, TmaDetectGrid };
-enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified, CellsReady, CellsPublished, CellsArchived, CellsVerified, CellTableSaved, FileFingerprintReady, MeasurementTableSaved, StainsEstimated, StainsApplied, BatchFinished, WindowReady, ObjectClassifierTrained, ObjectClassifierPredicted, ObjectClassifierApplied, ClassifierModelSaved, ClassifierModelLoaded, ClassifierTrainingRetained, ClassifierRecordLoaded, PixelClassifierTrained, PixelClassifierPredicted, PixelPreviewReady, PixelModelSaved, PixelModelLoaded, PixelContoursReady, PixelContoursPublished, PixelRecordKept, PixelRecordModelLoaded, PixelHistoricalPreviewReady, PixelStreamFinished, PixelStreamReadReady, PixelStreamReadFinished, PixelStreamVerified, PixelStreamLinked , TmaGridReady, TmaMetadataSaved, TiffReady, TiffViewApplied, RawTaskFinished, RawNumpySaved, RawAnalysisKept, RawAnalysisVerified, RawMeasurementsSaved };
+enum class GuiInputTarget { Canvas, Overview, ObjectList, Image, ProjectList, DisplayReset, DiscardRecoveryReplacement, KeepRecoveryClose, CancelClose, DiscardClose, SaveClose, SaveRecoveryReplacement, CancelRecoveryReplacement, CancelProjectLoad, ConfirmRemoveImage, CancelRemoveImage, ConfirmDiscardCheckpoint, CancelDiscardCheckpoint, Window, ResetLayout, SaveProject, TrainObjectClassifier, PredictObjectClasses, ApplyObjectClasses, CancelObjectClassifier, SaveClassifierModel, LoadClassifierModel, KeepClassifierTraining, UseClassifierRecord, TrainPixelClassifier, PredictPixelClasses, CancelPixelClassifier, SavePixelModel, LoadPixelModel, TogglePixelOverlay, TracePixelContours, PublishPixelContours, KeepPixelTraining, KeepPixelPrediction, UsePixelRecordModel, PreviewPixelRecord, RemovePixelRecord, ExportPixelStream, OpenPixelStreamBrowser, OpenPixelStreamFile, ReadPixelStreamBlock, PreviousPixelStreamBlock, NextPixelStreamBlock, VerifyPixelStreamFile, CancelPixelStreamRead, ClosePixelStreamFile, KeepPixelStreamLink, OpenPixelStreamRecord, RelinkPixelStreamRecord, RemovePixelStreamRecord, CreateTmaGrid, ToggleTmaMissing, SelectTmaPresent, ApplyTmaCase, ApplyTmaGeometry, TranslateTmaGrid, ClearTmaGrid, OpenTmaBatch, ExportTmaMetadata, CancelTmaMetadata, TmaCoreTab, TmaGridTab, TmaExportTab, ApplyTmaLabels, ApplyTiffView, AddTiffSeries, MeasureRawRegion, ExportRawRegion, CancelRawTask, RawDisplayTab, RawDataTab, RawResultsTab, KeepRawAnalysis, VerifyRawAnalysisRecord, RemoveRawAnalysisRecord, ExportRawMeasurements, CancelRawMeasurements, RawRecordsTab, OverviewBudgetIncrease, OverviewBudgetDecrease, LoadQptmaPreview, ApplyQptmaPreview, ExportQptma, CancelQptma, DiscardQptmaPreview, AcknowledgeQptmaLosses, TmaInsertRowBefore, TmaInsertRowAfter, TmaInsertColumnBefore, TmaInsertColumnAfter, TmaRemoveRow, TmaRemoveColumn, TmaDetectGrid, RawPixelTrain, RawPixelPredict, RawPixelCancel, RawPixelKeepTraining, RawPixelSaveModel, RawPixelLoadModel, RawPixelExport, RawPixelOpenFile, RawPixelKeepLink, RawPixelOpenRecord, RawPixelRemoveRecord, RawPixelToggleOverlay, RawPixelHide, RawPixelTrainingTab, RawPixelFilesTab, RawPixelRecordsTab };
+enum class GuiInputWait { Immediate, TargetReady, StartupFinished, TissueReady, TissueContoursReady, TissueContoursPublished, TissueArchived, TissueVerified, CellsReady, CellsPublished, CellsArchived, CellsVerified, CellTableSaved, FileFingerprintReady, MeasurementTableSaved, StainsEstimated, StainsApplied, BatchFinished, WindowReady, ObjectClassifierTrained, ObjectClassifierPredicted, ObjectClassifierApplied, ClassifierModelSaved, ClassifierModelLoaded, ClassifierTrainingRetained, ClassifierRecordLoaded, PixelClassifierTrained, PixelClassifierPredicted, PixelPreviewReady, PixelModelSaved, PixelModelLoaded, PixelContoursReady, PixelContoursPublished, PixelRecordKept, PixelRecordModelLoaded, PixelHistoricalPreviewReady, PixelStreamFinished, PixelStreamReadReady, PixelStreamReadFinished, PixelStreamVerified, PixelStreamLinked , TmaGridReady, TmaMetadataSaved, TiffReady, TiffViewApplied, RawTaskFinished, RawNumpySaved, RawAnalysisKept, RawAnalysisVerified, RawMeasurementsSaved, RawPixelFinished, RawPixelTrained, RawPixelPredicted, RawPixelPreviewReady, RawPixelKept, RawPixelFileSaved, RawPixelFileRead, RawPixelModelSaved, RawPixelModelLoaded };
 struct GuiInput {
     int frame = 0;
     GuiInputKind kind = GuiInputKind::Move;
@@ -833,6 +836,7 @@ struct GuiOptions {
     std::string pixel_stream_read_path;
     std::uint64_t pixel_stream_read_index=0,pixel_stream_read_max_bytes=1ULL<<40;
     std::uint64_t overview_source_pixel_limit=4*1024*1024;
+    std::shared_ptr<const GuiRawPixelOptions> raw_pixel;
 };
 GuiReport run_gui(Document& document, int frame_limit = 0, const std::string& capture_path = "", const GuiOptions& options = {});
 std::string default_workspace_layout_path();

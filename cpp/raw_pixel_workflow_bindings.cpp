@@ -84,6 +84,7 @@ void bind_raw_pixel_workflows(nb::module_& m) {
         .def("matches",&RawPixelWindowPredictionRequest::matches,"document"_a).def_prop_ro("window",[](const RawPixelWindowPredictionRequest& v){return v.window();})
         .def_prop_ro("model",[](const RawPixelWindowPredictionRequest& v){return v.model();}).def_prop_ro("estimated_work_bytes",&RawPixelWindowPredictionRequest::estimated_work_bytes);
     training_job<RawPixelTrainingJob>(m,"RawPixelTrainingJob");training_job<RawPixelTiledTrainingJob>(m,"RawPixelTiledTrainingJob");
+    nb::borrow<nb::class_<PythonJob<RawPixelTiledTrainingJob>>>(m.attr("RawPixelTiledTrainingJob")).def("train_table",qpx::bindings::job_method<&RawPixelTiledTrainingJob::train_table>(),"request"_a,"table"_a,"parameters"_a=ForestParameters{});
     prediction_job<RawPixelPredictionJob>(m,"RawPixelPredictionJob");prediction_job<RawPixelWindowPredictionJob>(m,"RawPixelWindowPredictionJob");
     nb::borrow<nb::class_<PythonJob<RawPixelPredictionJob>>>(m.attr("RawPixelPredictionJob")).def("verify_result",qpx::bindings::job_method<&RawPixelPredictionJob::verify_result>(),"document"_a,"record_id"_a);
     m.def("sample_raw_pixel_training",[](const RawPixelTrainingRequest& r){return sample_raw_pixel_training(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());

@@ -4,6 +4,7 @@
 #include "qupathxx/measurement_tables.hpp"
 #include "qupathxx/cell_tables.hpp"
 #include "qupathxx/raw_tables.hpp"
+#include "qupathxx/raw_pixel_frontend.hpp"
 #include "qupathxx/tma_dearray.hpp"
 namespace qpx {
 namespace detail {class ViewerOwner;}
@@ -29,6 +30,10 @@ struct ViewerEvent {
     std::shared_ptr<const RawAnalysisResult> raw_analysis;
     std::shared_ptr<const RawPixelBuffer> raw_pixels;
     std::shared_ptr<const RawImageMetadata> raw_metadata;
+    std::shared_ptr<const RawPixelArchive> raw_pixel_training;
+    std::shared_ptr<const RawPixelTrainingCheckpoint> raw_pixel_checkpoint;
+    std::shared_ptr<const RawPixelWindowClassification> raw_pixel_prediction;
+    std::shared_ptr<const RawPixelStreamLink> raw_pixel_link;
     std::optional<TiffView> tiff_view;
     std::uint64_t samples=0,components=0,rows=0;
     std::size_t bytes=0;
@@ -81,6 +86,12 @@ public:
     std::uint64_t analyze_raw_grid(std::uint64_t image_id,std::uint64_t object_id,RawGridSampling={},ScientificRawOptions={},bool nucleus=false,bool retain_result=false);
     std::uint64_t verify_raw_analysis(std::uint64_t image_id,std::uint64_t record_id);
     std::uint64_t export_raw_measurements(std::uint64_t image_id,const std::string&,bool require_current=false,const std::vector<std::uint64_t>& record_ids={});
+    std::uint64_t train_raw_pixels(std::uint64_t image_id,const std::vector<std::uint64_t>& ids,RawPixelTrainingSettings={},bool retain_result=true);
+    std::uint64_t predict_raw_pixels(std::uint64_t image_id,const RawPixelClassifier&,ScientificRawWindow,std::uint64_t object_id=0,double min_vote_fraction=0,std::size_t work_bytes=16u*1024*1024);
+    std::uint64_t export_raw_pixels(std::uint64_t image_id,const RawPixelClassifier&,ScientificRawLattice,const std::string&,RawPixelStreamOptions={},RawPixelStreamSaveOptions={},std::uint64_t object_id=0,bool retain_result=true);
+    // Historical file/record verification and one bounded indexed block. This
+    // never restores live prediction/apply authority. Empty prefixes are valid.
+    std::uint64_t read_raw_pixel_stream(std::uint64_t image_id,const std::string& path,std::uint64_t index=0,RawPixelStreamFileLimits={},std::uint64_t record_id=0,bool retain_result=false);
     std::uint64_t save(const std::string&);
     std::uint64_t close(bool discard_changes=false);
 private:
