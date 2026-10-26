@@ -8,6 +8,7 @@
 #include <locale>
 #include <sstream>
 #include <stdexcept>
+#include <type_traits>
 
 namespace qpx {
 void RawPixelFeatureOptions::validate(std::uint32_t channels) const {
@@ -57,16 +58,25 @@ void smooth(std::vector<double>& values,const std::vector<std::uint8_t>& valid,s
     for(std::size_t i=0;i<values.size();++i) {if((i&4095)==0) stopped(cancelled);values[i]=weights[i]>0?values[i]/weights[i]:0;}
 }
 }
-std::size_t raw_feature_work_bytes(const RawImageMetadata& metadata,const ScientificGrid& grid,const ScientificRawOptions& raw,const RawFeatureOptions& options) {
+namespace {
+const ScientificGrid& feature_geometry(const ScientificRawGrid& input) {return input.grid();}
+const ScientificRawWindow& feature_geometry(const ScientificRawWindowData& input) {return input.window();}
+std::int64_t core_width(const ScientificGrid& g) {return g.x().samples();}
+std::int64_t core_height(const ScientificGrid& g) {return g.y().samples();}
+std::int64_t core_width(const ScientificRawWindow& g) {return g.core_width();}
+std::int64_t core_height(const ScientificRawWindow& g) {return g.core_height();}
+std::size_t sampler_work(const RawImageMetadata& m,const ScientificGrid& g,ScientificRawOptions o) {return scientific_raw_work_bytes(m,g,o);}
+std::size_t sampler_work(const RawImageMetadata& m,const ScientificRawWindow& g,ScientificRawOptions o) {return scientific_raw_window_work_bytes(m,g,o);}
+template<class Grid> std::size_t feature_work(const RawImageMetadata& metadata,const Grid& grid,const ScientificRawOptions& raw,const RawFeatureOptions& options) {
     options.validate(raw.channels);const auto channels=raw.channels;
     const auto width=std::uint64_t(grid.width()),height=std::uint64_t(grid.height());
-    const auto rows=std::uint64_t(grid.x().samples())*std::uint64_t(grid.y().samples());
+    const auto rows=std::uint64_t(core_width(grid))*std::uint64_t(core_height(grid));
     // Includes captured HWC binary64/support/reasons, six simultaneous double
     // planes (base, values, weights, both temporaries and headroom), and masks.
     // Schema strings/recipe/metadata have a separately conservative fixed charge.
     const auto context_stride=std::uint64_t(channels)*10+50;
     const auto output_stride=std::uint64_t(columns(channels,options))*5+1;
-    const auto reader_work=scientific_raw_work_bytes(metadata,grid,raw);
+    const auto reader_work=sampler_work(metadata,grid,raw);
     // Raw capture includes metadata/string storage and the peak source read.
     // Charge it as well as the conservative feature workspace before pixel IO.
     if(reader_work>options.work_bytes || 262144>options.work_bytes-reader_work) throw std::length_error("raw feature input capture exceeds memory budget");
@@ -83,6 +93,9 @@ std::size_t raw_feature_work_bytes(const RawImageMetadata& metadata,const Scient
     if(grid.x().context()<std::ceil(3*last.x)+derivative || grid.y().context()<std::ceil(3*last.y)+derivative) throw std::invalid_argument("raw feature grid lacks required per-axis halo");
     return bytes+fixed;
 }
+}
+std::size_t raw_feature_work_bytes(const RawImageMetadata& metadata,const ScientificGrid& grid,const ScientificRawOptions& raw,const RawFeatureOptions& options) {return feature_work(metadata,grid,raw,options);}
+std::size_t raw_feature_work_bytes(const RawImageMetadata& metadata,const ScientificRawWindow& grid,const ScientificRawOptions& raw,const RawFeatureOptions& options) {return feature_work(metadata,grid,raw,options);}
 std::vector<ClassifierFeature> raw_feature_schema(const ScientificRawGrid& input,const RawFeatureOptions& options) {return raw_feature_schema(input.metadata(),input.options(),options);}
 std::vector<ClassifierFeature> raw_feature_schema(const RawImageMetadata& metadata,const ScientificRawOptions& raw,const RawFeatureOptions& options) {
     options.validate(raw.channels);std::vector<ClassifierFeature> result;result.reserve(columns(raw.channels,options));
@@ -94,14 +107,14 @@ std::vector<ClassifierFeature> raw_feature_schema(const RawImageMetadata& metada
     }
     return result;
 }
-std::shared_ptr<const RawFeatureImage> extract_raw_pixel_features(const ScientificRawGrid& input,const RawFeatureOptions& options,const std::atomic<bool>* cancelled) {
-    stopped(cancelled);const auto work=raw_feature_work_bytes(input.metadata(),input.grid(),input.options(),options);
+template<class Input> std::shared_ptr<const RawFeatureImage> extract_raw_features(const Input& input,const RawFeatureOptions& options,const std::atomic<bool>* cancelled) {
+    stopped(cancelled);const auto& grid=feature_geometry(input);const auto work=raw_feature_work_bytes(input.metadata(),grid,input.options(),options);
     const auto width=std::size_t(input.width()),height=std::size_t(input.height()),count=width*height;
-    const auto ow=std::size_t(input.grid().x().samples()),oh=std::size_t(input.grid().y().samples());
-    const auto ox=std::size_t(input.grid().x().context()),oy=std::size_t(input.grid().y().context());
-    auto output=std::make_shared<RawFeatureImage>();output->width=ow;output->height=oh;output->features=raw_feature_schema(input,options);output->estimated_work_bytes=work;
+    const auto ow=std::size_t(core_width(grid)),oh=std::size_t(core_height(grid));
+    const auto ox=std::size_t(grid.x().context()),oy=std::size_t(grid.y().context());
+    auto output=std::make_shared<RawFeatureImage>();output->width=ow;output->height=oh;output->features=raw_feature_schema(input.metadata(),input.options(),options);output->estimated_work_bytes=work;
     const auto n=output->features.size();output->values.assign(ow*oh*n,std::numeric_limits<float>::quiet_NaN());output->valid.assign(ow*oh*n,0);output->rows_valid.assign(ow*oh,1);
-    Sha256 source;text(source,"qpx.raw-pixel-feature-input/1");text(source,input.input_sha256());
+    Sha256 source;text(source,std::is_same_v<Input,ScientificRawGrid>?"qpx.raw-pixel-feature-input/1":"qpx.raw-pixel-window-feature-input/1");text(source,input.input_sha256());
     for(const auto& f:output->features) {text(source,f.name);text(source,f.unit);}output->input_sha256=source.finish();
     std::size_t column=0;
     for(std::size_t c=0;c<input.channels();++c) {
@@ -147,4 +160,6 @@ std::shared_ptr<const RawFeatureImage> extract_raw_pixel_features(const Scientif
     for(std::size_t i=0;i<output->values.size();++i) {if((i&4095)==0) stopped(cancelled);std::uint32_t bits=0x7fc00000;if(output->valid[i]) std::memcpy(&bits,&output->values[i],4);hash.integer(bits);}
     output->sha256=hash.finish();stopped(cancelled);return output;
 }
+std::shared_ptr<const RawFeatureImage> extract_raw_pixel_features(const ScientificRawGrid& input,const RawFeatureOptions& options,const std::atomic<bool>* cancelled) {return extract_raw_features(input,options,cancelled);}
+std::shared_ptr<const RawFeatureImage> extract_raw_pixel_features(const ScientificRawWindowData& input,const RawFeatureOptions& options,const std::atomic<bool>* cancelled) {return extract_raw_features(input,options,cancelled);}
 }

@@ -18,6 +18,8 @@ struct RawFeatureImage {
 std::vector<ClassifierFeature> raw_feature_schema(const ScientificRawGrid&,const RawFeatureOptions&);
 std::vector<ClassifierFeature> raw_feature_schema(const RawImageMetadata&,const ScientificRawOptions&,const RawFeatureOptions&);
 std::size_t raw_feature_work_bytes(const RawImageMetadata&,const ScientificGrid&,const ScientificRawOptions&,const RawFeatureOptions&);
+std::size_t raw_feature_work_bytes(const RawImageMetadata&,const ScientificRawWindow&,const ScientificRawOptions&,const RawFeatureOptions&);
+std::shared_ptr<const RawFeatureImage> extract_raw_pixel_features(const ScientificRawWindowData&,const RawFeatureOptions&,const std::atomic<bool>* cancelled=nullptr);
 std::shared_ptr<const RawFeatureImage> extract_raw_pixel_features(
     const ScientificRawGrid&,const RawFeatureOptions&,const std::atomic<bool>* cancelled=nullptr);
 }
