@@ -49,7 +49,8 @@ Options parse(const std::vector<std::string>& args,std::size_t first,bool train,
     for(std::size_t i=first;i<args.size();++i) {
         const auto& f=args[i];if(f!="--object" && !seen.insert(f).second) throw std::invalid_argument("duplicate option: "+f);
         auto value=[&]()->const std::string& {if(++i==args.size()) throw std::invalid_argument("missing value for "+f);return args[i];};
-        if(f=="--work-bytes") {auto n=integer<std::size_t>(value());o.selection.work_bytes=o.features.work_bytes=o.sampling.work_bytes=o.stream.work_bytes=n;o.save.limits.work_bytes=o.checkpoint.limits.work_bytes=n;}
+        if(f=="--work-bytes") {auto n=integer<std::size_t>(value());o.selection.work_bytes=o.features.work_bytes=o.sampling.work_bytes=o.stream.work_bytes=n;}
+        else if(f=="--file-work-bytes" && !train) o.save.limits.work_bytes=integer<std::size_t>(value());
         else if(f=="--file-bytes") {if(train) throw std::invalid_argument("--file-bytes applies to prediction files");o.save.limits.max_bytes=integer<std::uint64_t>(value());}
         else if(verify) throw std::invalid_argument("unknown raw verification option: "+f);
         else if(f=="--x-axis") o.x=axis(value());
@@ -88,6 +89,7 @@ Options parse(const std::vector<std::string>& args,std::size_t first,bool train,
         else if(f=="--min-samples") o.forest.min_samples=integer<std::uint32_t>(value());
         else if(f=="--active-features") o.forest.active_features=integer<std::uint32_t>(value());
         else if(f=="--forest-work-bytes") o.forest.work_bytes=integer<std::uint64_t>(value());
+        else if(f=="--checkpoint-work-bytes") o.checkpoint.limits.work_bytes=integer<std::size_t>(value());
         else if(f=="--checkpoint-bytes") o.checkpoint.limits.max_bytes=integer<std::size_t>(value());
         else throw std::invalid_argument("unknown raw training option: "+f);
     }
