@@ -67,6 +67,8 @@ private:
     friend struct RawPixelClassifierKernel;
     friend struct RawPixelPredictionKernel;
     friend struct RawPixelArchiveCodec;
+    friend class Document;
+    friend struct RawPixelContourKernel;
     std::shared_ptr<const char> capture_;
     friend std::shared_ptr<const RawPixelClassification> classify_raw_pixels(
         const ScientificRawGrid&,const RawPixelClassifier&,double,std::size_t,const std::atomic<bool>*);

@@ -26,6 +26,8 @@ private:
     std::string sha_;std::size_t payload_=0;
     friend struct RawPixelArchiveCodec;
     friend class Document;
+    friend class RawPixelTrainingRequest;
+    friend class RawPixelPredictionRequest;
 };
 std::shared_ptr<const RawPixelArchive> archive_raw_pixel_training(std::shared_ptr<const RawPixelTrainingTable>,
     std::shared_ptr<const RawPixelClassifier> model={},const std::atomic<bool>* cancelled=nullptr);

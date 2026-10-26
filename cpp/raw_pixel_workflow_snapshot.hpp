@@ -4,6 +4,7 @@
 #include "qupathxx/provenance.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "raw_pixel_classifier_internal.hpp"
+#include "qupathxx/raw_pixel_contours.hpp"
 namespace qpx {
 struct RawPixelSourceSnapshot {
     RawImageMetadata metadata;
@@ -32,4 +33,9 @@ struct RawPixelPredictionRequest::Data {
 std::string raw_pixel_training_sha256(const RawPixelTrainingTable&,const std::atomic<bool>* = nullptr);
 std::string raw_pixel_prediction_sha256(const RawPixelClassification&,double,const std::atomic<bool>* = nullptr);
 std::string raw_pixel_source_metadata_epoch(const RawImageMetadata&,const ScientificGrid&);
+struct RawPixelContourKernel {
+    static std::shared_ptr<const RawPixelPredictionRequest::Data> capture(const RawPixelPredictionRequest&,const std::shared_ptr<const RawPixelClassification>&);
+    static bool current(const Document&,const RawPixelPredictionRequest&,const std::shared_ptr<const RawPixelClassification>&);
+    static std::shared_ptr<const RawPixelContours> run(std::shared_ptr<const RawPixelPredictionRequest::Data>,std::shared_ptr<const RawPixelClassification>,TissueContourOptions,const std::atomic<bool>*);
+};
 }

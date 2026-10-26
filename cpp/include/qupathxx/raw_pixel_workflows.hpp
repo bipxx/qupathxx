@@ -16,6 +16,7 @@ public:
     struct Data;
     RawPixelTrainingRequest(const Document&,const std::vector<std::uint64_t>& annotation_ids,
         ScientificGrid,ScientificRawOptions,RawPixelFeatureOptions,RawPixelTrainingOptions={},bool physical_sigmas=false);
+    static RawPixelTrainingRequest replay(const Document&,std::uint64_t record_id);
     bool matches(const Document&) const;
     const ScientificGrid& grid() const;
     const RawPixelRecipe& recipe() const;
@@ -63,6 +64,8 @@ private:
     friend struct RawPixelTrainingKernel;
     friend struct RawPixelArchiveCodec;
     friend class RawPixelArchive;
+    friend class RawPixelTrainingRequest;
+    friend class Document;
 };
 std::shared_ptr<const RawPixelTrainingTable> sample_raw_pixel_training(const RawPixelTrainingRequest&,const std::atomic<bool>* cancelled=nullptr);
 RawPixelClassifier train_raw_pixel_classifier(const RawPixelTrainingTable&,ForestParameters={},const std::atomic<bool>* cancelled=nullptr);
@@ -71,6 +74,7 @@ public:
     struct Data;
     RawPixelPredictionRequest(const Document&,const RawPixelClassifier&,ScientificGrid,std::uint64_t object_id=0,
         double min_vote_fraction=0,std::size_t work_bytes=0);
+    static RawPixelPredictionRequest replay(const Document&,std::uint64_t record_id);
     bool matches(const Document&) const;
     const ScientificGrid& grid() const;
     const RawPixelClassifier& model() const;
@@ -83,6 +87,7 @@ private:
     bool publication_matches(const Document&) const;
     friend struct RawPixelPredictionKernel;
     friend class RawPixelPredictionJob;
+    friend struct RawPixelContourKernel;
     friend struct RawPixelArchiveCodec;
     friend class Document;
 };
@@ -101,6 +106,7 @@ public:
     RawPixelJobStats poll(const Document&);RawPixelJobStats wait(const Document&);
     std::shared_ptr<const RawPixelTrainingTable> table() const;
     std::shared_ptr<const RawPixelClassifier> model() const;
+    bool verify_result(const Document&,std::uint64_t record_id);
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
     bool start(const RawPixelTrainingRequest&,std::optional<ForestParameters>);
@@ -112,6 +118,7 @@ public:
     bool busy() const;void cancel();void await_completion();
     RawPixelJobStats poll(const Document&);RawPixelJobStats wait(const Document&);
     std::shared_ptr<const RawPixelClassification> result() const;
+    bool verify_result(const Document&,std::uint64_t record_id);
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
 };

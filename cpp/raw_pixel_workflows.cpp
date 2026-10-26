@@ -173,6 +173,10 @@ struct RawPixelPredictionKernel {
     }
 };
 std::shared_ptr<const RawPixelClassification> predict_raw_pixel_region(const RawPixelPredictionRequest& request,const std::atomic<bool>* cancelled) {return RawPixelPredictionKernel::run(request,cancelled);}
+std::shared_ptr<const RawPixelPredictionRequest::Data> RawPixelContourKernel::capture(const RawPixelPredictionRequest& request,const std::shared_ptr<const RawPixelClassification>& result) {
+    if(!result || !result->capture_ || result->capture_!=request.data_->capture) throw std::invalid_argument("raw pixel contours require the matching live prediction capture");return request.data_;
+}
+bool RawPixelContourKernel::current(const Document& doc,const RawPixelPredictionRequest& request,const std::shared_ptr<const RawPixelClassification>& result) {capture(request,result);return request.publication_matches(doc);}
 
 namespace {
 using Clock=std::chrono::steady_clock;
@@ -224,6 +228,7 @@ RawPixelJobStats RawPixelTrainingJob::poll(const Document& doc) {
 RawPixelJobStats RawPixelTrainingJob::wait(const Document& doc) {owner_check(impl_->owner);poll(doc);await_completion();return poll(doc);}
 std::shared_ptr<const RawPixelTrainingTable> RawPixelTrainingJob::table() const {owner_check(impl_->owner);return impl_->cancelled.load()?nullptr:impl_->table;}
 std::shared_ptr<const RawPixelClassifier> RawPixelTrainingJob::model() const {owner_check(impl_->owner);return impl_->cancelled.load()?nullptr:impl_->model;}
+bool RawPixelTrainingJob::verify_result(const Document& document,std::uint64_t id) {if(poll(document).state!="ready" || !impl_->table || !impl_->request) throw std::runtime_error("raw pixel verification table is not ready/current");return document.verify_raw_pixel_training(id,*impl_->request,impl_->table,impl_->model);}
 struct RawPixelPredictionJob::Impl {
     const std::thread::id owner=std::this_thread::get_id();
     std::optional<RawPixelPredictionRequest> request;
@@ -260,4 +265,5 @@ RawPixelJobStats RawPixelPredictionJob::poll(const Document& doc) {
 }
 RawPixelJobStats RawPixelPredictionJob::wait(const Document& doc) {owner_check(impl_->owner);poll(doc);await_completion();return poll(doc);}
 std::shared_ptr<const RawPixelClassification> RawPixelPredictionJob::result() const {owner_check(impl_->owner);return impl_->cancelled.load()?nullptr:impl_->result;}
+bool RawPixelPredictionJob::verify_result(const Document& document,std::uint64_t id) {if(poll(document).state!="ready" || !impl_->result || !impl_->request) throw std::runtime_error("raw pixel verification prediction is not ready/current");return document.verify_raw_pixel_prediction(id,*impl_->request,impl_->result);}
 }

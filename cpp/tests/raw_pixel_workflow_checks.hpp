@@ -18,7 +18,7 @@ class Reader final:public qpx::ImageServer {
     mutable std::mutex mutex_;mutable std::condition_variable condition_;
     mutable bool blocking_=false,entered_=false,released_=false;
 public:
-    mutable std::atomic<unsigned> reads{0};std::atomic<bool> failing{false},shut{false};
+    mutable std::atomic<unsigned> reads{0};std::atomic<bool> failing{false},shut{false},altered{false};
     std::shared_ptr<qpx::RawImageMetadata> raw=input_.raw;
     const qpx::ImageMetadata& metadata() const override {return input_.metadata();}
     std::string reader_id() const override {return input_.reader_id();}
@@ -29,7 +29,7 @@ public:
     qpx::PixelBuffer read_region(const qpx::RegionRequest&) const override {throw std::runtime_error("raw workflow used display IO");}
     qpx::RawPixelBuffer read_raw(const qpx::RawRegionRequest& request,const std::atomic<bool>* cancelled) const override {
         ++reads;{std::unique_lock<std::mutex> lock(mutex_);if(blocking_) {entered_=true;condition_.notify_all();if(!condition_.wait_for(lock,std::chrono::seconds(10),[&]{return released_;})) throw std::runtime_error("raw workflow fixture read barrier timed out");}}
-        if(failing.load()) throw std::runtime_error("independent raw workflow decoder failure");return input_.read_raw(request,cancelled);
+        if(failing.load()) throw std::runtime_error("independent raw workflow decoder failure");auto out=input_.read_raw(request,cancelled);if(altered.load()) std::visit([](auto& values) {if(!values.empty()) values.front()=typename std::decay_t<decltype(values)>::value_type(values.front()+1);},out.writable_storage());return out;
     }
     void arm() {std::lock_guard<std::mutex> lock(mutex_);blocking_=true;entered_=released_=false;}
     void wait_entered() const {std::unique_lock<std::mutex> lock(mutex_);check(condition_.wait_for(lock,std::chrono::seconds(5),[&]{return entered_;}));}

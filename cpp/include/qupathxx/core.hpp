@@ -35,6 +35,7 @@ class PixelPredictionRequest;
 class PixelClassifierArchive;
 struct PixelClassifierRecord;
 class RawPixelArchive;struct RawPixelRecord;class RawPixelTrainingRequest;class RawPixelPredictionRequest;
+class RawPixelTrainingTable;class RawPixelClassifier;class RawPixelClassification;
 class PixelContours;
 struct TissueContourOptions;
 struct PixelTrainingOptions;
@@ -270,6 +271,8 @@ public:
     std::uint64_t keep_raw_pixel_training(const RawPixelTrainingRequest&,std::shared_ptr<const RawPixelArchive>,std::string name="Raw pixel training");
     std::uint64_t keep_raw_pixel_prediction(const RawPixelPredictionRequest&,std::shared_ptr<const RawPixelArchive>,std::string name="Raw pixel prediction");
     bool remove_raw_pixel_record(std::uint64_t);
+    bool verify_raw_pixel_training(std::uint64_t,const RawPixelTrainingRequest&,std::shared_ptr<const RawPixelTrainingTable>,std::shared_ptr<const RawPixelClassifier> model={}) const;
+    bool verify_raw_pixel_prediction(std::uint64_t,const RawPixelPredictionRequest&,std::shared_ptr<const RawPixelClassification>) const;
     std::vector<std::shared_ptr<const PixelStreamRecord>> pixel_stream_records() const;
     std::shared_ptr<const PixelStreamRecord> pixel_stream_record(std::uint64_t id) const;
     std::size_t pixel_stream_record_count() const {return streams_.size()+streams_snapshot_.size();}

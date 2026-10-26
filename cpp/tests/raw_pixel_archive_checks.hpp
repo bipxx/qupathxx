@@ -1,6 +1,7 @@
 #pragma once
 #include "raw_pixel_workflow_checks.hpp"
 #include "qupathxx/raw_pixel_archive.hpp"
+#include "qupathxx/raw_pixel_contours.hpp"
 #include "qupathxx/project.hpp"
 #include "qupathxx/project_save.hpp"
 #include "qupathxx/project_recovery.hpp"
@@ -78,10 +79,15 @@ inline void run() {
         const auto training_id=live->keep_raw_pixel_training(real_request,real_archive);
         const RawPixelClassifier real_model=real_archive->model()?*real_archive->model():RawPixelClassifier(raw_classifier_checks::forest(real_request.recipe()),real_request.recipe());const RawPixelPredictionRequest real_prediction(*live,real_model,real_grid,left);const auto real_pred_archive=archive_raw_pixel_prediction(real_prediction,predict_raw_pixel_region(real_prediction));const auto prediction_id=live->keep_raw_pixel_prediction(real_prediction,real_pred_archive);
         const auto project_path=(directory/"project.qpxproj").u8string();project->save(project_path);auto opened=Project::open(project_path);check(opened->document(image_id)->raw_pixel_record_count()==2 && opened->document(image_id)->raw_pixel_record(training_id)->archive->sha256()==real_archive->sha256());check(opened->document(image_id)->raw_pixel_record(prediction_id)->archive->result()->sha256()==real_pred_archive->result()->sha256());
+        const auto historical=opened->document(image_id);const auto replay_training=RawPixelTrainingRequest::replay(*historical,training_id);RawPixelTrainingJob replay_samples;check(replay_samples.sample(replay_training) && replay_samples.wait(*historical).state=="ready" && replay_samples.verify_result(*historical,training_id));
+        const auto replay_prediction=RawPixelPredictionRequest::replay(*historical,prediction_id);RawPixelPredictionJob replay_job;check(replay_job.request(replay_prediction) && replay_job.wait(*historical).state=="ready" && replay_job.verify_result(*historical,prediction_id));
+        rejects<std::invalid_argument>([&]{historical->verify_raw_pixel_prediction(prediction_id,replay_prediction,historical->raw_pixel_record(prediction_id)->archive->result());});
+        std::cout<<"Raw pixel replay: real TIFF reopened training/prediction records verify through fresh owner jobs without promoting historical authority passed\n";
         live->rename_annotation(left,"Left after save");const auto recovery_path=(directory/"project.qpxrecover").u8string();{ProjectAutosave autosave;check(autosave.request(*project,recovery_path) && autosave.wait().state=="ready");}auto recovered=Project::recover(recovery_path,project_path);check(recovered->document(image_id)->raw_pixel_record_count()==2 && recovered->document(image_id)->raw_pixel_record(prediction_id)->archive->sha256()==real_pred_archive->sha256());recovered.reset();Project::discard_recovery_checked(Project::review_recovery(recovery_path));
         check(opened->document(image_id)->remove_raw_pixel_record(training_id));ProjectSaveJob save;check(save.request(opened,project_path));check(save.wait().state=="saved");auto again=Project::open(project_path);check(again->document(image_id)->raw_pixel_record_count()==1);
         auto corrupt_record=RawPixelArchiveCodec::encode_record(*again->document(image_id)->raw_pixel_record(prediction_id),nullptr);corrupt_record.back()^=1;rejects<std::invalid_argument>([&]{RawPixelArchiveCodec::decode_record(corrupt_record.data(),corrupt_record.size(),live->metadata(),nullptr);});
-        const RawPixelPredictionRequest captured(*live,real_model,real_grid,left);const auto ready=archive_raw_pixel_prediction(captured,predict_raw_pixel_region(captured));{std::ofstream changed(image,std::ios::binary|std::ios::app);changed<<"changed";}const auto rev=live->revision();rejects<std::invalid_argument>([&]{live->keep_raw_pixel_prediction(captured,ready);});check(live->revision()==rev && live->raw_pixel_record_count()==2);
+        const RawPixelPredictionRequest captured(*live,real_model,real_grid,left);const auto ready=archive_raw_pixel_prediction(captured,predict_raw_pixel_region(captured));const auto ready_contours=has_geos()?trace_raw_pixel_prediction(captured,ready->result()):nullptr;
+        {std::ofstream changed(image,std::ios::binary|std::ios::app);changed<<"changed";}const auto rev=live->revision();rejects<std::invalid_argument>([&]{live->keep_raw_pixel_prediction(captured,ready);});if(ready_contours) rejects<std::invalid_argument>([&]{publish_raw_pixel_contours(*live,captured,*ready_contours);});rejects<std::invalid_argument>([&]{historical->verify_raw_pixel_prediction(prediction_id,replay_prediction,replay_job.result());});check(live->revision()==rev && live->raw_pixel_record_count()==2);
         // Close readers before removing test-owned files on Windows.
         again.reset();opened.reset();project.reset();live->server()->close();std::filesystem::remove(project_path);std::filesystem::remove(image);
         // Recovery deliberately preserves its lock and unmanaged-session marker.
