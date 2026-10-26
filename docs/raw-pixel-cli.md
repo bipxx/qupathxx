@@ -71,6 +71,42 @@ not claim whole-slide completion or live document/apply authority. Optional
 `--output-project` retains a verified QWL1 link in a new project. It currently
 performs an additional bounded full-file verification after the save job.
 
+## Stream contours into a new project
+
+```text
+qupathxx_batch --contour-raw-pixels input.qpx 1 model.qrm contours.qpx --x-axis 0,80000,4000,4 --y-axis 0,60000,3000,4 --tile-width 64 --tile-height 64 --object 7 --name-prefix Tissue
+```
+
+Positionals are the input project, image ID, trained model and a new project
+path. The operation consumes prediction tiles without retaining the full label
+raster, joins boundaries through the shared GEOS kernel, applies all resulting
+annotations atomically in the privately opened document and commits the new
+project. The input project and model remain unchanged. Both axes must match
+the model; `--region X,Y,W,H` uses global sample indices. `--object ID` selects
+one area; default geometry clips to that area and image bounds. `--no-clip`
+removes ROI geometry clipping while retaining sample-center masking and image
+bounds. This can extend contour cells beyond the selected ROI boundary.
+
+The command accepts `--work-bytes`, `--tile-width`, `--tile-height`,
+`--max-windows`, `--max-samples` and `--min-vote` for prediction. Contour limits
+are `--contour-work-bytes`, `--boundary-work-bytes`, `--max-boundary-runs`,
+`--max-components`, `--max-edges`, `--max-vertices` and `--total-work-bytes`.
+Publication and project staging use `--publication-work-bytes`,
+`--snapshot-bytes` and `--project-bytes`. These are conservative admission
+budgets, not a process-RSS promise. GEOS is required for this command.
+
+The destination must be absent, including project sidecars and aliases to any
+input. `--resume`, `--replace-existing`, `--file-bytes`, `--max-new-windows` and
+`--output-project` do not apply. Cancellation or quota failure before commit
+leaves no destination project. Captured model/project/reader versions are
+rechecked at publication and immediately before the atomic save commit.
+
+JSONL schema `qpx.raw-pixel-contours/1` reports running/terminal state and source
+fingerprint. A saved result includes model/request/input/prediction commitments,
+completed windows, sample/class counts, geometry counts and new object IDs.
+Only a successful atomic save reports `saved`. Historical QWS1 files are a
+separate workflow and cannot authorize this live operation.
+
 ## Budgets, publication and reporting
 
 `--work-bytes` controls the sampler/features or prediction producer.
@@ -87,11 +123,12 @@ a later error or cancellation does not remove a successfully committed
 historical output. Ctrl+C/Ctrl+Break cancels and joins work before readers release.
 
 Stdout is JSONL with `qpx.raw-pixel-train/1`, `qpx.raw-pixel-export/1` or
-`qpx.raw-pixel-verify/1`, source fingerprint, state, error and native commitments.
+`qpx.raw-pixel-verify/1` (and `qpx.raw-pixel-contours/1` above), source fingerprint, state, error and native commitments.
 Argument errors use the existing batch-error stderr record. Exit codes are 0
 success, 1 failure/partial, 2 invalid arguments and 130 cancellation. A verified
 prefix may be partial; inspect its completion field. Existing `--kind raw`
-continues to mean raw measurements; multi-image raw classification is next.
+continues to mean raw measurements; see [raw project batches](project-raw-pixel-batches.md)
+for multi-image raw classification. Streamed contour batches remain planned.
 
 [Local evidence](benchmarks/raw-pixel-cli-local.json) binds source `f463110`,
 376 compiler inputs, 104 installed Python passes (14 new CLI cases), three

@@ -4691,3 +4691,456 @@ This remains an implementation candidate: full project persistence, standalone
 project commands, ImGui preview/import/export and exact-source cross-platform
 acceptance are still required. Automatic dearraying, science, hardware, license
 and the rest of M0–M7 remain open.
+
+
+## Superseded execution snapshots before CLI246 validation (2026-10-26)
+
+These verbatim snapshots preserve earlier observations, including queued jobs and
+next-step language that later receipts superseded. They are not the active queue.
+
+## Current execution map
+
+Planning update: 2026-10-26. This document defines the full M0–M7 scope and the
+next delivery order. See [API delivery paths](api-delivery-plan.md) for the
+shortest implementation route, existing entry points and acceptance per workflow.
+The original packet narrative is preserved in [implementation history](project-plan-history.md).
+The [Astra max review](plan-review-astra.md) records the problems and adopted changes.
+
+The qualified application source on public main is `61e546e`, including the
+shared scientific RGB/cell and typed raw-grid workflows, quantitative TIFF
+layout/decoder checks and bounded raw capture/materialization. The
+[combined receipt](benchmarks/raw-grid-191-qualification.json) accepts the
+complete engine, both-architecture Mac native and portable builder/fresh-consumer
+gates at that source. Documentation-only receipts follow it. Later feature
+work has the separate TMA and multi-file acceptance listed below. Newer raw
+classifier work has local receipts and still needs integrated qualification.
+Earlier failed candidates remain
+preserved and unqualified.
+This does not establish biological equivalence, hardware budgets or supported
+release status. Use the [current task](current-task.md), [workflow inventory](feature-matrix.md)
+and [API delivery paths](api-delivery-plan.md) for exact scope and remaining work.
+All M0-M7 remain Partial.
+
+The immediate work is the [Mac arm64 replay diagnosis](benchmarks/raw-classifier-236-campaign/macos-diagnostic-238/receipt.json).
+Original campaign236 at `530c6bb` is terminal: full Windows/Linux engine and both
+portable builders/fresh consumers pass their audits. Mac x86_64's producer passes
+all 50 native suites and relocation; arm64 passes 49 but fails `pixel_workflows`
+with a contour-capture mismatch. [All eleven original archives and closeout](benchmarks/raw-classifier-236-campaign/closeout/receipt.json)
+are preserved. Full T5 remains unaccepted; do not exclude arm64 or transfer the
+successful role evidence to changed binaries.
+
+Mac-only diagnostic run `40377716087` is frozen at observer source `c3c19a9` with
+719 bound inputs. It adds failure-stage context to the existing replay test and
+moves the existing compiled-product inventory before CTest. The original failing
+arm64 executable was not uploaded. Two local Clang profiles pass without
+reproducing the failure; 164 observer controls plus positive/injected-stage probes
+pass. Observe this exact diagnostic, fix the demonstrated cause, and perform
+scope-matched qualification. Keep accepted original roles and failed evidence.
+
+The [raw frontend receipt](benchmarks/raw-frontend-local.json) locally accepts
+`0dc916c`: 195 installed Windows Python passes, including all 17 frontend cases,
+seven native suites and separate geometry/training-OFF and active-cancel controls.
+Desktop and managed consumers cover train/preview/save/reopen/resume and bounded
+atomic contour apply/undo/redo. Historical output grants no live apply authority.
+The [preflight](benchmarks/raw-classifier-preflight-local.json) at `fb3dfe6` passes
+515 controls; a further 286 inherited controls passed before dispatch. All eight
+source contracts agree across 718 unique files. Existing local binaries retain
+their original source identities and do not qualify the hosted candidate.
+
+The [SCI1-B boundary assembler](benchmarks/raw-stream-boundaries-local.json) is
+locally verified at `a3be74b`: all three affected Windows native suites pass.
+The two-million-sample uniform case uses seven peak boundary runs; this is a
+builder storage witness, not a process-memory or whole-slide performance claim.
+The independent seam reference and actual filtered block producer agree.
+[Streamed geometry](benchmarks/raw-stream-boundaries-local/geometry-242/receipt.json)
+is now locally verified at `abeb20f`: four Windows ON and four Clang minimal OFF
+native suites pass. Sixteen independent layouts match exact geometry, topology,
+counts and both-axis crop phase. [Captured results/native jobs/atomic apply](benchmarks/raw-stream-boundaries-local/workflow-243/receipt.json)
+are now locally verified in C++ at `1fb2624`, including real TIFF, cancellation,
+wrong/stale capture and full result/edit/ID admission. Four Windows ON and four
+Clang minimal OFF suites pass. [Installed Python](benchmarks/raw-stream-boundaries-local/python-244/receipt.json)
+now verifies runtime `54147fd`: nine native and 216 unique Python passes,
+including seven new cases and 48 inherited GUI compatibility cases. Stubs,
+typing and active cancellation/close verify. [Desktop/managed delivery](benchmarks/raw-stream-boundaries-local/frontends-245/receipt.json)
+now verifies runtime `7c77367`: nine native and 222 Python passes, including six
+new tiled-mode and cropped-viewer cases, atomic apply/undo/redo, result admission
+and applied-geometry project reopen. CLI/project batch and historical QWS1
+geometry/replay remain open.
+
+Diagnostic238 is terminal: arm64 fails at `historical and foreign capture
+refusal`; x86_64 passes. Both archives authenticate. Its CLI/SDK inventory did
+not include the failing test binary. [Diagnostic240](benchmarks/raw-replay-macos-240/receipt.json)
+at `4a72fd8`, run `40384720525`, separates the two calls, reports exception types
+and uploads the actual test executable before CTest. All 166 local observer
+controls and positive/wrong-type probes pass. Production guards and required
+refusal checks remain intact. Its [first arm64 archive](benchmarks/raw-replay-macos-240/arm64-observation/receipt.json)
+now shows both typed contour refusals caught and replay complete, followed by
+`raw grid source series changed` in the next workflow. The actual test binary
+is retained and SHA-verified. [The original diagnostic is now terminal](benchmarks/raw-replay-macos-240/terminal-observation/receipt.json):
+x86_64 passes 50 suites/relocation, arm64 fails. Both archives authenticate.
+No root cause or repair is established.
+Then follow the [SCI1-B route](api-delivery-plan.md#sci1-b-next-workflow-route)
+through bounded GEOS face classification, fresh atomic publication and existing
+consumers. Keep the frozen diagnostic immutable. Scientific/model, resource/
+hardware, clean-machine and release gates remain separate and open.
+
+The following source-bound baseline notes are historical. Their next-step
+wording is superseded by the single API queue and current execution card.
+
+TMA `19371b7`, normal multi-file OME `9e7d0be` and the expanded multi-file
+fault campaign `bfa416e` have separate engineering acceptance. The
+[complete campaign213 receipt](benchmarks/multifile-fault-213-qualification.json)
+accepts all 11 verified archives, full engine, both Mac-native architectures
+and portable builders/fresh consumers on the original handles. E1/E2 and the
+later E3/E4 tooling keep their own implementation/local evidence and are included
+in that source. Preserve the earlier partial observation and every source identity.
+
+The earlier accepted classifier batch packet is [raw-classifier project batches](benchmarks/raw-pixel-batch-local.json)
+at `c2c0fa0`: 136 installed Python passes (all 14 new batch cases), four native
+suites and a separate backend-OFF suite/CLI trained-model save/reuse. It binds
+377 inputs; typing/stubs, exact lattice matching, current-input hash reuse,
+verified streams, mixed catalogs and interruption/ownership controls pass in
+the named Windows profiles. Next is desktop/managed viewer and bounded apply,
+then T4.5/T5 integration; all M0-M7 remain Partial.
+
+The earlier CLI packet is [official native raw CLI](benchmarks/raw-pixel-cli-local.json)
+at `f463110`: 104 installed Python cases (14 new CLI cases), three native suites
+and a separate backend-OFF refusal witness. The Windows cp312 wheel binds 376
+inputs; training/TIFF/project are ON and GUI/GEOS/OpenSlide are OFF. Commands
+train, checkpoint/resume, predict/export, verify and retain outputs in new
+projects. Raw project batches now have the later acceptance above; next is
+desktop/bounded apply and T4.5/T5 integration. All milestones stay Partial.
+
+The earlier Python packet is [installed raw Python bindings and example](benchmarks/raw-python-bindings-local.json)
+at `202b41a`: Windows CPython 3.12 with training/TIFF/project enabled, GUI/GEOS/
+OpenSlide disabled. All 10 new workflows plus 57 selected Python regressions and
+three native suites pass; one optional legacy Aperio case skips. Wheel/imported
+members and the runtime source bind 374 inputs, with generated typing and
+cross-thread shutdown checks. T4 remains Partial: the CLI and batches have the later acceptance above; next
+ImGui/managed-viewer integration and other installed profiles, then one T5 freeze.
+Test dependencies are reused, so this is not clean-machine or release acceptance.
+
+The native external-link baseline is [raw stream links/records](benchmarks/raw-stream-links-local.json)
+at `a608a53`: three affected workflows pass; sixteen regressions retain `d42fad4`,
+with 370 matching inputs and 22 original/final binaries. QWL1 uses the existing
+stream table/schema 13 and preserves RGB QSL1. Verified metadata-only links
+support missing-file reopen, mixed records, save-as/snapshot/recovery and exact
+relocation without copying/deleting external output. T1-T3 native paths have
+local evidence; T4 now has the later Windows Python/CLI acceptance above; next deliver
+batch/desktop frontends and one T5 integrated freeze. All project milestones and broader acceptance gates remain Partial.
+
+The native file-job baseline is [owner file jobs](benchmarks/raw-pixel-file-jobs-local.json)
+at `404f506`: prediction save/resume, training checkpoint delivery and verified
+historical open/one-block reads pass three affected workflows; sixteen regressions
+retain `447d3ae`. Both sources bind 367 inputs and 22 binaries are retained.
+All 19 initial suites passed before worker verification hardening. Raw external links now have the later acceptance above; next deliver installed
+frontends and one integrated qualification source. Native evidence does not
+qualify installed consumers.
+
+The native training-resume baseline is [QTC1 prefix checkpoint/replay](benchmarks/raw-training-checkpoint-local.json)
+at `fb7ab73`: eight suites each Windows/Linux and three Windows training suites
+pass, with 363 matching compiler inputs and nineteen retained binaries.
+Balanced/unbalanced resumed tables/hashes and fixed-parameter backend models
+match uninterrupted execution; real TIFF resumes after close/reopen. Prefix
+replay repeats IO/features. Owner file jobs and retained raw references have the acceptance above; next deliver
+installed frontend workflows, then freeze one integrated qualification source.
+Forest-fitting interruption, automatic maintenance and broader crash acceptance
+remain open. This is local engineering evidence, not milestone completion.
+
+The next product workflow is [typed raw pixel classification](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
+Native features, reusable models and bounded owner-captured annotation
+sampling/prediction jobs have [local acceptance at `7beb80b`](benchmarks/raw-pixel-workflows-local.json).
+Archive/retention source `440f610` has [local acceptance](benchmarks/raw-pixel-archives-local.json)
+for the affected workflow suite on both Windows/Linux hosts, including native
+retention and project/snapshot/recovery readback. The original ten unchanged
+regression results retain source220304d; failed development rounds are preserved.
+Positive backend training/trained archives now have [local Windows evidence](benchmarks/raw-pixel-training-local.json)
+at `e7e4b66`: three backend-ON suites and one backend-OFF workflow suite pass.
+Native live replay and bounded contour apply/undo now have [local evidence](benchmarks/raw-pixel-replay-apply-local.json)
+at `92edba8`: four selected suites each Windows GEOS-ON/Linux GEOS-OFF plus three
+Windows training-ON suites. This includes actual reopened TIFF verification and
+rational-grid contour apply/undo/redo; it does not qualify Linux GEOS-positive
+or Mac paths. Sample-index raw windows and shared numeric features now have
+[local evidence](benchmarks/raw-lattice-windows-local.json) at `ae0ba29`, including
+large dense/irreducible lattices, exact wide weights and tiled/full feature bits.
+Window-aware recipe/model matching, classification and owner prediction now have
+[local evidence](benchmarks/raw-window-classifier-local.json) at `642f728`, with
+eight suites each Windows/Linux plus three Windows training suites. Sparse
+owner-captured tiled training now has [local evidence](benchmarks/raw-tiled-training-local.json)
+at `1273c3e`: the affected workflow passes across three configurations, with 348
+matching inputs. Sixteen passing regressions retain source `fb7ddb0`; only a quota
+test fixture changed in the successor. Native global selection, actual Windows
+backend model/vote equivalence and real TIFF sampling/prediction pass. Bounded
+raw prediction streams and one-slot owner delivery now have [local evidence](benchmarks/raw-pixel-stream-local.json)
+at `8d544eb`: eight selected suites each Windows/Linux plus three Windows training
+suites pass, with 352 matching inputs and nineteen retained executables. Fractional
+filtered/full seams, cropped/global coverage, bounded trillion-cell traversal,
+backpressure, owned output and fresh-file delivery controls pass. Prediction
+prefix files and hash-only resume now have [local evidence](benchmarks/raw-stream-file-local.json)
+at `c843dfa`: three affected workflows pass, sixteen regressions retain source
+`125afbb`, both sources authenticate 356 inputs and 22 binaries are retained.
+Real TIFF/trained-model close/reopen/resume, exact uninterrupted/resumed bytes,
+atomic cancellation and concurrent-writer/source/alias refusal pass. Sparse
+sampled/trained QTT1 archives, retention and fresh replay now have [local evidence](benchmarks/raw-tiled-archives-local.json)
+at `cc6fab4`: three affected workflows, sixteen regressions at `30d0659`, 360
+matching inputs and 22 retained original/final binaries. Mixed full/tiled project,
+snapshot/recovery readback, historical-authority refusal and all-selected ID bounds
+pass through the existing QXR1 wrapper/schema 13. Training prefix checkpoints now have the later acceptance above; next finish
+installed raw workflow frontends. Automatic checkpoint maintenance and broader
+crash/power-loss acceptance remain open. The
+API plan's T1-T5 table defines shared implementations, resource limits and evidence.
+Cross-tile contours, integrated
+platform training and research/hardware acceptance remain open.
+New raw models use QRM1; explicit pre-release QPR1 compatibility preserves
+original bytes and hashes.
+The separate pinned OpenCV configuration supplies positive local training;
+the retained earlier caches still have training OFF. Neither config supplies
+the missing integrated platform or biological/model acceptance. Both axes and captured document calibration, channel and
+normalization semantics must survive that complete workflow.
+RGB models remain compatible. The new classifier source is not covered by the
+older multi-file campaign. Scientific/model and eligible hardware evidence
+continue alongside implementation with explicit consumer dependencies.
+
+Use the [current task](current-task.md) for source-bound observations and the
+[ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) for
+scheduling. The [compilexx review](reviews/compilexx-efficiency-review.md)
+records adopted process changes. No milestone or release gap is closed by this
+local classifier packet.
+
+
+## Current execution card (2026-10-26)
+
+- [Installed streamed desktop/managed consumers](benchmarks/raw-stream-boundaries-local/frontends-245/receipt.json)
+  at `7c77367` pass nine native and 222 Python cases with three declared skips.
+  Six new actual GUI/managed cases cover tiled-mode preview/apply, undo/redo,
+  edit-stale retirement, cropped revision-guarded viewer apply, result-budget
+  refusal before mutation and saved-project geometry reopen. Five positive
+  typing files pass; four negative files reject 17 intended errors. The final
+  screenshot fits; stubs, wheel members/executables, SDKs and active cancel/close
+  verify. The initial negative fixture's success-only helper error is preserved;
+  its correction reused unchanged binaries. CLI, project batch and historical
+  QWS1 geometry/replay consumers remain open, along with full qualification,
+  scientific/resource/hardware and release gates.
+- [Diagnostic240 terminal observation](benchmarks/raw-replay-macos-240/terminal-observation/receipt.json)
+  preserves both authenticated archives at original `4a72fd8`, run `40384720525`.
+  x86_64's producer passes 50 suites and relocation; arm64 remains 49/50 with the
+  later source-series error after both contour refusals/replay complete. The
+  actual failing arm64 test is retained. No root cause or repair is established;
+  do not relabel this as T5 acceptance or redispatch the same diagnostic.
+- [Installed streamed contour Python](benchmarks/raw-stream-boundaries-local/python-244/receipt.json)
+  is locally verified at runtime `54147fd`, bindings `b6bb50e` and test-only
+  observer `47ae2cb`. Nine native suites and 216 unique Python cases pass;
+  three named skips remain. Seven new cases include trained TIFF, immutable
+  snapshots, optional job delivery, exact capture, budgets, undo/redo, stale
+  files and two actually running cancel/close probes. All 48 inherited GUI
+  compatibility cases run. Five positive typing files pass; 15 intended errors
+  in four negative files reject; generated stubs match. The initial missing GUI
+  opt-in and zero-file Pyright attempts are retained and excluded from their
+  acceptance scopes. All installed wheel members/source/capabilities/notices
+  and loaded GEOS identity verify. New streamed CLI/batch/ImGui/viewer actions,
+  retained-file reopen and full platform/science/hardware/release remain open.
+- [Captured C++ streamed contours](benchmarks/raw-stream-boundaries-local/workflow-243/receipt.json)
+  at `1fb2624` pass four Windows ON and four Clang minimal OFF native suites.
+  The result has complete producer commitments/counts and an exact capture;
+  direct/job and full/stream geometry parity, rational crop, cancellation,
+  failure/retry, stale/copy/thread and pre-IO/output admission controls pass.
+  Real TIFF cropped geometry supports atomic apply/undo/redo and refuses late
+  file changes. Historical or fresh identical captures cannot authorize it.
+  Next deliver thin nanobind/installed typing and the shared CLI/batch/ImGui/
+  managed-viewer plus retained-file reopen workflow; full platform/science/
+  resource/release acceptance remains open.
+- [Internal streamed geometry](benchmarks/raw-stream-boundaries-local/geometry-242/receipt.json)
+  at `abeb20f` passes four Windows GEOS/training/TIFF/project-ON suites and four
+  Clang all-optional-OFF suites. Exact independent edges/areas/perimeters/parts/
+  holes match all sixteen layouts; crop phase, both axes, clipping, cancellation,
+  precision/count and resource refusals pass. A two-million-sample uniform
+  geometry fits its 192-KiB conservative work admission; this is not process RSS.
+  The first WSL CTest invocation failed in shell parsing; direct exec passes on
+  unchanged binaries. Original command/log and corrected profile metadata remain.
+  The result has empty input identity and object ID zero; next deliver immutable
+  captured results, native jobs and fresh admitted atomic apply, then consumers.
+- The [internal face-cell class lookup](benchmarks/raw-stream-boundaries-local/face-lookup-241/receipt.json)
+  at `e6341d4` passes the three affected Windows native suites. Its offline edge
+  sweep matches authored labels across all sixteen layouts and global crops;
+  query ordering/duplicates, malformed/incomplete/overlapping inputs, budget and
+  cancellation controls pass. A sparse lookup in the two-million-sample network
+  has two active runs under its 128-KiB work budget. No raster is allocated by
+  the lookup. GEOS integration, result authority and consumers remain open.
+- The [diagnostic240 arm64 observation](benchmarks/raw-replay-macos-240/arm64-observation/receipt.json)
+  authenticates its first archive and actual 8,563,968-byte test executable
+  (`a55c203c…`). Both historical/foreign typed contour refusals are logged and
+  caught; replay and contour publication semantics finish. The suite then fails
+  with `raw grid source series changed`, before the window-classifier completion
+  marker. Arm64 is 49/50; x86_64 remains queued on the original handle at this
+  observation. Inspect the window series-refusal calls without assuming a cause
+  shared with the prior capture failure. No repair or T5 acceptance is inferred.
+- [Diagnostic240](benchmarks/raw-replay-macos-240/receipt.json) is frozen at
+  `4a72fd8`, run `40384720525`, with 720 authenticated inputs. It distinguishes
+  historical from foreign capture refusal and reports dynamic exception types;
+  both required `invalid_argument` checks and production guards remain intact.
+  The actual pixel-workflow executable now has a separate pre-CTest copy and
+  source/size/SHA manifest included in the existing artifact upload.
+  All 166 local observer controls pass; a positive Clang replay catches both
+  expected exceptions, while both injected wrong types still reject with the
+  exact call/type. These probes do not reproduce or repair the Darwin failure.
+- Diagnostic238 is terminal: x86_64 passes all 50 native suites and relocation;
+  arm64 again fails at `historical and foreign capture refusal`. Both archives
+  authenticate. Correction: moving the existing inventory earlier retained CLI
+  programs/SDKs only; it omitted the failing test executable. Do not claim that
+  test binary survives in the original238 archive. Observe diagnostic240 once;
+  do not redispatch original attempts or infer a root cause from the stage label.
+- [Campaign236 closeout](benchmarks/raw-classifier-236-campaign/closeout/receipt.json)
+  preserves all eleven authenticated archives at `530c6bb`. Full Windows/Linux
+  engine and portable builder/fresh-consumer audits pass. Windows GUI gives
+  4218 Python/51 native passes; Windows headless 3749/50, Linux headless 3747/50.
+  Mac x86_64's producer passes all 50 native suites and its relocation probes.
+  Mac arm64 passes 49 suites but `pixel_workflows` rejects a live contour capture.
+  The Mac role and full T5 remain unaccepted; root cause is not yet established.
+- [Mac-only diagnostic238](benchmarks/raw-classifier-236-campaign/macos-diagnostic-238/receipt.json)
+  is dispatched once at frozen observer source `c3c19a9`, run `40377716087`, on
+  `feature/raw-replay-macos-diagnostic-238`. Its 719 source inputs authenticate.
+  The existing replay test now labels unexpected failure stages without changing
+  required operations. Existing executable/SDK inventory runs before CTest so
+  compiled programs survive failures. Original236 arm64 executables were not
+  uploaded; its archive/logs/XML remain. Do not claim they were retained.
+- Both local Clang18 Linux profiles (optional features OFF, then GEOS3.15 ON)
+  pass the affected native suite at original source `530c6bb`; they do not
+  reproduce the arm64 failure. The observer passes 164 controls, a positive
+  updated-header replay probe, and an injected-error stage-reporting control.
+  Those profiles use libstdc++; no Darwin or full-profile acceptance is inferred.
+  Keep both original236 and the diagnostic checkout immutable. Next inspect
+  the exact diagnostic run, identify the failing stage, and repair its cause.
+- Corrected-source [Linux-only audit](benchmarks/raw-classifier-236-campaign/linux-observation/receipt.json)
+  passes all three profiles at `530c6bb`: 50 native suites each and 3747
+  headless Python passes. Native semantics, installed cohorts/typing, inherited
+  runtime/reader gates and final source checks pass. The later complete engine
+  acceptance and separate Mac failure are recorded above.
+- Corrected-source [portable acceptance](benchmarks/raw-classifier-236-campaign/portable-acceptance/receipt.json)
+  passes both CPython 3.11/3.12 builders and fresh Debian consumers at `530c6bb`.
+  Each fresh consumer passes 3704 Python cases. All four raw cohorts give
+  40 passes/18 declared skips; typing, inherited reader/runtime/source and
+  packaging gates pass. The Git-only development fixture is explicitly skipped
+  in the actual Git-free consumers. Full engine acceptance and the separate
+  arm64 failure are recorded above; full T5 and release gates remain open.
+- Internal boundary assembly is [locally verified](benchmarks/raw-stream-boundaries-local.json)
+  at `a3be74b`: Windows Release `pixel_workflows`, `tissue_contours` and
+  `viewer_session` pass with GEOS/training/TIFF/project enabled. Four independent
+  seam patterns across sixteen layouts and actual filtered raw blocks agree.
+  Two million uniform samples require seven peak runs under the configured
+  builder budget. Twelve reference/existing-path Python cases pass using the
+  prior installed `0dc916c` runtime; they do not test the new native builder.
+  Geometry, result authority and frontend delivery remain open.
+- Diagnostic238's arm64 job `121765228756` failed at `historical and foreign
+  capture refusal`. Its 6,290,154-byte archive authenticates; local collection
+  is `build/raw-replay-macos-238/hosted/20261026T190546Z`. x86_64 remains running
+  at that observation. Inspect the exact refusal calls next; no root cause or
+  repair is established. Keep the original handle and frozen source.
+- The next streamed-contour workflow has a [four-pattern exact reference](raw-stream-contours.md)
+  at `9edfbc1`. [Local existing-path evidence](benchmarks/raw-contour-seams-local.json)
+  records 101 Python passes, including all ten new cases; two OpenSlide cases
+  skip. All sixteen actual raw stream layouts preserve labels and global crop
+  indices. Existing full-grid geometry matches every edge, part, hole, count,
+  area and perimeter exactly, using the retained installed `0dc916c` module.
+  Initial fixture failures are preserved. This is next-workflow preparation,
+  not native streaming contour implementation or a new wheel qualification.
+- Original campaign235 [full engine successor audit](benchmarks/raw-classifier-235-failure/reconciliation/final-engine/receipt.json)
+  accepts all five engine profiles at runtime source `176ec42`, with observer
+  `530c6bb` explicitly separate. Native suites: 51 GUI and 50 each other profile;
+  Python passes: Windows GUI 4212, Windows headless 3743, Linux headless 3741.
+  All eleven original archives authenticate. Original Mac/portable failures stay
+  unaccepted; this engine receipt cannot qualify the corrected C++ candidate.
+- Campaign235 cannot achieve full acceptance: Mac arm64 job `121713805694`
+  failed compilation at two mixed `size_t`/`uint64_t` `auto` declarations.
+  [Original evidence and correction](benchmarks/raw-classifier-235-failure.json)
+  preserve the authenticated archive, job/build logs and exact source identities.
+  Integration `b8a465e` splits those declarations without conversions. Two
+  affected Windows minimal native suites and their semantic contract pass;
+  old/new declaration probes reject/pass for both Darwin target architectures.
+  These syntax probes do not qualify a full Mac build. Both resulting Windows
+  executables are retained separately before cache reuse.
+- [Reconciliation evidence](benchmarks/raw-classifier-235-failure/reconciliation/receipt.json)
+  preserves all eleven authenticated archives. Both Mac builds failed with the same
+  deduction errors. Both fresh portable consumers failed only the new Git-backed
+  development fixture because their runtime images omit Git. Integration
+  `8e09571` declares that fixture unavailable without Git; the real Git-positive
+  control and a real no-Git child pass. The 58 raw application cases stay required.
+- Frozen Linux-only audit initially rejected the already-passing extra public
+  stub case absent from the scientific manifest. Observer `c24f011` adds that
+  case and independently checks actual collection. Its compatible successor
+  audit against the clean original source passes all three Linux profiles:
+  50 native suites each and 3741 headless Python passes. It does not qualify
+  Windows, portable consumers, Mac or the corrected runtime source.
+- All 807 selected successor admission/auditor controls pass at `8e09571`;
+  eight source contracts agree across 718 unique inputs. The initial run using
+  the stale root editable environment failed import; it is preserved alongside
+  the passing installed-consumer run. No dependency reinstall was needed.
+- Original [campaign235](benchmarks/raw-classifier-235-campaign.json) stays frozen
+  at `176ec42`: engine `40363168207`, Mac `40363189978`, portable `40363203596`.
+  All three runs are terminal: engine success, Mac and portable failure.
+  The final engine audit and archives are preserved above; corrected campaign236
+  is the active successor, rather than another campaign235 attempt.
+- Pre-dispatch inherited checks add 286 passes to the 515 selected controls
+  (801 total); all eight domain source contracts agree across 718 unique files.
+- T5 preflight is implemented at `fb3dfe6`: the shared raw classifier contract
+  is mandatory in engine, Mac-native and manylinux builder/consumer auditors,
+  with matching producer checks. [Local preflight evidence](benchmarks/raw-classifier-preflight-local.json)
+  records 515 passing admission/auditor controls, 459 bound source inputs,
+  actual minimal native refusal, and exact GUI/headless declarations for 58 raw
+  cases. Strict mypy passes four files and rejects twelve intended errors.
+- Preflight fixed the runnable example's assertion-dependent `take()` calls.
+  Its real child-process regression now completes checkpoint/stream resume and
+  project retention under both normal Python and `-O`. Existing local wheel
+  observations remain bound to `0dc916c`; this preflight does not relabel them as
+  a new hosted or headless-wheel qualification.
+- Latest frontend delivery: desktop/managed raw classification and bounded
+  contour apply at `0dc916c` have [installed local acceptance](benchmarks/raw-frontend-local.json).
+  Windows cp312 GUI/GEOS/training/TIFF/project ON, OpenSlide OFF: 195 Python
+  passes, including all 17 raw frontend cases, and seven native suites. Three
+  named skips cover OpenSlide and the separate backend-OFF profile.
+- Real actions train/checkpoint-resume, preview exact indexed windows, recover
+  from invalid model loads, save/export/resume, retain/reopen and browse history.
+  A class-colored bounded contour preview leads to one atomic apply/undo/redo.
+  Historical files grant no live apply authority; edits/image switches retire
+  previews. Managed apply captures fresh authority, checks optional revision and
+  reserves the full conservative result payload plus IDs before mutation.
+- The geometry-OFF/training-ON native suite passes. Two training-OFF native
+  suites and CLI training refusal pass at the same 383-input fingerprint; its
+  CLI saves/reuses an actual ON-trained model and matches all 27 numeric blocks.
+  Separate installed active-contour cancel/close probes both observe running
+  tickets, prevent mutation, reclaim results and release borrowed readers.
+- Wheel contents/source/capabilities, loaded GEOS DLL paths, notices and both
+  SDK manifests authenticate. Stubs match; four valid typing files pass and
+  twelve errors in three invalid files reject. The receipt binds 199 raw payloads
+  and 26 retained final/development products, with original failures preserved.
+  Dependencies are reused, so this is not clean-machine or release acceptance.
+- Next: observe original diagnostic run40377716087 without redispatch, preserve
+  its products/results, identify the arm64 replay failure, then qualify the repair. Preserve these T4.3-T4.5 local
+  exits; do not rebuild consumer features or repeat full campaigns without a
+  changed input/failure. Stream stitching, sparse ROI prediction traversal,
+  automatic maintenance, abrupt-process/power-loss and independent scientific,
+  resource/hardware/release gates remain open. All M0-M7 remain Partial; only
+  open-source readers and required codecs are eligible.
+- Latest accepted delivery: raw-classifier project batches at `c2c0fa0` have
+  [installed local acceptance](benchmarks/raw-pixel-batch-local.json). Windows
+  cp312, training/TIFF/project ON, GUI/GEOS/OpenSlide OFF: 136 Python passes,
+  including all 14 new raw-batch cases; five named profile skips. Four native
+  suites pass. The separate OFF native suite and actual-trained-model CLI
+  save/reuse pass; all 27 output blocks match the installed ON consumer.
+- C++/Python/native CLI reuse the existing batch kernel, immutable capture,
+  checkpoint seals, owned bundles and Stop/Continue. Exact lattice/model
+  admission, current-input hash-only reuse, QWL1/full-file verification, mixed
+  RGB/raw catalogs, source changes, tampering, quotas, interruption, relocation
+  and asynchronous snapshot behavior pass. See the [guide](project-raw-pixel-batches.md).
+- Wheel/runtime source and 377 compiler inputs agree; twelve final/original
+  products are retained. The original failing native fixture executable was not
+  retained separately; its source/log/XML remain. Generated stubs match; three
+  valid typing files pass and seven errors in two invalid files reject.
+  Test dependencies are reused, so no clean-machine/release claim is made.
+- Ordered remaining work: [T5 preflight and integrated qualification](api-delivery-plan.md#t4-execution-tasks-finish-consumers-before-another-qualification),
+  then the remaining SCI1-B workflows and applicable decision/release lanes.
+  T4's named Windows consumers now have local scope-matched evidence; broader
+  platforms and every unfinished M0-M7 requirement remain open.
+- Earlier [raw CLI](benchmarks/raw-pixel-cli-local.json) at `f463110` and
+  [Python API/example](benchmarks/raw-python-bindings-local.json) at `202b41a`
+  retain their source-bound baselines. New batch output is per completed image;
+  per-file prefix resume remains the CLI/native-file-job path.
