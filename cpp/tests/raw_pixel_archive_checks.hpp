@@ -46,15 +46,17 @@ inline void run() {
         const auto image=directory/"source.tif";simple_tiff(image);auto project=std::make_shared<Project>();const auto image_id=project->add_tiff_image(image.u8string(),{});const auto live=project->document(image_id);const auto left=live->add_detection(Roi::rectangle({0,0,3,6}),"A",0,"A"),right=live->add_detection(Roi::rectangle({4,0,4,6}),"B",0,"B");live->set_calibration(.5,.25);
         const ScientificGrid real_grid(8,6,{0,8,4},{0,6,3});const RawPixelTrainingRequest real_request(*live,{left,right},real_grid,selection,features,options);const auto real_table=sample_raw_pixel_training(real_request);auto real_archive=archive_raw_pixel_training(real_table);
         if(has_classifier_training()) {
+            auto require=[](bool condition,const char* message) {if(!condition) throw std::runtime_error(std::string("Raw backend training: ")+message);};
             ForestParameters parameters;parameters.trees=7;parameters.max_depth=3;parameters.seed=1729;
             const auto trained=std::make_shared<const RawPixelClassifier>(train_raw_pixel_classifier(*real_table,parameters));
-            check(trained->forest().tree_count()==parameters.trees && trained->forest().training_rows()==real_table->row_count());
-            check(train_raw_pixel_classifier(*real_table,parameters).sha256()==trained->sha256());
-            RawPixelTrainingJob trainer;check(trainer.train(real_request,parameters));check(trainer.wait(*live).state=="ready" && trainer.model() && trainer.table());
-            check(trainer.model()->sha256()==trained->sha256() && trainer.table()->sha256()==real_table->sha256());
+            require(trained->forest().tree_count()==parameters.trees && trained->forest().training_rows()==real_table->row_count(),"tree/row counts");
+            require(train_raw_pixel_classifier(*real_table,parameters).sha256()==trained->sha256(),"repeated direct training differs");
+            RawPixelTrainingJob trainer;require(trainer.train(real_request,parameters),"job submission");require(trainer.wait(*live).state=="ready" && trainer.model() && trainer.table(),"job delivery");
+            require(trainer.model()->sha256()==trained->sha256() && trainer.table()->sha256()==real_table->sha256(),"direct/job training differs");
             real_archive=archive_raw_pixel_training(trainer.table(),trainer.model());const auto historical=RawPixelArchive::from_bytes(real_archive->bytes());
-            check(historical->purpose()=="training" && historical->model()->sha256()==trained->sha256() && historical->bytes()==real_archive->bytes());
-            check(train_raw_pixel_classifier(*historical->table(),parameters).sha256()==trained->sha256());
+            require(historical->purpose()=="training" && historical->model()->sha256()==trained->sha256() && historical->bytes()==real_archive->bytes(),"trained archive round trip");
+            const auto retrained=train_raw_pixel_classifier(*historical->table(),parameters);
+            require(retrained.sha256()==trained->sha256(),"historical retraining differs");
             const auto trained_path=(directory/"trained.qrm").u8string();save_raw_pixel_classifier(*trained,trained_path);check(load_raw_pixel_classifier(trained_path).sha256()==trained->sha256());std::filesystem::remove(std::filesystem::u8path(trained_path));
             const auto archive_path=(directory/"trained.qxt").u8string();save_raw_pixel_archive(*real_archive,archive_path);check(load_raw_pixel_archive(archive_path)->model()->sha256()==trained->sha256());std::filesystem::remove(std::filesystem::u8path(archive_path));
             rejects<std::runtime_error>([&]{train_raw_pixel_classifier(*real_table,parameters,&cancelled);});
