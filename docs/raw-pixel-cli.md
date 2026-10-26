@@ -137,3 +137,13 @@ training/TIFF/project ON and GUI/GEOS/OpenSlide OFF is the installed profile.
 The fresh wheel consumer reuses test dependencies; this does not qualify clean
 machines, other platforms, desktop or biological/resource/release acceptance.
 Only open-source readers and required codecs are eligible.
+
+
+[Streamed contour CLI local evidence](benchmarks/raw-stream-boundaries-local/cli-246/receipt.json)
+verifies installed runtime `4e91d1e`: all 18 new cases, nine native suites and
+240 installed Python passes/three declared skips, generated stubs and typing.
+The Windows cp312 profile enables GUI/GEOS/training/TIFF/project; OpenSlide is
+OFF. Complete SDK identities and packaged notices match. This is local
+engineering acceptance with reused test dependencies; project contour batches,
+historical QWS1 conversion and full platform/scientific/resource/release gates
+remain open.

@@ -1,0 +1,20 @@
+{
+  "args": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-frontends-245-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_stream_contour_cli.py",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_pixel_cli.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-cli-246\\cli-initial.xml"
+  ],
+  "cli": {
+    "source": "97c38880614a5ef45d668b0746d72714a9b546df",
+    "bytes": 5206016,
+    "sha256": "167606e47df52caf2a3d1eace613cf8be9f661f09d3a50cea67ffdbdcd895b91"
+  },
+  "oracle_runtime": "7c773677ec902c31b74e3ebc8d51adde19d5c250",
+  "exit": 0,
+  "seconds": 11.61760689993389
+}

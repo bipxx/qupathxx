@@ -3,7 +3,7 @@
 ## Current execution card (2026-10-26)
 
 Current implementation: `97c3888` in `build/ci/scientific-grid-159`.
-Last installed verified runtime: `7c77367`. These are different evidence scopes.
+Last installed verified runtime: `4e91d1e`. These are different evidence scopes.
 All M0–M7 remain Partial; public-main qualification remains at `61e546e`.
 
 - **Verified locally:** [streamed Python/desktop/managed consumers](benchmarks/raw-stream-boundaries-local/frontends-245/receipt.json),
@@ -11,12 +11,14 @@ All M0–M7 remain Partial; public-main qualification remains at `61e546e`.
   managed cases cover preview/apply, undo/redo, stale retirement, cropped commands,
   result admission and applied-annotation project reopen. Five positive typing
   files and four negative files with 17 intended errors verify installed APIs.
-- **Implemented, validation pending:** native
-  `qupathxx_batch --contour-raw-pixels PROJECT IMAGE_ID MODEL NEW_PROJECT` at
-  `97c3888`. Its local executable build succeeded; product identity is retained
-  in `build/raw-stream-cli-246/product.json`. Eighteen authored CLI cases still
-  require execution and final installed-package integration. No CLI receipt or
-  successful-test claim is inferred from the build.
+- **CLI locally verified:** [installed receipt](benchmarks/raw-stream-boundaries-local/cli-246/receipt.json) at `4e91d1e`.
+  `qupathxx_batch --contour-raw-pixels PROJECT IMAGE_ID MODEL NEW_PROJECT` passes
+  all 18 new cases. Final coherent wheel closure: nine native suites, 240 Python
+  passes/three declared skips, stubs, five positive typing files and 17 intended
+  errors in four negative files. Source/installed members/SDK origins verify;
+  prior comparison environments and products remain preserved. This is Windows
+  local engineering evidence with shared test dependencies, not clean-machine
+  support or integrated platform qualification.
 - **Still missing:** streamed contour project batches and historical QWS1
   geometry conversion/reverification. Saved applied annotations reopen already;
   historical prediction blocks still confer no live apply authority.
@@ -26,8 +28,8 @@ All M0–M7 remain Partial; public-main qualification remains at `61e546e`.
   before a source-series error. The authentic failing arm64 executable survives.
   Root cause and repair are unproven. Do not redispatch the same diagnostic.
 - **Next action:** follow [B5 consumer tasks](api-delivery-plan.md#b5-remaining-consumer-tasks)
-  in the single API queue. Run CLI cases with explicit executable/runtime
-  identities, then a final installed integration pass for that slice. Reuse the
+  in the single API queue. Implement captured streamed-contour project batches via the existing native
+  request/job/checkpoint path. Reuse the
   existing SDK/cache after preserving prior products; no documentation-only build.
 - **Separate open gates:** scientific/model acceptance, rights/labels, eligible
   hardware/process-memory budgets, full platform qualification, clean-machine
