@@ -3,6 +3,7 @@ import ast
 import copy
 import importlib.util
 from pathlib import Path
+import shutil
 import subprocess
 import sys
 import xml.etree.ElementTree as E
@@ -140,6 +141,8 @@ def test_source_closure_covers_shared_kernels_jobs_frontends_and_consumers():
 
 
 def test_actual_git_source_mismatch_and_publication_snapshot(tmp_path,monkeypatch):
+    if shutil.which('git') is None:
+        pytest.skip('development source-proof fixture requires git; package consumers do not')
     paths=['cpp/raw_pixel_frontend.cpp','tools/ci/raw-classifier-cases.json']
     for name in paths:
         path=tmp_path/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes((ROOT/name).read_bytes())
@@ -151,6 +154,15 @@ def test_actual_git_source_mismatch_and_publication_snapshot(tmp_path,monkeypatc
     changed=tmp_path/paths[0];changed.write_bytes(changed.read_bytes()+b'\n// changed\n')
     with pytest.raises(ValueError):evidence.source_contract(tmp_path,commit)
     with pytest.raises(ValueError):evidence.common.verify_source_snapshot(tmp_path,proof)
+
+
+def test_git_source_control_declares_missing_development_tool(tmp_path,monkeypatch):
+    monkeypatch.setattr(shutil,'which',lambda name:None)
+    def unexpected(*args,**kwargs):
+        raise AssertionError('missing-tool declaration must precede subprocess work')
+    monkeypatch.setattr(subprocess,'check_output',unexpected)
+    with pytest.raises(pytest.skip.Exception,match='development source-proof fixture requires git'):
+        test_actual_git_source_mismatch_and_publication_snapshot(tmp_path,monkeypatch)
 
 
 @pytest.mark.parametrize('flag',['-O','-OO'])
