@@ -33,6 +33,9 @@ dearray_spec=importlib.util.spec_from_file_location("qpx_tma_dearray_evidence",P
 dearray=importlib.util.module_from_spec(dearray_spec);exec(compile(Path(dearray_spec.origin).read_bytes(),dearray_spec.origin,"exec",dont_inherit=True),dearray.__dict__)
 multifile_spec=importlib.util.spec_from_file_location("qpx_multifile_ome_evidence",Path(__file__).with_name("multifile_ome_evidence.py"))
 multifile=importlib.util.module_from_spec(multifile_spec);exec(compile(Path(multifile_spec.origin).read_bytes(),multifile_spec.origin,"exec",dont_inherit=True),multifile.__dict__)
+raw_spec=importlib.util.spec_from_file_location('qpx_raw_classifier_evidence',Path(__file__).with_name('raw_classifier_evidence.py'))
+raw_classifier=importlib.util.module_from_spec(raw_spec);exec(compile(Path(raw_spec.origin).read_bytes(),raw_spec.origin,'exec',dont_inherit=True),raw_classifier.__dict__)
+
 
 
 AUDITOR_ROOT=Path(__file__).resolve().parents[2]
@@ -136,6 +139,7 @@ def canonical_source_fingerprint():
         manifest.append(name+'='+hashlib.sha256(blob).hexdigest()+'\n')
     return hashlib.sha256(''.join(manifest).encode()).hexdigest()
 report['multifile_ome_sources']=multifile.source_contract(ROOT,COMMIT)
+report['raw_classifier_sources']=raw_classifier.source_contract(ROOT,COMMIT)
 report['tma_axis_sources']=axis.source_contract(ROOT,COMMIT)
 report['tma_dearray_sources']=dearray.source_contract(ROOT,COMMIT)
 report['hierarchy_sources']=hierarchy.source_contract(ROOT,COMMIT)
@@ -152,6 +156,7 @@ for job in run['jobs']:
     assert entry['native']['passed']==(46 if 'GUI' in job['name'] else 45)+int(args.watershed_bodies)+4
     native_cases=list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase'))
     entry['multifile_ome_native']=multifile.native(native_cases,tiff=job['name']!='Linux minimal native')
+    entry['raw_classifier_native']=raw_classifier.native(native_cases,full=job['name']!='Linux minimal native')
     entry['resampling_native']=resampling.native(native_cases)
     entry['scientific_grid_native']=scientific.native(native_cases,project=job['name']!='Linux minimal native',geos=job['name']!='Linux minimal native',tiff=job['name']!='Linux minimal native')
     entry['tma_axis_native']=axis.native(native_cases)
@@ -190,6 +195,8 @@ for job in run['jobs']:
         entry['multifile_ome_python']=multifile.python(axis_cases)
         entry['multifile_ome_desktop']=multifile.desktop(axis_cases,gui='GUI' in job['name'])
         entry['multifile_ome_typing']=multifile.typing(folder)
+        entry['raw_classifier_python']=raw_classifier.python(axis_cases,gui='GUI' in job['name'])
+        entry['raw_classifier_typing']=raw_classifier.typing(folder)
         entry['tma_axis_python']=axis.python(axis_cases)
         entry['tma_axis_desktop']=axis.desktop(axis_cases,gui='GUI' in job['name'])
         entry['tma_axis_typing']=axis.typing(folder/axis.TYPING_LOG)
@@ -827,7 +834,7 @@ report['performance_accepted']=False
 report['macos_accepted']=False
 report['release_ready']=False
 report['overall_project_complete']=False
-qptma.verify_source_snapshot(ROOT,qptma_sources,resampling_sources)
+qptma.verify_source_snapshot(ROOT,qptma_sources,resampling_sources,report['raw_classifier_sources'])
 args.output.parent.mkdir(parents=True,exist_ok=True)
 args.output.write_bytes((json.dumps(report,indent=2)+'\n').encode('utf-8'))
 print(json.dumps([dict(name=j['name'],native=j['native']['passed'],python=j.get('python',{}).get('passed')) for j in report['jobs']],indent=2))

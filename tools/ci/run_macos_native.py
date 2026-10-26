@@ -1,6 +1,7 @@
 """Validate the full native engine on macOS; no distributable package claim."""
 import argparse
 import hashlib
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -10,6 +11,8 @@ import sys
 import xml.etree.ElementTree as ET
 
 ROOT=Path(__file__).resolve().parents[2]
+raw_spec=importlib.util.spec_from_file_location('qpx_raw_classifier_evidence',Path(__file__).with_name('raw_classifier_evidence.py'))
+raw_classifier=importlib.util.module_from_spec(raw_spec);exec(compile(Path(raw_spec.origin).read_bytes(),raw_spec.origin,'exec',dont_inherit=True),raw_classifier.__dict__)
 
 
 def sha(path):
@@ -62,6 +65,7 @@ def main():
     cases=list(ET.parse(work/'native-tests.xml').getroot().iter('testcase'))
     if len(cases)<43 or any(any(t.find(k) is not None for k in ['failure','error','skipped']) for t in cases):
         raise RuntimeError('full native test evidence is incomplete')
+    raw_classifier.native(cases)
     names={t.get('name') for t in cases}
     required={'decimal_quantities','masked_gaussian','log_watershed','log_cell_recipe','cells','geometry','project','classifier','pixel_features'}
     if not required.issubset(names):

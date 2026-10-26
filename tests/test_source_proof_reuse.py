@@ -71,13 +71,15 @@ def test_actual_auditor_reuses_proofs_and_copies_each_job_receipt(tmp_path,filen
 
 @pytest.mark.parametrize('filename',['accept_unified_engine.py','accept_macos_native.py','accept_manylinux.py'])
 @pytest.mark.parametrize('mutated',[False,True])
-def test_actual_final_boundary_rejects_source_change(filename,mutated,tmp_path):
+@pytest.mark.parametrize('domain',['legacy','raw'])
+def test_actual_final_boundary_rejects_source_change(filename,mutated,domain,tmp_path):
     tree=ast.parse((ROOT/'tools/ci'/filename).read_text(encoding='utf-8'))
     guards=[n for n in ast.walk(tree) if isinstance(n,ast.Expr) and isinstance(n.value,ast.Call) and ast.unparse(n.value.func)=='qptma.verify_source_snapshot']
     assert len(guards)==1
     path=tmp_path/'a';path.write_bytes(b'input');proof={'a':observed(path.read_bytes())}
-    if mutated:path.write_bytes(b'late mutation')
-    scope=dict(qptma=evidence,ROOT=tmp_path,root=tmp_path,qptma_sources=proof,resampling_sources=proof,Path=Path,__file__=str(tmp_path/'tools/ci'/filename),report={'qptma_sources':proof,'resampling_sources':proof})
+    raw_path=tmp_path/'b';raw_path.write_bytes(b'raw input');raw_proof={'b':observed(raw_path.read_bytes())}
+    if mutated:(path if domain=='legacy' else raw_path).write_bytes(b'late mutation')
+    scope=dict(qptma=evidence,ROOT=tmp_path,root=tmp_path,qptma_sources=proof,resampling_sources=proof,Path=Path,__file__=str(tmp_path/'tools/ci'/filename),report={'qptma_sources':proof,'resampling_sources':proof,'raw_classifier_sources':raw_proof})
     code=compile(ast.Module(body=guards,type_ignores=[]),filename,'exec')
     if mutated:
         with pytest.raises(ValueError,match='changed before publication'):exec(code,scope)

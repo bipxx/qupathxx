@@ -1,0 +1,101 @@
+"""Exact raw classifier consumer/native cohorts for T5 engineering qualification."""
+import ast
+import hashlib
+import importlib.util
+import json
+from pathlib import Path
+import re
+
+spec=importlib.util.spec_from_file_location('qpx_raw_common',Path(__file__).with_name('qptma_evidence.py'))
+common=importlib.util.module_from_spec(spec)
+exec(compile(Path(spec.origin).read_bytes(),spec.origin,'exec',dont_inherit=True),common.__dict__)
+require=common.require
+ROOT=Path(__file__).resolve().parents[2]
+CONTRACT=json.loads(Path(__file__).with_name('raw-classifier-cases.json').read_text(encoding='utf-8'))
+
+
+def source_paths():
+    # All actual compiler inputs plus the transitive consumers and qualification
+    # owners. Do not authenticate only the new panel while missing a shared job.
+    paths={'CMakeLists.txt','pyproject.toml','.gitattributes','.github/workflows/ci.yml',
+           'tools/generate_stubs.py','tools/build_geos_sdk.py','tools/build_opencv_sdk.py',
+           'src/qupathxx/_native.pyi','src/qupathxx/__init__.pyi',
+           'tests/test_raw_classifier_evidence.py','tests/test_ci_execution_boundaries.py','tests/test_source_proof_reuse.py','tests/test_ci_installed_diagnostics.py','tests/fixtures/ci-installed-diagnostics-v1/legacy-command-contract.json','docs/reader-license-policy.md'}
+    for folder,suffixes in [('cpp',{'.cpp','.hpp'}),('cmake',{'.cmake','.in'}),('src',{'.py'}),('tools/ci',{'.py','.json','.txt'})]:
+        paths.update(p.relative_to(ROOT).as_posix() for p in (ROOT/folder).rglob('*') if p.is_file() and p.suffix in suffixes)
+    paths.update(CONTRACT['typing_positive']);paths.update('tests/typing/'+name for name in CONTRACT['typing_negative'])
+    modules={p.stem:p.relative_to(ROOT).as_posix() for p in (ROOT/'tests').glob('*.py')}
+    pending=['tests/'+name+'.py' for name in CONTRACT['installed']];visited=set()
+    while pending:
+        name=pending.pop()
+        if name in visited:continue
+        visited.add(name);paths.add(name)
+        for node in ast.walk(ast.parse((ROOT/name).read_text(encoding='utf-8'))):
+            names=[node.module.split('.')[0]] if isinstance(node,ast.ImportFrom) and node.module else [v.name.split('.')[0] for v in node.names] if isinstance(node,ast.Import) else []
+            pending.extend(modules[n] for n in names if n in modules)
+    return sorted(paths)
+
+
+SOURCES=source_paths()
+
+
+def source_contract(root,commit):
+    return common.source_contract(root,commit,SOURCES,label='raw classifier',raw_prefixes=('tests/data/',))
+
+
+def _suite(cases,name,markers):
+    selected=[c for c in cases if c.get('name')==name]
+    require(len(selected)==1,'raw classifier missing/duplicate native suite: '+name)
+    case=selected[0]
+    require(all(case.find(tag) is None for tag in ['failure','error','skipped']),'raw classifier native suite failed: '+name)
+    lines=case.findtext('system-out','').splitlines()
+    require(all(lines.count(marker)==1 for marker in markers),'raw classifier native semantics missing/duplicate: '+name)
+    return lines
+
+
+def native(cases,full=True):
+    require(type(full) is bool,'raw classifier capability must be bool')
+    for name,markers in CONTRACT['native_base'].items():_suite(cases,name,markers)
+    if full:
+        for name,markers in CONTRACT['native_full'].items():
+            lines=_suite(cases,name,markers)
+            require(not any(m in lines for values in CONTRACT['native_disabled'].values() for m in values),'raw classifier enabled profile claims disabled capability')
+    else:
+        for name,markers in CONTRACT['native_disabled'].items():
+            lines=_suite(cases,name,markers)
+            require(not any(m in lines for m in CONTRACT['native_full'].get(name,[])),'raw classifier minimal profile claims full viewer behavior')
+        lines=_suite(cases,'pixel_workflows',CONTRACT['native_base']['pixel_workflows'])
+        require(not any(m in lines for m in CONTRACT['native_full']['pixel_workflows'] if m.startswith('Raw pixel backend training:')),'raw classifier minimal profile claims backend training')
+    return dict(full=full,portable_owner_jobs=True,raw_file_training_contour_consumers=full)
+
+
+def python(cases,gui=False):
+    require(type(gui) is bool,'raw classifier GUI capability must be bool')
+    groups=[];total_passed=total_skipped=0
+    off=CONTRACT['training_off_skip']
+    for module,names in CONTRACT['installed'].items():
+        selected=[case for case in cases if case.get('classname')=='tests.'+module]
+        require(sorted(case.get('name') for case in selected)==names,'raw classifier installed identities missing/duplicate/changed: '+module)
+        passed=skipped=0
+        for case in selected:
+            require(all(case.find(tag) is None for tag in ['failure','error']),'raw classifier installed case failed: '+module)
+            expected=CONTRACT['headless_skip'] if module==CONTRACT['desktop_module'] and not gui else off['attributes'] if module==off['module'] and case.get('name')==off['name'] else None
+            skips=case.findall('skipped')
+            if expected is None:require(not skips,'raw classifier required behavior skipped: '+str(case.get('name')));passed+=1
+            else:require(len(skips)==1 and dict(skips[0].attrib)==expected,'raw classifier capability skip differs: '+str(case.get('name')));skipped+=1
+        groups.append(dict(module=module,passed=passed,declared_skips=skipped));total_passed+=passed;total_skipped+=skipped
+    return dict(passed=total_passed,declared_skips=total_skipped,groups=groups)
+
+
+def typing(folder):
+    folder=Path(folder);positive=folder/CONTRACT['typing_positive_log'];text=positive.read_text(encoding='utf-8')
+    require(text.strip()=='Success: no issues found in '+str(len(CONTRACT['typing_positive']))+' source files','raw classifier positive typing missing/nonempty count differs')
+    hashes={positive.name:hashlib.sha256(positive.read_bytes()).hexdigest()};errors=0
+    for filename,contract in CONTRACT['typing_negative'].items():
+        path=folder/contract['log'];text=path.read_text(encoding='utf-8')
+        actual=sorted((name,int(line)) for name,line in re.findall(r'([A-Za-z0-9_]+\.py):(\d+): error:',text))
+        require(actual==[(filename,line) for line in contract['lines']],'raw classifier negative typing identities differ: '+filename)
+        summary='Found '+str(len(actual))+' errors in 1 file (checked 1 source file)'
+        require(len(re.findall('^'+re.escape(summary)+'$',text,re.M))==1,'raw classifier negative typing analyzed-file count differs')
+        hashes[path.name]=hashlib.sha256(path.read_bytes()).hexdigest();errors+=len(actual)
+    return dict(positive_files=len(CONTRACT['typing_positive']),negative_files=len(CONTRACT['typing_negative']),expected_errors=errors,hashes=hashes)

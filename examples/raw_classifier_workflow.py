@@ -12,10 +12,10 @@ from pathlib import Path
 import qupathxx as q
 
 
-def run(input_project: Path, output: Path, image_id: int, channels: int = 1) -> dict:
+def run(input_project: Path, output: Path, image_id: int, channels: int = 1) -> dict[str, object]:
     output.mkdir(parents=True, exist_ok=False)
     project = q.Project.open(str(input_project))
-    jobs = []
+    jobs: list[q.RawPixelTrainingCheckpointJob | q.RawPixelStreamSaveJob] = []
     try:
         doc = project.document(image_id)
         ids = [a.id for a in doc.annotations if a.class_name and a.geometry.is_area]

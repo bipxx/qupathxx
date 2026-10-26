@@ -29,6 +29,9 @@ dearray_spec=importlib.util.spec_from_file_location("qpx_tma_dearray_evidence",P
 dearray=importlib.util.module_from_spec(dearray_spec);exec(compile(Path(dearray_spec.origin).read_bytes(),dearray_spec.origin,"exec",dont_inherit=True),dearray.__dict__)
 multifile_spec=importlib.util.spec_from_file_location("qpx_multifile_ome_evidence",Path(__file__).with_name("multifile_ome_evidence.py"))
 multifile=importlib.util.module_from_spec(multifile_spec);exec(compile(Path(multifile_spec.origin).read_bytes(),multifile_spec.origin,"exec",dont_inherit=True),multifile.__dict__)
+raw_spec=importlib.util.spec_from_file_location('qpx_raw_classifier_evidence',Path(__file__).with_name('raw_classifier_evidence.py'))
+raw_classifier=importlib.util.module_from_spec(raw_spec);exec(compile(Path(raw_spec.origin).read_bytes(),raw_spec.origin,'exec',dont_inherit=True),raw_classifier.__dict__)
+
 
 
 ASSETS = Path(__file__).with_name('manylinux-assets.json')
@@ -345,6 +348,8 @@ def main():
         args.unified_engine=args.ndpi_readers=args.watershed_bodies=True
     report=audit(args.artifacts,read(args.run_json),args.commit)
     report['multifile_ome_sources']=multifile.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['raw_classifier_sources']=raw_classifier.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['raw_classifier_cohorts']=[]
     report['multifile_ome_cohorts']=[]
     report['tma_axis_sources']=axis.source_contract(Path(__file__).resolve().parents[2],args.commit)
     report['tma_dearray_sources']=dearray.source_contract(Path(__file__).resolve().parents[2],args.commit)
@@ -374,8 +379,11 @@ def main():
         dearray_typing=dearray.typing(folder)
         multifile_native=multifile.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
         multifile_typing=multifile.typing(folder)
+        raw_native=raw_classifier.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        raw_typing=raw_classifier.typing(folder)
         for cohort,path in [('builder',folder/'python-tests.xml'),('consumer',args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
             axis_cases=list(ET.parse(path).getroot().iter('testcase'))
+            report['raw_classifier_cohorts'].append(dict(python=version,cohort=cohort,native=raw_native,builder_typing=raw_typing,installed=raw_classifier.python(axis_cases)))
             report['multifile_ome_cohorts'].append(dict(python=version,cohort=cohort,native=multifile_native,builder_typing=multifile_typing,installed=multifile.python(axis_cases),desktop=multifile.desktop(axis_cases)))
             report['tma_dearray_cohorts'].append(dict(python=version,cohort=cohort,native=dearray_native,builder_typing=dearray_typing,installed=dearray.python(axis_cases),desktop=dearray.desktop(axis_cases)))
             report['tma_axis_cohorts'].append(dict(python=version,cohort=cohort,native=axis_native,builder_typing=axis_typing,installed=axis.python(axis_cases),desktop=axis.desktop(axis_cases)))
@@ -436,7 +444,7 @@ def main():
             builder['python_cohort']=manifests.python_cohort(folder/'python-tests.xml',root,args.commit)
             consumer['python_cohort']=manifests.python_cohort(args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml',root,args.commit)
             report['linux_runtime_manifests'].append(dict(python=version,builder=builder,consumer=consumer))
-    qptma.verify_source_snapshot(Path(__file__).resolve().parents[2],report['qptma_sources'],report['resampling_sources'])
+    qptma.verify_source_snapshot(Path(__file__).resolve().parents[2],report['qptma_sources'],report['resampling_sources'],report['raw_classifier_sources'])
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(dict(state=report['state'],commit=report['commit'],release_ready=False)))

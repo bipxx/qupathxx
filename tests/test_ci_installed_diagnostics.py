@@ -70,14 +70,22 @@ def test_preparation_and_all_legacy_command_arguments_remain_intact():
     expected=json.loads((ROOT/'tests/fixtures/ci-installed-diagnostics-v1/legacy-command-contract.json').read_text())
     main=next(n for n in ast.parse(SOURCE.read_text()).body if isinstance(n,ast.FunctionDef) and n.name=='main')
     start=next(i for i,n in enumerate(main.body) if isinstance(n,ast.Assign) and any(isinstance(t,ast.Name) and t.id=='diagnostics' for t in n.targets))
-    prefix=ast.dump(ast.Module(body=main.body[:start],type_ignores=[]),include_attributes=False)
+    extension=ast.parse("raw_classifier.native(list(ET.parse(work/'native-tests.xml').getroot().iter('testcase')),full=full)").body[0]
+    key_node=lambda node:ast.dump(node,include_attributes=False)
+    assert sum(key_node(n)==key_node(extension) for n in main.body[:start])==1
+    prefix=ast.dump(ast.Module(body=[n for n in main.body[:start] if key_node(n)!=key_node(extension)],type_ignores=[]),include_attributes=False)
     assert prefix==ast.dump(ast.parse(expected['preparation_source']),include_attributes=False)
     commands=[]
     for n in ast.walk(ast.Module(body=main.body[start:],type_ignores=[])):
         if isinstance(n,ast.Call) and (ast.unparse(n.func)=='run' or ast.unparse(n.func)=='diagnostics.run'):
             commands.append(dict(args=[ast.unparse(a) for a in n.args],keywords=[(k.arg,ast.unparse(k.value)) for k in n.keywords]))
     key=lambda value:json.dumps(value,sort_keys=True)
-    assert Counter(map(key,commands))==Counter(map(key,expected['commands']))
+    # Keep every frozen legacy command; admit exactly the two new raw typing
+    # command sites (the negative site runs once per named fixture).
+    additions=ast.parse("""diagnostics.run([test_python,'-I','-m','mypy','--strict','--no-incremental',*raw_classifier.CONTRACT['typing_positive']],work/raw_classifier.CONTRACT['typing_positive_log'],env)
+diagnostics.run([test_python,'-I','-m','mypy','--strict','--no-incremental','tests/typing/'+filename],work/contract['log'],env,expected=1)""")
+    extra=[dict(args=[ast.unparse(a) for a in n.args],keywords=[(k.arg,ast.unparse(k.value)) for k in n.keywords]) for n in ast.walk(additions) if isinstance(n,ast.Call)]
+    assert Counter(map(key,commands))==Counter(map(key,expected['commands']))+Counter(map(key,extra))
     finish=next(i for i,n in enumerate(main.body) if isinstance(n,ast.Expr) and isinstance(n.value,ast.Call) and ast.unparse(n.value.func)=='diagnostics.finish')
     publication=next(i for i,n in enumerate(main.body) if "work / 'result.json'" in ast.unparse(n))
     assert finish<publication
@@ -90,7 +98,7 @@ def post_install_code():
     return compile(ast.Module(body=main.body[start:finish+1],type_ignores=[]),str(SOURCE),'exec')
 
 
-@pytest.mark.parametrize('gui,failure',[(gui,failure) for gui in [False,True] for failure in [None,'python-tests','python-tests-with-junit','bad-junit','pixel-stream-file-benchmark','typing','qupath-cells-body-comparison','bad-negative-lines','standalone-gui','standalone-timeout','standalone-archive','windows-native-runtime-manifest'] if gui or failure not in ('standalone-gui','standalone-timeout','standalone-archive','windows-native-runtime-manifest')])
+@pytest.mark.parametrize('gui,failure',[(gui,failure) for gui in [False,True] for failure in [None,'python-tests','python-tests-with-junit','bad-junit','pixel-stream-file-benchmark','typing','raw-classifier-cohorts','raw-positive','raw-negative','raw-classifier-typing-validation','qupath-cells-body-comparison','bad-negative-lines','standalone-gui','standalone-timeout','standalone-archive','windows-native-runtime-manifest'] if gui or failure not in ('standalone-gui','standalone-timeout','standalone-archive','windows-native-runtime-manifest')])
 def test_actual_producer_tail_collects_independent_stages(tmp_path,monkeypatch,gui,failure):
     trace=[];work=tmp_path;mesa=work/'mesa';mesa.mkdir()
     for name in ['opengl32.dll','libgallium_wgl.dll']:(mesa/name).write_bytes(b'synthetic')
@@ -126,7 +134,10 @@ def test_actual_producer_tail_collects_independent_stages(tmp_path,monkeypatch,g
     dearray=SimpleNamespace(CONTRACT=contract('dearray'),typing=lambda p:None)
     multifile=SimpleNamespace(CONTRACT=contract('multifile'),typing=lambda p:None,python=lambda cases:None,desktop=lambda cases,gui:None)
     axis=SimpleNamespace(TYPING_LOG='axis-negative.log',typing=lambda p:None)
-    scope=dict(producer.__dict__);scope.update(InstalledDiagnostics=producer.InstalledDiagnostics,run=run,work=work,test_python='installed-python',sys=sys,args=SimpleNamespace(mode='gui' if gui else 'headless',extended_readers=True),env={'QUPATHXX_HAMAMATSU_FIXTURE':'ndpi','QUPATHXX_APERIO_MULTILEVEL_FIXTURE':'aperio','QUPATHXX_APERIO_FIXTURE':'small-slide'},scientific=scientific,dearray=dearray,multifile=multifile,axis=axis,os=SimpleNamespace(name='nt',pathsep=os.pathsep,environ={'SystemRoot':'C:/Windows'}),archive_windows=archive,wheel=work/'wheel.whl',mesa=mesa,install=work/'install')
+    def raw_check(stage):
+        if failure==stage:raise ValueError('injected '+stage)
+    raw_classifier=SimpleNamespace(CONTRACT=dict(typing_positive=['raw-positive.py'],typing_positive_log='raw-positive.log',typing_negative={'raw_invalid.py':dict(log='raw-negative.log')}),python=lambda cases,gui:raw_check('raw-classifier-cohorts'),typing=lambda p:raw_check('raw-classifier-typing-validation'))
+    scope=dict(producer.__dict__);scope.update(InstalledDiagnostics=producer.InstalledDiagnostics,run=run,work=work,test_python='installed-python',sys=sys,args=SimpleNamespace(mode='gui' if gui else 'headless',extended_readers=True),env={'QUPATHXX_HAMAMATSU_FIXTURE':'ndpi','QUPATHXX_APERIO_MULTILEVEL_FIXTURE':'aperio','QUPATHXX_APERIO_FIXTURE':'small-slide'},scientific=scientific,dearray=dearray,multifile=multifile,raw_classifier=raw_classifier,axis=axis,os=SimpleNamespace(name='nt',pathsep=os.pathsep,environ={'SystemRoot':'C:/Windows'}),archive_windows=archive,wheel=work/'wheel.whl',mesa=mesa,install=work/'install')
     if failure:
         with pytest.raises(RuntimeError,match='installed diagnostics failed'):exec(post_install_code(),scope)
     else:exec(post_install_code(),scope)
@@ -142,6 +153,8 @@ def test_actual_producer_tail_collects_independent_stages(tmp_path,monkeypatch,g
         for name in ['pixel-stream-read-benchmark','pixel-stream-record-benchmark']:
             assert name not in trace and stages[name]['blocked_by']==[failure]
     if failure=='typing':assert stages['typing-positive-validation']['blocked_by']==['typing']
+    if failure in ('raw-positive','raw-negative'):assert stages['raw-classifier-typing-validation']['blocked_by']==[failure]
+    if failure in ('raw-classifier-cohorts','raw-classifier-typing-validation'):assert stages[failure]['state']=='failed'
     if failure=='bad-negative-lines':assert stages['typing-negative-validation']['state']=='failed'
     if gui and failure in ('standalone-gui','standalone-timeout'):
         assert stages['standalone-layout']['state']==('timed_out' if failure=='standalone-timeout' else 'failed')

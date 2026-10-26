@@ -21,6 +21,9 @@ dearray_spec=importlib.util.spec_from_file_location("qpx_tma_dearray_evidence",P
 dearray=importlib.util.module_from_spec(dearray_spec);exec(compile(Path(dearray_spec.origin).read_bytes(),dearray_spec.origin,"exec",dont_inherit=True),dearray.__dict__)
 multifile_spec=importlib.util.spec_from_file_location("qpx_multifile_ome_evidence",Path(__file__).with_name("multifile_ome_evidence.py"))
 multifile=importlib.util.module_from_spec(multifile_spec);exec(compile(Path(multifile_spec.origin).read_bytes(),multifile_spec.origin,"exec",dont_inherit=True),multifile.__dict__)
+raw_spec=importlib.util.spec_from_file_location('qpx_raw_classifier_evidence',Path(__file__).with_name('raw_classifier_evidence.py'))
+raw_classifier=importlib.util.module_from_spec(raw_spec);exec(compile(Path(raw_spec.origin).read_bytes(),raw_spec.origin,'exec',dont_inherit=True),raw_classifier.__dict__)
+
 
 
 
@@ -105,6 +108,7 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
             sampled_production_native=sampled_cells,
             evidence_sha256={p.name:sha(p) for p in sorted(folder.iterdir()) if p.is_file()},ci_result=data))
         entries[-1]['multifile_ome_native']=multifile.native(cases)
+        entries[-1]['raw_classifier_native']=raw_classifier.native(cases)
         entries[-1]['resampling_native']=resampling.native(cases)
         entries[-1]['tma_axis_native']=axis.native(cases)
         entries[-1]['tma_dearray_native']=dearray.native(cases)
@@ -131,7 +135,8 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
                'Native/selected SDK runtime and notice bytes uploaded and otool-checked; static SDK archive digests remain CI-generated evidence. ' if macho_inventory else
                'SDK and executable bytes were not uploaded; dependency and executable digests are CI-generated evidence. ')+
               'No macOS Python wheel, OpenSlide, GUI, publisher signing, older-OS, biological or supported-release acceptance.')
-    qptma.verify_source_snapshot(root,qptma_sources,resampling_sources)
+    report['raw_classifier_sources']=raw_classifier.source_contract(root,commit)
+    qptma.verify_source_snapshot(root,qptma_sources,resampling_sources,report['raw_classifier_sources'])
     return report
 
 

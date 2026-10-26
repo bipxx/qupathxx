@@ -1,5 +1,6 @@
 """CI entry point: native configurations and clean installed-wheel workflow gates."""
 import argparse
+import importlib.util
 import json
 import os
 from pathlib import Path
@@ -18,6 +19,8 @@ import scientific_grid_evidence as scientific
 import tma_axis_evidence as axis
 import tma_dearray_evidence as dearray
 import multifile_ome_evidence as multifile
+raw_spec=importlib.util.spec_from_file_location('qpx_raw_classifier_evidence',Path(__file__).with_name('raw_classifier_evidence.py'))
+raw_classifier=importlib.util.module_from_spec(raw_spec);exec(compile(Path(raw_spec.origin).read_bytes(),raw_spec.origin,'exec',dont_inherit=True),raw_classifier.__dict__)
 sys.path.insert(0, str(ROOT/'tools'))
 import build_opencv_sdk
 
@@ -236,6 +239,7 @@ def main():
     run(['ctest', '--test-dir', build, '-C', 'Debug' if args.mode == 'sanitize' else 'Release', '--output-on-failure', '--test-output-size-passed', '1048576',
          '--output-junit', work/'native-tests.xml'], work/'native-tests.log', env, 900)
     multifile.native(list(ET.parse(work/'native-tests.xml').getroot().iter('testcase')),tiff=full)
+    raw_classifier.native(list(ET.parse(work/'native-tests.xml').getroot().iter('testcase')),full=full)
     if args.mode not in ['headless', 'gui']:
         return
     wheel = next((work/'wheels').glob('qupathxx-*.whl'))
@@ -294,6 +298,7 @@ def main():
         multifile.python(multifile_cases)
         multifile.desktop(multifile_cases,gui=args.mode=='gui')
     diagnostics.execute('multifile-cohorts',validate_multifile,requires=('python-junit',))
+    diagnostics.execute('raw-classifier-cohorts',lambda:raw_classifier.python(multifile_cases,gui=args.mode=='gui'),requires=('python-junit',))
     diagnostics.run([test_python, '-I', ROOT/'tools/compare_qupath_cells.py', '--cell-algorithm', 'log-bodies',
          '--report', work/'qupath-cells-body-comparison.json'], work/'qupath-cells-body-comparison.log', env, 120)
     diagnostics.run([test_python, '-I', ROOT/'tools/compare_qupath_cells.py', '--cell-algorithm', 'log-sampled',
@@ -388,6 +393,10 @@ def main():
     for filename,contract in multifile.CONTRACT["typing_negative"].items():
         diagnostics.run([test_python,"-I","-m","mypy","--strict","--no-incremental","tests/typing/"+filename],work/contract["log"],env,expected=1)
     diagnostics.execute('multifile-typing-validation',lambda:multifile.typing(work),requires=(Path(multifile.CONTRACT['typing_positive_log']).stem,*[Path(value['log']).stem for value in multifile.CONTRACT['typing_negative'].values()]))
+    diagnostics.run([test_python,'-I','-m','mypy','--strict','--no-incremental',*raw_classifier.CONTRACT['typing_positive']],work/raw_classifier.CONTRACT['typing_positive_log'],env)
+    for filename,contract in raw_classifier.CONTRACT['typing_negative'].items():
+        diagnostics.run([test_python,'-I','-m','mypy','--strict','--no-incremental','tests/typing/'+filename],work/contract['log'],env,expected=1)
+    diagnostics.execute('raw-classifier-typing-validation',lambda:raw_classifier.typing(work),requires=(Path(raw_classifier.CONTRACT['typing_positive_log']).stem,*[Path(value['log']).stem for value in raw_classifier.CONTRACT['typing_negative'].values()]))
     negative_log = work/'typing-negative.log'
     diagnostics.run([test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/invalid_api.py'], negative_log, env, expected=1)
     diagnostics.execute('typing-negative-validation',lambda:validate_typing_lines(negative_log,'invalid_api.py',[6,7,8,9,11,13,14]),requires=('typing-negative',))
