@@ -534,3 +534,68 @@ T3 still needs versioned tiled-table and stream files, atomic save/reopen,
 hash-only source revalidation and interrupted/resumed execution. T4 installed
 bindings/frontends, cross-tile contours, T5 integrated platforms and independent
 research/process-memory/hardware/release acceptance remain open.
+
+
+## Prediction prefix files and hash-only resume
+
+Source `c843dfa` has [local native acceptance](benchmarks/raw-stream-file-local.json)
+for the affected workflow on Windows GEOS-ON, Linux GEOS-OFF and Windows
+training-ON. Sixteen passing regressions retain `125afbb`; its initial 8/8/3 suites
+all passed. Review then corrected absent-destination publication and added its
+competing-writer control; only the file implementation and test helper changed.
+Both source snapshots authenticate 356 inputs; 22 original/final binaries remain.
+
+`save_raw_pixel_stream(request, path, options, cancelled)` writes QWS1 metadata,
+QWB1 numeric window records and a QWE1 partial/complete footer through the
+existing atomic export writer. The header embeds QRM1/explicit legacy raw model
+bytes, captured provenance, global lattice/coverage/tile options, effective ROI
+and calibration, source metadata epoch and request commitment. Each record has
+its own checksum, canonical support/label/vote values, feature/input/result hashes
+and derived original window geometry. Ordered input/result/file-content chains
+and prefix counts/totals close the footer. Legacy QXT1/QXP1 and individual window
+hash grammars retain their meanings.
+
+`RawPixelStreamFile` opens bounded metadata and framing without opening a live
+image. `read_block` verifies its window, canonical numeric/ROI/source-footprint
+semantics and result commitment. `verify` checks all saved prefix blocks, chains
+and aggregate totals. Declared summaries are not a full verification result;
+verification records the observed file version, and subsequent reads guard that
+version again. Cancellation or failed reads clear the verified flag. Historical
+arrays own their storage and acquire no live Document capture authority.
+
+`RawPixelStreamSaveOptions.max_new_windows` makes an explicit atomic checkpoint;
+zero creates a metadata-only empty prefix. Set `resume_path` to a saved prefix and
+use replacement explicitly for an in-place update. Resume first rejects changed
+model/recipe, coverage/tile/options, effective ROI/calibration or source identity/
+file set. Unchanged file observations may resume through a newly opened reader;
+a new reader's process generation alone does not invalidate the same files.
+Every retained window then rereads decoded inputs through the hash-only sampler,
+shares the feature-input commitment grammar, and must match its stored input.
+It restores stream counters/chains without feature planes or forest inference;
+only the suffix is predicted. The previous prefix remains intact if validation,
+decoding, IO or cancellation fails. Explicit checkpoints copy/re-encode their
+retained prefix in bounded memory; they do not promise constant IO cost.
+
+File limits cover bounded metadata and one historical output block. A simultaneous
+live producer retains its separate request budget; the two limits are not one
+combined process-memory claim. File/output limits reject before source pixel IO.
+Primary/companion source paths and hardlink aliases cannot be destinations.
+Replacement is conditional on a destination observed before computation; a
+competing file created at a previously absent path is preserved, even when the
+caller permitted replacement. Tests place that writer while source IO is blocked.
+
+Independent little-endian header/model/block/footer offsets and SHA checks,
+rehashing a malformed support flag, truncation/oversized framing, file-version
+mutation and reader cancellation distinguish codec errors. Multi-stage prefixes
+resume to exactly the uninterrupted bytes for the same request. Real TIFF closes
+and reopens with fresh authority, resumes the same files, preserves trained-model
+prediction commitments on the Windows backend, and refuses changed source files.
+Changed decoded bits, model/ROI/calibration/coverage, companion observations,
+source-output aliases and cancellation preserve earlier checkpoints.
+
+T3 still needs sparse training/trained-table archives and retained records,
+training reservoir checkpoints/resume and native owner export/read/retain jobs.
+Automatic checkpoint scheduling/abandoned-temporary maintenance and broader
+crash/power-loss qualification remain open. T4 installed frontends, T5 integrated
+platforms, cross-tile contours and independent research/process-memory/hardware/
+release acceptance remain separate requirements.

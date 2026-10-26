@@ -68,8 +68,15 @@ raw prediction streams and one-slot owner delivery now have [local evidence](ben
 at `8d544eb`: eight selected suites each Windows/Linux plus three Windows training
 suites pass, with 352 matching inputs and nineteen retained executables. Fractional
 filtered/full seams, cropped/global coverage, bounded trillion-cell traversal,
-backpressure, owned output and fresh-file delivery controls pass. Next add
-versioned tiled-table/stream persistence, interrupted resume and frontends. The
+backpressure, owned output and fresh-file delivery controls pass. Prediction
+prefix files and hash-only resume now have [local evidence](benchmarks/raw-stream-file-local.json)
+at `c843dfa`: three affected workflows pass, sixteen regressions retain source
+`125afbb`, both sources authenticate 356 inputs and 22 binaries are retained.
+Real TIFF/trained-model close/reopen/resume, exact uninterrupted/resumed bytes,
+atomic cancellation and concurrent-writer/source/alias refusal pass. Next finish
+sparse training archives/retention and training checkpoints, native owner file
+adapters and installed frontends. Automatic checkpoint maintenance and broader
+crash/power-loss acceptance remain open. The
 API plan's T1-T5 table defines shared implementations, resource limits and evidence.
 Cross-tile contours, integrated
 platform training and research/hardware acceptance remain open.

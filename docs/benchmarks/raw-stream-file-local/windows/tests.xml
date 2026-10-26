@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="1"
+	timestamp="2026-10-26T06:20:54"
+	>
+	<testcase name="pixel_workflows" classname="pixel_workflows" time="1.04618" status="run">
+		<properties/>
+		<system-out>Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+Raw pixel replay: real TIFF reopened training/prediction records verify through fresh owner jobs without promoting historical authority passed
+Raw pixel archives: real TIFF retention, project save/reopen, snapshot save, stale-file refusal and historical-only decode passed
+Raw pixel archives: sampling/prediction semantic round trips, rational axes, authority refusal, tamper/cancel and atomic replacement passed
+Raw pixel contours: rational axes/context, raster membership/area, bounded conversion, cancel, atomic apply/undo/redo and stale authority passed
+Raw pixel replay: pre-IO capture, source-bit comparison, historical/cross-document refusal, recipe/calibration/annotation checks and owner-job verification passed
+Raw window classifier: real TIFF fractional-window owner prediction, global ROI mask and late-file refusal passed
+Raw window classifier: portable recipe/model identity, 42 full/window label-vote seams, huge indexed ROI, physical calibration, pre-IO quotas/series, cancellation/stale/copy/thread and compound-source checks passed
+Raw tiled training: real TIFF fractional sampling, optional backend prediction and late-file refusal passed
+Raw tiled training: full/tiled global reservoir rows, filtered seams, sparse trillion-cell lattice, quotas, owner lifecycle, calibration and compound-source controls passed
+Raw prediction stream: real TIFF fractional full/stream votes, optional trained model and pending late-file refusal passed
+Raw prediction stream: fractional filtered full-context seams, unique/cropped global cores, bounded trillion-cell traversal, owned blocks, one-slot backpressure, digests, quotas, cancel/stale/retry and owner delivery passed
+Raw stream file: absent-destination concurrent-writer refusal preserves competing output passed
+Raw stream file: real TIFF close/reopen hash-only prefix resume, full-result equivalence and changed-file/input-output refusal passed
+Raw stream file: QWS1 independent framing, historical blocks, exact interrupted/resumed bytes, hash-only prefix validation, model/source/ROI/calibration refusal, atomic cancellation, tamper and resource/alias controls passed
+Annotation sampling, overlap/balance, portable resolution, tiled source prediction and stale jobs passed
+</system-out>
+	</testcase>
+</testsuite>

@@ -2,26 +2,35 @@
 
 ## Current execution card (2026-10-26)
 
-- Latest native delivery: bounded raw prediction streams at `8d544eb` have
-  [local acceptance](benchmarks/raw-pixel-stream-local.json). Eight selected suites
-  each Windows/Linux plus three Windows training suites pass; 352 compiler inputs
-  match across all configurations, with nineteen final executables retained.
-- The stream computes global window geometry in O(1) state and shares the existing
-  numeric/ROI kernel. Three filtered tile policies and cropped coverage match
-  full-context support/label/vote bits. A trillion-cell traversal admits bounded
-  reads without a whole-grid raster or tile-plan vector. The owner job has one
-  result slot and starts the next window only after take. Real TIFF/trained-model,
-  input/result digests, owned-block release, quotas, cancel/stale/retry and pending
-  actual primary/companion-file refusal pass. No new dependencies were added.
-- Next: T3 versioned tiled-table/stream persistence, atomic save/reopen and
-  source/model/selection-safe interrupted resume, including hash-only revalidation.
-  Then T4 installed Python/CLI/batch/ImGui/viewer integration and T5 one complete
-  integrated qualification. Follow the [single T1-T5 route](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
-  No stream codec/resume or installed frontend acceptance follows from this packet.
-  All M0-M7 remain Partial; public main and release gates are unchanged.
+- Latest native delivery: QWS1 raw prediction files and hash-only prefix resume
+  at `c843dfa` have [local acceptance](benchmarks/raw-stream-file-local.json).
+  The affected workflow suite passes on Windows GEOS-ON, Linux GEOS-OFF and
+  Windows training-ON. Sixteen passing regressions retain source `125afbb`;
+  initial 8/8/3 observations remain preserved. Both sources authenticate 356
+  inputs; 22 original/final executables are retained. Review added a conditional
+  commit and a blocked-IO control that preserves a concurrently created output.
+- Explicit prefix checkpoints reopen as historical values; resume rehashes each
+  retained source window without features/inference, then predicts the suffix.
+  Interrupted/resumed bytes match uninterrupted output. Real TIFF close/reopen,
+  actual trained-model replay, source/model/ROI/calibration refusal, rehashed
+  malformed support, file budgets, aliases and atomic cancellation controls pass.
+  Legacy codecs/window hashes remain unchanged; no new dependency was added.
+- Next: distinct sparse tiled training/trained-table archives and retention, then
+  training reservoir checkpoint/resume and owner export/read/retain adapters.
+  T3 remains Partial. T4 installed Python/CLI/batch/ImGui/viewer integration and
+  T5 integrated qualification follow the [single queue](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
+  Automatic checkpoint scheduling/abandoned-temporary recovery, crash/power-loss,
+  independent research/resource/hardware/release acceptance remain open.
+  All M0-M7 remain Partial; public main and the user's root branch are unchanged.
 
 ## Preserved local baselines
 
+- Bounded raw prediction streams at `8d544eb` have
+  [local acceptance](benchmarks/raw-pixel-stream-local.json): eight suites each
+  Windows/Linux and three Windows training suites, 352 matching inputs and
+  nineteen retained binaries. O(1) global traversal, fractional full-context
+  seams, owned-block release, one-slot owner backpressure and fresh-file delivery
+  controls remain source-bound baselines for the later file/resume path.
 - Sparse owner-captured tiled raw training at `1273c3e`
   has [local acceptance](benchmarks/raw-tiled-training-local.json). The affected
   workflow suite passes on Windows GEOS-ON, Linux GEOS-OFF and Windows training-ON;

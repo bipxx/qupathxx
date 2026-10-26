@@ -1,0 +1,29 @@
+MSBuild version 17.14.40+3e7442088 for .NET Framework
+
+  Checking File Globs
+  qupathxx_sqlite.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_sqlite.lib
+  qupathxx_tiff_xml.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_tiff_xml.lib
+  zlibstatic.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_zlib-build\Release\zs.lib
+  tiff.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\_deps\qpx_tiff-build\libtiff\Release\tiff.lib
+  raw_pixel_stream_file.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(50,41): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(18,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(53,28): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(18,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(54,34): warning C4459: declaration of 'maximum' hides global declaration [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_core.vcxproj]
+      C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\raw_pixel_stream_file.cpp(18,25):
+      see declaration of 'qpx::`anonymous-namespace'::maximum'
+  
+  provenance.cpp
+  qupathxx_core.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_core.lib
+  pixel_workflow_tests.cpp
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(83,425): warning C4805: '==': unsafe mix of type 'const _Ty' and type 'const bool' in operation [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(83,425): warning C4805:         with [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(83,425): warning C4805:         [ [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(83,425): warning C4805:             _Ty=uint8_t [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\cpp\tests\pixel_workflow_tests.cpp(83,425): warning C4805:         ] [C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\qupathxx_pixel_workflow_tests.vcxproj]
+  qupathxx_pixel_workflow_tests.vcxproj -> C:\Users\HEQ\Projects\qupathxx\build\ci\gridfrontends167-package\Release\qupathxx_pixel_workflow_tests.exe

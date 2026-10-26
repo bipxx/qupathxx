@@ -1,0 +1,375 @@
+{
+  "schema": "qpx.raw-stream-file-local/1",
+  "observed_at_utc": "2026-10-26T10:26:41.511214+00:00",
+  "source": "c843dfa41b331bd93d73fdcf72e3a8b00bfcff0f",
+  "compiled_fingerprint": "af52a8132b74f07fc335c1b1aa17137f2991a03d117b9730b1ad086261bdf82e",
+  "compiler_inputs": 356,
+  "status": "raw_prediction_stream_prefix_persistence_and_hash_only_resume_locally_verified",
+  "native": {
+    "windows_suites": 1,
+    "linux_suites": 1,
+    "windows_training_suites": 1,
+    "unchanged_regressions_at_initial_source": 16,
+    "required_markers": [
+      "Raw stream file: real TIFF close/reopen hash-only prefix resume, full-result equivalence and changed-file/input-output refusal passed",
+      "Raw stream file: absent-destination concurrent-writer refusal preserves competing output passed",
+      "Raw stream file: QWS1 independent framing, historical blocks, exact interrupted/resumed bytes, hash-only prefix validation, model/source/ROI/calibration refusal, atomic cancellation, tamper and resource/alias controls passed",
+      "Raw prediction stream: fractional filtered full-context seams, unique/cropped global cores, bounded trillion-cell traversal, owned blocks, one-slot backpressure, digests, quotas, cancel/stale/retry and owner delivery passed",
+      "Raw tiled training: full/tiled global reservoir rows, filtered seams, sparse trillion-cell lattice, quotas, owner lifecycle, calibration and compound-source controls passed"
+    ],
+    "backend_marker": "Raw stream file: actual trained TIFF model survives save/reopen and hash-only resume with exact prediction commitments passed"
+  },
+  "initial_regression_source": "125afbb493bfec9df9ea879d12f0eeff9def6a9b",
+  "initial_fingerprint": "66d35562d555c233b4b415bd13a773deec4171dd59b77a76a58c3738d3c20518",
+  "development_observation": "Initial 8/8/3 suites passed. Review then found an absent-destination commit race; only raw_pixel_stream_file.cpp and its test helper changed. Three affected workflow suites pass at the successor; all earlier passing logs and 22 original/final binaries retain their identities.",
+  "scope": [
+    "QWS1 bounded historical raw stream files with QWB1 per-window records and QWE1 partial/complete footer; QRM1 model, provenance, calibration, ROI, rational global geometry and request commitments preserved",
+    "RawPixelTiledPredictionRequest hash-only per-window decoded input verification shares numeric feature-input hash grammar without feature planes or forest inference",
+    "Explicit durable prefix checkpoints with max_new_windows; resume validates source identity/file set, model/recipe/coverage/ROI/calibration/options before reuse and rehashes every retained source window",
+    "Same-request interrupted/resumed output matches uninterrupted bytes and ordered input/result commitments",
+    "Real TIFF close/reopen uses fresh reader/document authority and permits unchanged file observations despite new process generation; changed primary/companion observations refuse",
+    "Actual Windows backend-trained TIFF model survives save/reopen and resume with exact prediction commitments",
+    "Historical blocks own arrays and restore no live Document capture; bounded read_block and complete prefix verification validate canonical support/votes, source footprint/ROI, semantic hashes and aggregate chains/totals",
+    "Atomic cancellation and decode/source errors preserve previous checkpoints; source primary/companion paths and hardlink aliases refuse as destinations",
+    "Absent-destination concurrent-writer control preserves competing output even with replace option requested",
+    "Independent little-endian header/block/footer locations and SHA plus rehashed malformed-support rejection, truncation/oversized framing and read-version/cancellation controls",
+    "File metadata/one-block work limits and output byte cap reject before source pixel IO; simultaneous live producer retains its separately declared request budget"
+  ],
+  "legacy_archive_or_window_result_grammars_changed": false,
+  "tiled_training_archives_or_frontends_complete": false,
+  "remaining": [
+    "Distinct versioned sparse tiled training/trained-table archives and retained project records; training checkpoint/reservoir resume",
+    "Native owner export/read/retain adapters and installed nanobind/Python/NumPy, CLI/batch, managed viewer and ImGui workflows",
+    "Automatic checkpoint scheduling/maintenance and interruption recovery beyond explicitly committed prefixes",
+    "Cross-tile contours, integrated platform and independent biological/model/process-resource/hardware/release acceptance"
+  ],
+  "baselines": [
+    "docs/benchmarks/raw-pixel-stream-local.json",
+    "docs/benchmarks/raw-tiled-training-local.json"
+  ],
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/windows/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "4788e855fddad88ddc2ade7b26f5baf4a236a75a03b93257fe549f6e0f65259c"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/windows/configuration.json",
+      "bytes": 438,
+      "sha256": "1fdb05fd0a59139fc78658467c36bfad64008f2d672600bae623a8ffd733f958"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/windows/build.log",
+      "bytes": 3463,
+      "sha256": "a8ee5baf1bc6e2303350d6820dc6d43816a32d7103757df4030ee10a52e9a6e3"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/windows/commands.json",
+      "bytes": 1455,
+      "sha256": "0729639215547d04f9dac23012e817a8d6323b56b9ee8952a8ab235ce8fb1566"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/windows/compiler-inputs.json",
+      "bytes": 37878,
+      "sha256": "6eec7ab42548edca7e5c26c663fa2669ebcbe9a0c070fe68ed8942774a623208"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/windows/configure.log",
+      "bytes": 3579,
+      "sha256": "f710f229fe2d99e7c2cac5de86653368c484f44207d92633dab717f692a8840a"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/windows/output-preflight.json",
+      "bytes": 215,
+      "sha256": "45cb78d7c580fb84998d383fbbc0f6fc4ea170131bac97500f4fa110bdc58ae8"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/windows/tests.log",
+      "bytes": 241,
+      "sha256": "88394ab7a35dcaaef4f0642a6cf125b286b3e7e54d574175e707a27c2205d87f"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/windows/tests.xml",
+      "bytes": 2790,
+      "sha256": "d7a854cd4cff2177d9c5ebc3b31d6ff220e84349c89bddd47b71f0d32bc350c3"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/linux/build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "5110c826a642a24c34bae208df660929555dfb1293d7b80acc4008e6c482baa6"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/linux/configuration.json",
+      "bytes": 440,
+      "sha256": "9055e74897cee94c78a499b8be5563be9b92ed0411debc1a2045cdbd28ba7a04"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/linux/build.log",
+      "bytes": 22249,
+      "sha256": "ee8842cb5408e5a402ba114c1dabc884db91a8c34f8fb91911fb6ca35afd5c0e"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/linux/commands.json",
+      "bytes": 2192,
+      "sha256": "4ffdf061a3028dc7c37a3da5c719c534b3d9258f1b2e9d296fb52f6b959de87d"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/linux/compiler-inputs.json",
+      "bytes": 37878,
+      "sha256": "6eec7ab42548edca7e5c26c663fa2669ebcbe9a0c070fe68ed8942774a623208"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/linux/configure.log",
+      "bytes": 3354,
+      "sha256": "f394e66d45b2801eebea0a1f64bdeebb945a37eb98f183952e9ad7bac9f02f8a"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/linux/output-preflight.json",
+      "bytes": 208,
+      "sha256": "046c3e2c957dc685b75d1fed7f12a2d0a9c0ebda45c537b09d66843bda0b2d6c"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/linux/tests.log",
+      "bytes": 370,
+      "sha256": "ef63a91aa7adb4f5efed9060ddef9ad2b3a83be31efbf9d527957853eb051a2f"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/linux/tests.xml",
+      "bytes": 2677,
+      "sha256": "6f7ec423b1e1832e9b0330554da39db743fc6ce5d665b3f0ef56a3dbc19cee21"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/training/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "be87a916ca5fb4afad45a8546eb4febcd84fd026405c6efa4bbbc1d24b70348a"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/training/configuration.json",
+      "bytes": 439,
+      "sha256": "efefdc00c5c4f105d6eb07ae32b7d4aa64514ca8b22df2b32a188f4283812f82"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/training/build.log",
+      "bytes": 3435,
+      "sha256": "19af4b1ebda6262f487e96a7f507c4fdfa39d6dfbf9fe0d802e224a6c81b744b"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/training/commands.json",
+      "bytes": 1450,
+      "sha256": "ae400946a85bb013447dec0aae35225032cab1308fe34856a85da90028d4bbd6"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/training/compiler-inputs.json",
+      "bytes": 37878,
+      "sha256": "6eec7ab42548edca7e5c26c663fa2669ebcbe9a0c070fe68ed8942774a623208"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/training/configure.log",
+      "bytes": 3722,
+      "sha256": "8e5ab25a2bf395b16b129536e2febd76bc22f7ad5a4e8dd4000bf17b44c46869"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/training/output-preflight.json",
+      "bytes": 217,
+      "sha256": "03ba75f23f8b090aec18108b11dc1c4a124de6d0d5be8cd74459c2401e3f7c47"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/training/sdk-verification.json",
+      "bytes": 202,
+      "sha256": "b55701dcbf448dd2c272bba3fe738c642e2cb4fb62bc0a25d7295d7dbd3442aa"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/training/tests.log",
+      "bytes": 239,
+      "sha256": "e00beb0174c3a30ab20ff2a4cd0dcf12521bd68ad5e0bc79d6efb3c5be02f72a"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/training/tests.xml",
+      "bytes": 3253,
+      "sha256": "b5dcaec006288b125f7a4d9faf98ee72c194985f507930adbd5a1e49fb6f3744"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/compiler-git-proof.json",
+      "bytes": 121339,
+      "sha256": "29a99cfaf6b64424bc9a67d4ff255c6225d85d06ccad5dcece06baa93acd260a"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/compiler-git-proof.json",
+      "bytes": 121308,
+      "sha256": "dffaf44d89b64ee626422ba6f2ba49c399f16e1034e1d1acc24525558515a001"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/windows/build.log",
+      "bytes": 12986,
+      "sha256": "1a8f1e70ceb3666f4b27104afd6208c2c0026d785255dc582f4fb6ffaa830b05"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/windows/commands.json",
+      "bytes": 1786,
+      "sha256": "d25f3aab47fda05bd7406e8ed5f4ff03e3f7271cc9dc6e89eca83e23fada2198"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/windows/compiler-inputs.json",
+      "bytes": 37878,
+      "sha256": "10f99ed3f334d80980f50b1208e4b7be1cf10aa73ac8436c41260d6dd74529b4"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/windows/configure.log",
+      "bytes": 3579,
+      "sha256": "0f1960284f3732277a12b06c6d5146be89fc35ff55be91249c50ad105b1a02dd"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/windows/output-preflight.json",
+      "bytes": 213,
+      "sha256": "1b5ee2dea1dbbfe7fbdd35983155f36f6276ca7dbbf67994f7d167ea9c9ab367"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/windows/tests.log",
+      "bytes": 915,
+      "sha256": "2275fe4320592414eaf5e78ade457ba6183350505a1290a2423d39606f377f4a"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/windows/tests.xml",
+      "bytes": 7413,
+      "sha256": "407b20cdbb7903a9ee0f8b9d8b67ba167a4a370ff47b07863e4c2f8cff712900"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/windows/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "44172aed9946cc74b1599c42ab9ed97461e2ea7763c61e1e2ddd94c325babcc8"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/windows/configuration.json",
+      "bytes": 438,
+      "sha256": "1fdb05fd0a59139fc78658467c36bfad64008f2d672600bae623a8ffd733f958"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/source-delta.json",
+      "bytes": 497,
+      "sha256": "39727310d114791bcc79b71b86cea6c4eb32a2eb3a513d168c3a769b6f20425e"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/linux/build.log",
+      "bytes": 170211,
+      "sha256": "70871b714633583b1af4fb32b1b30034ac75ed81e0453f101a6ca7a0ebb583a6"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/linux/commands.json",
+      "bytes": 2522,
+      "sha256": "df1d306f85789dadc15cac3319ac400581f54c8b29453faa9c87998537f3705c"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/linux/compiler-inputs.json",
+      "bytes": 37878,
+      "sha256": "10f99ed3f334d80980f50b1208e4b7be1cf10aa73ac8436c41260d6dd74529b4"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/linux/configure.log",
+      "bytes": 3354,
+      "sha256": "d44376af6ce8040170051a6cfc17410f64b7e70d53d01bc147356b0ddbc184c2"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/linux/output-preflight.json",
+      "bytes": 206,
+      "sha256": "9778e386b617624e703050d5349ce5a167ccdc6e0201f9bca276f07197a122ce"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/linux/tests.log",
+      "bytes": 1044,
+      "sha256": "444fc606cd44a09c0730d820a5aaa5fc2a74a814949106a58ad98f8e544a12a4"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/linux/tests.xml",
+      "bytes": 7237,
+      "sha256": "680b02088ca3448bee66c5096b1f6bf76fe8caa9d99d00df5908eb6584119ae1"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/linux/build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "9e08a8df2abe0a45857beca60b647784f9bd1382f3964dffb2cab2a218184c07"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/linux/configuration.json",
+      "bytes": 440,
+      "sha256": "9055e74897cee94c78a499b8be5563be9b92ed0411debc1a2045cdbd28ba7a04"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/training/build.log",
+      "bytes": 6946,
+      "sha256": "cb56934decc968c37d59be55bfc48557dd8a8ae9bf082347faff46761a34129c"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/training/commands.json",
+      "bytes": 1549,
+      "sha256": "21bd1652fb3e68395c3980f8f0f9b97789bd845002cf69c0aa2a2987d90f24ff"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/training/compiler-inputs.json",
+      "bytes": 37878,
+      "sha256": "10f99ed3f334d80980f50b1208e4b7be1cf10aa73ac8436c41260d6dd74529b4"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/training/configure.log",
+      "bytes": 3722,
+      "sha256": "2096ea01dee5ab8e1904452f3d8e63bf64f7b474a73c709c76a959a0d8ac4ee3"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/training/output-preflight.json",
+      "bytes": 215,
+      "sha256": "1664434fa9140f4c19188005e812165df0d6ed9013e99423c72026d6eb2b2a71"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/training/sdk-verification.json",
+      "bytes": 202,
+      "sha256": "b55701dcbf448dd2c272bba3fe738c642e2cb4fb62bc0a25d7295d7dbd3442aa"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/training/tests.log",
+      "bytes": 429,
+      "sha256": "b2cb1c246e0a00621707e363aaa21252f0db33cc5ac63800bec0f62e5114ee37"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/training/tests.xml",
+      "bytes": 4059,
+      "sha256": "1b6b2bd62313d270d9f22b0031140e6e4da34c09ce2698c5eec1dd629c773af9"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/training/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "6d683d4ccc49f19d0fdb417dd0136431c774edd92db9221bd560a21c0d6d295b"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/initial/training/configuration.json",
+      "bytes": 439,
+      "sha256": "efefdc00c5c4f105d6eb07ae32b7d4aa64514ca8b22df2b32a188f4283812f82"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/retained-binaries.json",
+      "bytes": 9703,
+      "sha256": "39d22114d4b9dc19a7725bf021d561e935c3a0522cfee22b03c5c469a5f6b6bf"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/build_rawstreamfile224.py",
+      "bytes": 4731,
+      "sha256": "40b1ad2cf67ec7ce5a2a6532b53e3f52bb224ab6d60cf8b3fdb2d8e72ca25921"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/build_rawstreamfile224b.py",
+      "bytes": 4394,
+      "sha256": "b473050562289dc6c8b245e97693f58a3976c3806a1a7890a03478114c20a198"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/preserve_rawstreamfile224.py",
+      "bytes": 2263,
+      "sha256": "2d038596a84b03ae11a0258b7b892e5a56d765a1717c4308455af775a8abd180"
+    },
+    {
+      "path": "docs/benchmarks/raw-stream-file-local/receipt_rawstreamfile224.py",
+      "bytes": 12810,
+      "sha256": "afc69c8d2699cecfb0620d2f0e4fb1d68e726751b249e089b791fff0eb9aa13d"
+    }
+  ],
+  "retained_binaries": "build/rawstreamfile224-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial"
+}
