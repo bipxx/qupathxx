@@ -47,7 +47,7 @@ void bind_raw_pixel_files(nb::module_& m) {
         .def_prop_ro("busy",qpx::bindings::job_method<&RawPixelPredictionStreamJob::busy>()).def("cancel",qpx::bindings::job_method<&RawPixelPredictionStreamJob::cancel>())
         .def("await_completion",qpx::bindings::job_method<&RawPixelPredictionStreamJob::await_completion>(),nb::call_guard<nb::gil_scoped_release>())
         .def("poll",qpx::bindings::job_method<&RawPixelPredictionStreamJob::poll>(),"document"_a).def("wait",[](PythonJob<RawPixelPredictionStreamJob>& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a)
-        .def("take",qpx::bindings::job_method<&RawPixelPredictionStreamJob::take>(),"document"_a).def_prop_ro("input_sha256",qpx::bindings::job_method<&RawPixelPredictionStreamJob::input_sha>()256).def_prop_ro("sha256",qpx::bindings::job_method<&RawPixelPredictionStreamJob::sha>()256);
+        .def("take",qpx::bindings::job_method<&RawPixelPredictionStreamJob::take>(),"document"_a).def_prop_ro("input_sha256",qpx::bindings::job_method<&RawPixelPredictionStreamJob::input_sha256>()).def_prop_ro("sha256",qpx::bindings::job_method<&RawPixelPredictionStreamJob::sha256>());
     nb::class_<RawPixelStreamFileLimits>(m,"RawPixelStreamFileLimits").def(nb::init<>()).def_rw("max_bytes",&RawPixelStreamFileLimits::max_bytes).def_rw("work_bytes",&RawPixelStreamFileLimits::work_bytes).def("validate",&RawPixelStreamFileLimits::validate);
     nb::class_<RawPixelStreamFileSummary>(m,"RawPixelStreamFileSummary")
         .def_ro("bytes",&RawPixelStreamFileSummary::bytes).def_ro("total_windows",&RawPixelStreamFileSummary::total_windows).def_ro("completed_windows",&RawPixelStreamFileSummary::completed_windows)
