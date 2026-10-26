@@ -1,5 +1,7 @@
 """Installed quantitative raw classifier workflows; no display conversion."""
 import gc
+import json
+from pathlib import Path
 import struct
 import subprocess
 import sys
@@ -352,3 +354,32 @@ print("Native raw job shutdown released Python-owned file captures")
     child = subprocess.run([sys.executable, "-I", "-c", code, str(path)], capture_output=True, text=True, timeout=20)
     assert child.returncode == 0, child.stdout + child.stderr
     assert "shutdown released Python-owned file captures" in child.stdout
+
+
+def test_installed_project_to_project_example(raw, tmp_path):
+    if not q.has_project or not q.has_classifier_training:
+        pytest.skip("actual training and project persistence")
+    doc, _, _, _, _, image = raw
+    project = q.Project()
+    image_id = project.add_document(doc, "Labelled raw TIFF", str(image), "tiff")
+    source = tmp_path / "input.qpx"
+    project.save(str(source))
+    example = Path(__file__).resolve().parents[1] / "examples/raw_classifier_workflow.py"
+    result = subprocess.run([sys.executable, "-I", str(example), str(source), str(tmp_path / "output"),
+                             "--image-id", str(image_id), "--channels", "2"], capture_output=True, text=True, timeout=30)
+    assert result.returncode == 0, result.stdout + result.stderr
+    summary = json.loads(result.stdout)
+    assert summary["rows"] >= 4 and summary["windows"] >= 1
+    reopened = q.Project.open(summary["project"])
+    output = reopened.document(image_id)
+    try:
+        assert output.raw_pixel_record_count == 1 and output.raw_pixel_stream_record_count == 1
+        model = output.raw_pixel_records[0].archive.model
+        link = output.raw_pixel_stream_records[0].link
+        assert model is not None and model.sha256 == summary["model_sha256"]
+        reader = q.RawPixelStreamFileReadJob()
+        assert reader.open_link(link) and reader.wait().state == "ready"
+        verified = reader.take_link()
+        assert verified is not None and verified.summary.sha256 == summary["stream_sha256"]
+    finally:
+        output.server.close()

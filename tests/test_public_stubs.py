@@ -41,3 +41,14 @@ def test_raw_grid_result_descriptor_stub_is_optional():
     result=next(n for n in tree.body if isinstance(n,ast.ClassDef) and n.name=='RawAnalysisResult')
     grid=next(n for n in result.body if isinstance(n,ast.FunctionDef) and n.name=='grid')
     assert ast.unparse(grid.returns)=='RawAnalysisGrid | None'
+
+
+def test_raw_pixel_partial_results_are_optional_but_predictions_are_not():
+    tree=ast.parse(Path(_native.__file__).with_name('_native.pyi').read_text(encoding='utf-8'))
+    classes={n.name:n for n in tree.body if isinstance(n,ast.ClassDef)}
+    functions={n.name:n for n in tree.body if isinstance(n,ast.FunctionDef)}
+    checkpoint=classes['RawPixelTrainingCheckpointResult']
+    table=next(n for n in checkpoint.body if isinstance(n,ast.FunctionDef) and n.name=='table')
+    assert ast.unparse(table.returns)=='RawPixelTiledTrainingTable | None'
+    assert ast.unparse(functions['predict_raw_pixel_window'].returns)=='RawPixelWindowClassification'
+    assert ast.unparse(functions['classify_raw_pixel_window'].returns)=='RawPixelWindowClassification'

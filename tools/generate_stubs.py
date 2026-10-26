@@ -41,6 +41,7 @@ def main():
         native_only={name for name,value in vars(module).items() if isinstance(value,type) and value.__module__=='qupathxx._native' and not issubclass(value,enum.Enum) and isinstance(vars(value).get('__init__'),types.WrapperDescriptorType)}
         for line in text.splitlines():
             if line.startswith('class '):current=line.split()[1].split('(')[0].rstrip(':')
+            elif line.startswith('def '):current=''
             if 'def numpy(' in line and current in ('Image','PixelBuffer','FloatRgbImage'):
                 dtype='float32' if current=='FloatRgbImage' else 'uint8';line=line.replace('-> object:','-> NDArray[numpy.'+dtype+']:')
             if current=='QptmaData' and 'def cores(' in line:line=line.replace('arg: list,','arg: list[QptmaCore],')
