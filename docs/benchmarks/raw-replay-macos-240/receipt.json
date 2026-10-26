@@ -1,0 +1,153 @@
+{
+  "schema": "qpx.raw-replay-macos-diagnostic/2",
+  "purpose": "Narrow observed arm64 refusal failure without changing production capture guards or weakening exception checks.",
+  "original": {
+    "source": "c3c19a91b6bcf5470863d416379d3eb08755c3d2",
+    "run": 40377716087,
+    "state": "terminal failure",
+    "arm64": "49/50; historical and foreign capture refusal stage",
+    "x86_64": "50/50 plus native relocation producer success; not full two-architecture acceptance",
+    "retention_correction": "Original diagnostic inventory preserves CLI programs and SDKs, not the failing test executable. The latter was not uploaded."
+  },
+  "successor": {
+    "source": "4a72fd84b7726927285bf58120d288513c65eb4e",
+    "run": {
+      "conclusion": "",
+      "databaseId": 40384720525,
+      "headSha": "4a72fd84b7726927285bf58120d288513c65eb4e",
+      "status": "queued",
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40384720525"
+    },
+    "unique_bound_inputs": 720,
+    "production_kernel_changed": false,
+    "required_refusal_checks_preserved": true,
+    "actual_test_product_retained_before_ctest": true
+  },
+  "local": {
+    "observer_controls_passed": 166,
+    "positive_replay_passed": true,
+    "wrong_exception_type_controls_rejected": [
+      "historical",
+      "foreign"
+    ],
+    "runtime_kernel_source": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+    "profile": "Linux Clang18 libstdc++ GEOS ON, training/TIFF/project OFF",
+    "darwin_failure_reproduced": false,
+    "initial_fixture_failure": "Mock SDK lacked required configuration files; corrected mock, original XML retained."
+  },
+  "complete_campaign_accepted": false,
+  "root_cause_established": false,
+  "release_ready": false,
+  "payloads": [
+    {
+      "path": "prior/macos-run.json",
+      "bytes": 7026,
+      "sha256": "9896c46798e146f8539c4a8b1874f97fdfc3d75d3264f68795e2cd52774dd045"
+    },
+    {
+      "path": "prior/macos-artifacts.json",
+      "bytes": 1839,
+      "sha256": "d74652ef11e635e0d6a683ffe4d0b2cf69c57b78e24de509db504d9e3b5ed082"
+    },
+    {
+      "path": "prior/verified.json",
+      "bytes": 571,
+      "sha256": "6e77206a4afc0efc79eef9539735663afb3c7c5c52d3a458e2ad2f2f6c50553a"
+    },
+    {
+      "path": "prior/macos-native-arm64-artifact.json",
+      "bytes": 813,
+      "sha256": "780759e1d6845ff37c9b1cb6469d03498b7c13c69c1b467cb2a9dae4d8f49477"
+    },
+    {
+      "path": "prior/macos-native-x86_64-artifact.json",
+      "bytes": 815,
+      "sha256": "5fa1a95d58c915aa7d7778111a51d4640eab640f40f0aca3be6dc5a044cc054f"
+    },
+    {
+      "path": "prior/arm64/native-tests.xml",
+      "bytes": 22415,
+      "sha256": "26f7c255100307cb64965f92464297b8cdc58f31be1c76d4be6daf9210d14fb8"
+    },
+    {
+      "path": "prior/arm64/native-tests.log",
+      "bytes": 6305,
+      "sha256": "81e0e3eed140288b1bfae9c8095d77cd5a6a9da65c93b89506ebcbf1a092d276"
+    },
+    {
+      "path": "prior/arm64/macos-native-file-inventory.json",
+      "bytes": 19899,
+      "sha256": "29d5da74e4b8f7dec99e2507b952a1ed7ad6bcf36df8482f4eca750ff9e55fda"
+    },
+    {
+      "path": "prior/x86_64/result.json",
+      "bytes": 4945,
+      "sha256": "f35f425f4dd10182e09a341accc70e76f2ce2507cb125294bcf44b6fb9276d92"
+    },
+    {
+      "path": "dispatch.json",
+      "bytes": 1239,
+      "sha256": "b3475124c41b74d00ca1f40317a3f5f5c47471577624d41d3203cd65d686b073"
+    },
+    {
+      "path": "frozen-source-proofs.json",
+      "bytes": 328413,
+      "sha256": "9eda2c11f5bbf1b69ea4298162ed28b016c99fe279cbd1e94a1e0b8d3d7bd12b"
+    },
+    {
+      "path": "dispatch_macos_replay_240.py",
+      "bytes": 4950,
+      "sha256": "4f5b3f4699daa24e69e4aea13aedd488ac8c165e5ae872ee32832fad2bc8700f"
+    },
+    {
+      "path": "collect_macos_replay_240.py",
+      "bytes": 4750,
+      "sha256": "f027750d9911c08affb0fbc59f713c46b060754e9c77311da10d7e2433228cb8"
+    },
+    {
+      "path": "controls.xml",
+      "bytes": 24793,
+      "sha256": "9cc13f6d1fca231294dd1df8bcf0dff5fe9a02bbb697bbd1899cb9054dc4ac6a"
+    },
+    {
+      "path": "initial-fixture-failure.xml",
+      "bytes": 23532,
+      "sha256": "779832a3a40444429d0a8d88184e7cbee3992e4e15b61491a29cafc71fa348d9"
+    },
+    {
+      "path": "local/results.json",
+      "bytes": 2925,
+      "sha256": "edcd435248cb32ac5bb9259f62acebb62c4931bb1a7c1be91a5a7c8f88328724"
+    },
+    {
+      "path": "local/positive-run.log",
+      "bytes": 696,
+      "sha256": "a690474d5dc1103a1df52a5f286d0d469b52d2d9cb69b62f1f79400eec844266"
+    },
+    {
+      "path": "local/historical-wrong-type-run.log",
+      "bytes": 202,
+      "sha256": "9ef355cb4b293700178520a366716ed54f5a94a4a02c5176d489bef8c6b50e8c"
+    },
+    {
+      "path": "local/foreign-wrong-type-run.log",
+      "bytes": 393,
+      "sha256": "da59d28e5217df0694ec03ef966a4240dd19d0fed71923dc3f55ac317ff9a5b9"
+    },
+    {
+      "path": "local/positive.cpp",
+      "bytes": 271,
+      "sha256": "af16b6c47e775264da227449f5d8f989ac7dfef8712a163ac1060f3cbb5044b2"
+    },
+    {
+      "path": "local/historical-wrong-type.cpp",
+      "bytes": 812,
+      "sha256": "450ec2e0602f5e13bb6ac27800443524ea06f0566b4e62505edd9b3ae872a641"
+    },
+    {
+      "path": "local/foreign-wrong-type.cpp",
+      "bytes": 812,
+      "sha256": "d890684ebe1e0ea5e9b6036a5252800ca24c8a1334aea00a7675d8ea06556f85"
+    }
+  ]
+}

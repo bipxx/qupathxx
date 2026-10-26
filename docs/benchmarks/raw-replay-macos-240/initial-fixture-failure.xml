@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="106" time="6.076" timestamp="2026-10-26T15:10:27.104769-04:00" hostname="HEQPC"><testcase classname="tests.test_macos_native_failure_capture" name="test_original_test_program_retained_before_failure[macos-native-inventory]" time="0.110"><failure message="ValueError: OpenCV SDK must contain exactly one complete CMake config in root, lib or lib64">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4173/test_original_test_program_ret0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000024D31862F30&gt;
+failure = 'macos-native-inventory'
+
+    @pytest.mark.parametrize('failure', ['macos-native-inventory', 'native-tests'])
+    def test_original_test_program_retained_before_failure(tmp_path, monkeypatch, failure):
+        path=Path(__file__).resolve().parents[1]/'tools/ci/run_macos_native.py'
+        spec=importlib.util.spec_from_file_location('qpx_mac_failure_capture',path)
+        producer=importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(producer)
+        work=tmp_path/'attempt'
+        original=b'original compiled test program\x00\xff'
+        monkeypatch.setattr(producer.platform,'system',lambda:'Darwin')
+        monkeypatch.setattr(producer.platform,'machine',lambda:'arm64')
+        monkeypatch.setattr(producer.sys,'argv',['producer','--work',str(work),'--architecture','arm64'])
+        monkeypatch.setenv('GITHUB_SHA','a'*40)
+        commands=[]
+        def run(arguments, **kwargs):
+            command=list(map(str,arguments));commands.append(command)
+            if command[:2]==['cmake','--build']:
+                build=work/'native-build';build.mkdir()
+                (build/'qupathxx_pixel_workflow_tests').write_bytes(original)
+            if command[0]=='ctest' or any('macos_native_inventory.py' in value for value in command):
+                retained=work/'qupathxx_pixel_workflow_tests'
+                assert retained.read_bytes()==original
+                manifest=json.loads((work/'pixel-workflow-product.json').read_text())
+                assert manifest['sha256']==hashlib.sha256(original).hexdigest()
+                assert manifest['bytes']==len(original) and manifest['commit']=='a'*40
+                assert manifest['architecture']=='arm64'
+                assert 'not test acceptance' in manifest['scope']
+            fails=(failure=='native-tests' and command[0]=='ctest') or (
+                failure=='macos-native-inventory' and any('macos_native_inventory.py' in value for value in command))
+            if fails:kwargs['stdout'].write('injected producer failure\n')
+            return SimpleNamespace(returncode=int(fails))
+        monkeypatch.setattr(producer.subprocess,'run',run)
+        # The producer prepends tools while importing the existing SDK helper.
+        monkeypatch.syspath_prepend(str(path.parents[1]))
+        with pytest.raises(RuntimeError,match=failure+' failed'):
+&gt;           producer.main()
+
+build\ci\scientific-grid-159\tests\test_macos_native_failure_capture.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+build\ci\scientific-grid-159\tools\ci\run_macos_native.py:57: in main
+    OpenCV_DIR=str(build_opencv_sdk.cmake_config_directory(opencv)),
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+prefix = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4173/test_original_test_program_ret0/attempt/opencv-sdk')
+
+    def cmake_config_directory(prefix):
+        """Locate the one installed SDK config without assuming a Linux libdir."""
+        prefix = Path(prefix)
+        candidates = [prefix, prefix/'lib/cmake/opencv4', prefix/'lib64/cmake/opencv4']
+        matches = [path for path in candidates if (path/'OpenCVConfig.cmake').is_file()
+                   and (path/'OpenCVConfig-version.cmake').is_file()]
+        if len(matches) != 1:
+&gt;           raise ValueError('OpenCV SDK must contain exactly one complete CMake config in root, lib or lib64')
+E           ValueError: OpenCV SDK must contain exactly one complete CMake config in root, lib or lib64
+
+build\ci\scientific-grid-159\tools\build_opencv_sdk.py:49: ValueError</failure></testcase><testcase classname="tests.test_macos_native_failure_capture" name="test_original_test_program_retained_before_failure[native-tests]" time="0.068"><failure message="ValueError: OpenCV SDK must contain exactly one complete CMake config in root, lib or lib64">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4173/test_original_test_program_ret1')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000024D322CE2A0&gt;
+failure = 'native-tests'
+
+    @pytest.mark.parametrize('failure', ['macos-native-inventory', 'native-tests'])
+    def test_original_test_program_retained_before_failure(tmp_path, monkeypatch, failure):
+        path=Path(__file__).resolve().parents[1]/'tools/ci/run_macos_native.py'
+        spec=importlib.util.spec_from_file_location('qpx_mac_failure_capture',path)
+        producer=importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(producer)
+        work=tmp_path/'attempt'
+        original=b'original compiled test program\x00\xff'
+        monkeypatch.setattr(producer.platform,'system',lambda:'Darwin')
+        monkeypatch.setattr(producer.platform,'machine',lambda:'arm64')
+        monkeypatch.setattr(producer.sys,'argv',['producer','--work',str(work),'--architecture','arm64'])
+        monkeypatch.setenv('GITHUB_SHA','a'*40)
+        commands=[]
+        def run(arguments, **kwargs):
+            command=list(map(str,arguments));commands.append(command)
+            if command[:2]==['cmake','--build']:
+                build=work/'native-build';build.mkdir()
+                (build/'qupathxx_pixel_workflow_tests').write_bytes(original)
+            if command[0]=='ctest' or any('macos_native_inventory.py' in value for value in command):
+                retained=work/'qupathxx_pixel_workflow_tests'
+                assert retained.read_bytes()==original
+                manifest=json.loads((work/'pixel-workflow-product.json').read_text())
+                assert manifest['sha256']==hashlib.sha256(original).hexdigest()
+                assert manifest['bytes']==len(original) and manifest['commit']=='a'*40
+                assert manifest['architecture']=='arm64'
+                assert 'not test acceptance' in manifest['scope']
+            fails=(failure=='native-tests' and command[0]=='ctest') or (
+                failure=='macos-native-inventory' and any('macos_native_inventory.py' in value for value in command))
+            if fails:kwargs['stdout'].write('injected producer failure\n')
+            return SimpleNamespace(returncode=int(fails))
+        monkeypatch.setattr(producer.subprocess,'run',run)
+        # The producer prepends tools while importing the existing SDK helper.
+        monkeypatch.syspath_prepend(str(path.parents[1]))
+        with pytest.raises(RuntimeError,match=failure+' failed'):
+&gt;           producer.main()
+
+build\ci\scientific-grid-159\tests\test_macos_native_failure_capture.py:45: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+build\ci\scientific-grid-159\tools\ci\run_macos_native.py:57: in main
+    OpenCV_DIR=str(build_opencv_sdk.cmake_config_directory(opencv)),
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+prefix = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4173/test_original_test_program_ret1/attempt/opencv-sdk')
+
+    def cmake_config_directory(prefix):
+        """Locate the one installed SDK config without assuming a Linux libdir."""
+        prefix = Path(prefix)
+        candidates = [prefix, prefix/'lib/cmake/opencv4', prefix/'lib64/cmake/opencv4']
+        matches = [path for path in candidates if (path/'OpenCVConfig.cmake').is_file()
+                   and (path/'OpenCVConfig-version.cmake').is_file()]
+        if len(matches) != 1:
+&gt;           raise ValueError('OpenCV SDK must contain exactly one complete CMake config in root, lib or lib64')
+E           ValueError: OpenCV SDK must contain exactly one complete CMake config in root, lib or lib64
+
+build\ci\scientific-grid-159\tools\build_opencv_sdk.py:49: ValueError</failure></testcase><testcase classname="tests.test_macos_native_inventory" name="test_complete_snapshot_reinspection_and_original_bytes" time="0.373" /><testcase classname="tests.test_macos_native_inventory" name="test_capture_failure_never_publishes_partial_outputs[architecture]" time="0.335" /><testcase classname="tests.test_macos_native_inventory" name="test_capture_failure_never_publishes_partial_outputs[native_kind]" time="0.334" /><testcase classname="tests.test_macos_native_inventory" name="test_capture_failure_never_publishes_partial_outputs[sdk_kind]" time="0.337" /><testcase classname="tests.test_macos_native_inventory" name="test_capture_failure_never_publishes_partial_outputs[notice]" time="0.284" /><testcase classname="tests.test_macos_native_inventory" name="test_capture_failure_never_publishes_partial_outputs[missing_native]" time="0.009" /><testcase classname="tests.test_macos_native_inventory" name="test_capture_failure_never_publishes_partial_outputs[invalid_dylib]" time="0.336" /><testcase classname="tests.test_macos_native_inventory" name="test_existing_output_is_preserved" time="0.012" /><testcase classname="tests.test_macos_native_inventory" name="test_changed_archive_layout_modes_and_binaries_fail[duplicate]" time="0.344" /><testcase classname="tests.test_macos_native_inventory" name="test_changed_archive_layout_modes_and_binaries_fail[parent]" time="0.336" /><testcase classname="tests.test_macos_native_inventory" name="test_changed_archive_layout_modes_and_binaries_fail[traversal]" time="0.335" /><testcase classname="tests.test_macos_native_inventory" name="test_changed_archive_layout_modes_and_binaries_fail[symlink]" time="0.334" /><testcase classname="tests.test_macos_native_inventory" name="test_changed_archive_layout_modes_and_binaries_fail[mode]" time="0.338" /><testcase classname="tests.test_macos_native_inventory" name="test_changed_archive_layout_modes_and_binaries_fail[foreign_arch]" time="0.349" /><testcase classname="tests.test_macos_native_inventory" name="test_changed_archive_layout_modes_and_binaries_fail[missing_cli]" time="0.373" /><testcase classname="tests.test_macos_native_inventory" name="test_changed_archive_layout_modes_and_binaries_fail[unexpected]" time="0.379" /><testcase classname="tests.test_macos_native_inventory" name="test_otool_names_spaces_versions_and_duplicates" time="0.001" /><testcase classname="tests.test_macos_native_inventory" name="test_bad_otool_output_rejects[unrecognized output]" time="0.000" /><testcase classname="tests.test_macos_native_inventory" name="test_bad_otool_output_rejects[binary:\n\tlib (current version 1.0.0)]" time="0.000" /><testcase classname="tests.test_macos_native_inventory" name="test_bad_otool_output_rejects[binary:\n\tlib (compatibility version 1.256.0, current version 1.0.0)]" time="0.000" /><testcase classname="tests.test_macos_native_inventory" name="test_bad_otool_output_rejects[binary:\n\tlib (compatibility version 1.0.0, current version 65536.0.0)]" time="0.000" /><testcase classname="tests.test_macos_native_inventory" name="test_expected_links_include_dylib_identity_and_preserve_versions" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_profile_requires_its_actual_capability[False]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_profile_requires_its_actual_capability[True]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[missing-0]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[missing-1]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[missing-2]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[duplicate-0]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[duplicate-1]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[duplicate-2]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[failure-0]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[failure-1]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[failure-2]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[error-0]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[error-1]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[error-2]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[skipped-0]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[skipped-1]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[skipped-2]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[marker_missing-0]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[marker_missing-1]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[marker_missing-2]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[marker_duplicate-0]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[marker_duplicate-1]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[marker_duplicate-2]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[disabled_claim-0]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[disabled_claim-1]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_native_false_acceptance_controls[disabled_claim-2]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_exact_installed_contract_has_explicit_skips[False]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_exact_installed_contract_has_explicit_skips[True]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[missing-test_raw_pixel_python]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[missing-test_raw_pixel_cli]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[missing-test_raw_pixel_batch]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[missing-test_gui_raw_pixel]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[duplicate-test_raw_pixel_python]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[duplicate-test_raw_pixel_cli]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[duplicate-test_raw_pixel_batch]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[duplicate-test_gui_raw_pixel]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[rename-test_raw_pixel_python]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[rename-test_raw_pixel_cli]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[rename-test_raw_pixel_batch]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[rename-test_gui_raw_pixel]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[wrong_class-test_raw_pixel_python]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[wrong_class-test_raw_pixel_cli]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[wrong_class-test_raw_pixel_batch]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[wrong_class-test_gui_raw_pixel]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[failure-test_raw_pixel_python]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[failure-test_raw_pixel_cli]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[failure-test_raw_pixel_batch]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[failure-test_gui_raw_pixel]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[error-test_raw_pixel_python]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[error-test_raw_pixel_cli]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[error-test_raw_pixel_batch]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[error-test_gui_raw_pixel]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[unexpected_skip-test_raw_pixel_python]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[unexpected_skip-test_raw_pixel_cli]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[unexpected_skip-test_raw_pixel_batch]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_installed_module_false_acceptance_controls[unexpected_skip-test_gui_raw_pixel]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_headless_declaration_is_not_an_arbitrary_skip[missing]" time="0.001" /><testcase classname="tests.test_raw_classifier_evidence" name="test_headless_declaration_is_not_an_arbitrary_skip[wrong_reason]" time="0.001" /><testcase classname="tests.test_raw_classifier_evidence" name="test_headless_declaration_is_not_an_arbitrary_skip[duplicate]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_headless_declaration_is_not_an_arbitrary_skip[enabled]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_typing_positive_and_negative_nonempty_counts" time="0.039" /><testcase classname="tests.test_raw_classifier_evidence" name="test_typing_false_acceptance_controls[zero_files]" time="0.011" /><testcase classname="tests.test_raw_classifier_evidence" name="test_typing_false_acceptance_controls[wrong_files]" time="0.013" /><testcase classname="tests.test_raw_classifier_evidence" name="test_typing_false_acceptance_controls[missing_error]" time="0.013" /><testcase classname="tests.test_raw_classifier_evidence" name="test_typing_false_acceptance_controls[extra_error]" time="0.013" /><testcase classname="tests.test_raw_classifier_evidence" name="test_typing_false_acceptance_controls[wrong_line]" time="0.015" /><testcase classname="tests.test_raw_classifier_evidence" name="test_typing_false_acceptance_controls[wrong_summary]" time="0.012" /><testcase classname="tests.test_raw_classifier_evidence" name="test_typing_false_acceptance_controls[missing_log]" time="0.006" /><testcase classname="tests.test_raw_classifier_evidence" name="test_capabilities_must_be_explicit_bools[0]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_capabilities_must_be_explicit_bools[1]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_capabilities_must_be_explicit_bools[false]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_capabilities_must_be_explicit_bools[None]" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_production_owners_execute_shared_raw_admission[run.py-required0]" time="0.009" /><testcase classname="tests.test_raw_classifier_evidence" name="test_production_owners_execute_shared_raw_admission[run_macos_native.py-required1]" time="0.003" /><testcase classname="tests.test_raw_classifier_evidence" name="test_production_owners_execute_shared_raw_admission[accept_unified_engine.py-required2]" time="0.031" /><testcase classname="tests.test_raw_classifier_evidence" name="test_production_owners_execute_shared_raw_admission[accept_manylinux.py-required3]" time="0.012" /><testcase classname="tests.test_raw_classifier_evidence" name="test_production_owners_execute_shared_raw_admission[accept_macos_native.py-required4]" time="0.005" /><testcase classname="tests.test_raw_classifier_evidence" name="test_source_closure_covers_shared_kernels_jobs_frontends_and_consumers" time="0.000" /><testcase classname="tests.test_raw_classifier_evidence" name="test_actual_git_source_mismatch_and_publication_snapshot" time="0.274" /><testcase classname="tests.test_raw_classifier_evidence" name="test_git_source_control_declares_missing_development_tool" time="0.002" /><testcase classname="tests.test_raw_classifier_evidence" name="test_missing_raw_evidence_rejects_under_optimized_python[-O]" time="0.142" /><testcase classname="tests.test_raw_classifier_evidence" name="test_missing_raw_evidence_rejects_under_optimized_python[-OO]" time="0.150" /></testsuite></testsuites>

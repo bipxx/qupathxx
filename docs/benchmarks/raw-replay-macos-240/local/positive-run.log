@@ -1,0 +1,6 @@
+Raw replay refusal [historical]: type=St16invalid_argument message=raw pixel contours require the matching live prediction capture
+Raw replay refusal [historical]: expected invalid_argument caught
+Raw replay refusal [foreign]: type=St16invalid_argument message=raw pixel contours require the matching live prediction capture
+Raw replay refusal [foreign]: expected invalid_argument caught
+Raw pixel contours: rational axes/context, raster membership/area, bounded conversion, cancel, atomic apply/undo/redo and stale authority passed
+Raw pixel replay: pre-IO capture, source-bit comparison, historical/cross-document refusal, recipe/calibration/annotation checks and owner-job verification passed

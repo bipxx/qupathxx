@@ -572,3 +572,6 @@ docs/benchmarks/raw-contour-seams-local.json -text -whitespace
 # Local native boundary assembler evidence, exact captured bytes.
 docs/benchmarks/raw-stream-boundaries-local/** -text -whitespace
 docs/benchmarks/raw-stream-boundaries-local.json -text -whitespace
+
+# Exact terminal Mac diagnostic and isolated successor evidence.
+docs/benchmarks/raw-replay-macos-240/** -text -whitespace

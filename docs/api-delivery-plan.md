@@ -450,8 +450,12 @@ is run `40377716087` at `c3c19a9`, with 719 authenticated inputs. It preserves
 compiled products before CTest and labels unexpected replay failures. Required
 operations/markers remain intact. Local Clang profiles do not reproduce the
 failure, so they do not qualify arm64. The diagnostic arm64 archive now reports
-`historical and foreign capture refusal`; x86_64 was still running at collection.
-Inspect the refusal calls before claiming a cause. Diagnose first; do not dispatch another
+`historical and foreign capture refusal`; x86_64 subsequently passed, making
+238 terminal. Its inventory excludes test programs. [Diagnostic240](benchmarks/raw-replay-macos-240/receipt.json)
+now isolates each call and its exception type, retains the actual failing test
+and preserves every required rejection check. Run `40384720525` is frozen at
+`4a72fd8` with 720 bound inputs. The 166 local observer controls and three Clang
+probes pass; no Darwin repair is established. Diagnose first; do not dispatch another
 complete engine/portable campaign merely for observer work.
 
 | Step | Easiest path / existing owner | Exit or recovery |

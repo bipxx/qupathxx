@@ -65,10 +65,13 @@ builder storage witness, not a process-memory or whole-slide performance claim.
 The independent seam reference and actual filtered block producer agree.
 Streamed polygon geometry, immutable results and user-facing delivery remain open.
 
-Diagnostic238 now reproduces the arm64 failure at stage `historical and foreign
-capture refusal`; its first authenticated archive is retained locally. x86_64
-was still running at the latest observation. The label locates a stage, not a
-root cause. Inspect those refusal calls and preserve their required checks.
+Diagnostic238 is terminal: arm64 fails at `historical and foreign capture
+refusal`; x86_64 passes. Both archives authenticate. Its CLI/SDK inventory did
+not include the failing test binary. [Diagnostic240](benchmarks/raw-replay-macos-240/receipt.json)
+at `4a72fd8`, run `40384720525`, separates the two calls, reports exception types
+and uploads the actual test executable before CTest. All 166 local observer
+controls and positive/wrong-type probes pass. Production guards and required
+refusal checks remain intact. No root cause or repair is established.
 Then follow the [SCI1-B route](api-delivery-plan.md#sci1-b-next-workflow-route)
 through bounded GEOS face classification, fresh atomic publication and existing
 consumers. Keep the frozen diagnostic immutable. Scientific/model, resource/

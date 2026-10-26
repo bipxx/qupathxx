@@ -2,6 +2,21 @@
 
 ## Current execution card (2026-10-26)
 
+- [Diagnostic240](benchmarks/raw-replay-macos-240/receipt.json) is frozen at
+  `4a72fd8`, run `40384720525`, with 720 authenticated inputs. It distinguishes
+  historical from foreign capture refusal and reports dynamic exception types;
+  both required `invalid_argument` checks and production guards remain intact.
+  The actual pixel-workflow executable now has a separate pre-CTest copy and
+  source/size/SHA manifest included in the existing artifact upload.
+  All 166 local observer controls pass; a positive Clang replay catches both
+  expected exceptions, while both injected wrong types still reject with the
+  exact call/type. These probes do not reproduce or repair the Darwin failure.
+- Diagnostic238 is terminal: x86_64 passes all 50 native suites and relocation;
+  arm64 again fails at `historical and foreign capture refusal`. Both archives
+  authenticate. Correction: moving the existing inventory earlier retained CLI
+  programs/SDKs only; it omitted the failing test executable. Do not claim that
+  test binary survives in the original238 archive. Observe diagnostic240 once;
+  do not redispatch original attempts or infer a root cause from the stage label.
 - [Campaign236 closeout](benchmarks/raw-classifier-236-campaign/closeout/receipt.json)
   preserves all eleven authenticated archives at `530c6bb`. Full Windows/Linux
   engine and portable builder/fresh-consumer audits pass. Windows GUI gives
