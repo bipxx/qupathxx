@@ -22,6 +22,8 @@ public:
     bool busy() const;void cancel();void await_completion();
     RawPixelFileJobStats poll(const Document&),wait(const Document&);
     std::optional<RawPixelStreamFileSummary> take(const Document&);
+    // Alternative transfer: verified historical metadata for external retention.
+    std::shared_ptr<const RawPixelStreamLink> take_link(const Document&);
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
 };
@@ -44,10 +46,12 @@ public:
     RawPixelStreamFileReadJob();~RawPixelStreamFileReadJob();
     RawPixelStreamFileReadJob(const RawPixelStreamFileReadJob&)=delete;
     bool open(const std::string&,RawPixelStreamFileLimits={});
+    bool open_link(std::shared_ptr<const RawPixelStreamLink>,RawPixelStreamFileLimits={});
     bool read(std::shared_ptr<const RawPixelStreamFile>,std::uint64_t index);
     bool busy() const;void cancel();void await_completion();
     RawPixelFileJobStats poll(),wait();
     std::shared_ptr<const RawPixelStreamFile> take_file();
+    std::shared_ptr<const RawPixelStreamLink> take_link();
     std::shared_ptr<const RawPixelWindowClassification> take_block();
 private:
     struct Impl;std::unique_ptr<Impl> impl_;

@@ -45,6 +45,7 @@ struct PixelStreamExportStats;
 struct PixelStreamReadStats;
 class PixelStreamLink;
 struct PixelStreamRecord;
+class RawPixelStreamLink;struct RawPixelStreamRecord;
 class ObjectClassificationResult;
 class ObjectClassifierArchive;
 class ObjectFeatureRequest;
@@ -281,6 +282,14 @@ public:
     std::uint64_t keep_pixel_stream(std::shared_ptr<const PixelStreamLink>,std::string name="Pixel stream");
     bool remove_pixel_stream_record(std::uint64_t id);
     void relink_pixel_stream_record(std::uint64_t id,std::shared_ptr<const PixelStreamLink>);
+    std::vector<std::shared_ptr<const RawPixelStreamRecord>> raw_pixel_stream_records() const;
+    std::shared_ptr<const RawPixelStreamRecord> raw_pixel_stream_record(std::uint64_t id) const;
+    std::size_t raw_pixel_stream_record_count() const {return raw_streams_.size()+raw_streams_snapshot_.size();}
+    // Records reference historical files; deleting a record never deletes output.
+    // New keep/relink requires a freshly checked verification observation.
+    std::uint64_t keep_raw_pixel_stream(std::shared_ptr<const RawPixelStreamLink>,std::string name="Raw pixel stream");
+    bool remove_raw_pixel_stream_record(std::uint64_t id);
+    void relink_raw_pixel_stream_record(std::uint64_t id,std::shared_ptr<const RawPixelStreamLink>);
     std::vector<std::shared_ptr<const RawAnalysisRecord>> raw_analysis_records() const;
     std::vector<std::shared_ptr<const RawAnalysisRecord>> raw_analysis_page(std::uint64_t after_id=0,std::size_t limit=64) const;
     std::shared_ptr<const RawAnalysisRecord> raw_analysis_record(std::uint64_t id) const;
@@ -419,6 +428,10 @@ private:
     std::vector<std::shared_ptr<const PixelStreamRecord>> streams_snapshot_;
     std::size_t streams_bytes_=0;
     void restore_pixel_stream(std::shared_ptr<const PixelStreamRecord>);
+    std::map<std::uint64_t,std::shared_ptr<const RawPixelStreamRecord>> raw_streams_;
+    std::vector<std::shared_ptr<const RawPixelStreamRecord>> raw_streams_snapshot_;
+    std::size_t raw_streams_bytes_=0;
+    void restore_raw_pixel_stream(std::shared_ptr<const RawPixelStreamRecord>);
 
     Document() = default; // Project's private save snapshots populate canonical fields only.
     static std::shared_ptr<Document> restore(std::shared_ptr<ImageServer> server,

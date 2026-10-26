@@ -1,5 +1,6 @@
 #include "qupathxx/raw_pixel_stream_file.hpp"
 #include "raw_pixel_stream_internal.hpp"
+#include "raw_pixel_stream_record.hpp"
 #include "atomic_export.hpp"
 #include "geometry_archive.hpp"
 #include "provenance_codec.hpp"
@@ -94,6 +95,9 @@ RawPixelStreamFileSummary initial(const Descriptor& d,const std::string& header)
 void totals(const RawPixelStreamFileSummary& a,const RawPixelStreamFileSummary& b) {if(a.completed_windows!=b.completed_windows || a.valid_samples!=b.valid_samples || a.classified_samples!=b.classified_samples || a.class_counts!=b.class_counts || a.input_sha256!=b.input_sha256 || a.sha256!=b.sha256 || a.content_sha256!=b.content_sha256 || a.complete!=b.complete) throw std::invalid_argument("raw stream prefix totals/commitments mismatch");}
 Bytes footer(const RawPixelStreamFileSummary& s,const std::string& header) {Bytes b={'Q','W','E',1};for(auto n:{std::uint64_t(s.complete),s.completed_windows,s.valid_samples,s.classified_samples}) integer(b,n);for(auto n:s.class_counts) integer(b,n);for(const auto* h:{&s.input_sha256,&s.sha256,&s.content_sha256}) b.insert(b.end(),h->begin(),h->end());Sha256 h;text(h,header);h.update(b.data(),b.size());const auto sha=h.finish();b.insert(b.end(),sha.begin(),sha.end());return b;}
 }
+std::uint64_t raw_pixel_stream_file_bytes(const RawPixelStreamGeometry& g,std::uint64_t header,std::uint64_t completed,std::size_t classes) {
+    if(header<76 || header>header_limit || completed>g.windows || classes<2 || classes>256) throw std::invalid_argument("invalid raw stream link framing");return file_size(g,header,completed,classes);
+}
 void RawPixelStreamFileLimits::validate() const {if(max_bytes<128 || max_bytes>maximum || work_bytes<1024*1024 || work_bytes>1024ULL*1024*1024) throw std::invalid_argument("invalid raw stream file limits");}
 struct RawPixelStreamFile::Impl {
     std::string path,header_hash;std::shared_ptr<const FileVersion> version;Bytes header,tail;
@@ -154,6 +158,14 @@ bool RawPixelStreamFile::verified() const {return impl_->verified.load() && !imp
 void RawPixelStreamFile::check_unchanged() const {
     auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);try {stop(&s.cancelled);detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());guard.verify();}catch(...) {s.verified.store(false);throw;}
 }
+std::shared_ptr<const RawPixelStreamLink> RawPixelStreamFile::link() const {
+    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);
+    try {stop(&s.cancelled);if(!s.verified.load()) throw std::logic_error("verify the complete raw stream prefix before preparing a link");
+        detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());guard.verify();const auto& d=*s.descriptor;
+        auto out=std::shared_ptr<RawPixelStreamLink>(new RawPixelStreamLink(d.lattice,d.region,d.options));out->path_=s.path;out->model_=d.model.sha256();out->request_=d.request_sha;out->header_=s.header_hash;out->header_bytes_=s.header.size();out->summary_=s.summary;out->summary_.reused_windows=0;out->object_=d.provenance->object_id;out->revision_=d.provenance->document_revision;out->version_=s.version;out->validate();stop(&s.cancelled);return out;
+    }catch(...) {s.verified.store(false);throw;}
+}
+std::shared_ptr<const RawPixelStreamLink> prepare_raw_pixel_stream_link(const std::string& path,RawPixelStreamFileLimits limits,const std::atomic<bool>* c) {stop(c);RawPixelStreamFile file(path,limits);file.verify(c);stop(c);auto out=file.link();stop(c);return out;}
 RawPixelStreamFileSummary RawPixelStreamFileCodec::save(const RawPixelTiledPredictionRequest& request,const std::string& input,RawPixelStreamSaveOptions options,const std::atomic<bool>* c) {
     options.limits.validate();stop(c);const auto path=detail::export_path(input);const auto& data=*request.data_;const auto& capture=data.prototype->source;
     if(capture.observed && capture.observed->primary) {detail::guard_file_output(capture.observed->primary->path,capture.observed->primary->identity,path);for(const auto& file:capture.observed->companions) detail::guard_file_output(file.path,file.identity,path);}

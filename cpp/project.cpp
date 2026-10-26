@@ -17,6 +17,7 @@
 #include "pixel_classifier_archive.hpp"
 #include "raw_pixel_archive.hpp"
 #include "pixel_stream_record.hpp"
+#include "raw_pixel_stream_record.hpp"
 #include "project_schema.hpp"
 #include <algorithm>
 #include <array>
@@ -138,6 +139,8 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         add(e.document->raw_analysis_blocks_.values.size()*sizeof(std::shared_ptr<const Document::RawAnalysisBlock>));
         add(e.document->tissue_bytes_);
         add(e.document->cells_bytes_);
+        add(e.document->raw_streams_bytes_);
+        add(e.document->raw_streams_.size()*sizeof(std::shared_ptr<const RawPixelStreamRecord>));
         add(e.document->streams_bytes_);
         add(e.document->streams_.size()*sizeof(std::shared_ptr<const PixelStreamRecord>));
         add(e.document->raw_pixels_bytes_);
@@ -199,6 +202,9 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         doc->streams_snapshot_.reserve(e.document->streams_.size());
         for(const auto& entry:e.document->streams_) doc->streams_snapshot_.push_back(entry.second);
         doc->streams_bytes_=e.document->streams_bytes_;
+        doc->raw_streams_snapshot_.reserve(e.document->raw_streams_.size());
+        for(const auto& entry:e.document->raw_streams_) doc->raw_streams_snapshot_.push_back(entry.second);
+        doc->raw_streams_bytes_=e.document->raw_streams_bytes_;
         snapshot->entries_.emplace(id,Entry{e.info,std::move(doc)});
     }
     return snapshot;
@@ -721,6 +727,9 @@ void Project::save_impl(const std::string& path,const std::string& link_director
       auto write_stream=[&](const PixelStreamRecord& record) {const auto bytes=PixelStreamRecordCodec::encode(record,directory.u8string(),cancelled);streams.string(1,std::to_string(image_id));streams.string(2,std::to_string(record.id));streams.blob(3,bytes);streams.done();};
       for(const auto& entry:e.document->streams_) write_stream(*entry.second);
       for(const auto& record:e.document->streams_snapshot_) write_stream(*record);
+      auto write_raw_stream=[&](const RawPixelStreamRecord& record) {const auto bytes=RawPixelStreamRecordCodec::encode(record,directory.u8string(),cancelled);streams.string(1,std::to_string(image_id));streams.string(2,std::to_string(record.id));streams.blob(3,bytes);streams.done();};
+      for(const auto& entry:e.document->raw_streams_) write_raw_stream(*entry.second);
+      for(const auto& record:e.document->raw_streams_snapshot_) write_raw_stream(*record);
       auto write_raw=[&](const RawAnalysisRecord& record) {
           const auto bytes=RawAnalysisCodec::encode(record,e.document->metadata(),cancelled);
           raw_records.string(1,std::to_string(image_id));raw_records.string(2,std::to_string(record.id));raw_records.blob(3,bytes);raw_records.done();
@@ -946,6 +955,11 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
         while(rows.row()) {
             stopped();const auto image=project->entries_.find(number(rows.string(0)));if(image==project->entries_.end()) throw std::invalid_argument("orphaned pixel stream record");
             const auto size=sqlite3_column_bytes(rows.stmt,2);if(rows.type(2)!=SQLITE_BLOB || size<0 || size>128*1024) throw std::invalid_argument("invalid pixel stream record blob");
+            const auto* payload=static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,2));
+            if(size>=4 && std::memcmp(payload,"QWL\1",4)==0) {
+                const auto record=RawPixelStreamRecordCodec::decode(payload,std::size_t(size),fs::u8path(source).parent_path().u8string(),progress?progress->cancellation():nullptr);
+                if(record->id!=number(rows.string(1))) throw std::invalid_argument("raw stream record identity mismatch");image->second.document->restore_raw_pixel_stream(record);continue;
+            }
             const auto record=PixelStreamRecordCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,2)),static_cast<std::size_t>(size),fs::u8path(source).parent_path().u8string(),progress?progress->cancellation():nullptr);
             if(record->id!=number(rows.string(1))) throw std::invalid_argument("pixel stream record identity mismatch");image->second.document->restore_pixel_stream(record);
         }

@@ -72,7 +72,7 @@ bool Document::verify_raw_pixel_prediction(std::uint64_t id,const RawPixelPredic
 }
 void Document::restore_raw_pixel(std::shared_ptr<const RawPixelRecord> record) {
     if(!record || record->id>revision_ || record->captured_next_id>next_id_) throw std::invalid_argument("raw pixel record exceeds document identity bounds");RawPixelArchiveCodec::validate_record_bounds(*record,metadata());
-    const auto id=record->id;if(raw_pixels_.count(id) || raw_analysis_.count(id) || streams_.count(id) || pixels_.count(id) || classifiers_.count(id) || cells_.count(id) || tissue_.count(id) || analysis_.count(id)) throw std::invalid_argument("duplicate raw pixel record ID");
+    const auto id=record->id;if(raw_streams_.count(id) || raw_pixels_.count(id) || raw_analysis_.count(id) || streams_.count(id) || pixels_.count(id) || classifiers_.count(id) || cells_.count(id) || tissue_.count(id) || analysis_.count(id)) throw std::invalid_argument("duplicate raw pixel record ID");
     const auto bytes=record->payload_bytes();if(raw_pixels_.size()>=10000 || bytes>256u*1024*1024-raw_pixels_bytes_) throw std::length_error("raw pixel records exceed 10000/256 MiB retained limit");raw_pixels_.emplace(id,std::move(record));raw_pixels_bytes_+=bytes;
 }
 std::vector<std::shared_ptr<const RawPixelRecord>> Document::raw_pixel_records() const {std::vector<std::shared_ptr<const RawPixelRecord>> out;out.reserve(raw_pixels_.size());for(const auto& [id,record]:raw_pixels_) out.push_back(record);return out;}
