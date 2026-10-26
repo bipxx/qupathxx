@@ -1,4 +1,4 @@
-name: Arm64 exception table isolation
+name: Original arm64 test object diagnosis
 on:
   workflow_dispatch:
 permissions:
@@ -6,7 +6,7 @@ permissions:
 jobs:
   exception-link-witness:
     runs-on: macos-15
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
       - name: Fetch exact original comparison commit
@@ -14,13 +14,13 @@ jobs:
       - name: Verify unchanged product and observe two link modes
         run: |
           git diff --exit-code 4a72fd84b7726927285bf58120d288513c65eb4e -- cpp src cmake CMakeLists.txt pyproject.toml tests
-          python3 -I tools/ci/observe_exception_lsda.py --out build/exception-lsda-254
+          python3 -I tools/ci/observe_original_test_object.py --out build/original-object-255
       - name: Preserve sources objects binaries and observations
         if: always()
         uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
-          name: exception-lsda-254
+          name: original-object-255
           retention-days: 14
           if-no-files-found: error
           compression-level: 0
-          path: build/exception-lsda-254/**
+          path: build/original-object-255/**
