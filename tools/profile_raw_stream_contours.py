@@ -50,6 +50,15 @@ def reader(q, path, contract):
     return q.open_tiff(str(path), options)
 
 
+def matches_rectangle(geometry, label, size):
+    if label not in [1, 2]:
+        return False
+    left, right = (0, size/2) if label == 1 else (size/2, size)
+    paths = geometry.paths
+    return len(paths) == 1 and len(paths[0]) == 4 and {
+        (point.x, point.y) for point in paths[0]} == {(left, 0), (right, 0), (right, size), (left, size)}
+
+
 def prepare(q, work, size, contract):
     # Generation/training run outside the measured child. Only two tile buffers
     # and 64 training rows exist; never construct a complete image or label mask.
@@ -69,7 +78,8 @@ def prepare(q, work, size, contract):
     try:
         selection = q.ScientificRawOptions()
         features = q.RawPixelFeatureOptions()
-        features.offsets, features.scales, features.sigmas = [0], [1], []
+        features.offsets, features.scales = [0], [1]
+        features.sigmas = [q.RawPixelFeatureScale(0, 0)]
         recipe = q.RawPixelRecipe(server.raw_metadata, lattice(q, size), selection, features)
         require(len(recipe.feature_schema) == 1, 'probe requires exactly one raw feature')
         values = np.repeat(np.array([[1000], [50000]], np.float32), 32, axis=0)
@@ -131,9 +141,9 @@ def observe(case):
         components = contours.contours.components
         result['geometry'] = [dict(label=v.label, pixels=v.pixels, area=v.geometry.area,
                                    perimeter=v.geometry.perimeter) for v in components]
+        result['geometry_wkt'] = [v.geometry.wkt for v in components]
         result['exact_rectangles'] = len(components) == 2 and all(
-            v.label in [1, 2] and v.geometry.equals(q.Roi.rectangle(
-                q.Rect(0 if v.label == 1 else size/2, 0, size/2, size))) for v in components)
+            matches_rectangle(v.geometry, v.label, size) for v in components)
         result['input_identities'] = {key: spec[key] for key in ['source_sha256', 'model_sha256', 'source_bytes']}
     except Exception as error:
         result['error'] = type(error).__name__+': '+str(error)
