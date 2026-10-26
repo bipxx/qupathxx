@@ -1,8 +1,10 @@
 # Multi-file OME-TIFF implementation slice
 
-Status: independent fixture and bounded source/codec foundation are locally
-verified; native multi-file opening is still unsupported. This slice remains part of M1/M6 and does not replace the broader
-vendor, scientific or supported-release requirements.
+Status: native multi-file opening and the synthetic installed workflow are
+locally verified in the [workflow receipt](benchmarks/multifile-ome-local.json).
+Required cohort registration/platform qualification remains open. This slice
+is part of M1/M6 and does not replace broader vendor, scientific, resource or
+supported-release requirements.
 
 The [OME specification](https://ome-model.readthedocs.io/en/stable/ome-tiff/specification.html#multi-file-ome-tiff)
 maps logical planes to file UUIDs and physical IFDs through `TiffData`. A
@@ -74,14 +76,14 @@ alongside the corrected, scoped checks.
 
 These checkpoints detail MFO1 in the single ordered API queue; they are not
 separate release milestones. The integration owner implements them in order.
-Only the foundation is verified today; the dispatch design below is planned.
+A-D now have local evidence within the receipt's synthetic scope; E remains open.
 
 | Checkpoint | Smallest implementation path | Exit / dependency |
 | --- | --- | --- |
 | A: source foundation | Reuse the implemented owning companion list, QPV3/QRA3/QRA4, stale-source comparison and typed bindings | Locally verified at native `4d59c46`, binding/stub follow-up `916d2fc`; retain the existing receipt and legacy byte fixtures |
-| B: file dispatch and indexing | Keep changes private to `cpp/tiff_server.cpp`. Catalog each resolved file with its UUID and file-local IFD range; add file ordinal to private IFDs and map logical planes to the catalog | Both synthetic entry points resolve the same C/Z/T pixels and SubIFDs; reject missing/wrong UUID, duplicate physical files, conflicting metadata, incomplete/duplicate slots and invalid IFD bounds |
-| C: resources and operation guards | Key the existing shared LRU by file ordinal, directory offset and block number. Use one active bounded libtiff decoder, switching files under the existing reader lock. Guard all dependencies once per complete raw/display operation, including cached and out-of-bounds reads | Colliding offsets return correct pixels; companion-only changes reject before publication; cancellation/close/lifetime behavior remains correct. No multiplied per-file decoder/cache allowance |
-| D: installed workflow closure | Reuse `open_tiff`, `TiffView`, raw requests, project save/reopen and existing frontend controllers. Preserve compound observations when deriving logical views | Installed Python exercises nonempty companion ownership; project restart/relink, QRA capture/replay, CLI, batch, ImGui and managed viewer use the real two-file corpus, with legacy single-file regressions |
+| B: file dispatch and indexing (locally verified) | Keep changes private to `cpp/tiff_server.cpp`. Catalog each resolved file with its UUID and file-local IFD range; add file ordinal to private IFDs and map logical planes to the catalog | Both synthetic entry points resolve the same C/Z/T pixels and SubIFDs; reject missing/wrong UUID, duplicate physical files, conflicting metadata, incomplete/duplicate slots and invalid IFD bounds |
+| C: resources and operation guards (locally verified scope) | Key the existing shared LRU by file ordinal, directory offset and block number. Use one active bounded libtiff decoder, switching files under the existing reader lock. Guard all dependencies once per complete raw/display operation, including cached and out-of-bounds reads | Colliding offsets return correct pixels; companion-only changes reject before publication; cancellation/close/lifetime behavior remains correct. No multiplied per-file decoder/cache allowance |
+| D: installed workflow closure (locally verified) | Reuse `open_tiff`, `TiffView`, raw requests, project save/reopen and existing frontend controllers. Preserve compound observations when deriving logical views | Installed Python exercises nonempty companion ownership; project restart/relink, QRA capture/replay, CLI, batch, ImGui and managed viewer use the real two-file corpus, with legacy single-file regressions |
 | E: coherent qualification | After B-D pass focused checks, freeze compiler inputs and register exact new cohorts in producer and auditors together; use the existing required platform campaign | Source-bound native/installed/frontend/platform receipts retain failures, skips, identities and raw evidence. Local foundation results do not qualify the completed reader |
 
 For B, resolve each explicit filename relative to the containing TIFF, normalize
@@ -95,9 +97,9 @@ metadata remain unsupported until separately implemented and verified.
 
 For C, retain the source descriptor's existing limit of 63 companions plus the
 primary. Apply directory limits across the complete fileset: at most 65,536
-primary IFDs and 131,072 total IFD/SubIFD entries. Keep the existing 1 MiB XML
-limit per file and add a proposed 4 MiB aggregate XML limit. These are admission
-limits to implement and test, not measured RSS or latency guarantees. Hold
+primary IFDs and 131,072 total IFD/SubIFD entries. The implemented 1 MiB XML
+limit per file and 4 MiB aggregate XML limit have refusal checks. These are
+admission limits, not measured RSS or latency guarantees. Hold
 opening guards through indexing and operation guards through final publication;
 do not reopen every companion for each inner display-conversion chunk. Preserve
 the compound scope and companions when creating another `TiffView` descriptor.
@@ -140,7 +142,15 @@ owning companion observations, primary-only fingerprint status, QPV3/QRA3/QRA4,
 raw stale-status comparison and typed Python ownership. Seven selected native
 suites pass on each Windows/Linux host; 200 installed cases and 15 desktop
 regressions pass, with two OpenSlide capability skips retained separately.
-Next implement explicit FileName/UUID resolution in the existing TIFF reader,
-file-aware directory/cache keys, shared budgets and all-dependency read guards.
-Then qualify project restart and all promised frontends on the real two-file
-corpus. The foundation does not prove native multi-file reader support.
+The [reader/workflow follow-up](benchmarks/multifile-ome-local.json) now verifies
+explicit FileName/UUID dispatch, file-aware directory/cache keys, one active
+decoder, shared budgets and all-dependency operation guards. Seven native
+suites pass on each Windows/Linux host; the installed regression passes 304
+cases with 14 declared skips. A 17-case desktop follow-up covers the 12 desktop
+skips, leaving two OpenSlide capability gaps. The final real multi-file cohort
+passes 39 cases including project restart/QRA3/QRA4, relocation/relink and
+Python/CLI/batch/ImGui/managed paths. These cohorts overlap.
+Next register the exact new cohorts in producer/auditors together and freeze
+one coherent required platform campaign. Keep broader cancellation/fault stress,
+whole-slide/scientific/resource and supported-release acceptance open. The
+original foundation receipt remains unchanged and retains its narrower scope.

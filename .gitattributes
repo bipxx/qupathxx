@@ -435,3 +435,7 @@ docs/benchmarks/tma-dearray-202-qualification.json text eol=lf
 # Compound-source foundation retains raw local native/installed evidence bytes.
 docs/benchmarks/compound-source-local/** -text -whitespace
 docs/benchmarks/compound-source-local.json text eol=lf
+
+# Multi-file TIFF raw local evidence keeps exact payload bytes.
+docs/benchmarks/multifile-ome-local/** -text -whitespace
+docs/benchmarks/multifile-ome-local.json text eol=lf

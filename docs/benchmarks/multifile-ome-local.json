@@ -1,0 +1,359 @@
+{
+  "schema": "qpx.multifile-ome-local/1",
+  "observed_at_utc": "2026-10-26T02:56:43.098745+00:00",
+  "compiled_source": "1c621653b262d7c5c55aaaa0fa7f449bdec7135c",
+  "compiled_fingerprint": "8409a2744ced64d67dfd28dbb0234a09d7ac81b957c2ea528910bce2b3f6c80f",
+  "compiler_inputs": 317,
+  "validation_source": "2bc694a2d199c9d47ff54055c0a1b0b0129afb26",
+  "scope": "Local synthetic multi-file TIFF reader and project/Python/CLI/batch/ImGui/managed workflow verification. Not full hosted, biological, hardware/RSS or supported-release acceptance.",
+  "native_suites_per_host": 7,
+  "results": {
+    "runtime": {
+      "passed": 304,
+      "skips": [
+        {
+          "name": "test_compound_imgui_measure_keep_and_csv",
+          "reason": "opt-in compound TIFF desktop"
+        },
+        {
+          "name": "test_compound_managed_measure_verify_and_project_save",
+          "reason": "opt-in compound TIFF desktop"
+        },
+        {
+          "name": "test_openslide_primary_file_is_observed_without_claiming_complete_dependencies",
+          "reason": "native pyramid"
+        },
+        {
+          "name": "test_gui_associates_active_reader_generation_and_exports_json[False]",
+          "reason": "desktop replay"
+        },
+        {
+          "name": "test_gui_associates_active_reader_generation_and_exports_json[True]",
+          "reason": "desktop replay"
+        },
+        {
+          "name": "test_gui_file_hash_exports_json_without_selected_annotation[False]",
+          "reason": "desktop replay"
+        },
+        {
+          "name": "test_gui_file_hash_exports_json_without_selected_annotation[True]",
+          "reason": "desktop replay"
+        },
+        {
+          "name": "test_gui_failed_file_hash_preserves_old_output_and_document",
+          "reason": "desktop replay"
+        },
+        {
+          "name": "test_openslide_capture_keeps_native_locator_and_all_pyramid_levels",
+          "reason": "requires OpenSlide"
+        },
+        {
+          "name": "test_raw_grid_desktop_measure_keep_csv_and_render",
+          "reason": "opt-in raw grid desktop"
+        },
+        {
+          "name": "test_raw_grid_managed_producer_retains_verifies_and_saves",
+          "reason": "opt-in raw grid desktop"
+        },
+        {
+          "name": "test_raw_grid_desktop_batch_matches_native_recipe_and_resume",
+          "reason": "opt-in raw grid desktop"
+        },
+        {
+          "name": "test_reduced_budget_imgui_measure_keep_and_render",
+          "reason": "opt-in raw grid desktop"
+        },
+        {
+          "name": "test_reduced_budget_managed_viewer_retains_verifies_and_saves",
+          "reason": "opt-in raw grid desktop"
+        }
+      ]
+    },
+    "desktop": {
+      "passed": 17,
+      "skips": []
+    },
+    "multifile_final": {
+      "passed": 39,
+      "skips": []
+    }
+  },
+  "installed_module": {
+    "module": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile209-python-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+    "source": "1c621653b262d7c5c55aaaa0fa7f449bdec7135c",
+    "fingerprint": "8409a2744ced64d67dfd28dbb0234a09d7ac81b957c2ea528910bce2b3f6c80f",
+    "gui": true,
+    "tiff": true,
+    "openslide": false,
+    "module_sha256": "f8cb3d6c1621d8b556bfb4977da3f3e3aa60a1fda1af25ebbb711dfc762c5a32"
+  },
+  "limits": {
+    "files": 64,
+    "companions": 63,
+    "primary_ifds": 65536,
+    "catalog_entries": 131072,
+    "xml_bytes_per_file": 1048576,
+    "xml_bytes_total": 4194304,
+    "decoder": "one active libtiff handle, bounded by TiffOpenOptions.decode_bytes",
+    "cache": "one LRU bounded by TiffOpenOptions.cache_bytes"
+  },
+  "corpus": "docs/benchmarks/multifile-ome-preparation.json",
+  "retained_binaries": {
+    "manifest": "build/multifile209-retained-binaries/manifest.json",
+    "files": 21,
+    "bytes": 162404418
+  },
+  "failures_preserved": [
+    "Initial Windows/Linux build failed because the new native test omitted the source_identity header; product/module compiled. Fixed test include in compiled_source.",
+    "Initial project workflow assertions inspected the intentionally unopened lazy link before raw metadata opened it. Corrected checks exercise both states."
+  ],
+  "remaining": [
+    "Register exact MFO1 cohorts in producer and all relevant auditors together, then freeze and qualify the complete workflow.",
+    "Broader eligible vendor/whole-slide and partial/BinaryOnly OME support, cancellation/fault stress and full resource/hardware/scientific acceptance remain open.",
+    "OpenSlide is disabled in this local configuration; two runtime capability skips remain after desktop follow-up."
+  ],
+  "source_files": {
+    "cpp/tiff_server.cpp": "efa44fdfa230275805958c60a11f17e5f467e425842b0d8bd3e47ecc03497943",
+    "cpp/tests/raw_image_tests.cpp": "bd9ce84a71f7069861a70f8f1764fde99e9ab194a33adaeb394f1d4c8827edc7",
+    "tests/test_multifile_tiff_reader.py": "27c3ba07c4b209b3e2b31e21dd1c5ea04a6e2567e988b899733d0bf8bb63b90c",
+    "tools/reference_multifile_ome.py": "e7364c14bacb6ddbe5a6c491a4e080993fccf8296dbeda153004bc3402e8bc41"
+  },
+  "files": {
+    "docs/benchmarks/multifile-ome-local/initial-windows/build.log": {
+      "bytes": 10246,
+      "sha256": "7880dc7ae1cde454e4a72ac739a06c94935b1402bae7bfa867364d3f80138bc9"
+    },
+    "docs/benchmarks/multifile-ome-local/initial-windows/commands.json": {
+      "bytes": 1120,
+      "sha256": "9f7732d6d08259f24838f116620bce88ba3e491e68d7b73eb9a630603e9ba7f1"
+    },
+    "docs/benchmarks/multifile-ome-local/initial-windows/compiler-inputs.json": {
+      "bytes": 33137,
+      "sha256": "19310101ff4f11dc0504971de8477833d7b628d1efd40995cd1c573ce667ac0f"
+    },
+    "docs/benchmarks/multifile-ome-local/initial-windows/configure.log": {
+      "bytes": 3579,
+      "sha256": "fef0d489d86ea673d5469ccd5622dee300703170f6c793d85c8e40c5d1fb7154"
+    },
+    "docs/benchmarks/multifile-ome-local/initial-linux/build.log": {
+      "bytes": 28338,
+      "sha256": "c16fa19619d837bd0953cc74b9dbee11c2c0b4f51ee797292d8d855c7df4f42b"
+    },
+    "docs/benchmarks/multifile-ome-local/initial-linux/commands.json": {
+      "bytes": 1572,
+      "sha256": "977a2ab6965d83a51b2de76ccc9cd12308ab92e584ca548409dcbfe2f17ea64c"
+    },
+    "docs/benchmarks/multifile-ome-local/initial-linux/compiler-inputs.json": {
+      "bytes": 33137,
+      "sha256": "19310101ff4f11dc0504971de8477833d7b628d1efd40995cd1c573ce667ac0f"
+    },
+    "docs/benchmarks/multifile-ome-local/initial-linux/configure.log": {
+      "bytes": 3354,
+      "sha256": "f064deff2d2e93ad7c37d7093b512fdbab41d20caa285b91b9773cfcc0827d99"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/build.log": {
+      "bytes": 10227,
+      "sha256": "686989dc5bd7f1e861532958ce842d08b883f74d95187b861a3692ae1a95265f"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/commands.json": {
+      "bytes": 5326,
+      "sha256": "33d315c8613caa9c0ce2178bab7236cf8fe78376d33e53a6f5ee3844bc3c7d68"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/compiler-inputs.json": {
+      "bytes": 33137,
+      "sha256": "0199de9d74cd5a1b17c1773c89b92971bc415e3ab1c79dd7f0af669cb41f04c1"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/configure.log": {
+      "bytes": 3579,
+      "sha256": "dc084d653bbc7d81f87d1ce195372df945cf5b301c27c279dfbd66bec80706a0"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/file_fingerprint.xml": {
+      "bytes": 457,
+      "sha256": "7f1b80c6ee85faf24ccebc15419890b8b20b042b0410c52fd38dfb9ce79daf39"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/project.xml": {
+      "bytes": 422,
+      "sha256": "1b77c0414d092f14b203fcd920d7f35eebf1f61b60f4afb6eff909061f6e26a2"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/project_save.xml": {
+      "bytes": 439,
+      "sha256": "43ec6ded0c5cab52c88ca45bdbd6be4218efafdaaa543e7c071b55cd941f88e5"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/provenance.xml": {
+      "bytes": 421,
+      "sha256": "33c5be81de75b4241e5442fa1835911bf8ad969617fb9fd62c5e01f714f99984"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/raw_image.xml": {
+      "bytes": 954,
+      "sha256": "bd2b1500495ca500b6f13744d193c842006afbc5c39c3be1dcc1c5b5c8970aa6"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/resampling.xml": {
+      "bytes": 2308,
+      "sha256": "e1975cdd7308007411d88b4d2d09d3a9985c83c5a85674b3574e856d85410510"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/source_identity.xml": {
+      "bytes": 536,
+      "sha256": "266c1d05e495937cd6dab89002a29e967883784faa58e044eec4f93e98e7fffa"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/test-file_fingerprint.log": {
+      "bytes": 244,
+      "sha256": "c9d0e2aa11049177a767671b850c52686757b4c363dcd14ee655dce2f4e86e88"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/test-project.log": {
+      "bytes": 235,
+      "sha256": "22a5b091bca607f62c73df6753017812d9deda61e2232e5b3f33966a17fb498a"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/test-project_save.log": {
+      "bytes": 240,
+      "sha256": "5ee2137e340bcab3a03c4c0ff17ef5b26da1295ef22f7d6245843207b704f711"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/test-provenance.log": {
+      "bytes": 238,
+      "sha256": "312a53c079288d699321b6eb756255737bacdba0909b94f7aaba8b16d125cf9a"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/test-raw_image.log": {
+      "bytes": 237,
+      "sha256": "772073d84704a3b42ae54533a11c7a3a13d74f0e38745c90e7391779d29db833"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/test-resampling.log": {
+      "bytes": 236,
+      "sha256": "a6fda601a97713cc95098d0ab927a812d0966dff8955743fbbc1baa8aa8f606a"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/test-source_identity.log": {
+      "bytes": 243,
+      "sha256": "28e499f804938b2eaea619b66ce4fa902f3cadde85b3190203ae62b0784b6520"
+    },
+    "docs/benchmarks/multifile-ome-local/linux/build.log": {
+      "bytes": 6893,
+      "sha256": "31cb9525070c173c1710e5aafb1d5a0ef9766e0feba9402165b5bd1f109dcb24"
+    },
+    "docs/benchmarks/multifile-ome-local/linux/commands.json": {
+      "bytes": 2458,
+      "sha256": "c960b4aa9fa22cd25b7f21c7f50d0b79a2571efeba36eabb42d924c80829ddb1"
+    },
+    "docs/benchmarks/multifile-ome-local/linux/compiler-inputs.json": {
+      "bytes": 33137,
+      "sha256": "0199de9d74cd5a1b17c1773c89b92971bc415e3ab1c79dd7f0af669cb41f04c1"
+    },
+    "docs/benchmarks/multifile-ome-local/linux/configure.log": {
+      "bytes": 3354,
+      "sha256": "a29869ca541dfd56139e7ee03d9d96eb2055754f653eddaac71fe7a163e82e11"
+    },
+    "docs/benchmarks/multifile-ome-local/linux/tests.log": {
+      "bytes": 946,
+      "sha256": "aeee82706363490a22a4c02ca5f8d9721f81d37b92ca6380676d9776f10be830"
+    },
+    "docs/benchmarks/multifile-ome-local/linux/tests.xml": {
+      "bytes": 4263,
+      "sha256": "eb2f20095baf4b3eea055bc63ed40e5af17760fd5b224c0d09e279eb621f8d2d"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/admission.log": {
+      "bytes": 116,
+      "sha256": "cdaba050795873b753c129a4a93317cbce84c1a0d0d5f992b675163f922266c3"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/admission.xml": {
+      "bytes": 1163,
+      "sha256": "74b1acc711609bafdc55998c02be778d99c3e15310a2ac09ec3b6b825ae0dc1e"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/app-link.log": {
+      "bytes": 1062,
+      "sha256": "0450b28a70b3bdba50a033fa018740ed4e30e92484ebe6d0681de5864b081e43"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/command.json": {
+      "bytes": 450,
+      "sha256": "f84d9893451112c97a686dc74a643da35bcffd0100c553fe1b7e39c22f1703cb"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/desktop-command.json": {
+      "bytes": 2493,
+      "sha256": "77e8cd9530ab8cc9a35af86eb556a69cd401e682251ff6b2bdfaff418e1f51a6"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/desktop.log": {
+      "bytes": 102,
+      "sha256": "16e32c0eaa75c13cf764dc9bf6ee36b70578c3f140d93f0448d65b71c79bdd23"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/desktop.xml": {
+      "bytes": 2485,
+      "sha256": "02ab67bacfb9cece0a91bbbf0a1d6fbc70bb1c77047293b47bbba59c6949cea0"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/identity.json": {
+      "bytes": 438,
+      "sha256": "31de7328f8ef8226d09991397e401a90fd0c52b5adbb0fbacc2dd275c85ff1a0"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/install-commands.json": {
+      "bytes": 901,
+      "sha256": "be407c292eaaf7bf00c74832e8ba7a6af669482b4b9cf1f8623f4e1bcf941afe"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/install.log": {
+      "bytes": 3096,
+      "sha256": "37f1a22b6cf76a90ccba020e5fbd74031a857f45eb6b77758d47a6126ca2f2f2"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/multifile-final-command.json": {
+      "bytes": 521,
+      "sha256": "40e6ecc910625a9ff4066cd3c5838ff452297fab7cb10d291fe48a6b9c828a7a"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/multifile-final.log": {
+      "bytes": 101,
+      "sha256": "c25191d300d6666acbb06208ae537239475128313083256aa8bdda0effb9d863"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/multifile-final.xml": {
+      "bytes": 5500,
+      "sha256": "eac46a111b608617a65e1ded8d162a65ce483879fb06e999815b4858f0533bd4"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/reader.log": {
+      "bytes": 182,
+      "sha256": "8aac46bac8aaa138d10e865ce7c10513374ad608c84dda297690c68752aa5621"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/reader.xml": {
+      "bytes": 11053,
+      "sha256": "1dddafdabb2b536cdd829d342253b1931e7fe9de6bed5fc9bbb0cd60cd0bd47d"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/runtime-command.json": {
+      "bytes": 2630,
+      "sha256": "20a87e54cf46d6b2ecca05982bb1170f611fc6a79a3bc7088e20f752c8fb6428"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/runtime.log": {
+      "bytes": 1959,
+      "sha256": "93a9ae65d4e567fb435812d418381bf9d0fd5572338a35b9416fb55ada427294"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/runtime.xml": {
+      "bytes": 46701,
+      "sha256": "afd677452dce021c364ccc67236791f8f822bb7250c71f2573a075dccd1d260f"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/workflows-initial.log": {
+      "bytes": 6885,
+      "sha256": "6aba1eec26e59994ee2bc34631d163bab16ae8a9ed861b6f2d5b98a4a111e460"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/workflows-initial.xml": {
+      "bytes": 10743,
+      "sha256": "5915a5348831c31c2dc9e16566706e52530b3a97f75c9332da4f2c0549fb934d"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/workflows.log": {
+      "bytes": 101,
+      "sha256": "e647cdfcfec449b762779789b0f97418d3f75ed6da4bd4a67ef6b41e09cbe4d5"
+    },
+    "docs/benchmarks/multifile-ome-local/installed/workflows.xml": {
+      "bytes": 4093,
+      "sha256": "6eaa11d7860a063c420edfe73b0857ee9ab2a510a818999521b0c70e1d8d71eb"
+    },
+    "docs/benchmarks/multifile-ome-local/compiler-git-proof.json": {
+      "bytes": 72606,
+      "sha256": "eb837af6fd950e43a8eb815c813931905bd6e32b4c3449ab2f3103d1ba9455c2"
+    },
+    "docs/benchmarks/multifile-ome-local/build-driver.py": {
+      "bytes": 3891,
+      "sha256": "989513d20b5531edb1193520a31865297bd92135524691301ae69b432dbdf61a"
+    },
+    "docs/benchmarks/multifile-ome-local/retained-binaries.json": {
+      "bytes": 5282,
+      "sha256": "66e3c7ce2951e488cd90916a9954ae35fd62250c78bd0dceeff503bba25c58cd"
+    },
+    "docs/benchmarks/multifile-ome-local/windows/build_manifest.hpp": {
+      "bytes": 706,
+      "sha256": "1bd49e70e601828c22603fb7cf0cc8441600fb51a81dab0416072b73d0c05f36"
+    },
+    "docs/benchmarks/multifile-ome-local/linux/build_manifest.hpp": {
+      "bytes": 629,
+      "sha256": "27666dc54c222976e6c97e6ad1c4d084ca8df26548a6554fd1c9bb03a3a73ef9"
+    }
+  }
+}

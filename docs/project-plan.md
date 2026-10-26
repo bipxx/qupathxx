@@ -39,14 +39,14 @@ E1/E2 are implemented with 438 local auditor controls and 48 Linux stdlib
 boundary witnesses. Main's qualified application source remains `61e546e`.
 Continue MFO1's compound-source/multi-file OME workflow in the
 [ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue).
-E3/E4 remain bounded improvements at the next affected owner, not a framework. The
-[compound-source foundation](benchmarks/compound-source-local.json) now has local
-native/installed/desktop evidence. Real multi-file TIFF dispatch and complete
-project/frontend acceptance remain the next MFO1 work; no full reader support
-is inferred from the descriptor/codecs. The
-[A-E delivery checkpoints](multifile-ome-tiff.md#delivery-checkpoints) specify
-the private reader implementation, bounded resources, installed workflow closure
-and final coherent qualification. Only checkpoint A is locally verified.
+E3/E4 remain bounded improvements at the next affected owner, not a framework.
+The [multi-file workflow receipt](benchmarks/multifile-ome-local.json) now verifies
+explicit UUID/file dispatch, file-aware caching, shared budgets and all-file
+operation guards at native source `1c62165`. Local installed project/archive,
+Python, CLI, batch, ImGui and managed workflows pass the synthetic corpus.
+The [A-E checkpoints](multifile-ome-tiff.md#delivery-checkpoints) distinguish this
+local A-D evidence from E's remaining cohort registration and platform campaign.
+Broader reader/scientific/resource and release requirements remain open.
 The [seven-document review](reviews/compilexx-efficiency-review.md) supplies the
 failure evidence and distinguishes recommendations from applied product fixes.
 
