@@ -491,3 +491,8 @@ docs/benchmarks/raw-pixel-training-local.json -text -whitespace
 # Raw replay/apply evidence retains exact log bytes.
 docs/benchmarks/raw-pixel-replay-apply-local/** -text -whitespace
 docs/benchmarks/raw-pixel-replay-apply-local.json -text -whitespace
+
+# Raw lattice-window numeric evidence retains exact bytes.
+docs/benchmarks/raw-lattice-windows-local/** -text -whitespace
+docs/benchmarks/raw-lattice-windows-local.json -text -whitespace
+docs/benchmarks/raw-window-fraction-reference.json -text -whitespace

@@ -1,0 +1,226 @@
+{
+  "schema": "qpx.raw-lattice-windows-local/1",
+  "observed_at_utc": "2026-10-26T07:55:34.372305+00:00",
+  "source": "ae0ba2918cfcf4f8b6553731d7ff1cf13bdc10f9",
+  "compiled_fingerprint": "ed43829e5104da39e95b7a87e01c4d2f20bec8aa0d90d1cdc305cadac006ef73",
+  "compiler_inputs": 342,
+  "status": "phase_preserving_raw_window_sampling_and_shared_numeric_features_locally_verified",
+  "native": {
+    "windows_suites": 5,
+    "linux_suites": 5,
+    "windows_training_regression_suites": 2,
+    "required_markers": [
+      "Raw lattice windows: 13 Fraction wide means, 20 large irreducible uint64 samples, huge dense lattice, bounded chunk mutation, admission/cancel and 9072 exact tiled feature slots passed",
+      "Typed raw pixel features: 12 independent dtype/extreme references, per-channel support, anisotropic scales, stream seams, admission and cancellation passed",
+      "Raw classifier QPR1 independent framing, channel/grid/physical contracts, forest votes, streams, exact budgets and atomic model files passed",
+      "Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed"
+    ]
+  },
+  "geometry": "Original image dimensions and global integer-origin/extent/sample lattice plus bounded core first/count and per-axis context; no full ScientificGrid or whole source/output raster admission required",
+  "numeric": "Window-only gcd-reduced area weights; shared exact accumulator has checked 72-bit denominator mode, unchanged 28-bit legacy mode, 2176 numerator bits and one binary64 nearest/even rounding. Window division traversal charged at 68 or 2304 steps per channel sample.",
+  "independent_reference": {
+    "wide_weight_means": 13,
+    "large_irreducible_uint64_context_samples": 20,
+    "authority": "Python stdlib Fraction, exact regeneration",
+    "exact_tiled_feature_slots": 9072,
+    "dtype_cases": 12,
+    "original_feature_reference_slots": 12600
+  },
+  "scope": [
+    "Public distinct owning ScientificRawWindowData cannot enter legacy full-grid consumers",
+    "One-million by one-million global sample lattice supports bounded dense and irreducible windows without whole-raster allocation",
+    "Exact sampled HWC means, support/reasons and float32 feature bits match full-grid cores at every tested tile seam",
+    "Shared bounded source chunk commitments reject mutation between capture and materialization",
+    "Pre-IO budget and cancellation refusal; outside-source support does not decode pixels",
+    "Legacy full-grid sampler/feature/model/workflow references and actual Windows forest training regressions pass"
+  ],
+  "legacy_archive_and_hash_grammars_changed": false,
+  "window_classifier_or_stream_complete": false,
+  "remaining": [
+    "Window-aware raw recipe/model matching and classifier outputs",
+    "Owner-captured tiled training/prediction requests and bounded jobs on the global lattice",
+    "Versioned stream files, source/model-safe interruption and checkpoint resume",
+    "Cross-tile contour stitching, nanobind/Python/NumPy, CLI/batch, managed viewer and ImGui integration",
+    "Integrated platform and independent biological/model/process-resource/hardware/release acceptance"
+  ],
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/windows/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "db6209b2d4ea238b24c59c62c40b8d9f439fadfd4722bac743f2f534adb02642"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/windows/configuration.json",
+      "bytes": 438,
+      "sha256": "1fdb05fd0a59139fc78658467c36bfad64008f2d672600bae623a8ffd733f958"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/windows/build.log",
+      "bytes": 8909,
+      "sha256": "bd175ab7094c50cf2cdd1cc703f1ee5a71b9ac1cd4afcc57d81e67fa13303c5c"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/windows/commands.json",
+      "bytes": 1650,
+      "sha256": "dea6fe59a944b99da3e1aff7ba1dcefd68094cd888d557f73819157c87ae217b"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/windows/compiler-inputs.json",
+      "bytes": 36269,
+      "sha256": "e1da3fa16b9c65f6fcae8429c3ed84f8c0a0263e1317f8b06e56e85b9beef505"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/windows/configure.log",
+      "bytes": 3579,
+      "sha256": "aa4e6669a6a8020b19c0515a6ae84e29953a7874afca6423fb7074bd7a9f6a8b"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/windows/output-preflight.json",
+      "bytes": 205,
+      "sha256": "9cc8c4263af2e9906855c35c186ca621bf0f978ea45a0e9ab9a03041888d09b5"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/windows/tests.log",
+      "bytes": 631,
+      "sha256": "389af0745aa01d4b920150381ab1bbf00987edcb547a5978b370db0afc8c802d"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/windows/tests.xml",
+      "bytes": 5408,
+      "sha256": "b19dd83a900c4fb6554429dcf9ada7764270b1fef50c7ed14015c89037ef5b4a"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/linux/build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "94c4535712cbc7bbf8e3d74d09d5ef0231faca793d97a08276cf5a98a7068b85"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/linux/configuration.json",
+      "bytes": 440,
+      "sha256": "9055e74897cee94c78a499b8be5563be9b92ed0411debc1a2045cdbd28ba7a04"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/linux/build.log",
+      "bytes": 185755,
+      "sha256": "744b0d201adc8b43338072764f2161c5efd25443d659fc4f0a26c022843fd3d3"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/linux/commands.json",
+      "bytes": 2388,
+      "sha256": "76ab6fc2da50296a6682ae6c7a5e4b7e66eef9ef092418644b9bc92d3854c244"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/linux/compiler-inputs.json",
+      "bytes": 36269,
+      "sha256": "e1da3fa16b9c65f6fcae8429c3ed84f8c0a0263e1317f8b06e56e85b9beef505"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/linux/configure.log",
+      "bytes": 3354,
+      "sha256": "fd4d11becd24d05e96bf2d9a41d74fb862bc804316fbdc1442805a320c096047"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/linux/output-preflight.json",
+      "bytes": 198,
+      "sha256": "d0bd0f20a75f7ad2c3e90a5a5f35401b57a685be3f7dc799adb8d6704ea9a5d8"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/linux/tests.log",
+      "bytes": 760,
+      "sha256": "63f21129fe45f28a82323ce026a1961486ce6a947aaa938cc93985d81805af58"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/linux/tests.xml",
+      "bytes": 5256,
+      "sha256": "16ffa4466ee154e0d0016eea3e55d50bd9b893b7b10c7bc35529a0de501b0047"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/training/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "489ea7f8f3e7326145691db2cd38e35489c2dd12096cd5f4d1dc2195f164b5d0"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/training/configuration.json",
+      "bytes": 439,
+      "sha256": "efefdc00c5c4f105d6eb07ae32b7d4aa64514ca8b22df2b32a188f4283812f82"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/training/build.log",
+      "bytes": 4705,
+      "sha256": "bac3f2dd7fc7c1fad17841e46813e479d3886313d25a9ed6ceacf547ce30d489"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/training/commands.json",
+      "bytes": 1498,
+      "sha256": "44277b71a986077fdbfad5244fe0ae5f0cd38de9562863ec03402cd37e947d97"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/training/compiler-inputs.json",
+      "bytes": 36269,
+      "sha256": "e1da3fa16b9c65f6fcae8429c3ed84f8c0a0263e1317f8b06e56e85b9beef505"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/training/configure.log",
+      "bytes": 3722,
+      "sha256": "5b4216a8220c6ef2fc21b5b0d03e4c7c738409eadd82ab6995be711dcebb9d72"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/training/output-preflight.json",
+      "bytes": 207,
+      "sha256": "e321c1239399218359b7b6fe544074b74cc724d6867d277bbc61003903309590"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/training/tests.log",
+      "bytes": 336,
+      "sha256": "f2d90a0e1f6586c5349af4162d6250077fe086f89adf0971a97d94c06e0e9828"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/training/tests.xml",
+      "bytes": 2324,
+      "sha256": "775e19b09b1dd6d6a9efb043de06e4a623511f43891ed1b083c86671df06bbb2"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/compiler-and-reference-git-proof.json",
+      "bytes": 117308,
+      "sha256": "0fb52ea080eee845aaa24fde47e66b5e19acc2d4b7c76cd46be861b29dc6b338"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/retained-binaries.json",
+      "bytes": 5087,
+      "sha256": "98e2ae798749202d66c62d9807f33d573f9b91ae3af5072703a801dc66eb3f32"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/build_rawwindow220.py",
+      "bytes": 3806,
+      "sha256": "201be651b57dd0dcf87d2f865c2fd0f0ead7736c87f822bb1f834ecd75be73b9"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/receipt_rawwindow220.py",
+      "bytes": 8841,
+      "sha256": "c3587ebc62c4859425c683b917a77414ca47b7723dcd0d00d4d225e84e28228e"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/reference-regeneration.json",
+      "bytes": 509,
+      "sha256": "e14083ce2656795a30c59a348cf7c78110d9bd909534b2644e18473f94981944"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/reference/reference_raw_window_weights.py",
+      "bytes": 3423,
+      "sha256": "a197ea32cff88e5fbfdc5f645d9bd2876c984be21717348caf2b71a21dafb975"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/reference/raw-window-fraction-reference.json",
+      "bytes": 3779,
+      "sha256": "bb7e19142bcabf499a58d4ad80094d6b514bf698d9adf87ab263780f1f3d2ebe"
+    },
+    {
+      "path": "docs/benchmarks/raw-lattice-windows-local/training-sdk-observation.json",
+      "bytes": 230,
+      "sha256": "7fe791f0f0f17da907de2b746f9fe2ca6f8e3806306a5fd82b1edf7ca43f04b7"
+    }
+  ],
+  "retained_binaries": "build/rawwindow220-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial"
+}

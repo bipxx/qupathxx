@@ -40,7 +40,7 @@ no additional agent delegation is implied by this table.
 
 | Order / ID | State and owner | Easiest implementation path | Required exit evidence |
 | --- | --- | --- | --- |
-| 1 / SCI1-A: typed raw pixel classification | Owner-captured sampling/prediction accepted locally at `7beb80b`; archives/retention accepted locally at `440f610`; positive Windows training/trained archives accepted locally at `e7e4b66`; replay/bounded contour apply accepted locally at `92edba8`; root owns phase-preserving windows and streamed resume | Follow the bounded A1-A6 route below and the [numeric contract](raw-pixel-classifier.md). Reuse the feature kernel, `RawPixelRecipe`/`RawPixelClassifier`, typed sampler and existing forest/owner/source/job authorities; use `RawPixelTrainingRequest`/`RawPixelPredictionRequest` and their controllers. Next add sample-index windows and shared-kernel streaming/resume, preserving the locally verified training, archives, live verification and atomic contour apply paths. Preserve both grid axes and captured document calibration. Deliver train → predict → save/reopen → resume through existing entry points | Independent feature oracle, streamed/full-window seam checks, source/model mutation and cancellation controls, persistence/legacy compatibility, installed typing and real desktop/CLI/batch outcomes at one frozen source |
+| 1 / SCI1-A: typed raw pixel classification | Owner-captured sampling/prediction accepted locally at `7beb80b`; archives/retention accepted locally at `440f610`; positive Windows training/trained archives accepted locally at `e7e4b66`; replay/bounded contour apply accepted locally at `92edba8`; sample-index windows/features accepted locally at `ae0ba29`; root owns window-aware classifier/owner integration and streamed resume | Follow the bounded A1-A6 route below and the [numeric contract](raw-pixel-classifier.md). Reuse the feature kernel, `RawPixelRecipe`/`RawPixelClassifier`, typed sampler and existing forest/owner/source/job authorities; use `RawPixelTrainingRequest`/`RawPixelPredictionRequest` and their controllers. Next feed the new indexed windows through raw recipe/model matching, bounded classifier outputs and owner jobs, then versioned stream/checkpoint resume. Preserve locally verified training, archives, live verification and bounded contour apply. Preserve both grid axes and captured document calibration. Deliver train → predict → save/reopen → resume through existing entry points | Independent feature oracle, streamed/full-window seam checks, source/model mutation and cancellation controls, persistence/legacy compatibility, installed typing and real desktop/CLI/batch outcomes at one frozen source |
 | 2 / SCI1-B: remaining research workflows | Open; retain every M0-M7 requirement | After SCI1-A, choose the next complete workflow by dependency readiness: stitched contours; eligible vendor/whole-slide/partial-OME support; annotation/interchange; spatial queries and recorded/distributed automation. Prepare only the reference/decision inputs needed by that workflow | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
 | Alongside / DEC1: scientific and resource prerequisites | Open; user/research lead supplies decisions, root records applicability | Use the existing decision table below for dataset rights/labels, tolerances and eligible hardware. Synthetic arithmetic/engineering work proceeds; affected biological or hardware acceptance waits for its real prerequisites | Record corpus/version/rights, labels, metric/tolerance before comparison, and eligible hardware/configuration. Do not infer acceptance from synthetic tests or suite totals |
 | After applicable gates / REL1: supported release | Open; repository owner plus packaging owner | Reuse qualified artifacts; resolve project license, distribution obligations, support matrix, installers, notices, signing and clean-machine walkthroughs | Every claimed platform/workflow has scope-matched acceptance. Mac-native does not qualify Mac Python/GUI/OpenSlide. No release/PyPI/signing authorization is implied |
@@ -193,16 +193,36 @@ Broader 15-suite development runs and initial failures keep their own sources.
 The earlier Linux development XML reports were overwritten by driver path reuse;
 their original text logs remain, and final source-bound XML was recovered intact.
 This completes the bounded native replay/apply portion, not streamed/stitched
-contours, installed frontends or integrated platform acceptance. Use this order:
+contours, installed frontends or integrated platform acceptance.
 
-1. Add a sample-index window over the original rational axes; reuse raw sampling
-   and the feature kernel with per-axis halo. Compare tiled/full results at
-   fractional origins, edges and missing-support seams. Extend the existing
-   stream/checkpoint machinery for cancellation and source/model-safe resume.
-2. Bind stable native APIs once with nanobind and owning NumPy views; compose
+The [window receipt](benchmarks/raw-lattice-windows-local.json) accepts native
+sampling/features at `ae0ba29`: five suites each Windows/Linux and two Windows
+training regressions, 342 matching inputs, twelve retained executables. Exact
+Fraction references and 9,072 bitwise tiled feature slots pass. Geometry is an
+original global lattice plus a bounded sample-index range; it does not construct
+or admit a whole-raster ScientificGrid. Window-only reduced weights use the same
+integer accumulator with a checked 72-bit denominator mode. Legacy full-grid
+limits/hash grammars and codec meanings remain unchanged. The primitive does
+not supply window-aware classifier jobs or completed streams. Continue in this order:
+
+1. Add raw recipe/model matching and owning classification outputs for
+   `ScientificRawWindowData`, using global extent/sample ratios for both axes;
+   core counts are output shape, never a replacement sampling denominator.
+   Reuse forest vote batching and the shared feature kernel. Extend owner
+   training/prediction capture to these windows without synthesizing a rounded
+   local grid or forcing whole-source allocation. Annotation membership uses
+   original global sample centers. Preserve document calibration overrides and
+   actual source metadata/file checks before delivery/apply.
+2. Compose those windows into bounded tiled jobs and versioned stream/checkpoint
+   files through existing atomic writers, block jobs and restart machinery.
+   Bind global lattice, tile policy, source/model/feature identities and window
+   input commitments; interrupted/resumed execution must reject changed sources,
+   models, selection or geometry. Compare actual predictions/support/votes with
+   independent full-context references at fractional seams before frontend work.
+3. Bind stable native APIs once with nanobind and owning NumPy views; compose
    Python, CLI/batch, managed viewer and ImGui actions through those contracts.
    Generate stubs from the final installed module and verify real outcomes.
-3. Preflight the complete producer/manifest/fixture/auditor closure, freeze one
+4. Preflight the complete producer/manifest/fixture/auditor closure, freeze one
    integrated source and run the required platform profile once. Independent
    biological/model, hardware and release acceptance retain their own gates.
 

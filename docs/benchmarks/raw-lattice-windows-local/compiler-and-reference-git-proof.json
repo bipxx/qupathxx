@@ -1,0 +1,2420 @@
+{
+  "source": "ae0ba2918cfcf4f8b6553731d7ff1cf13bdc10f9",
+  "fingerprint": "ed43829e5104da39e95b7a87e01c4d2f20bec8aa0d90d1cdc305cadac006ef73",
+  "compiler_inputs": 342,
+  "reference_sources": [
+    "tools/reference_raw_window_weights.py",
+    "docs/benchmarks/raw-window-fraction-reference.json"
+  ],
+  "framed_batch_objects": 344,
+  "files": [
+    {
+      "path": "CMakeLists.txt",
+      "git_object": "581670ed21b84dffbbe8c08dfb454654446e3e60",
+      "git_blob_sha256": "56245d2222ee0a1a78d84482ec8f419c6436d9071837e822f7bf0fd97d35d0f5",
+      "checkout_sha256": "56245d2222ee0a1a78d84482ec8f419c6436d9071837e822f7bf0fd97d35d0f5",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cmake/FindOpenSlide.cmake",
+      "git_object": "da13aff1ac7beb18eda3460918b696983ee186f7",
+      "git_blob_sha256": "c19484ffb05988de7564970766a55d1a2d279dcfc524b76aef32ae0204e30b48",
+      "checkout_sha256": "a481fb18736572e96b609d09de7aa15e9fda6494a368f7fd7240dcc1c3b98c8f",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cmake/GeosRuntime.cmake",
+      "git_object": "bd260877cba54537681f1073feb0019325a0fb3c",
+      "git_blob_sha256": "47d03366c7983016a20e23e8559bf30c80d1eed9afdf6d3dfaa4746a6aef5536",
+      "checkout_sha256": "01ed85db910ccb94234c4a2c43c7a26416af45d4ff7a729758171d758d45fb47",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cmake/ThirdPartyNotices.cmake",
+      "git_object": "1ca6a661eb168fb0b6cb03ab372234e7b35809f5",
+      "git_blob_sha256": "bb609f36d0aa94d68dfcc3a2766f6e2c4e98b1cfee7c894fd3b974a8d50aa22c",
+      "checkout_sha256": "407289b5bffbd67728d9b684e3c85ba9227f095124e5f6cf2f51af5eb3f88848",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cmake/TiffReader.cmake",
+      "git_object": "12544691a108e2ff5c33574091629318092162d4",
+      "git_blob_sha256": "b0c02190def79d585e9f0f0cb70383ba215f9c9ff899ed1d74f224fb942bdd88",
+      "checkout_sha256": "b0c02190def79d585e9f0f0cb70383ba215f9c9ff899ed1d74f224fb942bdd88",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cmake/build_manifest.hpp.in",
+      "git_object": "8af0ab5f74a22f90543dfb304bfe492b47b6b299",
+      "git_blob_sha256": "3e2c97fa0b05e85cc3decae088818a2c76e2e0f6241c44c185ca06a65345f6ec",
+      "checkout_sha256": "89659796f389f06955f096380d10b165fb8cab683ffc9210f9a8ae3124204896",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/analysis.cpp",
+      "git_object": "81b2f7a6ad96bd4fdda5ac3af0062f12f747e41a",
+      "git_blob_sha256": "11edd79d9ff3042f26d8b5877576c14dc2ecf0e088f1082066b098686dfa1da3",
+      "checkout_sha256": "dc5d7a1b2c51efb7ead0833d2c0f2f7dd51ccbe48f63fb54dd6ddbe2d4f86cb5",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/analysis_bindings.cpp",
+      "git_object": "b9d93447d13aee1beca4fb5f2b97c4295de5314b",
+      "git_blob_sha256": "757916e6a8a31f8efd402218560af26eded4ff05e5ef5dd23e9cdb9ad2254a54",
+      "checkout_sha256": "2ff937e8e4a8815aa4c78625fcc4b15922a6264f1c253dc405678ceac416193c",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/analysis_records.cpp",
+      "git_object": "b278057c87e6cd192e34ba4f0ec988523c0316a3",
+      "git_blob_sha256": "b321a42a75721fb3f940359cc64b66b81d3bbb7104c31b6404d6d0db980fa6db",
+      "checkout_sha256": "1ff6d91905db799a59f7f8f1469b97c9048330e16a57c31a6bbb28fbc07a28e2",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/array_bindings.cpp",
+      "git_object": "bf1b696f75779527c87367a3924707995f1780a5",
+      "git_blob_sha256": "b173665823573ca17ac6275b537d1d128153b235654cff9daf4dff41bd4a6e04",
+      "checkout_sha256": "328b33fc366af2e44da75e132060dd9b422c5cb204fc0458f5dc8c2015f6cc64",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/atomic_export.hpp",
+      "git_object": "30203a868167960215fe444901f93d8c054db0da",
+      "git_blob_sha256": "812545745a90f7ddd892f7723ff8aa149bb4c1911e619e071039835a7ef78e1a",
+      "checkout_sha256": "7c079cd9ac8f0e400d8f71eaf1dddddd94144c0e0d04c1e819ece2660fe597b3",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/batch_checkpoint.cpp",
+      "git_object": "2a08734a9af64e5964e35836821ee6616e61da9d",
+      "git_blob_sha256": "df0f34c9cbbc9715095db0d1a36c8b8175603b66e96833b431882e95b3128d4d",
+      "checkout_sha256": "1a3f10800d709f56fdf9b56ebc79c4f0a7d5269183939bd001b41e79ac26f141",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/batch_checkpoint.hpp",
+      "git_object": "c98f295af20cd38212f15b98f84e93f9d0f802c3",
+      "git_blob_sha256": "dd6df107c2317bdc8889aa9c1641d5a1676ddfe5396e39000e9d76c5d863490a",
+      "checkout_sha256": "078b4b22357023c85f9135d90106b352bcb7e4b00070b583a81b2480cdf5c1ef",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/batch_main.cpp",
+      "git_object": "171e55c780d7787c46880dd41755435683d54063",
+      "git_blob_sha256": "9df9ee9eee9f90383c842e1d517a588e9263666342ad8bd9ef6f1687ea8ce094",
+      "checkout_sha256": "9df9ee9eee9f90383c842e1d517a588e9263666342ad8bd9ef6f1687ea8ce094",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/bindings.cpp",
+      "git_object": "631a3e84040a5dcf24052d5cd1e0fe3feadae762",
+      "git_blob_sha256": "96bda29079a11308b514ca77a0f7430f5a23a2217703973ea65ce3ea5d097831",
+      "checkout_sha256": "96bda29079a11308b514ca77a0f7430f5a23a2217703973ea65ce3ea5d097831",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/calibrated_cell_numeric.hpp",
+      "git_object": "2a9c8d3fe060ce9c94bac85f2efe7fe61b0e2b02",
+      "git_blob_sha256": "259a453a3346c0d0a38850b15a848cb7f7bd8b706fb88c670896cb89e971ffdb",
+      "checkout_sha256": "2c0c87b53e9fb133548a10af6341b3706debbd757999a955aea3c7af6eb3d3ef",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/cell_archive.cpp",
+      "git_object": "819ed3c8bf4dfa80b99d815c73e248a462db943d",
+      "git_blob_sha256": "3fd43389acc61ebd63f7f2164af54ff6be78bc6ed3574567859efaa463ec118d",
+      "checkout_sha256": "dad7fde57673c6b0d55864f5eae773c523823190323e9c3151a0b78e4e523322",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/cell_archive.hpp",
+      "git_object": "8eefd50987ba1545a8a230cdf2fc16588ee1f08d",
+      "git_blob_sha256": "80b72852445df5ee921a56c107de226ea67104618a80fd151825f25175579659",
+      "checkout_sha256": "4ece8788622bb4ebd576756d29ab191f4885708d7d54f1114f9aa3200043e4ba",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/cell_bindings.cpp",
+      "git_object": "c1718a38e701b3d20df45f56680bfa02bd0e3846",
+      "git_blob_sha256": "ed7dd1954124fee40febc5ad940787c8b5f609cd13fc889623c3de2391f049dc",
+      "checkout_sha256": "ed7dd1954124fee40febc5ad940787c8b5f609cd13fc889623c3de2391f049dc",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/cell_contours.hpp",
+      "git_object": "646fe7bc56232438fc93c0088769ee28295bdee2",
+      "git_blob_sha256": "796fc8702430ff234de706bddcab03cf4bc0fe268699c2e4af0ce97b8fb0c557",
+      "checkout_sha256": "b0320c7fb134f465821e45a872a5671ea5fc4d7473b167de3bf9474a4b8be704",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/cell_expansion.hpp",
+      "git_object": "b1ca4ef6b97a3bb59be44588d24396d9d15fd8dd",
+      "git_blob_sha256": "dec5f63699eed5adc25e4935a5c3e4d750e58877255edaf464389cb25a4937f1",
+      "checkout_sha256": "3e133216eba4e630fb2bfdc181ffc49a7fd9be61bc62f8b5db8e2257cd0da134",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/cell_numeric.hpp",
+      "git_object": "3b4027b59036e151e9af1e673b8bf0e6c3b30f83",
+      "git_blob_sha256": "dc32dfb7076602785f5f4fef5e42ed1d7a8d74395f5214bb97fb534be0b066e6",
+      "checkout_sha256": "5efc64c1875c7289fb1aa68efa90a70e9f5e3ba03a74c75875ac20472c5412b9",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/cell_object_status.hpp",
+      "git_object": "8a53969db08eba57ea266904330ab363d0d213c4",
+      "git_blob_sha256": "6e10ff5f79231fd3fe0bf9608af56f51d8c85f5c2fdeebffa6244ac3224fa207",
+      "checkout_sha256": "a5cf0fc100c0ba710e46c0a7030e8b7643c4c0661d0068a69278ad3ba6e280a3",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/cell_recipe.hpp",
+      "git_object": "e53ca45c350900c087eb41118b25eb403e62116f",
+      "git_blob_sha256": "aa7ced0771c3d869072d5cc859ae6b3a9a95318180cebc23710a4ba68f03cd5f",
+      "checkout_sha256": "24ade0c4bdd3c0fb61ee44dcb407705d00dd75ea71a995141fa843a454ce9a8a",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/cell_records.cpp",
+      "git_object": "006e76221b5857d5f7f0ffc34c3f744aeaa36dcc",
+      "git_blob_sha256": "1b2ac055b38df44417191193f569b797ad2affa019a8d0fb0b47d3685c465043",
+      "checkout_sha256": "8e72074c8aa11a176356955cc6ec122fd2d3fd25179b2bfc48f39f407a41d57a",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/cell_table_bindings.cpp",
+      "git_object": "2dab5df4eae7605b85978e48875c9042603f60c9",
+      "git_blob_sha256": "25545ebc4ba8351ff4f2327a28bb79a27ea65583ca7eada6eb3427f86468d7b9",
+      "checkout_sha256": "2f3c158a5ad965080be3eb6388a9a3d9636209293db2a7df00efec098ada7f11",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/cell_table_cli.cpp",
+      "git_object": "7cb6857bbf123bff3d058f4df6a4b200c3e6825f",
+      "git_blob_sha256": "6173aaa94733deb8bdfce56d9f77691d52f72ebbb8483eef4f4f130c6ff53e45",
+      "checkout_sha256": "4f1b40b17b647b08655f047ff8193c5786332a6e7d6a6c1b6dc424558d081d76",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/cell_table_cli.hpp",
+      "git_object": "5a45605d7189acd37fffc499041f1b481fa6f4aa",
+      "git_blob_sha256": "dd7ef72d319a299706526efddc60d71c062f12505be8940eedb869816ff1ec6c",
+      "checkout_sha256": "9e480e6c6c85939164318e63fdb46732e0aeac18a350d110e31e81901adb0c5a",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/cell_tables.cpp",
+      "git_object": "a65016bfebfaed2a2cb2080a73e5c50933d48c3f",
+      "git_blob_sha256": "ae71613859ad7be88489eeaf00e3a9a71dcc5d83520820e4eb4a9151cefe4e7e",
+      "checkout_sha256": "2a414318d1d1922612f40c0496af56a04a8386ff49e442c1db5c9d6ccdbc1215",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/cells.cpp",
+      "git_object": "ba7b857648ccf89f243714261f09e5a0ee70ecd5",
+      "git_blob_sha256": "0a0138bc3ca7cab1c078228541fb585f9df2c9591c457741d65524aa9dba4249",
+      "checkout_sha256": "3c41daad94154b64dcafb5238c9d2f722ada942d65339992b76743c20a75160d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/classification_edit.hpp",
+      "git_object": "63a3d850a1587052d53207a56d8d785a63628720",
+      "git_blob_sha256": "deaafedbe67dfb6b5f374eaf139217816a5fdda72d3a454ee9aca895bbe07feb",
+      "checkout_sha256": "3e1d340e128a0133d05613139d69aeacc57c3eaa58619d19f31456be3c244112",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/classifier.cpp",
+      "git_object": "481e1287cb8cb402f2cd0e9de604edc3cc1c07a3",
+      "git_blob_sha256": "4a821cc1603ba1463ec85f11c8d3a82138d003d974967296044e086a2dc4d818",
+      "checkout_sha256": "71c018e6e19be241f530317b005f94e6f58b2c53aa428850cae27ce859108373",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/classifier_bindings.cpp",
+      "git_object": "7490d716d8f5466c28b7d352c6586e5046d5698f",
+      "git_blob_sha256": "ba46b64f143dcf90cb026726a638bc6e7f4c6fb894b58c1138eb20ccdc4a9a3f",
+      "checkout_sha256": "60e811e1e2edb49506352f7e98961018af0a7e24f007da77fb558a6cc55ed3a5",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/classifier_io.cpp",
+      "git_object": "0984e9894f30e1e568c9260cf96d385854afcc73",
+      "git_blob_sha256": "126709d9afb1b861fdef3a39ff25b44c1991de4be5b635cd8fb6a807abfbc6f0",
+      "checkout_sha256": "c7633d3a68942bdf1da2e8bbae3d0194148aa58f30ded6bf280a2654c4d8b7a5",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/core.cpp",
+      "git_object": "5abf671f82eced322fc01b6e8393c98063724d38",
+      "git_blob_sha256": "3351a49b1dc08e1036d8eeade08fa69f7507fcc24af74d9e60a820319f56c060",
+      "checkout_sha256": "ef08bc75be756e94c1b1876aba0c75bd1ca80329aa03637f8446f5ae3efb9d72",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/decimal_quantity.hpp",
+      "git_object": "05f2c28f908b37452e67b7017585065370b379a6",
+      "git_blob_sha256": "fd9646bd7cdd5979ff8bc37643862a351b298b2e7739220ae861f9fb63491489",
+      "checkout_sha256": "9ca76e59be585160ad8660ab5023784879a5a1bc3e2d49b6c0df7987e216d34e",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/display.cpp",
+      "git_object": "7f94994c20eada6c014ed1e8885d66157a6abba7",
+      "git_blob_sha256": "d64b947aa227a5046ad0c731d1fa7a18b843a608c33033b5c3e266ee121584bd",
+      "checkout_sha256": "c170b0706fc228b8d5cec8ccefbf4e0e2a1cb9ac48f74fd594e451e8476fa54c",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/document_classifications.cpp",
+      "git_object": "22a1024f6a03e5a9b464ec801532d7ace03aac65",
+      "git_blob_sha256": "5c14a77b26b78d2e7c2506f8a55684078f26e58246da2fca1309f21172678f72",
+      "checkout_sha256": "8e1ae8466fc2fcadc94f3b6a98f52adcae3d2a73af498298547a055412a85231",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/document_edits.cpp",
+      "git_object": "d47c4cfd2e6fdcaf2c5e61baa4f42b78cd98808c",
+      "git_blob_sha256": "a944e2c3e38074413d9af0115c4067e11d4c408011c9b04d405db3f75dd8a2a4",
+      "checkout_sha256": "16f25b405e5c427772d5f8fab8da950a48e0b35612d177f30a97f14a6e89ddbd",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/exact_weighted_mean.hpp",
+      "git_object": "abb6dc9871b3a678425e6f0b8989ab0a4b160570",
+      "git_blob_sha256": "f3af67ff4dc4e548c6dcdbab4176b2151ae12ceb3ca5e4b93a31abbd4f185e32",
+      "checkout_sha256": "f3af67ff4dc4e548c6dcdbab4176b2151ae12ceb3ca5e4b93a31abbd4f185e32",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/file_fingerprint.cpp",
+      "git_object": "13f5ec8a9c7d41b13692603f7b510a295f329e19",
+      "git_blob_sha256": "39e574cdc6fef9ca55cfea40a7906ed189ed5e1e5d39ff55c119e72feb161454",
+      "checkout_sha256": "128f1e35d8462785bfc7f9d3e8cce130077e69d4a7791ea5be8ecd3c554f549d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/file_fingerprint_bindings.cpp",
+      "git_object": "9132b4bf0bf7b4d8b196abc52ab233b70c98f20d",
+      "git_blob_sha256": "c18d0820469856658b7c9eea83a4f6cf5218a77ae8bc86d95cdf1631fa072f0b",
+      "checkout_sha256": "e93e6d3c9c116db7581635db236157bb0c907b90429d61729bd1e19a433f4cc1",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/file_identity_contract.hpp",
+      "git_object": "62a2384d9e2b2c6aac19bd042fe7ef4b791bae77",
+      "git_blob_sha256": "02e87060404ca0844f6b3cff51bb1b3fac14ed094ee07affffabace0d935095e",
+      "checkout_sha256": "96e8604a0c80cdf8dbc4b3715ca6e2d0b844066de2001ae88bc5770a9698cc7b",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/filesystem_access.hpp",
+      "git_object": "3366fa5856bd919346e2a3ffc2e6404eea54e0eb",
+      "git_blob_sha256": "3031bb4a9ac7858a8599143d5b4d4c96074e6be143f013eb1006ee570c9438d8",
+      "checkout_sha256": "cd265f9a274eabd00180d821671d35ea68d9fc357805b4159e2f3e81375e121a",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/geometry.cpp",
+      "git_object": "f367bd84849bcbf26091343aef388dc34770eda0",
+      "git_blob_sha256": "6b0041ab9f7fc02b0c4aaef0030fa7c2bd110ae80cd874f4658e379999c8beea",
+      "checkout_sha256": "b703cc94e13d45cde99e15763536509833a5ec61a2960830d1eb7331c9833be4",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/geometry_archive.cpp",
+      "git_object": "2d7c7eae4262cabb709bc1dc4737f71ab66430e6",
+      "git_blob_sha256": "3da5de6556813a0834a5d7dfaaf67ee50365dd5157f2b7588d04369030565593",
+      "checkout_sha256": "e34483065b9a6c56512c6818fe89b66b7635d170b2b1b76f29e6a1428b2fc3d0",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/geometry_archive.hpp",
+      "git_object": "e32cc2997ca517e271a9c963d2797a525461dc3b",
+      "git_blob_sha256": "35fef45cb7353b85f838e5c4503d639f1dfb4f43f21ab1b378565f1eb36b76a5",
+      "checkout_sha256": "1df0080562bc22f4d1516fdc16fd1ea53127026f455168d159fc70eb1a42c6df",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/grid_cell_descriptor.hpp",
+      "git_object": "d78a186e66424dae4487287646a2ab530a10d379",
+      "git_blob_sha256": "93dcff7f1bd74c8a0f5dd890f1a5930c3e8501a68cdcaf4fb2d5b93ed415f856",
+      "checkout_sha256": "93dcff7f1bd74c8a0f5dd890f1a5930c3e8501a68cdcaf4fb2d5b93ed415f856",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/gui.cpp",
+      "git_object": "f88520bfd39e7af4d7537c0510ae9be528920491",
+      "git_blob_sha256": "6d76eb3d2e9043d95a88850119d6f11268a319beb0ed13b0048f830331b615e9",
+      "checkout_sha256": "6d76eb3d2e9043d95a88850119d6f11268a319beb0ed13b0048f830331b615e9",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/gui_batch.hpp",
+      "git_object": "d9b6f95ca6f9a1e51f6d90e21cb8965b17bf674d",
+      "git_blob_sha256": "524c24fb6f2f47e9e9ff9b5a18f02b2c902947547ad3f3ed6432c3694e221c00",
+      "checkout_sha256": "524c24fb6f2f47e9e9ff9b5a18f02b2c902947547ad3f3ed6432c3694e221c00",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/gui_layout.hpp",
+      "git_object": "fa47d7434b5950f7eb8569e3af575254fd8a10a4",
+      "git_blob_sha256": "aef9b56fdfaeabf8fb0ce4c4418ec5d364c606ad81378f18c9859b0cca91986a",
+      "checkout_sha256": "e5146850e792085d12943a12d49a1bf01d3a80528284e3bb94c45210e6a9b87d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/gui_object_classifier.hpp",
+      "git_object": "ef7292332cbbe5013e2fcdaff07912ec79854231",
+      "git_blob_sha256": "096b78d192ee768061cfefd38e2ba2c5b345e6d7e01bdfd378921c4a2fb4a777",
+      "checkout_sha256": "bba418b27e1fc0b41b96226ac20ec3e93654f0674484925f127a0c82b2cc7c57",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/gui_overlay.hpp",
+      "git_object": "1ccd769ab8baabe07c450a866038ef33f318dd86",
+      "git_blob_sha256": "0a62451ad1aa1eadcd78e520cf32f199b57fd571810ce4316b1b8eabf107b487",
+      "checkout_sha256": "fe6033751f21de0616abd62fe876d468d589c18952d92c751d933f97f9bf9df2",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/gui_pixel_archives.hpp",
+      "git_object": "ebdd565fb375420471ff2b96587be49aa4da9f6d",
+      "git_blob_sha256": "bba534673adec037d8517ed7b00a8f37ca062d78b40d2b50dc750d412b8fe994",
+      "checkout_sha256": "c5d644028dcd22c6cd1167fbbf3eaccc27b793186d0f2bd73a0c42b5e2b7e1c0",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/gui_pixel_classifier.hpp",
+      "git_object": "de84e1aedd568c2f5be68d65ca0b32e6ec513900",
+      "git_blob_sha256": "af9b69a060dcf75539b7863137f64407a2908349f9743e57cf5e5c31b2125ea3",
+      "checkout_sha256": "048339ad00411c1593f1c83dc1e8036eeedad86c17c397395fa022bfcdda719e",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/gui_pixel_preview.hpp",
+      "git_object": "d9d7b6e73d746efdc7a0366c316d5d1cd5c5bf22",
+      "git_blob_sha256": "866c41b911f444023e19bcfc70a3f9012bc2637c191b139d07071cf58917b6b1",
+      "checkout_sha256": "60d1a6eaf6ce04288bb0557df6fb4e8aa015d71523212aac535afd080b66d743",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/gui_pixel_stream_browser.hpp",
+      "git_object": "a02a1cbb6939b0158df8284c3dd6712c26eecef2",
+      "git_blob_sha256": "528af163b56b8b419fb021060201bb763d724c17b3c2ecf29be99a20253c6bbb",
+      "checkout_sha256": "eeda8b3b0173fcb4aa6fddc235fdb52f156292da581ad742c0af1f196a1cc94a",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/gui_profile.hpp",
+      "git_object": "ef272a80e43d063afe9389b764be644eb802fda6",
+      "git_blob_sha256": "e33e6749729eeb1f4ed08d21e5a1e79007aaa796d801bb2d861842f876e1ebdd",
+      "checkout_sha256": "529ed445c73aed3aaf9a7424c1360eda65bb2a795b99586fad12d922f6d746fd",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/gui_raw.hpp",
+      "git_object": "92281aafe12dcdda941e2f2176c99e26a235c150",
+      "git_blob_sha256": "d12204e88685ef406dcfb6f120a69974ea6cf08911c5af76a8a44ca24cc02a3e",
+      "checkout_sha256": "d12204e88685ef406dcfb6f120a69974ea6cf08911c5af76a8a44ca24cc02a3e",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/gui_raw_grid_controls.hpp",
+      "git_object": "a6bfdbf4933274476981c1f82ae345d4ae694f85",
+      "git_blob_sha256": "c8dc7768a4bd0bb2373831e061dfa179417dd18069ebdf5f3ff0270d326b8db9",
+      "checkout_sha256": "c8dc7768a4bd0bb2373831e061dfa179417dd18069ebdf5f3ff0270d326b8db9",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/gui_replay.hpp",
+      "git_object": "62b77215e9538cca8723bf85d6054a734719e407",
+      "git_blob_sha256": "ea9cb042b66d08fc38ecd5c1988533abf2028d21e4aee2b7dc1a8171415754ff",
+      "checkout_sha256": "ea9cb042b66d08fc38ecd5c1988533abf2028d21e4aee2b7dc1a8171415754ff",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/gui_scale.hpp",
+      "git_object": "3fe7dc3c8c517f5c27f106dd4574524b5bf53e66",
+      "git_blob_sha256": "bf9666b3558d005a0fce159c17c7eb9fbaff3cb3176e05e2535ea9b761faba79",
+      "checkout_sha256": "cb886b318456ba33183f0c910433ab1eeb8c0546b500b993cf5f8a8378a35e84",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/gui_text_buffers.hpp",
+      "git_object": "22b054c7ab8feccb49cdb091a15f4569803aa5fd",
+      "git_blob_sha256": "a7433d6a2f86b5210fc014f12a3b483eab1e9ff58ea94ca3ded01587b3cc463e",
+      "checkout_sha256": "9efc0c13824a68a7047f7ae4a09de8aa262f99f7a9dcc270bfb956e7faf91a80",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/gui_thumbnail.hpp",
+      "git_object": "bb26c23a79fbcad1bb0c8ad8424775fa58891058",
+      "git_blob_sha256": "68d89c7999b552287a4fd36c8e87288987fd9c4a53babc50ab6ce699179f848a",
+      "checkout_sha256": "b8ddd478d6ae43c740ecaa371cbb1681dcb30f42b45afc8ec8fb12fd0297514e",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/gui_tiles.hpp",
+      "git_object": "5ca3db2344a54a7ec90f97663d75dd5608d1520d",
+      "git_blob_sha256": "24363c878d55994c4c6cb2cd31f8b9abcd1531caf4e63d190723560b9855239a",
+      "checkout_sha256": "786ab8b81858e572d2552e01c8534e6b282b75b354235d79efa3c37faabc25c7",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/gui_tissue.hpp",
+      "git_object": "81ac61ab00d884d18b943719e73c22b9ee0de465",
+      "git_blob_sha256": "0952769b5286a1c81f70f7bd1166d3378ce496bc0a864d16213de321b67248ed",
+      "checkout_sha256": "ae3eccb307d8702a48a6232509e5cbf59261c087c515e85c9950706479cf3146",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/gui_tma.hpp",
+      "git_object": "2d607903f5b7aaa6ca95f77a41d2d58add4f56db",
+      "git_blob_sha256": "0538585275a2670617eb711042df5505749d5adc862ffbeed1a3d033a5a10b6e",
+      "checkout_sha256": "0538585275a2670617eb711042df5505749d5adc862ffbeed1a3d033a5a10b6e",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/gui_workspace.hpp",
+      "git_object": "2200614f03c562132c38e5b6a852d92784b8a8e0",
+      "git_blob_sha256": "a60e76f99b4f2873ed6bde32205c2cfed34c86190fdfb1af8c62256bc04aeba6",
+      "checkout_sha256": "c358aa35fccfd3ff74406b78c839deaef21a48c08efcc0b8a30375b6fdddc57f",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/image_server.cpp",
+      "git_object": "45973dfb804a33eefec34df8aad227581c04d7a8",
+      "git_blob_sha256": "640e426fda28595f011db6329aa4071378088c20958588ac620f372df83cda60",
+      "checkout_sha256": "f4ae564b556435289580e10ccfff731a90460bcf60c3f3772278b023ddadde94",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/analysis.hpp",
+      "git_object": "d79a81ae7a3fa8305e6bd70fab97d27f461a40a3",
+      "git_blob_sha256": "31b759f0192b89c802284c5e8d5ad5327ea0849ecea4c195d48eeab0ecd22e37",
+      "checkout_sha256": "c9abe591495206af8e5039ccf7c85a244134187ce2c482dd72672eb9931f7f11",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/analysis_types.hpp",
+      "git_object": "7cb0fa54a67965a2179d3c7bbe4ecd4d5f71636c",
+      "git_blob_sha256": "98bc36a8d4f4e19c747f49d029499d283130ef7bed5459f6271f1298e7971202",
+      "checkout_sha256": "6ca1fb4b739c553a1e2bbfafdfd587cc8dfdd6dce65b808a6959768edd75839f",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/cell_tables.hpp",
+      "git_object": "00daf905b2f094a92f692d5b7351a070a6797361",
+      "git_blob_sha256": "0c36a5cedc81fee0a6aa5e0f514b2c6f6671286a0f35d1c4b6faefa0e48e842a",
+      "checkout_sha256": "3097e8e6964e46a85a5db50d09a781166bf4093232b3bfbc88d715b06b3e0ce6",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/cells.hpp",
+      "git_object": "a61d3a7a85e74e68a48e992ab48fe80e914b1708",
+      "git_blob_sha256": "fead8ae5af25d7ce77f64fab560b42a22775a7cc7b64df9ae075d391678c2767",
+      "checkout_sha256": "b53c2f16df4dae3acee926ce68aeecea7800e91450c41c1934c78e72c4b3a3fd",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/classifier.hpp",
+      "git_object": "20acb1fc2ffffec747b59c0476a95859470a41e7",
+      "git_blob_sha256": "706add08b3584c759f9dda8f725f999702313bb164d09d212728b48f10c1cc38",
+      "checkout_sha256": "69d126d81bddc447b1edc0b414cfa046eed912dab7a5c24ddc90479111553cd5",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/core.hpp",
+      "git_object": "20f82e57b6b0477cc7282f599e4be94507168e2f",
+      "git_blob_sha256": "6cbedd3291dc66b43f54e8938f3d9f7c143218ed85f8b8687f6962e1b8dc293a",
+      "checkout_sha256": "6cbedd3291dc66b43f54e8938f3d9f7c143218ed85f8b8687f6962e1b8dc293a",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/display.hpp",
+      "git_object": "78e7c57630f63259cf3bf58bb0954eebc52dcbf8",
+      "git_blob_sha256": "bd3766961c37f3e3766bb0439556331638039be861cb9503a65fbd35140b9da8",
+      "checkout_sha256": "2ca057dd4ad985f82b054b4caa6b30e574f94f2b415e2e53d78cc3f799080f8e",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/file_fingerprint.hpp",
+      "git_object": "48d0e1e5887bd7f2e42f43f6d9385f7929f3af69",
+      "git_blob_sha256": "c2ee18afa5dae9e07b490020a5bb41e25df21333de66a5bb1025f91dfdf7f6b0",
+      "checkout_sha256": "9fc70e6fbe5f658df014c9b36e80b0c13941457b39a44ed70827d26e82c978f4",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/geometry.hpp",
+      "git_object": "32211b9bf85450abbe9400a49bb0ef09e68c9127",
+      "git_blob_sha256": "adea469437448dfeef0f138e8b6e71a6749a1c069304ecd7db1acf4e8d8b0da6",
+      "checkout_sha256": "00617ccb8a2474e1cefbeb59be274521caf27bfb0b0e374d610f31ceaa5a6bcb",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/image_server.hpp",
+      "git_object": "21b98042a858790f3449029a0e7504e09e18c64d",
+      "git_blob_sha256": "c9e8ebbca5c9dbd2419493f5a9b3fd772f4e9fddd6d5f1c3666c5b33806fabe3",
+      "checkout_sha256": "e41fa436492fdb939138bf98fac2280eef8b38ae7921a0a05d7f690908ab0bee",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/input_digest.hpp",
+      "git_object": "1706445d4989bc790ebc2132aa57a0f869bea9aa",
+      "git_blob_sha256": "708cd420053b86a009e96730253210b735e9e5b95c9ca580827867a24e0edfb0",
+      "checkout_sha256": "61709d2fad025de6a6cb892e0aac9022f34074472d87d05d4d39ad54d6de63d4",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/interchange.hpp",
+      "git_object": "b9928237669e404a66aeb05ba7004de74f9156c4",
+      "git_blob_sha256": "193a54878203c51ac09cced0b148a831f90aa841cc6612f058187c651801db61",
+      "checkout_sha256": "0bd712d535afd2b82af768b69bc3e77c6bc5537725c8d4f0636709afae9b5027",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/measurement_tables.hpp",
+      "git_object": "cee24072dfcc02cf401ec0a3928cde37b25d1036",
+      "git_blob_sha256": "2739e13206ae348a9cb3489570b76a3b138ad2dc0f1809ea420dd5e9452a0ea4",
+      "checkout_sha256": "f026dc4a1bdedabe7d46879d04225b1a53a6253b0f16492c1d82a8937b9f753e",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/object_classifier.hpp",
+      "git_object": "6d6a98fc930bc96b5825106c03b9a404896ad262",
+      "git_blob_sha256": "e402a13e51b7ab2b384db635f808110ff49740f02d2ab254802ae01061c1e8e8",
+      "checkout_sha256": "73b34d6c999aaf108a1493b20c3ce8e30ccdc64f651b3f9b31043e2901602242",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/object_classifier_archive.hpp",
+      "git_object": "e987726811e7b4a8b7c25533f52eeb1005698e33",
+      "git_blob_sha256": "f67311ee70fa86abae26afae407017dd7ed26d4703e9d000c588633674b6948b",
+      "checkout_sha256": "0c44056f1b93da338a9130c1e8c30c32ef56e1df595879c73d912cfa39b24518",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_classifier.hpp",
+      "git_object": "83750aa794bf6c684a1f00acbee91f125704299f",
+      "git_blob_sha256": "d2d814876e70ea2c5ee25f2a5ceacd412dc20b327c34dc51979d384ed3ee409f",
+      "checkout_sha256": "fd47c55970b568bd52a351713b463b61b06fccf17ddce892dc842a03edbd2cd5",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_classifier_archive.hpp",
+      "git_object": "e6262f5cf7b7a493204f71350d2d3fe9d84f56d5",
+      "git_blob_sha256": "39c89d10a778427610aaea6d308b07228e257bd09309326f37dff9f343400064",
+      "checkout_sha256": "1793a158b8f918cadb436c771af2e34c66c2b71a26df40e9103d95a2f7546356",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_contours.hpp",
+      "git_object": "1f39f7d7d966e3ce8dfbcec20b982f2838357b1e",
+      "git_blob_sha256": "214e9bb915103448aebe8257c0d35ac789102279f6cf71707d87edf5a24fd0c2",
+      "checkout_sha256": "6dcaae944343689b65538def2bc1cc892463b0b3b6be56d822e23955f769bb2e",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_features.hpp",
+      "git_object": "aeb9284468138b61161bf1cdb58316cab00eb9d1",
+      "git_blob_sha256": "027e938f2dbefffb069a1e713971b4d59783972a3a8e9ad3480d8cd3699b3d3a",
+      "checkout_sha256": "72f01a5410a3efc31bb2abe38dff3082beb0131bc2e55b580e2b3c6f51d1ec5c",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_prediction.hpp",
+      "git_object": "ffdf40cbe2710cc370616834c1a8650098f71efa",
+      "git_blob_sha256": "fd6d16edcc5666f593dbb827126e833186aa063281cbb159a588775c5c89b5a9",
+      "checkout_sha256": "bd3feb7d296ad80ebb25e2618926cd5b9447e6bf32fe7980b83af15a8ca57da3",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_stream.hpp",
+      "git_object": "210cdb04e6bb98f2a1d22b6e842e00d11e3a0526",
+      "git_blob_sha256": "420482f6b2b9759334fdb0c4fa75274db619a516dd717189440a1661db421f80",
+      "checkout_sha256": "a886ff226a92e71678e80b174e4cf1cfbf93c664b7aa7b229f19c54e33334dff",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_stream_file.hpp",
+      "git_object": "d3ff6ae53ae642ca3d5cce3aadba8882b4bfd85e",
+      "git_blob_sha256": "16e2927f1475d8c2405989b2a871abbedfa70ac405208430a851a27a3f0c645f",
+      "checkout_sha256": "5c2850c8623328ddbedb8ce0e1d521bbbb566c06ed778c576100628f299f5840",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/pixel_training.hpp",
+      "git_object": "559db5c19a1fe8bf796e2176bc626b7d4a2fb8ff",
+      "git_blob_sha256": "2f7f5b5b1556730070b7528506ea8dbf56eacfbd956cec6a1fe0fa8f01767916",
+      "checkout_sha256": "7df221d67fbb4f0b9b02a348c09afe0655d7509b9982793b0378a06ac7a5f377",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/project.hpp",
+      "git_object": "94d53f737fca08b89f467620d89bed805a0d991f",
+      "git_blob_sha256": "7936ed1c3c8a4eea50b0fce35370e69dcbc943fe6ecdc7164646ac4c8f3765e0",
+      "checkout_sha256": "41f59ac9a135e39efd2eb896556cbadfe58ad25eb10c510ad41985f05613d43f",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/project_batch.hpp",
+      "git_object": "46cc76ca1bddaa316a189750d31049015fb75ce5",
+      "git_blob_sha256": "56801a52cd226ece66ff1b1b48382016a019179c84b53444842996e9ab0e2750",
+      "checkout_sha256": "56801a52cd226ece66ff1b1b48382016a019179c84b53444842996e9ab0e2750",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/project_recovery.hpp",
+      "git_object": "11a2c0b96ed2a4b46fa1dbc70b079c9e4669fc8f",
+      "git_blob_sha256": "4689f4c5f8e570ed369c37ed77da39dd88cef889cdd2a0de2b4465250cf78a18",
+      "checkout_sha256": "161d19a6b2b56d9d5c62188b4683ed4359effa000ad3ce8ac007122f86a6a543",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/project_save.hpp",
+      "git_object": "ee503d7d48d9f37ae3baf1b7fe18553af04637f5",
+      "git_blob_sha256": "f8d5e33e2b91dc4ec158c6042d2625713f9ed1df6a19b9ebca221a1502fb8ddc",
+      "checkout_sha256": "c94396685eceb7015d6a3aeb785f5e01fff4f3680a00f46b06ce070a719b4301",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/provenance.hpp",
+      "git_object": "4a34f6ae9b80a26fb23cb50fe1a4a6e9971bded2",
+      "git_blob_sha256": "ab41645ff5c23baa88a30f0de1e05fd2a68a534d4b9dffa6130c42a149f30449",
+      "checkout_sha256": "ab41645ff5c23baa88a30f0de1e05fd2a68a534d4b9dffa6130c42a149f30449",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/qptma.hpp",
+      "git_object": "b40aa677b11a16ef4017cb85a2603f7fb3ac1d03",
+      "git_blob_sha256": "5172403012333dfadc6e57679cc06848103482d77b31e69bc7771b751198bd55",
+      "checkout_sha256": "fdca0f55ea2bf3a8442e5497809d0eec8bab2a3c9373bdd1228d151bde82c6c7",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/raw_analysis.hpp",
+      "git_object": "b5ecfa14719e6d4163b5ccb3c377adf3dcd8548c",
+      "git_blob_sha256": "b6ab0a0031255aa0c57a1f1308ba67570a6b4b7e9e303e769c77f88b95734635",
+      "checkout_sha256": "b6ab0a0031255aa0c57a1f1308ba67570a6b4b7e9e303e769c77f88b95734635",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/raw_image.hpp",
+      "git_object": "4f1f188873ff3bde0e62c4fbff5f011aeb0ebbb3",
+      "git_blob_sha256": "39776adde7410d19d15e335e79f337c1dd2dfddb3c832c38c439ca6aac1d5f6a",
+      "checkout_sha256": "7da5a6ac9709d3854c36aab571fdd5747efebce87ba49328da3d57fbf314207d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/raw_pixel_archive.hpp",
+      "git_object": "b91391e8c24fa4b60a1e27e73df271b40e492417",
+      "git_blob_sha256": "472a8c8ec7be1b10fa1230f8f655edb25449336c1b0ed1c8b5da157eb8108206",
+      "checkout_sha256": "472a8c8ec7be1b10fa1230f8f655edb25449336c1b0ed1c8b5da157eb8108206",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/raw_pixel_classifier.hpp",
+      "git_object": "14eca8bd8a35f3d9fe53ca0fc2b9862d49cbc96e",
+      "git_blob_sha256": "d7134b66fa0ee7349e1af0bfe065a8ca173f2dfa22d99890bf6cff829be645a3",
+      "checkout_sha256": "d7134b66fa0ee7349e1af0bfe065a8ca173f2dfa22d99890bf6cff829be645a3",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/raw_pixel_contours.hpp",
+      "git_object": "60eca323644f0fc28828566921f6aa4e54c14739",
+      "git_blob_sha256": "0469c346709f41cc085acdc9be81033e424315ee0983409b862bdb08f05f658c",
+      "checkout_sha256": "0469c346709f41cc085acdc9be81033e424315ee0983409b862bdb08f05f658c",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/raw_pixel_features.hpp",
+      "git_object": "7ec85564b7b3712227f7f14d5c3532fb3b2301f1",
+      "git_blob_sha256": "c0e7da58dd5e3930331e4769254621f82170ff32c4b3ef6251a10a021eb6f401",
+      "checkout_sha256": "c0e7da58dd5e3930331e4769254621f82170ff32c4b3ef6251a10a021eb6f401",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/raw_pixel_workflows.hpp",
+      "git_object": "1d1006107e0edcd89b69617e83f642ccdba7f26e",
+      "git_blob_sha256": "3a3feac7aab0474e545ffc7e5ec5b47978e11d657f19f7d63a1246ccba0233c6",
+      "checkout_sha256": "3a3feac7aab0474e545ffc7e5ec5b47978e11d657f19f7d63a1246ccba0233c6",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/raw_tables.hpp",
+      "git_object": "335ed54551a7e7c09fb8746673d5aa60106b0df7",
+      "git_blob_sha256": "d88ac802ac84c2247f324b9c9b0480fc0f4383db7b4e0d9a1505eb2b84b5499b",
+      "checkout_sha256": "3a031ac1571897c2b227202b6cfcdbf0f41e5298f289d5860601c2770c38e9af",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/resampling.hpp",
+      "git_object": "dc223de063d16f4fb624708be47e1a8561227ebb",
+      "git_blob_sha256": "5e00606f0d1df1a60a160db7fb2d323c02672159c64bda10747b2071790713b8",
+      "checkout_sha256": "f5436e240bc35d1de60f9386d5ac26247e78ba16726899de7085a2a3d1cbde75",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/scientific_channels.hpp",
+      "git_object": "f08c8cfe60421fe0b1f1a09ec79893d92baebd1f",
+      "git_blob_sha256": "fc995a86f8204249a4957410870cf580be6829dea6e05349c053d0180661e0ef",
+      "checkout_sha256": "fc995a86f8204249a4957410870cf580be6829dea6e05349c053d0180661e0ef",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/scientific_grid.hpp",
+      "git_object": "a86589c7f6f22a0714fa9ef4c6efd92694559af4",
+      "git_blob_sha256": "78a0a62c474e6cc54ae617f317d1674f2053ae1a623f6d7206cdb82d2c9c596d",
+      "checkout_sha256": "78a0a62c474e6cc54ae617f317d1674f2053ae1a623f6d7206cdb82d2c9c596d",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/scientific_raw_sampling.hpp",
+      "git_object": "00edc9a5280097459365274e776ff4ca45f8e5a7",
+      "git_blob_sha256": "06f6bacbd9c1baac5ef8c8d8fc40f0deaf29f65fa78abe892a0fab83d65a9682",
+      "checkout_sha256": "06f6bacbd9c1baac5ef8c8d8fc40f0deaf29f65fa78abe892a0fab83d65a9682",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/scientific_raw_window.hpp",
+      "git_object": "6c6025dac73099ecb5b3b0a7c69c56374c95bd6f",
+      "git_blob_sha256": "b6df5827e61b942db12d7cef28587bb36e4f4f83508ea4d2e56659948845d8ea",
+      "checkout_sha256": "b6df5827e61b942db12d7cef28587bb36e4f4f83508ea4d2e56659948845d8ea",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/scientific_sampling.hpp",
+      "git_object": "fb326399fbc4348f38b129bb932013a43b9bc5e9",
+      "git_blob_sha256": "b708c00473f97cf865b821448d9296b52f558ab9d7293e708391d388d556c65e",
+      "checkout_sha256": "b708c00473f97cf865b821448d9296b52f558ab9d7293e708391d388d556c65e",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/source_identity.hpp",
+      "git_object": "f052b4da50638f2cc410641a12cc11b8191a231d",
+      "git_blob_sha256": "3074169cdee52b5ee1b50ede9c3507c1088ca3a502189775bac041c8ed981086",
+      "checkout_sha256": "f3a5c05e5b013d63855d1464e5662bf7380048acc9a29d540504af56ffdd45d0",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/spatial_index.hpp",
+      "git_object": "60b35a4626c73cbc86656c4bb1561a5cc7720ddc",
+      "git_blob_sha256": "a834d6f4bc37dfb85ee1789c47e336afaa614ea0f12827edcc0b07ee22babd8b",
+      "checkout_sha256": "a7b87d068780328456adb710b355c55cfa1e51f948db6a8677711fb44e12f94f",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/stain_estimation.hpp",
+      "git_object": "e7071ac5df35aba31eee9d2b704ea64450ae84ed",
+      "git_blob_sha256": "b38b8a59f7f07788dbecddc03333d9f53a60b82aea847ec0cebdb62e2e0e6ad3",
+      "checkout_sha256": "c10e37e2af10e90cea2c9409a4bc50504d7a2bf4092f33ebc40acc3a1e6967b1",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/stains.hpp",
+      "git_object": "5df83cc387fb971ad9b3ee037c4a25d32fd31184",
+      "git_blob_sha256": "b48207b34ba8c6f96111f6ef8f7d2d58d4563ba93a8f88f193bdfd75b3c02cc5",
+      "checkout_sha256": "08840141952dd8b169befe5134e5f0560247e97d9c7a543bf6e4ab91ad83fa6e",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/thumbnail.hpp",
+      "git_object": "d3ed28ef7284d73b9269495c34164e59589f0523",
+      "git_blob_sha256": "6b080f62b3b286e0a01fa1a9659e74d2cc7397d2a1b95805918547671bca2fd6",
+      "checkout_sha256": "acd81727539f748ca2d58c898e676fff04437e54982e24dab518015cde32a0cf",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/tile_scheduler.hpp",
+      "git_object": "76e88857f5816e24d4ff5e9028e1f4c163381cde",
+      "git_blob_sha256": "e4b8b5998410658e36354d10371f760f74c45eef3078d2238afc22909f7acaf1",
+      "checkout_sha256": "5b3a919fd0ad48f96ba0e4d571f6105ad1f3864421163319efb1b0bc2239f89a",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/tissue.hpp",
+      "git_object": "7db5775721b57201baa278a807694d4290579270",
+      "git_blob_sha256": "2b4a9e5d9f3dfcc559dd62c6f70514aed1340c05dc070b72c277a070d26f02eb",
+      "checkout_sha256": "4667c53ba93e67650dd73cb28578eceefadb2060cd9595d7ee7c9b96c964a777",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/tma.hpp",
+      "git_object": "b85c3635ddcdb7b40bd82301720a13a2ad3e19a4",
+      "git_blob_sha256": "fdc97b88ac04b2b4f1a5866902e447f3aba5fd5c558d14cfd367953bcc0f97c9",
+      "checkout_sha256": "080f4b6d3a645b9536682c14ba78fda2af86f9ab36d05cae540fd632d2ab7604",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/tma_dearray.hpp",
+      "git_object": "f5ceaec5b5ee642d5a2fdb50c81db2648f5aad57",
+      "git_blob_sha256": "dfbea3c8ca954e0270a477125864c38c3db3822ca5366761518c68c9b3107882",
+      "checkout_sha256": "dfbea3c8ca954e0270a477125864c38c3db3822ca5366761518c68c9b3107882",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/include/qupathxx/view_tiles.hpp",
+      "git_object": "91af9cb2d8ab17c94a62ac1374c28aa7bf6c50bf",
+      "git_blob_sha256": "2f10e4ac851eebe7355fd3b3c3b461ed9d12cd13ff8fc4df26e3a2b16deafec8",
+      "checkout_sha256": "7e764b589106745fe2188827bc73f7c97c2e47cb7d69f40b37374faddc13f301",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/include/qupathxx/viewer_session.hpp",
+      "git_object": "bec44037a2b4509f11ccdb903be1def74b8ea296",
+      "git_blob_sha256": "8719c012416cc2b98055511790a9efe35bd552b9e2ff339f271bbfee84817c50",
+      "checkout_sha256": "8719c012416cc2b98055511790a9efe35bd552b9e2ff339f271bbfee84817c50",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/input_digest.cpp",
+      "git_object": "949f456779996643a010c39ffa63a05921eb16e1",
+      "git_blob_sha256": "6a7b45e83bad9b85e71fdd1f04bfc0ad312f1a6dc3f00ad60368414e96e34d8b",
+      "checkout_sha256": "7a81a74b9f952bf605fe5a854b94e64a87e0db12c8f85e40b4562caf761a983d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/interchange.cpp",
+      "git_object": "66d5ca6d082b48f2cbcc8d2e48c09731d1c9441d",
+      "git_blob_sha256": "9cc751ba4b5d2b1610dfb2cdadb6b87fc6a39d73632a9df14f61fb444f517b43",
+      "checkout_sha256": "94840e989be661c9a1de83739a26521e71202ffa2f3b853b461816aa136bb9e5",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/log_response_regions.hpp",
+      "git_object": "9d8df90f548010350b77c43bdab7681a52748a00",
+      "git_blob_sha256": "9ba24498380f54456fff4c6b55ea332576be34cddd253eb4fdc83c98b3c9552a",
+      "checkout_sha256": "e5be759eaa752809dabcf33ca0bcfefd2519f0c99049c318cda21fe682406c9c",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/log_sampled_nuclei.hpp",
+      "git_object": "d31982d3a6a464434bb3ac9584b2dbb5e9a49e67",
+      "git_blob_sha256": "bb6436b4368b105a0fed4be7f134f60de8ece52a706873ac59e6185bdaac4152",
+      "checkout_sha256": "54aac88c924fbc471052b36510410f1618e3180401ded0890b46322e3bb130f4",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/log_watershed.hpp",
+      "git_object": "bd52bdf4a25d907776076b9f97cce0e35a706ea1",
+      "git_blob_sha256": "df8d65252ff079c2014d2eb704f61affcce7560c26db4a3298fce6fade825578",
+      "checkout_sha256": "f814e435e2757d5403edbd8004a78f8e1eae179220613c03cdccb01ce52c0668",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/main.cpp",
+      "git_object": "1b2b96c5fa3a1e3628b945faaed8f304577b2dde",
+      "git_blob_sha256": "0f1c39aa029d2460275d996d6b3a5aaaaea8ae34e62862338c51ba255f47f167",
+      "checkout_sha256": "642fe59f3b7e0535315b1dfcf7368a25ec41835e237da2765843ce041733c726",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/masked_gaussian.hpp",
+      "git_object": "c5e3c345cd3398821af6dd22cec125ce6e8aabe7",
+      "git_blob_sha256": "765e58ab4b44c480c4ab5806022df50f28d7cfc555e0c946c6118496480687af",
+      "checkout_sha256": "8e519ea337b13d9029733576424fbcf8ead3b4a8c223becbafb1626ac47100ce",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/measurement_table_bindings.cpp",
+      "git_object": "8a44c6e3dccee1215429732a7ecf7f2462383d5f",
+      "git_blob_sha256": "08b119d0b4f8298f44bb487bb4483256cd0c229c2cb9b5ac01e20250032b872b",
+      "checkout_sha256": "4322887fc41060e89cda7a14a8580ff53d3f8c1af20de9bd253348b5935c7978",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/measurement_tables.cpp",
+      "git_object": "ce520386e34c58fb2a70ab6d71c1df3191fdf5e6",
+      "git_blob_sha256": "566ba1cb3fb08f743178b029422207e9fe87cab537ccba03d0d8750de8f2a8ad",
+      "checkout_sha256": "c887552bf502da999f65bfffc3ec338f2a8175ed76c4c48e7cf7ba3e8f86e4fe",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/object_classifier.cpp",
+      "git_object": "8f0f125e9a4f472dc65735feaf1c0f379b087cf8",
+      "git_blob_sha256": "d6fab0b21ff82365e2dbfa72844169aace6a47ac21e5bcd3a11cb5fa704742b6",
+      "checkout_sha256": "5d5554ea39a714eb807f25a7e037e10f8cb0defe9969c1524f2f47e647fe8df8",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/object_classifier_archive.cpp",
+      "git_object": "49f8f5ed78f1592a2d01f08ddb7669db366011e4",
+      "git_blob_sha256": "d9f900fd8365ab2a77b1d10313471715fbe7bf088a1a966d2811b1524b5de512",
+      "checkout_sha256": "10e980b719bb4cf44fc5a27fbe90f46f7b0f051f7d5c14c50556320222a12ba9",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/object_classifier_archive.hpp",
+      "git_object": "a2cb96778bac5ed46a134bab3f10744965fbbb2d",
+      "git_blob_sha256": "2f7b01f288ee4cf59ef7cbc5792e2435d498942447cb8ad023ee8ef604386346",
+      "checkout_sha256": "179968d25ff2658dce362bf843cff3a355f70b69eef712910f9453fcc6922704",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/object_classifier_archive_bindings.cpp",
+      "git_object": "e7afb439881b4b266fd78850d52445a068569863",
+      "git_blob_sha256": "598743136a771ba4582abd00671f039f4ffd5bc7538908fc05d049ffebb5a91a",
+      "checkout_sha256": "7acb642aed4ad8730a83edd9c50529eaa418658836ae4fe08815c0a900ee58ee",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/object_classifier_bindings.cpp",
+      "git_object": "037837fe58b1ae6fe91ecb77d7aac7ca74487935",
+      "git_blob_sha256": "3c675c0e685e4266d8beeca5a26e47983b9c60acf668fdbb9d9730e1b829bbf3",
+      "checkout_sha256": "71359e72093f8ca008fcff015d183d7b5a800d5a87c6b099f4cf49a9e0a92014",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/object_classifier_records.cpp",
+      "git_object": "0f3ed4744c52db01dbc3f2af6991df96b579c0f4",
+      "git_blob_sha256": "766ff5dbf9a51da28e34d46065911e5e30112fc5dfb3b11f17193cbc9134b9b9",
+      "checkout_sha256": "821dfde14154aefdba0a3bc489fc6e8ef41f0a440ac8b225b53b55ce415bacb7",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/object_feature_snapshot.hpp",
+      "git_object": "b3de8e56ca07734a4e4aeddd121657fadc4aca72",
+      "git_blob_sha256": "7f33e9b550bf2228778b328fbfdcf820334ec78aa711f0a1108ed558e71a8981",
+      "checkout_sha256": "bb0ade843958d132fc25aff1e476583c65c79af0b7e4a0d95a875146b988797d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/object_snapshot.hpp",
+      "git_object": "7b8902b7e63dc302f7bc6ab6da3d2f94aa6b5a27",
+      "git_blob_sha256": "635b779fb7013702cd300f8fa8ff2fe6e1f5f4fb09d3d0a25ebcae144303ced1",
+      "checkout_sha256": "0ba75c848a0b97c1a2718913af948f032ed52713975f9efa9f0ce1464201dfb3",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/openslide_server.cpp",
+      "git_object": "9ad60ad400a19a47e2f9a3ff68a6be6b3efebdea",
+      "git_blob_sha256": "792789b6932495718c61f6e705fe194b8ab8cdaa0bef5eec59d6d7dca717d63e",
+      "checkout_sha256": "bd095e571c73b0832bf5d1753cbae145a60c31f4cdbd8f585ae8a450983f2648",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_classifier.cpp",
+      "git_object": "0b181b26abbdd73b605212f944efabf11ce9c982",
+      "git_blob_sha256": "1c8108bb4e4b6015597002600194c1a291ae4032661b194abdaf784e70d7c973",
+      "checkout_sha256": "68a833b5f4f5bdef0c56a2a488297aec628c82d729846c37bee61b377d36c2bc",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_classifier_archive.cpp",
+      "git_object": "e9ab726c3aa735d77e948948332afbca39611449",
+      "git_blob_sha256": "8d835facf3e58517dde72047a236e847e9a3e2901d358bb8577b11c79742c86e",
+      "checkout_sha256": "a7c35b335a9aa2f1112ce90d3d9f21373f4604abe3e55478f325a9bcae23826f",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_classifier_archive.hpp",
+      "git_object": "c3243d2ff8fc84632c0e41f164300cfd99037201",
+      "git_blob_sha256": "1aa2e644f5dd49b6a25205ca6228815c89a99c0461778e0517745dd06a249183",
+      "checkout_sha256": "1f9d14d4cc9457bb8583cf50b4810ce316a3647921a610224bb049d46f541a1c",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_classifier_archive_bindings.cpp",
+      "git_object": "568f29c380bfc2d27b74bc78ea31e513ddf7d60e",
+      "git_blob_sha256": "4ef266f3832f615dde056144966dff6032a77c8c8328c9609fd563d076a820a3",
+      "checkout_sha256": "16ea202f75925f2d0ed8a578ecacae7d2f39e39fd90ce7bcef52a8960bb1c4b3",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_classifier_records.cpp",
+      "git_object": "ec8eab193425b8b1a57e2e8cb13ca97eaab1fa90",
+      "git_blob_sha256": "6a53608e184591a47ae067556174d5b706310d15298a4a72d3a62cc3a4b08809",
+      "checkout_sha256": "fd5f522b1536e1d4d0c86e7e5ce579203920ba6a48c0785854f3b582ff35a739",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_contour_job.cpp",
+      "git_object": "e1d6941b8799951c05a2f51b13fc5e7d20130c5d",
+      "git_blob_sha256": "626f2cfed0931bd12e437d37ce91c52c42baf7052e877093f14a8c8076d05374",
+      "checkout_sha256": "4299cb6144b5d7f8cf1bd1683f2481932f6ea94a2668b7ed2c4e2b5ca3990439",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_feature_bindings.cpp",
+      "git_object": "ad6b838e6b9430e410241c1515bac968dadf0f12",
+      "git_blob_sha256": "e1d37ab5e1869ffbf443d4ceb045f10308568b8ea7e229687110505162f4db34",
+      "checkout_sha256": "05312aadf31f3c199023cb716e478fcc3ff70db55c841193371daeb4f4ffbc34",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_features.cpp",
+      "git_object": "ec53da5632ff4fe5b0da17e726cbfb8a38c8d1f2",
+      "git_blob_sha256": "ffc3fe03c7c6dbecf341c7959a775685c7e42b808255235d0e3b0728ee5a73ef",
+      "checkout_sha256": "6fc699c3b9bee08b217ac80d1423852fe4635663be29c99e39fa6372c270bd85",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_prediction.cpp",
+      "git_object": "ac93f853021b749eb63e08f6f71ebbdb17619739",
+      "git_blob_sha256": "02a92cd0427a9c2ef8727c315959e0c594937ff9e589b3e47c654d3f04019deb",
+      "checkout_sha256": "2dc27742c91b5c35805cef646eaae0d4c9c9fc174a79a02a1d0d072a57614c08",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_prediction_grid.hpp",
+      "git_object": "a1091639abe783b6ccedd5e8dcb6296129a4ad01",
+      "git_blob_sha256": "834639fc16dd36267f5e5aec9eeed8a2f191aecfdf966d399eb0688e182487d5",
+      "checkout_sha256": "6ab148826d021072f70d9f46632b4df55f810a5ba87e2b90d361053daa7407e0",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_stream.cpp",
+      "git_object": "0a34de4c0dff5232174e4db8031589c00d60ada5",
+      "git_blob_sha256": "506ca6547327a170626f2cbfeeeddb6592eee77ef71b3806082d1e029ef76111",
+      "checkout_sha256": "0c76f8a7d178fb2f0e240d34e2c118e695325348bc10d0938315ff56c31dc98d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_stream_cli.cpp",
+      "git_object": "f21db327f89c05382ca71719813d0f1f32c198ec",
+      "git_blob_sha256": "e192f9b2a8dc2b9c296690ea3b17fd2cdb104abb905dd79056fed1ed79ca441a",
+      "checkout_sha256": "871eddcf5b028f85e4fe29e2a9598c8f40145c6eb951b0850ad1e572fe275d4d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_stream_cli.hpp",
+      "git_object": "9453d250cab30b9496d991118b72ce8d4343e6c3",
+      "git_blob_sha256": "16dbe666bc784f86c4eecca9460dcbe0b9039c8bb9868014064ee5a2d5b720ff",
+      "checkout_sha256": "89c8372bc09a61bdb6a1b71fff9a0df24c547836f0d942b9705d25e039de54b9",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_stream_digest.hpp",
+      "git_object": "7ec97a57c9c3a89f367899a9cf5ac8330118828b",
+      "git_blob_sha256": "f3a8dd906575335c2cfae8cce960391b2210ac4f292e64cbb31ff28fa4f41b45",
+      "checkout_sha256": "5231cf03b1b49d31caf6aca62f7ec932cdce92e2f75efc57a06afef176ba2763",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_stream_export_job.cpp",
+      "git_object": "76b61c984c4a6fc9f89b18f3eec9e4fef13a80bd",
+      "git_blob_sha256": "d77f3a53efd9e9b180e936dd356cb8659d048d5b2fd996e420d53b91073e837d",
+      "checkout_sha256": "99247e6783571787420c8a5a05475a69e3ffe9b194cdb65c7972ecee085285c2",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_stream_file.cpp",
+      "git_object": "fd26311608ec061b0e2a30e1569a799b467e9692",
+      "git_blob_sha256": "a43b9b2e05b286c29c051508468b3fc5ad05e3a3821d9370f36ee1ecb2a8c3fa",
+      "checkout_sha256": "da7572ef90b8f43811275d99a93e424f01b6bf2ef57ecac2b78c72a15ef52407",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_stream_read_job.cpp",
+      "git_object": "b9d876bd22ecf70635618abea926e0c2c4dd35f1",
+      "git_blob_sha256": "136fe9aa84433a294218cca1d5cdb203e015eda50e9bb3c5b992d3e47699a3b3",
+      "checkout_sha256": "dee0024eb094f446fb1e3830154845e80aa67f90311ac3b5ca36d03a0c23b81d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_stream_record.hpp",
+      "git_object": "0474f316870444f936fe410e62d97d93b5ba8e6a",
+      "git_blob_sha256": "99c63736a7225e2595f78891fe60901b04ee67e3884d1af4f02c9ffe7cac58dd",
+      "checkout_sha256": "9b23b18bb015f748141db813a5d7e2ad4c611d3d53eab10b1968b4e528aeba04",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_stream_records.cpp",
+      "git_object": "4120f86b890b2ee6db35a1ad8ae3f7a816886f03",
+      "git_blob_sha256": "538e70fbbf09b30bb1369986521710730458169d171b912fcc1990fdb289cc09",
+      "checkout_sha256": "538e70fbbf09b30bb1369986521710730458169d171b912fcc1990fdb289cc09",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/pixel_training.cpp",
+      "git_object": "0f8337cda46a8f82635c2fc70db5130302efb32d",
+      "git_blob_sha256": "f2aa8c225573e43e97a4c184df9e097d8ceca92df02a206871299ababb35c0e8",
+      "checkout_sha256": "f2aa8c225573e43e97a4c184df9e097d8ceca92df02a206871299ababb35c0e8",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/pixel_training_reservoir.hpp",
+      "git_object": "8808db66af1eb6ed468210fd3ffee838b8bb170f",
+      "git_blob_sha256": "799c35c2d6ab61375f5c7bfa484ea86461f8b6fb2df218f8eea9df4b0e2d3433",
+      "checkout_sha256": "799c35c2d6ab61375f5c7bfa484ea86461f8b6fb2df218f8eea9df4b0e2d3433",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/pixel_workflow_bindings.cpp",
+      "git_object": "ca82c4f4ead7c9062bcb6085a38d0275b411ee0c",
+      "git_blob_sha256": "9591277d0f69e326150e2253158326ed0c5690d22fe550b9107e09f456ae4e4a",
+      "checkout_sha256": "7dbde3b6389e254effba11b57ae4d5d727b3f0187589639637c4849e5f84dbfc",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/pixel_workflow_snapshot.hpp",
+      "git_object": "17049bdb6b0875ae489f7bfa20dfa06c4789dea3",
+      "git_blob_sha256": "db3409bbbd5fb68a69bbddc63c57e3415994884661007b81c975f802f327beb8",
+      "checkout_sha256": "78268b9895b1f2c86319624dcb951293646cbc792cff2e29ade8d86fc8507919",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/project.cpp",
+      "git_object": "3f8d2b6df68ac2ccd978732d26d0bbbff94173bc",
+      "git_blob_sha256": "9a05d4954290d2bf140a57b98634fb43fb6a1d911ab0a470671828656d5a1d61",
+      "checkout_sha256": "9a05d4954290d2bf140a57b98634fb43fb6a1d911ab0a470671828656d5a1d61",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/project_batch.cpp",
+      "git_object": "9c29cc505f0c268899ee350af35553eac7045260",
+      "git_blob_sha256": "b4ff5675e6c0e2c343e83dcf854add1d5078b8875d617768fa440a48e6cee421",
+      "checkout_sha256": "b4ff5675e6c0e2c343e83dcf854add1d5078b8875d617768fa440a48e6cee421",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/project_batch_bindings.cpp",
+      "git_object": "3fbbefd7cfd2f9756963d7bdaa536335381ba1c4",
+      "git_blob_sha256": "4f0eb1195ee31608fca7bb3651540761d169a53f9d0081a796879d2c6afcb627",
+      "checkout_sha256": "4f0eb1195ee31608fca7bb3651540761d169a53f9d0081a796879d2c6afcb627",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/project_recovery.cpp",
+      "git_object": "08c264b54ce17922865e71e6cc772f444d1eb357",
+      "git_blob_sha256": "e8a6882b47c11d1db78a0b1ed4f74a4592fa1b2067fcbd94a434f716f08ea3ea",
+      "checkout_sha256": "568a141204de53fd32abb6d4f40e2c7ecc94f08d227a7bd46a5a27dd39630a2f",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/project_save.cpp",
+      "git_object": "2d23c13a92e4f020e36c4e0624631f0c8ef46922",
+      "git_blob_sha256": "e9a833a28ca0360fef5c34aa209bac6d65b8fb3afdd8bf03565f46dd65c963fe",
+      "checkout_sha256": "e8eeb9e52959ef19719e0391ab51bdb182fd3d80e060e62801a02904df3b59c2",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/project_schema.hpp",
+      "git_object": "21516f17a1e1f597259fad9702b6042ef90100eb",
+      "git_blob_sha256": "edf6e534cd97d33a908e1afc8029ee7d1e94cc173ce36df6764b7583382bed0b",
+      "checkout_sha256": "edf6e534cd97d33a908e1afc8029ee7d1e94cc173ce36df6764b7583382bed0b",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/provenance.cpp",
+      "git_object": "b781baacbcd32e3b00dc1008a339454f0e03e1bb",
+      "git_blob_sha256": "35531d26125ae1a271790fbc6d5757a780d79d6037b608742c1edce4180eff6a",
+      "checkout_sha256": "35531d26125ae1a271790fbc6d5757a780d79d6037b608742c1edce4180eff6a",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/provenance_bindings.cpp",
+      "git_object": "ce355acb8ee9a793d8a751eb93de8d9d4bcfc15f",
+      "git_blob_sha256": "4fefaaa821636de4579d26c151a8e5ec73669a3bb7129b10ce1ae13911d5615c",
+      "checkout_sha256": "dee14b52d024ae279ba2b7c7e9ac227b23c4144b75f7f4ff8ded376055f7fe59",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/provenance_codec.cpp",
+      "git_object": "b433196c9a376bbc0ec466af45c45dfe1244e3aa",
+      "git_blob_sha256": "1d144610bbbdcce20b0f2a476e1c29eb9afaf0e02f6d316c6ccae01fe821663c",
+      "checkout_sha256": "1d144610bbbdcce20b0f2a476e1c29eb9afaf0e02f6d316c6ccae01fe821663c",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/provenance_codec.hpp",
+      "git_object": "ef68651736cf405bf4810906db0225ea55943835",
+      "git_blob_sha256": "f6c7ec9b7fb724b31d46a10067a2805db5ce5cfc039652643505e003b5f271d5",
+      "checkout_sha256": "f6c7ec9b7fb724b31d46a10067a2805db5ce5cfc039652643505e003b5f271d5",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/qptma.cpp",
+      "git_object": "d0e5c48911da0ef35fa3d6d8fc9f83df91919684",
+      "git_blob_sha256": "ede2b82887e7f7f0e7ac83204da51aed4a8ec3733e8dc7238308a5a587ee2321",
+      "checkout_sha256": "593b4a0418784f59d71b9fb24cc6bd9f836eae4e42124cd53c132b31e0f59c69",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/qptma_project_cli.cpp",
+      "git_object": "2db10f236e711da5a8ceb31fcf278984dba0ec05",
+      "git_blob_sha256": "4654570fcb35bd50ef50b6723ac88c53240cc14679c5c1630eed0c8cc0386ab1",
+      "checkout_sha256": "208dd58620f23869aac76e7fa913ad1e08730fb8065f012d16f89dd5a2740c82",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/qptma_project_cli.hpp",
+      "git_object": "f5b4607c9aaa944096a249334e4cc134868d0671",
+      "git_blob_sha256": "273fab3b44eb8b479ece2f3dc309fb13acf68b32daf97c7c6bb7ea03072cb6e5",
+      "checkout_sha256": "c736b4ccad7e350c1afca00218df98c6d8686c0680b0e8e484e781462dfd5590",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/qupath_precision.hpp",
+      "git_object": "24708b7d5490e1dcc9e9a651044a24272d645eba",
+      "git_blob_sha256": "7bdd6e248ea7a809514301222b995d9429f92f72b5423c9b1503ca4200e11478",
+      "checkout_sha256": "bbb56dff25c07d85950628a168f730dae72a9c10ca75a8e2e5aafcb9822d646a",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/raw_analysis.cpp",
+      "git_object": "fcc9d825b13c9541a1bb2a63a1ce927918244bdd",
+      "git_blob_sha256": "43d7c62528e755777af7176086296071b81a05b0d78f9fee813bb3019db945a9",
+      "checkout_sha256": "43d7c62528e755777af7176086296071b81a05b0d78f9fee813bb3019db945a9",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_analysis_archive.cpp",
+      "git_object": "d2bcbcb1167211a2d33ad4f82b98b1f3fa60eb0d",
+      "git_blob_sha256": "6d60dd2ff4c788db0af90e2bc1f1a99a3d9424f6f03a2160b26cd77c1fe3e72e",
+      "checkout_sha256": "6d60dd2ff4c788db0af90e2bc1f1a99a3d9424f6f03a2160b26cd77c1fe3e72e",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_analysis_bindings.cpp",
+      "git_object": "2e7a9d1b2cfee4fb10eb14645562421deb164ef8",
+      "git_blob_sha256": "0ec7dab440d64a0adda63676759009ab4cea428c984017f13e7afa03a700185a",
+      "checkout_sha256": "0ec7dab440d64a0adda63676759009ab4cea428c984017f13e7afa03a700185a",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_analysis_internal.hpp",
+      "git_object": "1d6f60d28355d2634d94aebb51d18b51102eca44",
+      "git_blob_sha256": "848bc55a7a35e6ee1a015e1de850609ebd0031ddac0b427f8ec36fdc4be18d18",
+      "checkout_sha256": "848bc55a7a35e6ee1a015e1de850609ebd0031ddac0b427f8ec36fdc4be18d18",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_analysis_records.cpp",
+      "git_object": "41130294f5131a96af963f21a122eeab7bd6c280",
+      "git_blob_sha256": "6d9c3b505514fa365556977faf2c13c0b39a7bdd127fa26664c86076119e5eb2",
+      "checkout_sha256": "6d9c3b505514fa365556977faf2c13c0b39a7bdd127fa26664c86076119e5eb2",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_cli.cpp",
+      "git_object": "5e9dbb2d9ee34a71c4cc2fe020aeda931ab57b5a",
+      "git_blob_sha256": "a9d54ce6d0cdf03fbf4aeb8778d415aeeee40593ed5a403c6b6ce65d48bc4fdd",
+      "checkout_sha256": "4753e93e9efc6f46afa695297804b115f878f86e62ad3e61d817509ca271ed78",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/raw_cli.hpp",
+      "git_object": "c921eae0bd795f95a6cd0cb091b91cff1ce85760",
+      "git_blob_sha256": "2530c3df1856e555fb6848412c89b96eae7f0185f50d6703adbabcfd600924e6",
+      "checkout_sha256": "ef61bffd4e8c370cc5d40f903b4a6db076a3b7a9cfed36299db4a598b1d08e85",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/raw_image.cpp",
+      "git_object": "a68135be5e4d67ffd263000d0c5a00050a704f96",
+      "git_blob_sha256": "c83ffb16310e26ca732befdca337f475b8ddbe75e266a81d47239ccaf19df96f",
+      "checkout_sha256": "2c30ee94d9de9624a07058c9e111a208f4e74072d7176060536ea8bc3d3965e3",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/raw_image_bindings.cpp",
+      "git_object": "31617e0cd868d66a516d2ea02e014e90e5e67a93",
+      "git_blob_sha256": "88a3231346b30a97ebdf24e5b88dffe4dc89756df4cb76d5d236559ca5b90d3c",
+      "checkout_sha256": "800a844555452e2348af15b31618299d361dea687a8511d0a4dfba6a42249c05",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/raw_pixel_archive.cpp",
+      "git_object": "1ca378a0810edfaaaec62cb4cb4b3ac75f7ca15d",
+      "git_blob_sha256": "32ecbba37cf99c2910e04ae5f060fdcf63e2dc335683b15abd4e58f1feb7aa5b",
+      "checkout_sha256": "32ecbba37cf99c2910e04ae5f060fdcf63e2dc335683b15abd4e58f1feb7aa5b",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_pixel_archive.hpp",
+      "git_object": "d2057c61c74a804a8660834ea08647d47f1038bf",
+      "git_blob_sha256": "5ca8be510466c18dcd1a4d7f15fa4438800c366008d3eda14ddd3597dcc76f8b",
+      "checkout_sha256": "5ca8be510466c18dcd1a4d7f15fa4438800c366008d3eda14ddd3597dcc76f8b",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_pixel_classifier.cpp",
+      "git_object": "f03e38c7e3bed23ee332abbeeb140ccae78f1053",
+      "git_blob_sha256": "3fe162b7568c5b538801dc0b020690271bef68519b4bdc001be3426333d11541",
+      "checkout_sha256": "3fe162b7568c5b538801dc0b020690271bef68519b4bdc001be3426333d11541",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_pixel_classifier_internal.hpp",
+      "git_object": "ba4324df415749b6c4bf405d39f83468149193c9",
+      "git_blob_sha256": "aed608dfe036e84666ab84bbd6f8943520d73f88e3f744bf924e2fd11ababa53",
+      "checkout_sha256": "aed608dfe036e84666ab84bbd6f8943520d73f88e3f744bf924e2fd11ababa53",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_pixel_contour_job.cpp",
+      "git_object": "94636c0701c92bc9fc9822dcaad7ae57125e7b01",
+      "git_blob_sha256": "5cc4e94e27837a1e45ddaa6a00aa6212cd9f7f846132ee438547131203892c73",
+      "checkout_sha256": "5cc4e94e27837a1e45ddaa6a00aa6212cd9f7f846132ee438547131203892c73",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_pixel_features.cpp",
+      "git_object": "ca046f4c552945def78f0c0c541e453e0251011f",
+      "git_blob_sha256": "3cb529285e1af73c1e3ab630d9ecfa5baa4101b726f1b4cce95756b53e74b4fe",
+      "checkout_sha256": "3cb529285e1af73c1e3ab630d9ecfa5baa4101b726f1b4cce95756b53e74b4fe",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_pixel_features.hpp",
+      "git_object": "df711b92102fca804be1380bcbf003924142319a",
+      "git_blob_sha256": "302c3da00684c77dcfb1540c83e44566efd58f8083058b680982e36ae7dbeecd",
+      "checkout_sha256": "302c3da00684c77dcfb1540c83e44566efd58f8083058b680982e36ae7dbeecd",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_pixel_records.cpp",
+      "git_object": "3024442268ceaf394585c693c57dc0ac75be8d1a",
+      "git_blob_sha256": "5ab45ca166420af68dd051072d1e7516bc0f2d2c6478f9a64685e0866a8bea01",
+      "checkout_sha256": "5ab45ca166420af68dd051072d1e7516bc0f2d2c6478f9a64685e0866a8bea01",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_pixel_workflow_snapshot.hpp",
+      "git_object": "8ef6fdc03851fe5808a2552b0f14c0ab2211492b",
+      "git_blob_sha256": "2a6da53ab3041962f010b35f62f7289091665ed53daed8ca359d042cf1e993c6",
+      "checkout_sha256": "2a6da53ab3041962f010b35f62f7289091665ed53daed8ca359d042cf1e993c6",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_pixel_workflows.cpp",
+      "git_object": "77339b72a8fe6c27b75409381ac72f94ce276e8a",
+      "git_blob_sha256": "886e40279bec089a8f167c389ebc30dbd04d5bd2b43b5ce36792a581abbbad1a",
+      "checkout_sha256": "886e40279bec089a8f167c389ebc30dbd04d5bd2b43b5ce36792a581abbbad1a",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/raw_statistics_internal.hpp",
+      "git_object": "8225802f2cbb483550660cc1120ae3a1b687aa26",
+      "git_blob_sha256": "dc1bd7cf49f1423fd10be3e7e3ca29feaa6809279edcf35a66636d259d7f33a8",
+      "checkout_sha256": "f4131a2f2380004c8ff557331883ef010508faf59d013712597dc99d5d7bb338",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/raw_tables.cpp",
+      "git_object": "8afc63dc9f67a32702057b6357acdd4138baa860",
+      "git_blob_sha256": "f2a6d60b6d03cfc1c819b996105c1e29dbf6d5d355a559d2e3179d661e08f844",
+      "checkout_sha256": "f2a6d60b6d03cfc1c819b996105c1e29dbf6d5d355a559d2e3179d661e08f844",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/reader_file_guard.hpp",
+      "git_object": "7850377bf0cc8e769895e890907f3df0a4cf3e7f",
+      "git_blob_sha256": "6f18912eb1c3f9388b14d71570b0d020ab98e31e287d46346b0abd61b6c1a7aa",
+      "checkout_sha256": "9e0f68a509b44db62e4599bce0d1beb24c702d609b3ede4c540063f8038bf5f1",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/reader_provenance.hpp",
+      "git_object": "286201f0a36efe7fafc9c33d57f02259ced09a82",
+      "git_blob_sha256": "0b2c8f51dd0738acba675cc53b0c0c5830128065f37ff46c09a7fe76b1d72233",
+      "checkout_sha256": "002a2c739efaf733f1bf2b34416c238ab699f3fb127ef30d48219039556a6997",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/region_main.cpp",
+      "git_object": "e50ff73b893898329f8998b6b38450295ffeb638",
+      "git_blob_sha256": "17b8d3ec56d22ec98ab40a42e31cd7372e5fd49ff54a1a2ca610409149a2dd5e",
+      "checkout_sha256": "b0e5d46c283a9194ac4460fb3fa0dec47cd3b043bb3d8e3ece1afbf9c82f025d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/resampling.cpp",
+      "git_object": "dd4dbea77496da4a77857797ff17c88010b06f6f",
+      "git_blob_sha256": "cb08260ee2c441dd9ac32744dc12b89f5ac5a731ffc8d99fff5e072523be6a71",
+      "checkout_sha256": "fe9fe6d82324af395cb34e1a41d6b732ae5530a721fcfc78164db204886dfa4d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/roi_scientific_grid.hpp",
+      "git_object": "6c9a3d1df5770f52456ad71089eb86b14718fbe3",
+      "git_blob_sha256": "8bcc62ba22dcc6fd4fc31a27d95434eb6c1aad42c75fc3f77893913b141174c9",
+      "checkout_sha256": "8bcc62ba22dcc6fd4fc31a27d95434eb6c1aad42c75fc3f77893913b141174c9",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/scheduler_bindings.cpp",
+      "git_object": "5f02c15e56fae613087a15916b6227f161a4f3d7",
+      "git_blob_sha256": "c3bcc6c007e3ae4d21b2b4f060dd41752798c70ef0e7ca13fc63294496d8838d",
+      "checkout_sha256": "253d9e4ba5a96bc8cca08553edce5cfddc67cf3c9361d688dab61f3b26ed1f67",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/scientific_cell_archive.cpp",
+      "git_object": "cdcd539d64b4b73977929589f30fa61f50d19635",
+      "git_blob_sha256": "7f2a9647dac2f00a45160e5bf9fabfd19f2e6adde70c1605295015875ba0b890",
+      "checkout_sha256": "7f2a9647dac2f00a45160e5bf9fabfd19f2e6adde70c1605295015875ba0b890",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/scientific_cell_numeric.hpp",
+      "git_object": "6176139693c96ba609dee4f00173aabc646ed585",
+      "git_blob_sha256": "4714e00438a9660dae19a8e6fa2f24b8fb915979e8e7eebde55136d05e36310d",
+      "checkout_sha256": "53b3353c79588b7c23739653ee0972e5cbe5eb92e827eedd21bc5a1aa738c8ab",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/scientific_cell_recipe.hpp",
+      "git_object": "71a08c1595b471f9247cc657e92afc03c151f98b",
+      "git_blob_sha256": "da43184bfe0987b614cafcdb598abb4a6cb0bd46cb8d467042d3a83bde5cca8c",
+      "checkout_sha256": "da43184bfe0987b614cafcdb598abb4a6cb0bd46cb8d467042d3a83bde5cca8c",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/scientific_cells.cpp",
+      "git_object": "95d8bd2125344e481f9303c5b6e7c6c51e47fba9",
+      "git_blob_sha256": "bee1312c0a63ec59750802fc969b6bfb22536667a6a4366b3cf1da2271fec6dc",
+      "checkout_sha256": "bee1312c0a63ec59750802fc969b6bfb22536667a6a4366b3cf1da2271fec6dc",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/scientific_cells.hpp",
+      "git_object": "eadd70ec813973cf3cb2ffc57412939c67d3d1db",
+      "git_blob_sha256": "9a5ed3c15c1b27e89d0c9580379f396a210ea115c9f2d924c701d5dec2c2daee",
+      "checkout_sha256": "9a5ed3c15c1b27e89d0c9580379f396a210ea115c9f2d924c701d5dec2c2daee",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/scientific_channels.cpp",
+      "git_object": "7599919540153021fbc7eb5e27887dadf4033450",
+      "git_blob_sha256": "4c8629b7471a3a27bb3beeb54abe4b772f8ff90b08264063f363bf3855fd9155",
+      "checkout_sha256": "4c8629b7471a3a27bb3beeb54abe4b772f8ff90b08264063f363bf3855fd9155",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/scientific_grid_bindings.cpp",
+      "git_object": "32babe19e5503079208a3a87c7f9f2354aed1f22",
+      "git_blob_sha256": "82c21d845a4d932770600d167952e964899f36e9da13f8a5bfa6591cfd833dfc",
+      "checkout_sha256": "82c21d845a4d932770600d167952e964899f36e9da13f8a5bfa6591cfd833dfc",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/scientific_raster.cpp",
+      "git_object": "0c6f847f55ed3720396bc055540e3c516d525722",
+      "git_blob_sha256": "b5a0124a5ff4f860d18ac643ee74b441e18f54d286e69964358f7b65b3d4cb7c",
+      "checkout_sha256": "b5a0124a5ff4f860d18ac643ee74b441e18f54d286e69964358f7b65b3d4cb7c",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/scientific_raster.hpp",
+      "git_object": "d8710f09c11e41c85e0edb125ca7b414fa63c7f1",
+      "git_blob_sha256": "6241254a239e5777a2962fb1976e4b0b227a2b23815bfc17987af8d7fc4df7c7",
+      "checkout_sha256": "6241254a239e5777a2962fb1976e4b0b227a2b23815bfc17987af8d7fc4df7c7",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/scientific_raw_bindings.cpp",
+      "git_object": "7075d289da2743e20723f03c3bce2e2f99f258ec",
+      "git_blob_sha256": "7cb078ee18c48647159b18c330da40180fa6bcb216ac63880ab6381461e135b8",
+      "checkout_sha256": "7cb078ee18c48647159b18c330da40180fa6bcb216ac63880ab6381461e135b8",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/scientific_raw_sampling.cpp",
+      "git_object": "6f0670f27d48b99b79425ab8c3f64f99e71a5df6",
+      "git_blob_sha256": "926004cdb6df5ad5d12b3458d1942cae2b3be38fa65cb63a3a11848a337d5d51",
+      "checkout_sha256": "926004cdb6df5ad5d12b3458d1942cae2b3be38fa65cb63a3a11848a337d5d51",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/scientific_raw_sampling_internal.hpp",
+      "git_object": "f9216dacc2852060df2b7ba7ec2143bdd7223910",
+      "git_blob_sha256": "cc3883a29691ea9ee55ea85ae05a7f5a023efb1b80299676530785d65bdab7b6",
+      "checkout_sha256": "cc3883a29691ea9ee55ea85ae05a7f5a023efb1b80299676530785d65bdab7b6",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/scientific_sampling.cpp",
+      "git_object": "8ccede2c31ad288ce2fc4d45d91e78ff45531c92",
+      "git_blob_sha256": "38407b75311992f91f47e9851cda9b081416a6b0da4b9f3eeee4832125ae071e",
+      "checkout_sha256": "38407b75311992f91f47e9851cda9b081416a6b0da4b9f3eeee4832125ae071e",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/selection.cpp",
+      "git_object": "a10379a8340345bc8976d66ee0980cd2bc4fe86f",
+      "git_blob_sha256": "ee8572704a76f40aacc59d02abc7b93597478e1c9ef841a45e0f38c7a5f42a69",
+      "checkout_sha256": "cf65c7efb87462db4a90f7fcff481a375910780aac98d8cc13c2165eebe07df9",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/sha256.cpp",
+      "git_object": "a3f8fa797bf89597859f8ef2fe58e5e3f8deb8fd",
+      "git_blob_sha256": "d1971f7d36916e0dcc62e800969a9a76607bd7c941b6ecea9a41f3dce5a74841",
+      "checkout_sha256": "80e279546fffb48d6302b6355b6c6dc60ceb10ced5f2c4a3c2180ec7406455dc",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/sha256.hpp",
+      "git_object": "c9b98e96bfde470673e74d526634bf9da7ad6985",
+      "git_blob_sha256": "9affc3daeb32c3d810a2a669a4a506ac6be0877e7c5fd056dfe8adcbd5c0b618",
+      "checkout_sha256": "d0f2a650f650b7f554e932ebe27b5e699588fedb4bcb454975dd804401520475",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/shape_watershed.hpp",
+      "git_object": "475edc31d0f213c644ee5a91867e0131a0472e20",
+      "git_blob_sha256": "e52c5dab6b66b76ec715bf4f768ae14a9df04f278dd9b6da07d7697a2fddb733",
+      "checkout_sha256": "da4acd4f710c222d6dffa6a88845aadd1d5d6f1aa7bb8e4b54f5fd7800ef07e8",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/source_identity.cpp",
+      "git_object": "2595dc71622c58ee4596397b390d6815f0675254",
+      "git_blob_sha256": "87b16fd4e2e9452c79d665d0bc6b8d6afff0516833671312bc2a0de02f414291",
+      "checkout_sha256": "a95812f06ce89b43dc4a9e54e3f31f97b71c6fe413bd2d410fcad84c1380f1d5",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/spatial_index.cpp",
+      "git_object": "1df69a021da28e23b4fdd04eda4b8736772a4134",
+      "git_blob_sha256": "610f3fd18db0cab19a676fc53e8f6af10c4fe3c0c86632fdf24ac125472b4828",
+      "checkout_sha256": "6db4d2abab9fd8c199746978643aa2decd1ee128edb913667652156db491d6c4",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/stain_estimation.cpp",
+      "git_object": "638601b5422a7de9610695c2f56e29e73b0d59cd",
+      "git_blob_sha256": "1630c5356c243aaca6854c744865c483899767c2dd895d99442122e57d59e6d0",
+      "checkout_sha256": "4a38425feac1d18d9a97d45328dc0bfcbbf899b2aa018393cd570b2d0fabe31e",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/stain_estimation_bindings.cpp",
+      "git_object": "064bbe5d852cfb8e242622e5743fddaa59a0ed97",
+      "git_blob_sha256": "089b10690f76adaf3d6626d34a414cece84f44d2ce3387f291fd7ba461ca902d",
+      "checkout_sha256": "e1855d16a3154fa5a47b1052cbdc4ff5adcc69069c1fb592ca6cb2a52a07d4d4",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/stain_matrix.hpp",
+      "git_object": "91bd6f483a79732e2776f1b76b3376cc8752f7d6",
+      "git_blob_sha256": "8f87ee69761983b114d97c7d440435a7a4f042f14700059c5961017f4d7bb9ae",
+      "checkout_sha256": "8f87ee69761983b114d97c7d440435a7a4f042f14700059c5961017f4d7bb9ae",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/stains.cpp",
+      "git_object": "1d1e9137c1fe505b0a8921832c6e81395b6c322f",
+      "git_blob_sha256": "a03460f6193c9323de18f8f075adcad78714b6df6fe22928eb06e768c00b6b55",
+      "checkout_sha256": "4b331981cc875f9d4bd04e5cf2631d12f18289e88aa9e5630583b63e5652f3df",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/analysis_tests.cpp",
+      "git_object": "712edf7d254864ad5a76ce3524d08742b43c78ce",
+      "git_blob_sha256": "7aab7ce5e9ddd630dd91fd0f6ac1cff705184062049ee949b7dfdcdd3812e96b",
+      "checkout_sha256": "c236779f802cbf1c70cc2e9810a99e26863d5d52c9cd4da19660e7bc76babce1",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/cell_calibration_tests.cpp",
+      "git_object": "a437033a113cdd61d32e918c65c35f8358141373",
+      "git_blob_sha256": "89fa06a8e246ec2bc23f006940b55dbd2b81e1fad536c3cb1159feffe61c3605",
+      "checkout_sha256": "28ea539d658a7b064a02fa091f0dfa286cb5803bb5a926fa3fa3c1f692ea4251",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/cell_expansion_tests.cpp",
+      "git_object": "94aa1758a200ab7680be7b910500d52e1c10e05e",
+      "git_blob_sha256": "536fab8a3ec9a57335bb12ed353605511e65507fcb1eb2205e69b13a95fadcf0",
+      "checkout_sha256": "9091c5629ad8ce28d4e1c6666543fa9e70d850911597a4ee36733d8ffc898740",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/cell_record_tests.cpp",
+      "git_object": "741030f10ec27c94bccd0ae506fdb1ad30b01f6a",
+      "git_blob_sha256": "f1ccea148818903ab21714a9cb68ccf9c423e281cdca7cd804067e2210d22352",
+      "checkout_sha256": "d2eae160af17698a36dfbb50ba5edc26c0f7cec43b88e5bc2edacdec3f288fa4",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/cell_table_tests.cpp",
+      "git_object": "b1d4b0816c65165867de577f8c3aaf29ab5a03bf",
+      "git_blob_sha256": "b776e2e550086e68fdd12dcc02caf244a124e7b75e625ac36b4af715a46f6142",
+      "checkout_sha256": "4da43f429ef5470f2aad36ebffcb0ddf34a746a275661f31bfa1703c7bec4cf0",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/cell_tests.cpp",
+      "git_object": "0ce36c74405aeefcc765be940917c256abd4bdeb",
+      "git_blob_sha256": "952266c9491c03f95776583cf6e50ee06ed28543240255d6f1eb3d75aa641c07",
+      "checkout_sha256": "f6654f9fecb2fd3bea618702ac944ef9b00ee1074221da70ab66f6a98f53d5fa",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/classes_tests.cpp",
+      "git_object": "e2b00bfbf6528fa7b10bd1b2071e49af87333090",
+      "git_blob_sha256": "79da29b42f3ca2b825d7b7bcdd810fa68f65d370a8146379cdac3462d39a3dcd",
+      "checkout_sha256": "67509a64dd435cb0ed3f693d361b229e6ba6e7a8143da3eeed9e03e89e904b8a",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/classifier_io_tests.cpp",
+      "git_object": "b756c82facfc4c9f9d84a6c2dd91af5a2561233e",
+      "git_blob_sha256": "fd9a4cdc93140b7a20f915f38d08cd3444ef84e419251d034ab20d1aadd88bca",
+      "checkout_sha256": "ee96e49b963965e4d3834c66cbcdaac69d9dbb6567c09fcc9e06ef87334e2226",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/classifier_tests.cpp",
+      "git_object": "208b718a8aa744eb60751d081b08df08f704371b",
+      "git_blob_sha256": "37b3975665f60e4d9ba7bd70d35b3cc997448a9bee8eeb0d0d069e31c956bc2c",
+      "checkout_sha256": "c7312c1acad3c4a8efe40f793e5a5bb32472332e2ecb9622a347e998b3a27fef",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/core_tests.cpp",
+      "git_object": "6cd9168bd9f7f7a4fbca8ca1611c5242d70343c7",
+      "git_blob_sha256": "d3146abf17bd4e42fac5cd2f92b0f359e30f6b1cf36e7508898a101806fdeb72",
+      "checkout_sha256": "c87a3c6b300cd35e7ae73c84729841010f20578f9cc028bc7b2e76bf244496ef",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/decimal_quantity_tests.cpp",
+      "git_object": "e3427945aff6f36d0d1f6b47407fcd097b670699",
+      "git_blob_sha256": "56e91c4a5bc3ab652ecd7573029fedff820c1888fef0517c53897d67b5381095",
+      "checkout_sha256": "d46037fd460088336aec2801fb7d2d0671dd426bf1e107a10406b88a3a2deffc",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/document_edits_tests.cpp",
+      "git_object": "203ce61244ee9d32614021a8fb5878b3aff25cd6",
+      "git_blob_sha256": "b06a2568e34079a26bf08bcfec3ddebcd2bdc803132ee8e9b9f853b3480b4307",
+      "checkout_sha256": "e154b9816be0a82a02859bf1b26ccc33ddb370483676a6ab28634a77a696618c",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/file_fingerprint_tests.cpp",
+      "git_object": "6c53476c706581fb3bfeb649d60ef812354b214c",
+      "git_blob_sha256": "ff277490d928bc556a2fc6918ded45e6b41f39cd20ca1beab4998c0e59d19e51",
+      "checkout_sha256": "780a21c1431dd17dd93b29181df5c1b3bbfe91529dfc693185b0d4c57bc8a06a",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/forest_fixture.hpp",
+      "git_object": "de55b3be85fb2f4e052698a6068a3a80dd70c79c",
+      "git_blob_sha256": "6ed267b632c57cb7b072ca3d064a2e36ed1b1f324ff3b83c0765afca1f137b6b",
+      "checkout_sha256": "f150fbde7deaeda042dddbe9c39f128f8f232b6c3d1a07f586ac50126f11f51d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/geometry_edits_tests.cpp",
+      "git_object": "e3ca3f501370d6333d9dfdd34063a1164efe16df",
+      "git_blob_sha256": "b377f474eb21dfc7e06d76df2ae639eb28a1b4160b68f9a588c30b45aba097ad",
+      "checkout_sha256": "38d912aa6d294dc1a278597cfd007664fc82ed6f560de3b2b8f77ed85267d921",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/geometry_tests.cpp",
+      "git_object": "fd6a330026a1d92fedf73ba41fc86e10835925ce",
+      "git_blob_sha256": "9858987c5edd553c465a3610d167b233946d352db1db8ecb268a390e56e90f88",
+      "checkout_sha256": "9e4a8178e1cdbae1c4315a77443a9ed4f800186954807100931bdb8c3b732886",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/grid_cell_archive_reference.hpp",
+      "git_object": "ccbe69e986c14b9bc71378b59157951087d8e551",
+      "git_blob_sha256": "b152bcdd68c02e82f055d989383cfec494b25342d42fa6b36d00eabe871a83c8",
+      "checkout_sha256": "b152bcdd68c02e82f055d989383cfec494b25342d42fa6b36d00eabe871a83c8",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/grid_cell_consumers_tests.cpp",
+      "git_object": "a3ddb5f842551295d26cf5a9dea46fa4b85844df",
+      "git_blob_sha256": "f62260aea769f086b6d0eeec5150737bbf599946f2a99f4e2f5c242df60e3517",
+      "checkout_sha256": "f62260aea769f086b6d0eeec5150737bbf599946f2a99f4e2f5c242df60e3517",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/grid_cell_frontend_tests.cpp",
+      "git_object": "6880308ce8fab2adc888a090b38462a506a10124",
+      "git_blob_sha256": "ed52eb3da49f838735919e38a0fc13b93b21fc0dbb79d0256b6ce7b8fb6f6a77",
+      "checkout_sha256": "ed52eb3da49f838735919e38a0fc13b93b21fc0dbb79d0256b6ce7b8fb6f6a77",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/grid_cell_reference.hpp",
+      "git_object": "8c3717a5a3fe7bcbbb7bb6752eaf6156448757a5",
+      "git_blob_sha256": "9fa5f5947995c04ca995a3508765ad31b4c090d2938abad840b47cb45a16e609",
+      "checkout_sha256": "9fa5f5947995c04ca995a3508765ad31b4c090d2938abad840b47cb45a16e609",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/grid_classifier_archive_reference.hpp",
+      "git_object": "5acf2cabf5bb01c5d2cdd93e684b80b39122d011",
+      "git_blob_sha256": "de8882d469b3c00e253220387e9fb07a1c71c0e21ec62daf98a03385cad6f0e4",
+      "checkout_sha256": "de8882d469b3c00e253220387e9fb07a1c71c0e21ec62daf98a03385cad6f0e4",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/gui_replay_tests.cpp",
+      "git_object": "28af83d7e73f4ba54418a8f9f67d5da8685fef03",
+      "git_blob_sha256": "e6ab1e43d2257ed6ab699417c990de88796ba79f675ff914636e6f8f392c4d0d",
+      "checkout_sha256": "045f7f36c5cfc712b434fd5f6323a82869451ca4b7e756f28f627197f63bd1d5",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/image_server_tests.cpp",
+      "git_object": "8d0f207907c47a6599cf0d910464ceeb74f8b982",
+      "git_blob_sha256": "6e312297529cbaf683131e416fa9872e565ace1b8de0a947e832d717c153d779",
+      "checkout_sha256": "2f31baaf33d4e0a6de48c1c371baf84d7885107938f3d27dbcecd8b3627a2ed1",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/interchange_tests.cpp",
+      "git_object": "71c3c1fdff2594a0d2f854a91a7371a745fefdea",
+      "git_blob_sha256": "ef746c5f0f14c5d3347883a5870c69bd66b7e7a4cff6a189f9b7fb973c41187b",
+      "checkout_sha256": "5afa28944efcb12fb3755b8a426a84ed6fdda73ae3f9938bccf9af405a86c94f",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/log_cell_recipe_tests.cpp",
+      "git_object": "7f51441916696005e4b42f49bca6f6bdacb35904",
+      "git_blob_sha256": "9f6b084b7f3bf335a91cb277836e28930638d74ddf62c3a5b6c1976e3bb6a962",
+      "checkout_sha256": "1a748fa5529b3f7a72535ff8582a06cf251e5a92585cba242574e1d461b5a038",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/log_watershed_tests.cpp",
+      "git_object": "67f3a450426f0236ab67ccab3c2a76a1dd2a8d9e",
+      "git_blob_sha256": "d8c4fd2eb749d4b47f801ed67af869c303eae29d6c25eed74d72632fed569af1",
+      "checkout_sha256": "bcaae26756d0eda07d3585a9056f5473f95dcc5d2adbf57d1b045c9f057ef641",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/masked_gaussian_tests.cpp",
+      "git_object": "ef8e5bc16f100ab634ce520dee0492f7c000c260",
+      "git_blob_sha256": "a7eda8eb91706128c99ae46c05eb4983964f8983b520594b62a204e2e4c4f369",
+      "checkout_sha256": "9b64db49afcc2691889c19e57fa14d6de81fa6e4eefab201daf43b37003407e1",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/measurement_table_tests.cpp",
+      "git_object": "73ba522ac2372c652eded2f3ccf417a8b4261ea5",
+      "git_blob_sha256": "b7bc4f3e0bb2648567658e322b103a3e76567de900b9fe93475c3e1fd8b95d5f",
+      "checkout_sha256": "2a8fa1ced714c48220dc9cb787ad90565f3e5fb9b2c3644d8c9fd48842ca2046",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/object_classifier_tests.cpp",
+      "git_object": "b63f8747060d69b11f8817b4e3b4830a0f122a9a",
+      "git_blob_sha256": "869906ae9d69d88b8576c9ea79f9b6e977af60c1e2b27c2eda9115b0df568737",
+      "checkout_sha256": "4aadd3fadf49b7b3b723fbf2bb63eea5ba655a8810cf8044574296147e870d58",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/object_forest_fixture.hpp",
+      "git_object": "8e61c5fe646fc31d38a1efb530332a21b34bc4e3",
+      "git_blob_sha256": "1e545bdd62cdd969d84d00e9aaf411416cdf1ace593c213cd5fe229643270c5b",
+      "checkout_sha256": "4fc3c87fd3a56d102b4d73764d9a2aee4ece71c5b54e3a9ac0f037b3f65b7c36",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/object_snapshot_tests.cpp",
+      "git_object": "0c129fe350fec68eff1123876fbc37b114965973",
+      "git_blob_sha256": "b3a4bddfb118096c87dae82a365bf67e2d4a2cfc7907a51aad8bdc7997c71874",
+      "checkout_sha256": "1298b1cb0205ccfc2d3732cbb3f8263dc06a25d14885734226d1dddd9073e08c",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/overlay_tests.cpp",
+      "git_object": "88355b51ebcd03a729b9621f73bfbc4eafbdb048",
+      "git_blob_sha256": "029165a475f64061d1606b6fb3bb48a9d95944bdf8bc01cefb6485350039a4bf",
+      "checkout_sha256": "a187fb851fb2cd2c152b582cfaf9f29b2b1e556dcf547acaadd463e9013352f5",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/pixel_feature_tests.cpp",
+      "git_object": "d48d1c696e4b663b784d1837a58a020d772fa5ca",
+      "git_blob_sha256": "a56e35bd1a7303fa245e03cadc641ba2df5893953b78da2c77910a1f7b37d195",
+      "checkout_sha256": "a56e35bd1a7303fa245e03cadc641ba2df5893953b78da2c77910a1f7b37d195",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/pixel_workflow_tests.cpp",
+      "git_object": "8a7abf0857594493374c6e198783121a8fadeba4",
+      "git_blob_sha256": "1503da2a819d6f085b748afe82495ad109a07bcc68d83d5524d94ac823529230",
+      "checkout_sha256": "1503da2a819d6f085b748afe82495ad109a07bcc68d83d5524d94ac823529230",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/project_batch_tests.cpp",
+      "git_object": "b864187cae8c40532a042d98763f07d53daddb41",
+      "git_blob_sha256": "ec994c1d64892f9913eba4a654b2264c2784444133d36adfb04f597794da6699",
+      "checkout_sha256": "597917d05e81627aaca23be64338086597c7fe856e3f8befdff6564f0c53db14",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/project_tests.cpp",
+      "git_object": "5f6ad55684fb6d0621b98e2c2d4cfc129e169acb",
+      "git_blob_sha256": "aa2707cba83f9e85aa0f6e99c840622ad239c7ebf2548b49e58fbbc4e337d6cf",
+      "checkout_sha256": "9c7baa253743d43a00105d8c750b09e0d66ac8608eb4b4a3dd996aec962d3a27",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/provenance_tests.cpp",
+      "git_object": "887b0cc49f7ed7a91a02f1acbf39223c0e0217dc",
+      "git_blob_sha256": "1ce199f76e3e0f81362099577a1dfcb7b6d887695dd9e45969a3cb3786bde0ad",
+      "checkout_sha256": "e2a172f813edf086b49043be1b5c5880b8c0de6214e52af11c3e5fb580c53e11",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/qptma_project_tests.cpp",
+      "git_object": "1e1e109950641f1d319ba9386f13110cad5b7955",
+      "git_blob_sha256": "9e5fbdae23904b244ced82ca15135d63f4645d54b5a645e646f7f506133d3c78",
+      "checkout_sha256": "0bd81806f99d91995c4fd32cb9df7a036c12b29825210d570b99531de285333e",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/qptma_tests.cpp",
+      "git_object": "8b48e67758235b473c0b0d79b63020381065c793",
+      "git_blob_sha256": "7c71592e0c10fc8e4fea151ab3db7b719938bf87812bb2fb57ab3572ba581e7e",
+      "checkout_sha256": "2a8ede8e8ac949855b03ee786e258ee2d4f6855559b655878b5ddbb1a847c795",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/raw_grid_archive_reference.hpp",
+      "git_object": "87dd0a97b79839fd07f427a74e76af340ad8a7a0",
+      "git_blob_sha256": "3a3e80eddf26881633d423b6bfaf62e713b44827840dc048cb198dc15ccdbfdf",
+      "checkout_sha256": "3a3e80eddf26881633d423b6bfaf62e713b44827840dc048cb198dc15ccdbfdf",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/raw_grid_statistics_reference.hpp",
+      "git_object": "0655a7dd51ebd868df7c5027df984f38ad0c6c08",
+      "git_blob_sha256": "799c5e89c688482d627a8c6e9f1525b87f46b4f364f0b2f1b1280dacfff236ba",
+      "checkout_sha256": "799c5e89c688482d627a8c6e9f1525b87f46b4f364f0b2f1b1280dacfff236ba",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/raw_image_tests.cpp",
+      "git_object": "a54204169b4010d340f7a460a2cc922f298f7f04",
+      "git_blob_sha256": "593a4710b42a1305938bcbe9358cd7c904b0949629e2521ca00b6690b209c4a8",
+      "checkout_sha256": "593a4710b42a1305938bcbe9358cd7c904b0949629e2521ca00b6690b209c4a8",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/raw_pixel_archive_checks.hpp",
+      "git_object": "364f2e22d4da04b741f45ff4c3f6f11270396f08",
+      "git_blob_sha256": "2a3748b5d143e72fc9e9568acc6a642c1a96fb21a704ed6ef1fe4864a685ca53",
+      "checkout_sha256": "2a3748b5d143e72fc9e9568acc6a642c1a96fb21a704ed6ef1fe4864a685ca53",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/raw_pixel_classifier_checks.hpp",
+      "git_object": "649390e85ded9d4a18072bcd410c1488eb85f539",
+      "git_blob_sha256": "753dea8d069dd9a2698ba41aec2d259232208a443e0c0fe90519b097f6596487",
+      "checkout_sha256": "753dea8d069dd9a2698ba41aec2d259232208a443e0c0fe90519b097f6596487",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/raw_pixel_feature_checks.hpp",
+      "git_object": "b48f8f02b4012e62319c6fef2aa02f9179583731",
+      "git_blob_sha256": "782793cddfcd6df3d45a6008bbbb8582362e8c9cc08ceed0825478c7ca0476a9",
+      "checkout_sha256": "782793cddfcd6df3d45a6008bbbb8582362e8c9cc08ceed0825478c7ca0476a9",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/raw_pixel_feature_reference.hpp",
+      "git_object": "6c3cff612f85ce97e477f867465a9000b866b8e7",
+      "git_blob_sha256": "a1775f7a4959add93d17c29a244407c112b194a47611d8e60c9b7a6703084357",
+      "checkout_sha256": "a1775f7a4959add93d17c29a244407c112b194a47611d8e60c9b7a6703084357",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/raw_pixel_replay_checks.hpp",
+      "git_object": "b4ccf156471acfd73a4a2d419d8cfed1fec0849b",
+      "git_blob_sha256": "c779d6487a47caf96f65bde58aae3d3d26bff76c20a3182ccd0d5112d26a9da5",
+      "checkout_sha256": "c779d6487a47caf96f65bde58aae3d3d26bff76c20a3182ccd0d5112d26a9da5",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/raw_pixel_workflow_checks.hpp",
+      "git_object": "10b508b46ca963b25c4dea80903b8e5fd072d9a5",
+      "git_blob_sha256": "fca703a21f2bc284e409a0e8e1618c512531f3c5eba1a9d5b2959a45e65f17e6",
+      "checkout_sha256": "fca703a21f2bc284e409a0e8e1618c512531f3c5eba1a9d5b2959a45e65f17e6",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/raw_scientific_mean_reference.hpp",
+      "git_object": "3a8ff362a5230db04a93163fd4ea85f861d0ccbb",
+      "git_blob_sha256": "3df09af16d2a8759b078f08e1992fd225076b0482a393bbf9a807a1ae7a63bcf",
+      "checkout_sha256": "3df09af16d2a8759b078f08e1992fd225076b0482a393bbf9a807a1ae7a63bcf",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/raw_scientific_numeric_tests.cpp",
+      "git_object": "9cb651fa36d46da9e240bb6f0d22b4fab280e75b",
+      "git_blob_sha256": "6753e71009da30acaae8001a4c13b56b20fd8db1489d31e19275749b3641febe",
+      "checkout_sha256": "6753e71009da30acaae8001a4c13b56b20fd8db1489d31e19275749b3641febe",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/raw_scientific_sampling_reference.hpp",
+      "git_object": "fdc6c8a2e623e90334f26bcae120dde77a8a6047",
+      "git_blob_sha256": "0ac5dc113ba431fda62b00c0e65dd6f044d354080585bd87f8cf98f89d0aaf73",
+      "checkout_sha256": "0ac5dc113ba431fda62b00c0e65dd6f044d354080585bd87f8cf98f89d0aaf73",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/raw_streaming_reference.hpp",
+      "git_object": "e7fd129e9e805162bf560d69c35a44e831e1570f",
+      "git_blob_sha256": "02658e4d83737c5d60cdfb30df52c5b4a7a8016b086020e8a8d808d2d7db4b61",
+      "checkout_sha256": "02658e4d83737c5d60cdfb30df52c5b4a7a8016b086020e8a8d808d2d7db4b61",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/raw_window_checks.hpp",
+      "git_object": "83543137abf587cadc49a7a234c09cf5ed2a55d3",
+      "git_blob_sha256": "57acf9bf5fa49577d9fa2a4e57c07cbb8f8b0861979f6dca00af9e2ef3338b08",
+      "checkout_sha256": "57acf9bf5fa49577d9fa2a4e57c07cbb8f8b0861979f6dca00af9e2ef3338b08",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/raw_window_weight_reference.hpp",
+      "git_object": "551e7f0c53ba8ca46d9ca4cc40d2ac5f633815d6",
+      "git_blob_sha256": "149fa6e2c4c5ca606c7a3d6090d76eca1d236db662de81ef846018be64267c54",
+      "checkout_sha256": "149fa6e2c4c5ca606c7a3d6090d76eca1d236db662de81ef846018be64267c54",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/recovery_tests.cpp",
+      "git_object": "d725a596b58886f2d0fad0726d8367557a674e9e",
+      "git_blob_sha256": "f074c957ed2e408ce6775f50852edebe7f71dd7e4933e181a247c8eb334c1131",
+      "checkout_sha256": "ae7a3f2b8da531756aeae9950fdc6061442bc843e66716686bc2dc998e535469",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/resampling_tests.cpp",
+      "git_object": "b82a176d6bb6b43ac74b491b708aeb392bffaa5a",
+      "git_blob_sha256": "ed0fe917e078ecdc7a2dc0467efecd84a8a0395895a3d7953fc9e870dee46050",
+      "checkout_sha256": "ed0fe917e078ecdc7a2dc0467efecd84a8a0395895a3d7953fc9e870dee46050",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/save_tests.cpp",
+      "git_object": "385d8fe520c97021d853935d98b4fbe06054b876",
+      "git_blob_sha256": "d4570c914f1abca58fe4066fdf64fecdbf16eccd2d534dddcbfde52a9a3294d3",
+      "checkout_sha256": "16021f68f0b298b077a1ebac3b625c8fe722b2adb93200ab256a4c6a2f349b25",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/scientific_cell_archive_tests.cpp",
+      "git_object": "15076d92f2c73ece0192119294bfd51fcc9cf589",
+      "git_blob_sha256": "aee56a4fa205ad5ab48804bf8952b9183e74787518d01882dd6bab9de38604ea",
+      "checkout_sha256": "aee56a4fa205ad5ab48804bf8952b9183e74787518d01882dd6bab9de38604ea",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/scientific_cell_numeric_tests.cpp",
+      "git_object": "9d07da96dfcd0360621790d9b733483b59cbd728",
+      "git_blob_sha256": "af1c633faa06e7b345ce6a386d6058aff1a8965baf33a1061259a5b2ad1e4651",
+      "checkout_sha256": "af1c633faa06e7b345ce6a386d6058aff1a8965baf33a1061259a5b2ad1e4651",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/scientific_cell_reference.hpp",
+      "git_object": "418c68aed56784fc18d74444bd4d229d0f56cfcb",
+      "git_blob_sha256": "0ca525289848119a4a29f59ca7a73f6a23831d23bc431bc97109f63cee4885a8",
+      "checkout_sha256": "0ca525289848119a4a29f59ca7a73f6a23831d23bc431bc97109f63cee4885a8",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/scientific_cell_tests.cpp",
+      "git_object": "b717dc0684d2025a8659029f989a2dc0bdcddd1c",
+      "git_blob_sha256": "53765987d860a1ee78ea7f69c5c8e41bba21090921e8c3ac16a18a8c8737a193",
+      "checkout_sha256": "53765987d860a1ee78ea7f69c5c8e41bba21090921e8c3ac16a18a8c8737a193",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/scientific_channel_reference.hpp",
+      "git_object": "7fa8bbab0ac88b97c79fe94936f32cb6fb1be01f",
+      "git_blob_sha256": "f276a63bf902b4b1d8732648d7a427c222b0a6b9f0dce3b318e9641f2a1835ab",
+      "checkout_sha256": "f276a63bf902b4b1d8732648d7a427c222b0a6b9f0dce3b318e9641f2a1835ab",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/scientific_channel_tests.cpp",
+      "git_object": "581a71391c2a105bcd30cc0c42b8291a255acb88",
+      "git_blob_sha256": "adf7df6ac067c227705c1fb7586e13edfa3d385e7d0bb4d5dd463a36d66a89a2",
+      "checkout_sha256": "adf7df6ac067c227705c1fb7586e13edfa3d385e7d0bb4d5dd463a36d66a89a2",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/scientific_grid_geometry_tests.cpp",
+      "git_object": "b44a18ff1d0a31ef714d8785b4119106fc4562f7",
+      "git_blob_sha256": "d09b0b374df1eb1d1d6d53ba685b94ac7c58bc5e7610965c12a72715f9dd7fe0",
+      "checkout_sha256": "d09b0b374df1eb1d1d6d53ba685b94ac7c58bc5e7610965c12a72715f9dd7fe0",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/scientific_grid_reference.hpp",
+      "git_object": "7f00cf49571d8b99d9caa9f59740f6e751233704",
+      "git_blob_sha256": "89b75603c5a7a6072c18ae754b9aac3f31117ff51625652b7266c517501fdec8",
+      "checkout_sha256": "89b75603c5a7a6072c18ae754b9aac3f31117ff51625652b7266c517501fdec8",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/scientific_raster_tests.cpp",
+      "git_object": "4319a14138f081d0dedbe4ddc6bf62b747a002e9",
+      "git_blob_sha256": "47b9b704feaa7a9062b0bd5824add1e53a09dc4348abc13c704d3caf63038a37",
+      "checkout_sha256": "47b9b704feaa7a9062b0bd5824add1e53a09dc4348abc13c704d3caf63038a37",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/scientific_raw_sampling_tests.cpp",
+      "git_object": "545a97813a34e02f6824a74e7fd24c7973cf7ed2",
+      "git_blob_sha256": "22c6c94b5bc9256c8a37956239646a33b9e5ff3cfb5fe7a8193d88fd8baa5b41",
+      "checkout_sha256": "22c6c94b5bc9256c8a37956239646a33b9e5ff3cfb5fe7a8193d88fd8baa5b41",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/scientific_sampling_tests.cpp",
+      "git_object": "803da0fbcba8ac404f8228308dbdfaf03de68f15",
+      "git_blob_sha256": "6f26ab0abea0c8afef1b9505ab9fd4a4fdbd7cad750903122a69286e3a7f5a4b",
+      "checkout_sha256": "6f26ab0abea0c8afef1b9505ab9fd4a4fdbd7cad750903122a69286e3a7f5a4b",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/selection_tests.cpp",
+      "git_object": "7bed3876f1613981498e6af1842f51ced85032dc",
+      "git_blob_sha256": "f3f3f338b327a708352522ecea6a2e791cb0d2b13c6025bba6f427498c3736d9",
+      "checkout_sha256": "3a17b98f06155973a7983c307a1b01700b0339fa00e4039cd90955addf017e57",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/sha256_tests.cpp",
+      "git_object": "07e1e850787d504ea8b64b99f39247316e2b017d",
+      "git_blob_sha256": "93a7fc6f0cc4980d476d7f09232dc4df83806348810090582a5a6deda849a88b",
+      "checkout_sha256": "a61eb1ddaeb8e1a8f73a70dd468ce94ed00f5bcc902a6e754b0869554ca965a6",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/source_identity_tests.cpp",
+      "git_object": "fee559af7e8675647b7fc2883da3198d446bde59",
+      "git_blob_sha256": "67bf1cb9f437baa5761302b529d09497f6d77a31339580f4ddb5d2348591b31a",
+      "checkout_sha256": "2c3513f1a26d9db275d76d81eb3e4911a9f0043393ecb164f7f7f5360a03b18d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/spatial_tests.cpp",
+      "git_object": "8019634506bbcbc5d37bd19babb31ad8cc2e964b",
+      "git_blob_sha256": "4d6bdb4116d75fae3eee6db4651aeb9cbc60852d8d291a7aff8e3af34409e48b",
+      "checkout_sha256": "1b7797856209b3a3450098818f6d8b96c698a92a5b65f2413bb71f6cd4f9f21d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/stain_estimation_tests.cpp",
+      "git_object": "8e1d61b5abda28759c61828bec01f2beff110c19",
+      "git_blob_sha256": "befbf0f26319657a2e1dbe651d024fe6d7991453b087f7e025b34f1ed3cc79f1",
+      "checkout_sha256": "958aca877c7f0c9b68b70cc636020b506f2e787aafac1be7e14e5fe0a1aa3f04",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/stains_tests.cpp",
+      "git_object": "08a6888f4af1dd02d8265cc32c92859b250d42a1",
+      "git_blob_sha256": "c28bf3dc0b5016fb8395104162b457ff5dfe7a079f70d8bf39fa50a3f7625dca",
+      "checkout_sha256": "e4c63c9067fc8306f81129780c006161f28b551c00dbc08c5544bbe07f5f4a93",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/thumbnail_tests.cpp",
+      "git_object": "c6e8dec21dd0735c67c43a6326546aefff6420e6",
+      "git_blob_sha256": "66f33d3e701c3a398699a7592c2d7e4c2e7280eb938209fea6cc7e4c6d0ca472",
+      "checkout_sha256": "22ed071b5883a56be5ee92a959a2a8ddbf3a64b2ce9e7a18be34e2390c4f2189",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/tile_scheduler_tests.cpp",
+      "git_object": "09df69e67eb204f378b213f40127a733c16f78ba",
+      "git_blob_sha256": "737dd6c83b6084c8ab247d2a15f7f6ff49747f0463fa08744124907482602626",
+      "checkout_sha256": "646422aeeac7737417d0f8dce60c048521ea37116850a5d2226094be34e38a22",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/tissue_contour_tests.cpp",
+      "git_object": "5b07195ef5815fd17dbe50c98ae9d3eaa530d183",
+      "git_blob_sha256": "339e2593e232565b1735276c3724c15b88c466cae68d49b461528cf8339afc99",
+      "checkout_sha256": "09009e09051ae5cf2e38b848c2d1de5528abfaee71269c0536fe13dfa35cb4cf",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/tissue_record_tests.cpp",
+      "git_object": "723d4cf1c57f25c6030b6cc3d144863fb94006f6",
+      "git_blob_sha256": "1225df78c9e07d0e7c63f552a3a92dda88efe75cbc31b480ec3858c9e16a0833",
+      "checkout_sha256": "c698539de5fb070bae44883bf6b283732d4c5dfa456583d2899f6dd6f7159c01",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/tissue_tests.cpp",
+      "git_object": "5dbbb4be7dcf547169614bfc1a918032779fc406",
+      "git_blob_sha256": "b299bf612a7fe49bfeeb99776e45ec6707cc9280d3974a4e9982d7cf08052c18",
+      "checkout_sha256": "88f22670766b729425e902b58e99033add098c670d134e9cfbdd3a6f8a769d7c",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/tma_dearray_tests.cpp",
+      "git_object": "25eb906831f70f7774d33a3c919bcce578b98b19",
+      "git_blob_sha256": "4e368e0059c5f4fc82f5cb64399493bbb84bbeffa59563c6046fd0abfba83832",
+      "checkout_sha256": "4e368e0059c5f4fc82f5cb64399493bbb84bbeffa59563c6046fd0abfba83832",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/tma_tests.cpp",
+      "git_object": "5937e495f59f79270bb1caf5e2b580561561a9c4",
+      "git_blob_sha256": "066c1f6192b7de100dd3a8846ca5768fd23ebd1777f3f724e7f7169a9dc7776c",
+      "checkout_sha256": "066c1f6192b7de100dd3a8846ca5768fd23ebd1777f3f724e7f7169a9dc7776c",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tests/view_tiles_tests.cpp",
+      "git_object": "eaeec597a3bfdb8e0474b03088c1a511009cdbb2",
+      "git_blob_sha256": "baf2f9990058f3160acf91853054285bbf3d12bde7f5a00e23350ccc5dc8fe25",
+      "checkout_sha256": "ab3b4d00915ed1a770e7dc3de40b1083c73e4d9d32194068883e498c2a9cf955",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tests/viewer_session_tests.cpp",
+      "git_object": "f71ae3f5de0856bbc35777245860bc93f01561ff",
+      "git_blob_sha256": "ff102ba8c04db6c31f858cb7b66b58df3673b6ba0bc1d7d4a9e8581bd8ed3afc",
+      "checkout_sha256": "ff102ba8c04db6c31f858cb7b66b58df3673b6ba0bc1d7d4a9e8581bd8ed3afc",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/thumbnail.cpp",
+      "git_object": "da7f437b458b887c21c2f38f5b82d7318e7fd320",
+      "git_blob_sha256": "71ff501a57e119f7032c980fe12ffb9504027363521707cfb2d8b7119b5e7301",
+      "checkout_sha256": "47da8089c0f42fde103d26e70558898e6a5ca430ccb58445ffa1862bd6f3878e",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/thumbnail_bindings.cpp",
+      "git_object": "6e18805813edd15fe728ed7007725fa47bb486ae",
+      "git_blob_sha256": "93b9435f1cbe7b0cdf0759f42a14f03c292f69ccd353fd7cb6710059362fe09b",
+      "checkout_sha256": "547c373b1230e854c07531216f547f1c2e6334718c656faea39b8098017e69a2",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tiff_server.cpp",
+      "git_object": "df1e4ced78d01db691e439f7c544b189eb633355",
+      "git_blob_sha256": "efa44fdfa230275805958c60a11f17e5f467e425842b0d8bd3e47ecc03497943",
+      "checkout_sha256": "efa44fdfa230275805958c60a11f17e5f467e425842b0d8bd3e47ecc03497943",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tile_scheduler.cpp",
+      "git_object": "6249c93d452e10508d56b7d6f246dcfcf51a57ff",
+      "git_blob_sha256": "3893275a227bb22a6d9c8acee512f08eac72f66c9039b41c6d14e1986563125d",
+      "checkout_sha256": "7ffc389f91bc4f755cb57f9bb3713349a5c639b04ac1156ec34386bbfb45dd70",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tissue.cpp",
+      "git_object": "37dcf84ba6d843cb35dd026ddf1da7de0eb71502",
+      "git_blob_sha256": "b91ed924f075853b28b452485bb28a6d7e1aad32bb76591f5febaf801a2a5b96",
+      "checkout_sha256": "e46cd4b7c21392a0facbdd06dc226728ac1efccf6fb071f1d4a5b4259e5e396f",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tissue_archive.cpp",
+      "git_object": "7107c569b159bb1ddbefb27e4b5d0d4348346939",
+      "git_blob_sha256": "f0041cb50647e917765eaeace6aad1fdf43ef19649afa8da82f30cb4ebfd2aba",
+      "checkout_sha256": "3d834244a5d6cdd5b07bac0a11eca457dbb1fa6f45093c87b5c5b9753b4b6e5e",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tissue_archive.hpp",
+      "git_object": "5df9180f7bd06c32694e23740d81ccc8ac00c492",
+      "git_blob_sha256": "7e003448a2ab43bb07ee7deaab62a695bed6e8bd45c618a6eec874fc192259a6",
+      "checkout_sha256": "e4b95fc061b2d1b6e0b51964d0b90500f0e825ffa71a4d06c6df648f455e9c0f",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tissue_bindings.cpp",
+      "git_object": "79dbe24dc9556232abd273b61ce9c6f05abab028",
+      "git_blob_sha256": "06d143b973f1feb2aa476b8f82a4c0becf07ebca6ac00e1096a126d65a0e2a30",
+      "checkout_sha256": "06d143b973f1feb2aa476b8f82a4c0becf07ebca6ac00e1096a126d65a0e2a30",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tissue_cleanup.hpp",
+      "git_object": "203783b5d5f417e1e7a5249e7f2e4f908825966d",
+      "git_blob_sha256": "0c9b6bd9b73607f77aaa4c370dd7e14c27a4e5ce8ed26f63e37a7eeaa71a85cb",
+      "checkout_sha256": "2a40a1925d4621c4315646193552d22fd0bee9e0f7f5caaaefaec87a3e676508",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tissue_contours.cpp",
+      "git_object": "b9b0861ccb9ee246af1b876a6e9198fce6e4251b",
+      "git_blob_sha256": "d5ad3d18ae004abd4c0222bbed989be8df1f131b95f5d599e54e05798de0d585",
+      "checkout_sha256": "d5ad3d18ae004abd4c0222bbed989be8df1f131b95f5d599e54e05798de0d585",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tissue_records.cpp",
+      "git_object": "82ce120e5a29d94458326d1eaa2d3eeb3d21b9ad",
+      "git_blob_sha256": "9c46224d7da7185990c4ea69a75666bb12a49254130ea1d587d7716af51eaa16",
+      "checkout_sha256": "a182014e7a055f5d8cf0df41ffa06f5c055f0a60bd317f79045de2c2140cdccb",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tma.cpp",
+      "git_object": "175d2704a3a4664b9a86f83cafd5e955f60ea2b0",
+      "git_blob_sha256": "c692f4fc12f54d2ad5c2877d1e327404f51c1b2e22799490940e8e9730358d2b",
+      "checkout_sha256": "c692f4fc12f54d2ad5c2877d1e327404f51c1b2e22799490940e8e9730358d2b",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tma_bindings.cpp",
+      "git_object": "ff23c4583c98b0ed28eb872a9280cb6c904c87f4",
+      "git_blob_sha256": "47f420040d82ab47a064f5d108cb34958e42442e2ef43a53b05c10ea16ca616e",
+      "checkout_sha256": "47f420040d82ab47a064f5d108cb34958e42442e2ef43a53b05c10ea16ca616e",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tma_case_cli.cpp",
+      "git_object": "827c6e83294226bf6b9f7940bc52df2975093254",
+      "git_blob_sha256": "0708fc215fddffb59c56682369702ae4f239a1b3afaa6cdc2b5546a4bc7d0e53",
+      "checkout_sha256": "7b84fc7962d4e058ba87bd167d341385be681df42011c27635efb055774211a1",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tma_case_cli.hpp",
+      "git_object": "fb19345e567c9f062ac89a9d5080dd236015056c",
+      "git_blob_sha256": "a2cf1a93148d15cfcc4fe5426ff5f91f3454667171a640510868493b9d5d0add",
+      "checkout_sha256": "eb17b4aa671bcfb5fc597e2d062b3c64eb8ef7921c9c171467768510c5c5858d",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tma_case_export.cpp",
+      "git_object": "a602891b39c64548af67327219dc7b60f0e3f773",
+      "git_blob_sha256": "796036ee5651b1c667c5e87dd9195c4d914f21bce57f030568e85b433e7fd7fb",
+      "checkout_sha256": "f03f34d46e8769fffec268f63c1dc4a064ba6f9517dd0010589b62f2c5abae0e",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tma_case_export.hpp",
+      "git_object": "515452676758155b96bb00d0d229a96fa01d243e",
+      "git_blob_sha256": "d84bc109298e85897ed9ca9c6df4a5a400008162868db9c11317b31261088b7a",
+      "checkout_sha256": "18e9a9069c47f6d0afb578fd94ff3e9c0503d8217fca374530d617a27f9b83d0",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tma_dearray.cpp",
+      "git_object": "916e37138ea32460957417b7df1815e0df23ffd2",
+      "git_blob_sha256": "3bea9bd2fab830322066d2a12e069d637ce52d7f20798b429722e8e7cd12f179",
+      "checkout_sha256": "3bea9bd2fab830322066d2a12e069d637ce52d7f20798b429722e8e7cd12f179",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tma_dearray_cli.cpp",
+      "git_object": "f049bc46e5de812d87210708a9a08b54504461df",
+      "git_blob_sha256": "849984c66a412dc5d5dee87fd56eea493d1d2b18b3d5a6665141307508fa0e03",
+      "checkout_sha256": "849984c66a412dc5d5dee87fd56eea493d1d2b18b3d5a6665141307508fa0e03",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tma_dearray_cli.hpp",
+      "git_object": "f8f9bb05e550f9c30fcfc171e21d587eae8f227d",
+      "git_blob_sha256": "ca7e7bc29ef9a30e2eb066c29942044ee972331fa277f6d5218fc05a6dcbf6fa",
+      "checkout_sha256": "ca7e7bc29ef9a30e2eb066c29942044ee972331fa277f6d5218fc05a6dcbf6fa",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/tma_internal.hpp",
+      "git_object": "d9fe6ef9d63deb2939fd593213f1095cfdacd040",
+      "git_blob_sha256": "7141fa002fdd4cf5701fd539c795dadf9f07c0106b0bd89d27dde18e3669fd3d",
+      "checkout_sha256": "ea6a9a88bc4a72c0ec2228a9b566f75901762e64bbffd1021cd7d27ae842aae2",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/tma_tables.cpp",
+      "git_object": "7e99786b545115c396d2b8a77957b7d2bef56817",
+      "git_blob_sha256": "c316058a8494ab3dbf45f7971c69f3f9ab208dc02771104ed198c8a7d62ac42a",
+      "checkout_sha256": "89913df6d4f8b60f4fe6cfe6242cd10fd5691b0c5699b109d66c14f727ae614e",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/utf8_text.hpp",
+      "git_object": "1cae3dae26432ae1f1a691d2a301b890d49c3618",
+      "git_blob_sha256": "5ad461bfd870aa041e18a0fe9943e7cf0df461968bd2ed4b1fef079329911749",
+      "checkout_sha256": "d26b8c624ebfdb07cab5170a88ce640c8462d505b3c3899b28c1cb7dc9929aff",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/view_tiles.cpp",
+      "git_object": "4a534ae8c09f4a78aa8ac618092bb8185802173a",
+      "git_blob_sha256": "1c0bd54f3a3fc6e2e8821647afabe1a243982c26e4fd57c689659cf35090e60b",
+      "checkout_sha256": "5fc71f32e1743da9e490691d46f0007334b6c8685fb7633ed5712f1a13c15284",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/viewer_bindings.cpp",
+      "git_object": "0cb248b30e2f085f0cdc311b2f8afddc178b53da",
+      "git_blob_sha256": "be165f475fa1718ceeca3fb25f0b863a4c3e0aac7f611a3dea6c6ea3d970ab96",
+      "checkout_sha256": "be165f475fa1718ceeca3fb25f0b863a4c3e0aac7f611a3dea6c6ea3d970ab96",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/viewer_bridge.hpp",
+      "git_object": "928b82d3cac1311d1f55154a3f17cf0bb09f51cc",
+      "git_blob_sha256": "bca9c0401c3a74d2774afb60708e6a82d6dd6feff43ed6c1928a4cc97cfda373",
+      "checkout_sha256": "90bc85e675a6d9e69edf162958a618c6ab1502b791117b456825c1789363889b",
+      "crlf_normalized": true
+    },
+    {
+      "path": "cpp/viewer_session.cpp",
+      "git_object": "c781b6c99f69f3a5b416f9e8c8ca5b138459b114",
+      "git_blob_sha256": "77af32f2c38c9782eaf2139c98a97d9bf34266cf83eff26caab2d287e61536fe",
+      "checkout_sha256": "77af32f2c38c9782eaf2139c98a97d9bf34266cf83eff26caab2d287e61536fe",
+      "crlf_normalized": false
+    },
+    {
+      "path": "cpp/workspace_preferences.cpp",
+      "git_object": "1f853b79603eaee00009aff19516ff7224f29462",
+      "git_blob_sha256": "613775411a9955a3f6e05b37fd1f436fe08deb3a58b270dcd4949503b3dae4cc",
+      "checkout_sha256": "e951296c0220e6251ba179dd3087bc9ed82f57b6e68bcac8d0faf90fc701cab9",
+      "crlf_normalized": true
+    },
+    {
+      "path": "pyproject.toml",
+      "git_object": "ac5fe167c0adf84953871511463fa3126b6737a4",
+      "git_blob_sha256": "c5ff8099bf06aacd15eba014e9994e6ff8e9b42dd9fd0dab1adf75644f693050",
+      "checkout_sha256": "599255f63494e67690ac448023b002958b981770433315d7cdfa1583c1b6922a",
+      "crlf_normalized": true
+    },
+    {
+      "path": "src/qupathxx/__init__.py",
+      "git_object": "1f3ed31586ddd133d51f7898cbcfd8ff9c70a642",
+      "git_blob_sha256": "f42748352cd5ca2c9e542848953bc7818650322b0b8436a787d7b6264ee27fc9",
+      "checkout_sha256": "f42748352cd5ca2c9e542848953bc7818650322b0b8436a787d7b6264ee27fc9",
+      "crlf_normalized": false
+    },
+    {
+      "path": "src/qupathxx/__main__.py",
+      "git_object": "0a809dad1f2a5d472b973dc13136984a7ac1ae40",
+      "git_blob_sha256": "17acdb2724c4483b0ea16c61616a816d9808dec04b4c0d8efc31b4d774608247",
+      "checkout_sha256": "91d7eca53fc7a88257ef05e28bd31efacbf521bd789c165839fb42fdca4f8e41",
+      "crlf_normalized": true
+    },
+    {
+      "path": "tools/reference_raw_window_weights.py",
+      "git_object": "02e6df2df8c8f7ef59a9813cd40519d6fd6fd968",
+      "git_blob_sha256": "a197ea32cff88e5fbfdc5f645d9bd2876c984be21717348caf2b71a21dafb975",
+      "checkout_sha256": "a197ea32cff88e5fbfdc5f645d9bd2876c984be21717348caf2b71a21dafb975",
+      "crlf_normalized": false
+    },
+    {
+      "path": "docs/benchmarks/raw-window-fraction-reference.json",
+      "git_object": "6c7a7fcfb200609c2031c4a35bc61236e26e9564",
+      "git_blob_sha256": "bb7e19142bcabf499a58d4ad80094d6b514bf698d9adf87ab263780f1f3d2ebe",
+      "checkout_sha256": "bb7e19142bcabf499a58d4ad80094d6b514bf698d9adf87ab263780f1f3d2ebe",
+      "crlf_normalized": false
+    }
+  ]
+}

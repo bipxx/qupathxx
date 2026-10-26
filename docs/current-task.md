@@ -39,9 +39,20 @@
   Earlier Linux development XML was overwritten by a reused JUnit output path;
   original text logs remain. Final Linux XML is retained byte-exactly at its
   correct run, with this limitation recorded in the receipt.
-- Next product action: phase-preserving raw sampling/feature windows, bounded
-  streams and source/model-safe checkpoint resume, then nanobind/Python/CLI/batch/
-  ImGui/managed-viewer integration. Cross-tile contour stitching is separate.
+- Raw sample-index window sampling/features now have [local evidence](benchmarks/raw-lattice-windows-local.json)
+  at `ae0ba29`: five selected suites each Windows/Linux and two Windows training
+  regression suites pass, with 342 matching compiler inputs and twelve retained
+  executables. Independent Fraction references cover 13 wide-weight means and
+  20 large irreducible-lattice uint64 samples; 9,072 tiled feature slots match
+  full-grid bits across twelve dtype cases. A million-by-million global lattice
+  admits bounded windows without constructing a whole-raster ScientificGrid.
+  The shared exact sampler/feature algorithms preserve global phase and halos;
+  distinct owning window data cannot silently enter legacy full-grid consumers.
+- Next product action: integrate the new windows into raw recipe/model matching,
+  classifier outputs and owner-captured tiled training/prediction jobs; then add
+  versioned stream/checkpoint resume and nanobind/Python/CLI/batch/ImGui/managed
+  viewer workflows. The window primitive is not a completed prediction stream.
+  Cross-tile contour stitching is separate.
   Linux/Mac GEOS-positive/backend-enabled and integrated platform training remain
   unqualified. See the
   [contract](raw-pixel-classifier.md) and

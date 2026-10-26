@@ -307,3 +307,57 @@ late source mutation and atomic undo/redo. Linux and Windows training configurat
 also exercise GEOS-unavailable refusal. These are bounded single-grid contours;
 streamed cross-tile stitching, installed frontends and platform/research acceptance
 retain their own gates.
+
+
+## Phase-preserving raw window sampling and features
+
+Source `ae0ba29` has [local native evidence](benchmarks/raw-lattice-windows-local.json)
+for five selected suites each Windows/Linux and two Windows training regression
+suites. This is the numeric window primitive; classifier request/result, stream,
+checkpoint and frontend integration remain required.
+
+`ScientificRawWindow` takes image dimensions, the original two
+`ScientificGridAxis` descriptors, and a bounded first-X/first-Y/core-width/
+core-height range. Its axes retain global origin/extent/sample denominators.
+`first_core_index()` and `core_samples()` locate the local output; context comes
+from each original axis. Edges and centers use global sample indices and exact
+rational arithmetic. This constructor admits window geometry, not an entire
+RGBA8 source or sampled-output raster. A million-by-million global lattice can
+therefore supply a small window even when constructing ScientificGrid would
+reject whole-raster admission. Traversal, exact-weight and allocation limits still
+apply to the actual window before pixel IO.
+
+`read_scientific_raw_window`, `digest_scientific_raw_window` and
+`scientific_raw_window_work_bytes` reuse the existing sampler, metadata snapshot,
+bounded source chunks, support precedence and source-bit commitments. The owning
+`ScientificRawWindowData` is a distinct type with `window()`, source metadata,
+capture width/height/channels, HWC binary64 means, per-channel support/reasons and
+decoded/input commitments. It cannot masquerade as a full ScientificRawGrid or
+enter an old full-grid codec. Its input domain is `qpx.window-raw-area-exact/1`;
+it captures global axes plus local first/count. Legacy full-grid grammars remain
+unchanged, and tiled commitments are not relabeled as legacy full-grid hashes.
+
+Window weights reduce each global extent/sample pair by its gcd, preserving the
+same rational area mean. Dense large lattices then use small exact weights.
+Irreducible ratios can still require a denominator larger than 32 bits despite
+only a few source-pixel visits. The shared exact accumulator now has a separate
+window mode with a checked total below 2^72; its existing 68-word/2176-bit numerator
+holds the required <=2170 bits. Integer long division rounds once to binary64
+nearest/even, retaining signed-64/unsigned-64, extreme finite and subnormal input
+semantics. The legacy 28-bit mode and limits are unchanged. Window admission
+charges 68 division-word visits for small weights or 2304 division-bit visits
+for wide weights; these are traversal/allocation budgets, not process RSS or
+latency measurements.
+
+The private quantitative feature authority accepts this window data, sharing its
+normalization, Gaussian/support filters, gradients, Laplacians and final float32
+projection. It returns only the core and requires the existing per-axis halo;
+tile edges do not become image edges. Feature input uses the separate
+`qpx.raw-pixel-window-feature-input/1` domain. The local test compares 9,072 exact
+float32/support slots against full-context features across twelve dtype cases,
+including nonbinary sampling ratios, anisotropic filters and image/invalid-source
+seams. Independently generated [Fraction references](benchmarks/raw-window-fraction-reference.json)
+check thirteen wide means and twenty large irreducible-lattice uint64 capture
+slots. Hash-only equality, bounded chunk reread mutation, outside support,
+cancellation and exact budget refusal also pass. Training-enabled regression
+checks cover the existing whole-grid workflow, not window-aware training yet.
