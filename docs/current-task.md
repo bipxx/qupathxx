@@ -2,69 +2,39 @@
 
 ## Current execution card (2026-10-26)
 
-- Active integration: `feature/scientific-grid-159`; native multi-file OME now has
-  local synthetic reader/project/frontend verification. Open-source-only reader scope remains in force.
-- Frozen TMA candidate: `19371b7`, unchanged. All original engine/Mac/portable
-  jobs completed successfully; all 11 archives are size/hash/source verified.
-- Acceptance: the [combined receipt](benchmarks/tma-dearray-202-qualification.json)
-  accepts engine, both Mac-native architectures and both portable builders/fresh
-  consumers at `19371b7`. The successor auditor `cc2f524` preserves the original
-  source identity and the rejected stale-count audit. Main remains unchanged.
-- E1/E2: named GUI audit repaired; early optimization refusal, source-byte helper
-  execution and pytest-environment admission implemented. All 438 local auditor
-  controls and 48 Linux stdlib boundary witnesses pass. This is tooling/local
-  verification, not a new hosted product build at the auditor revision.
-- MFO1: [local workflow evidence](benchmarks/multifile-ome-local.json) binds
-  native source `1c62165` / fingerprint `8409a274...f6c80f` to seven passing
-  native suites on each Windows/Linux host. Installed regression passes 304
-  cases plus 14 declared skips; the 17-case desktop follow-up covers 12 desktop
-  skips, leaving two OpenSlide capability skips. The final multi-file cohort
-  passes all 39 cases, including both entry points, C/Z/T/SubIFD samples,
-  cache/file/XML limits, project/QRA3/QRA4 replay, relocation/relink, CLI/batch
-  resume, ImGui and managed viewer. Counts overlap; do not add them together.
-- MFO1 engineering qualification is accepted at frozen source `9e7d0be` in the
-  [combined receipt](benchmarks/multifile-ome-210-qualification.json). All 11
-  archive sizes/digests/sources and strict engine/Mac-native/portable audits
-  pass. Windows GUI: 51 native suites / 3,986 installed cases; Windows headless:
-  50 / 3,534; Linux headless: 50 / 3,532; minimal and sanitizer: 50 each.
-  Both Mac-native architectures pass 50 suites, inventory and relocation.
-  Both portable builders pass 50 suites / 3,532 cases; fresh consumers pass
-  3,490 each. Mac Python/GUI/OpenSlide and the three strict scientific xfails
-  remain open. Main's qualified application source remains `61e546e`.
-- MFO1 fault controls now have [local evidence](benchmarks/multifile-faults-local.json)
-  at native source `bfa416e` / fingerprint `0a65065b...bd1f33`: seven selected
-  native suites per Windows/Linux host, 321 installed cases, 17 desktop
-  regressions and 619 auditor controls pass. Ten new cases cover both-entry,
-  both-level EOF/Deflate faults, decoder/workspace admission and real compound
-  job cancellation with preserved records and successful retry. Native checks
-  cover pre-cancel open/raw/outside/view/analysis and atomic export replacement.
-  Counts overlap; the local OpenSlide-disabled configuration retains two
-  capability skips after the desktop follow-up.
-- Qualification action: follow the [expanded fault campaign](benchmarks/multifile-fault-213-campaign.json)
-  at frozen `bfa416e`: [engine40268520155](https://github.com/bipxx/qupathxx/actions/runs/40268520155),
-  [Mac40268527953](https://github.com/bipxx/qupathxx/actions/runs/40268527953),
+- Integration: `feature/scientific-grid-159`. Native source `a13adef` adds the
+  private quantitative raw feature kernel. The [local receipt](benchmarks/raw-pixel-features-local.json)
+  binds identical 321-input fingerprint `ae0391fd...caf907` on Windows/Linux.
+  Six selected suites pass per host, including preserved RGB feature/workflow
+  regressions. Twelve independent dtype/extreme cases check 12,600 feature slots,
+  explicit per-channel affine transforms, both one-axis filters, anisotropic
+  smoothing, missing support, streamed seams, budgets and cancellation.
+- Next product action: SCI1-A3 owner-captured raw training/prediction, reusing
+  this kernel and current forest/jobs. Follow the [numeric contract](raw-pixel-classifier.md)
+  and [A1-A6 route](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
+  Physical-unit recipe capture, model/archive and checkpoint compatibility,
+  Python/CLI/batch/ImGui/managed viewer delivery and integrated qualification
+  remain required. Private native checks do not establish those outcomes.
+- Frozen MFO1 fault campaign: `bfa416e`, immutable. The [partial receipt](benchmarks/multifile-fault-213-partial-qualification.json)
+  verifies ten of eleven archive sizes/digests/sources. Both Mac-native
+  architectures and both portable builders/fresh consumers pass strict audits;
+  the three Linux engine modes pass a strict Linux-only audit. The original
+  Windows headless job succeeds; Windows GUI is still live. Full engine/matrix
+  acceptance remains pending. Retain original handles
+  [engine40268520155](https://github.com/bipxx/qupathxx/actions/runs/40268520155),
+  [Mac40268527953](https://github.com/bipxx/qupathxx/actions/runs/40268527953) and
   [portable40268533643](https://github.com/bipxx/qupathxx/actions/runs/40268533643).
-  Exactly one full-profile run per role is dispatched. Preserve the handles,
-  verify required archives and require strict audits; live jobs are unaccepted.
-  This packet also executes the later E3/E4 tooling in the hosted profile.
-  The separately accepted `9e7d0be` campaign remains unchanged. Broader stress,
-  vendor/whole-slide, scientific, hardware and release requirements remain open.
-- E3 [proof reuse](benchmarks/source-proof-reuse-local.json) and E4
-  [independent installed diagnostics](benchmarks/installed-diagnostics-local.json)
-  are locally verified. E4 at `2098cf2` passes 609 controls plus Windows Python 3.13
-  and Linux Python 3.12 real child probes, preserving the installation prefix and all
-  58 legacy command sites. All 317 canonical compiler blobs match `9e7d0be`.
-  That original hosted campaign does not execute the later producer; its
-  artifacts and source are not relabeled. All M0-M7 remain Partial.
-- Next product deliverable: SCI1-A typed raw pixel classification. Follow the
-  [A1-A6 checkpoints](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints):
-  numeric/schema contract, native features, training/prediction, archive/resume,
-  existing frontends and one integrated qualification. Begin with independent
-  numeric fixtures; no new public API is claimed by this planning update.
-  Work in the integration checkout while the frozen campaign remains immutable.
-- The [efficiency review](reviews/compilexx-efficiency-review.md) records seven
-  evidence-backed improvements. Earlier sections below retain workflow history;
-  use this card for current scheduling. All M0-M7 remain Partial.
+  No redispatch, source relabeling or inferred raw-classifier coverage.
+- Accepted feature baselines remain separate: [TMA `19371b7`](benchmarks/tma-dearray-202-qualification.json)
+  and [normal multi-file OME `9e7d0be`](benchmarks/multifile-ome-210-qualification.json).
+  E1/E2 are implemented; E3/E4 tooling has its own local evidence and is included
+  in campaign213. Use the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
+  and [efficiency review](reviews/compilexx-efficiency-review.md) for dependencies.
+- Public main's qualified application source remains `61e546e`; main and the
+  user's divergent local root branch are unchanged. All M0-M7 remain Partial.
+  Open-source-only [reader eligibility](reader-license-policy.md) stays in force.
+  Broader readers, annotation/interchange, research/scientific xfails, hardware
+  budgets, real TMA validation, platform support and release obligations remain.
 
 ## Historical task snapshots
 

@@ -1,0 +1,303 @@
+{
+  "schema": "qpx.raw-pixel-features-local/1",
+  "observed_at_utc": "2026-10-26T04:47:54.803635+00:00",
+  "source": "a13adef6f6f2b05058b61a10f24e2a6363ad07e2",
+  "compiled_fingerprint": "ae0391fd50a8707638eea93fb0d9df272d5b2bcf55145028deab483eddcaf907",
+  "compiler_inputs": 321,
+  "status": "native_feature_numeric_checks_passed",
+  "scope": "Private native quantitative feature kernel; no public classifier request, model/archive, Python, UI or release acceptance",
+  "reference": {
+    "cases": 12,
+    "feature_slots": 12600,
+    "dtypes": 10,
+    "affine_normalization": "explicit nonzero offsets and distinct per-channel scales",
+    "filter_reference": "80-digit Decimal direct 2-D convolution; final nearest-even binary32 distance check",
+    "rounding_controls": 5
+  },
+  "native": {
+    "windows_suites": 6,
+    "linux_suites": 6,
+    "marker": "Typed raw pixel features: 12 independent dtype/extreme references, per-channel support, anisotropic scales, stream seams, admission and cancellation passed"
+  },
+  "preliminary_source": "8ccd1c334b2ea8c9e87cc99956e75a5f238a6a35",
+  "preliminary_reference_feature_slots": 10080,
+  "binaries_retained": "build/rawfeatures214b-retained-binaries",
+  "contract": "docs/raw-pixel-classifier.md",
+  "remaining": [
+    "A3 owner-captured raw training and prediction requests",
+    "Physical-sigma calibration capture and validation",
+    "A4 model/archive and stream/checkpoint integration with legacy RGB compatibility",
+    "A5 Python/CLI/batch/managed viewer/ImGui delivery and typing",
+    "A6 exact required cohorts and integrated platform qualification",
+    "Independent biological/model and hardware acceptance"
+  ],
+  "main_changed": false,
+  "milestones": "M0-M7 Partial",
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/build.log",
+      "bytes": 7389,
+      "sha256": "65d1ee5873033ceeb1c43801e09525f61abd579228b773e9bfe0c228a2a40820"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/classifier.xml",
+      "bytes": 382,
+      "sha256": "7985f2f277c95b016fb85d38ba7dc9c5606a31dbcd8141518046058d5b20ce86"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/classifier_io.xml",
+      "bytes": 379,
+      "sha256": "84ad0771be548cf774854688a316cc2563b2ce2d4f5a17a21a5af21776319cf3"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/commands.json",
+      "bytes": 4671,
+      "sha256": "eb49eec49fe7ac90021a3077929f771cda69a00e514c368b4458488b57fb3ae9"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/compiler-inputs.json",
+      "bytes": 33572,
+      "sha256": "061789d94f5bfafec3fdb297733cb35e69fb31c1cd85ea997f0c3e41d0f3bf7c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/configure.log",
+      "bytes": 3579,
+      "sha256": "1bc18ceacab5e529702e69365ef172895172ef8d95b55503f5f05d4da8e63ee6"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/pixel_features.xml",
+      "bytes": 595,
+      "sha256": "633950bdc39230e5bbedda85b30335bc42c94bec2bc22a1ccd8042deb44db284"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/pixel_workflows.xml",
+      "bytes": 459,
+      "sha256": "94c0848e17a5fec72f38703d0f1935931c4dfddd8fe87e380ede85f87dc0895e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/resampling.xml",
+      "bytes": 2308,
+      "sha256": "c2decc1cd625a59f4fbb1d93fedfa1db5d2448645039b83f74404f5535b6b85f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/source_identity.xml",
+      "bytes": 537,
+      "sha256": "ce093e151e7135f2aae02d2079d111def25479a32f202e0d39dfece982f0829e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/test-classifier.log",
+      "bytes": 236,
+      "sha256": "219ca3e3dec05fd0ff96d105560bbd88d441f248e80c092ebbebb3266c2fca5e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/test-classifier_io.log",
+      "bytes": 239,
+      "sha256": "2003edfe97a87b54612f127721a252cf32a0a9068824242c4559b5104d5cbd06"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/test-pixel_features.log",
+      "bytes": 240,
+      "sha256": "84d00d7b9105f490131c3c89cd71ad8a913810895d0912797bc14ceddac33e70"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/test-pixel_workflows.log",
+      "bytes": 241,
+      "sha256": "1712d430a4d32dbbc2535c44d94d5ebcd7f31b639afa47c3836ebe0682871a15"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/test-resampling.log",
+      "bytes": 236,
+      "sha256": "a4eafea7802d7afd967b21de0f3996d93e2be52899d1e9a8ddcc65f8c750cd28"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-windows/test-source_identity.log",
+      "bytes": 243,
+      "sha256": "fdb74ddfb39b39c66787c21010a8ad82731f8593d3e789f6fb8990463225036d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-linux/build.log",
+      "bytes": 7855,
+      "sha256": "7a7c12c628b10c0e43947a05cba4dd5d2dfdde3df02b1088d1d88c04a0a26a55"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-linux/commands.json",
+      "bytes": 2436,
+      "sha256": "a2b7e0f2fcb8cfccae1a78167976f6b7afd8b6e194b8e183f41cc05cf2613aae"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-linux/compiler-inputs.json",
+      "bytes": 33572,
+      "sha256": "061789d94f5bfafec3fdb297733cb35e69fb31c1cd85ea997f0c3e41d0f3bf7c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-linux/configure.log",
+      "bytes": 3354,
+      "sha256": "98f57ddba03a7ac0e561d75007fb193fe411828a6d81a4a3e5dafe96ae37b0f0"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-linux/tests.log",
+      "bytes": 859,
+      "sha256": "d32fd6d88f49b345b38b5aece8cade9f5a1428ddb910989597c7b97cfb0b16c3"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-linux/tests.xml",
+      "bytes": 3598,
+      "sha256": "d1c9d918941db3c22d97269a2084b909f8160be2d1ec42383c87c1dfa4f9a02a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-reference/check.log",
+      "bytes": 68,
+      "sha256": "a4dbd3c802ebe37c72aa0d8577dde946a445848bcf0f25563509b1855c85f8f1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214-reference/command.json",
+      "bytes": 604,
+      "sha256": "e1629df0a865758d47a6c248b67ae44055abcbe014988859598ded0eef19d590"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/build.log",
+      "bytes": 5163,
+      "sha256": "dc2a593efec11340c604075cb9df1ee24c56b70da0af76b46344166aee99e8bc"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "dc815134344e31fb03cb210b34626ca765df5f7adcaa52f956af54f4dd3e32df"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/classifier.xml",
+      "bytes": 382,
+      "sha256": "489a9237c42bb9c8d63ef6f446ee0e4ea30dfd4781933dd7b6ad0ba0e877b499"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/classifier_io.xml",
+      "bytes": 378,
+      "sha256": "f8d3b48733be5958e827436d890c42b2a7b24592f0f30a53f9b4ac8f26d732b0"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/commands.json",
+      "bytes": 4681,
+      "sha256": "8ca633e34b321364fc787f4d679679773902f9e61f1a604b812fbb054958e378"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/compiler-inputs.json",
+      "bytes": 33572,
+      "sha256": "cfa2f9947707d75dd0f6e46c3a40235e33cb5129ff65c862aedcce1450591dba"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/configure.log",
+      "bytes": 3579,
+      "sha256": "4e724f05bc5afd56c37272e9eac8a75915e09d915a94541b058ad5135294de3e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/pixel_features.xml",
+      "bytes": 595,
+      "sha256": "ec84259715618fb79d50a01ce40c496bc1553e538a8019f43fc89f720f991e99"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/pixel_workflows.xml",
+      "bytes": 459,
+      "sha256": "675e297ade82d6070a4384ce639998fe0d02bafce0fcb265d4667cb193378e68"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/resampling.xml",
+      "bytes": 2307,
+      "sha256": "9bd63e4386304cc301cf19cfa63a92757f0ea0d18a0e37aeb2b2b49b40e219b4"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/source_identity.xml",
+      "bytes": 536,
+      "sha256": "9449130b10be15ad91a7177a788fb5455b182376f8840789bd8490a7d163130a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/test-classifier.log",
+      "bytes": 236,
+      "sha256": "b713ccd00e5cf7641261efa4bbfaed449dbaf99ab4fcbdb375e8b4703f9f9e4f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/test-classifier_io.log",
+      "bytes": 239,
+      "sha256": "c89daa0e8d30f01e322fe69538329d1fafac21e4258b00f468d56490c4dc6573"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/test-pixel_features.log",
+      "bytes": 240,
+      "sha256": "f140e2a315913930fb407144c3f9b3f1d18aad4201c82c21579569ddebeacebb"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/test-pixel_workflows.log",
+      "bytes": 241,
+      "sha256": "a70a75ddbbe28801fe4269ee8bad5256d8363f666663a40d7ac4bdb3e7bd4cd6"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/test-resampling.log",
+      "bytes": 236,
+      "sha256": "f44097e8371fd6e1e8554c9cb44e615881e7e65c8e9dff36ed774b4789ea591a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-windows/test-source_identity.log",
+      "bytes": 243,
+      "sha256": "03f63a50d63179bf647c9117ce4da6eb078ad631450a6be7297346fc16287492"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-linux/build.log",
+      "bytes": 6459,
+      "sha256": "659960a7e11967ddd191669f0132d58b78d2ba17d410adf1724ce3ef98671daa"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-linux/build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "d10404fcad522449e38959be766fb3089f5dca2af43753da55b660bde91ec3a9"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-linux/commands.json",
+      "bytes": 2435,
+      "sha256": "0a14e08349c4025765356a86a6b29b54ce09fda7147f42c59dc75e0bcf32ba27"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-linux/compiler-inputs.json",
+      "bytes": 33572,
+      "sha256": "cfa2f9947707d75dd0f6e46c3a40235e33cb5129ff65c862aedcce1450591dba"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-linux/configure.log",
+      "bytes": 3354,
+      "sha256": "c644d9d11200b3e584739f4ab93d3449c80c98e72a164fc9b45c45e22f9b407f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-linux/tests.log",
+      "bytes": 859,
+      "sha256": "bdae9053ce3d08355e2472205e6170b2ab16b8d36e09d8e80333ff24c707d317"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-linux/tests.xml",
+      "bytes": 3599,
+      "sha256": "fb0a4d01d9f8c88dacda85bdbcafbc9565b1ba951a03dae424deb802bea85d46"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-reference/check.log",
+      "bytes": 68,
+      "sha256": "a4dbd3c802ebe37c72aa0d8577dde946a445848bcf0f25563509b1855c85f8f1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/rawfeatures214b-reference/command.json",
+      "bytes": 425,
+      "sha256": "12b2d50670e6206f516d87acbfd2623113944e677cf133448ab7128d2d08751f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/retained-binaries.json",
+      "bytes": 3099,
+      "sha256": "e42f1c2fcdad95e7770ec2f82f6e9d404f02b1180e8680bd32d9809890741d91"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/build-driver.py",
+      "bytes": 3828,
+      "sha256": "9b9e5725a2d0b55e065dbfaa7765973ccafeeac6f28de782c60b183e5629cc42"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-features-local/compiler-git-proof.json",
+      "bytes": 111414,
+      "sha256": "082906cc75724aea528e8c72ee4c811f0ff46d012f06c5b5ab68a635d2c3cda4"
+    }
+  ]
+}

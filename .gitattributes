@@ -463,3 +463,9 @@ docs/benchmarks/multifile-faults-local.json text eol=lf
 # Expanded compound fault-control campaign preflight evidence.
 docs/benchmarks/multifile-fault-213-campaign/** -text -whitespace
 docs/benchmarks/multifile-fault-213-campaign.json text eol=lf
+
+# Source-bound native feature and partial hosted audit evidence.
+docs/benchmarks/raw-pixel-features-local/** -text -whitespace
+docs/benchmarks/raw-pixel-features-local.json -text -whitespace
+docs/benchmarks/multifile-fault-213-partial-qualification/** -text -whitespace
+docs/benchmarks/multifile-fault-213-partial-qualification.json -text -whitespace

@@ -1,7 +1,7 @@
 # Quantitative pixel classifier numeric contract
 
-Status: native feature implementation in progress; no public Python/UI or
-archive support is claimed. This completes the initial SCI1-A1 consumer trace
+Status: private native features have [local Windows/Linux evidence](benchmarks/raw-pixel-features-local.json)
+at `a13adef`; no public Python/UI or archive support is claimed. This completes the initial SCI1-A1 consumer trace
 and defines the oracle before native execution. RGB `pixel-v1` stays unchanged.
 
 The existing path is `PixelTrainingRequest` → `extract_pixel_features` →

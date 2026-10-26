@@ -297,3 +297,25 @@ Validation for this update is editorial: local links, queue/checkpoint coverage,
 reader policy, preserved milestone scope and whitespace checks. Runtime and
 scientific evidence are unchanged. Campaign213 remains pending acceptance until
 its existing artifact join says otherwise; this update does not poll or promote it.
+
+
+## Typed classifier execution delta (2026-10-26)
+
+The [native feature receipt](../benchmarks/raw-pixel-features-local.json) binds
+source `a13adef` and all 321 compiler inputs to six passing suites on each
+Windows/Linux host. The independent direct 2-D Decimal oracle checks 12 source
+cases / 12,600 feature slots, including explicit nonzero offsets and distinct
+per-channel scales. Strengthened test fixtures follow the separately retained
+`8ccd1c3` development pass; the production kernel did not change. Selected
+executables, generated build identities, raw logs and framed Git source proof
+are retained. No installed binding/wheel/stub rebuild was needed for a private
+kernel with no public API change.
+
+This implements the numeric feature authority, not training/model persistence
+or a public raw classifier. Next integrate owner capture, model/schema and
+physical recipe checks through the current training/prediction and codecs.
+The [partial campaign213 receipt](../benchmarks/multifile-fault-213-partial-qualification.json)
+separately accepts Mac-native/portable roles and Linux-only audits at `bfa416e`;
+its original Windows GUI job is still live, and overall acceptance remains open.
+No campaign was dispatched for each feature checkpoint and no saved binary was
+relabeled. Existing broader scientific/resource/release requirements remain.

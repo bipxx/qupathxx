@@ -1,0 +1,13 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\reference_raw_pixel_features.py",
+    "--check"
+  ],
+  "exit": 0,
+  "seconds": 0.27029660006519407,
+  "source": "a13adef6f6f2b05058b61a10f24e2a6363ad07e2"
+}

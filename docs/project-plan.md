@@ -32,17 +32,20 @@ All M0-M7 remain Partial.
 
 TMA `19371b7` and the declared normal multi-file OME workflow `9e7d0be`
 have separate engineering acceptance. The expanded multi-file fault controls at
-`bfa416e` have local evidence; their original campaign213 awaits strict artifact
-acceptance. E1/E2 are implemented; E3/E4 have local tooling evidence and are
+`bfa416e` have local evidence; campaign213 now has [partial platform acceptance](benchmarks/multifile-fault-213-partial-qualification.json).
+Mac-native, portable and Linux-only strict audits pass; the original Windows GUI
+job and complete engine acceptance remain pending. E1/E2 are implemented; E3/E4 have local tooling evidence and are
 included in that expanded campaign. Use the [current task](current-task.md)
 for source-bound observations and the [ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
 for scheduling; completed mechanisms are baseline references rather than work
 to repeat.
 
 The next product workflow is [typed raw pixel classification](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints):
-settle numeric/schema semantics, implement and independently verify features,
-compose training/prediction, migrate persistence/checkpoints, finish the existing
-frontends, then qualify one integrated source. Existing RGB classifier semantics
+the private native feature kernel has [local numerical evidence](benchmarks/raw-pixel-features-local.json)
+at `a13adef`. Next compose owner-captured training/prediction, migrate
+persistence/checkpoints, finish the existing frontends, then qualify one
+integrated source. Physical recipe capture and biological/model acceptance
+remain open. Existing RGB classifier semantics
 remain compatible. Scientific decisions and eligible hardware preparation
 proceed alongside implementation with explicit consumer dependencies.
 The [compilexx review](reviews/compilexx-efficiency-review.md) records adopted

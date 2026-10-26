@@ -1,0 +1,168 @@
+{
+  "schema": "qpx.multifile-fault-partial-qualification/1",
+  "observed_at_utc": "2026-10-26T04:49:08.479141+00:00",
+  "source": "bfa416edfd508e3e1ce184e75ec62c1a18a2a606",
+  "campaign": "docs/benchmarks/multifile-fault-213-campaign.json",
+  "local_faults": "docs/benchmarks/multifile-faults-local.json",
+  "status": "partial_platform_engineering_acceptance",
+  "full_matrix_accepted": false,
+  "roles": {
+    "macos_native": "strict_audit_passed_both_architectures_with_relocation",
+    "portable": "strict_audit_passed_both_builders_and_fresh_consumers",
+    "linux_engine": "strict_linux_only_audit_passed_three_modes",
+    "windows_gui": "original_job_live_not_accepted",
+    "windows_headless": "original_job_success_archive_verified_full_engine_audit_pending"
+  },
+  "archives": {
+    "verified": 10,
+    "required": 11,
+    "missing": [
+      "Windows-gui-py3.12"
+    ],
+    "all_retained_sizes_digests_sources_verified": true
+  },
+  "runs": {
+    "engine": 40268520155,
+    "macos": 40268527953,
+    "portable": 40268533643
+  },
+  "required_multifile_installed_cases": 54,
+  "macos_native_suites": [
+    50,
+    50
+  ],
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/macos-native-audit.json",
+      "bytes": 235653,
+      "sha256": "0d7f8200a50d94d685c00d38de9be0d784fa818295e003b1d2ef4f1ef044b542"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/macos-audit-command.json",
+      "bytes": 665,
+      "sha256": "80eef137df7c28ced437aff218d9452cfb5b5a9e929c22bae1a804efc2e2f7a1"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/macos-audit.log",
+      "bytes": 161,
+      "sha256": "efe9c23942a15840b3ef5aa7c89ddb0cb3c23a11a36709e1537744b27d3e53a7"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/portable-audit.json",
+      "bytes": 361334,
+      "sha256": "92c2dbc03ef522fc72c41c3c65fcc6fdc3f4afb01992c79dd8b68f434ba2e251"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/portable-audit-command.json",
+      "bytes": 869,
+      "sha256": "cb5761357aae57f2a04888dace83fdf92622a7302ed91763800e1f622e186713"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/portable-audit.log",
+      "bytes": 126,
+      "sha256": "ef8962098edeebb36a843b543330dc4d090ee2ec3336fbea8c496510559dcb82"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/linux-only-engine-audit.json",
+      "bytes": 371963,
+      "sha256": "f1ee43c69d21f871384b610efec6bbf267077ce795752bca9593e8afa16f4021"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/linux-only-engine-audit.log",
+      "bytes": 283,
+      "sha256": "ec5fd34f1391744cacf42eb50856ac08e3848387dc2e9b3ef3a41e9238a6d5a2"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/engine-run.json",
+      "bytes": 16308,
+      "sha256": "a166ee126f2b2acc1cd7ab50191e27706ad4c80eef4829aa7e826f191055e7ca"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/macos-run.json",
+      "bytes": 4859,
+      "sha256": "ae0a1050c48ba3b7882320aa3180b41e504b2ec804c997c14a012209406637fc"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/portable-run.json",
+      "bytes": 10688,
+      "sha256": "6795cbe8ac7fedda138ba09e7b61ea7e1169f5bc72990d445af1b04d050ac743"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/artifacts/verified.json",
+      "bytes": 2425,
+      "sha256": "0809d980b9acdd597daeb8d7337062a9f250e9c02c85e5a08c70ec5582878678"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/artifacts/Linux-minimal-py3.12-artifact.json",
+      "bytes": 810,
+      "sha256": "90aa1debbf302d62342c1a098675cf271708855bca7f157d73a91f6b8a832c16"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/artifacts/Linux-headless-py3.12-artifact.json",
+      "bytes": 814,
+      "sha256": "b4be797332ac310de31e52210083a3967d6717ab887a71e29d88144e78b22eec"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/artifacts/Windows-headless-py3.11-artifact.json",
+      "bytes": 816,
+      "sha256": "afd0b37dfdecc4e87ec8fe04393a382f1c80992e2725f7c80e8bd929a349fd92"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/artifacts/Linux-sanitize-py3.12-artifact.json",
+      "bytes": 811,
+      "sha256": "0b859d4cbda92d4091e2b07f2c7f48ac3fa03e9d51c8530a555451d005129fc2"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/artifacts/macos-native-x86_64-artifact.json",
+      "bytes": 812,
+      "sha256": "9dc2945165819ff941e487cdd96649e80e4a7f01b5e0815004d6c79a30e15b66"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/artifacts/macos-native-arm64-artifact.json",
+      "bytes": 811,
+      "sha256": "33f2291e08ff83148be01364ce0d1f71293ae60076b7baf084afe4573c9384df"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/artifacts/manylinux-consumer-3.12-artifact.json",
+      "bytes": 813,
+      "sha256": "8f8ba0dd21cd861c11b75d37dea7628d641aac4f7903e6b956071b45c7b0938a"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/artifacts/manylinux-3.11-artifact.json",
+      "bytes": 807,
+      "sha256": "b6f02c2951d92d9af4e44fec8e20a08baef2fb261b7cae555b3dac16e132a183"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/artifacts/manylinux-3.12-artifact.json",
+      "bytes": 807,
+      "sha256": "ab71c398a3b92be5651bb3a6459a25c87d356ac6fe54af92eb5ce2cd03aa7156"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/artifacts/manylinux-consumer-3.11-artifact.json",
+      "bytes": 813,
+      "sha256": "af9fa0d68d6f3969fe904cef98d6474f4d45d59d456686c96fc20351039b446c"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/artifacts/engine-artifacts.json",
+      "bytes": 3624,
+      "sha256": "19789f6acc56d3757d0a2bc8c10d0dc461c1a519dd0ff2e305a118bc43b1733e"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/artifacts/macos-artifacts.json",
+      "bytes": 1834,
+      "sha256": "0464d83249df98fd394aee23533d1c1385dd8c16750506b765c543e44b73e303"
+    },
+    {
+      "path": "docs/benchmarks/multifile-fault-213-partial-qualification/artifacts/portable-artifacts.json",
+      "bytes": 3613,
+      "sha256": "439ec82567f8664b23c8f92dbd4f81eea39de9ed0c8047b689d6f13cdd0c8b90"
+    }
+  ],
+  "limitations": [
+    "No overall campaign acceptance until Windows GUI artifact and full engine audit pass",
+    "No Mac Python/GUI/OpenSlide acceptance",
+    "No new raw-classifier source coverage; this campaign is frozen at bfa416e",
+    "Three strict scientific xfails and biological/hardware/release gaps remain",
+    "Main unchanged; all M0-M7 remain Partial"
+  ]
+}
