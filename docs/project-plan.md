@@ -32,6 +32,12 @@ release status. Use the [current task](current-task.md), [workflow inventory](fe
 and [API delivery paths](api-delivery-plan.md) for exact scope and remaining work.
 All M0-M7 remain Partial.
 
+The next executable work is the [T4.1-T4.5 consumer sequence](api-delivery-plan.md#t4-execution-tasks-finish-consumers-before-another-qualification):
+CLI train/export/verify, native project batches, ImGui/managed viewer, bounded
+contour apply and installed frontend integration. Each task names existing APIs,
+compatibility rules and decisive evidence. Follow that single queue; the native
+packet baselines below are preserved evidence, not additional work to repeat.
+
 TMA `19371b7`, normal multi-file OME `9e7d0be` and the expanded multi-file
 fault campaign `bfa416e` have separate engineering acceptance. The
 [complete campaign213 receipt](benchmarks/multifile-fault-213-qualification.json)

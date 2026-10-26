@@ -439,6 +439,88 @@ those complete outcomes exist. This receipt does not qualify those frontends,
 other Python/platform profiles, clean machines or scientific/resource/release
 gates.
 
+### T4 execution tasks: finish consumers before another qualification
+
+Planning reconciliation at feature source `de0686d` (2026-10-26). The tasks
+below refine SCI1-A; they do not create additional milestones. All are planned,
+owned by root, with no current implementation blocker. `202b41a` remains the
+latest locally verified compiler source. No new implementation, Astra review or
+platform qualification is claimed by this update.
+
+Run T4.1 through T4.4 in order. T4.5 then closes T4 and admits T5. Keep one
+implementation task active. Each task has a complete observable outcome; reuse
+its healthy evidence until a consumed input changes.
+
+| Task / outcome | Existing authority and easiest path | Required exit evidence |
+| --- | --- | --- |
+| T4.1 / official headless train, predict/export and verify | Add a small raw adapter to `cpp/batch_main.cpp`, following `pixel_stream_cli` dispatch, JSONL and cancellation. Reuse `RawPixelTiledTrainingRequest`, `RawPixelTrainingCheckpointJob`, `train_raw_pixel_tiled_classifier`, model/archive writers, `RawPixelStreamSaveJob` and `RawPixelStreamFileReadJob`. Keep `qupathxx_region --raw` as quantitative region extraction | Installed native executable trains on a labelled TIFF project, resumes QTC1, writes QRM1/QTT1, exports/resumes QWS1 and verifies it. Compare rows, fixed-parameter model bytes, blocks and commitments with the installed Python workflow. Exercise Unicode paths, invalid arguments, backend OFF, cancellation and destination/source aliases |
+| T4.2 / raw classification across project images | Extend existing `ProjectBatchKind`, `ProjectBatchOptions`, `ProjectBatchRequest` and kernel with an additive raw-classifier kind and typed model/lattice policy. Reuse selection snapshots, directory lock, owned bundle publication, checkpoint seal and Stop/Continue/resume reports. Add typed QWL1 extraction alongside RGB checkpoint records | A mixed project records success and incompatible-image failure correctly; Stop/Continue, exact reuse, changed inputs/model/policy and moved output are covered. Verify every reused stream, retain raw links in output projects and reopen them. Original project bytes and existing RGB/raw-measurement behavior remain intact |
+| T4.3 / interactive train, preview, export/resume and retain | Extend existing ImGui classifier and batch panels and managed viewer options over the same native jobs. Capture actions on the owner thread; poll bounded status; use an owning, bounded window preview and historical file/block browsing | Real interactions train, preview, cancel/retry, export/resume, retain and reopen. Edits, source changes, image switches and workspace replacement refuse stale delivery. Shutdown joins workers before readers release; installed GUI and managed viewer both exercise the path |
+| T4.4 / supported bounded contour apply | Reuse `RawPixelPredictionRequest`, `RawPixelContourJob` and existing document commands for admitted full-grid results. Recompute a fresh owner-bound prediction when starting from historical output | Preview/apply/undo/redo is one atomic edit with rational axes preserved; stale capture, cancellation and oversized requests refuse without mutation. Label the supported bounds explicitly; a QWS1 stream does not provide stitched-contour authority |
+| T4.5 / installed frontend integration | Freeze frontend contracts, regenerate stubs if public APIs changed, package once and run a named TIFF train/predict/save/reopen/resume cohort through Python, native CLI, batch and desktop. Reuse the pinned SDK and maintained producer/auditor profiles | Record exact installed origin, ABI, capabilities, source fingerprint, executed case names and packaged notices. Include backend-positive behavior and OFF refusal, legacy RGB/persistence regressions, typing, array lifetime and shutdown. Claim only profiles actually exercised; then admit one T5 integrated engineering campaign |
+
+#### Shared input contract: settle in T4.1 and reuse in T4.2-T4.4
+
+- **Command surface.** Proposed native batch verbs are `--train-raw-pixels`,
+  `--export-raw-pixels` and `--verify-raw-pixels`; proposed project kind is
+  `raw-pixels`. These are planned names, not available commands. Keep current
+  `--kind raw` measurement semantics and RGB `--kind pixels` unchanged. Use the
+  existing exit convention: 0 success, 1 failure/partial, 2 arguments and 130
+  cancellation. JSONL must distinguish durable partial output from completion.
+- **Recipe and model.** Load the existing versioned recipe/model representation.
+  Reuse the installed example's explicit intensity recipe as the first tested
+  configuration; expose channel order, normalization and supported feature
+  options without duplicating the feature kernel. Record effective forest
+  parameters, including admitted work budget, for reproducible model identity.
+- **Lattice and axes.** Carry both exact rational axes, global sample origin and
+  coverage, channel order, level, Z/time/series and calibration policy. Validate
+  each image against the recipe/model before decoding. A fixed samples-per-image
+  count can change spacing across image sizes; it must not silently redefine a
+  trained model. Reject incompatible images according to Stop/Continue rather
+  than rounding, rebasing or using display controls as quantitative settings.
+- **Budgets and progress.** Reuse tile/feature/forest/file/snapshot limits; keep
+  one result slot and bounded previews, never collect all stream blocks. Report
+  completed/total work, inferred versus replayed/verified work, output path,
+  model/request identity and terminal state using the native statistics. Empty
+  or partial training checkpoints produce no model until the table is complete.
+- **Persistence and reuse.** QTC1 resumes by replaying prefix IO/features;
+  QWS1 prediction resume hashes previous inputs and infers the suffix. Resume
+  is not constant time. Reuse QTT1/QWL1 and the existing checkpoint seal/table;
+  introduce no second Python batch loop, checkpoint database or file-ownership
+  scheme. Check the existing bundle cleanup's owned extensions and exact paths
+  when adding raw files. Missing outputs remain historical metadata, not PASS.
+- **Publication and trust.** Use existing alias guards, conditional atomic file
+  commits and owner freshness checks. A committed file can survive late cancel
+  even when live delivery is refused. Full file verification confers no live
+  document/apply authority. Keep historical file browsing separate from fresh
+  prediction and document commands.
+- **Licensing.** Every reader and required decoder must satisfy the open-source
+  admission policy, including optional/process-isolated adapters. Unknown or
+  restricted licenses block that adapter; eligible TIFF/OpenSlide workflows
+  continue. Copyleft remains eligible; fixture rights and release obligations
+  retain their separate gates.
+
+#### Build and acceptance budget
+
+Do not compile for this documentation update. For implementation, admit the
+actual interpreter ABI, CMake capabilities, SDK manifest and pytest environment
+before building; use the explicit CPython 3.12 environment for the current
+Windows wheel. Retain the existing caches and build only affected targets first.
+Join every live build before editing compiler inputs. Use unique result paths,
+exact executed-case guards and nonempty typing checks. Preserve failed attempts.
+
+Run focused native and installed command tests for T4.1/T4.2, then affected
+GUI/managed-viewer controls for T4.3/T4.4. Keep the GUI/backend-enabled profile
+explicit: the accepted Python wheel has GUI/GEOS/OpenSlide OFF and cannot prove
+those capabilities. T4.5 packages the settled combined workflow; do not repeat
+full platform campaigns for each command. T5 retains every required profile and
+inherited cohort; no earlier multi-file campaign qualifies this newer source.
+
+Remaining automatic maintenance, abrupt-process/power-loss behavior, streamed
+contour stitching, independent scientific comparisons, hardware/resource budgets
+and release support stay in their existing queues. This ordering does not remove
+any M0-M7 requirement or select a project license.
+
 ### Execution cost controls
 
 Use affected local native suites on the existing Windows/Linux caches and the

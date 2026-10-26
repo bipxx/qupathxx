@@ -20,8 +20,12 @@
   and four invalid cases reject. Development build/environment failures remain
   separate; test dependencies are reused, so no clean-machine claim is made.
 - T1-T3 have local native evidence; T4 now has one installed Python profile.
-  Next: official raw CLI/batch adapters and ImGui/managed-viewer workflows using
-  these APIs/jobs, then remaining installed profiles and one T5 integrated freeze.
+  Next: [T4.1-T4.5](api-delivery-plan.md#t4-execution-tasks-finish-consumers-before-another-qualification):
+  official CLI train/export/verify, existing-engine project batch integration,
+  ImGui/managed-viewer actions, bounded contour apply, then installed frontend
+  integration and one T5 freeze. These tasks are planned; no new code acceptance
+  is claimed. Preserve exact lattice/model compatibility and distinguish raw
+  classification from the existing raw-measurement batch kind.
   Automatic maintenance, abrupt-process/power-loss, cross-tile contours and
   scientific/resource/hardware/release acceptance remain open. All M0-M7 stay
   Partial; eligible readers/codecs remain open-source-only.
