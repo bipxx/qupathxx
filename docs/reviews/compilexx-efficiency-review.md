@@ -319,3 +319,22 @@ separately accepts Mac-native/portable roles and Linux-only audits at `bfa416e`;
 its original Windows GUI job is still live, and overall acceptance remains open.
 No campaign was dispatched for each feature checkpoint and no saved binary was
 relabeled. Existing broader scientific/resource/release requirements remain.
+
+
+## Model geometry and qualification delta (2026-10-26)
+
+Source `ed2bf40` adds raw model/result types reusing the existing immutable
+forest and raw feature kernel. RGB's scalar-downsample result cannot represent
+both raw grid axes. Explicit per-axis recipe/physical resolution checks and
+QPR1 framing prevent silently applying a model to a changed channel/schema or
+sampling contract. Six selected suites pass on each Windows/Linux host; see
+[the local receipt](../benchmarks/raw-pixel-classifier-local.json). The next
+owner-captured training/job adapters must reuse current source/ROI and object
+snapshot authorities. Local model files do not complete project archives,
+checkpoint resume, bindings or frontends; no wheel/stub campaign was run yet.
+
+The original [campaign213 receipt](../benchmarks/multifile-fault-213-qualification.json)
+now accepts all 11 verified archives and full engine/Mac-native/portable audits
+at `bfa416e`. Preserve the earlier partial receipt and source identities. The
+newer classifier source is not covered, and no new qualification was dispatched
+for its individual checkpoints. All broader milestone requirements remain.

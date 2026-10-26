@@ -1,0 +1,18 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile-fault-workflow-213\\tools\\ci\\accept_macos_native.py",
+    "40268527953",
+    "bfa416edfd508e3e1ce184e75ec62c1a18a2a606",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile213-hosted\\artifacts",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile213-hosted\\macos-native-audit.json",
+    "--macos-relocation"
+  ],
+  "exit": 0,
+  "seconds": 4.632064700010233
+}

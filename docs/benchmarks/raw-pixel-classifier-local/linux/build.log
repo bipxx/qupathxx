@@ -1,0 +1,169 @@
+gmake[3]: Warning: File 'CMakeFiles/qupathxx_tiff_xml.dir/compiler_depend.make' has modification time 0.19 s in the future
+gmake[3]: warning:  Clock skew detected.  Your build may be incomplete.
+[  1%] Built target qupathxx_tiff_xml
+[  3%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 44%] Built target tiff
+[ 44%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_features.cpp.o
+[ 44%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_classifier.cpp.o
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_features.cpp: In function ‘std::shared_ptr<const qpx::detail::RawFeatureImage> qpx::detail::extract_raw_pixel_features(const qpx::ScientificRawGrid&, const RawFeatureOptions&, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_features.cpp:110:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  110 |             if((i&4095)==0) stopped(cancelled);const auto index=i*input.channels()+c;valid[i]=input.valid()[index];
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_features.cpp:110:48: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  110 |             if((i&4095)==0) stopped(cancelled);const auto index=i*input.channels()+c;valid[i]=input.valid()[index];
+      |                                                ^~~~~
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:3:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp: In constructor ‘qpx::RawPixelClassifier::RawPixelClassifier(const qpx::ForestModel&, const qpx::RawPixelRecipe&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:125:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  125 |     if(w.bytes.size()>model_limit) throw std::length_error("raw classifier model exceeds limit");w.bytes.shrink_to_fit();d->bytes=std::move(w.bytes);d->sha=digest(d->bytes.data(),d->bytes.size());data_=std::move(d);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:125:98: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  125 |     if(w.bytes.size()>model_limit) throw std::length_error("raw classifier model exceeds limit");w.bytes.shrink_to_fit();d->bytes=std::move(w.bytes);d->sha=digest(d->bytes.data(),d->bytes.size());data_=std::move(d);
+      |                                                                                                  ^
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp: In static member function ‘static qpx::RawPixelClassifier qpx::RawPixelClassifier::from_bytes(const std::vector<unsigned char>&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:135:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  135 |     if(size!=r.left) throw std::invalid_argument("raw classifier forest size mismatch");const auto forest=ForestModel::from_bytes(std::vector<std::uint8_t>(r.data,r.data+r.left));RawPixelClassifier model(forest,recipe);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:135:89: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  135 |     if(size!=r.left) throw std::invalid_argument("raw classifier forest size mismatch");const auto forest=ForestModel::from_bytes(std::vector<std::uint8_t>(r.data,r.data+r.left));RawPixelClassifier model(forest,recipe);
+      |                                                                                         ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:136:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  136 |     if(model.bytes()!=bytes) throw std::invalid_argument("noncanonical raw classifier model encoding");return model;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:136:104: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  136 |     if(model.bytes()!=bytes) throw std::invalid_argument("noncanonical raw classifier model encoding");return model;
+      |                                                                                                        ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp: In function ‘std::shared_ptr<const qpx::RawPixelClassification> qpx::classify_raw_pixels(const ScientificRawGrid&, const RawPixelClassifier&, double, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:144:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  144 |     if(fixed>=budget || count>(budget-fixed)/9) throw std::length_error("raw classifier output/votes exceed work budget");const auto retained=fixed+9*count;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:144:123: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  144 |     if(fixed>=budget || count>(budget-fixed)/9) throw std::length_error("raw classifier output/votes exceed work budget");const auto retained=fixed+9*count;
+      |                                                                                                                           ^~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:145:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  145 |     if(budget-retained<1024*1024) throw std::length_error("raw classifier feature budget is too small");options.work_bytes=std::min(options.work_bytes,budget-retained);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:145:105: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  145 |     if(budget-retained<1024*1024) throw std::length_error("raw classifier feature budget is too small");options.work_bytes=std::min(options.work_bytes,budget-retained);
+      |                                                                                                         ^~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp: In function ‘qpx::RawPixelClassifier qpx::load_raw_pixel_classifier(const std::string&, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:156:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  156 |     if(size>model_limit) throw std::length_error("raw classifier model exceeds limit");std::ifstream stream(std::filesystem::u8path(path),std::ios::binary);if(!stream) throw std::runtime_error("cannot open raw classifier model");std::vector<std::uint8_t> bytes(std::size_t(size),0);
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:156:88: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  156 |     if(size>model_limit) throw std::length_error("raw classifier model exceeds limit");std::ifstream stream(std::filesystem::u8path(path),std::ios::binary);if(!stream) throw std::runtime_error("cannot open raw classifier model");std::vector<std::uint8_t> bytes(std::size_t(size),0);
+      |                                                                                        ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:158:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+  158 |     if(stream.peek()!=std::char_traits<char>::eof() || stream.bad()) throw std::runtime_error("raw classifier model changed");guard.verify();auto model=RawPixelClassifier::from_bytes(bytes);guard.verify();stopped(cancelled);return model;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_pixel_classifier.cpp:158:127: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+  158 |     if(stream.peek()!=std::char_traits<char>::eof() || stream.bad()) throw std::runtime_error("raw classifier model changed");guard.verify();auto model=RawPixelClassifier::from_bytes(bytes);guard.verify();stopped(cancelled);return model;
+      |                                                                                                                               ^~~~~
+[ 46%] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/provenance.cpp.o
+In file included from /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:2:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In function ‘std::string qpx::detail::export_path(const std::string&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:30:84: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   30 |     if(result.size()>32768) throw std::invalid_argument("export path is too long");return result;
+      |                                                                                    ^~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In constructor ‘qpx::detail::AtomicExportFile::AtomicExportFile(const std::string&, std::size_t, const std::atomic<bool>*)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:9: warning: this ‘for’ clause does not guard... [-Wmisleading-indentation]
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |         ^~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:48:66: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘for’
+   48 |         for(int i=0;i<24;++i) suffix.push_back(hex[random()&15]);temporary_+=std::filesystem::u8path(suffix);
+      |                                                                  ^~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::write(const char*, std::size_t)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:13: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |             ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:68:76: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   68 |             if(written<=0) throw std::runtime_error("export write failed");at+=static_cast<std::size_t>(written);bytes_+=static_cast<std::size_t>(written);
+      |                                                                            ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp: In member function ‘void qpx::detail::AtomicExportFile::commit(bool)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:9: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |         ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/atomic_export.hpp:78:70: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   78 |         if(!close()) throw std::runtime_error("export close failed");export_checkpoint(cancelled_);
+      |                                                                      ^~~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp: In function ‘std::string qpx::provenance_json(const AnalysisProvenance&)’:
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:79:5: warning: this ‘if’ clause does not guard... [-Wmisleading-indentation]
+   79 |     if(j.out.size()>16u*1024u*1024u) throw std::length_error("provenance JSON exceeds 16 MiB");return j.out;
+      |     ^~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/provenance.cpp:79:96: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the ‘if’
+   79 |     if(j.out.size()>16u*1024u*1024u) throw std::length_error("provenance JSON exceeds 16 MiB");return j.out;
+      |                                                                                                ^~~~~~
+[ 46%] Linking CXX static library libqupathxx_core.a
+[ 98%] Built target qupathxx_core
+gmake[3]: Warning: File 'CMakeFiles/qupathxx_source_identity_tests.dir/compiler_depend.make' has modification time 0.0049 s in the future
+[ 98%] Linking CXX executable qupathxx_source_identity_tests
+gmake[3]: warning:  Clock skew detected.  Your build may be incomplete.
+[100%] Built target qupathxx_source_identity_tests
+[  1%] Built target qupathxx_tiff_xml
+[  3%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 44%] Built target tiff
+[ 98%] Built target qupathxx_core
+[ 98%] Building CXX object CMakeFiles/qupathxx_pixel_feature_tests.dir/cpp/tests/pixel_feature_tests.cpp.o
+[100%] Linking CXX executable qupathxx_pixel_feature_tests
+[100%] Built target qupathxx_pixel_feature_tests
+[  1%] Built target qupathxx_tiff_xml
+[  3%] Built target qupathxx_sqlite
+[ 15%] Built target zlibstatic
+[ 45%] Built target tiff
+[100%] Built target qupathxx_core
+[100%] Linking CXX executable qupathxx_pixel_workflow_tests
+[100%] Built target qupathxx_pixel_workflow_tests
+[  1%] Built target qupathxx_tiff_xml
+[  3%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 44%] Built target tiff
+[ 98%] Built target qupathxx_core
+[ 98%] Linking CXX executable qupathxx_classifier_tests
+[100%] Built target qupathxx_classifier_tests
+[  1%] Built target qupathxx_tiff_xml
+[  3%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 44%] Built target tiff
+[ 98%] Built target qupathxx_core
+[ 98%] Linking CXX executable qupathxx_classifier_io_tests
+[100%] Built target qupathxx_classifier_io_tests
+[  1%] Built target qupathxx_tiff_xml
+[  3%] Built target qupathxx_sqlite
+[ 14%] Built target zlibstatic
+[ 42%] Built target tiff
+[ 94%] Built target qupathxx_core
+[ 96%] Linking CXX executable qupathxx_resampling_tests
+[100%] Built target qupathxx_resampling_tests

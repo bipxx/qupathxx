@@ -1,0 +1,171 @@
+{
+  "schema": "qpx.raw-pixel-classifier-local/1",
+  "observed_at_utc": "2026-10-26T05:07:28.208307+00:00",
+  "source": "ed2bf409107479d039e5ec2f5171565b2924ef7d",
+  "compiled_fingerprint": "afa72c42bb0440dffbae5c2471485410043b8e480ed01eedebf7e87b777683fd",
+  "compiler_inputs": 325,
+  "status": "native_model_and_captured_grid_prediction_locally_verified",
+  "scope": "C++ raw model/recipe, QPR1 files and immutable captured-grid prediction; no owner-captured training/jobs, retained project result archives, Python/CLI/UI or platform qualification acceptance",
+  "native": {
+    "windows_suites": 6,
+    "linux_suites": 6,
+    "required_markers": [
+      "Typed raw pixel features: 12 independent dtype/extreme references, per-channel support, anisotropic scales, stream seams, admission and cancellation passed",
+      "Raw classifier QPR1 independent framing, channel/grid/physical contracts, forest votes, streams, exact budgets and atomic model files passed"
+    ]
+  },
+  "independent_reference": {
+    "feature_cases": 12,
+    "feature_slots": 12600,
+    "feature_baseline": "docs/benchmarks/raw-pixel-features-local.json",
+    "qpr1": "separately authored native framing and forest split/vote fixtures"
+  },
+  "physical_matching": "exact binary64 sampled spacing per axis; grid-unit recipes use exact reduced rational spacing",
+  "remaining": [
+    "Owner-captured labelled annotation training and prediction jobs with stale/cancel publication",
+    "Native backend-enabled real training qualification",
+    "Full project/result archives and stream/checkpoint resume with both grid axes",
+    "Python/NumPy, CLI/batch, managed viewer and ImGui integration",
+    "Source-bound named cohorts, integrated platform and biological/model/hardware acceptance"
+  ],
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/build.log",
+      "bytes": 6157,
+      "sha256": "e9cece4d9e62b2fc828db4c5788d9f675b09ab1a18f95a7a20fc542e5e8fb989"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "5c30a698cd7256a6f196897d244acfa4afad858fb08bc098939ba14b86e48c10"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/classifier.xml",
+      "bytes": 382,
+      "sha256": "d87aa45284db3399b82f1bb96d8dd65332545c3d0879c372ed119a8370931a8d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/classifier_io.xml",
+      "bytes": 379,
+      "sha256": "372a736f41544c5444cc2425bc79bb6c0ad94ff3cadbd3510e4ce776b59b0fae"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/commands.json",
+      "bytes": 4656,
+      "sha256": "48cfe30186d26c2103dd5749ce1a3ca5ce3a1564b897e2eb9028505276de60cd"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/compiler-inputs.json",
+      "bytes": 34033,
+      "sha256": "b2ec0882588d642ecbcb9a49f1725ee48d04827cd92cdd98fc9185c6f6ed9479"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/configure.log",
+      "bytes": 3579,
+      "sha256": "61c51f62f7da986bbe234c39f9a9d039658e743036f5f845e56e17a133efa3b6"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/pixel_features.xml",
+      "bytes": 737,
+      "sha256": "6a7a21c53ad9632fdf497c3030f59ea82f56117ccbe08f93e6fc1a90d291a35f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/pixel_workflows.xml",
+      "bytes": 459,
+      "sha256": "97f27db6bc1ad09363b08ebaa4cc8a4225230e9b42bc7004e6adae7a7e9ab799"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/resampling.xml",
+      "bytes": 2307,
+      "sha256": "6c7bd8cd28207cc0dbf62c15216304fb37d54bd0aafb72e535979b8b31cc4891"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/source_identity.xml",
+      "bytes": 537,
+      "sha256": "f5f666bb18bc33dba844c2ffd7b87d585f5bf335941adbb2a32676161b035ecb"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/test-classifier.log",
+      "bytes": 236,
+      "sha256": "292c2ced97a0e3413b5394c6cdfce65d5658abcf83fdcecb329a9f95327d19d2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/test-classifier_io.log",
+      "bytes": 239,
+      "sha256": "31f70656f0db7010eb1e475016db63e3a53df105d68fa9b311ee7138e23853bc"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/test-pixel_features.log",
+      "bytes": 240,
+      "sha256": "83f7eec7c2608ffed34cd70bfdd195c67027ee14931d0157cdfa1cabb2c28716"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/test-pixel_workflows.log",
+      "bytes": 241,
+      "sha256": "242400697436afacd7012b33678c02e8bb0c715e17cf915f405fb2508172dfb4"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/test-resampling.log",
+      "bytes": 236,
+      "sha256": "f44097e8371fd6e1e8554c9cb44e615881e7e65c8e9dff36ed774b4789ea591a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/windows/test-source_identity.log",
+      "bytes": 243,
+      "sha256": "aaef3a031d655bda5204688909bb555e0c86e21d6c69d8ebc3502bbfb25ab7a6"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/linux/build.log",
+      "bytes": 19198,
+      "sha256": "370e1b066e8df8a63da388a706d863033d19a4ced2c0a5e69bb2ed00b3f9d288"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/linux/build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "e42635e0af90449e21dc3bebed7583e0dcef7a0cde17c4918c635b756a539c1b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/linux/commands.json",
+      "bytes": 2432,
+      "sha256": "a4d1697da30a973de7b1280af046eef1ff75d080d7ef7f6dc2338b8346cad05e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/linux/compiler-inputs.json",
+      "bytes": 34033,
+      "sha256": "b2ec0882588d642ecbcb9a49f1725ee48d04827cd92cdd98fc9185c6f6ed9479"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/linux/configure.log",
+      "bytes": 3354,
+      "sha256": "8f288ea8f57d908f8c7b55131ae05b0da07be2923144574bd45b9758a6096fa9"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/linux/tests.log",
+      "bytes": 859,
+      "sha256": "902010993eebc8abe4f3693879c1c8a2dc1a86526e6109e82bb5bd4d40a32362"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/linux/tests.xml",
+      "bytes": 3741,
+      "sha256": "1bc739332eb3fc1fa1b388dde6574990ba12e3012da47c8dc517ee9ecf803508"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/retained-binaries.json",
+      "bytes": 3051,
+      "sha256": "9902330ce818eef58143e209dc239c075fd8dcfdfb736a74131b1e367afb098f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/compiler-git-proof.json",
+      "bytes": 112811,
+      "sha256": "9d1f7c3c76efb1f48206de1ace55a1a11e7fbfdd3d758b5cb799122f48093e25"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-classifier-local/build-driver.py",
+      "bytes": 3820,
+      "sha256": "5fd11bda62a491ca4331dd92fdf173c14a17d399ec48da900d3e37b461d5f9e5"
+    }
+  ],
+  "retained_binaries": "build/rawmodel215-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial"
+}

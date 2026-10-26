@@ -1,0 +1,20 @@
+{
+  "id": 12626738862,
+  "node_id": "MDg6QXJ0aWZhY3QxMjYyNjczODg2Mg==",
+  "name": "Linux-sanitize-py3.12",
+  "size_in_bytes": 42270,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12626738862",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12626738862/zip",
+  "expired": false,
+  "digest": "sha256:a8a9f7c83de68133403c1cefbcbba5124f04525009bcd4d6e57ded0784d0570c",
+  "created_at": "2026-10-26T04:25:04Z",
+  "updated_at": "2026-10-26T04:25:04Z",
+  "expires_at": "2026-11-09T04:25:04Z",
+  "workflow_run": {
+    "id": 40268520155,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/multifile-fault-workflow-213",
+    "head_sha": "bfa416edfd508e3e1ce184e75ec62c1a18a2a606"
+  }
+}

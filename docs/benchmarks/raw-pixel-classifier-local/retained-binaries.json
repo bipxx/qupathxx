@@ -1,0 +1,78 @@
+{
+  "source": "ed2bf409107479d039e5ec2f5171565b2924ef7d",
+  "fingerprint": "afa72c42bb0440dffbae5c2471485410043b8e480ed01eedebf7e87b777683fd",
+  "binaries": [
+    {
+      "host": "windows",
+      "path": "build/rawmodel215-retained-binaries/windows/qupathxx_source_identity_tests.exe",
+      "bytes": 1511424,
+      "sha256": "e7dd660082760eb0f9a29414d14ce378f74b3ff101b6090589d06afd0daa2c90"
+    },
+    {
+      "host": "windows",
+      "path": "build/rawmodel215-retained-binaries/windows/qupathxx_pixel_feature_tests.exe",
+      "bytes": 1552384,
+      "sha256": "56ada5098bf508c1c425bf392f970ab152bdf2f8f5c6433545f5bc52f5920eb6"
+    },
+    {
+      "host": "windows",
+      "path": "build/rawmodel215-retained-binaries/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 1907200,
+      "sha256": "054c65662d687f019fb4f9b2287e95b373bfbef122304c248b1722dff2971948"
+    },
+    {
+      "host": "windows",
+      "path": "build/rawmodel215-retained-binaries/windows/qupathxx_classifier_tests.exe",
+      "bytes": 89088,
+      "sha256": "c0f1aee1f0df39fbff99f1648e861f70a5824e465a411ce5a1c6fabd869278a8"
+    },
+    {
+      "host": "windows",
+      "path": "build/rawmodel215-retained-binaries/windows/qupathxx_classifier_io_tests.exe",
+      "bytes": 249344,
+      "sha256": "4026074e0742b2da2c4bc8697be54920a6346a71474f287000851e51b3fa2576"
+    },
+    {
+      "host": "windows",
+      "path": "build/rawmodel215-retained-binaries/windows/qupathxx_resampling_tests.exe",
+      "bytes": 2337792,
+      "sha256": "c5f00768931c8ea46a15968ad2aabf6fb628cebdf046c91ccd3a30767fb9445a"
+    },
+    {
+      "host": "linux",
+      "path": "build/rawmodel215-retained-binaries/linux/qupathxx_source_identity_tests",
+      "bytes": 2562424,
+      "sha256": "5fda923da4f2cacc4d1a4bdfe736deb044b750fe5c592c3d668d74481bd3d5d8"
+    },
+    {
+      "host": "linux",
+      "path": "build/rawmodel215-retained-binaries/linux/qupathxx_pixel_feature_tests",
+      "bytes": 2710864,
+      "sha256": "8788109da542a6eb127af8974a7b53b6e80ae1936b739e11fd1ec95cd32fd981"
+    },
+    {
+      "host": "linux",
+      "path": "build/rawmodel215-retained-binaries/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 4197152,
+      "sha256": "c834c53e2636caa8fea440fe5481b764f11aa340e962dff080c1ccbbc9eb170d"
+    },
+    {
+      "host": "linux",
+      "path": "build/rawmodel215-retained-binaries/linux/qupathxx_classifier_tests",
+      "bytes": 118016,
+      "sha256": "931c80c323d7f0146a718481cae3aa1f21975f16fc0d6fbc16d4374e33d16114"
+    },
+    {
+      "host": "linux",
+      "path": "build/rawmodel215-retained-binaries/linux/qupathxx_classifier_io_tests",
+      "bytes": 384472,
+      "sha256": "08ed5931672993c7d8df06b3a71d968d3e4f8107d47fcb11be15824c0b71af4e"
+    },
+    {
+      "host": "linux",
+      "path": "build/rawmodel215-retained-binaries/linux/qupathxx_resampling_tests",
+      "bytes": 4837032,
+      "sha256": "42943dbd016c23e779e904cc7393fad32be5f610bf2eff5608f5306ad947c22a"
+    }
+  ]
+}

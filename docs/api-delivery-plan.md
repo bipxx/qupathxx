@@ -40,9 +40,8 @@ no additional agent delegation is implied by this table.
 
 | Order / ID | State and owner | Easiest implementation path | Required exit evidence |
 | --- | --- | --- | --- |
-| 1 / MFO1 acceptance | Normal workflow accepted at `9e7d0be`; expanded faults locally verified at `bfa416e`; Mac-native/portable and Linux-only audits pass, full engine acceptance pending. Root owns the evidence join | Observe the three original [campaign213 handles](benchmarks/multifile-fault-213-campaign.json). Verify archives and run the existing strict auditors from the frozen source. Reuse successful original jobs; diagnose an actual failure before changing source or requesting a successor | All required artifact/source/digest checks and expanded named cohorts pass. A green job alone does not accept the campaign. Preserve old failures, accepted campaign210 and the distinct E3/E4 identities |
-| 2 / SCI1-A: typed raw pixel classification | Private native features locally verified at `a13adef`; root owns the next owner-captured training/prediction integration | Follow the bounded A1-A6 route below and the [numeric contract](raw-pixel-classifier.md). Reuse the new private kernel, typed raw sampler and current feature/forest/job/archive authorities; next capture the raw recipe in training and prediction requests. Deliver train → predict → save/reopen → resume through existing entry points | Independent feature oracle, streamed/full-window seam checks, source/model mutation and cancellation controls, persistence/legacy compatibility, installed typing and real desktop/CLI/batch outcomes at one frozen source |
-| 3 / SCI1-B: remaining research workflows | Open; retain every M0-M7 requirement | After SCI1-A, choose the next complete workflow by dependency readiness: stitched contours; eligible vendor/whole-slide/partial-OME support; annotation/interchange; spatial queries and recorded/distributed automation. Prepare only the reference/decision inputs needed by that workflow | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
+| 1 / SCI1-A: typed raw pixel classification | Native features/models and captured-grid prediction locally verified at `ed2bf40`; root owns owner-captured training/prediction and jobs next | Follow the bounded A1-A6 route below and the [numeric contract](raw-pixel-classifier.md). Reuse the feature kernel, `RawPixelRecipe`/`RawPixelClassifier`, typed sampler and existing forest/owner/source/job authorities; next capture raw annotation training and prediction requests. Preserve both grid axes rather than putting raw results into a scalar-downsample RGB type. Deliver train → predict → save/reopen → resume through existing entry points | Independent feature oracle, streamed/full-window seam checks, source/model mutation and cancellation controls, persistence/legacy compatibility, installed typing and real desktop/CLI/batch outcomes at one frozen source |
+| 2 / SCI1-B: remaining research workflows | Open; retain every M0-M7 requirement | After SCI1-A, choose the next complete workflow by dependency readiness: stitched contours; eligible vendor/whole-slide/partial-OME support; annotation/interchange; spatial queries and recorded/distributed automation. Prepare only the reference/decision inputs needed by that workflow | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
 | Alongside / DEC1: scientific and resource prerequisites | Open; user/research lead supplies decisions, root records applicability | Use the existing decision table below for dataset rights/labels, tolerances and eligible hardware. Synthetic arithmetic/engineering work proceeds; affected biological or hardware acceptance waits for its real prerequisites | Record corpus/version/rights, labels, metric/tolerance before comparison, and eligible hardware/configuration. Do not infer acceptance from synthetic tests or suite totals |
 | After applicable gates / REL1: supported release | Open; repository owner plus packaging owner | Reuse qualified artifacts; resolve project license, distribution obligations, support matrix, installers, notices, signing and clean-machine walkthroughs | Every claimed platform/workflow has scope-matched acceptance. Mac-native does not qualify Mac Python/GUI/OpenSlide. No release/PyPI/signing authorization is implied |
 
@@ -54,12 +53,12 @@ Completed mechanisms stay out of the active implementation queue:
 | E2 / execution boundaries | 438 local auditor controls and 48 Linux stdlib witnesses at `cc2f524`; retain optimized-execution, authenticated-source and inherited-pytest admission protections |
 | E3 / observer proof reuse | [Local receipt](benchmarks/source-proof-reuse-local.json), 579 controls and retained Linux successor audit. No persistent PASS cache, binary relabeling or overall CI speedup claim |
 | E4 / independent installed diagnostics | [Local receipt](benchmarks/installed-diagnostics-local.json), 609 controls and real Windows/Linux child probes; all 58 command sites preserved. Campaign213 is the first hosted exercise of this later producer; campaign210 cannot prove it |
-| MFO1 / normal multi-file workflow | [Accepted campaign210](benchmarks/multifile-ome-210-qualification.json). New fault controls have [local evidence](benchmarks/multifile-faults-local.json): 54 required installed cases, native cancellation marker and 619 auditor controls. Expanded cross-platform acceptance is still pending |
+| MFO1 / full declared multi-file workflow and fault controls | [Campaign213 engineering accepted](benchmarks/multifile-fault-213-qualification.json) at `bfa416e`: all 11 archive sizes/digests/sources and full engine, both Mac-native and portable builder/consumer audits pass. The exact protocol requires 54 installed cases and the native cancellation marker. Earlier [normal campaign210](benchmarks/multifile-ome-210-qualification.json), partial observation and local fault evidence remain immutable. Later raw classifier sources are not covered |
 
 Use MFO1's [A-E checkpoints](multifile-ome-tiff.md#delivery-checkpoints) as
-historical implementation detail. Continue acceptance on its existing frozen
-source while SCI1-A proceeds in the integration checkout. Never edit the
-frozen candidate or relabel its compiled source. Rebuild only when consumed
+historical implementation detail. Its original campaign is terminal and
+accepted; do not redispatch it for later classifier work. Continue SCI1-A in
+the integration checkout. Never edit frozen sources or relabel compiled products. Rebuild only when consumed
 compiler inputs/configuration or the required product evidence changes.
 
 Resolve fixture rights/labels, scientific decisions and hardware eligibility
@@ -120,7 +119,7 @@ full parity or release acceptance.
 | Cell detection/compartments: `CellRequest`, `GridCellSampling`, `GridCellParameters`, `CellParameters`, `CellJob`, `detect_cells` | For count-based explicit grids, use `CellRequest.for_grid_roi`; for exact origins/extents, pass `ScientificGrid` to the constructor. Choose typed pixel/micrometre units, preserve the ROI and reuse QCL5 retention/replay. Legacy recipes keep their existing parameter path. See the [workflow guide](grid-cell-workflows.md) | Physical sigma/radii/expansion, per-axis kernels, calibrated features and native/Python/CLI/batch/GUI integration now pass source169 engine/Mac-native/portable engineering qualification. Predeclared biological/QuPath mask, feature and split/merge tolerances remain. Unknown micrometre calibration rejects explicitly |
 | Tables/provenance: `MeasurementTableRequest`, `CellTableRequest`, raw tables, export jobs, `build_environment` | Compose existing immutable table requests and incremental export jobs; extend the schema in one native table layer, bind it thinly | Historical/live metadata joins, revision selectors, reproducible schema/units, cancellation and row/byte budgets. Reuse evidence hashes; avoid new ad-hoc CSV format for each UI |
 | Object classifiers: `ObjectFeatureRequest`, `extract_object_features`, forest training/classification and archives | Reuse frozen feature schema, training snapshot and portable model archive; expose missing workflow actions through existing jobs | Expanded feature schema/versioning and independent research/model comparison. Verify source links, absent labels, deterministic predictions and applying classes as an undoable command |
-| Pixel classifiers/streaming: `PixelTrainingRequest`, `PixelPredictionRequest`, `PixelPredictionStream`, file/export/read jobs | Use windowed and block streaming paths to bound large slides; compose masks/contours and captured model identity. Preserve hash-only resume | Typed quantitative features follow SCI1-A1-A6; stitched contours and unmatched-grid feature semantics remain separate. Test seams against independent full-image references, IO cancellation, model/provenance persistence and research acceptance |
+| Pixel classifiers/streaming: RGB `PixelTrainingRequest`, `PixelPredictionRequest`, `PixelPredictionStream`; native `RawPixelRecipe`, `RawPixelClassifier`, `RawPixelClassification`; file/export/read jobs | Use windowed and block streaming paths to bound large slides; compose masks/contours and captured model identity. Preserve hash-only resume | Typed quantitative features follow SCI1-A1-A6; stitched contours and unmatched-grid feature semantics remain separate. Test seams against independent full-image references, IO cancellation, model/provenance persistence and research acceptance |
 | Headless batches: `ProjectBatchRequest`, `ProjectBatchJob`, checkpoint APIs, `qupathxx_batch` | Adapt existing request/result/archive paths into the shared batch engine. For grid cells set `kind=CELLS`, `cell_grid` and `grid_cells`; each image resolves its own calibration. CLI and UI use the same native factory and options | Grid interruption/resume, per-image calibration, typed CSV and QCL5 checkpoints pass source169 engineering qualification. Remaining scientific/platform scope, partial failure, source/model replacement, abandoned-work cleanup and stable memory remain. Distributed workers require a later contract |
 | Spatial analysis: `Roi`, existing native spatial index and ROI/measurement queries | Build bounded neighborhood/distance/density queries on the current index and calibrated measurements; expose immutable tables through the established jobs/export layer | Specify units, metric, point/area semantics and anisotropic behavior, then independent nearest-neighbor/overlap/density fixtures and large-scene query/memory evidence. No full point-cloud copy per frame |
 | Recorded workflow automation: native commands, parameterized requests and retained records | Compose a versioned ordered workflow manifest from existing request/command identities; reuse batch execution and per-stage archive/restart checks | Define dependency/data references, error/cancel policy and reproducible replay before promising general pipeline automation; validate one multi-stage workflow across script, CLI and UI |
@@ -139,14 +138,22 @@ RGB/OD/stain options, and retains `std::vector<float>` feature values.
 therefore does not establish a typed classifier path. Preserve the RGB recipe
 and archive behavior while adding an explicit quantitative recipe.
 
-A1 now has the [numeric contract and consumer trace](raw-pixel-classifier.md).
-The private A2 kernel has [local Windows/Linux evidence](benchmarks/raw-pixel-features-local.json)
-at source `a13adef`: six selected native suites per host, 12 independent source
-cases and 12,600 feature slots, including nonzero offsets, distinct channel
-scales, both one-axis directions, anisotropic filters, support, seams and exact
-admission. No Python classifier API, model/archive integration or full-platform
-acceptance follows. A3 owner-captured training/prediction is next; physical-unit
-request capture and all A4-A6 obligations remain open.
+A1 has the [numeric contract and consumer trace](raw-pixel-classifier.md).
+A2 features have [local Windows/Linux evidence](benchmarks/raw-pixel-features-local.json)
+at `a13adef`. Source `ed2bf40` additionally has [native model/prediction evidence](benchmarks/raw-pixel-classifier-local.json):
+six selected suites per host, preserved 12,600 reference feature slots, independent
+QPR1 framing, exact forest vote/confidence cases, per-axis physical resolution,
+model file replay and atomic replacement. QPR1 model files are implemented;
+project result archives and stream checkpoints are not yet integrated.
+
+The additive native `RawPixelRecipe`, `RawPixelClassifier` and
+`RawPixelClassification` reuse `ForestModel` and the quantitative kernel while
+retaining both grid axes. RGB QPC1/QPC2 remains unchanged. A3 owner-captured
+annotation training/prediction and jobs are next: reuse the existing raw-analysis
+source/ROI authority and object snapshots, not a new document authority or a
+scalar-downsample RGB result. No installed Python API, project publication,
+complete A3-A6 workflow or new platform acceptance follows from these local
+native checks.
 
 | Checkpoint / dependency | Smallest implementation and API path | Decisive verification / stop condition |
 | --- | --- | --- |

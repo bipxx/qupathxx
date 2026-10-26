@@ -469,3 +469,9 @@ docs/benchmarks/raw-pixel-features-local/** -text -whitespace
 docs/benchmarks/raw-pixel-features-local.json -text -whitespace
 docs/benchmarks/multifile-fault-213-partial-qualification/** -text -whitespace
 docs/benchmarks/multifile-fault-213-partial-qualification.json -text -whitespace
+
+# Raw classifier and completed multi-file campaign evidence.
+docs/benchmarks/raw-pixel-classifier-local/** -text -whitespace
+docs/benchmarks/raw-pixel-classifier-local.json -text -whitespace
+docs/benchmarks/multifile-fault-213-qualification/** -text -whitespace
+docs/benchmarks/multifile-fault-213-qualification.json -text -whitespace

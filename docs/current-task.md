@@ -2,39 +2,42 @@
 
 ## Current execution card (2026-10-26)
 
-- Integration: `feature/scientific-grid-159`. Native source `a13adef` adds the
-  private quantitative raw feature kernel. The [local receipt](benchmarks/raw-pixel-features-local.json)
-  binds identical 321-input fingerprint `ae0391fd...caf907` on Windows/Linux.
-  Six selected suites pass per host, including preserved RGB feature/workflow
-  regressions. Twelve independent dtype/extreme cases check 12,600 feature slots,
-  explicit per-channel affine transforms, both one-axis filters, anisotropic
-  smoothing, missing support, streamed seams, budgets and cancellation.
-- Next product action: SCI1-A3 owner-captured raw training/prediction, reusing
-  this kernel and current forest/jobs. Follow the [numeric contract](raw-pixel-classifier.md)
-  and [A1-A6 route](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
-  Physical-unit recipe capture, model/archive and checkpoint compatibility,
-  Python/CLI/batch/ImGui/managed viewer delivery and integrated qualification
-  remain required. Private native checks do not establish those outcomes.
-- Frozen MFO1 fault campaign: `bfa416e`, immutable. The [partial receipt](benchmarks/multifile-fault-213-partial-qualification.json)
-  verifies ten of eleven archive sizes/digests/sources. Both Mac-native
-  architectures and both portable builders/fresh consumers pass strict audits;
-  the three Linux engine modes pass a strict Linux-only audit. The original
-  Windows headless job succeeds; Windows GUI is still live. Full engine/matrix
-  acceptance remains pending. Retain original handles
-  [engine40268520155](https://github.com/bipxx/qupathxx/actions/runs/40268520155),
+- Integration: `feature/scientific-grid-159`. Native source `ed2bf40` adds
+  `RawPixelRecipe`, `RawPixelClassifier`, QPR1 model files and captured-grid
+  prediction using the existing forest and quantitative feature kernel. The
+  [local receipt](benchmarks/raw-pixel-classifier-local.json) binds identical
+  325-input fingerprint `afa72c42...7683fd` on Windows/Linux. Six selected suites
+  pass per host, including RGB workflow compatibility, the previous 12,600
+  reference feature slots, independent QPR1 framing, forest vote/confidence,
+  channel/grid/physical mismatch, atomic file and resource/cancellation controls.
+- Next product action: owner-captured raw annotation training/prediction and
+  jobs, reusing existing raw-source/ROI and object snapshot authorities.
+  Preserve both axes, finite support and stale/cancel publication behavior.
+  Project result archives, stream/checkpoint resume, real backend-enabled
+  training, Python/CLI/batch/ImGui/managed viewer and integrated qualification
+  remain required. See the [contract](raw-pixel-classifier.md) and
+  [A1-A6 route](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
+- MFO1 fault campaign213 is now [engineering accepted](benchmarks/multifile-fault-213-qualification.json)
+  at frozen `bfa416e`. All 11 archive sizes/digests/sources and strict full engine,
+  both Mac-native architectures/relocation and portable builder/fresh-consumer
+  audits pass. Windows GUI: 51 native / 4,053 installed; Windows headless:
+  50 / 3,601; Linux headless: 50 / 3,599. Minimal/sanitizer and each Mac-native
+  architecture pass 50 suites. Named multi-file installed cohorts require 54
+  cases. Counts overlap. This campaign does not cover later raw classifier code.
+  Original handles [engine40268520155](https://github.com/bipxx/qupathxx/actions/runs/40268520155),
   [Mac40268527953](https://github.com/bipxx/qupathxx/actions/runs/40268527953) and
-  [portable40268533643](https://github.com/bipxx/qupathxx/actions/runs/40268533643).
-  No redispatch, source relabeling or inferred raw-classifier coverage.
-- Accepted feature baselines remain separate: [TMA `19371b7`](benchmarks/tma-dearray-202-qualification.json)
-  and [normal multi-file OME `9e7d0be`](benchmarks/multifile-ome-210-qualification.json).
-  E1/E2 are implemented; E3/E4 tooling has its own local evidence and is included
-  in campaign213. Use the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
-  and [efficiency review](reviews/compilexx-efficiency-review.md) for dependencies.
+  [portable40268533643](https://github.com/bipxx/qupathxx/actions/runs/40268533643)
+  are terminal. Preserve the earlier partial receipt; do not redispatch it.
+- Accepted feature baselines [TMA `19371b7`](benchmarks/tma-dearray-202-qualification.json)
+  and [normal multi-file OME `9e7d0be`](benchmarks/multifile-ome-210-qualification.json)
+  remain separate. Use the [single queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue).
 - Public main's qualified application source remains `61e546e`; main and the
   user's divergent local root branch are unchanged. All M0-M7 remain Partial.
   Open-source-only [reader eligibility](reader-license-policy.md) stays in force.
-  Broader readers, annotation/interchange, research/scientific xfails, hardware
-  budgets, real TMA validation, platform support and release obligations remain.
+  Broader readers, annotation/interchange, three strict scientific xfails,
+  independent research/model validation, hardware budgets, real TMA acceptance,
+  platform support and release obligations remain open. Mac-native acceptance
+  does not supply Mac Python/GUI/OpenSlide support.
 
 ## Historical task snapshots
 

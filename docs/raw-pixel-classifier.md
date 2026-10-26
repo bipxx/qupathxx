@@ -1,8 +1,10 @@
 # Quantitative pixel classifier numeric contract
 
-Status: private native features have [local Windows/Linux evidence](benchmarks/raw-pixel-features-local.json)
-at `a13adef`; no public Python/UI or archive support is claimed. This completes the initial SCI1-A1 consumer trace
-and defines the oracle before native execution. RGB `pixel-v1` stays unchanged.
+Status: native features, model/recipe files and captured-grid prediction have
+[local Windows/Linux evidence](benchmarks/raw-pixel-classifier-local.json) at
+`ed2bf40`. Public C++ types are present; owner-captured training/jobs,
+project/result archives, Python and UI integration remain open. RGB `pixel-v1`
+and QPC1/QPC2 stay unchanged.
 
 The existing path is `PixelTrainingRequest` → `extract_pixel_features` →
 float32 training rows → `ForestModel` → `PixelPredictionRequest` /

@@ -30,27 +30,29 @@ release status. Use the [current task](current-task.md), [workflow inventory](fe
 and [API delivery paths](api-delivery-plan.md) for exact scope and remaining work.
 All M0-M7 remain Partial.
 
-TMA `19371b7` and the declared normal multi-file OME workflow `9e7d0be`
-have separate engineering acceptance. The expanded multi-file fault controls at
-`bfa416e` have local evidence; campaign213 now has [partial platform acceptance](benchmarks/multifile-fault-213-partial-qualification.json).
-Mac-native, portable and Linux-only strict audits pass; the original Windows GUI
-job and complete engine acceptance remain pending. E1/E2 are implemented; E3/E4 have local tooling evidence and are
-included in that expanded campaign. Use the [current task](current-task.md)
-for source-bound observations and the [ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
-for scheduling; completed mechanisms are baseline references rather than work
-to repeat.
+TMA `19371b7`, normal multi-file OME `9e7d0be` and the expanded multi-file
+fault campaign `bfa416e` have separate engineering acceptance. The
+[complete campaign213 receipt](benchmarks/multifile-fault-213-qualification.json)
+accepts all 11 verified archives, full engine, both Mac-native architectures
+and portable builders/fresh consumers on the original handles. E1/E2 and the
+later E3/E4 tooling keep their own implementation/local evidence and are included
+in that source. Preserve the earlier partial observation and every source identity.
 
-The next product workflow is [typed raw pixel classification](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints):
-the private native feature kernel has [local numerical evidence](benchmarks/raw-pixel-features-local.json)
-at `a13adef`. Next compose owner-captured training/prediction, migrate
-persistence/checkpoints, finish the existing frontends, then qualify one
-integrated source. Physical recipe capture and biological/model acceptance
-remain open. Existing RGB classifier semantics
-remain compatible. Scientific decisions and eligible hardware preparation
-proceed alongside implementation with explicit consumer dependencies.
-The [compilexx review](reviews/compilexx-efficiency-review.md) records adopted
-process changes. No milestone or supported-release gap is closed by this plan.
+The next product workflow is [typed raw pixel classification](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
+Native features, QPR1 reusable model files and captured-grid prediction now have
+[local evidence at `ed2bf40`](benchmarks/raw-pixel-classifier-local.json). Next
+integrate owner-captured labelled annotation training/prediction and jobs, then
+project result archives/checkpoints and the existing frontends. Both grid axes
+and explicit physical/channel/normalization semantics must survive that path.
+RGB models remain compatible. The new classifier source is not covered by the
+older multi-file campaign. Scientific/model and eligible hardware evidence
+continue alongside implementation with explicit consumer dependencies.
 
+Use the [current task](current-task.md) for source-bound observations and the
+[ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) for
+scheduling. The [compilexx review](reviews/compilexx-efficiency-review.md)
+records adopted process changes. No milestone or release gap is closed by this
+local classifier packet.
 
 ## Scope and release boundaries
 
@@ -368,8 +370,9 @@ workflow parity.
 ## Execution order from the present state
 
 The [API delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
-is the sole detailed scheduling authority. Finish the existing MFO1 artifact
-acceptance while implementing SCI1-A in the active integration checkout. Continue
+is the sole detailed scheduling authority. MFO1 campaign213 is engineering
+accepted; continue SCI1-A owner-captured raw classification in the active
+integration checkout. Continue
 SCI1-B, the decision lane and REL1 through every remaining M0-M7 criterion.
 The current task card records observed status, not another ordered backlog.
 
