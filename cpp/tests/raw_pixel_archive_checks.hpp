@@ -55,8 +55,17 @@ inline void run() {
             require(trainer.model()->sha256()==trained->sha256() && trainer.table()->sha256()==real_table->sha256(),"direct/job training differs");
             real_archive=archive_raw_pixel_training(trainer.table(),trainer.model());const auto historical=RawPixelArchive::from_bytes(real_archive->bytes());
             require(historical->purpose()=="training" && historical->model()->sha256()==trained->sha256() && historical->bytes()==real_archive->bytes(),"trained archive round trip");
-            const auto retrained=train_raw_pixel_classifier(*historical->table(),parameters);
-            require(retrained.sha256()==trained->sha256(),"historical retraining differs");
+            // The public work request is capped by the retained table footprint.
+            // Historical decoding drops live authorities, so its available cap
+            // can differ. Replay the model's recorded effective parameters for
+            // byte-identical training, rather than assuming equal footprints.
+            const auto readmitted=train_raw_pixel_classifier(*historical->table(),parameters);
+            require(readmitted.forest().training_sha256()==trained->forest().training_sha256(),"historical training matrix differs");
+            const auto retrained=train_raw_pixel_classifier(*historical->table(),trained->forest().parameters());
+            require(retrained.sha256()==trained->sha256(),"historical replay with recorded parameters differs");
+            const auto original_votes=trained->forest().predict(real_table->values(),real_table->recipe().feature_schema()),readmitted_votes=readmitted.forest().predict(real_table->values(),real_table->recipe().feature_schema());
+            for(std::size_t row=0;row<original_votes.size();++row) require(original_votes[row].votes==readmitted_votes[row].votes,"historical readmission changed votes");
+            std::cout<<"Raw training work admission: live="<<trained->forest().parameters().work_bytes<<" historical="<<readmitted.forest().parameters().work_bytes<<"; recorded-parameter replay preserves model bytes and fresh admission preserves votes\n";
             const auto trained_path=(directory/"trained.qrm").u8string();save_raw_pixel_classifier(*trained,trained_path);check(load_raw_pixel_classifier(trained_path).sha256()==trained->sha256());std::filesystem::remove(std::filesystem::u8path(trained_path));
             const auto archive_path=(directory/"trained.qxt").u8string();save_raw_pixel_archive(*real_archive,archive_path);check(load_raw_pixel_archive(archive_path)->model()->sha256()==trained->sha256());std::filesystem::remove(std::filesystem::u8path(archive_path));
             rejects<std::runtime_error>([&]{train_raw_pixel_classifier(*real_table,parameters,&cancelled);});
