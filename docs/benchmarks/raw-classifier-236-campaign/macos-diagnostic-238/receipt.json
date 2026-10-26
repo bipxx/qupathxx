@@ -1,0 +1,57 @@
+{
+  "schema": "qpx.raw-replay-macos-diagnostic/1",
+  "source": "c3c19a91b6bcf5470863d416379d3eb08755c3d2",
+  "ref": "feature/raw-replay-macos-diagnostic-238",
+  "purpose": "Locate the Mac arm64 replay failure and preserve compiled programs before CTest; not full T5 qualification.",
+  "semantic_inputs": {
+    "macos_native": true,
+    "portable_linux": false,
+    "live_reference": false,
+    "extended_readers": false
+  },
+  "wire_inputs": {
+    "macos_native": "true",
+    "portable_linux": "false",
+    "live_reference": "false",
+    "extended_readers": "false"
+  },
+  "preflight_controls": 164,
+  "source_proof_sha256": "209492b4292366a4fdc5a3bf123b8e124853bd7209c5841ea20fb7589f217e28",
+  "state": "run_identified",
+  "attempted_at_utc": "2026-10-26T18:26:12.317934+00:00",
+  "known_runs_before": [],
+  "complete_campaign_accepted": false,
+  "release_ready": false,
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "",
+  "run": {
+    "conclusion": "",
+    "databaseId": 40377716087,
+    "headSha": "c3c19a91b6bcf5470863d416379d3eb08755c3d2",
+    "status": "queued",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40377716087"
+  },
+  "raw_payloads": {
+    "dispatch.py": {
+      "bytes": 4589,
+      "sha256": "1e484d50ea6bed1e44edfaa0a9fb295f6e9f60ca68d61ebe1440b824777afbab"
+    },
+    "collect.py": {
+      "bytes": 4840,
+      "sha256": "12208157287319647fc249baee930e2df0f78644f15da58752df4880ca42fb76"
+    },
+    "dispatch-state.json": {
+      "bytes": 1183,
+      "sha256": "e8ad15a1e4c13a4239abcca6c373484239a021ae5cf80e943ab6d8d1de391aa3"
+    },
+    "frozen-source-proofs.json": {
+      "bytes": 328154,
+      "sha256": "209492b4292366a4fdc5a3bf123b8e124853bd7209c5841ea20fb7589f217e28"
+    },
+    "initial-run.json": {
+      "bytes": 2006,
+      "sha256": "1001e8b80cf9a559b15c933fdaab7d922d900200fb693a9b838d7155f557cdbe"
+    }
+  }
+}

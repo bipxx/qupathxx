@@ -1,0 +1,742 @@
+{
+  "conclusion": "success",
+  "databaseId": 40368263565,
+  "headSha": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+  "jobs": [
+    {
+      "completedAt": "2026-10-26T17:33:13Z",
+      "conclusion": "success",
+      "databaseId": 121731759436,
+      "name": "Linux headless Python 3.12 NumPy 2",
+      "startedAt": "2026-10-26T17:24:11Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-26T17:24:14Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-26T17:24:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:16Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 2,
+          "startedAt": "2026-10-26T17:24:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:16Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+          "number": 3,
+          "startedAt": "2026-10-26T17:24:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:16Z",
+          "conclusion": "success",
+          "name": "Linux build tools",
+          "number": 4,
+          "startedAt": "2026-10-26T17:24:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:31Z",
+          "conclusion": "success",
+          "name": "Build and test dependencies",
+          "number": 5,
+          "startedAt": "2026-10-26T17:24:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:31Z",
+          "conclusion": "skipped",
+          "name": "Desktop replay display",
+          "number": 6,
+          "startedAt": "2026-10-26T17:24:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:32Z",
+          "conclusion": "success",
+          "name": "Verified GEOS SDK cache",
+          "number": 7,
+          "startedAt": "2026-10-26T17:24:31Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:32Z",
+          "conclusion": "success",
+          "name": "Verified OpenCV SDK cache",
+          "number": 8,
+          "startedAt": "2026-10-26T17:24:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:33Z",
+          "conclusion": "success",
+          "name": "Verified reader fixture cache",
+          "number": 9,
+          "startedAt": "2026-10-26T17:24:32Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:33:09Z",
+          "conclusion": "success",
+          "name": "Build and verify",
+          "number": 10,
+          "startedAt": "2026-10-26T17:24:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:33:10Z",
+          "conclusion": "success",
+          "name": "Reports and candidate artifacts",
+          "number": 11,
+          "startedAt": "2026-10-26T17:33:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:33:10Z",
+          "conclusion": "success",
+          "name": "Post Verified reader fixture cache",
+          "number": 18,
+          "startedAt": "2026-10-26T17:33:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:33:11Z",
+          "conclusion": "success",
+          "name": "Post Verified OpenCV SDK cache",
+          "number": 19,
+          "startedAt": "2026-10-26T17:33:10Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:33:11Z",
+          "conclusion": "success",
+          "name": "Post Verified GEOS SDK cache",
+          "number": 20,
+          "startedAt": "2026-10-26T17:33:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:33:11Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+          "number": 21,
+          "startedAt": "2026-10-26T17:33:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:33:11Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 22,
+          "startedAt": "2026-10-26T17:33:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:33:11Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 23,
+          "startedAt": "2026-10-26T17:33:11Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40368263565/job/121731759436"
+    },
+    {
+      "completedAt": "2026-10-26T17:30:53Z",
+      "conclusion": "success",
+      "databaseId": 121731759856,
+      "name": "Linux ASan UBSan native",
+      "startedAt": "2026-10-26T17:24:12Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-26T17:24:14Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-26T17:24:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:18Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 2,
+          "startedAt": "2026-10-26T17:24:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:18Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+          "number": 3,
+          "startedAt": "2026-10-26T17:24:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:18Z",
+          "conclusion": "success",
+          "name": "Linux build tools",
+          "number": 4,
+          "startedAt": "2026-10-26T17:24:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:35Z",
+          "conclusion": "success",
+          "name": "Build and test dependencies",
+          "number": 5,
+          "startedAt": "2026-10-26T17:24:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:35Z",
+          "conclusion": "skipped",
+          "name": "Desktop replay display",
+          "number": 6,
+          "startedAt": "2026-10-26T17:24:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:37Z",
+          "conclusion": "success",
+          "name": "Verified GEOS SDK cache",
+          "number": 7,
+          "startedAt": "2026-10-26T17:24:35Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:38Z",
+          "conclusion": "success",
+          "name": "Verified OpenCV SDK cache",
+          "number": 8,
+          "startedAt": "2026-10-26T17:24:37Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:38Z",
+          "conclusion": "skipped",
+          "name": "Verified reader fixture cache",
+          "number": 9,
+          "startedAt": "2026-10-26T17:24:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:30:48Z",
+          "conclusion": "success",
+          "name": "Build and verify",
+          "number": 10,
+          "startedAt": "2026-10-26T17:24:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:30:50Z",
+          "conclusion": "success",
+          "name": "Reports and candidate artifacts",
+          "number": 11,
+          "startedAt": "2026-10-26T17:30:48Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:30:50Z",
+          "conclusion": "success",
+          "name": "Post Verified OpenCV SDK cache",
+          "number": 19,
+          "startedAt": "2026-10-26T17:30:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:30:50Z",
+          "conclusion": "success",
+          "name": "Post Verified GEOS SDK cache",
+          "number": 20,
+          "startedAt": "2026-10-26T17:30:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:30:50Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+          "number": 21,
+          "startedAt": "2026-10-26T17:30:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:30:51Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 22,
+          "startedAt": "2026-10-26T17:30:50Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:30:51Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 23,
+          "startedAt": "2026-10-26T17:30:51Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40368263565/job/121731759856"
+    },
+    {
+      "completedAt": "2026-10-26T17:45:11Z",
+      "conclusion": "success",
+      "databaseId": 121731759912,
+      "name": "Windows headless Python 3.11 NumPy 1",
+      "startedAt": "2026-10-26T17:24:12Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-26T17:24:14Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-26T17:24:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:24Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 2,
+          "startedAt": "2026-10-26T17:24:14Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:24Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+          "number": 3,
+          "startedAt": "2026-10-26T17:24:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:24Z",
+          "conclusion": "skipped",
+          "name": "Linux build tools",
+          "number": 4,
+          "startedAt": "2026-10-26T17:24:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:59Z",
+          "conclusion": "success",
+          "name": "Build and test dependencies",
+          "number": 5,
+          "startedAt": "2026-10-26T17:24:24Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:59Z",
+          "conclusion": "skipped",
+          "name": "Desktop replay display",
+          "number": 6,
+          "startedAt": "2026-10-26T17:24:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:25:01Z",
+          "conclusion": "success",
+          "name": "Verified GEOS SDK cache",
+          "number": 7,
+          "startedAt": "2026-10-26T17:24:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:25:02Z",
+          "conclusion": "success",
+          "name": "Verified OpenCV SDK cache",
+          "number": 8,
+          "startedAt": "2026-10-26T17:25:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:25:04Z",
+          "conclusion": "success",
+          "name": "Verified reader fixture cache",
+          "number": 9,
+          "startedAt": "2026-10-26T17:25:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:45:04Z",
+          "conclusion": "success",
+          "name": "Build and verify",
+          "number": 10,
+          "startedAt": "2026-10-26T17:25:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:45:06Z",
+          "conclusion": "success",
+          "name": "Reports and candidate artifacts",
+          "number": 11,
+          "startedAt": "2026-10-26T17:45:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:45:06Z",
+          "conclusion": "success",
+          "name": "Post Verified reader fixture cache",
+          "number": 18,
+          "startedAt": "2026-10-26T17:45:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:45:07Z",
+          "conclusion": "success",
+          "name": "Post Verified OpenCV SDK cache",
+          "number": 19,
+          "startedAt": "2026-10-26T17:45:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:45:07Z",
+          "conclusion": "success",
+          "name": "Post Verified GEOS SDK cache",
+          "number": 20,
+          "startedAt": "2026-10-26T17:45:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:45:07Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+          "number": 21,
+          "startedAt": "2026-10-26T17:45:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:45:08Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 22,
+          "startedAt": "2026-10-26T17:45:07Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:45:08Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 23,
+          "startedAt": "2026-10-26T17:45:08Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40368263565/job/121731759912"
+    },
+    {
+      "completedAt": "2026-10-26T18:00:42Z",
+      "conclusion": "success",
+      "databaseId": 121731759915,
+      "name": "Windows GUI Python 3.12 software GL",
+      "startedAt": "2026-10-26T17:24:12Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-26T17:24:13Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-26T17:24:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:21Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 2,
+          "startedAt": "2026-10-26T17:24:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:21Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+          "number": 3,
+          "startedAt": "2026-10-26T17:24:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:21Z",
+          "conclusion": "skipped",
+          "name": "Linux build tools",
+          "number": 4,
+          "startedAt": "2026-10-26T17:24:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:25:01Z",
+          "conclusion": "success",
+          "name": "Build and test dependencies",
+          "number": 5,
+          "startedAt": "2026-10-26T17:24:21Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:25:06Z",
+          "conclusion": "success",
+          "name": "Desktop replay display",
+          "number": 6,
+          "startedAt": "2026-10-26T17:25:01Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:25:08Z",
+          "conclusion": "success",
+          "name": "Verified GEOS SDK cache",
+          "number": 7,
+          "startedAt": "2026-10-26T17:25:06Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:25:08Z",
+          "conclusion": "success",
+          "name": "Verified OpenCV SDK cache",
+          "number": 8,
+          "startedAt": "2026-10-26T17:25:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:25:09Z",
+          "conclusion": "success",
+          "name": "Verified reader fixture cache",
+          "number": 9,
+          "startedAt": "2026-10-26T17:25:08Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T18:00:36Z",
+          "conclusion": "success",
+          "name": "Build and verify",
+          "number": 10,
+          "startedAt": "2026-10-26T17:25:09Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T18:00:38Z",
+          "conclusion": "success",
+          "name": "Reports and candidate artifacts",
+          "number": 11,
+          "startedAt": "2026-10-26T18:00:36Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T18:00:39Z",
+          "conclusion": "success",
+          "name": "Post Verified reader fixture cache",
+          "number": 18,
+          "startedAt": "2026-10-26T18:00:38Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T18:00:39Z",
+          "conclusion": "success",
+          "name": "Post Verified OpenCV SDK cache",
+          "number": 19,
+          "startedAt": "2026-10-26T18:00:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T18:00:39Z",
+          "conclusion": "success",
+          "name": "Post Verified GEOS SDK cache",
+          "number": 20,
+          "startedAt": "2026-10-26T18:00:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T18:00:39Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+          "number": 21,
+          "startedAt": "2026-10-26T18:00:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T18:00:41Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 22,
+          "startedAt": "2026-10-26T18:00:39Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T18:00:41Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 23,
+          "startedAt": "2026-10-26T18:00:41Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40368263565/job/121731759915"
+    },
+    {
+      "completedAt": "2026-10-26T17:26:07Z",
+      "conclusion": "success",
+      "databaseId": 121731760179,
+      "name": "Linux minimal native",
+      "startedAt": "2026-10-26T17:24:12Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-26T17:24:16Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-26T17:24:13Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:18Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 2,
+          "startedAt": "2026-10-26T17:24:16Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:18Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+          "number": 3,
+          "startedAt": "2026-10-26T17:24:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:18Z",
+          "conclusion": "success",
+          "name": "Linux build tools",
+          "number": 4,
+          "startedAt": "2026-10-26T17:24:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:33Z",
+          "conclusion": "success",
+          "name": "Build and test dependencies",
+          "number": 5,
+          "startedAt": "2026-10-26T17:24:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:33Z",
+          "conclusion": "skipped",
+          "name": "Desktop replay display",
+          "number": 6,
+          "startedAt": "2026-10-26T17:24:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:33Z",
+          "conclusion": "skipped",
+          "name": "Verified GEOS SDK cache",
+          "number": 7,
+          "startedAt": "2026-10-26T17:24:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:33Z",
+          "conclusion": "skipped",
+          "name": "Verified OpenCV SDK cache",
+          "number": 8,
+          "startedAt": "2026-10-26T17:24:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:24:33Z",
+          "conclusion": "skipped",
+          "name": "Verified reader fixture cache",
+          "number": 9,
+          "startedAt": "2026-10-26T17:24:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:26:04Z",
+          "conclusion": "success",
+          "name": "Build and verify",
+          "number": 10,
+          "startedAt": "2026-10-26T17:24:33Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:26:05Z",
+          "conclusion": "success",
+          "name": "Reports and candidate artifacts",
+          "number": 11,
+          "startedAt": "2026-10-26T17:26:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:26:05Z",
+          "conclusion": "success",
+          "name": "Post Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+          "number": 21,
+          "startedAt": "2026-10-26T17:26:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:26:05Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 22,
+          "startedAt": "2026-10-26T17:26:05Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:26:05Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 23,
+          "startedAt": "2026-10-26T17:26:05Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40368263565/job/121731760179"
+    },
+    {
+      "completedAt": "2026-10-26T17:24:10Z",
+      "conclusion": "skipped",
+      "databaseId": 121731762289,
+      "name": "Manylinux build Python ${{ matrix.python }}",
+      "startedAt": "2026-10-26T17:24:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40368263565/job/121731762289"
+    },
+    {
+      "completedAt": "2026-10-26T17:24:10Z",
+      "conclusion": "skipped",
+      "databaseId": 121731762544,
+      "name": "macOS native ${{ matrix.architecture }}",
+      "startedAt": "2026-10-26T17:24:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40368263565/job/121731762544"
+    },
+    {
+      "completedAt": "2026-10-26T17:24:10Z",
+      "conclusion": "skipped",
+      "databaseId": 121731762615,
+      "name": "Debian consumer Python ${{ matrix.python }}",
+      "startedAt": "2026-10-26T17:24:10Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40368263565/job/121731762615"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/bipxx/qupathxx/actions/runs/40368263565"
+}

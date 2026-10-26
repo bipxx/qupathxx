@@ -2,26 +2,39 @@
 
 ## Current execution card (2026-10-26)
 
-- Corrected [campaign236](benchmarks/raw-classifier-236-campaign.json) is live at
-  frozen source `530c6bb` on `feature/raw-classifier-qualification-236`: engine
-  `40368263565`, Mac-native `40368276721`, portable `40368289302`. Each was
-  dispatched once with the complete required inputs. The 718 frozen Git inputs
-  match the 807-control preflight exactly. Poll these original new handles;
-  authenticate every archive and audit from `build/ci/raw-classifier-236`.
-  Linux-only acceptance is recorded below; full corrected-source acceptance
-  remains pending. Keep this checkout unchanged.
+- [Campaign236 closeout](benchmarks/raw-classifier-236-campaign/closeout/receipt.json)
+  preserves all eleven authenticated archives at `530c6bb`. Full Windows/Linux
+  engine and portable builder/fresh-consumer audits pass. Windows GUI gives
+  4218 Python/51 native passes; Windows headless 3749/50, Linux headless 3747/50.
+  Mac x86_64's producer passes all 50 native suites and its relocation probes.
+  Mac arm64 passes 49 suites but `pixel_workflows` rejects a live contour capture.
+  The Mac role and full T5 remain unaccepted; root cause is not yet established.
+- [Mac-only diagnostic238](benchmarks/raw-classifier-236-campaign/macos-diagnostic-238/receipt.json)
+  is dispatched once at frozen observer source `c3c19a9`, run `40377716087`, on
+  `feature/raw-replay-macos-diagnostic-238`. Its 719 source inputs authenticate.
+  The existing replay test now labels unexpected failure stages without changing
+  required operations. Existing executable/SDK inventory runs before CTest so
+  compiled programs survive failures. Original236 arm64 executables were not
+  uploaded; its archive/logs/XML remain. Do not claim they were retained.
+- Both local Clang18 Linux profiles (optional features OFF, then GEOS3.15 ON)
+  pass the affected native suite at original source `530c6bb`; they do not
+  reproduce the arm64 failure. The observer passes 164 controls, a positive
+  updated-header replay probe, and an injected-error stage-reporting control.
+  Those profiles use libstdc++; no Darwin or full-profile acceptance is inferred.
+  Keep both original236 and the diagnostic checkout immutable. Next inspect
+  the exact diagnostic run, identify the failing stage, and repair its cause.
 - Corrected-source [Linux-only audit](benchmarks/raw-classifier-236-campaign/linux-observation/receipt.json)
   passes all three profiles at `530c6bb`: 50 native suites each and 3747
   headless Python passes. Native semantics, installed cohorts/typing, inherited
-  runtime/reader gates and final source checks pass. Windows and Mac remain
-  pending; portable acceptance is recorded below.
+  runtime/reader gates and final source checks pass. The later complete engine
+  acceptance and separate Mac failure are recorded above.
 - Corrected-source [portable acceptance](benchmarks/raw-classifier-236-campaign/portable-acceptance/receipt.json)
   passes both CPython 3.11/3.12 builders and fresh Debian consumers at `530c6bb`.
   Each fresh consumer passes 3704 Python cases. All four raw cohorts give
   40 passes/18 declared skips; typing, inherited reader/runtime/source and
   packaging gates pass. The Git-only development fixture is explicitly skipped
-  in the actual Git-free consumers. Mac arm64 has started; x86_64 is queued;
-  Windows GUI is still running. This does not close full T5 or release gates.
+  in the actual Git-free consumers. Full engine acceptance and the separate
+  arm64 failure are recorded above; full T5 and release gates remain open.
 - The next streamed-contour workflow has a [four-pattern exact reference](raw-stream-contours.md)
   at `9edfbc1`. [Local existing-path evidence](benchmarks/raw-contour-seams-local.json)
   records 101 Python passes, including all ten new cases; two OpenSlide cases
@@ -100,8 +113,8 @@
   twelve errors in three invalid files reject. The receipt binds 199 raw payloads
   and 26 retained final/development products, with original failures preserved.
   Dependencies are reused, so this is not clean-machine or release acceptance.
-- Next: observe the three original236runs through terminal state, authenticate
-  their archives, and run the maintained frozen-source audits. Preserve these T4.3-T4.5 local
+- Next: observe original diagnostic run40377716087 without redispatch, preserve
+  its products/results, identify the arm64 replay failure, then qualify the repair. Preserve these T4.3-T4.5 local
   exits; do not rebuild consumer features or repeat full campaigns without a
   changed input/failure. Stream stitching, sparse ROI prediction traversal,
   automatic maintenance, abrupt-process/power-loss and independent scientific,

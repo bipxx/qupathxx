@@ -1,0 +1,59 @@
+{
+  "conclusion": "",
+  "databaseId": 40377716087,
+  "headSha": "c3c19a91b6bcf5470863d416379d3eb08755c3d2",
+  "jobs": [
+    {
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "databaseId": 121765228756,
+      "name": "macOS native arm64",
+      "startedAt": "2026-10-26T18:26:17Z",
+      "status": "queued",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40377716087/job/121765228756"
+    },
+    {
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "databaseId": 121765229352,
+      "name": "macOS native x86_64",
+      "startedAt": "2026-10-26T18:26:17Z",
+      "status": "queued",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40377716087/job/121765229352"
+    },
+    {
+      "completedAt": "2026-10-26T18:26:17Z",
+      "conclusion": "skipped",
+      "databaseId": 121765231571,
+      "name": "matrix.name",
+      "startedAt": "2026-10-26T18:26:18Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40377716087/job/121765231571"
+    },
+    {
+      "completedAt": "2026-10-26T18:26:17Z",
+      "conclusion": "skipped",
+      "databaseId": 121765231744,
+      "name": "Manylinux build Python ${{ matrix.python }}",
+      "startedAt": "2026-10-26T18:26:18Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40377716087/job/121765231744"
+    },
+    {
+      "completedAt": "2026-10-26T18:26:17Z",
+      "conclusion": "skipped",
+      "databaseId": 121765233105,
+      "name": "Debian consumer Python ${{ matrix.python }}",
+      "startedAt": "2026-10-26T18:26:18Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40377716087/job/121765233105"
+    }
+  ],
+  "status": "queued",
+  "url": "https://github.com/bipxx/qupathxx/actions/runs/40377716087"
+}

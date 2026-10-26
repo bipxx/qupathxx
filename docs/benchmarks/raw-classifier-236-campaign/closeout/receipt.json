@@ -1,0 +1,224 @@
+{
+  "schema": "qpx.raw-classifier-236-closeout/1",
+  "source": "530c6bb1fd01176c7aecbcae75c065ca004f6236",
+  "complete_campaign_accepted": false,
+  "all_original_runs_terminal": true,
+  "authenticated_archives": 11,
+  "engine_accepted": true,
+  "portable_accepted": true,
+  "macos_accepted": false,
+  "macos_x86_64": {
+    "producer_succeeded": true,
+    "native_passed": 50,
+    "scope": "Producer includes original and relocated native probes; two-architecture Mac audit is unaccepted."
+  },
+  "macos_arm64": {
+    "native_passed": 49,
+    "failed_suite": "pixel_workflows",
+    "message": "raw pixel contours require the matching live prediction capture",
+    "root_cause": "under investigation",
+    "compiled_executables_retained": false,
+    "retention_gap": "Original producer uploaded logs/XML but created the native inventory only after successful CTest. Observerc3c19a9 now inventories before CTest."
+  },
+  "local_diagnostics": {
+    "clang18_minimal_native_passed": 1,
+    "clang18_geos315_native_passed": 1,
+    "full_mac_failure_reproduced": false,
+    "observer_controls_passed": 164,
+    "updated_header_positive_probe_passed": true,
+    "injected_exception_reports_stage": true,
+    "injected_exception_is_product_failure": false,
+    "products_retained_locally": true,
+    "scope": "Linux libstdc++ minimal/GEOS profiles and observer controls do not qualify Darwin arm64 or its training/TIFF/project profile."
+  },
+  "diagnostic_source": "c3c19a91b6bcf5470863d416379d3eb08755c3d2",
+  "diagnostic_run": 40377716087,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "raw_payloads": {
+    "engine-audit.json": {
+      "bytes": 838886,
+      "sha256": "e7b549ce18dd13a19b27a7ca3040dac0ae90b70209b8996d82083ac4c4f63d64"
+    },
+    "engine-audit.log": {
+      "bytes": 488,
+      "sha256": "e438198da578ce270c5fb3f569d31eed69e35129a7637571010a966832b6fafa"
+    },
+    "engine-audit-command.json": {
+      "bytes": 769,
+      "sha256": "51ae75577908269b48d276814b2320af0857ff77b8f93c0ad01c35765b58b20c"
+    },
+    "121731802638-failed-job.log": {
+      "bytes": 29731,
+      "sha256": "2d403e03acdaa383cb2f9ca9aef8877ec353f697f5781af0049c438b84f04ac3"
+    },
+    "macos-native-arm64.zip": {
+      "bytes": 31696,
+      "sha256": "99bdae8436f4ac965c4d376913c08007ab70675d0cfda14654d141768e094f17"
+    },
+    "engine-run.json": {
+      "bytes": 25146,
+      "sha256": "4f0b155e3237c4155650f45dd8db2a787b2f1970aa80e4b7949941a78e90a76f"
+    },
+    "macos-run.json": {
+      "bytes": 7026,
+      "sha256": "b15d02c206f1fdd73b364cac74a609e958a20e7a0183163e2c9d80d97fd693ba"
+    },
+    "portable-run.json": {
+      "bytes": 16287,
+      "sha256": "e63a0a10adcb2da8df88a4f78191a6e229d4613d57785421e39d94278ca4cdfa"
+    },
+    "verified.json": {
+      "bytes": 2678,
+      "sha256": "af4fa7c8a56506d39aa7198421d7183061fd5a79f7eb6d4b8e3eed2cb9b394ce"
+    },
+    "macos-native-arm64-artifact.json": {
+      "bytes": 812,
+      "sha256": "909c0bd6edf9c040d2183679774f0b31ab798b13ba7665b299d151056293a0ea"
+    },
+    "macos-native-x86_64-artifact.json": {
+      "bytes": 816,
+      "sha256": "0a41407eeef6717a4d0859c70ec3e9c6972ef71336c34f984afc94590ca05789"
+    },
+    "Windows-gui-py3.12-artifact.json": {
+      "bytes": 815,
+      "sha256": "4cb6bac59e19368edae3c872b72b9e54948ffa413a388777c056aef1a6be2037"
+    },
+    "macos-native-arm64/build.log": {
+      "bytes": 28209,
+      "sha256": "f98772a71051a130a79a515c733500bd4fafa8de688ec6d21824171ccdfcc614"
+    },
+    "macos-native-arm64/configure.log": {
+      "bytes": 7625,
+      "sha256": "3b02995a1b0fae6babfcb9b3b74f452899a640c95eee880a1ec2470499122f15"
+    },
+    "macos-native-arm64/geos-build.log": {
+      "bytes": 131594,
+      "sha256": "2aa3d3ba29e1d56aa43612cb14a8008b0993d7e58d5b0ad358f83afe3723d04d"
+    },
+    "macos-native-arm64/native-tests.log": {
+      "bytes": 6246,
+      "sha256": "ed0357b46fc61bc68ad60903be07ee991ee34c4bbe20904c35eb655e48219c37"
+    },
+    "macos-native-arm64/native-tests.xml": {
+      "bytes": 22355,
+      "sha256": "285e6c2949d139c51b78686c46e31b9c710ddfe017e4fe400705cb818b577b33"
+    },
+    "macos-native-arm64/opencv-build.log": {
+      "bytes": 59031,
+      "sha256": "7afbea59ec5de7504bd970a4c737a6d7604ee4d53fd901c50c96c4c81498e91f"
+    },
+    "macos-native-x86_64/native-tests.xml": {
+      "bytes": 25977,
+      "sha256": "9503ad227994357caf0078131047890acd82b79a42fb507332b7e908a57213cd"
+    },
+    "macos-native-x86_64/result.json": {
+      "bytes": 4945,
+      "sha256": "f33bbacd46b3113af8b416b48800329d9ebccf7e1b2e1a06dac0899b9d5b860d"
+    },
+    "local/clang-minimal/configure.log": {
+      "bytes": 790,
+      "sha256": "3c33358d1862096f562202d43803d3df1a2102331df96556dd7868ed1749a8fd"
+    },
+    "local/clang-minimal/build.log": {
+      "bytes": 12138,
+      "sha256": "d9ac5d7c818f85d4a601d428b4bd587ad32b6928a4a63807a63dc2026ce793bf"
+    },
+    "local/clang-minimal/commands.json": {
+      "bytes": 1738,
+      "sha256": "2ddbdb6d44ae017bab52fa5295845bf1f253536d84784888a29cfcce2a0af868"
+    },
+    "local/clang-minimal/native-test.log": {
+      "bytes": 368,
+      "sha256": "a39ef8818bef07cb2225c921022d338a6b4cb4f33c01204aa3c53a7f637ee665"
+    },
+    "local/clang-minimal/native-tests.xml": {
+      "bytes": 2667,
+      "sha256": "b74326f25bdd01cbd0931f0cef6f98837b1fca7d50cb66f44b2fde8e1c39a843"
+    },
+    "local/clang-minimal/product.json": {
+      "bytes": 221,
+      "sha256": "124a91c26caaa1922b87cacf75dfce0da3ee579a1d1ec65755cabb6480dc4208"
+    },
+    "local/clang-geos/configure.log": {
+      "bytes": 158,
+      "sha256": "d4014e4dd3a1756d5eaf7d58547c11a356d46ab5caad746eae3a41ebef677399"
+    },
+    "local/clang-geos/build.log": {
+      "bytes": 11817,
+      "sha256": "dfc74e4fe86f166c2abf084f45c259b08b2aed2439433b2164e5529c7716a4ee"
+    },
+    "local/clang-geos/commands.json": {
+      "bytes": 1457,
+      "sha256": "d8d05faab0e296e4cb0138af165b4c3274da4d5b65818372d65ff2710e6f2ab1"
+    },
+    "local/clang-geos/native-test.log": {
+      "bytes": 368,
+      "sha256": "d07c7b23daf995c5cc4e6ab32e1145c9446357f7c51938c16d1f62e956271864"
+    },
+    "local/clang-geos/native-tests.xml": {
+      "bytes": 2749,
+      "sha256": "e50270f49b4a087208958250f80b7aeb725716f31425582675356195e5148852"
+    },
+    "local/clang-geos/product.json": {
+      "bytes": 245,
+      "sha256": "637c0086fb355c1dd3f75475505afaba9eea562b294cf2971dd192105a3542ae"
+    },
+    "local/clang-geos/replay-stages.hpp": {
+      "bytes": 9355,
+      "sha256": "a7c248a06abd39e4ca67670fa98cf27e9704c7a57496e15027165e462814c00f"
+    },
+    "local/clang-geos/replay-stages.cpp": {
+      "bytes": 168,
+      "sha256": "804c37d49d872223579e15dea8254383fc2a729ae9d77ed1e75fcb164f916864"
+    },
+    "local/clang-geos/stage-driver-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "local/clang-geos/stage-driver-run.log": {
+      "bytes": 718,
+      "sha256": "2effb0e52c70e08d790f54ee2019f439e345afb509ffabeed51d28eca84c2c9a"
+    },
+    "local/clang-geos/libcxx-availability.log": {
+      "bytes": 122,
+      "sha256": "1172f1fb63b318987e551a9138405dbf1773c55d7e94b7a0f14d48fd6cea8a5d"
+    },
+    "local/observer/controls.log": {
+      "bytes": 265,
+      "sha256": "d5d29edc3fc9e0660db2bf0d580394158cae3424ac107bddc62ec2fd4961edc9"
+    },
+    "local/observer/controls.xml": {
+      "bytes": 24485,
+      "sha256": "ea19abef15c582254a95e14ab023142cd92afeedc3ca18ade5c46d6a7583224e"
+    },
+    "local/observer/positive.cpp": {
+      "bytes": 239,
+      "sha256": "e0ef5350c6aa592e463d4c4ce0a5740f89f3985d246caa3f0e3a3d89d541af7c"
+    },
+    "local/observer/positive-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "local/observer/positive-run.log": {
+      "bytes": 308,
+      "sha256": "816ee4ce013c56b3bd793fcfe0624b8fbf4c63b6128fad6ca5dc45bd39e1ee85"
+    },
+    "local/observer/injected.cpp": {
+      "bytes": 714,
+      "sha256": "ddf6850cd1c25a696fb04359abef2f770d4439a13c951ab1d9e758641ffd987c"
+    },
+    "local/observer/injected-build.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "local/observer/injected-run.log": {
+      "bytes": 68,
+      "sha256": "e63a7c644d8cd41cdd5c3246bd5da515340fdc55e44338a8c37fc90e46e78bc1"
+    },
+    "local/observer/observer-driver-results.json": {
+      "bytes": 1898,
+      "sha256": "e6373e94c51c56865373dc77a85099f13621d5dfe929f7ef9b9411123a885446"
+    }
+  }
+}

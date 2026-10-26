@@ -32,22 +32,21 @@ release status. Use the [current task](current-task.md), [workflow inventory](fe
 and [API delivery paths](api-delivery-plan.md) for exact scope and remaining work.
 All M0-M7 remain Partial.
 
-The immediate work is [corrected T5 campaign236](benchmarks/raw-classifier-236-campaign.json)
-at frozen source `530c6bb`: engine `40368263565`, Mac-native `40368276721`,
-portable `40368289302`. Each was dispatched once with complete inputs after all
-original campaign235 runs became terminal. The frozen source's 718 inputs match the
-passing 807-control preflight. Follow the
-[T5 closeout sequence](api-delivery-plan.md#t5-closeout-sequence), preserve each
-attempt, and keep the frozen checkout unchanged. No corrected-source integrated
-acceptance yet.
+The immediate work is the [Mac arm64 replay diagnosis](benchmarks/raw-classifier-236-campaign/macos-diagnostic-238/receipt.json).
+Original campaign236 at `530c6bb` is terminal: full Windows/Linux engine and both
+portable builders/fresh consumers pass their audits. Mac x86_64's producer passes
+all 50 native suites and relocation; arm64 passes 49 but fails `pixel_workflows`
+with a contour-capture mismatch. [All eleven original archives and closeout](benchmarks/raw-classifier-236-campaign/closeout/receipt.json)
+are preserved. Full T5 remains unaccepted; do not exclude arm64 or transfer the
+successful role evidence to changed binaries.
 
-All eleven original campaign235 archives authenticate. The
-[full engine successor audit](benchmarks/raw-classifier-235-failure/reconciliation/final-engine/receipt.json)
-accepts the original Windows/Linux source `176ec42` with observer `530c6bb`
-separately recorded. Both Mac builds failed two mixed-type declarations; both
-fresh consumers failed the Git-only development fixture. The corrected candidate
-includes those repairs and the scientific manifest's omitted genuine stub case.
-Original engine acceptance does not transfer to its changed C++ source.
+Mac-only diagnostic run `40377716087` is frozen at observer source `c3c19a9` with
+719 bound inputs. It adds failure-stage context to the existing replay test and
+moves the existing compiled-product inventory before CTest. The original failing
+arm64 executable was not uploaded. Two local Clang profiles pass without
+reproducing the failure; 164 observer controls plus positive/injected-stage probes
+pass. Observe this exact diagnostic, fix the demonstrated cause, and perform
+scope-matched qualification. Keep accepted original roles and failed evidence.
 
 The [raw frontend receipt](benchmarks/raw-frontend-local.json) locally accepts
 `0dc916c`: 195 installed Windows Python passes, including all 17 frontend cases,
