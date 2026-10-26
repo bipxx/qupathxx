@@ -25,6 +25,20 @@ struct RawStreamBoundaries {
     std::size_t peak_runs=0,estimated_work_bytes=0,retained_bytes=0;
     explicit RawStreamBoundaries(const RawPixelStreamGeometry& g):geometry(g) {}
 };
+// Batch point location for polygonized face interiors. The caller converts each
+// interior point to its containing integer sample cell, keeping global indices.
+// An offline vertical-edge sweep costs O((runs+queries) log(runs+queries)) and
+// retains no raster. Work accounting includes owned index/events/active nodes,
+// not the borrowed completed network, GEOS allocations or process RSS.
+struct RawBoundaryCell {std::int64_t x=0,y=0;};
+struct RawBoundaryLabels {
+    std::vector<std::uint32_t> labels;
+    std::size_t estimated_work_bytes=0,peak_active=0;
+};
+RawBoundaryLabels label_raw_boundary_cells(const RawStreamBoundaries&,
+    const std::vector<RawBoundaryCell>&,std::size_t work_bytes,
+    const std::atomic<bool>* cancelled=nullptr);
+
 // One worker owns this builder. Only the external cancellation flag may change
 // concurrently. Input arrays are borrowed for append() and never retained.
 // Work estimates charge map nodes and the final run vector, not process RSS or

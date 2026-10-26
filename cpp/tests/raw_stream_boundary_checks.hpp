@@ -50,6 +50,21 @@ inline void run() {
             require(result.class_counts==std::vector<std::uint64_t>(c.counts.begin(),c.counts.end()) && result.completed_samples==g.samples && result.completed_windows==g.windows,"counts or coverage differ");
             if(!canonical.empty()) require(canonical==result.runs,"compressed network depends on tile shape");
             canonical=result.runs;
+            std::vector<RawBoundaryCell> cells;
+            for(std::int64_t y=0;y<c.height;++y) for(std::int64_t x=0;x<c.width;++x)
+                cells.push_back({c.first[0]+x,c.first[1]+y});
+            const auto located=label_raw_boundary_cells(result,cells,1024*1024);
+            require(located.labels==c.labels,"sweep lookup differs from independent authored cells");
+            std::reverse(cells.begin(),cells.end());auto reverse=c.labels;std::reverse(reverse.begin(),reverse.end());
+            require(label_raw_boundary_cells(result,cells,1024*1024).labels==reverse,"query order changes face classes");
+            rejects<std::length_error>([&]{label_raw_boundary_cells(result,cells,1);});
+            std::atomic<bool> stopped{true};rejects<std::runtime_error>([&]{label_raw_boundary_cells(result,cells,1024*1024,&stopped);});
+            auto outside=cells;outside[0].x=c.first[0]-1;
+            rejects<std::invalid_argument>([&]{label_raw_boundary_cells(result,outside,1024*1024);});
+            auto partial=result;--partial.completed_samples;
+            rejects<std::invalid_argument>([&]{label_raw_boundary_cells(partial,cells,1024*1024);});
+            auto malformed=result;malformed.runs[0].after=99;
+            rejects<std::invalid_argument>([&]{label_raw_boundary_cells(malformed,cells,1024*1024);});
             require(result.retained_bytes<=result.estimated_work_bytes && result.estimated_work_bytes<=64u*1024*1024,"retained/work admission differs");
             rejects<std::logic_error>([&]{builder.finish();});rejects<std::logic_error>([&]{builder.append(g.window(0),block(c,g.window(0)));});
         }
@@ -74,6 +89,12 @@ inline void run() {
     RawStreamBoundaryBuilder uniform(wide,1,{16,128*1024});std::vector<std::uint32_t> labels;
     for(std::uint64_t i=0;i<wide.windows;++i) {const auto w=wide.window(i);labels.assign(std::size_t(w.core_width()),1);uniform.append(w,labels);}
     const auto result=uniform.finish();require(result.runs.size()==4 && result.class_counts==std::vector<std::uint64_t>{2000000} && result.completed_samples==2000000 && result.peak_runs<=16 && result.estimated_work_bytes<=128*1024,"uniform wide-frontier storage grew with image width");
+    const std::vector<RawBoundaryCell> sparse_queries{{999999,1},{0,0},{500000,1},{0,1},{999999,0},{0,0}};
+    const auto located=label_raw_boundary_cells(result,sparse_queries,128*1024);
+    require(located.labels==std::vector<std::uint32_t>(sparse_queries.size(),1) && located.peak_active==2 && located.estimated_work_bytes<=128*1024,"sparse face lookup grew with raster area");
+    auto overlapping=result;overlapping.runs.push_back(*std::find_if(result.runs.begin(),result.runs.end(),[](const auto& r){return r.vertical;}));
+    rejects<std::invalid_argument>([&]{label_raw_boundary_cells(overlapping,sparse_queries,128*1024);});
+    std::cout<<"Raw boundary face lookup: independent cells across 16 layouts, query order/duplicate/half-open/global crop, incomplete/invalid/cancel/work refusal and sparse 2000000-cell network passed\n";
     std::cout<<"Raw stream boundaries: independent class seams/holes/corners/global phase, strict block/cancel/quota refusal and 2000000 samples with "<<result.peak_runs<<" peak runs passed\n";
 }
 }

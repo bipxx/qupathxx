@@ -18,6 +18,77 @@ struct LabelBlock {
     const auto& labels() const {return data;}
 };
 }
+RawBoundaryLabels label_raw_boundary_cells(const RawStreamBoundaries& network,
+    const std::vector<RawBoundaryCell>& cells,std::size_t budget,const std::atomic<bool>* cancelled) {
+    raster_boundary_checkpoint(cancelled);
+    if(!budget || budget>512u*1024*1024 || cells.size()>1000000 || network.runs.size()>1000000 ||
+       network.class_counts.empty() || network.class_counts.size()>256)
+        throw std::invalid_argument("invalid raw boundary lookup limits");
+    const auto& g=network.geometry;const auto& region=g.region;
+    if(network.completed_samples!=g.samples || network.completed_windows!=g.windows)
+        throw std::invalid_argument("raw boundary lookup requires a complete network");
+    struct Event {std::int64_t row;std::size_t run;bool start;};
+    std::size_t vertical=0;
+    for(const auto& r:network.runs) {
+        raster_boundary_checkpoint(cancelled);
+        const auto lo=r.vertical?region.first_y:region.first_x;
+        const auto hi=lo+(r.vertical?region.height:region.width);
+        const auto fixed_lo=r.vertical?region.first_x:region.first_y;
+        const auto fixed_hi=fixed_lo+(r.vertical?region.width:region.height);
+        if(r.first<lo || r.first>=r.last || r.last>hi || r.fixed<fixed_lo || r.fixed>fixed_hi ||
+           r.before==r.after || r.before>network.class_counts.size() || r.after>network.class_counts.size())
+            throw std::invalid_argument("invalid raw boundary lookup run");
+        vertical+=r.vertical;
+    }
+    // 512 bytes per possible active map node deliberately exceeds its payload.
+    // Charge both event slots and every output/index slot before allocating.
+    const auto work=base_charge+vertical*(2*sizeof(Event)+node_charge)+
+        cells.size()*(sizeof(std::size_t)+sizeof(std::uint32_t));
+    if(work>budget) throw std::length_error("raw boundary lookup work budget exceeded");
+    for(const auto& cell:cells) {
+        raster_boundary_checkpoint(cancelled);
+        if(cell.x<region.first_x || cell.y<region.first_y ||
+           cell.x>=region.first_x+region.width || cell.y>=region.first_y+region.height)
+            throw std::invalid_argument("raw boundary lookup cell outside region");
+    }
+    std::vector<Event> events;events.reserve(2*vertical);
+    for(std::size_t i=0;i<network.runs.size();++i) if(network.runs[i].vertical) {
+        const auto& r=network.runs[i];events.push_back({r.first,i,true});events.push_back({r.last,i,false});
+    }
+    std::sort(events.begin(),events.end(),[&](const auto& a,const auto& b) {
+        raster_boundary_checkpoint(cancelled);return std::tie(a.row,a.start,a.run)<std::tie(b.row,b.start,b.run);
+    });
+    std::vector<std::size_t> order(cells.size());
+    for(std::size_t i=0;i<order.size();++i) order[i]=i;
+    std::sort(order.begin(),order.end(),[&](auto a,auto b) {
+        raster_boundary_checkpoint(cancelled);return std::tie(cells[a].y,cells[a].x,a)<std::tie(cells[b].y,cells[b].x,b);
+    });
+    RawBoundaryLabels result;result.estimated_work_bytes=work;result.labels.resize(cells.size());
+    std::map<std::int64_t,std::size_t> active;std::size_t next=0;
+    for(const auto i:order) {
+        raster_boundary_checkpoint(cancelled);const auto& cell=cells[i];
+        while(next<events.size() && events[next].row<=cell.y) {
+            raster_boundary_checkpoint(cancelled);const auto& event=events[next++];const auto& run=network.runs[event.run];
+            if(event.start) {
+                if(!active.emplace(run.fixed,event.run).second)
+                    throw std::invalid_argument("overlapping raw boundary lookup runs");
+                result.peak_active=std::max(result.peak_active,active.size());
+            } else {
+                const auto found=active.find(run.fixed);
+                if(found==active.end() || found->second!=event.run)
+                    throw std::invalid_argument("unmatched raw boundary lookup endpoint");
+                active.erase(found);
+            }
+        }
+        // Edges lie on integer cell borders; x==fixed belongs to the east side.
+        const auto right=active.upper_bound(cell.x);
+        const auto label=right==active.begin()?0:network.runs[std::prev(right)->second].after;
+        const auto east_label=right==active.end()?0:network.runs[right->second].before;
+        if(label!=east_label) throw std::invalid_argument("inconsistent raw boundary lookup class tags");
+        result.labels[i]=label;
+    }
+    raster_boundary_checkpoint(cancelled);return result;
+}
 struct RawStreamBoundaryBuilder::Impl {
     struct Key {
         bool vertical;std::int64_t fixed,first;
