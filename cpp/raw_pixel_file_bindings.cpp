@@ -3,11 +3,12 @@
 #include "raw_pixel_binding_utils.hpp"
 #include <type_traits>
 namespace nb=nanobind;using namespace nb::literals;
+template<class Job> using PythonJob=qpx::bindings::JobHolder<Job>;
 namespace {
 template<class Job> auto owner_job(nb::module_& m,const char* name) {
-    return nb::class_<Job>(m,name).def(nb::init<>()).def("request",&Job::request,"request"_a,"path"_a,"options"_a=typename std::conditional_t<std::is_same_v<Job,qpx::RawPixelStreamSaveJob>,qpx::RawPixelStreamSaveOptions,qpx::RawPixelTrainingCheckpointOptions>{})
-        .def_prop_ro("busy",&Job::busy).def("cancel",&Job::cancel).def("await_completion",&Job::await_completion,nb::call_guard<nb::gil_scoped_release>())
-        .def("poll",&Job::poll,"document"_a).def("wait",[](Job& job,const qpx::Document& doc){return qpx::bindings::wait(job,doc);},"document"_a).def("take",&Job::take,"document"_a);
+    return nb::class_<PythonJob<Job>>(m,name).def(nb::init<>()).def("request",qpx::bindings::job_method<&Job::request>(),"request"_a,"path"_a,"options"_a=typename std::conditional_t<std::is_same_v<Job,qpx::RawPixelStreamSaveJob>,qpx::RawPixelStreamSaveOptions,qpx::RawPixelTrainingCheckpointOptions>{})
+        .def_prop_ro("busy",qpx::bindings::job_method<&Job::busy>()).def("cancel",qpx::bindings::job_method<&Job::cancel>()).def("await_completion",qpx::bindings::job_method<&Job::await_completion>(),nb::call_guard<nb::gil_scoped_release>())
+        .def("poll",qpx::bindings::job_method<&Job::poll>(),"document"_a).def("wait",[](PythonJob<Job>& job,const qpx::Document& doc){return qpx::bindings::wait(job,doc);},"document"_a).def("take",qpx::bindings::job_method<&Job::take>(),"document"_a);
 }
 }
 void bind_raw_pixel_files(nb::module_& m) {
@@ -42,11 +43,11 @@ void bind_raw_pixel_files(nb::module_& m) {
         .def_ro("generation",&RawPixelStreamJobStats::generation).def_ro("total_windows",&RawPixelStreamJobStats::total_windows).def_ro("produced_windows",&RawPixelStreamJobStats::produced_windows)
         .def_ro("delivered_windows",&RawPixelStreamJobStats::delivered_windows).def_ro("total_samples",&RawPixelStreamJobStats::total_samples).def_ro("delivered_samples",&RawPixelStreamJobStats::delivered_samples)
         .def_ro("valid_samples",&RawPixelStreamJobStats::valid_samples).def_ro("classified_samples",&RawPixelStreamJobStats::classified_samples).def_ro("class_counts",&RawPixelStreamJobStats::class_counts).def_ro("elapsed_ms",&RawPixelStreamJobStats::elapsed_ms);
-    nb::class_<RawPixelPredictionStreamJob>(m,"RawPixelPredictionStreamJob").def(nb::init<>()).def("request",&RawPixelPredictionStreamJob::request,"request"_a)
-        .def_prop_ro("busy",&RawPixelPredictionStreamJob::busy).def("cancel",&RawPixelPredictionStreamJob::cancel)
-        .def("await_completion",&RawPixelPredictionStreamJob::await_completion,nb::call_guard<nb::gil_scoped_release>())
-        .def("poll",&RawPixelPredictionStreamJob::poll,"document"_a).def("wait",[](RawPixelPredictionStreamJob& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a)
-        .def("take",&RawPixelPredictionStreamJob::take,"document"_a).def_prop_ro("input_sha256",&RawPixelPredictionStreamJob::input_sha256).def_prop_ro("sha256",&RawPixelPredictionStreamJob::sha256);
+    nb::class_<PythonJob<RawPixelPredictionStreamJob>>(m,"RawPixelPredictionStreamJob").def(nb::init<>()).def("request",qpx::bindings::job_method<&RawPixelPredictionStreamJob::request>(),"request"_a)
+        .def_prop_ro("busy",qpx::bindings::job_method<&RawPixelPredictionStreamJob::busy>()).def("cancel",qpx::bindings::job_method<&RawPixelPredictionStreamJob::cancel>())
+        .def("await_completion",qpx::bindings::job_method<&RawPixelPredictionStreamJob::await_completion>(),nb::call_guard<nb::gil_scoped_release>())
+        .def("poll",qpx::bindings::job_method<&RawPixelPredictionStreamJob::poll>(),"document"_a).def("wait",[](PythonJob<RawPixelPredictionStreamJob>& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a)
+        .def("take",qpx::bindings::job_method<&RawPixelPredictionStreamJob::take>(),"document"_a).def_prop_ro("input_sha256",qpx::bindings::job_method<&RawPixelPredictionStreamJob::input_sha>()256).def_prop_ro("sha256",qpx::bindings::job_method<&RawPixelPredictionStreamJob::sha>()256);
     nb::class_<RawPixelStreamFileLimits>(m,"RawPixelStreamFileLimits").def(nb::init<>()).def_rw("max_bytes",&RawPixelStreamFileLimits::max_bytes).def_rw("work_bytes",&RawPixelStreamFileLimits::work_bytes).def("validate",&RawPixelStreamFileLimits::validate);
     nb::class_<RawPixelStreamFileSummary>(m,"RawPixelStreamFileSummary")
         .def_ro("bytes",&RawPixelStreamFileSummary::bytes).def_ro("total_windows",&RawPixelStreamFileSummary::total_windows).def_ro("completed_windows",&RawPixelStreamFileSummary::completed_windows)
@@ -87,13 +88,13 @@ void bind_raw_pixel_files(nb::module_& m) {
         .def_ro("generation",&RawPixelFileJobStats::generation).def_ro("total_windows",&RawPixelFileJobStats::total_windows).def_ro("completed_windows",&RawPixelFileJobStats::completed_windows).def_ro("elapsed_ms",&RawPixelFileJobStats::elapsed_ms);
     owner_job<RawPixelStreamSaveJob>(m,"RawPixelStreamSaveJob").def("take_link",&RawPixelStreamSaveJob::take_link,"document"_a);
     owner_job<RawPixelTrainingCheckpointJob>(m,"RawPixelTrainingCheckpointJob");
-    nb::class_<RawPixelStreamFileReadJob>(m,"RawPixelStreamFileReadJob").def(nb::init<>())
-        .def("open",&RawPixelStreamFileReadJob::open,"path"_a,"limits"_a=RawPixelStreamFileLimits{})
-        .def("open_link",&RawPixelStreamFileReadJob::open_link,"link"_a,"limits"_a=RawPixelStreamFileLimits{})
-        .def("read",&RawPixelStreamFileReadJob::read,"file"_a,"index"_a).def_prop_ro("busy",&RawPixelStreamFileReadJob::busy).def("cancel",&RawPixelStreamFileReadJob::cancel)
-        .def("await_completion",&RawPixelStreamFileReadJob::await_completion,nb::call_guard<nb::gil_scoped_release>())
-        .def("poll",&RawPixelStreamFileReadJob::poll).def("wait",&RawPixelStreamFileReadJob::wait,nb::call_guard<nb::gil_scoped_release>())
-        .def("take_file",&RawPixelStreamFileReadJob::take_file).def("take_link",&RawPixelStreamFileReadJob::take_link).def("take_block",&RawPixelStreamFileReadJob::take_block);
+    nb::class_<PythonJob<RawPixelStreamFileReadJob>>(m,"RawPixelStreamFileReadJob").def(nb::init<>())
+        .def("open",qpx::bindings::job_method<&RawPixelStreamFileReadJob::open>(),"path"_a,"limits"_a=RawPixelStreamFileLimits{})
+        .def("open_link",qpx::bindings::job_method<&RawPixelStreamFileReadJob::open_link>(),"link"_a,"limits"_a=RawPixelStreamFileLimits{})
+        .def("read",qpx::bindings::job_method<&RawPixelStreamFileReadJob::read>(),"file"_a,"index"_a).def_prop_ro("busy",qpx::bindings::job_method<&RawPixelStreamFileReadJob::busy>()).def("cancel",qpx::bindings::job_method<&RawPixelStreamFileReadJob::cancel>())
+        .def("await_completion",qpx::bindings::job_method<&RawPixelStreamFileReadJob::await_completion>(),nb::call_guard<nb::gil_scoped_release>())
+        .def("poll",qpx::bindings::job_method<&RawPixelStreamFileReadJob::poll>()).def("wait",qpx::bindings::job_method<&RawPixelStreamFileReadJob::wait>(),nb::call_guard<nb::gil_scoped_release>())
+        .def("take_file",qpx::bindings::job_method<&RawPixelStreamFileReadJob::take_file>()).def("take_link",qpx::bindings::job_method<&RawPixelStreamFileReadJob::take_link>()).def("take_block",qpx::bindings::job_method<&RawPixelStreamFileReadJob::take_block>());
     nb::borrow<nb::class_<Document>>(m.attr("Document"))
         .def_prop_ro("raw_pixel_stream_records",&Document::raw_pixel_stream_records).def_prop_ro("raw_pixel_stream_record_count",&Document::raw_pixel_stream_record_count)
         .def("raw_pixel_stream_record",&Document::raw_pixel_stream_record,"id"_a).def("keep_raw_pixel_stream",&Document::keep_raw_pixel_stream,"link"_a,"name"_a="Raw pixel stream")

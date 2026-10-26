@@ -1,6 +1,8 @@
 """Installed quantitative raw classifier workflows; no display conversion."""
 import gc
 import struct
+import subprocess
+import sys
 import threading
 from fractions import Fraction
 
@@ -315,3 +317,38 @@ def test_native_stream_releases_gil_and_accepts_cross_thread_cancel(tmp_path):
             stream.next()
     finally:
         server.close()
+
+
+def test_job_shutdown_releases_python_owned_files_on_other_threads(raw, tmp_path):
+    doc, _, _, _, tiled, _ = raw
+    model = trained(q.sample_raw_pixel_tiled_training(tiled))
+    options = q.RawPixelStreamOptions()
+    options.tile_width, options.tile_height = 2, 2
+    path = tmp_path / "shutdown.qws"
+    q.save_raw_pixel_stream(q.RawPixelTiledPredictionRequest(doc, model, tiled.lattice, options), str(path))
+    # Native jobs may own a shared_ptr caster that retains the Python file. The
+    # finalizer must release the GIL while cancelling/joining, including when
+    # the last Python job reference is dropped on another thread.
+    code = '''
+import gc, os, sys, threading
+import qupathxx as q
+for i in range(12):
+    file = q.RawPixelStreamFile(sys.argv[1])
+    job = q.RawPixelStreamFileReadJob()
+    assert job.read(file, 0)
+    del file
+    if i % 2:
+        refs = [job]
+        del job
+        thread = threading.Thread(target=refs.clear, daemon=True)
+        thread.start()
+        thread.join(5)
+        if thread.is_alive(): os._exit(2)
+    else:
+        del job
+    gc.collect()
+print("Native raw job shutdown released Python-owned file captures")
+'''
+    child = subprocess.run([sys.executable, "-I", "-c", code, str(path)], capture_output=True, text=True, timeout=20)
+    assert child.returncode == 0, child.stdout + child.stderr
+    assert "shutdown released Python-owned file captures" in child.stdout

@@ -6,6 +6,7 @@
 #include "raw_pixel_binding_utils.hpp"
 #include <type_traits>
 namespace nb=nanobind;using namespace nb::literals;
+template<class Job> using PythonJob=qpx::bindings::JobHolder<Job>;
 namespace {
 using namespace qpx;using qpx::bindings::array;
 template<class Result> void classification(nb::module_& m,const char* name) {
@@ -49,17 +50,17 @@ template<class Request> void training_request(nb::module_& m,const char* name) {
         .def_prop_ro("snapshot_bytes",&Request::snapshot_bytes).def_prop_ro("estimated_work_bytes",&Request::estimated_work_bytes);
 }
 template<class Job> void training_job(nb::module_& m,const char* name) {
-    nb::class_<Job>(m,name).def(nb::init<>()).def("sample",&Job::sample,"request"_a).def("train",&Job::train,"request"_a,"parameters"_a=ForestParameters{})
-        .def_prop_ro("busy",&Job::busy).def("cancel",&Job::cancel)
-        .def("await_completion",&Job::await_completion,nb::call_guard<nb::gil_scoped_release>())
-        .def("poll",&Job::poll,"document"_a).def("wait",[](Job& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a)
-        .def_prop_ro("table",&Job::table).def_prop_ro("model",&Job::model).def("verify_result",&Job::verify_result,"document"_a,"record_id"_a);
+    nb::class_<PythonJob<Job>>(m,name).def(nb::init<>()).def("sample",qpx::bindings::job_method<&Job::sample>(),"request"_a).def("train",qpx::bindings::job_method<&Job::train>(),"request"_a,"parameters"_a=ForestParameters{})
+        .def_prop_ro("busy",qpx::bindings::job_method<&Job::busy>()).def("cancel",qpx::bindings::job_method<&Job::cancel>())
+        .def("await_completion",qpx::bindings::job_method<&Job::await_completion>(),nb::call_guard<nb::gil_scoped_release>())
+        .def("poll",qpx::bindings::job_method<&Job::poll>(),"document"_a).def("wait",[](PythonJob<Job>& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a)
+        .def_prop_ro("table",qpx::bindings::job_method<&Job::table>()).def_prop_ro("model",qpx::bindings::job_method<&Job::model>()).def("verify_result",qpx::bindings::job_method<&Job::verify_result>(),"document"_a,"record_id"_a);
 }
 template<class Job> void prediction_job(nb::module_& m,const char* name) {
-    nb::class_<Job>(m,name).def(nb::init<>()).def("request",&Job::request,"request"_a).def_prop_ro("busy",&Job::busy).def("cancel",&Job::cancel)
-        .def("await_completion",&Job::await_completion,nb::call_guard<nb::gil_scoped_release>())
-        .def("poll",&Job::poll,"document"_a).def("wait",[](Job& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a)
-        .def_prop_ro("result",&Job::result);
+    nb::class_<PythonJob<Job>>(m,name).def(nb::init<>()).def("request",qpx::bindings::job_method<&Job::request>(),"request"_a).def_prop_ro("busy",qpx::bindings::job_method<&Job::busy>()).def("cancel",qpx::bindings::job_method<&Job::cancel>())
+        .def("await_completion",qpx::bindings::job_method<&Job::await_completion>(),nb::call_guard<nb::gil_scoped_release>())
+        .def("poll",qpx::bindings::job_method<&Job::poll>(),"document"_a).def("wait",[](PythonJob<Job>& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a)
+        .def_prop_ro("result",qpx::bindings::job_method<&Job::result>());
 }
 }
 void bind_raw_pixel_workflows(nb::module_& m) {
@@ -84,7 +85,7 @@ void bind_raw_pixel_workflows(nb::module_& m) {
         .def_prop_ro("model",[](const RawPixelWindowPredictionRequest& v){return v.model();}).def_prop_ro("estimated_work_bytes",&RawPixelWindowPredictionRequest::estimated_work_bytes);
     training_job<RawPixelTrainingJob>(m,"RawPixelTrainingJob");training_job<RawPixelTiledTrainingJob>(m,"RawPixelTiledTrainingJob");
     prediction_job<RawPixelPredictionJob>(m,"RawPixelPredictionJob");prediction_job<RawPixelWindowPredictionJob>(m,"RawPixelWindowPredictionJob");
-    nb::borrow<nb::class_<RawPixelPredictionJob>>(m.attr("RawPixelPredictionJob")).def("verify_result",&RawPixelPredictionJob::verify_result,"document"_a,"record_id"_a);
+    nb::borrow<nb::class_<PythonJob<RawPixelPredictionJob>>>(m.attr("RawPixelPredictionJob")).def("verify_result",qpx::bindings::job_method<&RawPixelPredictionJob::verify_result>(),"document"_a,"record_id"_a);
     m.def("sample_raw_pixel_training",[](const RawPixelTrainingRequest& r){return sample_raw_pixel_training(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
     m.def("sample_raw_pixel_tiled_training",[](const RawPixelTiledTrainingRequest& r){return sample_raw_pixel_tiled_training(r);},"request"_a,nb::call_guard<nb::gil_scoped_release>());
     m.def("train_raw_pixel_classifier",[](const RawPixelTrainingTable& t,ForestParameters p){return train_raw_pixel_classifier(t,p);},"table"_a,"parameters"_a=ForestParameters{},nb::call_guard<nb::gil_scoped_release>());
@@ -94,9 +95,9 @@ void bind_raw_pixel_workflows(nb::module_& m) {
     m.def("classify_raw_pixels",[](const ScientificRawGrid& g,const RawPixelClassifier& c,double minimum,std::size_t work){return classify_raw_pixels(g,c,minimum,work);},"grid"_a,"model"_a,"min_vote_fraction"_a=0.,"work_bytes"_a=0,nb::call_guard<nb::gil_scoped_release>());
     m.def("classify_raw_pixel_window",[](const ScientificRawWindowData& g,const RawPixelClassifier& c,double minimum,std::size_t work){return classify_raw_pixel_window(g,c,minimum,work);},"data"_a,"model"_a,"min_vote_fraction"_a=0.,"work_bytes"_a=0,nb::call_guard<nb::gil_scoped_release>());
     nb::class_<RawPixelContours>(m,"RawPixelContours").def_prop_ro("contours",&RawPixelContours::contours).def_prop_ro("prediction_sha256",&RawPixelContours::prediction_sha256);
-    nb::class_<RawPixelContourJob>(m,"RawPixelContourJob").def(nb::init<>()).def("request",&RawPixelContourJob::request,"request"_a,"result"_a,"options"_a=TissueContourOptions{})
-        .def_prop_ro("busy",&RawPixelContourJob::busy).def("cancel",&RawPixelContourJob::cancel).def("await_completion",&RawPixelContourJob::await_completion,nb::call_guard<nb::gil_scoped_release>())
-        .def("poll",&RawPixelContourJob::poll,"document"_a).def("wait",[](RawPixelContourJob& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a).def_prop_ro("result",&RawPixelContourJob::result);
+    nb::class_<PythonJob<RawPixelContourJob>>(m,"RawPixelContourJob").def(nb::init<>()).def("request",qpx::bindings::job_method<&RawPixelContourJob::request>(),"request"_a,"result"_a,"options"_a=TissueContourOptions{})
+        .def_prop_ro("busy",qpx::bindings::job_method<&RawPixelContourJob::busy>()).def("cancel",qpx::bindings::job_method<&RawPixelContourJob::cancel>()).def("await_completion",qpx::bindings::job_method<&RawPixelContourJob::await_completion>(),nb::call_guard<nb::gil_scoped_release>())
+        .def("poll",qpx::bindings::job_method<&RawPixelContourJob::poll>(),"document"_a).def("wait",[](PythonJob<RawPixelContourJob>& job,const Document& doc){return qpx::bindings::wait(job,doc);},"document"_a).def_prop_ro("result",qpx::bindings::job_method<&RawPixelContourJob::result>());
     m.def("trace_raw_pixel_prediction",[](const RawPixelPredictionRequest& r,std::shared_ptr<const RawPixelClassification> p,TissueContourOptions o){return trace_raw_pixel_prediction(r,std::move(p),o);},"request"_a,"result"_a,"options"_a=TissueContourOptions{},nb::call_guard<nb::gil_scoped_release>());
     m.def("publish_raw_pixel_contours",&publish_raw_pixel_contours,"document"_a,"request"_a,"contours"_a,"name_prefix"_a="Raw pixel");
     nb::class_<RawPixelArchive>(m,"RawPixelArchive")
