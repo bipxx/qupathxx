@@ -1,0 +1,176 @@
+{
+  "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+  "binaries": [
+    {
+      "host": "windows",
+      "suite": "pixel_features",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/windows/qupathxx_pixel_feature_tests.exe",
+      "bytes": 1649664,
+      "sha256": "1fb95efddd05e120535d7daca5bfdce696c3e0e8d8ad247e74af13c292c76ee7"
+    },
+    {
+      "host": "windows",
+      "suite": "pixel_workflows",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 3774464,
+      "sha256": "f92f14959cab28c1363c56e19760d1bcb03eb42f6ba691ca0803011f04a63c58"
+    },
+    {
+      "host": "windows",
+      "suite": "project",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/windows/qupathxx_project_tests.exe",
+      "bytes": 2810368,
+      "sha256": "48def8bf651046106d66291a2986d4f00981170c21453a45ff3cbe81bbfc06b0"
+    },
+    {
+      "host": "windows",
+      "suite": "project_save",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/windows/qupathxx_save_tests.exe",
+      "bytes": 2576384,
+      "sha256": "c0bcdd3fb506f9dc053151c753c3a39d9cc92e1f799dfc3d77e419ab8532fa59"
+    },
+    {
+      "host": "windows",
+      "suite": "provenance",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/windows/qupathxx_provenance_tests.exe",
+      "bytes": 1623040,
+      "sha256": "2ada164976e3e192edd21dbd3a853271dc7f852faa3fb8b55047f33f9e102c17"
+    },
+    {
+      "host": "windows",
+      "suite": "raw_image",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/windows/qupathxx_raw_image_tests.exe",
+      "bytes": 3374592,
+      "sha256": "febd9404b74420a83b81004269292d26f2dc4698af195c34b7c858f1f3b74410"
+    },
+    {
+      "host": "windows",
+      "suite": "resampling",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/windows/qupathxx_resampling_tests.exe",
+      "bytes": 2338816,
+      "sha256": "ce65c345b0af3a331d30951edb316efb5cc05d7be600b8bcb3d884a909c55cfa"
+    },
+    {
+      "host": "windows",
+      "suite": "source_identity",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/windows/qupathxx_source_identity_tests.exe",
+      "bytes": 1511936,
+      "sha256": "15ee2175bd086c47feb39b8bf2c92259235eed71da4a30feb0615e4c4087c891"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_features",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/linux/qupathxx_pixel_feature_tests",
+      "bytes": 2841848,
+      "sha256": "2977751fc34efe188a13988b21f34e1fe740e7a1ae9e2f386ca92ecf47574ff9"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_workflows",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 7166520,
+      "sha256": "11f91a747a9473021002872257c9db16020f48002daba4e13008bb3826de09b7"
+    },
+    {
+      "host": "linux",
+      "suite": "project",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/linux/qupathxx_project_tests",
+      "bytes": 5891928,
+      "sha256": "219aed94098025f203c14a37d3767249f640e3a801b052b71466a4e1e1e2fcc0"
+    },
+    {
+      "host": "linux",
+      "suite": "project_save",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/linux/qupathxx_save_tests",
+      "bytes": 5913368,
+      "sha256": "1ee42db65c5fa8dd6201c7a1c66ab7b79a107b92897c2a50b79764dc3b4c5525"
+    },
+    {
+      "host": "linux",
+      "suite": "provenance",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/linux/qupathxx_provenance_tests",
+      "bytes": 4382560,
+      "sha256": "50600f3633d0d3836840d0d2980312c580881b5828d84c6365e158c612984613"
+    },
+    {
+      "host": "linux",
+      "suite": "raw_image",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/linux/qupathxx_raw_image_tests",
+      "bytes": 6568272,
+      "sha256": "b146569c4c8d3b1d582b169ea8e0efd4dfa125f53e4a4781f6510bc95df4c02f"
+    },
+    {
+      "host": "linux",
+      "suite": "resampling",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/linux/qupathxx_resampling_tests",
+      "bytes": 5341056,
+      "sha256": "affbf2a2d9d1cc027979b632c219d15455de611f576cb3b0030c6e128bceb489"
+    },
+    {
+      "host": "linux",
+      "suite": "source_identity",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/linux/qupathxx_source_identity_tests",
+      "bytes": 2567480,
+      "sha256": "aeaa1fa55aa2d2a530b29c264b182da54dec4a97b0cf6c43246a922d3d054632"
+    },
+    {
+      "host": "training",
+      "suite": "classifier",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/training/qupathxx_classifier_tests.exe",
+      "bytes": 1389568,
+      "sha256": "3b3cdcd512fe6c61934dcf901e888036d0dcd176b38d29a6bfd72234cc0187b0"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_features",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/training/qupathxx_pixel_feature_tests.exe",
+      "bytes": 2475008,
+      "sha256": "5cee77f449340c4522b166a22e563b6938770ed1eac0b1dabad48f562f9095c5"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_workflows",
+      "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+      "fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+      "path": "build/rawstream223-retained-binaries/training/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 4974592,
+      "sha256": "d1f7a7847c7598412122f4984db546e5a9876489602176606619b908c6cf8f36"
+    }
+  ]
+}

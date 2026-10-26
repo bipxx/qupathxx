@@ -63,8 +63,13 @@ owner-captured tiled training now has [local evidence](benchmarks/raw-tiled-trai
 at `1273c3e`: the affected workflow passes across three configurations, with 348
 matching inputs. Sixteen passing regressions retain source `fb7ddb0`; only a quota
 test fixture changed in the successor. Native global selection, actual Windows
-backend model/vote equivalence and real TIFF sampling/prediction pass. Next add
-bounded tiled prediction, versioned stream/checkpoint resume and frontends. The
+backend model/vote equivalence and real TIFF sampling/prediction pass. Bounded
+raw prediction streams and one-slot owner delivery now have [local evidence](benchmarks/raw-pixel-stream-local.json)
+at `8d544eb`: eight selected suites each Windows/Linux plus three Windows training
+suites pass, with 352 matching inputs and nineteen retained executables. Fractional
+filtered/full seams, cropped/global coverage, bounded trillion-cell traversal,
+backpressure, owned output and fresh-file delivery controls pass. Next add
+versioned tiled-table/stream persistence, interrupted resume and frontends. The
 API plan's T1-T5 table defines shared implementations, resource limits and evidence.
 Cross-tile contours, integrated
 platform training and research/hardware acceptance remain open.

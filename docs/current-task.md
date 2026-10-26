@@ -2,7 +2,27 @@
 
 ## Current execution card (2026-10-26)
 
-- Latest native delivery: sparse owner-captured tiled raw training at `1273c3e`
+- Latest native delivery: bounded raw prediction streams at `8d544eb` have
+  [local acceptance](benchmarks/raw-pixel-stream-local.json). Eight selected suites
+  each Windows/Linux plus three Windows training suites pass; 352 compiler inputs
+  match across all configurations, with nineteen final executables retained.
+- The stream computes global window geometry in O(1) state and shares the existing
+  numeric/ROI kernel. Three filtered tile policies and cropped coverage match
+  full-context support/label/vote bits. A trillion-cell traversal admits bounded
+  reads without a whole-grid raster or tile-plan vector. The owner job has one
+  result slot and starts the next window only after take. Real TIFF/trained-model,
+  input/result digests, owned-block release, quotas, cancel/stale/retry and pending
+  actual primary/companion-file refusal pass. No new dependencies were added.
+- Next: T3 versioned tiled-table/stream persistence, atomic save/reopen and
+  source/model/selection-safe interrupted resume, including hash-only revalidation.
+  Then T4 installed Python/CLI/batch/ImGui/viewer integration and T5 one complete
+  integrated qualification. Follow the [single T1-T5 route](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
+  No stream codec/resume or installed frontend acceptance follows from this packet.
+  All M0-M7 remain Partial; public main and release gates are unchanged.
+
+## Preserved local baselines
+
+- Sparse owner-captured tiled raw training at `1273c3e`
   has [local acceptance](benchmarks/raw-tiled-training-local.json). The affected
   workflow suite passes on Windows GEOS-ON, Linux GEOS-OFF and Windows training-ON;
   348 compiler inputs match across all three. Sixteen passing regressions retain
@@ -16,12 +36,6 @@
   supplies four labelled rows from one 4,096-core candidate tile. Actual Windows
   backend models and prediction votes agree with explicit effective parameters;
   real TIFF, physical calibration, quotas, cancel/stale/retry/thread controls pass.
-- Next product action: T2 bounded tiled prediction with an output sink, then T3
-  typed persistence/resume, T4 installed frontends and T5 integrated qualification.
-  T1 is locally verified; it does not supply a completed prediction stream,
-  tiled-table archive, interrupted training resume or installed bindings. Follow
-  the [single T1-T5 route](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
-  All M0-M7 remain Partial; no main promotion or release acceptance follows.
 - Integration: `feature/scientific-grid-159`. Native source `7beb80b` adds
   owner-captured raw annotation sampling and prediction jobs, sharing current
   raw-analysis/object authorities, spatial indexing, reservoir and model kernels.

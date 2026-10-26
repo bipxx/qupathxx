@@ -469,3 +469,68 @@ backend prediction, lifecycle controls and late file mutation are covered.
 Bounded tiled prediction, versioned tiled records/checkpoints, interrupted resume,
 frontends, cross-tile contours and integrated/research/resource/release acceptance
 remain open under T2-T5 and their separate gates.
+
+
+## Bounded raw prediction streams and owner delivery
+
+Source `8d544eb` has [local native acceptance](benchmarks/raw-pixel-stream-local.json):
+eight selected suites each Windows/Linux and three Windows training suites pass
+with 352 matching inputs and nineteen retained executables. T1's sparse training
+and existing window/model/archive/replay and exact numeric controls remain in
+the selected suites. T2 adds native streams and bounded owner delivery.
+
+`RawPixelTiledPredictionRequest(document, model, lattice, options, region, object_id)`
+captures one existing window authority. An optional `RawPixelStreamRegion`
+contains first global X/Y sample indices and core width/height; omission selects
+the complete lattice. `RawPixelStreamOptions` declares tile axes, sample/window
+limits, work budget and minimum vote fraction. Window geometry is computed in
+row-major order from its index, retaining original rational axes and halos with
+no whole-raster ScientificGrid or allocated tile-plan vector. Initial capture
+admits the largest core and owner/producer state; every actual later window is
+admitted before that window's IO. Work estimates are admission ceilings.
+
+`RawPixelPredictionStream.next()` returns one owning
+`RawPixelWindowClassification`, sharing the existing typed sampler, feature,
+forest and global-center ROI kernel. Returned arrays remain valid independently
+of later calls. The producer releases each delivered block; caller-retained blocks
+are outside its work budget. Exhaustion alone returns null. Cancellation or
+failure throws, and concurrent consumers reject. Only cancel and progress getters
+may run concurrently; join the consumer before destroying a stream. Source
+metadata and fresh primary/companion observations are verified before each
+synchronous block is returned. A synchronous captured computation does not grant
+live Document mutation authority; owner publication uses the controller below.
+
+`RawPixelPredictionStreamJob.request` starts one worker. Poll/wait reports
+`block_ready`; await alone does not deliver. `take(document)` checks document
+identity/revision and fresh files, transfers the pending block and starts the
+next worker. While output is pending there is no next decode or unbounded queue.
+Produced and delivered counters stay distinct. All controller methods except
+cancel require the owner thread; only immutable captures and a borrowed reader
+enter the worker, and destruction joins before releasing owner-held sources.
+Cancellation, edited/copied/calibration-stale documents and changed metadata or
+files drop unpublished output. Decoder failure permits a fresh request. Owned
+already-delivered blocks remain valid historical results.
+
+Request domain `qpx.raw-pixel-stream-request/1` binds model, captured metadata,
+reader, global geometry, coverage/tile/options and effective calibration/ROI.
+This header alone is not a source-content hash. Ordered domains
+`qpx.raw-pixel-stream-input-chain/1` and
+`qpx.raw-pixel-stream-result-chain/1` chain the request header, previous commitment,
+block index and each decoded input/result commitment. Partial/cancelled/failed
+streams refuse final hashes; jobs additionally require every block to have been
+taken. Individual window result domains and legacy codecs remain unchanged.
+
+Tests compare three fractional filtered tilings and a nonzero-index crop against
+full-context support, labels and vote bits, and verify window result identities,
+unique coverage, aggregate counts and deterministic chains. A trillion-cell plan
+has O(1) traversal state; two 16-by-16 blocks keep decoder requests bounded and
+weak ownership proves consumed output is released. A distant rational-index ROI
+checks original global centers. Real TIFF matches full results with an actual
+trained model on the Windows backend. Backpressure, pending late-file mutation,
+metadata/series/scan/work refusal, cancellation during/after IO, retries, copied
+owners and physical calibration have distinguishing controls.
+
+T3 still needs versioned tiled-table and stream files, atomic save/reopen,
+hash-only source revalidation and interrupted/resumed execution. T4 installed
+bindings/frontends, cross-tile contours, T5 integrated platforms and independent
+research/process-memory/hardware/release acceptance remain open.

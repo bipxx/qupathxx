@@ -1,0 +1,214 @@
+{
+  "schema": "qpx.raw-pixel-stream-local/1",
+  "observed_at_utc": "2026-10-26T09:51:23.888344+00:00",
+  "source": "8d544eb2e4a30d9a78fd76d32efa9fb04c7fefff",
+  "compiled_fingerprint": "1aaaa8c9f83f94737e2687457f86331122985c796704f380ec9a2ebe16ce8c2c",
+  "compiler_inputs": 352,
+  "status": "bounded_raw_prediction_stream_and_one_slot_owner_delivery_locally_verified",
+  "native": {
+    "windows_suites": 8,
+    "linux_suites": 8,
+    "windows_training_suites": 3,
+    "required_markers": [
+      "Raw prediction stream: real TIFF fractional full/stream votes, optional trained model and pending late-file refusal passed",
+      "Raw prediction stream: fractional filtered full-context seams, unique/cropped global cores, bounded trillion-cell traversal, owned blocks, one-slot backpressure, digests, quotas, cancel/stale/retry and owner delivery passed",
+      "Raw tiled training: full/tiled global reservoir rows, filtered seams, sparse trillion-cell lattice, quotas, owner lifecycle, calibration and compound-source controls passed",
+      "Raw window classifier: real TIFF fractional-window owner prediction, global ROI mask and late-file refusal passed",
+      "Raw window classifier: portable recipe/model identity, 42 full/window label-vote seams, huge indexed ROI, physical calibration, pre-IO quotas/series, cancellation/stale/copy/thread and compound-source checks passed",
+      "Raw lattice windows: 13 Fraction wide means, 20 large irreducible uint64 samples, huge dense lattice, bounded chunk mutation, admission/cancel and 9072 exact tiled feature slots passed",
+      "Raw classifier QPR1 independent framing, channel/grid/physical contracts, forest votes, streams, exact budgets and atomic model files passed"
+    ],
+    "backend_marker": "Raw pixel backend training: real TIFF deterministic direct/job training, historical retraining, trained archives/model files and portable prediction votes passed"
+  },
+  "scope": [
+    "RawPixelTiledPredictionRequest captures global lattice, optional sample-index coverage, immutable prototype model/ROI/calibration and document authority once",
+    "O(1) row-major global traversal over up to one trillion core cells, with no full-grid raster or per-window plan vector",
+    "RawPixelPredictionStream shares the existing owner-window sampling, classifier and ROI result kernel; every actual window is admitted before its IO",
+    "Three fractional filtered tile policies and cropped coverage match full-context support/label/vote bits with each core visited once",
+    "RawPixelPredictionStreamJob uses one future/result slot and starts the next window only after owner take; produced and delivered counters stay distinct",
+    "Owned returned blocks are outside the producer budget; weak ownership proves the producer releases consumed output",
+    "Model/metadata/geometry/ROI/calibration/options request digest and ordered input/result hash chains; final commitments require successful exhaustion and all job blocks delivered",
+    "Pre-IO limits/series/metadata quotas, synchronous concurrent-consumer refusal, cross-thread cancel, cancellation during/after IO, failure/retry and copied/edited/calibration-stale document controls",
+    "Fresh primary/companion file guards at synchronous block delivery, completed owner readiness and pending owner take; normal progress polls do no repeated file opens",
+    "Real TIFF fractional full/stream votes with an actual trained model in the Windows training-enabled profile, plus pending late-file refusal",
+    "Inherited raw training, portable model/archive/replay, exact Fraction/feature and window prediction controls retained"
+  ],
+  "legacy_archive_or_window_result_grammars_changed": false,
+  "checkpoint_resume_or_frontends_complete": false,
+  "remaining": [
+    "Versioned tiled training/stream persistence, atomic output/reopen and source/model/selection-safe interrupted resume",
+    "Hash-only source revalidation for completed stream blocks without unnecessary feature-plane materialization",
+    "Cross-tile contours and nanobind/Python/NumPy, CLI/batch, managed viewer and ImGui workflows",
+    "Integrated platform and independent biological/model/process-resource/hardware/release acceptance"
+  ],
+  "baselines": [
+    "docs/benchmarks/raw-tiled-training-local.json",
+    "docs/benchmarks/raw-window-classifier-local.json",
+    "docs/benchmarks/raw-lattice-windows-local.json"
+  ],
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/windows/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "d896221a48c5e379de5d748282988fd35004f0a6a3a5b7925c8b91ba4acc556c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/windows/configuration.json",
+      "bytes": 438,
+      "sha256": "1fdb05fd0a59139fc78658467c36bfad64008f2d672600bae623a8ffd733f958"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/windows/build.log",
+      "bytes": 10217,
+      "sha256": "d85444cf9e1e5c807ed05ce657d78f87642ff2c93f32720aeba5e45640e08afa"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/windows/commands.json",
+      "bytes": 1783,
+      "sha256": "a384976ecd0190226805c5b8fb7cd7b08118e9bddcc873bce7054db2992bb058"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/windows/compiler-inputs.json",
+      "bytes": 37426,
+      "sha256": "eb7fb5254cbdf46a2500fbaaed7605119f79ae46e1aac204fb412e898717d61b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/windows/configure.log",
+      "bytes": 3579,
+      "sha256": "1e67d3b216f9f8f873d88231d8c98c89d1d4efe5bf5d5d00da6894f4bcff0cd6"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/windows/output-preflight.json",
+      "bytes": 205,
+      "sha256": "3e58145b7004122305fe13271c522cb269fa38e486dcbd038022df26a9fc243a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/windows/tests.log",
+      "bytes": 915,
+      "sha256": "f85e3aa394d4bbbb2a7519540e52bcfce0923d2af7238f57c9f77080bdd4e1dc"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/windows/tests.xml",
+      "bytes": 7053,
+      "sha256": "871d8d6f51ddb590130fcbbe4e5bec8ae0967202a7e00947ea700219f20f2f74"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/linux/build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "6f8df37e0f4b7dc9569c9eb6c474b14f21b2081f2516ee461d635c122480555d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/linux/configuration.json",
+      "bytes": 440,
+      "sha256": "9055e74897cee94c78a499b8be5563be9b92ed0411debc1a2045cdbd28ba7a04"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/linux/build.log",
+      "bytes": 76357,
+      "sha256": "eaed42cac4eeb1dd2cee1cab008652cbfe205ddc3a02c5f7ff6019496f0c7225"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/linux/commands.json",
+      "bytes": 2520,
+      "sha256": "073119535aa8be59bad706a224d5b176e2f05ea2ad43d0218081400010dfb523"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/linux/compiler-inputs.json",
+      "bytes": 37426,
+      "sha256": "eb7fb5254cbdf46a2500fbaaed7605119f79ae46e1aac204fb412e898717d61b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/linux/configure.log",
+      "bytes": 3354,
+      "sha256": "7d226b9994527cb32c8e6e89f88dcf804bf780caa81c332e475fbfe15eaa1eba"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/linux/output-preflight.json",
+      "bytes": 198,
+      "sha256": "88e767399c5e6047d059061ff948d8aa6e6d613e7a43217f421db08e21f88c77"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/linux/tests.log",
+      "bytes": 1044,
+      "sha256": "8a8caf418d3b8119a5589178cace2257f9c9c42b7909d855547d555186d6f45d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/linux/tests.xml",
+      "bytes": 6878,
+      "sha256": "ba220a2e0a99861df78384f901a596a36f3d1036a95a40c37a81dc3989379bab"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/training/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "1e0e6218fe34d05f86958a842ca9e5efc3ad52c2a7619ded08f6dcb64078e636"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/training/configuration.json",
+      "bytes": 439,
+      "sha256": "efefdc00c5c4f105d6eb07ae32b7d4aa64514ca8b22df2b32a188f4283812f82"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/training/build.log",
+      "bytes": 5442,
+      "sha256": "b246ec8abf1bb0a274754f4aa3d1f513ff2b577ed2087eba1afb85c4b7badf11"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/training/commands.json",
+      "bytes": 1546,
+      "sha256": "ca8e3b5abd39a3590564b9988555ffce5d4f5a6e091adc9212ecb996ebd4dc56"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/training/compiler-inputs.json",
+      "bytes": 37426,
+      "sha256": "eb7fb5254cbdf46a2500fbaaed7605119f79ae46e1aac204fb412e898717d61b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/training/configure.log",
+      "bytes": 3722,
+      "sha256": "1069bdced0e6df841217617a54cbd0dcd0d69d954f9ced17651832d103a8bd2e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/training/output-preflight.json",
+      "bytes": 207,
+      "sha256": "c63727ce974e8c358f9a901be42e8452f5981427ada18363053480959c5c4e9c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/training/sdk-verification.json",
+      "bytes": 202,
+      "sha256": "b55701dcbf448dd2c272bba3fe738c642e2cb4fb62bc0a25d7295d7dbd3442aa"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/training/tests.log",
+      "bytes": 429,
+      "sha256": "5bbc58842c7c9bd5f6e2458399024a1422793e02f17da1d138eeac08d1ad8032"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/training/tests.xml",
+      "bytes": 3573,
+      "sha256": "e1adfc86e31ebe5a0e8db285797681413b8b2d1713d3f893648ddbe9dbaf78ff"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/compiler-git-proof.json",
+      "bytes": 119947,
+      "sha256": "cfc93712a22419a92caf2d0fbe454ee8b3df57713b1554f7db39c3cae8f60fe4"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/retained-binaries.json",
+      "bytes": 7950,
+      "sha256": "dbea17ebee070c4ecadf79da7102f3d72c8f024715a87608897a8e517c4d0833"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/build_rawstream223.py",
+      "bytes": 4727,
+      "sha256": "aac6bb41367f4edd56d4dd0a6a76c9c18d7eefca45228df442321609a433fba4"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-stream-local/receipt_rawstream223.py",
+      "bytes": 9153,
+      "sha256": "cdff19e887370195393aaa867fadc69df1f2a791c9b19070026067040aee4b27"
+    }
+  ],
+  "retained_binaries": "build/rawstream223-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial"
+}
