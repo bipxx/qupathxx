@@ -51,7 +51,7 @@ inline void run() {
     using namespace qpx;
     for(unsigned which=0;which<12;++which) {
         Reader reader(which);const auto& reference=raw_feature_reference::cases[which];
-        detail::RawFeatureOptions o;o.offsets={0,0};o.scales={reference.scale,reference.scale};o.sigmas={{0,0},{0,1},{.5,1},{1,1}};o.gradient_magnitude=o.laplacian=true;
+        detail::RawFeatureOptions o;o.offsets={reference.offsets[0],reference.offsets[1]};o.scales={reference.scales[0],reference.scales[1]};o.sigmas={{0,0},{0,1},{.5,1},{1,1}};o.gradient_magnitude=o.laplacian=true;
         const ScientificGrid grid(7,5,{0,7,7,4},{0,5,5,4});ScientificRawOptions raw;raw.channels=2;
         const auto work=detail::raw_feature_work_bytes(*reader.raw,grid,raw,o);
         const auto sampled=read_scientific_raw(reader,grid,raw);const auto image=detail::extract_raw_pixel_features(sampled,o);
@@ -65,6 +65,14 @@ inline void run() {
             if(i%12==0) check(bits(image->values[i])==expected_bits);
         }
         for(std::size_t row=0;row<35;++row) {bool valid=true;for(std::size_t c=0;c<24;++c) valid=valid && image->valid[row*24+c];check(bool(image->rows_valid[row])==valid);}
+        auto axis_options=o;axis_options.sigmas={{1,0}};
+        const auto axis=detail::extract_raw_pixel_features(sampled,axis_options);
+        for(std::size_t i=0;i<axis->values.size();++i) {
+            const auto expected_bits=reference.x_axis[i];float expected;std::memcpy(&expected,&expected_bits,4);
+            if(std::isnan(expected)) {check(!axis->valid[i] && std::isnan(axis->values[i]));continue;}
+            const auto ulp=std::abs(double(std::nextafter(expected,std::numeric_limits<float>::infinity()))-expected);
+            check(axis->valid[i] && std::abs(double(axis->values[i])-expected)<=4*ulp+1e-12*std::max(1.,reference.max_normalized));
+        }
         const ScientificGrid tile(7,5,{2,3,3,4},{1,2,2,4});const auto sampled_tile=read_scientific_raw(reader,tile,raw);const auto part=detail::extract_raw_pixel_features(sampled_tile,o);
         for(std::size_t y=0;y<2;++y) for(std::size_t x=0;x<3;++x) for(std::size_t c=0;c<24;++c) check(bits(part->values[(y*3+x)*24+c])==bits(image->values[((y+1)*7+x+2)*24+c]));
         check(detail::extract_raw_pixel_features(sampled,o)->sha256==image->sha256);
