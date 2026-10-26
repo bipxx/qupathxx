@@ -322,3 +322,118 @@ def test_desktop_edit_retires_ready_raw_prediction_and_gpu_preview(tmp_path):
         assert not report.raw_pixel.preview_ready and report.raw_pixel.preview_bytes == 0
     finally:
         doc.server.close()
+
+
+def bounded_grid(settings):
+    lattice = settings.lattice
+    return q.ScientificGrid(lattice.image_width, lattice.image_height, lattice.x, lattice.y)
+
+
+@pytest.mark.skipif(not q.has_geos, reason="contour geometry backend")
+@pytest.mark.parametrize("undo,redo", [(False, False), (True, False), (True, True)])
+def test_desktop_raw_contour_preview_apply_is_one_undoable_edit(tmp_path, undo, redo):
+    p, _, doc, ids, root, settings = scene(tmp_path)
+    try:
+        o = options(settings, root, tmp_path)
+        raw = o.raw_pixel
+        raw.model = model_for(doc, ids, settings)
+        request = q.RawPixelPredictionRequest(doc, raw.model, bounded_grid(settings), root, work_bytes=16 * 1024**2)
+        expected = q.trace_raw_pixel_prediction(request, q.predict_raw_pixel_region(request))
+        o.raw_pixel = raw
+        doc.clear_history()
+        o.inputs = [*click(4, q.GuiInputTarget.RAW_PIXEL_CONTOURS_TAB), *click(8, q.GuiInputTarget.RAW_PIXEL_TRACE),
+            ready(12, q.GuiInputWait.RAW_PIXEL_CONTOURS_READY), *click(16, q.GuiInputTarget.RAW_PIXEL_APPLY),
+            ready(20, q.GuiInputWait.RAW_PIXEL_CONTOURS_PUBLISHED), *click(24, q.GuiInputTarget.RAW_PIXEL_HIDE)]
+        if undo:
+            o.inputs += [event(28, q.GuiInputKind.UNDO_KEY)]
+        if redo:
+            o.inputs += [event(32, q.GuiInputKind.REDO_KEY)]
+        report = q.show(p, frame_limit=55, capture_path=str(tmp_path / "contours.ppm"), options=o)
+        result = report.raw_pixel
+        assert report.replay_complete and not result.error
+        assert result.contours_published and result.contour_preview_ready and result.contour_preview_bytes > 0
+        assert result.contour_preview_bytes <= raw.preview_budget
+        assert len(result.published_ids) == expected.contours.component_count > 0
+        if undo and not redo:
+            assert doc.object_count == 3 and not doc.children(root) and doc.can_redo
+        else:
+            assert doc.children(root) == result.published_ids and doc.object_count == 3 + len(result.published_ids)
+            for obj, component in zip(result.published_ids, expected.contours.components):
+                assert doc.annotation(obj).geometry.equals(component.geometry)
+                assert doc.annotation(obj).parent_id == root
+        assert report.ui_overflow_items == 0, report.ui_overflow_label
+    finally:
+        doc.server.close()
+
+
+@pytest.mark.skipif(not q.has_geos, reason="contour geometry backend")
+def test_desktop_contour_edit_discards_geometry_preview(tmp_path):
+    p, _, doc, ids, root, settings = scene(tmp_path)
+    try:
+        o = options(settings, root, tmp_path)
+        raw = o.raw_pixel
+        raw.model = model_for(doc, ids, settings)
+        o.raw_pixel = raw
+        o.inputs = [*click(4, q.GuiInputTarget.RAW_PIXEL_CONTOURS_TAB), *click(8, q.GuiInputTarget.RAW_PIXEL_TRACE),
+            ready(12, q.GuiInputWait.RAW_PIXEL_CONTOURS_READY), *click(16, q.GuiInputTarget.RAW_PIXEL_HIDE),
+            event(20, q.GuiInputKind.SELECT_ALL_KEY), event(24, q.GuiInputKind.DELETE_KEY)]
+        report = q.show(p, frame_limit=45, options=o)
+        assert report.replay_complete and doc.object_count == 0
+        assert report.raw_pixel.contours is None and not report.raw_pixel.contour_preview_ready
+        assert report.raw_pixel.contour_preview_bytes == 0 and not report.raw_pixel.contours_published
+    finally:
+        doc.server.close()
+
+
+@pytest.mark.skipif(not q.has_geos, reason="contour geometry backend")
+@pytest.mark.parametrize("limit", ["work", "preview"])
+def test_desktop_contour_limits_preserve_document(tmp_path, limit):
+    p, _, doc, ids, root, settings = scene(tmp_path)
+    try:
+        o = options(settings, root, tmp_path)
+        raw = o.raw_pixel
+        raw.model = model_for(doc, ids, settings)
+        if limit == "work":
+            contours = raw.contours
+            contours.work_bytes = 1
+            raw.contours = contours
+        else:
+            raw.preview_budget = 1
+        o.raw_pixel = raw
+        revision = doc.revision
+        o.inputs = [*click(4, q.GuiInputTarget.RAW_PIXEL_CONTOURS_TAB), *click(8, q.GuiInputTarget.RAW_PIXEL_TRACE),
+            ready(12, q.GuiInputWait.RAW_PIXEL_FINISHED)]
+        report = q.show(p, frame_limit=40, options=o)
+        assert report.replay_complete and report.raw_pixel.error and "budget" in report.raw_pixel.error
+        assert doc.revision == revision and doc.object_count == 3 and not report.raw_pixel.contours_published
+        assert not report.raw_pixel.contour_preview_ready
+    finally:
+        doc.server.close()
+
+
+@pytest.mark.skipif(not q.has_geos, reason="contour geometry backend")
+def test_managed_raw_contour_preview_fresh_apply_and_persistence(tmp_path):
+    p, image, doc, ids, root, settings = scene(tmp_path)
+    model = model_for(doc, ids, settings)
+    source, saved = tmp_path / "contour-source.qpx", tmp_path / "contour-result.qpx"
+    p.save(str(source))
+    doc.server.close()
+    session = q.ViewerSession(str(source))
+    held = {}
+    def producer():
+        preview = completed(session, session.contour_raw_pixels(image, model, bounded_grid(settings), object_id=root))
+        assert preview.raw_pixel_contours and not preview.committed and not preview.object_ids
+        held["preview"] = preview.raw_pixel_contours
+        applied = completed(session, session.contour_raw_pixels(image, model, bounded_grid(settings), object_id=root,
+            apply=True, expected_revision=preview.document_revision))
+        assert applied.committed and applied.components == len(applied.object_ids) > 0
+        held["ids"] = applied.object_ids
+        completed(session, session.save(str(saved)))
+        completed(session, session.close(True))
+    run(session, producer)
+    assert held["preview"].contours.vertex_count > 0
+    result = q.Project.open(str(saved))
+    try:
+        assert result.document(image).children(root) == held["ids"]
+    finally:
+        result.document(image).server.close()

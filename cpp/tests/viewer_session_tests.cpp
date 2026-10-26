@@ -50,6 +50,19 @@ void raw_pixel_session_contracts(const std::filesystem::path& root) {
         const auto before=*server->tiff_read_stats();rejects([&]{frontend.trace(*doc,model,ScientificGrid(8,6,{0,8,1000000},{0,6,1000000},16u*1024*1024),{},target);});const auto after=*server->tiff_read_stats();check(before.decoded_blocks==after.decoded_blocks && before.cache_hits==after.cache_hits);
         std::cout<<"Raw contour frontend: fresh bounded rational-grid trace, atomic apply/undo/redo, stale/cancel/budget/oversize refusal passed; GEOS="<<has_geos()<<'\n';
     }
+    {
+        const ScientificGrid grid(8,6,lattice.x(),lattice.y(),16u*1024*1024);const auto original=doc->object_count();
+        auto preview=session.contour_raw_pixels(image,model,grid,{},target);auto result=h.until(owner,session,preview);
+        if(has_geos()) {
+            check(result.state=="succeeded" && result.raw_pixel_contours && !result.committed && result.object_ids.empty() && result.bytes>=result.raw_pixel_contours->payload_bytes());const auto historical=result.raw_pixel_contours;const auto captured=doc->revision();session.take(preview);check(!session.stats().retained_bytes);
+            doc->rename_annotation(target,"edited after contour preview");auto apply=session.contour_raw_pixels(image,model,grid,{},target,true,0,16u*1024*1024,"Raw pixel",captured);check(h.until(owner,session,apply).state=="stale");session.take(apply);check(doc->object_count()==original);
+            doc->clear_history();apply=session.contour_raw_pixels(image,model,grid,{},target,true);result=h.until(owner,session,apply);check(result.state=="succeeded" && result.committed && result.raw_pixel_contours && !result.object_ids.empty() && doc->object_count()==original+result.object_ids.size());session.take(apply);check(doc->undo() && doc->object_count()==original);check(doc->redo());check(doc->undo() && doc->object_count()==original && historical->contours()->vertex_count()>0);
+            auto cancelled=session.contour_raw_pixels(image,model,grid,{},target,true);h.step(owner);check(session.poll(cancelled).state=="running" && session.cancel(cancelled));check(h.until(owner,session,cancelled).state=="cancelled");session.take(cancelled);check(doc->object_count()==original);
+            ViewerLimits limits;limits.result_bytes=65536;ViewerSession limited((root/"raw-contour-quota.qpxproj").u8string(),limits);detail::ViewerOwner limited_owner(limited);h.step(limited_owner);
+            const auto refused=limited.contour_raw_pixels(image,model,grid,{},target,true);const auto refusal=h.until(limited_owner,limited,refused);check(refusal.state=="failed" && refusal.error.find("result budget")!=std::string::npos && !refusal.committed && doc->object_count()==original);limited.take(refused);limited_owner.finish(h.context);
+        }else {check(result.state=="failed" && !result.committed && doc->object_count()==original);session.take(preview);}
+        std::cout<<"Raw managed contours: historical preview, fresh revision-guarded apply, atomic undo/redo, active cancellation and pre-commit result admission passed; GEOS="<<has_geos()<<'\n';
+    }
     auto ticket=session.predict_raw_pixels(image,model,lattice.window(1,1,2,2),target);auto result=h.until(owner,session,ticket);
     auto expected=predict_raw_pixel_window(RawPixelWindowPredictionRequest(*doc,model,lattice.window(1,1,2,2),target));check(result.state=="succeeded" && result.raw_pixel_prediction && result.raw_pixel_prediction->labels()==expected->labels() && result.raw_pixel_prediction->vote_fractions()==expected->vote_fractions() && !result.committed);session.take(ticket);check(session.stats().retained_bytes==0);
     ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(owner);doc->rename_annotation(target,"edited during preview");check(h.until(owner,session,ticket).state=="stale");session.take(ticket);

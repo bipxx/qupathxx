@@ -6,6 +6,9 @@ namespace qpx {
 class RawPixelContours {
 public:
     const std::shared_ptr<const TissueContours>& contours() const {return contours_;}
+    // Conservative retained-result admission, including the captured model,
+    // source, prediction and geometry; this is not a process-RSS measurement.
+    std::size_t payload_bytes() const;
     const std::string& prediction_sha256() const {return prediction_->sha256();}
 private:
     RawPixelContours()=default;

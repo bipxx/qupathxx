@@ -253,6 +253,9 @@ std::shared_ptr<const RawPixelContours> RawPixelContourKernel::run(std::shared_p
     auto contours=TissueContourKernel::run(RawPixelRaster(*prediction,*snapshot),options,cancelled);
     auto out=std::shared_ptr<RawPixelContours>(new RawPixelContours());out->snapshot_=std::move(snapshot);out->prediction_=std::move(prediction);out->contours_=std::move(contours);return out;
 }
+std::size_t RawPixelContours::payload_bytes() const {
+    return sizeof(*this)+snapshot_->fixed+4ULL*snapshot_->model.bytes().size()+64ULL*snapshot_->model.forest().node_count()+65536+contours_->retained_bytes();
+}
 std::shared_ptr<const RawPixelContours> trace_raw_pixel_prediction(const RawPixelPredictionRequest& request,std::shared_ptr<const RawPixelClassification> prediction,TissueContourOptions options,const std::atomic<bool>* cancelled) {
     auto snapshot=RawPixelContourKernel::capture(request,prediction);return RawPixelContourKernel::run(std::move(snapshot),std::move(prediction),options,cancelled);
 }

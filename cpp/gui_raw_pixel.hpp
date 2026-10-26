@@ -12,12 +12,38 @@
 namespace qpx::detail {
 class GuiRawPixel {
     GuiRawPixelOptions options_;RawPixelFrontend jobs_;GuiPixelPreview live_,history_;
-    static constexpr auto first=GuiInputTarget::RawPixelTrain,last=GuiInputTarget::RawPixelRecordsTab;
+    static constexpr auto first=GuiInputTarget::RawPixelTrain,last=GuiInputTarget::RawPixelContoursTab;
     std::array<Rect,std::size_t(last)-std::size_t(first)+1> targets_{};
     std::array<bool,std::size_t(last)-std::size_t(first)+1> enabled_{};
     std::array<char,32769> model_path_{},stream_path_{},checkpoint_path_{},resume_training_{},resume_stream_{};
     std::array<char,256> x_{},y_{},offsets_{},scales_{},sigmas_{};
     std::weak_ptr<const char> identity_;
+    std::array<char,257> contour_prefix_{};
+    std::shared_ptr<const RawPixelContours> contour_preview_;
+    std::vector<std::pair<std::uint32_t,std::vector<Ring>>> contour_paths_;
+    std::size_t contour_bytes_=0;bool contour_ready_=false;std::string contour_error_;
+    void update_contours(std::shared_ptr<const RawPixelContours> result) {
+        if(result==contour_preview_) return;contour_preview_=std::move(result);decltype(contour_paths_){}.swap(contour_paths_);contour_bytes_=0;contour_ready_=false;contour_error_.clear();
+        if(!contour_preview_) return;
+        try {
+            const auto count=contour_preview_->contours()->components().size();if(count>options_.preview_budget/sizeof(decltype(contour_paths_)::value_type)) throw std::length_error("Raw contour preview exceeds its byte budget");
+            contour_paths_.reserve(count);contour_bytes_=contour_paths_.capacity()*sizeof(decltype(contour_paths_)::value_type);
+            for(const auto& c:contour_preview_->contours()->components()) {
+                if(c.geometry.payload_bytes()>options_.preview_budget-contour_bytes_) throw std::length_error("Raw contour preview exceeds its byte budget");
+                auto paths=c.geometry.paths();std::size_t bytes=paths.capacity()*sizeof(Ring);for(const auto& path:paths) bytes+=path.capacity()*sizeof(Point);
+                if(bytes>options_.preview_budget-contour_bytes_) throw std::length_error("Raw contour preview exceeds its byte budget");
+                contour_paths_.emplace_back(c.label,std::move(paths));contour_bytes_+=bytes;
+            }contour_ready_=true;
+        }catch(const std::exception& e) {decltype(contour_paths_){}.swap(contour_paths_);contour_bytes_=0;contour_error_=e.what();}
+    }
+    void draw_contours(const Document& doc) const {
+        if(!contour_ready_) {if(!contour_error_.empty()) ImGui::TextWrapped("%s",contour_error_.c_str());return;}
+        const ImVec2 a=ImGui::GetCursorScreenPos(),size{std::max(1.f,ImGui::GetContentRegionAvail().x),180};auto* draw=ImGui::GetWindowDrawList();
+        draw->AddRectFilled(a,{a.x+size.x,a.y+size.y},IM_COL32(24,24,24,255));draw->PushClipRect(a,{a.x+size.x,a.y+size.y},true);
+        const auto scale=std::min(double(size.x)/doc.metadata().width,double(size.y)/doc.metadata().height);
+        for(const auto& [label,paths]:contour_paths_) for(const auto& ring:paths) {for(const auto& p:ring) draw->PathLineTo({a.x+float(p.x*scale),a.y+float(p.y*scale)});draw->PathStroke(label%2?IM_COL32(255,128,64,255):IM_COL32(64,192,255,255),ImDrawFlags_Closed,1.5f);}
+        draw->PopClipRect();ImGui::Dummy(size);
+    }
     std::string error_;std::int64_t px_=0,py_=0,pw_=256,ph_=256;std::uint64_t record_=0,index_=0;
     static void text(char* target,std::size_t size,const std::string& value) {bounded_utf8(value,size-1);std::memcpy(target,value.c_str(),value.size()+1);}
     static ScientificGridAxis axis(const char* value) {
@@ -39,6 +65,8 @@ class GuiRawPixel {
     }
 public:
     explicit GuiRawPixel(const GuiOptions& options):options_(options.raw_pixel?*options.raw_pixel:GuiRawPixelOptions{}) {
+        options_.contours.validate();if(options_.contour_work_bytes<1024*1024 || options_.contour_work_bytes>1024ULL*1024*1024) throw std::invalid_argument("Raw contour inference work must be 1..1024 MiB");
+        text(contour_prefix_.data(),contour_prefix_.size(),options_.contour_name_prefix);
         options_.training.validate();options_.stream.validate();options_.save.limits.validate();options_.read_limits.validate();if(!options_.preview_budget || options_.preview_budget>128u*1024*1024) throw std::invalid_argument("raw preview budget must be 1..128 MiB");
         text(model_path_.data(),model_path_.size(),options_.model_path);text(stream_path_.data(),stream_path_.size(),options_.stream_path);text(checkpoint_path_.data(),checkpoint_path_.size(),options_.training.checkpoint_path);text(resume_training_.data(),resume_training_.size(),options_.training.checkpoint.resume_path);text(resume_stream_.data(),resume_stream_.size(),options_.save.resume_path);
         text(offsets_.data(),offsets_.size(),values(options_.training.features.offsets));text(scales_.data(),scales_.size(),values(options_.training.features.scales));std::vector<double> sigmas;for(const auto& v:options_.training.features.sigmas) {sigmas.push_back(v.x);sigmas.push_back(v.y);}text(sigmas_.data(),sigmas_.size(),values(sigmas));
@@ -47,9 +75,9 @@ public:
         record_=options_.record_id;index_=options_.read_index;if(options_.model) jobs_.adopt(*options_.model);
     }
     void open() {options_.open=true;}
-    void update(Document& doc) {if(identity_.lock()!=doc.analysis_identity_.token) {identity_=doc.analysis_identity_.token;jobs_.reset_records();record_=0;}jobs_.poll(doc);const auto report=jobs_.report();live_.update(report.prediction,report.prediction?palette(doc,report.prediction->class_counts(),report.model):std::vector<std::uint32_t>{},options_.show_overlay,options_.preview_budget);history_.update(report.historical,report.historical?palette(doc,report.historical->class_counts(),report.historical_model):std::vector<std::uint32_t>{},true,options_.preview_budget);}
+    void update(Document& doc) {if(identity_.lock()!=doc.analysis_identity_.token) {identity_=doc.analysis_identity_.token;jobs_.reset_records();record_=0;}jobs_.poll(doc);const auto report=jobs_.report();update_contours(report.contours);live_.update(report.prediction,report.prediction?palette(doc,report.prediction->class_counts(),report.model):std::vector<std::uint32_t>{},options_.show_overlay,options_.preview_budget);history_.update(report.historical,report.historical?palette(doc,report.historical->class_counts(),report.historical_model):std::vector<std::uint32_t>{},true,options_.preview_budget);}
     bool settled() const {const auto r=jobs_.report();return !jobs_.busy() && (!options_.show_overlay || !r.prediction || live_.ready() || !live_.error().empty()) && (!r.historical || history_.ready() || !history_.error().empty());}
-    GuiRawPixelReport report() const {auto r=jobs_.report();if(!error_.empty()) r.error=error_;else if(!live_.error().empty()) r.error=live_.error();r.preview_bytes=live_.bytes()+history_.bytes();r.preview_ready=live_.ready();return r;}
+    GuiRawPixelReport report() const {auto r=jobs_.report();if(!error_.empty()) r.error=error_;else if(!live_.error().empty()) r.error=live_.error();r.preview_bytes=live_.bytes()+history_.bytes();r.preview_ready=live_.ready();r.contour_preview_ready=contour_ready_;r.contour_preview_bytes=contour_bytes_;if(r.error.empty()) r.error=contour_error_;return r;}
     const GuiPixelPreview& preview() const {return live_;}bool shown() const {return options_.show_overlay;}
     void draw_preview(ImDrawList* draw,const Viewport& view,ImVec2 offset,ImVec2 size) const {if(options_.show_overlay) live_.draw(draw,view,offset,size);}
     bool enabled(GuiInputTarget target) const {return enabled_.at(std::size_t(target)-std::size_t(first));}
@@ -66,7 +94,7 @@ public:
         if(ImGui::BeginTabBar("raw-pixel-tabs")) {
             bool tab=ImGui::BeginTabItem("Training");item(GuiInputTarget::RawPixelTrainingTab);if(tab) {
                 ImGui::BeginDisabled(disabled);
-                ImGui::Checkbox("Selected labelled areas only",&options_.selected_only);ui::InputText("X axis (O,E,N,C)",x_.data(),x_.size());ui::InputText("Y axis (O,E,N,C)",y_.data(),y_.size());ImGui::TextWrapped("Empty axes use unit level-zero samples. Exact spacing must match a loaded model.");
+                ImGui::Checkbox("Selected labelled areas only",&options_.selected_only);bool axes_changed=ui::InputText("X axis (O,E,N,C)",x_.data(),x_.size());axes_changed|=ui::InputText("Y axis (O,E,N,C)",y_.data(),y_.size());if(axes_changed) {jobs_.discard_contours();update_contours({});}ImGui::TextWrapped("Empty axes use unit level-zero samples. Exact spacing must match a loaded model.");
                 int channel=int(options_.training.selection.first_channel),channels=int(options_.training.selection.channels),z=int(options_.training.selection.z),t=int(options_.training.selection.t);
                 if(ui::InputInt("First channel",&channel)) options_.training.selection.first_channel=std::uint32_t(std::clamp(channel,0,65535));if(ui::InputInt("Channels",&channels)) options_.training.selection.channels=std::uint32_t(std::clamp(channels,1,128));
                 if(ui::InputInt("Z",&z)) options_.training.selection.z=std::uint32_t(std::clamp(z,0,65535));if(ui::InputInt("Time",&t)) options_.training.selection.t=std::uint32_t(std::clamp(t,0,65535));
@@ -95,6 +123,17 @@ public:
                 if(button("Keep verified raw file",GuiInputTarget::RawPixelKeepLink,disabled || !current.link || current.stream_record)) run([&] {jobs_.keep_link(doc);});
                 if(button("Open retained raw file",GuiInputTarget::RawPixelOpenRecord,jobs_.busy() || !has_image || !doc.raw_pixel_stream_record_count())) run([&] {auto record=selected();auto limits=options_.read_limits;limits.work_bytes=std::min(limits.work_bytes,options_.preview_budget);jobs_.open("",limits,index_,record->link);});
                 if(button("Remove raw file record",GuiInputTarget::RawPixelRemoveRecord,disabled || !doc.raw_pixel_stream_record_count())) run([&] {const auto id=selected()->id;doc.remove_raw_pixel_stream_record(id);if(current.stream_record==id) jobs_.reset_records();});ImGui::TextWrapped("Removing a record leaves the external prediction file intact.");ImGui::EndTabItem();
+            }
+            tab=ImGui::BeginTabItem("Contours");item(GuiInputTarget::RawPixelContoursTab);if(tab) {
+                ImGui::TextWrapped("Trace a bounded full grid from the current model and exact axes. File previews cannot be applied. Apply adds one undoable edit.");
+                ImGui::BeginDisabled(disabled);bool changed=ImGui::Checkbox("Clip contours to ROI",&options_.contours.clip_to_roi);
+                auto limit=[&](const char* label,std::size_t& value,std::uint64_t maximum) {std::uint64_t n=value;if(ui::InputScalar(label,ImGuiDataType_U64,&n)) {value=std::size_t(std::clamp<std::uint64_t>(n,1,maximum));changed=true;}};
+                limit("Contour class limit",options_.contours.max_components,1000000);limit("Contour edge limit",options_.contours.max_edges,1000000);limit("Contour vertex limit",options_.contours.max_vertices,1000000);
+                limit("Inference work bytes",options_.contour_work_bytes,1024ULL*1024*1024);limit("Contour work bytes",options_.contours.work_bytes,512ULL*1024*1024);
+                changed|=ui::InputText("Annotation prefix",contour_prefix_.data(),contour_prefix_.size());ImGui::EndDisabled();if(changed) {jobs_.discard_contours();update_contours({});}
+                if(button("Trace raw contours",GuiInputTarget::RawPixelTrace,disabled || !current.model || !has_geos())) run([&] {const auto grid=lattice(doc);jobs_.trace(doc,*current.model,ScientificGrid(grid.image_width(),grid.image_height(),grid.x(),grid.y(),options_.contour_work_bytes),options_.contours,options_.object_id?options_.object_id:selection.primary(),options_.stream.min_vote_fraction,options_.contour_work_bytes);});
+                const auto contours=jobs_.report();if(button("Apply raw contours",GuiInputTarget::RawPixelApply,disabled || !contours.contours || contours.contours_published || !contour_ready_)) run([&] {jobs_.publish(doc,contour_prefix_.data());});
+                if(contours.contours) {const auto& c=*contours.contours->contours();ImGui::Text("%zu classes, %zu vertices",c.components().size(),c.vertex_count());draw_contours(doc);}if(contours.contours_published) ImGui::Text("Applied %zu annotations",contours.published_ids.size());ImGui::EndTabItem();
             }
             ImGui::EndTabBar();
         }ImGui::End();

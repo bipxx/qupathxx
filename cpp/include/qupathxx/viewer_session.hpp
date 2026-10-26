@@ -34,6 +34,7 @@ struct ViewerEvent {
     std::shared_ptr<const RawPixelTrainingCheckpoint> raw_pixel_checkpoint;
     std::shared_ptr<const RawPixelWindowClassification> raw_pixel_prediction;
     std::shared_ptr<const RawPixelStreamLink> raw_pixel_link;
+    std::shared_ptr<const RawPixelContours> raw_pixel_contours;
     std::optional<TiffView> tiff_view;
     std::uint64_t samples=0,components=0,rows=0;
     std::size_t bytes=0;
@@ -92,6 +93,9 @@ public:
     // Historical file/record verification and one bounded indexed block. This
     // never restores live prediction/apply authority. Empty prefixes are valid.
     std::uint64_t read_raw_pixel_stream(std::uint64_t image_id,const std::string& path,std::uint64_t index=0,RawPixelStreamFileLimits={},std::uint64_t record_id=0,bool retain_result=false);
+    // Preview returns historical geometry. Apply always recomputes a fresh
+    // owner capture; retained-result admission precedes the atomic document edit.
+    std::uint64_t contour_raw_pixels(std::uint64_t image_id,const RawPixelClassifier&,ScientificGrid,TissueContourOptions={},std::uint64_t object_id=0,bool apply=false,double min_vote_fraction=0,std::size_t work_bytes=16u*1024*1024,const std::string& name_prefix="Raw pixel",std::optional<std::uint64_t> expected_revision={});
     std::uint64_t save(const std::string&);
     std::uint64_t close(bool discard_changes=false);
 private:

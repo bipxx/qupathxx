@@ -45,6 +45,7 @@ void RawPixelFrontend::wait(const Document& doc) {while(busy()) {poll(doc);if(bu
 bool RawPixelFrontend::can_keep_training(const Document& doc) const {return impl_->training_request && impl_->report.training && impl_->training_request->matches(doc);}
 void RawPixelFrontend::reset_records() {impl_->report.training_record=0;impl_->report.stream_record=0;impl_->clear_contours();}
 GuiRawPixelReport RawPixelFrontend::report() const {return impl_->report;}
+void RawPixelFrontend::discard_contours() {if(busy()) throw std::logic_error("Wait for the current operation");auto& s=*impl_;s.clear_contours();if(s.report.state=="contours_ready" || s.report.state=="applied") s.report.state="idle";}
 void RawPixelFrontend::adopt(RawPixelClassifier model) {if(busy()) throw std::logic_error("raw classifier operation is busy");auto& s=*impl_;s.clear_contours();s.prediction.cancel();s.report.prediction.reset();s.training_request.reset();s.report.training.reset();s.report.model=std::make_shared<const RawPixelClassifier>(std::move(model));s.report.state="loaded";s.report.error.clear();}
 void RawPixelFrontend::train(const Document& doc,const std::vector<std::uint64_t>& ids,RawPixelTrainingSettings settings) {
     settings.validate();if(!has_classifier_training()) throw std::runtime_error("Raw training requires the optional OpenCV backend");if(busy()) throw std::logic_error("raw classifier operation is busy");
@@ -63,7 +64,7 @@ void RawPixelFrontend::trace(const Document& doc,const RawPixelClassifier& model
     s.contour_request=request;s.contour_options=options;s.report.contour_work_bytes=request.estimated_work_bytes();
     try {s.contour_prediction.request(request);}catch(...) {s.fail("failed","Raw contour prediction could not start");throw;}
 }
-std::vector<std::uint64_t> RawPixelFrontend::publish(Document& doc,const std::string& prefix) {
+const std::vector<std::uint64_t>& RawPixelFrontend::publish(Document& doc,const std::string& prefix) {
     auto& s=*impl_;if(busy() || s.report.contours_published || !s.contour_request || s.contours.poll(doc).state!="ready" || !s.report.contours) throw std::logic_error("Trace fresh raw contours before applying");
     auto ids=publish_raw_pixel_contours(doc,*s.contour_request,*s.report.contours,prefix);
     s.report.published_ids=std::move(ids);s.report.contours_published=true;s.report.state="applied";s.report.error.clear();s.contours.cancel();return s.report.published_ids;

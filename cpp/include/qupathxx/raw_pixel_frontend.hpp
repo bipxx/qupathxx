@@ -28,6 +28,9 @@ struct GuiRawPixelOptions {
     RawPixelStreamSaveOptions save;
     RawPixelStreamFileLimits read_limits;
     std::string model_path,stream_path;
+    TissueContourOptions contours;
+    std::size_t contour_work_bytes=16u*1024*1024;
+    std::string contour_name_prefix="Raw pixel";
 };
 struct GuiRawPixelReport {
     std::string state="idle",error;
@@ -42,6 +45,7 @@ struct GuiRawPixelReport {
     std::shared_ptr<const RawPixelContours> contours;
     std::vector<std::uint64_t> published_ids;
     bool contours_published=false;
-    std::size_t contour_work_bytes=0;
+    std::size_t contour_work_bytes=0,contour_preview_bytes=0;
+    bool contour_preview_ready=false;
 };
 }
