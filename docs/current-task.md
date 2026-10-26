@@ -13,8 +13,15 @@
 - Corrected-source [Linux-only audit](benchmarks/raw-classifier-236-campaign/linux-observation/receipt.json)
   passes all three profiles at `530c6bb`: 50 native suites each and 3747
   headless Python passes. Native semantics, installed cohorts/typing, inherited
-  runtime/reader gates and final source checks pass. Windows, Mac and portable
-  builder/consumer acceptance remain separate pending gates.
+  runtime/reader gates and final source checks pass. Windows and Mac remain
+  pending; portable acceptance is recorded below.
+- Corrected-source [portable acceptance](benchmarks/raw-classifier-236-campaign/portable-acceptance/receipt.json)
+  passes both CPython 3.11/3.12 builders and fresh Debian consumers at `530c6bb`.
+  Each fresh consumer passes 3704 Python cases. All four raw cohorts give
+  40 passes/18 declared skips; typing, inherited reader/runtime/source and
+  packaging gates pass. The Git-only development fixture is explicitly skipped
+  in the actual Git-free consumers. Mac arm64 has started; x86_64 is queued;
+  Windows GUI is still running. This does not close full T5 or release gates.
 - The next streamed-contour workflow has a [four-pattern exact reference](raw-stream-contours.md)
   at `9edfbc1`. [Local existing-path evidence](benchmarks/raw-contour-seams-local.json)
   records 101 Python passes, including all ten new cases; two OpenSlide cases
