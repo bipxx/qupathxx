@@ -397,6 +397,7 @@ ScientificRawDigest digest_scientific_raw_window(const ImageServer& source,const
 ScientificRawGrid detail::read_scientific_raw_reserved(const ImageServer& server,const ScientificGrid& grid,ScientificRawOptions o,const ScientificRawReserve& reserve,const std::atomic<bool>* cancelled) {
     return ScientificRawKernel::read(server,grid,o,cancelled,reserve);
 }
+ScientificRawWindowData detail::read_scientific_raw_window_reserved(const ImageServer& server,const ScientificRawWindow& grid,ScientificRawOptions o,const ScientificRawReserve& reserve,const std::atomic<bool>* cancelled) {return ScientificRawKernel::read(server,grid,o,cancelled,reserve);}
 ScientificRawDigest detail::digest_scientific_raw_reserved(const ImageServer& server,const ScientificGrid& grid,ScientificRawOptions o,const ScientificRawReserve& reserve,const std::atomic<bool>* cancelled) {
     return capture_raw(server,grid,o,cancelled,false,reserve).digest;
 }

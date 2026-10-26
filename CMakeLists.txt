@@ -35,6 +35,7 @@ target_sources(qupathxx_core PRIVATE cpp/object_classifier.cpp cpp/pixel_feature
 target_sources(qupathxx_core PRIVATE cpp/document_classifications.cpp cpp/geometry_archive.cpp cpp/object_classifier_archive.cpp cpp/object_classifier_records.cpp)
 target_sources(qupathxx_core PRIVATE cpp/classifier_io.cpp)
 target_sources(qupathxx_core PRIVATE cpp/raw_pixel_contour_job.cpp)
+target_sources(qupathxx_core PRIVATE cpp/raw_pixel_window_workflows.cpp)
 if(QUPATHXX_BUILD_CLASSIFIER_TRAINING)
   set(OpenCV_STATIC ON)
   find_package(OpenCV 4.11.0 EXACT CONFIG REQUIRED COMPONENTS core ml)

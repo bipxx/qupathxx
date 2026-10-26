@@ -4,6 +4,7 @@
 #include "raw_pixel_classifier_internal.hpp"
 #include "raw_pixel_features.hpp"
 #include "raw_analysis_internal.hpp"
+#include "scientific_raw_sampling_internal.hpp"
 #include "pixel_training_reservoir.hpp"
 #include "reader_file_guard.hpp"
 #include "geometry_archive.hpp"
@@ -24,13 +25,14 @@ void stopped(const std::atomic<bool>* c) {if(c && c->load(std::memory_order_rela
 void text(Sha256& hash,const std::string& value) {hash.integer(value.size());hash.update(value.data(),value.size());}
 void floating(Sha256& hash,float value) {std::uint32_t bits;std::memcpy(&bits,&value,4);hash.integer(bits);}
 std::uint64_t sample_count(const ScientificGrid& grid) {return std::uint64_t(grid.x().samples())*std::uint64_t(grid.y().samples());}
-std::string metadata_epoch(const RawImageMetadata& m,const ScientificGrid& grid) {
+template<class Geometry> std::string metadata_epoch(const RawImageMetadata& m,const Geometry& grid) {
     Sha256 hash;text(hash,"qpx.raw-pixel-source-metadata/1");text(hash,detail::scientific_raw_input_sha256(m,grid,"metadata","",nullptr));
     for(auto value:{std::uint64_t(m.width),std::uint64_t(m.height),std::uint64_t(m.channels),std::uint64_t(m.z_planes),std::uint64_t(m.timepoints),std::uint64_t(m.series),std::uint64_t(m.series_count),std::uint64_t(m.sample_type)}) hash.integer(value);return hash.finish();
 }
-RawPixelSourceSnapshot capture_source(const Document& doc,const ScientificGrid& grid,std::uint64_t object=0) {
+template<class Geometry> RawPixelSourceSnapshot capture_source(const Document& doc,const Geometry& grid,std::uint64_t object=0,std::size_t budget=1024ULL*1024*1024) {
     const auto source=doc.server();if(!source || source->closed()) throw std::invalid_argument("raw pixel workflow requires an open quantitative source");
     const auto metadata=source->raw_metadata();if(!metadata) throw std::invalid_argument("raw pixel workflow requires quantitative source metadata");
+    if(metadata->payload_bytes()>budget/4) throw std::length_error("raw pixel source metadata exceeds capture budget");
     RawPixelSourceSnapshot snapshot;snapshot.metadata=*metadata;snapshot.epoch=metadata_epoch(snapshot.metadata,grid);snapshot.reader=source->reader_id();detail::bounded_utf8(snapshot.reader,65536);snapshot.calibration={doc.pixel_width_um(),doc.pixel_height_um()};snapshot.provenance=object?capture_provenance(*source,object,doc.annotation(object).revision,doc.revision(),false,snapshot.calibration.x,snapshot.calibration.y):capture_source_provenance(*source,doc.revision(),snapshot.calibration.x,snapshot.calibration.y);
     if(const auto observed=source->reader_source()) {observed->validate();auto copy=std::make_shared<ReaderSource>(*observed);if(copy->primary) copy->primary=std::make_shared<const FileVersion>(*copy->primary);snapshot.observed=std::move(copy);}return snapshot;
 }
@@ -43,7 +45,7 @@ bool source_matches(const ImageServer& source,const RawPixelSourceSnapshot& snap
 void verify_sample(const ImageServer& source,const RawPixelSourceSnapshot& snapshot,const ScientificRawGrid& input) {
     if(!source_matches(source,snapshot) || input.reader()!=snapshot.reader || metadata_epoch(input.metadata(),input.grid())!=snapshot.epoch) throw std::runtime_error("raw pixel source/metadata changed after owner capture");
 }
-bool publication_source_matches(const ImageServer& source,const RawPixelSourceSnapshot& snapshot,const ScientificGrid& grid) {
+template<class Geometry> bool publication_source_matches(const ImageServer& source,const RawPixelSourceSnapshot& snapshot,const Geometry& grid) {
     // Publication is a new trust boundary: recheck actual file versions, not
     // just a decoder's retained opening observation. Keep every file guarded
     // while comparing a compound set. Ordinary progress polls do no file IO.
@@ -61,6 +63,11 @@ std::size_t source_bytes(const RawPixelSourceSnapshot& source) {return 2*source.
 std::size_t remaining(std::size_t budget,std::size_t fixed) {if(fixed>=budget || budget-fixed<1024*1024) throw std::length_error("raw pixel workflow snapshot/output leaves insufficient feature workspace");return budget-fixed;}
 }
 std::string raw_pixel_source_metadata_epoch(const RawImageMetadata& metadata,const ScientificGrid& grid) {return metadata_epoch(metadata,grid);}
+RawPixelSourceSnapshot raw_pixel_capture_window_source(const Document& doc,const ScientificRawWindow& window,std::uint64_t object,std::size_t budget) {return capture_source(doc,window,object,budget);}
+bool raw_pixel_source_matches(const ImageServer& source,const RawPixelSourceSnapshot& snapshot) {return source_matches(source,snapshot);}
+bool raw_pixel_publication_window_source_matches(const ImageServer& source,const RawPixelSourceSnapshot& snapshot,const ScientificRawWindow& window) {return publication_source_matches(source,snapshot,window);}
+void raw_pixel_verify_window_sample(const ImageServer& source,const RawPixelSourceSnapshot& snapshot,const ScientificRawWindowData& input) {if(!source_matches(source,snapshot) || input.reader()!=snapshot.reader || metadata_epoch(input.metadata(),input.window())!=snapshot.epoch) throw std::runtime_error("raw window source/metadata changed after capture");}
+std::size_t raw_pixel_source_snapshot_bytes(const RawPixelSourceSnapshot& source) {return source_bytes(source);}
 std::string raw_pixel_training_sha256(const RawPixelTrainingTable& table,const std::atomic<bool>* cancelled) {
     Sha256 hash;text(hash,"qpx.raw-annotation-pixel-sampling/1");text(hash,table.input_sha256());for(const auto& f:table.recipe().feature_schema()) {text(hash,f.name);text(hash,f.unit);}for(const auto& name:table.classes()) text(hash,name);hash.integer(table.row_count());const auto columns=table.recipe().feature_schema().size();
     for(std::size_t row=0;row<table.row_count();++row) {stopped(cancelled);hash.integer(table.labels()[row]);hash.integer(table.annotation_ids()[row]);hash.integer(table.coordinates()[2*row]);hash.integer(table.coordinates()[2*row+1]);for(std::size_t c=0;c<columns;++c) floating(hash,table.values()[row*columns+c]);}return hash.finish();
@@ -82,7 +89,7 @@ RawPixelTrainingRequest::RawPixelTrainingRequest(const Document& doc,const std::
     options.validate();if(ids.empty() || ids.size()>4096) throw std::invalid_argument("raw pixel training requires 1..4096 labelled area IDs");
     if(sample_count(grid)>options.max_scanned_samples) throw std::length_error("raw pixel training grid exceeds scan limit");
     auto selected=ids;std::sort(selected.begin(),selected.end());if(std::adjacent_find(selected.begin(),selected.end())!=selected.end()) throw std::invalid_argument("duplicate raw pixel training annotation ID");
-    auto source=capture_source(doc,grid);const RawPixelRecipe recipe(calibrated_metadata(source),grid,selection,std::move(features),physical);
+    auto source=capture_source(doc,grid,0,options.work_bytes);const RawPixelRecipe recipe(calibrated_metadata(source),grid,selection,std::move(features),physical);
     auto authority=std::make_shared<Authority>(doc,selected,grid,selection,options.work_bytes);auto data=std::make_shared<Data>(std::move(grid),recipe,options,std::move(source));
     data->snapshot=sizeof(Data)+selected.size()*sizeof(Data::Row)+authority->objects.snapshot_bytes()+authority->objects.source_anchor()->payload_bytes()+2*authority->raw.object_context().payload_bytes()+source_bytes(data->source)+65536;
     const auto snapshot_limit=std::min<std::size_t>(64u*1024*1024,options.work_bytes);
@@ -115,7 +122,7 @@ std::size_t RawPixelTrainingTable::retained_bytes() const {return snapshot_->sna
 struct RawPixelTrainingKernel {
     static std::shared_ptr<const RawPixelTrainingTable> run(const RawPixelTrainingRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr,std::atomic<int>* phase=nullptr) {
         stopped(cancelled);const auto& d=*request.data_;if(!source_matches(*request.source_,d.source)) throw std::runtime_error("raw pixel source changed before sampling");
-        if(phase) phase->store(1);const auto input=read_scientific_raw(*request.source_,d.grid,d.recipe.selection(),cancelled);verify_sample(*request.source_,d.source,input);
+        if(phase) phase->store(1);auto selection=d.recipe.selection();selection.work_bytes=std::min(selection.work_bytes,d.options.work_bytes-d.fixed);detail::ScientificRawReserve reserve;reserve.expected_series=d.recipe.series();const auto input=detail::read_scientific_raw_reserved(*request.source_,d.grid,selection,reserve,cancelled);verify_sample(*request.source_,d.source,input);
         if(phase) phase->store(2);const auto features=detail::extract_raw_pixel_features(input,d.feature_options,cancelled);
         auto out=std::shared_ptr<RawPixelTrainingTable>(new RawPixelTrainingTable());out->snapshot_=request.data_;out->eligible_.resize(d.classes.size());out->counts_.resize(d.classes.size());
         using Sample=detail::PixelTrainingSample;std::vector<std::vector<Sample>> reservoirs(d.classes.size());for(auto& heap:reservoirs) heap.reserve(d.capacity);
@@ -150,7 +157,7 @@ struct RawPixelPredictionRequest::Authority {RawAnalysisRequest raw;Authority(co
 RawPixelPredictionRequest::RawPixelPredictionRequest(const Document& doc,const RawPixelClassifier& model,ScientificGrid grid,std::uint64_t object,double minimum,std::size_t budget):source_(doc.server()) {
     if(!std::isfinite(minimum) || minimum<0 || minimum>1) throw std::invalid_argument("raw prediction minimum vote fraction must be 0..1");if(minimum==0) minimum=0;
     if(!budget) budget=model.recipe().features().work_bytes;if(budget<1024*1024 || budget>1024ULL*1024*1024) throw std::invalid_argument("raw prediction budget must be 1..1024 MiB");
-    auto source=capture_source(doc,grid,object);auto authority=std::make_shared<Authority>(doc,grid,model.recipe().selection(),object);auto data=std::make_shared<Data>(std::move(grid),model,std::move(source));data->mask=authority->raw.mask();data->minimum=minimum;data->budget=budget;
+    auto source=capture_source(doc,grid,object,budget);auto authority=std::make_shared<Authority>(doc,grid,model.recipe().selection(),object);auto data=std::make_shared<Data>(std::move(grid),model,std::move(source));data->mask=authority->raw.mask();data->minimum=minimum;data->budget=budget;
     data->fixed=sizeof(Data)+source_bytes(data->source)+2*authority->raw.object_context().payload_bytes()+2*(data->mask?data->mask->payload_bytes():0)+9*sample_count(data->grid)+262144;
     data->work=data->fixed+RawPixelClassifierKernel::plan(data->source.metadata,data->grid,model.recipe().selection(),model,remaining(budget,data->fixed),data->source.calibration).work;
     authority_=std::move(authority);data_=std::move(data);if(!matches(doc)) throw std::runtime_error("document changed during raw pixel prediction capture");
@@ -163,7 +170,7 @@ std::size_t RawPixelPredictionRequest::estimated_work_bytes() const {return data
 struct RawPixelPredictionKernel {
     static std::shared_ptr<const RawPixelClassification> run(const RawPixelPredictionRequest& request,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr,std::atomic<int>* phase=nullptr) {
         stopped(cancelled);const auto& d=*request.data_;if(!source_matches(*request.source_,d.source)) throw std::runtime_error("raw pixel source changed before prediction");if(phase) phase->store(1);
-        const auto input=read_scientific_raw(*request.source_,d.grid,d.model.recipe().selection(),cancelled);verify_sample(*request.source_,d.source,input);if(phase) phase->store(2);
+        auto selection=d.model.recipe().selection();selection.work_bytes=std::min(selection.work_bytes,d.budget-d.fixed);detail::ScientificRawReserve reserve;reserve.expected_series=d.model.recipe().series();const auto input=detail::read_scientific_raw_reserved(*request.source_,d.grid,selection,reserve,cancelled);verify_sample(*request.source_,d.source,input);if(phase) phase->store(2);
         const auto classified=RawPixelClassifierKernel::run(input,d.model,d.minimum,d.budget-d.fixed,cancelled,d.source.calibration);auto output=std::make_shared<RawPixelClassification>(*classified);output->work_=d.work;std::fill(output->counts_.begin(),output->counts_.end(),0);
         const auto width=std::size_t(d.grid.x().samples()),height=std::size_t(d.grid.y().samples());
         for(std::size_t y=0;y<height;++y) {stopped(cancelled);for(std::size_t x=0;x<width;++x) {if((x&4095)==0) stopped(cancelled);const auto i=y*width+x;const bool inside=!d.mask || d.mask->contains({d.grid.x().center(std::int64_t(x)).binary64(),d.grid.y().center(std::int64_t(y)).binary64()});

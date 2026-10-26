@@ -10,6 +10,7 @@
 #include <cstring>
 #include <fstream>
 #include <limits>
+#include <type_traits>
 
 namespace qpx {
 namespace {
@@ -24,7 +25,7 @@ std::vector<std::string> selected_channel_names(const RawImageMetadata& m,const 
     std::vector<std::string> out;out.reserve(s.channels);std::size_t bytes=0;
     for(std::uint32_t c=0;c<s.channels;++c) {const auto& name=m.channel_names[s.first_channel+c];detail::bounded_utf8(name,65536);bytes+=name.size();if(bytes>65536) throw std::length_error("raw classifier channel labels exceed 64 KiB");out.push_back(name);}return out;
 }
-void metadata_selection(const RawImageMetadata& m,const ScientificGrid& grid,const ScientificRawOptions& s) {
+template<class Geometry> void metadata_selection(const RawImageMetadata& m,const Geometry& grid,const ScientificRawOptions& s) {
     s.validate();sample_bytes(m.sample_type);
     if(m.width!=grid.image_width() || m.height!=grid.image_height() || !m.series_count || m.series>=m.series_count || !m.channels || s.first_channel>=m.channels || s.channels>m.channels-s.first_channel || s.z>=m.z_planes || s.t>=m.timepoints) throw std::invalid_argument("raw classifier grid or channel/axis selection mismatch");
 }
@@ -67,10 +68,12 @@ struct RawPixelRecipe::Data {
         resolved.validate(selection.channels);
     }
 };
-RawPixelRecipe::RawPixelRecipe(const RawImageMetadata& m,const ScientificGrid& grid,ScientificRawOptions selection,RawPixelFeatureOptions options,bool physical) {
+template<class Geometry> std::shared_ptr<const RawPixelRecipe::Data> RawPixelRecipe::capture(const RawImageMetadata& m,const Geometry& grid,ScientificRawOptions selection,RawPixelFeatureOptions options,bool physical) {
     metadata_selection(m,grid,selection);if(selection.channels>128) throw std::invalid_argument("raw classifier exceeds 128 channels");auto d=std::make_shared<Data>();d->selection=selection;d->requested=std::move(options);d->type=m.sample_type;d->series=m.series;d->names=selected_channel_names(m,selection);d->x={grid.x().extent(),grid.x().samples()};d->y={grid.y().extent(),grid.y().samples()};d->physical=physical;
-    if(physical) {d->width_um=spacing(m.pixel_width_um,d->x);d->height_um=spacing(m.pixel_height_um,d->y);}d->resolve();data_=std::move(d);
+    if(physical) {d->width_um=spacing(m.pixel_width_um,d->x);d->height_um=spacing(m.pixel_height_um,d->y);}d->resolve();return d;
 }
+RawPixelRecipe::RawPixelRecipe(const RawImageMetadata& m,const ScientificGrid& g,ScientificRawOptions s,RawPixelFeatureOptions f,bool physical):data_(capture(m,g,s,std::move(f),physical)) {}
+RawPixelRecipe::RawPixelRecipe(const RawImageMetadata& m,const ScientificRawWindow& g,ScientificRawOptions s,RawPixelFeatureOptions f,bool physical):data_(capture(m,g,s,std::move(f),physical)) {}
 RawPixelRecipe::RawPixelRecipe(std::shared_ptr<const Data> data):data_(std::move(data)) {}
 const RawPixelFeatureOptions& RawPixelRecipe::requested_features() const {return data_->requested;}
 const RawPixelFeatureOptions& RawPixelRecipe::features() const {return data_->resolved;}
@@ -84,13 +87,15 @@ bool RawPixelRecipe::physical_sigmas() const {return data_->physical;}
 std::optional<double> RawPixelRecipe::sampled_pixel_width_um() const {return data_->width_um;}
 std::optional<double> RawPixelRecipe::sampled_pixel_height_um() const {return data_->height_um;}
 std::vector<ClassifierFeature> RawPixelRecipe::feature_schema() const {RawImageMetadata metadata;metadata.sample_type=data_->type;return detail::raw_feature_schema(metadata,data_->selection,data_->resolved);}
-bool RawPixelRecipe::matches(const RawImageMetadata& m,const ScientificGrid& grid,const ScientificRawOptions& s) const {
+template<class Geometry> bool RawPixelRecipe::matches_geometry(const RawImageMetadata& m,const Geometry& grid,const ScientificRawOptions& s) const {
     metadata_selection(m,grid,s);const auto& d=*data_;
     if(m.sample_type!=d.type || m.series!=d.series || s.first_channel!=d.selection.first_channel || s.channels!=d.selection.channels || s.z!=d.selection.z || s.t!=d.selection.t || selected_channel_names(m,s)!=d.names) return false;
     const GridFraction x{grid.x().extent(),grid.x().samples()},y{grid.y().extent(),grid.y().samples()};
     if(d.physical) return spacing(m.pixel_width_um,x)==*d.width_um && spacing(m.pixel_height_um,y)==*d.height_um;
     return equal(x,d.x) && equal(y,d.y);
 }
+bool RawPixelRecipe::matches(const RawImageMetadata& m,const ScientificGrid& g,const ScientificRawOptions& s) const {return matches_geometry(m,g,s);}
+bool RawPixelRecipe::matches(const RawImageMetadata& m,const ScientificRawWindow& g,const ScientificRawOptions& s) const {return matches_geometry(m,g,s);}
 struct RawPixelModelCodec {
     static void write(Writer& w,const RawPixelRecipe& recipe) {
         const auto& d=*recipe.data_;const auto& o=d.requested;const auto& s=d.selection;
@@ -149,28 +154,33 @@ RawPixelClassifier RawPixelClassifier::from_bytes(const std::vector<std::uint8_t
         auto data=std::make_shared<Data>(forest,recipe);data->bytes=bytes;data->sha=digest(bytes.data(),bytes.size());model.data_=std::move(data);
     }else if(model.bytes()!=bytes) throw std::invalid_argument("noncanonical raw classifier model encoding");return model;
 }
-RawPixelClassificationPlan RawPixelClassifierKernel::plan(const RawImageMetadata& source,const ScientificGrid& grid,const ScientificRawOptions& selection,const RawPixelClassifier& model,std::size_t budget,std::optional<RawClassifierCalibration> calibration) {
+template<class Geometry> RawPixelClassificationPlan RawPixelClassifierKernel::plan_geometry(const RawImageMetadata& source,const Geometry& grid,const ScientificRawOptions& selection,const RawPixelClassifier& model,std::size_t budget,std::optional<RawClassifierCalibration> calibration) {
     auto metadata=source;if(calibration) {metadata.pixel_width_um=calibration->x;metadata.pixel_height_um=calibration->y;}
     if(!model.recipe().matches(metadata,grid,selection)) throw std::invalid_argument("raw classifier channel, dtype, selection or sampling recipe mismatch");
     auto options=model.recipe().features();if(!budget) budget=options.work_bytes;if(budget<1024*1024 || budget>1024ULL*1024*1024) throw std::invalid_argument("raw classifier budget must be 1..1024 MiB");
-    const auto count=std::size_t(grid.x().samples())*std::size_t(grid.y().samples()),columns=model.forest().features().size(),classes=model.forest().classes().size();
+    const auto count=[&] {if constexpr(std::is_same_v<Geometry,ScientificGrid>) return std::size_t(grid.x().samples())*std::size_t(grid.y().samples());else return std::size_t(grid.core_width())*std::size_t(grid.core_height());}();const auto columns=model.forest().features().size(),classes=model.forest().classes().size();
     const auto batch=std::min<std::size_t>(512,count);const auto fixed=262144+2*model.bytes().size()+batch*(sizeof(ClassifierPrediction)+sizeof(std::size_t)+4*(columns+classes));
     if(fixed>=budget || count>(budget-fixed)/9) throw std::length_error("raw classifier output/votes exceed work budget");const auto retained=fixed+9*count;
     if(budget-retained<1024*1024) throw std::length_error("raw classifier feature budget is too small");options.work_bytes=std::min(options.work_bytes,budget-retained);
     return {options,detail::raw_feature_work_bytes(metadata,grid,selection,options)+retained};
 }
+RawPixelClassificationPlan RawPixelClassifierKernel::plan(const RawImageMetadata& m,const ScientificGrid& g,const ScientificRawOptions& s,const RawPixelClassifier& model,std::size_t bytes,std::optional<RawClassifierCalibration> c) {return plan_geometry(m,g,s,model,bytes,c);}
+RawPixelClassificationPlan RawPixelClassifierKernel::plan(const RawImageMetadata& m,const ScientificRawWindow& g,const ScientificRawOptions& s,const RawPixelClassifier& model,std::size_t bytes,std::optional<RawClassifierCalibration> c) {return plan_geometry(m,g,s,model,bytes,c);}
 std::shared_ptr<const RawPixelClassification> classify_raw_pixels(const ScientificRawGrid& input,const RawPixelClassifier& model,double minimum,std::size_t budget,const std::atomic<bool>* cancelled) {return RawPixelClassifierKernel::run(input,model,minimum,budget,cancelled);}
-std::shared_ptr<const RawPixelClassification> RawPixelClassifierKernel::run(const ScientificRawGrid& input,const RawPixelClassifier& model,double minimum,std::size_t budget,const std::atomic<bool>* cancelled,std::optional<RawClassifierCalibration> calibration) {
+template<class Output,class Input,class Geometry> std::shared_ptr<const Output> RawPixelClassifierKernel::run_geometry(const Input& input,const Geometry& grid,const RawPixelClassifier& model,double minimum,std::size_t budget,const std::atomic<bool>* cancelled,std::optional<RawClassifierCalibration> calibration) {
     stopped(cancelled);if(!std::isfinite(minimum) || minimum<0 || minimum>1) throw std::invalid_argument("raw classifier minimum vote fraction must be 0..1");if(minimum==0) minimum=0;
-    const auto admitted=plan(input.metadata(),input.grid(),input.options(),model,budget,calibration);const auto& options=admitted.features;const auto work=admitted.work;
-    const auto count=std::size_t(input.grid().x().samples())*std::size_t(input.grid().y().samples()),columns=model.forest().features().size(),classes=model.forest().classes().size(),batch=std::min<std::size_t>(512,count);
-    const auto features=detail::extract_raw_pixel_features(input,options,cancelled);auto output=std::shared_ptr<RawPixelClassification>(new RawPixelClassification(input.grid()));output->work_=work;output->valid_=features->rows_valid;output->labels_.assign(count,0);output->fractions_.assign(count,std::numeric_limits<float>::quiet_NaN());output->counts_.resize(classes);output->model_sha_=model.sha256();output->feature_sha_=features->sha256;output->input_sha_=features->input_sha256;
+    const auto admitted=plan(input.metadata(),grid,input.options(),model,budget,calibration);const auto& options=admitted.features;const auto work=admitted.work;
+    const auto count=[&] {if constexpr(std::is_same_v<Geometry,ScientificGrid>) return std::size_t(grid.x().samples())*std::size_t(grid.y().samples());else return std::size_t(grid.core_width())*std::size_t(grid.core_height());}();const auto columns=model.forest().features().size(),classes=model.forest().classes().size(),batch=std::min<std::size_t>(512,count);
+    const auto features=detail::extract_raw_pixel_features(input,options,cancelled);auto output=std::shared_ptr<Output>(new Output(grid));output->work_=work;output->valid_=features->rows_valid;output->labels_.assign(count,0);output->fractions_.assign(count,std::numeric_limits<float>::quiet_NaN());output->counts_.resize(classes);output->model_sha_=model.sha256();output->feature_sha_=features->sha256;output->input_sha_=features->input_sha256;
     std::vector<std::size_t> indices;std::vector<float> matrix;indices.reserve(batch);matrix.reserve(batch*columns);
     auto flush=[&] {if(indices.empty()) return;stopped(cancelled);const auto predictions=model.forest().predict(matrix,model.forest().features());for(std::size_t i=0;i<indices.size();++i) {const auto row=indices[i];const auto& prediction=predictions[i];output->fractions_[row]=static_cast<float>(prediction.vote_fraction);if(prediction.vote_fraction>=minimum) {output->labels_[row]=prediction.class_index+1;++output->counts_[prediction.class_index];}}indices.clear();matrix.clear();};
     for(std::size_t row=0;row<count;++row) {if((row&511)==0) stopped(cancelled);if(!output->valid_[row]) continue;indices.push_back(row);matrix.insert(matrix.end(),features->values.begin()+row*columns,features->values.begin()+(row+1)*columns);if(indices.size()==batch) flush();}flush();
-    Sha256 hash;text(hash,"qpx.raw-pixel-classification/1");text(hash,output->model_sha_);text(hash,output->feature_sha_);std::uint64_t threshold;std::memcpy(&threshold,&minimum,8);hash.integer(threshold);
+    Sha256 hash;text(hash,std::is_same_v<Geometry,ScientificGrid>?"qpx.raw-pixel-classification/1":"qpx.raw-pixel-window-classification/1");text(hash,output->model_sha_);text(hash,output->feature_sha_);std::uint64_t threshold;std::memcpy(&threshold,&minimum,8);hash.integer(threshold);
     for(std::size_t row=0;row<count;++row) {if((row&4095)==0) stopped(cancelled);hash.integer(output->valid_[row]);hash.integer(output->labels_[row]);std::uint32_t bits=0x7fc00000;if(output->valid_[row]) std::memcpy(&bits,&output->fractions_[row],4);hash.integer(bits);}output->sha_=hash.finish();stopped(cancelled);return output;
 }
+std::shared_ptr<const RawPixelClassification> RawPixelClassifierKernel::run(const ScientificRawGrid& input,const RawPixelClassifier& model,double minimum,std::size_t budget,const std::atomic<bool>* cancelled,std::optional<RawClassifierCalibration> calibration) {return run_geometry<RawPixelClassification>(input,input.grid(),model,minimum,budget,cancelled,calibration);}
+std::shared_ptr<const RawPixelWindowClassification> RawPixelClassifierKernel::run(const ScientificRawWindowData& input,const RawPixelClassifier& model,double minimum,std::size_t budget,const std::atomic<bool>* cancelled,std::optional<RawClassifierCalibration> calibration) {return run_geometry<RawPixelWindowClassification>(input,input.window(),model,minimum,budget,cancelled,calibration);}
+std::shared_ptr<const RawPixelWindowClassification> classify_raw_pixel_window(const ScientificRawWindowData& input,const RawPixelClassifier& model,double minimum,std::size_t budget,const std::atomic<bool>* cancelled) {return RawPixelClassifierKernel::run(input,model,minimum,budget,cancelled);}
 RawPixelClassifier load_raw_pixel_classifier(const std::string& input,const std::atomic<bool>* cancelled) {
     stopped(cancelled);detail::bounded_utf8(input,32768);const auto path=detail::export_path(input);detail::ReaderFileGuard guard(path);const auto size=guard.version()->bytes;
     if(size>model_limit) throw std::length_error("raw classifier model exceeds limit");std::ifstream stream(std::filesystem::u8path(path),std::ios::binary);if(!stream) throw std::runtime_error("cannot open raw classifier model");std::vector<std::uint8_t> bytes(std::size_t(size),0);
