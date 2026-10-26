@@ -2,6 +2,7 @@
 #include "qupathxx/pixel_contours.hpp"
 #include "qupathxx/provenance.hpp"
 #include "scientific_raster.hpp"
+#include "raster_boundary_runs.hpp"
 #include "raw_pixel_workflow_snapshot.hpp"
 #include "utf8_text.hpp"
 #include <algorithm>
@@ -20,32 +21,9 @@ void checkpoint(const std::atomic<bool>* flag) {if(flag && flag->load(std::memor
 // Ordered adjacent-label pairs split straight runs at every raster junction.
 // Thus diagonal contacts are noded without materializing one edge per pixel.
 template<class Mask,class Emit> void boundary_runs(const Mask& mask,Emit&& emit,const std::atomic<bool>* cancelled) {
-    const auto w=mask.width(),h=mask.height();const auto& labels=mask.labels();
-    for(std::int64_t y=0;y<=h;++y) {
-        checkpoint(cancelled);std::uint32_t a=0,b=0;std::int64_t start=0;
-        for(std::int64_t x=0;x<=w;++x) {
-            if((x&4095)==0) checkpoint(cancelled);
-            auto next_a=x<w && y?labels[static_cast<std::size_t>((y-1)*w+x)]:0;
-            auto next_b=x<w && y<h?labels[static_cast<std::size_t>(y*w+x)]:0;
-            if(next_a==next_b) next_a=next_b=0;
-            if(a!=next_a || b!=next_b) {if(a || b) emit(start,y,x,y);start=x;a=next_a;b=next_b;}
-        }
-    }
-    struct Active {std::uint32_t a=0,b=0;std::int64_t start=0;};
-    for(std::int64_t block=0;block<=w;block+=64) {
-        std::array<Active,64> active{};const auto columns=std::min<std::int64_t>(64,w+1-block);
-        for(std::int64_t y=0;y<=h;++y) {
-            if((y&63)==0) checkpoint(cancelled);
-            for(std::int64_t offset=0;offset<columns;++offset) {
-                const auto x=block+offset;
-                auto a=y<h && x?labels[static_cast<std::size_t>(y*w+x-1)]:0;
-                auto b=y<h && x<w?labels[static_cast<std::size_t>(y*w+x)]:0;
-                if(a==b) a=b=0;
-                auto& prior=active[offset];
-                if(prior.a!=a || prior.b!=b) {if(prior.a || prior.b) emit(x,prior.start,x,y);prior={a,b,y};}
-            }
-        }
-    }
+    detail::for_each_label_boundary_run(mask,[&](auto x0,auto y0,auto x1,auto y1,auto,auto) {
+        emit(x0,y0,x1,y1);
+    },cancelled);
 }
 #ifdef QUPATHXX_HAS_GEOS
 struct Destroy {GEOSContextHandle_t ctx;void operator()(GEOSGeometry* g) const {if(g) GEOSGeom_destroy_r(ctx,g);}};

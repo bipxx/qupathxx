@@ -21,12 +21,22 @@ FIXTURE=ROOT/'tests/fixtures/raw-contour-seams-v1/reference.json'
 
 def test_reference_is_byte_reproducible_and_existing_capture_is_preserved(tmp_path):
     assert reference.encoded()==FIXTURE.read_bytes()
+    assert reference.cpp_header()==(ROOT/'cpp/tests/raw_contour_seam_reference.hpp').read_bytes()
     output=tmp_path/'reference.json'
     command=[sys.executable,'-I',str(PATH),str(output)]
     subprocess.run(command,check=True,capture_output=True,timeout=15)
     assert output.read_bytes()==FIXTURE.read_bytes()
     result=subprocess.run(command,capture_output=True,timeout=15)
     assert result.returncode!=0 and output.read_bytes()==FIXTURE.read_bytes()
+
+
+@pytest.mark.parametrize('existing',['json','header'])
+def test_reference_preflights_both_destinations_before_creating_either(tmp_path,existing):
+    output=tmp_path/'reference.json';header=tmp_path/'reference.hpp'
+    target=output if existing=='json' else header;target.write_bytes(b'keep original')
+    result=subprocess.run([sys.executable,'-I',str(PATH),str(output),'--header',str(header)],capture_output=True,timeout=15)
+    assert result.returncode!=0 and target.read_bytes()==b'keep original'
+    assert not (header if existing=='json' else output).exists()
 
 
 @pytest.mark.parametrize('name,expected',[

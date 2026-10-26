@@ -2,6 +2,7 @@
 from collections import Counter, deque
 from fractions import Fraction
 import argparse
+import hashlib
 import json
 from pathlib import Path
 
@@ -115,9 +116,38 @@ def encoded():
     return (json.dumps(reference(),indent=2,sort_keys=True)+'\n').encode('utf-8')
 
 
+def cpp_header():
+    lines=['#pragma once','#include <array>','#include <cstdint>','#include <vector>',
+           '// Independent cell-edge vectors; reference JSON SHA256 '+hashlib.sha256(encoded()).hexdigest(),
+           'namespace raw_contour_seam_reference {',
+           'struct Edge {std::uint32_t label;std::int64_t x0,y0,x1,y1;};',
+           'struct Case {const char* name;std::array<std::int64_t,2> origin,extent,samples,first,image_size;std::int64_t width,height;std::vector<std::uint32_t> labels;std::vector<Edge> edges;std::array<std::uint64_t,3> counts;};',
+           'inline std::vector<Case> cases() {return {']
+    pair=lambda values:'{{'+','.join(map(str,values))+'}}'
+    for case in reference()['cases']:
+        fields=[json.dumps(case['name'])]
+        fields.extend(pair(case[name]) for name in ['origin','extent','samples','first','image_size'])
+        fields.extend([str(len(case['rows'][0])),str(len(case['rows']))])
+        fields.append('{'+','.join(''.join(case['rows']))+'}')
+        edges=['{'+','.join(map(str,[c['label'],*edge]))+'}' for c in case['classes'] for edge in c['edges']]
+        fields.append('{\n'+',\n'.join(edges)+'\n}')
+        counts={c['label']:c['pixels'] for c in case['classes']}
+        fields.append(pair([counts.get(label,0) for label in [1,2,3]]))
+        lines.append('{'+','.join(fields)+'},')
+    lines.extend(['};}','}'])
+    return ('\n'.join(lines)+'\n').encode('utf-8')
+
+
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('output',type=Path)
+    parser.add_argument('--header',type=Path)
     args=parser.parse_args()
     # An existing capture is evidence, not a destination to overwrite.
-    with args.output.open('xb') as stream:stream.write(encoded())
+    outputs=[(args.output,encoded())]
+    if args.header is not None:outputs.append((args.header,cpp_header()))
+    if len({p.resolve() for p,_ in outputs})!=len(outputs):raise ValueError('capture destinations must differ')
+    for path,_ in outputs:
+        if path.exists():raise FileExistsError(path)
+    for path,data in outputs:
+        with path.open('xb') as stream:stream.write(data)

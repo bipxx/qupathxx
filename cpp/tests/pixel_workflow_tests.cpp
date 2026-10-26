@@ -4,6 +4,7 @@
 #include "raw_window_classifier_checks.hpp"
 #include "raw_tiled_training_checks.hpp"
 #include "raw_stream_checks.hpp"
+#include "raw_stream_boundary_checks.hpp"
 #include "raw_stream_file_checks.hpp"
 #include "raw_tiled_archive_checks.hpp"
 #include "raw_training_checkpoint_checks.hpp"
@@ -53,6 +54,7 @@ int main() {try {
     raw_window_classifier_checks::run();
     raw_tiled_training_checks::run();
     raw_stream_checks::run();
+    raw_stream_boundary_checks::run();
     raw_stream_file_checks::run();
     raw_tiled_archive_checks::run();
     raw_training_checkpoint_checks::run();

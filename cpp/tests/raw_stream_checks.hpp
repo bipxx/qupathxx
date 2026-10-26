@@ -1,6 +1,7 @@
 #pragma once
 #include "raw_tiled_training_checks.hpp"
 #include "qupathxx/raw_pixel_stream.hpp"
+#include "../raw_stream_boundaries.hpp"
 namespace raw_stream_checks {
 inline void require(bool value,const char* message) {if(!value) throw std::runtime_error(std::string("Raw prediction stream: ")+message);}
 inline void compare(const qpx::RawPixelWindowClassification& block,const qpx::RawPixelClassification& full,std::vector<unsigned>& seen) {
@@ -17,12 +18,19 @@ inline void run() {
     const ScientificGrid grid(7,5,{0,6,7,4},{0,5,6,4});const ScientificRawLattice lattice(grid);const RawPixelRecipe recipe(*source->raw,grid,selection,features);const RawPixelClassifier model(raw_classifier_checks::forest(recipe),recipe);
     RawPixelStreamOptions options;options.tile_width=3;options.tile_height=2;options.work_bytes=8*1024*1024;options.min_vote_fraction=.75;
     const auto full=predict_raw_pixel_region(RawPixelPredictionRequest(doc,model,grid,roi,options.min_vote_fraction));
+    auto one_options=options;one_options.tile_width=7;one_options.tile_height=6;
+    const RawPixelStreamGeometry one_geometry(lattice,{0,0,7,6},one_options);
+    detail::RawStreamBoundaryBuilder one_boundary(one_geometry,full->class_counts().size());
+    one_boundary.append(one_geometry.window(0),full->labels());const auto expected_boundary=one_boundary.finish();
     std::string last;
     for(const auto shape:std::vector<std::pair<std::int64_t,std::int64_t>>{{3,2},{2,3},{64,64}}) {
         auto o=options;o.tile_width=shape.first;o.tile_height=shape.second;const auto before=source->reads.load();const RawPixelTiledPredictionRequest request(doc,model,lattice,o,{},roi);require(source->reads.load()==before && request.matches(doc) && request.total_samples()==42,"capture performed IO or changed geometry");
+        const RawPixelStreamGeometry boundary_geometry(lattice,request.region(),o);
+        detail::RawStreamBoundaryBuilder boundaries(boundary_geometry,model.forest().classes().size());
         RawPixelPredictionStream stream(request);std::vector<unsigned> seen(42);rejects<std::logic_error>([&]{stream.sha256();});std::uint64_t blocks=0;
-        while(const auto block=stream.next()) {compare(*block,*full,seen);const auto independent=predict_raw_pixel_window(RawPixelWindowPredictionRequest(doc,model,block->window(),roi,o.min_vote_fraction,o.work_bytes));require(block->sha256()==independent->sha256(),"shared window result identity changed");++blocks;}
+        while(const auto block=stream.next()) {boundaries.append(block->window(),block->labels());compare(*block,*full,seen);const auto independent=predict_raw_pixel_window(RawPixelWindowPredictionRequest(doc,model,block->window(),roi,o.min_vote_fraction,o.work_bytes));require(block->sha256()==independent->sha256(),"shared window result identity changed");++blocks;}
         require(std::all_of(seen.begin(),seen.end(),[](unsigned n){return n==1;}) && stream.completed_samples()==42 && blocks==stream.total_windows() && stream.state()=="complete","missing core coverage");require(stream.class_counts()==full->class_counts() && !stream.next() && stream.estimated_work_bytes()<=o.work_bytes,"aggregate counts or exhaustion differ");
+        const auto network=boundaries.finish();require(network.runs==expected_boundary.runs && network.class_counts==full->class_counts() && network.completed_samples==42,"actual filtered/context stream boundary seams differ");
         RawPixelPredictionStream repeat(request);while(repeat.next()) {}require(repeat.sha256()==stream.sha256() && repeat.input_sha256()==stream.input_sha256(),"stream commitments are nondeterministic");if(!last.empty()) require(last!=stream.sha256(),"tile policy absent from commitment");last=stream.sha256();
     }
     const RawPixelStreamRegion region{1,1,5,4};const RawPixelTiledPredictionRequest cropped(doc,model,lattice,options,region,roi);RawPixelPredictionStream crop(cropped);std::vector<unsigned> subset(42);while(const auto block=crop.next()) compare(*block,*full,subset);require(crop.completed_samples()==20 && crop.total_windows()==4,"cropped traversal shape");
