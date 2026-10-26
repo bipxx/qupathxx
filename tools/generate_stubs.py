@@ -58,6 +58,30 @@ def main():
                 if 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
                 if 'def coordinates_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.int64]:')
                 if 'def annotation_ids_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint64]:')
+            if current=='ScientificRawWindowData':
+                if 'def numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float64]:')
+                if 'def valid_numpy(' in line or 'def reasons_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint8]:')
+            if current in ('RawPixelTrainingTable','RawPixelTiledTrainingTable'):
+                if 'def values_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
+                if 'def coordinates_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.int64]:')
+                if 'def annotation_ids_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint64]:')
+            if current in ('RawPixelClassification','RawPixelWindowClassification'):
+                if 'def valid_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint8]:')
+                if 'def vote_fractions_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
+            raw_nullable={
+                'RawPixelTrainingJob':['RawPixelTrainingTable','RawPixelClassifier'],
+                'RawPixelTiledTrainingJob':['RawPixelTiledTrainingTable','RawPixelClassifier'],
+                'RawPixelPredictionJob':['RawPixelClassification'],
+                'RawPixelWindowPredictionJob':['RawPixelWindowClassification'],
+                'RawPixelContourJob':['RawPixelContours'],
+                'RawPixelArchive':['RawPixelTrainingTable','RawPixelTiledTrainingTable','RawPixelClassification','RawPixelClassifier'],
+                'RawPixelTrainingCheckpointResult':['RawPixelTiledTrainingTable'],
+                'RawPixelPredictionStream':['RawPixelWindowClassification'],
+                'RawPixelPredictionStreamJob':['RawPixelWindowClassification'],
+                'RawPixelStreamSaveJob':['RawPixelStreamLink'],
+                'RawPixelStreamFileReadJob':['RawPixelStreamFile','RawPixelStreamLink','RawPixelWindowClassification'],
+            }
+            for name in raw_nullable.get(current,[]):line=line.replace('-> '+name+':','-> '+name+' | None:')
             if current=='PixelTrainingJob':
                 for name in ['PixelClassifier','PixelTrainingTable']:line=line.replace('-> '+name+':','-> '+name+' | None:')
             if current=='PixelClassifierArchive':

@@ -29,6 +29,9 @@ void bind_thumbnails(nb::module_&);
 void bind_scientific_grid(nb::module_&);
 void bind_scientific_raw(nb::module_&);
 void bind_classifiers(nb::module_&);
+void bind_raw_pixel_types(nb::module_&);
+void bind_raw_pixel_workflows(nb::module_&);
+void bind_raw_pixel_files(nb::module_&);
 void bind_viewer_session(nb::module_&);
 void bind_tissue(nb::module_&);
 void bind_cells(nb::module_&);
@@ -438,6 +441,9 @@ NB_MODULE(_native, m) {
     bind_arrays(m);
     bind_thumbnails(m);
     bind_classifiers(m);
+    bind_raw_pixel_types(m);
+    bind_raw_pixel_workflows(m);
+    bind_raw_pixel_files(m);
     m.def("default_workspace_layout_path",&default_workspace_layout_path);
     bind_viewer_session(m);
 #ifdef QUPATHXX_HAS_GUI
