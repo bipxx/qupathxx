@@ -5,9 +5,10 @@
 - T5 campaign235 is now [running at frozen source `176ec42`](benchmarks/raw-classifier-235-campaign.json)
   on `feature/raw-classifier-qualification-235`: engine run `40363168207`,
   Mac-native run `40363189978`, portable run `40363203596`. All three were
-  dispatched once with the complete required semantic inputs. Initial live
-  observation shows Linux minimal successful and other required jobs active or
-  queued. No integrated acceptance yet; poll these original IDs, preserve every
+  dispatched once with the complete required semantic inputs. Latest live
+  observation shows Linux minimal and sanitizer jobs successful; other
+  required jobs remain active and fresh portable consumers await their builders.
+  No integrated acceptance yet; poll these original IDs, preserve every
   attempt, authenticate all archives and audit from the frozen checkout.
 - Pre-dispatch inherited checks add 286 passes to the 515 selected controls
   (801 total); all eight domain source contracts agree across 718 unique files.

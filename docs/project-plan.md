@@ -32,21 +32,32 @@ release status. Use the [current task](current-task.md), [workflow inventory](fe
 and [API delivery paths](api-delivery-plan.md) for exact scope and remaining work.
 All M0-M7 remain Partial.
 
-The next executable work is [T5 preflight and integrated qualification](api-delivery-plan.md#t43-t45-installed-acceptance-and-next-qualification).
-The [raw frontend receipt](benchmarks/raw-frontend-local.json) locally accepts
-`0dc916c`: 195 installed Windows Python passes (all 17 raw frontend cases), seven
-native suites, separate geometry/training-OFF controls, actual trained-model
-portable inference and active contour cancellation/shutdown. The wheel binds
-383 inputs; stubs, typing, loaded DLLs/notices and SDKs authenticate. Desktop and
-managed consumers now cover train/preview/save/reopen/resume plus bounded atomic
-contour apply/undo/redo. Historical output grants no live apply authority.
+The immediate work is to finish [T5 campaign235](benchmarks/raw-classifier-235-campaign.json)
+at frozen source `176ec42`, already dispatched once on its dedicated branch.
+Original runs: engine `40363168207`, Mac-native `40363189978`, portable
+`40363203596`. Linux minimal and sanitizer jobs have succeeded; all three runs
+remain active and full artifact audits are pending. Follow the
+[T5 closeout sequence](api-delivery-plan.md#t5-closeout-sequence); keep the frozen
+checkout unchanged and do not dispatch again to refresh documentation.
 
-Producer/auditor [preflight at `fb3dfe6`](benchmarks/raw-classifier-preflight-local.json)
-passes 515 controls and binds 459 inputs, including 58 named raw cases. The
-example now resumes correctly under normal and optimized Python. Next freeze
-and dispatch the complete integrated campaign. These local Windows results do not qualify other platforms, clean
-machines, biology, hardware budgets or release support. Follow the single API
-queue; older native packet baselines remain preserved evidence.
+The [raw frontend receipt](benchmarks/raw-frontend-local.json) locally accepts
+`0dc916c`: 195 installed Windows Python passes, including all 17 frontend cases,
+seven native suites and separate geometry/training-OFF and active-cancel controls.
+Desktop and managed consumers cover train/preview/save/reopen/resume and bounded
+atomic contour apply/undo/redo. Historical output grants no live apply authority.
+The [preflight](benchmarks/raw-classifier-preflight-local.json) at `fb3dfe6` passes
+515 controls; a further 286 inherited controls passed before dispatch. All eight
+source contracts agree across 718 unique files. Existing local binaries retain
+their original source identities and do not qualify the hosted candidate.
+
+After T5 engineering acceptance, follow the
+[SCI1-B next-workflow route](api-delivery-plan.md#sci1-b-next-workflow-route):
+first test existing contour seam behavior, then implement the missing streamed
+path through shared native APIs and existing consumers. Scientific/model,
+resource/hardware, clean-machine and release gates remain separate and open.
+
+The following source-bound baseline notes are historical. Their next-step
+wording is superseded by the single API queue and current execution card.
 
 TMA `19371b7`, normal multi-file OME `9e7d0be` and the expanded multi-file
 fault campaign `bfa416e` have separate engineering acceptance. The

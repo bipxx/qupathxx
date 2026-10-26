@@ -11,10 +11,11 @@ Windows acceptance at `0dc916c` ([receipt](../benchmarks/raw-frontend-local.json
 195 Python passes, seven native suites, geometry/training-OFF controls, generated
 stubs/typing and explicit active contour shutdown. Reserve conservative retained
 results before owner mutation; share native prediction/tracing/undo and keep
-historical geometry separate from live authority. The next step is T5 producer/
-auditor preflight and one integrated campaign, with broader scientific/resource/
-hardware/release requirements still open. No new cross-project or Astra audit
-is claimed by this reconciliation.
+historical geometry separate from live authority. T5 preflight is complete and
+campaign235 is active at `176ec42`; next is
+[original-run artifact closeout](../api-delivery-plan.md#t5-closeout-sequence).
+Broader scientific/resource/hardware/release requirements remain open. No new
+cross-project or Astra audit is claimed by this reconciliation.
 
 Reviewed 2026-10-25 at qupathxx source `682ba00`. This is an implementation
 efficiency review, not another Astra review or a new scientific/release gate.

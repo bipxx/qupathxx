@@ -40,7 +40,7 @@ no additional agent delegation is implied by this table.
 
 | Order / ID | State and owner | Easiest implementation path | Required exit evidence |
 | --- | --- | --- | --- |
-| 1 / SCI1-A: typed raw pixel classification | Owner-captured sampling/prediction accepted locally at `7beb80b`; archives/retention accepted locally at `440f610`; positive Windows training/trained archives accepted locally at `e7e4b66`; replay/bounded contour apply accepted locally at `92edba8`; sample-index windows/features accepted locally at `ae0ba29`; window models/owner prediction accepted locally at `642f728`; sparse tiled training accepted locally at `1273c3e`; bounded prediction stream/owner delivery accepted locally at `8d544eb`; prediction prefix files/hash-only resume accepted locally at `c843dfa`; sparse training archives/retention/replay accepted locally at `cc6fab4`; training prefix checkpoints/resume accepted locally at `fb7ab73`; native owner file jobs accepted locally at `404f506`; external raw stream links accepted locally at `a608a53`; Windows CPython 3.12 raw bindings/wheel/example accepted locally at `202b41a`; official Windows raw CLI locally verified at `f463110`; raw classifier project batches locally verified at `c2c0fa0`; desktop/managed/contour consumers locally verified at `0dc916c`; root owns T5 preflight and remaining platform qualification | Follow the bounded A1-A6 route below and the [numeric contract](raw-pixel-classifier.md). Reuse the feature kernel, `RawPixelRecipe`/`RawPixelClassifier`, typed sampler and existing forest/owner/source/job authorities; use `RawPixelTrainingRequest`/`RawPixelPredictionRequest` and their controllers. Reuse locally verified replay-based QTC1 training checkpoints, QTT1 training records and QWS1 prediction files through existing owner jobs and frontend adapters. Preserve locally verified training, archives, live verification and bounded contour apply. Preserve both grid axes and captured document calibration. Deliver train → predict → save/reopen → resume through existing entry points | Independent feature oracle, streamed/full-window seam checks, source/model mutation and cancellation controls, persistence/legacy compatibility, installed typing and real desktop/CLI/batch outcomes at one frozen source |
+| 1 / SCI1-A: typed raw pixel classification | Owner-captured sampling/prediction accepted locally at `7beb80b`; archives/retention accepted locally at `440f610`; positive Windows training/trained archives accepted locally at `e7e4b66`; replay/bounded contour apply accepted locally at `92edba8`; sample-index windows/features accepted locally at `ae0ba29`; window models/owner prediction accepted locally at `642f728`; sparse tiled training accepted locally at `1273c3e`; bounded prediction stream/owner delivery accepted locally at `8d544eb`; prediction prefix files/hash-only resume accepted locally at `c843dfa`; sparse training archives/retention/replay accepted locally at `cc6fab4`; training prefix checkpoints/resume accepted locally at `fb7ab73`; native owner file jobs accepted locally at `404f506`; external raw stream links accepted locally at `a608a53`; Windows CPython 3.12 raw bindings/wheel/example accepted locally at `202b41a`; official Windows raw CLI locally verified at `f463110`; raw classifier project batches locally verified at `c2c0fa0`; desktop/managed/contour consumers locally verified at `0dc916c`; root owns closeout of the already-running T5 campaign235 | Follow the bounded A1-A6 route below and the [numeric contract](raw-pixel-classifier.md). Reuse the feature kernel, `RawPixelRecipe`/`RawPixelClassifier`, typed sampler and existing forest/owner/source/job authorities; use `RawPixelTrainingRequest`/`RawPixelPredictionRequest` and their controllers. Reuse locally verified replay-based QTC1 training checkpoints, QTT1 training records and QWS1 prediction files through existing owner jobs and frontend adapters. Preserve locally verified training, archives, live verification and bounded contour apply. Preserve both grid axes and captured document calibration. Deliver train → predict → save/reopen → resume through existing entry points | Independent feature oracle, streamed/full-window seam checks, source/model mutation and cancellation controls, persistence/legacy compatibility, installed typing and real desktop/CLI/batch outcomes at one frozen source |
 | 2 / SCI1-B: remaining research workflows | Open; retain every M0-M7 requirement | After SCI1-A, choose the next complete workflow by dependency readiness: stitched contours; eligible vendor/whole-slide/partial-OME support; annotation/interchange; spatial queries and recorded/distributed automation. Prepare only the reference/decision inputs needed by that workflow | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
 | Alongside / DEC1: scientific and resource prerequisites | Open; user/research lead supplies decisions, root records applicability | Use the existing decision table below for dataset rights/labels, tolerances and eligible hardware. Synthetic arithmetic/engineering work proceeds; affected biological or hardware acceptance waits for its real prerequisites | Record corpus/version/rights, labels, metric/tolerance before comparison, and eligible hardware/configuration. Do not infer acceptance from synthetic tests or suite totals |
 | After applicable gates / REL1: supported release | Open; repository owner plus packaging owner | Reuse qualified artifacts; resolve project license, distribution obligations, support matrix, installers, notices, signing and clean-machine walkthroughs | Every claimed platform/workflow has scope-matched acceptance. Mac-native does not qualify Mac Python/GUI/OpenSlide. No release/PyPI/signing authorization is implied |
@@ -440,6 +440,57 @@ those complete outcomes exist. This receipt does not qualify those frontends,
 other Python/platform profiles, clean machines or scientific/resource/release
 gates.
 
+### T5 closeout sequence
+
+Root owns this active work. Keep the qualification source and delivered T4
+interfaces frozen. Use the original engine `40363168207`, Mac-native
+`40363189978` and portable `40363203596` runs, all at
+`176ec42b274bb12429cef603b59ce704e12c6e96`.
+
+| Step | Easiest path / existing owner | Exit or recovery |
+| --- | --- | --- |
+| Observe and retain | Query the exact original handles; collect completed-job artifacts while other jobs continue. Reuse campaign213 collector checks | Save original run/job metadata and failures. A polling/download timeout is uncertain; inspect the same attempt before retrying transport. Do not redispatch or cancel healthy jobs |
+| Authenticate the complete set | Match run ID, source, artifact name, size and SHA-256; reject expired archives, unsafe paths and duplicate/colliding members | Exactly five engine, two Mac-native, two manylinux builder and two fresh-consumer archives. Partial collection remains partial |
+| Audit the frozen candidate | Run `accept_unified_engine.py`, `accept_macos_native.py` and `accept_manylinux.py` from the frozen checkout with the complete existing campaign inputs | All three audits pass: inherited cohorts, 58 exact raw identities, declared skips, native enabled/OFF semantics, typing, runtime notices and final source checks |
+| Diagnose at the failing layer | Preserve the first failure; distinguish build/runtime, fixture, observer and transport causes. Repair the smallest demonstrated issue in integration | Compatible observer-only repairs may re-audit retained artifacts with both identities explicit. Runtime changes need affected checks and a successor candidate. Never relabel binaries or silently patch frozen tools |
+| Record engineering acceptance | Publish one combined source-bound receipt; update the execution card and affected inventory rows together | Close only the named T5 engineering scope. M0–M7, scientific, complete resource/hardware and release gates retain their own requirements |
+
+No new evidence framework, universal cache or wholesale auditor refactor is a
+prerequisite. Reuse maintained contracts and collect independent diagnostics
+when their prerequisites passed. Documentation changes need link/diff and
+compiler-input checks, without another native build or hosted matrix.
+
+### SCI1-B next-workflow route
+
+Proposed next implementation after T5: streamed contours, beginning with a small
+independent seam witness. This is planning, not delivered API or scientific
+acceptance. Reuse `RawPixelPredictionStream`, QWS1 indexed blocks, the existing
+contour tracer and document publication command; preserve both rational axes.
+
+1. Compare the current full-grid tracer with independent tiny expected geometry
+   for components and holes crossing block edges/corners, cropped grids,
+   anisotropic spacing and class ties. Exercise the existing path before edits.
+2. Specify connectivity, halo ownership, deterministic joining and work/output
+   limits. Prototype only the missing native join over the existing producer;
+   do not concatenate whole-slide masks or change the bounded full-grid API.
+   Sparse ROI prediction traversal stays a separate optimization unless the
+   selected workload demonstrates that it is a prerequisite.
+3. Bind the stable result thinly and expose it through the shared frontend.
+   Historical blocks remain historical. Fresh source/model/revision checks and
+   full result admission precede one atomic apply/undo/redo. Reuse jobs,
+   cancellation, retention and export rather than another worker engine.
+4. Verify seam geometry, deterministic block order, cancellation/source changes,
+   retained-file reopen and peak working storage. Then exercise the installed
+   Python/CLI/desktop/batch workflow and its applicable platform gates once.
+   Biological tolerances and hardware budgets need their own declared inputs;
+   a synthetic seam pass does not satisfy them.
+
+Keep one complete workflow active. Eligible reader expansion, annotation and
+interchange, spatial analysis and recorded automation remain in SCI1-B. If a
+concrete prerequisite blocks contours, record it and select the next ready
+workflow from that queue. Preserve every M0–M7 requirement and the open-source
+reader/codec policy; sibling-project agent policies and frameworks do not apply.
+
 ### T4 execution tasks: finish consumers before another qualification
 
 Planning reconciliation through installed source `0dc916c` (2026-10-26). The tasks
@@ -453,7 +504,8 @@ T5 integrated qualification remain open. See the development state below. `202b4
 earlier Python profile.
 This is not a new Astra review or integrated platform qualification.
 
-T4.1-T4.5 have named local Windows exits. Proceed to T5 producer/auditor preflight, then one scope-matched integrated campaign. Keep one
+T4.1-T4.5 have named local Windows exits. T5 preflight is complete and campaign235
+is running; finish its original runs and artifact audits. Keep one
 implementation task active. Each task has a complete observable outcome; reuse
 its healthy evidence until a consumed input changes.
 
@@ -501,12 +553,13 @@ is running at frozen source `176ec42` on its dedicated qualification branch.
 Original runs: engine `40363168207`, Mac-native `40363189978`, portable
 `40363203596`. Each was dispatched once with full inputs. Observe these IDs,
 retain original failures/attempts, authenticate every archive and audit from the
-clean frozen checkout. Initial Linux minimal success does not accept the matrix.
+clean frozen checkout. Linux minimal and sanitizer jobs have succeeded; these
+job outcomes do not accept the complete matrix.
 The additional inherited preflight passes 286 controls (801 selected total), and
 all eight source contracts recheck 718 unique inputs. The frozen source stays
 unchanged while those runs are live.
 
- The
+The
 [preflight at `fb3dfe6`](benchmarks/raw-classifier-preflight-local.json) makes the
 raw native/installed/GUI/typing/source contract mandatory in the producers and
 all three auditors. It requires 58 exact raw cases, explicit headless and
@@ -690,8 +743,9 @@ passed check only for changed inputs, failure or a specific unresolved concern.
 
 Bounded whole-grid admission does not complete large-slide execution. Preserve
 global rational phase; do not round fractional origins into scalar tiles.
-Broader installed Python/frontend integration, complete A3-A6 outcomes and new platform acceptance
-remain open. Stitched cross-tile contours retain their separate workflow gate.
+Named installed Windows frontend outcomes are locally accepted. T5 broader
+platform acceptance remains open. Stitched cross-tile contours retain their
+separate workflow gate; do not rebuild delivered T4 consumers from older notes.
 
 | Checkpoint / dependency | Smallest implementation and API path | Decisive verification / stop condition |
 | --- | --- | --- |
