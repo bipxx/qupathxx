@@ -3,8 +3,9 @@
 Current consumer status: native T1-T3 and the Windows installed Python workflow
 have local receipts in the [delivery plan](api-delivery-plan.md). Official
 [raw CLI commands](raw-pixel-cli.md) now have [installed local evidence](benchmarks/raw-pixel-cli-local.json)
-at `f463110`. Multi-image classifier batches, ImGui/managed viewer, other
-installed profiles and integrated qualification remain open. Cross-tile contour
+at `f463110`. [Multi-image classifier batches](project-raw-pixel-batches.md)
+have [installed local evidence](benchmarks/raw-pixel-batch-local.json) at `c2c0fa0`.
+ImGui/managed viewer, other installed profiles and integrated qualification remain open. Cross-tile contour
 stitching and scientific/resource/release acceptance remain separate gates.
 
 Earlier source-bound numeric baseline: native features/models and bounded owner-captured sampling/prediction

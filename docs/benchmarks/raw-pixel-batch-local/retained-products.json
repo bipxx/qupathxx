@@ -1,0 +1,88 @@
+{
+  "products": [
+    {
+      "path": "build/rawbatch231-retained-binaries/training-on/_native.cp312-win_amd64.pyd",
+      "source": "c2c0fa03cd0c6915a2c9134da15e48dda87d8249",
+      "fingerprint": "91702cc594c5f224f5de336eb76302201c27ab1ce05d22ee6bfb91da02d9ec56",
+      "bytes": 7917056,
+      "sha256": "cfffab7249795cb100a2b3444a7bea0ec2f3a7d7e62fee4e95c663ab20833021"
+    },
+    {
+      "path": "build/rawbatch231-retained-binaries/training-on/qupathxx_region.exe",
+      "source": "c2c0fa03cd0c6915a2c9134da15e48dda87d8249",
+      "fingerprint": "91702cc594c5f224f5de336eb76302201c27ab1ce05d22ee6bfb91da02d9ec56",
+      "bytes": 775680,
+      "sha256": "d7b07c7d21e645cade58f5518a0527d4f29662cc3b39c39a13f17e215ac7ed6a"
+    },
+    {
+      "path": "build/rawbatch231-retained-binaries/training-on/qupathxx_batch.exe",
+      "source": "c2c0fa03cd0c6915a2c9134da15e48dda87d8249",
+      "fingerprint": "91702cc594c5f224f5de336eb76302201c27ab1ce05d22ee6bfb91da02d9ec56",
+      "bytes": 5097984,
+      "sha256": "80b0a294f4ce08fc735f9ad27cba45acce63895d5a300bc281bfe2fbb6ed72f7"
+    },
+    {
+      "path": "build/rawbatch231-retained-binaries/training-on/qupathxx_project_batch_tests.exe",
+      "source": "c2c0fa03cd0c6915a2c9134da15e48dda87d8249",
+      "fingerprint": "91702cc594c5f224f5de336eb76302201c27ab1ce05d22ee6bfb91da02d9ec56",
+      "bytes": 4844544,
+      "sha256": "4d6ef1f99f1d7f4854c4f563564ac5df000b9b23da79126681fa5705f3a19f95"
+    },
+    {
+      "path": "build/rawbatch231-retained-binaries/training-on/qupathxx_pixel_workflow_tests.exe",
+      "source": "c2c0fa03cd0c6915a2c9134da15e48dda87d8249",
+      "fingerprint": "91702cc594c5f224f5de336eb76302201c27ab1ce05d22ee6bfb91da02d9ec56",
+      "bytes": 5391360,
+      "sha256": "9e9e5dbc523e3e631f50d552f680c489a706b60706605cc986666bff8b8d1a1e"
+    },
+    {
+      "path": "build/rawbatch231-retained-binaries/training-on/qupathxx_pixel_feature_tests.exe",
+      "source": "c2c0fa03cd0c6915a2c9134da15e48dda87d8249",
+      "fingerprint": "91702cc594c5f224f5de336eb76302201c27ab1ce05d22ee6bfb91da02d9ec56",
+      "bytes": 2475520,
+      "sha256": "bcb680043746eee3b01713e652a4f2fd9130f37d0247640ee0b91c4c58e53e1c"
+    },
+    {
+      "path": "build/rawbatch231-retained-binaries/training-on/qupathxx_classifier_tests.exe",
+      "source": "c2c0fa03cd0c6915a2c9134da15e48dda87d8249",
+      "fingerprint": "91702cc594c5f224f5de336eb76302201c27ab1ce05d22ee6bfb91da02d9ec56",
+      "bytes": 1389568,
+      "sha256": "a7adee13b3299661bc7bf2cf0725984595f220766270eefe41f9e3a678ab18e4"
+    },
+    {
+      "path": "build/rawbatch231-retained-binaries/training-on/qupathxx-0.1.0-cp312-cp312-win_amd64.whl",
+      "source": "c2c0fa03cd0c6915a2c9134da15e48dda87d8249",
+      "fingerprint": "91702cc594c5f224f5de336eb76302201c27ab1ce05d22ee6bfb91da02d9ec56",
+      "bytes": 6065431,
+      "sha256": "dd8eebfe5e27be3f2aaaf1f84635087c10ea57191523041d75a04c61f3395b1d"
+    },
+    {
+      "path": "build/rawbatch231-retained-binaries/training-off/qupathxx_batch.exe",
+      "source": "c2c0fa03cd0c6915a2c9134da15e48dda87d8249",
+      "fingerprint": "91702cc594c5f224f5de336eb76302201c27ab1ce05d22ee6bfb91da02d9ec56",
+      "bytes": 3874304,
+      "sha256": "55f6a008ebbdb5282c9d1de8bba9c30c28964b9a56293a291155663e02754ac5"
+    },
+    {
+      "path": "build/rawbatch231-retained-binaries/training-off/qupathxx_project_batch_tests.exe",
+      "source": "c2c0fa03cd0c6915a2c9134da15e48dda87d8249",
+      "fingerprint": "91702cc594c5f224f5de336eb76302201c27ab1ce05d22ee6bfb91da02d9ec56",
+      "bytes": 3621376,
+      "sha256": "aa9acf6b48fc3883c7a49c512b3ad337b7ec273e04c979e89b490370fe5629bb"
+    },
+    {
+      "path": "build/rawbatch231-retained-binaries/original-development/_native.cp312-win_amd64.pyd",
+      "source": "2fc37ce34a61cd316353f5fdacb80859de6dba3e",
+      "fingerprint": "82fefb1a1f668e7817c38754f3a21ff5a28d6fd551f9ae5b9b6646ce5149b0d6",
+      "bytes": 7917056,
+      "sha256": "4fb0fe8d722b76bb7d36c2ed8e7fe5d62a2ff1d69699de4cd04562927f5b220e"
+    },
+    {
+      "path": "build/rawbatch231-retained-binaries/original-development/qupathxx_batch.exe",
+      "source": "2fc37ce34a61cd316353f5fdacb80859de6dba3e",
+      "fingerprint": "82fefb1a1f668e7817c38754f3a21ff5a28d6fd551f9ae5b9b6646ce5149b0d6",
+      "bytes": 5097984,
+      "sha256": "d5b7adc768acc4c08f68bdc6193724f99144a3c60188414167e9d150f24c8e19"
+    }
+  ]
+}

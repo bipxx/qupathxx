@@ -1,0 +1,452 @@
+{
+  "schema": "qpx.raw-pixel-batch-local/1",
+  "observed_at_utc": "2026-10-26T13:39:10.573080+00:00",
+  "source": "c2c0fa03cd0c6915a2c9134da15e48dda87d8249",
+  "compiled_fingerprint": "91702cc594c5f224f5de336eb76302201c27ab1ce05d22ee6bfb91da02d9ec56",
+  "compiler_inputs": 377,
+  "status": "windows_cp312_installed_raw_project_batches_locally_verified",
+  "installed_python_passes": 136,
+  "installed_skips": [
+    {
+      "classname": "tests.test_project_batch",
+      "name": "test_digest_coarse_grid_independent[1]",
+      "reason": "requires OpenSlide"
+    },
+    {
+      "classname": "tests.test_project_batch",
+      "name": "test_digest_coarse_grid_independent[2]",
+      "reason": "requires OpenSlide"
+    },
+    {
+      "classname": "tests.test_project_batch",
+      "name": "test_optional_cells_published_to_checkpoint_only",
+      "reason": "requires geometry"
+    },
+    {
+      "classname": "tests.test_project_batch",
+      "name": "test_checkpoint_opens_in_existing_viewer",
+      "reason": "opt-in GUI"
+    },
+    {
+      "classname": "tests.test_raw_pixel_cli",
+      "name": "test_cli_training_backend_off_refuses_before_output",
+      "reason": "backend-OFF profile only"
+    }
+  ],
+  "cohorts": {
+    "tests.test_raw_pixel_batch": 14,
+    "tests.test_project_batch": 22,
+    "tests.test_raw_pixel_cli": 15,
+    "tests.test_raw_pixel_python": 10,
+    "tests.test_pixel_stream_cli": 46,
+    "tests.test_project_pixel_batch": 25,
+    "tests.test_raw_batch": 4,
+    "tests.test_public_stubs": 5
+  },
+  "new_raw_batch_cases": [
+    "test_raw_batch_numeric_csv_reopen_and_exact_hash_only_reuse",
+    "test_raw_batch_stop_continue_with_incompatible_reader[ProjectBatchFailure.STOP]",
+    "test_raw_batch_stop_continue_with_incompatible_reader[ProjectBatchFailure.CONTINUE]",
+    "test_raw_batch_tampered_outputs_refuse_reuse_and_no_resume_preserves_them[missing]",
+    "test_raw_batch_tampered_outputs_refuse_reuse_and_no_resume_preserves_them[block]",
+    "test_raw_batch_tampered_outputs_refuse_reuse_and_no_resume_preserves_them[checkpoint]",
+    "test_raw_batch_quotas_cleanup_only_owned_work[pixel_total_limit-4096]",
+    "test_raw_batch_quotas_cleanup_only_owned_work[result_budget-1]",
+    "test_raw_batch_quotas_cleanup_only_owned_work[materialize_budget-1]",
+    "test_raw_batch_explicit_fraction_mismatch_is_per_image_failure",
+    "test_raw_batch_mixed_rgb_raw_links_and_both_typed_reuse_paths",
+    "test_raw_batch_cli_moved_bundle_and_unchanged_source_project",
+    "test_raw_batch_reopened_changed_source_is_hashed_and_recomputed",
+    "test_raw_batch_fractional_axes_actual_training_and_async_snapshot"
+  ],
+  "native_training_on_suites": 4,
+  "native_training_off_suites": 1,
+  "portable_backend_off": {
+    "source": "c2c0fa03cd0c6915a2c9134da15e48dda87d8249",
+    "fingerprint": "91702cc594c5f224f5de336eb76302201c27ab1ce05d22ee6bfb91da02d9ec56",
+    "flags": {
+      "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "OFF",
+      "QUPATHXX_BUILD_GEOS": "ON",
+      "QUPATHXX_BUILD_GUI": "ON",
+      "QUPATHXX_BUILD_INTERCHANGE": "OFF",
+      "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+      "QUPATHXX_BUILD_PROJECT": "ON",
+      "QUPATHXX_BUILD_PYTHON": "ON",
+      "QUPATHXX_BUILD_TESTS": "ON",
+      "QUPATHXX_BUILD_TIFF": "ON"
+    },
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\Release\\qupathxx_batch.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawbatch231-backend-off\\fixture\\input.qpx",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawbatch231-backend-off\\fixture\\out",
+      "--kind",
+      "raw-pixels",
+      "--raw-pixel-model",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawbatch231-backend-off\\fixture\\model.qrm",
+      "--raw-pixel-tile-width",
+      "2",
+      "--raw-pixel-tile-height",
+      "2",
+      "--raw-pixel-work-bytes",
+      "16777216"
+    ],
+    "saved": 2,
+    "reused": 2,
+    "verified_numeric_blocks": 27,
+    "model_sha256": "9aaa1a31f9adf5c6f00a09f2331a7c9ae2a8b806d7a3ac3501636b6004521724",
+    "source_project_unchanged": true,
+    "executable_sha256": "55f6a008ebbdb5282c9d1de8bba9c30c28964b9a56293a291155663e02754ac5"
+  },
+  "positive_typing_files": 3,
+  "negative_typing_files": 2,
+  "negative_typing_errors": 7,
+  "wheel": {
+    "bytes": 6065431,
+    "sha256": "dd8eebfe5e27be3f2aaaf1f84635087c10ea57191523041d75a04c61f3395b1d",
+    "members": 20
+  },
+  "scope": [
+    "Additive RawPixels/RAW_PIXELS and --kind raw-pixels reuse ProjectBatchRequest/kernel, snapshots, owned output bundles, SQLite checkpoint seals, reports and Stop/Continue; old Raw/RGB enum meanings stay unchanged",
+    "Typed model, exact optional axes, bounded native stream policy and independent file metadata budget are shared by C++/nanobind/Python/native CLI",
+    "Actual TIFF numeric blocks/votes/support match direct prediction across different source dimensions with unit spacing and explicit fractional axes",
+    "Completed-image reuse hashes current raw inputs without inference and verifies every saved QWS1 file and QWL1 descriptor; mixed raw/RGB catalogs select tags correctly",
+    "Changed source data, incompatible reader/model/lattice, missing/tampered output or checkpoint, quotas and no-resume preservation have distinguishing controls",
+    "Native interruption retains completed images, resumes them and processes the suffix; unknown files survive owned cleanup; CLI/project relocation and immutable asynchronous project snapshots pass",
+    "An actual OpenCV-trained model is predicted and reused by the training-OFF native executable; all 27 blocks match the installed ON consumer",
+    "Generated nullable options/runtime surfaces and positive/negative typing match the installed wheel; all 195 SDK files and imported wheel members authenticate"
+  ],
+  "development": [
+    "First native fixture reused a Document in two slots and correctly refused; fixed to independent Documents without changing ownership rules",
+    "First relocation fixture compared normal and Windows extended path spelling; fixed to compare actual file identity before mapping the relative bundle",
+    "Original development has 64 Python passes/one relocation failure/one skip and three passing native regressions/one ownership fixture failure; corrected source ec46efe has 67 Python passes/one skip and a passing affected native batch suite",
+    "First stub-generation launch used a parent-only sys.path injection that its child did not inherit and produced no new declarations; final development interpreter package origin and installed-wheel stub check establish the actual runtime"
+  ],
+  "limitations": [
+    "Installed Windows CPython 3.12 training/TIFF/project ON, GUI/GEOS/OpenSlide OFF only; separate backend-OFF checks are native, not an OFF wheel/platform qualification",
+    "Fresh wheel package reuses workspace test dependencies through .pth; no clean-machine or release claim",
+    "Batch targets are area objects; each raw output traverses its declared global lattice and masks its target ROI. Sparse ROI prediction traversal and process-memory/performance qualification are not claimed",
+    "Restart/reuse is at completed-image checkpoints; interrupted current-image work is owned temporary output. Per-file prefix resume remains the separate CLI/native job workflow",
+    "The first failing native fixture executable was not separately retained before cache reuse; its original log/XML/source manifest are retained along with original module/CLI products",
+    "Desktop/managed viewer, bounded contour frontend apply, broader installed profiles, T5, streamed stitching and scientific/resource/hardware/release gates remain open"
+  ],
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/compiler-inputs.json",
+      "bytes": 40228,
+      "sha256": "5ac0ad9810bb7485d85d95e62718870c648124646dd4e32a045eb1c6ce7d6bfc"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/install-wheel.log",
+      "bytes": 308,
+      "sha256": "748711d685be5a71898d716fc0b90563297018b3b16d729868af7a02bdf13a24"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/installed-proof.json",
+      "bytes": 6792,
+      "sha256": "b286dca13eae8a07722c88e0a32b7b879af7ea9d3419839ed6cbc4b1b045d342"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/installed-proof.log",
+      "bytes": 86,
+      "sha256": "f54eef54eecba7355f7ef0f87f5e5776a36e667c77740bb630a070eaf170e11c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/native-tests.log",
+      "bytes": 533,
+      "sha256": "f68a5b5585645bafd74e7bfcc003ceb0c0f8cfa3bf091e99e29f7fa64cf4ecf4"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/native-tests.xml",
+      "bytes": 6314,
+      "sha256": "44ec0bcf24d98825275dff80f4d4cb79b61bd675af02480c7d43f0aba1df8f77"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/pyright-invalid.json",
+      "bytes": 332,
+      "sha256": "ceef13c8c30fc75d7c04d27609ad6d2a7b6813c3b2885d97837a1ff12a135f75"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/pyright-valid.json",
+      "bytes": 397,
+      "sha256": "ac1f81f76ec4ecc4b01af20369fd56c350207df8dd5259249cc74e251fb24e9d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/python-tests.log",
+      "bytes": 195,
+      "sha256": "9021cac5ef3585350434a520a647434b63f2189d30a7c7d96fb89d0a0a198af9"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/python-tests.xml",
+      "bytes": 19704,
+      "sha256": "9c9a7a3bbe0a18e69932f183ba52337b20968f730ba9a20a9b836503877779b6"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/stubs-check.log",
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/typing-invalid.log",
+      "bytes": 6023,
+      "sha256": "096d971236a315edebc24e9fd6f8f6a9875ca3d6b2ce713b4cdf116ed88e43f6"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/typing-valid.log",
+      "bytes": 251,
+      "sha256": "59a46ae38a9b56f558e31bd632034a90648402ddfa7b00a3b7f7a439ef6d7168"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/verification-commands.json",
+      "bytes": 4227,
+      "sha256": "00bd2a439062cba989c649c7c87c89abc6905fb14c2fee259f6a613cdd02bd88"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/wheel-build.log",
+      "bytes": 12060,
+      "sha256": "6fc22ffe110056fcf1061609aaf7e9b156e92f19d5dc832797ca95031617a01f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/final/wheel-command.json",
+      "bytes": 234,
+      "sha256": "cdce5f8e6b7acad6ecba7a6691e1b1b056a652b980f290d1a921d8f5afc7ed75"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/backend-off/build.log",
+      "bytes": 2566,
+      "sha256": "b67792a1da2e5c0f95e7ec891725b2256581fe4f4dc0bd97b60ff28ce7f7441a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/backend-off/commands.json",
+      "bytes": 835,
+      "sha256": "3efebeeb05cf91bfb5e4a3ca33abe6fa63a731d67d2f73088c2027c1fbc2775b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/backend-off/compiler-inputs.json",
+      "bytes": 39845,
+      "sha256": "0da23cd02ec932472ea344bd53f2d9b82dd5bae27bb7cf34e1eefa569cffff7a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/backend-off/configure.log",
+      "bytes": 3579,
+      "sha256": "b707c9bc4b43a3e7c9061af0f1a07dd3056f9b10a6333d265b77f8da39805c6c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/backend-off/fresh.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/backend-off/fresh.stdout",
+      "bytes": 3169,
+      "sha256": "aada0e2b2726072e6184133c285f8949123dd96593d134f8393e99ca64cf625a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/backend-off/native-tests.log",
+      "bytes": 241,
+      "sha256": "3ffb6f9ab3673c6d9453ed4b1b3decc83054495c7df75d24440f0a069303df20"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/backend-off/native-tests.xml",
+      "bytes": 660,
+      "sha256": "51cbf80a705bdbdb5157fa70f16251ee50d2f4c49c520d349a8f9aabc3ae8b31"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/backend-off/portable-backend-off-proof.json",
+      "bytes": 1353,
+      "sha256": "fd2c62ab6ec456453affeb2f63d868b68739b17d9c0aec741dc6d5ba1d343a82"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/backend-off/reuse.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/backend-off/reuse.stdout",
+      "bytes": 3116,
+      "sha256": "3e283dcae6cdac3cf682e7691a934c8c78d3861c38e7658ca8be98270a3d82e2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development/build.log",
+      "bytes": 6749,
+      "sha256": "e335ae5be7dd729f8818fa5643844ba288bdf47759a2f2f3add0aab033762fea"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development/commands.json",
+      "bytes": 960,
+      "sha256": "2a042f5ae827996a5f79a1db5ddae0e147fe07850c7056cef74754624ded461e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development/compiler-inputs.json",
+      "bytes": 39845,
+      "sha256": "383e1fb3f4f7358650e51a23a8c64e17e553ce7a2b0b7bf7bf241d1cc7a6459d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development/configure.log",
+      "bytes": 3754,
+      "sha256": "0e8d3c1b62274351aaa89d19b3b98bbdb38f5b8d43d6308a11c9ebe7d24ce960"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development/native-tests.log",
+      "bytes": 676,
+      "sha256": "d4b9d6c16cd296c9b7dcdf999ee78eb1ce0069b4aa1eb4bc78132978654a5250"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development/native-tests.xml",
+      "bytes": 6078,
+      "sha256": "428f74a6d82700c9098ac78df00711718479e927906ed13b114b33b9b5c41d1c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development/python-tests.log",
+      "bytes": 4179,
+      "sha256": "5970ad7c9924797afbe4f67efe56baa2330182328687af8e5da3271199572cd9"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development/python-tests.xml",
+      "bytes": 13540,
+      "sha256": "5646ff230a77f52bf4b70db3d539f93c5d8f678fd6b5d5f5e0a340c59e4010b8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development-b/build.log",
+      "bytes": 5363,
+      "sha256": "f1e3f9c683b983ba4a6825e0811e2d3938b1b5f1e48f74cb4e97c44652702497"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development-b/commands.json",
+      "bytes": 961,
+      "sha256": "c7435954dde8d959546a403e7aac9c26099203f1d2ab20dec00deae2b07589ee"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development-b/compiler-inputs.json",
+      "bytes": 39845,
+      "sha256": "6cbf24c317fe59219df9ae2a4f36172d68635179addebf4d7e7dc90683c20f6a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development-b/configure.log",
+      "bytes": 3754,
+      "sha256": "3a09fc19265a0d34c7eb1fd5e93a8ba55629cbebddcc757132d7a6f62074e1b8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development-b/native-tests.log",
+      "bytes": 239,
+      "sha256": "8758883633f16a0946292a72aa3e4ae577ee0ca392381e3274836479989c8b89"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development-b/native-tests.xml",
+      "bytes": 660,
+      "sha256": "ee6abfe2b44a16165a8400251a164acc824534e36770f8e6dd3b835764c45e93"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development-b/python-tests.log",
+      "bytes": 113,
+      "sha256": "85397743a22f03e2d8542dc605df050d55415ea5167ea81cbc7f893b3f1eb7c1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development-b/python-tests.xml",
+      "bytes": 9678,
+      "sha256": "a16c3e264caa08dd609c3ff2ffb35a2b54f223b7a8849347307b7011b6891d1c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/development-b/stubs.log",
+      "bytes": 24,
+      "sha256": "9467e1fcbcc3b7a214a8ae55510ca2aecbb94ba8190b3fd4a02ba2c8446eefdf"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/training-on/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "409c610ae0d7a179ba6f33809866c4c96bea1adffd79aed69a996dbf6fe16115"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/training-on/configuration.json",
+      "bytes": 438,
+      "sha256": "650eae10f47420bdcb345e86ab5f2bbde3e0b5a4a823d090034f794b42c222cd"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/training-off/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "76e9da8da44e9b942c28bbd2569101b10d20d9627627411bfc280bf051213133"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/training-off/configuration.json",
+      "bytes": 438,
+      "sha256": "1fdb05fd0a59139fc78658467c36bfad64008f2d672600bae623a8ffd733f958"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/opencv-sdk-manifest.json",
+      "bytes": 24157,
+      "sha256": "81963b86ef1233d5c71508d06f0a96a35c5ae8211838294f47b376f8c9800615"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/source-proof.json",
+      "bytes": 137701,
+      "sha256": "d99e99a9c2495ff9a9aaf52dcc3c8487a26d144eb3a53c818f582177d46bf5bc"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/retained-products.json",
+      "bytes": 4387,
+      "sha256": "6c2e178977ba84c07f331a4c28c38f86a073aaa629ae05782b5d472d49fe7809"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/producers/build_rawbatch231.py",
+      "bytes": 2513,
+      "sha256": "d4a372efb8f5f597779fa3e831925f2e84c0eec4912a6a232dc5082f7add7f9b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/producers/build_rawbatch231_b.py",
+      "bytes": 2515,
+      "sha256": "1b5a30070d284df899adda13ca7ca083206b2be9313993609a54833ceb924165"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/producers/build_rawbatch231_off.py",
+      "bytes": 2414,
+      "sha256": "ca52b5b646545ac67cf3348b978d564989227b0296731a883d7471d473e29482"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/producers/rawbatch231_backend.py",
+      "bytes": 891,
+      "sha256": "082cbb6f8986301ee3a5c521f4bc55fec3baecac06000f86bcb575ad24eac2ff"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/producers/build_rawbatch231_wheel.py",
+      "bytes": 2249,
+      "sha256": "69d8b61ab023f80d36bc506c9dcc3a8d8855446734b9a644b8a99d1b2f508891"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/producers/verify_rawbatch231_final.py",
+      "bytes": 4069,
+      "sha256": "f2bfb4b759734379a82119b283c32bc7f2a946a5300f210c784d9db1f99dc032"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/producers/rawbatch231_installed_proof.py",
+      "bytes": 1965,
+      "sha256": "11bfa28676463585f7652a5f64a45fc2e8724c0ad7cd21144f14a39030f48baa"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/producers/rawbatch231_off_proof.py",
+      "bytes": 4529,
+      "sha256": "5cfd48fddb8378af19a28f386df3284b014857d453c0955e6346ebc8998e208d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/producers/rawbatch231_dev_runner.py",
+      "bytes": 819,
+      "sha256": "26f2a3a407283740032a6189605abf15090f649883d322e43351b9dafa82b154"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/producers/rawbatch231_dev_runner_b.py",
+      "bytes": 821,
+      "sha256": "b2c2d0e790bcdec5440cd6b83fbdbafa49b40d66bf5a1bb41bbfdb6ce7a9e230"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/producers/receipt_rawbatch231.py",
+      "bytes": 12667,
+      "sha256": "1e34e467dfcf15d704a3b1d6337bafb984e3b8727d42fc5468cae5de391bfb9a"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-batch-local/producers/receipt_rawbatch231_initial.py",
+      "bytes": 12612,
+      "sha256": "3dbc1174e02ba8386bd6438b7eef3ff8521ca6342c07356e2e58fd59624ef257"
+    }
+  ],
+  "retained_artifacts": "build/rawbatch231-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial"
+}

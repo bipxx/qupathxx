@@ -1,5 +1,8 @@
 # Resumable project pixel batches
 
+For quantitative channel inputs, use the separate [raw-classifier batch kind](project-raw-pixel-batches.md).
+This page describes the existing RGB pixel workflow.
+
 The project batch engine can export a pinned pixel classifier across selected
 area objects and images. Each image produces a completed checkpoint project,
 one QPS1 file per target, and a class-count CSV. Results remain independent of

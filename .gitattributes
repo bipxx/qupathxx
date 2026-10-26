@@ -536,3 +536,7 @@ docs/benchmarks/raw-python-bindings-local.json -text -whitespace
 # Installed raw CLI evidence retains exact source-bound bytes.
 docs/benchmarks/raw-pixel-cli-local/** -text -whitespace
 docs/benchmarks/raw-pixel-cli-local.json -text -whitespace
+
+# Installed raw project-batch evidence retains exact source-bound bytes.
+docs/benchmarks/raw-pixel-batch-local/** -text -whitespace
+docs/benchmarks/raw-pixel-batch-local.json -text -whitespace

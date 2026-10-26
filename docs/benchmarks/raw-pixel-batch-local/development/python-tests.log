@@ -1,0 +1,63 @@
+...........F......................................s...............       [100%]
+================================== FAILURES ===================================
+________ test_raw_batch_cli_moved_bundle_and_unchanged_source_project _________
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4111/test_raw_batch_cli_moved_bundl0')
+
+    def test_raw_batch_cli_moved_bundle_and_unchanged_source_project(tmp_path):
+        p, docs, model = scene(tmp_path)
+        try:
+            source, model_path = tmp_path / "��Ŀ.qpx", tmp_path / "ģ��.qrm"
+            p.save(str(source))
+            q.save_raw_pixel_classifier(model, str(model_path))
+            before = source.read_bytes()
+            output = tmp_path / "out"
+            cmd = [str(CLI), str(source), str(output), "--kind", "raw-pixels", "--raw-pixel-model", str(model_path),
+                   "--raw-pixel-tile-width", "2", "--raw-pixel-tile-height", "2", "--raw-pixel-work-bytes", str(16 * 1024**2)]
+            done = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", timeout=40)
+            assert done.returncode == 0, done.stdout + done.stderr
+            result = json.loads(done.stdout.splitlines()[-1])
+            assert result["saved"] == 2
+            done = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", timeout=40)
+            assert done.returncode == 0, done.stdout + done.stderr
+            assert json.loads(done.stdout.splitlines()[-1])["reused"] == 2
+            moved = tmp_path / "moved"
+            shutil.copytree(output, moved)
+            for entry in result["images"]:
+                original = Path(entry["path"])
+>               checkpoint = moved / original.relative_to(output)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_raw_pixel_batch.py:252: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('//?/C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4111/test_raw_batch_cli_moved_bundl0/out/image-1-0bf352ae8d3d3a5c93c95bd24b93980ff494178625b1c534e115a195e8b6513f/pixels-a0523ec1a08ee0d922c33fe0ca914043/result.qpxproj')
+other = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4111/test_raw_batch_cli_moved_bundl0/out')
+walk_up = False, _deprecated = ()
+
+    def relative_to(self, other, /, *_deprecated, walk_up=False):
+        """Return the relative path to another path identified by the passed
+        arguments.  If the operation is not possible (because this is not
+        related to the other path), raise ValueError.
+    
+        The *walk_up* parameter controls whether `..` may be used to resolve
+        the path.
+        """
+        if _deprecated:
+            msg = ("support for supplying more than one positional argument "
+                   "to pathlib.PurePath.relative_to() is deprecated and "
+                   "scheduled for removal in Python {remove}")
+            warnings._deprecated("pathlib.PurePath.relative_to(*args)", msg,
+                                 remove=(3, 14))
+        other = self.with_segments(other, *_deprecated)
+        for step, path in enumerate([other] + list(other.parents)):
+            if self.is_relative_to(path):
+                break
+            elif not walk_up:
+>               raise ValueError(f"{str(self)!r} is not in the subpath of {str(other)!r}")
+E               ValueError: '\\\\?\\C:\\Users\\HEQ\\AppData\\Local\\Temp\\pytest-of-HEQ\\pytest-4111\\test_raw_batch_cli_moved_bundl0\\out\\image-1-0bf352ae8d3d3a5c93c95bd24b93980ff494178625b1c534e115a195e8b6513f\\pixels-a0523ec1a08ee0d922c33fe0ca914043\\result.qpxproj' is not in the subpath of 'C:\\Users\\HEQ\\AppData\\Local\\Temp\\pytest-of-HEQ\\pytest-4111\\test_raw_batch_cli_moved_bundl0\\out'
+
+C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\pathlib.py:682: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_raw_pixel_batch.py::test_raw_batch_cli_moved_bundle_and_unchanged_source_project
+1 failed, 64 passed, 1 skipped in 11.73s

@@ -2,30 +2,32 @@
 
 ## Current execution card (2026-10-26)
 
-- Latest delivery: official native raw train/export/verify commands at `f463110`
-  have [installed local acceptance](benchmarks/raw-pixel-cli-local.json). Windows
-  CPython 3.12 with training/TIFF/project ON, GUI/GEOS/OpenSlide OFF: 104 Python
-  cases pass, including 14 new CLI cases; one OFF-only case skips. Three native
-  suites pass. A separate OFF native executable refuses training without output.
-- The wheel, imported members/runtime and 376-input fingerprint agree; eight
-  products are retained. Actual TIFF training/prediction/checkpoint resume,
-  Python model/row/block agreement, project/link reopen, aliases, tampering,
-  changed requests and process cancellation pass. Consumer test dependencies are
-  reused, so no clean-machine/platform/release claim is made.
-- [Command reference](raw-pixel-cli.md): independent producer/checkpoint/file/
-  forest budgets; exact rational lattice/model matching; committed prefixes stay
-  byte-exact across resume. Fresh process provenance can differ while numeric
-  blocks and input/result chains agree. Failed attempts remain in the receipt.
-- Next: [T4.2-T4.5](api-delivery-plan.md#t4-execution-tasks-finish-consumers-before-another-qualification):
-  raw classification in the existing project batch engine, ImGui/managed viewer,
-  bounded contour apply, then installed frontend integration and one T5 freeze.
-  Existing `--kind raw` keeps its measurement meaning. T4 remains Partial.
-  Automatic maintenance, abrupt-process/power-loss, stitched contours and
-  scientific/resource/hardware/release gates remain open. All M0-M7 stay Partial;
-  only open-source readers and required codecs are eligible.
-- Earlier Python API acceptance at `202b41a` remains
-  [source-bound](benchmarks/raw-python-bindings-local.json): 71 new exports,
-  owning arrays, GIL-safe owner wait/destruction and installed example/typing.
+- Latest delivery: raw-classifier project batches at `c2c0fa0` have
+  [installed local acceptance](benchmarks/raw-pixel-batch-local.json). Windows
+  cp312, training/TIFF/project ON, GUI/GEOS/OpenSlide OFF: 136 Python passes,
+  including all 14 new raw-batch cases; five named profile skips. Four native
+  suites pass. The separate OFF native suite and actual-trained-model CLI
+  save/reuse pass; all 27 output blocks match the installed ON consumer.
+- C++/Python/native CLI reuse the existing batch kernel, immutable capture,
+  checkpoint seals, owned bundles and Stop/Continue. Exact lattice/model
+  admission, current-input hash-only reuse, QWL1/full-file verification, mixed
+  RGB/raw catalogs, source changes, tampering, quotas, interruption, relocation
+  and asynchronous snapshot behavior pass. See the [guide](project-raw-pixel-batches.md).
+- Wheel/runtime source and 377 compiler inputs agree; twelve final/original
+  products are retained. The original failing native fixture executable was not
+  retained separately; its source/log/XML remain. Generated stubs match; three
+  valid typing files pass and seven errors in two invalid files reject.
+  Test dependencies are reused, so no clean-machine/release claim is made.
+- Next: [T4.3-T4.5](api-delivery-plan.md#t4-execution-tasks-finish-consumers-before-another-qualification):
+  ImGui/managed-viewer raw actions and retained browsing, bounded contour apply,
+  then installed frontend integration and one T5 freeze. T4 remains Partial.
+  Sparse ROI prediction traversal, automatic maintenance, abrupt-process/power-
+  loss, stitched contours and scientific/resource/hardware/release gates remain
+  open. All M0-M7 stay Partial; only open-source readers/codecs are eligible.
+- Earlier [raw CLI](benchmarks/raw-pixel-cli-local.json) at `f463110` and
+  [Python API/example](benchmarks/raw-python-bindings-local.json) at `202b41a`
+  retain their source-bound baselines. New batch output is per completed image;
+  per-file prefix resume remains the CLI/native-file-job path.
 
 ## Preserved local baselines
 
