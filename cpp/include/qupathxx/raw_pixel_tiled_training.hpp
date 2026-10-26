@@ -37,6 +37,7 @@ private:
     friend struct RawPixelTiledTrainingKernel;
     friend class RawPixelTiledTrainingJob;
     friend struct RawPixelArchiveCodec;
+    friend struct RawPixelTrainingCheckpointCodec;
     friend class Document;
 };
 // Distinct from full-grid QXT1: global coordinates and sparse coverage must not

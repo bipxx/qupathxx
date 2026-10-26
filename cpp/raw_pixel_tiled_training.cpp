@@ -138,16 +138,31 @@ std::string raw_pixel_tiled_training_sha256(const RawPixelTiledTrainingTable& ta
     Sha256 result;text(result,"qpx.raw-tiled-pixel-training/1");text(result,table.input_sha256());const auto schema=table.recipe().feature_schema();for(const auto& f:schema) {text(result,f.name);text(result,f.unit);}for(const auto& name:table.classes()) text(result,name);result.integer(table.row_count());
     for(std::size_t row=0;row<table.row_count();++row) {stopped(cancelled);result.integer(table.labels()[row]);result.integer(table.annotation_ids()[row]);result.integer(table.coordinates()[2*row]);result.integer(table.coordinates()[2*row+1]);for(std::size_t col=0;col<schema.size();++col) {std::uint32_t bits;std::memcpy(&bits,&table.values()[row*schema.size()+col],4);result.integer(bits);}}return result.finish();
 }
-struct RawPixelTiledTrainingKernel {
-    static std::shared_ptr<const RawPixelTiledTrainingTable> run(const std::shared_ptr<const RawPixelTiledTrainingRequest::Data>& captured,ImageServer& source,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr,std::atomic<int>* phase=nullptr) {
+namespace {
+void begin_training_input(Sha256& hash,const RawPixelTiledTrainingRequest::Data& d) {
+    text(hash,"qpx.raw-tiled-annotation-input/1");const auto recipe_bytes=d.recipe.bytes();hash.integer(recipe_bytes.size());hash.update(recipe_bytes.data(),recipe_bytes.size());
+        for(auto v:{d.lattice.image_width(),d.lattice.image_height(),d.lattice.x().origin(),d.lattice.x().extent(),d.lattice.x().samples(),d.lattice.x().context(),d.lattice.y().origin(),d.lattice.y().extent(),d.lattice.y().samples(),d.lattice.y().context(),d.tiles.width,d.tiles.height}) hash.integer(v);
+        hash.integer(d.tiles.max_windows);hash.integer(d.options.seed);hash.integer(d.options.max_samples);hash.integer(d.options.max_samples_per_class);hash.integer(d.options.max_scanned_samples);hash.integer(d.options.balanced);
+        for(std::size_t i=0;i<d.annotations->rows.size();++i) {const auto& row=d.annotations->rows[i];hash.integer(row.id);hash.integer(row.revision);hash.integer(static_cast<int>(row.kind));text(hash,row.label);const auto bytes=GeometryArchiveCodec::encode(row.body);hash.integer(bytes.size());hash.update(bytes.data(),bytes.size());}
+}
+}
+std::string raw_pixel_tiled_request_sha256(const RawPixelTiledTrainingRequest::Data& d) {
+    Sha256 hash;text(hash,"qpx.raw-tiled-training-checkpoint-request/1");begin_training_input(hash,d);hash.integer(d.options.work_bytes);hash.integer(d.recipe.selection().work_bytes);hash.integer(d.recipe.features().work_bytes);
+    text(hash,d.source.reader);text(hash,d.source.epoch);
+    // Calibration also matters for unfiltered recipes and an empty prefix.
+    for(const auto value:{d.source.calibration.x,d.source.calibration.y}) {hash.integer(bool(value));if(value) {std::uint64_t bits;const auto v=*value;std::memcpy(&bits,&v,8);hash.integer(bits);}}
+    return hash.finish();
+}
+std::shared_ptr<const RawPixelTiledTrainingTable> RawPixelTiledTrainingKernel::run(const std::shared_ptr<const RawPixelTiledTrainingRequest::Data>& captured,ImageServer& source,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed,std::atomic<int>* phase,RawPixelTiledTrainingPrefix* prefix) {
         stopped(cancelled);const auto& d=*captured;if(!raw_pixel_source_matches(source,d.source)) throw std::runtime_error("raw tiled training source changed before sampling");
         const auto columns=d.recipe.feature_schema().size();detail::PixelTrainingReservoir reservoir(d.classes.size(),d.capacity,columns,d.options.seed);
-        Sha256 input_hash;text(input_hash,"qpx.raw-tiled-annotation-input/1");const auto recipe_bytes=d.recipe.bytes();input_hash.integer(recipe_bytes.size());input_hash.update(recipe_bytes.data(),recipe_bytes.size());
-        for(auto v:{d.lattice.image_width(),d.lattice.image_height(),d.lattice.x().origin(),d.lattice.x().extent(),d.lattice.x().samples(),d.lattice.x().context(),d.lattice.y().origin(),d.lattice.y().extent(),d.lattice.y().samples(),d.lattice.y().context(),d.tiles.width,d.tiles.height}) input_hash.integer(v);
-        input_hash.integer(d.tiles.max_windows);input_hash.integer(d.options.seed);input_hash.integer(d.options.max_samples);input_hash.integer(d.options.max_samples_per_class);input_hash.integer(d.options.max_scanned_samples);input_hash.integer(d.options.balanced);
-        for(std::size_t i=0;i<d.annotations->rows.size();++i) {const auto& row=d.annotations->rows[i];input_hash.integer(row.id);input_hash.integer(row.revision);input_hash.integer(static_cast<int>(row.kind));text(input_hash,row.label);const auto bytes=GeometryArchiveCodec::encode(row.body);input_hash.integer(bytes.size());input_hash.update(bytes.data(),bytes.size());}
+        Sha256 input_hash;begin_training_input(input_hash,d);
+        const auto target=prefix?std::min<std::uint64_t>(prefix->target,d.plan.size()):d.plan.size();
+        if(prefix && (prefix->expected_windows>target || (!prefix->expected_sha.empty() && prefix->expected_windows==0 && prefix->expected_sha!=raw_pixel_tiled_request_sha256(d)))) throw std::invalid_argument("raw tiled checkpoint empty prefix mismatch");
+        std::string chain;if(prefix) {chain=raw_pixel_tiled_request_sha256(d);prefix->completed=0;prefix->sha=chain;}
         std::uint64_t done=0;
-        for(const auto& tile:d.plan) {
+        for(std::size_t tile_index=0;tile_index<target;++tile_index) {
+            const auto& tile=d.plan[tile_index];
             stopped(cancelled);const auto window=d.window(tile);auto selection=d.recipe.selection();selection.work_bytes=std::min(selection.work_bytes,d.options.work_bytes-d.fixed);
             // Admit this window before its first read; do not reserve full-slide
             // feature planes or claim later windows have already been admitted.
@@ -155,23 +170,28 @@ struct RawPixelTiledTrainingKernel {
             if(phase) phase->store(1);detail::ScientificRawReserve reserve;reserve.expected_series=d.recipe.series();
             const auto input=detail::read_scientific_raw_window_reserved(source,window,selection,reserve,cancelled);raw_pixel_verify_lattice_sample(source,d.source,d.lattice,input);
             if(phase) phase->store(2);const auto features=detail::extract_raw_pixel_features(input,d.features,cancelled);
-            input_hash.integer(tile.x);input_hash.integer(tile.y);input_hash.integer(window.core_width());input_hash.integer(window.core_height());text(input_hash,raw_grid_analysis_hash(features->input_sha256,d.source.calibration.x,d.source.calibration.y,std::nullopt));
+            std::optional<Sha256> window_hash;if(prefix) window_hash.emplace();
+            const auto feature_hash=raw_grid_analysis_hash(features->input_sha256,d.source.calibration.x,d.source.calibration.y,std::nullopt);
+            auto geometry=[&](Sha256& h) {h.integer(tile.x);h.integer(tile.y);h.integer(window.core_width());h.integer(window.core_height());text(h,feature_hash);};
+            geometry(input_hash);if(prefix) geometry(*window_hash);
             for(std::int64_t y=0;y<window.core_height();++y) {stopped(cancelled);for(std::int64_t x=0;x<window.core_width();++x) {
                 if((x&4095)==0) stopped(cancelled);const auto index=std::size_t(y*window.core_width()+x);const auto gx=tile.x+x,gy=tile.y+y;std::uint32_t label=0;std::uint64_t id=0;
                 if(features->rows_valid[index]) {
                     const Point point{d.lattice.x().center(gx).binary64(),d.lattice.y().center(gy).binary64()};
                     for(const auto candidate:d.index->query({point.x,point.y,0,0})) {const auto rowindex=std::size_t(candidate-1);const auto& row=d.annotations->rows[rowindex];if(row.body.contains(point)) {if(label && label!=d.labels[rowindex]+1) {label=UINT32_MAX;id=0;break;}label=d.labels[rowindex]+1;if(!id || row.id<id) id=row.id;}}
                 }
-                input_hash.integer(label);input_hash.integer(id);reservoir.observe(label,id,gx,gy,features->values.data()+index*columns);++done;
+                input_hash.integer(label);input_hash.integer(id);if(prefix) {window_hash->integer(label);window_hash->integer(id);}reservoir.observe(label,id,gx,gy,features->values.data()+index*columns);++done;
             }if(completed) completed->store(done,std::memory_order_relaxed);}
             raw_pixel_verify_lattice_sample(source,d.source,d.lattice,input);
+            if(prefix) {Sha256 h;text(h,"qpx.raw-tiled-training-prefix/1");text(h,chain);h.integer(tile_index);text(h,window_hash->finish());chain=h.finish();prefix->completed=tile_index+1;prefix->sha=chain;
+                if(prefix->completed==prefix->expected_windows && !prefix->expected_sha.empty() && chain!=prefix->expected_sha) throw std::invalid_argument("raw tiled checkpoint prefix input changed");}
         }
+        stopped(cancelled);if(target<d.plan.size()) return {};
         auto selected=reservoir.finish(d.options.balanced,cancelled);auto out=std::shared_ptr<RawPixelTiledTrainingTable>(new RawPixelTiledTrainingTable());out->snapshot_=captured;
         out->values_=std::move(selected.values);out->labels_=std::move(selected.labels);out->coordinates_=std::move(selected.coordinates);out->ids_=std::move(selected.ids);out->eligible_=std::move(selected.eligible);out->counts_=std::move(selected.counts);out->ambiguous_=selected.ambiguous;out->input_sha_=input_hash.finish();
         out->sha_=raw_pixel_tiled_training_sha256(*out,cancelled);stopped(cancelled);return out;
     }
-    static std::shared_ptr<const RawPixelTiledTrainingTable> run(const RawPixelTiledTrainingRequest& request,const std::atomic<bool>* cancelled) {return run(request.data_,*request.source_,cancelled);}
-};
+std::shared_ptr<const RawPixelTiledTrainingTable> RawPixelTiledTrainingKernel::run(const RawPixelTiledTrainingRequest& request,const std::atomic<bool>* cancelled) {return run(request.data_,*request.source_,cancelled);}
 std::shared_ptr<const RawPixelTiledTrainingTable> sample_raw_pixel_tiled_training(const RawPixelTiledTrainingRequest& request,const std::atomic<bool>* cancelled) {return RawPixelTiledTrainingKernel::run(request,cancelled);}
 RawPixelClassifier train_raw_pixel_tiled_classifier(const RawPixelTiledTrainingTable& table,ForestParameters parameters,const std::atomic<bool>* cancelled) {
     stopped(cancelled);parameters.work_bytes=std::min<std::uint64_t>(parameters.work_bytes,remaining(table.options().work_bytes,table.retained_bytes()));
