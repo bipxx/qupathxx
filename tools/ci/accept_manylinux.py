@@ -27,6 +27,9 @@ axis_spec=importlib.util.spec_from_file_location('qpx_tma_axis_evidence',Path(__
 axis=importlib.util.module_from_spec(axis_spec);exec(compile(Path(axis_spec.origin).read_bytes(),axis_spec.origin,"exec",dont_inherit=True),axis.__dict__)
 dearray_spec=importlib.util.spec_from_file_location("qpx_tma_dearray_evidence",Path(__file__).with_name("tma_dearray_evidence.py"))
 dearray=importlib.util.module_from_spec(dearray_spec);exec(compile(Path(dearray_spec.origin).read_bytes(),dearray_spec.origin,"exec",dont_inherit=True),dearray.__dict__)
+multifile_spec=importlib.util.spec_from_file_location("qpx_multifile_ome_evidence",Path(__file__).with_name("multifile_ome_evidence.py"))
+multifile=importlib.util.module_from_spec(multifile_spec);exec(compile(Path(multifile_spec.origin).read_bytes(),multifile_spec.origin,"exec",dont_inherit=True),multifile.__dict__)
+
 
 ASSETS = Path(__file__).with_name('manylinux-assets.json')
 
@@ -341,6 +344,8 @@ def main():
     if args.sampled_cells:
         args.unified_engine=args.ndpi_readers=args.watershed_bodies=True
     report=audit(args.artifacts,read(args.run_json),args.commit)
+    report['multifile_ome_sources']=multifile.source_contract(Path(__file__).resolve().parents[2],args.commit)
+    report['multifile_ome_cohorts']=[]
     report['tma_axis_sources']=axis.source_contract(Path(__file__).resolve().parents[2],args.commit)
     report['tma_dearray_sources']=dearray.source_contract(Path(__file__).resolve().parents[2],args.commit)
     report['tma_dearray_cohorts']=[]
@@ -367,8 +372,11 @@ def main():
         axis_typing=axis.typing(folder/axis.TYPING_LOG)
         dearray_native=dearray.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
         dearray_typing=dearray.typing(folder)
+        multifile_native=multifile.native(list(ET.parse(folder/'native-tests.xml').getroot().iter('testcase')))
+        multifile_typing=multifile.typing(folder)
         for cohort,path in [('builder',folder/'python-tests.xml'),('consumer',args.artifacts/('manylinux-consumer-'+version)/'consumer-tests.xml')]:
             axis_cases=list(ET.parse(path).getroot().iter('testcase'))
+            report['multifile_ome_cohorts'].append(dict(python=version,cohort=cohort,native=multifile_native,builder_typing=multifile_typing,installed=multifile.python(axis_cases),desktop=multifile.desktop(axis_cases)))
             report['tma_dearray_cohorts'].append(dict(python=version,cohort=cohort,native=dearray_native,builder_typing=dearray_typing,installed=dearray.python(axis_cases),desktop=dearray.desktop(axis_cases)))
             report['tma_axis_cohorts'].append(dict(python=version,cohort=cohort,native=axis_native,builder_typing=axis_typing,installed=axis.python(axis_cases),desktop=axis.desktop(axis_cases)))
             report['scientific_grid_cohorts'].append(dict(python=version,cohort=cohort,native=scientific_native,builder_typing=scientific_typing,installed=scientific.python(list(ET.parse(path).getroot().iter('testcase')))))

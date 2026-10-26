@@ -1,0 +1,87 @@
+{
+  "schema": "qpx.multifile-ome-evidence/1",
+  "native": {
+    "source_identity": [
+      "Compound source bounds, primary-only fingerprint identity, QPV3 round trip and downgrade refusal passed"
+    ],
+    "resampling": [
+      "Compound TIFF observations, QRA3/QRA4 retention, downgrade refusal and companion-only stale status passed"
+    ]
+  },
+  "tiff_suite": "raw_image",
+  "tiff_marker": "TIFF multi-file UUID dispatch, colliding cache keys, view ownership and companion mutation guards passed",
+  "tiff_disabled_marker": "TIFF multi-file reader disabled; open refused",
+  "installed": {
+    "test_multifile_tiff_reader": [
+      "test_companion_change_rejects_even_when_primary_unchanged[cached]",
+      "test_companion_change_rejects_even_when_primary_unchanged[display]",
+      "test_companion_change_rejects_even_when_primary_unchanged[outside]",
+      "test_companion_change_rejects_even_when_primary_unchanged[view]",
+      "test_companion_geometry_and_xml_declarations_reject[base]",
+      "test_companion_geometry_and_xml_declarations_reject[entity]",
+      "test_companion_geometry_and_xml_declarations_reject[pyramid]",
+      "test_compound_batch_checkpoint_and_resume",
+      "test_compound_cli_batch_and_resume[False]",
+      "test_compound_cli_batch_and_resume[True]",
+      "test_exact_all_axes_levels_padding_and_shared_cache[0-companions/planes-\\u03b2.ome.tif]",
+      "test_exact_all_axes_levels_padding_and_shared_cache[0-primary.ome.tif]",
+      "test_exact_all_axes_levels_padding_and_shared_cache[1024-companions/planes-\\u03b2.ome.tif]",
+      "test_exact_all_axes_levels_padding_and_shared_cache[1024-primary.ome.tif]",
+      "test_exact_all_axes_levels_padding_and_shared_cache[1048576-companions/planes-\\u03b2.ome.tif]",
+      "test_exact_all_axes_levels_padding_and_shared_cache[1048576-primary.ome.tif]",
+      "test_fileset_file_bound_and_global_cache_budget[64]",
+      "test_fileset_file_bound_and_global_cache_budget[65]",
+      "test_invalid_fileset_is_refused[alias]",
+      "test_invalid_fileset_is_refused[calibration]",
+      "test_invalid_fileset_is_refused[channels]",
+      "test_invalid_fileset_is_refused[duplicate_slot]",
+      "test_invalid_fileset_is_refused[duplicate_uuid]",
+      "test_invalid_fileset_is_refused[ifd]",
+      "test_invalid_fileset_is_refused[incomplete]",
+      "test_invalid_fileset_is_refused[missing]",
+      "test_invalid_fileset_is_refused[no_filename]",
+      "test_invalid_fileset_is_refused[size]",
+      "test_invalid_fileset_is_refused[type]",
+      "test_invalid_fileset_is_refused[uuid]",
+      "test_nonempty_companion_ownership_and_logical_view_preview[companions/planes-\\u03b2.ome.tif]",
+      "test_nonempty_companion_ownership_and_logical_view_preview[primary.ome.tif]",
+      "test_project_relocation_and_explicit_relink_resolve_companions_again",
+      "test_project_restart_retains_compound_raw_archive_and_explicit_replay[False]",
+      "test_project_restart_retains_compound_raw_archive_and_explicit_replay[True]",
+      "test_xml_admission_limits_are_fileset_wide[False]",
+      "test_xml_admission_limits_are_fileset_wide[True]"
+    ],
+    "test_multifile_ome_fixture": [
+      "test_every_stored_plane_and_subifd_matches_scalar_coordinate_equation",
+      "test_independent_ome_reader_resolves_base_fileset_from_either_member[companions/planes-\\u03b2.ome.tif]",
+      "test_independent_ome_reader_resolves_base_fileset_from_either_member[primary.ome.tif]",
+      "test_metadata_refs_have_matching_uuid_and_relative_paths"
+    ],
+    "test_source_companions": [
+      "test_companion_list_is_a_copy_and_descriptor_is_read_only",
+      "test_legacy_single_file_json_and_primary_association_stay_version_one",
+      "test_memory_descriptor_has_no_primary_or_companion_files"
+    ]
+  },
+  "desktop": {
+    "test_multifile_tiff_reader": [
+      "test_compound_imgui_measure_keep_and_csv",
+      "test_compound_managed_measure_verify_and_project_save"
+    ]
+  },
+  "headless_skip": {
+    "type": "pytest.skip",
+    "message": "opt-in compound TIFF desktop"
+  },
+  "typing_positive_log": "multifile-ome-typing-positive.log",
+  "typing_negative": {
+    "source_companions_invalid.py": {
+      "log": "multifile-ome-typing-negative.log",
+      "lines": [
+        4,
+        5,
+        6
+      ]
+    }
+  }
+}

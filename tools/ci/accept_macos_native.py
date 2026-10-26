@@ -19,6 +19,9 @@ axis_spec=importlib.util.spec_from_file_location('qpx_tma_axis_evidence',Path(__
 axis=importlib.util.module_from_spec(axis_spec);exec(compile(Path(axis_spec.origin).read_bytes(),axis_spec.origin,"exec",dont_inherit=True),axis.__dict__)
 dearray_spec=importlib.util.spec_from_file_location("qpx_tma_dearray_evidence",Path(__file__).with_name("tma_dearray_evidence.py"))
 dearray=importlib.util.module_from_spec(dearray_spec);exec(compile(Path(dearray_spec.origin).read_bytes(),dearray_spec.origin,"exec",dont_inherit=True),dearray.__dict__)
+multifile_spec=importlib.util.spec_from_file_location("qpx_multifile_ome_evidence",Path(__file__).with_name("multifile_ome_evidence.py"))
+multifile=importlib.util.module_from_spec(multifile_spec);exec(compile(Path(multifile_spec.origin).read_bytes(),multifile_spec.origin,"exec",dont_inherit=True),multifile.__dict__)
+
 
 
 def require(value, message):
@@ -98,6 +101,7 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
         entries.append(dict(architecture=arch,native_passed=50,frozen_shape_masks_and_maxima=26,
             sampled_production_native=sampled_cells,
             evidence_sha256={p.name:sha(p) for p in sorted(folder.iterdir()) if p.is_file()},ci_result=data))
+        entries[-1]['multifile_ome_native']=multifile.native(cases)
         entries[-1]['resampling_native']=resampling.native(cases)
         entries[-1]['tma_axis_native']=axis.native(cases)
         entries[-1]['tma_dearray_native']=dearray.native(cases)
@@ -111,7 +115,7 @@ def audit(artifacts, run, commit, sampled_cells=False, small_frontier=False, tma
         if tma_cases:entries[-1]['tma_cases']=tma.native(cases,file_export=file_export,cohort=cohort)
         if macho_inventory:entries[-1]['macho_inventory']=mac_inventory.audit(folder,Path(__file__).resolve().parents[2],commit,arch,data)
         if macos_relocation:entries[-1]['macos_relocation']=relocated.audit(folder,Path(__file__).resolve().parents[2],commit,arch,data)
-    return dict(tma_dearray_sources=dearray.source_contract(Path(__file__).resolve().parents[2],commit),tma_axis_sources=axis.source_contract(Path(__file__).resolve().parents[2],commit),scientific_grid_sources=scientific.source_contract(Path(__file__).resolve().parents[2],commit),hierarchy_sources=hierarchy.source_contract(Path(__file__).resolve().parents[2],commit),schema='qpx.macos-native-audit/1',source=commit,run=run['url'],jobs=entries,
+    return dict(multifile_ome_sources=multifile.source_contract(Path(__file__).resolve().parents[2],commit),tma_dearray_sources=dearray.source_contract(Path(__file__).resolve().parents[2],commit),tma_axis_sources=axis.source_contract(Path(__file__).resolve().parents[2],commit),scientific_grid_sources=scientific.source_contract(Path(__file__).resolve().parents[2],commit),hierarchy_sources=hierarchy.source_contract(Path(__file__).resolve().parents[2],commit),schema='qpx.macos-native-audit/1',source=commit,run=run['url'],jobs=entries,
         auditor_sha256=sha(Path(__file__)),native_engineering_accepted=True,
         production_sampled_native_required=sampled_cells,python_gui_openslide_validated=False,
         small_frontier_required=small_frontier,

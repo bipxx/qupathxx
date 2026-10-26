@@ -284,7 +284,7 @@ int main() {
             check(std::get<std::vector<std::uint16_t>>(projected->read_raw(request).storage())[10]==65535);
             check(projected->tiff_read_stats()->decoded_blocks==1);projected->close();rejects([&]{server->read_raw(request);});check(std::get<std::vector<std::uint16_t>>(raw.storage())[2]==40000);
             check(path.parent_path()==fs::current_path());fs::remove(path);
-        } else rejects([&]{open_tiff(path.u8string());});
+        } else {rejects([&]{open_tiff(path.u8string());});std::cout<<"TIFF multi-file reader disabled; open refused\n";}
         std::cout<<"raw quantitative buffers, TIFF decode/cache, preview and statistics passed\n";
     }catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}
 }

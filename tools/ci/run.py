@@ -9,6 +9,7 @@ import subprocess
 import sys
 import time
 import zipfile
+import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -16,6 +17,7 @@ import assets
 import scientific_grid_evidence as scientific
 import tma_axis_evidence as axis
 import tma_dearray_evidence as dearray
+import multifile_ome_evidence as multifile
 sys.path.insert(0, str(ROOT/'tools'))
 import build_opencv_sdk
 
@@ -172,6 +174,7 @@ def main():
         run(['cmake', '--build', build, '--config', 'Debug' if args.mode == 'sanitize' else 'Release', '--parallel', '2'], work/'build.log', env)
     run(['ctest', '--test-dir', build, '-C', 'Debug' if args.mode == 'sanitize' else 'Release', '--output-on-failure', '--test-output-size-passed', '1048576',
          '--output-junit', work/'native-tests.xml'], work/'native-tests.log', env, 900)
+    multifile.native(list(ET.parse(work/'native-tests.xml').getroot().iter('testcase')),tiff=full)
     if args.mode not in ['headless', 'gui']:
         return
     wheel = next((work/'wheels').glob('qupathxx-*.whl'))
@@ -218,6 +221,9 @@ def main():
     run(command, work/'installed-workflow.log', env)
     run([test_python, '-I', '-m', 'pytest', 'tests', '-q', '-o', 'faulthandler_timeout=60',
          f'--junitxml={work}/python-tests.xml'], work/'python-tests.log', env, 2400)
+    multifile_cases=list(ET.parse(work/'python-tests.xml').getroot().iter('testcase'))
+    multifile.python(multifile_cases)
+    multifile.desktop(multifile_cases,gui=args.mode=='gui')
     run([test_python, '-I', ROOT/'tools/compare_qupath_cells.py', '--cell-algorithm', 'log-bodies',
          '--report', work/'qupath-cells-body-comparison.json'], work/'qupath-cells-body-comparison.log', env, 120)
     run([test_python, '-I', ROOT/'tools/compare_qupath_cells.py', '--cell-algorithm', 'log-sampled',
@@ -308,6 +314,10 @@ def main():
     for filename,contract in dearray.CONTRACT["typing_negative"].items():
         run([test_python,"-I","-m","mypy","--strict","--no-incremental","tests/typing/"+filename],work/contract["log"],env,expected=1)
     dearray.typing(work)
+    run([test_python,"-I","-m","mypy","--strict","--no-incremental","tests/typing/source_companions_valid.py"],work/multifile.CONTRACT["typing_positive_log"],env)
+    for filename,contract in multifile.CONTRACT["typing_negative"].items():
+        run([test_python,"-I","-m","mypy","--strict","--no-incremental","tests/typing/"+filename],work/contract["log"],env,expected=1)
+    multifile.typing(work)
     negative_log = work/'typing-negative.log'
     run([test_python, '-I', '-m', 'mypy', '--strict', '--no-incremental', 'tests/typing/invalid_api.py'], negative_log, env, expected=1)
     lines = re.findall(r'invalid_api\.py:(\d+): error:', negative_log.read_text(encoding='utf8'))
