@@ -40,13 +40,21 @@ and portable builders/fresh consumers on the original handles. E1/E2 and the
 later E3/E4 tooling keep their own implementation/local evidence and are included
 in that source. Preserve the earlier partial observation and every source identity.
 
+The latest native classifier packet is [owner file jobs](benchmarks/raw-pixel-file-jobs-local.json)
+at `404f506`: prediction save/resume, training checkpoint delivery and verified
+historical open/one-block reads pass three affected workflows; sixteen regressions
+retain `447d3ae`. Both sources bind 367 inputs and 22 binaries are retained.
+All 19 initial suites passed before worker verification hardening. Next add raw
+external stream links/records using existing RGB lifetime/rebasing patterns, then
+installed frontends and one integrated qualification source. T3 remains Partial.
+
 The latest native classifier packet is [QTC1 training prefix checkpoint/replay](benchmarks/raw-training-checkpoint-local.json)
 at `fb7ab73`: eight suites each Windows/Linux and three Windows training suites
 pass, with 363 matching compiler inputs and nineteen retained binaries.
 Balanced/unbalanced resumed tables/hashes and fixed-parameter backend models
 match uninterrupted execution; real TIFF resumes after close/reopen. Prefix
-replay repeats IO/features. Next deliver native owner file jobs/references and
-installed frontend workflows, then freeze one integrated qualification source.
+replay repeats IO/features. Owner file jobs have the acceptance above; next deliver retained raw
+file references and installed frontend workflows, then freeze one integrated qualification source.
 Forest-fitting interruption, automatic maintenance and broader crash acceptance
 remain open. This is local engineering evidence, not milestone completion.
 
@@ -89,7 +97,7 @@ at `cc6fab4`: three affected workflows, sixteen regressions at `30d0659`, 360
 matching inputs and 22 retained original/final binaries. Mixed full/tiled project,
 snapshot/recovery readback, historical-authority refusal and all-selected ID bounds
 pass through the existing QXR1 wrapper/schema 13. Training prefix checkpoints now have the later acceptance above; next finish
-native owner file/checkpoint adapters and installed frontends. Automatic checkpoint maintenance and broader
+retained external raw prediction references and installed frontends. Automatic checkpoint maintenance and broader
 crash/power-loss acceptance remain open. The
 API plan's T1-T5 table defines shared implementations, resource limits and evidence.
 Cross-tile contours, integrated

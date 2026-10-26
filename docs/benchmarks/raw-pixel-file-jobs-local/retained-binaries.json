@@ -1,0 +1,222 @@
+{
+  "source": "404f506e76097e52e126f54bc1923bb857924248",
+  "binaries": [
+    {
+      "host": "windows",
+      "suite": "pixel_workflows",
+      "source": "404f506e76097e52e126f54bc1923bb857924248",
+      "fingerprint": "e76611d950b047ae99dd309b1bde0d2c30b5a2cfac4afbd23954aa2c87fa2aa5",
+      "path": "build/rawfilejobs227-retained-binaries/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 4121088,
+      "sha256": "fdc981a2c78492c769804ebad016059875b87b69ec674402d74ec88aebc479d1"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_workflows",
+      "source": "404f506e76097e52e126f54bc1923bb857924248",
+      "fingerprint": "e76611d950b047ae99dd309b1bde0d2c30b5a2cfac4afbd23954aa2c87fa2aa5",
+      "path": "build/rawfilejobs227-retained-binaries/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 7876696,
+      "sha256": "b45ad91f9cd2aee5323bd549f40ad1a8b6e30d18d71e376b0c95b24498c309a8"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_workflows",
+      "source": "404f506e76097e52e126f54bc1923bb857924248",
+      "fingerprint": "e76611d950b047ae99dd309b1bde0d2c30b5a2cfac4afbd23954aa2c87fa2aa5",
+      "path": "build/rawfilejobs227-retained-binaries/training/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 5321728,
+      "sha256": "fea952931ccccc2e267b08229d6b7e7033a167e7f578607d3741f8666c442cb7"
+    },
+    {
+      "host": "windows",
+      "suite": "pixel_workflows",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 4121088,
+      "sha256": "783d3f4b3e35f3cd4570ab0c9fda77b6702368ef6f8a652a737939c0631fe377"
+    },
+    {
+      "host": "windows",
+      "suite": "pixel_features",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/windows/qupathxx_pixel_feature_tests.exe",
+      "bytes": 1650176,
+      "sha256": "74b29bb5604551f68ec863f0d2bde177b130ee93c2b592a5e1bf5c8669104494"
+    },
+    {
+      "host": "windows",
+      "suite": "resampling",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/windows/qupathxx_resampling_tests.exe",
+      "bytes": 2338816,
+      "sha256": "049a12d46edc69dbe1e08d5c1a6fd5f940a9bdacf2b4877798fb35c0da33bd6c"
+    },
+    {
+      "host": "windows",
+      "suite": "raw_image",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/windows/qupathxx_raw_image_tests.exe",
+      "bytes": 3429376,
+      "sha256": "02913bc91d2c0c65d43d1c97ad9a869ccfb2dce4f2762320cb424e0bc8f54c87"
+    },
+    {
+      "host": "windows",
+      "suite": "source_identity",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/windows/qupathxx_source_identity_tests.exe",
+      "bytes": 1511936,
+      "sha256": "7503541bc2432c909c908bfcd6f862960239a24a18b8f5c1a9561559435a0570"
+    },
+    {
+      "host": "windows",
+      "suite": "provenance",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/windows/qupathxx_provenance_tests.exe",
+      "bytes": 1623040,
+      "sha256": "b6ec427bf4abfe0530c4d101914a5cefc7a33f13b752c15410cf9b8eadb3f210"
+    },
+    {
+      "host": "windows",
+      "suite": "project",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/windows/qupathxx_project_tests.exe",
+      "bytes": 2866176,
+      "sha256": "0ed1b62ff4741c525d33364e35fb2365c9b36c73f34b97c42211cb365551e2d2"
+    },
+    {
+      "host": "windows",
+      "suite": "project_save",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/windows/qupathxx_save_tests.exe",
+      "bytes": 2631680,
+      "sha256": "40771d343441776051425c5a8af5effd71865a65380cf9e6c3c66085af660b0c"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_workflows",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 7876696,
+      "sha256": "5532ac9c3aa0b81aa60d3053909797fb120c2da75a4f36d4363d274cdc6064fc"
+    },
+    {
+      "host": "linux",
+      "suite": "pixel_features",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/linux/qupathxx_pixel_feature_tests",
+      "bytes": 2842368,
+      "sha256": "86a27e9912c32aef62a3602af718dc5e976833d630254af6ab52520b42d612df"
+    },
+    {
+      "host": "linux",
+      "suite": "resampling",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/linux/qupathxx_resampling_tests",
+      "bytes": 5507176,
+      "sha256": "f4505f7ec6ea86cc5a6ad0c9f22a04ea267276d9fa4c2e0a7e610a40a8392eb2"
+    },
+    {
+      "host": "linux",
+      "suite": "raw_image",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/linux/qupathxx_raw_image_tests",
+      "bytes": 6738424,
+      "sha256": "9eff37fb37248f42b007534dfd61744df0becc6d470e385a91c68450fd574067"
+    },
+    {
+      "host": "linux",
+      "suite": "source_identity",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/linux/qupathxx_source_identity_tests",
+      "bytes": 2567480,
+      "sha256": "a7e0b15877c7e2b23c6a3cf2fcebe17295206f2b397c42c0fe882bff166e629a"
+    },
+    {
+      "host": "linux",
+      "suite": "provenance",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/linux/qupathxx_provenance_tests",
+      "bytes": 4552776,
+      "sha256": "866e165fdad9ccc88900d569f03962ef38727aeab01b9e1ef69a453c9ec9ec63"
+    },
+    {
+      "host": "linux",
+      "suite": "project",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/linux/qupathxx_project_tests",
+      "bytes": 6057976,
+      "sha256": "61115bd6c14f2c3b39fbe285c8b3c0db8ed65cf167f0df5d8b874a889d322b0f"
+    },
+    {
+      "host": "linux",
+      "suite": "project_save",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/linux/qupathxx_save_tests",
+      "bytes": 6083512,
+      "sha256": "35aeda11476973a3bf9e95edc0f2ce5ee1f084af0cdec0f045c61c992e227dd2"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_workflows",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/training/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 5321728,
+      "sha256": "09550bdd691dd7612fd62a042ee70b02ba0dc16b6fcff2b374c7e9baab73efdb"
+    },
+    {
+      "host": "training",
+      "suite": "pixel_features",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/training/qupathxx_pixel_feature_tests.exe",
+      "bytes": 2475520,
+      "sha256": "1f9d1d7e759f93d5ed0691e631372ea4ea1c5af5bbf9ed3a06ecb0e7c9267643"
+    },
+    {
+      "host": "training",
+      "suite": "classifier",
+      "passed": true,
+      "source": "447d3aeb234547444ac9f0cbf1753eb6482d8160",
+      "fingerprint": "1de543dc48154544386efea25a6badcf8d8b2334ce9563635f65fcb293ee8f12",
+      "path": "build/rawfilejobs227-initial-products/training/qupathxx_classifier_tests.exe",
+      "bytes": 1389568,
+      "sha256": "f0ca303794b428cff1d113118c183e940af0386907ac0e2ba7648f141ee53a52"
+    }
+  ]
+}

@@ -704,5 +704,46 @@ there is no constant-IO/time claim. A completed table can train through
 `train_raw_pixel_tiled_classifier` with explicit effective parameters; QTC1 does
 not resume interrupted forest fitting. Worker callers must join before releasing
 the borrowed reader and use existing owner verification to publish their table.
-Automatic cadence, abrupt-process/power-loss acceptance, owner file controllers,
-retained stream-file references and installed frontends remain open.
+Automatic cadence, abrupt-process/power-loss acceptance, retained stream-file references and installed frontends remain open.
+
+
+## Native file job delivery
+
+`raw_pixel_file_jobs.hpp` adds three typed controllers over the existing QWS1 and
+QTC1 implementations. `RawPixelStreamSaveJob.request` exports/resumes prediction;
+`RawPixelTrainingCheckpointJob.request` saves/resumes sampled training. Their
+`poll(document)`/`wait(document)` return status, while `take(document)` transfers
+one result only after fresh capture/document/source/output checks. Partial QTC1
+results have no table; completed results retain the fresh request capture and
+can use existing `archive_raw_pixel_tiled_training`/Document retention.
+
+`RawPixelStreamFileReadJob.open` verifies a complete historical prefix in its
+worker. `take_file` transfers its historical file handle. An explicit `read(file,
+index)` and `take_block` transfer one owning block; there is no decode-ahead.
+Neither historical file nor block restores live document authority. The new
+`RawPixelStreamFile.check_unchanged` checks cached identity/stamps without a block
+scan or upgrading an unverified file into a verified one.
+
+Each controller has one future/result slot. Pending output prevents replacement
+until taken, invalidated or cancelled; `await_completion` joins without publishing.
+All controller methods run on the constructing thread except native atomic
+`cancel`. Destruction cancels and joins before releasing captured readers. Workers
+never inspect a live Document. The common private helper shares only lifecycle;
+each typed job supplies its own source/document/file validation.
+
+Prediction export verifies the saved prefix in the worker and matches totals and
+commitments to the save result before delivery. Training checkpoint readback
+validates the complete bounded metadata blob. Poll/take use lightweight output
+identity/stamp guards and fresh live-source checks, not a full output scan on the
+owner. Full verification costs file IO proportional to prefix size, with one
+bounded historical block live. Stats report the final completed-window count;
+they do not imply per-window in-flight progress during an opaque file operation.
+
+Cancellation, owner edits or file changes suppress pending results. An atomic
+file commit that already succeeded remains historical output; late owner
+staleness/cancellation does not delete it or restore an older file. This differs
+from cancellation detected before commit, which preserves the prior checkpoint.
+External raw stream link/record retention, asynchronous relinking, installed
+frontends, automatic maintenance and abrupt-process/power-loss acceptance remain
+open. Reuse the existing RGB external-link lifetime/path model with a distinct
+raw metadata representation rather than embedding whole streams in project blobs.
