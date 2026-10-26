@@ -74,7 +74,7 @@ void RawPixelFrontend::trace_stream(const Document& doc,const RawPixelClassifier
 }
 void RawPixelFrontend::trace_file(const Document& doc,const std::string& path,RawPixelStreamFileLimits limits,RawPixelStreamContourOptions options,bool replay,std::shared_ptr<const RawPixelStreamLink> expected) {
     options.validate();limits.validate();if(!has_geos()) throw std::runtime_error("Raw historical contours require native geometry");
-    auto& s=*impl_;s.start(replay?Impl::Stage::FileReplayOpen:Impl::Stage::FileContours);s.file_document=&doc;s.file_revision=doc.revision();s.file_options=options;s.file_replay=replay;s.report.contour_work_bytes=options.work_bytes;
+    auto& s=*impl_;s.start(replay?Impl::Stage::FileReplayOpen:Impl::Stage::FileContours);s.file.reset();s.report.historical.reset();s.report.historical_model.reset();s.report.link.reset();s.report.stream_record=0;s.file_document=&doc;s.file_revision=doc.revision();s.file_options=options;s.file_replay=replay;s.report.contour_work_bytes=options.work_bytes;
     try {const auto input=expected?expected->path():path;if(replay) {if(expected) s.reader.open_link(std::move(expected),limits);else s.reader.open(input,limits);}else s.reader.trace_path(input,limits,options,std::move(expected));}catch(...) {s.fail("failed","Historical contour operation could not start");throw;}
 }
 const std::vector<std::uint64_t>& RawPixelFrontend::publish(Document& doc,const std::string& prefix) {

@@ -19,6 +19,8 @@ inline void run() {
     const RawPixelTiledPredictionRequest request(doc,model,lattice,stream_options,{},roi);RawPixelStreamContourJob job;
     if(!has_geos()) {
         const auto reads=source->reads.load();rejects<std::runtime_error>([&]{trace_raw_pixel_stream(request);});rejects<std::runtime_error>([&]{job.request(request);});
+        RawPixelStreamFileReadJob unavailable;bool refused_file=false;try {unavailable.trace_path("missing-history-must-not-be-opened.qws");}catch(const std::runtime_error& e) {refused_file=std::string(e.what()).find("native geometry")!=std::string::npos;}
+        require(refused_file,"historical unavailable path reached file opening");
         require(source->reads.load()==reads,"unavailable geometry performed IO");std::cout<<"Raw streamed contour workflow: GEOS-unavailable direct/job pre-IO refusal passed\n";return;
     }
     RawPixelStreamContourOptions options;options.boundary_work_bytes=1024*1024;options.contours.work_bytes=1024*1024;options.work_bytes=16*1024*1024;

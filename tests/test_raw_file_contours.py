@@ -137,17 +137,21 @@ GUI=pytest.mark.skipif(not q.has_gui or os.environ.get("QUPATHXX_TEST_GUI")!="1"
 
 @GUI
 @pytest.mark.parametrize("apply",[False,True])
-def test_desktop_historical_preview_and_fresh_reverified_apply(case,tmp_path,apply):
+@pytest.mark.parametrize("retained",[False,True])
+def test_desktop_historical_preview_and_fresh_reverified_apply(case,tmp_path,apply,retained):
     from test_gui_raw_pixel import options as gui_options,click
     from test_gui_pixel_classifier import ready
     project,_,doc,root,lattice,_,_,limits,options=case;path,request=save(case,tmp_path)
     expected=q.trace_raw_pixel_stream(request,options)
     settings=q.RawPixelTrainingSettings();settings.lattice=lattice
-    ui=gui_options(settings,root,tmp_path);raw=ui.raw_pixel;raw.stream_path=str(path);raw.read_limits=limits;raw.stream_contour_options=options;raw.model=None;ui.raw_pixel=raw
-    ui.inputs=[*click(4,q.GuiInputTarget.RAW_PIXEL_FILES_TAB),*click(8,q.GuiInputTarget.RAW_PIXEL_TRACE_FILE),ready(12,q.GuiInputWait.RAW_PIXEL_CONTOURS_READY)]
+    ui=gui_options(settings,root,tmp_path);raw=ui.raw_pixel;raw.stream_path=str(path);raw.read_limits=limits;raw.stream_contour_options=options;raw.model=None
+    if retained:
+        file=q.RawPixelStreamFile(str(path),limits);file.verify();raw.record_id=doc.keep_raw_pixel_stream(file.link());raw.stream_path=""
+    ui.raw_pixel=raw
+    ui.inputs=[*click(4,q.GuiInputTarget.RAW_PIXEL_RECORDS_TAB if retained else q.GuiInputTarget.RAW_PIXEL_FILES_TAB),*click(8,q.GuiInputTarget.RAW_PIXEL_TRACE_FILE),ready(12,q.GuiInputWait.RAW_PIXEL_CONTOURS_READY)]
     if apply:ui.inputs+=[*click(16,q.GuiInputTarget.RAW_PIXEL_REPLAY_FILE),ready(20,q.GuiInputWait.RAW_PIXEL_CONTOURS_READY),*click(24,q.GuiInputTarget.RAW_PIXEL_APPLY_FILE),ready(28,q.GuiInputWait.RAW_PIXEL_CONTOURS_PUBLISHED)]
     folder=Path(os.environ.get("QUPATHXX_HISTORY_EVIDENCE_DIR",tmp_path));folder.mkdir(parents=True,exist_ok=True)
-    report=q.show(project,frame_limit=45,capture_path=str(folder/f"historical-{int(apply)}.ppm"),options=ui)
+    report=q.show(project,frame_limit=45,capture_path=str(folder/f"historical-{int(retained)}-{int(apply)}.ppm"),options=ui)
     assert report.replay_complete and not report.raw_pixel.error,report.raw_pixel.error
     assert report.raw_pixel.model is None and report.raw_pixel.contour_preview_ready and report.ui_overflow_items==0
     if apply:
@@ -157,15 +161,18 @@ def test_desktop_historical_preview_and_fresh_reverified_apply(case,tmp_path,app
     else:assert report.raw_pixel.historical_contours is not None and report.raw_pixel.stream_contours is None and not report.raw_pixel.published_ids and doc.object_count==3
 
 @GUI
-def test_managed_history_preview_fresh_replay_apply_and_saved_geometry(case,tmp_path):
+@pytest.mark.parametrize("retained",[False,True])
+def test_managed_history_preview_fresh_replay_apply_and_saved_geometry(case,tmp_path,retained):
     from test_viewer_session import completed,run
-    project,image,doc,root,_,_,_,limits,options=case;path,_=save(case,tmp_path,q.RawPixelStreamRegion(1,1,3,2));source=tmp_path/"source.qpx";project.save(str(source));doc.server.close();saved=tmp_path/"replayed.qpx"
+    project,image,doc,root,_,_,_,limits,options=case;path,_=save(case,tmp_path,q.RawPixelStreamRegion(1,1,3,2));source=tmp_path/"source.qpx"
+    file=q.RawPixelStreamFile(str(path),limits);file.verify();record=doc.keep_raw_pixel_stream(file.link()) if retained else 0;input_path="" if retained else str(path)
+    project.save(str(source));doc.server.close();saved=tmp_path/"replayed.qpx"
     session=q.ViewerSession(str(source));held={}
     def producer():
-        preview=completed(session,session.contour_raw_pixel_file(image,str(path),limits,options))
+        preview=completed(session,session.contour_raw_pixel_file(image,input_path,limits,options,record_id=record))
         assert preview.raw_pixel_file_contours is not None and preview.raw_pixel_stream_contours is None and not preview.committed and not preview.object_ids
         held["historical"]=preview.raw_pixel_file_contours
-        applied=completed(session,session.contour_raw_pixel_file(image,str(path),limits,options,replay=True,apply=True,expected_revision=preview.document_revision))
+        applied=completed(session,session.contour_raw_pixel_file(image,input_path,limits,options,record_id=record,replay=True,apply=True,expected_revision=preview.document_revision))
         assert applied.raw_pixel_file_contours is None and applied.raw_pixel_stream_contours is not None and applied.committed and len(applied.object_ids)==applied.components>0
         held["ids"]=applied.object_ids;held["geometry"]=[c.geometry for c in applied.raw_pixel_stream_contours.contours.components]
         completed(session,session.save(str(saved)));completed(session,session.close(True))
@@ -187,3 +194,17 @@ def test_managed_history_quota_and_unverified_apply_refuse(case,tmp_path):
         assert event.state=="failed" and not event.committed and not event.object_ids and "result budget" in event.error
         session.take(ticket);completed(session,session.close(True))
     run(session,producer)
+
+
+@pytest.mark.parametrize("mode",["history-cancel","history-close","replay-cancel","replay-close"])
+def test_historical_and_replay_active_shutdown_in_child(case,tmp_path,mode):
+    import sys
+    from test_raw_pixel_python import tiff
+    model=case[5];pixels=tmp_path/"large.tif";tiff(pixels,1024,768);project=q.Project();image=project.add_image(str(pixels),"tiff");doc=project.document(image);root=doc.add_roi(q.Roi.rectangle(q.Rect(0,0,1024,768)))
+    lattice=q.ScientificRawLattice(1024,768,q.ScientificGridAxis(0,1024,896,2),q.ScientificGridAxis(0,768,640,2));stream=q.RawPixelStreamOptions();stream.tile_width=stream.tile_height=16;stream.work_bytes=16*1024**2
+    request=q.RawPixelTiledPredictionRequest(doc,model,lattice,stream,object_id=root);file=tmp_path/"large.qws";q.save_raw_pixel_stream(request,str(file));source=tmp_path/"source.qpx";project.save(str(source));doc.server.close()
+    folder=Path(os.environ.get("QUPATHXX_HISTORY_SHUTDOWN_DIR",tmp_path));folder.mkdir(parents=True,exist_ok=True);receipt=folder/(mode+".json")
+    done=subprocess.run([sys.executable,"-I",str(Path(__file__).with_name("raw_file_contour_shutdown_child.py")),mode,str(source),str(file),str(receipt)],capture_output=True,text=True,encoding="utf-8",timeout=45)
+    assert done.returncode==0,done.stdout+done.stderr
+    result=json.loads(receipt.read_text());assert result["observed_busy"] and result["observed_state"]=="running" and result["shutdown_completed"]
+    pixels.rename(tmp_path/"source-released.tif");file.rename(tmp_path/"history-released.qws")

@@ -70,9 +70,9 @@ def main():
                 if 'def valid_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.uint8]:')
                 if 'def vote_fractions_numpy(' in line:line=line.replace('-> object:','-> NDArray[numpy.float32]:')
             raw_nullable={
-                'GuiRawPixelReport':['RawPixelStreamContours','RawPixelClassifier','RawPixelArchive','RawPixelTrainingCheckpoint','RawPixelWindowClassification','RawPixelStreamLink','RawPixelContours'],
+                'GuiRawPixelReport':['RawPixelFileContours','RawPixelStreamContours','RawPixelClassifier','RawPixelArchive','RawPixelTrainingCheckpoint','RawPixelWindowClassification','RawPixelStreamLink','RawPixelContours'],
                 'GuiReport':['GuiRawPixelReport'],
-                'ViewerEvent':['RawPixelStreamContours','RawPixelArchive','RawPixelTrainingCheckpoint','RawPixelWindowClassification','RawPixelStreamLink','RawPixelContours'],
+                'ViewerEvent':['RawPixelFileContours','RawPixelStreamContours','RawPixelArchive','RawPixelTrainingCheckpoint','RawPixelWindowClassification','RawPixelStreamLink','RawPixelContours'],
                 'RawPixelTrainingJob':['RawPixelTrainingTable','RawPixelClassifier'],
                 'RawPixelTiledTrainingJob':['RawPixelTiledTrainingTable','RawPixelClassifier'],
                 'RawPixelPredictionJob':['RawPixelClassification'],
@@ -84,7 +84,7 @@ def main():
                 'RawPixelPredictionStream':['RawPixelWindowClassification'],
                 'RawPixelPredictionStreamJob':['RawPixelWindowClassification'],
                 'RawPixelStreamSaveJob':['RawPixelStreamLink'],
-                'RawPixelStreamFileReadJob':['RawPixelStreamFile','RawPixelStreamLink','RawPixelWindowClassification'],
+                'RawPixelStreamFileReadJob':['RawPixelFileContours','RawPixelStreamFile','RawPixelStreamLink','RawPixelWindowClassification'],
             }
             for name in raw_nullable.get(current,[]):line=line.replace('-> '+name+':','-> '+name+' | None:')
             if current=='PixelTrainingJob':

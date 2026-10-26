@@ -30,3 +30,16 @@ def contour_batch(model: q.RawPixelClassifier) -> q.ProjectBatchOptions:
     options.raw_contour_prefix="Contours"
     options.raw_contour_publication_bytes=64*1024**2
     return options
+
+
+def history(doc: q.Document,file: q.RawPixelStreamFile) -> q.RawPixelFileContours:
+    historical=q.trace_raw_pixel_stream_file(file)
+    request=q.capture_raw_pixel_stream_replay(doc,file)
+    live=q.trace_raw_pixel_stream_replay(request,file)
+    q.publish_raw_pixel_stream_contours(doc,request,live)
+    job=q.RawPixelStreamFileReadJob()
+    job.trace(file)
+    delivered: q.RawPixelFileContours | None=job.take_contours()
+    if delivered is not None:
+        return delivered
+    return historical
