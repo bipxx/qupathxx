@@ -1,0 +1,15 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start 1: pixel_workflows
+1/1 Test #1: pixel_workflows ..................***Failed    0.15 sec
+Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+Raw pixel archives: real TIFF retention, project save/reopen, snapshot save, stale-file refusal and historical-only decode passed
+remove: The directory is not empty.: "C:\Users\HEQ\AppData\Local\Temp\qpx-raw-archive-1036485564272200"
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.19 sec
+
+The following tests FAILED:
+	  1 - pixel_workflows (Failed)
+Errors while running CTest

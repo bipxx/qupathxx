@@ -1,0 +1,21 @@
+{
+  "source": "440f6105db82933076e325d3d1e5f8e0a0aeaaac",
+  "binaries": [
+    {
+      "host": "windows",
+      "source": "440f6105db82933076e325d3d1e5f8e0a0aeaaac",
+      "fingerprint": "cc60cb8b59f09ba0c8317c01f948b75aa8170c6fa9b9da2b2f56fb9e4ad0f3cc",
+      "path": "build/rawarchive217f-retained-binaries/windows/qupathxx_pixel_workflow_tests.exe",
+      "bytes": 3369984,
+      "sha256": "958338b83997716eea811bcd810520c8a8e35422d2d8b0a7de9870c47ce6fb9b"
+    },
+    {
+      "host": "linux",
+      "source": "440f6105db82933076e325d3d1e5f8e0a0aeaaac",
+      "fingerprint": "cc60cb8b59f09ba0c8317c01f948b75aa8170c6fa9b9da2b2f56fb9e4ad0f3cc",
+      "path": "build/rawarchive217f-retained-binaries/linux/qupathxx_pixel_workflow_tests",
+      "bytes": 6479880,
+      "sha256": "6ccb4ba287bd8f71bc8d81b57e766b19301c721c16efef4b8efb45841a2f45ef"
+    }
+  ]
+}

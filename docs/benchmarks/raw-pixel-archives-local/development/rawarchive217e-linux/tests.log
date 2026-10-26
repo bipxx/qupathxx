@@ -1,0 +1,36 @@
+Internal ctest changing into directory: /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native
+Test project /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native
+      Start  1: pixel_workflows
+ 1/11 Test  #1: pixel_workflows ..................***Failed    0.10 sec
+Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+Raw pixel archives: real TIFF retention, project save/reopen, snapshot save, stale-file refusal and historical-only decode passed
+filesystem error: cannot remove: Directory not empty [/tmp/qpx-raw-archive-165050273729]
+
+      Start  2: pixel_features
+ 2/11 Test  #2: pixel_features ...................   Passed    0.05 sec
+      Start  3: classifier_io
+ 3/11 Test  #3: classifier_io ....................   Passed    0.02 sec
+      Start  5: classifier
+ 4/11 Test  #5: classifier .......................   Passed    0.01 sec
+      Start  8: resampling
+ 5/11 Test  #8: resampling .......................   Passed    1.62 sec
+      Start 13: raw_image
+ 6/11 Test #13: raw_image ........................   Passed    1.29 sec
+      Start 16: source_identity
+ 7/11 Test #16: source_identity ..................   Passed    0.04 sec
+      Start 18: provenance
+ 8/11 Test #18: provenance .......................   Passed    0.01 sec
+      Start 47: project
+ 9/11 Test #47: project ..........................   Passed    2.62 sec
+      Start 49: recovery
+10/11 Test #49: recovery .........................   Passed    2.85 sec
+      Start 50: project_save
+11/11 Test #50: project_save .....................   Passed    2.24 sec
+
+91% tests passed, 1 tests failed out of 11
+
+Total Test time (real) =  10.98 sec
+
+The following tests FAILED:
+	  1 - pixel_workflows (Failed)
+Errors while running CTest

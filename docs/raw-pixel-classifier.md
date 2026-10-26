@@ -2,10 +2,10 @@
 
 Status: native features/models and bounded owner-captured sampling/prediction
 jobs have [local Windows/Linux evidence](benchmarks/raw-pixel-workflows-local.json)
-at `7beb80b`. Candidate `220304d` additionally implements archives and retained
-project/snapshot/recovery records, but is not accepted: run217e passes 10/11
-selected suites per Windows/Linux host and fails test-owned directory cleanup
-after its persistence assertions. A passing archive receipt remains required.
+at `7beb80b`. Archive/retention source `440f610` now has a separate
+[local receipt](benchmarks/raw-pixel-archives-local.json): the affected suite
+passes on both Windows/Linux hosts; ten unchanged regression suites retain
+their source220304d results. Failed development rounds remain in the receipt.
 Backend-enabled forest training, live replay verification, apply/undo,
 rational-window streaming, Python and UI integration remain open. RGB `pixel-v1` and QPC1/QPC2 stay unchanged.
 
@@ -148,7 +148,7 @@ streamed/full-grid checks and exact allocation admission tests.
 
 These model and captured-grid APIs now compose through the owner-captured
 controllers below. The candidate protocol below adds retention and archives;
-its acceptance remains blocked by test cleanup. Live replay, apply/undo,
+its local acceptance is recorded separately. Live replay, apply/undo,
 checkpoints, Python bindings, batch and desktop actions remain open.
 Those remaining A3-A6 integrations must preserve the same raw authority rather
 than routing quantitative values through the scalar-downsample RGB result.
@@ -198,16 +198,17 @@ produce no table/model/result. File-backed publication checks fresh primary and
 companion versions with the existing file guards, including changes after the
 worker has finished. Worker exceptions deliver failure, allow retry and never
 modify the document or an earlier owned result. The archive/retention candidate
-below now supplies an explicit owner-stage keep path. Its passing qualification,
-live replay, undo/apply, streamed resume and all frontend integrations remain
+below now supplies a locally verified owner-stage keep path. Live replay,
+undo/apply, streamed resume and all frontend integrations remain
 required.
 
 
 ## Retained archives and project record protocol
 
-Implementation candidate `220304d`; no passing archive acceptance yet. The
-real-TIFF persistence assertions run before the cleanup failure on both hosts.
-The API delivery queue defines the next verification and integration gates.
+Implementation source `440f610` has [local acceptance](benchmarks/raw-pixel-archives-local.json)
+for both hosts' affected workflow suite, including real-TIFF project/snapshot/
+recovery readback. Earlier failures and unchanged regression identities remain
+explicit. The API queue defines the remaining integration and platform gates.
 Source-only provenance has explicit QPV4 encoding/decoding opt-in; existing
 object consumers continue rejecting absent object identity by default.
 

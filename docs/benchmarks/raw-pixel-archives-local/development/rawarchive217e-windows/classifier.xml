@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-26T02:34:17"
+	>
+	<testcase name="classifier" classname="classifier" time="0.0476447" status="run">
+		<properties/>
+		<system-out>classifier checks passed; training=0
+</system-out>
+	</testcase>
+</testsuite>

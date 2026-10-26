@@ -479,3 +479,7 @@ docs/benchmarks/multifile-fault-213-qualification.json -text -whitespace
 # Owner-captured raw workflow native evidence.
 docs/benchmarks/raw-pixel-workflows-local/** -text -whitespace
 docs/benchmarks/raw-pixel-workflows-local.json -text -whitespace
+
+# Raw archive native evidence retains exact log bytes.
+docs/benchmarks/raw-pixel-archives-local/** -text -whitespace
+docs/benchmarks/raw-pixel-archives-local.json -text -whitespace
