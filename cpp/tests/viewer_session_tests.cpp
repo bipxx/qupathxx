@@ -1,4 +1,5 @@
 #include "../viewer_bridge.hpp"
+#include "../raw_pixel_frontend.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "qupathxx/tma.hpp"
 #include "qupathxx/raw_pixel_frontend.hpp"
@@ -60,8 +61,17 @@ void raw_pixel_session_contracts(const std::filesystem::path& root) {
         closing_owner.finish(h.context);const auto cancelled=closing.take(pending);check(cancelled.state=="cancelled" && !cancelled.raw_pixel_prediction && closing.stats().retained_bytes==0);
         check(!retained->labels().empty());
     }
-    ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(owner);h.project->remove_image(image);check(h.until(owner,session,ticket).state=="stale");session.take(ticket);owner.finish(h.context);check(!retained->labels().empty());server->close();
-    std::cout<<"Raw pixel viewer: owner training/checkpoint resume, bounded prediction, verified file retention, historical isolation, stale/queued-and-running-cancel/retry/removal and active shutdown join passed; training="<<has_classifier_training()<<'\n';
+    ticket=session.predict_raw_pixels(image,model,lattice.window(0,0,2,2),target);h.step(owner);h.project->remove_image(image);check(h.until(owner,session,ticket).state=="stale");session.take(ticket);owner.finish(h.context);check(!retained->labels().empty());
+    {
+        // Actual source-file replacement/version changes must be checked at
+        // delivery, not just against the reader's retained opening metadata.
+        detail::RawPixelFrontend frontend;frontend.predict(*doc,model,lattice.window(0,0,2,2),target,0,16u*1024*1024);
+        const auto stamp=std::filesystem::last_write_time(path);std::filesystem::last_write_time(path,stamp+std::chrono::seconds(2));frontend.wait(*doc);
+        const auto rejected=frontend.report();check(!rejected.prediction && (rejected.state=="stale" || (rejected.state=="failed" && rejected.error.find("source")!=std::string::npos)));
+        std::filesystem::last_write_time(path,stamp);check(!retained->labels().empty());
+    }
+    server->close();
+    std::cout<<"Raw pixel viewer: owner training/checkpoint resume, bounded prediction, verified file retention, historical isolation, actual-source-version rejection, stale/queued-and-running-cancel/retry/removal and active shutdown join passed; training="<<has_classifier_training()<<'\n';
 }
 
 void axis_session_contracts(const std::filesystem::path& root) {

@@ -303,3 +303,22 @@ def test_desktop_image_switch_retires_raw_prediction_and_gpu_preview(tmp_path):
         assert report.raw_pixel.preview_bytes == 0
     finally:
         doc.server.close()
+
+
+def test_desktop_edit_retires_ready_raw_prediction_and_gpu_preview(tmp_path):
+    p, _, doc, ids, root, settings = scene(tmp_path)
+    try:
+        o = options(settings, root, tmp_path)
+        raw = o.raw_pixel
+        raw.model = model_for(doc, ids, settings)
+        o.raw_pixel = raw
+        o.inputs = [*click(4, q.GuiInputTarget.RAW_PIXEL_FILES_TAB),
+            *click(8, q.GuiInputTarget.RAW_PIXEL_PREDICT), ready(12, q.GuiInputWait.RAW_PIXEL_PREVIEW_READY),
+            *click(16, q.GuiInputTarget.RAW_PIXEL_HIDE), event(20, q.GuiInputKind.SELECT_ALL_KEY),
+            event(24, q.GuiInputKind.DELETE_KEY)]
+        report = q.show(p, frame_limit=45, options=o)
+        assert report.replay_complete and doc.object_count == 0
+        assert report.raw_pixel.state == "stale" and report.raw_pixel.prediction is None
+        assert not report.raw_pixel.preview_ready and report.raw_pixel.preview_bytes == 0
+    finally:
+        doc.server.close()
