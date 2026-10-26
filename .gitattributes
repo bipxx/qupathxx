@@ -424,3 +424,6 @@ docs/benchmarks/multifile-ome-preparation/** -text -whitespace
 docs/benchmarks/multifile-ome-preparation.json text eol=lf
 docs/benchmarks/tma-dearray-202-macos-native/** -text -whitespace
 docs/benchmarks/tma-dearray-202-macos-native.json text eol=lf
+
+# Bounded cross-project efficiency review witnesses keep their original bytes.
+docs/reviews/compilexx-206-evidence/** -text -whitespace

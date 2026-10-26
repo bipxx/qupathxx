@@ -1,0 +1,50 @@
+{
+  "document-inventory.json": {
+    "bytes": 1645,
+    "sha256": "324d251df8e85ebada149feca61e3d2eaabefb138e06d878a0633ac0ecdbc860"
+  },
+  "probe.py": {
+    "bytes": 3414,
+    "sha256": "b3b7f7788732e6544f0cd173a9340d40a9e3f7855c4ab2fb34fcc980b471eda0"
+  },
+  "witnesses.json": {
+    "bytes": 758,
+    "sha256": "8a2436395cf6156177514d647bb6b4773e325cdb34d2dba5a55b1806414541af"
+  },
+  "source-overlap.json": {
+    "bytes": 1187,
+    "sha256": "a47952d521cdecea6bdca485f3d469de7fe58b46c98d0001cb055af932432f3d"
+  },
+  "gui-cohort-mismatch.json": {
+    "bytes": 3107,
+    "sha256": "a4acb71f057ae0ad74c4ea311d43d7a0dc18c24fd7bdf5d69250aad427bb3ea6"
+  },
+  "baseline.xml": {
+    "bytes": 340,
+    "sha256": "8b01ee17e22909c83a4024565924e29932610533ecee15bcea5c77b81b7b30ce"
+  },
+  "baseline.log": {
+    "bytes": 100,
+    "sha256": "604ad87756724bb897894ca29e6ad257b51a1992e5d2148e7faeeec1d9f5d182"
+  },
+  "inherited_collect_only.xml": {
+    "bytes": 231,
+    "sha256": "68652587d874ff05d98b3972d5c36aa7cfc1eece3fb89f8ac3c932c289919be9"
+  },
+  "inherited_collect_only.log": {
+    "bytes": 89,
+    "sha256": "4bea20ec221ef55bf0a85972a3d8dc5cb3cf85ec1feba9f10d9168337409e784"
+  },
+  "failed.xml": {
+    "bytes": 129,
+    "sha256": "546e9d95af278354f98c4ab03374e7b8f2058e04ac07514a6e6ff145f4112264"
+  },
+  "full-engine-audit.log": {
+    "bytes": 536,
+    "sha256": "7252501fe63391d0b944cad3001ddc6be9478209c417db438a8dd7e5c3160df5"
+  },
+  "campaign-jobs.json": {
+    "bytes": 2565,
+    "sha256": "36977eb93ed995878c42c972af2d93c3d458c7cb702db6b7dd438e8c836bfc3b"
+  }
+}

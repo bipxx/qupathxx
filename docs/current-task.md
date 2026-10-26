@@ -1,5 +1,21 @@
 # Current implementation task
 
+## Current execution card (2026-10-25)
+
+- Active integration: `feature/scientific-grid-159`; native multi-file OME is
+  not implemented. Open-source-only reader scope remains in force.
+- Frozen TMA candidate: `19371b7`, unchanged. All original engine/Mac/portable
+  jobs completed successfully; all 11 archives are size/hash/source verified.
+- Acceptance: Mac-native and portable strict audits pass. The full engine audit
+  rejects the old 17-case GUI count; the exact named contract and actual XML
+  contain 24 passing cases. Overall campaign acceptance is false; main unchanged.
+- Next action: repair the existing auditor consumer, add distinguishing controls
+  and explicitly re-audit retained artifacts. No native rebuild for that repair.
+  Then continue compound source observations/codecs and the multi-file workflow.
+- The [efficiency review](reviews/compilexx-efficiency-review.md) records seven
+  evidence-backed improvements. Earlier sections below retain workflow history;
+  use this card for current scheduling. All M0-M7 remain Partial.
+
 The full updated M0-M7 goal remains active. Every milestone remains Partial.
 Reader implementation scope now follows the [open-source-only policy](reader-license-policy.md).
 Exclude proprietary reader/codec SDKs from required parity; retain eligible
@@ -243,6 +259,7 @@ not native multi-file acceptance. All original M0-M7 requirements remain active.
 
 The frozen TMA candidate now has [strict Mac-native acceptance](benchmarks/tma-dearray-202-macos-native.json)
 for ARM64 and x86_64, 50 suites each. Linux-only strict acceptance is retained
-locally; Windows GUI and fresh portable consumers remain in progress. Follow
-the original campaign handles; no full campaign acceptance or main promotion
-is implied by these partial results.
+locally. All original jobs and both fresh portable consumers have now completed
+successfully; the strict full engine audit rejects a stale GUI case-count check.
+See the current execution card above; no full campaign acceptance or main
+promotion is implied by these partial results.

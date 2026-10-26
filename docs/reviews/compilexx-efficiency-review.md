@@ -1,0 +1,231 @@
+# Compilexx lessons applied to qupathxx
+
+Reviewed 2026-10-25 at qupathxx source `682ba00`. This is an implementation
+efficiency review, not another Astra review or a new scientific/release gate.
+All seven documents in `../compilexx` are covered. Their input sizes, line
+counts and SHA-256 values are in the [inventory](compilexx-206-evidence/document-inventory.json).
+Cross-project incidents are attributed lessons; the findings below have current
+qupathxx evidence. Product/compiler inputs were not changed by this review.
+
+## Findings, in execution order
+
+### 1. P0: migrate the old GUI auditor alongside the named cohort
+
+Category: code smell, duplicated contract. Confidence: high, actual rejection.
+
+Evidence: `tools/ci/accept_unified_engine.py:407` still contains
+`17 if args.tma_cohorts else 12 if args.tma_cases else 8`.
+The frozen candidate's `tools/ci/tma-axis-cases.json` declares 24 GUI TMA cases.
+The actual Windows GUI XML has exactly those 24 cases, all passing. All hosted
+jobs completed successfully, but the unchanged full engine auditor exited 1 on
+the older 17-case check. Its [original failure](compilexx-206-evidence/full-engine-audit.log)
+and [case census](compilexx-206-evidence/gui-cohort-mismatch.json) are retained.
+The complete campaign remains unaccepted; Mac-native and portable audits pass
+independently. Eleven archive digests/sizes/source identities are verified.
+
+Cross-project lesson: scikit-imagexx's metadata migration left a second strict
+consumer unchanged (`scikit-imagexx-plan-inefficiencies.md:594-609`); ImageJ's
+consumer-boundary review requires the complete producer/reader closure
+(`imagejxx-plan-inefficiencies.md:729-732`). The earlier qupathxx QPTMA manifest
+failure and this separate GUI count failure show the same migration cost.
+
+Smallest improvement: make the existing named axis cohort authoritative at this
+call site, retaining exact identity, duplicate, failure and skip rejection.
+Exercise the complete auditor against a real-shaped GUI artifact before the
+next dispatch, including a same-count substituted name and missing/failed case.
+Keep the frozen candidate and original failed audit immutable. Bind a successor
+auditor explicitly to the unchanged artifact/source contract and re-audit all
+retained engine artifacts. Do not rebuild native code for this observer-only
+repair or silently edit the frozen source to make its own source proof agree.
+
+Owner/effort: existing auditor owner; small repair plus affected controls and
+saved-artifact audit. This should precede another platform campaign.
+
+### 2. P1: reject optimized execution before running the engine auditor
+
+Category: code smell, assertions used for required external validation.
+Confidence: high, distinguishing witness.
+
+Evidence: `tools/ci/accept_unified_engine.py:85` is
+`assert result['failures']==result['errors']==0`. The file contains 246 Python
+assertions. The isolated exact `junit` function rejects a failing XML normally
+but returns a result containing `failures: 1` when compiled with optimization.
+See [witnesses](compilexx-206-evidence/witnesses.json) and the retained
+[probe source](compilexx-206-evidence/probe.py). This tests that validation
+function, not a claim that the complete CLI accepted a bad campaign.
+
+Cross-project lesson: scikit-imagexx explicitly identifies inherited
+`PYTHONOPTIMIZE` removing controller assertions (`:611-619`); ImageJ requires
+checking optimization at the actual child boundary (`:678`).
+
+Smallest improvement: fail immediately when `not __debug__` at the existing
+auditor entry, before helper loading/network/artifact work. Use explicit
+exceptions as individual validation blocks are touched. A child launched with
+`-O` must reject before any GitHub request; normal failing XML must still reject.
+Do not mechanically rewrite all 246 checks or introduce a new validation engine.
+
+Owner/effort: auditor owner; small boundary fix and two subprocess controls.
+No historical optimized campaign execution was established by this review.
+
+### 3. P1: execute the authenticated helper source, not an eligible stale pyc
+
+Category: design smell, source identity differs from execution identity.
+Confidence: high for the loading mechanism; no historical contamination shown.
+
+Evidence: `tools/ci/accept_manylinux.py:19` uses
+`resampling_spec.loader.exec_module(resampling)`; the engine/Mac auditors and
+axis/dearray helpers use the same file-loader pattern. The local witness
+creates a valid timestamp cache, changes source to equal-length bytes while
+preserving mtime, and loads the old value despite `sys.dont_write_bytecode=True`.
+Authenticating the source later does not establish which code that loader ran.
+
+Cross-project lesson: ImageJ's authenticated helper review specifically notes
+that `-B` prevents writes, not reading existing bytecode (`:193`).
+
+Smallest improvement: at these authenticated dynamic-loading seams, read and
+compile the exact source bytes that are bound to the source proof, retaining
+`__file__` and existing module semantics. Share only the repeated loader among
+the actual consumers. Test a distinguishing stale cache, nested helper loading
+and ordinary success. A fresh private pycache prefix is an alternative where
+the existing launch owner can enforce it before imports. Do not delete global
+caches, add another environment or change the scientific comparators.
+
+Owner/effort: shared evidence-loader owner; bounded multi-caller repair.
+
+### 4. P1: admit the pytest environment before paying for compilation
+
+Category: design smell, late configuration failure. Confidence: high.
+
+Evidence: `tools/ci/run.py:100` copies `os.environ`; lines 205-206 later invoke
+installed pytest with `-I`. Neither this entry nor `run_manylinux.py` explicitly
+binds `PYTEST_ADDOPTS`/`PYTEST_PLUGINS`. In a fresh isolated installed subprocess,
+the same one-case input runs one case normally, but inherited
+`PYTEST_ADDOPTS=--collect-only` exits 0 with zero executed JUnit cases.
+
+The existing strict named cohorts can reject incomplete results later. The
+finding is late failure and uncontrolled test configuration, not proof that
+exit zero alone grants full acceptance. Python `-I` does not neutralize pytest's
+own environment settings.
+
+Cross-project lesson: naparixx's runner review names these exact variables
+(`:514`), while napachan's admission lesson requires the complete actual launch
+contract before runtime work (`:410-417`).
+
+Smallest improvement: reject conflicting inherited pytest options/plugins at
+the maintained producer boundary, or bind an explicitly permitted profile.
+Record plugin-autoload policy without disabling plugins intentionally required
+by the suite. Exercise a real tiny pytest child as above; retain exact collected
+and executed identities. Do not create another test runner.
+
+Owner/effort: `run.py`/manylinux producer owner; small preflight and child tests.
+
+### 5. P2: reuse source proofs within one immutable audit invocation
+
+Category: code smell, repeated reads. Confidence: high for duplication; elapsed
+savings are unmeasured.
+
+Evidence: `tools/ci/accept_unified_engine.py:137` assigns
+`entry['qptma_sources']=qptma.source_contract(ROOT,COMMIT)` inside the job loop;
+resampling follows at line 138. Those are the same checkout/commit for all five
+jobs. Six domain source lists contain 720 entries but only 585 unique paths:
+135 repeated declarations, before the additional per-job repetition. Their
+[overlap census](compilexx-206-evidence/source-overlap.json) includes the dynamic
+512-file scientific list. Each shared `source_contract` still reads Git blobs
+and working files rather than reusing the earlier source result.
+
+Cross-project lesson: scikit-imagexx removed repeated proof-manifest reads within
+one invocation (`:834-843`, `:899-903`); VisPy makes the same distinction between
+invocation reuse and an unsafe persistent PASS cache (`:24`).
+
+Smallest improvement: hoist checkout-only proofs outside the per-job loop and
+reuse immutable results. Where source sets overlap, batch/deduplicate exact
+paths within that invocation while checking every declared expected identity.
+Keep artifact, installed-origin and job-specific checks per job. Recheck at an
+actual mutation/trust boundary. Preserve schema compatibility initially.
+
+Owner/effort: existing source-proof owner; small hoist first, shared read reuse
+only after measuring the existing proof phase. No overall speedup claim.
+
+### 6. P2: preserve independent diagnostics after a test-stage failure
+
+Category: design smell, unnecessarily coupled stage execution. Confidence:
+high for control flow; the amount of avoidable replay is unmeasured.
+
+Evidence: `tools/ci/run.py:29` immediately raises on an unexpected child exit.
+The broad installed suite at lines 205-206 precedes independent comparisons,
+typing and standalone checks. Failure there prevents those later observations,
+even if their installed-artifact prerequisites already passed.
+
+Cross-project lesson: napachan added collect-all for independent outcomes while
+retaining overall failure (`:167-172`); ImageJ moves cheap independent checks
+before a broad suite rather than replaying the prelude (`:376`). Qupathxx's local
+build drivers already retain independent selected native-test outcomes.
+
+Smallest improvement: keep dependency preparation/build/install fail-fast.
+After a verified installed artifact exists, collect eligible independent stage
+outcomes with the existing runner, then fail the aggregate if any required stage
+failed. Mark dependent stages not-run with the causal prerequisite. Keep finite
+deadlines and no favorable retries. Test this with fake child commands, not
+another full platform campaign.
+
+Owner/effort: producer owner; medium, because stage prerequisites must be made
+explicit before changing execution order.
+
+### 7. P2: replace repeated current-state prose with one short execution card
+
+Category: design smell, competing state descriptions. Confidence: high.
+
+Evidence: `docs/current-task.md:246` still says
+`Windows GUI and fresh portable consumers remain in progress` at the reviewed
+source. The authoritative original handles now show all jobs complete, and the
+engine audit is rejected for finding 1. Current work appears after more than
+200 lines of status/history. The seven compilexx documents themselves contain
+repeated cross-project reviews and superseding current cards.
+
+Cross-project lesson: napachan reduced its current status page from 538 to 173
+lines (`:378-381`); naparixx reconciles contradictory current fields (`:510`);
+`agents_basics.md:5` says to prefer straightforward local code for one-off logic.
+
+Smallest improvement: put the current integration source, frozen candidate,
+exact campaign verdict, next deliverable and blocker at the top of the existing
+task document. Keep historical receipts immutable and link them. Update this
+card when the authoritative state changes; append only a new mechanism or
+decision to compilexx, not a second queue or copied full ledger. Finish the
+ready saved-artifact audit and compound-source workflow before another broad
+cross-project review or unrelated feature expansion.
+
+Owner/effort: root integration/documentation owner; small editorial change.
+
+## What not to import from the other projects
+
+- Their agent counts, storage ceilings, GPU/browser controls, Python-porting
+  machinery and approval requirements are project-specific. No local orphan,
+  storage exhaustion or ndarray ownership defect is asserted here.
+- Cumulative PR path-filter waste is demonstrated in VisPy, but this review did
+  not establish an equivalent qupathxx duplicate run. Do not add CI reuse logic
+  for that possibility alone.
+- Packaging-only reuse, frozen compiler inputs, exact dispatch handles, named
+  cohorts, fixture rights and byte-preserved receipts already have qupathxx
+  implementations/evidence. Improve their demonstrated gaps rather than
+  proposing all of them again as missing infrastructure.
+- Existing Windows build/configure records show 88.90/12.40 seconds for one
+  physical-unit build, and Linux 111.97/56.21 seconds with different targets.
+  They do not prove a controlled host speed ratio or that compilation dominates
+  end-to-end delivery. Summarize existing phase records before optimizing.
+- Open-source-only reader scope remains in force. This review does not select
+  the project license, relax scientific tolerances or change M0-M7 completion.
+
+## Recommended next work
+
+Repair the demonstrated GUI cohort consumer and close its saved-artifact audit;
+apply the three small execution-boundary fixes together at the existing owners;
+then resume compound reader-source observations and versioned codecs through
+the installed multi-file OME workflow. Hoist redundant proof work when touching
+that code. Defer broader runner restructuring until its stage dependencies are
+explicit. No new framework, dependency, native rebuild or performance campaign
+is needed for the review findings themselves.
+
+Review limitations: targeted source/control-flow review with three safe local
+witnesses and the actual frozen engine audit. No rendered UX review, exhaustive
+application-code audit or new biological/hardware acceptance was performed.
+Product fixes are recommendations, not applied by this review.

@@ -1,0 +1,66 @@
+{
+  "scope": "Six current domain source lists; declared reads only, not measured elapsed savings.",
+  "lists": [
+    {
+      "helper": "resampling_evidence",
+      "declared_source_entries": 16
+    },
+    {
+      "helper": "qptma_evidence",
+      "declared_source_entries": 42
+    },
+    {
+      "helper": "hierarchy_evidence",
+      "declared_source_entries": 55
+    },
+    {
+      "helper": "scientific_grid_evidence",
+      "declared_source_entries": 512
+    },
+    {
+      "helper": "tma_axis_evidence",
+      "declared_source_entries": 35
+    },
+    {
+      "helper": "tma_dearray_evidence",
+      "declared_source_entries": 60
+    }
+  ],
+  "total_entries": 720,
+  "unique_paths": 585,
+  "repeated_entries": 135,
+  "most_repeated": [
+    [
+      "CMakeLists.txt",
+      6
+    ],
+    [
+      "cpp/bindings.cpp",
+      6
+    ],
+    [
+      "src/qupathxx/__init__.py",
+      6
+    ],
+    [
+      "src/qupathxx/__init__.pyi",
+      6
+    ],
+    [
+      "src/qupathxx/_native.pyi",
+      6
+    ],
+    [
+      "tools/ci/accept_unified_engine.py",
+      6
+    ],
+    [
+      "tools/ci/accept_manylinux.py",
+      6
+    ],
+    [
+      "tools/ci/accept_macos_native.py",
+      6
+    ]
+  ]
+}

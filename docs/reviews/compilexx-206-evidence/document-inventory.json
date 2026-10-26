@@ -1,0 +1,58 @@
+[
+  {
+    "file": "agents_basics.md",
+    "bytes": 1857,
+    "lines": 7,
+    "sha256": "3667be4652014a29398c0ade53ddcbecd95c3b3a0bee8f63eb7c65fff0f37fba",
+    "headings": 1,
+    "cross_project_review_mentions": 0
+  },
+  {
+    "file": "imagejxx-plan-inefficiencies.md",
+    "bytes": 105374,
+    "lines": 1000,
+    "sha256": "24237ccf675cee7fb29add3e3590320bb12ce5d83cfc17974c23760d6171d1aa",
+    "headings": 16,
+    "cross_project_review_mentions": 8
+  },
+  {
+    "file": "napachan-plan-inefficiencies.md",
+    "bytes": 32362,
+    "lines": 417,
+    "sha256": "b21c84e8a832730c1220ab4270150e621c225cd33297cae937b2002438d86012",
+    "headings": 20,
+    "cross_project_review_mentions": 0
+  },
+  {
+    "file": "naparixx-plan-inefficiencies.md",
+    "bytes": 67112,
+    "lines": 602,
+    "sha256": "b60a2fe9d291e4b34fec2bd25def9490a68750b16c26fa1675748115308342fe",
+    "headings": 16,
+    "cross_project_review_mentions": 5
+  },
+  {
+    "file": "qupathxx-build-inefficiencies.md",
+    "bytes": 129674,
+    "lines": 1772,
+    "sha256": "f9dac60cf6569175254ce5aee9c32a2d562270f8560ceee0f6ab8a891f174a60",
+    "headings": 63,
+    "cross_project_review_mentions": 0
+  },
+  {
+    "file": "scikit-imagexx-plan-inefficiencies.md",
+    "bytes": 82132,
+    "lines": 998,
+    "sha256": "d5bbb90f8ab05c582beef35311f09a58344e0c8e834d0d69c5a20004b2b37038",
+    "headings": 33,
+    "cross_project_review_mentions": 5
+  },
+  {
+    "file": "vispy-vulkan-plan-inefficiencies.md",
+    "bytes": 87537,
+    "lines": 1037,
+    "sha256": "f3d08b1d80944ff75f1c7dcee58dcd67e8d101e5fc8b090aa498b02b72947ecc",
+    "headings": 25,
+    "cross_project_review_mentions": 0
+  }
+]
