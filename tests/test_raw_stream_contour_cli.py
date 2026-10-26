@@ -51,7 +51,7 @@ def test_cli_streamed_geometry_saves_new_project_without_mutating_inputs(case,tm
         for obj,component in zip(result['object_ids'],expected.contours.components):
             annotation=current.annotation(obj)
             assert annotation.geometry.equals(component.geometry) and annotation.parent_id==root
-            assert annotation.class_name==model.classes[component.label-1] and annotation.name.startswith('CLI contour ')
+            assert annotation.class_name==model.forest.classes[component.label-1] and annotation.name.startswith('CLI contour ')
     finally:saved.document(image).server.close()
     assert doc.object_count==3
     assert all(p.read_bytes()==data for p,data in originals.items())
@@ -101,3 +101,19 @@ def test_cli_streamed_contours_interrupt_joins_and_does_not_publish(case,tmp_pat
         image_path.rename(tmp_path/'released.tif')
     finally:
         if child.poll() is None:child.kill();child.communicate(timeout=20)
+
+
+def test_cli_no_clip_preserves_center_mask_but_omits_roi_intersection(case,tmp_path):
+    path,image,_,root,pixels,model_path=case
+    project=q.Project.open(str(path));doc=project.document(image);doc.update_roi(root,q.Roi.rectangle(q.Rect(1.1,1.3,4.2,3.1)))
+    partial=tmp_path/'partial-roi.qpx';project.save(str(partial));current=(partial,image,doc,root,pixels,model_path)
+    try:
+        clipped=final(run(*command(current,tmp_path/'clipped.qpx')))
+        uncut=final(run(*command(current,tmp_path/'uncut.qpx'),'--no-clip'))
+        assert clipped['class_counts']==uncut['class_counts']
+        a=q.Project.open(str(tmp_path/'clipped.qpx'));b=q.Project.open(str(tmp_path/'uncut.qpx'))
+        try:
+            area=lambda p,ids:sum(p.document(image).annotation(i).geometry.area for i in ids)
+            assert area(b,uncut['object_ids'])>area(a,clipped['object_ids'])>0
+        finally:a.document(image).server.close();b.document(image).server.close()
+    finally:doc.server.close()
