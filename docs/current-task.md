@@ -14,12 +14,25 @@
   header/block preservation on resume, invalid-load model preservation with
   continued prediction, and image-switch preview/GPU retirement. Native checks
   retain stale/workspace/image-removal and historical-authority controls.
-- Next: finish remaining frontend mutation/source/lifetime coverage, then T4.4
-  bounded contour apply. Regenerate stubs and package settled contracts at T4.5;
-  no final frontend receipt, wheel, typing or integrated qualification yet.
-  Original failures and diagnostic products remain separate. The shutdown
-  fixture's initial stale-epoch rejection is preserved with its executable;
-  the corrected fixture adopts the current workspace before submission.
+- Later T4.3 controls at `6a1bb0e` pass: all nine raw frontend cases,
+  including desktop deletion retiring a ready result/GPU preview, plus the native
+  unchanged-source/actual-file-version refusal pair. Rejection may occur during
+  read or at publication; require no delivered prediction. Keep the original
+  initial source-mutation fixture failure and its executable at `2f78c4a`.
+- T4.4 is now in progress. At `58f1241`, the shared native frontend adapter
+  performs fresh bounded full-grid prediction, contour tracing and guarded
+  atomic apply. The affected native viewer suite and nine raw Python regressions
+  pass with GUI/GEOS/training/TIFF/project ON. A separate native viewer suite
+  passes with GUI/GEOS OFF and training/TIFF/project ON, including contour
+  backend refusal. Both bind the same 383 compiler inputs. Geometry matches the existing
+  rational-grid tracer; apply/undo/redo, duplicate/stale apply, cancellation,
+  work-budget and pre-IO oversize refusal are covered. This is development
+  evidence; desktop buttons and managed commands are not wired yet.
+- Next: connect contour preview/apply to ImGui and managed-viewer owner commands
+  using that adapter, with real interaction, result-budget and lifetime controls.
+  Then regenerate stubs and package settled contracts at T4.5. No final frontend
+  receipt, wheel, typing or integrated qualification yet. All original failures
+  and diagnostic products retain their separate source identities.
 - Latest accepted delivery: raw-classifier project batches at `c2c0fa0` have
   [installed local acceptance](benchmarks/raw-pixel-batch-local.json). Windows
   cp312, training/TIFF/project ON, GUI/GEOS/OpenSlide OFF: 136 Python passes,
@@ -37,7 +50,7 @@
   valid typing files pass and seven errors in two invalid files reject.
   Test dependencies are reused, so no clean-machine/release claim is made.
 - Ordered remaining work: finish [T4.3](api-delivery-plan.md#t43-development-state-and-repair-order),
-  implement T4.4 bounded contour apply, then T4.5 installed frontend integration
+  finish T4.4 bounded contour consumers, then T4.5 installed frontend integration
   and one T5 freeze. Settle frontend contracts before regenerating stubs and
   building the acceptance wheel. T4 remains Partial.
   Sparse ROI prediction traversal, automatic maintenance, abrupt-process/power-

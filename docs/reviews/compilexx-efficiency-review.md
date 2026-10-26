@@ -12,7 +12,11 @@ shutdown native suite at `a8e7eaf`). A prior-frame replay hover resolves the
 original tab timeouts without forcing selection or bypassing ImGui. No installed
 frontend acceptance is claimed. Follow the
 [T4.3 remaining order](../api-delivery-plan.md#t43-development-state-and-repair-order)
-before bounded apply, installed integration and T5. No new cross-project or Astra audit
+through bounded apply, installed integration and T5. The shared contour adapter
+at `58f1241` now passes native trace/atomic apply/undo/redo and refusal checks on
+Windows GEOS ON/OFF with matching 383 compiler inputs; nine raw development
+frontend cases pass. Actual contour buttons/managed commands and installed
+acceptance remain open. No new cross-project or Astra audit
 is claimed by this reconciliation.
 
 Reviewed 2026-10-25 at qupathxx source `682ba00`. This is an implementation

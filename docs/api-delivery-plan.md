@@ -446,12 +446,12 @@ Planning reconciliation at feature source `de0686d` (2026-10-26). The tasks
 below refine SCI1-A; they do not create additional milestones. Root owns the sequence, with no current implementation blocker. T4.1 now has
 [local installed Windows acceptance](benchmarks/raw-pixel-cli-local.json) at
 `f463110`; T4.2 has [installed local evidence](benchmarks/raw-pixel-batch-local.json) at `c2c0fa0`.
-T4.3 has passing development checks but no final installed acceptance; T4.4
-and T4.5 remain planned. See the development state below. `202b41a` retains its
+T4.3 has passing development checks but no final installed acceptance. T4.4
+has a tested native frontend adapter; desktop/managed wiring and T4.5 remain open. See the development state below. `202b41a` retains its
 earlier Python profile.
 This is not a new Astra review or integrated platform qualification.
 
-T4.1/T4.2 are locally verified; finish T4.3 coverage, then T4.4 in order. T4.5 then closes T4 and admits T5. Keep one
+T4.1/T4.2 are locally verified; preserve T4.3 controls and finish T4.4 consumers in order. T4.5 then closes T4 and admits T5. Keep one
 implementation task active. Each task has a complete observable outcome; reuse
 its healthy evidence until a consumed input changes.
 
@@ -460,7 +460,7 @@ its healthy evidence until a consumed input changes.
 | T4.1 / locally verified official headless train, predict/export and verify at `f463110`; [commands](raw-pixel-cli.md) | Reuse the delivered small raw adapter to `cpp/batch_main.cpp`, following `pixel_stream_cli` dispatch, JSONL and cancellation. Reuse `RawPixelTiledTrainingRequest`, `RawPixelTrainingCheckpointJob`, `train_raw_pixel_tiled_classifier`, model/archive writers, `RawPixelStreamSaveJob` and `RawPixelStreamFileReadJob`. Keep `qupathxx_region --raw` as quantitative region extraction | Installed native executable trains on a labelled TIFF project, resumes QTC1, writes QRM1/QTT1, exports/resumes QWS1 and verifies it. Compare rows, fixed-parameter model bytes, blocks and commitments with the installed Python workflow. Exercise Unicode paths, invalid arguments, backend OFF, cancellation and destination/source aliases |
 | T4.2 / locally verified raw classification across project images at `c2c0fa0`; [guide](project-raw-pixel-batches.md) | Reuse the extension of existing `ProjectBatchKind`, `ProjectBatchOptions`, `ProjectBatchRequest` and kernel with an additive raw-classifier kind and typed model/lattice policy. Reuse selection snapshots, directory lock, owned bundle publication, checkpoint seal and Stop/Continue/resume reports. Add typed QWL1 extraction alongside RGB checkpoint records | A mixed project records success and incompatible-image failure correctly; Stop/Continue, exact reuse, changed inputs/model/policy and moved output are covered. Verify every reused stream, retain raw links in output projects and reopen them. Original project bytes and existing RGB/raw-measurement behavior remain intact |
 | T4.3 / development checks passing; final installed acceptance pending | Finish remaining controls through the shared `RawPixelFrontend`, ImGui panel and managed-viewer ticket commands over existing owner jobs. Capture actions on the owner thread; poll bounded status; use an owning, bounded window preview and historical file/block browsing | Real interactions train, preview, cancel/retry, export/resume, retain and reopen. Edits, source changes, image switches and workspace replacement refuse stale delivery. Shutdown joins workers before readers release; installed GUI and managed viewer both exercise the path |
-| T4.4 / supported bounded contour apply | Reuse `RawPixelPredictionRequest`, `RawPixelContourJob` and existing document commands for admitted full-grid results. Recompute a fresh owner-bound prediction when starting from historical output | Preview/apply/undo/redo is one atomic edit with rational axes preserved; stale capture, cancellation and oversized requests refuse without mutation. Label the supported bounds explicitly; a QWS1 stream does not provide stitched-contour authority |
+| T4.4 / shared adapter development verified at `58f1241`; desktop/managed consumers pending | Reuse `RawPixelPredictionRequest`, `RawPixelContourJob` and existing document commands for admitted full-grid results. Recompute a fresh owner-bound prediction when starting from historical output | Preview/apply/undo/redo is one atomic edit with rational axes preserved; stale capture, cancellation and oversized requests refuse without mutation. Label the supported bounds explicitly; a QWS1 stream does not provide stitched-contour authority |
 | T4.5 / installed frontend integration | Freeze frontend contracts, regenerate stubs if public APIs changed, package once and run a named TIFF train/predict/save/reopen/resume cohort through Python, native CLI, batch and desktop. Reuse the pinned SDK and maintained producer/auditor profiles | Record exact installed origin, ABI, capabilities, source fingerprint, executed case names and packaged notices. Include backend-positive behavior and OFF refusal, legacy RGB/persistence regressions, typing, array lifetime and shutdown. Claim only profiles actually exercised; then admit one T5 integrated engineering campaign |
 
 #### T4.3 development state and repair order
@@ -486,7 +486,7 @@ qualification remain pending.
 | --- | --- | --- |
 | 1 / desktop replay repair: development verified | Prior-frame hover resolves tab selection; original train/retain/export, historical browse and framebuffer-overlay cases pass; tracing removed | Preserve actual hover/down/up interaction and original failure evidence. Reuse these passing controls unless consumed inputs change |
 | 2 / finish T4.3 behavior | Desktop QTC/QWS resume, invalid-load preservation/retry, image-switch retirement, managed end-to-end and native stale/epoch/removal/active-cancel/shutdown checks pass in development | Close remaining frontend mutation/source/lifetime controls through the same jobs. Add only missing distinguishing cases; preserve bounded preview/read/result budgets and join-before-reader-release. Final installed consumer proof belongs to the combined T4.5 gate |
-| 3 / T4.4 bounded apply | Frontend contour application is still planned | Reuse fresh owner-bound prediction, `RawPixelContourJob` and document undo commands. Demonstrate preview/apply/undo/redo and refusal of stale, cancelled or oversized work. Historical file reads confer no live apply authority; stitched stream contours remain separate |
+| 3 / T4.4 bounded apply | At `58f1241`, the shared `RawPixelFrontend.trace`/`publish` pipeline passes native rational-grid equivalence, atomic apply/undo/redo and duplicate/stale/cancel/budget/oversize controls; nine raw frontend regressions pass | Add ImGui contour controls/preview and managed owner commands over that same adapter. Keep prediction/tracing off the owner thread, charge retained results before apply, and exercise real actions and shutdown. Historical file reads confer no live apply authority; stitched stream contours remain separate |
 | 4 / T4.5 installed consumer | No final wheel or regenerated declarations for these new frontend APIs | After contracts settle, regenerate/check stubs, build one source-bound wheel with pinned SDK/notices and run the named installed frontend cohort. Include capability/origin checks, actual training, OFF refusal, typing, legacy regressions and lifetime/shutdown. Separate development passes from installed acceptance |
 | 5 / T5 integrated freeze | Not admitted yet | Freeze the complete T1-T4 source only after the prior exits; use the existing required producer/auditor matrix once. Preserve all platform omissions and independent scientific/resource/release gates |
 
@@ -497,6 +497,33 @@ result to its actual source/configuration. Diagnostic builds remain unqualified 
 with its scope-matched receipt. No fresh Astra or cross-project audit is
 claimed here. Only open-source readers and required codecs are eligible, including
 copyleft implementations under their distribution terms.
+
+#### T4.4 bounded contour consumer wiring
+
+The native adapter at `58f1241` captures `RawPixelPredictionRequest`, runs the
+existing full-grid prediction job, then `RawPixelContourJob`. It keeps the live
+request private until guarded `publish_raw_pixel_contours` makes one document
+edit. The configured `ScientificGrid` retains both rational axes/context; admission
+rejects excessive grids before reader IO. The affected native suite passes on
+Windows GEOS ON and OFF at the same 383-input fingerprint; the OFF profile
+proves refusal. Both enable training/TIFF/project, and only the ON profile has
+GUI enabled. Nine raw frontend development regressions pass on the ON module.
+This is bounded full-grid apply,
+separate from indexed-window preview and stitched streamed contours.
+
+1. **Desktop:** add contour controls to the existing raw panel. Use its selected
+   model, exact axes, ROI and explicit inference/contour limits. Poll the shared
+   adapter; preview the returned geometry, then apply separately on the owner.
+   Invalidate live apply on edits, image/workspace changes or changed parameters.
+   Exercise actual trace/apply/undo/redo, cancellation and bound refusal.
+2. **Managed viewer:** submit copied model/grid/options through the existing
+   bounded command queue. Keep the request inside the owner adapter, reserve the
+   complete retained result before committing, and expose geometry as historical
+   data. An apply submission captures/recomputes fresh authority; a returned
+   historical object is not an apply token. Reuse epoch/cancel/join handling.
+3. **Combined acceptance:** after controls settle, generate final declarations
+   and run T4.5's installed cohort once. Native development results do not qualify
+   buttons, Python command signatures or other platform profiles.
 
 #### Shared input contract: settle in T4.1 and reuse in T4.2-T4.4
 

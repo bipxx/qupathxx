@@ -40,8 +40,10 @@ real click, resolving the tab-selection timeouts; temporary tracing is removed.
 See the [T4.3 development state and exit order](api-delivery-plan.md#t43-development-state-and-repair-order).
 At `10f44cc`, 48 selected Python cases and seven native suites pass. At `a8e7eaf`,
 eight raw frontend cases and the affected viewer native suite pass, including
-active cancellation/retry and shutdown/join. Remaining frontend controls,
-bounded apply, final stubs/wheel and integrated qualification are still open. Each task names existing APIs,
+active cancellation/retry and shutdown/join. At `6a1bb0e`, nine raw frontend cases and the native source-version controls pass.
+At `58f1241`, the shared bounded contour adapter passes native trace/atomic apply/
+undo/redo and refusal controls, with nine raw regressions. Its desktop/managed
+controls, final stubs/wheel and integrated qualification remain open. Each task names existing APIs,
 compatibility rules and decisive evidence. Follow that single queue; the native
 packet baselines below are preserved evidence, not additional work to repeat.
 
