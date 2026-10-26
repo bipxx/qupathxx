@@ -2,9 +2,12 @@
 
 Status: native features/models and bounded owner-captured sampling/prediction
 jobs have [local Windows/Linux evidence](benchmarks/raw-pixel-workflows-local.json)
-at `7beb80b`. C++ types and controllers are present. Backend-enabled forest
-training, retained project results/apply, archives, rational-window streaming,
-Python and UI integration remain open. RGB `pixel-v1` and QPC1/QPC2 stay unchanged.
+at `7beb80b`. Candidate `220304d` additionally implements archives and retained
+project/snapshot/recovery records, but is not accepted: run217e passes 10/11
+selected suites per Windows/Linux host and fails test-owned directory cleanup
+after its persistence assertions. A passing archive receipt remains required.
+Backend-enabled forest training, live replay verification, apply/undo,
+rational-window streaming, Python and UI integration remain open. RGB `pixel-v1` and QPC1/QPC2 stay unchanged.
 
 The existing path is `PixelTrainingRequest` → `extract_pixel_features` →
 float32 training rows → `ForestModel` → `PixelPredictionRequest` /
@@ -99,7 +102,7 @@ the full frozen qualification. Biological labels, model comparisons and real
 hardware acceptance retain their separate prerequisites.
 
 
-## Native raw model and captured-grid prediction (QPR1)
+## Native raw model and captured-grid prediction (QRM1; legacy raw QPR1)
 
 `RawPixelRecipe` captures dtype, series, selected channel indices/names and Z/T,
 explicit affine normalization, both rational sampled-grid spacings and feature
@@ -121,8 +124,9 @@ labels, validity, vote fractions, class counts and model/feature/input hashes.
 An invalid row remains unclassified. A low-confidence valid row has label zero
 and retains its vote fraction. This is not calibrated probability.
 
-QPR1 is distinct from the unchanged RGB QPC1/QPC2 format. Its binary header is
-`Q P R 0x01`; integers and binary64 bits are little-endian uint64. Fields in
+New raw models use QRM1, distinct from RGB QPC1/QPC2 and the RGB QPR1 record
+wrapper. The original raw QPR1 framing is read only through explicit model
+parsing, preserving its bytes/hash. The new model binary header is `Q R M 0x01`; integers and binary64 bits are little-endian uint64. Fields in
 order are dtype, series, first channel, channel count, Z, T, sampler work budget;
 X numerator/denominator then Y numerator/denominator; physical flag and optional
 sampled X/Y micrometre spacing; one uint64-length UTF-8 name per channel; one
@@ -143,8 +147,9 @@ exact forest vote cases, physical calibration mismatch/unknown controls,
 streamed/full-grid checks and exact allocation admission tests.
 
 These model and captured-grid APIs now compose through the owner-captured
-controllers below. They do not yet supply Document retention/apply, retained
-analysis archives/checkpoints, Python bindings, batch or desktop actions.
+controllers below. The candidate protocol below adds retention and archives;
+its acceptance remains blocked by test cleanup. Live replay, apply/undo,
+checkpoints, Python bindings, batch and desktop actions remain open.
 Those remaining A3-A6 integrations must preserve the same raw authority rather
 than routing quantitative values through the scalar-downsample RGB result.
 
@@ -192,12 +197,19 @@ making completed results available; cancellation and edits before delivery
 produce no table/model/result. File-backed publication checks fresh primary and
 companion versions with the existing file guards, including changes after the
 worker has finished. Worker exceptions deliver failure, allow retry and never
-modify the document or an earlier owned result. Retained project records,
-undo/apply, model/table archives, streamed resume and all frontends still need
-their explicit owner-stage integration and qualification.
+modify the document or an earlier owned result. The archive/retention candidate
+below now supplies an explicit owner-stage keep path. Its passing qualification,
+live replay, undo/apply, streamed resume and all frontend integrations remain
+required.
 
 
 ## Retained archives and project record protocol
+
+Implementation candidate `220304d`; no passing archive acceptance yet. The
+real-TIFF persistence assertions run before the cleanup failure on both hosts.
+The API delivery queue defines the next verification and integration gates.
+Source-only provenance has explicit QPV4 encoding/decoding opt-in; existing
+object consumers continue rejecting absent object identity by default.
 
 New raw models use `QRM1`. The pre-release raw `QPR1` reader remains explicit,
 strict and byte preserving; loading it retains the old model hash. Constructing

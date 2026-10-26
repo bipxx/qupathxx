@@ -39,10 +39,15 @@ later E3/E4 tooling keep their own implementation/local evidence and are include
 in that source. Preserve the earlier partial observation and every source identity.
 
 The next product workflow is [typed raw pixel classification](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
-Native features, QPR1 reusable models and bounded owner-captured annotation
-sampling/prediction jobs now have [local evidence at `7beb80b`](benchmarks/raw-pixel-workflows-local.json).
-Next integrate owner-stage retention/apply, result/table archives and
-phase-preserving tiled/checkpoint execution, then the existing frontends.
+Native features, reusable models and bounded owner-captured annotation
+sampling/prediction jobs have [local acceptance at `7beb80b`](benchmarks/raw-pixel-workflows-local.json).
+Archive candidate `220304d` implements native retention and project/snapshot/
+recovery persistence, but both hosts still fail test-owned directory cleanup
+after the persistence assertions (10/11 selected suites pass per host).
+First fix that fixture and publish source-bound passing archive evidence.
+Then complete live replay verification, owner-stage apply/undo, phase-preserving
+tiled/checkpoint execution and the existing frontends. New raw models use QRM1;
+explicit pre-release QPR1 compatibility preserves original bytes and hashes.
 Positive backend-enabled forest training is still required; local caches have
 training OFF. Both axes and captured document calibration, channel and
 normalization semantics must survive that complete workflow.

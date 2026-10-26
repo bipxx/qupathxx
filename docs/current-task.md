@@ -12,14 +12,25 @@
   metadata/compound-file staleness, retry and owner-thread result delivery.
   Initial test-helper include failures and the corrected development pass remain
   separate. Partitioned-index ownership now chooses the minimum annotation ID.
-- Next product action: owner-stage retention/apply and versioned training/result
-  archives, followed by rational-window tiled execution/checkpoint resume and
-  Python/CLI/batch/ImGui/managed viewer. Local training is configured OFF;
-  sampling/prediction run and unsupported training refuses before pixel IO.
-  Actual backend-enabled training and integrated platform/research/resource
-  qualification remain required. Whole-grid admission does not complete streaming.
+- Archive candidate `220304d` adds native table/prediction archives and
+  Document retention, project save/reopen, snapshot save and recovery readback.
+  It is implemented but not accepted: original local run217e builds on both
+  Windows/Linux; 10 of 11 selected suites pass per host. `pixel_workflows`
+  reaches the real-TIFF retention/save/recovery assertions, then fails removing
+  its nonempty test-owned temporary directory. Neither host has a passing
+  archive cohort or a published archive receipt. These observations are local
+  development evidence, not campaign213 or installed-package qualification.
+- Next product action: fix the archive fixture's bounded cleanup, identify the
+  remaining files and preserve every failed round. Re-run the affected suite
+  on both hosts; broaden checks only if the correction changes product code or
+  reveals another concern. Publish a source-bound archive receipt before
+  advancing this checkpoint. Then add live source/model replay verification
+  and owner-stage apply/undo through existing edit commands, exact rational-grid
+  windows/streamed checkpoint resume, positive backend-enabled training, and
+  nanobind/Python/CLI/batch/ImGui/managed-viewer integration. Local training is
+  OFF, so current sampling/prediction checks do not qualify training.
   See the [contract](raw-pixel-classifier.md) and
-  [A1-A6 route](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
+  [ordered route](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
 - MFO1 fault campaign213 is now [engineering accepted](benchmarks/multifile-fault-213-qualification.json)
   at frozen `bfa416e`. All 11 archive sizes/digests/sources and strict full engine,
   both Mac-native architectures/relocation and portable builder/fresh-consumer
