@@ -17,7 +17,8 @@ def test_desktop_streamed_preview_apply_undo_redo(tmp_path,undo,redo):
         o=options(settings,root,tmp_path);raw=o.raw_pixel;raw.model=model_for(doc,ids,settings);raw.stream_contours=True
         request=q.RawPixelTiledPredictionRequest(doc,raw.model,settings.lattice,raw.stream,object_id=root)
         expected=q.trace_raw_pixel_stream(request,raw.stream_contour_options);o.raw_pixel=raw;doc.clear_history()
-        o.inputs=[*click(4,q.GuiInputTarget.RAW_PIXEL_CONTOURS_TAB),*click(8,q.GuiInputTarget.RAW_PIXEL_TRACE),ready(12,q.GuiInputWait.RAW_PIXEL_CONTOURS_READY),*click(16,q.GuiInputTarget.RAW_PIXEL_APPLY),ready(20,q.GuiInputWait.RAW_PIXEL_CONTOURS_PUBLISHED),*click(24,q.GuiInputTarget.RAW_PIXEL_HIDE)]
+        o.inputs=[*click(4,q.GuiInputTarget.RAW_PIXEL_CONTOURS_TAB),*click(8,q.GuiInputTarget.RAW_PIXEL_TRACE),ready(12,q.GuiInputWait.RAW_PIXEL_CONTOURS_READY),*click(16,q.GuiInputTarget.RAW_PIXEL_APPLY),ready(20,q.GuiInputWait.RAW_PIXEL_CONTOURS_PUBLISHED)]
+        if undo or redo:o.inputs+=[*click(24,q.GuiInputTarget.RAW_PIXEL_HIDE)]
         if undo:o.inputs+=[event(28,q.GuiInputKind.UNDO_KEY)]
         if redo:o.inputs+=[event(32,q.GuiInputKind.REDO_KEY)]
         output=os.environ.get('QUPATHXX_STREAM_FRONTEND_EVIDENCE_DIR');capture=tmp_path/'streamed.ppm'
@@ -76,7 +77,9 @@ def test_managed_streamed_result_budget_refuses_before_commit(tmp_path):
     project,image,doc,ids,root,settings=scene(tmp_path);model=model_for(doc,ids,settings);source=tmp_path/'quota.qpx';project.save(str(source));doc.server.close()
     limits=q.ViewerLimits();limits.result_bytes=65536;session=q.ViewerSession(str(source),limits)
     def producer():
-        result=completed(session,session.contour_raw_pixel_stream(image,model,settings.lattice,object_id=root,apply=True))
+        ticket=session.contour_raw_pixel_stream(image,model,settings.lattice,object_id=root,apply=True)
+        result=session.wait(ticket,15)
         assert result.state=='failed' and 'result budget' in result.error and not result.committed and not result.object_ids
+        session.take(ticket)
         completed(session,session.close(True))
     run(session,producer)
