@@ -121,7 +121,7 @@ def test_cli_train_resume_predict_retain_and_verify(source, tmp_path):
     # A complete fresh export and a replayed export have identical persisted bytes.
     other = tmp_path / "fresh.qws"
     fresh = export.copy()
-    fresh[5] = other
+    fresh[4] = other
     assert final(run(*fresh))["summary"]["reused_windows"] == 0
     assert output.read_bytes() == other.read_bytes()
     corrupt = bytearray(output.read_bytes())
