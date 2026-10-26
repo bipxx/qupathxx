@@ -33,6 +33,7 @@ struct RawPixelPredictionRequest::Data {
 std::string raw_pixel_training_sha256(const RawPixelTrainingTable&,const std::atomic<bool>* = nullptr);
 std::string raw_pixel_prediction_sha256(const RawPixelClassification&,double,const std::atomic<bool>* = nullptr);
 std::string raw_pixel_source_metadata_epoch(const RawImageMetadata&,const ScientificGrid&);
+std::string raw_pixel_source_metadata_epoch(const RawImageMetadata&,const ScientificRawLattice&);
 RawPixelSourceSnapshot raw_pixel_capture_window_source(const Document&,const ScientificRawWindow&,std::uint64_t object,std::size_t budget);
 bool raw_pixel_source_matches(const ImageServer&,const RawPixelSourceSnapshot&);
 bool raw_pixel_publication_window_source_matches(const ImageServer&,const RawPixelSourceSnapshot&,const ScientificRawWindow&);

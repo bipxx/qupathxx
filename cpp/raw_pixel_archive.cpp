@@ -1,4 +1,6 @@
 #include "raw_pixel_archive.hpp"
+#include "raw_pixel_archive_binary.hpp"
+#include "raw_pixel_tiled_training_internal.hpp"
 #include "raw_pixel_workflow_snapshot.hpp"
 #include "provenance_codec.hpp"
 #include "geometry_archive.hpp"
@@ -15,79 +17,15 @@
 #include <set>
 
 namespace qpx {
-namespace {
-constexpr std::size_t limit=128u*1024*1024,record_limit=limit+4096;
-void stop(const std::atomic<bool>* c) {if(c && c->load(std::memory_order_relaxed)) throw std::runtime_error("raw pixel archive cancelled");}
-std::string digest(const std::uint8_t* p,std::size_t n,const std::atomic<bool>* c) {Sha256 h;for(std::size_t at=0;at<n;) {stop(c);const auto count=std::min<std::size_t>(65536,n-at);h.update(p+at,count);at+=count;}stop(c);return h.finish();}
-void hash_check(const std::string& value) {if(value.size()!=64 || value.find_first_not_of("0123456789abcdef")!=std::string::npos) throw std::invalid_argument("invalid raw pixel archive hash");}
-struct Writer {
-    std::vector<std::uint8_t> bytes;const std::atomic<bool>* cancelled;std::size_t maximum;
-    Writer(const char* magic,const std::atomic<bool>* c,std::size_t max=limit):bytes(magic,magic+4),cancelled(c),maximum(max) {}
-    void raw(const void* p,std::size_t size) {if(size>maximum-bytes.size()) throw std::length_error("raw pixel archive exceeds size limit");const auto* data=static_cast<const std::uint8_t*>(p);for(std::size_t at=0;at<size;) {stop(cancelled);const auto count=std::min<std::size_t>(65536,size-at);bytes.insert(bytes.end(),data+at,data+at+count);at+=count;}}
-    void integer(std::uint64_t v) {std::uint8_t data[8];for(int i=0;i<8;++i) data[i]=std::uint8_t(v>>(8*i));raw(data,8);}
-    void signed_integer(std::int64_t v) {std::uint64_t bits;std::memcpy(&bits,&v,8);integer(bits);}
-    void real(double v) {if(!std::isfinite(v)) throw std::invalid_argument("nonfinite raw pixel archive parameter");std::uint64_t bits;std::memcpy(&bits,&v,8);integer(bits);}
-    void optional(std::optional<double> v) {integer(bool(v));if(v) real(*v);}
-    void blob(const std::vector<std::uint8_t>& v) {integer(v.size());raw(v.data(),v.size());}
-    void text(const std::string& v) {integer(v.size());raw(v.data(),v.size());}
-    void u32(std::uint32_t v) {std::uint8_t b[4];for(int i=0;i<4;++i) b[i]=std::uint8_t(v>>(8*i));raw(b,4);}
-    void finish() {const auto sha=digest(bytes.data(),bytes.size(),cancelled);raw(sha.data(),sha.size());bytes.shrink_to_fit();}
-};
-struct Reader {
-    const std::uint8_t* data;std::size_t left;const std::atomic<bool>* cancelled;
-    Reader(const std::uint8_t* p,std::size_t n,const char* magic,const std::atomic<bool>* c,std::size_t maximum=limit):data(p),left(n>=68?n-68:0),cancelled(c) {
-        stop(c);if(!p || n<68 || n>maximum || std::memcmp(p,magic,4) || digest(p,n-64,c)!=std::string(reinterpret_cast<const char*>(p+n-64),64)) throw std::invalid_argument("invalid raw pixel archive header/checksum");data+=4;
-    }
-    std::uint64_t integer(std::uint64_t max=UINT64_MAX) {if(left<8) throw std::invalid_argument("truncated raw pixel archive integer");std::uint64_t v=0;for(int i=0;i<8;++i) v|=std::uint64_t(data[i])<<(8*i);data+=8;left-=8;if(v>max) throw std::invalid_argument("raw pixel archive integer exceeds limit");return v;}
-    std::int64_t signed_integer() {const auto bits=integer();std::int64_t value;std::memcpy(&value,&bits,8);return value;}
-    double real() {const auto bits=integer();double v;std::memcpy(&v,&bits,8);if(!std::isfinite(v)) throw std::invalid_argument("nonfinite raw pixel archive parameter");return v;}
-    std::optional<double> optional() {if(!integer(1)) return {};return real();}
-    std::pair<const std::uint8_t*,std::size_t> view(std::size_t maximum=limit) {const auto n=integer(maximum);if(n>left) throw std::invalid_argument("truncated raw pixel archive blob");auto result=std::make_pair(data,std::size_t(n));data+=n;left-=n;return result;}
-    std::vector<std::uint8_t> blob(std::size_t maximum=limit) {const auto v=view(maximum);stop(cancelled);return {v.first,v.first+v.second};}
-    std::string text(std::size_t maximum) {const auto v=view(maximum);std::string s(reinterpret_cast<const char*>(v.first),v.second);detail::bounded_utf8(s,maximum);return s;}
-    std::uint32_t u32() {if(left<4) throw std::invalid_argument("truncated raw pixel feature array");std::uint32_t v=0;for(int i=0;i<4;++i) v|=std::uint32_t(data[i])<<(8*i);data+=4;left-=4;return v;}
-    void finish() {if(left) throw std::invalid_argument("trailing raw pixel archive data");}
-};
-std::uint32_t float_bits(float value) {std::uint32_t bits;std::memcpy(&bits,&value,4);return bits;}
-float float_value(std::uint32_t bits) {float value;std::memcpy(&value,&bits,4);return value;}
-void grid(Writer& w,const ScientificGrid& g) {for(auto v:{g.image_width(),g.image_height(),g.x().origin(),g.x().extent(),g.x().samples(),g.x().context(),g.y().origin(),g.y().extent(),g.y().samples(),g.y().context()}) w.signed_integer(v);}
-ScientificGrid grid(Reader& r) {
-    const auto width=r.signed_integer(),height=r.signed_integer(),x=r.signed_integer(),extent_x=r.signed_integer(),samples_x=r.signed_integer(),context_x=r.signed_integer(),y=r.signed_integer(),extent_y=r.signed_integer(),samples_y=r.signed_integer(),context_y=r.signed_integer();
-    return {width,height,{x,extent_x,samples_x,context_x},{y,extent_y,samples_y,context_y},1024ULL*1024*1024};
-}
-void source(Writer& w,const RawPixelSourceSnapshot& s) {
-    if(!s.provenance) throw std::invalid_argument("raw pixel archive has no provenance");w.blob(ProvenanceCodec::encode(*s.provenance,true));const auto& m=s.metadata;
-    w.signed_integer(m.width);w.signed_integer(m.height);for(auto v:{m.channels,m.z_planes,m.timepoints,m.series,m.series_count,std::uint32_t(m.sample_type)}) w.integer(v);
-    w.integer(m.levels.size());for(const auto& level:m.levels) {w.signed_integer(level.width);w.signed_integer(level.height);w.real(level.downsample);}
-    w.integer(m.channel_names.size());std::size_t names=0;for(const auto& name:m.channel_names) {detail::bounded_utf8(name,65536);names+=name.size();if(names>1024*1024) throw std::length_error("raw pixel metadata labels exceed limit");w.text(name);}detail::bounded_utf8(m.dimension_order,64);w.text(m.dimension_order);w.optional(m.pixel_width_um);w.optional(m.pixel_height_um);w.optional(m.z_spacing_um);w.optional(m.time_interval_seconds);w.text(s.epoch);
-}
-RawPixelSourceSnapshot source(Reader& r,const ScientificGrid& g) {
-    RawPixelSourceSnapshot s;const auto p=r.view(16u*1024*1024);s.provenance=ProvenanceCodec::decode(p.first,p.second,true);auto& m=s.metadata;m.width=r.signed_integer();m.height=r.signed_integer();m.channels=std::uint32_t(r.integer(65536));m.z_planes=std::uint32_t(r.integer(65536));m.timepoints=std::uint32_t(r.integer(65536));m.series=std::uint32_t(r.integer(UINT32_MAX));m.series_count=std::uint32_t(r.integer(UINT32_MAX));m.sample_type=SampleType(r.integer(9));
-    const auto levels=r.integer(65536);for(std::uint64_t i=0;i<levels;++i) {const auto width=r.signed_integer(),height=r.signed_integer();const auto scale=r.real();if(width<=0 || height<=0 || scale<1) throw std::invalid_argument("invalid raw pixel source level");m.levels.push_back({width,height,scale});}
-    const auto channels=r.integer(65536);std::size_t bytes=0;for(std::uint64_t i=0;i<channels;++i) {auto name=r.text(65536);bytes+=name.size();if(bytes>1024*1024) throw std::length_error("raw pixel metadata labels exceed limit");m.channel_names.push_back(std::move(name));}
-    m.dimension_order=r.text(64);m.pixel_width_um=r.optional();m.pixel_height_um=r.optional();m.z_spacing_um=r.optional();m.time_interval_seconds=r.optional();s.epoch=r.text(64);hash_check(s.epoch);
-    s.reader=s.provenance->reader;s.observed=s.provenance->reader_source;s.calibration={s.provenance->effective_pixel_width_um,s.provenance->effective_pixel_height_um};
-    if(s.provenance->source.width!=g.image_width() || s.provenance->source.height!=g.image_height() || s.epoch!=raw_pixel_source_metadata_epoch(m,g) || (!m.channel_names.empty() && m.channel_names.size()!=m.channels)) throw std::invalid_argument("raw pixel source metadata/provenance mismatch");return s;
-}
-void options(Writer& w,const RawPixelTrainingOptions& o) {w.integer(o.max_samples);w.integer(o.max_samples_per_class);w.integer(o.work_bytes);w.integer(o.seed);w.integer(o.max_scanned_samples);w.integer(o.balanced);}
-RawPixelTrainingOptions options(Reader& r) {RawPixelTrainingOptions o;o.max_samples=std::size_t(r.integer(100000));o.max_samples_per_class=std::size_t(r.integer(50000));o.work_bytes=std::size_t(r.integer(1024ULL*1024*1024));o.seed=r.integer();o.max_scanned_samples=r.integer(100000000);o.balanced=r.integer(1)!=0;o.validate();return o;}
-std::string training_hash(const RawPixelTrainingTable& table) {
-    Sha256 h;const std::string domain="qpx.forest.training/1";h.update(domain.data(),domain.size());h.integer(table.row_count());const auto schema=table.recipe().feature_schema();h.integer(schema.size());h.integer(table.classes().size());
-    auto text=[&](const std::string& s) {h.integer(s.size());h.update(s.data(),s.size());};for(const auto& f:schema) {text(f.name);text(f.unit);}for(const auto& name:table.classes()) text(name);for(auto value:table.values()) h.integer(float_bits(value));for(auto label:table.labels()) h.integer(label);return h.finish();
-}
-bool supported_footprint(const ScientificGrid& g,std::int64_t x,std::int64_t y) {return g.x().edge(x).floor()>=0 && g.y().edge(y).floor()>=0 && g.x().edge(x+1).ceil()<=g.image_width() && g.y().edge(y+1).ceil()<=g.image_height();}
-void recipe_matches(const RawPixelRecipe& recipe,const RawPixelSourceSnapshot& source,const ScientificGrid& g) {
-    auto m=source.metadata;m.pixel_width_um=source.calibration.x;m.pixel_height_um=source.calibration.y;if(!recipe.matches(m,g,recipe.selection())) throw std::invalid_argument("raw pixel archived recipe/source mismatch");
-    auto selection=recipe.selection();selection.work_bytes=1024ULL*1024*1024;scientific_raw_work_bytes(source.metadata,g,selection);
-}
-}
-const std::shared_ptr<const AnalysisProvenance>& RawPixelArchive::provenance() const {return table_?table_->snapshot_->source.provenance:prediction_->source.provenance;}
-const ScientificGrid& RawPixelArchive::grid() const {return table_?table_->grid():prediction_->grid;}
+using namespace detail::raw_archive;
+const std::shared_ptr<const AnalysisProvenance>& RawPixelArchive::provenance() const {return tiled_table_?tiled_table_->snapshot_->source.provenance:table_?table_->snapshot_->source.provenance:prediction_->source.provenance;}
+const ScientificGrid& RawPixelArchive::grid() const {if(tiled_table_) throw std::invalid_argument("a sparse raw tiled archive has a lattice, not a whole-grid raster");return table_?table_->grid():prediction_->grid;}
+ScientificRawLattice RawPixelArchive::lattice() const {return tiled_table_?tiled_table_->lattice():ScientificRawLattice(grid());}
 void RawPixelArchiveCodec::seal(RawPixelArchive& out,std::vector<std::uint8_t> bytes) {
-    out.sha_=digest(bytes.data(),bytes.size(),nullptr);bytes.shrink_to_fit();out.bytes_=std::move(bytes);out.payload_=sizeof(out)+out.bytes_.capacity()+(out.table_?out.table_->retained_bytes():sizeof(RawPixelPredictionRequest::Data)+out.prediction_->source.metadata.payload_bytes()+out.provenance()->payload_bytes()+out.prediction_->source.reader.capacity()+out.prediction_->source.epoch.capacity()+4096+out.result_->labels().capacity()*4+out.result_->vote_fractions().capacity()*4+out.result_->valid().capacity()+2*(out.prediction_->mask?out.prediction_->mask->payload_bytes():0));if(out.model_) out.payload_+=2*out.model_->bytes().capacity();if(out.payload_>256u*1024*1024) throw std::length_error("raw pixel archive retained payload exceeds 256 MiB");
+    out.sha_=digest(bytes.data(),bytes.size(),nullptr);bytes.shrink_to_fit();out.bytes_=std::move(bytes);out.payload_=sizeof(out)+out.bytes_.capacity()+(out.tiled_table_?out.tiled_table_->retained_bytes():out.table_?out.table_->retained_bytes():sizeof(RawPixelPredictionRequest::Data)+out.prediction_->source.metadata.payload_bytes()+out.provenance()->payload_bytes()+out.prediction_->source.reader.capacity()+out.prediction_->source.epoch.capacity()+4096+out.result_->labels().capacity()*4+out.result_->vote_fractions().capacity()*4+out.result_->valid().capacity()+2*(out.prediction_->mask?out.prediction_->mask->payload_bytes():0));if(out.model_) out.payload_+=2*out.model_->bytes().capacity();if(out.payload_>256u*1024*1024) throw std::length_error("raw pixel archive retained payload exceeds 256 MiB");
 }
 void RawPixelArchiveCodec::validate(const RawPixelArchive& archive,const std::atomic<bool>* cancelled) {
-    stop(cancelled);if(bool(archive.table_)==bool(archive.result_)) throw std::invalid_argument("raw pixel archive must contain one result kind");archive.provenance()->validate();if(archive.provenance()->nucleus) throw std::invalid_argument("raw pixel archive does not admit a nucleus recipe");
+    stop(cancelled);if(archive.tiled_table_) {if(archive.table_ || archive.result_) throw std::invalid_argument("raw archive contains multiple result kinds");validate_tiled(archive,cancelled);return;}if(bool(archive.table_)==bool(archive.result_)) throw std::invalid_argument("raw pixel archive must contain one result kind");archive.provenance()->validate();if(archive.provenance()->nucleus) throw std::invalid_argument("raw pixel archive does not admit a nucleus recipe");
     if(archive.table_) {
         if(archive.provenance()->object_id) throw std::invalid_argument("raw training provenance must describe the shared source");const auto& table=*archive.table_;const auto& d=*table.snapshot_;recipe_matches(d.recipe,d.source,d.grid);const auto columns=d.recipe.feature_schema().size(),rows=table.row_count(),classes=table.classes().size();
         if(rows<4 || rows>100000 || rows>d.options.max_samples || std::uint64_t(d.grid.x().samples())*std::uint64_t(d.grid.y().samples())>d.options.max_scanned_samples || classes<2 || classes>256 || d.rows.empty() || d.rows.size()>4096 || table.values_.size()!=rows*columns || table.coordinates_.size()!=2*rows || table.ids_.size()!=rows || table.counts_.size()!=classes || table.eligible_.size()!=classes || !std::is_sorted(d.classes.begin(),d.classes.end()) || std::adjacent_find(d.classes.begin(),d.classes.end())!=d.classes.end()) throw std::invalid_argument("invalid raw pixel training array dimensions");
@@ -120,6 +58,7 @@ std::shared_ptr<const RawPixelArchive> RawPixelArchiveCodec::prediction(const Ra
     for(auto count:result_ref.counts_) w.integer(count);w.text(result_ref.model_sha_);w.text(result_ref.feature_sha_);w.text(result_ref.input_sha_);w.text(result_ref.sha_);w.finish();seal(*out,std::move(w.bytes));return out;
 }
 std::shared_ptr<const RawPixelArchive> RawPixelArchiveCodec::decode(const std::uint8_t* bytes,std::size_t size,const std::atomic<bool>* cancelled) {
+    if(bytes && size>=4 && !std::memcmp(bytes,"QTT\1",4)) return decode_tiled(bytes,size,cancelled);
     if(!bytes || size<4 || (std::memcmp(bytes,"QXT\1",4) && std::memcmp(bytes,"QXP\1",4))) throw std::invalid_argument("unsupported raw pixel archive kind");const bool training=bytes[2]=='T';Reader r(bytes,size,training?"QXT\1":"QXP\1",cancelled);const auto recipe=RawPixelRecipe::from_bytes(r.blob(128*1024));const auto g=grid(r);auto captured=source(r,g);auto out=std::shared_ptr<RawPixelArchive>(new RawPixelArchive());
     if(training) {
         if(r.integer(1)) out->model_=std::make_shared<const RawPixelClassifier>(RawPixelClassifier::from_bytes(r.blob(64u*1024*1024+128*1024)));const auto o=options(r);const auto captured_work=r.integer(o.work_bytes);auto data=std::make_shared<RawPixelTrainingRequest::Data>(g,recipe,o,std::move(captured));data->capture.reset();
@@ -138,7 +77,14 @@ std::shared_ptr<const RawPixelArchive> RawPixelArchive::from_bytes(const std::ve
 std::shared_ptr<const RawPixelArchive> archive_raw_pixel_training(std::shared_ptr<const RawPixelTrainingTable> table,std::shared_ptr<const RawPixelClassifier> model,const std::atomic<bool>* cancelled) {return RawPixelArchiveCodec::training(std::move(table),std::move(model),cancelled);}
 std::shared_ptr<const RawPixelArchive> archive_raw_pixel_prediction(const RawPixelPredictionRequest& request,std::shared_ptr<const RawPixelClassification> result,const std::atomic<bool>* cancelled) {return RawPixelArchiveCodec::prediction(request,std::move(result),cancelled);}
 std::vector<std::uint8_t> RawPixelArchiveCodec::encode_record(const RawPixelRecord& record,const std::atomic<bool>* cancelled) {detail::bounded_utf8(record.name,256);if(!record.id || !record.captured_next_id || record.name.empty() || !record.archive || record.archive->provenance()->document_revision>=record.id) throw std::invalid_argument("invalid raw pixel record metadata");Writer w("QXR\1",cancelled,record_limit);w.integer(record.id);w.integer(record.captured_next_id);w.text(record.name);w.blob(record.archive->bytes());w.finish();return std::move(w.bytes);}
-std::shared_ptr<const RawPixelRecord> RawPixelArchiveCodec::decode_record(const std::uint8_t* bytes,std::size_t size,const ImageMetadata& metadata,const std::atomic<bool>* cancelled) {Reader r(bytes,size,"QXR\1",cancelled,record_limit);auto record=std::make_shared<RawPixelRecord>();record->id=r.integer();record->captured_next_id=r.integer();record->name=r.text(256);const auto blob=r.view();record->archive=decode(blob.first,blob.second,cancelled);r.finish();if(!record->id || !record->captured_next_id || record->name.empty() || record->archive->provenance()->document_revision>=record->id || record->archive->provenance()->object_id>=record->captured_next_id || record->archive->grid().image_width()!=metadata.width || record->archive->grid().image_height()!=metadata.height) throw std::invalid_argument("raw pixel record identity/source mismatch");if(record->archive->table()) for(auto id:record->archive->table()->annotation_ids()) if(id>=record->captured_next_id) throw std::invalid_argument("raw pixel record object identity exceeds captured bounds");return record;}
+void RawPixelArchiveCodec::validate_record_bounds(const RawPixelRecord& record,const ImageMetadata& metadata) {
+    detail::bounded_utf8(record.name,256);if(!record.id || !record.captured_next_id || record.name.empty() || !record.archive || record.archive->provenance()->document_revision>=record.id || record.archive->provenance()->object_id>=record.captured_next_id || record.archive->lattice().image_width()!=metadata.width || record.archive->lattice().image_height()!=metadata.height) throw std::invalid_argument("raw pixel record identity/source mismatch");
+    if(record.archive->table_) for(const auto& row:record.archive->table_->snapshot_->rows) if(row.id>=record.captured_next_id) throw std::invalid_argument("raw record selected annotation exceeds captured object bounds");
+    if(record.archive->tiled_table_) for(const auto& row:record.archive->tiled_table_->snapshot_->annotations->rows) if(row.id>=record.captured_next_id) throw std::invalid_argument("raw tiled record selected annotation exceeds captured object bounds");
+}
+std::shared_ptr<const RawPixelRecord> RawPixelArchiveCodec::decode_record(const std::uint8_t* bytes,std::size_t size,const ImageMetadata& metadata,const std::atomic<bool>* cancelled) {
+    Reader r(bytes,size,"QXR\1",cancelled,record_limit);auto record=std::make_shared<RawPixelRecord>();record->id=r.integer();record->captured_next_id=r.integer();record->name=r.text(256);const auto blob=r.view();record->archive=decode(blob.first,blob.second,cancelled);r.finish();validate_record_bounds(*record,metadata);return record;
+}
 std::shared_ptr<const RawPixelArchive> load_raw_pixel_archive(const std::string& input,const std::atomic<bool>* cancelled) {stop(cancelled);detail::bounded_utf8(input,32768);const auto path=detail::export_path(input);detail::ReaderFileGuard guard(path);if(guard.version()->bytes>limit) throw std::length_error("raw pixel archive file exceeds 128 MiB");std::ifstream stream(std::filesystem::u8path(path),std::ios::binary);if(!stream) throw std::runtime_error("cannot open raw pixel archive");std::vector<std::uint8_t> bytes(std::size_t(guard.version()->bytes),0);for(std::size_t at=0;at<bytes.size();) {stop(cancelled);const auto n=std::min<std::size_t>(65536,bytes.size()-at);stream.read(reinterpret_cast<char*>(bytes.data()+at),std::streamsize(n));if(stream.gcount()!=std::streamsize(n)) throw std::runtime_error("raw pixel archive file changed/read failed");at+=n;}if(stream.peek()!=std::char_traits<char>::eof() || stream.bad()) throw std::runtime_error("raw pixel archive file changed");guard.verify();auto out=RawPixelArchive::from_bytes(bytes,cancelled);guard.verify();stop(cancelled);return out;}
-void save_raw_pixel_archive(const RawPixelArchive& archive,const std::string& input,bool replace,const std::atomic<bool>* cancelled) {stop(cancelled);detail::bounded_utf8(input,32768);const auto path=detail::export_path(input);std::unique_ptr<detail::ReaderFileGuard> guard;if(replace && std::filesystem::exists(std::filesystem::u8path(path))) {guard=std::make_unique<detail::ReaderFileGuard>(path);load_raw_pixel_archive(path,cancelled);guard->verify();}detail::AtomicExportFile out(path,limit,cancelled);out.write(reinterpret_cast<const char*>(archive.bytes().data()),archive.bytes().size());const bool existing=bool(guard);if(guard) {guard->verify();guard.reset();}out.commit(existing);}
+void save_raw_pixel_archive(const RawPixelArchive& archive,const std::string& input,bool replace,const std::atomic<bool>* cancelled) {stop(cancelled);detail::bounded_utf8(input,32768);const auto path=detail::export_path(input);const auto observed=archive.provenance()->reader_source;if(observed && observed->primary) {detail::guard_file_output(observed->primary->path,observed->primary->identity,path);for(const auto& file:observed->companions) detail::guard_file_output(file.path,file.identity,path);}std::unique_ptr<detail::ReaderFileGuard> guard;if(replace && std::filesystem::exists(std::filesystem::u8path(path))) {guard=std::make_unique<detail::ReaderFileGuard>(path);load_raw_pixel_archive(path,cancelled);guard->verify();}detail::AtomicExportFile out(path,limit,cancelled);out.write(reinterpret_cast<const char*>(archive.bytes().data()),archive.bytes().size());const bool existing=bool(guard);if(guard) {guard->verify();guard.reset();}out.commit(existing);}
 }

@@ -63,6 +63,7 @@ std::size_t source_bytes(const RawPixelSourceSnapshot& source) {return 2*source.
 std::size_t remaining(std::size_t budget,std::size_t fixed) {if(fixed>=budget || budget-fixed<1024*1024) throw std::length_error("raw pixel workflow snapshot/output leaves insufficient feature workspace");return budget-fixed;}
 }
 std::string raw_pixel_source_metadata_epoch(const RawImageMetadata& metadata,const ScientificGrid& grid) {return metadata_epoch(metadata,grid);}
+std::string raw_pixel_source_metadata_epoch(const RawImageMetadata& metadata,const ScientificRawLattice& grid) {return metadata_epoch(metadata,grid);}
 RawPixelSourceSnapshot raw_pixel_capture_window_source(const Document& doc,const ScientificRawWindow& window,std::uint64_t object,std::size_t budget) {return capture_source(doc,window,object,budget);}
 bool raw_pixel_source_matches(const ImageServer& source,const RawPixelSourceSnapshot& snapshot) {return source_matches(source,snapshot);}
 bool raw_pixel_publication_window_source_matches(const ImageServer& source,const RawPixelSourceSnapshot& snapshot,const ScientificRawWindow& window) {return publication_source_matches(source,snapshot,window);}

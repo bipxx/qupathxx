@@ -2,15 +2,18 @@
 #include "qupathxx/raw_pixel_workflows.hpp"
 #include "qupathxx/provenance.hpp"
 namespace qpx {
+class RawPixelTiledTrainingTable;
 // Immutable historical data. Decoding never restores a request or live authority.
 class RawPixelArchive {
 public:
     const std::shared_ptr<const RawPixelTrainingTable>& table() const {return table_;}
+    const std::shared_ptr<const RawPixelTiledTrainingTable>& tiled_table() const {return tiled_table_;}
     const std::shared_ptr<const RawPixelClassification>& result() const {return result_;}
     const std::shared_ptr<const RawPixelClassifier>& model() const {return model_;}
     const std::shared_ptr<const AnalysisProvenance>& provenance() const;
     const ScientificGrid& grid() const;
-    std::string purpose() const {return table_?(model_?"training":"sampling"):"prediction";}
+    ScientificRawLattice lattice() const;
+    std::string purpose() const {return tiled_table_?(model_?"tiled-training":"tiled-sampling"):table_?(model_?"training":"sampling"):"prediction";}
     const std::vector<std::uint8_t>& bytes() const {return bytes_;}
     const std::string& sha256() const {return sha_;}
     std::size_t payload_bytes() const {return payload_;}
@@ -18,6 +21,7 @@ public:
 private:
     RawPixelArchive()=default;
     std::shared_ptr<const RawPixelTrainingTable> table_;
+    std::shared_ptr<const RawPixelTiledTrainingTable> tiled_table_;
     std::shared_ptr<const RawPixelClassification> result_;
     std::shared_ptr<const RawPixelClassifier> model_;
     std::shared_ptr<const RawPixelPredictionRequest::Data> prediction_;
@@ -28,8 +32,11 @@ private:
     friend class Document;
     friend class RawPixelTrainingRequest;
     friend class RawPixelPredictionRequest;
+    friend class RawPixelTiledTrainingRequest;
 };
 std::shared_ptr<const RawPixelArchive> archive_raw_pixel_training(std::shared_ptr<const RawPixelTrainingTable>,
+    std::shared_ptr<const RawPixelClassifier> model={},const std::atomic<bool>* cancelled=nullptr);
+std::shared_ptr<const RawPixelArchive> archive_raw_pixel_tiled_training(std::shared_ptr<const RawPixelTiledTrainingTable>,
     std::shared_ptr<const RawPixelClassifier> model={},const std::atomic<bool>* cancelled=nullptr);
 std::shared_ptr<const RawPixelArchive> archive_raw_pixel_prediction(const RawPixelPredictionRequest&,
     std::shared_ptr<const RawPixelClassification>,const std::atomic<bool>* cancelled=nullptr);

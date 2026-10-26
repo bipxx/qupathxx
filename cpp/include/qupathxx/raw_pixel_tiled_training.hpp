@@ -15,6 +15,7 @@ public:
     RawPixelTiledTrainingRequest(const Document&,const std::vector<std::uint64_t>& ids,
         ScientificRawLattice,ScientificRawOptions,RawPixelFeatureOptions,
         RawPixelTrainingOptions={},RawPixelTileOptions={},bool physical_sigmas=false);
+    static RawPixelTiledTrainingRequest replay(const Document&,std::uint64_t record_id);
     bool matches(const Document&) const;
     const ScientificRawLattice& lattice() const;
     const RawPixelRecipe& recipe() const;
@@ -35,6 +36,8 @@ private:
     bool publication_matches(const Document&) const;
     friend struct RawPixelTiledTrainingKernel;
     friend class RawPixelTiledTrainingJob;
+    friend struct RawPixelArchiveCodec;
+    friend class Document;
 };
 // Distinct from full-grid QXT1: global coordinates and sparse coverage must not
 // acquire legacy archive semantics through an implicit conversion.
@@ -67,6 +70,10 @@ private:
     std::uint64_t ambiguous_=0;
     std::string input_sha_,sha_;
     friend struct RawPixelTiledTrainingKernel;
+    friend struct RawPixelArchiveCodec;
+    friend class RawPixelArchive;
+    friend class RawPixelTiledTrainingRequest;
+    friend class Document;
 };
 std::shared_ptr<const RawPixelTiledTrainingTable> sample_raw_pixel_tiled_training(const RawPixelTiledTrainingRequest&,const std::atomic<bool>* cancelled=nullptr);
 RawPixelClassifier train_raw_pixel_tiled_classifier(const RawPixelTiledTrainingTable&,ForestParameters={},const std::atomic<bool>* cancelled=nullptr);
@@ -80,6 +87,7 @@ public:
     RawPixelJobStats poll(const Document&);RawPixelJobStats wait(const Document&);
     std::shared_ptr<const RawPixelTiledTrainingTable> table() const;
     std::shared_ptr<const RawPixelClassifier> model() const;
+    bool verify_result(const Document&,std::uint64_t record_id);
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
     bool start(const RawPixelTiledTrainingRequest&,std::optional<ForestParameters>);

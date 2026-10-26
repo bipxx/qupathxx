@@ -1,4 +1,4 @@
-#include "qupathxx/raw_pixel_tiled_training.hpp"
+#include "raw_pixel_tiled_training_internal.hpp"
 #include "object_feature_snapshot.hpp"
 #include "raw_pixel_workflow_snapshot.hpp"
 #include "raw_pixel_features.hpp"
@@ -32,7 +32,7 @@ std::int64_t center_bound(const ScientificGridAxis& axis,double edge,bool upper)
     return first;
 }
 using Interval=std::pair<std::int64_t,std::int64_t>;
-struct Tile {std::int64_t x,y;};
+using Tile=RawPixelTrainingTile;
 struct Event {Interval columns;int delta;};
 using Events=std::map<std::int64_t,std::vector<Event>>;
 template<class Visit> void sweep(const Events& events,Visit visit) {
@@ -55,23 +55,50 @@ template<class Visit> void sweep(const Events& events,Visit visit) {
 void RawPixelTileOptions::validate() const {
     if(width<1 || width>4096 || height<1 || height>4096 || !max_windows || max_windows>1000000) throw std::invalid_argument("raw training tiles require 1..4096 axes and 1..1000000 windows");
 }
-struct RawPixelTiledTrainingRequest::Data {
-    ScientificRawLattice lattice;RawPixelRecipe recipe;RawPixelSourceSnapshot source;
-    RawPixelTrainingOptions options;RawPixelTileOptions tiles;
-    std::shared_ptr<const ObjectFeatureRequest::Data> annotations;
-    std::vector<std::string> classes;std::vector<std::uint32_t> labels;
-    std::shared_ptr<const SpatialIndex> index;
-    std::vector<Tile> plan;std::uint64_t scanned=0;
-    std::size_t snapshot=0,fixed=0,capacity=0;
-    RawPixelFeatureOptions features;
-    Data(ScientificRawLattice l,RawPixelRecipe r,RawPixelSourceSnapshot s,RawPixelTrainingOptions o,RawPixelTileOptions t):
-        lattice(std::move(l)),recipe(std::move(r)),source(std::move(s)),options(o),tiles(t) {}
-    ScientificRawWindow window(const Tile& tile) const {return lattice.window(tile.x,tile.y,std::min(tiles.width,lattice.x().samples()-tile.x),std::min(tiles.height,lattice.y().samples()-tile.y));}
-};
 struct RawPixelTiledTrainingRequest::Authority {
     ObjectFeatureRequest objects;
     Authority(const Document& doc,const std::vector<std::uint64_t>& ids,std::size_t budget):objects(doc,ids,[&] {ObjectFeatureOptions o;o.calibrated=false;o.snapshot_bytes=budget;return o;}()) {}
 };
+void prepare_raw_pixel_tiled_snapshot(RawPixelTiledTrainingRequest::Data& data,std::size_t annotation_bytes,bool admit_features) {
+    const auto options=data.options;const auto tiles=data.tiles;options.validate();tiles.validate();const auto limit=std::min<std::size_t>(64u*1024*1024,options.work_bytes);
+    if(!data.annotations || data.annotations->rows.empty() || data.annotations->rows.size()>4096) throw std::invalid_argument("invalid raw tiled annotation count");
+    std::uint64_t previous=0;for(const auto& row:data.annotations->rows) {if(!row.id || row.id<=previous || !row.revision || !data.source.provenance || row.revision>data.source.provenance->document_revision || unsigned(row.kind)>2) throw std::invalid_argument("invalid raw tiled annotation identity/revision");previous=row.id;}
+    data.snapshot=sizeof(RawPixelTiledTrainingRequest::Data)+raw_pixel_source_snapshot_bytes(data.source)+annotation_bytes+data.annotations->rows.size()*1024+1024*1024;
+    auto charge=[&](std::size_t bytes) {if(data.snapshot>limit || bytes>limit-data.snapshot) throw std::length_error("raw tiled annotation/plan snapshot exceeds budget");data.snapshot+=bytes;};charge(0);
+    std::set<std::string> classes;
+    for(const auto& row:data.annotations->rows) {detail::bounded_utf8(row.label,256);if(!row.body.is_area() || row.label.empty()) throw std::invalid_argument("raw tiled training requires labelled area geometry");classes.insert(row.label);if(classes.size()>256) throw std::invalid_argument("raw tiled training exceeds 256 classes");}
+    if(classes.size()<2 || options.max_samples/classes.size()<2) throw std::invalid_argument("raw tiled training requires two classes and two samples per class");
+    charge(classes.size()*512+data.annotations->rows.size()*sizeof(std::uint32_t));data.classes.assign(classes.begin(),classes.end());data.labels.reserve(data.annotations->rows.size());
+    Events events;std::vector<SpatialEntry> entries;entries.reserve(data.annotations->rows.size());
+    for(std::size_t i=0;i<data.annotations->rows.size();++i) {
+        const auto& row=data.annotations->rows[i];data.labels.push_back(std::uint32_t(std::lower_bound(data.classes.begin(),data.classes.end(),row.label)-data.classes.begin()));
+        const auto bounds=row.body.bounds();entries.push_back({i+1,bounds});
+        const auto x0=center_bound(data.lattice.x(),bounds.x,false),x1=center_bound(data.lattice.x(),bounds.x+bounds.width,true);
+        const auto y0=center_bound(data.lattice.y(),bounds.y,false),y1=center_bound(data.lattice.y(),bounds.y+bounds.height,true);
+        if(x0==x1 || y0==y1) continue;
+        const Interval columns{x0/tiles.width,(x1-1)/tiles.width+1};events[y0/tiles.height].push_back({columns,1});events[(y1-1)/tiles.height+1].push_back({columns,-1});
+    }
+    std::size_t windows=0;
+    sweep(events,[&](std::int64_t first,std::int64_t stop,Interval cols) {
+        const auto count=std::uint64_t(stop-first)*std::uint64_t(cols.second-cols.first);
+        if(count>tiles.max_windows-windows) throw std::length_error("raw tiled training exceeds window limit");windows+=std::size_t(count);
+        const auto width=std::min(cols.second*tiles.width,data.lattice.x().samples())-cols.first*tiles.width;
+        const auto height=std::min(stop*tiles.height,data.lattice.y().samples())-first*tiles.height;
+        const auto cells=std::uint64_t(width)*std::uint64_t(height);
+        if(cells>options.max_scanned_samples-data.scanned) throw std::length_error("raw tiled training exceeds candidate scan limit");data.scanned+=cells;
+    });
+    if(!windows) throw std::invalid_argument("raw training annotations cover no global sample centers");
+    charge(windows*sizeof(Tile));data.plan.reserve(windows);
+    sweep(events,[&](std::int64_t first,std::int64_t stop,Interval cols) {for(auto y=first;y<stop;++y) for(auto x=cols.first;x<cols.second;++x) data.plan.push_back({x*tiles.width,y*tiles.height});});
+    // Sweep emits disjoint bands/ranges; sort makes traversal independent of
+    // interval decomposition while preserving unique core ownership.
+    std::sort(data.plan.begin(),data.plan.end(),[](const Tile& a,const Tile& b) {return a.y==b.y?a.x<b.x:a.y<b.y;});
+    data.index=std::make_shared<const SpatialIndex>(std::move(entries));
+    data.capacity=std::min(options.max_samples_per_class,options.max_samples/data.classes.size());
+    data.fixed=data.snapshot+data.classes.size()*data.capacity*(8*data.recipe.feature_schema().size()+256)+262144;
+    data.features=data.recipe.features();
+    if(admit_features) {data.features.work_bytes=std::min(data.features.work_bytes,remaining(options.work_bytes,data.fixed));auto admitted=data.recipe.selection();admitted.work_bytes=std::min(admitted.work_bytes,remaining(options.work_bytes,data.fixed));detail::raw_feature_work_bytes(data.source.metadata,data.window(data.plan.front()),admitted,data.features);}
+}
 RawPixelTiledTrainingRequest::RawPixelTiledTrainingRequest(const Document& doc,const std::vector<std::uint64_t>& ids,
     ScientificRawLattice lattice,ScientificRawOptions selection,RawPixelFeatureOptions features,RawPixelTrainingOptions options,RawPixelTileOptions tiles,bool physical):
     source_(doc.server()),identity_(doc.analysis_identity_.token),revision_(doc.revision()) {
@@ -86,42 +113,7 @@ RawPixelTiledTrainingRequest::RawPixelTiledTrainingRequest(const Document& doc,c
     auto authority=std::make_shared<Authority>(doc,selected,limit-capture_fixed);
     auto data=std::make_shared<Data>(std::move(lattice),std::move(recipe),std::move(source),options,tiles);
     data->annotations=authority->objects.data_;
-    data->snapshot=sizeof(Data)+raw_pixel_source_snapshot_bytes(data->source)+authority->objects.snapshot_bytes()+selected.size()*1024+1024*1024;
-    auto charge=[&](std::size_t bytes) {if(data->snapshot>limit || bytes>limit-data->snapshot) throw std::length_error("raw tiled annotation/plan snapshot exceeds budget");data->snapshot+=bytes;};charge(0);
-    std::set<std::string> classes;
-    for(const auto& row:data->annotations->rows) {detail::bounded_utf8(row.label,256);if(!row.body.is_area() || row.label.empty()) throw std::invalid_argument("raw tiled training requires labelled area geometry");classes.insert(row.label);if(classes.size()>256) throw std::invalid_argument("raw tiled training exceeds 256 classes");}
-    if(classes.size()<2 || options.max_samples/classes.size()<2) throw std::invalid_argument("raw tiled training requires two classes and two samples per class");
-    charge(classes.size()*512+selected.size()*sizeof(std::uint32_t));data->classes.assign(classes.begin(),classes.end());data->labels.reserve(selected.size());
-    Events events;std::vector<SpatialEntry> entries;entries.reserve(selected.size());
-    for(std::size_t i=0;i<data->annotations->rows.size();++i) {
-        const auto& row=data->annotations->rows[i];data->labels.push_back(std::uint32_t(std::lower_bound(data->classes.begin(),data->classes.end(),row.label)-data->classes.begin()));
-        const auto bounds=row.body.bounds();entries.push_back({i+1,bounds});
-        const auto x0=center_bound(data->lattice.x(),bounds.x,false),x1=center_bound(data->lattice.x(),bounds.x+bounds.width,true);
-        const auto y0=center_bound(data->lattice.y(),bounds.y,false),y1=center_bound(data->lattice.y(),bounds.y+bounds.height,true);
-        if(x0==x1 || y0==y1) continue;
-        const Interval columns{x0/tiles.width,(x1-1)/tiles.width+1};events[y0/tiles.height].push_back({columns,1});events[(y1-1)/tiles.height+1].push_back({columns,-1});
-    }
-    std::size_t windows=0;
-    sweep(events,[&](std::int64_t first,std::int64_t stop,Interval cols) {
-        const auto count=std::uint64_t(stop-first)*std::uint64_t(cols.second-cols.first);
-        if(count>tiles.max_windows-windows) throw std::length_error("raw tiled training exceeds window limit");windows+=std::size_t(count);
-        const auto width=std::min(cols.second*tiles.width,data->lattice.x().samples())-cols.first*tiles.width;
-        const auto height=std::min(stop*tiles.height,data->lattice.y().samples())-first*tiles.height;
-        const auto cells=std::uint64_t(width)*std::uint64_t(height);
-        if(cells>options.max_scanned_samples-data->scanned) throw std::length_error("raw tiled training exceeds candidate scan limit");data->scanned+=cells;
-    });
-    if(!windows) throw std::invalid_argument("raw training annotations cover no global sample centers");
-    charge(windows*sizeof(Tile));data->plan.reserve(windows);
-    sweep(events,[&](std::int64_t first,std::int64_t stop,Interval cols) {for(auto y=first;y<stop;++y) for(auto x=cols.first;x<cols.second;++x) data->plan.push_back({x*tiles.width,y*tiles.height});});
-    // Sweep emits disjoint bands/ranges; sort makes traversal independent of
-    // interval decomposition while preserving unique core ownership.
-    std::sort(data->plan.begin(),data->plan.end(),[](const Tile& a,const Tile& b) {return a.y==b.y?a.x<b.x:a.y<b.y;});
-    data->index=std::make_shared<const SpatialIndex>(std::move(entries));
-    data->capacity=std::min(options.max_samples_per_class,options.max_samples/data->classes.size());
-    data->fixed=data->snapshot+data->classes.size()*data->capacity*(8*data->recipe.feature_schema().size()+256)+262144;
-    data->features=data->recipe.features();data->features.work_bytes=std::min(data->features.work_bytes,remaining(options.work_bytes,data->fixed));
-    auto admitted=selection;admitted.work_bytes=std::min(admitted.work_bytes,remaining(options.work_bytes,data->fixed));
-    detail::raw_feature_work_bytes(data->source.metadata,data->window(data->plan.front()),admitted,data->features);
+    prepare_raw_pixel_tiled_snapshot(*data,authority->objects.snapshot_bytes(),true);
     authority_=std::move(authority);data_=std::move(data);if(!matches(doc)) throw std::runtime_error("document changed during raw tiled training capture");
 }
 bool RawPixelTiledTrainingRequest::matches(const Document& doc) const {return identity_==doc.analysis_identity_.token && revision_==doc.revision() && source_==doc.server() && authority_->objects.matches(doc) && raw_pixel_source_matches(*source_,data_->source);}
@@ -142,6 +134,10 @@ const std::vector<std::string>& RawPixelTiledTrainingTable::classes() const {ret
 std::size_t RawPixelTiledTrainingTable::estimated_work_bytes() const {return snapshot_->options.work_bytes;}
 std::size_t RawPixelTiledTrainingTable::retained_bytes() const {return snapshot_->snapshot+sizeof(*this)+values_.capacity()*sizeof(float)+labels_.capacity()*sizeof(std::uint32_t)+coordinates_.capacity()*sizeof(std::int64_t)+(ids_.capacity()+eligible_.capacity()+counts_.capacity())*sizeof(std::uint64_t)+input_sha_.capacity()+sha_.capacity();}
 
+std::string raw_pixel_tiled_training_sha256(const RawPixelTiledTrainingTable& table,const std::atomic<bool>* cancelled) {
+    Sha256 result;text(result,"qpx.raw-tiled-pixel-training/1");text(result,table.input_sha256());const auto schema=table.recipe().feature_schema();for(const auto& f:schema) {text(result,f.name);text(result,f.unit);}for(const auto& name:table.classes()) text(result,name);result.integer(table.row_count());
+    for(std::size_t row=0;row<table.row_count();++row) {stopped(cancelled);result.integer(table.labels()[row]);result.integer(table.annotation_ids()[row]);result.integer(table.coordinates()[2*row]);result.integer(table.coordinates()[2*row+1]);for(std::size_t col=0;col<schema.size();++col) {std::uint32_t bits;std::memcpy(&bits,&table.values()[row*schema.size()+col],4);result.integer(bits);}}return result.finish();
+}
 struct RawPixelTiledTrainingKernel {
     static std::shared_ptr<const RawPixelTiledTrainingTable> run(const std::shared_ptr<const RawPixelTiledTrainingRequest::Data>& captured,ImageServer& source,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr,std::atomic<int>* phase=nullptr) {
         stopped(cancelled);const auto& d=*captured;if(!raw_pixel_source_matches(source,d.source)) throw std::runtime_error("raw tiled training source changed before sampling");
@@ -172,9 +168,7 @@ struct RawPixelTiledTrainingKernel {
         }
         auto selected=reservoir.finish(d.options.balanced,cancelled);auto out=std::shared_ptr<RawPixelTiledTrainingTable>(new RawPixelTiledTrainingTable());out->snapshot_=captured;
         out->values_=std::move(selected.values);out->labels_=std::move(selected.labels);out->coordinates_=std::move(selected.coordinates);out->ids_=std::move(selected.ids);out->eligible_=std::move(selected.eligible);out->counts_=std::move(selected.counts);out->ambiguous_=selected.ambiguous;out->input_sha_=input_hash.finish();
-        Sha256 result;text(result,"qpx.raw-tiled-pixel-training/1");text(result,out->input_sha_);for(const auto& f:d.recipe.feature_schema()) {text(result,f.name);text(result,f.unit);}for(const auto& name:d.classes) text(result,name);result.integer(out->row_count());
-        for(std::size_t row=0;row<out->row_count();++row) {stopped(cancelled);result.integer(out->labels_[row]);result.integer(out->ids_[row]);result.integer(out->coordinates_[2*row]);result.integer(out->coordinates_[2*row+1]);for(std::size_t col=0;col<columns;++col) {std::uint32_t bits;std::memcpy(&bits,&out->values_[row*columns+col],4);result.integer(bits);}}
-        out->sha_=result.finish();stopped(cancelled);return out;
+        out->sha_=raw_pixel_tiled_training_sha256(*out,cancelled);stopped(cancelled);return out;
     }
     static std::shared_ptr<const RawPixelTiledTrainingTable> run(const RawPixelTiledTrainingRequest& request,const std::atomic<bool>* cancelled) {return run(request.data_,*request.source_,cancelled);}
 };
@@ -221,4 +215,5 @@ RawPixelJobStats RawPixelTiledTrainingJob::poll(const Document& doc) {
 RawPixelJobStats RawPixelTiledTrainingJob::wait(const Document& doc) {owner(impl_->owner);poll(doc);await_completion();return poll(doc);}
 std::shared_ptr<const RawPixelTiledTrainingTable> RawPixelTiledTrainingJob::table() const {owner(impl_->owner);return impl_->cancelled.load()?nullptr:impl_->table;}
 std::shared_ptr<const RawPixelClassifier> RawPixelTiledTrainingJob::model() const {owner(impl_->owner);return impl_->cancelled.load()?nullptr:impl_->model;}
+bool RawPixelTiledTrainingJob::verify_result(const Document& doc,std::uint64_t id) {if(poll(doc).state!="ready" || !impl_->table || !impl_->request) throw std::runtime_error("raw tiled verification table is not ready/current");return doc.verify_raw_pixel_tiled_training(id,*impl_->request,impl_->table,impl_->model);}
 }
