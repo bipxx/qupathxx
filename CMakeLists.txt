@@ -1,5 +1,11 @@
 cmake_minimum_required(VERSION 3.24)
 project(qupathxx VERSION 0.1.0 LANGUAGES C CXX)
+if(APPLE)
+  # Apple ld can fold functions with different typed exception handlers. The
+  # original arm64 test object reproduces this; retain distinct catch tables
+  # for every native executable and Python module, including standalone tests.
+  add_link_options("LINKER:-no_deduplicate")
+endif()
 option(QUPATHXX_BUILD_PYTHON "Build nanobind bindings" ON)
 option(QUPATHXX_BUILD_GUI "Build Dear ImGui desktop viewer" OFF)
 option(QUPATHXX_BUILD_TESTS "Build native tests" OFF)
