@@ -1,0 +1,9 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-I",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawpython229_backend.py"
+  ],
+  "exit": 0,
+  "seconds": 22.050079399952665
+}

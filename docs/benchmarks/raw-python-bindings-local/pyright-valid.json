@@ -1,0 +1,11 @@
+{
+  "include": [
+    "../ci/scientific-grid-159/tests/typing/raw_pixel_valid.py",
+    "../ci/scientific-grid-159/examples/raw_classifier_workflow.py"
+  ],
+  "exclude": [],
+  "venvPath": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci",
+  "venv": "rawpython229-wheel312-env",
+  "pythonVersion": "3.12",
+  "typeCheckingMode": "basic"
+}

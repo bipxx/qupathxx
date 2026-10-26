@@ -153,8 +153,9 @@ streamed/full-grid checks and exact allocation admission tests.
 These model and captured-grid APIs now compose through the owner-captured
 controllers below. The candidate protocol below adds retention and archives;
 its local acceptance is recorded separately. The replay/bounded apply path
-below also has local acceptance. Checkpoints, installed Python, batch and
-desktop actions remain open.
+below also has local acceptance. Native checkpoints and Windows Python now
+have the separate later receipts below; official CLI/batch, desktop actions and
+broader installed profiles remain open.
 Those remaining A3-A6 integrations must preserve the same raw authority rather
 than routing quantitative values through the scalar-downsample RGB result.
 
@@ -789,6 +790,48 @@ Growing a checkpoint in place changes its prefix identity: an old partial link
 does not silently become a completed result. Prepare a new link/record for the
 new prefix. Missing, moved, changed and tampered files remain historical metadata
 until explicitly resolved; verification restores file trust, never live document
-authority. Installed Python/CLI/batch/viewer/ImGui consumers and integrated,
+authority. The Windows Python API now has separate acceptance below. Official
+CLI/batch/viewer/ImGui consumers, other Python profiles and integrated,
 abrupt-process/power-loss, scientific/resource/hardware/release acceptance remain
 open.
+
+
+## Installed Python API
+
+The raw classifier types/functions are public `qupathxx` exports, with generated
+PEP 561 stubs from the installed module. Python performs no raw feature, sampling,
+reservoir, forest or file algorithm. Full-grid and indexed-window/tiled types
+remain distinct, and synchronous predictions return owning results. Pending job
+results, partial checkpoint tables and historical archive variants are nullable.
+
+`values_numpy`, `labels_numpy`, `coordinates_numpy`, `annotation_ids_numpy`,
+`valid_numpy`, `vote_fractions_numpy` and raw-window `numpy`/`reasons_numpy` return
+read-only views by default. Their owner stays alive as long as the view; `copy=True`
+returns independent mutable storage. Raw HWC means are float64; training features
+and vote fractions are float32, labels uint32, support/reasons uint8, global
+coordinates int64 and annotation IDs uint64. Training labels are zero-based;
+prediction zero means unclassified and class labels are one-based.
+
+Capture, Document mutation and owner delivery retain the GIL. Blocking owner
+`wait(document)` performs poll, releases the GIL only for native join, then polls
+again with it held. Synchronous immutable native work and historical file IO
+release the GIL; native cancel can run from another Python thread. Python-owned
+job wrappers release the GIL while their native destructor cancels/joins, avoiding
+a shutdown dependency on worker-held Python `shared_ptr` captures. These wrappers
+share lifecycle forwarding only and preserve native thread/authority checks.
+
+Bytes decoding snapshots explicit bounded input before native parsing. Model,
+archive and checkpoint encodings retain their existing C++ grammars. Decoded
+historical arrays/links do not gain capture or file-verification authority.
+Retained file metadata includes the observed file path allocation in its memory
+charge. Use the existing owner jobs for cancellable work and join before closing
+borrowed readers; await does not itself publish a result.
+
+The installed example `examples/raw_classifier_workflow.py` loads labelled areas
+from a TIFF project, uses an explicit identity-normalized intensity recipe,
+checkpoints/resumes training and prediction, retains model/table/file history and
+writes a new project. Its output directory is new; it does not overwrite the
+input project or imply biological accuracy. Windows cp312 training-enabled local
+acceptance covers that example and the declared tests; official CLI/batch,
+desktop/managed viewer, other installed profiles and integrated qualification
+remain open.

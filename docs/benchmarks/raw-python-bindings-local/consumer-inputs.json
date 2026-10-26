@@ -1,0 +1,17 @@
+{
+  "source": "202b41aa908e323ac820798bec7489c0f64234b1",
+  "files": {
+    "tests/test_raw_pixel_python.py": "1dec361920f10c38ab2dd3eafac34b68b3bc8207415603dcfd03bb469aebe539",
+    "tests/test_public_stubs.py": "b58201e8778b5bfb9a5b080551cea3e3573c77ec8be26c0221a413d02a2774f0",
+    "tests/test_stub_signature_guard.py": "9adf37bb6a9fb984a855c51372dcfb0e143fdce61424faee610358583e231e64",
+    "tests/test_scientific_raw_bindings.py": "806326e157b0861771e9e3d5f09bdbc75910cabd9b002f61024f0d81465c2167",
+    "tests/test_pixel_workflows.py": "bd676a64099acda6c92b5bc50270be96a64a8ad364c77d0c16e18f3d1489cbd0",
+    "tests/test_raw_records.py": "efb700c3377355c539eb0f5b9507dfcb4ca9bcdf24a63c1f86e09279ff48d721",
+    "tests/typing/raw_pixel_valid.py": "f21ec9ea0b1bc293af95ce2deae8721348594019c8079f7b571a8b4683a42f23",
+    "tests/typing/raw_pixel_invalid.py": "ca67282601ec65558adbb23ba3e90c269eb7da001b6e582eaccd567c2145a5c6",
+    "examples/raw_classifier_workflow.py": "5448fe4d0c1d623325745c4789dfc9753c8296bb6ec0024ac06b407b9504c15f",
+    "tools/generate_stubs.py": "392b3c58470aa8f10b29839b9a256c1ee93ab6f5b32c1acd2441fc6b5f919e21",
+    "src/qupathxx/_native.pyi": "e08db94e2fae696da6742c85257d511cc8dd87a7f333cd53993ec77ef2af4c7b",
+    "src/qupathxx/__init__.pyi": "6f792c89941319782a06b0f195a7ec3b75e9e7c011b33bbb2ea6b7ca848f7fb6"
+  }
+}

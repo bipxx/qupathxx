@@ -40,16 +40,25 @@ and portable builders/fresh consumers on the original handles. E1/E2 and the
 later E3/E4 tooling keep their own implementation/local evidence and are included
 in that source. Preserve the earlier partial observation and every source identity.
 
-The latest native classifier packet is [external raw stream links/records](benchmarks/raw-stream-links-local.json)
+The latest classifier packet is [installed raw Python bindings and example](benchmarks/raw-python-bindings-local.json)
+at `202b41a`: Windows CPython 3.12 with training/TIFF/project enabled, GUI/GEOS/
+OpenSlide disabled. All 10 new workflows plus 57 selected Python regressions and
+three native suites pass; one optional legacy Aperio case skips. Wheel/imported
+members and the runtime source bind 374 inputs, with generated typing and
+cross-thread shutdown checks. T4 remains Partial: next official raw CLI/batch,
+ImGui/managed-viewer integration and other installed profiles, then one T5 freeze.
+Test dependencies are reused, so this is not clean-machine or release acceptance.
+
+The native external-link baseline is [raw stream links/records](benchmarks/raw-stream-links-local.json)
 at `a608a53`: three affected workflows pass; sixteen regressions retain `d42fad4`,
 with 370 matching inputs and 22 original/final binaries. QWL1 uses the existing
 stream table/schema 13 and preserves RGB QSL1. Verified metadata-only links
 support missing-file reopen, mixed records, save-as/snapshot/recovery and exact
 relocation without copying/deleting external output. T1-T3 native paths have
-local evidence; next deliver T4 installed bindings/frontends and one T5 integrated
-freeze. All project milestones and broader acceptance gates remain Partial.
+local evidence; T4 now has the later Windows Python acceptance above; next deliver official
+CLI/batch/desktop frontends and one T5 integrated freeze. All project milestones and broader acceptance gates remain Partial.
 
-The latest native classifier packet is [owner file jobs](benchmarks/raw-pixel-file-jobs-local.json)
+The native file-job baseline is [owner file jobs](benchmarks/raw-pixel-file-jobs-local.json)
 at `404f506`: prediction save/resume, training checkpoint delivery and verified
 historical open/one-block reads pass three affected workflows; sixteen regressions
 retain `447d3ae`. Both sources bind 367 inputs and 22 binaries are retained.
@@ -57,7 +66,7 @@ All 19 initial suites passed before worker verification hardening. Raw external 
 frontends and one integrated qualification source. Native evidence does not
 qualify installed consumers.
 
-The latest native classifier packet is [QTC1 training prefix checkpoint/replay](benchmarks/raw-training-checkpoint-local.json)
+The native training-resume baseline is [QTC1 prefix checkpoint/replay](benchmarks/raw-training-checkpoint-local.json)
 at `fb7ab73`: eight suites each Windows/Linux and three Windows training suites
 pass, with 363 matching compiler inputs and nineteen retained binaries.
 Balanced/unbalanced resumed tables/hashes and fixed-parameter backend models

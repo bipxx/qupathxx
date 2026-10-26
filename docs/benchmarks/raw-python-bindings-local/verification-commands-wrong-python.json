@@ -1,0 +1,19 @@
+[
+  {
+    "name": "install-wheel",
+    "command": [
+      "uv",
+      "pip",
+      "install",
+      "--python",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawpython229-wheel-env\\Scripts\\python.exe",
+      "--target",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawpython229-wheel-env\\Lib\\site-packages",
+      "--no-deps",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawpython229-final-b\\wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+    ],
+    "exit": 1,
+    "expected": 0,
+    "seconds": 0.3609499998856336
+  }
+]

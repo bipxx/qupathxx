@@ -2,30 +2,38 @@
 
 ## Current execution card (2026-10-26)
 
-- Latest native delivery: verified external raw prediction links/records at
-  `a608a53` have [local acceptance](benchmarks/raw-stream-links-local.json).
-  Three affected workflows pass; sixteen regressions retain `d42fad4`. Both
-  snapshots bind 370 compiler inputs, with 22 original/final binaries retained.
-  The original three workflows correctly rejected an RGB coexistence fixture
-  without sampling resolution; the successor changes only that fixture.
-- QWL1 records preserve global lattice/region/policy, source history, model/header/
-  request identity and exact prefix commitments in the existing stream table.
-  SQL schema 13 and RGB QSL1/raw QXR1 remain unchanged. New keep/relink requires
-  current file verification; decoded metadata restores no such observation or
-  live authority. Removing records leaves their external files intact.
-- Real TIFF optional trained export, mixed RGB/raw links and QTT1 records,
-  missing-output metadata reopen, background save-as/recovery path rebasing and
-  verified exact-content relocation pass. Whole trillion-cell lattice metadata
-  stays bounded and requires no pixel IO for an empty prefix.
-- T1-T3 native paths now have local engineering evidence. Next T4: expose the
-  stable raw recipe/model/window/tiled/stream/checkpoint/link/job APIs through
-  thin nanobind bindings and owning arrays, then one installed Python/CLI/batch/
-  ImGui/viewer train/predict/save/reopen/resume workflow. T5 freezes that complete
-  integration once. Installed/platform, automatic maintenance, abrupt-process/
-  power-loss and scientific/resource/hardware/release acceptance remain open.
-  All M0-M7 stay Partial. Readers/codecs remain open-source-only.
+- Latest delivery: 71 raw-classifier Python exports and installed project-to-
+  project example at `202b41a` have [local acceptance](benchmarks/raw-python-bindings-local.json).
+  Windows CPython 3.12, training/TIFF/project ON, GUI/GEOS/OpenSlide OFF: 67 selected
+  Python tests pass, including all 10 new workflows; one optional legacy Aperio
+  case skips. Three native suites pass. The wheel/imported members, runtime source
+  and 374-input fingerprint agree; seven final binary/wheel products are retained.
+- Read-only owning NumPy views and mutable copies preserve dtypes/shape/lifetime.
+  Actual backend full/tiled model bytes, Fraction row values, window seams,
+  archives/replay, checkpoint/file resume, retained links and stale/cancel/thread
+  controls pass. The standalone example retains a new project and verifies its
+  external output after reopen.
+- Owner waits keep document checks under the GIL and release it for joining;
+  Python job destruction releases it during native cancel/join. Foreign-thread
+  last-reference shutdown with Python-owned file captures passes. Generated PEP
+  561 surfaces/dtypes/nullable results match runtime: two valid typing files pass
+  and four invalid cases reject. Development build/environment failures remain
+  separate; test dependencies are reused, so no clean-machine claim is made.
+- T1-T3 have local native evidence; T4 now has one installed Python profile.
+  Next: official raw CLI/batch adapters and ImGui/managed-viewer workflows using
+  these APIs/jobs, then remaining installed profiles and one T5 integrated freeze.
+  Automatic maintenance, abrupt-process/power-loss, cross-tile contours and
+  scientific/resource/hardware/release acceptance remain open. All M0-M7 stay
+  Partial; eligible readers/codecs remain open-source-only.
 
 ## Preserved local baselines
+
+- QWL1 external raw prediction links/records at `a608a53` have
+  [local acceptance](benchmarks/raw-stream-links-local.json): three affected
+  workflows, sixteen regressions at `d42fad4`, 370 matching inputs and 22 retained
+  binaries. Original RGB fixture failures stay source-bound. Metadata-only
+  missing-file reopen, mixed records, save-as/recovery and verified relocation
+  preserve the native persistence baseline.
 
 - Owner prediction save/resume, training checkpoint and historical file/block
   jobs at `404f506` have [local acceptance](benchmarks/raw-pixel-file-jobs-local.json):

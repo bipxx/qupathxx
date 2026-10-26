@@ -1,0 +1,431 @@
+{
+  "schema": "qpx.raw-python-bindings-local/1",
+  "observed_at_utc": "2026-10-26T12:44:39.016138+00:00",
+  "source": "202b41aa908e323ac820798bec7489c0f64234b1",
+  "compiled_fingerprint": "25cfacf0f76c4fff5749324fb816036e4d1fb27c0474cc4c90c1f85ffdfc9425",
+  "compiler_inputs": 374,
+  "status": "windows_cp312_training_enabled_raw_python_bindings_and_installed_example_locally_verified",
+  "new_public_exports": 71,
+  "installed_python_passes": 67,
+  "installed_skips": [
+    {
+      "classname": "tests.test_pixel_workflows",
+      "name": "test_real_aperio_sampling_and_tiled_source_prediction_match_direct_context",
+      "reason": "optional reader/training backend"
+    }
+  ],
+  "new_raw_workflow_cases": [
+    "test_tables_preserve_numeric_rows_dtype_and_array_ownership",
+    "test_window_geometry_and_hwc_views",
+    "test_actual_model_full_tiled_window_prediction_and_bytes",
+    "test_archive_owner_replay_and_project_history",
+    "test_stream_files_resume_and_verified_external_link_jobs",
+    "test_checkpoint_jobs_native_array_and_late_cancel_delivery",
+    "test_stream_owner_backpressure_and_cross_thread_refusal",
+    "test_native_stream_releases_gil_and_accepts_cross_thread_cancel",
+    "test_job_shutdown_releases_python_owned_files_on_other_threads",
+    "test_installed_project_to_project_example"
+  ],
+  "native_suites": 3,
+  "positive_typing_files": 2,
+  "negative_typing_cases": 4,
+  "profile": {
+    "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "ON",
+    "QUPATHXX_BUILD_GEOS": "OFF",
+    "QUPATHXX_BUILD_GUI": "OFF",
+    "QUPATHXX_BUILD_INTERCHANGE": "ON",
+    "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+    "QUPATHXX_BUILD_PROJECT": "ON",
+    "QUPATHXX_BUILD_PYTHON": "ON",
+    "QUPATHXX_BUILD_TESTS": "ON",
+    "QUPATHXX_BUILD_TIFF": "ON"
+  },
+  "wheel": {
+    "bytes": 5723488,
+    "sha256": "2d4a92a7970cdbe2ee27fe4c7e3f197191ce15af511afe2a760cf9060952d3a8",
+    "members": 20
+  },
+  "scope": [
+    "Thin nanobind bindings expose native raw lattice/window sampling, feature options, recipes/models, full/tiled training/prediction, bounded streams, archives/replay/contours, checkpoints, files/links and owner jobs without a Python numeric algorithm",
+    "Read-only owning NumPy views and independent mutable copies preserve float64 raw HWC values, float32 feature/vote matrices, uint32 labels, uint8 support, int64 global coordinates and uint64 annotation IDs",
+    "Owner job wait joins release GIL while document checks retain it; Python-owned native job destructors release GIL during native cancel/join, including foreign-thread last-reference deletion and Python-owned file captures",
+    "Actual Windows OpenCV backend full/tiled model bytes, independent Fraction row values, numeric window seams, archives/project replay, file/checkpoint resume, stale/cancel/thread controls and retained external links pass in the installed wheel",
+    "Standalone project-to-project example trains from labelled TIFF areas, checkpoints/resumes both producers, retains outputs and saves/reopens/verifies a new project",
+    "Generated PEP 561 exports/members, array dtypes, nullable partial results and non-null synchronous predictions match runtime; valid typing fixture/example pass, four distinct invalid cases reject with nonzero analyzed-file guards",
+    "Wheel members, imported noneditable package origin, runtime Git/source fingerprint, SDK manifest and native tests are source-bound; file-version path allocation is charged in retained metadata"
+  ],
+  "development": [
+    "Initial development module compiled and eight workflow tests passed",
+    "GIL-safe holder forwarding had two compiler-detected adapter mistakes, retained in development-b/development-c logs; corrected without changing the numerical kernel",
+    "Development-d passed nine workflow tests, shutdown checks and stub generation; the example later passed separately",
+    "Initial Pyright absolute include paths analyzed zero files; those outputs were not accepted and final guards require two positive/one negative analyzed files",
+    "A first consumer was mistakenly created with CPython 3.13 and correctly rejected the cp312 wheel; final consumer explicitly uses 3.12 and preserves the rejected install log",
+    "Generated stubs now write LF deterministically; the generator resets class context before module functions to prevent spurious nullable predictions"
+  ],
+  "limitations": [
+    "Windows CPython 3.12, training ON, TIFF/project ON, GUI/GEOS/OpenSlide OFF only; optional legacy Aperio case remains skipped",
+    "Consumer package is fresh and wheel-authenticated; workspace test dependencies are reused via .pth, so no clean-machine/release claim",
+    "Official raw CLI/batch, ImGui/managed-viewer adapters and broader installed/platform qualification remain open",
+    "Cross-tile contours, automatic checkpoint maintenance, abrupt-process/power-loss and independent biological/model/process-resource/hardware/release acceptance remain open"
+  ],
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/compiler-inputs.json",
+      "bytes": 39919,
+      "sha256": "199e83fb0cde2e49b06ec1848c6bd59f5e8a38ad6f4a767d3cccca9e585d1769"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/install-wheel-wrong-python.log",
+      "bytes": 459,
+      "sha256": "c59e9685bc75205b28a92e19cdeeb744e39c696a73728247691101213ce1ccd1"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/install-wheel.log",
+      "bytes": 311,
+      "sha256": "57b89c3bb7e062879051e51e496353117eeb06f52ff3d048e592b84b416497e9"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/installed-proof.json",
+      "bytes": 6797,
+      "sha256": "bf8a1107f84871cbcb6593fcf8fcff8a5fa01ec40216bf6f32c2f0d37624dc16"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/installed-proof.log",
+      "bytes": 86,
+      "sha256": "f54eef54eecba7355f7ef0f87f5e5776a36e667c77740bb630a070eaf170e11c"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/native-tests.log",
+      "bytes": 429,
+      "sha256": "70715d76d0095dadb9c959861d9c49696dd43e5af6c7236e635570856166774a"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/native-tests.xml",
+      "bytes": 5855,
+      "sha256": "97ab3ce968f85c0da2487374239289e86ff1f394b079917073da594c92fb1cb0"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/pyright-invalid.json",
+      "bytes": 276,
+      "sha256": "f8a79e6ba4cf8305109ca858982409f06a1795c5810ff66db0ac8f839e3349e8"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/pyright-valid.json",
+      "bytes": 344,
+      "sha256": "6eb7159224b3a3368fb2d2692d678f7c1d04193df331e3bd9aac71d82717f637"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/python-tests.log",
+      "bytes": 112,
+      "sha256": "def69cc3a1ef2588f57d10b2a8425c2d35af0eb2dd1a84d1c7b62142e4286fd1"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/python-tests.xml",
+      "bytes": 9558,
+      "sha256": "d12efbbd9fb78e5de2d0ea562cb1b7cedeaeefc95e2f5a35f59f1d69c57aafb4"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/stubs-check.log",
+      "bytes": 48,
+      "sha256": "f5323cb57dde65ca62cc7b523f2183b1f4ad026dafb74e41bd25dac05ebb2130"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/typing-invalid.log",
+      "bytes": 3613,
+      "sha256": "14b27da7190f7b747841879992af2d433fbed4def67ec3b8a59f02c812f175f4"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/typing-valid.log",
+      "bytes": 250,
+      "sha256": "f1a8d044947932eafb408d430ef21d4aa6db8521091439f24bfa7ec9f6477936"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/verification-commands-wrong-python.json",
+      "bytes": 569,
+      "sha256": "66775b0167128f24b77392cc29be10a5bb2e649d1c5ca7ec4aa8b7493dfbe67e"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/verification-commands.json",
+      "bytes": 4031,
+      "sha256": "e2d8f8d2167bc0d54cb3012851f6d5e20f09d25e408095b9c1879906ebf93c2b"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/wheel-build.log",
+      "bytes": 11151,
+      "sha256": "583669e7fef34fdb31ea0d2276b4c80355b1ebe4ad57dccc1d9494b9cddbf4f4"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/wheel-command.json",
+      "bytes": 236,
+      "sha256": "e8856d606af4b1effb2eeee26a6a2eb9121c644890d6a650abbe3dfc2b578d38"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "abd71ce9b2ae75fd2f5e27646d5a5abaddb42db0d5d026594c5eae53dbf4634b"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/opencv-sdk-manifest.json",
+      "bytes": 24157,
+      "sha256": "81963b86ef1233d5c71508d06f0a96a35c5ae8211838294f47b376f8c9800615"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/configuration.json",
+      "bytes": 583,
+      "sha256": "e6ec1264b8219df07396b8bab025785e332908e17038fd8e6f1fec23e037c93a"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/compiler-git-proof.json",
+      "bytes": 127579,
+      "sha256": "143354bb129884736658ab207bfdd05cc1b2b338d88635d6daca37f73947ee44"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/consumer-inputs.json",
+      "bytes": 1340,
+      "sha256": "f77e841fc38f6d294a5470c15f7140d56c9b21d27bfaf5cbda7a87ab4d22644c"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/retained-binaries.json",
+      "bytes": 2627,
+      "sha256": "296cb62bbf39708da2430f342313a28d5b638f2c564eedbf9b21a99b49b158eb"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development/build.log",
+      "bytes": 7551,
+      "sha256": "4157e73a45151db919a969070df361a6b3b178f53e04e453834ad282f9cd1c5f"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development/commands.json",
+      "bytes": 1215,
+      "sha256": "eff77b19de9f52241e01cb765506f7a6f52fec4850f993c3912ac67274af7009"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development/compiler-inputs.json",
+      "bytes": 39919,
+      "sha256": "e5bdf71547ff5828b40258382a5be5324f0e8748c18f2a85a9aad47d4f4f46fe"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development/configure.log",
+      "bytes": 3906,
+      "sha256": "816e73c61e6686ce73fd1f8858f5d121a7c60fc902abe6d82386de7cc352c8a8"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development/install.log",
+      "bytes": 1921,
+      "sha256": "e3babe06b45a9d6372e25a013a9c7c81d04d561ee8cf5a7f5b6694a08e3cbd04"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development/python-command.json",
+      "bytes": 428,
+      "sha256": "2df287d09ab2596fc91725f07a75aabb88bfc50e745b9ea14b6228ae29e55673"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development/python-tests.log",
+      "bytes": 100,
+      "sha256": "f2feca4829cca0f79cdcd6b96e5ba6786d93f591a1339a6d411d305e02d157e2"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development/python-tests.xml",
+      "bytes": 1251,
+      "sha256": "6b233b2c319b8db1f337d4fad1180c983120a7ff87587f3b4aff661197de47cc"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-b/build.log",
+      "bytes": 6013,
+      "sha256": "cf422df38113d9d93fbff20935e9eb8f0a4b149cc8497520d72b5e013ec6b7ec"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-b/commands.json",
+      "bytes": 1213,
+      "sha256": "ee6e7c8de14a65bc33d32914af7f09cb60e6b9701fc3d0bfb5c117402c3e31a2"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-b/compiler-inputs.json",
+      "bytes": 39919,
+      "sha256": "952fa8c990dfa881c8fef51f978e8db5a8e5bee506ba974c14cef09b97177174"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-b/configure.log",
+      "bytes": 3722,
+      "sha256": "c642e661c49d02ba042bd2309910ab9dd9f4f51a5b7189a59cc931ab7c125947"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-c/build.log",
+      "bytes": 4699,
+      "sha256": "89908b834e7cb4d5015a73b6ed20b05f5401526f61147f445af7e369879d50c6"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-c/commands.json",
+      "bytes": 1214,
+      "sha256": "b8f95a07b8875f0fd85f638d83ebd43314ee0f486fa264f13a6ecb79888c8c90"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-c/compiler-inputs.json",
+      "bytes": 39919,
+      "sha256": "d97aa62b4f23d224881217c26567e9e228c7476ae98a501bfffbbd694f7b7294"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-c/configure.log",
+      "bytes": 3722,
+      "sha256": "fc76ec3c8823f49d45234bed055549d6defd9ef4a348b7b8284590575b562e29"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/build.log",
+      "bytes": 5338,
+      "sha256": "993c41409d59275de309cfbb411835b4573a9f4a4c1ed074ad1131792d7ecc15"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/commands.json",
+      "bytes": 1215,
+      "sha256": "14d021c9a9f8f7a65b169a7da0273dafe02451c23fc0a4f7164e200eec6c3c99"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/compiler-inputs.json",
+      "bytes": 39919,
+      "sha256": "444685eed31295fef8c21a8028c45dd985bd4945c346a25532ecc4186116768e"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/configure.log",
+      "bytes": 3722,
+      "sha256": "54dd0a5a3e905ba124ef8bc95e0e37525f408a9db530f56eb6da8551af85c885"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/example-tests.log",
+      "bytes": 100,
+      "sha256": "b345c50c01d15e63dac12ced9fb763212de20bb7f3a7c2632440e8b43e834a39"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/example-tests.xml",
+      "bytes": 355,
+      "sha256": "77e443712e6c50cbb4f2d4f3040606697bfea9575620ab066605f279c159359f"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/install.log",
+      "bytes": 1921,
+      "sha256": "064d3dc2ebd011e452a174e121c4fb9b64d6e2a597688fdbddc912681fda499e"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/pyright-invalid.json",
+      "bytes": 249,
+      "sha256": "05003742385deb52d219b3c274482eeeb2301170c2eee1572dc91cabceb04d56"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/pyright-valid.json",
+      "bytes": 265,
+      "sha256": "95ebd565d8389cd5f3bce4060762a62a6a473414c1be9cae64bc7e78bf3f014a"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/python-command.json",
+      "bytes": 429,
+      "sha256": "de177d5af90033be64956b8572d24fd8220422ca6404a558bea6972945b63219"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/python-tests.log",
+      "bytes": 100,
+      "sha256": "37d90de0366e8ca7f3c2fd89b10f72e902f19b0f195c15de16db07b5be8e4505"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/python-tests.xml",
+      "bytes": 1386,
+      "sha256": "e005afcf5bdd56108a9d076601d6015c19d89cefa05d3f7a3053f97fde0485cc"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/stub-tests.log",
+      "bytes": 101,
+      "sha256": "2e76da62415c3aabd5a603779705b5ba36ef2ae603e2b0afc4042427f5035601"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/stub-tests.xml",
+      "bytes": 2471,
+      "sha256": "df329706bfe9ba241937eb3fae6c7356f0fbf9a2ab21cccb78c404c21b32a3ef"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/stubs-command.json",
+      "bytes": 245,
+      "sha256": "a94efce1c96cc8a1d6cb12d50ca62725cf5dad504c25f5a5e616303587614da9"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/stubs.log",
+      "bytes": 24,
+      "sha256": "9467e1fcbcc3b7a214a8ae55510ca2aecbb94ba8190b3fd4a02ba2c8446eefdf"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/typing-invalid-final.json",
+      "bytes": 3691,
+      "sha256": "060493398a401f3ad8d57ca2b151d39dd0bda5b07e2aa37b73454cd7205f77b5"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/typing-invalid-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/typing-invalid.json",
+      "bytes": 3805,
+      "sha256": "c89e7690fc1ae79a9b3334584fc416121b8ae3e553795cecae9ebcf956f00b7d"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/typing-valid-excluded.json",
+      "bytes": 264,
+      "sha256": "4aae7824e0b1df7531fc583475e4da3e3d4d5837c81099f8e8d6e7d9cc4f01c6"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/typing-valid-final.json",
+      "bytes": 264,
+      "sha256": "eb703427a89bad9615132d4885eed5dac77a4878b3e008d43ebdec28b61c8a25"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/typing-valid-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/development-d/typing-valid.json",
+      "bytes": 264,
+      "sha256": "efa130fb6cde913323e0b417be013747e66f5b2527c06dfe3e821868c9512be0"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/first-wheel/compiler-inputs.json",
+      "bytes": 39919,
+      "sha256": "78dba922b7ece74c108abab561f7b777c7809513d356252ef8db8488420e61f4"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/first-wheel/wheel-build.log",
+      "bytes": 11303,
+      "sha256": "5f669f6c2f29b0dc4a56c4fade81069a15efffcedf2f6c15046966080a91b153"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/development/first-wheel/wheel-command.json",
+      "bytes": 235,
+      "sha256": "51c3bccdf9c72ae0a6ca901a840450aababa6a541b32b742cd3b914180cf18db"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/rawpython229_backend_b.py",
+      "bytes": 863,
+      "sha256": "744e5cd2fd34c7e4dca1523feb31dd8f252fae039a94177353647c4685a3fa7c"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/build_rawpython229_wheel_b.py",
+      "bytes": 2239,
+      "sha256": "e69dd7f69b686a1669895f42a403e4845c80a0162aecb1afc4cf4994a370c486"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/verify_rawpython229_final.py",
+      "bytes": 5660,
+      "sha256": "7eda3e7bca45e3abd0999a27591904bc449984609a5111ed1cd8c852e52672b3"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/rawpython229_installed_proof.py",
+      "bytes": 1690,
+      "sha256": "3d354794515eb8790ea986a516e0fb5fb4b635182bb9e73dfe494742e9e04b20"
+    },
+    {
+      "path": "docs/benchmarks/raw-python-bindings-local/receipt_rawpython229.py",
+      "bytes": 10309,
+      "sha256": "878904feebcb011862e76050611ac411ef215d4287b78ed138918e62e4c931b0"
+    }
+  ],
+  "retained_artifacts": "build/rawpython229-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial"
+}
