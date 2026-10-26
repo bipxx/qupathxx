@@ -548,3 +548,7 @@ docs/benchmarks/raw-frontend-local.json -text -whitespace
 # Raw classifier T5 preflight preserves exact captured evidence.
 docs/benchmarks/raw-classifier-preflight-local/** -text -whitespace
 docs/benchmarks/raw-classifier-preflight-local.json -text -whitespace
+
+# Frozen raw classifier campaign dispatch and source closure.
+docs/benchmarks/raw-classifier-235-campaign/** -text -whitespace
+docs/benchmarks/raw-classifier-235-campaign.json -text -whitespace

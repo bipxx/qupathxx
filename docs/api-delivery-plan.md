@@ -496,7 +496,17 @@ SDK files and 559 GEOS SDK files authenticate. The fresh package reuses workspac
 test dependencies, so no clean-machine, other-platform or release claim follows.
 This closes the named local T4 consumer outcomes, not T5 or the full milestones.
 
-**Next execution:** freeze and dispatch one complete integrated campaign. The
+**Current execution:** [campaign235](benchmarks/raw-classifier-235-campaign.json)
+is running at frozen source `176ec42` on its dedicated qualification branch.
+Original runs: engine `40363168207`, Mac-native `40363189978`, portable
+`40363203596`. Each was dispatched once with full inputs. Observe these IDs,
+retain original failures/attempts, authenticate every archive and audit from the
+clean frozen checkout. Initial Linux minimal success does not accept the matrix.
+The additional inherited preflight passes 286 controls (801 selected total), and
+all eight source contracts recheck 718 unique inputs. The frozen source stays
+unchanged while those runs are live.
+
+ The
 [preflight at `fb3dfe6`](benchmarks/raw-classifier-preflight-local.json) makes the
 raw native/installed/GUI/typing/source contract mandatory in the producers and
 all three auditors. It requires 58 exact raw cases, explicit headless and

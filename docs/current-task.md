@@ -2,6 +2,15 @@
 
 ## Current execution card (2026-10-26)
 
+- T5 campaign235 is now [running at frozen source `176ec42`](benchmarks/raw-classifier-235-campaign.json)
+  on `feature/raw-classifier-qualification-235`: engine run `40363168207`,
+  Mac-native run `40363189978`, portable run `40363203596`. All three were
+  dispatched once with the complete required semantic inputs. Initial live
+  observation shows Linux minimal successful and other required jobs active or
+  queued. No integrated acceptance yet; poll these original IDs, preserve every
+  attempt, authenticate all archives and audit from the frozen checkout.
+- Pre-dispatch inherited checks add 286 passes to the 515 selected controls
+  (801 total); all eight domain source contracts agree across 718 unique files.
 - T5 preflight is implemented at `fb3dfe6`: the shared raw classifier contract
   is mandatory in engine, Mac-native and manylinux builder/consumer auditors,
   with matching producer checks. [Local preflight evidence](benchmarks/raw-classifier-preflight-local.json)
@@ -34,8 +43,8 @@
   twelve errors in three invalid files reject. The receipt binds 199 raw payloads
   and 26 retained final/development products, with original failures preserved.
   Dependencies are reused, so this is not clean-machine or release acceptance.
-- Next: freeze and dispatch the complete engine/Mac-native/portable T5 campaign,
-  then audit the exact original runs and all archived inputs. Preserve these T4.3-T4.5 local
+- Next: observe the three original T5 runs to terminal state, authenticate all
+  archives, and run the maintained audits against the frozen source. Preserve these T4.3-T4.5 local
   exits; do not rebuild consumer features or repeat full campaigns without a
   changed input/failure. Stream stitching, sparse ROI prediction traversal,
   automatic maintenance, abrupt-process/power-loss and independent scientific,
