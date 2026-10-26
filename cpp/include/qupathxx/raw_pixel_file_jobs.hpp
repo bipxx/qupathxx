@@ -50,6 +50,7 @@ public:
     bool open_link(std::shared_ptr<const RawPixelStreamLink>,RawPixelStreamFileLimits={});
     bool read(std::shared_ptr<const RawPixelStreamFile>,std::uint64_t index);
     bool trace(std::shared_ptr<const RawPixelStreamFile>,RawPixelStreamContourOptions={});
+    bool trace_path(const std::string&,RawPixelStreamFileLimits={},RawPixelStreamContourOptions={},std::shared_ptr<const RawPixelStreamLink> expected={});
     bool busy() const;void cancel();void await_completion();
     RawPixelFileJobStats poll(),wait();
     std::shared_ptr<const RawPixelStreamFile> take_file();

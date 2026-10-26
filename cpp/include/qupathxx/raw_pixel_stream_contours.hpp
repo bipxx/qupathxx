@@ -18,6 +18,7 @@ public:
     RawPixelFileContours(const RawPixelFileContours&)=delete;
     const std::shared_ptr<const TissueContours>& contours() const {return contours_;}
     const std::shared_ptr<const RawPixelStreamLink>& link() const {return link_;}
+    const std::shared_ptr<const RawPixelStreamFile>& file() const {return file_;}
     const std::vector<std::string>& class_names() const {return classes_;}
     const RawPixelStreamContourOptions& options() const {return options_;}
     std::uint64_t completed_samples() const {return samples_;}
@@ -26,11 +27,12 @@ public:
 private:
     RawPixelFileContours()=default;
     std::shared_ptr<const TissueContours> contours_;std::shared_ptr<const RawPixelStreamLink> link_;
+    std::shared_ptr<const RawPixelStreamFile> file_;
     std::vector<std::string> classes_;RawPixelStreamContourOptions options_;
     std::uint64_t samples_=0;std::size_t work_=0;
     friend struct RawPixelFileContourKernel;
 };
-std::shared_ptr<const RawPixelFileContours> trace_raw_pixel_stream_file(const RawPixelStreamFile&,
+std::shared_ptr<const RawPixelFileContours> trace_raw_pixel_stream_file(std::shared_ptr<const RawPixelStreamFile>,
     RawPixelStreamContourOptions={},const std::atomic<bool>* cancelled=nullptr);
 // Requires a complete verified file. Construct a NEW owner-thread capture from
 // the current document; matching metadata does not authorize historical pixels.

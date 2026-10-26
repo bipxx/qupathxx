@@ -13,7 +13,7 @@
 namespace qpx::detail {
 class GuiRawPixel {
     GuiRawPixelOptions options_;RawPixelFrontend jobs_;GuiPixelPreview live_,history_;
-    static constexpr auto first=GuiInputTarget::RawPixelTrain,last=GuiInputTarget::RawPixelContoursTab;
+    static constexpr auto first=GuiInputTarget::RawPixelTrain,last=GuiInputTarget::RawPixelApplyFile;
     std::array<Rect,std::size_t(last)-std::size_t(first)+1> targets_{};
     std::array<bool,std::size_t(last)-std::size_t(first)+1> enabled_{};
     std::array<char,32769> model_path_{},stream_path_{},checkpoint_path_{},resume_training_{},resume_stream_{};
@@ -43,7 +43,8 @@ class GuiRawPixel {
         if(ImGui::CollapsingHeader("Contour classes")) {for(std::size_t i=0;i<std::min<std::size_t>(contour_paths_.size(),16);++i) {const auto label=contour_paths_[i].first;if(!label || !model || label>colors.size()) continue;const auto color=colors[label-1];ImGui::PushStyleColor(ImGuiCol_Text,ImVec4((color&255)/255.f,((color>>8)&255)/255.f,((color>>16)&255)/255.f,1));ImGui::TextWrapped("%s",model->forest().classes()[label-1].c_str());ImGui::PopStyleColor();}if(contour_paths_.size()>16) ImGui::Text("%zu further classes",contour_paths_.size()-16);}
         const ImVec2 a=ImGui::GetCursorScreenPos(),size{std::max(1.f,ImGui::GetContentRegionAvail().x),180};auto* draw=ImGui::GetWindowDrawList();
         draw->AddRectFilled(a,{a.x+size.x,a.y+size.y},IM_COL32(24,24,24,255));draw->PushClipRect(a,{a.x+size.x,a.y+size.y},true);
-        const auto scale=std::min(double(size.x)/doc.metadata().width,double(size.y)/doc.metadata().height);
+        const auto report=jobs_.report();const auto width=report.historical_contours?report.historical_contours->link()->lattice().image_width():doc.metadata().width,height=report.historical_contours?report.historical_contours->link()->lattice().image_height():doc.metadata().height;
+        const auto scale=std::min(double(size.x)/width,double(size.y)/height);
         for(const auto& [label,paths]:contour_paths_) for(const auto& ring:paths) {for(const auto& p:ring) draw->PathLineTo({a.x+float(p.x*scale),a.y+float(p.y*scale)});draw->PathStroke(label && label<=colors.size()?colors[label-1]|0xff000000:IM_COL32(192,192,192,255),ImDrawFlags_Closed,1.5f);}
         draw->PopClipRect();ImGui::Dummy(size);
     }
@@ -74,7 +75,7 @@ public:
         record_=options_.record_id;index_=options_.read_index;if(options_.model) jobs_.adopt(*options_.model);
     }
     void open() {options_.open=true;}
-    void update(Document& doc) {if(identity_.lock()!=doc.analysis_identity_.token) {identity_=doc.analysis_identity_.token;jobs_.reset_records();record_=0;}jobs_.poll(doc);const auto report=jobs_.report();update_contours(report.stream_contours?report.stream_contours->contours():report.contours?report.contours->contours():nullptr);live_.update(report.prediction,report.prediction?palette(doc,report.prediction->class_counts(),report.model):std::vector<std::uint32_t>{},options_.show_overlay,options_.preview_budget);history_.update(report.historical,report.historical?palette(doc,report.historical->class_counts(),report.historical_model):std::vector<std::uint32_t>{},true,options_.preview_budget);}
+    void update(Document& doc) {if(identity_.lock()!=doc.analysis_identity_.token) {identity_=doc.analysis_identity_.token;jobs_.reset_records();record_=0;}jobs_.poll(doc);const auto report=jobs_.report();update_contours(report.historical_contours?report.historical_contours->contours():report.stream_contours?report.stream_contours->contours():report.contours?report.contours->contours():nullptr);live_.update(report.prediction,report.prediction?palette(doc,report.prediction->class_counts(),report.model):std::vector<std::uint32_t>{},options_.show_overlay,options_.preview_budget);history_.update(report.historical,report.historical?palette(doc,report.historical->class_counts(),report.historical_model):std::vector<std::uint32_t>{},true,options_.preview_budget);}
     bool settled() const {const auto r=jobs_.report();return !jobs_.busy() && (!options_.show_overlay || !r.prediction || live_.ready() || !live_.error().empty()) && (!r.historical || history_.ready() || !history_.error().empty());}
     GuiRawPixelReport report() const {auto r=jobs_.report();if(!error_.empty()) r.error=error_;else if(!live_.error().empty()) r.error=live_.error();r.preview_bytes=live_.bytes()+history_.bytes();r.preview_ready=live_.ready();r.contour_preview_ready=contour_ready_;r.contour_preview_bytes=contour_bytes_;if(r.error.empty()) r.error=contour_error_;return r;}
     const GuiPixelPreview& preview() const {return live_;}bool shown() const {return options_.show_overlay;}
@@ -112,6 +113,11 @@ public:
                 ui::InputText("Prediction file",stream_path_.data(),stream_path_.size());ui::InputText("Resume prediction from",resume_stream_.data(),resume_stream_.size());ImGui::Checkbox("Replace prediction file",&options_.save.replace_existing);
                 if(button("Export raw prediction",GuiInputTarget::RawPixelExport,disabled || !current.model)) run([&] {guard_raw_pixel_frontend_output(project,stream_path_.data());auto save=options_.save;save.resume_path=resume_stream_.data();jobs_.save(doc,*current.model,lattice(doc),stream_path_.data(),options_.stream,save,options_.object_id?options_.object_id:selection.primary());});
                 if(button("Open and verify raw file",GuiInputTarget::RawPixelOpenFile,jobs_.busy())) run([&] {auto limits=options_.read_limits;limits.work_bytes=std::min(limits.work_bytes,options_.preview_budget);jobs_.open(stream_path_.data(),limits,index_);});
+                auto file_limits=options_.read_limits;file_limits.work_bytes=std::min(file_limits.work_bytes,options_.preview_budget);
+                if(button("Inspect saved contours",GuiInputTarget::RawPixelTraceFile,jobs_.busy() || !has_geos())) run([&] {jobs_.trace_file(doc,stream_path_.data(),file_limits,options_.stream_contour_options);});
+                if(button("Reverify saved contours for apply",GuiInputTarget::RawPixelReplayFile,disabled || !has_geos())) run([&] {jobs_.trace_file(doc,stream_path_.data(),file_limits,options_.stream_contour_options,true);});
+                const auto file_report=jobs_.report();if(button("Apply reverified contours",GuiInputTarget::RawPixelApplyFile,disabled || !file_report.file_replay || !file_report.stream_contours || file_report.contours_published || !contour_ready_)) run([&] {jobs_.publish(doc,contour_prefix_.data());});
+                if(file_report.historical_contours || (file_report.file_replay && file_report.stream_contours)) {ImGui::TextWrapped(file_report.file_replay?"Reverified against current pixels; ready for atomic apply.":"Historical geometry only. Reverify current pixels before applying.");draw_contours(doc,file_report.historical_model);}
                 ImGui::InputScalar("Historical block",ImGuiDataType_U64,&index_);ImGui::TextWrapped("File preview is historical; it does not grant live apply authority.");
                 if(current.historical_model && current.link) {const auto& classes=current.historical_model->forest().classes();for(std::size_t i=0;i<std::min<std::size_t>(classes.size(),16);++i) ImGui::Text("Class %zu: %s (%llu samples)",i+1,classes[i].c_str(),(unsigned long long)current.link->summary().class_counts[i]);if(classes.size()>16) ImGui::Text("%zu further classes",classes.size()-16);}
                 if(history_.ready()) {const auto a=ImGui::GetCursorScreenPos();const ImVec2 size{std::max(1.f,ImGui::GetContentRegionAvail().x),140};history_.draw_local(ImGui::GetWindowDrawList(),a,size);ImGui::Dummy(size);}ImGui::EndTabItem();

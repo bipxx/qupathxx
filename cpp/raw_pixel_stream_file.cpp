@@ -180,13 +180,14 @@ std::shared_ptr<const RawPixelStreamLink> RawPixelStreamFile::link() const {
     }catch(...) {s.verified.store(false);throw;}
 }
 std::size_t RawPixelFileContours::payload_bytes() const {
-    std::size_t bytes=sizeof(*this)+contours_->retained_bytes()+link_->payload_bytes()+classes_.capacity()*sizeof(std::string)+65536;
+    std::size_t bytes=sizeof(*this)+contours_->retained_bytes()+link_->payload_bytes()+file_->payload_bytes()+classes_.capacity()*sizeof(std::string)+65536;
     for(const auto& name:classes_) bytes+=name.capacity();return bytes;
 }
 struct RawPixelFileContourKernel {
-    static std::shared_ptr<const RawPixelFileContours> run(const RawPixelStreamFile& input,RawPixelStreamContourOptions options,const std::atomic<bool>* c) {
+    static std::shared_ptr<const RawPixelFileContours> run(std::shared_ptr<const RawPixelStreamFile> input,RawPixelStreamContourOptions options,const std::atomic<bool>* c) {
         stop(c);options.validate();if(!has_geos()) throw std::runtime_error("raw historical contours require QUPATHXX_BUILD_GEOS=ON");
-        auto& s=*input.impl_;const auto work=131072ull+s.limits.work_bytes+std::max(options.boundary_work_bytes,options.contours.work_bytes);
+        if(!input) throw std::invalid_argument("historical contours require a file");
+        auto& s=*input->impl_;const auto work=131072ull+s.limits.work_bytes+std::max(options.boundary_work_bytes,options.contours.work_bytes);
         if(work>options.work_bytes) throw std::length_error("historical file/boundary/geometry work budget exceeded");
         if(!s.summary.complete) throw std::invalid_argument("historical contours require a complete QWS1 stream");
         auto out=std::shared_ptr<RawPixelFileContours>(new RawPixelFileContours());
@@ -202,11 +203,11 @@ struct RawPixelFileContourKernel {
                 out->classes_=d.model.forest().classes();out->options_=options;out->samples_=network.completed_samples;out->work_=static_cast<std::size_t>(work);
                 stop(c);stop(&s.cancelled);guard.verify();s.verified.store(true);
             }
-            out->link_=input.link();stop(c);input.check_unchanged();return out;
+            out->link_=input->link();stop(c);input->check_unchanged();out->file_=input;return out;
         }catch(...) {s.verified.store(false);throw;}
     }
 };
-std::shared_ptr<const RawPixelFileContours> trace_raw_pixel_stream_file(const RawPixelStreamFile& file,RawPixelStreamContourOptions options,const std::atomic<bool>* c) {return RawPixelFileContourKernel::run(file,options,c);}
+std::shared_ptr<const RawPixelFileContours> trace_raw_pixel_stream_file(std::shared_ptr<const RawPixelStreamFile> file,RawPixelStreamContourOptions options,const std::atomic<bool>* c) {return RawPixelFileContourKernel::run(std::move(file),options,c);}
 RawPixelTiledPredictionRequest capture_raw_pixel_stream_replay(const Document& doc,const RawPixelStreamFile& file) {
     if(!file.verified() || !file.declared_summary().complete) throw std::invalid_argument("replay requires a complete verified QWS1 file");
     const auto link=file.link();RawPixelTiledPredictionRequest request(doc,file.model(),file.lattice(),file.options(),file.region(),file.provenance()->object_id);

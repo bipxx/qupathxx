@@ -47,6 +47,8 @@ struct GuiRawPixelReport {
     bool preview_ready=false;
     std::shared_ptr<const RawPixelContours> contours;
     std::shared_ptr<const RawPixelStreamContours> stream_contours;
+    std::shared_ptr<const RawPixelFileContours> historical_contours;
+    bool file_replay=false;
     std::vector<std::uint64_t> published_ids;
     bool contours_published=false;
     std::size_t contour_work_bytes=0,contour_preview_bytes=0;

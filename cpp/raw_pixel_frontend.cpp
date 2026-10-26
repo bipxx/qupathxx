@@ -23,7 +23,7 @@ void guard_raw_pixel_frontend_output(const Project* project,const std::string& v
     }
 }
 struct RawPixelFrontend::Impl {
-    enum class Stage {Idle,Training,Checkpoint,Archive,Prediction,Save,Open,Read,LoadModel,SaveModel,ContourPrediction,Contours,StreamContours};
+    enum class Stage {Idle,Training,Checkpoint,Archive,Prediction,Save,Open,Read,LoadModel,SaveModel,ContourPrediction,Contours,StreamContours,FileContours,FileReplayOpen};
     struct Io {std::shared_ptr<const RawPixelArchive> archive;std::shared_ptr<const RawPixelClassifier> model;};
     Stage stage=Stage::Idle;RawPixelTrainingSettings settings;
     std::optional<RawPixelTiledTrainingRequest> training_request;
@@ -31,7 +31,8 @@ struct RawPixelFrontend::Impl {
     std::optional<RawPixelPredictionRequest> contour_request;TissueContourOptions contour_options;
     RawPixelPredictionJob contour_prediction;RawPixelContourJob contours;
     std::optional<RawPixelTiledPredictionRequest> stream_contour_request;RawPixelStreamContourJob stream_contours;
-    void clear_contours() {stream_contours.cancel();stream_contour_request.reset();report.stream_contours.reset();contour_prediction.cancel();contours.cancel();contour_request.reset();report.contours.reset();report.published_ids.clear();report.contours_published=false;report.contour_work_bytes=0;}
+    const Document* file_document=nullptr;std::uint64_t file_revision=0;RawPixelStreamContourOptions file_options;bool file_replay=false;
+    void clear_contours() {report.historical_contours.reset();report.file_replay=false;stream_contours.cancel();stream_contour_request.reset();report.stream_contours.reset();contour_prediction.cancel();contours.cancel();contour_request.reset();report.contours.reset();report.published_ids.clear();report.contours_published=false;report.contour_work_bytes=0;}
     RawPixelWindowPredictionJob prediction;RawPixelStreamSaveJob save;RawPixelStreamFileReadJob reader;
     std::shared_ptr<const RawPixelStreamFile> file;std::uint64_t index=0;
     std::future<Io> io;std::atomic<bool> cancelled{false};GuiRawPixelReport report;
@@ -70,6 +71,11 @@ void RawPixelFrontend::trace_stream(const Document& doc,const RawPixelClassifier
     RawPixelTiledPredictionRequest request(doc,model,std::move(lattice),stream,region,object);auto& s=*impl_;s.start(Impl::Stage::StreamContours);
     s.stream_contour_request=request;s.report.contour_work_bytes=options.work_bytes;
     try {s.stream_contours.request(request,options);}catch(...) {s.stream_contour_request.reset();s.fail("failed","Raw streamed contours could not start");throw;}
+}
+void RawPixelFrontend::trace_file(const Document& doc,const std::string& path,RawPixelStreamFileLimits limits,RawPixelStreamContourOptions options,bool replay,std::shared_ptr<const RawPixelStreamLink> expected) {
+    options.validate();limits.validate();if(!has_geos()) throw std::runtime_error("Raw historical contours require native geometry");
+    auto& s=*impl_;s.start(replay?Impl::Stage::FileReplayOpen:Impl::Stage::FileContours);s.file_document=&doc;s.file_revision=doc.revision();s.file_options=options;s.file_replay=replay;s.report.contour_work_bytes=options.work_bytes;
+    try {const auto input=expected?expected->path():path;if(replay) {if(expected) s.reader.open_link(std::move(expected),limits);else s.reader.open(input,limits);}else s.reader.trace_path(input,limits,options,std::move(expected));}catch(...) {s.fail("failed","Historical contour operation could not start");throw;}
 }
 const std::vector<std::uint64_t>& RawPixelFrontend::publish(Document& doc,const std::string& prefix) {
     auto& s=*impl_;if(busy() || s.report.contours_published) throw std::logic_error("Trace fresh raw contours before applying");
@@ -110,6 +116,16 @@ void RawPixelFrontend::poll(const Document& doc) {
         const auto streamed=s.stream_contours.poll(doc);
         if(s.report.stream_contours && !s.report.contours_published && streamed.state!="ready") {s.report.stream_contours.reset();if(s.stage==Stage::Idle) s.fail(streamed.state,streamed.error);}
         if(s.stage==Stage::Idle) return;
+        if(s.stage==Stage::FileContours || s.stage==Stage::FileReplayOpen) {
+            const auto status=s.reader.poll();if(s.reader.busy()) return;
+            if(s.stage==Stage::FileContours) {auto geometry=s.reader.take_contours();if(!geometry) {s.fail(status.state,status.error);return;}s.file=geometry->file();s.report.historical_contours=std::move(geometry);}
+            else {s.file=s.reader.take_file();if(!s.file) {s.fail(status.state,status.error);return;}}
+            s.report.link=s.file->link();s.report.historical_model=std::make_shared<const RawPixelClassifier>(s.file->model());
+            if(!s.file_replay) {s.fail("historical_contours_ready","");return;}
+            if(&doc!=s.file_document || doc.revision()!=s.file_revision) {s.fail("stale","Document changed while saved contours were verified");return;}
+            auto request=capture_raw_pixel_stream_replay(doc,*s.file);s.stream_contour_request=request;s.report.file_replay=true;
+            s.stream_contours.request_replay(request,s.file,s.file_options);s.stage=Stage::StreamContours;
+        }
         if(s.stage==Stage::StreamContours) {
             if(s.stream_contours.busy()) return;s.report.stream_contours=s.stream_contours.result();
             s.fail(s.report.stream_contours?"contours_ready":streamed.state,streamed.error);return;

@@ -90,9 +90,14 @@ bool RawPixelStreamFileReadJob::read(std::shared_ptr<const RawPixelStreamFile> f
 }
 bool RawPixelStreamFileReadJob::trace(std::shared_ptr<const RawPixelStreamFile> file,RawPixelStreamContourOptions options) {
     auto& s=*impl_;s.state.on_owner();if(s.state.future.valid() || s.state.pending) return false;
-    if(!file) throw std::invalid_argument("historical contours require a file");options.validate();
+    if(!file) throw std::invalid_argument("historical contours require a file");options.validate();if(!has_geos()) throw std::runtime_error("raw historical contours require native geometry");
     const auto windows=file->declared_summary().total_windows;
-    if(!s.state.start([file=std::move(file),options](const std::atomic<bool>* c) {ReadOutput out;out.file=file;out.contours=trace_raw_pixel_stream_file(*file,options,c);return out;},"tracing verified historical contours",windows)) return false;
+    if(!s.state.start([file=std::move(file),options](const std::atomic<bool>* c) {ReadOutput out;out.file=file;out.contours=trace_raw_pixel_stream_file(file,options,c);return out;},"tracing verified historical contours",windows)) return false;
+    s.opening=false;s.tracing=true;return true;
+}
+bool RawPixelStreamFileReadJob::trace_path(const std::string& input,RawPixelStreamFileLimits limits,RawPixelStreamContourOptions options,std::shared_ptr<const RawPixelStreamLink> expected) {
+    auto& s=*impl_;s.state.on_owner();if(s.state.future.valid() || s.state.pending) return false;limits.validate();options.validate();if(!has_geos()) throw std::runtime_error("raw historical contours require native geometry");const auto path=detail::export_path(input);
+    if(!s.state.start([path,limits,options,expected=std::move(expected)](const std::atomic<bool>* c) {ReadOutput out;out.file=std::make_shared<const RawPixelStreamFile>(path,limits);out.contours=trace_raw_pixel_stream_file(out.file,options,c);if(expected && !expected->same_content(*out.contours->link())) throw std::invalid_argument("raw history differs from retained link");return out;},"tracing verified historical contours")) return false;
     s.opening=false;s.tracing=true;return true;
 }
 RawPixelFileJobStats RawPixelStreamFileReadJob::poll() {

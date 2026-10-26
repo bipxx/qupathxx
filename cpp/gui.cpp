@@ -413,7 +413,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::uint64_t list_revision=std::numeric_limits<std::uint64_t>::max();
     int frames = 0;
     std::uint64_t settle_frames=0;
-    std::array<int,static_cast<std::size_t>(GuiInputTarget::RawPixelContoursTab)+1> target_seen;
+    std::array<int,static_cast<std::size_t>(GuiInputTarget::RawPixelApplyFile)+1> target_seen;
     std::optional<ImVec2> replay_mouse; // Hold synthetic pointer state between replay events.
     std::set<unsigned int> replay_wheels;std::uint64_t ignored_physical_wheels=0;
     target_seen.fill(-2);
@@ -812,7 +812,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(event.wait_for==GuiInputWait::RawPixelFileSaved) return bool(raw_pixel.report().link);
             if(event.wait_for==GuiInputWait::RawPixelFileRead) return bool(raw_pixel.report().historical) || raw_pixel.report().state=="verified";
             if(event.wait_for==GuiInputWait::RawPixelModelSaved) return raw_pixel.report().state=="saved";
-            if(event.wait_for==GuiInputWait::RawPixelContoursReady) {const auto r=raw_pixel.report();return bool(r.contours || r.stream_contours) && r.contour_preview_ready;}
+            if(event.wait_for==GuiInputWait::RawPixelContoursReady) {const auto r=raw_pixel.report();return bool(r.contours || r.stream_contours || r.historical_contours) && r.contour_preview_ready;}
             if(event.wait_for==GuiInputWait::RawPixelContoursPublished) return raw_pixel.report().contours_published;
             if(event.wait_for==GuiInputWait::RawPixelModelLoaded) return raw_pixel.report().state=="loaded";
             if(event.wait_for==GuiInputWait::PixelClassifierTrained) return pixel_classifier.trained();
@@ -850,7 +850,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(event.wait_for==GuiInputWait::TissueContoursPublished) return !tissue.busy() && tissue.contours_published();
             if(target_seen[static_cast<std::size_t>(event.target)]!=frames-1) return false;
             if(detail::GuiTma::handles(event.target)) return tma.enabled(event.target);
-            if(event.target>=GuiInputTarget::RawPixelTrain && event.target<=GuiInputTarget::RawPixelContoursTab) return raw_pixel.enabled(event.target);
+            if(event.target>=GuiInputTarget::RawPixelTrain && event.target<=GuiInputTarget::RawPixelApplyFile) return raw_pixel.enabled(event.target);
             if(event.target>=GuiInputTarget::ApplyTiffView && event.target<=GuiInputTarget::RawRecordsTab) return raw.enabled(event.target);
             switch(event.target) {
                 case GuiInputTarget::DisplayReset:
@@ -890,7 +890,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 const auto bounds=pixel_classifier.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};
             }
             if(detail::GuiTma::handles(event.target)) {const auto bounds=tma.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
-            if(event.target>=GuiInputTarget::RawPixelTrain && event.target<=GuiInputTarget::RawPixelContoursTab) {const auto bounds=raw_pixel.bounds(event.target);origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};}
+            if(event.target>=GuiInputTarget::RawPixelTrain && event.target<=GuiInputTarget::RawPixelApplyFile) {const auto bounds=raw_pixel.bounds(event.target);origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};}
             if(event.target>=GuiInputTarget::ApplyTiffView && event.target<=GuiInputTarget::RawRecordsTab) {const auto bounds=raw.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
             if(event.target==GuiInputTarget::ResetLayout) {origin=layout_reset_offset;extent=layout_reset_size;}
             if(event.target==GuiInputTarget::ProjectList) { origin=project_list_offset; extent=project_list_size; }

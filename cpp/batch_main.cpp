@@ -78,6 +78,8 @@ int execute(const std::vector<std::string>& args) {
             "       qupathxx_batch --train-raw-pixels PROJECT IMAGE_ID MODEL --checkpoint FILE --archive FILE [raw options]\n"
             "       qupathxx_batch --export-raw-pixels PROJECT IMAGE_ID MODEL OUTPUT [raw options]\n"
             "       qupathxx_batch --contour-raw-pixels PROJECT IMAGE_ID MODEL NEW_PROJECT [contour options]\n"
+            "       qupathxx_batch --inspect-raw-contours FILE [file/contour limits; --json-bytes N]\n"
+            "       qupathxx_batch --replay-raw-contours PROJECT IMAGE_ID FILE NEW_PROJECT [file/contour/project limits]\n"
             "       qupathxx_batch --verify-raw-pixels FILE [--file-bytes N --file-work-bytes N]\n"
             "Contour options: raw axes/tiles/object/region/vote/sample limits; --name-prefix TEXT --no-clip\n"
             "             --contour-work-bytes N --boundary-work-bytes N --max-boundary-runs N --total-work-bytes N\n"

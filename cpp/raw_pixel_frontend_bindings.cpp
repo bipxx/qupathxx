@@ -29,6 +29,7 @@ void bind_raw_pixel_frontends(nb::module_& m) {
         .def_ro("training",&GuiRawPixelReport::training).def_ro("checkpoint",&GuiRawPixelReport::checkpoint)
         .def_ro("prediction",&GuiRawPixelReport::prediction).def_ro("historical",&GuiRawPixelReport::historical).def_ro("link",&GuiRawPixelReport::link)
         .def_ro("training_record",&GuiRawPixelReport::training_record).def_ro("stream_record",&GuiRawPixelReport::stream_record)
+        .def_ro("historical_contours",&GuiRawPixelReport::historical_contours).def_ro("file_replay",&GuiRawPixelReport::file_replay)
         .def_ro("stream_contours",&GuiRawPixelReport::stream_contours).def_ro("contours",&GuiRawPixelReport::contours).def_ro("published_ids",&GuiRawPixelReport::published_ids)
         .def_ro("contours_published",&GuiRawPixelReport::contours_published).def_ro("contour_work_bytes",&GuiRawPixelReport::contour_work_bytes).def_ro("contour_preview_bytes",&GuiRawPixelReport::contour_preview_bytes).def_ro("contour_preview_ready",&GuiRawPixelReport::contour_preview_ready)
         .def_ro("preview_bytes",&GuiRawPixelReport::preview_bytes).def_ro("preview_ready",&GuiRawPixelReport::preview_ready);

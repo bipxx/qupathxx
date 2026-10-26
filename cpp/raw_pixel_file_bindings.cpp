@@ -96,13 +96,14 @@ void bind_raw_pixel_files(nb::module_& m) {
         .def_rw("boundary_work_bytes",&RawPixelStreamContourOptions::boundary_work_bytes)
         .def_rw("work_bytes",&RawPixelStreamContourOptions::work_bytes).def("validate",&RawPixelStreamContourOptions::validate);
     nb::class_<RawPixelFileContours>(m,"RawPixelFileContours")
-        .def_prop_ro("contours",&RawPixelFileContours::contours).def_prop_ro("link",&RawPixelFileContours::link)
+        .def_prop_ro("contours",&RawPixelFileContours::contours).def_prop_ro("link",&RawPixelFileContours::link).def_prop_ro("file",&RawPixelFileContours::file)
         .def_prop_ro("class_names",[](const RawPixelFileContours& v){return v.class_names();})
         .def_prop_ro("options",[](const RawPixelFileContours& v){return v.options();})
         .def_prop_ro("completed_samples",&RawPixelFileContours::completed_samples).def_prop_ro("estimated_work_bytes",&RawPixelFileContours::estimated_work_bytes).def_prop_ro("payload_bytes",&RawPixelFileContours::payload_bytes);
     nb::class_<PythonJob<RawPixelStreamFileReadJob>>(m,"RawPixelStreamFileReadJob").def(nb::init<>())
         .def("open",qpx::bindings::job_method<&RawPixelStreamFileReadJob::open>(),"path"_a,"limits"_a=RawPixelStreamFileLimits{})
         .def("open_link",qpx::bindings::job_method<&RawPixelStreamFileReadJob::open_link>(),"link"_a,"limits"_a=RawPixelStreamFileLimits{})
+        .def("trace_path",qpx::bindings::job_method<&RawPixelStreamFileReadJob::trace_path>(),"path"_a,"limits"_a=RawPixelStreamFileLimits{},"options"_a=RawPixelStreamContourOptions{},"expected"_a=nb::none())
         .def("trace",qpx::bindings::job_method<&RawPixelStreamFileReadJob::trace>(),"file"_a,"options"_a=RawPixelStreamContourOptions{})
         .def("read",qpx::bindings::job_method<&RawPixelStreamFileReadJob::read>(),"file"_a,"index"_a).def_prop_ro("busy",qpx::bindings::job_method<&RawPixelStreamFileReadJob::busy>()).def("cancel",qpx::bindings::job_method<&RawPixelStreamFileReadJob::cancel>())
         .def("await_completion",qpx::bindings::job_method<&RawPixelStreamFileReadJob::await_completion>(),nb::call_guard<nb::gil_scoped_release>())
@@ -125,7 +126,7 @@ void bind_raw_pixel_files(nb::module_& m) {
         .def_prop_ro("valid_samples",&RawPixelStreamContours::valid_samples)
         .def_prop_ro("estimated_work_bytes",&RawPixelStreamContours::estimated_work_bytes)
         .def_prop_ro("payload_bytes",&RawPixelStreamContours::payload_bytes);
-    m.def("trace_raw_pixel_stream_file",[](const RawPixelStreamFile& file,RawPixelStreamContourOptions options){return trace_raw_pixel_stream_file(file,options);},"file"_a,"options"_a=RawPixelStreamContourOptions{},nb::call_guard<nb::gil_scoped_release>());
+    m.def("trace_raw_pixel_stream_file",[](std::shared_ptr<const RawPixelStreamFile> file,RawPixelStreamContourOptions options){return trace_raw_pixel_stream_file(std::move(file),options);},"file"_a,"options"_a=RawPixelStreamContourOptions{},nb::call_guard<nb::gil_scoped_release>());
     m.def("capture_raw_pixel_stream_replay",&capture_raw_pixel_stream_replay,"document"_a,"file"_a);
     m.def("trace_raw_pixel_stream_replay",[](const RawPixelTiledPredictionRequest& request,std::shared_ptr<const RawPixelStreamFile> file,RawPixelStreamContourOptions options){return trace_raw_pixel_stream_replay(request,std::move(file),options);},"request"_a,"file"_a,"options"_a=RawPixelStreamContourOptions{},nb::call_guard<nb::gil_scoped_release>());
     nb::class_<PythonJob<RawPixelStreamContourJob>>(m,"RawPixelStreamContourJob").def(nb::init<>())

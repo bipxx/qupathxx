@@ -67,7 +67,7 @@ inline void run() {
         RawPixelStreamSaveOptions save_options;save_options.limits.work_bytes=1024*1024;save_raw_pixel_stream(saved_request,saved_path.u8string(),save_options);
         auto history=std::make_shared<const RawPixelStreamFile>(saved_path.u8string(),save_options.limits);
         rejects<std::invalid_argument>([&]{capture_raw_pixel_stream_replay(*live,*history);});
-        const auto historical=trace_raw_pixel_stream_file(*history,options);const auto fresh=trace_raw_pixel_stream(saved_request,options);
+        const auto historical=trace_raw_pixel_stream_file(history,options);const auto fresh=trace_raw_pixel_stream(saved_request,options);
         require(history->verified() && historical->link()->summary().complete && historical->completed_samples()==fresh->completed_samples(),"historical verified coverage");
         require(historical->contours()->object_id()==0 && historical->contours()->input_sha256().empty(),"historical geometry acquired authority");
         require(historical->contours()->components().size()==fresh->contours()->components().size(),"historical component count");
@@ -81,7 +81,7 @@ inline void run() {
         require(job.poll(*live).state=="failed" && !job.result(),"late history mutation delivered ready result");
         rejects<std::runtime_error>([&]{publish_raw_pixel_stream_contours(*live,next_capture,*retained_replay);});
         require(historical->contours()->components().size()==fresh->contours()->components().size(),"historical snapshot mutated");
-        const auto partial_path=directory/"partial.qws";save_options.max_new_windows=1;save_raw_pixel_stream(saved_request,partial_path.u8string(),save_options);RawPixelStreamFile partial(partial_path.u8string(),save_options.limits);
+        const auto partial_path=directory/"partial.qws";save_options.max_new_windows=1;save_raw_pixel_stream(saved_request,partial_path.u8string(),save_options);auto partial=std::make_shared<const RawPixelStreamFile>(partial_path.u8string(),save_options.limits);
         rejects<std::invalid_argument>([&]{trace_raw_pixel_stream_file(partial,options);});
         std::filesystem::remove(saved_path);std::filesystem::remove(partial_path);
         std::cout<<"Raw historical contour workflow: verified one-pass geometry, typed authority separation, fresh replay/apply/undo, late file refusal and partial-prefix rejection passed\n";
