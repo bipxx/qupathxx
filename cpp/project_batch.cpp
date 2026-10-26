@@ -3,6 +3,7 @@
 #include "qupathxx/input_digest.hpp"
 #include "calibrated_cell_numeric.hpp"
 #include "qupathxx/pixel_stream_file.hpp"
+#include "raw_pixel_stream_internal.hpp"
 #include "qupathxx/cell_tables.hpp"
 #include "qupathxx/measurement_tables.hpp"
 #include "qupathxx/stain_estimation.hpp"
@@ -34,6 +35,13 @@ std::string real(double n) {std::ostringstream s;s.imbue(std::locale::classic())
 std::string vector(const ColorVector& v) {return '['+real(v[0])+','+real(v[1])+','+real(v[2])+']';}
 std::string error_text(const std::exception& e) {std::string s=e.what();try {detail::bounded_utf8(s,32768);} catch(...) {return "batch operation failed (error text is not bounded UTF-8)";}return s;}
 using detail::access_path;
+bool stream_batch(ProjectBatchKind kind) {return kind==ProjectBatchKind::Pixels || kind==ProjectBatchKind::RawPixels;}
+ScientificRawLattice raw_lattice(const Document& doc,const ProjectBatchOptions& o) {
+    const auto& m=doc.metadata();return {m.width,m.height,o.raw_pixel_x?*o.raw_pixel_x:ScientificGridAxis(0,m.width,m.width),o.raw_pixel_y?*o.raw_pixel_y:ScientificGridAxis(0,m.height,m.height)};
+}
+RawPixelTiledPredictionRequest raw_request(const Document& doc,std::uint64_t id,const ProjectBatchOptions& o) {return {doc,*o.raw_pixel_model,raw_lattice(doc,o),o.raw_pixels,{},id};}
+RawPixelStreamFileLimits raw_file_limits(const ProjectBatchOptions& o,std::uint64_t remaining) {return {std::min(o.pixel_file_limit,remaining),o.raw_pixel_file_work_bytes};}
+
 bool plain(const fs::path& path,bool directory) {
 #ifdef _WIN32
     const auto flags=GetFileAttributesW(access_path(path).c_str());return flags!=INVALID_FILE_ATTRIBUTES && !(flags&FILE_ATTRIBUTE_REPARSE_POINT) && bool(flags&FILE_ATTRIBUTE_DIRECTORY)==directory;
@@ -68,11 +76,11 @@ struct Work {
 };
 class PixelBatchBundle {
     std::string owner_;
-    bool committed_=false;
+    bool committed_=false,raw_=false;
     std::vector<std::filesystem::path> outputs_;
 public:
     std::filesystem::path path;
-    PixelBatchBundle(const std::filesystem::path& root,std::size_t count):owner_(token()) {
+    PixelBatchBundle(const std::filesystem::path& root,std::size_t count,bool raw=false):owner_(token()),raw_(raw) {
         outputs_.reserve(count);path=access_path(root/("pixels-"+owner_),true);
         if(!std::filesystem::create_directory(path)) throw std::runtime_error("cannot create pixel batch bundle");
         std::ofstream file(path/"owner",std::ios::binary);file<<"qupathxx pixel batch 1\n"<<owner_;file.close();
@@ -87,7 +95,7 @@ public:
         std::string bytes(expected.size()+1,'\0');file.read(bytes.data(),static_cast<std::streamsize>(bytes.size()));
         return !file.bad() && file.gcount()==static_cast<std::streamsize>(expected.size()) && bytes.compare(0,expected.size(),expected)==0;
     }
-    std::filesystem::path output(std::uint64_t id) const {return path/("object-"+std::to_string(id)+".qps");}
+    std::filesystem::path output(std::uint64_t id) const {return path/("object-"+std::to_string(id)+(raw_?".qws":".qps"));}
     void saved(std::filesystem::path output) {outputs_.push_back(std::move(output));}
     void commit() noexcept {committed_=true;}
     ~PixelBatchBundle() {
@@ -154,6 +162,11 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
     if(o.kind==ProjectBatchKind::Pixels) {const auto& v=o.pixels;
         s<<",\"pixels\":{\"model_sha256\":"<<batch_json_quote(o.pixel_model->sha256())<<",\"block_size\":"<<v.block_size<<",\"tile_size\":"<<v.prediction.tile_size<<",\"work_bytes\":"<<v.prediction.work_bytes<<",\"min_vote_fraction\":"<<v.prediction.min_vote_fraction<<",\"max_pixels\":"<<v.max_pixels<<",\"max_blocks\":"<<v.max_blocks<<",\"file_limit\":"<<o.pixel_file_limit<<",\"total_limit\":"<<o.pixel_total_limit<<'}';
     }
+    if(o.kind==ProjectBatchKind::RawPixels) {const auto& v=o.raw_pixels;
+        s<<",\"raw_pixels\":{\"model_sha256\":"<<batch_json_quote(o.raw_pixel_model->sha256())<<",\"tile_width\":"<<v.tile_width<<",\"tile_height\":"<<v.tile_height<<",\"work_bytes\":"<<v.work_bytes<<",\"min_vote_fraction\":"<<v.min_vote_fraction<<",\"max_samples\":"<<v.max_samples<<",\"max_windows\":"<<v.max_windows<<",\"file_work_bytes\":"<<o.raw_pixel_file_work_bytes<<",\"file_limit\":"<<o.pixel_file_limit<<",\"total_limit\":"<<o.pixel_total_limit;
+        auto axis=[&](const char* name,const std::optional<ScientificGridAxis>& a) {s<<",\""<<name<<"\":";if(a) s<<'['<<a->origin()<<','<<a->extent()<<','<<a->samples()<<','<<a->context()<<']';else s<<"null";};
+        axis("x",o.raw_pixel_x);axis("y",o.raw_pixel_y);s<<'}';
+    }
     if(o.raw_grid) {
         const auto& g=*o.raw_grid;
         s<<",\"raw_grid\":{\"recipe\":\"qpx.raw-grid-statistics/1\",\"input\":\"qpx.raw-grid-statistics-input/1\",\"samples_x\":"<<g.samples_x<<",\"samples_y\":"<<g.samples_y
@@ -192,7 +205,7 @@ void ProjectBatchOptions::validate() const {
     detail::validate_cell_area_limits(cell_min_nucleus_area_um2,cell_max_nucleus_area_um2);
     if(kind!=ProjectBatchKind::Cells && (cell_min_nucleus_area_um2 || cell_max_nucleus_area_um2))
         throw std::invalid_argument("physical nucleus area limits require a cell batch");
-    if(kind!=ProjectBatchKind::Roi && kind!=ProjectBatchKind::Tissue && kind!=ProjectBatchKind::Cells && kind!=ProjectBatchKind::Pixels && kind!=ProjectBatchKind::Raw) throw std::invalid_argument("invalid batch kind");
+    if(kind!=ProjectBatchKind::Roi && kind!=ProjectBatchKind::Tissue && kind!=ProjectBatchKind::Cells && kind!=ProjectBatchKind::Pixels && kind!=ProjectBatchKind::Raw && kind!=ProjectBatchKind::RawPixels) throw std::invalid_argument("invalid batch kind");
     if(failure!=ProjectBatchFailure::Stop && failure!=ProjectBatchFailure::Continue) throw std::invalid_argument("invalid batch failure policy");
     if(roi_kind!=AnalysisKind::OpticalDensityMeans && roi_kind!=AnalysisKind::StainMeans) throw std::invalid_argument("invalid batch ROI kind");
     if(object_kind!=ObjectKind::Annotation && object_kind!=ObjectKind::Detection && object_kind!=ObjectKind::Cell) throw std::invalid_argument("invalid batch object kind");
@@ -202,6 +215,11 @@ void ProjectBatchOptions::validate() const {
     pixels.validate();
     if(pixel_file_limit<4096 || pixel_file_limit>(64ULL<<40) || pixel_total_limit<4096 || pixel_total_limit>(64ULL<<40)) throw std::invalid_argument("invalid pixel batch file limits");
     if(kind==ProjectBatchKind::Pixels && (!pixel_model || nucleus || publish_cells)) throw std::invalid_argument("pixel batch requires a model and body ROIs without cell publication");
+    if(kind==ProjectBatchKind::RawPixels) {
+        if(!raw_pixel_model || nucleus || publish_cells) throw std::invalid_argument("raw pixel batch requires a model and body ROIs without cell publication");
+        if(bool(raw_pixel_x)!=bool(raw_pixel_y)) throw std::invalid_argument("raw pixel batch requires both axes or the unit lattice");
+        raw_pixels.validate();raw_file_limits(*this,pixel_total_limit).validate();
+    } else if(raw_pixel_model || raw_pixel_x || raw_pixel_y || raw_pixel_file_work_bytes!=256u*1024*1024) throw std::invalid_argument("raw classifier options require a raw pixel batch");
     tissue.validate();cells.validate();if(kind==ProjectBatchKind::Cells && nucleus) throw std::invalid_argument("cell batch uses body source ROIs");if(publish_cells && (kind!=ProjectBatchKind::Cells || !has_geos())) throw std::invalid_argument("cell publication requires a cells batch and native geometry");
 }
 ProjectBatchRequest::ProjectBatchRequest(const Project& project,const StainTransform& transform,const std::vector<ProjectBatchSelection>& selection,ProjectBatchOptions options) {
@@ -210,6 +228,7 @@ ProjectBatchRequest::ProjectBatchRequest(const Project& project,const StainTrans
     if(options.tma_only && selection.empty()) {chosen.erase(std::remove_if(chosen.begin(),chosen.end(),[&](const auto& item){return !project.entry(item.image_id).document->tma_core_count();}),chosen.end());if(chosen.empty()) throw std::invalid_argument("project has no TMA grids");}
     std::sort(chosen.begin(),chosen.end(),[](const auto& a,const auto& b){return a.image_id<b.image_id;});std::set<std::uint64_t> ids;std::size_t charge=sizeof(Data)+65536+d->json.capacity()+d->sha.capacity();
     if(options.kind==ProjectBatchKind::Pixels) charge+=4ULL*options.pixel_model->bytes().size()+64ULL*options.pixel_model->forest().node_count()+65536;
+    if(options.kind==ProjectBatchKind::RawPixels) charge+=4ULL*options.raw_pixel_model->bytes().size()+64ULL*options.raw_pixel_model->forest().node_count()+65536;
     for(auto& item:chosen) {
         if(!ids.insert(item.image_id).second) throw std::invalid_argument("duplicate batch image selection");const auto& doc=*project.entry(item.image_id).document;
         if(item.object_ids.size()>100000) throw std::length_error("batch object selection exceeds limit");
@@ -222,6 +241,7 @@ ProjectBatchRequest::ProjectBatchRequest(const Project& project,const StainTrans
         else {std::sort(item.object_ids.begin(),item.object_ids.end());item.object_ids.erase(std::unique(item.object_ids.begin(),item.object_ids.end()),item.object_ids.end());for(auto id:item.object_ids) if(!doc.annotation(id).geometry.is_area()) throw std::invalid_argument("batch source must have an area ROI");}
         if(options.kind==ProjectBatchKind::Raw && item.object_ids.size()>10000-doc.raw_analysis_record_count()) throw std::length_error("raw batch exceeds per-image record limit");
         if(options.kind==ProjectBatchKind::Pixels && item.object_ids.size()>10000-doc.pixel_stream_record_count()) throw std::length_error("pixel batch exceeds per-image stream catalog limit");
+        if(options.kind==ProjectBatchKind::RawPixels && item.object_ids.size()>10000-doc.raw_pixel_stream_record_count()) throw std::length_error("raw pixel batch exceeds per-image stream catalog limit");
         if(item.object_ids.size()>100000-d->objects) throw std::length_error("batch exceeds 100000 source objects");d->objects+=item.object_ids.size();charge+=sizeof(ProjectBatchSelection)+item.object_ids.capacity()*sizeof(std::uint64_t);
     }
     if(charge>=options.snapshot_budget) throw std::length_error("batch capture exceeds snapshot budget");std::size_t bytes=0;d->snapshot=project.snapshot_for_save(options.snapshot_budget-charge,bytes,&ids);d->bytes=bytes+charge;d->selections=std::move(chosen);d->capture=std::chrono::duration<double,std::milli>(Clock::now()-start).count();data_=std::move(d);
@@ -234,7 +254,7 @@ std::string ProjectBatchRequest::parameters_json() const {return data_->json;}
 std::string ProjectBatchRequest::parameters_sha256() const {return data_->sha;}
 struct ProjectBatchKernel {
     static std::uint64_t cost(const Document& d,bool embedded) {
-        auto value=65536+2ULL*(d.object_bytes_+d.analysis_bytes_+d.tissue_bytes_+d.cells_bytes_+d.classifiers_bytes_+d.pixels_bytes_+d.streams_bytes_+d.raw_analysis_bytes_)+(embedded?2ULL*d.image().pixels().size():65536);
+        auto value=65536+2ULL*(d.object_bytes_+d.analysis_bytes_+d.tissue_bytes_+d.cells_bytes_+d.classifiers_bytes_+d.pixels_bytes_+d.streams_bytes_+d.raw_analysis_bytes_+d.raw_pixels_bytes_+d.raw_streams_bytes_)+(embedded?2ULL*d.image().pixels().size():65536);
         value+=4ULL*(d.metadata().levels.size()*sizeof(ImageLevel)+d.metadata().vendor.size()+d.server()->source_locator().size());
         for(const auto& item:d.classes_) value+=4ULL*(sizeof(ObjectClass)+128+item.first.size()+item.second.name.size());return value;
     }
@@ -253,6 +273,31 @@ struct ProjectBatchKernel {
             bytes+=file.declared_summary().bytes;stats.stream_bytes+=file.declared_summary().bytes;stats.verified_blocks+=file.declared_summary().blocks;const auto input=file.input_sha256();inputs.integer(id);inputs.update(input.data(),input.size());
         }
         if(index!=item.object_ids.size() || inputs.finish()!=expected) throw std::invalid_argument("pixel batch output input digest does not match current source");
+    }
+    static void verify_raw_pixels(const fs::path& candidate,const Document& source,const ProjectBatchSelection& item,const ProjectBatchOptions& o,const std::string& expected,std::size_t budget,ProjectBatchImageResult& stats,const std::atomic<bool>* c) {
+        std::set<std::uint64_t> old;for(const auto& r:source.raw_pixel_stream_records()) old.insert(r->id);
+        std::size_t index=0;std::uint64_t bytes=0,generated=0;Sha256 inputs;const std::string tag="qpx.batch-pixels/1";inputs.update(tag.data(),tag.size());
+        for(const auto& r:detail::batch_raw_pixel_records(access_path(candidate).u8string(),item.image_id,old,budget,c)) {
+            detail::export_checkpoint(c);if(index>=item.object_ids.size()) throw std::invalid_argument("raw pixel checkpoint has extra output records");
+            if(r->payload_bytes()>o.result_budget-generated) throw std::length_error("raw pixel descriptors exceed result budget");generated+=r->payload_bytes();
+            const auto id=item.object_ids[index++];const auto& link=*r->link;const auto path=access_path(candidate.parent_path()/("object-"+std::to_string(id)+".qws"));
+            const auto request=raw_request(source,id,o);
+            if(access_path(fs::u8path(link.path())).lexically_normal()!=path.lexically_normal() || link.object_id()!=id || link.model_sha256()!=o.raw_pixel_model->sha256() || link.request_sha256()!=request.sha256() || !link.summary().complete) throw std::invalid_argument("raw pixel descriptor does not match target/model/bundle");
+            if(!plain(path,false) || link.summary().bytes>o.pixel_total_limit-bytes) throw std::length_error("raw pixel output is not plain or exceeds total file limit");
+            RawPixelStreamFile file(path.u8string(),raw_file_limits(o,o.pixel_total_limit-bytes));file.verify(c);
+            if(!file.link()->same_content(link)) throw std::invalid_argument("raw pixel output differs from saved descriptor");
+            const auto& summary=file.declared_summary();bytes+=summary.bytes;stats.stream_bytes+=summary.bytes;stats.verified_blocks+=summary.completed_windows;inputs.integer(id);inputs.update(summary.input_sha256.data(),summary.input_sha256.size());
+        }
+        if(index!=item.object_ids.size() || inputs.finish()!=expected) throw std::invalid_argument("raw pixel output input digest differs from current source");
+    }
+    static std::string raw_pixel_csv(const Document& doc,const std::vector<std::uint64_t>& records,const ProjectBatchOptions& o) {
+        std::string csv="object_id,record_id,path,model_sha256,content_sha256,windows,valid_samples,classified_samples,class_index,class_name,class_samples\r\n";
+        auto append=[&](const std::string& row) {if(csv.size()>o.csv_limit || row.size()>o.csv_limit-csv.size()) throw std::length_error("raw pixel CSV exceeds byte limit");csv+=row;};
+        for(const auto id:records) {const auto& r=*doc.raw_pixel_stream_record(id);const auto& l=*r.link;const auto& v=l.summary();
+            const auto prefix=std::to_string(l.object_id())+','+std::to_string(id)+','+csv_quote(fs::u8path(l.path()).filename().u8string())+','+csv_quote(l.model_sha256())+','+csv_quote(v.content_sha256)+','+std::to_string(v.completed_windows)+','+std::to_string(v.valid_samples)+','+std::to_string(v.classified_samples)+',';
+            for(std::size_t i=0;i<v.class_counts.size();++i) append(prefix+std::to_string(i+1)+','+csv_quote(o.raw_pixel_model->forest().classes()[i])+','+std::to_string(v.class_counts[i])+"\r\n");
+        }
+        if(csv.size()>o.csv_limit) throw std::length_error("raw pixel CSV exceeds byte limit");return csv;
     }
     static std::string pixel_csv(const Document& doc,const std::vector<std::uint64_t>& records,const ProjectBatchOptions& o) {
         std::string csv="object_id,record_id,path,model_sha256,content_sha256,blocks,valid_pixels,classified_pixels,class_index,class_name,class_pixels\r\n";
@@ -274,7 +319,7 @@ struct ProjectBatchKernel {
                     phase(1);if(cost(*input.document,input.info.embedded)>o.materialize_budget) throw std::length_error("batch image exceeds materialization budget");Work work(root);
                     Project isolated;isolated.identity_=d.snapshot->identity_;isolated.next_id_=d.snapshot->next_id_;isolated.active_image_=item.image_id;isolated.entries_.emplace(item.image_id,input);const auto view=d.snapshot->views_.find(item.image_id);if(view!=d.snapshot->views_.end()) isolated.views_.emplace(*view);
                     isolated.save_impl((work.path/"input.qpxproj").u8string(),"",c);result.input_sha256=fingerprint_file((work.path/"input.qpxproj").u8string(),{},c)->sha256;
-                    const auto spec=hash(d.sha+result.input_sha256+std::to_string(report.source_generation)+":"+std::to_string(o.kind==ProjectBatchKind::Pixels?0:report.source_revision));const auto folder=root/("image-"+std::to_string(item.image_id)+"-"+spec);fs::create_directories(folder);if(!plain(folder,true)) throw std::runtime_error("batch image output must be a plain directory");
+                    const auto spec=hash(d.sha+result.input_sha256+std::to_string(report.source_generation)+":"+std::to_string(stream_batch(o.kind)?0:report.source_revision));const auto folder=root/("image-"+std::to_string(item.image_id)+"-"+spec);fs::create_directories(folder);if(!plain(folder,true)) throw std::runtime_error("batch image output must be a plain directory");
                     Project::LoadProgress load;load.external_cancelled=c;auto project=Project::open_impl((work.path/"input.qpxproj").u8string(),false,"",&load);auto doc=project->document(item.image_id);doc->set_history_limits(0,0);check();std::unique_ptr<PixelBatchBundle> bundle;std::uint64_t stream_bytes=0;
                     auto pixel_stream=[&](bool compute,std::vector<std::uint64_t>& records,std::uint64_t& generated) {
                         Sha256 pixels;const std::string tag="qpx.batch-pixels/1";pixels.update(tag.data(),tag.size());
@@ -288,6 +333,20 @@ struct ProjectBatchKernel {
                                     PixelStreamFile file(bundle->output(id).u8string(),o.pixel_file_limit);file.verify(c);digest=file.input_sha256();result.verified_blocks+=file.declared_summary().blocks;result.stream_bytes+=file.declared_summary().bytes;
                                     record=doc->keep_pixel_stream(file.link(),"Pixel batch");bytes=doc->pixel_stream_record(record)->payload_bytes();
                                 } else {digest=stream.input_sha256(c);result.hashed_blocks+=stream.total_blocks();}
+                            }
+                            else if(o.kind==ProjectBatchKind::RawPixels) {
+                                const auto request=raw_request(*doc,id,o);
+                                if(compute) {
+                                    if(!bundle) bundle=std::make_unique<PixelBatchBundle>(folder,item.object_ids.size(),true);
+                                    auto path=bundle->output(id);if(o.pixel_total_limit-stream_bytes<4096) throw std::length_error("raw pixel batch exceeds total file limit");
+                                    RawPixelStreamSaveOptions save;save.limits=raw_file_limits(o,o.pixel_total_limit-stream_bytes);
+                                    const auto value=save_raw_pixel_stream(request,path.u8string(),save,c);bundle->saved(std::move(path));stream_bytes+=value.bytes;result.inferred_blocks+=value.completed_windows;
+                                    RawPixelStreamFile file(bundle->output(id).u8string(),save.limits);file.verify(c);const auto& summary=file.declared_summary();digest=summary.input_sha256;result.verified_blocks+=summary.completed_windows;result.stream_bytes+=summary.bytes;
+                                    record=doc->keep_raw_pixel_stream(file.link(),"Raw pixel batch");bytes=doc->raw_pixel_stream_record(record)->payload_bytes();
+                                } else {
+                                    digest=request.sha256();for(std::uint64_t i=0;i<request.total_windows();++i) {check();digest=raw_pixel_stream_chain("qpx.raw-pixel-stream-input-chain/1",digest,i,request.input_sha256(i,c));}
+                                    result.hashed_blocks+=request.total_windows();
+                                }
                             }
                             else if(o.kind==ProjectBatchKind::Raw) {
                                 auto region=o.raw;if(o.raw_follow_display) {const auto view=doc->server()->tiff_view();if(!view) throw std::invalid_argument("raw batch requires quantitative TIFF images");region.z=view->z;region.t=view->t;}
@@ -305,7 +364,7 @@ struct ProjectBatchKernel {
                     };
                     std::optional<detail::BatchCheckpoint> cached_meta;std::unique_ptr<detail::ReaderFileGuard> cached_guard;
                     auto find=[&](const std::string& digest)->fs::path {
-                        if(o.kind==ProjectBatchKind::Pixels) {
+                        if(stream_batch(o.kind)) {
                             std::size_t count=0;for(const auto& entry:fs::directory_iterator(folder)) {check();if(++count>100000) throw std::length_error("pixel batch directory exceeds entry limit");
                                 const auto path=access_path(entry.path(),true);if(!PixelBatchBundle::owned(path) || !plain(path/"result.qpxproj",false)) continue;
                                 const auto file=path/"result.qpxproj";if(fs::file_size(file)>o.checkpoint_limit) throw std::length_error("pixel batch checkpoint exceeds byte limit");
@@ -317,13 +376,14 @@ struct ProjectBatchKernel {
                         std::vector<fs::path> names;std::size_t count=0;for(const auto& e:fs::directory_iterator(folder)) {check();if(++count>100000) throw std::length_error("batch checkpoint directory exceeds entry limit");const auto n=e.path().filename().u8string();if(n.rfind(digest+"-",0)==0 && n.size()==105 && n.substr(n.size()-8)==".qpxproj" && plain(e.path(),false)) names.push_back(e.path());}
                         if(names.empty()) return {};std::sort(names.begin(),names.end());return names.front();
                     };
-                    bool candidates=false;if(o.resume) {std::size_t count=0;for(const auto& e:fs::directory_iterator(folder)) {check();if(++count>100000) throw std::length_error("batch checkpoint directory exceeds entry limit");const auto n=e.path().filename().u8string();if(o.kind==ProjectBatchKind::Pixels?(PixelBatchBundle::owned(access_path(e.path())) && plain(access_path(e.path())/"result.qpxproj",false)):((n.size()==72 || n.size()==105) && n.substr(n.size()-8)==".qpxproj")) {candidates=true;break;}}}
+                    bool candidates=false;if(o.resume) {std::size_t count=0;for(const auto& e:fs::directory_iterator(folder)) {check();if(++count>100000) throw std::length_error("batch checkpoint directory exceeds entry limit");const auto n=e.path().filename().u8string();if(stream_batch(o.kind)?(PixelBatchBundle::owned(access_path(e.path())) && plain(access_path(e.path())/"result.qpxproj",false)):((n.size()==72 || n.size()==105) && n.substr(n.size()-8)==".qpxproj")) {candidates=true;break;}}}
                     if(candidates) {
                         phase(2);std::vector<std::uint64_t> unused;std::uint64_t bytes=0;const auto digest=pixel_stream(false,unused,bytes);const auto candidate=find(digest);
                         if(!candidate.empty()) {
                             phase(5);if(!plain(candidate,false) || fs::file_size(candidate)>o.checkpoint_limit) throw std::length_error("batch checkpoint is not plain or exceeds byte limit");auto guard=cached_guard?std::move(cached_guard):std::make_unique<detail::ReaderFileGuard>(access_path(candidate).u8string());const auto meta=cached_meta?std::move(*cached_meta):detail::read_batch_checkpoint(access_path(candidate).u8string(),c,false,o.csv_limit);guard->verify();
-                            if(meta.parameters_sha256!=d.sha || meta.input_sha256!=result.input_sha256 || meta.pixel_sha256!=digest || meta.image_id!=std::to_string(item.image_id) || meta.source_identity!=report.source_identity || meta.source_generation!=report.source_generation || (o.kind!=ProjectBatchKind::Pixels && meta.source_revision!=report.source_revision) || meta.objects!=item.object_ids.size() || meta.generated_bytes>o.result_budget) throw std::invalid_argument("batch checkpoint does not match this request");
+                            if(meta.parameters_sha256!=d.sha || meta.input_sha256!=result.input_sha256 || meta.pixel_sha256!=digest || meta.image_id!=std::to_string(item.image_id) || meta.source_identity!=report.source_identity || meta.source_generation!=report.source_generation || (!stream_batch(o.kind) && meta.source_revision!=report.source_revision) || meta.objects!=item.object_ids.size() || meta.generated_bytes>o.result_budget) throw std::invalid_argument("batch checkpoint does not match this request");
                             if(o.kind==ProjectBatchKind::Pixels) {if(cost(*doc,input.info.embedded)+meta.generated_bytes*2>o.materialize_budget) throw std::length_error("pixel checkpoint exceeds materialization budget");verify_pixels(candidate,*doc,item,o,digest,o.materialize_budget-cost(*doc,input.info.embedded),result,c);guard->verify();}
+                            if(o.kind==ProjectBatchKind::RawPixels) {if(cost(*doc,input.info.embedded)+meta.generated_bytes*2>o.materialize_budget) throw std::length_error("raw pixel checkpoint exceeds materialization budget");verify_raw_pixels(candidate,*doc,item,o,digest,o.materialize_budget-cost(*doc,input.info.embedded),result,c);guard->verify();}
                             result.pixel_sha256=digest;result.path=access_path(candidate).u8string();result.records=item.object_ids.size();result.state="reused";++report.reused;if(progress) progress->objects.fetch_add(item.object_ids.size());
                         }
                     }
@@ -332,13 +392,14 @@ struct ProjectBatchKernel {
                         if(const auto source=doc->server()->reader_source()) if(source->primary) meta.source_file_identity=source->primary->identity;
                         std::string table;Document empty(Image(1,1,{0,0,0}));const auto& table_doc=records.empty()?empty:*doc;
                         if(o.kind==ProjectBatchKind::Pixels) table=pixel_csv(*doc,records,o);
+                        else if(o.kind==ProjectBatchKind::RawPixels) table=raw_pixel_csv(*doc,records,o);
                         else if(o.kind==ProjectBatchKind::Raw) table=raw_analysis_csv(RawTableRequest(table_doc,records,true,std::min<std::size_t>(o.materialize_budget,512u*1024*1024)),o.csv_limit,c);
                         else if(o.kind==ProjectBatchKind::Cells) {CellTableOptions options;options.require_current=true;options.byte_limit=o.csv_limit;options.snapshot_budget=o.materialize_budget>512*1024*1024?512*1024*1024:o.materialize_budget;table=cell_measurements_csv(CellTableRequest(table_doc,records,options),c);}
                         else {MeasurementTableOptions options;options.require_current=true;options.byte_limit=o.csv_limit;options.snapshot_budget=o.materialize_budget>512*1024*1024?512*1024*1024:o.materialize_budget;table=measurements_csv(MeasurementTableRequest(table_doc,o.kind==ProjectBatchKind::Roi?MeasurementTableKind::Roi:MeasurementTableKind::Tissue,records,options),c);}
-                        if(o.tma_only && o.kind!=ProjectBatchKind::Raw) {const auto used=cost(*doc,input.info.embedded);if(used>=o.materialize_budget) throw std::length_error("TMA table snapshot exceeds materialization budget");const auto grid=doc->tma_grid(static_cast<std::size_t>(std::min<std::uint64_t>(o.materialize_budget-used,64*1024*1024)));if(!grid) throw std::logic_error("captured TMA grid disappeared");table=tma_context_csv(*grid,table,o.csv_limit,o.kind!=ProjectBatchKind::Pixels);}
+                        if(o.tma_only && o.kind!=ProjectBatchKind::Raw) {const auto used=cost(*doc,input.info.embedded);if(used>=o.materialize_budget) throw std::length_error("TMA table snapshot exceeds materialization budget");const auto grid=doc->tma_grid(static_cast<std::size_t>(std::min<std::uint64_t>(o.materialize_budget-used,64*1024*1024)));if(!grid) throw std::logic_error("captured TMA grid disappeared");table=tma_context_csv(*grid,table,o.csv_limit,!stream_batch(o.kind));}
                         const auto prefix=csv_quote(report.source_identity)+','+std::to_string(report.source_generation)+','+std::to_string(report.source_revision)+','+std::to_string(item.image_id)+','+csv_quote(input.info.name)+',';meta.csv=with_context(table,prefix,o.csv_limit);
                         phase(4);const auto file=work.path/"result.qpxproj";
-                        if(o.kind==ProjectBatchKind::Pixels && !bundle) bundle=std::make_unique<PixelBatchBundle>(folder,item.object_ids.size());
+                        if(stream_batch(o.kind) && !bundle) bundle=std::make_unique<PixelBatchBundle>(folder,item.object_ids.size(),o.kind==ProjectBatchKind::RawPixels);
                         const auto destination_folder=bundle?bundle->path:folder;project->save_impl(file.u8string(),destination_folder.u8string(),c,nullptr,&meta);check();
                         auto destination=bundle?bundle->path/"result.qpxproj":folder/(result.pixel_sha256+".qpxproj");if(!bundle && fs::exists(destination)) destination=folder/(result.pixel_sha256+"-"+token()+".qpxproj");
                         publish(file,destination,c);if(bundle) bundle->commit();result.path=access_path(destination).u8string();result.state="saved";++report.saved;

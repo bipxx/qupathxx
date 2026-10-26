@@ -135,7 +135,7 @@ template<class Job,class Poll> RawPixelFileJobStats collect(Job& job,Poll poll,c
 int verify(const std::vector<std::string>& args,const std::atomic<bool>& cancelled) {
     if(args.size()<3) throw std::invalid_argument("usage: --verify-raw-pixels FILE [--file-bytes N --file-work-bytes N]");
     const auto o=parse(args,3,false,true);RawPixelStreamFileReadJob job;job.open(args[2],o.save.limits);
-    auto stats=collect(job,[&] {return job.poll();},cancelled);const auto file=job.take_file();
+    auto stats=collect(job,[&] {return job.poll();},cancelled);const auto file=job.take_file();if(!file) stats=job.poll();
     line("verify",file?"verified":stats.state,args[2],stats,file?",\"summary\":"+summary_json(file->declared_summary()):"");
     return file?0:stats.state=="cancelled"?130:1;
 }
@@ -147,7 +147,7 @@ int predict(const std::vector<std::string>& args,const std::atomic<bool>& cancel
     if(!o.save.resume_path.empty()) for(std::size_t i=1;i<outputs.size();++i) guard_file_output(export_path(o.save.resume_path),"",export_path(outputs[i]));
     RawPixelTiledPredictionRequest request(*doc,model,lattice(*doc,o),o.stream,o.region,o.object);
     RawPixelStreamSaveJob job;job.request(request,args[5],o.save);line("export","running",args[5],job.poll(*doc),",\"model_sha256\":"+batch_json_quote(model.sha256()));
-    auto stats=collect(job,[&] {return job.poll(*doc);},cancelled);auto summary=job.take(*doc);
+    auto stats=collect(job,[&] {return job.poll(*doc);},cancelled);auto summary=job.take(*doc);if(!summary) stats=job.poll(*doc);
     if(summary && !o.output_project.empty()) {
         RawPixelStreamFile file(args[5],o.save.limits);file.verify(&cancelled);auto link=file.link();doc->keep_raw_pixel_stream(link);
         guard_outputs(*project,outputs,{args[4]});project->save_new(o.output_project,512ull*1024*1024,1ull<<30,&cancelled);
@@ -168,7 +168,7 @@ int train(const std::vector<std::string>& args,const std::atomic<bool>& cancelle
     RawPixelTiledTrainingRequest request(*doc,o.ids,lattice(*doc,o),o.selection,o.features,o.sampling,o.tiles,o.physical);
     RawPixelTrainingCheckpointJob job;job.request(request,o.checkpoint_path,o.checkpoint);line("train","sampling",o.checkpoint_path,job.poll(*doc));
     auto stats=collect(job,[&] {return job.poll(*doc);},cancelled);auto result=job.take(*doc);
-    if(!result) {line("train",stats.state,o.checkpoint_path,stats);return stats.state=="cancelled"?130:1;}
+    if(!result) {stats=job.poll(*doc);line("train",stats.state,o.checkpoint_path,stats);return stats.state=="cancelled"?130:1;}
     const auto fields=",\"request_sha256\":"+batch_json_quote(result->checkpoint->request_sha256())+",\"prefix_sha256\":"+batch_json_quote(result->checkpoint->prefix_sha256())+",\"replayed_windows\":"+std::to_string(result->replayed_windows);
     if(!result->table) {line("train","partial",o.checkpoint_path,stats,fields+",\"model_sha256\":null");return 1;}
     const auto model=train_raw_pixel_tiled_classifier(*result->table,o.forest,&cancelled);
@@ -178,6 +178,7 @@ int train(const std::vector<std::string>& args,const std::atomic<bool>& cancelle
     line("train","trained",args[4],stats,fields+",\"rows\":"+std::to_string(result->table->row_count())+",\"table_sha256\":"+batch_json_quote(result->table->sha256())+",\"model_sha256\":"+batch_json_quote(model.sha256())+",\"archive_path\":"+batch_json_quote(o.archive_path));return 0;
 }
 }
+ScientificGridAxis raw_pixel_cli_axis(const std::string& value) {return axis(value);}
 std::optional<int> raw_pixel_cli(const std::vector<std::string>& args,const std::atomic<bool>& cancelled) {
     if(args.size()<2) return {};
     const auto& mode=args[1];if(mode!="--train-raw-pixels" && mode!="--export-raw-pixels" && mode!="--verify-raw-pixels") return {};

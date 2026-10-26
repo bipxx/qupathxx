@@ -8,6 +8,7 @@
 #include <iostream>
 #include <random>
 using namespace qpx;
+void check_raw_pixel_batches(const std::filesystem::path&);
 void check_grid_cell_batches(const std::filesystem::path&);
 int write_grid_cell_cli_fixture(const std::string&);
 void check(bool value) {if(!value) throw std::runtime_error("project batch check failed");}
@@ -17,7 +18,7 @@ int main(int argc,char** argv) {
     namespace fs=std::filesystem;
     const auto root=fs::current_path()/("batch-test-"+std::to_string(std::random_device{}()));
     try {
-        fs::create_directory(root);check_grid_cell_batches(root);auto doc=std::make_shared<Document>(Image(32,24,std::vector<std::uint8_t>(32*24*3,16)));
+        fs::create_directory(root);check_raw_pixel_batches(root);check_grid_cell_batches(root);auto doc=std::make_shared<Document>(Image(32,24,std::vector<std::uint8_t>(32*24*3,16)));
         const auto object=doc->add_rectangle({1,2,20,16});StainTransform t({{1,0,0},{0,1,0}});
         AnalysisRequest a(*doc,object,t);check(input_sha256(a)==analyze(a).input_sha256);
         TissueRequest tr(*doc,object,t);check(input_sha256(tr)==detect_tissue(tr)->input_sha256());

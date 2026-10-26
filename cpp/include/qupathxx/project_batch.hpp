@@ -3,9 +3,10 @@
 #include "qupathxx/cells.hpp"
 #include "qupathxx/pixel_stream.hpp"
 #include "qupathxx/raw_tables.hpp"
+#include "qupathxx/raw_pixel_stream_file.hpp"
 #include <functional>
 namespace qpx {
-enum class ProjectBatchKind { Roi, Tissue, Cells, Pixels, Raw };
+enum class ProjectBatchKind { Roi, Tissue, Cells, Pixels, Raw, RawPixels };
 enum class ProjectBatchFailure { Stop, Continue };
 struct ProjectBatchOptions {
     ProjectBatchKind kind=ProjectBatchKind::Roi;
@@ -22,6 +23,12 @@ struct ProjectBatchOptions {
     std::optional<PixelClassifier> pixel_model;
     PixelStreamOptions pixels;
     std::uint64_t pixel_file_limit=1ULL<<40,pixel_total_limit=1ULL<<40;
+    std::optional<RawPixelClassifier> raw_pixel_model;
+    // Omitted axes use a unit level-zero lattice per image. Explicit axes keep
+    // their exact origins/extents/sample counts; never silently rebase a model.
+    std::optional<ScientificGridAxis> raw_pixel_x,raw_pixel_y;
+    RawPixelStreamOptions raw_pixels;
+    std::size_t raw_pixel_file_work_bytes=256u*1024*1024;
     std::optional<RawGridSampling> raw_grid;std::size_t raw_grid_work_bytes=256u*1024*1024;
     RawRegionRequest raw;bool raw_follow_display=true;std::uint64_t raw_max_pixels=1000000000;
     RoiSamplingPolicy roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
