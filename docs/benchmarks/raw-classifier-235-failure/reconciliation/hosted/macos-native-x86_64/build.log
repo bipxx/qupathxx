@@ -1,0 +1,298 @@
+[0/2] Re-checking globbed directories...
+[1/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/compress.c.o
+[2/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/adler32.c.o
+[3/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/crc32.c.o
+[4/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/gzclose.c.o
+[5/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/gzlib.c.o
+[6/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/deflate.c.o
+[7/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/gzread.c.o
+[8/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/gzwrite.c.o
+[9/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/infback.c.o
+[10/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/inftrees.c.o
+[11/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/inflate.c.o
+[12/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/inffast.c.o
+[13/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/uncompr.c.o
+[14/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/zutil.c.o
+[15/283] Building C object _deps/qpx_zlib-build/CMakeFiles/zlibstatic.dir/trees.c.o
+[16/283] Building CXX object CMakeFiles/qupathxx_tiff_xml.dir/_deps/qpx_xml-src/tinyxml2.cpp.o
+[17/283] Linking C static library _deps/qpx_zlib-build/libz.a
+[18/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_aux.c.o
+[19/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_close.c.o
+[20/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_codec.c.o
+[21/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_color.c.o
+[22/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_compress.c.o
+[23/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_dir.c.o
+[24/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_dirinfo.c.o
+[25/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_dirread.c.o
+[26/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_dirwrite.c.o
+[27/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_dumpmode.c.o
+[28/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_error.c.o
+[29/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_extension.c.o
+[30/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_fax3.c.o
+[31/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_fax3sm.c.o
+[32/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_flush.c.o
+[33/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_getimage.c.o
+[34/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_hash_set.c.o
+[35/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_jbig.c.o
+[36/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_jpeg.c.o
+[37/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_jpeg_12.c.o
+[38/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_lerc.c.o
+[39/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_luv.c.o
+[40/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_lzma.c.o
+[41/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_lzw.c.o
+[42/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_next.c.o
+[43/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_ojpeg.c.o
+[44/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_open.c.o
+[45/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_packbits.c.o
+[46/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_pixarlog.c.o
+[47/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_predict.c.o
+[48/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_print.c.o
+[49/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_read.c.o
+[50/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_strip.c.o
+[51/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_swab.c.o
+[52/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_thunder.c.o
+[53/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_tile.c.o
+[54/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_version.c.o
+[55/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_warning.c.o
+[56/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_webp.c.o
+[57/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_write.c.o
+[58/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_zip.c.o
+[59/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_zstd.c.o
+[60/283] Building C object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiff.dir/tif_unix.c.o
+[61/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/core.cpp.o
+[62/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tma.cpp.o
+[63/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tma_tables.cpp.o
+[64/283] Building C object CMakeFiles/qupathxx_sqlite.dir/_deps/sqlite-src/sqlite3.c.o
+[65/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/selection.cpp.o
+[66/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/document_edits.cpp.o
+/Users/runner/work/qupathxx/qupathxx/cpp/document_edits.cpp:30:98: warning: missing field 'nucleus' initializer [-Wmissing-field-initializers]
+   30 | ObjectEdit ObjectEdit::remove(std::uint64_t id) { return {ObjectEditKind::Remove,{id,"",{},0,"",0}}; }
+      |                                                                                                  ^
+/Users/runner/work/qupathxx/qupathxx/cpp/document_edits.cpp:32:64: warning: missing field 'nucleus' initializer [-Wmissing-field-initializers]
+   32 |     ObjectEdit out{ObjectEditKind::TmaMetadata,{id,"",{},0,"",0}};out.value.tma_core=std::move(info);return out;
+      |                                                                ^
+/Users/runner/work/qupathxx/qupathxx/cpp/document_edits.cpp:35:133: warning: missing field 'cell_feature_link' initializer [-Wmissing-field-initializers]
+   35 |     return {ObjectEditKind::Create,{0,std::move(name),std::move(geometry),parent,std::move(classification),0,kind,std::move(nucleus)}};
+      |                                                                                                                                     ^
+/Users/runner/work/qupathxx/qupathxx/cpp/document_edits.cpp:38:135: warning: missing field 'cell_feature_link' initializer [-Wmissing-field-initializers]
+   38 |     return {ObjectEditKind::Replace,{id,std::move(name),std::move(geometry),parent,std::move(classification),0,kind,std::move(nucleus)}};
+      |                                                                                                                                       ^
+4 warnings generated.
+[67/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/geometry.cpp.o
+[68/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/spatial_index.cpp.o
+[69/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/image_server.cpp.o
+[70/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/openslide_server.cpp.o
+[71/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tile_scheduler.cpp.o
+/Users/runner/work/qupathxx/qupathxx/cpp/tile_scheduler.cpp:149:89: warning: missing field 'pixels' initializer [-Wmissing-field-initializers]
+  149 |     auto j = std::make_shared<Impl::Job>(Impl::Job{s.next_ticket,s.generation,r,priority});
+      |                                                                                         ^
+1 warning generated.
+[72/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/view_tiles.cpp.o
+[73/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/display.cpp.o
+[74/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project_recovery.cpp.o
+[75/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project.cpp.o
+/Users/runner/work/qupathxx/qupathxx/cpp/project.cpp:845:218: warning: missing field 'cell_feature_link' initializer [-Wmissing-field-initializers]
+  845 |             annotations.push_back({number(objects.string(0)),objects.string(1),std::move(geometry),number(objects.string(2)),objects.string(3),number(objects.string(4)),static_cast<ObjectKind>(kind),std::move(nucleus)});
+      |                                                                                                                                                                                                                          ^
+1 warning generated.
+[76/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project_save.cpp.o
+[77/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/stains.cpp.o
+[78/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/analysis.cpp.o
+[79/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/sha256.cpp.o
+[80/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/analysis_records.cpp.o
+[81/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/interchange.cpp.o
+/Users/runner/work/qupathxx/qupathxx/cpp/interchange.cpp:287:123: warning: missing field 'cell_feature_link' initializer [-Wmissing-field-initializers]
+  287 |         objects.push_back({local,std::move(name),std::move(roi),parent,std::move(classification),0,kind,std::move(nucleus)}); source_ids.push_back(source);
+      |                                                                                                                           ^
+1 warning generated.
+[82/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tissue.cpp.o
+[83/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tissue_contours.cpp.o
+[84/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tissue_records.cpp.o
+[85/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tissue_archive.cpp.o
+[86/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/thumbnail.cpp.o
+[87/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/resampling.cpp.o
+[88/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/scientific_sampling.cpp.o
+[89/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/cells.cpp.o
+[90/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/scientific_channels.cpp.o
+[91/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/scientific_raster.cpp.o
+[92/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/scientific_raw_sampling.cpp.o
+[93/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/scientific_cells.cpp.o
+[94/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tma_case_export.cpp.o
+[95/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/scientific_cell_archive.cpp.o
+[96/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/qptma.cpp.o
+[97/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tma_dearray.cpp.o
+[98/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_image.cpp.o
+[99/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tiff_server.cpp.o
+[100/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_analysis.cpp.o
+[101/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_analysis_archive.cpp.o
+[102/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_analysis_records.cpp.o
+[103/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/classifier.cpp.o
+[104/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_tables.cpp.o
+[105/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_features.cpp.o
+[106/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/object_classifier.cpp.o
+[107/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_features.cpp.o
+[108/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_classifier.cpp.o
+[109/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_archive.cpp.o
+FAILED: [code=1] CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_archive.cpp.o 
+/usr/bin/c++ -DQUPATHXX_HAS_CLASSIFIER_TRAINING -DQUPATHXX_HAS_GEOS -DQUPATHXX_HAS_INTERCHANGE -DQUPATHXX_HAS_PROJECT -DQUPATHXX_HAS_TIFF -I/Users/runner/work/qupathxx/qupathxx/cpp/include -I/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/native-build/generated -I/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/native-build/_deps/qpx_tiff-src/libtiff -I/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/native-build/_deps/qpx_tiff-build/libtiff -I/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/native-build/_deps/qpx_xml-src -I/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/native-build/_deps/json-src/include -I/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/native-build/_deps/sqlite-src -isystem /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/include/opencv4 -isystem /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include/geos -isystem /Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk/include -O3 -DNDEBUG -std=gnu++17 -arch x86_64 -fPIC -Wall -Wextra -Wpedantic -MD -MT CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_archive.cpp.o -MF CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_archive.cpp.o.d -o CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_archive.cpp.o -c /Users/runner/work/qupathxx/qupathxx/cpp/raw_pixel_archive.cpp
+/Users/runner/work/qupathxx/qupathxx/cpp/raw_pixel_archive.cpp:42:15: error: 'auto' deduced as 'std::uint64_t' (aka 'unsigned long long') in declaration of 'count' and deduced as 'size_type' (aka 'unsigned long') in declaration of 'classes'
+   42 |         const auto count=std::uint64_t(d.grid.x().samples())*std::uint64_t(d.grid.y().samples()),classes=d.model.forest().classes().size();if(count!=result.labels_.size() || count!=result.valid_.size() || count!=result.fractions_.size() || classes!=result.counts_.size() || !std::isfinite(d.minimum) || d.minimum<0 || d.minimum>1 || (d.minimum==0 && std::signbit(d.minimum))) throw std::invalid_argument("invalid raw pixel prediction dimensions/threshold");
+      |               ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+[110/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_workflows.cpp.o
+[111/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_records.cpp.o
+[112/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier.cpp.o
+[113/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_prediction.cpp.o
+[114/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_training.cpp.o
+[115/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream.cpp.o
+[116/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_export_job.cpp.o
+[117/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_file.cpp.o
+[118/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_read_job.cpp.o
+[119/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_records.cpp.o
+[120/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_contour_job.cpp.o
+[121/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier_archive.cpp.o
+[122/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier_records.cpp.o
+[123/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/geometry_archive.cpp.o
+[124/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/document_classifications.cpp.o
+[125/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/object_classifier_records.cpp.o
+[126/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/object_classifier_archive.cpp.o
+[127/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/classifier_io.cpp.o
+[128/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_contour_job.cpp.o
+[129/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_window_workflows.cpp.o
+[130/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_tiled_training.cpp.o
+[131/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_tiled_archive.cpp.o
+[132/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_training_checkpoint.cpp.o
+[133/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_file_jobs.cpp.o
+[134/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_records.cpp.o
+[135/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream.cpp.o
+[136/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/workspace_preferences.cpp.o
+[137/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_file.cpp.o
+[138/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/cell_records.cpp.o
+[139/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/cell_archive.cpp.o
+[140/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/cell_tables.cpp.o
+/Users/runner/work/qupathxx/qupathxx/cpp/cell_tables.cpp:52:133: warning: missing field 'x' initializer [-Wmissing-field-initializers]
+   52 |         images.push_back({id,doc.revision(),std::uint64_t(doc.metadata().width),std::uint64_t(doc.metadata().height),std::move(name)});
+      |                                                                                                                                     ^
+/Users/runner/work/qupathxx/qupathxx/cpp/cell_tables.cpp:61:176: warning: missing field 'runs' initializer [-Wmissing-field-initializers]
+   61 |         images.push_back({id,doc.revision(),std::uint64_t(doc.metadata().width),std::uint64_t(doc.metadata().height),std::move(name),doc.pixel_width_um(),doc.pixel_height_um()});
+      |                                                                                                                                                                                ^
+2 warnings generated.
+[141/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/measurement_tables.cpp.o
+[142/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/provenance.cpp.o
+[143/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/provenance_codec.cpp.o
+[144/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/file_fingerprint.cpp.o
+[145/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/source_identity.cpp.o
+[146/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/stain_estimation.cpp.o
+[147/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/input_digest.cpp.o
+[148/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/batch_checkpoint.cpp.o
+[149/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project_batch.cpp.o
+[150/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/viewer_session.cpp.o
+[151/283] Linking CXX static library libqupathxx_tiff_xml.a
+[152/283] Linking C static library libqupathxx_sqlite.a
+[153/283] Linking C static library _deps/qpx_tiff-build/libtiff/libtiff.a
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_jbig.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_jpeg.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_jpeg_12.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_lerc.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_lzma.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_ojpeg.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_pixarlog.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_webp.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_zstd.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_jbig.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_jpeg.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_jpeg_12.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_lerc.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_lzma.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_ojpeg.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_pixarlog.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_webp.c.o) has no symbols
+/Applications/Xcode_16.4.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ranlib: file: _deps/qpx_tiff-build/libtiff/libtiff.a(tif_zstd.c.o) has no symbols
+[154/283] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_frontend.cpp.o
+[155/283] Building CXX object CMakeFiles/qupathxx_region.dir/cpp/raw_cli.cpp.o
+[156/283] Building CXX object CMakeFiles/qupathxx_region.dir/cpp/region_main.cpp.o
+[157/283] Building CXX object CMakeFiles/qupathxx_batch.dir/cpp/batch_main.cpp.o
+[158/283] Building CXX object CMakeFiles/qupathxx_batch.dir/cpp/raw_pixel_cli.cpp.o
+[159/283] Building CXX object CMakeFiles/qupathxx_batch.dir/cpp/pixel_stream_cli.cpp.o
+[160/283] Building CXX object CMakeFiles/qupathxx_batch.dir/cpp/cell_table_cli.cpp.o
+[161/283] Building CXX object CMakeFiles/qupathxx_batch.dir/cpp/tma_case_cli.cpp.o
+[162/283] Building CXX object CMakeFiles/qupathxx_batch.dir/cpp/qptma_project_cli.cpp.o
+[163/283] Building CXX object CMakeFiles/qupathxx_batch.dir/cpp/tma_dearray_cli.cpp.o
+[164/283] Building CXX object CMakeFiles/qupathxx_pixel_workflow_tests.dir/cpp/tests/pixel_workflow_tests.cpp.o
+FAILED: [code=1] CMakeFiles/qupathxx_pixel_workflow_tests.dir/cpp/tests/pixel_workflow_tests.cpp.o 
+/usr/bin/c++  -I/Users/runner/work/qupathxx/qupathxx/cpp/include -O3 -DNDEBUG -std=gnu++17 -arch x86_64 -MD -MT CMakeFiles/qupathxx_pixel_workflow_tests.dir/cpp/tests/pixel_workflow_tests.cpp.o -MF CMakeFiles/qupathxx_pixel_workflow_tests.dir/cpp/tests/pixel_workflow_tests.cpp.o.d -o CMakeFiles/qupathxx_pixel_workflow_tests.dir/cpp/tests/pixel_workflow_tests.cpp.o -c /Users/runner/work/qupathxx/qupathxx/cpp/tests/pixel_workflow_tests.cpp
+In file included from /Users/runner/work/qupathxx/qupathxx/cpp/tests/pixel_workflow_tests.cpp:8:
+/Users/runner/work/qupathxx/qupathxx/cpp/tests/raw_tiled_archive_checks.hpp:22:88: error: 'auto' deduced as 'std::size_t' (aka 'unsigned long') in declaration of 'at' and deduced as 'std::uint64_t' (aka 'unsigned long long') in declaration of 'id'
+   22 |     const auto annotations=c.integer();for(std::uint64_t i=0;i<annotations;++i) {const auto at=c.p,id=c.integer();if(id==unused) out.unused=at;c.p+=2*8;if(tiled) c.blob();else c.p+=8;c.blob();}
+      |                                                                                        ^       ~~~    ~~~~~~~~~~~
+1 error generated.
+[165/283] Building CXX object CMakeFiles/qupathxx_pixel_feature_tests.dir/cpp/tests/pixel_feature_tests.cpp.o
+[166/283] Building CXX object CMakeFiles/qupathxx_classifier_tests.dir/cpp/tests/classifier_tests.cpp.o
+[167/283] Building CXX object CMakeFiles/qupathxx_classifier_io_tests.dir/cpp/tests/classifier_io_tests.cpp.o
+[168/283] Building CXX object CMakeFiles/qupathxx_qptma_project_tests.dir/cpp/tests/qptma_project_tests.cpp.o
+[169/283] Building CXX object CMakeFiles/qupathxx_qptma_project_tests.dir/cpp/qptma_project_cli.cpp.o
+[170/283] Building CXX object CMakeFiles/qupathxx_object_classifier_tests.dir/cpp/tests/object_classifier_tests.cpp.o
+[171/283] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/resampling_tests.cpp.o
+[172/283] Building CXX object CMakeFiles/qupathxx_qptma_tests.dir/cpp/tests/qptma_tests.cpp.o
+[173/283] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_sampling_tests.cpp.o
+[174/283] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_grid_geometry_tests.cpp.o
+[175/283] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/raw_scientific_numeric_tests.cpp.o
+[176/283] Building CXX object CMakeFiles/qupathxx_thumbnail_tests.dir/cpp/tests/thumbnail_tests.cpp.o
+[177/283] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_raw_sampling_tests.cpp.o
+[178/283] Building CXX object CMakeFiles/qupathxx_viewer_session_tests.dir/cpp/tests/viewer_session_tests.cpp.o
+[179/283] Building CXX object CMakeFiles/qupathxx_tma_tests.dir/cpp/tests/tma_tests.cpp.o
+[180/283] Building CXX object CMakeFiles/qupathxx_tma_dearray_tests.dir/cpp/tests/tma_dearray_tests.cpp.o
+[181/283] Building CXX object CMakeFiles/qupathxx_tma_dearray_tests.dir/cpp/tma_dearray_cli.cpp.o
+[182/283] Building CXX object CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/project_batch_tests.cpp.o
+[183/283] Building CXX object CMakeFiles/qupathxx_raw_image_tests.dir/cpp/tests/raw_image_tests.cpp.o
+[184/283] Building CXX object CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/grid_cell_frontend_tests.cpp.o
+[185/283] Building CXX object CMakeFiles/qupathxx_stain_estimation_tests.dir/cpp/tests/stain_estimation_tests.cpp.o
+[186/283] Building CXX object CMakeFiles/qupathxx_project_batch_tests.dir/cpp/tests/raw_pixel_batch_checks.cpp.o
+[187/283] Building CXX object CMakeFiles/qupathxx_file_fingerprint_tests.dir/cpp/tests/file_fingerprint_tests.cpp.o
+[188/283] Building CXX object CMakeFiles/qupathxx_source_identity_tests.dir/cpp/tests/source_identity_tests.cpp.o
+[189/283] Building CXX object CMakeFiles/qupathxx_provenance_tests.dir/cpp/tests/provenance_tests.cpp.o
+[190/283] Building CXX object CMakeFiles/qupathxx_measurement_table_tests.dir/cpp/tests/measurement_table_tests.cpp.o
+[191/283] Building CXX object CMakeFiles/qupathxx_cell_table_tests.dir/cpp/tests/cell_table_tests.cpp.o
+[192/283] Building CXX object CMakeFiles/qupathxx_cell_table_tests.dir/cpp/tests/grid_cell_consumers_tests.cpp.o
+[193/283] Building CXX object CMakeFiles/qupathxx_cell_record_tests.dir/cpp/tests/cell_record_tests.cpp.o
+[194/283] Building CXX object CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/cell_tests.cpp.o
+[195/283] Building CXX object CMakeFiles/qupathxx_cell_record_tests.dir/cpp/tests/scientific_cell_archive_tests.cpp.o
+[196/283] Building CXX object CMakeFiles/qupathxx_cell_calibration_tests.dir/cpp/tests/cell_calibration_tests.cpp.o
+[197/283] Building CXX object CMakeFiles/qupathxx_masked_gaussian_tests.dir/cpp/tests/masked_gaussian_tests.cpp.o
+[198/283] Building CXX object CMakeFiles/qupathxx_cell_tests.dir/cpp/tests/scientific_cell_tests.cpp.o
+[199/283] Building CXX object CMakeFiles/qupathxx_cell_expansion_tests.dir/cpp/tests/cell_expansion_tests.cpp.o
+[200/283] Building CXX object CMakeFiles/qupathxx_log_watershed_tests.dir/cpp/tests/log_watershed_tests.cpp.o
+[201/283] Building CXX object CMakeFiles/qupathxx_log_cell_recipe_tests.dir/cpp/tests/log_cell_recipe_tests.cpp.o
+[202/283] Building CXX object CMakeFiles/qupathxx_log_cell_recipe_tests.dir/cpp/tests/scientific_cell_numeric_tests.cpp.o
+[203/283] Building CXX object CMakeFiles/qupathxx_decimal_quantity_tests.dir/cpp/tests/decimal_quantity_tests.cpp.o
+[204/283] Building CXX object CMakeFiles/qupathxx_object_snapshot_tests.dir/cpp/tests/object_snapshot_tests.cpp.o
+[205/283] Building CXX object CMakeFiles/qupathxx_tissue_record_tests.dir/cpp/tests/tissue_record_tests.cpp.o
+[206/283] Building CXX object CMakeFiles/qupathxx_tissue_contour_tests.dir/cpp/tests/tissue_contour_tests.cpp.o
+[207/283] Building CXX object CMakeFiles/qupathxx_tissue_contour_tests.dir/cpp/tests/scientific_raster_tests.cpp.o
+[208/283] Building CXX object CMakeFiles/qupathxx_gui_replay_tests.dir/cpp/tests/gui_replay_tests.cpp.o
+[209/283] Building CXX object CMakeFiles/qupathxx_sha256_tests.dir/cpp/tests/sha256_tests.cpp.o
+[210/283] Building CXX object CMakeFiles/qupathxx_tissue_tests.dir/cpp/tests/tissue_tests.cpp.o
+[211/283] Building CXX object CMakeFiles/qupathxx_stains_tests.dir/cpp/tests/stains_tests.cpp.o
+[212/283] Building CXX object CMakeFiles/qupathxx_stains_tests.dir/cpp/tests/scientific_channel_tests.cpp.o
+[213/283] Building CXX object CMakeFiles/qupathxx_analysis_tests.dir/cpp/tests/analysis_tests.cpp.o
+[214/283] Building CXX object CMakeFiles/qupathxx_server_tests.dir/cpp/tests/image_server_tests.cpp.o
+[215/283] Building CXX object CMakeFiles/qupathxx_core_tests.dir/cpp/tests/core_tests.cpp.o
+[216/283] Building CXX object CMakeFiles/qupathxx_scheduler_tests.dir/cpp/tests/tile_scheduler_tests.cpp.o
+[217/283] Building CXX object CMakeFiles/qupathxx_view_tiles_tests.dir/cpp/tests/view_tiles_tests.cpp.o
+[218/283] Building CXX object CMakeFiles/qupathxx_document_edits_tests.dir/cpp/tests/document_edits_tests.cpp.o
+[219/283] Building CXX object CMakeFiles/qupathxx_geometry_tests.dir/cpp/tests/geometry_tests.cpp.o
+[220/283] Building CXX object CMakeFiles/qupathxx_geometry_edits_tests.dir/cpp/tests/geometry_edits_tests.cpp.o
+[221/283] Building CXX object CMakeFiles/qupathxx_spatial_tests.dir/cpp/tests/spatial_tests.cpp.o
+[222/283] Building CXX object CMakeFiles/qupathxx_classes_tests.dir/cpp/tests/classes_tests.cpp.o
+[223/283] Building CXX object CMakeFiles/qupathxx_selection_tests.dir/cpp/tests/selection_tests.cpp.o
+[224/283] Building CXX object CMakeFiles/qupathxx_interchange_tests.dir/cpp/tests/interchange_tests.cpp.o
+[225/283] Building CXX object CMakeFiles/qupathxx_project_tests.dir/cpp/tests/project_tests.cpp.o
+[226/283] Building CXX object CMakeFiles/qupathxx_save_tests.dir/cpp/tests/save_tests.cpp.o
+[227/283] Building CXX object CMakeFiles/qupathxx_recovery_tests.dir/cpp/tests/recovery_tests.cpp.o
+[228/283] Linking CXX executable qupathxx_masked_gaussian_tests
+[229/283] Linking CXX executable qupathxx_log_watershed_tests
+[230/283] Linking CXX executable qupathxx_cell_expansion_tests
+[231/283] Linking CXX executable qupathxx_decimal_quantity_tests
+[232/283] Building CXX object _deps/qpx_tiff-build/libtiff/CMakeFiles/tiffxx.dir/tif_stream.cxx.o
+[233/283] Linking CXX static library _deps/qpx_tiff-build/libtiff/libtiffxx.a
+ninja: build stopped: cannot make progress due to previous errors.

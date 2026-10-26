@@ -1,0 +1,220 @@
+{
+  "schema": "qpx.raw-classifier-reconciliation/1",
+  "candidate_source": "176ec42b274bb12429cef603b59ce704e12c6e96",
+  "candidate_accepted": false,
+  "observer_source": "c24f011",
+  "integration_source": "8e0957141d9459ed5c3a0d131009820529fc0583",
+  "original_linux_audit": "Rejected the extra already-executed raw partial-result public-stub test omitted by scientific-grid-cases.json. Original rejection retained.",
+  "compatible_successor_audit": "Adds the one genuine passing stub test; same artifact schema and exact clean original source checkout. All inherited checks remain. Linux-only audit passes with original engine source and c24f011 observer separately identified.",
+  "linux_scope": {
+    "profiles": 3,
+    "native_suites_each": 50,
+    "headless_python_passed": 3741,
+    "full_windows_linux_matrix_accepted": false
+  },
+  "portable_failure": "Both fresh Debian consumer suites failed only the new Git-backed source-proof fixture: git is absent. Original suites/logs retained.",
+  "consumer_correction": "Only the development source-proof fixture explicitly skips without git. Real Git-positive control and an actual no-Git subprocess pass. All 58 application raw cases and three strict scientific xfails remain unchanged.",
+  "mac_failure": "Both architectures report the same two mixed auto deduction errors. b8a465e contains the source-bound correction, still awaiting full hosted acceptance.",
+  "local_admission": {
+    "passed": 807,
+    "source_proof_domains": 8,
+    "unique_source_inputs": 718,
+    "runtime_observer": "existing installed Windows source0dc916c; not a new corrected wheel"
+  },
+  "authenticated_archives": 11,
+  "next": "All original runs terminal: engine success, Mac and portable failure. Audit eligible engine artifacts with explicit compatible observer identity, then freeze and qualify one corrected integrated source.",
+  "raw_payloads": {
+    "hosted/engine-run.json": {
+      "bytes": 24827,
+      "sha256": "573ddd31390238a02908e8c3ce39752c2773590f75cbaf91db89ec7d4f3afe97"
+    },
+    "hosted/macos-run.json": {
+      "bytes": 7026,
+      "sha256": "2ebcf0c471e55f749956df9c3400057fc4d455673cc506a591a91a596abf4006"
+    },
+    "hosted/portable-run.json": {
+      "bytes": 16287,
+      "sha256": "ba5dd32dc264f28946cadd8ac79cc0a596b7d8057121da69b7611fdb9a4f16b5"
+    },
+    "hosted/verified.json": {
+      "bytes": 2441,
+      "sha256": "79047faf190596fff019f3337ad714c8dfc1317b7dc59ba4f7d43b08ba73f641"
+    },
+    "hosted/macos-native-x86_64-artifact.json": {
+      "bytes": 813,
+      "sha256": "2ee0b50742ba34e00d9d115ac6592fb5b3142f82ee3f0be4e7d78ae9147f0d51"
+    },
+    "hosted/manylinux-3.12-artifact.json": {
+      "bytes": 811,
+      "sha256": "3bf61929a6d723268d4fdad3c8632658f64839a91a4dd2aaef80683bb0249a49"
+    },
+    "hosted/manylinux-consumer-3.11-artifact.json": {
+      "bytes": 817,
+      "sha256": "91d3ccadf5851a9916b117822ed2f16e9db9438ecc91f3d02a7708240937c6b5"
+    },
+    "hosted/manylinux-consumer-3.12-artifact.json": {
+      "bytes": 817,
+      "sha256": "176eb65f98f1d119228a29dc2239159858a1bba5576fd22b47068a4fa3991dff"
+    },
+    "hosted/linux-only-audit.log": {
+      "bytes": 1131,
+      "sha256": "c15b617a7fca022652b072f6651c16e4c9d21ce7b658ef2ca2bece9be3963848"
+    },
+    "hosted/linux-only-audit-command.json": {
+      "bytes": 793,
+      "sha256": "036ba0b920045c5c2943b476baaa0aca2beb190ae2390af5ad028e5574a37cc1"
+    },
+    "hosted/linux-only-successor-audit.log": {
+      "bytes": 283,
+      "sha256": "61f530ffbe04f5c37f415f644e42adf3684799ca9192bc34f702bb33fb8b4e6c"
+    },
+    "hosted/linux-only-successor-audit-command.json": {
+      "bytes": 1075,
+      "sha256": "d4faa348cd7aefd5cf0b16a99bebaa90ed202d94f63d3a2fad6596dca24d7c87"
+    },
+    "hosted/linux-only-successor-audit.json": {
+      "bytes": 498055,
+      "sha256": "9a7b6168e3d54e283b6d7a325c667e424a656ea81cf3e7f6cb9dc0e60afd60a4"
+    },
+    "hosted/121713805132-failed-job.log": {
+      "bytes": 40902,
+      "sha256": "0e4a6cc14b70047d207ec3fa706e73f79f119ba0e7839379b7107d86df29eaba"
+    },
+    "hosted/121724909185-failed-job.log": {
+      "bytes": 33804,
+      "sha256": "3ae510c91e47efadfc2db2b23aca24a21d355e0fb01f7565f0ae8018d27d7752"
+    },
+    "hosted/121724909284-failed-job.log": {
+      "bytes": 31901,
+      "sha256": "fda93ba3214491220f436e5b778c09a10567a37aab5a0c1530eaa1cc63bc4312"
+    },
+    "hosted/macos-native-x86_64.zip": {
+      "bytes": 24034,
+      "sha256": "e3325eb92ea72e06ff47e93151385e0045ab54f263f9006110cbb1f653dd81fd"
+    },
+    "hosted/manylinux-consumer-3.11/consumer-linux-runtime-manifest.json": {
+      "bytes": 76613,
+      "sha256": "1048724d2ee9b5a5ae20d55f321086a2ad54a731695958aa301818ca1496c8b3"
+    },
+    "hosted/manylinux-consumer-3.11/consumer-linux-runtime-manifest.log": {
+      "bytes": 114,
+      "sha256": "11b7c41860232fbdf5b91f78e1ca37f2c6fb185a0f842c4958fa9f0e0fb4e41c"
+    },
+    "hosted/manylinux-consumer-3.11/consumer-probe.json": {
+      "bytes": 1062,
+      "sha256": "9a6411015281e29727028050f3c5ff72df43658e9202f8e3580b4b12493eb055"
+    },
+    "hosted/manylinux-consumer-3.11/consumer-tests.log": {
+      "bytes": 14409,
+      "sha256": "70a94c4446195f46c3c54b69295b6b2b5ffc6a607a5e9cbe2980215b27ae28d0"
+    },
+    "hosted/manylinux-consumer-3.11/consumer-tests.xml": {
+      "bytes": 694420,
+      "sha256": "6edb444d19c08bb2c3901fc8673c1581cb6f03a4d47955a8746a79e8044a084e"
+    },
+    "hosted/manylinux-consumer-3.12/consumer-linux-runtime-manifest.json": {
+      "bytes": 76613,
+      "sha256": "47949960c80e7e8defde4307729610470920439a34ff16cff1546698d5b01818"
+    },
+    "hosted/manylinux-consumer-3.12/consumer-linux-runtime-manifest.log": {
+      "bytes": 114,
+      "sha256": "11b7c41860232fbdf5b91f78e1ca37f2c6fb185a0f842c4958fa9f0e0fb4e41c"
+    },
+    "hosted/manylinux-consumer-3.12/consumer-probe.json": {
+      "bytes": 1062,
+      "sha256": "abbce435742ef8c68fa04a29f1e6ca3fb365dd1c52fe2613e353927dae28ea0a"
+    },
+    "hosted/manylinux-consumer-3.12/consumer-tests.log": {
+      "bytes": 16508,
+      "sha256": "143520eca7fd2ad4ff90b5c9367870f7746359a7b49b598a7a62ca01dab12b34"
+    },
+    "hosted/manylinux-consumer-3.12/consumer-tests.xml": {
+      "bytes": 694420,
+      "sha256": "837b25f2d05bd6a913d65c99221f03d95c0d59267ce965d8033a023902f925b2"
+    },
+    "hosted/macos-native-x86_64/build.log": {
+      "bytes": 32076,
+      "sha256": "2f58aded1727bf9427da69179b145bb5ce9df1d5fff1146857f2203f3cef2abd"
+    },
+    "hosted/macos-native-x86_64/configure.log": {
+      "bytes": 7616,
+      "sha256": "53f09eb7230e0a2eae431d775fa8ca0e1c5c4a8236303d88c062b4881c346c48"
+    },
+    "hosted/macos-native-x86_64/geos-build.log": {
+      "bytes": 131595,
+      "sha256": "7b5825412951d45b1a7d168582f4a3d5ecba0a33254f52c5e3c4ab7a666b5abb"
+    },
+    "hosted/macos-native-x86_64/opencv-build.log": {
+      "bytes": 61859,
+      "sha256": "50fd0cd775b30ec9e09ac58c0ff226b2e9b16c675ed23dac59d85f455fca7dd4"
+    },
+    "local/scientific-manifest-controls.xml": {
+      "bytes": 30415,
+      "sha256": "cf574aee1e79dee233e3fdd5c0c053a9321d6e2f981d33ca46bfc8c1d44bb8bf"
+    },
+    "local/scientific-manifest-controls.log": {
+      "bytes": 3166,
+      "sha256": "81cff01acba7923882fe27c2c00f9ba4e0ebc01b6969f5d1c8535efc25c171ef"
+    },
+    "local/scientific-manifest-consumer-controls.xml": {
+      "bytes": 26241,
+      "sha256": "ec256394d9ee77fb33cfcb42a781d322d234f88fec3c0def02986cfc125904c4"
+    },
+    "local/scientific-manifest-consumer-controls.log": {
+      "bytes": 264,
+      "sha256": "77b6044d37fb6f57405e63b8faf086270567319f211440ceec080042cfefc3b4"
+    },
+    "local/raw-controls.xml": {
+      "bytes": 11956,
+      "sha256": "390704b9da16c2cb1aa1ca641e941579000d20a35357295b0734d16ee09ab54a"
+    },
+    "local/raw-controls.log": {
+      "bytes": 182,
+      "sha256": "c7429b9511b46925eec7fa6afbd25156aa0a99f94d95d2d337a4ae229b0a568e"
+    },
+    "local/no-git.xml": {
+      "bytes": 817,
+      "sha256": "21e23665e32d3cb6ffbcf59c260a8946793c29ad99d85531288dfcd292765ba5"
+    },
+    "local/no-git.log": {
+      "bytes": 111,
+      "sha256": "43823b1c661f32ad51f25fcfa2da297a9a451e22eba59b0222eb21f83515b9f5"
+    },
+    "local/admission-successor.xml": {
+      "bytes": 121381,
+      "sha256": "54d632e08813d2aca004f49c473a80bd04b59e959461880141968e939647409a"
+    },
+    "local/admission-successor.log": {
+      "bytes": 994,
+      "sha256": "42c2e3fa74f01ea91100614d8822c6c89c9ae2852f390ca7d9d6c9bd1a6a8cc4"
+    },
+    "local/admission-successor-command.json": {
+      "bytes": 1275,
+      "sha256": "485ad5a2e73300a581096ec3d6f02ab5e71e9558bf078971d3f9e81baaa3f8f3"
+    },
+    "local/integration-source-proofs.json": {
+      "bytes": 327910,
+      "sha256": "a5354dc55db8fbc790c605cca50b0d4d5d281d16c049839b7d74f0c5c78ec7b9"
+    },
+    "terminal/engine-run.json": {
+      "bytes": 25146,
+      "sha256": "5f7d412dec8c49e90c838d303f5cf0869e6ecd4e24d1e291dc8989da77121677"
+    },
+    "terminal/macos-run.json": {
+      "bytes": 7026,
+      "sha256": "2ebcf0c471e55f749956df9c3400057fc4d455673cc506a591a91a596abf4006"
+    },
+    "terminal/portable-run.json": {
+      "bytes": 16287,
+      "sha256": "ba5dd32dc264f28946cadd8ac79cc0a596b7d8057121da69b7611fdb9a4f16b5"
+    },
+    "terminal/verified.json": {
+      "bytes": 2675,
+      "sha256": "9cc31aaa9c9451660c13cbc8f07c9ffdfef001a4c7b2a077e62987e85b1a2569"
+    },
+    "terminal/Windows-gui-py3.12-artifact.json": {
+      "bytes": 815,
+      "sha256": "7bb66e4f8b4d8ce58eeaa6cb3bda808a1fb10b26267106c3249ebfd8139384db"
+    }
+  }
+}

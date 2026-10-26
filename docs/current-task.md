@@ -11,20 +11,27 @@
   old/new declaration probes reject/pass for both Darwin target architectures.
   These syntax probes do not qualify a full Mac build. Both resulting Windows
   executables are retained separately before cache reuse.
-- Six original archives authenticate, including the Mac failure. Linux
-  minimal/sanitizer and Linux/Windows/manylinux-3.11 headless producers pass
-  their raw-specific checks. Each headless raw cohort gives 40 passes/18 declared
-  skips and exact typing controls. These are partial observations, not full
-  engine acceptance. Keep other original jobs running and inspect every outcome
-  before freezing a successor; do not rerun the known-broken candidate.
-- T5 campaign235 is now [running at frozen source `176ec42`](benchmarks/raw-classifier-235-campaign.json)
-  on `feature/raw-classifier-qualification-235`: engine run `40363168207`,
-  Mac-native run `40363189978`, portable run `40363203596`. All three were
-  dispatched once with the complete required semantic inputs. Latest live
-  observation shows Linux minimal and sanitizer jobs successful; other
-  required jobs remain active and fresh portable consumers await their builders.
-  No integrated acceptance yet; poll these original IDs, preserve every
-  attempt, authenticate all archives and audit from the frozen checkout.
+- [Reconciliation evidence](benchmarks/raw-classifier-235-failure/reconciliation/receipt.json)
+  preserves all eleven authenticated archives. Both Mac builds failed with the same
+  deduction errors. Both fresh portable consumers failed only the new Git-backed
+  development fixture because their runtime images omit Git. Integration
+  `8e09571` declares that fixture unavailable without Git; the real Git-positive
+  control and a real no-Git child pass. The 58 raw application cases stay required.
+- Frozen Linux-only audit initially rejected the already-passing extra public
+  stub case absent from the scientific manifest. Observer `c24f011` adds that
+  case and independently checks actual collection. Its compatible successor
+  audit against the clean original source passes all three Linux profiles:
+  50 native suites each and 3741 headless Python passes. It does not qualify
+  Windows, portable consumers, Mac or the corrected runtime source.
+- All 807 selected successor admission/auditor controls pass at `8e09571`;
+  eight source contracts agree across 718 unique inputs. The initial run using
+  the stale root editable environment failed import; it is preserved alongside
+  the passing installed-consumer run. No dependency reinstall was needed.
+- Original [campaign235](benchmarks/raw-classifier-235-campaign.json) stays frozen
+  at `176ec42`: engine `40363168207`, Mac `40363189978`, portable `40363203596`.
+  All three runs are terminal: engine success, Mac and portable failure.
+  Authenticate the final GUI archive and audit the eligible engine gate with
+  explicit observer identity, then qualify one corrected integrated successor.
 - Pre-dispatch inherited checks add 286 passes to the 515 selected controls
   (801 total); all eight domain source contracts agree across 718 unique files.
 - T5 preflight is implemented at `fb3dfe6`: the shared raw classifier contract
@@ -59,8 +66,8 @@
   twelve errors in three invalid files reject. The receipt binds 199 raw payloads
   and 26 retained final/development products, with original failures preserved.
   Dependencies are reused, so this is not clean-machine or release acceptance.
-- Next: observe the three original T5 runs to terminal state, authenticate all
-  archives, and run the maintained audits against the frozen source. Preserve these T4.3-T4.5 local
+- Next: audit the original complete engine gate with both source/tool identities
+  explicit, then freeze and qualify the corrected integrated source. Preserve these T4.3-T4.5 local
   exits; do not rebuild consumer features or repeat full campaigns without a
   changed input/failure. Stream stitching, sparse ROI prediction traversal,
   automatic maintenance, abrupt-process/power-loss and independent scientific,

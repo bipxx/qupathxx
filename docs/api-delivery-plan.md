@@ -567,6 +567,18 @@ for both Darwin targets. Full Mac acceptance remains open. Continue the other
 original jobs; the frozen candidate cannot pass the full matrix, so a corrected
 successor must receive scope-matched qualification after diagnosis.
 
+The [reconciliation receipt](benchmarks/raw-classifier-235-failure/reconciliation/receipt.json)
+records both Mac failures and both fresh-consumer failures at the Git-backed
+source-proof fixture. Integration `8e09571` declares that development-only
+fixture unavailable when Git is absent, preserving all application cohorts.
+Observer `c24f011` repairs the inherited scientific manifest's omitted passing
+stub test and accepts the original three Linux profiles through the explicit
+successor-audit path. All 807 selected controls pass; eight source contracts
+agree on 718 inputs. All original runs are terminal and all eleven archives
+authenticate; finish eligible engine auditing before the corrected integrated
+freeze. No full T5 acceptance follows.
+
+
 The
 [preflight at `fb3dfe6`](benchmarks/raw-classifier-preflight-local.json) makes the
 raw native/installed/GUI/typing/source contract mandatory in the producers and

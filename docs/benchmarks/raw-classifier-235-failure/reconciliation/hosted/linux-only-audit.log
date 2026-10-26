@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\raw-classifier-235\tools\ci\accept_unified_engine.py", line 208, in <module>
+    entry['scientific_grid_python']=scientific.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),gui='GUI' in job['name'])
+                                    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\raw-classifier-235\tools\ci\scientific_grid_evidence.py", line 92, in python
+    require(sorted(c.get('name') for c in selected)==names,'scientific installed cohort missing/duplicate/changed: '+module)
+    ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\raw-classifier-235\tools\ci\qptma_evidence.py", line 16, in require
+    if not value:raise ValueError(message)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+ValueError: scientific installed cohort missing/duplicate/changed: test_public_stubs
