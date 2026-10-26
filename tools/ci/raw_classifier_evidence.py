@@ -19,6 +19,9 @@ def source_paths():
     # owners. Do not authenticate only the new panel while missing a shared job.
     paths={'CMakeLists.txt','pyproject.toml','.gitattributes','.github/workflows/ci.yml',
            'tools/generate_stubs.py','tools/build_geos_sdk.py','tools/build_opencv_sdk.py',
+           # Filename launches/dynamic references are not AST import edges.
+           'tests/raw_stream_contour_shutdown_child.py','tests/raw_file_contour_shutdown_child.py',
+           'tools/reference_raw_contour_seams.py','tests/fixtures/raw-contour-seams-v1/reference.json',
            'src/qupathxx/_native.pyi','src/qupathxx/__init__.pyi',
            'tests/test_raw_classifier_evidence.py','tests/test_macos_native_failure_capture.py','tests/test_ci_execution_boundaries.py','tests/test_source_proof_reuse.py','tests/test_ci_installed_diagnostics.py','tests/fixtures/ci-installed-diagnostics-v1/legacy-command-contract.json','docs/reader-license-policy.md'}
     for folder,suffixes in [('cpp',{'.cpp','.hpp'}),('cmake',{'.cmake','.in'}),('src',{'.py'}),('tools/ci',{'.py','.json','.txt'})]:
@@ -79,7 +82,8 @@ def python(cases,gui=False):
         passed=skipped=0
         for case in selected:
             require(all(case.find(tag) is None for tag in ['failure','error']),'raw classifier installed case failed: '+module)
-            expected=CONTRACT['headless_skip'] if module==CONTRACT['desktop_module'] and not gui else off['attributes'] if module==off['module'] and case.get('name')==off['name'] else None
+            desktop=CONTRACT['gui_only'].get(module)
+            expected=desktop['attributes'] if not gui and desktop and case.get('name') in desktop['names'] else off['attributes'] if module==off['module'] and case.get('name')==off['name'] else None
             skips=case.findall('skipped')
             if expected is None:require(not skips,'raw classifier required behavior skipped: '+str(case.get('name')));passed+=1
             else:require(len(skips)==1 and dict(skips[0].attrib)==expected,'raw classifier capability skip differs: '+str(case.get('name')));skipped+=1

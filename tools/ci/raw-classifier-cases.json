@@ -1,5 +1,5 @@
 {
-  "schema": "qpx.raw-classifier-evidence/1",
+  "schema": "qpx.raw-classifier-evidence/2",
   "installed": {
     "test_raw_pixel_python": [
       "test_actual_model_full_tiled_window_prediction_and_bytes",
@@ -66,12 +66,104 @@
       "test_managed_raw_contour_preview_fresh_apply_and_persistence",
       "test_managed_raw_training_prediction_resume_read_and_saved_project",
       "test_raw_overlay_toggle_invalidates_cached_canvas_at_fractional_edges"
+    ],
+    "test_raw_stream_contour_python": [
+      "test_active_worker_shutdown_releases_gil_and_reader[cancel]",
+      "test_active_worker_shutdown_releases_gil_and_reader[close]",
+      "test_admission_and_document_stale_refusal",
+      "test_complete_stream_commitments_geometry_and_readonly_snapshots",
+      "test_cropped_global_phase_and_late_file_refusal",
+      "test_exact_capture_budget_atomic_apply_undo_redo",
+      "test_job_optional_result_owner_cancel_and_retained_lifetime"
+    ],
+    "test_raw_contour_seams": [
+      "test_crop_phase_cannot_be_replaced_by_local_tile_coordinates",
+      "test_existing_full_tracer_and_stream_match_independent_seam_oracle[cropped_anisotropic]",
+      "test_existing_full_tracer_and_stream_match_independent_seam_oracle[diagonal_contacts]",
+      "test_existing_full_tracer_and_stream_match_independent_seam_oracle[nested_holes]",
+      "test_existing_full_tracer_and_stream_match_independent_seam_oracle[three_class_junction]",
+      "test_reference_is_byte_reproducible_and_existing_capture_is_preserved",
+      "test_reference_matches_hand_counted_geometry_and_exposes_false_seams[cropped_anisotropic-expected3]",
+      "test_reference_matches_hand_counted_geometry_and_exposes_false_seams[diagonal_contacts-expected1]",
+      "test_reference_matches_hand_counted_geometry_and_exposes_false_seams[nested_holes-expected0]",
+      "test_reference_matches_hand_counted_geometry_and_exposes_false_seams[three_class_junction-expected2]",
+      "test_reference_preflights_both_destinations_before_creating_either[header]",
+      "test_reference_preflights_both_destinations_before_creating_either[json]"
+    ],
+    "test_gui_raw_stream_contours": [
+      "test_desktop_edit_retires_streamed_preview",
+      "test_desktop_streamed_preview_apply_undo_redo[False-False]",
+      "test_desktop_streamed_preview_apply_undo_redo[True-False]",
+      "test_desktop_streamed_preview_apply_undo_redo[True-True]",
+      "test_managed_cropped_streamed_preview_apply_save_reopen",
+      "test_managed_streamed_result_budget_refuses_before_commit"
+    ],
+    "test_raw_stream_contour_cli": [
+      "test_cli_no_clip_preserves_center_mask_but_omits_roi_intersection",
+      "test_cli_streamed_contours_interrupt_joins_and_does_not_publish",
+      "test_cli_streamed_contours_quota_failure_leaves_no_project[--project-bytes]",
+      "test_cli_streamed_contours_quota_failure_leaves_no_project[--publication-work-bytes]",
+      "test_cli_streamed_contours_quota_failure_leaves_no_project[--snapshot-bytes]",
+      "test_cli_streamed_contours_quota_failure_leaves_no_project[--total-work-bytes]",
+      "test_cli_streamed_contours_refuse_collisions[existing]",
+      "test_cli_streamed_contours_refuse_collisions[model]",
+      "test_cli_streamed_contours_refuse_collisions[pixels]",
+      "test_cli_streamed_contours_refuse_collisions[project]",
+      "test_cli_streamed_contours_refuse_collisions[sidecar]",
+      "test_cli_streamed_contours_reject_inapplicable_flags[extra0]",
+      "test_cli_streamed_contours_reject_inapplicable_flags[extra1]",
+      "test_cli_streamed_contours_reject_inapplicable_flags[extra2]",
+      "test_cli_streamed_contours_reject_inapplicable_flags[extra3]",
+      "test_cli_streamed_contours_reject_inapplicable_flags[extra4]",
+      "test_cli_streamed_geometry_saves_new_project_without_mutating_inputs[False]",
+      "test_cli_streamed_geometry_saves_new_project_without_mutating_inputs[True]"
+    ],
+    "test_raw_stream_contour_batch": [
+      "test_batch_contour_active_cancellation_discards_image_and_releases_reader",
+      "test_batch_contour_cli_and_option_manifest",
+      "test_batch_contour_cli_interrupt_preserves_committed_image_then_resumes",
+      "test_batch_contour_modified_checkpoint_refuses_reuse",
+      "test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope",
+      "test_batch_contour_multiple_source_rois_keep_resume_digest",
+      "test_batch_contour_quotas_publish_no_partial_project[csv]",
+      "test_batch_contour_quotas_publish_no_partial_project[publication]",
+      "test_batch_contour_quotas_publish_no_partial_project[result]",
+      "test_batch_contour_quotas_publish_no_partial_project[work]",
+      "test_batch_contour_source_change_recomputes_and_settings_change_separates_output",
+      "test_batch_streamed_contours_mixed_images_failure_policy[ProjectBatchFailure.CONTINUE-partial-2]",
+      "test_batch_streamed_contours_mixed_images_failure_policy[ProjectBatchFailure.STOP-failed-1]",
+      "test_batch_streamed_geometry_csv_snapshot_and_hash_only_reuse[False]",
+      "test_batch_streamed_geometry_csv_snapshot_and_hash_only_reuse[True]",
+      "test_gui_streamed_contour_batch_saves_and_reuses"
+    ],
+    "test_raw_file_contours": [
+      "test_cli_historical_wkt_without_source_and_bounded_json",
+      "test_cli_replay_saves_new_project_and_rejects_sampling_overrides",
+      "test_desktop_historical_preview_and_fresh_reverified_apply[False-False]",
+      "test_desktop_historical_preview_and_fresh_reverified_apply[False-True]",
+      "test_desktop_historical_preview_and_fresh_reverified_apply[True-False]",
+      "test_desktop_historical_preview_and_fresh_reverified_apply[True-True]",
+      "test_historical_and_replay_active_shutdown_in_child[history-cancel]",
+      "test_historical_and_replay_active_shutdown_in_child[history-close]",
+      "test_historical_and_replay_active_shutdown_in_child[replay-cancel]",
+      "test_historical_and_replay_active_shutdown_in_child[replay-close]",
+      "test_historical_geometry_preserves_axes_clipping_and_needs_no_source[False]",
+      "test_historical_geometry_preserves_axes_clipping_and_needs_no_source[True]",
+      "test_historical_reader_job_uses_distinct_transfer_and_owner",
+      "test_historical_work_limits_and_partial_prefix_refusal[boundary]",
+      "test_historical_work_limits_and_partial_prefix_refusal[total]",
+      "test_managed_history_preview_fresh_replay_apply_and_saved_geometry[False]",
+      "test_managed_history_preview_fresh_replay_apply_and_saved_geometry[True]",
+      "test_managed_history_quota_and_unverified_apply_refuse",
+      "test_moved_history_opens_and_corrupt_or_missing_history_refuses",
+      "test_replay_changed_model_is_refused_before_job_start",
+      "test_replay_changed_source_pixels_refuse_but_historical_geometry_remains",
+      "test_replay_job_retires_late_history_changes_before_publication",
+      "test_replay_ready_result_rejects_later_document_revision",
+      "test_replay_rejects_changed_owner_parameters[calibration]",
+      "test_replay_rejects_changed_owner_parameters[roi]",
+      "test_replay_requires_verification_and_fresh_exact_capture_then_undo"
     ]
-  },
-  "desktop_module": "test_gui_raw_pixel",
-  "headless_skip": {
-    "type": "pytest.skip",
-    "message": "opt-in GUI, TIFF/project and actual classifier training"
   },
   "training_off_skip": {
     "module": "test_raw_pixel_cli",
@@ -83,7 +175,9 @@
   },
   "native_base": {
     "pixel_workflows": [
-      "Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed"
+      "Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed",
+      "Raw boundary face lookup: independent cells across 16 layouts, query order/duplicate/half-open/global crop, incomplete/invalid/cancel/work refusal and sparse 2000000-cell network passed",
+      "Raw stream boundaries: independent class seams/holes/corners/global phase, strict block/cancel/quota refusal and 2000000 samples with 7 peak runs passed"
     ]
   },
   "native_full": {
@@ -98,27 +192,38 @@
       "Raw tiled archive: independent QTT1 geometry/rows, balanced/unbalanced and huge-lattice round trips, semantic tamper, all-selected record bounds, authority/replay and atomic files passed",
       "Raw training checkpoint: independent QTC1 bounds, balanced/unbalanced multistage replay, exact rows/hashes/bytes, input tamper, limits, cancellation and concurrent-writer refusal passed",
       "Raw file jobs: owner export/checkpoint transfer, one-slot historical reads, cancellation/staleness/output guards, annotation resume refusal, thread/lifetime and retry controls passed",
-      "Raw stream links: verified prefix/complete retention, independent QWL1 bounds, global geometry, historical authority refusal, exact-content relink and external lifetime controls passed"
+      "Raw stream links: verified prefix/complete retention, independent QWL1 bounds, global geometry, historical authority refusal, exact-content relink and external lifetime controls passed",
+      "Raw streamed geometry: 16 independent edge/area/perimeter/part/hole layouts, both-axis crop phase, ROI/image clipping, strict limits/cancel/precision/count refusal and 2000000 samples under 192 KiB passed",
+      "Raw historical contour workflow: verified one-pass geometry, typed authority separation, fresh replay/apply/undo, late file refusal and partial-prefix rejection passed",
+      "Raw streamed contour workflow: real TIFF cropped direct/job parity, atomic apply/undo/redo and late-file refusal passed",
+      "Raw streamed contour workflow: completed producer commitments, rational full/cropped geometry, direct/job progress, pre-IO/retained/edit/ID quotas, cancel/failure/stale/copy/thread, exact capture and atomic apply/undo/redo passed"
     ],
     "viewer_session": [
       "Raw contour frontend: fresh bounded rational-grid trace, atomic apply/undo/redo, stale/cancel/budget/oversize refusal passed; GEOS=1",
       "Raw managed contours: historical preview, fresh revision-guarded apply, atomic undo/redo, active cancellation and pre-commit result admission passed; GEOS=1",
-      "Raw pixel viewer: owner training/checkpoint resume, bounded prediction, verified file retention, historical isolation, actual-source-version rejection, stale/queued-and-running-cancel/retry/removal and active shutdown join passed; training=1"
+      "Raw pixel viewer: owner training/checkpoint resume, bounded prediction, verified file retention, historical isolation, actual-source-version rejection, stale/queued-and-running-cancel/retry/removal and active shutdown join passed; training=1",
+      "Raw streamed frontend/viewer: cropped direct parity, preview, fresh revision/apply, retained payload/ID admission, atomic undo/redo and stale/cancel/refusal passed; GEOS=1"
     ],
     "project_batch": [
-      "Raw pixel batch: portable model, exact input reuse, QWL1 verification, interruption and owned cleanup passed"
+      "Raw pixel batch: portable model, exact input reuse, QWL1 verification, interruption and owned cleanup passed",
+      "Raw contour batch: streamed geometry, sealed project reopen, hash-only reuse, multiple targets and quota rollback passed"
     ]
   },
   "native_disabled": {
     "viewer_session": [
       "Raw pixel viewer unavailable: TIFF/project OFF"
+    ],
+    "pixel_workflows": [
+      "Raw streamed geometry: GEOS-unavailable refusal passed",
+      "Raw streamed contour workflow: GEOS-unavailable direct/job pre-IO refusal passed"
     ]
   },
   "typing_positive": [
     "tests/typing/raw_pixel_valid.py",
     "tests/typing/raw_batch_valid.py",
     "tests/typing/raw_frontend_valid.py",
-    "examples/raw_classifier_workflow.py"
+    "examples/raw_classifier_workflow.py",
+    "tests/typing/raw_stream_contour_valid.py"
   ],
   "typing_positive_log": "raw-classifier-typing.log",
   "typing_negative": {
@@ -148,6 +253,84 @@
         9,
         10
       ]
+    },
+    "raw_stream_contour_invalid.py": {
+      "log": "raw-classifier-raw_stream_contour_invalid.log",
+      "lines": [
+        3,
+        5,
+        8,
+        12,
+        13,
+        16,
+        18,
+        22
+      ]
+    }
+  },
+  "gui_only": {
+    "test_gui_raw_pixel": {
+      "names": [
+        "test_desktop_checkpoint_resume_without_duplicate_sampling",
+        "test_desktop_contour_edit_discards_geometry_preview",
+        "test_desktop_contour_limits_preserve_document[preview]",
+        "test_desktop_contour_limits_preserve_document[work]",
+        "test_desktop_edit_retires_ready_raw_prediction_and_gpu_preview",
+        "test_desktop_historical_file_does_not_enable_live_contour_apply",
+        "test_desktop_historical_open_keep_remove_preserves_external_file",
+        "test_desktop_image_switch_retires_raw_prediction_and_gpu_preview",
+        "test_desktop_invalid_model_preserves_current_model_and_can_predict",
+        "test_desktop_prediction_prefix_resume_preserves_committed_bytes",
+        "test_desktop_raw_contour_preview_apply_is_one_undoable_edit[False-False]",
+        "test_desktop_raw_contour_preview_apply_is_one_undoable_edit[True-False]",
+        "test_desktop_raw_contour_preview_apply_is_one_undoable_edit[True-True]",
+        "test_desktop_train_keep_preview_save_and_export_retained_file",
+        "test_managed_raw_contour_preview_fresh_apply_and_persistence",
+        "test_managed_raw_training_prediction_resume_read_and_saved_project",
+        "test_raw_overlay_toggle_invalidates_cached_canvas_at_fractional_edges"
+      ],
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in GUI, TIFF/project and actual classifier training"
+      }
+    },
+    "test_gui_raw_stream_contours": {
+      "names": [
+        "test_desktop_edit_retires_streamed_preview",
+        "test_desktop_streamed_preview_apply_undo_redo[False-False]",
+        "test_desktop_streamed_preview_apply_undo_redo[True-False]",
+        "test_desktop_streamed_preview_apply_undo_redo[True-True]",
+        "test_managed_cropped_streamed_preview_apply_save_reopen",
+        "test_managed_streamed_result_budget_refuses_before_commit"
+      ],
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in actual GUI and typed TIFF/training/GEOS"
+      }
+    },
+    "test_raw_stream_contour_batch": {
+      "names": [
+        "test_gui_streamed_contour_batch_saves_and_reuses"
+      ],
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in GUI"
+      }
+    },
+    "test_raw_file_contours": {
+      "names": [
+        "test_desktop_historical_preview_and_fresh_reverified_apply[False-False]",
+        "test_desktop_historical_preview_and_fresh_reverified_apply[False-True]",
+        "test_desktop_historical_preview_and_fresh_reverified_apply[True-False]",
+        "test_desktop_historical_preview_and_fresh_reverified_apply[True-True]",
+        "test_managed_history_preview_fresh_replay_apply_and_saved_geometry[False]",
+        "test_managed_history_preview_fresh_replay_apply_and_saved_geometry[True]",
+        "test_managed_history_quota_and_unverified_apply_refuse"
+      ],
+      "attributes": {
+        "type": "pytest.skip",
+        "message": "opt-in GUI"
+      }
     }
   }
 }

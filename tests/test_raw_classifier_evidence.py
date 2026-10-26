@@ -30,14 +30,15 @@ def python_cases(gui=True):
     for module,names in evidence.CONTRACT['installed'].items():
         for name in names:
             case=E.Element('testcase',classname='tests.'+module,name=name)
-            if not gui and module==evidence.CONTRACT['desktop_module']:E.SubElement(case,'skipped',**evidence.CONTRACT['headless_skip'])
+            desktop=evidence.CONTRACT['gui_only'].get(module)
+            if not gui and desktop and name in desktop['names']:E.SubElement(case,'skipped',**desktop['attributes'])
             elif module==off['module'] and name==off['name']:E.SubElement(case,'skipped',**off['attributes'])
             result.append(case)
     return result
 
 
 def typing_logs(folder):
-    (folder/evidence.CONTRACT['typing_positive_log']).write_text('Success: no issues found in 4 source files\n',encoding='utf-8')
+    (folder/evidence.CONTRACT['typing_positive_log']).write_text('Success: no issues found in '+str(len(evidence.CONTRACT['typing_positive']))+' source files\n',encoding='utf-8')
     for filename,value in evidence.CONTRACT['typing_negative'].items():
         text=''.join('tests/typing/'+filename+':'+str(line)+': error: intended error\n' for line in value['lines'])
         text+='Found '+str(len(value['lines']))+' errors in 1 file (checked 1 source file)\n'
@@ -66,8 +67,8 @@ def test_native_false_acceptance_controls(suite,change):
 @pytest.mark.parametrize('gui',[False,True])
 def test_exact_installed_contract_has_explicit_skips(gui):
     report=evidence.python(python_cases(gui),gui=gui)
-    assert report['passed']==(57 if gui else 40)
-    assert report['declared_skips']==(1 if gui else 18)
+    assert report['passed']==(142 if gui else 111)
+    assert report['declared_skips']==(1 if gui else 32)
 
 
 @pytest.mark.parametrize('module',list(evidence.CONTRACT['installed']))
@@ -82,11 +83,13 @@ def test_installed_module_false_acceptance_controls(module,change):
     with pytest.raises(ValueError):evidence.python(cases,gui=True)
 
 
-@pytest.mark.parametrize('change',['missing','wrong_reason','duplicate','enabled'])
-def test_headless_declaration_is_not_an_arbitrary_skip(change):
-    cases=python_cases(False);case=next(c for c in cases if c.get('classname')=='tests.test_gui_raw_pixel');skip=case.find('skipped')
+@pytest.mark.parametrize('module',list(evidence.CONTRACT['gui_only']))
+@pytest.mark.parametrize('change',['missing','wrong_reason','wrong_type','duplicate','enabled'])
+def test_headless_declaration_is_not_an_arbitrary_skip(module,change):
+    cases=python_cases(False);case=next(c for c in cases if c.get('classname')=='tests.'+module and c.find('skipped') is not None);skip=case.find('skipped')
     if change=='missing':case.remove(skip)
     elif change=='wrong_reason':skip.set('message','missing model')
+    elif change=='wrong_type':skip.set('type','unavailable')
     elif change=='duplicate':case.append(copy.deepcopy(skip))
     else:
         with pytest.raises(ValueError):evidence.python(cases,gui=True)
@@ -96,7 +99,7 @@ def test_headless_declaration_is_not_an_arbitrary_skip(change):
 
 def test_typing_positive_and_negative_nonempty_counts(tmp_path):
     typing_logs(tmp_path);report=evidence.typing(tmp_path)
-    assert (report['positive_files'],report['negative_files'],report['expected_errors'])==(4,3,12)
+    assert (report['positive_files'],report['negative_files'],report['expected_errors'])==(5,4,20)
 
 
 @pytest.mark.parametrize('kind',['zero_files','wrong_files','missing_error','extra_error','wrong_line','wrong_summary','missing_log'])
@@ -136,14 +139,15 @@ def test_production_owners_execute_shared_raw_admission(name,required):
 
 
 def test_source_closure_covers_shared_kernels_jobs_frontends_and_consumers():
-    assert {'cpp/raw_pixel_frontend.cpp','cpp/raw_pixel_window_workflows.cpp','cpp/tissue_contours.cpp','cpp/raw_pixel_file_jobs.cpp','cpp/project_batch.cpp','cpp/include/qupathxx/raw_pixel_frontend.hpp','tests/test_raw_pixel_python.py','tests/test_gui_pixel_classifier.py','tests/test_viewer_session.py','tools/ci/raw-classifier-cases.json','tests/test_ci_installed_diagnostics.py','tests/fixtures/ci-installed-diagnostics-v1/legacy-command-contract.json'}<=set(evidence.SOURCES)
+    assert {'tests/raw_stream_contour_shutdown_child.py','tests/raw_file_contour_shutdown_child.py','tools/reference_raw_contour_seams.py','tests/fixtures/raw-contour-seams-v1/reference.json','cpp/raw_pixel_frontend.cpp','cpp/raw_pixel_window_workflows.cpp','cpp/tissue_contours.cpp','cpp/raw_pixel_file_jobs.cpp','cpp/project_batch.cpp','cpp/include/qupathxx/raw_pixel_frontend.hpp','tests/test_raw_pixel_python.py','tests/test_gui_pixel_classifier.py','tests/test_viewer_session.py','tools/ci/raw-classifier-cases.json','tests/test_ci_installed_diagnostics.py','tests/fixtures/ci-installed-diagnostics-v1/legacy-command-contract.json'}<=set(evidence.SOURCES)
     assert len(evidence.SOURCES)==len(set(evidence.SOURCES))
 
 
-def test_actual_git_source_mismatch_and_publication_snapshot(tmp_path,monkeypatch):
+@pytest.mark.parametrize('changed_path',['cpp/raw_pixel_frontend.cpp','tests/raw_stream_contour_shutdown_child.py','tests/raw_file_contour_shutdown_child.py','tools/reference_raw_contour_seams.py','tests/fixtures/raw-contour-seams-v1/reference.json'])
+def test_actual_git_source_mismatch_and_publication_snapshot(tmp_path,monkeypatch,changed_path):
     if shutil.which('git') is None:
         pytest.skip('development source-proof fixture requires git; package consumers do not')
-    paths=['cpp/raw_pixel_frontend.cpp','tools/ci/raw-classifier-cases.json']
+    paths=[changed_path,'tools/ci/raw-classifier-cases.json']
     for name in paths:
         path=tmp_path/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes((ROOT/name).read_bytes())
     def git(*args):return subprocess.check_output(['git','-C',str(tmp_path),*args],stderr=subprocess.STDOUT,text=True).strip()
@@ -162,7 +166,7 @@ def test_git_source_control_declares_missing_development_tool(tmp_path,monkeypat
         raise AssertionError('missing-tool declaration must precede subprocess work')
     monkeypatch.setattr(subprocess,'check_output',unexpected)
     with pytest.raises(pytest.skip.Exception,match='development source-proof fixture requires git'):
-        test_actual_git_source_mismatch_and_publication_snapshot(tmp_path,monkeypatch)
+        test_actual_git_source_mismatch_and_publication_snapshot(tmp_path,monkeypatch,'cpp/raw_pixel_frontend.cpp')
 
 
 @pytest.mark.parametrize('flag',['-O','-OO'])
@@ -176,3 +180,20 @@ else:raise SystemExit('false acceptance')
 """.format(path=str(ROOT/'tools/ci/raw_classifier_evidence.py'))
     done=subprocess.run([sys.executable,flag,'-I','-c',code],capture_output=True,text=True,timeout=30)
     assert done.returncode==0 and done.stdout.strip()=='rejected',done.stderr
+
+
+@pytest.mark.parametrize('full,suite,marker',[(full,suite,marker) for full in [False,True] for suite,markers in evidence.CONTRACT['native_full' if full else 'native_disabled'].items() for marker in markers])
+def test_each_native_semantic_marker_is_required(full,suite,marker):
+    cases=native_cases(full)
+    case=next(c for c in cases if c.get('name')==suite)
+    lines=case.findtext('system-out').splitlines();lines.remove(marker)
+    case.find('system-out').text='\n'.join(lines)
+    with pytest.raises(ValueError):evidence.native(cases,full=full)
+
+
+def test_gui_declarations_name_only_real_cases_and_do_not_hide_headless_cases():
+    for module,desktop in evidence.CONTRACT['gui_only'].items():
+        assert desktop['names']==sorted(set(desktop['names']))
+        assert set(desktop['names'])<=set(evidence.CONTRACT['installed'][module])
+    for module in ['test_raw_stream_contour_batch','test_raw_file_contours']:
+        assert set(evidence.CONTRACT['gui_only'][module]['names'])<set(evidence.CONTRACT['installed'][module])
