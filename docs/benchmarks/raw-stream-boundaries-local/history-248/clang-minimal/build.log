@@ -1,0 +1,8 @@
+[0/2] Re-checking globbed directories...
+[1/7] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/provenance.cpp.o
+[2/7] Linking CXX static library libqupathxx_core.a
+[3/7] Linking CXX executable qupathxx_resampling_tests
+[4/7] Linking CXX executable qupathxx_pixel_workflow_tests
+[5/7] Linking CXX executable qupathxx_viewer_session_tests
+[6/7] Linking CXX executable qupathxx_project_batch_tests
+[7/7] Linking CXX executable qupathxx_tissue_contour_tests

@@ -1,0 +1,16 @@
+Internal ctest changing into directory: /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw-stream-geometry-242-minimal
+Test project /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw-stream-geometry-242-minimal
+    Start  1: pixel_workflows
+1/5 Test  #1: pixel_workflows ..................   Passed    0.81 sec
+    Start  8: resampling
+2/5 Test  #8: resampling .......................   Passed    1.94 sec
+    Start 10: viewer_session
+3/5 Test #10: viewer_session ...................   Passed    0.07 sec
+    Start 14: project_batch
+4/5 Test #14: project_batch ....................   Passed    0.02 sec
+    Start 31: tissue_contours
+5/5 Test #31: tissue_contours ..................   Passed    0.01 sec
+
+100% tests passed, 0 tests failed out of 5
+
+Total Test time (real) =   2.95 sec

@@ -147,3 +147,8 @@ The Windows cp312 profile enables GUI/GEOS/training/TIFF/project; OpenSlide is
 OFF. Complete SDK identities and packaged notices match. This is local
 engineering acceptance with reused test dependencies; historical QWS1 conversion and full platform/scientific/resource/release gates
 remain open.
+
+See [saved contour inspection and replay](raw-file-contours.md) for
+`--inspect-raw-contours` bounded WKT/JSON output and `--replay-raw-contours`
+fresh guarded prediction into a new project. Both have local installed evidence
+at `3039f0c`; saved blocks retain historical status.

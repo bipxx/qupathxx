@@ -11,9 +11,9 @@ workflow reference. Python API design and the ImGui frontend are new work.
 
 ## Current execution map
 
-Planning update: 2026-10-26, through implementation `97c3888` and installed
-verification `f5ec3eb`. All **M0–M7 remain Partial**. Test totals measure their
-named engineering scopes; they do not establish a percentage of QuPath parity.
+Planning update: 2026-10-26, through implementation and installed verification
+`3039f0c`. All **M0–M7 remain Partial**. Test totals measure their named
+engineering scopes; they do not establish a percentage of QuPath parity.
 
 The [API delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
 is the sole scheduling authority. The [current task](current-task.md) records
@@ -28,17 +28,18 @@ this update is a reconciliation, not a new independent model review.
 | Qualified public main | `61e546e`: [combined engineering receipt](benchmarks/raw-grid-191-qualification.json) | Later feature sources do not inherit this qualification |
 | TMA and multi-file OME | Separate [TMA](benchmarks/tma-dearray-202-qualification.json) and [multi-file fault](benchmarks/multifile-fault-213-qualification.json) engineering acceptance | Biological, hardware and supported-release gates remain |
 | Raw classification | [Campaign236](benchmarks/raw-classifier-236-campaign/closeout/receipt.json) at `530c6bb`: engine/portable audits accepted | Mac arm64 failure prevents complete T5 acceptance |
-| Streamed contours | [Installed desktop/managed receipt](benchmarks/raw-stream-boundaries-local/frontends-245/receipt.json) at `7c77367`: nine native suites, 222 Python passes, three declared skips, typing and actual UI/save/reopen evidence | Later CLI/batch rows record their local delivery; historical QWS1 conversion/reverification and integrated qualification remain |
-| Streamed contour project batches | [Installed local receipt](benchmarks/raw-stream-boundaries-local/batch-247/receipt.json) at `f5ec3eb`: nine Windows/five Clang native suites, 274 Python passes/three skips, all 15 new batch cases, typing and actual UI launch/reuse | Historical QWS1 conversion/reverification and integrated platform/scientific/resource/release gates remain |
-| Streamed contour CLI | [Installed local receipt](benchmarks/raw-stream-boundaries-local/cli-246/receipt.json) at `4e91d1e`: nine native suites, 240 Python passes/three declared skips, all 18 new CLI cases, stubs and typing | Project batch, historical QWS1 conversion/reverification and full platform/scientific/resource/release gates remain |
+| Streamed contours | [Installed desktop/managed receipt](benchmarks/raw-stream-boundaries-local/frontends-245/receipt.json) at `7c77367`: nine native suites, 222 Python passes, three declared skips, typing and actual UI/save/reopen evidence | Later consumer rows record local delivery; integrated platform/scientific/resource/release gates remain |
+| Historical QWS1 contours/replay | [Installed local receipt](benchmarks/raw-stream-boundaries-local/history-248/receipt.json) at `3039f0c`: nine Windows/five Clang suites, 298 Python passes/three skips, all 23 new cases, typing and inspected file/retained UI states | Mac repair and full integrated platform/scientific/resource/release gates remain |
+| Streamed contour project batches | [Installed local receipt](benchmarks/raw-stream-boundaries-local/batch-247/receipt.json) at `f5ec3eb`: nine Windows/five Clang native suites, 274 Python passes/three skips, all 15 new batch cases, typing and actual UI launch/reuse | The history/replay row records local delivery; integrated platform/scientific/resource/release gates remain |
+| Streamed contour CLI | [Installed local receipt](benchmarks/raw-stream-boundaries-local/cli-246/receipt.json) at `4e91d1e`: nine native suites, 240 Python passes/three declared skips, all 18 new CLI cases, stubs and typing | Later batch/history rows record local delivery; full platform/scientific/resource/release gates remain |
 | Mac diagnosis | [Terminal diagnostic240](benchmarks/raw-replay-macos-240/terminal-observation/receipt.json) at `4a72fd8`: both archives authenticated; x86_64 passes 50 suites/relocation, arm64 49/50 | Both contour refusals are caught, then source-series validation fails. Actual failing test binary retained; no demonstrated cause or repair |
 
-Finish historical-file conversion/reverification using the concrete B5 tasks in the API queue. Diagnose
-the Mac failure using retained evidence and a targeted reproduction; keep frozen
-sources immutable. After those contracts settle and the repair is demonstrated,
-freeze one integrated candidate for the required engine/Mac/portable audits.
-Do not launch broad qualification for each consumer or reimplement completed
-geometry, sampling, jobs or document authority.
+Diagnose the retained Mac arm64 source-series failure and demonstrate its repair.
+Bind the completed streamed consumer source/semantic cohorts into the maintained
+producer/auditor contracts, then freeze one integrated candidate for required
+engine/Mac/portable audits. Native, Python, CLI, batch, desktop, managed and
+historical-file consumers have local engineering evidence. The API queue's B6
+entry owns qualification prerequisites and the targeted diagnostic route.
 
 Scientific/model comparisons, fixture rights/labels, measured resource/hardware
 budgets, clean-machine support and release decisions remain independent open

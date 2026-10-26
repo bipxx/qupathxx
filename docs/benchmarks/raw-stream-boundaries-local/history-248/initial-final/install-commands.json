@@ -1,0 +1,45 @@
+[
+  {
+    "name": "create-env",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+      "-m",
+      "venv",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-env"
+    ],
+    "exit": 0,
+    "seconds": 6.060323700075969
+  },
+  {
+    "name": "install-wheel",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-env\\Scripts\\python.exe",
+      "-m",
+      "pip",
+      "install",
+      "--no-deps",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-history-248\\final-wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+    ],
+    "exit": 0,
+    "seconds": 2.3390480000525713
+  },
+  {
+    "name": "installed-proof",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw_stream_history_248_final_proof.py"
+    ],
+    "exit": 0,
+    "seconds": 0.6460623000748456
+  },
+  {
+    "name": "verification",
+    "args": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\verify_raw_stream_history_248.py"
+    ],
+    "exit": 0,
+    "seconds": 113.92118280008435
+  }
+]

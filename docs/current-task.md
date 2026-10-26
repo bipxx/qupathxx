@@ -2,55 +2,52 @@
 
 ## Current execution card (2026-10-26)
 
-Current implementation: `f5ec3eb` in `build/ci/scientific-grid-159`.
-Last installed verified runtime: `f5ec3eb`. The installed source matches the implementation.
-All M0–M7 remain Partial; public-main qualification remains at `61e546e`.
+Implementation and last installed verified runtime: `3039f0c` in
+`build/ci/scientific-grid-159`. All M0–M7 remain Partial. Public-main engineering
+qualification remains at `61e546e`.
 
-- **Verified locally:** [streamed Python/desktop/managed consumers](benchmarks/raw-stream-boundaries-local/frontends-245/receipt.json),
-  nine native suites, 222 Python passes and three declared skips. Six new GUI/
-  managed cases cover preview/apply, undo/redo, stale retirement, cropped commands,
-  result admission and applied-annotation project reopen. Five positive typing
-  files and four negative files with 17 intended errors verify installed APIs.
-- **CLI locally verified:** [installed receipt](benchmarks/raw-stream-boundaries-local/cli-246/receipt.json) at `4e91d1e`.
-  `qupathxx_batch --contour-raw-pixels PROJECT IMAGE_ID MODEL NEW_PROJECT` passes
-  all 18 new cases. Final coherent wheel closure: nine native suites, 240 Python
-  passes/three declared skips, stubs, five positive typing files and 17 intended
-  errors in four negative files. Source/installed members/SDK origins verify;
-  prior comparison environments and products remain preserved. This is Windows
-  local engineering evidence with shared test dependencies, not clean-machine
-  support or integrated platform qualification.
-- **Project batches locally verified:** [installed receipt](benchmarks/raw-stream-boundaries-local/batch-247/receipt.json) at
-  `f5ec3eb`: nine Windows positive/five Clang all-optional-OFF native suites,
-  274 Python passes/three declared skips, all 15 new batch cases, stubs/typing.
-  A separate installed case also verifies moved-output reuse and a genuinely
-  changed model on the unchanged wheel (16 new batch cases combined).
-  Shared captured requests produce per-image annotations/CSV, verify sealed data
-  and current input hashes before reuse, preserve completed images across
-  cancellation, and resume through native/Python/CLI/ImGui. Actual desktop
-  launch/reuse and final screenshot verify. The original namespace compile error
-  and SQLite-fixture busy-handle failure remain retained; the fixture correction
-  reused unchanged development binaries. Final members/SDKs and prior products
-  authenticate. Full platform/science/hardware/release gates remain open.
-- **Still missing:** historical QWS1
-  geometry conversion/reverification. Saved applied annotations reopen already;
-  historical prediction blocks still confer no live apply authority.
-- **Qualification failure:** [original diagnostic240](benchmarks/raw-replay-macos-240/terminal-observation/receipt.json)
-  is terminal at `4a72fd8`, run `40384720525`. Both archives authenticate;
-  x86_64 passes 50 suites/relocation, arm64 49/50. Contour refusal/replay completes
-  before a source-series error. The authentic failing arm64 executable survives.
-  Root cause and repair are unproven. Do not redispatch the same diagnostic.
-- **Next action:** follow [B5 consumer tasks](api-delivery-plan.md#b5-remaining-consumer-tasks)
-  in the single API queue. Implement historical QWS1 geometry conversion with the existing verified
-  reader and shared boundary/GEOS kernel; live apply requires a fresh capture. Reuse the
-  existing SDK/cache after preserving prior products; no documentation-only build.
-- **Separate open gates:** scientific/model acceptance, rights/labels, eligible
-  hardware/process-memory budgets, full platform qualification, clean-machine
-  support and release decisions. Only open-source reader/codec stacks qualify.
+- **Latest verified workflow:** [historical QWS1 geometry and fresh replay](benchmarks/raw-stream-boundaries-local/history-248/receipt.json).
+  Nine Windows positive/five Clang all-optional-OFF native suites pass. The
+  installed Windows cp312 cohort has 298 passes/three declared skips; all 23
+  new cases execute, including file/retained-record desktop and managed actions,
+  source-free inspection, cropped axes, guarded replay/apply/save/reopen, quotas,
+  corruption, late-file refusal and four isolated active shutdown probes.
+  Five positive typing files and 20 intended errors in four negative files
+  verify distinct historical/live result types and optional delivery. Source,
+  packaged members/notices, dependency origins and both complete SDK trees match.
+- **Streamed consumers locally delivered:** native/Python jobs, CLI, captured
+  project batches, desktop, managed viewer, saved annotations and historical-file
+  conversion/reverification now have local engineering evidence. Prior
+  [desktop](benchmarks/raw-stream-boundaries-local/frontends-245/receipt.json),
+  [CLI](benchmarks/raw-stream-boundaries-local/cli-246/receipt.json) and
+  [batch](benchmarks/raw-stream-boundaries-local/batch-247/receipt.json) receipts
+  retain their own sources. Their relevant regressions execute in the latest
+  cohort. Earlier comparison environments/products remain preserved.
+- **Visual correction verified:** first complete `ef23a5d` observations remain.
+  Screenshot review found ready-after-apply wording and a low file preview.
+  `3039f0c` places historical actions/preview first and reports applied counts;
+  four final captures fit and agree with the enabled controls. No original
+  observation is relabeled. Stubs regenerated once; shared test dependencies
+  remain, so this is local engineering evidence rather than clean-machine support.
+- **Next action:** diagnose the retained arm64 `pixel_workflows` binary from
+  [terminal diagnostic240](benchmarks/raw-replay-macos-240/terminal-observation/receipt.json),
+  frozen `4a72fd8`, run `40384720525`. Both archives authenticate; x86_64 passes
+  50 suites/relocation and arm64 49/50. Both contour refusals/replay complete,
+  then source-series validation fails. Root cause and repair remain unproven.
+  Use a targeted reproduction/debugger before another candidate build.
+- **Before integrated qualification:** bind streamed native/installed semantic
+  cases and compiler-input closure into maintained engine/Mac/portable producer
+  and auditor contracts. Demonstrate the Mac repair, then freeze one candidate
+  for required roles. Keep original failed sources/runs immutable.
+- **Separate open gates:** biological/model/upstream comparisons, dataset rights/
+  labels/tolerances, process-memory and eligible hardware measurements, remaining
+  SCI1-B reader/interchange/spatial/automation breadth, clean-machine distribution
+  and release decisions. Reader implementations and required codecs must be open
+  source under the existing policy.
 
-Earlier execution cards are preserved in
-[implementation history](project-plan-history.md#superseded-execution-snapshots-before-cli246-validation-2026-10-26).
-Baseline sections below retain their named source/date applicability; their
-historical next-step wording does not override the API queue.
+The [API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) remains
+the sole scheduling authority. Baselines below retain their named source/date
+applicability; historical next-step wording does not override the queue.
 
 ## Preserved local baselines
 

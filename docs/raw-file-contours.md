@@ -104,3 +104,13 @@ phase; replay also admits its recorded prediction producer budget. Increase the
 explicit total limit or choose a smaller admitted file-reader budget when needed.
 These conservative estimates are separate from measured process RSS, hardware
 budgets and scientific/platform/release acceptance.
+
+[Installed local evidence](benchmarks/raw-stream-boundaries-local/history-248/receipt.json) binds runtime `3039f0c`: nine Windows positive
+and five Clang all-optional-OFF native suites, 298 Python passes/three declared
+skips and all 23 new cases, plus generated stubs and typing. Four child processes
+observe running historical/replay workers before cancel/destruction. Four final
+file/retained-record captures verify readable previews, applied counts and no
+UI overflow. SDK/source/installed identities match. The earlier complete
+`ef23a5d` observation and screenshots remain preserved before the UI correction.
+Shared test dependencies remain; full platform, biological/resource/hardware and
+clean-machine/release acceptance are open.

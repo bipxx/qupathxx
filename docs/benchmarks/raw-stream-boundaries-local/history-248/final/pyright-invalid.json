@@ -1,0 +1,13 @@
+{
+  "include": [
+    "../../ci/scientific-grid-159/tests/typing/raw_pixel_invalid.py",
+    "../../ci/scientific-grid-159/tests/typing/raw_batch_invalid.py",
+    "../../ci/scientific-grid-159/tests/typing/raw_frontend_invalid.py",
+    "../../ci/scientific-grid-159/tests/typing/raw_stream_contour_invalid.py"
+  ],
+  "exclude": [],
+  "venvPath": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci",
+  "venv": "raw-stream-history-248-final-env",
+  "pythonVersion": "3.12",
+  "typeCheckingMode": "basic"
+}
