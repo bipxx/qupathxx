@@ -15,9 +15,12 @@
   controls and 48 Linux stdlib boundary witnesses pass. This is tooling/local
   verification, not a new hosted product build at the auditor revision.
 - Next action: MFO1 in the [single ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue):
-  implement bounded companion-source observations and versioned provenance/raw
-  codecs, then the complete installed multi-file OME workflow. E3/E4 attach to
-  the next affected source-proof/producer edit rather than blocking this work.
+  the [companion descriptor/codec foundation](benchmarks/compound-source-local.json)
+  is now locally verified at native source `4d59c46`: seven native suites per
+  Windows/Linux host, 200 installed cases and 15 desktop regressions pass.
+  Next implement real TIFF FileName/UUID dispatch, file-aware cache keys and
+  shared all-file guards/budgets, then complete the installed multi-file workflow.
+  E3/E4 attach to their next affected edits; MFO1 remains incomplete.
 - The [efficiency review](reviews/compilexx-efficiency-review.md) records seven
   evidence-backed improvements. Earlier sections below retain workflow history;
   use this card for current scheduling. All M0-M7 remain Partial.
@@ -255,13 +258,15 @@ representative biological/vendor-slide requirements remain open.
 
 ## Next implementation slice: multi-file OME
 
-The [independent corpus](benchmarks/multifile-ome-preparation.json) now fixes
-shuffled C/Z/T plane placement, mixed byte orders, relative Unicode companion
-paths and per-plane subresolutions. Four fixture checks pass. Both native entry
-points still reject multi-file references. Implement compound source observations
-and codec compatibility first, then the complete reader/project/frontend
-workflow in the [slice contract](multifile-ome-tiff.md). This is preparation,
-not native multi-file acceptance. All original M0-M7 requirements remain active.
+The [independent corpus](benchmarks/multifile-ome-preparation.json) fixes shuffled
+C/Z/T placement, mixed byte orders, Unicode companion paths and subresolutions.
+The [local foundation](benchmarks/compound-source-local.json) adds bounded owning
+companion observations, QPV3/QRA3/QRA4, source-set stale comparisons and typed
+Python descriptors. Legacy QRA1/QRA2 fixtures retain byte-exact round trips.
+The actual native opener still refuses both corpus entry points: this is not
+multi-file reader acceptance. Next implement private TIFF file dispatch/shared
+budgets/guards, then project restart and every promised frontend in the
+[slice contract](multifile-ome-tiff.md). All original M0-M7 requirements remain.
 
 The frozen TMA candidate now has [strict Mac-native acceptance](benchmarks/tma-dearray-202-macos-native.json)
 for ARM64 and x86_64, 50 suites each. Linux-only strict acceptance is retained

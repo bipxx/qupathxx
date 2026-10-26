@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="0"
+	timestamp="2026-10-25T22:15:25"
+	>
+	<testcase name="raw_image" classname="raw_image" time="0.545212" status="run">
+		<properties/>
+		<system-out>TIFF interleaved block reuse without LRU, separate-plane selection and padded values passed
+Independent deflate TIFF typed grid analysis through prefixed zlib passed
+QRA2 TIFF grid SQLite save/reopen, explicit replay and second save passed
+Actual UInt16 TIFF scientific grid analysis, ROI upsampling and hash-only digest passed
+Raw grid TIFF batch distinct recipe, interrupted checkpoint resume and hash-only typed CSV passed
+raw quantitative buffers, TIFF decode/cache, preview and statistics passed
+</system-out>
+	</testcase>
+</testsuite>

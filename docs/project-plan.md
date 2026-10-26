@@ -40,6 +40,10 @@ boundary witnesses. Main's qualified application source remains `61e546e`.
 Continue MFO1's compound-source/multi-file OME workflow in the
 [ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue).
 E3/E4 remain bounded improvements at the next affected owner, not a framework. The
+[compound-source foundation](benchmarks/compound-source-local.json) now has local
+native/installed/desktop evidence. Real multi-file TIFF dispatch and complete
+project/frontend acceptance remain the next MFO1 work; no full reader support
+is inferred from the descriptor/codecs. The
 [seven-document review](reviews/compilexx-efficiency-review.md) supplies the
 failure evidence and distinguishes recommendations from applied product fixes.
 

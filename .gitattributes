@@ -431,3 +431,7 @@ docs/reviews/compilexx-206-evidence/** -text -whitespace
 # Integrated TMA qualification preserves all original artifact/auditor bytes.
 docs/benchmarks/tma-dearray-202-qualification/** -text -whitespace
 docs/benchmarks/tma-dearray-202-qualification.json text eol=lf
+
+# Compound-source foundation retains raw local native/installed evidence bytes.
+docs/benchmarks/compound-source-local/** -text -whitespace
+docs/benchmarks/compound-source-local.json text eol=lf

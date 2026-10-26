@@ -1,0 +1,20 @@
+Internal ctest changing into directory: /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native
+Test project /mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw176-tiff-linux-native
+    Start  8: resampling
+1/7 Test  #8: resampling .......................   Passed    1.53 sec
+    Start 13: raw_image
+2/7 Test #13: raw_image ........................   Passed    1.13 sec
+    Start 16: source_identity
+3/7 Test #16: source_identity ..................   Passed    0.04 sec
+    Start 17: file_fingerprint
+4/7 Test #17: file_fingerprint .................   Passed    0.04 sec
+    Start 18: provenance
+5/7 Test #18: provenance .......................   Passed    0.01 sec
+    Start 47: project
+6/7 Test #47: project ..........................   Passed    2.89 sec
+    Start 50: project_save
+7/7 Test #50: project_save .....................   Passed    2.28 sec
+
+100% tests passed, 0 tests failed out of 7
+
+Total Test time (real) =   8.02 sec

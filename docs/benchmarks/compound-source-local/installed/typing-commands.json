@@ -1,0 +1,44 @@
+[
+  {
+    "name": "typing-positive",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\compound208-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--follow-imports=silent",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\source_companions_valid.py"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 5.602276999969035
+  },
+  {
+    "name": "typing-negative",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\compound208-python-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--follow-imports=silent",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\source_companions_invalid.py"
+    ],
+    "exit": 1,
+    "expected": 1,
+    "seconds": 0.5159557000733912
+  },
+  {
+    "name": "check-stubs",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\compound208-python-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\generate_stubs.py",
+      "--check"
+    ],
+    "exit": 0,
+    "expected": 0,
+    "seconds": 0.5431399999652058
+  }
+]

@@ -1,7 +1,7 @@
 # Multi-file OME-TIFF implementation slice
 
-Status: independent fixture prepared; native multi-file opening is still
-unsupported. This slice remains part of M1/M6 and does not replace the broader
+Status: independent fixture and bounded source/codec foundation are locally
+verified; native multi-file opening is still unsupported. This slice remains part of M1/M6 and does not replace the broader
 vendor, scientific or supported-release requirements.
 
 The [OME specification](https://ome-model.readthedocs.io/en/stable/ome-tiff/specification.html#multi-file-ome-tiff)
@@ -91,8 +91,13 @@ alongside the corrected, scoped checks.
 
 Implementation owner: active integration worktree, MFO1 in the
 [single ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue).
-E1/E2 have completed their engineering/local checks. The first
-MFO1 code change is the compound source descriptor and codec compatibility,
-before external-file dispatch. Enumerate existing provenance/raw-archive/project
-consumers together so no older codec silently drops companions. The fixture is
-preparation, not proof of native support.
+E1/E2 have completed their engineering/local checks. The
+[compound source foundation](benchmarks/compound-source-local.json) now supplies
+owning companion observations, primary-only fingerprint status, QPV3/QRA3/QRA4,
+raw stale-status comparison and typed Python ownership. Seven selected native
+suites pass on each Windows/Linux host; 200 installed cases and 15 desktop
+regressions pass, with two OpenSlide capability skips retained separately.
+Next implement explicit FileName/UUID resolution in the existing TIFF reader,
+file-aware directory/cache keys, shared budgets and all-dependency read guards.
+Then qualify project restart and all promised frontends on the real two-file
+corpus. The foundation does not prove native multi-file reader support.

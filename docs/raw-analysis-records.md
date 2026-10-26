@@ -53,6 +53,16 @@ the input digest and the statistics; verification changes derived state without
 changing the canonical document revision. A file observation is not a hash of the
 whole file. External image bytes are not embedded or frozen by saving a record.
 
+The [compound-source foundation](benchmarks/compound-source-local.json) retains
+all observed companions in new, bounded codec variants: QPV3 for provenance,
+QRA3 for natural-region raw results and QRA4 for explicit-grid raw results.
+Existing QPV1/QPV2 and single-file QRA1/QRA2 stay readable; frozen QRA1/QRA2
+fixtures re-encode byte-for-byte. Compound encodings cannot be downgraded to an
+older tag and silently discard companions. Raw current/stale comparisons include
+every observed companion, and replay keeps historical observations immutable.
+These are source observations, not full-file hashes. Native multi-file OME
+opening and its project/frontend qualification remain separate pending work.
+
 ```python
 replay = q.RawAnalysisRequest.replay(document, record_id)
 verified = document.verify_raw_analysis(record_id, replay, q.analyze_raw(replay))

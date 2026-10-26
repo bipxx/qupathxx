@@ -45,9 +45,21 @@ Archived analyses retain their original generations, including after rechecking.
 Scopes are explicit:
 
 - `memory`: dense in-memory pixels, no file observation or locator.
-- `single_file`: the native PPM decoder's complete source-file observation.
+- `single_file`: the native PPM or single-file TIFF decoder's source observation.
 - `primary_file`: the supplied OpenSlide file, with no complete dependency claim.
 - `unopened`: a project link with cached metadata that has not opened its reader.
+- `compound_files`: a primary observation plus 1..63 additional observed files,
+  ordered by absolute path. The total descriptor payload is limited to 128 KiB;
+  duplicate paths/file identities, invalid observations and wrong-scope lists
+  reject. The native factory owns the companion values. Python's `companions`
+  property returns a copied list of read-only `FileVersion` values.
+
+The compound descriptor/codecs have [local Windows/Linux verification](benchmarks/compound-source-local.json).
+The native TIFF opener still rejects multi-file OME; this descriptor foundation
+does not claim that reader workflow is implemented. See the
+[multi-file slice](multifile-ome-tiff.md) for the remaining file-dispatch and
+installed workflow gates. Memory/legacy sources expose an empty companion list;
+their existing JSON schema/fields remain unchanged.
 
 External reader implementations default to no descriptor (`None`). Existing
 custom C++ readers can override `reader_source()` with a validated native snapshot.
@@ -76,6 +88,7 @@ observation. Missing files can still be inspected and their archived records rea
 | Status | Meaning |
 | --- | --- |
 | `matching_metadata` | Identity, byte count, write stamp and change stamp agree. |
+| `matching_primary_metadata` | The primary file agrees for a compound descriptor; companions were not fingerprinted. |
 | `version_changed` | Same filesystem identity, different size or stamps. |
 | `different_file` | Different filesystem identity, even at the same pathname. |
 | `incompatible_scheme` | Identity/stamp schemes cannot be compared. |
@@ -98,6 +111,10 @@ Complete dependency manifests and decoder-read continuity remain open plan work.
 `request_source` hashes the captured descriptor's locator on the existing native
 worker and exposes the immutable `association` alongside `result`. A mismatch is
 a successful observation, not an I/O failure; inspect the comparison status.
+For compound descriptors it hashes only the primary file and uses the explicit
+primary-only status. Association output cannot replace any recorded companion,
+including through an alias. A metadata observation never becomes a whole-fileset
+content commitment.
 Generic `request(path)` retains its original fingerprint-only JSON and returns
 no association. Accepted new work clears previous result/association pointers.
 Previously returned values remain independently valid.
