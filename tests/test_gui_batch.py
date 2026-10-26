@@ -136,7 +136,15 @@ def test_gui_batch_cancellation_and_finite_exit_release_worker(tmp_path, explici
     report = q.show(project, frame_limit=40 if explicit_cancel else 5, options=o)
     assert report.batch_state == 'cancelled'
     assert report.batch_result.saved == 0 and not doc.analysis_records
-    assert Path(report.batch_result.report_path).is_file()
+    if report.batch_result.report_path:
+        saved = json.loads(Path(report.batch_result.report_path).read_text(encoding='utf8'))
+        assert saved == json.loads(q.project_batch_report_json(report.batch_result))
+    else:
+        # Cancellation may reach the worker's first checkpoint before it creates
+        # the output directory. The in-memory terminal report still exists.
+        assert report.batch_result.error == 'export cancelled'
+        assert not report.batch_result.images
+        assert not (tmp_path/'cancel').exists()
     assert not list((tmp_path/'cancel').glob('.qupathxx-batch-work-*'))
 
 

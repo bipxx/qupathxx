@@ -66,6 +66,10 @@ other Python threads to continue. No Python callback executes on the worker.
 The C++ synchronous API additionally accepts an atomic cancellation flag and
 native per-image callback. An async controller's `cancel()` is nonblocking;
 its destructor cancels and joins. Reports retain strings/counts, not documents.
+If cancellation reaches the worker before output-directory creation, its
+in-memory terminal report has an empty `report_path` and creates no output.
+Once a plain output directory has been established, the worker writes its
+terminal audit after cancellation without publishing another image result.
 
 `ProjectBatchSelection` provides `image_id` and `object_ids`. Default capture
 limits are 10,000 images, 100,000 source objects and 256 MiB logical snapshot
