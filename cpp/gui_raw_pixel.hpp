@@ -64,7 +64,8 @@ public:
         ImGui::TextWrapped("%s",current.state.c_str());const auto shown=report();if(!shown.error.empty()) ImGui::TextWrapped("%s",shown.error.c_str());
         if(button("Cancel operation",GuiInputTarget::RawPixelCancel,!jobs_.busy())) jobs_.cancel();ImGui::SameLine();if(button("Hide panel",GuiInputTarget::RawPixelHide)) options_.open=false;
         if(ImGui::BeginTabBar("raw-pixel-tabs")) {
-            bool tab=ImGui::BeginTabItem("Training");item(GuiInputTarget::RawPixelTrainingTab);if(tab) {
+            auto trace=[&](const char* label,bool shown) {const auto* bar=ImGui::GetCurrentContext()->CurrentTabBar;if(ImGui::GetFrameCount()<12) std::fprintf(stderr,"RAWTAB frame=%d name=%s shown=%d selected=%u visible=%u next=%u clicked=%d item=%u\n",ImGui::GetFrameCount(),label,int(shown),bar->SelectedTabId,bar->VisibleTabId,bar->NextSelectedTabId,int(ImGui::IsItemClicked()),ImGui::GetItemID());};
+            bool tab=ImGui::BeginTabItem("Training");trace("training",tab);item(GuiInputTarget::RawPixelTrainingTab);if(tab) {
                 ImGui::BeginDisabled(disabled);
                 ImGui::Checkbox("Selected labelled areas only",&options_.selected_only);ui::InputText("X axis (O,E,N,C)",x_.data(),x_.size());ui::InputText("Y axis (O,E,N,C)",y_.data(),y_.size());ImGui::TextWrapped("Empty axes use unit level-zero samples. Exact spacing must match a loaded model.");
                 int channel=int(options_.training.selection.first_channel),channels=int(options_.training.selection.channels),z=int(options_.training.selection.z),t=int(options_.training.selection.t);
@@ -76,7 +77,7 @@ public:
                 if(button("Keep raw training",GuiInputTarget::RawPixelKeepTraining,disabled || !jobs_.can_keep_training(doc) || current.training_record)) run([&] {jobs_.keep_training(doc);});
                 if(current.training) ImGui::Text("Training rows: %zu",current.training->tiled_table()->row_count());if(current.checkpoint) ImGui::Text("Checkpoint windows: %llu / %llu",(unsigned long long)current.checkpoint->completed_windows(),(unsigned long long)current.checkpoint->total_windows());ImGui::EndTabItem();
             }
-            tab=ImGui::BeginTabItem("Preview and files");item(GuiInputTarget::RawPixelFilesTab);if(tab) {
+            tab=ImGui::BeginTabItem("Preview and files");trace("files",tab);item(GuiInputTarget::RawPixelFilesTab);if(tab) {
                 ImGui::BeginDisabled(jobs_.busy());ui::InputText("Model path",model_path_.data(),model_path_.size());ImGui::Checkbox("Replace model",&options_.replace_model);ImGui::EndDisabled();
                 if(button("Load raw model",GuiInputTarget::RawPixelLoadModel,jobs_.busy())) run([&] {jobs_.load_model(model_path_.data());});ImGui::SameLine();if(button("Save raw model",GuiInputTarget::RawPixelSaveModel,disabled || !current.model)) run([&] {guard_raw_pixel_frontend_output(project,model_path_.data());jobs_.save_model(model_path_.data(),options_.replace_model);});
                 ImGui::InputScalar("First sample X",ImGuiDataType_S64,&px_);ImGui::InputScalar("First sample Y",ImGuiDataType_S64,&py_);ImGui::InputScalar("Preview width",ImGuiDataType_S64,&pw_);ImGui::InputScalar("Preview height",ImGuiDataType_S64,&ph_);
@@ -89,7 +90,7 @@ public:
                 if(current.historical_model && current.link) {const auto& classes=current.historical_model->forest().classes();for(std::size_t i=0;i<std::min<std::size_t>(classes.size(),16);++i) ImGui::Text("Class %zu: %s (%llu samples)",i+1,classes[i].c_str(),(unsigned long long)current.link->summary().class_counts[i]);if(classes.size()>16) ImGui::Text("%zu further classes",classes.size()-16);}
                 if(history_.ready()) {const auto a=ImGui::GetCursorScreenPos();const ImVec2 size{std::max(1.f,ImGui::GetContentRegionAvail().x),140};history_.draw_local(ImGui::GetWindowDrawList(),a,size);ImGui::Dummy(size);}ImGui::EndTabItem();
             }
-            tab=ImGui::BeginTabItem("Retained files");item(GuiInputTarget::RawPixelRecordsTab);if(tab) {
+            tab=ImGui::BeginTabItem("Retained files");trace("records",tab);item(GuiInputTarget::RawPixelRecordsTab);if(tab) {
                 ImGui::Text("Raw files: %zu",doc.raw_pixel_stream_record_count());ImGui::InputScalar("Record ID (0 = latest)",ImGuiDataType_U64,&record_);
                 auto selected=[&] {if(record_) return doc.raw_pixel_stream_record(record_);auto records=doc.raw_pixel_stream_records();if(records.empty()) throw std::logic_error("No raw file records");return records.back();};
                 if(button("Keep verified raw file",GuiInputTarget::RawPixelKeepLink,disabled || !current.link || current.stream_record)) run([&] {jobs_.keep_link(doc);});
