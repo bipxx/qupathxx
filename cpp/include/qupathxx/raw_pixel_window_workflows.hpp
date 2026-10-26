@@ -19,6 +19,7 @@ private:
     bool publication_matches(const Document&) const;
     friend struct RawPixelWindowPredictionKernel;
     friend class RawPixelWindowPredictionJob;
+    friend class RawPixelTiledPredictionRequest;
 };
 std::shared_ptr<const RawPixelWindowClassification> predict_raw_pixel_window(const RawPixelWindowPredictionRequest&,const std::atomic<bool>* cancelled=nullptr);
 class RawPixelWindowPredictionJob {

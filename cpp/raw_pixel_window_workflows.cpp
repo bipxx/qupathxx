@@ -1,4 +1,4 @@
-#include "qupathxx/raw_pixel_window_workflows.hpp"
+#include "raw_pixel_window_prediction_internal.hpp"
 #include "raw_pixel_workflow_snapshot.hpp"
 #include "scientific_raw_sampling_internal.hpp"
 #include "raw_analysis_internal.hpp"
@@ -22,12 +22,6 @@ std::string result_hash(const RawPixelWindowClassification& r,double minimum,con
     for(std::size_t i=0;i<r.labels().size();++i) {if((i&4095)==0) stopped(cancelled);hash.integer(r.valid()[i]);hash.integer(r.labels()[i]);std::uint32_t value=0x7fc00000;if(r.valid()[i]) std::memcpy(&value,&r.vote_fractions()[i],4);hash.integer(value);}return hash.finish();
 }
 }
-struct RawPixelWindowPredictionRequest::Data {
-    ScientificRawWindow window;RawPixelClassifier model;RawPixelSourceSnapshot source;
-    std::optional<Roi> mask;std::shared_ptr<const char> capture=std::make_shared<const char>();
-    double minimum=0;std::size_t budget=0,fixed=0,work=0;
-    Data(ScientificRawWindow w,const RawPixelClassifier& m,RawPixelSourceSnapshot s):window(std::move(w)),model(m),source(std::move(s)) {}
-};
 RawPixelWindowPredictionRequest::RawPixelWindowPredictionRequest(const Document& doc,const RawPixelClassifier& model,ScientificRawWindow window,std::uint64_t object,double minimum,std::size_t budget):source_(doc.server()),identity_(doc.analysis_identity_.token),revision_(doc.revision()) {
     if(!std::isfinite(minimum) || minimum<0 || minimum>1) throw std::invalid_argument("raw window minimum vote fraction must be 0..1");if(minimum==0) minimum=0;
     if(!budget) budget=model.recipe().features().work_bytes;if(budget<1024*1024 || budget>1024ULL*1024*1024) throw std::invalid_argument("raw window prediction budget must be 1..1024 MiB");
@@ -44,18 +38,17 @@ bool RawPixelWindowPredictionRequest::publication_matches(const Document& doc) c
 const ScientificRawWindow& RawPixelWindowPredictionRequest::window() const {return data_->window;}
 const RawPixelClassifier& RawPixelWindowPredictionRequest::model() const {return data_->model;}
 std::size_t RawPixelWindowPredictionRequest::estimated_work_bytes() const {return data_->work;}
-struct RawPixelWindowPredictionKernel {
-    static std::shared_ptr<const RawPixelWindowClassification> run(const RawPixelWindowPredictionRequest::Data& d,ImageServer& source,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed=nullptr,std::atomic<int>* phase=nullptr) {
-        stopped(cancelled);if(!raw_pixel_source_matches(source,d.source)) throw std::runtime_error("raw window source changed before prediction");if(phase) phase->store(1);
+std::shared_ptr<const RawPixelWindowClassification> RawPixelWindowPredictionKernel::run_window(const RawPixelWindowPredictionRequest::Data& d,const ScientificRawWindow& window,ImageServer& source,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed,std::atomic<int>* phase) {
+        stopped(cancelled);if(!raw_pixel_source_matches(source,d.source)) throw std::runtime_error("raw window source changed before prediction");const auto plan=RawPixelClassifierKernel::plan(d.source.metadata,window,d.model.recipe().selection(),d.model,d.budget-d.fixed,d.source.calibration);if(phase) phase->store(1);
         auto selection=d.model.recipe().selection();selection.work_bytes=std::min(selection.work_bytes,d.budget-d.fixed);detail::ScientificRawReserve reserve;reserve.expected_series=d.model.recipe().series();
-        const auto input=detail::read_scientific_raw_window_reserved(source,d.window,selection,reserve,cancelled);raw_pixel_verify_window_sample(source,d.source,input);if(phase) phase->store(2);
-        const auto classified=RawPixelClassifierKernel::run(input,d.model,d.minimum,d.budget-d.fixed,cancelled,d.source.calibration);auto output=std::make_shared<RawPixelWindowClassification>(*classified);output->work_=d.work;std::fill(output->counts_.begin(),output->counts_.end(),0);
-        const auto width=std::size_t(d.window.core_width()),height=std::size_t(d.window.core_height());
-        for(std::size_t y=0;y<height;++y) {stopped(cancelled);for(std::size_t x=0;x<width;++x) {if((x&4095)==0) stopped(cancelled);const auto i=y*width+x;const bool inside=!d.mask || d.mask->contains({d.window.x().center(d.window.x().first_core_index()+std::int64_t(x)).binary64(),d.window.y().center(d.window.y().first_core_index()+std::int64_t(y)).binary64()});if(!inside) {output->valid_[i]=0;output->labels_[i]=0;output->fractions_[i]=std::numeric_limits<float>::quiet_NaN();}if(output->labels_[i]) ++output->counts_[output->labels_[i]-1];if(completed) completed->store(i+1,std::memory_order_relaxed);}}
-        output->input_sha_=raw_grid_analysis_hash(classified->input_sha256(),d.source.calibration.x,d.source.calibration.y,d.mask);output->sha_=result_hash(*output,d.minimum,cancelled);output->capture_=d.capture;raw_pixel_verify_window_sample(source,d.source,input);stopped(cancelled);return output;
-    }
-    static std::shared_ptr<const RawPixelWindowClassification> run(const RawPixelWindowPredictionRequest& request,const std::atomic<bool>* cancelled) {return run(*request.data_,*request.source_,cancelled);}
-};
+        const auto input=detail::read_scientific_raw_window_reserved(source,window,selection,reserve,cancelled);raw_pixel_verify_window_sample(source,d.source,d.window,input);if(phase) phase->store(2);
+        const auto classified=RawPixelClassifierKernel::run(input,d.model,d.minimum,d.budget-d.fixed,cancelled,d.source.calibration);auto output=std::make_shared<RawPixelWindowClassification>(*classified);output->work_=d.fixed+plan.work;std::fill(output->counts_.begin(),output->counts_.end(),0);
+        const auto width=std::size_t(window.core_width()),height=std::size_t(window.core_height());
+        for(std::size_t y=0;y<height;++y) {stopped(cancelled);for(std::size_t x=0;x<width;++x) {if((x&4095)==0) stopped(cancelled);const auto i=y*width+x;const bool inside=!d.mask || d.mask->contains({window.x().center(window.x().first_core_index()+std::int64_t(x)).binary64(),window.y().center(window.y().first_core_index()+std::int64_t(y)).binary64()});if(!inside) {output->valid_[i]=0;output->labels_[i]=0;output->fractions_[i]=std::numeric_limits<float>::quiet_NaN();}if(output->labels_[i]) ++output->counts_[output->labels_[i]-1];if(completed) completed->store(i+1,std::memory_order_relaxed);}}
+        output->input_sha_=raw_grid_analysis_hash(classified->input_sha256(),d.source.calibration.x,d.source.calibration.y,d.mask);output->sha_=result_hash(*output,d.minimum,cancelled);output->capture_=d.capture;raw_pixel_verify_window_sample(source,d.source,d.window,input);stopped(cancelled);return output;
+}
+std::shared_ptr<const RawPixelWindowClassification> RawPixelWindowPredictionKernel::run(const RawPixelWindowPredictionRequest::Data& d,ImageServer& source,const std::atomic<bool>* cancelled,std::atomic<std::uint64_t>* completed,std::atomic<int>* phase) {return run_window(d,d.window,source,cancelled,completed,phase);}
+std::shared_ptr<const RawPixelWindowClassification> RawPixelWindowPredictionKernel::run(const RawPixelWindowPredictionRequest& request,const std::atomic<bool>* cancelled) {return run(*request.data_,*request.source_,cancelled);}
 std::shared_ptr<const RawPixelWindowClassification> predict_raw_pixel_window(const RawPixelWindowPredictionRequest& request,const std::atomic<bool>* cancelled) {return RawPixelWindowPredictionKernel::run(request,cancelled);}
 struct RawPixelWindowPredictionJob::Impl {
     const std::thread::id owner=std::this_thread::get_id();std::optional<RawPixelWindowPredictionRequest> request;
