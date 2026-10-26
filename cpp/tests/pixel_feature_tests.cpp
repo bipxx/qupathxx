@@ -1,5 +1,6 @@
 #include "qupathxx/pixel_classifier.hpp"
 #include "object_forest_fixture.hpp"
+#include "raw_pixel_feature_checks.hpp"
 #include <filesystem>
 #include <fstream>
 #include <chrono>
@@ -54,5 +55,6 @@ int main() {try {
     save_pixel_classifier(recipe,path,true);rejects([&]{save_pixel_classifier(recipe,path,true,&cancelled);});check(load_pixel_classifier(path).sha256()==recipe.sha256());
     {std::ofstream bad(path,std::ios::binary|std::ios::trunc);bad<<"preserve this image";}rejects([&]{save_pixel_classifier(recipe,path,true);});
     {std::ifstream bad(path,std::ios::binary);std::string text((std::istreambuf_iterator<char>(bad)),{});check(text=="preserve this image");}std::filesystem::remove(std::filesystem::u8path(path));
+    raw_feature_checks::run();
     std::cout<<"Pixel feature channels, context/tiles, alpha, schema, bounds and cancellation passed\n";return 0;
 } catch(const std::exception& e) {std::cerr<<e.what()<<'\n';return 1;}}
