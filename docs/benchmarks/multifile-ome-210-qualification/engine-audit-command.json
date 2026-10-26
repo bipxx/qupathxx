@@ -1,0 +1,21 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+    "-I",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile-ome-workflow-210\\tools\\ci\\accept_unified_engine.py",
+    "40262416972",
+    "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile210-hosted\\artifacts",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile210-hosted\\engine-audit.json",
+    "--ndpi-readers",
+    "--rendered-loop",
+    "--gui-stack",
+    "--small-frontier",
+    "--windows-runtime-manifest",
+    "--linux-runtime-manifest"
+  ],
+  "exit": 0,
+  "seconds": 10.535992400022224
+}

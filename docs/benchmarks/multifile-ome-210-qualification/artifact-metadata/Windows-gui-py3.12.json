@@ -1,0 +1,20 @@
+{
+  "id": 12626176743,
+  "node_id": "MDg6QXJ0aWZhY3QxMjYyNjE3Njc0Mw==",
+  "name": "Windows-gui-py3.12",
+  "size_in_bytes": 25944556,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12626176743",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12626176743/zip",
+  "expired": false,
+  "digest": "sha256:bc3de6cc5b0a3707ccef9f288f02dc1c673584cee33b5c3bb021ad25ab67783c",
+  "created_at": "2026-10-26T03:41:01Z",
+  "updated_at": "2026-10-26T03:41:01Z",
+  "expires_at": "2026-11-09T03:40:58Z",
+  "workflow_run": {
+    "id": 40262416972,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/multifile-ome-workflow-210",
+    "head_sha": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "id": 12624929721,
+  "node_id": "MDg6QXJ0aWZhY3QxMjYyNDkyOTcyMQ==",
+  "name": "manylinux-consumer-3.11",
+  "size_in_bytes": 73602,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12624929721",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12624929721/zip",
+  "expired": false,
+  "digest": "sha256:387bd7b51599378db0d5fbd1139f18be19145b5879f3e10dd68f085e46beb5a0",
+  "created_at": "2026-10-26T03:26:09Z",
+  "updated_at": "2026-10-26T03:26:09Z",
+  "expires_at": "2026-11-09T03:26:08Z",
+  "workflow_run": {
+    "id": 40262431017,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/multifile-ome-workflow-210",
+    "head_sha": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6"
+  }
+}

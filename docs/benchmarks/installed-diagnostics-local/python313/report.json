@@ -1,0 +1,7 @@
+{
+  "python": "3.13.14 (tags/v3.13.14:fd17997, Jun 10 2026, 13:03:48) [MSC v.1944 64 bit (AMD64)]",
+  "preparation_and_58_command_sites_preserved": true,
+  "real_child_failure_timeout_and_independent_completion": true,
+  "overall_failure_retained": true,
+  "scope": "Standard-library producer boundary probe; not native/product qualification"
+}

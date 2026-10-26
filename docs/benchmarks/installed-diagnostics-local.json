@@ -1,0 +1,144 @@
+{
+  "schema": "qpx.installed-diagnostics-local/1",
+  "observed_at_utc": "2026-10-26T03:45:05.765852+00:00",
+  "producer_source": "2098cf21f8b5e9f9c215ff0c0c24b956b8f1549f",
+  "artifact_source": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+  "scope": "E4 producer-only diagnostic collection, locally verified by fake actual-phase commands and real standard-library child probes. This later producer has not been executed by the original hosted campaign and does not relabel those artifacts.",
+  "results": {
+    "all_controls_passed": 609,
+    "new_diagnostic_controls_passed": 30,
+    "legacy_command_sites_preserved": 58,
+    "preparation_prefix_unchanged": true,
+    "native_compiler_inputs_unchanged": 317,
+    "windows_python312_pytest": true,
+    "windows_python313_stdlib_probe": true,
+    "linux_python312_stdlib_probe": true
+  },
+  "behavior": {
+    "admission": "Dependency preparation, native builds, installation and check_install remain fail-fast",
+    "independent": "Serial checks continue after ordinary child/validator failures; no retry",
+    "prerequisites": "Declare file-producer and standalone prerequisites; record not_run/blocked_by instead of reading untrusted or missing outputs",
+    "pytest": "A nonzero pytest exit remains overall failure; available valid JUnit may still be inspected for independent named cohorts",
+    "publication": "Every failed/timed-out/blocked required stage rejects finish before result.json publication",
+    "deadlines": "Original per-command deadlines and expected negative exits remain; invalid or nonfinite deadlines reject",
+    "standalone": "A GUI failure/timeout cannot suppress independent native region, thumbnail, slide or batch workflows",
+    "ledger": "diagnostic-stages.json is included by the existing CI JSON upload pattern"
+  },
+  "preserved_failure": "Initial golden AST dump hashes differed between Python3.12 and3.13 despite identical preparation. Compare parsed legacy source in the executing interpreter; both cross-version probes now pass.",
+  "release_ready": false,
+  "overall_project_complete": false,
+  "files": {
+    "docs/benchmarks/installed-diagnostics-local/all-controls.log": {
+      "bytes": 750,
+      "sha256": "d40302972ed07b979a6758d67f77802d26fa9cb0e406b6a6cea9e72629d8ee0d"
+    },
+    "docs/benchmarks/installed-diagnostics-local/all-controls.xml": {
+      "bytes": 90849,
+      "sha256": "04debc70b9c8a26cff6f9277047c2f15ef4e487b0100889d081714716fa7bcb2"
+    },
+    "docs/benchmarks/installed-diagnostics-local/command.json": {
+      "bytes": 1927,
+      "sha256": "64f00c749f08e250730aacab166dc28c91f09e1c8c07b8690b2fcc9c06475525"
+    },
+    "docs/benchmarks/installed-diagnostics-local/compiler-applicability.json": {
+      "bytes": 312,
+      "sha256": "c35ec7aedf1e1d9f7e34fa43de9f96104fa68e20f9253ed0a50872049f763079"
+    },
+    "docs/benchmarks/installed-diagnostics-local/complete-command.json": {
+      "bytes": 2051,
+      "sha256": "597c097dcf67edc0c7b5f228f27f3b7e33bf4805eaf1c59732de33650c3a1569"
+    },
+    "docs/benchmarks/installed-diagnostics-local/complete-controls.log": {
+      "bytes": 750,
+      "sha256": "37c3b304d9ad66ac3e11e964c52777df445fd0f38f3184122fa28e5ecf6c1443"
+    },
+    "docs/benchmarks/installed-diagnostics-local/complete-controls.xml": {
+      "bytes": 92116,
+      "sha256": "34ff6426dda13eaf41fedd9251248529c4ac31672fca7d061d74169cc1e9069f"
+    },
+    "docs/benchmarks/installed-diagnostics-local/controls.log": {
+      "bytes": 112,
+      "sha256": "375f2ba96d468bedc8f4559fae12cf3d5c7304c22a1488d8e1e3866001cfe321"
+    },
+    "docs/benchmarks/installed-diagnostics-local/controls.xml": {
+      "bytes": 4249,
+      "sha256": "57b11a928017db676e79012cf9fcca553895477da61964f9caf772d52c39a9f0"
+    },
+    "docs/benchmarks/installed-diagnostics-local/extended-controls.log": {
+      "bytes": 101,
+      "sha256": "972493550104d7f78352efdd7cccc72b537125affb114c3887b56ff5322ca9c4"
+    },
+    "docs/benchmarks/installed-diagnostics-local/extended-controls.xml": {
+      "bytes": 4765,
+      "sha256": "152f3cc701d8d09510323627d6292b4ced920fb0416bfeb2a75c7fa022f3d5eb"
+    },
+    "docs/benchmarks/installed-diagnostics-local/final-controls.log": {
+      "bytes": 101,
+      "sha256": "6b700e69dbe05175a27b0ae47bc842ccd6f62bd0954840ceb6188649970d27a6"
+    },
+    "docs/benchmarks/installed-diagnostics-local/final-controls.xml": {
+      "bytes": 4135,
+      "sha256": "6f73baaf55ea74bfdd5525a6fcdca2a621f73f80ece152a5f36922f9407a7797"
+    },
+    "docs/benchmarks/installed-diagnostics-local/first-command.json": {
+      "bytes": 1927,
+      "sha256": "64f00c749f08e250730aacab166dc28c91f09e1c8c07b8690b2fcc9c06475525"
+    },
+    "docs/benchmarks/installed-diagnostics-local/initial.log": {
+      "bytes": 1478,
+      "sha256": "9d88a5daea5a8a5bd8942fab87de84c1191bb3b35a28893e7050d3a6794c86da"
+    },
+    "docs/benchmarks/installed-diagnostics-local/initial.xml": {
+      "bytes": 5524,
+      "sha256": "ec72342384bea57018c4e5c76a1db91c0b6ef4bb0fcc32036f85ed7f6d7f7213"
+    },
+    "docs/benchmarks/installed-diagnostics-local/source-proof.json": {
+      "bytes": 832,
+      "sha256": "0cc2af60d03e63d57484a51a1d3a57f9396b62e817509c1cf31301d18a83d2fd"
+    },
+    "docs/benchmarks/installed-diagnostics-local/linux-stdlib/failed.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/benchmarks/installed-diagnostics-local/linux-stdlib/independent.log": {
+      "bytes": 12,
+      "sha256": "7cb42e561c843a61805fd85f0481396a766f2229be9e5c5a2111b6f435dc16e7"
+    },
+    "docs/benchmarks/installed-diagnostics-local/linux-stdlib/report.json": {
+      "bytes": 312,
+      "sha256": "15ce963abb17f22bb2ce3860b4f87450f2d90aa4726ae6e7310789085048c3d5"
+    },
+    "docs/benchmarks/installed-diagnostics-local/linux-stdlib/stages.json": {
+      "bytes": 2006,
+      "sha256": "f13a9a150fba7f5cfdb02f126ff250a69c6584d38dce9424df5c9c3cefe166f8"
+    },
+    "docs/benchmarks/installed-diagnostics-local/linux-stdlib/timeout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/benchmarks/installed-diagnostics-local/python313/failed.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/benchmarks/installed-diagnostics-local/python313/independent.log": {
+      "bytes": 13,
+      "sha256": "f8dd6e73e07fc45044cc7d0efbc273949df89cdeec7a2e4a4002d26f1ce5886f"
+    },
+    "docs/benchmarks/installed-diagnostics-local/python313/report.json": {
+      "bytes": 352,
+      "sha256": "82c8ebf0c544edf63abfdc70f9ad11edccbf0b29d2afc9b446fd787be323baf5"
+    },
+    "docs/benchmarks/installed-diagnostics-local/python313/stages.json": {
+      "bytes": 2490,
+      "sha256": "1c020a06fa5eca6f34c80ce104391737840abe32415c4ff82a961663cb989639"
+    },
+    "docs/benchmarks/installed-diagnostics-local/python313/timeout.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "docs/benchmarks/installed-diagnostics-local/probe-stdlib.py": {
+      "bytes": 2152,
+      "sha256": "b77583ccd622f887c4de6b160358218a96d0b477e130e3eaa8a70810ac1059b8"
+    }
+  }
+}

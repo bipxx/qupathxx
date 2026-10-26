@@ -39,18 +39,16 @@ E1/E2 are implemented with 438 local auditor controls and 48 Linux stdlib
 boundary witnesses. Main's qualified application source remains `61e546e`.
 Continue MFO1's compound-source/multi-file OME workflow in the
 [ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue).
-E3 now has [local observer/source-proof reuse evidence](benchmarks/source-proof-reuse-local.json)
-and retained Linux audit equivalence. E4 remains a bounded improvement at the
-next affected producer stage. Neither changes the frozen campaign source.
-The [multi-file workflow receipt](benchmarks/multifile-ome-local.json) now verifies
-explicit UUID/file dispatch, file-aware caching, shared budgets and all-file
-operation guards at native source `1c62165`. Local installed project/archive,
-Python, CLI, batch, ImGui and managed workflows pass the synthetic corpus.
-The [A-E checkpoints](multifile-ome-tiff.md#delivery-checkpoints) distinguish this
-local A-D evidence from E's [live, unaccepted platform campaign](benchmarks/multifile-ome-210-campaign.json).
-Exact cohorts are registered; 562 clean-checkout admission controls pass at
-frozen source `9e7d0be`. Follow the original engine/Mac/portable handles.
-Broader reader/scientific/resource and release requirements remain open.
+E3 [source-proof reuse](benchmarks/source-proof-reuse-local.json) and E4
+[independent diagnostics](benchmarks/installed-diagnostics-local.json) now have
+local tooling evidence. The [combined multi-file engineering campaign](benchmarks/multifile-ome-210-qualification.json)
+accepts all 11 verified archives at frozen source `9e7d0be`, including inherited
+engine, both Mac-native architectures and portable builder/fresh-consumer gates.
+Later observer/producer changes retain their own identities and do not relabel
+those binaries. Main's accepted application source remains `61e546e`.
+Next close remaining MFO1 companion fault/cancellation and decoder/work-budget
+adversarial controls, then continue SCI1/REL1. The successful synthetic campaign
+does not waive unproven requirements or close any M0-M7 milestone.
 The [seven-document review](reviews/compilexx-efficiency-review.md) supplies the
 failure evidence and distinguishes recommendations from applied product fixes.
 

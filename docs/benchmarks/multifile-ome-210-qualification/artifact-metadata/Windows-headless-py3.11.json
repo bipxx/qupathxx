@@ -1,0 +1,20 @@
+{
+  "id": 12625044242,
+  "node_id": "MDg6QXJ0aWZhY3QxMjYyNTA0NDI0Mg==",
+  "name": "Windows-headless-py3.11",
+  "size_in_bytes": 10980492,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12625044242",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12625044242/zip",
+  "expired": false,
+  "digest": "sha256:9fa5aa4b966a1d428f6ef0e20ba7a4da70ed60ddfce9bcc7d94c682016f469e7",
+  "created_at": "2026-10-26T03:25:35Z",
+  "updated_at": "2026-10-26T03:25:35Z",
+  "expires_at": "2026-11-09T03:25:34Z",
+  "workflow_run": {
+    "id": 40262416972,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/multifile-ome-workflow-210",
+    "head_sha": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6"
+  }
+}

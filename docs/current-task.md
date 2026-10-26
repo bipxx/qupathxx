@@ -22,26 +22,26 @@
   passes all 39 cases, including both entry points, C/Z/T/SubIFD samples,
   cache/file/XML limits, project/QRA3/QRA4 replay, relocation/relink, CLI/batch
   resume, ImGui and managed viewer. Counts overlap; do not add them together.
-- MFO1 qualification: exact native/installed/desktop/typing cohorts are registered
-  in the existing producer and all three auditors. Frozen source `9e7d0be`
-  passes 562 clean-checkout admission controls and seven source-contract proofs.
-  The [campaign receipt](benchmarks/multifile-ome-210-campaign.json) records one
-  full-profile dispatch per role: [engine40262416972](https://github.com/bipxx/qupathxx/actions/runs/40262416972),
-  [Mac40262423808](https://github.com/bipxx/qupathxx/actions/runs/40262423808),
-  [portable40262431017](https://github.com/bipxx/qupathxx/actions/runs/40262431017).
-  Next follow those original handles, verify all required archives and run the
-  strict exact-source audits. Do not redispatch because an observation expires.
-  [A-D checkpoints](multifile-ome-tiff.md#delivery-checkpoints) have local evidence;
-  E is in progress and unaccepted. Broader fault/cancellation, whole-slide,
-  scientific, hardware and release requirements remain open. MFO1 remains
-  incomplete. The original Linux-only audit accepts all three Linux modes
-  (50 native suites each; 3,532 headless installed cases); other platforms
-  remain pending, so no full campaign acceptance follows.
-- E3: [observer-only source-proof reuse](benchmarks/source-proof-reuse-local.json)
-  is locally verified at `0edb948` with 579 controls and a retained-artifact
-  Linux successor audit. Every inherited job result matches; all 317 canonical
-  compiler blobs remain identical to frozen `9e7d0be`. E4 remains open at the
-  next producer-stage edit.
+- MFO1 engineering qualification is accepted at frozen source `9e7d0be` in the
+  [combined receipt](benchmarks/multifile-ome-210-qualification.json). All 11
+  archive sizes/digests/sources and strict engine/Mac-native/portable audits
+  pass. Windows GUI: 51 native suites / 3,986 installed cases; Windows headless:
+  50 / 3,534; Linux headless: 50 / 3,532; minimal and sanitizer: 50 each.
+  Both Mac-native architectures pass 50 suites, inventory and relocation.
+  Both portable builders pass 50 suites / 3,532 cases; fresh consumers pass
+  3,490 each. Mac Python/GUI/OpenSlide and the three strict scientific xfails
+  remain open. Main's qualified application source remains `61e546e`.
+- Next action: close the remaining MFO1 companion fault/cancellation and
+  decoder/work-budget adversarial controls. The accepted synthetic engineering
+  campaign does not prove those untested cases or close all M1/M6 requirements.
+  Continue SCI1 and REL1 through the original M0-M7 criteria afterward.
+- E3 [proof reuse](benchmarks/source-proof-reuse-local.json) and E4
+  [independent installed diagnostics](benchmarks/installed-diagnostics-local.json)
+  are locally verified. E4 at `2098cf2` passes 609 controls plus Windows Python 3.13
+  and Linux Python 3.12 real child probes, preserving the installation prefix and all
+  58 legacy command sites. All 317 canonical compiler blobs match `9e7d0be`.
+  That original hosted campaign does not execute the later producer; its
+  artifacts and source are not relabeled. All M0-M7 remain Partial.
 - The [efficiency review](reviews/compilexx-efficiency-review.md) records seven
   evidence-backed improvements. Earlier sections below retain workflow history;
   use this card for current scheduling. All M0-M7 remain Partial.

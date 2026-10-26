@@ -1,0 +1,72 @@
+{
+  "schema": "qpx.installed-diagnostics/1",
+  "prerequisite": "verified installation",
+  "state": "failed",
+  "stages": [
+    {
+      "name": "failed",
+      "requires": [],
+      "state": "failed",
+      "command": [
+        "C:\\Users\\HEQ\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+        "-I",
+        "-c",
+        "raise SystemExit(1)"
+      ],
+      "log": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\diagnostics212\\python313\\failed.log",
+      "timeout": 2400,
+      "expected_returncode": 0,
+      "error_type": "RuntimeError",
+      "error": "command failed (1); log: C:\\Users\\HEQ\\Projects\\qupathxx\\build\\diagnostics212\\python313\\failed.log",
+      "seconds": 0.05893570010084659
+    },
+    {
+      "name": "blocked",
+      "requires": [
+        "failed"
+      ],
+      "state": "not_run",
+      "command": [
+        "must-not-start"
+      ],
+      "log": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\diagnostics212\\python313\\blocked.log",
+      "timeout": 2400,
+      "expected_returncode": 0,
+      "blocked_by": [
+        "failed"
+      ]
+    },
+    {
+      "name": "timeout",
+      "requires": [],
+      "state": "timed_out",
+      "command": [
+        "C:\\Users\\HEQ\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+        "-I",
+        "-c",
+        "import time;time.sleep(5)"
+      ],
+      "log": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\diagnostics212\\python313\\timeout.log",
+      "timeout": 0.05,
+      "expected_returncode": 0,
+      "error_type": "TimeoutExpired",
+      "error": "Command '['C:\\\\Users\\\\HEQ\\\\AppData\\\\Local\\\\Microsoft\\\\WindowsApps\\\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\\\python.exe', '-I', '-c', 'import time;time.sleep(5)']' timed out after 0.05 seconds",
+      "seconds": 0.07869280001614243
+    },
+    {
+      "name": "independent",
+      "requires": [],
+      "state": "passed",
+      "command": [
+        "C:\\Users\\HEQ\\AppData\\Local\\Microsoft\\WindowsApps\\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\\python.exe",
+        "-I",
+        "-c",
+        "print(\"independent\")"
+      ],
+      "log": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\diagnostics212\\python313\\independent.log",
+      "timeout": 2400,
+      "expected_returncode": 0,
+      "seconds": 0.051957599935121834
+    }
+  ]
+}

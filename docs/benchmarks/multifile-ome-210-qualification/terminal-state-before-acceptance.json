@@ -1,0 +1,211 @@
+{
+  "schema": "qpx.scientific-grid-campaign/2",
+  "source": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+  "ref": "feature/multifile-ome-workflow-210",
+  "frozen_checkout": "build/ci/multifile-ome-workflow-210",
+  "profiles_sha256": "b0f907cfdcb706cf0301150577f27db7084a86ad8ea1ff0c2fb88a8fe3c8c4d1",
+  "preflight": "build/multifile210-preflight/report.json",
+  "attempts": [
+    {
+      "role": "engine",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": false,
+        "live_reference": true,
+        "extended_readers": true
+      },
+      "wire_inputs": {
+        "macos_native": "false",
+        "portable_linux": "false",
+        "live_reference": "true",
+        "extended_readers": "true"
+      },
+      "attempted_at_utc": "2026-10-26T03:06:35.543922+00:00",
+      "state": "run_identified",
+      "known_runs_before": [],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-26T03:06:37Z",
+        "databaseId": 40262416972,
+        "headSha": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40262416972"
+      },
+      "last_observation": {
+        "role": "engine",
+        "run_id": 40262416972,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40262416972",
+        "jobs": [
+          {
+            "id": 121377428834,
+            "name": "Windows GUI Python 3.12 software GL",
+            "status": "completed",
+            "conclusion": "success",
+            "step": null
+          },
+          {
+            "id": 121377429043,
+            "name": "Linux minimal native",
+            "status": "completed",
+            "conclusion": "success",
+            "step": null
+          },
+          {
+            "id": 121377429047,
+            "name": "Windows headless Python 3.11 NumPy 1",
+            "status": "completed",
+            "conclusion": "success",
+            "step": null
+          },
+          {
+            "id": 121377429075,
+            "name": "Linux headless Python 3.12 NumPy 2",
+            "status": "completed",
+            "conclusion": "success",
+            "step": null
+          },
+          {
+            "id": 121377429118,
+            "name": "Linux ASan UBSan native",
+            "status": "completed",
+            "conclusion": "success",
+            "step": null
+          }
+        ]
+      }
+    },
+    {
+      "role": "macos",
+      "semantic_inputs": {
+        "macos_native": true,
+        "portable_linux": false,
+        "live_reference": false,
+        "extended_readers": false
+      },
+      "wire_inputs": {
+        "macos_native": "true",
+        "portable_linux": "false",
+        "live_reference": "false",
+        "extended_readers": "false"
+      },
+      "attempted_at_utc": "2026-10-26T03:06:40.527202+00:00",
+      "state": "run_identified",
+      "known_runs_before": [
+        40262416972
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-26T03:06:42Z",
+        "databaseId": 40262423808,
+        "headSha": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40262423808"
+      },
+      "last_observation": {
+        "role": "macos",
+        "run_id": 40262423808,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40262423808",
+        "jobs": [
+          {
+            "id": 121377450065,
+            "name": "macOS native x86_64",
+            "status": "completed",
+            "conclusion": "success",
+            "step": null
+          },
+          {
+            "id": 121377450320,
+            "name": "macOS native arm64",
+            "status": "completed",
+            "conclusion": "success",
+            "step": null
+          }
+        ]
+      }
+    },
+    {
+      "role": "portable",
+      "semantic_inputs": {
+        "macos_native": false,
+        "portable_linux": true,
+        "live_reference": false,
+        "extended_readers": true
+      },
+      "wire_inputs": {
+        "macos_native": "false",
+        "portable_linux": "true",
+        "live_reference": "false",
+        "extended_readers": "true"
+      },
+      "attempted_at_utc": "2026-10-26T03:06:45.801836+00:00",
+      "state": "run_identified",
+      "known_runs_before": [
+        40262416972,
+        40262423808
+      ],
+      "returncode": 0,
+      "stdout": "",
+      "stderr": "",
+      "run": {
+        "conclusion": "",
+        "createdAt": "2026-10-26T03:06:47Z",
+        "databaseId": 40262431017,
+        "headSha": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+        "status": "queued",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40262431017"
+      },
+      "last_observation": {
+        "role": "portable",
+        "run_id": 40262431017,
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40262431017",
+        "jobs": [
+          {
+            "id": 121377475433,
+            "name": "Manylinux build Python 3.12",
+            "status": "completed",
+            "conclusion": "success",
+            "step": null
+          },
+          {
+            "id": 121377475521,
+            "name": "Manylinux build Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "step": null
+          },
+          {
+            "id": 121381856103,
+            "name": "Debian consumer Python 3.12",
+            "status": "completed",
+            "conclusion": "success",
+            "step": null
+          },
+          {
+            "id": 121381856119,
+            "name": "Debian consumer Python 3.11",
+            "status": "completed",
+            "conclusion": "success",
+            "step": null
+          }
+        ]
+      }
+    }
+  ],
+  "platform_campaign_accepted": false,
+  "release_ready": false,
+  "overall_project_complete": false,
+  "last_polled_at_utc": "2026-10-26T03:42:37.712186+00:00",
+  "all_terminal": true
+}

@@ -249,3 +249,22 @@ and additionally authenticates the shared helper. No persistent PASS cache,
 new native build, binary relabeling or overall CI speedup claim follows.
 The original platform campaign continues on its unchanged handles; E4 remains
 open. The review findings above retain their original source-bound evidence.
+
+
+## E4 implementation delta (producer only)
+
+The [local diagnostic receipt](../benchmarks/installed-diagnostics-local.json)
+records 609 controls plus real Windows Python 3.13/Linux Python 3.12 child probes. Source
+`2098cf2` keeps dependency/build/install/check_install fail-fast, then collects
+serial independent diagnostics. Explicit artifact prerequisites and a final
+aggregate failure prevent partial success publication. Existing CI JSON uploads
+already retain the stage ledger. Valid JUnit may be inspected even after an
+unrelated pytest failure; malformed/missing artifacts block their consumers.
+All 58 legacy command sites and original deadlines/expected exits remain.
+
+The initial legacy-prefix test used AST dump hashes that differ across Python
+versions. It now parses the committed pre-refactor source in the executing
+interpreter; the producer prefix itself was unchanged. Initial failure evidence
+is retained. This later producer is not retrospectively executed by campaign210;
+all 317 native compiler blobs are unchanged. The original campaign's separate
+combined engineering acceptance does not close biological/resource/release gaps.

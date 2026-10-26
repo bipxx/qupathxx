@@ -38,7 +38,7 @@ libtiff/zlib/tinyxml2 stack and excludes proprietary decoder dependencies.
 
 | Property | Contract |
 | --- | --- |
-| Containers | TIFF and BigTIFF; one-file OME-TIFF and explicit UUID/FileName multi-file OME (local feature-branch verification; platform qualification pending) |
+| Containers | TIFF and BigTIFF; one-file OME-TIFF and explicit UUID/FileName multi-file OME (feature-branch synthetic engineering qualification; further fault/resource controls open) |
 | Types | uint8/16/32/64, int8/16/32/64, float32/64 |
 | Layout | Strips or tiles; contiguous or separate planes; both byte orders |
 | Photometric | Top-left grayscale MINISBLACK/MINISWHITE or RGB; source alpha honored per pyramid level in preview |
@@ -52,7 +52,7 @@ samples and noninteger/anisotropic pyramids are rejected by this
 reader. Existing OpenSlide format support remains available separately.
 Multi-file opening uses the same APIs and retains companion observations.
 See the [slice contract and limits](multifile-ome-tiff.md) and
-[local evidence](benchmarks/multifile-ome-local.json). Unresolved UUID-only
+[engineering qualification](benchmarks/multifile-ome-210-qualification.json). Unresolved UUID-only
 references and partial/BinaryOnly metadata reject explicitly.
 Ordinary `.tif` auto-selection retains OpenSlide; `.ome.tif`/`.ome.tiff` selects
 the quantitative reader when enabled. Choose `reader="tiff"` explicitly for

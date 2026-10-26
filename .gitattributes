@@ -447,3 +447,11 @@ docs/benchmarks/multifile-ome-210-campaign.json text eol=lf
 # Invocation-local source-proof reuse keeps exact observer evidence.
 docs/benchmarks/source-proof-reuse-local/** -text -whitespace
 docs/benchmarks/source-proof-reuse-local.json text eol=lf
+
+# Installed diagnostic boundary probes retain exact raw evidence.
+docs/benchmarks/installed-diagnostics-local/** -text -whitespace
+docs/benchmarks/installed-diagnostics-local.json text eol=lf
+
+# Complete multi-file OME source-bound qualification evidence.
+docs/benchmarks/multifile-ome-210-qualification/** -text -whitespace
+docs/benchmarks/multifile-ome-210-qualification.json text eol=lf

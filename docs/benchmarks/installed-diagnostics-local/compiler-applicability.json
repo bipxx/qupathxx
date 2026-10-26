@@ -1,0 +1,7 @@
+{
+  "artifact_source": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+  "producer_source": "2098cf21f8b5e9f9c215ff0c0c24b956b8f1549f",
+  "canonical_compiler_inputs": 317,
+  "identical": true,
+  "scope": "Producer-only E4 change; original campaign does not execute this later producer and is not relabeled"
+}
