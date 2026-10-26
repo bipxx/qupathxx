@@ -20,3 +20,13 @@ def consumers(session: q.ViewerSession, image: int, model: q.RawPixelClassifier,
     preview: q.RawPixelStreamContours | None=report.stream_contours
     delivered: q.RawPixelStreamContours | None=event.raw_pixel_stream_contours
     return session.contour_raw_pixel_stream(image,model,lattice,apply=True)
+
+
+def contour_batch(model: q.RawPixelClassifier) -> q.ProjectBatchOptions:
+    options=q.ProjectBatchOptions()
+    options.kind=q.ProjectBatchKind.RAW_PIXEL_CONTOURS
+    options.raw_pixel_model=model
+    options.raw_contours=q.RawPixelStreamContourOptions()
+    options.raw_contour_prefix="Contours"
+    options.raw_contour_publication_bytes=64*1024**2
+    return options

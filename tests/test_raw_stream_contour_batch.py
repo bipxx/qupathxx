@@ -6,6 +6,7 @@ import os
 from pathlib import Path
 import sqlite3
 import subprocess
+import time
 import pytest
 import qupathxx as q
 from qupathxx import _native
@@ -114,9 +115,46 @@ def test_gui_streamed_contour_batch_saves_and_reuses(tmp_path):
     try:
         ui=gui_options(tmp_path/"out",options(model));ui.width=1280;ui.height=1000
         for attempt in range(2):
-            report=q.show(p,frame_limit=40,options=ui)
+            folder=Path(os.environ.get("QUPATHXX_STREAM_BATCH_EVIDENCE_DIR",tmp_path));folder.mkdir(exist_ok=True,parents=True)
+            report=q.show(p,frame_limit=40,capture_path=str(folder/f"batch-{attempt}.ppm"),options=ui)
             assert report.batch_state=="succeeded",report.batch_error
             assert getattr(report.batch_result,"saved" if attempt==0 else "reused")==1
             assert report.batch_result.images[0].records>0 and report.ui_overflow_items==0
         assert docs[0][1].object_count==3
     finally:close(p)
+
+
+def test_batch_contour_active_cancellation_discards_image_and_releases_reader(tmp_path):
+    from test_raw_pixel_python import tiff
+    p,_,model=scene(tmp_path,(8,));close(p)
+    pixels=tmp_path/"large.tif";tiff(pixels,1024,768)
+    project=q.Project();image=project.add_image(str(pixels),"tiff");doc=project.document(image);doc.add_roi(q.Roi.rectangle(q.Rect(0,0,1024,768)))
+    o=options(model);v=o.raw_pixels;v.tile_width=v.tile_height=16;o.raw_pixels=v
+    try:
+        capture=request(project,model,o);job=q.ProjectBatchJob();assert job.request(capture,str(tmp_path/"out"))
+        deadline=time.monotonic()+15
+        while time.monotonic()<deadline:
+            stats=job.poll()
+            if stats.phase=="analyzing" and job.busy:break
+            assert stats.state not in ("failed","succeeded"),stats.error
+            time.sleep(.001)
+        else:pytest.fail("did not observe active analysis")
+        job.cancel();assert job.wait().state=="cancelled";report=job.result
+        assert report is not None and report.saved==0 and report.state=="cancelled"
+        assert not list((tmp_path/"out").rglob("*.qpxproj")) and doc.object_count==1
+    finally:close(project)
+    pixels.rename(tmp_path/"reader-released.tif")
+
+
+def test_batch_contour_source_change_recomputes_and_settings_change_separates_output(tmp_path):
+    p,_,model=scene(tmp_path,(8,));source=tmp_path/"source.qpx";p.save(str(source))
+    first=success(q.run_project_batch(request(p,model,options(model)),str(tmp_path/"out")));close(p)
+    pixels=tmp_path/"source-0.tif";data=bytearray(pixels.read_bytes());data[160]^=64;pixels.write_bytes(data)
+    current=q.Project.open(str(source))
+    try:
+        second=success(q.run_project_batch(request(current,model,options(model)),str(tmp_path/"out")))
+        assert second.saved==1 and second.reused==0 and second.images[0].pixel_sha256!=first.images[0].pixel_sha256
+        altered=options(model);altered.raw_contour_prefix="Changed prefix"
+        third=success(q.run_project_batch(request(current,model,altered),str(tmp_path/"out")))
+        assert third.saved==1 and third.reused==0 and third.images[0].path!=second.images[0].path
+    finally:close(current)
