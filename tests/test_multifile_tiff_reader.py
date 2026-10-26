@@ -183,3 +183,119 @@ def test_compound_batch_checkpoint_and_resume(corpus,tmp_path):
     assert kept.source.scope=='compound_files' and len(kept.source.companions)==1
     np.testing.assert_allclose(kept.statistics.means,[fixture.values(1,1,c).mean() for c in range(2)],rtol=0,atol=1e-10)
     again=q.run_project_batch(capture,output);assert again.state=='succeeded' and again.reused==1
+
+
+@pytest.mark.skipif(not q.has_project,reason='project support')
+@pytest.mark.parametrize('grid',[False,True])
+def test_compound_cli_batch_and_resume(corpus,tmp_path,grid):
+    import os
+    import subprocess
+    from qupathxx import _native
+    directory,_=corpus;project=q.Project();image=project.add_tiff_image(str(directory/fixture.FILES[0]))
+    project.document(image).add_rectangle(q.Rect(0,0,19,17),'Compound CLI ROI')
+    path=tmp_path/'cli.qpxproj';project.save(str(path))
+    cli=Path(_native.__file__).with_name('qupathxx_batch.exe' if os.name=='nt' else 'qupathxx_batch')
+    command=[str(cli),str(path),str(tmp_path/'cli-batch'),'--kind','raw','--raw-channels','2','--raw-z','1','--raw-time','1']
+    if grid: command+=['--raw-grid-samples','19,17','--raw-grid-context','0,0']
+    for attempt in range(2):
+        done=subprocess.run(command,capture_output=True,text=True,encoding='utf-8',timeout=60)
+        assert done.returncode==0,done.stderr
+        saved=next(json.loads(line) for line in done.stdout.splitlines() if json.loads(line)['schema']=='qpx.batch-image/1')
+        assert saved['state']==('saved' if attempt==0 else 'reused')
+        result=q.Project.open(saved['path']).document(image).raw_analysis_records[0].result
+        assert len(result.source.companions)==1 and result.source.scope=='compound_files'
+        np.testing.assert_allclose(result.statistics.means,[fixture.values(1,1,c).mean() for c in range(2)],rtol=0,atol=1e-10)
+
+
+def desktop():
+    import os
+    if not q.has_gui or not q.has_project or os.environ.get('QUPATHXX_TEST_GUI')!='1':
+        pytest.skip('opt-in compound TIFF desktop')
+
+
+def test_compound_imgui_measure_keep_and_csv(corpus,tmp_path):
+    desktop()
+    import csv
+    from test_gui_raw import options
+    from test_gui_raw_records import wait
+    from test_gui_tma import click
+    directory,_=corpus;project=q.Project();image=project.add_tiff_image(str(directory/fixture.FILES[0]))
+    o=options();o.raw_tab=1;o.raw_request=request(19,17,z=1,t=1);o.raw_csv_path=str(tmp_path/'compound.csv')
+    o.inputs=click(5,q.GuiInputTarget.RAW_MEASURE)+[wait(10,q.GuiInputWait.RAW_TASK_FINISHED)]
+    o.inputs+=click(12,q.GuiInputTarget.RAW_RESULTS_TAB)+click(15,q.GuiInputTarget.RAW_KEEP)+[wait(18,q.GuiInputWait.RAW_ANALYSIS_KEPT)]
+    o.inputs+=click(21,q.GuiInputTarget.RAW_RECORDS_TAB)+click(24,q.GuiInputTarget.RAW_CSV_EXPORT)+[wait(28,q.GuiInputWait.RAW_MEASUREMENTS_SAVED)]
+    report=q.show(project,frame_limit=40,options=o)
+    assert not report.raw_error,report.raw_error
+    assert report.raw_records==1 and report.raw_csv_state=='saved' and report.ui_overflow_items==0
+    assert len(report.raw_analysis_result.source.companions)==1
+    with Path(o.raw_csv_path).open(encoding='utf-8',newline='') as stream: rows=list(csv.DictReader(stream))
+    np.testing.assert_allclose([float(row['mean']) for row in rows],[fixture.values(1,1,c).mean() for c in range(2)],rtol=0,atol=1e-10)
+    assert project.document(image).raw_analysis_status(report.raw_record_id)=='current'
+
+
+def test_compound_managed_measure_verify_and_project_save(corpus,tmp_path):
+    desktop()
+    from test_viewer_session import completed,run
+    directory,_=corpus;project=q.Project();image=project.add_tiff_image(str(directory/fixture.FILES[1]))
+    path=tmp_path/'managed-source.qpxproj';project.save(str(path));session=q.ViewerSession(str(path))
+    saved=tmp_path/'managed-saved.qpxproj';held={}
+    def producer():
+        result=completed(session,session.analyze_raw(image,request(19,17,z=1,t=1),retain_result=True))
+        assert result.committed and result.record_id
+        held['result']=result.raw_analysis;held['record']=result.record_id
+        assert completed(session,session.verify_raw_analysis(image,result.record_id)).verified
+        completed(session,session.save(str(saved)));completed(session,session.close(True))
+    report=run(session,producer,frames=120)
+    assert report.ui_overflow_items==0 and session.stats.retained_bytes==0
+    result=held['result'];assert result.source.scope=='compound_files' and len(result.source.companions)==1
+    np.testing.assert_allclose(result.statistics.means,[fixture.values(1,1,c).mean() for c in range(2)],rtol=0,atol=1e-10)
+    restored=q.Project.open(str(saved)).document(image)
+    assert restored.raw_analysis_status(held['record'])=='unverified'
+    assert len(restored.raw_analysis_records[0].result.source.companions)==1
+
+
+@pytest.mark.parametrize('count',[64,65])
+def test_fileset_file_bound_and_global_cache_budget(tmp_path,count):
+    paths=[tmp_path/f'file-{i:02}.tif' for i in range(count)]
+    mappings=''.join(f'<TiffData IFD="0" FirstC="{i}" PlaneCount="1"><UUID FileName="{p.name}">urn:file-{i:02}</UUID></TiffData>' for i,p in enumerate(paths))
+    for i,path in enumerate(paths):
+        xml=f'<OME UUID="urn:file-{i:02}"><Image><Pixels SizeX="2" SizeY="2" SizeZ="1" SizeC="{count}" SizeT="1" DimensionOrder="XYZCT" Type="uint16">{mappings}</Pixels></Image></OME>'
+        tifffile.imwrite(path,np.full((2,2),i,dtype='uint16'),metadata=None,description=xml)
+    options=q.TiffOpenOptions();options.cache_bytes=1024;options.decode_bytes=65536
+    if count==65:
+        with pytest.raises((RuntimeError,ValueError),match='64 files'): q.open_tiff(str(paths[0]),options)
+    else:
+        server=q.open_tiff(str(paths[0]),options)
+        assert len(server.reader_source.companions)==63
+        r=request(2,2);r.channels=count
+        raw=server.read_raw(r)
+        np.testing.assert_array_equal(raw.numpy(),np.broadcast_to(np.arange(count,dtype='uint16'),(2,2,count)))
+        assert server.tiff_read_stats.peak_cache_bytes<=1024
+        server.close()
+
+
+@pytest.mark.parametrize('aggregate',[False,True])
+def test_xml_admission_limits_are_fileset_wide(tmp_path,aggregate):
+    count=5 if aggregate else 1
+    paths=[tmp_path/f'metadata-{i}.tif' for i in range(count)]
+    mappings=''.join(f'<TiffData IFD="0" FirstC="{i}" PlaneCount="1"><UUID FileName="{p.name}">urn:metadata-{i}</UUID></TiffData>' for i,p in enumerate(paths))
+    comment='x'*(900*1024 if aggregate else 1024*1024)
+    for i,path in enumerate(paths):
+        xml=f'<OME UUID="urn:metadata-{i}"><!--{comment}--><Image><Pixels SizeX="1" SizeY="1" SizeZ="1" SizeC="{count}" SizeT="1" DimensionOrder="XYZCT" Type="uint16">{mappings}</Pixels></Image></OME>'
+        tifffile.imwrite(path,np.zeros((1,1),dtype='uint16'),metadata=None,description=xml)
+    with pytest.raises((RuntimeError,ValueError),match='4 MiB' if aggregate else 'text exceeds limit'):
+        q.open_tiff(str(paths[0]))
+
+
+@pytest.mark.parametrize('failure',['base','pyramid','entity'])
+def test_companion_geometry_and_xml_declarations_reject(corpus,failure):
+    directory,_=corpus;companion=directory/fixture.FILES[1]
+    if failure=='entity':
+        with tifffile.TiffFile(companion) as source: xml=source.ome_metadata
+        tifffile.tiffcomment(companion,'<!DOCTYPE OME [<!ENTITY x "value">]>'+xml)
+    else:
+        with tifffile.TiffFile(companion,mode='r+b') as source:
+            page=source.pages[0] if failure=='base' else source.pages[0].pages[0]
+            page.tags['ImageWidth'].overwrite(18 if failure=='base' else 9)
+    with pytest.raises((RuntimeError,ValueError),match='geometry|dimensions|declarations'):
+        q.open_tiff(str(directory/fixture.FILES[0]))
