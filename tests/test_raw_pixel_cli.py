@@ -82,7 +82,7 @@ def test_cli_train_resume_predict_retain_and_verify(source, tmp_path):
     parameters.trees, parameters.max_depth, parameters.work_bytes = 5, 3, 2 * 1024**2
     reference = q.train_raw_pixel_tiled_classifier(table, parameters)
     model = q.load_raw_pixel_classifier(str(tmp_path / "模型.qrm"))
-    assert model.bytes() == reference.bytes()
+    assert model.to_bytes() == reference.to_bytes()
     assert trained["rows"] == table.row_count and trained["table_sha256"] == table.sha256
     archive = q.load_raw_pixel_archive(str(tmp_path / "训练.qtt"))
     np.testing.assert_array_equal(archive.tiled_table.values_numpy(), table.values_numpy())
@@ -171,3 +171,45 @@ def test_cli_model_lattice_mismatch_refuses_prediction_output(source, tmp_path):
     result = run("--export-raw-pixels", path, image, tmp_path / "模型.qrm", output)
     assert result.returncode in (1, 2), result.stdout + result.stderr
     assert not output.exists()
+
+
+def test_cli_cancellation_joins_before_reader_release(tmp_path):
+    require_training()
+    import signal
+    pixels = tmp_path / "large.tif"
+    tiff(pixels, 2048, 2048)
+    project = q.Project()
+    image = project.add_image(str(pixels), "tiff")
+    doc = project.document(image)
+    for x, name in [(0, "A"), (1024, "B")]:
+        doc.add_detection(q.Roi.rectangle(q.Rect(x, 0, 1024, 2048)), class_name=name)
+    path = tmp_path / "large.qpx"
+    project.save(str(path))
+    doc.server.close()
+    model, checkpoint, archive = [tmp_path / n for n in ("model.qrm", "sampling.qtc", "rows.qtt")]
+    kwargs = {"creationflags": subprocess.CREATE_NEW_PROCESS_GROUP} if os.name == "nt" else {}
+    child = subprocess.Popen([str(CLI), "--train-raw-pixels", str(path), str(image), str(model),
+                              "--checkpoint", str(checkpoint), "--archive", str(archive)],
+                             stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+                             encoding="utf-8", **kwargs)
+    try:
+        first = json.loads(child.stdout.readline())
+        assert first["state"] == "sampling" and child.poll() is None
+        child.send_signal(signal.CTRL_BREAK_EVENT if os.name == "nt" else signal.SIGINT)
+        stdout, stderr = child.communicate(timeout=40)
+        assert child.returncode == 130, stdout + stderr
+        assert json.loads(stdout.splitlines()[-1])["state"] == "cancelled"
+        assert not model.exists() and not archive.exists()
+        pixels.rename(tmp_path / "closed.tif")
+    finally:
+        if child.poll() is None:
+            child.kill()
+            child.communicate(timeout=20)
+
+
+def test_cli_training_backend_off_refuses_before_output(source, tmp_path):
+    if q.has_classifier_training:
+        pytest.skip("backend-OFF profile only")
+    done = run(*arguments(source, tmp_path))
+    assert final(done, 1)["state"] == "failed"
+    assert "OpenCV" in done.stdout and not (tmp_path / "采样.qtc").exists()
