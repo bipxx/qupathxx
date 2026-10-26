@@ -1,0 +1,254 @@
+{
+  "schema": "qpx.original-test-object-observation/1",
+  "source": "09a7b83704701ce07eff936e910bd739a52267df",
+  "original_source": "4a72fd84b7726927285bf58120d288513c65eb4e",
+  "test_source_sha256": "37807a421213078cca46db5596f6a7e4b1c4fe1ecf8e333655c44d63fa395f10",
+  "commands": [
+    {
+      "name": "host",
+      "command": [
+        "sw_vers"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "architecture",
+      "command": [
+        "uname",
+        "-m"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "xcode",
+      "command": [
+        "xcodebuild",
+        "-version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "compiler",
+      "command": [
+        "xcrun",
+        "clang++",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "original-compile",
+      "command": [
+        "xcrun",
+        "clang++",
+        "-O3",
+        "-DNDEBUG",
+        "-std=gnu++17",
+        "-arch",
+        "arm64",
+        "-I",
+        "/Users/runner/work/qupathxx/qupathxx/cpp/include",
+        "-c",
+        "/Users/runner/work/qupathxx/qupathxx/cpp/tests/pixel_workflow_tests.cpp",
+        "-o",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/original-test.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "original-assembly",
+      "command": [
+        "xcrun",
+        "clang++",
+        "-O3",
+        "-DNDEBUG",
+        "-std=gnu++17",
+        "-arch",
+        "arm64",
+        "-I",
+        "/Users/runner/work/qupathxx/qupathxx/cpp/include",
+        "-S",
+        "/Users/runner/work/qupathxx/qupathxx/cpp/tests/pixel_workflow_tests.cpp",
+        "-o",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/original-test.s"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "object-symbols",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--syms",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/original-test.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "object-relocations",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--reloc",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/original-test.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "object-disassembly",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--disassemble",
+        "--demangle",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/original-test.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "object-names",
+      "command": [
+        "xcrun",
+        "nm",
+        "-nm",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/original-test.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "default-link",
+      "command": [
+        "xcrun",
+        "clang++",
+        "-O3",
+        "-DNDEBUG",
+        "-std=gnu++17",
+        "-arch",
+        "arm64",
+        "-I",
+        "/Users/runner/work/qupathxx/qupathxx/cpp/include",
+        "-Wl,-undefined,dynamic_lookup",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/original-test.o",
+        "-o",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/default-analysis-only"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "default-unwind",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--unwind-info",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/default-analysis-only"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "default-fixups",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--dyld-info",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/default-analysis-only"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "default-disassembly",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--disassemble",
+        "--demangle",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/default-analysis-only"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "default-names",
+      "command": [
+        "xcrun",
+        "nm",
+        "-nm",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/default-analysis-only"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "no-deduplicate-link",
+      "command": [
+        "xcrun",
+        "clang++",
+        "-O3",
+        "-DNDEBUG",
+        "-std=gnu++17",
+        "-arch",
+        "arm64",
+        "-I",
+        "/Users/runner/work/qupathxx/qupathxx/cpp/include",
+        "-Wl,-no_deduplicate",
+        "-Wl,-undefined,dynamic_lookup",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/original-test.o",
+        "-o",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/no-deduplicate-analysis-only"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "no-deduplicate-unwind",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--unwind-info",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/no-deduplicate-analysis-only"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "no-deduplicate-fixups",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--dyld-info",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/no-deduplicate-analysis-only"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "no-deduplicate-disassembly",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--disassemble",
+        "--demangle",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/no-deduplicate-analysis-only"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "no-deduplicate-names",
+      "command": [
+        "xcrun",
+        "nm",
+        "-nm",
+        "/Users/runner/work/qupathxx/qupathxx/build/original-object-255/no-deduplicate-analysis-only"
+      ],
+      "returncode": 0
+    }
+  ],
+  "product_repair_established": false,
+  "object_sha256_before": "d7a6ecdcde495259b61b0490c4c5d9f48e7744674052b0c7ca8e993356198cec",
+  "object_sha256_after": "d7a6ecdcde495259b61b0490c4c5d9f48e7744674052b0c7ca8e993356198cec",
+  "analysis_products_executed": false,
+  "scope": "Original test TU object/assembly and two analysis-only link modes. No core/SDK rebuild, execution of incomplete products, platform qualification or repair claim."
+}

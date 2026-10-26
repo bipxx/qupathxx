@@ -1,0 +1,193 @@
+{
+  "schema": "qpx.exception-link-witness-local/1",
+  "source": "f2dd2633c13116279160fd6ea17796a0d38c77a1",
+  "run": 40417045171,
+  "artifact": 12695474123,
+  "archive_sha256": "03d977112cde365f27f0d751423a142567024283445d5dd8c6c1cf2d90eb444f",
+  "local_controls": 19,
+  "object_inputs_unchanged": true,
+  "modes": {
+    "default": {
+      "expected_catches": true,
+      "lines": [
+        "invalid=expected",
+        "length=expected",
+        "runtime=expected",
+        "wrong_type=escaped",
+        "missing=refused"
+      ],
+      "returncode": 0
+    },
+    "no-deduplicate": {
+      "expected_catches": true,
+      "lines": [
+        "invalid=expected",
+        "length=expected",
+        "runtime=expected",
+        "wrong_type=escaped",
+        "missing=refused"
+      ],
+      "returncode": 0
+    }
+  },
+  "linker_difference_reproduced": false,
+  "product_repair_established": false,
+  "scope": "Minimal witness passes in both modes; it does not reproduce or repair the retained full-test failure.",
+  "evidence": [
+    {
+      "path": "controls.log",
+      "bytes": 2285,
+      "sha256": "387d75b0faced496d6adb83796033ef74979973cfba21dee9bd8c32b1710f189"
+    },
+    {
+      "path": "dispatch.json",
+      "bytes": 710,
+      "sha256": "bc8677334103ea99d77bd0e00a86ace0d499c10d7237b0e6f97553e6ec0cdd4d"
+    },
+    {
+      "path": "linux-build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "linux-witness.log",
+      "bytes": 90,
+      "sha256": "bb04830eb7c5f2829f206a69c354b0a68b0bd8484b7a3bad6246a590bc5ce00a"
+    },
+    {
+      "path": "local-commands.json",
+      "bytes": 643,
+      "sha256": "dc968b72e2e5271fd703fbdf2c82eefbbf8f6b095ea76132d87ae9eaeafdf0ce"
+    },
+    {
+      "path": "terminal/artifacts.json",
+      "bytes": 933,
+      "sha256": "4a06d22b14ca6fd3366a5c7b9507dd85580662f9925e475863da03f6a6e32b6b"
+    },
+    {
+      "path": "terminal/files/architecture.log",
+      "bytes": 6,
+      "sha256": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01"
+    },
+    {
+      "path": "terminal/files/compiler.log",
+      "bytes": 206,
+      "sha256": "df12815703ce3452ab4bd51ecbea4cf8155246b94b5b15113a580ff6aec2befd"
+    },
+    {
+      "path": "terminal/files/default-disassembly.log",
+      "bytes": 50995,
+      "sha256": "fc6d450e69c3d6bd9adba0f913bffc330f50f9d046c176698d9ecd23dae36572"
+    },
+    {
+      "path": "terminal/files/default-execute.log",
+      "bytes": 85,
+      "sha256": "b77b8e27d1697434806585f3aa8bdce98d3abefddbdc704b87192991ee199094"
+    },
+    {
+      "path": "terminal/files/default-fixups.log",
+      "bytes": 4115,
+      "sha256": "352a632e81b50f47a94a5bdfe4ab2eeb8fff0c21dd8e6e5f93ab10e185cdd0f8"
+    },
+    {
+      "path": "terminal/files/default-link.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/files/default-unwind.log",
+      "bytes": 3080,
+      "sha256": "81d5fdb3b515ef81bc51c06bacc966a426ba965ef0ad44207e619a72d3e562f6"
+    },
+    {
+      "path": "terminal/files/host.log",
+      "bytes": 66,
+      "sha256": "31fd674ddb951680692d7b68cafdeab5baa6b3e82aae843269dad73b53f25fc5"
+    },
+    {
+      "path": "terminal/files/main-assembly.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/files/main-compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/files/main.cpp",
+      "bytes": 1622,
+      "sha256": "5ec8d489e83b0bc5fbe3ae017f5a3c1ee93447dbb9431f77b53a1ac19990af5e"
+    },
+    {
+      "path": "terminal/files/main.s",
+      "bytes": 71122,
+      "sha256": "e8d3167730df6d9e1c86105b3d8b794470bb11533cce1c56ab6e5a74677dfb8f"
+    },
+    {
+      "path": "terminal/files/no-deduplicate-disassembly.log",
+      "bytes": 51002,
+      "sha256": "8daaf5d22e6fe2418bd66f7c048ac81644ae9c58296f56faba6a191fc6547ca0"
+    },
+    {
+      "path": "terminal/files/no-deduplicate-execute.log",
+      "bytes": 85,
+      "sha256": "b77b8e27d1697434806585f3aa8bdce98d3abefddbdc704b87192991ee199094"
+    },
+    {
+      "path": "terminal/files/no-deduplicate-fixups.log",
+      "bytes": 4122,
+      "sha256": "37dfc50a9b5857444c3563ee4c7347ac1bf9a60d6420a855d7bd7a8514431da7"
+    },
+    {
+      "path": "terminal/files/no-deduplicate-link.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/files/no-deduplicate-unwind.log",
+      "bytes": 3080,
+      "sha256": "81d5fdb3b515ef81bc51c06bacc966a426ba965ef0ad44207e619a72d3e562f6"
+    },
+    {
+      "path": "terminal/files/report.json",
+      "bytes": 6406,
+      "sha256": "ec24648719663caa13aa1fc8be76bf745173ef97efd1658a620cb917b6dda6e1"
+    },
+    {
+      "path": "terminal/files/throw-assembly.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/files/throw-compile.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/files/throw.cpp",
+      "bytes": 394,
+      "sha256": "9f62e6595eb7fe2ab6affa73776e4ea320445f73c9b69cd3f359b3eefb560744"
+    },
+    {
+      "path": "terminal/files/throw.s",
+      "bytes": 12470,
+      "sha256": "8c35128527c5492c4fc6b180be0f8a66035e2040ed3094db79fcbe46e7b0929c"
+    },
+    {
+      "path": "terminal/files/xcode.log",
+      "bytes": 30,
+      "sha256": "a8be4f9af0a29137fe7e59b9928056d4a0df297bb46ba40f80eaa6b0ae982f12"
+    },
+    {
+      "path": "terminal/run.json",
+      "bytes": 1709,
+      "sha256": "2799424369e3fb2133d2f699ec71ebe3488772d23ef5025e01b85884167bdf50"
+    },
+    {
+      "path": "terminal/run.log",
+      "bytes": 27020,
+      "sha256": "41a5347677b5532c855aa3cc9cadc5d773856a180dae4fe85be9c54665c3669b"
+    }
+  ]
+}

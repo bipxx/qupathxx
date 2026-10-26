@@ -1,0 +1,258 @@
+{
+  "schema": "qpx.arm64-exception-link-observation/1",
+  "source": "f2dd2633c13116279160fd6ea17796a0d38c77a1",
+  "commands": [
+    {
+      "name": "host",
+      "command": [
+        "sw_vers"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "architecture",
+      "command": [
+        "uname",
+        "-m"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "xcode",
+      "command": [
+        "xcodebuild",
+        "-version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "compiler",
+      "command": [
+        "xcrun",
+        "clang++",
+        "--version"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "main-compile",
+      "command": [
+        "xcrun",
+        "clang++",
+        "-O3",
+        "-DNDEBUG",
+        "-std=c++17",
+        "-arch",
+        "arm64",
+        "-c",
+        "/Users/runner/work/qupathxx/qupathxx/tools/ci/fixtures/exception-lsda-v1/main.cpp",
+        "-o",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/main.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "main-assembly",
+      "command": [
+        "xcrun",
+        "clang++",
+        "-O3",
+        "-DNDEBUG",
+        "-std=c++17",
+        "-arch",
+        "arm64",
+        "-S",
+        "/Users/runner/work/qupathxx/qupathxx/tools/ci/fixtures/exception-lsda-v1/main.cpp",
+        "-o",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/main.s"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "throw-compile",
+      "command": [
+        "xcrun",
+        "clang++",
+        "-O3",
+        "-DNDEBUG",
+        "-std=c++17",
+        "-arch",
+        "arm64",
+        "-c",
+        "/Users/runner/work/qupathxx/qupathxx/tools/ci/fixtures/exception-lsda-v1/throw.cpp",
+        "-o",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/throw.o"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "throw-assembly",
+      "command": [
+        "xcrun",
+        "clang++",
+        "-O3",
+        "-DNDEBUG",
+        "-std=c++17",
+        "-arch",
+        "arm64",
+        "-S",
+        "/Users/runner/work/qupathxx/qupathxx/tools/ci/fixtures/exception-lsda-v1/throw.cpp",
+        "-o",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/throw.s"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "default-link",
+      "command": [
+        "xcrun",
+        "clang++",
+        "-O3",
+        "-DNDEBUG",
+        "-std=c++17",
+        "-arch",
+        "arm64",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/main.o",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/throw.o",
+        "-o",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/default"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "default-execute",
+      "command": [
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/default"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "default-unwind",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--unwind-info",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/default"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "default-fixups",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--dyld-info",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/default"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "default-disassembly",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--disassemble",
+        "--demangle",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/default"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "no-deduplicate-link",
+      "command": [
+        "xcrun",
+        "clang++",
+        "-O3",
+        "-DNDEBUG",
+        "-std=c++17",
+        "-arch",
+        "arm64",
+        "-Wl,-no_deduplicate",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/main.o",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/throw.o",
+        "-o",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/no-deduplicate"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "no-deduplicate-execute",
+      "command": [
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/no-deduplicate"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "no-deduplicate-unwind",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--unwind-info",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/no-deduplicate"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "no-deduplicate-fixups",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--dyld-info",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/no-deduplicate"
+      ],
+      "returncode": 0
+    },
+    {
+      "name": "no-deduplicate-disassembly",
+      "command": [
+        "xcrun",
+        "llvm-objdump",
+        "--macho",
+        "--disassemble",
+        "--demangle",
+        "/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/no-deduplicate"
+      ],
+      "returncode": 0
+    }
+  ],
+  "modes": {
+    "default": {
+      "expected_catches": true,
+      "lines": [
+        "invalid=expected",
+        "length=expected",
+        "runtime=expected",
+        "wrong_type=escaped",
+        "missing=refused"
+      ],
+      "returncode": 0
+    },
+    "no-deduplicate": {
+      "expected_catches": true,
+      "lines": [
+        "invalid=expected",
+        "length=expected",
+        "runtime=expected",
+        "wrong_type=escaped",
+        "missing=refused"
+      ],
+      "returncode": 0
+    }
+  },
+  "product_repair_established": false,
+  "objects_before": {
+    "main.o": "346ba398cea8b9e2df876eb7680a2c38710bc5c78dc3990f35db8663e81dffad",
+    "throw.o": "ff81f745ad0c440bef26d19d2b68be91626b3801e26b59519966ac5477cdbb81"
+  },
+  "objects_after": {
+    "main.o": "346ba398cea8b9e2df876eb7680a2c38710bc5c78dc3990f35db8663e81dffad",
+    "throw.o": "ff81f745ad0c440bef26d19d2b68be91626b3801e26b59519966ac5477cdbb81"
+  },
+  "linker_difference_reproduced": false,
+  "scope": "Minimal standard-library witness only; no product, SDK, T5 or release repair is implied."
+}

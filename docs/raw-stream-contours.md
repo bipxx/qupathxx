@@ -213,3 +213,37 @@ cohorts into the existing producer/auditor closure after interfaces settle.
 Keep the current T5 candidate frozen; do not run another broad platform campaign
 for reference preparation. Sparse ROI traversal, resource measurements and
 scientific acceptance retain their separate requirements.
+
+
+## Fresh-process Windows resource characterization
+
+The [resource253 receipt](benchmarks/raw-stream-resources-253/receipt.json) uses
+observer `8faf773` and the unchanged installed runtime `3039f0c` runtime. The contract at
+27c392e fixes all thresholds before observation. Each child opens a real tiled
+uint16 TIFF, loads an actually trained two-class forest and traces every unit-grid
+sample into two authored rectangles. Generation and training occur in the parent;
+no complete raster or label mask is assembled by the probe.
+
+| Source / samples | OS process peak (MiB) | Native trace (ms) | Reader cache peak (bytes) |
+| --- | --- | --- | --- |
+| 256 x 256 / 65,536 | 29.254 | 55.686 | 132,096 |
+| 1024 x 1024 / 1,048,576 | 31.281 | 873.941 | 2,113,536 |
+| 4096 x 4096 / 16,777,216 | 33.371 | 14,241.580 | 4,194,048 |
+
+All samples/windows, decoded bytes, class counts, exact corners, areas and
+perimeters match the authored result. Reader cache admission stays at 4 MiB,
+stream work at 16 MiB and total contour admission at 32 MiB. The native conservative
+estimate is 20.125 MiB in every case; it is separate from the OS process peak, which
+includes Python, libraries, decoder allocations and geometry. OS high-water
+counters come from the existing Windows TMA probe, not Python allocation tracing.
+All 22 verifier controls pass. Every installed wheel member remains unchanged.
+
+The initial empty feature list and nested Python sigma values are rejected;
+use `RawPixelFeatureScale(0,0)`. A later observer incorrectly compared a polygon
+to a rectangle with representation-sensitive `Roi.equals`. Preserve that rejected
+run; exact authored corner sets fix the observer without changing tolerances or
+budgets. The final three-size run passes its original 256 MiB process ceiling and
+64 MiB peak-spread guard. This is a synthetic low-complexity local engineering
+characterization, with one fresh process per size. Arbitrary boundary complexity,
+other workloads/platforms, cold storage, eligible hardware and biological/release
+acceptance remain open. The timings do not establish a percentile or speedup.

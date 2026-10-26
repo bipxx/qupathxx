@@ -1,0 +1,13 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Scripts\\python.exe",
+    "-I",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\profile_raw_stream_contours.py",
+    "--work",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-resources-253\\second"
+  ],
+  "returncode": 1,
+  "seconds": 0.4155468000099063,
+  "observer_base": "27c392e",
+  "observer_change": "Use explicit zero-sigma feature instead of invalid empty feature list; contract thresholds unchanged"
+}

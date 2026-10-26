@@ -1,0 +1,57 @@
+Contents of __unwind_info section:
+  Version:                                   0x1
+  Common encodings array section offset:     0x1c
+  Number of common encodings in array:       0x4
+  Personality function array section offset: 0x2c
+  Number of personality functions in array:  0x1
+  Index array section offset:                0x30
+  Number of indices in array:                0x2
+  Common encodings: (count = 4)
+    encoding[0]: 0x54000001
+    encoding[1]: 0x04000000
+    encoding[2]: 0x02000000
+    encoding[3]: 0x5400000f
+  Personality functions: (count = 1)
+    personality[1]: 0x000040e0
+  Top level indices: (count = 2)
+    [0]: function offset=0x00000620, 2nd level page offset=0x000000b4, LSDA offset=0x00000054
+    [1]: function offset=0x00001548, 2nd level page offset=0x00000000, LSDA offset=0x000000b4
+  LSDA descriptors:
+    [0]: function offset=0x00000620, LSDA offset=0x00001668
+    [1]: function offset=0x00000adc, LSDA offset=0x00001744
+    [2]: function offset=0x00000b9c, LSDA offset=0x00001760
+    [3]: function offset=0x00000c4c, LSDA offset=0x0000177c
+    [4]: function offset=0x00000cfc, LSDA offset=0x00001798
+    [5]: function offset=0x00000dac, LSDA offset=0x000017b4
+    [6]: function offset=0x00000ee0, LSDA offset=0x000017c4
+    [7]: function offset=0x00000f90, LSDA offset=0x000017e0
+    [8]: function offset=0x000010fc, LSDA offset=0x00001824
+    [9]: function offset=0x000012b0, LSDA offset=0x0000183c
+    [10]: function offset=0x00001338, LSDA offset=0x0000184c
+    [11]: function offset=0x000013ac, LSDA offset=0x0000185c
+  Second level indices:
+    Second level index[0]: offset in section=0x000000b4, base function offset=0x00000620
+      Page encodings: (count = 2)
+        encoding[4]: 0x54000007
+        encoding[5]: 0x04000007
+      [0]: function offset=0x00000620, encoding[4]=0x54000007
+      [1]: function offset=0x00000adc, encoding[0]=0x54000001
+      [2]: function offset=0x00000b8c, encoding[1]=0x04000000
+      [3]: function offset=0x00000b9c, encoding[0]=0x54000001
+      [4]: function offset=0x00000c4c, encoding[0]=0x54000001
+      [5]: function offset=0x00000cfc, encoding[0]=0x54000001
+      [6]: function offset=0x00000dac, encoding[0]=0x54000001
+      [7]: function offset=0x00000e38, encoding[5]=0x04000007
+      [8]: function offset=0x00000ee0, encoding[0]=0x54000001
+      [9]: function offset=0x00000f90, encoding[3]=0x5400000f
+      [10]: function offset=0x000010fc, encoding[3]=0x5400000f
+      [11]: function offset=0x0000129c, encoding[1]=0x04000000
+      [12]: function offset=0x000012b0, encoding[0]=0x54000001
+      [13]: function offset=0x00001300, encoding[1]=0x04000000
+      [14]: function offset=0x00001338, encoding[0]=0x54000001
+      [15]: function offset=0x00001388, encoding[1]=0x04000000
+      [16]: function offset=0x000013ac, encoding[0]=0x54000001
+      [17]: function offset=0x000014e4, encoding[1]=0x04000000
+      [18]: function offset=0x00001508, encoding[2]=0x02000000
+      [19]: function offset=0x0000151c, encoding[1]=0x04000000
+      [20]: function offset=0x00001540, encoding[2]=0x02000000

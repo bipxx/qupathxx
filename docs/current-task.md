@@ -37,19 +37,26 @@ qualification remains at `61e546e`.
   frozen `4a72fd8`, run `40384720525`. Both archives authenticate; x86_64 passes
   50 suites/relocation and arm64 49/50. Both contour refusals/replay complete,
   then source-series validation fails. Root cause and repair remain unproven.
-  [Observer249](benchmarks/raw-replay-arm64-252/receipt.json) authenticated its
-  inputs but failed before product execution: shallow checkout lacked the original
-  comparison commit. Its terminal run40411025705 and archive are preserved.
-  Successor tooling `71d4105` explicitly fetches that exact commit; 17 controls,
-  including a real shallow-clone/mutation witness, pass. One successor
-  [run40414202237](https://github.com/bipxx/qupathxx/actions/runs/40414202237)
-  is queued when checked, reusing original `4a72fd8` product/SDK bytes. Observe
-  this handle. Its native probe must pass before interpreting target traces;
-  no product repair or T5 acceptance is established.
+  [Observer252](benchmarks/raw-replay-arm64-252/receipt.json) now reproduces
+  exit 1 in both plain and debugger execution. Its native ABI probe passes, with
+  zero observer errors. An invalid_argument escapes the typed helper into main.
+  Two helper specializations alias length_error helpers at the same addresses;
+  their final exception tables bind length_error rather than invalid_argument.
+  The original source/product bytes are unchanged. Small
+  [witness254](benchmarks/raw-exception-lsda-254/receipt.json) passes both modes,
+  but [original-object255](benchmarks/raw-original-object-255/receipt.json)
+  isolates the actual cause: four distinct compiled helpers become incorrectly
+  aliased during default linking; no-deduplicate keeps the same object functions
+  distinct and restores correct catch-table bindings. Incomplete analysis products
+  are never executed. Build policy87b9dac disables that Darwin link optimization
+  for native executables, standalone tests and Python modules. Windows configure
+  passes, with the flag absent from all nine generated projects. Full Mac runtime
+  verification remains open. Prepare one frozen candidate, run its complete Mac
+  role first, then run remaining roles on that same source if Mac acceptance passes.
 - **Contract admission locally verified:** [contract250](benchmarks/raw-classifier-contract-250/receipt.json)
   at `20e0b07` binds 143 installed identities, 31 GUI-only case declarations,
   streamed native semantics and 486 source paths, including subprocess children
-  and seam references. All 183 controls pass; actual unchanged3039f0c installed
+  and seam references. All 183 controls pass; actual unchanged runtime `3039f0c` installed
   GUI/headless cohorts admit at 142 passes/one skip and 111 passes/32 skips.
   Pinned mypy2.4.0 passes five positive files and reports exactly 20 intended
   errors in four negatives. All 33 installed wheel members still match.
@@ -57,7 +64,7 @@ qualification remains at `61e546e`.
   minimal rejection exposed eight common markers grouped as full-only. That
   rejection and corrected grouping remain explicit; no native rebuild occurred.
 - **Broader installed regression:** [regression251](benchmarks/raw-integration-regression-251/receipt.json)
-  runs all 4,420 collected cases against unchanged3039f0c. Original outcome:
+  runs all 4,420 collected cases against unchanged runtime `3039f0c`. Original outcome:
   4,292 passes, one failure, 124 skips and three strict scientific xfails.
   The GUI cancellation test wrongly required a file when cancellation preceded
   output-directory creation. Test-only376a528 verifies the exact saved report
@@ -65,8 +72,19 @@ qualification remains at `61e546e`.
   cases pass. Combined unique scope: 4,293 passes/124 skips/three xfails, retaining
   the original failure. This is not a second full green run or OpenSlide/clean-
   machine/platform acceptance; all 33 installed wheel members remain unchanged.
-- **Before integrated qualification:** demonstrate the Mac repair, then freeze one candidate
-  for required roles. Keep original failed sources/runs immutable.
+- **Measured resource preparation:** [resource253](benchmarks/raw-stream-resources-253/receipt.json)
+  traces 65,536/1,048,576/16,777,216 samples in separate Windows processes against
+  unchanged runtime `3039f0c`. OS peaks are 29.254/31.281/33.371 MiB with fixed 4 MiB reader
+  cache and 32 MiB contour admission; exact two-class geometry and coverage pass.
+  All 22 controls pass; 205 combined resource/qualification controls pass after
+  source closure explicitly binds the observer, OS counter, contract and tests.
+  Original observer failures remain. This narrows the RSS
+  evidence gap for this low-complexity synthetic case only. Eligible hardware,
+  arbitrary boundary complexity, other workflows/platforms and science stay open.
+- **Before integrated acceptance:** finish local candidate packaging/preflight,
+  freeze one source and run its complete Mac-native role first to verify the
+  runtime repair. Only then spend the remaining engine/portable roles on that
+  same immutable source. Keep original failed sources/runs immutable.
 - **Separate open gates:** biological/model/upstream comparisons, dataset rights/
   labels/tolerances, process-memory and eligible hardware measurements, remaining
   SCI1-B reader/interchange/spatial/automation breadth, clean-machine distribution

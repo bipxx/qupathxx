@@ -6,8 +6,14 @@ Campaign236 is terminal: engine/portable accepted at `530c6bb`, Mac arm64
 unaccepted. Diagnostic240 retains the actual failing binary at `4a72fd8`;
 [observer249](../benchmarks/raw-replay-arm64-252/receipt.json) failed before
 product execution because its shallow checkout lacked the comparison commit.
-One observer-only successor run40414202237 fetches that exact commit and is
-queued when checked. A product cause or repair is not yet established.
+Successor252 now reproduces the retained failure with an admitted native
+exception observer. Final binary catch tables bind length_error for named
+invalid_argument helpers, which alias length_error helpers. Small witness254
+does not reproduce the difference between link modes. Original-object255 then
+isolates default-link folding using the same original object: functions are
+distinct before linking, incorrect aliases after default linking and distinct
+with correct catch tables after no-deduplicate. Policy87b9dac applies that scoped
+Darwin build change; complete runtime confirmation remains open.
 
 Streamed Python, desktop/managed, CLI, batch and history consumers now have local
 verification through runtime `3039f0c`, with three supplementary history refusal
@@ -420,3 +426,23 @@ found that spatial queries do not promise ID order: use an explicit minimum ID
 for same-class overlap ownership. A partitioned-index regression distinguishes
 that case. Final 330-input source proof, raw logs and selected binaries are
 retained. No wheel/stub rebuild or per-checkpoint hosted campaign was performed.
+
+
+Resource253 adds a bounded synthetic process-memory characterization without a
+product rebuild. Reuse the existing Windows OS counter helper and measure fresh
+children; keep generation/training outside the measured process and record those
+exclusions. Exact sample/decode/geometry checks prevent measuring a shortcut.
+The original thresholds remain fixed while observer-only API/representation
+mistakes are corrected and preserved. `Roi.equals` tests representation; compare
+authored corners when primitive kinds or path order may differ. Measured peaks
+are distinct from conservative native estimates and from eligible-hardware or
+general-complexity acceptance. Do not infer a Mac workaround from a tiny witness
+that passes both modes despite the authentic full-binary failure.
+
+
+Use the complete Mac role first on one provisional frozen candidate after local
+packaging/preflight. It can supply runtime confirmation and the required Mac
+qualification for that exact source; remaining roles follow only after strict
+Mac acceptance. Do not build a separate repaired-Mac profile and repeat it for a
+second source without a real code/input change. Original-object comparisons and
+configure-only checks alone do not qualify the application.

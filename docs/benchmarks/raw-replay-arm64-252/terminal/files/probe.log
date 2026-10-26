@@ -1,0 +1,15 @@
+(lldb) command source -s 0 '/Users/runner/work/qupathxx/qupathxx/build/retained-arm64-252/probe.lldb'
+Executing commands in '/Users/runner/work/qupathxx/qupathxx/build/retained-arm64-252/probe.lldb'.
+(lldb) settings set auto-confirm true
+(lldb) settings set target.disable-aslr false
+(lldb) target create "/Users/runner/work/qupathxx/qupathxx/build/retained-arm64-252/exception-probe"
+Current executable set to '/Users/runner/work/qupathxx/qupathxx/build/retained-arm64-252/exception-probe' (arm64).
+(lldb) settings set target.env-vars "DYLD_LIBRARY_PATH=/Users/runner/work/qupathxx/qupathxx/build/retained-arm64-252/retained-runtime/sdk/geos/lib"
+(lldb) command script import "/Users/runner/work/qupathxx/qupathxx/tools/ci/lldb_retained_exceptions.py"
+(lldb) run
+typed probe caught
+outer probe caught
+Process 2058 launched: '/Users/runner/work/qupathxx/qupathxx/build/retained-arm64-252/exception-probe' (arm64)
+Process 2058 exited with status = 0 (0x00000000)
+(lldb) retained_summary
+{"breakpoints": [{"hits": 2, "locations": 1, "name": "__cxa_throw"}, {"hits": 2, "locations": 1, "name": "__cxa_begin_catch"}], "catches": 2, "events": 4, "exit_description": null, "exit_status": 0, "exited": true, "observer_errors": [], "process_state": 10, "schema": "qpx.retained-exception-trace/1", "throws": 2}

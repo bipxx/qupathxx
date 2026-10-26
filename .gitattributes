@@ -578,3 +578,7 @@ docs/benchmarks/raw-replay-macos-240/** -text -whitespace
 docs/benchmarks/raw-classifier-contract-250/** -text -whitespace
 docs/benchmarks/raw-integration-regression-251/** -text -whitespace
 docs/benchmarks/raw-replay-arm64-252/** -text -whitespace
+docs/benchmarks/raw-stream-resources-253/** -text -whitespace
+docs/benchmarks/raw-exception-lsda-254/** -text -whitespace
+docs/benchmarks/raw-original-object-255/** -text -whitespace
+docs/benchmarks/darwin-link-policy-256/** -text -whitespace

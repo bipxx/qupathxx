@@ -1,0 +1,58 @@
+
+/mnt/c/Users/HEQ/Projects/qupathxx/build/raw-replay-macos-240/hosted/macos-native-arm64/qupathxx_pixel_workflow_tests:	file format mach-o arm64
+
+Disassembly of section __TEXT,__text:
+
+00000001000611f8 <void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda9'()>(raw_window_classifier_checks::run()::'lambda9'())>:
+1000611f8: d100c3ff    	sub	sp, sp, #0x30
+1000611fc: a9014ff4    	stp	x20, x19, [sp, #0x10]
+100061200: a9027bfd    	stp	x29, x30, [sp, #0x20]
+100061204: 910083fd    	add	x29, sp, #0x20
+100061208: 910003e8    	mov	x8, sp
+10006120c: d2800001    	mov	x1, #0x0                ; =0
+100061210: 9406c630    	bl	0x100212ad0 <qpx::predict_raw_pixel_window(qpx::RawPixelWindowPredictionRequest const&, std::__1::atomic<bool> const*)>
+100061214: f94007f3    	ldr	x19, [sp, #0x8]
+100061218: b4000173    	cbz	x19, 0x100061244 <void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda9'()>(raw_window_classifier_checks::run()::'lambda9'())+0x4c>
+10006121c: 91002268    	add	x8, x19, #0x8
+100061220: 92800009    	mov	x9, #-0x1               ; =-1
+100061224: f8e90108    	ldaddal	x9, x8, [x8]
+100061228: b50000e8    	cbnz	x8, 0x100061244 <void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda9'()>(raw_window_classifier_checks::run()::'lambda9'())+0x4c>
+10006122c: f9400268    	ldr	x8, [x19]
+100061230: f9400908    	ldr	x8, [x8, #0x10]
+100061234: aa1303e0    	mov	x0, x19
+100061238: d63f0100    	blr	x8
+10006123c: aa1303e0    	mov	x0, x19
+100061240: 94155570    	bl	0x1005b6800 <_write+0x1005b6800>
+100061244: 52800200    	mov	w0, #0x10               ; =16
+100061248: 9415564f    	bl	0x1005b6b84 <_write+0x1005b6b84>
+10006124c: aa0003f3    	mov	x19, x0
+100061250: f0002ea1    	adrp	x1, 0x100638000 <_write+0x100638000>
+100061254: 91012421    	add	x1, x1, #0x49
+100061258: 94155474    	bl	0x1005b6428 <_write+0x1005b6428>
+10006125c: f0003121    	adrp	x1, 0x100688000 <_write+0x100688000>
+100061260: f9460821    	ldr	x1, [x1, #0xc10]
+100061264: f0003122    	adrp	x2, 0x100688000 <_write+0x100688000>
+100061268: f9438042    	ldr	x2, [x2, #0x700]
+10006126c: aa1303e0    	mov	x0, x19
+100061270: 94155663    	bl	0x1005b6bfc <_write+0x1005b6bfc>
+100061274: aa0003f4    	mov	x20, x0
+100061278: aa1303e0    	mov	x0, x19
+10006127c: 9415564e    	bl	0x1005b6bb4 <_write+0x1005b6bb4>
+100061280: aa1403e0    	mov	x0, x20
+100061284: 94155424    	bl	0x1005b6314 <_write+0x1005b6314>
+100061288: 7100043f    	cmp	w1, #0x1
+10006128c: 540000e1    	b.ne	0x1000612a8 <void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda9'()>(raw_window_classifier_checks::run()::'lambda9'())+0xb0>
+100061290: 94155643    	bl	0x1005b6b9c <_write+0x1005b6b9c>
+100061294: 94155645    	bl	0x1005b6ba8 <_write+0x1005b6ba8>
+100061298: a9427bfd    	ldp	x29, x30, [sp, #0x20]
+10006129c: a9414ff4    	ldp	x20, x19, [sp, #0x10]
+1000612a0: 9100c3ff    	add	sp, sp, #0x30
+1000612a4: d65f03c0    	ret
+1000612a8: 9415541b    	bl	0x1005b6314 <_write+0x1005b6314>
+
+00000001000612ac <void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda10'()>(raw_window_classifier_checks::run()::'lambda10'())>:
+1000612ac: d100c3ff    	sub	sp, sp, #0x30
+1000612b0: a9014ff4    	stp	x20, x19, [sp, #0x10]
+1000612b4: a9027bfd    	stp	x29, x30, [sp, #0x20]
+1000612b8: 910083fd    	add	x29, sp, #0x20
+1000612bc: 910003e8    	mov	x8, sp

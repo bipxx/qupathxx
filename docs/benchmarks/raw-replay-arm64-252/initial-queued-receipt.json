@@ -1,0 +1,70 @@
+{
+  "schema": "qpx.retained-arm64-observer-successor/1",
+  "predecessor_source": "7650055f7669779c7f6a4e69e4a37e7583edd0ee",
+  "predecessor_run": 40411025705,
+  "predecessor_conclusion": "failure before product execution: original Git comparison object absent in shallow checkout",
+  "artifact": {
+    "id": 12695095434,
+    "bytes": 9784994,
+    "sha256": "85654ed9f4001bf47661b49a892aa7867c6b9433c368b6df449af0aabe4f2ed4",
+    "local_archive_preserved": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-replay-arm64-252\\original-249\\retained-arm64-249.zip"
+  },
+  "nested_original_archive_sha256": "0b00dda78dcb791af3c173f834a5c8376478132d8f1312972639058f494677b9",
+  "observer_source": "71d4105176c717f16a38b3fde0ea932cb3745aa7",
+  "runtime_source": "4a72fd84b7726927285bf58120d288513c65eb4e",
+  "product_source_unchanged": true,
+  "local_controls": 17,
+  "control": "Actual shallow clone rejects missing original, exact fetch admits unchanged cpp, changed cpp still rejects",
+  "successor_run": {
+    "conclusion": "",
+    "databaseId": 40414202237,
+    "headSha": "71d4105176c717f16a38b3fde0ea932cb3745aa7",
+    "status": "queued",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40414202237"
+  },
+  "native_observer_probe_admitted": false,
+  "product_repair_established": false,
+  "T5_accepted": false,
+  "evidence": [
+    {
+      "path": "controls-command.json",
+      "bytes": 241,
+      "sha256": "3b5adfc0b45e4f4544d2e1c93be5db4e6ab02096fb96838c5113ccc4b0059cfd"
+    },
+    {
+      "path": "controls.log",
+      "bytes": 2039,
+      "sha256": "420182b0c12b54c79a53692d5d4653a617e1131f38e5e90136944e212bc4ecf4"
+    },
+    {
+      "path": "dispatch.json",
+      "bytes": 1100,
+      "sha256": "cda076f0d8bb0f98aa979d7712d4988ecc84cfbcb3316444ae111c386c76d72d"
+    },
+    {
+      "path": "original-249/artifact-metadata.json",
+      "bytes": 941,
+      "sha256": "fcc0479e12b8ff8890096cc61c4e40ec64397a6fffafe32ae0a3677aaf66d28b"
+    },
+    {
+      "path": "original-249/files/original-identities.json",
+      "bytes": 4402,
+      "sha256": "06df8adfaa57f94247f491a73c2a998e4d6bbae6b24c6f9f1fa222827fba981c"
+    },
+    {
+      "path": "original-249/files/remote-artifact.json",
+      "bytes": 431,
+      "sha256": "1aa3fdb9581a9ff02f482e363ea2847680a1f745f2cc0f23013b6ffae362f8d3"
+    },
+    {
+      "path": "original-249/run.json",
+      "bytes": 1528,
+      "sha256": "07ab1a1d961222ccca4c45ff99edeabfb64ac3a66d64b5042a7a4a61ab4188ed"
+    },
+    {
+      "path": "original-249/run.log",
+      "bytes": 30566,
+      "sha256": "75a3be45972c3f0de5d7efdddbe4baad2dc326721da4999cf3acd0a172e9694d"
+    }
+  ]
+}

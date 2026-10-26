@@ -1,0 +1,70 @@
+{
+  "size": 4096,
+  "pid": 146744,
+  "memory_before_import": {
+    "peak_working_set_bytes": 20353024,
+    "working_set_bytes": 20353024,
+    "peak_commit_bytes": 12206080
+  },
+  "runtime_source": "3039f0c23b274a8b0f121e48df0d290447ecf2e3",
+  "runtime_fingerprint": "1b72fac80fd681c59a4316eba7cece56ed274e2abb61ef7f0f3dbf9f68eda87f",
+  "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Lib\\site-packages\\qupathxx\\__init__.py",
+  "memory_after_import_and_hash": {
+    "peak_working_set_bytes": 29499392,
+    "working_set_bytes": 27877376,
+    "peak_commit_bytes": 18251776
+  },
+  "capture_ms": 1.1936998926103115,
+  "memory_before_trace": {
+    "peak_working_set_bytes": 29552640,
+    "working_set_bytes": 29011968,
+    "peak_commit_bytes": 18251776
+  },
+  "trace_ms": 14289.27329997532,
+  "memory_after_trace": {
+    "peak_working_set_bytes": 34942976,
+    "working_set_bytes": 34787328,
+    "peak_commit_bytes": 21651456
+  },
+  "reader": {
+    "decoded_blocks": 1024,
+    "decoded_bytes": 33554432,
+    "cache_bytes": 4194048,
+    "peak_cache_bytes": 4194048
+  },
+  "completed_samples": 16777216,
+  "valid_samples": 16777216,
+  "completed_windows": 1024,
+  "expected_windows": 1024,
+  "class_counts": [
+    8388608,
+    8388608
+  ],
+  "estimated_work_bytes": 21102592,
+  "payload_bytes": 487499,
+  "geometry": [
+    {
+      "label": 1,
+      "pixels": 8388608,
+      "area": 8388608.0,
+      "perimeter": 12288.0
+    },
+    {
+      "label": 2,
+      "pixels": 8388608,
+      "area": 8388608.0,
+      "perimeter": 12288.0
+    }
+  ],
+  "exact_rectangles": false,
+  "input_identities": {
+    "source_sha256": "70cfc4290080dc1bdfac2c640478ce0d2ecda5b3bcc76dc8da3f9c06690d9332",
+    "model_sha256": "813e3f8a9b97b9ee5ae25ec0b55d2ebbc1e937148c26bfad7114a0904dbaf555",
+    "source_bytes": 33560800
+  },
+  "memory_final": {
+    "peak_working_set_bytes": 34942976,
+    "working_set_bytes": 30650368,
+    "peak_commit_bytes": 21651456
+  }
+}

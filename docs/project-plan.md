@@ -42,12 +42,16 @@ historical-file consumers have local engineering evidence. The API queue's B6
 entry owns qualification prerequisites and the targeted diagnostic route.
 Its [B6 checklist](api-delivery-plan.md#b6-execution-checklist) now separates
 retained-binary observation, exact consumer/source/typing admission, demonstrated
-repair, integrated freeze and full audit. Observer249 failed before product
-execution because its shallow checkout lacked the comparison commit; authenticated
-inputs and the original run are preserved. Observer-only successor run40414202237
-fetches that exact commit and is queued when checked; no repair is inferred. Prepare contracts while it
-waits, then gate candidate freeze on both prerequisites rather than repeating
-already delivered consumers or launching another broad campaign early.
+repair, integrated freeze and full audit. Observer249's setup failure is
+preserved. Retained-binary observer252 now reproduces the failure and locates
+exception tables that disagree with their typed helper source. A small witness
+passes both modes, but original-object255 isolates the actual default-link
+folding error with identical object inputs. Darwin policy87b9dac preserves typed
+handlers; Windows configuration confirms the flag does not leak. Runtime repair
+is still unverified. Finish local packaging/preflight, freeze one candidate and
+run its complete Mac role first; only after acceptance run remaining roles on
+that same source. This avoids a duplicate repaired-Mac build while preserving
+the full final qualification gate.
 The [contract250 receipt](benchmarks/raw-classifier-contract-250/receipt.json)
 now closes local domain admission at `20e0b07`: 183 controls, exact actual
 GUI/headless cohorts, pinned mypy and retained native ON/OFF outputs pass.
@@ -57,6 +61,11 @@ adds a 4,420-identity installed observation. Its one GUI cancellation fixture
 failure is corrected against the unchanged package, with two affected cases
 passing; combined scope is 4,293 passes, 124 skips and three unresolved strict
 scientific xfails. Original failures and source identities remain explicit.
+
+[Resource253](benchmarks/raw-stream-resources-253/receipt.json) adds actual OS
+process peaks for a fixed-budget synthetic stream: 29.254 to 33.371 MiB across 256x
+as many samples, with exact two-class geometry and 22 verifier controls. This is a
+local low-complexity characterization, not general or eligible-hardware acceptance.
 
 Scientific/model comparisons, fixture rights/labels, measured resource/hardware
 budgets, clean-machine support and release decisions remain independent open

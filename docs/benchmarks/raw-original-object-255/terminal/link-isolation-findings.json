@@ -1,0 +1,74 @@
+{
+  "schema": "qpx.original-test-link-isolation/1",
+  "same_object_sha256": "d7a6ecdcde495259b61b0490c4c5d9f48e7744674052b0c7ca8e993356198cec",
+  "object_symbols": [
+    "0000000000061a7c T void raw_feature_checks::rejects<std::length_error, raw_window_classifier_checks::run()::'lambda6'()>(raw_window_classifier_checks::run()::'lambda6'())",
+    "0000000000061b30 T void raw_feature_checks::rejects<std::length_error, raw_window_classifier_checks::run()::'lambda7'()>(raw_window_classifier_checks::run()::'lambda7'())",
+    "0000000000061d08 T void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda10'()>(raw_window_classifier_checks::run()::'lambda10'())",
+    "0000000000061c54 T void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda9'()>(raw_window_classifier_checks::run()::'lambda9'())"
+  ],
+  "linked": [
+    {
+      "mode": "default",
+      "lambda_number": 9,
+      "address": "0x1000607c8",
+      "lsda": "0x10007fa80",
+      "lsda_bytes": "ff 9b 19 01 11 10 0c 90 01 01 1c 3c 00 00 58 0c 7c 00 64 50 00 00 01 00 48 86 01 00",
+      "type_entry": "0x10007fa98",
+      "indirect_slot": "0x1000980e0",
+      "bound_type": "__ZTISt12length_error",
+      "aliases": [
+        "00000001000607c8 t void raw_feature_checks::rejects<std::length_error, raw_window_classifier_checks::run()::'lambda6'()>(raw_window_classifier_checks::run()::'lambda6'())",
+        "00000001000607c8 t void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda9'()>(raw_window_classifier_checks::run()::'lambda9'())"
+      ],
+      "binding": "__DATA_CONST __got              0x1000980E0 pointer         0 libc++           __ZTISt12length_error"
+    },
+    {
+      "mode": "default",
+      "lambda_number": 10,
+      "address": "0x10006087c",
+      "lsda": "0x10007fa9c",
+      "lsda_bytes": "ff 9b 19 01 11 10 0c 90 01 01 1c 3c 00 00 58 0c 7c 00 64 50 00 00 01 00 2c 86 01 00",
+      "type_entry": "0x10007fab4",
+      "indirect_slot": "0x1000980e0",
+      "bound_type": "__ZTISt12length_error",
+      "aliases": [
+        "000000010006087c t void raw_feature_checks::rejects<std::length_error, raw_window_classifier_checks::run()::'lambda7'()>(raw_window_classifier_checks::run()::'lambda7'())",
+        "000000010006087c t void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda10'()>(raw_window_classifier_checks::run()::'lambda10'())"
+      ],
+      "binding": "__DATA_CONST __got              0x1000980E0 pointer         0 libc++           __ZTISt12length_error"
+    },
+    {
+      "mode": "no-deduplicate",
+      "lambda_number": 9,
+      "address": "0x100062334",
+      "lsda": "0x10008ab00",
+      "lsda_bytes": "ff 9b 19 01 11 10 0c 90 01 01 1c 3c 00 00 58 0c 7c 00 64 50 00 00 01 00 d8 95 01 00",
+      "type_entry": "0x10008ab18",
+      "indirect_slot": "0x1000a40f0",
+      "bound_type": "__ZTISt16invalid_argument",
+      "aliases": [
+        "0000000100062334 t void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda9'()>(raw_window_classifier_checks::run()::'lambda9'())"
+      ],
+      "binding": "__DATA_CONST __got              0x1000A40F0 pointer         0 libc++           __ZTISt16invalid_argument"
+    },
+    {
+      "mode": "no-deduplicate",
+      "lambda_number": 10,
+      "address": "0x1000623e8",
+      "lsda": "0x10008ab1c",
+      "lsda_bytes": "ff 9b 19 01 11 10 0c 90 01 01 1c 3c 00 00 58 0c 7c 00 64 50 00 00 01 00 bc 95 01 00",
+      "type_entry": "0x10008ab34",
+      "indirect_slot": "0x1000a40f0",
+      "bound_type": "__ZTISt16invalid_argument",
+      "aliases": [
+        "00000001000623e8 t void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda10'()>(raw_window_classifier_checks::run()::'lambda10'())"
+      ],
+      "binding": "__DATA_CONST __got              0x1000A40F0 pointer         0 libc++           __ZTISt16invalid_argument"
+    }
+  ],
+  "conclusion": "Distinct original object functions become incorrectly aliased with length_error catch tables during default linking. Disabling deduplication keeps them distinct and preserves invalid_argument catch tables.",
+  "incomplete_products_executed": false,
+  "product_runtime_repair_verified": false,
+  "decoder_note": "Analysis-only products use classic bind tables. Preserve the empty dyld-info observations; LLVM18 --bind provides the type slots."
+}

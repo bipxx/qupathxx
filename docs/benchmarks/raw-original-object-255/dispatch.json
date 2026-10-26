@@ -1,0 +1,22 @@
+{
+  "schema": "qpx.original-test-object-dispatch/1",
+  "source": "09a7b83704701ce07eff936e910bd739a52267df",
+  "original_source": "4a72fd84b7726927285bf58120d288513c65eb4e",
+  "ref": "feature/raw-original-object-255",
+  "state": "run_identified",
+  "at_utc": "2026-10-26T23:13:12.014077+00:00",
+  "production_and_fixture_diff_empty": true,
+  "local_validation": "Original test TU compiles standalone on Linux without any SDK build",
+  "analysis_products_executed": false,
+  "product_repair_established": false,
+  "returncode": 0,
+  "stdout": "",
+  "stderr": "",
+  "run": {
+    "conclusion": "",
+    "databaseId": 40418232358,
+    "headSha": "09a7b83704701ce07eff936e910bd739a52267df",
+    "status": "queued",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40418232358"
+  }
+}

@@ -1,0 +1,16 @@
+
+Sections:
+Idx Name             Size     VMA              Type
+  0 __text           005b4cd8 00000001000013d8 TEXT
+  1 __stubs          000011d0 00000001005b60b0 TEXT
+  2 __init_offsets   0000001c 00000001005b7280 DATA
+  3 __gcc_except_tab 00043774 00000001005b729c DATA
+  4 __const          0003d104 00000001005faa40 DATA
+  5 __cstring        0003e887 0000000100637b48 DATA
+  6 __unwind_info    0000dcd0 00000001006763d0 DATA
+  7 __eh_frame       00001830 00000001006840a0 DATA
+  8 __got            00000df8 0000000100688000 DATA
+  9 __const          00012eb8 0000000100688df8 DATA
+ 10 __data           00004008 000000010069c000 DATA
+ 11 __bss            000044d0 00000001006a0040 BSS
+ 12 __common         00000030 00000001006a4510 BSS

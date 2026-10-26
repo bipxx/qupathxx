@@ -1,0 +1,25 @@
+{
+  "total_count": 1,
+  "artifacts": [
+    {
+      "id": 12697795107,
+      "node_id": "MDg6QXJ0aWZhY3QxMjY5Nzc5NTEwNw==",
+      "name": "original-object-255",
+      "size_in_bytes": 32157397,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12697795107",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12697795107/zip",
+      "expired": false,
+      "digest": "sha256:347141f74348abf55802d16161847e4239abec7712bea0ae020169213ca626bf",
+      "created_at": "2026-10-26T23:17:53Z",
+      "updated_at": "2026-10-26T23:17:53Z",
+      "expires_at": "2026-11-09T23:17:51Z",
+      "workflow_run": {
+        "id": 40418232358,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/raw-original-object-255",
+        "head_sha": "09a7b83704701ce07eff936e910bd739a52267df"
+      }
+    }
+  ]
+}

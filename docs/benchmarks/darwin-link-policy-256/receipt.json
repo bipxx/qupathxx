@@ -1,0 +1,24 @@
+{
+  "schema": "qpx.darwin-link-policy-local/1",
+  "source": "87b9dacf73603ca900ac4f56b627a966fde63507",
+  "causal_evidence": "../raw-original-object-255/receipt.json",
+  "change": "Darwin project-wide LINKER:-no_deduplicate preserves distinct typed exception handlers",
+  "windows_configure_returncode": 0,
+  "windows_projects_checked": 9,
+  "darwin_flag_absent_on_windows": true,
+  "native_product_rebuilt": false,
+  "mac_runtime_repair_verified": false,
+  "next_gate": "Finish local candidate packaging/preflight, freeze once, run complete Mac-native role first; remaining roles follow only after strict Mac acceptance on that same immutable source",
+  "evidence": [
+    {
+      "path": "configure-command.json",
+      "bytes": 983,
+      "sha256": "78dc3105c827aebbca00409d4229524deb9574e97abb32086e1fea451e7ab215"
+    },
+    {
+      "path": "configure.log",
+      "bytes": 1261,
+      "sha256": "80045416e3e00b53f799adfa05fc533d35cfc6a0ae656ec0d98663f2ee1ec3b8"
+    }
+  ]
+}

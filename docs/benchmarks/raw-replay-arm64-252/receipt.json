@@ -16,13 +16,81 @@
   "local_controls": 17,
   "control": "Actual shallow clone rejects missing original, exact fetch admits unchanged cpp, changed cpp still rejects",
   "successor_run": {
-    "conclusion": "",
-    "databaseId": 40414202237,
+    "conclusion": "success",
     "headSha": "71d4105176c717f16a38b3fde0ea932cb3745aa7",
-    "status": "queued",
+    "jobs": [
+      {
+        "completedAt": "2026-10-26T22:54:00Z",
+        "conclusion": "success",
+        "databaseId": 121892269465,
+        "name": "retained-arm64",
+        "startedAt": "2026-10-26T22:53:34Z",
+        "status": "completed",
+        "steps": [
+          {
+            "completedAt": "2026-10-26T22:53:35Z",
+            "conclusion": "success",
+            "name": "Set up job",
+            "number": 1,
+            "startedAt": "2026-10-26T22:53:34Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-26T22:53:39Z",
+            "conclusion": "success",
+            "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+            "number": 2,
+            "startedAt": "2026-10-26T22:53:35Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-26T22:53:39Z",
+            "conclusion": "success",
+            "name": "Fetch exact original comparison commit",
+            "number": 3,
+            "startedAt": "2026-10-26T22:53:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-26T22:53:53Z",
+            "conclusion": "success",
+            "name": "Replay authenticated original test and trace exceptions",
+            "number": 4,
+            "startedAt": "2026-10-26T22:53:39Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-26T22:53:57Z",
+            "conclusion": "success",
+            "name": "Preserve original inputs and diagnostic observations",
+            "number": 5,
+            "startedAt": "2026-10-26T22:53:53Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-26T22:53:57Z",
+            "conclusion": "success",
+            "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+            "number": 10,
+            "startedAt": "2026-10-26T22:53:57Z",
+            "status": "completed"
+          },
+          {
+            "completedAt": "2026-10-26T22:53:57Z",
+            "conclusion": "success",
+            "name": "Complete job",
+            "number": 11,
+            "startedAt": "2026-10-26T22:53:57Z",
+            "status": "completed"
+          }
+        ],
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40414202237/job/121892269465"
+      }
+    ],
+    "status": "completed",
     "url": "https://github.com/bipxx/qupathxx/actions/runs/40414202237"
   },
-  "native_observer_probe_admitted": false,
+  "native_observer_probe_admitted": true,
   "product_repair_established": false,
   "T5_accepted": false,
   "evidence": [
@@ -40,6 +108,56 @@
       "path": "dispatch.json",
       "bytes": 1100,
       "sha256": "cda076f0d8bb0f98aa979d7712d4988ecc84cfbcb3316444ae111c386c76d72d"
+    },
+    {
+      "path": "initial-queued-receipt.json",
+      "bytes": 2694,
+      "sha256": "d213acd2a4f7599a3680aeeba18ae2a638a41bdb9761b843eb85e4dc4b7fccab"
+    },
+    {
+      "path": "interpretation.md",
+      "bytes": 2315,
+      "sha256": "7584febc3cc57876739649bf5feadbf514653e19ced3d2c5f662998b88396b7f"
+    },
+    {
+      "path": "offline/analyze_retained_lsda.py",
+      "bytes": 3383,
+      "sha256": "fe9bc4da356920ed85656e63683adf4434b14a3009bc31a436f74c8f33697329"
+    },
+    {
+      "path": "offline/catch-table-findings.json",
+      "bytes": 4750,
+      "sha256": "28d9f5d92cbd2bc61a4e2fe934c1920242d3b8b97bbc3477950a679214ea9262"
+    },
+    {
+      "path": "offline/commands.json",
+      "bytes": 955,
+      "sha256": "8d4c1ae149b4ae1aafb78361eebd5865722f45d7940a97ad421599a9f759b2e7"
+    },
+    {
+      "path": "offline/fixups-excerpt.log",
+      "bytes": 1234,
+      "sha256": "28423af1ffd631ccbd05b098f319b1a8fd46e88e0c7f6639067246d350d713f9"
+    },
+    {
+      "path": "offline/rejects-lambda9-disassembly.log",
+      "bytes": 3551,
+      "sha256": "29cbc14e36761dbd8ef24bcfdd03eab547f3eaadabf0dcaaf1c8836cd7f2ab6b"
+    },
+    {
+      "path": "offline/sections.log",
+      "bytes": 753,
+      "sha256": "ff3fb536c9999746d6af3ddd01a456dd4a7f984b179da074f6ee309620223345"
+    },
+    {
+      "path": "offline/symbols-excerpt.log",
+      "bytes": 698,
+      "sha256": "7e6c9b26304b9dbe00eae0a337cdfc4e0ffc0a8d43dd7ab505bfac8a36b1b9ab"
+    },
+    {
+      "path": "offline/unwind-excerpt.log",
+      "bytes": 256,
+      "sha256": "f0b2c9d685c2165c091a9870fbd0f0609ad53928adfdd7a6842d07ede8e8b436"
     },
     {
       "path": "original-249/artifact-metadata.json",
@@ -65,6 +183,168 @@
       "path": "original-249/run.log",
       "bytes": 30566,
       "sha256": "75a3be45972c3f0de5d7efdddbe4baad2dc326721da4999cf3acd0a172e9694d"
+    },
+    {
+      "path": "terminal/artifacts.json",
+      "bytes": 942,
+      "sha256": "255a71f9482331514a0c95e7369e4237133c9fb8eb4b8c9689c395b1a52efb81"
+    },
+    {
+      "path": "terminal/files/architecture-command.json",
+      "bytes": 202,
+      "sha256": "fc826ca62bcc55e0c9413cfd238921fb5a6d65b27ebbf1d2d80d1377ce651ecf"
+    },
+    {
+      "path": "terminal/files/architecture.log",
+      "bytes": 201,
+      "sha256": "79abce593a3bd9a3445852a54e72bd4570a9bb76522adedb0f8ade41f7868c6f"
+    },
+    {
+      "path": "terminal/files/exception-probe.cpp",
+      "bytes": 299,
+      "sha256": "fa7646b066982812c9654508e105a0811afb91adf8a9df2ee32666f0f1215bae"
+    },
+    {
+      "path": "terminal/files/host-command.json",
+      "bytes": 192,
+      "sha256": "b8c9b5253f158cc6d7a23afd520d41717898145708c1efa4176b0e55c923cfb3"
+    },
+    {
+      "path": "terminal/files/host.log",
+      "bytes": 66,
+      "sha256": "31fd674ddb951680692d7b68cafdeab5baa6b3e82aae843269dad73b53f25fc5"
+    },
+    {
+      "path": "terminal/files/lldb-version-command.json",
+      "bytes": 219,
+      "sha256": "67d68ce388808f4f8249a60dfc8890c079c7caed4306002721c801c896ad4642"
+    },
+    {
+      "path": "terminal/files/lldb-version.log",
+      "bytes": 84,
+      "sha256": "6290ed7257649907a85bdc349528809f228a33024a8eab881ba7f65d36614d78"
+    },
+    {
+      "path": "terminal/files/original-debugger-command.json",
+      "bytes": 318,
+      "sha256": "99e85d8925b3eb9835f8ecde8b6037366a33fdbfec0a677b30a7a33d88ced264"
+    },
+    {
+      "path": "terminal/files/original-debugger-exceptions.jsonl",
+      "bytes": 193553,
+      "sha256": "0fbc05561288dc9698e288cc5d22ebdf3de4e61438a2ad652c690d874ea8dd4e"
+    },
+    {
+      "path": "terminal/files/original-debugger-summary.json",
+      "bytes": 5249,
+      "sha256": "af13901f5fa66e32e457857d4ba2a78175455dfce78f543036c9c40c2844fbd6"
+    },
+    {
+      "path": "terminal/files/original-debugger.lldb",
+      "bytes": 456,
+      "sha256": "0c68e53f1570ec6a45cf94070f32d4f708d65466a3c35ac309c6676f23d802c5"
+    },
+    {
+      "path": "terminal/files/original-debugger.log",
+      "bytes": 3039,
+      "sha256": "c0db30efaaf722f54ac3309799046873f054875d0433cde08e3cd6da16ec2673"
+    },
+    {
+      "path": "terminal/files/original-identities.json",
+      "bytes": 4402,
+      "sha256": "06df8adfaa57f94247f491a73c2a998e4d6bbae6b24c6f9f1fa222827fba981c"
+    },
+    {
+      "path": "terminal/files/original-plain-command.json",
+      "bytes": 294,
+      "sha256": "8f83dc4fdc65db39ed8e1b3013077a536af3fdee03d7674b85a4b837fc0f444e"
+    },
+    {
+      "path": "terminal/files/original-plain.log",
+      "bytes": 1636,
+      "sha256": "b9683df4be3279f4e8d9e97a349c59815b1ce8b4749dfe245e21a809c875b3cd"
+    },
+    {
+      "path": "terminal/files/plain-result.json",
+      "bytes": 175,
+      "sha256": "0f6097d84fa7c502cdc93a0efe6038b0e49f51c1dcce61b34e426e0412733118"
+    },
+    {
+      "path": "terminal/files/probe-build-command.json",
+      "bytes": 417,
+      "sha256": "b73241a772402897733a2d0f7bfc991a894272865617af7cba467ea22144adfa"
+    },
+    {
+      "path": "terminal/files/probe-build.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "terminal/files/probe-command.json",
+      "bytes": 313,
+      "sha256": "e7e77e7ee2c24ce352508a55db7bfea300d2e75ad07a3434b355ccf32093cf85"
+    },
+    {
+      "path": "terminal/files/probe-exceptions.jsonl",
+      "bytes": 2326,
+      "sha256": "f5a061780d3b6d88536836ff0a27b0193cd3b4d898b33382915a17d1a10dc58f"
+    },
+    {
+      "path": "terminal/files/probe-summary.json",
+      "bytes": 2265,
+      "sha256": "381a3147e007425585a1e998274698974c86aed237016726fc1c0e4bda436e1b"
+    },
+    {
+      "path": "terminal/files/probe.lldb",
+      "bytes": 424,
+      "sha256": "161afdb4cb0c3b3eb42cab28b454379855894c5ca8b89313098b86ffd4c08679"
+    },
+    {
+      "path": "terminal/files/probe.log",
+      "bytes": 1304,
+      "sha256": "91bddda104830f70fee2c5ab67e50ef251fa83d18e83015f650950345562e8ad"
+    },
+    {
+      "path": "terminal/files/remote-artifact.json",
+      "bytes": 431,
+      "sha256": "1aa3fdb9581a9ff02f482e363ea2847680a1f745f2cc0f23013b6ffae362f8d3"
+    },
+    {
+      "path": "terminal/files/result.json",
+      "bytes": 5466,
+      "sha256": "97af1b01c8c12f23bcf00fbd2484b6bb2dd07932d03a00219746800bccfca2d6"
+    },
+    {
+      "path": "terminal/files/xcode-command.json",
+      "bytes": 210,
+      "sha256": "764959ee96713c69e2ec64430327ca02f5f193974d54915c57474eb09d7e6db4"
+    },
+    {
+      "path": "terminal/files/xcode.log",
+      "bytes": 30,
+      "sha256": "a8be4f9af0a29137fe7e59b9928056d4a0df297bb46ba40f80eaa6b0ae982f12"
+    },
+    {
+      "path": "terminal/run.json",
+      "bytes": 1707,
+      "sha256": "551658f2b7ba08bf357eeb49c711247609348c30a0b51f51802a1d5d5bdd3af4"
+    },
+    {
+      "path": "terminal/run.log",
+      "bytes": 24009,
+      "sha256": "a5590bb225a2cfc493c83509ceb9a70bb80c428917f42cce61d1a865f0fc8c0c"
     }
-  ]
+  ],
+  "plain_exit": 1,
+  "debugger_exit": 1,
+  "observed_failure": "std::invalid_argument raw grid source series changed escapes typed helper and is caught in main",
+  "binary_eh_finding": "invalid_argument lambda9/lambda10 specializations share addresses with length_error lambda6/lambda7; both final catch tables bind the length_error RTTI slot",
+  "stage_origin_proven": false,
+  "successor_artifact": {
+    "id": 12695357280,
+    "bytes": 10006990,
+    "sha256": "758ff3bb2a9c78384b4286f0b8f471468904a2fb495ba5d9ee9c89c21f07eeb8"
+  },
+  "retained_program_sha256": "a55c203c8fc7c05c1dfddd5b6ee024c63a638f5c908b75f32a34cc1d8239b9a2",
+  "stage_origin_followup": "../raw-original-object-255/receipt.json"
 }

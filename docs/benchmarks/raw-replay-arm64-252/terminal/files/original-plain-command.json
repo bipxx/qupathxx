@@ -1,0 +1,9 @@
+{
+  "args": [
+    "/Users/runner/work/qupathxx/qupathxx/build/retained-arm64-252/original-artifact/qupathxx_pixel_workflow_tests"
+  ],
+  "cwd": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/native-build",
+  "returncode": 1,
+  "timed_out": false,
+  "seconds": 0.1220174590000056
+}

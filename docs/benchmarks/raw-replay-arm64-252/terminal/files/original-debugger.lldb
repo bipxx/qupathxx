@@ -1,0 +1,7 @@
+settings set auto-confirm true
+settings set target.disable-aslr false
+target create "/Users/runner/work/qupathxx/qupathxx/build/retained-arm64-252/original-artifact/qupathxx_pixel_workflow_tests"
+settings set target.env-vars "DYLD_LIBRARY_PATH=/Users/runner/work/qupathxx/qupathxx/build/retained-arm64-252/retained-runtime/sdk/geos/lib"
+command script import "/Users/runner/work/qupathxx/qupathxx/tools/ci/lldb_retained_exceptions.py"
+run
+retained_summary

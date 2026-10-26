@@ -1,0 +1,73 @@
+{
+  "product_sha256": "a55c203c8fc7c05c1dfddd5b6ee024c63a638f5c908b75f32a34cc1d8239b9a2",
+  "findings": [
+    {
+      "symbol": "00000001000612ac t void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda10'()>(raw_window_classifier_checks::run()::'lambda10'())",
+      "aliases_at_address": [
+        "00000001000612ac t void raw_feature_checks::rejects<std::length_error, raw_window_classifier_checks::run()::'lambda7'()>(raw_window_classifier_checks::run()::'lambda7'())",
+        "00000001000612ac t void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda10'()>(raw_window_classifier_checks::run()::'lambda10'())"
+      ],
+      "function_address": "0x1000612ac",
+      "lsda_address": "0x1005bf708",
+      "lsda_bytes": "ff 9b 19 01 11 10 0c 90 01 01 1c 3c 00 00 58 0c 7c 00 64 50 00 00 01 00 70 96 0c 00",
+      "catch_action_type_index": 1,
+      "type_entry_address": "0x1005bf720",
+      "pcrel_sdata4_delta": 824944,
+      "indirect_slot": "0x100688d90",
+      "binding_line": "__DATA_CONST __got   0x100688D90 0x80100000000001B0 bind   0x0    weak                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          __ZTISt12length_error",
+      "source_expected_catch": "std::invalid_argument",
+      "binary_bound_catch": "std::length_error"
+    },
+    {
+      "symbol": "00000001000611f8 t void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda9'()>(raw_window_classifier_checks::run()::'lambda9'())",
+      "aliases_at_address": [
+        "00000001000611f8 t void raw_feature_checks::rejects<std::length_error, raw_window_classifier_checks::run()::'lambda6'()>(raw_window_classifier_checks::run()::'lambda6'())",
+        "00000001000611f8 t void raw_feature_checks::rejects<std::invalid_argument, raw_window_classifier_checks::run()::'lambda9'()>(raw_window_classifier_checks::run()::'lambda9'())"
+      ],
+      "function_address": "0x1000611f8",
+      "lsda_address": "0x1005bf6ec",
+      "lsda_bytes": "ff 9b 19 01 11 10 0c 90 01 01 1c 3c 00 00 58 0c 7c 00 64 50 00 00 01 00 8c 96 0c 00",
+      "catch_action_type_index": 1,
+      "type_entry_address": "0x1005bf704",
+      "pcrel_sdata4_delta": 824972,
+      "indirect_slot": "0x100688d90",
+      "binding_line": "__DATA_CONST __got   0x100688D90 0x80100000000001B0 bind   0x0    weak                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          __ZTISt12length_error",
+      "source_expected_catch": "std::invalid_argument",
+      "binary_bound_catch": "std::length_error"
+    }
+  ],
+  "interpretation": "Retained final binary catch tables disagree with source template type. Linker/compiler origin and product repair remain unproven.",
+  "reference": "https://github.com/llvm/llvm-project/blob/main/libcxxabi/src/cxa_personality.cpp",
+  "raw_files": [
+    {
+      "path": "symbols.log",
+      "bytes": 2348575,
+      "sha256": "a22bbf9af6a3aa56d5d73ea5b1abe2c0acb088c161054d035f0cd17aa61f53c3"
+    },
+    {
+      "path": "unwind.log",
+      "bytes": 691060,
+      "sha256": "f53b062a28e64defabee2db28af8492c70277831679de68e738a52e877e302ff"
+    },
+    {
+      "path": "dyld-info.log",
+      "bytes": 5080889,
+      "sha256": "d04f8073d42185c7af0b566fe23f7ebb8400ab335881b204a22aae2371261e4d"
+    },
+    {
+      "path": "sections.log",
+      "bytes": 753,
+      "sha256": "ff3fb536c9999746d6af3ddd01a456dd4a7f984b179da074f6ee309620223345"
+    },
+    {
+      "path": "rejects-lambda9-disassembly.log",
+      "bytes": 3551,
+      "sha256": "29cbc14e36761dbd8ef24bcfdd03eab547f3eaadabf0dcaaf1c8836cd7f2ab6b"
+    },
+    {
+      "path": "bind.log",
+      "bytes": 217,
+      "sha256": "ca3cc5ac27d13443279beb0167e264eabf0b04e04b73395fbdd16daeb8f750f0"
+    }
+  ]
+}

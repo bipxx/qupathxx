@@ -1,0 +1,13 @@
+{
+  "args": [
+    "xcrun",
+    "lldb",
+    "--batch",
+    "--source",
+    "/Users/runner/work/qupathxx/qupathxx/build/retained-arm64-252/probe.lldb"
+  ],
+  "cwd": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/native-build",
+  "returncode": 0,
+  "timed_out": false,
+  "seconds": 1.7388332920000096
+}

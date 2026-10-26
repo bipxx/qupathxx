@@ -1,0 +1,40 @@
+/Users/runner/work/qupathxx/qupathxx/build/exception-lsda-254/default:
+dyld information:
+segment  section            address     type       addend dylib            symbol
+__DATA_CONST __got              0x100004000 bind ptr        0 libc++           __ZNKSt3__16locale9use_facetERNS0_2idE
+__DATA_CONST __got              0x100004008 bind ptr        0 libc++           __ZNKSt3__18ios_base6getlocEv
+__DATA_CONST __got              0x100004010 bind ptr        0 libc++           __ZNSt11logic_errorC2EPKc
+__DATA_CONST __got              0x100004018 bind ptr        0 libc++           __ZNSt12length_errorD1Ev
+__DATA_CONST __got              0x100004020 bind ptr        0 libc++           __ZNSt12out_of_rangeD1Ev
+__DATA_CONST __got              0x100004028 bind ptr        0 libc++           __ZNSt13runtime_errorC1EPKc
+__DATA_CONST __got              0x100004030 bind ptr        0 libc++           __ZNSt13runtime_errorD1Ev
+__DATA_CONST __got              0x100004038 bind ptr        0 libc++           __ZNSt16invalid_argumentD1Ev
+__DATA_CONST __got              0x100004040 bind ptr        0 libc++           __ZNSt3__113basic_ostreamIcNS_11char_traitsIcEEE6sentryC1ERS3_
+__DATA_CONST __got              0x100004048 bind ptr        0 libc++           __ZNSt3__113basic_ostreamIcNS_11char_traitsIcEEE6sentryD1Ev
+__DATA_CONST __got              0x100004050 bind ptr        0 libc++           __ZNSt3__119__shared_weak_count14__release_weakEv
+__DATA_CONST __got              0x100004058 bind ptr        0 libc++           __ZNSt3__119__shared_weak_countD2Ev
+__DATA_CONST __got              0x100004060 bind ptr        0 libc++           __ZNSt3__14coutE
+__DATA_CONST __got              0x100004068 bind ptr        0 libc++           __ZNSt3__15ctypeIcE2idE
+__DATA_CONST __got              0x100004070 bind ptr        0 libc++           __ZNSt3__16localeD1Ev
+__DATA_CONST __got              0x100004078 bind ptr        0 libc++           __ZNSt3__18ios_base33__set_badbit_and_consider_rethrowEv
+__DATA_CONST __got              0x100004080 bind ptr        0 libc++           __ZNSt3__18ios_base5clearEj
+__DATA_CONST __got              0x100004088 bind ptr        0 libc++           __ZSt9terminatev
+__DATA_CONST __got              0x100004090 bind ptr        0 libc++           __ZTISt13runtime_error
+__DATA_CONST __got              0x100004098 bind ptr        0 libc++           __ZTISt9exception
+__DATA_CONST __got              0x1000040A0 bind ptr        0 libc++           __ZTVSt12length_error
+__DATA_CONST __got              0x1000040A8 bind ptr        0 libc++           __ZTVSt12out_of_range
+__DATA_CONST __got              0x1000040B0 bind ptr        0 libc++           __ZTVSt16invalid_argument
+__DATA_CONST __got              0x1000040B8 bind ptr        0 libc++           ___cxa_allocate_exception
+__DATA_CONST __got              0x1000040C0 bind ptr        0 libc++           ___cxa_begin_catch
+__DATA_CONST __got              0x1000040C8 bind ptr        0 libc++           ___cxa_end_catch
+__DATA_CONST __got              0x1000040D0 bind ptr        0 libc++           ___cxa_free_exception
+__DATA_CONST __got              0x1000040D8 bind ptr        0 libc++           ___cxa_throw
+__DATA_CONST __got              0x1000040E0 bind ptr        0 libc++           ___gxx_personality_v0
+__DATA_CONST __got              0x1000040E8 bind ptr        0 libSystem        __Unwind_Resume
+__DATA_CONST __got              0x1000040F0 bind ptr        0 libSystem        _memcmp
+__DATA_CONST __got              0x1000040F8 bind ptr        0 libSystem        _memmove
+__DATA_CONST __got              0x100004100 bind ptr        0 libSystem        _memset
+__DATA_CONST __got              0x100004108 bind ptr        0 libSystem        _strlen
+__DATA_CONST __const            0x100004160 bind ptr        0 libc++           __ZNKSt3__119__shared_weak_count13__get_deleterERKSt9type_info
+__DATA_CONST __const            0x100004170 bind ptr       16 libc++           __ZTVN10__cxxabiv120__si_class_type_infoE
+__DATA_CONST __const            0x100004180 bind ptr        0 libc++           __ZTINSt3__119__shared_weak_countE

@@ -1,0 +1,187 @@
+[
+  {
+    "path": "terminal/artifacts.json",
+    "bytes": 937,
+    "sha256": "9ad0e24c02f3bd6774d5422de3675baec4c1bf854560b55bde6a466c388e9693"
+  },
+  {
+    "path": "terminal/default-analysis-only-symbols.log",
+    "bytes": 341377,
+    "sha256": "87a68822d775e9bcd3e9b4025396615504bb32387735bdb6acdecabac537cf63"
+  },
+  {
+    "path": "terminal/default-bind-llvm18.log",
+    "bytes": 15570,
+    "sha256": "797b90514bedc608918b2e8bd50d0739ea67b56b1f29b339099d7046c92a9248"
+  },
+  {
+    "path": "terminal/default-dyld-info-llvm18.log",
+    "bytes": 205,
+    "sha256": "e34254110a6f6f479d371ded8402dce2fe2b0a1dbe1a74e30e18b568e667119b"
+  },
+  {
+    "path": "terminal/link-isolation-findings.json",
+    "bytes": 4578,
+    "sha256": "8b72066ad53afea080c1e87ce32558b5b530dc9590df286054ef0ef9638090f5"
+  },
+  {
+    "path": "terminal/no-deduplicate-analysis-only-symbols.log",
+    "bytes": 341377,
+    "sha256": "753e68758aba55090e6dbab4a01464dca443400be235f64ea0db620569279ff6"
+  },
+  {
+    "path": "terminal/no-deduplicate-bind-llvm18.log",
+    "bytes": 15577,
+    "sha256": "281fb912811ef770b418a80723d5b3309173fdae7e57a345a88c54e93ff9b99e"
+  },
+  {
+    "path": "terminal/no-deduplicate-dyld-info-llvm18.log",
+    "bytes": 212,
+    "sha256": "512d7118ffedb2feb2e221a25b2969641323f33a29a298c76d70f89a6fca50a3"
+  },
+  {
+    "path": "terminal/original-object-255.zip",
+    "bytes": 32157397,
+    "sha256": "347141f74348abf55802d16161847e4239abec7712bea0ae020169213ca626bf"
+  },
+  {
+    "path": "terminal/original-test.o-symbols.log",
+    "bytes": 370791,
+    "sha256": "82cf7b61c8d10f6134c92346c0995da7f92af8f0f1b181df8a97233465121271"
+  },
+  {
+    "path": "terminal/run.json",
+    "bytes": 1709,
+    "sha256": "b0f5c195acf09f3bf3872ab6850f73125ed915734dc1510bae5cf7d787be8a1e"
+  },
+  {
+    "path": "terminal/run.log",
+    "bytes": 24606,
+    "sha256": "5fb2e689957f501edc49698e293ad54547e4939a8498e7458954f2d369f8b0d0"
+  },
+  {
+    "path": "terminal/files/architecture.log",
+    "bytes": 6,
+    "sha256": "c1669e1d8edca98769c37d494b76442a1d6e5ffffd7b4da1fb63aef8ebaf6f01"
+  },
+  {
+    "path": "terminal/files/compiler.log",
+    "bytes": 206,
+    "sha256": "df12815703ce3452ab4bd51ecbea4cf8155246b94b5b15113a580ff6aec2befd"
+  },
+  {
+    "path": "terminal/files/default-analysis-only",
+    "bytes": 900136,
+    "sha256": "8ddc153b934dc4368b07330d2925cc5727ca2bcafaee7ef658c94cf6c3798eec"
+  },
+  {
+    "path": "terminal/files/default-disassembly.log",
+    "bytes": 5849036,
+    "sha256": "68627b7eb1300b37f204a7ba58e5b93b345cc09d647f69b3d7ad1d58b07cebf8"
+  },
+  {
+    "path": "terminal/files/default-fixups.log",
+    "bytes": 186,
+    "sha256": "21c450a38121002aa5d3fdfe675cd5f694762e29211c91e4aba3481918448e77"
+  },
+  {
+    "path": "terminal/files/default-link.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "terminal/files/default-names.log",
+    "bytes": 273044,
+    "sha256": "d2f6235f6d3a516280938a8c91924464e3680d4a64592871d2c98ad74eee49b8"
+  },
+  {
+    "path": "terminal/files/default-unwind.log",
+    "bytes": 54078,
+    "sha256": "9b4b378b61e339442cf523fb88d53270154f7eff95de2da9f7e0d9926c468ca5"
+  },
+  {
+    "path": "terminal/files/host.log",
+    "bytes": 66,
+    "sha256": "31fd674ddb951680692d7b68cafdeab5baa6b3e82aae843269dad73b53f25fc5"
+  },
+  {
+    "path": "terminal/files/no-deduplicate-analysis-only",
+    "bytes": 950064,
+    "sha256": "fe420bb6477763cf4b08a2b447e99900dd4972f6d00038166cdbef6225e01add"
+  },
+  {
+    "path": "terminal/files/no-deduplicate-disassembly.log",
+    "bytes": 6397501,
+    "sha256": "55b42939288968a86b0e7e80a97a2dba1e426d6517f7a83e00e172872718159c"
+  },
+  {
+    "path": "terminal/files/no-deduplicate-fixups.log",
+    "bytes": 193,
+    "sha256": "b10cf7544a1b88e6de09453af6b11eea0dbb014f39b08ac7a8ce8ef35e530aa7"
+  },
+  {
+    "path": "terminal/files/no-deduplicate-link.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "terminal/files/no-deduplicate-names.log",
+    "bytes": 273044,
+    "sha256": "b3f69dab77a9a79ccc64ed0e236400ccb78a0ceba8e48d4c051a4ffd76f0fd26"
+  },
+  {
+    "path": "terminal/files/no-deduplicate-unwind.log",
+    "bytes": 72530,
+    "sha256": "9587b63ac1e1279a7924755eb9743c2b36227bcd4ee978967be4820637cdca7b"
+  },
+  {
+    "path": "terminal/files/object-disassembly.log",
+    "bytes": 5787426,
+    "sha256": "0fc744befd5405e8ec86e07c1512464af5bd99c7df0b5c91cf04b458589f56f2"
+  },
+  {
+    "path": "terminal/files/object-names.log",
+    "bytes": 309821,
+    "sha256": "4a3d04fd26877411f4500262608f7f68fa1b19cfb470d04e24ef0d08f00791d6"
+  },
+  {
+    "path": "terminal/files/object-relocations.log",
+    "bytes": 1916777,
+    "sha256": "3304eabd301cc0472ae856bb6637da6cb014584649513cde247de5af960de543"
+  },
+  {
+    "path": "terminal/files/object-symbols.log",
+    "bytes": 278911,
+    "sha256": "92e05a915e539a72aae066fe02819ec2d5d4e9dfabd72bca22270c3462c29bb0"
+  },
+  {
+    "path": "terminal/files/original-assembly.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "terminal/files/original-compile.log",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  {
+    "path": "terminal/files/original-test.o",
+    "bytes": 1092400,
+    "sha256": "d7a6ecdcde495259b61b0490c4c5d9f48e7744674052b0c7ca8e993356198cec"
+  },
+  {
+    "path": "terminal/files/original-test.s",
+    "bytes": 7992049,
+    "sha256": "505e99dd0150c451bddfc8949412932aa31059aa3e8d756b34f812f80b409fc4"
+  },
+  {
+    "path": "terminal/files/report.json",
+    "bytes": 6625,
+    "sha256": "6c5c3c91bb75035643f62b810c40ec62743400db2bd3b8c05f13c729880b496a"
+  },
+  {
+    "path": "terminal/files/xcode.log",
+    "bytes": 30,
+    "sha256": "a8be4f9af0a29137fe7e59b9928056d4a0df297bb46ba40f80eaa6b0ae982f12"
+  }
+]

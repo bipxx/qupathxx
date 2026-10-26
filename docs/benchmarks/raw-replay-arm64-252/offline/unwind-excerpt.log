@@ -1,0 +1,4 @@
+    [117]: function offset=0x000611f8, LSDA offset=0x005bf6ec
+    [118]: function offset=0x000612ac, LSDA offset=0x005bf708
+      [188]: function offset=0x000611f8, encoding[1]=0x54000001
+      [189]: function offset=0x000612ac, encoding[1]=0x54000001

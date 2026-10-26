@@ -1,0 +1,74 @@
+{
+  "size": 1024,
+  "pid": 146544,
+  "memory_before_import": {
+    "peak_working_set_bytes": 20242432,
+    "working_set_bytes": 20180992,
+    "peak_commit_bytes": 12091392
+  },
+  "runtime_source": "3039f0c23b274a8b0f121e48df0d290447ecf2e3",
+  "runtime_fingerprint": "1b72fac80fd681c59a4316eba7cece56ed274e2abb61ef7f0f3dbf9f68eda87f",
+  "package": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-history-248-final-env\\Lib\\site-packages\\qupathxx\\__init__.py",
+  "memory_after_import_and_hash": {
+    "peak_working_set_bytes": 29429760,
+    "working_set_bytes": 27901952,
+    "peak_commit_bytes": 18161664
+  },
+  "capture_ms": 1.342299859970808,
+  "memory_before_trace": {
+    "peak_working_set_bytes": 29429760,
+    "working_set_bytes": 28848128,
+    "peak_commit_bytes": 18161664
+  },
+  "trace_ms": 873.9406999666244,
+  "memory_after_trace": {
+    "peak_working_set_bytes": 32800768,
+    "working_set_bytes": 32149504,
+    "peak_commit_bytes": 19488768
+  },
+  "reader": {
+    "decoded_blocks": 64,
+    "decoded_bytes": 2097152,
+    "cache_bytes": 2113536,
+    "peak_cache_bytes": 2113536
+  },
+  "completed_samples": 1048576,
+  "valid_samples": 1048576,
+  "completed_windows": 64,
+  "expected_windows": 64,
+  "class_counts": [
+    524288,
+    524288
+  ],
+  "estimated_work_bytes": 21102592,
+  "payload_bytes": 487494,
+  "geometry": [
+    {
+      "label": 1,
+      "pixels": 524288,
+      "area": 524288.0,
+      "perimeter": 3072.0
+    },
+    {
+      "label": 2,
+      "pixels": 524288,
+      "area": 524288.0,
+      "perimeter": 3072.0
+    }
+  ],
+  "geometry_wkt": [
+    "POLYGON((512 0,0 0,0 1024,512 1024,512 0))",
+    "POLYGON((1024 0,512 0,512 1024,1024 1024,1024 0))"
+  ],
+  "exact_rectangles": true,
+  "input_identities": {
+    "source_sha256": "99c3e937d56f2baea4308771a0551be2d40d8695c58761b47caa924d6843a0e8",
+    "model_sha256": "813e3f8a9b97b9ee5ae25ec0b55d2ebbc1e937148c26bfad7114a0904dbaf555",
+    "source_bytes": 2097760
+  },
+  "memory_final": {
+    "peak_working_set_bytes": 32800768,
+    "working_set_bytes": 30457856,
+    "peak_commit_bytes": 19488768
+  }
+}
