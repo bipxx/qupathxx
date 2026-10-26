@@ -63,7 +63,11 @@ locally verified at `a3be74b`: all three affected Windows native suites pass.
 The two-million-sample uniform case uses seven peak boundary runs; this is a
 builder storage witness, not a process-memory or whole-slide performance claim.
 The independent seam reference and actual filtered block producer agree.
-Streamed polygon geometry, immutable results and user-facing delivery remain open.
+[Streamed geometry](benchmarks/raw-stream-boundaries-local/geometry-242/receipt.json)
+is now locally verified at `abeb20f`: four Windows ON and four Clang minimal OFF
+native suites pass. Sixteen independent layouts match exact geometry, topology,
+counts and both-axis crop phase. Immutable captured results, native jobs, fresh
+atomic publication and user-facing delivery remain open.
 
 Diagnostic238 is terminal: arm64 fails at `historical and foreign capture
 refusal`; x86_64 passes. Both archives authenticate. Its CLI/SDK inventory did
@@ -71,7 +75,11 @@ not include the failing test binary. [Diagnostic240](benchmarks/raw-replay-macos
 at `4a72fd8`, run `40384720525`, separates the two calls, reports exception types
 and uploads the actual test executable before CTest. All 166 local observer
 controls and positive/wrong-type probes pass. Production guards and required
-refusal checks remain intact. No root cause or repair is established.
+refusal checks remain intact. Its [first arm64 archive](benchmarks/raw-replay-macos-240/arm64-observation/receipt.json)
+now shows both typed contour refusals caught and replay complete, followed by
+`raw grid source series changed` in the next workflow. The actual test binary
+is retained and SHA-verified; x86_64 was still queued. No root cause or repair
+is established.
 Then follow the [SCI1-B route](api-delivery-plan.md#sci1-b-next-workflow-route)
 through bounded GEOS face classification, fresh atomic publication and existing
 consumers. Keep the frozen diagnostic immutable. Scientific/model, resource/

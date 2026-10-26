@@ -1,0 +1,27 @@
+{
+  "schema": "qpx.macos-test-product/1",
+  "commit": "4a72fd84b7726927285bf58120d288513c65eb4e",
+  "architecture": "arm64",
+  "path": "qupathxx_pixel_workflow_tests",
+  "bytes": 8563968,
+  "sha256": "a55c203c8fc7c05c1dfddd5b6ee024c63a638f5c908b75f32a34cc1d8239b9a2",
+  "flags": {
+    "CMAKE_BUILD_TYPE": "Release",
+    "CMAKE_OSX_ARCHITECTURES": "arm64",
+    "QUPATHXX_BUILD_TESTS": "ON",
+    "QUPATHXX_BUILD_PYTHON": "OFF",
+    "QUPATHXX_BUILD_GUI": "OFF",
+    "QUPATHXX_BUILD_GEOS": "ON",
+    "QUPATHXX_BUNDLE_GEOS": "OFF",
+    "GEOS_ROOT": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk",
+    "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+    "QUPATHXX_BUNDLE_OPENSLIDE": "OFF",
+    "QUPATHXX_BUILD_TIFF": "ON",
+    "QUPATHXX_BUILD_PROJECT": "ON",
+    "QUPATHXX_BUILD_INTERCHANGE": "ON",
+    "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "ON",
+    "OpenCV_DIR": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/cmake/opencv4",
+    "QUPATHXX_OPENCV_NOTICES": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/licenses/opencv"
+  },
+  "scope": "Original compiled test program before CTest; not test acceptance."
+}

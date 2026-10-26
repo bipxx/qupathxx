@@ -1,8 +1,8 @@
 # Streamed raw contours: reference and implementation route
 
 This is the next SCI1-B workflow, after the active T5 qualification. Streamed
-polygon geometry and publication are not implemented yet. Internal boundary
-assembly is locally verified as described below. The existing
+polygon geometry is locally verified as an internal component. The immutable
+streamed workflow, owner jobs and publication remain open. The existing
 bounded full-grid tracer and prediction block producer are working baselines.
 Keep the [numeric contract](raw-pixel-classifier.md), owner/source guards and
 [open-source reader policy](reader-license-policy.md).
@@ -78,11 +78,28 @@ Malformed/incomplete/overlapping input, cancellation and work limits reject.
 Six sparse queries on the two-million-sample network need two active runs and
 less than the 128-KiB lookup budget. The lookup charges its owned event/index/
 output/map storage, separately from the borrowed network, GEOS and producer.
-This is an internal class lookup, not connected polygon geometry yet.
+The [connected geometry component](benchmarks/raw-stream-boundaries-local/geometry-242/receipt.json)
+is locally verified at `abeb20f`. It reuses GEOS polygonization, clipping and
+extraction in the existing kernel, batch-classifies face interiors with the
+edge sweep, and maps local vertices through both original global lattice axes.
+The existing precision test now also accepts an axis range, without constructing
+a whole-raster grid. Every edge, class count, area, perimeter, part and hole
+matches the independent reference across all sixteen layouts. Image/ROI clipping,
+precision loss, incorrect counts, limits and cancellation controls pass.
 
-Next feed GEOS face interiors into this lookup and reuse the existing world
-mapping/clipping/extraction (step 2), then result/authority and consumer delivery.
-Keep the existing full-grid API working.
+Four affected Windows native suites pass with GEOS/training/TIFF/project ON;
+the same four pass in an actual Clang minimal build with GEOS and other optional
+backends OFF, including explicit unavailable refusal. The uniform two-million-
+sample geometry is admitted under a 192-KiB work estimate. This includes boundary,
+query/lookup and conservative existing GEOS/output charges, not measured RSS.
+The original WSL shell invocation failed before CTest; direct `--exec` tests pass
+on unchanged binaries without recompilation. Both attempts remain captured.
+
+`trace_raw_boundary_geometry` is internal. Its result has empty input identity
+and object ID zero, giving no live apply authority. Next deliver the distinct
+immutable streamed result, existing job pattern and fresh atomic publication
+(step 4–5), followed by shared consumers. The existing full-grid API remains.
+
 
 ## Smallest native path
 
@@ -91,11 +108,10 @@ Keep the existing full-grid API working.
    indices and adjacent class labels. Reconcile shared block borders before
    polygonization. Do not retain completed raster blocks or concatenate masks.
 2. Reuse the existing GEOS polygonization, clipping and geometry extraction in
-   `tissue_contours.cpp`. Its current face-to-class lookup reads a full raster;
-   that is the concrete missing dependency. Preserve class tags on boundary
-   runs so an indexed vertical-edge lookup can classify polygonized faces.
-   Prototype this against the tiny oracle first. Avoid one full boundary scan
-   per face; an ordered sweep can reuse the run endpoints without a pixel map.
+   `tissue_contours.cpp`. The streamed adapter now uses tagged-edge batch lookup;
+   existing full-grid consumers retain their raster lookup. Preserve the exact
+   geometry oracle and both global axes while delivering the captured result.
+   Avoid one full boundary scan per face or any full-mask allocation.
 3. Keep both lattice axes when mapping integer vertices to world coordinates.
    Admit boundary storage, polygonization, retained geometry and output IDs
    against explicit limits. Cancel between blocks and inside GEOS; release each

@@ -1,0 +1,158 @@
+[0/2] Re-checking globbed directories...
+[1/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/core.cpp.o
+[2/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tma.cpp.o
+[3/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tma_tables.cpp.o
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_tables.cpp:61:6: warning: misleading indentation; statement is not part of the previous 'for' [-Wmisleading-indentation]
+   61 |     }return std::move(csv.value);
+      |      ^
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tma_tables.cpp:55:35: note: previous statement is here
+   55 |     const auto& info=*grid.info();for(std::size_t row=0;row<info.rows();++row) for(std::size_t column=0;column<info.columns();++column) {
+      |                                   ^
+1 warning generated.
+[4/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/selection.cpp.o
+[5/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/document_edits.cpp.o
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/document_edits.cpp:30:98: warning: missing field 'nucleus' initializer [-Wmissing-field-initializers]
+   30 | ObjectEdit ObjectEdit::remove(std::uint64_t id) { return {ObjectEditKind::Remove,{id,"",{},0,"",0}}; }
+      |                                                                                                  ^
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/document_edits.cpp:32:64: warning: missing field 'nucleus' initializer [-Wmissing-field-initializers]
+   32 |     ObjectEdit out{ObjectEditKind::TmaMetadata,{id,"",{},0,"",0}};out.value.tma_core=std::move(info);return out;
+      |                                                                ^
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/document_edits.cpp:35:133: warning: missing field 'cell_feature_link' initializer [-Wmissing-field-initializers]
+   35 |     return {ObjectEditKind::Create,{0,std::move(name),std::move(geometry),parent,std::move(classification),0,kind,std::move(nucleus)}};
+      |                                                                                                                                     ^
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/document_edits.cpp:38:135: warning: missing field 'cell_feature_link' initializer [-Wmissing-field-initializers]
+   38 |     return {ObjectEditKind::Replace,{id,std::move(name),std::move(geometry),parent,std::move(classification),0,kind,std::move(nucleus)}};
+      |                                                                                                                                       ^
+4 warnings generated.
+[6/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/geometry.cpp.o
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/geometry.cpp:30:6: warning: unused function 'closed' [-Wunused-function]
+   30 | Ring closed(Ring r) {
+      |      ^~~~~~
+1 warning generated.
+[7/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/spatial_index.cpp.o
+[8/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/image_server.cpp.o
+[9/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/openslide_server.cpp.o
+[10/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tile_scheduler.cpp.o
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tile_scheduler.cpp:149:89: warning: missing field 'pixels' initializer [-Wmissing-field-initializers]
+  149 |     auto j = std::make_shared<Impl::Job>(Impl::Job{s.next_ticket,s.generation,r,priority});
+      |                                                                                         ^
+1 warning generated.
+[11/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/view_tiles.cpp.o
+[12/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/display.cpp.o
+[13/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project.cpp.o
+[14/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project_recovery.cpp.o
+[15/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project_save.cpp.o
+[16/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/stains.cpp.o
+[17/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/interchange.cpp.o
+[18/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/sha256.cpp.o
+[19/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/analysis.cpp.o
+[20/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/analysis_records.cpp.o
+[21/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tissue_contours.cpp.o
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tissue_contours.cpp:59:31: warning: unused function 'stream_geometry' [-Wunused-function]
+   59 | const RawPixelStreamGeometry* stream_geometry(const StreamBoundaryRaster& m) {return &m.network.geometry;}
+      |                               ^~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tissue_contours.cpp:61:13: warning: unused function 'boundary_payload' [-Wunused-function]
+   61 | std::size_t boundary_payload(const StreamBoundaryRaster& m) {
+      |             ^~~~~~~~~~~~~~~~
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/tissue_contours.cpp:72:27: warning: unused function 'classify_face_cells' [-Wunused-function]
+   72 | detail::RawBoundaryLabels classify_face_cells(const StreamBoundaryRaster& mask,
+      |                           ^~~~~~~~~~~~~~~~~~~
+3 warnings generated.
+[22/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tissue.cpp.o
+[23/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tissue_records.cpp.o
+[24/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tissue_archive.cpp.o
+[25/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/thumbnail.cpp.o
+[26/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/resampling.cpp.o
+[27/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/scientific_sampling.cpp.o
+[28/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/cells.cpp.o
+[29/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/scientific_channels.cpp.o
+[30/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/scientific_raster.cpp.o
+[31/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/scientific_raw_sampling.cpp.o
+[32/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/scientific_cell_archive.cpp.o
+[33/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/scientific_cells.cpp.o
+[34/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tma_case_export.cpp.o
+[35/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/qptma.cpp.o
+[36/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tma_dearray.cpp.o
+[37/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_image.cpp.o
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_image.cpp:145:6: warning: misleading indentation; statement is not part of the previous 'for' [-Wmisleading-indentation]
+  145 |     }return result;
+      |      ^
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/raw_image.cpp:122:5: note: previous statement is here
+  122 |     for(std::int64_t y=0;y<r.region.height;y+=tile) for(std::int64_t x=0;x<r.region.width;x+=tile) {
+      |     ^
+1 warning generated.
+[38/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/tiff_server.cpp.o
+[39/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_analysis_records.cpp.o
+[40/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_analysis.cpp.o
+[41/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_analysis_archive.cpp.o
+[42/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/classifier.cpp.o
+[43/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_tables.cpp.o
+[44/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_features.cpp.o
+[45/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_features.cpp.o
+[46/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/object_classifier.cpp.o
+[47/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_classifier.cpp.o
+[48/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_workflows.cpp.o
+[49/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_archive.cpp.o
+[50/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_records.cpp.o
+[51/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier.cpp.o
+[52/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_prediction.cpp.o
+[53/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_training.cpp.o
+[54/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream.cpp.o
+[55/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_file.cpp.o
+[56/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_export_job.cpp.o
+[57/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_read_job.cpp.o
+[58/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_stream_records.cpp.o
+[59/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_contour_job.cpp.o
+[60/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier_records.cpp.o
+[61/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/pixel_classifier_archive.cpp.o
+[62/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/geometry_archive.cpp.o
+[63/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/document_classifications.cpp.o
+[64/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/object_classifier_records.cpp.o
+[65/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/object_classifier_archive.cpp.o
+[66/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/classifier_io.cpp.o
+[67/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_contour_job.cpp.o
+[68/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_window_workflows.cpp.o
+[69/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_tiled_archive.cpp.o
+[70/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_tiled_training.cpp.o
+[71/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_training_checkpoint.cpp.o
+[72/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_file_jobs.cpp.o
+[73/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_records.cpp.o
+[74/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_stream_boundaries.cpp.o
+[75/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream.cpp.o
+[76/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/workspace_preferences.cpp.o
+[77/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_stream_file.cpp.o
+[78/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/cell_records.cpp.o
+[79/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/cell_archive.cpp.o
+[80/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/cell_tables.cpp.o
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/cell_tables.cpp:52:133: warning: missing field 'x' initializer [-Wmissing-field-initializers]
+   52 |         images.push_back({id,doc.revision(),std::uint64_t(doc.metadata().width),std::uint64_t(doc.metadata().height),std::move(name)});
+      |                                                                                                                                     ^
+/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/scientific-grid-159/cpp/cell_tables.cpp:61:176: warning: missing field 'runs' initializer [-Wmissing-field-initializers]
+   61 |         images.push_back({id,doc.revision(),std::uint64_t(doc.metadata().width),std::uint64_t(doc.metadata().height),std::move(name),doc.pixel_width_um(),doc.pixel_height_um()});
+      |                                                                                                                                                                                ^
+2 warnings generated.
+[81/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/measurement_tables.cpp.o
+[82/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/provenance.cpp.o
+[83/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/provenance_codec.cpp.o
+[84/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/file_fingerprint.cpp.o
+[85/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/source_identity.cpp.o
+[86/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/input_digest.cpp.o
+[87/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/stain_estimation.cpp.o
+[88/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/batch_checkpoint.cpp.o
+[89/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/project_batch.cpp.o
+[90/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/viewer_session.cpp.o
+[91/105] Building CXX object CMakeFiles/qupathxx_core.dir/cpp/raw_pixel_frontend.cpp.o
+[92/105] Linking CXX static library libqupathxx_core.a
+[93/105] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/resampling_tests.cpp.o
+[94/105] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_grid_geometry_tests.cpp.o
+[95/105] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_sampling_tests.cpp.o
+[96/105] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/raw_scientific_numeric_tests.cpp.o
+[97/105] Building CXX object CMakeFiles/qupathxx_resampling_tests.dir/cpp/tests/scientific_raw_sampling_tests.cpp.o
+[98/105] Linking CXX executable qupathxx_resampling_tests
+[99/105] Building CXX object CMakeFiles/qupathxx_pixel_workflow_tests.dir/cpp/tests/pixel_workflow_tests.cpp.o
+[100/105] Building CXX object CMakeFiles/qupathxx_viewer_session_tests.dir/cpp/tests/viewer_session_tests.cpp.o
+[101/105] Linking CXX executable qupathxx_pixel_workflow_tests
+[102/105] Building CXX object CMakeFiles/qupathxx_tissue_contour_tests.dir/cpp/tests/tissue_contour_tests.cpp.o
+[103/105] Linking CXX executable qupathxx_viewer_session_tests
+[104/105] Building CXX object CMakeFiles/qupathxx_tissue_contour_tests.dir/cpp/tests/scientific_raster_tests.cpp.o
+[105/105] Linking CXX executable qupathxx_tissue_contour_tests

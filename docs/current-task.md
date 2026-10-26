@@ -2,6 +2,16 @@
 
 ## Current execution card (2026-10-26)
 
+- [Internal streamed geometry](benchmarks/raw-stream-boundaries-local/geometry-242/receipt.json)
+  at `abeb20f` passes four Windows GEOS/training/TIFF/project-ON suites and four
+  Clang all-optional-OFF suites. Exact independent edges/areas/perimeters/parts/
+  holes match all sixteen layouts; crop phase, both axes, clipping, cancellation,
+  precision/count and resource refusals pass. A two-million-sample uniform
+  geometry fits its 192-KiB conservative work admission; this is not process RSS.
+  The first WSL CTest invocation failed in shell parsing; direct exec passes on
+  unchanged binaries. Original command/log and corrected profile metadata remain.
+  The result has empty input identity and object ID zero; next deliver immutable
+  captured results, native jobs and fresh admitted atomic apply, then consumers.
 - The [internal face-cell class lookup](benchmarks/raw-stream-boundaries-local/face-lookup-241/receipt.json)
   at `e6341d4` passes the three affected Windows native suites. Its offline edge
   sweep matches authored labels across all sixteen layouts and global crops;
@@ -9,6 +19,14 @@
   cancellation controls pass. A sparse lookup in the two-million-sample network
   has two active runs under its 128-KiB work budget. No raster is allocated by
   the lookup. GEOS integration, result authority and consumers remain open.
+- The [diagnostic240 arm64 observation](benchmarks/raw-replay-macos-240/arm64-observation/receipt.json)
+  authenticates its first archive and actual 8,563,968-byte test executable
+  (`a55c203c…`). Both historical/foreign typed contour refusals are logged and
+  caught; replay and contour publication semantics finish. The suite then fails
+  with `raw grid source series changed`, before the window-classifier completion
+  marker. Arm64 is 49/50; x86_64 remains queued on the original handle at this
+  observation. Inspect the window series-refusal calls without assuming a cause
+  shared with the prior capture failure. No repair or T5 acceptance is inferred.
 - [Diagnostic240](benchmarks/raw-replay-macos-240/receipt.json) is frozen at
   `4a72fd8`, run `40384720525`, with 720 authenticated inputs. It distinguishes
   historical from foreign capture refusal and reports dynamic exception types;

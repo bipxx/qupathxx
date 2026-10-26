@@ -1,0 +1,153 @@
+{
+  "schema": "qpx.local-component-observation/1",
+  "source": "abeb20f15ba8719a6b97b346db1ba98f9990d428",
+  "scope": "Internal streamed boundary geometry through shared GEOS kernel; no public streamed result, owner job, apply authority or frontend acceptance",
+  "profiles": {
+    "Windows Release GEOS/training/TIFF/project ON": {
+      "passed": [
+        "pixel_workflows",
+        "resampling",
+        "viewer_session",
+        "tissue_contours"
+      ],
+      "failures": 0,
+      "skips": 0,
+      "semantic": "16 exact independent geometry layouts; global crop/both axes, clipping, limits/cancel/precision/count refusal; two-million-sample geometry admitted under 192 KiB"
+    },
+    "Linux Clang Release all optional backends OFF": {
+      "passed": [
+        "pixel_workflows",
+        "resampling",
+        "viewer_session",
+        "tissue_contours"
+      ],
+      "failures": 0,
+      "skips": 0,
+      "semantic": "Actual GEOS-unavailable refusal; no positive geometry acceptance from this profile"
+    }
+  },
+  "preserved_attempts": [
+    "WSL shell parsed the CTest regex before launch; failed command/log retained. Direct --exec CTest passes with identical existing executables, no native rebuild.",
+    "Minimal source-hash list was inherited with Windows flag metadata. That original record is retained; actual minimal flags bind the captured CMake cache in its corrected profile record."
+  ],
+  "authority": "Internal TissueContours input identity empty, object ID zero; existing raw full-grid capture and publication guards unchanged.",
+  "accounting": "Boundary storage, face query/lookup storage and existing conservative GEOS/output admission; not measured process RSS or supported hardware budgets.",
+  "remaining": [
+    "Distinct immutable streamed result with completed capture and native worker/controller",
+    "Fresh source/model/image/revision verification and admitted atomic publication",
+    "Python/CLI/batch/ImGui and retained-file save/reopen",
+    "Scope-matched platform, scientific/resource and release gates"
+  ],
+  "payloads": [
+    {
+      "path": "windows-geos/compiler-inputs.json",
+      "bytes": 41950,
+      "sha256": "8bc8f41905321f972851bf628fd6e11e3828ec1c063d48d2a7137c5096454485"
+    },
+    {
+      "path": "windows-geos/commands.json",
+      "bytes": 1638,
+      "sha256": "42dfd028d80377fe99b457c9acfaa5d209adb83a1b4cbf335c6f29b08afb7f7c"
+    },
+    {
+      "path": "windows-geos/products.json",
+      "bytes": 849,
+      "sha256": "924f6bd6cedd59309498ae2d84977d6ed64355be7c55412193ca69ae45e7cb9b"
+    },
+    {
+      "path": "windows-geos/configure.log",
+      "bytes": 3867,
+      "sha256": "200cee1705cf81b6a0eba027df581092bda1ac7a23a85a68814262f89d7d5dff"
+    },
+    {
+      "path": "windows-geos/build.log",
+      "bytes": 5189,
+      "sha256": "14d81cb3e8a7224dfe1672cc9d9becb1ea4093431db960aff60a5772e071f681"
+    },
+    {
+      "path": "windows-geos/native-tests.log",
+      "bytes": 537,
+      "sha256": "2da9f18e7396580a078ed51674fc7db6b719dbbe6a63b5144f4efc9909530fd6"
+    },
+    {
+      "path": "windows-geos/native-tests.xml",
+      "bytes": 9571,
+      "sha256": "4bb7b30e5e04ae5041a3832e93d83f24fe41f13abdecf00c1a9e90123531a4d7"
+    },
+    {
+      "path": "windows-geos/resampling-as-found.json",
+      "bytes": 348,
+      "sha256": "8715cab3bde8f31db354497e4bd056d8f823b8a3eefac4a1ad74765fdbe48e75"
+    },
+    {
+      "path": "clang-minimal/compiler-inputs.json",
+      "bytes": 41699,
+      "sha256": "6b07f7bc616fafba39c875f06cf731d70d8aa4e61edfcb36cf51f02f96e83944"
+    },
+    {
+      "path": "clang-minimal/inherited-windows-inputs.json",
+      "bytes": 41950,
+      "sha256": "8bc8f41905321f972851bf628fd6e11e3828ec1c063d48d2a7137c5096454485"
+    },
+    {
+      "path": "clang-minimal/cmake-cache.txt",
+      "bytes": 15749,
+      "sha256": "22b02fb0fd820ce9a18a5f6a8d1d8293b665711f8375adcf148561204eabdbdc"
+    },
+    {
+      "path": "clang-minimal/configure-command.json",
+      "bytes": 667,
+      "sha256": "de9f995488c2ff984d5a423f22dec6e5c56eb513078685c7cf4098973953dc45"
+    },
+    {
+      "path": "clang-minimal/configure.log",
+      "bytes": 804,
+      "sha256": "91ca0383b8642330a9e5db1e887dd135760eba4effe587c14482fcf4d538f894"
+    },
+    {
+      "path": "clang-minimal/commands.json",
+      "bytes": 1123,
+      "sha256": "7ad328d13f3f1fb872e7e9a37c1bca77187e31a1bf6772d67d2f17f87cb104d3"
+    },
+    {
+      "path": "clang-minimal/products.json",
+      "bytes": 833,
+      "sha256": "27f2a88fe3704d4dc3a1a35d93dbf49d424e8a30f87b408324fff2afae63cc42"
+    },
+    {
+      "path": "clang-minimal/build.log",
+      "bytes": 14339,
+      "sha256": "6c8d80e42e456ddc88a71655bdb945ffdf04df1d1436202e70d88d9cd71d445e"
+    },
+    {
+      "path": "clang-minimal/native-tests.log",
+      "bytes": 427,
+      "sha256": "006e12aff7f683b7cc72d7f003d498b31d62a19c389313eb15aea5f3165db156"
+    },
+    {
+      "path": "clang-minimal/native-tests-direct-exec-command.json",
+      "bytes": 659,
+      "sha256": "5b5939226318fd9939a35e73af84092db54afb3af7521d8553482596191ee87e"
+    },
+    {
+      "path": "clang-minimal/native-tests-direct-exec.log",
+      "bytes": 680,
+      "sha256": "106f76a6b652a40c1ccb520238612c1bfad90eb5500f3678214144dff62cd8ce"
+    },
+    {
+      "path": "clang-minimal/native-tests-direct-exec.xml",
+      "bytes": 5890,
+      "sha256": "0443a7a944ae4922fce606ea71298624bd6dba736e035e3edbd4b008824a1c52"
+    },
+    {
+      "path": "build_raw_stream_geometry_242.py",
+      "bytes": 3327,
+      "sha256": "deb93064ce925782bcc29173292bb812681a975e9d72e1d3181849e6d4ed951b"
+    },
+    {
+      "path": "build_raw_stream_geometry_242_minimal.py",
+      "bytes": 2741,
+      "sha256": "0b3c7f962f8457d89f24119b52030d317f8a2ce773237ce71da77719d4bb50f5"
+    }
+  ]
+}

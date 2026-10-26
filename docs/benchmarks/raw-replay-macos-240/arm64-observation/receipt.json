@@ -1,0 +1,77 @@
+{
+  "schema": "qpx.macos-diagnostic-partial-observation/1",
+  "source": "4a72fd84b7726927285bf58120d288513c65eb4e",
+  "run": 40384720525,
+  "job": 121789854626,
+  "arm64": "terminal failure, 49/50 native suites pass",
+  "x86_64": "queued at observation; retain same handle",
+  "contour_refusals": "Both historical and foreign invalid_argument types are logged and caught; replay/atomic contour semantics complete.",
+  "next_failure": "raw grid source series changed, after replay; inspect window-classifier source-series refusal calls. No causal relationship to the earlier failure established.",
+  "retained_test_product": {
+    "schema": "qpx.macos-test-product/1",
+    "commit": "4a72fd84b7726927285bf58120d288513c65eb4e",
+    "architecture": "arm64",
+    "path": "qupathxx_pixel_workflow_tests",
+    "bytes": 8563968,
+    "sha256": "a55c203c8fc7c05c1dfddd5b6ee024c63a638f5c908b75f32a34cc1d8239b9a2",
+    "flags": {
+      "CMAKE_BUILD_TYPE": "Release",
+      "CMAKE_OSX_ARCHITECTURES": "arm64",
+      "QUPATHXX_BUILD_TESTS": "ON",
+      "QUPATHXX_BUILD_PYTHON": "OFF",
+      "QUPATHXX_BUILD_GUI": "OFF",
+      "QUPATHXX_BUILD_GEOS": "ON",
+      "QUPATHXX_BUNDLE_GEOS": "OFF",
+      "GEOS_ROOT": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/geos/geos-sdk",
+      "QUPATHXX_BUILD_OPENSLIDE": "OFF",
+      "QUPATHXX_BUNDLE_OPENSLIDE": "OFF",
+      "QUPATHXX_BUILD_TIFF": "ON",
+      "QUPATHXX_BUILD_PROJECT": "ON",
+      "QUPATHXX_BUILD_INTERCHANGE": "ON",
+      "QUPATHXX_BUILD_CLASSIFIER_TRAINING": "ON",
+      "OpenCV_DIR": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/lib/cmake/opencv4",
+      "QUPATHXX_OPENCV_NOTICES": "/Users/runner/work/qupathxx/qupathxx/build/ci/macos-native/opencv-sdk/share/licenses/opencv"
+    },
+    "scope": "Original compiled test program before CTest; not test acceptance."
+  },
+  "executable_sha_and_size_verified": true,
+  "complete_campaign_accepted": false,
+  "root_cause_established": false,
+  "payloads": [
+    {
+      "path": "macos-run.json",
+      "sha256": "748eeec94c7a831a638a7869a940080fd6bfae4e7c9a7d4364a26f3c738b2bea",
+      "bytes": 4511
+    },
+    {
+      "path": "macos-artifacts.json",
+      "sha256": "776c2abb1dccedb8cf17237720e4347f511e5ad5906b5357b892f6a862036102",
+      "bytes": 943
+    },
+    {
+      "path": "macos-native-arm64-artifact.json",
+      "sha256": "a5b33c727c20a1d301b6728949ceaceda1eac73db85baa75c35b3c678803d576",
+      "bytes": 813
+    },
+    {
+      "path": "verified.json",
+      "sha256": "4108731c90377ba987794d427d610c8ca2c492d9843e135c4fb21271b8be70ea",
+      "bytes": 336
+    },
+    {
+      "path": "native-tests.log",
+      "sha256": "a20585a68eea636d09fdd80a1b18202f11b0bb8e400f266c59eea8f1749c7a43",
+      "bytes": 6909
+    },
+    {
+      "path": "native-tests.xml",
+      "sha256": "e6ba62bae1eb906425f0fca7578cbb451355898bf40d1339485c64e7d6c40291",
+      "bytes": 23015
+    },
+    {
+      "path": "pixel-workflow-product.json",
+      "sha256": "48e86e1a135c786be97756b00bedcb989d75684111c41eed1509903428dfc521",
+      "bytes": 1176
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "command": [
+    "wsl",
+    "-d",
+    "Ubuntu",
+    "--exec",
+    "ctest",
+    "--test-dir",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/ci/raw-stream-geometry-242-minimal",
+    "-R",
+    "^(pixel_workflows|tissue_contours|resampling|viewer_session)$",
+    "--output-on-failure",
+    "--test-output-size-passed",
+    "1048576",
+    "--no-tests=error",
+    "--output-junit",
+    "/mnt/c/Users/HEQ/Projects/qupathxx/build/raw-stream-geometry-242/clang-minimal/native-tests-direct-exec.xml"
+  ],
+  "exit": 0,
+  "reason": "Original WSL shell interpreted regex before CTest launch; reuse unchanged compiled products with direct exec."
+}

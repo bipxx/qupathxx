@@ -1,0 +1,22 @@
+{
+  "qupathxx_pixel_workflow_tests.exe": {
+    "source": "abeb20f15ba8719a6b97b346db1ba98f9990d428",
+    "sha256": "8331577fda909d71b93e6cd2c67604d045258647c5271103ed310d681eae49ca",
+    "bytes": 5533184
+  },
+  "qupathxx_tissue_contour_tests.exe": {
+    "source": "abeb20f15ba8719a6b97b346db1ba98f9990d428",
+    "sha256": "bc0dfb12b009347f730ac249a6d05a7b63265d768c9ccf2c52f26221de3085ec",
+    "bytes": 2377728
+  },
+  "qupathxx_viewer_session_tests.exe": {
+    "source": "abeb20f15ba8719a6b97b346db1ba98f9990d428",
+    "sha256": "2304c184b2e3334c3590f3c6adc9e32aba15590b7aca458384650b71355967ce",
+    "bytes": 5104128
+  },
+  "qupathxx_resampling_tests.exe": {
+    "source": "abeb20f15ba8719a6b97b346db1ba98f9990d428",
+    "bytes": 3168768,
+    "sha256": "86f500605fbeaf2d8798fb72fa745f5a0a8d333e8b721593dac113a7f825a841"
+  }
+}

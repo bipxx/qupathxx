@@ -482,10 +482,22 @@ Resolve SCI1-A's arm64 failure before claiming integrated T5 acceptance.
 | --- | --- | --- |
 | B1 reference / locally verified | Reuse the standard-library oracle and existing full-grid tracer; preserve four patterns, sixteen tile layouts, crop phase and both axes | Exact directed edges, parts, holes, class counts, areas and perimeters; original fixture failures retained |
 | B2 boundary join / locally verified at `a3be74b` | Shared run sweep plus internal `RawStreamBoundaryBuilder`; consume the existing ordered blocks, reconcile class-tagged seams and release raster blocks | [Local receipt](benchmarks/raw-stream-boundaries-local.json): three affected Windows native suites, actual filtered streams, incomplete/overlap/order/cancel/quota refusals; two million samples with seven peak runs. No whole-slide RSS claim |
-| B3 geometry / in progress | The [ordered tagged-edge lookup](benchmarks/raw-stream-boundaries-local/face-lookup-241/receipt.json) is locally verified at `e6341d4`. Next connect GEOS face interiors, both-axis world mapping and existing clipping/extraction in `tissue_contours.cpp`; preserve the full-grid path | Exact B1 geometry across tilings, deterministic connectivity, work/output admission and GEOS cancellation. Avoid a boundary scan for every face and any full-mask allocation |
+| B3 geometry / locally verified at `abeb20f` | [Connected GEOS geometry](benchmarks/raw-stream-boundaries-local/geometry-242/receipt.json) reuses the shared kernel, batch lookup, original axes and existing clipping/extraction. Four Windows ON and four Clang minimal OFF native suites pass; the complete workflow remains open | Exact B1 geometry across tilings, deterministic connectivity, work/output admission and GEOS cancellation. Avoid a boundary scan for every face and any full-mask allocation |
 | B4 result and authority / open | Distinct immutable streamed result, existing native jobs and fresh owner request. Reserve retained geometry plus anticipated IDs before the existing atomic edit | Model/source/image/revision mutation refusals, cancellation, no partial edits and apply/undo/redo. Historical QWS1 blocks confer no live authority |
 | B5 consumers / open | Thin nanobind binding; reuse the shared frontend for Python, CLI, project batch and ImGui. Reuse retention/export and reopen rather than another worker engine | One installed train/predict/stream-contour/save/reopen/apply workflow; matching stubs/typing and named semantic cohorts |
 | B6 qualification / open | Freeze only after B3-B5 settle; affected checks first, one installed integration pass, then applicable engine/Mac/portable audits | Exact source/configuration/artifact identities and all inherited gates. Scientific, resource/hardware and release acceptance remain separate |
+
+For B4, extend the existing `RawPixelTiledPredictionRequest` capture and
+`RawPixelPredictionStream` instead of introducing another sampler. The worker
+feeds one borrowed block at a time into the builder, releases it, and records
+only complete stream input/result commitments with the immutable geometry.
+Use the existing contour job's owner/future/cancel/stale pattern. Admit the
+captured producer work plus the larger of boundary and geometry phases before
+IO; reserve the complete retained result and anticipated IDs before mutation.
+A result must match its exact live capture and fresh source/model/image/revision
+checks. Historical QWS1 conversion remains historical until verified through a
+fresh request. Test direct/job parity, real TIFF, late source changes, cancellation,
+wrong capture, copies, threads and atomic apply/undo/redo before thin bindings.
 
 The assembler intentionally accepts the producer's ordered windows; arbitrary
 reordered transport is not a new requirement. The oracle checks mathematical
