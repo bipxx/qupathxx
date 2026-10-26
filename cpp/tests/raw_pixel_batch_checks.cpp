@@ -33,7 +33,7 @@ void check_raw_pixel_batches(const std::filesystem::path& root) {
     auto reused=run_project_batch(request,(root/"raw-pixels").u8string());require(reused.state=="succeeded" && reused.reused==1 && reused.images[0].hashed_blocks==12 && reused.images[0].verified_blocks==12 && !reused.images[0].inferred_blocks && reused.images[0].path==saved.images[0].path);
     require(batch_checkpoint_csv(saved.images[0].path).find("class_samples")!=std::string::npos);
     // Existing completed images survive interruption; unfinished images own no output.
-    project.add_document(doc);const ProjectBatchRequest multi(project,transform,{},options);std::atomic<bool> cancel{false};
+    auto second=std::make_shared<Document>(server);second->add_rectangle({0,0,8,6});project.add_document(second);const ProjectBatchRequest multi(project,transform,{},options);std::atomic<bool> cancel{false};
     const auto interrupted=run_project_batch(multi,(root/"raw-interrupted").u8string(),&cancel,[&](const auto&) {cancel.store(true);});require(interrupted.state=="cancelled" && interrupted.saved==1);cancel.store(false);
     const auto resumed=run_project_batch(multi,(root/"raw-interrupted").u8string(),&cancel);require(resumed.state=="succeeded" && resumed.reused==1 && resumed.saved==1);
     {std::fstream changed(fs::u8path(link->path()),std::ios::binary|std::ios::in|std::ios::out);changed.seekp(-1,std::ios::end);changed.put('X');}

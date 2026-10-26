@@ -249,7 +249,8 @@ def test_raw_batch_cli_moved_bundle_and_unchanged_source_project(tmp_path):
         shutil.copytree(output, moved)
         for entry in result["images"]:
             original = Path(entry["path"])
-            checkpoint = moved / original.relative_to(output)
+            relative = next(v.relative_to(output) for v in output.rglob("result.qpxproj") if v.samefile(original))
+            checkpoint = moved / relative
             saved = q.Project.open(str(checkpoint))
             record, = saved.document(entry["image_id"]).raw_pixel_stream_records
             assert Path(record.link.path).parent == checkpoint.parent
@@ -257,5 +258,63 @@ def test_raw_batch_cli_moved_bundle_and_unchanged_source_project(tmp_path):
             file.verify()
             close(saved)
         assert source.read_bytes() == before
+    finally:
+        close(p)
+
+
+def test_raw_batch_reopened_changed_source_is_hashed_and_recomputed(tmp_path):
+    p, _, model = scene(tmp_path, (8,))
+    source = tmp_path / "source.qpx"
+    p.save(str(source))
+    first = success(q.run_project_batch(request(p, model), str(tmp_path / "out")))
+    close(p)
+    pixels = tmp_path / "source-0.tif"
+    data = bytearray(pixels.read_bytes())
+    data[160] ^= 64
+    pixels.write_bytes(data)
+    current = q.Project.open(str(source))
+    try:
+        after = success(q.run_project_batch(request(current, model), str(tmp_path / "out")))
+        assert after.saved == 1 and after.reused == 0
+        assert after.images[0].pixel_sha256 != first.images[0].pixel_sha256
+        assert after.images[0].path != first.images[0].path
+        assert after.images[0].hashed_blocks > 0
+    finally:
+        close(current)
+
+
+def test_raw_batch_fractional_axes_actual_training_and_async_snapshot(tmp_path):
+    p, docs, _ = scene(tmp_path, (8,))
+    try:
+        image, doc, root, ids = docs[0]
+        lattice = q.ScientificRawLattice(8, 6, q.ScientificGridAxis(0, 8, 7, 2), q.ScientificGridAxis(0, 6, 5, 2))
+        selection, features = q.ScientificRawOptions(), q.RawPixelFeatureOptions()
+        selection.channels = 2
+        features.offsets, features.scales = [0, 0], [1, 1]
+        table = q.sample_raw_pixel_tiled_training(q.RawPixelTiledTrainingRequest(doc, ids, lattice, selection, features))
+        model = trained(table)
+        o = options(model)
+        o.raw_pixel_x, o.raw_pixel_y = lattice.x, lattice.y
+        captured = request(p, model, o)
+        original_name = doc.annotation(root).name
+        doc.rename_annotation(root, "later live edit")
+        job = q.ProjectBatchJob()
+        assert job.request(captured, str(tmp_path / "out"))
+        assert job.wait().state == "succeeded"
+        report = success(job.result)
+        restored = q.Project.open(report.images[0].path)
+        try:
+            assert restored.document(image).annotation(root).name == original_name
+            record, = restored.document(image).raw_pixel_stream_records
+            assert record.link.lattice.x.samples == 7 and record.link.lattice.x.extent == 8
+            file = q.RawPixelStreamFile(record.link.path)
+            file.verify()
+            expected = q.RawPixelPredictionStream(q.RawPixelTiledPredictionRequest(restored.document(image), model, lattice, o.raw_pixels, object_id=root))
+            for i in range(file.declared_summary.completed_windows):
+                block = expected.next()
+                np.testing.assert_array_equal(file.read_block(i).labels_numpy(), block.labels_numpy())
+                np.testing.assert_array_equal(file.read_block(i).vote_fractions_numpy(), block.vote_fractions_numpy())
+        finally:
+            close(restored)
     finally:
         close(p)
