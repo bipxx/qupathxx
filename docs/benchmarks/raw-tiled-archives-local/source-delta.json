@@ -1,0 +1,10 @@
+{
+  "initial_source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+  "final_source": "cc6fab40cbc54aa382e146bb5d98c22d13ddd01e",
+  "changed_inputs": [
+    "cpp/tests/raw_tiled_archive_checks.hpp"
+  ],
+  "reason": "Unused annotation fixture was outside the image and correctly refused; replace it with an in-image ROI containing no sample centers, without changing document or archive validation",
+  "initial_workflow_suites_failed": 3,
+  "unchanged_regressions_passed": 16
+}

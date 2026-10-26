@@ -599,3 +599,69 @@ Automatic checkpoint scheduling/abandoned-temporary maintenance and broader
 crash/power-loss qualification remain open. T4 installed frontends, T5 integrated
 platforms, cross-tile contours and independent research/process-memory/hardware/
 release acceptance remain separate requirements.
+
+
+## Sparse sampled/trained archives and retained replay
+
+Source `cc6fab4` has [local native acceptance](benchmarks/raw-tiled-archives-local.json)
+for the affected workflow on Windows GEOS-ON, Linux GEOS-OFF and Windows
+training-ON. Sixteen passing regressions retain `30d0659`; initial three workflow
+failures correctly rejected an out-of-image fixture. The successor changes only
+that fixture to a valid in-image ROI containing no sample centers. Both source
+snapshots authenticate 360 inputs; 22 original/final executables are retained.
+
+`archive_raw_pixel_tiled_training(table, model)` adds an explicit QTT1 variant
+inside the existing `RawPixelArchive`. `tiled_table()` exposes the distinct sparse
+table; `table()` and `result()` remain empty for that kind. `purpose()` returns
+`tiled-sampling` or `tiled-training`. `lattice()` provides source dimensions and
+original axes for all variants; `grid()` refuses a tiled archive instead of
+constructing a whole raster. This distinction also supports a trillion-cell
+lattice with a few retained rows. Existing full-grid QXT1/QXP1 meanings remain.
+
+The frame stores QXS1 recipe, pure global geometry, actual raw source metadata/
+provenance, training/tile options, optional QRM1/legacy raw model, all selected
+annotation identities/revisions/kinds/classes/geometry, candidate window/scan
+counts, feature rows/global coordinates/owners, eligible/retained/ambiguous counts
+and input/result commitments. Decoding rebuilds the bounded sparse candidate
+plan and spatial index through the same authority as live sampling, checks the
+recorded coverage and clears capture authority. Full and tiled variants reuse
+bounded binary/source/provenance/recipe primitives without changing old fields.
+
+Validation checks unique supported coordinates, exact feature/schema dimensions,
+finite values, class membership/conflicts, minimum same-class owner, canonical
+global priority order and balancing/count limits. Trained models must match the
+recipe, classes, row count and exact forest training-matrix hash. Reopened
+historical retraining uses recorded effective parameters for identical model
+bytes; fresh work admission remains part of model identity. Re-encoding a decoded
+table does not create live authority.
+
+`Document.keep_raw_pixel_tiled_training` requires the matching live capture plus
+strict document identity/revision and fresh source checks. It stores the existing
+QXR1 record wrapper in the existing SQLite schema 13. Mixed full/tiled project
+save/open, background snapshot saves and autosave/recovery preserve the encoded
+bytes. Record decode and document restoration now share source/ID bounds checks
+for every selected annotation, including unretained/no-center selections in both
+legacy full and new tiled variants. No SQL migration or fake full-grid geometry
+is introduced.
+
+`RawPixelTiledTrainingRequest.replay(document, record_id)` recaptures selected
+annotations, recipe, global geometry and source on the owner. It refuses changed
+annotations/calibration/recipe before pixel IO. A fresh sample/train job and
+`verify_result`, or `Document.verify_raw_pixel_tiled_training`, compare actual
+input/table/model commitments after fresh source checks. Historical decoded
+arrays alone cannot verify or retain a live result. Changed source bits produce
+failed equality; copied/stale owners and changed files refuse publication.
+
+Tests cover balanced/unbalanced matrices, independent QTT1 field offsets,
+rehash-tampered owners/coordinates/values/counts, explicit kind separation,
+trillion-cell lattice/record decode, unused selected ID bounds for both archive
+families, cancellation/atomic files and source/companion/hardlink output refusal.
+Actual Windows backend models round-trip and retrain identically with recorded
+parameters. Real TIFF retains mixed records, saves/reopens/recovers them and
+verifies through fresh owner jobs; stale files and historical authority reject.
+
+This is a completed sampled/trained table representation, not a training
+checkpoint. Training reservoir interruption/resume still needs all unbalanced
+candidates and counters, or deterministic admitted-prefix replay. Owner prediction
+file adapters, installed frontends, automatic checkpoint maintenance, cross-tile
+contours and integrated/research/resource/hardware/release acceptance stay open.

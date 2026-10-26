@@ -512,3 +512,7 @@ docs/benchmarks/raw-pixel-stream-local.json -text -whitespace
 # Raw prediction file/resume evidence retains exact source-bound bytes.
 docs/benchmarks/raw-stream-file-local/** -text -whitespace
 docs/benchmarks/raw-stream-file-local.json -text -whitespace
+
+# Sparse raw tiled archive evidence retains exact source-bound bytes.
+docs/benchmarks/raw-tiled-archives-local/** -text -whitespace
+docs/benchmarks/raw-tiled-archives-local.json -text -whitespace

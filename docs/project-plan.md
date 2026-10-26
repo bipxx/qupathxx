@@ -73,9 +73,13 @@ prefix files and hash-only resume now have [local evidence](benchmarks/raw-strea
 at `c843dfa`: three affected workflows pass, sixteen regressions retain source
 `125afbb`, both sources authenticate 356 inputs and 22 binaries are retained.
 Real TIFF/trained-model close/reopen/resume, exact uninterrupted/resumed bytes,
-atomic cancellation and concurrent-writer/source/alias refusal pass. Next finish
-sparse training archives/retention and training checkpoints, native owner file
-adapters and installed frontends. Automatic checkpoint maintenance and broader
+atomic cancellation and concurrent-writer/source/alias refusal pass. Sparse
+sampled/trained QTT1 archives, retention and fresh replay now have [local evidence](benchmarks/raw-tiled-archives-local.json)
+at `cc6fab4`: three affected workflows, sixteen regressions at `30d0659`, 360
+matching inputs and 22 retained original/final binaries. Mixed full/tiled project,
+snapshot/recovery readback, historical-authority refusal and all-selected ID bounds
+pass through the existing QXR1 wrapper/schema 13. Next finish training checkpoints,
+native owner file adapters and installed frontends. Automatic checkpoint maintenance and broader
 crash/power-loss acceptance remain open. The
 API plan's T1-T5 table defines shared implementations, resource limits and evidence.
 Cross-tile contours, integrated

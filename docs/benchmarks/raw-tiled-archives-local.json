@@ -1,0 +1,374 @@
+{
+  "schema": "qpx.raw-tiled-archives-local/1",
+  "observed_at_utc": "2026-10-26T11:02:38.364202+00:00",
+  "source": "cc6fab40cbc54aa382e146bb5d98c22d13ddd01e",
+  "compiled_fingerprint": "1d87072234f7931583df8378551b80f46c00dec4b5bb01303b1fca9c0a907ed0",
+  "compiler_inputs": 360,
+  "status": "sparse_tiled_training_archives_retention_and_fresh_replay_locally_verified",
+  "native": {
+    "windows_suites": 1,
+    "linux_suites": 1,
+    "windows_training_suites": 1,
+    "unchanged_regressions_at_initial_source": 16,
+    "required_markers": [
+      "Raw tiled archive: real TIFF sampling/training retention, mixed project/snapshot/recovery readback, fresh replay and historical/stale-file refusal passed",
+      "Raw tiled archive: independent QTT1 geometry/rows, balanced/unbalanced and huge-lattice round trips, semantic tamper, all-selected record bounds, authority/replay and atomic files passed",
+      "Raw stream file: QWS1 independent framing, historical blocks, exact interrupted/resumed bytes, hash-only prefix validation, model/source/ROI/calibration refusal, atomic cancellation, tamper and resource/alias controls passed",
+      "Raw tiled training: full/tiled global reservoir rows, filtered seams, sparse trillion-cell lattice, quotas, owner lifecycle, calibration and compound-source controls passed"
+    ],
+    "backend_marker": "Raw tiled archive: actual backend sampled/trained QTT1 round trips and recorded-parameter historical model replay passed"
+  },
+  "initial_regression_source": "30d0659585f1cff150fefe1bd5e18a4e17b589ef",
+  "initial_fingerprint": "bd4fc7f7218d2d64e639e1d0db1a81ad8ad5907a2a06c43f1749f6d5037e5e13",
+  "development_failure": "Initial workflow suites correctly rejected an outside-image unused annotation before new archive controls; final source changes only that fixture to an in-image region without sample centers. Original 16 passing regressions and all initial failures remain source-bound.",
+  "scope": [
+    "QTT1 distinct sparse tiled sampling/trained-table variant inside existing RawPixelArchive and QXR1 project record wrapper; no SQL schema migration or legacy QXT1/QXP1 reinterpretation",
+    "Shared bounded archive primitives, source metadata/provenance codec, recipe/schema/model and semantic table hash authorities",
+    "Original global lattice, annotation IDs/revisions/kinds/classes/geometry, tile/scan policy, normalization/calibration, eligible/retained/ambiguous counts, feature rows and input/result commitments preserved",
+    "Canonical global-coordinate row priority order, unique supported source footprints, minimum same-class annotation owner and conflicting-class refusal validated",
+    "Historical decode rebuilds bounded sparse candidate/index geometry without a whole-grid raster and clears capture authority",
+    "Native Document keep/restore, project save/open, background snapshot save and recovery preserve mixed full/tiled records; fresh owner replay/jobs compare actual content and reject decoded historical authority",
+    "Actual Windows backend trained QTT1 historical models replay with recorded effective parameters and survive project retention/reopen",
+    "Trillion-cell global lattice standalone archive and record decode retains four global-index rows without ScientificGrid construction",
+    "Shared record source-boundary validator checks every selected annotation ID, including unretained/uncovered annotations, for both legacy full and new tiled records",
+    "Atomic archive files, cancellation, semantic rehash tampering, stale/cross-document/changed-source controls and source primary/companion/hardlink alias output refusal"
+  ],
+  "legacy_archive_or_record_grammars_changed": false,
+  "new_archive_variant": "QTT1",
+  "project_schema_changed": false,
+  "training_checkpoint_resume_or_frontends_complete": false,
+  "remaining": [
+    "Training reservoir checkpoints and interrupted/resumed selection preserving unbalanced candidates and counts",
+    "Native owner file export/read/retain adapters for prediction streams and installed nanobind/Python/NumPy, CLI/batch, managed viewer and ImGui workflows",
+    "Automatic checkpoint scheduling/maintenance, cross-tile contours, integrated platform and independent biological/model/process-resource/hardware/release acceptance"
+  ],
+  "baselines": [
+    "docs/benchmarks/raw-stream-file-local.json",
+    "docs/benchmarks/raw-tiled-training-local.json"
+  ],
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/windows/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "1f2e2facaa47a27aa3370e86c6a07598a2c7c599b863bcbab6c8eaf6a6c21826"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/windows/configuration.json",
+      "bytes": 438,
+      "sha256": "1fdb05fd0a59139fc78658467c36bfad64008f2d672600bae623a8ffd733f958"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/windows/build.log",
+      "bytes": 2156,
+      "sha256": "ad8f43559d2d9d8a42de45b525f84aa105f97ce0b538ad2039cda652f4f9c2a5"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/windows/commands.json",
+      "bytes": 1455,
+      "sha256": "2d84309a8e74f3ddcdecc0a58c4a47048238956d184cb68eb694eecb3e0b439e"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/windows/compiler-inputs.json",
+      "bytes": 38328,
+      "sha256": "3f2971ad97c079683e2ae4e259c6e267159e8ffd01cac58fd568e0bd54a25adf"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/windows/configure.log",
+      "bytes": 3579,
+      "sha256": "59dca74fe62331594dbf84efd080d9915682dbb5df5d9085207416210dd5fcee"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/windows/output-preflight.json",
+      "bytes": 213,
+      "sha256": "d73a5665379e2646ec0db08634b0ac4ef6fc40d37c0b99ab55b320a2ffa66758"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/windows/tests.log",
+      "bytes": 241,
+      "sha256": "c4eade7974b54a73afd60bf36533e479984a078ce3717ce1e137c1bb7adb4db2"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/windows/tests.xml",
+      "bytes": 3132,
+      "sha256": "d6a364ca6c01aeb14e353d36aee871378ce13f3e53837059adc9e588a0b8cd75"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/linux/build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "a094dd7e620dc605812f1f2983963063e92627b5f107d2af0cc84c82fc586fb1"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/linux/configuration.json",
+      "bytes": 440,
+      "sha256": "9055e74897cee94c78a499b8be5563be9b92ed0411debc1a2045cdbd28ba7a04"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/linux/build.log",
+      "bytes": 5109,
+      "sha256": "8e26c9f162057bf0e02b70a945f96f4f832a3b1fd34c20d7fd70c8f4b65e8edd"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/linux/commands.json",
+      "bytes": 2189,
+      "sha256": "36ff532d499ffef98f8d3e827c05dbf5b824e276aaa1be1fc4a12282f589ef24"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/linux/compiler-inputs.json",
+      "bytes": 38328,
+      "sha256": "3f2971ad97c079683e2ae4e259c6e267159e8ffd01cac58fd568e0bd54a25adf"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/linux/configure.log",
+      "bytes": 3354,
+      "sha256": "eee2a587653f21bece28bc6c6782266ca977b3a0b5da7ce51737e65e3d0a649b"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/linux/output-preflight.json",
+      "bytes": 206,
+      "sha256": "15fc34c7f9a6134d50ad4e36825afca677f7714201835283436ac368a0e1f2c5"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/linux/tests.log",
+      "bytes": 370,
+      "sha256": "7aca318b8d301f144c9e51fa5c70b35d3208e8625531ea87d7af90359c685cbb"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/linux/tests.xml",
+      "bytes": 3019,
+      "sha256": "9b706cb5d739198545d00c8c10490ee611b139cf08f5eeabf34ba3f1c0a4b1b1"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/training/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "13628bd524c24d45c5651482ceda5203e7ce4924dcc081c2e4f8559c04e0a45f"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/training/configuration.json",
+      "bytes": 439,
+      "sha256": "efefdc00c5c4f105d6eb07ae32b7d4aa64514ca8b22df2b32a188f4283812f82"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/training/build.log",
+      "bytes": 2134,
+      "sha256": "134bea80963c61b177e6acde21e766462d194b7cf9d50c46232766ac4a3ee2f4"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/training/commands.json",
+      "bytes": 1449,
+      "sha256": "115bb9326b452ba6d4b35ab55a8f0656b8c407f15f667f8e5ea5fe26bf6cc4b4"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/training/compiler-inputs.json",
+      "bytes": 38328,
+      "sha256": "3f2971ad97c079683e2ae4e259c6e267159e8ffd01cac58fd568e0bd54a25adf"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/training/configure.log",
+      "bytes": 3722,
+      "sha256": "a6cd82a4f4008d636a40a015fda08dcd79d1ffc5a6703463ff6dc409ad788ca7"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/training/output-preflight.json",
+      "bytes": 215,
+      "sha256": "d53a76cc82ec27dfad3223a661fe590c32fba45aa361b1bf03a2e980c8df45f7"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/training/sdk-verification.json",
+      "bytes": 202,
+      "sha256": "b55701dcbf448dd2c272bba3fe738c642e2cb4fb62bc0a25d7295d7dbd3442aa"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/training/tests.log",
+      "bytes": 239,
+      "sha256": "7a903e26fec81a12fe4faa015987df592c60ff618f421db1aac3a223734f0e39"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/training/tests.xml",
+      "bytes": 3718,
+      "sha256": "756a50804143b7f438acb7dcb7bb3e2eca1c5dcb507bcdcae04bc5ebccf8e7dd"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/compiler-git-proof.json",
+      "bytes": 122729,
+      "sha256": "3c6288642f46f2d243586420e101399fbec15b478e14f2d6719472b5df6ee34b"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/compiler-git-proof.json",
+      "bytes": 122698,
+      "sha256": "bde83290ae2e8ea5a5fe99375ff1cea3074831111dd5e62cff33cf835293c5bb"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/windows/build.log",
+      "bytes": 19004,
+      "sha256": "dca27c13be65fa331cf4fca8ad7514ad39e6e143584560e70b2cb2fa294dad01"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/windows/commands.json",
+      "bytes": 1786,
+      "sha256": "6d1d64238c7adb70607ac12b4df4bf401e18bbc5f83dc3e20524c815bb824b86"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/windows/compiler-inputs.json",
+      "bytes": 38328,
+      "sha256": "7865ee68c86a3297beee66be0012072384072d7865c4b77b443c3cbe06663dba"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/windows/configure.log",
+      "bytes": 3579,
+      "sha256": "e2e9ebc1a791b26a12bcbfd55deceb97782e1f311ac9809193f38ed43f50df46"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/windows/output-preflight.json",
+      "bytes": 211,
+      "sha256": "366c6d9a413788821a3cfbd0ccb00436d615a64c4aa6308969dba4e8cb5ba109"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/windows/tests.log",
+      "bytes": 3366,
+      "sha256": "afae6ae8035dbc1a2cae3945245f72f039ac439dc6a920edad1dad19ffc340fb"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/windows/tests.xml",
+      "bytes": 7469,
+      "sha256": "a5492a1431ee869a9d73a3efe71d553bff3e01556b406b5fd1b93f548d9f7e75"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/windows/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "0e82240f1ee45634cd3d533c7b0cd80d85c58a02adb05b0606cd1f94f147c5aa"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/windows/configuration.json",
+      "bytes": 438,
+      "sha256": "1fdb05fd0a59139fc78658467c36bfad64008f2d672600bae623a8ffd733f958"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/source-delta.json",
+      "bytes": 474,
+      "sha256": "1fde48e08c12c94ecf8c6ae5a8a04028b310b3d3f0b4d9b2c67f31f4ff0ca9f8"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/linux/build.log",
+      "bytes": 498946,
+      "sha256": "36959f0f8fe59f81f3a918330d414acc40a311b4594c381126e6f0bbad549ff9"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/linux/commands.json",
+      "bytes": 2525,
+      "sha256": "e15820513e4974ba2ec450a1f90e93a0088a1a3a176e8d9ccb3e5aefbe81ad2a"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/linux/compiler-inputs.json",
+      "bytes": 38328,
+      "sha256": "7865ee68c86a3297beee66be0012072384072d7865c4b77b443c3cbe06663dba"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/linux/configure.log",
+      "bytes": 3354,
+      "sha256": "5522e4ef9256193f5342091a0df279af384e4e371e7e575796a0e33876a8efae"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/linux/output-preflight.json",
+      "bytes": 204,
+      "sha256": "40594ae965577898f66621da3fdc3bb42f863af1b704e915d17300f195b7f474"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/linux/tests.log",
+      "bytes": 3397,
+      "sha256": "1e9995938e68cf8c9b9407528619f1bf6b27e43c09bf19f849cae8ce926cde0a"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/linux/tests.xml",
+      "bytes": 7286,
+      "sha256": "228c3465f13298d17b95b3ef413a504efd3e8d10afc9991e74137d44c72c6fb4"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/linux/build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "27ccbaa67f375c0f8675ea4b360a1e5a2cebe48650ea1557fc6f5a3aa85f6ea3"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/linux/configuration.json",
+      "bytes": 440,
+      "sha256": "9055e74897cee94c78a499b8be5563be9b92ed0411debc1a2045cdbd28ba7a04"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/training/build.log",
+      "bytes": 12565,
+      "sha256": "0180751423587c02b901b290094178d9d78635cf50d9bc5bd78f0670f79f5b67"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/training/commands.json",
+      "bytes": 1547,
+      "sha256": "ba6cb650b1ab2c414cbf9104a4e440e9d95caee1871c751cb5f4597a84c4908e"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/training/compiler-inputs.json",
+      "bytes": 38328,
+      "sha256": "7865ee68c86a3297beee66be0012072384072d7865c4b77b443c3cbe06663dba"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/training/configure.log",
+      "bytes": 3722,
+      "sha256": "3a98fe4119999e280cb7cd70f2a8a968301416863732518b1c63ab1e0ba15900"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/training/output-preflight.json",
+      "bytes": 213,
+      "sha256": "9304cbe3a31e0ae29c527af73860fb14c4fad6f97ad1151d641469a56f026401"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/training/sdk-verification.json",
+      "bytes": 202,
+      "sha256": "b55701dcbf448dd2c272bba3fe738c642e2cb4fb62bc0a25d7295d7dbd3442aa"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/training/tests.log",
+      "bytes": 3339,
+      "sha256": "5267a084e15f4736499cabdf5b663bef6b5389e72332de782d90764b127aece0"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/training/tests.xml",
+      "bytes": 4114,
+      "sha256": "f4259322d56fddfb81c40fe9f024dd0fdba20227225bbae83b975a6f3e1e7eea"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/training/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "9a6da42e511099abed14871cecab26c123d064d89379b1c1cfbbe4a507543fd7"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/initial/training/configuration.json",
+      "bytes": 439,
+      "sha256": "efefdc00c5c4f105d6eb07ae32b7d4aa64514ca8b22df2b32a188f4283812f82"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/retained-binaries.json",
+      "bytes": 9684,
+      "sha256": "5221f85611c50121e92810bea10519f129167704b60c756f21bb786643cca751"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/build_tiledarchive225.py",
+      "bytes": 4730,
+      "sha256": "4b3b3eaefb2b6f3b100483d48e660f5f18179b338d22320cdc9f14e670ee2de2"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/build_tiledarchive225b.py",
+      "bytes": 4393,
+      "sha256": "afd8a9b4d0985a077d87aca33087b0aec6be535a97da2ef29832bd425e3b0808"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/preserve_tiledarchive225.py",
+      "bytes": 2451,
+      "sha256": "4ebe7aef4f5d79218b20db3db0c3626d0c2edad96947a47b55c98596367a638c"
+    },
+    {
+      "path": "docs/benchmarks/raw-tiled-archives-local/receipt_tiledarchive225.py",
+      "bytes": 12472,
+      "sha256": "2ff28d15a8b1954974a8397866632a4832dbf3d8ca8bc2724a9070772630d7b9"
+    }
+  ],
+  "retained_binaries": "build/tiledarchive225-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial"
+}
