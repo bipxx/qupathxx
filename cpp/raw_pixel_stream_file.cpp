@@ -151,6 +151,9 @@ void RawPixelStreamFile::verify(const std::atomic<bool>* c) const {
 }
 void RawPixelStreamFile::cancel() {impl_->cancelled.store(true,std::memory_order_relaxed);impl_->verified.store(false);}
 bool RawPixelStreamFile::verified() const {return impl_->verified.load() && !impl_->cancelled.load();}
+void RawPixelStreamFile::check_unchanged() const {
+    auto& s=*impl_;std::lock_guard<std::mutex> lock(s.reader);try {stop(&s.cancelled);detail::ReaderFileGuard guard(s.path);same(*s.version,*guard.version());guard.verify();}catch(...) {s.verified.store(false);throw;}
+}
 RawPixelStreamFileSummary RawPixelStreamFileCodec::save(const RawPixelTiledPredictionRequest& request,const std::string& input,RawPixelStreamSaveOptions options,const std::atomic<bool>* c) {
     options.limits.validate();stop(c);const auto path=detail::export_path(input);const auto& data=*request.data_;const auto& capture=data.prototype->source;
     if(capture.observed && capture.observed->primary) {detail::guard_file_output(capture.observed->primary->path,capture.observed->primary->identity,path);for(const auto& file:capture.observed->companions) detail::guard_file_output(file.path,file.identity,path);}

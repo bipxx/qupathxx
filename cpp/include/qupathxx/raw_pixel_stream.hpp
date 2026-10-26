@@ -34,6 +34,7 @@ private:
     friend class RawPixelPredictionStream;
     friend class RawPixelPredictionStreamJob;
     friend struct RawPixelStreamFileCodec;
+    friend class RawPixelStreamSaveJob;
 };
 // Single-consumer synchronous producer. next() performs bounded native IO and
 // inference; returned blocks own their arrays. Caller-retained blocks are outside
