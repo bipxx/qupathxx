@@ -72,8 +72,11 @@ wrong/stale capture and full result/edit/ID admission. Four Windows ON and four
 Clang minimal OFF suites pass. [Installed Python](benchmarks/raw-stream-boundaries-local/python-244/receipt.json)
 now verifies runtime `54147fd`: nine native and 216 unique Python passes,
 including seven new cases and 48 inherited GUI compatibility cases. Stubs,
-typing and active cancellation/close verify. Shared streamed CLI/batch/ImGui/
-managed consumers and retained-file reopen remain open.
+typing and active cancellation/close verify. [Desktop/managed delivery](benchmarks/raw-stream-boundaries-local/frontends-245/receipt.json)
+now verifies runtime `7c77367`: nine native and 222 Python passes, including six
+new tiled-mode and cropped-viewer cases, atomic apply/undo/redo, result admission
+and applied-geometry project reopen. CLI/project batch and historical QWS1
+geometry/replay remain open.
 
 Diagnostic238 is terminal: arm64 fails at `historical and foreign capture
 refusal`; x86_64 passes. Both archives authenticate. Its CLI/SDK inventory did
@@ -84,8 +87,9 @@ controls and positive/wrong-type probes pass. Production guards and required
 refusal checks remain intact. Its [first arm64 archive](benchmarks/raw-replay-macos-240/arm64-observation/receipt.json)
 now shows both typed contour refusals caught and replay complete, followed by
 `raw grid source series changed` in the next workflow. The actual test binary
-is retained and SHA-verified; x86_64 was still queued. No root cause or repair
-is established.
+is retained and SHA-verified. [The original diagnostic is now terminal](benchmarks/raw-replay-macos-240/terminal-observation/receipt.json):
+x86_64 passes 50 suites/relocation, arm64 fails. Both archives authenticate.
+No root cause or repair is established.
 Then follow the [SCI1-B route](api-delivery-plan.md#sci1-b-next-workflow-route)
 through bounded GEOS face classification, fresh atomic publication and existing
 consumers. Keep the frozen diagnostic immutable. Scientific/model, resource/

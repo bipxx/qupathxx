@@ -2,6 +2,23 @@
 
 ## Current execution card (2026-10-26)
 
+- [Installed streamed desktop/managed consumers](benchmarks/raw-stream-boundaries-local/frontends-245/receipt.json)
+  at `7c77367` pass nine native and 222 Python cases with three declared skips.
+  Six new actual GUI/managed cases cover tiled-mode preview/apply, undo/redo,
+  edit-stale retirement, cropped revision-guarded viewer apply, result-budget
+  refusal before mutation and saved-project geometry reopen. Five positive
+  typing files pass; four negative files reject 17 intended errors. The final
+  screenshot fits; stubs, wheel members/executables, SDKs and active cancel/close
+  verify. The initial negative fixture's success-only helper error is preserved;
+  its correction reused unchanged binaries. CLI, project batch and historical
+  QWS1 geometry/replay consumers remain open, along with full qualification,
+  scientific/resource/hardware and release gates.
+- [Diagnostic240 terminal observation](benchmarks/raw-replay-macos-240/terminal-observation/receipt.json)
+  preserves both authenticated archives at original `4a72fd8`, run `40384720525`.
+  x86_64's producer passes 50 suites and relocation; arm64 remains 49/50 with the
+  later source-series error after both contour refusals/replay complete. The
+  actual failing arm64 test is retained. No root cause or repair is established;
+  do not relabel this as T5 acceptance or redispatch the same diagnostic.
 - [Installed streamed contour Python](benchmarks/raw-stream-boundaries-local/python-244/receipt.json)
   is locally verified at runtime `54147fd`, bindings `b6bb50e` and test-only
   observer `47ae2cb`. Nine native suites and 216 unique Python cases pass;

@@ -3,8 +3,8 @@
 This is the next SCI1-B workflow, after the active T5 qualification. Streamed
 polygon geometry is locally verified as an internal component. The immutable
 streamed result, owner jobs and atomic publication are locally verified in C++;
-Python is locally verified; shared CLI/batch/desktop and retained-file delivery
-remain open. The existing
+Python, desktop and managed viewer are locally verified. CLI/batch and historical
+QWS1 geometry/replay delivery remain open. The existing
 bounded full-grid tracer and prediction block producer are working baselines.
 Keep the [numeric contract](raw-pixel-classifier.md), owner/source guards and
 [open-source reader policy](reader-license-policy.md).
@@ -147,11 +147,40 @@ path collection. Stubs match the installed runtime. All final wheel members,
 executables, capabilities, source identities, loaded GEOS DLLs and notices verify.
 Dependencies are reused; clean-machine and supported-release gates remain open.
 
-Next extend the shared raw frontend for CLI, project batches, ImGui and managed
-viewer. The GUI cases above preserve earlier features; they do not deliver new
-streamed actions. Keep complete-result/ID reservation before the command, add
-retained-file reopen/replay through fresh requests, then freeze the broad platform
-candidate after the complete consumer slice settles.
+## Desktop and managed viewer: locally verified
+
+The [installed frontend receipt](benchmarks/raw-stream-boundaries-local/frontends-245/receipt.json)
+binds runtime `7c77367` and implementation `8795f26`. Nine native suites and 222
+installed Python cases pass with three declared skips. GUI opt-in is enabled
+throughout the final run, including six new desktop/managed cases. Five positive
+typing files pass; four negative files reject 17 intended errors, including both
+new optional result fields. Generated stubs match. The exact final wheel,
+installed executables, loaded GEOS and unchanged SDKs authenticate. Both active
+cancel/close child probes also pass at the final runtime.
+
+| Entry point | Current behavior |
+| --- | --- |
+| Desktop Contours tab | Select **Stream tiled prediction**, trace, inspect a bounded class-colored preview, then apply one undoable edit. Full-grid mode remains the default. Each mode uses its own contour options; changing settings or editing the document retires the preview |
+| `GuiRawPixelOptions.stream_contours` / `stream_contour_options` | Data-only selection of the streamed path and its existing native limits. Native jobs and geometry are shared; the UI does not implement another classifier or polygonizer |
+| `GuiRawPixelReport.stream_contours` | Optional immutable streamed result. Full-grid `contours` remains separate; neither historical file preview nor a stale result enables Apply |
+| `ViewerSession.contour_raw_pixel_stream(...)` | Queue a cropped/full-lattice preview or fresh apply, with optional expected document revision. Returns a ticket; failures, including result budget refusal, are terminal events rather than successful events |
+| `ViewerEvent.raw_pixel_stream_contours` | Optional immutable result. Reserve its payload and anticipated IDs before the existing atomic edit; a held preview event grants no later apply authority |
+
+Actual mouse trace/apply, desktop undo/redo, edit-driven preview retirement,
+managed cropped apply and project save/reopen geometry all pass. The final
+1280x1000 synthetic [desktop capture](benchmarks/raw-stream-boundaries-local/frontends-245/final/streamed-desktop.png)
+was inspected: mode controls, preview and applied status fit without overflow.
+The original negative quota fixture mistakenly used a success-only wait helper;
+it rejected the correct failed ticket. Preserve that observation, then check the
+failed event directly. The corrected fixture passes on the unchanged development
+wheel; no C++ rebuild was needed for the test correction.
+
+Next complete CLI and project batches through `raw_pixel_cli.cpp` and the existing
+captured-project/checkpoint path in `project_batch.cpp`. Reuse native requests,
+streamed jobs and publication rather than copying algorithms. Applied annotations
+already survive project reopen; historical QWS1 geometry conversion/reverification
+is a distinct remaining path and must not grant live apply authority. Freeze the
+broad platform candidate after those consumers and retained-file replay settle.
 
 ## Smallest native path
 

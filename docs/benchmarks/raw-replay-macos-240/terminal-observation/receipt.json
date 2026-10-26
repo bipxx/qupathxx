@@ -1,0 +1,44 @@
+{
+  "schema": "qpx.macos-diagnostic-terminal-observation/1",
+  "source": "4a72fd84b7726927285bf58120d288513c65eb4e",
+  "run": 40384720525,
+  "state": "terminal failure",
+  "archives_authenticated": 2,
+  "x86_64": "producer success: 50 native suites and relocation checks",
+  "arm64": "49/50; both contour refusals now caught, replay completes, later raw grid source series changed error remains",
+  "failing_arm64_test_retained": true,
+  "root_cause_established": false,
+  "complete_campaign_accepted": false,
+  "payloads": [
+    {
+      "path": "macos-run.json",
+      "bytes": 7026,
+      "sha256": "c15d0946a7f59e53f48e2fd1f527e1fdc59878dcd77bf1599e23cbfe1f9f593d"
+    },
+    {
+      "path": "macos-artifacts.json",
+      "bytes": 1839,
+      "sha256": "7da2d21684f8f052df3715d97cc44366c16182fd518530428c27d21ae10702df"
+    },
+    {
+      "path": "macos-native-arm64-artifact.json",
+      "bytes": 813,
+      "sha256": "a5b33c727c20a1d301b6728949ceaceda1eac73db85baa75c35b3c678803d576"
+    },
+    {
+      "path": "macos-native-x86_64-artifact.json",
+      "bytes": 815,
+      "sha256": "c6bb73bbbf6deca0df2f32d249131a8624583b51a604e9c474aa772c8037d70b"
+    },
+    {
+      "path": "verified.json",
+      "bytes": 571,
+      "sha256": "833354aa812982809a087dd5b6f6c5405f74208054f4621fcf97ccb7d68b641b"
+    },
+    {
+      "path": "x86_64-result.json",
+      "bytes": 4945,
+      "sha256": "10b9ed2aae1157a4ef1eff03f6395eaba29a3b7f05b5d7f984cdb37e77eb143e"
+    }
+  ]
+}

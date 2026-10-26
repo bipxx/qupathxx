@@ -1,0 +1,11 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-frontends-245-env\\Scripts\\python.exe",
+    "-I",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\raw_stream_contour_shutdown_child.py",
+    "cancel",
+    "C:\\Users\\HEQ\\AppData\\Local\\Temp\\pytest-of-HEQ\\pytest-4197\\test_active_worker_shutdown_re0\\large.tif",
+    "C:\\Users\\HEQ\\AppData\\Local\\Temp\\pytest-of-HEQ\\pytest-4197\\test_active_worker_shutdown_re0\\model.qrm"
+  ],
+  "exit": 0
+}

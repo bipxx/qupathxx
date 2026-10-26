@@ -1,0 +1,20 @@
+{
+  "source": "4a72fd84b7726927285bf58120d288513c65eb4e",
+  "files": [
+    {
+      "name": "macos-native-x86_64",
+      "artifact_id": 12686252957,
+      "run_id": 40384720525,
+      "bytes": 15860842,
+      "digest": "sha256:5eb8ea6e44caa7d25daaffcdd12cd533f7251edc9b8f6d15a8e29f38a3937934"
+    },
+    {
+      "name": "macos-native-arm64",
+      "artifact_id": 12681332017,
+      "run_id": 40384720525,
+      "bytes": 9779737,
+      "digest": "sha256:0b00dda78dcb791af3c173f834a5c8376478132d8f1312972639058f494677b9"
+    }
+  ],
+  "accepted": false
+}

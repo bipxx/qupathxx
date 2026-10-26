@@ -1,0 +1,16 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-stream-frontends-245-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pytest",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_raw_stream_contours.py",
+    "-q",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-stream-frontends-245\\development-tests.xml"
+  ],
+  "exit": 0,
+  "runtime_source": "8795f26b9a13ccc86dfda16e036968ccfcb00837",
+  "observer_source": "03ecaee3f7826a58f1f7466e58b0afce4bf55a94",
+  "compiler_inputs_unchanged": true,
+  "QUPATHXX_TEST_GUI": "1"
+}
