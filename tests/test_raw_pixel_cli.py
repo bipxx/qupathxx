@@ -95,10 +95,14 @@ def test_cli_train_resume_predict_retain_and_verify(source, tmp_path):
               "--tile-height", 2, "--work-bytes", 16 * 1024**2]
     prefix = final(run(*export, "--max-new-windows", 1), 1)
     assert prefix["state"] == "partial" and prefix["summary"]["completed_windows"] == 1
+    prefix_bytes = output.read_bytes()
     result = final(run(*export, "--resume", output, "--replace-existing",
                        "--output-project", tmp_path / "prediction.qpx"))
     assert result["state"] == "saved" and result["summary"]["complete"]
     assert result["summary"]["reused_windows"] == 1
+    # QWE1 footer changes; the original header and committed QWB1 prefix do not.
+    footer_bytes = 292 + 8 * len(prefix["summary"]["class_counts"])
+    assert output.read_bytes().startswith(prefix_bytes[:-footer_bytes])
     stream_options = q.RawPixelStreamOptions()
     stream_options.tile_width = stream_options.tile_height = 2
     stream_options.work_bytes = 16 * 1024**2
@@ -118,12 +122,20 @@ def test_cli_train_resume_predict_retain_and_verify(source, tmp_path):
     assert reopened.document(image).raw_pixel_stream_record_count == 1
     reopened.document(image).server.close()
     assert path.read_bytes() == before
-    # A complete fresh export and a replayed export have identical persisted bytes.
+    # Fresh processes have distinct capture clocks/generations in provenance.
+    # Their input/result chains and every numeric block must still match.
     other = tmp_path / "fresh.qws"
     fresh = export.copy()
     fresh[4] = other
-    assert final(run(*fresh))["summary"]["reused_windows"] == 0
-    assert output.read_bytes() == other.read_bytes()
+    fresh_summary = final(run(*fresh))["summary"]
+    assert fresh_summary["reused_windows"] == 0
+    for key in ("input_sha256", "sha256", "class_counts", "completed_windows"):
+        assert fresh_summary[key] == result["summary"][key]
+    independent = q.RawPixelStreamFile(str(other))
+    independent.verify()
+    for i in range(fresh_summary["completed_windows"]):
+        np.testing.assert_array_equal(independent.read_block(i).labels_numpy(), file.read_block(i).labels_numpy())
+        np.testing.assert_array_equal(independent.read_block(i).vote_fractions_numpy(), file.read_block(i).vote_fractions_numpy())
     corrupt = bytearray(output.read_bytes())
     corrupt[len(corrupt) // 2] ^= 1
     (tmp_path / "corrupt.qws").write_bytes(corrupt)
