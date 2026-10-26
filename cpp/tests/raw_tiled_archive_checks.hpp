@@ -19,7 +19,7 @@ inline Positions positions(const Bytes& b,std::uint64_t unused,bool tiled=true) 
     Cursor c{b};c.blob();Positions out;out.lattice=c.p;c.p+=80;c.source();
     if(tiled) {c.p+=6*8+3*8;if(c.integer()) c.blob();}
     else {if(c.integer()) c.blob();c.p+=6*8+8;const auto classes=c.integer();for(std::uint64_t i=0;i<classes;++i) c.blob();}
-    const auto annotations=c.integer();for(std::uint64_t i=0;i<annotations;++i) {const auto at=c.p,id=c.integer();if(id==unused) out.unused=at;c.p+=2*8;if(tiled) c.blob();else c.p+=8;c.blob();}
+    const auto annotations=c.integer();for(std::uint64_t i=0;i<annotations;++i) {const auto at=c.p;const auto id=c.integer();if(id==unused) out.unused=at;c.p+=2*8;if(tiled) c.blob();else c.p+=8;c.blob();}
     if(tiled) c.p+=16;out.count=c.integer();out.columns=c.integer();out.rows=c.p;out.eligible=c.p+std::size_t(out.count)*(32+4*std::size_t(out.columns));return out;
 }
 inline void same(const qpx::RawPixelTiledTrainingTable& a,const qpx::RawPixelTiledTrainingTable& b) {raw_tiled_training_checks::same(a,b);require(a.sha256()==b.sha256() && a.input_sha256()==b.input_sha256() && a.recipe().bytes()==b.recipe().bytes(),"table/recipe commitments differ");}
