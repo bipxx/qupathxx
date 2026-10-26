@@ -415,3 +415,57 @@ Fraction and feature-seam controls still pass. One window is not a tiled stream:
 global reservoir training, tiled orchestration, versioned window/stream records,
 interrupted/resumed execution, contours/frontends and full platform/research
 acceptance retain their own implementation and qualification gates.
+
+
+## Sparse owner-captured tiled training
+
+Source `1273c3e` has [local native acceptance](benchmarks/raw-tiled-training-local.json)
+for the affected workflow on Windows GEOS-ON, Linux GEOS-OFF and Windows
+training-ON. Both source snapshots authenticate 348 inputs. Sixteen passing
+regressions retain source `fb7ddb0`; the successor changes only metadata-quota
+fixture allocation restoration. Original failures and 22 original/final binaries
+are preserved. This packet completes T1's local native checks.
+
+`ScientificRawLattice` holds source dimensions and original global axes without
+whole-raster admission. `RawPixelTiledTrainingRequest` captures immutable labelled
+annotations through `ObjectFeatureRequest`, source metadata/calibration and strict
+document identity/revision. It finds conservative global center ranges from ROI
+bounds, unions candidate tile intervals before allocating the plan, and rejects
+window/scan limits before decoder IO. Exact ROI membership still chooses rows.
+Each planned core contributes once; halo cells supply filter context only.
+
+`sample_raw_pixel_tiled_training` uses the same per-class reservoir as full-grid
+raw training. Priorities and retained coordinates use original global sample
+indices. Same-class overlaps choose minimum annotation ID, conflicting classes
+are excluded, and balancing occurs after global selection. Captures, plan,
+spatial index and reservoirs are charged before allocation; each actual window's
+feature/sampler workspace is admitted before its own IO. The request's work
+estimate is the admission ceiling, not a measured process-memory result.
+
+The distinct owning `RawPixelTiledTrainingTable` exposes recipe/classes, feature
+rows, labels, global coordinates, annotation IDs, eligible/retained/ambiguous
+counts and commitments. Input domain `qpx.raw-tiled-annotation-input/1` binds
+recipe, lattice, tile policy, annotation revisions/kinds/labels/geometry, sampling
+policy and per-window input/ownership. Result domain
+`qpx.raw-tiled-pixel-training/1` binds those inputs and retained row bits. Tile
+policies can produce identical training matrices with distinct input/result
+commitments. The table has no implicit full-grid QXT1 representation.
+
+`train_raw_pixel_tiled_classifier` and `RawPixelTiledTrainingJob.sample/train`
+reuse the existing forest and portable model. Identical explicit effective
+parameters produce identical full/tiled model bytes and prediction votes on the
+Windows backend. Fresh admission can change effective work parameters; retain
+that model-identity rule. Backend-OFF job training refuses before pixel IO.
+Workers borrow the reader retained by the owner request, use immutable snapshots
+and join before owner release. Await does not deliver results. Poll/wait refuses
+cancelled, copied/edited-document, calibration/metadata or fresh primary/companion
+file changes before ready delivery. Failure permits retry without publication.
+
+Tests compare raw and filtered rows across three tile policies with the full-grid
+authority, including overlap ownership and ambiguous counts. A million-by-million
+lattice with two tiny labelled regions needs one 64-by-64 candidate core and
+retains four correctly indexed rows. Real TIFF fractional sampling, actual
+backend prediction, lifecycle controls and late file mutation are covered.
+Bounded tiled prediction, versioned tiled records/checkpoints, interrupted resume,
+frontends, cross-tile contours and integrated/research/resource/release acceptance
+remain open under T2-T5 and their separate gates.

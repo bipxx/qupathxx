@@ -2,19 +2,26 @@
 
 ## Current execution card (2026-10-26)
 
-- Planning handoff: accepted window model/owner prediction source is `642f728`;
-  the published planning/evidence head entering this update is `2357dac`.
-  Seven source files have draft lattice/source-capture edits; no build or test
-  result covers those edits. They are preserved for T1, not counted as delivered.
-  Next: sparse owner-captured tiled training, then tiled prediction, typed
-  persistence/resume, complete frontend integration and one integrated campaign.
-  The [T1-T5 delivery table](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints)
-  defines implementation choices and exit evidence. This update is planning only.
-- Efficiency changes: union ROI-covered tile ranges before scanning; use one
-  global reservoir per class and balance afterward; share existing native
-  authorities; admit actual per-window workspace before its IO. Verify the
-  complete installed workflow after native contracts settle. Preserve source-bound
-  receipts and failed attempts; no new hosted campaign follows from this edit.
+- Latest native delivery: sparse owner-captured tiled raw training at `1273c3e`
+  has [local acceptance](benchmarks/raw-tiled-training-local.json). The affected
+  workflow suite passes on Windows GEOS-ON, Linux GEOS-OFF and Windows training-ON;
+  348 compiler inputs match across all three. Sixteen passing regressions retain
+  source `fb7ddb0`; only the test fixture changed afterward. Original three workflow
+  failures and all 22 original/final executables are retained. The failure came
+  from a quota fixture retaining a large string allocation after text restoration.
+- `ScientificRawLattice` and `RawPixelTiledTrainingRequest`/table/job reuse the
+  existing annotation/source snapshots, spatial index and forest. Full-grid and
+  tiled training share one global-coordinate reservoir; three tile policies agree
+  on raw/filtered feature rows, labels, owners and counts. A trillion-cell lattice
+  supplies four labelled rows from one 4,096-core candidate tile. Actual Windows
+  backend models and prediction votes agree with explicit effective parameters;
+  real TIFF, physical calibration, quotas, cancel/stale/retry/thread controls pass.
+- Next product action: T2 bounded tiled prediction with an output sink, then T3
+  typed persistence/resume, T4 installed frontends and T5 integrated qualification.
+  T1 is locally verified; it does not supply a completed prediction stream,
+  tiled-table archive, interrupted training resume or installed bindings. Follow
+  the [single T1-T5 route](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
+  All M0-M7 remain Partial; no main promotion or release acceptance follows.
 - Integration: `feature/scientific-grid-159`. Native source `7beb80b` adds
   owner-captured raw annotation sampling and prediction jobs, sharing current
   raw-analysis/object authorities, spatial indexing, reservoir and model kernels.
@@ -70,8 +77,8 @@
   enforce owner delivery, cancellation, document identity/revision, calibration,
   actual source metadata and fresh primary/companion-file guards. Metadata copies
   and sampler quotas/series now reject before IO for window and full-grid jobs.
-- Next product action: owner-captured training over indexed windows, then bounded
-  tiled training/prediction with versioned stream/checkpoint resume. Continue
+- Earlier window-only boundary (superseded by T1 above): the window receipt did
+  not cover tiled training/prediction or versioned stream/checkpoint resume. Continue
   nanobind/Python/CLI/batch/ImGui/managed viewer integration afterward. Current
   window prediction is one bounded window, not a completed prediction stream.
   Cross-tile contour stitching is separate.

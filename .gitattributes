@@ -500,3 +500,7 @@ docs/benchmarks/raw-window-fraction-reference.json -text -whitespace
 # Raw window model/owner evidence retains exact bytes.
 docs/benchmarks/raw-window-classifier-local/** -text -whitespace
 docs/benchmarks/raw-window-classifier-local.json -text -whitespace
+
+# Raw tiled-training evidence retains exact source-bound bytes.
+docs/benchmarks/raw-tiled-training-local/** -text -whitespace
+docs/benchmarks/raw-tiled-training-local.json -text -whitespace

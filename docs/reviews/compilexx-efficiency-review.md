@@ -6,7 +6,7 @@ E1-E4 and multi-file campaign213 have the accepted baselines listed in the
 Current remaining classifier work is the T1-T5 route in that plan. Its new
 efficiency decisions are sparse ROI tile-union planning, one global reservoir,
 per-window admission and one complete frontend integration/qualification path.
-Draft lattice helpers remain unverified. No new cross-project or Astra audit
+Sparse tiled training now has local acceptance at `1273c3e`; bounded tiled prediction is next. No new cross-project or Astra audit
 is claimed by this reconciliation.
 
 Reviewed 2026-10-25 at qupathxx source `682ba00`. This is an implementation

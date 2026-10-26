@@ -58,11 +58,14 @@ or Mac paths. Sample-index raw windows and shared numeric features now have
 large dense/irreducible lattices, exact wide weights and tiled/full feature bits.
 Window-aware recipe/model matching, classification and owner prediction now have
 [local evidence](benchmarks/raw-window-classifier-local.json) at `642f728`, with
-eight suites each Windows/Linux plus three Windows training suites. Next add
-owner training over sparse ROI-covered windows, tiled prediction, then versioned
-stream/checkpoint resume and frontends. The API plan's T1-T5 table defines the
-shared implementations, resource limits and decisive evidence for this route.
-Draft lattice helpers in the integration worktree have not been built or verified.
+eight suites each Windows/Linux plus three Windows training suites. Sparse
+owner-captured tiled training now has [local evidence](benchmarks/raw-tiled-training-local.json)
+at `1273c3e`: the affected workflow passes across three configurations, with 348
+matching inputs. Sixteen passing regressions retain source `fb7ddb0`; only a quota
+test fixture changed in the successor. Native global selection, actual Windows
+backend model/vote equivalence and real TIFF sampling/prediction pass. Next add
+bounded tiled prediction, versioned stream/checkpoint resume and frontends. The
+API plan's T1-T5 table defines shared implementations, resource limits and evidence.
 Cross-tile contours, integrated
 platform training and research/hardware acceptance remain open.
 New raw models use QRM1; explicit pre-release QPR1 compatibility preserves
