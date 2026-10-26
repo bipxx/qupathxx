@@ -1,0 +1,20 @@
+{
+  "id": 12670610810,
+  "node_id": "MDg6QXJ0aWZhY3QxMjY3MDYxMDgxMA==",
+  "name": "Windows-headless-py3.11",
+  "size_in_bytes": 11744659,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12670610810",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12670610810/zip",
+  "expired": false,
+  "digest": "sha256:fbb26ff2bab05e4296c1586c8bc3b0f2b9d75c62c1ffe7b14830e0a5dafa15c8",
+  "created_at": "2026-10-26T17:08:52Z",
+  "updated_at": "2026-10-26T17:08:52Z",
+  "expires_at": "2026-11-09T17:08:50Z",
+  "workflow_run": {
+    "id": 40363168207,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/raw-classifier-qualification-235",
+    "head_sha": "176ec42b274bb12429cef603b59ce704e12c6e96"
+  }
+}

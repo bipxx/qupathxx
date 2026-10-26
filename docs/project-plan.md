@@ -36,9 +36,12 @@ The immediate work is to finish [T5 campaign235](benchmarks/raw-classifier-235-c
 at frozen source `176ec42`, already dispatched once on its dedicated branch.
 Original runs: engine `40363168207`, Mac-native `40363189978`, portable
 `40363203596`. Linux minimal and sanitizer jobs have succeeded; all three runs
-remain active and full artifact audits are pending. Follow the
+remain active. Mac arm64 compilation has since failed; the candidate cannot
+achieve full acceptance. [Original evidence](benchmarks/raw-classifier-235-failure.json)
+and the source-bound declaration correction are preserved. Follow the
 [T5 closeout sequence](api-delivery-plan.md#t5-closeout-sequence); keep the frozen
-checkout unchanged and do not dispatch again to refresh documentation.
+checkout unchanged, finish observing the healthy jobs, then qualify a corrected
+successor. Do not dispatch again to refresh documentation.
 
 The [raw frontend receipt](benchmarks/raw-frontend-local.json) locally accepts
 `0dc916c`: 195 installed Windows Python passes, including all 17 frontend cases,

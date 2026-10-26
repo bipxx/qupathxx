@@ -1,0 +1,6 @@
+tests/typing/raw_frontend_invalid.py:6: error: Incompatible types in assignment (expression has type "PixelClassifier", variable has type "RawPixelClassifier | None")  [assignment]
+tests/typing/raw_frontend_invalid.py:7: error: Incompatible types in assignment (expression has type "PixelPredictionOptions", variable has type "TissueContourOptions")  [assignment]
+tests/typing/raw_frontend_invalid.py:8: error: Incompatible types in assignment (expression has type "ScientificGrid", variable has type "ScientificRawWindow | None")  [assignment]
+tests/typing/raw_frontend_invalid.py:9: error: Argument 3 to "contour_raw_pixels" of "ViewerSession" has incompatible type "ScientificRawWindow"; expected "ScientificGrid"  [arg-type]
+tests/typing/raw_frontend_invalid.py:10: error: Incompatible types in assignment (expression has type "RawPixelContours | None", variable has type "RawPixelContours")  [assignment]
+Found 5 errors in 1 file (checked 1 source file)

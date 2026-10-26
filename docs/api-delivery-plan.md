@@ -559,6 +559,14 @@ The additional inherited preflight passes 286 controls (801 selected total), and
 all eight source contracts recheck 718 unique inputs. The frozen source stays
 unchanged while those runs are live.
 
+Mac arm64 has since failed compilation at two mixed-type `auto` declarations.
+The [failure receipt](benchmarks/raw-classifier-235-failure.json) preserves the
+original archive/logs and correction at `b8a465e`. Two affected Windows native
+suites pass; syntax probes reproduce the old rejection and corrected success
+for both Darwin targets. Full Mac acceptance remains open. Continue the other
+original jobs; the frozen candidate cannot pass the full matrix, so a corrected
+successor must receive scope-matched qualification after diagnosis.
+
 The
 [preflight at `fb3dfe6`](benchmarks/raw-classifier-preflight-local.json) makes the
 raw native/installed/GUI/typing/source contract mandatory in the producers and

@@ -2,6 +2,21 @@
 
 ## Current execution card (2026-10-26)
 
+- Campaign235 cannot achieve full acceptance: Mac arm64 job `121713805694`
+  failed compilation at two mixed `size_t`/`uint64_t` `auto` declarations.
+  [Original evidence and correction](benchmarks/raw-classifier-235-failure.json)
+  preserve the authenticated archive, job/build logs and exact source identities.
+  Integration `b8a465e` splits those declarations without conversions. Two
+  affected Windows minimal native suites and their semantic contract pass;
+  old/new declaration probes reject/pass for both Darwin target architectures.
+  These syntax probes do not qualify a full Mac build. Both resulting Windows
+  executables are retained separately before cache reuse.
+- Six original archives authenticate, including the Mac failure. Linux
+  minimal/sanitizer and Linux/Windows/manylinux-3.11 headless producers pass
+  their raw-specific checks. Each headless raw cohort gives 40 passes/18 declared
+  skips and exact typing controls. These are partial observations, not full
+  engine acceptance. Keep other original jobs running and inspect every outcome
+  before freezing a successor; do not rerun the known-broken candidate.
 - T5 campaign235 is now [running at frozen source `176ec42`](benchmarks/raw-classifier-235-campaign.json)
   on `feature/raw-classifier-qualification-235`: engine run `40363168207`,
   Mac-native run `40363189978`, portable run `40363203596`. All three were

@@ -1,0 +1,197 @@
+{
+  "conclusion": "",
+  "databaseId": 40363189978,
+  "headSha": "176ec42b274bb12429cef603b59ce704e12c6e96",
+  "jobs": [
+    {
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "databaseId": 121713805132,
+      "name": "macOS native x86_64",
+      "startedAt": "2026-10-26T16:52:01Z",
+      "status": "in_progress",
+      "steps": [
+        {
+          "completedAt": "2026-10-26T16:52:04Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-26T16:52:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T16:52:11Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 2,
+          "startedAt": "2026-10-26T16:52:04Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T16:52:12Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+          "number": 3,
+          "startedAt": "2026-10-26T16:52:11Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T16:52:26Z",
+          "conclusion": "success",
+          "name": "Pinned build frontend",
+          "number": 4,
+          "startedAt": "2026-10-26T16:52:12Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "0001-01-01T00:00:00Z",
+          "conclusion": "",
+          "name": "Build and validate native engine",
+          "number": 5,
+          "startedAt": "2026-10-26T16:52:26Z",
+          "status": "in_progress"
+        },
+        {
+          "completedAt": "0001-01-01T00:00:00Z",
+          "conclusion": "",
+          "name": "Native evidence",
+          "number": 6,
+          "startedAt": "0001-01-01T00:00:00Z",
+          "status": "pending"
+        },
+        {
+          "completedAt": "0001-01-01T00:00:00Z",
+          "conclusion": "",
+          "name": "Post Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+          "number": 11,
+          "startedAt": "0001-01-01T00:00:00Z",
+          "status": "pending"
+        },
+        {
+          "completedAt": "0001-01-01T00:00:00Z",
+          "conclusion": "",
+          "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 12,
+          "startedAt": "0001-01-01T00:00:00Z",
+          "status": "pending"
+        }
+      ],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40363189978/job/121713805132"
+    },
+    {
+      "completedAt": "2026-10-26T17:04:26Z",
+      "conclusion": "failure",
+      "databaseId": 121713805694,
+      "name": "macOS native arm64",
+      "startedAt": "2026-10-26T16:55:53Z",
+      "status": "completed",
+      "steps": [
+        {
+          "completedAt": "2026-10-26T16:55:54Z",
+          "conclusion": "success",
+          "name": "Set up job",
+          "number": 1,
+          "startedAt": "2026-10-26T16:55:53Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T16:55:58Z",
+          "conclusion": "success",
+          "name": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 2,
+          "startedAt": "2026-10-26T16:55:54Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T16:55:59Z",
+          "conclusion": "success",
+          "name": "Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+          "number": 3,
+          "startedAt": "2026-10-26T16:55:58Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T16:56:02Z",
+          "conclusion": "success",
+          "name": "Pinned build frontend",
+          "number": 4,
+          "startedAt": "2026-10-26T16:55:59Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:04:18Z",
+          "conclusion": "failure",
+          "name": "Build and validate native engine",
+          "number": 5,
+          "startedAt": "2026-10-26T16:56:02Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:04:20Z",
+          "conclusion": "success",
+          "name": "Native evidence",
+          "number": 6,
+          "startedAt": "2026-10-26T17:04:18Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:04:20Z",
+          "conclusion": "skipped",
+          "name": "Post Run actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c",
+          "number": 11,
+          "startedAt": "2026-10-26T17:04:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:04:21Z",
+          "conclusion": "success",
+          "name": "Post Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8",
+          "number": 12,
+          "startedAt": "2026-10-26T17:04:20Z",
+          "status": "completed"
+        },
+        {
+          "completedAt": "2026-10-26T17:04:23Z",
+          "conclusion": "success",
+          "name": "Complete job",
+          "number": 13,
+          "startedAt": "2026-10-26T17:04:21Z",
+          "status": "completed"
+        }
+      ],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40363189978/job/121713805694"
+    },
+    {
+      "completedAt": "2026-10-26T16:51:58Z",
+      "conclusion": "skipped",
+      "databaseId": 121713807604,
+      "name": "matrix.name",
+      "startedAt": "2026-10-26T16:51:58Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40363189978/job/121713807604"
+    },
+    {
+      "completedAt": "2026-10-26T16:51:58Z",
+      "conclusion": "skipped",
+      "databaseId": 121713807737,
+      "name": "Manylinux build Python ${{ matrix.python }}",
+      "startedAt": "2026-10-26T16:51:58Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40363189978/job/121713807737"
+    },
+    {
+      "completedAt": "2026-10-26T16:51:58Z",
+      "conclusion": "skipped",
+      "databaseId": 121713809301,
+      "name": "Debian consumer Python ${{ matrix.python }}",
+      "startedAt": "2026-10-26T16:51:58Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40363189978/job/121713809301"
+    }
+  ],
+  "status": "in_progress",
+  "url": "https://github.com/bipxx/qupathxx/actions/runs/40363189978"
+}

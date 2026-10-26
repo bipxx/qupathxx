@@ -1,0 +1,58 @@
+[
+  {
+    "version": "original",
+    "target": "arm64-apple-macos13",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\Llvm\\bin\\clang++.exe",
+      "-target",
+      "arm64-apple-macos13",
+      "-std=c++17",
+      "-fsyntax-only",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawt5-236\\darwin-deduction\\original.cpp"
+    ],
+    "exit": 1,
+    "source_sha256": "00460222678db4398437aff82387de2f0d60bb27fdbcfba7aa813e367bbf0c32"
+  },
+  {
+    "version": "original",
+    "target": "x86_64-apple-macos13",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\Llvm\\bin\\clang++.exe",
+      "-target",
+      "x86_64-apple-macos13",
+      "-std=c++17",
+      "-fsyntax-only",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawt5-236\\darwin-deduction\\original.cpp"
+    ],
+    "exit": 1,
+    "source_sha256": "00460222678db4398437aff82387de2f0d60bb27fdbcfba7aa813e367bbf0c32"
+  },
+  {
+    "version": "corrected",
+    "target": "arm64-apple-macos13",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\Llvm\\bin\\clang++.exe",
+      "-target",
+      "arm64-apple-macos13",
+      "-std=c++17",
+      "-fsyntax-only",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawt5-236\\darwin-deduction\\corrected.cpp"
+    ],
+    "exit": 0,
+    "source_sha256": "cfa84bfab438a40aa9dacbb4c85b1a186fb7c46e8ee24e9e516b154640aadb4c"
+  },
+  {
+    "version": "corrected",
+    "target": "x86_64-apple-macos13",
+    "command": [
+      "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\Llvm\\bin\\clang++.exe",
+      "-target",
+      "x86_64-apple-macos13",
+      "-std=c++17",
+      "-fsyntax-only",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawt5-236\\darwin-deduction\\corrected.cpp"
+    ],
+    "exit": 0,
+    "source_sha256": "cfa84bfab438a40aa9dacbb4c85b1a186fb7c46e8ee24e9e516b154640aadb4c"
+  }
+]

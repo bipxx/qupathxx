@@ -552,3 +552,7 @@ docs/benchmarks/raw-classifier-preflight-local.json -text -whitespace
 # Frozen raw classifier campaign dispatch and source closure.
 docs/benchmarks/raw-classifier-235-campaign/** -text -whitespace
 docs/benchmarks/raw-classifier-235-campaign.json -text -whitespace
+
+# Preserve the original Mac failure and source-bound correction observations.
+docs/benchmarks/raw-classifier-235-failure/** -text -whitespace
+docs/benchmarks/raw-classifier-235-failure.json -text -whitespace

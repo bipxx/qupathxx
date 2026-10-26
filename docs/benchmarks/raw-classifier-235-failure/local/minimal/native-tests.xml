@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="2"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="1"
+	timestamp="2026-10-26T13:06:49"
+	>
+	<testcase name="pixel_workflows" classname="pixel_workflows" time="1.55015" status="run">
+		<properties/>
+		<system-out>Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+Raw pixel archives: sampling/prediction semantic round trips, rational axes, authority refusal, tamper/cancel and atomic replacement passed
+Raw pixel contours: GEOS-unavailable direct/job refusal passed
+Raw pixel replay: pre-IO capture, source-bit comparison, historical/cross-document refusal, recipe/calibration/annotation checks and owner-job verification passed
+Raw window classifier: portable recipe/model identity, 42 full/window label-vote seams, huge indexed ROI, physical calibration, pre-IO quotas/series, cancellation/stale/copy/thread and compound-source checks passed
+Raw tiled training: full/tiled global reservoir rows, filtered seams, sparse trillion-cell lattice, quotas, owner lifecycle, calibration and compound-source controls passed
+Raw prediction stream: fractional filtered full-context seams, unique/cropped global cores, bounded trillion-cell traversal, owned blocks, one-slot backpressure, digests, quotas, cancel/stale/retry and owner delivery passed
+Raw stream file: absent-destination concurrent-writer refusal preserves competing output passed
+Raw stream file: QWS1 independent framing, historical blocks, exact interrupted/resumed bytes, hash-only prefix validation, model/source/ROI/calibration refusal, atomic cancellation, tamper and resource/alias controls passed
+Raw tiled archive: independent QTT1 geometry/rows, balanced/unbalanced and huge-lattice round trips, semantic tamper, all-selected record bounds, authority/replay and atomic files passed
+Raw training checkpoint: independent QTC1 bounds, balanced/unbalanced multistage replay, exact rows/hashes/bytes, input tamper, limits, cancellation and concurrent-writer refusal passed
+Raw file jobs: owner export/checkpoint transfer, one-slot historical reads, cancellation/staleness/output guards, annotation resume refusal, thread/lifetime and retry controls passed
+Raw stream links: verified prefix/complete retention, independent QWL1 bounds, global geometry, historical authority refusal, exact-content relink and external lifetime controls passed
+Annotation sampling, overlap/balance, portable resolution, tiled source prediction and stale jobs passed
+</system-out>
+	</testcase>
+	<testcase name="viewer_session" classname="viewer_session" time="0.278774" status="run">
+		<properties/>
+		<system-out>Raw pixel viewer unavailable: TIFF/project OFF
+TMA viewer axis commands: copied bounds, revision, cancellation, atomic result and edit admission passed
+Grid viewer producer copies, owner calibration capture, retention, cancellation and stale delivery passed
+Viewer queue, owner dispatch, jobs, lifetime, limits, staleness and shutdown passed
+</system-out>
+	</testcase>
+</testsuite>

@@ -1,0 +1,5 @@
+tests\typing\raw_pixel_invalid.py:9: error: Incompatible types in assignment (expression has type "ndarray[Any, dtype[floating[_32Bit]]]", variable has type "ndarray[Any, dtype[unsignedinteger[_8Bit]]]")  [assignment]
+tests\typing\raw_pixel_invalid.py:10: error: Incompatible types in assignment (expression has type "RawPixelTiledTrainingTable | None", variable has type "RawPixelTiledTrainingTable")  [assignment]
+tests\typing\raw_pixel_invalid.py:11: error: Argument 1 to "sample_raw_pixel_tiled_training" has incompatible type "RawPixelTrainingRequest"; expected "RawPixelTiledTrainingRequest"  [arg-type]
+tests\typing\raw_pixel_invalid.py:12: error: Incompatible types in assignment (expression has type "RawPixelWindowClassification", variable has type "RawPixelClassification")  [assignment]
+Found 4 errors in 1 file (checked 1 source file)

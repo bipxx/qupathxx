@@ -1,0 +1,20 @@
+{
+  "id": 12670720374,
+  "node_id": "MDg6QXJ0aWZhY3QxMjY3MDcyMDM3NA==",
+  "name": "macos-native-arm64",
+  "size_in_bytes": 23922,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12670720374",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12670720374/zip",
+  "expired": false,
+  "digest": "sha256:2757c64c5a6e8924e7395840f4b95ddb5c3173d90a96f302b0b19ca41982415d",
+  "created_at": "2026-10-26T17:04:21Z",
+  "updated_at": "2026-10-26T17:04:21Z",
+  "expires_at": "2026-11-09T17:04:19Z",
+  "workflow_run": {
+    "id": 40363189978,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/raw-classifier-qualification-235",
+    "head_sha": "176ec42b274bb12429cef603b59ce704e12c6e96"
+  }
+}

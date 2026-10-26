@@ -1,0 +1,64 @@
+{
+  "source": "176ec42b274bb12429cef603b59ce704e12c6e96",
+  "results": {
+    "Linux-minimal-py3.12": {
+      "native": {
+        "full": false,
+        "portable_owner_jobs": true,
+        "raw_file_training_contour_consumers": false
+      }
+    },
+    "Linux-sanitize-py3.12": {
+      "native": {
+        "full": true,
+        "portable_owner_jobs": true,
+        "raw_file_training_contour_consumers": true
+      }
+    },
+    "Linux-headless-py3.12": {
+      "native": {
+        "full": true,
+        "portable_owner_jobs": true,
+        "raw_file_training_contour_consumers": true
+      },
+      "python": {
+        "passed": 40,
+        "declared_skips": 18,
+        "groups": [
+          {
+            "module": "test_raw_pixel_python",
+            "passed": 12,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_raw_pixel_cli",
+            "passed": 14,
+            "declared_skips": 1
+          },
+          {
+            "module": "test_raw_pixel_batch",
+            "passed": 14,
+            "declared_skips": 0
+          },
+          {
+            "module": "test_gui_raw_pixel",
+            "passed": 0,
+            "declared_skips": 17
+          }
+        ]
+      },
+      "typing": {
+        "positive_files": 4,
+        "negative_files": 3,
+        "expected_errors": 12,
+        "hashes": {
+          "raw-classifier-typing.log": "71144743c83babea384888a735db0c4daba3d4d7b7942b6839984bd5c21b52bb",
+          "raw-classifier-raw_pixel_invalid.log": "1a76a35865f954cf7822fc6ca762005f32969e818f72a4f07b1b99f35d3ee520",
+          "raw-classifier-raw_batch_invalid.log": "ec99042b609fa2d436d18ee21a8adcfcc12207eda34c011d9d4aa11587b56b75",
+          "raw-classifier-raw_frontend_invalid.log": "a5c5390687f5fce8cd98cae060e975fc171146030c7121be4ff19828ac13504d"
+        }
+      }
+    }
+  },
+  "scope": "Raw named contracts only; not full campaign acceptance"
+}
