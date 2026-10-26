@@ -35,11 +35,19 @@ std::string real(double n) {std::ostringstream s;s.imbue(std::locale::classic())
 std::string vector(const ColorVector& v) {return '['+real(v[0])+','+real(v[1])+','+real(v[2])+']';}
 std::string error_text(const std::exception& e) {std::string s=e.what();try {detail::bounded_utf8(s,32768);} catch(...) {return "batch operation failed (error text is not bounded UTF-8)";}return s;}
 using detail::access_path;
+bool raw_classifier_batch(ProjectBatchKind kind) {return kind==ProjectBatchKind::RawPixels || kind==ProjectBatchKind::RawPixelContours;}
 bool stream_batch(ProjectBatchKind kind) {return kind==ProjectBatchKind::Pixels || kind==ProjectBatchKind::RawPixels;}
 ScientificRawLattice raw_lattice(const Document& doc,const ProjectBatchOptions& o) {
     const auto& m=doc.metadata();return {m.width,m.height,o.raw_pixel_x?*o.raw_pixel_x:ScientificGridAxis(0,m.width,m.width),o.raw_pixel_y?*o.raw_pixel_y:ScientificGridAxis(0,m.height,m.height)};
 }
 RawPixelTiledPredictionRequest raw_request(const Document& doc,std::uint64_t id,const ProjectBatchOptions& o) {return {doc,*o.raw_pixel_model,raw_lattice(doc,o),o.raw_pixels,{},id};}
+void verify_contour_source(const std::shared_ptr<const ReaderSource>& observed) {
+    if(!observed || !observed->primary) return;auto current=*observed;std::vector<std::unique_ptr<detail::ReaderFileGuard>> guards;
+    guards.emplace_back(std::make_unique<detail::ReaderFileGuard>(observed->primary->path));current.primary=guards.back()->version();
+    for(auto& file:current.companions) {guards.emplace_back(std::make_unique<detail::ReaderFileGuard>(file.path));file=*guards.back()->version();}
+    for(const auto& guard:guards) guard->verify();
+    if(!same_reader_files(*observed,current)) throw std::runtime_error("raw contour batch source changed before publication");
+}
 RawPixelStreamFileLimits raw_file_limits(const ProjectBatchOptions& o,std::uint64_t remaining) {return {std::min(o.pixel_file_limit,remaining),o.raw_pixel_file_work_bytes};}
 
 bool plain(const fs::path& path,bool directory) {
@@ -162,10 +170,13 @@ std::string parameters(const ProjectBatchOptions& o,const StainTransform& t) {
     if(o.kind==ProjectBatchKind::Pixels) {const auto& v=o.pixels;
         s<<",\"pixels\":{\"model_sha256\":"<<batch_json_quote(o.pixel_model->sha256())<<",\"block_size\":"<<v.block_size<<",\"tile_size\":"<<v.prediction.tile_size<<",\"work_bytes\":"<<v.prediction.work_bytes<<",\"min_vote_fraction\":"<<v.prediction.min_vote_fraction<<",\"max_pixels\":"<<v.max_pixels<<",\"max_blocks\":"<<v.max_blocks<<",\"file_limit\":"<<o.pixel_file_limit<<",\"total_limit\":"<<o.pixel_total_limit<<'}';
     }
-    if(o.kind==ProjectBatchKind::RawPixels) {const auto& v=o.raw_pixels;
+    if(raw_classifier_batch(o.kind)) {const auto& v=o.raw_pixels;
         s<<",\"raw_pixels\":{\"model_sha256\":"<<batch_json_quote(o.raw_pixel_model->sha256())<<",\"tile_width\":"<<v.tile_width<<",\"tile_height\":"<<v.tile_height<<",\"work_bytes\":"<<v.work_bytes<<",\"min_vote_fraction\":"<<v.min_vote_fraction<<",\"max_samples\":"<<v.max_samples<<",\"max_windows\":"<<v.max_windows<<",\"file_work_bytes\":"<<o.raw_pixel_file_work_bytes<<",\"file_limit\":"<<o.pixel_file_limit<<",\"total_limit\":"<<o.pixel_total_limit;
         auto axis=[&](const char* name,const std::optional<ScientificGridAxis>& a) {s<<",\""<<name<<"\":";if(a) s<<'['<<a->origin()<<','<<a->extent()<<','<<a->samples()<<','<<a->context()<<']';else s<<"null";};
         axis("x",o.raw_pixel_x);axis("y",o.raw_pixel_y);s<<'}';
+    }
+    if(o.kind==ProjectBatchKind::RawPixelContours) {const auto& v=o.raw_contours;const auto& g=v.contours;
+        s<<",\"raw_contours\":{\"prefix\":"<<batch_json_quote(o.raw_contour_prefix)<<",\"publication_bytes\":"<<o.raw_contour_publication_bytes<<",\"boundary_work_bytes\":"<<v.boundary_work_bytes<<",\"max_boundary_runs\":"<<v.max_boundary_runs<<",\"work_bytes\":"<<v.work_bytes<<",\"clip_to_roi\":"<<(g.clip_to_roi?"true":"false")<<",\"max_components\":"<<g.max_components<<",\"max_edges\":"<<g.max_edges<<",\"max_vertices\":"<<g.max_vertices<<",\"contour_work_bytes\":"<<g.work_bytes<<'}';
     }
     if(o.raw_grid) {
         const auto& g=*o.raw_grid;
@@ -205,7 +216,7 @@ void ProjectBatchOptions::validate() const {
     detail::validate_cell_area_limits(cell_min_nucleus_area_um2,cell_max_nucleus_area_um2);
     if(kind!=ProjectBatchKind::Cells && (cell_min_nucleus_area_um2 || cell_max_nucleus_area_um2))
         throw std::invalid_argument("physical nucleus area limits require a cell batch");
-    if(kind!=ProjectBatchKind::Roi && kind!=ProjectBatchKind::Tissue && kind!=ProjectBatchKind::Cells && kind!=ProjectBatchKind::Pixels && kind!=ProjectBatchKind::Raw && kind!=ProjectBatchKind::RawPixels) throw std::invalid_argument("invalid batch kind");
+    if(kind!=ProjectBatchKind::Roi && kind!=ProjectBatchKind::Tissue && kind!=ProjectBatchKind::Cells && kind!=ProjectBatchKind::Pixels && kind!=ProjectBatchKind::Raw && kind!=ProjectBatchKind::RawPixels && kind!=ProjectBatchKind::RawPixelContours) throw std::invalid_argument("invalid batch kind");
     if(failure!=ProjectBatchFailure::Stop && failure!=ProjectBatchFailure::Continue) throw std::invalid_argument("invalid batch failure policy");
     if(roi_kind!=AnalysisKind::OpticalDensityMeans && roi_kind!=AnalysisKind::StainMeans) throw std::invalid_argument("invalid batch ROI kind");
     if(object_kind!=ObjectKind::Annotation && object_kind!=ObjectKind::Detection && object_kind!=ObjectKind::Cell) throw std::invalid_argument("invalid batch object kind");
@@ -215,11 +226,16 @@ void ProjectBatchOptions::validate() const {
     pixels.validate();
     if(pixel_file_limit<4096 || pixel_file_limit>(64ULL<<40) || pixel_total_limit<4096 || pixel_total_limit>(64ULL<<40)) throw std::invalid_argument("invalid pixel batch file limits");
     if(kind==ProjectBatchKind::Pixels && (!pixel_model || nucleus || publish_cells)) throw std::invalid_argument("pixel batch requires a model and body ROIs without cell publication");
-    if(kind==ProjectBatchKind::RawPixels) {
+    if(raw_classifier_batch(kind)) {
         if(!raw_pixel_model || nucleus || publish_cells) throw std::invalid_argument("raw pixel batch requires a model and body ROIs without cell publication");
         if(bool(raw_pixel_x)!=bool(raw_pixel_y)) throw std::invalid_argument("raw pixel batch requires both axes or the unit lattice");
         raw_pixels.validate();raw_file_limits(*this,pixel_total_limit).validate();
     } else if(raw_pixel_model || raw_pixel_x || raw_pixel_y || raw_pixel_file_work_bytes!=256u*1024*1024) throw std::invalid_argument("raw classifier options require a raw pixel batch");
+    if(kind==ProjectBatchKind::RawPixelContours) {
+        if(!has_geos()) throw std::runtime_error("raw contour batch requires native geometry");
+        raw_contours.validate();detail::bounded_utf8(raw_contour_prefix,256);
+        if(raw_contour_prefix.empty() || !raw_contour_publication_bytes || raw_contour_publication_bytes>512u*1024*1024) throw std::invalid_argument("invalid raw contour publication options");
+    }
     tissue.validate();cells.validate();if(kind==ProjectBatchKind::Cells && nucleus) throw std::invalid_argument("cell batch uses body source ROIs");if(publish_cells && (kind!=ProjectBatchKind::Cells || !has_geos())) throw std::invalid_argument("cell publication requires a cells batch and native geometry");
 }
 ProjectBatchRequest::ProjectBatchRequest(const Project& project,const StainTransform& transform,const std::vector<ProjectBatchSelection>& selection,ProjectBatchOptions options) {
@@ -228,7 +244,7 @@ ProjectBatchRequest::ProjectBatchRequest(const Project& project,const StainTrans
     if(options.tma_only && selection.empty()) {chosen.erase(std::remove_if(chosen.begin(),chosen.end(),[&](const auto& item){return !project.entry(item.image_id).document->tma_core_count();}),chosen.end());if(chosen.empty()) throw std::invalid_argument("project has no TMA grids");}
     std::sort(chosen.begin(),chosen.end(),[](const auto& a,const auto& b){return a.image_id<b.image_id;});std::set<std::uint64_t> ids;std::size_t charge=sizeof(Data)+65536+d->json.capacity()+d->sha.capacity();
     if(options.kind==ProjectBatchKind::Pixels) charge+=4ULL*options.pixel_model->bytes().size()+64ULL*options.pixel_model->forest().node_count()+65536;
-    if(options.kind==ProjectBatchKind::RawPixels) charge+=4ULL*options.raw_pixel_model->bytes().size()+64ULL*options.raw_pixel_model->forest().node_count()+65536;
+    if(raw_classifier_batch(options.kind)) charge+=4ULL*options.raw_pixel_model->bytes().size()+64ULL*options.raw_pixel_model->forest().node_count()+65536;
     for(auto& item:chosen) {
         if(!ids.insert(item.image_id).second) throw std::invalid_argument("duplicate batch image selection");const auto& doc=*project.entry(item.image_id).document;
         if(item.object_ids.size()>100000) throw std::length_error("batch object selection exceeds limit");
@@ -290,6 +306,12 @@ struct ProjectBatchKernel {
         }
         if(index!=item.object_ids.size() || inputs.finish()!=expected) throw std::invalid_argument("raw pixel output input digest differs from current source");
     }
+    static std::string raw_contour_csv(const Document& doc,const std::vector<std::uint64_t>& objects,const ProjectBatchOptions& o) {
+        std::string csv="object_id,parent_id,class_name,name,area_px2,perimeter_px\r\n";
+        for(auto id:objects) {const auto& a=doc.annotation(id);const auto row=std::to_string(id)+','+std::to_string(a.parent_id)+','+csv_quote(a.class_name)+','+csv_quote(a.name)+','+real(a.geometry.area())+','+real(a.geometry.perimeter())+"\r\n";
+            if(csv.size()>o.csv_limit || row.size()>o.csv_limit-csv.size()) throw std::length_error("raw contour CSV exceeds limit");csv+=row;}
+        if(csv.size()>o.csv_limit) throw std::length_error("raw contour CSV exceeds limit");return csv;
+    }
     static std::string raw_pixel_csv(const Document& doc,const std::vector<std::uint64_t>& records,const ProjectBatchOptions& o) {
         std::string csv="object_id,record_id,path,model_sha256,content_sha256,windows,valid_samples,classified_samples,class_index,class_name,class_samples\r\n";
         auto append=[&](const std::string& row) {if(csv.size()>o.csv_limit || row.size()>o.csv_limit-csv.size()) throw std::length_error("raw pixel CSV exceeds byte limit");csv+=row;};
@@ -320,7 +342,7 @@ struct ProjectBatchKernel {
                     Project isolated;isolated.identity_=d.snapshot->identity_;isolated.next_id_=d.snapshot->next_id_;isolated.active_image_=item.image_id;isolated.entries_.emplace(item.image_id,input);const auto view=d.snapshot->views_.find(item.image_id);if(view!=d.snapshot->views_.end()) isolated.views_.emplace(*view);
                     isolated.save_impl((work.path/"input.qpxproj").u8string(),"",c);result.input_sha256=fingerprint_file((work.path/"input.qpxproj").u8string(),{},c)->sha256;
                     const auto spec=hash(d.sha+result.input_sha256+std::to_string(report.source_generation)+":"+std::to_string(stream_batch(o.kind)?0:report.source_revision));const auto folder=root/("image-"+std::to_string(item.image_id)+"-"+spec);fs::create_directories(folder);if(!plain(folder,true)) throw std::runtime_error("batch image output must be a plain directory");
-                    Project::LoadProgress load;load.external_cancelled=c;auto project=Project::open_impl((work.path/"input.qpxproj").u8string(),false,"",&load);auto doc=project->document(item.image_id);doc->set_history_limits(0,0);check();std::unique_ptr<PixelBatchBundle> bundle;std::uint64_t stream_bytes=0;
+                    Project::LoadProgress load;load.external_cancelled=c;auto project=Project::open_impl((work.path/"input.qpxproj").u8string(),false,"",&load);auto doc=project->document(item.image_id);doc->set_history_limits(0,0);check();const auto contour_source=o.kind==ProjectBatchKind::RawPixelContours?doc->server()->reader_source():nullptr;std::unique_ptr<PixelBatchBundle> bundle;std::uint64_t stream_bytes=0;
                     auto pixel_stream=[&](bool compute,std::vector<std::uint64_t>& records,std::uint64_t& generated) {
                         Sha256 pixels;const std::string tag="qpx.batch-pixels/1";pixels.update(tag.data(),tag.size());
                         for(auto id:item.object_ids) {check();std::string digest;std::uint64_t record=0,bytes=0;
@@ -333,6 +355,23 @@ struct ProjectBatchKernel {
                                     PixelStreamFile file(bundle->output(id).u8string(),o.pixel_file_limit);file.verify(c);digest=file.input_sha256();result.verified_blocks+=file.declared_summary().blocks;result.stream_bytes+=file.declared_summary().bytes;
                                     record=doc->keep_pixel_stream(file.link(),"Pixel batch");bytes=doc->pixel_stream_record(record)->payload_bytes();
                                 } else {digest=stream.input_sha256(c);result.hashed_blocks+=stream.total_blocks();}
+                            }
+                            else if(o.kind==ProjectBatchKind::RawPixelContours) {
+                                const auto request=raw_request(*doc,id,o);
+                                if(compute) {
+                                    const auto value=trace_raw_pixel_stream(request,o.raw_contours,c);digest=value->input_sha256();result.inferred_blocks+=value->completed_windows();
+                                    const auto used=cost(*doc,input.info.embedded);
+                                    if(used>=o.materialize_budget || generated>=o.result_budget) throw std::length_error("raw contour batch exceeds image budget");
+                                    const auto budget=std::min<std::uint64_t>({o.raw_contour_publication_bytes,o.result_budget-generated,o.materialize_budget-used});
+                                    const auto objects=publish_raw_pixel_stream_contours(*doc,request,*value,o.raw_contour_prefix,static_cast<std::size_t>(budget));
+                                    bytes=value->payload_bytes()+cost(*doc,input.info.embedded)-used+objects.size()*sizeof(std::uint64_t);
+                                    if(bytes>o.result_budget-generated) throw std::length_error("raw contour batch exceeds result budget");
+                                    generated+=bytes;records.insert(records.end(),objects.begin(),objects.end());
+                                    if(cost(*doc,input.info.embedded)>o.materialize_budget) throw std::length_error("raw contour batch exceeds materialization budget");
+                                } else {
+                                    digest=request.sha256();for(std::uint64_t i=0;i<request.total_windows();++i) {check();digest=raw_pixel_stream_chain("qpx.raw-pixel-stream-input-chain/1",digest,i,request.input_sha256(i,c));}
+                                    result.hashed_blocks+=request.total_windows();
+                                }
                             }
                             else if(o.kind==ProjectBatchKind::RawPixels) {
                                 const auto request=raw_request(*doc,id,o);
@@ -359,7 +398,7 @@ struct ProjectBatchKernel {
                             else if(o.kind==ProjectBatchKind::Tissue) {TissueRequest r(*doc,id,d.transform,o.tissue,o.nucleus);if(compute) {auto value=detect_tissue(r,c);digest=value->input_sha256();record=doc->keep_tissue(r,value);bytes=doc->tissue_record(record)->payload_bytes();}else digest=input_sha256(r,c);}
                             else {auto r=o.cell_grid?CellRequest::for_grid_roi(*doc,id,d.transform,*o.cell_grid,o.grid_cells):CellRequest::with_nucleus_area_limits(*doc,id,d.transform,o.cell_min_nucleus_area_um2,o.cell_max_nucleus_area_um2,o.cells);if(compute) {auto value=detect_cells(r,c);digest=value->nuclei()->input_sha256();record=doc->keep_cells(r,value);bytes=doc->cell_record(record)->payload_bytes();if(o.publish_cells) {const auto extra=4ULL*value->retained_bytes()+value->features().size()*512ULL;if(cost(*doc,input.info.embedded)>o.materialize_budget || extra>o.materialize_budget-cost(*doc,input.info.embedded)) throw std::length_error("cell publication exceeds batch materialization budget");doc->publish_cell_record(record);}}else digest=input_sha256(r,c);}
                             pixels.integer(id);pixels.update(digest.data(),digest.size());
-                            if(compute) {if(bytes>o.result_budget-generated) throw std::length_error("batch image exceeds result budget");generated+=bytes;records.push_back(record);if(cost(*doc,input.info.embedded)>o.materialize_budget) throw std::length_error("batch results exceed materialization budget");if(progress) progress->objects.fetch_add(1);}
+                            if(compute) {if(o.kind==ProjectBatchKind::RawPixelContours) {if(progress) progress->objects.fetch_add(1);continue;}if(bytes>o.result_budget-generated) throw std::length_error("batch image exceeds result budget");generated+=bytes;records.push_back(record);if(cost(*doc,input.info.embedded)>o.materialize_budget) throw std::length_error("batch results exceed materialization budget");if(progress) progress->objects.fetch_add(1);}
                         }check();return pixels.finish();
                     };
                     std::optional<detail::BatchCheckpoint> cached_meta;std::unique_ptr<detail::ReaderFileGuard> cached_guard;
@@ -384,7 +423,7 @@ struct ProjectBatchKernel {
                             if(meta.parameters_sha256!=d.sha || meta.input_sha256!=result.input_sha256 || meta.pixel_sha256!=digest || meta.image_id!=std::to_string(item.image_id) || meta.source_identity!=report.source_identity || meta.source_generation!=report.source_generation || (!stream_batch(o.kind) && meta.source_revision!=report.source_revision) || meta.objects!=item.object_ids.size() || meta.generated_bytes>o.result_budget) throw std::invalid_argument("batch checkpoint does not match this request");
                             if(o.kind==ProjectBatchKind::Pixels) {if(cost(*doc,input.info.embedded)+meta.generated_bytes*2>o.materialize_budget) throw std::length_error("pixel checkpoint exceeds materialization budget");verify_pixels(candidate,*doc,item,o,digest,o.materialize_budget-cost(*doc,input.info.embedded),result,c);guard->verify();}
                             if(o.kind==ProjectBatchKind::RawPixels) {if(cost(*doc,input.info.embedded)+meta.generated_bytes*2>o.materialize_budget) throw std::length_error("raw pixel checkpoint exceeds materialization budget");verify_raw_pixels(candidate,*doc,item,o,digest,o.materialize_budget-cost(*doc,input.info.embedded),result,c);guard->verify();}
-                            result.pixel_sha256=digest;result.path=access_path(candidate).u8string();result.records=item.object_ids.size();result.state="reused";++report.reused;if(progress) progress->objects.fetch_add(item.object_ids.size());
+                            verify_contour_source(contour_source);guard->verify();result.pixel_sha256=digest;result.path=access_path(candidate).u8string();result.records=o.kind==ProjectBatchKind::RawPixelContours?detail::batch_added_object_count(candidate.u8string(),item.image_id,doc->object_count(),c):item.object_ids.size();guard->verify();result.state="reused";++report.reused;if(progress) progress->objects.fetch_add(item.object_ids.size());
                         }
                     }
                     if(result.state.empty()) {
@@ -393,6 +432,7 @@ struct ProjectBatchKernel {
                         std::string table;Document empty(Image(1,1,{0,0,0}));const auto& table_doc=records.empty()?empty:*doc;
                         if(o.kind==ProjectBatchKind::Pixels) table=pixel_csv(*doc,records,o);
                         else if(o.kind==ProjectBatchKind::RawPixels) table=raw_pixel_csv(*doc,records,o);
+                        else if(o.kind==ProjectBatchKind::RawPixelContours) table=raw_contour_csv(*doc,records,o);
                         else if(o.kind==ProjectBatchKind::Raw) table=raw_analysis_csv(RawTableRequest(table_doc,records,true,std::min<std::size_t>(o.materialize_budget,512u*1024*1024)),o.csv_limit,c);
                         else if(o.kind==ProjectBatchKind::Cells) {CellTableOptions options;options.require_current=true;options.byte_limit=o.csv_limit;options.snapshot_budget=o.materialize_budget>512*1024*1024?512*1024*1024:o.materialize_budget;table=cell_measurements_csv(CellTableRequest(table_doc,records,options),c);}
                         else {MeasurementTableOptions options;options.require_current=true;options.byte_limit=o.csv_limit;options.snapshot_budget=o.materialize_budget>512*1024*1024?512*1024*1024:o.materialize_budget;table=measurements_csv(MeasurementTableRequest(table_doc,o.kind==ProjectBatchKind::Roi?MeasurementTableKind::Roi:MeasurementTableKind::Tissue,records,options),c);}
@@ -402,7 +442,7 @@ struct ProjectBatchKernel {
                         if(stream_batch(o.kind) && !bundle) bundle=std::make_unique<PixelBatchBundle>(folder,item.object_ids.size(),o.kind==ProjectBatchKind::RawPixels);
                         const auto destination_folder=bundle?bundle->path:folder;project->save_impl(file.u8string(),destination_folder.u8string(),c,nullptr,&meta);check();
                         auto destination=bundle?bundle->path/"result.qpxproj":folder/(result.pixel_sha256+".qpxproj");if(!bundle && fs::exists(destination)) destination=folder/(result.pixel_sha256+"-"+token()+".qpxproj");
-                        publish(file,destination,c);if(bundle) bundle->commit();result.path=access_path(destination).u8string();result.state="saved";++report.saved;
+                        verify_contour_source(contour_source);publish(file,destination,c);if(bundle) bundle->commit();result.path=access_path(destination).u8string();result.state="saved";++report.saved;
                     }
                 } catch(const std::exception& e) {if(c && c->load()) throw;result.state="failed";result.error=error_text(e);result.records=0;++report.failed;}
                 result.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-image_start).count();const auto bytes=result.image_name.capacity()+result.path.capacity()+result.error.capacity()+result.input_sha256.capacity()+result.pixel_sha256.capacity()+result.state.capacity();if(bytes>64*1024*1024-report_bytes) throw std::length_error("batch report exceeds memory limit");report_bytes+=bytes;report.images.push_back(result);if(progress) progress->images.store(report.images.size());if(sink) sink(result);

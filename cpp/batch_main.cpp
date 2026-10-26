@@ -47,7 +47,7 @@ int execute(const std::vector<std::string>& args) {
             "Raw options: --raw-level N --raw-channel N --raw-channels N (zero-based axes)\n"
             "             --raw-z N --raw-time N --raw-explicit-axes --raw-max-pixels N\n"
             "Raw grids: --raw-grid-samples NX,NY [--raw-grid-context CX,CY --raw-grid-work-bytes N] (no level/tile flags)\n"
-            "--kind od|stains|tissue|cells|pixels|raw|raw-pixels  --image ID (repeatable)\n"
+            "--kind od|stains|tissue|cells|pixels|raw|raw-pixels|raw-contours  --image ID (repeatable)\n"
             "Cells: --cell-algorithm distance|log|log-bodies|log-sampled --cell-log-prominence N --cell-context-padding N\n"
             "Grid cells: --cell-algorithm grid --cell-grid-samples NX,NY --cell-grid-context CX,CY\n"
             "            --grid-units px|um --grid-feature od|stain1|stain2|stain3\n"
@@ -83,7 +83,7 @@ int execute(const std::vector<std::string>& args) {
             "             --contour-work-bytes N --boundary-work-bytes N --max-boundary-runs N --total-work-bytes N\n"
             "             --max-components N --max-edges N --max-vertices N --publication-work-bytes N\n"
             "             --snapshot-bytes N --project-bytes N (new project only; no resume/replace)\n"
-            "Raw classifier batches: --kind raw-pixels --raw-pixel-model MODEL [--raw-pixel-x-axis O,E,N,C --raw-pixel-y-axis O,E,N,C]\n"
+            "Raw classifier batches: --kind raw-pixels|raw-contours --raw-pixel-model MODEL [--raw-pixel-x-axis O,E,N,C --raw-pixel-y-axis O,E,N,C]\n"
             "             --raw-pixel-tile-width N --raw-pixel-tile-height N --raw-pixel-work-bytes N\n"
             "             --raw-pixel-file-work-bytes N --raw-pixel-max-samples N --raw-pixel-max-windows N --raw-pixel-min-vote N\n"
             "             --pixel-file-bytes N --pixel-total-bytes N (shared RGB/raw output quotas)\n"
@@ -108,12 +108,13 @@ int execute(const std::vector<std::string>& args) {
         if(args.size()==4 && args[1]=="--export-csv") {save_batch_checkpoint_csv(args[2],args[3]);return 0;}
         if(args.size()<3 || args[1].rfind("--",0)==0) throw std::invalid_argument("expected PROJECT and OUTPUT_DIRECTORY; see --help");
         ProjectBatchOptions options;std::vector<ProjectBatchSelection> selection;std::vector<std::uint64_t> objects;
+        bool raw_contour_flags=false;
         bool legacy_cell_flags=false,legacy_algorithm=false,requested_raw_level=false,requested_raw_grid=false,raw_grid_flags=false,raw_pixel_flags=false;
         bool requested_level=false;std::optional<std::size_t> requested_tile_size;std::string pixel_model_path,raw_pixel_model_path;ColorVector white{255,255,255};std::vector<ColorVector> stains{{.65,.70,.29},{.07,.99,.11}};bool normalized=false;
         for(std::size_t i=3;i<args.size();++i) {
             const auto& flag=args[i];auto value=[&]()->const std::string& {if(++i==args.size()) throw std::invalid_argument("missing value for "+flag);return args[i];};
             if(flag.rfind("--raw-pixel-",0)==0) raw_pixel_flags=true;
-            if(flag=="--kind") {const auto& v=value();if(v=="od" || v=="stains") {options.kind=ProjectBatchKind::Roi;options.roi_kind=v=="od"?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans;}else if(v=="tissue") options.kind=ProjectBatchKind::Tissue;else if(v=="cells") options.kind=ProjectBatchKind::Cells;else if(v=="pixels") options.kind=ProjectBatchKind::Pixels;else if(v=="raw") options.kind=ProjectBatchKind::Raw;else if(v=="raw-pixels") options.kind=ProjectBatchKind::RawPixels;else throw std::invalid_argument("unknown batch kind");}
+            if(flag=="--kind") {const auto& v=value();if(v=="od" || v=="stains") {options.kind=ProjectBatchKind::Roi;options.roi_kind=v=="od"?AnalysisKind::OpticalDensityMeans:AnalysisKind::StainMeans;}else if(v=="tissue") options.kind=ProjectBatchKind::Tissue;else if(v=="cells") options.kind=ProjectBatchKind::Cells;else if(v=="pixels") options.kind=ProjectBatchKind::Pixels;else if(v=="raw") options.kind=ProjectBatchKind::Raw;else if(v=="raw-pixels") options.kind=ProjectBatchKind::RawPixels;else if(v=="raw-contours") options.kind=ProjectBatchKind::RawPixelContours;else throw std::invalid_argument("unknown batch kind");}
             else if(flag=="--roi-sampling" || flag=="--tissue-sampling") {
                 const auto& v=value();
                 if(v!="coverage" && v!="winding") throw std::invalid_argument("sampling must be coverage or winding");
@@ -141,6 +142,16 @@ int execute(const std::vector<std::string>& args) {
             }
             else if(flag=="--raw-max-pixels") options.raw_max_pixels=integer(value());
             else if(flag=="--raw-explicit-axes") options.raw_follow_display=false;
+            else if(flag=="--raw-contour-work-bytes") {raw_contour_flags=true;options.raw_contours.contours.work_bytes=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-total-work-bytes") {raw_contour_flags=true;options.raw_contours.work_bytes=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-boundary-work-bytes") {raw_contour_flags=true;options.raw_contours.boundary_work_bytes=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-max-boundary-runs") {raw_contour_flags=true;options.raw_contours.max_boundary_runs=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-max-components") {raw_contour_flags=true;options.raw_contours.contours.max_components=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-max-edges") {raw_contour_flags=true;options.raw_contours.contours.max_edges=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-max-vertices") {raw_contour_flags=true;options.raw_contours.contours.max_vertices=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-publication-bytes") {raw_contour_flags=true;options.raw_contour_publication_bytes=static_cast<std::size_t>(integer(value()));}
+            else if(flag=="--raw-contour-prefix") {raw_contour_flags=true;options.raw_contour_prefix=value();}
+            else if(flag=="--raw-contour-no-clip") {raw_contour_flags=true;options.raw_contours.contours.clip_to_roi=false;}
             else if(flag=="--raw-pixel-model") raw_pixel_model_path=value();
             else if(flag=="--raw-pixel-x-axis") options.raw_pixel_x=detail::raw_pixel_cli_axis(value());
             else if(flag=="--raw-pixel-y-axis") options.raw_pixel_y=detail::raw_pixel_cli_axis(value());
@@ -201,7 +212,8 @@ int execute(const std::vector<std::string>& args) {
             else if(flag=="--nucleus") options.nucleus=true;
             else throw std::invalid_argument("unknown option: "+flag);
         }
-        if(raw_pixel_flags && options.kind!=ProjectBatchKind::RawPixels) throw std::invalid_argument("raw classifier flags require --kind raw-pixels");
+        if(raw_contour_flags && options.kind!=ProjectBatchKind::RawPixelContours) throw std::invalid_argument("raw contour flags require --kind raw-contours");
+        if(raw_pixel_flags && options.kind!=ProjectBatchKind::RawPixels && options.kind!=ProjectBatchKind::RawPixelContours) throw std::invalid_argument("raw classifier flags require --kind raw-pixels or raw-contours");
         if(!raw_pixel_model_path.empty()) options.raw_pixel_model=load_raw_pixel_classifier(raw_pixel_model_path,&cancelled);
         if(raw_grid_flags && !requested_raw_grid) throw std::invalid_argument("raw grid options require --raw-grid-samples NX,NY");
         if(options.raw_grid && (requested_raw_level || requested_level || requested_tile_size)) throw std::invalid_argument("raw grids do not accept natural level or tile flags");

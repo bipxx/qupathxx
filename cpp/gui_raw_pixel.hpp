@@ -1,4 +1,5 @@
 #pragma once
+#include "gui_raw_axis.hpp"
 #include "raw_pixel_frontend.hpp"
 #include "gui_pixel_preview.hpp"
 #include "gui_layout.hpp"
@@ -48,11 +49,7 @@ class GuiRawPixel {
     }
     std::string error_;std::int64_t px_=0,py_=0,pw_=256,ph_=256;std::uint64_t record_=0,index_=0;
     static void text(char* target,std::size_t size,const std::string& value) {bounded_utf8(value,size-1);std::memcpy(target,value.c_str(),value.size()+1);}
-    static ScientificGridAxis axis(const char* value) {
-        std::int64_t n[4]{};std::string s(value);std::size_t at=0;
-        for(int i=0;i<4;++i) {auto end=s.find(',',at);if((i<3)==(end==std::string::npos)) throw std::invalid_argument("Axis requires origin,extent,samples,context");const auto stop=end==std::string::npos?s.size():end;const auto r=std::from_chars(s.data()+at,s.data()+stop,n[i]);if(r.ec!=std::errc{} || r.ptr!=s.data()+stop) throw std::invalid_argument("Axis fields must be exact signed integers");at=stop+1;}
-        return {n[0],n[1],n[2],n[3]};
-    }
+    static ScientificGridAxis axis(const char* value) {return gui_raw_axis(value);}
     static std::string axis_text(const ScientificGridAxis& a) {return std::to_string(a.origin())+','+std::to_string(a.extent())+','+std::to_string(a.samples())+','+std::to_string(a.context());}
     static std::vector<double> numbers(const char* value) {
         std::vector<double> out;std::istringstream in(value);in.imbue(std::locale::classic());std::string item;

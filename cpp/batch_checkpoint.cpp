@@ -9,6 +9,7 @@
 #include "utf8_text.hpp"
 #include "atomic_export.hpp"
 #include "reader_file_guard.hpp"
+#include "filesystem_access.hpp"
 #include <charconv>
 #include <cstring>
 #include <limits>
@@ -71,6 +72,15 @@ void write_batch_checkpoint(sqlite3* db,const BatchCheckpoint& input,const std::
     for(auto n:{m.source_generation,m.source_revision,m.objects,m.generated_bytes}) bind(std::to_string(n));
     check(sqlite3_bind_blob64(row.value,i++,m.csv.data(),m.csv.size(),SQLITE_STATIC),db);bind(signature);if(row.next()) throw std::logic_error("unexpected checkpoint insert row");
 }
+std::size_t batch_added_object_count(const std::string& path,std::uint64_t image,std::size_t original,const std::atomic<bool>* c) {
+    export_checkpoint(c);sqlite3* raw=nullptr;const auto code=sqlite3_open_v2(detail::access_path(std::filesystem::u8path(path)).u8string().c_str(),&raw,SQLITE_OPEN_READONLY,nullptr);
+    std::unique_ptr<sqlite3,decltype(&sqlite3_close)> db(raw,sqlite3_close);check(code,raw);
+    sqlite3_busy_timeout(raw,1000);if(c) sqlite3_progress_handler(raw,1000,[](void* p){return static_cast<const std::atomic<bool>*>(p)->load()?1:0;},const_cast<std::atomic<bool>*>(c));
+    Row row(raw,"SELECT COUNT(*) FROM objects WHERE image_id="+std::to_string(image));
+    if(!row.next()) throw std::invalid_argument("missing batch object count");const auto count=sqlite3_column_int64(row.value,0);
+    if(count<0 || std::uint64_t(count)<original || std::uint64_t(count)>10000000) throw std::invalid_argument("invalid contour checkpoint object count");
+    export_checkpoint(c);return static_cast<std::size_t>(count)-original;
+}
 BatchCheckpoint read_batch_checkpoint(const std::string& path,const std::atomic<bool>* c,bool include_csv,std::size_t csv_limit) {
     if(!csv_limit || csv_limit>256*1024*1024) throw std::invalid_argument("invalid checkpoint CSV limit");export_checkpoint(c);
     sqlite3* raw=nullptr;const auto code=sqlite3_open_v2(path.c_str(),&raw,SQLITE_OPEN_READONLY|SQLITE_OPEN_NOMUTEX,nullptr);std::unique_ptr<sqlite3,decltype(&sqlite3_close)> db(raw,&sqlite3_close);if(code!=SQLITE_OK) throw std::runtime_error(raw?sqlite3_errmsg(raw):"cannot open batch checkpoint");
@@ -107,6 +117,7 @@ std::vector<std::shared_ptr<const RawPixelStreamRecord>> batch_raw_pixel_records
 
 #else
 void write_batch_checkpoint(sqlite3*,const BatchCheckpoint&,const std::atomic<bool>*) {throw std::runtime_error("batch checkpoints require project storage");}
+std::size_t batch_added_object_count(const std::string&,std::uint64_t,std::size_t,const std::atomic<bool>*) {throw std::runtime_error("batch checkpoints require project storage");}
 BatchCheckpoint read_batch_checkpoint(const std::string&,const std::atomic<bool>*,bool,std::size_t) {throw std::runtime_error("batch checkpoints require project storage");}
 std::vector<std::shared_ptr<const PixelStreamRecord>> batch_pixel_records(const std::string&,std::uint64_t,const std::set<std::uint64_t>&,std::size_t,const std::atomic<bool>*) {throw std::runtime_error("batch checkpoints require project storage");}
 std::vector<std::shared_ptr<const RawPixelStreamRecord>> batch_raw_pixel_records(const std::string&,std::uint64_t,const std::set<std::uint64_t>&,std::size_t,const std::atomic<bool>*) {throw std::runtime_error("batch checkpoints require project storage");}

@@ -8,7 +8,7 @@
 namespace nb=nanobind;using namespace nb::literals;
 void bind_project_batch(nb::module_& m) {
     using namespace qpx;
-    nb::enum_<ProjectBatchKind>(m,"ProjectBatchKind").value("ROI",ProjectBatchKind::Roi).value("TISSUE",ProjectBatchKind::Tissue).value("CELLS",ProjectBatchKind::Cells).value("PIXELS",ProjectBatchKind::Pixels).value("RAW",ProjectBatchKind::Raw).value("RAW_PIXELS",ProjectBatchKind::RawPixels);
+    nb::enum_<ProjectBatchKind>(m,"ProjectBatchKind").value("ROI",ProjectBatchKind::Roi).value("TISSUE",ProjectBatchKind::Tissue).value("CELLS",ProjectBatchKind::Cells).value("PIXELS",ProjectBatchKind::Pixels).value("RAW",ProjectBatchKind::Raw).value("RAW_PIXELS",ProjectBatchKind::RawPixels).value("RAW_PIXEL_CONTOURS",ProjectBatchKind::RawPixelContours);
     nb::enum_<ProjectBatchFailure>(m,"ProjectBatchFailure").value("STOP",ProjectBatchFailure::Stop).value("CONTINUE",ProjectBatchFailure::Continue);
     nb::class_<ProjectBatchOptions>(m,"ProjectBatchOptions").def(nb::init<>())
         .def_rw("kind",&ProjectBatchOptions::kind).def_rw("failure",&ProjectBatchOptions::failure).def_rw("roi_kind",&ProjectBatchOptions::roi_kind).def_rw("object_kind",&ProjectBatchOptions::object_kind)
@@ -21,6 +21,7 @@ void bind_project_batch(nb::module_& m) {
         .def_rw("raw_pixel_model",&ProjectBatchOptions::raw_pixel_model).def_rw("raw_pixels",&ProjectBatchOptions::raw_pixels)
         .def_rw("raw_pixel_x",&ProjectBatchOptions::raw_pixel_x).def_rw("raw_pixel_y",&ProjectBatchOptions::raw_pixel_y)
         .def_rw("raw_pixel_file_work_bytes",&ProjectBatchOptions::raw_pixel_file_work_bytes)
+        .def_rw("raw_contours",&ProjectBatchOptions::raw_contours).def_rw("raw_contour_prefix",&ProjectBatchOptions::raw_contour_prefix).def_rw("raw_contour_publication_bytes",&ProjectBatchOptions::raw_contour_publication_bytes)
         .def_rw("raw_grid",&ProjectBatchOptions::raw_grid).def_rw("raw_grid_work_bytes",&ProjectBatchOptions::raw_grid_work_bytes)
         .def_rw("raw",&ProjectBatchOptions::raw).def_rw("raw_follow_display",&ProjectBatchOptions::raw_follow_display).def_rw("raw_max_pixels",&ProjectBatchOptions::raw_max_pixels)
         .def_rw("tissue",&ProjectBatchOptions::tissue).def_rw("cells",&ProjectBatchOptions::cells)

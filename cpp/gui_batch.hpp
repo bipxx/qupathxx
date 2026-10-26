@@ -2,6 +2,7 @@
 #include "qupathxx/project_batch.hpp"
 #include "gui_layout.hpp"
 #include "gui_raw_grid_controls.hpp"
+#include "gui_raw_axis.hpp"
 #include <imgui.h>
 #include <algorithm>
 #include <array>
@@ -68,13 +69,16 @@ inline bool grid_cell_controls(GridCellSampling& grid,GridCellParameters& p) {
 class GuiBatch {
     ProjectBatchJob job_;
     ProjectBatchOptions options_;
-    std::array<char,32769> output_{};
+    std::array<char,32769> output_{},raw_model_path_{};
+    std::array<char,128> raw_x_{},raw_y_{};
     bool selected_only_=false,use_image_settings_=true,open_=false;
     std::string error_;
     ProjectBatchStats stats_;
 public:
     explicit GuiBatch(const GuiOptions& initial):options_(initial.batch_options?*initial.batch_options:ProjectBatchOptions{}),selected_only_(initial.batch_selected_objects),use_image_settings_(!initial.batch_options) {
         options_.validate();
+        auto axis=[](const std::optional<ScientificGridAxis>& a,auto& text) {if(a) {const auto value=std::to_string(a->origin())+","+std::to_string(a->extent())+","+std::to_string(a->samples())+","+std::to_string(a->context());std::copy(value.begin(),value.end(),text.begin());}};
+        axis(options_.raw_pixel_x,raw_x_);axis(options_.raw_pixel_y,raw_y_);
         const auto& path=initial.batch_output_directory;
         if(path.size()>32768 || path.find('\0')!=std::string::npos) throw std::invalid_argument("invalid batch output directory");
         std::copy(path.begin(),path.end(),output_.begin());
@@ -107,7 +111,9 @@ public:
             ui::SetNextItemWidth(240);
             ui::InputTextWithHint("##output","Output directory",output_.data(),output_.size());
             int kind=static_cast<int>(options_.kind);
-            if(ui::Combo("Workflow",&kind,"ROI means\0Tissue\0Cells\0Pixel streams\0Raw channel statistics\0")) options_.kind=static_cast<ProjectBatchKind>(kind);
+            if(ui::Combo("Workflow",&kind,"ROI means\0Tissue\0Cells\0Pixel streams\0Raw channel statistics\0Raw prediction files\0Raw streamed contours\0")) options_.kind=static_cast<ProjectBatchKind>(kind);
+            const bool raw_classifier=options_.kind==ProjectBatchKind::RawPixels || options_.kind==ProjectBatchKind::RawPixelContours;
+            if(!raw_classifier) {options_.raw_pixel_model.reset();options_.raw_pixel_x.reset();options_.raw_pixel_y.reset();}
             ui::Checkbox("TMA cores only",&options_.tma_only);
             if(options_.tma_only) {ui::Checkbox("Include missing cores",&options_.include_missing_tma);options_.nucleus=false;}else options_.include_missing_tma=false;
             ui::Checkbox("Selected objects only",&selected_only_);
@@ -116,17 +122,31 @@ public:
                 int object_kind=static_cast<int>(options_.object_kind);
                 if(ui::Combo("Object kind",&object_kind,"Annotations\0Detections\0Cells\0")) options_.object_kind=static_cast<ObjectKind>(object_kind);
             }
-            if(options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ui::Checkbox("Use image analysis settings",&use_image_settings_);
-            if(use_image_settings_ && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ImGui::TextWrapped("Uses the Region analysis, Tissue and Cells settings in the image inspector.");
-            ImGui::BeginDisabled(use_image_settings_ && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw);
+            if(!raw_classifier && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ui::Checkbox("Use image analysis settings",&use_image_settings_);
+            if(use_image_settings_ && !raw_classifier && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw) ImGui::TextWrapped("Uses the Region analysis, Tissue and Cells settings in the image inspector.");
+            ImGui::BeginDisabled(use_image_settings_ && !raw_classifier && options_.kind!=ProjectBatchKind::Pixels && options_.kind!=ProjectBatchKind::Raw);
             if(options_.kind!=ProjectBatchKind::Roi) options_.roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
             if(options_.kind!=ProjectBatchKind::Tissue) options_.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;
             if(options_.kind!=ProjectBatchKind::Cells) reset_cell_detector(options_.cells);
             if(options_.kind!=ProjectBatchKind::Raw) {options_.raw_grid.reset();options_.raw_grid_work_bytes=256u*1024*1024;}
             if(options_.kind!=ProjectBatchKind::Cells) options_.publish_cells=false;
             if(options_.kind!=ProjectBatchKind::Cells) {options_.cell_min_nucleus_area_um2.reset();options_.cell_max_nucleus_area_um2.reset();}
-            if(options_.kind==ProjectBatchKind::Cells || options_.kind==ProjectBatchKind::Pixels) options_.nucleus=false;
-            if(options_.kind==ProjectBatchKind::Pixels) {
+            if(raw_classifier || options_.kind==ProjectBatchKind::Cells || options_.kind==ProjectBatchKind::Pixels) options_.nucleus=false;
+            if(raw_classifier) {
+                ui::InputTextWithHint("Raw model","Model .qrm path",raw_model_path_.data(),raw_model_path_.size());
+                if(ui::Button("Load batch raw model")) {try {options_.raw_pixel_model=load_raw_pixel_classifier(raw_model_path_.data());error_.clear();}catch(const std::exception& e) {error_=e.what();}}
+                if(options_.raw_pixel_model) ImGui::TextWrapped("Pinned raw model: %s",options_.raw_pixel_model->sha256().c_str());
+                ui::InputTextWithHint("Raw X axis","origin,extent,samples,context",raw_x_.data(),raw_x_.size());
+                ui::InputTextWithHint("Raw Y axis","origin,extent,samples,context",raw_y_.data(),raw_y_.size());
+                ui::InputScalar("Raw tile width",ImGuiDataType_S64,&options_.raw_pixels.tile_width);
+                ui::InputScalar("Raw tile height",ImGuiDataType_S64,&options_.raw_pixels.tile_height);
+                ui::InputDouble("Raw minimum vote",&options_.raw_pixels.min_vote_fraction,0,0,"%.5g");
+                if(options_.kind==ProjectBatchKind::RawPixelContours) {
+                    ui::Checkbox("Clip contours to source area",&options_.raw_contours.contours.clip_to_roi);
+                    ui::InputScalar("Contour components limit",ImGuiDataType_U64,&options_.raw_contours.contours.max_components);
+                    ImGui::TextWrapped("Contours are saved in independent per-image projects. The open project is unchanged.");
+                }
+            } else if(options_.kind==ProjectBatchKind::Pixels) {
                 ImGui::BeginDisabled(!pixel_model);if(ui::Button("Use active pixel model") && pixel_model) options_.pixel_model=*pixel_model;ImGui::EndDisabled();
                 if(options_.pixel_model) ImGui::TextWrapped("Pinned model: %s",options_.pixel_model->sha256().c_str());
                 else ImGui::TextWrapped(pixel_model?"Run captures the active pixel model.":"Train or load a pixel model in the image inspector first.");
@@ -222,7 +242,12 @@ public:
                     chosen.push_back({image_id,selection->ids()});
                 }
                 auto run_options=options_;
-                if(run_options.kind==ProjectBatchKind::Pixels) {if(!run_options.pixel_model && pixel_model) run_options.pixel_model=*pixel_model;run_options.nucleus=false;}
+                if(run_options.kind==ProjectBatchKind::RawPixels || run_options.kind==ProjectBatchKind::RawPixelContours) {
+                    if(!*raw_x_.data() && !*raw_y_.data()) {run_options.raw_pixel_x.reset();run_options.raw_pixel_y.reset();}
+                    else {if(!*raw_x_.data() || !*raw_y_.data()) throw std::invalid_argument("enter both raw axes");run_options.raw_pixel_x=gui_raw_axis(raw_x_.data());run_options.raw_pixel_y=gui_raw_axis(raw_y_.data());}
+                    run_options.nucleus=false;
+                }
+                else if(run_options.kind==ProjectBatchKind::Pixels) {if(!run_options.pixel_model && pixel_model) run_options.pixel_model=*pixel_model;run_options.nucleus=false;}
                 else if(use_image_settings_ && run_options.kind!=ProjectBatchKind::Raw) {
                     run_options.tissue=tissue;run_options.cells=cells;run_options.roi_kind=roi_kind;run_options.roi_sampling_policy=roi_sampling_policy;
                     run_options.nucleus=(run_options.kind==ProjectBatchKind::Cells || run_options.tma_only)?false:nucleus;
@@ -235,7 +260,7 @@ public:
                 if(run_options.kind!=ProjectBatchKind::Roi) run_options.roi_sampling_policy=RoiSamplingPolicy::GeometryCoverage;
                 if(run_options.kind!=ProjectBatchKind::Tissue) run_options.tissue.sampling_policy=RoiSamplingPolicy::GeometryCoverage;
                 if(run_options.kind!=ProjectBatchKind::Cells) {reset_cell_detector(run_options.cells);run_options.cell_grid.reset();}
-                const bool stains=run_options.kind!=ProjectBatchKind::Raw && run_options.kind!=ProjectBatchKind::Pixels && (run_options.kind==ProjectBatchKind::Roi?run_options.roi_kind==AnalysisKind::StainMeans:
+                const bool stains=run_options.kind!=ProjectBatchKind::RawPixels && run_options.kind!=ProjectBatchKind::RawPixelContours && run_options.kind!=ProjectBatchKind::Raw && run_options.kind!=ProjectBatchKind::Pixels && (run_options.kind==ProjectBatchKind::Roi?run_options.roi_kind==AnalysisKind::StainMeans:
                     (run_options.kind==ProjectBatchKind::Tissue?run_options.tissue.feature:run_options.cell_grid?run_options.grid_cells.feature:run_options.cells.feature)!=TissueFeature::OpticalDensitySum);
                 ProjectBatchRequest request(*project,transform(stains),chosen,run_options);
                 job_.request(request,output_.data());error_.clear();poll();

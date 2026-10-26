@@ -25,6 +25,31 @@ void check_raw_pixel_batches(const std::filesystem::path& root) {
     auto reused=run_project_batch(request,(root/"raw-pixels").u8string());require(reused.state=="succeeded" && reused.reused==1 && reused.images[0].hashed_blocks==12 && reused.images[0].verified_blocks==12 && !reused.images[0].inferred_blocks && reused.images[0].path==saved.images[0].path);
     require(batch_checkpoint_csv(saved.images[0].path).find("class_samples")!=std::string::npos);
     // Existing completed images survive interruption; unfinished images own no output.
+    if(has_geos()) {
+        auto contours=options;contours.kind=ProjectBatchKind::RawPixelContours;contours.raw_contour_prefix="Batch contour";
+        const auto expected=trace_raw_pixel_stream(RawPixelTiledPredictionRequest(*doc,model,lattice,options.raw_pixels,{},object),contours.raw_contours);
+        const ProjectBatchRequest contour_request(project,transform,{},contours);
+        const auto output=root/"raw-contours";const auto traced=run_project_batch(contour_request,output.u8string());
+        if(traced.state!="succeeded") throw std::runtime_error(traced.error+(traced.images.empty()?"":traced.images[0].error));
+        require(traced.saved==1 && traced.images[0].records==expected->contours()->components().size() && traced.images[0].inferred_blocks==12 && doc->object_count()==1);
+        auto saved_project=Project::open(traced.images[0].path);auto saved_doc=saved_project->document(image);const auto children=saved_doc->children(object);
+        require(children.size()==expected->contours()->components().size());
+        for(std::size_t i=0;i<children.size();++i) {const auto& a=saved_doc->annotation(children[i]);const auto& component=expected->contours()->components()[i];require(a.geometry.equals(component.geometry) && a.class_name==model.forest().classes()[component.label-1] && a.name.rfind("Batch contour ",0)==0);}
+        saved_doc->server()->close();
+        const auto repeat=run_project_batch(contour_request,output.u8string());require(repeat.state=="succeeded" && repeat.reused==1 && repeat.images[0].records==children.size() && repeat.images[0].hashed_blocks==12 && !repeat.images[0].inferred_blocks);
+        require(batch_checkpoint_csv(traced.images[0].path).find("area_px2")!=std::string::npos);
+        auto low=contours;low.raw_contour_publication_bytes=1;const auto refused=run_project_batch(ProjectBatchRequest(project,transform,{},low),(root/"raw-contour-limit").u8string());require(refused.state=="failed" && !refused.saved);
+        for(const auto& e:fs::recursive_directory_iterator(root/"raw-contour-limit")) require(e.path().extension()!=".qpxproj");
+        // Multiple source ROIs must keep digest parity after the first publication changes revision.
+        const auto other=doc->add_rectangle({1,1,4,3});const ProjectBatchRequest several(project,transform,{{image,{object,other}}},contours);
+        const auto many=run_project_batch(several,(root/"raw-contours-many").u8string());require(many.state=="succeeded" && many.saved==1);
+        const auto again=run_project_batch(several,(root/"raw-contours-many").u8string());require(again.state=="succeeded" && again.reused==1 && again.images[0].records==many.images[0].records);
+        doc->remove_annotation(other);
+        std::cout<<"Raw contour batch: streamed geometry, sealed project reopen, hash-only reuse, multiple targets and quota rollback passed\n";
+    } else {
+        auto disabled=options;disabled.kind=ProjectBatchKind::RawPixelContours;bool refused=false;try {disabled.validate();}catch(const std::runtime_error&) {refused=true;}require(refused);
+        std::cout<<"Raw contour batch unavailable: geometry OFF refusal passed\n";
+    }
     auto second=std::make_shared<Document>(server);second->add_rectangle({0,0,8,6});project.add_document(second);const ProjectBatchRequest multi(project,transform,{},options);std::atomic<bool> cancel{false};
     const auto interrupted=run_project_batch(multi,(root/"raw-interrupted").u8string(),&cancel,[&](const auto&) {cancel.store(true);});require(interrupted.state=="cancelled" && interrupted.saved==1);cancel.store(false);
     const auto resumed=run_project_batch(multi,(root/"raw-interrupted").u8string(),&cancel);require(resumed.state=="succeeded" && resumed.reused==1 && resumed.saved==1);

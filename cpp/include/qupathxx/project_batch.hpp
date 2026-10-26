@@ -4,9 +4,10 @@
 #include "qupathxx/pixel_stream.hpp"
 #include "qupathxx/raw_tables.hpp"
 #include "qupathxx/raw_pixel_stream_file.hpp"
+#include "qupathxx/raw_pixel_stream_contours.hpp"
 #include <functional>
 namespace qpx {
-enum class ProjectBatchKind { Roi, Tissue, Cells, Pixels, Raw, RawPixels };
+enum class ProjectBatchKind { Roi, Tissue, Cells, Pixels, Raw, RawPixels, RawPixelContours };
 enum class ProjectBatchFailure { Stop, Continue };
 struct ProjectBatchOptions {
     ProjectBatchKind kind=ProjectBatchKind::Roi;
@@ -28,6 +29,9 @@ struct ProjectBatchOptions {
     // their exact origins/extents/sample counts; never silently rebase a model.
     std::optional<ScientificGridAxis> raw_pixel_x,raw_pixel_y;
     RawPixelStreamOptions raw_pixels;
+    RawPixelStreamContourOptions raw_contours;
+    std::string raw_contour_prefix="Raw pixel";
+    std::size_t raw_contour_publication_bytes=64u*1024*1024;
     std::size_t raw_pixel_file_work_bytes=256u*1024*1024;
     std::optional<RawGridSampling> raw_grid;std::size_t raw_grid_work_bytes=256u*1024*1024;
     RawRegionRequest raw;bool raw_follow_display=true;std::uint64_t raw_max_pixels=1000000000;
