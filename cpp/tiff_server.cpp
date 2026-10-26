@@ -16,6 +16,7 @@
 #include <mutex>
 #include <set>
 #include <stdexcept>
+#include <tuple>
 #ifdef QUPATHXX_HAS_TIFF
 #include <tiffio.h>
 #include <tinyxml2.h>
@@ -43,6 +44,7 @@ namespace {
 namespace fs=std::filesystem;
 struct Ifd {
     std::uint64_t offset=0;
+    std::uint32_t file=0;
     std::uint32_t width=0,height=0,block_width=0,block_height=0;
     std::uint16_t bits=0,format=SAMPLEFORMAT_UINT,samples=1,planar=PLANARCONFIG_CONTIG,photo=PHOTOMETRIC_MINISBLACK,orientation=ORIENTATION_TOPLEFT,compression=COMPRESSION_NONE;
     bool tiled=false,alpha=false,associated_alpha=false;
@@ -89,9 +91,16 @@ std::pair<double,double> range(SampleType type) {
 }
 class TiffData final {
     struct Block {std::vector<std::uint8_t> bytes;std::size_t charge() const {return bytes.capacity()+256;}};
-    using Key=std::pair<std::uint64_t,std::uint32_t>;
+    using Key=std::tuple<std::uint32_t,std::uint64_t,std::uint32_t>;
     struct Cache {std::shared_ptr<Block> value;std::list<Key>::iterator position;};
     TIFF* handle_=nullptr;std::string path_;TiffOpenOptions options_;std::array<char,4096> error_{};const std::atomic<bool>* opening_cancel_=nullptr;
+    struct File {
+        std::string path,uuid,xml;std::uint32_t first=0,count=0;
+        std::shared_ptr<const FileVersion> version;
+        std::unique_ptr<detail::ReaderFileGuard> opening_guard;
+    };
+    std::vector<std::unique_ptr<File>> files_;std::uint32_t active_file_=UINT32_MAX;
+    std::size_t xml_bytes_=0,catalog_entries_=0;
     std::vector<Ifd> roots_;std::vector<Mapping> mapping_;
     std::shared_ptr<RawImageMetadata> raw_=std::make_shared<RawImageMetadata>();
     std::shared_ptr<TiffView> view_;ImageMetadata display_;
@@ -105,9 +114,74 @@ class TiffData final {
     }
     static int warning_handler(TIFF*,void*,const char*,const char*,va_list) noexcept {return 1;}
     [[noreturn]] void failed(const char* context) const {throw std::runtime_error(std::string(context)+(error_[0]?": "+std::string(error_.data()):""));}
-    void select(std::uint64_t offset) {detail::export_checkpoint(opening_cancel_);error_[0]=0;if(TIFFCurrentDirOffset(handle_)==offset) return;if(!TIFFSetSubDirectory(handle_,offset)) failed("cannot select TIFF directory");++stats_.directory_switches;}
+    void activate(std::uint32_t file) {
+        detail::export_checkpoint(opening_cancel_);
+        if(handle_ && active_file_==file) return;
+        if(handle_) TIFFClose(handle_);handle_=nullptr;active_file_=UINT32_MAX;error_[0]=0;
+        auto* open=TIFFOpenOptionsAlloc();if(!open) throw std::bad_alloc();
+        TIFFOpenOptionsSetMaxSingleMemAlloc(open,tmsize_t(options_.decode_bytes));TIFFOpenOptionsSetMaxCumulatedMemAlloc(open,tmsize_t(options_.decode_bytes));
+        TIFFOpenOptionsSetErrorHandlerExtR(open,error_handler,this);TIFFOpenOptionsSetWarningHandlerExtR(open,warning_handler,this);
+#ifdef _WIN32
+        handle_=TIFFOpenWExt(fs::u8path(files_.at(file)->path).c_str(),"rm",open);
+#else
+        handle_=TIFFOpenExt(files_.at(file)->path.c_str(),"rm",open);
+#endif
+        TIFFOpenOptionsFree(open);if(!handle_) failed("cannot open TIFF");active_file_=file;
+    }
+    void select(std::uint32_t file,std::uint64_t offset) {activate(file);error_[0]=0;if(TIFFCurrentDirOffset(handle_)==offset) return;if(!TIFFSetSubDirectory(handle_,offset)) failed("cannot select TIFF directory");++stats_.directory_switches;}
+    void select(const Ifd& d) {select(d.file,d.offset);}
+    static void parse_ome(const std::string& xml,tinyxml2::XMLDocument& document) {
+        if(xml.find("<!DOCTYPE")!=std::string::npos || xml.find("<!ENTITY")!=std::string::npos) throw std::invalid_argument("OME document declarations/entities are unsupported");
+        if(document.Parse(xml.data(),xml.size())!=tinyxml2::XML_SUCCESS || !local(document.RootElement(),"OME")) throw std::invalid_argument("malformed OME XML or non-OME companion");
+    }
+    std::uint32_t load_file(const std::string& path) {
+        const auto absolute=fs::absolute(fs::u8path(path)).lexically_normal().u8string();
+        for(std::uint32_t i=0;i<files_.size();++i) if(files_[i]->path==absolute) return i;
+        if(files_.size()>=64) throw std::length_error("TIFF fileset exceeds 64 files");
+        auto file=std::make_unique<File>();file->path=absolute;file->opening_guard=std::make_unique<detail::ReaderFileGuard>(absolute);file->version=file->opening_guard->version();
+        for(const auto& other:files_) if(other->version->identity_scheme==file->version->identity_scheme && other->version->identity==file->version->identity) throw std::invalid_argument("duplicate TIFF physical file under different paths");
+        const auto ordinal=std::uint32_t(files_.size());files_.push_back(std::move(file));auto& entry=*files_.back();activate(ordinal);
+        char* description=nullptr;TIFFGetField(handle_,TIFFTAG_IMAGEDESCRIPTION,&description);entry.xml=bounded(description,1024*1024);
+        if(entry.xml.size()>4*1024*1024-xml_bytes_) throw std::length_error("TIFF fileset XML exceeds 4 MiB");xml_bytes_+=entry.xml.size();
+        if(entry.xml.find("<OME")!=std::string::npos || entry.xml.find(":OME")!=std::string::npos) {
+            tinyxml2::XMLDocument document;parse_ome(entry.xml,document);entry.uuid=bounded(document.RootElement()->Attribute("UUID"),256);
+            for(std::uint32_t i=0;i<ordinal;++i) if(!entry.uuid.empty() && files_[i]->uuid==entry.uuid) throw std::invalid_argument("duplicate OME UUID across files");
+        }
+        entry.first=std::uint32_t(roots_.size());std::set<std::uint64_t> offsets;
+        do {detail::export_checkpoint(opening_cancel_);if(roots_.size()>=65536 || !offsets.insert(TIFFCurrentDirOffset(handle_)).second) throw std::length_error("TIFF primary directory count/cycle limit exceeded");auto directory=inspect();catalog_entries_+=1+directory.sub.size();if(catalog_entries_>131072) throw std::length_error("TIFF directory catalog exceeds limit");roots_.push_back(std::move(directory));error_[0]=0;}while(TIFFReadDirectory(handle_));
+        if(error_[0]) failed("cannot index TIFF directories");entry.count=std::uint32_t(roots_.size())-entry.first;return ordinal;
+    }
+    // Compare selected-series semantics; file UUIDs and XML formatting differ.
+    static auto signature(const tinyxml2::XMLElement* p) {
+        std::array<std::uint32_t,5> sizes{integer(p,"SizeX"),integer(p,"SizeY"),integer(p,"SizeC"),integer(p,"SizeZ"),integer(p,"SizeT")};
+        std::vector<std::pair<std::uint32_t,std::string>> channels;std::uint32_t total=0;std::size_t bytes=0;
+        if(!sizes[2] || sizes[2]>65536) throw std::length_error("OME channel count exceeds limits");
+        for(auto* e=p->FirstChildElement();e;e=e->NextSiblingElement()) if(local(e,"Channel")) {
+            const auto n=integer(e,"SamplesPerPixel",1);if(!n || n>1024 || n>sizes[2]-total) throw std::invalid_argument("invalid OME channel sample count");
+            auto name=bounded(e->Attribute("Name"),4096);if(name.empty()) name="Channel "+std::to_string(channels.size()+1);
+            bytes+=name.size();if(bytes>4*1024*1024) throw std::length_error("OME channel names exceed limit");channels.emplace_back(n,std::move(name));total+=n;
+        }
+        if(channels.empty()) {for(std::uint32_t c=0;c<sizes[2];++c) channels.emplace_back(1,"Channel "+std::to_string(c+1));total=sizes[2];}
+        if(total!=sizes[2]) throw std::invalid_argument("OME Channel samples do not match SizeC");
+        return std::make_tuple(sizes,bounded(p->Attribute("DimensionOrder"),5),bounded(p->Attribute("Type"),32),channels,
+            std::array<std::optional<double>,4>{quantity(p,"PhysicalSizeX","PhysicalSizeXUnit"),quantity(p,"PhysicalSizeY","PhysicalSizeYUnit"),quantity(p,"PhysicalSizeZ","PhysicalSizeZUnit"),quantity(p,"TimeIncrement","TimeIncrementUnit",true)});
+    }
+    void validate_companion(std::uint32_t file,const tinyxml2::XMLElement* primary) const {
+        if(!file) return;tinyxml2::XMLDocument document;parse_ome(files_[file]->xml,document);
+        const tinyxml2::XMLElement* selected=nullptr;std::uint32_t count=0;
+        for(auto* e=document.RootElement()->FirstChildElement();e;e=e->NextSiblingElement()) if(local(e,"Image")) {if(count==raw_->series) selected=e;if(++count>1024) throw std::length_error("OME series count exceeds 1024");}
+        const auto* pixels=child(selected,"Pixels");if(count!=raw_->series_count || !pixels || signature(pixels)!=signature(primary)) throw std::invalid_argument("OME companion series metadata differs");
+    }
+    using Guards=std::vector<std::unique_ptr<detail::ReaderFileGuard>>;
+    Guards guard_files(const std::atomic<bool>* cancelled=nullptr) const {
+        Guards guards;guards.reserve(files_.size());for(const auto& file:files_) {
+            detail::export_checkpoint(cancelled);auto guard=std::make_unique<detail::ReaderFileGuard>(file->path);
+            if(!same_file(*file->version,*guard->version())) throw std::runtime_error("TIFF source changed; reopen it before reading");guards.push_back(std::move(guard));
+        }return guards;
+    }
+    static void verify_guards(const Guards& guards) {for(const auto& guard:guards) guard->verify();}
     Ifd inspect() {
-        Ifd d;d.offset=TIFFCurrentDirOffset(handle_);if(!TIFFGetField(handle_,TIFFTAG_IMAGEWIDTH,&d.width) || !TIFFGetField(handle_,TIFFTAG_IMAGELENGTH,&d.height)) failed("TIFF directory has no dimensions");
+        Ifd d;d.file=active_file_;d.offset=TIFFCurrentDirOffset(handle_);if(!TIFFGetField(handle_,TIFFTAG_IMAGEWIDTH,&d.width) || !TIFFGetField(handle_,TIFFTAG_IMAGELENGTH,&d.height)) failed("TIFF directory has no dimensions");
         TIFFGetFieldDefaulted(handle_,TIFFTAG_BITSPERSAMPLE,&d.bits);TIFFGetFieldDefaulted(handle_,TIFFTAG_SAMPLEFORMAT,&d.format);TIFFGetFieldDefaulted(handle_,TIFFTAG_SAMPLESPERPIXEL,&d.samples);TIFFGetFieldDefaulted(handle_,TIFFTAG_PLANARCONFIG,&d.planar);TIFFGetFieldDefaulted(handle_,TIFFTAG_PHOTOMETRIC,&d.photo);TIFFGetFieldDefaulted(handle_,TIFFTAG_ORIENTATION,&d.orientation);
         TIFFGetFieldDefaulted(handle_,TIFFTAG_COMPRESSION,&d.compression);
         std::uint32_t depth=1;TIFFGetFieldDefaulted(handle_,TIFFTAG_IMAGEDEPTH,&depth);if(depth!=1) throw std::invalid_argument("volumetric TIFF IFDs are unsupported; use OME plane IFDs");
@@ -124,7 +198,7 @@ class TiffData final {
             if(raw_->series>=roots_.size()) throw std::out_of_range("TIFF page/series index is outside the file");const auto& d=roots_[raw_->series];
             raw_->width=d.width;raw_->height=d.height;raw_->channels=d.samples;raw_->series_count=static_cast<std::uint32_t>(roots_.size());raw_->dimension_order="XYC";
             mapping_.resize(d.samples);for(std::uint32_t c=0;c<d.samples;++c) {mapping_[c]={raw_->series,static_cast<std::uint16_t>(c)};raw_->channel_names.push_back("Channel "+std::to_string(c+1));}
-            select(d.offset);std::uint16_t unit=RESUNIT_NONE;float x=0,y=0;TIFFGetFieldDefaulted(handle_,TIFFTAG_RESOLUTIONUNIT,&unit);TIFFGetField(handle_,TIFFTAG_XRESOLUTION,&x);TIFFGetField(handle_,TIFFTAG_YRESOLUTION,&y);
+            select(d);std::uint16_t unit=RESUNIT_NONE;float x=0,y=0;TIFFGetFieldDefaulted(handle_,TIFFTAG_RESOLUTIONUNIT,&unit);TIFFGetField(handle_,TIFFTAG_XRESOLUTION,&x);TIFFGetField(handle_,TIFFTAG_YRESOLUTION,&y);
             const double scale=unit==RESUNIT_INCH?25400:unit==RESUNIT_CENTIMETER?10000:0;
             if(scale && std::isfinite(x) && x>0) raw_->pixel_width_um=scale/x;if(scale && std::isfinite(y) && y>0) raw_->pixel_height_um=scale/y;
             return;
@@ -151,18 +225,26 @@ class TiffData final {
         const std::uint64_t planes=std::uint64_t(groups.size())*raw_->z_planes*raw_->timepoints;if(planes>65536) throw std::length_error("OME plane count exceeds 65536");
         mapping_.resize(std::size_t(raw_->channels)*raw_->z_planes*raw_->timepoints);bool found=false;
         auto group_index=[&](std::uint32_t c) {const auto at=std::find(groups.begin(),groups.end(),c);if(at==groups.end()) throw std::invalid_argument("OME FirstC must identify a channel group");return std::uint32_t(at-groups.begin());};
+        std::set<std::uint32_t> validated{0};
         auto extent=[&](char axis)->std::uint32_t {return axis=='C'?std::uint32_t(groups.size()):axis=='Z'?raw_->z_planes:raw_->timepoints;};
         for(auto* e=p->FirstChildElement();e;e=e->NextSiblingElement()) if(local(e,"TiffData")) {
-            detail::export_checkpoint(opening_cancel_);found=true;if(const auto* uuid=child(e,"UUID")) {const auto filename=bounded(uuid->Attribute("FileName"),32768),value=bounded(uuid->GetText(),256),current=bounded(root->Attribute("UUID"),256);
-                if((!filename.empty() && filename!=fs::u8path(path_).filename().u8string()) || current.empty() || value!=current) throw std::invalid_argument("multi-file OME references are unsupported");}
+            detail::export_checkpoint(opening_cancel_);found=true;std::uint32_t file=0;
+            if(const auto* uuid=child(e,"UUID")) {
+                const auto filename=bounded(uuid->Attribute("FileName"),32768),value=bounded(uuid->GetText(),256);
+                if(value.empty() || files_[0]->uuid.empty()) throw std::invalid_argument("OME file reference requires root and target UUIDs");
+                if(!filename.empty()) file=load_file((fs::u8path(path_).parent_path()/fs::u8path(filename)).u8string());
+                else {const auto at=std::find_if(files_.begin(),files_.end(),[&](const auto& f){return f->uuid==value;});if(at==files_.end()) throw std::invalid_argument("unresolved OME UUID without FileName");file=std::uint32_t(at-files_.begin());}
+                if(files_[file]->uuid!=value) throw std::invalid_argument("OME referenced file UUID differs");if(validated.insert(file).second) validate_companion(file,p);
+            }
+            const auto& catalog=*files_[file];
             std::array<std::uint32_t,3> position{};for(std::size_t i=0;i<3;++i) position[i]=order[i+2]=='C'?group_index(integer(e,"FirstC",0)):integer(e,order[i+2]=='Z'?"FirstZ":"FirstT",0);
             std::uint64_t linear=0,multiplier=1;for(std::size_t i=0;i<3;++i) {if(position[i]>=extent(order[i+2])) throw std::out_of_range("OME first plane exceeds dimensions");linear+=position[i]*multiplier;multiplier*=extent(order[i+2]);}
-            const auto ifd=integer(e,"IFD",0),length=integer(e,"PlaneCount",e->Attribute("IFD")?1:std::uint32_t(roots_.size()));
-            if(length>planes-linear || ifd>=roots_.size() || length>roots_.size()-ifd) throw std::out_of_range("OME TiffData exceeds plane or IFD bounds");
+            const auto ifd=integer(e,"IFD",0),length=integer(e,"PlaneCount",e->Attribute("IFD")?1:catalog.count);
+            if(length>planes-linear || ifd>=catalog.count || length>catalog.count-ifd) throw std::out_of_range("OME TiffData exceeds plane or IFD bounds");
             for(std::uint32_t step=0;step<length;++step) {detail::export_checkpoint(opening_cancel_);auto value=linear+step;std::uint32_t c=0,z=0,t=0;
                 for(std::size_t i=0;i<3;++i) {const auto coordinate=std::uint32_t(value%extent(order[i+2]));value/=extent(order[i+2]);if(order[i+2]=='C') c=coordinate;else if(order[i+2]=='Z') z=coordinate;else t=coordinate;}
-                const auto start=groups[c],end=c+1<groups.size()?groups[c+1]:raw_->channels;const auto& d=roots_[ifd+step];if(d.samples!=end-start) throw std::invalid_argument("OME channel samples do not match TIFF IFD samples");
-                for(std::uint32_t sample=start;sample<end;++sample) {auto& entry=mapping_[(std::size_t(t)*raw_->z_planes+z)*raw_->channels+sample];if(entry.ifd!=std::numeric_limits<std::uint32_t>::max()) throw std::invalid_argument("duplicate OME plane mapping");entry={ifd+step,static_cast<std::uint16_t>(sample-start)};}
+                const auto start=groups[c],end=c+1<groups.size()?groups[c+1]:raw_->channels;const auto global=catalog.first+ifd+step;const auto& d=roots_[global];if(d.samples!=end-start) throw std::invalid_argument("OME channel samples do not match TIFF IFD samples");
+                for(std::uint32_t sample=start;sample<end;++sample) {auto& entry=mapping_[(std::size_t(t)*raw_->z_planes+z)*raw_->channels+sample];if(entry.ifd!=std::numeric_limits<std::uint32_t>::max()) throw std::invalid_argument("duplicate OME plane mapping");entry={global,static_cast<std::uint16_t>(sample-start)};}
             }
         }
         if(!found || std::any_of(mapping_.begin(),mapping_.end(),[](auto m){return m.ifd==std::numeric_limits<std::uint32_t>::max();})) throw std::invalid_argument("OME plane mapping is incomplete");
@@ -173,7 +255,7 @@ class TiffData final {
     void levels() {
         std::set<std::uint32_t> selected;for(auto m:mapping_) selected.insert(m.ifd);std::size_t count=roots_.size();
         for(auto index:selected) {auto& root=roots_[index];root.validate();Ifd base=root;base.sub.clear();root.levels.push_back(std::move(base));
-            for(auto offset:root.sub) {if(++count>131072) throw std::length_error("TIFF directory catalog exceeds limit");select(offset);auto level=inspect();level.validate();
+            for(auto offset:root.sub) {if(++count>131072) throw std::length_error("TIFF directory catalog exceeds limit");select(root.file,offset);auto level=inspect();level.validate();
                 if(!level.sub.empty() || level.samples!=root.samples || level.type()!=root.type() || level.photo!=root.photo) throw std::invalid_argument("incompatible TIFF subresolution samples");root.levels.push_back(std::move(level));}
         }
         const auto& reference=roots_[mapping_.front().ifd];raw_->sample_type=reference.type();
@@ -185,7 +267,7 @@ class TiffData final {
             for(std::size_t i=0;i<root.levels.size();++i) if(root.levels[i].width!=raw_->levels[i].width || root.levels[i].height!=raw_->levels[i].height) throw std::invalid_argument("OME plane subresolution dimensions differ");}
     }
     std::shared_ptr<Block> block(const Ifd& d,std::uint32_t x,std::uint32_t y,std::uint16_t sample) {
-        select(d.offset);const auto number=d.tiled?TIFFComputeTile(handle_,x,y,0,d.planar==PLANARCONFIG_SEPARATE?sample:0):TIFFComputeStrip(handle_,y,d.planar==PLANARCONFIG_SEPARATE?sample:0);const Key key{d.offset,number};
+        select(d);const auto number=d.tiled?TIFFComputeTile(handle_,x,y,0,d.planar==PLANARCONFIG_SEPARATE?sample:0):TIFFComputeStrip(handle_,y,d.planar==PLANARCONFIG_SEPARATE?sample:0);const Key key{d.file,d.offset,number};
         if(auto found=cache_.find(key);found!=cache_.end()) {++stats_.cache_hits;lru_.splice(lru_.end(),lru_,found->second.position);return found->second.value;}
         const auto size=d.tiled?TIFFTileSize64(handle_):TIFFVStripSize64(handle_,std::min(d.block_height,d.height-y));
         const auto expected=std::uint64_t(d.block_width)*(d.tiled?d.block_height:std::min(d.block_height,d.height-y))*(d.bits/8)*(d.planar==PLANARCONFIG_SEPARATE?1:d.samples);
@@ -198,8 +280,8 @@ class TiffData final {
             lru_.push_back(key);try {cache_.emplace(key,Cache{value,std::prev(lru_.end())});}catch(...) {lru_.pop_back();throw;}stats_.cache_bytes+=value->charge();stats_.peak_cache_bytes=std::max(stats_.peak_cache_bytes,stats_.cache_bytes);
         }return value;
     }
-    RawPixelBuffer raw_locked(const RawRegionRequest& r,const std::atomic<bool>* cancelled=nullptr) {
-        detail::export_checkpoint(cancelled);if(closed_) throw std::runtime_error("TIFF image server is closed");r.validate(*raw_);detail::ReaderFileGuard guard(path_);if(!same_file(*source_->primary,*guard.version())) throw std::runtime_error("TIFF source changed; reopen it before reading");
+    RawPixelBuffer raw_locked(const RawRegionRequest& r,const std::atomic<bool>* cancelled=nullptr,bool guarded=false) {
+        detail::export_checkpoint(cancelled);if(closed_) throw std::runtime_error("TIFF image server is closed");r.validate(*raw_);auto guards=guarded?Guards{}:guard_files(cancelled);
         const auto& request=r.region;RawPixelBuffer output(request.width,request.height,r.channels,raw_->sample_type);const auto scale=std::int64_t(raw_->levels[request.level].downsample);
         const auto origin_x=floor_div(request.x,scale),origin_y=floor_div(request.y,scale);const auto width=raw_->levels[request.level].width,height=raw_->levels[request.level].height;
         const auto x0=std::max<std::int64_t>(0,origin_x),y0=std::max<std::int64_t>(0,origin_y),x1=std::min(width,origin_x+request.width),y1=std::min(height,origin_y+request.height);
@@ -234,36 +316,31 @@ class TiffData final {
                     begin=end;
                 }
             },output.writable_storage());
-        }guard.verify();return output;
+        }verify_guards(guards);detail::export_checkpoint(cancelled);return output;
     }
 public:
     TiffData(const std::string& path,TiffOpenOptions options,const std::atomic<bool>* cancelled):path_(fs::absolute(fs::u8path(path)).lexically_normal().u8string()),options_(std::move(options)),opening_cancel_(cancelled) {
-        detail::export_checkpoint(cancelled);options_.validate();detail::ReaderFileGuard guard(path_);auto* open=TIFFOpenOptionsAlloc();if(!open) throw std::bad_alloc();
-        TIFFOpenOptionsSetMaxSingleMemAlloc(open,tmsize_t(options_.decode_bytes));TIFFOpenOptionsSetMaxCumulatedMemAlloc(open,tmsize_t(options_.decode_bytes));TIFFOpenOptionsSetErrorHandlerExtR(open,error_handler,this);TIFFOpenOptionsSetWarningHandlerExtR(open,warning_handler,this);
-#ifdef _WIN32
-        handle_=TIFFOpenWExt(fs::u8path(path_).c_str(),"rm",open);
-#else
-        handle_=TIFFOpenExt(path_.c_str(),"rm",open);
-#endif
-        TIFFOpenOptionsFree(open);if(!handle_) failed("cannot open TIFF");
+        detail::export_checkpoint(cancelled);options_.validate();
         try {
-            char* description=nullptr;TIFFGetField(handle_,TIFFTAG_IMAGEDESCRIPTION,&description);const auto xml=bounded(description,1024*1024);std::set<std::uint64_t> offsets;
-            do {detail::export_checkpoint(cancelled);if(roots_.size()>=65536 || !offsets.insert(TIFFCurrentDirOffset(handle_)).second) throw std::length_error("TIFF primary directory count/cycle limit exceeded");roots_.push_back(inspect());error_[0]=0;}while(TIFFReadDirectory(handle_));
-            if(error_[0]) failed("cannot index TIFF directories");index(xml);levels();view_=std::make_shared<TiffView>(options_.view);
+            load_file(path_);index(files_[0]->xml);levels();view_=std::make_shared<TiffView>(options_.view);
             if(view_->z>=raw_->z_planes || view_->t>=raw_->timepoints) throw std::out_of_range("TIFF display Z/time index is outside the image");
             if(view_->channels[0]==-2) {const bool rgb=roots_[mapping_.front().ifd].photo==PHOTOMETRIC_RGB;view_->channels=rgb?std::array<std::int32_t,3>{0,1,2}:std::array<std::int32_t,3>{0,0,0};}
             const auto limits=range(raw_->sample_type);for(std::size_t i=0;i<3;++i) {if(view_->channels[i]>=std::int32_t(raw_->channels)) throw std::out_of_range("TIFF display channel is outside the image");if(std::isnan(view_->lower[i])) {view_->lower[i]=limits.first;view_->upper[i]=limits.second;}}
             view_->validate(true);display_.width=raw_->width;display_.height=raw_->height;display_.levels=raw_->levels;display_.pixel_width_um=raw_->pixel_width_um;display_.pixel_height_um=raw_->pixel_height_um;display_.vendor="TIFF / "+sample_name(raw_->sample_type);
-            guard.verify();detail::export_checkpoint(cancelled);auto descriptor=tiff_view_encode(*view_);descriptor.resize(descriptor.size()-64);source_=make_reader_source("tiff:"+descriptor,path_,"single_file",guard.version());options_.view=*view_;option_snapshot_=std::make_shared<const TiffOpenOptions>(options_);opening_cancel_=nullptr;
-        }catch(...) {TIFFClose(handle_);handle_=nullptr;throw;}
+            for(const auto& file:files_) file->opening_guard->verify();detail::export_checkpoint(cancelled);
+            auto descriptor=tiff_view_encode(*view_);descriptor.resize(descriptor.size()-64);
+            if(files_.size()==1) source_=make_reader_source("tiff:"+descriptor,path_,"single_file",files_[0]->version);
+            else {std::vector<FileVersion> companions;for(std::size_t i=1;i<files_.size();++i) companions.push_back(*files_[i]->version);source_=make_compound_reader_source("tiff:"+descriptor,path_,files_[0]->version,std::move(companions));}
+            for(auto& file:files_) {file->opening_guard.reset();std::string{}.swap(file->xml);}options_.view=*view_;option_snapshot_=std::make_shared<const TiffOpenOptions>(options_);opening_cancel_=nullptr;
+        }catch(...) {if(handle_) TIFFClose(handle_);handle_=nullptr;throw;}
     }
     ~TiffData() {if(handle_) TIFFClose(handle_);}
     TiffView resolve_view(TiffView view,const std::atomic<bool>* cancelled) const {
         detail::export_checkpoint(cancelled);view.validate();if(view.series!=raw_->series || view.z>=raw_->z_planes || view.t>=raw_->timepoints) throw std::out_of_range("TIFF display selection is outside this series");
-        detail::ReaderFileGuard guard(path_);if(!same_file(*source_->primary,*guard.version())) throw std::runtime_error("TIFF source changed; relink/reopen it explicitly");
+        auto guards=guard_files(cancelled);
         if(view.channels[0]==-2) {const bool rgb=roots_[mapping_.front().ifd].photo==PHOTOMETRIC_RGB;view.channels=rgb?std::array<std::int32_t,3>{0,1,2}:std::array<std::int32_t,3>{0,0,0};}
         const auto limits=range(raw_->sample_type);for(std::size_t i=0;i<3;++i) {if(view.channels[i]>=std::int32_t(raw_->channels)) throw std::out_of_range("TIFF display channel is outside the image");if(std::isnan(view.lower[i])) {view.lower[i]=limits.first;view.upper[i]=limits.second;}}
-        view.validate(true);guard.verify();detail::export_checkpoint(cancelled);return view;
+        view.validate(true);verify_guards(guards);detail::export_checkpoint(cancelled);return view;
     }
     const ImageMetadata& metadata() const {return display_;}
     std::shared_ptr<const RawImageMetadata> raw_metadata(const std::atomic<bool>* cancelled=nullptr) const {detail::export_checkpoint(cancelled);return raw_;}
@@ -274,7 +351,7 @@ public:
     std::shared_ptr<const ReaderSource> reader_source() const {return source_;}
     RawPixelBuffer read_raw(const RawRegionRequest& r,const std::atomic<bool>* cancelled=nullptr) const {std::lock_guard<std::mutex> lock(mutex_);return const_cast<TiffData*>(this)->raw_locked(r,cancelled);}
     PixelBuffer read_view(const RegionRequest& r,const TiffView& display_view) const {
-        std::lock_guard<std::mutex> lock(mutex_);if(closed_) throw std::runtime_error("TIFF image server is closed");validate_region(display_,r);PixelBuffer output(r.width,r.height);auto& bytes=output.writable_bytes();
+        std::lock_guard<std::mutex> lock(mutex_);if(closed_) throw std::runtime_error("TIFF image server is closed");validate_region(display_,r);auto guards=guard_files();PixelBuffer output(r.width,r.height);auto& bytes=output.writable_bytes();
         std::vector<std::int32_t> channels;for(auto c:display_view.channels) if(c>=0 && std::find(channels.begin(),channels.end(),c)==channels.end()) channels.push_back(c);
         const auto plane=(std::size_t(display_view.t)*raw_->z_planes+display_view.z)*raw_->channels;const auto first=mapping_[plane+channels.front()];const auto& root=roots_[first.ifd].levels[r.level];std::optional<std::uint32_t> alpha;
         if(root.alpha && std::all_of(channels.begin(),channels.end(),[&](auto c){const auto m=mapping_[plane+c];return m.ifd==first.ifd && m.sample<root.samples-1;}))
@@ -285,9 +362,9 @@ public:
         for(std::int64_t y=0;y<r.height;y+=256) for(std::int64_t x=0;x<r.width;x+=256) {
             RawRegionRequest request;request.region=RegionRequest(r.x+x*scale,r.y+y*scale,r.level,std::min<std::int64_t>(256,r.width-x),std::min<std::int64_t>(256,r.height-y));request.z=display_view.z;request.t=display_view.t;
             const auto n=std::size_t(request.region.width*request.region.height);std::vector<double> alphas(n,1);std::vector<std::uint8_t> valid(n,1);
-            if(alpha) {request.first_channel=*alpha;const auto block=const_cast<TiffData*>(this)->raw_locked(request);const auto maximum=range(raw_->sample_type).second;
+            if(alpha) {request.first_channel=*alpha;const auto block=const_cast<TiffData*>(this)->raw_locked(request,nullptr,true);const auto maximum=range(raw_->sample_type).second;
                 std::visit([&](const auto& values){for(std::size_t i=0;i<n;++i) {const auto v=double(values[i]);if(!block.valid()[i] || !std::isfinite(v)) valid[i]=0;else alphas[i]=std::clamp(v/maximum,0.,1.);}},block.storage());}
-            for(auto c:channels) {request.first_channel=std::uint32_t(c);const auto block=const_cast<TiffData*>(this)->raw_locked(request);const auto m=mapping_[plane+c];const bool invert=roots_[m.ifd].photo==PHOTOMETRIC_MINISWHITE;
+            for(auto c:channels) {request.first_channel=std::uint32_t(c);const auto block=const_cast<TiffData*>(this)->raw_locked(request,nullptr,true);const auto m=mapping_[plane+c];const bool invert=roots_[m.ifd].photo==PHOTOMETRIC_MINISWHITE;
                 std::visit([&](const auto& values){for(std::size_t i=0;i<n;++i) {auto value=double(values[i]);if(!block.valid()[i] || !std::isfinite(value)) {valid[i]=0;continue;}
                     if(alpha && root.associated_alpha) value=alphas[i]>0?value/alphas[i]:0;
                     const auto target=(std::size_t(y+std::int64_t(i/std::size_t(request.region.width)))*std::size_t(r.width)+std::size_t(x)+i%std::size_t(request.region.width))*4;
@@ -297,7 +374,7 @@ public:
             for(std::size_t i=0;i<n;++i) {const auto target=(std::size_t(y+std::int64_t(i/std::size_t(request.region.width)))*std::size_t(r.width)+std::size_t(x)+i%std::size_t(request.region.width))*4;
                 bytes[target+3]=valid[i]?std::uint8_t(std::floor(alphas[i]*255+.5)):0;if(!bytes[target+3]) bytes[target]=bytes[target+1]=bytes[target+2]=0;}
         }
-        return output;
+        verify_guards(guards);return output;
     }
     bool closed() const {std::lock_guard<std::mutex> lock(mutex_);return closed_;}
     void close() {std::lock_guard<std::mutex> lock(mutex_);if(handle_) TIFFClose(handle_);handle_=nullptr;closed_=true;cache_.clear();lru_.clear();stats_.cache_bytes=0;}
@@ -313,7 +390,7 @@ public:
     TiffServer(std::shared_ptr<TiffData> data,TiffView view,const std::atomic<bool>* cancelled):data_(std::move(data)) {
         view_=std::make_shared<const TiffView>(data_->resolve_view(view,cancelled));metadata_=data_->metadata();raw_=data_->raw_metadata(cancelled);path_=data_->source_locator();
         auto options=*data_->tiff_options();options.view=*view_;options_=std::make_shared<const TiffOpenOptions>(options);
-        auto descriptor=tiff_view_encode(*view_);descriptor.resize(descriptor.size()-64);source_=make_reader_source("tiff:"+descriptor,path_,"single_file",data_->reader_source()->primary);
+        auto descriptor=tiff_view_encode(*view_);descriptor.resize(descriptor.size()-64);const auto source=data_->reader_source();source_=source->companions.empty()?make_reader_source("tiff:"+descriptor,path_,"single_file",source->primary):make_compound_reader_source("tiff:"+descriptor,path_,source->primary,source->companions);
     }
     const ImageMetadata& metadata() const override {return metadata_;}
     std::string reader_id() const override {return "tiff";}std::string source_locator() const override {return path_;}

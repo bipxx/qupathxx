@@ -42,6 +42,39 @@ void multichannel_block_reuse(const std::filesystem::path& path) {
         check(server->tiff_read_stats()->peak_cache_bytes<=cache);server->close();std::filesystem::remove(path);
     }
 }
+// Two independent hand-encoded TIFFs deliberately share IFD and strip numbers.
+// Distinct channel values expose a cache key that forgets the physical file.
+void multifile_dispatch(const std::filesystem::path& path) {
+    namespace fs=std::filesystem;auto companion=path;companion += ".other.tif";
+    const auto write=[&](const fs::path& target,bool other) {
+        const auto xml=std::string("<OME UUID=\"")+(other?"urn:other":"urn:first")+"\"><Image><Pixels DimensionOrder=\"XYZCT\" Type=\"uint16\" SizeX=\"2\" SizeY=\"2\" SizeC=\"2\" SizeZ=\"1\" SizeT=\"1\"><Channel Name=\"A\"/><Channel Name=\"B\"/>"
+            "<TiffData IFD=\"0\" FirstC=\"0\" PlaneCount=\"1\"><UUID FileName=\""+path.filename().u8string()+"\">urn:first</UUID></TiffData>"
+            "<TiffData IFD=\"0\" FirstC=\"1\" PlaneCount=\"1\"><UUID FileName=\""+companion.filename().u8string()+"\">urn:other</UUID></TiffData></Pixels></Image></OME>";
+        std::vector<unsigned char> bytes={'I','I',42,0,8,0,0,0};
+        auto u16=[&](std::uint16_t n){bytes.push_back(n&255);bytes.push_back(n>>8);};
+        auto u32=[&](std::uint32_t n){for(unsigned i=0;i<4;++i) bytes.push_back(std::uint8_t(n>>(8*i)));};
+        auto tag=[&](std::uint16_t id,std::uint16_t type,std::uint32_t count,std::uint32_t value){u16(id);u16(type);u32(count);u32(value);};
+        u16(11);tag(256,4,1,2);tag(257,4,1,2);tag(258,3,1,16);tag(259,3,1,1);tag(262,3,1,1);
+        tag(270,2,std::uint32_t(xml.size()+1),146);tag(273,4,1,std::uint32_t(147+xml.size()));tag(277,3,1,1);tag(278,4,1,2);tag(279,4,1,8);tag(284,3,1,1);u32(0);
+        check(bytes.size()==146);bytes.insert(bytes.end(),xml.begin(),xml.end());bytes.push_back(0);for(unsigned i=1;i<=4;++i) u16(std::uint16_t(i+(other?100:0)));
+        std::ofstream file(target,std::ios::binary);file.write(reinterpret_cast<const char*>(bytes.data()),bytes.size());file.close();check(bool(file));
+    };
+    write(path,false);write(companion,true);
+    for(const auto& entry:{path,companion}) {
+        auto server=open_tiff(entry.u8string(),{});check(server->reader_source()->scope=="compound_files" && server->reader_source()->companions.size()==1);
+        RawRegionRequest request;request.region={0,0,0,2,2};request.channels=2;
+        for(unsigned repeat=0;repeat<2;++repeat) {const auto raw=server->read_raw(request);const auto& values=std::get<std::vector<std::uint16_t>>(raw.storage());for(unsigned i=0;i<4;++i) {check(values[2*i]==i+1 && values[2*i+1]==i+101);check(raw.valid()[i]);}}
+        check(server->tiff_read_stats()->decoded_blocks==2 && server->tiff_read_stats()->cache_hits==2);
+        auto view=server->with_tiff_view(*server->tiff_view());check(view->reader_source()->companions.size()==1);server->close();check(view->read_raw(request).valid()[0]);view->close();
+    }
+    auto server=open_tiff(path.u8string(),{});RawRegionRequest request;request.region={0,0,0,2,2};request.channels=2;auto retained=server->read_raw(request);
+    // Append changes only the companion's observed version, not the primary.
+    {std::ofstream file(companion,std::ios::binary|std::ios::app);file.put('x');}
+    rejects([&]{server->read_raw(request);});request.region={-10,-10,0,2,2};rejects([&]{server->read_raw(request);});
+    rejects([&]{server->read_region({0,0,0,2,2});});rejects([&]{server->with_tiff_view(*server->tiff_view());});
+    server->close();check(std::get<std::vector<std::uint16_t>>(retained.storage())[1]==101);
+    fs::remove(companion);rejects([&]{open_tiff(path.u8string(),{});});fs::remove(path);
+}
 int main() {
     namespace fs=std::filesystem;const auto path=fs::current_path()/("raw-test-"+std::to_string(std::random_device{}())+".tif");
     try {
@@ -50,6 +83,8 @@ int main() {
         TiffView view;view.channels={0,0,0};view.lower={0,0,0};view.upper={65535,65535,65535};check(tiff_view_decode(tiff_view_encode(view)).upper==view.upper);
         auto corrupt=tiff_view_encode(view);corrupt.back()^=1;rejects([&]{tiff_view_decode(corrupt);});
         if(has_tiff()) {
+            multifile_dispatch(path);
+            std::cout<<"TIFF multi-file UUID dispatch, colliding cache keys, view ownership and companion mutation guards passed\n";
             multichannel_block_reuse(path);
             std::cout<<"TIFF interleaved block reuse without LRU, separate-plane selection and padded values passed\n";
             // Independent minimal TIFF byte fixture: no libtiff encoder involved.
