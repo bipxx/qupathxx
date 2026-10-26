@@ -4,6 +4,8 @@ import importlib.util
 import json
 import os
 import stat
+import shutil
+import subprocess
 import sys
 import tempfile
 import types
@@ -113,5 +115,28 @@ class CallbackTests(unittest.TestCase):
     def test_event_limit_rejects(self):
         self.observer.EVENTS=[{}]*20000
         with self.assertRaises(RuntimeError):self.observer.emit({'event':'extra'})
+
+class ShallowCheckoutTests(unittest.TestCase):
+    @unittest.skipUnless(shutil.which('git'), 'git required for actual shallow-checkout control')
+    def test_exact_fetch_admits_original_but_rejects_changed_product(self):
+        workflow=(ROOT.parents[1]/'.github/workflows/ci.yml').read_text(encoding='utf-8')
+        self.assertIn('run: git fetch --no-tags --depth=1 origin '+R.COMMIT,workflow)
+        with tempfile.TemporaryDirectory() as directory:
+            source=Path(directory)/'source';source.mkdir()
+            def git(cwd,*args,check=True):
+                return subprocess.run(['git','-C',str(cwd),*args],check=check,capture_output=True,text=True,timeout=30)
+            git(source,'init','-q');(source/'cpp').mkdir();(source/'cpp/product.cpp').write_text('original\n')
+            def commit():
+                git(source,'add','.')
+                git(source,'-c','user.name=Diagnostic','-c','user.email=diagnostic@example.invalid','-c','commit.gpgsign=false','commit','-qm','fixture')
+            commit();original=git(source,'rev-parse','HEAD').stdout.strip()
+            (source/'observer.txt').write_text('observer only\n');commit()
+            checkout=Path(directory)/'checkout'
+            git(source,'clone','--no-local','--depth=1',str(source),str(checkout))
+            self.assertEqual(git(checkout,'diff','--exit-code',original,'--','cpp',check=False).returncode,128)
+            git(checkout,'fetch','--no-tags','--depth=1','origin',original)
+            git(checkout,'diff','--exit-code',original,'--','cpp')
+            (checkout/'cpp/product.cpp').write_text('changed\n')
+            self.assertEqual(git(checkout,'diff','--exit-code',original,'--','cpp',check=False).returncode,1)
 
 if __name__=='__main__':unittest.main()
