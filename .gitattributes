@@ -443,3 +443,7 @@ docs/benchmarks/multifile-ome-local.json text eol=lf
 # Frozen multi-file OME campaign preflight evidence.
 docs/benchmarks/multifile-ome-210-campaign/** -text -whitespace
 docs/benchmarks/multifile-ome-210-campaign.json text eol=lf
+
+# Invocation-local source-proof reuse keeps exact observer evidence.
+docs/benchmarks/source-proof-reuse-local/** -text -whitespace
+docs/benchmarks/source-proof-reuse-local.json text eol=lf

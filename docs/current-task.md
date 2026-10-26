@@ -33,8 +33,15 @@
   strict exact-source audits. Do not redispatch because an observation expires.
   [A-D checkpoints](multifile-ome-tiff.md#delivery-checkpoints) have local evidence;
   E is in progress and unaccepted. Broader fault/cancellation, whole-slide,
-  scientific, hardware and release requirements remain open. E3/E4 attach to
-  their next affected edits; MFO1 remains incomplete.
+  scientific, hardware and release requirements remain open. MFO1 remains
+  incomplete. The original Linux-only audit accepts all three Linux modes
+  (50 native suites each; 3,532 headless installed cases); other platforms
+  remain pending, so no full campaign acceptance follows.
+- E3: [observer-only source-proof reuse](benchmarks/source-proof-reuse-local.json)
+  is locally verified at `0edb948` with 579 controls and a retained-artifact
+  Linux successor audit. Every inherited job result matches; all 317 canonical
+  compiler blobs remain identical to frozen `9e7d0be`. E4 remains open at the
+  next producer-stage edit.
 - The [efficiency review](reviews/compilexx-efficiency-review.md) records seven
   evidence-backed improvements. Earlier sections below retain workflow history;
   use this card for current scheduling. All M0-M7 remain Partial.

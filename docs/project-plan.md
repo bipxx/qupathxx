@@ -39,7 +39,9 @@ E1/E2 are implemented with 438 local auditor controls and 48 Linux stdlib
 boundary witnesses. Main's qualified application source remains `61e546e`.
 Continue MFO1's compound-source/multi-file OME workflow in the
 [ordered queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue).
-E3/E4 remain bounded improvements at the next affected owner, not a framework.
+E3 now has [local observer/source-proof reuse evidence](benchmarks/source-proof-reuse-local.json)
+and retained Linux audit equivalence. E4 remains a bounded improvement at the
+next affected producer stage. Neither changes the frozen campaign source.
 The [multi-file workflow receipt](benchmarks/multifile-ome-local.json) now verifies
 explicit UUID/file dispatch, file-aware caching, shared budgets and all-file
 operation guards at native source `1c62165`. Local installed project/archive,

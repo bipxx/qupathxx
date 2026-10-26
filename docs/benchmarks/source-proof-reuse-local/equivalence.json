@@ -1,0 +1,12 @@
+{
+  "artifact_source": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+  "auditor_source": "0edb9485b88b954c58c082631a9d705a4fce4e91",
+  "linux_jobs": 3,
+  "inherited_job_results_equal": true,
+  "additional_resampling_source": "tools/ci/qptma_evidence.py",
+  "changed_top_level_fields": [
+    "jobs",
+    "auditor"
+  ],
+  "full_matrix_accepted": false
+}

@@ -1,0 +1,7 @@
+{
+  "artifact_source": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+  "auditor_source": "0edb9485b88b954c58c082631a9d705a4fce4e91",
+  "compiler_inputs": 317,
+  "canonical_git_blobs_identical": true,
+  "scope": "Observer-only E3 change; does not relabel any binary as auditor source"
+}

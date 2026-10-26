@@ -1,0 +1,119 @@
+{
+  "schema": "qpx.source-proof-reuse-local/1",
+  "observed_at_utc": "2026-10-26T03:21:16.062351+00:00",
+  "auditor_source": "0edb9485b88b954c58c082631a9d705a4fce4e91",
+  "artifact_source": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+  "results": {
+    "controls_passed": 579,
+    "source_proof_git_calls_before_engine": 85,
+    "source_proof_git_calls_after_engine": 2,
+    "domain_proofs_before_engine": 10,
+    "domain_proofs_after_engine": 2,
+    "unique_final_rechecked_files": 50,
+    "canonical_compiler_inputs_unchanged": 317,
+    "linux_native_suites_per_mode": 50,
+    "linux_installed_cases": 3532,
+    "inherited_linux_job_acceptance_equal": true
+  },
+  "scope": "E3 observer-only invocation-local source-proof reuse. Two domain batched reads, copied per-job receipt maps and a final exact-byte source check. Original artifact/source and successor auditor identities remain separate. Linux-only audit equivalence does not accept the full platform campaign or release.",
+  "remaining": "Follow original campaign210 engine/Mac/portable handles and require all archives plus strict audits. E4 independent diagnostic collection and all broader M0-M7 requirements remain open.",
+  "timing_observations": {
+    "before_seconds": 3.8852212000638247,
+    "after_seconds": 0.12093420000746846,
+    "interpretation": "Local proof phase observations only; not a controlled overall CI speedup, hardware acceptance or native performance claim.",
+    "git_call_count_basis": "Before: source-derived five jobs times (one QPTMA batch plus 16 resampling show calls). After: two recorded cat-file --batch calls."
+  },
+  "contracts": {
+    "initial_proofs": "Every declared path and commit still checked; strict batched Git framing reused from existing QPTMA validator",
+    "resampling_schema": "Existing per-path crlf_normalized retained; shared helper source additionally authenticated",
+    "reuse": "Per invocation only, separate owning per-job receipt copies",
+    "publication_boundary": "Deduplicate final checked-out file reads; reject changed/missing bytes and conflicting Git/checkout declarations"
+  },
+  "files": {
+    "docs/benchmarks/source-proof-reuse-local/baseline.json": {
+      "bytes": 1518,
+      "sha256": "f56870777c051713756b7d56e30d6d8ba8f467d1e9ab81d037e62a5a61a0b2df"
+    },
+    "docs/benchmarks/source-proof-reuse-local/command.json": {
+      "bytes": 1876,
+      "sha256": "680064fbdbc82084e6bc874ed8e3aebd87b2e4e4b32d14cc3b957690a6a29572"
+    },
+    "docs/benchmarks/source-proof-reuse-local/compiler-applicability.json": {
+      "bytes": 291,
+      "sha256": "a909921d298ab49ba63986ce7eeaa58f5e5e441953c27352a8a488205964d345"
+    },
+    "docs/benchmarks/source-proof-reuse-local/controls.log": {
+      "bytes": 750,
+      "sha256": "898db06d4ebf405ae69225ee3e24dfb0228003dd54f77030f9aad35eea214737"
+    },
+    "docs/benchmarks/source-proof-reuse-local/controls.xml": {
+      "bytes": 87593,
+      "sha256": "efe5a1f5f17699c74ea7a5cb0ec94bbb0790e6dd5a4288fdd24b114a93d40caf"
+    },
+    "docs/benchmarks/source-proof-reuse-local/equivalence.json": {
+      "bytes": 362,
+      "sha256": "fae86ad4236abb1a513a29231e5d0bc2b3137a83f3c5b22c8fac3793d9e4d98c"
+    },
+    "docs/benchmarks/source-proof-reuse-local/initial-command.json": {
+      "bytes": 1807,
+      "sha256": "090a103be60f194a9d1584fe5776448fda702ce86f8c4eb37de0ebac6af85995"
+    },
+    "docs/benchmarks/source-proof-reuse-local/initial-controls.log": {
+      "bytes": 750,
+      "sha256": "f72b1aed5474568d6c4585abe187efe0c598e2dd1b95a68da7fa1bf8fced5828"
+    },
+    "docs/benchmarks/source-proof-reuse-local/initial-controls.xml": {
+      "bytes": 87593,
+      "sha256": "dcc036cef6aa63ed8ab91bc4bc444193945f41a95598256a8af3863062043864"
+    },
+    "docs/benchmarks/source-proof-reuse-local/initial-tests.log": {
+      "bytes": 101,
+      "sha256": "a879fe28814118729390b3a003f56949da976dac651a39f110c64c1740723397"
+    },
+    "docs/benchmarks/source-proof-reuse-local/initial-tests.xml": {
+      "bytes": 9826,
+      "sha256": "a68418ca86f4dc89baf5ad54e89c184028b7b7fe62d1c1f69f41747ae2d75050"
+    },
+    "docs/benchmarks/source-proof-reuse-local/linux-successor-audit.json": {
+      "bytes": 371551,
+      "sha256": "71c118b1b45ac3f6bed92190e820597f1d817ecc62bdbd440792cc7149526f96"
+    },
+    "docs/benchmarks/source-proof-reuse-local/linux-successor-audit.log": {
+      "bytes": 283,
+      "sha256": "ddf3ba58dd9787081fe0dd5ff50ba24c54387e6ddd4180a59b61623816cf2c08"
+    },
+    "docs/benchmarks/source-proof-reuse-local/linux-successor-command.json": {
+      "bytes": 927,
+      "sha256": "9b53d8b0598b43aad45c28c618074f4a9aa87ffd9a365102114061b180a6d45b"
+    },
+    "docs/benchmarks/source-proof-reuse-local/reuse-tests.log": {
+      "bytes": 101,
+      "sha256": "7e37a9cf86d362e093a3a1b8801cceb642eb11769cc8e8441b2745317b3af104"
+    },
+    "docs/benchmarks/source-proof-reuse-local/reuse-tests.xml": {
+      "bytes": 10216,
+      "sha256": "b64d2e99328a0d3938651a16a3062a05c3c64ef609c00f791bc003b8d2601c65"
+    },
+    "docs/benchmarks/source-proof-reuse-local/reused-source-proofs.json": {
+      "bytes": 14498,
+      "sha256": "9f09a115858987b92e106d30702df96d3c7481320115255c2c4f9174699b1019"
+    },
+    "docs/benchmarks/source-proof-reuse-local/reused.json": {
+      "bytes": 875,
+      "sha256": "51f30d15c15246671deb86b471dceced57d95a1a2a39c5ccbac98508c9ab4b65"
+    },
+    "docs/benchmarks/source-proof-reuse-local/original-linux-audit.json": {
+      "bytes": 370710,
+      "sha256": "2691114a321947883f5c54a93a24c48463fffc16bd4576caa30697363fae5635"
+    },
+    "docs/benchmarks/source-proof-reuse-local/original-linux-audit.log": {
+      "bytes": 283,
+      "sha256": "ddf3ba58dd9787081fe0dd5ff50ba24c54387e6ddd4180a59b61623816cf2c08"
+    },
+    "docs/benchmarks/source-proof-reuse-local/verified-artifacts-at-observation.json": {
+      "bytes": 785,
+      "sha256": "ff3c17954d12b5d2d39ab971e01b9d58560b9a9594d452fc34802fee8cfa3aff"
+    }
+  },
+  "compiler_input_manifest": "docs/benchmarks/multifile-ome-210-campaign/frozen-preflight/compiler-inputs.json"
+}

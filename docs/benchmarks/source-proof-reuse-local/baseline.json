@@ -1,0 +1,69 @@
+{
+  "source": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+  "scenario": "Existing engine five-job checkout-only QPTMA/resampling proof calls, local sequential observation",
+  "calls": 10,
+  "seconds": 3.8852212000638247,
+  "observations": [
+    {
+      "job": 0,
+      "helper": "qptma",
+      "files": 42,
+      "seconds": 0.05977000005077571
+    },
+    {
+      "job": 0,
+      "helper": "resampling",
+      "files": 16,
+      "seconds": 0.645214399904944
+    },
+    {
+      "job": 1,
+      "helper": "qptma",
+      "files": 42,
+      "seconds": 0.05832429998554289
+    },
+    {
+      "job": 1,
+      "helper": "resampling",
+      "files": 16,
+      "seconds": 0.5389922000467777
+    },
+    {
+      "job": 2,
+      "helper": "qptma",
+      "files": 42,
+      "seconds": 0.15811509999912232
+    },
+    {
+      "job": 2,
+      "helper": "resampling",
+      "files": 16,
+      "seconds": 0.6534232000121847
+    },
+    {
+      "job": 3,
+      "helper": "qptma",
+      "files": 42,
+      "seconds": 0.1664985999232158
+    },
+    {
+      "job": 3,
+      "helper": "resampling",
+      "files": 16,
+      "seconds": 1.0059146999847144
+    },
+    {
+      "job": 4,
+      "helper": "qptma",
+      "files": 42,
+      "seconds": 0.05882969999220222
+    },
+    {
+      "job": 4,
+      "helper": "resampling",
+      "files": 16,
+      "seconds": 0.5400992999784648
+    }
+  ],
+  "scope": "Proof phase only; no overall CI speedup or cross-hardware timing claim"
+}

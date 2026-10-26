@@ -63,7 +63,7 @@ MFO1 behind another infrastructure wave:
 
 | ID / trigger | Action | Completion proof |
 | --- | --- | --- |
-| E3 / next source-proof edit | Hoist checkout-only QPTMA/resampling proofs outside the job loop. Reuse exact immutable source reads within one invocation where appropriate; keep artifact/job checks per job | Every expected source identity still checked; conflicting declarations, changed bytes and mutation-boundary drift reject. Summarize existing phase cost before claiming savings; no persistent PASS cache |
+| E3 / locally verified observer change | [Receipt](benchmarks/source-proof-reuse-local.json): hoisted QPTMA/resampling proofs, batched resampling reads and copied per-job results; one final deduplicated exact-byte recheck. Artifact/job checks remain per job | 579 controls pass; changed/missing bytes and conflicting declarations reject. Retained three-job Linux audit results at `9e7d0be` match the successor `0edb948` after its additional shared-helper proof. All 317 canonical compiler blobs are unchanged; no binary relabeled. Local phase observations do not establish overall CI speedup; no persistent PASS cache |
 | E4 / next producer-stage edit | Keep dependency/build/install preparation fail-fast. After a verified installation, collect eligible independent diagnostics and mark dependent stages not-run with their prerequisite | Fake child-stage success/failure/timeout controls preserve finite deadlines, logs and overall failure without rerunning independent preludes. Declare stage prerequisites before changing execution order |
 
 Resolve fixture rights/labels, scientific decisions and hardware eligibility

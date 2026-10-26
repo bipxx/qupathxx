@@ -234,3 +234,18 @@ Review limitations: targeted source/control-flow review with three safe local
 witnesses and the actual frozen engine audit. No rendered UX review, exhaustive
 application-code audit or new biological/hardware acceptance was performed.
 Product fixes are recommendations, not applied by this review.
+
+
+## E3 implementation delta (observer only)
+
+The [local receipt](../benchmarks/source-proof-reuse-local.json) records the
+measured original proof phase, invocation-local hoisting/batching, 579 controls
+and original/successor Linux audit equivalence. Source `0edb948` changes observers
+and tests; all 317 canonical compiler-input blobs match frozen `9e7d0be`. Per-job
+receipt copies preserve schema and prevent mutation of the private source
+snapshot. A final deduplicated raw-byte check rejects source drift or conflicting
+declarations before publication. The resampling proof retains its CRLF flag
+and additionally authenticates the shared helper. No persistent PASS cache,
+new native build, binary relabeling or overall CI speedup claim follows.
+The original platform campaign continues on its unchanged handles; E4 remains
+open. The review findings above retain their original source-bound evidence.

@@ -1,0 +1,29 @@
+{
+  "artifact_source": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+  "auditor_source": "0edb9485b88b954c58c082631a9d705a4fce4e91",
+  "scenario": "Two hoisted domain proofs plus final deduplicated exact-byte recheck on original frozen source",
+  "calls": 2,
+  "seconds": 0.12093420000746846,
+  "proof_files": {
+    "qptma": 42,
+    "resampling": 17
+  },
+  "unique_rechecked_files": 50,
+  "git_commands": [
+    [
+      "git",
+      "-C",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile-ome-workflow-210",
+      "cat-file",
+      "--batch"
+    ],
+    [
+      "git",
+      "-C",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile-ome-workflow-210",
+      "cat-file",
+      "--batch"
+    ]
+  ],
+  "scope": "Local proof-phase observation; no total CI speedup, hardware acceptance or product/native qualification claimed"
+}
