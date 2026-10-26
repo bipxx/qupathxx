@@ -55,10 +55,10 @@ void RawPixelFrontend::predict(const Document& doc,const RawPixelClassifier& mod
     RawPixelWindowPredictionRequest request(doc,model,std::move(window),object,vote,work);auto& s=*impl_;s.start(Impl::Stage::Prediction);s.report.prediction.reset();try {s.prediction.request(request);}catch(...) {s.fail("failed","Raw operation could not start");throw;}
 }
 void RawPixelFrontend::save(const Document& doc,const RawPixelClassifier& model,ScientificRawLattice lattice,const std::string& path,RawPixelStreamOptions options,RawPixelStreamSaveOptions save,std::uint64_t object) {
-    RawPixelTiledPredictionRequest request(doc,model,std::move(lattice),options,{},object);auto& s=*impl_;s.start(Impl::Stage::Save);s.report.link.reset();s.report.stream_record=0;try {s.save.request(request,path,save);}catch(...) {s.fail("failed","Raw operation could not start");throw;}
+    RawPixelTiledPredictionRequest request(doc,model,std::move(lattice),options,{},object);auto& s=*impl_;s.start(Impl::Stage::Save);s.report.link.reset();s.report.historical.reset();s.report.historical_model.reset();s.file.reset();s.report.stream_record=0;try {s.save.request(request,path,save);}catch(...) {s.fail("failed","Raw operation could not start");throw;}
 }
 void RawPixelFrontend::open(const std::string& path,RawPixelStreamFileLimits limits,std::uint64_t index,std::shared_ptr<const RawPixelStreamLink> link) {
-    auto& s=*impl_;s.start(Impl::Stage::Open);s.index=index;s.file.reset();s.report.historical.reset();s.report.historical_model.reset();s.report.link.reset();try {if(link) s.reader.open_link(std::move(link),limits);else s.reader.open(path,limits);}catch(...) {s.fail("failed","Raw operation could not start");throw;}
+    auto& s=*impl_;s.start(Impl::Stage::Open);s.index=index;s.file.reset();s.report.historical.reset();s.report.historical_model.reset();s.report.link.reset();s.report.stream_record=0;try {if(link) s.reader.open_link(std::move(link),limits);else s.reader.open(path,limits);}catch(...) {s.fail("failed","Raw operation could not start");throw;}
 }
 void RawPixelFrontend::load_model(const std::string& path) {
     auto& s=*impl_;s.start(Impl::Stage::LoadModel);try {s.io=std::async(std::launch::async,[path,&s] {Impl::Io out;out.model=std::make_shared<const RawPixelClassifier>(load_raw_pixel_classifier(path,&s.cancelled));return out;});}catch(...) {s.fail("failed","Raw operation could not start");throw;}

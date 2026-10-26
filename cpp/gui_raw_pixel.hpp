@@ -52,6 +52,7 @@ public:
     GuiRawPixelReport report() const {auto r=jobs_.report();if(!error_.empty()) r.error=error_;else if(!live_.error().empty()) r.error=live_.error();r.preview_bytes=live_.bytes()+history_.bytes();r.preview_ready=live_.ready();return r;}
     const GuiPixelPreview& preview() const {return live_;}bool shown() const {return options_.show_overlay;}
     void draw_preview(ImDrawList* draw,const Viewport& view,ImVec2 offset,ImVec2 size) const {if(options_.show_overlay) live_.draw(draw,view,offset,size);}
+    bool enabled(GuiInputTarget target) const {return enabled_.at(std::size_t(target)-std::size_t(first));}
     Rect bounds(GuiInputTarget target) const {return targets_.at(std::size_t(target)-std::size_t(first));}
     void finish(Document& doc,bool finite) {if(!finite) jobs_.cancel();jobs_.wait(doc);update(doc);}
     void draw(Document& doc,const ObjectSelection& selection,const Project* project,bool blocked,bool has_image,const std::function<void(GuiInputTarget)>& mark) {
@@ -85,6 +86,7 @@ public:
                 if(button("Export raw prediction",GuiInputTarget::RawPixelExport,disabled || !current.model)) run([&] {guard_raw_pixel_frontend_output(project,stream_path_.data());auto save=options_.save;save.resume_path=resume_stream_.data();jobs_.save(doc,*current.model,lattice(doc),stream_path_.data(),options_.stream,save,options_.object_id?options_.object_id:selection.primary());});
                 if(button("Open and verify raw file",GuiInputTarget::RawPixelOpenFile,jobs_.busy())) run([&] {auto limits=options_.read_limits;limits.work_bytes=std::min(limits.work_bytes,options_.preview_budget);jobs_.open(stream_path_.data(),limits,index_);});
                 ImGui::InputScalar("Historical block",ImGuiDataType_U64,&index_);ImGui::TextWrapped("File preview is historical; it does not grant live apply authority.");
+                if(current.historical_model && current.link) {const auto& classes=current.historical_model->forest().classes();for(std::size_t i=0;i<std::min<std::size_t>(classes.size(),16);++i) ImGui::Text("Class %zu: %s (%llu samples)",i+1,classes[i].c_str(),(unsigned long long)current.link->summary().class_counts[i]);if(classes.size()>16) ImGui::Text("%zu further classes",classes.size()-16);}
                 if(history_.ready()) {const auto a=ImGui::GetCursorScreenPos();const ImVec2 size{std::max(1.f,ImGui::GetContentRegionAvail().x),140};history_.draw_local(ImGui::GetWindowDrawList(),a,size);ImGui::Dummy(size);}ImGui::EndTabItem();
             }
             tab=ImGui::BeginTabItem("Retained files");item(GuiInputTarget::RawPixelRecordsTab);if(tab) {

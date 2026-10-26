@@ -848,7 +848,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             if(event.wait_for==GuiInputWait::TissueContoursPublished) return !tissue.busy() && tissue.contours_published();
             if(target_seen[static_cast<std::size_t>(event.target)]!=frames-1) return false;
             if(detail::GuiTma::handles(event.target)) return tma.enabled(event.target);
-            if(event.target>=GuiInputTarget::RawPixelTrain && event.target<=GuiInputTarget::RawPixelRecordsTab) {const auto bounds=raw_pixel.bounds(event.target);origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};}
+            if(event.target>=GuiInputTarget::RawPixelTrain && event.target<=GuiInputTarget::RawPixelRecordsTab) return raw_pixel.enabled(event.target);
             if(event.target>=GuiInputTarget::ApplyTiffView && event.target<=GuiInputTarget::RawRecordsTab) return raw.enabled(event.target);
             switch(event.target) {
                 case GuiInputTarget::DisplayReset:
@@ -888,6 +888,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                 const auto bounds=pixel_classifier.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};
             }
             if(detail::GuiTma::handles(event.target)) {const auto bounds=tma.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
+            if(event.target>=GuiInputTarget::RawPixelTrain && event.target<=GuiInputTarget::RawPixelRecordsTab) {const auto bounds=raw_pixel.bounds(event.target);origin={float(bounds.x),float(bounds.y)};extent={float(bounds.width),float(bounds.height)};}
             if(event.target>=GuiInputTarget::ApplyTiffView && event.target<=GuiInputTarget::RawRecordsTab) {const auto bounds=raw.bounds(event.target);origin={static_cast<float>(bounds.x),static_cast<float>(bounds.y)};extent={static_cast<float>(bounds.width),static_cast<float>(bounds.height)};}
             if(event.target==GuiInputTarget::ResetLayout) {origin=layout_reset_offset;extent=layout_reset_size;}
             if(event.target==GuiInputTarget::ProjectList) { origin=project_list_offset; extent=project_list_size; }
