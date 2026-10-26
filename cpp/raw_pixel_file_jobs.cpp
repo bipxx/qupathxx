@@ -30,11 +30,11 @@ void RawPixelStreamSaveJob::cancel() {impl_->state.cancelled.store(true);}
 void RawPixelStreamSaveJob::await_completion() {impl_->state.join();}
 bool RawPixelStreamSaveJob::request(const RawPixelTiledPredictionRequest& request,const std::string& input,RawPixelStreamSaveOptions options) {
     auto& s=*impl_;s.state.on_owner();if(s.state.future.valid() || s.state.pending) return false;options.limits.validate();const auto path=detail::export_path(input);
-    if(!s.state.start([request,path,options](const std::atomic<bool>* c) {StreamOutput out;out.summary=save_raw_pixel_stream(request,path,options,c);detail::export_checkpoint(c);out.file=std::make_shared<const RawPixelStreamFile>(path,options.limits);same_summary(out.summary,out.file->declared_summary());out.file->check_unchanged();detail::export_checkpoint(c);return out;},"saving prediction file",request.total_windows())) return false;
+    if(!s.state.start([request,path,options](const std::atomic<bool>* c) {StreamOutput out;out.summary=save_raw_pixel_stream(request,path,options,c);detail::export_checkpoint(c);out.file=std::make_shared<const RawPixelStreamFile>(path,options.limits);out.file->verify(c);same_summary(out.summary,out.file->declared_summary());out.file->check_unchanged();detail::export_checkpoint(c);return out;},"saving prediction file",request.total_windows())) return false;
     s.capture=request;return true;
 }
 RawPixelFileJobStats RawPixelStreamSaveJob::poll(const Document& doc) {
-    auto& s=*impl_;s.state.poll([&] {return s.capture && s.capture->matches(doc);},[&](const StreamOutput& out) {if(!s.capture->publication_matches(doc)) return false;out.file->check_unchanged();return true;});
+    auto& s=*impl_;s.state.poll([&] {return s.capture && s.capture->matches(doc);},[&](const StreamOutput& out) {if(!s.capture->publication_matches(doc) || !out.file->verified()) return false;out.file->check_unchanged();return true;});
     if(s.state.pending) s.state.stats.completed_windows=s.state.pending->summary.completed_windows;
     if(!s.state.future.valid() && !s.state.pending) s.capture.reset();return s.state.stats;
 }
