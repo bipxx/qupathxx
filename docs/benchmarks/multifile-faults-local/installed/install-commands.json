@@ -1,0 +1,32 @@
+[
+  {
+    "name": "app-link",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--build",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "--config",
+      "Release",
+      "--target",
+      "qupathxx_app",
+      "--parallel",
+      "2"
+    ],
+    "exit": 0,
+    "seconds": 1.8547582000028342
+  },
+  {
+    "name": "install",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--install",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "--config",
+      "Release",
+      "--prefix",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile213-python-env\\Lib\\site-packages"
+    ],
+    "exit": 0,
+    "seconds": 0.3492847998859361
+  }
+]

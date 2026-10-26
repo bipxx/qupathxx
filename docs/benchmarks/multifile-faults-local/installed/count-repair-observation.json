@@ -1,0 +1,7 @@
+{
+  "source": "bfa416edfd508e3e1ce184e75ec62c1a18a2a606",
+  "declared_first_companion_tile_bytes": 1,
+  "expected_uncompressed_tile_bytes": 131072,
+  "all_expected_pixels_preserved": true,
+  "scope": "Ineffective byte-count fault injection returned correct samples; out-of-file offsets are used for genuine short reads."
+}

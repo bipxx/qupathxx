@@ -1,6 +1,6 @@
 # Current implementation task
 
-## Current execution card (2026-10-25)
+## Current execution card (2026-10-26)
 
 - Active integration: `feature/scientific-grid-159`; native multi-file OME now has
   local synthetic reader/project/frontend verification. Open-source-only reader scope remains in force.
@@ -31,10 +31,24 @@
   Both portable builders pass 50 suites / 3,532 cases; fresh consumers pass
   3,490 each. Mac Python/GUI/OpenSlide and the three strict scientific xfails
   remain open. Main's qualified application source remains `61e546e`.
-- Next action: close the remaining MFO1 companion fault/cancellation and
-  decoder/work-budget adversarial controls. The accepted synthetic engineering
-  campaign does not prove those untested cases or close all M1/M6 requirements.
-  Continue SCI1 and REL1 through the original M0-M7 criteria afterward.
+- MFO1 fault controls now have [local evidence](benchmarks/multifile-faults-local.json)
+  at native source `bfa416e` / fingerprint `0a65065b...bd1f33`: seven selected
+  native suites per Windows/Linux host, 321 installed cases, 17 desktop
+  regressions and 619 auditor controls pass. Ten new cases cover both-entry,
+  both-level EOF/Deflate faults, decoder/workspace admission and real compound
+  job cancellation with preserved records and successful retry. Native checks
+  cover pre-cancel open/raw/outside/view/analysis and atomic export replacement.
+  Counts overlap; the local OpenSlide-disabled configuration retains two
+  capability skips after the desktop follow-up.
+- Next action: follow the [expanded fault campaign](benchmarks/multifile-fault-213-campaign.json)
+  at frozen `bfa416e`: [engine40268520155](https://github.com/bipxx/qupathxx/actions/runs/40268520155),
+  [Mac40268527953](https://github.com/bipxx/qupathxx/actions/runs/40268527953),
+  [portable40268533643](https://github.com/bipxx/qupathxx/actions/runs/40268533643).
+  Exactly one full-profile run per role is dispatched. Preserve the handles,
+  verify required archives and require strict audits; live jobs are unaccepted.
+  This packet also executes the later E3/E4 tooling in the hosted profile.
+  The separately accepted `9e7d0be` campaign remains unchanged. Broader stress,
+  vendor/whole-slide, scientific, hardware and release requirements remain open.
 - E3 [proof reuse](benchmarks/source-proof-reuse-local.json) and E4
   [independent installed diagnostics](benchmarks/installed-diagnostics-local.json)
   are locally verified. E4 at `2098cf2` passes 609 controls plus Windows Python 3.13

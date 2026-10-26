@@ -1,0 +1,173 @@
+{
+  "source": "bfa416edfd508e3e1ce184e75ec62c1a18a2a606",
+  "files": {
+    "cpp/project.cpp": {
+      "git_blob_sha256": "05f516f55e39a849404d26f8493507d0cc0e7c49b5daf17b2704c00b5ecca27c",
+      "checked_out_sha256": "ef552040e5482c52efcd5f4781756d7811353d27cf795b25a480ed19be276f73"
+    },
+    "cpp/include/qupathxx/project.hpp": {
+      "git_blob_sha256": "7936ed1c3c8a4eea50b0fce35370e69dcbc943fe6ecdc7164646ac4c8f3765e0",
+      "checked_out_sha256": "41f59ac9a135e39efd2eb896556cbadfe58ad25eb10c510ad41985f05613d43f"
+    },
+    "cpp/qptma_project_cli.cpp": {
+      "git_blob_sha256": "4654570fcb35bd50ef50b6723ac88c53240cc14679c5c1630eed0c8cc0386ab1",
+      "checked_out_sha256": "208dd58620f23869aac76e7fa913ad1e08730fb8065f012d16f89dd5a2740c82"
+    },
+    "cpp/qptma_project_cli.hpp": {
+      "git_blob_sha256": "273fab3b44eb8b479ece2f3dc309fb13acf68b32daf97c7c6bb7ea03072cb6e5",
+      "checked_out_sha256": "c736b4ccad7e350c1afca00218df98c6d8686c0680b0e8e484e781462dfd5590"
+    },
+    "cpp/batch_main.cpp": {
+      "git_blob_sha256": "9df9ee9eee9f90383c842e1d517a588e9263666342ad8bd9ef6f1687ea8ce094",
+      "checked_out_sha256": "efe3e20286a9ea06bfd0a1287e9db18240ec22f924d3871cd4cada035cc0c815"
+    },
+    "cpp/tests/qptma_project_tests.cpp": {
+      "git_blob_sha256": "9e5fbdae23904b244ced82ca15135d63f4645d54b5a645e646f7f506133d3c78",
+      "checked_out_sha256": "0bd81806f99d91995c4fd32cb9df7a036c12b29825210d570b99531de285333e"
+    },
+    "tests/test_qptma_project.py": {
+      "git_blob_sha256": "017fe6d5b21c4a319e2484ca5d5e4483a8ea12876b10839befaae0d42c151861",
+      "checked_out_sha256": "d867760e7278b8bc07550e9ff536d2ed78e18626c9d1d746f3bda80135a385ba"
+    },
+    "CMakeLists.txt": {
+      "git_blob_sha256": "e161c955c847d593b025d03d7d5bfcecc08d1c919d589eb408ba46d63c8ec03d",
+      "checked_out_sha256": "523a453c1147abd4363afa5d42535458a79d2f3d2082d6ca7dc9153063e1fb53"
+    },
+    "cpp/qptma.cpp": {
+      "git_blob_sha256": "ede2b82887e7f7f0e7ac83204da51aed4a8ec3733e8dc7238308a5a587ee2321",
+      "checked_out_sha256": "593b4a0418784f59d71b9fb24cc6bd9f836eae4e42124cd53c132b31e0f59c69"
+    },
+    "cpp/include/qupathxx/qptma.hpp": {
+      "git_blob_sha256": "5172403012333dfadc6e57679cc06848103482d77b31e69bc7771b751198bd55",
+      "checked_out_sha256": "fdca0f55ea2bf3a8442e5497809d0eec8bab2a3c9373bdd1228d151bde82c6c7"
+    },
+    "cpp/tma_bindings.cpp": {
+      "git_blob_sha256": "47f420040d82ab47a064f5d108cb34958e42442e2ef43a53b05c10ea16ca616e",
+      "checked_out_sha256": "7206d57bf0f20fd321af344c195bcc1358874a1fe14b213749e9d9522d652821"
+    },
+    "cpp/tests/qptma_tests.cpp": {
+      "git_blob_sha256": "7c71592e0c10fc8e4fea151ab3db7b719938bf87812bb2fb57ab3572ba581e7e",
+      "checked_out_sha256": "2a8ede8e8ac949855b03ee786e258ee2d4f6855559b655878b5ddbb1a847c795"
+    },
+    "src/qupathxx/__init__.py": {
+      "git_blob_sha256": "f42748352cd5ca2c9e542848953bc7818650322b0b8436a787d7b6264ee27fc9",
+      "checked_out_sha256": "ca03929d9b47dbe8085097420e0520c045aba1fbdb1ea4e00ea826d26a570ade"
+    },
+    "src/qupathxx/__init__.pyi": {
+      "git_blob_sha256": "6639caa5434bd1875fc0c3c8dc670df98f3ab94c62cb78193fa066e5912e8ac3",
+      "checked_out_sha256": "1538d834fb68d9a762ad4d2c98423deb39515e005edb4fffaa8e31fa2cd3ddd6"
+    },
+    "src/qupathxx/_native.pyi": {
+      "git_blob_sha256": "ccf7a107c090640afb00a7c63d42ea738728958596236271e7c0c43c101cb7f9",
+      "checked_out_sha256": "cdddc7b6faa4031a2ccfe4982929755619fea65aaac378cb879a207b4d7801bc"
+    },
+    "tests/test_qptma.py": {
+      "git_blob_sha256": "ee67d98ed0389c51aec3f11daf723d6d63823c4eb67e596257ce10a77ba8bbfb",
+      "checked_out_sha256": "ee67d98ed0389c51aec3f11daf723d6d63823c4eb67e596257ce10a77ba8bbfb"
+    },
+    "tests/test_qptma_reference.py": {
+      "git_blob_sha256": "72a78fdd6228b131cef90d45ec26f5e04cc0114aa1c0836e007631708266145b",
+      "checked_out_sha256": "72a78fdd6228b131cef90d45ec26f5e04cc0114aa1c0836e007631708266145b"
+    },
+    "tests/test_qptma_evidence.py": {
+      "git_blob_sha256": "9f52fcf3fba835ccfa737a3ec0b30a46bb8491384c277c395cac5e9f5ec6d3f8",
+      "checked_out_sha256": "9f52fcf3fba835ccfa737a3ec0b30a46bb8491384c277c395cac5e9f5ec6d3f8"
+    },
+    "tools/ci/accept_unified_engine.py": {
+      "git_blob_sha256": "9d67c9872e6f4a55adc90c17a3d62e5354ba666a93578461b9600d81498019c3",
+      "checked_out_sha256": "9d67c9872e6f4a55adc90c17a3d62e5354ba666a93578461b9600d81498019c3"
+    },
+    "tools/ci/accept_manylinux.py": {
+      "git_blob_sha256": "81ae82f691e0dbe9df7fb0c69ee11f820d1606439b707c929f0c358b92a60e3c",
+      "checked_out_sha256": "81ae82f691e0dbe9df7fb0c69ee11f820d1606439b707c929f0c358b92a60e3c"
+    },
+    "tools/ci/accept_macos_native.py": {
+      "git_blob_sha256": "61f716095a4dbcf225a9e8d83289a0b66ad241d8fc914a9371f102380d1f240a",
+      "checked_out_sha256": "0b0947ed362733bb37edb6dc4c9a48eda1d22d9a24362dc2eeb24f28c80c211a"
+    },
+    "cpp/gui_tma.hpp": {
+      "git_blob_sha256": "0538585275a2670617eb711042df5505749d5adc862ffbeed1a3d033a5a10b6e",
+      "checked_out_sha256": "e7496715bf92af6e3211a7648e81ea69c621dea724f4c69da648270d74a8b9c4"
+    },
+    "cpp/gui.cpp": {
+      "git_blob_sha256": "6d76eb3d2e9043d95a88850119d6f11268a319beb0ed13b0048f830331b615e9",
+      "checked_out_sha256": "d77571dfa28610ef63c04b704e3684f7ac6b4dbfbf561249c967c8ecc934b01b"
+    },
+    "cpp/gui_replay.hpp": {
+      "git_blob_sha256": "ea9cb042b66d08fc38ecd5c1988533abf2028d21e4aee2b7dc1a8171415754ff",
+      "checked_out_sha256": "b581519e0842eae2a90a5f5e33a0dfeb0e8fed8a6a6cc5e19c0d2390b579625b"
+    },
+    "cpp/include/qupathxx/core.hpp": {
+      "git_blob_sha256": "58f7aa665c4610fd4f464008a95c82e7493c641082dcb9584da06f492345416d",
+      "checked_out_sha256": "ab4fcfc74273902c07b35f5e53153ac28a6b6a903aa8063aa624e8f5511aabda"
+    },
+    "cpp/bindings.cpp": {
+      "git_blob_sha256": "96bda29079a11308b514ca77a0f7430f5a23a2217703973ea65ce3ea5d097831",
+      "checked_out_sha256": "536cefe54b60d9f530655b6b7558ece794d6aebedbf301e968f1ed0cc02eeefd"
+    },
+    "tests/test_gui_qptma.py": {
+      "git_blob_sha256": "6ef94dec12f1ffcfba0de40b4fed57bef4d0f54d119db0970244a5f69d0c21ae",
+      "checked_out_sha256": "832406281edf456177e004c02f1aad7d745ccc16f42f74b719b5524584bd6d0c"
+    },
+    "tests/test_qptma_desktop_evidence.py": {
+      "git_blob_sha256": "53d1aa3ab5ec9ed9907f443216e9615788fe4a1fb0bbdf65c9541fa5b8f311da",
+      "checked_out_sha256": "85a65b668ff21fd7ec6ad1b1016879426b2738bd8a669b405d78c67fc13f6dd8"
+    },
+    "tools/ci/qptma-gui-cases.json": {
+      "git_blob_sha256": "ef5e9e0964f248aa1e344d5c93fb069285cd82de036ddb6ffdd745e6dde9e8a3",
+      "checked_out_sha256": "ef5e9e0964f248aa1e344d5c93fb069285cd82de036ddb6ffdd745e6dde9e8a3"
+    },
+    ".github/workflows/ci.yml": {
+      "git_blob_sha256": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e",
+      "checked_out_sha256": "abaa1cc102f5155dde8db1ecb37e02e9dcd51d5af7bcd07169d5477d5ddc4b8e"
+    },
+    "tools/ci/qptma_evidence.py": {
+      "git_blob_sha256": "2f3e388a0653249d6997433180893d526f1e71890470ea1893d9d6799da78cc4",
+      "checked_out_sha256": "2f3e388a0653249d6997433180893d526f1e71890470ea1893d9d6799da78cc4"
+    },
+    "tools/ci/qptma-cases.json": {
+      "git_blob_sha256": "b9edd9de650ac9ba05c312eec6fa2635225a92a2e8e58dc45981b140c7debd32",
+      "checked_out_sha256": "b9edd9de650ac9ba05c312eec6fa2635225a92a2e8e58dc45981b140c7debd32"
+    },
+    "tools/ci/run.py": {
+      "git_blob_sha256": "0690bc1f773567102fb6e3dcb9f3c2daa6adc719847f3219829fae5d3d64b18a",
+      "checked_out_sha256": "0690bc1f773567102fb6e3dcb9f3c2daa6adc719847f3219829fae5d3d64b18a"
+    },
+    "tools/generate_stubs.py": {
+      "git_blob_sha256": "03e38f8149441a390f141f4fef222346f8de72f5d26f3b7cd790c6ebad375020",
+      "checked_out_sha256": "9bd46af94d31cbb3e942c3af89b18d49d579c36c4902fee3674fe4f1f1f9d0f6"
+    },
+    "tests/typing/qptma_invalid.py": {
+      "git_blob_sha256": "4be88a438c82e633cc42e40389e13b96a8ce39932969190a4aa8246cc03f2008",
+      "checked_out_sha256": "bdd28c0614dfef4dbb41d4e340db4b70e6283d1cf63a83fd28bbd7291831dcbf"
+    },
+    "tests/typing/valid_api.py": {
+      "git_blob_sha256": "84a9521461506f92e46882209edfe15af04aeb462942df1c6b16fab1ecb997f8",
+      "checked_out_sha256": "296016af81fb91d6bdc5244a67654c740e436a54b76e9ac8c4cc560aa9ca1d18"
+    },
+    "tools/upstream/qupath_tma_reference.groovy": {
+      "git_blob_sha256": "e710a48db64bf99b094ac92a3fa30e5eb58f6b6899f13f1402aeade92e5785d1",
+      "checked_out_sha256": "e710a48db64bf99b094ac92a3fa30e5eb58f6b6899f13f1402aeade92e5785d1"
+    },
+    "tests/fixtures/qupath-tma-0.7.0/manifest.json": {
+      "git_blob_sha256": "ac8763a7450d1d13ab2a057ec066073c33c232e73ef3ab66c428cfd43219a622",
+      "checked_out_sha256": "ac8763a7450d1d13ab2a057ec066073c33c232e73ef3ab66c428cfd43219a622"
+    },
+    "tests/fixtures/qupath-tma-0.7.0/reference.json": {
+      "git_blob_sha256": "c86a526e61b735a6512ae3cb98284ade445813cb73a4ad859789e5fd0a1c865b",
+      "checked_out_sha256": "c86a526e61b735a6512ae3cb98284ade445813cb73a4ad859789e5fd0a1c865b"
+    },
+    "tests/fixtures/qupath-tma-0.7.0/fractional-import.qptma": {
+      "git_blob_sha256": "ca38fb51e34b0f160cf0f152258a053b956ab8781b2309eeaa4dfcd4d5ffdcc2",
+      "checked_out_sha256": "ca38fb51e34b0f160cf0f152258a053b956ab8781b2309eeaa4dfcd4d5ffdcc2"
+    },
+    "tests/fixtures/qupath-tma-0.7.0/qupath-export.qptma": {
+      "git_blob_sha256": "ac2b4725fb97e4f74a88c27630a29ac34dd09f182626a3189b2a38cf2ea2ff47",
+      "checked_out_sha256": "ac2b4725fb97e4f74a88c27630a29ac34dd09f182626a3189b2a38cf2ea2ff47"
+    },
+    "tests/fixtures/qupath-tma-0.7.0/capture.log": {
+      "git_blob_sha256": "d9de5de6f5973d9cd82cd4748a18e00d440d7ef25e3cea82c2e30e920cdaf543",
+      "checked_out_sha256": "d9de5de6f5973d9cd82cd4748a18e00d440d7ef25e3cea82c2e30e920cdaf543"
+    }
+  }
+}

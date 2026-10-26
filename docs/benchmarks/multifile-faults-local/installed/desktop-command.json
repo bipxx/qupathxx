@@ -1,0 +1,28 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\multifile213-python-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_multifile_tiff_reader.py::test_compound_imgui_measure_keep_and_csv",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_multifile_tiff_reader.py::test_compound_managed_measure_verify_and_project_save",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_source_identity.py::test_gui_associates_active_reader_generation_and_exports_json[False]",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_source_identity.py::test_gui_associates_active_reader_generation_and_exports_json[True]",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_file_fingerprint.py::test_gui_file_hash_exports_json_without_selected_annotation[False]",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_file_fingerprint.py::test_gui_file_hash_exports_json_without_selected_annotation[True]",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_file_fingerprint.py::test_gui_failed_file_hash_preserves_old_output_and_document",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_grid_frontends.py::test_raw_grid_desktop_measure_keep_csv_and_render",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_grid_frontends.py::test_raw_grid_managed_producer_retains_verifies_and_saves",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_grid_frontends.py::test_raw_grid_desktop_batch_matches_native_recipe_and_resume",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_materialized_streaming.py::test_reduced_budget_imgui_measure_keep_and_render",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_raw_materialized_streaming.py::test_reduced_budget_managed_viewer_retains_verifies_and_saves",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\test_gui_raw_records.py",
+    "-q",
+    "--tb=short",
+    "--junitxml=C:\\Users\\HEQ\\Projects\\qupathxx\\build\\multifile213-installed\\desktop.xml"
+  ],
+  "exit": 0,
+  "seconds": 10.763727299985476
+}

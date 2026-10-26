@@ -1,0 +1,36 @@
+{
+  "native": {
+    "suites": 3,
+    "tiff_enabled": true,
+    "compound_provenance_codecs": true
+  },
+  "installed": {
+    "passed": 54,
+    "groups": [
+      {
+        "classname": "test_multifile_tiff_reader",
+        "passed": 37
+      },
+      {
+        "classname": "test_multifile_ome_fixture",
+        "passed": 4
+      },
+      {
+        "classname": "test_source_companions",
+        "passed": 3
+      },
+      {
+        "classname": "test_multifile_tiff_failures",
+        "passed": 10
+      }
+    ]
+  },
+  "headless": {
+    "passed": 0,
+    "declared_desktop_skips": 2
+  },
+  "desktop": {
+    "passed": 2,
+    "declared_desktop_skips": 0
+  }
+}

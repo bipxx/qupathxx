@@ -1,0 +1,24 @@
+F.F....F..                                                               [100%]
+================================== FAILURES ===================================
+_ test_corrupt_companion_decode_is_atomic_and_other_channel_remains_readable[0-primary.ome.tif] _
+tests\test_multifile_tiff_failures.py:50: in test_corrupt_companion_decode_is_atomic_and_other_channel_remains_readable
+    with pytest.raises(RuntimeError,match='TIFF block decoding'):server.read_raw(region)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE RuntimeError
+_ test_corrupt_companion_decode_is_atomic_and_other_channel_remains_readable[1-primary.ome.tif] _
+tests\test_multifile_tiff_failures.py:50: in test_corrupt_companion_decode_is_atomic_and_other_channel_remains_readable
+    with pytest.raises(RuntimeError,match='TIFF block decoding'):server.read_raw(region)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE RuntimeError
+__________ test_failed_companion_job_never_replaces_existing_record ___________
+tests\test_multifile_tiff_failures.py:110: in test_failed_companion_job_never_replaces_existing_record
+    assert state.state=='failed' and 'TIFF block decoding' in state.error and job.result is None
+E   AssertionError: assert ('ready' == 'failed'
+E     
+E     - failed
+E     + ready)
+=========================== short test summary info ===========================
+FAILED tests/test_multifile_tiff_failures.py::test_corrupt_companion_decode_is_atomic_and_other_channel_remains_readable[0-primary.ome.tif]
+FAILED tests/test_multifile_tiff_failures.py::test_corrupt_companion_decode_is_atomic_and_other_channel_remains_readable[1-primary.ome.tif]
+FAILED tests/test_multifile_tiff_failures.py::test_failed_companion_job_never_replaces_existing_record
+3 failed, 7 passed in 2.04s

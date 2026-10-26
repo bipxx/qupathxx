@@ -11,7 +11,7 @@ workflow reference. Python API design and the ImGui frontend are new work.
 
 ## Current execution map
 
-Planning update: 2026-10-25. This document defines the full M0–M7 scope and the
+Planning update: 2026-10-26. This document defines the full M0–M7 scope and the
 next delivery order. See [API delivery paths](api-delivery-plan.md) for the
 shortest implementation route, existing entry points and acceptance per workflow.
 The original packet narrative is preserved in [implementation history](project-plan-history.md).
@@ -46,9 +46,12 @@ accepts all 11 verified archives at frozen source `9e7d0be`, including inherited
 engine, both Mac-native architectures and portable builder/fresh-consumer gates.
 Later observer/producer changes retain their own identities and do not relabel
 those binaries. Main's accepted application source remains `61e546e`.
-Next close remaining MFO1 companion fault/cancellation and decoder/work-budget
-adversarial controls, then continue SCI1/REL1. The successful synthetic campaign
-does not waive unproven requirements or close any M0-M7 milestone.
+MFO1 companion EOF/Deflate, cancellation/publication, decoder/work-budget and
+native pre-cancel/export controls now have [local evidence](benchmarks/multifile-faults-local.json).
+Follow the [expanded frozen campaign](benchmarks/multifile-fault-213-campaign.json)
+at `bfa416e`; it is live and unaccepted and also exercises the later E3/E4 tooling.
+Keep the accepted normal workflow at `9e7d0be` distinct. Continue SCI1/REL1 and
+all remaining stress/scientific/resource requirements; all M0-M7 remain Partial.
 The [seven-document review](reviews/compilexx-efficiency-review.md) supplies the
 failure evidence and distinguishes recommendations from applied product fixes.
 

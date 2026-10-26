@@ -455,3 +455,11 @@ docs/benchmarks/installed-diagnostics-local.json text eol=lf
 # Complete multi-file OME source-bound qualification evidence.
 docs/benchmarks/multifile-ome-210-qualification/** -text -whitespace
 docs/benchmarks/multifile-ome-210-qualification.json text eol=lf
+
+# Real compound failure and cancellation controls preserve raw evidence.
+docs/benchmarks/multifile-faults-local/** -text -whitespace
+docs/benchmarks/multifile-faults-local.json text eol=lf
+
+# Expanded compound fault-control campaign preflight evidence.
+docs/benchmarks/multifile-fault-213-campaign/** -text -whitespace
+docs/benchmarks/multifile-fault-213-campaign.json text eol=lf

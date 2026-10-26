@@ -4,7 +4,8 @@ Status: native multi-file opening and the synthetic installed workflow are
 locally verified in the [workflow receipt](benchmarks/multifile-ome-local.json).
 The [frozen platform campaign](benchmarks/multifile-ome-210-qualification.json)
 is engineering accepted in its declared synthetic scope. Companion fault/cancellation
-and decoder/work-budget adversarial controls remain open. This slice
+and decoder/work-budget controls now have local evidence; their expanded
+platform campaign is pending. This slice
 is part of M1/M6 and does not replace broader vendor, scientific, resource or
 supported-release requirements.
 
@@ -157,7 +158,44 @@ Exact native, 44 installed, two desktop and typing cohorts are now registered
 in the producer and all three auditors. Frozen source `9e7d0be` passes 562
 clean-checkout admission controls. The [combined receipt](benchmarks/multifile-ome-210-qualification.json) now
 accepts all original engine/Mac-native/portable runs and all 11 verified archives.
-Next add direct companion fault/cancellation and decoder/work-budget controls;
-normal synthetic success does not prove these cases. Keep broader cancellation/fault stress,
+Direct companion fault/cancellation and decoder/work-budget controls below now
+have local evidence; their expanded platform gate remains pending. Keep broader cancellation/fault stress,
 whole-slide/scientific/resource and supported-release acceptance open. The
 original foundation receipt remains unchanged and retains its narrower scope.
+
+
+## Real fault and cancellation controls
+
+The [local fault receipt](benchmarks/multifile-faults-local.json) binds native
+`bfa416e` to seven selected Windows/Linux suites, 321 installed cases, 17
+desktop regressions and 619 auditor controls. The new ten-case module exercises
+invalid Deflate data and actual short reads in foreign-file base/SubIFD tiles,
+without invalidating the directory catalog. Raw/preview failures expose no
+partial output; another valid channel and owning earlier buffer remain usable.
+Repair is admitted by a new reader with a new generation. Failed jobs retain
+prior records and accept a valid retry. A 128 KiB companion tile refuses a
+64 KiB decoder budget; shared cache stays within 1 KiB. Exact scientific
+workspace succeeds, while minus-one refuses before decoding, from either member.
+
+The actual compound job is cancelled after observed tile progress (2 of 4096
+in the retained run), and separately after worker completion but before owner
+publication (1 of 1). Both publish no result, preserve earlier records/revision
+and permit retry. Child deadlines are 30 seconds. Native C++ tests separately
+prove pre-cancel open/raw/outside/view/analysis performs no decoder/cache work,
+and that cancelled replacement export preserves existing bytes before a valid
+retry. No sleep-based cancellation assumption supplies this evidence.
+
+The first one-byte uncompressed count injection was ineffective: a retained
+probe confirms all original samples were returned. The real short-read control
+redirects a tile beyond the available payload. Initial failures remain retained;
+no decoder repair was misreported as a product fix. The post-test Windows log
+decoding observation is also retained separately from successful JUnit results.
+
+The exact cohort now requires 54 installed cases, two real desktop cases or
+their exact headless declarations, and the additional native cancellation
+marker. The [expanded campaign](benchmarks/multifile-fault-213-campaign.json)
+runs once per engine/Mac-native/portable role at this frozen source and also
+executes the newer CI diagnostic producer. Await full strict audits before
+claiming platform acceptance for these added gates. The accepted prior source
+`9e7d0be`, broader stress/whole-slide/scientific/resource work and release
+requirements keep their distinct scopes.

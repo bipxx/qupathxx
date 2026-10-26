@@ -1,0 +1,130 @@
+{
+  "schema": "qpx.multifile-fault-campaign/1",
+  "observed_at_utc": "2026-10-26T04:23:37.979590+00:00",
+  "source": "bfa416edfd508e3e1ce184e75ec62c1a18a2a606",
+  "ref": "feature/multifile-fault-workflow-213",
+  "frozen_checkout": "build/ci/multifile-fault-workflow-213",
+  "preflight": {
+    "source": "bfa416edfd508e3e1ce184e75ec62c1a18a2a606",
+    "observed_at_utc": "2026-10-26T04:18:04.891891+00:00",
+    "passed": 619,
+    "source_contract_files": {
+      "multifile": 56,
+      "scientific": 514,
+      "axis": 35,
+      "dearray": 60,
+      "qptma": 42,
+      "resampling": 17,
+      "hierarchy": 55
+    },
+    "compiler_inputs": 317,
+    "fresh_checkout_fingerprint": "69b1b6721f6f1c283a444da38ae26ad4d0051dc3c8a1160397806e710cc2e41c",
+    "scope": "Frozen exact-cohort admission and source proofs, not platform acceptance",
+    "release_ready": false
+  },
+  "local_receipt": "docs/benchmarks/multifile-faults-local.json",
+  "prior_accepted_source": "9e7d0be94c59c2c5e363f7dfa60384f9c9c2d7d6",
+  "prior_acceptance": "docs/benchmarks/multifile-ome-210-qualification.json",
+  "runs": {
+    "engine": {
+      "id": 40268520155,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40268520155",
+      "inputs": {
+        "macos_native": false,
+        "portable_linux": false,
+        "live_reference": true,
+        "extended_readers": true
+      }
+    },
+    "macos": {
+      "id": 40268527953,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40268527953",
+      "inputs": {
+        "macos_native": true,
+        "portable_linux": false,
+        "live_reference": false,
+        "extended_readers": false
+      }
+    },
+    "portable": {
+      "id": 40268533643,
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40268533643",
+      "inputs": {
+        "macos_native": false,
+        "portable_linux": true,
+        "live_reference": false,
+        "extended_readers": true
+      }
+    }
+  },
+  "required_cohorts": {
+    "installed": 54,
+    "desktop": 2,
+    "native_suites": 3,
+    "new_fault_cases": 10,
+    "new_native_cancellation_marker": true
+  },
+  "status": "dispatched_not_yet_qualified",
+  "platform_campaign_accepted": false,
+  "scope": "One coherent exact-source campaign for expanded real compound fault/cancellation/budget controls and later producer/observer changes. Preserve all original attempts; local results or live jobs do not establish acceptance.",
+  "release_ready": false,
+  "overall_project_complete": false,
+  "files": {
+    "docs/benchmarks/multifile-fault-213-campaign/preflight/axis-source-proof.json": {
+      "bytes": 8243,
+      "sha256": "7a318e2ca3aa2ffc0e38c1d338867d26e39026694c7f71b46866e4074096265e"
+    },
+    "docs/benchmarks/multifile-fault-213-campaign/preflight/command.json": {
+      "bytes": 2078,
+      "sha256": "2c0ab199630709d39f3da4125883737ef2fe85f1cb00fbd6deb409185bb8103b"
+    },
+    "docs/benchmarks/multifile-fault-213-campaign/preflight/compiler-inputs.json": {
+      "bytes": 33460,
+      "sha256": "7e93bb1b25215a4c9fd0c060c3c0ec1d19d74735a7c968f758ad6aac1eb0318a"
+    },
+    "docs/benchmarks/multifile-fault-213-campaign/preflight/dearray-source-proof.json": {
+      "bytes": 14447,
+      "sha256": "53f6afc5e794e2aaa39157910137237e9de2b17c0da9062bcff3f52cc2d87d06"
+    },
+    "docs/benchmarks/multifile-fault-213-campaign/preflight/hierarchy-source-proof.json": {
+      "bytes": 13681,
+      "sha256": "c52bb2dd209d6eb238658128b35c07e5c797734249a8d2b0bfeaa69ce4cb7d50"
+    },
+    "docs/benchmarks/multifile-fault-213-campaign/preflight/multifile-source-proof.json": {
+      "bytes": 13421,
+      "sha256": "d2c92e9049ac915d4d54d38720956185eb4e295aea64f96a4022e476cdccb245"
+    },
+    "docs/benchmarks/multifile-fault-213-campaign/preflight/qptma-source-proof.json": {
+      "bytes": 10003,
+      "sha256": "78adce7e0d9bd143c66bf3c4503e5e8f6395d8c0f641b694b32f459505bf39d1"
+    },
+    "docs/benchmarks/multifile-fault-213-campaign/preflight/report.json": {
+      "bytes": 562,
+      "sha256": "b8b8b65d83411c5bab738aca7f49bbd890a25bd53057871321ec74a364d99cae"
+    },
+    "docs/benchmarks/multifile-fault-213-campaign/preflight/resampling-source-proof.json": {
+      "bytes": 4609,
+      "sha256": "26f4cd7dedf0f9d88d3748847b42e84c73b61bf35334424985fa978b3f2946f0"
+    },
+    "docs/benchmarks/multifile-fault-213-campaign/preflight/scientific-source-proof.json": {
+      "bytes": 126891,
+      "sha256": "70a45ae8496077cebd577dfe0577caf00f0e48ea7c37523131d71d5998f65a65"
+    },
+    "docs/benchmarks/multifile-fault-213-campaign/preflight/tests.log": {
+      "bytes": 751,
+      "sha256": "c50775701fdc4ad120d98315e1cea26795b1b984b26485bd858b940dca4bbffd"
+    },
+    "docs/benchmarks/multifile-fault-213-campaign/preflight/tests.xml": {
+      "bytes": 93751,
+      "sha256": "51bdeb07250fbe287d1a9730ebd67022cc3bdf7011b90b747fe33b9f0aa0b6d1"
+    },
+    "docs/benchmarks/multifile-fault-213-campaign/dispatch-state.json": {
+      "bytes": 6026,
+      "sha256": "d97f2421f843619065ba9a3cddd55ce43daec45c0c87e75182eaa64d6270cc46"
+    },
+    "docs/benchmarks/multifile-fault-213-campaign/first-live-observation.json": {
+      "bytes": 2392,
+      "sha256": "3f25d2e6915a3fcbcc3179d7c9fb6c947054bfd3c727c35f89959ba5aee52f7a"
+    }
+  }
+}

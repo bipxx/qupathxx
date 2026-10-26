@@ -1,0 +1,111 @@
+{
+  "source": "bfa416edfd508e3e1ce184e75ec62c1a18a2a606",
+  "fingerprint": "0a65065bf470bba1591efa9492ea73749cb33471b9f5ace54c6c45feeabd1f33",
+  "files": {
+    "build/multifile213-retained-binaries/windows/_native.cp312-win_amd64.pyd": {
+      "bytes": 7102464,
+      "sha256": "a1a8514c45bc9855cdfa53ee9ec99ca547c33093473fcbeb71d5d3424f8e4091",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/windows/qupathxx_app.exe": {
+      "bytes": 5526016,
+      "sha256": "e20e75ec339b493a620c3e7fe6a4226e74aa6dd85797a4d9f75d78855adc99ad",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/windows/qupathxx_region.exe": {
+      "bytes": 775680,
+      "sha256": "e058d2b33b8190eac56c31ace89d349abe162833950786dc7d8c4a1c477afba4",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/windows/qupathxx_batch.exe": {
+      "bytes": 3378688,
+      "sha256": "212553cdca134b874f35ef953997618d84fbb5eefeea83e9942e68b4fe2ca488",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/windows/qupathxx_core.lib": {
+      "bytes": 77033942,
+      "sha256": "60b4e618085c1feff4fec3ed7edcf147e5725cdc666089f89637a5aad1cd9b80",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/windows/qupathxx_gui.lib": {
+      "bytes": 15533312,
+      "sha256": "fb73e22b10e89f25c378e1b894012fe3606809f189d0a87d0b3185869e928abd",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/windows/qupathxx_source_identity_tests.exe": {
+      "bytes": 1511424,
+      "sha256": "f2a5454b4c2a872f27f3dabc808a5530f10a951b5ef257ace03893d00ce10dfa",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/windows/qupathxx_file_fingerprint_tests.exe": {
+      "bytes": 305664,
+      "sha256": "5e8ff9e057d9fbd30b946cfbc0df1a540f814ea4a013183733b6cd664f1ee70f",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/windows/qupathxx_provenance_tests.exe": {
+      "bytes": 1622528,
+      "sha256": "bc4d84c8bb13ffe8d23d9dbe35a952a64c3a7c21157ca045a4a58a76947a3951",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/windows/qupathxx_raw_image_tests.exe": {
+      "bytes": 3302400,
+      "sha256": "a3cff8c495f4c61166250c6e8d9f8665ca28f71081e5da9df8390ed6195ad69c",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/windows/qupathxx_resampling_tests.exe": {
+      "bytes": 2337792,
+      "sha256": "c13593dc518b05c5dc4988c85efbfc231a4b90e8f67e7fa142b2033b55655d0a",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/windows/qupathxx_project_tests.exe": {
+      "bytes": 2738688,
+      "sha256": "a86a5663110de8ed1776e671b38d75313eb68cff9667afb970fcd6077bc9b072",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/windows/qupathxx_save_tests.exe": {
+      "bytes": 2503168,
+      "sha256": "58e907b5a953e4e16eecd193ad47917e03f8c5728079118058d41e4c80d50873",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/linux/libqupathxx_core.a": {
+      "bytes": 10534316,
+      "sha256": "6c4f0e57052e9e7ba304d7fd21dc63fc5c8aa2eea2a6f4f988406a7f30c1d789",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/linux/qupathxx_source_identity_tests": {
+      "bytes": 2562424,
+      "sha256": "d68462d182bb069d34917c3486029ef02f72410fe945cee28542737cea903d5a",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/linux/qupathxx_file_fingerprint_tests": {
+      "bytes": 303536,
+      "sha256": "dcd4c93a04be109281d2aa1a87a413bc521a0e6b0ec879492b7d157cf835245a",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/linux/qupathxx_provenance_tests": {
+      "bytes": 3643120,
+      "sha256": "a995f30021868ad108779db303846a94d8792606a7299906e4c41c8db52f437b",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/linux/qupathxx_raw_image_tests": {
+      "bytes": 6069384,
+      "sha256": "9ef0a09158c0a471f054819c714a35802252a8ef5971d1e30afd7ed83480b4a9",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/linux/qupathxx_resampling_tests": {
+      "bytes": 4837032,
+      "sha256": "68f801fa0eea79b861c35a5daf6d4a583c669d0f9d7c3a80bed0c049ddeccac8",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/linux/qupathxx_project_tests": {
+      "bytes": 5388776,
+      "sha256": "a5d5781ead12f0ec8c9624e11a4eb598fcbd924f6e93edd5f16472b4ec53aca9",
+      "role": "retained_multifile_fault_controls"
+    },
+    "build/multifile213-retained-binaries/linux/qupathxx_save_tests": {
+      "bytes": 5414320,
+      "sha256": "22993acc82086bdc241eb5570d007b9c4af8fd910f588acd476f868d38e71f21",
+      "role": "retained_multifile_fault_controls"
+    }
+  }
+}

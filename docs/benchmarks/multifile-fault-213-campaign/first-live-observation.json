@@ -1,0 +1,92 @@
+[
+  {
+    "role": "engine",
+    "run_id": 40268520155,
+    "status": "in_progress",
+    "conclusion": "",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40268520155",
+    "jobs": [
+      {
+        "id": 121396070938,
+        "name": "Linux minimal native",
+        "status": "in_progress",
+        "conclusion": "",
+        "step": "Build and test dependencies"
+      },
+      {
+        "id": 121396071081,
+        "name": "Linux headless Python 3.12 NumPy 2",
+        "status": "in_progress",
+        "conclusion": "",
+        "step": "Build and test dependencies"
+      },
+      {
+        "id": 121396071164,
+        "name": "Windows GUI Python 3.12 software GL",
+        "status": "in_progress",
+        "conclusion": "",
+        "step": "Build and test dependencies"
+      },
+      {
+        "id": 121396071175,
+        "name": "Linux ASan UBSan native",
+        "status": "in_progress",
+        "conclusion": "",
+        "step": "Build and test dependencies"
+      },
+      {
+        "id": 121396071249,
+        "name": "Windows headless Python 3.11 NumPy 1",
+        "status": "in_progress",
+        "conclusion": "",
+        "step": "Build and test dependencies"
+      }
+    ]
+  },
+  {
+    "role": "macos",
+    "run_id": 40268527953,
+    "status": "in_progress",
+    "conclusion": "",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40268527953",
+    "jobs": [
+      {
+        "id": 121396099855,
+        "name": "macOS native x86_64",
+        "status": "in_progress",
+        "conclusion": "",
+        "step": "Run actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8"
+      },
+      {
+        "id": 121396100129,
+        "name": "macOS native arm64",
+        "status": "in_progress",
+        "conclusion": "",
+        "step": "Pinned build frontend"
+      }
+    ]
+  },
+  {
+    "role": "portable",
+    "run_id": 40268533643,
+    "status": "in_progress",
+    "conclusion": "",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40268533643",
+    "jobs": [
+      {
+        "id": 121396111560,
+        "name": "Manylinux build Python 3.12",
+        "status": "in_progress",
+        "conclusion": "",
+        "step": "Initialize containers"
+      },
+      {
+        "id": 121396111791,
+        "name": "Manylinux build Python 3.11",
+        "status": "in_progress",
+        "conclusion": "",
+        "step": "Initialize containers"
+      }
+    ]
+  }
+]
