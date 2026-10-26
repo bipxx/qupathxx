@@ -161,6 +161,7 @@ jobs:
             build/ci/macos-native/*.log
             build/ci/macos-native/*.xml
             build/ci/macos-native/macos-native-files.zip
+            build/ci/macos-native/qupathxx_pixel_workflow_tests
             build/ci/macos-native/relocated-native/*.zip
             build/ci/macos-native/relocated-native/*.json
             build/ci/macos-native/relocated-native/*.log
