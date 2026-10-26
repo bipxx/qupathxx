@@ -22,6 +22,8 @@ def source_paths():
            # Filename launches/dynamic references are not AST import edges.
            'tests/raw_stream_contour_shutdown_child.py','tests/raw_file_contour_shutdown_child.py',
            'tools/reference_raw_contour_seams.py','tests/fixtures/raw-contour-seams-v1/reference.json',
+           'tools/profile_raw_stream_contours.py','tools/check_tma_large_pyramid.py',
+           'tests/test_raw_stream_resource_profile.py','tests/fixtures/raw-stream-resources-v1/contract.json',
            'src/qupathxx/_native.pyi','src/qupathxx/__init__.pyi',
            'tests/test_raw_classifier_evidence.py','tests/test_macos_native_failure_capture.py','tests/test_ci_execution_boundaries.py','tests/test_source_proof_reuse.py','tests/test_ci_installed_diagnostics.py','tests/fixtures/ci-installed-diagnostics-v1/legacy-command-contract.json','docs/reader-license-policy.md'}
     for folder,suffixes in [('cpp',{'.cpp','.hpp'}),('cmake',{'.cmake','.in'}),('src',{'.py'}),('tools/ci',{'.py','.json','.txt'})]:
