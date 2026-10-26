@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/raw_pixel_workflows.hpp"
+#include "qupathxx/core.hpp"
 #include "raw_pixel_classifier_checks.hpp"
 #include "qupathxx/source_identity.hpp"
 #include "../reader_file_guard.hpp"

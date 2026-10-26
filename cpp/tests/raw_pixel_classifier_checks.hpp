@@ -1,5 +1,6 @@
 #pragma once
 #include "qupathxx/raw_pixel_classifier.hpp"
+#include "qupathxx/pixel_classifier.hpp"
 #include "raw_pixel_feature_checks.hpp"
 #include "object_forest_fixture.hpp"
 #include "../sha256.hpp"
