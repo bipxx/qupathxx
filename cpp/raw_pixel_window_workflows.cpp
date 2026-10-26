@@ -22,6 +22,7 @@ std::string result_hash(const RawPixelWindowClassification& r,double minimum,con
     for(std::size_t i=0;i<r.labels().size();++i) {if((i&4095)==0) stopped(cancelled);hash.integer(r.valid()[i]);hash.integer(r.labels()[i]);std::uint32_t value=0x7fc00000;if(r.valid()[i]) std::memcpy(&value,&r.vote_fractions()[i],4);hash.integer(value);}return hash.finish();
 }
 }
+std::string RawPixelWindowPredictionKernel::result_sha256(const RawPixelWindowClassification& result,double minimum,const std::atomic<bool>* cancelled) {return result_hash(result,minimum,cancelled);}
 RawPixelWindowPredictionRequest::RawPixelWindowPredictionRequest(const Document& doc,const RawPixelClassifier& model,ScientificRawWindow window,std::uint64_t object,double minimum,std::size_t budget):source_(doc.server()),identity_(doc.analysis_identity_.token),revision_(doc.revision()) {
     if(!std::isfinite(minimum) || minimum<0 || minimum>1) throw std::invalid_argument("raw window minimum vote fraction must be 0..1");if(minimum==0) minimum=0;
     if(!budget) budget=model.recipe().features().work_bytes;if(budget<1024*1024 || budget>1024ULL*1024*1024) throw std::invalid_argument("raw window prediction budget must be 1..1024 MiB");

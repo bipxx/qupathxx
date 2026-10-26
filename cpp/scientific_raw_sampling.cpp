@@ -402,6 +402,7 @@ ScientificRawWindowData detail::read_scientific_raw_window_reserved(const ImageS
 ScientificRawDigest detail::digest_scientific_raw_reserved(const ImageServer& server,const ScientificGrid& grid,ScientificRawOptions o,const ScientificRawReserve& reserve,const std::atomic<bool>* cancelled) {
     return capture_raw(server,grid,o,cancelled,false,reserve).digest;
 }
+ScientificRawDigest detail::digest_scientific_raw_window_reserved(const ImageServer& server,const ScientificRawWindow& grid,ScientificRawOptions o,const ScientificRawReserve& reserve,const std::atomic<bool>* cancelled) {return capture_raw(server,grid,o,cancelled,false,reserve).digest;}
 std::size_t detail::scientific_raw_reserved_work_bytes(const RawImageMetadata& metadata,const ScientificGrid& grid,ScientificRawOptions o,bool materialize,const ScientificRawReserve& reserve) {
     return work_bytes(metadata,grid,o,materialize,reserve);
 }

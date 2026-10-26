@@ -107,6 +107,10 @@ std::vector<ClassifierFeature> raw_feature_schema(const RawImageMetadata& metada
     }
     return result;
 }
+std::string raw_feature_input_sha256(const std::string& raw_input,const std::vector<ClassifierFeature>& features,bool window) {
+    Sha256 source;text(source,window?"qpx.raw-pixel-window-feature-input/1":"qpx.raw-pixel-feature-input/1");text(source,raw_input);
+    for(const auto& f:features) {text(source,f.name);text(source,f.unit);}return source.finish();
+}
 template<class Input> std::shared_ptr<const RawFeatureImage> extract_raw_features(const Input& input,const RawFeatureOptions& options,const std::atomic<bool>* cancelled) {
     stopped(cancelled);const auto& grid=feature_geometry(input);const auto work=raw_feature_work_bytes(input.metadata(),grid,input.options(),options);
     const auto width=std::size_t(input.width()),height=std::size_t(input.height()),count=width*height;
@@ -114,8 +118,7 @@ template<class Input> std::shared_ptr<const RawFeatureImage> extract_raw_feature
     const auto ox=std::size_t(grid.x().context()),oy=std::size_t(grid.y().context());
     auto output=std::make_shared<RawFeatureImage>();output->width=ow;output->height=oh;output->features=raw_feature_schema(input.metadata(),input.options(),options);output->estimated_work_bytes=work;
     const auto n=output->features.size();output->values.assign(ow*oh*n,std::numeric_limits<float>::quiet_NaN());output->valid.assign(ow*oh*n,0);output->rows_valid.assign(ow*oh,1);
-    Sha256 source;text(source,std::is_same_v<Input,ScientificRawGrid>?"qpx.raw-pixel-feature-input/1":"qpx.raw-pixel-window-feature-input/1");text(source,input.input_sha256());
-    for(const auto& f:output->features) {text(source,f.name);text(source,f.unit);}output->input_sha256=source.finish();
+    output->input_sha256=raw_feature_input_sha256(input.input_sha256(),output->features,!std::is_same_v<Input,ScientificRawGrid>);
     std::size_t column=0;
     for(std::size_t c=0;c<input.channels();++c) {
         std::vector<double> base(count);std::vector<std::uint8_t> valid(count);

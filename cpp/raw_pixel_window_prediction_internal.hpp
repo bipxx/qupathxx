@@ -9,6 +9,7 @@ struct RawPixelWindowPredictionRequest::Data {
     Data(ScientificRawWindow w,const RawPixelClassifier& m,RawPixelSourceSnapshot s):window(std::move(w)),model(m),source(std::move(s)) {}
 };
 struct RawPixelWindowPredictionKernel {
+    static std::string result_sha256(const RawPixelWindowClassification&,double,const std::atomic<bool>*);
     static std::shared_ptr<const RawPixelWindowClassification> run(const RawPixelWindowPredictionRequest::Data&,ImageServer&,
         const std::atomic<bool>*,std::atomic<std::uint64_t>* completed=nullptr,std::atomic<int>* phase=nullptr);
     // The source epoch belongs to the captured prototype. Traversal geometry

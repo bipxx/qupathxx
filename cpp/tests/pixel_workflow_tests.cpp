@@ -4,6 +4,7 @@
 #include "raw_window_classifier_checks.hpp"
 #include "raw_tiled_training_checks.hpp"
 #include "raw_stream_checks.hpp"
+#include "raw_stream_file_checks.hpp"
 #include "qupathxx/pixel_contours.hpp"
 #include "qupathxx/input_digest.hpp"
 #include "qupathxx/pixel_classifier_archive.hpp"
@@ -48,6 +49,7 @@ int main() {try {
     raw_window_classifier_checks::run();
     raw_tiled_training_checks::run();
     raw_stream_checks::run();
+    raw_stream_file_checks::run();
     const StainTransform transform({{1,0,0},{0,1,0}});auto source=std::make_shared<Pyramid>();Document doc(source);doc.set_calibration(.5,.25);
     const auto a=doc.add_detection(Roi::rectangle({0,0,32,48}),"A",0,"A"),b=doc.add_detection(Roi::rectangle({32,0,32,48}),"B",0,"B"),duplicate=doc.add_detection(Roi::rectangle({1,1,10,10}),"A duplicate",0,"A");
     PixelTrainingOptions options;options.features.sigmas={0,1};options.tile_size=16;options.max_samples=200;options.max_samples_per_class=60;

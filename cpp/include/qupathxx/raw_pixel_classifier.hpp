@@ -107,6 +107,7 @@ private:
     std::shared_ptr<const char> capture_;
     friend struct RawPixelClassifierKernel;
     friend struct RawPixelWindowPredictionKernel;
+    friend struct RawPixelStreamFileCodec;
 };
 std::shared_ptr<const RawPixelClassification> classify_raw_pixels(const ScientificRawGrid&,
     const RawPixelClassifier&,double min_vote_fraction=0,std::size_t work_bytes=0,

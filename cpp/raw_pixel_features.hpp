@@ -15,6 +15,7 @@ struct RawFeatureImage {
     std::string input_sha256,sha256;
     std::size_t estimated_work_bytes=0;
 };
+std::string raw_feature_input_sha256(const std::string& raw_input,const std::vector<ClassifierFeature>&,bool window);
 std::vector<ClassifierFeature> raw_feature_schema(const ScientificRawGrid&,const RawFeatureOptions&);
 std::vector<ClassifierFeature> raw_feature_schema(const RawImageMetadata&,const ScientificRawOptions&,const RawFeatureOptions&);
 std::size_t raw_feature_work_bytes(const RawImageMetadata&,const ScientificGrid&,const ScientificRawOptions&,const RawFeatureOptions&);

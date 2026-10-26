@@ -25,12 +25,15 @@ public:
     std::uint64_t total_windows() const,total_samples() const;
     std::size_t estimated_work_bytes() const;
     const std::string& sha256() const;
+    // Re-read decoded source commitments without feature planes or inference.
+    std::string input_sha256(std::uint64_t index,const std::atomic<bool>* cancelled=nullptr) const;
 private:
     std::shared_ptr<const Data> data_;
     std::shared_ptr<const RawPixelWindowPredictionRequest> authority_;
     bool publication_matches(const Document&) const;
     friend class RawPixelPredictionStream;
     friend class RawPixelPredictionStreamJob;
+    friend struct RawPixelStreamFileCodec;
 };
 // Single-consumer synchronous producer. next() performs bounded native IO and
 // inference; returned blocks own their arrays. Caller-retained blocks are outside
@@ -54,6 +57,10 @@ private:
     struct Impl;std::unique_ptr<Impl> impl_;
     RawPixelPredictionStream(const RawPixelTiledPredictionRequest&,std::shared_ptr<std::atomic<bool>>);
     friend class RawPixelPredictionStreamJob;
+    friend struct RawPixelStreamFileCodec;
+    std::shared_ptr<const RawPixelWindowClassification> next_impl(const std::atomic<bool>*);
+    void restore_block(const RawPixelWindowClassification&,const std::atomic<bool>*);
+    void accept_block(const RawPixelWindowClassification&,const std::atomic<bool>*);
 };
 struct RawPixelStreamJobStats {
     std::string state="idle",phase="idle",error;
