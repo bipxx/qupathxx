@@ -47,8 +47,12 @@ retention and project/snapshot/recovery readback. The original ten unchanged
 regression results retain source220304d; failed development rounds are preserved.
 Positive backend training/trained archives now have [local Windows evidence](benchmarks/raw-pixel-training-local.json)
 at `e7e4b66`: three backend-ON suites and one backend-OFF workflow suite pass.
-Next complete live replay, owner-stage apply/undo, phase-preserving streams/
-checkpoints and frontends; integrated platform training remains open.
+Native live replay and bounded contour apply/undo now have [local evidence](benchmarks/raw-pixel-replay-apply-local.json)
+at `92edba8`: four selected suites each Windows GEOS-ON/Linux GEOS-OFF plus three
+Windows training-ON suites. This includes actual reopened TIFF verification and
+rational-grid contour apply/undo/redo; it does not qualify Linux GEOS-positive
+or Mac paths. Next complete phase-preserving streams/checkpoints and frontends;
+cross-tile contours and integrated platform training remain open.
 New raw models use QRM1; explicit pre-release QPR1 compatibility preserves
 original bytes and hashes.
 The separate pinned OpenCV configuration supplies positive local training;

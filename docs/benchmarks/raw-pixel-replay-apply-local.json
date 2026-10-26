@@ -1,0 +1,492 @@
+{
+  "schema": "qpx.raw-pixel-replay-apply-local/1",
+  "observed_at_utc": "2026-10-26T07:21:39.689308+00:00",
+  "source": "92edba87c50a44172e5b745ac838bbda939469a2",
+  "compiled_fingerprint": "55d6aa43446fc66668f563a76af960dd999453b9381633a32cb93bc57b64b1dc",
+  "compiler_inputs": 339,
+  "status": "native_live_replay_verification_and_bounded_rational_grid_contour_apply_locally_verified",
+  "native": {
+    "windows_geos_on_suites": 4,
+    "linux_geos_off_suites": 4,
+    "windows_training_on_geos_off_suites": 3,
+    "required_markers": [
+      "Raw pixel replay: pre-IO capture, source-bit comparison, historical/cross-document refusal, recipe/calibration/annotation checks and owner-job verification passed",
+      "Raw pixel replay: real TIFF reopened training/prediction records verify through fresh owner jobs without promoting historical authority passed",
+      "Raw pixel contours: rational axes/context, raster membership/area, bounded conversion, cancel, atomic apply/undo/redo and stale authority passed",
+      "Raw pixel contours: GEOS-unavailable direct/job refusal passed",
+      "Raw pixel backend training: real TIFF deterministic direct/job training, historical retraining, trained archives/model files and portable prediction votes passed"
+    ]
+  },
+  "verification": "Fresh owner-captured request, source/recipe/annotation/calibration validation, exact input/result commitments and repeated actual file guards; boolean observation, no persistent current flag or transferable authority",
+  "geometry": "Existing bounded GEOS converter borrows core labels and maps exact rational edges on each axis; existing atomic ObjectEdit command supplies apply/undo/redo. Apply additionally requires the captured document revision, preventing duplicate publication; verify alone does not require equal document revisions.",
+  "archive_protocol_changed": false,
+  "sql_schema": 13,
+  "scope": [
+    "Real TIFF reopened sampled/trained and predicted records reverify through owner jobs",
+    "Changed raw input bits reject despite unchanged model/reader metadata",
+    "Decoded historical/cross-document/wrong-capture results cannot verify or apply",
+    "Recipe, selected annotation, threshold and calibration mismatches reject",
+    "Rational axes with context preserve contour area and raster class membership",
+    "Cancellation before delivery, bounded conversion, stale authority and late-file refusal",
+    "One atomic annotation command with parent/class and object IDs preserved by undo/redo"
+  ],
+  "development_regressions": [
+    {
+      "round": "rawreplay219",
+      "host": "windows",
+      "source": "73a4bd3ce864b3b4fe0150fff1b571c2509423f8",
+      "passed": [
+        "pixel_features",
+        "classifier_io",
+        "classifier",
+        "resampling",
+        "raw_image",
+        "source_identity",
+        "provenance",
+        "tissue_contours",
+        "tissue",
+        "document_edits",
+        "geometry_edits",
+        "project",
+        "recovery",
+        "project_save"
+      ],
+      "failed": [
+        "pixel_workflows"
+      ]
+    },
+    {
+      "round": "rawreplay219",
+      "host": "linux",
+      "source": "73a4bd3ce864b3b4fe0150fff1b571c2509423f8",
+      "passed": [
+        "pixel_workflows",
+        "pixel_features",
+        "classifier_io",
+        "classifier",
+        "resampling",
+        "raw_image",
+        "source_identity",
+        "provenance",
+        "tissue_contours",
+        "tissue",
+        "document_edits",
+        "geometry_edits",
+        "project",
+        "recovery",
+        "project_save"
+      ],
+      "failed": [],
+      "evidence": "Original CTest text log with fifteen terminal suite records; original XML overwritten by copied-driver path reuse. No original XML or old semantic-marker acceptance claimed."
+    },
+    {
+      "round": "rawreplay219",
+      "host": "training",
+      "source": "73a4bd3ce864b3b4fe0150fff1b571c2509423f8",
+      "passed": [
+        "classifier_io",
+        "classifier"
+      ],
+      "failed": [
+        "pixel_workflows"
+      ]
+    },
+    {
+      "round": "rawreplay219b",
+      "host": "windows",
+      "source": "3d8a6a4bbc42097c9e767f289aef7e8e218d8c73",
+      "passed": [
+        "pixel_features",
+        "classifier_io",
+        "classifier",
+        "resampling",
+        "raw_image",
+        "source_identity",
+        "provenance",
+        "tissue_contours",
+        "tissue",
+        "document_edits",
+        "geometry_edits",
+        "project",
+        "recovery",
+        "project_save"
+      ],
+      "failed": [
+        "pixel_workflows"
+      ]
+    },
+    {
+      "round": "rawreplay219b",
+      "host": "linux",
+      "source": "3d8a6a4bbc42097c9e767f289aef7e8e218d8c73",
+      "passed": [
+        "pixel_workflows",
+        "pixel_features",
+        "classifier_io",
+        "classifier",
+        "resampling",
+        "raw_image",
+        "source_identity",
+        "provenance",
+        "tissue_contours",
+        "tissue",
+        "document_edits",
+        "geometry_edits",
+        "project",
+        "recovery",
+        "project_save"
+      ],
+      "failed": [],
+      "evidence": "Original CTest text log with fifteen terminal suite records; original XML overwritten by copied-driver path reuse. No original XML or old semantic-marker acceptance claimed."
+    },
+    {
+      "round": "rawreplay219b",
+      "host": "training",
+      "source": "3d8a6a4bbc42097c9e767f289aef7e8e218d8c73",
+      "passed": [
+        "pixel_workflows",
+        "classifier_io",
+        "classifier"
+      ],
+      "failed": []
+    }
+  ],
+  "regression_applicability": "Broader 15-suite development runs retain their original source IDs and outcomes. Final source exercises the directly affected workflow/converter/edit/source paths plus actual backend training; earlier results are not relabeled.",
+  "remaining": [
+    "Phase-preserving tiled raw sampling/features, bounded streams and checkpoint resume",
+    "Cross-tile stitched contour semantics and qualification remain a separate workflow",
+    "Nanobind/Python/NumPy, CLI/batch, managed viewer and ImGui integration",
+    "Linux/Mac GEOS-positive and backend-enabled/platform qualification",
+    "Independent biological/model, process-resource/hardware and release acceptance"
+  ],
+  "baselines": [
+    "docs/benchmarks/raw-pixel-archives-local.json",
+    "docs/benchmarks/raw-pixel-training-local.json"
+  ],
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/windows/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "2c2d331167ffbee19ce95493073862118a1cdf688462a7eb14a6c41547dc2cf2"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/windows/configuration.json",
+      "bytes": 438,
+      "sha256": "1fdb05fd0a59139fc78658467c36bfad64008f2d672600bae623a8ffd733f958"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/windows/build.log",
+      "bytes": 3467,
+      "sha256": "cb57c58297ff348d156fdeac27af310745284beba78f79f26acc0f30db47c9f9"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/windows/commands.json",
+      "bytes": 1617,
+      "sha256": "d847b7ec8e315eebbb00081695d35a1cd6515d64c90ac17d797174335f6ef511"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/windows/compiler-inputs.json",
+      "bytes": 35920,
+      "sha256": "f8cc66aaee971b2dc0bd38d2aaafd97d7933cc76e55379e1bd9d1fb1e1fc4eb1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/windows/configure.log",
+      "bytes": 3579,
+      "sha256": "0ed216943dfd94ab3446296a67ef072198b130ffb5cc58d8a6aa6bd0849cf735"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/windows/tests.log",
+      "bytes": 542,
+      "sha256": "e09aa312c915d550b71b854fd3eab97c0f7d67aaf5446db842ce5c40775e96cc"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/windows/tests.xml",
+      "bytes": 2303,
+      "sha256": "b180ac13feb1ca9084db785bddd47bd1c0c8b2a66f7032d348a08ba73eba32d5"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/linux/build_manifest.hpp",
+      "bytes": 629,
+      "sha256": "f5d4495d9b4dde5679f3f6f90545cafd0bb845d7ec6a3c8b9d6e48f38a844749"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/linux/configuration.json",
+      "bytes": 440,
+      "sha256": "9055e74897cee94c78a499b8be5563be9b92ed0411debc1a2045cdbd28ba7a04"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/linux/build.log",
+      "bytes": 5906,
+      "sha256": "2aa3bd35703a55629cc4802bbca13f3adc989f5f631b01d388923ee436207709"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/linux/commands.json",
+      "bytes": 2355,
+      "sha256": "ec2cb3ce5ebceb834a24fc1a2db5817539fe4df81fe7bdc042914273d55e1ff8"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/linux/compiler-inputs.json",
+      "bytes": 35920,
+      "sha256": "f8cc66aaee971b2dc0bd38d2aaafd97d7933cc76e55379e1bd9d1fb1e1fc4eb1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/linux/configure.log",
+      "bytes": 3354,
+      "sha256": "1baa8af9957e6fc97fd790d0145f4befbdea44b97d776c1fa0a8f9543e4acc57"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/linux/junit-location.json",
+      "bytes": 465,
+      "sha256": "f082c87b7afca40b083bf1605a62f58594f9bd61d89602f5b5497dcadab311a1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/linux/tests.log",
+      "bytes": 671,
+      "sha256": "e4dd3e1bc58d32f5da243e613eb41245eb4cdf4d237a5eece8584e8b8d2f5517"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/linux/tests.xml",
+      "bytes": 2099,
+      "sha256": "a0d01647d924453f9321ec121a8a447e321dba71e2bbcbfb76e96fe482721099"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/training/build_manifest.hpp",
+      "bytes": 706,
+      "sha256": "68a1127608e27f0ac4e0e66ec6b96cbe3fcd85f8a9c3a8d73fb36d73c20acc30"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/training/configuration.json",
+      "bytes": 439,
+      "sha256": "efefdc00c5c4f105d6eb07ae32b7d4aa64514ca8b22df2b32a188f4283812f82"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/training/build.log",
+      "bytes": 2563,
+      "sha256": "67b999ba24f0d882467a98d06df5742060c5db70873a87495113303f169dcec9"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/training/commands.json",
+      "bytes": 1547,
+      "sha256": "12d50b398fd791a8d9ee504196b40a8ce282bcb0772d451d1bf31cf7870e84b4"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/training/compiler-inputs.json",
+      "bytes": 35920,
+      "sha256": "f8cc66aaee971b2dc0bd38d2aaafd97d7933cc76e55379e1bd9d1fb1e1fc4eb1"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/training/configure.log",
+      "bytes": 3722,
+      "sha256": "780d265295a80d2903fbbbf5071de1bd009e2b5f0a6fa5f72c086cfb085ab3a6"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/training/sdk-verification.json",
+      "bytes": 202,
+      "sha256": "b55701dcbf448dd2c272bba3fe738c642e2cb4fb62bc0a25d7295d7dbd3442aa"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/training/tests.log",
+      "bytes": 428,
+      "sha256": "1e845041398a7e6de4f89a494e35088198bbbd80bc255c48056fe155609efc71"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/training/tests.xml",
+      "bytes": 1962,
+      "sha256": "a40049d52872de039363029e1bed1e67a8c70306f372d016b25ff9cd1f9c2738"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/compiler-git-proof.json",
+      "bytes": 115385,
+      "sha256": "dd79ec1429ff36e7ca8bd44855e3b3c653a7b6639f60c6fe057741b627057af4"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/retained-binaries.json",
+      "bytes": 4714,
+      "sha256": "2a482c2276a94a2180d8b83e371108a2ee8c9d5b03d40aa22f5b3d57811f3a2f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/build-driver.py",
+      "bytes": 4627,
+      "sha256": "962fe040e87f3432d8171f11da1a62ec23f0f27be35dc05ea50d4b9f70203b86"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/receipt-driver.py",
+      "bytes": 10129,
+      "sha256": "11911cd7fc7fd45a125b73cf0e69d3705a3a2d5e3387c41a29f7dee761829a3f"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-windows/build.log",
+      "bytes": 23684,
+      "sha256": "ea85d4942a6deba06049e1041656adeabfd927b0a7b8a950ee5388106e406866"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-windows/commands.json",
+      "bytes": 2131,
+      "sha256": "88a77a922dac4d2e78f019049ea874e1792fb63652de2ad67153ee545c629b13"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-windows/compiler-inputs.json",
+      "bytes": 35920,
+      "sha256": "61da71424d2e49ca0641747fcae9758af7f684ba7d5e03b027472ff2dc13c644"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-windows/configure.log",
+      "bytes": 3579,
+      "sha256": "f0446da6ae3df1a7b478ae597ac95deb782937db5dd32819cda633dddd806322"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-windows/tests.log",
+      "bytes": 2249,
+      "sha256": "9e6789b46ecf0a278860e283209d6a791e7cf6ed4becc9bec7e5a442d6bed275"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-windows/tests.xml",
+      "bytes": 7032,
+      "sha256": "48618dee1ccbb1a1426f660b6a004086186299ad3363a4b86a09e2ba88686146"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-linux/build.log",
+      "bytes": 417611,
+      "sha256": "bb0fe14a0057bbb39558417073cd804bef4b0fae65e33418fb56eeb9444d3053"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-linux/commands.json",
+      "bytes": 2868,
+      "sha256": "622d53de504b296781d6842a807674ae6c94d5c3f03388bd881ad64ef04a791d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-linux/compiler-inputs.json",
+      "bytes": 35920,
+      "sha256": "61da71424d2e49ca0641747fcae9758af7f684ba7d5e03b027472ff2dc13c644"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-linux/configure.log",
+      "bytes": 3354,
+      "sha256": "412829374ffaf65cca4d1c348b2a61573f14c24e33a254f41a4c9791a10d2314"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-linux/tests.log",
+      "bytes": 1780,
+      "sha256": "e62e5fe4220879aa1333afd1b088154a76614abd81e16ed190932f491fb8474c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-training/build.log",
+      "bytes": 10402,
+      "sha256": "f16621109f3ff8368fbbe969b03d6d2b7d4d9093248c472cbb36ebd355db573e"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-training/commands.json",
+      "bytes": 1545,
+      "sha256": "38f356f67281484f3ca1258e432b17abd4bec00b3c273d8cc5296592e95cd1d7"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-training/compiler-inputs.json",
+      "bytes": 35920,
+      "sha256": "61da71424d2e49ca0641747fcae9758af7f684ba7d5e03b027472ff2dc13c644"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-training/configure.log",
+      "bytes": 3722,
+      "sha256": "f160ace19b77555122e0711cdb577ef9d23d1b472a1147b2bba138fd9274bb3d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-training/tests.log",
+      "bytes": 1338,
+      "sha256": "4533bbf70f3de29198b914f26b38846bb00f000696e2a79f10f06e7d5680c0f0"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219-training/tests.xml",
+      "bytes": 1557,
+      "sha256": "cd1b7c83bdbcf214329ae5adae1aa22a394c98981315fb64aaca512dc7541537"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-windows/build.log",
+      "bytes": 14965,
+      "sha256": "d1ee0624637eec6307a89255e8d29aeceeb1877b567a7be0166d1c2be73c8534"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-windows/commands.json",
+      "bytes": 2133,
+      "sha256": "9660b4575dfce040eb9b23df1c469a28c63169afabaf190aaa60bc82f854e123"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-windows/compiler-inputs.json",
+      "bytes": 35920,
+      "sha256": "1ce7e69a8fd6a4120669ee7b6f387a006f82162bc03db11a9eec23ed5411b59c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-windows/configure.log",
+      "bytes": 3579,
+      "sha256": "6bcfad7d6de22a9d6310f34c02c30c7cf9593c0cabae04dac2089be9578247a5"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-windows/tests.log",
+      "bytes": 2388,
+      "sha256": "c4aa19d4ae40bcf6b220568b12e02621cad1a432c7a067ee0e241fe31640c884"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-windows/tests.xml",
+      "bytes": 7176,
+      "sha256": "3fc675e1d0c0b3dca37183fe57bb40eaf726de6f8b4a4f249456988bcac20f08"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-linux/build.log",
+      "bytes": 43903,
+      "sha256": "cb392f49bd8abd666c6a293da9f8f47d5339b4332b39c7de3391f07fe83bb53b"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-linux/commands.json",
+      "bytes": 2869,
+      "sha256": "20a58cf8628b920fd1b5b548773fd489356194cf1d4dcd5e79ff9c311259a2ba"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-linux/compiler-inputs.json",
+      "bytes": 35920,
+      "sha256": "1ce7e69a8fd6a4120669ee7b6f387a006f82162bc03db11a9eec23ed5411b59c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-linux/configure.log",
+      "bytes": 3355,
+      "sha256": "957b06e6978cc82cba46c0e9da524b59c97c00532ec81251cb89873cf8decc05"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-linux/tests.log",
+      "bytes": 1780,
+      "sha256": "d69ee862aa9cd4de87c3c78f23023f94cc3ab59ff556a1f2af6feedc36b35903"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-training/build.log",
+      "bytes": 4731,
+      "sha256": "07085d42f010c5e783cb4d60d8fc940426cb79d509013f3d6ca419d24d63609c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-training/commands.json",
+      "bytes": 1544,
+      "sha256": "02bb55016272757a4e741851d0f6f4f621bd80e1eb0a52a093b4a656908fbdca"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-training/compiler-inputs.json",
+      "bytes": 35920,
+      "sha256": "1ce7e69a8fd6a4120669ee7b6f387a006f82162bc03db11a9eec23ed5411b59c"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-training/configure.log",
+      "bytes": 3722,
+      "sha256": "f688b84829ad4b67b8864456eb42265d79b4665190df4817327f9e4fef88e13d"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-training/tests.log",
+      "bytes": 428,
+      "sha256": "2ce60a49dcc816c8731844b2280ac27332dacf7b1c3201120713549d9fa58fee"
+    },
+    {
+      "path": "docs/benchmarks/raw-pixel-replay-apply-local/development/rawreplay219b-training/tests.xml",
+      "bytes": 1963,
+      "sha256": "2d3f174897b6dc883e6b809cd6f3bb936832e916697c1dae699b15c30c2b0e6e"
+    }
+  ],
+  "retained_binaries": "build/rawreplay219c-retained-binaries",
+  "main_changed": false,
+  "milestones": "M0-M7 Partial",
+  "evidence_limitation": "Copied Linux drivers reused the original JUnit output path. Final four-suite XML was copied byte-exactly into the correct final run and audited there. Earlier rawreplay219/219b Linux XML was overwritten; only their original fifteen-suite CTest text logs remain. Earlier XML/semantic-marker acceptance is not claimed."
+}

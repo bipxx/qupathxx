@@ -487,3 +487,7 @@ docs/benchmarks/raw-pixel-archives-local.json -text -whitespace
 # Raw backend training evidence retains exact log bytes.
 docs/benchmarks/raw-pixel-training-local/** -text -whitespace
 docs/benchmarks/raw-pixel-training-local.json -text -whitespace
+
+# Raw replay/apply evidence retains exact log bytes.
+docs/benchmarks/raw-pixel-replay-apply-local/** -text -whitespace
+docs/benchmarks/raw-pixel-replay-apply-local.json -text -whitespace

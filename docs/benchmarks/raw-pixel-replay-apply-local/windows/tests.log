@@ -1,0 +1,13 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+    Start  1: pixel_workflows
+1/4 Test  #1: pixel_workflows ..................   Passed    0.44 sec
+    Start 16: source_identity
+2/4 Test #16: source_identity ..................   Passed    0.06 sec
+    Start 32: tissue_contours
+3/4 Test #32: tissue_contours ..................   Passed    0.26 sec
+    Start 42: document_edits
+4/4 Test #42: document_edits ...................   Passed    0.27 sec
+
+100% tests passed out of 4
+
+Total Test time (real) =   1.39 sec

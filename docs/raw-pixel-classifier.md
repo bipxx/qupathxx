@@ -8,8 +8,10 @@ passes on both Windows/Linux hosts; ten unchanged regression suites retain
 their source220304d results. Failed development rounds remain in the receipt.
 Positive backend training/trained archives have [local Windows evidence](benchmarks/raw-pixel-training-local.json)
 at `e7e4b66` (three backend-ON suites and one backend-OFF workflow suite).
-Live replay verification, apply/undo, rational-window streaming, Python/UI and
-integrated platform backend training remain open. RGB `pixel-v1` and QPC1/QPC2 stay unchanged.
+Native live replay and bounded contour apply/undo have [local evidence](benchmarks/raw-pixel-replay-apply-local.json)
+at `92edba8`: four Windows GEOS-ON and four Linux GEOS-OFF suites plus three
+Windows training-ON suites. Rational-window streaming, Python/UI, cross-tile
+contours and integrated platform/backend training remain open. RGB `pixel-v1` and QPC1/QPC2 stay unchanged.
 
 The existing path is `PixelTrainingRequest` → `extract_pixel_features` →
 float32 training rows → `ForestModel` → `PixelPredictionRequest` /
@@ -150,8 +152,9 @@ streamed/full-grid checks and exact allocation admission tests.
 
 These model and captured-grid APIs now compose through the owner-captured
 controllers below. The candidate protocol below adds retention and archives;
-its local acceptance is recorded separately. Live replay, apply/undo,
-checkpoints, Python bindings, batch and desktop actions remain open.
+its local acceptance is recorded separately. The replay/bounded apply path
+below also has local acceptance. Checkpoints, installed Python, batch and
+desktop actions remain open.
 Those remaining A3-A6 integrations must preserve the same raw authority rather
 than routing quantitative values through the scalar-downsample RGB result.
 
@@ -208,9 +211,9 @@ produce no table/model/result. File-backed publication checks fresh primary and
 companion versions with the existing file guards, including changes after the
 worker has finished. Worker exceptions deliver failure, allow retry and never
 modify the document or an earlier owned result. The archive/retention candidate
-below now supplies a locally verified owner-stage keep path. Live replay,
-undo/apply, streamed resume and all frontend integrations remain
-required.
+below now supplies locally verified owner-stage keep and fresh replay paths.
+Bounded contour apply/undo is also available. Streamed resume and all frontend
+integrations remain required.
 
 
 ## Retained archives and project record protocol
@@ -253,5 +256,54 @@ QXR1 wrappers explicitly; SQL schema 13 and older-project migration behavior
 remain unchanged. Snapshot saves and recovery snapshots carry the immutable
 raw records. New raw payloads fail explicitly in older readers that do not
 understand QXR1. Historical reads do not mark results current or verified and
-do not open a decoder. Source/model replay verification, owner-stage contour
-apply/undo, phase-preserving streams/checkpoints and frontends remain required.
+do not open a decoder. The fresh replay and bounded contour APIs below supply
+separate live authority. Phase-preserving streams/checkpoints, cross-tile
+contours and installed frontends remain required.
+
+
+## Fresh replay verification and bounded contour publication
+
+`RawPixelTrainingRequest::replay(document, record_id)` and the prediction
+equivalent construct new live owner captures from retained records. They reuse
+the original grid, selection, requested features/options and archived model.
+Training checks selected annotation IDs, revisions, kinds, classes and geometry;
+prediction checks its captured object/mask, model and threshold. Both compare
+reader/locator/file-set scope, raw metadata and effective document calibration.
+File observation generations may differ after reopen: fresh bounded sampling
+and input/result commitments establish content equality. Capturing the replay
+does no pixel IO. It never restores a historical capture token.
+
+`Document::verify_raw_pixel_training` and `verify_raw_pixel_prediction` require
+matching fresh request/result captures and repeat actual primary/companion file
+guards. A parameter mismatch or stale/wrong authority throws; changed content
+returns false. Training can verify the sampled table without retraining; an
+optional supplied model must match the archived model. Each existing raw job
+also exposes owner-thread `verify_result(document, record_id)`. Cancellation,
+edits or file changes before verification reject. Verification leaves document
+revision and archive bytes unchanged and stores no persistent verification flag.
+
+`trace_raw_pixel_prediction(request, result, options, cancelled)` returns an
+owning `RawPixelContours` built only from a matching live prediction. The existing
+bounded GEOS converter borrows core labels and the captured ROI; it maps edges
+through both original rational axes and omits feature-halo context from the output
+raster. Classes retain their labels and disconnected parts form multipolygons.
+`RawPixelContourJob` performs the same conversion using immutable native snapshots;
+the source/request stays on its owner until the worker is joined. Cancellation
+alone is thread-safe, including completed-but-undelivered cancellation. Poll/wait
+checks fresh source state before delivery. GEOS-unavailable builds refuse.
+
+`publish_raw_pixel_contours` repeats source/request checks and requires the
+captured document revision. One `Document::execute` creates all class annotations,
+using the captured ROI as parent when clipping is enabled. Invalid/stale apply
+changes nothing; ordinary undo/redo restores geometry, classes, parents and IDs.
+A second apply of the same capture rejects after the first revision change.
+For a new result, apply before retaining it if both are desired; retaining first
+changes the document revision and requires fresh replay before apply. Verification
+alone does not grant publication authority to old decoded arrays.
+
+Local evidence covers reopened real TIFF records and Windows GEOS-positive
+rational/context geometry, exact raster membership/area, budgets, cancellation,
+late source mutation and atomic undo/redo. Linux and Windows training configurations
+also exercise GEOS-unavailable refusal. These are bounded single-grid contours;
+streamed cross-tile stitching, installed frontends and platform/research acceptance
+retain their own gates.

@@ -1,0 +1,53 @@
+[
+  {
+    "name": "configure",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "-S",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+      "-B",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package"
+    ],
+    "exit": 0,
+    "seconds": 9.613206000067294
+  },
+  {
+    "name": "build",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\cmake.exe",
+      "--build",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "--config",
+      "Release",
+      "--target",
+      "qupathxx_pixel_workflow_tests",
+      "qupathxx_tissue_contour_tests",
+      "qupathxx_document_edits_tests",
+      "qupathxx_source_identity_tests",
+      "--parallel",
+      "2"
+    ],
+    "exit": 0,
+    "seconds": 8.301027399953455
+  },
+  {
+    "name": "tests",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+      "--test-dir",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+      "-C",
+      "Release",
+      "-R",
+      "^(pixel_workflows|tissue_contours|document_edits|source_identity)$",
+      "--output-on-failure",
+      "--test-output-size-passed",
+      "1048576",
+      "--no-tests=error",
+      "--output-junit",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawreplay219c-windows\\tests.xml"
+    ],
+    "exit": 0,
+    "seconds": 1.422819400089793
+  }
+]

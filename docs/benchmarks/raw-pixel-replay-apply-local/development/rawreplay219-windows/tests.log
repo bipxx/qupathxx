@@ -1,0 +1,43 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+      Start  1: pixel_workflows
+ 1/15 Test  #1: pixel_workflows ..................***Failed    0.15 sec
+Owner-captured raw training/prediction: deterministic labels, rational axes, document calibration, bounded IO, cancellation, stale compound sources and owner-thread publication passed
+Raw pixel replay: real TIFF reopened training/prediction records verify through fresh owner jobs without promoting historical authority passed
+remove: The process cannot access the file because it is being used by another process.: "C:\Users\HEQ\AppData\Local\Temp\qpx-raw-archive-1038152568980800\source.tif"
+
+      Start  2: pixel_features
+ 2/15 Test  #2: pixel_features ...................   Passed    0.10 sec
+      Start  3: classifier_io
+ 3/15 Test  #3: classifier_io ....................   Passed    0.06 sec
+      Start  5: classifier
+ 4/15 Test  #5: classifier .......................   Passed    0.04 sec
+      Start  8: resampling
+ 5/15 Test  #8: resampling .......................   Passed    2.91 sec
+      Start 13: raw_image
+ 6/15 Test #13: raw_image ........................   Passed    0.35 sec
+      Start 16: source_identity
+ 7/15 Test #16: source_identity ..................   Passed    0.08 sec
+      Start 18: provenance
+ 8/15 Test #18: provenance .......................   Passed    0.05 sec
+      Start 32: tissue_contours
+ 9/15 Test #32: tissue_contours ..................   Passed    0.17 sec
+      Start 34: tissue
+10/15 Test #34: tissue ...........................   Passed    0.05 sec
+      Start 42: document_edits
+11/15 Test #42: document_edits ...................   Passed    0.25 sec
+      Start 44: geometry_edits
+12/15 Test #44: geometry_edits ...................   Passed    0.04 sec
+      Start 48: project
+13/15 Test #48: project ..........................   Passed    0.15 sec
+      Start 50: recovery
+14/15 Test #50: recovery .........................   Passed    0.34 sec
+      Start 51: project_save
+15/15 Test #51: project_save .....................   Passed    0.13 sec
+
+93% tests passed, 1 tests failed out of 15
+
+Total Test time (real) =   5.56 sec
+
+The following tests FAILED:
+	  1 - pixel_workflows (Failed)
+Errors while running CTest

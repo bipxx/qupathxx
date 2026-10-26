@@ -27,10 +27,23 @@
   effective forest parameters; fresh admission can change the work-budget field
   in model identity while preserving rows/votes. Earlier failed diagnostics and
   the deliberately stopped wrong-cache run remain separate evidence.
-- Next product action: explicit live source/model replay verification and atomic
-  owner-stage apply/undo, followed by phase-preserving windows/streamed checkpoints
-  and nanobind/Python/CLI/batch/ImGui/managed-viewer integration. Linux/Mac and
-  integrated platform backend training remain unqualified. See the
+- Native replay and bounded contour apply now have [local evidence](benchmarks/raw-pixel-replay-apply-local.json)
+  at `92edba8`: four selected suites pass on Windows GEOS-ON and Linux GEOS-OFF;
+  three pass in the Windows training-ON/GEOS-OFF configuration. All 339 compiler
+  inputs match across the configurations; eleven final executables are retained.
+  Reopened TIFF records verify through fresh owner jobs; changed raw bits and
+  historical/wrong-capture authority reject. Rational-axis/context contours,
+  bounded conversion, cancellation, fresh-file guards and atomic apply/undo/redo
+  pass on Windows GEOS-ON. Failed reader-cleanup and duplicate-apply development
+  controls remain raw evidence, with broader regressions kept at their sources.
+  Earlier Linux development XML was overwritten by a reused JUnit output path;
+  original text logs remain. Final Linux XML is retained byte-exactly at its
+  correct run, with this limitation recorded in the receipt.
+- Next product action: phase-preserving raw sampling/feature windows, bounded
+  streams and source/model-safe checkpoint resume, then nanobind/Python/CLI/batch/
+  ImGui/managed-viewer integration. Cross-tile contour stitching is separate.
+  Linux/Mac GEOS-positive/backend-enabled and integrated platform training remain
+  unqualified. See the
   [contract](raw-pixel-classifier.md) and
   [ordered route](api-delivery-plan.md#sci1-a-typed-raw-classifier-delivery-checkpoints).
 - MFO1 fault campaign213 is now [engineering accepted](benchmarks/multifile-fault-213-qualification.json)
