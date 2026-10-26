@@ -31,6 +31,7 @@ private:
     std::shared_ptr<const Data> data_;
     std::shared_ptr<const RawPixelWindowPredictionRequest> authority_;
     bool publication_matches(const Document&) const;
+    friend struct RawPixelStreamContourKernel;
     friend class RawPixelPredictionStream;
     friend class RawPixelPredictionStreamJob;
     friend struct RawPixelStreamFileCodec;
@@ -57,6 +58,7 @@ public:
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
     RawPixelPredictionStream(const RawPixelTiledPredictionRequest&,std::shared_ptr<std::atomic<bool>>);
+    friend struct RawPixelStreamContourKernel;
     friend class RawPixelPredictionStreamJob;
     friend struct RawPixelStreamFileCodec;
     std::shared_ptr<const RawPixelWindowClassification> next_impl(const std::atomic<bool>*);
