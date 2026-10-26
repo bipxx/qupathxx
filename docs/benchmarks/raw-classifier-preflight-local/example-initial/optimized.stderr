@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\examples\raw_classifier_workflow.py", line 84, in <module>
+    print(json.dumps(run(args.project, args.output, args.image_id, args.channels), sort_keys=True))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\HEQ\Projects\qupathxx\build\ci\scientific-grid-159\examples\raw_classifier_workflow.py", line 39, in run
+    raise RuntimeError("training checkpoint resume failed: " + sampling.poll(doc).error)
+RuntimeError: training checkpoint resume failed: 

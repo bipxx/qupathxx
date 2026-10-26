@@ -1,0 +1,259 @@
+{
+  "schema": "qpx.raw-classifier-preflight/1",
+  "source": "fb3dfe6a1711edb223153b3164eeeaf8b05ab4ff",
+  "status": "producer_auditor_preflight_passed",
+  "source_inputs": 459,
+  "admission_controls_passed": 515,
+  "raw_cohort_cases": 58,
+  "gui": {
+    "passed": 57,
+    "declared_skips": 1
+  },
+  "headless_declarations": {
+    "passed": 40,
+    "declared_skips": 18,
+    "module_has_gui": true,
+    "desktop_opt_in": false
+  },
+  "strict_typing": {
+    "positive_files": 4,
+    "negative_files": 3,
+    "expected_errors": 12
+  },
+  "minimal_native": {
+    "suites": 2,
+    "source": "6f6d8bdb13d26c718861d8483db7ed29a463118f",
+    "platform": "Windows",
+    "runtime_flags": "TIFF/project/GEOS/training/GUI/Python OFF"
+  },
+  "reused_installed_runtime": {
+    "source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+    "compiler_inputs": 383,
+    "fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c"
+  },
+  "fixes": [
+    "Exact shared raw native/installed/desktop/typing/source contracts are mandatory for engine, Mac-native and manylinux builder/consumer auditors",
+    "Every legacy diagnostic command remains intact; only the two explicit raw typing command sites are added",
+    "Late raw source changes reject before report publication; optimized Python cannot bypass raw evidence requirements",
+    "Strict mypy example annotations are explicit and checkpoint take() transfers execute with Python -O"
+  ],
+  "limitations": [
+    "Preflight evidence does not qualify any new hosted/platform campaign",
+    "Headless declaration capture uses the existing GUI-enabled installed module with desktop opt-in disabled, not a new headless wheel",
+    "Minimal native evidence is Windows only; Linux minimal/ASan and Mac/portable profiles remain required in T5",
+    "No project milestone, scientific/resource/hardware or release gate is declared complete"
+  ],
+  "raw_payloads": [
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/actual-evidence-proof.json",
+      "bytes": 1376,
+      "sha256": "b4c0ae74c61df10ea49ab7a777f21ff8c49c92ce09160fe1d47967729f97b805"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/admission-expanded.log",
+      "bytes": 507,
+      "sha256": "a554ceae0ef1da2b27e653c4c7df8ef18f311e450506b8e0969014f5490b60b0"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/admission-expanded.xml",
+      "bytes": 66980,
+      "sha256": "de2ae7970bac99d6d8b204bd1f320e89d62187dea1dac64c421a3dc4f214af1b"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/admission-final.log",
+      "bytes": 670,
+      "sha256": "bea1be54a9233ff77a55b5adaa52072b32957b3240f772839c2ba22a35b5350b"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/admission-final.xml",
+      "bytes": 80264,
+      "sha256": "3b17675ec3c4ec2af1f5be7a42ff4202aa60a922805e43cee1ba1eb86c62ca1d"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/admission-initial.log",
+      "bytes": 264,
+      "sha256": "8c4660e7ff91043310bb893649888d851ec50926a938fca586316dc2907d3842"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/admission-initial.xml",
+      "bytes": 27225,
+      "sha256": "f4a0708413740c96bed01c7ec7dc7ad6165cbf1222f97aed8ac045d21b26951f"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/auditors-initial.log",
+      "bytes": 265,
+      "sha256": "c10063fbd7359aa763a255d51b9fb2df2614724f55f0eaae05519a685af05541"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/auditors-initial.xml",
+      "bytes": 25104,
+      "sha256": "b2692f1b73d589c055128463bb7f9a61d12d5242430401987bd6095abb8a2cf0"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/example-fixed.log",
+      "bytes": 115,
+      "sha256": "bf889bca4e28949b3dfa1aa218f0a1fd2dcdc773e4b63dc47e302e0719bb5586"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/example-fixed.xml",
+      "bytes": 500,
+      "sha256": "30d33ea94bdb088ab33afe876112cd218118f4f448db87c30997ffb3781fbaff"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/example-initial/commands.json",
+      "bytes": 1122,
+      "sha256": "bbb4b1fa238693cb4d68eadd4ce26cfea2f5c7b65a9ef5e1d8fbedc6b93b3a75"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/example-initial/normal.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/example-initial/normal.stdout",
+      "bytes": 303,
+      "sha256": "f117e17dbbc9a714c4a76282460801602bc90440b609bf8bea0a6e7419830094"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/example-initial/optimized.stderr",
+      "bytes": 612,
+      "sha256": "72202e9c15c3a619b377a5b6375b1c0f291a942b7902303546b4e555e931f4b3"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/example-initial/optimized.stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/gui-final.log",
+      "bytes": 113,
+      "sha256": "bf6178d1145a72e73288dd7bc21d3edf183d7ad0656c288304aed4fbcfdf2373"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/gui-final.xml",
+      "bytes": 8047,
+      "sha256": "aec36ac0f38424ed5bdcf6629a2c488ddd88a2ecb6e320a4f25f5830bfe086f5"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/headless-declarations.log",
+      "bytes": 113,
+      "sha256": "ae93a96ba2795871aa7672040a454af50f8ed02f20473884bac4ae27ab9adb7c"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/headless-declarations.xml",
+      "bytes": 12224,
+      "sha256": "1e546f4031dd117b25cd364215efc9ca1b56b2855d0f3b0e58e800757c281e00"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/headless-final.log",
+      "bytes": 113,
+      "sha256": "8f3fcc8e505dabd411e4a2e1916f36d81919105f2bd474657831ae98f2176258"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/headless-final.xml",
+      "bytes": 12483,
+      "sha256": "9a9e3586aede911ebe0cbabf2ffcb2b4071577ccd8cc3f1e563c6cb13fa4fd4b"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/minimal/admission.json",
+      "bytes": 170,
+      "sha256": "35d8464e1b45454436cf4c41e3697c912e9caf4e8a88382ab39d77ec9342e56c"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/minimal/build.log",
+      "bytes": 23871,
+      "sha256": "d7003a319f4132c1330e8c5c6a6910b1ac82df88d9869dd70aaf96fec3313fa6"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/minimal/commands.json",
+      "bytes": 1933,
+      "sha256": "a3fb5b17ae382e7aef25d5e596745ba621979d0e0ad5ed7280221bce4909768d"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/minimal/compiler-inputs.json",
+      "bytes": 40880,
+      "sha256": "1d194951bb70ea1791aae62ca742a11127062eec63695d8ab01317979e211652"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/minimal/configure.log",
+      "bytes": 1242,
+      "sha256": "c3f0bdfd963c6389238be82c3c2d455040844b7087fbde79a630efbc6d961feb"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/minimal/native-tests.log",
+      "bytes": 339,
+      "sha256": "ffa0e74ad4437b1d56979b298a07c85cd52ff57f9cf696793c328498d123b447"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/minimal/native-tests.xml",
+      "bytes": 3192,
+      "sha256": "2d1305557e956f0624b0d22768f730acd87d3df3414e4d19514ac0339f0b69f1"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/minimal/products.json",
+      "bytes": 221,
+      "sha256": "08584c65e03dbdcab3c2d56ba26fcaab8b19e80d3dd74043b66b2c7beed2339f"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/preflight-proof.json",
+      "bytes": 2389,
+      "sha256": "2a557075ff728d337c080ae3bd65a2790ef72d8713603fe25552d7e420a99f24"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/raw-classifier-raw_batch_invalid.log",
+      "bytes": 596,
+      "sha256": "da950fdbbefbee1f98cee2f0d60916220db34d03a889262e1fb8120a7b7a7462"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/raw-classifier-raw_frontend_invalid.log",
+      "bytes": 965,
+      "sha256": "f1ab11810303c3c246ef16afa6b03da3d2e07ab98a642498b3be942e22e25a1f"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/raw-classifier-raw_pixel_invalid.log",
+      "bytes": 877,
+      "sha256": "e9960b8ed511cb8c9083ce9a6e70eb8fc142b8c0c2df724ca118473e7a37c1e0"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/raw-classifier-typing.log",
+      "bytes": 44,
+      "sha256": "d9a5631f7d87a741fbecc3236286d1792d22d349ff13846d71cdc9217307bb76"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/raw_batch_invalid.py.log",
+      "bytes": 596,
+      "sha256": "da950fdbbefbee1f98cee2f0d60916220db34d03a889262e1fb8120a7b7a7462"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/raw_frontend_invalid.py.log",
+      "bytes": 965,
+      "sha256": "f1ab11810303c3c246ef16afa6b03da3d2e07ab98a642498b3be942e22e25a1f"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/raw_pixel_invalid.py.log",
+      "bytes": 877,
+      "sha256": "e9960b8ed511cb8c9083ce9a6e70eb8fc142b8c0c2df724ca118473e7a37c1e0"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/source-proof-final.json",
+      "bytes": 109618,
+      "sha256": "40f01db2b23d57c1a3ddf1462f6040a78a1a7ea4d3bf4f78fbb59335a9b0ed46"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/source-proof.json",
+      "bytes": 109618,
+      "sha256": "ca93736db4fc0b62b3bfe593f6a5b0aa28262d22f6e87206a16604dddd95d9ca"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/typing-after-example.log",
+      "bytes": 44,
+      "sha256": "d9a5631f7d87a741fbecc3236286d1792d22d349ff13846d71cdc9217307bb76"
+    },
+    {
+      "path": "docs/benchmarks/raw-classifier-preflight-local/typing-positive-initial.log",
+      "bytes": 339,
+      "sha256": "b0b0fa17f3b6ba5cd5a6af44cdeea7665c57a5010ccd35751aa6c0fdb92574d5"
+    }
+  ],
+  "retained_artifacts": "build/rawt5-235/minimal/products"
+}

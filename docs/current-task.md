@@ -2,6 +2,17 @@
 
 ## Current execution card (2026-10-26)
 
+- T5 preflight is implemented at `fb3dfe6`: the shared raw classifier contract
+  is mandatory in engine, Mac-native and manylinux builder/consumer auditors,
+  with matching producer checks. [Local preflight evidence](benchmarks/raw-classifier-preflight-local.json)
+  records 515 passing admission/auditor controls, 459 bound source inputs,
+  actual minimal native refusal, and exact GUI/headless declarations for 58 raw
+  cases. Strict mypy passes four files and rejects twelve intended errors.
+- Preflight fixed the runnable example's assertion-dependent `take()` calls.
+  Its real child-process regression now completes checkpoint/stream resume and
+  project retention under both normal Python and `-O`. Existing local wheel
+  observations remain bound to `0dc916c`; this preflight does not relabel them as
+  a new hosted or headless-wheel qualification.
 - Latest frontend delivery: desktop/managed raw classification and bounded
   contour apply at `0dc916c` have [installed local acceptance](benchmarks/raw-frontend-local.json).
   Windows cp312 GUI/GEOS/training/TIFF/project ON, OpenSlide OFF: 195 Python
@@ -23,8 +34,8 @@
   twelve errors in three invalid files reject. The receipt binds 199 raw payloads
   and 26 retained final/development products, with original failures preserved.
   Dependencies are reused, so this is not clean-machine or release acceptance.
-- Next: T5 producer/auditor and named-cohort preflight, then one integrated
-  platform qualification at a frozen candidate. Preserve these T4.3-T4.5 local
+- Next: freeze and dispatch the complete engine/Mac-native/portable T5 campaign,
+  then audit the exact original runs and all archived inputs. Preserve these T4.3-T4.5 local
   exits; do not rebuild consumer features or repeat full campaigns without a
   changed input/failure. Stream stitching, sparse ROI prediction traversal,
   automatic maintenance, abrupt-process/power-loss and independent scientific,

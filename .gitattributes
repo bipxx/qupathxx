@@ -544,3 +544,7 @@ docs/benchmarks/raw-pixel-batch-local.json -text -whitespace
 # Installed raw desktop/managed contour evidence retains exact source-bound bytes.
 docs/benchmarks/raw-frontend-local/** -text -whitespace
 docs/benchmarks/raw-frontend-local.json -text -whitespace
+
+# Raw classifier T5 preflight preserves exact captured evidence.
+docs/benchmarks/raw-classifier-preflight-local/** -text -whitespace
+docs/benchmarks/raw-classifier-preflight-local.json -text -whitespace

@@ -41,8 +41,10 @@ portable inference and active contour cancellation/shutdown. The wheel binds
 managed consumers now cover train/preview/save/reopen/resume plus bounded atomic
 contour apply/undo/redo. Historical output grants no live apply authority.
 
-Preflight producers, auditors and named case sets before one frozen integrated
-campaign. These local Windows results do not qualify other platforms, clean
+Producer/auditor [preflight at `fb3dfe6`](benchmarks/raw-classifier-preflight-local.json)
+passes 515 controls and binds 459 inputs, including 58 named raw cases. The
+example now resumes correctly under normal and optimized Python. Next freeze
+and dispatch the complete integrated campaign. These local Windows results do not qualify other platforms, clean
 machines, biology, hardware budgets or release support. Follow the single API
 queue; older native packet baselines remain preserved evidence.
 

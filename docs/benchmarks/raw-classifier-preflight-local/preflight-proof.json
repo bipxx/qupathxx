@@ -1,0 +1,82 @@
+{
+  "source": "fb3dfe6a1711edb223153b3164eeeaf8b05ab4ff",
+  "source_files": 459,
+  "native_full": {
+    "full": true,
+    "portable_owner_jobs": true,
+    "raw_file_training_contour_consumers": true
+  },
+  "native_minimal": {
+    "full": false,
+    "portable_owner_jobs": true,
+    "raw_file_training_contour_consumers": false
+  },
+  "gui": {
+    "passed": 57,
+    "declared_skips": 1,
+    "groups": [
+      {
+        "module": "test_raw_pixel_python",
+        "passed": 12,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_pixel_cli",
+        "passed": 14,
+        "declared_skips": 1
+      },
+      {
+        "module": "test_raw_pixel_batch",
+        "passed": 14,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_gui_raw_pixel",
+        "passed": 17,
+        "declared_skips": 0
+      }
+    ]
+  },
+  "headless_declarations": {
+    "passed": 40,
+    "declared_skips": 18,
+    "groups": [
+      {
+        "module": "test_raw_pixel_python",
+        "passed": 12,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_raw_pixel_cli",
+        "passed": 14,
+        "declared_skips": 1
+      },
+      {
+        "module": "test_raw_pixel_batch",
+        "passed": 14,
+        "declared_skips": 0
+      },
+      {
+        "module": "test_gui_raw_pixel",
+        "passed": 0,
+        "declared_skips": 17
+      }
+    ]
+  },
+  "typing": {
+    "positive_files": 4,
+    "negative_files": 3,
+    "expected_errors": 12,
+    "hashes": {
+      "raw-classifier-typing.log": "d9a5631f7d87a741fbecc3236286d1792d22d349ff13846d71cdc9217307bb76",
+      "raw-classifier-raw_pixel_invalid.log": "e9960b8ed511cb8c9083ce9a6e70eb8fc142b8c0c2df724ca118473e7a37c1e0",
+      "raw-classifier-raw_batch_invalid.log": "da950fdbbefbee1f98cee2f0d60916220db34d03a889262e1fb8120a7b7a7462",
+      "raw-classifier-raw_frontend_invalid.log": "f1ab11810303c3c246ef16afa6b03da3d2e07ab98a642498b3be942e22e25a1f"
+    }
+  },
+  "runtime_observer_source": "0dc916c8d0f527eeecce03ec852ed2772695b93b",
+  "minimal_compiled_source": "6f6d8bdb13d26c718861d8483db7ed29a463118f",
+  "scope": "producer/auditor preflight only; no new hosted/platform qualification",
+  "shared_compiler_inputs": 383,
+  "shared_compiler_fingerprint": "718ef68c602569c75ebef62812962e1144a9c44a138ad71a183b58b537973c2c"
+}

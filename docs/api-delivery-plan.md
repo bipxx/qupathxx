@@ -496,12 +496,23 @@ SDK files and 559 GEOS SDK files authenticate. The fresh package reuses workspac
 test dependencies, so no clean-machine, other-platform or release claim follows.
 This closes the named local T4 consumer outcomes, not T5 or the full milestones.
 
-**Next execution:** update/preflight the required producers, auditors and named
-frontend cohorts before freezing a complete candidate. Preserve inherited case
-sets, fault contracts, capability markers and receipt rules. Run one integrated
-platform campaign; a native-only or backend-disabled profile cannot qualify a
-missing Python/GUI/training behavior. Keep independent biological/resource/
-hardware/release gates and the remaining SCI1-B workflows separate and open.
+**Next execution:** freeze and dispatch one complete integrated campaign. The
+[preflight at `fb3dfe6`](benchmarks/raw-classifier-preflight-local.json) makes the
+raw native/installed/GUI/typing/source contract mandatory in the producers and
+all three auditors. It requires 58 exact raw cases, explicit headless and
+training-OFF declarations, actual enabled native semantics, and late source
+rechecks across 459 inputs. All 515 selected admission/auditor controls pass;
+legacy diagnostic commands remain intact. Four strict-mypy positive files pass
+and twelve intended errors reject. The example now transfers pending results
+outside assertions and has real normal/`-O` resume/retention regressions.
+
+Actual minimal native checks passed on Windows; GUI-enabled installed captures
+exercise both desktop opt-in states. These are preflight observations, not a
+new headless wheel, Mac/Linux/sanitizer or integrated acceptance. Preserve every
+inherited cohort, fault contract, marker and receipt rule. Use full engine,
+both-architecture Mac-native and both portable builder/fresh-consumer inputs;
+track each original run to terminal state, then authenticate/audit all artifacts.
+No project milestone or biological/resource/hardware/release gate closes here.
 
 The development repair notes below are historical context, not an active queue.
 

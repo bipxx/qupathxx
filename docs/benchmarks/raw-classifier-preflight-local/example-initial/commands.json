@@ -1,0 +1,33 @@
+[
+  {
+    "name": "normal",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawgui234-wheel312-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\examples\\raw_classifier_workflow.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawt5-235\\example-initial\\source.qpx",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawt5-235\\example-initial\\normal",
+      "--image-id",
+      "1",
+      "--channels",
+      "2"
+    ],
+    "exit": 0
+  },
+  {
+    "name": "optimized",
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\rawgui234-wheel312-env\\Scripts\\python.exe",
+      "-I",
+      "-O",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\examples\\raw_classifier_workflow.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawt5-235\\example-initial\\source.qpx",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\rawt5-235\\example-initial\\optimized",
+      "--image-id",
+      "1",
+      "--channels",
+      "2"
+    ],
+    "exit": 1
+  }
+]
