@@ -2,6 +2,7 @@
 #include "raw_pixel_archive_checks.hpp"
 #include "qupathxx/raw_pixel_contours.hpp"
 #include <type_traits>
+#include <typeinfo>
 namespace raw_replay_checks {
 static_assert(!std::is_default_constructible_v<qpx::RawPixelContours>);
 inline void require(bool value,const char* text) {if(!value) throw std::runtime_error(std::string("Raw replay/apply: ")+text);}
@@ -44,8 +45,22 @@ inline void run() {
             require(std::abs(component.geometry.area()-double(component.pixels)*3.75)<1e-9,"rational per-axis contour area");
             for(std::int64_t y=0;y<2;++y) for(std::int64_t x=0;x<4;++x) require(component.geometry.contains({grid.x().center(x).binary64(),grid.y().center(y).binary64()})==(fresh->labels()[std::size_t(y*4+x)]==component.label),"raster center/class mismatch");
         }
-        stage="historical and foreign capture refusal";
-        rejects<std::invalid_argument>([&]{trace_raw_pixel_prediction(replay,detached->result());});rejects<std::invalid_argument>([&]{trace_raw_pixel_prediction(threshold,fresh);});
+        stage="historical capture refusal";
+        rejects<std::invalid_argument>([&]{
+            try {trace_raw_pixel_prediction(replay,detached->result());}
+            catch(const std::exception& error) {
+                std::cerr<<"Raw replay refusal [historical]: type="<<typeid(error).name()<<" message="<<error.what()<<'\n';throw;
+            }
+        });
+        std::cerr<<"Raw replay refusal [historical]: expected invalid_argument caught\n";
+        stage="foreign capture refusal";
+        rejects<std::invalid_argument>([&]{
+            try {trace_raw_pixel_prediction(threshold,fresh);}
+            catch(const std::exception& error) {
+                std::cerr<<"Raw replay refusal [foreign]: type="<<typeid(error).name()<<" message="<<error.what()<<'\n';throw;
+            }
+        });
+        std::cerr<<"Raw replay refusal [foreign]: expected invalid_argument caught\n";
         stage="contour cancellation and budget refusal";
         std::atomic<bool> cancelled{true};rejects<std::runtime_error>([&]{trace_raw_pixel_prediction(replay,fresh,{},&cancelled);});TissueContourOptions tiny;tiny.work_bytes=1;rejects<std::length_error>([&]{trace_raw_pixel_prediction(replay,fresh,tiny);});
         stage="contour job delivery";
@@ -68,7 +83,7 @@ inline void run() {
     doc.set_calibration(.5,.25);rejects<std::invalid_argument>([&]{RawPixelPredictionRequest::replay(doc,prediction_id);});
     std::cout<<"Raw pixel replay: pre-IO capture, source-bit comparison, historical/cross-document refusal, recipe/calibration/annotation checks and owner-job verification passed\n";
     } catch(const std::exception& error) {
-        throw std::runtime_error(std::string("Raw replay stage [")+stage+"]: "+error.what());
+        throw std::runtime_error(std::string("Raw replay stage [")+stage+"]: type="+typeid(error).name()+" message="+error.what());
     }
 }
 }

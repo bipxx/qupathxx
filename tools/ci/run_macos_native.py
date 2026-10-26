@@ -6,6 +6,7 @@ import json
 import os
 from pathlib import Path
 import platform
+import shutil
 import subprocess
 import sys
 import xml.etree.ElementTree as ET
@@ -60,7 +61,18 @@ def main():
     # Continue independent Ninja compilation after an error so one hosted run
     # exposes all portability diagnostics rather than only the first file.
     run(['cmake','--build',build,'--config','Release','--parallel','2','--','-k','0'],'build')
-    # Retain the original compiled executables and SDK identities even if CTest fails.
+    # The CLI inventory intentionally excludes tests; preserve the actual failing
+    # test program separately before CTest. Never claim the CLI snapshot contains it.
+    test_binary=build/'qupathxx_pixel_workflow_tests'
+    retained_test=work/test_binary.name
+    shutil.copyfile(test_binary,retained_test)
+    retained_test.chmod(0o755)
+    (work/'pixel-workflow-product.json').write_text(json.dumps(dict(
+        schema='qpx.macos-test-product/1',commit=os.environ.get('GITHUB_SHA'),
+        architecture=args.architecture,path=retained_test.name,
+        bytes=retained_test.stat().st_size,sha256=sha(retained_test),flags=flags,
+        scope='Original compiled test program before CTest; not test acceptance.'),indent=2)+'\n',encoding='utf-8')
+    # Retain the original compiled CLI executables and SDK identities even if CTest fails.
     run([sys.executable,'-I',ROOT/'tools/ci/macos_native_inventory.py','--native-build',build,
          '--geos-sdk',geos_work/'geos-sdk','--opencv-sdk',opencv,'--architecture',args.architecture,
          '--archive',work/'macos-native-files.zip','--output',work/'macos-native-file-inventory.json',
