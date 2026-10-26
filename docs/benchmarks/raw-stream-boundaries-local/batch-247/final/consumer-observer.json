@@ -1,0 +1,18 @@
+{
+  "source": "f5ec3eb14140f134c61b0bc1bd23a117c12bdd2a",
+  "files": {
+    "tests/test_raw_stream_contour_python.py": "a3057a5a6d9c8885d1793c1633b20a815fe426188cf76c5d71e69733b9ca22e4",
+    "tests/raw_stream_contour_shutdown_child.py": "d4ca24c567608aee04352e36379f0676a8cde8f1376a51f5be6621a3308e4dc9",
+    "tests/typing/raw_stream_contour_valid.py": "5ce01c7e0657eac71cf3164106071c5cd9d0f798e252bf2070aa6366223356c3",
+    "tests/typing/raw_stream_contour_invalid.py": "1415f4145ec9602861c1ba9af5a1dfc98ed82b11e09af2847973549af57b0bd1",
+    "tools/generate_stubs.py": "6084d2ad4f50e7513271ac019761bf93623f2ddafe4fe18175bacc45416158c7",
+    "tests/test_gui_raw_stream_contours.py": "5a248a9a2d43f69c214f79abde1b18ef42e4bd652ba945c26c3a8756acaa8476",
+    "tests/test_raw_stream_contour_cli.py": "76a7d780213bce7b60c8401467b6315ffa354b48585d726abef2fae7af95a6c2",
+    "tests/test_raw_pixel_cli.py": "23b0b471c78959350d5fcc3b1f1acb6d55972adeaac0a93fcc551ac2f263691a",
+    "tests/test_raw_stream_contour_batch.py": "8a55ba825a689e158de556fa55f1fbeabd67caeb0707b664b1da7ea2f82bda4f",
+    "tests/test_gui_batch.py": "3dcc1a1614d36450f3b948440231ab52d5271442691c1e0e22d082a21d3e8b32",
+    "tests/test_gui_pixel_batch.py": "d3a106b1ed64c6e1e39d8676336626000a773f1b9955249c34d8a2edbb802a17"
+  },
+  "compiled_runtime_source": "f5ec3eb14140f134c61b0bc1bd23a117c12bdd2a",
+  "compiler_inputs_unchanged": true
+}

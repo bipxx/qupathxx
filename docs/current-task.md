@@ -2,8 +2,8 @@
 
 ## Current execution card (2026-10-26)
 
-Current implementation: `97c3888` in `build/ci/scientific-grid-159`.
-Last installed verified runtime: `4e91d1e`. These are different evidence scopes.
+Current implementation: `f5ec3eb` in `build/ci/scientific-grid-159`.
+Last installed verified runtime: `f5ec3eb`. The installed source matches the implementation.
 All M0–M7 remain Partial; public-main qualification remains at `61e546e`.
 
 - **Verified locally:** [streamed Python/desktop/managed consumers](benchmarks/raw-stream-boundaries-local/frontends-245/receipt.json),
@@ -19,7 +19,19 @@ All M0–M7 remain Partial; public-main qualification remains at `61e546e`.
   prior comparison environments and products remain preserved. This is Windows
   local engineering evidence with shared test dependencies, not clean-machine
   support or integrated platform qualification.
-- **Still missing:** streamed contour project batches and historical QWS1
+- **Project batches locally verified:** [installed receipt](benchmarks/raw-stream-boundaries-local/batch-247/receipt.json) at
+  `f5ec3eb`: nine Windows positive/five Clang all-optional-OFF native suites,
+  274 Python passes/three declared skips, all 15 new batch cases, stubs/typing.
+  A separate installed case also verifies moved-output reuse and a genuinely
+  changed model on the unchanged wheel (16 new batch cases combined).
+  Shared captured requests produce per-image annotations/CSV, verify sealed data
+  and current input hashes before reuse, preserve completed images across
+  cancellation, and resume through native/Python/CLI/ImGui. Actual desktop
+  launch/reuse and final screenshot verify. The original namespace compile error
+  and SQLite-fixture busy-handle failure remain retained; the fixture correction
+  reused unchanged development binaries. Final members/SDKs and prior products
+  authenticate. Full platform/science/hardware/release gates remain open.
+- **Still missing:** historical QWS1
   geometry conversion/reverification. Saved applied annotations reopen already;
   historical prediction blocks still confer no live apply authority.
 - **Qualification failure:** [original diagnostic240](benchmarks/raw-replay-macos-240/terminal-observation/receipt.json)
@@ -28,8 +40,8 @@ All M0–M7 remain Partial; public-main qualification remains at `61e546e`.
   before a source-series error. The authentic failing arm64 executable survives.
   Root cause and repair are unproven. Do not redispatch the same diagnostic.
 - **Next action:** follow [B5 consumer tasks](api-delivery-plan.md#b5-remaining-consumer-tasks)
-  in the single API queue. Implement captured streamed-contour project batches via the existing native
-  request/job/checkpoint path. Reuse the
+  in the single API queue. Implement historical QWS1 geometry conversion with the existing verified
+  reader and shared boundary/GEOS kernel; live apply requires a fresh capture. Reuse the
   existing SDK/cache after preserving prior products; no documentation-only build.
 - **Separate open gates:** scientific/model acceptance, rights/labels, eligible
   hardware/process-memory budgets, full platform qualification, clean-machine

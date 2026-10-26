@@ -1,0 +1,23 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_ test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope _
+
+tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4204/test_batch_contour_moved_outpu0')
+
+    def test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope(tmp_path):
+        import shutil
+        p,docs,model=scene(tmp_path,(8,))
+        try:
+            output=tmp_path/"out";capture=request(p,model,options(model));first=success(q.run_project_batch(capture,str(output)))
+            relative=Path(first.images[0].path).relative_to(output);moved=tmp_path/"moved";shutil.move(str(output),str(moved))
+            again=success(q.run_project_batch(capture,str(moved)))
+>           assert again.reused==1 and Path(again.images[0].path)==moved/relative
+E           AssertionError: assert (1 == 1 and WindowsPath('//?/C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4204/test_batch_contour_moved_outpu0/moved/image...67812050c110a3646c0c55dd3dfa84896e9ebdf252b3/c036b3f7eac9a5aa5254b4e054a78cd113d630de558e95377a2fb1e2ac4bf428.qpxproj') == (WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4204/test_batch_contour_moved_outpu0/moved') / WindowsPath('image-1-5b461757dc253b26d13867812050c110a3646c0c55dd3dfa84896e9ebdf252b3/c036b3f7eac9a5aa5254b4e054a78cd113d630de558e95377a2fb1e2ac4bf428.qpxproj')))
+E            +  where 1 = <qupathxx._native.ProjectBatchReport object at 0x0000024FDBA42670>.reused
+E            +  and   WindowsPath('//?/C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4204/test_batch_contour_moved_outpu0/moved/image...67812050c110a3646c0c55dd3dfa84896e9ebdf252b3/c036b3f7eac9a5aa5254b4e054a78cd113d630de558e95377a2fb1e2ac4bf428.qpxproj') = Path('\\\\?\\C:\\Users\\HEQ\\AppData\\Local\\Temp\\pytest-of-HEQ\\pytest-4204\\test_batch_contour_moved_outpu0\\moved\\imag...67812050c110a3646c0c55dd3dfa84896e9ebdf252b3\\c036b3f7eac9a5aa5254b4e054a78cd113d630de558e95377a2fb1e2ac4bf428.qpxproj')
+E            +    where '\\\\?\\C:\\Users\\HEQ\\AppData\\Local\\Temp\\pytest-of-HEQ\\pytest-4204\\test_batch_contour_moved_outpu0\\moved\\imag...67812050c110a3646c0c55dd3dfa84896e9ebdf252b3\\c036b3f7eac9a5aa5254b4e054a78cd113d630de558e95377a2fb1e2ac4bf428.qpxproj' = <qupathxx._native.ProjectBatchImageResult object at 0x0000024FB4CFB490>.path
+
+build\ci\scientific-grid-159\tests\test_raw_stream_contour_batch.py:195: AssertionError
+=========================== short test summary info ===========================
+FAILED build\ci\scientific-grid-159\tests\test_raw_stream_contour_batch.py::test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope
+1 failed in 0.52s

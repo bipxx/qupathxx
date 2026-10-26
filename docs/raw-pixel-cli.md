@@ -128,7 +128,8 @@ Argument errors use the existing batch-error stderr record. Exit codes are 0
 success, 1 failure/partial, 2 invalid arguments and 130 cancellation. A verified
 prefix may be partial; inspect its completion field. Existing `--kind raw`
 continues to mean raw measurements; see [raw project batches](project-raw-pixel-batches.md)
-for multi-image raw classification. Streamed contour batches remain planned.
+for multi-image raw classification. [Streamed contour batches](project-raw-pixel-batches.md#streamed-contour-projects)
+now have separate local installed verification.
 
 [Local evidence](benchmarks/raw-pixel-cli-local.json) binds source `f463110`,
 376 compiler inputs, 104 installed Python passes (14 new CLI cases), three
@@ -144,6 +145,5 @@ verifies installed runtime `4e91d1e`: all 18 new cases, nine native suites and
 240 installed Python passes/three declared skips, generated stubs and typing.
 The Windows cp312 profile enables GUI/GEOS/training/TIFF/project; OpenSlide is
 OFF. Complete SDK identities and packaged notices match. This is local
-engineering acceptance with reused test dependencies; project contour batches,
-historical QWS1 conversion and full platform/scientific/resource/release gates
+engineering acceptance with reused test dependencies; historical QWS1 conversion and full platform/scientific/resource/release gates
 remain open.

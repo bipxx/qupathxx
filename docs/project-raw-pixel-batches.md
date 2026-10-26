@@ -161,3 +161,19 @@ existing sealed project-data checksum, including geometry and CSV. Changed
 inputs recompute; changed settings select a distinct checkpoint scope. Modified
 checkpoint data rejects. File versions are checked again before final output
 publication. A checkpoint is historical output, not a live document capture.
+
+[Installed local batch receipt](benchmarks/raw-stream-boundaries-local/batch-247/receipt.json) binds runtime `f5ec3eb`, nine Windows
+positive/five Clang all-optional-OFF native suites, 274 Python passes/three
+skips and all 15 new batch cases. Generated stubs/typing and actual desktop
+launch/reuse verify. Tests include a held live workspace, fractional axes,
+multiple targets, mixed failures, four quotas, modified-checkpoint refusal,
+source/settings changes, active cancellation and CLI interruption after an
+image commit followed by resume. Complete SDK and installed identities match.
+Shared test dependencies remain; full platform, scientific/resource and
+clean-machine/release acceptance are open.
+
+A supplementary installed case on the unchanged wheel verifies relocated-output
+reuse and a genuinely retrained model selecting a separate checkpoint scope.
+Combined evidence covers 278 unique Python cases: 275 pass, three declared skips;
+16 new batch cases pass. The receipt keeps the original cohort and supplementary
+observation separate.
