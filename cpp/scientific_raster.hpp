@@ -16,6 +16,8 @@ struct ScientificRasterSpec {
 };
 // Detector geometry needs distinct, interior-representable world centers and
 // edges. The request planner can call this before any IO or raster allocation.
+void validate_scientific_axis_geometry(const ScientificGridAxis&,std::int64_t first,std::int64_t stop,
+    const std::atomic<bool>* cancelled=nullptr);
 void validate_scientific_raster_geometry(const ScientificGrid&,const std::atomic<bool>* cancelled=nullptr);
 bool scientific_sample_eligible(const AnalysisRequest&,const ScientificRgbGrid&,std::size_t x,std::size_t y);
 bool scientific_core_roi_contains(const Roi&,const ScientificGrid&,RoiSamplingPolicy,std::size_t x,std::size_t y);

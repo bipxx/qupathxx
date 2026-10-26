@@ -2,6 +2,7 @@
 #include "../raw_stream_boundaries.hpp"
 #include "raw_contour_seam_reference.hpp"
 #include <algorithm>
+#include <cmath>
 #include <iostream>
 #include <tuple>
 
@@ -37,6 +38,44 @@ inline std::vector<Edge> expand(const qpx::detail::RawStreamBoundaries& result) 
     }
     std::sort(edges.begin(),edges.end());return edges;
 }
+inline Edge undirected(std::uint32_t label,std::int64_t x,std::int64_t y,std::int64_t xx,std::int64_t yy) {
+    if(std::tie(xx,yy)<std::tie(x,y)) {std::swap(x,xx);std::swap(y,yy);}return {label,x,y,xx,yy};
+}
+inline void geometry_matches(const raw_contour_seam_reference::Case& c,const qpx::detail::RawStreamBoundaries& network) {
+    using namespace qpx;using namespace qpx::detail;
+    if(!has_geos()) {rejects<std::runtime_error>([&]{trace_raw_boundary_geometry(network);});return;}
+    const auto traced=trace_raw_boundary_geometry(network);std::vector<Edge> actual,expected;
+    require(traced->input_sha256().empty() && traced->object_id()==0,"geometry fabricated source/apply identity");
+    require(traced->retained_bytes()<=traced->estimated_work_bytes(),"geometry retained admission differs");
+    for(const auto& e:c.edges) expected.push_back(undirected(e.label,e.x0,e.y0,e.x1,e.y1));
+    const auto dx=GridFraction(c.extent[0],c.samples[0]).binary64(),dy=GridFraction(c.extent[1],c.samples[1]).binary64();
+    std::size_t seen=0;
+    for(const auto& component:traced->components()) {
+        ++seen;const auto label=component.label;require(label>=1 && label<=3 && component.pixels==c.counts[label-1],"geometry class sample count differs");
+        double perimeter=0;
+        for(const auto& e:c.edges) if(e.label==label) perimeter+=(e.x0==e.x1?dy:dx);
+        require(component.geometry.area()==double(component.pixels)*dx*dy && component.geometry.perimeter()==perimeter,"exact independent world area/perimeter differs");
+        const auto parts=component.geometry.polygon_parts();std::size_t holes=0;for(const auto& part:parts) holes+=part.holes.size();
+        const bool nested=std::string(c.name)=="nested_holes",crop=std::string(c.name)=="cropped_anisotropic",diagonal=std::string(c.name)=="diagonal_contacts";
+        require(parts.size()==(diagonal?4u:1u) && holes==((nested || (crop && label==1))?1u:0u),"independent component/hole topology differs");
+        for(const auto& path:component.geometry.paths()) {
+            auto index=[&](Point point) {
+                const auto x=std::int64_t(std::llround((point.x-c.origin[0])/dx)),y=std::int64_t(std::llround((point.y-c.origin[1])/dy));
+                require(network.geometry.lattice.x().edge(x).binary64()==point.x && network.geometry.lattice.y().edge(y).binary64()==point.y,"world vertex lost original lattice phase");
+                return std::pair<std::int64_t,std::int64_t>{x,y};
+            };
+            for(std::size_t i=0;i<path.size();++i) {
+                auto a=index(path[i]),b=index(path[(i+1)%path.size()]);require(a.first==b.first || a.second==b.second,"non-raster geometry edge");
+                while(a!=b) {
+                    const auto next=std::pair<std::int64_t,std::int64_t>{a.first+(b.first>a.first)-(b.first<a.first),a.second+(b.second>a.second)-(b.second<a.second)};
+                    actual.push_back(undirected(label,a.first,a.second,next.first,next.second));a=next;
+                }
+            }
+        }
+    }
+    require(seen==std::size_t(std::count_if(c.counts.begin(),c.counts.end(),[](auto n){return n!=0;})),"missing output class");
+    std::sort(actual.begin(),actual.end());std::sort(expected.begin(),expected.end());require(actual==expected,"independent geometry cell edges differ");
+}
 inline void run() {
     using namespace qpx;using namespace qpx::detail;
     const auto cases=raw_contour_seam_reference::cases();
@@ -50,6 +89,7 @@ inline void run() {
             require(result.class_counts==std::vector<std::uint64_t>(c.counts.begin(),c.counts.end()) && result.completed_samples==g.samples && result.completed_windows==g.windows,"counts or coverage differ");
             if(!canonical.empty()) require(canonical==result.runs,"compressed network depends on tile shape");
             canonical=result.runs;
+            geometry_matches(c,result);
             std::vector<RawBoundaryCell> cells;
             for(std::int64_t y=0;y<c.height;++y) for(std::int64_t x=0;x<c.width;++x)
                 cells.push_back({c.first[0]+x,c.first[1]+y});
@@ -94,6 +134,29 @@ inline void run() {
     require(located.labels==std::vector<std::uint32_t>(sparse_queries.size(),1) && located.peak_active==2 && located.estimated_work_bytes<=128*1024,"sparse face lookup grew with raster area");
     auto overlapping=result;overlapping.runs.push_back(*std::find_if(result.runs.begin(),result.runs.end(),[](const auto& r){return r.vertical;}));
     rejects<std::invalid_argument>([&]{label_raw_boundary_cells(overlapping,sparse_queries,128*1024);});
+    if(has_geos()) {
+        TissueContourOptions options;options.work_bytes=192*1024;
+        const auto geometry=trace_raw_boundary_geometry(result,options);
+        require(geometry->components().size()==1 && geometry->components()[0].pixels==2000000 && geometry->components()[0].geometry.area()==2000000 && geometry->components()[0].geometry.perimeter()==2000004 && geometry->vertex_count()==4 && geometry->estimated_work_bytes()<=options.work_bytes,"uniform geometry scaled with raster area");
+        const auto roi=Roi::rectangle({.5,0,4,2});
+        const auto clipped=trace_raw_boundary_geometry(result,options,&roi);
+        require(clipped->components()[0].geometry.area()==8 && clipped->components()[0].pixels==2000000,"ROI clipping/count semantics differ");
+        options.clip_to_roi=false;require(trace_raw_boundary_geometry(result,options,&roi)->components()[0].geometry.area()==2000000,"ROI clipping toggle ignored");
+        auto small=options;small.max_edges=1;rejects<std::length_error>([&]{trace_raw_boundary_geometry(result,small);});
+        small=options;small.max_vertices=3;rejects<std::length_error>([&]{trace_raw_boundary_geometry(result,small);});
+        small=options;small.work_bytes=1;rejects<std::length_error>([&]{trace_raw_boundary_geometry(result,small);});
+        std::atomic<bool> stopped{true};rejects<std::runtime_error>([&]{trace_raw_boundary_geometry(result,options,nullptr,&stopped);});
+        auto wrong_counts=result;wrong_counts.class_counts[0]-=1;rejects<std::runtime_error>([&]{trace_raw_boundary_geometry(wrong_counts);});
+        RawPixelStreamOptions tile;tile.tile_width=2;tile.tile_height=2;
+        const RawPixelStreamGeometry outside(ScientificRawLattice(1,1,{-1,2,2},{-1,2,2}),{0,0,2,2},tile);
+        RawStreamBoundaryBuilder clipped_builder(outside,1);clipped_builder.append(outside.window(0),std::vector<std::uint32_t>(4,1));
+        const auto image_clipped=trace_raw_boundary_geometry(clipped_builder.finish());
+        require(image_clipped->components()[0].geometry.area()==1 && image_clipped->components()[0].pixels==4,"source image clipping differs");
+        const RawPixelStreamGeometry imprecise(ScientificRawLattice(1000000000000LL,1,{999999999999LL,1,1000000},{0,1,1}),{0,0,1,1},tile);
+        RawStreamBoundaryBuilder precision(imprecise,1);precision.append(imprecise.window(0),{1});const auto collapsed=precision.finish();
+        rejects<std::invalid_argument>([&]{trace_raw_boundary_geometry(collapsed);});
+        std::cout<<"Raw streamed geometry: 16 independent edge/area/perimeter/part/hole layouts, both-axis crop phase, ROI/image clipping, strict limits/cancel/precision/count refusal and 2000000 samples under 192 KiB passed\n";
+    } else std::cout<<"Raw streamed geometry: GEOS-unavailable refusal passed\n";
     std::cout<<"Raw boundary face lookup: independent cells across 16 layouts, query order/duplicate/half-open/global crop, incomplete/invalid/cancel/work refusal and sparse 2000000-cell network passed\n";
     std::cout<<"Raw stream boundaries: independent class seams/holes/corners/global phase, strict block/cancel/quota refusal and 2000000 samples with "<<result.peak_runs<<" peak runs passed\n";
 }

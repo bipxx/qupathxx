@@ -51,6 +51,7 @@ RawBoundaryLabels label_raw_boundary_cells(const RawStreamBoundaries& network,
            cell.x>=region.first_x+region.width || cell.y>=region.first_y+region.height)
             throw std::invalid_argument("raw boundary lookup cell outside region");
     }
+    if(cells.empty()) {RawBoundaryLabels empty;empty.estimated_work_bytes=work;return empty;}
     std::vector<Event> events;events.reserve(2*vertical);
     for(std::size_t i=0;i<network.runs.size();++i) if(network.runs[i].vertical) {
         const auto& r=network.runs[i];events.push_back({r.first,i,true});events.push_back({r.last,i,false});

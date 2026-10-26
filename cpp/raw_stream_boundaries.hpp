@@ -1,5 +1,6 @@
 #pragma once
 #include "raw_pixel_stream_internal.hpp"
+#include "qupathxx/tissue.hpp"
 #include <memory>
 #include <vector>
 
@@ -38,6 +39,12 @@ struct RawBoundaryLabels {
 RawBoundaryLabels label_raw_boundary_cells(const RawStreamBoundaries&,
     const std::vector<RawBoundaryCell>&,std::size_t work_bytes,
     const std::atomic<bool>* cancelled=nullptr);
+
+// Internal geometry conversion only. The result has empty input identity and
+// object ID zero: it grants no live source verification or apply authority.
+// A future streamed workflow must wrap it with its own completed capture.
+std::shared_ptr<const TissueContours> trace_raw_boundary_geometry(const RawStreamBoundaries&,
+    TissueContourOptions={},const Roi* clip=nullptr,const std::atomic<bool>* cancelled=nullptr);
 
 // One worker owns this builder. Only the external cancellation flag may change
 // concurrently. Input arrays are borrowed for append() and never retained.

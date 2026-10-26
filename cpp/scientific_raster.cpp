@@ -22,20 +22,22 @@ struct Stats {
     std::int64_t left=std::numeric_limits<std::int64_t>::max(),top=std::numeric_limits<std::int64_t>::max(),right=0,bottom=0;
 };
 }
-void validate_scientific_raster_geometry(const ScientificGrid& grid,const std::atomic<bool>* cancelled) {
+void validate_scientific_axis_geometry(const ScientificGridAxis& value,std::int64_t begin,std::int64_t end,const std::atomic<bool>* cancelled) {
     checkpoint(cancelled);
-    for(const auto* axis:{&grid.x(),&grid.y()}) {
-        const auto first=axis->edge(axis->first_index()).binary64(),last=axis->edge(axis->stop_index()).binary64();
+    const auto* axis=&value;
+    if(begin<axis->first_index() || end>axis->stop_index() || begin>=end) throw std::invalid_argument("invalid scientific geometry axis range");
+    {
+        const auto first=axis->edge(begin).binary64(),last=axis->edge(end).binary64();
         // Bound the largest representable gap over the whole axis. Each center
         // is half a step from either edge. If that exact distance exceeds the
         // gap bound, nearest-even rounding cannot collapse either pair.
         const auto magnitude=std::nextafter(std::max(std::abs(first),std::abs(last)),std::numeric_limits<double>::infinity());
         const auto gap=std::nextafter(magnitude,std::numeric_limits<double>::infinity())-magnitude;
         const auto lower_step=std::nextafter(GridFraction(axis->extent(),axis->samples()).binary64(),0.);
-        if(std::isfinite(magnitude) && lower_step>2*gap) continue;
+        if(std::isfinite(magnitude) && lower_step>2*gap) return;
         // Near representability boundaries retain the exact per-sample test.
         auto previous=first;
-        for(auto i=axis->first_index();i<axis->stop_index();++i) {
+        for(auto i=begin;i<end;++i) {
             if((i&4095)==0) checkpoint(cancelled);
             const auto next=axis->edge(i+1).binary64(),center=axis->center(i).binary64();
             if(!std::isfinite(previous) || !std::isfinite(next) || !(previous<center && center<next))
@@ -53,6 +55,11 @@ bool scientific_core_roi_contains(const Roi& roi,const ScientificGrid& grid,RoiS
     if(center.x<b.x || center.y<b.y || center.x>=b.x+b.width || center.y>=b.y+b.height) return false;
     return policy==RoiSamplingPolicy::GeometryCoverage?roi.contains(center):roi.contains_sample(center,policy);
 }
+void validate_scientific_raster_geometry(const ScientificGrid& grid,const std::atomic<bool>* cancelled) {
+    for(const auto* axis:{&grid.x(),&grid.y()})
+        validate_scientific_axis_geometry(*axis,axis->first_index(),axis->stop_index(),cancelled);
+}
+
 bool scientific_sample_eligible(const AnalysisRequest& source,const ScientificRgbGrid& input,std::size_t x,std::size_t y) {
     if(x>=std::uint64_t(input.width()) || y>=std::uint64_t(input.height())) throw std::out_of_range("scientific sample outside grid");
     return input.valid()[y*std::size_t(input.width())+x] && scientific_core_roi_contains(source.roi(),input.grid(),source.sampling_policy(),x,y);

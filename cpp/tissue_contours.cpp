@@ -3,6 +3,7 @@
 #include "qupathxx/provenance.hpp"
 #include "scientific_raster.hpp"
 #include "raster_boundary_runs.hpp"
+#include "raw_stream_boundaries.hpp"
 #include "raw_pixel_workflow_snapshot.hpp"
 #include "utf8_text.hpp"
 #include <algorithm>
@@ -24,6 +25,54 @@ template<class Mask,class Emit> void boundary_runs(const Mask& mask,Emit&& emit,
     detail::for_each_label_boundary_run(mask,[&](auto x0,auto y0,auto x1,auto y1,auto,auto) {
         emit(x0,y0,x1,y1);
     },cancelled);
+}
+struct StreamBoundaryRaster {
+    const detail::RawStreamBoundaries& network;const Roi* clipped;Roi image;
+    struct Component {std::uint32_t label;std::uint64_t pixels;};
+    std::vector<Component> classes;std::string identity;std::uint64_t foreground=0;
+    StreamBoundaryRaster(const detail::RawStreamBoundaries& n,const Roi* roi,std::size_t budget,const std::atomic<bool>* cancel):
+        network(n),clipped(roi),image(Roi::rectangle({0,0,double(n.geometry.lattice.image_width()),double(n.geometry.lattice.image_height())})) {
+        detail::label_raw_boundary_cells(n,{},budget,cancel); // validate the complete tagged network before GEOS
+        for(std::size_t i=0;i<n.class_counts.size();++i) {
+            if(n.class_counts[i]>n.completed_samples-foreground) throw std::invalid_argument("raw boundary class counts exceed samples");
+            foreground+=n.class_counts[i];classes.push_back({std::uint32_t(i+1),n.class_counts[i]});
+        }
+    }
+    const auto& components() const {return classes;}
+    auto width() const {return network.geometry.region.width;}auto height() const {return network.geometry.region.height;}
+    auto foreground_pixels() const {return foreground;}
+    const Roi& roi() const {return clipped?*clipped:image;}
+    Rect bounds() const {return {0,0,double(width()),double(height())};}double downsample() const {return 0.;}
+    const ScientificGrid* scientific_grid() const {return nullptr;}
+    Rect image_bounds() const {return image.bounds();}
+    const auto& input_sha256() const {return identity;}std::uint64_t object_id() const {return 0;}
+};
+template<class Emit> void boundary_runs(const StreamBoundaryRaster& mask,Emit&& emit,const std::atomic<bool>* cancelled) {
+    const auto& region=mask.network.geometry.region;
+    for(const auto& r:mask.network.runs) {
+        checkpoint(cancelled);
+        if(r.vertical) emit(r.fixed-region.first_x,r.first-region.first_y,r.fixed-region.first_x,r.last-region.first_y);
+        else emit(r.first-region.first_x,r.fixed-region.first_y,r.last-region.first_x,r.fixed-region.first_y);
+    }
+}
+template<class Mask> const RawPixelStreamGeometry* stream_geometry(const Mask&) {return nullptr;}
+const RawPixelStreamGeometry* stream_geometry(const StreamBoundaryRaster& m) {return &m.network.geometry;}
+template<class Mask> std::size_t boundary_payload(const Mask&) {return 0;}
+std::size_t boundary_payload(const StreamBoundaryRaster& m) {
+    return sizeof(m.network)+m.network.runs.capacity()*sizeof(detail::RawBoundaryRun)+m.network.class_counts.capacity()*sizeof(std::uint64_t);
+}
+template<class Mask> detail::RawBoundaryLabels classify_face_cells(const Mask& mask,
+    std::vector<detail::RawBoundaryCell>& cells,std::size_t budget,const std::atomic<bool>* cancelled) {
+    detail::RawBoundaryLabels result;result.estimated_work_bytes=cells.size()*sizeof(std::uint32_t);
+    if(result.estimated_work_bytes>budget) throw std::length_error("tissue contour face-label work budget exceeded");
+    result.labels.reserve(cells.size());
+    for(const auto& c:cells) {checkpoint(cancelled);result.labels.push_back(mask.labels()[std::size_t(c.y)*std::size_t(mask.width())+std::size_t(c.x)]);}
+    return result;
+}
+detail::RawBoundaryLabels classify_face_cells(const StreamBoundaryRaster& mask,
+    std::vector<detail::RawBoundaryCell>& cells,std::size_t budget,const std::atomic<bool>* cancelled) {
+    for(auto& c:cells) {checkpoint(cancelled);c.x+=mask.network.geometry.region.first_x;c.y+=mask.network.geometry.region.first_y;}
+    return detail::label_raw_boundary_cells(mask.network,cells,budget,cancelled);
 }
 #ifdef QUPATHXX_HAS_GEOS
 struct Destroy {GEOSContextHandle_t ctx;void operator()(GEOSGeometry* g) const {if(g) GEOSGeom_destroy_r(ctx,g);}};
@@ -102,7 +151,7 @@ struct TissueContourKernel {
 #else
         const auto began=std::chrono::steady_clock::now();
         if(mask.components().size()>options.max_components) throw std::length_error("tissue contour component limit exceeded");
-        const auto base=65536ull+mask.components().size()*512ull+(options.clip_to_roi?2ull*mask.roi().payload_bytes():0);
+        const auto base=65536ull+boundary_payload(mask)+mask.components().size()*512ull+(options.clip_to_roi?2ull*mask.roi().payload_bytes():0);
         if(base>options.work_bytes) throw std::length_error("tissue contour work budget exceeded");
         auto result=std::shared_ptr<TissueContours>(new TissueContours());result->options_=options;result->input_sha256_=mask.input_sha256();result->object_id_=mask.object_id();
         if(mask.foreground_pixels()) boundary_runs(mask,[&](auto,auto,auto,auto) {
@@ -123,27 +172,49 @@ struct TissueContourKernel {
             checkpoint(cancelled);auto faces=backend.own(GEOSPolygonize_r(backend.ctx,lines.data(),static_cast<unsigned>(lines.size())));
             const auto image=mask.image_bounds();auto clip=backend.own(GEOSGeom_createRectangle_r(backend.ctx,0,0,image.width,image.height));
             if(options.clip_to_roi) {auto roi=backend.read(mask.roi().wkt());clip=backend.own(GEOSIntersection_r(backend.ctx,clip.get(),roi.get()));}
-            struct Mapping {Rect bounds;double scale;const ScientificGrid* grid;const std::atomic<bool>* cancelled;};
-            const auto grid=mask.scientific_grid();Mapping mapping{mask.bounds(),grid?0.:mask.downsample(),grid,cancelled};
+            struct Mapping {Rect bounds;double scale;const ScientificGrid* grid;const RawPixelStreamGeometry* stream;const std::atomic<bool>* cancelled;};
+            const auto grid=mask.scientific_grid();const auto stream=stream_geometry(mask);
+            Mapping mapping{mask.bounds(),(grid || stream)?0.:mask.downsample(),grid,stream,cancelled};
             if(grid) validate_scientific_raster_geometry(*grid,cancelled);
-            else {
+            else if(stream) {
+                const auto& r=stream->region;
+                validate_scientific_axis_geometry(stream->lattice.x(),r.first_x,r.first_x+r.width,cancelled);
+                validate_scientific_axis_geometry(stream->lattice.y(),r.first_y,r.first_y+r.height,cancelled);
+            } else {
                 const auto far_x=mapping.bounds.x+(mask.width()-1)*mapping.scale,far_y=mapping.bounds.y+(mask.height()-1)*mapping.scale;
                 if(!std::isfinite(far_x+mapping.scale) || !std::isfinite(far_y+mapping.scale) || mapping.bounds.x+mapping.scale<=mapping.bounds.x || mapping.bounds.y+mapping.scale<=mapping.bounds.y || far_x+mapping.scale<=far_x || far_y+mapping.scale<=far_y)
                     throw std::invalid_argument("tissue contour grid loses coordinate precision");
             }
             std::vector<std::vector<PolygonPart>> grouped(mask.components().size());std::vector<std::uint64_t> areas(mask.components().size());
             std::size_t extracted=0;const auto count=GEOSGetNumGeometries_r(backend.ctx,faces.get());if(count<0) throw std::runtime_error("invalid tissue contour faces");
+            if(std::size_t(count)>options.max_edges || std::size_t(count)>(options.work_bytes-result->work_)/sizeof(detail::RawBoundaryCell))
+                throw std::length_error("tissue contour face-query work budget exceeded");
+            result->work_+=std::size_t(count)*sizeof(detail::RawBoundaryCell);
+            std::vector<detail::RawBoundaryCell> cells;cells.reserve(count);
             for(int i=0;i<count;++i) {
                 checkpoint(cancelled);const auto* face=GEOSGetGeometryN_r(backend.ctx,faces.get(),i);
                 auto point=backend.own(GEOSPointOnSurface_r(backend.ctx,face));double x,y;
                 if(!GEOSGeomGetX_r(backend.ctx,point.get(),&x) || !GEOSGeomGetY_r(backend.ctx,point.get(),&y) || !std::isfinite(x) || !std::isfinite(y) || x<0 || y<0 || x>=mask.width() || y>=mask.height()) throw std::runtime_error("invalid tissue contour interior point");
-                const auto label=mask.labels()[static_cast<std::size_t>(std::floor(y))*static_cast<std::size_t>(mask.width())+static_cast<std::size_t>(std::floor(x))];if(!label) continue;
+                cells.push_back({std::int64_t(std::floor(x)),std::int64_t(std::floor(y))});
+            }
+            const auto located=classify_face_cells(mask,cells,options.work_bytes-result->work_,cancelled);
+            result->work_+=located.estimated_work_bytes;
+            for(int i=0;i<count;++i) {
+                checkpoint(cancelled);const auto* face=GEOSGetGeometryN_r(backend.ctx,faces.get(),i);
+                const auto label=located.labels[std::size_t(i)];if(!label) continue;
                 if(label>grouped.size() || GEOSisValid_r(backend.ctx,face)!=1) throw std::runtime_error("invalid tissue contour face");
                 double area=0;if(!GEOSArea_r(backend.ctx,face,&area) || !std::isfinite(area) || area<0 || area>mask.foreground_pixels() || std::abs(area-std::round(area))>1e-6) throw std::runtime_error("invalid tissue contour raster area");
                 areas[label-1]+=static_cast<std::uint64_t>(std::llround(area));
                 auto world=backend.own(GEOSGeom_transformXY_r(backend.ctx,face,[](double* xx,double* yy,void* user)->int {
                     const auto& m=*static_cast<Mapping*>(user);if(m.cancelled && m.cancelled->load(std::memory_order_relaxed)) return 0;
-                    if(m.grid) {
+                    if(m.stream) {
+                        const auto& r=m.stream->region;
+                        if(!std::isfinite(*xx) || !std::isfinite(*yy) || *xx<0 || *yy<0 || *xx>r.width || *yy>r.height || std::trunc(*xx)!=*xx || std::trunc(*yy)!=*yy) return 0;
+                        try {
+                            *xx=m.stream->lattice.x().edge(std::int64_t(*xx)+r.first_x).binary64();
+                            *yy=m.stream->lattice.y().edge(std::int64_t(*yy)+r.first_y).binary64();
+                        } catch(const std::exception&) {return 0;}
+                    } else if(m.grid) {
                         if(!std::isfinite(*xx) || !std::isfinite(*yy) || *xx<0 || *yy<0 || *xx>m.grid->width() || *yy>m.grid->height() || std::trunc(*xx)!=*xx || std::trunc(*yy)!=*yy) return 0;
                         try {
                             *xx=m.grid->x().edge(std::int64_t(*xx)+m.grid->x().first_index()).binary64();
@@ -169,6 +240,15 @@ struct TissueContourKernel {
 #endif
     }
 };
+std::shared_ptr<const TissueContours> detail::trace_raw_boundary_geometry(const RawStreamBoundaries& network,
+    TissueContourOptions options,const Roi* clip,const std::atomic<bool>* cancelled) {
+    options.validate();checkpoint(cancelled);
+#ifndef QUPATHXX_HAS_GEOS
+    (void)network;(void)clip;throw std::runtime_error("tissue contours require QUPATHXX_BUILD_GEOS=ON");
+#else
+    return TissueContourKernel::run(StreamBoundaryRaster(network,clip,options.work_bytes,cancelled),options,cancelled);
+#endif
+}
 namespace {
 // Borrow the immutable raster; only the <=256-entry class summary is copied.
 struct PixelRaster {
