@@ -1,33 +1,26 @@
-name: Retained arm64 exception diagnosis
+name: Arm64 exception table isolation
 on:
   workflow_dispatch:
 permissions:
   contents: read
-  actions: read
 jobs:
-  retained-arm64:
+  exception-link-witness:
     runs-on: macos-15
-    timeout-minutes: 15
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
       - name: Fetch exact original comparison commit
         run: git fetch --no-tags --depth=1 origin 4a72fd84b7726927285bf58120d288513c65eb4e
-      - name: Replay authenticated original test and trace exceptions
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: python3 -I tools/ci/replay_retained_arm64.py --out build/retained-arm64-252
-      - name: Preserve original inputs and diagnostic observations
+      - name: Verify unchanged product and observe two link modes
+        run: |
+          git diff --exit-code 4a72fd84b7726927285bf58120d288513c65eb4e -- cpp src cmake CMakeLists.txt pyproject.toml tests
+          python3 -I tools/ci/observe_exception_lsda.py --out build/exception-lsda-254
+      - name: Preserve sources objects binaries and observations
         if: always()
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
         with:
-          name: retained-arm64-252
+          name: exception-lsda-254
           retention-days: 14
           if-no-files-found: error
           compression-level: 0
-          path: |
-            build/retained-arm64-252/*.json
-            build/retained-arm64-252/*.jsonl
-            build/retained-arm64-252/*.log
-            build/retained-arm64-252/*.lldb
-            build/retained-arm64-252/exception-probe.cpp
-            build/retained-arm64-252/source-artifact.zip
+          path: build/exception-lsda-254/**
