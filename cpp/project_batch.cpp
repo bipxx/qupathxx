@@ -46,7 +46,7 @@ void verify_contour_source(const std::shared_ptr<const ReaderSource>& observed) 
     guards.emplace_back(std::make_unique<detail::ReaderFileGuard>(observed->primary->path));current.primary=guards.back()->version();
     for(auto& file:current.companions) {guards.emplace_back(std::make_unique<detail::ReaderFileGuard>(file.path));file=*guards.back()->version();}
     for(const auto& guard:guards) guard->verify();
-    if(!same_reader_files(*observed,current)) throw std::runtime_error("raw contour batch source changed before publication");
+    if(!detail::same_reader_files(*observed,current)) throw std::runtime_error("raw contour batch source changed before publication");
 }
 RawPixelStreamFileLimits raw_file_limits(const ProjectBatchOptions& o,std::uint64_t remaining) {return {std::min(o.pixel_file_limit,remaining),o.raw_pixel_file_work_bytes};}
 
