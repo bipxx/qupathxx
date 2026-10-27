@@ -4,19 +4,31 @@ Current update (2026-10-27 UTC): B6 engineering qualification is complete at
 candidate258, a5b5394. The [combined receipt](../benchmarks/raw-path-fixture-258/closeout/receipt.json)
 binds all 11 archive sizes/digests and complete engine/Mac-native/portable audits.
 Original257 Windows failures and all repaired-source probes remain preserved.
-The next existing-API task is M3-ALIAS1: [witness259](../benchmarks/root-alias-analysis-259/receipt.json)
-isolates relative/absolute images.source selection in the shared serializer.
-This alias-reuse inefficiency and all broader M0-M7 requirements stay open;
-no main promotion or supported release is implied.
+M3-ALIAS1 is now locally delivered at `f9ad28f`; [receipt260](../benchmarks/root-locator-fix-260/receipt.json)
+records four red/green regressions, stable whole-file snapshots and actual reuse.
+The original engine/portable runs are in progress and Mac is queued. Complete
+platform audits remain pending; candidate258 acceptance stays source-bound.
+No main promotion, supported release or M0-M7 completion is implied.
 
-The new lesson is to continue a corrected fixture on unchanged products before
-calling a failure test-only. A lexical path mismatch masked real checkpoint
-existence checks; a deeper-root probe then exposed fingerprint access. Preserve
-logical paths for metadata and apply the existing physical-path adapter at the
-actual filesystem boundary. Do not replace a required reuse assertion with an
-accepted recomputation. The explicit extended-root argument variant still
-succeeds by saving again (different input hashes, reused=0); that inefficiency
-is retained as open rather than hidden by the ordinary-root acceptance.
+Applied efficiency improvements:
+
+- Diagnose the narrowest observable difference before rebuilding: witness259
+  isolated one stored locator cell on retained products. Repair one shared
+  serializer helper rather than adding caches or weakening input commitments.
+- Cover every consumer of the same representation: image, RGB QSL1 and raw QWL1
+  links share the helper. Whole-file snapshot equality and actual batch reuse
+  detect omissions that a successful-save check misses.
+- Separate physical access from stored locators. Lexical missing-source controls
+  avoid accidental IO; literal/device/incompatible roots retain fallback. UNC
+  lexical tests do not establish network runtime support.
+- Keep one active queue and archive old execution cards. Historical B6 and API
+  rows must not restart completed implementation or duplicate qualifications.
+- Reuse unchanged SDKs and retain old products before the incremental build.
+  Candidate260 preserves 64 earlier products (55 source-authenticated), then
+  retains 55 new products. Observer/documentation changes need no native rebuild.
+- Finish the original campaign before another freeze; queued and quiet jobs are
+  observations, not retry triggers. Keep local, platform, scientific and release
+  acceptance separate, with exact source and capability scope.
 
 Earlier source-bound observations follow; their run states are historical.
 

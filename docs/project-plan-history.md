@@ -5477,3 +5477,71 @@ scheduling. The previous card is preserved in [plan history](project-plan-histor
 
 
 End of archived pre-closeout candidate258 card.
+
+
+## Candidate260 predecessor execution card
+
+Preserved before recording the local M3-ALIAS1 repair at f9ad28f.
+
+# Current implementation task
+
+## Current execution card (2026-10-27 UTC)
+
+**B6 declared engineering qualification is accepted** at `a5b5394`,
+`feature/raw-path-qualification-258`. The [combined receipt](benchmarks/raw-path-fixture-258/closeout/receipt.json)
+binds all 11 artifact sizes/digests and the complete exact-source engine,
+Mac-native and portable builder/fresh-consumer audits. All **M0-M7 remain Partial**.
+Public-main application baseline stays `61e546e`; no main promotion or release.
+
+- **Engine accepted:** original run40440028126 passes all five profiles and the
+  complete auditor, including inherited source/semantic, reader, runtime,
+  installed-package, typing, rendering and native-stack gates. Windows GUI has
+  51 native/4,429 Python passes; Windows headless 50/3,946; Linux headless
+  50/3,942; Linux minimal and ASan/UBSan each pass 50 native suites. The completed
+  1440x900 whole-slide GUI overview is visually inspected; this is not UI parity.
+- **Mac-native accepted:** run40440036308 and both architecture archives pass
+  50 native suites each, all inherited gates, Mach-O inventory and actual
+  relocated runtime probes. Mac Python/GUI/OpenSlide, older-host support and
+  signing remain outside this native engineering scope.
+- **Portable accepted:** run40440044976 accepts CPython 3.11/3.12 under
+  manylinux_2_28_x86_64 and fresh Debian consumers. Each builder passes 50 native
+  suites/3,942 Python cases; each consumer passes 3,895 Python cases. All wheel/
+  runtime payload, ABI, source and inherited domain/cohort gates pass.
+- **Declared boundaries remain:** three strict scientific expected failures
+  persist per broad Python cohort. No biological/model parity, general process/
+  hardware, clean-machine/support or release acceptance follows from these gates.
+  Source-bound receipts retain their own profile capabilities and exclusions.
+- **Local repair evidence preserved:** [receipt258](benchmarks/raw-path-fixture-258/receipt.json)
+  retains 51 native suites, 880 controls, 326 installed passes/three skips across
+  329 identities, stubs/typing/source/package/SDK proofs, two long-root variants
+  and overlapping 95-pass/seven-skip related checks. Prior/intermediate/final
+  products, both SDK trees, original257 Windows failures and all failed probes
+  survive. Original257's accepted roles remain at d57df01; its engine is failed.
+
+**Next implementation task: M3-ALIAS1, stable linked-image locator serialization.**
+
+The [witness259](benchmarks/root-alias-analysis-259/receipt.json) isolates one
+changed SQL cell in two public snapshots of the same project, physical output
+directory and image: ordinary versus extended Windows root spelling chooses
+relative versus absolute `images.source`. Schema, recorded pragmas and all other
+SQL cells match. The batch diagnostic succeeds by saving again (`saved=1`,
+`reused=0`, different input hashes); that alias inefficiency is still open.
+
+Reuse `Project::save_impl` locator selection and the existing batch engine.
+Add paired snapshot/actual-reuse regressions; preserve incompatible-root fallback,
+relocation, missing-source and source/model/identity guards. Do not ignore source
+fields in the input hash or add another cache. Keep the qualified a5b5394 checkout
+immutable and preserve its products before the next compiler-input change.
+
+Other open work: eligible reader/interchange/spatial/automation workflows,
+Unicode glyph coverage and broader UI delivery; independent scientific/upstream/
+biological comparisons; corpus rights/labels/tolerances; representative resource/
+hardware budgets; clean-machine/platform support; project license/distribution,
+signing and release decisions. Readers and required codecs remain open-source-only.
+
+The [API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) is the
+single scheduling authority; [history](project-plan-history.md) preserves prior cards.
+
+
+
+End of archived candidate260 predecessor card.

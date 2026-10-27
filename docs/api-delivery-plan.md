@@ -41,8 +41,8 @@ no additional agent delegation is implied by this table.
 | Order / ID | State and owner | Easiest implementation path | Required exit evidence |
 | --- | --- | --- | --- |
 | Complete / SCI1-A: declared raw-classifier engineering qualification repair | Candidate258 accepted at frozen `a5b5394`; [combined receipt](benchmarks/raw-path-fixture-258/closeout/receipt.json) binds all 11 archive identities and complete engine/Mac-native/portable audits. Original257 Windows failures remain preserved | Reuse this qualified feature baseline and its source-bound products; do not dispatch or repeat completed roles for observer/documentation edits | This closes B6 engineering qualification only. No main promotion, scientific/hardware/support/release acceptance or M0-M7 completion is implied |
-| Next / M3-ALIAS1: stable linked-image locator serialization | Open; root owns implementation. Witness259 isolates one relative/absolute images.source cell under two spellings of one physical output root; batch succeeds by recomputing instead of reusing | Reuse Project::save_impl locator selection and the existing batch/checkpoint path. Add paired public-snapshot and actual batch-reuse regressions; retain incompatible-root fallback and source/metadata identity. No second cache or ignored input-hash fields | Demonstrate stable intended locator serialization and reused=1/saved=0 under ordinary/extended-root spelling while preserving changed model/source refusal, relocation/missing-source and relevant platform semantics. Keep a5b5394 and its accepted products immutable |
-| 2 / SCI1-B: remaining research workflows | Native/Python/desktop/managed contours locally verified through `7c77367`; CLI locally verified in installed runtime `4e91d1e`; project batches locally verified at `f5ec3eb`; historical consumers/replay locally verified at `3039f0c`; root owns integration | Follow the concrete streamed-contour checkpoints below. Reuse existing producer, GEOS, jobs and consumers. Eligible reader/whole-slide/partial-OME support, annotation/interchange, spatial queries and recorded/distributed automation remain in the backlog | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
+| 1 / M3-ALIAS1: qualify stable linked-image locators | Locally delivered at frozen `f9ad28f`; root owns qualification. [Receipt260](benchmarks/root-locator-fix-260/receipt.json): four red/green regressions, identical paired snapshots and actual checkpoint reuse | Keep the existing internal helper shared by image/QSL1/QWL1 serializers. Observe the original three runs below; authenticate their archives and run complete inherited auditors from the clean frozen checkout. No further implementation or repeat dispatch for a plan edit | Full engine, both Mac-native architectures and portable builder/fresh-consumer acceptance at f9ad28f. Local evidence is 51 native suites, 880 controls and 386 installed passes/six declared skips across 392 identities. Preserve incompatible-root/literal fallback and source/model/no-overwrite guards; a5b5394 remains immutable |
+| 2 / SCI1-B: remaining research workflows | Native/Python/desktop/managed contours locally verified through `7c77367`; CLI locally verified in installed runtime `4e91d1e`; project batches locally verified at `f5ec3eb`; historical consumers/replay locally verified at `3039f0c`; root owns integration | Select one unmet, fixture-ready reader/interchange/spatial/automation requirement using the delivery sequence below. Reuse existing readers, object/index/table models, GEOS, jobs and consumers; completed streamed-contour checkpoints are references, not work to repeat | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
 | Alongside / DEC1: scientific and resource prerequisites | Open; user/research lead supplies decisions, root records applicability | Use the existing decision table below for dataset rights/labels, tolerances and eligible hardware. Synthetic arithmetic/engineering work proceeds; affected biological or hardware acceptance waits for its real prerequisites | Record corpus/version/rights, labels, metric/tolerance before comparison, and eligible hardware/configuration. Do not infer acceptance from synthetic tests or suite totals |
 | After applicable gates / REL1: supported release | Open; repository owner plus packaging owner | Reuse qualified artifacts; resolve project license, distribution obligations, support matrix, installers, notices, signing and clean-machine walkthroughs | Every claimed platform/workflow has scope-matched acceptance. Mac-native does not qualify Mac Python/GUI/OpenSlide. No release/PyPI/signing authorization is implied |
 
@@ -91,6 +91,41 @@ Python, CLI, batch and GUI paths for remaining work. The next scientific slice
 must retain the recipe-specific strict failures and documented input/grid
 differences while extending typed sampling and the relevant mask, feature and
 split/merge requirements without weakening acceptance criteria.
+
+## Smallest delivery sequence for the next API workflow
+
+After candidate260's required qualification, choose one unmet SCI1-B requirement
+whose fixtures and acceptance criteria are ready. Reader/interchange/spatial/
+automation breadth remains required; do not open all four implementations at once.
+Record the exact missing behavior and current header/stub before assigning new
+API names. Use the API-family table below to choose its existing native owner.
+
+1. **Contract:** specify inputs, outputs, units/grids, ownership, errors and
+   persistence compatibility. For a new reader, first admit the exact reader
+   and every required codec license; unverified or closed dependencies block
+   that adapter. Fixture rights are a separate prerequisite.
+2. **Native workflow:** extend the existing request/kernel/job or codec. Exercise
+   a small independent expected result and relevant failure/cancel/stale cases.
+   Avoid a second document model, scheduler or frontend-specific algorithm.
+3. **Python:** add only the missing nanobind surface; use owned results and the
+   existing NumPy/lifetime conventions. Build one installed wheel after the
+   native contract stabilizes; regenerate stubs only for public API changes.
+4. **CLI, ImGui and managed viewer:** route the same immutable native request
+   through existing commands/jobs. Verify the complete user action, cancellation,
+   owner-thread publication and save/reopen/export rather than button presence.
+5. **Integrated acceptance:** run affected installed cases, exact capability and
+   typing checks, then freeze one coherent source for applicable platform gates.
+   Use independent scientific references where required; do not substitute
+   synthetic engineering evidence for biological or hardware acceptance.
+
+For reader work, the smallest slice is one eligible format/axis behavior through
+open, bounded region read and a real analysis workflow. For interchange, it is
+one specified format's import/edit/export/reopen round trip through the existing
+object model. For spatial work, it is one bounded calibrated query producing an
+immutable table through the existing index/export layer. For automation, it is
+one versioned multi-stage manifest over existing requests with interruption and
+restart. Select one slice and record its decisive oracle before implementation;
+these are delivery options, not four newly approved public API contracts.
 
 ## Detailed route for each API family
 
@@ -514,15 +549,32 @@ Windows failures and local repair attempts remain preserved. B6 does not require
 another dispatch. This acceptance does not close the separate explicit-root alias
 reuse inefficiency, scientific/hardware/support/release gates or all M0-M7 work.
 
-The [snapshot witness259](benchmarks/root-alias-analysis-259/receipt.json) narrows
-that follow-up to `Project::save_impl` linked-image locator selection. The same
-physical output directory and source image serialize as relative versus absolute
-`images.source` under ordinary/extended Windows spelling; all other SQL cells,
-schema and recorded pragmas match. Reuse the existing locator path rather than
-adding a batch cache or ignoring source fields in the input hash. Add paired
-snapshot and batch-reuse regressions, preserve incompatible-root fallback and
-source-identity/relocation semantics, and validate the actual reuse result before
-calling this gap closed. Keep the qualified candidate258 checkout and products immutable as the baseline.
+The [snapshot witness259](benchmarks/root-alias-analysis-259/receipt.json) isolated
+relative/absolute locator selection under two spellings of one physical output
+root. [Repair260](benchmarks/root-locator-fix-260/receipt.json) now uses one private
+lexical helper for linked images and both QSL1/QWL1 stream serializers. Four
+regressions fail on unchanged a5b5394 and pass on f9ad28f, including actual reuse;
+paired whole-file snapshots now match. Missing-source serialization works without
+filesystem lookup. Literal/device paths and incompatible drives/shares retain
+absolute fallback. UNC controls establish lexical behavior, not network runtime.
+No input-hash fields or model/source/no-overwrite guards were weakened.
+
+The next action is qualification, not another serializer rewrite:
+
+| Role / original run | Observed state when updating this plan | Required action |
+| --- | --- | --- |
+| [Engine40448479178](https://github.com/bipxx/qupathxx/actions/runs/40448479178) | In progress at f9ad28f | Authenticate all five archives and run the complete engine auditor |
+| [Mac40448487351](https://github.com/bipxx/qupathxx/actions/runs/40448487351) | Queued at f9ad28f | Authenticate both architectures; require native, Mach-O and relocation gates |
+| [Portable40448495849](https://github.com/bipxx/qupathxx/actions/runs/40448495849) | In progress at f9ad28f | Authenticate both builders and both fresh consumers; require complete portable gates |
+
+Statuses above are dated observations, not live guarantees. Preserve original run
+handles, failures and partial transfers. Do not retry quiet builds or transfer
+candidate258 acceptance to this source. Perform audits from the immutable
+`build/ci/root-locator-qualification-260-audit` checkout. A failed role needs a
+source-bound diagnosis before deciding whether code, fixtures or observation
+needs repair. Mac-native acceptance does not qualify Mac Python/GUI/OpenSlide.
+
+The following B6 steps are completed historical evidence, not a second queue.
 
 | Step / state | Smallest next action and files | Exit evidence |
 | --- | --- | --- |

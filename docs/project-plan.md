@@ -11,8 +11,9 @@ workflow reference. Python API design and the ImGui frontend are new work.
 
 ## Current execution map
 
-Planning update: 2026-10-27 UTC, through engineering-qualified frozen candidate258
-`a5b5394`. All **M0–M7 remain Partial**. Test totals measure their named
+Planning update: 2026-10-27 UTC, through locally verified frozen candidate260
+`f9ad28f`; candidate258 `a5b5394` remains the qualified feature baseline.
+All **M0–M7 remain Partial**. Test totals measure their named
 engineering scopes; they do not establish a percentage of QuPath parity.
 
 The [API delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
@@ -34,6 +35,7 @@ this update is a reconciliation, not a new independent model review.
 | Streamed contour CLI | [Installed local receipt](benchmarks/raw-stream-boundaries-local/cli-246/receipt.json) at `4e91d1e`: nine native suites, 240 Python passes/three declared skips, all 18 new CLI cases, stubs and typing | Later batch/history rows record local delivery; full platform/scientific/resource/release gates remain |
 | Candidate257 / terminal Windows failure | `d57df01` retains complete Mac-native, Linux-only engine and portable acceptance. [Original Windows artifacts](benchmarks/raw-path-fixture-258/original257/engine-run.json) preserve one failed relocation fixture in each profile | Windows/Linux matrix is unaccepted. Continuing the fixture exposed real long-path checkpoint/fingerprint gaps; no old acceptance transfers to the repair |
 | Qualified feature candidate258 | [Combined engineering receipt](benchmarks/raw-path-fixture-258/closeout/receipt.json) at `a5b5394`: all 11 archives authenticate; complete five-profile engine, both Mac-native architectures and portable builders/fresh consumers pass. Windows GUI: 51 native/4,429 Python; headless: 50/3,946; Linux headless: 50/3,942 | Explicit-root locator reuse (witness259), Unicode/broader UI, science/hardware/support/release and all remaining M0-M7 requirements stay open. Public-main baseline is unchanged |
+| Locator serialization candidate260 | [Local receipt](benchmarks/root-locator-fix-260/receipt.json) at `f9ad28f`: one helper for image/QSL1/QWL1 locators, four red/green regressions, identical paired snapshots and actual checkpoint reuse; 51 native suites, 880 controls, 386 installed passes/six skips | Engine and portable runs are in progress; Mac is queued. Complete source-matched platform audits remain pending. Local Windows/shared dependencies/OpenSlide OFF does not establish clean-machine or network-share support |
 | Mac link policy | [Original-object255](benchmarks/raw-original-object-255/receipt.json) isolates incorrect default-link folding of typed handlers; policy87b9dac disables it for project Darwin links. [Complete candidate257 Mac audit](benchmarks/raw-link-qualification-257/macos-terminal/macos-acceptance.json) accepts both 50-suite architectures, inventory and relocation | Mac Python/GUI/OpenSlide remain open. Original failures, binary observations and negative tiny witness remain under their original identities |
 
 Candidate258 has complete declared engineering qualification at `a5b5394`.
@@ -41,10 +43,11 @@ The combined receipt binds all 11 archives and every required engine, Mac-native
 and portable audit. Candidate257 remains terminal with original Windows failures;
 its earlier successes retain their own source. The qualified feature checkout
 and products stay immutable, with no main promotion or release.
-Next, close M3-ALIAS1 through the common project serializer: witness259 isolates
-relative/absolute image-locator selection under two spellings of one directory,
-which causes successful recomputation instead of checkpoint reuse. Preserve the
-source/model guards and input commitment rather than ignoring locator fields.
+M3-ALIAS1 is locally delivered at `f9ad28f`: the shared locator helper repairs
+image and RGB/raw stream serialization while preserving source/model and
+no-overwrite guards. Four regressions fail on the retained qualified baseline
+and pass on the new runtime. Observe the original candidate260 runs and complete
+source-bound audits before platform acceptance. Do not rebuild for this plan edit.
 The [B6 checklist](api-delivery-plan.md#b6-execution-checklist) owns this sequence.
 Original failures, observer249's setup failure, observer252's binary mismatch,
 the negative tiny witness and original-object255's controlled link comparison
@@ -73,7 +76,7 @@ copyleft implementations, under the [reader policy](reader-license-policy.md).
 No main promotion, project-license choice, signing or release follows from this
 planning update.
 
-The [candidate257 execution card](current-task.md) records the current frozen
+The [current execution card](current-task.md) records the current frozen
 source, local evidence and original hosted run. Four inspected captures preserve
 correct historical/apply states; Chinese filename glyphs still use placeholders
 despite correct stored UTF8 metadata. General glyph coverage remains an M2/UI gap.
@@ -397,8 +400,9 @@ The [API delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-que
 is the sole detailed scheduling authority. MFO1 campaign213 is engineering
 accepted. SCI1-B streamed consumers are locally delivered. Candidate258 now has
 complete declared engine/Mac-native/portable engineering qualification at a5b5394.
-Keep that checkout/products immutable and continue with M3-ALIAS1 locator reuse,
-using witness259 and the existing project serializer. Then continue
+Keep that checkout/products immutable. M3-ALIAS1 is locally repaired at frozen
+f9ad28f; finish the existing engine/Mac/portable qualification campaign before
+claiming platform acceptance. Then continue
 the remaining SCI1-B workflows, decision lane and REL1 through every M0-M7 criterion.
 The current task card records observed status, not another ordered backlog.
 

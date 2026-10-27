@@ -1,0 +1,12 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-m",
+    "venv",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\root-locator-fix-260-env"
+  ],
+  "returncode": 0,
+  "seconds": 8.584542699856684,
+  "shared_test_dependencies": "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages",
+  "scope": "Separate installation, shared test dependencies; not clean-machine acceptance"
+}

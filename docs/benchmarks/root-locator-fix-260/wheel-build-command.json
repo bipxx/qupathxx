@@ -1,0 +1,11 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-u",
+    "-X",
+    "utf8",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\root_locator_fix_260_backend.py"
+  ],
+  "returncode": 0,
+  "seconds": 61.7769663000945
+}

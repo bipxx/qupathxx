@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="3" skipped="0" tests="3" time="0.646" timestamp="2026-10-26T23:49:23.128697-04:00" hostname="HEQPC"><testcase classname="tests.test_project" name="test_snapshot_root_namespace_spelling_keeps_identical_linked_input[False]" time="0.104"><failure message="AssertionError: assert b'SQLite form...0\x00\x00\x00' == b'SQLite form...0\x00\x00\x00'&#10;  &#10;  At index 8198 diff: b'\xc6' != b'm'&#10;  Use -v to get more diff">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4260/test_snapshot_root_namespace_s0')
+missing = False
+
+    @pytest.mark.skipif(os.name!="nt",reason="Windows namespace locator equivalence")
+    @pytest.mark.parametrize("missing",[False,True])
+    def test_snapshot_root_namespace_spelling_keeps_identical_linked_input(tmp_path,missing):
+        source=tmp_path/"source.ppm"
+        original_bytes=b"P6\n2 2\n255\n"+bytes([30,60,90])*4
+        source.write_bytes(original_bytes)
+        project=q.Project();project.add_image(str(source),"ppm")
+        original=tmp_path/"original.qpxproj";project.save(str(original))
+        if missing:source.unlink()
+        first=q.Project.open(str(original));second=q.Project.open(str(original))
+        directory=tmp_path/"snapshots";directory.mkdir()
+        plain=directory/"plain.qpxproj";extended=directory/"extended.qpxproj"
+        text=str(extended)
+        argument="\\\\?\\UNC\\"+text[2:] if text.startswith("\\\\") else "\\\\?\\"+text
+        first.save_new(str(plain));second.save_new(argument)
+        assert Path(argument).parent.samefile(directory)
+&gt;       assert plain.read_bytes()==extended.read_bytes()
+E       AssertionError: assert b'SQLite form...0\x00\x00\x00' == b'SQLite form...0\x00\x00\x00'
+E         
+E         At index 8198 diff: b'\xc6' != b'm'
+E         Use -v to get more diff
+
+tests\test_project.py:32: AssertionError</failure></testcase><testcase classname="tests.test_project" name="test_snapshot_root_namespace_spelling_keeps_identical_linked_input[True]" time="0.081"><failure message="AssertionError: assert b'SQLite form...0\x00\x00\x00' == b'SQLite form...0\x00\x00\x00'&#10;  &#10;  At index 8198 diff: b'\xc6' != b'm'&#10;  Use -v to get more diff">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4260/test_snapshot_root_namespace_s1')
+missing = True
+
+    @pytest.mark.skipif(os.name!="nt",reason="Windows namespace locator equivalence")
+    @pytest.mark.parametrize("missing",[False,True])
+    def test_snapshot_root_namespace_spelling_keeps_identical_linked_input(tmp_path,missing):
+        source=tmp_path/"source.ppm"
+        original_bytes=b"P6\n2 2\n255\n"+bytes([30,60,90])*4
+        source.write_bytes(original_bytes)
+        project=q.Project();project.add_image(str(source),"ppm")
+        original=tmp_path/"original.qpxproj";project.save(str(original))
+        if missing:source.unlink()
+        first=q.Project.open(str(original));second=q.Project.open(str(original))
+        directory=tmp_path/"snapshots";directory.mkdir()
+        plain=directory/"plain.qpxproj";extended=directory/"extended.qpxproj"
+        text=str(extended)
+        argument="\\\\?\\UNC\\"+text[2:] if text.startswith("\\\\") else "\\\\?\\"+text
+        first.save_new(str(plain));second.save_new(argument)
+        assert Path(argument).parent.samefile(directory)
+&gt;       assert plain.read_bytes()==extended.read_bytes()
+E       AssertionError: assert b'SQLite form...0\x00\x00\x00' == b'SQLite form...0\x00\x00\x00'
+E         
+E         At index 8198 diff: b'\xc6' != b'm'
+E         Use -v to get more diff
+
+tests\test_project.py:32: AssertionError</failure></testcase><testcase classname="tests.test_raw_stream_contour_batch" name="test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope" time="0.131"><failure message="assert (0 == 1)&#10; +  where 0 = &lt;qupathxx._native.ProjectBatchReport object at 0x00000212CF92D790&gt;.reused">tmp_path = WindowsPath('C:/Users/HEQ/AppData/Local/Temp/pytest-of-HEQ/pytest-4260/test_batch_contour_moved_outpu0')
+
+    def test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope(tmp_path):
+        import shutil
+        p,docs,model=scene(tmp_path,(8,))
+        try:
+            output=tmp_path/"out";capture=request(p,model,options(model));first=success(q.run_project_batch(capture,str(output)))
+            written=Path(first.images[0].path)
+            reported_root=written.parent.parent
+            # Validate directory identity without mixing Windows \\?\ path spelling
+            # with ordinary drive spelling in lexical relative_to comparisons.
+            assert reported_root.samefile(output) and written.is_file()
+            relative=written.relative_to(reported_root)
+            moved=tmp_path/"moved"
+            if os.name=="nt":
+                text=str(moved)
+                if not text.startswith("\\\\?\\"):
+                    moved=Path("\\\\?\\UNC\\"+text[2:] if text.startswith("\\\\") else "\\\\?\\"+text)
+            shutil.move(str(output),str(moved))
+            again=success(q.run_project_batch(capture,str(moved)))
+            actual=Path(again.images[0].path);actual_root=actual.parent.parent
+&gt;           assert again.reused==1 and actual.is_file() and actual_root.samefile(moved)
+E           assert (0 == 1)
+E            +  where 0 = &lt;qupathxx._native.ProjectBatchReport object at 0x00000212CF92D790&gt;.reused
+
+tests\test_raw_stream_contour_batch.py:207: AssertionError</failure></testcase></testsuite></testsuites>

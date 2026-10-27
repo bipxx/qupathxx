@@ -1,0 +1,17 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\root-locator-fix-260-env\\Scripts\\python.exe",
+    "-I",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_project.py::test_snapshot_root_namespace_spelling_keeps_identical_linked_input",
+    "tests/test_raw_stream_contour_batch.py::test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope",
+    "tests/test_raw_pixel_batch.py::test_raw_batch_mixed_rgb_raw_links_and_both_typed_reuse_paths",
+    "-q",
+    "--junitxml",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-locator-fix-260\\repaired.xml"
+  ],
+  "returncode": 0
+}
