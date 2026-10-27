@@ -1,0 +1,332 @@
+{
+  "_native.cp312-win_amd64.pyd": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 9758208,
+    "sha256": "fc3922d2ae9f8684e8665954fd8a2c096936a1655da4fb1d0a83bac4878a2086",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_analysis_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 1432576,
+    "sha256": "d026663c76827434ade04cf9a2b1f809e6a1efbe4330b5510be6dec0223b5134",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_app.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 7727616,
+    "sha256": "4e464aba9f0845a887c4d4d47b9a390e46707b88f323786438e3c5cfdec8c125",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_batch.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 5256192,
+    "sha256": "7a049ef15a4c7bcc5322a4c67053b2b08b2ac57c078b8b6f25cbf7c070302a16",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_cell_calibration_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 2501120,
+    "sha256": "62d2aa04a3db98da5ca49b28d72d2244e6171e54db8a3ec4fd626414db4d5a65",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_cell_expansion_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 60416,
+    "sha256": "796eadeb91333363c3b4bb9045e9e9441e379f9a6bdb90e5f5c6810e16c83327",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_cell_record_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 3711488,
+    "sha256": "c2cf5b34a189ec3079c60ccff998bebbacd77a0de136b79b8dfbb755593b9574",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_cell_table_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 4269056,
+    "sha256": "1491a053365ab9e17e35ed79c5694c3f062ea93719d99ae5420a0eaa033384ac",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_cell_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 2699264,
+    "sha256": "026f1486f2f7277ee75894c6417230043ac28e06d4e602edef11311955a35608",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_classes_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 320000,
+    "sha256": "bf38de8fcf0682d0196e4a36d8f87606c355e906a79146cdfa53b2f29b93172f",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_classifier_io_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 1084416,
+    "sha256": "31b8bacec35cd601270ff159590b69f43707b6d255b0b6d6861ceef9c46d3d51",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_classifier_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 1389568,
+    "sha256": "ae32e63ab653bea47a92fc2aacdba0045826385842df7cded585a11ae19290c1",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_core_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 326144,
+    "sha256": "4967823f49661ba46ce804463d52821df61346f1170b1a9005b4113bd86daf3a",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_decimal_quantity_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 35840,
+    "sha256": "1875e2d65f2f22933d8062ddb876459a91d6530ca8e75d69368b54b19e9410f8",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_document_edits_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 324608,
+    "sha256": "8b5ec61f98eedd3e1b1054940e4087e22e65ec864808548afe4618a23d634687",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_file_fingerprint_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 309248,
+    "sha256": "761a30e851ee686a273a83931650db46c263bfb5ad5ade3557edb18c0c55e45d",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_geometry_edits_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 329728,
+    "sha256": "67d63078623b9b1fe657ceca7a0ccbec96d05b1cfae2aac6809e60fd2df7b067",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_geometry_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 324608,
+    "sha256": "ad03fad076ae4f2e741b2e1dff3392beafa664ade0b2de3550c44750fa4e96a5",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_gui_replay_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 45568,
+    "sha256": "031f6ebf269971158d037081adb4073672b2c867105ef8f0415593a05f2631f3",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_interchange_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 511488,
+    "sha256": "0944e7f6747e559deca18a9f94676a5c10ab2ea92536a526e3b17cd8317601a0",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_log_cell_recipe_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 2603008,
+    "sha256": "b8ab7a6c54f0551081db32bef829873b9332d889e8a4f8e5b00d8c845e0cae19",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_log_watershed_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 148992,
+    "sha256": "0424af8b58c7fc565ff4e131b79075933c43e5ba3a2621906938a5ee65aa6126",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_masked_gaussian_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 30720,
+    "sha256": "68fa137cd58c72d83247ac7c842236c7d2670737904ef2b231bfcb59bf092e6a",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_measurement_table_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 2874880,
+    "sha256": "03dc5253954e39230ad480ecbc18c2ff7d7ba058cbe0202f2bbc342fb078a5a9",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_object_classifier_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 3151872,
+    "sha256": "a2c7ba8407f98fdb5282c633381c1166bfbdc52165341ee3baa2277498c3f26a",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_object_snapshot_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 3624448,
+    "sha256": "e62791fddb2c33cb5341439dc8c4f846f993eba968c99c4699fef9f38a59e464",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_overlay_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 22528,
+    "sha256": "a6a141d2ff06621dc9d526e0a08fe899a21c8900dc5bc52f519974214c9fec20",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_pixel_feature_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 2479104,
+    "sha256": "5e207879f6ea4fe276dcdaf92b0c75dba1bb89adf86ba061d980105a4ed980ab",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_pixel_workflow_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 5629952,
+    "sha256": "0a3bb641b0513464dfa763e71bf092e2bae0933257c8202d49bc5ed0a1d147c8",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_project_batch_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 4948480,
+    "sha256": "a1d5364042ac889cc3e6e00e0c39fba239b3b0d6fba78b1967963d8291a3d4ac",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_project_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 4144640,
+    "sha256": "25ffbcf72ea43be65ffc3fb957ac1c23a0013328695ac30864461612e339b2af",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_provenance_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 2458112,
+    "sha256": "5727c6be36105fe6a0fe845a28c3295eb87d9269c7a824966135bad47495c6d3",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_qptma_project_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 3506688,
+    "sha256": "6b4f1b5fe71dcab4b290ccd58f18e1d0c4ac287a41cf9db8f6ac1bd0457bfcb0",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_qptma_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 405504,
+    "sha256": "168bc68d6035322f99ce2bc7232e5fece4975444b0c21e2386a89a88c8778114",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_raw_image_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 4493824,
+    "sha256": "96d5935f48b1a08f3786ff9bb9ae2dafd3f0af9da1e586ab9d60603e16e94b06",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_recovery_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 3600896,
+    "sha256": "583fe758547c447a94f0121112cfb3d7ab6cc50f7e5f00ff45d4dd3acc2c4555",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_region.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 778752,
+    "sha256": "e0ae0902dad12cc67cf64f0918f9a6710d03100f89244ababa21121e815d79de",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_resampling_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 3168768,
+    "sha256": "511ea9891e5ec21fea0df6ef382c9bcb7e3e2978ee68318beecad814a4eaf0f5",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_save_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 3466240,
+    "sha256": "3922dc8ca818f9debd5ad4022a9f325bc64d1a115456516ffec740c4db0c5a80",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_scheduler_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 216064,
+    "sha256": "502d04df628139082ff00f775ca597f1eee1947c891725cb21a6f554703c91af",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_selection_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 322048,
+    "sha256": "8b379baf1288ef1139d7320cb377d87e13d0c0b51d8891c50b5384c40285f1dd",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_server_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 295936,
+    "sha256": "56261655312d0b33fbfd6f31625dd0dc50b8b9f5283b3c8fb3cbcab75714a1de",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_sha256_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 25600,
+    "sha256": "e9e7e51d75306c03ca008142af4385c487ca486b16e6265f162ca174bbc1ff66",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_source_identity_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 1516032,
+    "sha256": "ac7f2836330baa574983f15794c4ce3f99527546f28f18a5d2089ad4f5da06f1",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_spatial_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 315904,
+    "sha256": "ffa518a68714c791a8fd927bf974de082500d93e3d9b8ae4a82b3dd311acd51e",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_stain_estimation_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 1488384,
+    "sha256": "5ae56e3af6cd5529f75ff55e223944db36d89608f8d2e6017146ca2411d351b9",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_stains_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 248320,
+    "sha256": "87712748e3314f58df759f7770ddd484011034fec3c5dfe68090e0610e5403d5",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_thumbnail_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 218112,
+    "sha256": "8226b2f2134f23673304316956282c0c4923e8ed9b01851ace85a050aa15032c",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_tissue_contour_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 2377728,
+    "sha256": "8444e4ddeb3f287d74ecd1cb5c2e9e47ae5f3085126126c023c29a11ca6cf5a4",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_tissue_record_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 3524608,
+    "sha256": "fb2de8f5af70b653dcaaca3c2a424cb246a1ba4b7b722bd0d3cc0dca9976e35c",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_tissue_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 2253312,
+    "sha256": "8336c22cd98cb6b83980cc06362029368b35d7dd5b621a4c8b46f46b16e82751",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_tma_dearray_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 5106688,
+    "sha256": "aca1a55a967c82e0a156424a2ceef29d7ec12c6aaa23d4561b6f685fa4d9166d",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_tma_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 4517376,
+    "sha256": "0f38e2ab300eab8fcbc92f5d5e3be1ec20bf3a2eaa4fd7ff1f7b3f59efff4570",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_view_tiles_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 157696,
+    "sha256": "047ba49d67ac23db00ff2861d76c3797bb7eb6de3c51b0772acc4968e91ac2c7",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  },
+  "qupathxx_viewer_session_tests.exe": {
+    "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "bytes": 5203456,
+    "sha256": "760e21a8e0d509ac76cfe5781ae3d7ed5485a8c22749c302d8e7b3dd943dd4e9",
+    "basis": "Completed ALL_BUILD; registered CTest executable or packaged product"
+  }
+}

@@ -1,0 +1,31 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_ test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/q258-fixed-pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp/test_batch_contour_moved_outpu0')
+
+    def test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope(tmp_path):
+        import shutil
+        p,docs,model=scene(tmp_path,(8,))
+        try:
+            # Exercise Windows extended-path spelling even with a short pytest root.
+>           output=tmp_path/("out-"+"x"*80);capture=request(p,model,options(model));first=success(q.run_project_batch(capture,str(output)))
+                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_raw_stream_contour_batch.py:193: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+result = <qupathxx._native.ProjectBatchReport object at 0x0000022645B27220>
+
+    def success(result):
+>       assert result.state == "succeeded", result.error + repr([(v.state, v.error) for v in result.images])
+E       AssertionError: cannot write batch report: cannot create export temporary file[('failed', 'create_directory: The system cannot find the path specified.: "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q258-fixed-pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp\\test_batch_contour_moved_outpu0\\out-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx\\.qupathxx-batch-work-1d70b8c8edc09e8faa708e2cc3961cef"')]
+E       assert 'failed' == 'succeeded'
+E         
+E         - succeeded
+E         + failed
+
+tests\test_raw_pixel_batch.py:63: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_raw_stream_contour_batch.py::test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope
+1 failed in 0.33s

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-m",
+    "venv",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-path-fixture-258-env"
+  ],
+  "returncode": 0,
+  "seconds": 7.638493999838829,
+  "shared_test_dependencies": "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages",
+  "scope": "Separate product installation; shared test dependencies, not clean-machine acceptance"
+}

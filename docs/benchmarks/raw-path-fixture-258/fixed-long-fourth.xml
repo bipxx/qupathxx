@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.326" timestamp="2026-10-26T22:24:01.064104-04:00" hostname="HEQPC"><testcase classname="tests.test_raw_stream_contour_batch" name="test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope" time="0.093"><failure message="AssertionError: cannot publish batch checkpoint without replacing an existing file[('failed', 'cannot publish batch checkpoint without replacing an existing file')]&#10;assert 'failed' == 'succeeded'&#10;  &#10;  - succeeded&#10;  + failed">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/q258-fixed4-pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp/test_batch_contour_moved_outpu0')
+
+    def test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope(tmp_path):
+        import shutil
+        p,docs,model=scene(tmp_path,(8,))
+        try:
+            output=tmp_path/"out";capture=request(p,model,options(model));first=success(q.run_project_batch(capture,str(output)))
+            written=Path(first.images[0].path)
+            reported_root=written.parent.parent
+            # Validate directory identity without mixing Windows \\?\ path spelling
+            # with ordinary drive spelling in lexical relative_to comparisons.
+            assert reported_root.samefile(output) and written.is_file()
+            relative=written.relative_to(reported_root)
+            moved=tmp_path/"moved";shutil.move(str(output),str(moved))
+&gt;           again=success(q.run_project_batch(capture,str(moved)))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_raw_stream_contour_batch.py:200: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+result = &lt;qupathxx._native.ProjectBatchReport object at 0x00000175EC7D4140&gt;
+
+    def success(result):
+&gt;       assert result.state == "succeeded", result.error + repr([(v.state, v.error) for v in result.images])
+E       AssertionError: cannot publish batch checkpoint without replacing an existing file[('failed', 'cannot publish batch checkpoint without replacing an existing file')]
+E       assert 'failed' == 'succeeded'
+E         
+E         - succeeded
+E         + failed
+
+tests\test_raw_pixel_batch.py:63: AssertionError</failure></testcase></testsuite></testsuites>

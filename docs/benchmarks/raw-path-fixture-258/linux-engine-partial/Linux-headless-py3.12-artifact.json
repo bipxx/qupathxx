@@ -1,0 +1,20 @@
+{
+  "id": 12705489195,
+  "node_id": "MDg6QXJ0aWZhY3QxMjcwNTQ4OTE5NQ==",
+  "name": "Linux-headless-py3.12",
+  "size_in_bytes": 14762615,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12705489195",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12705489195/zip",
+  "expired": false,
+  "digest": "sha256:3680e4af494349cb9906f912933c3ff1e7e8d2598cc402b6ed9b396d38069763",
+  "created_at": "2026-10-27T02:54:12Z",
+  "updated_at": "2026-10-27T02:54:12Z",
+  "expires_at": "2026-11-10T02:54:10Z",
+  "workflow_run": {
+    "id": 40440028126,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/raw-path-qualification-258",
+    "head_sha": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027"
+  }
+}

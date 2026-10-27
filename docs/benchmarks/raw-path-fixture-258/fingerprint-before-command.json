@@ -1,0 +1,14 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-path-fixture-258-env\\Scripts\\python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_file_fingerprint.py::test_long_windows_input_preserves_logical_path_and_digest",
+    "-q",
+    "--junitxml",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-path-fixture-258\\fingerprint-before.xml"
+  ],
+  "returncode": 1
+}

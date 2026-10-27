@@ -1,0 +1,62 @@
+{
+  "observed_at_utc": "2026-10-27T02:54:31.795493+00:00",
+  "run": {
+    "conclusion": "",
+    "databaseId": 40440036308,
+    "headSha": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "jobs": [
+      {
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "databaseId": 121977931352,
+        "name": "macOS native x86_64",
+        "startedAt": "2026-10-27T02:43:00Z",
+        "status": "queued",
+        "steps": [],
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40440036308/job/121977931352"
+      },
+      {
+        "completedAt": "0001-01-01T00:00:00Z",
+        "conclusion": "",
+        "databaseId": 121977931761,
+        "name": "macOS native arm64",
+        "startedAt": "2026-10-27T02:43:00Z",
+        "status": "queued",
+        "steps": [],
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40440036308/job/121977931761"
+      },
+      {
+        "completedAt": "2026-10-27T02:43:00Z",
+        "conclusion": "skipped",
+        "databaseId": 121977932764,
+        "name": "matrix.name",
+        "startedAt": "2026-10-27T02:43:00Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40440036308/job/121977932764"
+      },
+      {
+        "completedAt": "2026-10-27T02:43:00Z",
+        "conclusion": "skipped",
+        "databaseId": 121977933001,
+        "name": "Debian consumer Python ${{ matrix.python }}",
+        "startedAt": "2026-10-27T02:43:00Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40440036308/job/121977933001"
+      },
+      {
+        "completedAt": "2026-10-27T02:43:00Z",
+        "conclusion": "skipped",
+        "databaseId": 121977933102,
+        "name": "Manylinux build Python ${{ matrix.python }}",
+        "startedAt": "2026-10-27T02:43:00Z",
+        "status": "completed",
+        "steps": [],
+        "url": "https://github.com/bipxx/qupathxx/actions/runs/40440036308/job/121977933102"
+      }
+    ],
+    "status": "queued",
+    "url": "https://github.com/bipxx/qupathxx/actions/runs/40440036308"
+  }
+}

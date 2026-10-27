@@ -1,0 +1,117 @@
+........................................................................ [  1%]
+........................................................................ [  3%]
+............................................ss.......................... [  4%]
+........................................................................ [  6%]
+........................................................................ [  8%]
+.....................................................s.................. [  9%]
+........................................................................ [ 11%]
+.............................................................sss........ [ 12%]
+...................................ssss.............s.s....sssssssssssss [ 14%]
+ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 16%]
+ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 17%]
+ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 19%]
+ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 21%]
+ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss [ 22%]
+ssssssssssssssssssssssssssssssssssssssssssssss.......................... [ 24%]
+........................................................................ [ 25%]
+........................................................................ [ 27%]
+.....................s..........ss...............................s...... [ 29%]
+s..........s............................................................ [ 30%]
+........................................................................ [ 32%]
+........................................................................ [ 34%]
+..................................................................ssss.s [ 35%]
+........................................................................ [ 37%]
+..............................................................ss........ [ 38%]
+......................s................................................. [ 40%]
+........s.s............................................................. [ 42%]
+........................................................................ [ 43%]
+........................................................................ [ 45%]
+........................................................................ [ 47%]
+........................................................................ [ 48%]
+..............s..................s...................................... [ 50%]
+.................s...................................................... [ 51%]
+........................................................................ [ 53%]
+........................................................................ [ 55%]
+xxx..................................................................... [ 56%]
+..sss.................................................................s. [ 58%]
+........................................................................ [ 59%]
+........................................................................ [ 61%]
+........................................................................ [ 63%]
+.......................................................sssssss.......... [ 64%]
+......sss...................ss..............................s........... [ 66%]
+............................s...F....................................... [ 68%]
+........................................................................ [ 69%]
+.s.....s................................................................ [ 71%]
+........................................................................ [ 72%]
+..............s..........ss.................................s.....ss.... [ 74%]
+........................................................................ [ 76%]
+........................................................................ [ 77%]
+........................................................................ [ 79%]
+........................................................................ [ 81%]
+..............ss........................................................ [ 82%]
+..s..............................................s...................... [ 84%]
+........................................................................ [ 85%]
+........................................................................ [ 87%]
+.............................s.......................................... [ 89%]
+................s....................................................... [ 90%]
+........................................................................ [ 92%]
+........................................................................ [ 94%]
+........................................................................ [ 95%]
+........................................................................ [ 97%]
+........................................................................ [ 98%]
+..........................ss.........sssssssss.s..                       [100%]
+================================== FAILURES ===================================
+_ test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope _
+
+tmp_path = WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_batch_contour_moved_outpu0')
+
+    def test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope(tmp_path):
+        import shutil
+        p,docs,model=scene(tmp_path,(8,))
+        try:
+            output=tmp_path/"out";capture=request(p,model,options(model));first=success(q.run_project_batch(capture,str(output)))
+>           relative=Path(first.images[0].path).relative_to(output);moved=tmp_path/"moved";shutil.move(str(output),str(moved))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_raw_stream_contour_batch.py:193: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('//?/C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_batch_contour_moved_outpu...f1751699c9df0dbd8cf2e3d8771a5d497317cde798b1/c036b3f7eac9a5aa5254b4e054a78cd113d630de558e95377a2fb1e2ac4bf428.qpxproj')
+other = (WindowsPath('C:/Users/runneradmin/AppData/Local/Temp/pytest-of-runneradmin/pytest-0/test_batch_contour_moved_outpu0/out'),)
+
+    def relative_to(self, *other):
+        """Return the relative path to another path identified by the passed
+        arguments.  If the operation is not possible (because this is not
+        a subpath of the other path), raise ValueError.
+        """
+        # For the purpose of this method, drive and root are considered
+        # separate parts, i.e.:
+        #   Path('c:/').relative_to('c:')  gives Path('/')
+        #   Path('c:/').relative_to('/')   raise ValueError
+        if not other:
+            raise TypeError("need at least one argument")
+        parts = self._parts
+        drv = self._drv
+        root = self._root
+        if root:
+            abs_parts = [drv, root] + parts[1:]
+        else:
+            abs_parts = parts
+        to_drv, to_root, to_parts = self._parse_args(other)
+        if to_root:
+            to_abs_parts = [to_drv, to_root] + to_parts[1:]
+        else:
+            to_abs_parts = to_parts
+        n = len(to_abs_parts)
+        cf = self._flavour.casefold_parts
+        if (root or drv) if n == 0 else cf(abs_parts[:n]) != cf(to_abs_parts):
+            formatted = self._format_parsed_parts(to_drv, to_root, to_parts)
+>           raise ValueError("{!r} is not in the subpath of {!r}"
+                    " OR one path is relative and the other is absolute."
+                             .format(str(self), str(formatted)))
+E           ValueError: '\\\\?\\C:\\Users\\runneradmin\\AppData\\Local\\Temp\\pytest-of-runneradmin\\pytest-0\\test_batch_contour_moved_outpu0\\out\\image-1-207d10ae32319b6909abf1751699c9df0dbd8cf2e3d8771a5d497317cde798b1\\c036b3f7eac9a5aa5254b4e054a78cd113d630de558e95377a2fb1e2ac4bf428.qpxproj' is not in the subpath of 'C:\\Users\\runneradmin\\AppData\\Local\\Temp\\pytest-of-runneradmin\\pytest-0\\test_batch_contour_moved_outpu0\\out' OR one path is relative and the other is absolute.
+
+C:\hostedtoolcache\windows\Python\3.11.9\x64\Lib\pathlib.py:730: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_raw_stream_contour_batch.py::test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope - ValueError: '\\\\?\\C:\\Users\\runneradmin\\AppData\\Local\\Temp\\pytest-of-runneradmin\\pytest-0\\test_batch_contour_moved_outpu0\\out\\image-1-207d10ae32319b6909abf1751699c9df0dbd8cf2e3d8771a5d497317cde798b1\\c036b3f7eac9a5aa5254b4e054a78cd113d630de558e95377a2fb1e2ac4bf428.qpxproj' is not in the subpath of 'C:\\Users\\runneradmin\\AppData\\Local\\Temp\\pytest-of-runneradmin\\pytest-0\\test_batch_contour_moved_outpu0\\out' OR one path is relative and the other is absolute.
+1 failed, 3944 passed, 494 skipped, 3 xfailed in 328.61s (0:05:28)

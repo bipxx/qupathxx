@@ -5307,3 +5307,86 @@ dependencies and exit evidence. Local domain admission does not replace the
 complete frozen-candidate producer/auditor gates or establish a Mac repair.
 
 End of archived candidate257 predecessor card.
+
+
+## Candidate258 predecessor execution card
+
+Preserved from source a5b5394 before recording terminal Windows failures.
+
+# Current implementation task
+
+## Current execution card (2026-10-26)
+
+Frozen candidate and installed locally verified runtime: `d57df01`,
+`feature/raw-link-qualification-257`. All **M0-M7 remain Partial**. Qualified
+public-main application baseline remains `61e546e`; no main promotion is implied.
+
+- **Local candidate ready:** [candidate257 receipt](benchmarks/raw-link-qualification-257/receipt.json)
+  binds 392 compiler inputs at fingerprint `c18b09a9...22aa69`, all 33 installed
+  package members, notices/capabilities and packaged GEOS origins. Both complete
+  SDK trees match their prior inventories. All 64 previous products survive;
+  13 have exact hashes establishing prior3039f0c identity. Other cached products
+  remain explicitly unattributed. ALL_BUILD completes; 55 active products survive.
+- **Validation:** all 51 Windows positive native suites and 880 producer/auditor
+  controls pass. The installed cohort has 301 passes/three declared skips across
+  304 identities, including all 26 history cases and actual CLI/batch/desktop/
+  managed/shutdown paths. Stubs match; pinned mypy passes five positive files and
+  reports exactly 20 intended errors in four negatives. A fresh frozen audit
+  checkout authenticates all 490 sources. Shared dependencies and OpenSlide OFF
+  keep this local engineering evidence rather than clean-machine support.
+- **Mac-native accepted:** original [run40422850278](https://github.com/bipxx/qupathxx/actions/runs/40422850278)
+  completed successfully at the frozen source. Both archive sizes/digests
+  authenticate; the [complete frozen auditor](benchmarks/raw-link-qualification-257/macos-terminal/macos-acceptance.json)
+  accepts both 50-suite architectures, all inherited domain/source checks,
+  Mach-O inventory and actual relocated runtime probes. This verifies the
+  repair in the declared Mac-native scope; Mac Python/GUI/OpenSlide remain open.
+  Windows long-path extraction and its dependent audit setup failure are
+  preserved. Re-extracting the same archives under a short path passes without
+  rebuilding, omitting members or weakening checks.
+- **Remaining roles dispatched:** observe [engine40434741797](https://github.com/bipxx/qupathxx/actions/runs/40434741797)
+  and [portable40434749058](https://github.com/bipxx/qupathxx/actions/runs/40434749058),
+  each dispatched once with checked full inputs after strict Mac acceptance on
+  the same immutable source. Authenticate their terminal artifacts and execute
+  the complete applicable frozen auditors before integrated acceptance.
+  Quiet compilation or an observation timeout does not authorize redispatch.
+  The [maintained Linux-only audit](benchmarks/raw-link-qualification-257/linux-engine-partial/linux-engine-acceptance.json)
+  now accepts all three Linux engine jobs: 50 native suites each and 3,942
+  installed Python passes in headless. Applicable reader/runtime and inherited
+  source/semantic gates pass. This explicitly leaves Windows/Linux matrix
+  acceptance false; both Windows profiles remain pending.
+- **Portable accepted:** [run40434749058](https://github.com/bipxx/qupathxx/actions/runs/40434749058)
+  and the [complete frozen auditor](benchmarks/raw-link-qualification-257/portable-terminal/portable-acceptance.json)
+  accept headless CPython 3.11/3.12 manylinux_2_28_x86_64 builds and fresh Debian
+  consumers. All four archive sizes/digests authenticate; wheel payloads, ABI,
+  runtime manifests and every applicable inherited domain/source/cohort gate pass.
+  Each builder has 50 native suites and 3,942 installed passes; each consumer
+  has 3,895 installed passes. Declared skips and three strict scientific xfails
+  per Python cohort remain explicit. This is not supported-release acceptance.
+- **Cause and implementation:** [original-object255](benchmarks/raw-original-object-255/receipt.json)
+  isolates default Darwin link-time folding of differing typed catch handlers.
+  Policy87b9dac disables it for project Darwin links. Original failures,
+  observer252 and negative tiny witness254 remain separate. Local Windows
+  success and incomplete analysis products remain separate from the complete
+  Mac runtime acceptance above.
+- **Visual review:** four 1280x1000 file/retained captures fit and show the correct
+  historical versus applied states. Chinese filename glyphs use placeholders;
+  a separate probe verifies the stored UTF8 name. Broader glyph coverage remains
+  an M2/UI gap and is not relabeled as completed presentation.
+- **Preserved scopes:** runtime3039f0c's [broader regression](benchmarks/raw-integration-regression-251/receipt.json)
+  and [resource253](benchmarks/raw-stream-resources-253/receipt.json) retain their
+  own sources. Their observations do not transfer overall qualification or
+  scientific/hardware acceptance to this candidate.
+- **Other open gates:** biological/model/upstream comparisons, corpus rights/
+  labels/tolerances, general process/hardware budgets, SCI1-B eligible readers/
+  interchange/spatial/automation, UI delivery, clean-machine support and release
+  decisions. Readers and required codecs stay open-source-only. The three strict
+  scientific xfails remain unresolved.
+
+The [API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) owns
+scheduling. The [B6 checklist](api-delivery-plan.md#b6-execution-checklist) stages
+one frozen candidate; historical wording does not reopen completed work.
+The previous card is archived in [plan history](project-plan-history.md).
+
+
+
+End of archived candidate258 predecessor card.

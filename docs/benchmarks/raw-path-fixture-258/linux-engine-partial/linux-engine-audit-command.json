@@ -1,0 +1,28 @@
+{
+  "command": [
+    "python",
+    "-X",
+    "utf8",
+    "tools/ci/accept_unified_engine.py",
+    "40440028126",
+    "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q258-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-path-fixture-258\\linux-engine-acceptance.json",
+    "--linux-only",
+    "--ndpi-readers",
+    "--watershed-bodies",
+    "--sampled-shape",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--linux-runtime-manifest"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-path-qualification-258-audit",
+  "returncode": 0,
+  "stdout": "[\n  {\n    \"name\": \"Linux minimal native\",\n    \"native\": 50,\n    \"python\": null\n  },\n  {\n    \"name\": \"Linux ASan UBSan native\",\n    \"native\": 50,\n    \"python\": null\n  },\n  {\n    \"name\": \"Linux headless Python 3.12 NumPy 2\",\n    \"native\": 50,\n    \"python\": 3942\n  }\n]\n",
+  "stderr": ""
+}

@@ -1,0 +1,8 @@
+{"reused": 0, "saved": 1, "state": "succeeded", "first_input": "1438dd6381dba20e9df5cc29fcc45c66bbf325bac5159e9d118ff06ec839ae5f", "second_input": "4ed1e234ce2c4cf3f986516a6c804d97d8087ab8b41b2d0247bec0c8005d25f4", "file_exists": true, "root_matches": true}
+Traceback (most recent call last):
+  File "C:\Users\HEQ\Projects\qupathxx\build\raw-path-fixture-258\extended-root-alias-observer-detail.py", line 220, in <module>
+    test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope(root)
+  File "C:\Users\HEQ\Projects\qupathxx\build\raw-path-fixture-258\extended-root-alias-observer-detail.py", line 206, in test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope
+    assert again.reused==1 and actual.is_file() and actual_root.samefile(moved)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

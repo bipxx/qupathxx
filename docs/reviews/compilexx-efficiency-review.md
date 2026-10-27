@@ -1,5 +1,25 @@
 # Compilexx lessons applied to qupathxx
 
+Current update (2026-10-27 UTC): candidate257 is fully terminal. Both Windows
+profiles fail the same path-spelling fixture; its Mac-native, Linux-only engine
+and portable audits remain accepted only at d57df01. [Candidate258](../benchmarks/raw-path-fixture-258/receipt.json)
+repairs the subsequently demonstrated native long checkpoint/fingerprint access
+gaps at a5b5394. All 51 local native suites, 880 controls, 326 installed passes/
+three skips, typing/stubs/source/package/SDK proofs and two long-root configurations
+pass. Engine40440028126, Mac40440036308 and portable40440044976 are dispatched
+once at that immutable source; no old acceptance transfers.
+
+The new lesson is to continue a corrected fixture on unchanged products before
+calling a failure test-only. A lexical path mismatch masked real checkpoint
+existence checks; a deeper-root probe then exposed fingerprint access. Preserve
+logical paths for metadata and apply the existing physical-path adapter at the
+actual filesystem boundary. Do not replace a required reuse assertion with an
+accepted recomputation. The explicit extended-root argument variant still
+succeeds by saving again (different input hashes, reused=0); that inefficiency
+is retained as open rather than hidden by the ordinary-root acceptance.
+
+Earlier source-bound observations follow; their run states are historical.
+
 Current disposition (2026-10-26): E1-E4 and multi-file campaign213 have
 accepted source-bound baselines in the [single queue](../api-delivery-plan.md#dependency-lanes-and-immediate-queue).
 Campaign236 is terminal: engine/portable accepted at `530c6bb`, Mac arm64

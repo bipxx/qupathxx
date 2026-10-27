@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.289" timestamp="2026-10-26T22:20:51.917934-04:00" hostname="HEQPC"><testcase classname="tests.test_raw_stream_contour_batch" name="test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope" time="0.052"><failure message="FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q258-fixed2-pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp\\test_batch_contour_moved_outpu0\\out\\image-1-10d7c78e2c0ba7312e4d12c2b9f3746a85374aba6243a30588dd4e3ac498f148\\c036b3f7eac9a5aa5254b4e054a78cd113d630de558e95377a2fb1e2ac4bf428.qpxproj'">tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/q258-fixed2-pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp/test_batch_contour_moved_outpu0')
+
+    def test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope(tmp_path):
+        import shutil
+        p,docs,model=scene(tmp_path,(8,))
+        try:
+            output=tmp_path/"out";capture=request(p,model,options(model));first=success(q.run_project_batch(capture,str(output)))
+            written=Path(first.images[0].path)
+            relative=Path(written.parent.name)/written.name
+            # Compare the actual checkpoint, not lexical \\?\ versus ordinary drives.
+&gt;           assert written.samefile(output/relative)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\test_raw_stream_contour_batch.py:196: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\pathlib.py:1000: in samefile
+    other_st = other_path.stat()
+               ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/q258-fixed2-pppppppppppppppppppppppppppppppppppppppppppppppppppppppp...12c2b9f3746a85374aba6243a30588dd4e3ac498f148/c036b3f7eac9a5aa5254b4e054a78cd113d630de558e95377a2fb1e2ac4bf428.qpxproj')
+follow_symlinks = True
+
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+&gt;       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [WinError 3] The system cannot find the path specified: 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q258-fixed2-pppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp\\test_batch_contour_moved_outpu0\\out\\image-1-10d7c78e2c0ba7312e4d12c2b9f3746a85374aba6243a30588dd4e3ac498f148\\c036b3f7eac9a5aa5254b4e054a78cd113d630de558e95377a2fb1e2ac4bf428.qpxproj'
+
+C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\pathlib.py:840: FileNotFoundError</failure></testcase></testsuite></testsuites>

@@ -3,7 +3,7 @@
   "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
   "fingerprint": "c18b09a98303bc2d3eeb57b7af79333fdc6cf8d9e0875a43586050ca4f22aa69",
   "frozen_ref": "feature/raw-link-qualification-257",
-  "state": "macos_linux_portable_accepted_windows_pending",
+  "state": "terminal_windows_failure",
   "native_suites": 51,
   "preflight_controls": 880,
   "installed_workflow": {
@@ -37,7 +37,8 @@
   "mac_runtime_repair_verified": true,
   "engine_role": {
     "run": 40434741797,
-    "state": "run_identified"
+    "state": "failed",
+    "terminal_evidence": "../raw-path-fixture-258/original257/engine-run.json"
   },
   "portable_role": {
     "run": 40434749058,
@@ -570,5 +571,7 @@
   "linux_engineering_scope_accepted": true,
   "windows_linux_engineering_scope_accepted": false,
   "linux_engine_acceptance": "linux-engine-partial/linux-engine-acceptance.json",
-  "portable_package_validated": true
+  "portable_package_validated": true,
+  "successor_source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+  "successor_ref": "feature/raw-path-qualification-258"
 }
