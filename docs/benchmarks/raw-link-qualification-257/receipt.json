@@ -224,6 +224,56 @@
       "sha256": "2e6a9ed11bc7e18d8ea1a5161886e7e76225b679d8ca66543d9afeb1873785ed"
     },
     {
+      "path": "linux-engine-partial/engine-artifacts.json",
+      "bytes": 2721,
+      "sha256": "037917c422acb82d4b6ef9b2ce0420f9ac1a3269b877cd36493a41c28706b41d"
+    },
+    {
+      "path": "linux-engine-partial/engine-run.json",
+      "bytes": 24513,
+      "sha256": "2e439a45775e201562cfa5179e12d6a6defe5b34a348b463c706f48e443c9b90"
+    },
+    {
+      "path": "linux-engine-partial/linux-engine-acceptance.json",
+      "bytes": 508394,
+      "sha256": "2a93da60a4a3a7d9fa118759661aa96378227edc3b9e1fa8a91c0419f48b20b9"
+    },
+    {
+      "path": "linux-engine-partial/linux-engine-audit-command.json",
+      "bytes": 1075,
+      "sha256": "9ccc7c6044819f77fd66b09a1f27d45e6eccf117fcf9d9b942be97b3c20e73b1"
+    },
+    {
+      "path": "linux-engine-partial/Linux-headless-py3.12-artifact.json",
+      "bytes": 812,
+      "sha256": "0db82f56901742d20c6b04fe0492340ce8c2ceeaf3429d0868147dbcd00cf532"
+    },
+    {
+      "path": "linux-engine-partial/Linux-minimal-py3.12-artifact.json",
+      "bytes": 808,
+      "sha256": "7d1008033c2290bce862d2f0cb3b1dc308ac7fffffb442d1272774daf396d8fb"
+    },
+    {
+      "path": "linux-engine-partial/Linux-sanitize-py3.12-artifact.json",
+      "bytes": 809,
+      "sha256": "f7479d29d0fb2270ef8cea9b1f8749b809b779d73ca36d09894c1b942526be8b"
+    },
+    {
+      "path": "linux-engine-partial/minimal-partial-checks.json",
+      "bytes": 477,
+      "sha256": "705087a830f5ab0606f5321787673e2fd320cf641cac6d9e747c51a62e7fd6aa"
+    },
+    {
+      "path": "linux-engine-partial/sanitize-partial-checks.json",
+      "bytes": 558,
+      "sha256": "335040a478733aff0bd7ed911d1aec27064648dd094cd74100403bb5f27f51fd"
+    },
+    {
+      "path": "linux-engine-partial/verified.json",
+      "bytes": 807,
+      "sha256": "0bd1e029b597592973ba0d4b7da2301d2725bc21ff00d8ec8abd3382f09b6657"
+    },
+    {
       "path": "local-readiness.json",
       "bytes": 1428,
       "sha256": "3ecfeb68b69d2bbf7aafaeb5db3549c67571bfb5ce874a76363346fcb5cbc28c"
@@ -322,6 +372,11 @@
       "path": "observers/check_candidate257_arm64.py",
       "bytes": 2596,
       "sha256": "3e4b10b273e592fed4ce23ffee18e0536722abc9443d5061c038a1f58a728ca9"
+    },
+    {
+      "path": "observers/collect_candidate257_remaining.py",
+      "bytes": 4833,
+      "sha256": "10436c32ec8f28554bf5bf98898d1441c3ee67e6d6662d8c22f2ff01575a04a6"
     },
     {
       "path": "observers/dispatch_candidate257_remaining.py",
@@ -455,5 +510,8 @@
     }
   ],
   "arm64_supplementary_observation": "arm64-observation/arm64-supplementary-checks.json",
-  "macos_acceptance": "macos-terminal/macos-acceptance.json"
+  "macos_acceptance": "macos-terminal/macos-acceptance.json",
+  "linux_engineering_scope_accepted": true,
+  "windows_linux_engineering_scope_accepted": false,
+  "linux_engine_acceptance": "linux-engine-partial/linux-engine-acceptance.json"
 }

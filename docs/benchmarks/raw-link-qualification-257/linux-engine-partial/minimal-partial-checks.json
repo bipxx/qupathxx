@@ -1,0 +1,13 @@
+{
+  "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+  "run": 40434741797,
+  "scope": "Authenticated Linux-minimal native partial observation; full matrix acceptance remains required",
+  "native_suites": 50,
+  "raw_classifier_minimal": {
+    "full": false,
+    "portable_owner_jobs": true,
+    "raw_file_training_contour_consumers": false
+  },
+  "junit_sha256": "632290fc6db2423e9acd88a653525d92fc62ed19043bfbbc7c1d5ce7e2097ed4",
+  "engine_accepted": false
+}

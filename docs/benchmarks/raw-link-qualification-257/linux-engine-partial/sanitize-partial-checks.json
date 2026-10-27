@@ -1,0 +1,14 @@
+{
+  "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
+  "run": 40434741797,
+  "scope": "Authenticated Linux sanitizer-job native partial observation; no independent binary instrumentation verification or full matrix acceptance",
+  "native_suites": 50,
+  "raw_classifier_native": {
+    "full": true,
+    "portable_owner_jobs": true,
+    "raw_file_training_contour_consumers": true
+  },
+  "sanitizer_diagnostics_found": false,
+  "junit_sha256": "832911bc0870cd4fcba9a13b89efa3d343ff4c25041a3595c498bf1daa8e88a2",
+  "engine_accepted": false
+}

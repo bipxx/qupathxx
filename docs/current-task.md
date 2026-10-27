@@ -34,6 +34,11 @@ public-main application baseline remains `61e546e`; no main promotion is implied
   the same immutable source. Authenticate their terminal artifacts and execute
   the complete applicable frozen auditors before integrated acceptance.
   Quiet compilation or an observation timeout does not authorize redispatch.
+  The [maintained Linux-only audit](benchmarks/raw-link-qualification-257/linux-engine-partial/linux-engine-acceptance.json)
+  now accepts all three Linux engine jobs: 50 native suites each and 3,942
+  installed Python passes in headless. Applicable reader/runtime and inherited
+  source/semantic gates pass. This explicitly leaves Windows/Linux matrix
+  acceptance false; both Windows profiles and portable remain pending.
 - **Cause and implementation:** [original-object255](benchmarks/raw-original-object-255/receipt.json)
   isolates default Darwin link-time folding of differing typed catch handlers.
   Policy87b9dac disables it for project Darwin links. Original failures,
