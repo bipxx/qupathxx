@@ -59,7 +59,7 @@ bool plain(const fs::path& path,bool directory) {
 }
 struct DirectoryLock {
     int fd=-1;
-    explicit DirectoryLock(const fs::path& root) {const auto path=root/".qupathxx-batch.lock";
+    explicit DirectoryLock(const fs::path& root) {const auto path=access_path(root/".qupathxx-batch.lock");
 #ifdef _WIN32
         if(_wsopen_s(&fd,path.c_str(),_O_CREAT|_O_RDWR|_O_BINARY|_O_NOINHERIT,_SH_DENYRW,_S_IREAD|_S_IWRITE)!=0) fd=-1;
 #else
@@ -77,9 +77,9 @@ struct DirectoryLock {
 };
 struct Work {
     fs::path path;std::string owner;
-    explicit Work(const fs::path& root):owner(token()) {path=root/(".qupathxx-batch-work-"+owner);if(!fs::create_directory(path)) throw std::runtime_error("cannot create batch work directory");std::ofstream f(path/"owner",std::ios::binary);f<<"qupathxx batch work 1\n"<<owner;f.close();if(!f) {std::error_code e;fs::remove(path/"owner",e);fs::remove(path,e);throw std::runtime_error("cannot mark batch work directory");}}
-    ~Work() {try {if(!plain(path,true) || !plain(path/"owner",false)) return;std::ifstream f(path/"owner",std::ios::binary);std::string found((std::istreambuf_iterator<char>(f)),{});f.close();if(found!="qupathxx batch work 1\n"+owner) return;
-        std::error_code e;for(const auto* name:{"input.qpxproj","result.qpxproj"}) for(const auto* suffix:{"","-journal","-wal","-shm"}) {if(!plain(path,true)) return;fs::remove(path/(std::string(name)+suffix),e);if(e) return;}fs::remove(path/"owner",e);if(!e) fs::remove(path,e);
+    explicit Work(const fs::path& root):owner(token()) {path=root/(".qupathxx-batch-work-"+owner);if(!fs::create_directory(access_path(path))) throw std::runtime_error("cannot create batch work directory");std::ofstream f(access_path(path/"owner"),std::ios::binary);f<<"qupathxx batch work 1\n"<<owner;f.close();if(!f) {std::error_code e;fs::remove(access_path(path/"owner"),e);fs::remove(access_path(path),e);throw std::runtime_error("cannot mark batch work directory");}}
+    ~Work() {try {if(!plain(path,true) || !plain(path/"owner",false)) return;std::ifstream f(access_path(path/"owner"),std::ios::binary);std::string found((std::istreambuf_iterator<char>(f)),{});f.close();if(found!="qupathxx batch work 1\n"+owner) return;
+        std::error_code e;for(const auto* name:{"input.qpxproj","result.qpxproj"}) for(const auto* suffix:{"","-journal","-wal","-shm"}) {if(!plain(path,true)) return;fs::remove(access_path(path/(std::string(name)+suffix)),e);if(e) return;}fs::remove(access_path(path/"owner"),e);if(!e) fs::remove(access_path(path),e);
     } catch(...) {}}
 };
 class PixelBatchBundle {
@@ -334,14 +334,14 @@ struct ProjectBatchKernel {
         const auto started=Clock::now();const auto& d=*request.data_;const auto& o=d.options;ProjectBatchReport report;report.parameters_sha256=d.sha;report.source_identity=d.snapshot->identity_;report.source_generation=d.snapshot->generation_;report.source_revision=d.snapshot->revision_;report.snapshot_bytes=d.bytes;report.capture_ms=d.capture;std::size_t report_bytes=65536+d.selections.size()*sizeof(ProjectBatchImageResult);report.images.reserve(d.selections.size());
         auto phase=[&](int p){if(progress) progress->phase.store(p);};auto check=[&]{detail::export_checkpoint(c);};fs::path root;
         try {
-            check();root=fs::u8path(detail::export_path(directory));fs::create_directories(root);if(!plain(root,true)) throw std::runtime_error("batch output must be a plain directory");DirectoryLock lock(root);
+            check();root=fs::u8path(detail::export_path(directory));fs::create_directories(access_path(root));if(!plain(root,true)) throw std::runtime_error("batch output must be a plain directory");DirectoryLock lock(root);
             for(const auto& item:d.selections) {
                 check();const auto image_start=Clock::now();const auto& input=d.snapshot->entry(item.image_id);ProjectBatchImageResult result;result.image_id=item.image_id;result.image_name=input.info.name;result.objects=item.object_ids.size();if(progress) progress->image.store(item.image_id);
                 try {
                     phase(1);if(cost(*input.document,input.info.embedded)>o.materialize_budget) throw std::length_error("batch image exceeds materialization budget");Work work(root);
                     Project isolated;isolated.identity_=d.snapshot->identity_;isolated.next_id_=d.snapshot->next_id_;isolated.active_image_=item.image_id;isolated.entries_.emplace(item.image_id,input);const auto view=d.snapshot->views_.find(item.image_id);if(view!=d.snapshot->views_.end()) isolated.views_.emplace(*view);
                     isolated.save_impl((work.path/"input.qpxproj").u8string(),"",c);result.input_sha256=fingerprint_file((work.path/"input.qpxproj").u8string(),{},c)->sha256;
-                    const auto spec=hash(d.sha+result.input_sha256+std::to_string(report.source_generation)+":"+std::to_string(stream_batch(o.kind)?0:report.source_revision));const auto folder=root/("image-"+std::to_string(item.image_id)+"-"+spec);fs::create_directories(folder);if(!plain(folder,true)) throw std::runtime_error("batch image output must be a plain directory");
+                    const auto spec=hash(d.sha+result.input_sha256+std::to_string(report.source_generation)+":"+std::to_string(stream_batch(o.kind)?0:report.source_revision));const auto folder=root/("image-"+std::to_string(item.image_id)+"-"+spec);fs::create_directories(access_path(folder));if(!plain(folder,true)) throw std::runtime_error("batch image output must be a plain directory");
                     Project::LoadProgress load;load.external_cancelled=c;auto project=Project::open_impl((work.path/"input.qpxproj").u8string(),false,"",&load);auto doc=project->document(item.image_id);doc->set_history_limits(0,0);check();const auto contour_source=o.kind==ProjectBatchKind::RawPixelContours?doc->server()->reader_source():nullptr;std::unique_ptr<PixelBatchBundle> bundle;std::uint64_t stream_bytes=0;
                     auto pixel_stream=[&](bool compute,std::vector<std::uint64_t>& records,std::uint64_t& generated) {
                         Sha256 pixels;const std::string tag="qpx.batch-pixels/1";pixels.update(tag.data(),tag.size());
@@ -404,26 +404,26 @@ struct ProjectBatchKernel {
                     std::optional<detail::BatchCheckpoint> cached_meta;std::unique_ptr<detail::ReaderFileGuard> cached_guard;
                     auto find=[&](const std::string& digest)->fs::path {
                         if(stream_batch(o.kind)) {
-                            std::size_t count=0;for(const auto& entry:fs::directory_iterator(folder)) {check();if(++count>100000) throw std::length_error("pixel batch directory exceeds entry limit");
+                            std::size_t count=0;for(const auto& entry:fs::directory_iterator(access_path(folder))) {check();if(++count>100000) throw std::length_error("pixel batch directory exceeds entry limit");
                                 const auto path=access_path(entry.path(),true);if(!PixelBatchBundle::owned(path) || !plain(path/"result.qpxproj",false)) continue;
                                 const auto file=path/"result.qpxproj";if(fs::file_size(file)>o.checkpoint_limit) throw std::length_error("pixel batch checkpoint exceeds byte limit");
                                 auto guard=std::make_unique<detail::ReaderFileGuard>(file.u8string());auto meta=detail::read_batch_checkpoint(file.u8string(),c,false,o.csv_limit);guard->verify();
                                 if(meta.pixel_sha256==digest) {cached_meta=std::move(meta);cached_guard=std::move(guard);return file;}
                             }return {};
                         }
-                        const auto preferred=folder/(digest+".qpxproj");if(fs::exists(preferred)) return preferred;
-                        std::vector<fs::path> names;std::size_t count=0;for(const auto& e:fs::directory_iterator(folder)) {check();if(++count>100000) throw std::length_error("batch checkpoint directory exceeds entry limit");const auto n=e.path().filename().u8string();if(n.rfind(digest+"-",0)==0 && n.size()==105 && n.substr(n.size()-8)==".qpxproj" && plain(e.path(),false)) names.push_back(e.path());}
+                        const auto preferred=folder/(digest+".qpxproj");if(fs::exists(access_path(preferred))) return preferred;
+                        std::vector<fs::path> names;std::size_t count=0;for(const auto& e:fs::directory_iterator(access_path(folder))) {check();if(++count>100000) throw std::length_error("batch checkpoint directory exceeds entry limit");const auto n=e.path().filename().u8string();if(n.rfind(digest+"-",0)==0 && n.size()==105 && n.substr(n.size()-8)==".qpxproj" && plain(e.path(),false)) names.push_back(e.path());}
                         if(names.empty()) return {};std::sort(names.begin(),names.end());return names.front();
                     };
-                    bool candidates=false;if(o.resume) {std::size_t count=0;for(const auto& e:fs::directory_iterator(folder)) {check();if(++count>100000) throw std::length_error("batch checkpoint directory exceeds entry limit");const auto n=e.path().filename().u8string();if(stream_batch(o.kind)?(PixelBatchBundle::owned(access_path(e.path())) && plain(access_path(e.path())/"result.qpxproj",false)):((n.size()==72 || n.size()==105) && n.substr(n.size()-8)==".qpxproj")) {candidates=true;break;}}}
+                    bool candidates=false;if(o.resume) {std::size_t count=0;for(const auto& e:fs::directory_iterator(access_path(folder))) {check();if(++count>100000) throw std::length_error("batch checkpoint directory exceeds entry limit");const auto n=e.path().filename().u8string();if(stream_batch(o.kind)?(PixelBatchBundle::owned(access_path(e.path())) && plain(access_path(e.path())/"result.qpxproj",false)):((n.size()==72 || n.size()==105) && n.substr(n.size()-8)==".qpxproj")) {candidates=true;break;}}}
                     if(candidates) {
                         phase(2);std::vector<std::uint64_t> unused;std::uint64_t bytes=0;const auto digest=pixel_stream(false,unused,bytes);const auto candidate=find(digest);
                         if(!candidate.empty()) {
-                            phase(5);if(!plain(candidate,false) || fs::file_size(candidate)>o.checkpoint_limit) throw std::length_error("batch checkpoint is not plain or exceeds byte limit");auto guard=cached_guard?std::move(cached_guard):std::make_unique<detail::ReaderFileGuard>(access_path(candidate).u8string());const auto meta=cached_meta?std::move(*cached_meta):detail::read_batch_checkpoint(access_path(candidate).u8string(),c,false,o.csv_limit);guard->verify();
+                            phase(5);if(!plain(candidate,false) || fs::file_size(access_path(candidate))>o.checkpoint_limit) throw std::length_error("batch checkpoint is not plain or exceeds byte limit");auto guard=cached_guard?std::move(cached_guard):std::make_unique<detail::ReaderFileGuard>(access_path(candidate).u8string());const auto meta=cached_meta?std::move(*cached_meta):detail::read_batch_checkpoint(access_path(candidate).u8string(),c,false,o.csv_limit);guard->verify();
                             if(meta.parameters_sha256!=d.sha || meta.input_sha256!=result.input_sha256 || meta.pixel_sha256!=digest || meta.image_id!=std::to_string(item.image_id) || meta.source_identity!=report.source_identity || meta.source_generation!=report.source_generation || (!stream_batch(o.kind) && meta.source_revision!=report.source_revision) || meta.objects!=item.object_ids.size() || meta.generated_bytes>o.result_budget) throw std::invalid_argument("batch checkpoint does not match this request");
                             if(o.kind==ProjectBatchKind::Pixels) {if(cost(*doc,input.info.embedded)+meta.generated_bytes*2>o.materialize_budget) throw std::length_error("pixel checkpoint exceeds materialization budget");verify_pixels(candidate,*doc,item,o,digest,o.materialize_budget-cost(*doc,input.info.embedded),result,c);guard->verify();}
                             if(o.kind==ProjectBatchKind::RawPixels) {if(cost(*doc,input.info.embedded)+meta.generated_bytes*2>o.materialize_budget) throw std::length_error("raw pixel checkpoint exceeds materialization budget");verify_raw_pixels(candidate,*doc,item,o,digest,o.materialize_budget-cost(*doc,input.info.embedded),result,c);guard->verify();}
-                            verify_contour_source(contour_source);guard->verify();result.pixel_sha256=digest;result.path=access_path(candidate).u8string();result.records=o.kind==ProjectBatchKind::RawPixelContours?detail::batch_added_object_count(candidate.u8string(),item.image_id,doc->object_count(),c):item.object_ids.size();guard->verify();result.state="reused";++report.reused;if(progress) progress->objects.fetch_add(item.object_ids.size());
+                            verify_contour_source(contour_source);guard->verify();result.pixel_sha256=digest;result.path=access_path(candidate).u8string();result.records=o.kind==ProjectBatchKind::RawPixelContours?detail::batch_added_object_count(access_path(candidate).u8string(),item.image_id,doc->object_count(),c):item.object_ids.size();guard->verify();result.state="reused";++report.reused;if(progress) progress->objects.fetch_add(item.object_ids.size());
                         }
                     }
                     if(result.state.empty()) {
@@ -441,7 +441,7 @@ struct ProjectBatchKernel {
                         phase(4);const auto file=work.path/"result.qpxproj";
                         if(stream_batch(o.kind) && !bundle) bundle=std::make_unique<PixelBatchBundle>(folder,item.object_ids.size(),o.kind==ProjectBatchKind::RawPixels);
                         const auto destination_folder=bundle?bundle->path:folder;project->save_impl(file.u8string(),destination_folder.u8string(),c,nullptr,&meta);check();
-                        auto destination=bundle?bundle->path/"result.qpxproj":folder/(result.pixel_sha256+".qpxproj");if(!bundle && fs::exists(destination)) destination=folder/(result.pixel_sha256+"-"+token()+".qpxproj");
+                        auto destination=bundle?bundle->path/"result.qpxproj":folder/(result.pixel_sha256+".qpxproj");if(!bundle && fs::exists(access_path(destination))) destination=folder/(result.pixel_sha256+"-"+token()+".qpxproj");
                         verify_contour_source(contour_source);publish(file,destination,c);if(bundle) bundle->commit();result.path=access_path(destination).u8string();result.state="saved";++report.saved;
                     }
                 } catch(const std::exception& e) {if(c && c->load()) throw;result.state="failed";result.error=error_text(e);result.records=0;++report.failed;}
@@ -453,7 +453,7 @@ struct ProjectBatchKernel {
         report.elapsed_ms=std::chrono::duration<double,std::milli>(Clock::now()-started).count();
         // The terminal audit is intentionally written after cancellation. It
         // publishes no additional image result and records committed images.
-        if(!root.empty() && plain(root,true)) {try {phase(6);report.report_path=(root/("run-"+token()+".json")).u8string();const auto text=project_batch_report_json(report);detail::AtomicExportFile file(report.report_path,64*1024*1024);file.write(text.data(),text.size());file.commit();} catch(const std::exception& e) {report.state="failed";report.error="cannot write batch report: "+error_text(e);report.report_path.clear();}}
+        if(!root.empty() && plain(root,true)) {try {phase(6);report.report_path=access_path(root/("run-"+token()+".json")).u8string();const auto text=project_batch_report_json(report);detail::AtomicExportFile file(access_path(fs::u8path(report.report_path),true).u8string(),64*1024*1024);file.write(text.data(),text.size());file.commit();} catch(const std::exception& e) {report.state="failed";report.error="cannot write batch report: "+error_text(e);report.report_path.clear();}}
         return report;
     }
 };

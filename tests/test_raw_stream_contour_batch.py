@@ -190,9 +190,17 @@ def test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope
     p,docs,model=scene(tmp_path,(8,))
     try:
         output=tmp_path/"out";capture=request(p,model,options(model));first=success(q.run_project_batch(capture,str(output)))
-        relative=Path(first.images[0].path).relative_to(output);moved=tmp_path/"moved";shutil.move(str(output),str(moved))
+        written=Path(first.images[0].path)
+        reported_root=written.parent.parent
+        # Validate directory identity without mixing Windows \\?\ path spelling
+        # with ordinary drive spelling in lexical relative_to comparisons.
+        assert reported_root.samefile(output) and written.is_file()
+        relative=written.relative_to(reported_root)
+        moved=tmp_path/"moved";shutil.move(str(output),str(moved))
         again=success(q.run_project_batch(capture,str(moved)))
-        assert again.reused==1 and Path(again.images[0].path).samefile(moved/relative)
+        actual=Path(again.images[0].path);actual_root=actual.parent.parent
+        assert again.reused==1 and actual.is_file() and actual_root.samefile(moved)
+        assert actual.relative_to(actual_root)==relative
         image,doc,_,ids=docs[0];lattice=q.ScientificRawLattice(8,6,q.ScientificGridAxis(0,8,8),q.ScientificGridAxis(0,6,6))
         selection=q.ScientificRawOptions();selection.channels=2;features=q.RawPixelFeatureOptions();features.offsets=[0,0];features.scales=[1,1]
         table=q.sample_raw_pixel_tiled_training(q.RawPixelTiledTrainingRequest(doc,ids,lattice,selection,features));parameters=q.ForestParameters();parameters.trees=7;parameters.max_depth=3;parameters.work_bytes=2*1024**2
