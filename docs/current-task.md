@@ -49,6 +49,10 @@ All **M0-M7 remain Partial**. Qualified public-main application baseline remains
   argument to extended Windows spelling succeeds but saves a new checkpoint
   (`saved=1`, `reused=0`, different input hashes). The final-runtime diagnostic is
   retained; ordinary-root relocation acceptance does not claim this alias fixed.
+  [Snapshot witness259](benchmarks/root-alias-analysis-259/receipt.json) now
+  isolates relative/absolute `images.source` selection in the common project
+  serializer: one changed SQL cell, identical schema/pragmas and the same file.
+  No candidate source was changed by this observation.
 - **Other open gates:** Unicode glyph coverage; biological/model/upstream
   comparisons and three strict scientific xfails; corpus rights/labels/tolerances;
   general process/hardware budgets; remaining eligible reader/interchange/spatial/

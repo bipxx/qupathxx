@@ -515,6 +515,16 @@ Observe the three new source-bound roles below and run every complete auditor.
 Preserve failures and diagnose before another dispatch. The explicit extended-root
 alias variant still saves instead of reusing and remains a separate open item.
 
+The [snapshot witness259](benchmarks/root-alias-analysis-259/receipt.json) narrows
+that follow-up to `Project::save_impl` linked-image locator selection. The same
+physical output directory and source image serialize as relative versus absolute
+`images.source` under ordinary/extended Windows spelling; all other SQL cells,
+schema and recorded pragmas match. Reuse the existing locator path rather than
+adding a batch cache or ignoring source fields in the input hash. Add paired
+snapshot and batch-reuse regressions, preserve incompatible-root fallback and
+source-identity/relocation semantics, and validate the actual reuse result before
+calling this gap closed. Keep candidate258 frozen while its roles are live.
+
 | Step / state | Smallest next action and files | Exit evidence |
 | --- | --- | --- |
 | B6.1 retained-binary diagnosis / observed, binary mismatch located | [Observer252 receipt](benchmarks/raw-replay-arm64-252/receipt.json): native ABI probe passes; unchanged retained4a72fd8 exits1 both plainly and under LLDB. An invalid_argument escapes its typed helper into main. Both relevant helper addresses alias length_error specializations; final exception tables bind length_error | Retain authenticated inputs, probe, events, original failure and [offline interpretation](benchmarks/raw-replay-arm64-252/interpretation.md). This locates the binary mismatch without establishing its compiler/linker origin or a product repair |

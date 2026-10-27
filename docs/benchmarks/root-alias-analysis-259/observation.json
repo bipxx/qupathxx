@@ -1,0 +1,16 @@
+{
+  "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+  "native": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-path-fixture-258-env\\Lib\\site-packages\\qupathxx\\_native.cp312-win_amd64.pyd",
+  "changed_tables": [
+    "images"
+  ],
+  "ordinary_image_locator": "../source.ppm",
+  "extended_image_locator": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-alias-analysis-259\\source.ppm",
+  "equal_after_only_locator_normalization": true,
+  "source_file_unchanged": "a426b0f75de80d8ff3c1f18badc251cd0e4fa5e5243a2f4288d5a91d6948351d",
+  "ordinary_snapshot_sha256": "5a7c957a130312618549a95a4f5c3cf21a9ec7d3b8f8f04ef65ac682b1afcf22",
+  "extended_snapshot_sha256": "1e6d412ee080163ce3b3458e6236379e907b3e867ab198f18c50d1b86a8ae177",
+  "same_directory": true,
+  "same_image": true,
+  "scope": "Public snapshot API serialization witness only; no repair or qualification"
+}

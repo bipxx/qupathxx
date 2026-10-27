@@ -1,0 +1,875 @@
+{
+  "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+  "snapshots": [
+    {
+      "kind": "plain",
+      "schema": [
+        [
+          "index",
+          "objects_image",
+          "objects",
+          "CREATE INDEX objects_image ON objects(image_id)"
+        ],
+        [
+          "index",
+          "sqlite_autoindex_analysis_provenance_1",
+          "analysis_provenance",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_analysis_records_1",
+          "analysis_records",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_cell_feature_links_1",
+          "cell_feature_links",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_cell_records_1",
+          "cell_records",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_classes_1",
+          "classes",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_classifier_records_1",
+          "classifier_records",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_images_1",
+          "images",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_levels_1",
+          "levels",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_objects_1",
+          "objects",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_pixel_classifier_records_1",
+          "pixel_classifier_records",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_pixel_stream_records_1",
+          "pixel_stream_records",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_raw_analysis_records_1",
+          "raw_analysis_records",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_tiff_views_1",
+          "tiff_views",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_tissue_records_1",
+          "tissue_records",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_tma_cores_1",
+          "tma_cores",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_tma_grids_1",
+          "tma_grids",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_views_1",
+          "views",
+          null
+        ],
+        [
+          "table",
+          "analysis_provenance",
+          "analysis_provenance",
+          "CREATE TABLE analysis_provenance(image_id TEXT NOT NULL REFERENCES images(id),record_id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,record_id)) STRICT"
+        ],
+        [
+          "table",
+          "analysis_records",
+          "analysis_records",
+          "CREATE TABLE analysis_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,object_id TEXT NOT NULL,object_revision TEXT NOT NULL,document_revision TEXT NOT NULL,algorithm TEXT NOT NULL,input_sha256 TEXT NOT NULL,kind INTEGER NOT NULL,nucleus INTEGER NOT NULL,tile_size INTEGER NOT NULL,samples TEXT NOT NULL,tiles TEXT NOT NULL,elapsed_ms REAL NOT NULL,mean_r REAL NOT NULL,mean_g REAL NOT NULL,mean_b REAL NOT NULL,white_r REAL NOT NULL,white_g REAL NOT NULL,white_b REAL NOT NULL,s00 REAL NOT NULL,s01 REAL NOT NULL,s02 REAL NOT NULL,s10 REAL NOT NULL,s11 REAL NOT NULL,s12 REAL NOT NULL,s20 REAL NOT NULL,s21 REAL NOT NULL,s22 REAL NOT NULL,geometry BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "cell_feature_links",
+          "cell_feature_links",
+          "CREATE TABLE cell_feature_links(image_id TEXT NOT NULL,object_id TEXT NOT NULL,record_id TEXT NOT NULL,label INTEGER NOT NULL,PRIMARY KEY(image_id,object_id),FOREIGN KEY(image_id,object_id) REFERENCES objects(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "cell_records",
+          "cell_records",
+          "CREATE TABLE cell_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,producer TEXT NOT NULL,geometry BLOB NOT NULL,run BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "classes",
+          "classes",
+          "CREATE TABLE classes(image_id TEXT NOT NULL REFERENCES images(id),name TEXT NOT NULL,color INTEGER NOT NULL,PRIMARY KEY(image_id,name)) STRICT"
+        ],
+        [
+          "table",
+          "classifier_records",
+          "classifier_records",
+          "CREATE TABLE classifier_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "images",
+          "images",
+          "CREATE TABLE images(id TEXT PRIMARY KEY NOT NULL,name TEXT NOT NULL,reader TEXT NOT NULL,source TEXT NOT NULL,embedded INTEGER NOT NULL,width INTEGER NOT NULL,height INTEGER NOT NULL,vendor TEXT NOT NULL,server_x REAL,server_y REAL,cal_x REAL,cal_y REAL,next_object TEXT NOT NULL,revision TEXT NOT NULL,rgb BLOB) STRICT"
+        ],
+        [
+          "table",
+          "levels",
+          "levels",
+          "CREATE TABLE levels(image_id TEXT NOT NULL REFERENCES images(id),ordinal INTEGER NOT NULL,width INTEGER NOT NULL,height INTEGER NOT NULL,downsample REAL NOT NULL,PRIMARY KEY(image_id,ordinal)) STRICT"
+        ],
+        [
+          "table",
+          "objects",
+          "objects",
+          "CREATE TABLE objects(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,name TEXT NOT NULL,parent TEXT NOT NULL,class_name TEXT NOT NULL,revision TEXT NOT NULL,kind INTEGER NOT NULL,geometry BLOB NOT NULL,nucleus BLOB,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "pixel_classifier_records",
+          "pixel_classifier_records",
+          "CREATE TABLE pixel_classifier_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "pixel_stream_records",
+          "pixel_stream_records",
+          "CREATE TABLE pixel_stream_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "project",
+          "project",
+          "CREATE TABLE project(identity TEXT NOT NULL,next_image TEXT NOT NULL,active TEXT NOT NULL,generation INTEGER NOT NULL) STRICT"
+        ],
+        [
+          "table",
+          "raw_analysis_records",
+          "raw_analysis_records",
+          "CREATE TABLE raw_analysis_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "tiff_views",
+          "tiff_views",
+          "CREATE TABLE tiff_views(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),payload BLOB NOT NULL) STRICT"
+        ],
+        [
+          "table",
+          "tissue_records",
+          "tissue_records",
+          "CREATE TABLE tissue_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,producer TEXT NOT NULL,geometry BLOB NOT NULL,mask BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "tma_cores",
+          "tma_cores",
+          "CREATE TABLE tma_cores(image_id TEXT NOT NULL,object_id TEXT NOT NULL,row_index INTEGER NOT NULL,column_index INTEGER NOT NULL,missing INTEGER NOT NULL,case_id TEXT NOT NULL,PRIMARY KEY(image_id,object_id),FOREIGN KEY(image_id,object_id) REFERENCES objects(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "tma_grids",
+          "tma_grids",
+          "CREATE TABLE tma_grids(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),payload BLOB NOT NULL) STRICT"
+        ],
+        [
+          "table",
+          "views",
+          "views",
+          "CREATE TABLE views(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),center_x REAL NOT NULL,center_y REAL NOT NULL,zoom REAL NOT NULL,mode INTEGER NOT NULL,black REAL NOT NULL,white REAL NOT NULL,gamma REAL NOT NULL) STRICT"
+        ]
+      ],
+      "tables": {
+        "analysis_provenance": [],
+        "analysis_records": [],
+        "cell_feature_links": [],
+        "cell_records": [],
+        "classes": [],
+        "classifier_records": [],
+        "images": [
+          [
+            "1",
+            "source.ppm",
+            "ppm",
+            "../source.ppm",
+            0,
+            2,
+            2,
+            "dense-rgb",
+            null,
+            null,
+            null,
+            null,
+            "1",
+            "0",
+            null
+          ]
+        ],
+        "levels": [
+          [
+            "1",
+            0,
+            2,
+            2,
+            1.0
+          ]
+        ],
+        "objects": [],
+        "pixel_classifier_records": [],
+        "pixel_stream_records": [],
+        "project": [
+          [
+            "e65341031682bfc8e130dbb9fb960bcc",
+            "2",
+            "1",
+            1
+          ]
+        ],
+        "raw_analysis_records": [],
+        "tiff_views": [],
+        "tissue_records": [],
+        "tma_cores": [],
+        "tma_grids": [],
+        "views": []
+      },
+      "pragmas": {
+        "user_version": 13,
+        "application_id": 1364219992,
+        "page_size": 4096,
+        "encoding": "UTF-8"
+      },
+      "columns": {
+        "analysis_provenance": [
+          "image_id",
+          "record_id",
+          "payload"
+        ],
+        "analysis_records": [
+          "image_id",
+          "id",
+          "object_id",
+          "object_revision",
+          "document_revision",
+          "algorithm",
+          "input_sha256",
+          "kind",
+          "nucleus",
+          "tile_size",
+          "samples",
+          "tiles",
+          "elapsed_ms",
+          "mean_r",
+          "mean_g",
+          "mean_b",
+          "white_r",
+          "white_g",
+          "white_b",
+          "s00",
+          "s01",
+          "s02",
+          "s10",
+          "s11",
+          "s12",
+          "s20",
+          "s21",
+          "s22",
+          "geometry"
+        ],
+        "cell_feature_links": [
+          "image_id",
+          "object_id",
+          "record_id",
+          "label"
+        ],
+        "cell_records": [
+          "image_id",
+          "id",
+          "producer",
+          "geometry",
+          "run"
+        ],
+        "classes": [
+          "image_id",
+          "name",
+          "color"
+        ],
+        "classifier_records": [
+          "image_id",
+          "id",
+          "payload"
+        ],
+        "images": [
+          "id",
+          "name",
+          "reader",
+          "source",
+          "embedded",
+          "width",
+          "height",
+          "vendor",
+          "server_x",
+          "server_y",
+          "cal_x",
+          "cal_y",
+          "next_object",
+          "revision",
+          "rgb"
+        ],
+        "levels": [
+          "image_id",
+          "ordinal",
+          "width",
+          "height",
+          "downsample"
+        ],
+        "objects": [
+          "image_id",
+          "id",
+          "name",
+          "parent",
+          "class_name",
+          "revision",
+          "kind",
+          "geometry",
+          "nucleus"
+        ],
+        "pixel_classifier_records": [
+          "image_id",
+          "id",
+          "payload"
+        ],
+        "pixel_stream_records": [
+          "image_id",
+          "id",
+          "payload"
+        ],
+        "project": [
+          "identity",
+          "next_image",
+          "active",
+          "generation"
+        ],
+        "raw_analysis_records": [
+          "image_id",
+          "id",
+          "payload"
+        ],
+        "tiff_views": [
+          "image_id",
+          "payload"
+        ],
+        "tissue_records": [
+          "image_id",
+          "id",
+          "producer",
+          "geometry",
+          "mask"
+        ],
+        "tma_cores": [
+          "image_id",
+          "object_id",
+          "row_index",
+          "column_index",
+          "missing",
+          "case_id"
+        ],
+        "tma_grids": [
+          "image_id",
+          "payload"
+        ],
+        "views": [
+          "image_id",
+          "center_x",
+          "center_y",
+          "zoom",
+          "mode",
+          "black",
+          "white",
+          "gamma"
+        ]
+      }
+    },
+    {
+      "kind": "extended",
+      "schema": [
+        [
+          "index",
+          "objects_image",
+          "objects",
+          "CREATE INDEX objects_image ON objects(image_id)"
+        ],
+        [
+          "index",
+          "sqlite_autoindex_analysis_provenance_1",
+          "analysis_provenance",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_analysis_records_1",
+          "analysis_records",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_cell_feature_links_1",
+          "cell_feature_links",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_cell_records_1",
+          "cell_records",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_classes_1",
+          "classes",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_classifier_records_1",
+          "classifier_records",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_images_1",
+          "images",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_levels_1",
+          "levels",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_objects_1",
+          "objects",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_pixel_classifier_records_1",
+          "pixel_classifier_records",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_pixel_stream_records_1",
+          "pixel_stream_records",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_raw_analysis_records_1",
+          "raw_analysis_records",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_tiff_views_1",
+          "tiff_views",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_tissue_records_1",
+          "tissue_records",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_tma_cores_1",
+          "tma_cores",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_tma_grids_1",
+          "tma_grids",
+          null
+        ],
+        [
+          "index",
+          "sqlite_autoindex_views_1",
+          "views",
+          null
+        ],
+        [
+          "table",
+          "analysis_provenance",
+          "analysis_provenance",
+          "CREATE TABLE analysis_provenance(image_id TEXT NOT NULL REFERENCES images(id),record_id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,record_id)) STRICT"
+        ],
+        [
+          "table",
+          "analysis_records",
+          "analysis_records",
+          "CREATE TABLE analysis_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,object_id TEXT NOT NULL,object_revision TEXT NOT NULL,document_revision TEXT NOT NULL,algorithm TEXT NOT NULL,input_sha256 TEXT NOT NULL,kind INTEGER NOT NULL,nucleus INTEGER NOT NULL,tile_size INTEGER NOT NULL,samples TEXT NOT NULL,tiles TEXT NOT NULL,elapsed_ms REAL NOT NULL,mean_r REAL NOT NULL,mean_g REAL NOT NULL,mean_b REAL NOT NULL,white_r REAL NOT NULL,white_g REAL NOT NULL,white_b REAL NOT NULL,s00 REAL NOT NULL,s01 REAL NOT NULL,s02 REAL NOT NULL,s10 REAL NOT NULL,s11 REAL NOT NULL,s12 REAL NOT NULL,s20 REAL NOT NULL,s21 REAL NOT NULL,s22 REAL NOT NULL,geometry BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "cell_feature_links",
+          "cell_feature_links",
+          "CREATE TABLE cell_feature_links(image_id TEXT NOT NULL,object_id TEXT NOT NULL,record_id TEXT NOT NULL,label INTEGER NOT NULL,PRIMARY KEY(image_id,object_id),FOREIGN KEY(image_id,object_id) REFERENCES objects(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "cell_records",
+          "cell_records",
+          "CREATE TABLE cell_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,producer TEXT NOT NULL,geometry BLOB NOT NULL,run BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "classes",
+          "classes",
+          "CREATE TABLE classes(image_id TEXT NOT NULL REFERENCES images(id),name TEXT NOT NULL,color INTEGER NOT NULL,PRIMARY KEY(image_id,name)) STRICT"
+        ],
+        [
+          "table",
+          "classifier_records",
+          "classifier_records",
+          "CREATE TABLE classifier_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "images",
+          "images",
+          "CREATE TABLE images(id TEXT PRIMARY KEY NOT NULL,name TEXT NOT NULL,reader TEXT NOT NULL,source TEXT NOT NULL,embedded INTEGER NOT NULL,width INTEGER NOT NULL,height INTEGER NOT NULL,vendor TEXT NOT NULL,server_x REAL,server_y REAL,cal_x REAL,cal_y REAL,next_object TEXT NOT NULL,revision TEXT NOT NULL,rgb BLOB) STRICT"
+        ],
+        [
+          "table",
+          "levels",
+          "levels",
+          "CREATE TABLE levels(image_id TEXT NOT NULL REFERENCES images(id),ordinal INTEGER NOT NULL,width INTEGER NOT NULL,height INTEGER NOT NULL,downsample REAL NOT NULL,PRIMARY KEY(image_id,ordinal)) STRICT"
+        ],
+        [
+          "table",
+          "objects",
+          "objects",
+          "CREATE TABLE objects(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,name TEXT NOT NULL,parent TEXT NOT NULL,class_name TEXT NOT NULL,revision TEXT NOT NULL,kind INTEGER NOT NULL,geometry BLOB NOT NULL,nucleus BLOB,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "pixel_classifier_records",
+          "pixel_classifier_records",
+          "CREATE TABLE pixel_classifier_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "pixel_stream_records",
+          "pixel_stream_records",
+          "CREATE TABLE pixel_stream_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "project",
+          "project",
+          "CREATE TABLE project(identity TEXT NOT NULL,next_image TEXT NOT NULL,active TEXT NOT NULL,generation INTEGER NOT NULL) STRICT"
+        ],
+        [
+          "table",
+          "raw_analysis_records",
+          "raw_analysis_records",
+          "CREATE TABLE raw_analysis_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "tiff_views",
+          "tiff_views",
+          "CREATE TABLE tiff_views(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),payload BLOB NOT NULL) STRICT"
+        ],
+        [
+          "table",
+          "tissue_records",
+          "tissue_records",
+          "CREATE TABLE tissue_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,producer TEXT NOT NULL,geometry BLOB NOT NULL,mask BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "tma_cores",
+          "tma_cores",
+          "CREATE TABLE tma_cores(image_id TEXT NOT NULL,object_id TEXT NOT NULL,row_index INTEGER NOT NULL,column_index INTEGER NOT NULL,missing INTEGER NOT NULL,case_id TEXT NOT NULL,PRIMARY KEY(image_id,object_id),FOREIGN KEY(image_id,object_id) REFERENCES objects(image_id,id)) STRICT"
+        ],
+        [
+          "table",
+          "tma_grids",
+          "tma_grids",
+          "CREATE TABLE tma_grids(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),payload BLOB NOT NULL) STRICT"
+        ],
+        [
+          "table",
+          "views",
+          "views",
+          "CREATE TABLE views(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),center_x REAL NOT NULL,center_y REAL NOT NULL,zoom REAL NOT NULL,mode INTEGER NOT NULL,black REAL NOT NULL,white REAL NOT NULL,gamma REAL NOT NULL) STRICT"
+        ]
+      ],
+      "tables": {
+        "analysis_provenance": [],
+        "analysis_records": [],
+        "cell_feature_links": [],
+        "cell_records": [],
+        "classes": [],
+        "classifier_records": [],
+        "images": [
+          [
+            "1",
+            "source.ppm",
+            "ppm",
+            "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-alias-analysis-259\\source.ppm",
+            0,
+            2,
+            2,
+            "dense-rgb",
+            null,
+            null,
+            null,
+            null,
+            "1",
+            "0",
+            null
+          ]
+        ],
+        "levels": [
+          [
+            "1",
+            0,
+            2,
+            2,
+            1.0
+          ]
+        ],
+        "objects": [],
+        "pixel_classifier_records": [],
+        "pixel_stream_records": [],
+        "project": [
+          [
+            "e65341031682bfc8e130dbb9fb960bcc",
+            "2",
+            "1",
+            1
+          ]
+        ],
+        "raw_analysis_records": [],
+        "tiff_views": [],
+        "tissue_records": [],
+        "tma_cores": [],
+        "tma_grids": [],
+        "views": []
+      },
+      "pragmas": {
+        "user_version": 13,
+        "application_id": 1364219992,
+        "page_size": 4096,
+        "encoding": "UTF-8"
+      },
+      "columns": {
+        "analysis_provenance": [
+          "image_id",
+          "record_id",
+          "payload"
+        ],
+        "analysis_records": [
+          "image_id",
+          "id",
+          "object_id",
+          "object_revision",
+          "document_revision",
+          "algorithm",
+          "input_sha256",
+          "kind",
+          "nucleus",
+          "tile_size",
+          "samples",
+          "tiles",
+          "elapsed_ms",
+          "mean_r",
+          "mean_g",
+          "mean_b",
+          "white_r",
+          "white_g",
+          "white_b",
+          "s00",
+          "s01",
+          "s02",
+          "s10",
+          "s11",
+          "s12",
+          "s20",
+          "s21",
+          "s22",
+          "geometry"
+        ],
+        "cell_feature_links": [
+          "image_id",
+          "object_id",
+          "record_id",
+          "label"
+        ],
+        "cell_records": [
+          "image_id",
+          "id",
+          "producer",
+          "geometry",
+          "run"
+        ],
+        "classes": [
+          "image_id",
+          "name",
+          "color"
+        ],
+        "classifier_records": [
+          "image_id",
+          "id",
+          "payload"
+        ],
+        "images": [
+          "id",
+          "name",
+          "reader",
+          "source",
+          "embedded",
+          "width",
+          "height",
+          "vendor",
+          "server_x",
+          "server_y",
+          "cal_x",
+          "cal_y",
+          "next_object",
+          "revision",
+          "rgb"
+        ],
+        "levels": [
+          "image_id",
+          "ordinal",
+          "width",
+          "height",
+          "downsample"
+        ],
+        "objects": [
+          "image_id",
+          "id",
+          "name",
+          "parent",
+          "class_name",
+          "revision",
+          "kind",
+          "geometry",
+          "nucleus"
+        ],
+        "pixel_classifier_records": [
+          "image_id",
+          "id",
+          "payload"
+        ],
+        "pixel_stream_records": [
+          "image_id",
+          "id",
+          "payload"
+        ],
+        "project": [
+          "identity",
+          "next_image",
+          "active",
+          "generation"
+        ],
+        "raw_analysis_records": [
+          "image_id",
+          "id",
+          "payload"
+        ],
+        "tiff_views": [
+          "image_id",
+          "payload"
+        ],
+        "tissue_records": [
+          "image_id",
+          "id",
+          "producer",
+          "geometry",
+          "mask"
+        ],
+        "tma_cores": [
+          "image_id",
+          "object_id",
+          "row_index",
+          "column_index",
+          "missing",
+          "case_id"
+        ],
+        "tma_grids": [
+          "image_id",
+          "payload"
+        ],
+        "views": [
+          "image_id",
+          "center_x",
+          "center_y",
+          "zoom",
+          "mode",
+          "black",
+          "white",
+          "gamma"
+        ]
+      }
+    }
+  ],
+  "differences": [
+    {
+      "table": "images",
+      "row": 0,
+      "column": "source",
+      "ordinary": "../source.ppm",
+      "extended": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\root-alias-analysis-259\\source.ppm"
+    }
+  ],
+  "schema_and_pragmas_equal": true
+}

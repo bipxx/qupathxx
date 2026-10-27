@@ -584,3 +584,4 @@ docs/benchmarks/raw-original-object-255/** -text -whitespace
 docs/benchmarks/darwin-link-policy-256/** -text -whitespace
 docs/benchmarks/raw-link-qualification-257/** -text -whitespace
 docs/benchmarks/raw-path-fixture-258/** -text -whitespace
+docs/benchmarks/root-alias-analysis-259/** -text -whitespace
