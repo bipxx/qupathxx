@@ -196,7 +196,12 @@ def test_batch_contour_moved_output_and_changed_model_use_exact_checkpoint_scope
         # with ordinary drive spelling in lexical relative_to comparisons.
         assert reported_root.samefile(output) and written.is_file()
         relative=written.relative_to(reported_root)
-        moved=tmp_path/"moved";shutil.move(str(output),str(moved))
+        moved=tmp_path/"moved"
+        if os.name=="nt":
+            text=str(moved)
+            if not text.startswith("\\\\?\\"):
+                moved=Path("\\\\?\\UNC\\"+text[2:] if text.startswith("\\\\") else "\\\\?\\"+text)
+        shutil.move(str(output),str(moved))
         again=success(q.run_project_batch(capture,str(moved)))
         actual=Path(again.images[0].path);actual_root=actual.parent.parent
         assert again.reused==1 and actual.is_file() and actual_root.samefile(moved)

@@ -642,7 +642,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(cancelled && cancelled->load()) throw std::runtime_error("recovery cancelled");
         const auto& doc=*e.document; const auto& m=doc.metadata(); validate_metadata(m);
         auto key=std::to_string(id),source=e.info.source_path;
-        if(!e.info.embedded) { auto relative=fs::u8path(source).lexically_relative(directory); if(!relative.empty()) source=relative.generic_u8string(); }
+        if(!e.info.embedded) { auto relative=detail::relative_locator(fs::u8path(source),directory); if(!relative.empty()) source=relative.generic_u8string(); }
         image.string(1,key); image.string(2,e.info.name); image.string(3,e.info.reader); image.string(4,source); image.integer(5,e.info.embedded?1:0);
         image.integer(6,m.width); image.integer(7,m.height); image.string(8,m.vendor); image.optional(9,m.pixel_width_um); image.optional(10,m.pixel_height_um);
         image.optional(11,doc.pixel_width_um_); image.optional(12,doc.pixel_height_um_); image.string(13,std::to_string(doc.next_id_)); image.string(14,std::to_string(doc.revision_));

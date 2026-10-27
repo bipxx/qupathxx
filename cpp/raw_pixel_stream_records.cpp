@@ -3,6 +3,7 @@
 #include "raw_pixel_archive_binary.hpp"
 #include "reader_file_guard.hpp"
 #include "atomic_export.hpp"
+#include "filesystem_access.hpp"
 
 namespace qpx {
 using namespace detail::raw_archive;
@@ -40,7 +41,7 @@ void RawPixelStreamLink::check_verified_file() const {
 }
 std::vector<std::uint8_t> RawPixelStreamRecordCodec::encode(const RawPixelStreamRecord& record,const std::string& directory,const std::atomic<bool>* c) {
     stop(c);detail::bounded_utf8(record.name,256);if(!record.id || record.name.empty() || !record.link) throw std::invalid_argument("invalid raw stream record");const auto& l=*record.link;l.validate();Writer w("QWL\1",c,link_limit);w.integer(record.id);w.text(record.name);
-    auto path=std::filesystem::u8path(l.path_);const auto relative=path.lexically_relative(std::filesystem::u8path(directory));if(!relative.empty()) path=relative;w.text(path.generic_u8string());
+    auto path=std::filesystem::u8path(l.path_);const auto relative=detail::relative_locator(path,std::filesystem::u8path(directory));if(!relative.empty()) path=relative;w.text(path.generic_u8string());
     grid(w,l.lattice_);for(auto v:{l.region_.first_x,l.region_.first_y,l.region_.width,l.region_.height}) w.signed_integer(v);stream_options(w,l.options_);w.integer(l.object_);w.integer(l.revision_);w.integer(l.header_bytes_);w.text(l.model_);w.text(l.request_);w.text(l.header_);
     const auto& s=l.summary_;for(auto n:{s.bytes,s.total_windows,s.completed_windows,s.valid_samples,s.classified_samples,std::uint64_t(s.complete)}) w.integer(n);w.text(s.input_sha256);w.text(s.sha256);w.text(s.content_sha256);w.integer(s.class_counts.size());for(auto count:s.class_counts) w.integer(count);w.finish();return std::move(w.bytes);
 }

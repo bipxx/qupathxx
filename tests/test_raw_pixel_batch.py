@@ -224,6 +224,19 @@ def test_raw_batch_mixed_rgb_raw_links_and_both_typed_reuse_paths(tmp_path):
             assert saved.document(image).raw_pixel_stream_record_count == (2 if kind == "raw" else 1)
             assert saved.document(image).pixel_stream_record_count == (1 if kind == "raw" else 2)
             close(saved)
+        if os.name=="nt":
+            source=tmp_path/"linked-source.qpxproj";p.save(str(source))
+            first=q.Project.open(str(source));second=q.Project.open(str(source))
+            try:
+                folder=tmp_path/"snapshots";folder.mkdir()
+                plain=folder/"plain.qpxproj";extended=folder/"extended.qpxproj"
+                text=str(extended)
+                argument="\\\\?\\UNC\\"+text[2:] if text.startswith("\\\\") else "\\\\?\\"+text
+                first.save_new(str(plain));second.save_new(argument)
+                # Images, QSL1 and QWL1 locators all contribute to the input seal.
+                assert plain.read_bytes()==extended.read_bytes()
+            finally:
+                close(first);close(second)
     finally:
         close(p)
 
