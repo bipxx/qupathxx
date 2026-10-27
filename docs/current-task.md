@@ -19,21 +19,27 @@ public-main application baseline remains `61e546e`; no main promotion is implied
   reports exactly 20 intended errors in four negatives. A fresh frozen audit
   checkout authenticates all 490 sources. Shared dependencies and OpenSlide OFF
   keep this local engineering evidence rather than clean-machine support.
-- **Mac role underway:** observe original [run40422850278](https://github.com/bipxx/qupathxx/actions/runs/40422850278),
-  using the frozen source/ref above. Latest observation has arm64 completed successfully and
-  x86_64 queued. Authenticate both terminal archives and run the complete frozen
-  Mac auditor with all inherited gates. Engine/portable remain undispatched;
-  start them on this same immutable source only after strict Mac acceptance.
+- **Mac-native accepted:** original [run40422850278](https://github.com/bipxx/qupathxx/actions/runs/40422850278)
+  completed successfully at the frozen source. Both archive sizes/digests
+  authenticate; the [complete frozen auditor](benchmarks/raw-link-qualification-257/macos-terminal/macos-acceptance.json)
+  accepts both 50-suite architectures, all inherited domain/source checks,
+  Mach-O inventory and actual relocated runtime probes. This verifies the
+  repair in the declared Mac-native scope; Mac Python/GUI/OpenSlide remain open.
+  Windows long-path extraction and its dependent audit setup failure are
+  preserved. Re-extracting the same archives under a short path passes without
+  rebuilding, omitting members or weakening checks.
+- **Remaining roles dispatched:** observe [engine40434741797](https://github.com/bipxx/qupathxx/actions/runs/40434741797)
+  and [portable40434749058](https://github.com/bipxx/qupathxx/actions/runs/40434749058),
+  each dispatched once with checked full inputs after strict Mac acceptance on
+  the same immutable source. Authenticate their terminal artifacts and execute
+  the complete applicable frozen auditors before integrated acceptance.
   Quiet compilation or an observation timeout does not authorize redispatch.
-  The [authenticated arm64 observation](benchmarks/raw-link-qualification-257/arm64-observation/arm64-supplementary-checks.json)
-  passes all 50 suites, inherited domain checks, inventory/relocation checks and
-  the 490-path raw source proof. This is partial evidence pending x86_64 and
-  the complete original two-architecture auditor.
 - **Cause and implementation:** [original-object255](benchmarks/raw-original-object-255/receipt.json)
   isolates default Darwin link-time folding of differing typed catch handlers.
   Policy87b9dac disables it for project Darwin links. Original failures,
   observer252 and negative tiny witness254 remain separate. Local Windows
-  success and incomplete analysis products do not verify the repaired Mac runtime.
+  success and incomplete analysis products remain separate from the complete
+  Mac runtime acceptance above.
 - **Visual review:** four 1280x1000 file/retained captures fit and show the correct
   historical versus applied states. Chinese filename glyphs use placeholders;
   a separate probe verifies the stored UTF8 name. Broader glyph coverage remains

@@ -13,7 +13,8 @@ does not reproduce the difference between link modes. Original-object255 then
 isolates default-link folding using the same original object: functions are
 distinct before linking, incorrect aliases after default linking and distinct
 with correct catch tables after no-deduplicate. Policy87b9dac applies that scoped
-Darwin build change; complete runtime confirmation remains open.
+Darwin build change; complete Mac-native runtime confirmation now passes at
+candidate257, with Mac Python/GUI/OpenSlide still outside this acceptance.
 
 Streamed Python, desktop/managed, CLI, batch and history consumers now have local
 verification through runtime `3039f0c`, with three supplementary history refusal
@@ -24,8 +25,12 @@ route. Candidate257 (`d57df01`) now has a complete local build, 51 native suites
 880 producer/auditor controls and 301 installed workflow passes/three skips,
 including all 26 history cases in one cohort. Source, package, SDK and typing
 proofs are recorded in its [receipt](../benchmarks/raw-link-qualification-257/receipt.json).
-Original Mac run40422850278 has passed arm64; x86_64 remains queued. Audit both
-terminal artifacts before remaining-role dispatch or repair acceptance.
+Original Mac run40422850278 and both authenticated archives now pass the complete
+strict Mac-native auditor. Engine40434741797 and portable40434749058 were then
+dispatched once on the same source. A Windows MAX_PATH extraction failure and
+dependent audit setup failure are preserved; short-path extraction of the same
+archives passes without rebuilding or weakening checks. Use checked subprocess
+results to stop dependent work after a local setup failure.
 Historical findings below retain their original applicability.
 
 Additional efficiency lessons from candidate257:

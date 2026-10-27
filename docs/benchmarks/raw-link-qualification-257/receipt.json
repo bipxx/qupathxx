@@ -3,7 +3,7 @@
   "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
   "fingerprint": "c18b09a98303bc2d3eeb57b7af79333fdc6cf8d9e0875a43586050ca4f22aa69",
   "frozen_ref": "feature/raw-link-qualification-257",
-  "state": "macos_role_running_or_queued",
+  "state": "macos_accepted_engine_portable_dispatched",
   "native_suites": 51,
   "preflight_controls": 880,
   "installed_workflow": {
@@ -34,9 +34,15 @@
     "review": "Historical and retained actions fit. Unverified apply disabled; successful apply reports 2 annotations and disables repeat apply. Chinese filename uses fallback glyphs; stored UTF8 name is correct."
   },
   "macos_run": 40422850278,
-  "mac_runtime_repair_verified": false,
-  "engine_role": "not_dispatched_until_strict_mac_acceptance",
-  "portable_role": "not_dispatched_until_strict_mac_acceptance",
+  "mac_runtime_repair_verified": true,
+  "engine_role": {
+    "run": 40434741797,
+    "state": "run_identified"
+  },
+  "portable_role": {
+    "run": 40434749058,
+    "state": "run_identified"
+  },
   "dispatch_note": "Initial HTTP422 before branch push completed created no run. Ref publication verified, rejection preserved, then one accepted Mac-role run identified.",
   "limitations": [
     "Local Windows GUI/TIFF/GEOS/project/training with OpenSlide OFF",
@@ -233,6 +239,56 @@
       "sha256": "771720f63b55e426aa36ca0bc72f8c98e5eb3878daa2c0800b0c0b472ff6f667"
     },
     {
+      "path": "macos-terminal/arm64-artifact-authentication.json",
+      "bytes": 1171,
+      "sha256": "e5f63fbd36ae0e605b80c9973dfe253c2a9b17f85e4723ce343679c7039d3ee3"
+    },
+    {
+      "path": "macos-terminal/campaign.json",
+      "bytes": 5106,
+      "sha256": "7e4cd1b96ad213727117c05b751bb8e0e6bf01a28752c3610e62deac0b202aac"
+    },
+    {
+      "path": "macos-terminal/macos-acceptance.json",
+      "bytes": 370296,
+      "sha256": "7e0615b517e954e8ab6859d22fc11ca4f33820e4001df3ce3b7a96f2db42414e"
+    },
+    {
+      "path": "macos-terminal/macos-audit-command.json",
+      "bytes": 860,
+      "sha256": "271dae4a79aab9130e65e59fe28405f44041716be0d35998d1937cd25cd467d5"
+    },
+    {
+      "path": "macos-terminal/macos-initial-extraction-failure.json",
+      "bytes": 558,
+      "sha256": "4ce969af10c333885fbb85608bedc4253468af94f8f68ada01131ba4bb47f81f"
+    },
+    {
+      "path": "macos-terminal/notebook-prefix-proof.json",
+      "bytes": 180,
+      "sha256": "4ce71077f5af0317307a311e365fa2a1aa529db5fcf59f724bcfcd184c8d2b06"
+    },
+    {
+      "path": "macos-terminal/run-observations.json",
+      "bytes": 17141,
+      "sha256": "2331b42e4231f640140dc76ea68523703925fb87ced5131b8e17b2ff510ade14"
+    },
+    {
+      "path": "macos-terminal/x86_64-artifact-authentication.json",
+      "bytes": 1173,
+      "sha256": "d1eb2ad8e1d88ba34203bf6261b7af5af6978c4acf2a52f3f891cd9708166ac0"
+    },
+    {
+      "path": "macos-terminal/x86_64-native-tests.xml",
+      "bytes": 27717,
+      "sha256": "ef6e600e6d39bde217c566c408569546c7dc53c30ab8a0bb709d835cd1c36e42"
+    },
+    {
+      "path": "macos-terminal/x86_64-result.json",
+      "bytes": 4945,
+      "sha256": "b1a841c75ff7cac1ec5b7424fc35e991432c772f9bebd7b47d619cdb8a5e693d"
+    },
+    {
       "path": "native-command.json",
       "bytes": 527,
       "sha256": "4c830f60e4e602f39ea8e0413502314dd13d0996e16a496574837c2ffffd5a98"
@@ -266,6 +322,11 @@
       "path": "observers/check_candidate257_arm64.py",
       "bytes": 2596,
       "sha256": "3e4b10b273e592fed4ce23ffee18e0536722abc9443d5061c038a1f58a728ca9"
+    },
+    {
+      "path": "observers/dispatch_candidate257_remaining.py",
+      "bytes": 4492,
+      "sha256": "ce5319317cbd46c90ce5d39f4339529f6613a229a46e82dc548824e13428bb8e"
     },
     {
       "path": "observers/raw_link_qualification_257_backend.py",
@@ -393,5 +454,6 @@
       "sha256": "eb0f08e33a91199f98c9465489047e791f84dc9315644d3cb0897784ad3d8b5f"
     }
   ],
-  "arm64_supplementary_observation": "arm64-observation/arm64-supplementary-checks.json"
+  "arm64_supplementary_observation": "arm64-observation/arm64-supplementary-checks.json",
+  "macos_acceptance": "macos-terminal/macos-acceptance.json"
 }

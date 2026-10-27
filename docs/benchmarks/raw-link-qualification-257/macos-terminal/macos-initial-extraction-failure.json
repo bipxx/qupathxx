@@ -1,0 +1,10 @@
+{
+  "observed_at_utc": "2026-10-27T01:47:31.990357+00:00",
+  "state": "local_setup_failure",
+  "artifact": 12701919627,
+  "archive_size_and_digest_verified": true,
+  "extraction_error": "FileNotFoundError at relocated-runtime/batch/<image-hash>/<output-hash>.qpxproj under long Windows extraction path",
+  "audit_error": "FileNotFoundError: macos-native-x86_64/result.json after incomplete extraction",
+  "product_failure": false,
+  "recovery": "Re-extract original authenticated archives into build/q257-mac; retain original partial extraction"
+}
