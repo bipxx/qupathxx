@@ -1,0 +1,118 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+00:23:06.325 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+00:23:06.330 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+00:23:06.330 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+00:23:06.356 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+00:23:06.367 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+00:23:06.488 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+ERROR: It looks like you've tried to import a class 'groovy.json.JsonSlurper' that couldn't be found
+
+00:23:12.501 [main] [ERROR] qupath.ScriptCommand - startup failed:
+qupath_spatial_reference.groovy: 4: unable to resolve class groovy.json.JsonSlurper
+ @ line 3, column 8.
+   import groovy.json.JsonSlurper
+          ^
+
+1 error
+ in qupath_spatial_reference.groovy at line number 3
+javax.script.ScriptException: startup failed:
+qupath_spatial_reference.groovy: 4: unable to resolve class groovy.json.JsonSlurper
+ @ line 3, column 8.
+   import groovy.json.JsonSlurper
+          ^
+
+1 error
+ in qupath_spatial_reference.groovy at line number 3
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
+qupath_spatial_reference.groovy: 4: unable to resolve class groovy.json.JsonSlurper
+ @ line 4, column 8.
+   import groovy.json.JsonSlurper
+          ^
+
+1 error
+
+	at org.codehaus.groovy.control.ErrorCollector.failIfErrors(ErrorCollector.java:292)
+	at org.codehaus.groovy.control.CompilationUnit$ISourceUnitOperation.doPhaseOperation(CompilationUnit.java:894)
+	at org.codehaus.groovy.control.CompilationUnit.processPhaseOperations(CompilationUnit.java:668)
+	at org.codehaus.groovy.control.CompilationUnit.compile(CompilationUnit.java:642)
+	at groovy.lang.GroovyClassLoader.doParseClass(GroovyClassLoader.java:399)
+	at groovy.lang.GroovyClassLoader.lambda$parseClass$5(GroovyClassLoader.java:345)
+	at org.codehaus.groovy.runtime.memoize.ConcurrentCommonCache.getAndPut(ConcurrentCommonCache.java:138)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:345)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:329)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:303)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.getScriptClass(GroovyScriptEngineImpl.java:350)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:159)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 common frames omitted
+java.lang.RuntimeException: javax.script.ScriptException: startup failed:
+qupath_spatial_reference.groovy: 4: unable to resolve class groovy.json.JsonSlurper
+ @ line 3, column 8.
+   import groovy.json.JsonSlurper
+          ^
+
+1 error
+ in qupath_spatial_reference.groovy at line number 3
+	at qupath.ScriptCommand.run(QuPath.java:424)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: javax.script.ScriptException: startup failed:
+qupath_spatial_reference.groovy: 4: unable to resolve class groovy.json.JsonSlurper
+ @ line 3, column 8.
+   import groovy.json.JsonSlurper
+          ^
+
+1 error
+ in qupath_spatial_reference.groovy at line number 3
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	... 9 more
+Caused by: org.codehaus.groovy.control.MultipleCompilationErrorsException: startup failed:
+qupath_spatial_reference.groovy: 4: unable to resolve class groovy.json.JsonSlurper
+ @ line 4, column 8.
+   import groovy.json.JsonSlurper
+          ^
+
+1 error
+
+	at org.codehaus.groovy.control.ErrorCollector.failIfErrors(ErrorCollector.java:292)
+	at org.codehaus.groovy.control.CompilationUnit$ISourceUnitOperation.doPhaseOperation(CompilationUnit.java:894)
+	at org.codehaus.groovy.control.CompilationUnit.processPhaseOperations(CompilationUnit.java:668)
+	at org.codehaus.groovy.control.CompilationUnit.compile(CompilationUnit.java:642)
+	at groovy.lang.GroovyClassLoader.doParseClass(GroovyClassLoader.java:399)
+	at groovy.lang.GroovyClassLoader.lambda$parseClass$5(GroovyClassLoader.java:345)
+	at org.codehaus.groovy.runtime.memoize.ConcurrentCommonCache.getAndPut(ConcurrentCommonCache.java:138)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:345)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:329)
+	at groovy.lang.GroovyClassLoader.parseClass(GroovyClassLoader.java:303)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.getScriptClass(GroovyScriptEngineImpl.java:350)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:159)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 more
+00:23:12.507 [main] [WARN ] qupath.QuPath - Calling System.exit with exit code 1

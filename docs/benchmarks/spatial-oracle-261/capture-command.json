@@ -1,0 +1,9 @@
+[
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\upstream\\qupath\\runtime\\QuPath-0.7.0 (console).exe",
+  "script",
+  "--args",
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-oracle-261\\final\\contract.json",
+  "--args",
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-oracle-261\\final\\qupath",
+  "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-oracle-261\\final\\generator.groovy"
+]

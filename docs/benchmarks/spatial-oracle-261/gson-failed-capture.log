@@ -1,0 +1,128 @@
+WARNING: Unknown module: javafx.graphics specified to --add-opens
+WARNING: Unknown module: javafx.base specified to --add-opens
+WARNING: Unknown module: javafx.web specified to --enable-native-access
+WARNING: Unknown module: javafx.graphics specified to --enable-native-access
+WARNING: Unknown module: javafx.media specified to --enable-native-access
+00:23:33.487 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting default Locale to en_US
+00:23:33.489 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for FORMAT to en_US
+00:23:33.490 [main] [INFO ] qupath.lib.gui.prefs.PathPrefs - Setting Locale for DISPLAY to en_US
+00:23:33.513 [main] [INFO ] qupath.lib.common.ThreadTools - Setting parallelism to 19
+00:23:33.524 [main] [INFO ] qupath.ScriptCommand - Setting tile cache size to 16352.00 MB (25.0% max memory)
+00:23:33.625 [main] [INFO ] qupath.lib.scripting.QP - Initializing type adapters
+00:23:35.615 [main] [ERROR] qupath.ScriptCommand - No signature of static method: createPolygonROI for class: qupath.lib.roi.ROIs is applicable for argument types: ([F, [F, qupath.lib.regions.ImagePlane) values: [[0.0, 6.0, 0.0], [0.0, 0.0, 6.0], ImagePlane (z=0, t=0, c=-1)]
+Possible solutions: createPolygonROI(java.util.List, qupath.lib.regions.ImagePlane), createPolygonROI(double, double, qupath.lib.regions.ImagePlane), createPolygonROI([D, [D, qupath.lib.regions.ImagePlane), createPolygonROI(java.util.List), createPolygonROI(double, double), createPolygonROI([D, [D) in generator.groovy at line number 29
+javax.script.ScriptException: No signature of static method: createPolygonROI for class: qupath.lib.roi.ROIs is applicable for argument types: ([F, [F, qupath.lib.regions.ImagePlane) values: [[0.0, 6.0, 0.0], [0.0, 0.0, 6.0], ImagePlane (z=0, t=0, c=-1)]
+Possible solutions: createPolygonROI(java.util.List, qupath.lib.regions.ImagePlane), createPolygonROI(double, double, qupath.lib.regions.ImagePlane), createPolygonROI([D, [D, qupath.lib.regions.ImagePlane), createPolygonROI(java.util.List), createPolygonROI(double, double), createPolygonROI([D, [D) in generator.groovy at line number 29
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: groovy.lang.MissingMethodException: No signature of static method: createPolygonROI for class: qupath.lib.roi.ROIs is applicable for argument types: ([F, [F, qupath.lib.regions.ImagePlane) values: [[0.0, 6.0, 0.0], [0.0, 0.0, 6.0], ImagePlane (z=0, t=0, c=-1)]
+Possible solutions: createPolygonROI(java.util.List, qupath.lib.regions.ImagePlane), createPolygonROI(double, double, qupath.lib.regions.ImagePlane), createPolygonROI([D, [D, qupath.lib.regions.ImagePlane), createPolygonROI(java.util.List), createPolygonROI(double, double), createPolygonROI([D, [D)
+	at groovy.lang.MetaClassImpl.invokeStaticMissingMethod(MetaClassImpl.java:1550)
+	at groovy.lang.MetaClassImpl.invokeStaticMethod(MetaClassImpl.java:1536)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at generator$_run_closure1.doCall(generator.groovy:29)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at generator$_run_closure2$_closure12.doCall(generator.groovy:50)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:338)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:274)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:270)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1015)
+	at groovy.lang.Closure.call(Closure.java:471)
+	at groovy.lang.Closure.call(Closure.java:460)
+	at org.codehaus.groovy.runtime.DefaultGroovyMethods.collectEntries(DefaultGroovyMethods.java:2736)
+	at org.codehaus.groovy.runtime.DefaultGroovyMethods.collectEntries(DefaultGroovyMethods.java:2610)
+	at org.codehaus.groovy.runtime.DefaultGroovyMethods.collectEntries(DefaultGroovyMethods.java:2687)
+	at org.codehaus.groovy.runtime.dgm$628.doMethodInvoke(Unknown Source)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at generator$_run_closure2.doCall(generator.groovy:48)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:338)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:274)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:270)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1015)
+	at groovy.lang.Closure.call(Closure.java:471)
+	at groovy.lang.Closure.call(Closure.java:460)
+	at org.codehaus.groovy.runtime.DefaultGroovyMethods.collect(DefaultGroovyMethods.java:2425)
+	at org.codehaus.groovy.runtime.DefaultGroovyMethods.collect(DefaultGroovyMethods.java:2362)
+	at org.codehaus.groovy.runtime.DefaultGroovyMethods.collect(DefaultGroovyMethods.java:2472)
+	at org.codehaus.groovy.runtime.dgm$622.doMethodInvoke(Unknown Source)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at generator.run(generator.groovy:37)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:331)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:161)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 common frames omitted
+java.lang.RuntimeException: javax.script.ScriptException: No signature of static method: createPolygonROI for class: qupath.lib.roi.ROIs is applicable for argument types: ([F, [F, qupath.lib.regions.ImagePlane) values: [[0.0, 6.0, 0.0], [0.0, 0.0, 6.0], ImagePlane (z=0, t=0, c=-1)]
+Possible solutions: createPolygonROI(java.util.List, qupath.lib.regions.ImagePlane), createPolygonROI(double, double, qupath.lib.regions.ImagePlane), createPolygonROI([D, [D, qupath.lib.regions.ImagePlane), createPolygonROI(java.util.List), createPolygonROI(double, double), createPolygonROI([D, [D) in generator.groovy at line number 29
+	at qupath.ScriptCommand.run(QuPath.java:424)
+	at picocli.CommandLine.executeUserObject(CommandLine.java:2045)
+	at picocli.CommandLine.access$1500(CommandLine.java:148)
+	at picocli.CommandLine$RunLast.executeUserObjectOfLastSubcommandWithSameParent(CommandLine.java:2469)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2461)
+	at picocli.CommandLine$RunLast.handle(CommandLine.java:2423)
+	at picocli.CommandLine$AbstractParseResultHandler.execute(CommandLine.java:2277)
+	at picocli.CommandLine$RunLast.execute(CommandLine.java:2425)
+	at picocli.CommandLine.execute(CommandLine.java:2174)
+	at qupath.QuPath.main(QuPath.java:208)
+Caused by: javax.script.ScriptException: No signature of static method: createPolygonROI for class: qupath.lib.roi.ROIs is applicable for argument types: ([F, [F, qupath.lib.regions.ImagePlane) values: [[0.0, 6.0, 0.0], [0.0, 0.0, 6.0], ImagePlane (z=0, t=0, c=-1)]
+Possible solutions: createPolygonROI(java.util.List, qupath.lib.regions.ImagePlane), createPolygonROI(double, double, qupath.lib.regions.ImagePlane), createPolygonROI([D, [D, qupath.lib.regions.ImagePlane), createPolygonROI(java.util.List), createPolygonROI(double, double), createPolygonROI([D, [D) in generator.groovy at line number 29
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:309)
+	at qupath.ScriptCommand.runBatchScript(QuPath.java:524)
+	at qupath.ScriptCommand.runSingleScript(QuPath.java:475)
+	at qupath.ScriptCommand.run(QuPath.java:418)
+	... 9 more
+Caused by: groovy.lang.MissingMethodException: No signature of static method: createPolygonROI for class: qupath.lib.roi.ROIs is applicable for argument types: ([F, [F, qupath.lib.regions.ImagePlane) values: [[0.0, 6.0, 0.0], [0.0, 0.0, 6.0], ImagePlane (z=0, t=0, c=-1)]
+Possible solutions: createPolygonROI(java.util.List, qupath.lib.regions.ImagePlane), createPolygonROI(double, double, qupath.lib.regions.ImagePlane), createPolygonROI([D, [D, qupath.lib.regions.ImagePlane), createPolygonROI(java.util.List), createPolygonROI(double, double), createPolygonROI([D, [D)
+	at groovy.lang.MetaClassImpl.invokeStaticMissingMethod(MetaClassImpl.java:1550)
+	at groovy.lang.MetaClassImpl.invokeStaticMethod(MetaClassImpl.java:1536)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at generator$_run_closure1.doCall(generator.groovy:29)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at generator$_run_closure2$_closure12.doCall(generator.groovy:50)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:338)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:274)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:270)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1015)
+	at groovy.lang.Closure.call(Closure.java:471)
+	at groovy.lang.Closure.call(Closure.java:460)
+	at org.codehaus.groovy.runtime.DefaultGroovyMethods.collectEntries(DefaultGroovyMethods.java:2736)
+	at org.codehaus.groovy.runtime.DefaultGroovyMethods.collectEntries(DefaultGroovyMethods.java:2610)
+	at org.codehaus.groovy.runtime.DefaultGroovyMethods.collectEntries(DefaultGroovyMethods.java:2687)
+	at org.codehaus.groovy.runtime.dgm$628.doMethodInvoke(Unknown Source)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at generator$_run_closure2.doCall(generator.groovy:48)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Unknown Source)
+	at java.base/java.lang.reflect.Method.invoke(Unknown Source)
+	at org.codehaus.groovy.reflection.CachedMethod.invoke(CachedMethod.java:338)
+	at groovy.lang.MetaMethod.doMethodInvoke(MetaMethod.java:274)
+	at org.codehaus.groovy.runtime.metaclass.ClosureMetaClass.invokeMethod(ClosureMetaClass.java:270)
+	at groovy.lang.MetaClassImpl.invokeMethod(MetaClassImpl.java:1015)
+	at groovy.lang.Closure.call(Closure.java:471)
+	at groovy.lang.Closure.call(Closure.java:460)
+	at org.codehaus.groovy.runtime.DefaultGroovyMethods.collect(DefaultGroovyMethods.java:2425)
+	at org.codehaus.groovy.runtime.DefaultGroovyMethods.collect(DefaultGroovyMethods.java:2362)
+	at org.codehaus.groovy.runtime.DefaultGroovyMethods.collect(DefaultGroovyMethods.java:2472)
+	at org.codehaus.groovy.runtime.dgm$622.doMethodInvoke(Unknown Source)
+	at org.codehaus.groovy.vmplugin.v8.IndyInterface.fromCache(IndyInterface.java:344)
+	at generator.run(generator.groovy:37)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:331)
+	at org.codehaus.groovy.jsr223.GroovyScriptEngineImpl.eval(GroovyScriptEngineImpl.java:161)
+	at qupath.lib.gui.scripting.languages.DefaultScriptLanguage.execute(DefaultScriptLanguage.java:231)
+	... 12 more
+00:23:35.622 [main] [WARN ] qupath.QuPath - Calling System.exit with exit code 1

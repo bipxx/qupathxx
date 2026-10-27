@@ -586,3 +586,7 @@ docs/benchmarks/raw-link-qualification-257/** -text -whitespace
 docs/benchmarks/raw-path-fixture-258/** -text -whitespace
 docs/benchmarks/root-alias-analysis-259/** -text -whitespace
 docs/benchmarks/root-locator-fix-260/** -text -whitespace
+docs/benchmarks/spatial-oracle-261/** -text -whitespace
+tests/fixtures/qupath-spatial-0.7.0/** -text -whitespace
+tools/upstream/qupath_spatial_reference.groovy text eol=lf
+tools/capture_qupath_spatial.py text eol=lf

@@ -2,7 +2,7 @@
   "schema": "qpx.locator-serialization-local/1",
   "source": "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3",
   "fingerprint": "0ad83b6abb0c28d3ae164d8ab462843da6e99ba6bb442bfcf243f6444ae1a8b3",
-  "state": "locally_verified_platform_campaign_dispatched",
+  "state": "locally_verified_platform_campaign_has_sanitizer_failure",
   "qualified_baseline": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
   "frozen_ref": "feature/root-locator-qualification-260",
   "compiler_inputs": 392,
@@ -139,6 +139,16 @@
       "sha256": "d2a061e78cba212220191020f678de597f0da6e6a926a4eb93cae6510f8a07fc"
     },
     {
+      "path": "linux-engine-audit-command.json",
+      "bytes": 734,
+      "sha256": "978d4bf34b22679b81ee72b28ddde47ee69f0bde5c59f7b96c301e551a692cf1"
+    },
+    {
+      "path": "linux-engine-audit.log",
+      "bytes": 384,
+      "sha256": "de38a8cb2cbfb2009d09a3eec987a9cd830d282389cf57838445858c13eca1cf"
+    },
+    {
       "path": "mixed-links-before-command.json",
       "bytes": 467,
       "sha256": "d656760b80239bc239e283f20248028da4c0bffb114aff89c7f56aaf6b4d42c6"
@@ -167,6 +177,121 @@
       "path": "native-tests.xml",
       "bytes": 28507,
       "sha256": "90e291c2ad54a4ba35c582a24a74500744e613eed7d4d8574a75e0a94f9a9bef"
+    },
+    {
+      "path": "observations/20261027T042614Z/engine-artifacts.json",
+      "bytes": 1836,
+      "sha256": "3f700d060165320ddcba57ab9d1ccbe86e2d1256079fbf91f99cf34613bfb2dd"
+    },
+    {
+      "path": "observations/20261027T042614Z/engine-run.json",
+      "bytes": 24199,
+      "sha256": "7110861ff9cc755c96d98f17af1fb9b5ab84e150e47aaed9369506e716d21057"
+    },
+    {
+      "path": "observations/20261027T042614Z/Linux-minimal-py3.12-artifact.json",
+      "bytes": 812,
+      "sha256": "3a397e761d4f4a5d31b39cc0e783398f526128f4847fcef1fe208b99153355ac"
+    },
+    {
+      "path": "observations/20261027T042614Z/Linux-sanitize-py3.12-artifact.json",
+      "bytes": 813,
+      "sha256": "9f4654b776a93321f95c1d4e46c91573210ab9216560bc621f591833b977793f"
+    },
+    {
+      "path": "observations/20261027T042614Z/macos-artifacts.json",
+      "bytes": 46,
+      "sha256": "48f3f8e2db6024648ae57ea6301f1ede11b5ee11792f9391b971426f9a2f5c0d"
+    },
+    {
+      "path": "observations/20261027T042614Z/macos-run.json",
+      "bytes": 2006,
+      "sha256": "02fb1b6066af4e9532b71dcf19d544cc66c4bd52f3e88c727bedfc662bdf1a49"
+    },
+    {
+      "path": "observations/20261027T042614Z/portable-artifacts.json",
+      "bytes": 46,
+      "sha256": "48f3f8e2db6024648ae57ea6301f1ede11b5ee11792f9391b971426f9a2f5c0d"
+    },
+    {
+      "path": "observations/20261027T042614Z/portable-run.json",
+      "bytes": 9018,
+      "sha256": "45f186fa9fe3fc49c091e4a8c750dcae7bbef760d8eb6ce4edd1964cafcc04d1"
+    },
+    {
+      "path": "observations/20261027T042614Z/verified.json",
+      "bytes": 570,
+      "sha256": "1b31a34a3125e148cc42596e89704b5ae121c3b47d5150450e62497915db64bb"
+    },
+    {
+      "path": "observations/20261027T042932Z/engine-artifacts.json",
+      "bytes": 2733,
+      "sha256": "b0a43680eee7e57fc2b2d8134c1fa19da76d787a2e7cbd5ed6d8262b76d93572"
+    },
+    {
+      "path": "observations/20261027T042932Z/engine-run.json",
+      "bytes": 24513,
+      "sha256": "3fa7c3d984581f690ef569384dc054be38154be9a332aa5adaf254285a5a8a1e"
+    },
+    {
+      "path": "observations/20261027T042932Z/Linux-headless-py3.12-artifact.json",
+      "bytes": 816,
+      "sha256": "a09fc34d58c933b38912636c5bdd27e61f8a29c864f34e6e966a5aff2f3c4a96"
+    },
+    {
+      "path": "observations/20261027T042932Z/Linux-headless-py3.12-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "observations/20261027T042932Z/Linux-minimal-py3.12-artifact.json",
+      "bytes": 812,
+      "sha256": "3a397e761d4f4a5d31b39cc0e783398f526128f4847fcef1fe208b99153355ac"
+    },
+    {
+      "path": "observations/20261027T042932Z/Linux-sanitize-py3.12-artifact.json",
+      "bytes": 813,
+      "sha256": "9f4654b776a93321f95c1d4e46c91573210ab9216560bc621f591833b977793f"
+    },
+    {
+      "path": "observations/20261027T042932Z/macos-artifacts.json",
+      "bytes": 46,
+      "sha256": "48f3f8e2db6024648ae57ea6301f1ede11b5ee11792f9391b971426f9a2f5c0d"
+    },
+    {
+      "path": "observations/20261027T042932Z/macos-run.json",
+      "bytes": 2006,
+      "sha256": "02fb1b6066af4e9532b71dcf19d544cc66c4bd52f3e88c727bedfc662bdf1a49"
+    },
+    {
+      "path": "observations/20261027T042932Z/manylinux-3.11-artifact.json",
+      "bytes": 809,
+      "sha256": "8bc79c9e6ef4cbdbad1f914bb0c91299ed93b1f87093fc70721061e0d2a9f13e"
+    },
+    {
+      "path": "observations/20261027T042932Z/manylinux-3.11-download.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "observations/20261027T042932Z/portable-artifacts.json",
+      "bytes": 939,
+      "sha256": "fc1e41d3aacd5fc8801456f2902139d17ab4a3a1461ebe32a4d9c61112656651"
+    },
+    {
+      "path": "observations/20261027T042932Z/portable-run.json",
+      "bytes": 9332,
+      "sha256": "e32911c06460a55d79a7d9a1645b5bf155eca23ffefdceb5316b79af384bc5ba"
+    },
+    {
+      "path": "observations/20261027T042932Z/verified.json",
+      "bytes": 1037,
+      "sha256": "894b417b190f46ffd92498ee4bba0eed9817a294b87ab22aa8322275f6c704b1"
+    },
+    {
+      "path": "observers/collect_candidate260.py",
+      "bytes": 4834,
+      "sha256": "6bdd1ae97653ebf79cc165687ca241186d3ee832cf8a1f4f494df8b78070a3d7"
     },
     {
       "path": "observers/dispatch_candidate260.py",
@@ -284,6 +409,21 @@
       "sha256": "d0fdf4cabfe35fabde88d88fe2721d7664d4a9c18d9d480f7137595bb5075993"
     },
     {
+      "path": "sanitizer-failed-job.log",
+      "bytes": 42345,
+      "sha256": "34da1e11563bc9c8fd7c0805faaea8e3b7bec70f5e7e27239858b5129cbc8536"
+    },
+    {
+      "path": "sanitizer-native-tests.log",
+      "bytes": 5693,
+      "sha256": "5ac0811c3e2035ac2f1b31b46363e0dfa1aaaf91ac599c9f750341618cdab69d"
+    },
+    {
+      "path": "sanitizer-native-tests.xml",
+      "bytes": 26981,
+      "sha256": "f7042468c4d0750638a898cce2b7fcd9cf013a6120c5d2690ca62ec742aa0205"
+    },
+    {
       "path": "snapshot-witness/observation.json",
       "bytes": 811,
       "sha256": "cc59214e0ece0f15af66effebbae82aa801fa6555c3ec9bf395e1e80c9a83268"
@@ -318,5 +458,19 @@
       "bytes": 17083,
       "sha256": "b7c1681039b3d602d003330e5e8c36713cc218fb288572e064415daa4ede7667"
     }
-  ]
+  ],
+  "latest_partial_observation": {
+    "path": "observations/20261027T042932Z",
+    "authenticated_archives": 4,
+    "platform_engineering_accepted": false
+  },
+  "sanitizer_failure": {
+    "job": 122005327036,
+    "passed": 49,
+    "total": 50,
+    "suite": "viewer_session",
+    "assertion_line": 81,
+    "full_engine_run_still_live": true,
+    "diagnosis": "Preview result assertion failed. No ASan memory report in native log; owner-poll/future-readiness transition is under investigation, not a proven cause."
+  }
 }

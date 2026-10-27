@@ -41,8 +41,21 @@ Public-main application baseline remains 61e546e; no promotion/release is implie
   candidate258 roles were terminal before dispatch. No prior acceptance transfers;
   quiet compilation/observation timeouts do not authorize retries.
 
-After this workflow's required validation, return to the remaining eligible
-reader/interchange/spatial/automation and UI work in the single API queue.
+Four original candidate260 archives now authenticate (three Linux profiles and
+portable Python 3.11 builder). The sanitizer job fails `viewer_session` at line81:
+49/50 native suites pass. Linux headless/minimal pass. The complete engine run
+remains live and unaccepted; preserve the failure before diagnosis. The first
+Linux-only auditor rejects the failed job before artifact admission. Investigate
+the preview result's owner-poll/future-readiness transition; no cause or repair
+is established yet. Do not retry or dispatch a successor while original roles
+remain live. During qualification, the next
+[SPAT1 centroid-distance workflow](spatial-analysis.md) has independent reference
+preparation only: 26 pinned QuPath cases and 17 controls pass. Native delivery,
+frontends, persistence and its own platform acceptance remain pending.
+
+After this workflow's required validation, continue with the prepared SPAT1
+contract and the remaining eligible reader/interchange/automation and UI work
+in the single API queue.
 Independent scientific/model/upstream/biological comparisons, three strict
 scientific xfails, corpus rights/labels/tolerances, representative resource/
 hardware budgets, Unicode glyph coverage, clean-machine support, project license,

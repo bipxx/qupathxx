@@ -1,0 +1,20 @@
+{
+  "id": 12709644237,
+  "node_id": "MDg6QXJ0aWZhY3QxMjcwOTY0NDIzNw==",
+  "name": "manylinux-3.11",
+  "size_in_bytes": 15146291,
+  "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12709644237",
+  "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12709644237/zip",
+  "expired": false,
+  "digest": "sha256:13bdc7ae37ff0254d5ebe7d8382f338cc5ea6b9dcfc444078d19338f7dc0751d",
+  "created_at": "2026-10-27T04:28:24Z",
+  "updated_at": "2026-10-27T04:28:24Z",
+  "expires_at": "2026-11-10T04:28:23Z",
+  "workflow_run": {
+    "id": 40448495849,
+    "repository_id": 1427753981,
+    "head_repository_id": 1427753981,
+    "head_branch": "feature/root-locator-qualification-260",
+    "head_sha": "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3"
+  }
+}

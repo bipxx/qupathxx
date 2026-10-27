@@ -1,0 +1,65 @@
+{
+  "total_count": 3,
+  "artifacts": [
+    {
+      "id": 12710040274,
+      "node_id": "MDg6QXJ0aWZhY3QxMjcxMDA0MDI3NA==",
+      "name": "Linux-sanitize-py3.12",
+      "size_in_bytes": 58729,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12710040274",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12710040274/zip",
+      "expired": false,
+      "digest": "sha256:83ecfeaabdf4656083ab7700d8c76b9102db8805947460abf2e431d6ef73c50a",
+      "created_at": "2026-10-27T04:19:14Z",
+      "updated_at": "2026-10-27T04:19:14Z",
+      "expires_at": "2026-11-10T04:19:14Z",
+      "workflow_run": {
+        "id": 40448479178,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/root-locator-qualification-260",
+        "head_sha": "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3"
+      }
+    },
+    {
+      "id": 12710031058,
+      "node_id": "MDg6QXJ0aWZhY3QxMjcxMDAzMTA1OA==",
+      "name": "Linux-headless-py3.12",
+      "size_in_bytes": 14762841,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12710031058",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12710031058/zip",
+      "expired": false,
+      "digest": "sha256:6f69eb7d0ed30d788489e61b2b0ba1a3fcc175d343dd5045a83a5413334335e5",
+      "created_at": "2026-10-27T04:26:47Z",
+      "updated_at": "2026-10-27T04:26:47Z",
+      "expires_at": "2026-11-10T04:26:45Z",
+      "workflow_run": {
+        "id": 40448479178,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/root-locator-qualification-260",
+        "head_sha": "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3"
+      }
+    },
+    {
+      "id": 12709576897,
+      "node_id": "MDg6QXJ0aWZhY3QxMjcwOTU3Njg5Nw==",
+      "name": "Linux-minimal-py3.12",
+      "size_in_bytes": 51219,
+      "url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12709576897",
+      "archive_download_url": "https://api.github.com/repos/bipxx/qupathxx/actions/artifacts/12709576897/zip",
+      "expired": false,
+      "digest": "sha256:9f3938ab3012a0075ab6dd23f23dad05c752b5a5603dcf1fb63b34a0b2056312",
+      "created_at": "2026-10-27T04:14:40Z",
+      "updated_at": "2026-10-27T04:14:40Z",
+      "expires_at": "2026-11-10T04:14:39Z",
+      "workflow_run": {
+        "id": 40448479178,
+        "repository_id": 1427753981,
+        "head_repository_id": 1427753981,
+        "head_branch": "feature/root-locator-qualification-260",
+        "head_sha": "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3"
+      }
+    }
+  ]
+}

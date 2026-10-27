@@ -1,0 +1,20 @@
+{
+  "source": "f9ad28f5d88fb6706163f8a6c2e0ffe7a96e4ec3",
+  "files": [
+    {
+      "name": "Linux-sanitize-py3.12",
+      "artifact_id": 12710040274,
+      "run_id": 40448479178,
+      "bytes": 58729,
+      "digest": "sha256:83ecfeaabdf4656083ab7700d8c76b9102db8805947460abf2e431d6ef73c50a"
+    },
+    {
+      "name": "Linux-minimal-py3.12",
+      "artifact_id": 12709576897,
+      "run_id": 40448479178,
+      "bytes": 51219,
+      "digest": "sha256:9f3938ab3012a0075ab6dd23f23dad05c752b5a5603dcf1fb63b34a0b2056312"
+    }
+  ],
+  "accepted": false
+}

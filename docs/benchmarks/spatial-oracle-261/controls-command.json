@@ -1,0 +1,18 @@
+{
+  "argv": [
+    "C:/Users/HEQ/Projects/qupathxx/.venv/Scripts/python.exe",
+    "-X",
+    "utf8",
+    "-m",
+    "pytest",
+    "tests/test_qupath_spatial_reference.py",
+    "-q",
+    "-p",
+    "no:cacheprovider",
+    "--junitxml=C:/Users/HEQ/Projects/qupathxx/build/spatial-oracle-261/controls.xml"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159",
+  "returncode": 0,
+  "passed": 17,
+  "scope": "Reference-validator controls only; no native runtime test"
+}

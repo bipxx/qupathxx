@@ -41,7 +41,7 @@ no additional agent delegation is implied by this table.
 | Order / ID | State and owner | Easiest implementation path | Required exit evidence |
 | --- | --- | --- | --- |
 | Complete / SCI1-A: declared raw-classifier engineering qualification repair | Candidate258 accepted at frozen `a5b5394`; [combined receipt](benchmarks/raw-path-fixture-258/closeout/receipt.json) binds all 11 archive identities and complete engine/Mac-native/portable audits. Original257 Windows failures remain preserved | Reuse this qualified feature baseline and its source-bound products; do not dispatch or repeat completed roles for observer/documentation edits | This closes B6 engineering qualification only. No main promotion, scientific/hardware/support/release acceptance or M0-M7 completion is implied |
-| 1 / M3-ALIAS1: qualify stable linked-image locators | Locally delivered at frozen `f9ad28f`; root owns qualification. [Receipt260](benchmarks/root-locator-fix-260/receipt.json): four red/green regressions, identical paired snapshots and actual checkpoint reuse | Keep the existing internal helper shared by image/QSL1/QWL1 serializers. Observe the original three runs below; authenticate their archives and run complete inherited auditors from the clean frozen checkout. No further implementation or repeat dispatch for a plan edit | Full engine, both Mac-native architectures and portable builder/fresh-consumer acceptance at f9ad28f. Local evidence is 51 native suites, 880 controls and 386 installed passes/six declared skips across 392 identities. Preserve incompatible-root/literal fallback and source/model/no-overwrite guards; a5b5394 remains immutable |
+| 1 / M3-ALIAS1: qualify stable linked-image locators | Locally delivered at frozen `f9ad28f`; root owns qualification. [Receipt260](benchmarks/root-locator-fix-260/receipt.json): four red/green regressions, identical paired snapshots and actual checkpoint reuse | Keep the internal locator helper. First diagnose the original sanitizer viewer_session preview failure (49/50 suites); preserve all live original roles. Observe the original three runs below; authenticate their archives and run complete inherited auditors from the clean frozen checkout. No further implementation or repeat dispatch for a plan edit | Full engine, both Mac-native architectures and portable builder/fresh-consumer acceptance at f9ad28f. Local evidence is 51 native suites, 880 controls and 386 installed passes/six declared skips across 392 identities. Preserve incompatible-root/literal fallback and source/model/no-overwrite guards; a5b5394 remains immutable |
 | 2 / SCI1-B: remaining research workflows | Native/Python/desktop/managed contours locally verified through `7c77367`; CLI locally verified in installed runtime `4e91d1e`; project batches locally verified at `f5ec3eb`; historical consumers/replay locally verified at `3039f0c`; root owns integration | Select one unmet, fixture-ready reader/interchange/spatial/automation requirement using the delivery sequence below. Reuse existing readers, object/index/table models, GEOS, jobs and consumers; completed streamed-contour checkpoints are references, not work to repeat | Requirement-specific independent masks/features/split-merge comparisons with predeclared tolerances, fault/resource evidence and full frontend/persistence delivery. Three strict scientific xfails stay visible |
 | Alongside / DEC1: scientific and resource prerequisites | Open; user/research lead supplies decisions, root records applicability | Use the existing decision table below for dataset rights/labels, tolerances and eligible hardware. Synthetic arithmetic/engineering work proceeds; affected biological or hardware acceptance waits for its real prerequisites | Record corpus/version/rights, labels, metric/tolerance before comparison, and eligible hardware/configuration. Do not infer acceptance from synthetic tests or suite totals |
 | After applicable gates / REL1: supported release | Open; repository owner plus packaging owner | Reuse qualified artifacts; resolve project license, distribution obligations, support matrix, installers, notices, signing and clean-machine walkthroughs | Every claimed platform/workflow has scope-matched acceptance. Mac-native does not qualify Mac Python/GUI/OpenSlide. No release/PyPI/signing authorization is implied |
@@ -91,6 +91,18 @@ Python, CLI, batch and GUI paths for remaining work. The next scientific slice
 must retain the recipe-specific strict failures and documented input/grid
 differences while extending typed sampling and the relevant mask, feature and
 split/merge requirements without weakening acceptance criteria.
+
+## Prepared next workflow: SPAT1 centroid distances
+
+While candidate260 qualifies, [SPAT1](spatial-analysis.md) has a frozen independent
+QuPath reference: 26 synthetic cases and 17 validator controls pass. It is
+reference-ready, with native implementation still pending. Geometry tolerances
+remain fixed; separate default-FLOAT and explicit-DOUBLE cases record the pinned
+upstream storage cast. No native rebuild, new platform dispatch or transferred
+acceptance follows from this preparation. After the existing qualification gate,
+use the native geometry/capture/index/table/frontend checkpoints in that contract.
+Reader/interchange/automation, broader spatial operations and every other M0-M7
+requirement remain in scope; this preparation does not restart completed contours.
 
 ## Smallest delivery sequence for the next API workflow
 
@@ -563,7 +575,7 @@ The next action is qualification, not another serializer rewrite:
 
 | Role / original run | Observed state when updating this plan | Required action |
 | --- | --- | --- |
-| [Engine40448479178](https://github.com/bipxx/qupathxx/actions/runs/40448479178) | In progress at f9ad28f | Authenticate all five archives and run the complete engine auditor |
+| [Engine40448479178](https://github.com/bipxx/qupathxx/actions/runs/40448479178) | Run live; sanitizer failed viewer_session, Linux headless/minimal passed | Preserve failed suite/job logs and diagnose before a successor; full acceptance remains pending |
 | [Mac40448487351](https://github.com/bipxx/qupathxx/actions/runs/40448487351) | Queued at f9ad28f | Authenticate both architectures; require native, Mach-O and relocation gates |
 | [Portable40448495849](https://github.com/bipxx/qupathxx/actions/runs/40448495849) | In progress at f9ad28f | Authenticate both builders and both fresh consumers; require complete portable gates |
 

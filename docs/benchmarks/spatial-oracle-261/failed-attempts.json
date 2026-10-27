@@ -1,0 +1,157 @@
+[
+  {
+    "attempt": "initial",
+    "local_preserved": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-oracle-261\\initial",
+    "files": [
+      {
+        "path": "capture.py",
+        "bytes": 4374,
+        "sha256": "9923b262a8c13b4b15cd16efa86443f402537cd57335ca3fb1fbaf15e255f8f5"
+      },
+      {
+        "path": "command.json",
+        "bytes": 482,
+        "sha256": "ea4e02f16d12d4ee7b272856c4391ec8b7a8049e45e40f7d23040b6982b2985d"
+      },
+      {
+        "path": "contract.json",
+        "bytes": 335348,
+        "sha256": "d85c5638ddc1b4928b03680737fb7a49fb43f4b492045b860fec115e1dbe1f72"
+      },
+      {
+        "path": "generator.groovy",
+        "bytes": 3251,
+        "sha256": "569aa78e8357ccf04f6004363d726f6dcd3982f59fb50aa7cbb94963cc01beed"
+      },
+      {
+        "path": "qupath.log",
+        "bytes": 6913,
+        "sha256": "9cfb514f4bba32b6f58738715b049958b29c65823a248bae7b737e9fe44ce967"
+      }
+    ],
+    "state": "failed_before_reference_acceptance"
+  },
+  {
+    "attempt": "gson",
+    "local_preserved": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-oracle-261\\gson",
+    "files": [
+      {
+        "path": "command.json",
+        "bytes": 410,
+        "sha256": "9ae1539134116e6884555686407e2a28d4c940e4544d0cde88427c479ef62efc"
+      },
+      {
+        "path": "contract.json",
+        "bytes": 22261,
+        "sha256": "2282d08c6c9c9e36071055c297f6423b35ce6552f5cd210f24b0b2eefe1c230e"
+      },
+      {
+        "path": "generator.groovy",
+        "bytes": 3663,
+        "sha256": "cc0e108aa976a112eddcb33b04ea460f9c8858c82ea9f6f7f269b3daeafca97a"
+      },
+      {
+        "path": "qupath.log",
+        "bytes": 12123,
+        "sha256": "094484ee9b64c59ae454452c928074c4c7eb05367761276c5b82d3aab2e6b1e8"
+      }
+    ],
+    "state": "failed_before_reference_acceptance"
+  },
+  {
+    "attempt": "typed-arrays",
+    "local_preserved": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-oracle-261\\typed-arrays",
+    "files": [
+      {
+        "path": "command.json",
+        "bytes": 434,
+        "sha256": "c10e76f62e0d12bb997b838aedaa14ad011aae2035e0f04a8938d8e3d37f79c0"
+      },
+      {
+        "path": "contract.json",
+        "bytes": 22261,
+        "sha256": "2282d08c6c9c9e36071055c297f6423b35ce6552f5cd210f24b0b2eefe1c230e"
+      },
+      {
+        "path": "generator.groovy",
+        "bytes": 3671,
+        "sha256": "6b0c59a5e43da4b8adc4cdb0600b0cec2a9e8c563636b439b89ce174b183466c"
+      },
+      {
+        "path": "qupath/reference.json",
+        "bytes": 59710,
+        "sha256": "bf6c7aabced290244ea654b16708a2a31a547984803b5fbc667702f756f9091f"
+      },
+      {
+        "path": "qupath.log",
+        "bytes": 953,
+        "sha256": "2c9bf4d316eec2d05a6ce05e53fc53e2146b2531aa86f60024350c00932e7550"
+      }
+    ],
+    "state": "failed_before_reference_acceptance"
+  },
+  {
+    "attempt": "explicit-storage",
+    "local_preserved": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-oracle-261\\explicit-storage",
+    "files": [
+      {
+        "path": "command.json",
+        "bytes": 446,
+        "sha256": "d9cdd64d1b0e982e3a97bafc5974fd5568b538869058fe9a39ba90345bcd0400"
+      },
+      {
+        "path": "contract.json",
+        "bytes": 24431,
+        "sha256": "658e0e32be55bfa3a96cd4eb8d76070814cd1d234651351bb19027fe9e0a2826"
+      },
+      {
+        "path": "generator.groovy",
+        "bytes": 4097,
+        "sha256": "b4d4989a8e7f436c6891c412496ca1f088d99d58f90f619b5d9abc3b687d43ae"
+      },
+      {
+        "path": "qupath/reference.json",
+        "bytes": 60348,
+        "sha256": "3c4ce8be78233bac58d93d4b350a1ca77d65da370f8ace5549c9a7aeb3d068ea"
+      },
+      {
+        "path": "qupath.log",
+        "bytes": 953,
+        "sha256": "e80e589629184dcaaf9edbff0b1aaf2795432bb2f1f246bb4aff9cb659758d84"
+      }
+    ],
+    "state": "failed_before_reference_acceptance"
+  },
+  {
+    "attempt": "storage-diagnostic",
+    "local_preserved": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-oracle-261\\storage-diagnostic",
+    "files": [
+      {
+        "path": "command.json",
+        "bytes": 452,
+        "sha256": "5264099a5804c1a6fb2dc41772017bf433cf8fb852b82d538d7b6a3131fd5479"
+      },
+      {
+        "path": "contract.json",
+        "bytes": 24431,
+        "sha256": "658e0e32be55bfa3a96cd4eb8d76070814cd1d234651351bb19027fe9e0a2826"
+      },
+      {
+        "path": "generator.groovy",
+        "bytes": 4168,
+        "sha256": "43d05381adf6c072bdcb275a6c6c982e10e726b8c4774b182b11671050fd73b1"
+      },
+      {
+        "path": "qupath/reference.json",
+        "bytes": 62506,
+        "sha256": "ed68d2e7022502100cbf6356186fd47c1d8bac00334cec62f8b316c7c9f45a13"
+      },
+      {
+        "path": "qupath.log",
+        "bytes": 953,
+        "sha256": "9163d12556211b85ebf95754b128a64273ff2f26ba9466767e524bc23c7854e9"
+      }
+    ],
+    "state": "failed_before_reference_acceptance"
+  }
+]
