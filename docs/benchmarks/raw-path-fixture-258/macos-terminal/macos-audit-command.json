@@ -1,0 +1,25 @@
+{
+  "command": [
+    "python",
+    "-X",
+    "utf8",
+    "tools/ci/accept_macos_native.py",
+    "40440036308",
+    "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
+    "--artifacts",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\q258-all",
+    "--output",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-path-fixture-258\\macos-acceptance.json",
+    "--sampled-cells",
+    "--small-frontier",
+    "--tma-cases",
+    "--tma-file-export",
+    "--tma-cohorts",
+    "--macho-inventory",
+    "--macos-relocation"
+  ],
+  "cwd": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-path-qualification-258-audit",
+  "returncode": 0,
+  "stdout": "{\"native_engineering_accepted\": true, \"source\": \"a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027\", \"production_sampled_native_required\": true, \"release_ready\": false}\n",
+  "stderr": ""
+}

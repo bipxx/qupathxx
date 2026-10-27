@@ -2,7 +2,7 @@
   "schema": "qpx.windows-path-repair-local/1",
   "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
   "fingerprint": "8207779e99fd53ec9acfcafcceb50ce9bde1bc0620094c4b18396b4796969582",
-  "state": "local_linux_portable_accepted_windows_gui_macos_pending",
+  "state": "candidate258_declared_engineering_scope_accepted",
   "frozen_ref": "feature/raw-path-qualification-258",
   "compiler_inputs": 392,
   "changed_compiler_inputs": [
@@ -66,20 +66,35 @@
     }
   ],
   "original257_engine_accepted": false,
-  "successor_platform_acceptance": false,
+  "successor_platform_acceptance": true,
   "release_ready": false,
   "overall_project_complete": false,
   "limitations": [
     "Local Windows GUI/TIFF/GEOS/project/training, OpenSlide OFF; shared test dependencies, not clean-machine acceptance",
-    "Mac/Linux/portable successes remain source-bound to candidate257 and do not qualify this changed runtime",
     "All M0-M7 remain Partial; science/hardware/release gates and Unicode glyph coverage remain open",
-    "Explicit extended output-root alias spelling still succeeds by saving a new checkpoint rather than reusing: saved=1, reused=0, differing input hashes. Separate diagnostic preserved; not claimed fixed by ordinary-root relocation evidence"
+    "Explicit extended output-root alias spelling still succeeds by saving a new checkpoint rather than reusing: saved=1, reused=0, differing input hashes. Separate diagnostic preserved; not claimed fixed by ordinary-root relocation evidence",
+    "Complete declared engine/Mac-native/portable audits accept candidate258; broader scientific/hardware/UI/support/release and M0-M7 requirements remain incomplete"
   ],
   "evidence": [
     {
       "path": "campaign.json",
-      "bytes": 23617,
-      "sha256": "3ee2660aaf842b74d6332dd811d39cede08412b49b893cd2dd5905f2d3a0a803"
+      "bytes": 61911,
+      "sha256": "f0cb8e5418d24239368d23959c19115a4e36122c7a8838266bf26ad5b26f58f4"
+    },
+    {
+      "path": "closeout/execution-card-archive.json",
+      "bytes": 341,
+      "sha256": "d3b6ee0530ab2df1c1d55b8d8e96f451fb48b047648853dab1af3b127146ed00"
+    },
+    {
+      "path": "closeout/notebook-prefix-proof.json",
+      "bytes": 180,
+      "sha256": "6c75e30e50299ae48c15f95fb5570326c7f8c9023db92c5edc183d48070451b1"
+    },
+    {
+      "path": "closeout/receipt.json",
+      "bytes": 5810,
+      "sha256": "55e4aa34b8cd968f0ea9a7c75d5a48522447b44ecb400b116508247f07f88e16"
     },
     {
       "path": "compiler-inputs-2661132.json",
@@ -100,6 +115,46 @@
       "path": "engine-run-observation.json",
       "bytes": 26036,
       "sha256": "a07af81a64e3c84b77037495908a404ae3139108382715d79d1f25dcb1bace1f"
+    },
+    {
+      "path": "engine-terminal/engine-acceptance.json",
+      "bytes": 851824,
+      "sha256": "8193b7760548b29dab607e4af29cc620e55e352359e8d95ce094a7fd0628d79b"
+    },
+    {
+      "path": "engine-terminal/engine-artifacts.json",
+      "bytes": 4506,
+      "sha256": "9dcd45a5267217053e587da195cd9e33ab0a6936fe09bfcbb43e6e1b4b92d252"
+    },
+    {
+      "path": "engine-terminal/engine-audit-command.json",
+      "bytes": 1347,
+      "sha256": "a14bfa60a68342df31c118804f07ce222c565a47655128501b6ff8f9220fdf50"
+    },
+    {
+      "path": "engine-terminal/engine-run.json",
+      "bytes": 25146,
+      "sha256": "9b973c00ceb822713c904195fb0725f77e7e67143dc20634233510838dc029d2"
+    },
+    {
+      "path": "engine-terminal/gui-overview.png",
+      "bytes": 677386,
+      "sha256": "6c082c6b790acd33332eddc0dc59098eb460c1ae1234551bfda197e7e3fb7207"
+    },
+    {
+      "path": "engine-terminal/verified.json",
+      "bytes": 2681,
+      "sha256": "3bad1aa06847638bc90ddb13ae6e2b76e337161ca164cbc5a5497e4d26a303a9"
+    },
+    {
+      "path": "engine-terminal/Windows-gui-py3.12-artifact.json",
+      "bytes": 809,
+      "sha256": "27b881c2b014ac97eddbf77495ac53fff6277e19713561b7a35db5cc6bc37e56"
+    },
+    {
+      "path": "engine-terminal/Windows-headless-py3.11-artifact.json",
+      "bytes": 814,
+      "sha256": "e235463f5fc953ed8fead871874aba77de6f4aaff97b4007a6c08a433b23b99d"
     },
     {
       "path": "execution-card-archive.json",
@@ -345,6 +400,41 @@
       "path": "macos-run-observation.json",
       "bytes": 2195,
       "sha256": "c3338722d7ef3a4e039dfcf0272f266ac42f3069897571834d23bfebbc1d5b9c"
+    },
+    {
+      "path": "macos-terminal/macos-acceptance.json",
+      "bytes": 370296,
+      "sha256": "873a90bb8caa4729e4231ceb8cd0f6b9b5dc93eff861d3fb70017f2260eab86e"
+    },
+    {
+      "path": "macos-terminal/macos-artifacts.json",
+      "bytes": 1830,
+      "sha256": "6acab183031a412ff1e16ffacc8a84f3092b5ed2f202e90d0ee2925d093fe6ae"
+    },
+    {
+      "path": "macos-terminal/macos-audit-command.json",
+      "bytes": 854,
+      "sha256": "4bd6a06113b16c7bb0668fdb7257f47b1a7fdcb22dbad4e4c6ac5884d7cd2371"
+    },
+    {
+      "path": "macos-terminal/macos-native-arm64-artifact.json",
+      "bytes": 809,
+      "sha256": "84cae95b2a862cff50611dc89b48dc983d6812379cee1d0839e013b374f51241"
+    },
+    {
+      "path": "macos-terminal/macos-native-x86_64-artifact.json",
+      "bytes": 810,
+      "sha256": "466700da24898e08bc3f9dc2730c914d53cbe3037a539e097e4b565c0d68b602"
+    },
+    {
+      "path": "macos-terminal/macos-run.json",
+      "bytes": 7026,
+      "sha256": "77480eb704a608fce34e197eb3bb98b9365a1f331128e1357569e04a104a847e"
+    },
+    {
+      "path": "macos-terminal/verified.json",
+      "bytes": 2447,
+      "sha256": "0ee3dc223a30069f294ae2367283229713b3ad09b94193df0f427a44931d2413"
     },
     {
       "path": "native-command.json",
@@ -728,8 +818,13 @@
     }
   ],
   "linux_engineering_scope_accepted": true,
-  "windows_linux_engineering_scope_accepted": false,
+  "windows_linux_engineering_scope_accepted": true,
   "linux_engine_acceptance": "linux-engine-partial/linux-engine-acceptance.json",
   "portable_package_validated": true,
-  "portable_acceptance": "portable-terminal/portable-acceptance.json"
+  "portable_acceptance": "portable-terminal/portable-acceptance.json",
+  "macos_native_engineering_accepted": true,
+  "macos_acceptance": "macos-terminal/macos-acceptance.json",
+  "all_roles_engineering_accepted": true,
+  "combined_acceptance": "closeout/receipt.json",
+  "scope": "Declared candidate258 engine/Mac-native/portable engineering scopes; broader M0-M7, science/hardware/UI/support/release remain incomplete"
 }

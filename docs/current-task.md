@@ -2,74 +2,60 @@
 
 ## Current execution card (2026-10-27 UTC)
 
-Candidate258 is frozen at `a5b5394`, `feature/raw-path-qualification-258`.
-All **M0-M7 remain Partial**. Qualified public-main application baseline remains
-`61e546e`; no main promotion or release is implied.
+**B6 declared engineering qualification is accepted** at `a5b5394`,
+`feature/raw-path-qualification-258`. The [combined receipt](benchmarks/raw-path-fixture-258/closeout/receipt.json)
+binds all 11 artifact sizes/digests and the complete exact-source engine,
+Mac-native and portable builder/fresh-consumer audits. All **M0-M7 remain Partial**.
+Public-main application baseline stays `61e546e`; no main promotion or release.
 
-- **Candidate257 is terminal, Windows unaccepted:** original engine run40434741797
-  fails both Windows profiles at the same lexical `relative_to` fixture check.
-  [Authenticated original evidence](benchmarks/raw-path-fixture-258/original257/engine-run.json)
-  preserves the two 4,442-case runs and their failures. Its complete Mac-native,
-  Linux-only engine and portable acceptance stay source-bound to `d57df01`.
-- **Actual native gap reproduced:** continuing the relocation test on unchanged
-  products exposes long checkpoint existence checks that miss the saved file,
-  then correctly refuse replacement. A deeper-root probe exposes work-directory
-  and fingerprint input access gaps. Original and intermediate failures survive.
-  The repair applies physical-path access at filesystem boundaries while retaining
-  logical metadata paths. Fixture checks retain exact directory/file identity,
-  checkpoint reuse and changed-model refusal.
-- **Local repaired runtime ready:** [candidate258 receipt](benchmarks/raw-path-fixture-258/receipt.json)
-  binds 392 compiler inputs (only `project_batch.cpp` and `file_fingerprint.cpp`
-  changed), 33 installed package members, SDK/runtime/notices identities and all
-  490 raw source paths, including a clean frozen audit checkout. All 64 previous
-  products survive, with 55 authenticated at candidate257; the intermediate
-  runtime/wheel and final 55 active products also survive. Both SDK trees match.
-- **Validation:** all 51 native suites and 880 producer/auditor controls pass.
-  The actual installed desktop/managed/CLI/batch cohort plus fingerprint tests
-  has 326 passes/three declared skips across 329 identities. Related headless
-  workflows have 95 passes/seven skips and overlap that cohort; do not add totals.
-  Two additional long-path configurations exercise the same moved-checkpoint
-  identity. Stubs match; five positive typing files and four negatives with
-  exactly 20 intended errors pass. Local OpenSlide OFF/shared test dependencies
-  remain explicit; this is not clean-machine or platform acceptance.
-- **Required roles dispatched once at the same source:** observe
-  [engine40440028126](https://github.com/bipxx/qupathxx/actions/runs/40440028126),
-  [Mac40440036308](https://github.com/bipxx/qupathxx/actions/runs/40440036308) and
-  [portable40440044976](https://github.com/bipxx/qupathxx/actions/runs/40440044976).
-  Authenticate every terminal archive and execute the complete applicable frozen
-  auditors from `build/ci/raw-path-qualification-258-audit`. Original257 is fully
-  terminal. Darwin repair already had affected-architecture confirmation there;
-  this Windows repair now receives all three complete roles without transferring
-  that acceptance. Quiet builds or observation timeouts do not authorize retries.
-  The [complete Linux-only audit](benchmarks/raw-path-fixture-258/linux-engine-partial/linux-engine-acceptance.json)
-  accepts all three Linux engine jobs at this source: 50 native suites each and
-  3,942 installed headless passes with every applicable inherited gate. Full
-  Windows/Linux engine and Mac-native acceptance remain pending. Windows
-  headless has passed its CI job; the GUI profile is still running.
-- **Portable accepted at candidate258:** [complete audit](benchmarks/raw-path-fixture-258/portable-terminal/portable-acceptance.json)
-  accepts both CPython 3.11/3.12 manylinux builders and fresh Debian consumers
-  at a5b5394. All four archives authenticate; ABI, wheel/runtime payloads and
-  every inherited source/domain/cohort gate pass. Each builder has 50 native
-  suites and 3,942 installed passes; each consumer has 3,895 installed passes.
-  Declared skips and three strict scientific xfails per Python cohort remain.
-  This does not supply supported-release or complete platform acceptance.
-- **Separate alias inefficiency remains open:** explicitly changing the output-root
-  argument to extended Windows spelling succeeds but saves a new checkpoint
-  (`saved=1`, `reused=0`, different input hashes). The final-runtime diagnostic is
-  retained; ordinary-root relocation acceptance does not claim this alias fixed.
-  [Snapshot witness259](benchmarks/root-alias-analysis-259/receipt.json) now
-  isolates relative/absolute `images.source` selection in the common project
-  serializer: one changed SQL cell, identical schema/pragmas and the same file.
-  No candidate source was changed by this observation.
-- **Other open gates:** Unicode glyph coverage; biological/model/upstream
-  comparisons and three strict scientific xfails; corpus rights/labels/tolerances;
-  general process/hardware budgets; remaining eligible reader/interchange/spatial/
-  automation workflows; clean-machine support and release decisions. Readers and
-  required codecs stay open-source-only. Earlier broader regression/resource
-  reports retain their original runtimes and limitations.
+- **Engine accepted:** original run40440028126 passes all five profiles and the
+  complete auditor, including inherited source/semantic, reader, runtime,
+  installed-package, typing, rendering and native-stack gates. Windows GUI has
+  51 native/4,429 Python passes; Windows headless 50/3,946; Linux headless
+  50/3,942; Linux minimal and ASan/UBSan each pass 50 native suites. The completed
+  1440x900 whole-slide GUI overview is visually inspected; this is not UI parity.
+- **Mac-native accepted:** run40440036308 and both architecture archives pass
+  50 native suites each, all inherited gates, Mach-O inventory and actual
+  relocated runtime probes. Mac Python/GUI/OpenSlide, older-host support and
+  signing remain outside this native engineering scope.
+- **Portable accepted:** run40440044976 accepts CPython 3.11/3.12 under
+  manylinux_2_28_x86_64 and fresh Debian consumers. Each builder passes 50 native
+  suites/3,942 Python cases; each consumer passes 3,895 Python cases. All wheel/
+  runtime payload, ABI, source and inherited domain/cohort gates pass.
+- **Declared boundaries remain:** three strict scientific expected failures
+  persist per broad Python cohort. No biological/model parity, general process/
+  hardware, clean-machine/support or release acceptance follows from these gates.
+  Source-bound receipts retain their own profile capabilities and exclusions.
+- **Local repair evidence preserved:** [receipt258](benchmarks/raw-path-fixture-258/receipt.json)
+  retains 51 native suites, 880 controls, 326 installed passes/three skips across
+  329 identities, stubs/typing/source/package/SDK proofs, two long-root variants
+  and overlapping 95-pass/seven-skip related checks. Prior/intermediate/final
+  products, both SDK trees, original257 Windows failures and all failed probes
+  survive. Original257's accepted roles remain at d57df01; its engine is failed.
 
-The [API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) owns
-scheduling. The previous card is preserved in [plan history](project-plan-history.md).
+**Next implementation task: M3-ALIAS1, stable linked-image locator serialization.**
+
+The [witness259](benchmarks/root-alias-analysis-259/receipt.json) isolates one
+changed SQL cell in two public snapshots of the same project, physical output
+directory and image: ordinary versus extended Windows root spelling chooses
+relative versus absolute `images.source`. Schema, recorded pragmas and all other
+SQL cells match. The batch diagnostic succeeds by saving again (`saved=1`,
+`reused=0`, different input hashes); that alias inefficiency is still open.
+
+Reuse `Project::save_impl` locator selection and the existing batch engine.
+Add paired snapshot/actual-reuse regressions; preserve incompatible-root fallback,
+relocation, missing-source and source/model/identity guards. Do not ignore source
+fields in the input hash or add another cache. Keep the qualified a5b5394 checkout
+immutable and preserve its products before the next compiler-input change.
+
+Other open work: eligible reader/interchange/spatial/automation workflows,
+Unicode glyph coverage and broader UI delivery; independent scientific/upstream/
+biological comparisons; corpus rights/labels/tolerances; representative resource/
+hardware budgets; clean-machine/platform support; project license/distribution,
+signing and release decisions. Readers and required codecs remain open-source-only.
+
+The [API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) is the
+single scheduling authority; [history](project-plan-history.md) preserves prior cards.
 
 
 ## Preserved local baselines
