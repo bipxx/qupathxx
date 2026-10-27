@@ -2,7 +2,7 @@
   "schema": "qpx.windows-path-repair-local/1",
   "source": "a5b5394fd6a5bdfd8bfb45e239dcbc81b65ae027",
   "fingerprint": "8207779e99fd53ec9acfcafcceb50ce9bde1bc0620094c4b18396b4796969582",
-  "state": "locally_verified_linux_engine_accepted_other_roles_pending",
+  "state": "local_linux_portable_accepted_windows_gui_macos_pending",
   "frozen_ref": "feature/raw-path-qualification-258",
   "compiler_inputs": 392,
   "changed_compiler_inputs": [
@@ -78,8 +78,8 @@
   "evidence": [
     {
       "path": "campaign.json",
-      "bytes": 4228,
-      "sha256": "5cdce03fcf0bb34c2cb346793fbab3498645eaf6a1b970a787f16e9ab261eb0c"
+      "bytes": 23617,
+      "sha256": "3ee2660aaf842b74d6332dd811d39cede08412b49b893cd2dd5905f2d3a0a803"
     },
     {
       "path": "compiler-inputs-2661132.json",
@@ -507,6 +507,61 @@
       "sha256": "cd9c5b635baa15d57d0b3be2f635ddbf6f3be136595bdda40c1fb0bfc1e5f0e5"
     },
     {
+      "path": "portable-terminal/engine-run-at-portable-acceptance.json",
+      "bytes": 24827,
+      "sha256": "c9debddc4e88b78b8759c878edbb3c3f3aa5a0b248e8b62811a10e4acb0f6e70"
+    },
+    {
+      "path": "portable-terminal/manylinux-3.11-artifact.json",
+      "bytes": 805,
+      "sha256": "7a4347caafdfa515f45d8176b31a0c744cf30be218470e21362fda382446c3e9"
+    },
+    {
+      "path": "portable-terminal/manylinux-3.12-artifact.json",
+      "bytes": 805,
+      "sha256": "397234fafb3b2744e08b5d92a365484db4b3ee4826001ab47ea38f3646039d45"
+    },
+    {
+      "path": "portable-terminal/manylinux-consumer-3.11-artifact.json",
+      "bytes": 811,
+      "sha256": "b7eca81d1c853cae391f51d7c9c7b1fbf3f88a852b4c1f64509bc2758381d485"
+    },
+    {
+      "path": "portable-terminal/manylinux-consumer-3.12-artifact.json",
+      "bytes": 811,
+      "sha256": "aa4ebd0c4bfb06fdfe034338422a415ca45c3a47288e460bf14b6b0ed71ce963"
+    },
+    {
+      "path": "portable-terminal/portable-acceptance.json",
+      "bytes": 510041,
+      "sha256": "ea46087ca536a461ef81c1875f20c53e24cbc5bd745ef81a0f6033d26d0c415c"
+    },
+    {
+      "path": "portable-terminal/portable-artifacts.json",
+      "bytes": 3605,
+      "sha256": "bd09e1affdd16ede6c069e0888f319ac381c19734879cd4fc33307061a7431d2"
+    },
+    {
+      "path": "portable-terminal/portable-audit-command.json",
+      "bytes": 990,
+      "sha256": "9257374b1481c61bf8ae73fcc321fe9f4653e9c287dab4fa673ef4bb13055fca"
+    },
+    {
+      "path": "portable-terminal/portable-run-terminal.json",
+      "bytes": 16287,
+      "sha256": "03f1e5573dc98da297b1f49c84cfec6956c7b18036a5ba591ffd98656e1adaeb"
+    },
+    {
+      "path": "portable-terminal/verified.json",
+      "bytes": 1978,
+      "sha256": "133a6c1c94d2b8d562ba0ec8e416dcba765f77fe23652c542bf4f97ce75063e3"
+    },
+    {
+      "path": "portable-terminal/Windows-headless-py3.11-artifact.json",
+      "bytes": 814,
+      "sha256": "e235463f5fc953ed8fead871874aba77de6f4aaff97b4007a6c08a433b23b99d"
+    },
+    {
       "path": "preflight-command.json",
       "bytes": 1346,
       "sha256": "201405e3a02b2c3ef3cda79f56898fd4bb37fb2830f2f0b249d909760b02842e"
@@ -674,5 +729,7 @@
   ],
   "linux_engineering_scope_accepted": true,
   "windows_linux_engineering_scope_accepted": false,
-  "linux_engine_acceptance": "linux-engine-partial/linux-engine-acceptance.json"
+  "linux_engine_acceptance": "linux-engine-partial/linux-engine-acceptance.json",
+  "portable_package_validated": true,
+  "portable_acceptance": "portable-terminal/portable-acceptance.json"
 }

@@ -44,7 +44,15 @@ All **M0-M7 remain Partial**. Qualified public-main application baseline remains
   The [complete Linux-only audit](benchmarks/raw-path-fixture-258/linux-engine-partial/linux-engine-acceptance.json)
   accepts all three Linux engine jobs at this source: 50 native suites each and
   3,942 installed headless passes with every applicable inherited gate. Full
-  Windows/Linux engine, Mac-native and portable acceptance remain pending.
+  Windows/Linux engine and Mac-native acceptance remain pending. Windows
+  headless has passed its CI job; the GUI profile is still running.
+- **Portable accepted at candidate258:** [complete audit](benchmarks/raw-path-fixture-258/portable-terminal/portable-acceptance.json)
+  accepts both CPython 3.11/3.12 manylinux builders and fresh Debian consumers
+  at a5b5394. All four archives authenticate; ABI, wheel/runtime payloads and
+  every inherited source/domain/cohort gate pass. Each builder has 50 native
+  suites and 3,942 installed passes; each consumer has 3,895 installed passes.
+  Declared skips and three strict scientific xfails per Python cohort remain.
+  This does not supply supported-release or complete platform acceptance.
 - **Separate alias inefficiency remains open:** explicitly changing the output-root
   argument to extended Windows spelling succeeds but saves a new checkpoint
   (`saved=1`, `reused=0`, different input hashes). The final-runtime diagnostic is
