@@ -1,0 +1,93 @@
+[
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-link-qualification-257-env\\Scripts\\python.exe",
+      "-I",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tools\\generate_stubs.py",
+      "--check"
+    ],
+    "log": "stubs-check.log",
+    "returncode": 0,
+    "expected": 0,
+    "seconds": 0.41764260013587773
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-link-qualification-257-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/raw_pixel_valid.py",
+      "tests/typing/raw_batch_valid.py",
+      "tests/typing/raw_frontend_valid.py",
+      "examples/raw_classifier_workflow.py",
+      "tests/typing/raw_stream_contour_valid.py"
+    ],
+    "log": "raw-classifier-typing.log",
+    "returncode": 0,
+    "expected": 0,
+    "seconds": 2.469844799954444
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-link-qualification-257-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/raw_pixel_invalid.py"
+    ],
+    "log": "raw-classifier-raw_pixel_invalid.log",
+    "returncode": 1,
+    "expected": 1,
+    "seconds": 2.5155676000285894
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-link-qualification-257-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/raw_batch_invalid.py"
+    ],
+    "log": "raw-classifier-raw_batch_invalid.log",
+    "returncode": 1,
+    "expected": 1,
+    "seconds": 2.4743769001215696
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-link-qualification-257-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/raw_frontend_invalid.py"
+    ],
+    "log": "raw-classifier-raw_frontend_invalid.log",
+    "returncode": 1,
+    "expected": 1,
+    "seconds": 2.5020982997957617
+  },
+  {
+    "command": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-link-qualification-257-env\\Scripts\\python.exe",
+      "-I",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "tests/typing/raw_stream_contour_invalid.py"
+    ],
+    "log": "raw-classifier-raw_stream_contour_invalid.log",
+    "returncode": 1,
+    "expected": 1,
+    "seconds": 2.487675999989733
+  }
+]

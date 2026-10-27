@@ -11,8 +11,8 @@ workflow reference. Python API design and the ImGui frontend are new work.
 
 ## Current execution map
 
-Planning update: 2026-10-26, through implementation and installed verification
-`3039f0c`. All **M0–M7 remain Partial**. Test totals measure their named
+Planning update: 2026-10-26, through locally verified frozen candidate
+`d57df01`. All **M0–M7 remain Partial**. Test totals measure their named
 engineering scopes; they do not establish a percentage of QuPath parity.
 
 The [API delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
@@ -32,26 +32,20 @@ this update is a reconciliation, not a new independent model review.
 | Historical QWS1 contours/replay | [Installed local receipt](benchmarks/raw-stream-boundaries-local/history-248/receipt.json) at `3039f0c`: nine Windows/five Clang suites, 298 Python passes/three skips, all 23 new cases, typing and inspected file/retained UI states | Mac repair and full integrated platform/scientific/resource/release gates remain |
 | Streamed contour project batches | [Installed local receipt](benchmarks/raw-stream-boundaries-local/batch-247/receipt.json) at `f5ec3eb`: nine Windows/five Clang native suites, 274 Python passes/three skips, all 15 new batch cases, typing and actual UI launch/reuse | The history/replay row records local delivery; integrated platform/scientific/resource/release gates remain |
 | Streamed contour CLI | [Installed local receipt](benchmarks/raw-stream-boundaries-local/cli-246/receipt.json) at `4e91d1e`: nine native suites, 240 Python passes/three declared skips, all 18 new CLI cases, stubs and typing | Later batch/history rows record local delivery; full platform/scientific/resource/release gates remain |
-| Mac diagnosis | [Terminal diagnostic240](benchmarks/raw-replay-macos-240/terminal-observation/receipt.json) at `4a72fd8`: both archives authenticated; x86_64 passes 50 suites/relocation, arm64 49/50 | Both contour refusals are caught, then source-series validation fails. Actual failing test binary retained; no demonstrated cause or repair |
+| Frozen candidate257 | [Local readiness](benchmarks/raw-link-qualification-257/receipt.json) at `d57df01`: 51 Windows native suites, 880 preflight controls, 301 installed workflow passes/three skips, matching stubs/typing/source/SDK/package identities | Complete Mac role run40422850278 is underway; engine/portable wait for strict Mac acceptance. Shared test dependencies, OpenSlide OFF and broader science/hardware/release gates remain |
+| Mac link policy | [Original-object255](benchmarks/raw-original-object-255/receipt.json) isolates incorrect default-link folding of typed handlers; policy87b9dac disables it for project Darwin links | Full repaired Mac runtime remains unverified. Original failures, binary observations and negative tiny witness remain under their original identities |
 
-Diagnose the retained Mac arm64 source-series failure and demonstrate its repair.
-Bind the completed streamed consumer source/semantic cohorts into the maintained
-producer/auditor contracts, then freeze one integrated candidate for required
-engine/Mac/portable audits. Native, Python, CLI, batch, desktop, managed and
-historical-file consumers have local engineering evidence. The API queue's B6
-entry owns qualification prerequisites and the targeted diagnostic route.
-Its [B6 checklist](api-delivery-plan.md#b6-execution-checklist) now separates
-retained-binary observation, exact consumer/source/typing admission, demonstrated
-repair, integrated freeze and full audit. Observer249's setup failure is
-preserved. Retained-binary observer252 now reproduces the failure and locates
-exception tables that disagree with their typed helper source. A small witness
-passes both modes, but original-object255 isolates the actual default-link
-folding error with identical object inputs. Darwin policy87b9dac preserves typed
-handlers; Windows configuration confirms the flag does not leak. Runtime repair
-is still unverified. Finish local packaging/preflight, freeze one candidate and
-run its complete Mac role first; only after acceptance run remaining roles on
-that same source. This avoids a duplicate repaired-Mac build while preserving
-the full final qualification gate.
+Candidate257 is frozen and locally verified; consumer/source/typing admission,
+packaging and preflight are complete for the named local scope. Observe original
+Mac run40422850278: arm64 has completed successfully and x86_64 remains queued.
+Authenticate both terminal archives and execute the complete strict Mac auditor
+from the frozen checkout before accepting the repair. Then run engine/portable
+on the same immutable source. A successful job alone is not artifact acceptance.
+The [B6 checklist](api-delivery-plan.md#b6-execution-checklist) owns this sequence.
+Original failures, observer249's setup failure, observer252's binary mismatch,
+the negative tiny witness and original-object255's controlled link comparison
+retain their source-bound evidence. This staged route avoids rebuilding the
+repaired Mac profile twice while preserving the final all-role gate.
 The [contract250 receipt](benchmarks/raw-classifier-contract-250/receipt.json)
 now closes local domain admission at `20e0b07`: 183 controls, exact actual
 GUI/headless cohorts, pinned mypy and retained native ON/OFF outputs pass.
@@ -73,6 +67,11 @@ gates. Use only open-source readers and required codecs, including eligible
 copyleft implementations, under the [reader policy](reader-license-policy.md).
 No main promotion, project-license choice, signing or release follows from this
 planning update.
+
+The [candidate257 execution card](current-task.md) records the current frozen
+source, local evidence and original hosted run. Four inspected captures preserve
+correct historical/apply states; Chinese filename glyphs still use placeholders
+despite correct stored UTF8 metadata. General glyph coverage remains an M2/UI gap.
 
 ## Scope and release boundaries
 
@@ -391,8 +390,9 @@ workflow parity.
 
 The [API delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue)
 is the sole detailed scheduling authority. MFO1 campaign213 is engineering
-accepted. Finish SCI1-B streamed consumers in the active integration checkout
-and demonstrate the SCI1-A Mac repair before integrated qualification. Continue
+accepted. SCI1-B streamed consumers are locally delivered. Candidate257 is frozen;
+observe its complete Mac role first, audit the original artifacts, then dispatch
+engine/portable on the same source only after strict Mac acceptance. Continue
 the remaining SCI1-B workflows, decision lane and REL1 through every M0-M7 criterion.
 The current task card records observed status, not another ordered backlog.
 

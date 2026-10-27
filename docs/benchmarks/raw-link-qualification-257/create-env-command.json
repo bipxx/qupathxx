@@ -1,0 +1,12 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Scripts\\python.exe",
+    "-m",
+    "venv",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-link-qualification-257-env"
+  ],
+  "returncode": 0,
+  "seconds": 7.592102800030261,
+  "shared_test_dependencies": "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages",
+  "scope": "Separate product installation; shared test dependencies are not clean-machine acceptance"
+}

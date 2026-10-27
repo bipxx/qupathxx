@@ -20,7 +20,25 @@ verification through runtime `3039f0c`, with three supplementary history refusal
 checks: 301 passes/three declared skips across 304 unique Python identities.
 These do not supply integrated platform, scientific, hardware or release acceptance.
 The [B6 checklist](../api-delivery-plan.md#b6-execution-checklist) is the current
-route. Historical findings below retain their original applicability.
+route. Candidate257 (`d57df01`) now has a complete local build, 51 native suites,
+880 producer/auditor controls and 301 installed workflow passes/three skips,
+including all 26 history cases in one cohort. Source, package, SDK and typing
+proofs are recorded in its [receipt](../benchmarks/raw-link-qualification-257/receipt.json).
+Original Mac run40422850278 has passed arm64; x86_64 remains queued. Audit both
+terminal artifacts before remaining-role dispatch or repair acceptance.
+Historical findings below retain their original applicability.
+
+Additional efficiency lessons from candidate257:
+
+- Await a push process's terminal success and verify the remote ref before
+  dependent dispatch. The preserved HTTP422 created no run; only one Mac run
+  was accepted after ref publication. Observation timeouts do not justify retries.
+- Preserve prior products before cache reuse and authenticate their identity by
+  hash. Only 13 of 64 prior products have established source identity; a cache
+  directory name cannot attribute the rest.
+- Separate stored Unicode correctness from font coverage. UTF8 metadata passes,
+  while inspected Chinese filename glyphs use placeholders. Track that M2 gap
+  without restarting completed contour workflows or claiming presentation done.
 
 ## Additional planning improvements (2026-10-26)
 

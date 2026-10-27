@@ -2,101 +2,53 @@
 
 ## Current execution card (2026-10-26)
 
-Implementation and last installed verified runtime: `3039f0c` in
-`build/ci/scientific-grid-159`. All M0–M7 remain Partial. Public-main engineering
-qualification remains at `61e546e`.
+Frozen candidate and installed locally verified runtime: `d57df01`,
+`feature/raw-link-qualification-257`. All **M0-M7 remain Partial**. Qualified
+public-main application baseline remains `61e546e`; no main promotion is implied.
 
-- **Latest verified workflow:** [historical QWS1 geometry and fresh replay](benchmarks/raw-stream-boundaries-local/history-248/receipt.json).
-  Nine Windows positive/five Clang all-optional-OFF native suites pass. The
-  installed Windows cp312 cohort has 298 passes/three declared skips; all 23
-  new cases execute, including file/retained-record desktop and managed actions,
-  source-free inspection, cropped axes, guarded replay/apply/save/reopen, quotas,
-  corruption, late-file refusal and four isolated active shutdown probes.
-  Three supplementary checks on the unchanged wheel explicitly refuse changed
-  source pixels/model and a post-ready edit: combined scope is 301 passes/three
-  skips across 304 unique Python identities, including 26 new history cases.
-  Five positive typing files and 20 intended errors in four negative files
-  verify distinct historical/live result types and optional delivery. Source,
-  packaged members/notices, dependency origins and both complete SDK trees match.
-- **Streamed consumers locally delivered:** native/Python jobs, CLI, captured
-  project batches, desktop, managed viewer, saved annotations and historical-file
-  conversion/reverification now have local engineering evidence. Prior
-  [desktop](benchmarks/raw-stream-boundaries-local/frontends-245/receipt.json),
-  [CLI](benchmarks/raw-stream-boundaries-local/cli-246/receipt.json) and
-  [batch](benchmarks/raw-stream-boundaries-local/batch-247/receipt.json) receipts
-  retain their own sources. Their relevant regressions execute in the latest
-  cohort. Earlier comparison environments/products remain preserved.
-- **Visual correction verified:** first complete `ef23a5d` observations remain.
-  Screenshot review found ready-after-apply wording and a low file preview.
-  `3039f0c` places historical actions/preview first and reports applied counts;
-  four final captures fit and agree with the enabled controls. No original
-  observation is relabeled. Stubs regenerated once; shared test dependencies
-  remain, so this is local engineering evidence rather than clean-machine support.
-- **Next action:** diagnose the retained arm64 `pixel_workflows` binary from
-  [terminal diagnostic240](benchmarks/raw-replay-macos-240/terminal-observation/receipt.json),
-  frozen `4a72fd8`, run `40384720525`. Both archives authenticate; x86_64 passes
-  50 suites/relocation and arm64 49/50. Both contour refusals/replay complete,
-  then source-series validation fails. Root cause and repair remain unproven.
-  [Observer252](benchmarks/raw-replay-arm64-252/receipt.json) now reproduces
-  exit 1 in both plain and debugger execution. Its native ABI probe passes, with
-  zero observer errors. An invalid_argument escapes the typed helper into main.
-  Two helper specializations alias length_error helpers at the same addresses;
-  their final exception tables bind length_error rather than invalid_argument.
-  The original source/product bytes are unchanged. Small
-  [witness254](benchmarks/raw-exception-lsda-254/receipt.json) passes both modes,
-  but [original-object255](benchmarks/raw-original-object-255/receipt.json)
-  isolates the actual cause: four distinct compiled helpers become incorrectly
-  aliased during default linking; no-deduplicate keeps the same object functions
-  distinct and restores correct catch-table bindings. Incomplete analysis products
-  are never executed. Build policy87b9dac disables that Darwin link optimization
-  for native executables, standalone tests and Python modules. Windows configure
-  passes, with the flag absent from all nine generated projects. Full Mac runtime
-  verification remains open. Prepare one frozen candidate, run its complete Mac
-  role first, then run remaining roles on that same source if Mac acceptance passes.
-- **Contract admission locally verified:** [contract250](benchmarks/raw-classifier-contract-250/receipt.json)
-  at `20e0b07` binds 143 installed identities, 31 GUI-only case declarations,
-  streamed native semantics and 486 source paths, including subprocess children
-  and seam references. All 183 controls pass; actual unchanged runtime `3039f0c` installed
-  GUI/headless cohorts admit at 142 passes/one skip and 111 passes/32 skips.
-  Pinned mypy2.4.0 passes five positive files and reports exactly 20 intended
-  errors in four negatives. All 33 installed wheel members still match.
-  Retained Windows full/Clang minimal native outputs admit; the first real
-  minimal rejection exposed eight common markers grouped as full-only. That
-  rejection and corrected grouping remain explicit; no native rebuild occurred.
-- **Broader installed regression:** [regression251](benchmarks/raw-integration-regression-251/receipt.json)
-  runs all 4,420 collected cases against unchanged runtime `3039f0c`. Original outcome:
-  4,292 passes, one failure, 124 skips and three strict scientific xfails.
-  The GUI cancellation test wrongly required a file when cancellation preceded
-  output-directory creation. Test-only376a528 verifies the exact saved report
-  or the specific early-cancel error with no filesystem output; both affected
-  cases pass. Combined unique scope: 4,293 passes/124 skips/three xfails, retaining
-  the original failure. This is not a second full green run or OpenSlide/clean-
-  machine/platform acceptance; all 33 installed wheel members remain unchanged.
-- **Measured resource preparation:** [resource253](benchmarks/raw-stream-resources-253/receipt.json)
-  traces 65,536/1,048,576/16,777,216 samples in separate Windows processes against
-  unchanged runtime `3039f0c`. OS peaks are 29.254/31.281/33.371 MiB with fixed 4 MiB reader
-  cache and 32 MiB contour admission; exact two-class geometry and coverage pass.
-  All 22 controls pass; 205 combined resource/qualification controls pass after
-  source closure explicitly binds the observer, OS counter, contract and tests.
-  Original observer failures remain. This narrows the RSS
-  evidence gap for this low-complexity synthetic case only. Eligible hardware,
-  arbitrary boundary complexity, other workflows/platforms and science stay open.
-- **Before integrated acceptance:** finish local candidate packaging/preflight,
-  freeze one source and run its complete Mac-native role first to verify the
-  runtime repair. Only then spend the remaining engine/portable roles on that
-  same immutable source. Keep original failed sources/runs immutable.
-- **Separate open gates:** biological/model/upstream comparisons, dataset rights/
-  labels/tolerances, process-memory and eligible hardware measurements, remaining
-  SCI1-B reader/interchange/spatial/automation breadth, clean-machine distribution
-  and release decisions. Reader implementations and required codecs must be open
-  source under the existing policy.
+- **Local candidate ready:** [candidate257 receipt](benchmarks/raw-link-qualification-257/receipt.json)
+  binds 392 compiler inputs at fingerprint `c18b09a9...22aa69`, all 33 installed
+  package members, notices/capabilities and packaged GEOS origins. Both complete
+  SDK trees match their prior inventories. All 64 previous products survive;
+  13 have exact hashes establishing prior3039f0c identity. Other cached products
+  remain explicitly unattributed. ALL_BUILD completes; 55 active products survive.
+- **Validation:** all 51 Windows positive native suites and 880 producer/auditor
+  controls pass. The installed cohort has 301 passes/three declared skips across
+  304 identities, including all 26 history cases and actual CLI/batch/desktop/
+  managed/shutdown paths. Stubs match; pinned mypy passes five positive files and
+  reports exactly 20 intended errors in four negatives. A fresh frozen audit
+  checkout authenticates all 490 sources. Shared dependencies and OpenSlide OFF
+  keep this local engineering evidence rather than clean-machine support.
+- **Mac role underway:** observe original [run40422850278](https://github.com/bipxx/qupathxx/actions/runs/40422850278),
+  using the frozen source/ref above. Latest observation has arm64 completed successfully and
+  x86_64 queued. Authenticate both terminal archives and run the complete frozen
+  Mac auditor with all inherited gates. Engine/portable remain undispatched;
+  start them on this same immutable source only after strict Mac acceptance.
+  Quiet compilation or an observation timeout does not authorize redispatch.
+- **Cause and implementation:** [original-object255](benchmarks/raw-original-object-255/receipt.json)
+  isolates default Darwin link-time folding of differing typed catch handlers.
+  Policy87b9dac disables it for project Darwin links. Original failures,
+  observer252 and negative tiny witness254 remain separate. Local Windows
+  success and incomplete analysis products do not verify the repaired Mac runtime.
+- **Visual review:** four 1280x1000 file/retained captures fit and show the correct
+  historical versus applied states. Chinese filename glyphs use placeholders;
+  a separate probe verifies the stored UTF8 name. Broader glyph coverage remains
+  an M2/UI gap and is not relabeled as completed presentation.
+- **Preserved scopes:** runtime3039f0c's [broader regression](benchmarks/raw-integration-regression-251/receipt.json)
+  and [resource253](benchmarks/raw-stream-resources-253/receipt.json) retain their
+  own sources. Their observations do not transfer overall qualification or
+  scientific/hardware acceptance to this candidate.
+- **Other open gates:** biological/model/upstream comparisons, corpus rights/
+  labels/tolerances, general process/hardware budgets, SCI1-B eligible readers/
+  interchange/spatial/automation, UI delivery, clean-machine support and release
+  decisions. Readers and required codecs stay open-source-only. The three strict
+  scientific xfails remain unresolved.
 
-The [API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) remains
-the sole scheduling authority. Baselines below retain their named source/date
-applicability; historical next-step wording does not override the queue.
-The [B6 checklist](api-delivery-plan.md#b6-execution-checklist) records exact
-dependencies and exit evidence. Local domain admission does not replace the
-complete frozen-candidate producer/auditor gates or establish a Mac repair.
+The [API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) owns
+scheduling. The [B6 checklist](api-delivery-plan.md#b6-execution-checklist) stages
+one frozen candidate; historical wording does not reopen completed work.
+The previous card is archived in [plan history](project-plan-history.md).
+
 
 ## Preserved local baselines
 

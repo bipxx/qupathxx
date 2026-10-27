@@ -582,3 +582,4 @@ docs/benchmarks/raw-stream-resources-253/** -text -whitespace
 docs/benchmarks/raw-exception-lsda-254/** -text -whitespace
 docs/benchmarks/raw-original-object-255/** -text -whitespace
 docs/benchmarks/darwin-link-policy-256/** -text -whitespace
+docs/benchmarks/raw-link-qualification-257/** -text -whitespace

@@ -1,0 +1,13 @@
+{
+  "command": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\raw-link-qualification-257-env\\Scripts\\python.exe",
+    "-I",
+    "-m",
+    "pip",
+    "install",
+    "--no-deps",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\raw-link-qualification-257\\wheel\\qupathxx-0.1.0-cp312-cp312-win_amd64.whl"
+  ],
+  "returncode": 0,
+  "seconds": 2.1191358999349177
+}
