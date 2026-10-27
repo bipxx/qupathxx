@@ -32,15 +32,15 @@ this update is a reconciliation, not a new independent model review.
 | Historical QWS1 contours/replay | [Installed local receipt](benchmarks/raw-stream-boundaries-local/history-248/receipt.json) at `3039f0c`: nine Windows/five Clang suites, 298 Python passes/three skips, all 23 new cases, typing and inspected file/retained UI states | Mac repair and full integrated platform/scientific/resource/release gates remain |
 | Streamed contour project batches | [Installed local receipt](benchmarks/raw-stream-boundaries-local/batch-247/receipt.json) at `f5ec3eb`: nine Windows/five Clang native suites, 274 Python passes/three skips, all 15 new batch cases, typing and actual UI launch/reuse | The history/replay row records local delivery; integrated platform/scientific/resource/release gates remain |
 | Streamed contour CLI | [Installed local receipt](benchmarks/raw-stream-boundaries-local/cli-246/receipt.json) at `4e91d1e`: nine native suites, 240 Python passes/three declared skips, all 18 new CLI cases, stubs and typing | Later batch/history rows record local delivery; full platform/scientific/resource/release gates remain |
-| Frozen candidate257 | [Local readiness and staged qualification](benchmarks/raw-link-qualification-257/receipt.json) at `d57df01`: 51 Windows native suites, 880 preflight controls, 301 installed workflow passes/three skips, matching stubs/typing/source/SDK/package identities; complete Mac-native audit accepts both architectures | Engine40434741797 and portable40434749058 are dispatched at the same source. Shared local test dependencies, local OpenSlide OFF and broader science/hardware/release gates remain |
+| Frozen candidate257 | [Local readiness and staged qualification](benchmarks/raw-link-qualification-257/receipt.json) at `d57df01`: 51 Windows native suites, 880 preflight controls, 301 installed workflow passes/three skips, matching stubs/typing/source/SDK/package identities; complete Mac-native audit accepts both architectures | Portable40434749058 and Linux-only engine audits are accepted; both Windows profiles in engine40434741797 remain pending at the same source. Shared local test dependencies, local OpenSlide OFF and broader science/hardware/release gates remain |
 | Mac link policy | [Original-object255](benchmarks/raw-original-object-255/receipt.json) isolates incorrect default-link folding of typed handlers; policy87b9dac disables it for project Darwin links. [Complete candidate257 Mac audit](benchmarks/raw-link-qualification-257/macos-terminal/macos-acceptance.json) accepts both 50-suite architectures, inventory and relocation | Mac Python/GUI/OpenSlide remain open. Original failures, binary observations and negative tiny witness remain under their original identities |
 
 Candidate257 is frozen and locally verified; consumer/source/typing admission,
 packaging and preflight are complete for the named local scope. Original Mac
 run40422850278 and its complete strict artifact audit accept both architectures.
-Observe engine40434741797 and portable40434749058, dispatched after that acceptance
-on the same immutable source. Authenticate their artifacts and execute every
-applicable frozen auditor. A successful job alone is not artifact acceptance.
+Portable40434749058 and the Linux-only engine audit are accepted at that source.
+Observe both Windows profiles in engine40434741797, authenticate their artifacts
+and execute the complete five-job frozen engine auditor. A successful job alone is not artifact acceptance.
 The [B6 checklist](api-delivery-plan.md#b6-execution-checklist) owns this sequence.
 Original failures, observer249's setup failure, observer252's binary mismatch,
 the negative tiny witness and original-object255's controlled link comparison
@@ -49,8 +49,8 @@ repaired Mac profile twice while preserving the final all-role gate.
 The [contract250 receipt](benchmarks/raw-classifier-contract-250/receipt.json)
 now closes local domain admission at `20e0b07`: 183 controls, exact actual
 GUI/headless cohorts, pinned mypy and retained native ON/OFF outputs pass.
-Mac-native repair is accepted at candidate257; complete engine/portable
-qualification remains open.
+Mac-native repair and portable qualification are accepted at candidate257;
+complete Windows/Linux engine qualification remains open.
 The [broader local regression](benchmarks/raw-integration-regression-251/receipt.json)
 adds a 4,420-identity installed observation. Its one GUI cancellation fixture
 failure is corrected against the unchanged package, with two affected cases
@@ -393,7 +393,8 @@ The [API delivery queue](api-delivery-plan.md#dependency-lanes-and-immediate-que
 is the sole detailed scheduling authority. MFO1 campaign213 is engineering
 accepted. SCI1-B streamed consumers are locally delivered. Candidate257 is frozen;
 its complete Mac role and strict artifact audit are accepted. Observe and audit
-engine40434741797 and portable40434749058 at that same source. Continue
+the remaining Windows profiles in engine40434741797 at that same source;
+portable40434749058 and Linux-only engine acceptance already pass. Continue
 the remaining SCI1-B workflows, decision lane and REL1 through every M0-M7 criterion.
 The current task card records observed status, not another ordered backlog.
 

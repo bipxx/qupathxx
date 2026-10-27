@@ -3,7 +3,7 @@
   "source": "d57df0166888eb335d989d404bdae4d1b63c66a4",
   "fingerprint": "c18b09a98303bc2d3eeb57b7af79333fdc6cf8d9e0875a43586050ca4f22aa69",
   "frozen_ref": "feature/raw-link-qualification-257",
-  "state": "macos_accepted_engine_portable_dispatched",
+  "state": "macos_linux_portable_accepted_windows_pending",
   "native_suites": 51,
   "preflight_controls": 880,
   "installed_workflow": {
@@ -41,7 +41,8 @@
   },
   "portable_role": {
     "run": 40434749058,
-    "state": "run_identified"
+    "state": "engineering_accepted",
+    "acceptance": "portable-terminal/portable-acceptance.json"
   },
   "dispatch_note": "Initial HTTP422 before branch push completed created no run. Ref publication verified, rejection preserved, then one accepted Mac-role run identified.",
   "limitations": [
@@ -404,6 +405,61 @@
       "sha256": "2b74faaadcf24a73e3c32aa6da59f9989879b3fc6821e889df172159ce8fb4be"
     },
     {
+      "path": "portable-terminal/campaign.json",
+      "bytes": 24559,
+      "sha256": "3b5e3a5059a977b4fcd860540215bcf57f0b474b15694ec71c142bf17641437b"
+    },
+    {
+      "path": "portable-terminal/manylinux-3.11-artifact.json",
+      "bytes": 805,
+      "sha256": "eb3667950112a9f60b9780a13024d3a90b943ecf327766a54410c8874c440d96"
+    },
+    {
+      "path": "portable-terminal/manylinux-3.12-artifact.json",
+      "bytes": 805,
+      "sha256": "e970049afd57423bf8be403c8853861accbb94419fe0578abb48af5b4a177384"
+    },
+    {
+      "path": "portable-terminal/manylinux-consumer-3.11-artifact.json",
+      "bytes": 811,
+      "sha256": "f033e53d61c9b336fb56f78aa0f679d200ab726d3422120cf86567808e1901b0"
+    },
+    {
+      "path": "portable-terminal/manylinux-consumer-3.12-artifact.json",
+      "bytes": 811,
+      "sha256": "b76ed6d28af92f66b117b4d9e065f345f368c0e1fd6dd2c91cb2988d912f5798"
+    },
+    {
+      "path": "portable-terminal/portable-acceptance.json",
+      "bytes": 509833,
+      "sha256": "3e9a1baf8ec2466186981d65747b7e49ed33dc30135568058263ed32973aa46b"
+    },
+    {
+      "path": "portable-terminal/portable-artifacts.json",
+      "bytes": 3605,
+      "sha256": "0df7d68a4de9c970db59116fd51ad5c751aae620fa9d99661222468c4cbfb8b8"
+    },
+    {
+      "path": "portable-terminal/portable-audit-command.json",
+      "bytes": 997,
+      "sha256": "3d65de496735f7e8408cde09df3284d201f1b3600741bff078a123a8f20d44bb"
+    },
+    {
+      "path": "portable-terminal/portable-builders-partial-checks.json",
+      "bytes": 12394,
+      "sha256": "1c18d54c2f81fb7dd5cfb3c9222ad4ec907432557650310c137b0f24c50a8668"
+    },
+    {
+      "path": "portable-terminal/portable-run-terminal.json",
+      "bytes": 16287,
+      "sha256": "f2f8e023970d127bf37e7c653b564bd4f761087db8d8ae100b3977d05087ff3c"
+    },
+    {
+      "path": "portable-terminal/verified.json",
+      "bytes": 1739,
+      "sha256": "bb2b3f597f345c112e9f1d2e64a15e7fd37882b419d35b07957e35e05ab26713"
+    },
+    {
       "path": "preflight-command.json",
       "bytes": 1359,
       "sha256": "8b5bf96fa658e3b0dc693c19ac57957cd14f4ac81b16f94b73372b056f4b0d3e"
@@ -513,5 +569,6 @@
   "macos_acceptance": "macos-terminal/macos-acceptance.json",
   "linux_engineering_scope_accepted": true,
   "windows_linux_engineering_scope_accepted": false,
-  "linux_engine_acceptance": "linux-engine-partial/linux-engine-acceptance.json"
+  "linux_engine_acceptance": "linux-engine-partial/linux-engine-acceptance.json",
+  "portable_package_validated": true
 }

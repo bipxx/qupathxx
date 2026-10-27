@@ -38,7 +38,15 @@ public-main application baseline remains `61e546e`; no main promotion is implied
   now accepts all three Linux engine jobs: 50 native suites each and 3,942
   installed Python passes in headless. Applicable reader/runtime and inherited
   source/semantic gates pass. This explicitly leaves Windows/Linux matrix
-  acceptance false; both Windows profiles and portable remain pending.
+  acceptance false; both Windows profiles remain pending.
+- **Portable accepted:** [run40434749058](https://github.com/bipxx/qupathxx/actions/runs/40434749058)
+  and the [complete frozen auditor](benchmarks/raw-link-qualification-257/portable-terminal/portable-acceptance.json)
+  accept headless CPython 3.11/3.12 manylinux_2_28_x86_64 builds and fresh Debian
+  consumers. All four archive sizes/digests authenticate; wheel payloads, ABI,
+  runtime manifests and every applicable inherited domain/source/cohort gate pass.
+  Each builder has 50 native suites and 3,942 installed passes; each consumer
+  has 3,895 installed passes. Declared skips and three strict scientific xfails
+  per Python cohort remain explicit. This is not supported-release acceptance.
 - **Cause and implementation:** [original-object255](benchmarks/raw-original-object-255/receipt.json)
   isolates default Darwin link-time folding of differing typed catch handlers.
   Policy87b9dac disables it for project Darwin links. Original failures,
