@@ -78,6 +78,31 @@
       "sha256": "e7bcc98b092a9a8b5f6d7c14ba5c07613dbd1e52347cff004510eb5c4f9e4f06"
     },
     {
+      "path": "arm64-observation/arm64-artifact-authentication.json",
+      "bytes": 1104,
+      "sha256": "8175481778e142d23ebfae6d53141ea5c2a0a565971cc853e2a40e275e4c1449"
+    },
+    {
+      "path": "arm64-observation/arm64-supplementary-checks.json",
+      "bytes": 6657,
+      "sha256": "251364e772a9323f1f9e4985dbd88651861832c8aad472279937e4f266c208de"
+    },
+    {
+      "path": "arm64-observation/native-tests.xml",
+      "bytes": 27748,
+      "sha256": "2d191f25536b448bdbb5ad77db6d0c69835075259590523e929af7f6a7ce091e"
+    },
+    {
+      "path": "arm64-observation/result.json",
+      "bytes": 5054,
+      "sha256": "81b446e532728e6e208b204a1173ef5dd801fb24693e6e3b32f02a244ce5c22e"
+    },
+    {
+      "path": "arm64-observation/run-observation.json",
+      "bytes": 4814,
+      "sha256": "641d1ba2c338bc3bdeab44f2f15f527d6bf889014a286bba7aa01e0405b5a11c"
+    },
+    {
       "path": "campaign.json",
       "bytes": 3006,
       "sha256": "6c48b3b473626e134c0f64d856adccbee58cb3356d6a7e4421fbab362f14246f"
@@ -238,6 +263,11 @@
       "sha256": "1836c089a9909338f7f3e7a1f17ada651d022058aeb674ad5a4026573da3aca2"
     },
     {
+      "path": "observers/check_candidate257_arm64.py",
+      "bytes": 2596,
+      "sha256": "3e4b10b273e592fed4ce23ffee18e0536722abc9443d5061c038a1f58a728ca9"
+    },
+    {
       "path": "observers/raw_link_qualification_257_backend.py",
       "bytes": 1012,
       "sha256": "3a332c5a9200d93cac060377dfb89e7a915f3fd8e9fc894de78939830962304f"
@@ -362,5 +392,6 @@
       "bytes": 23620,
       "sha256": "eb0f08e33a91199f98c9465489047e791f84dc9315644d3cb0897784ad3d8b5f"
     }
-  ]
+  ],
+  "arm64_supplementary_observation": "arm64-observation/arm64-supplementary-checks.json"
 }

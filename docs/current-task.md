@@ -25,6 +25,10 @@ public-main application baseline remains `61e546e`; no main promotion is implied
   Mac auditor with all inherited gates. Engine/portable remain undispatched;
   start them on this same immutable source only after strict Mac acceptance.
   Quiet compilation or an observation timeout does not authorize redispatch.
+  The [authenticated arm64 observation](benchmarks/raw-link-qualification-257/arm64-observation/arm64-supplementary-checks.json)
+  passes all 50 suites, inherited domain checks, inventory/relocation checks and
+  the 490-path raw source proof. This is partial evidence pending x86_64 and
+  the complete original two-architecture auditor.
 - **Cause and implementation:** [original-object255](benchmarks/raw-original-object-255/receipt.json)
   isolates default Darwin link-time folding of differing typed catch handlers.
   Policy87b9dac disables it for project Darwin links. Original failures,
