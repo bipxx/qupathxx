@@ -13,6 +13,21 @@ import pytest
 import qupathxx as q
 
 
+@pytest.mark.skipif(os.name!="nt",reason="Windows extended-path file input")
+def test_long_windows_input_preserves_logical_path_and_digest(tmp_path):
+    logical=tmp_path/("input-"+"a"*100)/("nested-"+"b"*100)/"\u96ea.bin"
+    text=str(logical.absolute())
+    physical=Path("\\\\?\\UNC\\"+text[2:] if text.startswith("\\\\") else "\\\\?\\"+text)
+    physical.parent.mkdir(parents=True)
+    data=b"long-path fingerprint\x00"*4096;physical.write_bytes(data)
+    value=q.fingerprint_file(text)
+    assert value.path==text and value.bytes==len(data)
+    assert value.sha256==hashlib.sha256(data).hexdigest()
+    job=q.FileFingerprintJob();assert job.request(text)
+    assert job.wait().state=="succeeded"
+    assert job.result.path==text and job.result.sha256==value.sha256
+
+
 @pytest.mark.parametrize("size",[0,1,3,65535,65536,65537,1048576,1048577])
 def test_native_digest_matches_independent_hashlib_for_chunk_edges(tmp_path,size):
     data=(bytes(range(256))*((size+255)//256))[:size];path=tmp_path/"\u96ea.bin";path.write_bytes(data)

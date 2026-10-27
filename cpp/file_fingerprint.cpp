@@ -4,6 +4,7 @@
 #include "utf8_text.hpp"
 #include "reader_file_guard.hpp"
 #include "file_identity_contract.hpp"
+#include "filesystem_access.hpp"
 #include <charconv>
 #include <chrono>
 #include <cmath>
@@ -40,7 +41,7 @@ class Input {
 public:
     explicit Input(const std::string& path,bool metadata=false) {
 #ifdef _WIN32
-        const auto native=std::filesystem::u8path(path);
+        const auto native=detail::access_path(std::filesystem::u8path(path));
         const auto attributes=GetFileAttributesW(native.c_str());
         if(attributes==INVALID_FILE_ATTRIBUTES || (attributes&FILE_ATTRIBUTE_DIRECTORY)) throw std::runtime_error("file fingerprint input is missing or not a regular file");
         handle_=CreateFileW(native.c_str(),metadata?FILE_READ_ATTRIBUTES:(GENERIC_READ|FILE_READ_ATTRIBUTES),
