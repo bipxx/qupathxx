@@ -155,6 +155,9 @@ def test_actual_git_source_mismatch_and_publication_snapshot(tmp_path,monkeypatc
     paths=[changed_path,'tools/ci/raw-classifier-cases.json']
     for name in paths:
         path=tmp_path/name;path.parent.mkdir(parents=True,exist_ok=True);path.write_bytes((ROOT/name).read_bytes())
+    if changed_path.startswith('tests/fixtures/qupath-spatial-0.7.0/'):
+        # Mirror the production raw-byte policy before Git admits oracle files.
+        (tmp_path/'.gitattributes').write_text('tests/fixtures/qupath-spatial-0.7.0/** -text\n',encoding='utf-8')
     def git(*args):return subprocess.check_output(['git','-C',str(tmp_path),*args],stderr=subprocess.STDOUT,text=True).strip()
     git('init','-q');git('add','.')
     git('-c','user.name=Preflight','-c','user.email=preflight@example.invalid','-c','commit.gpgsign=false','commit','-qm','source witness')
