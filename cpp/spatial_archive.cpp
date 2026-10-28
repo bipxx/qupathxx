@@ -7,6 +7,7 @@
 #include <cmath>
 #include <cstring>
 #include <stdexcept>
+#include <limits>
 namespace qpx {
 namespace {
 constexpr std::size_t limit=128u*1024*1024;
@@ -104,7 +105,10 @@ std::shared_ptr<const SpatialDistanceRecord> SpatialDistanceArchiveCodec::decode
             const auto id=rd.integer();const auto t=std::lower_bound(d->objects.begin(),d->objects.end(),id,[](const auto& a,auto id){return a.id<id;});
             if(t==d->objects.end() || t->id!=id || !std::binary_search(d->targets.begin(),d->targets.end(),std::size_t(t-d->objects.begin())) || (o.exclude_self && id==a.id)) throw std::invalid_argument("spatial row references an ineligible target");
             row.distance=rd.real();const auto expected=std::hypot(std::abs((t->centroid.x-a.centroid.x)*d->sx),std::abs((t->centroid.y-a.centroid.y)*d->sy));
-            if(!std::isfinite(expected) || *row.distance<0 || *row.distance!=expected) throw std::invalid_argument("spatial row distance disagrees with captured centroids");
+            // libm hypot may differ by a few ULPs across supported platforms.
+            // Keep the archived float64 bytes/hash; this is structural validation,
+            // not a relaxation of the independent geometry comparison tolerance.
+            if(!std::isfinite(expected) || *row.distance<0 || (expected==0?*row.distance!=0:std::abs(*row.distance-expected)>8*std::numeric_limits<double>::epsilon()*expected)) throw std::invalid_argument("spatial row distance disagrees with captured centroids");
             row.target_id=t->id;row.target_revision=t->revision;row.target_centroid=t->centroid;row.target_kind=t->kind;row.target_nucleus=t->nucleus;hash.integer(id);hash_real(hash,*row.distance);++matched;
         }
         result->rows_.push_back(row);

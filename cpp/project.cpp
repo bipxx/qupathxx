@@ -141,7 +141,7 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         add(e.document->tissue_bytes_);
         add(e.document->cells_bytes_);
         add(e.document->spatial_bytes_);
-        add(e.document->spatial_.size()*sizeof(std::shared_ptr<const SpatialDistanceRecord>));
+        add(e.document->spatial_records_.size()*sizeof(std::shared_ptr<const SpatialDistanceRecord>));
         add(e.document->raw_streams_bytes_);
         add(e.document->raw_streams_.size()*sizeof(std::shared_ptr<const RawPixelStreamRecord>));
         add(e.document->streams_bytes_);
@@ -193,8 +193,8 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         doc->cells_snapshot_.reserve(e.document->cells_.size());
         for(const auto& entry:e.document->cells_) doc->cells_snapshot_.push_back(entry.second.value);
         doc->cells_bytes_=e.document->cells_bytes_;
-        doc->spatial_snapshot_.reserve(e.document->spatial_.size());
-        for(const auto& entry:e.document->spatial_) doc->spatial_snapshot_.push_back(entry.second.value);
+        doc->spatial_snapshot_.reserve(e.document->spatial_records_.size());
+        for(const auto& entry:e.document->spatial_records_) doc->spatial_snapshot_.push_back(entry.second.value);
         doc->spatial_bytes_=e.document->spatial_bytes_;
         doc->classifiers_snapshot_.reserve(e.document->classifiers_.size());
         for(const auto& entry:e.document->classifiers_) doc->classifiers_snapshot_.push_back(entry.second);
@@ -749,7 +749,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
           const auto bytes=SpatialDistanceArchiveCodec::encode(record,cancelled);
           spatial_records.string(1,std::to_string(image_id));spatial_records.string(2,std::to_string(record.id));spatial_records.blob(3,bytes);spatial_records.done();
       };
-      for(const auto& entry:e.document->spatial_) write_spatial(*entry.second.value);
+      for(const auto& entry:e.document->spatial_records_) write_spatial(*entry.second.value);
       for(const auto& record:e.document->spatial_snapshot_) write_spatial(*record);
       for(const auto& entry:e.document->raw_analysis_) write_raw(*entry.second.value);
       for(const auto& block:e.document->raw_analysis_snapshot_) for(const auto& record:block->records) if(record) write_raw(*record);

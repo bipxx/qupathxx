@@ -235,7 +235,7 @@ public:
     double nucleus_mean_intensity(std::uint64_t id) const;
     std::vector<std::shared_ptr<const SpatialDistanceRecord>> spatial_records() const;
     std::shared_ptr<const SpatialDistanceRecord> spatial_record(std::uint64_t) const;
-    std::size_t spatial_record_count() const {return spatial_.size()+spatial_snapshot_.size();}
+    std::size_t spatial_record_count() const {return spatial_records_.size()+spatial_snapshot_.size();}
     std::uint64_t keep_spatial(const SpatialDistanceRequest&,std::shared_ptr<const SpatialDistanceResult>,std::string name="Spatial distances");
     bool verify_spatial(std::uint64_t,const SpatialDistanceRequest&,std::shared_ptr<const SpatialDistanceResult>);
     std::string spatial_status(std::uint64_t) const;
@@ -336,7 +336,7 @@ private:
         std::shared_ptr<const char> identity;
         bool verified=false;
     };
-    std::map<std::uint64_t,StoredSpatial> spatial_;
+    std::map<std::uint64_t,StoredSpatial> spatial_records_;
     std::vector<std::shared_ptr<const SpatialDistanceRecord>> spatial_snapshot_;
     std::size_t spatial_bytes_=0;
     void restore_spatial(std::shared_ptr<const SpatialDistanceRecord>);
