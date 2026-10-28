@@ -41,6 +41,7 @@ public:
     SpatialDistanceOptions options() const;
     const std::string& input_sha256() const;
     const std::shared_ptr<const AnalysisProvenance>& provenance() const;
+    static SpatialDistanceRequest replay(const Document&,std::uint64_t record_id);
 private:
     struct Data;
     std::shared_ptr<const Data> data_;
@@ -50,6 +51,8 @@ private:
     friend struct SpatialDistanceKernel;
     friend class SpatialDistanceResult;
     friend class SpatialDistanceJob;
+    friend struct SpatialDistanceArchiveCodec;
+    friend class Document;
 };
 struct SpatialDistanceRow {
     std::uint64_t source_id=0,source_revision=0;
@@ -77,6 +80,10 @@ public:
     double elapsed_ms() const {return elapsed_ms_;}
     const std::shared_ptr<const AnalysisProvenance>& provenance() const;
     bool belongs_to(const SpatialDistanceRequest&) const;
+    std::size_t source_count() const;
+    std::size_t target_count() const;
+    const SpatialObjectSnapshot& source_object(std::size_t) const;
+    const SpatialObjectSnapshot& target_object(std::size_t) const;
 private:
     SpatialDistanceResult()=default;
     std::shared_ptr<const SpatialDistanceRequest::Data> snapshot_;
@@ -85,7 +92,22 @@ private:
     std::uint64_t distance_tests_=0;
     double elapsed_ms_=0;
     friend struct SpatialDistanceKernel;
+    friend struct SpatialDistanceArchiveCodec;
+    friend class SpatialDistanceRequest;
+    friend class Document;
 };
+struct SpatialDistanceRecord {
+    std::uint64_t id=0,captured_next_id=0;
+    std::string name="Spatial distances",producer="qupathxx";
+    std::shared_ptr<const SpatialDistanceResult> result;
+    std::size_t payload_bytes() const;
+};
+// Row-wise, locale-independent float64 export; absent targets have empty numeric
+// fields and an explicit no_target status. Historical tables may be exported.
+std::string spatial_distance_csv(const SpatialDistanceResult&,std::size_t byte_limit=64u*1024*1024,
+    const std::atomic<bool>* cancelled=nullptr);
+std::size_t save_spatial_distance_csv(const SpatialDistanceResult&,const std::string& path,
+    std::size_t byte_limit=64u*1024*1024,bool replace=false,const std::atomic<bool>* cancelled=nullptr);
 std::shared_ptr<const SpatialDistanceResult> measure_spatial_distances(
     const SpatialDistanceRequest&,const std::atomic<bool>* cancelled=nullptr);
 struct SpatialDistanceStats {

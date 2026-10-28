@@ -19,6 +19,7 @@
 #include "pixel_stream_record.hpp"
 #include "raw_pixel_stream_record.hpp"
 #include "project_schema.hpp"
+#include "spatial_archive.hpp"
 #include <algorithm>
 #include <array>
 #include <fstream>
@@ -139,6 +140,8 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         add(e.document->raw_analysis_blocks_.values.size()*sizeof(std::shared_ptr<const Document::RawAnalysisBlock>));
         add(e.document->tissue_bytes_);
         add(e.document->cells_bytes_);
+        add(e.document->spatial_bytes_);
+        add(e.document->spatial_.size()*sizeof(std::shared_ptr<const SpatialDistanceRecord>));
         add(e.document->raw_streams_bytes_);
         add(e.document->raw_streams_.size()*sizeof(std::shared_ptr<const RawPixelStreamRecord>));
         add(e.document->streams_bytes_);
@@ -190,6 +193,9 @@ std::unique_ptr<Project> Project::snapshot_for_save(std::size_t budget,std::size
         doc->cells_snapshot_.reserve(e.document->cells_.size());
         for(const auto& entry:e.document->cells_) doc->cells_snapshot_.push_back(entry.second.value);
         doc->cells_bytes_=e.document->cells_bytes_;
+        doc->spatial_snapshot_.reserve(e.document->spatial_.size());
+        for(const auto& entry:e.document->spatial_) doc->spatial_snapshot_.push_back(entry.second.value);
+        doc->spatial_bytes_=e.document->spatial_bytes_;
         doc->classifiers_snapshot_.reserve(e.document->classifiers_.size());
         for(const auto& entry:e.document->classifiers_) doc->classifiers_snapshot_.push_back(entry.second);
         doc->classifiers_bytes_=e.document->classifiers_bytes_;
@@ -493,6 +499,9 @@ void create_tma(Database& db) {
 void create_raw_analysis(Database& db) {
     db.exec("CREATE TABLE raw_analysis_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=13;");
 }
+void create_spatial(Database& db) {
+    db.exec("CREATE TABLE spatial_distance_records(image_id TEXT NOT NULL REFERENCES images(id),id TEXT NOT NULL,payload BLOB NOT NULL,PRIMARY KEY(image_id,id)) STRICT; PRAGMA user_version=14;");
+}
 void create_tiff_views(Database& db) {
     db.exec("CREATE TABLE tiff_views(image_id TEXT PRIMARY KEY NOT NULL REFERENCES images(id),payload BLOB NOT NULL) STRICT; PRAGMA user_version=12;");
 }
@@ -614,9 +623,10 @@ void Project::save_impl(const std::string& path,const std::string& link_director
         if(version<11) create_tma(db);
         if(version<12) create_tiff_views(db);
         if(version<13) create_raw_analysis(db);
+        if(version<14) create_spatial(db);
     }
-    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);}
-    db.exec("DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
+    if(fresh) {create_analysis(db);create_tissue(db);create_cells(db);create_cell_links(db);create_provenance(db);create_classifiers(db);create_pixel_classifiers(db);create_pixel_streams(db);create_tma(db);create_tiff_views(db);create_raw_analysis(db);create_spatial(db);}
+    db.exec("DELETE FROM spatial_distance_records; DELETE FROM raw_analysis_records; DELETE FROM tiff_views; DELETE FROM tma_cores; DELETE FROM tma_grids; DELETE FROM pixel_stream_records; DELETE FROM pixel_classifier_records; DELETE FROM classifier_records; DELETE FROM analysis_provenance; DELETE FROM cell_feature_links; DELETE FROM cell_records; DELETE FROM tissue_records; DELETE FROM analysis_records; DELETE FROM views; DELETE FROM objects; DELETE FROM classes; DELETE FROM levels; DELETE FROM images; DELETE FROM project;");
     Statement meta(db,"INSERT INTO project VALUES(?,?,?,?)");
     meta.string(1,identity_); meta.string(2,std::to_string(next_id_)); meta.string(3,std::to_string(active_image_)); meta.integer(4,static_cast<std::int64_t>(next_generation)); meta.done();
     Statement image(db,"INSERT INTO images VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
@@ -636,6 +646,7 @@ void Project::save_impl(const std::string& path,const std::string& link_director
     Statement pixels(db,"INSERT INTO pixel_classifier_records VALUES(?,?,?)");
     Statement streams(db,"INSERT INTO pixel_stream_records VALUES(?,?,?)");
     Statement raw_records(db,"INSERT INTO raw_analysis_records VALUES(?,?,?)");
+    Statement spatial_records(db,"INSERT INTO spatial_distance_records VALUES(?,?,?)");
     Statement analysis(db,"INSERT INTO analysis_records VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
     auto directory=link_directory.empty()?fs::u8path(destination).parent_path():fs::u8path(link_directory);
     for(const auto& [id,e]:entries_) {
@@ -734,6 +745,12 @@ void Project::save_impl(const std::string& path,const std::string& link_director
           const auto bytes=RawAnalysisCodec::encode(record,e.document->metadata(),cancelled);
           raw_records.string(1,std::to_string(image_id));raw_records.string(2,std::to_string(record.id));raw_records.blob(3,bytes);raw_records.done();
       };
+      auto write_spatial=[&](const SpatialDistanceRecord& record) {
+          const auto bytes=SpatialDistanceArchiveCodec::encode(record,cancelled);
+          spatial_records.string(1,std::to_string(image_id));spatial_records.string(2,std::to_string(record.id));spatial_records.blob(3,bytes);spatial_records.done();
+      };
+      for(const auto& entry:e.document->spatial_) write_spatial(*entry.second.value);
+      for(const auto& record:e.document->spatial_snapshot_) write_spatial(*record);
       for(const auto& entry:e.document->raw_analysis_) write_raw(*entry.second.value);
       for(const auto& block:e.document->raw_analysis_snapshot_) for(const auto& record:block->records) if(record) write_raw(*record);
 
@@ -972,6 +989,17 @@ std::shared_ptr<Project> Project::open_impl(const std::string& path,bool recover
             const auto size=sqlite3_column_bytes(rows.stmt,2);if(rows.type(2)!=SQLITE_BLOB || size<0 || size>16*1024*1024) throw std::invalid_argument("invalid raw analysis record blob");
             const auto record=RawAnalysisCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,2)),std::size_t(size),image->second.document->metadata(),progress?progress->cancellation():nullptr);
             if(record->id!=number(rows.string(1))) throw std::invalid_argument("raw analysis record identity mismatch");image->second.document->restore_raw_analysis(record);
+        }
+    }
+    if(version>=14) {
+        Statement rows(db,"SELECT image_id,id,payload FROM spatial_distance_records ORDER BY image_id,id");
+        while(rows.row()) {
+            stopped();const auto image=project->entries_.find(number(rows.string(0)));
+            if(image==project->entries_.end()) throw std::invalid_argument("orphaned spatial distance record");
+            const auto size=sqlite3_column_bytes(rows.stmt,2);
+            if(rows.type(2)!=SQLITE_BLOB || size<0 || size>128*1024*1024) throw std::invalid_argument("invalid spatial distance blob");
+            const auto record=SpatialDistanceArchiveCodec::decode(static_cast<const std::uint8_t*>(sqlite3_column_blob(rows.stmt,2)),std::size_t(size),progress?progress->cancellation():nullptr);
+            if(record->id!=number(rows.string(1))) throw std::invalid_argument("spatial record identity mismatch");image->second.document->restore_spatial(record);
         }
     }
     if(version>=12 && scalar(db,"SELECT count(*) FROM tiff_views t LEFT JOIN images i ON i.id=t.image_id WHERE i.id IS NULL OR i.reader!='tiff' OR i.embedded!=0")) throw std::invalid_argument("orphaned or incompatible TIFF view data");

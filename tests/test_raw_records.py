@@ -30,7 +30,7 @@ def test_save_reopen_requires_explicit_verification_and_preserves_bytes(tmp_path
     project,doc,image,obj,record,result,_=scene(tmp_path)
     path=tmp_path/'saved.qpxproj';project.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute('PRAGMA user_version').fetchone()[0]==13
+        assert db.execute('PRAGMA user_version').fetchone()[0]==14
         original=db.execute('SELECT payload FROM raw_analysis_records').fetchone()[0]
     restored=q.Project.open(str(path));current=restored.document(image)
     assert current.raw_analysis_status(record)=='unverified'

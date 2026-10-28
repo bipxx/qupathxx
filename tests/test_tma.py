@@ -116,19 +116,19 @@ def test_project_roundtrip_and_schema10_upgrade(tmp_path):
     assert restored.tma_core_ids() == doc.tma_core_ids()
     assert restored.annotation(ids[0]).tma_core.case_id == 'patient'
     with sqlite3.connect(path) as db:
-        assert db.execute('PRAGMA user_version').fetchone()[0] == 13
+        assert db.execute('PRAGMA user_version').fetchone()[0] == 14
     # A real schema-10 file has neither TMA table nor TMA annotations.
     doc.clear_tma_grid()
     project.save(str(path))
     with sqlite3.connect(path) as db:
-        db.execute('DROP TABLE raw_analysis_records');db.execute('DROP TABLE tiff_views');db.execute('DROP TABLE tma_cores')
+        db.execute('DROP TABLE spatial_distance_records');db.execute('DROP TABLE raw_analysis_records');db.execute('DROP TABLE tiff_views');db.execute('DROP TABLE tma_cores')
         db.execute('DROP TABLE tma_grids')
         db.execute('PRAGMA user_version=10')
     legacy = q.Project.open(str(path))
     assert legacy.document(image).tma_grid() is None
     legacy.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute('PRAGMA user_version').fetchone()[0] == 13
+        assert db.execute('PRAGMA user_version').fetchone()[0] == 14
 
 
 @pytest.mark.skipif(not q.has_project, reason='project storage')

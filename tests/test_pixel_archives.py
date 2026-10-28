@@ -133,7 +133,7 @@ def _project_recovery_async_save_and_retained_removed_cohort(tmp_path):
     doc,ids,request,_,model,archive=training();train_id=doc.keep_pixel_training(request,archive)
     obj,request,result,mask=prediction(doc,model);prediction_id=doc.keep_pixel_prediction(request,mask)
     project=q.Project();image=project.add_document(doc);path=tmp_path/"pixels.qpxproj";project.save(str(path))
-    with sqlite3.connect(path) as db:assert db.execute("PRAGMA user_version").fetchone()[0]==13 and db.execute("SELECT count(*) FROM pixel_classifier_records").fetchone()[0]==2
+    with sqlite3.connect(path) as db:assert db.execute("PRAGMA user_version").fetchone()[0]==14 and db.execute("SELECT count(*) FROM pixel_classifier_records").fetchone()[0]==2
     opened=q.Project.open(str(path));loaded=opened.document(image)
     assert loaded.pixel_classifier_record(train_id).archive.sha256==archive.sha256 and loaded.pixel_classifier_record(prediction_id).archive.sha256==mask.sha256
     assert not opened.dirty
@@ -170,7 +170,7 @@ def test_project_record_corruption_is_readonly_rejected(tmp_path,damage):
 def test_schema8_migration_is_transactional_and_preserves_existing_data(tmp_path):
     doc,_,request,_,_,archive=training();project=q.Project();image=project.add_document(doc);path=tmp_path/"legacy.qpxproj";project.save(str(path))
     with sqlite3.connect(path) as db:
-        db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
+        db.execute("DROP TABLE spatial_distance_records");db.execute("DROP TABLE raw_analysis_records");db.execute("DROP TABLE tiff_views");db.execute("DROP TABLE tma_cores");db.execute("DROP TABLE tma_grids")
         db.execute("DROP TABLE pixel_stream_records");db.execute("DROP TABLE pixel_classifier_records");db.execute("PRAGMA user_version=8")
     opened=q.Project.open(str(path));loaded=opened.document(image)
     assert loaded.pixel_classifier_record_count==0
@@ -181,7 +181,7 @@ def test_schema8_migration_is_transactional_and_preserves_existing_data(tmp_path
         assert db.execute("SELECT count(*) FROM sqlite_schema WHERE name='pixel_classifier_records'").fetchone()[0]==0
         db.execute("DROP TRIGGER fail_save")
     opened.save(str(path))
-    with sqlite3.connect(path) as db:assert db.execute("PRAGMA user_version").fetchone()[0]==13
+    with sqlite3.connect(path) as db:assert db.execute("PRAGMA user_version").fetchone()[0]==14
     assert q.Project.open(str(path)).document(image).object_count==2
 
 

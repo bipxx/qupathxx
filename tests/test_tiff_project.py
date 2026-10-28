@@ -53,7 +53,7 @@ def test_view_change_preserves_objects_history_and_exact_raw(tmp_path):
     assert doc.redo()
     path=tmp_path/'project.qpxproj';p.save(str(path))
     with sqlite3.connect(path) as db:
-        assert db.execute('PRAGMA user_version').fetchone()[0]==13
+        assert db.execute('PRAGMA user_version').fetchone()[0]==14
         assert db.execute('SELECT count(*) FROM tiff_views').fetchone()[0]==1
     restored=q.Project.open(str(path)).document(image)
     assert restored.server.tiff_view.channels==[1,0,-1] and restored.server.tiff_view.z==2

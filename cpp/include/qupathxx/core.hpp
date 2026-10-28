@@ -51,6 +51,8 @@ class ObjectClassificationResult;
 class ObjectClassifierArchive;
 class ObjectFeatureRequest;
 class SpatialDistanceRequest;
+class SpatialDistanceResult;
+struct SpatialDistanceRecord;
 struct ObjectClassifierRecord;
 struct CellParameters;
 struct GridCellSampling;
@@ -231,6 +233,13 @@ public:
     double mean_intensity(std::uint64_t id) const;
     double nucleus_area_um2(std::uint64_t id) const;
     double nucleus_mean_intensity(std::uint64_t id) const;
+    std::vector<std::shared_ptr<const SpatialDistanceRecord>> spatial_records() const;
+    std::shared_ptr<const SpatialDistanceRecord> spatial_record(std::uint64_t) const;
+    std::size_t spatial_record_count() const {return spatial_.size()+spatial_snapshot_.size();}
+    std::uint64_t keep_spatial(const SpatialDistanceRequest&,std::shared_ptr<const SpatialDistanceResult>,std::string name="Spatial distances");
+    bool verify_spatial(std::uint64_t,const SpatialDistanceRequest&,std::shared_ptr<const SpatialDistanceResult>);
+    std::string spatial_status(std::uint64_t) const;
+    bool remove_spatial(std::uint64_t);
     std::vector<AnalysisRecord> analysis_records() const;
     std::size_t analysis_record_count() const {return analysis_.size()+analysis_snapshot_count_;}
     AnalysisRecord analysis_record(std::uint64_t id) const;
@@ -322,6 +331,15 @@ private:
         AnalysisIdentity(const AnalysisIdentity&) {}
         AnalysisIdentity& operator=(const AnalysisIdentity&) {token=std::make_shared<const char>();return *this;}
     } analysis_identity_;
+    struct StoredSpatial {
+        std::shared_ptr<const SpatialDistanceRecord> value;
+        std::shared_ptr<const char> identity;
+        bool verified=false;
+    };
+    std::map<std::uint64_t,StoredSpatial> spatial_;
+    std::vector<std::shared_ptr<const SpatialDistanceRecord>> spatial_snapshot_;
+    std::size_t spatial_bytes_=0;
+    void restore_spatial(std::shared_ptr<const SpatialDistanceRecord>);
     struct StoredRawAnalysis {
         std::shared_ptr<const RawAnalysisRecord> value;
         std::shared_ptr<const char> identity;

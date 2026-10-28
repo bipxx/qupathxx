@@ -1,4 +1,5 @@
-#include "qupathxx/spatial_analysis.hpp"
+#include "spatial_snapshot.hpp"
+#include "utf8_text.hpp"
 #include "geometry_archive.hpp"
 #include "sha256.hpp"
 #include <algorithm>
@@ -31,16 +32,6 @@ void SpatialDistanceOptions::validate() const {
     if(snapshot_bytes<mb || snapshot_bytes>256u*mb || work_bytes<mb || work_bytes>1024u*mb ||
        !max_distance_tests || max_distance_tests>(1ULL<<40)) throw std::invalid_argument("invalid spatial distance budgets");
 }
-struct SpatialDistanceRequest::Data {
-    SpatialDistanceOptions options;
-    std::uint64_t revision=0;
-    std::vector<SpatialObjectSnapshot> objects;
-    std::vector<std::size_t> sources,targets;
-    std::shared_ptr<const AnalysisProvenance> provenance;
-    std::size_t bytes=0,work=0;
-    double sx=1,sy=1,capture_ms=0;
-    std::string digest;
-};
 SpatialDistanceRequest::SpatialDistanceRequest(const Document& doc,const std::vector<std::uint64_t>& source_ids,
     const std::vector<std::uint64_t>& target_ids,SpatialDistanceOptions options)
     :identity_(doc.analysis_identity_.token),owner_(std::this_thread::get_id()) {
@@ -82,15 +73,98 @@ SpatialDistanceRequest::SpatialDistanceRequest(const Document& doc,const std::ve
     indexes(sources,d->sources);indexes(targets,d->targets);
     d->work=d->bytes+sizeof(SpatialDistanceResult)+sources.size()*sizeof(SpatialDistanceRow)+SpatialIndex::estimated_bytes(targets.size())+8192;
     if(d->work>options.work_bytes) throw std::length_error("spatial distance result/index exceeds work budget");
-    Sha256 hash;text(hash,"qpx.centroid-nearest/1");hash.integer(unsigned(options.units));hash.integer(options.prefer_nucleus);hash.integer(options.exclude_self);
-    hash.integer(d->revision);hash.integer(d->provenance->source.width);hash.integer(d->provenance->source.height);real(hash,d->sx);real(hash,d->sy);
-    for(auto v:{doc.pixel_width_um(),doc.pixel_height_um()}) {hash.integer(bool(v));if(v) real(hash,*v);}
-    hash.integer(d->objects.size());
-    for(const auto& a:d->objects) {hash.integer(a.id);hash.integer(a.revision);hash.integer(unsigned(a.kind));hash.integer(a.nucleus);real(hash,a.centroid.x);real(hash,a.centroid.y);text(hash,a.geometry_sha256);}
-    for(const auto* ids:{&sources,&targets}) {hash.integer(ids->size());for(auto id:*ids) hash.integer(id);}
-    d->digest=hash.finish();d->capture_ms=elapsed(started);
+    d->digest=d->input_digest();d->capture_ms=elapsed(started);
     if(identity_!=doc.analysis_identity_.token || d->revision!=doc.revision()) throw std::runtime_error("document changed during spatial capture");
     data_=std::move(d);
+}
+std::string SpatialDistanceRequest::Data::input_digest() const {
+    Sha256 hash;text(hash,"qpx.centroid-nearest/1");hash.integer(unsigned(options.units));hash.integer(options.prefer_nucleus);hash.integer(options.exclude_self);
+    hash.integer(revision);hash.integer(provenance->source.width);hash.integer(provenance->source.height);real(hash,sx);real(hash,sy);
+    for(auto v:{provenance->effective_pixel_width_um,provenance->effective_pixel_height_um}) {hash.integer(bool(v));if(v) real(hash,*v);}
+    hash.integer(objects.size());
+    for(const auto& a:objects) {hash.integer(a.id);hash.integer(a.revision);hash.integer(unsigned(a.kind));hash.integer(a.nucleus);real(hash,a.centroid.x);real(hash,a.centroid.y);text(hash,a.geometry_sha256);}
+    for(const auto* ids:{&sources,&targets}) {hash.integer(ids->size());for(auto i:*ids) hash.integer(objects[i].id);}
+    return hash.finish();
+}
+bool SpatialDistanceRequest::Data::same_geometry(const Data& b) const {
+    if(options.units!=b.options.units || options.prefer_nucleus!=b.options.prefer_nucleus || options.exclude_self!=b.options.exclude_self ||
+       sx!=b.sx || sy!=b.sy || sources!=b.sources || targets!=b.targets || objects.size()!=b.objects.size() ||
+       provenance->source.width!=b.provenance->source.width || provenance->source.height!=b.provenance->source.height ||
+       provenance->effective_pixel_width_um!=b.provenance->effective_pixel_width_um || provenance->effective_pixel_height_um!=b.provenance->effective_pixel_height_um) return false;
+    for(std::size_t i=0;i<objects.size();++i) {
+        const auto& a=objects[i];const auto& c=b.objects[i];
+        if(a.id!=c.id || a.revision!=c.revision || a.kind!=c.kind || a.nucleus!=c.nucleus || a.geometry_sha256!=c.geometry_sha256 || a.centroid.x!=c.centroid.x || a.centroid.y!=c.centroid.y) return false;
+    }
+    return true;
+}
+bool SpatialDistanceRequest::Data::matches_objects(const Document& doc) const {
+    if(doc.metadata().width!=provenance->source.width || doc.metadata().height!=provenance->source.height ||
+       doc.pixel_width_um()!=provenance->effective_pixel_width_um || doc.pixel_height_um()!=provenance->effective_pixel_height_um) return false;
+    for(const auto& a:objects) {
+        const auto it=doc.objects().find(a.id);
+        if(it==doc.objects().end() || it->second.revision!=a.revision || it->second.kind!=a.kind ||
+           (options.prefer_nucleus && it->second.kind==ObjectKind::Cell && bool(it->second.nucleus))!=a.nucleus) return false;
+    }
+    return true;
+}
+std::size_t SpatialDistanceResult::source_count() const {return snapshot_->sources.size();}
+std::size_t SpatialDistanceResult::target_count() const {return snapshot_->targets.size();}
+const SpatialObjectSnapshot& SpatialDistanceResult::source_object(std::size_t i) const {return snapshot_->objects.at(snapshot_->sources.at(i));}
+const SpatialObjectSnapshot& SpatialDistanceResult::target_object(std::size_t i) const {return snapshot_->objects.at(snapshot_->targets.at(i));}
+std::size_t SpatialDistanceRecord::payload_bytes() const {
+    if(!result) throw std::invalid_argument("spatial record has no result");
+    return sizeof(*this)+256+name.capacity()+producer.capacity()+result->payload_bytes();
+}
+void Document::restore_spatial(std::shared_ptr<const SpatialDistanceRecord> record) {
+    if(!record || !record->result || !record->id || record->id>revision_ || !record->captured_next_id || record->captured_next_id>next_id_ || record->result->document_revision()>=record->id)
+        throw std::invalid_argument("invalid spatial record identity/revision bounds");
+    detail::bounded_utf8(record->name,256);detail::bounded_utf8(record->producer,256);
+    if(record->name.empty() || record->producer.empty()) throw std::invalid_argument("spatial record requires a name and producer");
+    const auto& d=*record->result->snapshot_;
+    if(d.provenance->source.width!=metadata().width || d.provenance->source.height!=metadata().height) throw std::invalid_argument("spatial record image dimensions mismatch");
+    for(const auto& a:d.objects) if(a.id>=record->captured_next_id) throw std::invalid_argument("spatial record exceeds captured object identity bounds");
+    const auto id=record->id;
+    if(spatial_.count(id) || analysis_.count(id) || raw_analysis_.count(id) || tissue_.count(id) || cells_.count(id) || classifiers_.count(id) || pixels_.count(id) || raw_pixels_.count(id) || streams_.count(id) || raw_streams_.count(id)) throw std::invalid_argument("duplicate spatial record ID");
+    const auto bytes=record->payload_bytes();if(spatial_.size()>=10000 || bytes>256u*1024*1024-spatial_bytes_) throw std::length_error("spatial records exceed 10000-record/256 MiB retained limit");
+    spatial_.emplace(id,StoredSpatial{std::move(record),{},false});spatial_bytes_+=bytes;
+}
+std::uint64_t Document::keep_spatial(const SpatialDistanceRequest& request,std::shared_ptr<const SpatialDistanceResult> result,std::string name) {
+    if(!result || !request.matches(*this) || !result->belongs_to(request)) throw std::invalid_argument("spatial result does not match its current request");
+    if(revision_==UINT64_MAX) throw std::overflow_error("document revision exhausted");
+    auto record=std::make_shared<SpatialDistanceRecord>();record->id=revision_+1;record->captured_next_id=next_id_;record->name=std::move(name);record->result=std::move(result);
+    ++revision_;try {restore_spatial(record);}catch(...) {--revision_;throw;}
+    auto& stored=spatial_.at(record->id);stored.identity=analysis_identity_.token;stored.verified=true;return record->id;
+}
+std::shared_ptr<const SpatialDistanceRecord> Document::spatial_record(std::uint64_t id) const {
+    const auto it=spatial_.find(id);if(it==spatial_.end()) throw std::out_of_range("spatial record does not exist");return it->second.value;
+}
+std::vector<std::shared_ptr<const SpatialDistanceRecord>> Document::spatial_records() const {
+    std::vector<std::shared_ptr<const SpatialDistanceRecord>> out;out.reserve(spatial_.size());for(const auto& entry:spatial_) out.push_back(entry.second.value);return out;
+}
+std::string Document::spatial_status(std::uint64_t id) const {
+    const auto record=spatial_record(id);const auto& stored=spatial_.at(id);
+    if(!stored.identity || stored.identity!=analysis_identity_.token) return "unverified";
+    if(!record->result->snapshot_->matches_objects(*this)) return "objects_or_calibration_changed";
+    return stored.verified?"current":"verification_failed";
+}
+bool Document::verify_spatial(std::uint64_t id,const SpatialDistanceRequest& request,std::shared_ptr<const SpatialDistanceResult> result) {
+    if(!result || !request.matches(*this) || !result->belongs_to(request)) throw std::invalid_argument("spatial verification requires a current captured result");
+    const auto record=spatial_record(id);const auto& old=*record->result;
+    if(!old.snapshot_->same_geometry(*result->snapshot_)) throw std::invalid_argument("verification request does not match saved spatial geometry/parameters");
+    bool same=old.rows().size()==result->rows().size();
+    for(std::size_t i=0;same && i<old.rows().size();++i) same=old.rows()[i].target_id==result->rows()[i].target_id && old.rows()[i].distance==result->rows()[i].distance;
+    auto& stored=spatial_.at(id);stored.identity=analysis_identity_.token;stored.verified=same;return same;
+}
+bool Document::remove_spatial(std::uint64_t id) {
+    const auto it=spatial_.find(id);if(it==spatial_.end()) return false;
+    if(revision_==UINT64_MAX) throw std::overflow_error("document revision exhausted");spatial_bytes_-=it->second.value->payload_bytes();spatial_.erase(it);++revision_;return true;
+}
+SpatialDistanceRequest SpatialDistanceRequest::replay(const Document& doc,std::uint64_t id) {
+    const auto result=doc.spatial_record(id)->result;const auto& d=*result->snapshot_;
+    std::vector<std::uint64_t> sources,targets;sources.reserve(d.sources.size());targets.reserve(d.targets.size());
+    for(auto i:d.sources) sources.push_back(d.objects[i].id);for(auto i:d.targets) targets.push_back(d.objects[i].id);
+    SpatialDistanceRequest request(doc,sources,targets,d.options);
+    if(!d.same_geometry(*request.data_)) throw std::invalid_argument("saved spatial geometry or calibration has changed");return request;
 }
 void SpatialDistanceRequest::on_owner() const {on_thread(owner_);}
 bool SpatialDistanceRequest::matches(const Document& doc) const {on_owner();return identity_==doc.analysis_identity_.token && data_->revision==doc.revision();}
