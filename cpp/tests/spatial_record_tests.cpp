@@ -97,7 +97,14 @@ void export_contracts(const fs::path& root) {
     const auto raced=root/"raced.csv";
     rejects([&]{save_spatial_distance_csv(*result,raced.u8string(),65536,false,nullptr,[&]{std::ofstream(raced)<<"another writer";});});check(read(raced)=="another writer");
     const auto input=root/"observed-input.txt";{std::ofstream(input)<<"original input";}detail::ReaderFileGuard observed(input.u8string());
-    rejects([&]{save_spatial_distance_csv(*result,target.u8string(),65536,true,nullptr,[&]{std::ofstream(input)<<"changed input";observed.verify();});});check(read(target)==csv);
+    bool blocked=false,refused=false;
+    try {save_spatial_distance_csv(*result,target.u8string(),65536,true,nullptr,[&]{
+        std::ofstream writer(input);blocked=!writer;
+        if(writer) {writer<<"changed input";writer.close();check(bool(writer));}
+        observed.verify();
+    });}catch(const std::runtime_error&) {refused=true;}
+    // Windows read handles deny mutation; POSIX readers instead detect it.
+    check(blocked!=refused && read(target)==csv && read(input)==(blocked?"original input":"changed input"));
     SpatialDistanceRequest empty(*s.doc,{s.a},{});const auto missing=measure_spatial_distances(empty);const auto missing_csv=spatial_distance_csv(*missing);
     const auto line=missing_csv.substr(missing_csv.find('\n')+1);check(std::count(line.begin(),line.end(),',')==21 && line.find(",px,no_target,")!=std::string::npos);
     check(line.find(",,,,,,,,px,no_target,")!=std::string::npos); // Seven absent fields need eight separators.
