@@ -188,7 +188,9 @@ def unicode_guard():
 def unicode_case(gui):
     case=ET.Element('testcase',name='gui_replay')
     ET.SubElement(case,'system-out').text=('GUI Unicode scalar input and native undo/redo passed' if gui else
-                                         'GUI Unicode scalar input disabled (GUI unavailable)')+'\ngui replay passed\n'
+                                         'GUI Unicode scalar input disabled (GUI unavailable)')+'\n'+(
+        'GUI packaged dynamic fonts, bounded atlas and recoverable glyph exhaustion passed' if gui else
+        'GUI packaged dynamic fonts disabled (GUI unavailable)')+'\ngui replay passed\n'
     return case
 
 
@@ -196,6 +198,7 @@ def unicode_case(gui):
 def test_unicode_input_native_requires_actual_gui_capability(gui):
     result=unicode_guard()([unicode_case(gui)],gui)
     assert result['unicode_scalar_input_and_native_history_verified'] is gui
+    assert result['packaged_dynamic_fonts_and_quota_verified'] is gui
     with pytest.raises(AssertionError):unicode_guard()([unicode_case(not gui)],gui)
 
 
@@ -210,3 +213,48 @@ def test_unicode_input_native_rejects_false_coverage(change):
     elif change=='mixed_capability':case.find('system-out').text+=unicode_case(False).findtext('system-out')
     else:ET.SubElement(case,change)
     with pytest.raises(AssertionError):unicode_guard()(cases,True)
+
+
+@pytest.mark.parametrize('gui',[False,True])
+@pytest.mark.parametrize('change',['missing','duplicate','mixed'])
+def test_packaged_fonts_native_coverage_cannot_be_omitted(gui,change):
+    case=unicode_case(gui);lines=case.findtext('system-out').splitlines()
+    marker=next(line for line in lines if line.startswith('GUI packaged dynamic fonts'))
+    if change=='missing':lines.remove(marker)
+    elif change=='duplicate':lines.append(marker)
+    else:lines.append('GUI packaged dynamic fonts disabled (GUI unavailable)' if gui else
+                      'GUI packaged dynamic fonts, bounded atlas and recoverable glyph exhaustion passed')
+    case.find('system-out').text='\n'.join(lines)
+    with pytest.raises(AssertionError):unicode_guard()([case],gui)
+
+
+def font_gui_guard():
+    node=next(node for node in statements() if isinstance(node,ast.FunctionDef) and node.name=='dynamic_font_gui')
+    scope={};exec(compile(ast.Module(body=[node],type_ignores=[]),str(AUDITOR),'exec'),scope)
+    return scope['dynamic_font_gui']
+
+
+def font_gui_cases(gui):
+    result=[]
+    for name in ['test_unicode_labels_render_actual_glyphs_instead_of_question_marks',
+                 'test_unicode_dynamic_fonts_preserve_cached_pixels_across_scale_changes']:
+        case=ET.Element('testcase',classname='tests.test_gui_scale',name=name)
+        if not gui:ET.SubElement(case,'skipped',type='pytest.skip',message='opt-in native DPI scaling')
+        result.append(case)
+    return result
+
+
+@pytest.mark.parametrize('gui',[False,True])
+def test_font_gui_coverage_matches_capability(gui):
+    assert font_gui_guard()(font_gui_cases(gui),gui)['glyph_rendering_and_scaled_cache_verified'] is gui
+    with pytest.raises(AssertionError):font_gui_guard()(font_gui_cases(not gui),gui)
+
+
+@pytest.mark.parametrize('change',['missing','duplicate','wrong_class','failure','error','skipped'])
+def test_font_gui_coverage_rejects_false_passes(change):
+    cases=font_gui_cases(True)
+    if change=='missing':cases.pop()
+    elif change=='duplicate':cases.append(cases[0])
+    elif change=='wrong_class':cases[0].set('classname','other')
+    else:ET.SubElement(cases[0],change)
+    with pytest.raises(AssertionError):font_gui_guard()(cases,True)

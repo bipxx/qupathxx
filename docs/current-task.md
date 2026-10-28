@@ -17,6 +17,21 @@ redispatch or move the frozen ref/checkout. Candidate273 remains qualified until
 combined acceptance exists; independent M0-M7/science/hardware/support/release
 gates remain open.
 
+**Font delivery283 is implemented; installed build and GUI validation are next.**
+The integration pins ImGui1.93 docking/core/backends together, packages verified
+OFL CJK/monochrome Emoji assets and notices, authenticates a bounded immutable
+module-relative font snapshot and requests glyphs dynamically. A hash-checked
+generated draw implementation removes only the proven quota assertion; the
+upstream checkout remains untouched. GuiScale changes typography without
+rereading font files; atlas/baked-font state invalidates cached canvas pixels.
+Backend migration also preserves per-texture filtering and matches its new
+nearest-pixel framebuffer rounding. Native resource/glyph/quota controls and
+real Unicode-versus-question-mark/cache-scale regressions are added. Retained
+native3bd6591 fails the actual-glyph comparison while its cache control passes.
+52 auditor seam tests pass. No new native product, package or platform acceptance
+is claimed yet. Candidate281 must continue using its frozen original auditors;
+the new font markers intentionally reject older font-free artifacts.
+
 **Font pilot282 identifies the next M2 delivery path.** [Receipt282](benchmarks/gui-font-pilot-282/receipt.json)
 compares retained32-bit1.91.9b with pinned1.93 docking and unmodified OFL CJK/
 monochrome Emoji. All21 sampled codepoints are available at normal/large/maximal

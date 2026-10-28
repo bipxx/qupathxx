@@ -45,7 +45,7 @@ class GuiRawPixel {
         draw->AddRectFilled(a,{a.x+size.x,a.y+size.y},IM_COL32(24,24,24,255));draw->PushClipRect(a,{a.x+size.x,a.y+size.y},true);
         const auto report=jobs_.report();const auto width=report.historical_contours?report.historical_contours->link()->lattice().image_width():doc.metadata().width,height=report.historical_contours?report.historical_contours->link()->lattice().image_height():doc.metadata().height;
         const auto scale=std::min(double(size.x)/width,double(size.y)/height);
-        for(const auto& [label,paths]:contour_paths_) for(const auto& ring:paths) {for(const auto& p:ring) draw->PathLineTo({a.x+float(p.x*scale),a.y+float(p.y*scale)});draw->PathStroke(label && label<=colors.size()?colors[label-1]|0xff000000:IM_COL32(192,192,192,255),ImDrawFlags_Closed,1.5f);}
+        for(const auto& [label,paths]:contour_paths_) for(const auto& ring:paths) {for(const auto& p:ring) draw->PathLineTo({a.x+float(p.x*scale),a.y+float(p.y*scale)});draw->PathStroke(label && label<=colors.size()?colors[label-1]|0xff000000:IM_COL32(192,192,192,255),1.5f,ImDrawFlags_Closed);}
         draw->PopClipRect();ImGui::Dummy(size);
     }
     std::string error_;std::int64_t px_=0,py_=0,pw_=256,ph_=256;std::uint64_t record_=0,index_=0;

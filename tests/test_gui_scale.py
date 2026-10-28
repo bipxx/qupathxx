@@ -12,6 +12,45 @@ from test_gui_tiles import replay
 pytestmark = pytest.mark.skipif(not q.has_gui or os.environ.get('QUPATHXX_TEST_GUI') != '1', reason='opt-in native DPI scaling')
 
 
+def unicode_document(label):
+    doc=q.Document(q.Image(256,160,[35,60,90]*256*160))
+    doc.add_rectangle(q.Rect(40,40,160,80),label)
+    return doc
+
+
+def unicode_options(budget=64*1024*1024):
+    options=q.GuiOptions();options.width,options.height=900,700
+    options.docked_workspace=False;options.settle_tiles=True;options.autosave_interval_seconds=0
+    options.overlay_cache_budget=budget;options.replay_timeout_seconds=15
+    options.inputs=[replay(3,q.GuiInputKind.SELECT_ALL_KEY)]
+    return options
+
+
+def test_unicode_labels_render_actual_glyphs_instead_of_question_marks(tmp_path):
+    frames=[]
+    for index,label in enumerate(['A_\u96ea\U0002000b\U0001f52c','A_???']):
+        doc=unicode_document(label);capture=tmp_path/f'name-{index}.ppm'
+        report=q.show(doc,frame_limit=16,capture_path=str(capture),options=unicode_options())
+        assert report.tiles_settled and report.canvas_visible and report.primary_selection==1
+        assert doc.annotation(1).name==label
+        frames.append(capture.read_bytes())
+    assert frames[0]!=frames[1], 'Unicode labels still render as fallback question marks'
+
+
+def test_unicode_dynamic_fonts_preserve_cached_pixels_across_scale_changes(tmp_path):
+    frames=[];reports=[]
+    for budget in [0,64*1024*1024]:
+        doc=unicode_document('A_\u03b1\u539f\u59cb\u96ea_\U0002000b\U0001f52c\U0001f469')
+        options=unicode_options(budget)
+        options.inputs += [replay(6,q.GuiInputKind.SET_UI_SCALE,2),replay(11,q.GuiInputKind.SET_UI_SCALE,1.25)]
+        capture=tmp_path/f'cached-{budget}.ppm'
+        report=q.show(doc,frame_limit=24,capture_path=str(capture),options=options)
+        assert report.replay_complete and report.tiles_settled and report.font_rebuilds==3
+        frames.append(capture.read_bytes());reports.append(report)
+    assert frames[0]==frames[1]
+    assert reports[1].overlay_cache_hits>0 and reports[1].overlay_cache_builds>=3
+
+
 @pytest.mark.parametrize('multiplier', [.75, 1., 1.5, 2.])
 def test_scaled_workspace_keeps_camera_and_routes_image_input(tmp_path, multiplier):
     project, doc = workspace(tmp_path)

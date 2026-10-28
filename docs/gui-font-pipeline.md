@@ -32,6 +32,12 @@ commit. The pilot changes no application dependency or binary.
   baked-font glyph state changes. Never retain ImFontBaked pointers across frames.
   Reuse the existing overlay key, session lifecycle and owner GL thread.
 
+The application implementation is now prepared as delivery283, with installed
+validation still pending. Keep the existing `font_rebuilds` field as the count
+of accepted typography configurations; it is not a dynamic texture-allocation
+counter. Preserve existing per-texture filtering when adopting the newer sampler
+backend and match its rounded framebuffer dimensions.
+
 ## Acceptance
 
 Use existing native gui_replay/overlay suites, installed GUI/Python cohorts and

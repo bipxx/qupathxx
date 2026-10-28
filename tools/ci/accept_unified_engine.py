@@ -98,7 +98,22 @@ def unicode_input_native(cases,gui):
     enabled='GUI Unicode scalar input and native undo/redo passed'
     disabled='GUI Unicode scalar input disabled (GUI unavailable)'
     assert lines.count(enabled if gui else disabled)==1 and (disabled if gui else enabled) not in lines
-    return dict(gui=gui,unicode_scalar_input_and_native_history_verified=gui)
+    enabled='GUI packaged dynamic fonts, bounded atlas and recoverable glyph exhaustion passed'
+    disabled='GUI packaged dynamic fonts disabled (GUI unavailable)'
+    assert lines.count(enabled if gui else disabled)==1 and (disabled if gui else enabled) not in lines
+    return dict(gui=gui,unicode_scalar_input_and_native_history_verified=gui,packaged_dynamic_fonts_and_quota_verified=gui)
+
+def dynamic_font_gui(cases,gui):
+    assert type(gui) is bool
+    names={'test_unicode_labels_render_actual_glyphs_instead_of_question_marks',
+           'test_unicode_dynamic_fonts_preserve_cached_pixels_across_scale_changes'}
+    selected=[case for case in cases if case.get('classname')=='tests.test_gui_scale' and case.get('name') in names]
+    assert len(selected)==2 and {case.get('name') for case in selected}==names
+    for case in selected:
+        assert not any(case.find(tag) is not None for tag in ['failure','error'])
+        skips=case.findall('skipped')
+        assert not skips if gui else len(skips)==1 and dict(skips[0].attrib)=={'type':'pytest.skip','message':'opt-in native DPI scaling'}
+    return dict(gui=gui,glyph_rendering_and_scaled_cache_verified=gui)
 def junit(path):
     root=ET.parse(path).getroot()
     suites=[root] if root.tag=='testsuite' else root.findall('testsuite')
@@ -201,6 +216,7 @@ for job in run['jobs']:
     assert entry['native']['skipped']==0
     if (folder/'python-tests.xml').exists():
         entry['python']=junit(folder/'python-tests.xml')
+        entry['dynamic_font_gui']=dynamic_font_gui(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')),gui='GUI' in job['name'])
         entry['resampling_python']=resampling.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')))
         entry['qptma_python']=qptma.python(list(ET.parse(folder/'python-tests.xml').getroot().iter('testcase')))
         entry['qptma_typing']=qptma.typing_errors(folder/'qptma-typing-negative.log')

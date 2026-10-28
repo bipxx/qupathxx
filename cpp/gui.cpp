@@ -10,6 +10,7 @@
 #include "gui_thumbnail.hpp"
 #include "gui_workspace.hpp"
 #include "gui_scale.hpp"
+#include "gui_fonts.hpp"
 #include "gui_tissue.hpp"
 #include "qupathxx/cells.hpp"
 #include "calibrated_cell_numeric.hpp"
@@ -74,7 +75,7 @@ ImVec2 screen(const Viewport& v, Point p, ImVec2 offset) {
 void draw_shape(ImDrawList* draw,const Roi& geometry,const Viewport& view,ImVec2 offset,ImU32 color) {
     auto r=geometry.bounds();
     auto p0=screen(view,{r.x,r.y},offset),p1=screen(view,{r.x+r.width,r.y+r.height},offset);
-    if(geometry.kind()==RoiKind::Rectangle) { draw->AddRect(p0,p1,color,0,0,2); return; }
+    if(geometry.kind()==RoiKind::Rectangle) { draw->AddRect(p0,p1,color,0.f,2.f,0); return; }
     if(geometry.kind()==RoiKind::Ellipse) {
         draw->AddEllipse({(p0.x+p1.x)/2,(p0.y+p1.y)/2},{(p1.x-p0.x)/2,(p1.y-p0.y)/2},color,0,0,2); return;
     }
@@ -82,7 +83,7 @@ void draw_shape(ImDrawList* draw,const Roi& geometry,const Viewport& view,ImVec2
         if(geometry.kind()==RoiKind::Points) { for(auto p:path) draw->AddCircleFilled(screen(view,p,offset),4,color); continue; }
         std::vector<ImVec2> vertices; vertices.reserve(path.size());
         for(auto p:path) vertices.push_back(screen(view,p,offset));
-        draw->AddPolyline(vertices.data(),static_cast<int>(vertices.size()),color,geometry.is_area()?ImDrawFlags_Closed:0,2);
+        draw->AddPolyline(vertices.data(),static_cast<int>(vertices.size()),color,2.f,geometry.is_area()?ImDrawFlags_Closed:0);
     }
 }
 struct Session {
@@ -213,6 +214,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     std::copy(options.file_fingerprint_path.begin(),options.file_fingerprint_path.end(),fingerprint_path);
     std::copy(options.file_fingerprint_output.begin(),options.file_fingerprint_output.end(),fingerprint_output);
     detail::validate_cell_area_limits(options.cell_min_nucleus_area_um2,options.cell_max_nucleus_area_um2);
+    detail::gui_font_assets(); // Authenticate packaged immutable bytes before creating a window.
     if (!glfwInit()) throw std::runtime_error("GLFW initialization failed");
     Session session;
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -243,6 +245,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
     if (!session.renderer) throw std::runtime_error("ImGui OpenGL initialization failed");
     GLint max_texture = 0; glGetIntegerv(GL_MAX_TEXTURE_SIZE, &max_texture);
     if (max_texture<256) throw std::runtime_error("GPU does not support 256-pixel tile textures");
+    detail::configure_gui_fonts(*ImGui::GetIO().Fonts,max_texture);
     // Private UI backing only: never insert this into a project or request its
     // pixels. It keeps empty-state bindings separate from any removed document.
     auto empty_document=std::make_shared<Document>(Image(1,1,std::vector<std::uint8_t>{0,0,0}));
@@ -1048,19 +1051,16 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             // Rebuild only between frames, on the GL owner thread. Never scale
             // the previous style, which would accumulate rounding and drift.
             overlay_cache.clear();
-            ImGui_ImplOpenGL3_DestroyFontsTexture();input.Fonts->Clear();
             style=base_style;style.ScaleAllSizes(next_scale.logical);
-            ImFontConfig font;font.SizePixels=13.f*next_scale.logical;font.RasterizerDensity=next_scale.framebuffer;
-            input.Fonts->AddFontDefault(&font);
-            // The backend creates the texture in NewFrame, after its device
-            // objects exist. Creating it here would duplicate the first upload.
+            style.FontSizeBase=13.f*next_scale.logical;
+            // Dynamic bakes reuse the same sources; framebuffer density comes
+            // from GLFW. The backend owns texture creation/update/destruction.
             font_scale=next_scale;fonts_initialized=true;++font_rebuilds;
             drawing=marquee=vertex_dragging=false;active_vertex.reset();draft_points.clear();
             input.AddMouseButtonEvent(0,false);input.AddMouseButtonEvent(1,false);ImGui::ClearActiveID();
         }
         ui_scale=next_scale;
         ImGui_ImplOpenGL3_NewFrame();
-        if(!input.Fonts->TexID) throw std::runtime_error("UI font texture creation failed");
         // Keep explicitly replayed wheel events, including events deferred by
         // ImGui's trickle queue. Physical wheel messages can otherwise zoom the
         // canvas or scroll panels while a deterministic test is running.
@@ -1075,6 +1075,9 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
             replay_wheels.swap(pending);
         }
         ImGui::NewFrame();ui::begin_frame();
+        // Preserve each scientific/cached texture's filtering. The newer
+        // backend otherwise overrides GL_NEAREST with its default sampler.
+        ImGui::GetBackgroundDrawList()->AddCallback(ImGui::GetPlatformIO().DrawCallback_SetSamplerFromTex,nullptr);
         bool save_project_requested=false;
         bool autosave_requested=false;
         const bool editing_blocked=editing_is_blocked();
@@ -2193,11 +2196,13 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         profile.tiles_ms=profile_lap();
         const auto visible_min=viewport.screen_to_image({0,0}),visible_max=viewport.screen_to_image({size.x,size.y});
         const auto clip=draw->_CmdHeader.ClipRect;const auto* shared=ImGui::GetDrawListSharedData();
-        const OverlayKey next_overlay_key{&document,selection.get(),document.render_revision(),selection->revision(),selected,viewport.zoom,viewport.origin.x,viewport.origin.y,
-            offset.x,offset.y,size.x,size.y,clip.x,clip.y,clip.z,clip.w,ImGui::GetFont(),ImGui::GetFontSize(),ImGui::GetIO().Fonts->TexID,
+        OverlayKey next_overlay_key{&document,selection.get(),document.render_revision(),selection->revision(),selected,viewport.zoom,viewport.origin.x,viewport.origin.y,
+            offset.x,offset.y,size.x,size.y,clip.x,clip.y,clip.z,clip.w,ImGui::GetFont(),ImGui::GetFontSize(),static_cast<ImTextureID>(ImGui::GetIO().Fonts->TexData->UniqueID),
             draw->Flags,shared->TexUvWhitePixel.x,shared->TexUvWhitePixel.y,shared->CurveTessellationTol,shared->CircleSegmentMaxError,
             tiles->uploads(),tiles->generations(),tissue.poll(document,selected).generation,cell_job.poll(document,selected).generation,tiles->bytes(),tissue.result().get(),detected.get(),
             show_tissue,show_cells,tissue_preview.ready(),cell_preview.ready(),cell_preview_body,pixel_classifier.preview().generation(),pixel_classifier.show_overlay(),pixel_classifier.preview_ready(),raw_pixel.preview().generation(),raw_pixel.shown(),raw_pixel.preview().ready()};
+        next_overlay_key.font_baked_id=ImGui::GetFontBaked()->BakedId;
+        next_overlay_key.font_glyphs=ImGui::GetFontBaked()->Glyphs.Size;
         const bool overlay_hit=overlay_cache.prepare(next_overlay_key,clip,max_texture,options.overlay_cache_budget);profile.cache_hit=overlay_hit;profile.cache_ms=profile_lap();
         if(overlay_hit) overlay_cache.draw(draw);
         else {
@@ -2254,7 +2259,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
                     if(p.x>=offset.x && p.y>=offset.y && p.x<=offset.x+size.x && p.y<=offset.y+size.y)
                         draw->AddCircleFilled(p,4,active_vertex==std::make_pair(path,v)?IM_COL32(255,120,100,255):IM_COL32(255,205,85,255));
                 }
-                if(vertex_dragging) draw->AddPolyline(preview.data(),static_cast<int>(preview.size()),IM_COL32(255,120,100,255),document.annotation(vertex_id).geometry.is_area()?ImDrawFlags_Closed:0,2);
+                if(vertex_dragging) draw->AddPolyline(preview.data(),static_cast<int>(preview.size()),IM_COL32(255,120,100,255),2.f,document.annotation(vertex_id).geometry.is_area()?ImDrawFlags_Closed:0);
             }
         }
         if(marquee) {
@@ -2307,7 +2312,7 @@ GuiReport run_gui(Document& document, int frame_limit, const std::string& captur
         else overview_draw->AddText({overview_offset.x+4,overview_offset.y+4},IM_COL32(210,215,225,255),
             overview.state()=="failed"?"Overview unavailable":"Loading overview...");
         auto top_left=viewport.screen_to_image({0,0}),bottom_right=viewport.screen_to_image({previous_canvas_size.x,previous_canvas_size.y});
-        overview_draw->AddRect(screen(overview_view,top_left,overview_offset),screen(overview_view,bottom_right,overview_offset),IM_COL32(255,205,85,255),0,0,2);
+        overview_draw->AddRect(screen(overview_view,top_left,overview_offset),screen(overview_view,bottom_right,overview_offset),IM_COL32(255,205,85,255),0.f,2.f,0);
         overview_draw->PopClipRect();
         }
         if(workspace.enabled()) ImGui::End(); else ImGui::EndChild();
