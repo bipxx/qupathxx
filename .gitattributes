@@ -594,3 +594,5 @@ docs/benchmarks/owner-delivery-race-262/** -text -whitespace
 docs/benchmarks/spatial-native-263/** -text -whitespace
 
 docs/benchmarks/spatial-capture-264/** -text -whitespace
+
+docs/benchmarks/spatial-records-265/** -text -whitespace

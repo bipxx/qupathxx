@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="(empty)"
+	tests="10"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname=""
+	time="4"
+	timestamp="2026-10-28T04:30:02"
+	>
+	<testcase name="qptma_project" classname="qptma_project" time="0.148059" status="run">
+		<properties/>
+		<system-out>{"schema":"qpx.qptma-project-import/1","state":"saved","image_id":2,"cores":6,"rows":2,"columns":3,"output":"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\qptma-project-test-artifacts\\project-1216229631768900\\imported.qpxproj"}
+{"schema":"qpx.qptma-project-export/1","state":"saved","image_id":2,"cores":6,"bytes":334,"omitted_metadata":["native_object_ids","native_grid_name","axis_labels"],"output":"C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package\\qptma-project-test-artifacts\\project-1216229631768900\\exported.qptma"}
+{"schema":"qpx.batch-error/1","error":"export commit failed (destination may already exist)"}
+{"schema":"qpx.batch-error/1","error":"fingerprint output must not replace its input"}
+{"schema":"qpx.batch-error/1","error":"selected image has no TMA grid"}
+QPTMA project atomic new-file publication, budgets, guards, races, persistence and explicit-image CLI passed
+</system-out>
+	</testcase>
+	<testcase name="project_batch" classname="project_batch" time="0.990424" status="run">
+		<properties/>
+		<system-out>Raw contour batch: streamed geometry, sealed project reopen, hash-only reuse, multiple targets and quota rollback passed
+Raw pixel batch: portable model, exact input reuse, QWL1 verification, interruption and owned cleanup passed
+Grid ROI planning, typed batch recipe, per-image calibration, interrupted resume and QCL5/CSV checkpoints passed
+Batch workflows, snapshot, restart, invalidation, bounds, CSV and cancellation passed
+</system-out>
+	</testcase>
+	<testcase name="cell_records" classname="cell_records" time="0.666223" status="run">
+		<properties/>
+		<system-out>Independent Python struct/hashlib QCL5 bytes decode and canonical re-encode passed
+QCL5 SQLite save, reopen, provenance attachment, replay and second save passed
+QCL5 analytic ellipse, polygon hole and winding-policy geometry persistence passed
+QCL5 canonical encoding, semantic rejection, captured calibration, record authority and replay passed
+Cell archive exhaustive masks, authority, snapshots, cancellation and limits passed
+</system-out>
+	</testcase>
+	<testcase name="tissue_records" classname="tissue_records" time="0.112791" status="run">
+		<properties/>
+		<system-out>Tissue archive codec, authority, snapshot isolation and limits passed
+</system-out>
+	</testcase>
+	<testcase name="geometry" classname="geometry" time="0.0481455" status="run">
+		<properties/>
+		<system-out>ROI centroids: analytic bodies, area/length/point weights, numeric limits and shared snapshots passed; GEOS=1
+Analytic shapes, topology, ownership and shape undo passed; GEOS 3.15.0-CAPI-1.21.0
+</system-out>
+	</testcase>
+	<testcase name="geometry_edits" classname="geometry_edits" time="0.0444542" status="run">
+		<properties/>
+		<system-out>Vertex edits, holes, area overlay and journal passed
+</system-out>
+	</testcase>
+	<testcase name="spatial" classname="spatial" time="0.171255" status="run">
+		<properties/>
+		<system-out>Nearest-point spatial queries: 400 reordered and 200 concurrent exhaustive oracles, 100000-point scenes, anisotropy, ties, identity exclusion, cancellation and numeric limits passed
+Spatial queries, delta updates, picking and undo passed
+</system-out>
+	</testcase>
+	<testcase name="spatial_records" classname="spatial_records" time="1.90343" status="run">
+		<properties/>
+		<system-out>Spatial retained records: exact capture authority, explicit cohorts, clone/replay, calibration/object staleness, closed source and historical ownership passed
+Spatial QSD1 archives: deterministic roundtrip, provenance/input/result identity, nullable rows, corruption/truncation/semantic refusal and cancellation passed
+Spatial CSV: float64 units/identity, absent versus zero, streaming atomic no-overwrite/replacement, limits/cancellation and temporary cleanup passed
+Spatial projects: schema14 save/reopen, immutable async save, history/reverification, snapshot budget, missing linked-image zero-IO replay and corrupt/orphan refusal passed
+Spatial migrations: all13 legacy schemas open without modification and transactionally upgrade with retained distance rows passed
+</system-out>
+	</testcase>
+	<testcase name="spatial_analysis" classname="spatial_analysis" time="0.106537" status="run">
+		<properties/>
+		<system-out>Spatial captured results: deterministic identity, nucleus/body fallback, anisotropic units, absent targets, limits, clone/stale/thread guards and zero pixel IO passed
+Spatial owner jobs: direct parity, cancellation/retry, running/ready staleness, payload/compute admission, shutdown join and reader-free detached execution passed
+Spatial pinned QuPath reference: geometry=18 explicit_storage_conversion=4 unsupported_planes=4 unavailable_polygons=0; fixed tolerances and translated single-plane geometry passed
+</system-out>
+	</testcase>
+	<testcase name="project" classname="project" time="0.25461" status="run">
+		<properties/>
+		<system-out>Multi-image project round trip, source pixels and stale saves passed; SQLite 3.54.1
+</system-out>
+	</testcase>
+</testsuite>

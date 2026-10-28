@@ -1,0 +1,57 @@
+{
+  "qupathxx_core.lib": {
+    "source": "f3d1359412bb24812c019ab4b46da2033414c6e9",
+    "bytes": 114603684,
+    "sha256": "8c85dda204219ed9dd89d355c473a3f172b2077564e20f73ef64db7db4992bb4"
+  },
+  "qupathxx_spatial_record_tests.exe": {
+    "source": "f3d1359412bb24812c019ab4b46da2033414c6e9",
+    "bytes": 3622400,
+    "sha256": "3458da0a88ab547b76baf0287d5463949ceb9303303f9f3f8b2a563b7643d915"
+  },
+  "qupathxx_spatial_analysis_tests.exe": {
+    "source": "f3d1359412bb24812c019ab4b46da2033414c6e9",
+    "bytes": 1593344,
+    "sha256": "dc4af25e53a3ca7296ef8ef87ee6de2cefae6d798e9350b149563075959562ae"
+  },
+  "qupathxx_geometry_tests.exe": {
+    "source": "f3d1359412bb24812c019ab4b46da2033414c6e9",
+    "bytes": 366592,
+    "sha256": "dbd57b67b7a5f005724bdd1e3c1cd174efe261001689505016f2c927b20e0b2e"
+  },
+  "qupathxx_spatial_tests.exe": {
+    "source": "f3d1359412bb24812c019ab4b46da2033414c6e9",
+    "bytes": 363520,
+    "sha256": "92f452c125ecd559f2f0fed5cda54a625410555fb6064117c82f342a76589a85"
+  },
+  "qupathxx_geometry_edits_tests.exe": {
+    "source": "f3d1359412bb24812c019ab4b46da2033414c6e9",
+    "bytes": 330240,
+    "sha256": "2135c54dee90304f8b01b01f3c6e2488e2325197688aaa5dfff3a2a58a8e366d"
+  },
+  "qupathxx_project_tests.exe": {
+    "source": "f3d1359412bb24812c019ab4b46da2033414c6e9",
+    "bytes": 4183040,
+    "sha256": "53866b4bda4527c641797e0e6f4c11c17f8a0824afcdb7fcc33a07beeb456b22"
+  },
+  "qupathxx_tissue_record_tests.exe": {
+    "source": "f3d1359412bb24812c019ab4b46da2033414c6e9",
+    "bytes": 3564544,
+    "sha256": "d1ba9b68eb2ef17ddfc7e5b54b6b265da69d2fee88669ee27d8a27c29b90e016"
+  },
+  "qupathxx_cell_record_tests.exe": {
+    "source": "f3d1359412bb24812c019ab4b46da2033414c6e9",
+    "bytes": 3752448,
+    "sha256": "bea91cfece28b64a78b0a7319d466afac81cdd2d29a039771f24a7c793d1e018"
+  },
+  "qupathxx_qptma_project_tests.exe": {
+    "source": "f3d1359412bb24812c019ab4b46da2033414c6e9",
+    "bytes": 3546624,
+    "sha256": "f4a6d3aad0c243b8183183572f9fee97345a0de5cc6c321bdfd2cbfa83ad2e17"
+  },
+  "qupathxx_project_batch_tests.exe": {
+    "source": "f3d1359412bb24812c019ab4b46da2033414c6e9",
+    "bytes": 4986368,
+    "sha256": "7eb11bc0382e6d4741fb905bfcac8d9b8abf9c34f1c7db5ba99f8912f7731fc2"
+  }
+}

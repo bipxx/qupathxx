@@ -13,28 +13,33 @@ original260 failures/successes remain preserved under their own source identitie
 The timed-out Mac arm64 download was retried without redispatch; partial bytes
 remain retained. All **M0-M7 remain Partial**.
 
-**SPAT1 native capture/result/jobs are locally verified** at2b9c5d7. The
-[receipt264](benchmarks/spatial-capture-264/receipt.json) retains four affected
-native suites per Windows GEOS-ON/OFF profile, five products per profile,498 raw
-source paths and395 compiler inputs. Requests capture object identities,
-revisions, selected geometry hashes, centroids, units and per-axis calibration;
-workers consult no live Document/reader and perform zero pixel IO. Deterministic
-nullable results, source/object replacement, stale running/ready jobs, cross-thread
-cancel, owner-thread guards, shutdown join and memory/comparison quotas pass.
-Completed futures remain busy until owner delivery.
+**SPAT1 native persistence/export is locally verified** at1738022. The
+[receipt265](benchmarks/spatial-records-265/receipt.json) adds retained records,
+QSD1 archives, project schema14 and bounded atomic CSV over capture264. Ten affected
+native suites pass each Windows GEOS-ON/OFF profile;902 final tooling controls
+pass. All400 compiler inputs,503 raw source paths, unchanged SDKs and11 retained
+products per profile authenticate. The failed first compile and11 passing
+intermediate products remain preserved under their own source identities.
 
-Pinned native comparisons cover18 geometry cases ON/16 OFF and four separate
-upstream FLOAT/DOUBLE conversion cases. Four nonzero-plane cases are unsupported;
-GEOS OFF additionally excludes two polygon cases. No all26-case parity is claimed.
-The first test compile failure and initial900-pass/two-failure tooling run remain
-preserved. A temporary Git fixture now mirrors production raw-byte attributes;
-corrected902 controls pass at7bb8d78. Every compiler input is byte-identical to
-2b9c5d7, so the tested native products were preserved and reused without rebuilding.
-SDK trees are unchanged; no new spatial wheel/platform qualification was dispatched.
+Tests cover exact capture authority, clone/replay, calibration/object staleness,
+closed and missing image sources without pixel IO, historical handles, the10000-
+record cap and retry after removal, deterministic archive roundtrip and corrupt/
+orphan refusal. Immutable async save survives live record removal. All13 older
+schemas open without writes and upgrade on save; an injected migration failure
+preserves the original database bytes. CSV includes float64 distance, explicit
+absence/zero, units, per-axis scales, policies and input/result identities; size/
+cancel/no-overwrite failures preserve the existing output and clean temporaries.
 
-**Next:** reuse existing retained analysis records/codecs and bounded atomic table
-export for SPAT1 save/reopen/history/CSV, then add thin nanobind, CLI, ImGui and
-managed-viewer consumers. Qualify that complete workflow at its own frozen source.
+Native reference scope remains18 geometry cases ON/16 OFF plus four upstream
+storage cases. Four plane cases are unsupported; two polygons are unavailable
+without GEOS. No broader scientific or performance claim follows. Fifteen existing
+Python schema/migration expectation files are updated to14; their new-runtime
+execution remains pending. No spatial wheel or qualification was dispatched.
+
+**Next:** bind the stable request/result/job/record/export APIs through nanobind,
+then deliver CLI and ImGui/managed table/run/cancel/export/history/save/reopen
+consumers. Complete installed lifetime/GIL/typing and migration tests together,
+then qualify the finished workflow at its own frozen source.
 [The API queue](api-delivery-plan.md#dependency-lanes-and-immediate-queue) owns scheduling.
 Readers and required codecs remain open-source-only. Broader spatial/reader/
 interchange/automation/UI work, three strict scientific xfails, biological/model

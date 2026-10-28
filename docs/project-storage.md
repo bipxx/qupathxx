@@ -1,11 +1,12 @@
 # Native multi-image project storage
 
 The native `Project` owns shared documents, stable image IDs, image names and
-source descriptors. SQLite schema version 11 stores canonical object state,
+source descriptors. SQLite schema version 14 stores canonical object state,
 class definitions, per-axis calibration, source metadata, the active image and
 per-image camera/display views, retained analysis records, tissue masks, cell runs,
 object-classifier artifacts, pixel training/prediction artifacts, external pixel
-stream links and tissue microarray metadata. Schemas 1–10
+stream links, tissue microarray metadata, TIFF view descriptors, raw analysis
+and [spatial distance tables](spatial-analysis.md). Schemas 1–13
 remain readable; see [workspace migration](project-workspace.md) and
 [analysis provenance](analysis-provenance.md), [tissue archives](tissue-archive.md)
 [cell archives](cell-archive.md), [pixel classifier archives](pixel-classifier-archives.md),
@@ -74,7 +75,7 @@ are removed. Commit updates the in-memory saved path, generation and saved
 document revisions only after SQLite reports success. A failure rolls back the
 transaction and leaves unsaved in-memory edits available.
 
-The application ID is `0x51505858` and new `user_version` is 5. Schemas 1–4 migrate
+The application ID is `0x51505858` and new `user_version` is 14. Schemas 1–13 migrate
 transactionally on save. Unknown schemas and
 unrelated databases are rejected. A different project identity at the destination
 is rejected rather than overwritten. Save to a new filename for a separate copy.

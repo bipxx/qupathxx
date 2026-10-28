@@ -1,0 +1,19 @@
+{
+  "argv": [
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\.venv\\Lib\\site-packages\\cmake\\data\\bin\\ctest.exe",
+    "--test-dir",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\gridfrontends167-package",
+    "-C",
+    "Release",
+    "-R",
+    "^(spatial_records|spatial_analysis|geometry|geometry_edits|spatial|project|tissue_records|cell_records|qptma_project|project_batch)$",
+    "--output-on-failure",
+    "--test-output-size-passed",
+    "1048576",
+    "--output-junit",
+    "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\spatial-records-265\\on-final-native-tests.xml"
+  ],
+  "source": "17380221e01eab3f5a7698d6b56e55927a60553d",
+  "returncode": 0,
+  "seconds": 4.757000399986282
+}

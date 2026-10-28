@@ -12,7 +12,7 @@ workflow reference. Python API design and the ImGui frontend are new work.
 ## Current execution map
 
 Planning update: 2026-10-28 UTC, through engineering-qualified candidate262
-`e2282b8` and locally verified spatial capture264 at `2b9c5d7`.
+`e2282b8` and locally verified spatial persistence265 at `1738022`.
 All **M0–M7 remain Partial**. Test totals measure their named
 engineering scopes; they do not establish a percentage of QuPath parity.
 
@@ -37,7 +37,7 @@ this update is a reconciliation, not a new independent model review.
 | Qualified feature candidate258 | [Combined engineering receipt](benchmarks/raw-path-fixture-258/closeout/receipt.json) at `a5b5394`: all 11 archives authenticate; complete five-profile engine, both Mac-native architectures and portable builders/fresh consumers pass. Windows GUI: 51 native/4,429 Python; headless: 50/3,946; Linux headless: 50/3,942 | Explicit-root locator reuse (witness259), Unicode/broader UI, science/hardware/support/release and all remaining M0-M7 requirements stay open. Public-main baseline is unchanged |
 | Locator serialization candidate260 | [Local receipt](benchmarks/root-locator-fix-260/receipt.json) at f9ad28f: image/QSL1/QWL1 locators stabilize, four red/green cases pass | [Terminal260](benchmarks/root-locator-fix-260/terminal/receipt.json): complete Mac/portable audits pass; engine fails one sanitizer viewer_session assertion, so the candidate remains unaccepted |
 | Qualified feature candidate262 | [combined closeout262](benchmarks/owner-delivery-race-262/closeout/receipt.json) at e2282b8: all11 archives authenticate; full five-profile engine, both Mac-native architectures and portable builders/fresh consumers pass | Public main is unchanged. Mac Python/GUI/OpenSlide, scientific/hardware/UI/support/release gates remain; spatial263/264 inherits no acceptance |
-| SPAT1 native capture264 | [native capture264](benchmarks/spatial-capture-264/receipt.json) at2b9c5d7 adds immutable captured requests/results and owner jobs to foundation263. Four affected suites pass each Windows GEOS-ON/OFF profile; corrected902 tooling controls pass at7bb8d78 with all395 compiler inputs unchanged | Persistence/retention/export and Python/CLI/ImGui/managed delivery remain. Four upstream plane cases are unsupported; no new wheel, platform or performance acceptance |
+| SPAT1 native persistence265 | [Receipt265](benchmarks/spatial-records-265/receipt.json) at1738022 adds retained records/QSD1, schema14 save/reopen and atomic CSV. Ten native suites pass each Windows GEOS-ON/OFF profile;902 tooling controls, all13 legacy upgrades, rollback/quota/history/export controls pass | Python/CLI/ImGui/managed delivery and installed schema/lifetime/typing validation remain; four planes are unsupported. No new wheel, platform or performance acceptance |
 | Mac link policy | [Original-object255](benchmarks/raw-original-object-255/receipt.json) isolates incorrect default-link folding of typed handlers; policy87b9dac disables it for project Darwin links. [Complete candidate257 Mac audit](benchmarks/raw-link-qualification-257/macos-terminal/macos-acceptance.json) accepts both 50-suite architectures, inventory and relocation | Mac Python/GUI/OpenSlide remain open. Original failures, binary observations and negative tiny witness remain under their original identities |
 
 Candidate258 has complete declared engineering qualification at `a5b5394`.

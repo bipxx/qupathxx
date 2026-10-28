@@ -1,0 +1,25 @@
+Test project C:/Users/HEQ/Projects/qupathxx/build/ci/gridfrontends167-package
+      Start  6: qptma_project
+ 1/10 Test  #6: qptma_project ....................   Passed    0.15 sec
+      Start 14: project_batch
+ 2/10 Test #14: project_batch ....................   Passed    0.99 sec
+      Start 21: cell_records
+ 3/10 Test #21: cell_records .....................   Passed    0.67 sec
+      Start 31: tissue_records
+ 4/10 Test #31: tissue_records ...................   Passed    0.11 sec
+      Start 43: geometry
+ 5/10 Test #43: geometry .........................   Passed    0.05 sec
+      Start 44: geometry_edits
+ 6/10 Test #44: geometry_edits ...................   Passed    0.04 sec
+      Start 45: spatial
+ 7/10 Test #45: spatial ..........................   Passed    0.17 sec
+      Start 46: spatial_records
+ 8/10 Test #46: spatial_records ..................   Passed    1.90 sec
+      Start 47: spatial_analysis
+ 9/10 Test #47: spatial_analysis .................   Passed    0.11 sec
+      Start 50: project
+10/10 Test #50: project ..........................   Passed    0.25 sec
+
+100% tests passed out of 10
+
+Total Test time (real) =   4.72 sec

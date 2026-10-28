@@ -10,12 +10,16 @@ each Windows GEOS-ON/OFF profile. Workers retain no live Document or reader and
 perform zero pixel IO. Geometry freshness binds document identity/revision; a
 closed image source alone does not invalidate a geometry-only request.
 
-Next implement versioned retained records/archive and bounded atomic CSV export,
-then thin Python/CLI/ImGui/managed delivery. Native oracle coverage is18 geometry
-cases ON/16 OFF plus four separately checked upstream storage-conversion cases;
-four nonzero-plane cases are explicitly unsupported. Corrected902 tooling controls
-pass at7bb8d78 without rebuilding unchanged native inputs. Frozen candidate262 has
-separate complete engineering acceptance; none transfers to spatial264.
+[Persistence265](benchmarks/spatial-records-265/receipt.json) adds immutable
+retained records, QSD1, schema14 project save/reopen and atomic CSV at1738022.
+Ten affected native suites pass each Windows GEOS-ON/OFF profile, including
+all13 legacy upgrades, failed-migration rollback,10000-record admission, stale/
+historical and export fault controls. Final902 tooling controls pass;400 compiler
+inputs and503 raw sources authenticate. Next deliver Python/CLI/ImGui/managed
+consumers and installed validation. No new spatial wheel/platform qualification
+is claimed. Frozen candidate262 retains its separate complete engineering scope.
+Native oracle coverage stays18 geometry cases ON/16 OFF plus four separate
+upstream storage cases, with four nonzero-plane cases unsupported.
 Neighbourhood counts, signed geometry distances, density maps and tiled feature
 aggregation remain required subsequent spatial work.
 
@@ -82,3 +86,39 @@ measurement. Signed point-to-area distance needs its own calibrated geometry
 contract; density needs a defined area/edge normalization; neighbourhood and
 tiled aggregation need separate metric, quota and persistence controls. Those
 requirements remain in the full project backlog.
+
+## Native retained tables and export
+
+`Document.keep_spatial(request, result, name)` requires an exact current capture
+and advances the canonical document revision only after admission. Immutable
+`SpatialDistanceRecord` values retain result, name, producer and captured next-ID
+bounds. Storage is limited to10000 records/256 MiB conservatively accounted
+payload per document. Removal never destroys external historical handles.
+
+`spatial_status(id)` reports `unverified`, `current`,
+`objects_or_calibration_changed` or `verification_failed`. Copies and reopened
+projects begin unverified. `SpatialDistanceRequest::replay(document,id)` captures
+the saved explicit cohorts and options anew, refusing changed geometry/revisions
+or calibration; `verify_spatial` compares its immutable native result without
+changing the saved record or canonical revision. Unrelated new objects do not
+change an explicit cohort. No pixel read or live reader is needed.
+
+Project schema14 adds `spatial_distance_records(image_id,id,payload)`. Its QSD1
+payload is little-endian with bounded counts, captured object snapshots/cohort
+indices, source/build provenance, float64 results and recomputed input/result/
+archive checksums. Derived row metadata cannot diverge from its snapshot. Structural
+distance validation allows a few ULPs of foreign-libm rounding and preserves the
+archived value/hash; independent scientific tolerances above remain unchanged.
+Old schemas1–13 open without writes and migrate transactionally on save. Historical
+records do not assert that their old source or analysis is currently verified.
+
+`spatial_distance_csv(result, byte_limit, cancelled)` returns a bounded string;
+`save_spatial_distance_csv(result,path,byte_limit,replace,cancelled)` streams one
+row at a time through the existing atomic exporter. Replacement defaults to false.
+The22 columns include source/nearest-target IDs/revisions/kinds/nucleus choices,
+centroids, nullable float64 distance, `px`/`um`, `matched`/`no_target`, algorithm,
+input/result hashes, X/Y scales and nucleus/self policies. Object kinds0/1/2 mean
+annotation/detection/cell. Absent target/distance columns are empty; zero is a
+matched numeric distance. The default cap is64 MiB; allowed caps are1 byte..1 GiB.
+Cancellation or failed admission/publication leaves an existing destination intact.
+These are native C++ APIs; Python and application controls are the next delivery.
