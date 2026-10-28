@@ -1,0 +1,9 @@
+build\ci\scientific-grid-159\tests\typing\spatial_invalid.py:3: error: Missing positional argument "_native_only" in call to "SpatialDistanceResult"  [call-arg]
+build\ci\scientific-grid-159\tests\typing\spatial_invalid.py:5: error: Item "None" of "SpatialDistanceResult | None" has no attribute "row"  [union-attr]
+build\ci\scientific-grid-159\tests\typing\spatial_invalid.py:5: error: Incompatible types in assignment (expression has type "float | Any | None", variable has type "float")  [assignment]
+build\ci\scientific-grid-159\tests\typing\spatial_invalid.py:8: error: Argument 1 to "keep_spatial" of "Document" has incompatible type "AnalysisRequest"; expected "SpatialDistanceRequest"  [arg-type]
+build\ci\scientific-grid-159\tests\typing\spatial_invalid.py:8: error: Argument 2 to "keep_spatial" of "Document" has incompatible type "AnalysisResult"; expected "SpatialDistanceResult"  [arg-type]
+build\ci\scientific-grid-159\tests\typing\spatial_invalid.py:11: error: Incompatible types in assignment (expression has type "int | None", variable has type "int")  [assignment]
+build\ci\scientific-grid-159\tests\typing\spatial_invalid.py:12: error: Incompatible types in assignment (expression has type "Point | None", variable has type "Point")  [assignment]
+build\ci\scientific-grid-159\tests\typing\spatial_invalid.py:13: error: Incompatible return value type (got "float | None", expected "float")  [return-value]
+Found 8 errors in 1 file (checked 1 source file)

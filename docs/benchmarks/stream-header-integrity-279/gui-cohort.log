@@ -1,0 +1,41 @@
+.........................s.............................................. [ 19%]
+........................................................................ [ 38%]
+........................................................................ [ 57%]
+........................................................................ [ 76%]
+.....F.................................................................. [ 95%]
+..................                                                       [100%]
+================================== FAILURES ===================================
+_ test_live_document_wait_releases_gil_and_rechecks_before_delivery[edit-TissueJob] _
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/stream-header-integrity-279/gui-cohort-temp/test_live_document_wait_releas1')
+kind = 'TissueJob', action = 'edit'
+
+    @pytest.mark.parametrize('kind',KINDS)
+    @pytest.mark.parametrize('action',('edit','cancel'))
+    def test_live_document_wait_releases_gil_and_rechecks_before_delivery(tmp_path,kind,action):
+        case=case_for(kind,tmp_path);assert case.start();revision=case.doc.revision
+        ready,gate,done=threading.Event(),threading.Event(),threading.Event();errors=[]
+        def change():
+            ready.set();gate.wait()
+            try:
+                if action=='edit':case.doc.rename_annotation(case.obj,'Edited while native wait released the GIL')
+                else:case.job.cancel()
+            except BaseException as error:errors.append(error)
+            finally:done.set()
+        thread=threading.Thread(target=change);thread.start();assert ready.wait(5)
+        interval=sys.getswitchinterval()
+        try:
+            # Prevent a Python bytecode switch between opening the gate and entering
+            # wait. The waiting native call itself must let the producer run.
+            sys.setswitchinterval(1);gate.set();stats=case.wait();ran_during_wait=done.is_set()
+        finally:
+            sys.setswitchinterval(interval);gate.set();thread.join(10)
+>       assert not thread.is_alive() and not errors and ran_during_wait
+E       assert (not False and not [] and False)
+E        +  where False = is_alive()
+E        +    where is_alive = <Thread(Thread-324 (change), stopped 162072)>.is_alive
+
+tests\test_document_job_waits.py:128: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/test_document_job_waits.py::test_live_document_wait_releases_gil_and_rechecks_before_delivery[edit-TissueJob]
+1 failed, 376 passed, 1 skipped in 197.72s (0:03:17)

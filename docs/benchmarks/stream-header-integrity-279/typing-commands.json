@@ -1,0 +1,92 @@
+[
+  {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\stream-header-integrity-279-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_pixel_valid.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_batch_valid.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_frontend_valid.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\examples\\raw_classifier_workflow.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_stream_contour_valid.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\spatial_valid.py",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\document_job_waits_valid.py"
+    ],
+    "returncode": 0
+  },
+  {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\stream-header-integrity-279-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_pixel_invalid.py"
+    ],
+    "returncode": 1
+  },
+  {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\stream-header-integrity-279-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_batch_invalid.py"
+    ],
+    "returncode": 1
+  },
+  {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\stream-header-integrity-279-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_frontend_invalid.py"
+    ],
+    "returncode": 1
+  },
+  {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\stream-header-integrity-279-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\raw_stream_contour_invalid.py"
+    ],
+    "returncode": 1
+  },
+  {
+    "argv": [
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\stream-header-integrity-279-env\\Scripts\\python.exe",
+      "-I",
+      "-X",
+      "utf8",
+      "-m",
+      "mypy",
+      "--strict",
+      "--no-incremental",
+      "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\scientific-grid-159\\tests\\typing\\spatial_invalid.py"
+    ],
+    "returncode": 1
+  }
+]

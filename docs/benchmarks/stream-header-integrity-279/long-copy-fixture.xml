@@ -1,0 +1,1 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="0" skipped="0" tests="1" time="0.544" timestamp="2026-10-28T12:21:23.076356-04:00" hostname="HEQPC"><testcase classname="tests.test_raw_pixel_batch" name="test_raw_batch_cli_moved_bundle_and_unchanged_source_project" time="0.303" /></testsuite></testsuites>

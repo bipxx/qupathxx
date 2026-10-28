@@ -1,0 +1,114 @@
+.........................s............F..sssssssssssssssss.............. [ 18%]
+.....ssssss.............................s............................... [ 36%]
+.......sssssss.......................................................... [ 54%]
+........................ssssssssssssssss................................ [ 72%]
+........................................................................ [ 90%]
+....................................                                     [100%]
+================================== FAILURES ===================================
+________ test_raw_batch_cli_moved_bundle_and_unchanged_source_project _________
+
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/stream-header-integrity-279/nonrendering-final-cohort-temp/test_raw_batch_cli_moved_bundl0')
+
+    def test_raw_batch_cli_moved_bundle_and_unchanged_source_project(tmp_path):
+        p, docs, model = scene(tmp_path)
+        try:
+            source, model_path = tmp_path / "项目.qpx", tmp_path / "模型.qrm"
+            p.save(str(source))
+            q.save_raw_pixel_classifier(model, str(model_path))
+            before = source.read_bytes()
+            output = tmp_path / "out"
+            cmd = [str(CLI), str(source), str(output), "--kind", "raw-pixels", "--raw-pixel-model", str(model_path),
+                   "--raw-pixel-tile-width", "2", "--raw-pixel-tile-height", "2", "--raw-pixel-work-bytes", str(16 * 1024**2)]
+            done = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", timeout=40)
+            assert done.returncode == 0, done.stdout + done.stderr
+            result = json.loads(done.stdout.splitlines()[-1])
+            assert result["saved"] == 2
+            done = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", timeout=40)
+            assert done.returncode == 0, done.stdout + done.stderr
+            assert json.loads(done.stdout.splitlines()[-1])["reused"] == 2
+            moved = tmp_path / "moved"
+>           shutil.copytree(output, moved)
+
+tests\test_raw_pixel_batch.py:262: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\shutil.py:600: in copytree
+    return _copytree(entries=entries, src=src, dst=dst, symlinks=symlinks,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+entries = [<DirEntry '.qupathxx-batch.lock'>, <DirEntry 'image-1-91135f3140e3392e3426e5a391723737f33ce5401c1afa57356ce4cab9bef54...1cf9'>, <DirEntry 'run-250bb6bb639412be3e7a1f2923c93aab.json'>, <DirEntry 'run-7782ece90b6a37309fc8d73d5e338583.json'>]
+src = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/stream-header-integrity-279/nonrendering-final-cohort-temp/test_raw_batch_cli_moved_bundl0/out')
+dst = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/stream-header-integrity-279/nonrendering-final-cohort-temp/test_raw_batch_cli_moved_bundl0/moved')
+symlinks = False, ignore = None
+copy_function = <function copy2 at 0x00000144C2FE8CC0>
+ignore_dangling_symlinks = False, dirs_exist_ok = False
+
+    def _copytree(entries, src, dst, symlinks, ignore, copy_function,
+                  ignore_dangling_symlinks, dirs_exist_ok=False):
+        if ignore is not None:
+            ignored_names = ignore(os.fspath(src), [x.name for x in entries])
+        else:
+            ignored_names = ()
+    
+        os.makedirs(dst, exist_ok=dirs_exist_ok)
+        errors = []
+        use_srcentry = copy_function is copy2 or copy_function is copy
+    
+        for srcentry in entries:
+            if srcentry.name in ignored_names:
+                continue
+            srcname = os.path.join(src, srcentry.name)
+            dstname = os.path.join(dst, srcentry.name)
+            srcobj = srcentry if use_srcentry else srcname
+            try:
+                is_symlink = srcentry.is_symlink()
+                if is_symlink and os.name == 'nt':
+                    # Special check for directory junctions, which appear as
+                    # symlinks but we want to recurse.
+                    lstat = srcentry.stat(follow_symlinks=False)
+                    if lstat.st_reparse_tag == stat.IO_REPARSE_TAG_MOUNT_POINT:
+                        is_symlink = False
+                if is_symlink:
+                    linkto = os.readlink(srcname)
+                    if symlinks:
+                        # We can't just leave it to `copy_function` because legacy
+                        # code with a custom `copy_function` may rely on copytree
+                        # doing the right thing.
+                        os.symlink(linkto, dstname)
+                        copystat(srcobj, dstname, follow_symlinks=not symlinks)
+                    else:
+                        # ignore dangling symlink if the flag is on
+                        if not os.path.exists(linkto) and ignore_dangling_symlinks:
+                            continue
+                        # otherwise let the copy occur. copy2 will raise an error
+                        if srcentry.is_dir():
+                            copytree(srcobj, dstname, symlinks, ignore,
+                                     copy_function, ignore_dangling_symlinks,
+                                     dirs_exist_ok)
+                        else:
+                            copy_function(srcobj, dstname)
+                elif srcentry.is_dir():
+                    copytree(srcobj, dstname, symlinks, ignore, copy_function,
+                             ignore_dangling_symlinks, dirs_exist_ok)
+                else:
+                    # Will raise a SpecialFileError for unsupported file types
+                    copy_function(srcobj, dstname)
+            # catch the Error from the recursive copytree so that we can
+            # continue with other files
+            except Error as err:
+                errors.extend(err.args[0])
+            except OSError as why:
+                errors.append((srcname, dstname, str(why)))
+        try:
+            copystat(src, dst)
+        except OSError as why:
+            # Copying file access times may fail on Windows
+            if getattr(why, 'winerror', None) is None:
+                errors.append((src, dst, str(why)))
+        if errors:
+>           raise Error(errors)
+E           shutil.Error: [('C:\\Users\\HEQ\\Projects\\qupathxx\\build\\stream-header-integrity-279\\nonrendering-final-cohort-temp\\test_raw_batch_cli_moved_bundl0\\out\\image-1-91135f3140e3392e3426e5a391723737f33ce5401c1afa57356ce4cab9bef547\\pixels-d934355f0618f3b9e4699132b36b9031\\result.qpxproj', 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\stream-header-integrity-279\\nonrendering-final-cohort-temp\\test_raw_batch_cli_moved_bundl0\\moved\\image-1-91135f3140e3392e3426e5a391723737f33ce5401c1afa57356ce4cab9bef547\\pixels-d934355f0618f3b9e4699132b36b9031\\result.qpxproj', '[WinError 3] The system cannot find the path specified'), ('C:\\Users\\HEQ\\Projects\\qupathxx\\build\\stream-header-integrity-279\\nonrendering-final-cohort-temp\\test_raw_batch_cli_moved_bundl0\\out\\image-2-d09686a5a1882be651112dd614b70c931cd261b09b739e235ade3b33304f1cf9\\pixels-dd69c134cdf19b9502b14f572cd6d6c5\\result.qpxproj', 'C:\\Users\\HEQ\\Projects\\qupathxx\\build\\stream-header-integrity-279\\nonrendering-final-cohort-temp\\test_raw_batch_cli_moved_bundl0\\moved\\image-2-d09686a5a1882be651112dd614b70c931cd261b09b739e235ade3b33304f1cf9\\pixels-dd69c134cdf19b9502b14f572cd6d6c5\\result.qpxproj', '[WinError 3] The system cannot find the path specified')]
+
+C:\Users\HEQ\AppData\Roaming\uv\python\cpython-3.12.8-windows-x86_64-none\Lib\shutil.py:554: Error
+=========================== short test summary info ===========================
+FAILED tests/test_raw_pixel_batch.py::test_raw_batch_cli_moved_bundle_and_unchanged_source_project
+1 failed, 347 passed, 48 skipped in 87.94s (0:01:27)

@@ -1,0 +1,9 @@
+{
+  "observer": "73b2f8ed6906b9f0610cc295c700dd08437420e7",
+  "native_source": "3bd6591930baa64ae5826d8ba3e2efaee37e8376",
+  "unchanged_compiler_inputs": 410,
+  "changed_from_wait_observer": [
+    "tests/test_raw_pixel_batch.py"
+  ],
+  "native_rebuild": false
+}

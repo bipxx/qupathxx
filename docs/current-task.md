@@ -2,28 +2,42 @@
 
 ## Current execution card (2026-10-28)
 
-**Stream header integrity279 is implemented; installed build/green checks are next.**
-Candidate276 is terminal and unaccepted: all11 archives authenticate, original
-frozen auditors independently accept Mac-native and portable roles, and the
-engine refuses the Windows GUI header-mutation failure. The [terminal receipt](benchmarks/snapshot-waits-276/terminal279/receipt.json)
-preserves that failure, all three run identities and original auditor outputs.
-Do not redispatch276 or transfer273 acceptance to later sources.
+**Stream header integrity279 is locally verified** at native3bd6591, wait-order
+observer128b313 and fixture-copy observer73b2f8e. [Receipt279](benchmarks/stream-header-integrity-279/receipt.json)
+binds22 old-runtime raw-header failures, one old RGB later-block failure/two
+positive controls, and green22 raw-header/41 RGB file cases. Cached QWS header
+bytes are compared in fixed64KiB chunks; QPS checks its existing header hash on
+every indexed read. No Python API, wire format or dependency changes.
 
-Retainednative048cf25 accepts20 same-stamp QWS header mutations across
-check_unchanged/link/read_block/verify/trace, plus two mutations beyond the first
-64KiB chunk in a greater-than128KiB header. Windows fixtures restore the actual
-modified/change tokens after closing the data writer. The analogous QPS reader
-rejects changed headers on first-block/full verify but accepts a later block
-(one failing/two passing controls). Timestamp metadata does not prove unchanged
-content; the original CI timing mechanism is not yet established.
+All55 native suites pass. GUI observer128b313 passes395 cases/one skip; corrected
+nonrendering observer73b2f8e passes348/48 skips on the same GUI-capable package.
+Supplemental stream checks pass78; actual opt-in desktop checks pass115/one
+OpenSlide-fixture skip. These sets have588 unique installed passing identities.
+The first supplemental command's116 desktop skips are preserved and excluded
+from desktop acceptance.19 supplemental source paths independently match native
+source3bd6591.1039 audit controls, unchanged stubs,7 positive/5 negative typing
+files with28 exact errors,33 package members,37 wheel records,540 source paths
+and410 native inputs authenticate.69 prior and69 final products are retained.
 
-The repair compares all cached QWS header bytes in fixed64KiB chunks, preserving
-cancellation and existing work budgets, and checks framing at delivery/link
-boundaries. QPS reuses its existing header hash on every indexed read. No public
-Python API, wire format, dependency or whole-file hash per block is added.
-Next: one installed build, all native suites, exact installed cohorts including
-22 raw-header cases, the41-case QPS file cohort, typing/package/source evidence
-and one complete own-source platform qualification after stabilization.
+Two original local failures stay explicit. TissueJob finished before the editing
+thread ran; observer128b313 retains bounded AnalysisJob GIL liveness, checks both
+mutation orderings and adds18 completed-future cases (36 targeted cases pass).
+The first nonrendering run then failed in Python CopyFile2 on a261-character
+fixture destination. Extended copying preserves9 files; native project/stream
+reopening and the original-depth targeted test pass. Observer73b2f8e changes only
+that fixture. Both observers preserve all410 native input bytes; no rebuild or
+binary relabeling follows. Header checks cost O(header bytes), not a whole-file
+rehash per block; no representative speed claim follows.
+
+**Next: freeze the stabilized successor once and perform its complete own-source
+engine/Mac-native/portable qualification.** Original276 is terminal/unaccepted:
+all11 archives authenticate, original Mac-native/portable auditors independently
+accept their roles, and the engine rejects the Windows GUI header-mutation case.
+[Terminal276](benchmarks/snapshot-waits-276/terminal279/receipt.json) preserves it.
+Do not rerun276 or transfer273 acceptance. Local environments share test
+dependencies; clean-machine/platform/scientific/hardware/release gates and every
+M0-M7 milestone remain open. Narrow-panel clipping, glyphs/shaping/DPI and broader
+M2 work remain partial despite the inspected150% layout retaining its canvas.
 
 **Unicode input278 is locally verified at native d0f10ae.** The [local receipt](benchmarks/gui-unicode-input-278/receipt.json)
 binds55 native suites,12 active UTF8/UTF16/scalar input/history cases,355 installed

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.425" timestamp="2026-10-28T11:55:37.142956-04:00" hostname="HEQPC"><testcase classname="tests.test_raw_file_contours" name="test_large_header_checks_every_chunk_with_bounded_work[second_chunk]" time="0.061"><failure message="Failed: DID NOT RAISE any of (RuntimeError, ValueError)">case = (&lt;qupathxx._native.Project object at 0x000002C37F6EDC50&gt;, 1, &lt;qupathxx._native.Document object at 0x000002C36327EE90&gt;,...tificRawLattice object at 0x000002C36327EE30&gt;, &lt;qupathxx._native.RawPixelClassifier object at 0x000002C37F7225B0&gt;, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/large-red-temp/test_large_header_checks_every0')
+part = 'second_chunk'
+
+    @pytest.mark.parametrize("part",["second_chunk","last_body_byte"])
+    def test_large_header_checks_every_chunk_with_bounded_work(case,tmp_path,part):
+        values=list(case);recipe=values[5].recipe;columns=len(recipe.feature_schema)
+        samples=np.repeat(np.arange(128,dtype=np.float32)[:,None],columns,axis=1)
+        labels=(np.arange(128)%2).astype(np.uint32)
+        parameters=q.ForestParameters();parameters.trees=256;parameters.max_depth=8
+        forest=q.train_forest(samples,labels,recipe.feature_schema,["A","B"],parameters)
+        values[5]=q.RawPixelClassifier(forest,recipe);values[7].work_bytes=8*1024**2
+        path,_=save(values,tmp_path);reader=q.RawPixelStreamFile(str(path),values[7])
+        reader.verify();assert reader.verified and reader.payload_bytes&lt;=values[7].work_bytes
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        assert body_end&gt;2*65536
+        mutate_header(path,65536 if part=="second_chunk" else body_end-1)
+&gt;       with pytest.raises((RuntimeError,ValueError)):reader.verify()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:136: Failed</failure></testcase><testcase classname="tests.test_raw_file_contours" name="test_large_header_checks_every_chunk_with_bounded_work[last_body_byte]" time="0.055"><failure message="Failed: DID NOT RAISE any of (RuntimeError, ValueError)">case = (&lt;qupathxx._native.Project object at 0x000002C37F6EE010&gt;, 1, &lt;qupathxx._native.Document object at 0x000002C36327FAF0&gt;,...tificRawLattice object at 0x000002C36327FB50&gt;, &lt;qupathxx._native.RawPixelClassifier object at 0x000002C37F721E00&gt;, ...)
+tmp_path = WindowsPath('C:/Users/HEQ/Projects/qupathxx/build/raw-header-integrity-279-second/large-red-temp/test_large_header_checks_every1')
+part = 'last_body_byte'
+
+    @pytest.mark.parametrize("part",["second_chunk","last_body_byte"])
+    def test_large_header_checks_every_chunk_with_bounded_work(case,tmp_path,part):
+        values=list(case);recipe=values[5].recipe;columns=len(recipe.feature_schema)
+        samples=np.repeat(np.arange(128,dtype=np.float32)[:,None],columns,axis=1)
+        labels=(np.arange(128)%2).astype(np.uint32)
+        parameters=q.ForestParameters();parameters.trees=256;parameters.max_depth=8
+        forest=q.train_forest(samples,labels,recipe.feature_schema,["A","B"],parameters)
+        values[5]=q.RawPixelClassifier(forest,recipe);values[7].work_bytes=8*1024**2
+        path,_=save(values,tmp_path);reader=q.RawPixelStreamFile(str(path),values[7])
+        reader.verify();assert reader.verified and reader.payload_bytes&lt;=values[7].work_bytes
+        original=path.read_bytes();body_end=12+int.from_bytes(original[4:12],"little")
+        assert body_end&gt;2*65536
+        mutate_header(path,65536 if part=="second_chunk" else body_end-1)
+&gt;       with pytest.raises((RuntimeError,ValueError)):reader.verify()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE any of (RuntimeError, ValueError)
+
+tests\test_raw_file_contours.py:136: Failed</failure></testcase></testsuite></testsuites>

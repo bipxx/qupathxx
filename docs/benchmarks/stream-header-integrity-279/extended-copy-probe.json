@@ -1,0 +1,61 @@
+{
+  "runtime": "C:\\Users\\HEQ\\Projects\\qupathxx\\build\\ci\\stream-header-integrity-279-env\\Scripts\\python.exe",
+  "files": [
+    {
+      "path": ".qupathxx-batch.lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "destination_characters": 154
+    },
+    {
+      "path": "run-250bb6bb639412be3e7a1f2923c93aab.json",
+      "bytes": 2011,
+      "sha256": "57d33948304f312cd05f077b4839081a464d2808dd867e9d362277190acc972b",
+      "destination_characters": 175
+    },
+    {
+      "path": "run-7782ece90b6a37309fc8d73d5e338583.json",
+      "bytes": 2024,
+      "sha256": "3307a8dba4de5f5114410fa65b5259fdf0c978a4b038353238dee934e749a262",
+      "destination_characters": 175
+    },
+    {
+      "path": "image-1-91135f3140e3392e3426e5a391723737f33ce5401c1afa57356ce4cab9bef547/pixels-d934355f0618f3b9e4699132b36b9031/object-3.qws",
+      "bytes": 7568,
+      "sha256": "374251dfe282213abfd0ad531262e368817441f8011364103211934eee4a1b79",
+      "destination_characters": 259
+    },
+    {
+      "path": "image-1-91135f3140e3392e3426e5a391723737f33ce5401c1afa57356ce4cab9bef547/pixels-d934355f0618f3b9e4699132b36b9031/owner",
+      "bytes": 55,
+      "sha256": "a6f7ce9d6d86b14d7c732284cd14e7bcadde4874a09303984472d46d88c7a241",
+      "destination_characters": 252
+    },
+    {
+      "path": "image-1-91135f3140e3392e3426e5a391723737f33ce5401c1afa57356ce4cab9bef547/pixels-d934355f0618f3b9e4699132b36b9031/result.qpxproj",
+      "bytes": 172032,
+      "sha256": "e2bd1ad70d7b27e7759c1829383831b25188f19566f91e12f733a7aaba394105",
+      "destination_characters": 261
+    },
+    {
+      "path": "image-2-d09686a5a1882be651112dd614b70c931cd261b09b739e235ade3b33304f1cf9/pixels-dd69c134cdf19b9502b14f572cd6d6c5/object-3.qws",
+      "bytes": 8528,
+      "sha256": "0271e9a7682732835f929e7d626d95575c11d825f19c53bbb7cff3ad660a47eb",
+      "destination_characters": 259
+    },
+    {
+      "path": "image-2-d09686a5a1882be651112dd614b70c931cd261b09b739e235ade3b33304f1cf9/pixels-dd69c134cdf19b9502b14f572cd6d6c5/owner",
+      "bytes": 55,
+      "sha256": "f1b3b6329665313d676ddbcbc3e8a1bce8ffd87baeab2ab5536c13841fe905a7",
+      "destination_characters": 252
+    },
+    {
+      "path": "image-2-d09686a5a1882be651112dd614b70c931cd261b09b739e235ade3b33304f1cf9/pixels-dd69c134cdf19b9502b14f572cd6d6c5/result.qpxproj",
+      "bytes": 172032,
+      "sha256": "d9e745283d62d259cedecd8858658f5866f2b920929fe37830e31b7b9d88362d",
+      "destination_characters": 261
+    }
+  ],
+  "byte_identical": true,
+  "native_plain_path_reopen": true
+}
