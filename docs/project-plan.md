@@ -24,8 +24,10 @@ preserves all11 archives and failures. Unicode278 has [local verification](bench
 at native d0f10ae. [Stream integrity279](benchmarks/stream-header-integrity-279/receipt.json)
 is locally verified at native3bd6591 with identified test-only observers128b313/
 73b2f8e:55 native suites,588 unique installed passes and1039 audit controls.
-One own-source stabilized-successor qualification remains; no later source
-inherits273 acceptance.
+Candidate281 now freezes3f15c2b for full own-source qualification in three
+identified roles; [initial campaign](benchmarks/stream-header-qualification-281/receipt.json)
+observes all queued. Authenticate11 archives and execute complete frozen-source
+auditors. No later source inherits273 acceptance.
 All **M0–M7 remain Partial**. Test totals measure their named
 engineering scopes; they do not establish a percentage of QuPath parity.
 

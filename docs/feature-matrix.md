@@ -21,8 +21,8 @@ requires its own full qualification. Candidate276 is terminal/unaccepted after
 a header-mutation failure; [terminal evidence](benchmarks/snapshot-waits-276/terminal279/receipt.json)
 accepts Mac-native/portable independently. [Local279](benchmarks/stream-header-integrity-279/receipt.json)
 repairs saved-stream headers at native3bd6591 with identified test-only observers,
-55 native suites/588 unique installed passes/1039 audit controls. Its own-source
-successor qualification is next. Unicode278 preserves supplementary input, while
+55 native suites/588 unique installed passes/1039 audit controls. [Candidate281](benchmarks/stream-header-qualification-281/receipt.json) now runs
+complete own-source qualification at3f15c2b; its three initial roles are queued. Unicode278 preserves supplementary input, while
 glyph coverage/shaping/DPI remain open. Public main remains unchanged.
 
 Baseline: [QuPath v0.7.0](https://github.com/qupath/qupath/tree/v0.7.0), revision

@@ -1,0 +1,49 @@
+{
+  "conclusion": "",
+  "databaseId": 40726306463,
+  "headSha": "3f15c2be8722ec6559d8657ecd69a839e1f200a5",
+  "jobs": [
+    {
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "databaseId": 122950416317,
+      "name": "Manylinux build Python 3.12",
+      "startedAt": "2026-10-28T16:28:32Z",
+      "status": "queued",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40726306463/job/122950416317"
+    },
+    {
+      "completedAt": "0001-01-01T00:00:00Z",
+      "conclusion": "",
+      "databaseId": 122950416815,
+      "name": "Manylinux build Python 3.11",
+      "startedAt": "2026-10-28T16:28:32Z",
+      "status": "queued",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40726306463/job/122950416815"
+    },
+    {
+      "completedAt": "2026-10-28T16:28:31Z",
+      "conclusion": "skipped",
+      "databaseId": 122950419285,
+      "name": "matrix.name",
+      "startedAt": "2026-10-28T16:28:32Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40726306463/job/122950419285"
+    },
+    {
+      "completedAt": "2026-10-28T16:28:31Z",
+      "conclusion": "skipped",
+      "databaseId": 122950419954,
+      "name": "macOS native ${{ matrix.architecture }}",
+      "startedAt": "2026-10-28T16:28:32Z",
+      "status": "completed",
+      "steps": [],
+      "url": "https://github.com/bipxx/qupathxx/actions/runs/40726306463/job/122950419954"
+    }
+  ],
+  "status": "queued",
+  "url": "https://github.com/bipxx/qupathxx/actions/runs/40726306463"
+}

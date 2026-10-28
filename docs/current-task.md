@@ -2,6 +2,21 @@
 
 ## Current execution card (2026-10-28)
 
+**Candidate281 is frozen and full own-source qualification is running** at
+3f15c2b on feature/stream-header-qualification-281. [Campaign281](benchmarks/stream-header-qualification-281/receipt.json)
+binds engine [40726273936](https://github.com/bipxx/qupathxx/actions/runs/40726273936),
+Mac-native [40726289400](https://github.com/bipxx/qupathxx/actions/runs/40726289400)
+and portable [40726306463](https://github.com/bipxx/qupathxx/actions/runs/40726306463).
+Each full role was dispatched once; initial authoritative observations show all
+queued and zero archives.540 frozen source paths authenticate;410 canonical
+compiler Git blobs equal localnative3bd6591, with144 newline-only fresh-checkout
+differences. Local binaries retain3bd6591 provenance; each hosted role builds its
+own3f15c2b source. Next: observe these exact IDs, authenticate all11 required
+archives and execute every applicable complete frozen-source auditor. Do not
+redispatch or move the frozen ref/checkout. Candidate273 remains qualified until
+combined acceptance exists; independent M0-M7/science/hardware/support/release
+gates remain open.
+
 **Stream header integrity279 is locally verified** at native3bd6591, wait-order
 observer128b313 and fixture-copy observer73b2f8e. [Receipt279](benchmarks/stream-header-integrity-279/receipt.json)
 binds22 old-runtime raw-header failures, one old RGB later-block failure/two
@@ -29,8 +44,7 @@ that fixture. Both observers preserve all410 native input bytes; no rebuild or
 binary relabeling follows. Header checks cost O(header bytes), not a whole-file
 rehash per block; no representative speed claim follows.
 
-**Next: freeze the stabilized successor once and perform its complete own-source
-engine/Mac-native/portable qualification.** Original276 is terminal/unaccepted:
+**Candidate281 above now performs the complete own-source qualification.** Original276 is terminal/unaccepted:
 all11 archives authenticate, original Mac-native/portable auditors independently
 accept their roles, and the engine rejects the Windows GUI header-mutation case.
 [Terminal276](benchmarks/snapshot-waits-276/terminal279/receipt.json) preserves it.
