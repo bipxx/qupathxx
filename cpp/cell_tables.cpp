@@ -365,5 +365,6 @@ CellTableExportStats CellTableExportJob::poll() {
     }
     return impl_->stats;
 }
-CellTableExportStats CellTableExportJob::wait() {if(busy()) impl_->future.wait();return poll();}
+void CellTableExportJob::await_completion() {if(busy()) impl_->future.wait();}
+CellTableExportStats CellTableExportJob::wait() {await_completion();return poll();}
 }

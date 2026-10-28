@@ -39,7 +39,7 @@ class MeasurementTableExportJob {
 public:
     MeasurementTableExportJob();~MeasurementTableExportJob();MeasurementTableExportJob(const MeasurementTableExportJob&)=delete;
     bool request(const MeasurementTableRequest&,const std::string& path);
-    MeasurementTableExportStats poll();MeasurementTableExportStats wait();void cancel();bool busy() const;
+    MeasurementTableExportStats poll();MeasurementTableExportStats wait();void await_completion();void cancel();bool busy() const;
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
 };

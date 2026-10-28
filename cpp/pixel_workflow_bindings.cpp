@@ -136,12 +136,12 @@ void bind_pixel_workflows(nb::module_& m) {
         .def_ro("verified",&PixelStreamReadStats::verified).def_ro("windowed",&PixelStreamReadStats::windowed)
         .def_ro("block_size",&PixelStreamReadStats::block_size).def_ro("level_bounds",&PixelStreamReadStats::level_bounds)
         .def_ro("declared_summary",&PixelStreamReadStats::declared_summary).def_ro("block",&PixelStreamReadStats::block).def_ro("link",&PixelStreamReadStats::link);
-    nb::class_<PixelStreamReadJob>(m,"PixelStreamReadJob").def(nb::init<>())
-        .def("open",&PixelStreamReadJob::open,"path"_a,"index"_a=0,"max_bytes"_a=1ULL<<40)
-        .def("open_link",&PixelStreamReadJob::open_link,"link"_a,"index"_a=0,"max_bytes"_a=1ULL<<40)
-        .def("read",&PixelStreamReadJob::read,"index"_a).def("verify",&PixelStreamReadJob::verify)
-        .def("close",&PixelStreamReadJob::close).def("cancel",&PixelStreamReadJob::cancel).def_prop_ro("busy",&PixelStreamReadJob::busy)
-        .def("poll",&PixelStreamReadJob::poll).def("wait",&PixelStreamReadJob::wait,nb::call_guard<nb::gil_scoped_release>());
+    nb::class_<qpx::bindings::OwnerJobHolder<PixelStreamReadJob>>(m,"PixelStreamReadJob").def(nb::init<>())
+        .def("open",qpx::bindings::owner_job_method<&PixelStreamReadJob::open>(),"path"_a,"index"_a=0,"max_bytes"_a=1ULL<<40)
+        .def("open_link",qpx::bindings::owner_job_method<&PixelStreamReadJob::open_link>(),"link"_a,"index"_a=0,"max_bytes"_a=1ULL<<40)
+        .def("read",qpx::bindings::owner_job_method<&PixelStreamReadJob::read>(),"index"_a).def("verify",qpx::bindings::owner_job_method<&PixelStreamReadJob::verify>())
+        .def("close",qpx::bindings::owner_job_method<&PixelStreamReadJob::close>()).def("cancel",qpx::bindings::owner_job_method<&PixelStreamReadJob::cancel,false>()).def_prop_ro("busy",qpx::bindings::owner_job_method<&PixelStreamReadJob::busy>())
+        .def("poll",qpx::bindings::owner_job_method<&PixelStreamReadJob::poll>()).def("wait",[](qpx::bindings::OwnerJobHolder<PixelStreamReadJob>& job){return qpx::bindings::wait(job);});
     nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"))
         .def_rw("pixel_stream_browser_open",&GuiOptions::pixel_stream_browser_open).def_rw("pixel_stream_read_path",&GuiOptions::pixel_stream_read_path)
         .def_rw("pixel_stream_read_index",&GuiOptions::pixel_stream_read_index).def_rw("pixel_stream_read_max_bytes",&GuiOptions::pixel_stream_read_max_bytes)

@@ -39,7 +39,7 @@ class CellTableExportJob {
 public:
     CellTableExportJob();~CellTableExportJob();CellTableExportJob(const CellTableExportJob&)=delete;
     bool request(const CellTableRequest&,const std::string& path);
-    CellTableExportStats poll();CellTableExportStats wait();void cancel();bool busy() const;
+    CellTableExportStats poll();CellTableExportStats wait();void await_completion();void cancel();bool busy() const;
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
 };

@@ -1,3 +1,4 @@
+#include "job_binding_utils.hpp"
 #include "qupathxx/thumbnail.hpp"
 #include <nanobind/nanobind.h>
 #include <nanobind/stl/shared_ptr.h>
@@ -21,10 +22,10 @@ void bind_thumbnails(nb::module_& m) {
     nb::class_<ThumbnailStats>(m,"ThumbnailStats")
         .def_ro("state",&ThumbnailStats::state).def_ro("error",&ThumbnailStats::error).def_ro("completed",&ThumbnailStats::completed)
         .def_ro("source_pixels",&ThumbnailStats::source_pixels).def_ro("output_pixels",&ThumbnailStats::output_pixels).def_ro("elapsed_ms",&ThumbnailStats::elapsed_ms);
-    nb::class_<ThumbnailJob>(m,"ThumbnailJob").def(nb::init<>())
-        .def("request",&ThumbnailJob::request,"server"_a,"options"_a=ThumbnailOptions{})
-        .def("poll",&ThumbnailJob::poll).def("wait",&ThumbnailJob::wait,nb::call_guard<nb::gil_scoped_release>())
-        .def("cancel",&ThumbnailJob::cancel).def("busy",&ThumbnailJob::busy).def("result",&ThumbnailJob::result);
+    nb::class_<qpx::bindings::OwnerJobHolder<ThumbnailJob>>(m,"ThumbnailJob").def(nb::init<>())
+        .def("request",qpx::bindings::owner_job_method<&ThumbnailJob::request>(),"server"_a,"options"_a=ThumbnailOptions{})
+        .def("poll",qpx::bindings::owner_job_method<&ThumbnailJob::poll>()).def("wait",[](qpx::bindings::OwnerJobHolder<ThumbnailJob>& job){return qpx::bindings::wait(job);})
+        .def("cancel",qpx::bindings::owner_job_method<&ThumbnailJob::cancel,false>()).def("busy",qpx::bindings::owner_job_method<&ThumbnailJob::busy>()).def("result",qpx::bindings::owner_job_method<&ThumbnailJob::result>());
     m.def("plan_thumbnail",&plan_thumbnail,"metadata"_a,"options"_a=ThumbnailOptions{});
     m.def("read_thumbnail",[](const std::shared_ptr<ImageServer>& server,ThumbnailOptions options) {
         if(!server) throw std::invalid_argument("thumbnail requires a server");return read_thumbnail(*server,options);

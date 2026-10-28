@@ -37,7 +37,7 @@ class ThumbnailJob {
 public:
     ThumbnailJob();~ThumbnailJob();ThumbnailJob(const ThumbnailJob&)=delete;
     bool request(std::shared_ptr<ImageServer>,ThumbnailOptions={});
-    ThumbnailStats poll();ThumbnailStats wait();void cancel();bool busy() const;
+    ThumbnailStats poll();ThumbnailStats wait();void await_completion();void cancel();bool busy() const;
     std::shared_ptr<const ThumbnailResult> result() const;
 private:
     struct Impl;std::unique_ptr<Impl> impl_;

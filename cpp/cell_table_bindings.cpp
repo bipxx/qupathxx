@@ -1,3 +1,4 @@
+#include "job_binding_utils.hpp"
 #include "qupathxx/cell_tables.hpp"
 #include "qupathxx/project.hpp"
 #include <nanobind/nanobind.h>
@@ -35,8 +36,8 @@ void bind_cell_tables(nb::module_& m) {
         .def_ro("rows",&CellTableExportStats::rows).def_ro("total_rows",&CellTableExportStats::total_rows).def_ro("bytes",&CellTableExportStats::bytes)
         .def_ro("completed",&CellTableExportStats::completed).def_ro("document_revision",&CellTableExportStats::document_revision).def_ro("snapshot_bytes",&CellTableExportStats::snapshot_bytes)
         .def_ro("capture_ms",&CellTableExportStats::capture_ms).def_ro("write_ms",&CellTableExportStats::write_ms);
-    nb::class_<CellTableExportJob>(m,"CellTableExportJob").def(nb::init<>()).def("request",&CellTableExportJob::request)
-        .def("poll",&CellTableExportJob::poll).def("wait",&CellTableExportJob::wait,nb::call_guard<nb::gil_scoped_release>()).def("cancel",&CellTableExportJob::cancel).def_prop_ro("busy",&CellTableExportJob::busy);
+    nb::class_<qpx::bindings::OwnerJobHolder<CellTableExportJob>>(m,"CellTableExportJob").def(nb::init<>()).def("request",qpx::bindings::owner_job_method<&CellTableExportJob::request>())
+        .def("poll",qpx::bindings::owner_job_method<&CellTableExportJob::poll>()).def("wait",[](qpx::bindings::OwnerJobHolder<CellTableExportJob>& job){return qpx::bindings::wait(job);}).def("cancel",qpx::bindings::owner_job_method<&CellTableExportJob::cancel,false>()).def_prop_ro("busy",qpx::bindings::owner_job_method<&CellTableExportJob::busy>());
     auto options=nb::borrow<nb::class_<GuiOptions>>(m.attr("GuiOptions"));
     options.def_rw("cell_table_path",&GuiOptions::cell_table_path).def_rw("cell_table_require_current",&GuiOptions::cell_table_require_current)
         .def_rw("cell_table_published_objects",&GuiOptions::cell_table_published_objects)

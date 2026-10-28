@@ -70,7 +70,7 @@ public:
     bool open_link(std::shared_ptr<const PixelStreamLink>,std::uint64_t index=0,std::uint64_t max_bytes=1ULL<<40);
     bool read(std::uint64_t index);bool verify();bool close();
     bool busy() const;void cancel();
-    PixelStreamReadStats poll();PixelStreamReadStats wait();
+    PixelStreamReadStats poll();PixelStreamReadStats wait();void await_completion();
 private:
     struct Impl;std::unique_ptr<Impl> impl_;
     bool open_impl(const std::string&,std::uint64_t,std::uint64_t,std::shared_ptr<const PixelStreamLink>);

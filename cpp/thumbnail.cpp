@@ -110,5 +110,6 @@ ThumbnailStats ThumbnailJob::poll() {
     }
     return impl_->stats;
 }
-ThumbnailStats ThumbnailJob::wait() {if(busy()) impl_->future.wait();return poll();}
+void ThumbnailJob::await_completion() {if(busy()) impl_->future.wait();}
+ThumbnailStats ThumbnailJob::wait() {await_completion();return poll();}
 }

@@ -198,5 +198,6 @@ MeasurementTableExportStats MeasurementTableExportJob::poll() {
     }
     return impl_->stats;
 }
-MeasurementTableExportStats MeasurementTableExportJob::wait() {if(busy()) impl_->future.wait();return poll();}
+void MeasurementTableExportJob::await_completion() {if(busy()) impl_->future.wait();}
+MeasurementTableExportStats MeasurementTableExportJob::wait() {await_completion();return poll();}
 }

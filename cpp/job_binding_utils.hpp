@@ -40,4 +40,11 @@ template<class Job,class Document,class... A> auto wait(Job& job,const Document&
 }
 template<class Job,class Document,class... A> auto wait(JobHolder<Job>& job,const Document& doc,A... args) {return wait(*job.value,doc,args...);}
 template<class Job,class Document,class... A> auto wait(OwnerJobHolder<Job>& job,const Document& doc,A... args) {job.check_owner();return wait(*job.value,doc,args...);}
+// Document-free controllers still collect mutable future/result state under
+// the GIL. Cross-thread cancel may run only during the readiness-only wait.
+template<class Job> auto wait(OwnerJobHolder<Job>& job) {
+    job.check_owner();job.value->poll();
+    {nb::gil_scoped_release release;job.value->await_completion();}
+    return job.value->poll();
+}
 }

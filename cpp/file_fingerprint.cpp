@@ -216,5 +216,6 @@ FileFingerprintStats FileFingerprintJob::poll() {
     }
     return impl_->stats;
 }
-FileFingerprintStats FileFingerprintJob::wait() {if(busy()) impl_->future.wait();return poll();}
+void FileFingerprintJob::await_completion() {if(busy()) impl_->future.wait();}
+FileFingerprintStats FileFingerprintJob::wait() {await_completion();return poll();}
 }
